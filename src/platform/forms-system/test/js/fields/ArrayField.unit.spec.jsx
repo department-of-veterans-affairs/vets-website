@@ -6,8 +6,11 @@ import sinon from 'sinon';
 import ArrayField from '../../../src/js/fields/ArrayField';
 
 // Mock ViewField component for testing
-const ViewField = (props) => (
-  <div data-testid="ViewField" data-form-data={JSON.stringify(props.formData)} />
+const ViewField = props => (
+  <div
+    data-testid="ViewField"
+    data-form-data={JSON.stringify(props.formData)}
+  />
 );
 
 const registry = {
@@ -107,9 +110,9 @@ describe('Schemaform <ArrayField>', () => {
     expect(
       container.querySelectorAll('[data-testid="SchemaField"]').length,
     ).to.equal(1);
-    expect(container.querySelectorAll('.va-growable-background').length).to.equal(
-      2,
-    );
+    expect(
+      container.querySelectorAll('.va-growable-background').length,
+    ).to.equal(2);
   });
   it('should render save button with showSave option', () => {
     const idSchema = {
@@ -152,9 +155,9 @@ describe('Schemaform <ArrayField>', () => {
     expect(
       container.querySelectorAll('[data-testid="SchemaField"]').length,
     ).to.equal(1);
-    expect(container.querySelectorAll('.va-growable-background').length).to.equal(
-      1,
-    );
+    expect(
+      container.querySelectorAll('.va-growable-background').length,
+    ).to.equal(1);
     const button = container.querySelectorAll('button');
     // no remove button
     expect(button.length).to.equal(1);
@@ -202,9 +205,9 @@ describe('Schemaform <ArrayField>', () => {
     expect(
       container.querySelectorAll('[data-testid="SchemaField"]').length,
     ).to.equal(1);
-    expect(container.querySelectorAll('.va-growable-background').length).to.equal(
-      2,
-    );
+    expect(
+      container.querySelectorAll('.va-growable-background').length,
+    ).to.equal(2);
     const button = container.querySelectorAll('button');
     expect(button.length).to.equal(1);
 
@@ -283,9 +286,9 @@ describe('Schemaform <ArrayField>', () => {
     expect(
       container.querySelectorAll('[data-testid="SchemaField"]').length,
     ).to.equal(1);
-    expect(container.querySelectorAll('.va-growable-background').length).to.equal(
-      2,
-    );
+    expect(
+      container.querySelectorAll('.va-growable-background').length,
+    ).to.equal(2);
     const button = container.querySelectorAll('button');
     expect(button.length).to.equal(1);
 
@@ -338,9 +341,9 @@ describe('Schemaform <ArrayField>', () => {
     expect(
       container.querySelectorAll('[data-testid="SchemaField"]').length,
     ).to.equal(2);
-    expect(container.querySelectorAll('.va-growable-background').length).to.equal(
-      2,
-    );
+    expect(
+      container.querySelectorAll('.va-growable-background').length,
+    ).to.equal(2);
   });
 
   describe('should handle', () => {
@@ -451,7 +454,9 @@ describe('Schemaform <ArrayField>', () => {
 
       expect(alerts.length).to.equal(1);
       // Check the text content contains the expected message (handles quote variations)
-      expect(alerts[0].textContent).to.contain('entered the maximum number of items');
+      expect(alerts[0].textContent).to.contain(
+        'entered the maximum number of items',
+      );
     });
     it('add when invalid', () => {
       errorSchema[1] = { __errors: ['Test error'] };

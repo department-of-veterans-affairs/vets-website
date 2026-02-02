@@ -18,7 +18,11 @@ const defaultProps = {
 describe('Schemaform <VAFileNumberWidget>', () => {
   it('should render', () => {
     const { container } = render(
-      <VAFileNumberWidget value="12345678" onChange={() => {}}  onChange={() => {}} {...defaultProps} />,
+      <VAFileNumberWidget
+        value="12345678"
+        onChange={() => {}}
+        {...defaultProps}
+      />,
     );
     const input = container.querySelector('input');
     expect(input.value).to.equal('12345678');
@@ -38,7 +42,11 @@ describe('Schemaform <VAFileNumberWidget>', () => {
     it('should call onChange with undefined if the value is blank', () => {
       const onChange = sinon.spy();
       const { container } = render(
-        <VAFileNumberWidget value="123121234" onChange={onChange} {...defaultProps} />,
+        <VAFileNumberWidget
+          value="123121234"
+          onChange={onChange}
+          {...defaultProps}
+        />,
       );
       const input = container.querySelector('input');
       fireEvent.change(input, { target: { value: '' } });
@@ -48,7 +56,11 @@ describe('Schemaform <VAFileNumberWidget>', () => {
     it('should call onChange with the value if available', () => {
       const onChange = sinon.spy();
       const { container } = render(
-        <VAFileNumberWidget value="456431098" onChange={onChange} {...defaultProps} />,
+        <VAFileNumberWidget
+          value="456431098"
+          onChange={onChange}
+          {...defaultProps}
+        />,
       );
       const input = container.querySelector('input');
       fireEvent.change(input, { target: { value: '432549877' } });
@@ -57,7 +69,11 @@ describe('Schemaform <VAFileNumberWidget>', () => {
 
     it('should mask all but the last four digits of the VAFileNumber onBlur and display with dashes when VAFileNumber is entered as all one digit', () => {
       const { container } = render(
-        <VAFileNumberWidget value="456431098"  onChange={() => {}} {...defaultProps} />,
+        <VAFileNumberWidget
+          value="456431098"
+          onChange={() => {}}
+          {...defaultProps}
+        />,
       );
       const input = container.querySelector('input');
       fireEvent.blur(input);
@@ -66,7 +82,11 @@ describe('Schemaform <VAFileNumberWidget>', () => {
 
     it('should mask all but the last four digits of the VAFileNumber onBlur and display with dashes when VAFileNumber is entered with dashes', () => {
       const { container } = render(
-        <VAFileNumberWidget value="456-43-1098"  onChange={() => {}} {...defaultProps} />,
+        <VAFileNumberWidget
+          value="456-43-1098"
+          onChange={() => {}}
+          {...defaultProps}
+        />,
       );
       const input = container.querySelector('input');
       fireEvent.blur(input);
@@ -75,7 +95,11 @@ describe('Schemaform <VAFileNumberWidget>', () => {
 
     it('should mask all but the last four digits of the VAFileNumber onBlur and display with dashes when VAFileNumber is entered with spaces', () => {
       const { container } = render(
-        <VAFileNumberWidget value="456 43 1098"  onChange={() => {}} {...defaultProps} />,
+        <VAFileNumberWidget
+          value="456 43 1098"
+          onChange={() => {}}
+          {...defaultProps}
+        />,
       );
       const input = container.querySelector('input');
       fireEvent.blur(input);
@@ -84,7 +108,11 @@ describe('Schemaform <VAFileNumberWidget>', () => {
 
     it('should not mask the VAFileNumber onFocus', () => {
       const { container } = render(
-        <VAFileNumberWidget value="456431098"  onChange={() => {}} {...defaultProps} />,
+        <VAFileNumberWidget
+          value="456431098"
+          onChange={() => {}}
+          {...defaultProps}
+        />,
       );
       const input = container.querySelector('input');
       fireEvent.blur(input);
@@ -94,7 +122,11 @@ describe('Schemaform <VAFileNumberWidget>', () => {
 
     it('should display the VAFileNumber with dashes when VAFileNumber is entered with dashes', () => {
       const { container } = render(
-        <VAFileNumberWidget value="456-43-1098"  onChange={() => {}} {...defaultProps} />,
+        <VAFileNumberWidget
+          value="456-43-1098"
+          onChange={() => {}}
+          {...defaultProps}
+        />,
       );
       const input = container.querySelector('input');
       fireEvent.blur(input);
@@ -104,7 +136,11 @@ describe('Schemaform <VAFileNumberWidget>', () => {
 
     it('should display the VAFileNumber with spaces when the VAFileNumber is entered with spaces', () => {
       const { container } = render(
-        <VAFileNumberWidget value="456 43 1098"  onChange={() => {}} {...defaultProps} />,
+        <VAFileNumberWidget
+          value="456 43 1098"
+          onChange={() => {}}
+          {...defaultProps}
+        />,
       );
       const input = container.querySelector('input');
       fireEvent.blur(input);
@@ -114,7 +150,11 @@ describe('Schemaform <VAFileNumberWidget>', () => {
 
     it('should not mask any digits of the VAFileNumber onBlur when fewer than 9 digits are entered', () => {
       const { container } = render(
-        <VAFileNumberWidget value="12345678"  onChange={() => {}} {...defaultProps} />,
+        <VAFileNumberWidget
+          value="12345678"
+          onChange={() => {}}
+          {...defaultProps}
+        />,
       );
       const input = container.querySelector('input');
       fireEvent.blur(input);
@@ -123,7 +163,11 @@ describe('Schemaform <VAFileNumberWidget>', () => {
 
     it('should not mask any digits of the VAFileNumber onBlur when moew than 9 digits are entered', () => {
       const { container } = render(
-        <VAFileNumberWidget value="1234567899"  onChange={() => {}} {...defaultProps} />,
+        <VAFileNumberWidget
+          value="1234567899"
+          onChange={() => {}}
+          {...defaultProps}
+        />,
       );
       const input = container.querySelector('input');
       fireEvent.blur(input);

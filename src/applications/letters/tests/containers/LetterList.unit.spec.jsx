@@ -336,11 +336,8 @@ describe('<LetterList>', () => {
       </Provider>,
     );
     expect(getByText('Proof of Service Card')).to.exist;
-    expect(
-      getByText(
-        /Proof of Service Card shows that you served honorably/i,
-      ),
-    ).to.exist;
+    expect(getByText(/Proof of Service Card shows that you served honorably/i))
+      .to.exist;
     expect(
       getByText(
         /Commissary Letter shows that you.{0,5}eligible to receive commissary/i,
@@ -595,7 +592,8 @@ describe('<LetterList>', () => {
           </MemoryRouter>
         </Provider>,
       );
-      expect(getByText(/shows you.{0,50}eligible for free enrollment/i)).to.exist;
+      expect(getByText(/shows you.{0,50}eligible for free enrollment/i)).to
+        .exist;
     });
   });
 });

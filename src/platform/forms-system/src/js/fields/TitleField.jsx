@@ -9,7 +9,7 @@ export default function TitleField({ id, title, useHeaderStyling }) {
 
   const isEmptyTitle = typeof title === 'string' && title.trim() === '';
   if (!title || isEmptyTitle) return null;
-  
+
   if (useHeaderStyling)
     return (
       <h3 className="vads-u-font-size--h5" id={id}>

@@ -6,9 +6,7 @@ import TitleField from '../../../src/js/fields/TitleField';
 
 describe('Schemaform <TitleField>', () => {
   it('should render legend for root', () => {
-    const { container } = render(
-      <TitleField id="root__title" title="foo" />,
-    );
+    const { container } = render(<TitleField id="root__title" title="foo" />);
     expect(container.querySelector('legend')).not.to.be.null;
   });
   it('should render h3 for root', () => {
@@ -38,7 +36,8 @@ describe('Schemaform <TitleField>', () => {
     const { container } = render(
       <TitleField id="root_someField" title={<Foo />} />,
     );
-    expect(container.querySelector('.schemaform-block-subtitle')).not.to.be.null;
+    expect(container.querySelector('.schemaform-block-subtitle')).not.to.be
+      .null;
   });
   it('should not render anything if no title is provided', () => {
     const { container } = render(<TitleField id="root__title" />);

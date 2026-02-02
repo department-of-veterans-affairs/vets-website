@@ -87,7 +87,7 @@ describe('Schemaform <SelectWidget>', () => {
     const { container, rerender } = render(<SelectWidget {...props} />);
     let select = container.querySelector('select');
     expect(select.getAttribute('data-value')).to.not.exist;
-    
+
     rerender(<SelectWidget value="testValue" {...props} />);
     select = container.querySelector('select');
     expect(select.getAttribute('data-value')).to.equal('ok-test');
@@ -112,7 +112,7 @@ describe('Schemaform <SelectWidget>', () => {
     const select = container.querySelector('select');
     fireEvent.change(select, { target: { value: '' } });
     expect(onChange.firstCall.args[0]).to.be.undefined;
-    
+
     fireEvent.change(select, { target: { value: 'testValue' } });
     expect(onChange.secondCall.args[0]).to.equal('testValue');
   });

@@ -7,9 +7,7 @@ import CurrencyWidget from '../../../src/js/widgets/CurrencyWidget';
 
 describe('Schemaform <CurrencyWidget>', () => {
   it('should render', () => {
-    const { container } = render(
-      <CurrencyWidget options={{}} value={178} />,
-    );
+    const { container } = render(<CurrencyWidget options={{}} value={178} />);
     const input = container.querySelector('input');
     expect(input.value).to.equal('178.00');
   });

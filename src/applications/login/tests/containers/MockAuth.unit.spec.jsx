@@ -86,7 +86,8 @@ describe('MockAuthButton', () => {
         if (button) {
           fireEvent.click(button);
           await waitFor(() => {
-            const location = global.window.location.href || global.window.location;
+            const location =
+              global.window.location.href || global.window.location;
             expect(location).to.include(correctLink);
           });
         }

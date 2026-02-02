@@ -7,7 +7,7 @@ import EmailWidget from '../../../src/js/widgets/EmailWidget';
 describe('Schemaform <EmailWidget>', () => {
   it('should render', () => {
     const { container } = render(
-      <EmailWidget 
+      <EmailWidget
         schema={{}}
         onChange={() => {}}
         onBlur={() => {}}

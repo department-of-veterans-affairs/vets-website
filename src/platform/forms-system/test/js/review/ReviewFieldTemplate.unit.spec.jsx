@@ -142,7 +142,12 @@ describe('Schemaform ReviewFieldTemplate', () => {
     const schema = { type: 'string' };
     const { container } = render(
       <ReviewFieldTemplate schema={schema} uiSchema={hideEmptyUiSchema}>
-        <StringField registry={{ widgets: { text: TextWidget } }} schema={schema} uiSchema={hideEmptyUiSchema} formData="" />
+        <StringField
+          registry={{ widgets: { text: TextWidget } }}
+          schema={schema}
+          uiSchema={hideEmptyUiSchema}
+          formData=""
+        />
       </ReviewFieldTemplate>,
     );
 
@@ -180,7 +185,12 @@ describe('Schemaform ReviewFieldTemplate', () => {
     };
     const { container } = render(
       <ReviewFieldTemplate schema={schema} uiSchema={uiSchema}>
-        <StringField registry={{ widgets: { text: TextWidget } }} schema={schema} uiSchema={uiSchema} formData="" />
+        <StringField
+          registry={{ widgets: { text: TextWidget } }}
+          schema={schema}
+          uiSchema={uiSchema}
+          formData=""
+        />
       </ReviewFieldTemplate>,
     );
 

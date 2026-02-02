@@ -55,13 +55,13 @@ describe('Schemaform: DateWidget', () => {
 
     const selects = container.querySelectorAll('select');
     const yearInput = container.querySelector('input[type="number"]');
-    
+
     fireEvent.change(selects[0], { target: { value: '1' } }); // month
     expect(onChange.firstCall.args[0]).to.be.undefined;
-    
+
     fireEvent.change(selects[1], { target: { value: '2' } }); // day
     expect(onChange.secondCall.args[0]).to.be.undefined;
-    
+
     fireEvent.change(yearInput, { target: { value: '2001' } }); // year
     expect(onChange.thirdCall.args[0]).not.to.be.undefined;
   });
@@ -74,7 +74,7 @@ describe('Schemaform: DateWidget', () => {
 
     const selects = container.querySelectorAll('select');
     const yearInput = container.querySelector('input[type="number"]');
-    
+
     // Touch and blur all fields to trigger onBlur
     fireEvent.change(selects[0], { target: { value: '1' } }); // month
     fireEvent.blur(selects[0]);
@@ -166,10 +166,10 @@ describe('Schemaform: DateWidget', () => {
 
       const select = container.querySelector('select');
       const yearInput = container.querySelector('input[type="number"]');
-      
+
       fireEvent.change(yearInput, { target: { value: '2001' } });
       expect(onChange.firstCall.args[0]).to.be.undefined;
-      
+
       fireEvent.change(select, { target: { value: '1' } });
       expect(onChange.secondCall.args[0]).not.to.be.undefined;
     });
@@ -187,7 +187,7 @@ describe('Schemaform: DateWidget', () => {
 
       const select = container.querySelector('select');
       const yearInput = container.querySelector('input[type="number"]');
-      
+
       // Touch and blur to trigger onBlur
       fireEvent.change(select, { target: { value: '1' } });
       fireEvent.blur(select);

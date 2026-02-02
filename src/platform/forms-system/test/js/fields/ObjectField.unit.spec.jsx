@@ -218,9 +218,7 @@ describe('Schemaform: ObjectField', () => {
     );
 
     // Check for expanding group class with collapsed state
-    const expandingGroup = container.querySelector(
-      '.form-expanding-group',
-    );
+    const expandingGroup = container.querySelector('.form-expanding-group');
     expect(expandingGroup).not.to.be.null;
   });
   it('should not hide expand under items when true', () => {
@@ -259,9 +257,7 @@ describe('Schemaform: ObjectField', () => {
     );
 
     // Check for expanding group class with expanded state
-    const expandingGroup = container.querySelector(
-      '.form-expanding-group',
-    );
+    const expandingGroup = container.querySelector('.form-expanding-group');
     expect(expandingGroup).not.to.be.null;
   });
   it('should handle change', () => {

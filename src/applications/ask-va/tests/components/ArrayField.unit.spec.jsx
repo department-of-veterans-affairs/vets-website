@@ -95,7 +95,9 @@ describe('Schemaform review <ArrayField>', () => {
     );
 
     // Check for va-growable-background divs (one for each item in review mode)
-    expect(container.querySelectorAll('.va-growable-background').length).to.equal(2);
+    expect(
+      container.querySelectorAll('.va-growable-background').length,
+    ).to.equal(2);
   });
   it('should render item name', () => {
     const idSchema = {};
@@ -158,7 +160,9 @@ describe('Schemaform review <ArrayField>', () => {
 
     // Check that the add button text contains the itemName
     const buttons = container.querySelectorAll('button');
-    const addButton = Array.from(buttons).find(btn => btn.textContent.includes('Add another'));
+    const addButton = Array.from(buttons).find(btn =>
+      btn.textContent.includes('Add another'),
+    );
     expect(addButton).to.exist;
     expect(addButton.textContent).to.equal('Add another item name');
   });
@@ -543,7 +547,9 @@ describe('Schemaform review <ArrayField>', () => {
       const rowDiv = container.querySelector('.row.small-collapse');
       expect(rowDiv).to.exist;
       // In review mode, the row should be inside a va-growable-background
-      const reviewDiv = container.querySelector('.va-growable-background .row.small-collapse');
+      const reviewDiv = container.querySelector(
+        '.va-growable-background .row.small-collapse',
+      );
       expect(reviewDiv).to.exist;
 
       // Trigger edit by calling onEdit callback
@@ -616,11 +622,13 @@ describe('Schemaform review <ArrayField>', () => {
 
     it('add', () => {
       // Should have 1 item initially
-      const initialRowDivs = container.querySelectorAll('.va-growable > .va-growable-background');
+      const initialRowDivs = container.querySelectorAll(
+        '.va-growable > .va-growable-background',
+      );
       expect(initialRowDivs.length).to.equal(1);
 
       ref.current.handleAdd();
-      
+
       // After handleAdd, the component's state should have 2 items
       expect(ref.current.state.items.length).to.equal(2);
       expect(ref.current.state.editing.length).to.equal(2);
@@ -644,7 +652,9 @@ describe('Schemaform review <ArrayField>', () => {
       );
 
       // After adding, both items should be visible
-      const allRowDivs = container.querySelectorAll('.va-growable > .va-growable-background');
+      const allRowDivs = container.querySelectorAll(
+        '.va-growable > .va-growable-background',
+      );
       expect(allRowDivs.length).to.equal(2);
     });
 
@@ -652,7 +662,7 @@ describe('Schemaform review <ArrayField>', () => {
       expect(container.querySelector('.add-btn').disabled).to.be.false;
 
       ref.current.handleAdd();
-      
+
       // After handleAdd, rerender with the updated state items
       rerenderFn(
         <ArrayField
@@ -679,7 +689,7 @@ describe('Schemaform review <ArrayField>', () => {
     // Since the ArrayField component can have render issues in tests,
     // we'll test the state update logic by directly testing the
     // UNSAFE_componentWillReceiveProps method behavior
-    
+
     const componentInstance = {
       props: {
         arrayData: [],
@@ -688,24 +698,25 @@ describe('Schemaform review <ArrayField>', () => {
         items: [],
         editing: [],
       },
-      setState: function(newState) {
+      setState(newState) {
         // Mock setState - just update our state object
         Object.assign(this.state, newState);
       },
     };
-    
+
     // Bind the method to our mock instance
     const ArrayFieldClass = require('../../components/ArrayField').default;
-    const methodToTest = ArrayFieldClass.prototype.UNSAFE_componentWillReceiveProps;
-    
+    const methodToTest =
+      ArrayFieldClass.prototype.UNSAFE_componentWillReceiveProps;
+
     // Test: Update props with new arrayData
     const newProps = {
       ...componentInstance.props,
       arrayData: [{ field: 'new item' }, { field: 'another item' }],
     };
-    
+
     methodToTest.call(componentInstance, newProps);
-    
+
     // Verify state was updated correctly
     expect(componentInstance.state.items.length).to.equal(2);
     expect(componentInstance.state.items[0].field).to.equal('new item');

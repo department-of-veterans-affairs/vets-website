@@ -17,7 +17,9 @@ const defaultProps = {
 
 describe('Schemaform <SSNWidget>', () => {
   it('should render', () => {
-    const { container } = render(<SSNWidget value="12345678" onChange={() => {}}  onChange={() => {}} {...defaultProps} />);
+    const { container } = render(
+      <SSNWidget value="12345678" onChange={() => {}} {...defaultProps} />,
+    );
     const input = container.querySelector('input');
     expect(input.value).to.equal('12345678');
   });
@@ -51,28 +53,36 @@ describe('Schemaform <SSNWidget>', () => {
   });
 
   it('should mask all but the last four digits of the SSN onBlur and display with dashes when SSN is entered as all one digit', () => {
-    const { container } = render(<SSNWidget value="456431098"  onChange={() => {}} {...defaultProps} />);
+    const { container } = render(
+      <SSNWidget value="456431098" onChange={() => {}} {...defaultProps} />,
+    );
     const input = container.querySelector('input');
     fireEvent.blur(input);
     expect(input.value).to.equal('●●●-●●-1098');
   });
 
   it('should mask all but the last four digits of the SSN onBlur and display with dashes when SSN is entered with dashes', () => {
-    const { container } = render(<SSNWidget value="456-43-1098"  onChange={() => {}} {...defaultProps} />);
+    const { container } = render(
+      <SSNWidget value="456-43-1098" onChange={() => {}} {...defaultProps} />,
+    );
     const input = container.querySelector('input');
     fireEvent.blur(input);
     expect(input.value).to.equal('●●●-●●-1098');
   });
 
   it('should mask all but the last four digits of the SSN onBlur and display with dashes when SSN is entered with spaces', () => {
-    const { container } = render(<SSNWidget value="456 43 1098"  onChange={() => {}} {...defaultProps} />);
+    const { container } = render(
+      <SSNWidget value="456 43 1098" onChange={() => {}} {...defaultProps} />,
+    );
     const input = container.querySelector('input');
     fireEvent.blur(input);
     expect(input.value).to.equal('●●●-●●-1098');
   });
 
   it('should not mask the SSN onFocus', () => {
-    const { container } = render(<SSNWidget value="456431098"  onChange={() => {}} {...defaultProps} />);
+    const { container } = render(
+      <SSNWidget value="456431098" onChange={() => {}} {...defaultProps} />,
+    );
     const input = container.querySelector('input');
     fireEvent.blur(input);
     fireEvent.focus(input);
@@ -80,7 +90,9 @@ describe('Schemaform <SSNWidget>', () => {
   });
 
   it('should display the SSN with dashes when SSN is entered with dashes', () => {
-    const { container } = render(<SSNWidget value="456-43-1098"  onChange={() => {}} {...defaultProps} />);
+    const { container } = render(
+      <SSNWidget value="456-43-1098" onChange={() => {}} {...defaultProps} />,
+    );
     const input = container.querySelector('input');
     fireEvent.blur(input);
     fireEvent.focus(input);
@@ -88,7 +100,9 @@ describe('Schemaform <SSNWidget>', () => {
   });
 
   it('should display the SSN with spaces when the SSN is entered with spaces', () => {
-    const { container } = render(<SSNWidget value="456 43 1098"  onChange={() => {}} {...defaultProps} />);
+    const { container } = render(
+      <SSNWidget value="456 43 1098" onChange={() => {}} {...defaultProps} />,
+    );
     const input = container.querySelector('input');
     fireEvent.blur(input);
     fireEvent.focus(input);
@@ -96,14 +110,18 @@ describe('Schemaform <SSNWidget>', () => {
   });
 
   it('should mask all digits of the SSN onBlur when fewer than 6 digits are entered', () => {
-    const { container } = render(<SSNWidget value="4564"  onChange={() => {}} {...defaultProps} />);
+    const { container } = render(
+      <SSNWidget value="4564" onChange={() => {}} {...defaultProps} />,
+    );
     const input = container.querySelector('input');
     fireEvent.blur(input);
     expect(input.value).to.equal('●●●-●');
   });
 
   it('should mask all but the last two digits of the SSN onBlur when 7 digits are entered', () => {
-    const { container } = render(<SSNWidget value="4564210"  onChange={() => {}} {...defaultProps} />);
+    const { container } = render(
+      <SSNWidget value="4564210" onChange={() => {}} {...defaultProps} />,
+    );
     const input = container.querySelector('input');
     fireEvent.blur(input);
     expect(input.value).to.equal('●●●-●●-10');

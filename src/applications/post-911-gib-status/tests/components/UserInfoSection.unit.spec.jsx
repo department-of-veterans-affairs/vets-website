@@ -35,9 +35,7 @@ describe('<UserInfoSection>', () => {
       const currentAsOfProps = _.merge({}, props, {
         showCurrentAsOfAlert: false,
       });
-      const { container } = render(
-        <UserInfoSection {...currentAsOfProps} />,
-      );
+      const { container } = render(<UserInfoSection {...currentAsOfProps} />);
       expect(container.querySelector(currentHeadingSelector)).to.be.null;
     });
 
@@ -70,9 +68,7 @@ describe('<UserInfoSection>', () => {
       const currentAsOfProps = _.merge({}, props, {
         showCurrentAsOfAlert: true,
       });
-      const { container } = render(
-        <UserInfoSection {...currentAsOfProps} />,
-      );
+      const { container } = render(<UserInfoSection {...currentAsOfProps} />);
       expect(container.querySelector(currentHeadingSelector)).to.not.be.null;
     });
   });
@@ -114,9 +110,7 @@ describe('<UserInfoSection>', () => {
         },
       };
 
-      const { container } = render(
-        <UserInfoSection {...noPercentageProps} />,
-      );
+      const { container } = render(<UserInfoSection {...noPercentageProps} />);
       const benefitLevel = container.querySelector('#benefit-level');
       expect(benefitLevel).to.not.be.null;
       expect(benefitLevel.textContent).to.contain('unavailable');
@@ -150,9 +144,7 @@ describe('<UserInfoSection>', () => {
         },
       };
 
-      const { container } = render(
-        <UserInfoSection {...remainingProps} />,
-      );
+      const { container } = render(<UserInfoSection {...remainingProps} />);
       const benefitEndDate = container.querySelector('.benefit-end-date');
       expect(benefitEndDate).to.not.be.null;
       expect(benefitEndDate.textContent).to.contain('You have until');
@@ -182,7 +174,9 @@ describe('<UserInfoSection>', () => {
         <UserInfoSection {...props} showTransferredOutMonths />,
       );
 
-      expect(container.textContent).to.contain('Months transferred to your dependents');
+      expect(container.textContent).to.contain(
+        'Months transferred to your dependents',
+      );
       expect(container.textContent).to.contain('14 months, 0 days');
     });
   });

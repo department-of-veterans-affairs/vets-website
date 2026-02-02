@@ -19,12 +19,9 @@ const location = {
 const wizardStorageKey = 'testKey';
 
 // Mock FormApp to prevent rendering errors
-class MockFormApp extends React.Component {
-  render() {
-    const { children } = this.props;
-    return <div className="mock-form-app">{children}</div>;
-  }
-}
+const MockFormApp = ({ children }) => (
+  <div className="mock-form-app">{children}</div>
+);
 
 const setup = () => {
   oldAddEventListener = global.window.addEventListener;

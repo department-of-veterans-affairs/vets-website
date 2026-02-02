@@ -20,7 +20,11 @@ describe('Pre-need Schemaform <PhoneNumberWidget>', () => {
   it('should render', () => {
     const onChange = sinon.spy();
     const { container } = render(
-      <PhoneNumberWidget {...defaultProps} value="1234567890" onChange={onChange} />,
+      <PhoneNumberWidget
+        {...defaultProps}
+        value="1234567890"
+        onChange={onChange}
+      />,
     );
     const input = container.querySelector('input[type="tel"]');
     expect(input.value).to.equal('1234567890');
@@ -50,7 +54,11 @@ describe('Pre-need Schemaform <PhoneNumberWidget>', () => {
   it('should call onChange with undefined if value is blank', async () => {
     const onChange = sinon.spy();
     const { container } = render(
-      <PhoneNumberWidget {...defaultProps} value="1231231234" onChange={onChange} />,
+      <PhoneNumberWidget
+        {...defaultProps}
+        value="1231231234"
+        onChange={onChange}
+      />,
     );
     const input = container.querySelector('input[type="tel"]');
     await userEvent.clear(input);

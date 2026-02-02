@@ -282,7 +282,9 @@ describe('<ReviewCollapsibleChapter>', () => {
       />,
     );
 
-    expect(container.querySelectorAll('.form-review-panel-page').length).to.equal(2);
+    expect(
+      container.querySelectorAll('.form-review-panel-page').length,
+    ).to.equal(2);
   });
 
   it('should not display conditional pages with unfulfilled conditions', () => {
@@ -355,7 +357,9 @@ describe('<ReviewCollapsibleChapter>', () => {
         />,
       );
 
-      expect(container.querySelectorAll('.form-review-panel-page')).to.have.length(2);
+      expect(
+        container.querySelectorAll('.form-review-panel-page'),
+      ).to.have.length(2);
     } catch (e) {
       // RTL render may fail due to missing external dependencies
       // This test verifies conditional page filtering logic in the component
@@ -437,7 +441,9 @@ describe('<ReviewCollapsibleChapter>', () => {
         />,
       );
 
-      expect(container.querySelectorAll('.form-review-panel-page')).to.have.length(2);
+      expect(
+        container.querySelectorAll('.form-review-panel-page'),
+      ).to.have.length(2);
     } catch (e) {
       // RTL render may fail due to missing external dependencies
       // This test verifies conditional page display logic in the component
@@ -537,7 +543,7 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     try {
       let componentInstance;
-      const { container } = render(
+      render(
         <ReviewCollapsibleChapter
           viewedPages={new Set()}
           onEdit={onEdit}
@@ -549,7 +555,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           pageList={pages}
           hasUnviewedPages={false}
           setFormErrors={setFormErrors}
-          ref={(ref) => {
+          ref={ref => {
             componentInstance = ref;
           }}
         />,

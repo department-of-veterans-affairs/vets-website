@@ -184,10 +184,8 @@ describe('Schemaform <FormPage>', () => {
     let setData;
     let route;
     let router;
-    let onSubmit;
     beforeEach(() => {
       setData = sinon.spy();
-      onSubmit = sinon.spy();
       router = {
         push: sinon.spy(),
       };
@@ -197,7 +195,6 @@ describe('Schemaform <FormPage>', () => {
       container = { querySelector: () => null, querySelectorAll: () => [] };
     });
     it('change', () => {
-      const newData = {};
       // Verify mock container works
       expect(container).to.exist;
     });
@@ -817,25 +814,16 @@ describe('Schemaform <FormPage>', () => {
       const CustomPage = () => <div>Hello, world!</div>;
       const contentBeforeButtons = 'before';
       const contentAfterButtons = 'after';
-      let instance;
-      const FormPageWrapper = () => {
-        const ref = React.useRef();
-        React.useEffect(() => {
-          instance = ref.current;
-        }, []);
-        return (
-          <FormPage
-            ref={ref}
-            form={makeBypassForm(CustomPage)()}
-            route={makeBypassRoute(CustomPage)()}
-            location={location}
-            contentBeforeButtons={contentBeforeButtons}
-            contentAfterButtons={contentAfterButtons}
-          />
-        );
-      };
 
-      const { container } = render(<FormPageWrapper />);
+      const { container } = render(
+        <FormPage
+          form={makeBypassForm(CustomPage)()}
+          route={makeBypassRoute(CustomPage)()}
+          location={location}
+          contentBeforeButtons={contentBeforeButtons}
+          contentAfterButtons={contentAfterButtons}
+        />,
+      );
 
       expect(container.textContent).not.to.contain('SchemaForm');
       expect(container.textContent).to.contain('Hello, world!');

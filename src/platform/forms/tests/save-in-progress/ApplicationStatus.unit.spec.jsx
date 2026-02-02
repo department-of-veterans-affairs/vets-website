@@ -239,10 +239,10 @@ describe('schemaform <ApplicationStatus>', () => {
 
     expect(container.querySelector('.usa-alert-info')).to.not.be.null;
     // Normalize whitespace to handle multiple spaces from undefined formType
-    const alertText = container.querySelector('.usa-alert-info').textContent.replace(/\s+/g, ' ');
-    expect(alertText).to.contain(
-      'more than one in-progress application',
-    );
+    const alertText = container
+      .querySelector('.usa-alert-info')
+      .textContent.replace(/\s+/g, ' ');
+    expect(alertText).to.contain('more than one in-progress application');
   });
   it('should display a custom button message when passing in startNewAppButtonText', () => {
     const formConfigCustomMsgData = {

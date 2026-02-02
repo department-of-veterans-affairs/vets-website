@@ -29,8 +29,12 @@ describe('Schemaform <FieldTemplate>', () => {
     );
 
     expect(container.querySelector('label').textContent).to.equal('Title');
-    expect(container.querySelectorAll('.field-child').length).to.be.greaterThan(0);
-    expect(container.querySelectorAll('.usa-input-error-message').length).to.equal(0);
+    expect(container.querySelectorAll('.field-child').length).to.be.greaterThan(
+      0,
+    );
+    expect(
+      container.querySelectorAll('.usa-input-error-message').length,
+    ).to.equal(0);
   });
   it('should render a label if JSX is provided', () => {
     const schema = {
@@ -56,8 +60,12 @@ describe('Schemaform <FieldTemplate>', () => {
     );
 
     expect(container.querySelector('label').textContent).to.equal('Title');
-    expect(container.querySelectorAll('.field-child').length).to.be.greaterThan(0);
-    expect(container.querySelectorAll('.usa-input-error-message').length).to.equal(0);
+    expect(container.querySelectorAll('.field-child').length).to.be.greaterThan(
+      0,
+    );
+    expect(
+      container.querySelectorAll('.usa-input-error-message').length,
+    ).to.equal(0);
   });
   it('should render object', () => {
     const schema = {
@@ -82,7 +90,9 @@ describe('Schemaform <FieldTemplate>', () => {
       </FieldTemplate>,
     );
 
-    expect(container.querySelector('div.field-child').className).to.equal('field-child');
+    expect(container.querySelector('div.field-child').className).to.equal(
+      'field-child',
+    );
   });
   it('should render required', () => {
     const schema = {
@@ -106,7 +116,9 @@ describe('Schemaform <FieldTemplate>', () => {
       </FieldTemplate>,
     );
 
-    expect(container.querySelectorAll('.schemaform-required-span').length).to.be.greaterThan(0);
+    expect(
+      container.querySelectorAll('.schemaform-required-span').length,
+    ).to.be.greaterThan(0);
   });
   it('should render error when touched', () => {
     const schema = {
@@ -131,10 +143,12 @@ describe('Schemaform <FieldTemplate>', () => {
       </FieldTemplate>,
     );
 
-    expect(container.querySelector('.usa-input-error-message').textContent).to.equal(
-      'Error Some error',
-    );
-    expect(container.querySelectorAll('.usa-input-error').length).to.be.greaterThan(0);
+    expect(
+      container.querySelector('.usa-input-error-message').textContent,
+    ).to.equal('Error Some error');
+    expect(
+      container.querySelectorAll('.usa-input-error').length,
+    ).to.be.greaterThan(0);
   });
   it('should render error when submitted', () => {
     const schema = {
@@ -160,10 +174,12 @@ describe('Schemaform <FieldTemplate>', () => {
       </FieldTemplate>,
     );
 
-    expect(container.querySelector('.usa-input-error-message').textContent).to.equal(
-      'Error Some error',
-    );
-    expect(container.querySelectorAll('.usa-input-error').length).to.be.greaterThan(0);
+    expect(
+      container.querySelector('.usa-input-error-message').textContent,
+    ).to.equal('Error Some error');
+    expect(
+      container.querySelectorAll('.usa-input-error').length,
+    ).to.be.greaterThan(0);
   });
   it('should render description', () => {
     const schema = {
@@ -403,7 +419,9 @@ describe('Schemaform <FieldTemplate>', () => {
     );
 
     expect(container.querySelector('label')).not.to.exist;
-    expect(container.querySelectorAll('.usa-input-error-message').length).to.equal(0);
+    expect(
+      container.querySelectorAll('.usa-input-error-message').length,
+    ).to.equal(0);
   });
   it('should not render a label if empty or whitespace only title provided', () => {
     const schema = {
@@ -429,8 +447,12 @@ describe('Schemaform <FieldTemplate>', () => {
     );
 
     expect(container.querySelector('label')).not.to.exist;
-    expect(container.querySelectorAll('.field-child').length).to.be.greaterThan(0);
-    expect(container.querySelectorAll('.usa-input-error-message').length).to.equal(0);
+    expect(container.querySelectorAll('.field-child').length).to.be.greaterThan(
+      0,
+    );
+    expect(
+      container.querySelectorAll('.usa-input-error-message').length,
+    ).to.equal(0);
   });
   it('should render required even with a whitespace only title', () => {
     const schema = {
@@ -455,7 +477,9 @@ describe('Schemaform <FieldTemplate>', () => {
     );
 
     expect(container.querySelector('label')).to.exist;
-    expect(container.querySelectorAll('.schemaform-required-span').length).to.be.greaterThan(0);
+    expect(
+      container.querySelectorAll('.schemaform-required-span').length,
+    ).to.be.greaterThan(0);
   });
   it('should render a web-component when ui:webComponentField is provided', () => {
     const WebComponentField = () => {
