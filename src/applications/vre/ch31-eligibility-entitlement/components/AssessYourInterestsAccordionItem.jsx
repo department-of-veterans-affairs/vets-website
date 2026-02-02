@@ -1,15 +1,16 @@
 import React from 'react';
 
-export default function AssessYourInterestsSection() {
+export default function AssessYourInterestsAccordionItem() {
   return (
-    <>
-      <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
-        1. Assess your interests
-      </h2>
-      <ul className="va-nav-linkslist-list">
+    <va-accordion-item header="1. Assess your interests" open bordered>
+      <ul className="va-nav-linkslist-list vads-u-margin-bottom--3">
         <li>
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-            <va-link href="https://www.va.gov" text="Skills Matcher" />
+            <va-link
+              href="https://www.careeronestop.org/Toolkit/Skills/skills-matcher.aspx"
+              text="Skills Matcher"
+              external
+            />
           </h3>
           <p className="va-nav-linkslist-description">
             Match your current skills, including those gained in the military,
@@ -18,7 +19,11 @@ export default function AssessYourInterestsSection() {
         </li>
         <li>
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-            <va-link href="https://www.va.gov" text="Interest Assessment" />
+            <va-link
+              href="https://www.careeronestop.org/Toolkit/Careers/interest-assessment.aspx"
+              text="Interest Assessment"
+              external
+            />
           </h3>
           <p className="va-nav-linkslist-description">
             Helps you identify your strengths, preferences, and work interests
@@ -28,7 +33,11 @@ export default function AssessYourInterestsSection() {
         </li>
         <li>
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-            <va-link href="https://www.va.gov" text="Occupation Profile" />
+            <va-link
+              href="https://www.careeronestop.org/Toolkit/Careers/Occupations/occupation-profile.aspx"
+              text="Occupation Profile"
+              external
+            />
           </h3>
           <p className="va-nav-linkslist-description">
             Provides detailed information about specific occupations including
@@ -39,8 +48,9 @@ export default function AssessYourInterestsSection() {
         <li>
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
             <va-link
-              href="https://www.va.gov"
+              href="https://www.bls.gov"
               text="Labor Market Information"
+              external
             />
           </h3>
           <p className="va-nav-linkslist-description">
@@ -51,7 +61,11 @@ export default function AssessYourInterestsSection() {
         </li>
         <li>
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-            <va-link href="https://www.va.gov" text="Resume Builder" />
+            <va-link
+              href="https://www.careeronestop.org/JobSearch/Resumes/ResumeGuide/introduction.aspx?secondaryNavPanels=CA%3D%3D"
+              text="Resume Builder"
+              external
+            />
           </h3>
           <p className="va-nav-linkslist-description">
             Guides you step-by-step through creating a professional resume that
@@ -59,6 +73,6 @@ export default function AssessYourInterestsSection() {
           </p>
         </li>
       </ul>
-    </>
+    </va-accordion-item>
   );
 }
