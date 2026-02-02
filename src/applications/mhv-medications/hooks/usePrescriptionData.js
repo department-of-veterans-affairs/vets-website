@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom-v5-compat';
 import {
   getPrescriptionsList,
   getPrescriptionById,
@@ -11,6 +12,9 @@ import {
  * @returns {object} - The prescription data, loading state, and error state
  */
 export const usePrescriptionData = (prescriptionId, queryParams) => {
+  const [searchParams] = useSearchParams();
+  const stationNumber = searchParams.get('station_number');
+
   const [
     cachedPrescriptionAvailable,
     setCachedPrescriptionAvailable,
@@ -28,9 +32,16 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
     },
   });
 
+  // Build query params for getPrescriptionById
+  // Use stationNumber from URL if available, otherwise fall back to cached prescription's stationNumber
+  const prescriptionByIdParams = {
+    id: prescriptionId,
+    stationNumber: stationNumber || cachedPrescription?.stationNumber,
+  };
+
   // Fetch individual prescription when needed
   const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
-    prescriptionId,
+    prescriptionByIdParams,
     { skip: cachedPrescriptionAvailable },
   );
 

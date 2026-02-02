@@ -3,6 +3,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
 import { usePrescriptionData } from '../../hooks/usePrescriptionData';
@@ -98,8 +99,11 @@ describe('usePrescriptionData', () => {
     mockStore = configureStore([])({});
 
     // Create wrapper without PropTypes to avoid validation errors
+    // Includes MemoryRouter for useSearchParams hook
     wrapper = ({ children }) => (
-      <Provider store={mockStore}>{children}</Provider>
+      <Provider store={mockStore}>
+        <MemoryRouter>{children}</MemoryRouter>
+      </Provider>
     );
   });
 

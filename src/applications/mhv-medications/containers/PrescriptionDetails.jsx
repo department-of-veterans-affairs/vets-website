@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useParams, useSearchParams } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
@@ -71,6 +71,8 @@ import {
 
 const PrescriptionDetails = () => {
   const { prescriptionId } = useParams();
+  const [searchParams] = useSearchParams();
+  const stationNumber = searchParams.get('station_number');
 
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);
@@ -146,13 +148,18 @@ const PrescriptionDetails = () => {
         !hasPrefetched.current &&
         hasCmopNdcNumber(refillHistory)
       ) {
-        prefetchPrescriptionDocumentation(prescriptionId);
+        prefetchPrescriptionDocumentation({
+          id: prescriptionId,
+          stationNumber: stationNumber || prescription?.stationNumber,
+        });
         hasPrefetched.current = true;
       }
     },
     [
       isLoading,
       prescriptionId,
+      stationNumber,
+      prescription,
       refillHistory,
       prefetchPrescriptionDocumentation,
     ],

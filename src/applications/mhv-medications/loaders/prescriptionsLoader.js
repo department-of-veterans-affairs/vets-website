@@ -1,4 +1,4 @@
-import { defer } from 'react-router-dom-v5-compat';
+import { defer, redirect } from 'react-router-dom-v5-compat';
 import { store } from '../store';
 import {
   getPrescriptionById,
@@ -10,6 +10,7 @@ import {
   ALL_MEDICATIONS_FILTER_KEY,
   filterOptions,
 } from '../util/constants';
+import { selectCernerPilotFlag } from '../util/selectors';
 
 /**
  * Builds query parameters for prescription list requests
@@ -49,20 +50,35 @@ const buildQueryParams = preferences => {
  *       platform code is already fetching feature toggles,
  *       user profile, maintenance windows, etc.
  */
-export const prescriptionsLoader = ({ params }) => {
+export const prescriptionsLoader = ({ params, request }) => {
   const fetchPromises = [];
   const rxId = params?.prescriptionId || null;
+
+  // Extract station_number from URL query params
+  const url = new URL(request.url);
+  const stationNumber = url.searchParams.get('station_number');
+
+  // Get state to check feature toggles
+  const state = store.getState();
+  const isCernerPilot = selectCernerPilotFlag(state);
 
   // For refill pages, load refillable prescriptions
   if (window.location.pathname.endsWith('/refill')) {
     fetchPromises.push(store.dispatch(getRefillablePrescriptions.initiate()));
   } else if (!rxId) {
-    const state = store.getState();
     const prefs = buildQueryParams(state.rx.preferences);
     fetchPromises.push(store.dispatch(getPrescriptionsList.initiate(prefs)));
   } else if (rxId) {
-    // If on a prescription detail page, fetch that specific prescription
-    fetchPromises.push(store.dispatch(getPrescriptionById.initiate(rxId)));
+    // If on a prescription detail page with v2 API and no station number,
+    // redirect to the prescriptions list
+    if (isCernerPilot && !stationNumber) {
+      return redirect('/my-health/medications');
+    }
+
+    // Fetch that specific prescription
+    fetchPromises.push(
+      store.dispatch(getPrescriptionById.initiate({ id: rxId, stationNumber })),
+    );
   }
 
   return defer(Promise.all(fetchPromises));

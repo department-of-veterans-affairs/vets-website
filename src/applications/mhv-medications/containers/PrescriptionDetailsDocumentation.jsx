@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useParams, useSearchParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import {
   updatePageTitle,
@@ -36,6 +36,8 @@ import {
 
 const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
+  const [searchParams] = useSearchParams();
+  const stationNumber = searchParams.get('station_number');
   const contentRef = useRef();
 
   const { dob, userName } = useSelector(state => ({
@@ -50,7 +52,10 @@ const PrescriptionDetailsDocumentation = () => {
     data: htmlContent,
     isLoading: isLoadingDoc,
     error: hasDocApiError,
-  } = useGetPrescriptionDocumentationQuery(prescriptionId);
+  } = useGetPrescriptionDocumentationQuery({
+    id: prescriptionId,
+    stationNumber,
+  });
 
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);

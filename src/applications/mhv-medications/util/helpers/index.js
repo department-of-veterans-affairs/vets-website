@@ -31,6 +31,7 @@ export {
 export {
   prescriptionMedAndRenewalStatus,
 } from './prescriptionMedAndRenewalStatus';
+export { getPrescriptionDetailUrl } from './getPrescriptionDetailUrl';
 export { processList } from './processList';
 export { rxSourceIsNonVA } from './rxSourceIsNonVA';
 export { sanitizeKramesHtmlStr } from './sanitizeKramesHtmlStr';
