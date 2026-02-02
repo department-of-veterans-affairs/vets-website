@@ -11,15 +11,47 @@ describe('FormRenderer', () => {
         label: 'Veteran information',
         parts: [
           {
-            label: 'Name',
-            value: '{{name.first}} {{name.middle}} {{name.last}}',
-          },
-          {
-            label: 'Mailing address',
+            label: 'Personal information',
             parts: [
               {
-                label: 'Street',
-                value: '123 Main Str.',
+                label: 'Name',
+                value:
+                  '{{veteranInformation.fullName.first}} {{veteranInformation.fullName.middle}} {{veteranInformation.fullName.last}}',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'Add one or more children',
+        listSource: 'childrenToAdd',
+        parts: [
+          {
+            label:
+              'Child {{LIST_INDEX}}: {{fullName.first}} {{fullName.middle}} {{fullName.last}}',
+            parts: [
+              {
+                label: 'Your relationship to this child',
+                parts: [
+                  {
+                    label: 'Is this child your biological child?',
+                    value: "{{formatBool isBiologicalChild 'Yes' 'No'}}",
+                  },
+                  {
+                    label: "What's your relationship to this child?",
+                    style: 'checklist',
+                    options: [
+                      {
+                        label: "They're my adopted child",
+                        value: '{{relationshipToChild.adopted}}',
+                      },
+                      {
+                        label: "They're my stepchild",
+                        value: '{{relationshipToChild.stepchild}}',
+                      },
+                    ],
+                  },
+                ],
               },
             ],
           },
@@ -28,40 +60,56 @@ describe('FormRenderer', () => {
     ],
   };
   const data = {
-    name: {
-      first: 'Sarah',
-      middle: 'Ann',
-      last: 'Johnson',
+    veteranInformation: {
+      fullName: {
+        first: 'Samantha',
+        last: 'Reid',
+        middle: 'Carrie',
+      },
     },
+    childrenToAdd: [
+      {
+        relationshipToChild: {
+          adopted: true,
+          stepchild: true,
+        },
+        isBiologicalChild: false,
+        fullName: {
+          first: 'Andrew',
+          middle: 'Benson',
+          last: 'Nikigawa',
+        },
+      },
+    ],
   };
   it('should render FormRenderer', () => {
     const tree = render(<FormRenderer config={config} data={data} />);
 
     expect(tree.getByText('Veteran information')).to.exist;
-    expect(tree.getByText('Sarah Ann Johnson')).to.exist;
+    expect(tree.getByText('Samantha Carrie Reid')).to.exist;
     tree.unmount();
   });
 
   it('should accurately render the sections as an ordered list', () => {
     const tree = render(<FormRenderer config={config} data={data} />);
 
-    const olElement = document.querySelector('#ol-1');
-    const listItems = document.querySelectorAll('#ol-1 li');
+    const olElement = document.querySelector('#ol-2');
+    const listItems = document.querySelectorAll('#ol-2 li');
 
     expect(olElement).to.exist;
     expect(listItems.length).to.equal(1);
     tree.unmount();
   });
 
-  // it('should accurately render checklist field as a list item', () => {
-  //   const tree = render(<FormRenderer config={config} data={data} />);
+  it('should accurately render checklist field as a list item', () => {
+    const tree = render(<FormRenderer config={config} data={data} />);
 
-  //   const olElement = document.querySelector('#ol-45');
-  //   const listItems = document.querySelectorAll('#ol-45 li');
+    const olElement = document.querySelector('#ol-7');
+    const listItems = document.querySelectorAll('#ol-7 li');
 
-  //   expect(olElement).to.exist;
-  //   expect(listItems.length).to.equal(2);
+    expect(olElement).to.exist;
+    expect(listItems.length).to.equal(2);
 
-  //   tree.unmount();
-  // });
+    tree.unmount();
+  });
 });
