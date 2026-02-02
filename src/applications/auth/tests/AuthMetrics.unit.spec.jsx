@@ -2,12 +2,14 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as Sentry from '@sentry/browser';
+import * as recordEventModule from 'platform/monitoring/record-event';
 
 import {
   CSP_IDS,
   SIGNUP_TYPES,
   POLICY_TYPES,
 } from 'platform/user/authentication/constants';
+import environments from 'site/constants/environments';
 import AuthMetrics from '../containers/AuthMetrics';
 
 const createPayload = (
@@ -31,9 +33,22 @@ const createPayload = (
 const defaultPayload = createPayload();
 
 describe('AuthMetrics', () => {
+  let sandbox;
+  let recordEventStub;
+  const oldBuildType = __BUILDTYPE__;
+
   beforeEach(() => {
+    __BUILDTYPE__ = environments.PRODUCTION;
+    sandbox = sinon.createSandbox();
     global.window = global.window || {};
     global.window.dataLayer = [];
+    recordEventStub = sandbox.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    recordEventStub.restore();
+    sandbox.restore();
+    __BUILDTYPE__ = oldBuildType;
   });
 
   it('should record event using compareLoginPolicy', () => {
@@ -42,37 +57,41 @@ describe('AuthMetrics', () => {
       defaultPayload,
     );
     authMetrics.compareLoginPolicy();
-    const gwData = global.window.dataLayer;
-    const recordedEvent = gwData[gwData.length - 1];
 
-    expect(recordedEvent.event).to.equal('login-mismatch-idme_signup-idme');
+    expect(recordEventStub.called).to.be.true;
+    expect(recordEventStub.firstCall.args[0].event).to.equal(
+      'login-mismatch-idme_signup-idme',
+    );
   });
 
   it('should record `register-success` event using recordGAAuthEvents', () => {
     const authMetrics = new AuthMetrics(POLICY_TYPES.SIGNUP, defaultPayload);
     authMetrics.recordGAAuthEvents();
-    const gwData = global.window.dataLayer;
-    const recordedEvent = gwData[gwData.length - 1];
 
-    expect(recordedEvent.event).to.equal('register-success-idme-ial2');
+    expect(recordEventStub.called).to.be.true;
+    expect(recordEventStub.firstCall.args[0].event).to.equal(
+      'register-success-idme-ial2',
+    );
   });
 
   it('should record `login-success` event using recordGAAuthEvents', () => {
     const authMetrics = new AuthMetrics(CSP_IDS.ID_ME, defaultPayload);
     authMetrics.recordGAAuthEvents();
-    const gwData = global.window.dataLayer;
-    const recordedEvent = gwData[gwData.length - 1];
 
-    expect(recordedEvent.event).to.equal('login-success-idme-ial2');
+    expect(recordEventStub.called).to.be.true;
+    expect(recordEventStub.firstCall.args[0].event).to.equal(
+      'login-success-idme-ial2',
+    );
   });
 
   it('should record `login-or-register-success` event using recordGAAuthEvents', () => {
     const authMetrics = new AuthMetrics('unknownType', defaultPayload);
     authMetrics.recordGAAuthEvents();
-    const gwData = global.window.dataLayer;
-    const recordedEvent = gwData[gwData.length - 1];
 
-    expect(recordedEvent.event).to.equal('login-or-register-success-idme-ial2');
+    expect(recordEventStub.called).to.be.true;
+    expect(recordEventStub.firstCall.args[0].event).to.equal(
+      'login-or-register-success-idme-ial2',
+    );
   });
 
   it('should call reportSentryErrors when userProfile is empty', () => {
@@ -115,10 +134,11 @@ describe('AuthMetrics', () => {
       const payload = createPayload(type);
       const authMetrics = new AuthMetrics(type, payload);
       authMetrics.recordGAAuthEvents();
-      const gwData = global.window.dataLayer;
-      const recordedEvent = gwData[gwData.length - 1];
 
-      expect(recordedEvent.event).to.equal(`login-success-${type}-ial2`);
+      expect(recordEventStub.called).to.be.true;
+      expect(recordEventStub.firstCall.args[0].event).to.equal(
+        `login-success-${type}-ial2`,
+      );
     });
   });
 
@@ -126,26 +146,28 @@ describe('AuthMetrics', () => {
     const payload = createPayload('mhv');
     const authMetrics = new AuthMetrics('mhv', payload);
     authMetrics.recordGAAuthEvents();
-    const [
-      { event: firstEvent },
-      { event: secondEvent },
-    ] = global.window.dataLayer;
 
-    expect(firstEvent).to.eql('login-success-mhv-ial2');
-    expect(secondEvent).to.eql('login-mismatch-myhealthevet-mhv');
+    expect(recordEventStub.called).to.be.true;
+    expect(recordEventStub.firstCall.args[0].event).to.equal(
+      'login-success-mhv-ial2',
+    );
+    expect(recordEventStub.secondCall.args[0].event).to.equal(
+      'login-mismatch-myhealthevet-mhv',
+    );
   });
 
   it('should record the loa.current if exists', () => {
     const payload = createPayload('idme', true, '/loa/3');
     const authMetrics = new AuthMetrics('idme', payload);
     authMetrics.recordGAAuthEvents();
-    const [
-      { event: firstEvent },
-      { event: secondEvent },
-    ] = global.window.dataLayer;
 
-    expect(firstEvent).to.eql('login-success-idme-loa3');
-    expect(secondEvent).to.eql('login-loa-current-3');
+    expect(recordEventStub.called).to.be.true;
+    expect(recordEventStub.firstCall.args[0].event).to.equal(
+      'login-success-idme-loa3',
+    );
+    expect(recordEventStub.secondCall.args[0].event).to.equal(
+      'login-loa-current-3',
+    );
   });
 
   it('should run if no session active', () => {

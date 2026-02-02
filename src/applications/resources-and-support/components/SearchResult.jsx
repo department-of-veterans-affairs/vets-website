@@ -65,9 +65,9 @@ export const SearchResult = ({
 };
 
 SearchResult.propTypes = {
+  position: PropTypes.number.isRequired,
   article: Article,
   page: PropTypes.number,
-  position: PropTypes.number.isRequired,
   query: PropTypes.string,
   totalResults: PropTypes.number,
 };
