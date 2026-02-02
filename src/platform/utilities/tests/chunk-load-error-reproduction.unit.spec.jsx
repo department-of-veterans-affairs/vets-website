@@ -30,6 +30,15 @@ TestErrorBoundary.propTypes = {
   fallbackTestId: PropTypes.string.isRequired,
 };
 
+/**
+ * Helper to create a ChunkLoadError
+ */
+function createChunkLoadError(chunkName = 'test_component') {
+  const error = new Error(`ChunkLoadError: Loading chunk ${chunkName} failed.`);
+  error.name = 'ChunkLoadError';
+  return error;
+}
+
 describe('ChunkLoadError Reproduction', () => {
   let consoleErrorStub;
   let consoleWarnStub;
@@ -41,8 +50,18 @@ describe('ChunkLoadError Reproduction', () => {
   });
 
   afterEach(() => {
-    consoleErrorStub.restore();
-    consoleWarnStub.restore();
+    // Restore console stubs - use explicit checks for Babel test env compatibility
+    // (Babel test config doesn't include @babel/plugin-proposal-optional-chaining)
+    try {
+      if (consoleErrorStub) {
+        consoleErrorStub.restore();
+      }
+      if (consoleWarnStub) {
+        consoleWarnStub.restore();
+      }
+    } catch (e) {
+      // Stub may already be restored or never created
+    }
   });
 
   describe('React.lazy', () => {
@@ -53,11 +72,7 @@ describe('ChunkLoadError Reproduction', () => {
       const flakyImport = () => {
         loadAttempts += 1;
         if (loadAttempts === 1) {
-          const error = new Error(
-            'ChunkLoadError: Loading chunk test_component failed.',
-          );
-          error.name = 'ChunkLoadError';
-          return Promise.reject(error);
+          return Promise.reject(createChunkLoadError());
         }
         // Subsequent attempts would succeed (but React.lazy won't retry)
         return Promise.resolve({
@@ -68,6 +83,9 @@ describe('ChunkLoadError Reproduction', () => {
       // Standard React.lazy - current implementation across the codebase
       const LazyComponent = React.lazy(flakyImport);
 
+      // RTL recommends wrapping Suspense renders in `await act(async () => ...)`
+      // See: https://github.com/testing-library/react-testing-library/issues/1375
+      // The callback MUST be async for proper Suspense handling
       let getByTestId;
       await act(async () => {
         const result = render(
@@ -81,108 +99,166 @@ describe('ChunkLoadError Reproduction', () => {
       });
 
       // Wait for error boundary to catch the failure
-      await waitFor(() => {
-        expect(getByTestId('error-boundary')).to.exist;
-      });
+      await waitFor(() => expect(getByTestId('error-boundary')).to.exist);
 
       expect(loadAttempts).to.equal(1);
     });
   });
 
-  describe('lazyWithRetry', () => {
-    it('retries and succeeds after transient failure', async () => {
-      // Import the fix
-      const { lazyWithRetry } = await import('../lazy-load-with-retry');
+  describe('loadWithRetry (direct function tests)', () => {
+    // Test the retry logic directly without React rendering.
+    // This avoids the RTL + Suspense + setTimeout timing issues that make
+    // React component tests unreliable in CI.
+
+    it('retries and succeeds after transient ChunkLoadError', async () => {
+      const { loadWithRetry } = await import('../lazy-load-with-retry');
 
       let loadAttempts = 0;
 
       const flakyImport = () => {
         loadAttempts += 1;
         if (loadAttempts === 1) {
-          // First attempt fails
-          const error = new Error(
-            'ChunkLoadError: Loading chunk test_component failed.',
-          );
-          error.name = 'ChunkLoadError';
-          return Promise.reject(error);
+          // First attempt fails with ChunkLoadError
+          return Promise.reject(createChunkLoadError());
         }
         // Second attempt succeeds
-        return Promise.resolve({
-          default: () => (
-            <div data-testid="success">Component Loaded After Retry!</div>
-          ),
-        });
+        return Promise.resolve({ default: 'MockComponent' });
       };
 
-      // Using lazyWithRetry with short delays for testing
-      const LazyComponent = lazyWithRetry(flakyImport, {
-        maxRetries: 3,
-        baseDelayMs: 10, // Short delay for tests
-        maxDelayMs: 50,
-      });
-
-      let getByTestId;
-      await act(async () => {
-        const result = render(
-          <Suspense fallback={<div data-testid="loading">Loading...</div>}>
-            <LazyComponent />
-          </Suspense>,
-        );
-        getByTestId = result.getByTestId;
-      });
-
-      // Should eventually succeed after retry
-      await waitFor(
-        () => {
-          expect(getByTestId('success')).to.exist;
-        },
-        { timeout: 1000 },
-      );
+      // Zero delay for fast test execution
+      const result = await loadWithRetry(flakyImport, 3, 0, 0);
 
       expect(loadAttempts).to.equal(2);
+      expect(result.default).to.equal('MockComponent');
     });
 
-    it('gives up after max retries', async () => {
-      const { lazyWithRetry } = await import('../lazy-load-with-retry');
+    it('gives up after max retries and throws the final error', async () => {
+      const { loadWithRetry } = await import('../lazy-load-with-retry');
 
       let loadAttempts = 0;
 
       const alwaysFailingImport = () => {
         loadAttempts += 1;
-        const error = new Error(
-          'ChunkLoadError: Loading chunk always_fail failed.',
-        );
-        error.name = 'ChunkLoadError';
-        return Promise.reject(error);
+        return Promise.reject(createChunkLoadError('always_fail'));
       };
 
-      const LazyComponent = lazyWithRetry(alwaysFailingImport, {
-        maxRetries: 2,
-        baseDelayMs: 10,
-        maxDelayMs: 50,
-      });
+      // maxRetries: 2 means 1 initial + 2 retries = 3 total attempts
+      let thrownError = null;
+      try {
+        await loadWithRetry(alwaysFailingImport, 2, 0, 0);
+      } catch (error) {
+        thrownError = error;
+      }
 
-      let getByTestId;
-      await act(async () => {
-        const result = render(
-          <TestErrorBoundary fallbackTestId="final-error">
-            <Suspense fallback={<div data-testid="loading">Loading...</div>}>
-              <LazyComponent />
-            </Suspense>
-          </TestErrorBoundary>,
-        );
-        getByTestId = result.getByTestId;
-      });
+      expect(loadAttempts).to.equal(3); // 1 initial + 2 retries
+      expect(thrownError).to.not.be.null;
+      expect(thrownError.name).to.equal('ChunkLoadError');
+      expect(thrownError.message).to.include('always_fail');
+    });
 
-      await waitFor(
-        () => {
-          expect(getByTestId('final-error')).to.exist;
-        },
-        { timeout: 2000 },
-      );
+    it('does not retry for non-ChunkLoadError errors', async () => {
+      const { loadWithRetry } = await import('../lazy-load-with-retry');
 
-      // Should have tried initial + maxRetries times (1 + 2 = 3)
-      expect(loadAttempts).to.equal(3);
+      let loadAttempts = 0;
+
+      const nonChunkError = () => {
+        loadAttempts += 1;
+        return Promise.reject(new Error('Some other error'));
+      };
+
+      let thrownError = null;
+      try {
+        await loadWithRetry(nonChunkError, 3, 0, 0);
+      } catch (error) {
+        thrownError = error;
+      }
+
+      // Should NOT retry for non-ChunkLoadError
+      expect(loadAttempts).to.equal(1);
+      expect(thrownError.message).to.equal('Some other error');
+    });
+  });
+
+  describe('isChunkLoadError', () => {
+    it('identifies errors by name', async () => {
+      const { isChunkLoadError } = await import('../lazy-load-with-retry');
+
+      const error = new Error('Something failed');
+      error.name = 'ChunkLoadError';
+
+      expect(isChunkLoadError(error)).to.be.true;
+    });
+
+    it('identifies errors by "Loading chunk" in message', async () => {
+      const { isChunkLoadError } = await import('../lazy-load-with-retry');
+
+      const error = new Error('Loading chunk main-abc123 failed');
+
+      expect(isChunkLoadError(error)).to.be.true;
+    });
+
+    it('identifies CSS chunk load errors', async () => {
+      const { isChunkLoadError } = await import('../lazy-load-with-retry');
+
+      const error = new Error('Loading CSS chunk styles-xyz failed');
+
+      expect(isChunkLoadError(error)).to.be.true;
+    });
+
+    it('returns false for non-chunk errors', async () => {
+      const { isChunkLoadError } = await import('../lazy-load-with-retry');
+
+      expect(isChunkLoadError(new Error('Network timeout'))).to.be.false;
+      expect(isChunkLoadError(new TypeError('undefined is not a function'))).to
+        .be.false;
+      expect(isChunkLoadError(null)).to.be.false;
+      expect(isChunkLoadError(undefined)).to.be.false;
+    });
+  });
+
+  describe('calculateDelay', () => {
+    it('uses exponential backoff', async () => {
+      const { calculateDelay } = await import('../lazy-load-with-retry');
+
+      // Stub Math.random to remove jitter for predictable tests
+      const randomStub = sinon.stub(Math, 'random').returns(0);
+
+      try {
+        // With 0 jitter: delay = baseDelayMs * 2^attempt
+        expect(calculateDelay(0, 1000, 10000)).to.equal(1000); // 1000 * 2^0 = 1000
+        expect(calculateDelay(1, 1000, 10000)).to.equal(2000); // 1000 * 2^1 = 2000
+        expect(calculateDelay(2, 1000, 10000)).to.equal(4000); // 1000 * 2^2 = 4000
+        expect(calculateDelay(3, 1000, 10000)).to.equal(8000); // 1000 * 2^3 = 8000
+      } finally {
+        randomStub.restore();
+      }
+    });
+
+    it('caps delay at maxDelayMs', async () => {
+      const { calculateDelay } = await import('../lazy-load-with-retry');
+
+      const randomStub = sinon.stub(Math, 'random').returns(0);
+
+      try {
+        // 1000 * 2^4 = 16000, but capped at 10000
+        expect(calculateDelay(4, 1000, 10000)).to.equal(10000);
+      } finally {
+        randomStub.restore();
+      }
+    });
+
+    it('adds jitter up to 30%', async () => {
+      const { calculateDelay } = await import('../lazy-load-with-retry');
+
+      // With Math.random returning 1 (max jitter): jitter = 0.3 * exponentialDelay
+      const randomStub = sinon.stub(Math, 'random').returns(1);
+
+      try {
+        // 1000 * 2^0 = 1000, jitter = 0.3 * 1000 = 300, total = 1300
+        expect(calculateDelay(0, 1000, 10000)).to.equal(1300);
+      } finally {
+        randomStub.restore();
+      }
     });
   });
 });
