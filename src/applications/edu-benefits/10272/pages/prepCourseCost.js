@@ -5,12 +5,12 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 const uiSchema = {
-  ...titleUI('Enter the cost of the prep course including all fees'),
+  ...titleUI('Enter the cost of the prep course including any fees'),
   'ui:description': () => (
     <>
       <p>
         Enter the cost of the prep course you took or plan to take. You can only
-        list one prep course per request, inlucding any required fees. (We can
+        list one prep course per request, including any required fees. (We can
         only reimburse you for requried test fees.) We have no authority to
         reimburse you for any optional costs related to prep course process.
       </p>

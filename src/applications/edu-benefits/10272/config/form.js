@@ -116,7 +116,7 @@ const formConfig = {
         },
         prepCourseCost: {
           path: 'prep-course-details-4',
-          title: 'Enter the cost of the prep course including all fees',
+          title: 'Enter the cost of the prep course including any fees',
           uiSchema: prepCourseCost.uiSchema,
           schema: prepCourseCost.schema,
         },
