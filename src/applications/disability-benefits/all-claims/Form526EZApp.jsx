@@ -52,6 +52,7 @@ import {
   MissingServices,
 } from './containers/MissingServices';
 import ClaimFormSideNav from './components/ClaimFormSideNav';
+import ClaimFormSideNavErrorBoundary from './components/ClaimFormSideNavErrorBoundary';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -96,6 +97,7 @@ export const Form526Entry = ({
   form,
   inProgressFormId,
   isBDDForm,
+  itf,
   location,
   loggedIn,
   mvi,
@@ -305,7 +307,8 @@ export const Form526Entry = ({
     ];
 
     const pathname = location?.pathname?.replace(/\/+$/, '') || '';
-    const shouldHideNav = hideNavPaths.some(p => pathname.endsWith(p));
+    const shouldHideNav =
+      hideNavPaths.some(p => pathname.endsWith(p)) || !itf?.messageDismissed;
     const contentHiddenSideNavClass = shouldHideNav
       ? ``
       : ` medium-screen:vads-grid-col-9`;
@@ -320,13 +323,18 @@ export const Form526Entry = ({
         <div className="vads-grid-row vads-u-margin-x--neg2p5">
           {shouldHideNav ? null : (
             <div className="vads-u-padding-x--2p5 vads-u-padding-bottom--3 vads-grid-col-12 medium-screen:vads-grid-col-3">
-              <ClaimFormSideNav
-                enableAnalytics
-                formData={form?.data}
+              <ClaimFormSideNavErrorBoundary
                 pathname={pathname}
-                router={router}
-                setFormData={setFormData}
-              />
+                formData={form?.data}
+              >
+                <ClaimFormSideNav
+                  enableAnalytics
+                  formData={form?.data}
+                  pathname={pathname}
+                  router={router}
+                  setFormData={setFormData}
+                />
+              </ClaimFormSideNavErrorBoundary>
             </div>
           )}
           <div
@@ -368,6 +376,9 @@ Form526Entry.propTypes = {
   inProgressFormId: PropTypes.number,
   isBDDForm: PropTypes.bool,
   isStartingOver: PropTypes.bool,
+  itf: PropTypes.shape({
+    messageDismissed: PropTypes.bool,
+  }),
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
@@ -393,6 +404,7 @@ const mapStateToProps = state => ({
   inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   isBDDForm: isBDD(state?.form?.data),
   isStartingOver: state.form?.isStartingOver,
+  itf: state.itf,
   loggedIn: isLoggedIn(state),
   mvi: state.mvi,
   savedForms: state?.user?.profile?.savedForms || [],
