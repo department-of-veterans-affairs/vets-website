@@ -14,7 +14,6 @@ import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAler
 import * as Constants from '../util/constants';
 import { BlockedTriageAlertStyles, ParentComponent } from '../util/constants';
 import { getRecentRecipients } from '../actions/recipients';
-import { focusOnErrorField } from '../util/formHelpers';
 import { updateDraftInProgress } from '../actions/threadDetails';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 import manifest from '../manifest.json';
@@ -42,6 +41,7 @@ const RecentCareTeams = () => {
     error: recipientsError,
   } = recipients;
   const h1Ref = useRef(null);
+  const radioRef = useRef(null);
   const {
     mhvSecureMessagingRecentRecipients,
     featureTogglesLoading,
@@ -144,7 +144,11 @@ const RecentCareTeams = () => {
       event?.preventDefault();
       if (!selectedCareTeam) {
         setError('Select a care team');
-        focusOnErrorField();
+        setTimeout(() => {
+          if (radioRef.current) {
+            radioRef.current.focus();
+          }
+        }, 100);
         return;
       }
       setError(null); // Clear error on valid submit
@@ -221,6 +225,7 @@ const RecentCareTeams = () => {
       )}
       <EmergencyNote dropDownFlag />
       <VaRadio
+        ref={radioRef}
         class="vads-u-margin-bottom--3"
         error={error}
         label={RECENT_RECIPIENTS_LABEL}
@@ -228,7 +233,6 @@ const RecentCareTeams = () => {
         label-header-level="2"
         required
         onVaValueChange={handleRadioChange}
-        message-aria-describedby="recent-care-teams-error"
         data-testid="recent-care-teams-radio-group"
       >
         {Array.isArray(recentRecipients) &&
