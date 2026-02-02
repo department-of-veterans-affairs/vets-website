@@ -147,18 +147,24 @@ export const delFolder = folderId => async dispatch => {
   }
 };
 
-export const renameFolder = (folderId, newName) => async dispatch => {
+export const renameFolder = (
+  folderId,
+  newName,
+  suppressAlert = false,
+) => async dispatch => {
   try {
     await updateFolderName(folderId, newName);
     await dispatch(getFolders());
     await dispatch(retrieveFolder(folderId));
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_SUCCESS,
-        '',
-        Constants.Alerts.Folder.RENAME_FOLDER_SUCCESS,
-      ),
-    );
+    if (!suppressAlert) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_SUCCESS,
+          '',
+          Constants.Alerts.Folder.RENAME_FOLDER_SUCCESS,
+        ),
+      );
+    }
   } catch (e) {
     sendDatadogError(e, 'action_folders_getFolders');
     if (e.errors && e.errors.length > 0 && e.errors[0].code === 'SM126') {
