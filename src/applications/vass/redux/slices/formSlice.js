@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
+import { FLOW_TYPES } from '../../utils/constants';
 
 // Storage key constants
 const VASS_CURRENT_UUID_KEY = 'vass_current_uuid';
@@ -67,16 +68,16 @@ const clearFormDataFromStorage = () => {
 };
 
 /** @typedef {{ topicId: string, topicName: string }} Topic */
-/** @type {{ selectedDate: Date | null, selectedTopics: Topic[], obfuscatedEmail: string | null, uuid: string | null, token: string | null, lastname: string | null, dob: string | null }} */
+/** @type {{ selectedDate: Date | null, selectedTopics: Topic[], obfuscatedEmail: string | null, uuid: string | null, token: string | null, lastname: string | null, dob: string | null, flowType: string | null }} */
 const initialState = {
   hydrated: false,
   selectedDate: null,
   selectedTopics: [],
   obfuscatedEmail: null,
-  token: null,
   uuid: null,
-  lastname: null,
+  lastName: null,
   dob: null,
+  flowType: FLOW_TYPES.ANY,
 };
 
 export const formSlice = createSlice({
@@ -101,12 +102,6 @@ export const formSlice = createSlice({
         });
       }
     },
-    setToken: (state, action) => {
-      state.token = action.payload;
-      if (state.uuid) {
-        saveFormDataToStorage(state.uuid, { ...state, token: action.payload });
-      }
-    },
     setObfuscatedEmail: (state, action) => {
       state.obfuscatedEmail = action.payload;
       if (state.uuid) {
@@ -118,15 +113,18 @@ export const formSlice = createSlice({
     },
     setLowAuthFormData: (state, action) => {
       state.uuid = action.payload.uuid;
-      state.lastname = action.payload.lastname;
+      state.lastName = action.payload.lastName;
       state.dob = action.payload.dob;
       // Save to storage keyed by UUID
       saveFormDataToStorage(action.payload.uuid, {
         ...state,
         uuid: action.payload.uuid,
-        lastname: action.payload.lastname,
+        lastName: action.payload.lastName,
         dob: action.payload.dob,
       });
+    },
+    setFlowType: (state, action) => {
+      state.flowType = action.payload;
     },
     clearFormData: state => {
       // Clear from storage before resetting state
@@ -135,18 +133,18 @@ export const formSlice = createSlice({
       state.selectedTopics = [];
       state.obfuscatedEmail = null;
       state.uuid = null;
-      state.token = null;
-      state.lastname = null;
+      state.lastName = null;
       state.dob = null;
       state.hydrated = false;
+      state.flowType = FLOW_TYPES.ANY;
     },
     hydrateFormData: (state, action) => {
       state.hydrated = true;
       if (action.payload.uuid) {
         state.uuid = action.payload.uuid;
       }
-      if (action.payload.lastname) {
-        state.lastname = action.payload.lastname;
+      if (action.payload.lastName) {
+        state.lastName = action.payload.lastName;
       }
       if (action.payload.dob) {
         state.dob = action.payload.dob;
@@ -154,14 +152,14 @@ export const formSlice = createSlice({
       if (action.payload.obfuscatedEmail) {
         state.obfuscatedEmail = action.payload.obfuscatedEmail;
       }
-      if (action.payload.token) {
-        state.token = action.payload.token;
-      }
       if (action.payload.selectedDate) {
         state.selectedDate = action.payload.selectedDate;
       }
       if (action.payload.selectedTopics) {
         state.selectedTopics = action.payload.selectedTopics;
+      }
+      if (action.payload.flowType) {
+        state.flowType = action.payload.flowType;
       }
     },
   },
@@ -171,8 +169,8 @@ export const {
   setSelectedDate,
   setSelectedTopics,
   setLowAuthFormData,
-  setToken,
   setObfuscatedEmail,
+  setFlowType,
   clearFormData,
   hydrateFormData,
 } = formSlice.actions;
@@ -181,9 +179,9 @@ export const selectSelectedDate = state => state.vassForm.selectedDate;
 export const selectSelectedTopics = state => state.vassForm.selectedTopics;
 export const selectUuid = state => state.vassForm.uuid;
 export const selectHydrated = state => state.vassForm.hydrated;
-export const selectToken = state => state.vassForm.token;
 export const selectObfuscatedEmail = state => state.vassForm.obfuscatedEmail;
-export const selectLastname = state => state.vassForm.lastname;
+export const selectLastName = state => state.vassForm.lastName;
 export const selectDob = state => state.vassForm.dob;
+export const selectFlowType = state => state.vassForm.flowType;
 
 export default formSlice.reducer;

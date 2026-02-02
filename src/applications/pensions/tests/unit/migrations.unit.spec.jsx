@@ -4,6 +4,7 @@ import v3formData from '../fixtures/data/v3formData.json';
 import v4formData from '../fixtures/data/v4formData.json';
 import v3formDataMigrated from '../fixtures/data/v3formDataMigrated.json';
 import v8formData from '../fixtures/data/v8formData.json';
+import v11formData from '../fixtures/data/v11formData.json';
 
 import migrations from '../../migrations';
 
@@ -350,6 +351,47 @@ describe('Pension migrations', () => {
     });
 
     expect(formData).to.eql(v8formData);
+    expect(metadata.returnUrl).to.eq('/review-and-submit');
+  });
+  it('should update from v10 to v11', () => {
+    const { formData, metadata } = migrations[10]({
+      formData: {
+        ...v11formData,
+        // Simulate having extra spouse fields outside of marriages array
+        spouseFullName: { first: 'abc', last: 'xyz' },
+        reasonForSeparation: 'DIVORCE',
+        dateOfMarriage: '2000-01-01',
+        dateOfSeparation: '2005-01-01',
+        locationOfMarriage: 'Test, CA',
+        locationOfSeparation: 'United States',
+      },
+      metadata: {
+        returnUrl: '/review-and-submit',
+      },
+    });
+
+    expect(formData).to.eql(v11formData);
+    expect(metadata.returnUrl).to.eq('/review-and-submit');
+  });
+  it('should update from v11 to v12', () => {
+    const { formData, metadata } = migrations[11]({
+      formData: {
+        ...v11formData,
+        // Simulate having extra spouse fields outside of marriages array
+        'view:pastMarriage': {
+          reasonForSeparation: 'DIVORCE',
+          dateOfMarriage: '2000-01-01',
+          dateOfSeparation: '2005-01-01',
+          locationOfMarriage: 'Test, CA',
+          locationOfSeparation: 'United States',
+        },
+      },
+      metadata: {
+        returnUrl: '/review-and-submit',
+      },
+    });
+
+    expect(formData).to.eql(v11formData);
     expect(metadata.returnUrl).to.eq('/review-and-submit');
   });
 });

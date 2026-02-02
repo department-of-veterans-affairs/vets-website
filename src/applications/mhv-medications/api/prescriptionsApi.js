@@ -13,7 +13,10 @@ import {
   INCLUDE_IMAGE_ENDPOINT,
   rxListSortingOptions,
 } from '../util/constants';
-import { selectCernerPilotFlag } from '../util/selectors';
+import {
+  selectCernerPilotFlag,
+  selectEnableKramesHtmlSanitizationFlag,
+} from '../util/selectors';
 
 export const documentationApiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -188,6 +191,23 @@ export const transformBulkRefillResponse = response => {
   };
 };
 
+export const transformPrescriptionDocumentationResponse = (response, state) => {
+  const html = response?.data?.attributes?.html;
+
+  if (!html) {
+    return null;
+  }
+
+  // Check feature flag to determine if we should use the sanitizer
+  // Default to true (sanitize) when flag is not set or loading
+  const shouldEnableSanitization =
+    !state?.featureToggles ||
+    state.featureToggles.loading ||
+    selectEnableKramesHtmlSanitizationFlag(state) !== false;
+
+  return shouldEnableSanitization ? sanitizeKramesHtmlStr(html) : html;
+};
+
 // Create the prescriptions API slice
 export const prescriptionsApi = createApi({
   reducerPath: 'prescriptionsApi',
@@ -246,15 +266,17 @@ export const prescriptionsApi = createApi({
     }),
     getPrescriptionDocumentation: builder.query({
       // This endpoint always hits v1 docs API regardless of Cerner pilot flag
-      async queryFn(id) {
+      async queryFn(id, { getState }) {
         try {
           const response = await apiRequest(
             `${documentationApiBasePath}/prescriptions/${id}/documentation`,
           );
 
-          const html = response?.data?.attributes?.html
-            ? sanitizeKramesHtmlStr(response.data.attributes.html)
-            : null;
+          const state = getState();
+          const html = transformPrescriptionDocumentationResponse(
+            response,
+            state,
+          );
 
           return { data: html };
         } catch (error) {

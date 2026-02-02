@@ -2,7 +2,10 @@ export {
   default as AddressViewField,
 } from './src/js/components/AddressViewField';
 
-export { default as FormNavButtons } from './src/js/components/FormNavButtons';
+export {
+  default as FormNavButtons,
+  FormNavButtonContinue,
+} from './src/js/components/FormNavButtons';
 
 export { default as FormTitle } from './src/js/components/FormTitle';
 

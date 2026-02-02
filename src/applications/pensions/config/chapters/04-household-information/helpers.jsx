@@ -7,6 +7,11 @@ import React from 'react';
 import { isWithinInterval, parseISO, startOfDay, subYears } from 'date-fns';
 import { showPdfFormAlignment } from '../../../helpers';
 
+/**
+ * Checks if the marital status is 'SEPARATED'
+ * @param {object} formData - Full form data
+ * @returns {boolean} True if marital status is 'SEPARATED'
+ */
 export function isSeparated(formData) {
   return formData.maritalStatus === 'SEPARATED';
 }
@@ -31,10 +36,22 @@ export function hasMarriageHistory(formData = {}) {
   return validStatuses.includes(formData.maritalStatus);
 }
 
+/**
+ * Checks if the form data indicates the presence of dependents.
+ * @param {object} formData - Full form data
+ * @returns {boolean} True if dependents are indicated
+ */
 export function doesHaveDependents(formData) {
   return get(['view:hasDependents'], formData) === true;
 }
 
+/**
+ * Checks if the marriage at the given index is the current marriage
+ * @param {object} formData - Full form data
+ * @param {number} index - Index of the marriage in the marriages array
+ * @returns {boolean} True if the marriage at the given index is the current
+ * marriage
+ */
 export function isCurrentMarriage(formData = {}, index) {
   const numMarriages = Array.isArray(formData.marriages)
     ? formData.marriages.length
@@ -60,6 +77,11 @@ export function requiresSpouseInfo(formData = {}) {
   return ['MARRIED', 'SEPARATED'].includes(formData.maritalStatus);
 }
 
+/**
+ * Checks if the current spouse has former marriages
+ * @param {object} formData - Full form data
+ * @returns {boolean} True if the current spouse has former marriages
+ */
 export function currentSpouseHasFormerMarriages(formData) {
   return (
     hasMarriageHistory(formData) &&
@@ -67,6 +89,11 @@ export function currentSpouseHasFormerMarriages(formData) {
   );
 }
 
+/**
+ * Determines if the spouse address page should be shown
+ * @param {object} formData - Full form data
+ * @returns {boolean} True if the spouse address should be shown
+ */
 export function showSpouseAddress(formData) {
   return (
     hasMarriageHistory(formData) &&
@@ -76,6 +103,11 @@ export function showSpouseAddress(formData) {
   );
 }
 
+/**
+ * Determines if a dependent child is between 18 and 23 years old
+ * @param {string} childDOB - Child's date of birth in ISO format
+ * @returns {boolean} True if the child is between 18 and 23 years old
+ */
 export function isBetween18And23(childDOB) {
   if (!childDOB) return false;
   const today = startOfDay(new Date());
@@ -88,6 +120,12 @@ export function isBetween18And23(childDOB) {
   });
 }
 
+/**
+ * Determines if a dependent is outside the household
+ * @param {object} formData - Full form data
+ * @param {number} index - Index of the dependent in the dependents array
+ * @returns {boolean} True if the dependent is outside the household
+ */
 export function dependentIsOutsideHousehold(formData, index) {
   // if 'view:hasDependents' is false,
   // all checks requiring dependents must be false
@@ -97,11 +135,23 @@ export function dependentIsOutsideHousehold(formData, index) {
   );
 }
 
+/**
+ * Creates the title for a marriage based on its index
+ * @param {number} index - marriage index
+ * @returns {string} Title for the marriage, e.g. first marriage, second marriage
+ */
 export function getMarriageTitle(index) {
   const desc = numberToWords(index + 1);
   return `${titleCase(desc)} marriage`;
 }
 
+/**
+ * Creates the title for a marriage based on its index, with special handling
+ * for the current marriage
+ * @param {object} form - Full form data
+ * @param {number} index - marriage index
+ * @returns {string} Title for the marriage, e.g. first marriage, second marriage
+ */
 export function getMarriageTitleWithCurrent(form = {}, index) {
   const numMarriages = Array.isArray(form.marriages)
     ? form.marriages.length
@@ -117,6 +167,12 @@ export function getMarriageTitleWithCurrent(form = {}, index) {
   return getMarriageTitle(index);
 }
 
+/**
+ * Create the title for a dependent child
+ * @param {object} item - Dependent child array item
+ * @param {string} description - Description to append to the child's name
+ * @returns {string} Title for the dependent child
+ */
 export function getDependentChildTitle(item, description) {
   if (item.fullName) {
     return `${item.fullName.first || ''} ${item.fullName.last ||
@@ -125,6 +181,12 @@ export function getDependentChildTitle(item, description) {
   return description;
 }
 
+/**
+ * Creates a selector for the spouse's full name to be used in page titles used
+ * within updateSchema function
+ * @param {function} nameTemplate - Function to build spouse's full name
+ * @returns {object} Selector object with title property
+ */
 export function createSpouseLabelSelector(nameTemplate) {
   return createSelector(
     form =>

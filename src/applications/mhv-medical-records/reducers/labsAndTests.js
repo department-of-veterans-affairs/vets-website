@@ -1,4 +1,4 @@
-import { parseISO, format } from 'date-fns';
+import { parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatObservationInterpretations,
@@ -12,6 +12,7 @@ import {
   decodeBase64Report,
   formatNameFirstToLast,
   buildInitialDateRange,
+  formatDateTime,
 } from '../util/helpers';
 import {
   areDatesEqualToMinute,
@@ -509,22 +510,13 @@ export const convertLabsAndTestsRecord = record => {
     : { ...record, type: labTypes.OTHER };
 };
 
-export function formatDateTime(datetimeString) {
-  const dateTime = new Date(datetimeString);
-  if (Number.isNaN(dateTime.getTime())) {
-    return { formattedDate: '', formattedTime: '' };
-  }
-  const formattedDate = format(dateTime, 'MMMM d, yyyy');
-  const formattedTime = format(dateTime, 'h:mm a');
-
-  return { formattedDate, formattedTime };
-}
-
 export const convertUnifiedLabsAndTestRecord = record => {
   const { formattedDate, formattedTime } = formatDateTime(
     record.attributes.dateCompleted,
   );
-  const date = formattedDate ? `${formattedDate}, ${formattedTime}` : '';
+  const date = formattedDate
+    ? `${formattedDate}, ${formattedTime}`
+    : EMPTY_FIELD;
   return {
     id: record.id,
     date,

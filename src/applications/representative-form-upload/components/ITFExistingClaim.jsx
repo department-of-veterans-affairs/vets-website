@@ -1,12 +1,15 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
+import { focusElement } from 'platform/utilities/ui';
+import { scrollTo } from 'platform/utilities/scroll';
 import ITFClaimantStatusWrapper from './ITFClaimantStatusWrapper';
 import { expiresIn, expiresSoonIcon, benefitCopy } from '../helpers/index';
 
 const ITFExistingClaim = ({ location, route, router }) => {
+  const alertRef = useRef(null);
   const { data: formData } = useSelector(state => state.form);
   const { expirationDate, type } = formData['view:activeITF'].attributes;
 
@@ -20,9 +23,25 @@ const ITFExistingClaim = ({ location, route, router }) => {
     route.pageList,
     router,
   ]);
+
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo(alertRef.current);
+        focusElement('h2', {}, alertRef.current);
+      }
+    },
+    [alertRef],
+  );
+
   return (
     <ITFClaimantStatusWrapper>
-      <va-alert close-btn-aria-label="Close notification" status="info" visible>
+      <va-alert
+        ref={alertRef}
+        close-btn-aria-label="Close notification"
+        status="info"
+        visible
+      >
         <h2 slot="headline">This claimant has an intent to file</h2>
         <p>
           The current intent to file has to expire before you can submit a new
