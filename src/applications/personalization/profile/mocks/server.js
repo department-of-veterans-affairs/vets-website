@@ -29,6 +29,7 @@ const fullName = require('./endpoints/full-name');
 const {
   baseUserTransitionAvailabilities,
 } = require('./endpoints/user-transition-availabilities');
+const connectedApps = require('./endpoints/connected-apps');
 
 const error500 = require('../tests/fixtures/500.json');
 const error401 = require('../tests/fixtures/401.json');
@@ -522,6 +523,16 @@ const responses = {
     // return res.status(500).json(error500);
 
     delaySingleResponse(() => res.json(mockedRes), 1);
+  },
+
+  'GET /v0/profile/connected_applications': (req, res) => {
+    return delaySingleResponse(() => res.json(connectedApps.connectedApps), 1);
+  },
+  'DELETE /v0/profile/connected_applications/:appId': (req, res) => {
+    return delaySingleResponse(
+      () => connectedApps.deleteConnectedApp(req, res),
+      1,
+    );
   },
 
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
