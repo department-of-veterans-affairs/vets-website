@@ -61,7 +61,8 @@ $nav-small-screen-breakpoint: 30em;
 
   .mhv-u-sec-nav-header-style {
     flex: 0 0 100%;
-    min-height: 43px;
+    min-height: 33px;
+    padding: 5px;
 
     a, a:hover, a:visited, a:active {
       display: block;
