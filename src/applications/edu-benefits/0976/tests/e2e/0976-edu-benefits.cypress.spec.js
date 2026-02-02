@@ -10,35 +10,50 @@ import manifest from '../../manifest.json';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['minimal-test', 'maximal-test'],
+    dataSets: ['minimal-test'],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
+          cy.findAllByText(/^start your application without signing in/i, {
+            selector: 'a',
+          })
             .last()
             .click({ force: true });
         });
       },
-      // Example page hook
-      // All paths are already automatically filled out based on fixtures.
-      // But if you want to manually test a page add the path.
-      // 'name-and-date-of-birth': ({ afterHook }) => {
-      //   cy.injectAxeThenAxeCheck();
-      //   afterHook(() => {
-      //     cy.get('@testData').then(() => {
-      //       cy.fillPage(); // fills all fields based on fixtures.
-      //       cy.axeCheck();
-      //       cy.findByText(/continue/i, { selector: 'button' }).click();
-      //     });
+      'primary-institution-details': ({ afterHook }) => {
+        afterHook(() => {
+          cy.selectVaRadioOption('root_hasVaFacilityCode', 'N');
+          cy.tabToSubmitForm();
+        });
+      },
+      // 'primary-institution-details-2': ({ afterHook }) => {
+      //   afterhook(() => {
+      //     cy.selectvaradiooption(
+      //       'root_primaryinstitutiondetails_type',
+      //       'public',
+      //     );
+      //     cy.tabtosubmitform();
       //   });
       // },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-text-input[id="veteran-signature"]').then(el => {
+            cy.fillVaTextInput(el, 'John Doe');
+          });
+          cy.get('va-checkbox[id="veteran-certify"]').then(el => {
+            cy.selectVaCheckbox(el, true);
+          });
+          cy.tabToSubmitForm();
+        });
+      },
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/user', user);
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
-      cy.login(user);
     },
     skip: Cypress.env('CI'), // Skip CI initially until content-build is merged
   },
