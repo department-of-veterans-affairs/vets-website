@@ -1,16 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { useLocation, useParams } from 'react-router-dom-v5-compat';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom-v5-compat';
+import { useBreadcrumbFocus } from 'platform/mhv/hooks/useBreadcrumbFocus';
 import { createBreadcrumbs } from '../util/helpers';
 import { medicationsUrls } from '../util/constants';
 import { selectPageNumber } from '../selectors/selectPreferences';
 
 const RxBreadcrumbs = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { prescriptionId } = useParams();
   const currentPage = useSelector(selectPageNumber);
   const [breadcrumbs, setBreadcrumbs] = useState([]);
+
+  const onRouteChange = useCallback(
+    ({ detail }) => {
+      const href = detail?.href;
+      if (!href) return;
+
+      const url = new URL(href, window.location.origin);
+      navigate(`${url.pathname}${url.search}${url.hash}`);
+    },
+    [navigate],
+  );
+
+  const { handleRouteChange, handleClick } = useBreadcrumbFocus({
+    onRouteChange,
+  });
 
   useEffect(
     () => {
@@ -53,6 +74,8 @@ const RxBreadcrumbs = () => {
         label="Breadcrumb"
         data-testid="rx-breadcrumb"
         breadcrumbList={breadcrumbs}
+        onRouteChange={handleRouteChange}
+        onClick={handleClick}
         className="no-print va-breadcrumbs-li vads-u-margin-bottom--neg1p5 vads-u-display--block"
       />
     );
