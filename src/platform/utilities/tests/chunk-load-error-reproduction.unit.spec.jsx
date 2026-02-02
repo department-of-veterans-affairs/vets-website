@@ -50,10 +50,15 @@ describe('ChunkLoadError Reproduction', () => {
   });
 
   afterEach(() => {
-    // Restore console stubs - use try/catch in case test failed before stubs were created
+    // Restore console stubs - use explicit checks for Babel test env compatibility
+    // (Babel test config doesn't include @babel/plugin-proposal-optional-chaining)
     try {
-      consoleErrorStub?.restore();
-      consoleWarnStub?.restore();
+      if (consoleErrorStub) {
+        consoleErrorStub.restore();
+      }
+      if (consoleWarnStub) {
+        consoleWarnStub.restore();
+      }
     } catch (e) {
       // Stub may already be restored or never created
     }
