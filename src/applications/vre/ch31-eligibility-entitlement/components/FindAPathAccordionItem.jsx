@@ -1,15 +1,16 @@
 import React from 'react';
 
-export default function FindAPathSection() {
+export default function FindAPathAccordionItem() {
   return (
-    <>
-      <h2 className="va-nav-linkslist-heading vads-u-margin-top--1 vads-u-margin-bottom--0">
-        2. Find a Path
-      </h2>
-      <ul className="va-nav-linkslist-list">
+    <va-accordion-item header="2. Find a Path" open bordered>
+      <ul className="va-nav-linkslist-list vads-u-margin-bottom--3">
         <li>
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-            <va-link href="https://www.va.gov" text="Orientation Video" />
+            <va-link
+              href="https://www.youtube.com/watch?v=49eWvGitLPw"
+              text="Orientation Video"
+              external
+            />
           </h3>
           <p className="va-nav-linkslist-description">
             Learn more about the 5 tracks that you can use in VR&E.
@@ -17,7 +18,11 @@ export default function FindAPathSection() {
         </li>
         <li>
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-            <va-link href="https://www.va.gov" text="Employment Options" />
+            <va-link
+              href="https://www.careeronestop.org/ExploreCareers/Learn/self-employment.aspx?secondaryNavPanels=Ag%3D%3D"
+              text="Employment Options"
+              external
+            />
           </h3>
           <p className="va-nav-linkslist-description">
             Return to your last employer, find a transferable skills occupation,
@@ -27,8 +32,9 @@ export default function FindAPathSection() {
         <li>
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
             <va-link
-              href="https://www.va.gov"
+              href="https://www.careeronestop.org/Toolkit/Training/find-local-training.aspx"
               text="Location Training Finder"
+              external
             />
           </h3>
           <p className="va-nav-linkslist-description">
@@ -38,7 +44,11 @@ export default function FindAPathSection() {
         </li>
         <li>
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-            <va-link href="https://www.va.gov" text="Certification Finder" />
+            <va-link
+              href="https://www.careeronestop.org/Toolkit/Training/find-certifications.aspx"
+              text="Certification Finder"
+              external
+            />
           </h3>
           <p className="va-nav-linkslist-description">
             Explore certifications available for your chosen field and
@@ -46,6 +56,6 @@ export default function FindAPathSection() {
           </p>
         </li>
       </ul>
-    </>
+    </va-accordion-item>
   );
 }
