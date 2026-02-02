@@ -39,7 +39,7 @@ export const verifyHandler = ({
  *
  * @returns The updated design of the ID.me identity-verification button
  */
-export const VerifyIdmeButton = ({ queryParams, useOAuth = false }) => {
+export const VerifyIdmeButton = ({ queryParams, useOAuth = true }) => {
   const { altImage, policy } = SERVICE_PROVIDERS.idme;
   const forceOAuth = useSelector(isAuthenticatedWithOAuth) || useOAuth;
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -83,7 +83,7 @@ export const VerifyIdmeButton = ({ queryParams, useOAuth = false }) => {
  *
  * @returns The updated design of the Login.gov identity-verification button
  */
-export const VerifyLogingovButton = ({ queryParams, useOAuth = false }) => {
+export const VerifyLogingovButton = ({ queryParams, useOAuth = true }) => {
   const { image, policy } = SERVICE_PROVIDERS.logingov;
   const forceOAuth = useSelector(isAuthenticatedWithOAuth) || useOAuth;
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -120,7 +120,7 @@ export const VerifyButton = ({
   csp,
   onClick = verifyHandler,
   queryParams,
-  useOAuth = false,
+  useOAuth = true,
 }) => {
   const { image } = SERVICE_PROVIDERS[csp];
   const className = `usa-button ${csp}-verify-buttons`;

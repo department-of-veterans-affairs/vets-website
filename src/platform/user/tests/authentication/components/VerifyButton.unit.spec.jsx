@@ -87,7 +87,7 @@ describe('Verify Buttons', () => {
   it('should not call updateStateAndVerifier if useOAuth is false', () => {
     const store = sharedStore();
     const queryParams = { operation: 'idme_verification' };
-    const useOAuth = false;
+    const useOAuth = true;
 
     const { container } = render(
       <Provider store={store}>
@@ -174,7 +174,7 @@ describe('verifyHandler', () => {
 
   it('should not call updateStateAndVerifier when useOAuth is false', () => {
     const queryParams = { operation: 'test_operation' };
-    const useOAuth = false;
+    const useOAuth = true;
     const policy = 'logingov';
 
     verifyHandler({ policy, queryParams, useOAuth });

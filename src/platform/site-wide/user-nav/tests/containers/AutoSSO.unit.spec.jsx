@@ -10,7 +10,7 @@ import { headKeepAliveSuccess } from '../mocks/msw-mocks';
 import { AutoSSO } from '../../containers/AutoSSO';
 
 const generateProps = ({
-  authenticatedWithOAuth = false,
+  authenticatedWithOAuth = true,
   hasCalledKeepAlive = false,
   transactionId = undefined,
   loggedIn = false,

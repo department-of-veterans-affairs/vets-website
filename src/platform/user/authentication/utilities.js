@@ -206,7 +206,7 @@ export function sessionTypeUrl({
   queryParams = {},
   version = API_VERSION,
   allowVerification = false,
-  useOauth = false,
+  useOauth = true,
   acr = null,
 }) {
   if (!type) {
@@ -382,7 +382,7 @@ export async function verify({
   version = API_VERSION,
   clickedEvent = AUTH_EVENTS.VERIFY,
   isLink = false,
-  useOAuth = false,
+  useOAuth = true,
   acr = null,
   queryParams = {},
 }) {
@@ -419,7 +419,7 @@ export async function signupOrVerify({
   policy = '',
   isSignup = true,
   isLink = false,
-  useOAuth = false,
+  useOAuth = true,
   allowVerification = true,
   config = 'default',
 }) {
