@@ -309,4 +309,28 @@ describe('Facility VA search', () => {
 
     cy.get('#other-tools').should('exist');
   });
+
+  it('does not trigger cascading API calls after results return (useEffect stability)', () => {
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData).as('geocode');
+
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('VA health');
+    cy.get('#service-type-dropdown').select('Primary care');
+    cy.get('#facility-search').click({ waitForAnimations: true });
+
+    cy.wait('@searchFacilitiesVA');
+    cy.get('#search-results-subheader').should('exist');
+
+    // Wait a moment to allow any cascading effects to fire
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(1000);
+
+    // Should only have 1 search request - no cascade from useEffect re-runs
+    cy.get('@searchFacilitiesVA.all').should('have.length', 1);
+  });
 });
