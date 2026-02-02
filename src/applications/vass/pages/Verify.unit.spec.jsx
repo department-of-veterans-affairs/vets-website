@@ -101,10 +101,10 @@ describe('VASS Component: Verify', () => {
       );
     });
 
-    it('should navigate to enter otc page', async () => {
+    it('should navigate to enter otp page', async () => {
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
-          message: 'OTC sent to registered email address',
+          message: 'OTP sent to registered email address',
           expiresIn: 600,
           email: 's****@email.com',
         },
@@ -114,7 +114,7 @@ describe('VASS Component: Verify', () => {
         <>
           <Routes>
             <Route path={URLS.VERIFY} element={<Verify />} />
-            <Route path={URLS.ENTER_OTC} element={<div>Enter OTC Page</div>} />
+            <Route path={URLS.ENTER_OTP} element={<div>Enter OTP Page</div>} />
           </Routes>
           <LocationDisplay />
         </>,
@@ -137,14 +137,14 @@ describe('VASS Component: Verify', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          URLS.ENTER_OTC,
+          URLS.ENTER_OTP,
         );
       });
     });
   });
 
   describe('successful verification', () => {
-    it('should navigate to enter-otc page with valid credentials', async () => {
+    it('should navigate to enter-otp page with valid credentials', async () => {
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
           message: 'OTC sent to registered email address',
@@ -157,7 +157,7 @@ describe('VASS Component: Verify', () => {
         <>
           <Routes>
             <Route path={URLS.VERIFY} element={<Verify />} />
-            <Route path={URLS.ENTER_OTC} element={<div>Enter OTC Page</div>} />
+            <Route path={URLS.ENTER_OTP} element={<div>Enter OTP Page</div>} />
           </Routes>
           <LocationDisplay />
         </>,
@@ -180,7 +180,7 @@ describe('VASS Component: Verify', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          URLS.ENTER_OTC,
+          URLS.ENTER_OTP,
         );
       });
     });
@@ -188,7 +188,7 @@ describe('VASS Component: Verify', () => {
     it('should set low auth form data when verification is successful', async () => {
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
-          message: 'OTC sent to registered email address',
+          message: 'OTP sent to registered email address',
           expiresIn: 600,
           email: 's****@email.com',
         },
@@ -204,7 +204,7 @@ describe('VASS Component: Verify', () => {
         <>
           <Routes>
             <Route path="/" element={<Verify />} />
-            <Route path="/enter-otc" element={<div>Enter OTC Page</div>} />
+            <Route path="/enter-otp" element={<div>Enter OTP Page</div>} />
           </Routes>
           <LocationDisplay />
         </>,
@@ -227,13 +227,13 @@ describe('VASS Component: Verify', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          '/enter-otc',
+          '/enter-otp',
         );
       });
       // check for redux state
       const state = store.getState();
       expect(state.vassForm.uuid).to.equal('c0ffee-1234-beef-5678');
-      expect(state.vassForm.lastname).to.equal('Smith');
+      expect(state.vassForm.lastName).to.equal('Smith');
       expect(state.vassForm.dob).to.equal('1935-04-07');
       expect(state.vassForm.obfuscatedEmail).to.equal('s****@email.com');
     });
