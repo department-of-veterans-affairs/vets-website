@@ -52,9 +52,11 @@ const testConfig = createTestConfig(
               // eslint-disable-next-line cypress/no-unnecessary-waiting
               cy.wait(100);
               cy.findByText(/continue/i, { selector: 'button' }).click();
+              // focusElement uses async querySelectorWithShadowRoot for web components,
+              // so we need to wait for the tabindex attribute to be set asynchronously
               cy.get(
                 'va-card[name="employer_1"] .array-builder-missing-info-alert',
-                { timeout: 10000 },
+                { timeout: 15000 },
               ).should('have.attr', 'tabindex', '-1');
             };
 
