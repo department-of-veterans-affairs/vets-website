@@ -77,8 +77,6 @@ export const recipientTypeLabels = {
 export const incomeRecipientTypeLabels = {
   SURVIVING_SPOUSE: 'Surviving spouse',
   CHILD: 'Veteran’s child',
-  CUSTODIAN: 'Custodian',
-  CUSTODIAN_SPOUSE: 'Custodian’s spouse',
 };
 
 export const medicalExpenseRecipientLabels = {
