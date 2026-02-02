@@ -19,7 +19,7 @@ export const employerInformationUiSchema = {
   employerInformation: {
     employerName: textUI({
       title: 'Name of employer',
-      hint: 'The business name of the employer',
+      hint: 'The business name of the employer.',
       errorMessages: {
         required: 'Employer name is required',
         maxLength: 'Employer name must be less than 100 characters',

@@ -39,10 +39,18 @@ import medical32MonthProgram from '../pages/medical32MonthProgram';
 import medicalHasGraduatingClass from '../pages/medicalHasGraduatingClass';
 import medicalGraduatingClassDetails from '../pages/medicalGraduatingClassDetails';
 
+import institutionContactsInstructions from '../pages/institutionContactsInstructions';
+import institutionFinancialRepresentative from '../pages/institutionFinancialRepresentative';
+import institutionCertifyingOfficial from '../pages/institutionCertifyingOfficial';
+
+import officialsSummary from '../pages/officialsSummary';
+import officialsDetails from '../pages/officialsDetails';
+
 import {
   additionalInstitutionsWithCodeArrayOptions,
   additionalInstitutionsWithoutCodeArrayOptions,
   programInformationArrayOptions,
+  officialsArrayOptions,
 } from '../helpers';
 
 const formConfig = {
@@ -318,6 +326,44 @@ const formConfig = {
             formData?.isMedicalSchool === true &&
             formData?.graduatedLast12Months === true,
         },
+      },
+    },
+    institutionContacts: {
+      title: 'Institution contacts and faculty details',
+      pages: {
+        contactsInstructions: {
+          path: 'contacts-instructions',
+          title: 'Institution contacts instructions',
+          uiSchema: institutionContactsInstructions.uiSchema,
+          schema: institutionContactsInstructions.schema,
+        },
+        institutionFinancialRepresentative: {
+          path: 'financial-representative',
+          title: 'Financial representative',
+          uiSchema: institutionFinancialRepresentative.uiSchema,
+          schema: institutionFinancialRepresentative.schema,
+        },
+        institutionCertifyingOfficial: {
+          path: 'certifying-official',
+          title: 'Certifying official',
+          uiSchema: institutionCertifyingOfficial.uiSchema,
+          schema: institutionCertifyingOfficial.schema,
+        },
+        ...arrayBuilderPages(officialsArrayOptions, pageBuilder => ({
+          officialsSummary: pageBuilder.summaryPage({
+            path: 'officials-summary',
+            title: 'Officials summary',
+            uiSchema: officialsSummary.uiSchema,
+            schema: officialsSummary.schema,
+          }),
+          officialsDetails: pageBuilder.itemPage({
+            path: 'officials-details/:index',
+            title: 'Officials details',
+            showPagePerItem: true,
+            uiSchema: officialsDetails.uiSchema,
+            schema: officialsDetails.schema,
+          }),
+        })),
       },
     },
   },

@@ -350,11 +350,11 @@ describe('Landing Page', () => {
               migrationDate: '2026-05-01',
               facilities: [
                 {
-                  facilityId: 528,
+                  facilityId: '528',
                   facilityName: 'Test VA Medical Center',
                 },
                 {
-                  facilityId: 123,
+                  facilityId: '123',
                   facilityName: 'Different VA Medical Center',
                 },
               ],
