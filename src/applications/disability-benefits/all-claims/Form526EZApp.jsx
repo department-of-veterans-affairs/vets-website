@@ -97,6 +97,7 @@ export const Form526Entry = ({
   form,
   inProgressFormId,
   isBDDForm,
+  itf,
   location,
   loggedIn,
   mvi,
@@ -306,7 +307,8 @@ export const Form526Entry = ({
     ];
 
     const pathname = location?.pathname?.replace(/\/+$/, '') || '';
-    const shouldHideNav = hideNavPaths.some(p => pathname.endsWith(p));
+    const shouldHideNav =
+      hideNavPaths.some(p => pathname.endsWith(p)) || !itf?.messageDismissed;
     const contentHiddenSideNavClass = shouldHideNav
       ? ``
       : ` medium-screen:vads-grid-col-9`;
@@ -374,6 +376,9 @@ Form526Entry.propTypes = {
   inProgressFormId: PropTypes.number,
   isBDDForm: PropTypes.bool,
   isStartingOver: PropTypes.bool,
+  itf: PropTypes.shape({
+    messageDismissed: PropTypes.bool,
+  }),
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
@@ -399,6 +404,7 @@ const mapStateToProps = state => ({
   inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   isBDDForm: isBDD(state?.form?.data),
   isStartingOver: state.form?.isStartingOver,
+  itf: state.itf,
   loggedIn: isLoggedIn(state),
   mvi: state.mvi,
   savedForms: state?.user?.profile?.savedForms || [],

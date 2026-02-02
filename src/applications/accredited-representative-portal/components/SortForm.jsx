@@ -31,26 +31,41 @@ const SortForm = ({ options, defaults }) => {
     e.preventDefault();
     const sortOrder = e.detail?.value;
     const statusLabel = status ? `status=${status}&` : '';
-    navigate(
-      `?${statusLabel}sort=${sortOrder}&pageNumber=${number}&pageSize=${size}&as_selected_individual=${selectedIndividual}`,
-    );
+
+    // status for request search page, second is for submissions pagination
+    if (statusLabel) {
+      navigate(
+        `?${statusLabel}sort=${sortOrder}&page=${number}&perPage=${size}&show=${selectedIndividual}`,
+      );
+      setTimeout(() => {
+        focusElement('.poa-request__meta');
+      }, 500);
+    } else {
+      navigate(`?sort=${sortOrder}&page=${number}&perPage=${size}`);
+      setTimeout(() => {
+        focusElement('.poa-request__meta');
+      }, 500);
+    }
+
     setTimeout(() => {
       focusElement('.poa-request__meta');
     }, 500);
   };
 
   const toggleRep = e => {
+    e.preventDefault();
+    const isChecked = e.detail.checked;
+    const updateRep = isChecked === true ? 'you' : 'all';
     navigate(
-      `?status=${status}&sort=${sort}&pageNumber=1&pageSize=${size}&as_selected_individual=${
-        e.detail.checked
-      }`,
+      `?status=${status}&sort=${sort}&page=1&perPage=${size}&show=${updateRep}`,
     );
     setTimeout(() => {
       focusElement('.poa-request__meta');
     }, 500);
   };
   const isChecked = () => {
-    return searchParams.get(SEARCH_PARAMS.SELECTED_INDIVIDUAL);
+    const getShowStatus = searchParams.get(SEARCH_PARAMS.SELECTED_INDIVIDUAL);
+    return getShowStatus !== 'all';
   };
 
   return (
