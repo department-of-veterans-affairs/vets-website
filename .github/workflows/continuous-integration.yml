@@ -1939,6 +1939,7 @@ jobs:
     needs:
       [
         cypress-tests,
+        node-22-cypress-compatibility-check,
         stress-test-cypress-tests,
         tests-prep,
         unit-tests,
@@ -2051,6 +2052,7 @@ jobs:
         env:
           CYPRESS_TESTS_RESULT: ${{ needs.cypress-tests.result  }}
           CYPRESS_TESTS_STRESS_TEST_RESULT: ${{ needs.stress-test-cypress-tests.result }}
+          NODE_22_CYPRESS_COMPATIBILITY_RESULT: ${{ needs.node-22-cypress-compatibility-check.result }}
           UNIT_TESTS_STRESS_TEST_RESULT: ${{ needs.unit-tests-stress-test.result }}
 
   archive:
