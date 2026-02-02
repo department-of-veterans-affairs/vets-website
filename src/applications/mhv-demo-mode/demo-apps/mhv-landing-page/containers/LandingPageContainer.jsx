@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
-import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getFolderList } from '../utilities/api';
 import LandingPage from '../components/LandingPage';
@@ -18,18 +16,17 @@ import {
   isLOA3,
   isVAPatient,
   selectProfile,
-  signInServiceEnabled,
   hasMessagingAccess,
   mhvAccountStatusLoading,
 } from '../selectors';
+import DemoModeAlert from '../../../components/DemoModeAlert';
 
 const LandingPageContainer = () => {
   const mhvAccountStatusIsLoading = useSelector(mhvAccountStatusLoading);
-  const { featureToggles, user } = useSelector(state => state);
+  const { featureToggles } = useSelector(state => state);
   const [unreadMessageCount, setUnreadMessageCount] = useState();
   const profile = useSelector(selectProfile);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const useSiS = useSelector(signInServiceEnabled);
   const registered = useSelector(isVAPatient);
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
@@ -89,11 +86,8 @@ const LandingPageContainer = () => {
     );
 
   return (
-    <RequiredLoginView
-      useSiS={useSiS}
-      user={user}
-      serviceRequired={[backendServices.USER_PROFILE]}
-    >
+    <>
+      <DemoModeAlert />
       <ErrorBoundary>
         {verifiedNonVaPatient ? (
           <NonPatientLandingPage data={data} />
@@ -101,7 +95,7 @@ const LandingPageContainer = () => {
           <LandingPage data={data} />
         )}
       </ErrorBoundary>
-    </RequiredLoginView>
+    </>
   );
 };
 

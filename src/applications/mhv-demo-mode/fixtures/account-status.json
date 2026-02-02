@@ -1,0 +1,14 @@
+{
+  "data": {
+    "id": "12345678",
+    "type": "mhv_user_account",
+    "attributes": {
+      "userProfileId": "12345678",
+      "premium": true,
+      "champVa": true,
+      "patient": true,
+      "smAccountCreated": true,
+      "message": "some-message"
+    }
+  }
+}

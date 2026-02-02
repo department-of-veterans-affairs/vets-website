@@ -5,7 +5,7 @@ import { DEMO_MODE_ACKNOWLEDGED } from '../constants';
 export default function IntroPage() {
   const handleContinue = e => {
     e.preventDefault();
-    sessionStorage.setItem(DEMO_MODE_ACKNOWLEDGED, 'true');
+    sessionStorage.setItem(DEMO_MODE_ACKNOWLEDGED, Date.now().toString());
     window.location.href = '/demo-mode/my-health';
   };
 
