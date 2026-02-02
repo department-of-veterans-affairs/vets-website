@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import { useErrorFocus } from '../hooks/useErrorFocus';
 import Wrapper from '../layout/Wrapper';
-import { usePostOTCVerificationMutation } from '../redux/api/vassApi';
+import { usePostOTPVerificationMutation } from '../redux/api/vassApi';
 import {
   selectFlowType,
   selectObfuscatedEmail,
@@ -35,34 +35,33 @@ const getPageTitle = (cancellationFlow, hasError) => {
   return 'Schedule an appointment with VA Solid Start';
 };
 
-const EnterOTC = () => {
+const EnterOTP = () => {
   const flowType = useSelector(selectFlowType);
   const cancellationFlow = flowType === FLOW_TYPES.CANCEL;
   const navigate = useNavigate();
   const obfuscatedEmail = useSelector(selectObfuscatedEmail);
   const [
-    { error: otcError, handleSetError: setOtcError },
+    { error: otpError, handleSetError: setOtpError },
     { handleSetError: setApiError },
   ] = useErrorFocus([
-    'va-text-input[name="otc"]',
-    'va-alert[data-testid="enter-otc-error-alert"]',
+    'va-text-input[name="otp"]',
+    'va-alert[data-testid="enter-otp-error-alert"]',
   ]);
 
   const [code, setCode] = useState('');
 
   const [
-    postOTCVerification,
-    { isLoading, error: postOTCVerificationError },
-  ] = usePostOTCVerificationMutation();
+    postOTPVerification,
+    { isLoading, error: postOTPVerificationError },
+  ] = usePostOTPVerificationMutation();
 
   const handleSubmit = async () => {
     if (code === '') {
-      setOtcError('Please enter your one-time verification code');
+      setOtpError('Please enter your one-time verification code');
       return;
     }
-
-    const response = await postOTCVerification({
-      otc: code,
+    const response = await postOTPVerification({
+      otp: code,
     });
 
     if (response.error) {
@@ -79,29 +78,29 @@ const EnterOTC = () => {
   };
 
   const errorMessage = getErrorMessage(
-    postOTCVerificationError?.code,
-    postOTCVerificationError?.attemptsRemaining,
+    postOTPVerificationError?.code,
+    postOTPVerificationError?.attemptsRemaining,
   );
   const pageTitle = getPageTitle(
     cancellationFlow,
-    isAccountLockedError(postOTCVerificationError),
+    isAccountLockedError(postOTPVerificationError),
   );
 
   return (
     <Wrapper
       pageTitle={pageTitle}
       verificationError={
-        isAccountLockedError(postOTCVerificationError)
+        isAccountLockedError(postOTPVerificationError)
           ? errorMessage
           : undefined
       }
-      errorAlert={isServerError(postOTCVerificationError)}
+      errorAlert={isServerError(postOTPVerificationError)}
     >
-      {!postOTCVerificationError?.code && (
+      {!postOTPVerificationError?.code && (
         <va-alert
           status="success"
           visible
-          data-testid="enter-otc-success-alert"
+          data-testid="enter-otp-success-alert"
         >
           <p className="vads-u-margin-y--0">
             {`We just emailed a one-time verification code to ${obfuscatedEmail}.
@@ -111,27 +110,27 @@ const EnterOTC = () => {
         </va-alert>
       )}
 
-      {postOTCVerificationError?.code && (
-        <va-alert status="error" visible data-testid="enter-otc-error-alert">
+      {postOTPVerificationError?.code && (
+        <va-alert status="error" visible data-testid="enter-otp-error-alert">
           <p className="vads-u-margin-y--0">{errorMessage}</p>
         </va-alert>
       )}
       <va-text-input
         class="vads-u-margin-top--4"
         label="Enter your one-time verification code"
-        name="otc"
+        name="otp"
         value={code}
         onBlur={e => {
           if (e.target.value !== '') {
-            setOtcError('');
+            setOtpError('');
           }
         }}
         onInput={e => {
           setCode(e.target.value);
         }}
         required
-        error={otcError}
-        data-testid="otc-input"
+        error={otpError}
+        data-testid="otp-input"
         show-input-error
       />
       <div className="vads-u-display--flex vads-u-margin-top--4 vass-form__button-container vass-flex-direction--column">
@@ -148,4 +147,4 @@ const EnterOTC = () => {
   );
 };
 
-export default EnterOTC;
+export default EnterOTP;
