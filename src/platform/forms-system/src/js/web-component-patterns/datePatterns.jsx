@@ -29,6 +29,7 @@ import {
  *     required?: string
  *   },
  *   dataDogHidden?: boolean,
+ *   monthSelect?: boolean,
  *   monthYearOnly?: boolean,
  *   removeDateHint?: boolean,
  * }} [options] accepts a single string for title, or an object of options
