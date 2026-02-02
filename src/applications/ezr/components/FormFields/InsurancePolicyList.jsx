@@ -26,7 +26,7 @@ const InsurancePolicyList = ({
   labelledBy,
   list,
   mode,
-  providerErrors,
+  providerErrors = [],
   onDelete,
 }) => {
   const scrollIdPrefix = 'ezr-policy-item';
