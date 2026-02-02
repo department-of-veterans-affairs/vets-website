@@ -17,7 +17,7 @@ export const remarksUiSchema = {
     remarks: textareaUI({
       title: ' ',
       hint:
-        'You can provide any additional information that may be helpful in processing this claim',
+        'You can provide any additional information that may be helpful in processing this claim.',
       charcount: true,
       errorMessages: {
         maxLength: 'Remarks must be less than 2000 characters',
