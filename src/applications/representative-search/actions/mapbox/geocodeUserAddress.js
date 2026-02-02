@@ -76,7 +76,8 @@ export const geocodeUserAddress = query => {
           representativeType: query.representativeType,
         };
 
-        const queryCommitPayload = (({ committedSearchQuery, ...rest }) => rest)(queryUpdatePayload);
+        const queryCommitPayload = (({ committedSearchQuery: _, ...rest }) =>
+          rest)(queryUpdatePayload);
 
         dispatch({
           type: SEARCH_QUERY_UPDATED,

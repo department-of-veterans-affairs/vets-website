@@ -247,7 +247,7 @@ describe('SearchResultsHeader', () => {
       searchArea: '50',
       sortType: 'distance_asc',
     };
-    
+
     const wrapper = mount(
       <Provider store={mockStore}>
         <SearchResultsHeader
@@ -389,7 +389,7 @@ describe('SearchResultsHeader', () => {
       representativeType: 'attorney',
       sortType: 'name',
       searchArea: '50',
-    }
+    };
 
     const wrapper = mount(
       <Provider store={mockStore}>
