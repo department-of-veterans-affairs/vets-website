@@ -65,7 +65,7 @@ import {
 
 import content from '../locales/en/content.json';
 
-// import mockData from '../tests/e2e/fixtures/data/test-data.json';
+// import mockData from '../tests/e2e/fixtures/data/medical-claim.json';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,

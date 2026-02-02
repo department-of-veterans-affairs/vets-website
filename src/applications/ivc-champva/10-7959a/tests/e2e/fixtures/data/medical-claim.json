@@ -44,8 +44,22 @@
     "claimType": "medical",
     "claimIsAutoRelated": true,
     "claimIsWorkRelated": true,
-    "medicalUpload": [],
-    "primaryEob": [],
+    "medicalUpload": [
+      {
+        "name": "sample.png",
+        "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b63",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "primaryEob": [
+      {
+        "name": "sample.png",
+        "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b63",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
     "statementOfTruthSignature": "Sponsor Jones"
   }
 }

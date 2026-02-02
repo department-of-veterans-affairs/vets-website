@@ -6,8 +6,22 @@
     "claimStatus": "resubmission",
     "pdiOrClaimNumber": "PDI number",
     "identifyingNumber": "va12345678",
-    "resubmissionLetterUpload": [],
-    "resubmissionDocsUpload": [],
+    "resubmissionLetterUpload": [
+      {
+        "name": "sample.png",
+        "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b63",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "resubmissionDocsUpload": [
+      {
+        "name": "sample.png",
+        "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b63",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
     "sponsorName": {
       "first": "Sponsor",
       "last": "Jones"

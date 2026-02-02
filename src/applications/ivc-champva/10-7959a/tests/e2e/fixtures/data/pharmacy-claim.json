@@ -49,7 +49,14 @@
     "claimType": "pharmacy",
     "claimIsAutoRelated": true,
     "claimIsWorkRelated": true,
-    "pharmacyUpload": [],
+    "pharmacyUpload": [
+      {
+        "name": "sample.png",
+        "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b63",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
     "statementOfTruthSignature": "Certifier Jones"
   }
 }
