@@ -23,3 +23,11 @@ export const organizationRepresentativesArrayOptions = {
     summaryTitle: 'Review the names of organization’s representatives',
   },
 };
+
+export const getThirdPartyName = formData => {
+  if (formData?.discloseInformation?.authorize === 'organization') {
+    return formData?.organizationName;
+  }
+
+  return getFullName(formData?.thirdPartyPersonName?.fullName);
+};

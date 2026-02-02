@@ -1,6 +1,6 @@
 export function splitVaSsnField(formData) {
   const parsedFormData = JSON.parse(formData);
-  const transformedValue = parsedFormData;
+  const transformedValue = { ...parsedFormData };
   if (parsedFormData?.veteranSocialSecurityNumber?.ssn) {
     transformedValue.veteranSocialSecurityNumber =
       parsedFormData?.veteranSocialSecurityNumber?.ssn;
@@ -8,7 +8,6 @@ export function splitVaSsnField(formData) {
   if (parsedFormData?.veteranSocialSecurityNumber?.vaFileNumber) {
     transformedValue.vaFileNumber =
       parsedFormData?.veteranSocialSecurityNumber?.vaFileNumber;
-    transformedValue.veteranSocialSecurityNumber = undefined;
   }
   return JSON.stringify(transformedValue);
 }

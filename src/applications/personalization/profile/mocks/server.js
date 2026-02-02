@@ -113,7 +113,7 @@ const responses = {
             profileShowNewHealthCareCopayBillNotificationSetting: false,
             profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
             profileShowMhvNotificationSettingsEmailRxShipment: true,
-            profileShowMhvNotificationSettingsNewSecureMessaging: true,
+            profileShowMhvNotificationSettingsNewSecureMessaging: false,
             profileShowMhvNotificationSettingsMedicalImages: true,
             profileShowQuickSubmitNotificationSetting: false,
             profileShowNoValidationKeyAddressAlert: false,
