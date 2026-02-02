@@ -24,6 +24,7 @@ function App({
   location,
   mebDpoAddressOptionEnabled,
   meb1995InstructionPageUpdateV3,
+  meb5490Under18Flow,
   setFormData,
   user,
 }) {
@@ -64,8 +65,15 @@ function App({
           mebDpoAddressOptionEnabled,
         });
       }
+
+      if (meb5490Under18Flow !== formData.meb5490Under18Flow) {
+        setFormData({
+          ...formData,
+          meb5490Under18Flow,
+        });
+      }
     },
-    [mebDpoAddressOptionEnabled, formData, setFormData],
+    [mebDpoAddressOptionEnabled, meb5490Under18Flow, formData, setFormData],
   );
 
   useEffect(
@@ -168,8 +176,9 @@ App.propTypes = {
   getDuplicateContactInfo: PropTypes.func,
   getPersonalInformation: PropTypes.func,
   location: PropTypes.object,
-  mebDpoAddressOptionEnabled: PropTypes.bool,
   meb1995InstructionPageUpdateV3: PropTypes.bool,
+  meb5490Under18Flow: PropTypes.bool,
+  mebDpoAddressOptionEnabled: PropTypes.bool,
   setFormData: PropTypes.func,
   user: PropTypes.object,
 };

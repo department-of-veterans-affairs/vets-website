@@ -15,6 +15,7 @@ export const IntroductionPage = ({
   isPersonalInfoFetchFailed,
   showMeb5490EMaintenanceAlert,
   meb1995InstructionPageUpdateV3,
+  meb5490Under18Flow,
   route,
 }) => {
   return (
@@ -42,31 +43,55 @@ export const IntroductionPage = ({
       )}
       {meb1995InstructionPageUpdateV3 && (
         <div>
-          <h2>
-            For the first time applicants, use the VA Form 22-5490 to apply for
-            the following programs:
-          </h2>
+          <p>
+            <b>
+              For first time applicants, use VA Form 22-5490 to apply for the
+              following programs:
+            </b>
+          </p>
           <ul>
             <li>
-              Chapter 35 Survivors' and Dependents' Education Assistance (DEA)
+              Chapter 35 Survivors' and Dependents' Educational Assistance (DEA)
             </li>
             <li>Chapter 33 Fry Scholarship</li>
           </ul>
-          <br />
-          <h2>
-            If you have applied for education benefits before, use the VA Form
-            22-5490 to:
-          </h2>
+          <p>
+            <b>
+              If you’ve applied for education benefits before, use VA Form
+              22-5490 to:
+            </b>
+          </p>
           <ul>
-            <li>
-              Update your current benefit and get an updated Certificate of
-              Eligibility (COE)
-            </li>
-            <li>Switch your existing education benefit and get a new COE</li>
-            <li>
-              Apply as an eligible dependent for education benefits from a
-              different Veteran than you’ve used in the past
-            </li>
+            {meb5490Under18Flow ? (
+              <>
+                <li>
+                  Make updates to your current benefit and get an updated
+                  Certificate of Eligibility (COE)
+                </li>
+                <li>
+                  Apply to switch your existing education benefit and get a new
+                  COE
+                </li>
+                <li>
+                  Apply as an eligible dependent for education benefits from a
+                  different Veteran than you’ve used in the past
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  Update your current benefit and get an updated Certificate of
+                  Eligibility (COE)
+                </li>
+                <li>
+                  Switch your existing education benefit and get a new COE
+                </li>
+                <li>
+                  Apply as an eligible dependent for education benefits from a
+                  different Veteran than you’ve used in the past
+                </li>
+              </>
+            )}
           </ul>
         </div>
       )}
@@ -95,6 +120,13 @@ export const IntroductionPage = ({
           <p>
             <strong> You must be an eligible spouse or dependent </strong> in
             order to receive this benefit.
+            {meb5490Under18Flow && (
+              <p>
+                <strong>Note:</strong> If the dependent is under the age of 18,
+                a parent/guardian/custodian will need to complete this
+                application on their behalf.
+              </p>
+            )}
           </p>
           <va-additional-info trigger="What are the Fry Scholarship (Chapter 33) eligibility requirements?">
             <p>
@@ -174,8 +206,21 @@ export const IntroductionPage = ({
                 Knowledge of your chosen Veteran or service member’s military
                 service history
               </li>
+              {meb5490Under18Flow && (
+                <>
+                  <li>
+                    Your chosen Veteran or service member’s Social Security
+                    number or VA file number
+                  </li>
+                  <li>Your chosen Veteran or service member’s date of birth</li>
+                </>
+              )}
               <li>Your current address and contact information</li>
-              <li>Bank account direct deposit information</li>
+              <li>
+                {meb5490Under18Flow
+                  ? 'Your bank account direct deposit information'
+                  : 'Bank account direct deposit information'}
+              </li>
             </ul>
           </div>
         </va-process-list-item>
@@ -192,8 +237,7 @@ export const IntroductionPage = ({
               application, you can download your denial letter. We’ll also mail
               you a copy of your decision letter.
             </p>
-            <br />
-            <p className="vads-u-margin-bottom--0">
+            <p>
               <strong>Note:</strong> In some cases, we may need more time to
               make a decision. If you don’t get an automatic decision right
               after you apply, you’ll receive a decision letter in the mail in
@@ -234,8 +278,9 @@ IntroductionPage.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
-  showMeb5490EMaintenanceAlert: PropTypes.bool,
   meb1995InstructionPageUpdateV3: PropTypes.bool,
+  meb5490Under18Flow: PropTypes.bool,
+  showMeb5490EMaintenanceAlert: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
@@ -246,6 +291,7 @@ const mapStateToProps = state => ({
     state.featureToggles?.showMeb5490EMaintenanceAlert,
   meb1995InstructionPageUpdateV3:
     state?.featureToggles?.meb1995InstructionPageUpdateV3,
+  meb5490Under18Flow: state?.featureToggles?.meb5490Under18Flow,
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
