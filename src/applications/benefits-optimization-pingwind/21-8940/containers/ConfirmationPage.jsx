@@ -21,13 +21,15 @@ export const ConfirmationPage = props => {
   const { submission = {}, data = {} } = form;
   const preparerIdentification = data.preparerIdentification || {};
   const veteran = data.veteran || {};
-  const preparerFullName = preparerIdentification.preparerFullName;
+  const { preparerFullName } = preparerIdentification;
   const preparerNameDefined = preparerFullName?.first && preparerFullName?.last;
   const preparerName = preparerNameDefined
     ? preparerFullName
     : veteran.fullName;
   const submitDate = submission.timestamp;
-  const confirmationNumber = submission.response?.confirmationNumber;
+  const confirmationNumber =
+    submission.response?.attributes?.confirmationNumber;
+  const pdfUrl = submission.response?.attributes?.pdfUrl;
 
   return (
     <ConfirmationView
@@ -35,7 +37,7 @@ export const ConfirmationPage = props => {
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       submitterName={preparerName}
-      pdfUrl={submission.response?.pdfUrl}
+      pdfUrl={pdfUrl}
       devOnly={{
         showButtons: true,
       }}

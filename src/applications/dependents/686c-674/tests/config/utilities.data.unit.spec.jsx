@@ -1605,7 +1605,30 @@ describe('transformPicklistToV2', () => {
     };
     const result = transformPicklistToV2(data);
 
-    expect(result.stepChildren).to.be.undefined;
+    expect(result.stepChildren).to.deep.equal([
+      {
+        address: {
+          city: 'Las Vegas',
+          country: 'USA',
+          postalCode: '12345',
+          state: 'NV',
+          street: '123 Fake St.',
+        },
+        birthDate: '2012-02-19',
+        dateStepchildLeftHousehold: '2000-02-02',
+        fullName: {
+          first: 'STEP',
+          last: 'CHILD',
+        },
+        livingExpensesPaid: 'Less than half',
+        ssn: '333445555',
+        supportingStepchild: false,
+        whoDoesTheStepchildLiveWith: {
+          first: 'John',
+          last: 'Doe',
+        },
+      },
+    ]);
   });
 
   it('should add stepchild to stepChildren array only when isStepchild is Y and removalReason is childMarried', () => {

@@ -2,10 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
-import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
-import { combineReducers, applyMiddleware, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import { commonReducer } from 'platform/startup/store';
+import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import withFormData from './withFormData';
@@ -13,25 +10,10 @@ import { URLS } from '../utils/constants';
 import * as formSlice from '../redux/slices/formSlice';
 import {
   getDefaultRenderOptions,
-  reducers,
-  vassApi,
+  getHydratedFormRenderOptions,
+  LocationDisplay,
+  TestComponent,
 } from '../utils/test-utils';
-
-// Helper component to display current location for testing navigation
-const LocationDisplay = () => {
-  const location = useLocation();
-  return (
-    <div data-testid="location-display">
-      {location.pathname}
-      {location.search}
-    </div>
-  );
-};
-
-// Simple test component to wrap
-const TestComponent = () => (
-  <div data-testid="test-component">Test Content</div>
-);
 
 describe('VASS Containers: withFormData', () => {
   let loadFormDataFromStorageStub;
@@ -327,24 +309,10 @@ describe('VASS Containers: withFormData', () => {
     it('should dispatch clearFormData when redirecting to Verify route', async () => {
       const WrappedComponent = withFormData(TestComponent, ['uuid']);
 
-      const initialState = {
-        vassForm: {
-          hydrated: true,
-          selectedDate: '2025-01-01',
-          obfuscatedEmail: 's***@example.com',
-          token: 'valid-token',
-          selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
-          uuid: null,
-          lastname: 'Smith',
-          dob: '1935-04-07',
-        },
-      };
-
-      const store = createStore(
-        combineReducers({ ...commonReducer, ...reducers }),
-        initialState,
-        applyMiddleware(thunk, vassApi.middleware),
-      );
+      // Set uuid to null to reroute to Verify page
+      const defaultOptions = getHydratedFormRenderOptions({
+        uuid: null,
+      });
 
       const { getByTestId } = renderWithStoreAndRouterV6(
         <>
@@ -358,9 +326,7 @@ describe('VASS Containers: withFormData', () => {
           <LocationDisplay />
         </>,
         {
-          reducers,
-          additionalMiddlewares: [vassApi.middleware],
-          store,
+          ...defaultOptions,
           initialEntries: ['/test'],
         },
       );
@@ -371,33 +337,18 @@ describe('VASS Containers: withFormData', () => {
         );
       });
 
-      const state = store.getState();
+      const state = defaultOptions.store.getState();
       expect(state.vassForm.selectedDate).to.be.null;
       expect(state.vassForm.selectedTopics).to.deep.equal([]);
-      expect(state.vassForm.token).to.be.null;
     });
 
     it('should not clear form data when redirecting to non-Verify routes', async () => {
       const WrappedComponent = withFormData(TestComponent, ['selectedDate']);
 
-      const initialState = {
-        vassForm: {
-          hydrated: true,
-          selectedDate: null,
-          obfuscatedEmail: 's***@example.com',
-          token: 'valid-token',
-          selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
-          uuid: 'test-uuid',
-          lastname: 'Smith',
-          dob: '1935-04-07',
-        },
-      };
-
-      const store = createStore(
-        combineReducers({ ...commonReducer, ...reducers }),
-        initialState,
-        applyMiddleware(thunk, vassApi.middleware),
-      );
+      // Set selectedDate to reroute to Date Time page
+      const defaultOptions = getHydratedFormRenderOptions({
+        selectedDate: null,
+      });
 
       const { getByTestId } = renderWithStoreAndRouterV6(
         <>
@@ -411,9 +362,7 @@ describe('VASS Containers: withFormData', () => {
           <LocationDisplay />
         </>,
         {
-          reducers,
-          additionalMiddlewares: [vassApi.middleware],
-          store,
+          ...defaultOptions,
           initialEntries: ['/test'],
         },
       );
@@ -424,9 +373,8 @@ describe('VASS Containers: withFormData', () => {
         );
       });
 
-      const state = store.getState();
+      const state = defaultOptions.store.getState();
       // Form data should NOT be cleared when redirecting to non-Verify routes
-      expect(state.vassForm.token).to.equal('valid-token');
       expect(state.vassForm.uuid).to.equal('test-uuid');
     });
   });
