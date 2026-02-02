@@ -1,4 +1,4 @@
-@import "./calendar";
+@use "./calendar" as *;
 
 .vaos-appts__block-label {
   margin: 0;

@@ -1,22 +1,22 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
-@import "partials/gi-vet-tec";
-@import "partials/gi-preview-banner";
-@import "partials/gi-autocomplete";
-@import "partials/gi-compare-drawer";
-@import "partials/gi-compare-page";
-@import "partials/gi-modal";
-@import "partials/gi-search-page";
-@import "partials/gi-profile-page";
-@import "partials/gi-search-form";
-@import "partials/gi-search-location";
-@import "partials/gi-back-to-top";
-@import "partials/gi-filter";
-@import "partials/gi-search-controls";
-@import "partials/gi-updated";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination" as *;
+@use "partials/gi-vet-tec" as *;
+@use "partials/gi-preview-banner" as *;
+@use "partials/gi-autocomplete" as *;
+@use "partials/gi-compare-drawer" as *;
+@use "partials/gi-compare-page" as *;
+@use "partials/gi-modal" as *;
+@use "partials/gi-search-page" as *;
+@use "partials/gi-profile-page" as *;
+@use "partials/gi-search-form" as *;
+@use "partials/gi-search-location" as *;
+@use "partials/gi-back-to-top" as *;
+@use "partials/gi-filter" as *;
+@use "partials/gi-search-controls" as *;
+@use "partials/gi-updated" as *;
 
 .gi-app {
   /* Start styles from legacy formation overrides code */

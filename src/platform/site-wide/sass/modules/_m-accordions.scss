@@ -7,9 +7,12 @@
 // so that we can convert the rem values for USWDS v3.
 
 /*
-  Original: @import "~uswds/src/stylesheets/components/accordions";
+  Original: @use "~uswds/src/stylesheets/components/accordions" as *;
   ***THIS IS USWDS v1***
 */
+
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
 
 // Variables
 $accordion-border: 3px solid $vads-color-base-lightest;

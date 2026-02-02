@@ -1,6 +1,6 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-tabs";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-tabs" as *;
 
 $messaging-label-width: 6.25rem;
 
@@ -32,5 +32,5 @@ $messaging-label-width: 6.25rem;
   }
 }
 
-@import "partials/messaging-folder";
-@import "partials/messaging-moveto";
+@use "partials/messaging-folder" as *;
+@use "partials/messaging-moveto" as *;

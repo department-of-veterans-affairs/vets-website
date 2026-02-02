@@ -1,5 +1,5 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
-@import "../../../../platform/forms/sass/m-form-confirmation";
-@import "../../../../platform/forms/sass/m-schemaform";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info" as *;
+@use "../../../../platform/forms/sass/m-form-confirmation" as *;
+@use "../../../../platform/forms/sass/m-schemaform" as *;

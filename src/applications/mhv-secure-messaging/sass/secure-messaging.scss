@@ -1,9 +1,10 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "./secure-messaging-breadcrumb";
-@import "./navigation";
-@import "./folders-list";
-@import "./folder-thread-list-view";
-@import "src/platform/mhv/secondary-nav/sass/mhv-sec-nav";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "./secure-messaging-breadcrumb" as *;
+@use "./navigation" as *;
+@use "./folders-list" as *;
+@use "./folder-thread-list-view" as *;
+@use "src/platform/mhv/secondary-nav/sass/mhv-sec-nav" as *;
 
 .secure-messaging-container {
   font-size: 1rem;

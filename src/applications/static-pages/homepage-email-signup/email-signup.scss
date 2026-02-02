@@ -1,5 +1,6 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
 
 .email-signup-form {
   margin: 0 auto;

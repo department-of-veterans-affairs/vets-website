@@ -1,3 +1,6 @@
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "./shared" as *;
+
 .mobile-nav {
   .menu-wrapper {
     background-color: var(--vads-color-white);

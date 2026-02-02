@@ -1,3 +1,42 @@
+// Import formation-overrides/variables early because USWDS grid/_private.scss needs $grid-columns
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables";
+@import "~uswds/src/stylesheets/lib/functions/private";
+@import "~uswds/src/stylesheets/lib/settings/grid";
+
+@import "~uswds/src/stylesheets/lib/grid/private";
+@import "~uswds/src/stylesheets/lib/grid/omega";
+@import "~uswds/src/stylesheets/lib/grid/shift";
+@import "~uswds/src/stylesheets/lib/helpers/directional-values";
+@import "~uswds/src/stylesheets/lib/grid/span-columns";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@import "~uswds/src/stylesheets/lib/addons/font-stacks";
+@import "~uswds/src/stylesheets/core/variables";
+@import "~uswds/src/stylesheets/core/grid";
+@import "~foundation-sites/scss/foundation/components/grid";
+@import "~foundation-sites/scss/foundation/components/block-grid";
+
+@function is-not($value) {
+  @if $value {
+    @return false;
+  }
+
+  @return true;
+}
+
+// Checks if a number is even
+@function is-even($int) {
+  @return $int % 2 == 0;
+}
+
+// Checks if an element belongs to a list or not
+@function belongs-to($tested-item, $list) {
+  @return is-not(not-belongs-to($tested-item, $list));
+}
+
+@function not-belongs-to($tested-item, $list) {
+  @return is-not(index($list, $tested-item));
+}
+
 /**
 new-breakpoint is needed for v1 grid utilities it returns a query that includes a width in px and a number of columns to use
 in a grid layout. This matters specifically in uswds/src/stylesheets/core/grid and uswds/src/stylesheets/lib/grid/span-columns
@@ -19,23 +58,6 @@ $visual-grid-breakpoints: ();
   @return $query;
 }
 
-@function is-not($value) {
-  @return if($value, false, true);
-}
-
-// Checks if a number is even
-@function is-even($int) {
-  @return $int % 2 == 0;
-}
-
-// Checks if an element belongs to a list or not
-@function belongs-to($tested-item, $list) {
-  @return is-not(not-belongs-to($tested-item, $list));
-}
-
-@function not-belongs-to($tested-item, $list) {
-  @return is-not(index($list, $tested-item));
-}
 
 //~~~~~~~ Needed for now because we haven't transferred grid classes yet
 $site-max-width: 1000px;
@@ -65,21 +87,6 @@ $breakpoints: (
   small-desktop-screen: $small-desktop-screen,
   large-screen:         $large-screen
 );
-@import "~uswds/src/stylesheets/lib/settings/grid";
-@import "~uswds/src/stylesheets/lib/functions/private";
-@import "~uswds/src/stylesheets/lib/grid/private";
-@import "~uswds/src/stylesheets/lib/grid/omega";
-@import "~uswds/src/stylesheets/lib/grid/shift";
-@import "~uswds/src/stylesheets/lib/helpers/directional-values";
-@import "~uswds/src/stylesheets/lib/addons/padding";
-@import "~uswds/src/stylesheets/lib/grid/span-columns";
-@import "~uswds/src/stylesheets/lib/mixins/clearfix";
-@import "~uswds/src/stylesheets/lib/grid/outer-container";
-@import "~uswds/src/stylesheets/core/utilities";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
-@import "~uswds/src/stylesheets/core/grid";
-@import "~foundation-sites/scss/foundation/components/grid";
-@import "~foundation-sites/scss/foundation/components/block-grid";
 //~~~~~~~
 
 // Overrides above order specifically for larger screens

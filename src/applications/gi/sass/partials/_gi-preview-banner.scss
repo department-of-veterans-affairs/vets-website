@@ -1,3 +1,5 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+
 .gi-preview-banner {
   background: var(--vads-color-warning);
   position: fixed;

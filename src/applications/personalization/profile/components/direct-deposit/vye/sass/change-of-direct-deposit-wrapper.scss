@@ -1,5 +1,5 @@
 
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
 
 #root_GI-Bill-Chapters-AccountType-label {
     font-size: medium !important;

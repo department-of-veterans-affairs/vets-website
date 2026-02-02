@@ -1,3 +1,9 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+
 .gi-bill-container {
   @include media-maxwidth($small-screen) {
     padding-inline: 24px;

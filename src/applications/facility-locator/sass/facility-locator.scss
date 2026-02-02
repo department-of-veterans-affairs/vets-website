@@ -1,8 +1,10 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
-@import "~leaflet/dist/leaflet.css";
-@import "~react-tabs/style/react-tabs";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+@use "~react-tabs/style/react-tabs" as *;
+
 @import "~mapbox-gl/dist/mapbox-gl.css";
+@import "~leaflet/dist/leaflet.css";
 
 $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 

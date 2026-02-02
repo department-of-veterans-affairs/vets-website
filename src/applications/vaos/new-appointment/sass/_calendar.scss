@@ -1,3 +1,7 @@
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+
 .vaos-calendar__disabled {
   opacity: 0.3;
   pointer-events: none;

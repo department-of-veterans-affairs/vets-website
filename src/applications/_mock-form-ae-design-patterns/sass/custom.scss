@@ -1,3 +1,6 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+
 // hacky fix for address save button sizing
 [data-action="save-edit"] {
   line-height: .9;

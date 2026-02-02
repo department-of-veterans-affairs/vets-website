@@ -1,5 +1,8 @@
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process" as *;
 
 .user-profile-row {
   margin-bottom: 6em;

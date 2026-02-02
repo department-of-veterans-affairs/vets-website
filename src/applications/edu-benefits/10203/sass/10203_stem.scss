@@ -1,13 +1,14 @@
 // Variables
 
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
-@import "../../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
-@import "../../../../platform/forms/sass/m-form-confirmation";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process" as *;
+@use "../../../../platform/forms/sass/m-schemaform" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info" as *;
+@use "../../../../platform/forms/sass/m-form-confirmation" as *;
 
 .icon-li {
   left: -2em;

@@ -1,8 +1,9 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
-@import "./user-profile";
-@import "./dashboard-alert";
-@import "./test-notification";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+@use "./user-profile" as *;
+@use "./dashboard-alert" as *;
+@use "./test-notification" as *;
 
 [tabindex="-1"]:focus {
   outline: 0;

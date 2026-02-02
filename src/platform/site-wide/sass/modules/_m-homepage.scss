@@ -1,3 +1,6 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+
 .hub-links-list {
   padding-right: 5px;
   padding-left: 0.625rem;

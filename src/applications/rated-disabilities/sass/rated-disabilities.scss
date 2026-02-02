@@ -1,6 +1,6 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-sidebar";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-linklist";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-sidebar" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-linklist" as *;
 
 dfn {
     width: fit-content;

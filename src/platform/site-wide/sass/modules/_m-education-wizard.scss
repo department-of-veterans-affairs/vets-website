@@ -1,3 +1,5 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+
 // /education/apply/ uses this wizard button for navigation
 // Where else can I put this? Also, it could use a better name.
 .wizard-button {

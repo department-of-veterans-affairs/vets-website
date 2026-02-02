@@ -1,3 +1,6 @@
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "./shared" as *;
+
 .va-subnav {
   border-bottom: 1px solid var(--vads-color-base-lighter);
   display: block;

@@ -51,9 +51,10 @@ const sharedModules = [
 const globalEntryFiles = {
   polyfills:
     '@department-of-veterans-affairs/platform-polyfills/preESModulesPolyfills',
-  style: '@department-of-veterans-affairs/platform-site-wide/style',
-  [vaMedalliaStylesFilename]:
-    '@department-of-veterans-affairs/platform-site-wide/va-medallia-style',
+  style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
+  [vaMedalliaStylesFilename]: getAbsolutePath(
+    'src/platform/site-wide/sass/va-medallia-style.scss',
+  ),
   styleConsolidated: getAbsolutePath(
     'src/applications/proxy-rewrite/sass/style-consolidated.scss',
   ),
@@ -355,19 +356,7 @@ module.exports = async (env = {}) => {
             },
             {
               loader: 'sass-loader',
-              options: {
-                sourceMap: true,
-                sassOptions: {
-                  silenceDeprecations: [
-                    'legacy-js-api',
-                    'import',
-                    'if-function',
-                    'slash-div',
-                    'global-builtin',
-                    'color-functions',
-                  ],
-                },
-              },
+              options: { sourceMap: true },
             },
           ],
         },
@@ -447,6 +436,14 @@ module.exports = async (env = {}) => {
         '@bio-aquia': path.resolve(
           __dirname,
           '../src/applications/benefits-optimization-aquia',
+        ),
+        '@department-of-veterans-affairs/platform-site-wide/style': path.resolve(
+          __dirname,
+          '../src/platform/site-wide/sass/style.scss',
+        ),
+        '@department-of-veterans-affairs/platform-site-wide/va-medallia-style': path.resolve(
+          __dirname,
+          '../src/platform/site-wide/sass/va-medallia-style.scss',
         ),
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts'],

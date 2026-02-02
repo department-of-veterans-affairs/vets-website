@@ -3683,10 +3683,10 @@
     react-focus-on "3.5.4"
     react-transition-group "1.0.0"
 
-"@department-of-veterans-affairs/css-library@^0.30.0-rc1":
-  version "0.30.0-rc1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.30.0-rc1.tgz#de8c5ad3356353a2d7e348419e0951b09375b064"
-  integrity sha512-18inHvSeEH5EpGvy8XKT6dpsGgW7TIwlXlmB4I4HG1d4J0VWs7u8o2AMbARNrMoU7VYpaBxuxPFYgk+huU/gZA==
+"@department-of-veterans-affairs/css-library@^0.30.0-rc5":
+  version "0.30.0-rc5"
+  resolved "http://localhost:4873/@department-of-veterans-affairs%2fcss-library/-/css-library-0.30.0-rc5.tgz#b53d2506d3e9da731e77ef092c92213ccf0c320e"
+  integrity sha512-E8QBtsR0IzjvOJ9ymdYvN5j745qrwlaQR5UFuqRahcW4HKvHDigS0CQghvJlFIvhQ4gGRvf570aWSoRZCsDCEQ==
   dependencies:
     "@divriots/style-dictionary-to-figma" "0.4.0"
     "@uswds/uswds" "3.9.0"
@@ -18209,7 +18209,7 @@ negotiator@0.6.3, negotiator@^0.6.2, negotiator@^0.6.3:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.3.tgz#58e323a72fedc0d6f9cd4d31fe49f51479590ccd"
   integrity sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==
 
-neo-async@^2.6.1, neo-async@^2.6.2:
+neo-async@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
@@ -22121,16 +22121,12 @@ sass-lint@^1.13.1:
     path-is-absolute "^1.0.0"
     util "^0.10.3"
 
-sass-loader@^8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-8.0.2.tgz#debecd8c3ce243c76454f2e8290482150380090d"
-  integrity sha512-7o4dbSK8/Ol2KflEmSco4jTjQoV988bM82P9CZdmo9hR3RLnvNc0ufMNdMrB0caq38JQ/FgF4/7RcbcfKzxoFQ==
+sass-loader@^14.1.1:
+  version "14.2.1"
+  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-14.2.1.tgz#db9ad96b56dc1c1ea546101e76375d5b008fec70"
+  integrity sha512-G0VcnMYU18a4N7VoNDegg2OuMjYtxnqzQWARVWCIVSZwJeiL9kg8QMsuIZOplsJgTzZLF6jGxI3AClj8I9nRdQ==
   dependencies:
-    clone-deep "^4.0.1"
-    loader-utils "^1.2.3"
-    neo-async "^2.6.1"
-    schema-utils "^2.6.1"
-    semver "^6.3.0"
+    neo-async "^2.6.2"
 
 sass@^1.78.0:
   version "1.97.2"
@@ -22158,7 +22154,7 @@ scheduler@^0.20.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
-schema-utils@^2.6.1, schema-utils@^2.6.5, schema-utils@^2.7.0:
+schema-utils@^2.6.5, schema-utils@^2.7.0:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.7.1.tgz#1ca4f32d1b24c590c203b8e7a50bf0ea4cd394d7"
   integrity sha512-SHiNtMOUGWBQJwzISiVYKu82GiV4QYGePp3odlY1tuKO7gPtphAT5R/py0fA6xtbgLL/RvtJZnU9b8s0F1q0Xg==

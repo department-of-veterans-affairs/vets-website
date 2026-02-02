@@ -1,2 +1,2 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "./responsive-table";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "./responsive-table" as *;

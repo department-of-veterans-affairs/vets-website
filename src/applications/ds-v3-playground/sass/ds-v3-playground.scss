@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities.css";
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities" as *;
 
 @font-face {
   font-family: "Source Sans Pro Web";

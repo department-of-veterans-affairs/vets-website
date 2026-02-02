@@ -1,3 +1,5 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+
 .image-div {
     @media (max-width: $small-screen) {
         min-width: 100%;

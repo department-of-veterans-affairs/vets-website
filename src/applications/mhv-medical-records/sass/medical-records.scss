@@ -1,15 +1,16 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "./record-list";
-@import "./breadcrumbs";
-@import "./vitals";
-@import "./navigation";
-@import "./landing-page";
-@import "./labs-and-tests";
-@import "./chem-hem";
-@import "./print-download";
-@import "./radiology-images";
-@import "./settings";
-@import "./label-value";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "./record-list" as *;
+@use "./breadcrumbs" as *;
+@use "./vitals" as *;
+@use "./navigation" as *;
+@use "./landing-page" as *;
+@use "./labs-and-tests" as *;
+@use "./chem-hem" as *;
+@use "./print-download" as *;
+@use "./radiology-images" as *;
+@use "./settings" as *;
+@use "./label-value" as *;
 
 .link-button,
 .link-button:hover,

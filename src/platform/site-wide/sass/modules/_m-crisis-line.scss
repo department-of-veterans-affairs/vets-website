@@ -1,3 +1,6 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+
 .va-crisis-line-container {
   position: relative;
   margin: auto;

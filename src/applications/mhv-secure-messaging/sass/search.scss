@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
 
 .search-form {
   background-color: var(--vads-color-gray-light-alt);

@@ -1,5 +1,5 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "../../../../../platform/forms/sass/m-schemaform";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "../../../../../platform/forms/sass/m-schemaform" as *;
 
 .document-list {
   list-style-type: none;

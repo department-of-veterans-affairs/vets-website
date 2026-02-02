@@ -1,3 +1,7 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+@use "modules/m-right-rail" as *;
+
 $medium-phone-screen: 375px;
 
 /* OVERRIDE */
@@ -46,8 +50,6 @@ $medium-phone-screen: 375px;
       position: relative;
     }
   }
-
-  @import "modules/m-right-rail";
 
   section.usa-grid {
     padding-top: 3em;

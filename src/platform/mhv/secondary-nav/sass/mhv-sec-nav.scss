@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
 
 $nav-max-width-breakpoint: 53em;
 $nav-mobile-breakpoint: 41.75em;

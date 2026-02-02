@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination" as *;
 
 // Facilities Hub
 .vads-facility-hub-cta {

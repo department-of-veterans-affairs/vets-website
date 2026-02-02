@@ -1,3 +1,5 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+
 .folder-link {
   a {
     color: var(--vads-color-link);

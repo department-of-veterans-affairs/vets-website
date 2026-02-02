@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
 
 .message-detail-container {
   overflow-wrap: break-word;

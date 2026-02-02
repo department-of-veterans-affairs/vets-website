@@ -1,3 +1,5 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+
 @media screen and (max-width: $medium-screen) {
   table.responsive {
     thead {

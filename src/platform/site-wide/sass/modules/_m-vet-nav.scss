@@ -1,3 +1,6 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+
 $height-offset-small: 131.16px;
 $height-offset-xsmall: 153.16px;
 

@@ -1,6 +1,7 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "./prescription-details";
-@import "./print-download";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "./prescription-details" as *;
+@use "./print-download" as *;
 
 .link-button,
 .link-button:hover,

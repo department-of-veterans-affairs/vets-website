@@ -1,11 +1,11 @@
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
-@import "../../../platform/forms/sass/m-form-confirmation";
-@import "../../../platform/forms/sass/m-schemaform";
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info" as *;
+@use "../../../platform/forms/sass/m-form-confirmation" as *;
+@use "../../../platform/forms/sass/m-schemaform" as *;
 
 // adds spacing to form titles
 #root__title {

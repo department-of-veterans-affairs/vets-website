@@ -1,6 +1,13 @@
 // eslint-disable function-url-scheme-disallowed-list
 // eslint-disable color-no-hex
 
+@use "./accordions.scss" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/core" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities" as *;
+
+$font-path: "/fonts";
+$image-path: "~uswds/src/img";
+
 @font-face {
   font-family: "Source Sans Pro";
   src: url("https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/sourcesanspro-regular-webfont.woff2");
@@ -47,13 +54,6 @@
 .ts-footer-container,
 #ts-login-modal-container,
 #ts-modal-crisisline {
-  $font-path: "/fonts";
-  $image-path: "~uswds/src/img";
-
-  @import "./accordions.scss";
-  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/core";
-  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities";
-
   /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
 

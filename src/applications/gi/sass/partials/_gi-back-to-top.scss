@@ -1,3 +1,6 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+
 // CSS in this file is based on https://github.com/department-of-veterans-affairs/veteran-facing-services-tools/blob/master/packages/formation/sass/modules/_m-back-to-top.scss
 
 .back-to-top {

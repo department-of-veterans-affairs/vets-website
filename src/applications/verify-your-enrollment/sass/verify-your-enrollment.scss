@@ -1,4 +1,4 @@
-@import "@department-of-veterans-affairs/platform-site-wide/style";
+@use "@department-of-veterans-affairs/platform-site-wide/style" as *;
 
 .vye-top-border{
     border-top: 1px solid var(--vads-color-base-lighter);

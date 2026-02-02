@@ -1,60 +1,62 @@
-@import "modules/m-overrides";
+@use "modules/m-overrides" as *;
 
 // Note: override-function is imported via formation-overrides/variables using @use
 // Do not import it separately to avoid dart-sass variable conflicts
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables";
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "fonts" as *;
 
-@import "v1-grid";
-@import "fonts";
+@use "modules/m-accordions" as *;
 
-@import "modules/m-accordions";
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/core" as *;
 
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/core";
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/uswds-typography" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-alert" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-breadcrumbs" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-button" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-elements" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-megamenu" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-loading-indicator" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-print" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-dropdown" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-overlay" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-additional-info" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-hub-page-link-list" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-action-link" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mobile-typography" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-sidebar" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-linklist" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/shame" as *;
 
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/uswds-typography";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-alert";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-breadcrumbs";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-button";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-elements";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-megamenu";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-loading-indicator";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-print";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-dropdown";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-overlay";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-additional-info";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-hub-page-link-list";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-action-link";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mobile-typography";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-sidebar";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-linklist";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/shame";
+@use "modules/m-button" as *;
+@use "modules/m-footer" as *;
+@use "modules/m-crisis-line" as *;
+@use "modules/m-vet-nav" as *;
+@use "modules/m-downtime-notification" as *;
+@use "modules/m-layers" as *;
+@use "modules/m-header" as *;
+@use "modules/m-homepage" as *;
+@use "modules/m-homepage-preview" as *;
+@use "modules/m-cta-widget" as *;
+@use "modules/m-side-nav" as *;
+@use "modules/m-responsive-table" as *;
+@use "modules/m-campaign-landing-page" as *;
+@use "modules/m-form-expanding-group" as *;
+@use "modules/m-drupal-sidebarnav" as *;
+@use "modules/m-education-wizard" as *;
+@use "modules/m-loading-button" as *;
 
-@import "modules/m-button";
-@import "modules/m-footer";
-@import "modules/m-crisis-line";
-@import "modules/m-vet-nav";
-@import "modules/m-downtime-notification";
-@import "modules/m-layers";
-@import "modules/m-header";
-@import "modules/m-homepage";
-@import "modules/m-homepage-preview";
-@import "modules/m-cta-widget";
-@import "modules/m-side-nav";
-@import "modules/m-responsive-table";
-@import "modules/m-campaign-landing-page";
-@import "modules/m-form-expanding-group";
-@import "modules/m-drupal-sidebarnav";
-@import "modules/m-education-wizard";
-@import "modules/m-loading-button";
+@use "modules/facilities/m-facilities" as *;
+@use "modules/facilities/m-facility-detail" as *;
+@use "modules/facilities/m-facilities-general" as *;
+@use "modules/facilities/m-operating-status" as *;
+@use "modules/facilities/m-facility-events" as *;
 
-@import "modules/facilities/m-facilities";
-@import "modules/facilities/m-facility-detail";
-@import "modules/facilities/m-facilities-general";
-@import "modules/facilities/m-operating-status";
-@import "modules/facilities/m-facility-events";
+@use "shame" as *;
 
-@import "shame";
+// Use @import for v1-grid since it uses @import statements internally
+// @import must come after all @use statements in Dart Sass
+@import "./v1-grid";

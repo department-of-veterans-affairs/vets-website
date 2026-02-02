@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions";
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions" as *;
 $anchor-font-size: 1.25rem; // == 20px
 
 // Font smoothing adjustment for macOS users

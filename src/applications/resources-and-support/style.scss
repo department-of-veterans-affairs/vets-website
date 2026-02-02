@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
 
 .medium-screen-va-border-left-radius--0 {
   @media (min-width: $medium-screen) {

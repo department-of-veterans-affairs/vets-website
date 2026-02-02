@@ -1,16 +1,17 @@
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
-@import "../../../../platform/forms/sass/m-schemaform";
-@import "./shared";
-@import "./profile-subnav";
-@import "./profile-mobile-subnav";
-@import "./connected-apps";
-@import "./personal-contact-information";
-@import "./notification-radio-buttons";
-@import "./hub-cards";
-@import "../components/direct-deposit/vye/sass/change-of-address-wrapper";
-@import "../components/direct-deposit/vye/sass/change-of-direct-deposit-wrapper";
-@import "./proof-of-veteran-status-card";
-@import "./paperless-delivery";
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
+@use "../../../../platform/forms/sass/m-schemaform" as *;
+@use "./shared" as *;
+@use "./profile-subnav" as *;
+@use "./profile-mobile-subnav" as *;
+@use "./connected-apps" as *;
+@use "./personal-contact-information" as *;
+@use "./notification-radio-buttons" as *;
+@use "./hub-cards" as *;
+@use "../components/direct-deposit/vye/sass/change-of-address-wrapper" as *;
+@use "../components/direct-deposit/vye/sass/change-of-direct-deposit-wrapper" as *;
+@use "./proof-of-veteran-status-card" as *;
+@use "./paperless-delivery" as *;
 
 va-modal {
   box-sizing: border-box;

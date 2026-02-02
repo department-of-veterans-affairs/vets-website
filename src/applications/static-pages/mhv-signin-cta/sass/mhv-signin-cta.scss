@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
 
 // Override VSDS Alert component icon to fix overlapping custom icon
 .usa-alert::before {

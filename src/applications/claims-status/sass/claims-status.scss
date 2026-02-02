@@ -1,10 +1,11 @@
-@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as *;
 // TODO: Look at moving the .process-step css into this file
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list" as *;
 // TODO: Determine if we are actually using any of these
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination" as *;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal" as *;
 
 .loading-indicator-full-page-container {
   height: 100vh;
