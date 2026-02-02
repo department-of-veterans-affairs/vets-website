@@ -60,7 +60,7 @@ export default function SelectProviderPage() {
         return singleProviderTitle;
 
       // No provider header, no error
-      if (!hasProviders) return cantScheduleTitle;
+      if (!hasProviders || !isEligibleForDirect) return cantScheduleTitle;
 
       // return default pageTitle
       return pageTitle;
