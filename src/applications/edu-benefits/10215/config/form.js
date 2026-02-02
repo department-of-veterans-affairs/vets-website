@@ -39,6 +39,7 @@ export const arrayBuilderOptions = {
   nounSingular: 'program',
   nounPlural: 'programs',
   required: true,
+  maxItems: 999999,
   text: {
     getItemName: item => item.programName,
     cardDescription: item => {

@@ -5,7 +5,7 @@ import {
   internationalPhoneSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
+// 32
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -17,7 +17,10 @@ export default {
     type: 'object',
     required: ['claimantEmail', 'claimantPhone'],
     properties: {
-      claimantEmail: emailSchema,
+      claimantEmail: {
+        ...emailSchema,
+        maxLength: 32,
+      },
       claimantPhone: internationalPhoneSchema(),
     },
   },

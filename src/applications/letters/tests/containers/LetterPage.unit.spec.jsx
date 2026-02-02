@@ -62,6 +62,11 @@ const getStore = () => {
     featureToggles: {
       [FEATURE_FLAG_NAMES.tsaSafeTravelLetter]: true,
     },
+    user: {
+      profile: {
+        loa: { current: 3 },
+      },
+    },
   };
   return createStore(mockReducer, initialState, applyMiddleware(thunk));
 };

@@ -31,15 +31,15 @@ describe('VASS Utils: navigation', () => {
       );
     });
 
-    it('should have enter-otc route with lowAuthOnly authorization', () => {
-      const enterOtcRoute = routes.find(r => r.path === URLS.ENTER_OTC);
-      expect(enterOtcRoute).to.exist;
-      expect(enterOtcRoute.permissions.requiresAuthorization).to.equal(
-        AUTH_LEVELS.LOW_AUTH_ONLY,
+    it('should have enter-otp route with lowAuthOnly authorization', () => {
+      const enterOtpRoute = routes.find(r => r.path === URLS.ENTER_OTP);
+      expect(enterOtpRoute).to.exist;
+      expect(enterOtpRoute.permissions.requiresAuthorization).to.equal(
+        AUTH_LEVELS.NONE,
       );
-      expect(enterOtcRoute.permissions.requireFormData).to.deep.equal([
+      expect(enterOtpRoute.permissions.requireFormData).to.deep.equal([
         'uuid',
-        'lastname',
+        'lastName',
         'dob',
         'obfuscatedEmail',
       ]);
@@ -69,7 +69,7 @@ describe('VASS Utils: navigation', () => {
       const verifyRoute = routes.find(r => r.path === URLS.VERIFY);
       expect(verifyRoute.setsData).to.deep.equal([
         'uuid',
-        'lastname',
+        'lastName',
         'dob',
         'obfuscatedEmail',
       ]);
@@ -105,8 +105,8 @@ describe('VASS Utils: navigation', () => {
       expect(result).to.equal(URLS.VERIFY);
     });
 
-    it('should return the path of the route that sets lastname', () => {
-      const result = findRouteForField('lastname');
+    it('should return the path of the route that sets lastName', () => {
+      const result = findRouteForField('lastName');
       expect(result).to.equal(URLS.VERIFY);
     });
 

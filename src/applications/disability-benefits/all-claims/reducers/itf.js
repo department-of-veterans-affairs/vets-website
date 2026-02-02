@@ -9,6 +9,7 @@ import {
   ITF_CREATION_INITIATED,
   ITF_CREATION_SUCCEEDED,
   ITF_CREATION_FAILED,
+  ITF_MESSAGE_DISMISSED,
 } from '../actions';
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   creationCallState: requestStates.notCalled,
   currentITF: null,
   previousITF: null,
+  messageDismissed: false,
 };
 
 /**
@@ -75,6 +77,8 @@ export default (state = initialState, action) => {
     }
     case ITF_CREATION_FAILED:
       return set('creationCallState', requestStates.failed, state);
+    case ITF_MESSAGE_DISMISSED:
+      return set('messageDismissed', true, state);
     default:
       return state;
   }

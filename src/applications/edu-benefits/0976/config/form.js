@@ -43,10 +43,14 @@ import institutionContactsInstructions from '../pages/institutionContactsInstruc
 import institutionFinancialRepresentative from '../pages/institutionFinancialRepresentative';
 import institutionCertifyingOfficial from '../pages/institutionCertifyingOfficial';
 
+import officialsSummary from '../pages/officialsSummary';
+import officialsDetails from '../pages/officialsDetails';
+
 import {
   additionalInstitutionsWithCodeArrayOptions,
   additionalInstitutionsWithoutCodeArrayOptions,
   programInformationArrayOptions,
+  officialsArrayOptions,
 } from '../helpers';
 
 const formConfig = {
@@ -345,6 +349,21 @@ const formConfig = {
           uiSchema: institutionCertifyingOfficial.uiSchema,
           schema: institutionCertifyingOfficial.schema,
         },
+        ...arrayBuilderPages(officialsArrayOptions, pageBuilder => ({
+          officialsSummary: pageBuilder.summaryPage({
+            path: 'officials-summary',
+            title: 'Officials summary',
+            uiSchema: officialsSummary.uiSchema,
+            schema: officialsSummary.schema,
+          }),
+          officialsDetails: pageBuilder.itemPage({
+            path: 'officials-details/:index',
+            title: 'Officials details',
+            showPagePerItem: true,
+            uiSchema: officialsDetails.uiSchema,
+            schema: officialsDetails.schema,
+          }),
+        })),
       },
     },
   },

@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
+import environment from 'platform/utilities/environment';
 import { SERVICE_PROVIDERS, OKTA_APPS } from '../constants';
 import { createOktaOAuthRequest } from '../../../utilities/oauth/utilities';
 
 export function loginHandler(loginType, isOAuth, oktaParams = {}) {
   const isOAuthAttempt = isOAuth && '-oauth';
   const { codeChallenge = '', clientId = '', state = '' } = oktaParams;
+  const isProduction = environment.isProduction();
 
   if (OKTA_APPS?.includes(clientId)) {
     const url = createOktaOAuthRequest({
@@ -16,15 +18,19 @@ export function loginHandler(loginType, isOAuth, oktaParams = {}) {
       state,
       loginType,
     });
-    recordEvent({
-      event: `login-attempted-${loginType}${isOAuthAttempt}`,
-    });
+    if (isProduction) {
+      recordEvent({
+        event: `login-attempted-${loginType}${isOAuthAttempt}`,
+      });
+    }
     window.location = url;
     // short-circuit the function
     return;
   }
 
-  recordEvent({ event: `login-attempted-${loginType}${isOAuthAttempt}` });
+  if (isProduction) {
+    recordEvent({ event: `login-attempted-${loginType}${isOAuthAttempt}` });
+  }
   authUtilities.login({ policy: loginType });
 }
 

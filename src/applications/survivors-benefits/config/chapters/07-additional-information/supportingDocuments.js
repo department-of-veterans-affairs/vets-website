@@ -90,9 +90,9 @@ const Documents = () => (
             </span>
           </li>
           <li>
-            <strong>Royalties</strong> require a Statement in Support of Claim
-            for Pension or Parents’ Dependency and Indemnity Compensation (DIC)
-            (VA Form 21P-0969)
+            <strong>Royalties</strong> require an Income and Asset Statement in
+            Support of Claim for Pension or Parents' Dependency and Indemnity
+            Compensation (DIC) (VA Form 21P-0969)
             <span className="vads-u-display--block">
               <va-link
                 href="https://www.va.gov/find-forms/about-form-21p-0969/"

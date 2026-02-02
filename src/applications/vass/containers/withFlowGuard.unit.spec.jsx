@@ -80,7 +80,7 @@ describe('VASS Containers: withFlowGuard', () => {
         expect(queryByTestId('test-component')).to.not.exist;
       });
 
-      it('should redirect to Verify page with uuid', async () => {
+      it('should redirect to Verify page with uuid and cancel param', async () => {
         const WrappedComponent = withFlowGuard(
           TestComponent,
           FLOW_TYPES.SCHEDULE,
@@ -108,14 +108,14 @@ describe('VASS Containers: withFlowGuard', () => {
 
         await waitFor(() => {
           expect(getByTestId('location-display').textContent).to.equal(
-            `${URLS.VERIFY}?uuid=test-uuid-1234`,
+            `${URLS.VERIFY}?uuid=test-uuid-1234&cancel=true`,
           );
         });
 
         expect(queryByTestId('test-component')).to.not.exist;
       });
 
-      it('should redirect to Verify page without uuid when uuid is not set', async () => {
+      it('should redirect to Verify page with cancel param when uuid is not set', async () => {
         const WrappedComponent = withFlowGuard(
           TestComponent,
           FLOW_TYPES.SCHEDULE,
@@ -143,7 +143,7 @@ describe('VASS Containers: withFlowGuard', () => {
 
         await waitFor(() => {
           expect(getByTestId('location-display').textContent).to.equal(
-            URLS.VERIFY,
+            `${URLS.VERIFY}?cancel=true`,
           );
         });
       });

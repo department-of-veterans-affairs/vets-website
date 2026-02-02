@@ -531,7 +531,7 @@ const baseUserResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
-          schedulingPreferencesPilotEligible: false,
+          schedulingPreferencesPilotEligible: true,
         },
         veteranStatus: {
           status: 'OK',

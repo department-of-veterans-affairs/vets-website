@@ -1527,4 +1527,228 @@ describe('<RecentActivity>', () => {
       );
     });
   });
+
+  context('isDBQ boolean property fallback pattern', () => {
+    it('should use API value when provided (true)', () => {
+      const claimWithApiIsDBQTrue = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'Non-DBQ Request', // Doesn't include 'dbq'
+              friendlyName: 'Test Request',
+              isDBQ: true, // API value is true
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithApiIsDBQTrue} />
+        </Provider>,
+      );
+
+      // Should show DBQ message because API value is true
+      getByText('We made a request: “test Request.”');
+    });
+
+    it('should use API value when provided (false)', () => {
+      const claimWithApiIsDBQFalse = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'DBQ AUDIO Hearing Loss', // Contains 'dbq'
+              friendlyName: 'DBQ Test',
+              isDBQ: false, // API value is false, overrides displayName check
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithApiIsDBQFalse} />
+        </Provider>,
+      );
+
+      // Should show outside VA message because API value is false
+      getByText('We made a request outside the VA: “dBQ Test.”');
+    });
+
+    it('should fallback to evidenceDictionary when API value not provided', () => {
+      const claimWithDictIsDBQ = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'DBQ AUDIO Hearing Loss and Tinnitus', // In dictionary with isDBQ: true
+              friendlyName: 'Hearing Test',
+              // No isDBQ property from API
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithDictIsDBQ} />
+        </Provider>,
+      );
+
+      // Should use dictionary value (true)
+      getByText('We made a request: “hearing Test.”');
+    });
+
+    it('should fallback to displayName check when neither API nor dictionary has value', () => {
+      const claimWithDbqInName = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'Some DBQ Related Request', // Contains 'dbq' but not in dictionary
+              friendlyName: 'DBQ Request',
+              // No isDBQ property from API or dictionary
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithDbqInName} />
+        </Provider>,
+      );
+
+      // Should detect 'dbq' in displayName
+      getByText('We made a request: “dBQ Request.”');
+    });
+
+    it('should default to false when all fallbacks fail', () => {
+      const claimWithNoDBQ = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'Medical Records Request', // Not in dictionary, no 'dbq'
+              friendlyName: 'Medical Records',
+              // No isDBQ property from API
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithNoDBQ} />
+        </Provider>,
+      );
+
+      // Should default to false (outside VA request)
+      getByText('We made a request outside the VA: “medical Records.”');
+    });
+
+    it('should handle API value of false even when displayName contains dbq', () => {
+      const claimWithConflict = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'DBQ Test Item',
+              friendlyName: 'DBQ Test',
+              isDBQ: false, // API explicitly says false
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithConflict} />
+        </Provider>,
+      );
+
+      // API value should take precedence over displayName check
+      getByText('We made a request outside the VA: “dBQ Test.”');
+    });
+  });
 });

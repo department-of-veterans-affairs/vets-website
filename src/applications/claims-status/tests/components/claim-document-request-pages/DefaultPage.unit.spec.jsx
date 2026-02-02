@@ -1074,4 +1074,230 @@ describe('<DefaultPage>', () => {
       expect(strongInListItem.textContent).to.equal('Document A');
     });
   });
+
+  // API STRUCTURED CONTENT FALLBACK PATTERN TESTS
+  describe('API structured content fallback pattern', () => {
+    const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
+
+    const mockApiLongDescription = {
+      blocks: [
+        {
+          type: 'paragraph',
+          content:
+            'This is API-provided structured content for longDescription.',
+        },
+        {
+          type: 'list',
+          style: 'bullet',
+          items: ['API item 1', 'API item 2', 'API item 3'],
+        },
+      ],
+    };
+
+    const mockApiNextSteps = {
+      blocks: [
+        {
+          type: 'paragraph',
+          content: 'These are API-provided structured next steps.',
+        },
+      ],
+    };
+
+    context('longDescription fallback priority', () => {
+      it('Priority 1: API-provided structured content (JSON blocks → TrackedItemContent)', () => {
+        const item = {
+          id: 200,
+          displayName: '21-4142/21-4142a',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          longDescription: mockApiLongDescription, // API value present
+          description: 'Old simple description',
+        };
+
+        const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        // Should render API structured content
+        expect(getByTestId('api-long-description')).to.exist;
+        // Should NOT render frontend or simple API description
+        expect(queryByTestId('frontend-description')).to.not.exist;
+        expect(queryByTestId('api-description')).to.not.exist;
+        expect(queryByTestId('empty-state-description')).to.not.exist;
+      });
+    });
+
+    context('nextSteps fallback priority', () => {
+      it('Priority 1: API structured next steps', () => {
+        const item = {
+          id: 205,
+          displayName: '21-4142/21-4142a',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          nextSteps: mockApiNextSteps, // API value present
+        };
+
+        const {
+          getByTestId,
+          queryByTestId,
+          getByText,
+        } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        // Should render API structured next steps
+        expect(getByTestId('api-next-steps')).to.exist;
+        getByText('These are API-provided structured next steps.');
+        // Should NOT render frontend or generic next steps
+        expect(queryByTestId('frontend-next-steps')).to.not.exist;
+        expect(queryByTestId('next-steps-in-what-we-need-from-you')).to.not
+          .exist;
+      });
+    });
+
+    context('API content with generic next steps', () => {
+      it('References "What we need from you" when API longDescription exists', () => {
+        const item = {
+          id: 209,
+          displayName: 'Unknown Item Type',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          longDescription: mockApiLongDescription, // Has API content
+          // No nextSteps
+        };
+
+        const { getByTestId, getByText } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        // Should show "What we need from you" reference
+        const listItem = getByTestId('next-steps-in-what-we-need-from-you');
+        expect(listItem).to.exist;
+        expect(listItem.textContent).to.include(
+          'Gather and submit any documents',
+        );
+        expect(listItem.textContent).to.include('What we need from you');
+        // Should also show help text about claim letters
+        getByText(
+          'If you need help understanding this request, check your claim letter online.',
+        );
+      });
+    });
+
+    context('combined API structured content scenarios', () => {
+      it('Renders both API longDescription and nextSteps when both are provided', () => {
+        const item = {
+          id: 213,
+          displayName: 'Unknown Item Type',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          longDescription: mockApiLongDescription,
+          nextSteps: mockApiNextSteps,
+        };
+
+        const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        // Should render both API structured contents
+        expect(getByTestId('api-long-description')).to.exist;
+        expect(getByTestId('api-next-steps')).to.exist;
+        // Should NOT render any fallback content
+        expect(queryByTestId('frontend-description')).to.not.exist;
+        expect(queryByTestId('frontend-next-steps')).to.not.exist;
+        expect(queryByTestId('api-description')).to.not.exist;
+        expect(queryByTestId('next-steps-in-what-we-need-from-you')).to.not
+          .exist;
+      });
+
+      it('Renders API longDescription with frontend nextSteps (mixed API and dictionary)', () => {
+        const item = {
+          id: 214,
+          displayName: '21-4142/21-4142a',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          longDescription: mockApiLongDescription, // API
+          // nextSteps will come from dictionary
+        };
+
+        const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        // Should render API structured longDescription
+        expect(getByTestId('api-long-description')).to.exist;
+        // Should render frontend dictionary nextSteps
+        expect(getByTestId('frontend-next-steps')).to.exist;
+        // Should NOT render frontend description
+        expect(queryByTestId('frontend-description')).to.not.exist;
+        expect(queryByTestId('api-next-steps')).to.not.exist;
+      });
+
+      it('Renders frontend description with API nextSteps', () => {
+        const item = {
+          id: 215,
+          displayName: '21-4142/21-4142a',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          // longDescription will come from dictionary
+          nextSteps: mockApiNextSteps, // API
+        };
+
+        const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        // Should render frontend dictionary longDescription
+        expect(getByTestId('frontend-description')).to.exist;
+        // Should render API structured nextSteps
+        expect(getByTestId('api-next-steps')).to.exist;
+        // Should NOT render API longDescription
+        expect(queryByTestId('api-long-description')).to.not.exist;
+        expect(queryByTestId('frontend-next-steps')).to.not.exist;
+      });
+    });
+
+    context('backward compatibility', () => {
+      it('Maintains existing behavior when API fields are undefined', () => {
+        const item = {
+          id: 216,
+          displayName: '21-4142/21-4142a',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          // longDescription and nextSteps not included (undefined)
+        };
+
+        const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        // Should fallback to dictionary (existing behavior)
+        expect(getByTestId('frontend-description')).to.exist;
+        expect(getByTestId('frontend-next-steps')).to.exist;
+        expect(queryByTestId('api-long-description')).to.not.exist;
+        expect(queryByTestId('api-next-steps')).to.not.exist;
+      });
+    });
+  });
 });

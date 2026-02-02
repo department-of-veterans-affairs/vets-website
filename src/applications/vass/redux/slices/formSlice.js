@@ -75,7 +75,7 @@ const initialState = {
   selectedTopics: [],
   obfuscatedEmail: null,
   uuid: null,
-  lastname: null,
+  lastName: null,
   dob: null,
   flowType: FLOW_TYPES.ANY,
 };
@@ -113,13 +113,13 @@ export const formSlice = createSlice({
     },
     setLowAuthFormData: (state, action) => {
       state.uuid = action.payload.uuid;
-      state.lastname = action.payload.lastname;
+      state.lastName = action.payload.lastName;
       state.dob = action.payload.dob;
       // Save to storage keyed by UUID
       saveFormDataToStorage(action.payload.uuid, {
         ...state,
         uuid: action.payload.uuid,
-        lastname: action.payload.lastname,
+        lastName: action.payload.lastName,
         dob: action.payload.dob,
       });
     },
@@ -133,7 +133,7 @@ export const formSlice = createSlice({
       state.selectedTopics = [];
       state.obfuscatedEmail = null;
       state.uuid = null;
-      state.lastname = null;
+      state.lastName = null;
       state.dob = null;
       state.hydrated = false;
       state.flowType = FLOW_TYPES.ANY;
@@ -143,8 +143,8 @@ export const formSlice = createSlice({
       if (action.payload.uuid) {
         state.uuid = action.payload.uuid;
       }
-      if (action.payload.lastname) {
-        state.lastname = action.payload.lastname;
+      if (action.payload.lastName) {
+        state.lastName = action.payload.lastName;
       }
       if (action.payload.dob) {
         state.dob = action.payload.dob;
@@ -180,7 +180,7 @@ export const selectSelectedTopics = state => state.vassForm.selectedTopics;
 export const selectUuid = state => state.vassForm.uuid;
 export const selectHydrated = state => state.vassForm.hydrated;
 export const selectObfuscatedEmail = state => state.vassForm.obfuscatedEmail;
-export const selectLastname = state => state.vassForm.lastname;
+export const selectLastName = state => state.vassForm.lastName;
 export const selectDob = state => state.vassForm.dob;
 export const selectFlowType = state => state.vassForm.flowType;
 

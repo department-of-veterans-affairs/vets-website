@@ -46,12 +46,14 @@ const AppointmentCard = ({
           </p>
         }
       />
-      <CardSection
-        data-testid="when-section"
-        heading="When"
-        appointmentData={appointmentData}
-        showAddToCalendarButton={showAddToCalendarButton}
-      />
+      {appointmentData?.startUTC && (
+        <CardSection
+          data-testid="when-section"
+          heading="When"
+          appointmentData={appointmentData}
+          showAddToCalendarButton={showAddToCalendarButton}
+        />
+      )}
       <CardSection
         data-testid="what-section"
         heading="What"

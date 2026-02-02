@@ -52,7 +52,7 @@ describe('Gross Monthly Income Pages', () => {
     const vaOtherTypeExplanationText =
       'va-text-input[label*="Tell us the type of income"]';
     expect($(vaOtherTypeExplanationText, formDOM)).to.not.exist;
-    expect(vaOptions.length).to.equal(9);
+    expect(vaOptions.length).to.equal(7);
     Object.keys({
       ...incomeRecipientTypeLabels,
       ...typeOfIncomeLabels,

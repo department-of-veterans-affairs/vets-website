@@ -5,31 +5,16 @@ import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform
 
 import Confirmation from './Confirmation';
 import { getDefaultRenderOptions } from '../utils/test-utils';
-import { createAppointmentData } from '../utils/appointments';
+import {
+  createAppointmentData,
+  createVassApiStateWithAppointment,
+} from '../utils/appointments';
 
 const appointmentId = '123';
 const appointmentData = createAppointmentData({ appointmentId });
 
-// Pre-populate the RTK Query cache with the appointment data
-const getVassApiState = () => ({
-  queries: {
-    [`getAppointment({"appointmentId":"${appointmentId}"})`]: {
-      status: 'fulfilled',
-      endpointName: 'getAppointment',
-      requestId: 'test',
-      startedTimeStamp: 0,
-      data: appointmentData,
-    },
-  },
-  mutations: {},
-  provided: {},
-  subscriptions: {},
-  config: {
-    online: true,
-    focused: true,
-    middlewareRegistered: true,
-  },
-});
+const getVassApiState = () =>
+  createVassApiStateWithAppointment(appointmentId, appointmentData);
 
 describe('VASS Component: Confirmation', () => {
   it('should render all content', () => {

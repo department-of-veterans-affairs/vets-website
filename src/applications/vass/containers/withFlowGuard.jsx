@@ -34,8 +34,12 @@ const withFlowGuard = (Component, allowedFlow = FLOW_TYPES.ANY) => {
         if (flowType !== allowedFlow) {
           // Redirect back to Verify page with uuid to restart in their original flow
           const redirectUrl = uuid
-            ? `${URLS.VERIFY}?uuid=${uuid}`
-            : URLS.VERIFY;
+            ? `${URLS.VERIFY}?uuid=${uuid}${
+                flowType === FLOW_TYPES.CANCEL ? '&cancel=true' : ''
+              }`
+            : `${URLS.VERIFY}${
+                flowType === FLOW_TYPES.CANCEL ? '?cancel=true' : ''
+              }`;
           navigate(redirectUrl, { replace: true });
         }
       },

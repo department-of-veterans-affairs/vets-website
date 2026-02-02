@@ -45,7 +45,7 @@ export default {
           required: 'Please select a state',
         },
       },
-      country: {
+      otherCountry: {
         ...selectUI('Country'),
         'ui:required': formData => formData?.marriageToVeteranEndOutsideUS,
         'ui:options': {
@@ -79,7 +79,7 @@ export default {
             enum: STATE_VALUES,
             enumNames: STATE_NAMES,
           },
-          country: {
+          otherCountry: {
             type: 'string',
             enum: COUNTRY_VALUES,
             enumNames: COUNTRY_NAMES,

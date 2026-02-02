@@ -58,8 +58,8 @@ export const convertMedication = med => {
   if (med.dispStatus?.toLowerCase()?.includes('non-va'))
     return convertNonVaMedication(med);
 
-  const { attributes } = med;
-  const phoneNum = pharmacyPhoneNumber(med.attributes);
+  const attributes = med.attributes || {};
+  const phoneNum = pharmacyPhoneNumber(attributes);
 
   return {
     id: med.id,
@@ -111,8 +111,9 @@ export const convertAppointment = appt => {
   if (!appt) return null;
 
   const now = new Date();
-  const { attributes } = appt;
+  const attributes = appt.attributes || {};
   const appointmentTime = new Date(attributes.localStartTime);
+  const isValidAppointmentTime = !Number.isNaN(appointmentTime.getTime());
   const location = attributes.location?.attributes || { physicalAddress: {} };
   const { line, city, state, postalCode } = location.physicalAddress;
   const addressLines = line || [];
@@ -125,8 +126,8 @@ export const convertAppointment = appt => {
 
   return {
     id: appt.id,
-    date: dateFormat(appointmentTime),
-    isUpcoming: isAfter(appointmentTime, now),
+    date: isValidAppointmentTime ? dateFormat(appointmentTime) : UNKNOWN,
+    isUpcoming: isValidAppointmentTime ? isAfter(appointmentTime, now) : false,
     appointmentType: attributes.kind ? capitalize(attributes.kind) : UNKNOWN,
     status: attributes.status === 'booked' ? 'Confirmed' : 'Pending',
     what: attributes.serviceName || 'General',

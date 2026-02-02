@@ -1,8 +1,35 @@
 import { expect } from 'chai';
+
 import {
   getFullName,
   organizationRepresentativesArrayOptions,
+  getThirdPartyName,
 } from '../helpers';
+
+describe('10278 helpers - getThirdPartyName', () => {
+  it('returns organization name when authorize is "organization"', () => {
+    const formData = {
+      discloseInformation: { authorize: 'organization' },
+      organizationName: 'Acme Org',
+    };
+
+    expect(getThirdPartyName(formData)).to.equal('Acme Org');
+  });
+
+  it('returns person full name when authorize is "person"', () => {
+    const formData = {
+      discloseInformation: { authorize: 'person' },
+      thirdPartyPersonName: {
+        fullName: {
+          first: 'Jane',
+          last: 'Doe',
+        },
+      },
+    };
+
+    expect(getThirdPartyName(formData)).to.equal('Jane Doe');
+  });
+});
 
 describe('organizationRepresentativesArrayOptions helpers', () => {
   describe('getFullName', () => {

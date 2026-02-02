@@ -7,6 +7,7 @@ import {
   additionalInstitutionsWithCodeArrayOptions,
   additionalInstitutionsWithoutCodeArrayOptions,
   programInformationArrayOptions,
+  officialsArrayOptions,
 } from '../helpers';
 
 describe('0839 Helpers', () => {
@@ -226,6 +227,42 @@ describe('0839 Helpers', () => {
     it('has the right card title', () => {
       const title = text.getItemName(exampleItem);
       expect(title).to.eq('MBA');
+    });
+  });
+
+  describe('officials array options', () => {
+    const exampleItem = {
+      fullName: {
+        first: 'John',
+        last: 'Doe',
+      },
+      title: 'Duke',
+    };
+
+    const { isItemIncomplete, text } = officialsArrayOptions;
+
+    it('has the right completeness check', () => {
+      expect(isItemIncomplete({ fullName: null, title: null })).to.be.true;
+      expect(isItemIncomplete(exampleItem)).to.be.false;
+    });
+
+    it('has the right card description', () => {
+      const description = text.cardDescription(exampleItem);
+      const { container } = render(description);
+      expect(container.textContent).to.contain('Duke');
+    });
+
+    it('has the right card title', () => {
+      const title = text.getItemName(exampleItem);
+      expect(title).to.eq('John Doe');
+    });
+
+    it('has the right summary without items', () => {
+      const summary = text.summaryDescriptionWithoutItems();
+      const { container } = render(summary);
+      expect(container.textContent).to.contain(
+        'you will be asked to provide information about faculty members',
+      );
     });
   });
 });

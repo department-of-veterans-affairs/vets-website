@@ -75,7 +75,7 @@
       "from": "2000-01-01",
       "to": "2005-01-01"
     },
-    "marriedAtDeath": true,
+    "marriedToVeteranAtTimeOfDeath": true,
     "marriageToVeteranStartDate": "2010-01-01",
     "marriageToVeteranStartOutsideUS": false,
     "marriageToVeteranStartLocation": {
@@ -183,7 +183,7 @@
         "monthlySupport": 500
       }
     ],
-    "dicType": "DIC",
+    "benefit": "DIC",
       "vaMedicalCenters": [
         {
           "vaMedicalCenterName": "Anytown VA Medical Center",

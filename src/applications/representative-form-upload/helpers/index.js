@@ -1,9 +1,8 @@
 import React from 'react';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 import { scrollTo } from 'platform/utilities/scroll';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { differenceInDays } from 'date-fns';
 import { timeFromNow } from 'platform/utilities/date/index';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -78,7 +77,7 @@ export const getFileSize = num => {
 
 export const scrollAndFocusTarget = () => {
   scrollTo('va-segmented-progress-bar');
-  focusElement('h2', {}, $('va-segmented-progress-bar')?.shadowRoot);
+  waitForRenderThenFocus('va-segmented-progress-bar', document, 250, 'h2');
 };
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"

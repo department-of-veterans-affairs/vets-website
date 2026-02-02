@@ -9,18 +9,25 @@ import {
   selectSelectedDate,
 } from '../redux/slices/formSlice';
 import { URLS } from '../utils/constants';
+import { isServerError, isAppointmentFailedError } from '../utils/errors';
 
 const Review = () => {
   const navigate = useNavigate();
-  const [postAppointment, { isLoading }] = usePostAppointmentMutation();
+  const [
+    postAppointment,
+    { isLoading, error: postAppointmentError },
+  ] = usePostAppointmentMutation();
   const selectedTopics = useSelector(selectSelectedTopics);
   const selectedDate = useSelector(selectSelectedDate);
   const handleConfirmCall = async () => {
     const res = await postAppointment({
-      topics: selectedTopics,
+      topics: selectedTopics.map(topic => topic.topicId),
       dtStartUtc: selectedDate,
       dtEndUtc: selectedDate,
     });
+    if (res.error) {
+      return;
+    }
     navigate(`${URLS.CONFIRMATION}/${res.data.appointmentId}`);
   };
 
@@ -29,6 +36,10 @@ const Review = () => {
       pageTitle="Review your VA Solid Start appointment details"
       testID="review-page"
       showBackLink
+      errorAlert={
+        isServerError(postAppointmentError) ||
+        isAppointmentFailedError(postAppointmentError)
+      }
     >
       <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
         <p

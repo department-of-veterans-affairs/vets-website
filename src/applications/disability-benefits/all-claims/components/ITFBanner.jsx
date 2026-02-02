@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import { focusElement } from 'platform/utilities/ui';
+import { dismissITFMessage as dismissITFMessageAction } from '../actions';
 
 import {
   itfMessage,
@@ -12,18 +14,13 @@ import {
 } from '../content/itfWrapper';
 import { DISABILITY_526_V2_ROOT_URL } from '../constants';
 
-export default class ITFBanner extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { messageDismissed: false };
-  }
-
+export class ITFBanner extends React.Component {
   dismissMessage = () => {
-    this.setState({ messageDismissed: true });
+    this.props.dismissITFMessage();
   };
 
   render() {
-    if (this.state.messageDismissed) {
+    if (this.props.messageDismissed) {
       return this.props.children;
     }
 
@@ -88,8 +85,24 @@ export default class ITFBanner extends React.Component {
 
 ITFBanner.propTypes = {
   status: PropTypes.oneOf(['error', 'itf-found', 'itf-created']).isRequired,
-  title: PropTypes.string,
-  previousITF: PropTypes.object,
+  children: PropTypes.node,
   currentExpDate: PropTypes.string,
+  dismissITFMessage: PropTypes.func,
+  messageDismissed: PropTypes.bool,
   previousExpDate: PropTypes.string,
+  previousITF: PropTypes.object,
+  title: PropTypes.string,
 };
+
+const mapStateToProps = state => ({
+  messageDismissed: state.itf.messageDismissed,
+});
+
+const mapDispatchToProps = {
+  dismissITFMessage: dismissITFMessageAction,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ITFBanner);

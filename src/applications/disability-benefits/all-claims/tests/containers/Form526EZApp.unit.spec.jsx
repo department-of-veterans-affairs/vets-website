@@ -62,6 +62,13 @@ describe('Form 526EZ Entry Page', () => {
           },
         },
       },
+      itf: {
+        fetchCallState: 'notCalled',
+        creationCallState: 'notCalled',
+        currentITF: null,
+        previousITF: null,
+        messageDismissed: false,
+      },
       user: {
         login: {
           currentlyLoggedIn,
@@ -253,6 +260,13 @@ describe('Form 526EZ Entry Page', () => {
         savedStatus: '',
         loadedData: { metadata: {} },
       },
+      itf: {
+        fetchCallState: 'notCalled',
+        creationCallState: 'notCalled',
+        currentITF: null,
+        previousITF: null,
+        messageDismissed: false,
+      },
       user: {
         login: { currentlyLoggedIn: false },
         profile: { verified: false, services: [], loading: false, status: '' },
@@ -437,6 +451,13 @@ describe('Form 526EZ Entry Page', () => {
         loadedStatus: 'success',
         savedStatus: '',
         loadedData: { metadata: {} },
+      },
+      itf: {
+        fetchCallState: 'notCalled',
+        creationCallState: 'notCalled',
+        currentITF: null,
+        previousITF: null,
+        messageDismissed: false,
       },
       user: {
         login: { currentlyLoggedIn: false },

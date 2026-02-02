@@ -10,7 +10,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { DOWNLOAD_TSA_LETTER_ENDPOINT } from '../utils/constants';
 import { apiRequest } from '../utils/helpers';
 
-export const DownloadTsaLetter = ({ documentId }) => {
+export const DownloadTsaLetter = ({ documentId, documentVersion }) => {
   const ref = useRef(null);
   const [error, setError] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
@@ -21,7 +21,9 @@ export const DownloadTsaLetter = ({ documentId }) => {
       let hasFetchedLocal = false;
 
       const getTsaLetterData = () => {
-        return apiRequest(DOWNLOAD_TSA_LETTER_ENDPOINT(documentId))
+        return apiRequest(
+          DOWNLOAD_TSA_LETTER_ENDPOINT(documentId, documentVersion),
+        )
           .then(response => {
             response.blob().then(blob => {
               window.URL = window.URL || window.webkitURL;
@@ -29,7 +31,8 @@ export const DownloadTsaLetter = ({ documentId }) => {
               setLetterData(downloadUrl);
               recordEvent({
                 event: 'api_call',
-                'api-name': 'GET /v0/tsa_letter/:id',
+                'api-name':
+                  'GET /v0/tsa_letter/:id/version/:version_id/download',
                 'api-status': 'successful',
               });
             });
@@ -38,7 +41,7 @@ export const DownloadTsaLetter = ({ documentId }) => {
             setError(true);
             recordEvent({
               event: 'api_call',
-              'api-name': 'GET /v0/tsa_letter/:id',
+              'api-name': 'GET /v0/tsa_letter/:id/version/:version_id/download',
               'api-status': 'error',
             });
           });
@@ -65,7 +68,7 @@ export const DownloadTsaLetter = ({ documentId }) => {
         observer.disconnect();
       };
     },
-    [documentId],
+    [documentId, documentVersion],
   );
 
   useEffect(
@@ -125,4 +128,5 @@ export const DownloadTsaLetter = ({ documentId }) => {
 
 DownloadTsaLetter.propTypes = {
   documentId: PropTypes.string.isRequired,
+  documentVersion: PropTypes.string.isRequired,
 };

@@ -29,10 +29,20 @@ export default function FilesNeeded({ claimId, item, previousPage = null }) {
     if (isAutomated5103Notice(item.displayName)) {
       return standard5103Item.displayName;
     }
-    if (evidenceDictionary[item.displayName]?.isSensitive) {
+    // Use API boolean properties with fallback to evidenceDictionary
+    const isSensitive =
+      item.isSensitive ??
+      evidenceDictionary[item.displayName]?.isSensitive ??
+      false;
+    const noProvidePrefix =
+      item.noProvidePrefix ??
+      evidenceDictionary[item.displayName]?.noProvidePrefix ??
+      false;
+
+    if (isSensitive) {
       return `Request for evidence`;
     }
-    if (evidenceDictionary[item.displayName]?.noProvidePrefix) {
+    if (noProvidePrefix) {
       return item.friendlyName;
     }
     if (item.friendlyName) {

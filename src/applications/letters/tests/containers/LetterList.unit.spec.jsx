@@ -34,6 +34,11 @@ const defaultProps = {
   optionsAvailable: true,
   tsaLetterEligibility: {},
   tsaSafeTravelLetter: false,
+  profile: {
+    loa: {
+      current: 3,
+    },
+  },
 };
 
 const getStore = () =>
@@ -361,6 +366,29 @@ describe('<LetterList>', () => {
     const accordionItemText =
       'The TSA PreCheck Application Fee Waiver Letter shows you’re eligible for free enrollment in Transportation Security Administration (TSA) PreCheck.';
 
+    it('does not fetch TSA letter if user is not loa3', () => {
+      const profile = {
+        loa: {
+          current: 1,
+        },
+      };
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        profile,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {},
+        tsaSafeTravelLetter: true,
+      };
+      render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(getTsaLetterEligibilityStub.calledOnce).to.be.false;
+    });
+
     it('does not fetch TSA letter if feature flag is disabled', () => {
       render(
         <Provider store={getStore()}>
@@ -372,7 +400,7 @@ describe('<LetterList>', () => {
       expect(getTsaLetterEligibilityStub.calledOnce).to.be.false;
     });
 
-    it('does not render accordion item', () => {
+    it('does not render accordion item if feature flag is disabled', () => {
       const { queryByText } = render(
         <Provider store={getStore()}>
           <MemoryRouter>
@@ -400,7 +428,7 @@ describe('<LetterList>', () => {
       expect(getTsaLetterEligibilityStub.calledOnce).to.be.true;
     });
 
-    it('renders eligibility error when TSA letter is not available', async () => {
+    it('renders eligibility error when TSA letter request errors', async () => {
       const tsaLetterEnabledProps = {
         ...defaultProps,
         getTsaLetterEligibility: getTsaLetterEligibilityStub,
@@ -455,6 +483,8 @@ describe('<LetterList>', () => {
         letters: [],
         getTsaLetterEligibility: getTsaLetterEligibilityStub,
         tsaLetterEligibility: {
+          documentId: undefined,
+          documentVersion: undefined,
           error: false,
           loading: false,
         },
@@ -480,6 +510,7 @@ describe('<LetterList>', () => {
         getTsaLetterEligibility: getTsaLetterEligibilityStub,
         tsaLetterEligibility: {
           documentId: '123',
+          documentVersion: '789',
           error: false,
           loading: false,
         },
@@ -498,12 +529,36 @@ describe('<LetterList>', () => {
       expect(unavailableHeading).to.not.exist;
     });
 
+    it('does not render unavailable content when letters are present but TSA letter is not present', () => {
+      const tsaLetterProps = {
+        ...defaultProps,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          documentId: undefined,
+          documentVersion: undefined,
+          error: false,
+          loading: false,
+        },
+        tsaSafeTravelLetter: true,
+      };
+      const { queryByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      const errorHeading = queryByText('Some letters may not be available');
+      expect(errorHeading).to.not.exist;
+    });
+
     it('renders accordion item', async () => {
       const tsaLetterEnabledProps = {
         ...defaultProps,
         getTsaLetterEligibility: getTsaLetterEligibilityStub,
         tsaLetterEligibility: {
           documentId: '123',
+          documentVersion: '789',
           error: false,
           loading: true,
         },

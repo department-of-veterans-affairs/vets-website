@@ -93,7 +93,7 @@ const NameTag = ({
         )}
       </div>
       <div>
-        <dl className="vads-u-margin-y--0">
+        <dl className="vads-u-margin-y--0 dd-privacy-mask">
           <dt className="sr-only">Name: </dt>
           <dd className={classes.fullName}>{fullName}</dd>
           {latestBranchOfService && (

@@ -432,7 +432,7 @@ SaveInProgressIntro.propTypes = {
   buttonAriaDescribedby: PropTypes.string,
   buttonOnly: PropTypes.bool,
   children: PropTypes.any,
-  continueMsg: PropTypes.string,
+  continueMsg: PropTypes.node,
   customLink: PropTypes.any,
   devOnly: PropTypes.shape({
     forceShowFormControls: PropTypes.bool,

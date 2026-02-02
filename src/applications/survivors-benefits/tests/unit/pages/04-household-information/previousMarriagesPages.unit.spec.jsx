@@ -180,8 +180,9 @@ describe('Previous marriages pages', () => {
     expect(itemUi, 'marriage date/location item UI not found').to.exist;
     const stateOptions = itemUi.locationOfMarriage.state['ui:options'];
     const stateRequired = itemUi.locationOfMarriage.state['ui:required'];
-    const countryOptions = itemUi.locationOfMarriage.country['ui:options'];
-    const countryRequired = itemUi.locationOfMarriage.country['ui:required'];
+    const countryOptions = itemUi.locationOfMarriage.otherCountry['ui:options'];
+    const countryRequired =
+      itemUi.locationOfMarriage.otherCountry['ui:required'];
 
     const itemBornOutside = { spouseMarriages: [{ marriedOutsideUS: true }] };
     expect(stateOptions.hideIf(itemBornOutside, 0)).to.be.true;

@@ -6,6 +6,10 @@ import {
   dateOfBirthUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+const updatedFullNameSchema = fullNameSchema;
+updatedFullNameSchema.properties.first.maxLength = 12;
+updatedFullNameSchema.properties.last.maxLength = 18;
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -19,7 +23,7 @@ export default {
     type: 'object',
     required: ['claimantFullName', 'claimantDateOfBirth'],
     properties: {
-      claimantFullName: fullNameSchema,
+      claimantFullName: updatedFullNameSchema,
       claimantDateOfBirth: dateOfBirthSchema,
     },
   },

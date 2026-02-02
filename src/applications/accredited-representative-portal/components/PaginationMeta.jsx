@@ -7,11 +7,11 @@ import { ProfileContext } from '../context/ProfileContext';
 const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   const profile = useContext(ProfileContext);
   const [searchParams] = useSearchParams();
-  const pageSize = Number(searchParams.get('pageSize')) || defaults.SIZE;
-  const pageNumber = Number(searchParams.get('pageNumber')) || defaults.NUMBER;
+  const pageSize = Number(searchParams.get('perPage')) || defaults.SIZE;
+  const pageNumber = Number(searchParams.get('page')) || defaults.NUMBER;
   const sortOrder = searchParams.get(SEARCH_PARAMS.SORT) || defaults.SORT;
   const selectedIndividual =
-    searchParams.get('as_selected_individual') || defaults.SELECTED_INDIVIDUAL;
+    searchParams.get('show') || defaults.SELECTED_INDIVIDUAL;
   const searchStatus = searchParams.get('status') || '';
   let initCount;
   let pageSizeCount = pageSize * pageNumber;
@@ -45,8 +45,8 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
         </span>
       )}
       {totalCount} {searchStatus || ''} {resultType || ''}{' '}
-      {selectedIndividual === 'true' && 'for'}{' '}
-      {selectedIndividual === 'true' && userName} sorted by “
+      {selectedIndividual === 'you' && 'for'}{' '}
+      {selectedIndividual === 'you' && userName} sorted by “
       <strong>
         {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (
         {sortOrder})

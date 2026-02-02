@@ -1,16 +1,17 @@
 import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    ...titleUI('Section V: Remarks'),
     'ui:description': (
       <div>
-        <h3 style={{ marginTop: 0 }}>Section V: Remarks</h3>
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h4 slot="headline">
+          <h2 slot="headline">
             <b>What to expect:</b>
-          </h4>
+          </h2>
           <div className="vads-u-margin--0">
             <ul style={{ marginBottom: 0 }}>
               <li>Space for any additional details about your situation</li>
@@ -20,7 +21,7 @@ export default {
           </div>
         </VaAlert>
         <div className="vads-u-margin-top--5">
-          <h4 style={{ marginTop: 0 }}>Additional Information</h4>
+          <h2 style={{ marginTop: 0 }}>Additional Information</h2>
           <p>Add any additional information we should know</p>
         </div>
       </div>

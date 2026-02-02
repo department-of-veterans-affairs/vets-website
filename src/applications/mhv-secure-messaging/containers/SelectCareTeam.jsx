@@ -26,9 +26,12 @@ import {
   Paths,
   PageTitles,
   SelectCareTeamPage,
+  BlockedTriageAlertStyles,
+  ParentComponent,
 } from '../util/constants';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
 import EmergencyNote from '../components/EmergencyNote';
+import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import { updateDraftInProgress } from '../actions/threadDetails';
 import RouteLeavingGuard from '../components/shared/RouteLeavingGuard';
 import { saveDraft } from '../actions/draftDetails';
@@ -44,6 +47,8 @@ const SelectCareTeam = () => {
     allFacilities,
     noAssociations,
     allTriageGroupsBlocked,
+    blockedFacilities,
+    blockedRecipients,
     allowedRecipients,
     vistaFacilities,
     error: recipientsError,
@@ -426,6 +431,7 @@ const SelectCareTeam = () => {
   const careSystemsOptionsValues = useMemo(
     () => {
       const careSystemsSorted = allFacilities
+        .filter(careSystem => !blockedFacilities?.includes(careSystem))
         .map(careSystem => {
           return ehrDataByVhaId[careSystem];
         })
@@ -441,7 +447,7 @@ const SelectCareTeam = () => {
         </option>
       ));
     },
-    [allFacilities, ehrDataByVhaId],
+    [allFacilities, blockedFacilities, ehrDataByVhaId],
   );
 
   const saveDraftHandler = useCallback(
@@ -454,9 +460,13 @@ const SelectCareTeam = () => {
   );
 
   const renderCareSystems = () => {
+    const allowedFacilities = allFacilities?.filter(
+      facility => !blockedFacilities?.includes(facility),
+    );
+
     if (
-      allFacilities?.length > 1 &&
-      allFacilities?.length < MAX_RADIO_OPTIONS
+      allowedFacilities?.length > 1 &&
+      allowedFacilities?.length < MAX_RADIO_OPTIONS
     ) {
       return (
         <VaRadio
@@ -467,7 +477,7 @@ const SelectCareTeam = () => {
           data-dd-privacy="mask"
           data-dd-action-name="Care System Radio button"
         >
-          {allFacilities.map(facility => (
+          {allowedFacilities.map(facility => (
             <>
               <VaRadioOption
                 data-testid={`care-system-${facility}`}
@@ -489,7 +499,7 @@ const SelectCareTeam = () => {
       );
     }
 
-    if (allFacilities?.length >= MAX_RADIO_OPTIONS) {
+    if (allowedFacilities?.length >= MAX_RADIO_OPTIONS) {
       return (
         <VaSelect
           enableAnalytics
@@ -511,11 +521,42 @@ const SelectCareTeam = () => {
     return null;
   };
 
+  if (allTriageGroupsBlocked) {
+    return (
+      <div className="choose-va-health-care-system">
+        <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
+          Select care team
+        </h1>
+        <BlockedTriageGroupAlert
+          alertStyle={BlockedTriageAlertStyles.ALERT}
+          parentComponent={ParentComponent.FOLDER_HEADER}
+        />
+      </div>
+    );
+  }
+
+  const showSingleFacilityBlockedAlert =
+    blockedFacilities?.length === 1 && !allTriageGroupsBlocked;
+
+  const showIndividualTeamsBlockedAlert =
+    blockedRecipients?.length > 0 &&
+    !blockedFacilities?.length &&
+    !allTriageGroupsBlocked;
+
+  const showBlockedAlert =
+    showSingleFacilityBlockedAlert || showIndividualTeamsBlockedAlert;
+
   return (
     <div className="choose-va-health-care-system">
       <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
         Select care team
       </h1>
+      {showBlockedAlert && (
+        <BlockedTriageGroupAlert
+          alertStyle={BlockedTriageAlertStyles.INFO}
+          parentComponent={ParentComponent.FOLDER_HEADER}
+        />
+      )}
       <EmergencyNote dropDownFlag />
       <RouteLeavingGuard
         saveDraftHandler={saveDraftHandler}
