@@ -257,7 +257,7 @@ const SearchPage = props => {
     const queryUpdateCommitPayload = {
       id: Date.now(),
       page,
-    }
+    };
 
     props.updateSearchQuery(queryUpdateCommitPayload);
     props.commitSearchQuery(queryUpdateCommitPayload);

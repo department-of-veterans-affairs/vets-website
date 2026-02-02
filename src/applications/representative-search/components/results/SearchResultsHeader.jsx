@@ -10,9 +10,7 @@ import { sortOptions } from '../../config';
 
 export const SearchResultsHeader = props => {
   const { searchResults, pagination, query } = props;
-  const {
-    inProgress,
-  } = query;
+  const { inProgress } = query;
   const {
     context,
     representativeType,
@@ -74,7 +72,7 @@ export const SearchResultsHeader = props => {
       id: Date.now(),
       page: 1,
       sortType: selectedSortType,
-    }
+    };
 
     props.updateSearchQuery(queryUpdateCommitPayload);
     props.commitSearchQuery(queryUpdateCommitPayload);
