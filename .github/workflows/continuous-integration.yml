@@ -819,7 +819,7 @@ jobs:
       needs.tests-prep.outputs.e2e_count != '0'
 
     container:
-      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
       credentials:
         username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
         password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
@@ -883,6 +883,10 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           name: vagovprod.tar.bz2
+
+      - name: Install missing dependencies
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: apt-get update && apt-get install -y bzip2 curl
 
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -993,7 +997,7 @@ jobs:
       needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true' &&
       github.ref != 'refs/heads/main'
     container:
-      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
       credentials:
         username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
         password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
@@ -1021,6 +1025,9 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           name: vagovprod.tar.bz2
+
+      - name: Install missing dependencies
+        run: apt-get update && apt-get install -y bzip2 curl
 
       - name: Unpack build
         run: |
@@ -1111,6 +1118,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [tests-prep]
+    if: github.ref != 'refs/heads/main'
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -1189,6 +1197,7 @@ jobs:
     timeout-minutes: 120
     needs: [build, tests-prep, fetch-ecr-credentials]
     if: |
+      github.ref != 'refs/heads/main' &&
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success' &&
       needs.tests-prep.outputs.e2e_count != '0'
@@ -1994,6 +2003,7 @@ jobs:
     needs:
       [
         cypress-tests,
+        node-22-cypress-compatibility-check,
         stress-test-cypress-tests,
         tests-prep,
         unit-tests,
@@ -2106,6 +2116,7 @@ jobs:
         env:
           CYPRESS_TESTS_RESULT: ${{ needs.cypress-tests.result  }}
           CYPRESS_TESTS_STRESS_TEST_RESULT: ${{ needs.stress-test-cypress-tests.result }}
+          NODE_22_CYPRESS_COMPATIBILITY_RESULT: ${{ needs.node-22-cypress-compatibility-check.result }}
           UNIT_TESTS_STRESS_TEST_RESULT: ${{ needs.unit-tests-stress-test.result }}
 
   archive:
