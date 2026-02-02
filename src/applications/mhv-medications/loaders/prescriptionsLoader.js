@@ -1,4 +1,4 @@
-import { defer, redirect } from 'react-router-dom-v5-compat';
+import { defer } from 'react-router-dom-v5-compat';
 import { store } from '../store';
 import {
   getPrescriptionById,
@@ -10,7 +10,6 @@ import {
   ALL_MEDICATIONS_FILTER_KEY,
   filterOptions,
 } from '../util/constants';
-import { selectCernerPilotFlag } from '../util/selectors';
 
 /**
  * Builds query parameters for prescription list requests
@@ -58,9 +57,7 @@ export const prescriptionsLoader = ({ params, request }) => {
   const url = new URL(request.url);
   const stationNumber = url.searchParams.get('station_number');
 
-  // Get state to check feature toggles
   const state = store.getState();
-  const isCernerPilot = selectCernerPilotFlag(state);
 
   // For refill pages, load refillable prescriptions
   if (window.location.pathname.endsWith('/refill')) {
@@ -69,13 +66,8 @@ export const prescriptionsLoader = ({ params, request }) => {
     const prefs = buildQueryParams(state.rx.preferences);
     fetchPromises.push(store.dispatch(getPrescriptionsList.initiate(prefs)));
   } else if (rxId) {
-    // If on a prescription detail page with v2 API and no station number,
-    // redirect to the prescriptions list
-    if (isCernerPilot && !stationNumber) {
-      return redirect('/my-health/medications');
-    }
-
     // Fetch that specific prescription
+    // station_number is passed when available (required for v2 API)
     fetchPromises.push(
       store.dispatch(getPrescriptionById.initiate({ id: rxId, stationNumber })),
     );
