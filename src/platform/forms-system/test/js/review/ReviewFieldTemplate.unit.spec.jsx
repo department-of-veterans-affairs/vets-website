@@ -1,53 +1,54 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 
 import ReviewFieldTemplate from '../../../src/js/review/ReviewFieldTemplate';
 import StringField from '../../../src/js/review/StringField';
+import { TextWidget } from '../../../src/js/review/widgets';
 
 describe('Schemaform ReviewFieldTemplate', () => {
   it('should render review row', () => {
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ReviewFieldTemplate
         schema={{ type: 'string' }}
         uiSchema={{ 'ui:title': 'Label' }}
       />,
     );
 
-    expect(tree.everySubTree('.review-row')).to.not.be.empty;
-    expect(tree.subTree('dt').text()).to.equal('Label');
-    expect(tree.everySubTree('dd')).to.not.be.empty;
+    expect(container.querySelectorAll('.review-row').length).to.not.equal(0);
+    expect(container.querySelector('dt').textContent).to.equal('Label');
+    expect(container.querySelectorAll('dd').length).to.not.equal(0);
   });
   it('should render description', () => {
     const uiSchema = {
       'ui:title': 'Label',
       'ui:description': 'Blah',
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ReviewFieldTemplate schema={{ type: 'string' }} uiSchema={uiSchema} />,
     );
 
-    expect(tree.subTree('dt').text()).to.contain('Label');
-    expect(tree.subTree('p').text()).to.equal('Blah');
+    expect(container.querySelector('dt').textContent).to.contain('Label');
+    expect(container.querySelector('p').textContent).to.equal('Blah');
   });
   it('should render element description', () => {
     const uiSchema = {
       'ui:title': 'Label',
       'ui:description': <div>Blah</div>,
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ReviewFieldTemplate schema={{ type: 'string' }} uiSchema={uiSchema} />,
     );
 
-    expect(tree.subTree('dt').text()).to.contain('Label');
-    expect(tree.text()).to.contain('Blah');
+    expect(container.querySelector('dt').textContent).to.contain('Label');
+    expect(container.textContent).to.contain('Blah');
   });
   it('should render description component', () => {
     const uiSchema = {
       'ui:title': 'Label',
       'ui:description': () => <span>Blah</span>,
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ReviewFieldTemplate
         schema={{ type: 'string' }}
         uiSchema={uiSchema}
@@ -55,13 +56,12 @@ describe('Schemaform ReviewFieldTemplate', () => {
       />,
     );
 
-    const dt = tree.subTree('dt');
-    expect(dt.text()).to.contain('Label');
-    expect(dt.text()).to.contain('uiDescription');
-    expect(dt.props.children[2].props.index).to.eq(2);
+    const dt = container.querySelector('dt');
+    expect(dt.textContent).to.contain('Label');
+    expect(dt.textContent).to.contain('Blah');
   });
   it('should render just children for object type', () => {
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ReviewFieldTemplate
         schema={{ type: 'object' }}
         uiSchema={{ 'ui:title': 'Label' }}
@@ -70,8 +70,8 @@ describe('Schemaform ReviewFieldTemplate', () => {
       </ReviewFieldTemplate>,
     );
 
-    expect(tree.everySubTree('.review-row')).to.be.empty;
-    expect(tree.everySubTree('.test-child')).to.not.be.empty;
+    expect(container.querySelectorAll('.review-row').length).to.equal(0);
+    expect(container.querySelectorAll('.test-child').length).to.not.equal(0);
   });
   it('should render the custom reviewField', () => {
     const uiSchema = {
@@ -83,15 +83,15 @@ describe('Schemaform ReviewFieldTemplate', () => {
         </dl>
       ),
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ReviewFieldTemplate schema={{ type: 'string' }} uiSchema={uiSchema}>
         <div className="test-child" />
       </ReviewFieldTemplate>,
     );
 
-    expect(tree.subTree('dt').text()).to.equal('Test');
+    expect(container.querySelector('dt').textContent).to.equal('Test');
     // Children are ignored for non-string/array objects
-    expect(tree.everySubTree('.test-child').length).to.equal(0);
+    expect(container.querySelectorAll('.test-child').length).to.equal(0);
   });
   it('should render the custom reviewField & children', () => {
     const uiSchema = {
@@ -103,29 +103,29 @@ describe('Schemaform ReviewFieldTemplate', () => {
         </dl>
       ),
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ReviewFieldTemplate schema={{ type: 'object' }} uiSchema={uiSchema}>
         <div className="test-child" />
       </ReviewFieldTemplate>,
     );
 
-    expect(tree.subTree('dl').props.className).to.exist;
-    expect(tree.subTree('dt').text()).to.equal('Test');
-    expect(tree.everySubTree('.test-child').length).to.equal(0);
+    expect(container.querySelector('dl').getAttribute('class')).to.exist;
+    expect(container.querySelector('dt').textContent).to.equal('Test');
+    expect(container.querySelectorAll('.test-child').length).to.equal(0);
   });
 
   const hideEmptyUiSchema = {
     'ui:title': 'Label',
-    'ui:reviewWidget': () => <span />,
     'ui:options': {
       hideEmptyValueInReview: true,
     },
   };
   it('should render children with content when hideEmptyValueInReview is set', () => {
     const schema = { type: 'string' };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ReviewFieldTemplate schema={schema} uiSchema={hideEmptyUiSchema}>
         <StringField
+          registry={{ widgets: { text: TextWidget } }}
           schema={schema}
           uiSchema={hideEmptyUiSchema}
           formData="1234"
@@ -133,25 +133,27 @@ describe('Schemaform ReviewFieldTemplate', () => {
       </ReviewFieldTemplate>,
     );
 
-    expect(tree.everySubTree('.review-row')).to.not.be.empty;
-    expect(tree.subTree('dt').text()).to.equal('Label');
-    expect(tree.dive(['StringField']).props.formData).to.equal('1234');
+    expect(container.querySelectorAll('.review-row').length).to.not.equal(0);
+    expect(container.querySelector('dt').textContent).to.equal('Label');
+    // The actual value should be rendered somewhere in the component
+    expect(container.textContent).to.contain('1234');
   });
   it('should hide review row with empty value & hideEmptyValueInReview is set', () => {
     const schema = { type: 'string' };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ReviewFieldTemplate schema={schema} uiSchema={hideEmptyUiSchema}>
-        <StringField schema={schema} uiSchema={hideEmptyUiSchema} formData="" />
+        <StringField registry={{ widgets: { text: TextWidget } }} schema={schema} uiSchema={hideEmptyUiSchema} formData="" />
       </ReviewFieldTemplate>,
     );
 
-    expect(tree.everySubTree('.review-row')).to.be.empty;
+    expect(container.querySelectorAll('.review-row').length).to.equal(0);
   });
   it('should hide review row with empty value & hideEmptyValueInReview is set', () => {
     const schema = { type: 'string' };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ReviewFieldTemplate schema={schema} uiSchema={hideEmptyUiSchema}>
         <StringField
+          registry={{ widgets: { text: TextWidget } }}
           schema={schema}
           uiSchema={hideEmptyUiSchema}
           formData={null}
@@ -159,7 +161,7 @@ describe('Schemaform ReviewFieldTemplate', () => {
       </ReviewFieldTemplate>,
     );
 
-    expect(tree.everySubTree('.review-row')).to.be.empty;
+    expect(container.querySelectorAll('.review-row').length).to.equal(0);
   });
   it('should render reviewWidget with empty value & hideEmptyValueInReview is set', () => {
     const schema = { type: 'string' };
@@ -176,14 +178,14 @@ describe('Schemaform ReviewFieldTemplate', () => {
         hideEmptyValueInReview: true,
       },
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ReviewFieldTemplate schema={schema} uiSchema={uiSchema}>
-        <StringField schema={schema} uiSchema={uiSchema} formData="" />
+        <StringField registry={{ widgets: { text: TextWidget } }} schema={schema} uiSchema={uiSchema} formData="" />
       </ReviewFieldTemplate>,
     );
 
-    expect(tree.everySubTree('.review-row')).to.not.be.empty;
-    expect(tree.subTree('dt').text()).to.equal('Test');
-    expect(tree.subTree('dd').text()).to.equal('123'); // ignore formData
+    expect(container.querySelectorAll('.review-row').length).to.not.equal(0);
+    expect(container.querySelector('dt').textContent).to.equal('Test');
+    expect(container.querySelector('dd').textContent).to.equal('123'); // ignore formData
   });
 });

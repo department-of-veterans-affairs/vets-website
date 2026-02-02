@@ -1,7 +1,6 @@
 import React from 'react';
 import { add, getUnixTime, sub } from 'date-fns';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
 
@@ -17,7 +16,7 @@ describe('schemaform <ApplicationStatus>', () => {
   });
 
   it('should render loading', () => {
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ApplicationStatus
         formId="21P-527EZ"
         login={{}}
@@ -28,10 +27,10 @@ describe('schemaform <ApplicationStatus>', () => {
       />,
     );
 
-    expect(tree.subTree('va-loading-indicator')).to.not.be.false;
+    expect(container.querySelector('va-loading-indicator')).to.not.be.null;
   });
   it('should render apply link', () => {
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ApplicationStatus
         formId="21P-527EZ"
         login={{
@@ -47,12 +46,11 @@ describe('schemaform <ApplicationStatus>', () => {
       />,
     );
 
-    expect(tree.subTree('.vads-c-action-link--green').text()).to.equal(
-      'Apply for benefit',
-    );
+    const applyLink = container.querySelector('.vads-c-action-link--green');
+    expect(applyLink.textContent).to.equal('Apply for benefit');
   });
   it('should render saved form', () => {
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ApplicationStatus
         formId="21P-527EZ"
         login={{
@@ -75,17 +73,17 @@ describe('schemaform <ApplicationStatus>', () => {
       />,
     );
 
-    expect(tree.subTree('.usa-alert-info')).to.not.be.false;
-    expect(tree.subTree('.usa-button-primary').text()).to.equal(
+    expect(container.querySelector('.usa-alert-info')).to.not.be.null;
+    expect(container.querySelector('.usa-button-primary').textContent).to.equal(
       'Continue your application',
     );
-    expect(tree.subTree('.form-title').text()).to.contain(
+    expect(container.querySelector('.form-title').textContent).to.contain(
       'Your application is in progress',
     );
   });
   it('should set wizard complete on continuing the application', () => {
     const wizardStatus = 'testKey';
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ApplicationStatus
         formId="21P-527EZ"
         wizardStatus={wizardStatus}
@@ -109,7 +107,7 @@ describe('schemaform <ApplicationStatus>', () => {
       />,
     );
 
-    tree.subTree('.usa-button-primary').props.onClick();
+    container.querySelector('.usa-button-primary').click();
     expect(sessionStorage.getItem(wizardStatus)).to.equal(
       WIZARD_STATUS_COMPLETE,
     );
@@ -153,7 +151,7 @@ describe('schemaform <ApplicationStatus>', () => {
   });
 
   it('should render expired form', () => {
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ApplicationStatus
         formId="21P-527EZ"
         login={{
@@ -175,11 +173,11 @@ describe('schemaform <ApplicationStatus>', () => {
         formConfig={formConfigDefaultData}
       />,
     );
-    expect(tree.subTree('.usa-alert-warning')).to.not.be.false;
-    expect(tree.text()).to.include('start a new application');
+    expect(container.querySelector('.usa-alert-warning')).to.not.be.null;
+    expect(container.textContent).to.include('start a new application');
   });
   it('should render saved form from ids', () => {
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ApplicationStatus
         formIds={new Set([VA_FORM_IDS.FORM_22_1990])}
         login={{
@@ -201,16 +199,16 @@ describe('schemaform <ApplicationStatus>', () => {
         formConfig={formConfigDefaultData}
       />,
     );
-    expect(tree.subTree('.usa-alert-info')).to.not.be.false;
-    expect(tree.subTree('.usa-button-primary').text()).to.equal(
+    expect(container.querySelector('.usa-alert-info')).to.not.be.null;
+    expect(container.querySelector('.usa-button-primary').textContent).to.equal(
       'Continue your application',
     );
-    expect(tree.subTree('.form-title').text()).to.contain(
+    expect(container.querySelector('.form-title').textContent).to.contain(
       'Your application is in progress',
     );
   });
   it('should render multiple forms message', () => {
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ApplicationStatus
         formIds={new Set([VA_FORM_IDS.FORM_22_1990, VA_FORM_IDS.FORM_22_1995])}
         login={{
@@ -239,8 +237,10 @@ describe('schemaform <ApplicationStatus>', () => {
       />,
     );
 
-    expect(tree.subTree('.usa-alert-info')).to.not.be.false;
-    expect(tree.subTree('.usa-alert-info').text()).to.contain(
+    expect(container.querySelector('.usa-alert-info')).to.not.be.null;
+    // Normalize whitespace to handle multiple spaces from undefined formType
+    const alertText = container.querySelector('.usa-alert-info').textContent.replace(/\s+/g, ' ');
+    expect(alertText).to.contain(
       'more than one in-progress application',
     );
   });
@@ -250,7 +250,7 @@ describe('schemaform <ApplicationStatus>', () => {
         startNewAppButtonText: 'Custom start app message',
       },
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ApplicationStatus
         formId="21P-527EZ"
         login={{
@@ -272,7 +272,7 @@ describe('schemaform <ApplicationStatus>', () => {
         formConfig={formConfigCustomMsgData}
       />,
     );
-    expect(tree.text()).to.include('Custom start app message');
+    expect(container.textContent).to.include('Custom start app message');
   });
   it('should display a custom button message when passing in continueAppButtonText', () => {
     const formConfigContinueAppMsgData = {
@@ -280,7 +280,7 @@ describe('schemaform <ApplicationStatus>', () => {
         continueAppButtonText: 'Custom continue app message',
       },
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ApplicationStatus
         formId="21P-527EZ"
         login={{
@@ -303,6 +303,6 @@ describe('schemaform <ApplicationStatus>', () => {
         formConfig={formConfigContinueAppMsgData}
       />,
     );
-    expect(tree.text()).to.include('Custom continue app message');
+    expect(container.textContent).to.include('Custom continue app message');
   });
 });

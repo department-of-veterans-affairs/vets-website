@@ -237,7 +237,6 @@
     "semver": "^7.3.5",
     "sinon": "^3.2.1",
     "sinon-v20": "npm:sinon@^20.0.0",
-    "skin-deep": "^1.0.0",
     "stylelint": "^13.13.1",
     "stylelint-order": "^4.1.0",
     "stylelint-scss": "^3.21.0",

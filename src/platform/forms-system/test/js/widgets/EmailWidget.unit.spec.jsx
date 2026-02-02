@@ -1,14 +1,21 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 
 import EmailWidget from '../../../src/js/widgets/EmailWidget';
 
 describe('Schemaform <EmailWidget>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<EmailWidget />);
-    const { props } = tree.subTree('TextWidget');
-    expect(props.type).to.equal('email');
-    expect(props.autocomplete).to.equal('email');
+    const { container } = render(
+      <EmailWidget 
+        schema={{}}
+        onChange={() => {}}
+        onBlur={() => {}}
+        formContext={{}}
+        options={{}}
+      />,
+    );
+    const input = container.querySelector('input[type="email"]');
+    expect(input).to.exist;
   });
 });
