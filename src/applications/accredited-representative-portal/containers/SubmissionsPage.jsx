@@ -10,7 +10,6 @@ import {
   VaBreadcrumbs,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import api from '../utilities/api';
 import {
   SEARCH_PARAMS,
@@ -26,7 +25,6 @@ import PaginationMeta from '../components/PaginationMeta';
 import SubmissionsPageResults from '../components/SubmissionsPageResults';
 
 const SubmissionsPage = title => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   useEffect(
     () => {
       focusElement('h1.submissions__search-header');
@@ -89,29 +87,23 @@ const SubmissionsPage = title => {
           type="secondary"
         />
       </div>
-      {useToggleValue(
-        TOGGLE_NAMES.accreditedRepresentativePortalIntentToFile,
-      ) ? (
-        <div className="submissions__form-start">
-          <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif submissions__margin-top">
-            VA Form 21-0966
-          </h2>
-          <p className="submissions__form-description vads-u-font-size--h4">
-            Intent to File a Claim for Compensation and/or Pension, or Survivors
-            Pension and/or DIC
-          </p>
-          <p className="submissions__subtext submissions__subtext">
-            The intent to file will be recorded immediately after submission.
-          </p>
-          <va-link-action
-            href="/representative/representative-form-upload/submit-va-form-21-0966/introduction"
-            text="Submit online VA Form 21-0966"
-            type="secondary"
-          />
-        </div>
-      ) : (
-        ''
-      )}
+      <div className="submissions__form-start">
+        <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif submissions__margin-top">
+          VA Form 21-0966
+        </h2>
+        <p className="submissions__form-description vads-u-font-size--h4">
+          Intent to File a Claim for Compensation and/or Pension, or Survivors
+          Pension and/or DIC
+        </p>
+        <p className="submissions__subtext submissions__subtext">
+          The intent to file will be recorded immediately after submission.
+        </p>
+        <va-link-action
+          href="/representative/representative-form-upload/submit-va-form-21-0966/introduction"
+          text="Submit online VA Form 21-0966"
+          type="secondary"
+        />
+      </div>
       <hr />
       <h2 className="submissions__search-header">Recent Submissions</h2>
       <p className="submissions-subtext__copy--secondary vads-u-font-family--serif">

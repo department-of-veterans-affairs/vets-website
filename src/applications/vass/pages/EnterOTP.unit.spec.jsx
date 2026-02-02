@@ -11,7 +11,7 @@ import {
   setFetchJSONResponse,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 
-import EnterOTC from './EnterOTC';
+import EnterOTP from './EnterOTP';
 import { getDefaultRenderOptions, LocationDisplay } from '../utils/test-utils';
 import { FLOW_TYPES, URLS } from '../utils/constants';
 import {
@@ -36,9 +36,9 @@ const defaultRenderOptionsWithCancelFlow = getDefaultRenderOptions({
 });
 
 const renderComponent = () =>
-  renderWithStoreAndRouterV6(<EnterOTC />, defaultRenderOptions);
+  renderWithStoreAndRouterV6(<EnterOTP />, defaultRenderOptions);
 
-describe('VASS Component: EnterOTC', () => {
+describe('VASS Component: EnterOTP', () => {
   beforeEach(() => {
     mockFetch();
   });
@@ -51,17 +51,17 @@ describe('VASS Component: EnterOTC', () => {
     const screen = renderComponent();
 
     expect(screen.getByTestId('header')).to.exist;
-    expect(screen.getByTestId('enter-otc-success-alert')).to.exist;
+    expect(screen.getByTestId('enter-otp-success-alert')).to.exist;
     expect(
-      screen.getByTestId('enter-otc-success-alert').textContent,
+      screen.getByTestId('enter-otp-success-alert').textContent,
     ).to.contain(defaultRenderOptions.initialState.vassForm.obfuscatedEmail);
-    expect(screen.queryByTestId('enter-otc-error-alert')).to.not.exist;
-    const otcInput = screen.getByTestId('otc-input');
-    expect(otcInput).to.exist;
-    expect(otcInput.getAttribute('label')).to.match(
+    expect(screen.queryByTestId('enter-otp-error-alert')).to.not.exist;
+    const otpInput = screen.getByTestId('otp-input');
+    expect(otpInput).to.exist;
+    expect(otpInput.getAttribute('label')).to.match(
       /Enter your one-time verification code/i,
     );
-    expect(otcInput.getAttribute('required')).to.exist;
+    expect(otpInput.getAttribute('required')).to.exist;
     expect(screen.getByTestId('continue-button')).to.exist;
     expect(screen.getByTestId('continue-button').getAttribute('text')).to.match(
       /Continue/i,
@@ -76,8 +76,8 @@ describe('VASS Component: EnterOTC', () => {
       continueButton.click();
 
       await waitFor(() => {
-        const otcInput = getByTestId('otc-input');
-        expect(otcInput.getAttribute('error')).to.match(
+        const otpInput = getByTestId('otp-input');
+        expect(otpInput.getAttribute('error')).to.match(
           /Please enter your one-time verification code/i,
         );
       });
@@ -88,11 +88,11 @@ describe('VASS Component: EnterOTC', () => {
     it('should display error alert for invalid_otc with multiple attempts remaining', async () => {
       setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(2));
       const { container, getByTestId } = renderComponent();
-      inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
+      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
       const continueButton = getByTestId('continue-button');
       continueButton.click();
       await waitFor(() => {
-        const errorAlert = getByTestId('enter-otc-error-alert');
+        const errorAlert = getByTestId('enter-otp-error-alert');
         expect(errorAlert).to.exist;
         expect(errorAlert.textContent).to.match(
           /The one-time verification code you entered doesn’t match the one we sent you. Check your email and try again./i,
@@ -102,11 +102,11 @@ describe('VASS Component: EnterOTC', () => {
     it('should display specific error message when only 1 attempt remaining', async () => {
       setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(1));
       const { container, getByTestId } = renderComponent();
-      inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
+      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
       const continueButton = getByTestId('continue-button');
       continueButton.click();
       await waitFor(() => {
-        const errorAlert = getByTestId('enter-otc-error-alert');
+        const errorAlert = getByTestId('enter-otp-error-alert');
         expect(errorAlert).to.exist;
         expect(errorAlert.textContent).to.match(
           /The one-time verification code you entered doesn’t match the one we sent you. You have 1 try left./i,
@@ -119,7 +119,7 @@ describe('VASS Component: EnterOTC', () => {
         createOTPAccountLockedError(900),
       );
       const { container, getByTestId } = renderComponent();
-      inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
+      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
       const continueButton = getByTestId('continue-button');
       continueButton.click();
       await waitFor(() => {
@@ -133,23 +133,23 @@ describe('VASS Component: EnterOTC', () => {
     it('should hide success alert when error is displayed', async () => {
       setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(2));
       const { container, getByTestId, queryByTestId } = renderComponent();
-      inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
+      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
       const continueButton = getByTestId('continue-button');
       continueButton.click();
       await waitFor(() => {
-        expect(getByTestId('enter-otc-error-alert')).to.exist;
-        expect(queryByTestId('enter-otc-success-alert')).to.not.exist;
+        expect(getByTestId('enter-otp-error-alert')).to.exist;
+        expect(queryByTestId('enter-otp-success-alert')).to.not.exist;
       });
     });
     it('should clear the OTC input after an error', async () => {
       setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(2));
       const { container, getByTestId } = renderComponent();
-      inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
+      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
       const continueButton = getByTestId('continue-button');
       continueButton.click();
       await waitFor(() => {
-        const otcInput = getByTestId('otc-input');
-        expect(otcInput.getAttribute('value')).to.equal('');
+        const otpInput = getByTestId('otp-input');
+        expect(otpInput.getAttribute('value')).to.equal('');
       });
     });
   });
@@ -167,23 +167,23 @@ describe('VASS Component: EnterOTC', () => {
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
           <Routes>
-            <Route path={URLS.ENTER_OTC} element={<EnterOTC />} />
+            <Route path={URLS.ENTER_OTP} element={<EnterOTP />} />
             <Route path={URLS.DATE_TIME} element={<div>Date Time Page</div>} />
           </Routes>
           <LocationDisplay />
         </>,
         {
           ...defaultRenderOptions,
-          initialEntries: [URLS.ENTER_OTC],
+          initialEntries: [URLS.ENTER_OTP],
         },
       );
 
       // Verify we start on the enter-otc page
       expect(getByTestId('location-display').textContent).to.equal(
-        URLS.ENTER_OTC,
+        URLS.ENTER_OTP,
       );
 
-      inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
+      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
       const continueButton = getByTestId('continue-button');
       continueButton.click();
 
@@ -197,9 +197,9 @@ describe('VASS Component: EnterOTC', () => {
 
   describe('when cancellation flow is active', () => {
     it('should display the correct page title', () => {
-      const { getByTestId } = renderWithStoreAndRouterV6(<EnterOTC />, {
+      const { getByTestId } = renderWithStoreAndRouterV6(<EnterOTP />, {
         ...defaultRenderOptionsWithCancelFlow,
-        initialEntries: [URLS.ENTER_OTC],
+        initialEntries: [URLS.ENTER_OTP],
       });
 
       expect(getByTestId('header').textContent).to.contain(
@@ -219,7 +219,7 @@ describe('VASS Component: EnterOTC', () => {
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
           <Routes>
-            <Route path={URLS.ENTER_OTC} element={<EnterOTC />} />
+            <Route path={URLS.ENTER_OTP} element={<EnterOTP />} />
             <Route
               path={`${URLS.CANCEL_APPOINTMENT}/:appointmentId`}
               element={<div>Cancel Appointment Page</div>}
@@ -229,11 +229,11 @@ describe('VASS Component: EnterOTC', () => {
         </>,
         {
           ...defaultRenderOptionsWithCancelFlow,
-          initialEntries: [URLS.ENTER_OTC],
+          initialEntries: [URLS.ENTER_OTP],
         },
       );
 
-      inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
+      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
       const continueButton = getByTestId('continue-button');
       continueButton.click();
 

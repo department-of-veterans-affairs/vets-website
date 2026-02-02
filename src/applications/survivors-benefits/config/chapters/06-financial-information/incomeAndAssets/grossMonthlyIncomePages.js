@@ -20,7 +20,7 @@ const grossDescription = () => (
   <div>
     <p>
       Next we’ll ask you the gross monthly income you and your dependents
-      receive. You’ll need to add at least 1 income source and can add up to 4.
+      receive. You can add up to 4 income sources.
     </p>
 
     <p>
