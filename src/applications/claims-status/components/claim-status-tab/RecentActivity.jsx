@@ -12,7 +12,7 @@ import {
   getPhaseItemText,
   is5103Notice,
   getShowEightPhases,
-  renderThirdPartyMessage,
+  renderDefaultThirdPartyMessage,
   getDisplayFriendlyName,
   getIsDBQ,
 } from '../../utils/helpers';
@@ -101,14 +101,14 @@ export default function RecentActivity({ claim }) {
           addItems(
             item.requestedDate,
             getIsDBQ(item)
-              ? `We made a request: "${displayName}."`
-              : `We made a request outside the VA: "${displayName}."`,
+              ? `We made a request: “${displayName}.”`
+              : `We made a request outside the VA: “${displayName}.”`,
             item,
           );
         } else {
           addItems(
             item.requestedDate,
-            `We opened a request: "${displayName}"`,
+            `We opened a request: “${displayName}”`,
             item,
           );
         }
@@ -212,7 +212,14 @@ export default function RecentActivity({ claim }) {
         status="info"
         slim
       >
-        {renderThirdPartyMessage(item)}
+        {item.activityDescription ? (
+          <>
+            {item.activityDescription}
+            <br />
+          </>
+        ) : (
+          renderDefaultThirdPartyMessage(item.oldDisplayName)
+        )}
         <Link
           aria-label={`About this notice for ${item.friendlyName ||
             item.displayName}`}

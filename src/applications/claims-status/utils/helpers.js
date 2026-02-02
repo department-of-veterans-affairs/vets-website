@@ -1560,7 +1560,7 @@ export const generateClaimTitle = (claim, placement, tab) => {
 };
 
 export const getDisplayFriendlyName = item => {
-  if (!getIsProperNoun(item)) {
+  if (!evidenceDictionary[item.displayName]?.isProperNoun) {
     let updatedFriendlyName = item.friendlyName;
     updatedFriendlyName =
       updatedFriendlyName.charAt(0).toLowerCase() +
@@ -1654,30 +1654,8 @@ export const getTrackedItemDateFromStatus = item => {
   }
 };
 
-export const renderThirdPartyMessage = item => {
-  const isDBQ = getIsDBQ(item);
-  const hasApiContent = item.shortDescription || item.activityDescription;
-
-  // If API provides content, use it
-  if (hasApiContent) {
-    if (isDBQ) {
-      return item.shortDescription || item.activityDescription;
-    }
-
-    if (item.shortDescription) {
-      return (
-        <>
-          <strong>You don’t need to do anything.</strong>{' '}
-          {item.shortDescription}
-        </>
-      );
-    }
-
-    return item.activityDescription;
-  }
-
-  // Otherwise, use default message
-  return isDBQ ? (
+export const renderDefaultThirdPartyMessage = displayName => {
+  return displayName.toLowerCase().includes('dbq') ? (
     <>
       We’ve requested an exam related to your claim. The examiner’s office will
       contact you to schedule this appointment.
@@ -1690,6 +1668,20 @@ export const renderThirdPartyMessage = item => {
       <br />
     </>
   );
+};
+
+export const renderOverrideThirdPartyMessage = item => {
+  if (getIsDBQ(item)) {
+    return item.shortDescription || item.activityDescription;
+  }
+  if (item.shortDescription) {
+    return (
+      <>
+        <strong>You don’t need to do anything.</strong> {item.shortDescription}
+      </>
+    );
+  }
+  return item.activityDescription;
 };
 
 export const getUploadErrorMessage = (

@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom-v5-compat';
 
 import {
   buildDateFormatter,
-  renderThirdPartyMessage,
+  renderDefaultThirdPartyMessage,
+  renderOverrideThirdPartyMessage,
   getIsDBQ,
 } from '../../utils/helpers';
 
@@ -34,7 +35,11 @@ function FilesOptional({ item }) {
         {getItemDisplayName()}
       </h4>
       <p>{getRequestText()}</p>
-      <p className="alert-description">{renderThirdPartyMessage(item)}</p>
+      <p className="alert-description">
+        {item.shortDescription || item.activityDescription
+          ? renderOverrideThirdPartyMessage(item)
+          : renderDefaultThirdPartyMessage(item.displayName)}
+      </p>
       <div className="call-to-action">
         <Link
           aria-label={`About this notice for ${item.friendlyName ||
