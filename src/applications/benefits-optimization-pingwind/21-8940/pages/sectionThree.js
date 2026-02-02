@@ -4,6 +4,7 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import {
   currentOrPastDateSchema,
   currentOrPastDateUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaDateField from 'platform/forms-system/src/js/web-component-fields/VaDateField';
 import { wrapDateUiWithDl } from '../helpers/reviewHelpers';
@@ -11,13 +12,13 @@ import { wrapDateUiWithDl } from '../helpers/reviewHelpers';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    ...titleUI('Section III: Employment'),
     'ui:description': (
       <div>
-        <h3 style={{ marginTop: 0 }}>Section III: Employment</h3>
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h4 slot="headline">
+          <h2 slot="headline">
             <b>What to expect:</b>
-          </h4>
+          </h2>
           <div className="vads-u-margin--0">
             <ul style={{ marginBottom: 0 }}>
               <li>When your disability began affecting your work</li>
@@ -35,7 +36,7 @@ export default {
           </div>
         </VaAlert>
         <div className="vads-u-margin-top--5">
-          <h4 style={{ marginTop: 0 }}>Employment Timeline</h4>
+          <h2 style={{ marginTop: 0 }}>Employment Timeline</h2>
           <p>When did your disability affect your work?</p>
         </div>
       </div>
