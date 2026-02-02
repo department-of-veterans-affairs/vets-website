@@ -30,7 +30,6 @@ export const AppDeletedAlert = ({ title, privacyUrl }) => {
 };
 
 AppDeletedAlert.propTypes = {
-  id: PropTypes.string.isRequired,
   privacyUrl: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };
