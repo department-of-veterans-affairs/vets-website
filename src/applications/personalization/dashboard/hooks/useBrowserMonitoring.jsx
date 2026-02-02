@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { datadogRum } from '@datadog/browser-rum';
 import environment from '~/platform/utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
@@ -10,28 +10,38 @@ const CONFIG = {
   site: 'ddog-gov.com',
   service: 'my-va',
   sessionSampleRate: 100,
-  sessionReplaySampleRate: 5,
+  sessionReplaySampleRate: 1,
   trackBfcacheViews: true,
+  trackUserInteractions: true,
   defaultPrivacyLevel: 'mask-user-input',
 };
 
 const initializeRealUserMonitoring = () => {
   // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
-  // We only want this in staging/production typically.
-  if (!environment.isLocalhost() && !window.DD_RUM?.getInitConfiguration()) {
-    datadogRum.init({
-      ...CONFIG,
-      env: environment.vspEnvironment(),
-    });
-
-    if (CONFIG.sessionReplaySampleRate > 0) {
-      datadogRum.startSessionReplayRecording();
-    }
+  if (environment.isLocalhost()) {
+    return false;
   }
+
+  // If RUM is already running from another app, stop and delete it
+  if (window.DD_RUM?.getInitConfiguration()) {
+    datadogRum.stopSession();
+    delete window.DD_RUM;
+  }
+
+  datadogRum.init({
+    ...CONFIG,
+    env: environment.vspEnvironment(),
+  });
+
+  if (CONFIG.sessionReplaySampleRate > 0) {
+    datadogRum.startSessionReplayRecording();
+  }
+  return true;
 };
 
 export const useBrowserMonitoring = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const initializedByMyVA = useRef(false);
 
   const isMonitoringEnabled = useToggleValue(
     TOGGLE_NAMES.myVaBrowserMonitoring,
@@ -40,11 +50,17 @@ export const useBrowserMonitoring = () => {
   useEffect(
     () => {
       if (isMonitoringEnabled) {
-        initializeRealUserMonitoring();
+        initializedByMyVA.current = initializeRealUserMonitoring();
       }
 
       return () => {
-        delete window.DD_RUM;
+        if (
+          initializedByMyVA.current &&
+          window.DD_RUM?.getInitConfiguration()
+        ) {
+          datadogRum.stopSession();
+          delete window.DD_RUM;
+        }
       };
     },
     [isMonitoringEnabled],
