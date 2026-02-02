@@ -448,12 +448,15 @@ export async function fetchFlowEligibilityAndClinics({
         location?.id,
       );
     }
-    // When removeFacilityConfigCheck is removed, remove the entire condition inside the parens with
-    // keepFacilityConfigCheck because we no longer will no longer be doing determination on the client side.
+    // When removeFacilityConfigCheck is removed, replace the requiresMatchingClinics with
+    // typeOfCareRequiresCheck since that will be the only relevant condition.
+    const requiresMatchingClinics =
+      (removeFacilityConfigCheck && typeOfCareRequiresCheck) ||
+      (keepFacilityConfigCheck &&
+        directTypeOfCareSettings.patientHistoryRequired);
     if (
       !isCerner &&
-      (keepFacilityConfigCheck &&
-        directTypeOfCareSettings.patientHistoryRequired) &&
+      requiresMatchingClinics &&
       !hasMatchingClinics(
         results.clinics,
         results.pastAppointments,
