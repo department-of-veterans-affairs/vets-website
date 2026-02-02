@@ -386,7 +386,7 @@ describe('test wrapper', () => {
       expect(
         refreshIfAccessTokenExpiringSoonMock.firstCall.args[0],
       ).to.deep.include({
-        thresholdSeconds: 60,
+        thresholdSeconds: 5,
         type: 'logingov',
       });
     });

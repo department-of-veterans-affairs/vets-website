@@ -63,7 +63,7 @@ export async function fetchAndUpdateSessionExpiration(url, settings) {
 
   /**
    * Proactive refresh:
-   * If OAuth access token is within 60s of expiring, refresh BEFORE making API request.
+   * If OAuth access token is within 5s of expiring, refresh BEFORE making API request.
    * This reduces the chance of an access token expiring "in flight".
    */
   const apiURL = environment.API_URL;
@@ -74,7 +74,7 @@ export async function fetchAndUpdateSessionExpiration(url, settings) {
   if (isApiRequest && !isTestEnv && infoTokenExists() && serviceName) {
     try {
       await refreshIfAccessTokenExpiringSoon({
-        thresholdSeconds: 60,
+        thresholdSeconds: 5,
         type: serviceName,
       });
     } catch (e) {
