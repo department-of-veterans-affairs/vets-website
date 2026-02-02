@@ -46,4 +46,38 @@ function createAppointmentData(appointmentData = {}) {
   };
 }
 
-module.exports = { createAppointmentData };
+/**
+ * Creates RTK Query cache state with a pre-populated appointment.
+ * Use this to mock the getAppointment query result.
+ *
+ * @param {string} appointmentId - The appointment ID to use in the cache key
+ * @param {Object} appointmentData - The appointment data to cache (use createMockAppointmentData)
+ * @returns {Object} RTK Query state object for vassApi
+ *
+ * @example
+ * const vassApiState = createVassApiStateWithAppointment('123', createMockAppointmentData({ appointmentId: '123' }));
+ * const options = getDefaultRenderOptions({}, { vassApi: vassApiState });
+ */
+function createVassApiStateWithAppointment(appointmentId, appointmentData) {
+  return {
+    queries: {
+      [`getAppointment({"appointmentId":"${appointmentId}"})`]: {
+        status: 'fulfilled',
+        endpointName: 'getAppointment',
+        requestId: 'test',
+        startedTimeStamp: 0,
+        data: { ...appointmentData, appointmentId },
+      },
+    },
+    mutations: {},
+    provided: {},
+    subscriptions: {},
+    config: {
+      online: true,
+      focused: true,
+      middlewareRegistered: true,
+    },
+  };
+}
+
+module.exports = { createAppointmentData, createVassApiStateWithAppointment };
