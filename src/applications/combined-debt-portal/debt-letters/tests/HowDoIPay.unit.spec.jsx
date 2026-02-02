@@ -17,9 +17,9 @@ describe('HowDoIPay', () => {
       const { container } = render(<HowDoIPay userData={userData} />);
       const content = container.textContent;
 
-      expect(content).to.include('Receivable ID:');
+      expect(content).to.include('Receivable ID');
       expect(content).to.include('987654321012');
-      expect(content).to.not.include('File Number:');
+      expect(content).to.not.include('File Number');
     });
 
     it('should display File Number when receivableId is not present', () => {
@@ -33,9 +33,9 @@ describe('HowDoIPay', () => {
       const { container } = render(<HowDoIPay userData={userData} />);
       const content = container.textContent;
 
-      expect(content).to.include('File Number:');
+      expect(content).to.include('File Number');
       expect(content).to.include('123456789');
-      expect(content).to.not.include('Receivable ID:');
+      expect(content).to.not.include('Receivable ID');
     });
 
     it('should display File Number when both are present but receivableId is null', () => {
@@ -50,9 +50,9 @@ describe('HowDoIPay', () => {
       const { container } = render(<HowDoIPay userData={userData} />);
       const content = container.textContent;
 
-      expect(content).to.include('File Number:');
+      expect(content).to.include('File Number');
       expect(content).to.include('123456789');
-      expect(content).to.not.include('Receivable ID:');
+      expect(content).to.not.include('Receivable ID');
     });
   });
 });

@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import {
-  setupServer,
   createGetHandler,
   jsonResponse,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import noRatings from '../fixtures/no-ratings.json';
 
@@ -14,18 +14,8 @@ const RATED_DISABILITIES_ENDPOINT =
   'https://dev-api.va.gov/v0/rated_disabilities';
 
 describe('<AppContent>', () => {
-  const server = setupServer();
-
-  before(() => {
-    server.listen();
-  });
-
-  after(() => {
-    server.close();
-  });
-
   context('When the user has no disability ratings', () => {
-    before(() => {
+    beforeEach(() => {
       server.use(
         createGetHandler(RATED_DISABILITIES_ENDPOINT, () =>
           jsonResponse(noRatings, { status: 200 }),

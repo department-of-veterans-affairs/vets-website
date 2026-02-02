@@ -157,6 +157,25 @@ export const decodeHtmlEntities = str => {
 };
 
 /**
+ * Validates if a date string from VaDate is complete and valid.
+ * VaDate returns strings like "2026-01-04" for complete dates,
+ * or "--04", "2026--04", "-01-04" for partial dates.
+ * @param {string} dateValue - The date value from VaDate component
+ * @returns {boolean} - true if date is valid and complete, false otherwise
+ */
+export const isValidDateValue = dateValue => {
+  if (!dateValue) return false;
+  // Check for invalid date patterns (missing year, month, or day)
+  if (dateValue.includes('--') || dateValue.startsWith('-')) return false;
+  // Validate format: YYYY-MM-DD
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRegex.test(dateValue)) return false;
+  // Parse and validate actual date
+  const date = moment(dateValue, 'YYYY-MM-DD', true);
+  return date.isValid();
+};
+
+/**
  * Comparing a timestamp to current date and time, if older than days return true
  * @param {*} timestamp
  * @param {*} days

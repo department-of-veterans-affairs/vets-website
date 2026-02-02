@@ -19,8 +19,9 @@ import {
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
   selectAllExpenses,
-  selectAppointment,
   selectExpenseBackDestination,
+  selectComplexClaim,
+  selectAppointment,
 } from '../../../redux/selectors';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import {
@@ -40,6 +41,8 @@ const Mileage = () => {
   useSetFocus();
 
   const { data: appointment } = useSelector(selectAppointment);
+  const { data: claimDetails = {} } = useSelector(selectComplexClaim);
+
   const allExpenses = useSelector(selectAllExpenses);
   const address = useSelector(selectVAPResidentialAddress);
   const backDestination = useSelector(selectExpenseBackDestination);
@@ -158,10 +161,12 @@ const Mileage = () => {
     }
 
     // Building the mileage expense request body
+
     const expenseData = {
-      purchaseDate: appointment?.localStartTime
-        ? appointment.localStartTime.slice(0, 10) // Only the date portion of the localStartTime
-        : '',
+      purchaseDate:
+        appointment?.localStartTime?.slice(0, 10) ??
+        claimDetails.appointment?.appointmentDateTime?.slice(0, 10) ??
+        '',
       description: 'Mileage',
       tripType: formState.tripType,
     };

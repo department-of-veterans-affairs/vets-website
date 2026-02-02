@@ -6,10 +6,12 @@ import {
 
 const pdfSchema = addressNoMilitarySchema({
   omit: ['street3'],
+  extend: {
+    street: { maxLength: 30 },
+    street2: { maxLength: 30 },
+    city: { maxLength: 18 },
+  },
 });
-pdfSchema.properties.street.maxLength = 30;
-pdfSchema.properties.street2.maxLength = 30;
-pdfSchema.properties.city.maxLength = 18;
 
 /** @type {PageSchema} */
 export default {

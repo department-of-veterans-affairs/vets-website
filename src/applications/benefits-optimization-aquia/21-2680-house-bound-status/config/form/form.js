@@ -12,7 +12,11 @@ import {
   SUBTITLE,
   API_ENDPOINTS,
 } from '@bio-aquia/21-2680-house-bound-status/constants';
-import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components';
+import {
+  GetHelp,
+  preSubmitSignatureConfig,
+} from '@bio-aquia/21-2680-house-bound-status/components';
+import migrations from '@bio-aquia/21-2680-house-bound-status/config/migrations';
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
 import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
@@ -45,6 +49,12 @@ import {
   hospitalizationFacilityUiSchema,
   hospitalizationFacilitySchema,
 } from '@bio-aquia/21-2680-house-bound-status/pages';
+
+import { isClaimantVeteran } from '@bio-aquia/21-2680-house-bound-status/utils/relationship-helpers';
+import {
+  getVeteranName,
+  getClaimantName,
+} from '@bio-aquia/21-2680-house-bound-status/utils/name-helpers';
 
 /**
  * @typedef {Object} FormConfig
@@ -97,7 +107,8 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
+  migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -195,20 +206,18 @@ const formConfig = {
         claimantContact: {
           path: 'claimant-contact',
           title: formData => {
-            const firstName =
-              formData?.claimantInformation?.claimantFullName?.first || '';
-            const lastName =
-              formData?.claimantInformation?.claimantFullName?.last || '';
-            const fullName = `${firstName} ${lastName}`.trim();
+            const isVeteran = isClaimantVeteran(formData);
+            const fullName = isVeteran
+              ? getVeteranName(formData, '')
+              : getClaimantName(formData, '');
+            const fallback = isVeteran ? "Veteran's" : "Claimant's";
             return fullName
               ? `${fullName}'s phone number and email address`
-              : "Claimant's phone number and email address";
+              : `${fallback} phone number and email address`;
           },
           uiSchema: claimantContactUiSchema,
           schema: claimantContactSchema,
-          // Hidden when veteran is claimant
-          depends: formData =>
-            formData?.claimantRelationship?.relationship !== 'veteran',
+          // Always shown - collects contact info for veteran or claimant
         },
       },
     },
@@ -336,15 +345,7 @@ const formConfig = {
       },
     },
   },
-  preSubmitInfo: {
-    statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'veteranInformation.veteranFullName',
-    },
-  },
+  preSubmitInfo: preSubmitSignatureConfig,
 };
 
 export { formConfig };

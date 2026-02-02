@@ -31,8 +31,6 @@ describe('22-0976 additional institutions summary page', () => {
     await new Promise(resolve => setTimeout(resolve, 0));
     const vaRadio = container.querySelector('va-radio');
     expect(vaRadio).to.exist;
-    expect(vaRadio.getAttribute('error')).to.equal(
-      'Select ‘yes’ if you have a additional locations to add',
-    );
+    expect(vaRadio.getAttribute('error')).to.equal('You must make a selection');
   });
 });

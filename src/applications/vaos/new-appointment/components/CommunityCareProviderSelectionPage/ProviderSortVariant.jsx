@@ -45,18 +45,34 @@ export default function ProviderSortVariant({
   useEffect(
     () => {
       if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
-        dispatch(requestProvidersList(currentLocation));
+        // Only request providers if we have a valid currentLocation
+        if (currentLocation && Object.keys(currentLocation).length > 0) {
+          dispatch(requestProvidersList(currentLocation));
+        }
       } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
-        dispatch(requestProvidersList(address));
-      } else {
-        dispatch(requestProvidersList(selectedCCFacility?.position));
+        // Only request if address is available
+        if (address && Object.keys(address).length > 0) {
+          dispatch(requestProvidersList(address));
+        }
+      } else if (selectedCCFacility?.position) {
+        dispatch(requestProvidersList(selectedCCFacility.position));
       }
 
       if (communityCareProviderList) {
         scrollAndFocus('#providerSelectionHeader');
       }
     },
-    [selectedCCFacility, sortMethod],
+    // We intentionally exclude communityCareProviderList and dispatch from deps:
+    // - communityCareProviderList: this effect *produces* the provider list, so including it would cause an infinite loop
+    // - dispatch: stable reference from Redux
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      address,
+      currentLocation?.latitude,
+      currentLocation?.longitude,
+      selectedCCFacility,
+      sortMethod,
+    ],
   );
 
   const onValueChange = option => {

@@ -14,6 +14,7 @@ import {
 } from '../../../shared/tests/helpers';
 
 import mockFeatureToggles from './fixtures/mocks/featureToggles.json';
+import { fillStatementOfTruthAndSubmit, goToNextPage } from './utils';
 
 // Put all page objects into an object where pagename maps to page data
 // E.g., {page1: {path: '/blah'}}
@@ -78,7 +79,7 @@ const testConfig = createTestConfig(
               data.applicantNewAddress,
             );
             cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            goToNextPage();
           });
         });
       },
@@ -90,7 +91,7 @@ const testConfig = createTestConfig(
               .get('#input-type-textarea')
               .type(data.primaryAdditionalComments, { force: true });
             cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            goToNextPage();
           });
         });
       },
@@ -102,26 +103,12 @@ const testConfig = createTestConfig(
               .get('#input-type-textarea')
               .type(data.secondaryAdditionalComments, { force: true });
             cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            goToNextPage();
           });
         });
       },
       'review-and-submit': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.get('va-text-input')
-              .shadow()
-              .get('#inputField')
-              .type(data.signature, { force: true });
-            cy.get(`va-checkbox`)
-              .shadow()
-              .find('input')
-              .click({ force: true });
-            cy.findByText('Submit form', {
-              selector: 'button',
-            }).click();
-          });
-        });
+        afterHook(() => fillStatementOfTruthAndSubmit());
       },
     },
     setupPerTest: () => {

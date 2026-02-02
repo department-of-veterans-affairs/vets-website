@@ -7,7 +7,11 @@
       "./itf/constants": "./itf/constants.js",
       "./itf/content": "./itf/content.js",
       "./itf/IntentToFile": "./itf/IntentToFile.jsx",
-      "./itf/utils": "./itf/utils/index.js"
+      "./itf/utils": "./itf/utils/index.js",
+      "./calendar": "./calendar/index.js",
+      "./calendar/CalendarWidget": "./calendar/CalendarWidget.jsx",
+      "./calendar/constants": "./calendar/constants.js",
+      "./calendar/utils": "./calendar/utils/index.js"
   },
   "scripts": {
       "demo": "for (( c=5; c>0; c-- ))\ndo echo $c\n done \n echo It’s alive!!!\n echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES.",

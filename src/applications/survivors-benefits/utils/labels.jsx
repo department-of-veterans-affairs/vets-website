@@ -9,16 +9,16 @@ export const dicOptions = {
   pactActDIC: 'DIC re-evaluation based on the PACT Act',
 };
 
-export const servicesOptions = {
-  army: 'Army',
-  navy: 'Navy',
-  airForce: 'Air Force',
-  coastGuard: 'Coast Guard',
-  marineCorps: 'Marine Corps',
-  spaceForce: 'Space Force',
-  usphs: 'USPHS',
-  noaa: 'NOAA',
-};
+export const servicesOptions = [
+  { value: 'army', label: 'Army' },
+  { value: 'navy', label: 'Navy' },
+  { value: 'airForce', label: 'Air Force' },
+  { value: 'coastGuard', label: 'Coast Guard' },
+  { value: 'marineCorps', label: 'Marine Corps' },
+  { value: 'spaceForce', label: 'Space Force' },
+  { value: 'usphs', label: 'USPHS' },
+  { value: 'noaa', label: 'NOAA' },
+];
 
 export const claimantRelationshipOptions = {
   SURVIVING_SPOUSE: 'Surviving spouse',
@@ -36,9 +36,9 @@ export const marriageEndOptions = {
 };
 
 export const marriageTypeOptions = {
-  CIVIL_RELIGIOUS:
-    'In a civil or religious ceremony with an officiant who signed me marriage license',
-  OTHER_WAY: 'Some other way',
+  ceremonial:
+    'In a civil or religious ceremony with an officiant who signed my marriage license',
+  other: 'Some other way',
 };
 
 export const separationReasonOptions = {
@@ -54,10 +54,10 @@ export const previousMarriageEndOptions = {
 };
 
 export const remarriageEndOptions = {
-  DID_NOT_END: 'Did not end',
-  SPOUSE_DEATH: "Spouse's death",
-  DIVORCE: 'Divorce',
-  OTHER: 'Other',
+  didNotEnd: 'Did not end',
+  death: "Spouse's death",
+  divorce: 'Divorce',
+  other: 'Other',
 };
 
 export const bankAccountTypeOptions = {
@@ -74,22 +74,27 @@ export const recipientTypeLabels = {
   CUSTODIAN_SPOUSE: 'Custodian’s spouse',
 };
 
+export const incomeRecipientTypeLabels = {
+  SURVIVING_SPOUSE: 'Surviving spouse',
+  CHILD: 'Veteran’s child',
+  CUSTODIAN: 'Custodian',
+  CUSTODIAN_SPOUSE: 'Custodian’s spouse',
+};
+
 export const medicalExpenseRecipientLabels = {
   VETERAN: 'Veteran (only select if a last or burial expense)',
   SURVIVING_SPOUSE: 'Surviving spouse',
-  VETERANS_CHILD: 'Veteran’s child',
+  CHILD: 'Veteran’s child',
 };
 
 export const careTypeLabels = {
   CARE_FACILITY: 'Residential care facility',
   IN_HOME_CARE_ATTENDANT: 'In-home care attendant',
-  NURSING_HOME: 'Nursing home',
-  ADULT_DAYCARE: 'Adult daycare',
 };
 
 export const frequencyLabels = {
   MONTHLY: 'Once a month',
-  YEARLY: 'Once a year',
+  ANNUALLY: 'Once a year',
   ONE_TIME: 'One-time',
 };
 
@@ -100,7 +105,7 @@ export const careFrequencyLabels = {
 
 export const typeOfIncomeLabels = {
   SOCIAL_SECURITY: 'Social Security',
-  INTEREST_DIVIDEND: 'Interest or dividend income',
+  INTEREST_DIVIDENDS: 'Interest or dividend income',
   CIVIL_SERVICE: 'Civil Service',
   PENSION_RETIREMENT: 'Pension or retirement income',
   OTHER: 'Other income',

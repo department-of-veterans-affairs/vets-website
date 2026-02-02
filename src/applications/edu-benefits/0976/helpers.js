@@ -86,11 +86,15 @@ export function institutionResponseToObject(responseData) {
   };
 }
 
-export const additionalInstitutionsArrayOptions = {
+const baseAdditionalInstitutionsOptions = {
   arrayPath: 'additionalInstitutions',
   nounSingular: 'location',
   nounPlural: 'locations',
   required: false,
+};
+
+export const additionalInstitutionsWithCodeArrayOptions = {
+  ...baseAdditionalInstitutionsOptions,
   isItemIncomplete: item => {
     return ![item?.name, item?.type, item?.mailingAddress].every(Boolean);
   },
@@ -134,6 +138,124 @@ export const additionalInstitutionsArrayOptions = {
             agreement, you can do so now. You will need a facility code for each
             location you would like to add.
           </p>
+        </div>
+      );
+    },
+  },
+};
+
+export const additionalInstitutionsWithoutCodeArrayOptions = {
+  ...baseAdditionalInstitutionsOptions,
+  isItemIncomplete: item => {
+    return ![item?.name, item?.mailingAddress].every(Boolean);
+  },
+  text: {
+    cancelAddButtonText: props =>
+      `Cancel adding this additional ${props.nounSingular}`,
+    summaryTitle: props => `Review your additional ${props.nounPlural}`,
+    cardDescription: item => {
+      if (!item) return <></>;
+      return (
+        <>
+          <p>
+            <strong>Mailing address: </strong>
+            {[
+              item.mailingAddress?.street,
+              item.mailingAddress?.street2,
+              item.mailingAddress?.street3,
+              item.mailingAddress?.city,
+              item.mailingAddress?.state,
+            ]
+              .filter(Boolean)
+              .join(', ')}{' '}
+            {item.mailingAddress?.postalCode}
+          </p>
+        </>
+      );
+    },
+    summaryDescriptionWithoutItems: _props => {
+      return (
+        <div>
+          <h3>
+            You will need to list all additional locations associated with your
+            institution.
+          </h3>
+          <p>
+            These are the extension campuses and additional locations officially
+            associated with your institution. Any additional locations must be
+            in the same country as the institution applying for the approval of
+            foreign programs resides in.
+          </p>
+        </div>
+      );
+    },
+  },
+};
+
+export const programInformationArrayOptions = {
+  arrayPath: 'programs',
+  nounSingular: 'program',
+  nounPlural: 'programs',
+  required: true,
+  isItemIncomplete: item => {
+    return ![
+      item?.programName,
+      item?.totalProgramLength,
+      item?.weeksPerTerm,
+      item?.entryRequirements,
+      item?.creditHours,
+    ].every(Boolean);
+  },
+  text: {
+    getItemName: (item, _index, _fullData) => item.programName,
+    cardDescription: item => {
+      if (!item) return <></>;
+      return (
+        <div>
+          <p>{item.totalProgramLength}</p>
+          <p>
+            {item.weeksPerTerm} week
+            {parseFloat(item.weeksPerTerm) !== 1 ? 's' : ''}
+          </p>
+          <p>{item.entryRequirements}</p>
+          <p>
+            {item.creditHours} hour
+            {parseFloat(item.creditHours) !== 1 ? 's' : ''}
+          </p>
+        </div>
+      );
+    },
+  },
+};
+
+export const officialsArrayOptions = {
+  arrayPath: 'officials',
+  nounSingular: 'official',
+  nounPlural: 'officials',
+  required: false,
+  isItemIncomplete: item => {
+    return ![item?.fullName?.first, item?.fullName?.last, item?.title].every(
+      Boolean,
+    );
+  },
+  text: {
+    summaryTitle: 'Review and confirm institution contacts and faculty',
+    summaryTitleWithoutItems: 'Officials and faculty information',
+    summaryDescriptionWithoutItems: _props => (
+      <p className="vads-u-color--base vads-u-margin-bottom--0">
+        In the following section, you will be asked to provide information about
+        faculty members if you would like to include this information in your
+        application. This section refers to school governing body personnel,
+        school officials, and faculty.
+      </p>
+    ),
+    getItemName: (item, _index, _fullData) =>
+      `${item.fullName?.first} ${item.fullName?.last}`,
+    cardDescription: item => {
+      if (!item) return <></>;
+      return (
+        <div>
+          <p>{item.title}</p>
         </div>
       );
     },

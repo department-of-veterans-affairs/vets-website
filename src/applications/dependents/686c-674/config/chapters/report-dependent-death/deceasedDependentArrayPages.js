@@ -33,6 +33,7 @@ import {
   customLocationSchema,
   generateHelpText,
   CancelButton,
+  incomeQuestionUpdateUiSchema,
 } from '../../helpers';
 import { getFullName } from '../../../../shared/utils';
 
@@ -316,11 +317,7 @@ export const deceasedDependentIncomePage = {
       },
       required: (_chapterData, _index, formData) =>
         formData?.vaDependentsNetWorthAndPension,
-      updateUiSchema: () => ({
-        'ui:options': {
-          hint: '',
-        },
-      }),
+      updateUiSchema: incomeQuestionUpdateUiSchema,
       updateSchema: (formData = {}, formSchema) => {
         const { vaDependentsNetWorthAndPension } = formData;
 

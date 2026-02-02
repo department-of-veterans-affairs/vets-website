@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
-import { focusElement } from 'platform/utilities/ui';
+import { useDispatch } from 'react-redux';
 import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
 import { usePostAuthenticationMutation } from '../redux/api/vassApi';
+import { clearFormData, setFlowType } from '../redux/slices/formSlice';
+import { FLOW_TYPES, URLS } from '../utils/constants';
+import { useErrorFocus } from '../hooks/useErrorFocus';
+import {
+  isInvalidCredentialsError,
+  isRateLimitExceededError,
+  isServerError,
+} from '../utils/errors';
 
 const getPageTitle = (cancellationFlow, verificationError) => {
   if (verificationError) {
@@ -17,16 +25,27 @@ const getPageTitle = (cancellationFlow, verificationError) => {
 
 const Verify = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
 
   // Check for cancel=true URL parameter to initiate cancellation flow
   const cancellationFlow = searchParams.get('cancel') === 'true';
   const uuid = searchParams.get('uuid');
-  if (!uuid) {
-    // TODO: route to the "Something went wrong" page
-  }
 
-  const [lastname, setLastname] = useState('');
+  // Ensures a fresh start when landing on Verify page and sets the flow type
+  useEffect(
+    () => {
+      dispatch(clearFormData());
+      // Set flow type based on URL parameter
+      const flowType = cancellationFlow
+        ? FLOW_TYPES.CANCEL
+        : FLOW_TYPES.SCHEDULE;
+      dispatch(setFlowType(flowType));
+    },
+    [dispatch, cancellationFlow],
+  );
+
+  const [lastName, setLastName] = useState('');
   const [dob, setDob] = useState('');
 
   const [
@@ -34,48 +53,37 @@ const Verify = () => {
     { isLoading, error: postAuthenticationError },
   ] = usePostAuthenticationMutation();
 
-  const [lastnameError, setLastnameError] = useState(undefined);
-  const [dobError, setDobError] = useState(undefined);
+  const [
+    { error: lastNameError, handleSetError: setLastNameError },
+    { error: dobError, handleSetError: setDobError },
+    { handleSetError: setAuthError },
+  ] = useErrorFocus([
+    'va-text-input[data-testid="last-name-input"]',
+    'va-memorable-date[data-testid="dob-input"]',
+    'va-alert[data-testid="verify-error-alert"]',
+  ]);
+
   const [attemptCount, setAttemptCount] = useState(1);
   const [verificationError, setVerificationError] = useState(undefined);
-  const [focusTrigger, setFocusTrigger] = useState(0);
-
-  useEffect(
-    () => {
-      if (postAuthenticationError || lastnameError || dobError) {
-        setTimeout(() => {
-          if (lastnameError) {
-            focusElement('va-text-input[data-testid="last-name-input"]');
-          } else if (dobError) {
-            focusElement('va-memorable-date[data-testid="dob-input"]');
-          } else {
-            focusElement('va-alert[data-testid="verify-error-alert"]');
-          }
-        }, 100);
-      }
-    },
-    [focusTrigger, lastnameError, dobError, postAuthenticationError],
-  );
 
   const handleSubmit = async () => {
-    if (lastname === '' || dob === '') {
-      if (lastname === '') {
-        setLastnameError('Please enter your last name');
+    if (lastName === '' || dob === '') {
+      if (lastName === '') {
+        setLastNameError('Please enter your last name');
       }
       if (dob === '') {
         setDobError('Please enter your date of birth');
       }
-      setFocusTrigger(prev => prev + 1);
       return;
     }
     const response = await postAuthentication({
       uuid,
-      lastname,
+      lastName,
       dob,
     });
     if (response.error) {
-      setFocusTrigger(prev => prev + 1);
-      if (attemptCount === 3 || response.error.code === 'rate_limit_exceeded') {
+      setAuthError('error');
+      if (attemptCount === 3 || isRateLimitExceededError(response.error)) {
         setVerificationError(
           'We’re sorry. We couldn’t match your information to your records. Please call us for help.',
         );
@@ -83,22 +91,22 @@ const Verify = () => {
       setAttemptCount(count => count + 1);
       return;
     }
-    let otcRoute = '/enter-otc';
-    if (cancellationFlow) {
-      otcRoute += '?cancel=true';
-    }
-    navigate(otcRoute);
+    navigate(URLS.ENTER_OTP);
   };
 
   const pageTitle = getPageTitle(cancellationFlow, verificationError);
 
   return (
-    <Wrapper pageTitle={pageTitle} verificationError={verificationError}>
+    <Wrapper
+      errorAlert={!uuid || isServerError(postAuthenticationError)}
+      pageTitle={pageTitle}
+      verificationError={verificationError}
+    >
       <p data-testid="verify-intro-text">
         First, we’ll need your information so we can send you a one-time
         verification code to verify your identity.
       </p>
-      {postAuthenticationError && (
+      {isInvalidCredentialsError(postAuthenticationError) && (
         <div className="vads-u-margin-bottom--2">
           <va-alert data-testid="verify-error-alert" status="error">
             We’re sorry. We couldn’t find a record that matches that last name
@@ -109,19 +117,19 @@ const Verify = () => {
       <va-text-input
         data-testid="last-name-input"
         label="Your last name"
-        value={lastname}
+        value={lastName}
         name="last-name"
         onBlur={e => {
           // Clear the error if the user has entered a value
           if (e.target.value !== '') {
-            setLastnameError(undefined);
+            setLastNameError('');
           }
         }}
         onInput={e => {
-          setLastname(e.target.value);
+          setLastName(e.target.value);
         }}
         required
-        error={lastnameError}
+        error={lastNameError}
         show-input-error
       />
       <VaMemorableDate
@@ -132,7 +140,7 @@ const Verify = () => {
         onDateBlur={e => {
           // Clear the error if the user has entered a value
           if (e.target.value !== '') {
-            setDobError(undefined);
+            setDobError('');
           }
         }}
         onDateChange={e => {

@@ -65,7 +65,7 @@ describe('Dependents Pages', () => {
     // ssn set => show and required
   });
 
-  it('introPage ui:description displays expected text and DependentChildDescription', () => {
+  it('introPage ui:description displays expected text', () => {
     const { dependentsIntro } = dependentsPages;
 
     const form = render(
@@ -81,11 +81,6 @@ describe('Dependents Pages', () => {
       form.getByText(
         /Next we.?ll ask you about the Veteran.?s dependent children. You may add up to 3 dependents./i,
       ),
-    ).to.exist;
-
-    // DependentChildDescription paragraph inside additional-info
-    expect(
-      form.getByText(/In most circumstances, children over the age of 23/i),
     ).to.exist;
   });
 
@@ -145,7 +140,10 @@ describe('Dependents Pages', () => {
     const formDOM = getFormDOM(form);
     const citySelect = $('va-text-input[name*="birthPlace_city"]', formDOM);
     const stateSelect = $('va-select[name*="birthPlace_state"]', formDOM);
-    const countrySelect = $('va-select[name*="birthPlace_country"]', formDOM);
+    const countrySelect = $(
+      'va-select[name*="birthPlace_otherCountry"]',
+      formDOM,
+    );
     expect(stateSelect).to.not.exist;
     expect(citySelect).to.exist;
     expect(citySelect.getAttribute('required')).to.equal('true');
@@ -236,10 +234,11 @@ describe('Dependents Pages', () => {
     expect(text.getItemName(itemWithoutName)).to.equal('Dependent');
   });
 
-  it('VaForm214138Alert only displays when livesWith is explicitly false', () => {
+  it('AdditionalDependentsAlert only displays when livesWith is explicitly false', () => {
     const householdItemUi = findItemUi(dependentHousehold);
     expect(householdItemUi, 'dependentHousehold item UI not found').to.exist;
-    const alertOptions = householdItemUi.vaForm214138Alert['ui:options'];
+    const alertOptions =
+      householdItemUi.additionalDependentsAlert['ui:options'];
 
     // explicit false at item => alert visible (hideIf returns false)
     const itemFalse = { veteransChildren: [{ livesWith: false }] };
@@ -269,36 +268,42 @@ describe('Dependents Pages', () => {
     expect(alertEl).to.exist;
   });
 
-  it('dependentMailingAddress depends shows only when livesWith is false', () => {
-    const { dependentMailingAddress } = dependentsPages;
+  // it('dependentMailingAddress depends shows only when livesWith is false', () => {
+  //   const { dependentMailingAddress } = dependentsPages;
 
-    const itemFalse = { veteransChildren: [{ livesWith: false }] };
-    const itemTrue = { veteransChildren: [{ livesWith: true }] };
-    const none = { veteransChildren: [{}] };
+  //   const itemFalse = { veteransChildren: [{ livesWith: false }] };
+  //   const itemTrue = { veteransChildren: [{ livesWith: true }] };
+  //   const none = { veteransChildren: [{}] };
 
-    expect(dependentMailingAddress.depends(itemFalse, 0)).to.be.true;
-    expect(dependentMailingAddress.depends(itemTrue, 0)).to.be.false;
-    expect(dependentMailingAddress.depends(none, 0)).to.be.false;
-  });
+  //   expect(dependentMailingAddress.depends(itemFalse, 0)).to.be.true;
+  //   expect(dependentMailingAddress.depends(itemTrue, 0)).to.be.false;
+  //   expect(dependentMailingAddress.depends(none, 0)).to.be.false;
+  // });
 
-  it('dependentCustodian depends shows only when livesWith is false', () => {
-    const { dependentCustodian } = dependentsPages;
+  // it('dependentCustodian depends shows only when livesWith is false', () => {
+  //   const { dependentCustodian } = dependentsPages;
 
-    const itemFalse = { veteransChildren: [{ livesWith: false }] };
-    const itemTrue = { veteransChildren: [{ livesWith: true }] };
-    const none = { veteransChildren: [{}] };
+  //   const itemFalse = { veteransChildren: [{ livesWith: false }] };
+  //   const itemTrue = { veteransChildren: [{ livesWith: true }] };
+  //   const none = { veteransChildren: [{}] };
 
-    expect(dependentCustodian.depends(itemFalse, 0)).to.be.true;
-    expect(dependentCustodian.depends(itemTrue, 0)).to.be.false;
-    expect(dependentCustodian.depends(none, 0)).to.be.false;
-  });
+  //   expect(dependentCustodian.depends(itemFalse, 0)).to.be.true;
+  //   expect(dependentCustodian.depends(itemTrue, 0)).to.be.false;
+  //   expect(dependentCustodian.depends(none, 0)).to.be.false;
+  // });
 
   it('dependentChildSupport depends shows only when livesWith is false', () => {
     const { dependentChildSupport } = dependentsPages;
 
-    const itemFalse = { veteransChildren: [{ livesWith: false }] };
-    const itemTrue = { veteransChildren: [{ livesWith: true }] };
-    const none = { veteransChildren: [{}] };
+    const itemFalse = {
+      veteranChildrenCount: '1',
+      veteransChildren: [{ livesWith: false }],
+    };
+    const itemTrue = {
+      veteranChildrenCount: '1',
+      veteransChildren: [{ livesWith: true }],
+    };
+    const none = { veteranChildrenCount: '0', veteransChildren: [{}] };
 
     expect(dependentChildSupport.depends(itemFalse, 0)).to.be.true;
     expect(dependentChildSupport.depends(itemTrue, 0)).to.be.false;

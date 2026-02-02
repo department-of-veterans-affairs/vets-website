@@ -5,7 +5,6 @@
     "claimStatus": "resubmission",
     "pdiOrClaimNumber": "PDI number",
     "identifyingNumber": "va12345678",
-    "view:hasPolicies": false,
     "resubmissionLetterUpload": [
       {
         "name": "example_upload.png",
@@ -41,7 +40,7 @@
       "last": "Jones",
       "suffix": "II"
     },
-    "applicantDOB": "2022-03-23",
+    "applicantDob": "2022-03-23",
     "sponsorName": {
       "first": "Sponsor",
       "middle": "Q",
