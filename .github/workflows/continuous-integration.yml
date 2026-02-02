@@ -1054,6 +1054,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [tests-prep]
+    if: github.ref != 'refs/heads/main'
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -1132,6 +1133,7 @@ jobs:
     timeout-minutes: 120
     needs: [build, tests-prep, fetch-ecr-credentials]
     if: |
+      github.ref != 'refs/heads/main' &&
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success' &&
       needs.tests-prep.outputs.e2e_count != '0'
@@ -1937,6 +1939,7 @@ jobs:
     needs:
       [
         cypress-tests,
+        node-22-cypress-compatibility-check,
         stress-test-cypress-tests,
         tests-prep,
         unit-tests,
@@ -2049,6 +2052,7 @@ jobs:
         env:
           CYPRESS_TESTS_RESULT: ${{ needs.cypress-tests.result  }}
           CYPRESS_TESTS_STRESS_TEST_RESULT: ${{ needs.stress-test-cypress-tests.result }}
+          NODE_22_CYPRESS_COMPATIBILITY_RESULT: ${{ needs.node-22-cypress-compatibility-check.result }}
           UNIT_TESTS_STRESS_TEST_RESULT: ${{ needs.unit-tests-stress-test.result }}
 
   archive:

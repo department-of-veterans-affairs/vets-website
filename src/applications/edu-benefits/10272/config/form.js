@@ -1,5 +1,12 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import {
+  profilePersonalInfoPage,
+  profileContactInfoPages,
+} from 'platform/forms-system/src/js/patterns/prefill';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
+
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 
@@ -12,10 +19,13 @@ import {
   educationBenefitsElibility,
   educationBenefitsHistory,
   hasPreviouslyApplied,
+  payeeNumber,
   prepCourseName,
   prepCourseAddress,
   prepCourseOnline,
 } from '../pages';
+
+import prefillTransform from './prefillTransform';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -43,6 +53,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer: prefillTransform,
   savedFormMessages: {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your request.',
@@ -82,6 +93,34 @@ const formConfig = {
           schema: educationBenefitsElibility.schema,
           depends: formData => formData?.hasPreviouslyApplied === false,
         },
+      },
+    },
+    personalInformationChapter: {
+      title: 'Your personal information',
+      pages: {
+        ...profilePersonalInfoPage({
+          personalInfoConfig: {
+            name: { show: true, required: true },
+            ssn: { show: true, required: true },
+            dateOfBirth: { show: true, required: false },
+          },
+          dataAdapter: {
+            ssnPath: 'vaFileNumber',
+          },
+        }),
+        payeeNumber: {
+          path: 'payee-number',
+          title: 'Your VA payee number',
+          uiSchema: payeeNumber.uiSchema,
+          schema: payeeNumber.schema,
+        },
+        ...profileContactInfoPages({
+          content: {
+            ...getContent('request'),
+            title: 'Confirm the contact information we have on file for you',
+          },
+          contactInfoRequiredKeys: ['mailingAddress'],
+        }),
       },
     },
     prepCourseChapter: {
