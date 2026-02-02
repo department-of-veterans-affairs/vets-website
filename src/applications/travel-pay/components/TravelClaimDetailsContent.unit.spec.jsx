@@ -14,6 +14,55 @@ describe('TravelClaimDetailsContent', () => {
   let getClaimDetailsStub;
   let getAppointmentDataByDateTimeStub;
 
+  const getInitialState = ({
+    claimId = '123',
+    appointmentId = 'appt-123',
+    claimDataOverride = {},
+    appointmentDataOverride = {},
+    complexClaimsEnabled = true,
+  } = {}) => ({
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      travel_pay_enable_complex_claims: complexClaimsEnabled,
+    },
+    travelPay: {
+      claimDetails: {
+        data: {
+          [claimId]: {
+            id: claimId,
+            claimNumber: `TC${claimId}`,
+            appointment: { appointmentDateTime: '2025-12-15T10:00:00Z' },
+            ...claimDataOverride,
+          },
+        },
+        error: null,
+      },
+      appointment: {
+        data: {
+          travelPayClaim: { claim: { id: appointmentId } },
+          ...appointmentDataOverride,
+        },
+        isLoading: false,
+        error: null,
+      },
+    },
+  });
+
+  const CLAIM_123 = {
+    '123': {
+      id: '123',
+      claimNumber: 'TC123',
+      claimStatus: 'Claim submitted',
+      appointmentDate: '2025-12-15T10:00:00Z',
+      facilityName: 'Test Facility',
+      createdOn: '2025-12-15T10:00:00Z',
+      modifiedOn: '2025-12-15T10:00:00Z',
+      appointment: {
+        appointmentDateTime: '2025-12-15T10:00:00Z',
+      },
+    },
+  };
+
   beforeEach(() => {
     sinon.stub(featureToggle, 'useFeatureToggle').returns({
       useToggleValue: () => true,
@@ -37,21 +86,17 @@ describe('TravelClaimDetailsContent', () => {
 
   describe('error handling', () => {
     it('should display error alert when claim details error exists', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {},
-            error: {
-              message: 'Failed to fetch claim details',
-            },
-          },
-          appointment: {
-            data: null,
-            isLoading: false,
-            error: null,
-          },
-        },
+      const initialState = getInitialState({
+        claimDataOverride: {}, // no claim data
+      });
+
+      // Override the claimDetails.error to simulate a fetch failure
+      initialState.travelPay.claimDetails.error = {
+        message: 'Failed to fetch claim details',
       };
+
+      // Also clear the appointment data
+      initialState.travelPay.appointment.data = null;
 
       const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
         initialState,
@@ -69,32 +114,15 @@ describe('TravelClaimDetailsContent', () => {
     });
 
     it('should render ClaimDetailsContent when claim data exists', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                claimNumber: 'TC123',
-                claimStatus: 'Claim submitted',
-                appointmentDate: '2025-12-15T10:00:00Z',
-                facilityName: 'Test Facility',
-                createdOn: '2025-12-15T10:00:00Z',
-                modifiedOn: '2025-12-15T10:00:00Z',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: { id: 'appt-123' },
-            isLoading: false,
-            error: null,
-          },
+      const initialState = getInitialState({
+        claimId: '123',
+        claimDataOverride: {
+          ...CLAIM_123,
         },
-      };
+      });
+
+      // Ensure appointment data is available
+      initialState.travelPay.appointment.data = { id: 'appt-123' };
 
       const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
         initialState,
@@ -115,20 +143,17 @@ describe('TravelClaimDetailsContent', () => {
 
   describe('useEffect for fetching claim and appointment data', () => {
     it('should render without claim data initially and not error', () => {
-      const initialState = {
-        featureToggles: {},
-        travelPay: {
-          claimDetails: {
-            data: {},
-            error: null,
-          },
-          appointment: {
-            data: null,
-            isLoading: false,
-            error: null,
-          },
-        },
-      };
+      const initialState = getInitialState({
+        claimId: null, // no claim yet
+        appointmentId: 'appt-123',
+      });
+
+      // Clear out claimDetails data and error to simulate initial load
+      initialState.travelPay.claimDetails.data = {};
+      initialState.travelPay.claimDetails.error = null;
+
+      // Ensure appointment is empty to simulate no data initially
+      initialState.travelPay.appointment.data = null;
 
       const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
         initialState,
@@ -142,30 +167,17 @@ describe('TravelClaimDetailsContent', () => {
     });
 
     it('should not dispatch actions when claim data already exists', () => {
-      const initialState = {
-        featureToggles: {},
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                claimNumber: 'TC123',
-                claimStatus: 'Claim submitted',
-                appointmentDate: '2025-12-15T10:00:00Z',
-                facilityName: 'Test Facility',
-                createdOn: '2025-12-15T10:00:00Z',
-                modifiedOn: '2025-12-15T10:00:00Z',
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: null,
-            isLoading: false,
-            error: null,
-          },
-        },
-      };
+      const initialState = getInitialState({
+        claimId: '123',
+        appointmentId: 'appt-123',
+      });
+
+      // Add existing claim data to simulate already-loaded claim
+      initialState.travelPay.claimDetails.data = CLAIM_123;
+      initialState.travelPay.claimDetails.error = null;
+
+      // Ensure appointment is empty to match scenario
+      initialState.travelPay.appointment.data = null;
 
       renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
         initialState,
@@ -178,35 +190,20 @@ describe('TravelClaimDetailsContent', () => {
     });
 
     it('should render appointment data when available', () => {
-      const initialState = {
-        featureToggles: {},
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                claimNumber: 'TC123',
-                claimStatus: 'Claim submitted',
-                appointmentDate: '2025-12-15T10:00:00Z',
-                facilityName: 'Test Facility',
-                createdOn: '2025-12-15T10:00:00Z',
-                modifiedOn: '2025-12-15T10:00:00Z',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: {
-              id: '123',
-            },
-            isLoading: false,
-            error: null,
-          },
-        },
+      const initialState = getInitialState({
+        claimId: '123',
+        appointmentId: 'appt-123',
+      });
+
+      // Populate claimDetails with existing claim and appointment
+      initialState.travelPay.claimDetails.data = CLAIM_123;
+
+      // Ensure appointment store data is available
+      initialState.travelPay.appointment.data = {
+        id: 'appt-123',
       };
+      initialState.travelPay.appointment.isLoading = false;
+      initialState.travelPay.appointment.error = null;
 
       const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
         initialState,
@@ -220,34 +217,18 @@ describe('TravelClaimDetailsContent', () => {
     });
 
     it('should not dispatch getAppointmentDataByDateTime when appointmentError exists', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                claimNumber: 'TC123',
-                claimStatus: 'Claim submitted',
-                appointmentDate: '2025-12-15T10:00:00Z',
-                facilityName: 'Test Facility',
-                createdOn: '2025-12-15T10:00:00Z',
-                modifiedOn: '2025-12-15T10:00:00Z',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: null,
-            isLoading: false,
-            error: {
-              message: 'Error',
-            },
-          },
-        },
-      };
+      const initialState = getInitialState({
+        claimId: '123',
+        appointmentId: null,
+      });
+
+      // Use the constant for claim details
+      initialState.travelPay.claimDetails.data = CLAIM_123;
+
+      // Simulate an appointment error
+      initialState.travelPay.appointment.data = null;
+      initialState.travelPay.appointment.isLoading = false;
+      initialState.travelPay.appointment.error = { message: 'Error' };
 
       renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
         initialState,
@@ -259,34 +240,13 @@ describe('TravelClaimDetailsContent', () => {
     });
 
     it('should not dispatch getAppointmentDataByDateTime when appointmentData already exists', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                claimNumber: 'TC123',
-                claimStatus: 'Claim submitted',
-                appointmentDate: '2025-12-15T10:00:00Z',
-                facilityName: 'Test Facility',
-                createdOn: '2025-12-15T10:00:00Z',
-                modifiedOn: '2025-12-15T10:00:00Z',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: {
-              id: 'appt-123',
-            },
-            isLoading: false,
-            error: null,
-          },
-        },
-      };
+      const initialState = getInitialState({
+        claimId: '123',
+        appointmentId: 'appt-123', // appointment data already exists
+      });
+
+      // Use the constant for claim details
+      initialState.travelPay.claimDetails.data = CLAIM_123;
 
       renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
         initialState,
@@ -298,37 +258,17 @@ describe('TravelClaimDetailsContent', () => {
     });
 
     it('should not dispatch getAppointmentDataByDateTime when complexClaimsEnabled feature flag is false', () => {
-      const initialState = {
-        featureToggles: {
-          /* eslint-disable camelcase */
-          travel_pay_enable_complex_claims: false,
-          /* eslint-enable camelcase */
-        },
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                claimNumber: 'TC123',
-                claimStatus: 'Claim submitted',
-                appointmentDate: '2025-12-15T10:00:00Z',
-                facilityName: 'Test Facility',
-                createdOn: '2025-12-15T10:00:00Z',
-                modifiedOn: '2025-12-15T10:00:00Z',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: null,
-            isLoading: false,
-            error: null,
-          },
-        },
-      };
+      const initialState = getInitialState({
+        claimId: '123',
+        appointmentId: null, // no appointment data yet
+      });
+
+      // Override feature toggle
+      // eslint-disable-next-line camelcase
+      initialState.featureToggles.travel_pay_enable_complex_claims = false;
+
+      // Use the constant for claim details
+      initialState.travelPay.claimDetails.data = CLAIM_123;
 
       renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
         initialState,
@@ -341,25 +281,21 @@ describe('TravelClaimDetailsContent', () => {
     });
 
     it('does not dispatch getAppointmentDataByDateTime when appointmentData belongs to the same claim', async () => {
-      const initialState = {
-        // eslint-disable-next-line camelcase
-        featureToggles: { travel_pay_enable_complex_claims: true },
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                appointment: { appointmentDateTime: '2025-12-15T10:00:00Z' },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: { travelPayClaim: { claim: { id: '123' } } }, // Same claim id
-            isLoading: false,
-            error: null,
-          },
-        },
+      const initialState = getInitialState({
+        claimId: '123',
+        appointmentId: 'appt-123', // existing appointment data belongs to same claim
+      });
+
+      // Override feature toggle to true
+      // eslint-disable-next-line camelcase
+      initialState.featureToggles.travel_pay_enable_complex_claims = true;
+
+      // Use constant for claim details
+      initialState.travelPay.claimDetails.data = CLAIM_123;
+
+      // Existing appointment data belongs to same claim
+      initialState.travelPay.appointment.data = {
+        travelPayClaim: { claim: { id: '123' } },
       };
 
       renderWithStoreAndRouter(
@@ -375,32 +311,52 @@ describe('TravelClaimDetailsContent', () => {
       });
       getAppointmentDataByDateTimeStub.restore();
     });
+
+    it('dispatches getAppointmentDataByDateTime when appointmentData belongs to a different claim', async () => {
+      const initialState = getInitialState({
+        claimId: '123',
+        appointmentId: 'appt-999', // existing appointment data belongs to a different claim
+      });
+
+      // Enable complex claims feature
+      // eslint-disable-next-line camelcase
+      initialState.featureToggles.travel_pay_enable_complex_claims = true;
+
+      // Set claim details using the constant
+      initialState.travelPay.claimDetails.data = CLAIM_123;
+
+      // Appointment data belongs to a different claim
+      initialState.travelPay.appointment.data = {
+        travelPayClaim: { claim: { id: '999' } },
+      };
+
+      renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/claim/123']}>
+          <Routes>
+            <Route path="/claim/:id" element={<TravelClaimDetailsContent />} />
+          </Routes>
+        </MemoryRouter>,
+        { initialState, reducers: reducer },
+      );
+
+      await waitFor(() => {
+        expect(getAppointmentDataByDateTimeStub.calledOnce).to.be.true;
+      });
+      expect(
+        getAppointmentDataByDateTimeStub.calledWith('2025-12-15T10:00:00Z'),
+      ).to.be.true;
+    });
   });
 
   describe('help text and additional content', () => {
     it('should always display help text and direct deposit information', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: {
-              id: 'appt-123',
-            },
-            isLoading: false,
-            error: null,
-          },
-        },
-      };
+      const initialState = getInitialState({
+        claimId: '123',
+        appointmentId: 'appt-123',
+      });
+
+      // Set claim details using the shared constant
+      initialState.travelPay.claimDetails.data = CLAIM_123;
 
       const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
         initialState,
@@ -417,20 +373,15 @@ describe('TravelClaimDetailsContent', () => {
     });
 
     it('should display contact information in error alert', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {},
-            error: {
-              message: 'Error',
-            },
-          },
-          appointment: {
-            data: null,
-            isLoading: false,
-            error: null,
-          },
-        },
+      const initialState = getInitialState({
+        claimId: null,
+        appointmentId: 'appt-123',
+      });
+
+      // Override claimDetails to simulate an error
+      initialState.travelPay.claimDetails = {
+        data: {},
+        error: { message: 'Error' },
       };
 
       const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
