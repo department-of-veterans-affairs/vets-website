@@ -442,7 +442,11 @@ Cypress.Commands.add('enterWebComponentData', field => {
     }
 
     case 'VA-MEMORABLE-DATE': {
-      cy.fillVaMemorableDate(field.key, field.data);
+      // Check if the element has month-select attribute and get its value
+      // Default to true if attribute is not present or is set to 'true'
+      const monthSelectAttr = field.element.attr('month-select');
+      const useMonthSelect = monthSelectAttr !== 'false';
+      cy.fillVaMemorableDate(field.key, field.data, useMonthSelect);
       break;
     }
 
