@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { privWrapper } from '../../shared/utilities';
@@ -31,11 +30,14 @@ export class ConfirmationPage extends React.Component {
             Register for the Foreign Medical Program (FMP) with Form 10-7959f-1
           </h2>
         </div>
-        <VaAlert uswds status="success">
-          <h2 className="vads-u-font-size--h3">
-            You've submitted your registration for FMP
-          </h2>
-        </VaAlert>
+
+        <div className="success-message vads-u-margin-bottom--4">
+          <va-alert status="success">
+            <h2 slot="headline" className="vads-u-font-size--h3">
+              You’ve submitted your registration for FMP
+            </h2>
+          </va-alert>
+        </div>
 
         <div className="inset">
           <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
