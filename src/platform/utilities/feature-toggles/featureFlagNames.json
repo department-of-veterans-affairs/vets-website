@@ -1,7 +1,6 @@
 {
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
   "accreditedRepresentativePortalForm21a": "accredited_representative_portal_form_21a",
-  "accreditedRepresentativePortalIntentToFile": "accredited_representative_portal_intent_to_file",
   "aedpVADX": "aedp_vadx",
   "aedpPrefill": "aedp_prefill",
   "appointARepresentativeEnableFrontend": "appoint_a_representative_enable_frontend",
@@ -238,6 +237,7 @@
   "pensionRatingAlertLoggingEnabled": "pension_rating_alert_logging_enabled",
   "pbbFormsRequireLoa3": "pbb_forms_require_loa3",
   "preEntryCovid19Screener": "pre_entry_covid19_screener",
+  "profileBrowserMonitoring": "profile_browser_monitoring",
   "profileDoNotRequireInternationalZipCode": "profile_do_not_require_international_zip_code",
   "profileContactInfoPageUIRefresh": "profile_contact_info_page_ui_refresh",
   "profileHideDirectDeposit": "profile_hide_direct_deposit",

@@ -3,6 +3,7 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import {
   textUI,
   textSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import SafeArrayField from '../components/SafeArrayField';
 import { DisabilityView } from '../components/viewElements';
@@ -10,15 +11,13 @@ import { DisabilityView } from '../components/viewElements';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    ...titleUI('Section II: Disability and Medical Information'),
     'ui:description': (
       <div>
-        <h3 style={{ marginTop: 0 }}>
-          Section II: Disability and Medical Information
-        </h3>
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h4 slot="headline">
+          <h2 slot="headline">
             <b>What to expect:</b>
-          </h4>
+          </h2>
           <div className="vads-u-margin--0">
             <ul style={{ marginBottom: 0 }}>
               <li>
@@ -37,7 +36,7 @@ export default {
         </VaAlert>
 
         <div className="vads-u-margin-top--5">
-          <h4 style={{ marginTop: 0 }}>Disability And Medical Treatment</h4>
+          <h3 style={{ marginTop: 0 }}>Disability And Medical Treatment</h3>
         </div>
       </div>
     ),
@@ -63,6 +62,10 @@ export default {
           title:
             'What service-connected disability prevents you from getting or keeping a job?',
           useDlWrap: true,
+          errorMessages: {
+            required:
+              'You must enter a least one service-connected disability to proceed',
+          },
         }),
       },
     },

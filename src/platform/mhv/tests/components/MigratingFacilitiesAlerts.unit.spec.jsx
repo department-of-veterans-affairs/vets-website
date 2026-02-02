@@ -9,8 +9,8 @@ describe('MigratingFacilitiesAlerts', () => {
       migrationDate: '2026-05-01',
       facilities: [
         {
-          id: '528',
-          name: 'VA Uptown New Orleans Medical Center',
+          facilityId: '528',
+          facilityName: 'VA Uptown New Orleans Medical Center',
         },
       ],
       phases: {
@@ -31,12 +31,12 @@ describe('MigratingFacilitiesAlerts', () => {
       migrationDate: '2026-05-01',
       facilities: [
         {
-          id: '528',
-          name: 'VA Uptown New Orleans Medical Center',
+          facilityId: '528',
+          facilityName: 'VA Uptown New Orleans Medical Center',
         },
         {
-          id: '529',
-          name: 'VA Downtown New Orleans Clinic',
+          facilityId: '529',
+          facilityName: 'VA Downtown New Orleans Clinic',
         },
       ],
       phases: {
@@ -336,7 +336,7 @@ describe('MigratingFacilitiesAlerts', () => {
           ...mockMigratingFacilities[0],
           phases: {
             ...mockMigratingFacilities[0].phases,
-            current: 'p4', // In error array for MEDICAL_RECORDS
+            current: 'p5', // In error array for MEDICAL_RECORDS
           },
         },
       ],
@@ -409,8 +409,8 @@ describe('MigratingFacilitiesAlerts', () => {
           migrationDate: '2026-05-01',
           facilities: [
             {
-              id: '528',
-              name: 'VA Uptown New Orleans Medical Center',
+              facilityId: '528',
+              facilityName: 'VA Uptown New Orleans Medical Center',
             },
           ],
           phases: {
@@ -429,8 +429,8 @@ describe('MigratingFacilitiesAlerts', () => {
           migrationDate: '2026-06-01',
           facilities: [
             {
-              id: '529',
-              name: 'VA Downtown New Orleans Clinic',
+              facilityId: '529',
+              facilityName: 'VA Downtown New Orleans Clinic',
             },
           ],
           phases: {
@@ -491,8 +491,8 @@ describe('MigratingFacilitiesAlerts', () => {
           migrationDate: '2026-05-01',
           facilities: [
             {
-              id: '528',
-              name: 'VA Uptown New Orleans Medical Center',
+              facilityId: '528',
+              facilityName: 'VA Uptown New Orleans Medical Center',
             },
           ],
           phases: {
@@ -511,8 +511,8 @@ describe('MigratingFacilitiesAlerts', () => {
           migrationDate: '2026-06-01',
           facilities: [
             {
-              id: '529',
-              name: 'VA Downtown New Orleans Clinic',
+              facilityId: '529',
+              facilityName: 'VA Downtown New Orleans Clinic',
             },
           ],
           phases: {
@@ -531,8 +531,8 @@ describe('MigratingFacilitiesAlerts', () => {
           migrationDate: '2026-07-01',
           facilities: [
             {
-              id: '530',
-              name: 'VA Westside Clinic',
+              facilityId: '530',
+              facilityName: 'VA Westside Clinic',
             },
           ],
           phases: {
@@ -706,7 +706,7 @@ describe('MigratingFacilitiesAlerts', () => {
             ...mockMigratingFacilities[0],
             phases: {
               ...mockMigratingFacilities[0].phases,
-              current: 'p4',
+              current: 'p5',
             },
           },
         ],
@@ -780,7 +780,7 @@ describe('MigratingFacilitiesAlerts', () => {
             ...mockMigratingFacilities[0],
             phases: {
               ...mockMigratingFacilities[0].phases,
-              current: 'p4',
+              current: 'p5',
             },
           },
         ],
