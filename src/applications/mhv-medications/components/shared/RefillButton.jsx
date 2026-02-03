@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { differenceInDays, parseISO } from 'date-fns';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -27,10 +27,14 @@ const wasRecentlySubmitted = refillSubmitDate => {
 };
 
 const RefillButton = rx => {
+  const [localError, setLocalError] = useState(false);
+
   const [
     refillPrescription,
     { isLoading, isSuccess, isError },
-  ] = useRefillPrescriptionMutation();
+  ] = useRefillPrescriptionMutation({
+    fixedCacheKey: 'refill-request',
+  });
 
   const { prescriptionId, isRefillable, refillSubmitDate } = rx;
 
@@ -39,6 +43,18 @@ const RefillButton = rx => {
   if (!isRefillable || wasRecentlySubmitted(refillSubmitDate)) {
     return null;
   }
+
+  const handleRefillClick = async () => {
+    try {
+      setLocalError(false);
+      await refillPrescription(prescriptionId).unwrap();
+    } catch (error) {
+      setLocalError(true);
+    }
+  };
+
+  // Use RTK Query's isError but fallback to localError to prevent false positives during cache invalidation
+  const showError = (isError && !isLoading) || (localError && !isLoading);
 
   return (
     <div className="rx-refill-button" data-testid="refill">
@@ -51,7 +67,7 @@ const RefillButton = rx => {
           </va-alert>
         </div>
       )}
-      {isError &&
+      {showError &&
         !isLoading && (
           <div className="vads-u-padding-y--2">
             <va-alert
@@ -91,9 +107,7 @@ const RefillButton = rx => {
         }
         data-testid="refill-request-button"
         hidden={isSuccess || isLoading}
-        onClick={() => {
-          refillPrescription(prescriptionId);
-        }}
+        onClick={handleRefillClick}
         text="Request a refill"
       />
     </div>

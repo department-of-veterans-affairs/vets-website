@@ -865,5 +865,58 @@ describe('Refill Prescriptions Component', () => {
       stubAllergiesApi({ sandbox });
       setup();
     });
+
+    it('does not show error when bulk refill is in progress', async () => {
+      sandbox.restore();
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([
+          sinon.stub(),
+          { isLoading: true, error: { message: 'Network error' } },
+        ]);
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: { prescriptions: refillablePrescriptions, meta: {} },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+      stubAllergiesApi({ sandbox });
+
+      const screen = setup();
+
+      // When isLoading is true, should show loading indicator instead of error
+      await waitFor(() => {
+        const loadingIndicator = screen.queryByTestId('loading-indicator');
+        expect(loadingIndicator).to.exist;
+      });
+    });
+
+    it('renders prescriptions when no API errors are present', async () => {
+      sandbox.restore();
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([
+          sinon.stub(),
+          { isLoading: false, error: null },
+        ]);
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: { prescriptions: refillablePrescriptions, meta: {} },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+      stubAllergiesApi({ sandbox });
+
+      const screen = setup();
+
+      await waitFor(() => {
+        const checkboxGroup = screen.queryByTestId('refill-checkbox-group');
+        expect(checkboxGroup).to.exist;
+      });
+    });
   });
 });

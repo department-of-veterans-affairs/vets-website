@@ -111,8 +111,13 @@ const RefillPrescriptions = () => {
   const [selectedRefillList, setSelectedRefillList] = useState([]);
   const [refillStatus, setRefillStatus] = useState(REFILL_STATUS.NOT_STARTED);
 
-  // Handle API errors from RTK Query
-  const prescriptionsApiError = refillableError || bulkRefillError;
+  // Smart error handling - prevents false error alerts during cache invalidation
+  const isProcessingRefill = refillStatus === REFILL_STATUS.IN_PROGRESS;
+  const hasRecentSuccess = refillStatus === REFILL_STATUS.FINISHED;
+  
+  // Only show bulk refill errors for genuine failures (not during processing or after success)
+  const shouldShowBulkError = bulkRefillError && !isProcessingRefill && !hasRecentSuccess;
+  const prescriptionsApiError = refillableError || shouldShowBulkError;
 
   // Selectors
   const selectedSortOption = useSelector(selectSortOption);

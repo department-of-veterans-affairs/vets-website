@@ -319,6 +319,8 @@ export const prescriptionsApi = createApi({
           };
         }
       },
+      // Invalidate prescription cache to update UI after refill
+      invalidatesTags: ['Prescription'],
     }),
     bulkRefillPrescriptions: builder.mutation({
       queryFn: async (ids, { getState }) => {
