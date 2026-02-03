@@ -48,6 +48,8 @@ const ManageFolderButtons = props => {
       setIsEditExpanded(false);
       setFolderName('');
       setNameWarning('');
+      setIsEmptyWarning(false);
+      setDeleteModal(false);
     },
     [folder?.folderId],
   );
@@ -145,7 +147,7 @@ const ManageFolderButtons = props => {
         setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
       } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
         try {
-          // Pass suppressAlert=true to prevent global alert, we show inline alert instead
+          // Pass suppressSuccessAlert=true to prevent global alert, we show inline alert instead
           await dispatch(renameFolder(folder.folderId, folderName, true));
           setIsEditExpanded(false);
           setFolderName('');

@@ -278,13 +278,13 @@ describe('folders actions', () => {
     });
   });
 
-  it('should NOT dispatch success alert when suppressAlert=true on renameFolder', async () => {
+  it('should NOT dispatch success alert when suppressSuccessAlert=true on renameFolder', async () => {
     const store = mockStore();
     mockApiRequest(newFolderResponse);
     const newFolderName = 'New folder name';
     await store.dispatch(renameFolder(1234, newFolderName, true)).then(() => {
       const actions = store.getActions();
-      // Should NOT include a success alert when suppressAlert=true
+      // Should NOT include a success alert when suppressSuccessAlert=true
       const successAlerts = actions.filter(
         action =>
           action.type === Actions.Alerts.ADD_ALERT &&

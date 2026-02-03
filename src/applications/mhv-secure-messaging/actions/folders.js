@@ -150,13 +150,13 @@ export const delFolder = folderId => async dispatch => {
 export const renameFolder = (
   folderId,
   newName,
-  suppressAlert = false,
+  suppressSuccessAlert = false,
 ) => async dispatch => {
   try {
     await updateFolderName(folderId, newName);
     await dispatch(getFolders());
     await dispatch(retrieveFolder(folderId));
-    if (!suppressAlert) {
+    if (!suppressSuccessAlert) {
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_SUCCESS,
