@@ -122,7 +122,7 @@ export default function ClaimDetailsContent({
       </h1>
       {complexClaimsToggle &&
         isOutOfBounds && (
-          <div className="vads-u-margin-y--3">
+          <div className="vads-u-margin-y--4">
             <OutOfBoundsAppointmentAlert />
           </div>
         )}
