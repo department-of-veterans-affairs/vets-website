@@ -1,4 +1,5 @@
 import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
 Cypress.Commands.add('verifySearchArea', () => {
   const clickInterval = 10;
@@ -55,6 +56,7 @@ Cypress.Commands.add('verifySearchArea', () => {
 it('handles map zooming correctly', () => {
   cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
   cy.intercept('GET', '/v0/maintenance_windows', []);
+  cy.intercept('GET', '**/geocoding/**', mockGeocodingData);
   cy.intercept(
     'POST',
     '/facilities_api/v2/**',
