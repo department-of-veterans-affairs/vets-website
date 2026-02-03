@@ -14,6 +14,7 @@ import {
 import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
 import { getFormContent, getFormNumber } from '../helpers';
 import { PrimaryActionLink } from '../config/constants';
+import { CustomTopContent } from '../pages/helpers';
 
 const IntroductionPage = ({ route }) => {
   const { formConfig, pageList } = route;
@@ -28,6 +29,7 @@ const IntroductionPage = ({ route }) => {
 
   return (
     <article className="schemaform-intro">
+      <CustomTopContent />
       <FormTitle title={title} subTitle={subTitle} />
       <h2>How to submit VA Form {formNumber}</h2>
       <p>You can upload and submit your completed form here on VA.gov.</p>
