@@ -5,6 +5,8 @@ import {
   requiredForSubtopicPage,
   whoIsYourQuestionAboutLabels,
 } from '../constants';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+
 import manifest from '../manifest.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -35,12 +37,12 @@ import relationshipToVeteranPage from './chapters/personalInformation/relationsh
 
 // Review Page
 import Footer from '../components/Footer';
+
 import CategorySelectPage from '../containers/CategorySelectPage';
 import ReviewPage from '../containers/ReviewPage';
 import SubTopicSelectPage from '../containers/SubTopicSelectPage';
 import TopicSelectPage from '../containers/TopicSelectPage';
 import WhoIsYourQuestionAboutCustomPage from '../containers/WhoIsYourQuestionAboutCustomPage';
-
 import CustomPageReviewField from '../components/CustomPageReviewField';
 import SignInInterruptPage from '../containers/SignInInterruptPage';
 import {
@@ -56,6 +58,7 @@ import {
   generalQuestionCondition,
   whoIsYourQuestionAboutCondition,
 } from './helpers';
+import YourQuestionBPage from '../containers/YourQuestionB';
 import prefillTransformer from './prefill-transformer';
 
 const formConfig = {
@@ -104,10 +107,23 @@ const formConfig = {
           title: CHAPTER_3.YOUR_PERSONAL_INFORMATION.TITLE,
           CustomPage: YourPersonalInformationAuthenticated,
           CustomPageReview: null,
+          depends: isLoggedIn === true,
           uiSchema: {},
           schema: {
             type: 'object',
             properties: {},
+          },
+        },
+        yourQuestionB: {
+          path: 'initial-question',
+          title: CHAPTER_2.PAGE_3.TITLE,
+          CustomPage: YourQuestionBPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
           },
         },
         selectCategory: {
