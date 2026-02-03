@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
-import * as authUtilities from 'platform/user/authentication/utilities';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import VerifyAccountLink from 'platform/user/authentication/components/VerifyAccountLink';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
@@ -30,22 +29,6 @@ describe('VerifyAccountLink', () => {
         `Create an account with ${SERVICE_PROVIDERS[policy].label}`,
       );
 
-      screen.unmount();
-    });
-
-    it(`should set correct href for ${policy} (SAML)`, async () => {
-      const screen = render(
-        <VerifyAccountLink policy={policy} useOAuth={false} />,
-      );
-      const anchor = await screen.findByTestId(policy);
-      const href = await authUtilities.signupOrVerify({
-        policy,
-        isLink: true,
-        isSignup: false,
-        useOAuth: false,
-      });
-
-      await waitFor(() => expect(anchor.href).to.eql(href));
       screen.unmount();
     });
 

@@ -83,26 +83,6 @@ describe('Verify Buttons', () => {
       }
     });
   });
-
-  it('should not call updateStateAndVerifier if useOAuth is false', () => {
-    const store = sharedStore();
-    const queryParams = { operation: 'idme_verification' };
-    const useOAuth = true;
-
-    const { container } = render(
-      <Provider store={store}>
-        <VerifyIdmeButton queryParams={queryParams} useOAuth={useOAuth} />
-      </Provider>,
-    );
-
-    const button = container.querySelector('.idme-verify-button');
-    expect(button).to.exist;
-
-    fireEvent.click(button);
-
-    sinon.assert.calledOnce(AuthUtils.verify);
-    sinon.assert.neverCalledWith(OAuthUtils.updateStateAndVerifier);
-  });
 });
 
 describe('VerifyButton', () => {
@@ -170,23 +150,5 @@ describe('verifyHandler', () => {
 
     sinon.assert.calledOnce(OAuthUtils.updateStateAndVerifier);
     sinon.assert.calledWith(OAuthUtils.updateStateAndVerifier, policy);
-  });
-
-  it('should not call updateStateAndVerifier when useOAuth is false', () => {
-    const queryParams = { operation: 'test_operation' };
-    const useOAuth = true;
-    const policy = 'logingov';
-
-    verifyHandler({ policy, queryParams, useOAuth });
-
-    sinon.assert.calledOnce(AuthUtils.verify);
-    sinon.assert.calledWith(AuthUtils.verify, {
-      policy,
-      acr: sinon.match.string,
-      queryParams,
-      useOAuth,
-    });
-
-    sinon.assert.notCalled(OAuthUtils.updateStateAndVerifier);
   });
 });

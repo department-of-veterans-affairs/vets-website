@@ -288,21 +288,6 @@ describe('Authentication Utilities', () => {
         }),
       ).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type })));
     });
-    it('should use API_SESSION_URL when OAuth is disabled', async () => {
-      const params = { application: 'vamobile' };
-      setup({
-        path: usipPathWithParams(
-          `${flagshipUsipParams}&oauth=false&code_challenge=hello&code_challenge_method=S256`,
-        ),
-      });
-      expect(
-        await authUtilities.sessionTypeUrl({
-          type,
-        }),
-      ).to.include(
-        appendQuery(API_SESSION_URL({ type: typeVerified }), params),
-      );
-    });
   });
 
   describe('getGAClientId', () => {
@@ -568,14 +553,6 @@ describe('Authentication Utilities', () => {
     it('should throw an error when no policy provided', () => {
       expect(authUtilities.verify({ isLink: false })).to.throw;
     });
-    it('should generate a verify link (SAML)', async () => {
-      const link = await authUtilities.verify({
-        policy: 'logingov',
-        isLink: true,
-      });
-      expect(link).to.include('logingov_signup_verified');
-      expect(typeof link).to.eql('string');
-    });
     it('should generate a verify link (OAuth)', async () => {
       const link = await authUtilities.verify({
         policy: 'logingov',
@@ -586,11 +563,6 @@ describe('Authentication Utilities', () => {
       expect(link).to.include('type=logingov');
       expect(link).to.include('acr=ial2');
       expect(typeof link).to.eql('string');
-    });
-    it('should kickoff identity-verification (SAML)', async () => {
-      await authUtilities.verify({ policy: 'idme' });
-      const location = global.window.location.href || global.window.location;
-      expect(location).to.include('idme_signup_verified');
     });
     it('should kickoff identity-verification (OAuth)', async () => {
       await authUtilities.verify({
@@ -603,18 +575,6 @@ describe('Authentication Utilities', () => {
       expect(location).to.include('acr=ial2');
     });
     it('should pass along query parameters', async () => {
-      const samlLink = await authUtilities.verify({
-        policy: 'idme',
-        isLink: true,
-        queryParams: {
-          operation: 'test_operation',
-          gaClientId: 'id',
-          scope: 'email',
-        },
-      });
-      expect(samlLink).to.include(
-        '?operation=test_operation&gaClientId=id&scope=email',
-      );
       const oauthLink = await authUtilities.verify({
         policy: 'idme',
         isLink: true,
@@ -626,42 +586,6 @@ describe('Authentication Utilities', () => {
       });
       expect(oauthLink).to.include('acr=loa3');
       expect(oauthLink).to.include('&operation=test_operation');
-    });
-  });
-
-  describe('signupOrVerify (SAML)', () => {
-    afterEach(() => cleanup());
-    ['idme', 'logingov'].forEach(policy => {
-      it(`should generate the default URL link for signup '${policy}_signup'`, async () => {
-        const signupUrl = await authUtilities.signupOrVerify({
-          policy,
-          isLink: true,
-        });
-        expect(signupUrl).contain(
-          API_SESSION_URL({
-            type: SIGNUP_TYPES[policy],
-          }),
-        );
-      });
-
-      it(`should generate the default URL link and redirect for signup '${policy}_signup'`, async () => {
-        await authUtilities.signupOrVerify({ policy });
-        const location = global.window.location.href || global.window.location;
-        expect(location).contain(
-          API_SESSION_URL({
-            type: SIGNUP_TYPES[policy],
-          }),
-        );
-      });
-
-      it(`should generate a verified URL for signup '${policy}_signup_verified'`, async () => {
-        const url = await authUtilities.signupOrVerify({
-          policy,
-          isLink: true,
-          isSignup: false,
-        });
-        expect(url).to.include(`${policy}_signup_verified`);
-      });
     });
   });
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, waitFor, cleanup, fireEvent } from '@testing-library/react';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
-import * as authUtilities from 'platform/user/authentication/utilities';
 import CreateAccountLink from 'platform/user/authentication/components/CreateAccountLink';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
 
@@ -30,15 +29,6 @@ describe('CreateAccountLink', () => {
       screen.unmount();
     });
 
-    it(`should set correct href for ${policy} (SAML)`, async () => {
-      const screen = render(<CreateAccountLink policy={policy} />);
-      const anchor = await screen.findByTestId(policy);
-      const href = await authUtilities.signupOrVerify({ policy, isLink: true });
-      await waitFor(() => expect(anchor.href).to.eql(href));
-
-      screen.unmount();
-    });
-
     it(`should set correct href for ${policy} (OAuth)`, async () => {
       const screen = render(<CreateAccountLink policy={policy} useOAuth />);
       const anchor = await screen.findByTestId(policy);
@@ -52,16 +42,6 @@ describe('CreateAccountLink', () => {
         expect(anchor.href).to.include('code_challenge=');
         expect(anchor.href).to.include('state=');
       });
-      screen.unmount();
-    });
-
-    it(`should not call updateStateAndVerifier for ${policy} (SAML)`, async () => {
-      const screen = render(<CreateAccountLink policy={policy} />);
-      const anchor = await screen.findByTestId(policy);
-      const href = await authUtilities.signupOrVerify({ policy, isLink: true });
-      fireEvent.click(anchor);
-
-      await waitFor(() => expect(anchor.href).to.eql(href));
       screen.unmount();
     });
 

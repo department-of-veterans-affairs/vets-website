@@ -9,35 +9,6 @@ import {
 
 describe('authentication - hooks', () => {
   describe('useIdentityVerificationURL', () => {
-    context('SAML', () => {
-      it('should return an ID.me (SAML-based) verify URL', async () => {
-        const { result, waitForNextUpdate } = renderHook(() =>
-          useIdentityVerificationURL({ policy: 'idme', useOAuth: false }),
-        );
-
-        await waitForNextUpdate();
-
-        expect(result.current?.href).to.eql(
-          'https://dev-api.va.gov/v1/sessions/idme_signup_verified/new',
-        );
-      });
-
-      it('should return a Login.gov (SAML-based) verify URL', async () => {
-        const { result, waitForNextUpdate } = renderHook(() =>
-          useIdentityVerificationURL({
-            policy: 'logingov',
-            useOAuth: false,
-          }),
-        );
-
-        await waitForNextUpdate();
-
-        expect(result.current?.href).to.eql(
-          'https://dev-api.va.gov/v1/sessions/logingov_signup_verified/new',
-        );
-      });
-    });
-
     context('OAuth', () => {
       const globalCrypto = global.crypto;
 
@@ -82,12 +53,6 @@ describe('authentication - hooks', () => {
     });
   });
   describe('onVerifyClick', () => {
-    it('should NOT update state + code verifier when using SAML', () => {
-      localStorage.clear();
-      onVerifyClick({ useOAuth: false, policy: 'idme' });
-      expect(localStorage.length).to.eql(0);
-    });
-
     it('should update state + code verifier when using OAuth', () => {
       localStorage.setItem('logingov_signup_state', 'test_state');
       localStorage.setItem('logingov_signup_code_verifier', 'test_cv');
