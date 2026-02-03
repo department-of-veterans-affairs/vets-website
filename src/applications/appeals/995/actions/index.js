@@ -32,64 +32,8 @@ export const getContestableIssues = props => {
       environment.API_URL
     }${CONTESTABLE_ISSUES_API}/${benefitType}`;
 
-    const response = {
-      data: [
-        // SAME-DATE ISSUE (will be blocked)
-        {
-          id: null,
-          type: 'contestableIssue',
-          attributes: {
-            ratingIssueSubjectText: 'Tinnitus',
-            ratingIssuePercentNumber: '10',
-            description:
-              'Ringing in ears. Decision made today - should be blocked from appeal.',
-            approxDecisionDate: '2026-01-30', // TODAY - triggers blocking
-          },
-        },
-
-        // ANOTHER SAME-DATE ISSUE (will be blocked)
-        {
-          id: null,
-          type: 'contestableIssue',
-          attributes: {
-            ratingIssueSubjectText: 'Back condition',
-            ratingIssuePercentNumber: '20',
-            description:
-              'Lower back pain. Decision made today - should also be blocked.',
-            approxDecisionDate: '2026-01-30', // TODAY - triggers blocking
-          },
-        },
-
-        // PAST DATE ISSUE (selectable) This shouldn't show for HLR because issues cannot be more than one year old.
-        {
-          id: null,
-          type: 'contestableIssue',
-          attributes: {
-            ratingIssueSubjectText: 'Hypertension',
-            ratingIssuePercentNumber: '30',
-            description:
-              'High blood pressure. Past decision - can be appealed.',
-            approxDecisionDate: '2024-08-15', // PAST DATE - selectable
-          },
-        },
-
-        // YESTERDAY'S DATE ISSUE (selectable)
-        {
-          id: null,
-          type: 'contestableIssue',
-          attributes: {
-            ratingIssueSubjectText: 'Hearing loss',
-            ratingIssuePercentNumber: '40',
-            description:
-              "Bilateral hearing loss. Yesterday's decision - can be appealed.",
-            approxDecisionDate: '2026-01-11', // YESTERDAY - selectable
-          },
-        },
-      ],
-    };
-
     return apiRequest(apiUrl)
-      .then(() =>
+      .then(response =>
         dispatch({
           type: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
           response,
