@@ -10,6 +10,7 @@ import {
   shouldHideState,
   isStateRequired,
   createAddressLineValidator,
+  createCityValidator,
   normalizeAddressLine,
 } from '../../utils/contactInformationHelpers';
 
@@ -430,6 +431,145 @@ describe('contactInformationHelpers', () => {
               'Address line 1 must be 20 characters or less',
             ),
           ).to.be.true;
+        });
+      });
+    });
+
+    describe('createCityValidator', () => {
+      const createMockErrors = () => {
+        const errorMessages = [];
+        return {
+          addError: sinon.spy(msg => errorMessages.push(msg)),
+          getErrors: () => errorMessages,
+        };
+      };
+
+      it('should not add error for valid city name', () => {
+        const validator = createCityValidator();
+        const errors = createMockErrors();
+        validator(errors, 'Los Angeles');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should not add error for empty value', () => {
+        const validator = createCityValidator();
+        const errors = createMockErrors();
+        validator(errors, '');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should not add error for undefined value', () => {
+        const validator = createCityValidator();
+        const errors = createMockErrors();
+        validator(errors, undefined);
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should use default max length of 30', () => {
+        const validator = createCityValidator();
+        const errors = createMockErrors();
+        // 31 character city name
+        validator(errors, 'Abcdefghijklmnopqrstuvwxyz12345');
+        expect(errors.addError.calledWith('City must be 30 characters or less'))
+          .to.be.true;
+      });
+
+      it('should allow custom max length', () => {
+        const validator = createCityValidator(10);
+        const errors = createMockErrors();
+        validator(errors, 'Los Angeles');
+        expect(errors.addError.calledWith('City must be 10 characters or less'))
+          .to.be.true;
+      });
+
+      it('should add error for invalid characters - parentheses', () => {
+        const validator = createCityValidator();
+        const errors = createMockErrors();
+        validator(errors, 'City (Old)');
+        expect(errors.addError.calledWithMatch(/may only contain/)).to.be.true;
+      });
+
+      it('should add error for invalid characters - comma', () => {
+        const validator = createCityValidator();
+        const errors = createMockErrors();
+        validator(errors, 'City, State');
+        expect(errors.addError.calledWithMatch(/may only contain/)).to.be.true;
+      });
+
+      it('should add error for invalid characters - ampersand', () => {
+        const validator = createCityValidator();
+        const errors = createMockErrors();
+        validator(errors, 'Town & City');
+        expect(errors.addError.calledWithMatch(/may only contain/)).to.be.true;
+      });
+
+      it('should allow valid special characters - apostrophe', () => {
+        const validator = createCityValidator();
+        const errors = createMockErrors();
+        validator(errors, "O'Fallon");
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should allow valid special characters - period', () => {
+        const validator = createCityValidator();
+        const errors = createMockErrors();
+        validator(errors, 'St. Louis');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should allow valid special characters - hash', () => {
+        const validator = createCityValidator();
+        const errors = createMockErrors();
+        validator(errors, 'City #1');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should allow valid special characters - hyphen', () => {
+        const validator = createCityValidator();
+        const errors = createMockErrors();
+        validator(errors, 'Winston-Salem');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should allow international city names', () => {
+        const validator = createCityValidator();
+        const errors = createMockErrors();
+        validator(errors, 'Al Farwaniyah');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should allow military cities', () => {
+        const validator = createCityValidator();
+        const errors = createMockErrors();
+        validator(errors, 'APO');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      describe('normalized value validation', () => {
+        it('should validate against normalized value - passes when normalized is within limit', () => {
+          const validator = createCityValidator(15);
+          const errors = createMockErrors();
+          // Raw value has extra spaces but normalized is 11 chars - passes
+          validator(errors, '  Los   Angeles  ');
+          expect(errors.addError.called).to.be.false;
+        });
+
+        it('should validate against normalized value - fails when normalized exceeds limit', () => {
+          const validator = createCityValidator(10);
+          const errors = createMockErrors();
+          // Normalized value is 11 chars - fails
+          validator(errors, '  Los   Angeles  ');
+          expect(
+            errors.addError.calledWith('City must be 10 characters or less'),
+          ).to.be.true;
+        });
+
+        it('should not fail pattern check for value with extra spaces', () => {
+          const validator = createCityValidator();
+          const errors = createMockErrors();
+          // Extra spaces would fail the pattern, but normalization fixes it
+          validator(errors, 'Los    Angeles');
+          expect(errors.addError.called).to.be.false;
         });
       });
     });

@@ -455,13 +455,18 @@ export const cleanUpMailingAddress = formData => {
     'zipCode',
   ];
 
-  const addressLineKeys = ['addressLine1', 'addressLine2', 'addressLine3'];
+  const fieldsToNormalize = [
+    'addressLine1',
+    'addressLine2',
+    'addressLine3',
+    'city',
+  ];
 
   const mailingAddress = Object.entries(formData.mailingAddress).reduce(
     (address, [key, value]) => {
       if (value && validKeys.includes(key)) {
-        // Normalize address lines before submission
-        const normalizedValue = addressLineKeys.includes(key)
+        // Normalize address lines and city before submission
+        const normalizedValue = fieldsToNormalize.includes(key)
           ? normalizeAddressLine(value)
           : value;
         return {

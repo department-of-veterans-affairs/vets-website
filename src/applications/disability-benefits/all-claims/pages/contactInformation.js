@@ -22,6 +22,7 @@ import {
   shouldAutoDetectMilitary,
   shouldShowZipCode,
   createAddressLineValidator,
+  createCityValidator,
   updateCountrySchema,
   updateStateSchema,
   isStateRequired,
@@ -149,6 +150,10 @@ export const uiSchema = {
     addressLine3: {
       ...defaultAddressUI.addressLine3,
       'ui:validations': [createAddressLineValidator(20, 'Address line 3')],
+    },
+    city: {
+      ...defaultAddressUI.city,
+      'ui:validations': [createCityValidator()],
     },
   },
   'view:contactInfoDescription': {

@@ -1563,6 +1563,20 @@ describe('cleanUpMailingAddress', () => {
     expect(result.mailingAddress.addressLine3).to.equal('Building A');
   });
 
+  it('should normalize city by trimming and collapsing spaces', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        city: '  Los   Angeles  ',
+        state: 'CA',
+        zipCode: '90001',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress.city).to.equal('Los Angeles');
+  });
+
   it('should preserve other address fields unchanged', () => {
     const formData = {
       mailingAddress: {
