@@ -65,13 +65,14 @@ describe('Schemaform <CurrencyWidget>', () => {
     fireEvent.change(input, { target: { value: '10.000' } });
     expect(onChange.calledWith('10.000')).to.be.true;
   });
-  it.skip('should call onChange with undefined if the value is blank', () => {
+  it('should call onChange with undefined if the value is blank', () => {
     const onChange = sinon.spy();
     const { container } = render(
-      <CurrencyWidget options={{}} onChange={onChange} />,
+      <CurrencyWidget options={{}} value="100" onChange={onChange} />,
     );
     const input = container.querySelector('input');
     fireEvent.change(input, { target: { value: '' } });
-    expect(onChange.calledWith()).to.be.true;
+    expect(onChange.called).to.be.true;
+    expect(onChange.firstCall.args.length).to.equal(0);
   });
 });
