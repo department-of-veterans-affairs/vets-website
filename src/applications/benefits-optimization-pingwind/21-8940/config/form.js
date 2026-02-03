@@ -2,6 +2,7 @@ import environment from 'platform/utilities/environment';
 
 import footerContent from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import {
   checkValidPagePath,
   getNextPagePath,
@@ -120,6 +121,24 @@ const formConfig = {
   customText: {
     appType: 'veteran application',
   },
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      { href: '/', label: 'VA.gov home' },
+      { href: '/disability', label: 'Disability' },
+      {
+        href: '/disability/eligibility',
+        label: 'Eligibility',
+      },
+      {
+        href: '/disability/eligibility/special-claims',
+        label: 'Special claims',
+      },
+      {
+        href: '/disability/eligibility/special-claims/unemployability',
+        label: 'Unemployability',
+      },
+    ],
+  }),
 
   additionalRoutes: [
     {
