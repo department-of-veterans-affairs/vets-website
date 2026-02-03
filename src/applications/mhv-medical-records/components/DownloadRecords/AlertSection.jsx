@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   ALERT_TYPE_SEI_ERROR,
@@ -13,6 +13,17 @@ import {
 import AccessTroubleAlertBox from '../shared/AccessTroubleAlertBox';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import { useDownloadReport } from '../../context/DownloadReportContext';
+import useNewestAlertFocus from '../../hooks/useNewestAlertFocus';
+
+// Alert type constants for tracking
+const ALERT_TYPES = {
+  CCD_SUCCESS: 'ccdSuccess',
+  CCD_RETRY_ERROR: 'ccdRetryError',
+  SEI_ACCESS_ERROR: 'seiAccessError',
+  CCD_ACTION_ERROR: 'ccdActionError',
+  SEI_ACTION_ERROR: 'seiActionError',
+  SEI_SUCCESS: 'seiSuccess',
+};
 
 /**
  * Consolidated alert section component that handles all CCD and SEI alerts.
@@ -54,87 +65,123 @@ const AlertSection = ({
     (failedSeiDomains?.length ?? 0) === SEI_DOMAINS.length;
   const hasSeiAccessError = allSeiDomainsFailed || seiPdfGenerationError;
 
-  // Determine which alert should receive focus (priority order)
+  // Determine which alerts should be visible
   const showCcdSuccess =
     showCcdAlerts && ccdDownloadSuccess && !ccdError && !CCDRetryTimestamp;
+  const showCcdRetryError = showCcdAlerts && CCDRetryTimestamp;
+  const showSeiAccessError =
+    showSeiAlerts && !CCDRetryTimestamp && hasSeiAccessError;
+  const showCcdActionError =
+    showCcdAlerts && activeAlert?.type === ALERT_TYPE_CCD_ERROR;
+  const showSeiActionError =
+    showSeiAlerts && activeAlert?.type === ALERT_TYPE_SEI_ERROR;
   const showSeiSuccess =
     showSeiAlerts &&
     successfulSeiDownload === true &&
     (failedSeiDomains?.length ?? 0) !== SEI_DOMAINS.length;
 
-  // Determine focusId based on priority - CCD success takes priority over SEI
-  const ccdFocusId = showCcdSuccess ? 'ccd-download-success' : undefined;
-  const seiFocusId =
-    showSeiSuccess && !showCcdSuccess ? 'sei-download-success' : undefined;
+  // Build array of visible alert keys for the focus hook
+  const visibleAlerts = useMemo(
+    () => {
+      const alerts = [];
+      if (showCcdSuccess) alerts.push(ALERT_TYPES.CCD_SUCCESS);
+      if (showCcdRetryError) alerts.push(ALERT_TYPES.CCD_RETRY_ERROR);
+      if (showSeiAccessError) alerts.push(ALERT_TYPES.SEI_ACCESS_ERROR);
+      if (showCcdActionError) alerts.push(ALERT_TYPES.CCD_ACTION_ERROR);
+      if (showSeiActionError) alerts.push(ALERT_TYPES.SEI_ACTION_ERROR);
+      if (showSeiSuccess) alerts.push(ALERT_TYPES.SEI_SUCCESS);
+      return alerts;
+    },
+    [
+      showCcdSuccess,
+      showCcdRetryError,
+      showSeiAccessError,
+      showCcdActionError,
+      showSeiActionError,
+      showSeiSuccess,
+    ],
+  );
+
+  // Custom hook handles focus on newest alert
+  const { newestAlert, focusRef } = useNewestAlertFocus(visibleAlerts);
 
   return (
     <>
       {/* 1. CCD download success alert (only if no CCD retry error and no ccdError) */}
       {showCcdSuccess && (
-        <DownloadSuccessAlert
-          focusId={ccdFocusId}
-          type="Continuity of Care Document download"
-          className="vads-u-margin-bottom--1"
-        />
+        <div ref={newestAlert === ALERT_TYPES.CCD_SUCCESS ? focusRef : null}>
+          <DownloadSuccessAlert
+            type="Continuity of Care Document download"
+            className="vads-u-margin-bottom--1"
+          />
+        </div>
       )}
 
       {/* 2. Access errors: CCD retry error takes priority over SEI access error (only one shows) */}
-      {showCcdAlerts &&
-        CCDRetryTimestamp && (
+      {showCcdRetryError && (
+        <div
+          ref={newestAlert === ALERT_TYPES.CCD_RETRY_ERROR ? focusRef : null}
+        >
           <AccessTroubleAlertBox
             alertType={accessAlertTypes.DOCUMENT}
             documentType={documentTypes.CCD}
             className="vads-u-margin-bottom--1"
           />
-        )}
-      {showSeiAlerts &&
-        !CCDRetryTimestamp &&
-        hasSeiAccessError && (
+        </div>
+      )}
+      {showSeiAccessError && (
+        <div
+          ref={newestAlert === ALERT_TYPES.SEI_ACCESS_ERROR ? focusRef : null}
+        >
           <AccessTroubleAlertBox
             alertType={accessAlertTypes.DOCUMENT}
             documentType={documentTypes.SEI}
             className="vads-u-margin-bottom--1"
           />
-        )}
+        </div>
+      )}
 
       {/* 3. Redux action/server error: CCD */}
-      {showCcdAlerts &&
-        activeAlert?.type === ALERT_TYPE_CCD_ERROR && (
+      {showCcdActionError && (
+        <div
+          ref={newestAlert === ALERT_TYPES.CCD_ACTION_ERROR ? focusRef : null}
+        >
           <AccessTroubleAlertBox
             alertType={accessAlertTypes.DOCUMENT}
             documentType={documentTypes.CCD}
             className="vads-u-margin-bottom--1"
           />
-        )}
+        </div>
+      )}
 
       {/* 4. Redux action/server error: SEI */}
-      {showSeiAlerts &&
-        activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
+      {showSeiActionError && (
+        <div
+          ref={newestAlert === ALERT_TYPES.SEI_ACTION_ERROR ? focusRef : null}
+        >
           <AccessTroubleAlertBox
             alertType={accessAlertTypes.DOCUMENT}
             documentType={documentTypes.SEI}
             className="vads-u-margin-bottom--1"
           />
-        )}
+        </div>
+      )}
 
       {/* 5. SEI success: download succeeded */}
-      {showSeiAlerts &&
-        successfulSeiDownload === true &&
-        (failedSeiDomains?.length ?? 0) !== SEI_DOMAINS.length && (
-          <>
-            {(failedSeiDomains?.length ?? 0) > 0 && (
-              <MissingRecordsError
-                documentType="Self-entered health information report"
-                recordTypes={failedSeiDomains}
-              />
-            )}
-            <DownloadSuccessAlert
-              focusId={seiFocusId}
-              type="Self-entered health information report download"
-              className="vads-u-margin-bottom--1"
+      {showSeiSuccess && (
+        <div ref={newestAlert === ALERT_TYPES.SEI_SUCCESS ? focusRef : null}>
+          {(failedSeiDomains?.length ?? 0) > 0 && (
+            <MissingRecordsError
+              documentType="Self-entered health information report"
+              recordTypes={failedSeiDomains}
             />
-          </>
-        )}
+          )}
+          <DownloadSuccessAlert
+            type="Self-entered health information report download"
+            className="vads-u-margin-bottom--1"
+          />
+        </div>
+      )}
     </>
   );
 };
