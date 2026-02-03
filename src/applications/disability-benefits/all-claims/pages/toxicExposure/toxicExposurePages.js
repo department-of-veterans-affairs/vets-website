@@ -19,15 +19,17 @@ import { TE_URL_PREFIX } from '../../constants';
 import {
   additionalExposuresPageTitle,
   conditionsPageTitle,
+  getHerbicideOtherLocationsReviewTitle,
+  getHerbicideOtherLocationsSubtitle,
   getOtherFieldDescription,
-  getSelectedCount,
+  getSpecifyOtherExposuresReviewTitle,
+  getSpecifyOtherExposuresSubtitle,
   gulfWar1990PageTitle,
   gulfWar2001PageTitle,
   herbicidePageTitle,
   isClaimingTECondition,
   showSummaryPage,
   showToxicExposurePages,
-  teSubtitle,
 } from '../../content/toxicExposure';
 
 export const toxicExposurePages = {
@@ -77,12 +79,8 @@ export const toxicExposurePages = {
   },
   ...herbicideDetails.makePages(),
   herbicideOtherLocations: {
-    title: formData =>
-      teSubtitle(
-        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
-        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
-        getOtherFieldDescription(formData, 'otherHerbicideLocations'),
-      ),
+    title: getHerbicideOtherLocationsSubtitle,
+    reviewTitle: getHerbicideOtherLocationsReviewTitle,
     path: `${TE_URL_PREFIX}/herbicide-location-other`,
     depends: formData =>
       isClaimingTECondition(formData) &&
@@ -107,13 +105,8 @@ export const toxicExposurePages = {
   },
   ...additionalExposuresDetails.makePages(),
   specifyOtherExposures: {
-    title: formData =>
-      teSubtitle(
-        getSelectedCount('otherExposures', formData, 'specifyOtherExposures'),
-        getSelectedCount('otherExposures', formData, 'specifyOtherExposures'),
-        getOtherFieldDescription(formData, 'specifyOtherExposures'),
-        'Hazard',
-      ),
+    title: getSpecifyOtherExposuresSubtitle,
+    reviewTitle: getSpecifyOtherExposuresReviewTitle,
     path: `${TE_URL_PREFIX}/additional-exposure-other`,
     depends: formData =>
       isClaimingTECondition(formData) &&
