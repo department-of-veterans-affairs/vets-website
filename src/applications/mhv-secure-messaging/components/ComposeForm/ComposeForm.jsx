@@ -544,6 +544,7 @@ const ComposeForm = props => {
       draftInProgress.category,
       draftInProgress.ohTriageGroup,
       draftInProgress.recipientId,
+      draftInProgress.stationNumber,
       draftInProgress.subject,
       electronicSignature,
       history,
