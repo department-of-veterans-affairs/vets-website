@@ -51,7 +51,13 @@ const SINGLE_VALUE_SCHEDULING_PREFERENCES = [
   FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
 ];
 
-const sortDaysAndTimes = days => {
+const inlinePreferenceFormTitle = fieldName => {
+  return `Select your ${FIELD_SECTION_HEADERS[fieldName]
+    .toLowerCase()
+    .replace(/s$/, '')}.`;
+};
+
+export const sortDaysAndTimes = days => {
   const dayOrder = {
     monday: 0,
     tuesday: 1,
@@ -79,12 +85,6 @@ const sortDaysAndTimes = days => {
       });
       return [day, sortedTimes];
     });
-};
-
-const inlinePreferenceFormTitle = fieldName => {
-  return `Select your ${FIELD_SECTION_HEADERS[fieldName]
-    .toLowerCase()
-    .replace(/s$/, '')}.`;
 };
 
 export const isSchedulingPreference = fieldName => {
