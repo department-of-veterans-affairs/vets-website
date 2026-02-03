@@ -358,7 +358,7 @@ describe('SendRxRenewalMessage Component', () => {
       const screen = setup();
       const modal = screen.container.querySelector('va-modal');
       expect(modal?.innerHTML).to.include(
-        'select your provider and send them a message requesting a prescription renewal',
+        'You’ll need to select your provider and send the prescription renewal request. We’ll pre-fill your prescription details in the message.',
       );
     });
 

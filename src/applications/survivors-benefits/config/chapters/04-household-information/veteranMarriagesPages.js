@@ -29,6 +29,10 @@ import {
 } from '../../../utils/labels';
 import { handleVeteranMaxMarriagesAlert } from '../../../components/FormAlerts';
 
+const updatedFullNameSchema = fullNameSchema;
+updatedFullNameSchema.properties.first.maxLength = 12;
+updatedFullNameSchema.properties.last.maxLength = 18;
+
 /**
  * Pages for Veteran's previous marriages (array-builder)
  */
@@ -144,7 +148,7 @@ const namePage = {
   schema: {
     type: 'object',
     properties: {
-      spouseFullName: fullNameSchema,
+      spouseFullName: updatedFullNameSchema,
     },
     required: ['spouseFullName'],
   },
@@ -182,7 +186,7 @@ const marriageDatePlacePage = {
           },
         },
       },
-      country: {
+      otherCountry: {
         ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
         'ui:required': (formData, index) => {
           const item = formData?.veteranMarriages?.[index];
@@ -224,7 +228,7 @@ const marriageDatePlacePage = {
             enum: STATE_VALUES,
             enumNames: STATE_NAMES,
           },
-          country: {
+          otherCountry: {
             type: 'string',
             enum: COUNTRY_VALUES,
             enumNames: COUNTRY_NAMES,
@@ -305,7 +309,7 @@ const marriageEndDateLocationPage = {
           },
         },
       },
-      country: {
+      otherCountry: {
         ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
         'ui:required': (formData, index) => {
           const item = formData?.veteranMarriages?.[index];
@@ -351,7 +355,7 @@ const marriageEndDateLocationPage = {
             enum: STATE_VALUES,
             enumNames: STATE_NAMES,
           },
-          country: {
+          otherCountry: {
             type: 'string',
             enum: COUNTRY_VALUES,
             enumNames: COUNTRY_NAMES,

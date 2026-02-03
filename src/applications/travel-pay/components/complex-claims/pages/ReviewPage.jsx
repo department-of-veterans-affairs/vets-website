@@ -6,7 +6,6 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 
 import { focusElement } from 'platform/utilities/ui/focus';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import useRecordPageview from '../../../hooks/useRecordPageview';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
 import {
@@ -37,7 +36,6 @@ const ReviewPage = () => {
   const title = 'Your unsubmitted expenses';
 
   useSetPageTitle(title);
-  useRecordPageview('complex-claims', title);
 
   useEffect(
     () => {
@@ -103,7 +101,7 @@ const ReviewPage = () => {
   };
 
   const numGroupedExpenses = Object.keys(groupedExpenses).length;
-  const isAlertVisible = !!alertMessage && numGroupedExpenses > 0;
+  const isAlertVisible = !!alertMessage;
 
   return (
     <div data-testid="review-page">
