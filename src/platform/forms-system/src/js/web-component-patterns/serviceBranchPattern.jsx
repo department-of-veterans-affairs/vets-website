@@ -12,13 +12,10 @@ const VALID_GROUPS = Object.values(DEFAULT_BRANCH_LABELS).map(({ group }) =>
  * @returns { Object } branches within a group
  */
 export function getServiceBranchesByGroup(group) {
-  if (!VALID_GROUPS.includes(group)) {
-    throw new Error('This is an invalid group.');
-  }
   const branches = {};
   for (const [key, value] of Object.entries(DEFAULT_BRANCH_LABELS)) {
     if (value.group.toLowerCase() === group) {
-      branches[key] = value;
+      branches[key] = { ...value };
     }
   }
   return branches;
@@ -35,23 +32,70 @@ VALID_GROUPS.forEach(group => {
  * @returns { Object } an object with the key/value for each option in a subset of valid groups
  */
 function getOptionsForGroups(groups) {
-  const selectedGroups = groups.filter(group => VALID_GROUPS.includes(group));
-  if (selectedGroups.length === 0) {
-    throw new Error('Not a valid Service Branch group');
-  }
-
-  const options = selectedGroups.reduce((acc, group) => {
-    return Object.assign(acc, BRANCHES[group]);
+  return groups.reduce((acc, group) => {
+    const clonedGroup = JSON.parse(JSON.stringify(BRANCHES[group]));
+    return { ...acc, ...clonedGroup };
   }, {});
+}
 
-  // if there is only a single group remove the group property from each option so we don't render a redundant option group label
-  if (groups.length === 1) {
-    Object.keys(options).forEach(key => {
-      delete options[key].group;
-    });
+/**
+ * @param {string[]} branches a list of keys for branches, e.g. the keys for the object in DEFAULT_BRANCH_LABELS
+ * @returns an object with the key/value for each branch specified in the branches array.
+ */
+function getOptionsForBranches(branches) {
+  const data = {};
+  for (const branch of branches) {
+    const clonedBranch = { ...DEFAULT_BRANCH_LABELS[branch] };
+    data[branch] = clonedBranch;
+  }
+  return data;
+}
+
+/**
+ * @param {ServiceBranchGroup} groups custom list of groups
+ * @throws {Error} if one of the specified groups is invalid
+ */
+function checkGroups(groups) {
+  groups.forEach(group => {
+    if (!VALID_GROUPS.includes(group)) {
+      throw new Error(`"${group}" is not a valid service branch group.`);
+    }
+  });
+}
+
+/**
+ * @param {string[]} branches array of branch keys
+ * @throws {Error} if one of the specified keys is invalid
+ */
+function checkBranches(branches) {
+  const validKeys = new Set(Object.keys(DEFAULT_BRANCH_LABELS));
+  branches.forEach(branch => {
+    if (!validKeys.has(branch)) {
+      throw new Error(`"${branch}" is not a valid service branch.`);
+    }
+  });
+}
+
+/**
+ * @param {ServiceBranchGroup | string[]} options either user specified groups or branches
+ * @param {boolean} groups is the option a group (if false then treat as array of branches)
+ * @returns {boolean} true if a valid set of options false if none provided
+ * @throws {Error} if options contains invalid group or invalid branch
+ */
+function checkOption(option, groups = true) {
+  if (!option) return false;
+
+  if (!Array.isArray(option)) {
+    throw new Error(`${groups ? 'groups' : 'branches'} must be an array.`);
   }
 
-  return options;
+  if (groups) {
+    checkGroups(option);
+  } else {
+    checkBranches(option);
+  }
+
+  return true;
 }
 
 /**
@@ -72,13 +116,21 @@ function getOptionsForGroups(groups) {
       required: 'You must select a service branch',
     },
  * })
+ * 
+ * // uiSchema with branches specified
+ * branchesExampleServiceBranch: serviceBranchUI({
+ *  branches: ['AF', 'CG', 'PHS'],
+ * })
  *
  * // schema:
  * // schema minimal
  * exampleServiceBranch: serviceBranchSchema()
  *
  * // schema with groups
- * exampleServiceBranch: serviceBranchSchema(['army', 'navy'])
+ * exampleServiceBranch: serviceBranchSchema({ groups: ['army', 'navy'] })
+ * 
+ * // schema with branches
+ * branchesExampleServiceBranch: serviceBranchSchema({ branches: ['AF', 'CG', 'PHS']})
  * ```
  *
  * @param {string | UIOptions & {
@@ -88,22 +140,39 @@ function getOptionsForGroups(groups) {
  *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
  *  hint?: string,
  *  placeholder?: string,
- *  groups?: ServiceBranchGroup[]
+ *  groups?: ServiceBranchGroup[],
+ *  branches?: string[],
+ *  optGroups?: boolean,
  * }} options
  * @returns {UISchemaOptions}
  */
 export const serviceBranchUI = options => {
-  const { title, description, errorMessages, groups, required, ...uiOptions } =
-    typeof options === 'object' ? options : { title: options };
+  const {
+    title,
+    description,
+    errorMessages,
+    groups,
+    branches,
+    optGroups = true,
+    required,
+    ...uiOptions
+  } = typeof options === 'object' ? options : { title: options };
 
-  const labels = Array.isArray(groups)
-    ? getOptionsForGroups(groups)
-    : DEFAULT_BRANCH_LABELS;
+  let labels;
+  if (checkOption(groups)) {
+    labels = getOptionsForGroups(groups);
+  } else if (checkOption(branches, false)) {
+    labels = getOptionsForBranches(branches);
+  } else {
+    labels = JSON.parse(JSON.stringify(DEFAULT_BRANCH_LABELS));
+  }
 
-  // disable optgroups until bug in va-combo-box resolved. see https://github.com/orgs/department-of-veterans-affairs/projects/1643/views/1?filterQuery=+-category%3A%22Experimental+Design%22%2CEpic%2CInitiative+va-combo-box&pane=issue&itemId=136499540&issue=department-of-veterans-affairs%7Cvets-design-system-documentation%7C5113
-  Object.keys(labels).forEach(key => {
-    delete labels[key].group;
-  });
+  // don't render optgroups if only one group or for branches or if user sets optGroups = false
+  if (!optGroups || (groups && groups.length === 1) || branches) {
+    Object.keys(labels).forEach(key => {
+      delete labels[key].group;
+    });
+  }
 
   const _title = title || 'Select your service branch';
 
@@ -131,26 +200,32 @@ export const serviceBranchUI = options => {
  * schema for serviceBranchUI
  * ```js
  * exampleServiceBranch: serviceBranchSchema()
- * exampleServiceBranch: serviceBranchSchema(['army', 'navy'])
+ * exampleServiceBranch: serviceBranchSchema({ groups: ['army', 'navy'] })
  * ```
  */
 
+/** @typedef {groups: ServiceBranchGroup, branches: string[] } SchemaInputOptions */
+
 /**
- * @param {ServiceBranchGroup[]} [groups] an array of valid groups, i.e. the keys in BRANCHES
+ * @param {SchemaInpuOptions} [options] an object which may contain an array of valid groups or an array of valid branches
  * @returns {SchemaOptions}
  */
-export const serviceBranchSchema = groups => {
-  // const labels = groups
-  //   ? Object.keys(getOptionsForGroups(groups))
-  //   : Object.keys(DEFAULT_BRANCH_LABELS);
+export const serviceBranchSchema = ({ branches, groups } = {}) => {
+  let labels;
+  if (checkOption(groups)) {
+    labels = Object.keys(getOptionsForGroups(groups));
+  } else if (checkOption(branches, false)) {
+    labels = branches;
+  } else {
+    labels = Object.keys(DEFAULT_BRANCH_LABELS);
+  }
 
-  // get the keys alphabetically sorted by their associated label
-  // remove this code when bug in va-combo-box resolved. see https://github.com/orgs/department-of-veterans-affairs/projects/1643/views/1?filterQuery=+-category%3A%22Experimental+Design%22%2CEpic%2CInitiative+va-combo-box&pane=issue&itemId=136499540&issue=department-of-veterans-affairs%7Cvets-design-system-documentation%7C5113
-  const labels = Object.entries(
-    groups ? getOptionsForGroups(groups) : DEFAULT_BRANCH_LABELS,
-  )
-    .sort((a, b) => a[1].label.localeCompare(b[1].label))
-    .map(branch => branch[0]);
+  labels.sort((a, b) => {
+    const { label: labelA } = DEFAULT_BRANCH_LABELS[a];
+    const { label: labelB } = DEFAULT_BRANCH_LABELS[b];
+    return labelA.localeCompare(labelB);
+  });
+
   return {
     type: 'string',
     enum: labels,

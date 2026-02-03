@@ -101,6 +101,11 @@ export const shouldShowZipCode = formData => {
   return isMilitary || isUSA;
 };
 
+// Pattern from vets-json-schema 21-526EZ-ALLCLAIMS-schema.json definitions.address
+const ADDRESS_LINE_PATTERN = new RegExp(
+  fullSchema.definitions.address.properties.addressLine1.pattern,
+);
+
 /**
  * Create address line validation function
  * @param {number} maxLength - Maximum allowed length
@@ -109,8 +114,15 @@ export const shouldShowZipCode = formData => {
  */
 export const createAddressLineValidator = (maxLength, fieldName) => {
   return (errors, value) => {
-    if (value && value.length > maxLength) {
-      errors.addError(`${fieldName} must be ${maxLength} characters or less`);
+    if (value) {
+      if (value.length > maxLength) {
+        errors.addError(`${fieldName} must be ${maxLength} characters or less`);
+      }
+      if (!ADDRESS_LINE_PATTERN.test(value)) {
+        errors.addError(
+          `${fieldName} may only contain letters, numbers, and these special characters: ' . , & # -`,
+        );
+      }
     }
   };
 };
