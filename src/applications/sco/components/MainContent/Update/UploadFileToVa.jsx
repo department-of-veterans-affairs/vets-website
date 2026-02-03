@@ -1,19 +1,10 @@
 import React from 'react';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import MainContentSubDiv from '../../HubRail/shared/mainContentSubDiv';
 import LiSpanAndVaLinkAndPTag from '../../HubRail/shared/liSpanAndVaLinkAndPTag';
 import LiSpanAndVaLink from '../../HubRail/shared/liSpanAndVaLink';
 import LiText from '../../HubRail/shared/liText';
 
 const UploadFileToVa = () => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const forms1516Toggle = useToggleValue(TOGGLE_NAMES.forms1516Links);
-  const form1919Toggle = useToggleValue(TOGGLE_NAMES.form1919Release);
-  const form8794Toggle = useToggleValue(TOGGLE_NAMES.form8794Release);
-
-  const isDigitizedForms = forms1516Toggle || form1919Toggle || form8794Toggle;
-  const isPdfForms = !form1919Toggle || !form8794Toggle;
-
   return (
     <div>
       <MainContentSubDiv id="upload-files-to-va" header="Upload files to VA">
@@ -30,82 +21,38 @@ const UploadFileToVa = () => {
           header="Forms library and other accepted documents"
           subheader="Check out the forms and documents which you can submit to VA via the Education File upload portal."
         >
-          {isDigitizedForms ? (
-            <>
-              <h4>Accepted forms for digital submission</h4>
-              <ul className="vads-u-margin-left--neg2p5">
-                <LiSpanAndVaLink
-                  hrefText="VA Form 22-10215: Statement of Assurance of Compliance with 85% Enrollment Ratios"
-                  href="/school-administrators/85-15-rule-enrollment-ratio"
-                  testId="digital-10215-form"
-                />
-                <LiSpanAndVaLink
-                  hrefText="VA Form 22-10216: 35% Exemption Request from 85/15 Reporting Requirement"
-                  href="/school-administrators/35-percent-exemption"
-                  testId="digital-10216-form"
-                />
-                {form8794Toggle && (
-                  <LiSpanAndVaLink
-                    hrefText="VA Form 22-8794: Designation of Certifying Official(s)"
-                    href="/school-administrators/update-certifying-officials"
-                    testId="digital-8794-form"
-                  />
-                )}
-                {form1919Toggle && (
-                  <LiSpanAndVaLink
-                    hrefText="VA Form 22-1919: Conflicting Interests Certification for Proprietary Schools"
-                    href="/school-administrators/report-conflicting-interests"
-                    testId="digital-1919-form"
-                  />
-                )}
-              </ul>
-              {isPdfForms && (
-                <>
-                  <h4>Accepted PDF forms for download</h4>
-                  <ul className="vads-u-margin-left--neg2p5">
-                    {!form8794Toggle && (
-                      <LiSpanAndVaLink
-                        hrefText="Download VA form 22-8794: Designation of Certifying Official(s)"
-                        href="https://www.vba.va.gov/pubs/forms/VBA-22-8794-ARE.pdf"
-                      />
-                    )}
-                    {!form1919Toggle && (
-                      <LiSpanAndVaLink
-                        hrefText="Download VA form 22-1919: Conflicting interests Certification for Proprietary Schools"
-                        href="https://www.vba.va.gov/pubs/forms/VBA-22-1919-ARE.pdf"
-                      />
-                    )}
-                  </ul>
-                </>
-              )}
-            </>
-          ) : (
-            <>
-              <h4>Accepted forms</h4>
-              <ul className="vads-u-margin-left--neg2p5">
-                <LiSpanAndVaLink
-                  hrefText="Download Designation of Certifying Official(s) - VA Form 22-8794 (PDF, 3 pages)"
-                  href="https://www.vba.va.gov/pubs/forms/VBA-22-8794-ARE.pdf"
-                />
-                <LiSpanAndVaLink
-                  hrefText="Download Statement of Assurance of Compliance with 85 Percent Enrollment Ratios - VA Form 22-10215 (PDF, 4 pages)"
-                  href="https://www.vba.va.gov/pubs/forms/vba-22-10215-are.pdf"
-                />
-                <LiSpanAndVaLink
-                  hrefText="Download Statement of Assurance of Compliance with 85 Percent Enrollment Ratios Continuation Sheet - VA Form 22-10215a (PDF, 2 pages)"
-                  href="https://www.vba.va.gov/pubs/forms/vba-22-10215a-are.pdf"
-                />
-                <LiSpanAndVaLink
-                  hrefText="Download 35% Exemption Request from 85/15 Reporting Requirement - VA Form 22-10216 (PDF, 2 pages)"
-                  href="https://www.vba.va.gov/pubs/forms/vba-22-10216-are.pdf"
-                />
-                <LiSpanAndVaLink
-                  hrefText="Download Conflicting Interests Certification for Proprietary Schools - VA Form 22-1919 (PDF, 1 page)"
-                  href="https://www.vba.va.gov/pubs/forms/VBA-22-1919-ARE.pdf"
-                />
-              </ul>
-            </>
-          )}
+          <>
+            <h4>Accepted forms for digital submission</h4>
+            <ul className="vads-u-margin-left--neg2p5">
+              <LiSpanAndVaLink
+                hrefText="VA Form 22-10215: Statement of Assurance of Compliance with 85% Enrollment Ratios"
+                href="/school-administrators/85-15-rule-enrollment-ratio"
+                testId="digital-10215-form"
+              />
+              <LiSpanAndVaLink
+                hrefText="VA Form 22-10216: 35% Exemption Request from 85/15 Reporting Requirement"
+                href="/school-administrators/35-percent-exemption"
+                testId="digital-10216-form"
+              />
+              <LiSpanAndVaLink
+                hrefText="VA Form 22-8794: Designation of Certifying Official(s)"
+                href="/school-administrators/update-certifying-officials"
+                testId="digital-8794-form"
+              />
+
+              <LiSpanAndVaLink
+                hrefText="VA Form 22-1919: Conflicting Interests Certification for Proprietary Schools"
+                href="/school-administrators/report-conflicting-interests"
+                testId="digital-1919-form"
+              />
+
+              <LiSpanAndVaLink
+                hrefText="VA Form 22-0839: Submit the Yellow Ribbon Program Agreement"
+                href="/school-administrators/submit-yellow-ribbon-program-agreement-form-22-0839"
+                testId="digital-0839-form"
+              />
+            </ul>
+          </>
           <h4>Other accepted documents</h4>
           <ul className="vads-u-margin-left--neg2p5">
             <LiText text="Compliance documents requested to support a scheduled compliance activity at your institution" />
