@@ -1,4 +1,5 @@
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import { getData } from '../util';
 
 export const FETCH_ALL_DEPENDENTS_STARTED = 'FETCH_ALL_DEPENDENTS_STARTED';
@@ -7,12 +8,18 @@ export const FETCH_ALL_DEPENDENTS_FAILED = 'FETCH_ALL_DEPENDENTS_FAILED';
 
 /**
  * Fetches data about dependents using the /show endpoint
+ *
+ * @param {Object} options - Options for fetching dependents
+ * @param {boolean} options.dependentsModuleEnabled - Whether to use the dependents module
  * @returns {Object} response data from /show
  */
-export function fetchAllDependents() {
+export function fetchAllDependents({ dependentsModuleEnabled }) {
   return async dispatch => {
     dispatch({ type: FETCH_ALL_DEPENDENTS_STARTED });
-    const response = await getData('/dependents_applications/show');
+    const dependentsUrl = dependentsModuleEnabled
+      ? `${environment.API_URL}/dependents_benefits/v0/claims/show`
+      : '/dependents_applications/show';
+    const response = await getData(dependentsUrl);
 
     if (response.errors) {
       recordEvent({
