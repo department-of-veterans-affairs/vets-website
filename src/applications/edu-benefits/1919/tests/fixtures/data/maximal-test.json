@@ -49,6 +49,7 @@
       }
     ],
     "statementOfTruthSignature": "Alice Johnson",
-    "dateSigned": "2025-07-10"
+    "dateSigned": "2025-07-10",
+    "isAuthenticated": false
   }
 }
