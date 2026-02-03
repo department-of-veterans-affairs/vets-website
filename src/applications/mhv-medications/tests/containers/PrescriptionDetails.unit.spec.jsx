@@ -94,7 +94,7 @@ describe('Prescription details container', () => {
           element={<PrescriptionDetails />}
         />
         <Route
-          path="/my-health/medications"
+          path="/"
           element={
             <div data-testid="medications-list-page">Medications List</div>
           }

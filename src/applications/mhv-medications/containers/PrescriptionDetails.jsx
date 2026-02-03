@@ -71,7 +71,7 @@ const PrescriptionDetails = () => {
   useEffect(
     () => {
       if (isCernerPilot && !stationNumber) {
-        navigate('/my-health/medications', { replace: true });
+        navigate('/', { replace: true });
       }
     },
     [isCernerPilot, stationNumber, navigate],
