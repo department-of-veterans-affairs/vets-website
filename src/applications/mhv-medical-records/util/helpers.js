@@ -26,7 +26,7 @@ import {
   Breadcrumbs,
   DEFAULT_DATE_RANGE,
   MONTH_BASED_OPTIONS,
-  NONE_RECORDED,
+  UNKNOWN,
 } from './constants';
 
 // Re-export from dateHelpers for backwards compatibility
@@ -49,7 +49,7 @@ export const dateFormat = (timestamp, format = null) => {
       format || 'MMMM d, yyyy, h:mm a zzz',
     );
   } catch {
-    return NONE_RECORDED;
+    return UNKNOWN;
   }
 };
 

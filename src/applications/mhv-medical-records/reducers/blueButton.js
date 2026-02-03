@@ -49,21 +49,6 @@ const safeFormat = (date, formatStr, fallback = NONE_RECORDED) => {
   }
 };
 
-/**
- * Safely format a date using dateFormat, returning a fallback if invalid.
- * @param {*} date - The date to format
- * @param {string} fallback - The fallback value if the date is invalid
- * @returns {string} - The formatted date or fallback
- */
-const safeDateFormat = (date, fallback = NONE_RECORDED) => {
-  if (!isValidDate(date)) return fallback;
-  try {
-    return dateFormat(date);
-  } catch {
-    return fallback;
-  }
-};
-
 const initialState = {
   /** The list of medications returned from the api @type {Array} */
   medicationsList: undefined,
@@ -181,7 +166,7 @@ export const convertAppointment = appt => {
 
   return {
     id: appt.id,
-    date: safeDateFormat(appointmentTime),
+    date: isValidAppointmentTime ? dateFormat(appointmentTime) : UNKNOWN,
     isUpcoming: isValidAppointmentTime ? isAfter(appointmentTime, now) : false,
     appointmentType: attributes.kind ? capitalize(attributes.kind) : UNKNOWN,
     status: attributes.status === 'booked' ? 'Confirmed' : 'Pending',
