@@ -35,7 +35,7 @@ export { dateFormatWithoutTimezone } from './dateHelpers';
 /**
  * @param {*} timestamp
  * @param {*} format defaults to 'MMMM d, yyyy, h:mm a zzz', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
- * @returns {String} formatted timestamp or NONE_RECORDED if invalid
+ * @returns {String} formatted timestamp or UNKNOWN if invalid
  */
 export const dateFormat = (timestamp, format = null) => {
   if (!timestamp) return null;
