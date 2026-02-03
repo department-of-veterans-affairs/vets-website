@@ -2,6 +2,7 @@
   "plugins": ["stylelint-scss", "stylelint-order"],
   "ignoreFiles": [
     ".git/**",
+    ".direnv/**",
     "src/applications/proxy-rewrite/sass/style-consolidated.scss",
     "src/applications/vaos/docs/styles/*.css",
     "mochawesome-report/**/*.css"
