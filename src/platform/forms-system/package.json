@@ -78,7 +78,6 @@
     "axe-core": "*",
     "enzyme": "*",
     "chai": "*",
-    "skin-deep": "*",
     "@testing-library/react": "*",
     "@testing-library/user-event": "*",
     "sinon": "*",
