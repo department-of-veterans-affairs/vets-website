@@ -1,4 +1,5 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { isNil } from 'lodash';
 import { todaysDate } from '../helpers';
 
 const INSTITUTION_TYPES = {
@@ -147,7 +148,12 @@ export default function transform(formConfig, form) {
   ].reduce((acc, collector) => ({ ...acc, ...collector(form.data) }), {});
 
   data.dateSigned = todaysDate();
-  data.isAuthenticated = !!form.data.isAuthenticated;
+  if (isNil(form.data.isAuthenticated)) {
+    data.isAuthenticated =
+      JSON.parse(localStorage.getItem('hasSession')) ?? false;
+  } else {
+    data.isAuthenticated = !!form.data.isAuthenticated;
+  }
 
   const submitData = transformForSubmit(formConfig, { ...form, data });
 

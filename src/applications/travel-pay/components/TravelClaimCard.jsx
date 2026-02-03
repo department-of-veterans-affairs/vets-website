@@ -46,7 +46,9 @@ export default function TravelClaimCard(props) {
         <li>
           <strong>Claim status: {claimStatus}</strong>
         </li>
-        <li>Claim number: {claimNumber}</li>
+        <li>
+          Claim number: <span data-dd-privacy="mask">{claimNumber}</span>
+        </li>
         <li>
           Submitted on {createDate} at {createTime}
         </li>
