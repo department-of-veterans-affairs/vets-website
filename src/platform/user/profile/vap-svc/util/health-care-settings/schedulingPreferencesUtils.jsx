@@ -4,10 +4,10 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { AddressView } from 'platform/user/exportsFile';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import PropTypes from 'prop-types';
+import AddressView from '../../components/AddressField/AddressView';
 import {
   FIELD_ITEM_IDS,
   FIELD_NAMES,
