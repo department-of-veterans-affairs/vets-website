@@ -118,9 +118,9 @@ class FolderManagementPage {
         mockResponse.data.attributes.threadId}/move?folder_id=${folderId}`,
       { statusCode: 204 },
     ).as('threadNoContent');
-    cy.get(Locators.ALERTS.MOVE_MODAL)
-      .find(Locators.BUTTONS.TEXT_CONFIRM)
-      .click();
+    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID).within(() => {
+      cy.get(Locators.BUTTONS.TEXT_CONFIRM).click();
+    });
   };
 
   moveMessageToNewFolder = foldersList => {
