@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import { server } from 'platform/testing/unit/mocha-setup';
 
@@ -32,19 +32,19 @@ describe('<AutoSSO>', () => {
   it('should not call removeLoginAttempted if user is logged out', () => {
     const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
     const props = generateProps();
-    const wrapper = shallow(<AutoSSO {...props} />);
+    const { unmount } = render(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.notCalled(stub);
-    wrapper.unmount();
+    unmount();
   });
 
   it('should call removeLoginAttempted if user is logged in', () => {
     const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
     const props = generateProps({ loggedIn: true });
-    const wrapper = shallow(<AutoSSO {...props} />);
+    const { unmount } = render(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.calledOnce(stub);
-    wrapper.unmount();
+    unmount();
   });
 
   it(`should not call checkAutoSession on an invalid path ['/auth/login/callback']`, () => {
@@ -53,38 +53,37 @@ describe('<AutoSSO>', () => {
     global.window.location.pathname = `/auth/login/callback`;
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     const props = generateProps({ hasCalledKeepAlive: false });
-    const wrapper = shallow(<AutoSSO {...props} />);
+    const { unmount } = render(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.notCalled(stub);
-    wrapper.unmount();
+    unmount();
     global.window.location = oldLocation;
   });
 
   it('should not call checkAutoSession if `hasCalledKeepAlive` is true', () => {
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     const props = generateProps({ hasCalledKeepAlive: true });
-
-    const wrapper = shallow(<AutoSSO {...props} />);
+    const { unmount } = render(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.notCalled(stub);
-    wrapper.unmount();
+    unmount();
   });
 
   it('should call keepalive if all conditions are met', () => {
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     const props = generateProps({ authenticatedWithOAuth: false });
-    const wrapper = shallow(<AutoSSO {...props} />);
+    const { unmount } = render(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.calledOnce(stub);
-    wrapper.unmount();
+    unmount();
   });
 
   it('should NOT call keepalive if signed in with oAuth', () => {
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     const props = generateProps({ authenticatedWithOAuth: true });
-    const wrapper = shallow(<AutoSSO {...props} />);
+    const { unmount } = render(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.notCalled(props.checkKeepAlive);
-    wrapper.unmount();
+    unmount();
   });
 });
