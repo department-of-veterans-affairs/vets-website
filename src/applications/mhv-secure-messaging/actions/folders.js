@@ -70,7 +70,7 @@ export const retrieveFolder = folderId => async dispatch => {
       }
     })
     .catch(error => {
-      sendDatadogError(error, 'action_folders_getFolders');
+      sendDatadogError(error, 'action_folders_retrieveFolder');
       dispatch({
         type: Actions.Folder.GET,
         response: null,
@@ -102,7 +102,7 @@ export const newFolder = folderName => async dispatch => {
     );
     return response.data.attributes;
   } catch (e) {
-    sendDatadogError(e, 'action_folders_getFolders');
+    sendDatadogError(e, 'action_folders_newFolder');
     if (e.errors && e.errors.length > 0 && e.errors[0].code === 'SM126') {
       dispatch(
         addAlert(
@@ -136,7 +136,7 @@ export const delFolder = folderId => async dispatch => {
       ),
     );
   } catch (error) {
-    sendDatadogError(error, 'action_folders_getFolders');
+    sendDatadogError(error, 'action_folders_delFolder');
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_ERROR,
@@ -167,7 +167,7 @@ export const renameFolder = (
     }
     return true; // Indicate success to caller
   } catch (e) {
-    sendDatadogError(e, 'action_folders_getFolders');
+    sendDatadogError(e, 'action_folders_renameFolder');
     if (e.errors && e.errors.length > 0 && e.errors[0].code === 'SM126') {
       dispatch(
         addAlert(
