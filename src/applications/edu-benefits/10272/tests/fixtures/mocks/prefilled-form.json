@@ -1,0 +1,17 @@
+{
+  "formData": {
+    "applicantName": {
+      "first": "Rita",
+      "middle": "Ann",
+      "last": "Jackson"
+    },
+    "dateOfBirth": "1958-04-07",
+    "ssn": "513096784",
+    "vaFileNumber": "123456789"
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/applicant/information"
+  }
+}

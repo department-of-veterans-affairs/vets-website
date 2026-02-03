@@ -317,3 +317,6 @@ src/applications/survivors-benefits @department-of-veterans-affairs/bio-huntridg
 
 #Medallia assets
 src/platform/site-wide/sass/modules/_m-medallia.scss @department-of-veterans-affairs/veteran-support-team
+
+# BIO PingWind
+src/applications/benefits-optimization-pingwind @department-of-veterans-affairs/benefits-intake-pingwind @department-of-veterans-affairs/va-platform-cop-frontend
