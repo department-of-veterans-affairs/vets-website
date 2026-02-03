@@ -51,6 +51,36 @@ const SINGLE_VALUE_SCHEDULING_PREFERENCES = [
   FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
 ];
 
+const sortDaysAndTimes = days => {
+  const dayOrder = {
+    monday: 0,
+    tuesday: 1,
+    wednesday: 2,
+    thursday: 3,
+    friday: 4,
+  };
+
+  const timeOrder = {
+    morning: 0,
+    afternoon: 1,
+  };
+
+  return Object.entries(days)
+    .sort(([a], [b]) => {
+      const dayA = dayOrder[a.toLowerCase()];
+      const dayB = dayOrder[b.toLowerCase()];
+      return dayA - dayB;
+    })
+    .map(([day, times]) => {
+      const sortedTimes = times.sort((a, b) => {
+        const timeA = timeOrder[a];
+        const timeB = timeOrder[b];
+        return timeA - timeB;
+      });
+      return [day, sortedTimes];
+    });
+};
+
 const inlinePreferenceFormTitle = fieldName => {
   return `Select your ${FIELD_SECTION_HEADERS[fieldName]
     .toLowerCase()
@@ -309,9 +339,11 @@ export const getSchedulingPreferencesTimesDisplay = (fieldName, optionIds) => {
     days[formattedDay].push(timeOfDay.toLowerCase());
   });
 
+  const sortedDays = sortDaysAndTimes(days);
+
   return (
     <ul className="vads-u-margin-y--0">
-      {Object.entries(days).map(([day, times]) => (
+      {sortedDays.map(([day, times]) => (
         <li key={day}>
           {day}: {times.join(' or ')}
         </li>
