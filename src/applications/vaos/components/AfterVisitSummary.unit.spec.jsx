@@ -76,6 +76,28 @@ describe('VAOS Component: AfterVisitSummary', () => {
     });
   });
 
+  it('Should return null when avsError exists and travel pay feature is enabled', () => {
+    // Arrange
+    const appointment = {
+      avsError: 'Error retrieving AVS info',
+    };
+
+    const stateWithTravelPay = {
+      featureToggles: {
+        travelPayViewClaimDetails: true,
+      },
+    };
+
+    // Act
+    const { container } = renderWithStoreAndRouter(
+      <AfterVisitSummary data={appointment} />,
+      { initialState: stateWithTravelPay },
+    );
+
+    // Assert - When feature flag is enabled, AfterVisitSummary returns null (ErrorAlert handles it)
+    expect(container.firstChild).to.not.exist;
+  });
+
   it('Should record google analytics when after visit summary link is clicked ', () => {
     // Arrange
     const appointment = {

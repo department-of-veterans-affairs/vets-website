@@ -65,6 +65,7 @@ const patientProviderRelationships = require('./v2/patient_provider_relationship
 // const patientProviderRelationships = require('./v2/patient_provider_relationships_errors.json');
 const recentLocations = require('./v2/recent_locations.json');
 const vamcEhr = require('./v2/vamc_ehr.json');
+const { data: avsPdfData } = require('./v2/avs_pdf_data');
 
 // To locally test appointment details null state behavior, comment out
 // the inclusion of requests.json and uncomment the inclusion of
@@ -324,6 +325,35 @@ const responses = {
     return res.json({
       data: appointment,
     });
+  },
+  'GET /vaos/v2/appointments/avs_binary/:appointmentId': (req, res) => {
+    const { appointmentId } = req.params;
+    const docIds = req.query.doc_ids ? req.query.doc_ids.split(',') : [];
+
+    // Look up mock data for this appointment
+    const appointmentData = avsPdfData[appointmentId];
+
+    if (!appointmentData) {
+      return res.status(404).json({
+        errors: [
+          {
+            title: 'Appointment not found',
+            status: '404',
+            detail: `No AVS data found for appointment ${appointmentId}`,
+          },
+        ],
+      });
+    }
+
+    // Filter to only requested doc_ids and format as JSON:API
+    const filteredData = appointmentData
+      .filter(item => docIds.includes(item.docId))
+      .map(item => ({
+        id: item.docId,
+        attributes: item,
+      }));
+
+    return res.json({ data: filteredData });
   },
   'GET /vaos/v2/scheduling/configurations': (req, res) => {
     if (req.query.cc_enabled === 'true') {

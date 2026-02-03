@@ -199,6 +199,63 @@ class AppointmentDetailPageObject extends PageObject {
 
     return this;
   }
+
+  assertAfterVisitSummaryError({ exist = true } = {}) {
+    if (exist) {
+      // Wait for appointment details page to load
+      cy.findByText(/Some appointment features/i, { timeout: 1000 }).should(
+        'exist',
+      );
+
+      // Check for ErrorAlert error (new approach with travelPayViewClaimDetails flag)
+      // or AfterVisitSummary error (legacy approach without flag)
+      cy.get('body').then($body => {
+        const hasLegacyError = $body
+          .find('h2')
+          .text()
+          .includes("We can't access after-visit summaries at this time.");
+        const hasNewError =
+          $body.find('[data-testid="avs-error-content"]').length > 0;
+        const hasClaimError =
+          $body.find('[data-testid="avs-claim-error-content"]').length > 0;
+
+        if (!hasLegacyError && !hasNewError && !hasClaimError) {
+          throw new Error(
+            'Expected AVS error to be displayed via ErrorAlert or AfterVisitSummary, but found neither',
+          );
+        }
+      });
+    } else {
+      // Neither error should exist
+      cy.findByRole('heading', {
+        name: /We can't access after-visit summaries at this time./i,
+      }).should('not.exist');
+      cy.findByTestId('avs-error-content').should('not.exist');
+      cy.findByTestId('avs-claim-error-content').should('not.exist');
+    }
+    return this;
+  }
+
+  assertAfterVisitSummaryPdf({ exist = true, count = null } = {}) {
+    if (exist) {
+      cy.findByTestId('after-visit-summary-pdf-list').should('exist');
+      if (count !== null) {
+        cy.findByTestId('after-visit-summary-pdf-list')
+          .find('li')
+          .should('have.length', count);
+      }
+    } else {
+      cy.findByTestId('after-visit-summary-pdf-list').should('not.exist');
+    }
+    return this;
+  }
+
+  assertAfterVisitSummaryNotAvailable() {
+    cy.findByText(
+      'An after-visit summary is not available at this time.',
+    ).should('exist');
+    return this;
+  }
 }
 
 export default new AppointmentDetailPageObject();

@@ -62,3 +62,5 @@ script/cypress-testrail-helper/my-config.json
 
 # Ignore mochawesome report directory
 mochawesome-report/
+
+src/applications/vaos/AGENTS.md
