@@ -28,15 +28,6 @@ const testConfig = createTestConfig(
           cy.tabToSubmitForm();
         });
       },
-      // 'primary-institution-details-2': ({ afterHook }) => {
-      //   afterhook(() => {
-      //     cy.selectvaradiooption(
-      //       'root_primaryinstitutiondetails_type',
-      //       'public',
-      //     );
-      //     cy.tabtosubmitform();
-      //   });
-      // },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-text-input[id="veteran-signature"]').then(el => {
