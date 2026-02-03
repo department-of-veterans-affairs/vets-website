@@ -95,7 +95,9 @@ export default function ClinicChoicePage() {
   return (
     <div className="vaos-form__radio-field">
       {schema.properties.clinicId.enum.length === 2 ? (
-        <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
+        <h1 className="vaos__dynamic-font-size--h2 vads-u-margin-bottom--4">
+          {pageTitle}
+        </h1>
       ) : (
         <h1 className="vaos__dynamic-font-size--h2">
           {pageTitle}
