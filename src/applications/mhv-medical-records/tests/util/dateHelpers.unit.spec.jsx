@@ -22,6 +22,17 @@ describe('dateHelpers', () => {
       expect(result).to.equal('November 14, 2024, 1:19 p.m. EST');
     });
 
+    it('should format ISO string with timezone offset in given timezone', () => {
+      // 2024-11-14T13:19:23-05:00 is the same instant as 2024-11-14T18:19:23Z
+      // Displayed in America/New_York (EST) = 1:19 p.m. EST
+      const result = formatDateTimeInUserTimezone(
+        '2024-11-14T13:19:23-05:00',
+        'MMMM d, yyyy, h:mm a',
+        'America/New_York',
+      );
+      expect(result).to.equal('November 14, 2024, 1:19 p.m. EST');
+    });
+
     it('should return null for bad input', () => {
       expect(formatDateTimeInUserTimezone(null, undefined, 'America/New_York'))
         .to.be.null;
@@ -29,13 +40,41 @@ describe('dateHelpers', () => {
         .be.null;
     });
 
-    it('should handle date-only string without timezone suffix', () => {
+    it('should handle date-only string (YYYY-MM-DD)', () => {
       const result = formatDateTimeInUserTimezone(
         '2024-11-14',
         'MMMM d, yyyy, h:mm a',
         'America/New_York',
       );
       expect(result).to.equal('November 14, 2024');
+    });
+
+    it('should handle year-only string (YYYY)', () => {
+      const result = formatDateTimeInUserTimezone(
+        '2024',
+        'MMMM d, yyyy, h:mm a',
+        'America/New_York',
+      );
+      expect(result).to.equal('2024');
+    });
+
+    it('should handle year-month string (YYYY-MM)', () => {
+      const result = formatDateTimeInUserTimezone(
+        '2024-11',
+        'MMMM d, yyyy, h:mm a',
+        'America/New_York',
+      );
+      expect(result).to.equal('November 2024');
+    });
+
+    it('should handle datetime with milliseconds', () => {
+      // 2024-11-14T18:19:23.456Z in America/New_York (EST) = 1:19 p.m. EST
+      const result = formatDateTimeInUserTimezone(
+        '2024-11-14T18:19:23.456Z',
+        'MMMM d, yyyy, h:mm a',
+        'America/New_York',
+      );
+      expect(result).to.equal('November 14, 2024, 1:19 p.m. EST');
     });
   });
 
