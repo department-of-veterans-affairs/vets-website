@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor, render } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import configureStore from 'redux-mock-store';
@@ -9,40 +10,6 @@ import sinon from 'sinon';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { usePrescriptionData } from '../../hooks/usePrescriptionData';
 import * as prescriptionsApi from '../../api/prescriptionsApi';
-
-// Custom renderHook function
-function renderHook(renderCallback, options = {}) {
-  const { initialProps, ...renderOptions } = options;
-  const result = React.createRef();
-  result.current = null; // Initialize with a default value
-
-  function TestComponent({ renderCallbackProps }) {
-    const hookResult = renderCallback(renderCallbackProps);
-
-    // Update the ref synchronously to avoid timing issues
-    result.current = hookResult;
-
-    // Also update in useEffect to handle any async updates
-    React.useEffect(() => {
-      result.current = hookResult;
-    });
-
-    return null;
-  }
-
-  const { rerender: baseRerender, unmount } = render(
-    <TestComponent renderCallbackProps={initialProps} />,
-    renderOptions,
-  );
-
-  function rerender(rerenderCallbackProps) {
-    return baseRerender(
-      <TestComponent renderCallbackProps={rerenderCallbackProps} />,
-    );
-  }
-
-  return { result, rerender, unmount };
-}
 
 describe('usePrescriptionData', () => {
   let mockStore;

@@ -65,7 +65,7 @@ import {
 
 import content from '../locales/en/content.json';
 
-// import mockData from '../tests/e2e/fixtures/data/test-data.json';
+// import mockData from '../tests/e2e/fixtures/data/medical-claim.json';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -111,6 +111,10 @@ const formConfig = {
   title: content['form--title'],
   subTitle: content['form--subtitle'],
   dev: { disableWindowUnloadInCI: true },
+  formOptions: {
+    useWebComponentForNavigation: true,
+    filterInactiveNestedPageData: true,
+  },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
       {
