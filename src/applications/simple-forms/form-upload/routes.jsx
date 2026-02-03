@@ -48,7 +48,9 @@ const routes = formUploadForms.map(formId => {
 routes.push({
   path: '/',
   onEnter: () => {
-    window.location.replace('/forms');
+    if (!window.Cypress) {
+      window.location.replace('/forms');
+    }
   },
 });
 // or dynamic
