@@ -24,7 +24,7 @@ describe('edit custom folder name validation', () => {
       .click({ waitForAnimations: true });
     PatientMessageCustomFolderPage.submitEditFolderName('updatedName');
 
-    cy.findByTestId('alert-text')
+    cy.findByTestId('rename-success-alert')
       .should('be.visible')
       .and('contain.text', Data.FOLDER_RENAMED_SUCCESSFULLY);
 
