@@ -82,6 +82,81 @@ describe('VASS Component: EnterOTP', () => {
         );
       });
     });
+
+    it('should show error when code contains non-numeric characters', async () => {
+      const { container, getByTestId } = renderComponent();
+      inputVaTextInput(container, 'abc123', 'va-text-input[name="otc"]');
+      const continueButton = getByTestId('continue-button');
+
+      continueButton.click();
+
+      await waitFor(() => {
+        const otcInput = getByTestId('otc-input');
+        expect(otcInput.getAttribute('error')).to.match(
+          /Your verification code should only contain numbers/i,
+        );
+      });
+    });
+
+    it('should show error when code is fewer than 6 digits', async () => {
+      const { container, getByTestId } = renderComponent();
+      inputVaTextInput(container, '12345', 'va-text-input[name="otc"]');
+      const continueButton = getByTestId('continue-button');
+
+      continueButton.click();
+
+      await waitFor(() => {
+        const otcInput = getByTestId('otc-input');
+        expect(otcInput.getAttribute('error')).to.match(
+          /Your verification code should be 6 digits/i,
+        );
+      });
+    });
+
+    it('should show error when code is more than 6 digits', async () => {
+      const { container, getByTestId } = renderComponent();
+      inputVaTextInput(container, '1234567', 'va-text-input[name="otc"]');
+      const continueButton = getByTestId('continue-button');
+
+      continueButton.click();
+
+      await waitFor(() => {
+        const otcInput = getByTestId('otc-input');
+        expect(otcInput.getAttribute('error')).to.match(
+          /Your verification code should be 6 digits/i,
+        );
+      });
+    });
+
+    it('should have correct input attributes for numeric entry', () => {
+      const { getByTestId } = renderComponent();
+      const otcInput = getByTestId('otc-input');
+
+      expect(otcInput.getAttribute('inputmode')).to.equal('numeric');
+      expect(otcInput.getAttribute('maxlength')).to.equal('6');
+    });
+
+    it('should not show validation error for valid 6-digit code', async () => {
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        data: {
+          token: 'jwt-token',
+          expiresIn: 3600,
+          tokenType: 'Bearer',
+        },
+      });
+      const { container, getByTestId } = renderComponent();
+      inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
+      const continueButton = getByTestId('continue-button');
+
+      continueButton.click();
+
+      await waitFor(() => {
+        const otcInput = getByTestId('otc-input');
+        // No validation error should be present - API call should proceed
+        // Error attribute will be empty string (not null) when no error
+        expect(otcInput.getAttribute('error')).to.equal('');
+      });
+    });
   });
 
   describe('API error handling', () => {

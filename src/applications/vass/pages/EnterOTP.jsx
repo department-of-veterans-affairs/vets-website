@@ -60,6 +60,17 @@ const EnterOTP = () => {
       setOtpError('Please enter your one-time verification code');
       return;
     }
+
+    if (!/^\d+$/.test(code)) {
+      setOtpError('Your verification code should only contain numbers');
+      return;
+    }
+
+    if (code.length !== 6) {
+      setOtpError('Your verification code should be 6 digits');
+      return;
+    }
+
     const response = await postOTPVerification({
       otp: code,
     });
@@ -120,6 +131,8 @@ const EnterOTP = () => {
         label="Enter your one-time verification code"
         name="otp"
         value={code}
+        inputmode="numeric"
+        maxlength="6"
         onBlur={e => {
           if (e.target.value !== '') {
             setOtpError('');
