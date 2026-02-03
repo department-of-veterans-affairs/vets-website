@@ -1,7 +1,7 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import { formConfig } from '@bio-aquia/21-0779-nursing-home-information';
+import { formConfig } from '@bio-aquia/21-0779-nursing-home-information/config';
 import manifest from '@bio-aquia/21-0779-nursing-home-information/manifest.json';
 import { featureToggles, user, mockSubmit } from '../fixtures/mocks';
 
