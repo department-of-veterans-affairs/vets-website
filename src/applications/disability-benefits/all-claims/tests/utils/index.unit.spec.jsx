@@ -5,6 +5,8 @@ import {
   getWorkflowRedirect,
   isCompletingModern4142,
   onFormLoaded,
+  redirectLegacyToEnhancement,
+  redirectEnhancementToLegacy,
 } from '../../utils';
 
 describe('utils', () => {
@@ -64,6 +66,92 @@ describe('utils', () => {
       expect(
         router.push.calledWith('/supporting-evidence/private-medical-records'),
       ).to.be.true;
+    });
+
+    it('should redirect to evidence-request when legacy to enhancement transition needed', () => {
+      const router = { push: sinon.spy() };
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+      };
+      onFormLoaded({
+        returnUrl: '/supporting-evidence/evidence-types',
+        formData,
+        router,
+      });
+      expect(router.push.calledWith('/supporting-evidence/evidence-request')).to
+        .be.true;
+    });
+
+    it('should redirect to evidence-types when enhancement to legacy transition needed', () => {
+      const router = { push: sinon.spy() };
+      const formData = {
+        disability526SupportingEvidenceEnhancement: false,
+      };
+      onFormLoaded({
+        returnUrl: '/supporting-evidence/evidence-request',
+        formData,
+        router,
+      });
+      expect(router.push.calledWith('/supporting-evidence/evidence-types')).to
+        .be.true;
+    });
+  });
+
+  describe('redirectLegacyToEnhancement', () => {
+    it('should return true when returnUrl matches and formData indicates enhancement flow', () => {
+      expect(
+        redirectLegacyToEnhancement({
+          returnUrl: '/supporting-evidence/evidence-types',
+          formData: { disability526SupportingEvidenceEnhancement: true },
+        }),
+      ).to.be.true;
+    });
+
+    it('should return false otherwise', () => {
+      expect(
+        redirectLegacyToEnhancement({
+          returnUrl: '/supporting-evidence/evidence-request',
+          formData: { disability526SupportingEvidenceEnhancement: true },
+        }),
+      ).to.be.false;
+      expect(
+        redirectLegacyToEnhancement({
+          returnUrl: '/supporting-evidence/evidence-types',
+          formData: { disability526SupportingEvidenceEnhancement: false },
+        }),
+      ).to.be.false;
+    });
+  });
+
+  describe('redirectEnhancementToLegacy', () => {
+    it('should return true when returnUrl matches enhancement pages and formData indicates legacy flow', () => {
+      expect(
+        redirectEnhancementToLegacy({
+          returnUrl: '/supporting-evidence/evidence-request',
+          formData: { disability526SupportingEvidenceEnhancement: false },
+        }),
+      ).to.be.true;
+      expect(
+        redirectEnhancementToLegacy({
+          returnUrl: '/supporting-evidence/medical-records',
+          formData: { disability526SupportingEvidenceEnhancement: false },
+        }),
+      ).to.be.true;
+    });
+
+    it('should return false otherwise', () => {
+      expect(
+        redirectEnhancementToLegacy({
+          returnUrl: '/supporting-evidence/evidence-request',
+          formData: { disability526SupportingEvidenceEnhancement: true },
+        }),
+      ).to.be.false;
+      expect(
+        redirectEnhancementToLegacy({
+          returnUrl: '/supporting-evidence/evidence-types',
+          formData: { disability526SupportingEvidenceEnhancement: false },
+        }),
+      ).to.be.false;
     });
   });
 });

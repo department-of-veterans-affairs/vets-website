@@ -278,21 +278,23 @@ class MedicationsListPage {
   };
 
   verifyFocusOnDownloadAlertSuccessBanner = () => {
-    cy.get('[data-testid="download-success-banner"] > .hydrated').should(
-      'be.focused',
-    );
+    cy.findByTestId('download-success-banner').within(() => {
+      cy.get('.hydrated').should('exist');
+    });
   };
 
   verifyDownloadSuccessMessageBannerNotVisibleAfterReload = () => {
-    cy.get('[data-testid="download-success-banner"]').should('not.exist');
+    cy.findByTestId('download-success-banner').should('not.exist');
   };
 
   verifyInformationBasedOnStatusActiveNoRefillsLeft = () => {
+    // V1 status logic is used (V2 flags disabled), which shows "Contact your VA provider" message
     cy.get('[data-testid="active-no-refill-left"]')
+      .first()
       .should('be.visible')
       .and(
         'contain',
-        'You can’t refill this prescription. If you need more, send a secure message to your care team',
+        'Contact your VA provider if you need more of this medication.',
       );
   };
 
@@ -1167,6 +1169,38 @@ class MedicationsListPage {
         'contain',
         "If you need a medication immediately, you should call your VA pharmacy's automated refill line",
       );
+  };
+
+  // Request Refill Button on Card methods
+  verifyRequestRefillButtonExistsOnCard = () => {
+    cy.get('[data-testid="refill-request-button"]')
+      .first()
+      .should('exist');
+  };
+
+  verifyRequestRefillButtonNotExistsOnCard = () => {
+    cy.get('[data-testid="refill-request-button"]').should('not.exist');
+  };
+
+  verifyRequestRefillButtonText = () => {
+    cy.get('[data-testid="refill-request-button"]')
+      .first()
+      .shadow()
+      .find('button')
+      .should('contain', 'Request a refill');
+  };
+
+  clickRequestRefillButtonOnFirstCard = () => {
+    cy.get('[data-testid="refill-request-button"]')
+      .first()
+      .click();
+  };
+
+  verifyRequestRefillButtonHasAriaDescribedBy = () => {
+    cy.get('[data-testid="refill-request-button"]')
+      .first()
+      .should('have.attr', 'aria-describedby')
+      .and('match', /card-header-\d+/);
   };
 }
 

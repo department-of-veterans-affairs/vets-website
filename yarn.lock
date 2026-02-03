@@ -14741,13 +14741,6 @@ imurmurhash@^0.1.4:
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
   integrity sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==
 
-indent-string@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/indent-string/-/indent-string-2.1.0.tgz"
-  integrity sha1-ji1INIdCEhtKghi3oTfppSBJ3IA=
-  dependencies:
-    repeating "^2.0.0"
-
 indent-string@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/indent-string/-/indent-string-4.0.0.tgz#624f8f4497d619b2d9768531d58f4122854d7251"
@@ -15236,12 +15229,6 @@ is-finalizationregistry@^1.1.0:
   integrity sha512-1pC6N8qWJbWoPtEjgcL2xyhQOP491EQjeUo3qTKcmV8YSDDJrOepfG8pcC7h/QgnQHYSv0mJ3Z/ZWxmatVrysg==
   dependencies:
     call-bound "^1.0.3"
-
-is-finite@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/is-finite/-/is-finite-1.0.2.tgz"
-  dependencies:
-    number-is-nan "^1.0.0"
 
 is-fullwidth-code-point@^1.0.0:
   version "1.0.0"
@@ -16115,11 +16102,6 @@ json-stringify-nice@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/json-stringify-nice/-/json-stringify-nice-1.1.4.tgz#2c937962b80181d3f317dd39aa323e14f5a60a67"
   integrity sha512-5Z5RFW63yxReJ7vANgW6eZFGWaQvnPE3WNmZoOJrSkGju2etKA2L5rrOa1sm877TVTFt57A80BH1bArcmlLfPw==
-
-json-stringify-pretty-compact@^1.0.1:
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/json-stringify-pretty-compact/-/json-stringify-pretty-compact-1.2.0.tgz"
-  integrity sha512-/11Pj1OyX814QMKO7K8l85SHPTr/KsFxHp8GE2zVa0BtJgGimDjXHfM3FhC7keQdWDea7+nXf+f1de7ATZcZkQ==
 
 json-stringify-safe@^5.0.1, json-stringify-safe@~5.0.1:
   version "5.0.1"
@@ -20616,14 +20598,6 @@ react-dom@^17.0.2:
     object-assign "^4.1.1"
     scheduler "^0.20.2"
 
-react-element-to-string@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/react-element-to-string/-/react-element-to-string-1.0.2.tgz"
-  integrity sha1-AmLyzg/6i1GOo1l7w6jcJuBVGkc=
-  dependencies:
-    indent-string "^2.1.0"
-    json-stringify-pretty-compact "^1.0.1"
-
 react-error-boundary@^3.1.0:
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/react-error-boundary/-/react-error-boundary-3.1.4.tgz#255db92b23197108757a888b01e5b729919abde0"
@@ -21573,13 +21547,6 @@ repeat-string@^1.0.0:
   version "1.6.1"
   resolved "https://registry.npmjs.org/repeat-string/-/repeat-string-1.6.1.tgz"
   integrity sha1-jcrkcOHIirwtYA//Sndihtp15jc=
-
-repeating@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.npmjs.org/repeating/-/repeating-2.0.1.tgz"
-  integrity sha1-UhTFOpJtNVJwdSf7q0FdvAjQbdo=
-  dependencies:
-    is-finite "^1.0.0"
 
 replace-ext@^1.0.0:
   version "1.0.1"
@@ -22668,16 +22635,6 @@ sinon@^3.2.1:
     samsam "^1.1.3"
     text-encoding "0.6.4"
     type-detect "^4.0.0"
-
-skin-deep@^1.0.0:
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/skin-deep/-/skin-deep-1.2.0.tgz"
-  integrity sha512-2TFImKMDE4bS4hm8hdpjTf4+0RXAUxK0jjQRKPrf4qypAk9zDcEldIcxdQNMUdhsJhWwFrENz7jGu5Gu/IWbbQ==
-  dependencies:
-    escape-string-regexp "^1.0.5"
-    is-subset "^0.1.1"
-    react-element-to-string "^1.0.2"
-    semver "^5.3.0"
 
 slash@^2.0.0:
   version "2.0.0"
@@ -25027,9 +24984,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#6f83c6cd8093b5fffe3463d2d3b794a8e91b6d4c":
-  version "25.2.43"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#6f83c6cd8093b5fffe3463d2d3b794a8e91b6d4c"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#0af4632f7fbae51a4faa3d9f96dfb51f36a93618":
+  version "25.2.45"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#0af4632f7fbae51a4faa3d9f96dfb51f36a93618"
   dependencies:
     minimist "^1.2.3"
 

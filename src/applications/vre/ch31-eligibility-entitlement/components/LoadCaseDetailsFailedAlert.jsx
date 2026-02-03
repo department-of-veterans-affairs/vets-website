@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function LoadCaseDetailsFailedAlert() {
   return (
-    <div className="usa-width-two-thirds vads-u-margin-y--3">
+    <div className="vads-u-margin-y--3">
       <va-alert
         close-btn-aria-label="Close notification"
         status="error"

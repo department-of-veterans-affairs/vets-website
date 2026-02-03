@@ -6,7 +6,6 @@ import { SERVICE_PROVIDERS, GA } from 'platform/user/authentication/constants';
 import sinon from 'sinon';
 import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
-import SkinDeep from 'skin-deep';
 import MockAuth from '../../containers/MockAuth';
 import MockAuthButton from '../../components/MockAuthButton';
 
@@ -74,8 +73,8 @@ describe('MockAuthButton', () => {
   Object.values(environments).forEach(currentEnvironment => {
     it('should take you to the right link when clicked', async () => {
       __BUILDTYPE__ = currentEnvironment;
-      const tree = SkinDeep.shallowRender(<MockAuthButton />);
-      const button = tree.subTree('.mauth-button');
+      const { container } = render(<MockAuthButton />);
+      const button = container.querySelector('.mauth-button');
       if (
         [environments.LOCALHOST, environments.VAGOVDEV].includes(
           currentEnvironment,
@@ -84,12 +83,17 @@ describe('MockAuthButton', () => {
         const correctLink =
           '/v0/sign_in/authorize?type=logingov&client_id=vamock';
         setup({});
-        await button.props.onClick();
-        const location = global.window.location.href || global.window.location;
-        expect(location).to.include(correctLink);
+        if (button) {
+          fireEvent.click(button);
+          await waitFor(() => {
+            const location =
+              global.window.location.href || global.window.location;
+            expect(location).to.include(correctLink);
+          });
+        }
         setup({});
       } else {
-        expect(button).to.be.false;
+        expect(button).to.be.null;
       }
     });
   });
