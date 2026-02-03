@@ -158,7 +158,7 @@ const ManageFolderButtons = props => {
           focusElement(editFolderButtonRef.current);
         } catch (error) {
           // If rename fails, keep form open - global error alert will be shown by action
-          datadogRum.addError(error, { action: 'renameFolder' });
+          // Error already logged to Datadog via sendDatadogError in renameFolder action
         }
       } else {
         setNameWarning(
