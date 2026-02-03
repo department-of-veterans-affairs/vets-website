@@ -121,14 +121,52 @@ export const normalizeAddressLine = value => {
   return value.trim().replace(/\s{2,}/g, ' ');
 };
 
+// Field configurations for address validation
+const ADDRESS_FIELD_CONFIG = {
+  addressLine1: {
+    maxLength: 20,
+    fieldName: 'Address line 1',
+    pattern: ADDRESS_LINE_PATTERN,
+    allowedChars: "' . , & # -",
+  },
+  addressLine2: {
+    maxLength: 20,
+    fieldName: 'Address line 2',
+    pattern: ADDRESS_LINE_PATTERN,
+    allowedChars: "' . , & # -",
+  },
+  addressLine3: {
+    maxLength: 20,
+    fieldName: 'Address line 3',
+    pattern: ADDRESS_LINE_PATTERN,
+    allowedChars: "' . , & # -",
+  },
+  city: {
+    maxLength: 30,
+    fieldName: 'City',
+    pattern: CITY_PATTERN,
+    allowedChars: "' . # -",
+  },
+};
+
 /**
- * Create address line validation function
+ * Create address field validation function (works for address lines and city)
  * Validates against normalized value so extra spaces don't cause false failures
- * @param {number} maxLength - Maximum allowed length
- * @param {string} fieldName - Name of the field for error message
+ * @param {string} fieldKey - Field key: 'addressLine1', 'addressLine2', 'addressLine3', or 'city'
  * @returns {function} Validation function
  */
-export const createAddressLineValidator = (maxLength, fieldName) => {
+export const createAddressValidator = fieldKey => {
+  const config = ADDRESS_FIELD_CONFIG[fieldKey];
+  if (!config) {
+    throw new Error(
+      `Invalid field key: ${fieldKey}. Must be one of: ${Object.keys(
+        ADDRESS_FIELD_CONFIG,
+      ).join(', ')}`,
+    );
+  }
+
+  const { maxLength, fieldName, pattern, allowedChars } = config;
+
   return (errors, value) => {
     if (value) {
       // Normalize the value before validation (trim spaces, collapse duplicates)
@@ -138,34 +176,9 @@ export const createAddressLineValidator = (maxLength, fieldName) => {
       if (normalizedValue.length > maxLength) {
         errors.addError(`${fieldName} must be ${maxLength} characters or less`);
       }
-      if (!ADDRESS_LINE_PATTERN.test(normalizedValue)) {
+      if (!pattern.test(normalizedValue)) {
         errors.addError(
-          `${fieldName} may only contain letters, numbers, spaces, and these special characters: ' . , & # -`,
-        );
-      }
-    }
-  };
-};
-
-/**
- * Create city validation function
- * Validates against normalized value so extra spaces don't cause false failures
- * @param {number} maxLength - Maximum allowed length (default 30 per schema)
- * @returns {function} Validation function
- */
-export const createCityValidator = (maxLength = 30) => {
-  return (errors, value) => {
-    if (value) {
-      // Normalize the value before validation (trim spaces, collapse duplicates)
-      // Actual normalization happens at submit time in cleanUpMailingAddress
-      const normalizedValue = normalizeAddressLine(value);
-
-      if (normalizedValue.length > maxLength) {
-        errors.addError(`City must be ${maxLength} characters or less`);
-      }
-      if (!CITY_PATTERN.test(normalizedValue)) {
-        errors.addError(
-          `City may only contain letters, numbers, spaces, and these special characters: ' . # -`,
+          `${fieldName} may only contain letters, numbers, spaces, and these special characters: ${allowedChars}`,
         );
       }
     }

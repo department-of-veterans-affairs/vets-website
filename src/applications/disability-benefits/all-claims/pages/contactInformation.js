@@ -21,8 +21,7 @@ import { validateZIP } from '../validations';
 import {
   shouldAutoDetectMilitary,
   shouldShowZipCode,
-  createAddressLineValidator,
-  createCityValidator,
+  createAddressValidator,
   updateCountrySchema,
   updateStateSchema,
   isStateRequired,
@@ -141,19 +140,19 @@ export const uiSchema = {
     },
     addressLine1: {
       ...defaultAddressUI.addressLine1,
-      'ui:validations': [createAddressLineValidator(20, 'Address line 1')],
+      'ui:validations': [createAddressValidator('addressLine1')],
     },
     addressLine2: {
       ...defaultAddressUI.addressLine2,
-      'ui:validations': [createAddressLineValidator(20, 'Address line 2')],
+      'ui:validations': [createAddressValidator('addressLine2')],
     },
     addressLine3: {
       ...defaultAddressUI.addressLine3,
-      'ui:validations': [createAddressLineValidator(20, 'Address line 3')],
+      'ui:validations': [createAddressValidator('addressLine3')],
     },
     city: {
       ...defaultAddressUI.city,
-      'ui:validations': [createCityValidator()],
+      'ui:validations': [createAddressValidator('city')],
     },
   },
   'view:contactInfoDescription': {
