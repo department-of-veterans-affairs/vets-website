@@ -9,3 +9,6 @@ export const selectShowEduBenefits1995Wizard = state =>
 
 export const selectMeb1995Reroute = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.meb1995Reroute];
+
+export const selectMeb1995RudisillAccess = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.meb1995RudisillAccess];

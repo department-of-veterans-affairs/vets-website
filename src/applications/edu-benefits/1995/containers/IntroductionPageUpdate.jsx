@@ -4,42 +4,71 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { showEduBenefits1995Wizard } from 'applications/edu-benefits/selectors/educationWizard';
-
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_NOT_STARTED,
-} from 'platform/site-wide/wizard';
+import { selectMeb1995Reroute } from '../selectors/featureToggles';
 
 export class IntroductionPageUpdate extends React.Component {
-  state = {
-    status: sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
-  };
-
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
+
+    // Initialize Rudisill flow flag in formData if in Rudisill flow
+    const isRudisillFlow = sessionStorage.getItem('isRudisillFlow') === 'true';
+    if (isRudisillFlow && this.props.setFormData) {
+      const currentFormData = this.props.formData || {};
+      // Only set if not already set to avoid unnecessary re-renders
+      if (currentFormData.isRudisillFlow !== true) {
+        this.props.setFormData({
+          ...currentFormData,
+          isRudisillFlow: true,
+        });
+      }
+    }
   }
 
-  setWizardStatus = value => {
-    sessionStorage.setItem(WIZARD_STATUS, value);
-    this.setState({ status: value });
+  renderSaveInProgressIntro = buttonOnly => {
+    const { route, rerouteEnabled } = this.props;
+
+    // If route prop is missing or incomplete, show fallback button
+    // This can happen when navigating back from form pages in Rudisill flow
+    if (!route?.formConfig || !route?.pageList) {
+      // Only show fallback for Rudisill flow (when reroute is enabled)
+      // For legacy flow, return null to maintain backwards compatibility
+      if (rerouteEnabled) {
+        return (
+          <va-link-action
+            href="/education/apply-for-education-benefits/application/1995/introduction?rudisill=true"
+            text="Start the education application"
+          />
+        );
+      }
+      return null;
+    }
+
+    return (
+      <SaveInProgressIntro
+        buttonOnly={buttonOnly}
+        prefillEnabled={route.formConfig.prefillEnabled}
+        messages={route.formConfig.savedFormMessages}
+        pageList={route.pageList}
+        startText="Start the education application"
+        unauthStartText="Sign in or create an account"
+      />
+    );
   };
 
-  renderSaveInProgressIntro = buttonOnly => (
-    <SaveInProgressIntro
-      buttonOnly={buttonOnly}
-      prefillEnabled={this.props.route.formConfig.prefillEnabled}
-      messages={this.props.route.formConfig.savedFormMessages}
-      pageList={this.props.route.pageList}
-      startText="Start the education application"
-      unauthStartText="Sign in or create an account"
-    />
-  );
-
   render() {
-    const { showWizard } = this.props;
+    const { showWizard, rerouteEnabled } = this.props;
 
-    if (showWizard === undefined) return null;
+    // Check if user is in Rudisill flow (only when reroute is enabled)
+    const isRudisillFlow =
+      rerouteEnabled && sessionStorage.getItem('isRudisillFlow') === 'true';
+
+    // Allow rendering if in Rudisill flow, otherwise require showWizard to be defined
+    // This maintains backwards compatibility when reroute is disabled
+    if (!isRudisillFlow && showWizard === undefined) {
+      return null;
+    }
 
     return (
       <div
@@ -136,9 +165,13 @@ export class IntroductionPageUpdate extends React.Component {
 
 const mapStateToProps = state => ({
   showWizard: showEduBenefits1995Wizard(state),
+  formData: state.form?.data,
+  rerouteEnabled: selectMeb1995Reroute(state),
 });
 
 IntroductionPageUpdate.propTypes = {
+  formData: PropTypes.object,
+  rerouteEnabled: PropTypes.bool,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool,
@@ -146,7 +179,15 @@ IntroductionPageUpdate.propTypes = {
     }),
     pageList: PropTypes.array,
   }),
+  setFormData: PropTypes.func,
   showWizard: PropTypes.bool,
 };
 
-export default connect(mapStateToProps)(IntroductionPageUpdate);
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroductionPageUpdate);
