@@ -30,7 +30,6 @@ const ManageFolderButtons = props => {
   const [folderName, setFolderName] = useState('');
   const [showRenameSuccess, setShowRenameSuccess] = useState(false);
   const folderNameInput = useRef();
-  const successAlertRef = useRef(null);
   const editFolderButtonRef = useRef(null);
   const removeButton = useRef(null);
   const emptyFolderConfirmBtn = useRef(null);
@@ -140,12 +139,9 @@ const ManageFolderButtons = props => {
         setFolderName('');
         setNameWarning('');
         setShowRenameSuccess(true);
-        // Focus on the success alert after it renders
-        setTimeout(() => {
-          if (successAlertRef.current) {
-            focusElement(successAlertRef.current);
-          }
-        }, 100);
+        // Per accessibility guidance: leave focus on triggering control (Edit button)
+        // The slim alert with role="status" will announce the success message
+        focusElement(editFolderButtonRef.current);
       } else {
         setNameWarning(
           ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
@@ -164,13 +160,12 @@ const ManageFolderButtons = props => {
           </h2>
           {showRenameSuccess && (
             <VaAlert
-              ref={successAlertRef}
               status="success"
               slim
               closeable
               onCloseEvent={() => setShowRenameSuccess(false)}
               className="vads-u-margin-bottom--2"
-              aria-live="polite"
+              role="status"
               data-testid="rename-success-alert"
             >
               <p className="vads-u-margin-y--0">
