@@ -45,12 +45,12 @@ const routes = formUploadForms.map(formId => {
   };
 });
 
-// routes.push({
-//   path: '/',
-//   onEnter: () => {
-//     window.location.replace('/forms');
-//   },
-// });
+routes.push({
+  path: '/',
+  onEnter: () => {
+    window.location.replace('/forms');
+  },
+});
 // or dynamic
 // {
 //   path: '/:formId',
