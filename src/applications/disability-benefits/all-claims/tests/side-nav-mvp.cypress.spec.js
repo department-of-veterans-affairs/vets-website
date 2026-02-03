@@ -15,7 +15,7 @@ const verifySideNavState = (chapterIndex, chapterKey) => {
   cy.get('#default-sidenav').should('exist');
 
   // Verify the header text is correct
-  cy.get('#default-sidenav').should('have.attr', 'header', 'Select a step');
+  cy.get('#default-sidenav').should('have.attr', 'header', 'Form steps');
 
   // Verify current chapter is marked with current-page attribute
   cy.get(`va-sidenav-item[data-page="${chapterKey}"]`)
