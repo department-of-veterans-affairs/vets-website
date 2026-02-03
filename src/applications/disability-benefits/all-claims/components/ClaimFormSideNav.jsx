@@ -84,7 +84,16 @@ export default function ClaimFormSideNav({
         const accordionItem = sidenavRef.current.shadowRoot?.querySelector(
           'va-accordion > va-accordion-item',
         );
-        accordionItem?.removeAttribute('open');
+
+        if (accordionItem) {
+          // Save current scroll position before closing accordion
+          const { scrollY } = window;
+
+          accordionItem.removeAttribute('open');
+
+          // Restore scroll position to prevent accordion close from scrolling
+          window.scrollTo(0, scrollY);
+        }
       }
     },
     [pathname],
