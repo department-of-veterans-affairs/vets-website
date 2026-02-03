@@ -23,6 +23,8 @@ import {
   prepCourseName,
   prepCourseAddress,
   prepCourseOnline,
+  prepCoursePeriod,
+  prepCourseCost,
 } from '../pages';
 
 import prefillTransform from './prefillTransform';
@@ -144,6 +146,18 @@ const formConfig = {
           title: `How you'll take the prep course`,
           uiSchema: prepCourseOnline.uiSchema,
           schema: prepCourseOnline.schema,
+        },
+        prepCoursePeriod: {
+          path: 'prep-course-details-3',
+          title: 'Provide the start and end dates of your prep course',
+          uiSchema: prepCoursePeriod.uiSchema,
+          schema: prepCoursePeriod.schema,
+        },
+        prepCourseCost: {
+          path: 'prep-course-details-4',
+          title: 'Enter the cost of the prep course including any fees',
+          uiSchema: prepCourseCost.uiSchema,
+          schema: prepCourseCost.schema,
         },
       },
     },
