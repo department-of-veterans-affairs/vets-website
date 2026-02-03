@@ -22,10 +22,6 @@ import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-b
 import { previousMarriageEndOptions } from '../../../utils/labels';
 import { handleSpouseMaxMarriagesAlert } from '../../../components/FormAlerts';
 
-const updatedFullNameSchema = fullNameSchema;
-updatedFullNameSchema.properties.first.maxLength = 12;
-updatedFullNameSchema.properties.last.maxLength = 18;
-
 // Show previous marriages pages ONLY if user answered YES to hadPreviousMarriages
 // Ansering NO skips all previous marriage flows and jumps to Dependents
 const shouldShowPreviousMarriages = formData =>
@@ -182,7 +178,7 @@ const previousMarriageItemPage = {
   schema: {
     type: 'object',
     properties: {
-      spouseFullName: updatedFullNameSchema,
+      spouseFullName: fullNameSchema,
     },
     required: ['spouseFullName'],
   },
