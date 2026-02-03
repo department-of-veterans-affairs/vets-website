@@ -47,7 +47,7 @@ const UploadFileToVa = () => {
               />
 
               <LiSpanAndVaLink
-                hrefText="VA Form 22-0839: Submit the Yellow Ribbon Program Agreement"
+                hrefText="VA Form 22-0839: Yellow Ribbon Program Agreement"
                 href="/school-administrators/submit-yellow-ribbon-program-agreement-form-22-0839"
                 testId="digital-0839-form"
               />
