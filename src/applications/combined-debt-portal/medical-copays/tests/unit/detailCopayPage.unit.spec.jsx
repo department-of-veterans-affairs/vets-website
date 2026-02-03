@@ -44,7 +44,9 @@ describe('DetailCopayPage', () => {
     const mockStatement = {
       id: '123',
       attributes: {
-        facility: 'James A. Haley',
+        facility: {
+          name: 'James A. Haley',
+        },
         invoiceDate: '2024-01-15',
         accountNumber: 'ACC123',
         lineItems: [],
