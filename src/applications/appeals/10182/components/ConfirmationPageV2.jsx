@@ -1,13 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
+import { SubmissionAlert } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { scrollTo } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
 import { selectProfile } from '~/platform/user/selectors';
-
 import { boardReviewConfirmationLabels } from '../content/boardReview';
 import { hearingTypeLabels } from '../content/hearingType';
 import {
@@ -16,17 +14,14 @@ import {
   needsHearingType,
   isDirectReview,
 } from '../utils/helpers';
-
 import {
   chapterHeaderClass,
   ConfirmationSummary,
   ConfirmationReturnLink,
 } from '../../shared/components/ConfirmationSummary';
-import { ConfirmationAlert } from '../../shared/components/ConfirmationAlert';
 import { ConfirmationTitle } from '../../shared/components/ConfirmationTitle';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
-
 import { getReadableDate } from '../../shared/utils/dates';
 import { convertBoolResponseToYesNo } from '../../shared/utils/form-data-display';
 // import { NOD_PDF_DOWNLOAD_URL } from '../../shared/constants';
@@ -62,14 +57,16 @@ export const ConfirmationPageV2 = () => {
   return (
     <>
       <ConfirmationTitle pageTitle="Request a Board Appeal" />
-      <ConfirmationAlert alertTitle="Your Board Appeal request submission is in progress">
-        <p>
-          You submitted the request on {submitDate}. It can take a few days for
-          the Board to receive your request. We’ll send you a confirmation
-          letter once we’ve processed your request.
-        </p>
-      </ConfirmationAlert>
-
+      <SubmissionAlert
+        title="Your Board Appeal request submission is in progress"
+        content={
+          <p>
+            You submitted the request on {submitDate}. It can take a few days
+            for the Board to receive your request. We’ll send you a confirmation
+            letter once we’ve processed your request.
+          </p>
+        }
+      />
       <ConfirmationSummary name="Board Appeal" downloadUrl={downloadUrl} />
 
       <h2>What to expect next</h2>

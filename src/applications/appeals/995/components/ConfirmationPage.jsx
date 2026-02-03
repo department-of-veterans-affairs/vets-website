@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
+import { SubmissionAlert } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { selectProfile } from 'platform/user/selectors';
 
 // Content
@@ -33,7 +34,6 @@ import {
   ConfirmationSummary,
   ConfirmationReturnLink,
 } from '../../shared/components/ConfirmationSummary';
-import { ConfirmationAlert } from '../../shared/components/ConfirmationAlert';
 import { ConfirmationTitle } from '../../shared/components/ConfirmationTitle';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
@@ -63,13 +63,16 @@ export const ConfirmationPage = () => {
   return (
     <>
       <ConfirmationTitle pageTitle={title995} />
-      <ConfirmationAlert alertTitle="Your Supplemental Claim submission is in progress">
-        <p>
-          You submitted the request on {submitDate}. It can take a few days for
-          us to receive your request. We’ll send you a confirmation letter once
-          we’ve processed your request.
-        </p>
-      </ConfirmationAlert>
+      <SubmissionAlert
+        title="Your Supplemental Claim submission is in progress"
+        content={
+          <p>
+            You submitted the request on {submitDate}. It can take a few days
+            for us to receive your request. We’ll send you a confirmation letter
+            once we’ve processed your request.
+          </p>
+        }
+      />
       <ConfirmationSummary
         name="Supplemental Claim"
         downloadUrl={downloadUrl}
