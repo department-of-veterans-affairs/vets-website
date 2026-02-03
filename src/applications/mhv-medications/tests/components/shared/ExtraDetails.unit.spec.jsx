@@ -122,7 +122,7 @@ describe('Medications List Card Extra Details', () => {
       expect(
         await screen.findByTestId('active-no-refill-left'),
       ).to.contain.text(
-        'You can’t refill this prescription. If you need more, send a secure message to your care team',
+        'Contact your VA provider if you need more of this medication.',
       );
     });
   });
@@ -278,7 +278,7 @@ describe('Medications List Card Extra Details', () => {
         .exist;
     });
 
-    it('falls back to dispStatus logic when isRenewable is undefined', async () => {
+    it('uses dispStatus logic when isRenewable is undefined', async () => {
       const screen = setup({
         ...prescription,
         isRenewable: undefined,
@@ -289,7 +289,7 @@ describe('Medications List Card Extra Details', () => {
       expect(
         await screen.findByTestId('active-no-refill-left'),
       ).to.contain.text(
-        'You can’t refill this prescription. If you need more, send a secure message to your care team',
+        'Contact your VA provider if you need more of this medication.',
       );
     });
   });
