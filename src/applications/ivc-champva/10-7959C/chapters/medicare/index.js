@@ -21,7 +21,6 @@ import partBCardUpload from './partBCardUpload';
 import partBEffectiveDates from './partBEffectiveDates';
 import partCCardUpload from './partCCardUpload';
 import partCEffectiveDate from './partCEffectiveDate';
-import partCPharmacyBenefits from './partCPharmacyBenefits';
 import partDCardUpload from './partDCardUpload';
 import partDEffectiveDate from './partDEffectiveDate';
 import partDStatus from './partDStatus.rev2025';
@@ -113,12 +112,6 @@ export const medicarePagesRev2025 = {
     depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartC(formData),
     ...partCEffectiveDate,
   },
-  medicarePartCPharmacyBenefits: {
-    path: 'medicare-part-c-pharmacy-benefits',
-    title: 'Medicare Part C pharmacy benefits',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartC(formData),
-    ...partCPharmacyBenefits,
-  },
   medicarePartCCardUpload: {
     path: 'medicare-part-c-card',
     title: 'Medicare Part C card',
@@ -128,8 +121,7 @@ export const medicarePagesRev2025 = {
   medicarePartDStatus: {
     path: 'medicare-part-d-status',
     title: 'Medicare Part D status',
-    depends: formData =>
-      formData[REV2025_TOGGLE_KEY] && hasPartsABorC(formData),
+    depends: formData => formData[REV2025_TOGGLE_KEY] && hasMedicare(formData),
     ...partDStatus,
   },
   medicarePartDCarrierEffectiveDate: {

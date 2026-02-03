@@ -1,9 +1,18 @@
 /* eslint-disable no-console */
+import { formatPhone } from '../utils/helpers';
+
 export default function prefillTransformer(pages, formData, metadata, state) {
   const { user } = state || {};
   const { profile } = user || {};
   const { vapContactInfo } = profile || {};
-  const { mailingAddress } = vapContactInfo || {};
+  const {
+    mailingAddress,
+    email: profileEmail,
+    mobilePhone: profileMobilePhone,
+  } = vapContactInfo || {};
+  const phoneNumber = profileMobilePhone?.phoneNumber
+    ? `${profileMobilePhone.areaCode || ''}${profileMobilePhone.phoneNumber}`
+    : undefined;
   // Build the transformed form data at root level
   const transformedFormData = {
     // Preserve any existing form data
@@ -23,6 +32,10 @@ export default function prefillTransformer(pages, formData, metadata, state) {
         country: mailingAddress.countryCodeIso3 || 'USA',
       },
     }),
+    ...{
+      email: profileEmail?.emailAddress || '',
+      phoneNumber: phoneNumber ? formatPhone(phoneNumber) : '',
+    },
   };
 
   return {

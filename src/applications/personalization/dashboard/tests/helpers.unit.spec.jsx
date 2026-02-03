@@ -639,10 +639,10 @@ describe('profile helpers:', () => {
           'FORM 10182',
         );
         expect(presentableFormIDs[VA_FORM_IDS.FORM_1330M]).to.equal(
-          'FORM 1330M',
+          'FORM 40-1330M',
         );
         expect(presentableFormIDs[VA_FORM_IDS.FORM_1330M2]).to.equal(
-          'FORM 1330M2',
+          'FORM 40-1330M2',
         );
         expect(presentableFormIDs[VA_FORM_IDS.FORM_20_0995]).to.equal(
           'FORM 20-0995',

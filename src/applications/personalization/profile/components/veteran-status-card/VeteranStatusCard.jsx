@@ -16,7 +16,7 @@ const VeteranStatusCard = ({
         src="/img/design/seal/seal.png"
         alt="Seal of the U.S. Department of Veterans Affairs"
       />
-      <div className="vads-u-padding-left--2p5 vads-u-padding-right--2p5 vads-u-padding-bottom--2p5">
+      <div className="vads-u-padding-left--2p5 vads-u-padding-right--2p5 vads-u-padding-bottom--2p5 dd-privacy-mask">
         <h3>Name</h3>
         <p>{formattedFullName}</p>
         <h3>Latest period of service</h3>

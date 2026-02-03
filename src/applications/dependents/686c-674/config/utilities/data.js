@@ -471,13 +471,34 @@ function transformChildDeath(item) {
     deceasedDependentIncome: 'N',
     childStatus: {
       childUnder18: item.age < 18,
-      // assume disabled if over 23, we'll add a specific question later
+      // assume disabled if over 24, we'll add a specific question later
       // childOver18InSchool: true, // Can't assume this
-      disabled: item.age > 23,
+      disabled: item.age > 24,
       stepChild: item.isStepchild === 'Y',
       // adopted: null, // Optional field
     },
   };
+}
+
+/**
+ * Validates that SSN is exactly 9 digits
+ * @param {string} ssn - SSN to validate
+ * @returns {boolean} true if SSN is exactly 9 digits
+ */
+function isValidSSN(ssn) {
+  if (!ssn) return false;
+  const digitsOnly = String(ssn).replace(/\D/g, '');
+  return digitsOnly.length === 9;
+}
+
+/**
+ * Normalizes SSN to digits only (removes dashes and other formatting)
+ * @param {string} ssn - SSN to normalize
+ * @returns {string} SSN with only digits
+ */
+function normalizeSSN(ssn) {
+  if (!ssn) return '';
+  return String(ssn).replace(/\D/g, '');
 }
 
 /**
@@ -493,9 +514,8 @@ function transformSpouseDivorce(item) {
     other: 'Other',
   };
 
-  return {
+  const result = {
     fullName: item.fullName,
-    ssn: item.ssn,
     birthDate: item.dateOfBirth,
     date: item.endDate,
     // TODO: Should we support Other option or default to annulmentOrVoid
@@ -505,6 +525,13 @@ function transformSpouseDivorce(item) {
     // TODO: Confirm income field source - currently defaulting to 'N'
     spouseIncome: 'N',
   };
+
+  // Only include SSN if it's exactly 9 digits, and normalize to digits only
+  if (isValidSSN(item.ssn)) {
+    result.ssn = normalizeSSN(item.ssn);
+  }
+
+  return result;
 }
 
 /**
@@ -602,20 +629,6 @@ export function transformPicklistToV2(data) {
     return data;
   }
 
-  // Filter out items that should not be transformed
-  const itemsToTransform = selected.filter(
-    item =>
-      // Skip stepchild left household with financial support > 50% &
-      // Skip child not in school with permanent disability
-      !(
-        (item.isStepchild === 'Y' &&
-          item.removalReason === 'stepchildNotMember' &&
-          item.stepchildFinancialSupport === 'Y') ||
-        (item.removalReason === 'childNotInSchool' &&
-          item.childHasPermanentDisability === 'Y')
-      ),
-  );
-
   // Initialize V2 arrays
   const v2Data = {
     deaths: [],
@@ -638,7 +651,7 @@ export function transformPicklistToV2(data) {
     childAdopted: transformStepchildByFlag,
   };
 
-  itemsToTransform.forEach(item => {
+  selected.forEach(item => {
     const isStepchild = item.isStepchild === 'Y';
 
     // Get destination array from centralized routing
@@ -768,13 +781,13 @@ export function enrichDivorceWithSSN(data) {
     return namesMatch && birthDatesMatch;
   });
 
-  // If we found a match, add the SSN
-  if (matchingSpouse?.ssn) {
+  // If we found a match, add the SSN (only if it's exactly 9 digits, normalized to digits only)
+  if (matchingSpouse?.ssn && isValidSSN(matchingSpouse.ssn)) {
     return {
       ...data,
       reportDivorce: {
         ...reportDivorce,
-        ssn: matchingSpouse.ssn,
+        ssn: normalizeSSN(matchingSpouse.ssn),
       },
     };
   }

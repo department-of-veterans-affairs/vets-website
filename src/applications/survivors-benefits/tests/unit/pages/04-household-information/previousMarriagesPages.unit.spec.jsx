@@ -6,8 +6,10 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { previousMarriagesPages } from '../../../../config/chapters/04-household-information/previousMarriagesPages';
-import { options } from '../../fixtures/options-mocks/spouse-options';
+import {
+  previousMarriagesPages,
+  options,
+} from '../../../../config/chapters/04-household-information/previousMarriagesPages';
 
 describe('Previous marriages pages', () => {
   const {
@@ -30,7 +32,7 @@ describe('Previous marriages pages', () => {
   it('renders intro and summary only when spouse answered Yes to previous marriages', () => {
     // when recognizedAsSpouse true and hadPreviousMarriages true => should show
     const formData1 = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: true,
       hadPreviousMarriages: true,
     };
@@ -39,14 +41,14 @@ describe('Previous marriages pages', () => {
 
     // when not recognized as spouse and hadPreviousMarriages false => shouldn't show
     const formData2 = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: false,
       hadPreviousMarriages: false, // Answered NO
     };
     expect(previousMarriagesIntro.depends(formData2)).to.equal(false);
     expect(previousMarriagesSummary.depends(formData2)).to.equal(false);
 
-    // when claimantRelationship not SPOUSE => shouldn't show
+    // when claimantRelationship not SURVIVING_SPOUSE => shouldn't show
     const formData3 = {
       claimantRelationship: 'CHILD',
       recognizedAsSpouse: false,
@@ -57,7 +59,7 @@ describe('Previous marriages pages', () => {
 
     // when spouse has been married before => should show
     const formData4 = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: true,
       hadPreviousMarriages: true,
     };
@@ -68,7 +70,7 @@ describe('Previous marriages pages', () => {
   it('shows Previous Spouse Name page only when spouse answered Yes to previous marriages', () => {
     // when recognizedAsSpouse true and hadPreviousMarriages false => shouldn't show
     const formData1 = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: true,
       hadPreviousMarriages: false, // Answered NO
     };
@@ -77,13 +79,13 @@ describe('Previous marriages pages', () => {
 
     // when not recognized as spouse => shouldn't show
     const formData2 = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: false,
       hadPreviousMarriages: false,
     };
     expect(previousMarriageItemPage.depends(formData2)).to.be.false;
 
-    // when claimantRelationship not SPOUSE => shouldn't show
+    // when claimantRelationship not SURVIVING_SPOUSE => shouldn't show
     const formData3 = {
       claimantRelationship: 'CHILD',
       recognizedAsSpouse: false,
@@ -95,7 +97,7 @@ describe('Previous marriages pages', () => {
   it('shows Marriage Date and Location page only when spouse answered Yes to previous marriages', () => {
     // when recognizedAsSpouse true and hadPreviousMarriages false => shouldn't show
     const formData1 = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: true,
       hadPreviousMarriages: false,
     };
@@ -103,13 +105,13 @@ describe('Previous marriages pages', () => {
 
     // when not recognized as spouse => shouldn't show
     const formData2 = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: false,
       hadPreviousMarriages: false,
     };
     expect(previousMarriageDateAndLocationPage.depends(formData2)).to.be.false;
 
-    // when claimantRelationship not SPOUSE => shouldn't show
+    // when claimantRelationship not SURVIVING_SPOUSE => shouldn't show
     const formData3 = {
       claimantRelationship: 'CHILD',
       recognizedAsSpouse: false,
@@ -121,7 +123,7 @@ describe('Previous marriages pages', () => {
   it('shows Marriage End Reason page only when spouse answered Yes to previous marriages', () => {
     // when recognizedAsSpouse true and hadPreviousMarriages false => shouldn't show
     const formData1 = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: true,
       hadPreviousMarriages: false,
     };
@@ -129,13 +131,13 @@ describe('Previous marriages pages', () => {
 
     // when not recognized as spouse => shouldn't show
     const formData2 = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: false,
       hadPreviousMarriages: false,
     };
     expect(previousMarriageEndPage.depends(formData2)).to.be.false;
 
-    // when claimantRelationship not SPOUSE => shouldn't show
+    // when claimantRelationship not SURVIVING_SPOUSE => shouldn't show
     const formData3 = {
       claimantRelationship: 'CHILD',
       recognizedAsSpouse: false,
@@ -147,7 +149,7 @@ describe('Previous marriages pages', () => {
   it('shows Marriage End Date and Location page only when spouse answered Yes to previous marriages', () => {
     // when recognizedAsSpouse true and hadPreviousMarriages false => shouldn't show
     const formData1 = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: true,
       hadPreviousMarriages: false,
     };
@@ -156,14 +158,14 @@ describe('Previous marriages pages', () => {
 
     // when not recognized as spouse => shouldn't show
     const formData2 = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: false,
       hadPreviousMarriages: false,
     };
     expect(previousMarriageEndDateAndLocationPage.depends(formData2)).to.be
       .false;
 
-    // when claimantRelationship not SPOUSE => shouldn't show
+    // when claimantRelationship not SURVIVING_SPOUSE => shouldn't show
     const formData3 = {
       claimantRelationship: 'CHILD',
       recognizedAsSpouse: false,
@@ -176,10 +178,11 @@ describe('Previous marriages pages', () => {
   it('toggles state/country visibility and requiredness based on marriedOutsideUS', () => {
     const itemUi = findItemUi(previousMarriageDateAndLocationPage);
     expect(itemUi, 'marriage date/location item UI not found').to.exist;
-    const stateOptions = itemUi.marriageLocation.state['ui:options'];
-    const stateRequired = itemUi.marriageLocation.state['ui:required'];
-    const countryOptions = itemUi.marriageLocation.country['ui:options'];
-    const countryRequired = itemUi.marriageLocation.country['ui:required'];
+    const stateOptions = itemUi.locationOfMarriage.state['ui:options'];
+    const stateRequired = itemUi.locationOfMarriage.state['ui:required'];
+    const countryOptions = itemUi.locationOfMarriage.otherCountry['ui:options'];
+    const countryRequired =
+      itemUi.locationOfMarriage.otherCountry['ui:required'];
 
     const itemBornOutside = { spouseMarriages: [{ marriedOutsideUS: true }] };
     expect(stateOptions.hideIf(itemBornOutside, 0)).to.be.true;
@@ -197,14 +200,14 @@ describe('Previous marriages pages', () => {
   it("requires 'Tell us how the marriage ended' when reason is OTHER", () => {
     const endItemUi = findItemUi(previousMarriageEndPage);
     expect(endItemUi, 'marriage end item UI not found').to.exist;
-    const otherRequired = endItemUi.marriageEndOtherExplanation['ui:required'];
+    const otherRequired = endItemUi.separationExplanation['ui:required'];
     expect(otherRequired).to.be.a('function');
 
-    const itemOther = { spouseMarriages: [{ marriageEndReason: 'OTHER' }] };
+    const itemOther = { spouseMarriages: [{ reasonForSeparation: 'OTHER' }] };
     expect(Boolean(otherRequired(itemOther, 0))).to.be.true;
 
     const itemNotOther = {
-      spouseMarriages: [{ marriageEndReason: 'DIVORCE' }],
+      spouseMarriages: [{ reasonForSeparation: 'DIVORCE' }],
     };
     expect(Boolean(otherRequired(itemNotOther, 0))).to.be.false;
   });
@@ -284,7 +287,7 @@ describe('Previous marriages pages', () => {
     expect($('va-select[label="State"]', formDOM)).to.not.exist;
   });
 
-  it('does NOT show the "Tell us how the marriage ended" input when marriageEndReason is DIVORCE or DEATH', () => {
+  it('does NOT show the "Tell us how the marriage ended" input when reasonForSeparation is DIVORCE or DEATH', () => {
     const { previousMarriageEndPage: marriageEndPage } = previousMarriagesPages;
     const formData = {};
     const form = render(
@@ -314,52 +317,52 @@ describe('Previous marriages pages', () => {
 
   it('marks a previous marriage item incomplete when required fields are missing', () => {
     const completeItem = {
-      previousSpouseName: { first: 'John', last: 'Doe' },
-      marriageToVeteranDate: '2000-01-01',
-      marriageLocation: { city: 'Somewhere', state: 'VA' },
+      spouseFullName: { first: 'John', last: 'Doe' },
+      dateOfMarriage: '2000-01-01',
+      locationOfMarriage: { city: 'Somewhere', state: 'VA' },
       marriedOutsideUS: false,
-      marriageEndReason: 'DIVORCE',
+      reasonForSeparation: 'DIVORCE',
     };
 
     const missingFirstName = {
-      previousSpouseName: { first: '', last: 'Doe' },
-      marriageToVeteranDate: '2000-01-01',
-      marriageLocation: { city: 'Somewhere', state: 'VA' },
+      spouseFullName: { first: '', last: 'Doe' },
+      dateOfMarriage: '2000-01-01',
+      locationOfMarriage: { city: 'Somewhere', state: 'VA' },
       marriedOutsideUS: false,
-      marriageEndReason: 'DIVORCE',
+      reasonForSeparation: 'DIVORCE',
     };
 
     const missingLastName = {
-      previousSpouseName: { first: 'John', last: '' },
-      marriageToVeteranDate: '2000-01-01',
-      marriageLocation: { city: 'Somewhere', state: 'VA' },
+      spouseFullName: { first: 'John', last: '' },
+      dateOfMarriage: '2000-01-01',
+      locationOfMarriage: { city: 'Somewhere', state: 'VA' },
       marriedOutsideUS: false,
-      marriageEndReason: 'DIVORCE',
+      reasonForSeparation: 'DIVORCE',
     };
 
     const missingState = {
-      previousSpouseName: { first: 'John', last: 'Doe' },
-      marriageToVeteranDate: '2000-01-01',
-      marriageLocation: { city: 'Somewhere' }, // missing state when marriedOutsideUS false
+      spouseFullName: { first: 'John', last: 'Doe' },
+      dateOfMarriage: '2000-01-01',
+      locationOfMarriage: { city: 'Somewhere' }, // missing state when marriedOutsideUS false
       marriedOutsideUS: false,
-      marriageEndReason: 'DIVORCE',
+      reasonForSeparation: 'DIVORCE',
     };
 
     const missingCountry = {
-      previousSpouseName: { first: 'John', last: 'Doe' },
-      marriageToVeteranDate: '2000-01-01',
-      marriageLocation: { city: 'Somewhere' }, // missing country when marriedOutsideUS true
+      spouseFullName: { first: 'John', last: 'Doe' },
+      dateOfMarriage: '2000-01-01',
+      locationOfMarriage: { city: 'Somewhere' }, // missing country when marriedOutsideUS true
       marriedOutsideUS: true,
-      marriageEndReason: 'DIVORCE',
+      reasonForSeparation: 'DIVORCE',
     };
 
     const otherMissingExplanation = {
-      previousSpouseName: { first: 'John', last: 'Doe' },
-      marriageToVeteranDate: '2000-01-01',
-      marriageLocation: { city: 'Somewhere', state: 'VA' },
+      spouseFullName: { first: 'John', last: 'Doe' },
+      dateOfMarriage: '2000-01-01',
+      locationOfMarriage: { city: 'Somewhere', state: 'VA' },
       marriedOutsideUS: false,
-      marriageEndReason: 'OTHER',
-      marriageEndOtherExplanation: '',
+      reasonForSeparation: 'OTHER',
+      reasonForSeparationreasonForSeparationExplanation: '',
     };
 
     expect(options.isItemIncomplete(completeItem)).to.be.false;
@@ -389,7 +392,7 @@ describe('Previous marriages pages', () => {
   it('formats a previous spouse name for card titles using getItemName()', () => {
     const { text } = options;
     const completeName = {
-      previousSpouseName: {
+      spouseFullName: {
         first: 'Jane',
         middle: 'A.',
         last: 'Smith',
@@ -397,7 +400,7 @@ describe('Previous marriages pages', () => {
       },
     };
     const missingName = {
-      previousSpouseName: {
+      spouseFullName: {
         first: '',
         middle: 'A.',
         last: '',
@@ -405,7 +408,7 @@ describe('Previous marriages pages', () => {
       },
     };
     const emptyName = {
-      previousSpouseName: {
+      spouseFullName: {
         first: '',
         middle: '',
         last: '',
@@ -424,7 +427,7 @@ describe('Previous marriages pages', () => {
 
     // Partial-name cases: ensure missing parts are skipped and order preserved
     const lastOnly = {
-      previousSpouseName: {
+      spouseFullName: {
         first: '',
         middle: '',
         last: 'Smith',
@@ -434,7 +437,7 @@ describe('Previous marriages pages', () => {
     expect(text.getItemName(lastOnly)).to.equal('Smith');
 
     const firstOnly = {
-      previousSpouseName: {
+      spouseFullName: {
         first: 'Alex',
         middle: '',
         last: '',
@@ -444,7 +447,7 @@ describe('Previous marriages pages', () => {
     expect(text.getItemName(firstOnly)).to.equal('Alex');
 
     const middleAndLast = {
-      previousSpouseName: {
+      spouseFullName: {
         first: '',
         middle: 'A.',
         last: 'Johnson',
@@ -459,7 +462,7 @@ describe('Previous marriages pages', () => {
 
     // Full set of parts -> should join all in order
     const full = {
-      previousSpouseName: {
+      spouseFullName: {
         first: 'Jane',
         middle: 'B.',
         last: 'Doe',
@@ -470,7 +473,7 @@ describe('Previous marriages pages', () => {
 
     // Only first provided -> should return first
     const firstOnly = {
-      previousSpouseName: {
+      spouseFullName: {
         first: 'OnlyFirst',
         middle: '',
         last: '',
@@ -481,7 +484,7 @@ describe('Previous marriages pages', () => {
 
     // Only last provided -> should return last
     const lastOnly = {
-      previousSpouseName: {
+      spouseFullName: {
         first: '',
         middle: '',
         last: 'OnlyLast',
@@ -492,21 +495,21 @@ describe('Previous marriages pages', () => {
 
     // First missing AND last missing (even with middle & suffix) -> returns empty string
     const noFirstLast = {
-      previousSpouseName: { first: '', middle: 'X.', last: '', suffix: 'III' },
+      spouseFullName: { first: '', middle: 'X.', last: '', suffix: 'III' },
     };
     expect(text.getItemName(noFirstLast)).to.equal('');
 
-    // previousSpouseName completely missing -> returns ''
+    // spouseFullName completely missing -> returns ''
     const missingObject = {};
     expect(text.getItemName(missingObject)).to.equal('');
 
-    // previousSpouseName present but null -> returns ''
-    const nullObject = { previousSpouseName: null };
+    // spouseFullName present but null -> returns ''
+    const nullObject = { spouseFullName: null };
     expect(text.getItemName(nullObject)).to.equal('');
 
     // Parts order (first -> middle -> last -> suffix) maintained
     const partsOrder = {
-      previousSpouseName: {
+      spouseFullName: {
         first: 'Al',
         middle: 'Q.',
         last: 'Smith',
@@ -520,7 +523,7 @@ describe('Previous marriages pages', () => {
 
     // Mixed presence: first + suffix only
     const firstSuffix = {
-      previousSpouseName: { first: 'Eva', middle: '', last: '', suffix: 'III' },
+      spouseFullName: { first: 'Eva', middle: '', last: '', suffix: 'III' },
     };
     // Because last missing but first present, early return not triggered; suffix appended.
     expect(text.getItemName(firstSuffix)).to.equal('Eva III');

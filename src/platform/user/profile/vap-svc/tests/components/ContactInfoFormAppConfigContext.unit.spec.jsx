@@ -7,8 +7,8 @@ import sinon from 'sinon';
 import {
   createPutHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 import { setData } from 'platform/forms-system/exportsFile';
 import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
@@ -32,12 +32,6 @@ const createMockStore = initialState =>
     }
     return state;
   });
-
-const server = setupServer();
-
-before(() => server.listen());
-afterEach(() => server.resetHandlers());
-after(() => server.close());
 
 const defaultState = {
   form: {

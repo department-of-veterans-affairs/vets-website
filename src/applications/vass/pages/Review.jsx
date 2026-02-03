@@ -8,19 +8,27 @@ import {
   selectSelectedTopics,
   selectSelectedDate,
 } from '../redux/slices/formSlice';
+import { URLS } from '../utils/constants';
+import { isServerError, isAppointmentFailedError } from '../utils/errors';
 
 const Review = () => {
   const navigate = useNavigate();
-  const [postAppointment, { isLoading }] = usePostAppointmentMutation();
+  const [
+    postAppointment,
+    { isLoading, error: postAppointmentError },
+  ] = usePostAppointmentMutation();
   const selectedTopics = useSelector(selectSelectedTopics);
   const selectedDate = useSelector(selectSelectedDate);
   const handleConfirmCall = async () => {
     const res = await postAppointment({
-      topics: selectedTopics,
+      topics: selectedTopics.map(topic => topic.topicId),
       dtStartUtc: selectedDate,
       dtEndUtc: selectedDate,
     });
-    navigate(`/confirmation/${res.data.appointmentId}`);
+    if (res.error) {
+      return;
+    }
+    navigate(`${URLS.CONFIRMATION}/${res.data.appointmentId}`);
   };
 
   return (
@@ -28,6 +36,10 @@ const Review = () => {
       pageTitle="Review your VA Solid Start appointment details"
       testID="review-page"
       showBackLink
+      errorAlert={
+        isServerError(postAppointmentError) ||
+        isAppointmentFailedError(postAppointmentError)
+      }
     >
       <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
         <p
@@ -37,7 +49,7 @@ const Review = () => {
           Date and time
         </p>
         <Link
-          to="/date-time"
+          to={URLS.DATE_TIME}
           data-testid="date-time-edit-link"
           aria-label="Edit date and time"
         >
@@ -57,7 +69,7 @@ const Review = () => {
           Topic
         </p>
         <Link
-          to="/topic-selection"
+          to={URLS.TOPIC_SELECTION}
           data-testid="topic-edit-link"
           aria-label="Edit topic"
         >

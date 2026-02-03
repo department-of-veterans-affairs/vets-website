@@ -12,7 +12,11 @@ import {
   SUBTITLE,
   API_ENDPOINTS,
 } from '@bio-aquia/21-2680-house-bound-status/constants';
-import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components';
+import {
+  GetHelp,
+  preSubmitSignatureConfig,
+} from '@bio-aquia/21-2680-house-bound-status/components';
+import migrations from '@bio-aquia/21-2680-house-bound-status/config/migrations';
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
 import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
@@ -103,7 +107,8 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
+  migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -340,15 +345,7 @@ const formConfig = {
       },
     },
   },
-  preSubmitInfo: {
-    statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'veteranInformation.veteranFullName',
-    },
-  },
+  preSubmitInfo: preSubmitSignatureConfig,
 };
 
 export { formConfig };

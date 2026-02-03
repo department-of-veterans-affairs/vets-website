@@ -19,8 +19,8 @@ const YellowRibbonProgramTitle = ({ text, eligibilityChapter }) => {
   } ${isUsaSchool ? '(U.S. schools)' : '(foreign schools)'}`;
 
   return (
-    <legend className="schemaform-block-title yellow-ribbon-title vads-u-font-size--h3 vads-u-margin-top--0">
-      {eligibilityChapter ? eligibilityTitle : title}
+    <legend className="schemaform-block-title yellow-ribbon-title schemaform-block-subtitle">
+      <h3>{eligibilityChapter ? eligibilityTitle : title}</h3>
     </legend>
   );
 };

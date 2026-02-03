@@ -10,11 +10,7 @@ import * as page from '../../pages/eligibleIndividualsSupported';
 const createMockStore = (initialState = {}) => {
   return configureStore({
     reducer: {
-      form: (
-        state = initialState.form || {
-          data: {},
-        },
-      ) => state,
+      form: (state = initialState.form || { data: {} }) => state,
     },
     preloadedState: initialState,
   });
@@ -49,31 +45,10 @@ describe('Eligible Individuals Supported Page', () => {
       expect(page.uiSchema['ui:title']).to.be.a('function');
       expect(page.uiSchema['ui:description']).to.be.a('function');
     });
-
-    it('should render eligibleIndividualsGroup field with correct configuration', () => {
-      const formData = {
-        agreementType: 'newAgreement',
-      };
-      const { container } = renderPage(formData);
-
-      expect($('.eligible-individuals-note', container)).to.exist;
-      expect($('.container', container)).to.exist;
-    });
   });
 
   describe('Academic Year Field', () => {
-    it('should show academic year field when agreementType is not startNewOpenEndedAgreement', () => {
-      const formData = {
-        agreementType: 'newAgreement',
-      };
-
-      const { container } = renderPage(formData);
-
-      // The field should be visible (not hidden)
-      expect($('.vads-u-margin-bottom--2', container)).to.exist;
-    });
-
-    it('should hide academic year field when agreementType is startNewOpenEndedAgreement', () => {
+    it('should show academic year display, no input, when agreement type is new', () => {
       const formData = {
         agreementType: 'startNewOpenEndedAgreement',
       };
@@ -85,22 +60,6 @@ describe('Eligible Individuals Supported Page', () => {
       if (academicYearField) {
         expect(academicYearField.style.display).to.equal('none');
       }
-    });
-  });
-
-  describe('Form Validation', () => {
-    it('should require eligibleIndividuals when unlimitedIndividuals is false', () => {
-      const formData = {
-        agreementType: 'newAgreement',
-        eligibleIndividualsGroup: {
-          unlimitedIndividuals: false,
-          eligibleIndividuals: '',
-        },
-      };
-
-      const { container } = renderPage(formData);
-      const textInput = $('va-text-input', container);
-      expect(textInput.getAttribute('required')).to.equal('true');
     });
   });
 

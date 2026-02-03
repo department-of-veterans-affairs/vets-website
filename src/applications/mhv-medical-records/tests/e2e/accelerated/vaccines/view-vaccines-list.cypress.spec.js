@@ -21,9 +21,8 @@ describe('Medical Records View Vaccines', () => {
 
     // fix this
     const CARDS_PER_PAGE = 10;
-    cy.get(':nth-child(4) > [data-testid="record-list-item"]').should(
-      'have.length',
-      CARDS_PER_PAGE,
-    );
+    cy.get(
+      'ul.record-list-items.no-print [data-testid="record-list-item"]',
+    ).should('have.length', CARDS_PER_PAGE);
   });
 });

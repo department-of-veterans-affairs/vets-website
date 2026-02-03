@@ -79,6 +79,11 @@
   .schemaform-chapter-progress {
     display: none;
   }
+
+  .schemaform-sip-save-link {
+    display: none;
+  }
+
   .usa-input,
   input,
   va-text-input,
@@ -225,6 +230,12 @@
 }
 
 .form-21-0966 {
+  .form-review-panel-page-header-row {
+    va-button[text="Edit"] {
+      display: none;
+    }
+  }
+
   .form-review-panel-page {
     div[name="veteranInformationPageScrollElement"] {
       display: none;
@@ -276,12 +287,7 @@
 .form {
   &__icon {
     &--warning {
-      margin: 0 4px 0 10px;
-    }
-  }
-  &__itf-card {
-    &--date {
-      margin-left: 3px;
+      margin: 0 4px;
     }
   }
 }

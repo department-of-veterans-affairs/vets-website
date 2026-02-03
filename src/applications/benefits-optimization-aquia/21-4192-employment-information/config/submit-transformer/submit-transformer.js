@@ -272,6 +272,7 @@ const transformBenefitEntitlementPayments = data => {
   if (benefitEntitlement === 'no' || benefitEntitlement === false) {
     return {
       sickRetirementOtherBenefits: false,
+      remarks: remarks.remarks || null,
     };
   }
 

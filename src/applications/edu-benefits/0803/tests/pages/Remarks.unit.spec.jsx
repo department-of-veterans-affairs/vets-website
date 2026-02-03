@@ -19,7 +19,7 @@ describe('22-0803 remarks page', () => {
     const { container } = renderPage();
     expect(
       container.querySelector(
-        'va-textarea[label="Use this space to add any information you’d like to include"]',
+        'va-textarea[label="Use this space to add any information you’d like to include in your request"]',
       ),
     ).to.exist;
   });

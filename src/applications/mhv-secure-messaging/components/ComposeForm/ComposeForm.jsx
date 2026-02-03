@@ -10,6 +10,7 @@ import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   DowntimeNotification,
   externalServices,
@@ -103,6 +104,11 @@ const ComposeForm = props => {
   const [formPopulated, setFormPopulated] = useState(false);
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [isAutoSave, setIsAutoSave] = useState(true);
+  const initialTextareaValueRef = useRef(
+    draftInProgress?.body?.length ? draftInProgress.body : undefined,
+  );
+  const prefillClearedReportedRef = useRef(false);
+  const prefillEditedReportedRef = useRef(false);
 
   const recipientExists = useCallback(
     recipientId => {
@@ -160,6 +166,8 @@ const ComposeForm = props => {
             category: Categories.MEDICATIONS.value,
           }),
         );
+
+        recordEvent({ event: 'sm_editor_prefill_loaded' });
       }
     },
     [renewalPrescription, isRxRenewalDraft, rxError, dispatch],
@@ -296,6 +304,39 @@ const ComposeForm = props => {
   );
   const alertsList = useSelector(state => state.sm.alerts.alertList);
 
+  useEffect(
+    () => {
+      if (
+        initialTextareaValueRef.current === undefined &&
+        messageBody &&
+        messageBody.length > 0
+      ) {
+        initialTextareaValueRef.current = messageBody;
+      }
+    },
+    [messageBody],
+  );
+
+  const formattedSignature = useMemo(
+    () => {
+      return messageSignatureFormatter(signature);
+    },
+    [signature],
+  );
+
+  useEffect(
+    () => {
+      if (
+        initialTextareaValueRef.current === undefined &&
+        !messageBody &&
+        formattedSignature
+      ) {
+        initialTextareaValueRef.current = formattedSignature;
+      }
+    },
+    [formattedSignature, messageBody],
+  );
+
   const validMessageType = {
     SAVE: 'save',
     SEND: 'send',
@@ -325,13 +366,6 @@ const ComposeForm = props => {
       }
     },
     [categories, dispatch],
-  );
-
-  const formattedSignature = useMemo(
-    () => {
-      return messageSignatureFormatter(signature);
-    },
-    [signature],
   );
 
   const setUnsavedNavigationError = useCallback(
@@ -672,6 +706,10 @@ const ComposeForm = props => {
       } = checkMessageValidity(validMessageType.SAVE);
 
       if (type === 'manual') {
+        recordEvent({
+          event: 'cta-button-click',
+          'button-click-label': 'Save Draft',
+        });
         const getErrorType = () => {
           const hasAttachments = attachmentsRef.current.length > 0;
           const hasValidSignature =
@@ -869,13 +907,32 @@ const ComposeForm = props => {
   };
 
   const messageBodyHandler = e => {
-    setMessageBody(e.target.value);
+    const newValue = e.target.value;
+    if (
+      newValue === '' &&
+      !prefillClearedReportedRef.current &&
+      initialTextareaValueRef.current &&
+      initialTextareaValueRef.current.length > 0
+    ) {
+      recordEvent({ event: 'sm_editor_prefill_deleted' });
+      prefillClearedReportedRef.current = true;
+    }
+    if (
+      newValue !== '' &&
+      !prefillEditedReportedRef.current &&
+      initialTextareaValueRef.current !== undefined &&
+      initialTextareaValueRef.current !== newValue
+    ) {
+      recordEvent({ event: 'sm_editor_prefill_edited' });
+      prefillEditedReportedRef.current = true;
+    }
+    setMessageBody(newValue);
     dispatch(
       updateDraftInProgress({
-        body: e.target.value,
+        body: newValue,
       }),
     );
-    if (e.target.value) setBodyError('');
+    if (newValue) setBodyError('');
     setUnsavedNavigationError();
   };
 

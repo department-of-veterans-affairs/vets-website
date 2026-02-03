@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 // use this file to mock api responses for local development
-// yarn mock-api --responses ./src/applications/ivc-champva/10-7959c/tests/e2e/fixtures/mocks/local-mock-responses.js
+// yarn mock-api --responses ./src/applications/ivc-champva/10-7959C/tests/e2e/fixtures/mocks/local-mock-responses.js
 const mockUser = require('./user.json');
 const mockFeatureToggles = require('./featureToggles.json');
 const mockSipPut = require('./sip-put.json');
