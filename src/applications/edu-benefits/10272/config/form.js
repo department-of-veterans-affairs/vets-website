@@ -105,7 +105,7 @@ const formConfig = {
             dateOfBirth: { show: true, required: false },
           },
           dataAdapter: {
-            ssnPath: 'vaFileNumber',
+            ssnPath: 'ssn',
           },
         }),
         payeeNumber: {
