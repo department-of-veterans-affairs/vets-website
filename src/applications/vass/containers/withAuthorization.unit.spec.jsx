@@ -239,7 +239,7 @@ describe('VASS Containers: withAuthorization', () => {
       setupValidToken();
       const savedData = {
         uuid: 'saved-uuid',
-        lastname: 'SavedName',
+        lastName: 'SavedName',
         dob: '1990-01-01',
       };
       loadFormDataFromStorageStub.returns(savedData);

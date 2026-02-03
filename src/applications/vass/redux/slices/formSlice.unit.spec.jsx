@@ -216,7 +216,7 @@ describe('formSlice', () => {
         expect(actual.selectedTopics).to.deep.equal([]);
         expect(actual.obfuscatedEmail).to.be.null;
         expect(actual.uuid).to.be.null;
-        expect(actual.lastname).to.be.null;
+        expect(actual.lastName).to.be.null;
         expect(actual.dob).to.be.null;
         expect(actual.flowType).to.equal(FLOW_TYPES.ANY);
       });
@@ -229,7 +229,7 @@ describe('formSlice', () => {
         expect(actual.selectedTopics).to.deep.equal([]);
         expect(actual.obfuscatedEmail).to.be.null;
         expect(actual.uuid).to.be.null;
-        expect(actual.lastname).to.be.null;
+        expect(actual.lastName).to.be.null;
         expect(actual.dob).to.be.null;
         expect(actual.flowType).to.equal(FLOW_TYPES.ANY);
       });
@@ -359,15 +359,15 @@ describe('formSlice', () => {
     });
 
     describe('selectLastName', () => {
-      it('should select the lastname from state', () => {
-        const state = createRootFormState({ lastname: 'Doe' });
-        const result = selectLastname(state);
+      it('should select the lastName from state', () => {
+        const state = createRootFormState({ lastName: 'Doe' });
+        const result = selectLastName(state);
         expect(result).to.equal('Doe');
       });
 
-      it('should return null when no lastname is set', () => {
+      it('should return null when no lastName is set', () => {
         const state = createRootFormState();
-        const result = selectLastname(state);
+        const result = selectLastName(state);
         expect(result).to.be.null;
       });
     });

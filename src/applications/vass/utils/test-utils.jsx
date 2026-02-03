@@ -12,42 +12,10 @@ import { useLocation } from 'react-router-dom-v5-compat';
 import reducers from '../redux/reducers';
 
 import { vassApi } from '../redux/api/vassApi';
-import { FLOW_TYPES } from './constants';
+import { defaultFormState, createRootFormState } from './form';
 
-/**
- * @typedef {{ topicId: string, topicName: string }} Topic
- */
-
-/**
- * @typedef {Object} VassFormState
- * @property {boolean} hydrated - Whether the form state has been hydrated from storage
- * @property {{ dtStartUtc: string | null, dtEndUtc: string | null }} selectedSlot - The selected appointment slot
- * @property {Topic[]} selectedTopics - Array of selected discussion topics
- * @property {string | null} obfuscatedEmail - Partially hidden email for display
- * @property {string | null} uuid - Unique identifier from the appointment URL
- * @property {string | null} lastName - User's last name for verification
- * @property {string | null} dob - User's date of birth for verification (YYYY-MM-DD)
- * @property {'schedule'|'cancel'|'any'} flowType - The current user flow type
- */
-
-/**
- * Default initial state for vassForm slice.
- * This mirrors the initialState defined in formSlice.js
- * @type {VassFormState}
- */
-export const defaultVassFormState = {
-  hydrated: false,
-  selectedSlot: {
-    dtStartUtc: null,
-    dtEndUtc: null,
-  },
-  selectedTopics: [],
-  obfuscatedEmail: null,
-  uuid: null,
-  lastName: null,
-  dob: null,
-  flowType: FLOW_TYPES.ANY,
-};
+// Re-export for backwards compatibility
+export const defaultVassFormState = defaultFormState;
 
 /**
  * Default initial state for scheduledDowntime slice.
@@ -97,7 +65,7 @@ export const getDefaultRenderOptions = (
 ) => ({
   initialState: {
     vassForm: {
-      ...defaultVassFormState,
+      ...defaultFormState,
       ...vassFormOverrides,
     },
     scheduledDowntime: {
@@ -158,27 +126,8 @@ export const TestComponent = () => (
   <div data-testid="test-component">Test Content</div>
 );
 
-/**
- * Creates root state object for testing selectors.
- * Wraps vassForm state in the expected root state structure.
- *
- * @param {Object} overrides - Override values for vassForm state fields
- * @returns {Object} Root state with vassForm slice
- *
- * @example
- * // Basic usage with defaults
- * const state = createVassFormRootState();
- *
- * @example
- * // With overrides
- * const state = createVassFormRootState({
- *   selectedDate: '2025-01-15T10:00:00.000Z',
- *   hydrated: true,
- * });
- */
-export const createVassFormRootState = (overrides = {}) => ({
-  vassForm: { ...defaultVassFormState, ...overrides },
-});
+// Re-export for backwards compatibility
+export const createVassFormRootState = createRootFormState;
 
 // Re-export commonly used items for convenience
 export { reducers, vassApi };

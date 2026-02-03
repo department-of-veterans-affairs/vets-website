@@ -47,7 +47,7 @@ describe('VASS Containers: withFormData', () => {
     it('should render the wrapped component', () => {
       const WrappedComponent = withFormData(TestComponent, [
         'uuid',
-        'lastname',
+        'lastName',
         'dob',
       ]);
 
@@ -56,7 +56,7 @@ describe('VASS Containers: withFormData', () => {
         getDefaultRenderOptions({
           hydrated: true,
           uuid: 'test-uuid',
-          lastname: 'Smith',
+          lastName: 'Smith',
           dob: '1990-01-01',
         }),
       );
@@ -251,7 +251,7 @@ describe('VASS Containers: withFormData', () => {
     it('should attempt to hydrate from sessionStorage when not hydrated and data is missing', async () => {
       const savedData = {
         uuid: 'saved-uuid',
-        lastname: 'SavedName',
+        lastName: 'SavedName',
         dob: '1990-01-01',
       };
       loadFormDataFromStorageStub.returns(savedData);

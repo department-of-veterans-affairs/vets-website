@@ -50,7 +50,7 @@ export const defaultFormState = {
   selectedTopics: [],
   obfuscatedEmail: null,
   uuid: null,
-  lastname: null,
+  lastName: null,
   dob: null,
   flowType: FLOW_TYPES.ANY,
 };
