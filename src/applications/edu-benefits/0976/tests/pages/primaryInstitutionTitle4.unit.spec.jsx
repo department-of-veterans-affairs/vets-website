@@ -69,7 +69,7 @@ describe('22-0976 institution title 4 page', () => {
       const validator =
         page.uiSchema.institutionProfile.opeidNumber['ui:validations'][1];
       validator(errors, 'cr$A&y degree', {});
-      expect(errors.message).to.eq('No special characters allowed');
+      expect(errors.message).to.eq('Enter a valid OPEID');
     });
   });
 });

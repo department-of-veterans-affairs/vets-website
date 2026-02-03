@@ -38,8 +38,8 @@ export default {
         'ui:validations': [
           validateWhiteSpace,
           (errors, fieldData, _formData) => {
-            if (fieldData && !/^[\w\s]*$/.test(fieldData)) {
-              errors.addError('No special characters allowed');
+            if (fieldData && !/^[A-Za-z0-9]{8}$/.test(fieldData)) {
+              errors.addError('Enter a valid OPEID');
             }
           },
         ],
@@ -55,7 +55,8 @@ export default {
           participatesInTitleIv: yesNoSchema,
           opeidNumber: {
             ...textSchema,
-            maxLength: 500,
+            minLength: 8,
+            maxLength: 8,
           },
         },
         required: ['participatesInTitleIv'],
