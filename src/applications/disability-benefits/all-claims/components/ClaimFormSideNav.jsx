@@ -115,7 +115,7 @@ export default function ClaimFormSideNav({
   return (
     <VaSidenav
       ref={sidenavRef}
-      header="Select a step"
+      header="Form steps"
       icon-background-color="vads-color-link"
       icon-name="description"
       id="default-sidenav"
