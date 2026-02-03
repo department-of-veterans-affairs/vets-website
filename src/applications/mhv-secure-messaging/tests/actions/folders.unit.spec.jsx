@@ -278,12 +278,31 @@ describe('folders actions', () => {
     });
   });
 
+  it('should NOT dispatch success alert when suppressAlert=true on renameFolder', async () => {
+    const store = mockStore();
+    mockApiRequest(newFolderResponse);
+    const newFolderName = 'New folder name';
+    await store.dispatch(renameFolder(1234, newFolderName, true)).then(() => {
+      const actions = store.getActions();
+      // Should NOT include a success alert when suppressAlert=true
+      const successAlerts = actions.filter(
+        action =>
+          action.type === Actions.Alerts.ADD_ALERT &&
+          action.payload?.alertType === 'success',
+      );
+      expect(successAlerts).to.have.lengthOf(0);
+    });
+  });
+
   it('should dispatch error on renameFolder action if name exists', async () => {
     const store = mockStore();
 
     mockFetch({ ...folderExistsResponse }, false);
     const newFolderName = 'New folder name';
-    await store.dispatch(renameFolder(1234, newFolderName)).then(() => {
+    try {
+      await store.dispatch(renameFolder(1234, newFolderName));
+      expect.fail('Expected renameFolder to throw an error');
+    } catch (e) {
       expect(store.getActions()).to.deep.include({
         type: Actions.Alerts.ADD_ALERT,
         payload: {
@@ -296,7 +315,7 @@ describe('folders actions', () => {
           response: undefined,
         },
       });
-    });
+    }
   });
 
   it('should dispatch error on renameFolder unsuccessful action', async () => {
@@ -304,7 +323,10 @@ describe('folders actions', () => {
 
     mockFetch({ ...errorResponse }, false);
     const newFolderName = 'New folder name';
-    await store.dispatch(renameFolder(1234, newFolderName)).then(() => {
+    try {
+      await store.dispatch(renameFolder(1234, newFolderName));
+      expect.fail('Expected renameFolder to throw an error');
+    } catch (e) {
       expect(store.getActions()).to.deep.include({
         type: Actions.Alerts.ADD_ALERT,
         payload: {
@@ -317,6 +339,6 @@ describe('folders actions', () => {
           response: undefined,
         },
       });
-    });
+    }
   });
 });

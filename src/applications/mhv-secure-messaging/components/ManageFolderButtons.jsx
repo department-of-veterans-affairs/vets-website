@@ -41,6 +41,17 @@ const ManageFolderButtons = props => {
     }
   }, []);
 
+  // Reset local state when navigating to a different folder
+  useEffect(
+    () => {
+      setShowRenameSuccess(false);
+      setIsEditExpanded(false);
+      setFolderName('');
+      setNameWarning('');
+    },
+    [folder?.folderId],
+  );
+
   useEffect(
     () => {
       if (alertStatus) {
@@ -133,15 +144,20 @@ const ManageFolderButtons = props => {
       } else if (folderMatch.length > 0) {
         setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
       } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-        // Pass suppressAlert=true to prevent global alert, we show inline alert instead
-        await dispatch(renameFolder(folder.folderId, folderName, true));
-        setIsEditExpanded(false);
-        setFolderName('');
-        setNameWarning('');
-        setShowRenameSuccess(true);
-        // Per accessibility guidance: leave focus on triggering control (Edit button)
-        // The slim alert with role="status" will announce the success message
-        focusElement(editFolderButtonRef.current);
+        try {
+          // Pass suppressAlert=true to prevent global alert, we show inline alert instead
+          await dispatch(renameFolder(folder.folderId, folderName, true));
+          setIsEditExpanded(false);
+          setFolderName('');
+          setNameWarning('');
+          setShowRenameSuccess(true);
+          // Per accessibility guidance: leave focus on triggering control (Edit button)
+          // The slim alert with role="status" will announce the success message
+          focusElement(editFolderButtonRef.current);
+        } catch (error) {
+          // If rename fails, keep form open - global error alert will be shown by action
+          datadogRum.addError(error, { action: 'renameFolder' });
+        }
       } else {
         setNameWarning(
           ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
@@ -163,6 +179,7 @@ const ManageFolderButtons = props => {
               status="success"
               slim
               closeable
+              closeBtnAriaLabel="Close notification"
               onCloseEvent={() => setShowRenameSuccess(false)}
               className="vads-u-margin-bottom--2"
               role="status"

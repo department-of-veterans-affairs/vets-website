@@ -165,6 +165,7 @@ export const renameFolder = (
         ),
       );
     }
+    return true; // Indicate success to caller
   } catch (e) {
     sendDatadogError(e, 'action_folders_getFolders');
     if (e.errors && e.errors.length > 0 && e.errors[0].code === 'SM126') {
@@ -184,5 +185,6 @@ export const renameFolder = (
         ),
       );
     }
+    throw e; // Re-throw so component can handle error state
   }
 };
