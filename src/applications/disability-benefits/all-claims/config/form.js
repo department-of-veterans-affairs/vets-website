@@ -708,6 +708,7 @@ const formConfig = {
             formData.disability526SupportingEvidenceEnhancement,
           uiSchema: evidenceChoiceUploadPage.uiSchema,
           schema: evidenceChoiceUploadPage.schema,
+        },
         evidenceChoiceIntro: {
           title:
             'Supporting documents and additional forms for your disability claim',
