@@ -265,7 +265,8 @@ export default class AutosuggestField extends React.Component {
 
             return item.label;
           }}
-          render={({
+        >
+          {({
             getInputProps,
             getItemProps,
             isOpen,
@@ -310,7 +311,7 @@ export default class AutosuggestField extends React.Component {
               )}
             </div>
           )}
-        />
+        </Downshift>
         <div className="desiredCemeteryNote">
           <div className="desiredCemeteryNoteTitle">
             <a

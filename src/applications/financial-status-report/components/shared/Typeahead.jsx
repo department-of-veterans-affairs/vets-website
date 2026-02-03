@@ -140,8 +140,9 @@ const Typeahead = ({ uiSchema, idSchema, formData, onChange, onBlur }) => {
       selectedItem={input}
       onOuterClick={handleBlur}
       itemToString={item => (typeof item === 'string' ? item : item.label)}
-      render={data => renderOptions(data)}
-    />
+    >
+      {data => renderOptions(data)}
+    </Downshift>
   );
 };
 
