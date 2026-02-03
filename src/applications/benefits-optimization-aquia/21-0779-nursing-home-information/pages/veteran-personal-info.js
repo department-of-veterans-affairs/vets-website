@@ -35,7 +35,7 @@ export const veteranPersonalInfoUiSchema = {
       const patientIsVeteran = isPatientVeteran(data);
 
       const subtitle = patientIsVeteran
-        ? 'Tell us about the veteran in the nursing home'
+        ? 'Tell us about the Veteran in the nursing home'
         : 'Tell us about the Veteran who is connected to the patient';
 
       return {

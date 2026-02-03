@@ -201,6 +201,8 @@ class CCServiceTypeAhead extends Component {
           inputValue,
           highlightedIndex,
         }) => {
+          const showExpanded =
+            isOpen && inputValue && MIN_SEARCH_CHARS <= inputValue.length;
           return (
             <div
               id="service-error"
@@ -211,13 +213,13 @@ class CCServiceTypeAhead extends Component {
               <label {...getLabelProps()} htmlFor="service-type-ahead-input">
                 Service type{' '}
                 <span className="form-required-span">(*Required)</span>
+                {this.props.useProgressiveDisclosure && (
+                  <span className="usa-hint">
+                    Start typing to search for a service, like Chiropractor or
+                    Optometrist.
+                  </span>
+                )}
               </label>
-              {this.props.useProgressiveDisclosure && (
-                <p className="service-hint-text">
-                  Start typing to search for a service, like Chiropractor or
-                  Optometrist.
-                </p>
-              )}
               {showError && (
                 <span className="usa-input-error-message" role="alert">
                   <span id="error-message">
@@ -242,14 +244,12 @@ class CCServiceTypeAhead extends Component {
                   }}
                   id="service-type-ahead-input"
                   aria-describedby="could-not-find-service-prompt error-message"
-                  aria-expanded={isOpen}
+                  aria-expanded={showExpanded ? 'true' : 'false'}
                   aria-controls="service-typeahead-listbox"
                 />
 
                 {this.renderSearchForAvailableServicePrompt(inputValue)}
-                {isOpen &&
-                  inputValue &&
-                  inputValue.length >= MIN_SEARCH_CHARS &&
+                {showExpanded &&
                   this.renderServiceTypeDropdownOptions(
                     getItemProps,
                     highlightedIndex,

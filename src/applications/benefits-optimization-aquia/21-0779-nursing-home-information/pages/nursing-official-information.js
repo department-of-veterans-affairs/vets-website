@@ -48,7 +48,7 @@ export const nursingOfficialInformationSchema = {
         fullName: firstNameLastNameNoSuffixSchema,
         jobTitle: {
           type: 'string',
-          maxLength: 100,
+          maxLength: 65,
         },
         phoneNumber: phoneSchema,
       },
