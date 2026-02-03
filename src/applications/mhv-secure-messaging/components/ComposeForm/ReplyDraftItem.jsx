@@ -235,7 +235,7 @@ const ReplyDraftItem = props => {
       debouncedMessageBody,
       messageBody,
       fieldsString,
-      attachments.length,
+      attachments,
       setNavigationError,
       setSavedDraft,
       setLastFocusableElement,
