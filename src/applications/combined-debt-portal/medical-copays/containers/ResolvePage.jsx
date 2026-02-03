@@ -34,8 +34,8 @@ const ResolvePage = ({ match }) => {
   const title = `Resolve your copay bill`;
 
   const facilityName = shouldShowVHAPaymentHistory
-    ? selectedCopay.attributes.facility ||
-      getMedicalCenterNameByID(selectedCopay.attributes.facility)
+    ? selectedCopay.attributes.facility.name ||
+      getMedicalCenterNameByID(selectedCopay.attributes.facility.name)
     : selectedCopay.station.facilityName ||
       getMedicalCenterNameByID(selectedCopay.station.facilityNum);
 
