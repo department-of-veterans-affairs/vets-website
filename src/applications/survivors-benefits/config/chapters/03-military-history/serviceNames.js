@@ -12,10 +12,6 @@ function checkIsItemIncomplete(item) {
   return !item?.otherServiceName?.first || !item?.otherServiceName?.last;
 }
 
-const updatedFullNameSchema = fullNameSchema;
-updatedFullNameSchema.properties.first.maxLength = 12;
-updatedFullNameSchema.properties.last.maxLength = 18;
-
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'veteranPreviousNames',
@@ -128,7 +124,7 @@ const otherServiceNamePage = {
   schema: {
     type: 'object',
     properties: {
-      otherServiceName: updatedFullNameSchema,
+      otherServiceName: fullNameSchema,
     },
     required: ['otherServiceName'],
   },
