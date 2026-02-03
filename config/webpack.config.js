@@ -60,10 +60,8 @@ const globalEntryFiles = {
   vendor: sharedModules,
   // This is to solve the issue of the vendor file being cached
   'shared-modules': sharedModules,
-  'web-components': {
-    import: '@department-of-veterans-affairs/platform-site-wide/wc-loader',
-    dependOn: 'vendor',
-  },
+  'web-components':
+    '@department-of-veterans-affairs/platform-site-wide/wc-loader',
 };
 
 function getEntryManifests(entry) {

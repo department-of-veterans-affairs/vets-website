@@ -58,3 +58,4 @@ export {
   default as MhvAlertConfirmEmail,
   ProfileAlertConfirmEmail,
 } from './components/MhvAlertConfirmEmail';
+export { useBreadcrumbFocus } from './hooks/useBreadcrumbFocus';
