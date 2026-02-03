@@ -12,30 +12,15 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
-  recipientTypeLabels,
   typeOfIncomeLabels,
+  incomeRecipientTypeLabels,
 } from '../../../../utils/labels';
-
-const {
-  SURVIVING_SPOUSE,
-  VETERANS_CHILD,
-  CUSTODIAN,
-  CUSTODIAN_SPOUSE,
-} = recipientTypeLabels;
-
-// specific income recipient labels for gross income per figma design
-export const incomeRecipients = {
-  SURVIVING_SPOUSE,
-  VETERANS_CHILD,
-  CUSTODIAN,
-  CUSTODIAN_SPOUSE,
-};
 
 const grossDescription = () => (
   <div>
     <p>
       Next we’ll ask you the gross monthly income you and your dependents
-      receive. You’ll need to add at least 1 income source and can add up to 4.
+      receive. You can add up to 4 income sources.
     </p>
 
     <p>
@@ -161,16 +146,16 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
         ...titleUI('Gross monthly income details'),
         recipient: radioUI({
           title: 'Who receives this income?',
-          labels: incomeRecipients,
+          labels: incomeRecipientTypeLabels,
         }),
         recipientName: textUI({
           title: 'Full name of the person who receives this income',
           expandUnder: 'recipient',
-          expandUnderCondition: field => field === 'OTHER',
+          expandUnderCondition: field => field === 'CHILD',
           required: (formData, index, fullData) => {
             const items = formData?.incomeEntries ?? fullData?.incomeEntries;
             const item = items?.[index];
-            return item?.recipient === 'OTHER';
+            return item?.recipient === 'CHILD';
           },
         }),
         incomeType: radioUI({
@@ -202,7 +187,7 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
         type: 'object',
         required: ['recipient', 'incomeType', 'incomePayer', 'monthlyIncome'],
         properties: {
-          recipient: radioSchema(Object.keys(incomeRecipients)),
+          recipient: radioSchema(Object.keys(incomeRecipientTypeLabels)),
           recipientName: { type: 'string' },
           incomeType: radioSchema(Object.keys(typeOfIncomeLabels)),
           incomePayer: { type: 'string' },

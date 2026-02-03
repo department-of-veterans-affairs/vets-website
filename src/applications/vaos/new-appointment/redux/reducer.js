@@ -119,6 +119,7 @@ const initialState = {
   fetchRecentLocationStatus: FETCH_STATUS.notStarted,
   isAppointmentSelectionError: false,
   ehr: null,
+  backendServiceFailures: null,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -137,6 +138,7 @@ function resetFormDataOnChange(state, data) {
   let newPatientProviderRelationshipsStatus =
     state.patientProviderRelationshipsStatus;
   let newPatientProviderRelationships = state.patientProviderRelationships;
+  let newBackendServiceFailures = state.backendServiceFailures;
   let newData = data;
 
   // Reset form data if typeOfCare has changed
@@ -170,6 +172,7 @@ function resetFormDataOnChange(state, data) {
     newData = unset('selectedProvider', newData);
     newPatientProviderRelationships = [];
     newPatientProviderRelationshipsStatus = FETCH_STATUS.notStarted;
+    newBackendServiceFailures = null;
   }
 
   return {
@@ -177,6 +180,7 @@ function resetFormDataOnChange(state, data) {
     newData,
     newPatientProviderRelationshipsStatus,
     newPatientProviderRelationships,
+    newBackendServiceFailures,
   };
 }
 
@@ -702,7 +706,9 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         patientProviderRelationshipsStatus: FETCH_STATUS.succeeded,
-        patientProviderRelationships: action.patientProviderRelationships,
+        patientProviderRelationships:
+          action.relationships?.patientProviderRelationships,
+        backendServiceFailures: action.relationships?.backendServiceFailures,
       };
     case FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED:
       return {

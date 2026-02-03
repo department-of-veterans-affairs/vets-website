@@ -1,73 +1,13 @@
 import { add } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
-import { parseDateToDateObj, toUTCStartOfDay } from './dates';
+import {
+  formatDatePart,
+  formatDateWithMidnight,
+  formatDateWithTime,
+  getCurrentTimeZoneAbbr,
+  parseDateToDateObj,
+  toUTCStartOfDay,
+} from './dates';
 import { FORMAT_YMD_DATE_FNS } from '../constants';
-
-const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-/**
- * Get the current timezone abbreviation (e.g., "PST", "EST", "JST")
- * Uses date-fns-tz to properly handle DST (EDT vs EST, PDT vs PST, etc.)
- * @returns {string} Timezone abbreviation
- */
-const getCurrentTimeZoneAbbr = () => {
-  const timezone = USER_TIMEZONE;
-  const now = new Date();
-
-  return formatInTimeZone(now, timezone, 'zzz');
-};
-
-/**
- * Helper: Format date part in readable format
- * @param {Date} date - Date to format
- * @param {string} timezone - Target timezone (defaults to user's current timezone)
- * @returns {string} Formatted date (e.g., "January 15, 2024")
- */
-const formatDatePart = (date, timezone = USER_TIMEZONE) => {
-  return formatInTimeZone(date, timezone, 'MMMM d, yyyy');
-};
-
-/**
- * Helper: Format time part in readable format
- * @param {Date} date - Date to format
- * @param {string} timezone - Target timezone (defaults to user's current timezone)
- * @returns {string} Formatted time (e.g., "3:45 p.m.")
- */
-const formatTimePart = (date, timezone = USER_TIMEZONE) => {
-  // Use date-fns-tz to format time with proper AM/PM formatting
-  const timeString = formatInTimeZone(date, timezone, 'h:mm a');
-  // Convert "AM" to "a.m." and "PM" to "p.m." to match VA style guide
-  return timeString.replace(/AM/g, 'a.m.').replace(/PM/g, 'p.m.');
-};
-
-/**
- * Helper: Format date with midnight in local timezone
- * E.g., in California (UTC-8), if decision was today, UTC midnight tomorrow converts to 5:00 p.m. today
- * Business decision: Don't allow same-day appeals, so we show stable "12:00 a.m. tomorrow" format
- * @param {Date} date - Date to format
- * @param {string} timezoneAbbr - Timezone abbreviation (optional, will be determined automatically)
- * @returns {string} Formatted date with midnight time
- */
-const formatDateWithMidnight = (date, timezoneAbbr) => {
-  const userTimezone = USER_TIMEZONE;
-  const abbr = timezoneAbbr || getCurrentTimeZoneAbbr();
-  return `${formatDatePart(date, userTimezone)}, 12:00 a.m. ${abbr}`;
-};
-
-/**
- * Helper: Format date with specific time in local timezone
- * Used for showing UTC conversion times, e.g., in Japan (UTC+9), UTC midnight becomes 9:00 a.m. JST
- * @param {Date} date - Date to format
- * @param {string} timezoneAbbr - Timezone abbreviation (optional, will be determined automatically)
- * @returns {string} Formatted date with specific time
- */
-const formatDateWithTime = (date, timezoneAbbr) => {
-  const userTimezone = USER_TIMEZONE;
-  const abbr = timezoneAbbr || getCurrentTimeZoneAbbr();
-  const datePart = formatDatePart(date, userTimezone);
-  const timePart = formatTimePart(date, userTimezone);
-  return `${datePart}, ${timePart} ${abbr}`;
-};
 
 /**
  * Helper: Extract decision date from contestable issue object
