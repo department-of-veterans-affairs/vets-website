@@ -114,6 +114,7 @@ export function lazyWithRetry(importFn, config = {}) {
   );
 }
 
+// Export for testing - allows direct testing of retry logic without React rendering
 export { loadWithRetry, isChunkLoadError, calculateDelay };
 
 export default lazyWithRetry;
