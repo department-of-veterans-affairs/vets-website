@@ -96,7 +96,7 @@ const IntroductionPage = () => {
         <h1>{title}</h1>
         {complexClaimsToggle &&
           appointment?.isOutOfBounds && (
-            <div className="vads-u-margin-y--3">
+            <div className="vads-u-margin-top--4 vads-u-margin-bottom--3">
               <OutOfBoundsAppointmentAlert />
             </div>
           )}
