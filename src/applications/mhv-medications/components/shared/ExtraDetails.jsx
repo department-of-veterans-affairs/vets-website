@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import { VaIcon } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
+import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import {
+  dateFormat,
+  rxSourceIsNonVA,
+  isOracleHealthPrescription,
+} from '../../util/helpers';
 import {
   DATETIME_FORMATS,
   dispStatusObj,
@@ -22,9 +27,10 @@ import {
 const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
   const { dispStatus, refillRemaining } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
+  const cernerFacilityIds = useSelector(selectCernerFacilityIds);
   const noRefillRemaining =
     refillRemaining === 0 && dispStatus === DISPENSE_STATUS.ACTIVE;
-
+  const isOracleHealth = isOracleHealthPrescription(rx, cernerFacilityIds);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
   const useV2Status = isCernerPilot && isV2StatusMapping;
@@ -63,6 +69,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
             <SendRxRenewalMessage
               rx={rx}
               showFallBackContent={showRenewalLink}
+              isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
                   <VaIcon size={3} icon="acute" aria-hidden="true" />
@@ -107,6 +114,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
               <SendRxRenewalMessage
                 rx={rx}
                 showFallBackContent={showRenewalLink}
+                isOracleHealth={isOracleHealth}
               />
             </div>
           );
@@ -120,6 +128,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
             <SendRxRenewalMessage
               rx={rx}
               showFallBackContent={showRenewalLink}
+              isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
                   <p className="vads-u-margin-y--0" data-testid="inactive">
@@ -189,6 +198,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
             <SendRxRenewalMessage
               rx={rx}
               showFallBackContent={showRenewalLink}
+              isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
                   <VaIcon size={3} icon="acute" aria-hidden="true" />
@@ -227,6 +237,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
             <SendRxRenewalMessage
               rx={rx}
               showFallBackContent={showRenewalLink}
+              isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
                   <VaIcon size={3} icon="fact_check" aria-hidden="true" />
@@ -260,6 +271,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
             <SendRxRenewalMessage
               rx={rx}
               showFallBackContent={showRenewalLink}
+              isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
                   <p className="vads-u-margin-y--0" data-testid="expired">
@@ -332,6 +344,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
               <SendRxRenewalMessage
                 rx={rx}
                 showFallBackContent={showRenewalLink}
+                isOracleHealth={isOracleHealth}
               />
             </div>
           );
