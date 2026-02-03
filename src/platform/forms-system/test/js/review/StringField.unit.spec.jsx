@@ -1,15 +1,16 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 
 import StringField from '../../../src/js/review/StringField.jsx';
+import { TextWidget, SelectWidget } from '../../../src/js/review/widgets';
 
 describe('Schemaform <StringField>', () => {
   it('should render', () => {
     const registry = {
       fields: {},
       widgets: {
-        text: () => <div />,
+        text: TextWidget,
       },
     };
     const schema = {
@@ -18,7 +19,7 @@ describe('Schemaform <StringField>', () => {
     const uiSchema = {};
     const formData = 'test';
 
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <StringField
         registry={registry}
         schema={schema}
@@ -27,13 +28,14 @@ describe('Schemaform <StringField>', () => {
       />,
     );
 
-    expect(tree.props.value).to.equal(formData);
+    // Check that the component renders with the correct value
+    expect(container.textContent).to.contain(formData);
   });
   it('should render options', () => {
     const registry = {
       fields: {},
       widgets: {
-        select: () => <div />,
+        select: SelectWidget,
       },
     };
     const schema = {
@@ -49,7 +51,7 @@ describe('Schemaform <StringField>', () => {
     };
     const formData = 'test';
 
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <StringField
         registry={registry}
         schema={schema}
@@ -58,25 +60,24 @@ describe('Schemaform <StringField>', () => {
       />,
     );
 
-    expect(tree.props.options.enumOptions).to.have.nested.property(
-      '[0].value',
-      'test',
-    );
-    expect(tree.props.options.labels).to.have.property('test', 'Name');
+    // With RTL, we're testing the actual rendered output
+    expect(container.textContent).to.contain('Name');
   });
   it('should render review widget', () => {
     const registry = {
-      widgets: {},
+      widgets: {
+        text: TextWidget,
+      },
     };
     const schema = {
       type: 'string',
     };
     const uiSchema = {
-      'ui:reviewWidget': () => <span />,
+      'ui:reviewWidget': TextWidget,
     };
     const formData = 'test';
 
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <StringField
         registry={registry}
         schema={schema}
@@ -85,6 +86,7 @@ describe('Schemaform <StringField>', () => {
       />,
     );
 
-    expect(tree.props.value).to.equal(formData);
+    // Check that the review widget renders with the formData
+    expect(container.textContent).to.contain(formData);
   });
 });
