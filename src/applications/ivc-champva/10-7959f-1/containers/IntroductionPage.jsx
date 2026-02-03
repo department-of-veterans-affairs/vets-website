@@ -10,19 +10,19 @@ const OMB_EXP_DATE = '03/31/2027';
 
 const IntroductionPage = ({ route }) => {
   const { formConfig, pageList } = route;
-  const { customText, formId, prefillEnabled, savedFormMessages } = formConfig;
+  const { formId, prefillEnabled, savedFormMessages } = formConfig;
 
   const sipIntroProps = useMemo(
     () => ({
       unauthStartText: 'Sign in to start your form',
       messages: savedFormMessages,
-      formConfig: { customText },
+      formConfig: { customText: { appType: 'registration form' } },
       headingLevel: 2,
       prefillEnabled,
       pageList,
       formId,
     }),
-    [customText, formId, pageList, prefillEnabled, savedFormMessages],
+    [formId, pageList, prefillEnabled, savedFormMessages],
   );
 
   useEffect(() => focusElement('.schemaform-intro h1'), []);
