@@ -82,7 +82,16 @@ const testConfig = createTestConfig(
           .should('not.have.attr', 'disabled');
 
         // Test mobile accordion behavior
-        // Save current viewport, switch to mobile temporarily
+        // Save current viewport dimensions
+        let previousViewport;
+        cy.window().then(win => {
+          previousViewport = {
+            width: win.innerWidth,
+            height: win.innerHeight,
+          };
+        });
+
+        // Switch to mobile temporarily
         cy.viewport('iphone-x');
 
         // Verify accordion exists and can be opened on mobile
@@ -112,8 +121,12 @@ const testConfig = createTestConfig(
           .find('va-accordion-item')
           .should('not.have.attr', 'open');
 
-        // Restore desktop viewport for rest of tests
-        cy.viewport(1024, 768);
+        // Restore previous viewport
+        cy.then(() => {
+          if (previousViewport) {
+            cy.viewport(previousViewport.width, previousViewport.height);
+          }
+        });
       },
 
       // Chapter 3: Mental Health
