@@ -26,6 +26,7 @@ import {
   removeRatedDisabilityFromNew,
   removeExtraData,
   cleanUpMailingAddress,
+  getDisabilityName,
 } from '../../utils/submit';
 import {
   PTSD_INCIDENT_ITERATION,
@@ -69,6 +70,35 @@ describe('transformRelatedDisabilities', () => {
     expect(
       transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
     ).to.eql(['Some Condition Name']);
+  });
+});
+
+describe('getDisabilityName', () => {
+  it('should return the condition name for new disabilities', () => {
+    expect(getDisabilityName({ condition: 'tinnitus' })).to.eql('tinnitus');
+  });
+  it('should return the name for rated disabilities', () => {
+    expect(getDisabilityName({ name: 'Tinnitus' })).to.eql('Tinnitus');
+  });
+  it('should include sideOfBody when present', () => {
+    expect(
+      getDisabilityName({ condition: 'tinnitus', sideOfBody: 'Left' }),
+    ).to.eql('tinnitus, left');
+  });
+  it('should trim whitespace from condition and sideOfBody', () => {
+    expect(
+      getDisabilityName({ condition: '  tinnitus  ', sideOfBody: '  Right  ' }),
+    ).to.eql('tinnitus, right');
+  });
+  it('should not include sideOfBody if condition is empty', () => {
+    expect(getDisabilityName({ condition: '', sideOfBody: 'Left' })).to.eql('');
+  });
+  it('should handle disabilities with name and sideOfBody (rated disabilities)', () => {
+    // Note: rated disabilities use "name" not "condition", and typically don't have sideOfBody
+    // but if they did, it should still work
+    expect(
+      getDisabilityName({ name: 'Knee injury', sideOfBody: 'bilateral' }),
+    ).to.eql('Knee injury, bilateral');
   });
 });
 
@@ -147,6 +177,44 @@ describe('stringifyRelatedDisabilities', () => {
         treatedDisabilityNames: [
           'some condition name',
           'something with symbols *($#^%$@) not in the key',
+        ],
+      },
+    ]);
+  });
+  it('should correctly match conditions with sideOfBody', () => {
+    const formData = {
+      newDisabilities: [
+        {
+          condition: 'tinnitus',
+          sideOfBody: 'Left',
+        },
+        {
+          condition: 'knee pain',
+          sideOfBody: 'Right',
+        },
+        {
+          condition: 'back pain',
+          // no sideOfBody
+        },
+      ],
+      vaTreatmentFacilities: [
+        {
+          treatedDisabilityNames: {
+            tinnitusleft: true,
+            kneepainright: true,
+            backpain: true,
+          },
+        },
+      ],
+    };
+    expect(
+      stringifyRelatedDisabilities(formData).vaTreatmentFacilities,
+    ).to.deep.equal([
+      {
+        treatedDisabilityNames: [
+          'tinnitus, left',
+          'knee pain, right',
+          'back pain',
         ],
       },
     ]);

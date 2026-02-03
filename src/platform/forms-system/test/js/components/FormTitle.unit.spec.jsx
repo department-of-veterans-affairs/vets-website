@@ -1,16 +1,16 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 
 import FormTitle from '../../../src/js/components/FormTitle';
 
 describe('Schemaform <FormTitle>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <FormTitle title="My title" subTitle="My subtitle" />,
     );
 
-    expect(tree.text()).to.contain('My title');
-    expect(tree.text()).to.contain('My subtitle');
+    expect(container.textContent).to.contain('My title');
+    expect(container.textContent).to.contain('My subtitle');
   });
 });

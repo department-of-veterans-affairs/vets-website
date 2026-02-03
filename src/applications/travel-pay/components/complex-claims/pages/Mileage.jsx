@@ -8,7 +8,7 @@ import {
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
-import useRecordPageview from '../../../hooks/useRecordPageview';
+import { recordRadioOptionClick } from '../../../util/events-helpers';
 import {
   createExpense,
   updateExpense,
@@ -50,7 +50,6 @@ const Mileage = () => {
   const title = 'Mileage';
 
   useSetPageTitle(title);
-  useRecordPageview('complex-claims', title);
   const isLoadingExpense = useSelector(
     state =>
       isEditMode
@@ -76,7 +75,27 @@ const Mileage = () => {
     const name = explicitName ?? event.target?.name ?? event.detail?.name; // rarely used, but safe to include
     const value =
       event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
+
+    // Only process when value actually changes (prevents duplicate events)
+    if (!value || formState[name] === value) return;
+
     setFormState(prev => ({ ...prev, [name]: value }));
+
+    // Track radio button selections
+    if (name === 'tripType') {
+      const optionLabel =
+        value === TRIP_TYPES.ROUND_TRIP.value
+          ? TRIP_TYPES.ROUND_TRIP.label
+          : TRIP_TYPES.ONE_WAY.label;
+      recordRadioOptionClick(
+        'Was your drive round trip or one way?',
+        optionLabel,
+      );
+    } else if (name === 'departureAddress') {
+      const optionLabel =
+        value === 'home-address' ? 'Home address' : 'Another address';
+      recordRadioOptionClick('Which address did you depart from?', optionLabel);
+    }
   };
 
   // Track unsaved changes
