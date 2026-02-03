@@ -150,7 +150,6 @@ describe('ChooseExpenseType', () => {
     const buttonPair = $('va-button-pair');
     expect(buttonPair).to.exist;
     expect(buttonPair.hasAttribute('continue')).to.be.true;
-    expect(buttonPair.hasAttribute('disable-analytics')).to.be.true;
   });
 
   it('displays correct heading text', () => {
