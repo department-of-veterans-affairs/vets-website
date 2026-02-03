@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Downshift from 'downshift';
+import Downshift from 'downshift-v9';
 import classNames from 'classnames';
 import MessagePromptDiv from './MessagePromptDiv';
 

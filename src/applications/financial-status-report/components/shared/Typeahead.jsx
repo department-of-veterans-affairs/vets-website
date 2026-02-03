@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import Downshift from 'downshift';
+import Downshift from 'downshift-v9';
 import classNames from 'classnames';
 import sortListByFuzzyMatch from 'platform/forms-system/src/js/utilities/fuzzy-matching';
 

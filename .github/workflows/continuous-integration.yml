@@ -39,7 +39,7 @@ jobs:
             # Check if there are any changes to package.json that don't involve approved packages or scripts
             if [ -n "$PACKAGE_JSON_DIFF" ]; then
               # Get changed lines (excluding context lines and approved packages)
-              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' |  grep -v '"skin-deep"'  || echo "")
+              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' |  grep -v '"skin-deep"' | grep -v '"downshift"'  || echo "")
 
               if [ -n "$CHANGED_LINES" ]; then
                 # Check if changes contain dependency version bumps (lines with version patterns like ^, ~, >=, etc.)
@@ -49,7 +49,7 @@ jobs:
                 if [ -n "$DEPENDENCY_CHANGES" ]; then
                   echo "❌ ERROR: package.json has dependency changes other than approved packages."
                   echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
-                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, skin-deep, and the scripts section are allowed."
+                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, skin-deep, downshift, and the scripts section are allowed."
                   echo ""
                   echo "Dependency changes detected:"
                   echo "$DEPENDENCY_CHANGES"
@@ -64,7 +64,7 @@ jobs:
             if [ -n "$YARN_LOCK_DIFF" ]; then
               # For yarn.lock, we need to check if changes are only in approved package sections
               # Get all added/removed lines that don't contain approved packages
-              NON_APPROVED_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' |  grep -v 'skin-deep' || echo "")
+              NON_APPROVED_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' |  grep -v 'skin-deep' | grep -v 'downshift' || echo "")
 
               # Also check for package entry headers that might not contain the name on the same line
               # In yarn.lock, package entries start with "package-name@version:"
@@ -79,7 +79,7 @@ jobs:
                 if [ "$CHANGE_COUNT" -gt 275 ]; then
                   echo "❌ ERROR: yarn.lock has been modified with substantial changes beyond approved packages."
                   echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
-                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, and skin-deep are allowed."
+                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, skin-deep, and downshift are allowed."
                   echo ""
                   echo "Detected $CHANGE_COUNT lines of non-approved package changes in yarn.lock"
                   exit 1

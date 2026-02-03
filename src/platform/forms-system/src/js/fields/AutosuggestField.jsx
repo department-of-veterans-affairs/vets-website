@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Downshift from 'downshift';
+import Downshift from 'downshift-v9';
 import classNames from 'classnames';
 import set from '../../../../utilities/data/set';
 
@@ -270,7 +270,8 @@ export default class AutosuggestField extends React.Component {
 
             return item.label;
           }}
-          render={({
+        >
+          {({
             getInputProps,
             getItemProps,
             isOpen,
@@ -316,7 +317,7 @@ export default class AutosuggestField extends React.Component {
               )}
             </div>
           )}
-        />
+        </Downshift>
       </>
     );
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import Downshift from 'downshift';
+import Downshift from 'downshift-v9';
 
 import classNames from 'classnames';
 import PropTypes from 'prop-types';

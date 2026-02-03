@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Downshift from 'downshift';
+import Downshift from 'downshift-v9';
 import classNames from 'classnames';
 
 import set from 'platform/utilities/data/set';
