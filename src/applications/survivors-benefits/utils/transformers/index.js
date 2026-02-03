@@ -1,5 +1,6 @@
 export * from './calculateSeparationDuration';
 export * from './chapter4Transform';
+export * from './checkForHowMarriageEnded';
 export * from './combineTreatmentFacility';
 export * from './combineUnitNameAddress';
 export * from './splitSsn';
