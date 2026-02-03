@@ -23,7 +23,6 @@ export default {
         fullPackage: content['benefits--reg-only-full-package-label'],
         regOnly: content['benefits--reg-only-service-connected-label'],
       },
-      required: () => true,
     }),
     'view:registrationOnlyNote': {
       ...descriptionUI(RegistrationOnlyNote),

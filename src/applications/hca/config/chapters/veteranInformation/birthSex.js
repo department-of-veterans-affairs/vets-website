@@ -19,7 +19,6 @@ export default {
     gender: radioUI({
       title: content['vet-info--birth-sex-label'],
       labels: birthSexLabels,
-      required: () => true,
     }),
   },
   schema: {

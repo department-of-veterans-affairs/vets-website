@@ -23,7 +23,6 @@ export default {
           Yes: content['form--default-yes-label'],
           No: content['form--default-no-label'],
         },
-        required: () => true,
       }),
       'ui:reviewField': CustomReviewField,
     },

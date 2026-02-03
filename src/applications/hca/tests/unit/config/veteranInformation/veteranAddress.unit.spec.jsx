@@ -116,11 +116,10 @@ describe('hca VeteranAddress config', () => {
       },
       'view:doesMailingMatchHomeAddress': {
         'ui:title': {},
-        'ui:required': {},
         'ui:webComponentField': {},
       },
     },
-    expectedRequired: [],
+    expectedRequired: ['view:doesMailingMatchHomeAddress'],
     pageName: pageTitle,
   });
 });

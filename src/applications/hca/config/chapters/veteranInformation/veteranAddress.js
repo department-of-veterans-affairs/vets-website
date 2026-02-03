@@ -41,11 +41,11 @@ export default {
     }),
     'view:doesMailingMatchHomeAddress': yesNoUI({
       title: content['vet-info--address-match-label'],
-      required: () => true,
     }),
   },
   schema: {
     type: 'object',
+    required: ['view:doesMailingMatchHomeAddress'],
     properties: {
       veteranAddress: merge(
         {},

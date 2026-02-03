@@ -22,7 +22,6 @@ export default {
         highDisability: content['benefits--disability-rating-high-label'],
         none: content['form--default-no-label'],
       },
-      required: () => true,
     }),
   },
   schema: {
