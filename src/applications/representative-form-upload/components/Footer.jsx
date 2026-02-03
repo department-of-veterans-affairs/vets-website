@@ -6,7 +6,9 @@ const Footer = () => {
     <footer data-testid="arp-footer" className="footer arp-footer">
       <div className="footer-inner">
         <div className="usa-grid usa-grid-full footer-banner vads-u-padding-top--2">
-          <h3>Accredited Representative Portal</h3>
+          <h2 className="vads-u-font-size--h3">
+            Accredited Representative Portal
+          </h2>
           <p>
             An official website of the{' '}
             <a className="vads-u-color--white" href="https://va.gov">
