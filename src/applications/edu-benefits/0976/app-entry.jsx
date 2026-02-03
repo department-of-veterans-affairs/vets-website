@@ -6,10 +6,12 @@ import { startAppFromIndex } from '@department-of-veterans-affairs/platform-star
 import routes from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
+import { isAuthMiddleware } from './utils/isAuthMiddleware';
 
 startAppFromIndex({
   entryName: manifest.entryName,
   url: manifest.rootUrl,
   reducer,
   routes,
+  additionalMiddlewares: [isAuthMiddleware],
 });
