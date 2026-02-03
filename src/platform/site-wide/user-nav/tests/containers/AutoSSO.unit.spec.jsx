@@ -25,65 +25,59 @@ const generateProps = ({
 });
 
 describe('<AutoSSO>', () => {
+  const sandbox = sinon.createSandbox();
+
   beforeEach(() => {
     server.use(headKeepAliveSuccess);
   });
 
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   it('should not call removeLoginAttempted if user is logged out', () => {
-    const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
+    sandbox.stub(loginAttempted, 'removeLoginAttempted');
     const props = generateProps();
-    const { unmount } = render(<AutoSSO {...props} />);
-    stub.restore();
-    sinon.assert.notCalled(stub);
-    unmount();
+    render(<AutoSSO {...props} />);
+    sinon.assert.notCalled(loginAttempted.removeLoginAttempted);
   });
 
   it('should call removeLoginAttempted if user is logged in', () => {
-    const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
+    sandbox.stub(loginAttempted, 'removeLoginAttempted');
     const props = generateProps({ loggedIn: true });
-    const { unmount } = render(<AutoSSO {...props} />);
-    stub.restore();
-    sinon.assert.calledOnce(stub);
-    unmount();
+    render(<AutoSSO {...props} />);
+    sinon.assert.calledOnce(loginAttempted.removeLoginAttempted);
   });
 
   it(`should not call checkAutoSession on an invalid path ['/auth/login/callback']`, () => {
     const oldLocation = global.window.location;
     global.window.location = new URL('https://dev.va.gov');
     global.window.location.pathname = `/auth/login/callback`;
-    const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
+    sandbox.stub(ssoUtils, 'checkAutoSession').resolves(null);
     const props = generateProps({ hasCalledKeepAlive: false });
-    const { unmount } = render(<AutoSSO {...props} />);
-    stub.restore();
-    sinon.assert.notCalled(stub);
-    unmount();
+    render(<AutoSSO {...props} />);
+    sinon.assert.notCalled(ssoUtils.checkAutoSession);
     global.window.location = oldLocation;
   });
 
   it('should not call checkAutoSession if `hasCalledKeepAlive` is true', () => {
-    const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
+    sandbox.stub(ssoUtils, 'checkAutoSession').resolves(null);
     const props = generateProps({ hasCalledKeepAlive: true });
-    const { unmount } = render(<AutoSSO {...props} />);
-    stub.restore();
-    sinon.assert.notCalled(stub);
-    unmount();
+    render(<AutoSSO {...props} />);
+    sinon.assert.notCalled(ssoUtils.checkAutoSession);
   });
 
   it('should call keepalive if all conditions are met', () => {
-    const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
+    sandbox.stub(ssoUtils, 'checkAutoSession').resolves(null);
     const props = generateProps({ authenticatedWithOAuth: false });
-    const { unmount } = render(<AutoSSO {...props} />);
-    stub.restore();
-    sinon.assert.calledOnce(stub);
-    unmount();
+    render(<AutoSSO {...props} />);
+    sinon.assert.calledOnce(ssoUtils.checkAutoSession);
   });
 
   it('should NOT call keepalive if signed in with oAuth', () => {
-    const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
+    sandbox.stub(ssoUtils, 'checkAutoSession').resolves(null);
     const props = generateProps({ authenticatedWithOAuth: true });
-    const { unmount } = render(<AutoSSO {...props} />);
-    stub.restore();
+    render(<AutoSSO {...props} />);
     sinon.assert.notCalled(props.checkKeepAlive);
-    unmount();
   });
 });
