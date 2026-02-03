@@ -472,6 +472,7 @@ module.exports = async (env = {}) => {
       minimizer: [
         new TerserPlugin({
           terserOptions: {
+            compress: true,
             output: {
               beautify: false,
               comments: false,
