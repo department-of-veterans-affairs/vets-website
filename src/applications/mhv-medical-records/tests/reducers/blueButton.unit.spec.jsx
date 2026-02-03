@@ -97,6 +97,28 @@ describe('convertMedication', () => {
     expect(result.indicationForUse).to.equal('None recorded');
   });
 
+  it('should handle invalid date strings gracefully without throwing', () => {
+    const med = {
+      id: '123',
+      attributes: {
+        prescriptionName: 'Aspirin',
+        sortedDispensedDate: 'invalid-date',
+        refillStatus: 'Active',
+        prescriptionNumber: 'RX123456',
+        orderedDate: 'not-a-date',
+        facilityName: 'VA Hospital',
+        expirationDate: '',
+        quantity: 30,
+      },
+    };
+
+    const result = convertMedication(med);
+    expect(result).to.be.an('object');
+    expect(result.lastFilledOn).to.equal('Not filled yet');
+    expect(result.prescribedOn).to.equal(UNKNOWN);
+    expect(result.expirationDate).to.equal(NONE_RECORDED);
+  });
+
   it('should handle missing optional fields', () => {
     const med = {
       id: '123',
