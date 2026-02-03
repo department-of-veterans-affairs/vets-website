@@ -9,11 +9,10 @@ export const FETCH_ALL_DEPENDENTS_FAILED = 'FETCH_ALL_DEPENDENTS_FAILED';
 /**
  * Fetches data about dependents using the /show endpoint
  *
- * @param {Object} options - Options for fetching dependents
- * @param {boolean} options.dependentsModuleEnabled - Whether to use the dependents module
+ * @param {boolean} dependentsModuleEnabled - Whether to use the dependents module
  * @returns {Object} response data from /show
  */
-export function fetchAllDependents({ dependentsModuleEnabled }) {
+export function fetchAllDependents(dependentsModuleEnabled = false) {
   return async dispatch => {
     dispatch({ type: FETCH_ALL_DEPENDENTS_STARTED });
     const dependentsUrl = dependentsModuleEnabled

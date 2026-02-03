@@ -56,7 +56,7 @@ const ViewDependentsApp = ({
   useEffect(
     () => {
       if (isLoggedIn) {
-        fetchAllDependents({ dependentsModuleEnabled });
+        fetchAllDependents(dependentsModuleEnabled);
         fetchRatingInfo();
       }
       document.title = `${titleCase(PAGE_TITLE)}${TITLE_SUFFIX}`;
