@@ -54,7 +54,7 @@ const DetailCopayPage = ({ match }) => {
       /* eslint-disable no-nested-ternary */
       return shouldShowVHAPaymentHistory
         ? {
-            TITLE: `Copay bill for ${copayDetail?.attributes.facility}`,
+            TITLE: `Copay bill for ${copayDetail?.attributes.facility.name}`,
             INVOICE_DATE: verifyCurrentBalance(
               copayDetail?.attributes.invoiceDate,
             ),

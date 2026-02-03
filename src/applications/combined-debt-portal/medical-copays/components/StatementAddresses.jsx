@@ -10,22 +10,22 @@ const StatementAddresses = ({ copay }) => {
 
   const normalizedCopay = {
     facility: shouldShowVHAPaymentHistory
-      ? copay.attributes.facility
+      ? copay.attributes.facility.name
       : copay.station.facilityName,
     statementAddress1: shouldShowVHAPaymentHistory
-      ? copay.attributes.address1
+      ? copay.attributes.facility.addressLine1
       : copay.station.staTAddress1,
     statementAddress2: shouldShowVHAPaymentHistory
-      ? copay.attributes.address2
+      ? copay.attributes.facility.addressLine2
       : copay.station.staTAddress2,
     statementAddress3: shouldShowVHAPaymentHistory
-      ? copay.attributes.address3
+      ? copay.attributes.facility.addressLine3
       : copay.station.staTAddress3,
     statementCity: shouldShowVHAPaymentHistory
       ? copay.attributes.city
       : copay.station.city,
     statementZip: shouldShowVHAPaymentHistory
-      ? copay.attributes.zip
+      ? copay.attributes.facility.postalCode
       : copay.station.ziPCde,
     statementState: shouldShowVHAPaymentHistory
       ? copay.attributes.state
