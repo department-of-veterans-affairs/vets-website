@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
 
-import { BTSSS_PORTAL_URL } from '../../../constants';
+import {
+  BTSSS_PORTAL_URL,
+  COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
+} from '../../../constants';
 import {
   createComplexClaim,
   setExpenseBackDestination,
@@ -12,7 +15,7 @@ import {
 import ComplexClaimRedirect from './ComplexClaimRedirect';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
-import useRecordPageview from '../../../hooks/useRecordPageview';
+import { recordButtonClick } from '../../../util/events-helpers';
 import {
   selectAppointment,
   selectComplexClaim,
@@ -32,7 +35,6 @@ const IntroductionPage = () => {
 
   useSetPageTitle(title);
   useSetFocus();
-  useRecordPageview('complex-claims', title);
 
   const apptId = appointment?.id;
 
@@ -40,6 +42,12 @@ const IntroductionPage = () => {
   const shouldShowRedirect = !location.state?.skipRedirect;
 
   const createClaim = async () => {
+    recordButtonClick(
+      COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
+      title,
+      'Start your travel reimbursement claim',
+    );
+
     if (!appointment) {
       return;
     }
@@ -153,6 +161,7 @@ const IntroductionPage = () => {
                     href="#"
                     text="Start your travel reimbursement claim"
                     type="primary"
+                    disable-analytics
                   />
                 )}
             </va-process-list-item>
