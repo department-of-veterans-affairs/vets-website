@@ -72,7 +72,7 @@ describe('<AutoSSO>', () => {
 
   it('should call keepalive if all conditions are met', () => {
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
-    const props = generateProps({ authenticatedWithSSOe: true });
+    const props = generateProps({ authenticatedWithOAuth: false });
     const wrapper = shallow(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.calledOnce(stub);
