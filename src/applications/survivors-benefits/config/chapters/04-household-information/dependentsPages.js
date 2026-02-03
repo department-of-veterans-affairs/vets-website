@@ -32,10 +32,6 @@ import {
 import { seriouslyDisabledDescription } from '../../../utils/helpers';
 import { AdditionalDependentsAlert } from '../../../components/FormAlerts';
 
-const updatedFullNameSchema = fullNameSchema;
-updatedFullNameSchema.properties.first.maxLength = 12;
-updatedFullNameSchema.properties.last.maxLength = 18;
-
 /**
  * Dependent children (array builder)
  */
@@ -176,7 +172,7 @@ const namePage = {
   schema: {
     type: 'object',
     properties: {
-      childFullName: updatedFullNameSchema,
+      childFullName: fullNameSchema,
       childSocialSecurityNumber: ssnSchema,
       noSsn: checkboxSchema,
     },

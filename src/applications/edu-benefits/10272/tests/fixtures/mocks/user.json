@@ -86,6 +86,39 @@
           "zipCode": "02903",
           "zipCodeSuffix": null,
           "badAddress": null
+        },
+        "email": {
+          "createdAt": "2018-04-20T17:24:13.000Z",
+          "emailAddress": "rita.jackson@example.com",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2019-03-07T22:32:40.000Z",
+          "id": 20648,
+          "sourceDate": "2019-03-07T22:32:40.000Z",
+          "sourceSystemUser": null,
+          "transactionId": "44a0858b-3dd1-4de2-903d-38b147981a9c",
+          "updatedAt": "2019-03-08T05:09:58.000Z",
+          "vet360Id": "1273766"
+        },
+        "homePhone": {
+          "areaCode": "415",
+          "countryCode": "1",
+          "createdAt": "2018-04-20T17:22:56.000Z",
+          "extension": null,
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2022-03-11T16:31:55.000Z",
+          "id": 2272982,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "5552852",
+          "phoneType": "HOME",
+          "sourceDate": "2022-03-11T16:31:55.000Z",
+          "sourceSystemUser": null,
+          "transactionId": "2814cdf6-7f2c-431b-95f3-d37f3837215d",
+          "updatedAt": "2022-03-11T16:31:56.000Z",
+          "vet360Id": "1273766"
         }
       }
     }
