@@ -7,6 +7,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaSelectField } from 'platform/forms-system/src/js/web-component-fields';
 import constants from 'vets-json-schema/dist/constants.json';
+import { validateWhiteSpace } from 'platform/forms/validations';
 
 const filteredStates = constants.states.USA.filter(
   state => !['AP', 'AE', 'AA'].includes(state.value),
@@ -36,6 +37,7 @@ const uiSchema = {
     ...textUI({
       title: 'Organization name',
       required: () => true,
+      validations: [validateWhiteSpace],
       errorMessages: {
         required: 'Please provide the name of the organization',
       },
