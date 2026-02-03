@@ -1,5 +1,5 @@
 import Verify from '../pages/Verify';
-import EnterOTC from '../pages/EnterOTC';
+import EnterOTP from '../pages/EnterOTP';
 import DateTimeSelection from '../pages/DateTimeSelection';
 import TopicSelection from '../pages/TopicSelection';
 import Review from '../pages/Review';
@@ -15,7 +15,7 @@ import { AUTH_LEVELS, FLOW_TYPES, URLS } from './constants';
  *   for this route. See AUTH_LEVELS enum for details.
  * @property {string[]} [requireFormData] - Optional array of form data field names that must be present
  *   in Redux state before accessing this route. The component will be wrapped with `withFormData` HOC.
- *   Common fields: 'uuid', 'lastname', 'dob', 'obfuscatedEmail', 'selectedDate', 'selectedTopics'.
+ *   Common fields: 'uuid', 'lastName', 'dob', 'obfuscatedEmail', 'selectedDate', 'selectedTopics'.
  */
 
 /**
@@ -48,15 +48,15 @@ export const routes = [
       requiresAuthorization: AUTH_LEVELS.NONE,
     },
     flowType: FLOW_TYPES.ANY, // Entry point for both flows
-    setsData: ['uuid', 'lastname', 'dob', 'obfuscatedEmail'],
+    setsData: ['uuid', 'lastName', 'dob', 'obfuscatedEmail'],
   },
-  // Low auth routes - require form data but redirect if user already has token
+  // Low auth routes - require form data
   {
-    path: URLS.ENTER_OTC,
-    component: EnterOTC,
+    path: URLS.ENTER_OTP,
+    component: EnterOTP,
     permissions: {
-      requiresAuthorization: AUTH_LEVELS.LOW_AUTH_ONLY,
-      requireFormData: ['uuid', 'lastname', 'dob', 'obfuscatedEmail'],
+      requiresAuthorization: AUTH_LEVELS.NONE,
+      requireFormData: ['uuid', 'lastName', 'dob', 'obfuscatedEmail'],
     },
     flowType: FLOW_TYPES.ANY, // Both flows go through OTC verification
   },
@@ -87,7 +87,7 @@ export const routes = [
       requiresAuthorization: AUTH_LEVELS.TOKEN,
       requireFormData: [
         'uuid',
-        'lastname',
+        'lastName',
         'dob',
         'obfuscatedEmail',
         'selectedDate',
@@ -115,7 +115,7 @@ export const routes = [
     flowType: FLOW_TYPES.CANCEL,
   },
   {
-    path: URLS.CANCEL_APPOINTMENT_CONFIRMATION,
+    path: `${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/:appointmentId`,
     component: CancelAppointmentConfirmation,
     permissions: {
       requiresAuthorization: AUTH_LEVELS.TOKEN,
@@ -123,12 +123,12 @@ export const routes = [
     flowType: FLOW_TYPES.CANCEL,
   },
   {
-    path: URLS.ALREADY_SCHEDULED,
+    path: `${URLS.ALREADY_SCHEDULED}/:appointmentId`,
     component: AlreadyScheduled,
     permissions: {
       requiresAuthorization: AUTH_LEVELS.TOKEN,
     },
-    flowType: FLOW_TYPES.CANCEL,
+    flowType: FLOW_TYPES.SCHEDULE,
   },
 ];
 
