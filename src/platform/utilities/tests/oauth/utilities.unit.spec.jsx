@@ -752,9 +752,9 @@ describe('OAuth - Utilities', () => {
 
       sandbox
         .stub(Date, 'now')
-        .returns(new Date('2025-06-29T20:41:31.000Z').getTime());
+        .returns(new Date('2025-06-29T20:41:06.000Z').getTime());
 
-      expect(oAuthUtils.isAccessTokenExpiringSoon(5)).to.be.true;
+      expect(oAuthUtils.isAccessTokenExpiringSoon(30)).to.be.true;
     });
 
     it('isAccessTokenExpiringSoon returns false when outside threshold', () => {
@@ -765,9 +765,9 @@ describe('OAuth - Utilities', () => {
 
       sandbox
         .stub(Date, 'now')
-        .returns(new Date('2025-06-29T20:41:20.000Z').getTime());
+        .returns(new Date('2025-06-29T20:40:55.000Z').getTime());
 
-      expect(oAuthUtils.isAccessTokenExpiringSoon(5)).to.be.false;
+      expect(oAuthUtils.isAccessTokenExpiringSoon(30)).to.be.false;
     });
 
     it('refreshIfAccessTokenExpiringSoon refreshes when expiring soon', async () => {
@@ -778,14 +778,14 @@ describe('OAuth - Utilities', () => {
 
       sandbox
         .stub(Date, 'now')
-        .returns(new Date('2025-06-29T20:41:31.000Z').getTime());
+        .returns(new Date('2025-06-29T20:41:06.000Z').getTime());
 
       // Mock fetch for the refresh call
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), []);
 
       const didRefresh = await oAuthUtils.refreshIfAccessTokenExpiringSoon({
-        thresholdSeconds: 5,
+        thresholdSeconds: 30,
         type: 'logingov',
       });
 
@@ -804,12 +804,12 @@ describe('OAuth - Utilities', () => {
 
       sandbox
         .stub(Date, 'now')
-        .returns(new Date('2025-06-29T20:41:20.000Z').getTime());
+        .returns(new Date('2025-06-29T20:40:55.000Z').getTime());
 
       mockFetch();
 
       const didRefresh = await oAuthUtils.refreshIfAccessTokenExpiringSoon({
-        thresholdSeconds: 5,
+        thresholdSeconds: 30,
         type: 'logingov',
       });
 
@@ -825,12 +825,12 @@ describe('OAuth - Utilities', () => {
 
       sandbox
         .stub(Date, 'now')
-        .returns(new Date('2025-06-29T20:41:31.000Z').getTime());
+        .returns(new Date('2025-06-29T20:41:06.000Z').getTime());
 
       mockFetch();
 
       const didRefresh = await oAuthUtils.refreshIfAccessTokenExpiringSoon({
-        thresholdSeconds: 5,
+        thresholdSeconds: 30,
         type: undefined,
       });
 

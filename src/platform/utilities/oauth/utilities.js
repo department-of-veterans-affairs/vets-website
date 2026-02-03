@@ -309,7 +309,7 @@ export const msUntilAccessTokenExpiration = () => {
   return exp.getTime() - Date.now();
 };
 
-export const isAccessTokenExpiringSoon = (thresholdSeconds = 5) => {
+export const isAccessTokenExpiringSoon = (thresholdSeconds = 30) => {
   if (!infoTokenExists()) return false;
 
   const msRemaining = msUntilAccessTokenExpiration();
@@ -319,7 +319,7 @@ export const isAccessTokenExpiringSoon = (thresholdSeconds = 5) => {
 };
 
 export const refreshIfAccessTokenExpiringSoon = async ({
-  thresholdSeconds = 5,
+  thresholdSeconds = 30,
   type,
 } = {}) => {
   if (!type) return false;
