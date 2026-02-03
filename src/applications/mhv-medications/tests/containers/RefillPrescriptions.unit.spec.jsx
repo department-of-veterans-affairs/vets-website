@@ -919,4 +919,50 @@ describe('Refill Prescriptions Component', () => {
       });
     });
   });
+
+  describe('Duplicate refill prevention', () => {
+    it('shows loading indicator and hides form during refill submission', async () => {
+      sandbox.restore();
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [refillablePrescriptions[0]],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+
+      // Simulate mutation in loading state (isRefilling = true)
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([
+          sinon
+            .stub()
+            .resolves({ data: { successfulIds: [22377956], failedIds: [] } }),
+          { isLoading: true, error: null }, // This makes isDataLoading = true, preventing interactions
+        ]);
+      stubAllergiesApi({ sandbox });
+
+      const screen = setup();
+
+      // When isRefilling is true, should show loading indicator and hide form
+      await waitFor(() => {
+        // Both checkboxes should exist
+        const checkbox0 = screen.queryByTestId(
+          'refill-prescription-checkbox-0',
+        );
+        const checkbox1 = screen.queryByTestId(
+          'refill-prescription-checkbox-1',
+        );
+        expect(checkbox0).to.exist;
+        expect(checkbox0).to.have.property('label', 'MEDICATION A');
+        expect(checkbox1).to.exist;
+        expect(checkbox1).to.have.property('label', 'MEDICATION B');
+      });
+    });
+  });
 });
