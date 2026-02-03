@@ -493,7 +493,7 @@
       "directoryPath": "src/applications/mhv-demo-mode",
       "appName": "MHV Demo Mode",
       "entryName": "mhv-demo-mode",
-      "rootUrl": "/demo-mode"
+      "rootUrl": "/mhv-demo-mode"
     },
     {
       "directoryPath": "src/applications/mhv-demo-mode/demo-apps/mhv-landing-page",

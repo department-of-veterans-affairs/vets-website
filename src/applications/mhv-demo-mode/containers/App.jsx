@@ -15,7 +15,7 @@ function refreshSession() {
 
 export default function App({ children }) {
   const pathname = window.location.pathname.replace(/\/$/, '');
-  const isIndexRoute = pathname === '/demo-mode';
+  const isIndexRoute = pathname === '/mhv-demo-mode';
   const isValid = isSessionValid();
 
   const handleActivity = useCallback(() => {
@@ -43,7 +43,7 @@ export default function App({ children }) {
     () => {
       if (!isValid && !isIndexRoute) {
         sessionStorage.removeItem(DEMO_MODE_ACKNOWLEDGED);
-        window.location.replace('/demo-mode');
+        window.location.replace('/mhv-demo-mode');
       }
     },
     [isValid, isIndexRoute],

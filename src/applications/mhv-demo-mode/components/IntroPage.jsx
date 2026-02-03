@@ -6,7 +6,7 @@ export default function IntroPage() {
   const handleContinue = e => {
     e.preventDefault();
     sessionStorage.setItem(DEMO_MODE_ACKNOWLEDGED, Date.now().toString());
-    window.location.href = '/demo-mode/my-health';
+    window.location.href = '/mhv-demo-mode/my-health';
   };
 
   return (
@@ -28,7 +28,7 @@ export default function IntroPage() {
           </p>
           <a
             className="vads-c-action-link--green vads-u-margin-top--3"
-            href="/demo-mode/my-health"
+            href="/mhv-demo-mode/my-health"
             onClick={handleContinue}
           >
             Continue to My HealtheVet Demo

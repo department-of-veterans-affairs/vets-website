@@ -75,9 +75,9 @@
       "vet360_contact_information": {
         "email": {
           "id": 12345,
-          "confirmation_date": "2024-06-01T12:00:00.000+00:00",
-          "updated_at": "2024-01-01T12:00:00.000+00:00",
-          "email_address": "vet@va.gov"
+          "confirmationDate": "2025-04-01T12:00:00.000+00:00",
+          "updatedAt": "2025-04-01T12:00:00.000+00:00",
+          "emailAddress": "ginny.doe@example.com"
         }
       }
     }
