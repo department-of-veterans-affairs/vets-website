@@ -85,6 +85,43 @@ describe('TravelClaimDetailsContent', () => {
 
   let currentStore;
 
+  const buildState = ({
+    featureOverrides = {},
+    claimDetailsOverrides = {},
+    appointmentOverrides = {},
+  } = {}) => ({
+    ...initialState,
+    featureToggles: {
+      ...initialState.featureToggles,
+      ...featureOverrides,
+    },
+    travelPay: {
+      ...initialState.travelPay,
+      claimDetails: {
+        ...initialState.travelPay.claimDetails,
+        ...claimDetailsOverrides,
+      },
+      appointment: {
+        ...initialState.travelPay.appointment,
+        ...appointmentOverrides,
+      },
+    },
+  });
+
+  const renderComponent = (stateOverrides = {}) => {
+    currentStore = makeStore(buildState(stateOverrides));
+
+    return render(
+      <Provider store={currentStore}>
+        <MemoryRouter initialEntries={['/claim/123']}>
+          <Routes>
+            <Route path="/claim/:id" element={<TravelClaimDetailsContent />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>,
+    );
+  };
+
   beforeEach(() => {
     sinon.stub(featureToggle, 'useFeatureToggle').callsFake(() => {
       return {
@@ -118,33 +155,15 @@ describe('TravelClaimDetailsContent', () => {
 
   describe('error handling', () => {
     it('should display error alert when claim details error exists', () => {
-      currentStore = makeStore({
-        ...initialState,
-        travelPay: {
-          ...initialState.travelPay,
-          claimDetails: {
-            data: {}, // no claim data
-            error: { message: 'Failed to fetch claim details' },
-          },
-          appointment: {
-            ...initialState.travelPay.appointment,
-            data: null,
-          },
+      const screen = renderComponent({
+        claimDetailsOverrides: {
+          data: {},
+          error: { message: 'Failed to fetch claim details' },
+        },
+        appointmentOverrides: {
+          data: null,
         },
       });
-
-      const screen = render(
-        <Provider store={currentStore}>
-          <MemoryRouter initialEntries={['/claim/123']}>
-            <Routes>
-              <Route
-                path="/claim/:id"
-                element={<TravelClaimDetailsContent />}
-              />
-            </Routes>
-          </MemoryRouter>
-        </Provider>,
-      );
 
       expect(screen.getByText('Something went wrong on our end')).to.exist;
       expect(screen.getByText(/status in this tool right now/i)).to.exist;
@@ -156,35 +175,16 @@ describe('TravelClaimDetailsContent', () => {
     });
 
     it('should render ClaimDetailsContent when claim data exists', () => {
-      currentStore = makeStore({
-        ...initialState,
-        travelPay: {
-          ...initialState.travelPay,
-          claimDetails: {
-            data: CLAIM_123, // use constant claim data
-            error: null,
-          },
-          appointment: {
-            ...initialState.travelPay.appointment,
-            data: { id: 'appt-123' }, // ensure appointment data exists
-            isLoading: false,
-            error: null,
-          },
+      const screen = renderComponent({
+        claimDetailsOverrides: {
+          data: CLAIM_123,
+          error: null,
+        },
+        appointmentOverrides: {
+          data: { id: 'appt-123' },
+          isLoading: false,
         },
       });
-
-      const screen = render(
-        <Provider store={currentStore}>
-          <MemoryRouter initialEntries={['/claim/123']}>
-            <Routes>
-              <Route
-                path="/claim/:id"
-                element={<TravelClaimDetailsContent />}
-              />
-            </Routes>
-          </MemoryRouter>
-        </Provider>,
-      );
 
       expect(screen.getByText(/eligible for reimbursement/i)).to.exist;
       expect(
@@ -199,211 +199,102 @@ describe('TravelClaimDetailsContent', () => {
 
   describe('useEffect for fetching claim and appointment data', () => {
     it('should render without claim data initially and not error', () => {
-      currentStore = makeStore({
-        ...initialState,
-        travelPay: {
-          ...initialState.travelPay,
-          claimDetails: {
-            data: {}, // no claim data
-            error: null,
-          },
-          appointment: {
-            ...initialState.travelPay.appointment,
-            data: null, // no appointment data initially
-            isLoading: false,
-            error: null,
-          },
+      const screen = renderComponent({
+        claimDetailsOverrides: {
+          data: {},
+          error: null,
+        },
+        appointmentOverrides: {
+          data: null,
+          isLoading: false,
+          error: null,
         },
       });
-
-      const screen = render(
-        <Provider store={currentStore}>
-          <MemoryRouter initialEntries={['/claim/123']}>
-            <Routes>
-              <Route
-                path="/claim/:id"
-                element={<TravelClaimDetailsContent />}
-              />
-            </Routes>
-          </MemoryRouter>
-        </Provider>,
-      );
 
       // Component should render the static content even without claim data
       expect(screen.getByText(/eligible for reimbursement/i)).to.exist;
     });
 
     it('should not dispatch actions when claim data already exists', () => {
-      currentStore = makeStore({
-        travelPay: {
-          ...initialState.travelPay,
-          claimDetails: {
-            data: CLAIM_123, // claim data already exists
-            error: null,
-          },
-          appointment: {
-            ...initialState.travelPay.appointment,
-            data: null, // no appointment data
-            isLoading: false,
-            error: null,
-          },
+      renderComponent({
+        claimDetailsOverrides: {
+          data: CLAIM_123,
+          error: null,
+        },
+        appointmentOverrides: {
+          data: null,
         },
       });
-
-      render(
-        <Provider store={currentStore}>
-          <MemoryRouter initialEntries={['/claim/123']}>
-            <Routes>
-              <Route
-                path="/claim/:id"
-                element={<TravelClaimDetailsContent />}
-              />
-            </Routes>
-          </MemoryRouter>
-        </Provider>,
-      );
 
       expect(getClaimDetailsStub.called).to.be.false;
     });
 
     it('should render appointment data when available', () => {
-      currentStore = makeStore({
-        ...initialState,
-        travelPay: {
-          ...initialState.travelPay,
-          claimDetails: {
-            data: CLAIM_123, // existing claim details
-            error: null,
+      const screen = renderComponent({
+        claimDetailsOverrides: {
+          data: CLAIM_123,
+          error: null,
+        },
+        appointmentOverrides: {
+          data: {
+            id: 'appt-123',
+            appointmentDateTime: '2025-12-15T10:00:00Z',
           },
-          appointment: {
-            data: {
-              id: 'appt-123', // appointment data available
-              appointmentDateTime: '2025-12-15T10:00:00Z',
-            },
-            isLoading: false,
-            error: null,
-          },
+          isLoading: false,
+          error: null,
         },
       });
-
-      const screen = render(
-        <Provider store={currentStore}>
-          <MemoryRouter initialEntries={['/claim/123']}>
-            <Routes>
-              <Route
-                path="/claim/:id"
-                element={<TravelClaimDetailsContent />}
-              />
-            </Routes>
-          </MemoryRouter>
-        </Provider>,
-      );
 
       // Component renders successfully with appointment data
       expect(screen.getByText(/eligible for reimbursement/i)).to.exist;
     });
 
     it('should not dispatch getAppointmentDataByDateTime when appointmentError exists', async () => {
-      currentStore = makeStore({
-        ...initialState,
-        travelPay: {
-          ...initialState.travelPay,
-          claimDetails: {
-            data: CLAIM_123, // existing claim details
-            error: null,
-          },
-          appointment: {
-            data: null, // simulate no appointment data
-            isLoading: false,
-            error: { message: 'Error' }, // simulate appointment error
-          },
+      renderComponent({
+        claimDetailsOverrides: {
+          data: CLAIM_123,
+        },
+        appointmentOverrides: {
+          data: null,
+          error: { message: 'Error' },
         },
       });
-
-      render(
-        <Provider store={currentStore}>
-          <MemoryRouter initialEntries={['/claim/123']}>
-            <Routes>
-              <Route
-                path="/claim/:id"
-                element={<TravelClaimDetailsContent />}
-              />
-            </Routes>
-          </MemoryRouter>
-        </Provider>,
-      );
 
       expect(getAppointmentDataByDateTimeStub.called).to.be.false;
     });
 
     it('should not dispatch getAppointmentDataByDateTime when appointmentData already exists', () => {
-      currentStore = makeStore({
-        ...initialState,
-        travelPay: {
-          ...initialState.travelPay,
-          claimDetails: {
-            data: CLAIM_123, // existing claim details
-            error: null,
+      renderComponent({
+        claimDetailsOverrides: {
+          data: CLAIM_123,
+          error: null,
+        },
+        appointmentOverrides: {
+          data: {
+            travelPayClaim: { claim: { id: '123' } },
+            appointmentDateTime: '2025-12-15T10:00:00Z',
           },
-          appointment: {
-            data: {
-              travelPayClaim: { claim: { id: '123' } }, // appointment belongs to same claim
-              appointmentDateTime: '2025-12-15T10:00:00Z',
-            },
-            isLoading: false,
-            error: null,
-          },
+          isLoading: false,
+          error: null,
         },
       });
-
-      render(
-        <Provider store={currentStore}>
-          <MemoryRouter initialEntries={['/claim/123']}>
-            <Routes>
-              <Route
-                path="/claim/:id"
-                element={<TravelClaimDetailsContent />}
-              />
-            </Routes>
-          </MemoryRouter>
-        </Provider>,
-      );
 
       expect(getAppointmentDataByDateTimeStub.called).to.be.false;
     });
 
     it('does not dispatch getAppointmentDataByDateTime when appointmentData belongs to the same claim', async () => {
-      currentStore = makeStore({
-        ...initialState,
-        travelPay: {
-          ...initialState.travelPay,
-          claimDetails: {
-            data: CLAIM_123, // existing claim details
-            error: null,
+      renderComponent({
+        claimDetailsOverrides: {
+          data: CLAIM_123,
+        },
+        appointmentOverrides: {
+          data: {
+            travelPayClaim: { claim: { id: '123' } },
+            appointmentDateTime: '2025-12-15T10:00:00Z',
           },
-          appointment: {
-            data: {
-              travelPayClaim: { claim: { id: '123' } }, // same claim
-              appointmentDateTime: '2025-12-15T10:00:00Z',
-            },
-            isLoading: false,
-            error: null,
-          },
+          error: null,
         },
       });
-
-      render(
-        <Provider store={currentStore}>
-          <MemoryRouter initialEntries={['/claim/123']}>
-            <Routes>
-              <Route
-                path="/claim/:id"
-                element={<TravelClaimDetailsContent />}
-              />
-            </Routes>
-          </MemoryRouter>
-        </Provider>,
-      );
 
       // Await useEffect completion
       await waitFor(() => {
@@ -413,37 +304,18 @@ describe('TravelClaimDetailsContent', () => {
     });
 
     it('dispatches getAppointmentDataByDateTime when appointmentData belongs to a different claim', async () => {
-      currentStore = makeStore({
-        ...initialState,
-        travelPay: {
-          ...initialState.travelPay,
-          claimDetails: {
-            data: CLAIM_123, // claim details for current claim
-            error: null,
+      renderComponent({
+        claimDetailsOverrides: {
+          data: CLAIM_123,
+        },
+        appointmentOverrides: {
+          data: {
+            travelPayClaim: { claim: { id: '999' } },
+            appointmentDateTime: '2025-12-15T10:00:00Z',
           },
-          appointment: {
-            data: {
-              travelPayClaim: { claim: { id: '999' } }, // appointment belongs to a different claim
-              appointmentDateTime: '2025-12-15T10:00:00Z',
-            },
-            isLoading: false,
-            error: null,
-          },
+          error: null,
         },
       });
-
-      render(
-        <Provider store={currentStore}>
-          <MemoryRouter initialEntries={['/claim/123']}>
-            <Routes>
-              <Route
-                path="/claim/:id"
-                element={<TravelClaimDetailsContent />}
-              />
-            </Routes>
-          </MemoryRouter>
-        </Provider>,
-      );
 
       await waitFor(() => {
         expect(getAppointmentDataByDateTimeStub.calledOnce).to.be.true;
@@ -454,38 +326,22 @@ describe('TravelClaimDetailsContent', () => {
     });
 
     it('should not dispatch getAppointmentDataByDateTime when complexClaimsEnabled feature flag is false', async () => {
-      currentStore = makeStore({
-        ...initialState,
-        featureToggles: {
+      renderComponent({
+        featureOverrides: {
           // eslint-disable-next-line camelcase
-          travel_pay_enable_complex_claims: false, // feature flag disabled
+          travel_pay_enable_complex_claims: false,
         },
-        travelPay: {
-          ...initialState.travelPay,
-          claimDetails: {
-            data: CLAIM_123, // existing claim details
-            error: null,
-          },
-          appointment: {
-            data: null, // no appointment data yet
-            isLoading: false,
-            error: null,
-          },
+        claimDetailsOverrides: {
+          data: CLAIM_123,
+          error: null,
+        },
+        appointmentOverrides: {
+          data: null,
+          isLoading: false,
+          error: null,
         },
       });
 
-      render(
-        <Provider store={currentStore}>
-          <MemoryRouter initialEntries={['/claim/123']}>
-            <Routes>
-              <Route
-                path="/claim/:id"
-                element={<TravelClaimDetailsContent />}
-              />
-            </Routes>
-          </MemoryRouter>
-        </Provider>,
-      );
       await waitFor(() => {
         expect(getAppointmentDataByDateTimeStub.calledOnce).to.be.false;
       });
@@ -494,36 +350,14 @@ describe('TravelClaimDetailsContent', () => {
 
   describe('help text and additional content', () => {
     it('should always display help text and direct deposit information', () => {
-      currentStore = makeStore({
-        ...initialState,
-        travelPay: {
-          ...initialState.travelPay,
-          claimDetails: {
-            data: CLAIM_123, // set claim details
-            error: null,
-          },
-          appointment: {
-            data: {
-              id: 'appt-123',
-            },
-            isLoading: false,
-            error: null,
-          },
+      const screen = renderComponent({
+        claimDetailsOverrides: {
+          data: CLAIM_123,
+        },
+        appointmentOverrides: {
+          data: { id: 'appt-123' },
         },
       });
-
-      const screen = render(
-        <Provider store={currentStore}>
-          <MemoryRouter initialEntries={['/claim/123']}>
-            <Routes>
-              <Route
-                path="/claim/:id"
-                element={<TravelClaimDetailsContent />}
-              />
-            </Routes>
-          </MemoryRouter>
-        </Provider>,
-      );
 
       expect(screen.getByText(/eligible for reimbursement/i)).to.exist;
       expect(
@@ -534,36 +368,15 @@ describe('TravelClaimDetailsContent', () => {
     });
 
     it('should display contact information in error alert', () => {
-      currentStore = makeStore({
-        ...initialState,
-        travelPay: {
-          ...initialState.travelPay,
-          claimDetails: {
-            data: {}, // no claim data
-            error: { message: 'Error' }, // simulate fetch error
-          },
-          appointment: {
-            data: {
-              id: 'appt-123',
-            },
-            isLoading: false,
-            error: null,
-          },
+      const screen = renderComponent({
+        claimDetailsOverrides: {
+          data: {},
+          error: { message: 'Error' },
+        },
+        appointmentOverrides: {
+          data: { id: 'appt-123' },
         },
       });
-
-      const screen = render(
-        <Provider store={currentStore}>
-          <MemoryRouter initialEntries={['/claim/123']}>
-            <Routes>
-              <Route
-                path="/claim/:id"
-                element={<TravelClaimDetailsContent />}
-              />
-            </Routes>
-          </MemoryRouter>
-        </Provider>,
-      );
 
       expect(
         screen.getAllByText(/You can call the BTSSS call center/i).length,
