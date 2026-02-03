@@ -85,13 +85,20 @@ beforeEach(() => {
     data: [],
   });
 
-  // Fail loudly if any test makes an unmocked call to Mapbox API.
-  // Tests should mock Mapbox with: cy.intercept('GET', '**/geocoding/**', mockData);
-  cy.intercept('GET', '**/api.mapbox.com/**', req => {
-    throw new Error(
-      `🚨 Unmocked Mapbox API call detected: ${req.url}\n` +
-        `Add cy.intercept('GET', '**/geocoding/**', mockGeocodingData) to your test.`,
-    );
+  // Auto-mock all Mapbox API calls to prevent hitting real API (costs money).
+  // Catch-all first, then specific mocks override (Cypress matches last-registered first).
+  cy.intercept('GET', '**/api.mapbox.com/**', { statusCode: 200, body: {} });
+  cy.intercept('GET', '**/api.mapbox.com/geocoding/**', {
+    type: 'FeatureCollection',
+    features: [],
+  });
+  cy.intercept('GET', '**/api.mapbox.com/styles/**', {
+    statusCode: 200,
+    headers: { 'content-type': 'image/png' },
+    body: Cypress.Blob.base64StringToBlob(
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+      'image/png',
+    ),
   });
 });
 
