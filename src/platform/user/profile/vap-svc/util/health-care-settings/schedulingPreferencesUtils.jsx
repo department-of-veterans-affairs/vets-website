@@ -8,12 +8,14 @@ import { AddressView } from 'platform/user/exportsFile';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import PropTypes from 'prop-types';
-import { FIELD_NAMES, FIELD_TITLES } from '../../constants';
 import {
   FIELD_ITEM_IDS,
+  FIELD_NAMES,
   FIELD_OPTION_IDS,
   FIELD_OPTION_IDS_INVERTED,
   FIELD_OPTION_IN_COPY,
+  FIELD_SECTION_HEADERS,
+  errorMessages,
 } from '../../constants/schedulingPreferencesConstants';
 
 import {
@@ -48,6 +50,12 @@ const SINGLE_VALUE_SCHEDULING_PREFERENCES = [
   ...INLINE_SCHEDULING_PREFERENCES,
   FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
 ];
+
+const inlinePreferenceFormTitle = fieldName => {
+  return `Select your ${FIELD_SECTION_HEADERS[fieldName]
+    .toLowerCase()
+    .replace(/s$/, '')}.`;
+};
 
 export const isSchedulingPreference = fieldName => {
   return [
@@ -133,8 +141,11 @@ export const schedulingPreferencesUiSchema = fieldName => {
     default:
       return {
         [fieldName]: radioUI({
-          title: FIELD_TITLES[fieldName],
+          title: inlinePreferenceFormTitle(fieldName),
           labels: { ...schedulingPreferenceOptions(fieldName) },
+          errorMessages: {
+            enum: errorMessages.noPreferenceSelected,
+          },
         }),
       };
   }
