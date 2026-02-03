@@ -1,6 +1,7 @@
+import React from 'react';
+
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-
 import {
   profilePersonalInfoPage,
   profileContactInfoPages,
@@ -107,6 +108,11 @@ const formConfig = {
           dataAdapter: {
             ssnPath: 'ssn',
           },
+          header: (
+            <h3 className="vads-u-margin-bottom--3">
+              Confirm the personal information we have on file for you
+            </h3>
+          ),
         }),
         payeeNumber: {
           path: 'payee-number',
