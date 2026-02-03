@@ -325,7 +325,7 @@ describe('<NameSearchForm>', () => {
         },
       };
       const doSearchSpy = sinon.spy();
-      const { getByRole, getByTestId } = renderWithStoreAndRouter(
+      const { getByTestId } = renderWithStoreAndRouter(
         <NameSearchForm
           doSearch={doSearchSpy}
           smallScreen={false}
@@ -359,7 +359,9 @@ describe('<NameSearchForm>', () => {
         expect(applyFilteBTN).to.exist;
         userEvent.click(applyFilteBTN);
       }
-      const searchInput = getByRole('combobox');
+      // Note: Downshift v9 places role="combobox" on the wrapper div, not the input element.
+      // Use data-testid instead of getByRole('combobox') to target the actual input.
+      const searchInput = getByTestId('ct-input');
       userEvent.type(searchInput, value);
       const searchButton = getByTestId('search-btn');
       userEvent.click(searchButton);
@@ -375,6 +377,9 @@ describe('<NameSearchForm>', () => {
         'school-type-Public',
       );
 
+      await waitFor(() => {
+        expect(fetchStub.firstCall).to.not.be.null;
+      });
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
@@ -387,6 +392,9 @@ describe('<NameSearchForm>', () => {
         'school-type-For profit',
       );
 
+      await waitFor(() => {
+        expect(fetchStub.firstCall).to.not.be.null;
+      });
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
@@ -400,6 +408,9 @@ describe('<NameSearchForm>', () => {
         'Reset search',
       );
 
+      await waitFor(() => {
+        expect(fetchStub.firstCall).to.not.be.null;
+      });
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(`${expectedBaseUrl}?name=${newValue}&page=1`);
@@ -410,6 +421,9 @@ describe('<NameSearchForm>', () => {
         'special-mission-hbcu',
       );
 
+      await waitFor(() => {
+        expect(fetchStub.firstCall).to.not.be.null;
+      });
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
@@ -422,6 +436,9 @@ describe('<NameSearchForm>', () => {
         'special-mission-menonly',
       );
 
+      await waitFor(() => {
+        expect(fetchStub.firstCall).to.not.be.null;
+      });
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
@@ -434,6 +451,9 @@ describe('<NameSearchForm>', () => {
         'special-mission-womenonly',
       );
 
+      await waitFor(() => {
+        expect(fetchStub.firstCall).to.not.be.null;
+      });
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
@@ -446,6 +466,9 @@ describe('<NameSearchForm>', () => {
         'exclude-caution-flags',
       );
 
+      await waitFor(() => {
+        expect(fetchStub.firstCall).to.not.be.null;
+      });
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
@@ -454,6 +477,9 @@ describe('<NameSearchForm>', () => {
     });
     it('should remove employers when button is clicked ', async () => {
       const { newValue, expectedBaseUrl } = setupRTL('new jersey', 'employers');
+      await waitFor(() => {
+        expect(fetchStub.firstCall).to.not.be.null;
+      });
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
