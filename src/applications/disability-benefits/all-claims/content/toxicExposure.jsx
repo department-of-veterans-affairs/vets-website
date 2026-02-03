@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  capitalizeEachWord,
   formSubtitle,
   formTitle,
   isPlaceholderRated,
@@ -230,9 +229,8 @@ export function makeTEConditionsUISchema(formData) {
 
   const formatSide = side => {
     if (!side || typeof side !== 'string') return '';
-    const clean = side.trim().toLowerCase();
-    const map = { left: 'Left', right: 'Right', bilateral: 'Bilateral' };
-    return map[clean] || clean.charAt(0).toUpperCase() + clean.slice(1);
+    // const map = { left: 'Left', right: 'Right', bilateral: 'Bilateral' };
+    return side.trim().toLowerCase();
   };
 
   newDisabilities.forEach(disability => {
@@ -243,9 +241,10 @@ export function makeTEConditionsUISchema(formData) {
 
     if (typeof condition === 'string' && condition.trim() !== '') {
       const base = condition.trim();
+      const normalized = base.charAt(0).toUpperCase() + base.slice(1);
       const side = formatSide(sideOfBody);
-      id = sippableId(base);
-      const display = capitalizeEachWord(base);
+      id = sippableId(normalized);
+      const display = normalized;
       title = side ? `${display}, ${side}` : display;
     }
 

@@ -93,7 +93,16 @@ export function getDisabilities(
 
 export function getDisabilityName(disability) {
   const name = disability.name ? disability.name : disability.condition;
-  return name && name.trim();
+  const baseName = name && name.trim();
+  const normalized = baseName.charAt(0).toUpperCase() + baseName.slice(1);
+
+  // Include sideOfBody if present to match the checkbox schema format
+  // used in makeSchemaForNewDisabilities (e.g., "tinnitus, left")
+  if (normalized && disability.sideOfBody) {
+    const side = disability.sideOfBody.trim().toLowerCase();
+    return `${normalized}, ${side}`;
+  }
+  return normalized;
 }
 
 export function getClaimedConditionNames(

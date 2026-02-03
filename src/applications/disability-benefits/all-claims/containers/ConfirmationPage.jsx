@@ -18,14 +18,16 @@ import { alertBody } from '../content/confirmation-poll';
 import { ClaimConfirmationInfo } from '../components/ClaimConfirmationInfo';
 import { BddConfirmationAlert } from '../content/bddConfirmationAlert';
 import ConfirmationPageErrorBoundary from '../components/ConfirmationPageErrorBoundary';
-import { capitalizeEachWord } from '../utils';
+
+const pretty = s => s.charAt(0).toUpperCase() + s.slice(1);
 
 export const getNewConditionsNames = (names = []) => {
   const cleaned = names
     .filter(name => typeof name === 'string' && name.trim() !== '')
-    .map(name => capitalizeEachWord(name.trim().toLowerCase()));
+    .map(name => name.trim().toLowerCase());
+  const capFirstWord = cleaned.map(pretty);
 
-  return [...new Set(cleaned)];
+  return [...new Set(capFirstWord)];
 };
 
 export default class ConfirmationPage extends React.Component {

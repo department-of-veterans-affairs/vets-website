@@ -53,10 +53,7 @@ const createCheckboxSchema = (schema, disabilityName) => {
  * Create the checkbox schema for new disabilities if user has selected
  * New claim type
  */
-const pretty = s =>
-  typeof capitalizeEachWord === 'function'
-    ? capitalizeEachWord(s)
-    : s.charAt(0).toUpperCase() + s.slice(1);
+const pretty = s => s.charAt(0).toUpperCase() + s.slice(1);
 
 export const makeSchemaForNewDisabilities = createSelector(
   formData =>
