@@ -77,7 +77,6 @@ export default function ClaimFormSideNav({
 
   /**
    * Close mobile accordion when navigating between pages
-   * This matches design spec behavior where accordion should close on navigation
    */
   useEffect(
     () => {
