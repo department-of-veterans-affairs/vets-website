@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import createCommonStore from 'platform/startup/store';
-import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 import ServicePeriodView from '../../components/ServicePeriodView';
 
 const store = createCommonStore();
@@ -23,15 +23,15 @@ const props = {
 
 describe('Pre-need ServicePeriodView Component', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<ServicePeriodView {...props} />);
-    const input = tree.subTree('div');
-    expect(input.type).to.equal('div');
+    const { container } = render(<ServicePeriodView {...props} />);
+    const div = container.querySelector('div');
+    expect(div).to.exist;
   });
 
   it('should populate date field', () => {
-    const tree = SkinDeep.shallowRender(<ServicePeriodView {...props} />);
-    const input = tree.subTree('div');
-    expect(input.text()).to.equal('01/01/1900 — 01/01/1905');
+    const { container } = render(<ServicePeriodView {...props} />);
+    const div = container.querySelector('div');
+    expect(div.textContent).to.include('01/01/1900 — 01/01/1905');
   });
 
   it('should handle missing dateRange in formData', () => {
@@ -41,16 +41,16 @@ describe('Pre-need ServicePeriodView Component', () => {
         serviceBranch: 'AR', // Using 'AR' as the serviceBranch instead of 'U.S. Army'
       },
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ServicePeriodView {...propsWithoutDateRange} />,
     );
-    const div = tree.subTree('div');
+    const div = container.querySelector('div');
     // Should render without crashing
-    expect(div.type).to.equal('div');
+    expect(div).to.exist;
     // Check that it shows the service branch but empty dates
-    const text = div.text();
+    const text = div.textContent;
     expect(text).to.include('—'); // Should still contain the em dash
-    expect(text).to.not.include('undefined'); // Shouldn't show “undefined”
+    expect(text).to.not.include('undefined'); // Shouldn't show "undefined"
     // The from and to variables should be empty strings
     expect(text).to.equal(`U.S. Army — `);
   });
