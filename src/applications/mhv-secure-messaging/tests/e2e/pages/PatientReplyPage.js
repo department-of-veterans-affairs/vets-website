@@ -12,6 +12,7 @@ class PatientReplyPage {
       mockResponse,
     ).as(`getMessageRequest`);
     cy.get(Locators.BUTTONS.REPLY).click();
+    cy.wait(`@getMessageRequest`);
   };
 
   clickSendReplyMessageButton = mockReplyMessage => {

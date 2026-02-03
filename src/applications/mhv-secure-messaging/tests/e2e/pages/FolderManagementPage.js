@@ -102,6 +102,8 @@ class FolderManagementPage {
       .scrollIntoView()
       .click();
 
+    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID);
+
     cy.get('body').then($body => {
       const byTestIdSelector = `[data-testid="${
         Locators.BUTTONS.MOVE_MODAL_TEST_ID
@@ -201,7 +203,7 @@ class FolderManagementPage {
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {
-    cy.get('[data-testid="alert-text"]')
+    cy.findByTestId('alert-text')
       .should('exist')
       .and('contain.text', 'Message conversation was successfully moved.');
   };
