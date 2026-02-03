@@ -86,19 +86,57 @@ beforeEach(() => {
   });
 
   // Auto-mock all Mapbox API calls to prevent hitting real API (costs money).
-  // Catch-all first, then specific mocks override (Cypress matches last-registered first).
-  cy.intercept('GET', '**/api.mapbox.com/**', { statusCode: 200, body: {} });
-  cy.intercept('GET', '**/api.mapbox.com/geocoding/**', {
-    type: 'FeatureCollection',
-    features: [],
-  });
-  cy.intercept('GET', '**/api.mapbox.com/styles/**', {
-    statusCode: 200,
-    headers: { 'content-type': 'image/png' },
-    body: Cypress.Blob.base64StringToBlob(
-      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
-      'image/png',
-    ),
+  // Single comprehensive intercept with conditional logic for different endpoints.
+  cy.intercept('GET', '**/api.mapbox.com/**', req => {
+    if (req.url.includes('/geocoding/')) {
+      // Geocoding API - returns empty GeoJSON FeatureCollection
+      req.reply({
+        statusCode: 200,
+        body: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+      });
+    } else if (req.url.includes('/static/')) {
+      // Static image API - returns 1x1 transparent PNG
+      req.reply({
+        statusCode: 200,
+        headers: { 'content-type': 'image/png' },
+        body: Cypress.Blob.base64StringToBlob(
+          'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+          'image/png',
+        ),
+      });
+    } else if (
+      req.url.includes('/fonts/') ||
+      req.url.includes('/glyphs/') ||
+      req.url.includes('/tiles/') ||
+      req.url.includes('/v4/') ||
+      req.url.match(/\.vector\.pbf/)
+    ) {
+      // Font/glyph and tile APIs - return empty protobuf
+      req.reply({
+        statusCode: 200,
+        headers: { 'content-type': 'application/x-protobuf' },
+        body: new ArrayBuffer(0),
+      });
+    } else if (req.url.includes('/sprite')) {
+      // Sprite API - returns empty sprite sheet metadata or image
+      const isJson = req.url.includes('.json');
+      req.reply({
+        statusCode: 200,
+        headers: {
+          'content-type': isJson ? 'application/json' : 'image/png',
+        },
+        body: isJson ? {} : new ArrayBuffer(0),
+      });
+    } else {
+      // Fallback for any other Mapbox API endpoints
+      req.reply({
+        statusCode: 200,
+        body: {},
+      });
+    }
   });
 });
 
