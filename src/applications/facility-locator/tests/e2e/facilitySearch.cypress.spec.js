@@ -161,7 +161,10 @@ describe('Facility VA search', () => {
       .find('select')
       .select(CC_PROVIDER);
     cy.get('#service-type-ahead-input').type('General');
-    cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
+    // Use listbox container instead of Downshift-generated ID which varies by instance
+    cy.get('#service-typeahead-listbox [role="option"]')
+      .first()
+      .click({ waitForAnimations: true });
 
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.wait('@searchFacilities');
