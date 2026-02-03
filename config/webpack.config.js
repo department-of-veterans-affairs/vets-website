@@ -479,7 +479,7 @@ module.exports = async (env = {}) => {
             },
             warnings: false,
           },
-          parallel: 4,
+          parallel: 2,
         }),
       ],
       splitChunks: {
