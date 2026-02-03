@@ -215,6 +215,33 @@ describe('Medications List Card Extra Details', () => {
       const screen = setup({
         ...prescription,
         isRenewable: true,
+        prescriptionSource: 'VA',
+        dispStatus: dispStatusObj.active,
+        refillRemaining: 0,
+        stationNumber: '668',
+      });
+      expect(await screen.findByTestId('active-no-refill-left')).to.exist;
+      expect(await screen.findByTestId('send-renewal-request-message-link')).to
+        .exist;
+    });
+
+    it('displays renewal link when Expired and isRenewable is true for Oracle Health', async () => {
+      const screen = setup({
+        ...prescription,
+        isRenewable: true,
+        prescriptionSource: 'VA',
+        dispStatus: dispStatusObj.expired,
+        refillRemaining: 0,
+        stationNumber: '668',
+      });
+      expect(await screen.findByTestId('send-renewal-request-message-link')).to
+        .exist;
+    });
+
+    it('does not display renewal link for non-VA prescription even if isRenewable is true', async () => {
+      const screen = setup({
+        ...prescription,
+        isRenewable: true,
         prescriptionSource: 'NV',
         dispStatus: null,
         stationNumber: '668',
@@ -223,15 +250,30 @@ describe('Medications List Card Extra Details', () => {
         .exist;
     });
 
-    it('does not display renewal link when isRenewable is false', async () => {
+    it('does not display renewal link when Active has refills even if isRenewable is true', async () => {
+      const screen = setup({
+        ...prescription,
+        isRenewable: true,
+        prescriptionSource: 'VA',
+        dispStatus: dispStatusObj.active,
+        refillRemaining: 5, // Has refills, so renewal link should not show through Active path
+        stationNumber: '668',
+      });
+      // With refills remaining, the Active status shows refill content, not renewal link
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
+
+    it('does not display renewal link when isRenewable is false even for Active with 0 refills', async () => {
       const screen = setup({
         ...prescription,
         isRenewable: false,
         prescriptionSource: 'VA',
-        dispStatus: 'Active',
-        refillRemaining: 5,
+        dispStatus: dispStatusObj.active,
+        refillRemaining: 0,
         stationNumber: '668',
       });
+      expect(await screen.findByTestId('active-no-refill-left')).to.exist;
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
     });
