@@ -50,14 +50,13 @@ describe('<AutoSSO>', () => {
   });
 
   it(`should not call checkAutoSession on an invalid path ['/auth/login/callback']`, () => {
-    const oldLocation = global.window.location;
-    global.window.location = new URL('https://dev.va.gov');
-    global.window.location.pathname = `/auth/login/callback`;
+    const oldPathname = global.window.location.pathname;
+    global.window.location.pathname = '/auth/login/callback';
     sandbox.stub(ssoUtils, 'checkAutoSession').resolves(null);
     const props = generateProps({ hasCalledKeepAlive: false });
     render(<AutoSSO {...props} />);
     sinon.assert.notCalled(ssoUtils.checkAutoSession);
-    global.window.location = oldLocation;
+    global.window.location.pathname = oldPathname;
   });
 
   it('should not call checkAutoSession if `hasCalledKeepAlive` is true', () => {
