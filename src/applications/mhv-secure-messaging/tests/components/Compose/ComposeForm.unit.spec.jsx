@@ -975,14 +975,16 @@ describe('Compose form component', () => {
       },
     );
 
-    const blockedTriageGroupAlert = await screen.findByTestId(
-      'blocked-triage-group-alert',
-    );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You're not connected to any care teams in this messaging tool",
-    );
+    await waitFor(() => {
+      const blockedTriageGroupAlert = screen.getByTestId(
+        'blocked-triage-group-alert',
+      );
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You're not connected to any care teams in this messaging tool",
+      );
+    });
     const viewOnlyDraftSections = screen.queryAllByTestId(
       'view-only-draft-section',
     );
@@ -1129,11 +1131,10 @@ describe('Compose form component', () => {
       },
     );
 
-    const blockedTriageGroupAlert = await screen.findByTestId(
-      'blocked-triage-group-alert',
-    );
     await waitFor(() => {
-      expect(blockedTriageGroupAlert).to.exist;
+      const blockedTriageGroupAlert = screen.getByTestId(
+        'blocked-triage-group-alert',
+      );
       expect(blockedTriageGroupAlert).to.have.attribute(
         'trigger',
         "You can't send messages to your care teams right now",

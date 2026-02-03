@@ -409,16 +409,29 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 }
 
-#filter-summary {
-  margin: 0;
+#search-description {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   margin-top: 16px;
   padding: 8px;
   padding-top: 0;
   border-bottom: solid 1px var(--vads-color-base-light);
-  font-weight: normal;
+
+  * {
+    margin: 0;
+  }
+
+  h3 {
+    font-weight: normal;
+  }
+
+  p {
+    font-weight: bold;
+  }
 }
 
-.inbox-tab-container #filter-summary {
+.inbox-tab-container #search-description {
   margin-left: 20px;
   margin-right: 20px;
 }
@@ -480,6 +493,14 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     align-self: flex-start;
     margin-top: 16px;
   }
+}
+
+.no-results-alert {
+  padding-top: 20px;
+}
+
+.inbox-tab-container .no-results-alert {
+  padding: 20px;
 }
 
 // Actually on Conversation page

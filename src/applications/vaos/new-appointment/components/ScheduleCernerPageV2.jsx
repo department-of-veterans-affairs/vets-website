@@ -49,12 +49,12 @@ export default function ScheduleCernerPageV2() {
         </>
       )}
       <va-additional-info
-        trigger="Why can't I schedule online"
+        trigger="Why can't I schedule online?"
         uswds
         data-testid="additional-info"
       >
         <p className="vads-u-margin-top--0">
-          This facility doesn't support online scheduling.
+          {`This facility doesn't support online scheduling for ${typeOfCare?.name.toLowerCase()}.`}
         </p>
       </va-additional-info>
       <p>
