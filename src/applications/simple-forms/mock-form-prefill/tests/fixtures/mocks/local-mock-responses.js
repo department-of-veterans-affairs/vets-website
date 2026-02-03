@@ -12,8 +12,8 @@ const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': mockFeatureToggles,
-  'GET /v0/in_progress_forms/FORM_MOCK_PREFILL': mockSipGet,
-  'PUT /v0/in_progress_forms/FORM_MOCK_PREFILL': mockSipPut,
+  'GET /v0/in_progress_forms/FORM-MOCK-PREFILL': mockSipGet,
+  'PUT /v0/in_progress_forms/FORM-MOCK-PREFILL': mockSipPut,
   'POST /v0/api': mockSubmit,
 };
 
