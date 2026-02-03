@@ -31,9 +31,16 @@ export const uiSchema = {
       skipUpload: false,
       fileUploadUrl: UPLOAD_URL,
       formNumber: '21-526EZ',
-      // Disallow uploads greater than 100 MB
-      maxFileSize: 104857600, // 100MB in bytes
-      minSize: 1024,
+      fileSizesByFileType: {
+        pdf: {
+          maxFileSize: 1024 * 1024 * 100,
+          minFileSize: 1024,
+        },
+        default: {
+          maxFileSize: 1024 * 1024 * 50,
+          minFileSize: 1,
+        },
+      },
       accept: FILE_TYPES,
       hint: HINT_TEXT,
       errorMessages: {
