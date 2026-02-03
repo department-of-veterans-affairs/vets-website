@@ -64,6 +64,35 @@ describe('Medications Breadcrumbs', () => {
     expect(breadcrumbs.getAttribute('text')).to.equal('Back');
   });
 
+  it('preserves station_number in back link on DOCUMENTATION route', () => {
+    const stationNumber = '688';
+    const screen = renderWithStoreAndRouterV6(
+      <Routes>
+        <Route
+          path="/prescription/:prescriptionId/documentation"
+          element={<RxBreadcrumbs />}
+        />
+      </Routes>,
+      {
+        initialState: {},
+        reducers,
+        initialEntries: [
+          `${medicationsUrls.subdirectories.DETAILS}/${prescriptionId}${
+            medicationsUrls.subdirectories.DOCUMENTATION
+          }?station_number=${stationNumber}`,
+        ],
+      },
+    );
+    const breadcrumbs = screen.getByTestId('rx-breadcrumb-link');
+    const href = breadcrumbs.getAttribute('href');
+    expect(href).to.equal(
+      `${
+        medicationsUrls.PRESCRIPTION_DETAILS
+      }/${prescriptionId}?station_number=${stationNumber}`,
+    );
+    expect(breadcrumbs.getAttribute('text')).to.equal('Back');
+  });
+
   it('renders breadcrumbs on BASE route', async () => {
     const screen = setup({}, [medicationsUrls.subdirectories.BASE]);
 

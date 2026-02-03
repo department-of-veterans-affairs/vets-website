@@ -54,6 +54,7 @@ import {
   recordNotFoundMessage,
   DATETIME_FORMATS,
   RX_SOURCE,
+  STATION_NUMBER_PARAM,
 } from '../util/constants';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
@@ -76,7 +77,7 @@ import {
 const PrescriptionDetails = () => {
   const { prescriptionId } = useParams();
   const [searchParams] = useSearchParams();
-  const stationNumber = searchParams.get('station_number');
+  const stationNumber = searchParams.get(STATION_NUMBER_PARAM);
   const navigate = useNavigate();
 
   // Get sort/filter selections from store.

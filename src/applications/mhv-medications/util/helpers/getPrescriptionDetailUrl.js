@@ -1,3 +1,5 @@
+import { STATION_NUMBER_PARAM } from '../constants';
+
 /**
  * Build the URL for prescription detail pages
  * @param {Object} prescription - The prescription object
@@ -16,7 +18,7 @@ export const getPrescriptionDetailUrl = (prescription, suffix = '') => {
   const basePath = `/prescription/${prescriptionId}${suffix}`;
 
   if (stationNumber) {
-    return `${basePath}?station_number=${stationNumber}`;
+    return `${basePath}?${STATION_NUMBER_PARAM}=${stationNumber}`;
   }
 
   return basePath;

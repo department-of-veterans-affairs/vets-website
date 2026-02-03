@@ -1,5 +1,9 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom-v5-compat';
+import {
+  useParams,
+  useSearchParams,
+  useNavigate,
+} from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import {
   updatePageTitle,
@@ -22,6 +26,7 @@ import {
   filterOptions,
   DOWNLOAD_FORMAT,
   DATETIME_FORMATS,
+  STATION_NUMBER_PARAM,
 } from '../util/constants';
 import { pageType } from '../util/dataDogConstants';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -33,12 +38,26 @@ import {
   selectFilterOption,
   selectPageNumber,
 } from '../selectors/selectPreferences';
+import { selectCernerPilotFlag } from '../util/selectors';
 
 const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
   const [searchParams] = useSearchParams();
-  const stationNumber = searchParams.get('station_number');
+  const stationNumber = searchParams.get(STATION_NUMBER_PARAM);
+  const navigate = useNavigate();
   const contentRef = useRef();
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+
+  // Redirect to medications list if v2 API is enabled but station_number is missing
+  // This handles edge cases like old bookmarks or direct URL access without station_number
+  useEffect(
+    () => {
+      if (isCernerPilot && !stationNumber) {
+        navigate('/my-health/medications', { replace: true });
+      }
+    },
+    [isCernerPilot, stationNumber, navigate],
+  );
 
   const { dob, userName } = useSelector(state => ({
     userName: state.user.profile.userFullName,

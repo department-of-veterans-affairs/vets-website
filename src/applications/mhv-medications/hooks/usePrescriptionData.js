@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom-v5-compat';
 import {
   getPrescriptionsList,
   getPrescriptionById,
 } from '../api/prescriptionsApi';
+import { STATION_NUMBER_PARAM } from '../util/constants';
+import { selectCernerPilotFlag } from '../util/selectors';
 
 /**
  * Custom hook to fetch prescription data
@@ -13,7 +16,8 @@ import {
  */
 export const usePrescriptionData = (prescriptionId, queryParams) => {
   const [searchParams] = useSearchParams();
-  const stationNumber = searchParams.get('station_number');
+  const stationNumber = searchParams.get(STATION_NUMBER_PARAM);
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
 
   const [
     cachedPrescriptionAvailable,
@@ -33,10 +37,19 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
   });
 
   // Build query params for getPrescriptionById
-  // Use stationNumber from URL if available, otherwise fall back to cached prescription's stationNumber
+  // Use stationNumber from URL if available (required for v2 API when Cerner pilot is enabled)
+  // Only fall back to cached prescription's stationNumber when Cerner pilot is enabled
+  const getStationNumber = () => {
+    if (stationNumber) return stationNumber;
+    if (isCernerPilot && cachedPrescription?.stationNumber) {
+      return cachedPrescription.stationNumber;
+    }
+    return undefined;
+  };
+
   const prescriptionByIdParams = {
     id: prescriptionId,
-    stationNumber: stationNumber || cachedPrescription?.stationNumber,
+    stationNumber: getStationNumber(),
   };
 
   // Fetch individual prescription when needed

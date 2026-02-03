@@ -9,6 +9,7 @@ import {
   rxListSortingOptions,
   ALL_MEDICATIONS_FILTER_KEY,
   filterOptions,
+  STATION_NUMBER_PARAM,
 } from '../util/constants';
 
 /**
@@ -55,7 +56,7 @@ export const prescriptionsLoader = ({ params, request }) => {
 
   // Extract station_number from URL query params
   const url = new URL(request.url);
-  const stationNumber = url.searchParams.get('station_number');
+  const stationNumber = url.searchParams.get(STATION_NUMBER_PARAM);
 
   const state = store.getState();
 

@@ -545,12 +545,15 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="previous-rx"]').should('contain', text);
   };
 
-  visitMedDetailsPage = prescriptionDetails => {
+  visitMedDetailsPage = (prescriptionDetails, stationNumber = null) => {
+    const urlSuffix = stationNumber ? `?station_number=${stationNumber}` : '';
     cy.intercept(
       'GET',
-      `/my-health/medications/prescription/${prescriptionDetails}`,
+      `/my-health/medications/prescription/${prescriptionDetails}${urlSuffix}`,
     );
-    cy.visit(`/my-health/medications/prescription/${prescriptionDetails}`);
+    cy.visit(
+      `/my-health/medications/prescription/${prescriptionDetails}${urlSuffix}`,
+    );
   };
 
   verifyNoMedicationsErrorAlertWhenUserNavsToDetailsPage = text => {

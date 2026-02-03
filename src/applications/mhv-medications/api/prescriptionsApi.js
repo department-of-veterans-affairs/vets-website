@@ -12,6 +12,7 @@ import {
   defaultSelectedSortOption,
   INCLUDE_IMAGE_ENDPOINT,
   rxListSortingOptions,
+  STATION_NUMBER_PARAM,
 } from '../util/constants';
 import {
   selectCernerPilotFlag,
@@ -90,7 +91,9 @@ export const buildPrescriptionsListQuery = (params = {}) => {
  * @returns {Object} Object containing the path
  */
 export const buildPrescriptionByIdQuery = ({ id, stationNumber }) => {
-  const queryParams = stationNumber ? `?station_number=${stationNumber}` : '';
+  const queryParams = stationNumber
+    ? `?${STATION_NUMBER_PARAM}=${stationNumber}`
+    : '';
   return {
     path: `/prescriptions/${id}${queryParams}`,
   };
@@ -276,7 +279,7 @@ export const prescriptionsApi = createApi({
       // This endpoint always hits v1 docs API regardless of Cerner pilot flag
       async queryFn({ id, stationNumber }, { getState }) {
         const queryParams = stationNumber
-          ? `?station_number=${stationNumber}`
+          ? `?${STATION_NUMBER_PARAM}=${stationNumber}`
           : '';
         try {
           const response = await apiRequest(

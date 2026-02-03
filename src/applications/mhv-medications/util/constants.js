@@ -1,3 +1,6 @@
+// Query parameter name for station number (used for v2 API with Cerner pilot)
+export const STATION_NUMBER_PARAM = 'station_number';
+
 export const rxListSortingOptions = {
   alphabeticallyByStatus: {
     API_ENDPOINT: '&sort=alphabetical-status',

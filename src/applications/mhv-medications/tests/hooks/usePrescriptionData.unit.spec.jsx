@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { usePrescriptionData } from '../../hooks/usePrescriptionData';
 import * as prescriptionsApi from '../../api/prescriptionsApi';
 
@@ -95,8 +96,12 @@ describe('usePrescriptionData', () => {
       useQuery: useQueryStub,
     });
 
-    // Create mock store for provider
-    mockStore = configureStore([])({});
+    // Create mock store for provider with feature toggles
+    mockStore = configureStore([])({
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: false,
+      },
+    });
 
     // Create wrapper without PropTypes to avoid validation errors
     // Includes MemoryRouter for useSearchParams hook
