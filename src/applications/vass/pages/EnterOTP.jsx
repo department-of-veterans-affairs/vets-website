@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useErrorFocus } from '../hooks/useErrorFocus';
 import Wrapper from '../layout/Wrapper';
 import {
-  usePostOTCVerificationMutation,
+  usePostOTPVerificationMutation,
   useLazyGetUserAppointmentQuery,
 } from '../redux/api/vassApi';
 import {
@@ -52,19 +52,13 @@ const EnterOTP = () => {
   ]);
 
   const [code, setCode] = useState('');
-<<<<<<< HEAD:src/applications/vass/pages/EnterOTC.jsx
-  const [error, setError] = useState(undefined);
   const [checkingAppointment, setCheckingAppointment] = useState(false);
-
-  const [postOTCVerification, { isLoading }] = usePostOTCVerificationMutation();
-  const [getUserAppointment] = useLazyGetUserAppointmentQuery();
-=======
 
   const [
     postOTPVerification,
     { isLoading, error: postOTPVerificationError },
   ] = usePostOTPVerificationMutation();
->>>>>>> 6a0bced99715389220603608070610228f86f3ab:src/applications/vass/pages/EnterOTP.jsx
+  const [getUserAppointment] = useLazyGetUserAppointmentQuery();
 
   const handleSubmit = async () => {
     if (code === '') {
