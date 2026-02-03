@@ -445,6 +445,12 @@ export class ProfileInformationEditView extends Component {
               />
             )}
 
+            {error && (
+              <div className="vads-u-margin-y--2">
+                <VAPServiceEditModalErrorMessage error={error} />
+              </div>
+            )}
+
             <SchemaForm
               addNameAttribute
               // `name` and `title` are required by SchemaForm, but are only used
@@ -459,15 +465,6 @@ export class ProfileInformationEditView extends Component {
               }
               onSubmit={onSubmit}
             >
-              {error && (
-                <div
-                  role="alert"
-                  className="vads-u-margin-y--2"
-                  data-testid="edit-error-alert"
-                >
-                  <VAPServiceEditModalErrorMessage error={error} />
-                </div>
-              )}
               {fieldName === FIELD_NAMES.MOBILE_PHONE &&
                 this.props.allowInternationalPhones && (
                   <Toggler.Hoc
