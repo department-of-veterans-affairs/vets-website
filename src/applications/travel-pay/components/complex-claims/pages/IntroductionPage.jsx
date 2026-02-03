@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 import {
   BTSSS_PORTAL_URL,
@@ -32,11 +31,6 @@ const IntroductionPage = () => {
 
   const { data: appointment } = useSelector(selectAppointment);
   const complexClaim = useSelector(selectComplexClaim);
-
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const complexClaimsToggle = useToggleValue(
-    TOGGLE_NAMES.travelPayEnableComplexClaims,
-  );
 
   const title = 'File a travel reimbursement claim';
 
@@ -94,12 +88,11 @@ const IntroductionPage = () => {
       {shouldShowRedirect && <ComplexClaimRedirect />}
       <div data-testid="introduction-page">
         <h1>{title}</h1>
-        {complexClaimsToggle &&
-          appointment?.isOutOfBounds && (
-            <div className="vads-u-margin-top--4 vads-u-margin-bottom--3">
-              <OutOfBoundsAppointmentAlert />
-            </div>
-          )}
+        {appointment?.isOutOfBounds && (
+          <div className="vads-u-margin-top--4 vads-u-margin-bottom--3">
+            <OutOfBoundsAppointmentAlert />
+          </div>
+        )}
         <div className="vads-u-margin-left--2">
           <va-process-list>
             <va-process-list-item

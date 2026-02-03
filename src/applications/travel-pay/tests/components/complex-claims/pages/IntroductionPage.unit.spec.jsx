@@ -644,13 +644,9 @@ describe('Travel Pay – IntroductionPage', () => {
     });
   });
 
-  it('shows OutOfBoundsAppointmentAlert when appointment is out of bounds and complex claims toggle is enabled', () => {
+  it('shows OutOfBoundsAppointmentAlert when appointment is out of bounds', () => {
     const stateWithOutOfBoundsAppointment = {
       ...getData(),
-      featureToggles: {
-        loading: false,
-        travelPayEnableComplexClaims: true,
-      },
       travelPay: {
         ...getData().travelPay,
         appointment: {
@@ -685,10 +681,6 @@ describe('Travel Pay – IntroductionPage', () => {
   it('does not show OutOfBoundsAppointmentAlert when appointment is not out of bounds', () => {
     const stateWithInBoundsAppointment = {
       ...getData(),
-      featureToggles: {
-        loading: false,
-        travelPayEnableComplexClaims: true,
-      },
       travelPay: {
         ...getData().travelPay,
         appointment: {
@@ -713,44 +705,6 @@ describe('Travel Pay – IntroductionPage', () => {
     );
 
     // Verify the alert is NOT displayed
-    expect(
-      queryByRole('heading', {
-        name: /your appointment happened more than 30 days ago/i,
-      }),
-    ).to.not.exist;
-  });
-
-  it('does not show OutOfBoundsAppointmentAlert when complex claims toggle is disabled', () => {
-    const stateWithToggleDisabled = {
-      ...getData(),
-      featureToggles: {
-        loading: false,
-        travelPayEnableComplexClaims: false,
-      },
-      travelPay: {
-        ...getData().travelPay,
-        appointment: {
-          ...getData().travelPay.appointment,
-          data: {
-            id: '12345',
-            facilityName: 'Test Facility',
-            isOutOfBounds: true, // Even though out of bounds, toggle is disabled
-          },
-        },
-      },
-    };
-
-    const { queryByRole } = renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={[initialRoute]}>
-        <IntroductionPage />
-      </MemoryRouter>,
-      {
-        initialState: stateWithToggleDisabled,
-        reducers: reducer,
-      },
-    );
-
-    // Verify the alert is NOT displayed when toggle is off
     expect(
       queryByRole('heading', {
         name: /your appointment happened more than 30 days ago/i,
