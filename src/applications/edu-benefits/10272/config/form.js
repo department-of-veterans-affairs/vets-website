@@ -25,6 +25,7 @@ import {
   prepCourseOnline,
   prepCoursePeriod,
   prepCourseCost,
+  remarks,
 } from '../pages';
 
 import prefillTransform from './prefillTransform';
@@ -158,6 +159,16 @@ const formConfig = {
           title: 'Enter the cost of the prep course including any fees',
           uiSchema: prepCourseCost.uiSchema,
           schema: prepCourseCost.schema,
+        },
+      },
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarks: {
+          path: 'remarks',
+          uiSchema: remarks.uiSchema,
+          schema: remarks.schema,
         },
       },
     },
