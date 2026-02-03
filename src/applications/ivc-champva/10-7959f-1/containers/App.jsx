@@ -64,3 +64,5 @@ App.propTypes = {
     href: PropTypes.string,
   }),
 };
+
+export default App;

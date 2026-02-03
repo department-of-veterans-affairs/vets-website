@@ -14,7 +14,7 @@ const IntroductionPage = ({ route }) => {
 
   const sipIntroProps = useMemo(
     () => ({
-      startText: 'Sign in to start your form',
+      unauthStartText: 'Sign in to start your form',
       messages: savedFormMessages,
       formConfig: { customText },
       headingLevel: 2,
@@ -40,9 +40,7 @@ const IntroductionPage = ({ route }) => {
         Foreign Medical Program.
       </p>
 
-      <h2 className="vads-u-font-size--h3">
-        What to know before you fill out this form
-      </h2>
+      <h2>What to know before you fill out this form</h2>
       <ul>
         <li>You’ll need your Social Security number or your VA file number.</li>
         <li>
@@ -52,7 +50,9 @@ const IntroductionPage = ({ route }) => {
         </li>
       </ul>
 
-      <SaveInProgressIntro {...sipIntroProps} />
+      <div className="vads-u-margin-y--4">
+        <SaveInProgressIntro {...sipIntroProps} />
+      </div>
 
       <va-omb-info
         res-burden={OMB_RES_BURDEN}
