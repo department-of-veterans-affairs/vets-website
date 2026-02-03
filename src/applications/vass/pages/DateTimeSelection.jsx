@@ -5,8 +5,8 @@ import CalendarWidget from 'platform/shared/calendar/CalendarWidget';
 
 import Wrapper from '../layout/Wrapper';
 import {
-  setSelectedDate,
-  selectSelectedDate,
+  setSelectedSlot,
+  selectSelectedSlot,
   selectUuid,
 } from '../redux/slices/formSlice';
 import { useGetAppointmentAvailabilityQuery } from '../redux/api/vassApi';
@@ -21,7 +21,7 @@ import { removeVassToken } from '../utils/auth';
 
 const DateTimeSelection = () => {
   const dispatch = useDispatch();
-  const selectedDate = useSelector(selectSelectedDate);
+  const selectedSlot = useSelector(selectSelectedSlot);
   const uuid = useSelector(selectUuid);
   const navigate = useNavigate();
   const {
@@ -95,13 +95,23 @@ const DateTimeSelection = () => {
     if (!selectedSlotTime) {
       return;
     }
-    // Update selected dates and clear any previous error state
-    dispatch(setSelectedDate(selectedSlotTime));
+    const selectedSlotData = slots.find(
+      slot => slot.start === selectedSlotTime,
+    );
+    if (!selectedSlotData) {
+      return;
+    }
+    dispatch(
+      setSelectedSlot({
+        dtStartUtc: selectedSlotData.start,
+        dtEndUtc: selectedSlotData.end,
+      }),
+    );
     handleSetError('');
   };
 
   const handleContinue = () => {
-    if (!selectedDate) {
+    if (!selectedSlot.dtStartUtc) {
       handleSetError(
         'Please select a preferred date and time for your appointment.',
       );
@@ -137,7 +147,7 @@ const DateTimeSelection = () => {
       <CalendarWidget
         maxSelections={1}
         availableSlots={slots}
-        value={selectedDate ? [selectedDate] : []}
+        value={selectedSlot?.dtStartUtc ? [selectedSlot.dtStartUtc] : []}
         id="dateTime"
         timezone={timezone}
         additionalOptions={{

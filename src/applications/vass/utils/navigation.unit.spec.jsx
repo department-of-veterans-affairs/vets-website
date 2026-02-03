@@ -58,7 +58,7 @@ describe('VASS Utils: navigation', () => {
       expect(reviewRoute).to.exist;
       expect(reviewRoute.permissions.requireFormData).to.include('uuid');
       expect(reviewRoute.permissions.requireFormData).to.include(
-        'selectedDate',
+        'selectedSlot',
       );
       expect(reviewRoute.permissions.requireFormData).to.include(
         'selectedTopics',
@@ -75,7 +75,7 @@ describe('VASS Utils: navigation', () => {
       ]);
 
       const dateTimeRoute = routes.find(r => r.path === URLS.DATE_TIME);
-      expect(dateTimeRoute.setsData).to.deep.equal(['selectedDate']);
+      expect(dateTimeRoute.setsData).to.deep.equal(['selectedSlot']);
 
       const topicRoute = routes.find(r => r.path === URLS.TOPIC_SELECTION);
       expect(topicRoute.setsData).to.deep.equal(['selectedTopics']);
@@ -120,8 +120,8 @@ describe('VASS Utils: navigation', () => {
       expect(result).to.equal(URLS.VERIFY);
     });
 
-    it('should return the path of the route that sets selectedDate', () => {
-      const result = findRouteForField('selectedDate');
+    it('should return the path of the route that sets selectedSlot', () => {
+      const result = findRouteForField('selectedSlot');
       expect(result).to.equal(URLS.DATE_TIME);
     });
 
@@ -238,7 +238,7 @@ describe('VASS Utils: navigation', () => {
           'lastname',
           'dob',
           'obfuscatedEmail',
-          'selectedDate',
+          'selectedSlot',
           'selectedTopics',
         ];
         const completeFormState = {
@@ -246,7 +246,10 @@ describe('VASS Utils: navigation', () => {
           lastname: 'Doe',
           dob: '1990-01-15',
           obfuscatedEmail: 't***@example.com',
-          selectedDate: '2025-01-15T10:00:00.000Z',
+          selectedSlot: {
+            dtStartUtc: '2025-01-15T10:00:00.000Z',
+            dtEndUtc: '2025-01-15T10:30:00.000Z',
+          },
           selectedTopics: [{ topicId: '1', topicName: 'Health' }],
         };
         expect(findMissingField(requiredFields, completeFormState)).to.be.null;
@@ -258,7 +261,7 @@ describe('VASS Utils: navigation', () => {
           'lastname',
           'dob',
           'obfuscatedEmail',
-          'selectedDate',
+          'selectedSlot',
           'selectedTopics',
         ];
         const incompleteFormState = {
@@ -266,7 +269,10 @@ describe('VASS Utils: navigation', () => {
           lastname: 'Doe',
           dob: '1990-01-15',
           obfuscatedEmail: 't***@example.com',
-          selectedDate: '2025-01-15T10:00:00.000Z',
+          selectedSlot: {
+            dtStartUtc: '2025-01-15T10:00:00.000Z',
+            dtEndUtc: '2025-01-15T10:30:00.000Z',
+          },
           selectedTopics: [], // Missing topics
         };
         expect(findMissingField(requiredFields, incompleteFormState)).to.equal(

@@ -5,12 +5,12 @@ import Wrapper from '../layout/Wrapper';
 import AppointmentCard from '../components/AppointmentCard';
 import { VASS_PHONE_NUMBER } from '../utils/constants';
 import { useGetAppointmentQuery } from '../redux/api/vassApi';
-import { selectSelectedDate } from '../redux/slices/formSlice';
+import { selectSelectedSlot } from '../redux/slices/formSlice';
 
 const CancelConfirmation = () => {
   const { appointmentId } = useParams();
   // Fallback to the selected date if the appointment data is not available.
-  const selectedDate = useSelector(selectSelectedDate);
+  const selectedSlot = useSelector(selectSelectedSlot);
   const { data: appointmentData, isLoading } = useGetAppointmentQuery({
     appointmentId,
   });
@@ -36,7 +36,7 @@ const CancelConfirmation = () => {
         <AppointmentCard
           appointmentData={{
             ...appointmentData,
-            startUTC: appointmentData?.startUTC || selectedDate,
+            startUTC: appointmentData?.startUTC || selectedSlot.dtStartUtc,
           }}
         />
       </div>

@@ -137,8 +137,8 @@ describe('VASS Containers: withFormData', () => {
       expect(queryByTestId('test-component')).to.not.exist;
     });
 
-    it('should redirect to route that sets missing field (selectedDate)', async () => {
-      const WrappedComponent = withFormData(TestComponent, ['selectedDate']);
+    it('should redirect to route that sets missing field (selectedSlot)', async () => {
+      const WrappedComponent = withFormData(TestComponent, ['selectedSlot']);
 
       const { getByTestId, queryByTestId } = renderWithStoreAndRouterV6(
         <>
@@ -154,7 +154,10 @@ describe('VASS Containers: withFormData', () => {
         {
           ...getDefaultRenderOptions({
             hydrated: true,
-            selectedDate: null,
+            selectedSlot: {
+              dtStartUtc: null,
+              dtEndUtc: null,
+            },
           }),
           initialEntries: ['/test'],
         },
@@ -204,7 +207,7 @@ describe('VASS Containers: withFormData', () => {
     it('should redirect based on first missing field when multiple are missing', async () => {
       const WrappedComponent = withFormData(TestComponent, [
         'uuid',
-        'selectedDate',
+        'selectedSlot',
       ]);
 
       const { getByTestId } = renderWithStoreAndRouterV6(
@@ -226,7 +229,10 @@ describe('VASS Containers: withFormData', () => {
           ...getDefaultRenderOptions({
             hydrated: true,
             uuid: null,
-            selectedDate: null,
+            selectedSlot: {
+              dtStartUtc: null,
+              dtEndUtc: null,
+            },
           }),
           initialEntries: ['/test'],
         },
@@ -338,16 +344,22 @@ describe('VASS Containers: withFormData', () => {
       });
 
       const state = defaultOptions.store.getState();
-      expect(state.vassForm.selectedDate).to.be.null;
+      expect(state.vassForm.selectedSlot).to.deep.equal({
+        dtStartUtc: null,
+        dtEndUtc: null,
+      });
       expect(state.vassForm.selectedTopics).to.deep.equal([]);
     });
 
     it('should not clear form data when redirecting to non-Verify routes', async () => {
-      const WrappedComponent = withFormData(TestComponent, ['selectedDate']);
+      const WrappedComponent = withFormData(TestComponent, ['selectedSlot']);
 
-      // Set selectedDate to reroute to Date Time page
+      // Set selectedSlot to reroute to Date Time page
       const defaultOptions = getHydratedFormRenderOptions({
-        selectedDate: null,
+        selectedSlot: {
+          dtStartUtc: null,
+          dtEndUtc: null,
+        },
       });
 
       const { getByTestId } = renderWithStoreAndRouterV6(

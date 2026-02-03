@@ -321,7 +321,10 @@ describe('VASS Containers: withAuthorization', () => {
       });
 
       const state = defaultOptions.store.getState();
-      expect(state.vassForm.selectedDate).to.be.null;
+      expect(state.vassForm.selectedSlot).to.deep.equal({
+        dtStartUtc: null,
+        dtEndUtc: null,
+      });
       expect(state.vassForm.selectedTopics).to.deep.equal([]);
     });
 
@@ -356,7 +359,10 @@ describe('VASS Containers: withAuthorization', () => {
 
       // Verify clearFormData was called (state was reset)
       const state = defaultOptions.store.getState();
-      expect(state.vassForm.selectedDate).to.be.null;
+      expect(state.vassForm.selectedSlot).to.deep.equal({
+        dtStartUtc: null,
+        dtEndUtc: null,
+      });
       expect(state.vassForm.selectedTopics).to.deep.equal([]);
 
       // Verify expired token was removed

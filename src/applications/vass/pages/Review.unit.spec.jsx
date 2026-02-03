@@ -73,8 +73,15 @@ describe('VASS Component: Review', () => {
     const { getByTestId } = renderWithStoreAndRouterV6(
       <Review />,
       getDefaultRenderOptions({
-        ...defaultFormState,
-        selectedTopics: [{ topicId: '1', topicName: 'Education Benefits' }],
+        hydrated: true,
+        selectedSlot: {
+          dtStartUtc: '2025-01-15T10:00:00.000Z',
+          dtEndUtc: '2025-01-15T11:00:00.000Z',
+        },
+        selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
+        uuid: 'c0ffee-1234-beef-5678',
+        lastname: 'Smith',
+        dob: '1935-04-07',
       }),
     );
 

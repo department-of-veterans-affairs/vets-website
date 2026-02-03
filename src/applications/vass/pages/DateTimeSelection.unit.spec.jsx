@@ -33,10 +33,12 @@ describe('VASS Component: DateTimeSelection', () => {
     resetFetch();
   });
 
-  const renderComponent = (selectedDate = null) => {
+  const renderComponent = (
+    selectedSlot = { dtStartUtc: null, dtEndUtc: null },
+  ) => {
     return renderWithStoreAndRouterV6(
       <DateTimeSelection />,
-      getDefaultRenderOptions({ selectedDate }),
+      getDefaultRenderOptions({ selectedSlot }),
     );
   };
 
@@ -72,9 +74,8 @@ describe('VASS Component: DateTimeSelection', () => {
 
   it('should not deselect date when onChange is called with empty array', async () => {
     // Render component with a pre-selected date
-    const selectedDate =
-      mockAppointmentAvailability.data.availableTimeSlots[0].dtStartUtc;
-    const screen = renderComponent(selectedDate);
+    const selectedSlot = mockAppointmentAvailability.data.availableTimeSlots[0];
+    const screen = renderComponent(selectedSlot);
     await waitFor(() => {
       expect(screen.getByTestId('date-time-selection')).to.exist;
     });

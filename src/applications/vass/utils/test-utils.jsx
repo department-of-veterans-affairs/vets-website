@@ -21,7 +21,7 @@ import { FLOW_TYPES } from './constants';
 /**
  * @typedef {Object} VassFormState
  * @property {boolean} hydrated - Whether the form state has been hydrated from storage
- * @property {string | null} selectedDate - The selected appointment date (ISO 8601 string)
+ * @property {{ dtStartUtc: string | null, dtEndUtc: string | null }} selectedSlot - The selected appointment slot
  * @property {Topic[]} selectedTopics - Array of selected discussion topics
  * @property {string | null} obfuscatedEmail - Partially hidden email for display
  * @property {string | null} uuid - Unique identifier from the appointment URL
@@ -37,7 +37,10 @@ import { FLOW_TYPES } from './constants';
  */
 export const defaultVassFormState = {
   hydrated: false,
-  selectedDate: null,
+  selectedSlot: {
+    dtStartUtc: null,
+    dtEndUtc: null,
+  },
   selectedTopics: [],
   obfuscatedEmail: null,
   uuid: null,
@@ -112,7 +115,10 @@ export const getHydratedFormRenderOptions = (vassFormOverrides = {}) => {
     ...defaultOptions.initialState,
     vassForm: {
       hydrated: true,
-      selectedDate: '2025-01-01',
+      selectedSlot: {
+        dtStartUtc: '2025-01-01T10:00:00.000Z',
+        dtEndUtc: '2025-01-01T10:30:00.000Z',
+      },
       obfuscatedEmail: 's***@example.com',
       selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
       uuid: 'test-uuid',
