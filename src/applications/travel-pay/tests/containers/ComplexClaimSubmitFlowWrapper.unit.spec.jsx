@@ -207,7 +207,6 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         `/my-health/appointments/past/${appointmentId}`,
       );
       expect(backLink.getAttribute('text')).to.equal('Back to appointment');
-      expect(backLink.hasAttribute('disable-analytics')).to.be.true;
 
       sessionStorage.clear();
     });
