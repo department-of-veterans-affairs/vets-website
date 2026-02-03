@@ -1,9 +1,10 @@
 const APPOINTMENT_MAP = {
   '167325': { type: 'noClaim', days: -1 },
-  '167326': { type: 'claim', days: -3 },
+  '167326': { type: 'claim', days: -35 }, // Changed to -35 (out of bounds)
   '167327': { type: 'noClaim', days: -32 },
-  '167328': { type: 'savedClaim', days: -5 },
+  '167328': { type: 'savedClaim', days: -40 }, // Changed to -40 (out of bounds)
   '167329': { type: 'savedClaim', days: -33 },
+  '167330': { type: 'noClaim', days: -45 }, // NEW: Out of bounds, no claim - for testing IntroductionPage alert
 };
 
 // Non-matching appointments for filter testing
