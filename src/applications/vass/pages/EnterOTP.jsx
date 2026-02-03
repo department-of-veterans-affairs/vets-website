@@ -144,6 +144,7 @@ const EnterOTP = () => {
         required
         error={otpError}
         data-testid="otp-input"
+        autocomplete="one-time-code"
         show-input-error
       />
       <div className="vads-u-display--flex vads-u-margin-top--4 vass-form__button-container vass-flex-direction--column">
