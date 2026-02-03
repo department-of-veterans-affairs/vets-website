@@ -84,6 +84,15 @@ beforeEach(() => {
   cy.intercept('GET', '/v0/maintenance_windows', {
     data: [],
   });
+
+  // Fail loudly if any test makes an unmocked call to Mapbox API.
+  // Tests should mock Mapbox with: cy.intercept('GET', '**/geocoding/**', mockData);
+  cy.intercept('GET', '**/api.mapbox.com/**', req => {
+    throw new Error(
+      `🚨 Unmocked Mapbox API call detected: ${req.url}\n` +
+        `Add cy.intercept('GET', '**/geocoding/**', mockGeocodingData) to your test.`,
+    );
+  });
 });
 
 // Assign the video path to the context property for failed tests
