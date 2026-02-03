@@ -21,7 +21,6 @@ import partBCardUpload from './partBCardUpload';
 import partBEffectiveDates from './partBEffectiveDates';
 import partCCardUpload from './partCCardUpload';
 import partCEffectiveDate from './partCEffectiveDate';
-import partCPharmacyBenefits from './partCPharmacyBenefits';
 import partDCardUpload from './partDCardUpload';
 import partDEffectiveDate from './partDEffectiveDate';
 import partDStatus from './partDStatus.rev2025';
@@ -112,12 +111,6 @@ export const medicarePagesRev2025 = {
     title: 'Medicare Part C carrier and effective date',
     depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartC(formData),
     ...partCEffectiveDate,
-  },
-  medicarePartCPharmacyBenefits: {
-    path: 'medicare-part-c-pharmacy-benefits',
-    title: 'Medicare Part C pharmacy benefits',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartC(formData),
-    ...partCPharmacyBenefits,
   },
   medicarePartCCardUpload: {
     path: 'medicare-part-c-card',
