@@ -905,10 +905,7 @@ describe('Refill Prescriptions Component', () => {
       sandbox.restore();
       sandbox
         .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
-        .returns([
-          sinon.stub(),
-          { isLoading: false, error: null },
-        ]);
+        .returns([sinon.stub(), { isLoading: false, error: null }]);
       sandbox
         .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
         .returns({

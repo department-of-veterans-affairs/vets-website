@@ -142,7 +142,7 @@ describe('Refill Button component', () => {
       const testRx = { ...rx, prescriptionId: 123456789 };
       const screen = setup(testRx);
       const button = screen.getByTestId('refill-request-button');
-      
+
       expect(button).to.exist;
       expect(button).to.not.have.attribute('disabled');
     });

@@ -114,9 +114,10 @@ const RefillPrescriptions = () => {
   // Smart error handling - prevents false error alerts during cache invalidation
   const isProcessingRefill = refillStatus === REFILL_STATUS.IN_PROGRESS;
   const hasRecentSuccess = refillStatus === REFILL_STATUS.FINISHED;
-  
+
   // Only show bulk refill errors for genuine failures (not during processing or after success)
-  const shouldShowBulkError = bulkRefillError && !isProcessingRefill && !hasRecentSuccess;
+  const shouldShowBulkError =
+    bulkRefillError && !isProcessingRefill && !hasRecentSuccess;
   const prescriptionsApiError = refillableError || shouldShowBulkError;
 
   // Selectors
