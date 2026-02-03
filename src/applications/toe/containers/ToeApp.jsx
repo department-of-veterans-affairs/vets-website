@@ -30,6 +30,7 @@ function ToeApp({
   isLoggedIn,
   location,
   meb1995Reroute,
+  mebParentGuardianStep,
   mebDpoAddressOptionEnabled,
   setFormData,
   sponsors,
@@ -73,7 +74,7 @@ function ToeApp({
       sponsors,
       sponsorsInitial,
       sponsorsSavedState,
-      formData.sponsors,
+      formData,
     ],
   );
 
@@ -86,7 +87,7 @@ function ToeApp({
         });
       }
     },
-    [isLOA3],
+    [isLOA3, formData, setFormData],
   );
 
   useEffect(
@@ -101,7 +102,7 @@ function ToeApp({
         });
       }
     },
-    [showMeb1990ER6MaintenanceMessage],
+    [showMeb1990ER6MaintenanceMessage, formData, setFormData],
   );
 
   useEffect(
@@ -112,8 +113,15 @@ function ToeApp({
           meb1995Reroute,
         });
       }
+
+      if (mebParentGuardianStep !== formData.mebParentGuardianStep) {
+        setFormData({
+          ...formData,
+          mebParentGuardianStep,
+        });
+      }
     },
-    [formData, meb1995Reroute, setFormData],
+    [formData, meb1995Reroute, mebParentGuardianStep, setFormData],
   );
 
   useEffect(
@@ -155,7 +163,13 @@ function ToeApp({
         });
       }
     },
-    [getDuplicateContactInfo, duplicateEmail, duplicatePhone],
+    [
+      getDuplicateContactInfo,
+      duplicateEmail,
+      duplicatePhone,
+      formData,
+      setFormData,
+    ],
   );
 
   useEffect(
@@ -187,7 +201,7 @@ function ToeApp({
         });
       }
     },
-    [toeHighSchoolInfoChange],
+    [toeHighSchoolInfoChange, formData, setFormData],
   );
 
   useEffect(
@@ -199,7 +213,7 @@ function ToeApp({
         });
       }
     },
-    [mebDpoAddressOptionEnabled],
+    [mebDpoAddressOptionEnabled, formData, setFormData],
   );
 
   useEffect(
@@ -211,7 +225,7 @@ function ToeApp({
         });
       }
     },
-    [dob, setFormData],
+    [dob, formData, setFormData],
   );
   return (
     <>
@@ -263,6 +277,7 @@ ToeApp.propTypes = {
   location: PropTypes.object,
   meb1995Reroute: PropTypes.bool,
   mebDpoAddressOptionEnabled: PropTypes.bool,
+  mebParentGuardianStep: PropTypes.bool,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
