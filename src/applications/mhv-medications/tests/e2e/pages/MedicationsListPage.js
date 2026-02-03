@@ -288,11 +288,13 @@ class MedicationsListPage {
   };
 
   verifyInformationBasedOnStatusActiveNoRefillsLeft = () => {
+    // V1 status logic is used (V2 flags disabled), which shows "Contact your VA provider" message
     cy.get('[data-testid="active-no-refill-left"]')
+      .first()
       .should('be.visible')
       .and(
         'contain',
-        'You can’t refill this prescription. If you need more, send a secure message to your care team',
+        'Contact your VA provider if you need more of this medication.',
       );
   };
 
