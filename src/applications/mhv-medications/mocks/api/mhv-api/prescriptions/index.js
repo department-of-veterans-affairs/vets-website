@@ -57,7 +57,7 @@ function mockPrescription(n = 0, attrs = {}, isV2 = false) {
       quantity: '1',
       expirationDate: '2099-01-02T10:30:00-05:00',
       dispensedDate: '2024-02-25T10:30:00-05:00',
-      stationNumber: '757',
+      stationNumber: '001',
       isRefillable,
       isRenewable,
       isTrackable: null,
