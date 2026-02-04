@@ -73,7 +73,7 @@ function ToeApp({
       sponsors,
       sponsorsInitial,
       sponsorsSavedState,
-      formData.sponsors,
+      formData,
     ],
   );
 
