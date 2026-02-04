@@ -11,15 +11,15 @@ import {
 import { DATE_FORMATS } from '../utils/constants';
 import VideoLink from './VideoLink';
 
-beforeEach(() => {
-  MockDate.set(getTestDate());
-});
-
-afterEach(() => {
-  MockDate.reset();
-});
-
 describe('VAOS Component: VideoLink', () => {
+  beforeEach(() => {
+    MockDate.set(getTestDate());
+  });
+
+  afterEach(() => {
+    MockDate.reset();
+  });
+
   const initialState = {
     appointments: {
       facilityData: {

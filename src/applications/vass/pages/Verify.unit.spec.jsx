@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
-import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
+import { Routes, Route } from 'react-router-dom-v5-compat';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { commonReducer } from 'platform/startup/store';
@@ -19,20 +19,21 @@ import {
   getDefaultRenderOptions,
   reducers,
   vassApi,
+  LocationDisplay,
 } from '../utils/test-utils';
+import { FLOW_TYPES, URLS } from '../utils/constants';
+import { createRateLimitExceededError } from '../services/mocks/utils/errors';
 
-// Helper component to display current location for testing navigation
-const LocationDisplay = () => {
-  const location = useLocation();
-  return (
-    <div data-testid="location-display">
-      {location.pathname}
-      {location.search}
-    </div>
-  );
+const entryWithUuid = {
+  initialEntries: [`${URLS.VERIFY}?uuid=c0ffee-1234-beef-5678`],
 };
 
 const defaultRenderOptions = getDefaultRenderOptions();
+
+const defaultRenderOptionsWithUuid = {
+  ...defaultRenderOptions,
+  ...entryWithUuid,
+};
 
 describe('VASS Component: Verify', () => {
   beforeEach(() => {
@@ -46,7 +47,7 @@ describe('VASS Component: Verify', () => {
   it('should render all content', () => {
     const { getByTestId, queryByTestId } = renderWithStoreAndRouterV6(
       <Verify />,
-      defaultRenderOptions,
+      defaultRenderOptionsWithUuid,
     );
 
     expect(getByTestId('header')).to.exist;
@@ -57,11 +58,42 @@ describe('VASS Component: Verify', () => {
     expect(queryByTestId('verify-error-alert')).to.not.exist;
   });
 
+  describe('when URL does not have a UUID', () => {
+    it('should display error alert when URL does not have a UUID', () => {
+      const { getByTestId, queryByTestId } = renderWithStoreAndRouterV6(
+        <Verify />,
+        defaultRenderOptions,
+      );
+
+      expect(getByTestId('api-error-alert')).to.exist;
+      expect(queryByTestId('submit-button')).to.not.exist;
+      expect(queryByTestId('last-name-input')).to.not.exist;
+      expect(queryByTestId('dob-input')).to.not.exist;
+    });
+  });
+
   describe('when cancellation url parameter is true', () => {
+    it('should set the flow type to cancel', async () => {
+      const store = createStore(
+        combineReducers({ ...commonReducer, ...reducers }),
+        defaultRenderOptions.initialState,
+        applyMiddleware(thunk, vassApi.middleware),
+      );
+
+      renderWithStoreAndRouterV6(<Verify />, {
+        ...defaultRenderOptions,
+        store,
+        initialEntries: [`${URLS.VERIFY}?cancel=true&uuid=test-uuid`],
+      });
+
+      await waitFor(() => {
+        expect(store.getState().vassForm.flowType).to.equal(FLOW_TYPES.CANCEL);
+      });
+    });
     it('should display the correct page title', () => {
       const { getByTestId } = renderWithStoreAndRouterV6(<Verify />, {
         ...defaultRenderOptions,
-        initialEntries: ['/?cancel=true'],
+        initialEntries: [`${URLS.VERIFY}?cancel=true&uuid=test-uuid`],
       });
 
       expect(getByTestId('header').textContent).to.contain(
@@ -69,10 +101,10 @@ describe('VASS Component: Verify', () => {
       );
     });
 
-    it('should navigate to enter otc page passing cancel=true as a url parameter', async () => {
+    it('should navigate to enter otp page', async () => {
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
-          message: 'OTC sent to registered email address',
+          message: 'OTP sent to registered email address',
           expiresIn: 600,
           email: 's****@email.com',
         },
@@ -81,15 +113,12 @@ describe('VASS Component: Verify', () => {
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
           <Routes>
-            <Route path="/" element={<Verify />} />
-            <Route path="/enter-otc" element={<div>Enter OTC Page</div>} />
+            <Route path={URLS.VERIFY} element={<Verify />} />
+            <Route path={URLS.ENTER_OTP} element={<div>Enter OTP Page</div>} />
           </Routes>
           <LocationDisplay />
         </>,
-        {
-          ...defaultRenderOptions,
-          initialEntries: ['/?cancel=true'],
-        },
+        defaultRenderOptionsWithUuid,
       );
 
       // Fill in valid credentials
@@ -108,14 +137,14 @@ describe('VASS Component: Verify', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          '/enter-otc?cancel=true',
+          URLS.ENTER_OTP,
         );
       });
     });
   });
 
   describe('successful verification', () => {
-    it('should navigate to enter-otc page with valid credentials', async () => {
+    it('should navigate to enter-otp page with valid credentials', async () => {
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
           message: 'OTC sent to registered email address',
@@ -127,15 +156,12 @@ describe('VASS Component: Verify', () => {
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
           <Routes>
-            <Route path="/" element={<Verify />} />
-            <Route path="/enter-otc" element={<div>Enter OTC Page</div>} />
+            <Route path={URLS.VERIFY} element={<Verify />} />
+            <Route path={URLS.ENTER_OTP} element={<div>Enter OTP Page</div>} />
           </Routes>
           <LocationDisplay />
         </>,
-        {
-          ...defaultRenderOptions,
-          initialEntries: ['/?uuid=c0ffee-1234-beef-5678'],
-        },
+        defaultRenderOptionsWithUuid,
       );
 
       // Fill in valid credentials
@@ -154,7 +180,7 @@ describe('VASS Component: Verify', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          '/enter-otc',
+          URLS.ENTER_OTP,
         );
       });
     });
@@ -162,7 +188,7 @@ describe('VASS Component: Verify', () => {
     it('should set low auth form data when verification is successful', async () => {
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
-          message: 'OTC sent to registered email address',
+          message: 'OTP sent to registered email address',
           expiresIn: 600,
           email: 's****@email.com',
         },
@@ -178,15 +204,11 @@ describe('VASS Component: Verify', () => {
         <>
           <Routes>
             <Route path="/" element={<Verify />} />
-            <Route path="/enter-otc" element={<div>Enter OTC Page</div>} />
+            <Route path="/enter-otp" element={<div>Enter OTP Page</div>} />
           </Routes>
           <LocationDisplay />
         </>,
-        {
-          ...defaultRenderOptions,
-          store,
-          initialEntries: ['/?uuid=c0ffee-1234-beef-5678'],
-        },
+        { ...defaultRenderOptionsWithUuid, store },
       );
 
       // Fill in valid credentials
@@ -205,13 +227,13 @@ describe('VASS Component: Verify', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          '/enter-otc',
+          '/enter-otp',
         );
       });
       // check for redux state
       const state = store.getState();
       expect(state.vassForm.uuid).to.equal('c0ffee-1234-beef-5678');
-      expect(state.vassForm.lastname).to.equal('Smith');
+      expect(state.vassForm.lastName).to.equal('Smith');
       expect(state.vassForm.dob).to.equal('1935-04-07');
       expect(state.vassForm.obfuscatedEmail).to.equal('s****@email.com');
     });
@@ -232,7 +254,7 @@ describe('VASS Component: Verify', () => {
         getByTestId,
         queryByTestId,
         container,
-      } = renderWithStoreAndRouterV6(<Verify />, defaultRenderOptions);
+      } = renderWithStoreAndRouterV6(<Verify />, defaultRenderOptionsWithUuid);
 
       const submitButton = getByTestId('submit-button');
 
@@ -255,21 +277,16 @@ describe('VASS Component: Verify', () => {
     });
 
     it('should display verification error message when rate limit is exceeded', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), {
-        errors: [
-          {
-            code: 'rate_limit_exceeded',
-            detail: 'Too many OTC requests.  Please try again later.',
-            retryAfter: 900,
-          },
-        ],
-      });
+      setFetchJSONFailure(
+        global.fetch.onCall(0),
+        createRateLimitExceededError(900),
+      );
 
       const {
         getByTestId,
         queryByTestId,
         container,
-      } = renderWithStoreAndRouterV6(<Verify />, defaultRenderOptions);
+      } = renderWithStoreAndRouterV6(<Verify />, defaultRenderOptionsWithUuid);
 
       const submitButton = getByTestId('submit-button');
 

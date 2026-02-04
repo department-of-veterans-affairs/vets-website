@@ -96,6 +96,10 @@ import {
  * @param {string} [options.formNumber] - the form's number
  * @param {boolean} [options.skipUpload] - skip attempt to upload in dev when there is no backend
  * @param {boolean} [options.disallowEncryptedPdfs] - don't allow encrypted pdfs
+ * @param {function} [options.createPayload] - custom function that creates the payload used when uploading the file
+ * @param {function} [options.parseResponse] - custom function that transforms the response from the server after an upload
+ * @param {Record<string, { maxFileSize: number, minFileSize: number }>} [options.fileSizesByFileType] - object that specifies max and min file size limits by file type or by default
+ }}
  * @returns {UISchemaOptions}
  */
 export const fileInputUI = options => {
