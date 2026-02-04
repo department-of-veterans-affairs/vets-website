@@ -16,6 +16,7 @@ import {
   MCP_STATEMENTS_FETCH_INIT,
   MCP_STATEMENTS_FETCH_SUCCESS,
   MCP_STATEMENTS_FETCH_FAILURE,
+  MCP_DETAIL_FETCH_INIT,
 } from '../actions/copays';
 
 const debtInitialState = {
@@ -39,6 +40,11 @@ const mcpInitialState = {
 
 export const medicalCopaysReducer = (state = mcpInitialState, action) => {
   switch (action.type) {
+    case MCP_DETAIL_FETCH_INIT:
+      return {
+        ...state,
+        isCopayDetailLoading: true,
+      };
     case MCP_STATEMENTS_FETCH_INIT:
       return {
         ...state,
@@ -55,8 +61,14 @@ export const medicalCopaysReducer = (state = mcpInitialState, action) => {
         ...state,
         pending: false,
         selectedStatement: action.response.data,
+        isCopayDetailLoading: false,
       };
     case MCP_DETAIL_FETCH_FAILURE:
+      return {
+        ...state,
+        isCopayDetailLoading: false,
+        error: action.error,
+      };
     case MCP_STATEMENTS_FETCH_FAILURE:
       return {
         ...state,

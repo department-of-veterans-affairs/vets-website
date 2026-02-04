@@ -24,6 +24,15 @@ export const API_RESPONSES = Object.freeze({
   ERROR: -1,
 });
 
+export const DEFAULT_COPAY_ATTRIBUTES = Object.freeze({
+  TITLE: 'title',
+  INVOICE_DATE: 'invoiceDate',
+  ACCOUNT_NUMBER: 'accountNumber',
+  FACILITY_NAME: 'facilityName',
+  CHARGES: [],
+  AMOUNT_DUE: 0.0,
+});
+
 export const combinedPortalAccess = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
 

@@ -16,18 +16,12 @@ import {
   setPageFocus,
   formatISODateToMMDDYYYY,
   isAnyElementFocused,
+  DEFAULT_COPAY_ATTRIBUTES,
 } from '../../combined/utils/helpers';
 import { getCopayDetailStatement } from '../../combined/actions/copays';
 
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import CopayAlertContainer from '../components/CopayAlertContainer';
-
-const DEFAULT_COPAY_ATTRIBUTES = {
-  TITLE: 'title',
-  INVOICE_DATE: 'invoiceDate',
-  ACCOUNT_NUMBER: 'accountNumber',
-  CHARGES: [],
-};
 
 const DetailCopayPage = ({ match }) => {
   const dispatch = useDispatch();
@@ -39,6 +33,9 @@ const DetailCopayPage = ({ match }) => {
 
   const copayDetail =
     useSelector(state => state.combinedPortal.mcp.selectedStatement) || {};
+  const isCopayDetailLoading = useSelector(
+    state => state.combinedPortal.mcp.isCopayDetailLoading,
+  );
   const allStatements =
     useSelector(state => state.combinedPortal.mcp.statements) || [];
 
@@ -92,11 +89,22 @@ const DetailCopayPage = ({ match }) => {
     () => {
       if (!isAnyElementFocused()) setPageFocus();
 
-      if (!copayDetail?.id || copayDetail.id !== selectedId) {
+      if (
+        !copayDetail?.id &&
+        copayDetail.id !== selectedId &&
+        !isCopayDetailLoading &&
+        shouldShowVHAPaymentHistory
+      ) {
         dispatch(getCopayDetailStatement(`${selectedId}`));
       }
     },
-    [selectedId, dispatch, copayDetail?.id],
+    [
+      selectedId,
+      dispatch,
+      copayDetail?.id,
+      isCopayDetailLoading,
+      shouldShowVHAPaymentHistory,
+    ],
   );
 
   // get veteran name
@@ -135,7 +143,7 @@ const DetailCopayPage = ({ match }) => {
 
   useHeaderPageTitle(copayAttributes.TITLE);
 
-  if (!selectedCopay?.id) {
+  if (!selectedCopay?.id || isCopayDetailLoading) {
     return <VaLoadingIndicator message="Loading features..." />;
   }
 
