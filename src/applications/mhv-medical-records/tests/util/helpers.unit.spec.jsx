@@ -40,6 +40,7 @@ import {
   calculateDateRange,
   buildInitialDateRange,
   resolveAcceleratedDateRange,
+  sortByDate,
 } from '../../util/helpers';
 import { refreshPhases, VALID_REFRESH_DURATION } from '../../util/constants';
 
@@ -1275,11 +1276,11 @@ describe('formatDateTime', () => {
     expect(formattedTime).to.equal('12:00 PM');
   });
 
-  it('returns empty strings for invalid input', () => {
+  it('returns null for invalid input', () => {
     const { formattedDate, formattedTime } = formatDateTime('not-a-date');
 
-    expect(formattedDate).to.equal('');
-    expect(formattedTime).to.equal('');
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
   });
 
   it('handles midnight correctly (12:00 AM)', () => {
@@ -1289,6 +1290,34 @@ describe('formatDateTime', () => {
 
     expect(formattedDate).to.equal('January 5, 2025');
     expect(formattedTime).to.equal('12:00 AM');
+  });
+
+  it('returns null for null input (prevents epoch date)', () => {
+    const { formattedDate, formattedTime } = formatDateTime(null);
+
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
+  });
+
+  it('returns null for undefined input (prevents epoch date)', () => {
+    const { formattedDate, formattedTime } = formatDateTime(undefined);
+
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
+  });
+
+  it('returns null for 0 input (prevents epoch date)', () => {
+    const { formattedDate, formattedTime } = formatDateTime(0);
+
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
+  });
+
+  it('returns null for empty string input', () => {
+    const { formattedDate, formattedTime } = formatDateTime('');
+
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
   });
 });
 
@@ -1332,5 +1361,85 @@ describe('resolveAcceleratedDateRange', () => {
     expect(result.startDate).to.equal(expected6.fromDate);
     expect(result.endDate).to.equal(expected6.toDate);
     expect(result.fallbackApplied).to.be.true;
+  });
+});
+
+describe('sortByDate', () => {
+  it('sorts records by sortDate in descending order (newest first)', () => {
+    const records = [
+      { id: 1, sortDate: '2023-01-15T10:00:00Z' },
+      { id: 2, sortDate: '2023-06-20T10:00:00Z' },
+      { id: 3, sortDate: '2023-03-10T10:00:00Z' },
+    ];
+    const sorted = sortByDate([...records]);
+    expect(sorted[0].id).to.equal(2); // June (newest)
+    expect(sorted[1].id).to.equal(3); // March
+    expect(sorted[2].id).to.equal(1); // January (oldest)
+  });
+
+  it('pushes records with missing sortDate to the end', () => {
+    const records = [
+      { id: 1, sortDate: null },
+      { id: 2, sortDate: '2023-06-20T10:00:00Z' },
+      { id: 3, sortDate: undefined },
+      { id: 4, sortDate: '2023-01-15T10:00:00Z' },
+    ];
+    const sorted = sortByDate([...records]);
+    expect(sorted[0].id).to.equal(2); // Has date (newest)
+    expect(sorted[1].id).to.equal(4); // Has date (older)
+    // Records with missing dates at the end
+    expect([sorted[2].id, sorted[3].id]).to.include(1);
+    expect([sorted[2].id, sorted[3].id]).to.include(3);
+  });
+
+  it('handles records with invalid date strings', () => {
+    const records = [
+      { id: 1, sortDate: 'invalid-date' },
+      { id: 2, sortDate: '2023-06-20T10:00:00Z' },
+      { id: 3, sortDate: 'not-a-date' },
+    ];
+    const sorted = sortByDate([...records]);
+    expect(sorted[0].id).to.equal(2); // Valid date first
+    // Invalid dates pushed to end
+    expect([sorted[1].id, sorted[2].id]).to.include(1);
+    expect([sorted[1].id, sorted[2].id]).to.include(3);
+  });
+
+  it('returns stable sort when both records have missing sortDate', () => {
+    const records = [{ id: 1, sortDate: null }, { id: 2, sortDate: undefined }];
+    const sorted = sortByDate([...records]);
+    // Both missing - should return 0 (stable)
+    expect(sorted).to.have.lengthOf(2);
+  });
+
+  it('returns stable sort when both records have invalid sortDate', () => {
+    const records = [
+      { id: 1, sortDate: 'invalid' },
+      { id: 2, sortDate: 'also-invalid' },
+    ];
+    const sorted = sortByDate([...records]);
+    expect(sorted).to.have.lengthOf(2);
+  });
+
+  it('handles an empty array', () => {
+    const records = [];
+    const sorted = sortByDate(records);
+    expect(sorted).to.deep.equal([]);
+  });
+
+  it('handles a single-element array', () => {
+    const records = [{ id: 1, sortDate: '2023-06-20T10:00:00Z' }];
+    const sorted = sortByDate([...records]);
+    expect(sorted).to.have.lengthOf(1);
+    expect(sorted[0].id).to.equal(1);
+  });
+
+  it('handles records with same sortDate', () => {
+    const records = [
+      { id: 1, sortDate: '2023-06-20T10:00:00Z' },
+      { id: 2, sortDate: '2023-06-20T10:00:00Z' },
+    ];
+    const sorted = sortByDate([...records]);
+    expect(sorted).to.have.lengthOf(2);
   });
 });

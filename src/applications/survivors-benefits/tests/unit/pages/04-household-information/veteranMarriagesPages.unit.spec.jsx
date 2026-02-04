@@ -143,8 +143,9 @@ describe('Veteran Previous Marriages pages', () => {
     expect(itemUi, 'marriage date/place item UI not found').to.exist;
     const stateOptions = itemUi.locationOfMarriage.state['ui:options'];
     const stateRequired = itemUi.locationOfMarriage.state['ui:required'];
-    const countryOptions = itemUi.locationOfMarriage.country['ui:options'];
-    const countryRequired = itemUi.locationOfMarriage.country['ui:required'];
+    const countryOptions = itemUi.locationOfMarriage.otherCountry['ui:options'];
+    const countryRequired =
+      itemUi.locationOfMarriage.otherCountry['ui:required'];
 
     const itemBornOutside = { veteranMarriages: [{ marriedOutsideUS: true }] };
     expect(Boolean(stateOptions.hideIf(itemBornOutside, 0))).to.be.true;
@@ -164,8 +165,10 @@ describe('Veteran Previous Marriages pages', () => {
     expect(itemUi, 'marriage end date/location item UI not found').to.exist;
     const stateOptions = itemUi.locationOfSeparation.state['ui:options'];
     const stateRequired = itemUi.locationOfSeparation.state['ui:required'];
-    const countryOptions = itemUi.locationOfSeparation.country['ui:options'];
-    const countryRequired = itemUi.locationOfSeparation.country['ui:required'];
+    const countryOptions =
+      itemUi.locationOfSeparation.otherCountry['ui:options'];
+    const countryRequired =
+      itemUi.locationOfSeparation.otherCountry['ui:required'];
 
     const itemEndedOutside = {
       veteranMarriages: [{ marriageEndedOutsideUS: true }],

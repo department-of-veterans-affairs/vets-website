@@ -78,6 +78,9 @@ src/applications/_mock-form-ae-design-patterns @department-of-veterans-affairs/t
 # Disability Benefits Experience
 src/applications/disability-benefits @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 
+# Disability Benefits Employee Experience (DSVA Slack: #benefits-employee-exp)
+src/platform/form-renderer @department-of-veterans-affairs/employee-experience @department-of-veterans-affairs/va-platform-cop-frontend
+
 # Benefits Management Tools (DSVA Slack: #benefits-management-tools)
 src/applications/claims-status @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/disability-benefits/view-payments @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
@@ -184,7 +187,6 @@ src/applications/gi @department-of-veterans-affairs/govcio-vfep-codereviewers @d
 src/applications/sco @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/gi-sandbox @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/edu-benefits @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/edu-benefits/1995
 src/applications/verify-your-enrollment @department-of-veterans-affairs/govcio-vye-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/post-911-gib-status @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 
@@ -204,6 +206,7 @@ src/applications/static-pages/view-enrollment-verification-login @department-of-
 src/applications/static-pages/view-education-letters-login @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/survivor-dependent-education-benefit @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/edu-benefits/1995 @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/edu-benefits/10297 @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 
 # My HealtheVet on VA.gov
 
@@ -311,3 +314,9 @@ src/applications/office-directory @department-of-veterans-affairs/va-platform-co
 # BIO Huntridge Labs
 src/applications/medical-expense-report @department-of-veterans-affairs/bio-huntridge @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/survivors-benefits @department-of-veterans-affairs/bio-huntridge @department-of-veterans-affairs/va-platform-cop-frontend
+
+#Medallia assets
+src/platform/site-wide/sass/modules/_m-medallia.scss @department-of-veterans-affairs/veteran-support-team
+
+# BIO PingWind
+src/applications/benefits-optimization-pingwind @department-of-veterans-affairs/benefits-intake-pingwind @department-of-veterans-affairs/va-platform-cop-frontend
