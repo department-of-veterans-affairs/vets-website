@@ -484,13 +484,13 @@ describe('SendRxRenewalMessage Component', () => {
 
       await waitFor(() => {
         const event = global.window.dataLayer?.find(
-          e => e.event === 'cta-link-click',
+          e => e.event === 'cta-action-link-click',
         );
         expect(event).to.exist;
         expect(event).to.deep.include({
-          event: 'cta-link-click',
-          'link-text': 'Send a renewal request message',
-          'link-type': 'va-link',
+          event: 'cta-action-link-click',
+          'action-link-click-label': 'Send a renewal request message',
+          'action-link-type': 'secondary',
         });
       });
     });
@@ -508,13 +508,13 @@ describe('SendRxRenewalMessage Component', () => {
 
       await waitFor(() => {
         const event = global.window.dataLayer?.find(
-          e => e.event === 'cta-link-click',
+          e => e.event === 'cta-action-link-click',
         );
         expect(event).to.exist;
         expect(event).to.deep.include({
-          event: 'cta-link-click',
-          'link-text': 'Send a renewal request message',
-          'link-type': 'action-link',
+          event: 'cta-action-link-click',
+          'action-link-click-label': 'Send a renewal request message',
+          'action-link-type': 'primary',
         });
       });
     });
@@ -545,7 +545,7 @@ describe('SendRxRenewalMessage Component', () => {
         expect(event).to.exist;
         expect(event).to.deep.include({
           event: 'cta-button-click',
-          'button-text': 'Continue',
+          'button-click-label': 'Continue',
           'button-type': 'primary',
         });
       });
@@ -577,7 +577,7 @@ describe('SendRxRenewalMessage Component', () => {
         expect(event).to.exist;
         expect(event).to.deep.include({
           event: 'cta-button-click',
-          'button-text': 'Back',
+          'button-click-label': 'Back',
           'button-type': 'secondary',
         });
       });

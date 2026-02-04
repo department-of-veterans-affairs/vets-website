@@ -67,7 +67,7 @@ const SendRxRenewalMessage = ({
         onPrimaryButtonClick={() => {
           recordEvent({
             event: 'cta-button-click',
-            'button-text': 'Continue',
+            'button-click-label': 'Continue',
             'button-type': 'primary',
           });
           window.location.href = secureMessagesUrl;
@@ -75,7 +75,7 @@ const SendRxRenewalMessage = ({
         onSecondaryButtonClick={() => {
           recordEvent({
             event: 'cta-button-click',
-            'button-text': 'Back',
+            'button-click-label': 'Back',
             'button-type': 'secondary',
           });
           setShowRenewalModal(false);
@@ -121,9 +121,9 @@ const RenderLinkVariation = ({
 }) => {
   const handleClick = () => {
     recordEvent({
-      event: 'cta-link-click',
-      'link-text': 'Send a renewal request message',
-      'link-type': isActionLink ? 'action-link' : 'va-link',
+      event: 'cta-action-link-click',
+      'action-link-click-label': 'Send a renewal request message',
+      'action-link-type': isActionLink ? 'primary' : 'secondary',
     });
     setShowRenewalModal(true);
   };
