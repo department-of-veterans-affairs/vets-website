@@ -498,6 +498,7 @@ describe('RecentCareTeams component', () => {
           careSystemVhaId: '636',
           careSystemName: 'Test Facility 1',
           ohTriageGroup: true,
+          stationNumber: '636',
         });
       });
 
@@ -511,6 +512,7 @@ describe('RecentCareTeams component', () => {
           ohTriageGroup: false,
           recipientId: 456,
           recipientName: 'VA Seattle',
+          stationNumber: '662',
         });
       });
     });
