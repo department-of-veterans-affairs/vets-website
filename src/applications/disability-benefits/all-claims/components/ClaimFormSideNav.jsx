@@ -45,12 +45,10 @@ export default function ClaimFormSideNav({
    * Rebuilds when save-in-progress loads or when navigating between pages
    * @type {import('../utils/buildMajorStepsFromConfig').MajorStep[]}
    */
-  const landingPages = useMemo(
-    () => {
-      return buildMajorSteps(formData, pathname);
-    },
-    [formData, pathname],
-  );
+  const landingPages = useMemo(() => buildMajorSteps(formData, pathname), [
+    formData,
+    pathname,
+  ]);
 
   /**
    * Track the highest chapter index the user has reached

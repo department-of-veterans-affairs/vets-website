@@ -320,7 +320,7 @@ export function fetchInProgressForm(
     const { trackingPrefix } = getState().form;
     const apiUrl = inProgressApi(formId);
 
-    // Update UI while we're waiting for the API
+    // Update UI while we’re waiting for the API
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
