@@ -466,4 +466,57 @@ describe('SendRxRenewalMessage Component', () => {
       expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
     });
   });
+
+  describe('Click analytics', () => {
+    beforeEach(() => {
+      global.window.dataLayer = [];
+    });
+
+    afterEach(() => {
+      global.window.dataLayer = [];
+    });
+
+    it('should record analytics event when va-link is clicked', async () => {
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const event = global.window.dataLayer?.find(
+          e => e.event === 'cta-link-click',
+        );
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'cta-link-click',
+          'link-text': 'Send a renewal request message',
+          'link-type': 'va-link',
+        });
+      });
+    });
+
+    it('should record analytics event when action link is clicked', async () => {
+      const screen = setup(mockRx, {
+        isActionLink: true,
+        isOracleHealth: true,
+      });
+      const link = screen.getByTestId(
+        'send-renewal-request-message-action-link',
+      );
+
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const event = global.window.dataLayer?.find(
+          e => e.event === 'cta-link-click',
+        );
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'cta-link-click',
+          'link-text': 'Send a renewal request message',
+          'link-type': 'action-link',
+        });
+      });
+    });
+  });
 });

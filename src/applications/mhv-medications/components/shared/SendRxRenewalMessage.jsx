@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { selectSecureMessagingMedicationsRenewalRequestFlag } from '../../util/selectors';
 
 const SendRxRenewalMessage = ({
@@ -95,13 +96,22 @@ const RenderLinkVariation = ({
   setShowRenewalModal,
   isExpired,
 }) => {
+  const handleClick = () => {
+    recordEvent({
+      event: 'cta-link-click',
+      'link-text': 'Send a renewal request message',
+      'link-type': isActionLink ? 'action-link' : 'va-link',
+    });
+    setShowRenewalModal(true);
+  };
+
   return isActionLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link
       to="#"
       className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
       data-testid="send-renewal-request-message-action-link"
-      onClick={() => setShowRenewalModal(true)}
+      onClick={handleClick}
     >
       Send a renewal request message
     </Link>
@@ -120,7 +130,7 @@ const RenderLinkVariation = ({
         href="#"
         text="Send a renewal request message"
         data-testid="send-renewal-request-message-link"
-        onClick={() => setShowRenewalModal(true)}
+        onClick={handleClick}
       />
     </>
   );

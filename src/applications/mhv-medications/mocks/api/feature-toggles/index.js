@@ -8,7 +8,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryEnabled = true,
     mhvAcceleratedDeliveryAllergiesEnabled = true,
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
-    mhvSecureMessagingMedicationsRenewalRequest = false,
+    mhvSecureMessagingMedicationsRenewalRequest = true,
     mhvMedicationsCernerPilot = false,
     mhvMedicationsV2StatusMapping = false,
     mhvMedicationsEnableKramesHtmlSanitization = true,
@@ -53,6 +53,10 @@ const generateFeatureToggles = (toggles = {}) => {
         },
         {
           name: 'mhv_secure_messaging_medications_renewal_request',
+          value: mhvSecureMessagingMedicationsRenewalRequest,
+        },
+        {
+          name: 'mhvSecureMessagingMedicationsRenewalRequest',
           value: mhvSecureMessagingMedicationsRenewalRequest,
         },
         {
