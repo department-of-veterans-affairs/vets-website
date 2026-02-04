@@ -15,6 +15,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsCcdExtendedFileTypes = true,
     mhvMedicalRecordsCcdOH = true,
     mhvMedicalRecordsHoldTimeMessagingUpdate = true,
+    mhvMedicalRecordsImagesDomain = true,
     mhvMedicalRecordsMergeCvixIntoScdf = false,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
@@ -125,6 +126,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_hold_time_messaging_update',
           value: mhvMedicalRecordsHoldTimeMessagingUpdate,
+        },
+        {
+          name: 'mhv_medical_records_images_domain',
+          value: mhvMedicalRecordsImagesDomain,
         },
         {
           name: 'mhv_medical_records_merge_cvix_into_scdf',
