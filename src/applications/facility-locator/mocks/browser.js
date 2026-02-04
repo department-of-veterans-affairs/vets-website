@@ -11,7 +11,7 @@
 
 // eslint-disable-next-line import/no-unresolved
 import { setupWorker } from 'msw';
-import { mockApi, rest, apiUrl, commonHandlers } from 'platform/mocks/browser';
+import { mockApi, rest, commonHandlers } from 'platform/mocks/browser';
 import facilitiesData from './data/facilities.json';
 import geocodingData from './data/geocoding.json';
 
@@ -26,15 +26,11 @@ import geocodingData from './data/geocoding.json';
 const facilityHandlers = [
   // Facility search - POST /facilities_api/v2/va
   mockApi.post('/facilities_api/v2/va', (req, res, ctx) => {
-    // eslint-disable-next-line no-console
-    console.log('[MSW] Intercepted facilities search');
     return res(ctx.json(facilitiesData));
   }),
 
   // Individual facility - GET /facilities_api/v2/va/:id
   mockApi.get('/facilities_api/v2/va/:id', (req, res, ctx) => {
-    // eslint-disable-next-line no-console
-    console.log('[MSW] Intercepted facility by ID:', req.params.id);
     const facility = facilitiesData.data.find(f => f.id === req.params.id);
     if (facility) {
       return res(ctx.json({ data: facility }));
@@ -53,15 +49,11 @@ const facilityHandlers = [
 const mapboxHandlers = [
   // Mapbox geocoding - used for address autocomplete
   rest.get('https://api.mapbox.com/geocoding/*', (req, res, ctx) => {
-    // eslint-disable-next-line no-console
-    console.log('[MSW] Intercepted Mapbox geocoding request');
     return res(ctx.json(geocodingData));
   }),
 
   // Mapbox token validation - HEAD request to check if token is valid
   rest.head('https://api.mapbox.com/v4/*', (req, res, ctx) => {
-    // eslint-disable-next-line no-console
-    console.log('[MSW] Intercepted Mapbox token health check');
     return res(ctx.status(200));
   }),
 ];
@@ -86,23 +78,13 @@ const worker = setupWorker(...handlers);
  * Call this from the app entry point when using the mock API domain.
  */
 export async function startMocking() {
-  // eslint-disable-next-line no-console
-  console.log('[MSW] Starting browser mocking for', apiUrl);
-  try {
-    await worker.start({
-      onUnhandledRequest: 'bypass',
-      serviceWorker: {
-        url: '/mockServiceWorker.js',
-      },
-    });
-    // eslint-disable-next-line no-console
-    console.log('[MSW] Browser mocking enabled successfully');
-    return worker;
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('[MSW] Failed to start:', error);
-    throw error;
-  }
+  await worker.start({
+    onUnhandledRequest: 'bypass',
+    serviceWorker: {
+      url: '/mockServiceWorker.js',
+    },
+  });
+  return worker;
 }
 
 export default startMocking;
