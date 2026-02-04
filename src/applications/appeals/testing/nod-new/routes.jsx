@@ -1,6 +1,4 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
-
-import formConfig from './config/form';
 import App from './containers/App';
 
 const route = {
@@ -10,7 +8,7 @@ const route = {
     onEnter: (nextState, replace) => replace('/introduction'),
   },
 
-  childRoutes: createRoutesWithSaveInProgress(formConfig),
+  childRoutes: createRoutesWithSaveInProgress({}),
 };
 
 export default route;
