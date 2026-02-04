@@ -1566,7 +1566,7 @@ describe('<RecentActivity>', () => {
       getByText('We made a request: “test Request.”');
     });
 
-    it('should use API value when provided (false)', () => {
+    it('should fall back to displayName check when API value is false', () => {
       const claimWithApiIsDBQFalse = {
         attributes: {
           claimDate: '2024-05-02',
@@ -1587,7 +1587,7 @@ describe('<RecentActivity>', () => {
               status: 'NEEDED_FROM_OTHERS',
               displayName: 'DBQ AUDIO Hearing Loss', // Contains 'dbq'
               friendlyName: 'DBQ Test',
-              isDBQ: false, // API value is false, overrides displayName check
+              isDBQ: false, // API says false, but displayName contains 'dbq'
             },
           ],
         },
@@ -1599,8 +1599,8 @@ describe('<RecentActivity>', () => {
         </Provider>,
       );
 
-      // Should show outside VA message because API value is false
-      getByText('We made a request outside the VA: “dBQ Test.”');
+      // Should show DBQ message because displayName contains 'dbq'
+      getByText(`We made a request: “dBQ Test.”`);
     });
 
     it('should fallback to evidenceDictionary when API value not provided', () => {
@@ -1714,7 +1714,7 @@ describe('<RecentActivity>', () => {
       getByText('We made a request outside the VA: “medical Records.”');
     });
 
-    it('should handle API value of false even when displayName contains dbq', () => {
+    it('should fall back to displayName check when API value is false and displayName contains dbq', () => {
       const claimWithConflict = {
         attributes: {
           claimDate: '2024-05-02',
@@ -1735,7 +1735,7 @@ describe('<RecentActivity>', () => {
               status: 'NEEDED_FROM_OTHERS',
               displayName: 'DBQ Test Item',
               friendlyName: 'DBQ Test',
-              isDBQ: false, // API explicitly says false
+              isDBQ: false, // API says false, but displayName contains 'dbq'
             },
           ],
         },
@@ -1747,8 +1747,8 @@ describe('<RecentActivity>', () => {
         </Provider>,
       );
 
-      // API value should take precedence over displayName check
-      getByText('We made a request outside the VA: “dBQ Test.”');
+      // displayName check should be used as fallback
+      getByText(`We made a request: “dBQ Test.”`);
     });
   });
 });

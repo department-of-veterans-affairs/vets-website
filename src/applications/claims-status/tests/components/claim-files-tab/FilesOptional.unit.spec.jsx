@@ -97,19 +97,19 @@ describe('<FilesOptional>', () => {
       getByText('We made a request for an exam on April 21, 2025');
     });
 
-    it('should use API value when provided (false)', () => {
+    it('should fall back to displayName check when API value is false', () => {
       const itemWithApiIsDBQFalse = {
         displayName: 'DBQ AUDIO Hearing Loss',
         requestedDate: '2025-04-21',
-        isDBQ: false, // API value is false, overrides displayName check
+        isDBQ: false, // API value is false, but displayName contains 'dbq'
       };
       const { getByText } = renderWithRouter(
         <FilesOptional item={itemWithApiIsDBQFalse} />,
       );
 
-      // Should show outside VA text because API value is false
-      getByText('Request for evidence outside VA');
-      getByText('We made a request outside VA on April 21, 2025');
+      // Should show exam text because displayName contains 'dbq'
+      getByText('Request for an exam');
+      getByText('We made a request for an exam on April 21, 2025');
     });
 
     it('should fallback to evidenceDictionary when API value not provided', () => {
@@ -157,19 +157,19 @@ describe('<FilesOptional>', () => {
       getByText('We made a request outside VA on April 21, 2025');
     });
 
-    it('should handle API value of false even when displayName contains dbq', () => {
+    it('should fall back to displayName check when API value is false and displayName contains dbq', () => {
       const itemWithConflict = {
         displayName: 'DBQ Test Item',
         requestedDate: '2025-04-21',
-        isDBQ: false, // API explicitly says false
+        isDBQ: false, // API says false, but displayName contains 'dbq'
       };
       const { getByText } = renderWithRouter(
         <FilesOptional item={itemWithConflict} />,
       );
 
-      // API value should take precedence over displayName check
-      getByText('Request for evidence outside VA');
-      getByText('We made a request outside VA on April 21, 2025');
+      // displayName check should be used as fallback
+      getByText('Request for an exam');
+      getByText('We made a request for an exam on April 21, 2025');
     });
 
     it('should use dictionary value when displayName has dbq but is in dictionary', () => {
