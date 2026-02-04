@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
@@ -8,24 +8,9 @@ import FindEmploymentAccordionItem from '../components/FindEmploymentAccordionIt
 import FindAPathAccordionItem from '../components/FindAPathAccordionItem';
 import NeedHelp from '../components/NeedHelp';
 
-const MOBILE_BREAKPOINT = 768;
-
 export default function CareerPlanning() {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const history = useHistory();
-
-  const [isMobile, setIsMobile] = useState(
-    window.innerWidth < MOBILE_BREAKPOINT,
-  );
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const showCareerPlanningPage = useToggleValue(
     TOGGLE_NAMES.vre_eligibility_status_phase_2_updates,
@@ -51,7 +36,7 @@ export default function CareerPlanning() {
 
   return (
     <div className="row">
-      <article className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
+      <article className="usa-width-two-thirds vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
         <h1>Career Planning</h1>
         <p className="vads-u-font-size--lg">
           Explore career resources and tools to help you achieve your employment
@@ -75,12 +60,6 @@ export default function CareerPlanning() {
         <NeedHelp />
 
         <va-back-to-top />
-
-        <hr />
-
-        <div className="vads-u-display--flex vads-u-justify-content--flex-end">
-          <VaButton fullWidth={isMobile} text="Feedback" />
-        </div>
       </article>
     </div>
   );
