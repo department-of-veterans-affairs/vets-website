@@ -93,7 +93,16 @@ export function getDisabilities(
 
 export function getDisabilityName(disability) {
   const name = disability.name ? disability.name : disability.condition;
-  return name && name.trim();
+  const baseName = name && name.trim();
+
+  // Include sideOfBody if present to match the checkbox schema format
+  // used in makeSchemaForNewDisabilities (e.g., "tinnitus, left")
+  if (baseName && disability.sideOfBody) {
+    const side = disability.sideOfBody.trim().toLowerCase();
+    return `${baseName}, ${side}`;
+  }
+
+  return baseName;
 }
 
 export function getClaimedConditionNames(
