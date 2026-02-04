@@ -1,6 +1,7 @@
+import React from 'react';
+
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-
 import {
   profilePersonalInfoPage,
   profileContactInfoPages,
@@ -23,6 +24,8 @@ import {
   prepCourseName,
   prepCourseAddress,
   prepCourseOnline,
+  prepCoursePeriod,
+  prepCourseCost,
 } from '../pages';
 
 import prefillTransform from './prefillTransform';
@@ -105,8 +108,13 @@ const formConfig = {
             dateOfBirth: { show: true, required: false },
           },
           dataAdapter: {
-            ssnPath: 'vaFileNumber',
+            ssnPath: 'ssn',
           },
+          header: (
+            <h3 className="vads-u-margin-bottom--3">
+              Confirm the personal information we have on file for you
+            </h3>
+          ),
         }),
         payeeNumber: {
           path: 'payee-number',
@@ -144,6 +152,18 @@ const formConfig = {
           title: `How you'll take the prep course`,
           uiSchema: prepCourseOnline.uiSchema,
           schema: prepCourseOnline.schema,
+        },
+        prepCoursePeriod: {
+          path: 'prep-course-details-3',
+          title: 'Provide the start and end dates of your prep course',
+          uiSchema: prepCoursePeriod.uiSchema,
+          schema: prepCoursePeriod.schema,
+        },
+        prepCourseCost: {
+          path: 'prep-course-details-4',
+          title: 'Enter the cost of the prep course including any fees',
+          uiSchema: prepCourseCost.uiSchema,
+          schema: prepCourseCost.schema,
         },
       },
     },
