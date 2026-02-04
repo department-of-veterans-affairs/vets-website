@@ -1,8 +1,11 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import get from 'platform/utilities/data/get';
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 
@@ -11,6 +14,7 @@ import {
   addressSchema,
   updateFormDataAddress,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { MILITARY_CITIES } from '../constants';
 import {
   contactInfoDescription,
   contactInfoUpdateHelpDescription,
@@ -22,7 +26,6 @@ import {
   shouldAutoDetectMilitary,
   shouldShowZipCode,
   createAddressValidator,
-  normalizeAddressLine,
   updateCountrySchema,
   updateStateSchema,
   isStateRequired,
@@ -40,6 +43,14 @@ const defaultAddressUI = {
       street3: 'addressLine3',
       postalCode: 'zipCode',
       isMilitary: 'view:livesOnMilitaryBase',
+    },
+    // Pass validations through addressUI's built-in support
+    // This integrates properly with the platform's validation lifecycle
+    validations: {
+      street: [createAddressValidator('addressLine1')],
+      street2: [createAddressValidator('addressLine2')],
+      street3: [createAddressValidator('addressLine3')],
+      city: [createAddressValidator('city')],
     },
   }),
 };
@@ -72,22 +83,6 @@ export const updateFormData = (oldFormData, formData) => {
   if (shouldAutoDetectMilitary(oldFormData, updatedFormData)) {
     updatedFormData.mailingAddress['view:livesOnMilitaryBase'] = true;
   }
-
-  // Normalize address fields to prevent 422 errors on save-in-progress
-  // This trims whitespace and collapses multiple spaces
-  const fieldsToNormalize = [
-    'addressLine1',
-    'addressLine2',
-    'addressLine3',
-    'city',
-  ];
-  fieldsToNormalize.forEach(field => {
-    if (updatedFormData.mailingAddress?.[field]) {
-      updatedFormData.mailingAddress[field] = normalizeAddressLine(
-        updatedFormData.mailingAddress[field],
-      );
-    }
-  });
 
   return updatedFormData;
 };
@@ -155,21 +150,59 @@ export const uiSchema = {
         hideIf: formData => !shouldShowZipCode(formData),
       },
     },
+    // Keep explicit field definitions for review card display
+    // Validations are handled via addressUI's validations option
+    // Note: Only define fields we actually need to customize (addressLine1, city)
+    // Do NOT add addressLine2/3 here - it breaks the platform's updateSchema for military labels
     addressLine1: {
       ...defaultAddressUI.addressLine1,
-      'ui:validations': [createAddressValidator('addressLine1')],
-    },
-    addressLine2: {
-      ...defaultAddressUI.addressLine2,
-      'ui:validations': [createAddressValidator('addressLine2')],
-    },
-    addressLine3: {
-      ...defaultAddressUI.addressLine3,
-      'ui:validations': [createAddressValidator('addressLine3')],
     },
     city: {
       ...defaultAddressUI.city,
-      'ui:validations': [createAddressValidator('city')],
+      'ui:options': {
+        ...defaultAddressUI.city['ui:options'],
+        // Override replaceSchema to remove pattern validation from web component
+        // This prevents conflict between web component validation and our custom
+        // ui:validations which provides a more helpful error for commas
+        replaceSchema: (formData, schema, uiSchemaCity, index, path) => {
+          // Get address path by removing the last segment (field name) from path
+          const pathArray = Array.isArray(path) ? path : path.split('.');
+          const addressPath = pathArray.slice(0, -1);
+          const addressData = get(addressPath, formData) ?? {};
+          const isMilitary = addressData['view:livesOnMilitaryBase'];
+
+          if (isMilitary) {
+            // Military address: use radio field for APO/DPO/FPO selection
+            // eslint-disable-next-line no-param-reassign
+            uiSchemaCity['ui:webComponentField'] = VaRadioField;
+            // eslint-disable-next-line no-param-reassign
+            uiSchemaCity['ui:errorMessages'] = {
+              required: 'Select a type of post office: APO, FPO, or DPO',
+              enum: 'Select a type of post office: APO, FPO, or DPO',
+            };
+            return {
+              type: 'string',
+              title: 'Military post office',
+              enum: MILITARY_CITIES,
+              enumNames: MILITARY_CITIES,
+            };
+          }
+
+          // Non-military address: use text input without pattern validation
+          // Pattern validation is handled by our custom ui:validations
+          // eslint-disable-next-line no-param-reassign
+          uiSchemaCity['ui:webComponentField'] = VaTextInputField;
+          // eslint-disable-next-line no-param-reassign
+          uiSchemaCity['ui:errorMessages'] = {
+            required: 'Enter a city',
+          };
+          return {
+            type: 'string',
+            title: 'City',
+            maxLength: schema.maxLength || 30,
+          };
+        },
+      },
     },
   },
   'view:contactInfoDescription': {
