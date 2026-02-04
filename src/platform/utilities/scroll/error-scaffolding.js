@@ -715,10 +715,9 @@ function associateGroupErrorAnnotations(groupComponent, errorMessage) {
  * 3. A required child has no value (handles initial submit before blur)
  *
  * @param {HTMLElement} childComponent - The va-select or va-text-input child
- * @param {boolean} parentRequired - Whether the parent date component is required
  * @returns {boolean} True if the child should show error styling
  */
-function isDateChildInvalid(childComponent, parentRequired) {
+function isDateChildInvalid(childComponent) {
   if (!childComponent?.shadowRoot) return false;
 
   // Check invalid attribute/property on the child component itself
@@ -734,14 +733,6 @@ function isDateChildInvalid(childComponent, parentRequired) {
   const input = childComponent.shadowRoot.querySelector(INPUT_SELECTOR);
   if (input?.getAttribute('aria-invalid') === 'true') {
     return true;
-  }
-
-  // If parent is required, check if child has no value (handles initial submit)
-  if (parentRequired && input) {
-    const value = input.value?.trim();
-    if (!value || value === '') {
-      return true;
-    }
   }
 
   return false;
@@ -779,11 +770,10 @@ function removeInputErrorStyling(component) {
  * Syncs error styling on a date child component based on its validation state.
  *
  * @param {HTMLElement} childComponent - The va-select or va-text-input child
- * @param {boolean} parentRequired - Whether the parent date component is required
  * @returns {void}
  */
-function syncDateChildErrorStyling(childComponent, parentRequired) {
-  if (isDateChildInvalid(childComponent, parentRequired)) {
+function syncDateChildErrorStyling(childComponent) {
+  if (isDateChildInvalid(childComponent)) {
     addInputErrorStyling(childComponent);
   } else {
     removeInputErrorStyling(childComponent);
@@ -811,18 +801,14 @@ function associateDateErrorAnnotations(dateComponent, errorMessage) {
   if (!errorMessage) return;
 
   const children = getDateChildComponents(dateComponent);
-  const parentRequired =
-    dateComponent.hasAttribute('required') || dateComponent.required === true;
 
   // Step 1: Apply visual error styling ONLY to children that are actually invalid
-  children.forEach(child => syncDateChildErrorStyling(child, parentRequired));
+  children.forEach(child => syncDateChildErrorStyling(child));
 
   // Step 2: Determine which children need screen reader scaffolding
   // - If ANY child is invalid: only scaffold invalid children (field-level errors)
   // - If NO children are invalid: scaffold ALL children (cross-field validation)
-  const invalidChildren = children.filter(child =>
-    isDateChildInvalid(child, parentRequired),
-  );
+  const invalidChildren = children.filter(child => isDateChildInvalid(child));
   const childrenToScaffold =
     invalidChildren.length > 0 ? invalidChildren : children;
 
