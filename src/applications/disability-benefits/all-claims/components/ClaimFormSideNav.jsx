@@ -47,13 +47,6 @@ export default function ClaimFormSideNav({
    */
   const landingPages = useMemo(
     () => {
-      // TODO: Remove this debug code
-      // eslint-disable-next-line no-console
-      console.log('🧭 ClaimFormSideNav rendering with formData:', {
-        hasFormData: !!formData,
-        formDataKeys: Object.keys(formData || {}),
-        pathname,
-      });
       return buildMajorSteps(formData, pathname);
     },
     [formData, pathname],
