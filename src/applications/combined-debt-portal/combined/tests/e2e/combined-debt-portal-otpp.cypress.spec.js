@@ -12,7 +12,6 @@ describe('CDP - One Thing Per Page', () => {
           { name: 'debt_letters_show_letters_vbms', value: false },
           { name: 'show_one_va_debt_letter', value: true },
           { name: 'dispute_debt', value: true },
-          { name: 'show_cdp_one_thing_per_page', value: true },
         ],
       },
     }).as('features');
@@ -140,7 +139,7 @@ describe('CDP - One Thing Per Page', () => {
 
         cy.findByTestId('detail-copay-page-title-otpp').should('exist');
         cy.findByTestId('detail-page-title').should('not.exist');
-        cy.findByTestId('otpp-past-due-balance-alert').should('exist');
+        cy.findByTestId('copay-past-due-alert').should('exist');
 
         // lighthouse statement table should not be present
         cy.findByTestId('payment-history-statement-table').should('not.exist');

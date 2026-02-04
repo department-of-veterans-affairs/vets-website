@@ -8,7 +8,7 @@ export const mockFormData = {
   separation: 'OVER_3YRS',
   militaryServiceCurrentlyServing: false,
   militaryServiceCompleted: false,
-  militaryServiceTotalTimeServed: 'More than 3 years',
+  militaryServiceTotalTimeServed: 'More than 20 years',
   goals: {
     understandMyBenefits: true,
   },

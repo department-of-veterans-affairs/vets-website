@@ -29,7 +29,7 @@ export const ADDRESS_TYPES_ALTERNATE = Object.freeze({
 
 export const ADDRESS_POU = {
   CORRESPONDENCE: 'CORRESPONDENCE',
-  RESIDENCE: 'RESIDENCE/CHOICE',
+  RESIDENCE: 'RESIDENCE',
 };
 
 export const MILITARY_BASE_DATA = 'view:livesOnMilitaryBase';
@@ -111,6 +111,9 @@ export const FIELD_TITLE_DESCRIPTIONS = {
   [FIELD_NAMES.MAILING_ADDRESS]:
     'We send your VA letters, bills, and prescriptions to this address.',
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'This is where you currently live.',
+  [FIELD_NAMES.HOME_PHONE]: 'We use this phone number to contact you.',
+  [FIELD_NAMES.MOBILE_PHONE]: 'We use this phone number to contact you.',
+  [FIELD_NAMES.WORK_PHONE]: 'We use this phone number to contact you.',
 };
 
 // These are intended to be used as values for HTML element id attributes
@@ -132,6 +135,27 @@ export const FIELD_IDS = {
 
 export const FIELD_SECTION_HEADERS = {
   ...SCHEDULING_PREFERENCES.FIELD_SECTION_HEADERS,
+  // These section headers are used on /profile/edit when returning to scheduling preferences
+  [FIELD_NAMES.MAILING_ADDRESS]:
+    SCHEDULING_PREFERENCES.FIELD_SECTION_HEADERS[
+      FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+    ],
+  [FIELD_NAMES.HOME_PHONE]:
+    SCHEDULING_PREFERENCES.FIELD_SECTION_HEADERS[
+      FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+    ],
+  [FIELD_NAMES.MOBILE_PHONE]:
+    SCHEDULING_PREFERENCES.FIELD_SECTION_HEADERS[
+      FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+    ],
+  [FIELD_NAMES.WORK_PHONE]:
+    SCHEDULING_PREFERENCES.FIELD_SECTION_HEADERS[
+      FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+    ],
+  [FIELD_NAMES.EMAIL]:
+    SCHEDULING_PREFERENCES.FIELD_SECTION_HEADERS[
+      FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+    ],
 };
 
 export const PHONE_TYPE = {

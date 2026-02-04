@@ -4,6 +4,7 @@
       {
         "medicareParticipant": "28e7f1064a74",
         "medicarePlanType": "ab",
+        "medicareNumber": "1EG4TE5MK73",
         "view:medicarePartAEffectiveDate": {
           "medicarePartAEffectiveDate": "2023-01-15"
         },
@@ -48,6 +49,7 @@
       {
         "medicareParticipant": "280dbd145a55",
         "medicarePlanType": "b",
+        "medicareNumber": "1EG4TE5MK73",
         "view:medicarePartBEffectiveDate": {
           "medicarePartBEffectiveDate": "2023-01-15"
         },
@@ -77,7 +79,8 @@
             "name": "sample.png",
             "isEncrypted": false
           }
-        ]
+        ],
+        "hasMedicarePartD": false
       }
     ],
     "view:hasHealthInsurance": false,

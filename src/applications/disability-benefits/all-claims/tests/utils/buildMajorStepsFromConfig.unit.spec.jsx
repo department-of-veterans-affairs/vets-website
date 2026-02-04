@@ -16,7 +16,8 @@ describe('buildMajorStepsFromConfig', () => {
       const steps = buildMajorSteps(minimalTestData, pathname);
 
       expect(steps).to.be.an('array');
-      expect(steps.length).to.equal(6); // 5 chapters + review
+      // With minimal data, mental health chapter has no visible pages and is filtered out
+      expect(steps.length).to.equal(5); // 4 chapters (no mental health) + review
     });
 
     it('should include all expected chapter keys', () => {
@@ -24,11 +25,10 @@ describe('buildMajorStepsFromConfig', () => {
       const steps = buildMajorSteps(minimalTestData, pathname);
       const keys = steps.map(step => step.key);
 
-      // All chapters should be present in the navigation
+      // Chapters without visible pages are filtered out (mental health in this case)
       expect(keys).to.deep.equal([
         'veteranDetails',
         'disabilities',
-        'mentalHealth',
         'supportingEvidence',
         'additionalInformation',
         'reviewSubmit',
@@ -41,7 +41,6 @@ describe('buildMajorStepsFromConfig', () => {
 
       const veteranDetailsStep = steps.find(s => s.key === 'veteranDetails');
       const disabilitiesStep = steps.find(s => s.key === 'disabilities');
-      const mentalHealthStep = steps.find(s => s.key === 'mentalHealth');
       const supportingEvidenceStep = steps.find(
         s => s.key === 'supportingEvidence',
       );
@@ -52,10 +51,10 @@ describe('buildMajorStepsFromConfig', () => {
 
       expect(veteranDetailsStep.label).to.equal('Veteran details');
       expect(disabilitiesStep.label).to.equal('Conditions');
-      expect(mentalHealthStep.label).to.equal('Mental health');
+      // Mental health chapter is filtered out for minimal data (no visible pages)
       expect(supportingEvidenceStep.label).to.equal('Supporting evidence');
       expect(additionalInfoStep.label).to.equal('Additional information');
-      expect(reviewStep.label).to.equal('Review and submit');
+      expect(reviewStep.label).to.equal('Review application');
     });
 
     it('should mark the current chapter based on pathname', () => {
@@ -104,9 +103,12 @@ describe('buildMajorStepsFromConfig', () => {
       const pathname = '/veteran-information';
       const steps = buildMajorSteps(minimalTestData, pathname);
 
-      steps.forEach((step, index) => {
-        expect(step.idx).to.equal(index);
-      });
+      // idx is based on original chapter config index, not filtered array index
+      expect(steps[0].idx).to.equal(0); // veteranDetails
+      expect(steps[1].idx).to.equal(1); // disabilities
+      expect(steps[2].idx).to.equal(3); // supportingEvidence (mental health at idx 2 is skipped)
+      expect(steps[3].idx).to.equal(4); // additionalInformation
+      expect(steps[4].idx).to.equal(5); // reviewSubmit - based on number of unique chapters
     });
 
     it('should handle conditional pages based on formData', () => {
@@ -141,7 +143,7 @@ describe('buildMajorStepsFromConfig', () => {
       const steps = buildMajorSteps(minimalTestData, pathname);
 
       expect(steps).to.be.an('array');
-      expect(steps.length).to.equal(6);
+      expect(steps.length).to.equal(5); // Mental health filtered out
 
       // No step should be marked as current
       steps.forEach(step => {
@@ -154,7 +156,7 @@ describe('buildMajorStepsFromConfig', () => {
       const steps = buildMajorSteps(minimalTestData, pathname);
 
       expect(steps).to.be.an('array');
-      expect(steps.length).to.equal(6);
+      expect(steps.length).to.equal(5); // Mental health filtered out
 
       // No step should be marked as current
       steps.forEach(step => {
@@ -225,7 +227,8 @@ describe('buildMajorStepsFromConfig', () => {
       const steps = buildMajorSteps(complexFormData, pathname);
 
       expect(steps).to.be.an('array');
-      expect(steps.length).to.equal(6);
+      // Mental health still filtered out even with PTSD unless specific conditions are met
+      expect(steps.length).to.be.at.least(5);
 
       const supportingEvidenceStep = steps.find(
         s => s.key === 'supportingEvidence',
@@ -249,23 +252,82 @@ describe('buildMajorStepsFromConfig', () => {
       expect(initialSteps.length).to.equal(updatedSteps.length);
     });
 
-    it('should handle mental health chapter navigation', () => {
+    it('should filter out mental health chapter when no visible pages', () => {
+      // With minimal test data, mental health chapter has no visible pages
+      const pathname = '/veteran-information';
+      const steps = buildMajorSteps(minimalTestData, pathname);
+
+      const mentalHealthStep = steps.find(s => s.key === 'mentalHealth');
+      // Mental health chapter should be filtered out when it has no visible pages
+      expect(mentalHealthStep).to.be.undefined;
+      expect(steps.length).to.equal(5); // 4 chapters + review
+    });
+
+    it('should include mental health chapter when it has visible pages', () => {
+      // Form data with conditions that trigger mental health pages
       const formDataWithMentalHealth = {
         ...minimalTestData,
-        'view:form0781Enabled': true,
-        'view:selectablePtsd': {
-          'view:combatPtsd': true,
+        syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'PTSD' }],
+        'view:claimType': {
+          'view:claimingNew': true,
         },
-        'view:combatPtsdOneSelected': true,
       };
-
-      const pathname = '/mental-health-form-0781/workflow';
+      const pathname = '/veteran-information';
       const steps = buildMajorSteps(formDataWithMentalHealth, pathname);
 
       const mentalHealthStep = steps.find(s => s.key === 'mentalHealth');
-      // Mental health chapter should exist even if current state depends on form data
+      // Mental health chapter should be included when it has visible pages
       expect(mentalHealthStep).to.exist;
       expect(mentalHealthStep.key).to.equal('mentalHealth');
+      expect(mentalHealthStep.label).to.equal('Mental health statement');
+      expect(mentalHealthStep.idx).to.equal(2);
+      expect(steps.length).to.equal(6); // All 5 chapters + review
+    });
+
+    it('should maintain correct idx values with mental health chapter present', () => {
+      // Test with mental health chapter included
+      const formDataWithMentalHealth = {
+        ...minimalTestData,
+        syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'PTSD' }],
+        'view:claimType': {
+          'view:claimingNew': true,
+        },
+      };
+      const pathname = '/veteran-information';
+      const steps = buildMajorSteps(formDataWithMentalHealth, pathname);
+
+      expect(steps[0].idx).to.equal(0); // veteranDetails
+      expect(steps[1].idx).to.equal(1); // disabilities
+      expect(steps[2].idx).to.equal(2); // mentalHealth
+      expect(steps[3].idx).to.equal(3); // supportingEvidence
+      expect(steps[4].idx).to.equal(4); // additionalInformation
+      expect(steps[5].idx).to.equal(5); // reviewSubmit
+    });
+
+    it('should have all expected chapters with mental health data', () => {
+      const formDataWithMentalHealth = {
+        ...minimalTestData,
+        syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'PTSD' }],
+        'view:claimType': {
+          'view:claimingNew': true,
+        },
+      };
+      const pathname = '/veteran-information';
+      const steps = buildMajorSteps(formDataWithMentalHealth, pathname);
+      const keys = steps.map(step => step.key);
+
+      // All chapters should be present when mental health has visible pages
+      expect(keys).to.deep.equal([
+        'veteranDetails',
+        'disabilities',
+        'mentalHealth',
+        'supportingEvidence',
+        'additionalInformation',
+        'reviewSubmit',
+      ]);
     });
 
     it('should handle additional information chapter navigation', () => {

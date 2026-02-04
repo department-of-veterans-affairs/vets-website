@@ -1,14 +1,19 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 import searchResults from '../../fixtures/search-response.json';
 import folder from '../../fixtures/folder-inbox-metadata.json';
 import folderList from '../../fixtures/folder-inbox-response.json';
 import threadList from '../../fixtures/thread-list-response.json';
 import reducer from '../../../reducers';
 import SearchForm from '../../../components/Search/SearchForm';
-import { selectVaDate, selectVaSelect } from '../../../util/testUtils';
+import {
+  selectVaDate,
+  selectVaSelect,
+  inputVaTextInput,
+} from '../../../util/testUtils';
 import { ErrorMessages } from '../../../util/constants';
 import { DateRangeValues } from '../../../util/inputContants';
 
@@ -140,11 +145,15 @@ describe('Search form', () => {
       dateValue,
       'va-date[data-testid="date-end"]',
     );
-    fireEvent.click(document.querySelector('va-button[text="Apply filters"]'));
+    userEvent.click(document.querySelector('va-button[text="Apply filters"]'));
     expect(screen.getByTestId('date-start')).to.have.attribute(
       'error',
       ErrorMessages.SearchForm.START_DATE_REQUIRED,
     );
+    expect(
+      screen.getByRole('heading', { name: /Filter messages in inbox/i }),
+    ).to.have.attribute('aria-describedby', 'filter-default');
+    expect(screen.getByText('No filters applied')).to.exist;
   });
 
   it('returns error message on invalid custom end date', async () => {
@@ -165,7 +174,7 @@ describe('Search form', () => {
       dateValue,
       'va-date[data-testid="date-start"]',
     );
-    fireEvent.click(document.querySelector('va-button[text="Apply filters"]'));
+    userEvent.click(document.querySelector('va-button[text="Apply filters"]'));
     expect(screen.getByTestId('date-end')).to.have.attribute(
       'error',
       ErrorMessages.SearchForm.END_DATE_REQUIRED,
@@ -197,7 +206,7 @@ describe('Search form', () => {
       endDateValue,
       'va-date[data-testid="date-end"]',
     );
-    fireEvent.click(document.querySelector('va-button[text="Apply filters"]'));
+    userEvent.click(document.querySelector('va-button[text="Apply filters"]'));
     expect(screen.getByTestId('date-start')).to.have.attribute(
       'error',
       ErrorMessages.SearchForm.START_DATE_AFTER_END_DATE,
@@ -236,7 +245,7 @@ describe('Search form', () => {
       endDateValue,
       'va-date[data-testid="date-end"]',
     );
-    fireEvent.click(document.querySelector('va-button[text="Apply filters"]'));
+    userEvent.click(document.querySelector('va-button[text="Apply filters"]'));
 
     expect(screen.getByTestId('date-end')).to.have.attribute(
       'error',
@@ -268,7 +277,7 @@ describe('Search form', () => {
       DateRangeValues.LAST12,
       'va-select[name="dateRange"]',
     );
-    fireEvent.click(document.querySelector('va-button[text="Apply filters"]'));
+    userEvent.click(document.querySelector('va-button[text="Apply filters"]'));
     expect(
       screen.getByText('Last 12 months', {
         selector: 'strong',
@@ -414,6 +423,85 @@ describe('Search form', () => {
       expect(clearButton.getAttribute('dd-action-name')).to.equal(
         'Clear filters Button',
       );
+      expect(
+        screen.getByRole('heading', { name: /Filter messages in inbox/i }),
+      ).to.have.attribute('aria-describedby', 'filter-default');
+      expect(screen.getByText('No filters applied')).to.exist;
+      userEvent.click(clearButton);
+      expect(
+        screen.getByRole('heading', { name: /Filter messages in inbox/i }),
+      ).to.have.attribute('aria-describedby', 'filter-clear-success');
+      expect(screen.getByText('Filters successfully cleared')).to.exist;
+    });
+
+    it('should have the correct aria-describedby on heading after applying then clearing filters', async () => {
+      const searchTerm = 'test';
+      const query = {
+        category: 'other',
+        queryData: { searchTerm },
+      };
+      const customProps = {
+        ...defaultProps,
+        keyword: searchTerm,
+        resultsCount: searchResults.length,
+        query,
+        threadCount: threadList.length,
+      };
+      const screen = setup(customProps);
+
+      const inboxHeading = screen.getByRole('heading', {
+        name: /Filter messages in inbox/i,
+      });
+
+      const applyButton = screen.getByTestId('filter-messages-button');
+      const clearButton = screen.container.querySelector(
+        'va-button[text="Clear filters"]',
+      );
+
+      expect(inboxHeading).to.have.attribute(
+        'aria-describedby',
+        'filter-default',
+      );
+      expect(screen.getByText('No filters applied')).to.exist;
+      expect(screen.queryByText('Filters successfully applied')).to.not.exist;
+      expect(screen.queryByText('Filters successfully cleared')).to.not.exist;
+
+      inputVaTextInput(screen.container, 'test', '#filter-input');
+      userEvent.click(applyButton);
+
+      await waitFor(
+        () => {
+          expect(inboxHeading).to.have.attribute(
+            'aria-describedby',
+            'filter-applied-success',
+          );
+        },
+        { timeout: 3000 },
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText('Filters successfully applied')).to.exist;
+      });
+      expect(screen.queryByText('No filters applied')).to.not.exist;
+      expect(screen.queryByText('Filters successfully cleared')).to.not.exist;
+
+      userEvent.click(clearButton);
+
+      await waitFor(
+        () => {
+          expect(inboxHeading).to.have.attribute(
+            'aria-describedby',
+            'filter-clear-success',
+          );
+        },
+        { timeout: 3000 },
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText('Filters successfully cleared')).to.exist;
+      });
+      expect(screen.queryByText('No filters applied')).to.not.exist;
+      expect(screen.queryByText('Filters successfully applied')).to.not.exist;
     });
   });
 });

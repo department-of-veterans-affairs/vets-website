@@ -3,46 +3,49 @@ import { expect } from 'chai';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { cleanup, render } from '@testing-library/react';
-import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
-import formConfig from '../../../config/form';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
 const mockStore = state => createStore(() => state);
 
-const initConfirmationPage = ({ formData } = {}) => {
+const initConfirmationPage = () => {
+  // Used bare minimum config to avoid rendering full chapter collections
+  const minimalConfig = { title: 'Test form', chapters: {} };
   const store = mockStore({
     form: {
-      ...createInitialState(formConfig),
       submission: {
-        response: {
-          confirmationNumber: '1234567890',
-        },
-        timestamp: new Date(),
+        response: { attributes: { confirmationNumber: '1234567890' } },
+        timestamp: new Date().toISOString(),
       },
-      data: formData,
     },
   });
-
-  return render(
+  // Add scroll target to prevent scroll utilities from erroring
+  const scrollAnchor = document.createElement('div');
+  scrollAnchor.setAttribute('name', 'topScrollElement');
+  document.body.appendChild(scrollAnchor);
+  const rendered = render(
     <Provider store={store}>
-      <ConfirmationPage route={{ formConfig }} />
+      <ConfirmationPage route={{ formConfig: minimalConfig }} />
     </Provider>,
   );
+  return { ...rendered, cleanupAnchor: () => scrollAnchor.remove() };
 };
 
-// Skipping until we have the form designed and built out.
-describe.skip('ConfirmationPage', () => {
+describe('ConfirmationPage', () => {
   afterEach(() => {
     cleanup();
   });
 
-  it('should show success alert, h2, and confirmation number if present', () => {
-    const { container } = initConfirmationPage();
+  it('shows success alert, heading, and confirmation number', () => {
+    const { container, cleanupAnchor } = initConfirmationPage();
     const alert = container.querySelector('va-alert');
+    expect(alert).to.exist;
     expect(alert).to.have.attribute('status', 'success');
-    expect(alert.querySelector('h2')).to.contain.text(
-      'Form submission started',
+    const heading = alert.querySelector('h2');
+    expect(heading).to.exist;
+    expect(heading.textContent).to.match(/^Form submission started/);
+    expect(alert.textContent).to.include(
+      'Your confirmation number is 1234567890.',
     );
-    expect(alert).to.contain.text('Your confirmation number is 1234567890');
+    cleanupAnchor();
   });
 });

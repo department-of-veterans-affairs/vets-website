@@ -34,6 +34,7 @@ const initialState = {
 };
 
 describe('VAOS Page: ReviewPage direct scheduling', () => {
+  let storeState;
   let store;
   let start;
 
@@ -43,7 +44,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
       id: '983',
     });
     start = new Date();
-    store = createTestStore({
+    storeState = {
       ...initialState,
       newAppointment: {
         pages: {},
@@ -109,8 +110,10 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
             },
           ],
         },
+        ehr: 'vista',
       },
-    });
+    };
+    store = createTestStore(storeState);
     store.dispatch(startDirectScheduleFlow());
   });
 
@@ -162,10 +165,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
       formatInTimeZone(start, 'America/Denver', 'h:mm aaaa'),
     );
 
-    expect(reasonHeading).to.contain.text(
-      'Details to share with your provider',
-    );
-    expect(screen.baseElement).to.contain.text('Routine/Follow-up');
+    expect(reasonHeading).to.contain.text('Reason for appointment');
     expect(screen.baseElement).to.contain.text('I need an appt');
 
     expect(contactHeading).to.contain.text('Your contact information');
@@ -182,6 +182,68 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
       uniqueLinks.add(link.getAttribute('label'));
     });
     expect(uniqueLinks.size).to.equal(editLinks.length);
+  });
+
+  it('should show form information with provider for OH review', async () => {
+    const ohStoreState = {
+      ...storeState,
+      newAppointment: {
+        ...storeState.newAppointment,
+        data: {
+          ...storeState.newAppointment.data,
+          selectedProvider: 'Practitioner/1111',
+        },
+        patientProviderRelationshipsStatus: 'succeeded',
+        patientProviderRelationships: [
+          {
+            resourceType: 'PatientProviderRelationship',
+            providerName: 'Doe, Mary D, MD',
+            providerId: 'Practitioner/1111',
+            serviceType: 'foodAndNutrition',
+            locationName: 'Zanesville Primary Care',
+            lastSeen: '2024-10-15T00:32:34.216Z',
+            hasAvailability: true,
+          },
+        ],
+      },
+    };
+    const ohStore = createTestStore(ohStoreState);
+    ohStore.dispatch(startDirectScheduleFlow());
+    ohStore.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
+
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store: ohStore,
+    });
+
+    await screen.findByText('Primary care');
+    expect(screen.getByText('Primary care')).to.have.tagName('span');
+    const [
+      pageHeading,
+      typeOfCareHeading,
+      facilityHeading,
+      providerHeading,
+      dateHeading,
+      reasonHeading,
+      contactHeading,
+    ] = screen.getAllByRole('heading');
+    expect(pageHeading).to.contain.text(
+      'Review and confirm your appointment details',
+    );
+    expect(typeOfCareHeading).to.contain.text('Type of care');
+    expect(facilityHeading).to.contain.text('Facility');
+    expect(providerHeading).to.contain.text('Provider');
+    expect(screen.baseElement).to.contain.text('Doe, Mary D, MD');
+    expect(dateHeading).to.contain.text('Date and time');
+    expect(reasonHeading).to.contain.text('Reason for appointment');
+    expect(contactHeading).to.contain.text('Your contact information');
   });
 
   it('should submit successfully', async () => {
@@ -219,7 +281,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
       locationId: '983',
       clinic: '455',
       reasonCode: {
-        text: 'reason code:ROUTINEVISIT|comments:I need an appt',
+        text: 'comments:I need an appt',
       },
       extension: {
         desiredDate: '2021-05-06T00:00:00+00:00',
@@ -258,28 +320,19 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('This tool isn’t working right now');
 
     expect(screen.baseElement).contain.text(
-      'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
+      'We’re sorry. There’s a problem with appointments. Refresh this page or try again later.',
     );
     expect(screen.baseElement).contain.text(
-      'If you need to schedule now, call your VA facility.',
+      'If you need to schedule now, call your facility.',
     );
 
-    expect(
-      screen.getByRole('heading', {
-        level: 3,
-        name: /Cheyenne VA Medical Center/i,
-      }),
-    );
+    expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
 
     const alert = document.querySelector('va-alert');
-    expect(within(alert).getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
-    expect(alert).to.contain.text('Cheyenne, WyomingWY');
-    expect(within(alert).getByText(/82001-5356/)).to.be.ok;
     expect(within(alert).getByTestId('facility-telephone')).to.exist;
-    // expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {
       expect(document.activeElement).to.be(alert);
@@ -319,17 +372,15 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your appointment. Call your VA medical center to schedule this appointment.',
+      'We’re sorry. Something went wrong when you tried to submit your appointment. Try again later. Or call your facility to help with your appointment.',
     );
 
     // Not sure of a better way to search for test just within the alert
     const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
-    expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(screen.getByTestId('facility-telephone')).to.exist;
 
     expect(screen.history.push.called).to.be.false;
@@ -370,10 +421,10 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'You already have an overlapping booked appointment. Please schedule for a different day.',
+      'You already have an appointment scheduled for this day and time. Choose a different day or time. Or call your facility to help with your appointment.',
     );
 
     expect(screen.getByTestId('facility-telephone')).to.exist;
@@ -381,8 +432,6 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     // Not sure of a better way to search for test just within the alert
     const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
-    expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {
       expect(document.activeElement).to.be(alert);
@@ -421,13 +470,13 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('This tool isn’t working right now');
 
     expect(screen.baseElement).contain.text(
-      'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
+      'We’re sorry. There’s a problem with appointments. Refresh this page or try again later.',
     );
     expect(screen.baseElement).contain.text(
-      'If you need to schedule now, call your VA facility.',
+      'If you need to schedule now, call your facility.',
     );
 
     expect(screen.getByTestId('facility-telephone')).to.exist;
@@ -435,8 +484,6 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     // Not sure of a better way to search for test just within the alert
     const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
-    expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {
       expect(document.activeElement).to.be(alert);

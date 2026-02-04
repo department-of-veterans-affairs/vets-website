@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import {
   scrollToReviewElement,
@@ -8,7 +9,7 @@ import {
 } from '../../utilities/review';
 
 const ErrorLinks = props => {
-  const { appType, testId, errors } = props;
+  const { appType, testId, errors, router, formConfig } = props;
   const errorRef = useRef(null);
   const [hadErrors, setHadErrors] = useState(false);
 
@@ -68,24 +69,45 @@ const ErrorLinks = props => {
               } of the form:`}
             </legend>
             <ul className="vads-u-margin-left--2 error-message-list">
-              {errors.map(error => (
-                <li key={error.name}>
-                  {error.chapterKey ? (
-                    <a // eslint-disable-line jsx-a11y/anchor-is-valid
-                      href="#"
-                      onClick={event => {
-                        event.preventDefault();
-                        scrollToReviewElement(error);
-                        openAndEditChapter(error);
-                      }}
-                    >
-                      {error.message}
-                    </a>
-                  ) : (
-                    error.message
-                  )}
-                </li>
-              ))}
+              {errors.map(error => {
+                const handleClick = event => {
+                  event.preventDefault();
+                  // If navigationType is 'redirect', navigate to the page directly
+                  // Otherwise, use default behavior (open in edit mode)
+                  if (
+                    error.navigationType === 'redirect' &&
+                    error.pageKey &&
+                    router &&
+                    formConfig
+                  ) {
+                    const chapter = formConfig.chapters?.[error.chapterKey];
+                    const page = chapter?.pages?.[error.pageKey];
+                    if (page?.path) {
+                      const urlPrefix = formConfig.urlPrefix || '/';
+                      router.push(`${urlPrefix}${page.path}`);
+                      return;
+                    }
+                  }
+                  // Default behavior: open in edit mode
+                  scrollToReviewElement(error);
+                  openAndEditChapter(error);
+                };
+
+                return (
+                  <li key={error.name}>
+                    {error.chapterKey ? (
+                      <a // eslint-disable-line jsx-a11y/anchor-is-valid
+                        href="#"
+                        onClick={handleClick}
+                      >
+                        {error.message}
+                      </a>
+                    ) : (
+                      error.message
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </fieldset>
         </>
@@ -101,9 +123,11 @@ const mapStateToProps = state => ({
 ErrorLinks.propTypes = {
   appType: PropTypes.string,
   errors: PropTypes.array,
+  formConfig: PropTypes.object,
+  router: PropTypes.object,
   testId: PropTypes.string,
 };
 
-export default connect(mapStateToProps)(ErrorLinks);
+export default withRouter(connect(mapStateToProps)(ErrorLinks));
 
 export { ErrorLinks };

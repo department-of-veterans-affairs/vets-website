@@ -1,8 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import { addDays, addMinutes, subDays, format } from 'date-fns';
+import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import Wrapper from './Wrapper';
+import { getDefaultRenderOptions } from '../utils/test-utils';
+
+const defaultRenderOptions = getDefaultRenderOptions();
 
 describe('VASS Component: Wrapper', () => {
   it('should render children content', () => {
@@ -10,9 +16,7 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper>
         <div data-testid="test-child">Test Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     expect(screen.getByTestId('test-child')).to.exist;
@@ -23,9 +27,7 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper pageTitle="Test Page Title">
         <div>Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     expect(screen.getByRole('heading', { level: 1, name: /test page title/i }))
@@ -39,9 +41,7 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper>
         <div>Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     expect(screen.queryByTestId('header')).to.not.exist;
@@ -52,9 +52,7 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper>
         <div>Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     expect(screen.getByTestId('help-footer')).to.exist;
@@ -65,12 +63,10 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper className="custom-class" testID="wrapper-container">
         <div>Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
-    const container = screen.getByTestId('wrapper-container');
+    const container = screen.getByTestId('wrapper-container'); // The default testID
     expect(container).to.exist;
     expect(container).to.have.class('custom-class');
     expect(container).to.have.class('vads-l-grid-container');
@@ -82,9 +78,7 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper testID="test-wrapper">
         <div>Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     expect(screen.getByTestId('test-wrapper')).to.exist;
@@ -95,11 +89,320 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper showBackLink>
         <div>Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     expect(screen.getByTestId('back-link')).to.exist;
+  });
+
+  it('should display *Required text when required prop is passed with pageTitle', () => {
+    const screen = renderWithStoreAndRouter(
+      <Wrapper showBackLink required pageTitle="Test Page Title">
+        <div>Content</div>
+      </Wrapper>,
+      defaultRenderOptions,
+    );
+
+    const header = screen.getByTestId('header');
+    expect(header.textContent).to.include('(*Required)');
+  });
+
+  it('should not display *Required text when required is not passed', () => {
+    const screen = renderWithStoreAndRouter(
+      <Wrapper showBackLink>
+        <div>Content</div>
+      </Wrapper>,
+      defaultRenderOptions,
+    );
+
+    expect(screen.queryByText(/\(\*Required\)/)).to.not.exist;
+  });
+
+  describe('when verificationError is provided', () => {
+    it('should render verification error alert', () => {
+      const { getByTestId } = renderWithStoreAndRouter(
+        <Wrapper verificationError="Test Verification Error">
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(getByTestId('verification-error-alert')).to.exist;
+      expect(getByTestId('verification-error-alert')).to.have.text(
+        'Test Verification Error',
+      );
+    });
+    it('should not render children content', () => {
+      const { queryByTestId } = renderWithStoreAndRouter(
+        <Wrapper verificationError="Test Verification Error">
+          <div data-testid="child-content">Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(queryByTestId('child-content')).to.not.exist;
+    });
+  });
+  describe('beforeunload warning', () => {
+    let addEventListenerSpy;
+    let removeEventListenerSpy;
+
+    beforeEach(() => {
+      addEventListenerSpy = sinon.spy(window, 'addEventListener');
+      removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
+    });
+
+    afterEach(() => {
+      addEventListenerSpy.restore();
+      removeEventListenerSpy.restore();
+    });
+
+    it('should add beforeunload listener on mount', () => {
+      renderWithStoreAndRouter(
+        <Wrapper>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+
+      expect(addEventListenerSpy.calledWith('beforeunload', sinon.match.func))
+        .to.be.true;
+    });
+
+    it('should remove beforeunload listener on unmount', () => {
+      const screen = renderWithStoreAndRouter(
+        <Wrapper>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+
+      screen.unmount();
+
+      expect(
+        removeEventListenerSpy.calledWith('beforeunload', sinon.match.func),
+      ).to.be.true;
+    });
+
+    it('should not add beforeunload listener when disableBeforeUnload is true', () => {
+      renderWithStoreAndRouter(
+        <Wrapper disableBeforeUnload>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+
+      expect(addEventListenerSpy.calledWith('beforeunload', sinon.match.func))
+        .to.be.false;
+    });
+
+    it('should call preventDefault and set returnValue on beforeunload event', () => {
+      renderWithStoreAndRouter(
+        <Wrapper>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+
+      // Get the handler function that was registered
+      const beforeunloadHandler = addEventListenerSpy
+        .getCalls()
+        .find(call => call.args[0] === 'beforeunload')?.args[1];
+
+      expect(beforeunloadHandler).to.exist;
+
+      // Create a mock event
+      const mockEvent = {
+        preventDefault: sinon.spy(),
+        returnValue: '',
+      };
+
+      // Call the handler
+      beforeunloadHandler(mockEvent);
+
+      // Verify preventDefault was called and returnValue was set
+      expect(mockEvent.preventDefault.calledOnce).to.be.true;
+      expect(mockEvent.returnValue).to.equal('');
+    });
+
+    it('should not call preventDefault when disableBeforeUnload is true', () => {
+      renderWithStoreAndRouter(
+        <Wrapper disableBeforeUnload>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+
+      // Verify no beforeunload handler was registered
+      const beforeunloadHandler = addEventListenerSpy
+        .getCalls()
+        .find(call => call.args[0] === 'beforeunload');
+
+      expect(beforeunloadHandler).to.be.undefined;
+    });
+  });
+  describe('when loading prop is true', () => {
+    it('should render loading indicator', () => {
+      const { getByTestId } = renderWithStoreAndRouter(
+        <Wrapper loading>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(getByTestId('loading-indicator')).to.exist;
+      expect(getByTestId('loading-indicator')).to.have.attribute(
+        'message',
+        'Loading...',
+      );
+    });
+    it('should render loading message when provided', () => {
+      const { getByTestId } = renderWithStoreAndRouter(
+        <Wrapper loading loadingMessage="Loading Message">
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(getByTestId('loading-indicator')).to.have.attribute(
+        'message',
+        'Loading Message',
+      );
+    });
+  });
+
+  describe('when loading prop is false', () => {
+    it('should not render loading indicator', () => {
+      const { queryByTestId } = renderWithStoreAndRouter(
+        <Wrapper loading={false}>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(queryByTestId('loading-indicator')).to.not.exist;
+    });
+  });
+
+  describe('maintenance window', () => {
+    it('should render maintenance message when service is down', () => {
+      const serviceMap = createServiceMap([
+        {
+          attributes: {
+            externalService: 'vass',
+            status: 'down',
+            startTime: format(subDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+            endTime: format(addDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+          },
+        },
+      ]);
+
+      const screen = renderWithStoreAndRouter(
+        <Wrapper>
+          <div data-testid="child-content">Child content</div>
+        </Wrapper>,
+        {
+          ...defaultRenderOptions,
+          initialState: {
+            ...defaultRenderOptions.initialState,
+            scheduledDowntime: {
+              globalDowntime: null,
+              isReady: true,
+              isPending: false,
+              serviceMap,
+              dismissedDowntimeWarnings: [],
+            },
+          },
+        },
+      );
+
+      expect(screen.queryByText(/down for maintenance/)).to.exist;
+      expect(screen.queryByTestId('child-content')).to.not.exist;
+    });
+
+    it('should render maintenance approaching message', () => {
+      // startTime 30 minutes from now triggers "downtimeApproaching" status
+      const serviceMap = createServiceMap([
+        {
+          attributes: {
+            externalService: 'vass',
+            startTime: format(
+              addMinutes(new Date(), 30),
+              "yyyy-MM-dd'T'HH:mm:ss",
+            ),
+            endTime: format(addDays(new Date(), 1), "yyyy-MM-dd'T'HH:mm:ss"),
+          },
+        },
+      ]);
+
+      const screen = renderWithStoreAndRouter(
+        <Wrapper>
+          <div data-testid="child-content">Child content</div>
+        </Wrapper>,
+        {
+          ...defaultRenderOptions,
+          initialState: {
+            ...defaultRenderOptions.initialState,
+            scheduledDowntime: {
+              globalDowntime: null,
+              isReady: true,
+              isPending: false,
+              serviceMap,
+              dismissedDowntimeWarnings: [],
+            },
+          },
+        },
+      );
+
+      // The modal element uses id attribute, not data-testid
+      const modal = screen.container.querySelector(
+        '#downtime-approaching-modal',
+      );
+      expect(modal).to.exist;
+      expect(screen.getByTestId('child-content')).to.exist;
+      expect(modal.getAttribute('secondary-button-text')).to.eq('Dismiss');
+    });
+
+    it('should render default maintenance message without description', () => {
+      const serviceMap = createServiceMap([
+        {
+          attributes: {
+            externalService: 'vass',
+            status: 'down',
+            startTime: format(subDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+            endTime: format(addDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+          },
+        },
+      ]);
+
+      const screen = renderWithStoreAndRouter(
+        <Wrapper>
+          <div data-testid="child-content">Child content</div>
+        </Wrapper>,
+        {
+          ...defaultRenderOptions,
+          initialState: {
+            ...defaultRenderOptions.initialState,
+            scheduledDowntime: {
+              globalDowntime: null,
+              isReady: true,
+              isPending: false,
+              serviceMap,
+              dismissedDowntimeWarnings: [],
+            },
+          },
+        },
+      );
+
+      expect(screen.queryByText(/down for maintenance/)).to.exist;
+      expect(screen.queryByTestId('child-content')).to.not.exist;
+    });
+
+    it('should render children when no maintenance window is active', () => {
+      const screen = renderWithStoreAndRouter(
+        <Wrapper>
+          <div data-testid="child-content">Child content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+
+      expect(screen.getByTestId('child-content')).to.exist;
+      expect(screen.queryByText(/down for maintenance/)).to.not.exist;
+    });
   });
 });

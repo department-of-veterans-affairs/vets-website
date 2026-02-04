@@ -11,9 +11,11 @@
     "primaryOfficialDetails": {
       "fullName": { "first": "Bob", "middle": "Test", "last": "Smith" },
       "title": "Certifying Official",
-      "phoneType": "us",
-      "phoneNumber": "1112223333",
-      "internationalPhoneNumber": "4445556666",
+     "phoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "1231231222"
+      },
       "emailAddress": "bob.smith@test.com"
     },
     "institutionDetails": {
@@ -33,9 +35,11 @@
     "designatingOfficial": {
       "fullName": { "first": "John", "middle": "William", "last": "Doe" },
       "title": "President",
-      "phoneType": "us",
-      "phoneNumber": "1234567890",
-      "internationalPhoneNumber": "4445556666",
+      "phoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "1231231222"
+      },
       "emailAddress": "john.doe@test.com"
     },
     "view:description": {},
@@ -53,8 +57,11 @@
             "last": "Official"
           },
           "title": "Vice Certifying Official",
-          "phoneType": "us",
-          "phoneNumber": "1231231234",
+         "phoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "1231231222"
+      },
           "emailAddress": "certifying.official@test.com"
         }
       },
@@ -72,9 +79,11 @@
               "last": "Official"
             },
             "title": "Principal Certifying Official",
-            "phoneType": "us",
-            "phoneNumber": "1231231234",
-            "internationalPhoneNumber": "4445556666",
+            "phoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "1231231222"
+      },
             "emailAddress": "certifying.official2@test.com"
           }
         }

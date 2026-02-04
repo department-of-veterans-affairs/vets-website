@@ -15,7 +15,7 @@ export const pageType = {
 
 export const dataDogActionNames = {
   medicationsListPage: {
-    FILL_OR_REFILL_BUTTON: `Fill or Refill Button - ${pageType.LIST}`,
+    REFILL_BUTTON: `Refill Button - ${pageType.LIST}`,
     MEDICATION_NAME_LINK_IN_CARD: `Medication Name Link In Card - ${
       pageType.LIST
     }`,
@@ -46,9 +46,6 @@ export const dataDogActionNames = {
   },
   detailsPage: {
     COMPOSE_A_MESSAGE_LINK: `Compose A Message Link - ${pageType.DETAILS}`,
-    LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK: `Learn How To Renew Prescriptions Action Link - ${
-      pageType.DETAILS
-    }`,
     RX_DOCUMENTATION_LINK: `Rx Documentation Link - ${pageType.DETAILS}`,
     FILL_THIS_PRESCRIPTION: `Fill this prescription - ${pageType.DETAILS}`,
     REFILLS_ACCORDIAN: 'Refills Accordion',

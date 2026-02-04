@@ -98,11 +98,16 @@ export default function RecentActivity({ claim }) {
 
       if (item.requestedDate) {
         if (item.status === 'NEEDED_FROM_OTHERS') {
+          // Use API boolean properties with fallback to evidenceDictionary
+          const isDBQ =
+            item.isDBQ ??
+            evidenceDictionary[item.displayName]?.isDBQ ??
+            item.displayName?.toLowerCase().includes('dbq') ??
+            false;
+
           addItems(
             item.requestedDate,
-            (evidenceDictionary[item.displayName] &&
-              evidenceDictionary[item.displayName].isDBQ) ||
-            item.displayName.toLowerCase().includes('dbq')
+            isDBQ
               ? `We made a request: “${displayName}.”`
               : `We made a request outside the VA: “${displayName}.”`,
             item,
@@ -250,9 +255,11 @@ export default function RecentActivity({ claim }) {
               </h4>
               {hasRequestType(item.status) ? (
                 <>
-                  <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
-                    {requestType(item.status)}
-                  </p>
+                  {requestType(item.status) && (
+                    <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
+                      {requestType(item.status)}
+                    </p>
+                  )}
                   <p
                     className="item-description vads-u-margin-top--0 vads-u-margin-bottom--1"
                     data-dd-privacy="mask"

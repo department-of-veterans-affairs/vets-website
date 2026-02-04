@@ -87,6 +87,13 @@ export function mapRawUserDataToState(json) {
     vapContactInfo: vet360ContactInformation,
     session,
     veteranStatus: {},
+    userAtPretransitionedOhFacility:
+      vaProfile?.ohMigrationInfo?.userAtPretransitionedOhFacility,
+    userFacilityReadyForInfoAlert:
+      vaProfile?.ohMigrationInfo?.userFacilityReadyForInfoAlert,
+    userFacilityMigratingToOh:
+      vaProfile?.ohMigrationInfo?.userFacilityMigratingToOh,
+    migrationSchedules: vaProfile?.ohMigrationInfo?.migrationSchedules,
   };
 
   if (meta && veteranStatus === null) {
@@ -110,6 +117,8 @@ export function mapRawUserDataToState(json) {
     }
     userState.vaPatient = vaProfile.vaPatient;
     userState.mhvAccountState = vaProfile.mhvAccountState;
+    userState.schedulingPreferencesPilotEligible =
+      vaProfile.schedulingPreferencesPilotEligible;
   }
 
   // This one is checking userState because there's no extra mapping and it's

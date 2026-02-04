@@ -44,6 +44,7 @@ describe('<FilesWeCouldntReceive>', () => {
     return Array.from({ length: count }, (_, index) => ({
       id: startIndex + index,
       fileName: `document${startIndex + index}.pdf`,
+      trackedItemId: startIndex + index,
       trackedItemDisplayName: '21-4142',
       failedDate: `2025-01-${String(startIndex + index).padStart(
         2,
@@ -66,12 +67,12 @@ describe('<FilesWeCouldntReceive>', () => {
         .to.exist;
       expect(
         getByText(
-          'If we couldn\u2019t receive files you submitted online, you\u2019ll need to submit them by mail or in person.',
+          'If we couldn\u2019t receive files you submitted online, you\u2019ll need to submit them by mail or in person. If you already resubmitted these files, you don\u2019t need to do anything else. Files submitted by mail or in person, by you or by others, don\u2019t appear in this tool.',
         ),
       ).to.exist;
       expect(
         document.querySelector(
-          'va-link[text="Learn about other ways to send your documents."]',
+          'va-link[text="Learn about other ways to send your documents"]',
         ),
       ).to.exist;
       expect(getByRole('heading', { name: 'Files not received' })).to.exist;
@@ -88,13 +89,7 @@ describe('<FilesWeCouldntReceive>', () => {
 
       expect(
         getByText(
-          'This is a list of files you submitted using this tool that we couldn\u2019t receive. You\u2019ll need to resubmit these documents by mail or in person. We\u2019re sorry about this.',
-        ),
-      ).to.exist;
-      expect(getByText('Note:')).to.exist;
-      expect(
-        getByText(
-          'If you already resubmitted these files, you don\u2019t need to do anything else. Files submitted by mail or in person, by you or by others, don\u2019t appear in this tool.',
+          'We couldn\u2019t receive these files you submitted. We only show files from the last 60 days.',
         ),
       ).to.exist;
     });
@@ -139,7 +134,9 @@ describe('<FilesWeCouldntReceive>', () => {
       expect(getByText('We\u2019ve received all files you submitted online.'))
         .exist;
       expect(
-        queryByText('This is a list of files you submitted using this tool'),
+        queryByText(
+          'We couldn\u2019t receive these files you submitted. We only show files from the last 60 days.',
+        ),
       ).to.not.exist;
       expect(queryByTestId('failed-files-list')).to.not.exist;
       expect(getByTestId('other-ways-to-send-documents')).to.exist;
@@ -158,7 +155,9 @@ describe('<FilesWeCouldntReceive>', () => {
       expect(getByText('We\u2019ve received all files you submitted online.'))
         .to.exist;
       expect(
-        queryByText('This is a list of files you submitted using this tool'),
+        queryByText(
+          'We couldn\u2019t receive these files you submitted. We only show files from the last 60 days.',
+        ),
       ).to.not.exist;
       expect(queryByTestId('failed-files-list')).to.not.exist;
       expect(getByTestId('other-ways-to-send-documents')).to.exist;
@@ -170,6 +169,7 @@ describe('<FilesWeCouldntReceive>', () => {
       {
         id: 1,
         fileName: 'document1.pdf',
+        trackedItemId: 1,
         trackedItemDisplayName: '21-4142',
         failedDate: '2025-01-15T10:35:00.000Z',
         documentType: 'VA Form 21-4142',
@@ -178,6 +178,7 @@ describe('<FilesWeCouldntReceive>', () => {
       {
         id: 2,
         fileName: 'document2.pdf',
+        trackedItemId: 2,
         trackedItemDisplayName: '21-4142',
         failedDate: '2025-01-22T10:35:00.000Z',
         documentType: 'VA Form 21-4142',
@@ -186,6 +187,7 @@ describe('<FilesWeCouldntReceive>', () => {
       {
         id: 3,
         fileName: 'document3.pdf',
+        trackedItemId: 3,
         trackedItemDisplayName: '21-4142',
         failedDate: '2025-01-10T10:35:00.000Z',
         documentType: 'VA Form 21-4142',
@@ -265,11 +267,81 @@ describe('<FilesWeCouldntReceive>', () => {
       ];
 
       vaLinks.forEach((link, index) => {
-        const expectedLabel = `Go to the claim this file was uploaded for: ${
+        const expectedLabel = `Go to the claim associated with this file: ${
           expectedFileOrder[index]
         }`;
         expect(link).to.have.attribute('label', expectedLabel);
       });
+    });
+
+    it('should render card with document type and request type for tracked items', () => {
+      const mockFailedFileWithTrackedItem = [
+        {
+          id: 1,
+          fileName: 'medical-records.pdf',
+          trackedItemId: 1,
+          trackedItemDisplayName: 'Medical records',
+          failedDate: '2025-01-15T10:35:00.000Z',
+          documentType: 'VA Form 21-4142',
+          claimId: '123',
+        },
+      ];
+      const store = createMockStore(mockFailedFileWithTrackedItem);
+      const { getByText, getByTestId } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
+
+      const card = getByTestId('failed-file-1');
+      expect(card).to.exist;
+
+      // Check file name is displayed as heading (without "File name:" prefix)
+      expect(getByText('medical-records.pdf')).to.exist;
+
+      // Check document type label
+      expect(getByText('Document type: VA Form 21-4142')).to.exist;
+
+      // Check request type text for tracked item
+      expect(getByText('Submitted in response to request: Medical records')).to
+        .exist;
+
+      // Check date failed
+      expect(getByText('Date failed: January 15, 2025')).to.exist;
+    });
+
+    it('should render card with additional evidence text when no trackedItemId', () => {
+      const mockFailedFileWithoutTrackedItem = [
+        {
+          id: 1,
+          fileName: 'additional-evidence.pdf',
+          trackedItemId: null,
+          trackedItemDisplayName: null,
+          failedDate: '2025-01-20T10:35:00.000Z',
+          documentType: 'Other Correspondence',
+          claimId: '456',
+        },
+      ];
+      const store = createMockStore(mockFailedFileWithoutTrackedItem);
+      const { getByText, getByTestId } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
+
+      const card = getByTestId('failed-file-1');
+      expect(card).to.exist;
+
+      // Check file name is displayed as heading
+      expect(getByText('additional-evidence.pdf')).to.exist;
+
+      // Check document type label
+      expect(getByText('Document type: Other Correspondence')).to.exist;
+
+      // Check additional evidence text (when no trackedItemId)
+      expect(getByText('You submitted this file as additional evidence.')).to
+        .exist;
+
+      // Check date failed
+      expect(getByText('Date failed: January 20, 2025')).to.exist;
     });
   });
 

@@ -38,8 +38,10 @@ const HelpPage = title => {
         const id = hash.replace('#', '');
         const el = document.getElementById(id);
         if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
-          focusElement(`#${id}`);
+          setTimeout(() => {
+            el.scrollIntoView({ behavior: 'smooth' });
+            focusElement(`#${id}`);
+          }, 500);
         }
       } else {
         focusElement('h1');
@@ -131,7 +133,7 @@ const HelpPage = title => {
               <p>
                 To submit {RepresentationLink()} on VA.gov, Veterans must sign
                 in to their {VAGovLink()} account, which requires authentication
-                with Login.gov or ID.me. By requiring sign-in with these
+                with ID.me or Login.gov. By requiring sign-in with these
                 methods, we ensure that all submitters have verified their
                 identity with the federal government.
               </p>
@@ -139,8 +141,8 @@ const HelpPage = title => {
           </va-accordion>
           <h2 id="creating-your-account">Creating your account</h2>
           <p>
-            To use the Accredited Representative Portal, you need to create a
-            Login.gov or an ID.me account and associate it with your email on
+            To use the Accredited Representative Portal, you need to create an
+            ID.me or a Login.gov account and associate it with your email on
             file with the VA’s Office of General Counsel (OGC).
           </p>
           <va-accordion>
@@ -173,15 +175,15 @@ const HelpPage = title => {
                 >
                   OGC accreditation search tool
                 </Link>
-                . If you are found in the OGC tool but not the Find a
+                . If you are found in the OGC tool but not the Find a
                 Representative tool, it likely means VA doesn’t have a valid
                 physical address on file for you.
               </p>
               <h3 className="vads-u-font-size--h4">
-                Step 2: Create a Login.gov or ID.me account
+                Step 2: Create an ID.me or Login.gov account
               </h3>
               <p>
-                Login.gov and ID.me are services that provide secure ways to
+                ID.me and Login.gov are services that provide secure ways to
                 sign in to many government websites using just one account. When
                 creating your account, it’s recommended to use a personal email
                 you’ll always have access to. Follow the service provider’s
@@ -204,7 +206,7 @@ const HelpPage = title => {
                 Step 3: Associate your OGC email with your account
               </h3>
               <p>
-                If you created your Login.gov or ID.me account using your
+                If you created your ID.me or Login.gov account using your
                 personal email, you’ll need to add the email address you have on
                 file with OGC. Follow the service provider’s instructions to add
                 an email to your account.
@@ -245,7 +247,7 @@ const HelpPage = title => {
                 className="content-link"
                 to="https://www.va.gov/resources/support-for-common-logingov-and-idme-issues/"
               >
-                Get support for common Login.gov and ID.me issues
+                Get support for common ID.me and Login.gov issues
               </Link>
               <br />
               <br />
@@ -253,12 +255,12 @@ const HelpPage = title => {
                 Or you can get more help on each account provider’s website.
               </p>
               <p>
-                <Link className="content-link" to="https://login.gov/help/">
-                  Go to the Login.gov help center
-                </Link>
-                <br />
                 <Link className="content-link" to="https://help.id.me/hc/en-us">
                   Go to the ID.me support section
+                </Link>
+                <br />
+                <Link className="content-link" to="https://login.gov/help/">
+                  Go to the Login.gov help center
                 </Link>
               </p>
             </va-accordion-item>
@@ -489,50 +491,60 @@ const HelpPage = title => {
           </va-accordion>
           <h2 id="submitting-va-forms">Submitting VA forms</h2>
           <p>
-            If you or one of your organizations has representation with an
-            individual, you can submit forms through the portal on their behalf.
+            There are two methods the portal uses for submissions. Some forms
+            require you to upload a completed PDF to submit. Other forms can be
+            submitted by filling out the required steps in the portal.
+          </p>
+          <p>
+            Prior to submission, the system will verify that you or your
+            Veterans Service Organization (VSO) currently represent the
+            claimant.
           </p>
           <va-accordion>
             <va-accordion-item
-              header="Uploading and submitting completed PDFs"
+              header="VA Form 21-0966 (Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC)"
               id="section-seventeen"
               level="3"
             >
-              To submit VA forms, you will need to upload a completed PDF of the
-              form and any additional relevant evidence or documentation. Prior
-              to submission, the system will verify that you or one of your VSOs
-              has existing representation with the claimant. We’ll notify you of
-              the status of receipt in VBMS and track submissions for 60 days.
+              <p>
+                Fill out the required steps in the portal for VA Form 21-0966,
+                and then submit.
+              </p>
+              <p>
+                The intent to file will be recorded immediately after
+                submission.
+              </p>
             </va-accordion-item>
             <va-accordion-item
-              header="Supported forms"
+              header="VA Form 21-526EZ (Application for Disability Compensation and Related Compensation Benefits)"
               id="section-eighteen"
               level="3"
             >
-              Currently, you can submit these forms through the portal:
-              <ul>
-                <li>
-                  Application Request to Add and/or Remove Dependents (VA Form
-                  21-686c)
-                </li>
-                <li>
-                  Application for Disability Compensation and Related
-                  Compensation Benefits (VA Form 21-526EZ)
-                </li>
-              </ul>
+              <p>Upload the completed VA Form 21-526EZ PDF, and then submit.</p>
+              <p>
+                The form will be processed by VA Centralized Mail after
+                submission. We’ll notify you of the status of receipt in VBMS.
+                The portal will track the submission for 60 days.
+              </p>
             </va-accordion-item>
             <va-accordion-item
-              header="In SEP, I was able to submit a 21-686c and establish dependents within 24 hours. Will I be able to do this in the portal?"
+              header="VA Form 21-686c (Application Request to Add and/or Remove Dependents)"
               id="section-nineteen"
               level="3"
             >
               <p>
-                The capability to establish dependents within 24 hours won’t be
-                available in the portal upon initial release.
+                Upload the completed VA Form 21-686c PDF and any supporting
+                evidence, and then submit.
               </p>
               <p>
-                We are exploring ways to speed up this process as a future
-                enhancement.
+                The form will be processed by VA Centralized Mail after
+                submission. We’ll notify you of the status of receipt in VBMS.
+                The portal will track the submission for 60 days.
+              </p>
+              <p>
+                <strong>Note:</strong> The portal isn’t able to establish
+                dependents within 24 hours at this time. We’re exploring ways to
+                speed up this process as a future enhancement.
               </p>
             </va-accordion-item>
           </va-accordion>
@@ -552,7 +564,7 @@ const HelpPage = title => {
               <p>
                 <va-telephone contact="8552250709" />
                 <br />
-                Hours: Monday through Friday, 8:00 a.m. to 9:00 p.m. ET
+                Hours: Monday through Friday, 8:00 a.m. to 9:00 p.m. ET
               </p>
               <p>
                 Call the VA accredited representative support line to get help
@@ -574,7 +586,7 @@ const HelpPage = title => {
               <p>
                 Email the Accredited Representative Portal team at{' '}
                 {EmailHelpLink()}
-                 if you’re a VSO manager or certifying official and you’d like
+                if you’re a VSO manager or certifying official and you’d like
                 access to the Representation Request feature for your
                 organization.
               </p>

@@ -81,7 +81,9 @@ describe('validateDate & isValidDate', () => {
   it('should throw an error for dates in the future', () => {
     const date = parseDateWithOffset({ weeks: 1 });
     validateDate(errors, date);
-    expect(errorMessage[0]).to.eq(errorMessages.decisions.pastDate);
+    expect(errorMessage[0]).to.match(
+      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
+    );
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
     expect(errorMessage[1]).to.contain('year');
@@ -91,7 +93,9 @@ describe('validateDate & isValidDate', () => {
   it('should throw an error for todays date', () => {
     const date = parseDate(new Date());
     validateDate(errors, date);
-    expect(errorMessage[0]).to.eq(errorMessages.decisions.pastDate);
+    expect(errorMessage[0]).to.match(
+      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
+    );
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
     expect(errorMessage[1]).to.contain('year');

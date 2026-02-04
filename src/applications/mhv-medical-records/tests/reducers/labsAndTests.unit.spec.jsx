@@ -19,7 +19,6 @@ import {
   extractSpecimen,
   labsAndTestsReducer,
   mergeRadiologyLists,
-  formatDateTime,
   convertUnifiedLabsAndTestRecord,
   convertPathologyRecord,
 } from '../../reducers/labsAndTests';
@@ -162,6 +161,25 @@ describe('convertPathologyRecord', () => {
       expect(result.results).to.be.an('array');
       expect(result.labComments).to.equal('Mocked comment.');
     });
+  });
+
+  it('should return null for an undefined pathology record', () => {
+    const result = convertPathologyRecord(undefined);
+    expect(result).to.be.null;
+  });
+
+  it('should fallback gracefully when pathology record has no code object', () => {
+    const minimalRecord = {
+      id: 'no-code-id',
+      physician: 'Dr. Jane Doe',
+      effectiveDateTime: '2025-04-28T12:00:00Z',
+      presentedForm: [],
+      labComments: 'No code field present',
+    };
+    const result = convertPathologyRecord(minimalRecord);
+    expect(result).to.exist;
+    expect(result.name).to.equal('Pathology');
+    expect(result.type).to.equal(labTypes.PATHOLOGY);
   });
 });
 
@@ -920,32 +938,6 @@ describe('labsAndTestsReducer', () => {
   });
 });
 
-describe('formatDateTime', () => {
-  it('should format a valid datetime string correctly', () => {
-    const datetimeString = '2025-04-22T14:30:00Z';
-    const result = formatDateTime(datetimeString);
-    expect(result.formattedDate).to.equal('April 22, 2025');
-  });
-
-  it('should handle invalid datetime strings gracefully', () => {
-    const datetimeString = 'invalid-date';
-    const result = formatDateTime(datetimeString);
-    expect(result).to.deep.equal({
-      formattedDate: '',
-      formattedTime: '',
-    });
-  });
-
-  it('should handle empty datetime strings gracefully', () => {
-    const datetimeString = '';
-    const result = formatDateTime(datetimeString);
-    expect(result).to.deep.equal({
-      formattedDate: '',
-      formattedTime: '',
-    });
-  });
-});
-
 describe('convertUnifiedLabsAndTestRecord', () => {
   let clock;
   beforeEach(() => {
@@ -998,12 +990,13 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     expect(result).to.deep.equal({
       id: 'test-id',
-      date: '',
+      date: EMPTY_FIELD,
       name: undefined,
       location: undefined,
       observations: undefined,
       orderedBy: undefined,
       sampleTested: undefined,
+      sortDate: undefined,
       bodySite: undefined,
       testCode: undefined,
       type: undefined,
@@ -1028,12 +1021,13 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     expect(result).to.deep.equal({
       id: 'test-id',
-      date: '',
+      date: EMPTY_FIELD,
       name: undefined,
       location: undefined,
       observations: undefined,
       orderedBy: undefined,
       sampleTested: undefined,
+      sortDate: 'invalid-date',
       bodySite: undefined,
       testCode: undefined,
       type: undefined,
@@ -1088,5 +1082,109 @@ describe('labsAndTestsReducer - unified labs and tests', () => {
     expect(testRecord.type).to.equal('12345');
     expect(testRecord.comments).to.equal('No issues');
     expect(testRecord.result).to.equal('This is a test');
+  });
+
+  it('merges CVIX radiology into unified list and strips undefined hash', () => {
+    const unifiedLabsResponse = [
+      { id: 'lab-1', attributes: { dateCompleted: '2025-04-22T14:30:00Z' } },
+      { id: 'lab-2', attributes: { dateCompleted: '2025-05-01T09:00:00Z' } },
+      { id: 'lab-3', attributes: { dateCompleted: '2025-03-15T18:45:00Z' } },
+    ];
+
+    const cvixRadiologyResponse = [
+      {
+        id: 42,
+        performedDatePrecise: new Date('2024-12-01T10:00:00Z').getTime(),
+      },
+      {
+        id: 100,
+        performedDatePrecise: new Date('2025-03-22T02:40:00Z').getTime(),
+      },
+      {
+        id: 77,
+        performedDatePrecise: new Date('2025-05-01T00:00:00Z').getTime(),
+      },
+    ];
+
+    const newState = labsAndTestsReducer(
+      {},
+      {
+        type: Actions.LabsAndTests.GET_UNIFIED_LIST,
+        labsAndTestsResponse: unifiedLabsResponse,
+        cvixRadiologyResponse,
+      },
+    );
+
+    // Expect six records: three unified labs + three CVIX radiology
+    expect(newState.labsAndTestsList.length).to.equal(6);
+
+    // Ensure each record has a sortDate
+    newState.labsAndTestsList.forEach(rec => {
+      expect(rec).to.have.property('sortDate');
+      expect(rec.sortDate).to.exist;
+    });
+
+    // Verify list is sorted descending by sortDate
+    const dates = newState.labsAndTestsList.map(r => r.sortDate);
+    for (let i = 0; i < dates.length - 1; i++) {
+      const a = dates[i];
+      const b = dates[i + 1];
+      // If both are truthy, ensure a >= b in lexicographic ISO comparison
+      if (a && b) {
+        expect(a >= b).to.equal(true);
+      }
+    }
+
+    // Validate all CVIX records: id starts with 'r' and does not contain 'undefined'
+    const cvixRecords = newState.labsAndTestsList.filter(
+      r => r.type === labTypes.CVIX_RADIOLOGY,
+    );
+    expect(cvixRecords.length).to.equal(cvixRadiologyResponse.length);
+    cvixRecords.forEach(rec => {
+      expect(rec.id).to.match(/^r/);
+      expect(rec.id.includes('undefined')).to.equal(false);
+    });
+  });
+});
+
+describe('labsAndTestsReducer - hardened array coercion', () => {
+  it('handles undefined entry and filters out null radiology items safely in GET_LIST', () => {
+    const action = {
+      type: Actions.LabsAndTests.GET_LIST,
+      labsAndTestsResponse: { resourceType: 'Bundle' }, // no entry array present
+      radiologyResponse: [null, { id: 'rad-1', radiologist: 'Jane Doe' }],
+      cvixRadiologyResponse: null,
+    };
+
+    const state = labsAndTestsReducer({}, action);
+
+    // Should create a list with only the valid radiology record and not throw
+    expect(state.labsAndTestsList).to.be.an('array');
+    expect(state.labsAndTestsList.length).to.equal(1);
+    expect(state.labsAndTestsList[0].type).to.equal(labTypes.RADIOLOGY);
+    // updatedList should be undefined because this is initial population
+    expect(state.updatedList).to.equal(undefined);
+  });
+
+  it('returns an empty array for GET_LIST when all sources are missing', () => {
+    const action = {
+      type: Actions.LabsAndTests.GET_LIST,
+      labsAndTestsResponse: {},
+      radiologyResponse: undefined,
+      cvixRadiologyResponse: undefined,
+    };
+    const state = labsAndTestsReducer({}, action);
+    expect(state.labsAndTestsList).to.be.an('array');
+    expect(state.labsAndTestsList.length).to.equal(0);
+  });
+
+  it('returns an empty list for GET_UNIFIED_LIST when response is null', () => {
+    const action = {
+      type: Actions.LabsAndTests.GET_UNIFIED_LIST,
+      labsAndTestsResponse: null,
+    };
+    const state = labsAndTestsReducer({}, action);
+    expect(state.labsAndTestsList).to.be.an('array');
+    expect(state.labsAndTestsList.length).to.equal(0);
   });
 });

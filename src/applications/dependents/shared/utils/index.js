@@ -1,10 +1,12 @@
+import { parseISO, isValid, differenceInMonths } from 'date-fns';
+
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
 import { getFormatedDate, calculateAge } from './dates';
 
 export { getFormatedDate, calculateAge };
 
-const VIEW_DEPENDENTS_WARNING_KEY = 'viewDependentsWarningClosedAt';
+export const VIEW_DEPENDENTS_WARNING_KEY = 'viewDependentsWarningClosedAt';
 
 /**
  * Return formatted full name from name object
@@ -45,9 +47,18 @@ export const maskID = (id = '', mask = '●●●–●●-') => {
 };
 
 /**
+ * Check if field value is missing
+ * @param {any} value - Any non-object or non-array field value
+ * @returns {boolean} True if field is missing, false otherwise
+ */
+export function isFieldMissing(value) {
+  return value === undefined || value === null || value === '';
+}
+
+/**
  * Check if an object is empty
- * @param {Any} obj
- * @returns {Boolean} - Returns true if the object & any nested objects are
+ * @param {object} obj - The object to check
+ * @returns {boolean} - Returns true if the object & any nested objects are
  * empty, false otherwise
  */
 export function isEmptyObject(obj) {
@@ -66,16 +77,32 @@ export function isEmptyObject(obj) {
 
 export const getRootParentUrl = rootUrl => rootUrl.split(/\b\//)[0];
 
+/**
+ * Check if the dependents warning has been hidden
+ * @returns {boolean} True if the warning has been hidden, false otherwise
+ */
 export function getIsDependentsWarningHidden() {
   const rawStoredDate = localStorage.getItem(VIEW_DEPENDENTS_WARNING_KEY);
   if (!rawStoredDate) {
     return false;
   }
 
-  const dateClosed = new Date(rawStoredDate);
-  return !Number.isNaN(dateClosed.getTime());
+  const dateClosed = parseISO(rawStoredDate);
+  const monthsSinceClosed = differenceInMonths(new Date(), dateClosed);
+
+  // If it has been more than 6 months since the warning was closed, show it
+  // again
+  if (monthsSinceClosed >= 6) {
+    localStorage.removeItem(VIEW_DEPENDENTS_WARNING_KEY);
+    return false;
+  }
+  return isValid(dateClosed);
 }
 
+/**
+ * Hide the dependents warning by storing the current date in localStorage
+ * @returns {void}
+ */
 export function hideDependentsWarning() {
   localStorage.setItem(VIEW_DEPENDENTS_WARNING_KEY, new Date().toISOString());
 }

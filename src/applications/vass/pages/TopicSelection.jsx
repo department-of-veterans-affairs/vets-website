@@ -1,60 +1,70 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import {
   VaCheckbox,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
-import { topics } from '../services/Topic/topic';
-import { usePersistentSelections } from '../hooks/usePersistentSelections';
-
-// TODO: remove this once we have a real UUID
-const UUID = 'af40d0e7-df29-4df3-8b5e-03eac2e760fa';
+import {
+  setSelectedTopics,
+  selectSelectedTopics,
+} from '../redux/slices/formSlice';
+import { useGetTopicsQuery } from '../redux/api/vassApi';
+import { useErrorFocus } from '../hooks/useErrorFocus';
+import { URLS } from '../utils/constants';
+import { isServerError } from '../utils/errors';
 
 const TopicSelection = () => {
+  const [{ error, handleSetError }] = useErrorFocus(['va-checkbox-group']);
+  const dispatch = useDispatch();
+  const selectedTopics = useSelector(selectSelectedTopics);
   const navigate = useNavigate();
-  const { saveTopicsSelection, getSaved } = usePersistentSelections(UUID);
-  const [selectedTopicsIds, setSelectedTopicsIds] = useState(
-    getSaved()?.selectedTopicsIds || [],
-  );
-
-  useEffect(
-    () => {
-      saveTopicsSelection(selectedTopicsIds);
-    },
-    [saveTopicsSelection, selectedTopicsIds],
-  );
+  const { data, isLoading: loading, error: topicsError } = useGetTopicsQuery();
+  const topics = useMemo(() => data?.topics || [], [data]);
 
   const handleTopicChange = event => {
+    handleSetError('');
     const { checked } = event.detail;
     if (checked) {
-      const newTopics = [...selectedTopicsIds, event.target.value];
-      setSelectedTopicsIds(newTopics);
-      saveTopicsSelection(newTopics);
+      const newTopics = [
+        ...selectedTopics,
+        topics.find(topic => topic.topicId === event.target.value),
+      ];
+      dispatch(setSelectedTopics(newTopics));
     } else {
-      const newTopics = selectedTopicsIds.filter(
-        topic => topic !== event.target.value,
+      const newTopics = selectedTopics.filter(
+        topic => topic.topicId !== event.target.value,
       );
-      setSelectedTopicsIds(newTopics);
-      saveTopicsSelection(newTopics);
+      dispatch(setSelectedTopics(newTopics));
     }
   };
 
   const handleBack = () => {
-    // TODO: manage state
     navigate(-1);
   };
 
   const handleContinue = () => {
-    // TODO: manage state && error handling
-    navigate('/review');
+    if (!selectedTopics?.length) {
+      handleSetError('Please choose a topic for your appointment.');
+      return;
+    }
+    navigate(URLS.REVIEW);
   };
+
   return (
-    <Wrapper pageTitle="What topic would you like to talk about?" showBackLink>
+    <Wrapper
+      pageTitle="What do you want to learn more about?"
+      showBackLink
+      required
+      loading={loading}
+      errorAlert={isServerError(topicsError)}
+    >
       <va-checkbox-group
-        required
         data-testid="topic-checkbox-group"
         label="Check all that apply"
+        class="vass-checkbox-group"
+        error={error}
       >
         {topics.map(({ topicId, topicName }) => (
           <VaCheckbox
@@ -66,7 +76,9 @@ const TopicSelection = () => {
             name="topic"
             value={topicId}
             onVaChange={handleTopicChange}
-            checked={selectedTopicsIds.includes(topicId)}
+            checked={(selectedTopics || []).some(
+              topic => topic.topicId === topicId,
+            )}
           />
         ))}
       </va-checkbox-group>

@@ -15,11 +15,22 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createSelector } from 'reselect';
 import {
+  add,
+  endOfDay,
+  getYear,
+  isAfter,
+  isBefore,
+  isSameDay,
+  isValid,
+  isWithinInterval,
+} from 'date-fns';
+import {
   CHAR_LIMITS,
   DATA_PATHS,
   DISABILITY_526_V2_ROOT_URL,
   FORM_STATUS_BDD,
   HOMELESSNESS_TYPES,
+  NEW_CONDITION_OPTION,
   NINE_ELEVEN,
   PAGE_TITLES,
   PTSD_MATCHES,
@@ -32,8 +43,12 @@ import {
 } from '../constants';
 import { getBranches } from './serviceBranches';
 import { setSharedVariable } from './sharedState';
-import { formatDateRange, formatDate, parseDate } from './dates/formatting';
-import { getToday } from '../tests/utils/dates/dateHelper';
+import {
+  formatDateRange,
+  formatDate,
+  parseDate,
+  getToday,
+} from './dates/formatting';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -67,24 +82,26 @@ export const srSubstitute = (srIgnored, substitutionText) => (
 
 export const isUndefined = value => (value || '') === '';
 
-// parseDate().isSameOrBefore() => true; so expirationDate can't be undefined
+// Check if expiration date is today or in the future
 export const isNotExpired = (expirationDate = '') => {
-  const today = getToday();
+  const today = new Date(getToday());
   const expiration = parseDate(expirationDate);
   if (!today || !expiration) return false;
-  return today.isSameOrBefore(expiration);
+  // Check if today is before or same as expiration (i.e., expiration is today or future)
+  return isBefore(today, expiration) || isSameDay(today, expiration);
 };
 
 export const isValidFullDate = dateString => {
-  // expecting dateString = 'YYYY-MM-DD'
+  // expecting dateString = 'yyyy-MM-dd'
   const date = parseDate(dateString);
   return (
-    (date?.isValid() &&
-      // moment('2021') => '2021-01-01'
-      // moment('XXXX-01-01') => '2001-01-01'
-      dateString === formatDate(date, 'YYYY-MM-DD') &&
+    (date &&
+      isValid(date) &&
+      // date-fns parse('2021') would be invalid
+      // date-fns parse('XXXX-01-01') would be invalid
+      dateString === formatDate(date, 'yyyy-MM-dd') &&
       // make sure we're within the min & max year range
-      isValidYear(date.year())) ||
+      isValidYear(getYear(date))) ||
     false
   );
 };
@@ -98,7 +115,7 @@ export const isValidServicePeriod = data => {
       !isUndefined(to) &&
       isValidFullDate(from) &&
       isValidFullDate(to) &&
-      parseDate(from).isBefore(parseDate(to))) ||
+      isBefore(parseDate(from), parseDate(to))) ||
     false
   );
 };
@@ -240,12 +257,33 @@ const regexNonWord = /[^\w]/g;
 export const sippableId = str =>
   (str || 'blank').replace(regexNonWord, '').toLowerCase();
 
+// Helper to check if user is in evidence enhancement flow
+export const isEvidenceEnhancement = formData =>
+  !!formData?.disability526SupportingEvidenceEnhancement;
+
 export const hasVAEvidence = formData =>
   _.get(DATA_PATHS.hasVAEvidence, formData, false);
 export const hasOtherEvidence = formData =>
   _.get(DATA_PATHS.hasAdditionalDocuments, formData, false);
 export const hasPrivateEvidence = formData =>
   _.get(DATA_PATHS.hasPrivateEvidence, formData, false);
+
+export const hasMedicalRecords = formData => {
+  if (isEvidenceEnhancement(formData)) {
+    // Enhancement flow: check new field name, with fallback to legacy data for transition compatibility
+    const hasRecords = _.get(DATA_PATHS.hasMedicalRecords, formData);
+    if (hasRecords !== undefined) {
+      return hasRecords;
+    }
+    // Transition compatibility: derive from legacy data if switching from legacy flow
+    const hasLegacyEvidence = _.get(DATA_PATHS.hasEvidence, formData, false);
+    const hasVA = hasVAEvidence(formData);
+    const hasPrivate = hasPrivateEvidence(formData);
+    return hasLegacyEvidence && (hasVA || hasPrivate);
+  }
+  // Legacy flow: use the existing path
+  return _.get(DATA_PATHS.hasEvidence, formData, false);
+};
 
 /**
  * Inspects all given paths in the formData object for presence of values
@@ -360,21 +398,31 @@ export const isBDD = formData => {
     : servicePeriods
         .filter(({ dateRange }) => dateRange?.to)
         .map(({ dateRange }) => parseDate(dateRange?.to))
-        .sort((dateA, dateB) => (dateB.isBefore(dateA) ? -1 : 1))[0];
+        .sort((dateA, dateB) => dateB - dateA)[0];
 
   if (!mostRecentDate) {
     window.sessionStorage.setItem(FORM_STATUS_BDD, 'false');
     return false;
   }
 
+  const today = getToday();
+  const today89 = add(today, { days: 89 });
+  const today180 = add(today, { days: 180 });
+
   const result =
     isActiveDuty &&
-    mostRecentDate.isAfter(getToday().add(89, 'days')) &&
-    !mostRecentDate.isAfter(getToday().add(180, 'days'));
+    isAfter(mostRecentDate, today89) &&
+    !isAfter(mostRecentDate, today180);
 
   // this flag helps maintain the correct form title within a session
   window.sessionStorage.setItem(FORM_STATUS_BDD, result ? 'true' : 'false');
   return Boolean(result);
+};
+
+// TODO: Once vetted, drop the feature toggle _and_ drop this obsolete
+// conditionality.
+export const showNewlyBDDPages = formData => {
+  return formData.disability526ExtraBDDPagesEnabled || !isBDD(formData);
 };
 
 export const hasNewPtsdDisability = formData =>
@@ -525,9 +573,10 @@ export const isWithinRange = (inside, outside, inclusivity = '[]') => {
   const to = parseDate(outside.to);
 
   if (!insideDate || !from || !to) return false;
-  if (!insideDate.isValid() || !from.isValid() || !to.isValid()) return false;
+  if (!isValid(insideDate) || !isValid(from) || !isValid(to)) return false;
 
-  return insideDate.isBetween(from, to, 'days', inclusivity);
+  // isWithinInterval is inclusive by default, matching inclusivity='[]'
+  return isWithinInterval(insideDate, { start: from, end: to });
 };
 
 // This is in here instead of validations.js because it returns a jsx element
@@ -575,6 +624,8 @@ export const claimingRated = formData =>
 
 export const isPlaceholderRated = v => v === 'Rated Disability';
 
+export const isNewConditionOption = v => v === NEW_CONDITION_OPTION;
+
 // TE/POW should only show when there’s at least one *real* condition
 export const hasRealNewOrSecondaryConditions = formData =>
   Array.isArray(formData?.newDisabilities) &&
@@ -598,7 +649,7 @@ export const hasClaimedConditions = formData =>
  */
 export const activeServicePeriods = formData =>
   _.get('serviceInformation.servicePeriods', formData, []).filter(
-    sp => !sp.dateRange.to || parseDate(sp.dateRange.to).isAfter(getToday()),
+    sp => !sp.dateRange.to || isAfter(parseDate(sp.dateRange.to), getToday()),
   );
 
 export const isUploadingSTR = formData =>
@@ -654,20 +705,21 @@ export const showSeparationLocation = formData => {
   );
 
   if (
-    (!title10SeparationDate || !title10SeparationDate.isValid()) &&
+    (!title10SeparationDate || !isValid(title10SeparationDate)) &&
     (!servicePeriods || !Array.isArray(servicePeriods))
   ) {
     return false;
   }
 
-  const todayPlus180 = getToday().add(180, 'days');
+  const today = getToday();
+  const todayPlus180 = add(today, { days: 180 });
 
   // Show separation location field if activated on federal orders & < 180 days
   if (
     title10SeparationDate &&
-    title10SeparationDate.isValid() &&
-    title10SeparationDate.isAfter(getToday()) &&
-    !title10SeparationDate.isAfter(todayPlus180)
+    isValid(title10SeparationDate) &&
+    isAfter(title10SeparationDate, today) &&
+    !isAfter(title10SeparationDate, todayPlus180)
   ) {
     return true;
   }
@@ -675,12 +727,11 @@ export const showSeparationLocation = formData => {
   const mostRecentDate = servicePeriods
     ?.filter(({ dateRange }) => dateRange?.to)
     .map(({ dateRange }) => parseDate(dateRange.to))
-    .filter(date => date && date.isValid())
+    .filter(date => date && isValid(date))
     .sort((dateA, dateB) => dateB - dateA)[0];
 
   return mostRecentDate
-    ? mostRecentDate.isAfter(getToday()) &&
-        !mostRecentDate.isAfter(todayPlus180)
+    ? isAfter(mostRecentDate, today) && !isAfter(mostRecentDate, todayPlus180)
     : false;
 };
 
@@ -724,7 +775,6 @@ export const wrapWithBreadcrumb = (title, component) => (
   </>
 );
 
-const today = getToday().endOf('day');
 /**
  * Determines if a given date object is expired.
  *
@@ -750,10 +800,11 @@ export const isExpired = date => {
     const expiresDateString = expiresDate.toISOString().split('T')[0];
     expires = parseDate(expiresDateString);
   }
+  // Calculate today inside the function so it works with test mocking
+  const today = endOfDay(new Date(getToday()));
   return !(
     expires &&
-    expires.isValid() &&
-    expires.endOf('day').isSameOrAfter(today)
+    (isAfter(endOfDay(expires), today) || isSameDay(endOfDay(expires), today))
   );
 };
 
@@ -953,6 +1004,34 @@ export const redirectWhenNoEvidence = props => {
   );
 };
 
+/**
+ * Determines if user should be redirected from legacy evidence page to enhancement page
+ * @param {Object} props - { returnUrl, formData }
+ * @returns {boolean} true if redirect needed
+ */
+export const redirectLegacyToEnhancement = props => {
+  const { returnUrl, formData } = props;
+  return (
+    returnUrl === '/supporting-evidence/evidence-types' &&
+    isEvidenceEnhancement(formData)
+  );
+};
+
+/**
+ * Determines if user should be redirected from enhancement evidence pages to legacy page
+ * @param {Object} props - { returnUrl, formData }
+ * @returns {boolean} true if redirect needed
+ */
+export const redirectEnhancementToLegacy = props => {
+  const { returnUrl, formData } = props;
+  const isEnhancement = isEvidenceEnhancement(formData);
+  return (
+    !isEnhancement &&
+    (returnUrl === '/supporting-evidence/evidence-request' ||
+      returnUrl === '/supporting-evidence/medical-records')
+  );
+};
+
 export const isNewConditionsOn = formData =>
   !!formData?.disabilityCompNewConditionsWorkflow;
 
@@ -963,6 +1042,8 @@ export const onFormLoaded = props => {
   const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
   const shouldRevertWhenFlipperOff = redirectWhenFlipperOff(props);
   const shouldRevertWhenNoEvidence = redirectWhenNoEvidence(props);
+  const shouldRedirectLegacyToEnhancement = redirectLegacyToEnhancement(props);
+  const shouldRedirectEnhancementToLegacy = redirectEnhancementToLegacy(props);
   const redirectUrl = legacy4142AuthURL;
 
   if (shouldRedirectToModern4142Choice === true) {
@@ -984,8 +1065,24 @@ export const onFormLoaded = props => {
     shouldRevertWhenNoEvidence === true
   ) {
     router.push('/supporting-evidence/evidence-types');
+  } else if (shouldRedirectLegacyToEnhancement === true) {
+    // Handle evidence enhancement flow transition: legacy → enhancement
+    router.push('/supporting-evidence/evidence-request');
+  } else if (shouldRedirectEnhancementToLegacy === true) {
+    // Handle evidence enhancement flow transition: enhancement → legacy
+    router.push('/supporting-evidence/evidence-types');
   } else {
     // otherwise, we just redirect to the returnUrl as usual when resuming a form
     router.push(returnUrl);
   }
+};
+
+/**
+ * Checks if
+ * Veteran has additional evidence to upload within the 0781 flow
+ * @param {object} formData
+ * @returns {boolean} true if hasEvidenceChoice is present, false otherwise
+ */
+export const hasEvidenceChoice = formData => {
+  return formData?.['view:hasEvidenceChoice'] === true;
 };

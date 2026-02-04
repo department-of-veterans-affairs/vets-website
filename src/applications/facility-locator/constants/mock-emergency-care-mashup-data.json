@@ -386,26 +386,7 @@
           }
         },
         "classification": "VA Medical Center (VAMC)",
-        "detailedServices": [
-          {
-            "name": "COVID-19 vaccines",
-            "descriptionFacility": null,
-            "appointmentLeadin": "<p><em>&nbsp; &nbsp;Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.</em></p>",
-            "appointmentPhones": [
-              {
-                "extension": null,
-                "label": "Main phone",
-                "number": "718-584-9000",
-                "type": "tel"
-              }
-            ],
-            "onlineSchedulingAvailable": null,
-            "referralRequired": null,
-            "walkInsAccepted": null,
-            "serviceLocations": null,
-            "path": "https://www.bronx.va.gov/services/covid-19-vaccines.asp"
-          }
-        ],
+        "detailedServices": [],
         "facilityType": "va_health_facility",
         "feedback": {
           "health": {

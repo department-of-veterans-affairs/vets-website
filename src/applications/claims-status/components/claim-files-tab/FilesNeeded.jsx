@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router-dom-v5-compat';
+import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
 import {
@@ -11,7 +12,10 @@ import {
 import { standard5103Item } from '../../constants';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
-export default function FilesNeeded({ item, previousPage = null }) {
+export default function FilesNeeded({ claimId, item, previousPage = null }) {
+  // useNavigate for client-side routing (avoids full page reload with VaLinkAction).
+  // This is how 'to=""' worked in the previous version of this component.
+  const navigate = useNavigate();
   // We will not use the truncateDescription() here as these descriptions are custom and specific to what we want
   // the user to see based on the given item type.
   const itemsWithNewDescriptions = [
@@ -25,10 +29,20 @@ export default function FilesNeeded({ item, previousPage = null }) {
     if (isAutomated5103Notice(item.displayName)) {
       return standard5103Item.displayName;
     }
-    if (evidenceDictionary[item.displayName]?.isSensitive) {
+    // Use API boolean properties with fallback to evidenceDictionary
+    const isSensitive =
+      item.isSensitive ??
+      evidenceDictionary[item.displayName]?.isSensitive ??
+      false;
+    const noProvidePrefix =
+      item.noProvidePrefix ??
+      evidenceDictionary[item.displayName]?.noProvidePrefix ??
+      false;
+
+    if (isSensitive) {
       return `Request for evidence`;
     }
-    if (evidenceDictionary[item.displayName]?.noProvidePrefix) {
+    if (noProvidePrefix) {
       return item.friendlyName;
     }
     if (item.friendlyName) {
@@ -63,25 +77,32 @@ export default function FilesNeeded({ item, previousPage = null }) {
 
       <span className="alert-description">{getItemDescription()}</span>
       <div className="link-action-container">
-        <Link
+        <VaLinkAction
           aria-label={`About this request for ${item.friendlyName ||
             item.displayName}`}
-          className="vads-c-action-link--blue"
-          to={`../needed-from-you/${item.id}`}
-          onClick={() => {
+          href={`/track-claims/your-claims/${claimId}/needed-from-you/${
+            item.id
+          }`}
+          onClick={e => {
+            // Prevent full page reload, use React Router instead
+            e.preventDefault();
+
             if (previousPage !== null) {
               sessionStorage.setItem('previousPage', previousPage);
             }
+
+            navigate(`/your-claims/${claimId}/needed-from-you/${item.id}`);
           }}
-        >
-          About this request
-        </Link>
+          text="About this request"
+          type="secondary"
+        />
       </div>
     </va-alert>
   );
 }
 
 FilesNeeded.propTypes = {
+  claimId: PropTypes.string.isRequired,
   item: PropTypes.object.isRequired,
   previousPage: PropTypes.string,
 };

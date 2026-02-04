@@ -8,7 +8,7 @@ import AlertConfirmContactEmailContent from 'platform/mhv/components/MhvAlertCon
 
 describe('<AlertConfirmContactEmailContent />', async () => {
   it('renders email text, email address, Confirm button, and Edit link', async () => {
-    const { container, findByText } = render(
+    const { container, findByText, getByTestId } = render(
       <AlertConfirmContactEmailContent
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
@@ -21,7 +21,7 @@ describe('<AlertConfirmContactEmailContent />', async () => {
 
     await findByText('vet@va.gov');
 
-    const confirmButton = container.querySelector('va-button[text="Confirm"]');
+    const confirmButton = getByTestId('mhv-alert--confirm-email-button');
     expect(confirmButton).to.exist;
 
     const link = container.querySelector(
@@ -29,26 +29,40 @@ describe('<AlertConfirmContactEmailContent />', async () => {
     );
     expect(link).to.exist;
     expect(link.getAttribute('href')).to.equal(
-      '/profile/contact-information#contact-email-address',
+      '/profile/contact-information#email-address',
     );
   });
 
   it('calls onConfirmClick when the Confirm button is clicked', async () => {
     const onConfirmClick = sinon.spy();
 
-    const { container } = render(
+    const { getByTestId } = render(
       <AlertConfirmContactEmailContent
         emailAddress="vet@va.gov"
         onConfirmClick={onConfirmClick}
       />,
     );
 
-    const button = container.querySelector('va-button[text="Confirm"]');
+    const button = getByTestId('mhv-alert--confirm-email-button');
     expect(button).to.exist;
     fireEvent.click(button);
 
     await waitFor(() => {
       expect(onConfirmClick.calledOnce).to.be.true;
     });
+  });
+
+  it('shows loading state when isConfirming is true', async () => {
+    const { getByTestId } = render(
+      <AlertConfirmContactEmailContent
+        emailAddress="vet@va.gov"
+        onConfirmClick={() => {}}
+        isConfirming
+      />,
+    );
+
+    const button = getByTestId('mhv-alert--confirm-email-button');
+    expect(button).to.exist;
+    expect(button.getAttribute('loading')).to.equal('true');
   });
 });

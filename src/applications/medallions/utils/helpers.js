@@ -6,6 +6,11 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { focusElement } from 'platform/utilities/ui';
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { countries } from 'platform/forms/address';
+import { apiRequest } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
+
+export const envUrl = environment.API_URL;
 import get from 'platform/utilities/data/get';
 
 export const applicantRelationToVetRadio = {
@@ -55,6 +60,12 @@ export const supportingDocsInfo = formData => {
         <li>
           The Veteran’s pre-need determination of eligibility decision letter,{' '}
           <strong>or</strong>
+        </li>
+        <li>
+          A police report if the medallion was stolen, <strong>or</strong>
+        </li>
+        <li>
+          A photo of the medallion if it was damaged, <strong>or</strong>
         </li>
         <li>
           Any other service documents that prove the Veteran’s eligibility for a
@@ -176,7 +187,7 @@ export function parseResponse({ data }) {
 }
 
 export function isUserSignedIn(formData) {
-  return formData?.isLoggedIn;
+  return formData?.['view:loginState']?.isLoggedIn;
 }
 
 export const ApplicantNameHeader = () => {
@@ -320,6 +331,18 @@ export const requestRecordsLink = () => {
   );
 };
 
+export const learnMoreAboutCertsLink = () => {
+  return (
+    <a
+      href="https://www.va.gov/burials-memorials/memorial-items/presidential-memorial-certificates/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Learn more about PMCs (opens in a new tab)
+    </a>
+  );
+};
+
 // FileField helper functions
 export const createOpenRemoveModal = (
   setRemoveIndex,
@@ -357,4 +380,107 @@ export const createCancelUpload = (uploadRequest, removeFile) => index => {
     uploadRequest.abort();
   }
   removeFile(index);
+};
+
+export const formatPhone = phone => {
+  if (!phone) return 'Not provided';
+
+  // Remove all non-digit characters
+  const digitsOnly = phone.replace(/\D/g, '');
+
+  // Format as xxx-xxx-xxxx if we have exactly 10 digits
+  if (digitsOnly.length === 10) {
+    return `${digitsOnly.slice(0, 3)}-${digitsOnly.slice(
+      3,
+      6,
+    )}-${digitsOnly.slice(6)}`;
+  }
+
+  // If not 10 digits, return as-is (fallback)
+  return phone;
+};
+
+export const formatSuggestedAddress = address => {
+  if (address) {
+    let displayAddress = '';
+    const street = address.street || address.addressLine1;
+    const street2 = address.street2 || address.addressLine2;
+    const { city } = address;
+    const state = address.state || address.stateCode;
+    const zip = address.postalCode || address.zipCode;
+    const country = address.country || address.countryCodeIso3;
+
+    if (street) displayAddress += street;
+    if (street2) displayAddress += `, ${street2}`;
+    if (city) displayAddress += `, ${city}`;
+    if (state) displayAddress += `, ${state}`;
+    if (zip) displayAddress += ` ${zip}`;
+    if (country && country !== 'USA')
+      displayAddress += `, ${countries.find(c => c.value === country).label ||
+        country}`;
+
+    return displayAddress.trim();
+  }
+  return '';
+};
+
+/* eslint-disable camelcase */
+export const prepareAddressForAPI = address => ({
+  address_line1: address.street,
+  address_line2: address.street2,
+  address_pou: 'RESIDENCE',
+  address_type: 'DOMESTIC',
+  city: address.city,
+  country_code_iso3: address.country,
+  state_code: address.state,
+  zip_code: address.postalCode,
+});
+
+export const fetchSuggestedAddress = async userAddress => {
+  const options = {
+    body: JSON.stringify({
+      address: { ...prepareAddressForAPI(userAddress) },
+    }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    const res = await apiRequest(
+      `${envUrl}/v0/profile/address_validation`,
+      options,
+    );
+
+    if (res?.addresses && res?.addresses.length > 0) {
+      const suggested = res.addresses[0]?.address;
+      return {
+        fetchedSuggestedAddress: {
+          addressLine1: suggested.addressLine1,
+          addressLine2: suggested.addressLine2,
+          city: suggested.city,
+          country: suggested.countryCodeIso3,
+          state: suggested.stateCode,
+          zipCode: suggested.zipCode,
+        },
+        fetchedShowSuggestions:
+          res?.addresses[0]?.addressMetaData?.confidenceScore !== 100,
+      };
+    }
+  } catch (error) {
+    return { fetchedSuggestedAddress: null, fetchedShowSuggestions: false };
+  }
+
+  return { fetchedSuggestedAddress: null, fetchedShowSuggestions: false };
+};
+
+// Helper function to conditionally return a line with a break
+export const addressConfirmationRenderLine = content => {
+  return content ? (
+    <>
+      {content}
+      <br />
+    </>
+  ) : null;
 };

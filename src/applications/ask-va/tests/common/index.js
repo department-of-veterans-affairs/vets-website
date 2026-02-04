@@ -20,7 +20,7 @@ export const createMockStore = ({
 
   const initialState = {
     askVA: {
-      currentUserLocation: '123456',
+      currentUserLocation: [],
       searchLocationInput: '',
       getLocationInProgress: false,
       getLocationError: false,

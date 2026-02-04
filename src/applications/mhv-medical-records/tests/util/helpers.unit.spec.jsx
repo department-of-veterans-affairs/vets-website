@@ -15,18 +15,18 @@ import {
   dateFormat,
   dateFormatWithoutTimezone,
   dispatchDetails,
-  errorForUnequalBirthDates,
   extractContainedByRecourceType,
   extractContainedResource,
   formatDate,
+  formatDateAndTime,
   formatDateInLocalTimezone,
   formatNameFirstToLast,
   getActiveLinksStyle,
   getAppointmentsDateRange,
+  getLastSuccessfulUpdate,
   getLastUpdatedText,
   getMonthFromSelectedDate,
   getObservationValueWithUnits,
-  getReactions,
   getStatusExtractPhase,
   handleDataDogAction,
   nameFormat,
@@ -99,14 +99,6 @@ describe('dateFormatWithoutTimezone', () => {
     const expectedFormat = '2021-05-18';
     const result = dateFormatWithoutTimezone(isoString, customFormat);
     expect(result).to.equal(expectedFormat);
-  });
-});
-
-describe('getReactions', () => {
-  it('returns an empty array if the record passed has no reactions property', () => {
-    const record = {};
-    const reactions = getReactions(record);
-    expect(reactions.length).to.eq(0);
   });
 });
 
@@ -638,6 +630,177 @@ describe('getLastUpdatedText', () => {
   });
 });
 
+describe('formatDateAndTime', () => {
+  it('formats a valid Date object into date, time, and timeZone parts', () => {
+    const date = new Date(2025, 0, 15, 14, 30, 0); // Jan 15, 2025 2:30 PM
+    const result = formatDateAndTime(date);
+
+    expect(result).to.not.be.null;
+    expect(result.date).to.equal('January 15, 2025');
+    expect(result.time).to.equal('2:30 p.m.');
+    expect(result.timeZone).to.be.a('string');
+  });
+
+  it('formats a valid ISO date string', () => {
+    const result = formatDateAndTime('2025-01-15T14:30:00');
+
+    expect(result).to.not.be.null;
+    expect(result.date).to.equal('January 15, 2025');
+    expect(result.time).to.equal('2:30 p.m.');
+  });
+
+  it('returns null for an Invalid Date object', () => {
+    const invalidDate = new Date('not-a-date');
+    const result = formatDateAndTime(invalidDate);
+
+    expect(result).to.be.null;
+  });
+
+  it('returns null for an invalid date string', () => {
+    const result = formatDateAndTime('garbage');
+
+    expect(result).to.be.null;
+  });
+
+  it('returns null for an empty string', () => {
+    const result = formatDateAndTime('');
+
+    expect(result).to.be.null;
+  });
+
+  it('returns null for a Date created from NaN', () => {
+    const result = formatDateAndTime(new Date(NaN));
+
+    expect(result).to.be.null;
+  });
+
+  it('returns null when passed null', () => {
+    const result = formatDateAndTime(null);
+
+    expect(result).to.be.null;
+  });
+
+  it('returns null when passed undefined', () => {
+    const result = formatDateAndTime(undefined);
+
+    expect(result).to.be.null;
+  });
+
+  it('handles midnight correctly (12:00 a.m.)', () => {
+    const date = new Date(2025, 0, 15, 0, 0, 0); // Midnight
+    const result = formatDateAndTime(date);
+
+    expect(result).to.not.be.null;
+    expect(result.time).to.equal('12:00 a.m.');
+  });
+
+  it('handles noon correctly (12:00 p.m.)', () => {
+    const date = new Date(2025, 0, 15, 12, 0, 0); // Noon
+    const result = formatDateAndTime(date);
+
+    expect(result).to.not.be.null;
+    expect(result.time).to.equal('12:00 p.m.');
+  });
+});
+
+describe('getLastSuccessfulUpdate', () => {
+  it('returns formatted date for valid extract statuses', () => {
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: '2024-09-15T10:00:00Z' },
+      { extract: 'type2', lastSuccessfulCompleted: '2024-09-16T10:00:00Z' },
+    ];
+    const extractTypeList = ['type1', 'type2'];
+
+    const result = getLastSuccessfulUpdate(refreshStateStatus, extractTypeList);
+
+    expect(result).to.not.be.null;
+    expect(result.date).to.be.a('string');
+    expect(result.time).to.be.a('string');
+  });
+
+  it('returns the earliest date when multiple valid dates are present', () => {
+    const earlier = new Date(2024, 8, 10, 10, 0, 0); // Sept 10
+    const later = new Date(2024, 8, 15, 10, 0, 0); // Sept 15
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: earlier },
+      { extract: 'type2', lastSuccessfulCompleted: later },
+    ];
+    const extractTypeList = ['type1', 'type2'];
+
+    const result = getLastSuccessfulUpdate(refreshStateStatus, extractTypeList);
+
+    expect(result).to.not.be.null;
+    // The result should be based on the earlier date (Sept 10)
+    expect(result.date).to.include('September 10');
+  });
+
+  it('returns null when an extract has an invalid date string', () => {
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: 'not-a-date' },
+    ];
+    const extractTypeList = ['type1'];
+
+    const result = getLastSuccessfulUpdate(refreshStateStatus, extractTypeList);
+
+    expect(result).to.be.null;
+  });
+
+  it('filters out invalid dates and returns result from valid ones', () => {
+    const validDate = new Date(2024, 8, 15, 10, 0, 0);
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: validDate },
+      { extract: 'type2', lastSuccessfulCompleted: 'invalid-date' },
+    ];
+    // Only request one extract type to avoid the length check
+    const extractTypeList = ['type1'];
+
+    const result = getLastSuccessfulUpdate(refreshStateStatus, extractTypeList);
+
+    expect(result).to.not.be.null;
+    expect(result.date).to.include('September 15');
+  });
+
+  it('returns null when all dates are invalid', () => {
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: 'garbage' },
+      { extract: 'type2', lastSuccessfulCompleted: '' },
+    ];
+    const extractTypeList = ['type1', 'type2'];
+
+    const result = getLastSuccessfulUpdate(refreshStateStatus, extractTypeList);
+
+    expect(result).to.be.null;
+  });
+
+  it('returns null when refreshStateStatus is undefined', () => {
+    const result = getLastSuccessfulUpdate(undefined, ['type1']);
+
+    expect(result).to.be.null;
+  });
+
+  it('returns null when extract type list does not match available extracts', () => {
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: '2024-09-15T10:00:00Z' },
+    ];
+    const extractTypeList = ['type1', 'type2']; // type2 not in refreshStateStatus
+
+    const result = getLastSuccessfulUpdate(refreshStateStatus, extractTypeList);
+
+    expect(result).to.be.null;
+  });
+
+  it('handles Date objects that are Invalid Date', () => {
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: new Date('invalid') },
+    ];
+    const extractTypeList = ['type1'];
+
+    const result = getLastSuccessfulUpdate(refreshStateStatus, extractTypeList);
+
+    expect(result).to.be.null;
+  });
+});
+
 describe('formatNameFirstToLast', () => {
   it('formats a name string from "Last,First" to "First Last"', () => {
     const input = 'Schmo,Joe';
@@ -1112,11 +1275,11 @@ describe('formatDateTime', () => {
     expect(formattedTime).to.equal('12:00 PM');
   });
 
-  it('returns empty strings for invalid input', () => {
+  it('returns null for invalid input', () => {
     const { formattedDate, formattedTime } = formatDateTime('not-a-date');
 
-    expect(formattedDate).to.equal('');
-    expect(formattedTime).to.equal('');
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
   });
 
   it('handles midnight correctly (12:00 AM)', () => {
@@ -1127,64 +1290,33 @@ describe('formatDateTime', () => {
     expect(formattedDate).to.equal('January 5, 2025');
     expect(formattedTime).to.equal('12:00 AM');
   });
-});
 
-describe('errorForUnequalBirthDates (no sinon)', () => {
-  it('does not throw when using default functions', () => {
-    expect(() => errorForUnequalBirthDates('2000-09-01')).to.not.throw();
+  it('returns null for null input (prevents epoch date)', () => {
+    const { formattedDate, formattedTime } = formatDateTime(null);
+
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
   });
 
-  it('does not throw when dates are equal', () => {
-    const deps = {
-      formatDateLong: () => 'September 1, 2000',
-      formatBirthDate: () => 'September 1, 2000',
-    };
+  it('returns null for undefined input (prevents epoch date)', () => {
+    const { formattedDate, formattedTime } = formatDateTime(undefined);
 
-    expect(() => errorForUnequalBirthDates('anything', deps)).to.not.throw();
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
   });
 
-  it('throws when formatDateLong is earlier than formatBirthDate', () => {
-    const deps = {
-      formatDateLong: () => 'September 1, 2000',
-      formatBirthDate: () => 'September 2, 2000',
-    };
+  it('returns null for 0 input (prevents epoch date)', () => {
+    const { formattedDate, formattedTime } = formatDateTime(0);
 
-    expect(() => errorForUnequalBirthDates('anything', deps)).to.throw(
-      /formatDateLong is earlier than formatBirthDate/,
-    );
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
   });
 
-  it('throws when formatBirthDate is earlier than formatDateLong', () => {
-    const deps = {
-      formatDateLong: () => 'September 2, 2000',
-      formatBirthDate: () => 'September 1, 2000',
-    };
+  it('returns null for empty string input', () => {
+    const { formattedDate, formattedTime } = formatDateTime('');
 
-    expect(() => errorForUnequalBirthDates('anything', deps)).to.throw(
-      /formatBirthDate is earlier than formatDateLong/,
-    );
-  });
-
-  it('throws when formatDateLong returns an invalid date string', () => {
-    const deps = {
-      formatDateLong: () => 'not a date',
-      formatBirthDate: () => 'September 1, 2000',
-    };
-
-    expect(() => errorForUnequalBirthDates('anything', deps)).to.throw(
-      /Invalid birth date via formatDateLong/,
-    );
-  });
-
-  it('throws when formatBirthDate returns an invalid date string', () => {
-    const deps = {
-      formatDateLong: () => 'September 1, 2000',
-      formatBirthDate: () => 'not a date',
-    };
-
-    expect(() => errorForUnequalBirthDates('anything', deps)).to.throw(
-      /Invalid birth date via formatBirthDate/,
-    );
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
   });
 });
 

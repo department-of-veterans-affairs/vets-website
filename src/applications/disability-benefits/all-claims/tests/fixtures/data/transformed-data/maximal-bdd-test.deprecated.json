@@ -1,0 +1,123 @@
+{
+  "form526": {
+    "isVaEmployee": true,
+    "bankAccountType": "Checking",
+    "bankAccountNumber": "1233",
+    "bankRoutingNumber": "123123123",
+    "bankName": "Bigbank Co.",
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "forwardingAddress": {
+      "country": "USA",
+      "addressLine1": "321 Secondary",
+      "city": "Smallcity",
+      "state": "NY",
+      "zipCode": "54321",
+      "effectiveDate": {
+        "from": "2099-12-01",
+        "to": "2100-01-01"
+      }
+    },
+    "ratedDisabilities": [
+      {
+        "name": "Diabetes mellitus0",
+        "ratedDisabilityId": "0",
+        "diagnosticCode": 5238,
+        "disabilityActionType": "INCREASE"
+      }
+    ],
+    "serviceInformation": {
+      "reservesNationalGuardService": {
+        "title10Activation": {
+          "title10ActivationDate": "2015-01-01",
+          "anticipatedSeparationDate": "2120-01-01"
+        },
+        "obligationTermOfServiceDateRange": {
+          "from": "2007-05-22",
+          "to": "2008-06-05"
+        },
+        "unitName": "Seal Team Six"
+      },
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force Reserves",
+          "dateRange": {
+            "from": "2001-03-21",
+            "to": "2026-03-02"
+          }
+        }
+      ],
+      "separationLocation": {
+        "separationLocationCode": "98283",
+        "separationLocationName": "AF Academy"
+      }
+    },
+    "newPrimaryDisabilities": [
+      {
+        "cause": "NEW",
+        "condition": "asthma",
+        "primaryDescription": "This disability is related to my military service."
+      },
+      {
+        "cause": "WORSENED",
+        "condition": "ankylosis in knee, bilateral",
+        "worsenedDescription": "This disability was worsened by military service.",
+        "worsenedEffects": "This pre-existing disability was worsened by military service."
+      },
+      {
+        "cause": "VA",
+        "vaMistreatmentLocation": "Somewhereville",
+        "vaMistreatmentDate": "A while ago",
+        "condition": "heart attack (myocardial infarction)",
+        "vaMistreatmentDescription": "This disability was caused by an injury or event that happened while I was receiving VA care."
+      },
+      {
+        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
+        "cause": "NEW",
+        "primaryDescription": "Secondary to Asthma\nThis disability was caused by another condition."
+      }
+    ],
+    "attachments": [
+      {
+        "name": "STR.pdf",
+        "confirmationCode": "abcdef00-a42f-4bbc-88f3-873c5bea6c00",
+        "attachmentId": "L451"
+      },
+      {
+        "name": "AngleSettingJig_9_25_15.pdf",
+        "confirmationCode": "544f14cc-4e51-4661-b8f4-d79f71567491",
+        "attachmentId": "L107"
+      },
+      {
+        "name": "image.png",
+        "confirmationCode": "fa0c0f47-a42f-4bbc-88f3-873c5bea6ce7",
+        "attachmentId": "L023"
+      },
+      {
+        "name": "lolwut.png",
+        "confirmationCode": "552067b2-9c5d-4bd8-bcd8-bc621b51a145",
+        "attachmentId": "L015"
+      },
+      {
+        "name": "image (1).png",
+        "confirmationCode": "0496e5c2-0675-4a43-83d6-e1eeabd4ea0e",
+        "attachmentId": "L070"
+      },
+      {
+        "name": "Success.jpg",
+        "confirmationCode": "de89492d-2d3f-4486-a73d-1fa4868aa49d",
+        "attachmentId": "L023"
+      }
+    ],
+    "standardClaim": false
+  }
+}

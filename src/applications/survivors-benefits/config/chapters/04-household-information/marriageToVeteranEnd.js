@@ -9,22 +9,22 @@ import { marriageEndOptions } from '../../../utils/labels';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    marriageEndReason: {
+    howMarriageEnded: {
       ...radioUI({
         title: 'How did the marriage end?',
         labels: marriageEndOptions,
-        required: formData => formData.marriedAtDeath === false,
+        required: formData => formData.marriedToVeteranAtTimeOfDeath === false,
         labelHeaderLevel: 3,
       }),
     },
-    marriageEndOtherReason: {
+    marriageEndedExplanation: {
       ...textUI({
         title: 'Tell us how the marriage ended',
-        required: formData => formData?.marriageEndReason === 'OTHER',
+        required: formData => formData?.howMarriageEnded === 'other',
       }),
       'ui:options': {
-        expandUnder: 'marriageEndReason',
-        expandUnderCondition: 'OTHER',
+        expandUnder: 'howMarriageEnded',
+        expandUnderCondition: 'other',
       },
     },
   },
@@ -32,8 +32,8 @@ export default {
     type: 'object',
     required: [],
     properties: {
-      marriageEndReason: radioSchema(Object.keys(marriageEndOptions)),
-      marriageEndOtherReason: textSchema,
+      howMarriageEnded: radioSchema(Object.keys(marriageEndOptions)),
+      marriageEndedExplanation: textSchema,
     },
   },
 };

@@ -66,6 +66,12 @@ const defaultUser = {
         ],
         va_patient: true,
         mhv_account_state: 'OK',
+        oh_migration_info: {
+          user_at_pretransitioned_oh_facility: false,
+          user_facility_ready_for_info_alert: false,
+          user_facility_migrating_to_oh: false,
+          migration_schedules: [],
+        },
       },
     },
   },
@@ -96,6 +102,12 @@ const generateUser = ({
           mhv_account_state: mhvAccountState,
           va_patient: vaPatient,
           facilities,
+          oh_migration_info: {
+            user_at_pretransitioned_oh_facility: oracleHealth,
+            user_facility_ready_for_info_alert: oracleHealth,
+            user_facility_migrating_to_oh: false,
+            migration_schedules: [],
+          },
         },
         profile: {
           ...defaultUser.data.attributes.profile,
@@ -109,6 +121,7 @@ const generateUser = ({
         },
         vet360_contact_information: {
           email: {
+            id: 12345,
             confirmation_date: null,
             updated_at: '2024-01-01T12:00:00.000+00:00',
             email_address: 'vet@va.gov',

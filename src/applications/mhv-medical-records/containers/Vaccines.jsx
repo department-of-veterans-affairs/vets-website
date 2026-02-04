@@ -37,8 +37,8 @@ import {
   pageTitles,
   accessAlertTypes,
   refreshExtractTypes,
-  CernerAlertContent,
   statsdFrontEndActions,
+  loadStates,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -58,8 +58,8 @@ import {
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
 
@@ -95,7 +95,10 @@ const Vaccines = props => {
   const history = useHistory();
   const paramPage = getParamValue(location.search, 'page');
 
-  const { isAcceleratingVaccines } = useAcceleratedData();
+  const { isLoading, isAcceleratingVaccines } = useAcceleratedData();
+
+  const isLoadingAcceleratedData =
+    isAcceleratingVaccines && listState === loadStates.FETCHING;
 
   const dispatchAction = isCurrent => {
     return getVaccinesList(
@@ -161,17 +164,20 @@ const Vaccines = props => {
       ...generateVaccinesContent(vaccines),
     };
     const pdfName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
-    makePdf(
-      pdfName,
-      pdfData,
-      'medicalRecords',
-      'Medical Records - Vaccines - PDF generation error',
-      runningUnitTest,
-    );
+    try {
+      await makePdf(
+        pdfName,
+        pdfData,
+        'medicalRecords',
+        'Medical Records - Vaccines - PDF generation error',
+        runningUnitTest,
+      );
+    } catch {
+      // makePdf handles error logging to Datadog/Sentry
+    }
   };
 
   const generateVaccineListItemTxt = item => {
-    setDownloadStarted(true);
     const content = [
       `${txtLine}\n\n`,
       `${item.name}\n`,
@@ -196,6 +202,7 @@ const Vaccines = props => {
     return content.join('');
   };
   const generateVaccinesTxt = async () => {
+    setDownloadStarted(true);
     const content = [
       `${crisisLineHeader}\n\n`,
       `Vaccines\n`,
@@ -250,8 +257,9 @@ const Vaccines = props => {
           Go to your allergy records
         </Link>
       </div>
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.VACCINES} />
-      {downloadStarted && <DownloadSuccessAlert />}
+      {downloadStarted && (
+        <DownloadSuccessAlert className="vads-u-margin-bottom--3" />
+      )}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.VACCINE}
@@ -285,39 +293,55 @@ const Vaccines = props => {
           />
         )}
 
-        {vaccines?.length ? (
-          <>
-            {useBackendPagination && vaccines ? (
-              <RecordListNew
-                records={vaccines?.map(vaccine => ({
-                  ...vaccine,
-                  isOracleHealthData: isAcceleratingVaccines,
-                }))}
-                type={recordType.VACCINES}
-                metadata={metadata}
-              />
-            ) : (
-              <RecordList
-                records={vaccines?.map(vaccine => ({
-                  ...vaccine,
-                  isOracleHealthData: isAcceleratingVaccines,
-                }))}
-                type={recordType.VACCINES}
-              />
-            )}
-
-            <DownloadingRecordsInfo description="Vaccines" />
-            <PrintDownload
-              description="Vaccines - List"
-              list
-              downloadPdf={generateVaccinesPdf}
-              downloadTxt={generateVaccinesTxt}
+        {(isLoadingAcceleratedData || isLoading) && (
+          <div className="vads-u-margin-y--8">
+            <TrackedSpinner
+              id="vaccines-page-spinner"
+              message="We’re loading your records."
+              setFocus
+              data-testid="loading-indicator"
             />
-            <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
-          </>
-        ) : (
-          <NoRecordsMessage type={recordType.VACCINES} />
+          </div>
         )}
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
+          vaccines !== undefined && (
+            <>
+              {vaccines?.length ? (
+                <>
+                  {useBackendPagination && vaccines ? (
+                    <RecordListNew
+                      records={vaccines?.map(vaccine => ({
+                        ...vaccine,
+                        isOracleHealthData: isAcceleratingVaccines,
+                      }))}
+                      type={recordType.VACCINES}
+                      metadata={metadata}
+                    />
+                  ) : (
+                    <RecordList
+                      records={vaccines?.map(vaccine => ({
+                        ...vaccine,
+                        isOracleHealthData: isAcceleratingVaccines,
+                      }))}
+                      type={recordType.VACCINES}
+                    />
+                  )}
+
+                  <DownloadingRecordsInfo description="Vaccines" />
+                  <PrintDownload
+                    description="Vaccines - List"
+                    list
+                    downloadPdf={generateVaccinesPdf}
+                    downloadTxt={generateVaccinesTxt}
+                  />
+                  <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
+                </>
+              ) : (
+                <NoRecordsMessage type={recordType.VACCINES} />
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );

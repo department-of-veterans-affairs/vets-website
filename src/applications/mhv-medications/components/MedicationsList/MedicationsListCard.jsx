@@ -53,6 +53,17 @@ const MedicationsListCard = ({ rx }) => {
     }
     return (
       <>
+        {rx &&
+          rx.isRefillable &&
+          rx.refillRemaining >= 1 && (
+            <p
+              data-testid="rx-refill-remaining"
+              data-dd-privacy="mask"
+              id={`refill-remaining-${rx.prescriptionId}`}
+            >
+              Refills remaining: {rx.refillRemaining}
+            </p>
+          )}
         {rx && <LastFilledInfo {...rx} />}
         {latestTrackingStatus && (
           <p
@@ -98,15 +109,6 @@ const MedicationsListCard = ({ rx }) => {
       <div className="rx-card-details" data-testid="rx-card-info">
         <Link
           id={`card-header-${rx.prescriptionId}`}
-          aria-describedby={
-            pendingMed || pendingRenewal
-              ? `prescription-number-${rx.prescriptionId} pending-med-content-${
-                  rx.prescriptionId
-                }`
-              : `status-${rx.prescriptionId} status-description-${
-                  rx.prescriptionId
-                } fill-or-refill-button-${rx.prescriptionId}`
-          }
           data-dd-privacy="mask"
           data-dd-action-name={
             dataDogActionNames.medicationsListPage.MEDICATION_NAME_LINK_IN_CARD
@@ -129,7 +131,9 @@ const MedicationsListCard = ({ rx }) => {
               id={`prescription-number-${rx.prescriptionId}`}
             >
               Prescription number:{' '}
-              <span data-dd-privacy="mask">{rx.prescriptionNumber}</span>
+              <span data-dd-privacy="mask">
+                {rx.prescriptionNumber || 'Not available'}
+              </span>
             </p>
           )}
         {cardBodyContent()}

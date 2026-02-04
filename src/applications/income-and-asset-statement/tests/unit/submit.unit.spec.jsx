@@ -96,6 +96,86 @@ describe('Income and asset submit', () => {
     });
   });
 
+  describe('prepareFormData', () => {
+    it('collects all submitted documents into the files array', () => {
+      const inputData = {
+        trusts: [
+          {
+            uploadedDocuments: [
+              { name: 'trust1.pdf', confirmationCode: 'code1' },
+              { name: 'trust2.pdf', confirmationCode: 'code2' },
+            ],
+          },
+        ],
+        ownedAssets: [
+          {
+            uploadedDocuments: {
+              name: 'asset1.pdf',
+              confirmationCode: 'code3',
+            },
+          },
+        ],
+        files: [{ name: 'existing.pdf', confirmationCode: 'code0' }],
+      };
+
+      const preparedData = SubmitModule.prepareFormData(inputData);
+      const fileNames = preparedData.files.map(f => f.name);
+
+      expect(fileNames.length).to.equal(4);
+      expect(fileNames).to.include.members([
+        'existing.pdf',
+        'trust1.pdf',
+        'trust2.pdf',
+        'asset1.pdf',
+      ]);
+    });
+
+    it('handles empty uploadedDocuments fields gracefully', () => {
+      const inputData = {
+        trusts: [
+          {
+            otherField: 'no files here',
+          },
+          {
+            uploadedDocuments: [], // Not required, but should be handled gracefully
+          },
+          {
+            uploadedDocuments: [
+              { name: 'trust1.pdf', confirmationCode: 'code1' },
+              { name: 'trust2.pdf', confirmationCode: 'code2' },
+            ],
+          },
+        ],
+        ownedAssets: [
+          {
+            otherField: 'still no files', // no uploadedDocuments field
+          },
+          {
+            uploadedDocuments: [], // This is the behavior we see with the forms system
+          },
+          {
+            uploadedDocuments: {
+              name: 'asset1.pdf',
+              confirmationCode: 'code3',
+            },
+          },
+        ],
+        files: [{ name: 'existing.pdf', confirmationCode: 'code0' }],
+      };
+
+      const preparedData = SubmitModule.prepareFormData(inputData);
+      const fileNames = preparedData.files.map(f => f.name);
+
+      expect(fileNames.length).to.equal(4);
+      expect(fileNames).to.include.members([
+        'existing.pdf',
+        'trust1.pdf',
+        'trust2.pdf',
+        'asset1.pdf',
+      ]);
+    });
+  });
+
   describe('submission pipeline ordering', () => {
     it('passes the output of prepareFormData into serializePreparedFormData', () => {
       const inputForm = { data: { foo: 'bar' } };
@@ -104,10 +184,7 @@ describe('Income and asset submit', () => {
       const prepared = SubmitModule.prepareFormData(inputForm.data);
 
       // Expected behavior of serializePreparedFormData
-      const serialized = SubmitModule.serializePreparedFormData(
-        prepared,
-        SubmitModule.replacer,
-      );
+      const serialized = SubmitModule.serializePreparedFormData(prepared);
 
       const wrappedOutput = SubmitModule.transform(inputForm);
       const parsed = JSON.parse(wrappedOutput);
@@ -138,7 +215,6 @@ describe('Income and asset submit', () => {
       const expectedPrepared = SubmitModule.prepareFormData(form.data);
       const expectedSerialized = SubmitModule.serializePreparedFormData(
         expectedPrepared,
-        SubmitModule.replacer,
       );
 
       expect(parsed.incomeAndAssetsClaim.form).to.equal(expectedSerialized);

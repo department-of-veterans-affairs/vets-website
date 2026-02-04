@@ -1,6 +1,6 @@
 import appendQuery from 'append-query';
 import { apiRequest } from 'platform/utilities/api';
-import { sentryLogger } from '../helpers/sentryLogger';
+import { datadogLogger } from '../hooks/useFindFormsBrowserMonitoring';
 import {
   fetchFormsFailure,
   fetchFormsSuccess,
@@ -16,7 +16,7 @@ export const checkFormValidity = async (form, page) => {
   let formPdfIsValid = true;
   let formPdfUrlIsValid = true;
   let networkRequestError = false;
-  const { formName: formNumber, url: downloadUrl, validPdf } = form.attributes;
+  const { url: downloadUrl, validPdf } = form.attributes;
 
   try {
     const isSameOrigin = downloadUrl?.startsWith(window.location.origin);
@@ -39,9 +39,8 @@ export const checkFormValidity = async (form, page) => {
       networkRequestError = true;
     }
 
-    sentryLogger(
+    datadogLogger(
       form,
-      formNumber,
       downloadUrl,
       `Find Forms - ${page} - onDownloadLinkClick function error`,
     );

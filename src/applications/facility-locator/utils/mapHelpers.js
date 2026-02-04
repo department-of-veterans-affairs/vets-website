@@ -36,7 +36,7 @@ export const getBoxCenter = bounds => {
     const lonDiff = (bounds[2] - bounds[0]) / 2;
     const latDiff = (bounds[3] - bounds[1]) / 2;
 
-    return { lon: bounds[0] + latDiff, lat: bounds[1] + lonDiff };
+    return { lon: bounds[0] + lonDiff, lat: bounds[1] + latDiff };
   }
 
   return {};

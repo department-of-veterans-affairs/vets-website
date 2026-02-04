@@ -53,6 +53,7 @@ describe('21-8940 submit transformer', () => {
         },
         doctorCareQuestion: {
           hasReceivedDoctorCare: true,
+          doctorCareType: 'nonVa',
         },
         doctors: [
           {
@@ -69,11 +70,7 @@ describe('21-8940 submit transformer', () => {
               { startDate: '2019-06-01', endDate: '2019-08-01' },
             ],
           },
-          {
-            doctorName: '  ',
-            doctorAddress: {},
-            treatmentDates: [],
-          },
+          { doctorName: '  ', doctorAddress: {}, treatmentDates: [] },
         ],
         hospitals: [
           {
@@ -85,9 +82,12 @@ describe('21-8940 submit transformer', () => {
               postalCode: '02118',
               country: 'United States of America',
             },
+            connectedDisabilities: ['Chronic back pain'],
+            treatmentDates: [
+              { startDate: '2018-02-01', endDate: '2018-03-01' },
+            ],
           },
         ],
-        treatmentDates: [{ startDate: '2018-02-01', endDate: '2018-03-01' }],
         employersHistory: [
           {
             employerName: ' Mega Corp ',
@@ -105,10 +105,7 @@ describe('21-8940 submit transformer', () => {
             timeLost: '12',
             earnings: '9000',
           },
-          {
-            employerName: '',
-            employerAddress: {},
-          },
+          { employerName: '', employerAddress: {} },
         ],
         employmentHistory: [
           {
@@ -162,10 +159,7 @@ describe('21-8940 submit transformer', () => {
             typeOfEducation: 'Vocational training',
             datesOfTraining: { from: '2010-01-01', to: '2010-06-01' },
           },
-          {
-            typeOfEducation: 'Second entry',
-            datesOfTraining: {},
-          },
+          { typeOfEducation: 'Second entry', datesOfTraining: {} },
         ],
         educationAfterDisability: [
           {
@@ -174,7 +168,7 @@ describe('21-8940 submit transformer', () => {
           },
         ],
         additionalRemarks: 'Needs assistance with tasks.',
-        signatureOfClaimant: 'John Doe',
+        signatureOfClaimant: 'AlexanderThe M LonglastnameBeyond',
         dateSigned: '2024-01-01',
         files: [{ name: 'supporting.pdf' }, null, {}],
       },
@@ -213,20 +207,23 @@ describe('21-8940 submit transformer', () => {
     expect(payload.veteranPhone).to.equal('5550000000');
     expect(payload.internationalPhone).to.equal('442079460958');
     expect(payload.listOfDisabilities).to.equal('Chronic back pain, PTSD');
-    expect(payload.doctorsTreatmentDates).to.deep.equal({
-      from: '2019-01-01',
-      to: '2019-08-01',
-    });
-    expect(payload.nameAndAddressesOfDoctors).to.equal(
-      'Dr Strange - 177A Bleecker St, New York, NY, 10012, US',
-    );
-    expect(payload.nameAndAddressesOfHospitals).to.equal(
-      'General Hospital - 1 Health Way, Boston, MA, 02118, US',
-    );
-    expect(payload.hospitalCareDateRanges).to.deep.equal({
-      from: '2018-02-01',
-      to: '2018-03-01',
-    });
+    expect(payload.doctorsCare).to.deep.equal([
+      {
+        doctorsTreatmentDates: [
+          { from: '2019-01-01', to: '2019-05-01' },
+          { from: '2019-06-01', to: '2019-08-01' },
+        ],
+        nameAndAddressOfDoctor:
+          'Dr Strange - 177A Bleecker St, New York, NY, 10012, US',
+      },
+    ]);
+    expect(payload.hospitalsCare).to.deep.equal([
+      {
+        hospitalTreatmentDates: [{ from: '2018-02-01', to: '2018-03-01' }],
+        nameAndAddressOfHospital:
+          'General Hospital - 1 Health Way, Boston, MA, 02118, US',
+      },
+    ]);
     expect(payload.occupationDuringMostEarnings).to.equal(
       'Lead Systems Architect with',
     );
@@ -282,7 +279,7 @@ describe('21-8940 submit transformer', () => {
     expect(payload.receiveExpectWorkersCompensation).to.be.true;
     expect(payload.attemptedEmploy).to.be.true;
     expect(payload.remarks).to.equal('Needs assistance with tasks.');
-    expect(payload.signature).to.equal('John Doe');
+    expect(payload.signature).to.equal('AlexanderThe M LonglastnameBeyond');
     expect(payload.signatureDate).to.equal('2024-01-01');
     expect(payload.files).to.deep.equal([{ name: 'supporting.pdf' }]);
   });
@@ -330,5 +327,48 @@ describe('21-8940 submit transformer', () => {
         dateApplied: '2024-05-01',
       },
     ]);
+  });
+
+  it('handles training entries provided as objects', () => {
+    const form = {
+      data: {
+        educationBeforeDisability: {
+          typeOfEducation: 'Single entry training',
+          datesOfTraining: { from: '2011-05-01', to: '2011-09-01' },
+        },
+        educationAfterDisability: {
+          typeOfEducation: 'Post disability course',
+          datesOfTraining: { from: '2018-02-01', to: '2018-06-01' },
+        },
+      },
+    };
+
+    sharedTransformStub.callsFake((config, formArg) =>
+      JSON.stringify({
+        ...formArg.data,
+        formNumber: config.formId,
+      }),
+    );
+
+    const transformedResult = transformForSubmit(formConfig, form);
+    const transformed = JSON.parse(transformedResult);
+    const payload = JSON.parse(transformed.increase_compensation_claim.form);
+
+    expect(payload.trainingPreDisabled).to.be.true;
+    expect(payload.educationTrainingPreUnemployability).to.deep.equal({
+      name: 'Single entry',
+      datesOfTraining: {
+        from: '2011-05-01',
+        to: '2011-09-01',
+      },
+    });
+    expect(payload.trainingPostUnemployment).to.be.true;
+    expect(payload.educationTrainingPostUnemployability).to.deep.equal({
+      name: 'Post disabil',
+      datesOfTraining: {
+        from: '2018-02-01',
+        to: '2018-06-01',
+      },
+    });
   });
 });

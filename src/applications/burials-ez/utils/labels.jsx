@@ -22,7 +22,7 @@ export const allowanceLabels = {
   service: {
     title: 'Burial allowance for a service-connected death',
     description:
-      'Select if the Veteran’s death was caused by an illness or injury related to their military service.',
+      'Select if the Veteran’s death was caused by an illness, injury, or condition related to their military service.',
   },
   nonService: {
     title: 'Burial allowance for a non-service-connected death',
@@ -60,4 +60,15 @@ export const fasterClaimLabels = {
   Y:
     'Yes. I’ve uploaded all my supporting documents for my application for burial benefits',
   N: 'No. I have other supporting documents to submit later',
+};
+
+export const serviceBranchLabels = {
+  army: 'Army',
+  navy: 'Navy',
+  airForce: 'Air Force',
+  coastGuard: 'Coast Guard',
+  marineCorps: 'Marine Corps',
+  spaceForce: 'Space Force',
+  usphs: 'USPHS',
+  noaa: 'NOAA',
 };

@@ -13,6 +13,10 @@
 @import "./proof-of-veteran-status-card";
 @import "./paperless-delivery";
 
+va-modal {
+  box-sizing: border-box;
+}
+
 [tabindex="-1"]:focus {
   outline: 0;
 }

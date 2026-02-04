@@ -8,15 +8,15 @@ import {
 const prisonerOfWarPage = {
   uiSchema: {
     ...titleUI('Prisoner of war status'),
-    prisonerOfWar: yesNoUI({
+    pow: yesNoUI({
       title: 'Was the Veteran ever a prisoner of war (POW)?',
     }),
   },
   schema: {
     type: 'object',
-    required: ['prisonerOfWar'],
+    required: ['pow'],
     properties: {
-      prisonerOfWar: yesNoSchema,
+      pow: yesNoSchema,
     },
   },
 };

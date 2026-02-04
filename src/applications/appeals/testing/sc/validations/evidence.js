@@ -4,7 +4,7 @@ import { errorMessages, REGEX_EMPTY_DATE } from '../constants';
 import { validateDate, validateYMDate } from './date';
 
 import { MAX_LENGTH } from '../../../shared/constants';
-import { fixDateFormat } from '../../../shared/utils/replace';
+import { fixDateFormat } from '../../../shared/utils/dates';
 import {
   validateAddressParts,
   validateIssues,

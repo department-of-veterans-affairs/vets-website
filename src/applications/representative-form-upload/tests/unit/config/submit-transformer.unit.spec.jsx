@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import transformForSubmit from '../../../config/submit-transformer';
+import { transformForSubmit } from '../../../config/submit-transformer';
 import transformedFixture from '../../e2e/fixtures/data/transformed/submit-transformer.json';
 import claimantTransformedFixture from '../../e2e/fixtures/data/transformed/submit-claimant-transformer.json';
 import minimalTransformedFixture from '../../e2e/fixtures/data/transformed/minimal-submit-transformer.json';
@@ -9,6 +9,10 @@ import form from '../../e2e/fixtures/data/maximal-test.json';
 import minimalForm from '../../e2e/fixtures/data/minimal-test.json';
 import formConfig from '../../../config/form';
 
+const validPathname =
+  '/representative/representative-form-upload/submit-va-form-21-0966';
+const validFormConfig = formConfig(validPathname);
+
 describe('transformForSubmit', () => {
   it('should transform veteran json correctly', () => {
     const windowLocationStub = sinon.stub(window, 'location').get(() => ({
@@ -16,7 +20,9 @@ describe('transformForSubmit', () => {
         'representative/representative-form-upload/submit-va-form-21-686c',
     }));
 
-    const transformedResult = JSON.parse(transformForSubmit(formConfig, form));
+    const transformedResult = JSON.parse(
+      transformForSubmit(validFormConfig, form),
+    );
     expect(transformedResult).to.deep.equal(transformedFixture);
 
     windowLocationStub.restore();
@@ -29,7 +35,7 @@ describe('transformForSubmit', () => {
     }));
 
     const transformedResult = JSON.parse(
-      transformForSubmit(formConfig, claimantTestInfo),
+      transformForSubmit(validFormConfig, claimantTestInfo),
     );
     expect(transformedResult).to.deep.equal(claimantTransformedFixture);
 
@@ -43,7 +49,7 @@ describe('transformForSubmit', () => {
     }));
 
     const transformedResult = JSON.parse(
-      transformForSubmit(formConfig, minimalForm),
+      transformForSubmit(validFormConfig, minimalForm),
     );
     expect(transformedResult).to.deep.equal(minimalTransformedFixture);
 

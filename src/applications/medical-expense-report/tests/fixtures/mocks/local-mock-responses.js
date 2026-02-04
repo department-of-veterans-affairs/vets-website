@@ -1,6 +1,7 @@
 // yarn mock-api --responses ./src/applications/{application}/tests/e2e/fixtures/mocks/local-mock-responses.js
 const mockUser = require('./user.json');
 const features = require('./feature-flags');
+const submit = require('./completed.json');
 
 const completedForm = require('./completed-form.json');
 
@@ -61,16 +62,7 @@ const responses = {
       },
     });
   },
-  'POST /medical_expense_reports/v0/form8416': (req, res) => {
-    return res.json({
-      formSubmissionId: '123fake-submission-id-567',
-      confirmationNumber: '123fake-submission-id-567',
-      timestamp: '2020-11-12',
-      attributes: {
-        guid: '123fake-submission-id-567',
-      },
-    });
-  },
+  'POST /medical_expense_reports/v0/form8416': submit,
 };
 
 module.exports = responses;

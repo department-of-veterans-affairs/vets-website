@@ -3,10 +3,12 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useLocation } from 'react-router-dom';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
-import { setPageFocus } from '../../combined/utils/helpers';
+import {
+  setPageFocus,
+  showVHAPaymentHistory,
+} from '../../combined/utils/helpers';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import { getCurrentDebt } from '../utils/page';
 import { deductionCodes } from '../const/deduction-codes';
@@ -20,12 +22,12 @@ const ResolveDebtPage = ({ match }) => {
   const currentDebt = getCurrentDebt(selectedDebt, debts, location);
   const selectedId = currentDebt?.id || match?.params?.id;
 
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showVHAPaymentHistory = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
   );
 
   const howToUserData = {
+    currentAr: currentDebt.currentAr,
     fileNumber: currentDebt.fileNumber,
     payeeNumber: currentDebt.payeeNumber,
     personEntitled: currentDebt.personEntitled,
@@ -66,7 +68,7 @@ const ResolveDebtPage = ({ match }) => {
         label="Breadcrumb"
         wrapping
       />
-      <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
+      <div className="medium-screen:vads-l-col--12 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="detail-page-title" className="vads-u-margin-bottom--2">
           Resolve overpayment
         </h1>
@@ -76,7 +78,7 @@ const ResolveDebtPage = ({ match }) => {
         </p>
         <va-on-this-page class="medium-screen:vads-u-margin-top--0" />
         <HowDoIPay userData={howToUserData} />
-        <HowDoIGetHelp showVHAPaymentHistory={showVHAPaymentHistory} />
+        <HowDoIGetHelp showVHAPaymentHistory={shouldShowVHAPaymentHistory} />
         <NeedHelp />
       </div>
     </article>

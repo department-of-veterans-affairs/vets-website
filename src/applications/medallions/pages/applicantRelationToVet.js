@@ -8,13 +8,11 @@ import {
   applicantRelationToVetRadio,
   validateVetRadioOtherComment,
 } from '../utils/helpers';
-import { MedallionsDescription } from '../components/MedallionsDescription';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI('Your relationship to the Veteran'),
-    'ui:description': formContext => MedallionsDescription(formContext),
     relationToVetRadio: applicantRelationToVetRadio.relationToVetRadio,
     otherRelation: {
       'ui:title': 'Describe your relationship to the Veteran',

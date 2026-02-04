@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -15,10 +16,10 @@ import {
 } from '../actions/careSummariesAndNotes';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
+import useDateRangeSelector from '../hooks/useDateRangeSelector';
 import {
   ALERT_TYPE_ERROR,
   DEFAULT_DATE_RANGE,
-  CernerAlertContent,
   accessAlertTypes,
   pageTitles,
   recordType,
@@ -29,23 +30,17 @@ import {
 import useAlerts from '../hooks/use-alerts';
 import RecordListSection from '../components/shared/RecordListSection';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import DateRangeSelector, {
-  getDateRangeList,
-} from '../components/shared/DateRangeSelector';
+import DateRangeSelector from '../components/shared/DateRangeSelector';
 import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
-import {
-  calculateDateRange,
-  getTimeFrame,
-  getDisplayTimeFrame,
-  sendDataDogAction,
-} from '../util/helpers';
+import { getTimeFrame, getDisplayTimeFrame } from '../util/helpers';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const updatedRecordList = useSelector(
     state => state.mr.careSummariesAndNotes.updatedList,
   );
@@ -67,7 +62,7 @@ const CareSummariesAndNotes = () => {
   const activeAlert = useAlerts(dispatch);
   useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_LIST);
 
-  const { isAcceleratingCareNotes } = useAcceleratedData();
+  const { isLoading, isAcceleratingCareNotes } = useAcceleratedData();
 
   const dispatchAction = useMemo(
     () => {
@@ -114,28 +109,12 @@ const CareSummariesAndNotes = () => {
     isAcceleratingCareNotes && listState === loadStates.FETCHING;
 
   // Handle date range selection from DateRangeSelector component
-  const handleDateRangeSelect = useCallback(
-    event => {
-      const { value } = event.detail;
-      const { fromDate, toDate } = calculateDateRange(value);
-
-      // Update Redux with new range
-      dispatch(updateNotesDateRange(value, fromDate, toDate));
-
-      dispatch({
-        type: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
-        payload: loadStates.PRE_FETCH,
-      });
-
-      // DataDog tracking
-      const selectedOption = getDateRangeList().find(
-        option => option.value === value,
-      );
-      const label = selectedOption ? selectedOption.label : 'Unknown';
-      sendDataDogAction(`Notes date option - ${label}`);
-    },
-    [dispatch],
-  );
+  const handleDateRangeSelect = useDateRangeSelector({
+    updateDateRangeAction: updateNotesDateRange,
+    updateListStateActionType: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
+    dataDogLabel: 'Notes date option',
+    history,
+  });
 
   return (
     <div id="care-summaries-and-notes">
@@ -157,10 +136,6 @@ const CareSummariesAndNotes = () => {
       {!isAcceleratingCareNotes && (
         <p>This list doesn’t include care summaries from before 2013.</p>
       )}
-
-      <AcceleratedCernerFacilityAlert
-        {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES}
-      />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -184,36 +159,43 @@ const CareSummariesAndNotes = () => {
             }}
           />
         )}
-        {isLoadingAcceleratedData && (
-          <>
-            <div className="vads-u-margin-y--8">
-              <va-loading-indicator
-                message="We’re loading your records."
-                setFocus
-                data-testid="loading-indicator"
-              />
-            </div>
-          </>
+        {(isLoadingAcceleratedData || isLoading) && (
+          <div className="vads-u-margin-y--8">
+            <TrackedSpinner
+              id="notes-page-spinner"
+              message="We’re loading your records."
+              setFocus
+              data-testid="loading-indicator"
+            />
+          </div>
         )}
-        {!isLoadingAcceleratedData && careSummariesAndNotes?.length ? (
-          <RecordList
-            records={careSummariesAndNotes}
-            domainOptions={{
-              isAccelerating: isAcceleratingCareNotes,
-              timeFrame: getTimeFrame(dateRange),
-              displayTimeFrame: getDisplayTimeFrame(dateRange),
-            }}
-            type="care summaries and notes"
-            hideRecordsLabel
-          />
-        ) : (
-          <NoRecordsMessage
-            type={recordType.CARE_SUMMARIES_AND_NOTES}
-            timeFrame={
-              isAcceleratingCareNotes ? getDisplayTimeFrame(dateRange) : ''
-            }
-          />
-        )}
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
+          careSummariesAndNotes !== undefined && (
+            <>
+              {careSummariesAndNotes?.length ? (
+                <RecordList
+                  records={careSummariesAndNotes}
+                  domainOptions={{
+                    isAccelerating: isAcceleratingCareNotes,
+                    timeFrame: getTimeFrame(dateRange),
+                    displayTimeFrame: getDisplayTimeFrame(dateRange),
+                  }}
+                  type="care summaries and notes"
+                  hideRecordsLabel
+                />
+              ) : (
+                <NoRecordsMessage
+                  type={recordType.CARE_SUMMARIES_AND_NOTES}
+                  timeFrame={
+                    isAcceleratingCareNotes
+                      ? getDisplayTimeFrame(dateRange)
+                      : ''
+                  }
+                />
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );

@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
+import { datadogRum } from '@datadog/browser-rum';
 import { renderWithStoreAndRouter } from '../tests/mocks/setup';
 import AfterVisitSummary from './AfterVisitSummary';
 
@@ -16,12 +17,14 @@ describe('VAOS Component: AfterVisitSummary', () => {
   let originalAtob;
   let originalCreateObjectURL;
   let originalRevokeObjectURL;
+  let datadogAddActionStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     originalAtob = global.atob;
     originalCreateObjectURL = URL.createObjectURL;
     originalRevokeObjectURL = URL.revokeObjectURL;
+    datadogAddActionStub = sandbox.stub(datadogRum, 'addAction');
   });
 
   afterEach(() => {
@@ -174,5 +177,111 @@ describe('VAOS Component: AfterVisitSummary', () => {
         },
       ),
     ).to.exist;
+  });
+
+  it('should fire Datadog RUM action when OH AVS PDF is rendered', async () => {
+    sandbox.stub(URL, 'createObjectURL').returns('blob:pdf');
+    sandbox.stub(URL, 'revokeObjectURL');
+    sandbox.stub(global, 'atob').returns('%PDF-1.4\nMOCK');
+
+    const appointment = {
+      avsPdf: [
+        {
+          id: '1',
+          name: 'Ambulatory Visit Summary',
+          noteType: 'ambulatory_patient_summary',
+          contentType: 'application/pdf',
+          binary: 'JVBERi0xLjQK',
+        },
+      ],
+    };
+
+    renderWithStoreAndRouter(<AfterVisitSummary data={appointment} />, {
+      initialState: initialAvsState,
+    });
+
+    expect(datadogAddActionStub.calledOnce).to.be.true;
+    expect(
+      datadogAddActionStub.calledWith('vaos-oh-avs-pdf-rendered', {
+        pdfCount: 1,
+      }),
+    ).to.be.true;
+  });
+
+  it('should fire Datadog RUM action when OH AVS PDF link is clicked', async () => {
+    sandbox.stub(URL, 'createObjectURL').returns('blob:pdf');
+    sandbox.stub(URL, 'revokeObjectURL');
+    sandbox.stub(global, 'atob').returns('%PDF-1.4\nMOCK');
+
+    const appointment = {
+      avsPdf: [
+        {
+          id: '1',
+          name: 'Ambulatory Visit Summary',
+          noteType: 'ambulatory_patient_summary',
+          contentType: 'application/pdf',
+          binary: 'JVBERi0xLjQK',
+        },
+      ],
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <AfterVisitSummary data={appointment} />,
+      { initialState: initialAvsState },
+    );
+
+    const pdfLink = screen.getByTestId('after-visit-summary-pdf-1');
+    userEvent.click(pdfLink);
+
+    expect(
+      datadogAddActionStub.calledWith('vaos-oh-avs-pdf-link-clicked', {
+        pdfCount: 1,
+      }),
+    ).to.be.true;
+  });
+
+  it('should NOT fire Datadog RUM action when legacy AVS link is rendered', async () => {
+    const appointment = {
+      avsPath: '/test-avs-path',
+    };
+
+    renderWithStoreAndRouter(<AfterVisitSummary data={appointment} />, {
+      initialState,
+    });
+
+    expect(datadogAddActionStub.called).to.be.false;
+  });
+
+  it('should fire GA event when OH AVS PDF link is clicked', async () => {
+    sandbox.stub(URL, 'createObjectURL').returns('blob:pdf');
+    sandbox.stub(URL, 'revokeObjectURL');
+    sandbox.stub(global, 'atob').returns('%PDF-1.4\nMOCK');
+
+    const appointment = {
+      avsPdf: [
+        {
+          id: '1',
+          name: 'Ambulatory Visit Summary',
+          noteType: 'ambulatory_patient_summary',
+          contentType: 'application/pdf',
+          binary: 'JVBERi0xLjQK',
+        },
+      ],
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <AfterVisitSummary data={appointment} />,
+      { initialState: initialAvsState },
+    );
+
+    // Clear dataLayer from previous events
+    window.dataLayer = [];
+
+    const pdfLink = screen.getByTestId('after-visit-summary-pdf-1');
+    userEvent.click(pdfLink);
+
+    expect(window.dataLayer[0]).to.deep.equal({
+      event: 'vaos-after-visit-summary-pdf-link-clicked',
+    });
   });
 });

@@ -58,6 +58,9 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   additionalRoutes: [
     {
       path: 'id-form',
@@ -203,7 +206,10 @@ const formConfig = {
     },
   },
   downtime: {
-    dependencies: [externalServices.lighthouseBenefitsIntake],
+    dependencies: [
+      externalServices.lighthouseBenefitsIntake,
+      externalServices.form21p0537,
+    ],
   },
   getHelp,
 };

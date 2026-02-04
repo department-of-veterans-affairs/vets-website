@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -21,6 +21,12 @@ import { setPageFocus } from '../utils/page';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
 import { canUseMocks, ANCHOR_LINKS } from '../constants';
+import {
+  recordUploadCancelEvent,
+  recordUploadFailureEvent,
+  recordUploadStartEvent,
+  recordUploadSuccessEvent,
+} from '../utils/analytics';
 import {
   BACKEND_SERVICE_ERROR,
   CANCEL_UPLOAD,
@@ -356,6 +362,70 @@ export function clearAdditionalEvidenceNotification() {
   };
 }
 
+// Helper to build upload success notification message
+function buildUploadNotification(
+  uploadDate,
+  showDocumentUploadStatus,
+  timezoneMitigationEnabled,
+  now,
+  timezoneOffset,
+  claimId,
+) {
+  const isOnFilesPage = window.location.pathname.endsWith('/files');
+  const statusLinkHref = isOnFilesPage
+    ? `#${ANCHOR_LINKS.fileSubmissionsInProgress}`
+    : `/track-claims/your-claims/${claimId}/files#${
+        ANCHOR_LINKS.fileSubmissionsInProgress
+      }`;
+
+  const timezoneNote =
+    timezoneMitigationEnabled && showTimezoneDiscrepancyMessage(now) ? (
+      <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+        <strong>Note:</strong>{' '}
+        {getTimezoneDiscrepancyMessage(timezoneOffset, now)}
+      </div>
+    ) : null;
+
+  if (showDocumentUploadStatus) {
+    return {
+      title: `Document submission started on ${uploadDate}`,
+      body: (
+        <>
+          <span>
+            Your submission is in progress. It can take up to 2 days for us to
+            receive your files.
+          </span>
+          {timezoneNote}
+          <va-link
+            class="vads-u-display--block vads-u-margin-top--2"
+            href={statusLinkHref}
+            text="Check the status of your submission"
+            onClick={e => {
+              if (isOnFilesPage) {
+                e.preventDefault();
+                setPageFocus(e.target.href);
+              }
+            }}
+          />
+        </>
+      ),
+    };
+  }
+
+  return {
+    title: `We received your file upload on ${uploadDate}`,
+    body: (
+      <>
+        <span>
+          Your file should be listed in the Documents filed section. If it's not
+          there, try refreshing the page.
+        </span>
+        {timezoneNote}
+      </>
+    ),
+  };
+}
+
 // Document upload function using Lighthouse endpoint
 export function submitFiles(
   claimId,
@@ -372,8 +442,10 @@ export function submitFiles(
   const totalFiles = files.length;
   const trackedItemId = trackedItem ? trackedItem.id : null;
 
-  recordEvent({
-    event: 'claims-upload-start',
+  // Record enhanced upload start event and get retry info for each file
+  const { filesWithRetryInfo, retryFileCount } = recordUploadStartEvent({
+    files,
+    claimId,
   });
 
   return dispatch => {
@@ -412,8 +484,9 @@ export function submitFiles(
           callbacks: {
             onAllComplete: () => {
               if (!hasError) {
-                recordEvent({
-                  event: 'claims-upload-success',
+                recordUploadSuccessEvent({
+                  fileCount: totalFiles,
+                  retryFileCount,
                 });
                 dispatch({
                   type: DONE_UPLOADING,
@@ -427,76 +500,23 @@ export function submitFiles(
 
                 const timezoneOffset = now.getTimezoneOffset();
 
-                // Determine if we're currently on the files page
-                const isOnFilesPage = window.location.pathname.endsWith(
-                  '/files',
+                const notificationMessage = buildUploadNotification(
+                  uploadDate,
+                  showDocumentUploadStatus,
+                  timezoneMitigationEnabled,
+                  now,
+                  timezoneOffset,
+                  claimId,
                 );
-                const statusLinkHref = isOnFilesPage
-                  ? `#${ANCHOR_LINKS.fileSubmissionsInProgress}` // Just scroll to section
-                  : `/track-claims/your-claims/${claimId}/files#${
-                      ANCHOR_LINKS.fileSubmissionsInProgress
-                    }`; // Navigate to files page with hash
-
-                // Show different notification based on showDocumentUploadStatus
-                const notificationMessage = showDocumentUploadStatus
-                  ? {
-                      title: `Document submission started on ${uploadDate}`,
-                      body: (
-                        <>
-                          <span>
-                            Your submission is in progress. It can take up to 2
-                            days for us to receive your files.
-                          </span>
-                          {timezoneMitigationEnabled &&
-                            showTimezoneDiscrepancyMessage(now) && (
-                              <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-                                <strong>Note:</strong>{' '}
-                                {getTimezoneDiscrepancyMessage(
-                                  timezoneOffset,
-                                  now,
-                                )}
-                              </div>
-                            )}
-                          <va-link
-                            class="vads-u-display--block vads-u-margin-top--2"
-                            href={statusLinkHref}
-                            text="Check the status of your submission"
-                            onClick={e => {
-                              if (isOnFilesPage) {
-                                e.preventDefault();
-                                setPageFocus(e.target.href);
-                              }
-                            }}
-                          />
-                        </>
-                      ),
-                    }
-                  : {
-                      title: `We received your file upload on ${uploadDate}`,
-                      body: (
-                        <>
-                          <span>
-                            Your file should be listed in the Documents filed
-                            section. If it’s not there, try refreshing the page.
-                          </span>
-                          {timezoneMitigationEnabled &&
-                            showTimezoneDiscrepancyMessage(now) && (
-                              <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-                                <strong>Note:</strong>{' '}
-                                {getTimezoneDiscrepancyMessage(
-                                  timezoneOffset,
-                                  now,
-                                )}
-                              </div>
-                            )}
-                        </>
-                      ),
-                    };
 
                 dispatch(setNotification(notificationMessage));
               } else {
-                recordEvent({
-                  event: 'claims-upload-failure',
+                recordUploadFailureEvent({
+                  errorFiles,
+                  files,
+                  filesWithRetryInfo,
+                  claimId,
+                  retryFileCount,
                 });
                 dispatch({
                   type: SET_UPLOAD_ERROR,
@@ -561,9 +581,9 @@ export function submitFiles(
                   } else {
                     error.docType = 'Unknown';
                   }
-
-                  errorFiles.push(error);
                 }
+
+                errorFiles.push(error);
 
                 hasError = error;
               }
@@ -642,12 +662,10 @@ export function getStemClaims() {
   };
 }
 
-export function cancelUpload() {
+export function cancelUpload({ cancelFileCount, retryFileCount }) {
   return (dispatch, getState) => {
     const { uploader } = getState().disability.status.uploads;
-    recordEvent({
-      event: 'claims-upload-cancel',
-    });
+    recordUploadCancelEvent({ cancelFileCount, retryFileCount });
 
     if (uploader) {
       uploader.cancelAll();

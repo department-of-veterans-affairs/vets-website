@@ -15,9 +15,9 @@ export const remarksUiSchema = {
   // 'ui:description': getPageDescription,
   remarks: {
     remarks: textareaUI({
-      title: 'Additional remarks',
+      title: ' ',
       hint:
-        'You can provide any additional information that may be helpful in processing this claim',
+        'You can provide any additional information that may be helpful in processing this claim.',
       charcount: true,
       errorMessages: {
         maxLength: 'Remarks must be less than 2000 characters',

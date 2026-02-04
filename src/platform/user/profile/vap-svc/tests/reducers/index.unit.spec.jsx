@@ -306,7 +306,7 @@ describe('vapService reducer', () => {
         addressValidationType: 'mailingAddress',
         suggestedAddresses: [],
         modal: 'addressValidation',
-        validationKey: 123456,
+        overrideValidationKey: 123456,
       },
     );
     expect(state.modal).to.eql('addressValidation');
@@ -314,7 +314,7 @@ describe('vapService reducer', () => {
       'mailingAddress',
     );
     expect(state.addressValidation.suggestedAddresses).to.eql([]);
-    expect(state.addressValidation.validationKey).to.eql(123456);
+    expect(state.addressValidation.overrideValidationKey).to.eql(123456);
   });
 
   describe('ADDRESS_VALIDATION_ERROR', () => {
@@ -351,7 +351,7 @@ describe('vapService reducer', () => {
           selectedAddressId: null,
           suggestedAddresses: [],
           confirmedSuggestions: [],
-          validationKey: null,
+          overrideValidationKey: null,
         },
         fieldTransactionMap: {
           mailingAddress: {
@@ -384,7 +384,7 @@ describe('vapService reducer', () => {
             zipCode: '12345',
           },
           addressValidationError: false,
-          validationKey: 1234,
+          overrideValidationKey: 1234,
           selectedAddress: {},
           selectedAddressId: null,
         },
@@ -409,7 +409,7 @@ describe('vapService reducer', () => {
           },
           addressValidationError: false,
           addressValidationErrorCode: null,
-          validationKey: null,
+          overrideValidationKey: null,
           selectedAddress: {},
           selectedAddressId: null,
         },
@@ -475,7 +475,7 @@ describe('vapService reducer', () => {
           selectedAddress: {},
           selectedAddressId: null,
           suggestedAddresses: [],
-          validationKey: null,
+          overrideValidationKey: null,
         },
         fieldTransactionMap: {
           mailingAddress: { isPending: true },

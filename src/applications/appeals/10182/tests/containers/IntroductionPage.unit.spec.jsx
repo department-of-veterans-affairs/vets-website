@@ -11,6 +11,7 @@ const getData = ({
   isVerified = true,
   data = {},
   contestedIssues = {},
+  featureToggles = {},
 } = {}) => ({
   props: {
     loggedIn,
@@ -55,6 +56,7 @@ const getData = ({
         serviceMap: { get() {} },
         dismissedDowntimeWarnings: [],
       },
+      featureToggles,
     }),
     subscribe: () => {},
     dispatch: () => {},
@@ -100,5 +102,64 @@ describe('IntroductionPage', () => {
 
     expect($('.schemaform-sip-alert', container)).to.not.exist;
     expect($('va-alert-sign-in[variant="verifyIdMe"]', container)).to.exist;
+  });
+
+  describe('OMB info with feature flag', () => {
+    it('should display new expiration date when feature flag is enabled', () => {
+      const { props, mockStore } = getData({
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          decision_review_nod_feb2025_pdf_enabled: true,
+        },
+      });
+      const { container } = render(
+        <Provider store={mockStore}>
+          <IntroductionPage {...props} />
+        </Provider>,
+      );
+
+      const ombInfo = $('va-omb-info', container);
+      expect(ombInfo).to.exist;
+      expect(ombInfo.getAttribute('exp-date')).to.equal('4/30/2028');
+      expect(ombInfo.getAttribute('omb-number')).to.equal('2900-0674');
+      expect(ombInfo.getAttribute('res-burden')).to.equal('30');
+    });
+
+    it('should display old expiration date when feature flag is disabled', () => {
+      const { props, mockStore } = getData({
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          decision_review_nod_feb2025_pdf_enabled: false,
+        },
+      });
+      const { container } = render(
+        <Provider store={mockStore}>
+          <IntroductionPage {...props} />
+        </Provider>,
+      );
+
+      const ombInfo = $('va-omb-info', container);
+      expect(ombInfo).to.exist;
+      expect(ombInfo.getAttribute('exp-date')).to.equal('2/28/2022');
+      expect(ombInfo.getAttribute('omb-number')).to.equal('2900-0674');
+      expect(ombInfo.getAttribute('res-burden')).to.equal('30');
+    });
+
+    it('should default to old expiration date when feature flag is not set', () => {
+      const { props, mockStore } = getData({
+        featureToggles: {},
+      });
+      const { container } = render(
+        <Provider store={mockStore}>
+          <IntroductionPage {...props} />
+        </Provider>,
+      );
+
+      const ombInfo = $('va-omb-info', container);
+      expect(ombInfo).to.exist;
+      expect(ombInfo.getAttribute('exp-date')).to.equal('2/28/2022');
+      expect(ombInfo.getAttribute('omb-number')).to.equal('2900-0674');
+      expect(ombInfo.getAttribute('res-burden')).to.equal('30');
+    });
   });
 });

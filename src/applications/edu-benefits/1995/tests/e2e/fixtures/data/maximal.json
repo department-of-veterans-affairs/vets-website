@@ -1,5 +1,6 @@
 {
   "data": {
+    "bankAccountChange": "startUpdate",
     "bankAccountChangeUpdate": "startUpdate",
     "bankAccount": {
       "accountType": "checking",

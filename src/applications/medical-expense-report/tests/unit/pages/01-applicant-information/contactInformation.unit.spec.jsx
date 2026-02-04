@@ -21,7 +21,7 @@ describe('DIC Benefits Page', () => {
 
     const vaEmailInputs = $$('va-text-input', formDOM);
     const vaTelephoneInputs = $$('va-telephone-input', formDOM);
-    const vaEmailInput = $('va-text-input[label="Email"]', formDOM);
+    const vaEmailInput = $('va-text-input[label="Email address"]', formDOM);
     const vaTelephoneInput = $(
       'va-telephone-input[label="Primary phone number"]',
       formDOM,

@@ -1,58 +1,24 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectUser } from 'platform/user/selectors';
-import DowntimeNotification, {
-  externalServices,
-} from '~/platform/monitoring/DowntimeNotification';
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { Routes, Route } from 'react-router-dom-v5-compat';
+
 import App from './containers/App';
 import MyEligibilityAndBenefits from './containers/MyEligibilityAndBenefits';
 import MyCaseManagementHub from './containers/MyCaseManagementHub';
-import CareerExplorationAndPlanning from './containers/CareerExplorationAndPlanning';
+import CareerPlanning from './containers/CareerPlanning';
 import OrientationToolsAndResources from './containers/OrientationToolsAndResources';
 
-const withRequiredLogin = Component => props => {
-  const user = useSelector(selectUser);
-  return (
-    <RequiredLoginView user={user}>
-      <div className="row">
-        <DowntimeNotification
-          appTitle="Veteran Readiness and Employment - Eligibility and Entitlement"
-          dependencies={[externalServices.vreCh31Eligibility]}
-        >
-          <Component {...props} />
-        </DowntimeNotification>
-      </div>
-    </RequiredLoginView>
-  );
-};
-
 const routes = (
-  <App>
-    <Switch>
+  <Routes>
+    <Route path="/" element={<App />}>
+      <Route index element={<MyEligibilityAndBenefits />} />
+      <Route path="my-case-management-hub" element={<MyCaseManagementHub />} />
+      <Route path="career-planning" element={<CareerPlanning />} />
       <Route
-        exact
-        path="/my-case-management-hub"
-        component={withRequiredLogin(MyCaseManagementHub)}
+        path="orientation-tools-and-resources"
+        element={<OrientationToolsAndResources />}
       />
-      <Route
-        exact
-        path="/"
-        component={withRequiredLogin(MyEligibilityAndBenefits)}
-      />
-      <Route
-        exact
-        path="/career-exploration-and-planning"
-        component={withRequiredLogin(CareerExplorationAndPlanning)}
-      />
-      <Route
-        exact
-        path="/orientation-tools-and-resources"
-        component={withRequiredLogin(OrientationToolsAndResources)}
-      />
-    </Switch>
-  </App>
+    </Route>
+  </Routes>
 );
 
 export default routes;

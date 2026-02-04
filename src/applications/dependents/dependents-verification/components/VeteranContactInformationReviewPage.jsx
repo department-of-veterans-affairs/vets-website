@@ -6,6 +6,15 @@ import { scrollTo } from 'platform/utilities/scroll';
 
 import { electronicCorrespondenceMessage } from '../config/chapters/veteran-contact-information/editEmailPage';
 
+/**
+ * Veteran contact information Review Component
+ * @typedef {object} VeteranContactInformationReviewProps
+ * @property {object} data - form data
+ * @property {function} goToPath - function to go to specific path
+ *
+ * @param {VeteranContactInformationReviewProps} props - Component props
+ * @returns {React.Component} - Veteran contact information review page
+ */
 const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
   const dispatch = useDispatch();
   const {

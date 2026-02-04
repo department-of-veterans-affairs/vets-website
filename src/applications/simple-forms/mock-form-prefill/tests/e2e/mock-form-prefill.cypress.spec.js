@@ -1,3 +1,6 @@
+/**
+ * E2E test for mock form prefill.
+ */
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
@@ -6,11 +9,12 @@ import user from '../fixtures/mocks/user.json';
 import mockSubmit from '../fixtures/mocks/application-submit.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
+import { reviewAndSubmitPageFlow } from './helpers';
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['minimal-test', 'maximal-test'],
+    dataSets: ['minimal-test'],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -20,19 +24,15 @@ const testConfig = createTestConfig(
             .click({ force: true });
         });
       },
-      // Example page hook
-      // All paths are already automatically filled out based on fixtures.
-      // But if you want to manually test a page add the path.
-      // 'name-and-date-of-birth': ({ afterHook }) => {
-      //   cy.injectAxeThenAxeCheck();
-      //   afterHook(() => {
-      //     cy.get('@testData').then(() => {
-      //       cy.fillPage(); // fills all fields based on fixtures.
-      //       cy.axeCheck();
-      //       cy.findByText(/continue/i, { selector: 'button' }).click();
-      //     });
-      //   });
-      // },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { fullName } = data;
+
+            reviewAndSubmitPageFlow(fullName, 'Submit application');
+          });
+        });
+      },
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/user', user);

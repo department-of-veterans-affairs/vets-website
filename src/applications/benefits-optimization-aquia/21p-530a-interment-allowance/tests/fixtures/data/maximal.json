@@ -12,6 +12,7 @@
       "state": "Arizona"
     },
     "ssn": "796121234",
+    "vaServiceNumber": "A12345678",
     "vaFileNumber": "987654321",
     "fullName": {
       "first": "Anakin",
@@ -41,8 +42,7 @@
       "name": "Rebel Alliance Veterans Foundation",
       "phoneNumber": "6025551977"
     },
-    "nameOfStateCemeteryOrTribalOrganization": "Ewok Tribal Nation",
-    "view:relationshipToVeteran": "tribalOrganization"
+    "nameOfStateCemeteryOrTribalOrganization": "Ewok Tribal Nation"
   },
   "titleSchema": {},
   "periods": [

@@ -6,9 +6,9 @@ describe('Profile utils', () => {
   describe('scheduling preferences utils', () => {
     describe('getSchedulingPreferenceInitialFormValues', () => {
       it('returns data value when data is provided', () => {
-        const data = { [FIELD_NAMES.APPOINTMENT_PREFERENCE_1]: 'yes' };
+        const data = { [FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING]: 'yes' };
         const result = schedulingPreferencesUtils.getSchedulingPreferenceInitialFormValues(
-          FIELD_NAMES.APPOINTMENT_PREFERENCE_1,
+          FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING,
           data,
         );
         expect(result).to.deep.equal({
@@ -18,7 +18,7 @@ describe('Profile utils', () => {
 
       it('returns empty string when no data is provided', () => {
         const result = schedulingPreferencesUtils.getSchedulingPreferenceInitialFormValues(
-          FIELD_NAMES.APPOINTMENT_PREFERENCE_1,
+          FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING,
           null,
         );
         expect(result).to.deep.equal({ needsHelpSchedulingAppointments: '' });
@@ -28,54 +28,36 @@ describe('Profile utils', () => {
     describe('schedulingPreferencesUiSchema', () => {
       it('returns radio UI schema for inline scheduling preference fields', () => {
         const result = schedulingPreferencesUtils.schedulingPreferencesUiSchema(
-          FIELD_NAMES.APPOINTMENT_PREFERENCE_1,
+          FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING,
         );
-        expect(result).to.have.property(FIELD_NAMES.APPOINTMENT_PREFERENCE_1);
-        expect(result[FIELD_NAMES.APPOINTMENT_PREFERENCE_1]).to.have.property(
-          'ui:widget',
-          'radio',
+        expect(result).to.have.property(
+          FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING,
         );
-        expect(result[FIELD_NAMES.APPOINTMENT_PREFERENCE_1]).to.have.property(
-          'ui:options',
-        );
-      });
-
-      it('returns empty schema for subtask scheduling preference fields', () => {
-        const result = schedulingPreferencesUtils.schedulingPreferencesUiSchema(
-          FIELD_NAMES.CONTACT_PREFERENCE_1,
-        );
-        expect(result).to.deep.equal({
-          [FIELD_NAMES.CONTACT_PREFERENCE_1]: {},
-        });
+        expect(
+          result[FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING],
+        ).to.have.property('ui:widget', 'radio');
+        expect(
+          result[FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING],
+        ).to.have.property('ui:options');
       });
     });
 
     describe('schedulingPreferencesFormSchema', () => {
       it('returns radio form schema for inline scheduling preference fields', () => {
         const result = schedulingPreferencesUtils.schedulingPreferencesFormSchema(
-          FIELD_NAMES.APPOINTMENT_PREFERENCE_1,
+          FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING,
         );
         expect(result).to.have.property('type', 'object');
         expect(result).to.have.property('properties');
         expect(result.properties).to.have.property(
-          FIELD_NAMES.APPOINTMENT_PREFERENCE_1,
+          FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING,
         );
         expect(
-          result.properties[FIELD_NAMES.APPOINTMENT_PREFERENCE_1],
+          result.properties[FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING],
         ).to.have.property('type', 'string');
         expect(
-          result.properties[FIELD_NAMES.APPOINTMENT_PREFERENCE_1],
+          result.properties[FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING],
         ).to.have.property('enum');
-      });
-
-      it('returns empty schema for subtask scheduling preference fields', () => {
-        const result = schedulingPreferencesUtils.schedulingPreferencesFormSchema(
-          FIELD_NAMES.CONTACT_PREFERENCE_1,
-        );
-        expect(result).to.deep.equal({
-          type: 'object',
-          properties: {},
-        });
       });
     });
   });

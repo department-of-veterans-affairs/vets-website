@@ -5,6 +5,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 import { TITLE } from '../constants';
 
 const OMB_RES_BURDEN = 10;
@@ -73,11 +74,11 @@ const ProcessList = () => {
 };
 
 export const IntroductionPage = props => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
+  const userLoggedIn = useSelector(isLoggedIn);
+  const userIdVerified = useSelector(isLOA3);
+  const isLoa1LoggedIn = userLoggedIn && !userIdVerified;
   const { route } = props;
   const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
   const fullSubTitle =
     'Application for Veteran Readiness and Employment for Claimants with Service-Connected Disabilities (VA Form 28-1900)';
 
@@ -98,8 +99,8 @@ export const IntroductionPage = props => {
         Follow these steps to get started
       </h2>
       <ProcessList />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
+      {isLoa1LoggedIn ? (
+        <VerifyAlert headingLevel={3} dataTestId="vre-28-1900-identity-alert" />
       ) : (
         <SaveInProgressIntro
           formConfig={formConfig}

@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const RxRenewalMessageSuccessAlert = () => {
+  const alertRef = useRef(null);
+
+  useEffect(() => {
+    if (alertRef.current) {
+      focusElement(alertRef.current);
+    }
+  }, []);
+
   return (
     <VaAlert
+      ref={alertRef}
       role="status"
       status="success"
       visible
@@ -17,7 +27,7 @@ const RxRenewalMessageSuccessAlert = () => {
       </p>
       <p className="vads-u-margin-bottom--0">
         <va-link
-          href="/my-health/secure-messages/inbox/"
+          href="/my-health/secure-messages/sent/"
           text="Review message in your sent messages"
           active
         />

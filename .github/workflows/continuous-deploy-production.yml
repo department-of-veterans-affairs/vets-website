@@ -6,17 +6,27 @@ on:
 
 run-name: "Triggered by: ${{ github.event.client_payload.entry_app }} commit: ${{ github.event.client_payload.github_sha }}"
 
+concurrency:
+  group: deploy-${{ github.event.client_payload.concurrency_group }}
+  cancel-in-progress: true
+
 jobs:
   notify-pending-deployment:
     name: Notify of Pending Deployment
     if: ${{ github.event.client_payload.github_ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    env: 
+    permissions:
+      id-token: write
+      contents: read
+    env:
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
       - name: Notify application team in Slack
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        uses: ./.github/workflows/slack-notify
         with:
           payload: > 
             {
@@ -36,8 +46,7 @@ jobs:
               ]
             }
           channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
   deploy:
     name: Deploy
@@ -97,12 +106,18 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' && success() }}
     needs: [deploy]
+    permissions:
+      id-token: write
+      contents: read
     env:
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
       - name: Notify Slack - Deployment Succeeded
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        uses: ./.github/workflows/slack-notify
         with:
           payload: >-
             {
@@ -122,21 +137,26 @@ jobs:
               ]
             }
           channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
     if: ${{ always() && github.ref == 'refs/heads/main' && (failure() || cancelled()) }}
     needs: [deploy]
+    permissions:
+      id-token: write
+      contents: read
     env:
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
       - name: Slack – Deployment rejected (not approved)
         if: ${{ needs.deploy.result == 'failure' && needs.deploy.outputs.started == '' }}
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
           payload: >-
@@ -157,12 +177,11 @@ jobs:
               ]
             }
           channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Slack – Deployment expired (no approval)
         if: ${{ needs.deploy.result == 'cancelled' && needs.deploy.outputs.started == '' }}
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
           payload: >-
@@ -183,12 +202,11 @@ jobs:
               ]
             }
           channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Slack – Deployment cancelled during execution
         if: ${{ needs.deploy.result == 'cancelled' && needs.deploy.outputs.started == 'true' }}
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
           payload: >-
@@ -209,12 +227,11 @@ jobs:
               ]
             }
           channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Slack – Deployment failed (error during run)
         if: ${{ needs.deploy.result == 'failure' && needs.deploy.outputs.started == 'true' }}
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
           payload: >-
@@ -235,5 +252,4 @@ jobs:
               ]
             }
           channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role: ${{ vars.AWS_ASSUME_ROLE }}

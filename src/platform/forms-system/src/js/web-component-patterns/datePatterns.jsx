@@ -24,11 +24,11 @@ import {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
- *   errorMessages?: {
- *     pattern?: string,
- *     required?: string
- *   },
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
  *   dataDogHidden?: boolean,
+ *   monthYearOnly?: boolean,
+ *   removeDateHint?: boolean,
+ *   validations?: UISchemaOptions['ui:validations'],
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
@@ -38,6 +38,7 @@ const currentOrPastDateUI = options => {
     errorMessages,
     required,
     dataDogHidden = false,
+    validations,
     ...uiOptions
   } = typeof options === 'object' ? options : { title: options };
 
@@ -52,13 +53,18 @@ const currentOrPastDateUI = options => {
     ? { year: 'numeric', month: 'long' }
     : { year: 'numeric', month: 'long', day: 'numeric' };
 
+  const baseValidation = monthYearOnly
+    ? validateCurrentOrPastMonthYear
+    : validateCurrentOrPastMemorableDate;
+  const allValidations = validations
+    ? [baseValidation, ...validations]
+    : [baseValidation];
+
   return {
     'ui:title': uiTitle,
     'ui:webComponentField': monthYearOnly ? VaDateField : VaMemorableDateField,
     'ui:required': required,
-    'ui:validations': monthYearOnly
-      ? [validateCurrentOrPastMonthYear]
-      : [validateCurrentOrPastMemorableDate],
+    'ui:validations': allValidations,
     'ui:errorMessages': {
       pattern:
         errorMessages?.pattern || 'Please enter a valid current or past date',
@@ -103,10 +109,10 @@ const currentOrPastDateUI = options => {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
- *   errorMessages?: {
- *     pattern?: string,
- *     required?: string
- *   },
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   removeDateHint?: boolean,
+ *   dataDogHidden?: boolean,
+ *   validations?: UISchemaOptions['ui:validations'],
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
@@ -138,11 +144,19 @@ const currentOrPastMonthYearDateUI = options => {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
- * }} [options] accepts a single string for start/from date title, or an object of options
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   dataDogHidden?: boolean,
+ *   removeDateHint?: boolean,
+ *   validations?: UISchemaOptions['ui:validations'],
+ * }} [fromOptions] accepts a single string for start/from date title, or an object of options
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
- * }} [options] accepts a single string for to/end date title, or an object of options
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   dataDogHidden?: boolean,
+ *   removeDateHint?: boolean,
+ *   validations?: UISchemaOptions['ui:validations'],
+ * }} [toOptions] accepts a single string for to/end date title, or an object of options
  * @param {string} [errorMessage] - Optional custom error message for the date range validation
  * @returns {UISchemaOptions} uiSchema
  */
@@ -152,16 +166,17 @@ const currentOrPastDateRangeUI = (fromOptions, toOptions, errorMessage) => {
   let fromCustomOptions = {};
   let toCustomOptions = {};
 
-  // Check if advanced options object is provided
-  if (typeof fromOptions === 'object' && typeof toOptions === 'object') {
-    // Extract custom options
+  if (typeof fromOptions === 'object') {
     fromLabel = fromOptions.title || fromLabel;
-    toLabel = toOptions.title || toLabel;
     fromCustomOptions = { ...fromOptions };
+  } else {
+    fromLabel = fromOptions || fromLabel;
+  }
+
+  if (typeof toOptions === 'object') {
+    toLabel = toOptions.title || toLabel;
     toCustomOptions = { ...toOptions };
   } else {
-    // Simple usage: assign labels
-    fromLabel = fromOptions || fromLabel;
     toLabel = toOptions || toLabel;
   }
 
@@ -207,11 +222,19 @@ const currentOrPastDateRangeUI = (fromOptions, toOptions, errorMessage) => {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
- * }} [options] accepts a single string for start/from date title, or an object of options
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   dataDogHidden?: boolean,
+ *   removeDateHint?: boolean,
+ *   validations?: UISchemaOptions['ui:validations'],
+ * }} [fromOptions] accepts a single string for start/from date title, or an object of options
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
- * }} [options] accepts a single string for to/end date title, or an object of options
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   dataDogHidden?: boolean,
+ *   removeDateHint?: boolean,
+ *   validations?: UISchemaOptions['ui:validations'],
+ * }} [toOptions] accepts a single string for to/end date title, or an object of options
  * @param {string} [errorMessage] - Optional custom error message for the date range validation
  * @returns {UISchemaOptions} uiSchema
  */
@@ -249,6 +272,10 @@ const currentOrPastMonthYearDateRangeUI = (
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   monthYearOnly?: boolean,
+ *   removeDateHint?: boolean,
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   validations?: UISchemaOptions['ui:validations'],
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
@@ -277,18 +304,22 @@ const currentOrPastDateDigitsUI = options => {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   monthYearOnly?: boolean,
+ *   removeDateHint?: boolean,
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   validations?: UISchemaOptions['ui:validations'],
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
 const dateOfBirthUI = options => {
-  const { title, ...uiOptions } =
+  const { title, errorMessages, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   return currentOrPastDateUI({
     title: title || 'Date of birth',
-    errorMessages: {
+    errorMessages: errorMessages || {
       pattern: 'Please provide a valid date',
-      required: 'Please provide the date of birth',
+      required: 'Provide a date of birth',
     },
     ...uiOptions,
   });
@@ -308,16 +339,20 @@ const dateOfBirthUI = options => {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   monthYearOnly?: boolean,
+ *   removeDateHint?: boolean,
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   validations?: UISchemaOptions['ui:validations'],
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
 const dateOfDeathUI = options => {
-  const { title, ...uiOptions } =
+  const { title, errorMessages, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   return currentOrPastDateUI({
     title: title || 'Date of death',
-    errorMessages: {
+    errorMessages: errorMessages || {
       pattern: 'Please provide a valid date',
       required: 'Please provide the date of death',
     },

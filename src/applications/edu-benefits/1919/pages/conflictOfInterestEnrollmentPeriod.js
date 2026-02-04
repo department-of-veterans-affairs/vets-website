@@ -3,37 +3,45 @@ import React from 'react';
 import {
   arrayBuilderItemSubsequentPageTitleUI,
   descriptionUI,
-  currentOrPastDateRangeSchema,
-  currentOrPastDateRangeUI,
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { conflictOfInterestPolicy } from '../helpers';
+import {
+  conflictOfInterestPolicy,
+  validateConflictOfInterestStartDate,
+  validateConflictOfInterestEndDate,
+} from '../helpers';
 
 const uiSchema = {
   ...arrayBuilderItemSubsequentPageTitleUI(
     'Information on an individual with a potential conflict of interest who receives VA educational benefits',
   ),
   ...descriptionUI(<>{conflictOfInterestPolicy}</>),
-  enrollmentPeriod: currentOrPastDateRangeUI(
-    {
+  enrollmentPeriodStart: {
+    ...currentOrPastDateUI({
       title: 'Date their enrollment began',
       required: () => true,
-      errorMessages: {
-        required: 'Please select a date',
-      },
-    },
-    {
+      errorMessages: { pattern: 'Enter a valid date' },
+    }),
+    'ui:validations': [validateConflictOfInterestStartDate],
+  },
+  enrollmentPeriodEnd: {
+    ...currentOrPastDateUI({
       title: 'Date their enrollment ended',
       required: () => false,
-    },
-  ),
+      errorMessages: { pattern: 'Enter a valid date' },
+    }),
+    'ui:validations': [validateConflictOfInterestEndDate],
+  },
 };
 
 const schema = {
   type: 'object',
   properties: {
-    enrollmentPeriod: currentOrPastDateRangeSchema,
+    enrollmentPeriodStart: currentOrPastDateSchema,
+    enrollmentPeriodEnd: currentOrPastDateSchema,
   },
-  required: ['enrollmentPeriod'],
+  required: ['enrollmentPeriodStart'],
 };
 
 export { schema, uiSchema };

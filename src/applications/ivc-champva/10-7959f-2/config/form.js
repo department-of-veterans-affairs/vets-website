@@ -1,8 +1,7 @@
-import React from 'react';
 import { cloneDeep, merge } from 'lodash';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import {
   ssnUI,
   ssnSchema,
@@ -15,7 +14,6 @@ import {
   addressSchema,
   emailUI,
   emailSchema,
-  radioSchema,
   internationalPhoneUI,
   internationalPhoneSchema,
   yesNoUI,
@@ -33,16 +31,12 @@ import SubmissionError from '../../shared/components/SubmissionError';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import GetFormHelp from '../../shared/components/GetFormHelp';
+import FormFooter from '../components/FormFooter';
 import {
   validAddressCharsOnly,
   validObjectCharsOnly,
 } from '../../shared/validations';
-import PaymentSelectionUI, {
-  PaymentReviewScreen,
-  loggedInPaymentInfo,
-  loggedOutPaymentInfo,
-} from '../components/PaymentSelection';
+import paymentSelection from '../chapters/payments/paymentSelection';
 import {
   UploadDocumentsVeteran,
   UploadDocumentsProvider,
@@ -60,9 +54,7 @@ const formConfig = {
   transformForSubmit,
   prefillTransformer,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
-  footerContent: GetFormHelp,
-  // submit: () =>
-  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  footerContent: FormFooter,
   trackingPrefix: 'fmp-cover-sheet-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -107,6 +99,24 @@ const formConfig = {
   },
   title: 'File a Foreign Medical Program (FMP) claim',
   subTitle: 'FMP Claim Cover Sheet (VA Form 10-7959f-2)',
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      {
+        href: '/health-care',
+        label: 'Health care',
+      },
+      {
+        href: '/health-care/foreign-medical-program',
+        label: 'Foreign Medical Program',
+      },
+      {
+        href: '#content',
+        label: 'File a Foreign Medical Program (FMP) claim',
+      },
+    ],
+    homeVeteransAffairs: true,
+    wrapping: true,
+  }),
   defaultDefinitions: {},
   chapters: {
     veteranInfoChapter: {
@@ -278,32 +288,8 @@ const formConfig = {
       pages: {
         page6: {
           path: 'payment-selection',
-          title: 'Where to send the payment',
-          uiSchema: {
-            ...titleUI(
-              'Who should we send payments to?',
-              ({ _formData, formContext }) => {
-                return (
-                  <>
-                    {formContext?.isLoggedIn ? (
-                      <>{loggedInPaymentInfo} </>
-                    ) : (
-                      <>{loggedOutPaymentInfo}</>
-                    )}
-                  </>
-                );
-              },
-            ),
-            sendPayment: PaymentSelectionUI(),
-          },
-          schema: {
-            type: 'object',
-            required: ['sendPayment'],
-            properties: {
-              sendPayment: radioSchema(['Veteran', 'Provider']),
-            },
-          },
-          CustomPageReview: PaymentReviewScreen,
+          title: 'Who should we send payments to?',
+          ...paymentSelection,
         },
       },
     },

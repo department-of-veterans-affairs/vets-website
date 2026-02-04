@@ -32,9 +32,8 @@ const ssnUI = title => {
     'ui:confirmationField': ({ formData }) => ({ data: maskSSN(formData) }),
     'ui:validations': [validateSSN],
     'ui:errorMessages': {
-      pattern:
-        'Please enter a valid 9 digit Social Security number (dashes allowed)',
-      required: 'Please enter a Social Security number',
+      pattern: 'Enter a valid 9-digit Social Security number (dashes allowed)',
+      required: 'Enter a valid 9-digit Social Security number (dashes allowed)',
     },
   };
 };
@@ -147,14 +146,13 @@ const serviceNumberSchema = commonDefinitions.veteranServiceNumber;
  */
 const ssnOrVaFileNumberUI = () => {
   return {
-    ssn: ssnUI(),
-    vaFileNumber: {
-      ...vaFileNumberUI(),
+    ssn: {
+      ...ssnUI(),
       'ui:options': {
-        hint:
-          'You must enter either a VA file number or Social Security number.',
+        hint: 'You must enter a Social Security number or VA file number.',
       },
     },
+    vaFileNumber: vaFileNumberUI(),
     'ui:options': {
       updateSchema: (formData, _schema, _uiSchema, index, path) => {
         const { ssn, vaFileNumber } = get(path, formData) ?? {};

@@ -256,7 +256,7 @@ describe('Thread Details container', () => {
 
     expect(
       document.querySelector('va-alert-expandable').getAttribute('trigger'),
-    ).to.equal('Only use messages for non-urgent needs');
+    ).to.equal('How to get help sooner for urgent needs');
 
     expect(
       screen.getByText(
@@ -404,8 +404,10 @@ describe('Thread Details container', () => {
     expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
       '2 messages in this conversation',
     );
-    expect(screen.getByText('Find your VA health facility', { selector: 'a' }))
-      .to.exist;
+    const findFacilityLink = screen.container.querySelector(
+      'va-link-action[data-dd-action-name="cannot-reply-find-facility"]',
+    );
+    expect(findFacilityLink).to.exist;
     expect(screen.getByText(Alerts.Message.CANNOT_REPLY_BODY.OH)).to.exist;
     expect(
       screen.getByTestId(`message-body-${olderMessage.messageId}`).textContent,
@@ -510,7 +512,7 @@ describe('Thread Details container', () => {
         .to.equal('success');
     });
   });
-  it('with an active reply draft, focuses on draft section when clicking Edit reply draft button', async () => {
+  it('with an active reply draft, displays draft section expanded by default', async () => {
     const draftMessageHistoryUpdated = [
       {
         ...replyMessage,
@@ -556,16 +558,14 @@ describe('Thread Details container', () => {
     };
     const screen = setup(state);
 
-    const editDraftReplyButton = screen.getByTestId('edit-draft-button-body');
-    expect(editDraftReplyButton).to.exist;
+    // Verify draft section is visible with the updated header text
     const draftReplyHeader = screen.getByTestId('draft-reply-header');
     expect(draftReplyHeader).to.exist;
-    await waitFor(() => {
-      fireEvent.click(editDraftReplyButton);
-      expect(document.activeElement).to.equal(
-        screen.getByTestId('draft-reply-header'),
-      );
-    });
+    expect(draftReplyHeader.textContent).to.equal('Draft reply');
+
+    // Verify the accordion item is open (expanded by default)
+    const accordionItem = document.querySelector('va-accordion-item');
+    expect(accordionItem).to.have.attribute('open');
   });
 
   it.skip('responds to sending a reply draft with attachments', async () => {

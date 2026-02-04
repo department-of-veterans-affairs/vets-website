@@ -13,7 +13,6 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { EXPENSE_TYPES } from '../../../../constants';
 import ChooseExpenseType from '../../../../components/complex-claims/pages/ChooseExpenseType';
 import ExpensePage from '../../../../components/complex-claims/pages/ExpensePage';
-import IntroductionPage from '../../../../components/complex-claims/pages/IntroductionPage';
 import reducer from '../../../../redux/reducer';
 
 describe('ChooseExpenseType', () => {
@@ -37,7 +36,18 @@ describe('ChooseExpenseType', () => {
         </Routes>
       </MemoryRouter>,
       {
-        initialState: {},
+        initialState: {
+          travelPay: {
+            complexClaim: {
+              claim: {
+                data: {
+                  claimId,
+                  expenses: [],
+                },
+              },
+            },
+          },
+        },
         reducers: reducer,
       },
     );
@@ -54,11 +64,11 @@ describe('ChooseExpenseType', () => {
     expect(screen.getByText(/Select 1 expense/)).to.exist;
     expect(
       screen.getByText(
-        /We’ll need to pre-approve any airfare, lodging, or meals before you request reimbursement/,
+        /We’ll need to pre-approve any lodging or meals before you request reimbursement/,
       ),
     ).to.exist;
 
-    expect($('va-radio[label="Choose an expense type"]')).to.exist;
+    expect($('va-radio[label="Select an expense type"]')).to.exist;
     expect($('va-button-pair')).to.exist;
   });
 
@@ -112,7 +122,7 @@ describe('ChooseExpenseType', () => {
   it('handles expense type selection', () => {
     renderComponent();
 
-    const radioGroup = $('va-radio[label="Choose an expense type"]');
+    const radioGroup = $('va-radio[label="Select an expense type"]');
     expect(radioGroup).to.exist;
 
     fireEvent(
@@ -130,7 +140,7 @@ describe('ChooseExpenseType', () => {
   it('requires an expense type selection', () => {
     renderComponent();
 
-    const radioGroup = $('va-radio[label="Choose an expense type"]');
+    const radioGroup = $('va-radio[label="Select an expense type"]');
     expect(radioGroup.hasAttribute('required')).to.be.true;
   });
 
@@ -140,7 +150,6 @@ describe('ChooseExpenseType', () => {
     const buttonPair = $('va-button-pair');
     expect(buttonPair).to.exist;
     expect(buttonPair.hasAttribute('continue')).to.be.true;
-    expect(buttonPair.hasAttribute('disable-analytics')).to.be.true;
   });
 
   it('displays correct heading text', () => {
@@ -161,7 +170,7 @@ describe('ChooseExpenseType', () => {
 
     expect(
       screen.getByText(
-        /We’ll need to pre-approve any airfare, lodging, or meals before you request reimbursement/,
+        /We’ll need to pre-approve any lodging or meals before you request reimbursement/,
       ),
     ).to.exist;
   });
@@ -171,7 +180,7 @@ describe('ChooseExpenseType', () => {
       renderComponent();
 
       const buttonPair = $('va-button-pair');
-      const radioGroup = $('va-radio[label="Choose an expense type"]');
+      const radioGroup = $('va-radio[label="Select an expense type"]');
 
       // Initially no error should be shown
       expect(radioGroup.getAttribute('error')).to.be.null;
@@ -186,7 +195,7 @@ describe('ChooseExpenseType', () => {
 
       // Error message should now be displayed
       expect(radioGroup.getAttribute('error')).to.equal(
-        'Please select an expense type',
+        'Select an expense type',
       );
     });
 
@@ -194,7 +203,7 @@ describe('ChooseExpenseType', () => {
       renderComponent();
 
       const buttonPair = $('va-button-pair');
-      const radioGroup = $('va-radio[label="Choose an expense type"]');
+      const radioGroup = $('va-radio[label="Select an expense type"]');
 
       // Click continue without selection to trigger error
       fireEvent(
@@ -206,7 +215,7 @@ describe('ChooseExpenseType', () => {
 
       // Verify error is shown
       expect(radioGroup.getAttribute('error')).to.equal(
-        'Please select an expense type',
+        'Select an expense type',
       );
 
       // Select an expense type
@@ -224,8 +233,7 @@ describe('ChooseExpenseType', () => {
     it('does not show error when continue is clicked with a valid selection', () => {
       renderComponent();
 
-      const buttonPair = $('va-button-pair');
-      const radioGroup = $('va-radio[label="Choose an expense type"]');
+      const radioGroup = $('va-radio[label="Select an expense type"]');
 
       // Select an expense type first
       fireEvent(
@@ -235,15 +243,7 @@ describe('ChooseExpenseType', () => {
         }),
       );
 
-      // Click continue button
-      fireEvent(
-        buttonPair,
-        new CustomEvent('primaryClick', {
-          detail: {},
-        }),
-      );
-
-      // No error should be shown
+      // No error should be shown when a valid selection is made
       expect(radioGroup.getAttribute('error')).to.be.null;
     });
 
@@ -261,21 +261,222 @@ describe('ChooseExpenseType', () => {
       );
 
       // Error should be shown, preventing navigation
-      const radioGroup = $('va-radio[label="Choose an expense type"]');
+      const radioGroup = $('va-radio[label="Select an expense type"]');
       expect(radioGroup.getAttribute('error')).to.equal(
-        'Please select an expense type',
+        'Select an expense type',
       );
     });
   });
 
+  describe('Mileage expense validation', () => {
+    const renderComponentWithExistingMileage = (
+      apptId = defaultApptId,
+      claimId = 'claim123',
+    ) => {
+      return renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            `/file-new-claim/${apptId}/${claimId}/choose-expense`,
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpenseType />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+              element={<ExpensePage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState: {
+            travelPay: {
+              complexClaim: {
+                claim: {
+                  data: {
+                    claimId,
+                    expenses: [
+                      {
+                        id: 'expense-1',
+                        expenseType: 'Mileage',
+                        costRequested: 50.0,
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          },
+          reducers: reducer,
+        },
+      );
+    };
+
+    it('shows error when trying to add a second mileage expense', () => {
+      renderComponentWithExistingMileage();
+
+      const radioGroup = $('va-radio[label="Select an expense type"]');
+      const buttonPair = $('va-button-pair');
+
+      // Select mileage expense type
+      fireEvent(
+        radioGroup,
+        new CustomEvent('vaValueChange', {
+          detail: { value: 'mileage' },
+        }),
+      );
+
+      // Click continue button
+      fireEvent(
+        buttonPair,
+        new CustomEvent('primaryClick', {
+          detail: {},
+        }),
+      );
+
+      // Error message should be displayed
+      expect(radioGroup.getAttribute('error')).to.equal(
+        'You can only add 1 mileage expense for each claim. Select another expense type or submit your claim.',
+      );
+    });
+
+    it('prevents navigation when trying to add a second mileage expense', () => {
+      const screen = renderComponentWithExistingMileage();
+
+      const radioGroup = $('va-radio[label="Select an expense type"]');
+      const buttonPair = $('va-button-pair');
+
+      // Select mileage expense type
+      fireEvent(
+        radioGroup,
+        new CustomEvent('vaValueChange', {
+          detail: { value: 'mileage' },
+        }),
+      );
+
+      // Click continue button
+      fireEvent(
+        buttonPair,
+        new CustomEvent('primaryClick', {
+          detail: {},
+        }),
+      );
+
+      // Should still be on the same page with error shown
+      expect(screen.getByText('What type of expense do you want to add?')).to
+        .exist;
+      expect(radioGroup.getAttribute('error')).to.exist;
+    });
+
+    it('does not show error when selecting non-mileage expense type with existing mileage', () => {
+      renderComponentWithExistingMileage();
+
+      const radioGroup = $('va-radio[label="Select an expense type"]');
+
+      // Select a different expense type (parking)
+      fireEvent(
+        radioGroup,
+        new CustomEvent('vaValueChange', {
+          detail: { value: 'parking' },
+        }),
+      );
+
+      // Verify parking is selected
+      const parkingOption = $('va-radio-option[value="parking"]');
+      expect(parkingOption.hasAttribute('checked')).to.be.true;
+
+      // No error should be shown for non-mileage expense types
+      expect(radioGroup.getAttribute('error')).to.be.null;
+    });
+
+    it('clears mileage error when switching to a different expense type', () => {
+      renderComponentWithExistingMileage();
+
+      const radioGroup = $('va-radio[label="Select an expense type"]');
+      const buttonPair = $('va-button-pair');
+
+      // Select mileage to trigger error
+      fireEvent(
+        radioGroup,
+        new CustomEvent('vaValueChange', {
+          detail: { value: 'mileage' },
+        }),
+      );
+
+      fireEvent(
+        buttonPair,
+        new CustomEvent('primaryClick', {
+          detail: {},
+        }),
+      );
+
+      // Verify error is shown
+      expect(radioGroup.getAttribute('error')).to.exist;
+
+      // Switch to different expense type
+      fireEvent(
+        radioGroup,
+        new CustomEvent('vaValueChange', {
+          detail: { value: 'toll' },
+        }),
+      );
+
+      // Error should be cleared
+      expect(radioGroup.getAttribute('error')).to.be.null;
+    });
+
+    it('allows adding mileage expense when no mileage exists yet', () => {
+      renderComponent();
+
+      const radioGroup = $('va-radio[label="Select an expense type"]');
+
+      // Select mileage expense type
+      fireEvent(
+        radioGroup,
+        new CustomEvent('vaValueChange', {
+          detail: { value: 'mileage' },
+        }),
+      );
+
+      // No error should be shown when selecting mileage with no existing mileage
+      expect(radioGroup.getAttribute('error')).to.be.null;
+    });
+  });
+
   describe('Navigation', () => {
-    it('navigates back to intro page with skipRedirect state', async () => {
-      // Mock component to capture location state
-      const LocationStateCapture = () => {
+    const initialState = {
+      travelPay: {
+        appointment: {
+          data: {
+            id: '12345',
+            appointmentDateTime: '2024-01-01T10:00:00Z',
+            facilityName: 'Test Facility',
+          },
+          isLoading: false,
+          error: null,
+        },
+        complexClaim: {
+          claim: { data: null },
+        },
+        claimDetails: {
+          data: {},
+          isLoading: false,
+          error: null,
+        },
+      },
+    };
+
+    it('navigates back to intro page with skipRedirect state when backDestination is not set', async () => {
+      const IntroWithStateCheck = () => {
         const location = useLocation();
         return (
-          <div data-testid="location-state">
-            {JSON.stringify(location.state)}
+          <div>
+            <div data-testid="intro-page">Intro</div>
+            <div data-testid="skip-redirect">
+              {location.state?.skipRedirect ? 'true' : 'false'}
+            </div>
           </div>
         );
       };
@@ -291,33 +492,18 @@ describe('ChooseExpenseType', () => {
             />
             <Route
               path="/file-new-claim/:apptId"
-              element={
-                <>
-                  <IntroductionPage />
-                  <LocationStateCapture />
-                </>
-              }
+              element={<IntroWithStateCheck />}
             />
           </Routes>
         </MemoryRouter>,
         {
-          initialState: {
-            travelPay: {
-              appointment: {
-                data: { id: '12345' },
-              },
-              complexClaim: {
-                claim: { data: null },
-              },
-            },
-          },
+          initialState: { ...initialState },
           reducers: reducer,
         },
       );
 
       const buttonPair = $('va-button-pair');
 
-      // Click the back button
       fireEvent(
         buttonPair,
         new CustomEvent('secondaryClick', {
@@ -325,11 +511,92 @@ describe('ChooseExpenseType', () => {
         }),
       );
 
-      // Wait for navigation and verify skipRedirect state is passed
       await waitFor(() => {
-        const locationState = getByTestId('location-state');
-        expect(locationState.textContent).to.include('skipRedirect');
-        expect(locationState.textContent).to.include('true');
+        expect(getByTestId('skip-redirect').textContent).to.equal('true');
+      });
+    });
+
+    it('navigates back to intro page when backDestination is "intro"', async () => {
+      const LocationDisplay = () => {
+        const location = useLocation();
+        return <div data-testid="location-display">{location.pathname}</div>;
+      };
+
+      const modifiedState = { ...initialState };
+      modifiedState.travelPay.complexClaim.expenseBackDestination = 'intro';
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={['/file-new-claim/12345/claim123/choose-expense']}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpenseType />}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        {
+          initialState: { ...modifiedState },
+          reducers: reducer,
+        },
+      );
+
+      const buttonPair = $('va-button-pair');
+      fireEvent(
+        buttonPair,
+        new CustomEvent('secondaryClick', {
+          detail: {},
+        }),
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('location-display').textContent).to.equal(
+          '/file-new-claim/12345',
+        );
+      });
+    });
+
+    it('navigates back to review page when backDestination is "review"', async () => {
+      const LocationDisplay = () => {
+        const location = useLocation();
+        return <div data-testid="location-display">{location.pathname}</div>;
+      };
+
+      const modifiedState = { ...initialState };
+      modifiedState.travelPay.complexClaim.expenseBackDestination = 'review';
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={['/file-new-claim/12345/claim123/choose-expense']}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpenseType />}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        {
+          initialState: { ...modifiedState },
+          reducers: reducer,
+        },
+      );
+
+      const buttonPair = $('va-button-pair');
+      fireEvent(
+        buttonPair,
+        new CustomEvent('secondaryClick', {
+          detail: {},
+        }),
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('location-display').textContent).to.equal(
+          '/file-new-claim/12345/claim123/review',
+        );
       });
     });
   });

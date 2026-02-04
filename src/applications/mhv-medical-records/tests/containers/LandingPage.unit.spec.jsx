@@ -296,4 +296,193 @@ describe('Landing Page', () => {
       });
     });
   });
+
+  describe('Cerner facility alert on Landing Page', () => {
+    const cernerUserState = {
+      user: {
+        profile: {
+          userFullName: {
+            first: 'Andrew- Cerner',
+            middle: 'J',
+            last: 'Morkel',
+          },
+          facilities: [
+            {
+              facilityId: '668',
+              isCerner: true,
+            },
+          ],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          migrationSchedules: [],
+        },
+      },
+    };
+
+    const multipleCernerFacilitiesState = {
+      user: {
+        profile: {
+          facilities: [
+            { facilityId: '668', isCerner: true },
+            { facilityId: '692', isCerner: true },
+          ],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          migrationSchedules: [],
+        },
+      },
+    };
+
+    const transitioningUserState = {
+      user: {
+        profile: {
+          facilities: [
+            { facilityId: '668', isCerner: true },
+            { facilityId: '692', isCerner: true },
+          ],
+          userAtPretransitionedOhFacility: false,
+          userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: true,
+          migrationSchedules: [
+            {
+              migrationDate: '2026-05-01',
+              facilities: [
+                {
+                  facilityId: '528',
+                  facilityName: 'Test VA Medical Center',
+                },
+                {
+                  facilityId: '123',
+                  facilityName: 'Different VA Medical Center',
+                },
+              ],
+              phases: {
+                current: 'p1',
+                p0: 'March 1, 2026',
+                p1: 'March 15, 2026',
+                p2: 'April 1, 2026',
+                p3: 'April 24, 2026',
+                p4: 'April 27, 2026',
+                p5: 'May 1, 2026',
+                p6: 'May 3, 2026',
+                p7: 'May 8, 2026',
+              },
+            },
+          ],
+        },
+      },
+    };
+
+    it('displays Cerner facility alert for Cerner users on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: cernerUserState,
+        reducers: reducer,
+      });
+
+      expect(screen).to.exist;
+      expect(screen.getByTestId('mr-landing-page-title')).to.exist;
+      expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
+    });
+
+    it('renders Cerner alert text for single Cerner facility on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: cernerUserState,
+        reducers: reducer,
+      });
+
+      expect(screen.getByTestId('single-cerner-facility-text')).to.exist;
+      const facilityElement = screen.getByText('VA Spokane health care');
+      expect(facilityElement.tagName).to.equal('STRONG');
+      const link = screen.getByTestId('cerner-facility-action-link');
+      expect(link).to.exist;
+    });
+
+    it('renders Cerner alert for multiple Cerner facilities on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: multipleCernerFacilitiesState,
+        reducers: reducer,
+      });
+
+      expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
+      expect(screen.getAllByTestId('cerner-facility').length).to.be.greaterThan(
+        1,
+      );
+    });
+
+    it('displays Info facility alert for transitioned users on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: {
+          ...cernerUserState,
+          user: {
+            profile: {
+              ...cernerUserState.user.profile,
+              userFacilityReadyForInfoAlert: true,
+            },
+          },
+        },
+        reducers: reducer,
+      });
+
+      expect(screen.getByTestId('cerner-facilities-info-alert')).to.exist;
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+    });
+
+    it('displays migration alert for transitioning user on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: transitioningUserState,
+        reducers: reducer,
+      });
+
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+      expect(screen.queryByTestId('cerner-facilities-info-alert')).to.not.exist;
+      expect(screen.getByTestId('cerner-facilities-transition-alert')).to.exist;
+    });
+
+    it('does not display Cerner alert for non-Cerner users on landing page', () => {
+      const nonCernerUserState = {
+        user: {
+          profile: {
+            facilities: [
+              {
+                facilityId: '516',
+                isCerner: false,
+              },
+            ],
+            userAtPretransitionedOhFacility: false,
+            userFacilityReadyForInfoAlert: false,
+            userFacilityMigratingToOh: false,
+            migrationSchedules: [],
+          },
+        },
+        drupalStaticData: {
+          vamcEhrData: {
+            data: {
+              ehrDataByVhaId: {
+                '516': {
+                  vhaId: '516',
+                  vamcFacilityName:
+                    'C.W. Bill Young Department of Veterans Affairs Medical Center',
+                  vamcSystemName: 'VA Bay Pines health care',
+                  ehr: 'vista',
+                },
+              },
+            },
+            loading: false,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: nonCernerUserState,
+        reducers: reducer,
+      });
+
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+      expect(screen.queryByTestId('cerner-facilities-info-alert')).to.not.exist;
+      expect(screen.queryByTestId('cerner-facilities-transition-alert')).to.not
+        .exist;
+    });
+  });
 });

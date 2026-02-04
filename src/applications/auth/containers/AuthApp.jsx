@@ -10,7 +10,6 @@ import {
   FORCE_NEEDED,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
-  CSP_IDS,
 } from 'platform/user/authentication/constants';
 import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
 import { setupProfileSession } from 'platform/user/profile/utilities';
@@ -50,9 +49,6 @@ export default function AuthApp({ location }) {
   const isFeatureToggleLoading = useSelector(
     store => store?.featureToggles?.loading,
   );
-  const isInterstitialEnabled = useSelector(
-    store => store?.featureToggles?.dslogonInterstitialRedirect,
-  );
   const isEmailInterstitialEnabled = useSelector(
     store => store?.featureToggles?.confirmContactEmailInterstitialEnabled,
   );
@@ -81,11 +77,6 @@ export default function AuthApp({ location }) {
   };
 
   const redirect = () => {
-    if (isInterstitialEnabled && CSP_IDS.DS_LOGON === loginType) {
-      window.location.replace('/sign-in-changes-reminder');
-      return;
-    }
-
     // remove from session storage
     sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
@@ -129,7 +120,9 @@ export default function AuthApp({ location }) {
       );
       if (!termsResponse?.provisioned) {
         handleAuthError(null, '111');
+        return false;
       }
+      return true;
     } catch (err) {
       const message = err?.error;
       if (message === 'Agreement not accepted') {
@@ -141,6 +134,7 @@ export default function AuthApp({ location }) {
       } else {
         handleAuthError(err, '110');
       }
+      return false;
     }
   }
 
@@ -164,15 +158,13 @@ export default function AuthApp({ location }) {
       requestId,
       errorCode,
     );
-    if (isMyVAHealth) {
-      await handleProvisioning();
-    }
+    const provisioned = isMyVAHealth && (await handleProvisioning());
     const { userAttributes, userProfile } = authMetrics;
     authMetrics.run();
     const { needsPortalNotice, needsMyHealth } = checkPortalRequirements({
       isPortalNoticeInterstitialEnabled,
       userAttributes,
-      isMyVAHealth,
+      provisioned,
     });
     if (
       !skipToRedirect &&

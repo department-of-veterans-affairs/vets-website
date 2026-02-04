@@ -42,8 +42,14 @@ const internationalPhoneUI = options => {
         label: _title,
       };
     },
-    'ui:options': uiOptions,
+    'ui:options': {
+      hint: 'For international numbers, select or enter your country code.',
+      ...uiOptions,
+    },
     'ui:validations': [validateTelephoneInput],
+    'ui:errorMessages': {
+      required: 'Enter a phone number with up to 15 digits',
+    },
   };
 };
 

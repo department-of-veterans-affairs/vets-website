@@ -6,6 +6,7 @@ import { format } from 'date-fns-tz';
 import {
   addDays,
   differenceInDays,
+  endOfDay,
   endOfMonth,
   isAfter,
   isDate,
@@ -22,6 +23,7 @@ import {
   selectFeatureUseBrowserTimezone,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
+  selectFeatureUseVpg,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -82,7 +84,6 @@ export const GA_FLOWS = {
   VA_REQUEST: 'va-request',
   CC_REQUEST: 'cc-request',
 };
-
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
 export const FORM_RESET = 'newAppointment/FORM_RESET';
@@ -94,6 +95,8 @@ export const FORM_UPDATE_FACILITY_TYPE =
   'newAppointment/FORM_UPDATE_FACILITY_TYPE';
 export const FORM_UPDATE_SELECTED_PROVIDER =
   'newAppointment/FORM_UPDATE_SELECTED_PROVIDER';
+export const FORM_UPDATE_FACILITY_EHR =
+  'newAppointment/FORM_UPDATE_FACILITY_EH';
 export const FORM_PAGE_FACILITY_V2_OPEN =
   'newAppointment/FACILITY_PAGE_V2_OPEN';
 export const FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED =
@@ -228,6 +231,13 @@ export function updateSelectedProvider(provider) {
   };
 }
 
+export function updateFacilityEhr(ehr) {
+  return {
+    type: FORM_UPDATE_FACILITY_EHR,
+    ehr,
+  };
+}
+
 export function startDirectScheduleFlow({ isRecordEvent = true } = {}) {
   if (isRecordEvent) {
     recordEvent({
@@ -253,7 +263,7 @@ export function startRequestAppointmentFlow(isCommunityCare) {
 }
 
 export function getPatientRelationships() {
-  let patientProviderRelationships;
+  let relationships;
 
   return async (dispatch, getState) => {
     const initialState = getState();
@@ -261,27 +271,27 @@ export function getPatientRelationships() {
     const typeOfCare = getTypeOfCare(newAppointment.data);
     const typeOfCareId = typeOfCare;
     const facilityId = newAppointment.data.vaFacility;
-    const hasAvailabilityBefore = addDays(new Date(), 395);
+    const hasAvailabilityBefore = endOfDay(addDays(new Date(), 395));
 
     dispatch({
       type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,
     });
 
     try {
-      patientProviderRelationships = await fetchPatientRelationships(
+      relationships = await fetchPatientRelationships(
         facilityId,
         typeOfCareId,
         hasAvailabilityBefore,
       );
     } catch (error) {
       dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED });
-      patientProviderRelationships = null;
       captureError(error);
+      return;
     }
 
     dispatch({
       type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED,
-      patientProviderRelationships,
+      relationships,
     });
   };
 }
@@ -416,6 +426,7 @@ async function fetchRecentLocations(
   dispatch,
   siteIds,
   removeFacilityConfigCheck = false,
+  useVpg = false,
 ) {
   try {
     dispatch({ type: FORM_FETCH_RECENT_LOCATIONS });
@@ -424,6 +435,7 @@ async function fetchRecentLocations(
       siteIds,
       sortByRecentLocations: true,
       removeFacilityConfigCheck,
+      useVpg,
     });
 
     dispatch({
@@ -453,6 +465,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const removeFacilityConfigCheck = selectFeatureRemoveFacilityConfigCheck(
         state,
       );
+      const featureUseVpg = selectFeatureUseVpg(state);
+
       dispatch({ type: FORM_PAGE_FACILITY_V2_OPEN });
 
       // Fetch facilities that support this type of care
@@ -462,12 +476,14 @@ export function openFacilityPageV2(page, uiSchema, schema) {
             dispatch,
             siteIds,
             removeFacilityConfigCheck,
+            featureUseVpg,
           );
           recordItemsRetrieved('recent-locations', facilities?.length || 0);
         } else {
           facilities = await getLocationsByTypeOfCareAndSiteIds({
             siteIds,
             removeFacilityConfigCheck,
+            useVpg: featureUseVpg,
           });
           recordItemsRetrieved('available_facilities', facilities?.length);
         }
@@ -638,11 +654,13 @@ export function hideEligibilityModal() {
 }
 
 export function openReasonForAppointment(page, uiSchema, schema) {
-  return {
-    type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
-    page,
-    uiSchema,
-    schema,
+  return async dispatch => {
+    dispatch({
+      type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
+      page,
+      uiSchema,
+      schema,
+    });
   };
 }
 
@@ -839,6 +857,7 @@ export function submitAppointmentOrRequest(history) {
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
     const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
+    const useVpg = selectFeatureUseVpg(state);
 
     dispatch({
       type: FORM_SUBMIT,
@@ -846,7 +865,6 @@ export function submitAppointmentOrRequest(history) {
 
     let additionalEventData = {
       'health-TypeOfCare': typeOfCare,
-      'health-ReasonForAppointment': data?.reasonForAppointment,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
@@ -860,7 +878,7 @@ export function submitAppointmentOrRequest(history) {
       try {
         let appointment = null;
         appointment = await createAppointment({
-          appointment: transformFormToVAOSAppointment(getState()),
+          appointment: transformFormToVAOSAppointment(getState(), useVpg),
           featureUseBrowserTimezone,
         });
 
@@ -945,7 +963,7 @@ export function submitAppointmentOrRequest(history) {
       try {
         requestBody = isCommunityCare
           ? transformFormToVAOSCCRequest(getState())
-          : transformFormToVAOSVARequest(getState());
+          : transformFormToVAOSVARequest(getState(), useVpg);
 
         const requestData = await createAppointment({
           appointment: requestBody,

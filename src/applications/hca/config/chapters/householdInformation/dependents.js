@@ -17,6 +17,7 @@ import {
   dependentUISchema,
   summaryPage,
 } from '../../../definitions/dependent';
+
 import content from '../../../locales/en/content.json';
 
 /**
@@ -76,6 +77,7 @@ const DependentsPages = arrayBuilderPages(options, pagebuilder => ({
             options.nounSingular,
           ),
         ),
+        showEditExplanationText: false,
       }),
       ...dependentUISchema.basic,
     },

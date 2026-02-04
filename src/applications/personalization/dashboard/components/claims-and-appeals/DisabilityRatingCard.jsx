@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import CTALink from '../CTALink';
 import { hasTotalDisabilityError } from '../../../common/selectors/ratedDisabilities';
 
 const DisabilityRatingCard = ({
@@ -9,7 +8,7 @@ const DisabilityRatingCard = ({
   totalDisabilityRatingError,
 }) => {
   const Heading = () => (
-    <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+    <h3 className="vads-u-margin-top--3 vads-u-margin-bottom--2">
       Disability rating
     </h3>
   );
@@ -29,17 +28,16 @@ const DisabilityRatingCard = ({
         <>
           <Heading />
           <va-card>
-            <h4 className="vads-u-margin-y--0 vads-u-padding-bottom--1">
+            <h4 className="vads-u-margin-y--0 vads-u-padding-bottom--1 dd-privacy-mask">
               Your combined disability rating is {totalDisabilityRating}%
             </h4>
-            <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">
-              <CTALink
-                href="/disability/view-disability-rating/rating"
+            <div className="vads-u-margin-top--0p5 vads-u-padding-y--1">
+              <va-link
+                active
                 text="Review your VA disability rating"
-                className="vads-u-font-weight--bold"
-                showArrow
+                href="/disability/view-disability-rating/rating"
               />
-            </p>
+            </div>
           </va-card>
         </>
       );

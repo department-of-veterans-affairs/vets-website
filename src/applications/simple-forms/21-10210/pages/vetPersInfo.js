@@ -1,30 +1,25 @@
-import definitions from 'vets-json-schema/dist/definitions.json';
-import { validateDateOfBirth } from 'platform/forms/validations';
-import { fullNameDeprecatedUI } from '../../shared/definitions/rjsfPatterns';
-import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
+import {
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
+  dateOfBirthUI,
+  dateOfBirthSchema,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import VetPersInfoUiTitle from '../components/VetPersInfoUiTitle';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': VetPersInfoUiTitle,
-    veteranFullName: fullNameDeprecatedUI,
-    veteranDateOfBirth: {
-      'ui:title': 'Date of birth',
-      'ui:widget': 'date',
-      'ui:validations': [validateDateOfBirth],
-      'ui:errorMessages': {
-        required: 'Please provide a date of birth',
-        pattern: 'Please provide a valid date of birth',
-      },
-    },
+    ...titleUI(VetPersInfoUiTitle),
+    veteranFullName: fullNameNoSuffixUI(),
+    veteranDateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
     required: ['veteranFullName', 'veteranDateOfBirth'],
     properties: {
-      veteranFullName: pdfFullNameNoSuffixSchema(),
-      veteranDateOfBirth: definitions.date,
+      veteranFullName: fullNameNoSuffixSchema,
+      veteranDateOfBirth: dateOfBirthSchema,
     },
   },
 };

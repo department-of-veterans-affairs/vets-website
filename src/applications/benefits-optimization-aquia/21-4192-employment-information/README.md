@@ -33,6 +33,7 @@ The form is organized into **6 chapters** with **15 total pages**, using conditi
 ### Chapter 1: Veteran Information (2 pages)
 
 - **Page 1: Veteran Information** (`veteran-information`)
+
   - Full name (first, middle, last)
   - Date of birth
   - Social Security Number or VA file number
@@ -51,10 +52,12 @@ The form is organized into **6 chapters** with **15 total pages**, using conditi
 ### Chapter 3: Employment Information (5 pages)
 
 - **Page 4: Employment Dates** (`employment-dates`)
+
   - Beginning date of employment
-  - Ending date of employment (or checkbox for "currently employed")
+  - Ending date of employment (optional - leave blank if currently employed)
 
 - **Page 5: Employment Earnings and Hours** (`employment-earnings-hours`)
+
   - Type of work performed
   - Amount earned in last 12 months (or 12 months before termination)
   - Time lost due to disability
@@ -62,10 +65,12 @@ The form is organized into **6 chapters** with **15 total pages**, using conditi
   - Weekly hours worked
 
 - **Page 6: Employment Concessions** (`employment-concessions`)
+
   - Whether employer made any concessions for veteran's disability
   - Details of concessions (flexible schedule, modified duties, etc.)
 
 - **Page 7: Employment Termination** (`employment-termination`)
+
   - Reason for termination (resigned, laid off, retired due to disability, retired due to age, other)
   - Date last worked
 
@@ -78,6 +83,7 @@ The form is organized into **6 chapters** with **15 total pages**, using conditi
 ### Chapter 4: Duty Status (2 pages, conditional)
 
 - **Page 9: Duty Status** (`duty-status`)
+
   - Whether veteran is in Reserve or National Guard
 
 - **Page 10: Duty Status Details** (`duty-status-details`) - **Conditional**
@@ -88,6 +94,7 @@ The form is organized into **6 chapters** with **15 total pages**, using conditi
 ### Chapter 5: Benefits Information (2 pages, conditional)
 
 - **Page 11: Benefits Information** (`benefits-information`)
+
   - Whether veteran receives sick leave, retirement, or other benefits
 
 - **Page 12: Benefits Details** (`benefits-details`) - **Conditional**
@@ -201,6 +208,16 @@ The form uses helper functions to adjust language based on whether the veteran i
 
 - **Currently employed**: "is working", "last 12 months"
 - **No longer employed**: "was working", "12 months before their last date of employment"
+
+## Content Widget
+
+This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/forms/21-4192/`).
+
+- **Widget Type**: `form214192`
+- **Feature Flag**: `form_4192_enabled`
+- **Widget Location**: `src/applications/static-pages/benefits-optimization-aquia/21-4192/`
+
+When the feature flag is off, the widget shows "Submit this form by mail" instead of a link to the digital form.
 
 ## Support
 

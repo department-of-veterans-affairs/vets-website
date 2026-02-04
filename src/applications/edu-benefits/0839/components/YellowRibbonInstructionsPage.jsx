@@ -223,7 +223,7 @@ const YellowRibbonInstructionsPage = () => {
           <va-link
             external
             text="Education File Upload Portal"
-            href="https://www.my.va.gov/EducationFileUpload/s/"
+            href="https://www.my.va.gov/EducationFileUploads/s/"
           />
           . Make sure the version you upload includes all required information
           and the authorized official’s signature.

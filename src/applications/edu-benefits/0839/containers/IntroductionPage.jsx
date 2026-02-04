@@ -146,18 +146,19 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <va-banner
-        data-label="Info banner"
-        type="info"
-        headline="For educational institutions only"
-        visible
-      >
+      <va-alert status="info" visible>
+        <h2
+          slot="headline"
+          className="vads-u-font-size--h3 vads-u-margin-top-1"
+        >
+          For educational institutions only
+        </h2>
         <p className="vads-u-margin-y--0">
           <strong>Note:</strong> This form is intended for schools applying to
           join, modify, or withdraw from the Yellow Ribbon Program under the
           Post-9/11 GI Bill.
         </p>
-      </va-banner>
+      </va-alert>
 
       <h2 className=" vads-u-margin-top--4">
         What to know before you fill out this form

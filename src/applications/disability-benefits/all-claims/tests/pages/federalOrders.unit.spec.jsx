@@ -9,7 +9,7 @@ import {
 import { mount } from 'enzyme';
 import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
-import { daysFromToday } from '../utils/dates/dateHelper';
+import { daysFromToday } from '../../utils/dates/formatting';
 
 function getMostRecentLeapYearDate() {
   const now = new Date();

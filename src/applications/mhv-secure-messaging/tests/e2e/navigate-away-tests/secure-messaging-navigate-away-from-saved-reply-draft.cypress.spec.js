@@ -45,10 +45,7 @@ describe('SM NAVIGATE AWAY FROM SAVED REPLY DRAFT', () => {
   });
 
   it('navigate away with changed data', () => {
-    PatientComposePage.getMessageBodyField()
-      .should('be.enabled')
-      .clear()
-      .type('updated data');
+    PatientComposePage.typeMessageBody('updated data');
 
     FolderLoadPage.backToParentFolder();
 
@@ -65,10 +62,7 @@ describe('SM NAVIGATE AWAY FROM SAVED REPLY DRAFT', () => {
   });
 
   it('navigate away with changed data and attachment', () => {
-    PatientComposePage.getMessageBodyField()
-      .should('be.enabled')
-      .clear()
-      .type('updated data');
+    PatientComposePage.typeMessageBody('updated data');
     PatientComposePage.attachMessageFromFile();
 
     FolderLoadPage.backToParentFolder();

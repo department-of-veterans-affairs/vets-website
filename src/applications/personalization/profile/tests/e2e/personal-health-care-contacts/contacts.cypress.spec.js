@@ -28,6 +28,7 @@ describe('Personal health care contacts', () => {
         generateFeatureToggles({
           profile2Enabled: true,
           profileHealthCareSettingsPage: true,
+          profileHideHealthCareContacts: false,
         }),
       );
       cy.intercept('GET', '/v0/profile/contacts', contacts);
@@ -40,7 +41,11 @@ describe('Personal health care contacts', () => {
 
   describe('when feature profile2Enabled is false', () => {
     beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({ profileHideHealthCareContacts: false }),
+      );
     });
 
     it('links from the hub page', () => {

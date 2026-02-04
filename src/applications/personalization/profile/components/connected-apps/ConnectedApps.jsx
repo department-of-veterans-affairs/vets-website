@@ -10,6 +10,7 @@ import {
 } from '@@profile/components/connected-apps/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import LoadFail from '../alerts/LoadFail';
 import Headline from '../ProfileSectionHeadline';
 import { AppDeletedAlert } from './AppDeletedAlert';
@@ -63,6 +64,26 @@ export class ConnectedApps extends Component {
       'profile-section': 'vets-faqs',
     });
   };
+
+  ConnectedAppsAdditionalInfo = () => (
+    <va-additional-info
+      trigger="What other third-party apps can I connect to my profile?"
+      uswds
+    >
+      <p>
+        The app directory lists all third-party apps that you can connect to
+        your profile.
+      </p>
+      <p>
+        <a
+          href="/resources/find-apps-you-can-use"
+          onClick={this.connectedAppsEvent}
+        >
+          go to the app directory
+        </a>
+      </p>
+    </va-additional-info>
+  );
 
   render() {
     const { apps, loading, errors } = this.props;
@@ -167,6 +188,16 @@ export class ConnectedApps extends Component {
             </>
           ))}
 
+        {!isEmpty(activeApps) && (
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.profile2Enabled}>
+            <Toggler.Enabled>
+              <div className="vads-u-margin-y--3 available-connected-apps">
+                {this.ConnectedAppsAdditionalInfo()}
+              </div>
+            </Toggler.Enabled>
+          </Toggler>
+        )}
+
         {activeApps.map(app => (
           <ConnectedApp
             key={app.id}
@@ -176,22 +207,13 @@ export class ConnectedApps extends Component {
         ))}
 
         {!isEmpty(activeApps) && (
-          <div className="vads-u-margin-y--3 available-connected-apps">
-            <va-additional-info
-              disable-border
-              trigger="What other third-party apps can I connect to my profile?"
-              uswds
-            >
-              To find out what other third-party apps are available to connect
-              to your profile,{' '}
-              <a
-                href="/resources/find-apps-you-can-use"
-                onClick={this.connectedAppsEvent}
-              >
-                go to the app directory
-              </a>
-            </va-additional-info>
-          </div>
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.profile2Enabled}>
+            <Toggler.Disabled>
+              <div className="vads-u-margin-y--3 available-connected-apps">
+                {this.ConnectedAppsAdditionalInfo()}
+              </div>
+            </Toggler.Disabled>
+          </Toggler>
         )}
 
         <va-summary-box uswds class="vads-u-margin-top--2">

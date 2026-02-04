@@ -23,7 +23,7 @@ describe('DeleteExpenseModal', () => {
     expect($('va-modal[visible="true"]', container)).to.exist;
 
     // Check modal title
-    expect($('va-modal[modal-title="Delete this expense"]', container)).to
+    expect($('va-modal[modal-title="Delete this expense?"]', container)).to
       .exist;
 
     // Check primary and secondary buttons

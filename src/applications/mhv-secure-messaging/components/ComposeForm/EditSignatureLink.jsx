@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectSignature } from '../../selectors';
 
 const EditSignatureLink = () => {
@@ -10,13 +11,12 @@ const EditSignatureLink = () => {
   if (includeSignature) {
     return (
       <div className="vads-u-margin-top--2">
-        <a
+        <VaLink
           href="/profile/personal-information#messaging-signature"
           data-dd-action-name="Edit Signature"
           data-testid="edit-signature-link"
-        >
-          Edit signature for all messages
-        </a>
+          text="Edit signature for all messages"
+        />
       </div>
     );
   }

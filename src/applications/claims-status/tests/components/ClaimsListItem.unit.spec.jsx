@@ -304,15 +304,18 @@ describe('<ClaimsListItem>', () => {
             status: 'COMPLETE',
           },
         };
-        const { getByRole } = renderWithRouter(
+        const { container } = renderWithRouter(
           <Provider store={getStore()}>
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
 
-        expect(getByRole('link')).to.have.text('Details');
-        expect(getByRole('link').href).to.equal(
-          `http://localhost/your-claims/1/status`,
+        const link = container.querySelector('va-link');
+
+        expect(link).to.have.attribute('text', 'Details');
+        expect(link).to.have.attribute(
+          'href',
+          '/track-claims/your-claims/1/status',
         );
       });
     },
@@ -583,15 +586,18 @@ describe('<ClaimsListItem>', () => {
             status: 'COMPLETE',
           },
         };
-        const { getByRole } = renderWithRouter(
+        const { container } = renderWithRouter(
           <Provider store={getStore()}>
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
 
-        expect(getByRole('link')).to.have.text('Details');
-        expect(getByRole('link').href).to.equal(
-          `http://localhost/your-claims/1/status`,
+        const link = container.querySelector('va-link');
+
+        expect(link).to.have.attribute('text', 'Details');
+        expect(link).to.have.attribute(
+          'href',
+          '/track-claims/your-claims/1/status',
         );
       });
     },
@@ -862,15 +868,18 @@ describe('<ClaimsListItem>', () => {
             status: 'COMPLETE',
           },
         };
-        const { getByRole } = renderWithRouter(
+        const { container } = renderWithRouter(
           <Provider store={getStore(false)}>
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
 
-        expect(getByRole('link')).to.have.text('Details');
-        expect(getByRole('link').href).to.equal(
-          `http://localhost/your-claims/1/status`,
+        const link = container.querySelector('va-link');
+
+        expect(link).to.have.attribute('text', 'Details');
+        expect(link).to.have.attribute(
+          'href',
+          '/track-claims/your-claims/1/status',
         );
       });
     },

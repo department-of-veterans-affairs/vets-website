@@ -62,6 +62,12 @@ const defaultUser = {
         ],
         va_patient: true,
         mhv_account_state: 'OK',
+        oh_migration_info: {
+          user_at_pretransitioned_oh_facility: false,
+          user_facility_ready_for_info_alert: false,
+          user_facility_migrating_to_oh: false,
+          migration_schedules: [],
+        },
       },
     },
   },
@@ -108,6 +114,9 @@ const cernerUser = {
         family_name: 'Hunter',
         gender: 'M',
         given_names: ['Julio', 'E'],
+        isCernerPatient: true,
+        cernerId: '1234567890',
+        cernerFacilityIds: ['757'],
         active_status: 'active',
         facilities: [
           {
@@ -123,10 +132,60 @@ const cernerUser = {
             is_cerner: true,
           },
         ],
+        oh_migration_info: {
+          user_at_pretransitioned_oh_facility: true,
+          user_facility_ready_for_info_alert: false,
+          user_facility_migrating_to_oh: false,
+          migration_schedules: [],
+        },
       },
     },
   },
   meta: { errors: null },
+};
+
+const transitioningUser = {
+  ...cernerUser,
+  data: {
+    ...cernerUser.data,
+    attributes: {
+      ...cernerUser.data.attributes,
+      va_profile: {
+        ...cernerUser.data.attributes.va_profile,
+        oh_migration_info: {
+          user_at_pretransitioned_oh_facility: false,
+          user_facility_ready_for_info_alert: false,
+          user_facility_migrating_to_oh: true,
+          migration_schedules: [
+            {
+              migration_date: '2026-05-01',
+              facilities: [
+                {
+                  facility_id: '528',
+                  facility_name: 'Test VA Medical Center',
+                },
+                {
+                  facility_id: '123',
+                  facility_name: 'Different VA Medical Center',
+                },
+              ],
+              phases: {
+                current: 'p1', // All tools in warning alert phase
+                p0: 'March 1, 2026',
+                p1: 'March 15, 2026',
+                p2: 'April 1, 2026',
+                p3: 'April 24, 2026',
+                p4: 'April 27, 2026',
+                p5: 'May 1, 2026',
+                p6: 'May 3, 2026',
+                p7: 'May 8, 2026',
+              },
+            },
+          ],
+        },
+      },
+    },
+  },
 };
 
 const generateUserWithFacilities = ({ facilities = [], name = 'Harry' }) => {
@@ -193,6 +252,7 @@ const noFacilityUser = generateUserWithFacilities({ facilities: [] });
 module.exports = {
   defaultUser,
   cernerUser,
+  transitioningUser,
   noFacilityUser,
   generateUser,
   generateUserWithServiceProvider,

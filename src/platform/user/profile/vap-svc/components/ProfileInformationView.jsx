@@ -12,11 +12,26 @@ import {
   formatMultiSelectAndText,
   formatGenderIdentity,
 } from 'platform/user/profile/vap-svc/util/personal-information/personalInformationUtils';
-import { isSchedulingPreference } from 'platform/user/profile/vap-svc/util/health-care-settings/schedulingPreferencesUtils';
+import {
+  getSchedulingPreferencesTimesDisplay,
+  getSchedulingPreferencesOptionDisplayName,
+  isSchedulingPreference,
+  preferredContactMethodDisplay,
+} from 'platform/user/profile/vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { formatAddress } from 'platform/forms/address/helpers';
 
 const ProfileInformationView = props => {
-  const { data, fieldName, title, id } = props;
+  const {
+    data,
+    fieldName,
+    title,
+    id,
+    email,
+    mailingAddress,
+    homePhone,
+    workPhone,
+    mobilePhone,
+  } = props;
 
   let displayTitle;
   let titleFormatted;
@@ -119,14 +134,43 @@ const ProfileInformationView = props => {
     return formatMultiSelectAndText(data, fieldName) || unsetFieldTitleSpan;
   }
 
+  if (fieldName in data && isSchedulingPreference(fieldName)) {
+    displayTitle =
+      getSchedulingPreferencesOptionDisplayName(fieldName, data[fieldName]) ||
+      unsetFieldTitleSpan;
+    switch (fieldName) {
+      case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
+        return preferredContactMethodDisplay(
+          email,
+          mailingAddress,
+          mobilePhone,
+          homePhone,
+          workPhone,
+          data,
+          fieldName,
+        );
+      case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
+        return getSchedulingPreferencesTimesDisplay(fieldName, data[fieldName]);
+      case FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
+        return getSchedulingPreferencesTimesDisplay(fieldName, data[fieldName]);
+      default:
+        return displayTitle;
+    }
+  }
+
   return null;
 };
 
 ProfileInformationView.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(FIELD_NAMES)).isRequired,
   data: PropTypes.object,
+  email: PropTypes.object,
+  homePhone: PropTypes.object,
   id: PropTypes.string,
+  mailingAddress: PropTypes.object,
+  mobilePhone: PropTypes.object,
   title: PropTypes.string,
+  workPhone: PropTypes.object,
 };
 
 export default ProfileInformationView;

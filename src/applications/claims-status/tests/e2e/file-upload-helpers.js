@@ -19,15 +19,25 @@ export function getFileInputElement(fileIndex = 0) {
  * Uploads a file to the file input
  * @param {string} fileName - The name of the file to upload
  * @param {number} fileIndex - The index of the file input (default: 0)
+ * @param {boolean} force - Whether to force the file selection. Set to true if the file input is covered, disabled, or otherwise not interactable by Cypress. Use false for standard uploads. (default: false)
  */
-export function uploadFile(fileName, fileIndex = 0) {
-  getFileInputElement(fileIndex)
-    .shadow()
-    .find('input[type="file"]')
-    .selectFile({
-      contents: Cypress.Buffer.from('test content'),
-      fileName,
-    });
+export function uploadFile(fileName, fileIndex = 0, force = false) {
+  const fileOptions = {
+    contents: Cypress.Buffer.from('test content'),
+    fileName,
+  };
+
+  if (force) {
+    getFileInputElement(fileIndex)
+      .shadow()
+      .find('input[type="file"]')
+      .selectFile(fileOptions, { force: true });
+  } else {
+    getFileInputElement(fileIndex)
+      .shadow()
+      .find('input[type="file"]')
+      .selectFile(fileOptions);
+  }
 }
 
 /**
@@ -43,7 +53,7 @@ export function selectDocumentType(fileIndex, docTypeCode) {
     .find('select')
     .should('not.be.disabled')
     .should('be.visible')
-    .wait(100) // Small wait to ensure stability
+    .wait(300) // Small wait to ensure stability
     .select(docTypeCode);
 }
 
@@ -85,4 +95,15 @@ export function setupDuplicateErrorMock() {
       ],
     },
   }).as('uploadRequest');
+}
+
+/**
+ * Clicks a submit button by text
+ * @param {string} buttonText - The text of the button to click
+ */
+export function clickSubmitButton(buttonText) {
+  cy.get(`va-button[text="${buttonText}"]`)
+    .shadow()
+    .find('button')
+    .click();
 }

@@ -67,11 +67,11 @@ export function prefillTransformer(pages, formData, metadata, state) {
   );
 
   const {
-    email = '',
-    homePhone = '',
-    maritalStatus = '',
-    isMedicaidEligible = undefined,
-    isEnrolledMedicarePartA = undefined,
+    email,
+    homePhone,
+    maritalStatus,
+    isMedicaidEligible,
+    isEnrolledMedicarePartA,
   } = formData;
 
   let newData = {

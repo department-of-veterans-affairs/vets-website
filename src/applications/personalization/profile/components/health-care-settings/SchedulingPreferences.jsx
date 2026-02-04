@@ -12,7 +12,12 @@ import SchedulingPreferencesContent from './SchedulingPreferencesContent';
 
 const SchedulingPreferences = () => {
   const location = useLocation();
-  const hasSchedulingPreferencesError = false; // TODO: get error state from redux when implemented
+  const hasSchedulingPreferencesError =
+    useSelector(state => state.vaProfile?.schedulingPreferences?.error) ??
+    false;
+  const isLoading =
+    useSelector(state => state.vaProfile?.schedulingPreferences?.loading) ??
+    false;
 
   const hasUnsavedEdits = useSelector(
     state => state.vapService?.hasUnsavedEdits,
@@ -92,6 +97,7 @@ const SchedulingPreferences = () => {
       </Headline>
       <SchedulingPreferencesContent
         hasSchedulingPreferencesError={hasSchedulingPreferencesError}
+        isLoading={isLoading}
       />
     </>
   );

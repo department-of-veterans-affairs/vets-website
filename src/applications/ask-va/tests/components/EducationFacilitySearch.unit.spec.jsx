@@ -1,31 +1,73 @@
 import * as apiModule from '@department-of-veterans-affairs/platform-utilities/api';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
+import { configureStore } from '@reduxjs/toolkit';
 import sinon from 'sinon';
+import userEvent from '@testing-library/user-event';
 import EducationFacilitySearch from '../../components/EducationFacilitySearch';
 import * as mapboxModule from '../../utils/mapbox';
 
 describe('EducationFacilitySearch', () => {
-  const mockStore = configureStore([]);
-  let store;
-  let props;
   let apiRequestStub;
   let convertLocationStub;
 
-  beforeEach(() => {
-    props = {
-      onChange: sinon.spy(),
-    };
-
-    store = mockStore({
-      askVA: {
-        searchLocationInput: '',
+  const mockFacilityData = {
+    data: [
+      {
+        id: '1',
+        attributes: {
+          facilityCode: '123',
+          name: 'VA Facility 1',
+          physicalState: 'CA',
+          physicalZip: '12345',
+        },
       },
-    });
+      {
+        id: '2',
+        attributes: {
+          facilityCode: '456',
+          name: 'VA Facility 2',
+          physicalState: 'TX',
+          physicalZip: '67890',
+        },
+      },
+    ],
+    meta: { count: 20 },
+  };
 
+  function setupStore(initialState) {
+    return configureStore({
+      reducer: (state, action) => {
+        if (action.type === 'userCoordinates') {
+          return {
+            ...state,
+            askVA: {
+              ...state.askVA,
+              currentUserLocation: action.payload,
+            },
+          };
+        }
+        return state;
+      },
+      preloadedState: { ...initialState, askVA: { searchLocationInput: '' } },
+    });
+  }
+
+  function renderWithStore(extraState = {}) {
+    const store = setupStore(extraState);
+    return {
+      store,
+      view: render(
+        <Provider store={store}>
+          <EducationFacilitySearch />
+        </Provider>,
+      ),
+    };
+  }
+
+  beforeEach(() => {
     apiRequestStub = sinon.stub(apiModule, 'apiRequest');
     convertLocationStub = sinon.stub(mapboxModule, 'convertLocation');
   });
@@ -33,115 +75,128 @@ describe('EducationFacilitySearch', () => {
   afterEach(() => {
     apiRequestStub.restore();
     convertLocationStub.restore();
-    store.clearActions();
   });
 
-  const renderWithStore = (customState = {}) => {
-    if (Object.keys(customState).length) {
-      store = mockStore({
-        askVA: {
-          ...store.getState().askVA,
-          ...customState,
-        },
-      });
-    }
-    return mount(
-      <Provider store={store}>
-        <EducationFacilitySearch {...props} />
-      </Provider>,
-    );
-  };
+  it('should render the empty component correctly', () => {
+    const { view } = renderWithStore();
 
-  it('should render the component correctly', () => {
-    const wrapper = renderWithStore();
+    const searchInput = view.getByRole('searchbox', {
+      name: /search for your school/i,
+    });
 
-    expect(wrapper.find('SearchControls').exists()).to.be.true;
-    expect(wrapper.find('SearchControls').prop('searchTitle')).to.equal(
-      'Search for your school',
-    );
-    expect(wrapper.find('SearchControls').prop('searchHint')).to.equal(
-      'You can search by school name, code or location.',
-    );
+    const useLocationBtn = view.getByRole('button', {
+      name: /use my location/i,
+    });
 
-    wrapper.unmount();
+    const searchBtn = view.getByRole('button', {
+      name: /search/i,
+    });
+
+    expect(searchInput).to.exist;
+    expect(useLocationBtn).to.exist;
+    expect(searchBtn).to.exist;
   });
 
   it('should handle search submission with school name', async () => {
-    const mockResponse = {
-      data: [{ attributes: { name: 'Test School' } }],
-    };
+    const searchTerm = 'Test school';
 
-    apiRequestStub.resolves(mockResponse);
-    let wrapper;
+    apiRequestStub.resolves(mockFacilityData);
 
-    try {
-      wrapper = renderWithStore();
-      const searchControls = wrapper.find('SearchControls');
-      expect(searchControls.exists()).to.be.true;
-      const submitPromise = searchControls.prop('onSubmit')('Test School');
-      await submitPromise;
-      expect(apiRequestStub.called).to.be.true;
-      expect(apiRequestStub.firstCall.args[0]).to.include('Test School');
-      await new Promise(resolve => setTimeout(resolve, 0));
+    const { view } = renderWithStore();
 
-      if (wrapper.exists()) {
-        try {
-          wrapper.update();
-          const searchItem = wrapper.find('EducationSearchItem');
-          if (searchItem.exists()) {
-            const facilityData = searchItem.prop('facilityData');
-            expect(facilityData).to.deep.equal(mockResponse);
-          }
-        } catch (error) {
-          // Ignore update errors
-        }
-      }
-    } finally {
-      if (wrapper && wrapper.exists()) {
-        wrapper.unmount();
-      }
-    }
+    const searchInput = view.getByRole('searchbox', {
+      name: /search for your school/i,
+    });
+    const searchBtn = view.getByRole('button', {
+      name: /search/i,
+    });
+
+    userEvent.type(searchInput, searchTerm);
+    userEvent.click(searchBtn);
+
+    expect(view.container.querySelector('va-loading-indicator')).to.exist;
+    expect(apiRequestStub.called).to.be.true;
+
+    // Confirm URL is correct
+    const requestUrl = apiRequestStub.firstCall.args[0];
+    const params = new URL(requestUrl).searchParams;
+    expect(params.has('name')).to.be.true;
+    expect(params.get('name')).to.equal(searchTerm);
+
+    // Confirm results are rendering
+    const resultsDescription = await view.findByText(/showing 2 results for/i);
+    expect(resultsDescription).to.exist;
+
+    const radioOptions = view.container.querySelectorAll('va-radio-option');
+    expect(radioOptions.length).to.equal(2);
   });
 
   it('should handle search submission with school code', async () => {
-    const mockResponse = {
-      data: [{ attributes: { name: 'Test School' } }],
+    const searchTerm = '123';
+
+    const shortMockFacilityData = {
+      data: [mockFacilityData.data[0]],
+      meta: { count: 1 },
     };
 
-    apiRequestStub.resolves(mockResponse);
-    let wrapper;
+    apiRequestStub.resolves(shortMockFacilityData);
 
-    try {
-      wrapper = renderWithStore();
-      const searchControls = wrapper.find('SearchControls');
-      const submitPromise = searchControls.prop('onSubmit')('12345');
-      await submitPromise;
-      expect(apiRequestStub.called).to.be.true;
-      expect(apiRequestStub.firstCall.args[0]).to.include('12345');
-    } finally {
-      if (wrapper && wrapper.exists()) {
-        wrapper.unmount();
-      }
-    }
+    const { view } = renderWithStore();
+
+    const searchInput = view.getByRole('searchbox', {
+      name: /search for your school/i,
+    });
+    const searchBtn = view.getByRole('button', {
+      name: /search/i,
+    });
+
+    userEvent.type(searchInput, searchTerm);
+    userEvent.click(searchBtn);
+
+    expect(view.container.querySelector('va-loading-indicator')).to.exist;
+    expect(apiRequestStub.called).to.be.true;
+
+    // Confirm URL is correct
+    const requestUrl = apiRequestStub.firstCall.args[0];
+    const path = new URL(requestUrl).pathname;
+    const facilityCode = path.split('/').pop();
+    expect(facilityCode).to.equal(searchTerm);
+
+    // Confirm results are rendering
+    const resultsDescription = await view.findByText(/showing 1 results for/i);
+    expect(resultsDescription).to.exist;
+
+    const radioOptions = view.container.querySelectorAll('va-radio-option');
+    expect(radioOptions.length).to.equal(1);
   });
 
   it('should handle error when no results found', async () => {
+    const failingSearchTerm = 'this will fail';
     apiRequestStub.resolves({ data: [] });
-    const wrapper = renderWithStore();
+    const { view } = renderWithStore();
 
-    const searchControls = wrapper.find('SearchControls');
-    await searchControls.prop('onSubmit')('NonexistentSchool');
-    await new Promise(resolve => setImmediate(resolve));
-    wrapper.update();
-
-    const searchItem = wrapper.find('EducationSearchItem');
-    expect(searchItem.prop('dataError')).to.deep.equal({
-      hasError: true,
-      errorMessage:
-        "Check the spelling of the school's name or city you entered",
+    const searchInput = view.getByRole('searchbox', {
+      name: /search for your school/i,
     });
+    const searchBtn = view.getByRole('button', { name: /search/i });
 
-    wrapper.unmount();
+    userEvent.type(searchInput, failingSearchTerm);
+    userEvent.click(searchBtn);
+
+    expect(view.container.querySelector('va-loading-indicator')).to.exist;
+    expect(apiRequestStub.called).to.be.true;
+
+    // Confirm URL is correct
+    const requestUrl = apiRequestStub.firstCall.args[0];
+    const params = new URL(requestUrl).searchParams;
+    expect(params.has('name')).to.be.true;
+    expect(params.get('name')).to.equal(failingSearchTerm);
+
+    // Confirm results are rendering
+    const errorMsg = await view.findByText(
+      "Check the spelling of the school's name or city you entered",
+    );
+    expect(errorMsg).to.exist;
   });
 
   it('should handle location-based search', async () => {
@@ -155,19 +210,86 @@ describe('EducationFacilitySearch', () => {
 
     convertLocationStub.resolves(mockLocationResponse);
     apiRequestStub.resolves(mockFacilityResponse);
-    let wrapper;
 
-    try {
-      wrapper = renderWithStore();
-      const searchControls = wrapper.find('SearchControls');
-      const locationPromise = searchControls.prop('locateUser')('90210');
-      await locationPromise;
+    const { store, view } = renderWithStore();
+
+    const locateMeBtn = view.getByRole('button', { name: /use my location/i });
+
+    userEvent.click(locateMeBtn);
+    store.dispatch({ type: 'userCoordinates', payload: 'a new value' });
+
+    waitFor(() => {
       expect(convertLocationStub.called).to.be.true;
       expect(apiRequestStub.called).to.be.true;
-    } finally {
-      if (wrapper && wrapper.exists()) {
-        wrapper.unmount();
-      }
-    }
+      expect(view.container.querySelector('va-loading-indicator')).to.exist;
+
+      const requestUrl = apiRequestStub.firstCall.args[0];
+      const params = new URL(requestUrl).searchParams;
+      expect(params.has('name')).to.be.true;
+      expect(params.get('name')).to.equal(mockLocationResponse.zipCode[0].text);
+    });
+  });
+
+  it('should display a previously saved value', async () => {
+    const initialValue = '12345678 - TEST SCHOOL';
+    const { view } = renderWithStore({
+      form: { data: { school: initialValue } },
+    });
+
+    // Should be just 1 option shown
+    const radioOptions = view.container.querySelectorAll('va-radio-option');
+    expect(radioOptions.length).to.equal(1);
+
+    // Single option shown should show previously stored answer
+    const initialOption = view.container.querySelector(
+      `va-radio-option[label="${initialValue}"]`,
+    );
+    expect(initialOption.outerHTML).to.include('checked="true"');
+  });
+
+  it('should NOT display the previously saved value on new text search', async () => {
+    const searchTerm = 'Test school';
+    const initialValue = '12345678 - TEST SCHOOL';
+    apiRequestStub.resolves(mockFacilityData);
+
+    const { view } = renderWithStore({
+      form: {
+        data: {
+          school: initialValue,
+        },
+      },
+    });
+
+    // Initial option shows at start
+    const getInitialOption = () =>
+      view.container.querySelector(`va-radio-option[label="${initialValue}"]`);
+    expect(getInitialOption()).to.exist;
+
+    // Run a new search
+    const searchInput = view.getByRole('searchbox', {
+      name: /search for your school/i,
+    });
+    const searchBtn = view.getByRole('button', {
+      name: /search/i,
+    });
+
+    userEvent.type(searchInput, searchTerm);
+    userEvent.click(searchBtn);
+
+    expect(getInitialOption()).to.not.exist;
+    expect(view.container.querySelector('va-loading-indicator')).to.exist;
+    expect(apiRequestStub.called).to.be.true;
+
+    // Confirm results are rendering
+    const resultsDescription = await view.findByText(/showing 2 results for/i);
+    expect(resultsDescription).to.exist;
+
+    const radioOptions = view.container.querySelectorAll('va-radio-option');
+    expect(radioOptions.length).to.equal(2);
+
+    // Confirm original value is gone
+    radioOptions.forEach(option => {
+      expect(option.outerHTML).to.not.include(initialValue);
+    });
   });
 });

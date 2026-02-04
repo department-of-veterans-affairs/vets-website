@@ -244,8 +244,6 @@ describe('AllergyDetails with unified data', () => {
     },
     featureToggles: {
       // eslint-disable-next-line camelcase
-      mhv_medical_records_allow_txt_downloads: true,
-      // eslint-disable-next-line camelcase
       mhv_accelerated_delivery_enabled: true,
       // eslint-disable-next-line camelcase
       mhv_accelerated_delivery_allergies_enabled: true,

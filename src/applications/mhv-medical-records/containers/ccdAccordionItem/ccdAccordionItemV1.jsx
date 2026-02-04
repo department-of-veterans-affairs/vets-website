@@ -16,7 +16,7 @@ const CCDAccordionItemV1 = ({ generatingCCD, handleDownloadCCD }) => (
       works with other providers’ medical records systems.
     </p>
     {generatingCCD ? (
-      <div id="generating-ccd-indicator">
+      <div id="generating-ccd-indicator" data-testid="generating-ccd-indicator">
         <TrackedSpinner
           id="download-ccd-spinner"
           label="Loading"

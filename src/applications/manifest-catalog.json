@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 151,
+  "totalApplications": 153,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -49,7 +49,7 @@
       "directoryPath": "src/applications/appeals/onramp",
       "appName": "Decision Reviews Onramp Tool",
       "entryName": "onramp",
-      "rootUrl": "/decision-reviews/explore-disability-claim-decision-review-options"
+      "rootUrl": "/decision-reviews/explore-disability-claim-options"
     },
     {
       "directoryPath": "src/applications/appeals/testing/download",
@@ -184,12 +184,6 @@
       "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
     },
     {
-      "directoryPath": "src/applications/dependents/686c-674-old",
-      "appName": "686C-674",
-      "entryName": "686C-674",
-      "rootUrl": "/manage-dependents/add-remove-form-21-686c"
-    },
-    {
       "directoryPath": "src/applications/dependents/dependents-verification",
       "appName": "21-0538 Dependents verification",
       "entryName": "0538-dependents-verification",
@@ -250,6 +244,12 @@
       "rootUrl": "/ds-v3-playground"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/0803",
+      "appName": "22-0803 Request for reimbursement of licensing or certification test fees",
+      "entryName": "0803-edu-benefits",
+      "rootUrl": "/forms/22-0803/request-reimbursement-licensing-or-certification-test-fees-online"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/0839",
       "appName": "0839",
       "entryName": "0839-edu-benefits",
@@ -284,6 +284,12 @@
       "appName": "35% exemption of the routine reporting",
       "entryName": "10216-edu-benefits",
       "rootUrl": "/school-administrators/35-percent-exemption"
+    },
+    {
+      "directoryPath": "src/applications/edu-benefits/10272",
+      "appName": "22-10272 Application for reimbursement of preparatory (prep) course for licensing or certification test",
+      "entryName": "10272-edu-benefits",
+      "rootUrl": "/forms/22-10272/request-prep-course-reimbursement-online"
     },
     {
       "directoryPath": "src/applications/edu-benefits/10275",
@@ -658,12 +664,6 @@
       "rootUrl": "/search"
     },
     {
-      "directoryPath": "src/applications/sign-in-changes",
-      "appName": "Sign-in changes reminder",
-      "entryName": "sign-in-changes",
-      "rootUrl": "/sign-in-changes-reminder"
-    },
-    {
       "directoryPath": "src/applications/sign-in-confirm-contact-email",
       "appName": "Sign In Confirm Contact Email",
       "entryName": "confirm-contact-email",
@@ -775,7 +775,7 @@
       "directoryPath": "src/applications/simple-forms/form-upload",
       "appName": "Form Upload",
       "entryName": "form-upload-flow",
-      "rootUrl": "/find-forms/upload"
+      "rootUrl": "/forms/upload"
     },
     {
       "directoryPath": "src/applications/simple-forms/mock-form-minimal-header",

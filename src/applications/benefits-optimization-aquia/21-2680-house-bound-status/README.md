@@ -24,52 +24,58 @@ Benefits Intake Optimization - Aquia Team
 ## Form Details
 
 - **Form Number**: VA Form 21-2680
+- **OMB Control Number**: 2900-0721
+- **OMB Expiration**: 02/28/2026
+- **Respondent Burden**: 30 minutes
 - **Entry Name**: `21-2680-house-bound-status`
 - **Root URL**: `/pension/aid-attendance-housebound/apply-form-21-2680`
-- **API Endpoint**: `POST /v0/form212680/download_pdf` (returns PDF blob)
+- **Submit Endpoint**: `POST /v0/form212680`
 - **Product ID**: `803cc23f-a627-4ea7-a3ea-0f5595d0dfd3`
 
 ## Form Flow and Sections
 
-The form is organized into **4 chapters** with **13 total pages**, using conditional logic to show/hide pages based on claimant relationship and hospitalization status.
+The form is organized into **4 chapters** with **11 form pages** (plus introduction and confirmation pages), using conditional logic to show/hide pages based on claimant relationship and hospitalization status.
 
-### Chapter 1: Veteran's Information (2 pages)
+### Chapter 1: Veteran's Information (3 pages)
 
 - **Page 1: Veteran Information** (`veteran-information`)
 
   - Full name (first, middle, last, suffix)
-  - Social Security Number
   - Date of birth
 
-- **Page 2: Veteran Address** (`veteran-address`)
+- **Page 2: Veteran SSN** (`veteran-ssn`)
+
+  - Social Security Number
+
+- **Page 3: Veteran Address** (`veteran-address`)
   - Mailing address (supports standard, APO/AE, FPO/AP, and DPO/AA military addresses)
   - Street address, city, state, ZIP/postal code
   - Country (for international addresses)
 
 ### Chapter 2: Claimant's Information (5 pages, conditional)
 
-- **Page 3: Claimant Relationship** (`claimant-relationship`)
+- **Page 4: Claimant Relationship** (`claimant-relationship`)
 
   - Who is filing the claim (veteran, spouse, child, or parent)
   - **Conditional branching point**
 
-- **Page 4: Claimant Information** (`claimant-information`) - **Conditional**
+- **Page 5: Claimant Information** (`claimant-information`) - **Conditional**
 
   - Full name (first, middle, last, suffix)
   - Date of birth
   - Hidden when Veteran is the claimant
 
-- **Page 5: Claimant SSN** (`claimant-ssn`) - **Conditional**
+- **Page 6: Claimant SSN** (`claimant-ssn`) - **Conditional**
 
   - Social Security Number
   - Hidden when Veteran is the claimant
 
-- **Page 6: Claimant Address** (`claimant-address`) - **Conditional**
+- **Page 7: Claimant Address** (`claimant-address`) - **Conditional**
 
   - Mailing address (standard or military)
   - Hidden when Veteran is the claimant
 
-- **Page 7: Contact Information** (`claimant-contact`) - **Conditional**
+- **Page 8: Contact Information** (`claimant-contact`) - **Conditional**
   - Phone number (home)
   - Mobile phone number
   - Email address
@@ -77,36 +83,36 @@ The form is organized into **4 chapters** with **13 total pages**, using conditi
 
 ### Chapter 3: Claim Information (1 page)
 
-- **Page 8: Benefit Type** (`benefit-type`)
+- **Page 9: Benefit Type** (`benefit-type`)
   - SMC (Special Monthly Compensation)
   - SMP (Special Monthly Pension)
 
 ### Chapter 4: Hospitalization (3 pages, conditional)
 
-- **Page 9: Hospitalization Status** (`hospitalization-status`)
+- **Page 10: Hospitalization Status** (`hospitalization-status`)
 
   - Whether the Veteran is currently hospitalized
   - **Conditional branching point**
 
-- **Page 10: Admission Date** (`hospitalization-date`) - **Conditional**
+- **Page 11: Admission Date** (`hospitalization-date`) - **Conditional**
 
   - Date of hospital admission
   - Shown only if currently hospitalized
 
-- **Page 11: Hospitalization Facility** (`hospitalization-facility`) - **Conditional**
+- **Page 12: Hospitalization Facility** (`hospitalization-facility`) - **Conditional**
   - Facility name
   - Facility address
   - Shown only if currently hospitalized
 
 ### Final Pages (All Users)
 
-- **Page 12: Review and Submit**
+- **Review and Submit Page**
 
   - Pre-submission review of all entered information
   - Statement of truth with signature validation
   - Privacy policy acknowledgment
 
-- **Page 13: Confirmation Page**
+- **Confirmation Page**
   - Submission confirmation number
   - Print button for confirmation
   - Next steps information
@@ -117,36 +123,39 @@ This application uses the **VA.gov Form System (RJSF)** with traditional page-ba
 
 ### API Integration
 
-This form uses a **print-and-upload workflow** where the backend immediately returns a PDF blob instead of a standard JSON response.
+This form uses a **PDF generation workflow** where the backend generates a PDF after submission.
 
 **API Endpoints**:
 
-- **Form Submission**: `POST /v0/form212680/download_pdf` - Returns PDF blob
-- **Save in Progress**: `GET/PUT /v0/in_progress_forms/21-2680` - Stores partial form data
-- **User Profile**: `GET /v0/user` - Used for prefill
+- **Form Submission**: [POST /v0/form212680](http://dev-api.va.gov/v0/swagger/index.html?urls.primaryName=VA.gov%20Swagger%20Docs#/benefits_forms/downloadForm212680Pdf) - Returns JSON with confirmation number and GUID
+- **Form Download**: [GET /v0/form212680/download_pdf/{guid}](http://dev-api.va.gov/v0/swagger/index.html?urls.primaryName=VA.gov%20Swagger%20Docs#/benefits_forms/downloadForm212680Pdf) - Returns PDF (success) or JSON (error)
+- **Save in Progress**: [GET/PUT /v0/in_progress_forms/21-2680](https://dev-api.va.gov/v0/swagger/index.html?urls.primaryName=VA.gov%20Swagger%20Docs%20(v2)#/in_progress_forms/updateInProgressForm) - Stores partial form data
+- **User Profile**: `GET /v0/user` - Used for prefill # TODO: we should use prefill endpoint, not user.
 
 **Data Transformers**:
 
 - **Prefill Transformer**: Converts user profile data to form data structure
 - **Submit Transformer**: Converts form data to backend API format (nested structure)
-- **Submit Handler**: Custom handler that processes PDF blob response and stores it in sessionStorage for download from confirmation page
 
 **Workflow**:
 
 1. User completes and submits form
-2. Submit handler sends transformed data to backend
-3. Backend immediately returns a PDF blob (not JSON)
-4. Submit handler converts blob to data URL and stores in sessionStorage
-5. User redirected to confirmation page with download link
-6. Confirmation page retrieves PDF from sessionStorage for download
+2. Submit handler sends transformed data to backend via POST /v0/form212680
+3. Backend returns JSON response with confirmation number and GUID
+4. User redirected to confirmation page
+5. Confirmation page provides download link using the GUID to fetch the generated PDF
 
 ## Testing
 
 ### Test Scenarios
 
-- **Minimal**: Veteran is claimant, no hospitalization (shortest path) - Star Wars themed
-- **Maximal**: Spouse claimant, hospitalized, APO military address (all conditional pages) - Star Wars themed
-- **Parent, Child, Spouse**: Additional relationship variations with FPO/DPO addresses
+All test scenarios use Star Wars themed data:
+
+- **Minimal**: Veteran is claimant, no hospitalization (shortest path)
+- **Maximal**: Spouse claimant, hospitalized, APO military address (all conditional pages)
+- **Veteran SMP Hospitalized**: Veteran claimant with SMP benefit type and hospitalization
+- **Child Claimant SMC**: Child filing on behalf of veteran with SMC benefit type
+- **Parent Claimant SMP Hospitalized**: Parent filing with SMP benefit and hospitalization
 
 ### Running Tests
 
@@ -161,7 +170,7 @@ yarn test:unit:coverage --app-folder benefits-optimization-aquia/21-2680-house-b
 yarn test:unit src/applications/benefits-optimization-aquia/21-2680-house-bound-status/config/form/form.unit.spec.jsx
 
 # Run Cypress E2E tests (requires yarn watch to be running)
-yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-2680-house-bound-status/tests/*.cypress.spec.js"
+yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-2680-house-bound-status/tests/e2e/21-2680-house-bound-status.cypress.spec.js"
 
 # Open Cypress test runner
 yarn cy:open
@@ -182,7 +191,7 @@ yarn build --entry=21-2680-house-bound-status
 yarn watch --env entry=21-2680-house-bound-status
 
 # Watch with authentication and static pages
-yarn watch --env entry=auth,static-pages,login-page,21-2680-house-bound-status
+yarn watch --env entry=auth,static-pages,dashboard,find-forms,login-page,21-2680-house-bound-status
 ```
 
 ### Local Development URL
@@ -194,7 +203,7 @@ yarn watch --env entry=auth,static-pages,login-page,21-2680-house-bound-status
 
 ### When Pages Are Shown/Hidden
 
-#### Claimant Pages (Pages 4-7)
+#### Claimant Pages (Pages 5-8)
 
 **Shown when**:
 
@@ -211,7 +220,7 @@ yarn watch --env entry=auth,static-pages,login-page,21-2680-house-bound-status
 - Claimant Address
 - Claimant Contact
 
-#### Hospitalization Pages (Pages 10-11)
+#### Hospitalization Pages (Pages 11-12)
 
 **Shown when**:
 
@@ -225,6 +234,16 @@ yarn watch --env entry=auth,static-pages,login-page,21-2680-house-bound-status
 
 - Hospitalization Date
 - Hospitalization Facility
+
+## Content Widget
+
+This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/forms/about-form-21-2680/`).
+
+- **Widget Type**: `form212680`
+- **Feature Flag**: `form_2680_enabled`
+- **Widget Location**: `src/applications/static-pages/benefits-optimization-aquia/21-2680/`
+
+When the feature flag is off, the widget shows "Submit this form by mail" instead of a link to the digital form.
 
 ## Support
 

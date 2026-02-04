@@ -10,18 +10,23 @@ const AdditionalInstitutionAddress = () => {
   const details = formData?.additionalInstitutionDetails?.[index] || {};
   const facilityCode = (details?.facilityCode || '').trim();
 
-  const additionalFacilityCodes = formData?.additionalInstitutionDetails?.map(
-    item => item?.facilityCode?.trim(),
-  );
+  const additionalFacilityCodes =
+    formData?.additionalInstitutionDetails?.map(item =>
+      item?.facilityCode?.trim(),
+    ) || [];
+
+  const facilityCodes = [
+    ...additionalFacilityCodes,
+    formData?.institutionDetails?.facilityCode,
+  ];
 
   const isDuplicate =
-    additionalFacilityCodes?.filter(item => item === facilityCode).length > 1;
+    facilityCodes?.filter(item => item === facilityCode).length > 1;
 
   const institutionName = details?.institutionName;
   const institutionAddress = details?.institutionAddress || {};
   const notYR = details.yrEligible === false;
-  const notIHL = details.ihlEligible === false;
-  const showWarningBanner = notYR || notIHL;
+  const showWarningBanner = notYR;
 
   const {
     street,
@@ -46,7 +51,7 @@ const AdditionalInstitutionAddress = () => {
   const badFormat =
     facilityCode.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(facilityCode);
   const notFound = institutionName === 'not found';
-  const hasError = badFormat || notFound || notYR || notIHL;
+  const hasError = badFormat || notFound || notYR;
 
   const shouldHideAddressInList = (() => {
     const thirdChar = facilityCode?.charAt(2)?.toUpperCase();
@@ -56,22 +61,6 @@ const AdditionalInstitutionAddress = () => {
     if (hasXInThirdPosition) {
       return true;
     }
-
-    // // Check if not attached to main campus
-    // const mainInstitution = formData?.institutionDetails;
-    // const branches =
-    //   mainInstitution?.facilityMap?.branches?.map(
-    //     branch => branch?.institution?.facilityCode,
-    //   ) || [];
-    // const extensions =
-    //   mainInstitution?.facilityMap?.extensions?.map(
-    //     extension => extension?.institution?.facilityCode,
-    //   ) || [];
-    // const branchList = [...branches, ...extensions];
-
-    // if (!branchList.includes(facilityCode)) {
-    //   return true;
-    // }
 
     return false;
   })();

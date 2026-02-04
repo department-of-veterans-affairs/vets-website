@@ -2,6 +2,7 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 import { expect } from 'chai';
 import {
+  collectAttachmentFiles,
   pruneFields,
   pruneFieldsInArray,
   pruneConfiguredArrays,
@@ -9,6 +10,8 @@ import {
   remapOtherVeteranFields,
   removeDisallowedFields,
   removeInvalidFields,
+  remapRecipientRelationshipFields,
+  remapRecipientRelationshipsInArrays,
   replacer,
 } from '../../../config/submit-helpers';
 
@@ -49,6 +52,127 @@ describe('submit-helpers.js', () => {
       const recipientName = 'Jane Doe';
       const flattenedName = replacer('recipientName', recipientName);
       expect(flattenedName).to.equal('Jane Doe');
+    });
+  });
+
+  describe('collectAttachmentFiles', () => {
+    it('should flatten the array of attachment files from trusts', () => {
+      const formData = {
+        trusts: [
+          {
+            uploadedDocuments: [{ name: 'file1.pdf' }, { name: 'file2.pdf' }],
+          },
+          {
+            uploadedDocuments: [{ name: 'file3.pdf' }],
+          },
+        ],
+      };
+
+      const attachments = collectAttachmentFiles(formData);
+
+      expect(attachments).to.deep.equal([
+        { name: 'file1.pdf' },
+        { name: 'file2.pdf' },
+        { name: 'file3.pdf' },
+      ]);
+    });
+
+    it('should collect individual attachment files from ownedAssets', () => {
+      const formData = {
+        ownedAssets: [
+          {
+            uploadedDocuments: { name: 'assetFile1.pdf' },
+          },
+          {
+            uploadedDocuments: { name: 'assetFile2.pdf' },
+          },
+        ],
+      };
+
+      const attachments = collectAttachmentFiles(formData);
+      expect(attachments).to.deep.equal([
+        { name: 'assetFile1.pdf' },
+        { name: 'assetFile2.pdf' },
+      ]);
+    });
+
+    context('when there are no uploadedDocuments (not required)', () => {
+      it('should handle ownedAssets with no uploadedDocuments gracefully', () => {
+        const formData = {
+          ownedAssets: [
+            {
+              uploadedDocuments: { name: 'onlyFile.pdf' },
+            },
+            {
+              someOtherField: 'no files here', // no uploadedDocuments field
+            },
+            {
+              uploadedDocuments: [], // This is the behavior we see with the forms system
+            },
+          ],
+        };
+
+        const attachments = collectAttachmentFiles(formData);
+
+        expect(attachments).to.deep.equal([{ name: 'onlyFile.pdf' }]);
+      });
+
+      it('should handle trusts with no uploadedDocuments gracefully', () => {
+        const formData = {
+          trusts: [
+            {
+              uploadedDocuments: [{ name: 'trustFile.pdf' }],
+            },
+            {
+              someOtherField: 'no files here',
+            },
+            {
+              uploadedDocuments: [], // This is the behavior we see with the forms system
+            },
+          ],
+        };
+
+        const attachments = collectAttachmentFiles(formData);
+
+        expect(attachments).to.deep.equal([{ name: 'trustFile.pdf' }]);
+      });
+    });
+
+    it('should return an empty array when no attachments are present', () => {
+      const formData = {
+        trusts: [
+          {
+            uploadedDocuments: [],
+          },
+        ],
+        ownedAssets: [],
+      };
+
+      const attachments = collectAttachmentFiles(formData);
+
+      expect(attachments).to.deep.equal([]);
+    });
+
+    it('should return an array of all attachments from both trusts and ownedAssets', () => {
+      const formData = {
+        trusts: [
+          {
+            uploadedDocuments: [{ name: 'trustFile1.pdf' }],
+          },
+        ],
+        ownedAssets: [
+          {
+            uploadedDocuments: { name: 'assetFile1.pdf' },
+          },
+        ],
+      };
+
+      const attachments = collectAttachmentFiles(formData);
+
+      expect(attachments).to.deep.equal([
+        { name: 'trustFile1.pdf' },
+        { name: 'assetFile1.pdf' },
+      ]);
     });
   });
 
@@ -256,7 +380,7 @@ describe('submit-helpers.js', () => {
     it('should NOT remap `incomeType` field to human-readable', () => {
       const input = {
         unrelatedField: 'keep me',
-        incomeType: 'Wages',
+        incomeType: 'Does not match any key',
         anotherUnrelatedField: 'RECURRING',
       };
 
@@ -264,25 +388,214 @@ describe('submit-helpers.js', () => {
 
       expect(output).to.deep.equal({
         unrelatedField: 'keep me',
-        incomeType: 'Wages',
+        incomeType: 'Does not match any key',
+        anotherUnrelatedField: 'RECURRING',
+      });
+    });
+  });
+
+  describe('remapRecipientRelationshipFields', () => {
+    it('should NOT remap SPOUSE fields for `claimantType` VETERAN', () => {
+      const input = {
+        unrelatedField: 'keep me',
+        recipientRelationship: 'SPOUSE',
+        anotherUnrelatedField: 'RECURRING',
+      };
+
+      const output = remapRecipientRelationshipFields('VETERAN', input);
+
+      expect(output).to.deep.equal({
+        unrelatedField: 'keep me',
+        recipientRelationship: 'SPOUSE',
         anotherUnrelatedField: 'RECURRING',
       });
     });
 
-    it('should NOT remap `incomeType` field to human-readable', () => {
+    it('should NOT remap SPOUSE fields for `claimantType` SPOUSE', () => {
       const input = {
         unrelatedField: 'keep me',
-        incomeType: 'Does not match any key',
+        recipientRelationship: 'SPOUSE',
         anotherUnrelatedField: 'RECURRING',
       };
 
-      const output = remapIncomeTypeFields(input);
+      const output = remapRecipientRelationshipFields('SPOUSE', input);
 
       expect(output).to.deep.equal({
         unrelatedField: 'keep me',
-        incomeType: 'Does not match any key',
+        recipientRelationship: 'SPOUSE',
         anotherUnrelatedField: 'RECURRING',
       });
+    });
+
+    it('should NOT remap SPOUSE fields for `claimantType` CHILD', () => {
+      const input = {
+        unrelatedField: 'keep me',
+        recipientRelationship: 'SPOUSE',
+        anotherUnrelatedField: 'RECURRING',
+      };
+
+      const output = remapRecipientRelationshipFields('CHILD', input);
+
+      expect(output).to.deep.equal({
+        unrelatedField: 'keep me',
+        recipientRelationship: 'SPOUSE',
+        anotherUnrelatedField: 'RECURRING',
+      });
+    });
+
+    it('should remap SPOUSE fields for `claimantType` CUSTODIAN', () => {
+      const input = {
+        unrelatedField: 'keep me',
+        recipientRelationship: 'SPOUSE',
+        anotherUnrelatedField: 'RECURRING',
+      };
+
+      const output = remapRecipientRelationshipFields('CUSTODIAN', input);
+
+      expect(output).to.deep.equal({
+        unrelatedField: 'keep me',
+        otherRecipientRelationshipType: "Custodian's spouse",
+        recipientRelationship: 'OTHER',
+        anotherUnrelatedField: 'RECURRING',
+      });
+    });
+
+    it('should NOT remap OTHER fields for `claimantType` CUSTODIAN', () => {
+      const input = {
+        unrelatedField: 'keep me',
+        recipientRelationship: 'OTHER',
+        otherRecipientRelationshipType: 'Other relationship description',
+        anotherUnrelatedField: 'RECURRING',
+      };
+
+      const output = remapRecipientRelationshipFields('CUSTODIAN', input);
+
+      expect(output).to.deep.equal({
+        unrelatedField: 'keep me',
+        otherRecipientRelationshipType: 'Other relationship description',
+        recipientRelationship: 'OTHER',
+        anotherUnrelatedField: 'RECURRING',
+      });
+    });
+
+    it('should remap SPOUSE fields for `claimantType` PARENT', () => {
+      const input = {
+        unrelatedField: 'keep me',
+        recipientRelationship: 'SPOUSE',
+        anotherUnrelatedField: 'RECURRING',
+      };
+
+      const output = remapRecipientRelationshipFields('PARENT', input);
+
+      expect(output).to.deep.equal({
+        unrelatedField: 'keep me',
+        otherRecipientRelationshipType: "Parent's spouse",
+        recipientRelationship: 'OTHER',
+        anotherUnrelatedField: 'RECURRING',
+      });
+    });
+
+    it('should NOT remap OTHER fields for `claimantType` PARENT', () => {
+      const input = {
+        unrelatedField: 'keep me',
+        recipientRelationship: 'OTHER',
+        otherRecipientRelationshipType: 'Other relationship description',
+        anotherUnrelatedField: 'RECURRING',
+      };
+
+      const output = remapRecipientRelationshipFields('PARENT', input);
+
+      expect(output).to.deep.equal({
+        unrelatedField: 'keep me',
+        otherRecipientRelationshipType: 'Other relationship description',
+        recipientRelationship: 'OTHER',
+        anotherUnrelatedField: 'RECURRING',
+      });
+    });
+  });
+
+  describe('remapRecipientRelationshipsInArrays', () => {
+    it('remaps SPOUSE to OTHER with correct label for CUSTODIAN', () => {
+      const formData = {
+        claimantType: 'CUSTODIAN',
+        incomes: [{ recipientRelationship: 'SPOUSE', amount: 100 }],
+      };
+      const result = remapRecipientRelationshipsInArrays(formData);
+      expect(result.incomes[0]).to.deep.equal({
+        recipientRelationship: 'OTHER',
+        otherRecipientRelationshipType: "Custodian's spouse",
+        amount: 100,
+      });
+    });
+
+    it('remaps SPOUSE to OTHER with correct label for PARENT', () => {
+      const formData = {
+        claimantType: 'PARENT',
+        incomes: [{ recipientRelationship: 'SPOUSE', amount: 200 }],
+      };
+      const result = remapRecipientRelationshipsInArrays(formData);
+      expect(result.incomes[0]).to.deep.equal({
+        recipientRelationship: 'OTHER',
+        otherRecipientRelationshipType: "Parent's spouse",
+        amount: 200,
+      });
+    });
+
+    it('does not modify items without recipientRelationship', () => {
+      const formData = {
+        claimantType: 'CUSTODIAN',
+        incomes: [{ amount: 100 }],
+      };
+      const result = remapRecipientRelationshipsInArrays(formData);
+      expect(result.incomes[0]).to.deep.equal({ amount: 100 });
+    });
+
+    it('does not modify files array', () => {
+      const fileObj = { name: 'doc.pdf' };
+      const formData = {
+        claimantType: 'CUSTODIAN',
+        files: [fileObj],
+      };
+      const result = remapRecipientRelationshipsInArrays(formData);
+      expect(result.files).to.deep.equal([fileObj]);
+    });
+
+    it('leaves empty arrays untouched', () => {
+      const formData = {
+        claimantType: 'CUSTODIAN',
+        incomes: [],
+      };
+      const result = remapRecipientRelationshipsInArrays(formData);
+      expect(result.incomes).to.deep.equal([]);
+    });
+
+    it('handles multiple array fields correctly', () => {
+      const formData = {
+        claimantType: 'PARENT',
+        incomes: [{ recipientRelationship: 'SPOUSE', amount: 50 }],
+        benefits: [{ recipientRelationship: 'CHILD', amount: 75 }],
+      };
+      const result = remapRecipientRelationshipsInArrays(formData);
+      expect(result.incomes[0]).to.deep.equal({
+        recipientRelationship: 'OTHER',
+        otherRecipientRelationshipType: "Parent's spouse",
+        amount: 50,
+      });
+      // Non-SPOUSE item stays unchanged
+      expect(result.benefits[0]).to.deep.equal({
+        recipientRelationship: 'CHILD',
+        amount: 75,
+      });
+    });
+
+    it('does not mutate the original formData', () => {
+      const formData = {
+        claimantType: 'CUSTODIAN',
+        incomes: [{ recipientRelationship: 'SPOUSE', amount: 100 }],
+      };
+      const clone = { ...formData, incomes: [...formData.incomes] };
+      remapRecipientRelationshipsInArrays(formData);
+      expect(formData).to.deep.equal(clone);
     });
   });
 
@@ -344,6 +657,20 @@ describe('submit-helpers.js', () => {
         JSON.stringify({
           someArray: [{ recipientName: 'John Doe' }, null, null],
         }),
+      );
+    });
+
+    it('should normalize claimant phone number', () => {
+      const formConfig = {
+        chapters: {},
+      };
+      const formData = {
+        data: { mailingAddress: {}, claimantPhone: '555-867-5309' },
+      };
+      const transformed = transformForSubmit(formConfig, formData, replacer);
+
+      expect(transformed).to.equal(
+        JSON.stringify({ claimantPhone: '5558675309' }),
       );
     });
   });

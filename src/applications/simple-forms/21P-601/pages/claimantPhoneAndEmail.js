@@ -14,6 +14,7 @@ export default {
   },
   schema: {
     type: 'object',
+    required: ['claimantEmail'],
     properties: {
       claimantPhone: phoneSchema,
       claimantEmail: emailSchema,

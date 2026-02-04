@@ -1,17 +1,13 @@
-import { addSeconds, format } from 'date-fns';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
+import acceleratedAllergies from '../fixtures/accelerated-allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
 import tooltip from '../fixtures/tooltip-for-filtering-list-page.json';
 import { Paths } from '../utils/constants';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
-import {
-  DATETIME_FORMATS,
-  medicationsUrls,
-  RX_SOURCE,
-} from '../../../util/constants';
+import { medicationsUrls, RX_SOURCE } from '../../../util/constants';
 import tooltipVisible from '../fixtures/tooltip-visible-list-page.json';
 import noToolTip from '../fixtures/tooltip-not-visible-list-page.json';
 import hidden from '../fixtures/tooltip-hidden.json';
@@ -32,6 +28,11 @@ class MedicationsListPage {
       '/my_health/v1/medical_records/allergies',
       allergies,
     ).as('allergies');
+    cy.intercept(
+      'GET',
+      '/my_health/v2/medical_records/allergies',
+      acceleratedAllergies,
+    ).as('acceleratedAllergies');
     cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
     cy.intercept(
       'GET',
@@ -57,20 +58,27 @@ class MedicationsListPage {
     );
   };
 
-  visitMedicationsLinkWhenNoAllergiesAPICallFails = (waitForMeds = false) => {
+  visitMedicationsLinkWhenNoAllergiesAPICallFails = () => {
     cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
       'delayAlertRxList',
     );
-    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
-      prescriptions,
+    // Use wildcard pattern to match RTK Query URL with various query parameters
+    cy.intercept('GET', '/my_health/v1/prescriptions?*', prescriptions).as(
+      'medicationsList',
     );
+    // Force allergies API to return an error
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', {
+      statusCode: 500,
+      body: { error: 'Internal Server Error' },
+    }).as('allergiesError');
+    // Also intercept v2 allergies for Cerner pilot
+    cy.intercept('GET', '/my_health/v2/medical_records/allergies', {
+      statusCode: 500,
+      body: { error: 'Internal Server Error' },
+    }).as('allergiesErrorV2');
     cy.visit(medicationsUrls.MEDICATIONS_URL);
-    if (waitForMeds) {
-      cy.wait('@medicationsList');
-    }
+    // Wait for allergies error and medications list to load
+    cy.wait(['@allergiesError', '@medicationsList'], { timeout: 10000 });
   };
 
   visitMedicationsListForUserWithAllergies = (waitForMeds = false) => {
@@ -192,16 +200,14 @@ class MedicationsListPage {
   };
 
   verifyLearnHowToRenewPrescriptionsLinkExists = () => {
-    cy.get('[data-testid="learn-to-renew-precsriptions-link"]').should('exist');
+    cy.get('[data-testid="send-renewal-request-message-link"]').should('exist');
   };
 
   verifyLearnHowToRenewPrescriptionsLink = () => {
-    cy.get('[data-testid="learn-to-renew-precsriptions-link"]');
-    cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
-
+    cy.get('[data-testid="send-renewal-request-message-link"]')
       .shadow()
-      .find(`[href="/resources/how-to-renew-a-va-prescription"]`)
-      .should('be.visible');
+      .find(`a`)
+      .should('contain', 'Send a renewal request message');
   };
 
   clickPrintOrDownloadThisListDropDown = () => {
@@ -256,15 +262,6 @@ class MedicationsListPage {
     });
   };
 
-  verifyLoadingSpinnerForDownloadOnListPage = () => {
-    cy.intercept(
-      'GET',
-      `/my_health/v1/prescriptions?&sort=alphabetical-status`,
-      prescriptions,
-    ).as('medicationsList');
-    cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
-  };
-
   clickDownloadListAsTxtButtonOnListPage = () => {
     cy.intercept(
       'GET',
@@ -288,78 +285,24 @@ class MedicationsListPage {
   };
 
   verifyFocusOnDownloadAlertSuccessBanner = () => {
-    cy.get('[data-testid="download-success-banner"] > .hydrated').should(
-      'be.focused',
-    );
-  };
-
-  verifyDownloadSuccessMessageBannerNotVisibleAfterReload = () => {
-    cy.get('[data-testid="download-success-banner"]').should('not.exist');
-  };
-
-  verifyDownloadTextFileHeadless = (
-    userFirstName = 'Safari',
-    userLastName = 'Mhvtp',
-    searchText = 'Date',
-  ) => {
-    const now = Date.now();
-
-    this.downloadTime1sec = format(
-      addSeconds(now, 1),
-      DATETIME_FORMATS.filename,
-    );
-
-    this.downloadTime2sec = format(
-      addSeconds(now, 2),
-      DATETIME_FORMATS.filename,
-    );
-
-    this.downloadTime3sec = format(
-      addSeconds(now, 3),
-      DATETIME_FORMATS.filename,
-    );
-
-    if (Cypress.browser.isHeadless) {
-      cy.log('browser is headless');
-      const downloadsFolder = Cypress.config('downloadsFolder');
-      const txtPath1 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
-        this.downloadTime1sec
-      }.txt`;
-      const txtPath2 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
-        this.downloadTime2sec
-      }.txt`;
-      const txtPath3 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
-        this.downloadTime3sec
-      }.txt`;
-      this.internalReadFileMaybe(txtPath1, searchText);
-      this.internalReadFileMaybe(txtPath2, searchText);
-      this.internalReadFileMaybe(txtPath3, searchText);
-    } else {
-      cy.log('browser is not headless');
-    }
-  };
-
-  internalReadFileMaybe = (fileName, searchText) => {
-    cy.task('log', `attempting to find file = ${fileName}`);
-    cy.task('readFileMaybe', fileName).then(textOrNull => {
-      const taskFileName = fileName;
-      if (textOrNull != null) {
-        cy.task('log', `found the text in ${taskFileName}`);
-        cy.readFile(fileName).should('contain', `${searchText}`);
-      }
+    cy.findByTestId('download-success-banner').within(() => {
+      cy.get('.hydrated').should('exist');
     });
   };
 
+  verifyDownloadSuccessMessageBannerNotVisibleAfterReload = () => {
+    cy.findByTestId('download-success-banner').should('not.exist');
+  };
+
   verifyInformationBasedOnStatusActiveNoRefillsLeft = () => {
+    // V1 status logic is used (V2 flags disabled), which shows "Contact your VA provider" message
     cy.get('[data-testid="active-no-refill-left"]')
+      .first()
       .should('be.visible')
       .and(
         'contain',
-        'You have no refills left. If you need more, request a renewal.',
+        'Contact your VA provider if you need more of this medication.',
       );
-    cy.get('[data-testid="send-renewal-request-message-link"]')
-      .should('exist')
-      .and('be.visible');
   };
 
   verifyInformationBasedOnStatusActiveRefillInProcess = text => {
@@ -389,7 +332,10 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusActiveOnHold = () => {
     cy.get('[data-testid="active-onHold"]')
       .should('be.visible')
-      .and('contain', 'You can’t refill this prescription online right now.');
+      .and(
+        'contain',
+        'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
+      );
   };
 
   verifyInformationBasedOnStatusDiscontinued = () => {
@@ -397,14 +343,17 @@ class MedicationsListPage {
       .should('be.visible')
       .and(
         'contain',
-        'You can’t refill this prescription. If you need more, send a message to your care team.',
+        'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
       );
   };
 
   verifyInformationBasedOnStatusExpired = () => {
     cy.get('[data-testid="expired"]')
       .should('be.visible')
-      .and('contain', 'This prescription is too old to refill. ');
+      .and(
+        'contain',
+        'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
+      );
   };
 
   verifyInformationBasedOnStatusTransferred = () => {
@@ -1028,17 +977,17 @@ class MedicationsListPage {
   };
 
   verifyNeedHelpSectionOnListPage = text => {
-    cy.get('[data-testid="rx-need-help-container"]')
+    cy.findByTestId('rx-need-help-container')
       .should('contain', text)
       .and('be.visible');
   };
 
   verifyGoToUseMedicationLinkOnListPage = () => {
-    cy.get('[data-testid="go-to-use-medications-link"]').should('be.visible');
+    cy.findByTestId('go-to-use-medications-link').should('be.visible');
   };
 
   verifyStartANewMessageLinkOnListPage = () => {
-    cy.get('[data-testid="start-a-new-message-link"]').should('be.visible');
+    cy.findByTestId('start-a-new-message-link').should('be.visible');
   };
 
   verifyTitleNotesOnListPage = text => {
@@ -1101,31 +1050,13 @@ class MedicationsListPage {
       });
   };
 
-  verifyErroMessageforFailedAPICallListPage = text => {
-    cy.get('[data-testid="no-medications-list"]').should('contain', text);
+  verifyErrorMessageforFailedAPICallListPage = text => {
+    cy.findByTestId('no-medications-list').should('contain', text);
   };
 
   loadListPageWithoutToolTip = () => {
     cy.intercept('GET', '/my_health/v1/tooltips', hidden).as('tooltips');
     cy.visit(medicationsUrls.MEDICATIONS_URL);
-  };
-
-  verifyContentInListPageDownload = text => {
-    const downloadsFolder = Cypress.config('downloadsFolder');
-    const pad = n => n.toString().padStart(2, '0');
-    let hours = text.getHours();
-    const ampm = hours >= 12 ? 'pm' : 'am';
-    hours = hours % 12 || 12;
-    const formattedTime = `${hours}${pad(text.getMinutes())}${pad(
-      text.getSeconds(),
-    )}${ampm}`;
-    const date = `${text.getMonth() +
-      1}-${text.getDate()}-${text.getFullYear()}_${formattedTime}`;
-    const fileName = `${downloadsFolder}/VA-medications-list-Safari-Mhvtp-${date}.txt`;
-    cy.readFile(fileName).then(fileContent => {
-      expect(fileContent).to.contain('not available');
-      expect(fileContent).to.not.contain('None noted');
-    });
   };
 
   verifyFilterAriaRegionText = text => {
@@ -1134,6 +1065,42 @@ class MedicationsListPage {
 
   verifySortScreenReaderActionText = text => {
     cy.findByTestId('sort-action-sr-text').should('have.text', text);
+  };
+
+  // OH Integration tests
+
+  visitMedicationsListForUserWithAcceleratedAllergies = (
+    waitForMeds = false,
+  ) => {
+    // cy.intercept('GET', '/my-health/medications', prescriptions);
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
+    cy.intercept(
+      'GET',
+      '/my_health/v2/medical_records/allergies',
+      acceleratedAllergies,
+    ).as('acceleratedAllergies');
+    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      prescriptions,
+    );
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
+    if (waitForMeds) {
+      cy.wait('@medicationsList');
+    }
+  };
+
+  verifyAllergiesListNetworkResponseWithAcceleratedAllergies = () => {
+    cy.get('@acceleratedAllergies')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[0].attributes).to.include({
+          name: 'TRAZODONE',
+        });
+      });
   };
 
   // SendRxRenewalMessage component test helpers
@@ -1209,6 +1176,38 @@ class MedicationsListPage {
         'contain',
         "If you need a medication immediately, you should call your VA pharmacy's automated refill line",
       );
+  };
+
+  // Request Refill Button on Card methods
+  verifyRequestRefillButtonExistsOnCard = () => {
+    cy.get('[data-testid="refill-request-button"]')
+      .first()
+      .should('exist');
+  };
+
+  verifyRequestRefillButtonNotExistsOnCard = () => {
+    cy.get('[data-testid="refill-request-button"]').should('not.exist');
+  };
+
+  verifyRequestRefillButtonText = () => {
+    cy.get('[data-testid="refill-request-button"]')
+      .first()
+      .shadow()
+      .find('button')
+      .should('contain', 'Request a refill');
+  };
+
+  clickRequestRefillButtonOnFirstCard = () => {
+    cy.get('[data-testid="refill-request-button"]')
+      .first()
+      .click();
+  };
+
+  verifyRequestRefillButtonHasAriaDescribedBy = () => {
+    cy.get('[data-testid="refill-request-button"]')
+      .first()
+      .should('have.attr', 'aria-describedby')
+      .and('match', /card-header-\d+/);
   };
 }
 

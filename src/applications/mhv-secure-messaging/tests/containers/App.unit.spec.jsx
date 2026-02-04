@@ -11,7 +11,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
 import * as SmApi from '../../api/SmApi';
 import reducer from '../../reducers';
-import { PageHeaders, Paths } from '../../util/constants';
+import { PageHeaders, Paths, SelectCareTeamPage } from '../../util/constants';
 
 describe('App', () => {
   const initialState = {
@@ -329,7 +329,7 @@ describe('App', () => {
 
     // Navigate to Care Team Help route
     const link = await screen.findByText(
-      'What to do if you can’t find your care team',
+      SelectCareTeamPage.CANT_FIND_CARE_TEAM_LINK,
     );
     fireEvent.click(link);
 
@@ -472,29 +472,30 @@ describe('App', () => {
   });
 
   it('renders LaunchMessagingAal component', async () => {
-    const stubUseFeatureToggles = value => {
-      const useFeatureToggles = require('../../hooks/useFeatureToggles');
-      return sinon.stub(useFeatureToggles, 'default').returns(value);
+    const sandbox = sinon.createSandbox();
+    const submitStub = sandbox
+      .stub(SmApi, 'submitLaunchMessagingAal')
+      .resolves();
+
+    const customState = {
+      ...initialState,
+      featureToggles: {
+        loading: false,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingMilestone2AAL]: true,
+      },
     };
 
-    const submitStub = sinon.stub(SmApi, 'submitLaunchMessagingAal');
-    submitStub.resolves();
-    const useFeatureTogglesStub = stubUseFeatureToggles({
-      isAalEnabled: true,
-      largeAttachmentsEnabled: true,
-    });
-    useFeatureTogglesStub;
+    try {
+      renderWithStoreAndRouter(<App />, {
+        initialState: customState,
+        reducers: reducer,
+      });
 
-    renderWithStoreAndRouter(<App />, {
-      initialState,
-      reducers: reducer,
-    });
-    await waitFor(() => {
-      expect(submitStub.calledOnce).to.be.true;
-    });
-    submitStub.restore();
-    if (useFeatureTogglesStub && useFeatureTogglesStub.restore) {
-      useFeatureTogglesStub.restore();
+      await waitFor(() => {
+        expect(submitStub.calledOnce).to.be.true;
+      });
+    } finally {
+      sandbox.restore();
     }
   });
 });

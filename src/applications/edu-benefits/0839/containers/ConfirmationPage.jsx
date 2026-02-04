@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import environment from '~/platform/utilities/environment';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import { setSubmission } from 'platform/forms-system/src/js/actions';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
@@ -22,7 +23,7 @@ const confirmationChildContent = (pdfUrl, goBack) => (
       <va-process-list-item header="Download and save your form">
         <div
           itemProp="itemListElement"
-          className="confirmation-save-pdf-download-section screen-only"
+          className="confirmation-save-pdf-download-section screen-only custom-classname"
         >
           <p className="vads-u-margin-top--0">
             Make sure that your completed form is saved as a PDF on your device.{' '}
@@ -119,7 +120,12 @@ export const ConfirmationPage = ({ router, route }) => {
       confirmationNumber={submission?.response?.confirmationNumber}
       submitDate={submitDate}
     >
-      {confirmationChildContent(submission?.response?.pdfUrl, goBack)}
+      {confirmationChildContent(
+        `${environment.API_URL}/v0/education_benefits_claims/download_pdf/${
+          submission?.response?.id
+        }`,
+        goBack,
+      )}
     </ConfirmationView>
   );
 };

@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-
 import PropTypes from 'prop-types';
-
 import { scrollAndFocus } from 'platform/utilities/scroll';
-
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import OmbInfo from '../components/OmbInfo';
 
 const IntroductionPage = ({ route }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const form1919Toggle = useToggleValue(TOGGLE_NAMES.form1919Release);
   useEffect(() => {
     const h1 = document.querySelector('h1');
     scrollAndFocus(h1);
@@ -122,17 +122,21 @@ const IntroductionPage = ({ route }) => {
           </p>
         </va-process-list-item>
       </va-process-list>
-      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
-        Start the form
-      </h2>
-      <SaveInProgressIntro
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        formConfig={formConfig}
-        pageList={pageList}
-        startText="Start your Conflicting interests certification for proprietary schools report"
-        unauthStartText="Sign in to start your form"
-      />
+      {form1919Toggle && (
+        <>
+          <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
+            Start the form
+          </h2>
+          <SaveInProgressIntro
+            prefillEnabled={formConfig.prefillEnabled}
+            messages={formConfig.savedFormMessages}
+            formConfig={formConfig}
+            pageList={pageList}
+            startText="Start your Conflicting interests certification for proprietary schools report"
+            unauthStartText="Sign in to start your form"
+          />
+        </>
+      )}
       <p />
       <OmbInfo />
     </article>

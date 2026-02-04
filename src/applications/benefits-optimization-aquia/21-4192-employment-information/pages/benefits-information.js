@@ -8,7 +8,7 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { getVeteranName, getEmployerName } from './helpers';
+import { getVeteranName } from './helpers';
 
 /**
  * Generate title for benefit entitlement field
@@ -16,8 +16,7 @@ import { getVeteranName, getEmployerName } from './helpers';
 const getBenefitEntitlementTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Benefit entitlement';
   const veteranName = getVeteranName(formData);
-  const employerName = getEmployerName(formData);
-  return `Is ${veteranName} receiving or entitled to receive, as a result of their employment with ${employerName}, sick, retirement or other benefits?`;
+  return `As a result of their employment with you, is ${veteranName} receiving or entitled to receive sick, retirement, or other benefits?`;
 };
 
 /**

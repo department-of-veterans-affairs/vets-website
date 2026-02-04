@@ -10,7 +10,12 @@ import DowntimeWindowAlert from '../containers/DownTimeWindowAlert';
 import TravelClaimDetailsContent from './TravelClaimDetailsContent';
 
 export default function TravelClaimDetails() {
-  const { isLoading } = useSelector(state => state.travelPay.claimDetails);
+  const { isLoading: claimDetailsLoading } = useSelector(
+    state => state.travelPay.claimDetails,
+  );
+  const { isLoading: appointmentLoading } = useSelector(
+    state => state.travelPay.appointment,
+  );
 
   useEffect(() => {
     focusElement('h1');
@@ -32,7 +37,7 @@ export default function TravelClaimDetails() {
 
   const featureFlagIsLoading = useToggleLoadingValue();
 
-  if (isLoading || featureFlagIsLoading) {
+  if (claimDetailsLoading || appointmentLoading || featureFlagIsLoading) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
@@ -61,7 +66,9 @@ export default function TravelClaimDetails() {
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <Breadcrumbs />
         <DowntimeWindowAlert appTitle="Travel Pay">
-          <TravelClaimDetailsContent />
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <TravelClaimDetailsContent />
+          </div>
         </DowntimeWindowAlert>
       </article>
     </Element>

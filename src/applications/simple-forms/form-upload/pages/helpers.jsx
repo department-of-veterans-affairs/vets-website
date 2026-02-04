@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormNavButtons, SchemaForm } from 'platform/forms-system/exportsFile';
+import {
+  FormNavButtonContinue,
+  SchemaForm,
+} from 'platform/forms-system/exportsFile';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import { getFormNumber, onClickContinue } from '../helpers';
 
@@ -8,15 +11,15 @@ export const CustomTopContent = () => {
   const formNumber = getFormNumber();
   const breadcrumbs = [
     { href: '/', label: 'VA.gov home' },
-    { href: '/find-forms', label: 'Find a VA form' },
-    // TODO: Restore this breadcrumb when the static content at /find-forms/upload plays nicely with the Form Upload tool
+    { href: '/forms', label: 'Find a VA form' },
+    // TODO: Restore this breadcrumb when the static content at /forms/upload plays nicely with the Form Upload tool
     // {
-    //   href: `/find-forms/upload`,
+    //   href: `/forms/upload`,
     //   label: `Upload VA forms`,
     // },
     {
-      href: `/find-forms/upload/${formNumber}/introduction`,
-      label: `Upload form ${formNumber}`,
+      href: `/forms/upload/${formNumber}/introduction`,
+      label: `Upload VA Form ${formNumber}`,
     },
   ];
   const bcString = JSON.stringify(breadcrumbs);
@@ -71,8 +74,7 @@ export const CustomAlertPage = props => {
       <SchemaForm {...props}>
         <>
           {props.contentBeforeButtons}
-          <FormNavButtons
-            goBack={props.goBack}
+          <FormNavButtonContinue
             goForward={() => onClickContinue(props, setContinueClicked)}
             submitToContinue
           />

@@ -24,6 +24,7 @@ import {
   sortRecipients,
   decodeHtmlEntities,
   isOlderThan,
+  isValidDateValue,
   isCustomFolder,
   handleHeader,
   getPageTitle,
@@ -866,6 +867,11 @@ describe('MHV Secure Messaging helpers', () => {
       const result = getStationNumberFromRecipientId(999, recipients);
       expect(result).to.equal(null);
     });
+
+    it('should return null when recipients is null or undefined', () => {
+      expect(getStationNumberFromRecipientId(123, null)).to.equal(null);
+      expect(getStationNumberFromRecipientId(123, undefined)).to.equal(null);
+    });
   });
 
   describe('findActiveDraftFacility', () => {
@@ -979,6 +985,7 @@ describe('MHV Secure Messaging helpers', () => {
       expirationDate: '2024-12-31',
       reason: 'Refill needed',
       quantity: '30 tablets',
+      sortedDispensedDate: '2023-08-04',
       sig: 'Take one tablet by mouth daily',
     };
 
@@ -992,6 +999,7 @@ describe('MHV Secure Messaging helpers', () => {
       expect(result).to.include('Number of refills left:');
       expect(result).to.include('Prescription expiration date:');
       expect(result).to.include('Reason for use:');
+      expect(result).to.include('Last filled on:');
       expect(result).to.include('Quantity:');
       expect(result).to.not.include('Lisinopril 10mg');
       expect(result).to.not.include('1234567890');
@@ -1001,6 +1009,7 @@ describe('MHV Secure Messaging helpers', () => {
       expect(result).to.not.include('December 31, 2024');
       expect(result).to.not.include('Refill needed');
       expect(result).to.not.include('30 tablets');
+      expect(result).to.not.include('August 4, 2023');
     });
 
     it('should format message body correctly with valid rx data when rxError is false', () => {
@@ -1018,6 +1027,7 @@ describe('MHV Secure Messaging helpers', () => {
       );
       expect(result).to.include('Reason for use: Refill needed');
       expect(result).to.include('Quantity: 30 tablets');
+      expect(result).to.include('Last filled on: August 4, 2023');
     });
 
     it('should handle missing provider names and show placeholder', () => {
@@ -1132,6 +1142,26 @@ describe('MHV Secure Messaging helpers', () => {
       );
     });
 
+    it('should handle missing dispensed date and show placeholder', () => {
+      const rxWithInvalidDate = {
+        ...mockRx,
+        sortedDispensedDate: null,
+      };
+      const result = buildRxRenewalMessageBody(rxWithInvalidDate, false);
+
+      expect(result).to.include('Last filled on: Not filled yet');
+    });
+
+    it('should handle empty dispensed date and show placeholder', () => {
+      const rxWithEmptyDate = {
+        ...mockRx,
+        sortedDispensedDate: '',
+      };
+      const result = buildRxRenewalMessageBody(rxWithEmptyDate, false);
+
+      expect(result).to.include('Last filled on: Not filled yet');
+    });
+
     it('should handle null rx object and show all placeholders', () => {
       const result = buildRxRenewalMessageBody(null, false);
 
@@ -1149,6 +1179,7 @@ describe('MHV Secure Messaging helpers', () => {
       expect(result).to.include(
         'Prescription expiration date: Date not available',
       );
+      expect(result).to.include('Last filled on: Not filled yet');
       expect(result).to.include('Reason for use: Reason for use not available');
       expect(result).to.include('Quantity: Quantity not available');
     });
@@ -1170,6 +1201,7 @@ describe('MHV Secure Messaging helpers', () => {
       expect(result).to.include(
         'Prescription expiration date: Date not available',
       );
+      expect(result).to.include('Last filled on: Not filled yet');
       expect(result).to.include('Reason for use: Reason for use not available');
       expect(result).to.include('Quantity: Quantity not available');
     });
@@ -1191,6 +1223,7 @@ describe('MHV Secure Messaging helpers', () => {
       expect(result).to.include(
         'Prescription expiration date: Date not available',
       );
+      expect(result).to.include('Last filled on: Not filled yet');
       expect(result).to.include('Reason for use: Reason for use not available');
       expect(result).to.include('Quantity: Quantity not available');
     });
@@ -1255,6 +1288,52 @@ describe('MHV Secure Messaging helpers', () => {
       const result = buildRxRenewalMessageBody(rxWithoutSig, false);
 
       expect(result).to.include('Instructions: Instructions not available');
+    });
+  });
+
+  describe('isValidDateValue', () => {
+    it('should return false for empty string', () => {
+      expect(isValidDateValue('')).to.be.false;
+    });
+
+    it('should return false for null', () => {
+      expect(isValidDateValue(null)).to.be.false;
+    });
+
+    it('should return false for undefined', () => {
+      expect(isValidDateValue(undefined)).to.be.false;
+    });
+
+    it('should return false for day only ("--04")', () => {
+      expect(isValidDateValue('--04')).to.be.false;
+    });
+
+    it('should return false for month and day only ("-01-04")', () => {
+      expect(isValidDateValue('-01-04')).to.be.false;
+    });
+
+    it('should return false for year and day only ("2026--04")', () => {
+      expect(isValidDateValue('2026--04')).to.be.false;
+    });
+
+    it('should return false for year and month only ("2026-01-")', () => {
+      expect(isValidDateValue('2026-01-')).to.be.false;
+    });
+
+    it('should return true for valid complete date', () => {
+      expect(isValidDateValue('2026-01-13')).to.be.true;
+    });
+
+    it('should return true for valid date at year boundary', () => {
+      expect(isValidDateValue('2025-12-31')).to.be.true;
+    });
+
+    it('should return false for invalid date (Feb 31st)', () => {
+      expect(isValidDateValue('2026-02-31')).to.be.false;
+    });
+
+    it('should return false for invalid month (13)', () => {
+      expect(isValidDateValue('2026-13-01')).to.be.false;
     });
   });
 });

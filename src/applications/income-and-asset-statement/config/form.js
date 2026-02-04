@@ -23,10 +23,6 @@ import discontinuedIncomes from './chapters/10-discontinued-incomes';
 import incomeReceiptWaivers from './chapters/11-income-receipt-waivers';
 import supportingDocuments from './chapters/12-supporting-documents';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -42,6 +38,9 @@ const formConfig = {
     focusOnAlertRole: true,
     useWebComponentForNavigation: true,
   },
+  customText: {
+    appType: 'form',
+  },
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your benefits application (21P-0969) is in progress.',
@@ -50,11 +49,17 @@ const formConfig = {
     // },
   },
   version: 0,
+  migrations: [],
   prefillEnabled: true,
   prefillTransformer,
   dev: {
     disableWindowUnloadInCI: true,
   },
+  downtime: {
+    requiredForPrefill: false,
+    dependencies: [],
+  },
+
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
       {

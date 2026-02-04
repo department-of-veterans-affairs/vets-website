@@ -8,6 +8,7 @@ const ExpensesAccordion = ({
   documents = [],
   expenses = [],
   groupAccordionItemsByType = false,
+  headerLevel = 3,
 }) => {
   // Group expenses by expenseType and attach their document
   const groupedExpenses = useMemo(
@@ -35,7 +36,7 @@ const ExpensesAccordion = ({
   }
 
   return (
-    <va-accordion>
+    <va-accordion open-single={!groupAccordionItemsByType}>
       {groupAccordionItemsByType ? (
         // Multiple accordion items (one per type)
         // Edit and Delete expense buttons show on the expense card
@@ -44,6 +45,7 @@ const ExpensesAccordion = ({
           <va-accordion-item
             key={type}
             header={`${getExpenseType(type).title} (${expensesList.length})`}
+            level={headerLevel}
           >
             <ExpenseCardList
               expensesList={expensesList}
@@ -56,7 +58,11 @@ const ExpensesAccordion = ({
       ) : (
         // Single accordion item with grouped sections inside
         // Expense cards are organized by type and each type has a header that is displayed
-        <va-accordion-item header="Submitted expenses" bordered>
+        <va-accordion-item
+          header="Submitted expenses"
+          bordered
+          level={headerLevel}
+        >
           {expenseEntries.map(([type, expensesList]) => (
             <ExpenseCardList
               key={type}
@@ -75,6 +81,7 @@ ExpensesAccordion.propTypes = {
   documents: PropTypes.array,
   expenses: PropTypes.array,
   groupAccordionItemsByType: PropTypes.bool,
+  headerLevel: PropTypes.number,
 };
 
 export default ExpensesAccordion;

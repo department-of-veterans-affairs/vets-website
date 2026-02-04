@@ -1,3 +1,10 @@
+/**
+ * Strips all non-digit characters from a phone number
+ * @param {string} phone - Phone number that may contain dashes, spaces, or other characters
+ * @returns {string} Phone number with only digits
+ */
+const stripNonDigits = phone => phone?.replace(/\D/g, '');
+
 export const transform = (formConfig, form) => {
   const {
     veteranPersonalInfo,
@@ -75,11 +82,16 @@ export const transform = (formConfig, form) => {
       certificationLevelOfCare: certificationLevelOfCare?.levelOfCare,
       nursingOfficialName,
       nursingOfficialTitle: nursingOfficialInformation?.jobTitle,
-      nursingOfficialPhoneNumber: nursingOfficialInformation?.phoneNumber,
+      nursingOfficialPhoneNumber: stripNonDigits(
+        nursingOfficialInformation?.phoneNumber,
+      ),
       signature,
       signatureDate: new Date().toISOString().split('T')[0],
     },
   };
 
-  return JSON.stringify(submissionData);
+  // Return the data as a JSON string wrapped in an object with a 'form' key
+  // The backend expects the entire payload to be a stringified JSON object,
+  // we do this because we don't want the form data modified by the inflection header
+  return JSON.stringify({ form: JSON.stringify(submissionData) });
 };

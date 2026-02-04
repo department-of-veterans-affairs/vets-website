@@ -4,13 +4,33 @@ import {
   isTerritory,
 } from '../utils/addresses';
 
+const cleanEmptyAddressFields = address => {
+  if (!address || typeof address !== 'object') {
+    return address;
+  }
+
+  const fieldsToClean = [
+    'street',
+    'street2',
+    'city',
+    'state',
+    'postalCode',
+    'country',
+  ];
+
+  const cleanedAddress = { ...address };
+
+  fieldsToClean.forEach(fieldName => {
+    if (cleanedAddress[fieldName] === '') {
+      cleanedAddress[fieldName] = undefined;
+    }
+  });
+
+  return cleanedAddress;
+};
+
 export default function prefillTransformer(pages, formData, metadata) {
   const newFormData = formData;
-
-  // prefill temporaryAddress if empty
-  if (Object.keys(formData?.temporaryAddress || {}).length === 0) {
-    newFormData.temporaryAddress = { ...formData.permanentAddress };
-  }
 
   for (const addressType of ['permanentAddress', 'temporaryAddress']) {
     if (newFormData[addressType]?.country) {
@@ -31,6 +51,13 @@ export default function prefillTransformer(pages, formData, metadata) {
           ? newFormData[addressType].street2
           : undefined;
     }
+  }
+
+  // Clean empty strings from temporaryAddress
+  if (newFormData.temporaryAddress) {
+    newFormData.temporaryAddress = cleanEmptyAddressFields(
+      newFormData.temporaryAddress,
+    );
   }
 
   return {

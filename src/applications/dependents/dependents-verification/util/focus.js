@@ -8,6 +8,13 @@ import { $ } from '~/platform/forms-system/src/js/utilities/ui';
 
 import { getEditContactInformation } from './contact-info';
 
+/**
+ * Move focus to first error on the page
+ * @param {number} _index - Unused array index number
+ * @param {HTMLElement|undefined} root - root element to search within
+ * @returns {boolean} - true if an error element was found and focused,
+ * otherwise false
+ */
 export const focusFirstError = (_index, root) => {
   const error = $('[error], .usa-input-error', root);
   if (error) {
@@ -17,6 +24,13 @@ export const focusFirstError = (_index, root) => {
   return false;
 };
 
+/**
+ * Focus on first error if present, focus on the h2 inside a prefill alert, or
+ * the main heading (h3) in that order of priority
+ * @param {number} index - Form data array index number
+ * @param {HTMLElement|undefined} root - root element to search within
+ * @returns {void}
+ */
 export const focusH3 = (index, root) => {
   scrollTo('topContentElement');
   if (!focusFirstError(index, root)) {
@@ -26,6 +40,10 @@ export const focusH3 = (index, root) => {
   }
 };
 
+/**
+ * Focus on contact information h3, or first error if present
+ * @returns {void}
+ */
 export const focusContactInfo = () => {
   const { name } = getEditContactInformation();
   // If name is set in session storage, it means a contact field was just edited
@@ -36,6 +54,10 @@ export const focusContactInfo = () => {
   }
 };
 
+/**
+ * Focus on the prefill alert on the Veteran Information page
+ * @returns {void}
+ */
 export const focusPrefillAlert = () => {
   focusElement('va-alert');
 };

@@ -81,26 +81,16 @@ class LandingPage {
   };
 
   clickConfirmEmail = () => {
-    cy.findByTestId('mhv-alert--confirm-contact-email')
-      .find('va-button[text="Confirm"]')
-      .shadow()
-      .find('button')
-      .click();
+    cy.findByTestId('mhv-alert--confirm-email-button').click();
   };
 
   clickErrorConfirmEmail = () => {
-    cy.findByTestId('mhv-alert--confirm-error')
-      .find('va-button[text="Confirm"]')
-      .shadow()
-      .find('button')
-      .click();
+    cy.findByTestId('mhv-alert--confirm-email-button').click();
   };
 
   clickErrorEditEmailLink = () => {
     cy.findByTestId('mhv-alert--confirm-error')
-      .find(
-        'va-link[href="/profile/contact-information#contact-email-address"]',
-      )
+      .find('va-link[href="/profile/contact-information#email-address"]')
       .shadow()
       .find('a')
       .click();
@@ -108,9 +98,7 @@ class LandingPage {
 
   clickEditEmailLink = () => {
     cy.findByTestId('mhv-alert--confirm-contact-email')
-      .find(
-        'va-link[href="/profile/contact-information#contact-email-address"]',
-      )
+      .find('va-link[href="/profile/contact-information#email-address"]')
       .shadow()
       .find('a')
       .click();

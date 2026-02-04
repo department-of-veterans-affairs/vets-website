@@ -13,10 +13,6 @@
       {
         "name": "ezrNextOfKinEnabled",
         "value": true
-      },
-      {
-        "name": "ezrDownloadPdfEnabled",
-        "value": true
       }
     ]
   }

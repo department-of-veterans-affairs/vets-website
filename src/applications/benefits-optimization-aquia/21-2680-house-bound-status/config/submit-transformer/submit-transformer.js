@@ -105,9 +105,17 @@ function buildClaimantInformation(cleanedData, veteranInformation) {
   const claimantSsn = isVeteranClaimant
     ? veteranInformation.ssn
     : cleanNumericString(claimantSsnData.claimantSsn);
-  const claimantPhone = cleanNumericString(
-    claimantContactData.claimantPhoneNumber,
+  let claimantPhone = cleanNumericString(
+    claimantContactData.claimantPhoneNumber?.contact,
   );
+  const countryCode =
+    claimantContactData.claimantPhoneNumber?.countryCode || 'US';
+  if (claimantPhone && countryCode !== 'US') {
+    // combine calling code with contact number for international numbers
+    const callingCode =
+      claimantContactData.claimantPhoneNumber?.callingCode || '';
+    claimantPhone = `+${callingCode}${claimantPhone}`;
+  }
 
   // Build base claimant information
   const claimantInformation = {
@@ -138,8 +146,10 @@ function buildClaimantInformation(cleanedData, veteranInformation) {
     claimantInformation.dateOfBirth = claimantDob;
   }
 
-  if (claimantPhone && claimantPhone.length === 10) {
+  if (claimantPhone && countryCode === 'US' && claimantPhone.length === 10) {
     claimantInformation.phoneNumber = claimantPhone;
+  } else if (claimantPhone && countryCode !== 'US') {
+    claimantInformation.internationalPhoneNumber = claimantPhone;
   }
 
   const email = claimantContactData.claimantEmail || '';
@@ -250,6 +260,8 @@ export function submitTransformer(_formConfig, form) {
     additionalInformation,
     veteranSignature,
   };
-
-  return JSON.stringify({ form: backendData });
+  // Return the data as a JSON string wrapped in an object with a 'form' key
+  // The backend expects the entire payload to be a stringified JSON object,
+  // we do this because we don't want the form data modified by the inflection header
+  return JSON.stringify({ form: JSON.stringify(backendData) });
 }

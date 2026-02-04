@@ -8,6 +8,7 @@ import React, {
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropType from 'prop-types';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   VaRadio,
   VaRadioOption,
@@ -20,20 +21,34 @@ import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/sour
 import { datadogRum } from '@datadog/browser-rum';
 
 import { populatedDraft } from '../selectors';
-import { ErrorMessages, Paths, PageTitles } from '../util/constants';
+import {
+  ErrorMessages,
+  Paths,
+  PageTitles,
+  SelectCareTeamPage,
+  BlockedTriageAlertStyles,
+  ParentComponent,
+} from '../util/constants';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
 import EmergencyNote from '../components/EmergencyNote';
+import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import { updateDraftInProgress } from '../actions/threadDetails';
 import RouteLeavingGuard from '../components/shared/RouteLeavingGuard';
 import { saveDraft } from '../actions/draftDetails';
+import manifest from '../manifest.json';
+import featureToggles from '../hooks/useFeatureToggles';
+import { draftIsClean } from '../util/helpers';
 
 const SelectCareTeam = () => {
+  const { mhvSecureMessagingCuratedListFlow } = featureToggles();
   const dispatch = useDispatch();
   const history = useHistory();
   const {
     allFacilities,
     noAssociations,
     allTriageGroupsBlocked,
+    blockedFacilities,
+    blockedRecipients,
     allowedRecipients,
     vistaFacilities,
     error: recipientsError,
@@ -90,6 +105,25 @@ const SelectCareTeam = () => {
     [draftInProgress.recipientId],
   );
 
+  useEffect(
+    () => {
+      if (
+        !draftInProgress?.messageId &&
+        !!draftInProgress?.recipientId &&
+        draftInProgress?.navigationError?.title ===
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE.title &&
+        draftIsClean(draftInProgress)
+      ) {
+        dispatch(
+          updateDraftInProgress({
+            navigationError: null,
+          }),
+        );
+      }
+    },
+    [draftInProgress, dispatch],
+  );
+
   const careTeamHandler = useCallback(
     recipient => {
       const newId = recipient?.id ? recipient.id.toString() : null;
@@ -102,6 +136,9 @@ const SelectCareTeam = () => {
           setCareTeamError('');
           dispatch(
             updateDraftInProgress({
+              careSystemVhaId: recipient.stationNumber,
+              careSystemName:
+                ehrDataByVhaId[recipient.stationNumber]?.vamcSystemName,
               recipientId: recipient.id,
               recipientName: recipient.suggestedNameDisplay || recipient.name,
               ohTriageGroup: recipient.ohTriageGroup,
@@ -144,6 +181,7 @@ const SelectCareTeam = () => {
       draftInProgress?.body,
       draftInProgress?.subject,
       draftInProgress?.category,
+      draftInProgress?.careSystemVhaId,
     ],
   );
 
@@ -245,6 +283,48 @@ const SelectCareTeam = () => {
     [vistaFacilities],
   );
 
+  // Track when VA Health Systems are displayed
+  useEffect(
+    () => {
+      if (allFacilities?.length > 1) {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'SM VA Health Systems Displayed',
+          'api-status': 'successful',
+          'health-systems-count': allFacilities.length,
+          version:
+            allFacilities.length < MAX_RADIO_OPTIONS ? 'radio' : 'dropdown',
+        });
+      } else if (allFacilities?.length === 0) {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'SM VA Health Systems Displayed',
+          'api-status': 'fail',
+          'health-systems-count': 0,
+          'error-key': 'no-health-systems',
+        });
+      }
+    },
+    [allFacilities],
+  );
+
+  // Track when user types in the care team search box (debounced)
+  useEffect(
+    () => {
+      if (careTeamComboInputValue?.length > 0) {
+        const debounceTimer = setTimeout(() => {
+          recordEvent({
+            event: 'int-text-input-search',
+            'text-input-label': 'Select a care team',
+          });
+        }, 500);
+        return () => clearTimeout(debounceTimer);
+      }
+      return undefined;
+    },
+    [careTeamComboInputValue],
+  );
+
   // updates the available teams in the Care Team combo box
   // if a care system is selected, filter for only that care system
   // if no care system is selected, show all allowed teams
@@ -302,8 +382,30 @@ const SelectCareTeam = () => {
     [draftInProgress.recipientId, selectedCareTeamId],
   );
 
+  const getDestinationPath = useCallback(
+    (includeRootUrl = false) => {
+      const inProgressPath = `${Paths.MESSAGE_THREAD}${
+        draftInProgress.messageId
+      }`;
+      const startPath = `${Paths.COMPOSE}${Paths.START_MESSAGE}`;
+      const path = draftInProgress.messageId ? inProgressPath : startPath;
+      return includeRootUrl ? `${manifest.rootUrl}${path}` : path;
+    },
+    [draftInProgress],
+  );
+
+  const getDestinationLabel = useCallback(
+    () => {
+      return draftInProgress.messageId
+        ? 'Continue to draft'
+        : 'Continue to start message';
+    },
+    [draftInProgress],
+  );
+
   const handlers = {
-    onContinue: () => {
+    onContinue: event => {
+      event?.preventDefault();
       if (!checkValidity()) return;
 
       const selectedRecipientStationNumber = allowedRecipients.find(
@@ -322,17 +424,14 @@ const SelectCareTeam = () => {
           }),
         );
       }
-      if (draftInProgress.messageId) {
-        history.push(`${Paths.MESSAGE_THREAD}${draftInProgress.messageId}`);
-      } else {
-        history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}`);
-      }
+      history.push(getDestinationPath());
     },
   };
 
   const careSystemsOptionsValues = useMemo(
     () => {
       const careSystemsSorted = allFacilities
+        .filter(careSystem => !blockedFacilities?.includes(careSystem))
         .map(careSystem => {
           return ehrDataByVhaId[careSystem];
         })
@@ -348,7 +447,7 @@ const SelectCareTeam = () => {
         </option>
       ));
     },
-    [allFacilities, ehrDataByVhaId],
+    [allFacilities, blockedFacilities, ehrDataByVhaId],
   );
 
   const saveDraftHandler = useCallback(
@@ -361,19 +460,24 @@ const SelectCareTeam = () => {
   );
 
   const renderCareSystems = () => {
+    const allowedFacilities = allFacilities?.filter(
+      facility => !blockedFacilities?.includes(facility),
+    );
+
     if (
-      allFacilities?.length > 1 &&
-      allFacilities?.length < MAX_RADIO_OPTIONS
+      allowedFacilities?.length > 1 &&
+      allowedFacilities?.length < MAX_RADIO_OPTIONS
     ) {
       return (
         <VaRadio
+          enableAnalytics
           label="Select a VA health care system"
           name="va-health-care-system"
           onVaValueChange={onRadioChangeHandler}
           data-dd-privacy="mask"
           data-dd-action-name="Care System Radio button"
         >
-          {allFacilities.map(facility => (
+          {allowedFacilities.map(facility => (
             <>
               <VaRadioOption
                 data-testid={`care-system-${facility}`}
@@ -386,6 +490,7 @@ const SelectCareTeam = () => {
                 name="va-health-care-system"
                 tile
                 value={facility}
+                checked={draftInProgress?.careSystemVhaId === facility}
                 radioOptionSelected={draftInProgress?.careSystemVhaId || ''}
               />
             </>
@@ -394,10 +499,10 @@ const SelectCareTeam = () => {
       );
     }
 
-    if (allFacilities?.length >= MAX_RADIO_OPTIONS) {
+    if (allowedFacilities?.length >= MAX_RADIO_OPTIONS) {
       return (
         <VaSelect
-          enable-analytics
+          enableAnalytics
           id="care-system-dropdown"
           label="Select a VA health care system"
           name="to-care-system"
@@ -416,11 +521,42 @@ const SelectCareTeam = () => {
     return null;
   };
 
+  if (allTriageGroupsBlocked) {
+    return (
+      <div className="choose-va-health-care-system">
+        <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
+          Select care team
+        </h1>
+        <BlockedTriageGroupAlert
+          alertStyle={BlockedTriageAlertStyles.ALERT}
+          parentComponent={ParentComponent.FOLDER_HEADER}
+        />
+      </div>
+    );
+  }
+
+  const showSingleFacilityBlockedAlert =
+    blockedFacilities?.length === 1 && !allTriageGroupsBlocked;
+
+  const showIndividualTeamsBlockedAlert =
+    blockedRecipients?.length > 0 &&
+    !blockedFacilities?.length &&
+    !allTriageGroupsBlocked;
+
+  const showBlockedAlert =
+    showSingleFacilityBlockedAlert || showIndividualTeamsBlockedAlert;
+
   return (
     <div className="choose-va-health-care-system">
       <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
         Select care team
       </h1>
+      {showBlockedAlert && (
+        <BlockedTriageGroupAlert
+          alertStyle={BlockedTriageAlertStyles.INFO}
+          parentComponent={ParentComponent.FOLDER_HEADER}
+        />
+      )}
       <EmergencyNote dropDownFlag />
       <RouteLeavingGuard
         saveDraftHandler={saveDraftHandler}
@@ -450,28 +586,40 @@ const SelectCareTeam = () => {
         <div className="vads-u-margin-top--2">
           <p className="vads-u-margin-bottom--1">
             <Link to={Paths.CARE_TEAM_HELP}>
-              What to do if you can’t find your care team
+              {SelectCareTeamPage.CANT_FIND_CARE_TEAM_LINK}
             </Link>
           </p>
         </div>
         {showContactListLink && (
           <div className="vads-u-margin-top--2">
             <p className="vads-u-margin-bottom--1">
-              <strong>Note:</strong> You can add more care teams to select from
-              by updating your contact list.
+              <strong>Note:</strong>{' '}
+              {SelectCareTeamPage.CANT_FIND_CARE_TEAM_NOTE}
             </p>
             <Link to={Paths.CONTACT_LIST}>Update your contact list</Link>
           </div>
         )}
         <div>
-          <VaButton
-            continue
-            class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
-            data-testid="continue-button"
-            data-dd-action-name="Continue button on Select care team page"
-            onClick={e => handlers.onContinue(e)}
-            text={null}
-          />
+          {mhvSecureMessagingCuratedListFlow ? (
+            <va-link-action
+              href={getDestinationPath(true)}
+              text={getDestinationLabel()}
+              data-testid="continue-button"
+              data-dd-action-name="Continue button on Select care team page"
+              onClick={e => handlers.onContinue(e)}
+              class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
+              type="primary"
+            />
+          ) : (
+            <VaButton
+              continue
+              class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
+              data-testid="continue-button"
+              data-dd-action-name="Continue button on Select care team page"
+              onClick={e => handlers.onContinue(e)}
+              text={null}
+            />
+          )}
         </div>
       </div>
     </div>

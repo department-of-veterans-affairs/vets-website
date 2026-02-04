@@ -3,15 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom-v5-compat';
 import {
   VaLink,
-  VaCard,
   VaPagination,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import OtherWaysToSendYourDocuments from './claim-files-tab-v2/OtherWaysToSendYourDocuments';
+import DocumentCard from './DocumentCard';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import { usePagination } from '../hooks/usePagination';
 import { fetchFailedUploads } from '../actions';
-import { buildDateFormatter } from '../utils/helpers';
+import {
+  getTrackedItemDisplayNameFromEvidenceSubmission,
+  setDocumentTitle,
+} from '../utils/helpers';
 import { setPageFocus } from '../utils/page';
 import { ITEMS_PER_PAGE } from '../constants';
 import NeedHelp from './NeedHelp';
@@ -27,8 +30,6 @@ const FilesWeCouldntReceive = () => {
   const { data: failedFiles, loading, error } = useSelector(
     state => state.disability.status.failedUploads,
   );
-
-  const formatDate = buildDateFormatter();
 
   // Sort failed files by date (most recent first)
   const sortedFailedFiles = useMemo(
@@ -53,6 +54,10 @@ const FilesWeCouldntReceive = () => {
     onPageSelect(page);
     setPageFocus('#pagination-info');
   };
+
+  useEffect(() => {
+    setDocumentTitle("Files we couldn't receive");
+  }, []);
 
   useEffect(
     () => {
@@ -104,12 +109,14 @@ const FilesWeCouldntReceive = () => {
         <h1>Files we couldn’t receive</h1>
         <p>
           If we couldn’t receive files you submitted online, you’ll need to
-          submit them by mail or in person.
+          submit them by mail or in person. If you already resubmitted these
+          files, you don’t need to do anything else. Files submitted by mail or
+          in person, by you or by others, don’t appear in this tool.
         </p>
         <VaLink
           className="vads-u-display--block"
           href="#other-ways-to-send-documents"
-          text="Learn about other ways to send your documents."
+          text="Learn about other ways to send your documents"
           onClick={e => {
             e.preventDefault();
             setPageFocus('#other-ways-to-send');
@@ -126,14 +133,8 @@ const FilesWeCouldntReceive = () => {
           {hasFailedFiles ? (
             <>
               <p>
-                This is a list of files you submitted using this tool that we
-                couldn’t receive. You’ll need to resubmit these documents by
-                mail or in person. We’re sorry about this.
-              </p>
-              <p>
-                <strong>Note:</strong> If you already resubmitted these files,
-                you don’t need to do anything else. Files submitted by mail or
-                in person, by you or by others, don’t appear in this tool.
+                We couldn’t receive these files you submitted. We only show
+                files from the last 60 days.
               </p>
 
               {shouldPaginate &&
@@ -151,36 +152,38 @@ const FilesWeCouldntReceive = () => {
                 data-testid="failed-files-list"
                 role="list"
               >
-                {currentPageItems.map(file => (
-                  <li key={file.id}>
-                    <VaCard
-                      className="vads-u-margin-y--3"
-                      data-testid={`failed-file-${file.id}`}
-                    >
-                      <h3
-                        className="filename-title vads-u-margin-y--0 vads-u-margin-bottom--2"
-                        data-dd-privacy="mask"
-                        data-dd-action-name="document filename"
-                      >
-                        File name:
-                        {file.fileName}
-                      </h3>
-                      <div>Request type: {file.trackedItemDisplayName}</div>
-                      <div>Date failed: {formatDate(file.failedDate)}</div>
-                      <div>File type: {file.documentType}</div>
-                      <VaLink
-                        active
-                        href={`/track-claims/your-claims/${
-                          file.claimId
-                        }/status`}
-                        text="Go to claim this file was uploaded for"
-                        label={`Go to the claim this file was uploaded for: ${
-                          file.fileName
-                        }`}
+                {currentPageItems.map(file => {
+                  const requestType = getTrackedItemDisplayNameFromEvidenceSubmission(
+                    file,
+                  );
+
+                  const requestTypeText = requestType
+                    ? `Submitted in response to request: ${requestType}`
+                    : 'You submitted this file as additional evidence.';
+
+                  const link = {
+                    href: `/track-claims/your-claims/${file.claimId}/status`,
+                    text: 'Go to the claim associated with this file',
+                    label: `Go to the claim associated with this file: ${
+                      file.fileName
+                    }`,
+                  };
+
+                  return (
+                    // ignore heading order violation (see [Design](https://www.figma.com/design/m1Xt8XjVDjZIbliCYcCKpE/Document-status?node-id=10278-153365&t=z9yq8vxF1Hj4HYmm-4))
+                    <li key={file.id} data-a11y-ignore="heading-order">
+                      <DocumentCard
+                        index={file.id}
+                        variant="failed"
+                        fileName={file.fileName}
+                        documentType={file.documentType}
+                        requestTypeText={requestTypeText}
+                        date={file.failedDate}
+                        link={link}
                       />
-                    </VaCard>
-                  </li>
-                ))}
+                    </li>
+                  );
+                })}
               </ul>
               {shouldPaginate && (
                 <VaPagination

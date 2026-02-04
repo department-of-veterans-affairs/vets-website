@@ -12,15 +12,13 @@ import {
   expandArrayPages,
   createFormPageList,
 } from 'platform/forms-system/src/js/helpers';
-import { validateWhiteSpace } from 'platform/forms/validations';
 
 import { MARRIAGE_TYPES, PICKLIST_DATA } from '../constants';
-
-export const validateName = (errors, pageData) => {
-  const { first, last } = pageData;
-  validateWhiteSpace(errors.first, first);
-  validateWhiteSpace(errors.last, last);
-};
+import {
+  ADD_WORKFLOW_MAPPINGS,
+  REMOVE_WORKFLOW_MAPPINGS,
+  getV2Destination,
+} from '../dataMappings';
 
 const PHONE_KEYS = ['phoneNumber', 'internationalPhone'];
 
@@ -67,27 +65,52 @@ export const customFormReplacer = (key, value) => {
 };
 
 /**
- * Clean data fields - remove fields with empty values & arrays
- * @param {any} sourceData - source data object
- * @param {string[]} fields - fields to copy
- * @returns {any} clean data object
+ * Check if the form should go through v3 picklist unless Veteran has a v2 form
+ * in progress
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if v3 picklist should be shown
  */
-function copyDataFields(sourceData, fields) {
-  const cleanData = {};
+export const showV3Picklist = formData =>
+  !!formData?.vaDependentsV3 && formData?.vaDependentV2Flow !== true;
+
+/**
+ * Extract data fields with values from source data
+ *
+ * Returns only fields that have meaningful data (non-empty values/arrays).
+ * This prevents accidentally setting flags when no actual data exists, fixing
+ * a bug where options could be enabled without corresponding data.
+ *
+ * @param {object} sourceData - source data object
+ * @param {string[]} fields - fields to extract
+ * @returns {object} object containing only fields with data
+ */
+function extractDataFields(sourceData, fields) {
+  const result = {};
   fields.forEach(field => {
     const value = sourceData[field];
     if (Array.isArray(value) ? value.length > 0 : value) {
-      // eslint-disable-next-line no-param-reassign
-      cleanData[field] = value;
+      result[field] = cloneDeep(value);
     }
   });
-  return cleanData;
+  return result;
 }
 
 /**
  * Transform form data into submission data format
- * @param {object} payload - form object from Redux store
- * @returns {object} - submission data object
+ *
+ * SINGLE SOURCE OF TRUTH for submission flags:
+ * This function is the authoritative source for view:selectable686Options
+ * in the final submission. It rebuilds these flags based on actual data
+ * presence, not on what the user selected in the wizard.
+ *
+ * Why this matters:
+ * - User might select an option in the wizard but not complete the data entry
+ * - Pages may be visible during editing (wizard sets navigation flags)
+ * - But submission should only include flags for workflows with actual data
+ * - This prevents backend errors like "flag is true but data is nil"
+ *
+ * @param {object} payload - form object from Redux store with structure { data: {...}, ... }
+ * @returns {object} - submission data object with validated flags
  */
 export function buildSubmissionData(payload) {
   if (!payload?.data) {
@@ -95,7 +118,7 @@ export function buildSubmissionData(payload) {
   }
 
   const sourceData = payload.data;
-  let cleanData = {};
+  const cleanData = {};
 
   const addEnabled = sourceData['view:addOrRemoveDependents']?.add === true;
   const removeEnabled =
@@ -130,38 +153,20 @@ export function buildSubmissionData(payload) {
     }
   });
 
-  const addDataMappings = {
-    addSpouse: [
-      'currentMarriageInformation',
-      'doesLiveWithSpouse',
-      'spouseInformation',
-      'spouseSupportingDocuments',
-      'spouseMarriageHistory',
-      'veteranMarriageHistory',
-    ],
-    addChild: ['childrenToAdd', 'childSupportingDocuments'],
-    addDisabledChild: ['childrenToAdd', 'childSupportingDocuments'],
-    report674: ['studentInformation'],
-  };
-
-  const removeDataMappings = {
-    reportDivorce: ['reportDivorce'],
-    reportDeath: ['deaths'],
-    reportStepchildNotInHousehold: ['stepChildren'],
-    reportMarriageOfChildUnder18: ['childMarriage'],
-    reportChild18OrOlderIsNotAttendingSchool: ['childStoppedAttendingSchool'],
-  };
+  // Use centralized workflow mappings from dataMappings.js
+  const addDataMappings = ADD_WORKFLOW_MAPPINGS;
+  const removeDataMappings = REMOVE_WORKFLOW_MAPPINGS;
 
   // Add options
   const enabledAddOptions = {};
   if (addEnabled) {
     Object.entries(addDataMappings).forEach(([option, fields]) => {
       if (addOptions[option] === true) {
-        enabledAddOptions[option] = true;
-        cleanData = {
-          ...cleanData,
-          ...copyDataFields(sourceData, fields),
-        };
+        const optionData = extractDataFields(sourceData, fields);
+        if (Object.keys(optionData).length > 0) {
+          Object.assign(cleanData, optionData);
+          enabledAddOptions[option] = true;
+        }
       }
     });
   }
@@ -170,12 +175,18 @@ export function buildSubmissionData(payload) {
   const enabledRemoveOptions = {};
   if (removeEnabled) {
     Object.entries(removeDataMappings).forEach(([option, fields]) => {
-      if (removeOptions[option] === true) {
-        enabledRemoveOptions[option] = true;
-        cleanData = {
-          ...cleanData,
-          ...copyDataFields(sourceData, fields),
-        };
+      // Support both V2 (checkbox) and V3 (picklist) flows:
+      // - V2: removeOptions[option] is set when user checks the box - only check selected options
+      // - V3: removeOptions is empty - check all options after picklist transformation
+      const isV3Flow = showV3Picklist(sourceData);
+      const shouldCheckOption = isV3Flow || removeOptions[option] === true;
+
+      if (shouldCheckOption) {
+        const optionData = extractDataFields(sourceData, fields);
+        if (Object.keys(optionData).length > 0) {
+          Object.assign(cleanData, optionData);
+          enabledRemoveOptions[option] = true;
+        }
       }
     });
   }
@@ -292,25 +303,65 @@ export const childEvidence = (formData = {}) => {
   };
 };
 
+/**
+ * Check if duplicate modal should be shown
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if duplicate modal should be shown
+ */
 export const showDupeModalIfEnabled = (formData = {}) =>
   !!formData.vaDependentsDuplicateModals;
 
+/**
+ * Check if adding dependents
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if adding dependents
+ */
 export const isAddingDependents = formData =>
   !!formData?.['view:addOrRemoveDependents']?.add;
+
+/**
+ * Check if removing dependents
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if removing dependents
+ */
 export const isRemovingDependents = formData =>
   !!formData?.['view:addOrRemoveDependents']?.remove;
 
-// Go through v3 picklist unless Veteran has a v2 for in progress
-export const showV3Picklist = formData =>
-  !!formData?.vaDependentsV3 && formData?.vaDependentV2Flow !== true;
+/**
+ * Show v2 flow if Veteran has a v2 form in progress
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if v3 picklist should be shown
+ */
 export const noV3Picklist = formData => !showV3Picklist(formData);
-export const showOptionsSelection = formData =>
-  showV3Picklist(formData) ? formData.dependents?.awarded.length > 0 : true;
 
+/**
+ * Check if there are awarded dependents in form data
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if there are awarded dependents
+ */
 export const hasAwardedDependents = (formData = {}) =>
   Array.isArray(formData?.dependents?.awarded) &&
   formData.dependents.awarded.length > 0;
 
+/**
+ * If v3 flow is enabled, show options selection (add or remove question) if
+ * there are awarded dependents and no dependents API error; if no awarded
+ * dependents, only show the add dependents flow
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if options selection should be shown
+ */
+export const showOptionsSelection = formData =>
+  showV3Picklist(formData)
+    ? !formData['view:dependentsApiError'] && hasAwardedDependents(formData)
+    : true;
+
+/**
+ * If v3 picklist is enabled, check if remove flow is selected and if all the
+ * dependents have a relationship value, then show the picklist page
+ * @param {object} formData - form data object
+ * @param {string} relationship - relationship to veteran
+ * @returns {boolean} - true if picklist page is visible
+ */
 export const isVisiblePicklistPage = (formData, relationship) => {
   const pickList = formData?.[PICKLIST_DATA] || [];
   return (
@@ -323,13 +374,31 @@ export const isVisiblePicklistPage = (formData, relationship) => {
   );
 };
 
+/**
+ * Check if any picklist items are selected
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if any picklist items are selected
+ */
 export const hasSelectedPicklistItems = formData =>
   (formData?.[PICKLIST_DATA] || []).some(item => item.selected);
 
 /**
- * Build location object for V2 format
- * @param {Object} item - Picklist item with location fields
- * @returns {Object} V2 location format
+ * Transforms V3 picklist location data to V2 location format.
+ *
+ * Handles both US and international locations:
+ * - US: { outsideUsa: false, location: { city, state } }
+ * - International: { outsideUsa: true, location: { city, state (province), country } }
+ *
+ * NOTE: For international addresses, 'state' field contains the province value.
+ * This follows the addressUI pattern from the platform forms system.
+ *
+ * @param {Object} item - Picklist item containing location fields
+ * @param {boolean} item.endOutsideUs - Whether location is outside the US
+ * @param {string} item.endCity - City name
+ * @param {string} [item.endState] - State code (US addresses)
+ * @param {string} [item.endProvince] - Province (international addresses)
+ * @param {string} [item.endCountry] - Country code (international addresses)
+ * @returns {Object} V2 location format with outsideUsa flag and location object
  */
 function buildLocation(item) {
   if (item.endOutsideUs === true) {
@@ -337,6 +406,8 @@ function buildLocation(item) {
       outsideUsa: true,
       location: {
         city: item.endCity || '',
+        // Copying addressUI pattern, were 'state' is submitted for province
+        state: item.endProvince || '',
         country: item.endCountry || '',
       },
     };
@@ -353,8 +424,8 @@ function buildLocation(item) {
 
 /**
  * Transform V3 picklist item with removalReason: 'childMarried' to V2 format
- * @param {Object} item - Picklist item
- * @returns {Object} V2 childMarriage format
+ * @param {object} item - Picklist item
+ * @returns {object} V2 childMarriage format
  */
 function transformChildMarriage(item) {
   return {
@@ -400,13 +471,34 @@ function transformChildDeath(item) {
     deceasedDependentIncome: 'N',
     childStatus: {
       childUnder18: item.age < 18,
-      // assume disabled if over 23, we'll add a specific question later
+      // assume disabled if over 24, we'll add a specific question later
       // childOver18InSchool: true, // Can't assume this
-      disabled: item.age > 23,
+      disabled: item.age > 24,
       stepChild: item.isStepchild === 'Y',
       // adopted: null, // Optional field
     },
   };
+}
+
+/**
+ * Validates that SSN is exactly 9 digits
+ * @param {string} ssn - SSN to validate
+ * @returns {boolean} true if SSN is exactly 9 digits
+ */
+function isValidSSN(ssn) {
+  if (!ssn) return false;
+  const digitsOnly = String(ssn).replace(/\D/g, '');
+  return digitsOnly.length === 9;
+}
+
+/**
+ * Normalizes SSN to digits only (removes dashes and other formatting)
+ * @param {string} ssn - SSN to normalize
+ * @returns {string} SSN with only digits
+ */
+function normalizeSSN(ssn) {
+  if (!ssn) return '';
+  return String(ssn).replace(/\D/g, '');
 }
 
 /**
@@ -422,9 +514,8 @@ function transformSpouseDivorce(item) {
     other: 'Other',
   };
 
-  return {
+  const result = {
     fullName: item.fullName,
-    ssn: item.ssn,
     birthDate: item.dateOfBirth,
     date: item.endDate,
     // TODO: Should we support Other option or default to annulmentOrVoid
@@ -434,6 +525,13 @@ function transformSpouseDivorce(item) {
     // TODO: Confirm income field source - currently defaulting to 'N'
     spouseIncome: 'N',
   };
+
+  // Only include SSN if it's exactly 9 digits, and normalize to digits only
+  if (isValidSSN(item.ssn)) {
+    result.ssn = normalizeSSN(item.ssn);
+  }
+
+  return result;
 }
 
 /**
@@ -501,10 +599,27 @@ function transformStepchildByFlag(item) {
 }
 
 /**
- * Transforms V3 picklist removal data to V2 format
- * Mutates the data object in place
- * @param {Object} data - Form data object
- * @returns {Object} data - Transformed data object
+ * Transforms V3 picklist removal data to V2 format.
+ *
+ * TRANSFORMATION PROCESS:
+ * 1. Filters selected dependents from picklist
+ * 2. Excludes items that should remain in V3 format (e.g., stepchild with support > 50%)
+ * 3. Routes each item to appropriate V2 array based on removal reason and stepchild status
+ * 4. Applies transformation function specific to removal type
+ * 5. Mutates data object by adding V2 arrays (deaths, childMarriage, etc.)
+ *
+ * V2 DATA ARRAYS:
+ * - deaths[] - All death-related removals (child, spouse, parent)
+ * - childMarriage[] - Child married (non-stepchildren only)
+ * - childStoppedAttendingSchool[] - Child stopped school (non-stepchildren only)
+ * - stepChildren[] - Stepchild-specific removals (left household, married, etc.)
+ * - reportDivorce{} - Spouse divorce/annulment (single object, not array)
+ *
+ * IMPORTANT: This function does NOT set submission flags. Flags are rebuilt
+ * by buildSubmissionData() based on actual data presence.
+ *
+ * @param {Object} data - Form data object containing view:removeDependentPickList
+ * @returns {Object} Mutated data object with V2 arrays added
  */
 export function transformPicklistToV2(data) {
   const picklist = data[PICKLIST_DATA] || [];
@@ -513,28 +628,6 @@ export function transformPicklistToV2(data) {
   if (selected.length === 0) {
     return data;
   }
-
-  // Filter out items that should not be transformed
-  const itemsToTransform = selected.filter(item => {
-    // Skip stepchild left household with financial support > 50%
-    if (
-      item.isStepchild === 'Y' &&
-      item.removalReason === 'stepchildNotMember' &&
-      item.stepchildFinancialSupport === 'Y'
-    ) {
-      return false;
-    }
-
-    // Skip child not in school with permanent disability
-    if (
-      item.removalReason === 'childNotInSchool' &&
-      item.childHasPermanentDisability === 'Y'
-    ) {
-      return false;
-    }
-
-    return true;
-  });
 
   // Initialize V2 arrays
   const v2Data = {
@@ -545,43 +638,27 @@ export function transformPicklistToV2(data) {
     reportDivorce: null,
   };
 
-  // Routing table: removalReason -> [arrayName, transformFn] or [[default], [stepchild]]
-  const routes = {
-    // Deaths - all dependent types go to deaths array
-    childDied: ['deaths', transformChildDeath],
-    spouseDied: ['deaths', transformSpouseDeath],
-    parentDied: ['deaths', transformParentDeath],
-
-    // Child married - stepchildren go to stepChildren, others to childMarriage
-    childMarried: [
-      ['childMarriage', transformChildMarriage], // default
-      ['stepChildren', transformStepchildByFlag], // stepchild
-    ],
-
-    // Child not in school - stepchildren go to stepChildren, others to childStoppedAttendingSchool
-    childNotInSchool: [
-      ['childStoppedAttendingSchool', transformChildNotInSchool], // default
-      ['stepChildren', transformStepchildByFlag], // stepchild
-    ],
-
-    // Spouse divorce/annulment
-    marriageEnded: ['reportDivorce', transformSpouseDivorce],
-
-    // Stepchild left household
-    stepchildNotMember: ['stepChildren', transformStepchildByFlag],
-
-    // Child adopted (TODO: implement backend support for non-stepchild adoption)
-    childAdopted: ['stepChildren', transformStepchildByFlag],
-
-    // Parent other - not supported
-    parentOther: null,
+  // Map removal reasons to transformation functions
+  // Destination arrays are determined by centralized routing in dataMappings.js
+  const transformFunctions = {
+    childDied: transformChildDeath,
+    spouseDied: transformSpouseDeath,
+    parentDied: transformParentDeath,
+    childMarried: transformChildMarriage,
+    childNotInSchool: transformChildNotInSchool,
+    marriageEnded: transformSpouseDivorce,
+    stepchildNotMember: transformStepchildByFlag,
+    childAdopted: transformStepchildByFlag,
   };
 
-  itemsToTransform.forEach(item => {
-    const route = routes[item.removalReason];
+  selected.forEach(item => {
+    const isStepchild = item.isStepchild === 'Y';
+
+    // Get destination array from centralized routing
+    const arrayName = getV2Destination(item.removalReason, isStepchild);
 
     // Handle unknown removal reasons
-    if (route === undefined) {
+    if (arrayName === undefined) {
       dataDogLogger({
         message: 'Unknown removal reason in v3 to V2 transform',
         attributes: { removalReason: item.removalReason },
@@ -591,21 +668,18 @@ export function transformPicklistToV2(data) {
     }
 
     // Skip unsupported removal reasons
-    if (route === null) {
+    if (arrayName === null) {
       return;
     }
 
-    // Determine which route to use based on stepchild status
-    let arrayName;
-    let transformFn;
-    if (Array.isArray(route[0])) {
-      // Has stepchild override: [[default], [stepchild]]
-      const routeIndex = item.isStepchild === 'Y' ? 1 : 0;
-      [arrayName, transformFn] = route[routeIndex];
-    } else {
-      // Simple route: [arrayName, transformFn]
-      [arrayName, transformFn] = route;
-    }
+    // Get transformation function
+    // For stepchild-routed items, use stepchild transform; otherwise use reason-specific transform
+    const transformFn =
+      isStepchild &&
+      (item.removalReason === 'childMarried' ||
+        item.removalReason === 'childNotInSchool')
+        ? transformStepchildByFlag
+        : transformFunctions[item.removalReason];
 
     // Apply transformation and add to destination
     if (arrayName === 'reportDivorce') {
@@ -646,43 +720,118 @@ export function transformPicklistToV2(data) {
     data.reportDivorce = v2Data.reportDivorce;
   }
 
-  // Set removal options flags based on what was transformed
-  // eslint-disable-next-line no-param-reassign
-  data['view:removeDependentOptions'] = {
-    reportDivorce: !!v2Data.reportDivorce,
-    reportDeath: v2Data.deaths.length > 0,
-    reportStepchildNotInHousehold: v2Data.stepChildren.length > 0,
-    reportMarriageOfChildUnder18: v2Data.childMarriage.length > 0,
-    reportChild18OrOlderIsNotAttendingSchool:
-      v2Data.childStoppedAttendingSchool.length > 0,
-  };
-
-  // eslint-disable-next-line no-param-reassign
-  data['view:selectable686Options'] = {
-    addSpouse: v2Data['view:selectable686Options']?.addSpouse || false,
-    addChild: v2Data['view:selectable686Options']?.addChild || false,
-    report674: v2Data['view:selectable686Options']?.report674 || false,
-    addDisabledChild:
-      v2Data['view:selectable686Options']?.addDisabledChild || false,
-    ...data['view:removeDependentOptions'],
-  };
+  /**
+   * NOTE: We intentionally do NOT set view:removeDependentOptions or
+   * view:selectable686Options here. Those flags are set by buildSubmissionData()
+   * which is the single source of truth for submission flags.
+   *
+   * This function's responsibility is ONLY to transform V3 picklist data
+   * into V2 data arrays. Flag validation happens later in the pipeline.
+   */
 
   return data;
 }
 
 /**
- * Get form data for submission
- * @param {object} formConfig - form configuration object
- * @param {object} form - form object from Redux store
- * @returns {object} - transformed form data
+ * Enrich reportDivorce with SSN from awarded dependents if available
+ * Matches by fullName and birthDate to find the spouse in the awarded dependents
+ * @param {Object} data - Form data object
+ * @returns {Object} Enriched data object with SSN added to reportDivorce if found
  */
-export function customTransformForSubmit(formConfig, form) {
+export function enrichDivorceWithSSN(data) {
+  // Only process if reportDivorce exists and doesn't already have SSN
+  if (!data?.reportDivorce || data.reportDivorce.ssn) {
+    return data;
+  }
+
+  const { reportDivorce } = data;
+  const awardedDependents = data?.dependents?.awarded || [];
+
+  // Find matching spouse in awarded dependents
+  const matchingSpouse = awardedDependents.find(dependent => {
+    // Match by relationship type
+    if (dependent.relationshipToVeteran !== 'Spouse') {
+      return false;
+    }
+
+    // Match by name (case-insensitive)
+    const {
+      dateOfBirth: dependentBirthDate,
+      fullName: { first, last, middle } = {},
+    } = dependent;
+    const {
+      birthDate: reportDivorceBirthDate,
+      fullName: {
+        first: divorceFirst,
+        last: divorceLast,
+        middle: divorceMiddle,
+      } = {},
+    } = reportDivorce;
+    const firstNameMatch = first?.toLowerCase() === divorceFirst?.toLowerCase();
+    const lastNameMatch = last?.toLowerCase() === divorceLast?.toLowerCase();
+    const middleNameMatch =
+      middle?.toLowerCase() === divorceMiddle?.toLowerCase() ||
+      (!middle && !divorceMiddle);
+
+    const namesMatch = firstNameMatch && lastNameMatch && middleNameMatch;
+
+    // Match by birthDate (formats: 'yyyy-MM-dd' in dependents, same in reportDivorce)
+    const birthDatesMatch = dependentBirthDate === reportDivorceBirthDate;
+
+    return namesMatch && birthDatesMatch;
+  });
+
+  // If we found a match, add the SSN (only if it's exactly 9 digits, normalized to digits only)
+  if (matchingSpouse?.ssn && isValidSSN(matchingSpouse.ssn)) {
+    return {
+      ...data,
+      reportDivorce: {
+        ...reportDivorce,
+        ssn: normalizeSSN(matchingSpouse.ssn),
+      },
+    };
+  }
+
+  return data;
+}
+
+/**
+ * Initializes payload with required defaults for backend submission.
+ *
+ * @param {Object} form - Raw form data from the application
+ * @returns {Object} Payload object with data property and defaults set
+ */
+function prepareSubmissionPayload(form) {
   const payload = cloneDeep(form);
   if (!payload.data) {
     payload.data = {};
   }
   payload.data.useV2 = true;
   payload.data.daysTillExpires = 365;
+  return payload;
+}
+
+/**
+ * Filters out data from inactive pages based on form configuration.
+ *
+ * IMPORTANT: Preserves critical wizard fields needed for page dependencies
+ * during submission, even if their pages are marked inactive. This prevents
+ * a cascade where removing view:addOrRemoveDependents causes all dependent
+ * pages to become inactive and lose their data.
+ *
+ * @param {Object} formConfig - Form configuration object defining pages and structure
+ * @param {Object} payload - Payload object with data property
+ * @returns {Object} Payload object with inactive page data removed (but wizard fields preserved)
+ */
+function removeInactivePageData(formConfig, payload) {
+  // Preserve wizard fields that are needed for page dependencies
+  const wizardFields = {
+    'view:addOrRemoveDependents': payload.data?.['view:addOrRemoveDependents'],
+    'view:addDependentOptions': payload.data?.['view:addDependentOptions'],
+    'view:removeDependentOptions':
+      payload.data?.['view:removeDependentOptions'],
+    'view:selectable686Options': payload.data?.['view:selectable686Options'],
+  };
 
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
@@ -690,18 +839,137 @@ export function customTransformForSubmit(formConfig, form) {
   );
   const activePages = getActivePages(expandedPages, payload.data);
   const inactivePages = getInactivePages(expandedPages, payload.data);
-  const withoutInactivePages = filterInactivePageData(
-    inactivePages,
-    activePages,
+
+  const filtered = filterInactivePageData(inactivePages, activePages, payload);
+
+  // CRITICAL: filterInactivePageData can return either:
+  // - Payload structure: { data: {...}, ... }
+  // - Data object directly: { field1: ..., field2: ..., ... }
+  // We need to restore wizard fields to the correct location
+  if (!filtered) {
+    return payload;
+  }
+
+  // Check if filtered has a data property (payload structure) or is a data object directly
+  const isPayloadStructure = filtered.data !== undefined;
+  const dataObject = isPayloadStructure ? filtered.data : filtered;
+
+  // Restore wizard fields if they were removed
+  // (They may have been removed if their pages were marked inactive due to
+  // depends functions that check for awarded dependents in V3 flow)
+  Object.keys(wizardFields).forEach(key => {
+    if (wizardFields[key] && !dataObject[key]) {
+      dataObject[key] = wizardFields[key];
+    }
+  });
+
+  return filtered;
+}
+
+/**
+ * Extracts data object from payload for transformation functions.
+ *
+ * TYPE SAFETY NOTE:
+ * filterInactivePageData returns a payload object { data: {...}, ... }
+ * but transformPicklistToV2 and showV3Picklist expect a data object.
+ *
+ * This extraction ensures all functions receive the correct type and prevents
+ * the bug where flags are set without corresponding data.
+ *
+ * @param {Object} payload - Payload object with data property
+ * @returns {Object} Data object extracted from payload
+ */
+function extractDataFromPayload(payload) {
+  return payload.data || payload;
+}
+
+/**
+ * Transforms V3 picklist removal data to V2 format if V3 is enabled.
+ *
+ * @param {Object} data - Form data object
+ * @returns {Object} Data object with V3 transformations applied (if applicable)
+ */
+function applyPicklistTransformations(data) {
+  return showV3Picklist(data) ? transformPicklistToV2(data) : data;
+}
+
+/**
+ * Enriches data with SSN from awarded dependents if needed.
+ *
+ * @param {Object} data - Form data object
+ * @returns {Object} Data object with SSN enrichment applied
+ */
+function enrichDataWithSSN(data) {
+  return enrichDivorceWithSSN(data);
+}
+
+/**
+ * Rebuilds submission data with validated flags and wraps in payload structure.
+ *
+ * This is where submission flags are set based on actual data presence.
+ * buildSubmissionData is the single source of truth for flags that go to backend.
+ *
+ * @param {Object} payload - Payload structure (without data property)
+ * @param {Object} transformedData - Transformed form data
+ * @returns {Object} Complete payload with validated submission flags
+ */
+function rebuildSubmissionPayload(payload, transformedData) {
+  return buildSubmissionData({
+    ...payload,
+    data: transformedData,
+  });
+}
+
+/**
+ * Get form data for submission - main entry point for form submission.
+ *
+ * TRANSFORMATION PIPELINE:
+ * 1. Prepare payload with defaults (useV2, daysTillExpires)
+ * 2. Filter out data from inactive pages
+ * 3. Extract data for transformation (type safety)
+ * 4. Transform V3 picklist data to V2 format
+ * 5. Enrich reportDivorce with SSN from awarded dependents
+ * 6. Rebuild submission data with validated flags
+ * 7. Extract data from payload structure for backend
+ * 8. Serialize to JSON
+ *
+ * @param {Object} formConfig - Form configuration object defining structure
+ * @param {Object} form - Raw form data from Redux store
+ * @returns {Object} Object with body (JSON string) and data (cleaned payload)
+ */
+export function customTransformForSubmit(formConfig, form) {
+  // Step 1: Initialize payload with required defaults
+  const payload = prepareSubmissionPayload(form);
+
+  // Step 2: Remove data from pages user didn't visit/complete
+  const payloadWithoutInactivePages = removeInactivePageData(
+    formConfig,
     payload,
   );
 
-  // Transform V3 picklist data to V2 format if V3 is enabled
-  const updatedData = showV3Picklist(withoutInactivePages)
-    ? transformPicklistToV2(withoutInactivePages)
-    : withoutInactivePages;
+  // Step 3: Extract data for transformation (type safety)
+  const dataToTransform = extractDataFromPayload(payloadWithoutInactivePages);
 
-  const cleanedPayload = buildSubmissionData(updatedData);
+  // Step 4: Transform V3 picklist data to V2 format if needed
+  const transformedData = applyPicklistTransformations(dataToTransform);
 
-  return JSON.stringify(cleanedPayload, customFormReplacer) || '{}';
+  // Step 5: Enrich reportDivorce with SSN from awarded dependents
+  const enrichedData = enrichDataWithSSN(transformedData);
+
+  // Step 6: Rebuild payload with validated flags (single source of truth)
+  const finalPayload = rebuildSubmissionPayload(
+    payloadWithoutInactivePages,
+    enrichedData,
+  );
+
+  // Step 7: Extract the data from payload structure for backend submission
+  // buildSubmissionData returns { data: cleanData, ...payload }
+  // but backend expects just the cleanData without the wrapper
+  const submissionData = finalPayload.data || finalPayload;
+
+  // Step 8: Serialize to JSON for backend submission
+  return {
+    body: JSON.stringify(submissionData, customFormReplacer) || '{}',
+    data: finalPayload || {},
+  };
 }

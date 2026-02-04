@@ -32,4 +32,24 @@ const schema = {
   required: ['agreementType'],
 };
 
-export { schema, uiSchema };
+const updateFormData = (oldData, formData) => {
+  const prev = oldData?.agreementType;
+  const curr = formData?.agreementType;
+
+  if (prev !== curr) {
+    return {
+      isAuthenticated: formData.isAuthenticated,
+      authorizedOfficial: oldData?.authorizedOfficial,
+      agreementType: curr,
+      acknowledgements: {},
+      institutionDetails: {},
+      additionalInstitutionDetails: [],
+      yellowRibbonProgramRequest: [],
+      pointsOfContact: {},
+    };
+  }
+
+  return formData;
+};
+
+export { uiSchema, schema, updateFormData };

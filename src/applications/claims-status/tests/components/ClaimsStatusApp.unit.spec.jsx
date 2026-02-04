@@ -40,7 +40,6 @@ describe('<AppContent>', () => {
         login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
         profile: {
           services: [
-            backendServices.EVSS_CLAIMS,
             backendServices.APPEALS_STATUS,
             backendServices.LIGHTHOUSE,
           ],
@@ -88,7 +87,6 @@ describe('<AppContent>', () => {
         login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
         profile: {
           services: [
-            backendServices.EVSS_CLAIMS,
             backendServices.APPEALS_STATUS,
             backendServices.LIGHTHOUSE,
           ],
@@ -161,7 +159,6 @@ describe('<AppContent>', () => {
         login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
         profile: {
           services: [
-            backendServices.EVSS_CLAIMS,
             backendServices.APPEALS_STATUS,
             backendServices.LIGHTHOUSE,
           ],
@@ -233,7 +230,6 @@ describe('<ClaimsStatusApp> - Platform DataDog RUM Integration', () => {
         login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
         profile: {
           services: [
-            backendServices.EVSS_CLAIMS,
             backendServices.APPEALS_STATUS,
             backendServices.LIGHTHOUSE,
           ],
@@ -305,7 +301,6 @@ describe('<ClaimsStatusApp> - Platform DataDog RUM Integration', () => {
         login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
         profile: {
           services: [
-            backendServices.EVSS_CLAIMS,
             backendServices.APPEALS_STATUS,
             backendServices.LIGHTHOUSE,
           ],
@@ -340,7 +335,6 @@ describe('<ClaimsStatusApp> - Platform DataDog RUM Integration', () => {
         login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
         profile: {
           services: [
-            backendServices.EVSS_CLAIMS,
             backendServices.APPEALS_STATUS,
             backendServices.LIGHTHOUSE,
           ],

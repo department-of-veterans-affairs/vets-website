@@ -358,7 +358,16 @@ export function selectPatientProviderRelationships(state) {
     patientProviderRelationships: newAppointment.patientProviderRelationships,
     patientProviderRelationshipsStatus:
       newAppointment.patientProviderRelationshipsStatus,
+    backendServiceFailures: newAppointment.backendServiceFailures,
   };
+}
+
+export function selectSelectedProvider(state) {
+  const providerRelationships = selectPatientProviderRelationships(state);
+  const data = getFormData(state);
+  return providerRelationships?.patientProviderRelationships?.find(
+    provider => provider.providerId === data.selectedProvider,
+  );
 }
 
 function getChosenVACityState(state) {

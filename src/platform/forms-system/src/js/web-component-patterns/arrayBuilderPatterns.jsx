@@ -1,11 +1,72 @@
 import React from 'react';
 import { titleUI } from './titlePattern';
 import { yesNoSchema, yesNoUI } from './yesNoPattern';
-import {
-  getArrayUrlSearchParams,
-  maxItemsFn,
-  maxItemsHint,
-} from '../patterns/array-builder/helpers';
+import * as arrayBuilderHelpers from '../patterns/array-builder/helpers';
+
+const { maxItemsFn, maxItemsHint } = arrayBuilderHelpers;
+
+/**
+ * useFormsPattern helper
+ * https://design.va.gov/storybook/?path=/docs/uswds-va-radio--docs#forms-pattern-single
+ * @param {ArrayBuilderYesNoUIOptions} yesNoOptions
+ */
+const withUseFormsPattern = yesNoOptions => {
+  if (!yesNoOptions) return {};
+
+  return {
+    useFormsPattern: yesNoOptions.useFormsPattern ? 'single' : undefined,
+    formHeading: yesNoOptions.formHeading,
+    formDescription: yesNoOptions.formDescription,
+    formHeadingLevel: yesNoOptions.formHeadingLevel,
+    formHeadingLevelStyle: yesNoOptions.formHeadingLevelStyle,
+  };
+};
+
+/**
+ * @param {ArrayBuilderYesNoUIOptions} options
+ * @param {{
+ * labelHeaderLevel: string,
+ * ifMinimalHeader?: {
+ *   labelHeaderLevel: string,
+ *   labelHeaderLevelStyle: string
+ * }}} defaults
+ */
+const withLabelHeaderLevel = (options, defaults) => {
+  const hasLabelHeaderLevel =
+    options &&
+    Object.prototype.hasOwnProperty.call(options, 'labelHeaderLevel');
+
+  const hasLabelHeaderLevelStyle =
+    options &&
+    Object.prototype.hasOwnProperty.call(options, 'labelHeaderLevelStyle');
+
+  const result = {};
+
+  if (hasLabelHeaderLevel) {
+    // Use user value directly
+    result.labelHeaderLevel = options.labelHeaderLevel;
+  } else {
+    // Use default + ifMinimalHeader fallback
+    result.labelHeaderLevel = defaults.labelHeaderLevel;
+    result.ifMinimalHeader = {
+      labelHeaderLevel: defaults.ifMinimalHeader.labelHeaderLevel,
+    };
+  }
+
+  if (hasLabelHeaderLevelStyle) {
+    // Use user value directly
+    result.labelHeaderLevelStyle = options.labelHeaderLevelStyle;
+  } else {
+    // Use default + ifMinimalHeader fallback
+    if (!result.ifMinimalHeader) {
+      result.ifMinimalHeader = {};
+    }
+    result.ifMinimalHeader.labelHeaderLevelStyle =
+      defaults.ifMinimalHeader.labelHeaderLevelStyle;
+  }
+
+  return result;
+};
 
 /**
  * Looks for URL param 'add' and 'removedAllWarn' and returns a warning alert if both are present
@@ -14,9 +75,10 @@ export function withAlertOrDescription({
   description,
   nounSingular,
   hasMultipleItemPages,
+  showEditExplanationText = true,
 }) {
   return () => {
-    const search = getArrayUrlSearchParams();
+    const search = arrayBuilderHelpers.getArrayUrlSearchParams();
     const isAdd = search.get('add');
     const isEdit = search.get('edit');
     const removedAllWarn = search.get('removedAllWarn');
@@ -33,7 +95,7 @@ export function withAlertOrDescription({
         </>
       );
     }
-    if (isEdit && hasMultipleItemPages) {
+    if (isEdit && (hasMultipleItemPages && showEditExplanationText)) {
       return `We’ll take you through each of the sections of this ${nounSingular} for you to review and edit`;
     }
     return description || '';
@@ -50,7 +112,7 @@ export function withAlertOrDescription({
  */
 export const withEditTitle = (title, lowerCase = true) => {
   return props => {
-    const search = getArrayUrlSearchParams();
+    const search = arrayBuilderHelpers.getArrayUrlSearchParams();
     const isEdit = search.get('edit');
     const titleStr = typeof title === 'function' ? title(props) : title;
     if (isEdit) {
@@ -81,13 +143,13 @@ export const withEditTitle = (title, lowerCase = true) => {
  * }
  * ```
  *
- * @param {{
- *   title: string,
- *   nounSingular: string,
- *   lowerCase?: boolean,
- *   hasMultipleItemPages?: boolean,
- *   description?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element
- * }} options
+ * @param {Object} options
+ * @param {string} options.title
+ * @param {string} options.nounSingular
+ * @param {boolean} [options.lowerCase=true]
+ * @param {boolean} [options.hasMultipleItemPages=true]
+ * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [options.description]
+ * @param {boolean} [options.showEditExplanationText=true]
  * @returns {UISchemaOptions}
  */
 export const arrayBuilderItemFirstPageTitleUI = ({
@@ -96,10 +158,16 @@ export const arrayBuilderItemFirstPageTitleUI = ({
   nounSingular,
   lowerCase = true,
   hasMultipleItemPages = true,
+  showEditExplanationText = true,
 }) => {
   return titleUI(
     withEditTitle(title, lowerCase),
-    withAlertOrDescription({ description, nounSingular, hasMultipleItemPages }),
+    withAlertOrDescription({
+      description,
+      nounSingular,
+      hasMultipleItemPages,
+      showEditExplanationText,
+    }),
   );
 };
 
@@ -137,13 +205,20 @@ export const arrayBuilderItemSubsequentPageTitleUI = (
 };
 
 /**
- * @typedef {{
- *   title?: UISchemaOptions['ui:title'],
- *   labels?: {Y?: string, N?: string},
- *   hint?: string,
- *   errorMessages?: UISchemaOptions['ui:errorMessages'],
- *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel']
- * }} ArrayBuilderYesNoUIOptions
+ * @typedef {Object} ArrayBuilderYesNoUIOptions
+ * @property {UISchemaOptions['ui:title']} [title]
+ * @property {{ Y?: string, N?: string }} [labels]
+ * @property {{ Y?: string, N?: string }} [descriptions]
+ * @property {string | function} [hint]
+ * @property {UISchemaOptions['ui:errorMessages']} [errorMessages]
+ * @property {UISchemaOptions['ui:options']['labelHeaderLevel']} [labelHeaderLevel]
+ * @property {UISchemaOptions['ui:options']['labelHeaderLevelStyle']} [labelHeaderLevelStyle]
+ *
+ * @property {boolean | 'single'} [useFormsPattern] Alternative approach to using text > summaryTitleWithoutItems | summaryTitle
+ * @property {UISchemaOptions['ui:options']['formHeading']} [formHeading]  Used with `useFormsPattern`.
+ * @property {UISchemaOptions['ui:options']['formDescription']} [formDescription]  Used with `useFormsPattern`.
+ * @property {UISchemaOptions['ui:options']['formHeadingLevel']} [formHeadingLevel]  Used with `useFormsPattern`
+ * @property {UISchemaOptions['ui:options']['formHeadingLevelStyle']} [formHeadingLevelStyle]  Used with `useFormsPattern`
  */
 
 /**
@@ -197,7 +272,7 @@ export const arrayBuilderYesNoUI = (
 ) => {
   const { arrayPath, nounSingular, nounPlural, required } = arrayBuilderOptions;
   const defaultTitle =
-    yesNoOptionsInitial?.title || `Do you have a ${nounSingular} to add?`;
+    yesNoOptionsInitial?.title ?? `Do you have a ${nounSingular} to add?`;
 
   const requiredFn = typeof required === 'function' ? required : () => required;
 
@@ -227,17 +302,16 @@ export const arrayBuilderYesNoUI = (
         return arrayData?.length
           ? {
               'ui:title':
-                yesNoOptionsAdditional?.title ||
+                yesNoOptionsAdditional?.title ??
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
-                labelHeaderLevel:
-                  yesNoOptionsAdditional?.labelHeaderLevel || '4',
-                ifMinimalHeader: {
-                  labelHeaderLevel:
-                    yesNoOptionsAdditional?.labelHeaderLevel || '2',
-                  labelHeaderLevelStyle:
-                    yesNoOptionsAdditional?.labelHeaderLevelStyle || '3',
-                },
+                ...withLabelHeaderLevel(yesNoOptionsAdditional, {
+                  labelHeaderLevel: '4',
+                  ifMinimalHeader: {
+                    labelHeaderLevel: '2',
+                    labelHeaderLevelStyle: '3',
+                  },
+                }),
                 hint: customHint
                   ? customHint({
                       arrayData,
@@ -255,6 +329,8 @@ export const arrayBuilderYesNoUI = (
                   Y: yesNoOptionsAdditional?.labels?.Y || 'Yes',
                   N: yesNoOptionsAdditional?.labels?.N || 'No',
                 },
+                descriptions: yesNoOptionsAdditional?.descriptions,
+                ...withUseFormsPattern(yesNoOptionsAdditional),
               },
               'ui:errorMessages': {
                 required:
@@ -265,13 +341,13 @@ export const arrayBuilderYesNoUI = (
           : {
               'ui:title': defaultTitle,
               'ui:options': {
-                labelHeaderLevel: yesNoOptionsInitial?.labelHeaderLevel || '3',
-                ifMinimalHeader: {
-                  labelHeaderLevel:
-                    yesNoOptionsInitial?.labelHeaderLevel || '1',
-                  labelHeaderLevelStyle:
-                    yesNoOptionsInitial?.labelHeaderLevelStyle || '2',
-                },
+                ...withLabelHeaderLevel(yesNoOptionsInitial, {
+                  labelHeaderLevel: '3',
+                  ifMinimalHeader: {
+                    labelHeaderLevel: '1',
+                    labelHeaderLevelStyle: '2',
+                  },
+                }),
                 hint: customMoreHint
                   ? customMoreHint({
                       arrayData,
@@ -291,6 +367,8 @@ export const arrayBuilderYesNoUI = (
                   Y: yesNoOptionsInitial?.labels?.Y || 'Yes',
                   N: yesNoOptionsInitial?.labels?.N || 'No',
                 },
+                descriptions: yesNoOptionsInitial?.descriptions,
+                ...withUseFormsPattern(yesNoOptionsInitial),
               },
               'ui:errorMessages': {
                 required:

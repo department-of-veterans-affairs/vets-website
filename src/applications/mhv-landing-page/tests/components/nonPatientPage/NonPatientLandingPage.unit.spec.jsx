@@ -30,18 +30,17 @@ const setup = ({ initialState = stateFn(), props = {} } = {}) =>
     reducers,
   });
 
-let originalReplaceState;
-
-beforeEach(() => {
-  originalReplaceState = window.history.replaceState;
-  window.history.replaceState = sinon.spy();
-});
-
-afterEach(() => {
-  window.history.replaceState = originalReplaceState;
-});
-
 describe('NonPatientLandingPage component', () => {
+  let originalReplaceState;
+
+  beforeEach(() => {
+    originalReplaceState = window.history.replaceState;
+    window.history.replaceState = sinon.spy();
+  });
+
+  afterEach(() => {
+    window.history.replaceState = originalReplaceState;
+  });
   it('renders', () => {
     const { getByRole } = setup();
     expect(getByRole('heading', { level: 1, name: /My HealtheVet/ })).to.exist;

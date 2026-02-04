@@ -21,6 +21,7 @@ import {
   isSchedulingPreference,
   schedulingPreferencesUiSchema,
   schedulingPreferencesFormSchema,
+  schedulingPreferencesConvertCleanDataToPayload,
 } from './health-care-settings/schedulingPreferencesUtils';
 
 import {
@@ -181,7 +182,7 @@ export const getProfileInfoFieldAttributes = (fieldName, options = {}) => {
   if (isSchedulingPreference(fieldName)) {
     title = FIELD_TITLES[fieldName];
     apiRoute = API_ROUTES.SCHEDULING_PREFERENCES;
-    convertCleanDataToPayload = payload => payload; // Pass through for now
+    convertCleanDataToPayload = schedulingPreferencesConvertCleanDataToPayload;
     uiSchema = schedulingPreferencesUiSchema(fieldName);
     formSchema = schedulingPreferencesFormSchema(fieldName);
   }

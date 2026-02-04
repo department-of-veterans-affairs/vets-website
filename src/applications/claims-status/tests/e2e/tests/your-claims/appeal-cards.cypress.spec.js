@@ -1,67 +1,29 @@
 import userWithAppeals from '../../fixtures/mocks/user-with-appeals.json';
+import { createAppeal } from '../../support/fixtures/appeals';
+import { createEvidenceSubmission } from '../../support/fixtures/benefitsClaims';
+import {
+  mockAppealsEndpoint,
+  mockClaimsEndpoint,
+  mockFeatureToggles,
+  mockStemEndpoint,
+} from '../../support/helpers/mocks';
 
-describe('Your appeals cards', () => {
+describe('Appeal cards', () => {
   const setupAppealCardsTest = (appeals = []) => {
-    cy.intercept('GET', '/v0/appeals', { data: appeals });
+    mockAppealsEndpoint(appeals);
     cy.visit('/track-claims');
     cy.injectAxe();
   };
 
-  const createAppeal = ({
-    id = '123456789',
-    type,
-    eventType,
-    eventDate = '2025-01-01',
-    lastEventDate = '2025-01-15',
-    programArea = 'compensation',
-    description = 'Tinnitus',
-    issuesCount = 1,
-    statusType = 'pending_soc',
-  }) => {
-    const events = [
-      { type: eventType, date: eventDate },
-      { type: 'other_event', date: lastEventDate },
-    ];
-
-    const issues = Array.from({ length: issuesCount }, (_, i) => ({
-      description: `Issue ${i + 1}`,
-    }));
-
-    return {
-      id,
-      type,
-      attributes: {
-        status: {
-          type: statusType,
-          details: {},
-        },
-        events,
-        programArea,
-        active: true,
-        issues,
-        description,
-        evidenceSubmissions: [],
-      },
-    };
-  };
-
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [],
-      },
-    });
+    mockFeatureToggles();
+    mockClaimsEndpoint();
+    mockStemEndpoint();
+
     cy.login(userWithAppeals);
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
-    cy.intercept('GET', '/v0/benefits_claims', {
-      data: [],
-    });
-    cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
-      data: {},
-    });
   });
 
-  context('Appeal types', () => {
+  describe('Appeal types', () => {
     it('should display legacy appeal', () => {
       setupAppealCardsTest([
         createAppeal({
@@ -78,9 +40,9 @@ describe('Your appeals cards', () => {
       cy.findByText('Tinnitus');
       cy.findByText(/Status:/);
       cy.findByText('Last updated: January 15, 2025');
-      cy.findByRole('link', {
-        name: 'Details for Disability compensation appeal',
-      }).should('have.attr', 'href', '/track-claims/appeals/123456789/status');
+      cy.get(
+        'va-link[aria-label="Details for Disability compensation appeal"]',
+      ).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
 
       cy.axeCheck();
     });
@@ -102,9 +64,9 @@ describe('Your appeals cards', () => {
       cy.findByText('Tinnitus');
       cy.findByText(/Status:/);
       cy.findByText('Last updated: January 15, 2025');
-      cy.findByRole('link', {
-        name: 'Details for Supplemental claim for disability compensation',
-      }).should('have.attr', 'href', '/track-claims/appeals/123456789/status');
+      cy.get(
+        'va-link[aria-label="Details for Supplemental claim for disability compensation"]',
+      ).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
 
       cy.axeCheck();
     });
@@ -126,9 +88,9 @@ describe('Your appeals cards', () => {
       cy.findByText('Tinnitus');
       cy.findByText(/Status:/);
       cy.findByText('Last updated: January 15, 2025');
-      cy.findByRole('link', {
-        name: 'Details for Higher-level review for disability compensation',
-      }).should('have.attr', 'href', '/track-claims/appeals/123456789/status');
+      cy.get(
+        'va-link[aria-label="Details for Higher-level review for disability compensation"]',
+      ).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
 
       cy.axeCheck();
     });
@@ -149,15 +111,15 @@ describe('Your appeals cards', () => {
       cy.findByText('Tinnitus');
       cy.findByText(/Status:/);
       cy.findByText('Last updated: January 15, 2025');
-      cy.findByRole('link', {
-        name: 'Details for Disability compensation appeal',
-      }).should('have.attr', 'href', '/track-claims/appeals/123456789/status');
+      cy.get(
+        'va-link[aria-label="Details for Disability compensation appeal"]',
+      ).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
 
       cy.axeCheck();
     });
   });
 
-  context('Program areas', () => {
+  describe('Program areas', () => {
     const programAreas = [
       {
         programArea: 'compensation',
@@ -242,7 +204,7 @@ describe('Your appeals cards', () => {
     });
   });
 
-  context('Issues display', () => {
+  describe('Issues display', () => {
     it('should display "Issue" for single issue on appeal', () => {
       setupAppealCardsTest([
         createAppeal({
@@ -304,7 +266,7 @@ describe('Your appeals cards', () => {
     });
   });
 
-  context('Without description', () => {
+  context('when appeal has no description', () => {
     it('should not display issues section when description is missing', () => {
       setupAppealCardsTest([
         createAppeal({
@@ -317,6 +279,37 @@ describe('Your appeals cards', () => {
       cy.findByText('Issues on appeal:').should('not.exist');
       cy.findByText(/Status:/);
       cy.findByText('Last updated: January 15, 2025');
+
+      cy.axeCheck();
+    });
+  });
+
+  describe('Upload error alerts', () => {
+    beforeEach(() => {
+      mockFeatureToggles({ showDocumentUploadStatus: true });
+      mockClaimsEndpoint();
+      mockStemEndpoint();
+
+      cy.login(userWithAppeals);
+    });
+
+    it('should display upload error alert for supplemental claim with failed submissions', () => {
+      setupAppealCardsTest([
+        createAppeal({
+          type: 'supplementalClaim',
+          eventType: 'sc_request',
+          evidenceSubmissions: [
+            createEvidenceSubmission({
+              uploadStatus: 'FAILED',
+              acknowledgementDate: '2050-01-01T00:00:00.000Z',
+            }),
+          ],
+        }),
+      ]);
+
+      cy.get('va-alert').findByText(
+        'We need you to resubmit files for this claim.',
+      );
 
       cy.axeCheck();
     });

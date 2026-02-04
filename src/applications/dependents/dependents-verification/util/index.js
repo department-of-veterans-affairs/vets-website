@@ -4,6 +4,12 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import { hideDependentsWarning } from '../../shared/utils';
 
+/**
+ * Transform form data before submitting to the API
+ * @param {object} formConfig - main form config for the form
+ * @param {object} form - form object from Redux store (includes form.data)
+ * @returns {string} - stringified JSON object for submission
+ */
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
@@ -13,6 +19,10 @@ export function transform(formConfig, form) {
   });
 }
 
+/**
+ * Fetch a new CSRF token by making a HEAD request to an endpoint
+ * @returns {Promise<void>} - resolves when the request is complete
+ */
 const fetchNewCSRFToken = async () => {
   const url = '/v0/maintenance_windows';
   recordEvent({
@@ -31,6 +41,10 @@ const fetchNewCSRFToken = async () => {
     });
 };
 
+/**
+ * Ensure a valid CSRF token is present in local storage
+ * @returns {Promise<void>} - resolves when a valid token is ensured
+ */
 export const ensureValidCSRFToken = async () => {
   const csrfToken = localStorage.getItem('csrfToken');
   if (!csrfToken) {
@@ -42,6 +56,12 @@ export const ensureValidCSRFToken = async () => {
   }
 };
 
+/**
+ * Submit the form data to the API
+ * @param {object} form - Form object from Redux state
+ * @param {object} formConfig - main form config for the form
+ * @returns {Promise<object>} - resolves with the response data attributes
+ */
 export async function submit(form, formConfig) {
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);

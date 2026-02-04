@@ -13,6 +13,9 @@ const dispStatusObj = {
   NON_VA: 'Active: Non-VA',
   ON_HOLD: 'Active: On Hold',
   ACTIVE_PARKED: 'Active: Parked',
+  INACTIVE: 'Inactive',
+  INPROGRESS: 'In progress',
+  STATUSNOTAVAILABLE: 'Status not available',
 };
 function mockPrescription(n = 0, attrs = {}, isV2 = false) {
   // Generate some refillable, some not
@@ -20,6 +23,7 @@ function mockPrescription(n = 0, attrs = {}, isV2 = false) {
   const refillRemaining = isRefillable
     ? Math.ceil(Math.log((typeof n === 'number' ? n : 0) + 1))
     : 0;
+  const isRenewable = attrs.isRenewable ?? false;
   const {
     cmopNdcNumber,
     cmopDivisionPhone = '(555) 555-5555',
@@ -55,6 +59,7 @@ function mockPrescription(n = 0, attrs = {}, isV2 = false) {
       dispensedDate: '2024-02-25T10:30:00-05:00',
       stationNumber: '001',
       isRefillable,
+      isRenewable,
       isTrackable: null,
       sig: null,
       cmopDivisionPhone,
@@ -152,6 +157,7 @@ function mockPrescriptionArray(n = 20, isV2 = false) {
         dispensedDate: realPrescription.dispensedDate || recentlyISOString,
         stationNumber: realPrescription.stationNumber,
         isRefillable: realPrescription.isRefillable,
+        isRenewable: realPrescription.isRenewable,
         isTrackable: realPrescription.isTrackable,
         sig: realPrescription.sig,
         cmopDivisionPhone:
@@ -216,14 +222,14 @@ function generateMockPrescriptions(req, n = 20, isV2 = false) {
   const recentlyRequested = [
     edgeCasePrescription({
       prescriptionId: 1001,
-      prescriptionName: 'Refillinprocess Past',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
+      prescriptionName: 'Refillinprocess Past INPROGRESS',
+      dispStatus: dispStatusObj.INPROGRESS,
       refillDate: eightDaysAgo,
     }),
     edgeCasePrescription({
       prescriptionId: 1002,
-      prescriptionName: 'Submitted Past',
-      dispStatus: dispStatusObj.SUBMITTED,
+      prescriptionName: 'Submitted Past INACTIVE',
+      dispStatus: dispStatusObj.INACTIVE,
       refillSubmitDate: eightDaysAgo,
     }),
     edgeCasePrescription({
@@ -280,14 +286,14 @@ function generateMockPrescriptions(req, n = 20, isV2 = false) {
     }),
     edgeCasePrescription({
       prescriptionId: 1012,
-      prescriptionName: 'Unexpected dispStatus',
-      dispStatus: dispStatusObj.UNKNOWN,
+      prescriptionName: 'Unexpected dispStatus STATUSNOTAVAILABLE',
+      dispStatus: dispStatusObj.STATUSNOTAVAILABLE,
       refillDate: eightDaysAgo,
     }),
     edgeCasePrescription({
       prescriptionId: 1013,
-      prescriptionName: 'Boundary 7 Days',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
+      prescriptionName: 'Boundary 7 Days TRANSFERRED',
+      dispStatus: dispStatusObj.TRANSFERRED,
       refillDate: sevenDaysAgo,
     }),
     null,
@@ -295,15 +301,15 @@ function generateMockPrescriptions(req, n = 20, isV2 = false) {
     '',
     edgeCasePrescription({
       prescriptionId: 1014,
-      prescriptionName: 'Non-array rxRfRecords',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
+      prescriptionName: 'Non-array rxRfRecords (TRANSFERRED)',
+      dispStatus: dispStatusObj.TRANSFERRED,
       rxRfRecords: {},
       refillDate: eightDaysAgo,
     }),
     edgeCasePrescription({
       prescriptionId: 1015,
-      prescriptionName: 'Mixed Dates',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
+      prescriptionName: 'Mixed Dates (INPROGRESS)',
+      dispStatus: dispStatusObj.INPROGRESS,
       refillDate: eightDaysAgo,
       rxRfRecords: [{ refillDate: 'not-a-date' }, { refillDate: eightDaysAgo }],
     }),

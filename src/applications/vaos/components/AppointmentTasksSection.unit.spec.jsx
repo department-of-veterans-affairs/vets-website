@@ -251,7 +251,7 @@ describe('VAOS Component: AppointmentTasks', () => {
 
     expect(screen.queryByText(/Appointment tasks/i)).to.not.exist;
   });
-  it('should display "Complete and file your claim" link when claim status is Saved', async () => {
+  it('should display "Complete your travel reimbursement claim" link when claim status is Saved', async () => {
     const appointment = {
       id: appointmentId,
       start: new Date('2021-09-01T10:00:00Z'),
@@ -289,18 +289,20 @@ describe('VAOS Component: AppointmentTasks', () => {
       { travelPayEnableComplexClaims: true },
     );
 
+    const claimId = appointment.vaos.apiData.travelPayClaim.claim.id;
+
     expect(screen.getByText(/Appointment tasks/i)).to.exist;
     expect(screen.getByTestId('file-claim-link')).to.have.attribute(
       'href',
-      `/my-health/travel-pay/file-new-claim/${appointmentId}`,
+      `/my-health/travel-pay/claims/${claimId}`,
     );
     expect(screen.getByTestId('file-claim-link')).to.have.attribute(
       'text',
-      'Complete and file your claim',
+      'Complete your travel reimbursement claim',
     );
     expect(screen.getByText(/Days left to file: 1/i)).to.exist;
   });
-  it('should display "Complete and file your claim" link when claim status is Incomplete', async () => {
+  it('should display "Complete your travel reimbursement claim" link when claim status is Incomplete', async () => {
     const appointment = {
       id: appointmentId,
       start: new Date('2021-09-01T10:00:00Z'),
@@ -338,14 +340,16 @@ describe('VAOS Component: AppointmentTasks', () => {
       { travelPayEnableComplexClaims: true },
     );
 
+    const claimId = appointment.vaos.apiData.travelPayClaim.claim.id;
+
     expect(screen.getByText(/Appointment tasks/i)).to.exist;
     expect(screen.getByTestId('file-claim-link')).to.have.attribute(
       'href',
-      `/my-health/travel-pay/file-new-claim/${appointmentId}`,
+      `/my-health/travel-pay/claims/${claimId}`,
     );
     expect(screen.getByTestId('file-claim-link')).to.have.attribute(
       'text',
-      'Complete and file your claim',
+      'Complete your travel reimbursement claim',
     );
     expect(screen.getByText(/Days left to file: 1/i)).to.exist;
   });

@@ -460,6 +460,13 @@ export const studentProgramInfoPage = {
         'ui:options': {
           width: 'xl',
         },
+        'ui:validations': [
+          (errors, schoolName) => {
+            if (schoolName?.length > 80) {
+              errors.addError('School name must be 80 characters or less');
+            }
+          },
+        ],
       },
     },
   },
@@ -751,8 +758,16 @@ export const studentEarningsPage = {
         const itemData = fullData?.studentInformation?.[index];
         const { vaDependentsNetWorthAndPension } = fullData;
 
+        const { veteranInformation } = fullData || {};
+        const { isInReceiptOfPension } = veteranInformation || {};
+
+        // When flipper is on, reset if api returns isInReceiptOfPension as 0 (no) or -1 (unknown) and
+        // the user has not confirmed they are in receipt of pension (view:checkVeteranPension)
+        // When flipper is off, reset if claimsOrReceivesPension is false
         const resetItemData = vaDependentsNetWorthAndPension
-          ? !fullData?.['view:checkVeteranPension']
+          ? isInReceiptOfPension === 0 ||
+            (isInReceiptOfPension === -1 &&
+              !fullData?.['view:checkVeteranPension'])
           : !itemData?.claimsOrReceivesPension;
 
         if (resetItemData) {

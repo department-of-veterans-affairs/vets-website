@@ -1,16 +1,20 @@
 import environment from 'platform/utilities/environment';
 import {
+  titleUI,
   fileInputMultipleUI,
   fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
+    ...titleUI(
+      'Submit supporting documents',
+      'This may include legal documents, bills, or other documentation of expenses',
+    ),
     veteranSupportingDocuments: fileInputMultipleUI({
       title: 'Supporting documents',
       required: false,
-      hint: 'Upload a file that is between 1KB and 5MB',
-      headerSize: '3',
+      hint: 'Upload a file that is between 1KB and 5MB.',
       formNumber: '21P-601',
       disallowEncryptedPdfs: true,
       fileUploadUrl: `${

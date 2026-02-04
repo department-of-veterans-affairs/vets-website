@@ -120,10 +120,11 @@ export const getDateSigned = record => {
 };
 
 export const getAttending = noteSummary => {
+  if (typeof noteSummary !== 'string') return null;
   return (
     noteSummary
-      ?.split('ATTENDING:')[1]
-      ?.split('\n')[0]
+      ?.split('ATTENDING:')?.[1]
+      ?.split('\n')?.[0]
       ?.trim() || null
   );
 };
@@ -133,10 +134,12 @@ const isValidDate = d => {
 };
 
 export const getDateFromBody = (noteSummary, label) => {
+  if (typeof noteSummary !== 'string' || typeof label !== 'string') return null;
+  if (noteSummary.length === 0 || label.length === 0) return null;
   const dateStr =
     noteSummary
-      ?.split(label)[1]
-      ?.split('\n')[0]
+      ?.split(label)?.[1]
+      ?.split('\n')?.[0]
       ?.trim() || null;
   const date = dateStr ? new Date(dateStr) : null;
   return isValidDate(date) ? date : null;
@@ -228,7 +231,7 @@ export const getRecordType = record => {
   };
 
   for (const [code, noteType] of Object.entries(typeMapping)) {
-    if (record?.type?.coding.some(coding => coding.code === code)) {
+    if (record?.type?.coding?.some(coding => coding.code === code)) {
       return noteType;
     }
   }
@@ -357,17 +360,17 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
       };
     }
     case Actions.CareSummariesAndNotes.GET_UNIFIED_LIST: {
-      const data = action.response.data || [];
-      const newList =
-        data
-          ?.map(note => {
-            return convertUnifiedCareSummariesAndNotesRecord(note);
-          })
-          .sort((a, b) => {
-            if (!a.sortByDate) return 1; // Push nulls to the end
-            if (!b.sortByDate) return -1; // Keep non-nulls at the front
-            return b.sortByDate.getTime() - a.sortByDate.getTime();
-          }) || [];
+      // Harden: ensure we always have an array before mapping/sorting to avoid TypeErrors
+      const data = Array.isArray(action.response?.data)
+        ? action.response.data
+        : [];
+      const newList = data
+        .map(note => convertUnifiedCareSummariesAndNotesRecord(note))
+        .sort((a, b) => {
+          if (!a.sortByDate) return 1; // Push nulls to the end
+          if (!b.sortByDate) return -1; // Keep non-nulls at the front
+          return b.sortByDate.getTime() - a.sortByDate.getTime();
+        });
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
@@ -377,17 +380,18 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
     }
     case Actions.CareSummariesAndNotes.GET_LIST: {
       const oldList = state.careSummariesAndNotesList;
-      const newList =
-        action.response.entry
-          ?.map(note => {
-            return convertCareSummariesAndNotesRecord(note.resource);
-          })
-          .filter(record => record.type !== noteTypes.OTHER)
-          .sort((a, b) => {
-            if (!a.sortByDate) return 1; // Push nulls to the end
-            if (!b.sortByDate) return -1; // Keep non-nulls at the front
-            return b.sortByDate.getTime() - a.sortByDate.getTime();
-          }) || [];
+      // Harden: coerce entry list to array before chaining map/filter/sort
+      const fhirEntry = Array.isArray(action.response?.entry)
+        ? action.response.entry
+        : [];
+      const newList = fhirEntry
+        .map(note => convertCareSummariesAndNotesRecord(note.resource))
+        .filter(record => record.type !== noteTypes.OTHER)
+        .sort((a, b) => {
+          if (!a.sortByDate) return 1; // Push nulls to the end
+          if (!b.sortByDate) return -1; // Keep non-nulls at the front
+          return b.sortByDate.getTime() - a.sortByDate.getTime();
+        });
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,

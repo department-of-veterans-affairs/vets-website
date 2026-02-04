@@ -13,20 +13,29 @@ import {
 } from './helpers';
 import { getPastDateError } from './utils';
 import propTypes from './types';
+import { makeNamePossessive } from '../../../shared/utils';
 
 const spouseDeath = {
   handlers: {
-    // Return "DONE" when we're done with this flow
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: (/* { itemData, index, fullData } */) => 'DONE',
 
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       const hasError = getPastDateError(itemData.endDate);
       if (
         hasError ||
         !itemData.endCity ||
-        (!itemData.endOutsideUS && !itemData.endState) ||
-        (itemData.endOutsideUS && !itemData.endCountry)
+        (!itemData.endOutsideUs && !itemData.endState) ||
+        (itemData.endOutsideUs && !itemData.endCountry)
       ) {
         scrollToError();
       } else {
@@ -35,7 +44,10 @@ const spouseDeath = {
     },
   },
 
-  /** @type {PicklistComponentProps} */
+  /**
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
+   */
   Component: ({ itemData, firstName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
@@ -45,13 +57,14 @@ const spouseDeath = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          {isEditing ? 'Edit information' : 'Information'} about the death of{' '}
+          {isEditing ? 'Edit information' : 'Information'} about{' '}
           <span className="dd-privacy-mask" data-dd-action-name="first name">
-            {firstName}
-          </span>
+            {makeNamePossessive(firstName)}
+          </span>{' '}
+          death
         </h3>
 
-        <h4>When was the death?</h4>
+        <h4>When did they die?</h4>
         <PastDate
           label="Date of death"
           date={itemData.endDate}
@@ -60,27 +73,27 @@ const spouseDeath = {
           onChange={onChange}
         />
 
-        <h4>Where did the death happen?</h4>
+        <h4>Where did they die?</h4>
         <VaCheckbox
-          name="endOutsideUS"
-          label="The death happened outside the United States"
-          checked={itemData.endOutsideUS || false}
+          name="endOutsideUs"
+          label="Death occurred outside the United States"
+          checked={itemData.endOutsideUs || false}
           onVaChange={onChange}
         />
         <VaTextInput
           class="vads-u-margin-top--4"
           name="endCity"
-          label={`City${itemData.endOutsideUS ? '' : ' or county'}`}
+          label={`City${itemData.endOutsideUs ? '' : ' or county'}`}
           error={
             formSubmitted && !itemData.endCity
-              ? `Enter a city${itemData.endOutsideUS ? '' : ' or county'}`
+              ? `Enter a city${itemData.endOutsideUs ? '' : ' or county'}`
               : null
           }
           value={itemData.endCity || ''}
           onVaInput={onChange}
           required
         />
-        {itemData.endOutsideUS ? (
+        {itemData.endOutsideUs ? (
           <>
             <VaTextInput
               class="vads-u-margin-top--4"

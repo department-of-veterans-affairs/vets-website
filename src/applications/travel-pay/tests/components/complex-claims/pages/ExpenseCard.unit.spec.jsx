@@ -1,6 +1,7 @@
 import React from 'react';
 import { fireEvent, waitFor, within } from '@testing-library/react';
 import { expect } from 'chai';
+import { act } from 'react-dom/test-utils';
 import {
   MemoryRouter,
   Routes,
@@ -8,8 +9,10 @@ import {
   useLocation,
 } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import sinon from 'sinon';
 import ExpenseCard from '../../../../components/complex-claims/pages/ExpenseCard';
 import reducer from '../../../../redux/reducer';
+import * as actions from '../../../../redux/actions';
 
 describe('ExpenseCard', () => {
   const LocationDisplay = () => {
@@ -98,14 +101,10 @@ describe('ExpenseCard', () => {
     expect(container.textContent).to.include('Apt 4B');
     expect(container.textContent).to.include('Washington, DC 20001');
 
-    // Trip type
-    expect(getByText('Was your trip round trip or one way?')).to.exist;
-    expect(container.textContent).to.include('Round trip');
-
     // Edit button
     const editLink = queryByTestId('expense1-edit-expense-link');
     expect(editLink).to.exist;
-    expect(editLink.textContent).to.include('EDIT');
+    expect(editLink.textContent).to.include('Edit');
 
     // Delete button exists
     const deleteButton = queryByTestId('expense1-delete-expense-button');
@@ -153,13 +152,11 @@ describe('ExpenseCard', () => {
       costRequested: 30.75,
     };
 
-    const { getByText, container } = renderExpenseCard(expense);
+    const { container } = renderExpenseCard(expense);
 
     expect(container.textContent).to.include('456 Elm St');
     expect(container.textContent).to.include('Seattle, WA 98101');
     expect(container.textContent).to.not.include('undefined');
-
-    expect(getByText('Round trip')).to.exist;
   });
 
   it('opens the delete modal and calls deleteExpenseAndDocument on confirm', async () => {
@@ -231,7 +228,6 @@ describe('ExpenseCard', () => {
       false,
     );
 
-    // Header
     expect(getByText('Mileage expense')).to.exist;
 
     // Address
@@ -239,10 +235,6 @@ describe('ExpenseCard', () => {
     expect(container.textContent).to.include('123 Main St');
     expect(container.textContent).to.include('Apt 4B');
     expect(container.textContent).to.include('Washington, DC 20001');
-
-    // Trip type
-    expect(getByText('Was your trip round trip or one way?')).to.exist;
-    expect(container.textContent).to.include('Round trip');
 
     // Edit button does not exist
     expect(queryByTestId('expense1-edit-expense-link')).to.not.exist;
@@ -252,5 +244,42 @@ describe('ExpenseCard', () => {
 
     // Delete modal does not exist
     expect(queryByTestId('delete-expense-modal')).to.not.exist;
+  });
+
+  it('dispatches setReviewPageAlert when deleting expense fails', async () => {
+    // Spy on setReviewPageAlert
+    const alertSpy = sinon.spy(actions, 'setReviewPageAlert');
+
+    // Stub deleteExpenseDeleteDocument to reject
+    const deleteStub = sinon
+      .stub(actions, 'deleteExpenseDeleteDocument')
+      .callsFake(() => () => Promise.reject(new Error('Delete failed')));
+
+    const { getByTestId } = renderExpenseCard(defaultMileageExpense);
+
+    // Open the delete modal
+    const deleteButton = getByTestId('expense1-delete-expense-button');
+    fireEvent.click(deleteButton);
+
+    const modal = getByTestId('delete-expense-modal');
+    expect(modal.getAttribute('visible')).to.equal('true');
+
+    // Trigger primary button click
+    await act(async () => {
+      modal.__events.primaryButtonClick();
+    });
+
+    // Assert that setReviewPageAlert was called with the correct payload
+    const alertPayload = alertSpy.firstCall.args[0];
+    expect(alertPayload.title).to.include("We couldn't delete this expense");
+    expect(alertPayload.description).to.include('Try again later');
+    expect(alertPayload.type).to.equal('error');
+
+    // Modal should close
+    expect(modal.getAttribute('visible')).to.equal('false');
+
+    // Clean up
+    deleteStub.restore();
+    alertSpy.restore();
   });
 });

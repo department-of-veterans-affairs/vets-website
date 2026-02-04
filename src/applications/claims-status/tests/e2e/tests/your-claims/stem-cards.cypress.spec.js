@@ -1,93 +1,38 @@
-import userWithAppeals from '../../fixtures/mocks/user-with-appeals.json';
+import { createEvidenceSubmission } from '../../support/fixtures/benefitsClaims';
+import { createStemClaim } from '../../support/fixtures/stemClaims';
+import {
+  mockAppealsEndpoint,
+  mockClaimsEndpoint,
+  mockFeatureToggles,
+  mockStemEndpoint,
+} from '../../support/helpers/mocks';
 
-describe('Your STEM claims cards', () => {
+describe('STEM claim cards', () => {
   const setupStemCardsTest = (stemClaims = []) => {
-    cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
-      data: stemClaims,
-    });
+    mockStemEndpoint(stemClaims);
     cy.visit('/track-claims');
     cy.injectAxe();
   };
 
-  const createEvidenceSubmission = ({
-    id = 123,
-    acknowledgementDate,
-    failedDate = '2022-02-01T12:00:00.000Z',
-  }) => ({
-    id,
-    claimId: '1234', // Not used by UI
-    uploadStatus: 'FAILED',
-    acknowledgementDate,
-    createdAt: failedDate,
-    deleteDate: null,
-    documentType: 'STEM Supporting Documents',
-    failedDate,
-    fileName: 'stem-document.pdf',
-    lighthouseUpload: true,
-    trackedItemId: null,
-    trackedItemDisplayName: null,
-    vaNotifyStatus: 'SENT',
-  });
-
-  const createStemClaim = ({
-    id = '1234',
-    automatedDenial = true,
-    deniedAt = '2022-01-31T15:08:20.489Z',
-    submittedAt = '2022-01-31T15:08:20.489Z',
-    evidenceSubmissions = [],
-  }) => {
-    // Commented out properties are part of the STEM claims response but not currently used by the card UI
-    return {
-      id,
-      type: 'education_benefits_claims',
-      attributes: {
-        confirmationNumber: `V-EBC-${id}`,
-        // isEnrolledStem,
-        // isPursuingTeachingCert,
-        // benefitLeft,
-        // remainingEntitlement,
-        automatedDenial, // Determines if card displays
-        deniedAt, // "Last updated on..." text
-        submittedAt, // "Received on..." text
-        evidenceSubmissions, // For upload error alerts
-      },
-    };
-  };
-
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [
-          { name: 'stem_automated_decision', value: true },
-          { name: 'cst_show_document_upload_status', value: true },
-        ],
-      },
-    });
-    cy.login(userWithAppeals);
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
-    cy.intercept('GET', '/v0/benefits_claims', {
-      data: [],
-    });
-    cy.intercept('GET', '/v0/appeals', {
-      data: [],
-    });
+    mockFeatureToggles({ showDocumentUploadStatus: true });
+    mockClaimsEndpoint();
+    mockAppealsEndpoint();
+
+    cy.login();
   });
 
   it('should display denied STEM claim', () => {
     setupStemCardsTest([createStemClaim({})]);
 
     cy.findByText('Edith Nourse Rogers STEM Scholarship application');
-    cy.findByText('Received on January 31, 2022');
+    cy.findByText('Received on January 1, 2025');
 
     cy.findByText('Status: Denied');
-    cy.findByText('Last updated on: January 31, 2022');
-    cy.findByRole('link', {
-      name: 'Details for claim submitted on January 31, 2022',
-    }).should(
-      'have.attr',
-      'href',
-      '/track-claims/your-stem-claims/1234/status',
-    );
+    cy.findByText('Last updated on: January 15, 2025');
+    cy.get(
+      'va-link[aria-label="Details for claim submitted on January 1, 2025"]',
+    ).should('have.attr', 'href', '/track-claims/your-stem-claims/1234/status');
 
     cy.axeCheck();
   });
@@ -102,13 +47,14 @@ describe('Your STEM claims cards', () => {
     cy.axeCheck();
   });
 
-  context('Upload errors', () => {
+  context('when there are upload errors', () => {
     it('should display upload error alert for failed submissions within last 30 days', () => {
       setupStemCardsTest([
         createStemClaim({
           evidenceSubmissions: [
             createEvidenceSubmission({
-              acknowledgementDate: '2030-12-31T23:59:59.999Z',
+              uploadStatus: 'FAILED',
+              acknowledgementDate: '2050-01-01T00:00:00.000Z',
             }),
           ],
         }),

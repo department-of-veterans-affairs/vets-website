@@ -6,6 +6,10 @@ describe('find forms search results', () => {
   it('should properly display search results', () => {
     cy.intercept('GET', '/v0/forms?query=health', stub).as('getFindAForm');
     cy.visit('/find-forms/');
+
+    // Wait for page to fully load before proceeding
+    h.waitForPageToLoad();
+
     cy.injectAxeThenAxeCheck();
 
     h.typeSearchTerm('health');
@@ -66,6 +70,10 @@ describe('find forms search results', () => {
       'getFindAForm',
     );
     cy.visit('/find-forms/?q=invalid');
+
+    // Wait for page to fully load before proceeding
+    h.waitForPageToLoad();
+
     cy.injectAxeThenAxeCheck();
     cy.wait('@getFindAForm');
 
@@ -82,6 +90,10 @@ describe('find forms search results', () => {
       'getFindAForm',
     );
     cy.visit('/find-forms/?q=dd214');
+
+    // Wait for page to fully load before proceeding
+    h.waitForPageToLoad();
+
     cy.injectAxeThenAxeCheck();
     cy.wait('@getFindAForm');
 
@@ -102,8 +114,12 @@ describe('find forms search results', () => {
     );
 
     cy.visit('/find-forms/?q=health');
+
+    // Wait for page to fully load before proceeding
+    h.waitForPageToLoad();
+
     cy.injectAxeThenAxeCheck();
-    cy.get('button[data-testid^="pdf-link"]')
+    cy.get('button[data-testid^="pdf-link"]', { timeout: 15000 })
       .eq(0)
       .click({ force: true });
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import classNames from 'classnames';
-import { format, parseISO, subMonths } from 'date-fns';
+import { addDays, format, parseISO, subMonths } from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../../components/InfoAlert';
 import { groupAppointmentByDay } from '../../../services/appointment';
@@ -19,7 +19,7 @@ import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 
 export function getMaximumPastAppointmentDateRange() {
   const now = new Date();
-  const today = format(now, 'yyyy-MM-dd');
+  const tomorrow = format(addDays(now, 1), 'yyyy-MM-dd');
 
   const dateRanges = [3, 6, 12, 24];
   return dateRanges.map((range, index) => {
@@ -29,7 +29,7 @@ export function getMaximumPastAppointmentDateRange() {
       label: `Past ${range} months`,
       startDateRaw: start,
       startDate: format(start, 'yyyy-MM-dd'),
-      endDate: today,
+      endDate: tomorrow,
     };
   });
 }
@@ -136,14 +136,6 @@ export default function PastAppointmentsPage() {
     <>
       <BackendAppointmentServiceAlert />
       {dropdown}
-      <div aria-live="assertive" className="sr-only">
-        {`Showing appointments for ${
-          dateRangeOptions[pastSelectedIndex]?.label
-        }`}
-      </div>
-      <div className="vaos-print-only vads-u-margin-top--neg2 vads-u-margin-bottom--2">
-        {dateRangeOptions[pastSelectedIndex]?.label}
-      </div>
 
       <div
         id="appointment-count"

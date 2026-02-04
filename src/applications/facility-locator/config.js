@@ -187,7 +187,6 @@ export const healthServices = {
   All: 'All VA health services',
   PrimaryCare: 'Primary care',
   MentalHealth: 'Mental health care',
-  Covid19Vaccine: 'COVID-19 vaccines',
   Dental: 'Dental services',
   UrgentCare: 'Urgent care',
   EmergencyCare: 'Emergency care',
@@ -258,7 +257,6 @@ export const vetCenterServices = [
 ];
 
 export const facilityTypesOptions = {
-  [LocationType.NONE]: 'Choose a facility type',
   [LocationType.HEALTH]: 'VA health',
   [LocationType.URGENT_CARE]: 'Urgent care',
   [LocationType.EMERGENCY_CARE]: 'Emergency care',
@@ -271,7 +269,6 @@ export const facilityTypesOptions = {
 };
 
 export const nonPPMSfacilityTypeOptions = {
-  [LocationType.NONE]: 'Choose a facility type',
   [LocationType.HEALTH]: 'VA health',
   [LocationType.BENEFITS]: 'VA benefits',
   [LocationType.CEMETERY]: 'VA cemeteries',

@@ -13,24 +13,16 @@ export default {
   uiSchema: {
     'view:contactInformation': {
       ...titleUI(content['vet-contact-info-title'], ContactInfoDescription),
-      homePhone: {
-        ...phoneUI(content['vet-home-phone-label']),
-        'ui:errorMessages': {
-          required: content['phone-number-error-message'],
-          pattern: content['phone-number-error-message'],
-        },
-      },
-      mobilePhone: {
-        ...phoneUI(content['vet-mobile-phone-label']),
-        'ui:errorMessages': {
-          required: content['phone-number-error-message'],
-          pattern: content['phone-number-error-message'],
-        },
-      },
+      homePhone: phoneUI({
+        title: content['vet-home-phone-label'],
+        errorMessages: { pattern: content['phone-number-error-message'] },
+      }),
+      mobilePhone: phoneUI({
+        title: content['vet-mobile-phone-label'],
+        errorMessages: { pattern: content['phone-number-error-message'] },
+      }),
       email: emailUI({
-        errorMessages: {
-          pattern: content['email-pattern-error-message'],
-        },
+        errorMessages: { pattern: content['email-pattern-error-message'] },
       }),
     },
   },

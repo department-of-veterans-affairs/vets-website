@@ -29,6 +29,8 @@ export default function TravelClaimCard(props) {
     appointmentDateTitle = `${appointmentDate} at ${appointmentTime} appointment`;
   }
 
+  const ariaLinkLabel = `Travel reimbursement claim details for ${appointmentDateTitle}`;
+
   return (
     <va-card key={id} class="travel-claim-card vads-u-margin-bottom--2">
       <h3
@@ -44,7 +46,9 @@ export default function TravelClaimCard(props) {
         <li>
           <strong>Claim status: {claimStatus}</strong>
         </li>
-        <li>Claim number: {claimNumber}</li>
+        <li>
+          Claim number: <span data-dd-privacy="mask">{claimNumber}</span>
+        </li>
         <li>
           Submitted on {createDate} at {createTime}
         </li>
@@ -58,6 +62,7 @@ export default function TravelClaimCard(props) {
             pathname: `/claims/${id}`,
           }}
           className="vads-u-display--flex vads-u-align-items--center"
+          aria-label={ariaLinkLabel}
         >
           Travel reimbursement claim details <va-icon icon="chevron_right" />
         </Link>

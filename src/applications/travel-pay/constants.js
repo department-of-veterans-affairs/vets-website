@@ -7,6 +7,9 @@ export const TRAVEL_PAY_INFO_LINK =
   '/health-care/get-reimbursed-for-travel-pay/';
 export const REIMBURSEMENT_URL =
   '/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/';
+export const PAST_APPOINTMENTS_LINK = '/my-health/appointments/past';
+
+export const COMPLEX_CLAIMS_ANALYTICS_NAMESPACE = 'complex-claims';
 
 export const STATUSES = {
   Incomplete: {
@@ -14,7 +17,7 @@ export const STATUSES = {
     description:
       'You submitted a claim without required expense information. You must provide the required information for BTSSS to process the claim.',
     definition:
-      'You haven’t submitted this claim yet. Make sure to add all required information and submit within 30 days of your appointment.',
+      'You haven’t filed this claim yet. Make sure to add all required information and file within 30 days of your appointment.',
     reasons: null,
   },
   Saved: {
@@ -175,9 +178,9 @@ export const STATUS_GROUPINGS = [
 ];
 
 export const EXPENSE_TYPE_KEYS = Object.freeze({
-  AIRTRAVEL: 'Airtravel',
+  AIRTRAVEL: 'AirTravel',
   MEAL: 'Meal',
-  COMMONCARRIER: 'Commoncarrier',
+  COMMONCARRIER: 'CommonCarrier',
   LODGING: 'Lodging',
   MILEAGE: 'Mileage',
   PARKING: 'Parking',
@@ -255,15 +258,16 @@ export const EXPENSE_TYPES = Object.freeze({
 export const TRANSPORTATION_OPTIONS = Object.freeze([
   'Bus',
   'Subway',
+  'Taxi',
   'Train',
   'Other',
 ]);
 
 export const TRANSPORTATION_REASONS = Object.freeze({
-  PrivatelyOwnedVehicleNotAvailable: {
+  'Privately Owned Vehicle Not Available': {
     label: "I don't own a private vehicle or it wasn't available",
   },
-  MedicallyIndicated: {
+  'Medically Indicated': {
     label: 'Medical reasons',
   },
   Other: {
@@ -273,14 +277,12 @@ export const TRANSPORTATION_REASONS = Object.freeze({
 
 export const TRIP_TYPES = Object.freeze({
   ROUND_TRIP: {
-    value: 'round-trip',
+    value: 'RoundTrip',
     label: 'Round trip',
-    key: 'RoundTrip',
   },
   ONE_WAY: {
-    value: 'one-way',
+    value: 'OneWay',
     label: 'One way',
-    key: 'OneWay',
   },
 });
 

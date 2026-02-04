@@ -1,0 +1,26 @@
+{
+  "data": {
+    "id": "1234",
+    "type": "in_progress_forms",
+    "attributes": {
+      "formId": "FORM-MOCK-PREFILL",
+      "createdAt": "2025-01-15T00:00:00.000Z",
+      "updatedAt": "2025-01-15T00:00:00.000Z",
+      "metadata": {
+        "version": 1,
+        "returnUrl": "/review-and-submit",
+        "savedAt": 1736899200000,
+        "lastUpdated": 1736899200000,
+        "expiresAt": 99999999999,
+        "submission": {
+          "status": false,
+          "errorMessage": false,
+          "id": false,
+          "timestamp": false,
+          "hasAttemptedSubmit": false
+        },
+        "inProgressFormId": 1234
+      }
+    }
+  }
+}

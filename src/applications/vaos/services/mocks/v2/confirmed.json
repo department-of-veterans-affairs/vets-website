@@ -414,7 +414,7 @@
           "eCheckinAllowed": true
         },
         "localStartTime": "2025-10-13T09:00:00.000-06:00",
-        "avsPdf": [{ 
+        "avsPdf": [{
             "id": "20875041789",
             "apptId": "172646526",
             "name": "Ambulatory Visit Summary",
@@ -426,7 +426,7 @@
             "contentType": "application/pdf",
             "binary": "JVBERi0xLjQKMSAwIG9iago8PC9UeXBlIC9DYXRhbG9nCi9QYWdlcyAyIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PC9UeXBlIC9QYWdlcwovS2lkcyBbMyAwIFJdCi9Db3VudCAxCj4+CmVuZG9iagozIDAgb2JqCjw8L1R5cGUgL1BhZ2UKL1BhcmVudCAyIDAgUgovTWVkaWFCb3ggWzAgMCA1OTUgODQyXQovQ29udGVudHMgNSAwIFIKL1Jlc291cmNlcyA8PC9Qcm9jU2V0IFsvUERGIC9UZXh0XQovRm9udCA8PC9GMSA0IDAgUj4+Cj4+Cj4+CmVuZG9iago0IDAgb2JqCjw8L1R5cGUgL0ZvbnQKL1N1YnR5cGUgL1R5cGUxCi9OYW1lIC9GMQovQmFzZUZvbnQgL0hlbHZldGljYQovRW5jb2RpbmcgL01hY1Jv bWFuRW5jb2RpbmcKPj4KZW5kb2JqCjUgMCBvYmoKPDwvTGVuZ3RoIDUzCj4+CnN0cmVhbQpCVAovRjEgMjAgVGYKMjIwIDQwMCBUZAooRHVtbXkgUERGKSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA2CjAwMDAwMDAwMDAgNjU1MzUgZgowMDAwMDAwMDA5IDAwMDAwIG4KMDAwMDAwMDA2MyAwMDAwMCBuCjAwMDAwMDAxMjQgMDAwMDAgbgowMDAwMDAwMjc3IDAwMDAwIG4KMDAwMDAwMDM5MiAwMDAwMCBuCnRyYWlsZXIKPDwvU2l6ZSA2Ci9Sb290IDEgMCBSCj4+CnN0YXJ0eHJlZgo0OTUKJSVFQ0VPRg=="
         },
-        { 
+        {
             "id": "20875041789",
             "apptId": "172646526",
             "name": "Ambulatory Visit Summary",
@@ -553,7 +553,7 @@
           "eCheckinAllowed": true
         },
         "localStartTime": "2025-10-14T09:00:00.000-06:00",
-        "avsPdf": [{ 
+        "avsPdf": [{
             "id": "20875041789",
             "apptId": "172646526",
             "name": "Ambulatory Visit Summary",
@@ -680,7 +680,7 @@
           "eCheckinAllowed": true
         },
         "localStartTime": "2025-10-15T09:00:00.000-06:00",
-        "avsPdf": [{ 
+        "avsPdf": [{
             "id": "20875041789",
             "apptId": "AVS_PDF_Test_3",
             "name": "Ambulatory Visit Summary",
@@ -807,7 +807,7 @@
           "eCheckinAllowed": true
         },
         "localStartTime": "2025-10-16T09:00:00.000-06:00",
-        "avsPdf": [{ 
+        "avsPdf": [{
             "id": "20875041789",
             "apptId": "AVS_PDF_Test_4",
             "name": "Pharmacology Discharge summary",
@@ -899,7 +899,7 @@
         "kind": "clinic",
         "type": "VA",
         "modality": "vaInPerson",
-        "status": "booked",
+        "status": "fulfilled",
         "serviceCategory": [
           {
             "coding": [
@@ -934,7 +934,7 @@
           "eCheckinAllowed": true
         },
         "localStartTime": "2025-10-17T09:00:00.000-06:00",
-        "avsPdf": [{ 
+        "avsPdf": [{
             "id": "20875041789",
             "apptId": "AVS_PDF_Test_5",
             "name": "Pharmacology Discharge summary",
@@ -946,7 +946,7 @@
             "contentType": "application/pdf",
             "binary": "JVBERi0xLjQKJeLjz9M#INVALID-DATA$$%%123=="
         },
-        { 
+        {
             "id": "20875041789",
             "apptId": "AVS_PDF_Test_5",
             "name": "Ambulatory Visit Summary",

@@ -311,6 +311,7 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
   const { application } = getQueryParams();
   const externalRedirect = isExternalRedirect();
   const existingReturnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
+  const isProduction = environment.isProduction();
 
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
@@ -322,12 +323,15 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
     createAndStoreReturnUrl();
   }
 
-  recordEvent({ event: type ? `${clickedEvent}-${type}` : clickedEvent });
+  if (isProduction) {
+    recordEvent({ event: type ? `${clickedEvent}-${type}` : clickedEvent });
+  }
 
   // Trigger USiP External Auth Event
   if (
     externalRedirect &&
-    [AUTH_EVENTS.SSO_LOGIN, AUTH_EVENTS.MODAL_LOGIN].includes(clickedEvent)
+    [AUTH_EVENTS.SSO_LOGIN, AUTH_EVENTS.MODAL_LOGIN].includes(clickedEvent) &&
+    isProduction
   ) {
     recordEvent({
       event: `${AUTHN_SETTINGS.REDIRECT_EVENT}-${application}-inbound`,
@@ -457,33 +461,44 @@ export const logoutUrl = () => {
  * @param {Boolean} cernerNonEligibleSisEnabled feature toggle that controls logic
  * @returns {Boolean} Returns a boolean to determine AuthBroker
  */
-export const determineAuthBroker = featureFlagEnabled => {
-  if (featureFlagEnabled) {
-    const cookieValue = Cookies.get('CERNER_ELIGIBLE');
-    const rawCookie = cookieValue?.split('--')[0];
+export const determineAuthBroker = (featureFlagEnabled, toggleIsLoading) => {
+  if (!featureFlagEnabled && !toggleIsLoading) return false;
+
+  const cookieValue = Cookies.get('CERNER_ELIGIBLE');
+
+  /**
+   * @returns true if cookie doesn't exist or if cookie does exist with no value
+   */
+  if (!cookieValue) return true;
+
+  if (cookieValue.includes('--')) {
+    const [signedCookie] = cookieValue.split('--');
 
     /**
-     * @returns false if cookie doesn't exist or if cookie does exist with no value
+     * @returns true if parsed signed cookie is 'F', false if 'T'. If malformed, return true
      */
-    if (!cookieValue || !rawCookie) return false;
+    if (signedCookie) {
+      try {
+        const parsedJson = JSON.parse(atob(signedCookie));
+        const message = parsedJson?._rails?.message;
 
-    const parsedJson = JSON.parse(atob(rawCookie));
-    const message = parsedJson?._rails?.message;
+        if (message) {
+          const secondDecode = atob(message);
+          const parsedCookie = secondDecode?.charAt(2);
 
-    /**
-     * @returns false when no message or malformed
-     */
-    if (!message) return false;
-
-    const secondDecode = atob(message);
-    const parsedCookie = secondDecode?.charAt(2);
-
-    /**
-     * @returns false if parsed cookie contains a value other than `T` or `F`
-     */
-    if (!['T', 'F']?.includes(parsedCookie)) return false;
-
-    return parsedCookie === 'F';
+          if (['T', 'F'].includes(parsedCookie)) {
+            return parsedCookie === 'F';
+          }
+        }
+      } catch (e) {
+        return true;
+      }
+    }
   }
-  return false;
+
+  /**
+   * @returns true if plain text cookie is 'false', false if 'true'
+   */
+  const plainTextCookie = cookieValue.trim().toLowerCase();
+  return plainTextCookie !== 'true';
 };

@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { isEqual } from 'lodash';
 import {
   convertToDateField,
@@ -23,18 +22,35 @@ export function validateCurrency(errors, fieldData) {
 }
 
 /**
- * Validate input data to ensure dependent data is on or after the dependents
+ * Validate input data to ensure dependent date is on or after the dependent's
  * date of birth
  * @param {Object} - errors - the error handling object from the forms system
  * @param {String} - fieldData - the value from the text input field
  * @param {Object} - formData - the entire form data object
  */
 export function validateDependentDate(errors, fieldData, { dateOfBirth }) {
-  const dependentDate = moment(fieldData);
-  const birthDate = moment(dateOfBirth);
+  const dependentDate = new Date(fieldData);
+  const birthDate = new Date(dateOfBirth);
 
-  if (birthDate.isAfter(dependentDate)) {
+  if (birthDate > dependentDate) {
     errors.addError(content['validation-dependent-date']);
+  }
+  validateCurrentOrPastDate(errors, fieldData);
+}
+
+/**
+ * Validate input data to ensure date of marriage is on or after the spouse's
+ * date of birth
+ * @param {Object} - errors - the error handling object from the forms system
+ * @param {String} - fieldData - the value from the text input field
+ * @param {Object} - formData - the entire form data object
+ */
+export function validateMarriageDate(errors, fieldData, { spouseDateOfBirth }) {
+  const dateOfMarriage = new Date(fieldData);
+  const birthDate = new Date(spouseDateOfBirth);
+
+  if (birthDate > dateOfMarriage) {
+    errors.addError(content['validation-marriage-date']);
   }
   validateCurrentOrPastDate(errors, fieldData);
 }

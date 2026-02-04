@@ -56,7 +56,8 @@ const IntroductionPage = ({ onStart }) => {
             </p>
             {data &&
               !data.travelPayClaim?.claim &&
-              data.isPast && (
+              data.isPast &&
+              !data.isCC && (
                 <va-link-action
                   onClick={e => onStart(e)}
                   href="javascript0:void"

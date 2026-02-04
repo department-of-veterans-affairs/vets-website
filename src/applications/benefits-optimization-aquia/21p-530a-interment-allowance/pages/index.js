@@ -5,7 +5,6 @@
  */
 
 // Chapter 1: Your organization's information
-export { relationshipToVeteranPage } from './relationship-to-veteran';
 export { organizationNamePage } from './organization-information';
 export { burialBenefitsRecipientPage } from './burial-benefits-recipient';
 export {

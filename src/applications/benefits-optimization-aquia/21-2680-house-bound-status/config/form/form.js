@@ -4,20 +4,22 @@
  * or Permanent Need for Regular Aid & Attendance
  */
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import {
   TITLE,
   SUBTITLE,
+  API_ENDPOINTS,
 } from '@bio-aquia/21-2680-house-bound-status/constants';
-import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components';
+import {
+  GetHelp,
+  preSubmitSignatureConfig,
+} from '@bio-aquia/21-2680-house-bound-status/components';
+import migrations from '@bio-aquia/21-2680-house-bound-status/config/migrations';
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
-import { prefillTransformer } from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
 import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
-import { submitForm } from '@bio-aquia/21-2680-house-bound-status/config/submit-handler/submit-handler';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 
 // Import page configurations (uiSchema and schema)
@@ -48,6 +50,12 @@ import {
   hospitalizationFacilitySchema,
 } from '@bio-aquia/21-2680-house-bound-status/pages';
 
+import { isClaimantVeteran } from '@bio-aquia/21-2680-house-bound-status/utils/relationship-helpers';
+import {
+  getVeteranName,
+  getClaimantName,
+} from '@bio-aquia/21-2680-house-bound-status/utils/name-helpers';
+
 /**
  * @typedef {Object} FormConfig
  * @property {string} rootUrl - Base URL for the form
@@ -77,8 +85,7 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/form212680/download_pdf`,
-  submit: submitForm,
+  submitUrl: API_ENDPOINTS.submitForm,
   transformForSubmit: submitTransformer,
   trackingPrefix: '21-2680-house-bound-status-',
   v3SegmentedProgressBar: true,
@@ -100,8 +107,8 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
-  prefillTransformer,
+  prefillEnabled: false,
+  migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -199,20 +206,18 @@ const formConfig = {
         claimantContact: {
           path: 'claimant-contact',
           title: formData => {
-            const firstName =
-              formData?.claimantInformation?.claimantFullName?.first || '';
-            const lastName =
-              formData?.claimantInformation?.claimantFullName?.last || '';
-            const fullName = `${firstName} ${lastName}`.trim();
+            const isVeteran = isClaimantVeteran(formData);
+            const fullName = isVeteran
+              ? getVeteranName(formData, '')
+              : getClaimantName(formData, '');
+            const fallback = isVeteran ? "Veteran's" : "Claimant's";
             return fullName
               ? `${fullName}'s phone number and email address`
-              : "Claimant's phone number and email address";
+              : `${fallback} phone number and email address`;
           },
           uiSchema: claimantContactUiSchema,
           schema: claimantContactSchema,
-          // Hidden when veteran is claimant
-          depends: formData =>
-            formData?.claimantRelationship?.relationship !== 'veteran',
+          // Always shown - collects contact info for veteran or claimant
         },
       },
     },
@@ -340,15 +345,7 @@ const formConfig = {
       },
     },
   },
-  preSubmitInfo: {
-    statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'veteranInformation.veteranFullName',
-    },
-  },
+  preSubmitInfo: preSubmitSignatureConfig,
 };
 
 export { formConfig };

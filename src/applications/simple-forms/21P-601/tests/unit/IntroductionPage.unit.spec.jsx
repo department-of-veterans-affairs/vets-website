@@ -122,7 +122,7 @@ describe('21P-601 IntroductionPage', () => {
     );
 
     getByText(
-      /Primarily for executors or administrators of VA beneficiaries’ estates \(VA Form 21P-601\)/i,
+      /Primarily for anyone applying for accrued benefits only, to include executors or administrators of VA beneficiaries’ estates \(VA Form 21P-601\)/i,
     );
   });
 
@@ -144,7 +144,7 @@ describe('21P-601 IntroductionPage', () => {
       </Provider>,
     );
 
-    getByText(/If you already submitted VA Form 21P-534EZ or VA Form 21P-535/i);
+    getByText(/If you already submitted an application for VA DIC/i);
   });
 
   it('renders who can use this form section', () => {
@@ -193,8 +193,8 @@ describe('21P-601 IntroductionPage', () => {
     const ombInfo = container.querySelector('va-omb-info');
     expect(ombInfo).to.exist;
     expect(ombInfo).to.have.attr('res-burden', '30');
-    expect(ombInfo).to.have.attr('omb-number', '2900-0016');
-    expect(ombInfo).to.have.attr('exp-date', '8/31/2025');
+    expect(ombInfo).to.have.attr('omb-number', '2900-0216');
+    expect(ombInfo).to.have.attr('exp-date', '9/30/2028');
   });
 
   it('displays non-veteran messaging', () => {

@@ -27,7 +27,7 @@ import formConfig from '../config/form';
 const CHAPTER_STEP_MAP = [
   { key: 'veteranDetails', label: 'Veteran details' },
   { key: 'disabilities', label: 'Conditions' },
-  { key: 'mentalHealth', label: 'Mental health' },
+  { key: 'mentalHealth', label: 'Mental health statement' },
   { key: 'supportingEvidence', label: 'Supporting evidence' },
   { key: 'additionalInformation', label: 'Additional information' },
 ];
@@ -38,7 +38,7 @@ const CHAPTER_STEP_MAP = [
  */
 const REVIEW_STEP = {
   key: 'reviewSubmit',
-  label: 'Review and submit',
+  label: 'Review application',
   path: '/review-and-submit',
 };
 
@@ -80,19 +80,23 @@ export function buildMajorSteps(formData, pathname) {
     const pathPrefixes = eligiblePageList.filter(p => p.chapterKey === key);
     const primaryPage = pathPrefixes[0];
 
-    steps.push({
-      idx,
-      key,
-      label,
-      path: primaryPage?.path,
-      current: key === currentChapter,
-    });
+    if (primaryPage) {
+      steps.push({
+        idx,
+        key,
+        label,
+        path: primaryPage?.path,
+        current: key === currentChapter,
+      });
+    }
   });
 
+  // using CHAPTER_STEP_MAP.length to set review step index, but we could also
+  //  get unique chapters from eligiblePageList
   steps.push({
     ...REVIEW_STEP,
     current: currentChapter === 'review',
-    idx: steps.length,
+    idx: CHAPTER_STEP_MAP.length,
   });
   return steps;
 }

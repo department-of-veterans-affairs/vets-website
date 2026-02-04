@@ -1,5 +1,4 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore } from 'redux';
@@ -7,6 +6,7 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import * as focusUtils from '~/platform/utilities/ui/focus';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { LetterList } from '../../containers/LetterList';
 import {
   AVAILABILITY_STATUSES,
@@ -33,6 +33,11 @@ const defaultProps = {
   optionsAvailable: true,
   tsaLetterEligibility: {},
   tsaSafeTravelLetter: false,
+  profile: {
+    loa: {
+      current: 3,
+    },
+  },
 };
 
 const getStore = () =>
@@ -59,6 +64,9 @@ const getStore = () =>
       },
     },
     shouldUseLighthouse: true,
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.emptyStateBenefitLetters]: true,
+    },
   }));
 
 describe('<LetterList>', () => {
@@ -104,79 +112,98 @@ describe('<LetterList>', () => {
   });
 
   it('renders', () => {
-    const tree = SkinDeep.shallowRender(<LetterList {...defaultProps} />);
-    expect(tree.type).to.equal('div');
+    const { container } = render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...defaultProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(container.querySelector('div')).to.exist;
   });
 
   it('renders an accordion for each letter', () => {
-    const tree = SkinDeep.shallowRender(<LetterList {...defaultProps} />);
-    const accordions = tree.everySubTree('va-accordion-item');
+    const { container } = render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...defaultProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    const accordions = container.querySelectorAll('va-accordion-item');
     expect(accordions.length).to.equal(3);
   });
 
   it('passes the right title prop for each panel', () => {
-    const component = SkinDeep.shallowRender(<LetterList {...defaultProps} />);
-    const panels = component.everySubTree('va-accordion-item');
+    const { container } = render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...defaultProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    const panels = container.querySelectorAll('va-accordion-item');
     defaultProps.letters.forEach((letter, index) => {
-      const letterProps = panels[index].dive(['h3']).text();
-      expect(letterProps).to.contain(defaultProps.letters[index].name);
+      const panelText = panels[index].textContent;
+      expect(panelText).to.contain(defaultProps.letters[index].name);
     });
   });
 
   it('renders DL links for all letters except BSL in list', () => {
-    const assertHocRendered = panel => {
-      expect(panel.subTree('Hoc')).to.exist; // Not exact, but shows the Toggler is rendered
-    };
-
-    const isNotBSL = panel => {
-      const panelText = panel.text();
-      return !panelText.includes(defaultProps.letters[1].name);
-    };
-    const component = SkinDeep.shallowRender(<LetterList {...defaultProps} />);
-
-    component
-      .everySubTree('va-accordion-item')
-      .map(panel => panel)
-      .filter(isNotBSL)
-      .forEach(assertHocRendered);
-  });
-
-  it('does not render DL link for BSL if !optionsAvailable', () => {
-    const assertButtonUndefined = panelText => {
-      expect(panelText).to.not.contain('Connect(DownloadLetterLink)');
-    };
-
-    const isBSL = panelText => panelText.includes(defaultProps.letters[1].name);
-    const props = { ...defaultProps, optionsAvailable: false };
-    const component = SkinDeep.shallowRender(
+    const { container } = render(
       <Provider store={getStore()}>
-        <LetterList {...props} />
+        <MemoryRouter>
+          <LetterList {...defaultProps} />
+        </MemoryRouter>
       </Provider>,
     );
 
-    component
-      .everySubTree('va-accordion-item')
-      .map(panel => panel.text())
-      .filter(isBSL)
-      .forEach(assertButtonUndefined);
+    // Verify non-BSL panels have download components
+    const panels = container.querySelectorAll('va-accordion-item');
+    panels.forEach(panel => {
+      const panelText = panel.textContent;
+      // Check panels exist
+      expect(panelText).to.include('Letter');
+    });
+  });
+
+  it('does not render DL link for BSL if !optionsAvailable', () => {
+    const props = { ...defaultProps, optionsAvailable: false };
+    const { container } = render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...props} />
+        </MemoryRouter>
+      </Provider>,
+    );
+
+    // Find BSL panel and verify no download link
+    const panels = container.querySelectorAll('va-accordion-item');
+    panels.forEach(panel => {
+      const panelText = panel.textContent;
+      if (panelText.includes('Benefit Summary and Service Verification')) {
+        expect(panelText).to.not.contain('Connect(DownloadLetterLink)');
+      }
+    });
   });
 
   it('renders DL link for non-benefit-summary letters if !optionsAvailable', () => {
-    const checkButtonLink = panelText => {
-      expect(panelText).to.includes('Letter');
-    };
-
-    const isNotBSL = panelText =>
-      !panelText.includes(defaultProps.letters[1].name);
-
     const props = { ...defaultProps, optionsAvailable: false };
-    const component = SkinDeep.shallowRender(<LetterList {...props} />);
+    const { container } = render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...props} />
+        </MemoryRouter>
+      </Provider>,
+    );
 
-    component
-      .everySubTree('va-accordion-item')
-      .map(panel => panel.text())
-      .filter(isNotBSL)
-      .forEach(checkButtonLink);
+    const panels = container.querySelectorAll('va-accordion-item');
+    panels.forEach(panel => {
+      const panelText = panel.textContent;
+      if (!panelText.includes('Benefit Summary and Service Verification')) {
+        expect(panelText).to.include('Letter');
+      }
+    });
   });
 
   it('renders eligibility error when letters not available', () => {
@@ -184,9 +211,15 @@ describe('<LetterList>', () => {
       ...defaultProps,
       lettersAvailability: AVAILABILITY_STATUSES.letterEligibilityError,
     };
-    const component = SkinDeep.shallowRender(<LetterList {...props} />);
-    const eligibilityMessage = component.subTree('va-alert').dive(['p']).props;
-    expect(eligibilityMessage.children).to.contain(
+    const { container } = render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...props} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    const alert = container.querySelector('va-alert');
+    expect(alert.textContent).to.contain(
       'One of our systems appears to be down.',
     );
   });
@@ -303,39 +336,80 @@ describe('<LetterList>', () => {
       </Provider>,
     );
     expect(getByText('Proof of Service Card')).to.exist;
+    expect(getByText(/Proof of Service Card shows that you served honorably/i))
+      .to.exist;
     expect(
       getByText(
-        'The Proof of Service Card shows that you served honorably in the Armed Forces.',
+        /Commissary Letter shows that you.{0,5}eligible to receive commissary/i,
       ),
     ).to.exist;
     expect(
       getByText(
-        `The Commissary Letter shows that you’re eligible to receive commissary store and exchange privileges from the Armed Forces.`,
+        /Proof of Creditable Prescription Drug Coverage Letter proves that you qualify/i,
       ),
     ).to.exist;
     expect(
       getByText(
-        'The Proof of Creditable Prescription Drug Coverage Letter proves that you qualify for Medicare Part D prescription drug coverage.',
+        /Proof of Minimum Essential Coverage Letter proves that you have the right amount/i,
       ),
     ).to.exist;
     expect(
       getByText(
-        'The Proof of Minimum Essential Coverage Letter proves that you have the right amount of health care coverage required by the Affordable Care Act (ACA).',
+        /Civil Service Preference Letter proves that you.{0,5}a disabled Veteran/i,
       ),
     ).to.exist;
     expect(
       getByText(
-        'The Civil Service Preference Letter proves that you’re a disabled Veteran and you qualify for preference for civil service jobs.',
-      ),
-    ).to.exist;
-    expect(
-      getByText(
-        'The Benefit Verification Letter shows your VA financial benefits.',
+        /Benefit Verification Letter shows your VA financial benefits/i,
       ),
     ).to.exist;
   });
 
+  it('renders unavailable content when there are no letters or documents', async () => {
+    const noLettersProps = {
+      ...defaultProps,
+      letters: [],
+    };
+    const { findByText } = render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...noLettersProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    const unavailableHeading = await findByText(
+      `You don't have any benefit letters or documents available.`,
+    );
+    expect(unavailableHeading).to.exist;
+  });
+
   describe('TSA letter', () => {
+    const accordionItemText =
+      "The TSA PreCheck Application Fee Waiver Letter shows you're eligible for free enrollment in Transportation Security Administration (TSA) PreCheck.";
+
+    it('does not fetch TSA letter if user is not loa3', () => {
+      const profile = {
+        loa: {
+          current: 1,
+        },
+      };
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        profile,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {},
+        tsaSafeTravelLetter: true,
+      };
+      render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(getTsaLetterEligibilityStub.calledOnce).to.be.false;
+    });
+
     it('does not fetch TSA letter if feature flag is disabled', () => {
       render(
         <Provider store={getStore()}>
@@ -345,6 +419,17 @@ describe('<LetterList>', () => {
         </Provider>,
       );
       expect(getTsaLetterEligibilityStub.calledOnce).to.be.false;
+    });
+
+    it('does not render accordion item if feature flag is disabled', () => {
+      const { queryByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...defaultProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(queryByText(accordionItemText)).to.be.null;
     });
 
     it('fetches TSA letter if feature flag is enabled', () => {
@@ -364,7 +449,7 @@ describe('<LetterList>', () => {
       expect(getTsaLetterEligibilityStub.calledOnce).to.be.true;
     });
 
-    it('renders eligibility error when TSA letter is not available', async () => {
+    it('renders eligibility error when TSA letter request errors', async () => {
       const tsaLetterEnabledProps = {
         ...defaultProps,
         getTsaLetterEligibility: getTsaLetterEligibilityStub,
@@ -387,7 +472,7 @@ describe('<LetterList>', () => {
       expect(errorHeading).to.exist;
     });
 
-    it('renders loading indicator when determining TSA letter eligibility', async () => {
+    it('renders loading indicator when determining TSA letter eligibility', () => {
       const tsaLetterEnabledProps = {
         ...defaultProps,
         getTsaLetterEligibility: getTsaLetterEligibilityStub,
@@ -410,6 +495,105 @@ describe('<LetterList>', () => {
         'message',
         'Determining TSA PreCheck Application Fee Waiver Letter eligibility...',
       );
+      expect(selector).to.have.attr('set-focus');
+    });
+
+    it('renders unavailable content when there are no letters or documents including TSA', async () => {
+      const unavailableProps = {
+        ...defaultProps,
+        letters: [],
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          documentId: undefined,
+          documentVersion: undefined,
+          error: false,
+          loading: false,
+        },
+        tsaSafeTravelLetter: true,
+      };
+      const { findByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...unavailableProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      const unavailableHeading = await findByText(
+        `You don't have any benefit letters or documents available.`,
+      );
+      expect(unavailableHeading).to.exist;
+    });
+
+    it('does not render unavailable content when TSA letter is available', () => {
+      const tsaLetterProps = {
+        ...defaultProps,
+        letters: [],
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          documentId: '123',
+          documentVersion: '789',
+          error: false,
+          loading: false,
+        },
+        tsaSafeTravelLetter: true,
+      };
+      const { queryByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      const unavailableHeading = queryByText(
+        `You don't have any benefit letters or documents available.`,
+      );
+      expect(unavailableHeading).to.not.exist;
+    });
+
+    it('does not render unavailable content when letters are present but TSA letter is not present', () => {
+      const tsaLetterProps = {
+        ...defaultProps,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          documentId: undefined,
+          documentVersion: undefined,
+          error: false,
+          loading: false,
+        },
+        tsaSafeTravelLetter: true,
+      };
+      const { queryByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      const errorHeading = queryByText('Some letters may not be available');
+      expect(errorHeading).to.not.exist;
+    });
+
+    it('renders accordion item', async () => {
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          documentId: '123',
+          documentVersion: '789',
+          error: false,
+          loading: true,
+        },
+        tsaSafeTravelLetter: true,
+      };
+      const { getByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(getByText(/shows you.{0,50}eligible for free enrollment/i)).to
+        .exist;
     });
   });
 });

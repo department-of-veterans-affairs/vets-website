@@ -3,7 +3,11 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { ToxicExposureSummary } from '../../components/ToxicExposureSummary';
 import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
-import { goBackLink, noDatesEntered } from '../../content/toxicExposure';
+import {
+  goBackLink,
+  noDatesEntered,
+  notSureDatesSummary,
+} from '../../content/toxicExposure';
 
 const props = {
   checkboxObjectName: 'gulfWar1990',
@@ -41,8 +45,8 @@ describe('toxicExposureSummary', () => {
         },
         gulfWar1990Details: {
           waters: {
-            startDate: '2000-01-01',
-            endDate: '2004-01-01',
+            startDate: '2000-01',
+            endDate: '2004-01',
           },
         },
       },
@@ -67,15 +71,15 @@ describe('toxicExposureSummary', () => {
         },
         gulfWar1990Details: {
           airspace: {
-            startDate: '2023-10-01',
+            startDate: '2023-10',
           },
           afghanistan: {},
           qatar: {
-            endDate: '2023-09-05',
+            endDate: '2023-09',
           },
           waters: {
-            startDate: '2000-01-01',
-            endDate: '2004-01-01',
+            startDate: '2000-01',
+            endDate: '2004-01',
           },
         },
       },
@@ -107,11 +111,11 @@ describe('toxicExposureSummary', () => {
         },
         gulfWar1990Details: {
           airspace: {
-            startDate: '2023-10-01',
+            startDate: '2023-10',
           },
           waters: {
-            startDate: '2000-01-01',
-            endDate: '2004-01-01',
+            startDate: '2000-01',
+            endDate: '2004-01',
           },
         },
       },
@@ -126,5 +130,99 @@ describe('toxicExposureSummary', () => {
 
     expect(queryByText(GULF_WAR_1990_LOCATIONS.airspace)).to.not.exist;
     expect(queryByText('October 2023 - No end date entered')).to.not.exist;
+  });
+
+  it('renders "I’m not sure of the dates" when checkbox is checked and no dates entered', () => {
+    const formData = {
+      toxicExposure: {
+        gulfWar1990: {
+          afghanistan: true,
+        },
+        gulfWar1990Details: {
+          afghanistan: {
+            'view:notSure': true,
+          },
+        },
+      },
+    };
+
+    const tree = render(
+      <ToxicExposureSummary formData={formData} {...props} />,
+    );
+
+    tree.getByText(GULF_WAR_1990_LOCATIONS.afghanistan);
+    tree.getByText(notSureDatesSummary);
+  });
+
+  it('renders dates when notSure checkbox is checked and dates are also provided', () => {
+    const formData = {
+      toxicExposure: {
+        gulfWar1990: {
+          waters: true,
+        },
+        gulfWar1990Details: {
+          waters: {
+            startDate: '2000-01',
+            endDate: '2004-01',
+            'view:notSure': true,
+          },
+        },
+      },
+    };
+
+    const tree = render(
+      <ToxicExposureSummary formData={formData} {...props} />,
+    );
+
+    tree.getByText(GULF_WAR_1990_LOCATIONS.waters);
+    tree.getByText('January 2000 - January 2004');
+    // Should show dates, not "not sure" message when dates are present
+    expect(tree.queryByText(notSureDatesSummary)).to.be.null;
+  });
+
+  it('renders year-only dates correctly', () => {
+    const formData = {
+      toxicExposure: {
+        gulfWar1990: {
+          waters: true,
+        },
+        gulfWar1990Details: {
+          waters: {
+            startDate: '2000-XX',
+            endDate: '2004-XX',
+          },
+        },
+      },
+    };
+
+    const tree = render(
+      <ToxicExposureSummary formData={formData} {...props} />,
+    );
+
+    tree.getByText(GULF_WAR_1990_LOCATIONS.waters);
+    tree.getByText('2000 - 2004');
+  });
+
+  it('renders full date format (YYYY-MM-DD) correctly for backward compatibility', () => {
+    const formData = {
+      toxicExposure: {
+        gulfWar1990: {
+          waters: true,
+        },
+        gulfWar1990Details: {
+          waters: {
+            startDate: '2000-01-15',
+            endDate: '2004-02-28',
+          },
+        },
+      },
+    };
+
+    const tree = render(
+      <ToxicExposureSummary formData={formData} {...props} />,
+    );
+
+    tree.getByText(GULF_WAR_1990_LOCATIONS.waters);
+    tree.getByText('January 2000 - February 2004');
   });
 });

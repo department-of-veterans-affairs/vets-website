@@ -2,12 +2,17 @@
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import {
+  profilePersonalInfoPage,
+  profileContactInfoPages,
+  transformEmailForSubmit,
+} from 'platform/forms-system/src/js/patterns/prefill';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { prefillTransformer } from './prefill-transformer';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -19,6 +24,22 @@ const formConfig = {
   trackingPrefix: 'mock-prefill-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  // eslint-disable-next-line no-shadow
+  transformForSubmit: (formConfig, form, options) => {
+    let formData = form;
+    // transformers can be chained here
+    formData = transformEmailForSubmit(formData);
+    return transformForSubmit(formConfig, formData, options);
+  },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      fullNamePath: 'fullName',
+    },
+  },
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -35,13 +56,18 @@ const formConfig = {
   }),
   formId: VA_FORM_IDS.FORM_MOCK_PREFILL,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your mock prefill testing application (FORM_MOCK_PREFILL) is in progress.',
-    //   expired: 'Your saved mock prefill testing application (FORM_MOCK_PREFILL) has expired. If you want to apply for mock prefill testing, please start a new application.',
-    //   saved: 'Your mock prefill testing application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your mock prefill testing application (FORM_MOCK_PREFILL) is in progress.',
+      expired:
+        'Your saved mock prefill testing application (FORM_MOCK_PREFILL) has expired. If you want to apply for mock prefill testing, please start a new application.',
+      saved: 'Your mock prefill testing application has been saved.',
+    },
   },
   version: 0,
+  // or prefill-transformer from PR
+  // https://github.com/department-of-veterans-affairs/vets-website/commit/7f49c3bdc4d1aeda2a81f74cd2735e93ff9a55fa#diff-3af1e5e44b3300d11a660f138dcdc67d2a15d1317c96c392139ba2801929fd87R1-R46
+  prefillTransformer,
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for mock prefill testing.',
@@ -52,15 +78,14 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    contactInfo: {
+      title: 'Veteran information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
+        ...profilePersonalInfoPage(),
+        ...profileContactInfoPages({
+          contactPath: 'veteran-information',
+          contactInfoRequiredKeys: ['mailingAddress'],
+        }),
       },
     },
   },
