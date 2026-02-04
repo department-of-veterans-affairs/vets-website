@@ -147,6 +147,10 @@ Update this file when you:
 #### Download/Blue Button Constants
 - **BB_DOMAIN_DISPLAY_MAP**: Maps domain keys to display names for Blue Button reports
 - **documentTypes**: `BB` (medical records reports), `CCD` (continuity of care document), `SEI` (self-entered information)
+- **dataSourceTypes**: User data source classifications for Download Report page
+  - `VISTA_ONLY`: User has only VistA facilities
+  - `OH_ONLY`: User has only Oracle Health (Cerner) facilities
+  - `VISTA_AND_OH`: User has both VistA and Oracle Health facilities
 - **studyJobStatus**: Image study request statuses (`NEW`, `QUEUED`, `PROCESSING`, `COMPLETE`, `ERROR`)
 
 ### Helper Functions (`util/helpers.js`)
@@ -352,6 +356,9 @@ Update this file when you:
 - **HeaderSectionContext**: Provides header section state across components
   - Use `HeaderSectionProvider` in App.jsx
   - Access with `useContext(HeaderSectionContext)`
+- **DownloadReportContext** (`context/DownloadReportContext.js`): Shares CCD download state and handlers across Download Report page components
+  - Use `DownloadReportProvider` to wrap child components
+  - Access with `useDownloadReport()` hook
 
 ## Custom Hooks
 
@@ -378,6 +385,12 @@ Update this file when you:
 
 ### useInitialFhirLoadTimeout
 - **Purpose**: Handle timeout for initial FHIR data load
+
+### useSelfEnteredPdf (`hooks/useSelfEnteredPdf.js`)
+- **Purpose**: Manage Self-Entered Information (SEI) PDF download state and logic
+
+### useNewestAlertFocus (`hooks/useNewestAlertFocus.js`)
+- **Purpose**: Focus on the newest visible alert for accessibility (screen reader support)
 
 ### useReloadResetListOnUnmount
 - **Purpose**: Reset list state when component unmounts
