@@ -1,11 +1,8 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import get from 'platform/utilities/data/get';
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 
@@ -14,7 +11,6 @@ import {
   addressSchema,
   updateFormDataAddress,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { MILITARY_CITIES } from '../constants';
 import {
   contactInfoDescription,
   contactInfoUpdateHelpDescription,
@@ -161,47 +157,6 @@ export const uiSchema = {
       ...defaultAddressUI.city,
       'ui:options': {
         ...defaultAddressUI.city['ui:options'],
-        // Override replaceSchema to remove pattern validation from web component
-        // This prevents conflict between web component validation and our custom
-        // ui:validations which provides a more helpful error for commas
-        replaceSchema: (formData, schema, uiSchemaCity, index, path) => {
-          // Get address path by removing the last segment (field name) from path
-          const pathArray = Array.isArray(path) ? path : path.split('.');
-          const addressPath = pathArray.slice(0, -1);
-          const addressData = get(addressPath, formData) ?? {};
-          const isMilitary = addressData['view:livesOnMilitaryBase'];
-
-          if (isMilitary) {
-            // Military address: use radio field for APO/DPO/FPO selection
-            // eslint-disable-next-line no-param-reassign
-            uiSchemaCity['ui:webComponentField'] = VaRadioField;
-            // eslint-disable-next-line no-param-reassign
-            uiSchemaCity['ui:errorMessages'] = {
-              required: 'Select a type of post office: APO, FPO, or DPO',
-              enum: 'Select a type of post office: APO, FPO, or DPO',
-            };
-            return {
-              type: 'string',
-              title: 'Military post office',
-              enum: MILITARY_CITIES,
-              enumNames: MILITARY_CITIES,
-            };
-          }
-
-          // Non-military address: use text input without pattern validation
-          // Pattern validation is handled by our custom ui:validations
-          // eslint-disable-next-line no-param-reassign
-          uiSchemaCity['ui:webComponentField'] = VaTextInputField;
-          // eslint-disable-next-line no-param-reassign
-          uiSchemaCity['ui:errorMessages'] = {
-            required: 'Enter a city',
-          };
-          return {
-            type: 'string',
-            title: 'City',
-            maxLength: schema.maxLength || 30,
-          };
-        },
       },
     },
   },
