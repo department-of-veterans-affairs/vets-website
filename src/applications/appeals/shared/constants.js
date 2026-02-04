@@ -1,7 +1,27 @@
+import { SUPPORTED_BENEFIT_TYPES as SC_TYPES } from '../995/constants';
+import { CONTESTABLE_ISSUES_API as SC_ISSUES_URL } from '../995/constants/apis';
+import { SUPPORTED_BENEFIT_TYPES as HLR_TYPES } from '../996/constants';
+import { CONTESTABLE_ISSUES_API as HLR_ISSUES_URL } from '../996/constants/apis';
+import { CONTESTABLE_ISSUES_API as NOD_ISSUES_URL } from '../10182/constants/apis';
+
 /**
  **** BENEFIT TYPES ****
  */
 export const DEFAULT_BENEFIT_TYPE = 'compensation';
+
+export const SUPPORTED_BENEFIT_TYPES = {
+  SC: SC_TYPES,
+  HLR: HLR_TYPES,
+};
+
+/**
+ **** CONTESTABLE ISSUES API ****
+ */
+export const API_URLS = {
+  SC: SC_ISSUES_URL,
+  HLR: HLR_ISSUES_URL,
+  NOD: NOD_ISSUES_URL,
+};
 
 /**
  **** KEYS ****

@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import { setData } from 'platform/forms-system/src/js/actions';
-
-import { getContestableIssues as getContestableIssuesAction } from '../actions';
+import {
+  getContestableIssues as getContestableIssuesAction,
+  FETCH_CONTESTABLE_ISSUES_FAILED,
+} from '../../shared/actions';
 import { APP_NAME } from '../constants';
 import { getEligibleContestableIssues } from '../../shared/utils/issues';
-
-import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../../shared/actions';
 import ContestableIssues from '../../shared/components/ContestableIssues';
 
 /**
@@ -56,7 +55,7 @@ const ContestableIssuesWidget = props => {
         contestableIssues.status === FETCH_CONTESTABLE_ISSUES_FAILED
       ) {
         hasAttempted.current = true; // only call API once if previously failed
-        getContestableIssues();
+        getContestableIssues({ appAbbr: 'NOD' });
       }
     },
     [contestableIssues.status, getContestableIssues],
