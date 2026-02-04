@@ -1527,7 +1527,11 @@ export const generateClaimTitle = (claim, placement, tab) => {
 };
 
 export const getDisplayFriendlyName = item => {
-  if (!evidenceDictionary[item.displayName]?.isProperNoun) {
+  const isProperNoun =
+    item.isProperNoun ??
+    evidenceDictionary[item.displayName]?.isProperNoun ??
+    false;
+  if (!isProperNoun) {
     let updatedFriendlyName = item.friendlyName;
     updatedFriendlyName =
       updatedFriendlyName.charAt(0).toLowerCase() +
@@ -1542,7 +1546,11 @@ export const getLabel = trackedItem => {
     return trackedItem?.displayName;
   }
 
-  if (evidenceDictionary[(trackedItem?.displayName)]?.isSensitive) {
+  const isSensitive =
+    trackedItem?.isSensitive ??
+    evidenceDictionary[(trackedItem?.displayName)]?.isSensitive ??
+    false;
+  if (isSensitive) {
     return 'Request for evidence';
   }
   if (trackedItem?.friendlyName && trackedItem?.status === 'NEEDED_FROM_YOU') {
@@ -1551,7 +1559,12 @@ export const getLabel = trackedItem => {
   if (!trackedItem?.friendlyName && trackedItem?.status === 'NEEDED_FROM_YOU') {
     return 'Request for evidence';
   }
-  if (trackedItem?.displayName.toLowerCase().includes('dbq')) {
+  const isDBQ =
+    trackedItem?.isDBQ ??
+    evidenceDictionary[(trackedItem?.displayName)]?.isDBQ ??
+    trackedItem?.displayName?.toLowerCase().includes('dbq') ??
+    false;
+  if (isDBQ) {
     return 'Request for an exam';
   }
   if (trackedItem?.friendlyName) {
