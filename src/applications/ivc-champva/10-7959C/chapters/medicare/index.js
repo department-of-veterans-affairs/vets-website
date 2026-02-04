@@ -62,7 +62,7 @@ export const medicarePagesRev2025 = {
   },
   medicarePartACardUpload: {
     path: 'medicare-part-a-card',
-    title: 'Upload Medicare Part A card',
+    title: 'Medicare Part A card',
     depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartA(formData),
     ...partACardUpload,
   },
@@ -74,34 +74,34 @@ export const medicarePagesRev2025 = {
   },
   medicarePartBCardUpload: {
     path: 'medicare-part-b-card',
-    title: 'Upload Medicare Part B card',
+    title: 'Medicare Part B card',
     depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartB(formData),
     ...partBCardUpload,
   },
   medicarePartADenial: {
     path: 'medicare-part-a-denial-notice',
-    title: 'Medicare Part A denial',
+    title: 'Medicare Part A denial notice',
     depends: formData =>
       formData[REV2025_TOGGLE_KEY] && needsPartADenialNotice(formData),
     ...partADenialNotice,
   },
   medicarePartADenialProofUpload: {
     path: 'medicare-proof-of-part-a-denial',
-    title: 'Upload proof of Medicare ineligibility',
+    title: 'Proof of Medicare ineligibility',
     depends: formData =>
       formData[REV2025_TOGGLE_KEY] && hasPartADenialNotice(formData),
     ...partADenialProofUpload,
   },
   medicarePartAPartBEffectiveDates: {
     path: 'medicare-parts-a-and-b-effective-dates',
-    title: 'Medicare effective dates',
+    title: 'Medicare Parts A & B effective dates',
     depends: formData =>
       formData[REV2025_TOGGLE_KEY] && hasPartsABorC(formData),
     ...partAPartBEffectiveDates,
   },
   medicareABCardUpload: {
     path: 'medicare-parts-a-and-b-card',
-    title: 'Medicare card (A/B)',
+    title: 'Medicare Parts A & B card',
     depends: formData =>
       formData[REV2025_TOGGLE_KEY] && hasPartsABorC(formData),
     ...partAPartBCardUpload,
