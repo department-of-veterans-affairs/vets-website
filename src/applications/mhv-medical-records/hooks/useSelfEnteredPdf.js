@@ -26,6 +26,10 @@ const useSelfEnteredPdf = (runningUnitTest = false) => {
 
   const handleDownload = e => {
     e.preventDefault();
+    // Reset state before new attempt to prevent conflicting alerts
+    setError(null);
+    setSuccess(false);
+    setFailedDomains([]);
     setLoading(true);
     generateSEIPdf(userProfile, runningUnitTest)
       .then(res => {
@@ -33,14 +37,14 @@ const useSelfEnteredPdf = (runningUnitTest = false) => {
           const { failedDomains: domains } = res;
           setFailedDomains(domains);
           setSuccess(true);
-          setLoading(false);
         } else {
           setError(true);
-          setLoading(false);
         }
       })
       .catch(err => {
         setError(err);
+      })
+      .finally(() => {
         setLoading(false);
       });
     postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_SEI);
