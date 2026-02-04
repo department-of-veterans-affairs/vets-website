@@ -39,7 +39,6 @@ describe('getListWithRetry', () => {
       result = await getListWithRetry(
         mockDispatch,
         mockedGetListNoRetry,
-        1,
         20,
         startTime + 100,
       );
@@ -66,7 +65,7 @@ describe('getListWithRetry', () => {
     try {
       // Advance clock past the timeout before the function even checks
       clock.tick(35);
-      await getListWithRetry(mockDispatch, mockedGetListRetry, 1, 20, endTime);
+      await getListWithRetry(mockDispatch, mockedGetListRetry, 20, endTime);
       expect.fail('Function should have thrown an error due to timeout');
     } catch (error) {
       caughtError = error;
@@ -91,7 +90,6 @@ describe('getListWithRetry', () => {
       result = await getListWithRetry(
         mockDispatch,
         mockedGetListRetry,
-        1,
         20,
         startTime + 100,
       );
