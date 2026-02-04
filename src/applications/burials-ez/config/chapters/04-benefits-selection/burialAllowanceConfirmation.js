@@ -8,7 +8,7 @@ const confError = 'Confirm that these statements are true';
 export default {
   uiSchema: {
     'view:allowanceStatement': {
-      'ui:title': generateTitle('Type of burial allowance'),
+      'ui:title': generateTitle('Statement of truth'),
       'ui:description': (
         <>
           <p>

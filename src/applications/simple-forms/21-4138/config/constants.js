@@ -140,7 +140,7 @@ export const OTHER_REASONS = Object.freeze({
 export const ESCAPE_HATCH = Object.freeze(
   <div className="vads-u-margin-y--4">
     If you’d like to use VA Form 21-4138 for your statement instead, you can{' '}
-    <a href="/supporting-forms-for-claims/submit-statement-form-21-4138/personal-information">
+    <a href="/supporting-forms-for-claims/submit-statement-form-21-4138/personal-information?skip">
       go to VA Form 21-4138 now.
     </a>
   </div>,

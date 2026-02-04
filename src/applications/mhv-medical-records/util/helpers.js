@@ -29,7 +29,10 @@ import {
 } from './constants';
 
 // Re-export from dateHelpers for backwards compatibility
-export { dateFormatWithoutTimezone } from './dateHelpers';
+export {
+  dateFormatWithoutTimezone,
+  formatDateTimeInUserTimezone,
+} from './dateHelpers';
 
 /**
  * @param {*} timestamp
@@ -65,9 +68,15 @@ export const nameFormat = ({ first, middle, last, suffix }) => {
  * @returns { formattedDate: string, formattedTime: string } formatted datestamp, formatted timestamp
  */
 export const formatDateTime = datetimeString => {
+  // Guard against null, undefined, empty string, or falsy values
+  // Without this check, new Date(null) returns epoch date (1970-01-01)
+  if (!datetimeString) {
+    return { formattedDate: null, formattedTime: null };
+  }
+
   const dateTime = new Date(datetimeString);
   if (Number.isNaN(dateTime.getTime())) {
-    return { formattedDate: '', formattedTime: '' };
+    return { formattedDate: null, formattedTime: null };
   }
   const formattedDate = dateFnsFormat(dateTime, 'MMMM d, yyyy');
   const formattedTime = dateFnsFormat(dateTime, 'h:mm a');

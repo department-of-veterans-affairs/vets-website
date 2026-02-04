@@ -14,8 +14,8 @@ describe('allDependents reducer', () => {
     const initialState = allDependents(undefined, {});
     expect(initialState.loading).to.be.true;
     expect(initialState.error).to.be.null;
-    expect(initialState.onAwardDependents).to.be.null;
-    expect(initialState.notOnAwardDependents).to.be.null;
+    expect(initialState.onAwardDependents).to.deep.equal([]);
+    expect(initialState.notOnAwardDependents).to.deep.equal([]);
   });
 
   it('should handle FETCH_ALL_DEPENDENTS_STARTED', () => {
@@ -40,8 +40,8 @@ describe('allDependents reducer', () => {
     const previousState = {
       loading: true,
       error: null,
-      onAwardDependents: null,
-      notOnAwardDependents: null,
+      onAwardDependents: [],
+      notOnAwardDependents: [],
     };
 
     const mockPersons = [
@@ -73,8 +73,8 @@ describe('allDependents reducer', () => {
     const previousState = {
       loading: true,
       error: null,
-      onAwardDependents: null,
-      notOnAwardDependents: null,
+      onAwardDependents: [],
+      notOnAwardDependents: [],
     };
 
     const newState = allDependents(previousState, {
@@ -83,16 +83,16 @@ describe('allDependents reducer', () => {
     });
 
     expect(newState.loading).to.be.false;
-    expect(newState.onAwardDependents).to.be.null;
-    expect(newState.notOnAwardDependents).to.be.null;
+    expect(newState.onAwardDependents).to.deep.equal([]);
+    expect(newState.notOnAwardDependents).to.deep.equal([]);
   });
 
   it('should handle FETCH_ALL_DEPENDENTS_FAILED', () => {
     const previousState = {
       loading: true,
       error: null,
-      onAwardDependents: null,
-      notOnAwardDependents: null,
+      onAwardDependents: [],
+      notOnAwardDependents: [],
     };
 
     const mockError = {
@@ -110,5 +110,7 @@ describe('allDependents reducer', () => {
 
     expect(newState.loading).to.be.false;
     expect(newState.error).to.deep.equal({ code: '500' });
+    expect(newState.onAwardDependents).to.deep.equal([]);
+    expect(newState.notOnAwardDependents).to.deep.equal([]);
   });
 });

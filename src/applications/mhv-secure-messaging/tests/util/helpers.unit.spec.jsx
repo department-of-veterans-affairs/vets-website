@@ -24,6 +24,7 @@ import {
   sortRecipients,
   decodeHtmlEntities,
   isOlderThan,
+  isValidDateValue,
   isCustomFolder,
   handleHeader,
   getPageTitle,
@@ -866,6 +867,11 @@ describe('MHV Secure Messaging helpers', () => {
       const result = getStationNumberFromRecipientId(999, recipients);
       expect(result).to.equal(null);
     });
+
+    it('should return null when recipients is null or undefined', () => {
+      expect(getStationNumberFromRecipientId(123, null)).to.equal(null);
+      expect(getStationNumberFromRecipientId(123, undefined)).to.equal(null);
+    });
   });
 
   describe('findActiveDraftFacility', () => {
@@ -1282,6 +1288,52 @@ describe('MHV Secure Messaging helpers', () => {
       const result = buildRxRenewalMessageBody(rxWithoutSig, false);
 
       expect(result).to.include('Instructions: Instructions not available');
+    });
+  });
+
+  describe('isValidDateValue', () => {
+    it('should return false for empty string', () => {
+      expect(isValidDateValue('')).to.be.false;
+    });
+
+    it('should return false for null', () => {
+      expect(isValidDateValue(null)).to.be.false;
+    });
+
+    it('should return false for undefined', () => {
+      expect(isValidDateValue(undefined)).to.be.false;
+    });
+
+    it('should return false for day only ("--04")', () => {
+      expect(isValidDateValue('--04')).to.be.false;
+    });
+
+    it('should return false for month and day only ("-01-04")', () => {
+      expect(isValidDateValue('-01-04')).to.be.false;
+    });
+
+    it('should return false for year and day only ("2026--04")', () => {
+      expect(isValidDateValue('2026--04')).to.be.false;
+    });
+
+    it('should return false for year and month only ("2026-01-")', () => {
+      expect(isValidDateValue('2026-01-')).to.be.false;
+    });
+
+    it('should return true for valid complete date', () => {
+      expect(isValidDateValue('2026-01-13')).to.be.true;
+    });
+
+    it('should return true for valid date at year boundary', () => {
+      expect(isValidDateValue('2025-12-31')).to.be.true;
+    });
+
+    it('should return false for invalid date (Feb 31st)', () => {
+      expect(isValidDateValue('2026-02-31')).to.be.false;
+    });
+
+    it('should return false for invalid month (13)', () => {
+      expect(isValidDateValue('2026-13-01')).to.be.false;
     });
   });
 });

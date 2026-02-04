@@ -20,7 +20,7 @@ describe('re-save multiple drafts in one thread', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    PatientMessageDraftsPage.expandSingleDraft(2);
+    // Drafts auto-expand by default - no need to manually expand
     cy.get('#reply-message-body-2')
       .shadow()
       .find('textarea')
@@ -41,7 +41,7 @@ describe('re-save multiple drafts in one thread', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    PatientMessageDraftsPage.expandSingleDraft(1);
+    // Drafts auto-expand by default - no need to manually expand
     cy.get('#reply-message-body-1')
       .shadow()
       .find('textarea')

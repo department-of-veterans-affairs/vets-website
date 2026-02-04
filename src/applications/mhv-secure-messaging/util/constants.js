@@ -220,7 +220,7 @@ export const Alerts = {
       'Folder could not be removed. Try again later. If this problem persists, contact the help desk.',
     DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER: 'Empty this folder',
     DELETE_FOLDER_ERROR_NOT_EMPTY_BODY: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
-    RENAME_FOLDER_SUCCESS: 'Folder was successfully renamed.',
+    RENAME_FOLDER_SUCCESS: 'Folder renamed',
     RENAME_FOLDER_ERROR:
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
     FOLDER_NAME_TAKEN:
@@ -551,12 +551,6 @@ export const RxRenewalText = {
 
 export const downtimeNotificationParams = {
   appTitle: 'this messaging tool',
-};
-
-export const CernerTransitioningFacilities = {
-  NORTH_CHICAGO: {
-    facilityId: '556',
-  },
 };
 
 export const filterDescription = {

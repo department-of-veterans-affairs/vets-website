@@ -1,33 +1,26 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom-v5-compat';
 import Wrapper from '../layout/Wrapper';
 import AppointmentCard from '../components/AppointmentCard';
 import { VASS_PHONE_NUMBER } from '../utils/constants';
-// TODO: replace with actual data from API
-const appointmentData = {
-  appointmentId: 'abcdef123456',
-  // Currently the appointment GET api does not return topics, so we are not mocking them
-  // ideally VASS adds these values to the appointment GET api response
-  // topics: [
-  //   {
-  //     topicId: '123',
-  //     topicName: 'General Health',
-  //   },
-  // ],
-  startUTC: '2025-12-24T10:00:00Z',
-  endUTC: '2025-12-24T10:30:00Z',
-  agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
-  agentNickname: 'Bill Brasky',
-  appointmentStatusCode: 1,
-  appointmentStatus: 'Confirmed',
-  cohortStartUtc: '2025-12-01T00:00:00Z',
-  cohortEndUtc: '2026-02-28T23:59:59Z',
-};
+import { useGetAppointmentQuery } from '../redux/api/vassApi';
+import { selectSelectedDate } from '../redux/slices/formSlice';
 
 const CancelConfirmation = () => {
+  const { appointmentId } = useParams();
+  // Fallback to the selected date if the appointment data is not available.
+  const selectedDate = useSelector(selectSelectedDate);
+  const { data: appointmentData, isLoading } = useGetAppointmentQuery({
+    appointmentId,
+  });
   return (
     <Wrapper
       testID="cancel-confirmation-page"
+      disableBeforeUnload
+      loading={isLoading}
       pageTitle="You have canceled your appointment"
+      loadingMessage="Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page."
     >
       <p
         className="vads-u-margin-bottom--4"
@@ -41,7 +34,12 @@ const CancelConfirmation = () => {
         . We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
       <div className="vads-u-margin-top--8">
-        <AppointmentCard appointmentData={appointmentData} />
+        <AppointmentCard
+          appointmentData={{
+            ...appointmentData,
+            startUTC: appointmentData?.startUTC || selectedDate,
+          }}
+        />
       </div>
     </Wrapper>
   );
