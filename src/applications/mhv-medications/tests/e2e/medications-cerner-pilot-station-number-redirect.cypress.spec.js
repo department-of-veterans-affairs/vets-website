@@ -2,10 +2,7 @@ import MedicationsSite from './med_site/MedicationsSite';
 import mockUser from './fixtures/user.json';
 import cernerPilotToggles from './fixtures/toggles-cerner-pilot.json';
 import prescriptions from './fixtures/prescriptions.json';
-import {
-  medicationsUrls,
-  STATION_NUMBER_PARAM,
-} from '../../util/constants';
+import { medicationsUrls, STATION_NUMBER_PARAM } from '../../util/constants';
 
 describe('Medications Cerner Pilot station_number redirect', () => {
   const site = new MedicationsSite();
@@ -26,9 +23,7 @@ describe('Medications Cerner Pilot station_number redirect', () => {
 
   it('redirects to medications list when visiting details page without station_number and Cerner pilot enabled', () => {
     // Visit details page without station_number query param
-    cy.visit(
-      `${medicationsUrls.PRESCRIPTION_DETAILS}/${testPrescriptionId}`,
-    );
+    cy.visit(`${medicationsUrls.PRESCRIPTION_DETAILS}/${testPrescriptionId}`);
 
     // Should redirect to medications list
     cy.url().should('include', medicationsUrls.MEDICATIONS_URL);
@@ -40,13 +35,18 @@ describe('Medications Cerner Pilot station_number redirect', () => {
   it('redirects to medications list when visiting documentation page without station_number and Cerner pilot enabled', () => {
     // Visit documentation page without station_number query param
     cy.visit(
-      `${medicationsUrls.PRESCRIPTION_DETAILS}/${testPrescriptionId}${medicationsUrls.subdirectories.DOCUMENTATION}`,
+      `${medicationsUrls.PRESCRIPTION_DETAILS}/${testPrescriptionId}${
+        medicationsUrls.subdirectories.DOCUMENTATION
+      }`,
     );
 
     // Should redirect to medications list
     cy.url().should('include', medicationsUrls.MEDICATIONS_URL);
     cy.url().should('not.include', medicationsUrls.subdirectories.DETAILS);
-    cy.url().should('not.include', medicationsUrls.subdirectories.DOCUMENTATION);
+    cy.url().should(
+      'not.include',
+      medicationsUrls.subdirectories.DOCUMENTATION,
+    );
     cy.injectAxe();
     cy.axeCheck('main');
   });
@@ -81,11 +81,16 @@ describe('Medications Cerner Pilot station_number redirect', () => {
 
     // Visit details page WITH station_number query param
     cy.visit(
-      `${medicationsUrls.PRESCRIPTION_DETAILS}/${prescriptionId}?${STATION_NUMBER_PARAM}=${stationNumber}`,
+      `${
+        medicationsUrls.PRESCRIPTION_DETAILS
+      }/${prescriptionId}?${STATION_NUMBER_PARAM}=${stationNumber}`,
     );
 
     // Should stay on details page (not redirect)
-    cy.url().should('include', `${medicationsUrls.subdirectories.DETAILS}/${prescriptionId}`);
+    cy.url().should(
+      'include',
+      `${medicationsUrls.subdirectories.DETAILS}/${prescriptionId}`,
+    );
     cy.url().should('include', `${STATION_NUMBER_PARAM}=${stationNumber}`);
     cy.injectAxe();
     cy.axeCheck('main');

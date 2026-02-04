@@ -62,7 +62,9 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
   // Fetch individual prescription when needed
   const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
     prescriptionByIdParams,
-    { skip: cachedPrescriptionAvailable || shouldSkipDueToMissingStationNumber },
+    {
+      skip: cachedPrescriptionAvailable || shouldSkipDueToMissingStationNumber,
+    },
   );
 
   // Handle prescription data from either source
