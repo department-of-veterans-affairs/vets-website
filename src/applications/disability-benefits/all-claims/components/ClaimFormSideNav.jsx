@@ -121,46 +121,48 @@ export default function ClaimFormSideNav({
   }
 
   return (
-    <VaSidenav
-      ref={sidenavRef}
-      header="Form steps"
-      icon-background-color="vads-color-link"
-      icon-name="description"
-      id="default-sidenav"
-    >
-      {landingPages.map((page, index) => {
-        const label = `Step ${index + 1}: ${page.label}`;
-        if (page.current) {
-          return (
+    <div className="claim-form-sidenav-wrapper">
+      <VaSidenav
+        header="Form steps"
+        mobileHeader="Select a step"
+        icon-background-color="vads-color-link"
+        icon-name="description"
+        id="default-sidenav"
+      >
+        {landingPages.map((page, index) => {
+          const label = `Step ${index + 1}: ${page.label}`;
+          if (page.current) {
+            return (
+              <VaSidenavItem
+                key={page.key}
+                label={label}
+                href="#"
+                current-page
+                data-page={page.key}
+                onClick={e => handleClick(e, page)}
+              />
+            );
+          }
+
+          // page.idx instead of index for optional chapters that may
+          //  be included after being skipped (see CFI flow)
+          return page.idx <= maxChapterIndex ? (
             <VaSidenavItem
               key={page.key}
               label={label}
               href="#"
-              current-page
               data-page={page.key}
+              className={PREVIOUS_STEP_STYLE}
               onClick={e => handleClick(e, page)}
             />
+          ) : (
+            <p className={DISABLED_STYLE} key={page.key}>
+              {label}
+            </p>
           );
-        }
-
-        // page.idx instead of index for optional chapters that may
-        //  be included after being skipped (see CFI flow)
-        return page.idx <= maxChapterIndex ? (
-          <VaSidenavItem
-            key={page.key}
-            label={label}
-            href="#"
-            data-page={page.key}
-            className={PREVIOUS_STEP_STYLE}
-            onClick={e => handleClick(e, page)}
-          />
-        ) : (
-          <p role="listitem" className={DISABLED_STYLE} key={page.key}>
-            {label}
-          </p>
-        );
-      })}
-    </VaSidenav>
+        })}
+      </VaSidenav>
+    </div>
   );
 }
 
