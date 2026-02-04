@@ -2,7 +2,6 @@ import {
   titleUI,
   selectUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import {
   DISCHARGE_TYPE_LABELS,
@@ -32,7 +31,9 @@ export default {
     lastEntryDate: currentOrPastDateUI(
       content['service-info--service-start-date-label'],
     ),
-    lastDischargeDate: dateUI(content['service-info--service-end-date-label']),
+    lastDischargeDate: currentOrPastDateUI(
+      content['service-info--service-end-date-label'],
+    ),
     dischargeType: {
       'ui:title': content['service-info--last-period-character-label'],
       'ui:options': {
