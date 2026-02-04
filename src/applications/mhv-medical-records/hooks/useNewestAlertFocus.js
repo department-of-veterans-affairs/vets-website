@@ -27,6 +27,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 const useNewestAlertFocus = visibleAlerts => {
   const prevAlertsRef = useRef(new Set());
   const hasFocusedRef = useRef(false);
+  const timeoutRef = useRef(null);
 
   // Calculate newest alert synchronously during render (not in useEffect)
   // This ensures newestAlert is available immediately for ref assignment
@@ -51,13 +52,28 @@ const useNewestAlertFocus = visibleAlerts => {
     [visibleAlerts, newestAlert],
   );
 
+  // Cleanup timeout on unmount to prevent focusing detached nodes
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
   // Callback ref that focuses when attached to the newest alert element
   const focusRef = useCallback(
     node => {
+      // Clear any pending timeout when node changes
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+
       if (node && newestAlert && !hasFocusedRef.current) {
         hasFocusedRef.current = true;
         // Small delay to ensure DOM is fully ready
-        setTimeout(() => {
+        timeoutRef.current = setTimeout(() => {
           // Try to find and focus the va-alert inside the wrapper
           // This ensures focus lands on the actual alert element (for accessibility and tests)
           const alertElement = node.querySelector('va-alert');
@@ -66,6 +82,7 @@ const useNewestAlertFocus = visibleAlerts => {
           } else {
             focusElement(node);
           }
+          timeoutRef.current = null;
         }, 100);
       }
     },
