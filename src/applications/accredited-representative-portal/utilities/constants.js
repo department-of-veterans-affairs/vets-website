@@ -38,9 +38,9 @@ export const SIGN_OUT_URL = (() => {
 export const SEARCH_PARAMS = {
   STATUS: 'status',
   SORT: 'sort',
-  SIZE: 'pageSize',
-  NUMBER: 'pageNumber',
-  SELECTED_INDIVIDUAL: 'as_selected_individual',
+  SIZE: 'perPage',
+  NUMBER: 'page',
+  SELECTED_INDIVIDUAL: 'show',
 };
 export const SORT_BY = {
   CREATED: 'created_at',
@@ -55,32 +55,30 @@ export const STATUSES = {
 };
 
 export const PROCESSED_SORT_DEFAULTS = {
-  SORT_ORDER: 'newest',
+  SORT: 'newest',
   // default is 20 per page
   SIZE: '20',
   // default is page 1
   NUMBER: '1',
-  SELECTED_INDIVIDUAL: 'false',
+  SELECTED_INDIVIDUAL: 'all',
 };
 
 export const PENDING_SORT_DEFAULTS = {
-  SORT_ORDER: 'newest',
+  SORT: 'newest',
   // default is 20 per page
   SIZE: '20',
   // default is page 1
   NUMBER: '1',
-  SELECTED_INDIVIDUAL: 'false',
+  SELECTED_INDIVIDUAL: 'all',
 };
 
 export const SUBMISSION_DEFAULTS = {
   STATUS: null,
-  SORT_BY: 'created_at',
-  SORT_ORDER: 'newest',
+  SORT: 'newest',
   // default is 20 per page
   SIZE: '20',
   // default is page 1
   NUMBER: '1',
-  SELECTED_INDIVIDUAL: null,
 };
 
 export const NAV_MOBILE_DROPDOWN = [
@@ -120,6 +118,7 @@ export const SORT_DEFAULTS = {
   SIZE: 20,
   // default is page 1
   NUMBER: 1,
+  SELECTED_INDIVIDUAL: 'all',
 };
 
 export const DETAILS_BC_LABEL = 'details breadcrumb';

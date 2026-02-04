@@ -643,4 +643,72 @@ describe('Travel Pay – IntroductionPage', () => {
       );
     });
   });
+
+  it('shows OutOfBoundsAppointmentAlert when appointment is out of bounds', () => {
+    const stateWithOutOfBoundsAppointment = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isOutOfBounds: true,
+          },
+        },
+      },
+    };
+
+    const { getByRole } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      {
+        initialState: stateWithOutOfBoundsAppointment,
+        reducers: reducer,
+      },
+    );
+
+    // Verify the alert is displayed
+    expect(
+      getByRole('heading', {
+        name: /your appointment happened more than 30 days ago/i,
+      }),
+    ).to.exist;
+  });
+
+  it('does not show OutOfBoundsAppointmentAlert when appointment is not out of bounds', () => {
+    const stateWithInBoundsAppointment = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isOutOfBounds: false,
+          },
+        },
+      },
+    };
+
+    const { queryByRole } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      {
+        initialState: stateWithInBoundsAppointment,
+        reducers: reducer,
+      },
+    );
+
+    // Verify the alert is NOT displayed
+    expect(
+      queryByRole('heading', {
+        name: /your appointment happened more than 30 days ago/i,
+      }),
+    ).to.not.exist;
+  });
 });
