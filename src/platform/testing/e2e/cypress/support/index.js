@@ -5,6 +5,8 @@ import 'cypress-real-events/support';
 import '@cypress/code-coverage/support';
 import addContext from 'mochawesome/addContext';
 import './commands';
+import mockGeocodingData from 'applications/facility-locator/constants/mock-geocoding-data.json';
+import mockProviderServices from 'applications/facility-locator/constants/mock-provider-services.json';
 
 // Re-export URL utilities for easy access in tests
 // Usage: import { getBaseUrl, getTestUrl } from 'support/index';
@@ -87,16 +89,11 @@ beforeEach(() => {
 
   // Auto-mock Mapbox Geocoding API to prevent hitting real API (costs money per query).
   // This is the primary cost driver - each user search hits the geocoding API.
-  // Other Mapbox resources (tiles, fonts, sprites) are cached and don't need mocking.
-  //
+  // Uses mock data with actual geocoding results for Austin, TX.
   // Tests can override this mock by registering their own more specific intercepts.
-  // Example: cy.intercept('GET', '**/api.mapbox.com/geocoding/**', myMockData)
   cy.intercept('GET', '**/api.mapbox.com/geocoding/**', {
     statusCode: 200,
-    body: {
-      type: 'FeatureCollection',
-      features: [],
-    },
+    body: mockGeocodingData,
   }).as('mapboxGeocoding');
 
   // Mock static images API - also costs per request
@@ -111,10 +108,11 @@ beforeEach(() => {
 
   // Mock Community Care Provider specialties API
   // Facility locator with progressive disclosure fetches this on page load
-  // Without this mock, page gets stuck on loading spinner
+  // Uses mock data with actual CCP specialties (dentist, urgent care, etc.)
+  // Tests can override with their own specific data if needed
   cy.intercept('GET', '/facilities_api/v2/ccp/specialties', {
     statusCode: 200,
-    body: { data: [] },
+    body: mockProviderServices,
   }).as('ccpSpecialties');
 });
 
