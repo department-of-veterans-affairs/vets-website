@@ -15,7 +15,9 @@ export const CCDDownloadLinksExtended = ({
         onClick={e => handleDownload(e, 'xml')}
         text="Download XML (best for sharing with your provider)"
         data-testid={`generateCcdButtonXml${testIdSuffix}`}
-        data-dd-action-name={`Download CCD XML ${ddSuffix}`}
+        data-dd-action-name={`Download CCD XML${
+          ddSuffix ? ` ${ddSuffix}` : ''
+        }`}
       />
     </span>
     <span className="vads-u-margin-bottom--2">
@@ -25,7 +27,9 @@ export const CCDDownloadLinksExtended = ({
         onClick={e => handleDownload(e, 'pdf')}
         text="Download PDF (best for printing)"
         data-testid={`generateCcdButtonPdf${testIdSuffix}`}
-        data-dd-action-name={`Download CCD PDF ${ddSuffix}`}
+        data-dd-action-name={`Download CCD PDF${
+          ddSuffix ? ` ${ddSuffix}` : ''
+        }`}
       />
     </span>
     <va-link
@@ -34,7 +38,7 @@ export const CCDDownloadLinksExtended = ({
       onClick={e => handleDownload(e, 'html')}
       text="Download HTML (best for screen readers, enlargers, and refreshable Braille displays)"
       data-testid={`generateCcdButtonHtml${testIdSuffix}`}
-      data-dd-action-name={`Download CCD HTML ${ddSuffix}`}
+      data-dd-action-name={`Download CCD HTML${ddSuffix ? ` ${ddSuffix}` : ''}`}
     />
   </div>
 );
@@ -57,7 +61,7 @@ export const CCDDownloadLinksBasic = ({
       onClick={e => handleDownload(e, 'xml')}
       text="Download Continuity of Care Document (XML)"
       data-testid={`generateCcdButtonXml${testIdSuffix}`}
-      data-dd-action-name={`Download CCD XML ${ddSuffix}`}
+      data-dd-action-name={`Download CCD XML${ddSuffix ? ` ${ddSuffix}` : ''}`}
     />
   </div>
 );
