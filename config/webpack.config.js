@@ -11,7 +11,7 @@ const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+const { SwcMinifyWebpackPlugin } = require('swc-minify-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 const StylelintPlugin = require('stylelint-webpack-plugin');
@@ -482,15 +482,12 @@ module.exports = async (env = {}) => {
       chunkIds: 'named',
       moduleIds: 'named',
       minimizer: [
-        new TerserPlugin({
-          terserOptions: {
-            output: {
-              beautify: false,
-              comments: false,
-            },
-            warnings: false,
+        new SwcMinifyWebpackPlugin({
+          compress: {
+            unused: true,
+            dead_code: true, // eslint-disable-line camelcase
           },
-          parallel: true,
+          mangle: true,
         }),
       ],
       splitChunks: {
