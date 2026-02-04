@@ -20,7 +20,7 @@ import {
   certifierRelationshipSchema,
 } from '../chapters/signerInformation';
 
-// import mockData from '../tests/e2e/fixtures/data/maximal-test.json';
+import mockData from '../tests/e2e/fixtures/data/maximal-test.json';
 import transformForSubmit from './submitTransformer';
 
 import {
@@ -46,12 +46,14 @@ import AddressSelectionPage, {
   NOT_SHARED,
 } from '../components/FormPages/AddressSelectionPage';
 import AddressSelectionReviewPage from '../components/FormReview/AddressSelectionReviewPage';
+import reviewErrors from './reviewErrors';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   showReviewErrors: true,
+  reviewErrors,
   transformForSubmit,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms/10-10d-ext`,
   preSubmitInfo: {
@@ -128,7 +130,7 @@ const formConfig = {
       title: 'Your information',
       pages: {
         page1: {
-          // initialData: mockData.data,
+          initialData: mockData.data,
           path: 'who-is-applying',
           title: 'Which of these best describes you?',
           ...certifierRoleSchema,
