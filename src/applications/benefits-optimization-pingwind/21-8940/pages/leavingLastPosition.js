@@ -14,7 +14,7 @@ export default {
         'Did you leave your last job or self-employment because of your disability?',
       errorMessages: {
         required:
-          'Select a response to tell us if your disability is the reason you left your last job',
+          'Did you leave your last job or self-employment because of your disability? If yes, please explain in the remarks at the end.',
       },
     }),
     receivesDisabilityRetirement: yesNoUI({
