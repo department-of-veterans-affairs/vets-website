@@ -279,7 +279,9 @@ const mapStateToProps = state => {
   return {
     ...getAppData(state),
     claimant: state?.data?.formData?.data?.attributes?.claimant,
-    dob: '2010-01-01',
+    dob:
+      state?.user?.profile?.dob ||
+      state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
     formData,
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     sponsors: state.form?.data?.sponsors,
