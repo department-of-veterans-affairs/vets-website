@@ -11,7 +11,11 @@
 
 // eslint-disable-next-line import/no-unresolved
 import { setupWorker } from 'msw';
-import { mockApi, rest, commonHandlers } from 'platform/mocks/browser';
+import {
+  mockApi,
+  rest,
+  commonHandlers,
+} from '@department-of-veterans-affairs/platform-mocks/browser';
 import facilitiesData from './data/facilities.json';
 import geocodingData from './data/geocoding.json';
 
