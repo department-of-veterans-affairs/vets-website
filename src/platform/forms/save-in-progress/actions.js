@@ -320,13 +320,42 @@ export function fetchInProgressForm(
     const { trackingPrefix } = getState().form;
     const apiUrl = inProgressApi(formId);
 
-    // Update UI while we’re waiting for the API
+    // eslint-disable-next-line no-console
+    console.log('🔍 fetchInProgressForm called:', { formId, prefill, apiUrl });
+
+    // Update UI while we're waiting for the API
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
     return apiRequest(apiUrl, { method: 'GET' })
       .then(resBody => {
+        // TODO: Remove this debug code
+        // eslint-disable-next-line no-console
+        console.log('✅ API response received:', {
+          prefill,
+          returnUrl: resBody?.metadata?.returnUrl,
+        });
+
         // Return not-found if empty object
+        // TODO: Remove this debug code
+        // Intentionally hang when resuming to specific page to simulate the bug
+        const returnUrl = resBody?.metadata?.returnUrl || '';
+        if (!prefill && returnUrl.includes('payment-information')) {
+          // eslint-disable-next-line no-console
+          console.log(
+            '⏸️ Hanging promise - simulating stuck load on payment-information page',
+          );
+          return new Promise(() => {}); // Never resolves or rejects
+        }
+
+        // Optionally: Hang on ANY resume (not prefill)
+        // if (!prefill) {
+        //   console.log('⏸️ Hanging promise - simulating stuck load');
+        //   return new Promise(() => {}); // Never resolves or rejects
+        // }
+
+        // alert(apiUrl + ' - API request made on ' + resBody?.metadata?.returnUrl);
+
         if (
           typeof resBody === 'object' &&
           Object.keys(resBody).length < 1 &&
