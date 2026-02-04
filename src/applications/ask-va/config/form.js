@@ -39,6 +39,7 @@ import relationshipToVeteranPage from './chapters/personalInformation/relationsh
 import Footer from '../components/Footer';
 
 import CategorySelectPage from '../containers/CategorySelectPage';
+import CategorySelectPageB from '../containers/CategorySelectPageB';
 import ReviewPage from '../containers/ReviewPage';
 import SubTopicSelectPage from '../containers/SubTopicSelectPage';
 import TopicSelectPage from '../containers/TopicSelectPage';
@@ -126,10 +127,10 @@ const formConfig = {
             properties: {}, // The properties can be empty
           },
         },
-        selectCategory: {
+        selectCategoryB: {
           path: CHAPTER_1.PAGE_1.PATH,
           title: CHAPTER_1.PAGE_1.TITLE,
-          CustomPage: CategorySelectPage,
+          CustomPage: CategorySelectPageB,
           CustomPageReview: CustomPageReviewField,
           editModeOnReviewPage: false,
           schema: {
@@ -139,6 +140,19 @@ const formConfig = {
           },
           uiSchema: {},
         },
+        // selectCategory: {
+        //   path: CHAPTER_1.PAGE_1.PATH,
+        //   title: CHAPTER_1.PAGE_1.TITLE,
+        //   CustomPage: CategorySelectPage,
+        //   CustomPageReview: CustomPageReviewField,
+        //   editModeOnReviewPage: false,
+        //   schema: {
+        //     // This does still need to be here or it'll throw an error
+        //     type: 'object',
+        //     properties: {}, // The properties can be empty
+        //   },
+        //   uiSchema: {},
+        // },
         selectCategorySignInInterrupt: {
           path: 'category-requires-sign-in',
           title: 'Ask VA Sign In',
