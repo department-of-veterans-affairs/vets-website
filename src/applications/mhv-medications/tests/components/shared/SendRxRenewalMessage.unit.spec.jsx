@@ -518,5 +518,91 @@ describe('SendRxRenewalMessage Component', () => {
         });
       });
     });
+
+    it('should record analytics event when Continue button is clicked', async () => {
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+
+      // Open the modal first
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      // Clear dataLayer to isolate button click event
+      global.window.dataLayer = [];
+
+      // Click the Continue button
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      await waitFor(() => {
+        const event = global.window.dataLayer?.find(
+          e => e.event === 'cta-button-click',
+        );
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'cta-button-click',
+          'button-text': 'Continue',
+          'button-type': 'primary',
+        });
+      });
+    });
+
+    it('should record analytics event when Back button is clicked', async () => {
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+
+      // Open the modal first
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      // Clear dataLayer to isolate button click event
+      global.window.dataLayer = [];
+
+      // Click the Back button
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.secondaryButtonClick();
+
+      await waitFor(() => {
+        const event = global.window.dataLayer?.find(
+          e => e.event === 'cta-button-click',
+        );
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'cta-button-click',
+          'button-text': 'Back',
+          'button-type': 'secondary',
+        });
+      });
+    });
+
+    it('should record analytics event when modal loads', async () => {
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+
+      // Clear dataLayer before opening modal
+      global.window.dataLayer = [];
+
+      // Open the modal
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const event = global.window.dataLayer?.find(
+          e => e.event === 'modal-load',
+        );
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'modal-load',
+          'modal-title': "You're leaving medications to send a message",
+        });
+      });
+    });
   });
 });

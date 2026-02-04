@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Link } from 'react-router-dom-v5-compat';
@@ -23,6 +23,18 @@ const SendRxRenewalMessage = ({
     rx.prescriptionId
   }&redirectPath=${redirectPath}`;
   const [showRenewalModal, setShowRenewalModal] = useState(false);
+
+  useEffect(
+    () => {
+      if (showRenewalModal) {
+        recordEvent({
+          event: 'modal-load',
+          'modal-title': "You're leaving medications to send a message",
+        });
+      }
+    },
+    [showRenewalModal],
+  );
 
   const isExpiredLessThan120Days =
     (rx.dispStatus === 'Expired' || rx.dispStatus === 'Inactive') &&
@@ -53,14 +65,25 @@ const SendRxRenewalMessage = ({
         primaryButtonText="Continue"
         secondaryButtonText="Back"
         onPrimaryButtonClick={() => {
+          recordEvent({
+            event: 'cta-button-click',
+            'button-text': 'Continue',
+            'button-type': 'primary',
+          });
           window.location.href = secureMessagesUrl;
         }}
-        onSecondaryButtonClick={() => setShowRenewalModal(false)}
+        onSecondaryButtonClick={() => {
+          recordEvent({
+            event: 'cta-button-click',
+            'button-text': 'Back',
+            'button-type': 'secondary',
+          });
+          setShowRenewalModal(false);
+        }}
         onCloseEvent={() => setShowRenewalModal(false)}
         visible={showRenewalModal}
         status="info"
         clickToClose
-        uswds
       >
         <p className="vads-u-margin-bottom--2">
           You’ll need to select your provider and send the prescription renewal
