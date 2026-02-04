@@ -38,20 +38,6 @@ const DateTimeSelection = () => {
 
   const slots = mapAppointmentAvailabilityToSlots(appointmentAvailability);
 
-  // Warn on page refresh/close
-  useEffect(() => {
-    const handleBeforeUnload = e => {
-      e.preventDefault();
-      e.returnValue = '';
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
-
   // Warn on back button
   useEffect(() => {
     window.history.pushState(null, '', window.location.pathname);

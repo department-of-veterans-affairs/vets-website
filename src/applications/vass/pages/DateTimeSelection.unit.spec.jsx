@@ -127,16 +127,6 @@ describe('VASS Component: DateTimeSelection', () => {
       removeEventListenerSpy.restore();
     });
 
-    it('should add beforeunload listener on mount', async () => {
-      const screen = renderComponent();
-      await waitFor(() => {
-        expect(screen.getByTestId('date-time-selection')).to.exist;
-      });
-
-      expect(addEventListenerSpy.calledWith('beforeunload', sinon.match.func))
-        .to.be.true;
-    });
-
     it('should add popstate listener on mount', async () => {
       const screen = renderComponent();
       await waitFor(() => {
@@ -145,19 +135,6 @@ describe('VASS Component: DateTimeSelection', () => {
 
       expect(addEventListenerSpy.calledWith('popstate', sinon.match.func)).to.be
         .true;
-    });
-
-    it('should remove beforeunload listener on unmount', async () => {
-      const screen = renderComponent();
-      await waitFor(() => {
-        expect(screen.getByTestId('date-time-selection')).to.exist;
-      });
-
-      screen.unmount();
-
-      expect(
-        removeEventListenerSpy.calledWith('beforeunload', sinon.match.func),
-      ).to.be.true;
     });
 
     it('should remove popstate listener on unmount', async () => {
