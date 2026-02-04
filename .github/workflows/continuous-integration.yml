@@ -170,7 +170,7 @@ jobs:
         run: |
           echo "🍄 Right before build, ${{ matrix.buildtype }}"
           echo "ENTRY: ${{ steps.get-changed-apps.outputs.entry_names }}"
-          yarn build --verbose --buildtype=${{ matrix.buildtype }} --entry=static-pages
+          yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
           echo "🍄 Right after build, ${{ matrix.buildtype }}"
         timeout-minutes: 30
         env:
