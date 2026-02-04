@@ -31,7 +31,6 @@ function ToeApp({
   location,
   meb1995Reroute,
   mebParentGuardianStep,
-  mebDpoAddressOptionEnabled,
   setFormData,
   sponsors,
   sponsorsInitial,
@@ -74,7 +73,7 @@ function ToeApp({
       sponsors,
       sponsorsInitial,
       sponsorsSavedState,
-      formData,
+      formData.sponsors,
     ],
   );
 
@@ -87,7 +86,7 @@ function ToeApp({
         });
       }
     },
-    [isLOA3, formData, setFormData],
+    [isLOA3],
   );
 
   useEffect(
@@ -102,7 +101,7 @@ function ToeApp({
         });
       }
     },
-    [showMeb1990ER6MaintenanceMessage, formData, setFormData],
+    [showMeb1990ER6MaintenanceMessage],
   );
 
   useEffect(
@@ -163,13 +162,7 @@ function ToeApp({
         });
       }
     },
-    [
-      getDuplicateContactInfo,
-      duplicateEmail,
-      duplicatePhone,
-      formData,
-      setFormData,
-    ],
+    [getDuplicateContactInfo, duplicateEmail, duplicatePhone],
   );
 
   useEffect(
@@ -201,19 +194,7 @@ function ToeApp({
         });
       }
     },
-    [toeHighSchoolInfoChange, formData, setFormData],
-  );
-
-  useEffect(
-    () => {
-      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
-        setFormData({
-          ...formData,
-          mebDpoAddressOptionEnabled,
-        });
-      }
-    },
-    [mebDpoAddressOptionEnabled, formData, setFormData],
+    [toeHighSchoolInfoChange],
   );
 
   useEffect(
@@ -276,7 +257,6 @@ ToeApp.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   meb1995Reroute: PropTypes.bool,
-  mebDpoAddressOptionEnabled: PropTypes.bool,
   mebParentGuardianStep: PropTypes.bool,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
@@ -299,9 +279,7 @@ const mapStateToProps = state => {
   return {
     ...getAppData(state),
     claimant: state?.data?.formData?.data?.attributes?.claimant,
-    dob:
-      state?.user?.profile?.dob ||
-      state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
+    dob: '2010-01-01',
     formData,
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     sponsors: state.form?.data?.sponsors,

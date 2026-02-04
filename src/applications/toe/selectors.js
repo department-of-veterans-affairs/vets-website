@@ -14,7 +14,6 @@ export const getAppData = state => ({
   isLOA3: isLOA3Selector(state),
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
   meb1995Reroute: state?.featureToggles?.meb1995Reroute,
-  mebDpoAddressOptionEnabled: state?.featureToggles?.mebDpoAddressOptionEnabled,
   mebParentGuardianStep: state?.featureToggles?.mebParentGuardianStep,
   openModal: state?.data?.openModal,
   savedForms: state?.user?.profile?.savedForms,
