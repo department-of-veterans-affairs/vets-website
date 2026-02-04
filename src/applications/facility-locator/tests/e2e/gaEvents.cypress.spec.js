@@ -5,6 +5,7 @@ import {
 } from './analyticsUtils';
 import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import mockServices from '../../constants/mock-provider-services.json';
 import {
   featureCombinationsTogglesToTest,
   enabledFeatures,
@@ -26,6 +27,7 @@ for (const featureSet of featuresToTest) {
     });
     it('should search, pan map, click marker, zoom in and out and verify ga events related', () => {
       cy.intercept('GET', '/v0/maintenance_windows', []);
+      cy.intercept('GET', '/facilities_api/v2/ccp/specialties', mockServices);
       cy.intercept('GET', '**/geocoding/**', mockGeocodingData);
       cy.intercept(
         'POST',
