@@ -192,9 +192,12 @@ class PatientInboxPage {
       ).as('second-message-in-thread');
     }
 
-    cy.contains(mockMessages.data[0].attributes.subject).click({
-      waitForAnimations: true,
-    });
+    cy.contains('a', mockMessages.data[0].attributes.subject).scrollIntoView();
+    cy.contains('a', mockMessages.data[0].attributes.subject)
+      .should('be.visible')
+      .click({
+        waitForAnimations: true,
+      });
     cy.wait('@full-thread', { requestTimeout: 20000 });
     // cy.wait('@first-message-in-thread');
   };
