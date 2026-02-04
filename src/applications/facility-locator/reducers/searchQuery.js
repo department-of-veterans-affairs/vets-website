@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import {
   SEARCH_STARTED,
   SEARCH_FAILED,
@@ -15,6 +16,41 @@ import {
   CLEAR_SEARCH_TEXT,
   GEOLOCATE_USER,
 } from '../actions/actionTypes';
+import vaHealthcareServices from '../tests/hooks/test-va-healthcare-services.json';
+
+// VA health services array indices (from Drupal CMS data structure)
+const SERVICE_INDEX = {
+  DISPLAY_NAME: 0,
+  SERVICE_ID: 3,
+};
+
+/**
+ * Returns VA health services data with localhost fallback.
+ * On localhost the JSON endpoint returns 404, so we use test data.
+ */
+export const getVaHealthServicesData = vaHealthServicesData => {
+  if (environment?.BUILDTYPE === 'localhost') {
+    return vaHealthcareServices;
+  }
+  return vaHealthServicesData;
+};
+
+/**
+ * Looks up display name for a VA health service by its ID.
+ * @param {string} serviceId - e.g., "mentalHealth"
+ * @param {Object} vaHealthServicesData - from state.drupalStaticData.vaHealthServicesData
+ * @returns {string|null} - e.g., "Mental health care", or null if not found
+ */
+export const getServiceDisplayName = (serviceId, vaHealthServicesData) => {
+  if (!serviceId) return null;
+
+  const { data: services } =
+    getVaHealthServicesData(vaHealthServicesData) ?? {};
+  if (!Array.isArray(services)) return null;
+
+  const service = services.find(s => s[SERVICE_INDEX.SERVICE_ID] === serviceId);
+  return service?.[SERVICE_INDEX.DISPLAY_NAME] ?? null;
+};
 
 export const INITIAL_STATE = {
   searchString: '',
@@ -38,6 +74,22 @@ export const INITIAL_STATE = {
   isValid: true,
   searchStarted: false,
 };
+
+export const INITIAL_FORM_FLAGS = {
+  isValid: true,
+  locationChanged: false,
+  facilityTypeChanged: false,
+  serviceTypeChanged: false,
+};
+
+export const createFormStateFromQuery = query => ({
+  facilityType: query.facilityType ?? INITIAL_STATE.facilityType,
+  serviceType: query.serviceType ?? INITIAL_STATE.serviceType,
+  searchString: query.searchString ?? INITIAL_STATE.searchString,
+  vamcServiceDisplay:
+    query.vamcServiceDisplay ?? INITIAL_STATE.vamcServiceDisplay,
+  ...INITIAL_FORM_FLAGS,
+});
 
 export const validateForm = (oldState, payload) => {
   const newState = {

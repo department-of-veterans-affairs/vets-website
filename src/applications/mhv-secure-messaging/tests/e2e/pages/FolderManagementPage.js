@@ -95,21 +95,17 @@ class FolderManagementPage {
   };
 
   selectFolderFromModal = (folderName = `Trash`) => {
-    // Wait for folders to load before interacting with the move button
     cy.wait('@folders');
+
     cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID)
       .should('be.visible')
-      .click();
-    // Wait for the modal to appear in DOM first, then check visibility
-    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID)
-      .should('exist')
-      .and('be.visible')
-      .within(() => {
-        cy.findByLabelText(folderName)
-          .should('exist')
-          .and('be.visible')
-          .click();
-      });
+      .scrollIntoView();
+
+    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID).click();
+
+    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID).then(() => {
+      cy.findByLabelText(folderName, { timeout: 10000 }).click();
+    });
   };
 
   confirmMovingMessageToFolder = (
@@ -122,9 +118,9 @@ class FolderManagementPage {
         mockResponse.data.attributes.threadId}/move?folder_id=${folderId}`,
       { statusCode: 204 },
     ).as('threadNoContent');
-    cy.get(Locators.ALERTS.MOVE_MODAL)
-      .find(Locators.BUTTONS.TEXT_CONFIRM)
-      .click();
+    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID).within(() => {
+      cy.get(Locators.BUTTONS.TEXT_CONFIRM).click();
+    });
   };
 
   moveMessageToNewFolder = foldersList => {
@@ -166,7 +162,7 @@ class FolderManagementPage {
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {
-    cy.get('[data-testid="alert-text"]')
+    cy.findByTestId('alert-text')
       .should('exist')
       .and('contain.text', 'Message conversation was successfully moved.');
   };
