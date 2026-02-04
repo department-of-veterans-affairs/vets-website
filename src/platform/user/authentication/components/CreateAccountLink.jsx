@@ -12,7 +12,7 @@ function signupHandler(loginType, isOAuth) {
 
 export default function CreateAccountLink({
   policy,
-  useOAuth = false,
+  useOAuth = true,
   children,
   externalApplication,
   clientId = 'vaweb',

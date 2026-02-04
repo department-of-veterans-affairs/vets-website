@@ -29,6 +29,44 @@ import environment from 'platform/utilities/environment';
 // Re-export rest for third-party handlers
 export { rest };
 
+// ============================================================================
+// Response Delay Configuration
+// ============================================================================
+
+/**
+ * Default delays in milliseconds for mock responses.
+ * Based on average response times observed from outside the VA network.
+ */
+export const DEFAULT_DELAY = 500;
+export const USER_DELAY = 600;
+export const FEATURE_TOGGLES_DELAY = 400;
+export const MAINTENANCE_WINDOWS_DELAY = 300;
+
+/**
+ * Creates a delay transformer for use with ctx.delay().
+ * Use this in your handlers to add realistic network latency.
+ *
+ * @param {number} ms - Delay in milliseconds (defaults to DEFAULT_DELAY)
+ * @returns {Function} MSW context transformer
+ *
+ * @example
+ * // Using default delay (500ms)
+ * mockApi.get('/v0/user', (req, res, ctx) =>
+ *   res(delay(ctx), ctx.json(userData))
+ * )
+ *
+ * // Using custom delay
+ * mockApi.get('/v0/slow-endpoint', (req, res, ctx) =>
+ *   res(delay(ctx, 2000), ctx.json(data))
+ * )
+ *
+ * // No delay
+ * mockApi.get('/v0/fast-endpoint', (req, res, ctx) =>
+ *   res(delay(ctx, 0), ctx.json(data))
+ * )
+ */
+export const delay = (ctx, ms = DEFAULT_DELAY) => ctx.delay(ms);
+
 // Import pure data from responses (webpack handles CommonJS -> ES interop)
 import responses from './responses';
 
@@ -92,37 +130,50 @@ export const mockApi = {
 /**
  * Creates a handler for authenticated user endpoint.
  * @param {string} baseUrl - Base URL for API (e.g., 'http://mock-vets-api.local')
+ * @param {number} delayMs - Response delay in milliseconds (defaults to USER_DELAY)
  */
-export const createUserHandler = (baseUrl = apiUrl) =>
+export const createUserHandler = (baseUrl = apiUrl, delayMs = USER_DELAY) =>
   rest.get(`${baseUrl}/v0/user`, (req, res, ctx) => {
-    return res(ctx.json(mockUser));
+    return res(ctx.delay(delayMs), ctx.json(mockUser));
   });
 
 /**
  * Creates a handler for unauthenticated user endpoint.
  * @param {string} baseUrl - Base URL for API
+ * @param {number} delayMs - Response delay in milliseconds (defaults to USER_DELAY)
  */
-export const createUnauthenticatedUserHandler = (baseUrl = apiUrl) =>
+export const createUnauthenticatedUserHandler = (
+  baseUrl = apiUrl,
+  delayMs = USER_DELAY,
+) =>
   rest.get(`${baseUrl}/v0/user`, (req, res, ctx) =>
-    res(ctx.status(401), ctx.json(mockUserUnauthenticated)),
+    res(ctx.delay(delayMs), ctx.status(401), ctx.json(mockUserUnauthenticated)),
   );
 
 /**
  * Creates a handler for feature toggles endpoint.
  * @param {string} baseUrl - Base URL for API
+ * @param {number} delayMs - Response delay in milliseconds (defaults to FEATURE_TOGGLES_DELAY)
  */
-export const createFeatureTogglesHandler = (baseUrl = apiUrl) =>
+export const createFeatureTogglesHandler = (
+  baseUrl = apiUrl,
+  delayMs = FEATURE_TOGGLES_DELAY,
+) =>
   rest.get(`${baseUrl}/v0/feature_toggles*`, (req, res, ctx) => {
-    return res(ctx.json(mockFeatureToggles));
+    return res(ctx.delay(delayMs), ctx.json(mockFeatureToggles));
   });
 
 /**
  * Creates a handler for maintenance windows endpoint.
  * @param {string} baseUrl - Base URL for API
+ * @param {number} delayMs - Response delay in milliseconds (defaults to MAINTENANCE_WINDOWS_DELAY)
  */
-export const createMaintenanceWindowsHandler = (baseUrl = apiUrl) =>
+export const createMaintenanceWindowsHandler = (
+  baseUrl = apiUrl,
+  delayMs = MAINTENANCE_WINDOWS_DELAY,
+) =>
   rest.get(`${baseUrl}/v0/maintenance_windows`, (req, res, ctx) => {
-    return res(ctx.json(mockMaintenanceWindows));
+    return res(ctx.delay(delayMs), ctx.json(mockMaintenanceWindows));
   });
 
 // Pre-configured handlers using environment.API_URL
@@ -150,7 +201,11 @@ export const maintenanceWindowsHandler = createMaintenanceWindowsHandler();
  * // With full response object
  * createVamcEhrHandler(myVamcFixture)
  */
-export function createVamcEhrHandler(mockData = null, baseUrl = apiUrl) {
+export function createVamcEhrHandler(
+  mockData = null,
+  baseUrl = apiUrl,
+  delayMs = DEFAULT_DELAY,
+) {
   // Convert array to full response format, or use as-is if object
   let data;
   if (!mockData) {
@@ -162,7 +217,7 @@ export function createVamcEhrHandler(mockData = null, baseUrl = apiUrl) {
   }
 
   return rest.get(`${baseUrl}/data/cms/vamc-ehr.json`, (req, res, ctx) => {
-    return res(ctx.json(data));
+    return res(ctx.delay(delayMs), ctx.json(data));
   });
 }
 
@@ -172,15 +227,19 @@ let vamcEhrCache = null;
 /**
  * Creates a handler for VAMC EHR CMS data that proxies to va.gov and caches.
  * @param {string} baseUrl - Base URL for API (e.g., 'http://mock-vets-api.local')
+ * @param {number} delayMs - Response delay in milliseconds (defaults to DEFAULT_DELAY)
  * @returns {Function} MSW request handler
  */
-export function createVamcEhrProxyHandler(baseUrl = apiUrl) {
+export function createVamcEhrProxyHandler(
+  baseUrl = apiUrl,
+  delayMs = DEFAULT_DELAY,
+) {
   return rest.get(
     `${baseUrl}/data/cms/vamc-ehr.json`,
     async (req, res, ctx) => {
       // Return cached data if available
       if (vamcEhrCache) {
-        return res(ctx.json(vamcEhrCache));
+        return res(ctx.delay(delayMs), ctx.json(vamcEhrCache));
       }
 
       try {
@@ -193,10 +252,10 @@ export function createVamcEhrProxyHandler(baseUrl = apiUrl) {
         // Cache the response
         vamcEhrCache = data;
 
-        return res(ctx.json(data));
+        return res(ctx.delay(delayMs), ctx.json(data));
       } catch (error) {
         // Return empty response on failure
-        return res(ctx.json(createVamcEhrResponse([])));
+        return res(ctx.delay(delayMs), ctx.json(createVamcEhrResponse([])));
       }
     },
   );
@@ -213,6 +272,7 @@ export const vamcEhrProxyHandler = createVamcEhrProxyHandler();
 /**
  * Creates common handlers for authenticated user scenarios.
  * @param {string} baseUrl - Base URL for API (defaults to environment.API_URL)
+ * @param {number} delayMs - Response delay in milliseconds (defaults to DEFAULT_DELAY)
  * @returns {Array} Array of MSW handlers
  *
  * @example
@@ -221,27 +281,37 @@ export const vamcEhrProxyHandler = createVamcEhrProxyHandler();
  *
  * // Or create with custom base URL
  * const handlers = createCommonHandlers('http://custom-api.local');
+ *
+ * // Or create with custom delay
+ * const handlers = createCommonHandlers(apiUrl, 1000);
  */
-export function createCommonHandlers(baseUrl = apiUrl) {
+export function createCommonHandlers(
+  baseUrl = apiUrl,
+  delayMs = DEFAULT_DELAY,
+) {
   return [
-    createUserHandler(baseUrl),
-    createFeatureTogglesHandler(baseUrl),
-    createMaintenanceWindowsHandler(baseUrl),
-    createVamcEhrProxyHandler(baseUrl),
+    createUserHandler(baseUrl, delayMs),
+    createFeatureTogglesHandler(baseUrl, delayMs),
+    createMaintenanceWindowsHandler(baseUrl, delayMs),
+    createVamcEhrProxyHandler(baseUrl, delayMs),
   ];
 }
 
 /**
  * Creates common handlers for unauthenticated user scenarios.
  * @param {string} baseUrl - Base URL for API (defaults to environment.API_URL)
+ * @param {number} delayMs - Response delay in milliseconds (defaults to DEFAULT_DELAY)
  * @returns {Array} Array of MSW handlers
  */
-export function createCommonHandlersUnauthenticated(baseUrl = apiUrl) {
+export function createCommonHandlersUnauthenticated(
+  baseUrl = apiUrl,
+  delayMs = DEFAULT_DELAY,
+) {
   return [
-    createUnauthenticatedUserHandler(baseUrl),
-    createFeatureTogglesHandler(baseUrl),
-    createMaintenanceWindowsHandler(baseUrl),
-    createVamcEhrProxyHandler(baseUrl),
+    createUnauthenticatedUserHandler(baseUrl, delayMs),
+    createFeatureTogglesHandler(baseUrl, delayMs),
+    createMaintenanceWindowsHandler(baseUrl, delayMs),
+    createVamcEhrProxyHandler(baseUrl, delayMs),
   ];
 }
 

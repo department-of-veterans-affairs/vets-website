@@ -8,10 +8,10 @@ Mock data and handlers for local development and testing.
 
 ```javascript
 import { setupWorker } from 'msw';
-import { mockApi, commonHandlers } from 'platform/mocks/browser';
+import { mockApi, delay, commonHandlers } from 'platform/mocks/browser';
 
 const handlers = [
-  mockApi.get('/v0/my-endpoint', (req, res, ctx) => res(ctx.json({ data: [] }))),
+  mockApi.get('/v0/my-endpoint', (req, res, ctx) => res(delay(ctx), ctx.json({ data: [] }))),
   ...commonHandlers,
 ];
 
@@ -92,12 +92,13 @@ For local development with MSW's service worker:
 
 ```javascript
 import { setupWorker } from 'msw';
-import { mockApi, commonHandlers } from 'platform/mocks/browser';
+import { mockApi, delay, commonHandlers } from 'platform/mocks/browser';
 
 // Use mockApi.get/post for vets-api endpoints (auto-prefixes with API_URL)
+// Use delay(ctx) to add realistic network latency (default 500ms)
 const appHandlers = [
-  mockApi.get('/v0/my-data', (req, res, ctx) => res(ctx.json({ data: [] }))),
-  mockApi.post('/v0/submit', (req, res, ctx) => res(ctx.json({ success: true }))),
+  mockApi.get('/v0/my-data', (req, res, ctx) => res(delay(ctx), ctx.json({ data: [] }))),
+  mockApi.post('/v0/submit', (req, res, ctx) => res(delay(ctx), ctx.json({ success: true }))),
 ];
 
 const worker = setupWorker(...appHandlers, ...commonHandlers);
@@ -120,6 +121,48 @@ const handlers = [
     jsonResponse(createFeatureTogglesResponse({ myFeature: true }))
   ),
 ];
+```
+
+---
+
+## Response Delays
+
+All handlers include a default 500ms delay to simulate realistic network latency. You can customize or disable delays:
+
+### Using the `delay` helper in custom handlers
+
+```javascript
+import { mockApi, delay, DEFAULT_DELAY } from 'platform/mocks/browser';
+
+// Default delay (500ms)
+mockApi.get('/v0/data', (req, res, ctx) =>
+  res(delay(ctx), ctx.json({ data: [] }))
+)
+
+// Custom delay (2 seconds for slow endpoints)
+mockApi.get('/v0/slow-endpoint', (req, res, ctx) =>
+  res(delay(ctx, 2000), ctx.json({ data: [] }))
+)
+
+// No delay (instant response)
+mockApi.get('/v0/fast-endpoint', (req, res, ctx) =>
+  res(delay(ctx, 0), ctx.json({ data: [] }))
+)
+```
+
+### Configuring delay for common handlers
+
+```javascript
+import { createCommonHandlers, apiUrl } from 'platform/mocks/browser';
+
+// Default delay (500ms)
+const handlers = createCommonHandlers();
+
+// Custom delay (1 second)
+const slowHandlers = createCommonHandlers(apiUrl, 1000);
+
+// No delay (instant responses)
+const fastHandlers = createCommonHandlers(apiUrl, 0);
 ```
 
 ---
@@ -167,15 +210,20 @@ Full guide for setting up MSW browser mocking in your app.
 
 ```javascript
 import { setupWorker } from 'msw';
-import { mockApi, rest, apiUrl, commonHandlers } from 'platform/mocks/browser';
+import { mockApi, rest, apiUrl, delay, commonHandlers } from 'platform/mocks/browser';
 
 // App handlers for vets-api - use mockApi.* (auto-prefixes with API_URL)
+// Use delay(ctx) for realistic network latency (default 500ms)
 const myVetsApiHandlers = [
   mockApi.get('/v0/my-endpoint', (req, res, ctx) => {
-    return res(ctx.json({ data: 'mocked response' }));
+    return res(delay(ctx), ctx.json({ data: 'mocked response' }));
   }),
   mockApi.post('/v0/submit', (req, res, ctx) => {
-    return res(ctx.json({ success: true }));
+    return res(delay(ctx), ctx.json({ success: true }));
+  }),
+  // Custom delay for slow endpoints
+  mockApi.get('/v0/slow-endpoint', (req, res, ctx) => {
+    return res(delay(ctx, 2000), ctx.json({ data: 'slow response' }));
   }),
 ];
 
@@ -257,9 +305,11 @@ Import from `platform/mocks/browser`:
 | `mockApi` | REST helper that auto-prefixes with `environment.API_URL` |
 | `rest` | Re-exported from MSW for third-party handlers |
 | `apiUrl` | The base URL (`environment.API_URL`) for reference |
+| `delay` | Helper function to add response delay (default 500ms) |
+| `DEFAULT_DELAY` | Default delay value in milliseconds (500) |
 
 ```javascript
-import { mockApi, rest, apiUrl } from 'platform/mocks/browser';
+import { mockApi, rest, apiUrl, delay, DEFAULT_DELAY } from 'platform/mocks/browser';
 
 // mockApi.get/post/put/patch/delete auto-prefix with apiUrl
 mockApi.get('/v0/user', handler)  // → matches apiUrl + '/v0/user'
@@ -267,6 +317,21 @@ mockApi.post('/v0/submit', handler)
 
 // rest.* for third-party APIs with explicit URLs
 rest.get('https://api.mapbox.com/*', handler)
+
+// Add delay to responses (default 500ms)
+mockApi.get('/v0/data', (req, res, ctx) =>
+  res(delay(ctx), ctx.json({ data: [] }))
+)
+
+// Custom delay (2 seconds)
+mockApi.get('/v0/slow', (req, res, ctx) =>
+  res(delay(ctx, 2000), ctx.json({ data: [] }))
+)
+
+// No delay
+mockApi.get('/v0/fast', (req, res, ctx) =>
+  res(delay(ctx, 0), ctx.json({ data: [] }))
+)
 ```
 
 ### Pre-configured Handlers
