@@ -70,6 +70,7 @@ import {
   choosePtsdType,
   claimExamsInfo,
   contactInformation,
+  evidenceChoiceUploadPage,
   evidenceRequest,
   evidenceTypes,
   evidenceTypesBDD,
@@ -698,6 +699,15 @@ const formConfig = {
             },
           },
           schema: privateMedicalRecordsRelease.schema,
+        },
+        evidenceChoiceUpload: {
+          title: 'Non-VA treatment records you uploaded',
+          path: 'supporting-evidence/additional-evidence-upload',
+          depends: formData =>
+            hasOtherEvidence &&
+            formData.disability526SupportingEvidenceEnhancement,
+          uiSchema: evidenceChoiceUploadPage.uiSchema,
+          schema: evidenceChoiceUploadPage.schema,
         },
         evidenceChoiceIntro: {
           title:
