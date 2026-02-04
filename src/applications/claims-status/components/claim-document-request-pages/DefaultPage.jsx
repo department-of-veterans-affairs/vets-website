@@ -238,7 +238,7 @@ export default function DefaultPage({
           </div>
         )}
       {isFirstParty &&
-        (pastDueDate ? (
+        pastDueDate && (
           <va-alert status="warning" class="vads-u-margin-y--4">
             <h2
               slot="headline"
@@ -257,18 +257,16 @@ export default function DefaultPage({
               ).
             </p>
           </va-alert>
-        ) : (
-          !item.friendlyName && (
-            <div className="vads-u-margin-top--4 vads-u-margin-bottom--2">
-              <p>
-                We requested this evidence from you on{' '}
-                {dateFormatter(item.requestedDate)}. You can still send the
-                evidence after the “respond by” date, but it may delay your
-                claim.
-              </p>
-            </div>
-          )
-        ))}
+        )}
+      {isFirstParty && (
+        <div className="vads-u-margin-top--4 vads-u-margin-bottom--2">
+          <p>
+            We requested this evidence from you on{' '}
+            {dateFormatter(item.requestedDate)}. You can still send the evidence
+            after the “respond by” date, but it may delay your claim.
+          </p>
+        </div>
+      )}
 
       {/* What we need from you or What we’re notifying you about section */}
       {isFirstParty ? (

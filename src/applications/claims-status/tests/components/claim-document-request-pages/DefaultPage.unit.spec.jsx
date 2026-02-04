@@ -268,6 +268,9 @@ describe('<DefaultPage>', () => {
     getByText(
       'We haven’t received the information we asked for. You can still send it, but we may review your claim without it.',
     );
+    getByText(
+      'We requested this evidence from you on March 7, 2024. You can still send the evidence after the “respond by” date, but it may delay your claim.',
+    );
   });
   it('should display pass due explanation text when suspense date is in the future', () => {
     const item = {
