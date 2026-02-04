@@ -25,9 +25,6 @@ function useListRefresh({
   extractType,
   dispatchAction,
   dispatch,
-  page,
-  useBackendPagination,
-  checkUpdatesAction,
 }) {
   const refreshIsCurrent = useMemo(
     () => {
@@ -65,53 +62,21 @@ function useListRefresh({
   );
 
   useEffect(
-    () => {
-      // If useBackendPagination is enabled, dispatch the fetch on every page change.
-      if (page && useBackendPagination) {
-        dispatch(dispatchAction(refreshIsCurrent, page, useBackendPagination));
-      }
-    },
-    // We don't want to include refreshIsCurrent in the dependency array. It causes unwanted dispatches.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page, useBackendPagination, dispatch, dispatchAction],
-  );
-
-  useEffect(
     /**
      * Dispatch the action to refresh list data if:
      * 1. The list has not yet been fetched.
      * 2. The list data is stale, the refresh is current, and list is not currently being fetched.
      */
     () => {
-      if (useBackendPagination) {
-        if (
-          listState !== loadStates.FETCHING &&
-          refreshIsCurrent &&
-          isDataStale
-        ) {
-          dispatch(checkUpdatesAction());
-        }
-      } else {
-        const shouldFetch =
-          listState === loadStates.PRE_FETCH ||
-          (listState !== loadStates.FETCHING &&
-            refreshIsCurrent &&
-            isDataStale);
+      const shouldFetch =
+        listState === loadStates.PRE_FETCH ||
+        (listState !== loadStates.FETCHING && refreshIsCurrent && isDataStale);
 
-        if (shouldFetch) {
-          dispatch(dispatchAction(refreshIsCurrent));
-        }
+      if (shouldFetch) {
+        dispatch(dispatchAction(refreshIsCurrent));
       }
     },
-    [
-      refreshIsCurrent,
-      listState,
-      isDataStale,
-      dispatchAction,
-      dispatch,
-      checkUpdatesAction,
-      useBackendPagination,
-    ],
+    [refreshIsCurrent, listState, isDataStale, dispatchAction, dispatch],
   );
 }
 

@@ -254,7 +254,6 @@ Update this file when you:
   - Use `getAccelerated*` API functions for v2 endpoints
   - Dispatch `GET_UNIFIED_LIST` or `GET_UNIFIED_ITEM` action types
   - Date range parameters required for accelerated endpoints
-  - V2 endpoints typically support backend pagination
 - **Fallback**: Non-accelerated users use v1 endpoints with separate VistA/OH paths
 
 ### Oracle Health (Cerner) Integration
@@ -371,9 +370,6 @@ Update this file when you:
   - `extractType`: Extract type(s) to check (e.g., 'Allergy')
   - `dispatchAction`: Action creator to fetch data
   - `dispatch`: Redux dispatch function
-  - `page`: Current page number (for pagination)
-  - `useBackendPagination`: Enable backend pagination
-  - `checkUpdatesAction`: Action to check for updates
 - **Behavior**: Fetches data when refresh is current and local data is stale
 
 ### useAlerts
@@ -476,7 +472,7 @@ Update this file when you:
 - `getAcceleratedAllergy(id)`: Get allergy detail (v2)
 
 ### Vaccines
-- `getVaccineList(page, useCache)`: Get vaccines with optional pagination
+- `getVaccineList()`: Get vaccines list
 - `getVaccine(id)`: Get vaccine detail
 - `getAcceleratedImmunizations()`: Get immunizations (v2)
 - `getAcceleratedImmunization(id)`: Get immunization detail (v2)
