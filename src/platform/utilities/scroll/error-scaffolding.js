@@ -33,8 +33,8 @@
 // CATEGORY 4 – DATE COMPONENT ERROR
 //   Components: va-date, va-memorable-date
 //   Date components delegate validation to their child inputs (va-select,
-//   va-text-input). We attach error labels to each invalid child and apply
-//   error styling only to those children, using the parent's error message.
+//   va-text-input). We attach error labels to each invalid child using the
+//   parent's error message for context.
 //
 // ============================================================================
 
@@ -101,8 +101,7 @@ const GROUP_SELECTOR = GROUP_COMPONENT_TAGS.map(tag => tag.toLowerCase()).join(
 const DATE_COMPONENT_TAGS = ['VA-DATE', 'VA-MEMORABLE-DATE'];
 const DATE_CHILD_SELECTOR = 'va-select, va-text-input';
 
-// Styling & State Tracking
-const ERROR_STYLING_CLASS = 'usa-input--error';
+// State Tracking
 const DATA_PREVIOUS_ERROR_MESSAGE = 'data-previous-error-message';
 const DATA_GENERATED_ERROR_LABEL_ID = 'data-generated-error-label-id';
 
@@ -708,76 +707,26 @@ function associateGroupErrorAnnotations(groupComponent, errorMessage) {
 // ============================================================================
 
 /**
- * Checks if a date child component should show error styling.
+ * Checks if a date child component is invalid for accessibility scaffolding purposes.
  * A child is considered invalid if:
  * 1. The child component has the 'invalid' attribute/property (set by component-library on blur), OR
- * 2. Its internal input/select has aria-invalid="true", OR
- * 3. A required child has no value (handles initial submit before blur)
+ * 2. Its internal input/select has aria-invalid="true"
  *
  * @param {HTMLElement} childComponent - The va-select or va-text-input child
- * @returns {boolean} True if the child should show error styling
+ * @returns {boolean} True if the child is invalid
  */
 function isDateChildInvalid(childComponent) {
   if (!childComponent?.shadowRoot) return false;
 
-  // Check invalid attribute/property on the child component itself
-  // This is set by the parent date component based on its internal validation
-  if (
-    childComponent.hasAttribute('invalid') ||
-    childComponent.invalid === true
-  ) {
-    return true;
-  }
-
-  // Check aria-invalid on the internal input
   const input = childComponent.shadowRoot.querySelector(INPUT_SELECTOR);
-  if (input?.getAttribute('aria-invalid') === 'true') {
-    return true;
-  }
 
-  return false;
-}
-
-/**
- * Adds error styling class to an input element within a component's shadow DOM.
- *
- * @param {HTMLElement} component - The component containing the input
- * @returns {void}
- */
-function addInputErrorStyling(component) {
-  if (!component?.shadowRoot) return;
-  const input = component.shadowRoot.querySelector(INPUT_SELECTOR);
-  if (input) {
-    input.classList.add(ERROR_STYLING_CLASS);
-  }
-}
-
-/**
- * Removes error styling class from an input element within a component's shadow DOM.
- *
- * @param {HTMLElement} component - The component containing the input
- * @returns {void}
- */
-function removeInputErrorStyling(component) {
-  if (!component?.shadowRoot) return;
-  const input = component.shadowRoot.querySelector(INPUT_SELECTOR);
-  if (input) {
-    input.classList.remove(ERROR_STYLING_CLASS);
-  }
-}
-
-/**
- * Syncs error styling on a date child component based on its validation state.
- *
- * @param {HTMLElement} childComponent - The va-select or va-text-input child
- * @returns {void}
- */
-function syncDateChildErrorStyling(childComponent) {
-  if (isDateChildInvalid(childComponent)) {
-    addInputErrorStyling(childComponent);
-  } else {
-    removeInputErrorStyling(childComponent);
-  }
+  // Check invalid attribute/property on the child component itself,
+  // or aria-invalid on the internal input
+  return (
+    childComponent.hasAttribute('invalid') ||
+    childComponent.invalid === true ||
+    input?.getAttribute('aria-invalid') === 'true'
+  );
 }
 
 /**
@@ -785,13 +734,11 @@ function syncDateChildErrorStyling(childComponent) {
  * Handles two distinct error scenarios:
  *
  * 1. Field-level errors: Individual child inputs are invalid (empty required fields,
- *    invalid formats). These children receive both visual error styling AND accessibility
- *    scaffolding on each invalid child.
+ *    invalid formats). Only invalid children receive accessibility scaffolding.
  *
  * 2. Cross-field validation errors: Parent has an error but all children are technically
  *    valid (e.g., "To date must be after from date"). ALL children receive accessibility
- *    scaffolding for screen readers, but NO children receive visual error styling since
- *    the fields themselves are valid.
+ *    scaffolding for screen readers to announce the cross-field validation error.
  *
  * @param {HTMLElement} dateComponent - The date component emitting an error
  * @param {string|null} errorMessage - Message to associate with the child input
@@ -802,17 +749,14 @@ function associateDateErrorAnnotations(dateComponent, errorMessage) {
 
   const children = getDateChildComponents(dateComponent);
 
-  // Step 1: Apply visual error styling ONLY to children that are actually invalid
-  children.forEach(child => syncDateChildErrorStyling(child));
-
-  // Step 2: Determine which children need screen reader scaffolding
+  // Determine which children need screen reader scaffolding:
   // - If ANY child is invalid: only scaffold invalid children (field-level errors)
   // - If NO children are invalid: scaffold ALL children (cross-field validation)
   const invalidChildren = children.filter(child => isDateChildInvalid(child));
   const childrenToScaffold =
     invalidChildren.length > 0 ? invalidChildren : children;
 
-  // Step 3: Add screen reader scaffolding to target children
+  // Add screen reader scaffolding to target children
   childrenToScaffold.forEach(child => {
     const inputElement = findFocusTarget(child);
     if (!inputElement) return;
@@ -864,7 +808,6 @@ const clearHostErrorAnnotations = hostComponent => {
 
 /**
  * Clears error annotations from all child inputs within a date component.
- * Also removes error styling that was added by associateDateErrorAnnotations.
  *
  * @param {HTMLElement} dateComponent - The date component to clear
  * @returns {void}
@@ -872,7 +815,6 @@ const clearHostErrorAnnotations = hostComponent => {
 function clearDateErrorAnnotations(dateComponent) {
   const children = getDateChildComponents(dateComponent);
   children.forEach(child => {
-    removeInputErrorStyling(child);
     clearHostErrorAnnotations(child);
     child.removeAttribute(DATA_PREVIOUS_ERROR_MESSAGE);
   });
