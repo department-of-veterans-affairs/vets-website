@@ -368,6 +368,24 @@ describe('prescriptionsApi', () => {
           prescriptionsApi.endpoints.getPrescriptionDocumentation.select,
         ).to.be.a('function');
       });
+
+      it('should accept id parameter', () => {
+        const params = { id: '12345' };
+        const action = prescriptionsApi.endpoints.getPrescriptionDocumentation.initiate(
+          params,
+        );
+        expect(action).to.exist;
+        expect(action.type).to.include('getPrescriptionDocumentation');
+      });
+
+      it('should accept id and stationNumber parameters', () => {
+        const params = { id: '12345', stationNumber: '688' };
+        const action = prescriptionsApi.endpoints.getPrescriptionDocumentation.initiate(
+          params,
+        );
+        expect(action).to.exist;
+        expect(action.type).to.include('getPrescriptionDocumentation');
+      });
     });
 
     describe('refillPrescription', () => {

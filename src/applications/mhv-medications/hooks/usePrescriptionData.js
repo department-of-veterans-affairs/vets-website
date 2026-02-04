@@ -47,15 +47,22 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
     return undefined;
   };
 
+  const resolvedStationNumber = getStationNumber();
+
+  // Skip API call if Cerner pilot is enabled but no station number is available from any source
+  // This prevents failed API calls while waiting for redirect or cached data
+  const shouldSkipDueToMissingStationNumber =
+    isCernerPilot && !resolvedStationNumber && !cachedPrescriptionAvailable;
+
   const prescriptionByIdParams = {
     id: prescriptionId,
-    stationNumber: getStationNumber(),
+    stationNumber: resolvedStationNumber,
   };
 
   // Fetch individual prescription when needed
   const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
     prescriptionByIdParams,
-    { skip: cachedPrescriptionAvailable },
+    { skip: cachedPrescriptionAvailable || shouldSkipDueToMissingStationNumber },
   );
 
   // Handle prescription data from either source

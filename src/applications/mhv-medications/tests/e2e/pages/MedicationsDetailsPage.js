@@ -411,7 +411,7 @@ class MedicationsDetailsPage {
   clickLearnMoreAboutMedicationLinkOnDetailsPage = prescriptionId => {
     cy.intercept(
       'GET',
-      `my_health/v1/prescriptions/${prescriptionId}/documentation*`,
+      `/my_health/v1/prescriptions/${prescriptionId}/documentation*`,
       medicationInformation,
     ).as('medicationDescription');
     cy.get('[data-testid="va-prescription-documentation-link"]').click({
@@ -423,7 +423,7 @@ class MedicationsDetailsPage {
   clickLearnMoreAboutMedicationLinkOnDetailsPageWithNoInfo = prescriptionId => {
     cy.intercept(
       'GET',
-      `my_health/v1/prescriptions/${prescriptionId}/documentation*`,
+      `/my_health/v1/prescriptions/${prescriptionId}/documentation*`,
       noMedicationInformation,
     ).as('medicationDescription');
     cy.get('[data-testid="va-prescription-documentation-link"]').click({
