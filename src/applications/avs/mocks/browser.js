@@ -7,6 +7,7 @@
 import { setupWorker } from 'msw';
 import {
   rest,
+  delay,
   createCommonHandlers,
   apiUrl,
 } from '@department-of-veterans-affairs/platform-mocks/browser';
@@ -19,10 +20,10 @@ const createAvsHandler = baseUrl =>
     const { avsId } = req.params;
 
     if (avsId !== mockAvs.data.id) {
-      return res(ctx.status(404), ctx.json(mockAvsErrors.notFound));
+      return res(delay(ctx), ctx.status(404), ctx.json(mockAvsErrors.notFound));
     }
 
-    return res(ctx.status(200), ctx.json(mockAvs));
+    return res(delay(ctx), ctx.status(200), ctx.json(mockAvs));
   });
 
 // Create all handlers for the AVS app
