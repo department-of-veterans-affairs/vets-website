@@ -20,7 +20,6 @@ import {
   certifierRelationshipSchema,
 } from '../chapters/signerInformation';
 
-// import mockData from '../tests/e2e/fixtures/data/maximal-test.json';
 import transformForSubmit from './submitTransformer';
 
 import {
@@ -46,6 +45,8 @@ import AddressSelectionPage, {
   NOT_SHARED,
 } from '../components/FormPages/AddressSelectionPage';
 import AddressSelectionReviewPage from '../components/FormReview/AddressSelectionReviewPage';
+
+// import mockData from '../tests/e2e/fixtures/data/representative.json';
 
 /** @type {FormConfig} */
 const formConfig = {
