@@ -58,20 +58,27 @@ class MedicationsListPage {
     );
   };
 
-  visitMedicationsLinkWhenNoAllergiesAPICallFails = (waitForMeds = false) => {
+  visitMedicationsLinkWhenNoAllergiesAPICallFails = () => {
     cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
       'delayAlertRxList',
     );
-    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
-      prescriptions,
+    // Use wildcard pattern to match RTK Query URL with various query parameters
+    cy.intercept('GET', '/my_health/v1/prescriptions?*', prescriptions).as(
+      'medicationsList',
     );
+    // Force allergies API to return an error
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', {
+      statusCode: 500,
+      body: { error: 'Internal Server Error' },
+    }).as('allergiesError');
+    // Also intercept v2 allergies for Cerner pilot
+    cy.intercept('GET', '/my_health/v2/medical_records/allergies', {
+      statusCode: 500,
+      body: { error: 'Internal Server Error' },
+    }).as('allergiesErrorV2');
     cy.visit(medicationsUrls.MEDICATIONS_URL);
-    if (waitForMeds) {
-      cy.wait('@medicationsList');
-    }
+    // Wait for allergies error and medications list to load
+    cy.wait(['@allergiesError', '@medicationsList'], { timeout: 10000 });
   };
 
   visitMedicationsListForUserWithAllergies = (waitForMeds = false) => {
@@ -288,11 +295,13 @@ class MedicationsListPage {
   };
 
   verifyInformationBasedOnStatusActiveNoRefillsLeft = () => {
+    // V1 status logic is used (V2 flags disabled), which shows "Contact your VA provider" message
     cy.get('[data-testid="active-no-refill-left"]')
+      .first()
       .should('be.visible')
       .and(
         'contain',
-        'You can’t refill this prescription. If you need more, send a secure message to your care team',
+        'Contact your VA provider if you need more of this medication.',
       );
   };
 

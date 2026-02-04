@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { getLabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintHeader from '../components/shared/PrintHeader';
 
-const RadiologySingleImage = () => {
+const RadiologySingleImage = ({ basePath = '/labs-and-tests' }) => {
   const dispatch = useDispatch();
   const { labId, imageId } = useParams();
   // const labAndTestDetails = useSelector(
@@ -90,12 +91,12 @@ const RadiologySingleImage = () => {
                   className="secondary-button vads-u-flex--1"
                   href={
                     Number(imageId) > 1
-                      ? `/my-health/medical-records/labs-and-tests/radiology-images/${
+                      ? `/my-health/medical-records${basePath}/${
                           labAndTestDetails.id
-                        }/${Number(imageId) - 1}`
-                      : `/my-health/medical-records/labs-and-tests/radiology-images/${
+                        }/images/${Number(imageId) - 1}`
+                      : `/my-health/medical-records${basePath}/${
                           labAndTestDetails.id
-                        }/${labAndTestDetails.images.length}`
+                        }/images/${labAndTestDetails.images.length}`
                   }
                 >
                   <span aria-hidden="true">
@@ -110,12 +111,12 @@ const RadiologySingleImage = () => {
                   className="primary-button vads-u-flex--1 vads-u-margin-right--0"
                   href={
                     Number(imageId) < labAndTestDetails.images.length
-                      ? `/my-health/medical-records/labs-and-tests/radiology-images/${
+                      ? `/my-health/medical-records${basePath}/${
                           labAndTestDetails.id
-                        }/${Number(imageId) + 1}`
-                      : `/my-health/medical-records/labs-and-tests/radiology-images/${
+                        }/images/${Number(imageId) + 1}`
+                      : `/my-health/medical-records${basePath}/${
                           labAndTestDetails.id
-                        }/1`
+                        }/images/1`
                   }
                 >
                   Next
@@ -174,3 +175,7 @@ const RadiologySingleImage = () => {
 };
 
 export default RadiologySingleImage;
+
+RadiologySingleImage.propTypes = {
+  basePath: PropTypes.string,
+};
