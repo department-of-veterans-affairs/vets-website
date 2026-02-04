@@ -24,6 +24,7 @@ export { getRxStatus } from './getRxStatus';
 export { getShowRefillHistory } from './getShowRefillHistory';
 export { hasCmopNdcNumber } from './hasCmopNdcNumber';
 export { isArrayAndHasItems } from './isArrayAndHasItems';
+export { isOracleHealthPrescription } from './isOracleHealthPrescription';
 export {
   isRefillTakingLongerThanExpected,
 } from './isRefillTakingLongerThanExpected';

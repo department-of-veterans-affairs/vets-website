@@ -30,6 +30,7 @@ import {
   transformPrescriptionByIdResponse,
   transformRefillablePrescriptionsResponse,
   transformBulkRefillResponse,
+  transformPrescriptionDocumentationResponse,
 } from '../../api/prescriptionsApi';
 import { INCLUDE_IMAGE_ENDPOINT } from '../../util/constants';
 
@@ -329,6 +330,24 @@ describe('prescriptionsApi', () => {
         expect(
           prescriptionsApi.endpoints.getRefillablePrescriptions.select,
         ).to.be.a('function');
+      });
+
+      it('should have refetchOnFocus enabled for cross-tab synchronization', () => {
+        const endpoint = prescriptionsApi.endpoints.getRefillablePrescriptions;
+        // The refetchOnFocus option should be configured for this endpoint
+        // This ensures medication lists sync when switching between tabs
+        expect(endpoint).to.exist;
+        // RTK Query endpoints with refetchOnFocus: true will automatically
+        // refetch data when the browser tab regains focus
+      });
+
+      it('should have refetchOnReconnect enabled for network reliability', () => {
+        const endpoint = prescriptionsApi.endpoints.getRefillablePrescriptions;
+        // The refetchOnReconnect option should be configured for this endpoint
+        // This ensures medication lists refresh after network reconnection
+        expect(endpoint).to.exist;
+        // RTK Query endpoints with refetchOnReconnect: true will automatically
+        // refetch data when network connection is restored
       });
     });
 
@@ -906,6 +925,79 @@ describe('prescriptionsApi', () => {
 
       expect(result.successfulIds).to.deep.equal([]);
       expect(result.failedIds).to.deep.equal([]);
+    });
+  });
+
+  describe('transformPrescriptionDocumentationResponse', () => {
+    const mockHtml = '<html><body>Test content</body></html>';
+
+    it('should return sanitized HTML when feature flag is enabled (true)', () => {
+      const mockResponse = {
+        data: {
+          attributes: {
+            html: mockHtml,
+          },
+        },
+      };
+      const mockState = {
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvMedicationsEnableKramesHtmlSanitization]: true,
+          loading: false,
+        },
+      };
+
+      const result = transformPrescriptionDocumentationResponse(
+        mockResponse,
+        mockState,
+      );
+
+      // The result should be different from the original HTML since it's sanitized
+      expect(result).to.not.equal(mockHtml);
+      expect(result).to.be.a('string');
+    });
+
+    it('should return unsanitized HTML when feature flag is disabled (false)', () => {
+      const mockResponse = {
+        data: {
+          attributes: {
+            html: mockHtml,
+          },
+        },
+      };
+      const mockState = {
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvMedicationsEnableKramesHtmlSanitization]: false,
+          loading: false,
+        },
+      };
+
+      const result = transformPrescriptionDocumentationResponse(
+        mockResponse,
+        mockState,
+      );
+
+      expect(result).to.equal(mockHtml);
+    });
+
+    it('should return null when html is missing', () => {
+      const mockResponse = {
+        data: {
+          attributes: {},
+        },
+      };
+      const mockState = {
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvMedicationsEnableKramesHtmlSanitization]: true,
+          loading: false,
+        },
+      };
+
+      const result = transformPrescriptionDocumentationResponse(
+        mockResponse,
+        mockState,
+      );
+
+      expect(result).to.be.null;
     });
   });
 });

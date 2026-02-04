@@ -1,5 +1,11 @@
 import get from 'platform/utilities/data/get';
 
+/**
+ * Creates a Disclosure title function that will include the spouse's full name
+ * @param {string} path - current location path
+ * @param {string} title - page title
+ * @returns {function} DisclosureTitle component
+ */
 export default function createDisclosureTitle(path, title) {
   return function DisclosureTitle({ formData }) {
     let fullName;
