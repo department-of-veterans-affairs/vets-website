@@ -99,6 +99,12 @@ const DateTimeSelection = () => {
       slot => slot.start === selectedSlotTime,
     );
     if (!selectedSlotData) {
+      dispatch(
+        setSelectedSlot({
+          dtStartUtc: null,
+          dtEndUtc: null,
+        }),
+      );
       return;
     }
     dispatch(
@@ -111,7 +117,7 @@ const DateTimeSelection = () => {
   };
 
   const handleContinue = () => {
-    if (!selectedSlot.dtStartUtc) {
+    if (!selectedSlot.dtStartUtc || !selectedSlot.dtEndUtc) {
       handleSetError(
         'Please select a preferred date and time for your appointment.',
       );

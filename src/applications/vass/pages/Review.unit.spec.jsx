@@ -75,17 +75,7 @@ describe('VASS Component: Review', () => {
   it('should display single topic correctly', () => {
     const { getByTestId } = renderWithStoreAndRouterV6(
       <Review />,
-      getDefaultRenderOptions({
-        hydrated: true,
-        selectedSlot: {
-          dtStartUtc: '2025-01-15T10:00:00.000Z',
-          dtEndUtc: '2025-01-15T11:00:00.000Z',
-        },
-        selectedTopics: [{ topicId: '1', topicName: 'Education Benefits' }],
-        uuid: 'c0ffee-1234-beef-5678',
-        lastName: 'Smith',
-        dob: '1935-04-07',
-      }),
+      getDefaultRenderOptions(defaultFormState),
     );
 
     expect(getByTestId('topic-description').textContent).to.equal(

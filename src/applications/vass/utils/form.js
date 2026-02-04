@@ -1,7 +1,7 @@
 import { FLOW_TYPES } from './constants';
 
 /**
- * @typedef {{ topicId: string, topicName: string }} Topic
+ * @typedef {import('../utils/appointments').Topic} Topic
  */
 
 /**

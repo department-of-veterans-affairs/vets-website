@@ -9,7 +9,7 @@ import {
   useCancelAppointmentMutation,
 } from '../redux/api/vassApi';
 import { FLOW_TYPES, URLS } from '../utils/constants';
-import { setFlowType, setSelectedSlot } from '../redux/slices/formSlice';
+import { setFlowType } from '../redux/slices/formSlice';
 
 const CancelAppointment = () => {
   const { appointmentId } = useParams();
@@ -23,29 +23,13 @@ const CancelAppointment = () => {
   const onCancelAppointment = useCallback(
     async () => {
       try {
-        if (appointmentData?.startUTC && appointmentData?.endUTC) {
-          // After canceling the appointment, the dates are cleared on the VASS end. We save them to render on the confirmation page.
-          dispatch(
-            setSelectedSlot({
-              dtStartUtc: appointmentData.startUTC,
-              dtEndUtc: appointmentData.endUTC,
-            }),
-          );
-        }
         await cancelAppointment({ appointmentId });
         navigate(`${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/${appointmentId}`);
       } catch (error) {
         // TODO: handle error
       }
     },
-    [
-      appointmentData?.startUTC,
-      appointmentData?.endUTC,
-      cancelAppointment,
-      appointmentId,
-      navigate,
-      dispatch,
-    ],
+    [cancelAppointment, appointmentId, navigate],
   );
 
   const onAbortCancelAppointment = useCallback(

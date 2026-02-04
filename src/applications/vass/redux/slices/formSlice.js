@@ -67,8 +67,9 @@ const clearFormDataFromStorage = () => {
   removeSessionItem(VASS_CURRENT_UUID_KEY);
 };
 
+/** @typedef {{ dtStartUtc: string | null, dtEndUtc: string | null }} Slot */
 /** @typedef {{ topicId: string, topicName: string }} Topic */
-/** @type {{ selectedSlot: { dtStartUtc: string | null, dtEndUtc: string | null }, selectedTopics: Topic[], obfuscatedEmail: string | null, uuid: string | null, token: string | null, lastName: string | null, dob: string | null, flowType: string | null }} */
+/** @type {{ selectedSlot: Slot, selectedTopics: Topic[], obfuscatedEmail: string | null, uuid: string | null, token: string | null, lastName: string | null, dob: string | null, flowType: string | null }} */
 const initialState = {
   hydrated: false,
   selectedSlot: {
