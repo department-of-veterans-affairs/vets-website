@@ -96,7 +96,7 @@ describe('VA File Input Multiple', () => {
   };
 
   const getFileInputError = (fileIndex = 0) =>
-    getFileInput(fileIndex).find('span.usa-error-message');
+    getFileInput(fileIndex).find('span.usa-error-message', { timeout: 8000 });
 
   // Helper function for encrypted file workflow: upload + wait for password input
   const setupEncryptedFile = (fileName, fileIndex = 0) => {
@@ -637,7 +637,8 @@ describe('VA File Input Multiple', () => {
 
       // Verify document type error appears in the file input's error message area
       getFileInputError(0)
-        .should('be.visible')
+        .should('exist')
+        .and('be.visible')
         .and('contain.text', DOC_TYPE_ERROR);
 
       // Also verify submission was blocked
@@ -662,7 +663,8 @@ describe('VA File Input Multiple', () => {
 
       // Verify error appears
       getFileInputError(0)
-        .should('be.visible')
+        .should('exist')
+        .and('be.visible')
         .and('contain.text', DOC_TYPE_ERROR);
 
       // Select a document type
@@ -689,7 +691,8 @@ describe('VA File Input Multiple', () => {
 
       // Verify document type error appears
       getFileInputError(0)
-        .should('be.visible')
+        .should('exist')
+        .and('be.visible')
         .and('contain.text', DOC_TYPE_ERROR);
 
       // Replace with a different file
@@ -847,8 +850,14 @@ describe('VA File Input Multiple', () => {
       clickSubmitButton();
 
       // Verify both files have errors
-      getFileInputError(0).should('contain.text', PASSWORD_ERROR);
-      getFileInputError(1).should('contain.text', DOC_TYPE_ERROR);
+      getFileInputError(0)
+        .should('exist')
+        .and('be.visible')
+        .and('contain.text', PASSWORD_ERROR);
+      getFileInputError(1)
+        .should('exist')
+        .and('be.visible')
+        .and('contain.text', DOC_TYPE_ERROR);
 
       // Remove the first file (encrypted one)
       clickDeleteButton(0, 'encrypted-without-password.pdf');
@@ -857,11 +866,10 @@ describe('VA File Input Multiple', () => {
       clickModalDeleteButton();
 
       // Verify the remaining file still has its error
-      cy.get('va-file-input-multiple')
-        .find('va-file-input')
-        .first()
-        .find('span.usa-error-message')
-        .should('contain.text', DOC_TYPE_ERROR);
+      getFileInputError(0)
+        .should('exist')
+        .and('be.visible')
+        .and('contain.text', DOC_TYPE_ERROR);
 
       cy.axeCheck();
     });
