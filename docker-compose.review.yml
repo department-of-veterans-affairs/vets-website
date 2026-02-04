@@ -16,6 +16,12 @@ services:
     image: vets-website:${IMAGE_TAG:-latest}
     ports:
       - 3001:3002
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3002']
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 180s
     restart: unless-stopped
     volumes:
       - .:/application
