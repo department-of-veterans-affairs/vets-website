@@ -177,9 +177,17 @@ export const createAddressValidator = fieldKey => {
         errors.addError(`${fieldName} must be ${maxLength} characters or less`);
       }
       if (!pattern.test(normalizedValue)) {
-        errors.addError(
-          `${fieldName} may only contain letters, numbers, spaces, and these special characters: ${allowedChars}`,
-        );
+        // Provide a more helpful error message for city field with commas
+        // (common user mistake: entering "City, State" in the city field)
+        if (fieldKey === 'city' && normalizedValue.includes(',')) {
+          errors.addError(
+            'Please enter only the city name. Do not include the state, zip code, or country.',
+          );
+        } else {
+          errors.addError(
+            `${fieldName} may only contain letters, numbers, spaces, and these special characters: ${allowedChars}`,
+          );
+        }
       }
     }
   };

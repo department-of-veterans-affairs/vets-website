@@ -486,11 +486,15 @@ describe('contactInformationHelpers', () => {
         expect(errors.addError.calledWithMatch(/may only contain/)).to.be.true;
       });
 
-      it('should add error for invalid characters - comma', () => {
+      it('should add helpful error when city contains comma (common user mistake)', () => {
         const validator = createAddressValidator('city');
         const errors = createMockErrors();
-        validator(errors, 'City, State');
-        expect(errors.addError.calledWithMatch(/may only contain/)).to.be.true;
+        validator(errors, 'Houston, TX');
+        expect(
+          errors.addError.calledWith(
+            'Please enter only the city name. Do not include the state, zip code, or country.',
+          ),
+        ).to.be.true;
       });
 
       it('should add error for invalid characters - ampersand', () => {

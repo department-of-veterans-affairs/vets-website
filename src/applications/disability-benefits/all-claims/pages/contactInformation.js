@@ -22,6 +22,7 @@ import {
   shouldAutoDetectMilitary,
   shouldShowZipCode,
   createAddressValidator,
+  normalizeAddressLine,
   updateCountrySchema,
   updateStateSchema,
   isStateRequired,
@@ -71,6 +72,22 @@ export const updateFormData = (oldFormData, formData) => {
   if (shouldAutoDetectMilitary(oldFormData, updatedFormData)) {
     updatedFormData.mailingAddress['view:livesOnMilitaryBase'] = true;
   }
+
+  // Normalize address fields to prevent 422 errors on save-in-progress
+  // This trims whitespace and collapses multiple spaces
+  const fieldsToNormalize = [
+    'addressLine1',
+    'addressLine2',
+    'addressLine3',
+    'city',
+  ];
+  fieldsToNormalize.forEach(field => {
+    if (updatedFormData.mailingAddress?.[field]) {
+      updatedFormData.mailingAddress[field] = normalizeAddressLine(
+        updatedFormData.mailingAddress[field],
+      );
+    }
+  });
 
   return updatedFormData;
 };
