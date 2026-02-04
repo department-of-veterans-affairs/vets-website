@@ -24,10 +24,10 @@
 
 // eslint-disable-next-line import/no-unresolved
 import { rest } from 'msw';
+import environment from 'platform/utilities/environment';
 
 // Re-export rest for third-party handlers
 export { rest };
-import environment from 'platform/utilities/environment';
 
 // Import pure data from responses (webpack handles CommonJS -> ES interop)
 import responses from './responses';
@@ -37,6 +37,7 @@ const {
   mockUserUnauthenticated,
   mockFeatureToggles,
   mockMaintenanceWindows,
+  mockVamcEhr,
   createVamcEhrResponse,
   createUserResponse,
   createFeatureTogglesResponse,
@@ -49,6 +50,7 @@ export {
   mockUserUnauthenticated,
   mockFeatureToggles,
   mockMaintenanceWindows,
+  mockVamcEhr,
   createVamcEhrResponse,
   createUserResponse,
   createFeatureTogglesResponse,
@@ -84,7 +86,7 @@ export const mockApi = {
 };
 
 // ============================================================================
-// Handler Factories (for backward compatibility)
+// Handler Factories
 // ============================================================================
 
 /**
@@ -160,8 +162,6 @@ export function createVamcEhrHandler(mockData = null, baseUrl = apiUrl) {
   }
 
   return rest.get(`${baseUrl}/data/cms/vamc-ehr.json`, (req, res, ctx) => {
-    // eslint-disable-next-line no-console
-    console.log('[MSW] Returning mock VAMC EHR data');
     return res(ctx.json(data));
   });
 }
@@ -180,15 +180,10 @@ export function createVamcEhrProxyHandler(baseUrl = apiUrl) {
     async (req, res, ctx) => {
       // Return cached data if available
       if (vamcEhrCache) {
-        // eslint-disable-next-line no-console
-        console.log('[MSW] Returning cached VAMC EHR data');
         return res(ctx.json(vamcEhrCache));
       }
 
       try {
-        // eslint-disable-next-line no-console
-        console.log('[MSW] Fetching VAMC EHR data from va.gov...');
-
         // Use native fetch to get real data (MSW won't intercept va.gov)
         const response = await fetch(
           'https://www.va.gov/data/cms/vamc-ehr.json',
@@ -198,17 +193,8 @@ export function createVamcEhrProxyHandler(baseUrl = apiUrl) {
         // Cache the response
         vamcEhrCache = data;
 
-        // eslint-disable-next-line no-console
-        console.log(
-          '[MSW] Cached VAMC EHR data:',
-          data?.data?.nodeQuery?.count,
-          'facilities',
-        );
-
         return res(ctx.json(data));
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('[MSW] Failed to fetch VAMC EHR data:', error);
         // Return empty response on failure
         return res(ctx.json(createVamcEhrResponse([])));
       }

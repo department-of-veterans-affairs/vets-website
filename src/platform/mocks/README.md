@@ -2,6 +2,58 @@
 
 Mock data and handlers for local development and testing.
 
+## Quick Start
+
+**1. Create `src/applications/your-app/mocks/browser.js`:**
+
+```javascript
+import { setupWorker } from 'msw';
+import { mockApi, commonHandlers } from 'platform/mocks/browser';
+
+const handlers = [
+  mockApi.get('/v0/my-endpoint', (req, res, ctx) => res(ctx.json({ data: [] }))),
+  ...commonHandlers,
+];
+
+export const startMocking = () => setupWorker(...handlers).start({
+  onUnhandledRequest: 'bypass',
+  serviceWorker: { url: '/mockServiceWorker.js' },
+});
+```
+
+**2. Update your entry file:**
+
+```javascript
+import 'platform/polyfills';
+import startApp from 'platform/startup';
+import routes from './routes';
+import reducer from './reducers';
+import manifest from './manifest.json';
+
+function initApp() {
+  startApp({
+    url: manifest.rootUrl,
+    reducer,
+    routes,
+    entryName: manifest.entryName,
+  });
+}
+
+if (process.env.USE_MOCKS === 'true') {
+  import('./mocks/browser').then(m => m.startMocking()).then(initApp);
+} else {
+  initApp();
+}
+```
+
+**3. Run:**
+
+```bash
+USE_MOCKS=true yarn watch --env entry=your-app --env api=http://mock-vets-api.local
+```
+
+---
+
 ## Structure
 
 ```
