@@ -3,7 +3,7 @@ import React from 'react';
 import { isBefore, parseISO } from 'date-fns';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
-  scrubDescription,
+  formatDescription,
   buildDateFormatter,
   getDisplayFriendlyName,
 } from '../../utils/helpers';
@@ -12,6 +12,7 @@ import Notification from '../Notification';
 import Type1UnknownUploadError from '../Type1UnknownUploadError';
 import { focusNotificationAlert } from '../../utils/page';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
+import { TrackedItemContent } from '../TrackedItemContent';
 
 export default function DefaultPage({
   item,
@@ -27,11 +28,25 @@ export default function DefaultPage({
   const dueDate = parseISO(item.suspenseDate);
   const pastDueDate = isBefore(dueDate, now);
 
+  // Priority 1: API-provided structured content (JSON blocks → TrackedItemContent)
+  const apiLongDescription = item.longDescription?.blocks;
+  const apiNextSteps = item.nextSteps?.blocks;
+
+  // Priority 2: Frontend dictionary JSX (legacy fallback during migration)
   const frontendContentOverride = evidenceDictionary[item.displayName];
   const frontendDescription = frontendContentOverride?.longDescription;
   const frontendNextSteps = frontendContentOverride?.nextSteps;
-  const frontendNoActionNeeded = frontendContentOverride?.noActionNeeded;
-  const apiDescription = scrubDescription(item.description);
+
+  // Priority 3: Simple API description (plain text with formatting markers)
+  const apiDescription = formatDescription(item.description);
+
+  // Use API boolean properties with fallback to evidenceDictionary
+  const isSensitive =
+    item.isSensitive ?? frontendContentOverride?.isSensitive ?? false;
+  const isDBQ = item.isDBQ ?? frontendContentOverride?.isDBQ ?? false;
+  const noActionNeeded =
+    item.noActionNeeded ?? frontendContentOverride?.noActionNeeded ?? false;
+
   const isFirstParty = item.status === 'NEEDED_FROM_YOU';
   const isThirdParty = item.status === 'NEEDED_FROM_OTHERS';
 
@@ -45,13 +60,13 @@ export default function DefaultPage({
     return 'Request for evidence outside VA';
   };
   const getFirstPartyDisplayName = () => {
-    if (frontendContentOverride?.isSensitive) {
+    if (isSensitive) {
       return `Request for evidence`;
     }
     return item.friendlyName || 'Request for evidence';
   };
   const getFirstPartyRequestText = () => {
-    if (item.friendlyName && frontendContentOverride?.isSensitive) {
+    if (item.friendlyName && isSensitive) {
       return `Respond by ${dateFormatter(
         item.suspenseDate,
       )} for: ${getDisplayFriendlyName(item)}`;
@@ -65,7 +80,7 @@ export default function DefaultPage({
   };
 
   const getRequestText = () => {
-    if (frontendContentOverride?.isDBQ) {
+    if (isDBQ) {
       return `We made a request on ${dateFormatter(item.requestedDate)} for: ${
         item.friendlyName ? getDisplayFriendlyName(item) : item.displayName
       }`;
@@ -79,6 +94,102 @@ export default function DefaultPage({
       item.requestedDate,
     )} for: ${item.displayName}`;
   };
+
+  // Determine longDescription content (Priority 1: API → Priority 2: Frontend → Priority 3: Simple API → Fallback: Empty state)
+  let longDescriptionContent = null;
+  let longDescriptionTestId = null;
+
+  if (apiLongDescription) {
+    // Priority 1: API-provided structured content
+    longDescriptionContent = (
+      <TrackedItemContent content={apiLongDescription} />
+    );
+    longDescriptionTestId = 'api-long-description';
+  } else if (frontendDescription) {
+    longDescriptionContent = frontendDescription;
+    longDescriptionTestId = 'frontend-description';
+  } else if (apiDescription) {
+    // Priority 3: Simple API description
+    longDescriptionContent = apiDescription;
+    longDescriptionTestId = 'api-description';
+  } else if (isFirstParty) {
+    // Fallback: Empty state
+    longDescriptionContent = (
+      <>
+        <p>
+          We’re unable to provide more information about the request on this
+          page. To learn more about it, review your claim letter.
+        </p>
+        <VaLink
+          text="Access your claim letters"
+          label="Access your claim letters"
+          href="/track-claims/your-claim-letters"
+        />
+      </>
+    );
+    longDescriptionTestId = 'empty-state-description';
+  }
+
+  // Determine nextSteps content (Priority 1: API → Priority 2: Frontend → Fallback: Empty state)
+  let nextStepsContent = null;
+
+  if (apiNextSteps) {
+    // Priority 1: API-provided structured content
+    nextStepsContent = (
+      <div data-testid="api-next-steps">
+        <TrackedItemContent content={apiNextSteps} />
+      </div>
+    );
+  } else if (frontendNextSteps) {
+    // Priority 2: Frontend dictionary JSX
+    nextStepsContent = (
+      <div data-testid="frontend-next-steps">{frontendNextSteps}</div>
+    );
+  } else if (isFirstParty) {
+    // Fallback: Empty state
+    const hasDescriptionContent =
+      apiLongDescription || frontendDescription || apiDescription;
+    nextStepsContent = (
+      <>
+        <p>To respond to this request:</p>
+        <ul className="bullet-disc">
+          {hasDescriptionContent ? (
+            <li data-testid="next-steps-in-what-we-need-from-you">
+              Gather and submit any documents or forms listed in the{' '}
+              <strong>What we need from you</strong> section
+            </li>
+          ) : (
+            <li data-testid="next-steps-in-claim-letter">
+              Gather and submit any documents or forms listed in the claim
+              letter
+            </li>
+          )}
+          <li>You can upload documents online or mail them to us</li>
+        </ul>
+        {hasDescriptionContent && (
+          <p>
+            If you need help understanding this request, check your claim letter
+            online.
+            <br />
+            <VaLink
+              text="Access your claim letters"
+              label="Access your claim letters"
+              href="/track-claims/your-claim-letters"
+            />
+          </p>
+        )}
+        <p>
+          You can find blank copies of many VA forms online.
+          <br />
+          <VaLink
+            text="Find a VA form"
+            label="Find a VA form"
+            href="/find-forms"
+          />
+        </p>
+      </>
+    );
+  }
 
   return (
     <div id="default-page" className="vads-u-margin-bottom--3">
@@ -127,7 +238,7 @@ export default function DefaultPage({
           </div>
         )}
       {isFirstParty &&
-        (pastDueDate ? (
+        pastDueDate && (
           <va-alert status="warning" class="vads-u-margin-y--4">
             <h2
               slot="headline"
@@ -146,18 +257,16 @@ export default function DefaultPage({
               ).
             </p>
           </va-alert>
-        ) : (
-          !item.friendlyName && (
-            <div className="vads-u-margin-top--4 vads-u-margin-bottom--2">
-              <p>
-                We requested this evidence from you on{' '}
-                {dateFormatter(item.requestedDate)}. You can still send the
-                evidence after the “respond by” date, but it may delay your
-                claim.
-              </p>
-            </div>
-          )
-        ))}
+        )}
+      {isFirstParty && (
+        <div className="vads-u-margin-top--4 vads-u-margin-bottom--2">
+          <p>
+            We requested this evidence from you on{' '}
+            {dateFormatter(item.requestedDate)}. You can still send the evidence
+            after the “respond by” date, but it may delay your claim.
+          </p>
+        </div>
+      )}
 
       {/* What we need from you or What we’re notifying you about section */}
       {isFirstParty ? (
@@ -170,47 +279,21 @@ export default function DefaultPage({
         </h2>
       )}
 
-      {frontendDescription && (
+      {/* Display the longDescription content */}
+      {longDescriptionContent && (
         <div
           className="vads-u-margin-bottom--4"
-          data-testid="frontend-description"
+          data-testid={longDescriptionTestId}
         >
-          {frontendDescription}
+          {longDescriptionContent}
         </div>
       )}
-      {!frontendDescription &&
-        apiDescription && (
-          <div
-            className="vads-u-margin-bottom--4"
-            data-testid="api-description"
-          >
-            <p className="vads-u-margin-y--2">{apiDescription}</p>
-          </div>
-        )}
-      {isFirstParty &&
-        !frontendDescription &&
-        !apiDescription && (
-          <div
-            className="vads-u-margin-bottom--4"
-            data-testid="empty-state-description"
-          >
-            <p>
-              We’re unable to provide more information about the request on this
-              page. To learn more about it, review your claim letter.
-            </p>
-            <VaLink
-              text="Access your claim letters"
-              label="Access your claim letters"
-              href="/track-claims/your-claim-letters"
-            />
-          </div>
-        )}
 
       {isThirdParty && (
         <div className="optional-upload">
           <p className="vads-u-margin-y--2">
             <strong>This is just a notice. No action is needed by you.</strong>
-            {!frontendNoActionNeeded && (
+            {!noActionNeeded && (
               <>
                 {' '}
                 But, if you have documents related to this request, uploading
@@ -247,61 +330,15 @@ export default function DefaultPage({
           </div>
         )}
 
-      {/* Custom next steps from dictionary */}
-      {frontendNextSteps && (
+      {/* Display the nextSteps content */}
+      {nextStepsContent && (
         <div className="vads-u-margin-y--4">
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Next steps
           </h2>
-          <div data-testid="frontend-next-steps">{frontendNextSteps}</div>
+          {nextStepsContent}
         </div>
       )}
-
-      {/* Generic next steps for first-party requests without custom next steps */}
-      {!frontendNextSteps &&
-        isFirstParty && (
-          <div className="vads-u-margin-y--4">
-            <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-              Next steps
-            </h2>
-            <p>To respond to this request:</p>
-            <ul className="bullet-disc">
-              {frontendDescription || apiDescription ? (
-                <li data-testid="next-steps-in-what-we-need-from-you">
-                  Gather and submit any documents or forms listed in the{' '}
-                  <strong>What we need from you</strong> section
-                </li>
-              ) : (
-                <li data-testid="next-steps-in-claim-letter">
-                  Gather and submit any documents or forms listed in the claim
-                  letter
-                </li>
-              )}
-              <li>You can upload documents online or mail them to us</li>
-            </ul>
-            {(frontendDescription || apiDescription) && (
-              <p>
-                If you need help understanding this request, check your claim
-                letter online.
-                <br />
-                <VaLink
-                  text="Access your claim letters"
-                  label="Access your claim letters"
-                  href="/track-claims/your-claim-letters"
-                />
-              </p>
-            )}
-            <p>
-              You can find blank copies of many VA forms online.
-              <br />
-              <VaLink
-                text="Find a VA form"
-                label="Find a VA form"
-                href="/find-forms"
-              />
-            </p>
-          </div>
-        )}
 
       {item.canUploadFile && (
         <AddFilesForm

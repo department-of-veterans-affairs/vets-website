@@ -89,6 +89,7 @@ class PatientMessageDraftsPage {
     ).as('firstSentMessage');
 
     cy.contains(mockMessages.data[0].attributes.subject).click({
+      force: true,
       waitForAnimations: true,
     });
   };
@@ -163,7 +164,7 @@ class PatientMessageDraftsPage {
       }/message_drafts/${firstNonDraftMessageId}/replydraft/${messageId}`,
       { ok: true },
     ).as('saveDraft');
-    cy.get(`#save-draft-button-${btnNum}`).click();
+    cy.get(`#save-draft-button-${btnNum}`).click({ force: true });
     cy.wait('@saveDraft');
   };
 
@@ -289,12 +290,7 @@ class PatientMessageDraftsPage {
     cy.get(Locators.ALERTS.SAVE_DRAFT).should('include.text', text);
   };
 
-  expandAllDrafts = () => {
-    cy.get(Locators.BUTTONS.EDIT_DRAFTS).click({
-      force: true,
-      waitForAnimations: true,
-    });
-  };
+  // Note: expandAllDrafts removed - drafts now auto-expand by default
 
   verifyExpandedDraftBody = (response, number, index) => {
     cy.get(Locators.ACCORDION_ITEM_OPEN)

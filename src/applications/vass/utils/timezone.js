@@ -82,3 +82,13 @@ export function getTimezoneDescByTimeZoneString(timezone) {
 
   return abbreviation;
 }
+
+/**
+ * Function to return browser timezone
+ *
+ * @export
+ * @returns {string} - Browser timezone in IANA format (e.g., 'America/New_York')
+ */
+export const getBrowserTimezone = () => {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
+};

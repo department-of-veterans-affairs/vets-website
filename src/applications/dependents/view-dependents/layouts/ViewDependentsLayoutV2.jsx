@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 import ViewDependentsLists from './ViewDependentsListsV2';
 import ViewDependentsHeader from '../components/ViewDependentsHeader/ViewDependentsHeaderV2';
-import { isServerError, isClientError } from '../util';
 import { errorFragment, noDependentsAlertV2 } from './helpers';
 
 /**
@@ -30,17 +29,17 @@ function ViewDependentsLayout(props) {
     mainContent = (
       <va-loading-indicator message="Loading your information..." />
     );
-  } else if (props.error && isServerError(props.error.code)) {
+  } else if (props.error) {
     mainContent = <va-alert status="error">{errorFragment}</va-alert>;
   } else if (
-    (props.error && isClientError(props.error.code)) ||
-    (props.onAwardDependents == null && props.notOnAwardDependents == null)
+    props.onAwardDependents.length === 0 &&
+    props.notOnAwardDependents.length === 0
   ) {
     mainContent = noDependentsAlertV2;
   } else {
     // Only show the alert if there are on award dependents AND a rating of 30+
     hasDependents =
-      props.onAwardDependents?.length > 0 && props.hasMinimumRating;
+      props.onAwardDependents.length > 0 && props.hasMinimumRating;
     mainContent = (
       <ViewDependentsLists
         manageDependentsToggle={props.manageDependentsToggle}
@@ -53,14 +52,14 @@ function ViewDependentsLayout(props) {
   }
 
   const showActionLink =
-    !hasDependents &&
-    (props.notOnAwardDependents === null ||
-      props.notOnAwardDependents?.length === 0);
+    !hasDependents && props.notOnAwardDependents.length === 0;
   const layout = (
     <>
       <ViewDependentsHeader
         updateDiariesStatus={props.updateDiariesStatus}
         showAlert={hasDependents}
+        hasAwardDependents={props.onAwardDependents.length > 0}
+        hasMinimumRating={props.hasMinimumRating}
       />
       {mainContent}
       {showActionLink && (

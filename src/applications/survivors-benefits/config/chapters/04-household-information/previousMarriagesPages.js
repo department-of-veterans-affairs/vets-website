@@ -61,7 +61,7 @@ export const options = {
     !item?.dateOfMarriage ||
     !item?.locationOfMarriage?.city ||
     (!item?.marriedOutsideUS && !item?.locationOfMarriage?.state) ||
-    (item?.marriedOutsideUS && !item?.locationOfMarriage?.country) ||
+    (item?.marriedOutsideUS && !item?.locationOfMarriage?.otherCountry) ||
     !item?.reasonForSeparation ||
     (item?.reasonForSeparation === 'OTHER' && !item?.separationExplanation),
   maxItems: 2,
@@ -149,10 +149,10 @@ const summaryPage = {
         title:
           'Are there any other marriages to add that were before your marriage to the Veteran?',
       }),
-      'ui:required': formData =>
-        formData?.spouseHasAdditionalMarriages?.length === 2,
+      'ui:required': formData => formData?.spouseMarriages?.length === 2,
       'ui:options': {
-        hideIf: formData => formData?.spouseHasAdditionalMarriages?.length < 2,
+        hideIf: formData =>
+          !formData?.spouseMarriages || formData?.spouseMarriages?.length < 2,
       },
     },
   },
@@ -221,7 +221,7 @@ const marriageDateAndLocationPage = {
           required: 'Please select a state',
         },
       },
-      country: {
+      otherCountry: {
         ...selectUI('Country'),
         'ui:required': (formData, index) => {
           const item = formData?.spouseMarriages?.[index];
@@ -265,7 +265,7 @@ const marriageDateAndLocationPage = {
             enum: STATE_VALUES,
             enumNames: STATE_NAMES,
           },
-          country: {
+          otherCountry: {
             type: 'string',
             enum: COUNTRY_VALUES,
             enumNames: COUNTRY_NAMES,
@@ -319,7 +319,7 @@ const marriageEndDateAndLocationPage = {
           required: 'Please select a state',
         },
       },
-      country: {
+      otherCountry: {
         ...selectUI('Country'),
         'ui:required': (formData, index) => {
           const item = formData?.spouseMarriages?.[index];
@@ -367,7 +367,7 @@ const marriageEndDateAndLocationPage = {
             enum: STATE_VALUES,
             enumNames: STATE_NAMES,
           },
-          country: {
+          otherCountry: {
             type: 'string',
             enum: COUNTRY_VALUES,
             enumNames: COUNTRY_NAMES,

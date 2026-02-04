@@ -41,6 +41,7 @@ describe('DebtSelection Component', () => {
       label: 'Submitted Debt',
       description: 'Submitted debt description',
       submitted: true,
+      submissionDate: '12/31/2025',
     },
   ];
 
@@ -145,11 +146,11 @@ describe('DebtSelection Component', () => {
       '[data-testid="debt-submitt4ed-124"]',
     );
     expect(submittedDebtCard).to.exist;
-    expect(submittedDebtCard.querySelector('h3').textContent).to.equal(
+    expect(submittedDebtCard.querySelector('h4').textContent).to.equal(
       'Submitted Debt',
     );
     expect(submittedDebtCard.querySelector('p').textContent).to.equal(
-      'Submitted debt description',
+      'Note: This debt has already been disputed on December 31, 2025 and cannot be disputed again. It can take up to 60 days to process.',
     );
 
     // Verify additional info exists

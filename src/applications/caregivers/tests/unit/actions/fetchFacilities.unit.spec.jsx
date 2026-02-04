@@ -19,9 +19,7 @@ describe('CG fetchFacilities action', () => {
   const buildExpectedBody = ({
     lat = null,
     long = null,
-    radius = null,
     page = null,
-    perPage = null,
     type = 'health',
     facilityIds = '',
   } = {}) =>
@@ -29,9 +27,7 @@ describe('CG fetchFacilities action', () => {
       type,
       lat,
       long,
-      radius,
       page,
-      perPage,
       facilityIds,
     });
   const requestArgs = {
@@ -40,9 +36,7 @@ describe('CG fetchFacilities action', () => {
   };
   const lat = 1;
   const long = 2;
-  const perPage = 5;
   const page = 1;
-  const radius = 500;
   const facilityIds = ['12', '34'];
   const endpoint = API_ENDPOINTS.facilities;
   let apiRequestStub;
@@ -59,15 +53,13 @@ describe('CG fetchFacilities action', () => {
 
   context('when the fetch succeeds', () => {
     it('should make the correct request when all params are passed', async () => {
-      await fetchFacilities({ long, lat, perPage, radius, page, facilityIds });
+      await fetchFacilities({ long, lat, page, facilityIds });
       sinon.assert.calledOnceWithExactly(apiRequestStub, endpoint, {
         ...requestArgs,
         body: buildExpectedBody({
           lat,
           long,
-          radius,
           page,
-          perPage,
           facilityIds: `${facilityIds[0]},${facilityIds[1]}`,
         }),
       });
@@ -91,21 +83,21 @@ describe('CG fetchFacilities action', () => {
 
     it('should correctly format facility with address data', async () => {
       apiRequestStub.resolves(mockVetsApiFacilitiesResponse);
-      const response = await fetchFacilities({ long, lat, perPage, radius });
+      const response = await fetchFacilities({ long, lat });
       expect(response).to.deep.eq(mockFetchFacilitiesResponse);
       sinon.assert.calledOnce(apiRequestStub);
     });
 
     it('should correctly format facility without address data', async () => {
       apiRequestStub.resolves(mockVetsApiFacilitiesWithoutAddressResponse);
-      const response = await fetchFacilities({ long, lat, perPage, radius });
+      const response = await fetchFacilities({ long, lat });
       expect(response).to.deep.eq(mockFetchFacilitiesReponseWithoutAddress);
       sinon.assert.calledOnce(apiRequestStub);
     });
 
     it('should return `NO_SEARCH_RESULTS` if no data array', async () => {
       apiRequestStub.resolves({ meta: {} });
-      const response = await fetchFacilities({ long, lat, perPage, radius });
+      const response = await fetchFacilities({ long, lat });
       expect(response).to.deep.eq({
         type: 'NO_SEARCH_RESULTS',
         errorMessage: ERROR_MSG_NO_RESULTS,

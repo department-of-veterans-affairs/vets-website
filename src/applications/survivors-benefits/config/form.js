@@ -1,4 +1,3 @@
-import React from 'react';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -111,24 +110,10 @@ const formConfig = {
   },
   preSubmitInfo: {
     statementOfTruth: {
-      body: (
-        <div>
-          <p>
-            I confirm that the identifying information in this form is accurate
-            and has been represented correctly.
-          </p>
-          <p>
-            <span className="vads-u-font-weight--bold">
-              I have not and will not
-            </span>{' '}
-            receive reimbursement for these expenses. I certify the information
-            contained on this form and the attached addendums is a true
-            representation of expenses I have paid.
-          </p>
-        </div>
-      ),
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly. I have not and will not receive reimbursement for these expenses. I certify the information contained on this form and the attached addendums is a true representation of expenses I have paid.',
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: 'claimantFullName',
     },
   },
@@ -310,7 +295,7 @@ const formConfig = {
           title: 'Marriage to Veteran Details',
           depends: formData =>
             formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-            !formData.marriedAtDeath,
+            !formData.marriedToVeteranAtTimeOfDeath,
           uiSchema: marriageToVeteranEnd.uiSchema,
           schema: marriageToVeteranEnd.schema,
         },
@@ -405,8 +390,6 @@ const formConfig = {
         dependentsCount: {
           path: 'household/dependents-count',
           title: 'Number of dependents',
-          depends: formData =>
-            formData.claimantRelationship === 'SURVIVING_SPOUSE',
           uiSchema: dependentsCount.uiSchema,
           schema: dependentsCount.schema,
         },
@@ -429,14 +412,16 @@ const formConfig = {
         dependentsAddress: {
           path: 'household/dependents-address',
           title: 'Dependent’s mailing address',
-          depends: formData => formData?.dependentsResidence === true,
+          depends: formData =>
+            formData?.childrenLiveTogetherButNotWithSpouse === true,
           uiSchema: dependentsAddress.uiSchema,
           schema: dependentsAddress.schema,
         },
         dependentsName: {
           path: 'household/dependents-custodian',
           title: 'Dependent’s custodian',
-          depends: formData => formData?.dependentsResidence === true,
+          depends: formData =>
+            formData?.childrenLiveTogetherButNotWithSpouse === true,
           uiSchema: dependentsCustodian.uiSchema,
           schema: dependentsCustodian.schema,
         },

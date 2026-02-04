@@ -8,32 +8,23 @@ import {
   createPutHandler,
   createPostHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import { handleTokenRequest, emailNeedsConfirmation } from '../helpers';
 
 import AuthApp from '../containers/AuthApp';
 
 describe('AuthApp', () => {
-  const server = setupServer();
+  // Global server is managed by mocha-setup.js (listen/close)
   const mockStore = {
     dispatch: sinon.spy(),
     subscribe: sinon.spy(),
     getState: () => ({}),
   };
 
-  before(() => {
-    server.listen();
-  });
-
   afterEach(() => {
     localStorage.clear();
     sessionStorage.clear();
-    server.resetHandlers();
-  });
-
-  after(() => {
-    server.close();
   });
 
   it('should display an error page', () => {
@@ -532,16 +523,11 @@ describe('AuthApp', () => {
 });
 
 describe('handleTokenRequest', () => {
-  const server = setupServer();
-
-  before(() => server.listen());
+  // Global server is managed by mocha-setup.js (listen/close)
 
   afterEach(() => {
-    server.resetHandlers();
     localStorage.clear();
   });
-
-  after(() => server.close());
 
   it('should call generateOAuthError when no `state` localStorage', async () => {
     const handleTokenSpy = sinon.spy();
@@ -607,27 +593,308 @@ describe('handleTokenRequest', () => {
 });
 
 describe('emailNeedsConfirmation', () => {
-  it('should return false when conditions are met', () => {
+  const baseAttributes = {
+    profile: { verified: true },
+    vaProfile: { vaPatient: true, facilities: [{ facilityId: '123' }] },
+    vet360ContactInformation: {
+      email: {
+        emailAddress: 'test@example.com',
+      },
+    },
+  };
+
+  it('should return false when feature flag is disabled', () => {
     expect(
       emailNeedsConfirmation({
         isEmailInterstitialEnabled: false,
+        loginType: 'idme',
+        userAttributes: baseAttributes,
+      }),
+    ).to.be.false;
+  });
+
+  it('should return false when profile is missing', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: { profile: null, vaProfile: {} },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return false when vaProfile is missing', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: { profile: {}, vaProfile: null },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return false when user is not verified', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
         userAttributes: {
-          profile: { verified: true },
-          vaProfile: { vaPatient: true },
+          ...baseAttributes,
+          profile: { verified: false },
         },
       }),
     ).to.be.false;
+  });
+
+  it('should return false when user is not a VA patient', () => {
     expect(
       emailNeedsConfirmation({
         isEmailInterstitialEnabled: true,
-        userAttributes: { profile: {} },
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vaProfile: { vaPatient: false, facilities: [] },
+        },
       }),
     ).to.be.false;
+  });
+
+  it('should return false when user has no facilities', () => {
     expect(
       emailNeedsConfirmation({
         isEmailInterstitialEnabled: true,
-        userAttributes: { profile: {} },
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vaProfile: { vaPatient: true, facilities: [] },
+        },
       }),
     ).to.be.false;
+  });
+
+  it('should return false when loginType is not idme or logingov', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'mhv',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: null,
+              updatedAt: null,
+            },
+          },
+        },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return true when email address is missing', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: null,
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
+
+  it('should return true when both confirmationDate and updatedAt are missing', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'logingov',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: null,
+              updatedAt: null,
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
+
+  it('should return true when both confirmationDate and updatedAt are before March 1, 2025', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: '2024-12-01T00:00:00Z',
+              updatedAt: '2024-12-15T00:00:00Z',
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
+
+  it('should return false when confirmationDate is old but updatedAt is recent', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: '2024-01-01T00:00:00Z',
+              updatedAt: '2025-03-15T00:00:00Z',
+            },
+          },
+        },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return false when confirmationDate is null but updatedAt is recent', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'logingov',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: null,
+              updatedAt: '2025-04-01T00:00:00Z',
+            },
+          },
+        },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return false when both confirmationDate and updatedAt are recent', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: '2025-03-15T00:00:00Z',
+              updatedAt: '2025-03-20T00:00:00Z',
+            },
+          },
+        },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return true when confirmationDate is old and updatedAt is null', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: '2024-01-01T00:00:00Z',
+              updatedAt: null,
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
+
+  it('should return true when confirmationDate is undefined and updatedAt is undefined', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: undefined,
+              updatedAt: undefined,
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
+
+  it('should return true when confirmationDate is undefined and updatedAt is old', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'logingov',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: undefined,
+              updatedAt: '2024-01-01T00:00:00Z',
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
+
+  it('should return false when confirmationDate is undefined but updatedAt is recent', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: undefined,
+              updatedAt: '2025-04-01T00:00:00Z',
+            },
+          },
+        },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return true when confirmationDate is empty string and updatedAt is empty string', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'logingov',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: '',
+              updatedAt: '',
+            },
+          },
+        },
+      }),
+    ).to.be.true;
   });
 });

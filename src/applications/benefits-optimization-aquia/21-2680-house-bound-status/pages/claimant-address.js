@@ -19,6 +19,7 @@ export const claimantAddressUiSchema = {
       labels: {
         militaryCheckbox:
           'Claimant lives on a United States military base outside of the U.S.',
+        street2: 'Apt./Unit Number',
       },
     }),
   },
@@ -46,7 +47,9 @@ export const claimantAddressUiSchema = {
 const customAddressSchema = {
   ...addressSchema(),
   properties: {
-    ...addressSchema().properties,
+    ...addressSchema({
+      omit: ['street3'],
+    }).properties,
     street: {
       type: 'string',
       maxLength: 30,
@@ -54,6 +57,10 @@ const customAddressSchema = {
     street2: {
       type: 'string',
       maxLength: 5,
+    },
+    city: {
+      type: 'string',
+      maxLength: 18,
     },
     country: {
       ...addressSchema().properties.country,

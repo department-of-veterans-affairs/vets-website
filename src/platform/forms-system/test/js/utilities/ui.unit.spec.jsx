@@ -275,10 +275,14 @@ describe('getFocuableElements', () => {
   const setOffset = (name, value) =>
     Object.defineProperty(HTMLElement.prototype, name, value);
 
-  const offsets = {
-    height: getOffset('offsetHeight'),
-    width: getOffset('offsetWidth'),
-  };
+  let offsets;
+
+  beforeEach(() => {
+    offsets = {
+      height: getOffset('offsetHeight'),
+      width: getOffset('offsetWidth'),
+    };
+  });
 
   afterEach(() => {
     setOffset('offsetHeight', offsets.height);

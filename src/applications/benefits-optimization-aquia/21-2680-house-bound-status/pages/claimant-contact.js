@@ -5,10 +5,10 @@
  */
 
 import {
-  phoneUI,
-  phoneSchema,
   emailUI,
   emailSchema,
+  internationalPhoneUI,
+  internationalPhoneSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { isClaimantVeteran } from '../utils/relationship-helpers';
@@ -20,8 +20,7 @@ import { getVeteranName, getClaimantName } from '../utils/name-helpers';
  */
 export const claimantContactUiSchema = {
   claimantContact: {
-    claimantPhoneNumber: phoneUI('Home phone number'),
-    claimantMobilePhone: phoneUI('Mobile phone number'),
+    claimantPhoneNumber: internationalPhoneUI(),
     claimantEmail: emailUI('Email address'),
   },
   'ui:options': {
@@ -42,12 +41,8 @@ export const claimantContactUiSchema = {
         : `${fallback} phone number and email address`;
 
       const homePhoneLabel = fullName
-        ? `${fullName}'s home phone number`
-        : `${fallback} home phone number`;
-
-      const mobilePhoneLabel = fullName
-        ? `${fullName}'s mobile phone number`
-        : `${fallback} mobile phone number`;
+        ? `${fullName}'s phone number`
+        : `${fallback} phone number`;
 
       const emailLabel = fullName
         ? `${fullName}'s email address`
@@ -65,9 +60,6 @@ export const claimantContactUiSchema = {
           claimantPhoneNumber: {
             'ui:title': homePhoneLabel,
           },
-          claimantMobilePhone: {
-            'ui:title': mobilePhoneLabel,
-          },
           claimantEmail: {
             'ui:title': emailLabel,
           },
@@ -83,15 +75,15 @@ export const claimantContactUiSchema = {
  */
 export const claimantContactSchema = {
   type: 'object',
-  required: ['claimantContact'],
   properties: {
     claimantContact: {
       type: 'object',
-      required: ['claimantPhoneNumber', 'claimantEmail'],
       properties: {
-        claimantPhoneNumber: phoneSchema,
-        claimantMobilePhone: phoneSchema,
-        claimantEmail: emailSchema,
+        claimantPhoneNumber: internationalPhoneSchema(),
+        claimantEmail: {
+          ...emailSchema,
+          maxLength: 70,
+        },
       },
     },
   },

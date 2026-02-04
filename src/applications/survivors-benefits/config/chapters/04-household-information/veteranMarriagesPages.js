@@ -119,7 +119,8 @@ const summaryPage = {
       }),
       'ui:required': formData => formData?.veteranMarriages?.length === 2,
       'ui:options': {
-        hideIf: formData => formData?.veteranMarriages?.length < 2,
+        hideIf: formData =>
+          !formData?.veteranMarriages || formData?.veteranMarriages?.length < 2,
       },
     },
   },
@@ -181,7 +182,7 @@ const marriageDatePlacePage = {
           },
         },
       },
-      country: {
+      otherCountry: {
         ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
         'ui:required': (formData, index) => {
           const item = formData?.veteranMarriages?.[index];
@@ -223,7 +224,7 @@ const marriageDatePlacePage = {
             enum: STATE_VALUES,
             enumNames: STATE_NAMES,
           },
-          country: {
+          otherCountry: {
             type: 'string',
             enum: COUNTRY_VALUES,
             enumNames: COUNTRY_NAMES,
@@ -304,7 +305,7 @@ const marriageEndDateLocationPage = {
           },
         },
       },
-      country: {
+      otherCountry: {
         ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
         'ui:required': (formData, index) => {
           const item = formData?.veteranMarriages?.[index];
@@ -350,7 +351,7 @@ const marriageEndDateLocationPage = {
             enum: STATE_VALUES,
             enumNames: STATE_NAMES,
           },
-          country: {
+          otherCountry: {
             type: 'string',
             enum: COUNTRY_VALUES,
             enumNames: COUNTRY_NAMES,

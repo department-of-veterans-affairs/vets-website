@@ -29,10 +29,17 @@ import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import useInterval from '../../hooks/use-interval';
-import { Alerts, Categories, Errors } from '../../util/constants';
+import {
+  Alerts,
+  Categories,
+  DefaultFolders,
+  Errors,
+  Paths,
+} from '../../util/constants';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
 import { retrieveFolder } from '../../actions/folders';
 import { formatPathName } from '../../util/helpers';
+import RouterLink from './RouterLink';
 
 const AlertBackgroundBox = props => {
   const { setShowAlertBackgroundBox = () => {} } = props;
@@ -43,6 +50,24 @@ const AlertBackgroundBox = props => {
   const alertRef = useRef();
   const [activeAlert, setActiveAlert] = useState(null);
   const [alertAriaLabel, setAlertAriaLabel] = useState('');
+
+  // Check if user entered compose flow from sent folder (via sessionStorage)
+  // or if they accessed a thread from the sent folder (via threadFolderId in Redux)
+  // Use a ref to persist the threadFolderId value across re-renders since it may get
+  // cleared when thread details are reset after sending a message
+  const threadFolderId = useSelector(
+    state => state.sm?.threadDetails?.threadFolderId,
+  );
+  const threadFolderIdRef = useRef(null);
+
+  // Update ref synchronously during render - only when we have a valid value
+  if (threadFolderId !== undefined && threadFolderId !== null) {
+    threadFolderIdRef.current = threadFolderId;
+  }
+
+  const enteredFromSent =
+    sessionStorage.getItem('sm_composeEntryUrl') === Paths.SENT ||
+    Number(threadFolderIdRef.current) === DefaultFolders.SENT.id;
   const threadMessages = useSelector(
     state => state.sm?.threadDetails?.messages,
   );
@@ -210,40 +235,48 @@ const AlertBackgroundBox = props => {
   );
 
   return (
-    <>
-      {activeAlert &&
-        activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
-          <VaAlert
-            uswds
-            ref={alertRef}
-            background-only
-            closeable={props.closeable}
-            className="vads-u-margin-bottom--1 va-alert"
-            close-btn-aria-label="Close notification"
-            disable-analytics="false"
-            full-width="false"
-            show-icon={handleShowIcon()}
-            status={activeAlert.alertType}
-            onCloseEvent={
-              closeAlertBox // success, error, warning, info, continue
-            }
-            onVa-component-did-load={handleAlertFocus}
-          >
-            <div>
-              <p className="vads-u-margin-y--0" data-testid="alert-text">
-                {alertContent}
-                <SrOnlyTag
-                  className="sr-only"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  {alertAriaLabel}
-                </SrOnlyTag>
-              </p>
-            </div>
-          </VaAlert>
-        )}
-    </>
+    activeAlert &&
+    activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
+      <VaAlert
+        uswds
+        ref={alertRef}
+        background-only
+        closeable={props.closeable}
+        className="vads-u-margin-bottom--1 va-alert"
+        close-btn-aria-label="Close notification"
+        disable-analytics="false"
+        full-width="false"
+        show-icon={handleShowIcon()}
+        status={activeAlert.alertType}
+        onCloseEvent={
+          closeAlertBox // success, error, warning, info, continue
+        }
+        onVa-component-did-load={handleAlertFocus}
+      >
+        <p
+          className={
+            enteredFromSent
+              ? 'vads-u-margin-y--0'
+              : 'vads-u-font-size--base vads-u-font-weight--bold vads-u-margin-y--0'
+          }
+          data-testid="alert-text"
+        >
+          {alertContent}
+        </p>
+        <SrOnlyTag className="sr-only" aria-live="polite" aria-atomic="true">
+          {alertAriaLabel}
+        </SrOnlyTag>
+        {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS &&
+          !enteredFromSent && (
+            <RouterLink
+              href={Paths.SENT}
+              text="Review your sent messages"
+              data-testid="review-sent-messages-link"
+              data-dd-action-name="Sent messages link in success alert"
+            />
+          )}
+      </VaAlert>
+    )
   );
 };
 

@@ -26,9 +26,9 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
   const childContent = (
     <>
       <p>
-        Hi there, welcome to VA Form 21-8940. Please use this form if you want
-        to apply for Individual Unemployability disability benefits for a
-        service-connected condition that prevents you from keeping a steady job.
+        Use this form if you want to apply for Individual Unemployability
+        disability benefits for a service-connected condition that prevents you
+        from keeping a steady job.
       </p>
 
       <div>
@@ -44,11 +44,11 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       </div>
 
       <div className="vads-u-margin-bottom--5">
-        <h2>What You Need to Get Started Section</h2>
+        <h2>What You Need to Get Started</h2>
 
         <ul>
           <li>
-            <strong>Basic Information:</strong> We'll need you to confirm your
+            <strong>Basic Information:</strong> We’ll need you to confirm your
             name, birthday, and Social Security or service number, as well as
             the best way for us to reach you via mail, email, or phone.
           </li>
@@ -58,20 +58,20 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
             doctors or hospitals that have treated you over the last year.
           </li>
           <li>
-            <strong>Employment History:</strong> We'll ask about when your
+            <strong>Employment History:</strong> We’ll ask about when your
             disability started affecting your work, when you last worked full
-            time, and your job duties and income for any employers you've had in
+            time, and your job duties and income for any employers you’ve had in
             the last year.
           </li>
           <li>
-            <strong>Education and Training:</strong> You'll need to share the
-            highest level of education you've finished, along with any specific
-            details and dates for other training or schooling you've completed.
+            <strong>Education and Training:</strong> You’ll need to share the
+            highest level of education you’ve finished, along with any specific
+            details and dates for other training or schooling you’ve completed.
           </li>
           <li>
             <strong>Job Search Information:</strong> To help us understand your
             recent efforts, please provide the names and addresses of places
-            you've applied for work, the types of jobs you were looking for, and
+            you’ve applied for work, the types of jobs you were looking for, and
             when you applied.
           </li>
         </ul>
@@ -100,6 +100,8 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.array,
   }),
+  userIdVerified: PropTypes.bool,
+  userLoggedIn: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

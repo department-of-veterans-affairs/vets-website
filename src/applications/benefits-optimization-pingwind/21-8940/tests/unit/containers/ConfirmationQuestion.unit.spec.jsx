@@ -159,7 +159,7 @@ describe('21-8940 container/ConfirmationQuestion', () => {
     expect(
       getByRole('heading', {
         level: 1,
-        name: "Let's confirm VA Form 21-8940 is the right form for your needs",
+        name: 'Let’s confirm VA Form 21-8940 is the right form for your needs',
       }),
     ).to.exist;
   });
