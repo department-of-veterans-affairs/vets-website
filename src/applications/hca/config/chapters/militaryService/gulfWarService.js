@@ -13,6 +13,8 @@ export default {
     gulfWarService: yesNoUI({
       title: content['service-info--gulf-war-service-label'],
       description: GulfWarServiceDescription,
+      headerAriaDescribedby:
+        content['service-info--gulf-war-service-aria-label'],
     }),
   },
   schema: {

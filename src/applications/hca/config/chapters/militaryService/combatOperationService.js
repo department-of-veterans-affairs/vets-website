@@ -13,6 +13,7 @@ export default {
     combatOperationService: yesNoUI({
       title: content['service-info--operations-label'],
       description: CombatOperationServiceDescription,
+      headerAriaDescribedby: content['service-info--operations-aria-label'],
     }),
   },
   schema: {

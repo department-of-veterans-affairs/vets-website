@@ -13,6 +13,7 @@ export default {
     exposedToAgentOrange: yesNoUI({
       title: content['service-info--agent-orange-label'],
       description: AgentOrangeExposureDescription,
+      headerAriaDescribedby: content['service-info--agent-orange-aria-label'],
     }),
   },
   schema: {

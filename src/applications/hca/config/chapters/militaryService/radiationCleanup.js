@@ -13,6 +13,7 @@ export default {
     radiationCleanupEfforts: yesNoUI({
       title: content['service-info--radiation-label'],
       description: RadiationCleanupDescription,
+      headerAriaDescribedby: content['service-info--radiation-aria-label'],
     }),
   },
   schema: {

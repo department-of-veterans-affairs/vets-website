@@ -13,6 +13,7 @@ export default {
     gulfWarService: yesNoUI({
       title: content['service-info--post911-label'],
       description: PostSept11ServiceDescription,
+      headerAriaDescribedby: content['service-info--post911-aria-label'],
     }),
   },
   schema: {
