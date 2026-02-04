@@ -50,7 +50,7 @@ const ServiceType = ({
   const filteredHealthServices = healthServices;
 
   let services;
-  let serviceTypeLabel = 'Service type';
+  let serviceTypeLabel = 'Select a health service';
 
   // Determine what service types to display for the location type (if any).
   switch (facilityType) {
