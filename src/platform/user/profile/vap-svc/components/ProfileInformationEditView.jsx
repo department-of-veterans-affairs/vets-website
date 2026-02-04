@@ -51,7 +51,6 @@ import {
 } from '../util/transactions';
 import { getEditButtonId } from '../util/id-factory';
 
-import VAPServiceEditModalErrorMessage from './base/VAPServiceEditModalErrorMessage';
 import CopyMailingAddress from '../containers/CopyMailingAddress';
 
 import { createPersonalInfoUpdate } from '../actions/personalInformation';
@@ -402,9 +401,6 @@ export class ProfileInformationEditView extends Component {
 
     const isLoading =
       transactionRequest?.isPending || isPendingTransaction(transaction);
-    const error =
-      transactionRequest?.error ||
-      (isFailedTransaction(transaction) ? {} : null);
 
     const isResidentialAddress = fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
 
@@ -443,12 +439,6 @@ export class ProfileInformationEditView extends Component {
               <CopyMailingAddress
                 copyMailingAddress={this.copyMailingAddress}
               />
-            )}
-
-            {error && (
-              <div className="vads-u-margin-y--2">
-                <VAPServiceEditModalErrorMessage error={error} />
-              </div>
             )}
 
             <SchemaForm

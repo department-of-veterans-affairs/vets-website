@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 // platform level imports
+import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import recordEvent from '../../../../monitoring/record-event';
 import { isVAPatient } from '../../../selectors';
 import { waitForRenderThenFocus } from '../../../../utilities/ui';
@@ -494,6 +495,7 @@ class ProfileInformationFieldController extends React.Component {
       showValidationView,
       title,
       transaction,
+      transactionError,
       transactionRequest,
       data,
       isEnrolledInVAHealthCare,
@@ -621,6 +623,10 @@ class ProfileInformationFieldController extends React.Component {
 
     return (
       <div data-field-name={fieldName} data-testid={fieldName}>
+        {transactionError && (
+          <VAPServiceEditModalErrorMessage error={transactionError} />
+        )}
+
         {CustomConfirmCancelModal ? (
           <CustomConfirmCancelModal
             activeSection={activeSection}
@@ -740,6 +746,7 @@ ProfileInformationFieldController.propTypes = {
   successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
+  transactionError: PropTypes.any,
   transactionRequest: PropTypes.object,
   updateMessagingSignature: PropTypes.func,
   workPhone: PropTypes.object,
@@ -758,6 +765,8 @@ export const mapStateToProps = (state, ownProps) => {
     state,
     fieldName,
   );
+  const transactionError =
+    transactionRequest?.error || (isFailedTransaction(transaction) ? {} : null);
   const data =
     selectVAPContactInfoField(state, fieldName) ||
     selectVAProfilePersonalInformation(state, fieldName) ||
@@ -834,6 +843,7 @@ export const mapStateToProps = (state, ownProps) => {
     showValidationView: !!showValidationView,
     isEmpty,
     transaction,
+    transactionError,
     transactionRequest,
     editViewData: selectEditViewData(state),
     title: ownProps.title || title, // Use custom title if provided, otherwise use default
