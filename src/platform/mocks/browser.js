@@ -6,12 +6,12 @@
  *
  * @example
  * import { setupWorker } from 'msw';
- * import { api, commonHandlers } from 'platform/mocks/browser';
+ * import { mockApi, rest, commonHandlers } from 'platform/mocks/browser';
  *
- * // App handlers - api.get/post automatically prefix with API_URL
+ * // App handlers - mockApi.get/post automatically prefix with API_URL
  * const appHandlers = [
- *   api.post('/facilities_api/v2/va', (req, res, ctx) => res(ctx.json(data))),
- *   api.get('/my_health/v1/records', (req, res, ctx) => res(ctx.json(records))),
+ *   mockApi.post('/facilities_api/v2/va', (req, res, ctx) => res(ctx.json(data))),
+ *   mockApi.get('/my_health/v1/records', (req, res, ctx) => res(ctx.json(records))),
  * ];
  *
  * // Third-party handlers - use rest directly with full URL
@@ -24,6 +24,9 @@
 
 // eslint-disable-next-line import/no-unresolved
 import { rest } from 'msw';
+
+// Re-export rest for third-party handlers
+export { rest };
 import environment from 'platform/utilities/environment';
 
 // Import pure data from responses (webpack handles CommonJS -> ES interop)
@@ -67,10 +70,10 @@ export const apiUrl = environment.API_URL;
  * Use this for vets-api endpoints. For third-party APIs, use rest directly.
  *
  * @example
- * api.get('/v0/user', (req, res, ctx) => res(ctx.json(userData)))
- * api.post('/facilities_api/v2/va', (req, res, ctx) => res(ctx.json(facilities)))
+ * mockApi.get('/v0/user', (req, res, ctx) => res(ctx.json(userData)))
+ * mockApi.post('/facilities_api/v2/va', (req, res, ctx) => res(ctx.json(facilities)))
  */
-export const api = {
+export const mockApi = {
   get: (path, handler) => rest.get(`${apiUrl}${path}`, handler),
   post: (path, handler) => rest.post(`${apiUrl}${path}`, handler),
   put: (path, handler) => rest.put(`${apiUrl}${path}`, handler),
@@ -120,7 +123,7 @@ export const createMaintenanceWindowsHandler = (baseUrl = apiUrl) =>
     return res(ctx.json(mockMaintenanceWindows));
   });
 
-// Legacy handlers using apiUrl
+// Pre-configured handlers using environment.API_URL
 export const userHandler = createUserHandler();
 export const unauthenticatedUserHandler = createUnauthenticatedUserHandler();
 export const featureTogglesHandler = createFeatureTogglesHandler();
@@ -134,12 +137,19 @@ export const maintenanceWindowsHandler = createMaintenanceWindowsHandler();
  * Creates a handler for VAMC EHR CMS data endpoint.
  * Returns empty data by default, or custom mock data if provided.
  *
- * @param {string} baseUrl - Base URL for API (e.g., 'http://mock-vets-api.local')
- * @param {Object|Array} mockData - Optional mock data
+ * @param {Object|Array} mockData - Mock data: array of facilities or full response object
+ * @param {string} baseUrl - Base URL for API (defaults to environment.API_URL)
  * @returns {Function} MSW request handler
+ *
+ * @example
+ * // With array of facilities
+ * createVamcEhrHandler([{ id: 'vha_663', title: 'Seattle VA', system: 'cerner' }])
+ *
+ * // With full response object
+ * createVamcEhrHandler(myVamcFixture)
  */
-export function createVamcEhrHandler(baseUrl = apiUrl, mockData = null) {
-  // If an array is passed, convert to full response format
+export function createVamcEhrHandler(mockData = null, baseUrl = apiUrl) {
+  // Convert array to full response format, or use as-is if object
   let data;
   if (!mockData) {
     data = createVamcEhrResponse([]);

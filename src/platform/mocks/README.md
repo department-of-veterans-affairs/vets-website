@@ -40,12 +40,12 @@ For local development with MSW's service worker:
 
 ```javascript
 import { setupWorker } from 'msw';
-import { api, commonHandlers } from 'platform/mocks/browser';
+import { mockApi, commonHandlers } from 'platform/mocks/browser';
 
-// Use api.get/post for vets-api endpoints (auto-prefixes with API_URL)
+// Use mockApi.get/post for vets-api endpoints (auto-prefixes with API_URL)
 const appHandlers = [
-  api.get('/v0/my-data', (req, res, ctx) => res(ctx.json({ data: [] }))),
-  api.post('/v0/submit', (req, res, ctx) => res(ctx.json({ success: true }))),
+  mockApi.get('/v0/my-data', (req, res, ctx) => res(ctx.json({ data: [] }))),
+  mockApi.post('/v0/submit', (req, res, ctx) => res(ctx.json({ success: true }))),
 ];
 
 const worker = setupWorker(...appHandlers, ...commonHandlers);
@@ -114,15 +114,15 @@ Full guide for setting up MSW browser mocking in your app.
 **`src/applications/your-app/mocks/browser.js`:**
 
 ```javascript
-import { rest, setupWorker } from 'msw';
-import { api, apiUrl, commonHandlers } from 'platform/mocks/browser';
+import { setupWorker } from 'msw';
+import { mockApi, rest, apiUrl, commonHandlers } from 'platform/mocks/browser';
 
-// App handlers for vets-api - use api.* (auto-prefixes with API_URL)
+// App handlers for vets-api - use mockApi.* (auto-prefixes with API_URL)
 const myVetsApiHandlers = [
-  api.get('/v0/my-endpoint', (req, res, ctx) => {
+  mockApi.get('/v0/my-endpoint', (req, res, ctx) => {
     return res(ctx.json({ data: 'mocked response' }));
   }),
-  api.post('/v0/submit', (req, res, ctx) => {
+  mockApi.post('/v0/submit', (req, res, ctx) => {
     return res(ctx.json({ success: true }));
   }),
 ];
@@ -187,10 +187,10 @@ if (process.env.USE_MOCKS === 'true') {
 ### 3. Run with mocks enabled
 
 ```bash
-USE_MOCKS=true yarn watch --env entry=your-app --env api=http://localhost:3001
+USE_MOCKS=true yarn watch --env entry=your-app --env api=http://mock-vets-api.local
 ```
 
-The `--env api=http://localhost:3001` flag makes API calls same-origin so MSW can intercept them.
+The `--env api=http://mock-vets-api.local` sets a mock domain that MSW intercepts - no real server needed.
 
 ---
 
@@ -202,15 +202,19 @@ Import from `platform/mocks/browser`:
 
 | Export | Description |
 |--------|-------------|
-| `api` | REST helper that auto-prefixes with `environment.API_URL` |
+| `mockApi` | REST helper that auto-prefixes with `environment.API_URL` |
+| `rest` | Re-exported from MSW for third-party handlers |
 | `apiUrl` | The base URL (`environment.API_URL`) for reference |
 
 ```javascript
-import { api, apiUrl } from 'platform/mocks/browser';
+import { mockApi, rest, apiUrl } from 'platform/mocks/browser';
 
-// api.get/post/put/patch/delete auto-prefix with apiUrl
-api.get('/v0/user', handler)  // → matches apiUrl + '/v0/user'
-api.post('/v0/submit', handler)
+// mockApi.get/post/put/patch/delete auto-prefix with apiUrl
+mockApi.get('/v0/user', handler)  // → matches apiUrl + '/v0/user'
+mockApi.post('/v0/submit', handler)
+
+// rest.* for third-party APIs with explicit URLs
+rest.get('https://api.mapbox.com/*', handler)
 ```
 
 ### Pre-configured Handlers
@@ -248,10 +252,10 @@ import { createVamcEhrHandler } from 'platform/mocks/browser';
 
 // With your own fixture
 import vamcData from './fixtures/vamc-ehr.json';
-const handler = createVamcEhrHandler(undefined, vamcData);
+const handler = createVamcEhrHandler(vamcData);
 
 // With simplified array
-const handler = createVamcEhrHandler(undefined, [
+const handler = createVamcEhrHandler([
   { id: 'vha_663', title: 'Seattle VA', system: 'vista' },
   { id: 'vha_687', title: 'Walla Walla VA', system: 'cerner' },
 ]);

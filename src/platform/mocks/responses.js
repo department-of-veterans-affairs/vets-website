@@ -7,7 +7,6 @@
  * - Unit tests (with msw-adapter or any mock setup)
  * - Browser mocks (with MSW setupWorker)
  * - Cypress tests (with cy.intercept)
- * - Mock server (yarn mock-server)
  *
  * @example
  * // ES modules (webpack/browser)
