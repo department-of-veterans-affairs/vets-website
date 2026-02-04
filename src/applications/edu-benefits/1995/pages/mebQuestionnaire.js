@@ -337,7 +337,26 @@ const ResultPage = ({ data: formData, setFormData }) => {
       return (
         <ResultDescription
           resultHeader="Ask VA"
-          body="Get answers to your questions about using eligibility at a foreign school. You should receive a reply within 7 business days."
+          body={
+            <>
+              When submitting an Ask VA request for an updated Certificate of
+              Eligibility (COE) for a foreign school,{' '}
+              <b>please include the following:</b>
+              <ul>
+                <li>
+                  Your updated address and phone number <b>and</b>
+                </li>
+                <li>
+                  The institution’s name and location <b>and</b>
+                </li>
+                <li>
+                  The program details (Degree or Program Name you plan to
+                  pursue)
+                </li>
+              </ul>
+              <p>You should receive a reply within 7 business days.</p>
+            </>
+          }
           linkHref="https://ask.va.gov/"
           linkText="Contact us online through Ask VA"
           answers={[
