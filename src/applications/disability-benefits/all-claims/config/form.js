@@ -87,6 +87,7 @@ import {
   physicalHealthChanges,
   prisonerOfWar,
   privateMedicalRecords,
+  privateMedicalRecordsUpload,
   privateMedicalRecordsAttachments,
   privateMedicalAuthorizeRelease,
   privateMedicalRecordsRelease,
@@ -659,6 +660,19 @@ const formConfig = {
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
+        },
+        privateMedicalRecordsUpload: {
+          title: 'Upload non-VA treatment records',
+          // TODO: REPLACE this path with 'supporting-evidence/private-medical-records-upload' once we deprecate the old upload page
+          path:
+            'supporting-evidence/private-medical-records-upload-enhancement',
+          // TODO: Remove the `disability526SupportingEvidenceEnhancement` check once the feature is live to all users
+          depends: formData =>
+            formData.disability526SupportingEvidenceEnhancement &&
+            hasPrivateEvidence(formData) &&
+            !isNotUploadingPrivateMedical(formData),
+          uiSchema: privateMedicalRecordsUpload.uiSchema,
+          schema: privateMedicalRecordsUpload.schema,
         },
         privateMedicalRecordsAttachments: {
           title: 'Non-VA treatment records',
