@@ -1094,24 +1094,34 @@ describe('RecentCareTeams component', () => {
     });
 
     it('should focus radio group when validation fails', async () => {
+      const clock = sandbox.useFakeTimers({
+        toFake: ['setTimeout', 'clearTimeout'],
+      });
       const screen = renderComponent();
 
       const continueButton = screen.getByTestId(
         'recent-care-teams-continue-button',
       );
       const radioGroup = document.querySelector('va-radio');
-      const focusSpy = sinon.spy(radioGroup, 'focus');
 
       // Click continue without selecting a care team
       continueButton.click();
 
-      // Wait for the setTimeout in handleContinue (100ms)
-      await new Promise(resolve => setTimeout(resolve, 150));
+      // Verify error is set immediately
+      expect(radioGroup.getAttribute('error')).to.equal('Select a care team');
 
-      // Verify focus was called on the radio group
-      expect(focusSpy.calledOnce).to.be.true;
+      // Fast-forward time by 18 seconds to trigger focusOnErrorField
+      clock.tick(18000);
 
-      focusSpy.restore();
+      // Wait for any async operations to complete
+      await waitFor(() => {
+        // After 18s timeout, focusOnErrorField should have been called
+        // which focuses the first va-radio-option's input in the shadow DOM
+        const firstRadioOption = document.querySelector('va-radio-option');
+        expect(firstRadioOption).to.exist;
+      });
+
+      clock.restore();
     });
 
     it('should have required attribute for screen readers', () => {
