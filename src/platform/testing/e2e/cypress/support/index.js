@@ -5,8 +5,10 @@ import 'cypress-real-events/support';
 import '@cypress/code-coverage/support';
 import addContext from 'mochawesome/addContext';
 import './commands';
-import mockGeocodingData from 'applications/facility-locator/constants/mock-geocoding-data.json';
-import mockProviderServices from 'applications/facility-locator/constants/mock-provider-services.json';
+// eslint-disable-next-line @department-of-veterans-affairs/use-resolved-path, import/no-unresolved
+import mockGeocodingData from '../../../../applications/facility-locator/constants/mock-geocoding-data.json';
+// eslint-disable-next-line @department-of-veterans-affairs/use-resolved-path, import/no-unresolved
+import mockProviderServices from '../../../../applications/facility-locator/constants/mock-provider-services.json';
 
 // Re-export URL utilities for easy access in tests
 // Usage: import { getBaseUrl, getTestUrl } from 'support/index';
