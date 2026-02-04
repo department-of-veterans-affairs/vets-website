@@ -5,7 +5,11 @@
  * Uses shared data from ./data.js
  */
 import { setupWorker } from 'msw';
-import { rest, createCommonHandlers, apiUrl } from '~/platform/mocks/browser';
+import {
+  rest,
+  createCommonHandlers,
+  apiUrl,
+} from '@department-of-veterans-affairs/platform-mocks/browser';
 
 import { mockAvs, mockAvsErrors, AVS_API_PATH } from './data';
 
