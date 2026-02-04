@@ -866,4 +866,51 @@ describe('Refill Prescriptions Component', () => {
       setup();
     });
   });
+
+  describe('Computed refill status logic', () => {
+    it('should derive FINISHED status from RTK Query success state', async () => {
+      sandbox.restore();
+
+      // Mock successful refill mutation
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([
+          sinon.stub().resolves({
+            data: { successfulIds: [22377956], failedIds: [] },
+          }),
+          {
+            isLoading: false,
+            error: null,
+            isSuccess: true, // This indicates successful completion
+            data: { successfulIds: [22377956], failedIds: [] },
+          },
+        ]);
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [refillablePrescriptions[0]],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+
+      stubAllergiesApi({ sandbox });
+      const screen = setup();
+
+      // Should show success notification when RTK Query indicates success
+      // This tests that refillRequestStatus correctly derives FINISHED from RTK Query state
+      await waitFor(() => {
+        const successTitle = screen.queryByTestId('success-refill-title');
+        const errorTitle = screen.queryByTestId('error-refill-title');
+
+        // Should show success, not error
+        expect(successTitle).to.exist;
+        expect(errorTitle).to.not.exist;
+      });
+    });
+  });
 });

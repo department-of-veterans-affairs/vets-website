@@ -54,10 +54,13 @@ const RefillPrescriptions = () => {
   const [bulkRefillPrescriptions, result] = useBulkRefillPrescriptionsMutation({
     fixedCacheKey: 'bulk-refill-request',
   });
-  const { isLoading: isRefilling, error: bulkRefillError } = result;
+  const {
+    isLoading: isRefilling,
+    error: bulkRefillError,
+    isSuccess: refillRequestSuccess,
+  } = result;
 
   const refillAlertList = refillableData?.refillAlertList || [];
-
   const getMedicationsByIds = useCallback((ids, prescriptions) => {
     if (!ids || !prescriptions) return [];
 
@@ -111,6 +114,29 @@ const RefillPrescriptions = () => {
   const [selectedRefillList, setSelectedRefillList] = useState([]);
   const [refillStatus, setRefillStatus] = useState(REFILL_STATUS.NOT_STARTED);
 
+  // Compute the actual refill status based on RTK Query state
+  const refillRequestStatus = useMemo(
+    () => {
+      if (isRefilling) {
+        return REFILL_STATUS.IN_PROGRESS;
+      }
+      if (refillRequestSuccess && result?.data) {
+        return REFILL_STATUS.FINISHED;
+      }
+      if (bulkRefillError) {
+        return REFILL_STATUS.ERROR;
+      }
+      return refillStatus; // Fallback to manual status for initial state
+    },
+    [
+      isRefilling,
+      refillRequestSuccess,
+      result?.data,
+      bulkRefillError,
+      refillStatus,
+    ],
+  );
+
   // Handle API errors from RTK Query
   const prescriptionsApiError = refillableError || bulkRefillError;
 
@@ -126,7 +152,8 @@ const RefillPrescriptions = () => {
   const selectedRefillListLength = selectedRefillList.length;
 
   // Prevent interactions during cache refresh to avoid duplicate refill attempts
-  const isRefreshing = refillStatus === REFILL_STATUS.FINISHED && isFetching;
+  const isRefreshing =
+    refillRequestStatus === REFILL_STATUS.FINISHED && isFetching;
   const isDisabled = isDataLoading || isRefreshing;
 
   // Use the original refillable prescriptions list without client-side filtering
@@ -167,7 +194,7 @@ const RefillPrescriptions = () => {
 
       try {
         await bulkRefillPrescriptions(prescriptionIds).unwrap();
-        setRefillStatus(REFILL_STATUS.FINISHED);
+        // The status will be derived from the RTK Query response state
         setSelectedRefillList([]);
       } catch (error) {
         setRefillStatus(REFILL_STATUS.ERROR);
@@ -312,9 +339,10 @@ const RefillPrescriptions = () => {
         ) : (
           <>
             <RefillNotification
-              refillStatus={refillStatus}
+              refillStatus={refillRequestStatus}
               successfulMeds={successfulMeds}
               failedMeds={failedMeds}
+              isFetching={isFetching}
             />
             {fullRefillList?.length > 0 ? (
               <div>
