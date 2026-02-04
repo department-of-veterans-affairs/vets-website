@@ -21,6 +21,7 @@
 /**
  * @typedef {Object} FormConfig
  * @property {Array<Object>} [additionalRoutes]
+ * @property {boolean} [allowDuplicatePaths]
  * @property {string} [ariaDescribedBySubmit]
  * @property {string} [backLinkText]
  * @property {Record<string, FormConfigChapter>} [chapters]
@@ -267,7 +268,7 @@
  *   'ui:reviewField'?: React.ReactNode,
  *   'ui:reviewWidget'?: React.ReactNode,
  *   'ui:title'?: string | JSX.Element | React.ReactNode,
- *   'ui:validations'?: Array<((errors, formData, uiSchema, schema, errorMessages) => void)>,
+ *   'ui:validations'?: Array<((errors, fieldData, formData, schema, errorMessages) => void)>,
  *   'ui:webComponentField'?: React.ReactNode,
  *   'ui:widget'?: 'yesNo' | 'checkbox' | 'radio' | 'select' | 'email' | 'date' | 'textarea'  | OrAnyString | ((props: any) => JSX.Element),
  * } & {
