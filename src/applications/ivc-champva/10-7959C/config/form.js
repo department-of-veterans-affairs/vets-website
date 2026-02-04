@@ -141,7 +141,7 @@ const formConfig = {
         formSignature: {
           // initialData: mockdata.data,
           path: 'form-signature',
-          title: 'Your information',
+          title: 'Signer role',
           ...certifierRole,
         },
         ohiScreen: {
@@ -160,7 +160,7 @@ const formConfig = {
         },
         signerEmail: {
           path: 'signer-email',
-          title: 'Beneficiary’s email address',
+          title: 'Signer’s email address',
           ...certifierEmail,
         },
       },
