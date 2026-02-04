@@ -33,7 +33,7 @@ export const Data = {
       BACK_TO_EDIT_BTN: `Keep editing`,
       REQUIRED: `(*Required)`,
       REMOVE: `Remove your messages signature?`,
-      REMOVE_TEXT: `Your signature will no longer appear on outgoing secure messages.You can always come back to your profile later if you want to add this signature again.`,
+      REMOVE_TEXT: `This will remove your signature on outgoing messages.You can always add another messages signature any time.`,
       REMOVE_BTN: `Remove`,
       CANCEL_REMOVE_BTN: `Cancel change`,
     },
