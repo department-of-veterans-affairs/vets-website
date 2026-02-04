@@ -1,43 +1,52 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 
-import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
-import * as platformApiUtils from '@department-of-veterans-affairs/platform-utilities/api';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import { avsLoader } from '../../loaders/avsLoader';
+import { avsHandlers, handlers, mockAvs } from '../../mocks/server';
 
 describe('avsLoader', () => {
-  const params = { id: '123' };
-  const mockData = { attributes: { avs: { id: 123, meta: {} } } };
-  const apiBasePath = `${environment.API_URL}/avs/v0`;
-  const sandbox = sinon.createSandbox();
-  let apiRequestStub;
-
   beforeEach(() => {
-    apiRequestStub = sandbox.stub(platformApiUtils, 'apiRequest');
+    server.use(...avsHandlers);
   });
 
-  afterEach(() => {
-    sandbox.restore();
-  });
+  afterEach(() => server.resetHandlers());
 
   it('should return deferred data on successful API request', async () => {
-    apiRequestStub.resolves({ data: mockData });
+    const params = { id: mockAvs.data.id };
 
-    // We can't use await here because of how defer works.
-    avsLoader({ params }).then(result => {
-      expect(apiRequestStub.calledWith(`${apiBasePath}/avs/123`)).to.be.true;
-      expect(result.data.avs).to.equal(mockData.attributes);
-    });
+    const result = await avsLoader({ params });
+
+    // defer returns an object with a data property containing promises
+    const avs = await result.data.avs;
+    expect(avs.id).to.equal(mockAvs.data.id);
   });
 
-  it('should throw an error on failed API request', async () => {
-    apiRequestStub.rejects(new Error('API Error'));
+  it('should return 404 for unknown AVS id', async () => {
+    const params = { id: 'unknown-id' };
+
+    const result = await avsLoader({ params });
+
+    // The loader defers the error, so we need to await and catch
+    try {
+      await result.data.avs;
+      expect.fail('Should have thrown an error');
+    } catch (e) {
+      expect(e.errors[0].status).to.equal('not_found');
+    }
+  });
+
+  it('should handle server errors', async () => {
+    server.use(handlers.avsServerError());
+    const params = { id: mockAvs.data.id };
+
+    const result = await avsLoader({ params });
 
     try {
-      await avsLoader({ params });
+      await result.data.avs;
+      expect.fail('Should have thrown an error');
     } catch (e) {
-      expect(e.message).to.equal('Error loading prescription data');
+      expect(e.errors[0].title).to.equal('Internal Server Error');
     }
   });
 });

@@ -6,18 +6,18 @@ import {
   RouterProvider,
 } from 'react-router-dom-v5-compat';
 import { expect } from 'chai';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import sinon from 'sinon';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/react';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
-import sinon from 'sinon';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 // import { routes } from '../../router';
 import { Avs } from '../../containers/Avs';
 import ErrorBoundary from '../../components/ErrorBoundary';
 
-import mockAvs from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
 import avsLoader from '../../loaders/avsLoader';
+import { avsHandlers, handlers, mockAvs } from '../../mocks/server';
 
 const id = '9A7AF40B2BC2471EA116891839113252';
 
@@ -26,6 +26,12 @@ const id = '9A7AF40B2BC2471EA116891839113252';
 describe.skip('Avs container', () => {
   let oldLocation;
   const sandbox = sinon.createSandbox();
+
+  beforeEach(() => {
+    server.use(...avsHandlers);
+  });
+
+  afterEach(() => server.resetHandlers());
 
   beforeEach(() => {
     oldLocation = global.window.location;
@@ -126,7 +132,7 @@ describe.skip('Avs container', () => {
   });
 
   it('feature flag set to true', async () => {
-    mockApiRequest(mockAvs);
+    // MSW server handles the API request automatically
     const screen = renderInReduxProvider(
       <MemoryRouter initialEntries={[`/${id}`]}>
         <Route path="/:id">
@@ -191,8 +197,8 @@ describe.skip('Avs container', () => {
   });
 
   it('API request fails', async () => {
-    // Temporarily tested with cypress.
-    mockApiRequest({}, false);
+    // Override default handler with server error
+    server.use(handlers.avsServerError());
     const router = createMemoryRouter(
       [
         {
@@ -233,8 +239,7 @@ describe.skip('Avs container', () => {
   });
 
   it('Happy path', async () => {
-    // Temporarily tested with cypress.
-    mockApiRequest({}, false);
+    // MSW server handles the API request automatically
     const router = createMemoryRouter(
       [
         {
