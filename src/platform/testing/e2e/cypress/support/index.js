@@ -108,6 +108,14 @@ beforeEach(() => {
       'image/png',
     ),
   }).as('mapboxStatic');
+
+  // Mock Community Care Provider specialties API
+  // Facility locator with progressive disclosure fetches this on page load
+  // Without this mock, page gets stuck on loading spinner
+  cy.intercept('GET', '/facilities_api/v2/ccp/specialties', {
+    statusCode: 200,
+    body: { data: [] },
+  }).as('ccpSpecialties');
 });
 
 // Assign the video path to the context property for failed tests
