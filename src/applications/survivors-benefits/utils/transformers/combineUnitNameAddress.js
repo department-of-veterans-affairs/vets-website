@@ -1,3 +1,21 @@
+const buildAddress = unitAddress => {
+  const { street, street2, city, state, postalCode } = unitAddress;
+  let address = street || '';
+  if (street2) {
+    address += `, ${street2}`;
+  }
+  if (city) {
+    address += `, ${city}`;
+  }
+  if (state) {
+    address += `, ${state}`;
+  }
+  if (postalCode) {
+    address += ` ${postalCode}`;
+  }
+  return address;
+};
+
 export function combineUnitNameAddress(formData) {
   const parsedFormData = JSON.parse(formData);
   const transformedValue = parsedFormData;
@@ -7,10 +25,9 @@ export function combineUnitNameAddress(formData) {
     transformedValue.unitNameAndAddress = unitName;
   }
   if (parsedFormData?.unitAddress) {
-    const { street, city, state, postalCode } = parsedFormData.unitAddress;
     transformedValue.unitNameAndAddress += unitName
-      ? `, ${street}, ${city}, ${state} ${postalCode}`
-      : `${street}, ${city}, ${state} ${postalCode}`;
+      ? `, ${buildAddress(parsedFormData.unitAddress)}`
+      : `${buildAddress(parsedFormData.unitAddress)}`;
   }
   delete transformedValue.unitName;
   delete transformedValue.unitAddress;

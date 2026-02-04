@@ -1,5 +1,5 @@
 import Verify from '../pages/Verify';
-import EnterOTC from '../pages/EnterOTC';
+import EnterOTP from '../pages/EnterOTP';
 import DateTimeSelection from '../pages/DateTimeSelection';
 import TopicSelection from '../pages/TopicSelection';
 import Review from '../pages/Review';
@@ -15,7 +15,7 @@ import { AUTH_LEVELS, FLOW_TYPES, URLS } from './constants';
  *   for this route. See AUTH_LEVELS enum for details.
  * @property {string[]} [requireFormData] - Optional array of form data field names that must be present
  *   in Redux state before accessing this route. The component will be wrapped with `withFormData` HOC.
- *   Common fields: 'uuid', 'lastname', 'dob', 'obfuscatedEmail', 'selectedDate', 'selectedTopics'.
+ *   Common fields: 'uuid', 'lastName', 'dob', 'obfuscatedEmail', 'selectedDate', 'selectedTopics'.
  */
 
 /**
@@ -48,15 +48,15 @@ export const routes = [
       requiresAuthorization: AUTH_LEVELS.NONE,
     },
     flowType: FLOW_TYPES.ANY, // Entry point for both flows
-    setsData: ['uuid', 'lastname', 'dob', 'obfuscatedEmail'],
+    setsData: ['uuid', 'lastName', 'dob', 'obfuscatedEmail'],
   },
   // Low auth routes - require form data
   {
-    path: URLS.ENTER_OTC,
-    component: EnterOTC,
+    path: URLS.ENTER_OTP,
+    component: EnterOTP,
     permissions: {
       requiresAuthorization: AUTH_LEVELS.NONE,
-      requireFormData: ['uuid', 'lastname', 'dob', 'obfuscatedEmail'],
+      requireFormData: ['uuid', 'lastName', 'dob', 'obfuscatedEmail'],
     },
     flowType: FLOW_TYPES.ANY, // Both flows go through OTC verification
   },
@@ -69,7 +69,7 @@ export const routes = [
       requiresAuthorization: AUTH_LEVELS.TOKEN,
     },
     flowType: FLOW_TYPES.SCHEDULE,
-    setsData: ['selectedDate'],
+    setsData: ['selectedSlot'],
   },
   {
     path: URLS.TOPIC_SELECTION,
@@ -87,10 +87,10 @@ export const routes = [
       requiresAuthorization: AUTH_LEVELS.TOKEN,
       requireFormData: [
         'uuid',
-        'lastname',
+        'lastName',
         'dob',
         'obfuscatedEmail',
-        'selectedDate',
+        'selectedSlot',
         'selectedTopics',
         'obfuscatedEmail',
       ],
@@ -172,6 +172,11 @@ const hasValidFieldData = (fieldName, formState) => {
   // Special handling for selectedTopics - must have at least one selection
   if (fieldName === 'selectedTopics') {
     return Array.isArray(value) && value.length > 0;
+  }
+
+  // Special handling for selectedSlot - must have a valid slot
+  if (fieldName === 'selectedSlot') {
+    return value && value.dtStartUtc && value.dtEndUtc;
   }
 
   // For all other fields, check for truthy value
