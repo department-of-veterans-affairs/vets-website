@@ -26,7 +26,7 @@ export default {
         ...textUI({
           title: 'List your institution’s OPEID number below',
           errorMessages: {
-            required: 'You must enter your institution’s OPEID number below',
+            required: 'You must enter your institution’s OPEID number',
           },
           required: formData =>
             formData.institutionProfile?.participatesInTitleIv === true,

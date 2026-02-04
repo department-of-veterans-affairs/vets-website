@@ -50,7 +50,7 @@ describe('22-0976 institution title 4 page', () => {
       const textInput = container.querySelector('va-text-input');
 
       expect(textInput.getAttribute('error')).to.equal(
-        'You must enter your institution’s OPEID number below',
+        'You must enter your institution’s OPEID number',
       );
     });
   });
