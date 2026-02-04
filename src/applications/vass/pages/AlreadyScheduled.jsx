@@ -7,12 +7,17 @@ import { setFlowType } from '../redux/slices/formSlice';
 import { FLOW_TYPES, URLS, VASS_PHONE_NUMBER } from '../utils/constants';
 import { useGetAppointmentQuery } from '../redux/api/vassApi';
 import { getBrowserTimezone } from '../utils/timezone';
+import { isServerError } from '../utils/errors';
 
 const AlreadyScheduled = () => {
   const { appointmentId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { data: appointmentData, isLoading } = useGetAppointmentQuery({
+  const {
+    data: appointmentData,
+    isLoading,
+    error: appointmentError,
+  } = useGetAppointmentQuery({
     appointmentId,
   });
 
@@ -43,6 +48,7 @@ const AlreadyScheduled = () => {
       pageTitle="You already scheduled your appointment with VA Solid Start"
       loading={isLoading}
       loadingMessage="Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page."
+      errorAlert={isServerError(appointmentError)}
     >
       <p id="appointment-date-time" data-testid="already-scheduled-date-time">
         Your VA Solid Start appointment is scheduled for {appointmentDate} at{' '}

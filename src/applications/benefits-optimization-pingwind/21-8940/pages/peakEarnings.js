@@ -1,10 +1,9 @@
-import React from 'react';
-
 import {
   textUI,
   numberUI,
   textSchema,
   numberSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { yearUI } from '../helpers/year';
@@ -12,21 +11,31 @@ import { yearUI } from '../helpers/year';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': (
-      <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
-        Peak Earnings
-      </h3>
-    ),
+    ...titleUI('Peak Earnings'),
     'ui:description': 'Your highest earnings',
     maxYearlyEarnings: numberUI({
       title: 'What is the most you ever earned in one year? (Gross Income)',
       hint: 'numeric characters only',
+      errorMessages: {
+        required:
+          'Please enter the highest amount you earned before taxes in one year',
+        pattern:
+          'Please enter the highest amount you earned before taxes in one year',
+      },
     }),
     yearEarned: yearUI({
       title: 'What year did you make your peak earnings?',
       hint: 'numeric characters only',
+      errorMessage:
+        'Please enter the 4-digit year you earned the most while working',
     }),
-    occupation: textUI('Your job(s) during that year'),
+    occupation: textUI({
+      title: 'Your job(s) during that year',
+      errorMessages: {
+        required: 'Enter the work you did the year you earned the most',
+        pattern: 'Enter the work you did the year you earned the most',
+      },
+    }),
   },
   schema: {
     type: 'object',
