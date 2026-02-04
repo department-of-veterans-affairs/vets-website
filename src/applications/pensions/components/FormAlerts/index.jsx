@@ -123,7 +123,7 @@ export const IncomeAssetStatementFormAlert = () => (
 );
 
 export const IncomeInformationAlert = () => (
-  <va-additional-info trigger="What is income?">
+  <va-additional-info trigger="How we define income">
     <p>
       Your income is how much you earn. It includes your Social Security
       benefits, investment and retirement payments, and any income your spouse
