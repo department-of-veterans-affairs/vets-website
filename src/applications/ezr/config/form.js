@@ -267,7 +267,7 @@ const formConfig = {
           depends: formData => formData['view:ezrServiceHistoryEnabled'],
         },
         serviceInformation: {
-          path: 'military-service/service-information',
+          path: 'military-service/service-period',
           title: 'Service periods',
           uiSchema: serviceInformation.uiSchema,
           schema: serviceInformation.schema,
