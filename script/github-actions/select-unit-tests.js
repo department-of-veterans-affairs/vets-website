@@ -51,11 +51,6 @@ const DISALLOWED_SPECS_IN_CHANGED_APPS = DISALLOWED_SPECS.filter(
     fs.existsSync(specPath),
 );
 
-// Check if any changed files are form configs (config/form.js)
-// If so, we need to run the forms-config-validator test
-// This ensures that when developers add new properties to their formConfig,
-// the validator test runs in CI and catches any issues immediately
-// See: https://github.com/department-of-veterans-affairs/vets-website/issues/42061
 const FORM_CONFIG_VALIDATOR_TEST =
   'src/platform/forms/tests/forms-config-validator.unit.spec.jsx';
 const hasFormConfigChanges = CHANGED_FILES.some(
