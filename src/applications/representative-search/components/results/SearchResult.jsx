@@ -43,9 +43,40 @@ const SearchResult = ({
 
   const { contact, extension } = parsePhoneNumber(phone);
 
-  const addressExists = addressLine1 || city || stateCode || zipCode;
+  const hasStreetAddress = Boolean((addressLine1 || '').trim());
+  const hasCity = Boolean((city || '').trim());
+  const hasState = Boolean((stateCode || '').trim());
+  const hasZip = Boolean((zipCode || '').trim());
+  const hasValidPartialLocation = (hasCity && hasState) || hasZip;
 
-  // concatenating address for ReportModal
+  const isEstimatedAddress = !hasStreetAddress && hasValidPartialLocation;
+
+  const addressExists = hasStreetAddress || hasValidPartialLocation;
+
+  const cityStateText = hasCity && hasState ? `${city}, ${stateCode}` : '';
+  const hasDistance =
+    distance !== null && distance !== undefined && distance !== '';
+  let partialLocationText = zipCode;
+
+  if (cityStateText) {
+    partialLocationText = hasZip
+      ? `${cityStateText} ${zipCode}`
+      : cityStateText;
+  }
+
+  const fullLocationText = (
+    <>
+      {addressLine1}
+      {addressLine2 ? (
+        <>
+          <br /> {addressLine2}
+        </>
+      ) : null}
+      <br />
+      {partialLocationText}
+    </>
+  );
+
   const address =
     [
       (addressLine1 || '').trim(),
@@ -57,6 +88,25 @@ const SearchResult = ({
     (city ? ` ${city},` : '') +
     (stateCode ? ` ${stateCode}` : '') +
     (zipCode ? ` ${zipCode}` : '');
+
+  const destinationAddress = [
+    (addressLine1 || '').trim(),
+    (addressLine2 || '').trim(),
+    (addressLine3 || '').trim(),
+    [city, stateCode]
+      .filter(Boolean)
+      .join(', ')
+      .trim(),
+    (zipCode || '').trim(),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .trim();
+
+  // Reusable map href for both full + partial address cases
+  const mapHref = `https://maps.google.com?saddr=${
+    query?.context?.location
+  }&daddr=${encodeURIComponent(destinationAddress)}`;
 
   const onCloseReportModal = () => {
     setReportModalIsShowing(false);
@@ -100,6 +150,16 @@ const SearchResult = ({
       'search-result-position': key,
       'search-result-page': searchResults?.meta?.pagination?.currentPage,
     });
+  };
+
+  const addressAnchorProps = {
+    href: mapHref,
+    tabIndex: 0,
+    className: 'address-anchor',
+    onClick: recordContactLinkClick,
+    target: '_blank',
+    rel: 'noreferrer',
+    'aria-label': `${destinationAddress} (opens in a new tab)`,
   };
 
   useEffect(
@@ -146,12 +206,13 @@ const SearchResult = ({
       <va-card class="representative-result-card vads-u-padding--4">
         <div className="representative-result-card-content">
           <div className="representative-info-heading">
-            {distance && (
+            {hasDistance && (
               <div
                 id={`representative-${representativeId}`}
                 className="vads-u-font-weight--bold vads-u-font-family--serif"
               >
-                {parseFloat(JSON.parse(distance).toFixed(2))} Mi
+                {parseFloat(JSON.parse(distance).toFixed(2))} miles
+                {isEstimatedAddress ? ' (estimated)' : ''}
               </div>
             )}
             {officer && (
@@ -194,25 +255,9 @@ const SearchResult = ({
           <div className="representative-contact-section vads-u-margin-top--3">
             {addressExists && (
               <div className="address-link">
-                <a
-                  href={`https://maps.google.com?saddr=${
-                    query?.context?.location
-                  }&daddr=${address}`}
-                  tabIndex="0"
-                  className="address-anchor"
-                  onClick={() => recordContactLinkClick()}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`${address} (opens in a new tab)`}
-                >
-                  {addressLine1}{' '}
-                  {addressLine2 ? (
-                    <>
-                      <br /> {addressLine2}
-                    </>
-                  ) : null}{' '}
-                  <br />
-                  {city}, {stateCode} {zipCode}
+                {isEstimatedAddress && <div>No street address provided</div>}
+                <a {...addressAnchorProps}>
+                  {isEstimatedAddress ? partialLocationText : fullLocationText}
                 </a>
               </div>
             )}

@@ -14,7 +14,6 @@ const Dropdown = ({
   lastName,
   iconClassName,
   secondaryIcon,
-  srText,
   dropdownClass,
   closeIcon,
   view,
@@ -34,6 +33,7 @@ const Dropdown = ({
         className={closeIcon && isOpen ? 'is--open nav__btn' : className}
         aria-controls={icon}
         aria-expanded={isOpen}
+        aria-haspopup="true"
         onClick={toggleDropdown}
         type="button"
       >
@@ -41,7 +41,8 @@ const Dropdown = ({
         <va-icon
           icon={closeIcon && isOpen ? 'close' : icon}
           size={size}
-          srtext={srText}
+          aria-hidden="true"
+          z-index="-1"
           class="nav__user-btn-icon"
         />
         {firstName && (
@@ -51,7 +52,13 @@ const Dropdown = ({
         )}
 
         {secondaryIcon && (
-          <va-icon icon={secondaryIcon} size={size} class={iconClassName} />
+          <va-icon
+            icon={secondaryIcon}
+            size={size}
+            aria-hidden="true"
+            z-index="-1"
+            class={iconClassName}
+          />
         )}
       </button>
       {isOpen && (
@@ -88,7 +95,6 @@ Dropdown.propTypes = {
   iconClassName: PropTypes.string,
   lastName: PropTypes.string,
   secondaryIcon: PropTypes.string,
-  srText: PropTypes.string,
-  view: PropTypes.string,
   size: PropTypes.number,
+  view: PropTypes.string,
 };
