@@ -1,7 +1,7 @@
 import { cloneDeep, merge } from 'lodash';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import {
   ssnUI,
   ssnSchema,
@@ -99,6 +99,24 @@ const formConfig = {
   },
   title: 'File a Foreign Medical Program (FMP) claim',
   subTitle: 'FMP Claim Cover Sheet (VA Form 10-7959f-2)',
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      {
+        href: '/health-care',
+        label: 'Health care',
+      },
+      {
+        href: '/health-care/foreign-medical-program',
+        label: 'Foreign Medical Program',
+      },
+      {
+        href: '#content',
+        label: 'File a Foreign Medical Program (FMP) claim',
+      },
+    ],
+    homeVeteransAffairs: true,
+    wrapping: true,
+  }),
   defaultDefinitions: {},
   chapters: {
     veteranInfoChapter: {
