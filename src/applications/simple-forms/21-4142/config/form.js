@@ -83,6 +83,7 @@ const formConfig = {
     'Authorization to disclose information to the Department of Veterans Affairs (VA) (VA Forms 21-4142 and 21-4142a)',
   customText: {
     appType: 'medical release authorization',
+    testCiConfigDetection: 'This property tests CI config change detection',
   },
   defaultDefinitions: fullSchema.definitions,
   chapters: {
