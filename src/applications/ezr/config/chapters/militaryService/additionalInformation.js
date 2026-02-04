@@ -1,14 +1,9 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import ezSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
+import {
+  titleUI,
+  checkboxUI,
+  checkboxSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import content from '../../../locales/en/content.json';
-
-const {
-  disabledInLineOfDuty,
-  isFormerPow,
-  postNov111998Combat,
-  purpleHeartRecipient,
-  swAsiaCombat,
-} = ezSchema.properties;
 
 export default {
   uiSchema: {
@@ -17,21 +12,17 @@ export default {
       content['military-service-info-history-description'],
     ),
     'view:serviceHistory': {
-      purpleHeartRecipient: {
-        'ui:title': content['service-info--history-purple-heart-label'],
-      },
-      isFormerPow: {
-        'ui:title': content['service-info--history-pow-label'],
-      },
-      postNov111998Combat: {
-        'ui:title': content['service-info--history-combat-theater-label'],
-      },
-      disabledInLineOfDuty: {
-        'ui:title': content['service-info--history-disability-label'],
-      },
-      swAsiaCombat: {
-        'ui:title': content['service-info--history-sw-asia-label'],
-      },
+      purpleHeartRecipient: checkboxUI(
+        content['service-info--history-purple-heart-label'],
+      ),
+      isFormerPow: checkboxUI(content['service-info--history-pow-label']),
+      postNov111998Combat: checkboxUI(
+        content['service-info--history-combat-theater-label'],
+      ),
+      disabledInLineOfDuty: checkboxUI(
+        content['service-info--history-disability-label'],
+      ),
+      swAsiaCombat: checkboxUI(content['service-info--history-sw-asia-label']),
     },
   },
   schema: {
@@ -40,11 +31,11 @@ export default {
       'view:serviceHistory': {
         type: 'object',
         properties: {
-          purpleHeartRecipient,
-          isFormerPow,
-          postNov111998Combat,
-          disabledInLineOfDuty,
-          swAsiaCombat,
+          purpleHeartRecipient: checkboxSchema,
+          isFormerPow: checkboxSchema,
+          postNov111998Combat: checkboxSchema,
+          disabledInLineOfDuty: checkboxSchema,
+          swAsiaCombat: checkboxSchema,
         },
       },
     },

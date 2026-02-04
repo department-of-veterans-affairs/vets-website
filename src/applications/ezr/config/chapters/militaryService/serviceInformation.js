@@ -1,4 +1,7 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  titleUI,
+  selectUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import {
@@ -19,12 +22,13 @@ const {
 export default {
   uiSchema: {
     ...titleUI(content['service-info--last-period-title']),
-    lastServiceBranch: {
+    lastServiceBranch: selectUI({
       'ui:title': content['service-info--last-period-branch-label'],
       'ui:options': {
         labels: SERVICE_BRANCH_LABELS,
       },
-    },
+      required: () => true,
+    }),
     lastEntryDate: currentOrPastDateUI(
       content['service-info--service-start-date-label'],
     ),

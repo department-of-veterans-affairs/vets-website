@@ -103,16 +103,6 @@ import InsurancePolicyReviewPage from '../components/FormReview/InsurancePolicyR
 import postSept11Service from './chapters/militaryService/postSept11Service';
 import postSept11ServiceDates from './chapters/militaryService/postSept11ServiceDates';
 
-const showServiceHistoryEnabled = () => {
-  const state = window?.__STORE__?.getState();
-  const featureToggles = state?.featureToggles || {};
-  return (
-    featureToggles?.ezrServiceHistoryEnabled ||
-    featureToggles?.['view:isServiceHistoryEnabled'] ||
-    true
-  );
-};
-
 // declare shared paths for custom form page navigation
 const {
   insurance: INSURANCE_PATHS,
@@ -274,7 +264,7 @@ const formConfig = {
           title: 'Review your last military service',
           uiSchema: reviewServiceInformation.uiSchema,
           schema: reviewServiceInformation.schema,
-          depends: showServiceHistoryEnabled,
+          depends: formData => formData['view:ezrServiceHistoryEnabled'],
         },
         serviceInformation: {
           path: 'military-service/service-information',

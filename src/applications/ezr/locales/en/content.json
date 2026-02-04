@@ -76,6 +76,7 @@
   "military-service-gulf-war-end-date": "Service end date",
   "military-service-review-title": "Review your last military service",
   "military-service-review-question": "Is this information for your most-recent military service accurate?",
+  "military-service-review-description": "This information here is only for your health care form. Any changes you make will only apply to this form and won’t update your saved profile.",
   "military-service-info-history-title": "Service history",
   "military-service-info-history-description": "Check all that apply to you.",
   "military-service-date-range-description": "If you don’t know the exact date, enter your best guess",

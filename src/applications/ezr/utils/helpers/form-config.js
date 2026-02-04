@@ -112,7 +112,7 @@ export function canVeteranProvidePostSept11ServiceResponse(formData) {
  * toxic exposure file upload in the Military Service chapter
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the user wants to fill out TERA information and the
- * EZR Upload feature flag is set to truehttps://scontent-msp1-1.xx.fbcdn.net/v/t39.30808-6/622598243_1327415432763600_3487962595209849757_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=f727a1&_nc_ohc=M28qjJjVuU0Q7kNvwFf2Fxv&_nc_oc=AdmWhQN8-g3YG35CH0TK__U3iXBWFPAsw-SQuznh3ooqXmydVrWXNTUe1zXwQYdchi0&_nc_zt=23&_nc_ht=scontent-msp1-1.xx&_nc_gid=8-JSHfX8fllCFq1HP15R_g&oh=00_AfpyeGpb3H1VfiT42XbVBcV0gLkqerdEFXTLmCVkevfP_g&oe=698168B1
+ * EZR Upload feature flag is set to true
  */
 export function teraUploadEnabled(formData) {
   const { hasTeraResponse } = formData;

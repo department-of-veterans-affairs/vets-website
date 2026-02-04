@@ -1,27 +1,28 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
+import {
+  titleUI,
+  descriptionUI,
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import content from '../../../locales/en/content.json';
-import serviceHistoryDescription from '../../../components/FormDescriptions/ServiceHistoryDescription';
-
-const { isServiceHistoryCorrect } = ezrSchema.properties;
+import ServiceHistorySummary from '../../../components/FormDescriptions/ServiceHistoryDescription';
 
 export default {
   uiSchema: {
-    'ui:title': content['military-service-review-title'],
-    'ui:description': serviceHistoryDescription,
-    isServiceHistoryCorrect: {
-      'ui:title': content['military-service-review-question'],
-      'ui:widget': 'yesNo',
-    },
+    ...titleUI(
+      content['military-service-review-title'],
+      content['military-service-review-description'],
+    ),
+    ...descriptionUI(ServiceHistorySummary),
+    isServiceHistoryCorrect: yesNoUI(
+      content['military-service-review-question'],
+    ),
   },
   schema: {
     type: 'object',
     required: ['isServiceHistoryCorrect'],
     properties: {
-      'view:serviceHistorySummary': {
-        type: 'object',
-        properties: {},
-      },
-      isServiceHistoryCorrect,
+      isServiceHistoryCorrect: yesNoSchema,
     },
   },
 };
