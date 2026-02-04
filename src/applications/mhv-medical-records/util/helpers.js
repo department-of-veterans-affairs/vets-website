@@ -29,7 +29,10 @@ import {
 } from './constants';
 
 // Re-export from dateHelpers for backwards compatibility
-export { dateFormatWithoutTimezone } from './dateHelpers';
+export {
+  dateFormatWithoutTimezone,
+  formatDateTimeInUserTimezone,
+} from './dateHelpers';
 
 /**
  * @param {*} timestamp
