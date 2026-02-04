@@ -22,6 +22,7 @@ import {
 } from '../../../redux/selectors';
 import { stripTZOffset } from '../../../util/dates';
 import { ComplexClaimsHelpSection } from '../../HelpText';
+import OutOfBoundsAppointmentAlert from '../../alerts/OutOfBoundsAppointmentAlert';
 
 const IntroductionPage = () => {
   const navigate = useNavigate();
@@ -87,6 +88,11 @@ const IntroductionPage = () => {
       {shouldShowRedirect && <ComplexClaimRedirect />}
       <div data-testid="introduction-page">
         <h1>{title}</h1>
+        {appointment?.isOutOfBounds && (
+          <div className="vads-u-margin-top--4 vads-u-margin-bottom--3">
+            <OutOfBoundsAppointmentAlert />
+          </div>
+        )}
         <div className="vads-u-margin-left--2">
           <va-process-list>
             <va-process-list-item

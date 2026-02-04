@@ -8,17 +8,24 @@ import reducer from '../../reducers';
 import RadiologyImagesList from '../../containers/RadiologyImagesList';
 import user from '../fixtures/user.json';
 
-describe('Radiology Images List container', () => {
+const runRadiologyImagesListTests = ({
+  basePath,
+  pagePath,
+  stateKey,
+  detailsKey,
+}) => {
+  const radiologyDetails = {
+    name: 'ANKLE LEFT 3 VIEWS',
+    date: 'April 13, 2022, 5:25 a.m. MDT',
+    studyId: 12345,
+    imageCount: 5,
+  };
+
   const initialState = {
     user,
     mr: {
-      labsAndTests: {
-        labsAndTestsDetails: {
-          name: 'ANKLE LEFT 3 VIEWS',
-          date: 'April 13, 2022, 5:25 a.m. MDT',
-          studyId: 12345,
-          imageCount: 5,
-        },
+      [stateKey]: {
+        [detailsKey]: radiologyDetails,
       },
       images: {
         imageStatus: [{ studyIdUrn: 12345, status: 'COMPLETE' }],
@@ -30,15 +37,16 @@ describe('Radiology Images List container', () => {
     },
   };
 
-  const pagePath = '/labs-and-tests/12345/images';
-
   const setup = (state = initialState, history = null) =>
-    renderWithStoreAndRouter(<RadiologyImagesList isTesting />, {
-      initialState: state,
-      reducers: reducer,
-      history,
-      path: pagePath,
-    });
+    renderWithStoreAndRouter(
+      <RadiologyImagesList isTesting basePath={basePath} />,
+      {
+        initialState: state,
+        reducers: reducer,
+        history,
+        path: pagePath,
+      },
+    );
 
   it('renders without errors', () => {
     const screen = setup();
@@ -50,7 +58,7 @@ describe('Radiology Images List container', () => {
     const testName = screen.getByText((content, element) => {
       return (
         element.tagName.toLowerCase() === 'h1' &&
-        content.includes(initialState.mr.labsAndTests.labsAndTestsDetails.name)
+        content.includes(radiologyDetails.name)
       );
     });
     expect(testName).to.exist;
@@ -87,9 +95,6 @@ describe('Radiology Images List container', () => {
 
     await waitFor(() => {
       expect(history[historySpy].called).to.be.true;
-      // This assertion is not working because the useParam is not pulling the path value during the test.
-      // Uncomment if we figure this out.
-      // expect(history[historySpy].getCall(0).args[0]).to.equal('/labs-and-tests/12345');
     });
   };
 
@@ -98,9 +103,9 @@ describe('Radiology Images List container', () => {
       ...initialState,
       mr: {
         ...initialState.mr,
-        labsAndTests: {
-          labsAndTestsDetails: {
-            ...initialState.mr.labsAndTests.labsAndTestsDetails,
+        [stateKey]: {
+          [detailsKey]: {
+            ...radiologyDetails,
             imageCount: 0,
           },
         },
@@ -138,5 +143,25 @@ describe('Radiology Images List container', () => {
     };
 
     await testRedirect(missingStudyState, 'push');
+  });
+};
+
+describe('Radiology Images List container', () => {
+  describe('Labs and Tests path', () => {
+    runRadiologyImagesListTests({
+      basePath: '/labs-and-tests',
+      pagePath: '/labs-and-tests/12345/images',
+      stateKey: 'labsAndTests',
+      detailsKey: 'labsAndTestsDetails',
+    });
+  });
+
+  describe('Imaging Results path', () => {
+    runRadiologyImagesListTests({
+      basePath: '/imaging-results',
+      pagePath: '/imaging-results/12345/images',
+      stateKey: 'radiology',
+      detailsKey: 'radiologyDetails',
+    });
   });
 });
