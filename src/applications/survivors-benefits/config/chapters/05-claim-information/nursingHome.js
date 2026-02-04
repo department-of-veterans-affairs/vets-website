@@ -19,7 +19,9 @@ export default {
     needRegularAssistanceAlert: {
       'ui:description': SpecialMonthlyPensionEvidenceAlert,
       'ui:options': {
-        hideIf: formData => !isYes(formData?.claimingMonthlySpecialPension),
+        hideIf: formData =>
+          isYes(formData?.claimantLivesInANursingHome) ||
+          !isYes(formData?.claimingMonthlySpecialPension),
         displayEmptyObjectOnReview: true,
       },
     },
@@ -27,9 +29,7 @@ export default {
     inNursingHomeAlert: {
       'ui:description': RequestNursingHomeInformationAlert,
       'ui:options': {
-        hideIf: formData =>
-          !isYes(formData?.claimantLivesInANursingHome) ||
-          formData?.claimingMonthlySpecialPension === true,
+        hideIf: formData => !isYes(formData?.claimantLivesInANursingHome),
         displayEmptyObjectOnReview: true,
       },
     },

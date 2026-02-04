@@ -62,10 +62,28 @@ describe('Nursing Home Page', () => {
       detail: { value: 'Y' },
     });
     expect($$('va-alert-expandable', formDOM).length).to.equal(1);
+    expect(
+      $$(
+        'va-alert-expandable[trigger="You’ll need to submit VA Form 21-2680"]',
+        formDOM,
+      ).length,
+    ).to.equal(1);
     nursingHomeRadio.__events.vaValueChange({
       detail: { value: 'Y' },
     });
     expect($$('va-alert-expandable', formDOM).length).to.equal(1);
+    expect(
+      $$(
+        'va-alert-expandable[trigger="You’ll need to submit VA Form 21-0779"]',
+        formDOM,
+      ).length,
+    ).to.equal(1);
+    expect(
+      $$(
+        'va-alert-expandable[trigger="You’ll need to submit VA Form 21-2680"]',
+        formDOM,
+      ).length,
+    ).to.equal(0);
     assistanceRadio.__events.vaValueChange({
       detail: { value: 'N' },
     });
