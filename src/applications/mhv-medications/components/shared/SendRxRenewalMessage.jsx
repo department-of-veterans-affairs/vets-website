@@ -84,6 +84,7 @@ const SendRxRenewalMessage = ({
         visible={showRenewalModal}
         status="info"
         clickToClose
+        uswds
       >
         <p className="vads-u-margin-bottom--2">
           You’ll need to select your provider and send the prescription renewal
