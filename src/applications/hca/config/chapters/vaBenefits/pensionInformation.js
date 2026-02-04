@@ -20,8 +20,8 @@ export default {
       ...radioUI({
         title: content['benefits--pension-label'],
         labels: {
-          Yes: content['form--default-yes-label'],
-          No: content['form--default-no-label'],
+          pension: content['form--default-yes-label'],
+          none: content['form--default-no-label'],
         },
       }),
       'ui:reviewField': CustomReviewField,
