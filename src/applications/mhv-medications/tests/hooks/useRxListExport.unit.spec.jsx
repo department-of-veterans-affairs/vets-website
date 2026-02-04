@@ -18,17 +18,12 @@ import {
 // Custom renderHook function
 function renderHook(renderCallback, options = {}) {
   const { initialProps, ...renderOptions } = options;
-  const result = React.createRef();
-  result.current = null;
+  const result = { current: null };
 
   function TestComponent({ renderCallbackProps }) {
     const hookResult = renderCallback(renderCallbackProps);
+    // Update result.current on every render to capture state changes
     result.current = hookResult;
-
-    React.useEffect(() => {
-      result.current = hookResult;
-    });
-
     return null;
   }
 
