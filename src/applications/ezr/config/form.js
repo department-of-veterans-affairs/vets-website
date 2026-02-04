@@ -271,18 +271,14 @@ const formConfig = {
           title: 'Service periods',
           uiSchema: serviceInformation.uiSchema,
           schema: serviceInformation.schema,
-          depends: formData =>
-            formData['view:ezrServiceHistoryEnabled'] &&
-            doesVeteranWantToUpdateServiceInfo,
+          depends: doesVeteranWantToUpdateServiceInfo,
         },
         additionalInformation: {
           path: 'military-service/additional-information',
           title: 'Service history',
           uiSchema: additionalInformation.uiSchema,
           schema: additionalInformation.schema,
-          depends: formData =>
-            formData['view:ezrServiceHistoryEnabled'] &&
-            doesVeteranWantToUpdateServiceInfo,
+          depends: doesVeteranWantToUpdateServiceInfo,
         },
         toxicExposure: {
           path: 'military-service/toxic-exposure',
