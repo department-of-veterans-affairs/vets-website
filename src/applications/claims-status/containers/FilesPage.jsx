@@ -17,11 +17,11 @@ import withRouter from '../utils/withRouter';
 
 import {
   claimAvailable,
-  getFailedSubmissionsWithinLast30Days,
   isClaimOpen,
   setPageFocus,
   setTabDocumentTitle,
 } from '../utils/helpers';
+import * as TrackedItem from '../utils/trackedItemContent';
 import {
   setUpPage,
   isTab,
@@ -87,7 +87,7 @@ class FilesPage extends React.Component {
   getFailedSubmissionsMemoized(evidenceSubmissions) {
     if (this._cachedEvidenceSubmissions !== evidenceSubmissions) {
       this._cachedEvidenceSubmissions = evidenceSubmissions;
-      this._cachedFailedSubmissions = getFailedSubmissionsWithinLast30Days(
+      this._cachedFailedSubmissions = TrackedItem.getFailedSubmissionsWithinLast30Days(
         evidenceSubmissions,
       );
     }

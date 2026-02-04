@@ -10,10 +10,8 @@ import {
   getStatusContents,
   programAreaMap,
 } from '../../utils/appeals-v2-helpers';
-import {
-  buildDateFormatter,
-  getFailedSubmissionsWithinLast30Days,
-} from '../../utils/helpers';
+import { buildDateFormatter } from '../../utils/helpers';
+import * as TrackedItem from '../../utils/trackedItemContent';
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
@@ -71,7 +69,9 @@ export default function AppealListItem({ appeal, name }) {
     () => {
       const evidenceSubmissions = appeal.attributes?.evidenceSubmissions || [];
 
-      return getFailedSubmissionsWithinLast30Days(evidenceSubmissions);
+      return TrackedItem.getFailedSubmissionsWithinLast30Days(
+        evidenceSubmissions,
+      );
     },
     [appeal.attributes?.evidenceSubmissions],
   );

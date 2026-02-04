@@ -4,7 +4,7 @@ import {
   VaAlert,
   VaLinkAction,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getTrackedItemDisplayNameFromEvidenceSubmission } from '../utils/helpers';
+import * as TrackedItem from '../utils/trackedItemContent';
 import { recordType2FailureEvent } from '../utils/analytics';
 
 const HEADING = 'We need you to submit files by mail or in person';
@@ -51,7 +51,7 @@ function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
       <strong>All files we couldn’t process:</strong>
       <ul>
         {sortedSubmissions.slice(0, itemsToShow).map(submission => {
-          const requestType = getTrackedItemDisplayNameFromEvidenceSubmission(
+          const requestType = TrackedItem.getTrackedItemDisplayNameFromEvidenceSubmission(
             submission,
           );
 

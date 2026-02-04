@@ -3,14 +3,8 @@ import { useNavigate } from 'react-router-dom-v5-compat';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
-import {
-  truncateDescription,
-  isAutomated5103Notice,
-  buildDateFormatter,
-  getDisplayFriendlyName,
-  getIsSensitive,
-  getNoProvidePrefix,
-} from '../../utils/helpers';
+import { buildDateFormatter } from '../../utils/helpers';
+import * as TrackedItem from '../../utils/trackedItemContent';
 import { standard5103Item } from '../../constants';
 
 export default function FilesNeeded({ claimId, item, previousPage = null }) {
@@ -27,17 +21,17 @@ export default function FilesNeeded({ claimId, item, previousPage = null }) {
   ];
 
   const getItemDisplayName = () => {
-    if (isAutomated5103Notice(item.displayName)) {
+    if (TrackedItem.isAutomated5103Notice(item.displayName)) {
       return standard5103Item.displayName;
     }
-    if (getIsSensitive(item)) {
+    if (TrackedItem.getIsSensitive(item)) {
       return `Request for evidence`;
     }
-    if (getNoProvidePrefix(item)) {
+    if (TrackedItem.getNoProvidePrefix(item)) {
       return item.friendlyName;
     }
     if (item.friendlyName) {
-      return `Provide ${getDisplayFriendlyName(item)}`;
+      return `Provide ${TrackedItem.getDisplayFriendlyName(item)}`;
     }
     return 'Request for evidence';
   };
@@ -51,7 +45,7 @@ export default function FilesNeeded({ claimId, item, previousPage = null }) {
     }
     return itemWithNewDescription !== undefined
       ? itemWithNewDescription.description
-      : truncateDescription(item.description); // Truncating the item description to only 200 characters incase it is long
+      : TrackedItem.truncateDescription(item.description); // Truncating the item description to only 200 characters incase it is long
   };
   const formattedDueDate = buildDateFormatter()(item.suspenseDate);
   return (

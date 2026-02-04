@@ -1,14 +1,11 @@
 import React from 'react';
 import merge from 'lodash/merge';
 import { format, isValid, parseISO } from 'date-fns';
-
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { scrollAndFocus, scrollToTop } from 'platform/utilities/scroll';
 import titleCase from 'platform/utilities/data/titleCase';
 import { setUpPage, isTab } from './page';
-import { evidenceDictionary } from './evidenceDictionary';
-
 import { SET_UNAUTHORIZED } from '../actions/types';
 import {
   ANCHOR_LINKS,
@@ -16,7 +13,6 @@ import {
   disabilityCompensationClaimTypeCodes,
   pensionClaimTypeCodes,
   addOrRemoveDependentClaimTypeCodes,
-  standard5103Item,
   survivorsPensionClaimTypeCodes,
   DICClaimTypeCodes,
   veteransPensionClaimTypeCodes,
@@ -212,57 +208,6 @@ function isInEvidenceGathering(claim) {
   }
 
   return false;
-}
-
-// START lighthouse_migration
-export const getTrackedItemDate = item => {
-  return item.closedDate || item.receivedDate || item.requestedDate;
-};
-// END lighthouse_migration
-
-export function getFilesNeeded(trackedItems, useLighthouse = true) {
-  // trackedItems are different between lighthouse and evss
-  // Therefore we have to filter them differntly
-  if (useLighthouse) {
-    return trackedItems.filter(item => item.status === 'NEEDED_FROM_YOU');
-  }
-
-  return trackedItems.filter(
-    event =>
-      event.status === 'NEEDED' && event.type === 'still_need_from_you_list',
-  );
-}
-
-/**
- * Filter evidence submissions for failed uploads within the last 30 days
- * acknowledgementDate is set to 30 days after the submission failed (backend logic)
- * @param {Array} evidenceSubmissions - Array of evidence submission objects
- * @returns {Array} Filtered array of failed submissions within last 30 days
- */
-export function getFailedSubmissionsWithinLast30Days(evidenceSubmissions) {
-  if (!evidenceSubmissions || !Array.isArray(evidenceSubmissions)) {
-    return [];
-  }
-
-  return evidenceSubmissions.filter(
-    submission =>
-      submission.uploadStatus === 'FAILED' &&
-      submission.acknowledgementDate &&
-      new Date().toISOString() <= submission.acknowledgementDate,
-  );
-}
-
-export function getFilesOptional(trackedItems, useLighthouse = true) {
-  // trackedItems are different between lighthouse and evss
-  // Therefore we have to filter them differntly
-  if (useLighthouse) {
-    return trackedItems.filter(item => item.status === 'NEEDED_FROM_OTHERS');
-  }
-
-  return trackedItems.filter(
-    event =>
-      event.status === 'NEEDED' && event.type === 'still_need_from_others_list',
-  );
 }
 
 export function getItemDate(item) {
@@ -488,11 +433,6 @@ export function getDocTypeDescription(docType) {
 export const isPopulatedClaim = ({ claimDate, claimType, contentions }) =>
   !!claimType && (contentions && !!contentions.length) && !!claimDate;
 
-export function hasBeenReviewed(trackedItem) {
-  const reviewedStatuses = ['INITIAL_REVIEW_COMPLETE', 'ACCEPTED'];
-  return reviewedStatuses.includes(trackedItem.status);
-}
-
 export function stripEscapedChars(text) {
   return text && text.replace(/\\(n|r|t)/gm, '');
 }
@@ -506,139 +446,8 @@ export function scrubDescription(text) {
   return stripEscapedChars(stripHtml(text ? text.trim() : ''));
 }
 
-/**
- * Formats description text from VBMS/vets-api by converting special formatting codes
- * to React elements:
- * - \n → separate paragraphs (<p>) for text-only content
- * - [*] or {*} → unordered list items (<ul><li>)
- * - {b}...{/b} → bold text (<strong>)
- *
- * @param {string} text - The raw description text from the API
- * @returns {React.ReactNode} - Formatted React elements, or null if no text
- */
-export function formatDescription(text) {
-  if (!text || typeof text !== 'string') return null;
-
-  const trimmedText = text.trim();
-  if (!trimmedText) return null;
-
-  // Normalize inline list markers by inserting a newline before any [*] or {*}
-  // that doesn't already have one (handles cases where markers appear mid-line)
-  const normalizedText = trimmedText.replace(
-    /(?<!^)(?<!\n)(\[\*\]|\{\*\})/g,
-    '\n$1',
-  );
-
-  // Helper to process bold tags within a text segment
-  const processBoldTags = (segment, keyPrefix) => {
-    const boldPattern = /\{b\}([\s\S]*?)\{\/b\}/g;
-    const parts = [];
-    let lastIndex = 0;
-    let match;
-    let partIndex = 0;
-
-    // eslint-disable-next-line no-cond-assign
-    while ((match = boldPattern.exec(segment)) !== null) {
-      if (match.index > lastIndex) {
-        parts.push(segment.slice(lastIndex, match.index));
-      }
-      parts.push(
-        <strong key={`${keyPrefix}-bold-${partIndex}`}>{match[1]}</strong>,
-      );
-      lastIndex = match.index + match[0].length;
-      partIndex += 1;
-    }
-
-    if (lastIndex < segment.length) {
-      parts.push(segment.slice(lastIndex));
-    }
-
-    return parts.length > 0 ? parts : [segment];
-  };
-
-  // Helper to add regular text line to paragraph content
-  const addTextLine = (content, line, lineIndex) => {
-    if (content.length > 0) {
-      content.push(<br key={`br-${lineIndex}`} />);
-    }
-    content.push(...processBoldTags(line, `line-${lineIndex}`));
-  };
-
-  // Split text into lines for processing
-  const lines = normalizedText.split('\n');
-
-  // Check if we have list items
-  const listItemPattern = /^[\s]*(?:\[\*\]|\{\*\})[\s]*/;
-  const hasListItems = lines.some(line => listItemPattern.test(line));
-
-  // Unified processing approach
-  const result = [];
-  let currentListItems = [];
-  let paragraphContent = [];
-  let elementIndex = 0;
-
-  const flushParagraph = () => {
-    if (paragraphContent.length > 0) {
-      result.push(<p key={`p-${elementIndex}`}>{paragraphContent}</p>);
-      paragraphContent = [];
-      elementIndex += 1;
-    }
-  };
-
-  const flushList = () => {
-    if (currentListItems.length > 0) {
-      result.push(<ul key={`ul-${elementIndex}`}>{currentListItems}</ul>);
-      currentListItems = [];
-      elementIndex += 1;
-    }
-  };
-
-  lines.forEach((line, lineIndex) => {
-    if (listItemPattern.test(line)) {
-      // This is a list item
-      flushParagraph();
-      const itemText = line.replace(listItemPattern, '').trim();
-      currentListItems.push(
-        <li key={`li-${lineIndex}`}>
-          {processBoldTags(itemText, `li-${lineIndex}`)}
-        </li>,
-      );
-    } else if (line.trim() === '' && hasListItems) {
-      // Empty line - only flush when we have lists (otherwise ignore)
-      flushList();
-      flushParagraph();
-    } else if (line.trim() !== '') {
-      // Regular text line
-      flushList();
-      addTextLine(paragraphContent, line, lineIndex);
-      // When there are no list items, each line gets its own paragraph
-      if (!hasListItems) {
-        flushParagraph();
-      }
-    }
-  });
-
-  // Flush any remaining content
-  flushList();
-  flushParagraph();
-
-  // Return single paragraph or array of elements
-  return result.length === 1 ? result[0] : result;
-}
-
-export function truncateDescription(text, maxLength = 120) {
-  if (text && text.length > maxLength) {
-    return `${text.substr(0, maxLength)}…`;
-  }
-  return scrubDescription(text);
-}
-
 export function isClaimComplete(claim) {
   return claim.attributes.decisionLetterSent || claim.attributes.phase === 8;
-}
-
-export function itemsNeedingAttentionFromVet(items) {
-  return items?.filter(item => item.status === 'NEEDED_FROM_YOU').length;
 }
 
 export function makeAuthRequest(
@@ -1401,60 +1210,6 @@ export const formatUploadDateTime = date => {
   return `${dateStr} at ${timeStr} ${tzAbbr}`;
 };
 
-// Covers two cases:
-//   1. Standard 5103s we get back from the API (only occurs when they're closed).
-//   2. Standard 5103s that we're mocking within our application logic.
-export const isStandard5103Notice = itemDisplayName => {
-  return (
-    itemDisplayName === '5103 Notice Response' ||
-    itemDisplayName === standard5103Item.displayName
-  );
-};
-
-export const isAutomated5103Notice = itemDisplayName => {
-  return itemDisplayName === 'Automated 5103 Notice Response';
-};
-
-export const is5103Notice = itemDisplayName => {
-  return (
-    isAutomated5103Notice(itemDisplayName) ||
-    isStandard5103Notice(itemDisplayName)
-  );
-};
-
-/**
- * @param {Object} item - The tracked item object
- * @param {string} propertyName - The property to look up (e.g., 'isSensitive', 'isDBQ')
- * @returns {boolean} The property value
- */
-export const getTrackedItemProperty = (item, propertyName) => {
-  if (!item) return false;
-
-  // Check if the API provides the property directly on the item
-  if (item[propertyName] !== undefined) {
-    return item[propertyName];
-  }
-
-  // Fall back to evidenceDictionary
-  return !!evidenceDictionary[item.displayName]?.[propertyName];
-};
-
-export const getIsSensitive = item =>
-  getTrackedItemProperty(item, 'isSensitive');
-
-export const getIsDBQ = item =>
-  getTrackedItemProperty(item, 'isDBQ') ||
-  item?.displayName?.toLowerCase().includes('dbq');
-
-export const getNoActionNeeded = item =>
-  getTrackedItemProperty(item, 'noActionNeeded');
-
-export const getIsProperNoun = item =>
-  getTrackedItemProperty(item, 'isProperNoun');
-
-export const getNoProvidePrefix = item =>
-  getTrackedItemProperty(item, 'noProvidePrefix');
-
 // Capitalizes the first letter in a given string
 export const sentenceCase = str => {
   return typeof str === 'string' && str.length > 0
@@ -1559,61 +1314,10 @@ export const generateClaimTitle = (claim, placement, tab) => {
   }
 };
 
-export const getDisplayFriendlyName = item => {
-  if (!evidenceDictionary[item.displayName]?.isProperNoun) {
-    let updatedFriendlyName = item.friendlyName;
-    updatedFriendlyName =
-      updatedFriendlyName.charAt(0).toLowerCase() +
-      updatedFriendlyName.slice(1);
-    return updatedFriendlyName;
-  }
-  return item.friendlyName;
-};
-
-export const getLabel = trackedItem => {
-  if (isAutomated5103Notice(trackedItem?.displayName)) {
-    return trackedItem?.displayName;
-  }
-
-  if (getIsSensitive(trackedItem)) {
-    return 'Request for evidence';
-  }
-  if (trackedItem?.friendlyName && trackedItem?.status === 'NEEDED_FROM_YOU') {
-    return trackedItem.friendlyName;
-  }
-  if (!trackedItem?.friendlyName && trackedItem?.status === 'NEEDED_FROM_YOU') {
-    return 'Request for evidence';
-  }
-  if (getIsDBQ(trackedItem)) {
-    return 'Request for an exam';
-  }
-  if (trackedItem?.friendlyName) {
-    return `Your ${getDisplayFriendlyName(trackedItem)}`;
-  }
-  return 'Request for evidence outside VA';
-};
-
-// Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
-// It is also used to set the Document Request Page breadcrumb text
-export function setDocumentRequestPageTitle(displayName) {
-  return isAutomated5103Notice(displayName)
-    ? 'Review evidence list (5103 notice)'
-    : displayName;
-}
-
 // Used to set page title for the CST Tabs
 export function setTabDocumentTitle(claim, tabName) {
   setDocumentTitle(generateClaimTitle(claim, 'document', tabName));
 }
-
-export const setPageTitle = trackedItem => {
-  if (trackedItem) {
-    const pageTitle = setDocumentRequestPageTitle(getLabel(trackedItem));
-    setDocumentTitle(pageTitle);
-  } else {
-    setDocumentTitle('Document Request');
-  }
-};
 
 // Used to set the page focus on the CST Tabs
 export function setPageFocus(lastPage, loading) {
@@ -1629,60 +1333,6 @@ export function setPageFocus(lastPage, loading) {
     });
   }
 }
-// Used to get the oldest document date
-// Logic used in getTrackedItemDateFromStatus()
-export const getOldestDocumentDate = item => {
-  const arrDocumentDates = item.documents.map(document => document.uploadDate);
-  return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
-};
-// Logic here uses a given tracked items status to determine what the date should be.
-// This logic is used in RecentActivity and on the ClaimStatusHeader
-export const getTrackedItemDateFromStatus = item => {
-  switch (item.status) {
-    case 'NEEDED_FROM_YOU':
-    case 'NEEDED_FROM_OTHERS':
-      return item.requestedDate;
-    case 'NO_LONGER_REQUIRED':
-      return item.closedDate;
-    case 'SUBMITTED_AWAITING_REVIEW':
-      return getOldestDocumentDate(item);
-    case 'INITIAL_REVIEW_COMPLETE':
-    case 'ACCEPTED':
-      return item.receivedDate;
-    default:
-      return item.requestedDate;
-  }
-};
-
-export const renderDefaultThirdPartyMessage = displayName => {
-  return displayName.toLowerCase().includes('dbq') ? (
-    <>
-      We’ve requested an exam related to your claim. The examiner’s office will
-      contact you to schedule this appointment.
-      <br />
-    </>
-  ) : (
-    <>
-      <strong>You don’t need to do anything.</strong> We asked someone outside
-      VA for documents related to your claim.
-      <br />
-    </>
-  );
-};
-
-export const renderOverrideThirdPartyMessage = item => {
-  if (getIsDBQ(item)) {
-    return item.shortDescription || item.activityDescription;
-  }
-  if (item.shortDescription) {
-    return (
-      <>
-        <strong>You don’t need to do anything.</strong> {item.shortDescription}
-      </>
-    );
-  }
-  return item.activityDescription;
-};
 
 export const getUploadErrorMessage = (
   error,
@@ -1738,37 +1388,4 @@ export const getUploadErrorMessage = (
       'There was an error uploading your files. Please try again',
     type: 'error',
   };
-};
-
-/**
- * Gets the display name for an evidence submission
- * Evidence submissions are documents that have not yet been successfully created in Lighthouse.
- * @param {Object} evidenceSubmission - Evidence submission object with trackedItemId
- * @returns {string|null} Tracked item friendly name, display name, 'unknown', or null if no trackedItemId
- */
-export const getTrackedItemDisplayNameFromEvidenceSubmission = evidenceSubmission => {
-  if (evidenceSubmission.trackedItemId) {
-    return (
-      evidenceSubmission.trackedItemFriendlyName ||
-      evidenceSubmission.trackedItemDisplayName ||
-      'unknown'
-    );
-  }
-
-  return null;
-};
-
-/**
- * Gets the display name for a supporting document
- * Supporting documents are documents that have been successfully created in Lighthouse and have an id.
- * These represent documents that exist in the VA's backend system.
- * @param {Object} document - Supporting document object with id
- * @returns {string|null} Friendly name, display name, 'unknown', or null if no id
- */
-export const getTrackedItemDisplayFromSupportingDocument = document => {
-  if (document.id) {
-    return document.friendlyName || document.displayName || 'unknown';
-  }
-
-  return null;
 };

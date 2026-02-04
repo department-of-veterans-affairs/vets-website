@@ -11,10 +11,8 @@ import DocumentCard from './DocumentCard';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import { usePagination } from '../hooks/usePagination';
 import { fetchFailedUploads } from '../actions';
-import {
-  getTrackedItemDisplayNameFromEvidenceSubmission,
-  setDocumentTitle,
-} from '../utils/helpers';
+import { setDocumentTitle } from '../utils/helpers';
+import * as TrackedItem from '../utils/trackedItemContent';
 import { setPageFocus } from '../utils/page';
 import { ITEMS_PER_PAGE } from '../constants';
 import NeedHelp from './NeedHelp';
@@ -153,7 +151,7 @@ const FilesWeCouldntReceive = () => {
                 role="list"
               >
                 {currentPageItems.map(file => {
-                  const requestType = getTrackedItemDisplayNameFromEvidenceSubmission(
+                  const requestType = TrackedItem.getTrackedItemDisplayNameFromEvidenceSubmission(
                     file,
                   );
 
