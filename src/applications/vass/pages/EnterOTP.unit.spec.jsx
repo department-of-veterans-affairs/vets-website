@@ -22,7 +22,7 @@ import {
 const defaultRenderOptions = getDefaultRenderOptions({
   obfuscatedEmail: 't***@test.com',
   uuid: 'c0ffee-1234-beef-5678',
-  lastname: 'Smith',
+  lastName: 'Smith',
   dob: '1935-04-07',
   flowType: FLOW_TYPES.SCHEDULE, // default to schedule flow for testing
 });
@@ -30,7 +30,7 @@ const defaultRenderOptions = getDefaultRenderOptions({
 const defaultRenderOptionsWithCancelFlow = getDefaultRenderOptions({
   obfuscatedEmail: 't***@test.com',
   uuid: 'c0ffee-1234-beef-5678',
-  lastname: 'Smith',
+  lastName: 'Smith',
   dob: '1935-04-07',
   flowType: FLOW_TYPES.CANCEL,
 });
