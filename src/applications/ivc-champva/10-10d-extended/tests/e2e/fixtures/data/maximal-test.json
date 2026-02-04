@@ -49,8 +49,6 @@
         "medicareParticipant": "28e7f1064a74",
         "medicarePlanType": "c",
         "medicareNumber": "1EG4TE5MK73",
-        "medicarePartAEffectiveDate": "2023-01-15",
-        "medicarePartBEffectiveDate": "2023-01-15",
         "medicarePartAPartBFrontCard": [],
         "medicarePartAPartBBackCard": [],
         "medicarePartCCarrier": "Advantage Health Solutions",
@@ -78,16 +76,6 @@
         "thirdParty": true
       }
     },
-    "certifierAddress": {
-      "street": "123 Certifier St",
-      "street2": "Apt 5",
-      "city": "Citytown",
-      "country": "USA",
-      "state": "AL",
-      "postalCode": "12312"
-    },
-    "certifierPhone": "1231231234",
-    "certifierEmail": "certifier@email.gov",
     "sponsorName": {
       "first": "Joe",
       "middle": "J",
