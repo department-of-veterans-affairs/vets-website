@@ -10,6 +10,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
     mhvMedicationsManagementImprovements = false,
+    mhvMedicationsOracleHealthCutover = false,
 
     // OH integration work
     mhvMedicalRecordsCcdExtendedFileTypes = true,
@@ -103,6 +104,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_management_improvements',
           value: mhvMedicationsManagementImprovements,
+        },
+        {
+          name: 'mhv_medications_oracle_health_cutover',
+          value: mhvMedicationsOracleHealthCutover,
         },
         {
           name: 'mhv_medications_display_new_cerner_facility_alert',
