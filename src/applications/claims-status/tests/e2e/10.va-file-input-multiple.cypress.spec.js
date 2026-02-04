@@ -23,7 +23,9 @@ describe('VA File Input Multiple', () => {
     cy.get(`va-button[text="${SUBMIT_TEXT}"]`)
       .shadow()
       .find('button')
-      .click();
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   const verifySubmissionBlocked = () => {
@@ -96,7 +98,7 @@ describe('VA File Input Multiple', () => {
   };
 
   const getFileInputError = (fileIndex = 0) =>
-    getFileInput(fileIndex).find('span.usa-error-message', { timeout: 8000 });
+    getFileInput(fileIndex).find('#input-error-message', { timeout: 8000 });
 
   // Helper function for encrypted file workflow: upload + wait for password input
   const setupEncryptedFile = (fileName, fileIndex = 0) => {
