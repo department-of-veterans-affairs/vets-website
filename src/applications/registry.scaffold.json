@@ -170,6 +170,6 @@
   {
     "appName": "MHV Demo Mode",
     "entryName": "mhv-demo-mode",
-    "rootUrl": "/demo-mode"
+    "rootUrl": "/mhv-demo-mode"
   }
 ]

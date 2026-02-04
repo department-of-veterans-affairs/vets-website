@@ -19,7 +19,7 @@ const StatoscopeWebpackPlugin = require('@statoscope/webpack-plugin').default;
 
 const headerFooterData = require('@department-of-veterans-affairs/platform-landing-pages/header-footer-data');
 const facilitySidebar = require('@department-of-veterans-affairs/platform-landing-pages/facility-sidebar');
-const BUCKETS = require('../src/site/constants/buckets');
+// const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const scaffoldRegistry = require('../src/applications/registry.scaffold.json');
 
@@ -290,8 +290,8 @@ module.exports = async (env = {}) => {
   const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
   const scaffoldAssets = await getScaffoldAssets();
   const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
-  const envBucketUrl = BUCKETS[buildtype];
-  const sourceMapSlug = envBucketUrl || '';
+  // const envBucketUrl = BUCKETS[buildtype];
+  // const sourceMapSlug = envBucketUrl || '';
 
   const buildPath = path.resolve(
     __dirname,
@@ -490,6 +490,7 @@ module.exports = async (env = {}) => {
           },
         },
       },
+      runtimeChunk: 'single',
     },
     plugins: [
       new webpack.DefinePlugin({
@@ -515,10 +516,10 @@ module.exports = async (env = {}) => {
         process: 'process/browser',
       }),
 
-      new webpack.SourceMapDevToolPlugin({
-        append: `\n//# sourceMappingURL=${sourceMapSlug}/generated/[url]`,
-        filename: '[file].map',
-      }),
+      // new webpack.SourceMapDevToolPlugin({
+      //   append: `\n//# sourceMappingURL=${sourceMapSlug}/generated/[url]`,
+      //   filename: '[file].map',
+      // }),
 
       new StylelintPlugin({
         configFile: '.stylelintrc.json',
