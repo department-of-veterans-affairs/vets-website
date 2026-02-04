@@ -9,7 +9,7 @@ export const AppDeletedAlert = ({ title, privacyUrl }) => {
   }, []);
 
   return (
-    <div tabIndex="-1" data-focus-target className="vads-u-margin-y--4">
+    <div tabIndex="-1" data-focus-target>
       <va-alert
         status="success"
         backgroundOnly

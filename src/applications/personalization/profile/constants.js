@@ -216,7 +216,7 @@ export const NOTIFICATION_ITEM_DESCRIPTIONS = Object.freeze({
   [NOTIFICATION_ITEM_IDS.MEDICAL_IMAGES]:
     'Notifications for when you can download the medical images you requested.',
   [NOTIFICATION_ITEM_IDS.PRESCRIPTION_SHIPMENT]:
-    'Only available at some VA health facilities. Check with your VA pharmacy first.',
+    'Only available at some VA health facilities. Select both options to get all available notifications.',
 });
 
 export const NOTIFICATION_CHANNEL_IDS = Object.freeze({
