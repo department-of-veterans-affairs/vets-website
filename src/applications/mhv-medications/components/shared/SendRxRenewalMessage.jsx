@@ -3,20 +3,18 @@ import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
-import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { selectSecureMessagingMedicationsRenewalRequestFlag } from '../../util/selectors';
-import { isOracleHealthPrescription } from '../../util/helpers';
 
 const SendRxRenewalMessage = ({
   rx,
   fallbackContent = null,
   showFallBackContent = false,
   isActionLink = false,
+  isOracleHealth = false,
 }) => {
   const showSecureMessagingRenewalRequest = useSelector(
     selectSecureMessagingMedicationsRenewalRequestFlag,
   );
-  const cernerFacilityIds = useSelector(selectCernerFacilityIds);
   const redirectPath = encodeURIComponent(
     '/my-health/medications?page=1&rxRenewalMessageSuccess=true',
   );
@@ -25,20 +23,14 @@ const SendRxRenewalMessage = ({
   }&redirectPath=${redirectPath}`;
   const [showRenewalModal, setShowRenewalModal] = useState(false);
 
-  // Determine if the prescription is eligible for a renewal request
-  const isActiveNoRefills =
-    rx.dispStatus === 'Active' && rx.refillRemaining === 0;
   const isExpiredLessThan120Days =
     (rx.dispStatus === 'Expired' || rx.dispStatus === 'Inactive') &&
     rx.expirationDate &&
     new Date(rx.expirationDate) >
       new Date(Date.now() - 120 * 24 * 60 * 60 * 1000);
   const { isRenewable } = rx;
-  const isOracleHealth = isOracleHealthPrescription(rx, cernerFacilityIds);
 
-  const canSendRenewalRequest =
-    isOracleHealth &&
-    (isRenewable || isActiveNoRefills || isExpiredLessThan120Days);
+  const canSendRenewalRequest = isOracleHealth && isRenewable;
 
   if (
     !canSendRenewalRequest ||
@@ -54,7 +46,6 @@ const SendRxRenewalMessage = ({
         isActionLink={isActionLink}
         setShowRenewalModal={setShowRenewalModal}
         isExpired={isExpiredLessThan120Days}
-        isActiveNoRefills={isActiveNoRefills}
       />
       <VaModal
         modalTitle="You're leaving medications to send a message"
@@ -88,6 +79,7 @@ SendRxRenewalMessage.propTypes = {
   fallbackContent: PropTypes.node,
   isActionLink: PropTypes.bool,
   isActiveNoRefills: PropTypes.bool,
+  isOracleHealth: PropTypes.bool,
   rx: PropTypes.shape({
     refillRemaining: PropTypes.number,
     dispStatus: PropTypes.string,
