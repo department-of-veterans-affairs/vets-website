@@ -10,8 +10,8 @@
  */
 
 // eslint-disable-next-line import/no-unresolved
-import { rest, setupWorker } from 'msw';
-import { api, apiUrl, commonHandlers } from 'platform/mocks/browser';
+import { setupWorker } from 'msw';
+import { mockApi, rest, apiUrl, commonHandlers } from 'platform/mocks/browser';
 import facilitiesData from './data/facilities.json';
 import geocodingData from './data/geocoding.json';
 
@@ -20,19 +20,19 @@ import geocodingData from './data/geocoding.json';
 // ============================================================================
 
 /**
- * Facility locator handlers using the api helper.
- * The api helper automatically prefixes paths with environment.API_URL.
+ * Facility locator handlers using the mockApi helper.
+ * The mockApi helper automatically prefixes paths with environment.API_URL.
  */
 const facilityHandlers = [
   // Facility search - POST /facilities_api/v2/va
-  api.post('/facilities_api/v2/va', (req, res, ctx) => {
+  mockApi.post('/facilities_api/v2/va', (req, res, ctx) => {
     // eslint-disable-next-line no-console
     console.log('[MSW] Intercepted facilities search');
     return res(ctx.json(facilitiesData));
   }),
 
   // Individual facility - GET /facilities_api/v2/va/:id
-  api.get('/facilities_api/v2/va/:id', (req, res, ctx) => {
+  mockApi.get('/facilities_api/v2/va/:id', (req, res, ctx) => {
     // eslint-disable-next-line no-console
     console.log('[MSW] Intercepted facility by ID:', req.params.id);
     const facility = facilitiesData.data.find(f => f.id === req.params.id);
