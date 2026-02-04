@@ -40,7 +40,7 @@
             "first": "Johnny",
             "last": "Alvin"
           },
-          "applicantDob": "1993-01-04",
+          "applicantDob": "2020-01-04",
           "applicantSsn": "345345345",
           "view:sharesAddressWith": "na",
           "applicantAddress": {
@@ -83,7 +83,7 @@
           "applicantRelationshipToSponsor": {
             "relationshipToVeteran": "spouse"
           },
-          "dateOfMarriageToSponsor": "1980-01-01"
+          "dateOfMarriageToSponsor": "2019-01-01"
         }
       ]
     },
