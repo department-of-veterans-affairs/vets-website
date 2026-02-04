@@ -1701,7 +1701,27 @@ describe('cleanUpMailingAddress', () => {
       },
     };
     const result = cleanUpMailingAddress(formData);
-    // Empty after trim should be filtered out
-    expect(result.mailingAddress.addressLine2).to.equal('');
+    // Whitespace-only values become empty after normalization and are filtered out
+    expect(result.mailingAddress).to.not.have.property('addressLine2');
+  });
+
+  it('should handle empty string values in mailing address', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        addressLine2: '',
+        addressLine3: '',
+        city: 'New York',
+        state: 'NY',
+        zipCode: '12345',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress.addressLine1).to.equal('123 Main St');
+    expect(result.mailingAddress.city).to.equal('New York');
+    // Empty strings are filtered out (not included in result)
+    expect(result.mailingAddress).to.not.have.property('addressLine2');
+    expect(result.mailingAddress).to.not.have.property('addressLine3');
   });
 });

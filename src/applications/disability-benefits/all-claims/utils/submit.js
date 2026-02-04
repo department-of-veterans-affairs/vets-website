@@ -473,11 +473,12 @@ export const cleanUpMailingAddress = formData => {
 
   const mailingAddress = Object.entries(formData.mailingAddress).reduce(
     (address, [key, value]) => {
-      if (value && validKeys.includes(key)) {
-        // Normalize address lines and city before submission
-        const normalizedValue = fieldsToNormalize.includes(key)
-          ? normalizeAddressLine(value)
-          : value;
+      // Normalize address lines and city before submission
+      const normalizedValue = fieldsToNormalize.includes(key)
+        ? normalizeAddressLine(value)
+        : value;
+
+      if (normalizedValue && validKeys.includes(key)) {
         return {
           ...address,
           [key]: normalizedValue,
