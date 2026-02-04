@@ -122,14 +122,6 @@ const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
         dispatch(
           setFilterOption(selectedFilterOption || ALL_MEDICATIONS_FILTER_KEY),
         );
-      } else if (isOpen === 'true') {
-        // Focus the accordion button when opened for accessibility
-        waitForRenderThenFocus(
-          '[data-testid="rx-filter"]',
-          document,
-          250,
-          '[type="button"]',
-        );
       }
       datadogRum.addAction(
         dataDogActionNames.medicationsListPage.FILTER_LIST_ACCORDION,

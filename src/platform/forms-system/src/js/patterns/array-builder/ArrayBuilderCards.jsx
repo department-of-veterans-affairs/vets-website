@@ -13,7 +13,6 @@ import { withRouter } from 'react-router';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { focusElement, scrollTo } from 'platform/utilities/ui';
-import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
 import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
 import {
   arrayBuilderContextObject,
@@ -169,12 +168,7 @@ const ArrayBuilderCards = ({
       if (incompleteArrayPath === arrayPath) {
         const card = getCardSelector(index);
         scrollTo(card);
-        waitForRenderThenFocus(
-          card,
-          document,
-          250,
-          '.array-builder-missing-info-alert',
-        );
+        focusElement(`${card} .array-builder-missing-info-alert`);
       }
     },
   );
@@ -189,12 +183,7 @@ const ArrayBuilderCards = ({
             return;
           }
           scrollTo(card);
-          waitForRenderThenFocus(
-            card,
-            document,
-            250,
-            '.array-builder-duplicate-alert',
-          );
+          focusElement(`${card} .array-builder-duplicate-alert`);
         });
       }
     },
