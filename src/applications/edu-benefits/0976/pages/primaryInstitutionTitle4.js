@@ -24,7 +24,7 @@ export default {
       }),
       opeidNumber: {
         ...textUI({
-          title: 'List your institution’s OPEID number below',
+          title: 'List your institution’s OPEID number',
           errorMessages: {
             required: 'You must enter your institution’s OPEID number',
           },
