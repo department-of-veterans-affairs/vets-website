@@ -53,6 +53,20 @@ describe('CDP - One Thing Per Page', () => {
 
     context('copay pages', () => {
       beforeEach(() => {
+        // Enable the feature flag ONLY for copay page tests
+
+        cy.intercept('GET', '/v0/feature_toggles*', {
+          data: {
+            features: [
+              { name: 'combined_debt_portal_access', value: true },
+              { name: 'debt_letters_show_letters_vbms', value: false },
+              { name: 'show_one_va_debt_letter', value: true },
+              { name: 'dispute_debt', value: true },
+              { name: 'vha_show_payment_history', value: true },
+            ],
+          },
+        }).as('features');
+
         // Stub the detail API early so any clicks will trigger it
         copayResponses.detail(id);
       });
@@ -119,13 +133,18 @@ describe('CDP - One Thing Per Page', () => {
           .findByTestId('card-link')
           .click();
 
-        // No wait needed — page already has data
+        // Re-stub the detail API right before clicking the resolve link
+        copayResponses.detail(id);
+
         cy.get(`[data-testid="resolve-link-${id}"]`)
           .shadow()
           .find('a')
           .click();
 
         cy.url().should('match', new RegExp(`/copay-balances/${id}/resolve$`));
+
+        // Wait for the API call to complete
+        cy.wait('@copayDetail');
 
         cy.findByTestId('resolve-page-title').should('exist');
         cy.get('va-on-this-page').should('exist');

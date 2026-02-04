@@ -69,7 +69,8 @@ const ResolvePage = ({ match }) => {
             INVOICE_DATE: verifyCurrentBalance(
               copayDetail?.pSStatementDateOutput,
             ),
-            AMOUNT_DUE: copayDetail?.pHAmtDueOutput.replace(/&nbsp;/g, ''),
+            AMOUNT_DUE:
+              copayDetail?.pHAmtDueOutput?.replace(/&nbsp;/g, '') || '',
             ACCOUNT_NUMBER:
               copayDetail?.accountNumber || copayDetail?.pHAccountNumber,
             CHARGES:
