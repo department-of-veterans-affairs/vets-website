@@ -14,6 +14,7 @@ import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAler
 import * as Constants from '../util/constants';
 import { BlockedTriageAlertStyles, ParentComponent } from '../util/constants';
 import { getRecentRecipients } from '../actions/recipients';
+import { focusOnErrorField } from '../util/formHelpers';
 import { updateDraftInProgress } from '../actions/threadDetails';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 import manifest from '../manifest.json';
@@ -144,11 +145,32 @@ const RecentCareTeams = () => {
       event?.preventDefault();
       if (!selectedCareTeam) {
         setError('Select a care team');
+
+        // First, briefly focus the fieldset to announce the error to screen readers
         setTimeout(() => {
-          if (radioRef.current) {
-            radioRef.current.focus();
+          if (radioRef.current?.shadowRoot) {
+            const fieldset = radioRef.current.shadowRoot.querySelector(
+              'fieldset',
+            );
+            if (fieldset) {
+              fieldset.setAttribute('tabindex', '-1');
+              fieldset.focus();
+
+              // Then use the helper to focus the first radio option
+              // I don't love this longer timeout to allow screen readers to complete reading
+              // the full label, hint text, and error message, but other approaches didn't work reliably
+              setTimeout(() => {
+                focusOnErrorField();
+                // Clean up the temporary tabindex
+                fieldset.removeAttribute('tabindex');
+              }, 18000);
+            }
+          } else {
+            // Fallback if shadowRoot isn't available
+            focusOnErrorField();
           }
         }, 100);
+
         return;
       }
       setError(null); // Clear error on valid submit
