@@ -29,10 +29,6 @@ import {
 } from '../../../utils/labels';
 import { handleVeteranMaxMarriagesAlert } from '../../../components/FormAlerts';
 
-const updatedFullNameSchema = fullNameSchema;
-updatedFullNameSchema.properties.first.maxLength = 12;
-updatedFullNameSchema.properties.last.maxLength = 18;
-
 /**
  * Pages for Veteran's previous marriages (array-builder)
  */
@@ -148,7 +144,7 @@ const namePage = {
   schema: {
     type: 'object',
     properties: {
-      spouseFullName: updatedFullNameSchema,
+      spouseFullName: fullNameSchema,
     },
     required: ['spouseFullName'],
   },
