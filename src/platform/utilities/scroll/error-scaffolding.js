@@ -702,8 +702,8 @@ function associateGroupErrorAnnotations(groupComponent, errorMessage) {
 }
 
 // ============================================================================
-// CATEGORY 4: DATE COMPONENT ERROR STYLING & ANNOTATION
-// Validation, styling, and annotation for va-date and va-memorable-date.
+// CATEGORY 4: DATE COMPONENT ANNOTATION
+// Validation and annotation for va-date and va-memorable-date.
 // ============================================================================
 
 /**
