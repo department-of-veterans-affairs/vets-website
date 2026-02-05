@@ -174,6 +174,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
       <div key={`table-wrapper-${currentPage}`}>
         <va-table
           table-title={getStatementDateRange()}
+          table-title-summary={getStatementDateRange()}
           scrollable={false}
           table-type="bordered"
           full-width
