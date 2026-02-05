@@ -155,15 +155,17 @@ describe('Medication card component', () => {
     expect(queryByTestId('rx-refill-remaining')).to.be.null;
   });
 
-  it('Does not show number of refills when it has less than 1 refill remaining', () => {
+  it('Does show number of refills when it has 0 refill remaining', () => {
     const rx = {
       ...prescriptionsListItem,
       isRefillable: true,
       dispStatus: 'Active',
       refillRemaining: 0,
     };
-    const { queryByTestId } = setup(rx);
-    expect(queryByTestId('rx-refill-remaining')).to.be.null;
+    const { getByTestId } = setup(rx);
+    expect(getByTestId('rx-refill-remaining')).to.have.text(
+      'Refills remaining: 0',
+    );
   });
 
   it('displays "Not available" when prescription number is missing', () => {
