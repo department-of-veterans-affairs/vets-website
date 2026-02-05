@@ -13,6 +13,7 @@ const {
   createUnauthorizedError,
   createInvalidCredentialsError,
   createNotWithinCohortError,
+  createAppointmentAlreadyBookedError,
 } = require('./utils/errors');
 
 const mockUUIDs = Object.freeze({
@@ -42,9 +43,9 @@ const mockUUIDs = Object.freeze({
   },
   // Test user with existing appointment - use this UUID to test redirect flow
   'has-appointment': {
-    lastname: 'Smith',
+    lastName: 'Smith',
     dob: '1935-04-07',
-    otc: '123456',
+    otp: '123456',
     email: 's****@email.com',
   },
 });
@@ -60,9 +61,6 @@ const maxOtpUseCount = 5;
 
 const mockAppointments = [createAppointmentData()];
 
-// Track which UUIDs have existing appointments
-// For testing: 'has-appointment' UUID will have an existing appointment
-const userAppointments = new Map([['has-appointment', mockAppointments[0]]]);
 
 const responses = {
   'POST /vass/v0/request-otp': (req, res) => {
@@ -181,47 +179,17 @@ const responses = {
       return res.status(401).json(createNotWithinCohortError());
     }
 
+    if (uuid === 'has-appointment') {
+      return res
+        .status(409)
+        .json(createAppointmentAlreadyBookedError(mockAppointments[0].appointmentId));
+    }
+
     return res.json({
       data: {
         appointmentId: uuid,
         availableSlots: generateSlots(),
       },
-    });
-  },
-  'GET /vass/v0/user/appointment': (req, res) => {
-    const { headers } = req;
-    const [, token] = headers.authorization?.split(' ') || [];
-    const tokenPayload = decodeJwt(token);
-
-    const uuid = tokenPayload?.payload?.sub;
-    if (!token || !uuid) {
-      return res.status(401).json({
-        errors: [
-          {
-            code: 'unauthorized',
-            detail: 'Invalid or missing authentication token',
-            status: 401,
-          },
-        ],
-      });
-    }
-
-    const appointment = userAppointments.get(uuid);
-
-    if (appointment) {
-      return res.json({
-        data: appointment,
-      });
-    }
-
-    return res.status(404).json({
-      errors: [
-        {
-          code: 'not_found',
-          detail: 'No appointment found for user',
-          status: 404,
-        },
-      ],
     });
   },
   'POST /vass/v0/appointment/:appointmentId/cancel': (req, res) => {

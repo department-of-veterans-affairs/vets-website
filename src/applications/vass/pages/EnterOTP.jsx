@@ -5,14 +5,18 @@ import { useErrorFocus } from '../hooks/useErrorFocus';
 import Wrapper from '../layout/Wrapper';
 import {
   usePostOTPVerificationMutation,
-  useLazyGetUserAppointmentQuery,
+  useLazyGetAppointmentAvailabilityQuery,
 } from '../redux/api/vassApi';
 import {
   selectFlowType,
   selectObfuscatedEmail,
 } from '../redux/slices/formSlice';
 import { FLOW_TYPES, URLS, OTC_ERROR_CODES } from '../utils/constants';
-import { isAccountLockedError, isServerError } from '../utils/errors';
+import {
+  isAccountLockedError,
+  isServerError,
+  isAppointmentAlreadyBookedError,
+} from '../utils/errors';
 
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   switch (errorCode) {
@@ -52,13 +56,15 @@ const EnterOTP = () => {
   ]);
 
   const [code, setCode] = useState('');
-  const [checkingAppointment, setCheckingAppointment] = useState(false);
 
   const [
     postOTPVerification,
     { isLoading, error: postOTPVerificationError },
   ] = usePostOTPVerificationMutation();
-  const [getUserAppointment] = useLazyGetUserAppointmentQuery();
+  const [
+    getAppointmentAvailability,
+    { isFetching: isCheckingAvailability },
+  ] = useLazyGetAppointmentAvailabilityQuery();
 
   const handleSubmit = async () => {
     if (code === '') {
@@ -86,18 +92,15 @@ const EnterOTP = () => {
       return;
     }
 
-    // Check if user already has an appointment
-    setCheckingAppointment(true);
-    const appointmentCheck = await getUserAppointment();
-    setCheckingAppointment(false);
+    // Check appointment availability (may return appointment_already_booked error)
+    const availabilityCheck = await getAppointmentAvailability();
 
-    // If user has an existing appointment, redirect to already-scheduled page
-    if (appointmentCheck.data?.data) {
-      navigate(URLS.ALREADY_SCHEDULED, { replace: true });
+    if (isAppointmentAlreadyBookedError(availabilityCheck.error)) {
+      const { appointmentId } = availabilityCheck.error.appointment;
+      navigate(`${URLS.ALREADY_SCHEDULED}/${appointmentId}`, { replace: true });
       return;
     }
 
-    // Otherwise, continue with normal flow
     if (cancellationFlow) {
       // TODO: handle cancellation flow
       navigate(`${URLS.CANCEL_APPOINTMENT}/abcdef123456`, { replace: true });
@@ -172,7 +175,7 @@ const EnterOTP = () => {
           text="Continue"
           data-testid="continue-button"
           uswds
-          loading={isLoading || checkingAppointment}
+          loading={isLoading || isCheckingAvailability}
         />
       </div>
     </Wrapper>
