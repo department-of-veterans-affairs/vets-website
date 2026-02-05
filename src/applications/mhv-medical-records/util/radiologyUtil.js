@@ -190,9 +190,9 @@ const generateHash = data => {
  * where procedure names may have different whitespace formatting.
  *
  * @param {string} name the procedure name to normalize
- * @returns the normalized procedure name
+ * @returns {string} the normalized procedure name
  */
-const normalizeProcedureName = name => {
+export const normalizeProcedureName = name => {
   if (!name) return '';
   return name
     .replace(/[\r\n]+/g, ' ')

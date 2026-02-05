@@ -1,5 +1,9 @@
 import { formatDateInLocalTimezone, formatNameFirstToLast } from './helpers';
-import { areDatesEqualToMinute, parseRadiologyReport } from './radiologyUtil';
+import {
+  areDatesEqualToMinute,
+  normalizeProcedureName,
+  parseRadiologyReport,
+} from './radiologyUtil';
 import { labTypes, EMPTY_FIELD } from './constants';
 
 export const buildRadiologyResults = record => {
@@ -78,17 +82,13 @@ const extractHashFromId = id => {
 };
 
 /**
- * Normalize a procedure name for comparison by replacing newlines and extra whitespace.
+ * Normalize a procedure name for case-insensitive comparison.
+ * Uses normalizeProcedureName from radiologyUtil and adds lowercase conversion.
  * @param {string} name - The procedure name
- * @returns {string} - The normalized name
+ * @returns {string} - The normalized lowercase name
  */
 const normalizeNameForComparison = name => {
-  if (!name) return '';
-  return name
-    .replace(/[\r\n]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .toLowerCase();
+  return normalizeProcedureName(name).toLowerCase();
 };
 
 /**
@@ -122,7 +122,8 @@ const areDatesOnSameDay = (date1, date2) => {
 
 /**
  * Create a union of the radiology reports from PHR and CVIX. This function will merge
- * duplicates between the two lists using multiple matching strategies:
+ * duplicates between the two lists using any of the following matching strategies
+ * (evaluated in parallel - a match on ANY strategy will trigger a merge):
  * 1. Hash matching (computed from procedure name, radiologist, station, and date)
  * 2. Timestamp matching (to the minute)
  * 3. Procedure name + date matching (normalized comparison, same calendar day)
