@@ -133,7 +133,7 @@ const HealthConditions = () => {
             <TrackedSpinner
               id="conditions-page-spinner"
               message="We’re loading your records."
-              setFocus
+              set-focus
               data-testid="accelerated-loading-indicator"
             />
           </div>

@@ -140,7 +140,7 @@ const Radiology = () => {
             <TrackedSpinner
               id="radiology-page-spinner"
               message="We're loading your records."
-              setFocus
+              set-focus
               data-testid="loading-indicator"
             />
           </div>

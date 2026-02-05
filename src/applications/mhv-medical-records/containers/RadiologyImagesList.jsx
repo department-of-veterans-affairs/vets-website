@@ -240,7 +240,7 @@ const RadiologyImagesList = ({ isTesting, basePath = '/labs-and-tests' }) => {
           <TrackedSpinner
             id="radiology-image-page-spinner"
             message="Loading..."
-            setFocus
+            set-focus
             data-testid="loading-indicator"
           />
         </div>
