@@ -9,6 +9,7 @@ import { focusElement } from 'platform/utilities/ui/focus';
 import {
   FIELD_TITLES,
   FIELD_OPTION_IDS,
+  errorMessages,
 } from '@@vap-svc/constants/schedulingPreferencesConstants';
 import { useSelector } from 'react-redux';
 
@@ -94,7 +95,7 @@ const PreferenceSelection = ({
   );
 
   const content = {
-    errorMessage: 'Please choose an option to continue.',
+    errorMessage: errorMessages.noPreferenceSelected,
   };
 
   const handlers = {
