@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -13,6 +14,7 @@ import {
   formatDate,
   verifyCurrentBalance,
 } from '../../combined/utils/helpers';
+import { getCopayDetailStatement } from '../../combined/actions/copays';
 
 const CurrentContent = ({ id, date }) => (
   <p className="vads-u-margin--0">
@@ -41,6 +43,7 @@ PastDueContent.propTypes = {
 
 const BalanceCard = ({ id, amount, facility, city, date }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const { useToggleLoadingValue } = useFeatureToggle();
   // boolean value to represent if toggles are still loading or not
@@ -91,6 +94,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
             data-testid={`detail-link-${id}`}
             onClick={event => {
               event.preventDefault();
+              dispatch(getCopayDetailStatement(`${id}`));
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
               history.push(`/copay-balances/${id}`);
             }}
@@ -106,6 +110,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
             data-testid={`resolve-link-${id}`}
             onClick={event => {
               event.preventDefault();
+              dispatch(getCopayDetailStatement(`${id}`));
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
               history.push(`/copay-balances/${id}/resolve`);
             }}
