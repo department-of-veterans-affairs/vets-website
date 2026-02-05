@@ -272,6 +272,7 @@ export function uploadFile(
   onError,
   trackingPrefix,
   password,
+  hasAttemptedTokenRefresh = false,
 ) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
@@ -385,7 +386,7 @@ export function uploadFile(
           ...fileData,
           isEncrypted: !!password,
         });
-      } else if (req.status === 403) {
+      } else if (req.status === 403 && !hasAttemptedTokenRefresh) {
         let errorResponse;
         try {
           errorResponse = JSON.parse(req.response);
@@ -403,6 +404,7 @@ export function uploadFile(
                   onError,
                   trackingPrefix,
                   password,
+                  true,
                 )(dispatch, getState);
               },
             );

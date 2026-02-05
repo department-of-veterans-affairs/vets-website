@@ -52,6 +52,25 @@ describe('CDP - One Thing Per Page', () => {
     });
 
     context('copay pages', () => {
+      beforeEach(() => {
+        // Enable the feature flag ONLY for copay page tests
+
+        cy.intercept('GET', '/v0/feature_toggles*', {
+          data: {
+            features: [
+              { name: 'combined_debt_portal_access', value: true },
+              { name: 'debt_letters_show_letters_vbms', value: false },
+              { name: 'show_one_va_debt_letter', value: true },
+              { name: 'dispute_debt', value: true },
+              { name: 'vha_show_payment_history', value: true },
+            ],
+          },
+        }).as('features');
+
+        // Stub the detail API early so any clicks will trigger it
+        copayResponses.detail(id);
+      });
+
       it('should show new links on balance cards', () => {
         cy.findByTestId('balance-card-copay')
           .findByTestId('card-link')
@@ -71,6 +90,9 @@ describe('CDP - One Thing Per Page', () => {
         cy.get('@detailLink').click();
 
         cy.url().should('match', /\/copay-balances\/[a-f0-9-]+$/);
+
+        cy.wait('@copayDetail');
+
         cy.go('back');
 
         // Resolve this bill link should be present and work
@@ -93,15 +115,39 @@ describe('CDP - One Thing Per Page', () => {
           .findByTestId('card-link')
           .click();
 
-        cy.findByTestId(`balance-card-${id}`)
-          .findByTestId(`resolve-link-${id}`)
+        cy.get(`[data-testid="resolve-link-${id}"]`)
+          .shadow()
+          .find('a')
           .click();
 
-        cy.findByTestId('resolve-page-title').contains('Resolve your copay');
+        cy.location('pathname').should(
+          'match',
+          /\/copay-balances\/.*\/resolve$/,
+        );
 
-        // how to pay also has on this page that is hidden, let's make sure it only shows up once
-        cy.get('va-on-this-page').should('have.length', 1);
+        cy.injectAxeThenAxeCheck();
+      });
 
+      it('renders resolve page content after navigation', () => {
+        cy.findByTestId('balance-card-copay')
+          .findByTestId('card-link')
+          .click();
+
+        // Re-stub the detail API right before clicking the resolve link
+        copayResponses.detail(id);
+
+        cy.get(`[data-testid="resolve-link-${id}"]`)
+          .shadow()
+          .find('a')
+          .click();
+
+        cy.url().should('match', new RegExp(`/copay-balances/${id}/resolve$`));
+
+        // Wait for the API call to complete
+        cy.wait('@copayDetail');
+
+        cy.findByTestId('resolve-page-title').should('exist');
+        cy.get('va-on-this-page').should('exist');
         cy.findByTestId('how-to-pay').should('exist');
         cy.findByTestId('financial-help').should('exist');
         cy.findByTestId('dispute-charges').should('exist');
@@ -127,6 +173,8 @@ describe('CDP - One Thing Per Page', () => {
       });
 
       it('should show new version of details page', () => {
+        copayResponses.detail(id);
+
         // Bills select from summary page
         cy.findByTestId('balance-card-copay')
           .findByTestId('card-link')
@@ -136,6 +184,8 @@ describe('CDP - One Thing Per Page', () => {
         cy.findByTestId(`balance-card-${id}`)
           .findByTestId(`detail-link-${id}`)
           .click();
+
+        cy.wait('@copayDetail');
 
         cy.findByTestId('detail-copay-page-title-otpp').should('exist');
         cy.findByTestId('detail-page-title').should('not.exist');

@@ -1,16 +1,22 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setFilterOpen } from '../../redux/preferencesSlice';
 import { ErrorNotification } from './ErrorNotification';
 import { PartialRefillNotification } from './PartialRefillNotification';
 import { SuccessNotification } from './SuccessNotification';
-import { MEDICATION_REFILL_CONFIG, REFILL_STATUS } from '../../util/constants';
+import {
+  MEDICATION_REFILL_CONFIG,
+  REFILL_STATUS,
+  REFILL_LOADING_MESSAGES,
+} from '../../util/constants';
 
 const RefillNotification = ({
   refillStatus,
   successfulMeds = [],
   failedMeds = [],
+  isFetching = false,
 }) => {
   const dispatch = useDispatch();
   const handleGoToMedicationsListOnSuccess = () => {
@@ -24,13 +30,14 @@ const RefillNotification = ({
       const hasFailedMeds = failedMeds.length > 0;
 
       return {
-        isNotSubmitted: isFinished && !hasSuccessfulMeds && !hasFailedMeds,
+        isNotSubmitted:
+          isFinished && !hasSuccessfulMeds && !hasFailedMeds && !isFetching,
         isError: hasFailedMeds && !hasSuccessfulMeds,
         isPartiallySubmitted: hasFailedMeds && hasSuccessfulMeds,
         isSuccess: hasSuccessfulMeds,
       };
     },
-    [refillStatus, successfulMeds, failedMeds],
+    [refillStatus, successfulMeds, failedMeds, isFetching],
   );
 
   return (
@@ -53,12 +60,26 @@ const RefillNotification = ({
           successfulMeds={successfulMeds}
         />
       )}
+
+      {refillStatus === REFILL_STATUS.FINISHED &&
+        isFetching && (
+          <div
+            className="cache-refresh-loading"
+            data-testid="cache-refresh-loading"
+          >
+            <VaLoadingIndicator
+              message={REFILL_LOADING_MESSAGES.UPDATING_REFILL_LIST}
+              set-focus={false}
+            />
+          </div>
+        )}
     </>
   );
 };
 
 RefillNotification.propTypes = {
   failedMeds: PropTypes.array,
+  isFetching: PropTypes.bool,
   refillStatus: PropTypes.string,
   successfulMeds: PropTypes.array,
 };

@@ -274,10 +274,14 @@ const costPage = {
       title: 'How often are the payments?',
       labels: careFrequencyLabels,
     }),
-    paymentAmount: currencyUI('How much is each payment?'),
+    paymentAmount: currencyUI({
+      title: 'How much is each payment?',
+      max: 999999999,
+    }),
     ratePerHour: {
       ...currencyUI({
         title: 'What is the provider’s rate per hour?',
+        max: 999999999,
         hideIf: (formData, index, fullData) => {
           const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
           const careExpense = careExpenses?.[index];
