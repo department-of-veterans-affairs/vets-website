@@ -10,7 +10,7 @@ export const uiSchema = {
   }),
   remarks: textareaUI({
     title:
-      "Use this space to enter any information you'd like to include in your request",
+      "Use this space to add any information you'd like to include in your request",
     errorMessages: {
       maxLength:
         'You are over the character limit. Please adjust your remarks.',
