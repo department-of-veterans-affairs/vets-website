@@ -8,10 +8,6 @@ import {
 import { UnauthenticatedWarningAlert } from '../../../components/FormAlerts';
 import { setDefaultIsOver65 } from './helpers';
 
-const updatedFullNameSchema = fullNameSchema;
-updatedFullNameSchema.properties.first.maxLength = 12;
-updatedFullNameSchema.properties.last.maxLength = 18;
-
 /** @type {PageSchema} */
 export default {
   updateFormData: setDefaultIsOver65,
@@ -33,7 +29,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      veteranFullName: updatedFullNameSchema,
+      veteranFullName: fullNameSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },
   },

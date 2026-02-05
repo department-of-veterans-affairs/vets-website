@@ -35,6 +35,7 @@ const Confirmation = () => {
   return (
     <Wrapper
       testID="confirmation-page"
+      disableBeforeUnload
       showBackLink={detailsCardOnly}
       loading={isLoading}
       loadingMessage="Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page."

@@ -867,6 +867,11 @@ describe('MHV Secure Messaging helpers', () => {
       const result = getStationNumberFromRecipientId(999, recipients);
       expect(result).to.equal(null);
     });
+
+    it('should return null when recipients is null or undefined', () => {
+      expect(getStationNumberFromRecipientId(123, null)).to.equal(null);
+      expect(getStationNumberFromRecipientId(123, undefined)).to.equal(null);
+    });
   });
 
   describe('findActiveDraftFacility', () => {

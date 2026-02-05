@@ -237,7 +237,7 @@ const formConfig = {
 
     // Step 4 of 5: Hospitalization
     hospitalizationChapter: {
-      title: 'Hospitalization',
+      title: 'Hospital care',
       pages: {
         hospitalizationStatus: {
           path: 'hospitalization-status',
@@ -253,9 +253,9 @@ const formConfig = {
               const fullName = `${firstName} ${lastName}`.trim();
 
               if (fullName) {
-                return `Is ${fullName} hospitalized?`;
+                return `Is ${fullName} receiving hospital care?`;
               }
-              return 'Is the Veteran hospitalized?';
+              return 'Is the Veteran receiving hospital care?';
             }
 
             const firstName =
@@ -265,9 +265,9 @@ const formConfig = {
             const fullName = `${firstName} ${lastName}`.trim();
 
             if (fullName) {
-              return `Is ${fullName} hospitalized?`;
+              return `Is ${fullName} receiving hospital care?`;
             }
-            return 'Is the claimant hospitalized?';
+            return 'Is the claimant receiving hospital care?';
           },
           uiSchema: hospitalizationStatusUiSchema,
           schema: hospitalizationStatusSchema,

@@ -4,6 +4,7 @@ import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
 import { lazyWithRetry } from '~/platform/utilities/lazy-load-with-retry';
 import AppRoute from './components/shared/AppRoute';
+import FeatureFlagRoute from './components/shared/FeatureFlagRoute';
 
 // Lazy-loaded components with retry logic for Safari/iOS bfcache issues.
 const HealthConditions = lazyWithRetry(() =>
@@ -39,6 +40,10 @@ const RadiologyImagesList = lazyWithRetry(() =>
 );
 const RadiologySingleImage = lazyWithRetry(() =>
   import('./containers/RadiologySingleImage'),
+);
+const Radiology = lazyWithRetry(() => import('./containers/Radiology'));
+const RadiologyDetailsPage = lazyWithRetry(() =>
+  import('./containers/RadiologyDetailsPage'),
 );
 const DownloadReportPage = lazyWithRetry(() =>
   import('./containers/DownloadReportPage'),
@@ -133,6 +138,38 @@ const routes = (
         >
           <RadiologySingleImage />
         </AppRoute>
+        <FeatureFlagRoute
+          exact
+          path="/imaging-results"
+          key="Radiology"
+          featureFlag="mhv_medical_records_images_domain"
+        >
+          <Radiology />
+        </FeatureFlagRoute>
+        <FeatureFlagRoute
+          exact
+          path="/imaging-results/:radiologyId"
+          key="RadiologyDetails"
+          featureFlag="mhv_medical_records_images_domain"
+        >
+          <RadiologyDetailsPage />
+        </FeatureFlagRoute>
+        <FeatureFlagRoute
+          exact
+          path="/imaging-results/:labId/images"
+          key="RadiologyImagesListNew"
+          featureFlag="mhv_medical_records_images_domain"
+        >
+          <RadiologyImagesList basePath="/imaging-results" />
+        </FeatureFlagRoute>
+        <FeatureFlagRoute
+          exact
+          path="/imaging-results/:labId/images/:imageId"
+          key="RadiologySingleImageNew"
+          featureFlag="mhv_medical_records_images_domain"
+        >
+          <RadiologySingleImage basePath="/imaging-results" />
+        </FeatureFlagRoute>
         <AppRoute exact path="/settings" key="Settings">
           <SettingsPage />
         </AppRoute>

@@ -1,29 +1,9 @@
-import React from 'react';
 import { expect } from 'chai';
-import { waitFor, render } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import sinon from 'sinon';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { usePageTitle } from '../../hooks/usePageTitle';
-
-function renderHook(renderCallback, { initialProps } = {}) {
-  const result = React.createRef();
-
-  function TestComponent({ renderCallbackProps }) {
-    result.current = renderCallback(renderCallbackProps);
-    return null;
-  }
-
-  const { rerender, unmount } = render(
-    <TestComponent renderCallbackProps={initialProps} />,
-  );
-
-  return {
-    result,
-    rerender: newProps =>
-      rerender(<TestComponent renderCallbackProps={newProps} />),
-    unmount,
-  };
-}
 
 describe('usePageTitle', () => {
   let sandbox;

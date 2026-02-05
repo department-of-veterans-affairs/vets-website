@@ -68,7 +68,6 @@ export function chapter4Transform(formData) {
       child => {
         return {
           ...child,
-          // childFullName: truncateName(child.childFullName, 12, 1, 18),
           childPlaceOfBirth: combineCityState(
             child.birthPlace?.city,
             child.birthPlace?.state || child.birthPlace?.otherCountry,

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import {
   HealthInsuranceDescription,
   HealthInsuranceAddtlInfoDescription,
@@ -33,6 +34,26 @@ const InsuranceSummary = props => {
     [INSURANCE_VIEW_FIELDS.add]: addProvider = null,
   } = data;
   const mode = onReviewPage ? 'update' : 'edit';
+
+  const { properties: providersSchema } = ezrSchema.properties.providers.items;
+  const providerErrorIndexes = [];
+  providers.forEach((provider, index) => {
+    if (
+      !provider.insuranceName ||
+      provider.insuranceName.length > providersSchema.insuranceName.maxLength ||
+      !provider.insurancePolicyHolderName ||
+      provider.insurancePolicyHolderName.length >
+        providersSchema.insurancePolicyHolderName.maxLength ||
+      (!provider['view:policyOrGroup']?.insurancePolicyNumber &&
+        !provider['view:policyOrGroup']?.insuranceGroupCode) ||
+      provider['view:policyOrGroup']?.insurancePolicyNumber?.length >
+        providersSchema.insurancePolicyNumber.maxLength ||
+      provider['view:policyOrGroup']?.insuranceGroupCode?.length >
+        providersSchema.insuranceGroupCode.maxLength
+    ) {
+      providerErrorIndexes.push(index);
+    }
+  });
 
   /**
    * declare default state variables
@@ -70,6 +91,11 @@ const InsuranceSummary = props => {
       // set error if user hasn't provided a value for the form field
       if (fieldData === null) {
         hasError(true);
+        return;
+      }
+
+      // block progression if any providers are missing required information
+      if (providerErrorIndexes.length > 0) {
         return;
       }
 
@@ -111,6 +137,7 @@ const InsuranceSummary = props => {
                 labelledBy="root_view:insurancePolicyList__title"
                 list={providers}
                 mode={mode}
+                providerErrors={providerErrorIndexes}
                 onDelete={handlers.onDelete}
               />
             </fieldset>

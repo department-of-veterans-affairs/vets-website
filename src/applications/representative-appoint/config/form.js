@@ -92,6 +92,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   v3SegmentedProgressBar: true,
+  allowDuplicatePaths: true,
   additionalRoutes: [
     {
       path: 'claimant-type',

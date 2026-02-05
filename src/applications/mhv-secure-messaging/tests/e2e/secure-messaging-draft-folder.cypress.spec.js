@@ -39,7 +39,7 @@ describe('SM DRAFT FOLDER VERIFICATION', () => {
   });
 
   it('verify breadcrumbs', () => {
-    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
+    SharedComponents.backBreadcrumb().should('have.text', 'Back');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

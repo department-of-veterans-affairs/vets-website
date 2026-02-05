@@ -55,7 +55,7 @@ export default function VerifyIdentity({ useOAuth }) {
           {useOAuth ? (
             <CreateAccountLink policy={policy} useOAuth={useOAuth} />
           ) : (
-            <VerifyAccountLink policy={policy} />
+            <VerifyAccountLink policy={policy} useOAuth={useOAuth} />
           )}
         </p>
       ))}

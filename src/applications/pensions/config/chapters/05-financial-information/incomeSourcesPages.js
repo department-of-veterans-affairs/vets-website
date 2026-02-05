@@ -138,6 +138,7 @@ const incomeReceiverPage = {
     },
     receiver: radioUI({
       title: 'Who receives this income?',
+      hint: 'You’ll be able to add individual incomes separately',
       labels: recipientTypeLabels,
     }),
     dependentName: textUI({

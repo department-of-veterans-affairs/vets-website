@@ -181,7 +181,10 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
             classNames: 'vads-u-margin-bottom--2',
           },
         },
-        monthlyIncome: currencyUI('How much is the monthly income?'),
+        monthlyIncome: currencyUI({
+          title: 'How much is the monthly income?',
+          max: 999999999,
+        }),
       },
       schema: {
         type: 'object',

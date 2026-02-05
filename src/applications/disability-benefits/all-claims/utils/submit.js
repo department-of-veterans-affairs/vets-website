@@ -15,6 +15,8 @@ import {
   sippableId,
 } from './index';
 
+import { normalizeAddressLine } from './contactInformationHelpers';
+
 import { migrateBranches } from './serviceBranches';
 
 import { ptsdBypassDescription } from '../content/ptsdBypassContent';
@@ -93,7 +95,16 @@ export function getDisabilities(
 
 export function getDisabilityName(disability) {
   const name = disability.name ? disability.name : disability.condition;
-  return name && name.trim();
+  const baseName = name && name.trim();
+
+  // Include sideOfBody if present to match the checkbox schema format
+  // used in makeSchemaForNewDisabilities (e.g., "tinnitus, left")
+  if (baseName && disability.sideOfBody) {
+    const side = disability.sideOfBody.trim().toLowerCase();
+    return `${baseName}, ${side}`;
+  }
+
+  return baseName;
 }
 
 export function getClaimedConditionNames(
@@ -452,12 +463,25 @@ export const cleanUpMailingAddress = formData => {
     'state',
     'zipCode',
   ];
+
+  const fieldsToNormalize = [
+    'addressLine1',
+    'addressLine2',
+    'addressLine3',
+    'city',
+  ];
+
   const mailingAddress = Object.entries(formData.mailingAddress).reduce(
     (address, [key, value]) => {
-      if (value && validKeys.includes(key)) {
+      // Normalize address lines and city before submission
+      const normalizedValue = fieldsToNormalize.includes(key)
+        ? normalizeAddressLine(value)
+        : value;
+
+      if (normalizedValue && validKeys.includes(key)) {
         return {
           ...address,
-          [key]: value,
+          [key]: normalizedValue,
         };
       }
       return address;

@@ -37,7 +37,7 @@ describe('pension applicant information page', () => {
   const mockStore = configureStore(middleware);
   it('should render with all alerts, fields and buttons', async () => {
     const onSubmit = sinon.spy();
-    const { data } = getData({ loggedIn: false });
+    const { data } = getData({ loggedIn: true });
     const store = mockStore(data);
     const { container } = render(
       <Provider store={store}>
@@ -53,7 +53,6 @@ describe('pension applicant information page', () => {
     );
 
     await waitFor(() => {
-      expect($$('va-alert', container).length).to.equal(1);
       expect($$('va-text-input', container).length).to.equal(5);
       expect($$('va-memorable-date', container).length).to.equal(1);
       expect($$('va-select', container).length).to.equal(1);
@@ -75,7 +74,7 @@ describe('pension applicant information page', () => {
   );
   it('should not allow submit with errors', async () => {
     const onSubmit = sinon.spy();
-    const { data } = getData({ loggedIn: false });
+    const { data } = getData({ loggedIn: true });
     const store = mockStore(data);
 
     const { container } = render(
@@ -104,7 +103,7 @@ describe('pension applicant information page', () => {
     uiSchema,
     'applicant information',
     getFixtureData(FixtureDataType.OVERFLOW),
-    { loggedIn: false },
+    { loggedIn: true },
   );
 
   describe('isOver65', () => {

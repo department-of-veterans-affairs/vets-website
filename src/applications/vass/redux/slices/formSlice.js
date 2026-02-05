@@ -67,11 +67,15 @@ const clearFormDataFromStorage = () => {
   removeSessionItem(VASS_CURRENT_UUID_KEY);
 };
 
+/** @typedef {{ dtStartUtc: string | null, dtEndUtc: string | null }} Slot */
 /** @typedef {{ topicId: string, topicName: string }} Topic */
-/** @type {{ selectedDate: Date | null, selectedTopics: Topic[], obfuscatedEmail: string | null, uuid: string | null, token: string | null, lastname: string | null, dob: string | null, flowType: string | null }} */
+/** @type {{ selectedSlot: Slot, selectedTopics: Topic[], obfuscatedEmail: string | null, uuid: string | null, token: string | null, lastName: string | null, dob: string | null, flowType: string | null }} */
 const initialState = {
   hydrated: false,
-  selectedDate: null,
+  selectedSlot: {
+    dtStartUtc: null,
+    dtEndUtc: null,
+  },
   selectedTopics: [],
   obfuscatedEmail: null,
   uuid: null,
@@ -84,12 +88,12 @@ export const formSlice = createSlice({
   name: 'vassForm',
   initialState,
   reducers: {
-    setSelectedDate: (state, action) => {
-      state.selectedDate = action.payload;
+    setSelectedSlot: (state, action) => {
+      state.selectedSlot = action.payload;
       if (state.uuid) {
         saveFormDataToStorage(state.uuid, {
           ...state,
-          selectedDate: action.payload,
+          selectedSlot: action.payload,
         });
       }
     },
@@ -129,7 +133,10 @@ export const formSlice = createSlice({
     clearFormData: state => {
       // Clear from storage before resetting state
       clearFormDataFromStorage();
-      state.selectedDate = null;
+      state.selectedSlot = {
+        dtStartUtc: null,
+        dtEndUtc: null,
+      };
       state.selectedTopics = [];
       state.obfuscatedEmail = null;
       state.uuid = null;
@@ -149,11 +156,11 @@ export const formSlice = createSlice({
       if (action.payload.dob) {
         state.dob = action.payload.dob;
       }
+      if (action.payload.selectedSlot) {
+        state.selectedSlot = action.payload.selectedSlot;
+      }
       if (action.payload.obfuscatedEmail) {
         state.obfuscatedEmail = action.payload.obfuscatedEmail;
-      }
-      if (action.payload.selectedDate) {
-        state.selectedDate = action.payload.selectedDate;
       }
       if (action.payload.selectedTopics) {
         state.selectedTopics = action.payload.selectedTopics;
@@ -166,7 +173,7 @@ export const formSlice = createSlice({
 });
 
 export const {
-  setSelectedDate,
+  setSelectedSlot,
   setSelectedTopics,
   setLowAuthFormData,
   setObfuscatedEmail,
@@ -175,7 +182,7 @@ export const {
   hydrateFormData,
 } = formSlice.actions;
 
-export const selectSelectedDate = state => state.vassForm.selectedDate;
+export const selectSelectedSlot = state => state.vassForm.selectedSlot;
 export const selectSelectedTopics = state => state.vassForm.selectedTopics;
 export const selectUuid = state => state.vassForm.uuid;
 export const selectHydrated = state => state.vassForm.hydrated;

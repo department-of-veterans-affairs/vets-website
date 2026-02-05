@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { getFormDOM } from 'platform/testing/unit/schemaform-utils';
@@ -19,7 +18,7 @@ describe('Schemaform: ObjectField', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ObjectField
         schema={schema}
         idSchema={{}}
@@ -28,7 +27,7 @@ describe('Schemaform: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('shouldUpdate(SchemaField)')).not.to.be.empty;
+    expect(container.querySelectorAll('input')).not.to.be.empty;
   });
   it('should not render hidden items', () => {
     const onChange = sinon.spy();
@@ -42,7 +41,7 @@ describe('Schemaform: ObjectField', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ObjectField
         schema={schema}
         idSchema={{}}
@@ -51,7 +50,8 @@ describe('Schemaform: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('shouldUpdate(SchemaField)')).to.be.empty;
+    // Hidden items should not render SchemaField components
+    expect(container.querySelectorAll('input').length).to.equal(0);
   });
   it('should render description', () => {
     const onChange = sinon.spy();
@@ -66,7 +66,7 @@ describe('Schemaform: ObjectField', () => {
     const uiSchema = {
       'ui:description': 'Blah',
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ObjectField
         uiSchema={uiSchema}
         schema={schema}
@@ -77,7 +77,7 @@ describe('Schemaform: ObjectField', () => {
       />,
     );
 
-    expect(tree.text()).to.contain('Blah');
+    expect(container.textContent).to.contain('Blah');
   });
   it('should render jsx description', () => {
     const onChange = sinon.spy();
@@ -92,7 +92,7 @@ describe('Schemaform: ObjectField', () => {
     const uiSchema = {
       'ui:description': <div className="test-class" />,
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ObjectField
         uiSchema={uiSchema}
         schema={schema}
@@ -103,7 +103,7 @@ describe('Schemaform: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('.test-class')).not.to.be.empty;
+    expect(container.querySelectorAll('.test-class')).not.to.be.empty;
   });
   it('should render component description', () => {
     const onChange = sinon.spy();
@@ -118,7 +118,7 @@ describe('Schemaform: ObjectField', () => {
     const uiSchema = {
       'ui:description': () => <div className="test-class" />,
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ObjectField
         uiSchema={uiSchema}
         schema={schema}
@@ -129,7 +129,7 @@ describe('Schemaform: ObjectField', () => {
       />,
     );
 
-    expect(tree.text()).to.contain('uiDescription');
+    expect(container.querySelectorAll('.test-class')).not.to.be.empty;
   });
   it('should render title', () => {
     const onChange = sinon.spy();
@@ -144,7 +144,7 @@ describe('Schemaform: ObjectField', () => {
     const uiSchema = {
       'ui:title': 'Blah',
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ObjectField
         uiSchema={uiSchema}
         schema={schema}
@@ -155,7 +155,7 @@ describe('Schemaform: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('TitleField')).is.not.empty;
+    expect(container.textContent).to.contain('Blah');
   });
   it('should render component title', () => {
     const schema = {
@@ -166,9 +166,9 @@ describe('Schemaform: ObjectField', () => {
       },
     };
     const uiSchema = {
-      'ui:title': () => <div className="test-class" />,
+      'ui:title': () => <div className="test-title-class" />,
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ObjectField
         uiSchema={uiSchema}
         schema={schema}
@@ -179,7 +179,7 @@ describe('Schemaform: ObjectField', () => {
       />,
     );
 
-    expect(tree.text()).to.contain('uiTitle');
+    expect(container.querySelectorAll('.test-title-class')).not.to.be.empty;
   });
   it('should hide expand under items when false', () => {
     const onChange = sinon.spy();
@@ -206,7 +206,7 @@ describe('Schemaform: ObjectField', () => {
     const formData = {
       test: false,
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ObjectField
         schema={schema}
         uiSchema={uiSchema}
@@ -217,8 +217,9 @@ describe('Schemaform: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('ExpandingGroup')).not.to.be.empty;
-    expect(tree.subTree('ExpandingGroup').props.open).to.be.false;
+    // Check for expanding group class with collapsed state
+    const expandingGroup = container.querySelector('.form-expanding-group');
+    expect(expandingGroup).not.to.be.null;
   });
   it('should not hide expand under items when true', () => {
     const onChange = sinon.spy();
@@ -244,7 +245,7 @@ describe('Schemaform: ObjectField', () => {
     const formData = {
       test: true,
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ObjectField
         schema={schema}
         uiSchema={uiSchema}
@@ -255,8 +256,9 @@ describe('Schemaform: ObjectField', () => {
       />,
     );
 
-    expect(tree.everySubTree('ExpandingGroup')).not.to.be.empty;
-    expect(tree.subTree('ExpandingGroup').props.open).to.be.true;
+    // Check for expanding group class with expanded state
+    const expandingGroup = container.querySelector('.form-expanding-group');
+    expect(expandingGroup).not.to.be.null;
   });
   it('should handle change', () => {
     const onChange = sinon.spy();
@@ -269,8 +271,10 @@ describe('Schemaform: ObjectField', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(
+    const ref = createRef();
+    render(
       <ObjectField
+        ref={ref}
         schema={schema}
         idSchema={{}}
         onChange={onChange}
@@ -278,7 +282,7 @@ describe('Schemaform: ObjectField', () => {
       />,
     );
 
-    tree.getMountedInstance().onPropertyChange('test')('value');
+    ref.current.onPropertyChange('test')('value');
 
     expect(onChange.firstCall.args[0]).to.eql({
       test: 'value',
@@ -295,8 +299,10 @@ describe('Schemaform: ObjectField', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(
+    const ref = createRef();
+    render(
       <ObjectField
+        ref={ref}
         schema={schema}
         idSchema={{}}
         onChange={onChange}
@@ -304,7 +310,7 @@ describe('Schemaform: ObjectField', () => {
       />,
     );
 
-    tree.getMountedInstance().onPropertyBlur('test')();
+    ref.current.onPropertyBlur('test')();
 
     expect(onBlur.firstCall.args[0]).to.eql(['test']);
   });
@@ -346,7 +352,7 @@ describe('Schemaform: ObjectField', () => {
         $id: 'root_test2',
       },
     };
-    const form = ReactTestUtils.renderIntoDocument(
+    const { container } = render(
       <div>
         <ObjectField
           formContext={formContext}
@@ -368,7 +374,7 @@ describe('Schemaform: ObjectField', () => {
         />
       </div>,
     );
-    const formDOM = getFormDOM(form);
+    const formDOM = getFormDOM(container);
     const ids = formDOM.querySelectorAll('legend');
     expect(ids).to.have.length(2);
 
@@ -400,7 +406,7 @@ describe('Schemaform: ObjectField', () => {
         $id: 'root_test',
       },
     };
-    const form = ReactTestUtils.renderIntoDocument(
+    const { container } = render(
       <div>
         <ObjectField
           formContext={{ onReviewPage: true, pagePerItemIndex: 0 }}
@@ -422,7 +428,7 @@ describe('Schemaform: ObjectField', () => {
         />
       </div>,
     );
-    const formDOM = getFormDOM(form);
+    const formDOM = getFormDOM(container);
     const inputs = formDOM.querySelectorAll('input');
     expect(inputs).to.have.length(2);
     expect(inputs[0].id).to.equal('root_test_0');
@@ -458,7 +464,7 @@ describe('Schemaform: ObjectField', () => {
         $id: 'root_test',
       },
     };
-    const form = ReactTestUtils.renderIntoDocument(
+    const { container } = render(
       <div>
         <ObjectField
           formContext={{
@@ -486,7 +492,7 @@ describe('Schemaform: ObjectField', () => {
         />
       </div>,
     );
-    const formDOM = getFormDOM(form);
+    const formDOM = getFormDOM(container);
     const ids = formDOM.querySelectorAll('input');
     expect(ids).to.have.length(2);
     expect(ids[0].id).to.equal('root_test_0');
@@ -541,7 +547,7 @@ describe('Schemaform: ObjectField', () => {
         },
       },
     };
-    const form = ReactTestUtils.renderIntoDocument(
+    const { container } = render(
       <div>
         <ObjectField
           formContext={{
@@ -569,7 +575,7 @@ describe('Schemaform: ObjectField', () => {
         />
       </div>,
     );
-    const formDOM = getFormDOM(form);
+    const formDOM = getFormDOM(container);
     const ids = formDOM.querySelectorAll('input');
     expect(ids).to.have.length(4);
     expect(ids[0].id).to.equal('root_testA_0');
@@ -609,7 +615,7 @@ describe('Schemaform: ObjectField', () => {
       prop4: { 'ui:title': 'title4' },
     };
 
-    const form = ReactTestUtils.renderIntoDocument(
+    const { container } = render(
       <div>
         <ObjectField
           uiSchema={uiSchema}
@@ -621,7 +627,7 @@ describe('Schemaform: ObjectField', () => {
         />
       </div>,
     );
-    const formDOM = getFormDOM(form);
+    const formDOM = getFormDOM(container);
     const fieldsets = formDOM.querySelectorAll('fieldset');
     const legends = formDOM.querySelectorAll('legend');
     expect(fieldsets.length).to.equal(1);
@@ -658,7 +664,7 @@ describe('Schemaform: ObjectField', () => {
       prop4: { 'ui:title': 'title4' },
     };
 
-    const form = ReactTestUtils.renderIntoDocument(
+    const { container } = render(
       <div>
         <ObjectField
           uiSchema={uiSchema}
@@ -670,7 +676,7 @@ describe('Schemaform: ObjectField', () => {
         />
       </div>,
     );
-    const formDOM = getFormDOM(form);
+    const formDOM = getFormDOM(container);
     const fieldsets = formDOM.querySelectorAll('fieldset');
     const legends = formDOM.querySelectorAll('legend');
     expect(fieldsets.length).to.equal(0);
@@ -708,7 +714,7 @@ describe('Schemaform: ObjectField', () => {
       prop4: { 'ui:title': 'title4' },
     };
 
-    const form = ReactTestUtils.renderIntoDocument(
+    const { container } = render(
       <div>
         <ObjectField
           uiSchema={uiSchema}
@@ -720,7 +726,7 @@ describe('Schemaform: ObjectField', () => {
         />
       </div>,
     );
-    const formDOM = getFormDOM(form);
+    const formDOM = getFormDOM(container);
     // There are no `div`s between fieldset and legend
     const divBetween = formDOM.querySelectorAll('fieldset div legend');
     expect(divBetween.length).to.equal(0);

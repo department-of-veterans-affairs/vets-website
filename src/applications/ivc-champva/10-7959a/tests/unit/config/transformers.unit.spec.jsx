@@ -3,14 +3,14 @@ import sinon from 'sinon-v20';
 import * as recordEventModule from 'platform/monitoring/record-event';
 import { ID_NUMBER_OPTIONS } from '../../../chapters/resubmission';
 import formConfig from '../../../config/form';
-import mockData from '../../e2e/fixtures/data/test-data.json';
+import mockData from '../../e2e/fixtures/data/medical-claim.json';
 import transformForSubmit from '../../../config/submitTransformer';
 
 describe('Submit transformer', () => {
   it('should add the file type to submitted files', () => {
     const result = JSON.parse(transformForSubmit(formConfig, mockData));
     const attachmentIds = result.supportingDocs.map(o => o.attachmentId);
-    expect(attachmentIds.length).to.eq(3); // 'EOB', 'EOB', and 'MEDDOCS'
+    expect(attachmentIds.length).to.eq(2);
     expect(attachmentIds.includes('MEDDOCS')).to.be.true;
     expect(attachmentIds.includes('EOB')).to.be.true;
   });

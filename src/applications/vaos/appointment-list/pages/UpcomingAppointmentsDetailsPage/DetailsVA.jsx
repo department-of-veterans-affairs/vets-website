@@ -1,9 +1,8 @@
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { shallowEqual } from 'recompose';
 import BackLink from '../../../components/BackLink';
 import FacilityAddress from '../../../components/FacilityAddress';
 import FullWidthLayout from '../../../components/FullWidthLayout';

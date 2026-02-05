@@ -68,7 +68,8 @@ describe('ClaimDetailsContent', () => {
         'Your travel reimbursement claim for Sunday, May 26, 2024',
       ),
     ).to.exist;
-    expect(screen.getByText('Claim number: TC0928098230498')).to.exist;
+    expect(screen.getByText(/Claim number:/)).to.exist;
+    expect(screen.getByText('TC0928098230498')).to.exist;
     expect(screen.getByText('Tomah VA Medical Center')).to.exist;
     expect(screen.getByText('Claim status: Claim submitted')).to.exist;
   });

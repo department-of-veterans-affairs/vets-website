@@ -6,3 +6,5 @@ export const goToNextPage = pagePath => {
     cy.location('pathname').should('include', pagePath);
   }
 };
+
+export const startAsNewUser = () => cy.clickStartForm();

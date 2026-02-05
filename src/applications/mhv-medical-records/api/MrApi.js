@@ -280,18 +280,8 @@ export const getAcceleratedAllergy = id => {
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format
  */
-export const getVaccineList = async (page, useCache = true) => {
-  const params = new URLSearchParams();
-  // Send pagination params if page is defined and != 0
-  if (page) {
-    params.append('page', page);
-    params.append('per_page', '10');
-  }
-  if (!useCache) {
-    params.append('use_cache', 'false');
-  }
-  const queryString = params.toString() ? `?${params.toString()}` : '';
-  return apiRequest(`${apiBasePath}/medical_records/vaccines${queryString}`, {
+export const getVaccineList = async () => {
+  return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
     headers,
   });
 };

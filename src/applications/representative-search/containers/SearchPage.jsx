@@ -27,6 +27,7 @@ import {
   fetchRepresentatives,
   searchWithInput,
   updateSearchQuery,
+  commitSearchQuery,
   geolocateUser,
   geocodeUserAddress,
   submitRepresentativeReport,
@@ -81,8 +82,8 @@ const SearchPage = props => {
       ...params,
     };
 
-    if (currentQuery.searchArea !== null) {
-      queryParams.distance = currentQuery.searchArea;
+    if (currentQuery.committedSearchQuery.searchArea !== null) {
+      queryParams.distance = currentQuery.committedSearchQuery.searchArea;
     }
 
     const queryStringObj = appendQuery(
@@ -96,6 +97,7 @@ const SearchPage = props => {
     clearError(ErrorTypes.geocodeError);
     setIsSearching(true);
     props.geocodeUserAddress(props.currentQuery);
+    // search query committed in geocodeUserAddress function
   };
 
   const handleSearchViaUrl = () => {
@@ -107,7 +109,7 @@ const SearchPage = props => {
 
     setIsSearching(true);
 
-    props.updateSearchQuery({
+    const queryUpdateCommitPayload = {
       id: Date.now(),
       context: {
         location: location.query.address,
@@ -125,7 +127,10 @@ const SearchPage = props => {
       page: location.query.page,
       sortType: location.query.sort,
       searchArea: location.query.distance,
-    });
+    };
+
+    props.updateSearchQuery(queryUpdateCommitPayload);
+    props.commitSearchQuery(queryUpdateCommitPayload);
   };
 
   const handleSearchOnQueryChange = () => {
@@ -138,7 +143,7 @@ const SearchPage = props => {
       sortType,
       page,
       searchArea,
-    } = currentQuery;
+    } = currentQuery.committedSearchQuery;
 
     const { latitude, longitude } = position;
 
@@ -228,7 +233,7 @@ const SearchPage = props => {
       );
 
       props.searchWithInput({
-        address: currentQuery.context.location,
+        address: context.location,
         lat: latitude,
         long: longitude,
         name: representativeInputString,
@@ -248,7 +253,14 @@ const SearchPage = props => {
   const handlePageSelect = e => {
     const { page } = e.detail;
     setIsSearching(true);
-    props.updateSearchQuery({ id: Date.now(), page });
+
+    const queryUpdateCommitPayload = {
+      id: Date.now(),
+      page,
+    };
+
+    props.updateSearchQuery(queryUpdateCommitPayload);
+    props.commitSearchQuery(queryUpdateCommitPayload);
   };
 
   // Trigger request on query update following search
@@ -258,7 +270,7 @@ const SearchPage = props => {
         handleSearchOnQueryChange();
       }
     },
-    [props.currentQuery.id],
+    [props.currentQuery.committedSearchQuery.id],
   );
 
   // Trigger request on sort update
@@ -268,7 +280,7 @@ const SearchPage = props => {
         handleSearchOnQueryChange();
       }
     },
-    [props.currentQuery.sortType],
+    [props.currentQuery.committedSearchQuery.sortType],
   );
 
   // Trigger request on page update
@@ -278,7 +290,7 @@ const SearchPage = props => {
         handleSearchOnQueryChange();
       }
     },
-    [props.currentQuery.page],
+    [props.currentQuery.committedSearchQuery.page],
   );
 
   useEffect(
@@ -475,6 +487,7 @@ const SearchPage = props => {
                   searchResults={props.searchResults}
                   query={currentQuery}
                   updateSearchQuery={props.updateSearchQuery}
+                  commitSearchQuery={props.commitSearchQuery}
                   pagination={props.pagination}
                 />{' '}
                 {resultsList()}
@@ -565,6 +578,7 @@ SearchPage.propTypes = {
   sortType: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
   updateSearchQuery: PropTypes.func,
+  commitSearchQuery: PropTypes.func,
   onSubmit: PropTypes.func,
 };
 
@@ -589,6 +603,7 @@ const mapDispatchToProps = {
   fetchRepresentatives,
   searchWithInput,
   updateSearchQuery,
+  commitSearchQuery,
   clearSearchResults,
   clearSearchText,
   submitRepresentativeReport,

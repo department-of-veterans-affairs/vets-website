@@ -16,6 +16,11 @@ const initialState = {
    * @type {Boolean}
    */
   error: false,
+  /**
+   * CCD download completed successfully
+   * @type {Boolean}
+   */
+  ccdDownloadSuccess: false,
   dateFilter: {},
 };
 
@@ -47,6 +52,13 @@ export const downloadsReducer = (state = initialState, action) => {
         generatingCCD: false,
         timestampCCD: action.response,
         error: true,
+      };
+    }
+    case Actions.Downloads.CCD_CLEAR_ALERT: {
+      return {
+        ...state,
+        ccdDownloadSuccess: false,
+        error: false,
       };
     }
     case Actions.Downloads.SET_DATE_FILTER: {

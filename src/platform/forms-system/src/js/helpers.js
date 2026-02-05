@@ -1,8 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { add, getYear } from 'date-fns';
 import { cloneDeep, intersection, matches, merge, uniq } from 'lodash';
 import * as Sentry from '@sentry/browser';
-import shouldUpdate from 'recompose/shouldUpdate';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import { handleSessionUpdates } from '../../../utilities/api';
 import get from '../../../utilities/data/get';
@@ -602,9 +601,10 @@ export function getNonArraySchema(schema, uiSchema = {}) {
   };
 }
 
-export const pureWithDeepEquals = shouldUpdate(
-  (props, nextProps) => !deepEquals(props, nextProps),
-);
+// HOC that only re-renders when props have deeply changed
+// Equivalent to React.memo with deepEquals comparison
+export const pureWithDeepEquals = Component =>
+  memo(Component, (prevProps, nextProps) => deepEquals(prevProps, nextProps));
 
 /**
  * Recursively checks to see if the schema is valid.

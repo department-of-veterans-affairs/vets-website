@@ -84,8 +84,8 @@ const BlockedTriageGroupAlert = ({
     [alertConfig],
   );
 
-  // Don't render if no alert should be shown
-  if (!alertConfig?.shouldShow) {
+  // Don't render if no alert should be shown or title is missing
+  if (!alertConfig?.shouldShow || !alertConfig?.title) {
     return null;
   }
 

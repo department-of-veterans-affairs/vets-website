@@ -14,6 +14,9 @@ const verifySideNavState = (chapterIndex, chapterKey) => {
   // Verify sidenav exists
   cy.get('#default-sidenav').should('exist');
 
+  // Verify the header text is correct
+  cy.get('#default-sidenav').should('have.attr', 'header', 'Form steps');
+
   // Verify current chapter is marked with current-page attribute
   cy.get(`va-sidenav-item[data-page="${chapterKey}"]`)
     .should('exist')
@@ -77,6 +80,53 @@ const testConfig = createTestConfig(
         cy.get('va-sidenav-item[data-page="veteranDetails"]')
           .should('exist')
           .should('not.have.attr', 'disabled');
+
+        // Test mobile accordion behavior
+        // Save current viewport dimensions
+        let previousViewport;
+        cy.window().then(win => {
+          previousViewport = {
+            width: win.innerWidth,
+            height: win.innerHeight,
+          };
+        });
+
+        // Switch to mobile temporarily
+        cy.viewport('iphone-x');
+
+        // Verify accordion exists and can be opened on mobile
+        cy.get('#default-sidenav')
+          .shadow()
+          .find('va-accordion-item')
+          .should('exist')
+          .click();
+
+        // Verify accordion is now open
+        cy.get('#default-sidenav')
+          .shadow()
+          .find('va-accordion-item')
+          .should('have.attr', 'open');
+
+        // Navigate to a different page via Continue button
+        // This triggers the useEffect that closes the accordion
+        cy.fillPage();
+        cy.findByText(/continue/i, { selector: 'button' }).click();
+
+        // Wait for navigation to complete
+        cy.url().should('not.include', '/rated-disabilities');
+
+        // Verify the accordion is now closed after navigation
+        cy.get('#default-sidenav')
+          .shadow()
+          .find('va-accordion-item')
+          .should('not.have.attr', 'open');
+
+        // Restore previous viewport
+        cy.then(() => {
+          if (previousViewport) {
+            cy.viewport(previousViewport.width, previousViewport.height);
+          }
+        });
       },
 
       // Chapter 3: Mental Health
@@ -100,12 +150,10 @@ const testConfig = createTestConfig(
       },
 
       'supporting-evidence/additional-evidence-intro': () => {
-        // Use cy.fillPage() which will handle va-radio components automatically
         cy.fillPage();
       },
 
       'supporting-evidence/evidence-request': () => {
-        // Use cy.fillPage() which will handle va-radio components automatically
         cy.fillPage();
       },
 

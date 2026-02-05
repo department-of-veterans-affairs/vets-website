@@ -4,6 +4,8 @@ export function splitVaSsnField(formData) {
   if (parsedFormData?.veteranSocialSecurityNumber?.ssn) {
     transformedValue.veteranSocialSecurityNumber =
       parsedFormData?.veteranSocialSecurityNumber?.ssn;
+  } else {
+    delete transformedValue.veteranSocialSecurityNumber;
   }
   if (parsedFormData?.veteranSocialSecurityNumber?.vaFileNumber) {
     transformedValue.vaFileNumber =

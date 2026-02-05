@@ -9,6 +9,7 @@ const uiSchema = {
   homeAcreageValue: currencyUI({
     title: 'What’s the value of the land that’s more than 2 acres?',
     hint: 'Don’t include the value of the residence or the first 2 acres',
+    max: 999999999,
   }),
 };
 
