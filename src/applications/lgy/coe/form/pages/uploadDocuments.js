@@ -31,6 +31,24 @@ export const DocumentTypeSelect = () => {
   );
 };
 
+const statementOfServiceInfo = (
+  <va-accordion data-testid="statement-of-service-accordion">
+    <va-accordion-item>
+      <h3 slot="headline">Statement of service</h3>
+      <p>
+        The statement of service can be signed by, or by direction of, the
+        adjutant, personnel officer, or commander of your unit or higher
+        headquarters. The statement may be in any format; usually a standard or
+        bulleted memo is sufficient. It should identify you by name and social
+        security number and provide: (1) your date of entry on your current
+        active-duty period and (2) the duration of any time lost (or a statement
+        noting there has been no time lost). Generally, this should be on
+        military letterhead.
+      </p>
+    </va-accordion-item>
+  </va-accordion>
+);
+
 const requiredDocumentMessages = {
   [serviceStatuses.VETERAN]: (
     <p>
@@ -51,23 +69,7 @@ const requiredDocumentMessages = {
       ) : (
         <p>You’ll need to upload a Statement of Service.</p>
       )}
-      <va-accordion data-testid="statement-of-service-accordion">
-        <va-accordion-item open="true">
-          <h3 className="vads-u-font-size--h6" slot="headline">
-            Service Statement
-          </h3>
-          <p>
-            The statement of service can be signed by, or by direction of, the
-            adjutant, personnel officer, or commander of your unit or higher
-            headquarters. The statement may be in any format; usually a standard
-            or bulleted memo is sufficient. It should identify you by name and
-            social security number and provide: (1) your date of entry on your
-            current active-duty period and (2) the duration of any time lost (or
-            a statement noting there has been no time lost). Generally, this
-            should be on military letterhead.
-          </p>
-        </va-accordion-item>
-      </va-accordion>
+      {statementOfServiceInfo}
     </>
   ),
   [serviceStatuses.NADNA]: (
@@ -80,6 +82,7 @@ const requiredDocumentMessages = {
           equivalent
         </li>
       </ul>
+      {statementOfServiceInfo}
     </>
   ),
   [serviceStatuses.DNANA]: (

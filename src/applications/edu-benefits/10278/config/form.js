@@ -6,8 +6,12 @@ import { personalInformationPage } from 'platform/forms-system/src/js/components
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import { organizationRepresentativesArrayOptions } from '../helpers';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PrivacyPolicy from '../components/PrivacyPolicy';
+import PreSubmitInfo from '../components/PreSubmitInfo';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import thirdPartyOrganizationRepresentativesSummary from '../pages/thirdPartyOrganizationRepresentativesSummary ';
 import thirdPartyOrganizationInformation from '../pages/thirdPartyOrganizationInformation';
 import thirdPartyOrganizationRepresentativesIntro from '../pages/thirdPartyOrganizationRepresentativesIntro';
@@ -16,6 +20,7 @@ import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import informationToDisclose from '../pages/informationToDisclose';
 import prefillTransform from './prefillTransform';
 
 import {
@@ -57,18 +62,29 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer: prefillTransform,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    statementOfTruth: {
+      heading: 'Declaration of intent',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'claimantPersonalInformation.fullName',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your form.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  CustomReviewTopContent,
   customText: {
-    appType: 'application',
+    appType: 'form',
     continueAppButtonText: 'Continue your form',
     startNewAppButtonText: 'Start a new form',
     finishAppLaterMessage: 'Finish this form later',
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
+    reviewPageTitle: 'Review',
     submitButtonText: 'Continue',
   },
   defaultDefinitions: {
@@ -203,6 +219,24 @@ const formConfig = {
             }),
           }),
         ),
+      },
+    },
+    informationToDiscloseChapter: {
+      title: 'Information to disclose',
+      pages: {
+        informationToDisclose: {
+          path: 'information-to-disclose',
+          title: 'Information to disclose',
+          uiSchema: informationToDisclose.uiSchema,
+          schema: informationToDisclose.schema,
+          onNavBack: ({ formData, goPath }) => {
+            if (formData?.discloseInformation?.authorize === 'organization') {
+              goPath('/organizations/representatives-summary');
+              return;
+            }
+            goPath('/third-party-person-details-1');
+          },
+        },
       },
     },
     securitySetupChapter: {

@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   textUI,
-  textSchema,
   radioUI,
   radioSchema,
   currencyUI,
@@ -19,6 +18,7 @@ import {
   frequencyLabels,
 } from '../../../../utils/labels';
 import { transformDate } from '../../05-claim-information/helpers';
+import { customTextSchema } from '../../../definitions';
 
 function introDescription() {
   return (
@@ -197,8 +197,8 @@ const recipientPage = {
     type: 'object',
     properties: {
       recipient: radioSchema(Object.keys(medicalExpenseRecipientLabels)),
-      childName: textSchema,
-      provider: textSchema,
+      childName: customTextSchema,
+      provider: customTextSchema,
     },
     required: ['recipient', 'provider'],
   },
@@ -219,7 +219,7 @@ const purposeDatePage = {
   schema: {
     type: 'object',
     properties: {
-      purpose: textSchema,
+      purpose: customTextSchema,
       paymentDate: currentOrPastDateSchema,
     },
     required: ['purpose', 'paymentDate'],
@@ -233,7 +233,10 @@ const frequencyCostPage = {
       title: 'How often are the payments?',
       labels: frequencyLabels,
     }),
-    paymentAmount: currencyUI('How much is each payment?'),
+    paymentAmount: currencyUI({
+      title: 'How much is each payment?',
+      max: 999999999.0,
+    }),
   },
   schema: {
     type: 'object',

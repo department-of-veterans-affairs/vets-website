@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { DocumentTypeSelect } from '../../pages/uploadDocuments';
+import { DocumentTypeSelect, getUiSchema } from '../../pages/uploadDocuments';
 import { serviceStatuses } from '../../constants';
 
 const mockStore = configureStore([]);
@@ -46,5 +46,41 @@ describe('DocumentTypeSelect component', () => {
     expect(options).to.have.length(1);
     expect(options[0].textContent).to.equal('Purple Heart Certificate');
     expect(options[0].value).to.equal('Purple Heart Certificate');
+  });
+});
+
+describe('uploadDocuments page', () => {
+  describe('statement of service accordion', () => {
+    const renderTitleDescription = identity => {
+      const formData = { identity };
+      const uiSchema = getUiSchema();
+      const titleDescription = uiSchema['ui:title']({ formData });
+      return render(<div>{titleDescription}</div>);
+    };
+
+    const statusesWithAccordion = [serviceStatuses.ADSM, serviceStatuses.NADNA];
+
+    const statusesWithoutAccordion = [
+      serviceStatuses.VETERAN,
+      serviceStatuses.DNANA,
+      serviceStatuses.DRNA,
+    ];
+
+    statusesWithAccordion.forEach(status => {
+      it(`should display accordion for ${status} service status`, () => {
+        const { getByTestId } = renderTitleDescription(status);
+        const accordion = getByTestId('statement-of-service-accordion');
+        expect(accordion).to.exist;
+        expect(accordion.textContent).to.include('Statement of service');
+      });
+    });
+
+    statusesWithoutAccordion.forEach(status => {
+      it(`should not display accordion for ${status} service status`, () => {
+        const { queryByTestId } = renderTitleDescription(status);
+        const accordion = queryByTestId('statement-of-service-accordion');
+        expect(accordion).to.not.exist;
+      });
+    });
   });
 });
