@@ -131,8 +131,10 @@ const RadiologyImagesList = ({ isTesting, basePath = '/labs-and-tests' }) => {
         radiologyDetails &&
         studyJob?.status === studyJobStatus.COMPLETE
       ) {
-        // Only focus h1 when content is actually rendered (not during spinner)
-        focusElement('h1');
+        // Defer focus to next frame to ensure h1 is in the DOM after React commits
+        requestAnimationFrame(() => {
+          focusElement(document.querySelector('h1'));
+        });
       }
     },
     [radiologyDetails, studyJob, returnToDetailsPage],
