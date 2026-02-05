@@ -63,7 +63,8 @@ const CreateFolderInline = ({ folders, onConfirm, onFolderCreated }) => {
           setIsExpanded(false);
           setShowCreateSuccess(true);
           if (onFolderCreated) onFolderCreated(createdFolderName);
-          focusElement(createFolderButtonRef.current);
+          // Allow render cycle to complete before focusing the button
+          setTimeout(() => focusElement(createFolderButtonRef.current), 100);
         } catch (error) {
           // If creation fails, keep form open - error alert will be shown by action
         }
