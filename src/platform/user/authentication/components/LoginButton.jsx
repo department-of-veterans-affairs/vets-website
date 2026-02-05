@@ -9,7 +9,7 @@ import { createOktaOAuthRequest } from '../../../utilities/oauth/utilities';
 export function loginHandler(loginType, isOAuth, oktaParams = {}) {
   const isOAuthAttempt = isOAuth && '-oauth';
   const { codeChallenge = '', clientId = '', state = '' } = oktaParams;
-  const isProduction = environment.isProduction();
+  const isProduction = environment.isProduction() && !environment.isTest();
 
   if (OKTA_APPS?.includes(clientId)) {
     const url = createOktaOAuthRequest({
