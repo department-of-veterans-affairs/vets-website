@@ -51,7 +51,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
           </li>
           <li>Traumatic brain injury (TBI)</li>
           <li>
-            Sexual assault or harassment during military service ( referred to
+            Sexual assault or harassment during military service (referred to
             this as military sexual trauma or MST)
           </li>
           <li>
