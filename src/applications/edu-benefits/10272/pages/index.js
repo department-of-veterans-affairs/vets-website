@@ -7,6 +7,7 @@ import * as prepCourseAddress from './prepCourseAddress';
 import * as prepCourseOnline from './prepCourseOnline';
 import * as prepCoursePeriod from './prepCoursePeriod';
 import * as prepCourseCost from './prepCourseCost';
+import * as remarks from './remarks';
 
 export {
   hasPreviouslyApplied,
@@ -18,4 +19,5 @@ export {
   prepCourseOnline,
   prepCoursePeriod,
   prepCourseCost,
+  remarks,
 };

@@ -24,6 +24,15 @@ export const API_RESPONSES = Object.freeze({
   ERROR: -1,
 });
 
+export const DEFAULT_COPAY_ATTRIBUTES = Object.freeze({
+  TITLE: 'title',
+  INVOICE_DATE: 'invoiceDate',
+  ACCOUNT_NUMBER: 'accountNumber',
+  FACILITY_NAME: 'facilityName',
+  CHARGES: [],
+  AMOUNT_DUE: 0.0,
+});
+
 export const combinedPortalAccess = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
 
@@ -128,15 +137,21 @@ export const transform = data => {
   });
 };
 
-export const setPageFocus = selector => {
-  const el = document.querySelector(selector);
+export const isAnyElementFocused = () => {
+  return document.activeElement && document.activeElement !== document.body;
+};
+
+export const focusElement = el => {
   if (el) {
     el.setAttribute('tabIndex', -1);
     el.focus();
-  } else {
-    document.querySelector('#main h1').setAttribute('tabIndex', -1);
-    document.querySelector('#main h1').focus();
   }
+};
+
+export const setPageFocus = selector => {
+  const el =
+    document.querySelector(selector) || document.querySelector('#main h1');
+  focusElement(el);
 };
 
 // 'Manually' generating PDF instead of using generatePdf so we can
