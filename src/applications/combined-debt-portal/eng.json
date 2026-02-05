@@ -24,6 +24,7 @@
     "diaryCodes": {
       "statusTypes": {
         "1": {
+          "category": "Account is being updated",
           "summary": {
             "body": "Account updates or payments may take a few days to appear here. Check back later. If you need your latest account details now, contact us."
           },
@@ -33,6 +34,7 @@
           }
         },
         "2": {
+          "category": "Being sent to Treasury soon",
           "summary": {
             "body": "Pay your past due balance or request help now to avoid referral to the U.S. Treasury."
           },
@@ -42,6 +44,7 @@
           }
         },
         "3": {        
+          "category": "Benefits Offset",        
           "summary": {
             "body": "We're reducing your monthly VA benefit payments to repay your overdue balance."
           },
@@ -51,6 +54,7 @@
           }
         },
         "4": {
+          "category": "Collections are paused",
           "summary": {
             "body": "We've paused collection on this balance at your request."
           },
@@ -60,6 +64,7 @@
           }
         },
         "5": {
+          "category": "Under review",
           "summary": {
             "body": "Make your next payment by {{ endDateText }} while we review your request."
           },
@@ -69,6 +74,7 @@
           }
         },
         "6": {
+          "category": "Make a compromise offer payment",
           "summary": {
             "body": "Make your full compromise payment of ${{ amountDue }} by {{ endDateText }}."
           },
@@ -78,6 +84,7 @@
           }
         },
         "7": {
+          "category": "Make a monthly payment",
           "summary": {
             "body": "Make your next payment on {{ endDateText }} to continue to pay down your balance."
           },
@@ -87,6 +94,7 @@
           }
         },
         "8": {
+          "category": "Make a payment",
           "summary": {
             "body": "Pay your past due balance of {{ amountDue }} or request help by {{ endDateText }} to avoid fees and any collection actions."
           },
@@ -96,6 +104,7 @@
           }
         },
         "9": {
+          "category": "Sent to Treasury",
           "summary": {
             "body": "Call the U.S. Treasury at 888-826-3127 to resolve this balance."
           },
@@ -105,6 +114,7 @@
           }
         },
         "10": {
+          "category": "Verify status",
           "summary": {
             "body": "Call us to verify your military status."
           },
@@ -114,6 +124,7 @@
           }
         },
         "11": {
+          "category": "Address needed",
           "summary": {
             "body": "Update your address on file in your profile."
           },
@@ -123,6 +134,7 @@
           }
         },
         "12": {
+          "category": "FSR needs to be submitted",
           "summary": {
             "body": "We need your Financial Status Report (VA Form 5655)."
           },
