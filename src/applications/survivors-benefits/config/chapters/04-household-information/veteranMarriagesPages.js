@@ -28,6 +28,7 @@ import {
   previousMarriageEndOptions,
 } from '../../../utils/labels';
 import { handleVeteranMaxMarriagesAlert } from '../../../components/FormAlerts';
+import { customAddressSchema } from '../../definitions';
 
 /**
  * Pages for Veteran's previous marriages (array-builder)
@@ -214,23 +215,7 @@ const marriageDatePlacePage = {
     properties: {
       dateOfMarriage: currentOrPastDateSchema,
       marriedOutsideUS: checkboxSchema,
-      locationOfMarriage: {
-        type: 'object',
-        required: ['city'],
-        properties: {
-          city: { type: 'string' },
-          state: {
-            type: 'string',
-            enum: STATE_VALUES,
-            enumNames: STATE_NAMES,
-          },
-          otherCountry: {
-            type: 'string',
-            enum: COUNTRY_VALUES,
-            enumNames: COUNTRY_NAMES,
-          },
-        },
-      },
+      locationOfMarriage: customAddressSchema,
     },
   },
 };
@@ -341,23 +326,7 @@ const marriageEndDateLocationPage = {
     properties: {
       dateOfSeparation: currentOrPastDateSchema,
       marriageEndedOutsideUS: checkboxSchema,
-      locationOfSeparation: {
-        type: 'object',
-        required: ['city'],
-        properties: {
-          city: { type: 'string' },
-          state: {
-            type: 'string',
-            enum: STATE_VALUES,
-            enumNames: STATE_NAMES,
-          },
-          otherCountry: {
-            type: 'string',
-            enum: COUNTRY_VALUES,
-            enumNames: COUNTRY_NAMES,
-          },
-        },
-      },
+      locationOfSeparation: customAddressSchema,
     },
   },
 };
