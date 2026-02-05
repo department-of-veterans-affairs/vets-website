@@ -137,7 +137,7 @@ Update this file when you:
   - Use `isOlderThan(lastSentDate, 45)` to check eligibility
   - `getLastSentMessage()` finds the most recent sent message in thread
   - Set `cannotReply` flag in thread state when retrieving threads
-  - Display `Alerts.Message.CANNOT_REPLY_BODY` when restriction applies
+  - Display `Alerts.Message.STALE_REPLY_BODY` when restriction applies
   - Different messaging for VistA vs OH (Oracle Health) messages
 - **UI Impact**:
   - Reply button disabled or hidden
