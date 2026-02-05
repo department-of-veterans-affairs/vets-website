@@ -7,7 +7,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { NoFormPage } from '../../components/NoFormPage';
 
-const store = ({ isLoggedIn = false } = {}) => ({
+const store = ({ isLoggedIn = true } = {}) => ({
   getState: () => ({
     user: {
       login: {
@@ -62,33 +62,14 @@ const mockFormData = {
 };
 
 describe('NoFormPage', () => {
-  it('should render if NOT logged in', async () => {
-    mockApiRequest(mockFormData);
+  it('should render if DOES NOT have form data in progress', async () => {
+    mockApiRequest({ formData: {}, metadata: {} });
     const mockStore = store();
     const { container } = render(
       <Provider store={mockStore}>
         <NoFormPage />
       </Provider>,
     );
-    expect($('va-loading-indicator', container)).to.exist;
-    await waitFor(() => {
-      expect($('h1', container).textContent).to.eql(
-        'Review burial benefits application',
-      );
-      expect($$('h2', container)[0].textContent).to.eql(
-        'You don’t have any saved online burial forms.',
-      );
-    });
-  });
-
-  it('should render if IS logged in && DOES NOT have form data in progress', async () => {
-    mockApiRequest({ formData: {}, metadata: {} });
-    const mockStore = store({ isLoggedIn: true });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <NoFormPage />
-      </Provider>,
-    );
     await waitFor(() => {
       expect($('h1', container).textContent).to.eql(
         'Review burial benefits application',
@@ -96,9 +77,9 @@ describe('NoFormPage', () => {
     });
   });
 
-  it('should render if IS logged in && DOES have form data in progress', async () => {
+  it('should render if DOES have form data in progress', async () => {
     mockApiRequest(mockFormData);
-    const mockStore = store({ isLoggedIn: true });
+    const mockStore = store();
     const { container } = render(
       <Provider store={mockStore}>
         <NoFormPage />
@@ -112,11 +93,11 @@ describe('NoFormPage', () => {
     });
   });
 
-  it('should render if IS logged in && DOES have form data in progress && supports no form data', async () => {
+  it('should render if DOES have form data in progress && supports no form data', async () => {
     const defaultMockData = { ...mockFormData };
     defaultMockData.formData = {};
     mockApiRequest(defaultMockData);
-    const mockStore = store({ isLoggedIn: true });
+    const mockStore = store();
     const { container } = render(
       <Provider store={mockStore}>
         <NoFormPage />

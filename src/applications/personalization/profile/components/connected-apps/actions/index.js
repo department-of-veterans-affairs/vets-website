@@ -1,8 +1,6 @@
 export * from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
-import { mockConnectedApps } from '@@profile/util/connected-apps.js';
 
 export const LOADING_CONNECTED_APPS = 'connected-apps/LOADING_CONNECTED_APPS';
 export const FINISHED_LOADING_CONNECTED_APPS =
@@ -23,16 +21,6 @@ export function loadConnectedApps() {
   return async dispatch => {
     recordEvent({ event: 'profile-get-connected-apps-started' });
     dispatch({ type: LOADING_CONNECTED_APPS });
-
-    // Locally we cannot call the endpoint
-    if (environment.isLocalhost() && !window.Cypress) {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      dispatch({
-        type: FINISHED_LOADING_CONNECTED_APPS,
-        data: mockConnectedApps,
-      });
-      return;
-    }
 
     await apiRequest(grantsUrl)
       .then(({ data }) => {
@@ -56,13 +44,6 @@ export function deleteConnectedApp(appId) {
   return async (dispatch, getState) => {
     recordEvent({ event: 'profile-disconnect-connected-app-started' });
     dispatch({ type: DELETING_CONNECTED_APP, appId });
-
-    // Locally we cannot call the endpoint
-    if (environment.isLocalhost() && !window.Cypress) {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      dispatch({ type: FINISHED_DELETING_CONNECTED_APP, appId });
-      return;
-    }
 
     await apiRequest(`${grantsUrl}/${appId}`, { method: 'DELETE' })
       .then(() => {
