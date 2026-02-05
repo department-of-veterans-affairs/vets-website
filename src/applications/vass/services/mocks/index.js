@@ -61,7 +61,6 @@ const maxOtpUseCount = 5;
 
 const mockAppointments = [createAppointmentData()];
 
-
 const responses = {
   'POST /vass/v0/request-otp': (req, res) => {
     const { uuid, lastName, dob } = req.body;
@@ -182,7 +181,11 @@ const responses = {
     if (uuid === 'has-appointment') {
       return res
         .status(409)
-        .json(createAppointmentAlreadyBookedError(mockAppointments[0].appointmentId));
+        .json(
+          createAppointmentAlreadyBookedError(
+            mockAppointments[0].appointmentId,
+          ),
+        );
     }
 
     return res.json({
