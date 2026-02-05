@@ -1,7 +1,6 @@
-/* eslint-disable react/prop-types */
-import React from 'react';
 import { expect } from 'chai';
-import { waitFor, render } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import sinon from 'sinon';
 import useRxListExport from '../../hooks/useRxListExport';
 import * as pdfConfigs from '../../util/pdfConfigs';
@@ -14,32 +13,6 @@ import {
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
 } from '../../util/constants';
-
-// Custom renderHook function
-function renderHook(renderCallback, options = {}) {
-  const { initialProps, ...renderOptions } = options;
-  const result = { current: null };
-
-  function TestComponent({ renderCallbackProps }) {
-    const hookResult = renderCallback(renderCallbackProps);
-    // Update result.current on every render to capture state changes
-    result.current = hookResult;
-    return null;
-  }
-
-  const { rerender: baseRerender, unmount } = render(
-    <TestComponent renderCallbackProps={initialProps} />,
-    renderOptions,
-  );
-
-  function rerender(rerenderCallbackProps) {
-    return baseRerender(
-      <TestComponent renderCallbackProps={rerenderCallbackProps} />,
-    );
-  }
-
-  return { result, rerender, unmount };
-}
 
 describe('useRxListExport', () => {
   let sandbox;
