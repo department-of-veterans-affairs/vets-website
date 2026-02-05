@@ -69,16 +69,6 @@ describe('Representative Form Upload', () => {
       });
       cy.intercept(
         'POST',
-        '/accredited_representative_portal/v0/representative_form_upload',
-        mockScannedFormUpload,
-      ).as('formUpload');
-      cy.intercept(
-        'POST',
-        '/accredited_representative_portal/v0/upload_supporting_documents',
-        mockScannedFormUpload,
-      ).as('supportingDocsUpload');
-      cy.intercept(
-        'POST',
         '/accredited_representative_portal/v0/submit_representative_form',
         mockSubmit,
       );
@@ -148,7 +138,6 @@ describe('Representative Form Upload', () => {
         );
 
         cy.fillVaFileInput('root_uploadedFile', uploadFileDetails);
-
         cy.axeCheck();
 
         cy.findByRole('button', { name: /^Continue$/ }).click();
@@ -156,6 +145,7 @@ describe('Representative Form Upload', () => {
           'eq',
           `/representative/representative-form-upload/submit-va-form-${formId}/review-and-submit`,
         );
+        cy.axeCheck();
 
         cy.clickFormContinue();
 
@@ -197,13 +187,11 @@ describe('Representative Form Upload', () => {
         );
 
         cy.fillVaFileInput('root_uploadedFile', uploadFileDetails);
-        cy.wait('@formUpload');
 
         cy.fillVaFileInputMultiple(
           'root_supportingDocuments',
           uploadFileDetails,
         );
-        cy.wait('@supportingDocsUpload');
         cy.axeCheck();
 
         cy.clickFormContinue();
@@ -211,6 +199,7 @@ describe('Representative Form Upload', () => {
           'eq',
           `/representative/representative-form-upload/submit-va-form-${formId}/review-and-submit`,
         );
+        cy.axeCheck();
 
         cy.clickFormContinue();
         cy.axeCheck();
@@ -229,12 +218,12 @@ describe('Representative Form Upload', () => {
         'POST',
         '/accredited_representative_portal/v0/representative_form_upload',
         mockScannedFormUpload,
-      );
+      ).as('formUpload');
       cy.intercept(
         'POST',
         '/accredited_representative_portal/v0/upload_supporting_documents',
         mockScannedFormUpload,
-      );
+      ).as('supportingDocsUpload');
       cy.intercept(
         'POST',
         '/accredited_representative_portal/v0/submit_representative_form',
@@ -274,7 +263,6 @@ describe('Representative Form Upload', () => {
       );
 
       cy.fillVaFileInput('root_uploadedFile', uploadFileDetails);
-      cy.wait('@formUpload');
       cy.axeCheck();
 
       cy.findByRole('button', { name: /^Continue$/ }).click();
@@ -282,12 +270,14 @@ describe('Representative Form Upload', () => {
         'eq',
         `/representative/representative-form-upload/submit-va-form-21-526ez/review-and-submit`,
       );
+      cy.axeCheck();
 
       cy.clickFormContinue();
       cy.location('pathname').should(
         'eq',
         `/representative/representative-form-upload/submit-va-form-21-526ez/review-and-submit`,
       );
+      cy.axeCheck();
       cy.get('#submission-error').contains(
         'The form couldn’t be submitted because of high system traffic',
       );
