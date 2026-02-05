@@ -45,13 +45,17 @@ describe('CDP - Copay card content', () => {
   });
 
   it('navigates to the detail page - C12577', () => {
+    copayResponses.detail(id);
     cy.findByTestId(`detail-link-${id}`).click();
+    cy.wait('@copayDetail');
     cy.findByTestId('detail-copay-page-title-otpp').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
   it('displays view statements section - C12578', () => {
+    copayResponses.detail(id);
     cy.findByTestId(`detail-link-${id}`).click();
+    cy.wait('@copayDetail');
     cy.findByTestId('detail-copay-page-title-otpp').should('exist');
     cy.findByTestId(`view-statements`).should('exist');
 
@@ -67,8 +71,10 @@ describe('CDP - Copay card content', () => {
   });
 
   it('navigates to view statements page - C12579', () => {
+    copayResponses.detail(id);
     // get to page
     cy.findByTestId(`detail-link-${id}`).click();
+    cy.wait('@copayDetail');
     cy.findByTestId('detail-copay-page-title-otpp').should('exist');
     cy.findByTestId(`view-statements`).should('exist');
 
@@ -87,8 +93,11 @@ describe('CDP - Copay card content', () => {
   });
 
   it('displays account summary - C12580', () => {
+    copayResponses.detail(id);
     // get to page
     cy.findByTestId(`detail-link-${id}`).click();
+    cy.wait('@copayDetail');
+
     cy.findByTestId('detail-copay-page-title-otpp').should('exist');
     cy.findByTestId(`view-statements`).should('exist');
 
