@@ -1168,6 +1168,7 @@ describe('Schemaform actions:', () => {
     });
 
     it('should call refresh and retry on 403 token expired error', async () => {
+      refreshStub.resolves({ ok: true, status: 200 });
       const formConfig = {
         chapters: {},
         submitUrl: '/v0/submit',

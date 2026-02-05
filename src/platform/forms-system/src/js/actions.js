@@ -141,7 +141,10 @@ export function submitToUrl(
 
           if (isTokenExpired && infoTokenExists()) {
             refresh({ type: sessionStorage.getItem('serviceName') })
-              .then(() => {
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Token refresh failed');
+                }
                 return submitToUrl(
                   body,
                   submitUrl,
