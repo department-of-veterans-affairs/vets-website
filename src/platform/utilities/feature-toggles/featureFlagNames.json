@@ -330,7 +330,6 @@
   "vaDependentsDuplicateModals": "va_dependents_duplicate_modals",
   "vaOnlineScheduling": "va_online_scheduling",
   "vaOnlineSchedulingBookingExclusion": "va_online_scheduling_booking_exclusion",
-  "vaOnlineSchedulingCancel": "va_online_scheduling_cancel",
   "vaOnlineSchedulingCCDirectScheduling": "va_online_scheduling_cc_direct_scheduling",
   "vaOnlineSchedulingCCDirectSchedulingChiropractic": "va_online_scheduling_cc_direct_scheduling_chiropractic",
   "vaOnlineSchedulingCommunityCare": "va_online_scheduling_community_care",
