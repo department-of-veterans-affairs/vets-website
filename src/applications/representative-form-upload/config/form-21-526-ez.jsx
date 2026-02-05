@@ -21,7 +21,11 @@ const form21526Ez = (pathname = null) => {
     submitUrl: `${
       environment.API_URL
     }/accredited_representative_portal/v0/submit_representative_form`,
-    dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
+    dev: {
+      collapsibleNavLinks: true,
+      showNavLinks: !window.Cypress,
+      disableWindowUnloadInCI: true,
+    },
     disableSave: true,
     trackingPrefix,
     introduction: IntroductionPage,

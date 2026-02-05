@@ -14,7 +14,9 @@ const { placeOfSeparation } = fullSchemaPensions.properties;
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Service period'),
+    'ui:title': generateTitle('Military service information'),
+    'ui:description':
+      'Start by adding the Veteran’s most recent period of active service.',
     serviceBranch: selectUI({
       title: 'Branch of service',
       labels: serviceBranchLabels,
@@ -23,11 +25,11 @@ export default {
       },
     }),
     serviceDateRange: currentOrPastDateRangeUI(
-      { title: 'Service start date', dataDogHidden: true },
-      { title: 'Service end date', dataDogHidden: true },
+      { title: 'Date first entered active duty', dataDogHidden: true },
+      { title: 'Date separated from active duty', dataDogHidden: true },
     ),
     placeOfSeparation: {
-      'ui:title': 'Place of separation',
+      'ui:title': 'Place separated from active duty',
       'ui:options': {
         hint: 'Enter the city and state or name of the military base',
       },

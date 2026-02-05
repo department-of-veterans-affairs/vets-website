@@ -29,12 +29,9 @@ import {
   COUNTRY_NAMES,
   COUNTRY_VALUES,
 } from '../../../utils/labels';
+import { customAddressSchema } from '../../definitions';
 import { seriouslyDisabledDescription } from '../../../utils/helpers';
-import { VaForm214138Alert } from '../../../components/FormAlerts';
-
-const updatedFullNameSchema = fullNameSchema;
-updatedFullNameSchema.properties.first.maxLength = 12;
-updatedFullNameSchema.properties.last.maxLength = 18;
+import { AdditionalDependentsAlert } from '../../../components/FormAlerts';
 
 /**
  * Dependent children (array builder)
@@ -97,10 +94,21 @@ const introPage = {
     }),
     'ui:description': () => (
       <div>
-        <p className="vads-u-margin-top--0">
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--5">
           Next we’ll ask you about the Veteran’s dependent children. You may add
           up to 3 dependents.
         </p>
+        <va-additional-info trigger="If you have more than 3 dependents">
+          <p>
+            Additional children can be added using VA Form 686c and uploaded at
+            the end of this application.
+          </p>
+          <va-link
+            href="https://www.va.gov/find-forms/about-form-21-686c/"
+            external
+            text="Get VA Form 21-686c to download"
+          />
+        </va-additional-info>
       </div>
     ),
   },
@@ -165,7 +173,7 @@ const namePage = {
   schema: {
     type: 'object',
     properties: {
-      childFullName: updatedFullNameSchema,
+      childFullName: fullNameSchema,
       childSocialSecurityNumber: ssnSchema,
       noSsn: checkboxSchema,
     },
@@ -244,23 +252,7 @@ const dobPlacePage = {
     properties: {
       childDateOfBirth: currentOrPastDateSchema,
       bornOutsideUS: checkboxSchema,
-      birthPlace: {
-        type: 'object',
-        required: ['city'],
-        properties: {
-          city: { type: 'string' },
-          state: {
-            type: 'string',
-            enum: STATE_VALUES,
-            enumNames: STATE_NAMES,
-          },
-          otherCountry: {
-            type: 'string',
-            enum: COUNTRY_VALUES,
-            enumNames: COUNTRY_NAMES,
-          },
-        },
-      },
+      birthPlace: customAddressSchema,
     },
   },
 };
@@ -329,8 +321,8 @@ const householdPage = {
       title: 'Does the child live with you?',
       'ui:required': true,
     }),
-    vaForm214138Alert: {
-      'ui:description': VaForm214138Alert,
+    additionalDependentsAlert: {
+      'ui:description': AdditionalDependentsAlert,
       'ui:options': {
         hideIf: (formData, index) => {
           const item = formData?.veteransChildren?.[index];
@@ -346,7 +338,7 @@ const householdPage = {
     required: ['livesWith'],
     properties: {
       livesWith: yesNoSchema,
-      vaForm214138Alert: {
+      additionalDependentsAlert: {
         type: 'object',
         properties: {},
       },
@@ -358,7 +350,7 @@ const childSupportPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Child support payment'),
     childSupport: currencyUI(
-      "How much did the Veteran contribute per month to their child's support?",
+      "How much did you contribute per month to the child's support?",
     ),
   },
   schema: {
