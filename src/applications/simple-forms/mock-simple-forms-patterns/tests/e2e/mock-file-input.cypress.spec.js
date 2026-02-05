@@ -114,8 +114,7 @@ function testAdditionalInfo() {
   // we should get an error because additional info not set
   cy.get('va-file-input')
     .find('va-select')
-    .invoke('attr', 'error')
-    .should('equal', 'Choose a document status');
+    .should('has.attr', 'error', 'Choose a document status');
 
   // set the additional info
   cy.get('va-file-input')
@@ -200,6 +199,9 @@ function testEncryptedPdf() {
       });
       $el[0].dispatchEvent(event);
     });
+
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(550);
 
     cy.get('va-file-input')
       .find('span.usa-error-message')
