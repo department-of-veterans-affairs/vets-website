@@ -115,7 +115,7 @@ describe('Need Help shared component', () => {
     });
 
     it('renders with default h3 heading level if no headingLevel prop is provided', () => {
-      const screen = setup();
+      const screen = setup(true);
       const heading = screen.getByRole('heading', { name: 'Need help?' });
       expect(heading.tagName).to.equal('H3');
     });
