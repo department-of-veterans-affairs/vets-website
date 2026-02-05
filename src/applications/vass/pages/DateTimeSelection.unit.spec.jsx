@@ -33,10 +33,12 @@ describe('VASS Component: DateTimeSelection', () => {
     resetFetch();
   });
 
-  const renderComponent = (selectedDate = null) => {
+  const renderComponent = (
+    selectedSlot = { dtStartUtc: null, dtEndUtc: null },
+  ) => {
     return renderWithStoreAndRouterV6(
       <DateTimeSelection />,
-      getDefaultRenderOptions({ selectedDate }),
+      getDefaultRenderOptions({ selectedSlot }),
     );
   };
 
@@ -72,9 +74,8 @@ describe('VASS Component: DateTimeSelection', () => {
 
   it('should not deselect date when onChange is called with empty array', async () => {
     // Render component with a pre-selected date
-    const selectedDate =
-      mockAppointmentAvailability.data.availableTimeSlots[0].dtStartUtc;
-    const screen = renderComponent(selectedDate);
+    const selectedSlot = mockAppointmentAvailability.data.availableTimeSlots[0];
+    const screen = renderComponent(selectedSlot);
     await waitFor(() => {
       expect(screen.getByTestId('date-time-selection')).to.exist;
     });
@@ -127,16 +128,6 @@ describe('VASS Component: DateTimeSelection', () => {
       removeEventListenerSpy.restore();
     });
 
-    it('should add beforeunload listener on mount', async () => {
-      const screen = renderComponent();
-      await waitFor(() => {
-        expect(screen.getByTestId('date-time-selection')).to.exist;
-      });
-
-      expect(addEventListenerSpy.calledWith('beforeunload', sinon.match.func))
-        .to.be.true;
-    });
-
     it('should add popstate listener on mount', async () => {
       const screen = renderComponent();
       await waitFor(() => {
@@ -145,19 +136,6 @@ describe('VASS Component: DateTimeSelection', () => {
 
       expect(addEventListenerSpy.calledWith('popstate', sinon.match.func)).to.be
         .true;
-    });
-
-    it('should remove beforeunload listener on unmount', async () => {
-      const screen = renderComponent();
-      await waitFor(() => {
-        expect(screen.getByTestId('date-time-selection')).to.exist;
-      });
-
-      screen.unmount();
-
-      expect(
-        removeEventListenerSpy.calledWith('beforeunload', sinon.match.func),
-      ).to.be.true;
     });
 
     it('should remove popstate listener on unmount', async () => {
