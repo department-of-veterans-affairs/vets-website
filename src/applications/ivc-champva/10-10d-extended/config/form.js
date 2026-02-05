@@ -52,7 +52,6 @@ import AddressSelectionReviewPage from '../components/FormReview/AddressSelectio
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  showReviewErrors: true,
   transformForSubmit,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms/10-10d-ext`,
   preSubmitInfo: {
