@@ -6,6 +6,7 @@ import {
   onFormLoaded,
   redirectLegacyToEnhancement,
   redirectEnhancementToLegacy,
+  hasEvidenceChoice,
 } from '../../utils';
 
 describe('utils', () => {
@@ -151,6 +152,26 @@ describe('utils', () => {
           formData: { disability526SupportingEvidenceEnhancement: false },
         }),
       ).to.be.false;
+    });
+  });
+
+  describe('hasEvidenceChoice', () => {
+    it('returns true when the radio selection is yes', () => {
+      expect(hasEvidenceChoice({ 'view:hasEvidenceChoice': true })).to.be.true;
+    });
+
+    it('returns true when uploads exist even without the radio value', () => {
+      expect(
+        hasEvidenceChoice({
+          evidenceChoiceAdditionalDocuments: [
+            { confirmationCode: 'abc', name: 'doc.pdf', size: 123 },
+          ],
+        }),
+      ).to.be.true;
+    });
+
+    it('returns false when no selection or uploads exist', () => {
+      expect(hasEvidenceChoice({})).to.be.false;
     });
   });
 });

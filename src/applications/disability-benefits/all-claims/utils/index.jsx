@@ -1084,5 +1084,14 @@ export const onFormLoaded = props => {
  * @returns {boolean} true if hasEvidenceChoice is present, false otherwise
  */
 export const hasEvidenceChoice = formData => {
-  return formData?.['view:hasEvidenceChoice'] === true;
+  if (formData?.['view:hasEvidenceChoice'] === true) {
+    return true;
+  }
+
+  const uploadedFiles = formData?.evidenceChoiceAdditionalDocuments;
+  if (Array.isArray(uploadedFiles)) {
+    return uploadedFiles.some(file => file?.confirmationCode);
+  }
+
+  return false;
 };

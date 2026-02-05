@@ -14,6 +14,12 @@ describe('evidenceChoiceAdditionalDocumentsPage', () => {
     uiSchema,
   } = formConfig.chapters.supportingEvidence.pages.evidenceChoiceAdditionalDocuments;
 
+  it('should require evidenceChoiceAdditionalDocuments field in schema', () => {
+    expect(schema.required).to.deep.equal([
+      'evidenceChoiceAdditionalDocuments',
+    ]);
+  });
+
   it('should display the accordion and mental health support alert', () => {
     const { container, unmount } = render(
       <Provider store={uploadStore}>

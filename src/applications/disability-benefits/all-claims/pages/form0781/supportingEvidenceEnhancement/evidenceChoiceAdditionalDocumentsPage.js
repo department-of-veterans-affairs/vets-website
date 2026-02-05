@@ -74,7 +74,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['evidenceChoiceFileInput'],
+  required: ['evidenceChoiceAdditionalDocuments'],
   properties: {
     evidenceChoiceAdditionalDocuments: fileInputMultipleSchema(),
     'view:additionalSupportAccordionEvidenceChoiceAdditionalDocuments': {
