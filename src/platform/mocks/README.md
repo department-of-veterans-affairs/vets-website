@@ -15,10 +15,12 @@ const handlers = [
   ...commonHandlers,
 ];
 
-export const startMocking = () => setupWorker(...handlers).start({
-  onUnhandledRequest: 'bypass',
-  serviceWorker: { url: '/mockServiceWorker.js' },
-});
+export async function startMocking() {
+  await setupWorker(...handlers).start({
+    onUnhandledRequest: 'bypass',
+    serviceWorker: { url: '/mockServiceWorker.js' },
+  });
+}
 ```
 
 **2. Update your entry file:**
@@ -40,7 +42,9 @@ function initApp() {
 }
 
 if (process.env.USE_MOCKS === 'true') {
-  import('./mocks/browser').then(m => m.startMocking()).then(initApp);
+  import('./mocks/browser')
+    .then(({ startMocking }) => startMocking())
+    .then(initApp);
 } else {
   initApp();
 }
@@ -287,8 +291,6 @@ export async function startMocking() {
   });
   console.log('[MSW] Mocking enabled');
 }
-
-export default startMocking;
 ```
 
 ### 2. Update your entry file
