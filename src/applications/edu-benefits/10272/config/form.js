@@ -167,7 +167,7 @@ const formConfig = {
       pages: {
         remarks: {
           path: 'remarks',
-          title: 'Enter your remarks'
+          title: 'Enter your remarks',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,
         },
