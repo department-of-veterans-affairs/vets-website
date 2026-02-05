@@ -33,6 +33,7 @@ export default {
       ...numberUI({
         title: 'Number of weeks per term/semester',
         min: 0,
+        max: 100,
         errorMessages: {
           required: 'Enter the number of weeks per term/semester',
         },
@@ -51,6 +52,7 @@ export default {
       ...numberUI({
         title: 'Credit hours',
         min: 0,
+        max: 10000,
         errorMessages: {
           required: 'Enter the number of credit hours ',
         },
@@ -61,10 +63,10 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      programName: textSchema,
-      totalProgramLength: textSchema,
+      programName: { ...textSchema, maxLength: 200 },
+      totalProgramLength: { ...textSchema, maxLength: 100 },
       weeksPerTerm: numberSchema,
-      entryRequirements: textSchema,
+      entryRequirements: { ...textSchema, maxLength: 1000 },
       creditHours: {
         type: 'string',
         pattern: '^\\d+(\\.\\d{0,2})?$', // digits, optionally with a decimal and 0, 1, or 2 numbers after the decimal

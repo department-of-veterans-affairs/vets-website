@@ -27,11 +27,11 @@ const responses = {
             },
             {
               stepCode: 'ORICMPT',
-              status: 'COMPLETED',
+              status: 'ACTIVE',
             },
             {
               stepCode: 'INTAKE',
-              status: 'ACTIVE',
+              status: 'PENDING',
             },
             {
               stepCode: 'ENTLDET',

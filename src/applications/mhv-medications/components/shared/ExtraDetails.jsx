@@ -108,8 +108,9 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
                 className="vads-u-margin-y--0"
                 data-testid="active-no-refill-left"
               >
-                You can’t refill this prescription. If you need more, send a
-                secure message to your care team.
+                {isOracleHealth
+                  ? 'You can’t refill this prescription. If you need more, send a secure message to your care team.'
+                  : 'You can’t refill this prescription. Contact your VA provider if you need more of this medication.'}
               </p>
               <SendRxRenewalMessage
                 rx={rx}
@@ -138,6 +139,16 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
                 </>
               }
             />
+          </div>
+        );
+
+      case dispStatusObjV2.expired:
+        return (
+          <div>
+            <p className="vads-u-margin-y--0" data-testid="expired">
+              You can’t refill this prescripition. Contact your VA provider if
+              you need more of this medicaton.
+            </p>
           </div>
         );
 

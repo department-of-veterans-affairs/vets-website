@@ -43,14 +43,19 @@ const getCardsForStep = (step, stateList = []) => {
   const careerPlanningCard = getCareerPlanningCard(step);
 
   const currentStatus = stateList?.[step - 1]?.status;
+
   const isComplete =
     currentStatus === 'COMPLETE' || currentStatus === 'COMPLETED';
+
+  const isActive = currentStatus === 'ACTIVE';
 
   switch (step) {
     case 1:
     case 2:
     case 3:
-      return [programOverviewCard, orientationCard, careerPlanningCard];
+      return isActive || isComplete
+        ? [careerPlanningCard]
+        : [programOverviewCard, orientationCard, careerPlanningCard];
     case 4:
       return [careerPlanningCard];
     case 5:
