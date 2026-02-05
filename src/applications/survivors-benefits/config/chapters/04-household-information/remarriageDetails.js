@@ -7,6 +7,7 @@ import {
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { remarriageEndOptions } from '../../../utils/labels';
+import { customTextSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -46,10 +47,7 @@ export default {
     required: ['remarriageEndCause', 'remarriageDates'],
     properties: {
       remarriageEndCause: radioSchema(Object.keys(remarriageEndOptions)),
-      endCauseExplanation: {
-        type: 'string',
-        maxLength: 256,
-      },
+      endCauseExplanation: customTextSchema,
       remarriageDates: {
         type: 'object',
         required: ['from'],

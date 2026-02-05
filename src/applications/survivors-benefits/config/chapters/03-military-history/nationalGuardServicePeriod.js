@@ -6,6 +6,7 @@ import {
   phoneUI,
   phoneSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { customTextSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -27,10 +28,7 @@ export default {
     required: ['nationalGuardActivationDate', 'unitPhone', 'unitName'],
     properties: {
       nationalGuardActivationDate: currentOrPastDateSchema,
-      unitName: {
-        type: 'string',
-        maxLength: 100,
-      },
+      unitName: customTextSchema,
       unitPhone: phoneSchema,
     },
   },

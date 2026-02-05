@@ -8,6 +8,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { transformDate } from './helpers';
+import { customTextSchema } from '../../definitions';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -82,18 +83,9 @@ const nameLocationPage = {
   schema: {
     type: 'object',
     properties: {
-      vaMedicalCenterName: {
-        type: 'string',
-        maxLength: 100,
-      },
-      city: {
-        type: 'string',
-        maxLength: 100,
-      },
-      state: {
-        type: 'string',
-        maxLength: 100,
-      },
+      vaMedicalCenterName: customTextSchema,
+      city: customTextSchema,
+      state: customTextSchema,
     },
     required: ['vaMedicalCenterName', 'city', 'state'],
   },

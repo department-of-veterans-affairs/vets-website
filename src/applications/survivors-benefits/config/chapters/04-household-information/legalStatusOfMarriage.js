@@ -4,6 +4,7 @@ import {
   titleUI,
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { customTextSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -31,10 +32,7 @@ export default {
     required: ['validMarriage'],
     properties: {
       validMarriage: yesNoSchema,
-      marriageValidityExplanation: {
-        type: 'string',
-        maxLength: 256,
-      },
+      marriageValidityExplanation: customTextSchema,
     },
   },
 };

@@ -17,6 +17,7 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { customTextSchema } from '../../../definitions';
 import {
   careRecipientLabels,
   careTypeLabels,
@@ -232,14 +233,8 @@ const recipientPage = {
     type: 'object',
     properties: {
       recipient: radioSchema(Object.keys(careRecipientLabels)),
-      recipientName: {
-        type: 'string',
-        maxLength: 100,
-      },
-      provider: {
-        type: 'string',
-        maxLength: 100,
-      },
+      recipientName: customTextSchema,
+      provider: customTextSchema,
     },
     required: ['recipient', 'provider'],
   },

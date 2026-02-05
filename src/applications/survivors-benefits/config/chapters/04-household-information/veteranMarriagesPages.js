@@ -27,7 +27,7 @@ import {
   previousMarriageEndOptions,
 } from '../../../utils/labels';
 import { handleVeteranMaxMarriagesAlert } from '../../../components/FormAlerts';
-import { customAddressSchema } from '../../definitions';
+import { customAddressSchema, customTextSchema } from '../../definitions';
 
 /**
  * Pages for Veteran's previous marriages (array-builder)
@@ -245,10 +245,7 @@ const endedPage = {
     type: 'object',
     properties: {
       reasonForSeparation: radioSchema(Object.keys(previousMarriageEndOptions)),
-      separationExplanation: {
-        type: 'string',
-        maxLength: 256,
-      },
+      separationExplanation: customTextSchema,
     },
     required: ['reasonForSeparation'],
   },

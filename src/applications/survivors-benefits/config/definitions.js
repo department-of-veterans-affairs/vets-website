@@ -67,3 +67,8 @@ export const customAddressSchema = {
     },
   },
 };
+
+export const customTextSchema = {
+  type: 'string',
+  maxLength: 256,
+};

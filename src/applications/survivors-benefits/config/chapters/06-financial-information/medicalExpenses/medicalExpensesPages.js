@@ -18,6 +18,7 @@ import {
   frequencyLabels,
 } from '../../../../utils/labels';
 import { transformDate } from '../../05-claim-information/helpers';
+import { customTextSchema } from '../../../definitions';
 
 function introDescription() {
   return (
@@ -196,14 +197,8 @@ const recipientPage = {
     type: 'object',
     properties: {
       recipient: radioSchema(Object.keys(medicalExpenseRecipientLabels)),
-      childName: {
-        type: 'string',
-        maxLength: 100,
-      },
-      provider: {
-        type: 'string',
-        maxLength: 100,
-      },
+      childName: customTextSchema,
+      provider: customTextSchema,
     },
     required: ['recipient', 'provider'],
   },
@@ -224,10 +219,7 @@ const purposeDatePage = {
   schema: {
     type: 'object',
     properties: {
-      purpose: {
-        type: 'string',
-        maxLength: 256,
-      },
+      purpose: customTextSchema,
       paymentDate: currentOrPastDateSchema,
     },
     required: ['purpose', 'paymentDate'],

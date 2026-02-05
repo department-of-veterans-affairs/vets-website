@@ -7,6 +7,7 @@ import {
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { isYes } from '../../../utils/helpers';
+import { customTextSchema } from '../../definitions';
 import { CourtOrderSeparationAlert } from '../../../components/FormAlerts';
 
 /** @type {PageSchema} */
@@ -46,10 +47,7 @@ export default {
       'courtOrderedSeparation',
     ],
     properties: {
-      separationExplanation: {
-        type: 'string',
-        maxLength: 256,
-      },
+      separationExplanation: customTextSchema,
       separationStartDate: currentOrPastDateSchema,
       separationEndDate: currentOrPastDateSchema,
       courtOrderedSeparation: yesNoSchema,

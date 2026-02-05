@@ -7,6 +7,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { servicesOptions } from '../../../utils/labels';
+import { customTextSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -55,10 +56,7 @@ export default {
           to: currentOrPastDateSchema,
         },
       },
-      placeOfSeparation: {
-        type: 'string',
-        maxLength: 100,
-      },
+      placeOfSeparation: customTextSchema,
     },
   },
 };
