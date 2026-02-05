@@ -47,7 +47,7 @@ import AddressSelectionPage, {
 } from '../components/FormPages/AddressSelectionPage';
 import AddressSelectionReviewPage from '../components/FormReview/AddressSelectionReviewPage';
 
-/** @type {FormConfig} */
+/** @type {FormConfig}  */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

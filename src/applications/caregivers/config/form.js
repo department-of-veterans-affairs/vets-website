@@ -22,7 +22,7 @@ import { FULL_SCHEMA } from '../utils/imports';
 import content from '../locales/en/content.json';
 import manifest from '../manifest.json';
 
-// veteran pages
+//  veteran pages
 import vetPersonalInfoPage from './chapters/veteran/personalInformation';
 import vetIdentityInfoPage from './chapters/veteran/identityInformation';
 import vetHomeAddressPage from './chapters/veteran/homeAddress';
