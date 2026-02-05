@@ -2,9 +2,8 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import * as monitoring from '~/platform/monitoring/record-event';
-import GovBanner from '../../../../components/Header/GovBanner';
+import GovBanner from '~/platform/site-wide/representative/components/header/GovBanner';
 
 describe('GovBanner', () => {
   let recordEventStub;
