@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
@@ -65,7 +64,7 @@ describe('PersonalHealthCareContacts component', () => {
   it('renders', async () => {
     const { getByRole } = setup();
     await waitFor(() => {
-      getByRole('heading', { name: 'Personal health care contacts', level: 1 });
+      getByRole('heading', { name: 'Health care contacts', level: 1 });
       getByRole('heading', { name: 'Emergency contacts', level: 2 });
       getByRole('heading', { name: 'Next of kin contacts', level: 2 });
     });
