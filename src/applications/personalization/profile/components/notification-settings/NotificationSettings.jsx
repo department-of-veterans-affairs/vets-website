@@ -30,6 +30,7 @@ import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import { FIELD_NAMES, USA } from '@@vap-svc/constants';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { LOADING_STATES } from '../../../common/constants';
 
 import LoadFail from '../alerts/LoadFail';
@@ -138,7 +139,14 @@ const NotificationSettings = ({
 
   return (
     <>
-      <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.profile2Enabled}>
+        <Toggler.Enabled>
+          <Headline>{PROFILE_PATH_NAMES.EMAIL_AND_TEXT_NOTIFICATIONS}</Headline>
+        </Toggler.Enabled>
+        <Toggler.Disabled>
+          <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
+        </Toggler.Disabled>
+      </Toggler>
 
       <DowntimeNotification
         appTitle="notification settings page"
