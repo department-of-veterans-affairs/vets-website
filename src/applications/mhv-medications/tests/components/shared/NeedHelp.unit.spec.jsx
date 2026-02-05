@@ -10,6 +10,7 @@ describe('Need Help shared component', () => {
   const setup = (
     isMedicationsManagementImprovementsEnabled = false,
     page = pageType.REFILL,
+    headingLevel = undefined,
   ) => {
     const initialState = {
       featureToggles: {
@@ -17,10 +18,13 @@ describe('Need Help shared component', () => {
       },
     };
 
-    return renderWithStoreAndRouterV6(<NeedHelp page={page} />, {
-      initialState,
-      reducers,
-    });
+    return renderWithStoreAndRouterV6(
+      <NeedHelp page={page} headingLevel={headingLevel} />,
+      {
+        initialState,
+        reducers,
+      },
+    );
   };
 
   describe('when mhvMedicationsManagementImprovements flag is disabled', () => {
@@ -36,7 +40,7 @@ describe('Need Help shared component', () => {
     });
 
     it('renders with correct heading level when provided', () => {
-      const screen = setup({ headingLevel: 2 });
+      const screen = setup(false, pageType.REFILL, 2);
       const heading = screen.getByRole('heading', { name: 'Need help?' });
       expect(heading.tagName).to.equal('H2');
     });
@@ -117,7 +121,7 @@ describe('Need Help shared component', () => {
     });
 
     it('renders with correct heading level when provided', () => {
-      const screen = setup({ headingLevel: 2 });
+      const screen = setup(true, pageType.REFILL, 2);
       const heading = screen.getByRole('heading', { name: 'Need help?' });
       expect(heading.tagName).to.equal('H2');
     });

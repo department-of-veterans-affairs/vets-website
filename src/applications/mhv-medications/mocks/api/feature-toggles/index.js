@@ -12,7 +12,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsCernerPilot = false,
     mhvMedicationsV2StatusMapping = false,
     mhvMedicationsEnableKramesHtmlSanitization = true,
-    mhvMedicationsManagementImprovements = true,
+    mhvMedicationsManagementImprovements = false,
   } = toggles;
 
   return {
