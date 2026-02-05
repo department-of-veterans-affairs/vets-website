@@ -8,19 +8,17 @@ import {
   VaButton,
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
   expiredMessage,
   inProgressMessage as getInProgressMessage,
-} from '~/platform/forms-system/src/js/utilities/save-in-progress-messages';
+} from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 import environment from 'platform/utilities/environment';
-import recordEvent from '~/platform/monitoring/record-event';
-
-import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
+import recordEvent from 'platform/monitoring/record-event';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import DowntimeNotification, {
   externalServiceStatus,
-} from '~/platform/monitoring/DowntimeNotification';
+} from 'platform/monitoring/DowntimeNotification';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
@@ -65,8 +63,6 @@ class SaveInProgressIntro extends React.Component {
   };
 
   getAlert = savedForm => {
-    let alert;
-    let includesFormControls = false;
     const {
       formId,
       prefillEnabled,
@@ -76,100 +72,42 @@ class SaveInProgressIntro extends React.Component {
       formConfig,
       ariaLabel = null,
       ariaDescribedby = null,
+      hideUnauthedStartLink,
+      buttonOnly,
+      retentionPeriod,
+      unauthStartText,
+      customLink,
     } = this.props;
-    const { profile, login } = this.props.user;
-    const prefillAvailable = !!(
-      profile && profile.prefillsAvailable.includes(formId)
-    );
+    const { login, profile } = this.props.user;
+    const prefillAvailable = profile?.prefillsAvailable.includes(formId);
 
-    // e.g. appType = 'application'
+    // common text values
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
-    // e.g. appAction = 'applying'
     const appAction = formConfig?.customText?.appAction || APP_ACTION_DEFAULT;
-    // e.g. appContinuing = 'for planning and career guidance' =>
-    // You can continue applying now for planning and career guidance, or...
     const appContinuing = formConfig?.customText?.appContinuing || '';
-
     const Header = `h${this.props.headingLevel}`;
 
+    // ===== AUTHENTICATED STATES =====
     if (login.currentlyLoggedIn) {
+      // Logged in with saved form (active or expired)
       if (savedForm) {
-        /**
-         * lastSavedDate = JS time (ms) - always undefined?
-         * savedForms.lastUpdated = unix time (seconds)
-         * savedForms.metadata.expiresAt = unix time
-         * savedForms.metadata.lastUpdated = unix time
-         * savedForms.metadata.savedAt = JS time (ms)
-         */
-        const { metadata = {} } = savedForm;
-        const lastUpdated = savedForm.lastUpdated || metadata.lastUpdated;
+        return this.getLoggedInSavedFormAlert(
+          savedForm,
+          appType,
+          appAction,
+          appContinuing,
+          Header,
+        );
+      }
 
-        let savedAt = '';
-        if (this.props.lastSavedDate) {
-          savedAt = new Date(this.props.lastSavedDate);
-        } else if (lastUpdated) {
-          savedAt = fromUnixTime(lastUpdated);
+      // Logged in, no saved form, with prefill available
+      if (prefillAvailable) {
+        if (verifiedPrefillAlert) {
+          return { alert: verifiedPrefillAlert, includesFormControls: false };
         }
-
-        const expiresAt = fromUnixTime(savedForm.metadata.expiresAt);
-        const expirationDate = format(expiresAt, 'MMMM d, yyyy');
-        const isExpired = isBefore(expiresAt, new Date());
-        const inProgressMessage = getInProgressMessage(formConfig);
-
-        if (!isExpired) {
-          const lastSavedDateTime =
-            savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
-
-          const ContinueMsg = (
-            <p>
-              You can continue {appAction} now
-              {appContinuing && ` ${appContinuing}`}, or come back later to
-              finish your {appType}.
-            </p>
-          );
-
-          includesFormControls = true;
-          alert = (
-            <va-alert status="info" uswds visible>
-              <Header slot="headline">
-                {inProgressMessage} {savedAt && 'and was last saved on '}
-                {lastSavedDateTime}
-              </Header>
-              <div className="saved-form-metadata-container">
-                <div className="expires-container">
-                  {this.props.continueMsg || ContinueMsg}
-                  <p>
-                    Your {appType}{' '}
-                    <span className="expires">
-                      will expire on {expirationDate}.
-                    </span>
-                  </p>
-                </div>
-              </div>
-              <div>{this.props.children}</div>
-              {this.getFormControls(savedForm)}
-            </va-alert>
-          );
-        } else {
-          alert = (
-            <div>
-              <va-alert status="warning" uswds visible>
-                <Header slot="headline">Your {appType} has expired</Header>
-                <div className="saved-form-metadata-container">
-                  <span className="saved-form-metadata">
-                    {expiredMessage(formConfig)}
-                  </span>
-                </div>
-                <div>{this.props.children}</div>
-              </va-alert>
-              <br />
-            </div>
-          );
-        }
-      } else if (prefillAvailable && !verifiedPrefillAlert) {
-        alert = (
-          <div>
-            <va-alert status="info" visible>
+        return {
+          alert: (
+            <va-alert status="info" class="vads-u-margin-bottom--4" visible>
               <Header slot="headline">
                 We’ve prefilled some of your information
               </Header>
@@ -177,120 +115,206 @@ class SaveInProgressIntro extends React.Component {
               based on your profile details. You can also save your {appType} in
               progress and come back later to finish filling it out.
             </va-alert>
-            <br />
-          </div>
-        );
-      } else if (prefillAvailable && verifiedPrefillAlert) {
-        alert = verifiedPrefillAlert;
-      } else {
-        alert = (
-          <div>
-            <va-alert status="info" uswds visible slim>
-              <div className="usa-alert-body">
-                You can save this {appType} in progress, and come back later to
-                finish filling it out.
-              </div>
-            </va-alert>
-            <br />
-          </div>
-        );
+          ),
+          includesFormControls: false,
+        };
       }
-    } else if (prefillEnabled && !verifyRequiredPrefill) {
-      const {
-        buttonOnly,
-        buttonAriaDescribedby,
-        retentionPeriod,
-        unauthStartText,
-      } = this.props;
-      const CustomLink = this.props.customLink;
-      const unauthStartLink = this.props.formConfig?.formOptions
-        ?.useWebComponentForNavigation ? (
-        <p>
-          <VaLink
-            onClick={this.handleClickAndReroute}
-            href={this.getStartPage()}
-            className="schemaform-start-button"
-            aria-label={ariaLabel}
-            // aria-describedby={ariaDescribedby}
-            text={`Start your ${appType} without signing in`}
-          />
-        </p>
-      ) : (
-        <p>
-          <Link
-            onClick={this.handleClick}
-            to={this.getStartPage}
-            className="schemaform-start-button"
-            aria-label={ariaLabel}
-            aria-describedby={ariaDescribedby}
-          >
-            Start your {appType} without signing in
-          </Link>
-        </p>
-      );
-      const unauthStartButton = CustomLink ? (
-        <CustomLink
-          href="#start"
-          onClick={event => {
-            event.preventDefault();
-            this.openLoginModal();
-          }}
-        >
-          {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-        </CustomLink>
-      ) : (
-        <VaButton
-          onClick={this.openLoginModal}
-          label={ariaLabel}
-          uswds
-          messageAriaDescribedby={buttonAriaDescribedby}
-          text={unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-        />
-      );
-      alert = buttonOnly ? (
-        <>
-          {unauthStartButton}
-          {!this.props.hideUnauthedStartLink && unauthStartLink}
-        </>
-      ) : (
+
+      // Logged in, no saved form, no prefill available
+      return {
+        alert: (
+          <va-alert status="info" class="vads-u-margin-bottom--4" visible slim>
+            You can save this {appType} in progress, and come back later to
+            finish filling it out.
+          </va-alert>
+        ),
+        includesFormControls: false,
+      };
+    }
+
+    // ===== UNAUTHENTICATED STATES =====
+
+    if (prefillEnabled && unverifiedPrefillAlert) {
+      return { alert: unverifiedPrefillAlert, includesFormControls: false };
+    }
+
+    const getSignInVariant = () => {
+      if (hideUnauthedStartLink) return 'signInRequired';
+      if (prefillEnabled && !verifyRequiredPrefill) return 'signInOptional';
+      return 'signInOptionalNoPrefill';
+    };
+
+    const signInVariant = getSignInVariant();
+    const {
+      unauthStartButton,
+      unauthStartLink,
+    } = this.getUnauthStartComponents(
+      customLink,
+      unauthStartText,
+      ariaLabel,
+      ariaDescribedby,
+      appType,
+    );
+
+    if (buttonOnly) {
+      return {
+        alert: (
+          <>
+            {unauthStartButton}
+            {!hideUnauthedStartLink && unauthStartLink}
+          </>
+        ),
+        includesFormControls: false,
+      };
+    }
+
+    return {
+      alert: (
         <va-alert-sign-in
-          variant={
-            this.props.hideUnauthedStartLink
-              ? 'signInRequired'
-              : 'signInOptional'
-          }
+          variant={signInVariant}
           time-limit={retentionPeriod}
           heading-level={this.props.headingLevel}
           no-sign-in-link=""
-          visible
         >
           <span slot="SignInButton">
             {unauthStartButton}
-            {!this.props.hideUnauthedStartLink && unauthStartLink}
+            {!hideUnauthedStartLink && unauthStartLink}
           </span>
         </va-alert-sign-in>
-      );
-    } else if (prefillEnabled && unverifiedPrefillAlert) {
-      alert = unverifiedPrefillAlert;
-    } else {
-      alert = (
-        <div>
-          <va-alert-sign-in variant="signInOptional" visible>
-            <span slot="SignInButton">
-              <va-button
-                className="va-button-link"
-                onClick={this.openLoginModal}
-                aria-label={ariaLabel}
-                aria-describedby={ariaDescribedby}
-                text="Sign in to your account."
-              />
-            </span>
-          </va-alert-sign-in>
-          <br />
-        </div>
-      );
+      ),
+      includesFormControls: false,
+    };
+  };
+
+  getLoggedInSavedFormAlert = (
+    savedForm,
+    appType,
+    appAction,
+    appContinuing,
+    Header,
+  ) => {
+    const { metadata = {} } = savedForm;
+    const lastUpdated = savedForm.lastUpdated || metadata.lastUpdated;
+
+    let savedAt = '';
+    if (this.props.lastSavedDate) {
+      savedAt = new Date(this.props.lastSavedDate);
+    } else if (lastUpdated) {
+      savedAt = fromUnixTime(lastUpdated);
     }
-    return { alert, includesFormControls };
+
+    const expiresAt = fromUnixTime(savedForm.metadata.expiresAt);
+    const expirationDate = format(expiresAt, 'MMMM d, yyyy');
+    const isExpired = isBefore(expiresAt, new Date());
+    const inProgressMessage = getInProgressMessage(this.props.formConfig);
+
+    if (!isExpired) {
+      const lastSavedDateTime =
+        savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
+
+      const ContinueMsg = (
+        <p>
+          You can continue {appAction} now
+          {appContinuing && ` ${appContinuing}`}, or come back later to finish
+          your {appType}.
+        </p>
+      );
+
+      return {
+        alert: (
+          <va-alert status="info">
+            <Header slot="headline">
+              {inProgressMessage} {savedAt && 'and was last saved on '}
+              {lastSavedDateTime}
+            </Header>
+            <div className="saved-form-metadata-container">
+              <div className="expires-container">
+                {this.props.continueMsg || ContinueMsg}
+                <p>
+                  Your {appType}{' '}
+                  <span className="expires">
+                    will expire on {expirationDate}.
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div>{this.props.children}</div>
+            {this.getFormControls(savedForm)}
+          </va-alert>
+        ),
+        includesFormControls: true,
+      };
+    }
+
+    return {
+      alert: (
+        <va-alert status="warning" class="vads-u-margin-bottom--4">
+          <Header slot="headline">Your {appType} has expired</Header>
+          <div className="saved-form-metadata-container">
+            <span className="saved-form-metadata">
+              {expiredMessage(this.props.formConfig)}
+            </span>
+          </div>
+          <div>{this.props.children}</div>
+        </va-alert>
+      ),
+      includesFormControls: false,
+    };
+  };
+
+  getUnauthStartComponents = (
+    CustomLink,
+    unauthStartText,
+    ariaLabel,
+    ariaDescribedby,
+    appType,
+  ) => {
+    const unauthStartLink = this.props.formConfig?.formOptions
+      ?.useWebComponentForNavigation ? (
+      <p>
+        <VaLink
+          onClick={this.handleClickAndReroute}
+          href={this.getStartPage()}
+          className="schemaform-start-button"
+          aria-label={ariaLabel}
+          text={`Start your ${appType} without signing in`}
+        />
+      </p>
+    ) : (
+      <p>
+        <Link
+          onClick={this.handleClick}
+          to={this.getStartPage}
+          className="schemaform-start-button"
+          aria-label={ariaLabel}
+          aria-describedby={ariaDescribedby}
+        >
+          Start your {appType} without signing in
+        </Link>
+      </p>
+    );
+
+    const unauthStartButton = CustomLink ? (
+      <CustomLink
+        href="#start"
+        onClick={event => {
+          event.preventDefault();
+          this.openLoginModal();
+        }}
+      >
+        {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+      </CustomLink>
+    ) : (
+      <VaButton
+        onClick={this.openLoginModal}
+        label={ariaLabel}
+        uswds
+        messageAriaDescribedby={this.props.buttonAriaDescribedby}
+        text={unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+      />
+    );
+
+    return { unauthStartButton, unauthStartLink };
   };
 
   getStartPage = () => {

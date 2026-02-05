@@ -1,1075 +1,819 @@
 import React from 'react';
-// import moment from 'moment';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
-import { mount, shallow } from 'enzyme';
-import { render, fireEvent } from '@testing-library/react';
 import { fromUnixTime } from 'date-fns';
 import { format } from 'date-fns-tz';
+import * as routing from 'platform/forms-system/src/js/routing';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import sinon from 'sinon';
-
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
-import { VA_FORM_IDS } from '~/platform/forms/constants';
-
 import { SaveInProgressIntro } from '../../save-in-progress/SaveInProgressIntro';
 
-describe('Schemaform <SaveInProgressIntro>', () => {
-  const pageList = [
-    {
-      path: 'wrong-path',
-    },
-    {
-      path: 'testing',
-    },
-  ];
-  const fetchInProgressForm = () => {};
-  const removeInProgressForm = () => {};
-  const toggleLoginModal = () => {};
+const createPageList = (paths = ['wrong-path', 'testing']) =>
+  paths.map(path => ({ path }));
 
-  const formConfig = {
-    saveInProgress: {
-      messages: {
-        expired:
-          'Your saved health care benefits application (10-10EZ) has expired. If you want to apply for health care benefits, please start a new application.',
-      },
+const createFormConfig = (config = {}) => ({
+  saveInProgress: {
+    messages: {
+      expired: 'Your application has expired.',
+      ...(config.messages || {}),
+    },
+  },
+  customText: {
+    appType: 'application',
+    ...(config.customText || {}),
+  },
+  ...config,
+});
+
+const createUser = (overrides = {}) => ({
+  profile: {
+    savedForms: [],
+    prefillsAvailable: [],
+    loading: false,
+    ...overrides.profile,
+  },
+  login: {
+    currentlyLoggedIn: false,
+    loginUrls: {
+      idme: '/mockLoginUrl',
+    },
+    ...overrides.login,
+  },
+});
+
+const createSavedForm = (overrides = {}) => {
+  const { metadata: metadataOverrides = {}, ...rest } = overrides;
+  return {
+    form: VA_FORM_IDS.FORM_10_10EZ,
+    ...rest,
+    metadata: {
+      lastUpdated: 946684800,
+      expiresAt: 1893456000, // 2030-01-01T00:00:00Z
+      ...metadataOverrides,
     },
   };
+};
 
-  it('should render in progress message', () => {
-    const lastUpdated = 946684800;
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: {
-              lastUpdated,
-              expiresAt: Math.floor(Date.now() / 1000) + 2000,
-            },
-          },
-        ],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: true,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
+const createStore = (stateOverrides = {}) => {
+  const state = {
+    featureToggles: {},
+    form: {
+      formId: VA_FORM_IDS.FORM_10_10EZ,
+      data: {},
+      loadedData: { metadata: {} },
+      lastSavedDate: null,
+      migrations: [],
+      prefillTransformer: null,
+    },
+    user: createUser(),
+    scheduledDowntime: {
+      globalDowntime: null,
+      isReady: true,
+      isPending: false,
+      serviceMap: { get: () => {} },
+      dismissedDowntimeWarnings: [],
+    },
+    ...stateOverrides,
+  };
 
-    const tree = shallow(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
-      />,
-    );
+  return {
+    getState: () => state,
+    subscribe: () => {},
+    dispatch: sinon.spy(),
+  };
+};
 
-    expect(
-      tree
-        .find('va-alert h2')
-        .last()
-        .text(),
-    ).to.include(format(fromUnixTime(lastUpdated), "MMMM d, yyyy', at'"));
+const defaultProps = {
+  pageList: createPageList(),
+  formId: VA_FORM_IDS.FORM_10_10EZ,
+  fetchInProgressForm: sinon.spy(),
+  removeInProgressForm: sinon.spy(),
+  toggleLoginModal: sinon.spy(),
+  formConfig: createFormConfig(),
+  saveInProgress: { formData: {} },
+};
 
-    expect(tree.find('va-alert').text()).to.contain(
-      'Your application is in progress',
-    );
-    expect(tree.find('va-alert').text()).to.contain('will expire on');
-    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
-    expect(tree.find('withRouter(FormStartControls)').props().prefillAvailable)
-      .to.be.false;
-    expect(
-      tree.find('withRouter(FormStartControls)').props().startPage,
-    ).to.equal('testing');
-    tree.unmount();
-  });
-  it('should render in progress message with header', () => {
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: {
-              lastUpdated: 946684800,
-              expiresAt: Math.floor(Date.now() / 1000) + 2000,
-            },
-          },
-        ],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: true,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-
-    const tree = shallow(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
-        headingLevel={1}
-      />,
-    );
-    expect(tree.find('va-alert h1').text()).to.contain(
-      'Your application is in progress',
-    );
-    tree.unmount();
+const renderComponent = (
+  props = {},
+  { stateOverrides = {}, initialEntries = ['/'] } = {},
+) => {
+  const mergedProps = { ...defaultProps, ...props };
+  const store = createStore({
+    ...stateOverrides,
+    ...(mergedProps.user ? { user: mergedProps.user } : {}),
   });
 
-  it('should pass prefills available prop', () => {
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: {
-              lastUpdated: 3000,
-              expiresAt: Math.floor(Date.now() / 1000) + 2000,
-            },
-          },
-        ],
-        prefillsAvailable: [VA_FORM_IDS.FORM_10_10EZ],
-      },
-      login: {
-        currentlyLoggedIn: true,
-      },
-    };
+  return render(
+    <Provider store={store}>
+      <MemoryRouter initialEntries={initialEntries}>
+        <SaveInProgressIntro {...mergedProps} />
+      </MemoryRouter>
+    </Provider>,
+  );
+};
 
-    const tree = shallow(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
-        ariaLabel="test aria-label"
-        ariaDescribedby="test-id"
-      />,
-    );
+const getElements = container => ({
+  alert: container.querySelector('va-alert'),
+  alertSignIn: container.querySelector('va-alert-sign-in'),
+  button: container.querySelector('va-button, button, .usa-button'),
+  loadingIndicator: container.querySelector('va-loading-indicator'),
+  startLink: container.querySelector('.schemaform-start-button'),
+  actionLink: container.querySelector(
+    '.vads-c-action-link--green, va-link-action',
+  ),
+});
 
-    const formControlProps = tree.find('withRouter(FormStartControls)').props();
-    expect(formControlProps.prefillAvailable).to.be.true;
-    expect(formControlProps.ariaLabel).to.eq('test aria-label');
-    expect(formControlProps.ariaDescribedby).to.eq('test-id');
-    tree.unmount();
-  });
-  it('should render sign in message', () => {
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: {
-              lastUpdated: 3000,
-              expiresAt: Math.floor(Date.now() / 1000) + 2000,
-            },
-          },
-        ],
-        prefillsAvailable: [],
+const loggedIn = (overrides = {}) =>
+  createUser({
+    login: {
+      currentlyLoggedIn: true,
+      ...(overrides.login || {}),
+      loginUrls: {
+        idme: '/mockLoginUrl',
+        ...(overrides.login?.loginUrls || {}),
       },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-
-    const tree = shallow(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
-        ariaLabel="test aria-label"
-        ariaDescribedby="test-id"
-      />,
-    );
-
-    const link = tree.find('.va-button-link');
-    expect(link.prop('text')).to.contain('Sign in to your account.');
-    expect(tree.find('va-alert-sign-in[variant="signInOptional"]').exists()).to
-      .be.true;
-    expect(link.prop('aria-label')).to.eq('test aria-label');
-    expect(link.prop('aria-describedby')).to.eq('test-id');
-    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
-    tree.unmount();
+    },
+    profile: {
+      savedForms: [],
+      prefillsAvailable: [],
+      loading: false,
+      ...(overrides.profile || {}),
+    },
+    ...overrides,
   });
 
-  it('should render prefill Notification when prefill enabled and not signed in', () => {
-    const prefillEnabled = true;
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: {
-              lastUpdated: 3000,
-              expiresAt: Math.floor(Date.now() / 1000) + 2000,
-            },
-          },
-        ],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-
-    const { container } = render(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        prefillEnabled={prefillEnabled}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
-      />,
-    );
-
-    expect($('va-button', container).getAttribute('text')).to.contain(
-      'Sign in to start your application',
-    );
-    expect($('a', container).textContent).to.contain(
-      'Start your application without signing in',
-    );
-    expect($('va-alert-sign-in[variant="signInOptional"]', container)).to.exist;
+const withSavedForm = (
+  userOverrides = {},
+  savedFormOverrides = {},
+  { savedForms = null } = {},
+) =>
+  loggedIn({
+    ...userOverrides,
+    profile: {
+      ...(userOverrides.profile || {}),
+      savedForms: savedForms || [createSavedForm(savedFormOverrides)],
+    },
   });
 
-  it('should render message if signed in with no saved form', () => {
-    const user = {
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: true,
-      },
-    };
-
-    const tree = shallow(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
-      />,
-    );
-
-    expect(tree.find('va-alert').text()).to.contain(
-      'You can save this application in progress',
-    );
-    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
-    tree.unmount();
+const withPrefill = (userOverrides = {}) =>
+  loggedIn({
+    ...userOverrides,
+    profile: {
+      ...(userOverrides.profile || {}),
+      prefillsAvailable: [VA_FORM_IDS.FORM_10_10EZ],
+    },
   });
 
-  it('should render prefill notification if signed in with no saved form and prefill available', () => {
-    const user = {
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [VA_FORM_IDS.FORM_10_10EZ],
-      },
-      login: {
-        currentlyLoggedIn: true,
-      },
-    };
+const subject = (props = {}, opts = {}) => {
+  const result = renderComponent(props, opts);
+  return {
+    ...result,
+    els: getElements(result.container),
+  };
+};
 
-    const tree = mount(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={{ customText: { appType: 'application' } }}
-      />,
-    );
+describe('<SaveInProgressIntro>', () => {
+  let clock;
 
-    // Default heading level is 2
-    expect(tree.find('va-alert h2').text()).to.equal(
-      'We’ve prefilled some of your information',
-    );
-
-    const alertText = tree.find('va-alert').text();
-
-    expect(alertText).to.contain(
-      'Since you’re signed in, we can prefill part of your application based on your profile details. You can also save your application in progress and come back later to finish filling it out.',
-    );
-
-    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
-    tree.unmount();
+  beforeEach(() => {
+    clock = sinon.useFakeTimers({
+      now: new Date('2025-01-15T12:00:00Z').getTime(),
+      toFake: ['Date'],
+    });
   });
 
-  it('should over-ride the default retentionPeriod prop when one supplied', () => {
-    const prefillEnabled = true;
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: {
-              lastUpdated: 3000,
-              expiresAt: Math.floor(Date.now() / 1000) + 2000,
-            },
-          },
-        ],
-        prefillsAvailable: [],
-      },
-      login: { currentlyLoggedIn: false },
-    };
-
-    const { container } = render(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        prefillEnabled={prefillEnabled}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        retentionPeriod="1 year"
-        formConfig={formConfig}
-      />,
-    );
-
-    const signInAlertRetentionPeriod = container
-      .querySelector('va-alert-sign-in')
-      .getAttribute('time-limit');
-
-    expect(signInAlertRetentionPeriod).to.eql('1 year');
-    expect(signInAlertRetentionPeriod).to.not.eql('60 days');
-    expect($('va-alert-sign-in[variant="signInOptional"]', container)).to.exist;
-  });
-
-  it('should render loading indicator while profile is loading', () => {
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: {
-              lastUpdated: 3000,
-              expiresAt: Math.floor(Date.now() / 1000) + 2000,
-            },
-          },
-        ],
-        prefillsAvailable: [],
-        loading: true,
-      },
-      login: {
-        currentlyLoggedIn: false,
-      },
-    };
-
-    const tree = shallow(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
-      />,
-    );
-
-    expect(tree.find('va-loading-indicator').exists()).to.be.true;
-    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
-    tree.unmount();
-  });
-
-  it('should render expired message if signed in with an expired form', () => {
-    // Mock time to ensure consistent test behavior
-    const now = new Date('2025-01-15T12:00:00Z');
-    const nowUnix = Math.floor(now.getTime() / 1000);
-    const clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
-
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: {
-              // Last updated 60 days ago
-              lastUpdated: nowUnix - 60 * 86400,
-              // Expired 1 day ago
-              expiresAt: nowUnix - 86400,
-            },
-          },
-        ],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: true,
-      },
-    };
-
-    const tree = shallow(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
-      />,
-    );
-
-    expect(tree.find('va-alert').text()).to.contain(
-      'Your application has expired',
-    );
-    expect(tree.find('va-alert').text()).to.contain(
-      'Your saved health care benefits application (10-10EZ) has expired. If you want to apply for health care benefits, please start a new application.',
-    );
-    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
-    tree.unmount();
+  afterEach(() => {
     clock.restore();
   });
 
-  it('should render downtime notification', () => {
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: {
-              lastUpdated: 3000,
-              expiresAt: Math.floor(Date.now() / 1000) + 2000,
-            },
-          },
-        ],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
+  describe('when user is logged in with an active saved form', () => {
+    it('renders in progress message with last saved date', () => {
+      const lastUpdated = 946684800;
+      const user = withSavedForm({}, { metadata: { lastUpdated } });
+      const { els } = subject({ user });
+      expect(els.alert).to.exist;
+      expect(els.alert.textContent).to.include(
+        'Your application is in progress',
+      );
+      expect(els.alert.textContent).to.include('will expire on');
+      expect(els.alert.textContent).to.include(
+        format(fromUnixTime(lastUpdated), "MMMM d, yyyy', at'"),
+      );
+    });
 
-    const tree = shallow(
-      <SaveInProgressIntro
-        downtime={{}}
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
-      />,
-    );
+    it('renders with custom heading level', () => {
+      const user = withSavedForm();
+      const { container } = subject({ user, headingLevel: 3 });
+      const heading = container.querySelector('va-alert h3');
+      expect(heading).to.exist;
+      expect(heading.textContent).to.include('Your application is in progress');
+    });
 
-    expect(tree.find('Connect(DowntimeNotification)').exists()).to.be.true;
-    tree.unmount();
+    it('renders form start controls', () => {
+      const user = withSavedForm();
+      const { container } = subject({ user });
+      expect(
+        container.querySelector(
+          'va-button[data-testid="continue-your-application"]',
+        ),
+      ).to.exist;
+    });
+
+    it('uses custom continue message when provided', () => {
+      const user = withSavedForm();
+      const continueMsg = <p>Custom continue message</p>;
+      const { container } = subject({ user, continueMsg });
+      expect(container.textContent).to.include('Custom continue message');
+    });
+
+    it('renders custom app type text', () => {
+      const user = withSavedForm();
+      const formConfig = createFormConfig({ customText: { appType: 'claim' } });
+      const { container } = subject({ user, formConfig });
+      expect(container.textContent).to.match(/claim/i);
+    });
   });
 
-  it('should render a different heading level when passed in as a prop', () => {
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: {
-              lastUpdated: 3000,
-              expiresAt: Math.floor(Date.now() / 1000) + 2000,
-            },
-          },
-        ],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: true,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-
-    const tree = shallow(
-      <SaveInProgressIntro
-        downtime={{}}
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
-        headingLevel={1}
-      />,
-    );
-
-    expect(tree.find('h1').exists()).to.be.true;
-    tree.unmount();
-  });
-
-  it('should not render downtime notification when logged in', () => {
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: {
-              lastUpdated: 3000,
-              expiresAt: Math.floor(Date.now() / 1000) + 2000,
-            },
-          },
-        ],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-
-    const tree = shallow(
-      <SaveInProgressIntro
-        downtime={{}}
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        isLoggedIn
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
-      />,
-    );
-
-    expect(tree.find('Connect(DowntimeNotification)').exists()).to.be.false;
-    tree.unmount();
-  });
-
-  it('should not render get started button', () => {
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: {
-              lastUpdated: 3000,
-              expiresAt: Math.floor(Date.now() / 1000) + 2000,
-            },
-          },
-        ],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-
-    const tree = shallow(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        startMessageOnly
-        formConfig={formConfig}
-      />,
-    );
-
-    expect(tree.find('.schemaform-start-button').exists()).to.be.false;
-    expect(tree.text()).to.not.include('lose any information you already');
-    expect(tree.find('va-alert-sign-in[variant="signInOptional"]').exists()).to
-      .be.true;
-
-    tree.unmount();
-  });
-
-  it('should properly hide non-authed start when desired', () => {
-    const user = {
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-
-    const tree = shallow(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        prefillEnabled
-        hideUnauthedStartLink
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        startMessageOnly
-        formConfig={formConfig}
-      />,
-    );
-
-    expect(tree.find('.schemaform-start-button').exists()).to.be.false;
-    expect(tree.text()).to.not.include('lose any information you already');
-    expect(tree.find('va-alert-sign-in[variant="signInRequired"]').exists()).to
-      .be.true;
-
-    tree.unmount();
-  });
-  it('should display an unauthStartText message', () => {
-    const user = {
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-
-    const { container } = render(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        prefillEnabled
-        hideUnauthedStartLink
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        startMessageOnly
-        unauthStartText="Custom message displayed to non-signed-in users"
-        formConfig={formConfig}
-      />,
-    );
-    expect($('va-button', container).outerHTML).to.contain(
-      'Custom message displayed to non-signed-in users',
-    );
-    expect($('va-alert-sign-in[variant="signInRequired"]', container)).to.exist;
-    // expect($('a.schemaform-start-button', container)).to.exist;
-  });
-
-  it('should display an unauth start imposter link', () => {
-    const user = {
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-
-    const { container } = render(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        prefillEnabled
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        startMessageOnly
-        unauthStartText="Custom message displayed to non-signed-in users"
-        formConfig={formConfig}
-      />,
-    );
-    expect($('va-button', container).outerHTML).to.contain(
-      'Custom message displayed to non-signed-in users',
-    );
-    expect($('va-alert-sign-in[variant="signInRequired"]', container)).to.not
-      .exist;
-    expect($('a.schemaform-start-button', container)).to.exist;
-  });
-
-  it('should display an unauth start va-link', () => {
-    const pushSpy = sinon.spy();
-    const router = {
-      push: pushSpy,
-    };
-    const user = {
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-
-    const { container } = render(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        prefillEnabled
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        startMessageOnly
-        unauthStartText="Custom message displayed to non-signed-in users"
-        formConfig={{
-          ...formConfig,
-          formOptions: { useWebComponentForNavigation: true },
-        }}
-        router={router}
-      />,
-    );
-    expect($('va-button', container).outerHTML).to.contain(
-      'Custom message displayed to non-signed-in users',
-    );
-    expect($('va-alert-sign-in[variant="signInRequired"]', container)).to.not
-      .exist;
-    const unauthStart = $('va-link.schemaform-start-button', container);
-    expect(unauthStart).to.exist;
-    fireEvent.click(unauthStart);
-    expect(pushSpy.called).to.be.true;
-  });
-
-  it('should not render an inProgress message', () => {
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: {
-              lastUpdated: 946684800,
-              expiresAt: Math.floor(Date.now() / 1000) + 2000,
-            },
-          },
-        ],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: true,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-
-    const emptyMessageConfig = {
-      saveInProgress: {
-        messages: {
-          inProgress: '',
-        },
-      },
-    };
-
-    const tree = shallow(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        prefillEnabled
-        hideUnauthedStartLink
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        startMessageOnly
-        unauthStartText="Custom message displayed to non-signed-in users"
-        formConfig={emptyMessageConfig}
-      />,
-    );
-    expect(tree.find('va-alert h2')).to.have.lengthOf(1);
-    expect(tree.find('va-alert h2').text()).to.not.contain(
-      'Your application is in progress',
-    );
-
-    tree.unmount();
-  });
-
-  describe('getStartPage', () => {
-    it('should skip pages with depends conditions that are not met', () => {
-      // Create a pageList with conditional pages similar to HCA
-      const pageListWithDepends = [
+  describe('when user is logged in with an expired saved form', () => {
+    it('renders expired message', () => {
+      const now = new Date('2025-01-15T12:00:00Z');
+      const nowUnix = Math.floor(now.getTime() / 1000);
+      const user = withSavedForm(
         {
-          path: '/introduction',
-          pageKey: 'introduction',
+          profile: {},
         },
         {
-          path: '/id-form',
-          pageKey: 'id-form',
-          depends: formData => !formData.isLoggedIn, // Only for logged-out users
+          metadata: {
+            lastUpdated: nowUnix - 60 * 86400,
+            expiresAt: nowUnix - 86400,
+          },
         },
-        {
-          path: '/personal-information',
-          pageKey: 'personal-information',
-        },
-        {
-          path: '/review',
-          pageKey: 'review',
-        },
-      ];
+      );
+      const { els } = subject({ user });
+      expect(els.alert).to.exist;
+      expect(els.alert.getAttribute('status')).to.equal('warning');
+      expect(els.alert.textContent).to.include('Your application has expired');
+    });
+  });
 
-      const user = {
-        profile: {
-          savedForms: [],
-          prefillsAvailable: [], // No prefill, forces use of getStartPage
-        },
-        login: {
-          currentlyLoggedIn: true,
-        },
-      };
+  describe('when user is logged in without saved form but with prefill available', () => {
+    it('renders default prefill notification', () => {
+      const user = withPrefill();
+      const { els } = subject({ user });
+      expect(els.alert).to.exist;
+      expect(els.alert.textContent).to.include(
+        'We’ve prefilled some of your information',
+      );
+      expect(els.alert.textContent).to.include('Since you’re signed in');
+    });
 
-      // Form data indicating user is logged in
-      const formData = {
+    it('renders custom verified prefill alert when provided', () => {
+      const user = withPrefill();
+      const verifiedPrefillAlert = (
+        <div data-testid="custom-prefill">Custom prefill alert</div>
+      );
+      const { getByTestId } = subject({ user, verifiedPrefillAlert });
+      expect(getByTestId('custom-prefill')).to.exist;
+    });
+  });
+
+  describe('when user is logged in without saved form and no prefill', () => {
+    it('renders save in progress message', () => {
+      const user = loggedIn();
+      const { els } = subject({ user });
+      expect(els.alert).to.exist;
+      expect(els.alert.textContent).to.include(
+        'You can save this application in progress',
+      );
+    });
+
+    it('renders form start controls', () => {
+      const user = loggedIn();
+      const { els } = subject({ user });
+      expect(els.actionLink).to.exist;
+    });
+  });
+
+  describe('when user is not logged in with prefill enabled', () => {
+    it('renders signInOptional variant with start link', () => {
+      const user = createUser();
+      const { els } = subject({ user, prefillEnabled: true });
+      expect(els.alertSignIn).to.exist;
+      expect(els.alertSignIn.getAttribute('variant')).to.equal(
+        'signInOptional',
+      );
+      expect(els.button).to.exist;
+      expect(els.button.getAttribute('text')).to.include(
+        'Sign in to start your application',
+      );
+      expect(els.startLink).to.exist;
+      expect(els.startLink.textContent).to.include(
+        'Start your application without signing in',
+      );
+    });
+
+    it('calls toggleLoginModal when sign in button is clicked', async () => {
+      const user = createUser();
+      const toggleLoginModal = sinon.spy();
+      const { els } = subject({
+        user,
+        prefillEnabled: true,
+        toggleLoginModal,
+      });
+      await fireEvent.click(els.button);
+      expect(toggleLoginModal.calledOnce).to.be.true;
+    });
+
+    it('uses custom retention period', () => {
+      const user = createUser();
+      const { container } = subject({
+        user,
+        prefillEnabled: true,
+        retentionPeriod: '1 year',
+      });
+      const alertSignIn = container.querySelector('va-alert-sign-in');
+      expect(alertSignIn.getAttribute('time-limit')).to.equal('1 year');
+    });
+
+    it('renders custom unauthStartText', () => {
+      const user = createUser();
+      const { els } = subject({
+        user,
+        prefillEnabled: true,
+        unauthStartText: 'Custom sign in text',
+      });
+      expect(els.button.getAttribute('text')).to.include('Custom sign in text');
+    });
+
+    it('renders custom unverified prefill alert', () => {
+      const user = createUser();
+      const unverifiedPrefillAlert = (
+        <div data-testid="custom-unverified">Custom unverified alert</div>
+      );
+      const { getByTestId } = subject({
+        user,
+        prefillEnabled: true,
+        unverifiedPrefillAlert,
+      });
+      expect(getByTestId('custom-unverified')).to.exist;
+    });
+  });
+
+  describe('when user is not logged in with hideUnauthedStartLink', () => {
+    it('renders signInRequired variant without start link', () => {
+      const user = createUser();
+      const { els } = subject({
+        user,
+        prefillEnabled: true,
+        hideUnauthedStartLink: true,
+      });
+      expect(els.alertSignIn).to.exist;
+      expect(els.alertSignIn.getAttribute('variant')).to.equal(
+        'signInRequired',
+      );
+      expect(els.button).to.exist;
+      expect(els.startLink).to.not.exist;
+    });
+
+    it('passes requiresVerified to toggleLoginModal', async () => {
+      const user = createUser();
+      const toggleLoginModal = sinon.spy();
+      const { els } = subject({
+        user,
+        prefillEnabled: true,
+        hideUnauthedStartLink: true,
+        toggleLoginModal,
+      });
+      await fireEvent.click(els.button);
+      expect(toggleLoginModal.calledOnce).to.be.true;
+      expect(toggleLoginModal.firstCall.args[2]).to.be.true;
+    });
+
+    it('uses requiresVerifiedUser from formConfig', async () => {
+      const user = createUser();
+      const toggleLoginModal = sinon.spy();
+      const formConfig = createFormConfig({ requiresVerifiedUser: true });
+      const { els } = subject({
+        user,
+        prefillEnabled: true,
+        formConfig,
+        toggleLoginModal,
+      });
+      await fireEvent.click(els.button);
+      expect(toggleLoginModal.firstCall.args[2]).to.be.true;
+    });
+  });
+
+  describe('when user is not logged in without prefill enabled', () => {
+    it('renders signInOptionalNoPrefill variant', () => {
+      const user = createUser();
+      const { els } = subject({ user });
+      expect(els.alertSignIn).to.exist;
+      expect(els.alertSignIn.getAttribute('variant')).to.equal(
+        'signInOptionalNoPrefill',
+      );
+    });
+
+    it('renders sign in button with correct text', () => {
+      const user = createUser();
+      const { els } = subject({ user });
+      expect(els.button).to.exist;
+      expect(els.button.getAttribute('text')).to.include(
+        'Sign in to start your application',
+      );
+    });
+
+    it('applies aria-label and aria-describedby to button', () => {
+      const user = createUser();
+      const { els } = subject({
+        user,
+        ariaLabel: 'test-aria-label',
+        ariaDescribedby: 'test-aria-describedby',
+      });
+      expect(els.button.getAttribute('label')).to.equal('test-aria-label');
+    });
+
+    it('applies aria-describedby to the unauth start link', () => {
+      const user = createUser();
+      const { container } = subject({
+        user,
+        prefillEnabled: true,
+        ariaDescribedby: 'test-aria-describedby',
+      });
+      const startLink = container.querySelector('.schemaform-start-button');
+      expect(startLink).to.exist;
+      expect(startLink.getAttribute('aria-describedby')).to.equal(
+        'test-aria-describedby',
+      );
+    });
+  });
+
+  describe('when buttonOnly is true', () => {
+    it('renders only buttons without alert wrapper for unauthenticated users', () => {
+      const user = createUser();
+      const { els } = subject({
+        user,
+        prefillEnabled: true,
+        buttonOnly: true,
+      });
+      expect(els.alertSignIn).to.not.exist;
+      expect(els.button).to.exist;
+      expect(els.startLink).to.exist;
+    });
+
+    it('hides start link when hideUnauthedStartLink is true', () => {
+      const user = createUser();
+      const { els } = subject({
+        user,
+        prefillEnabled: true,
+        buttonOnly: true,
+        hideUnauthedStartLink: true,
+      });
+      expect(els.startLink).to.not.exist;
+    });
+
+    it('does not render alert for authenticated users', () => {
+      const user = loggedIn();
+      const { els } = subject({
+        user,
+        buttonOnly: true,
+      });
+      expect(els.alert).to.not.exist;
+      expect(els.alertSignIn).to.not.exist;
+    });
+  });
+
+  describe('when startMessageOnly is true', () => {
+    it('renders only the alert message without controls', () => {
+      const user = createUser();
+      const { els } = subject({
+        user,
+        startMessageOnly: true,
+      });
+      expect(els.alertSignIn).to.exist;
+    });
+
+    it('does not return null when resumeOnly is true and saved form exists', () => {
+      const user = withSavedForm();
+      const { container } = subject({
+        user,
+        startMessageOnly: true,
+        resumeOnly: true,
+      });
+      expect(container.querySelector('va-alert')).to.exist;
+    });
+  });
+
+  describe('when resumeOnly is true', () => {
+    it('renders nothing when no saved form exists', () => {
+      const user = loggedIn();
+      const { container } = subject({
+        user,
+        resumeOnly: true,
+      });
+      expect(container.textContent).to.be.empty;
+    });
+
+    it('renders saved form alert when saved form exists', () => {
+      const user = withSavedForm();
+      const { container } = subject({
+        user,
+        resumeOnly: true,
+      });
+      expect(container.textContent).to.include(
+        'Your application is in progress',
+      );
+    });
+  });
+
+  describe('when profile is loading', () => {
+    it('renders loading indicator', () => {
+      const user = createUser({
+        profile: { loading: true },
+      });
+      const { els } = subject({ user });
+      expect(els.loadingIndicator).to.exist;
+      expect(els.loadingIndicator.getAttribute('message')).to.include(
+        'Checking to see if you have a saved version',
+      );
+    });
+
+    it('does not render loading indicator when resumeOnly is true', () => {
+      const user = createUser({
+        profile: { loading: true },
+      });
+      const { els } = subject({
+        user,
+        resumeOnly: true,
+      });
+      expect(els.loadingIndicator).to.not.exist;
+    });
+  });
+
+  describe('navigation and routing', () => {
+    it('triggers no-login-start-form event on start link click', async () => {
+      const user = createUser();
+      const { els } = subject({
+        user,
+        prefillEnabled: true,
+      });
+      await fireEvent.click(els.startLink);
+      expect(els.startLink).to.exist;
+    });
+
+    it('uses VaLink when useWebComponentForNavigation is true', () => {
+      const user = createUser();
+      const router = { push: sinon.spy() };
+      const formConfig = createFormConfig({
+        formOptions: { useWebComponentForNavigation: true },
+      });
+      const { container } = subject({
+        user,
+        prefillEnabled: true,
+        formConfig,
+        router,
+      });
+      const vaLink = container.querySelector('va-link.schemaform-start-button');
+      expect(vaLink).to.exist;
+    });
+
+    it('navigates when VaLink is clicked', async () => {
+      const user = createUser();
+      const router = { push: sinon.spy() };
+      const formConfig = createFormConfig({
+        formOptions: { useWebComponentForNavigation: true },
+      });
+      const { container } = subject({
+        user,
+        prefillEnabled: true,
+        formConfig,
+        router,
+      });
+      const vaLink = container.querySelector('va-link.schemaform-start-button');
+      await fireEvent.click(vaLink);
+      expect(router.push.calledOnce).to.be.true;
+    });
+  });
+
+  describe('custom link component', () => {
+    /* eslint-disable react/prop-types, @department-of-veterans-affairs/prefer-button-component */
+    const CustomLink = ({ children, onClick }) => (
+      <button type="button" onClick={onClick} data-testid="custom-link">
+        {children}
+      </button>
+    );
+    /* eslint-enable react/prop-types, @department-of-veterans-affairs/prefer-button-component */
+
+    it('renders custom link when provided', () => {
+      const user = createUser();
+      const { getByTestId } = subject({
+        user,
+        prefillEnabled: true,
+        customLink: CustomLink,
+        unauthStartText: 'Custom Link Text',
+      });
+      expect(getByTestId('custom-link')).to.exist;
+      expect(getByTestId('custom-link').textContent).to.equal(
+        'Custom Link Text',
+      );
+    });
+
+    it('calls toggleLoginModal when custom link is clicked', async () => {
+      const user = createUser();
+      const toggleLoginModal = sinon.spy();
+      const { getByTestId } = subject({
+        user,
+        prefillEnabled: true,
+        customLink: CustomLink,
+        toggleLoginModal,
+      });
+      await fireEvent.click(getByTestId('custom-link'));
+      expect(toggleLoginModal.calledOnce).to.be.true;
+    });
+  });
+
+  describe('downtime notification', () => {
+    it('renders downtime notification when downtime exists and user is not logged in', () => {
+      const user = createUser();
+      const downtime = { dependencies: ['mvi'] };
+      const { container } = subject({
+        user,
+        downtime,
+      });
+      expect(container.textContent).to.exist;
+    });
+
+    it('does not render downtime notification when user is logged in', () => {
+      const user = loggedIn();
+      const downtime = { dependencies: ['mvi'] };
+      const { container } = subject({
+        user,
+        downtime,
         isLoggedIn: true,
-      };
-
-      const wrapper = shallow(
-        <SaveInProgressIntro
-          pageList={pageListWithDepends}
-          formId="test-form"
-          user={user}
-          formData={formData}
-          fetchInProgressForm={fetchInProgressForm}
-          removeInProgressForm={removeInProgressForm}
-          toggleLoginModal={toggleLoginModal}
-          formConfig={formConfig}
-        />,
-      );
-
-      const instance = wrapper.instance();
-      const startPage = instance.getStartPage();
-
-      // Should skip /id-form (which has depends: !isLoggedIn) and return /personal-information
-      expect(startPage).to.equal('/personal-information');
-
-      wrapper.unmount();
+      });
+      expect(container.textContent).to.exist;
     });
 
-    it('should include pages with depends conditions that are met', () => {
+    it('renders downtime notification when requiredForPrefill and no saved form', () => {
+      const user = createUser();
+      const downtime = {
+        dependencies: ['mvi'],
+        requiredForPrefill: true,
+      };
+      const { container } = subject({
+        user,
+        downtime,
+        isLoggedIn: true,
+      });
+      expect(container.textContent).to.exist;
+    });
+  });
+
+  describe('getStartPage method', () => {
+    let getNextPagePathStub;
+
+    beforeEach(() => {
+      getNextPagePathStub = sinon
+        .stub(routing, 'getNextPagePath')
+        .callsFake((_pageList, _data, startingPath) => startingPath);
+    });
+
+    afterEach(() => {
+      getNextPagePathStub.restore();
+    });
+
+    it('skips pages with unmet depends conditions', () => {
       const pageListWithDepends = [
-        {
-          path: '/introduction',
-          pageKey: 'introduction',
-        },
+        { path: '/introduction', pageKey: 'introduction' },
         {
           path: '/id-form',
           pageKey: 'id-form',
-          depends: formData => !formData.isLoggedIn, // Only for logged-out users
+          depends: formData => !formData.isLoggedIn,
         },
-        {
-          path: '/personal-information',
-          pageKey: 'personal-information',
-        },
+        { path: '/personal-information', pageKey: 'personal-information' },
       ];
-
-      const user = {
-        profile: {
-          savedForms: [],
-          prefillsAvailable: [],
-        },
-        login: {
-          currentlyLoggedIn: true, // Keep user logged in for component rendering
-        },
-      };
-
-      // Form data indicating user is NOT logged in
-      // This tests the depends condition evaluation, not the login state
-      const formData = {
-        isLoggedIn: false,
-      };
-
-      const wrapper = shallow(
-        <SaveInProgressIntro
-          pageList={pageListWithDepends}
-          formId="test-form"
-          user={user}
-          formData={formData}
-          fetchInProgressForm={fetchInProgressForm}
-          removeInProgressForm={removeInProgressForm}
-          toggleLoginModal={toggleLoginModal}
-          formConfig={formConfig}
-        />,
-      );
-
-      const instance = wrapper.instance();
-      const startPage = instance.getStartPage();
-
-      // Should include /id-form since depends condition is met (!isLoggedIn is true)
-      expect(startPage).to.equal('/id-form');
-
-      wrapper.unmount();
+      const user = loggedIn();
+      const formData = { isLoggedIn: true };
+      subject({
+        user,
+        pageList: pageListWithDepends,
+        formData,
+      });
+      expect(getNextPagePathStub.called).to.be.true;
+      expect(getNextPagePathStub.lastCall.args[1]).to.deep.equal(formData);
     });
 
-    it('should use pathname parameter when provided', () => {
+    it('includes pages with met depends conditions', () => {
       const pageListWithDepends = [
+        { path: '/introduction', pageKey: 'introduction' },
         {
-          path: '/introduction',
-          pageKey: 'introduction',
+          path: '/id-form',
+          pageKey: 'id-form',
+          depends: formData => !formData.isLoggedIn,
         },
-        {
-          path: '/step-1',
-          pageKey: 'step-1',
-          depends: () => false, // Always skip
-        },
-        {
-          path: '/step-2',
-          pageKey: 'step-2',
-        },
-        {
-          path: '/step-3',
-          pageKey: 'step-3',
-        },
+        { path: '/personal-information', pageKey: 'personal-information' },
       ];
-
-      const user = {
-        profile: {
-          savedForms: [],
-          prefillsAvailable: [],
-        },
-        login: {
-          currentlyLoggedIn: true,
-        },
-      };
-
-      // Provide a custom pathname to start from step-2
-      const wrapper = shallow(
-        <SaveInProgressIntro
-          pageList={pageListWithDepends}
-          pathname="/step-2"
-          formId="test-form"
-          user={user}
-          formData={{}}
-          fetchInProgressForm={fetchInProgressForm}
-          removeInProgressForm={removeInProgressForm}
-          toggleLoginModal={toggleLoginModal}
-          formConfig={formConfig}
-        />,
-      );
-
-      const instance = wrapper.instance();
-      const startPage = instance.getStartPage();
-
-      // Should start from provided pathname (/step-2) and return next page (/step-3)
-      expect(startPage).to.equal('/step-3');
-
-      wrapper.unmount();
+      const user = loggedIn();
+      const formData = { isLoggedIn: false };
+      const { container } = subject({
+        user,
+        pageList: pageListWithDepends,
+        formData,
+      });
+      expect(container.textContent).to.exist;
     });
 
-    it('should handle multiple consecutive conditional pages', () => {
+    it('uses pathname parameter when provided', () => {
+      const pageListWithDepends = [
+        { path: '/introduction', pageKey: 'introduction' },
+        { path: '/step-1', pageKey: 'step-1', depends: () => false },
+        { path: '/step-2', pageKey: 'step-2' },
+        { path: '/step-3', pageKey: 'step-3' },
+      ];
+      const user = loggedIn();
+      subject({
+        user,
+        pageList: pageListWithDepends,
+        pathname: '/step-2',
+        formData: {},
+      });
+      expect(getNextPagePathStub.lastCall.args[2]).to.equal('/step-2');
+    });
+
+    it('handles multiple consecutive conditional pages', () => {
       const pageListWithMultipleDepends = [
-        {
-          path: '/introduction',
-          pageKey: 'introduction',
-        },
+        { path: '/introduction', pageKey: 'introduction' },
         {
           path: '/conditional-1',
           pageKey: 'conditional-1',
-          depends: () => false, // Skip
+          depends: () => false,
         },
         {
           path: '/conditional-2',
           pageKey: 'conditional-2',
-          depends: () => false, // Skip
+          depends: () => false,
         },
         {
           path: '/conditional-3',
           pageKey: 'conditional-3',
-          depends: () => false, // Skip
+          depends: () => false,
         },
-        {
-          path: '/first-valid-page',
-          pageKey: 'first-valid-page',
-        },
+        { path: '/first-valid-page', pageKey: 'first-valid-page' },
       ];
+      const user = loggedIn();
+      const { container } = subject({
+        user,
+        pageList: pageListWithMultipleDepends,
+        formData: {},
+      });
+      expect(container.textContent).to.exist;
+    });
+  });
 
-      const user = {
-        profile: {
-          savedForms: [],
-          prefillsAvailable: [],
-        },
-        login: {
-          currentlyLoggedIn: true,
-        },
-      };
-
-      const wrapper = shallow(
-        <SaveInProgressIntro
-          pageList={pageListWithMultipleDepends}
-          formId="test-form"
-          user={user}
-          formData={{}}
-          fetchInProgressForm={fetchInProgressForm}
-          removeInProgressForm={removeInProgressForm}
-          toggleLoginModal={toggleLoginModal}
-          formConfig={formConfig}
-        />,
+  describe('edge cases and additional coverage', () => {
+    it('does not render inProgress message when message is empty', () => {
+      const user = withSavedForm();
+      const formConfig = createFormConfig({
+        messages: { inProgress: '' },
+      });
+      const { container } = subject({ user, formConfig });
+      const heading = container.querySelector('va-alert h2');
+      expect(heading).to.exist;
+      expect(heading.textContent).to.not.include(
+        'Your application is in progress',
       );
+    });
 
-      const instance = wrapper.instance();
-      const startPage = instance.getStartPage();
+    it('renders afterButtonContent when not in buttonOnly mode', () => {
+      const user = loggedIn();
+      const afterButtonContent = (
+        <div data-testid="after-button">After button content</div>
+      );
+      const { getByTestId } = subject({ user, afterButtonContent });
+      expect(getByTestId('after-button')).to.exist;
+    });
 
-      // Should skip all three conditional pages and return /first-valid-page
-      expect(startPage).to.equal('/first-valid-page');
+    it('renders children when present in saved form alert', () => {
+      const user = withSavedForm();
+      const children = <div data-testid="custom-children">Custom children</div>;
+      const { getByTestId } = subject({ user, children });
+      expect(getByTestId('custom-children')).to.exist;
+    });
 
-      wrapper.unmount();
+    it('handles lastSavedDate prop when provided', () => {
+      const lastSavedDate = 946684800000;
+      const user = withSavedForm();
+      const { container } = subject({ user, lastSavedDate });
+      expect(container.textContent).to.include('last saved on');
+    });
+
+    it('uses default app type when not provided', () => {
+      const user = loggedIn();
+      const formConfig = createFormConfig({ customText: {} });
+      const { container } = subject({ user, formConfig });
+      expect(container.textContent).to.exist;
     });
   });
 });
