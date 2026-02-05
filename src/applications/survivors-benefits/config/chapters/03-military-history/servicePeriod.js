@@ -36,7 +36,6 @@ export default {
     placeOfSeparation: textUI({
       title: 'Place of Veteran’s last separation',
       hint: 'City, state, or foreign country',
-      charcount: true,
     }),
   },
   schema: {
