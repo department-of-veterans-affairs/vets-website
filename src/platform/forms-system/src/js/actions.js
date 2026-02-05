@@ -7,6 +7,31 @@ import { infoTokenExists, refresh } from 'platform/utilities/oauth/utilities';
 import { timeFromNow } from '../../../utilities/date';
 import { transformForSubmit, handleSessionRefresh } from './helpers';
 
+/**
+ * Checks if a 403 response is due to an expired token and attempts refresh
+ * @param {XMLHttpRequest} req - The XMLHttpRequest object
+ * @param {Function} retryCallback - Function to call on successful refresh
+ * @param {Function} errorCallback - Function to call on failure
+ * @returns {boolean} True if token refresh was attempted, false otherwise
+ */
+function handleTokenRefresh(req, retryCallback, errorCallback) {
+  try {
+    const errorResponse = JSON.parse(req.response);
+    const errorText = errorResponse?.errors || '';
+    const isTokenExpired = errorText.includes('token has expired');
+
+    if (isTokenExpired && infoTokenExists()) {
+      refresh({ type: sessionStorage.getItem('serviceName') })
+        .then(retryCallback)
+        .catch(errorCallback);
+      return true;
+    }
+  } catch (e) {
+    // JSON parse error, fall through
+  }
+  return false;
+}
+
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
 export const SET_VIEWED_PAGES = 'SET_VIEWED_PAGES';
@@ -134,29 +159,17 @@ export function submitToUrl(
         const results = JSON.parse(responseBody || '{}');
         resolve(results);
       } else if (req.status === 403 && !hasAttemptedTokenRefresh) {
-        try {
-          const errorResponse = JSON.parse(req.response);
-          const errorMessage = errorResponse?.errors || '';
-          const isTokenExpired = errorMessage.includes('token has expired');
-
-          if (isTokenExpired && infoTokenExists()) {
-            refresh({ type: sessionStorage.getItem('serviceName') })
-              .then(() => {
-                return submitToUrl(
-                  body,
-                  submitUrl,
-                  trackingPrefix,
-                  eventData,
-                  true,
-                );
-              })
+        const refreshHandled = handleTokenRefresh(
+          req,
+          () => {
+            return submitToUrl(body, submitUrl, trackingPrefix, eventData, true)
               .then(resolve)
               .catch(reject);
-            return;
-          }
-        } catch (e) {
-          // JSON parse error, fall through to reject
-        }
+          },
+          reject,
+        );
+        if (refreshHandled) return;
+
         // If we couldn't refresh or it wasn't a token expiration, reject with error
         const error = new Error(`vets_server_error: ${req.statusText}`);
         error.statusText = req.statusText;
@@ -272,6 +285,7 @@ export function uploadFile(
   onError,
   trackingPrefix,
   password,
+  hasAttemptedTokenRefresh = false,
 ) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
@@ -385,31 +399,38 @@ export function uploadFile(
           ...fileData,
           isEncrypted: !!password,
         });
-      } else if (req.status === 403) {
-        let errorResponse;
-        try {
-          errorResponse = JSON.parse(req.response);
-          const errorMessage = errorResponse?.errors || '';
-          const isTokenExpired = errorMessage.includes('token has expired');
+      } else if (req.status === 403 && !hasAttemptedTokenRefresh) {
+        const refreshHandled = handleTokenRefresh(
+          req,
+          () => {
+            return uploadFile(
+              file,
+              uiOptions,
+              onProgress,
+              onChange,
+              onError,
+              trackingPrefix,
+              password,
+              true,
+            )(dispatch, getState);
+          },
+          () => {
+            const fileObj = { file, name: file.name, size: file.size };
+            const sessionExpiredMsg =
+              'Your session has expired. Please sign in again.';
+            onChange({ ...fileObj, errorMessage: sessionExpiredMsg });
+            Sentry.captureMessage(`vets_upload_error: ${sessionExpiredMsg}`);
+            onError();
+          },
+        );
+        if (refreshHandled) return;
 
-          if (isTokenExpired && infoTokenExists()) {
-            refresh({ type: sessionStorage.getItem('serviceName') }).then(
-              () => {
-                return uploadFile(
-                  file,
-                  uiOptions,
-                  onProgress,
-                  onChange,
-                  onError,
-                  trackingPrefix,
-                  password,
-                )(dispatch, getState);
-              },
-            );
-          }
-        } catch (e) {
-          // fall through to show error
-        }
+        // If we couldn't refresh or it wasn't a token expiration, show error
+        const fileObj = { file, name: file.name, size: file.size };
+        const authFailedMsg = 'Authentication failed. Please try again.';
+        onChange({ ...fileObj, errorMessage: authFailedMsg });
+        Sentry.captureMessage(`vets_upload_error: ${authFailedMsg}`);
+        onError();
       } else {
         const fileObj = { file, name: file.name, size: file.size };
         let errorMessage = req.statusText;
