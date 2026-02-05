@@ -111,10 +111,12 @@ function testAdditionalInfo() {
   testFileUpload(makeMinimalPNG);
   cy.findByText(/continue/i, { selector: 'button' }).click();
 
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(150);
   // we should get an error because additional info not set
   cy.get('va-file-input')
     .find('va-select')
-    .should('has.attr', 'error', 'Choose a document status');
+    .should('have.attr', 'error', 'Choose a document status');
 
   // set the additional info
   cy.get('va-file-input')
@@ -122,6 +124,9 @@ function testAdditionalInfo() {
     .then($el => {
       cy.selectVaSelect($el, 'public');
     });
+
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(100);
 
   // error should be gone
   cy.get('va-file-input')
