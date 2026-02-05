@@ -27,7 +27,7 @@ export const InformationToDiscloseReviewField = props => (
     otherTextKey="otherText"
   />
 );
-
+const OTHER_TEXT_MAX = 30;
 const DisclosureIntro = ({ claimantName, thirdPartyName }) => (
   <>
     <p>
@@ -195,6 +195,8 @@ const InformationToDiscloseField = props => {
                       id={idSchema?.otherText?.$id}
                       label="Specify other information you’d like to disclose"
                       required={otherChecked}
+                      charcount
+                      maxlength={OTHER_TEXT_MAX}
                       value={formData?.otherText || ''}
                       error={computedOtherError}
                       onVaInput={e => setOtherExplanation(getValue(e))}
@@ -233,7 +235,7 @@ export default {
           amountOwed: { type: 'boolean' },
           minor: { type: 'boolean' },
           other: { type: 'boolean' },
-          otherText: { type: 'string' },
+          otherText: { type: 'string', maxLength: OTHER_TEXT_MAX },
         },
       },
     },
