@@ -35,7 +35,7 @@ export const getFullName = fullName => {
 };
 
 export const organizationRepresentativesArrayOptions = {
-  arrayPath: 'representatives',
+  arrayPath: 'organizationRepresentatives',
   nounSingular: 'representative',
   nounPlural: 'representatives',
   required: true,

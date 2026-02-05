@@ -188,7 +188,7 @@ describe('organizationRepresentativesArrayOptions helpers', () => {
   describe('organizationRepresentativesArrayOptions', () => {
     it('should define required array builder options correctly', () => {
       expect(organizationRepresentativesArrayOptions.arrayPath).to.equal(
-        'representatives',
+        'organizationRepresentatives',
       );
       expect(organizationRepresentativesArrayOptions.nounSingular).to.equal(
         'representative',
