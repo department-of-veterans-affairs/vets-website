@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import HubCardList from './HubCardList';
+import SelectPreferenceView from './SelectPreferenceView';
 
 const CaseProgressDescription = ({ step, status, showHubCards = false }) => {
   const navigate = useNavigate();
@@ -108,13 +109,49 @@ const CaseProgressDescription = ({ step, status, showHubCards = false }) => {
           <>
             <p>
               Your application for VR&E Chapter 31 benefits is processed and
-              basic eligible is determined, a VR-03 Appointment and Orientation
-              Notification Letter is being generated and will be sent to you
-              regarding your scheduled appointment. Your next step is to watch
-              and confirm completion of the Orientation Video, which can be
-              found on the “Orientation Tools and Resources” tile at the bottom
-              of this web page.
+              basic eligibility is determined, a VR-03 Appointment and
+              Orientation Notification Letter is being generated and will be
+              sent to you regarding your scheduled appointment. Your next step
+              is to watch and confirm completion of the Orientation Video, which
+              can be found on the “Orientation Tools and Resources” tile at the
+              bottom of this web page.
             </p>
+            <va-card background class="vads-u-padding-top--0">
+              <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
+                Reading Material
+              </h2>
+              <ul className="va-nav-linkslist-list vads-u-margin-bottom--2">
+                <li>
+                  <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
+                    <va-link
+                      href="https://www.va.gov"
+                      text="Program Overview"
+                    />
+                  </h3>
+                  <p className="va-nav-linkslist-description">
+                    More details in here.
+                  </p>
+                </li>
+                <li>
+                  <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
+                    <va-link
+                      href="https://www.va.gov"
+                      text="VR&E Support-and-Services Tracks"
+                    />
+                  </h3>
+                  <p className="va-nav-linkslist-description">
+                    We offer 5 support-and-services tracks to help you get
+                    education or training, find and keep a job, and live as
+                    independently as possible. Explore the different tracks and
+                    take charge of your future.
+                  </p>
+                </li>
+              </ul>
+              <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
+                Orientation Completion
+              </h2>
+              <SelectPreferenceView />
+            </va-card>
             {hubCards}
           </>
         );
