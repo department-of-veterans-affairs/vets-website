@@ -401,7 +401,8 @@ export function uploadFile(
         const fileObj = { file, name: file.name, size: file.size };
 
         if (isTokenExpired && infoTokenExists()) {
-          refresh({ type: sessionStorage.getItem('serviceName') }).then(response => {
+          refresh({ type: sessionStorage.getItem('serviceName') })
+            .then(response => {
               if (!response.ok) {
                 throw new Error();
               }
@@ -416,11 +417,15 @@ export function uploadFile(
                 true,
               )(dispatch, getState);
             })
-            .catch((e) => {
-              const refreshErrorMessage = 
-                'Your session could not be refreshed. Please sign in again and retry your upload.';
+            .catch(() => {
+              const refreshErrorMessage =
+                'Your file was not uploaded. We had a network error. Try again later.';
               if (password) {
-                onChange({ ...fileObj, errorMessage: refreshErrorMessage, isEncrypted: true });
+                onChange({
+                  ...fileObj,
+                  errorMessage: refreshErrorMessage,
+                  isEncrypted: true,
+                });
               } else {
                 onChange({ ...fileObj, errorMessage: refreshErrorMessage });
               }
@@ -430,9 +435,13 @@ export function uploadFile(
         } else {
           // Not a token expiration but a 403
           const forbiddenMessage =
-            'You don\'t have permission to upload this file. Please sign in and try again.';
+            "You don't have permission to upload this file. Please try resigning in.";
           if (password) {
-            onChange({ ...fileObj, errorMessage: forbiddenMessage, isEncrypted: true });
+            onChange({
+              ...fileObj,
+              errorMessage: forbiddenMessage,
+              isEncrypted: true,
+            });
           } else {
             onChange({ ...fileObj, errorMessage: forbiddenMessage });
           }
