@@ -38,7 +38,7 @@ export const SIGN_OUT_URL = (() => {
 export const NAV_MOBILE_DROPDOWN = [
   {
     LABEL: 'Dashboard',
-    URL: '/dashboard',
+    URL: '/representative/dashboard',
     TEST_ID: 'user-nav-profile-link',
   },
 ];
@@ -46,18 +46,18 @@ export const NAV_MOBILE_DROPDOWN = [
 export const NAV_MENU_DROPDOWN = [
   {
     LABEL: 'Find Claimant',
-    URL: '/find-claimant',
+    URL: '/representative/find-claimant',
     ICON: 'search',
     TEST_ID: 'user-nav-claimant-search-link',
   },
   {
     LABEL: 'Representation Requests',
-    URL: '/representation-requests',
+    URL: '/representative/representation-requests',
     TEST_ID: 'user-nav-representation-requests-link',
   },
   {
     LABEL: 'Submissions',
-    URL: '/submissions',
+    URL: '/representative/submissions',
     TEST_ID: 'submissions-link',
   },
 ];
