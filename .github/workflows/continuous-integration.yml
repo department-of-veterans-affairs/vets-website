@@ -167,11 +167,7 @@ jobs:
           env_variable_name: MAPBOX_TOKEN
 
       - name: Build
-        run: |
-          echo "🍄 Right before build, ${{ matrix.buildtype }}"
-          echo "ENTRY: ${{ steps.get-changed-apps.outputs.entry_names }}"
-          yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
-          echo "🍄 Right after build, ${{ matrix.buildtype }}"
+        run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
         timeout-minutes: 30
         env:
           ENTRY: ${{ steps.get-changed-apps.outputs.entry_names }}
