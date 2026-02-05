@@ -17,7 +17,6 @@ import { AccountInfoView } from '@@profile/components/direct-deposit/AccountInfo
 import { AccountUpdateView } from '@@profile/components/direct-deposit/AccountUpdateView';
 import { DirectDepositDevWidget } from '@@profile/components/direct-deposit/DirectDepositDevWidget';
 import { FraudVictimSummary } from '@@profile/components/direct-deposit/FraudVictimSummary';
-import { PaymentHistoryCard } from '@@profile/components/direct-deposit/PaymentHistoryCard';
 
 import DowntimeNotification, {
   externalServices,
@@ -31,30 +30,26 @@ import { COULD_NOT_DETERMINE_DUE_TO_EXCEPTION } from './config/enums';
 const cardHeadingId = 'bank-account-information';
 
 // layout wrapper for common styling
-const Wrapper = ({ children, withPaymentHistory }) => {
+const Wrapper = ({ children }) => {
   return (
     <>
       <Headline dataTestId="unified-direct-deposit">
         Direct deposit information
       </Headline>
       {children}
-      {withPaymentHistory && <PaymentHistoryCard />}
     </>
   );
 };
 
 Wrapper.propTypes = {
   children: PropTypes.node.isRequired,
-  withPaymentHistory: PropTypes.bool,
 };
 
-Wrapper.defaultProps = {
-  withPaymentHistory: true,
-};
+Wrapper.defaultProps = {};
 
 const MontgomeryGiBillDescription = className => (
   <va-additional-info
-    trigger=" How to update your direct deposit information for Montgomery GI Bill"
+    trigger="Learn how to update your direct deposit information for Montgomery GI Bill"
     class={`${className} gi-bill-info`}
     uswds
     data-testid="gi-bill-additional-info"
@@ -120,7 +115,7 @@ export const DirectDeposit = () => {
 
   if (togglesLoading) {
     return (
-      <Wrapper withPaymentHistory={false}>
+      <Wrapper>
         <va-loading-indicator />
       </Wrapper>
     );
@@ -149,7 +144,7 @@ export const DirectDeposit = () => {
 
   if (isBlocked) {
     return (
-      <Wrapper withPaymentHistory={false}>
+      <Wrapper>
         <DirectDepositBlocked />
       </Wrapper>
     );
