@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Footer from '~/platform/site-wide/representative/components/footer/Footer';
 import ErrorHeader from '../components/Error/ErrorHeader';
 
@@ -17,3 +18,7 @@ const ErrorPage = ({ children }) => {
 };
 
 export default ErrorPage;
+
+ErrorPage.propTypes = {
+  children: PropTypes.node,
+};
