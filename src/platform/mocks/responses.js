@@ -1,3 +1,5 @@
+import { mergeWith } from 'lodash';
+
 /**
  * Platform Mock Responses
  *
@@ -17,67 +19,116 @@
  */
 
 // ============================================================================
-// User / Authentication
+// Helpers
 // ============================================================================
 
 /**
- * Creates a user response for authenticated users.
- * @param {Object} overrides - Properties to override in the user object
- * @returns {Object} User response in VA.gov format
+ * Deep merges objects, but replaces arrays instead of merging by index.
+ * @param {Object} base - Base object
+ * @param {Object} overrides - Overrides to apply
+ * @returns {Object} Merged object
  */
-function createUserResponse(overrides = {}) {
-  return {
-    data: {
-      id: '',
-      type: 'users',
-      attributes: {
-        profile: {
-          signIn: { serviceName: 'idme', ssoe: true, transactionid: 'mock-tx' },
-          email: 'test@example.com',
-          firstName: 'Test',
-          middleName: '',
-          lastName: 'User',
-          birthDate: '1985-01-01',
-          gender: 'M',
-          zip: '12345',
-          multifactor: true,
-          verified: true,
-          authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
-          loa: { current: 3 },
-          ...overrides.profile,
-        },
-        veteranStatus: {
-          status: 'OK',
-          isVeteran: true,
-          servedInMilitary: true,
-          ...overrides.veteranStatus,
-        },
-        inProgressForms: overrides.inProgressForms || [],
-        prefillsAvailable: overrides.prefillsAvailable || [],
-        services: overrides.services || [
-          'facilities',
-          'hca',
-          'edu-benefits',
-          'form-save-in-progress',
-          'form-prefill',
-          'identity-proofed',
-          'vet360',
-          'appeals-status',
-          'user-profile',
-        ],
-        vaProfile: {
-          status: 'OK',
-          ...overrides.vaProfile,
-        },
-        ...overrides,
+function deepMerge(base, overrides) {
+  return mergeWith({}, base, overrides, (objValue, srcValue) => {
+    // Arrays: replace rather than merge by index
+    if (Array.isArray(srcValue)) return srcValue;
+    return undefined; // use default merge behavior
+  });
+}
+
+// ============================================================================
+// User / Authentication
+// ============================================================================
+
+/** Default user response structure */
+const defaultUser = {
+  data: {
+    id: '',
+    type: 'users',
+    attributes: {
+      profile: {
+        signIn: { serviceName: 'idme', ssoe: true, transactionid: 'mock-tx' },
+        email: 'test@example.com',
+        firstName: 'Test',
+        middleName: '',
+        lastName: 'User',
+        birthDate: '1985-01-01',
+        gender: 'M',
+        zip: '12345',
+        multifactor: true,
+        verified: true,
+        authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+        loa: { current: 3 },
+      },
+      veteranStatus: {
+        status: 'OK',
+        isVeteran: true,
+        servedInMilitary: true,
+      },
+      inProgressForms: [],
+      prefillsAvailable: [],
+      services: [
+        'facilities',
+        'hca',
+        'edu-benefits',
+        'form-save-in-progress',
+        'form-prefill',
+        'identity-proofed',
+        'vet360',
+        'appeals-status',
+        'user-profile',
+      ],
+      vaProfile: {
+        status: 'OK',
       },
     },
-    meta: { errors: null },
-  };
+  },
+  meta: { errors: null },
+};
+
+/**
+ * Creates a user response for authenticated users.
+ * Uses deep merge so you only need to specify the fields you want to override.
+ *
+ * @param {Object} overrides - Properties to deep merge into the user object
+ * @returns {Object} User response in VA.gov format
+ *
+ * @example
+ * // Override just the signIn service (other signIn props preserved)
+ * createUserResponse({ data: { attributes: { profile: { signIn: { serviceName: 'logingov' } } } } })
+ *
+ * // Override first name and LOA
+ * createUserResponse({ data: { attributes: { profile: { firstName: 'Jane', loa: { current: 1 } } } } })
+ */
+function createUserResponse(overrides = {}) {
+  return deepMerge(defaultUser, overrides);
 }
 
 /** Default authenticated user response */
 const mockUser = createUserResponse();
+
+/** LOA1 (unverified) user response */
+const mockUserLOA1 = createUserResponse({
+  data: {
+    attributes: {
+      profile: {
+        verified: false,
+        multifactor: false,
+        authnContext: 'http://idmanagement.gov/ns/assurance/loa/1',
+        loa: { current: 1 },
+      },
+      services: [
+        'facilities',
+        'hca',
+        'edu-benefits',
+        'form-save-in-progress',
+        'form-prefill',
+        'vet360',
+        'user-profile',
+      ],
+    },
+  },
+});
 
 /** Unauthenticated user error response (401) */
 const mockUserUnauthenticated = {
@@ -184,6 +235,7 @@ module.exports = {
   // User
   createUserResponse,
   mockUser,
+  mockUserLOA1,
   mockUserUnauthenticated,
 
   // Feature Toggles

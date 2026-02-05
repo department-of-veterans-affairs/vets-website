@@ -10,6 +10,9 @@ export {
   rest,
   mockApi,
   apiUrl,
+  // Delay helpers
+  delay,
+  DEFAULT_DELAY,
   // Handler factories (for custom base URLs)
   createUserHandler,
   createUnauthenticatedUserHandler,
@@ -30,6 +33,7 @@ export {
   commonHandlersUnauthenticated,
   // Mock data
   mockUser,
+  mockUserLOA1,
   mockUserUnauthenticated,
   mockFeatureToggles,
   mockMaintenanceWindows,
