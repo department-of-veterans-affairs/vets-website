@@ -236,3 +236,49 @@ const testConfig = createTestConfig(
 );
 
 testForm(testConfig);
+
+describe('Side nav visibility on special pages', () => {
+  beforeEach(() => {
+    cy.login(mockUser);
+
+    // Simple intercepts for basic page visits
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          ...mockFeatureToggles.data.features,
+          { name: 'sidenav_526ez_enabled', value: true },
+        ],
+      },
+    });
+
+    cy.intercept('GET', '/v0/user', mockUser);
+  });
+
+  it('should hide side nav on introduction page', () => {
+    cy.visit('/disability/file-disability-claim-form-21-526ez/introduction');
+    cy.injectAxeThenAxeCheck();
+
+    // Side nav should not be visible on introduction page
+    cy.get('#default-sidenav').should('not.exist');
+
+    // Verify the introduction page content is visible
+    cy.get('h1').should('contain', 'File for disability compensation');
+  });
+
+  it('should hide side nav on confirmation page', () => {
+    cy.visit('/disability/file-disability-claim-form-21-526ez/confirmation');
+    cy.injectAxeThenAxeCheck();
+
+    // Side nav should not be visible on confirmation page
+    cy.get('#default-sidenav').should('not.exist');
+  });
+
+  it('should hide side nav on form-saved page', () => {
+    cy.visit('/disability/file-disability-claim-form-21-526ez/form-saved');
+    cy.injectAxeThenAxeCheck();
+
+    // Side nav should not be visible on form-saved page
+    cy.get('#default-sidenav').should('not.exist');
+  });
+});
