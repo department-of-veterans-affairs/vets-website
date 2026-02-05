@@ -29,12 +29,22 @@ yarn cy:run --spec "src/applications/vass/tests/e2e/vass.cypress.spec.js"
 ```
 
 ## Mock UUIDs
-There are several different mock UUIDs that can be used as a value for the `uuid` URL param when testing locally with the mock API.
+There are several different mock UUIDs that can be used as a value for the `uuid` URL param.
 
-### Happy Path
-**URL:** `http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=c0ffee-1234-beef-5678`
-**Cancel URL:** `http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=c0ffee-1234-beef-5678&cancel=true`
+- Happy path (no existing appointment): `http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=c0ffee-1234-beef-5678`
+  - uuid='c0ffee-1234-beef-5678'
+  - lastname='Smith'
+  - dob='1935-04-07'
+  - otc='123456'
+  - This user has **no** existing appointment and will continue through the scheduling flow
 
+- User with existing appointment: `http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=has-appointment`
+  - uuid='has-appointment'
+  - lastname='Smith'
+  - dob='1935-04-07'
+  - otc='123456'
+  - This user has an existing appointment and will be redirected to the already-scheduled page
+  
 | Field | Value |
 |-------|-------|
 | uuid | `c0ffee-1234-beef-5678` |

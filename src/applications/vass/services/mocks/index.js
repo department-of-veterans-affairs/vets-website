@@ -22,6 +22,12 @@ const mockUUIDs = Object.freeze({
     otp: '123456',
     email: 's****@email.com',
   },
+  'has-appointment': {
+    lastName: 'Smith',
+    dob: '1935-04-07',
+    otp: '123456',
+    email: 's****@email.com',
+  },
   'authenticate-otc-vass-api-error': {
     lastName: 'Smith',
     dob: '1935-04-07',
@@ -47,11 +53,15 @@ const lowAuthVerifications = new Map();
 const maxLowAuthVerifications = 3;
 const lowAuthVerificationTimeout = 15 * 60 * 1000; // 15 minutes
 
-// Keep a count of how manny attempts to use the OTC have been made for each uuid
+// Keep a count of how many attempts to use the OTP have been made for each uuid
 const otpUseCounts = new Map(); // uuid -> count
 const maxOtpUseCount = 5;
 
 const mockAppointments = [createAppointmentData()];
+
+// Track which UUIDs have existing appointments
+// For testing: 'has-appointment' UUID will have an existing appointment
+const userAppointments = new Map([['has-appointment', mockAppointments[0]]]);
 
 const responses = {
   'POST /vass/v0/request-otp': (req, res) => {
@@ -88,9 +98,9 @@ const responses = {
       lowAuthVerifications.delete(uuid);
       return res.json({
         data: {
-          message: 'OTC sent to registered email address',
+          message: 'OTP sent to registered email address',
+          email: mockUser?.email,
           expiresIn: 600,
-          email: mockUser.email,
         },
       });
     }
@@ -134,6 +144,37 @@ const responses = {
       .json(createOTPInvalidError(maxOtpUseCount - useCount));
   },
   'POST /vass/v0/appointment': (req, res) => {
+    const { headers } = req;
+    const token = headers.authorization;
+    if (!token) {
+      return res.status(401).json({
+        errors: [{ code: 'unauthorized', detail: 'Unauthorized' }],
+      });
+    }
+
+    const [, tokenValue] = token.split(' ');
+    const tokenPayload = decodeJwt(tokenValue);
+    const uuid = tokenPayload?.payload?.sub;
+
+    // Check if user already has an appointment
+    const existingAppointment = userAppointments.get(uuid);
+
+    if (existingAppointment) {
+      return res.status(409).json({
+        errors: [
+          {
+            code: 'appointment_already_booked',
+            detail: 'already scheduled',
+            appointment: {
+              appointmentId: existingAppointment.appointmentId,
+              dtStartUTC: existingAppointment.startUTC,
+              dtEndUTC: existingAppointment.endUTC,
+            },
+          },
+        ],
+      });
+    }
+
     return res.json({
       data: {
         appointmentId: 'abcdef123456',
