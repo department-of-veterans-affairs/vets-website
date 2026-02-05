@@ -44,7 +44,11 @@ function initApp() {
 if (process.env.USE_MOCKS === 'true') {
   import('./mocks/browser')
     .then(({ startMocking }) => startMocking())
-    .then(initApp);
+    .then(initApp)
+    .catch(error => {
+      console.error('Failed to start MSW:', error);
+      initApp();
+    });
 } else {
   initApp();
 }
@@ -62,9 +66,20 @@ USE_MOCKS=true yarn watch --env entry=your-app --env api=http://mock-vets-api.lo
 
 ```
 platform/mocks/
-├── responses.js  # Pure mock data + factory functions (no dependencies)
-├── browser.js    # MSW browser handlers (for local dev with setupWorker)
+├── responses.js   # Pure mock data + factory functions
+├── browser.js     # MSW browser handlers (for local dev with setupWorker)
+├── exportsFile.js # Public API for @department-of-veterans-affairs/platform-mocks
+├── tests/         # Unit tests
 └── README.md
+```
+
+**Import options:**
+```javascript
+// Short path (recommended)
+import { mockApi, commonHandlers } from 'platform/mocks/browser';
+
+// Package-style path (also works)
+import { mockApi, commonHandlers } from '@department-of-veterans-affairs/platform-mocks/browser';
 ```
 
 ## Usage
@@ -76,13 +91,16 @@ Import pure data for use with any mocking approach:
 ```javascript
 import {
   mockUser,
-  mockFeatureToggles,
+  mockUserLOA1,
   createUserResponse,
   createFeatureTogglesResponse,
 } from 'platform/mocks/responses';
 
 // Use with Cypress
 cy.intercept('GET', '/v0/user', mockUser);
+
+// Test LOA gating with unverified user
+cy.intercept('GET', '/v0/user', mockUserLOA1);
 
 // Use with custom feature toggles
 cy.intercept('GET', '/v0/feature_toggles*', createFeatureTogglesResponse({
