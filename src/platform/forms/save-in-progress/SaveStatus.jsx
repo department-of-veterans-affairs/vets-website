@@ -110,15 +110,15 @@ function SaveStatus({
 
 SaveStatus.propTypes = {
   form: PropTypes.object.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
-  showLoginModal: PropTypes.bool,
-  toggleLoginModal: PropTypes.func,
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       appSavedSuccessfullyMessage: PropTypes.string,
       appType: PropTypes.string,
     }),
   }),
+  isLoggedIn: PropTypes.bool.isRequired,
+  showLoginModal: PropTypes.bool,
+  toggleLoginModal: PropTypes.func,
 };
 
 export default SaveStatus;
