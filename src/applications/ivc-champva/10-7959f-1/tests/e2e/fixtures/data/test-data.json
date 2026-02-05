@@ -19,7 +19,7 @@
     "veteranPhoneNumber": {
       "callingCode": "1",
       "countryCode": "US",
-      "contact": "4321432143"
+      "contact": "(432) 143-2143"
     },
     "veteranEmailAddress": "testmail@email.gov",
     "statementOfTruthSignature": "Jane Smith"
