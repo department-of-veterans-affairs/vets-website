@@ -127,7 +127,7 @@ export const setupInProgressReturnUrl = ({
 
 /**
  * Create a minimal .png file for use testing va-file-input-multiple
- * @return {Object} file - a File object containing a valid and small .png file
+ * @return {Promise<File>} file - a File object containing a valid and small .png file
  */
 export async function makeMinimalPNG() {
   const b64PNGData =

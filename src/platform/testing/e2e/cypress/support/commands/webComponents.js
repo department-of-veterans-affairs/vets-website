@@ -195,63 +195,18 @@ Cypress.Commands.add('fillVaFileInput', (field, value, file) => {
     element.then(async $el => {
       const el = $el[0];
 
-      const stopNativeVaChange = e => {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-      };
-      el.addEventListener('vaChange', stopNativeVaChange, true);
-
       cy.then(() => file || makeMinimalPNG()).then(async mockFile => {
-        // If caller already provided Cypress selectFile arg, use it as-is
-        const selectFileArg =
-          mockFile &&
-          typeof mockFile === 'object' &&
-          Object.prototype.hasOwnProperty.call(mockFile, 'contents')
-            ? mockFile
-            : {
-                contents: Cypress.Buffer.from(await mockFile.arrayBuffer()),
-                fileName: mockFile.name || 'placeholder.png',
-                mimeType: mockFile.type || 'image/png',
-                lastModified: mockFile.lastModified || Date.now(),
-              };
+        const selectFileArg = {
+          contents: Cypress.Buffer.from(await mockFile.arrayBuffer()),
+          fileName: mockFile.name || 'placeholder.png',
+          mimeType: mockFile.type || 'image/png',
+          lastModified: mockFile.lastModified || Date.now(),
+        };
 
         cy.wrap(el)
           .shadow()
           .find('input[type="file"]')
           .selectFile(selectFileArg, { force: true });
-
-        cy.wrap(el)
-          .shadow()
-          .find('input[type="file"]')
-          .then($input => {
-            el.removeEventListener('vaChange', stopNativeVaChange, true);
-
-            const selected = $input[0]?.files?.[0];
-
-            // If the component set an error, don't force our own vaChange
-            const error = el.getAttribute('error');
-            if (error) return;
-
-            const mockFormData = {
-              name: value?.name || selected?.name || selectFileArg.fileName,
-              size: value?.size || selected?.size,
-              password: value?.password,
-              additionalData: value?.additionalData || {},
-              confirmationCode: value?.confirmationCode || 'abc123',
-              isEncrypted: value?.isEncrypted,
-              hasAdditionalInputError: false,
-              hasPasswordError: false,
-            };
-
-            // Dispatch a vaChange that matches what the forms-system expects in tests
-            el.dispatchEvent(
-              new CustomEvent('vaChange', {
-                detail: { files: selected ? [selected] : [], mockFormData },
-                bubbles: true,
-                composed: true,
-              }),
-            );
-          });
       });
     });
   }
