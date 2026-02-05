@@ -14,6 +14,7 @@ const { STATUS_KEYS, EXPENSE_TYPE_OPTIONS } = require('../constants');
 function buildClaim({
   claimStatus = STATUS_KEYS.SAVED,
   expenseTypeOptions = EXPENSE_TYPE_OPTIONS.ALL,
+  appointmentOverride = {},
 } = {}) {
   const claimId = uuidv4();
   const claimNumber = `TC${randomInt(1_000_000_000_000, 10_000_000_000_000)}`; // Mock claim number
@@ -107,6 +108,11 @@ function buildClaim({
   )
     .toISOString()
     .replace('.000Z', 'Z');
+
+  const appointmentId = appointmentOverride.id || uuidv4();
+
+  const appointmentDateTime =
+    appointmentOverride.appointmentDateTime || appointmentDate;
   // Build the claim
   return {
     claimId,
@@ -127,12 +133,13 @@ function buildClaim({
     createdOn: appointmentDate,
     modifiedOn: appointmentDate,
     appointment: {
-      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      id: appointmentId,
       appointmentSource: 'API',
-      appointmentDateTime: appointmentDate,
+      appointmentDateTime,
       appointmentType: 'EnvironmentalHealth',
-      facilityId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-      facilityName: 'Cheyenne VA Medical Center',
+      facilityId: appointmentOverride.facilityId || '983GC',
+      facilityName:
+        appointmentOverride.facilityName || 'Cheyenne VA Medical Center',
       serviceConnectedDisability: 30,
       appointmentStatus: 'Complete',
       externalAppointmentId: `${randomInt(10000, 100000)}`,

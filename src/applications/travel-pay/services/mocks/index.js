@@ -29,15 +29,26 @@ const appointment = {
   noClaim: require('./vaos-appointment-no-claim.json'),
 };
 
+const savedClaimAppointment = require('./vaos-appointment-with-saved-claim.json');
+
 const user = {
   withAddress: require('./user.json'),
   noAddress: require('./user-no-address.json'),
 };
 
+const appointmentAttributes = savedClaimAppointment.data.attributes;
+const appointmentId = savedClaimAppointment.data.id;
+
 // 👉 Change the claim details here to see the different claim status for mocks
 const claim = buildClaim({
   claimStatus: STATUS_KEYS.SAVED, // e.g., INCOMPLETE, SAVED, CLAIMPAID
   expenseTypeOptions: EXPENSE_TYPE_OPTIONS.ALL, // ALL | NONE | MILEAGE_ONLY
+  appointmentOverride: {
+    id: appointmentId,
+    appointmentDateTime: appointmentAttributes.start,
+    facilityId: appointmentAttributes.locationId,
+    facilityName: appointmentAttributes.location?.attributes?.name,
+  },
 });
 
 setClaimRef(claim);
