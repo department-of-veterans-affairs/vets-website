@@ -67,8 +67,65 @@ const mergeRadiologyRecords = (phrRecord, cvixRecord) => {
 };
 
 /**
+ * Extract the hash from a record ID. Record IDs are in the format "r{rawId}-{hash}".
+ * @param {string} id - The record ID (e.g., "r12345-abc123ef")
+ * @returns {string|null} - The hash portion or null if not found
+ */
+const extractHashFromId = id => {
+  if (!id || typeof id !== 'string') return null;
+  const parts = id.split('-');
+  return parts.length >= 2 ? parts[parts.length - 1] : null;
+};
+
+/**
+ * Normalize a procedure name for comparison by replacing newlines and extra whitespace.
+ * @param {string} name - The procedure name
+ * @returns {string} - The normalized name
+ */
+const normalizeNameForComparison = name => {
+  if (!name) return '';
+  return name
+    .replace(/[\r\n]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+};
+
+/**
+ * Check if two dates are on the same calendar day.
+ * @param {string} date1 - First date string
+ * @param {string} date2 - Second date string (can be ISO string or timestamp)
+ * @returns {boolean} - True if dates are on the same day
+ */
+const areDatesOnSameDay = (date1, date2) => {
+  const parseDate = input => {
+    if (!input) return null;
+    if (/^\d+$/.test(input)) {
+      return new Date(Number(input));
+    }
+    return new Date(input);
+  };
+
+  const d1 = parseDate(date1);
+  const d2 = parseDate(date2);
+
+  if (!d1 || !d2 || Number.isNaN(d1.getTime()) || Number.isNaN(d2.getTime())) {
+    return false;
+  }
+
+  return (
+    d1.getUTCFullYear() === d2.getUTCFullYear() &&
+    d1.getUTCMonth() === d2.getUTCMonth() &&
+    d1.getUTCDate() === d2.getUTCDate()
+  );
+};
+
+/**
  * Create a union of the radiology reports from PHR and CVIX. This function will merge
- * duplicates between the two lists.
+ * duplicates between the two lists using multiple matching strategies:
+ * 1. Hash matching (computed from procedure name, radiologist, station, and date)
+ * 2. Timestamp matching (to the minute)
+ * 3. Procedure name + date matching (normalized comparison, same calendar day)
  *
  * @param {Array} phrRadiologyTestsList - List of PHR radiology records.
  * @param {Array} cvixRadiologyTestsList - List of CVIX radiology records.
@@ -83,8 +140,31 @@ export const mergeRadiologyLists = (
 
   for (const phrRecord of phrRadiologyTestsList) {
     let matchingCvix = null;
+    const phrHash = extractHashFromId(phrRecord.id);
+    const phrNormalizedName = normalizeNameForComparison(phrRecord.name);
+
     for (const cvixRecord of cvixRadiologyTestsList) {
-      if (areDatesEqualToMinute(phrRecord.sortDate, cvixRecord.sortDate)) {
+      const cvixHash = extractHashFromId(cvixRecord.id);
+      const cvixNormalizedName = normalizeNameForComparison(cvixRecord.name);
+
+      // Match by hash (primary) - catches records with same core fields
+      const hashesMatch = phrHash && cvixHash && phrHash === cvixHash;
+
+      // Match by timestamp to the minute (legacy behavior)
+      const datesMatchToMinute = areDatesEqualToMinute(
+        phrRecord.sortDate,
+        cvixRecord.sortDate,
+      );
+
+      // Match by normalized procedure name + same calendar day (fallback for
+      // records where radiologist differs between PHR and CVIX)
+      const nameAndDayMatch =
+        phrNormalizedName &&
+        cvixNormalizedName &&
+        phrNormalizedName === cvixNormalizedName &&
+        areDatesOnSameDay(phrRecord.sortDate, cvixRecord.sortDate);
+
+      if (hashesMatch || datesMatchToMinute || nameAndDayMatch) {
         matchingCvix = cvixRecord;
         matchedCvixIds.add(matchingCvix.id);
         break;
