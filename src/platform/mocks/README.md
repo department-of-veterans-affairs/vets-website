@@ -175,7 +175,37 @@ const fastHandlers = createCommonHandlers(apiUrl, 0);
 |--------|-------------|
 | `mockUser` | Authenticated user (LOA3, verified) |
 | `mockUserUnauthenticated` | 401 error response |
-| `createUserResponse(overrides)` | Factory with custom properties |
+| `createUserResponse(overrides)` | Factory with deep merge (see below) |
+
+#### Deep Merge for User Overrides
+
+`createUserResponse()` uses deep merge, so you only need to specify the fields you want to change. Nested properties are preserved:
+
+```javascript
+// Only override signIn.serviceName - other signIn props (ssoe, transactionid) are preserved
+createUserResponse({
+  data: { attributes: { profile: { signIn: { serviceName: 'logingov' } } } }
+})
+
+// Override multiple nested fields
+createUserResponse({
+  data: {
+    attributes: {
+      profile: { firstName: 'Jane', loa: { current: 1 } },
+      veteranStatus: { isVeteran: false }
+    }
+  }
+})
+```
+
+**Note:** Arrays are replaced, not merged by index:
+
+```javascript
+// This replaces the entire services array
+createUserResponse({
+  data: { attributes: { services: ['my-custom-service'] } }
+})
+```
 
 ### Feature Toggles
 
