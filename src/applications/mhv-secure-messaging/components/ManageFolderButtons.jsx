@@ -34,6 +34,7 @@ const ManageFolderButtons = props => {
   const removeButton = useRef(null);
   const emptyFolderConfirmBtn = useRef(null);
   const removeFolderRef = useRef(null);
+  const prevFolderIdRef = useRef(folder?.folderId);
 
   useEffect(() => {
     if (!folders) {
@@ -41,15 +42,21 @@ const ManageFolderButtons = props => {
     }
   }, []);
 
-  // Reset local state when navigating to a different folder
+  // Reset local state when navigating to a different folder (not on initial mount)
   useEffect(
     () => {
-      setShowRenameSuccess(false);
-      setIsEditExpanded(false);
-      setFolderName('');
-      setNameWarning('');
-      setIsEmptyWarning(false);
-      setDeleteModal(false);
+      if (
+        prevFolderIdRef.current !== undefined &&
+        prevFolderIdRef.current !== folder?.folderId
+      ) {
+        setShowRenameSuccess(false);
+        setIsEditExpanded(false);
+        setFolderName('');
+        setNameWarning('');
+        setIsEmptyWarning(false);
+        setDeleteModal(false);
+      }
+      prevFolderIdRef.current = folder?.folderId;
     },
     [folder?.folderId],
   );
