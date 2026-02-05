@@ -124,10 +124,11 @@ export default function ClaimFormSideNav({
     <div className="claim-form-sidenav-wrapper">
       <VaSidenav
         header="Form steps"
-        mobileHeader="Select a step"
         icon-background-color="vads-color-link"
         icon-name="description"
         id="default-sidenav"
+        mobileHeader="Select a step"
+        ref={sidenavRef}
       >
         {landingPages.map((page, index) => {
           const label = `Step ${index + 1}: ${page.label}`;
