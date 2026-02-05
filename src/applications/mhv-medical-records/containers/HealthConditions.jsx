@@ -72,7 +72,6 @@ const HealthConditions = () => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
     },
     [dispatch],
@@ -80,6 +79,16 @@ const HealthConditions = () => {
 
   const isLoadingAcceleratedData =
     isAcceleratingConditions && listState === loadStates.FETCHING;
+
+  useEffect(
+    () => {
+      // Only focus h1 when not loading (h1 is in the DOM)
+      if (!isLoadingAcceleratedData && !isLoading) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [isLoadingAcceleratedData, isLoading],
+  );
 
   return (
     <>

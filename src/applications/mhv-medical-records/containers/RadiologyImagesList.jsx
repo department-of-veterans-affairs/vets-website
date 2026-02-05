@@ -127,11 +127,15 @@ const RadiologyImagesList = ({ isTesting, basePath = '/labs-and-tests' }) => {
     () => {
       if (radiologyDetails?.imageCount === 0) {
         returnToDetailsPage();
-      } else {
+      } else if (
+        radiologyDetails &&
+        studyJob?.status === studyJobStatus.COMPLETE
+      ) {
+        // Only focus h1 when content is actually rendered (not during spinner)
         focusElement('h1');
       }
     },
-    [radiologyDetails, returnToDetailsPage],
+    [radiologyDetails, studyJob, returnToDetailsPage],
   );
 
   const handleDicomDownload = () => {

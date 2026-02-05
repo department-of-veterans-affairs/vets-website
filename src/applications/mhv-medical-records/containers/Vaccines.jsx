@@ -99,10 +99,19 @@ const Vaccines = props => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      // Only focus h1 when not loading (h1 is in the DOM)
+      if (!isLoadingAcceleratedData && !isLoading) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [isLoadingAcceleratedData, isLoading],
   );
 
   usePrintTitle(

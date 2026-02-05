@@ -93,13 +93,22 @@ const Radiology = () => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.RADIOLOGY_PAGE_TITLE);
     },
     [dispatch],
   );
 
   const isLoading = listState === loadStates.FETCHING;
+
+  useEffect(
+    () => {
+      // Only focus h1 when not loading (h1 is in the DOM)
+      if (!isLoading) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [isLoading],
+  );
 
   return (
     <div id="radiology">

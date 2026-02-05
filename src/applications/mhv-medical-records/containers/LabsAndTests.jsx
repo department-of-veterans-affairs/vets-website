@@ -160,10 +160,19 @@ const LabsAndTests = () => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      // Only focus h1 when not loading (h1 is in the DOM)
+      if (!isLoadingAcceleratedData && !isLoading) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [isLoadingAcceleratedData, isLoading],
   );
 
   const handleDateRangeSelect = useDateRangeSelector({

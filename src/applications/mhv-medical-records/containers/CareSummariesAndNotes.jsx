@@ -99,7 +99,6 @@ const CareSummariesAndNotes = () => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
     },
     [dispatch],
@@ -107,6 +106,16 @@ const CareSummariesAndNotes = () => {
 
   const isLoadingAcceleratedData =
     isAcceleratingCareNotes && listState === loadStates.FETCHING;
+
+  useEffect(
+    () => {
+      // Only focus h1 when not loading (h1 is in the DOM)
+      if (!isLoadingAcceleratedData && !isLoading) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [isLoadingAcceleratedData, isLoading],
+  );
 
   // Handle date range selection from DateRangeSelector component
   const handleDateRangeSelect = useDateRangeSelector({
