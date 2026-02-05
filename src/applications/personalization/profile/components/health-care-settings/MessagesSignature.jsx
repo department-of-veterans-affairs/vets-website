@@ -53,6 +53,15 @@ const MessageSignature = () => {
     [messagingSignatureName, location.hash],
   );
 
+  const pageHeader = 'Messages signature';
+
+  useEffect(
+    () => {
+      document.title = `${pageHeader} | Veterans Affairs`;
+    },
+    [pageHeader],
+  );
+
   useEffect(
     () => {
       // Show alert when navigating away
