@@ -85,20 +85,43 @@ function createChecklist(obj) {
 }
 
 function render(cfg, data) {
-  let count = 0;
-  let start = 1;
+  let listItemCount = 0;
+  let orderedListCount = 0;
   const elements = [];
 
   const addToCurrentItems = (currentListItems, element, type) => {
-    count += 1;
-    if (currentListItems.length === 0) {
-      start = count;
-    }
+    listItemCount += 1;
     if (type === 'field') {
       currentListItems.push(createField(element));
     } else if (type === 'checklist') {
       currentListItems.push(createChecklist(element));
     }
+  };
+
+  const createList = (currentListItems, index) => {
+    const start = listItemCount - currentListItems.length + 1;
+    const olId = `ol-section-${index}-group-${orderedListCount}`;
+    const descId = `${olId}-continue`;
+    elements.push(
+      <div key={olId}>
+        {orderedListCount > 0 && (
+          <p id={descId} className="sr-only">
+            Question numbering continues in this section.
+          </p>
+        )}
+        <ol
+          {...orderedListCount > 0 && {
+            'aria-describedby': descId,
+            'aria-label': 'Questions, numbering continues',
+          }}
+          start={start}
+          id={olId}
+        >
+          {currentListItems}
+        </ol>
+      </div>,
+    );
+    orderedListCount += 1;
   };
 
   for (const [index, section] of cfg.sections.entries()) {
@@ -116,18 +139,9 @@ function render(cfg, data) {
     for (const el of renderPart(section, data, 0)) {
       if ('depth' in el) {
         if (currentListItems.length > 0) {
-          elements.push(
-            <ol
-              start={start}
-              key={`ol-${elements.length}`}
-              id={`ol-${elements.length}`}
-            >
-              {currentListItems}
-            </ol>,
-          );
+          createList(currentListItems, index);
           currentListItems = [];
         }
-
         elements.push(createLabel(el));
       } else if ('value' in el) {
         addToCurrentItems(currentListItems, el, 'field');
@@ -137,17 +151,11 @@ function render(cfg, data) {
     }
 
     if (currentListItems.length > 0) {
-      elements.push(
-        <ol
-          start={start}
-          key={`ol-${elements.length}`}
-          id={`ol-${elements.length}`}
-        >
-          {currentListItems}
-        </ol>,
-      );
+      createList(currentListItems, index);
+      currentListItems = [];
     }
   }
+
   return elements;
 }
 
