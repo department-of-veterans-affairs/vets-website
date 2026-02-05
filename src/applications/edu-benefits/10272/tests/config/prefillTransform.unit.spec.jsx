@@ -14,6 +14,7 @@ describe('prefillTransform', () => {
     const { formData: transformedData } = transform(pages, formData, metadata);
     expect(transformedData).to.deep.equal({
       applicantName: { first: 'Rita', middle: 'Ann', last: 'Jackson' },
+      ssn: '513096784',
       vaFileNumber: '513096784',
     });
   });

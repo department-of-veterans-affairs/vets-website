@@ -22,7 +22,7 @@ import {
 const defaultRenderOptions = getDefaultRenderOptions({
   obfuscatedEmail: 't***@test.com',
   uuid: 'c0ffee-1234-beef-5678',
-  lastname: 'Smith',
+  lastName: 'Smith',
   dob: '1935-04-07',
   flowType: FLOW_TYPES.SCHEDULE, // default to schedule flow for testing
 });
@@ -30,7 +30,7 @@ const defaultRenderOptions = getDefaultRenderOptions({
 const defaultRenderOptionsWithCancelFlow = getDefaultRenderOptions({
   obfuscatedEmail: 't***@test.com',
   uuid: 'c0ffee-1234-beef-5678',
-  lastname: 'Smith',
+  lastName: 'Smith',
   dob: '1935-04-07',
   flowType: FLOW_TYPES.CANCEL,
 });
@@ -82,10 +82,85 @@ describe('VASS Component: EnterOTP', () => {
         );
       });
     });
+
+    it('should show error when code contains non-numeric characters', async () => {
+      const { container, getByTestId } = renderComponent();
+      inputVaTextInput(container, 'abc123', 'va-text-input[name="otp"]');
+      const continueButton = getByTestId('continue-button');
+
+      continueButton.click();
+
+      await waitFor(() => {
+        const otpInput = getByTestId('otp-input');
+        expect(otpInput.getAttribute('error')).to.match(
+          /Your verification code should only contain numbers/i,
+        );
+      });
+    });
+
+    it('should show error when code is fewer than 6 digits', async () => {
+      const { container, getByTestId } = renderComponent();
+      inputVaTextInput(container, '12345', 'va-text-input[name="otp"]');
+      const continueButton = getByTestId('continue-button');
+
+      continueButton.click();
+
+      await waitFor(() => {
+        const otpInput = getByTestId('otp-input');
+        expect(otpInput.getAttribute('error')).to.match(
+          /Your verification code should be 6 digits/i,
+        );
+      });
+    });
+
+    it('should show error when code is more than 6 digits', async () => {
+      const { container, getByTestId } = renderComponent();
+      inputVaTextInput(container, '1234567', 'va-text-input[name="otp"]');
+      const continueButton = getByTestId('continue-button');
+
+      continueButton.click();
+
+      await waitFor(() => {
+        const otpInput = getByTestId('otp-input');
+        expect(otpInput.getAttribute('error')).to.match(
+          /Your verification code should be 6 digits/i,
+        );
+      });
+    });
+
+    it('should have correct input attributes for numeric entry', () => {
+      const { getByTestId } = renderComponent();
+      const otpInput = getByTestId('otp-input');
+
+      expect(otpInput.getAttribute('inputmode')).to.equal('numeric');
+      expect(otpInput.getAttribute('maxlength')).to.equal('6');
+    });
+
+    it('should not show validation error for valid 6-digit code', async () => {
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        data: {
+          token: 'jwt-token',
+          expiresIn: 3600,
+          tokenType: 'Bearer',
+        },
+      });
+      const { container, getByTestId } = renderComponent();
+      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
+      const continueButton = getByTestId('continue-button');
+
+      continueButton.click();
+
+      await waitFor(() => {
+        const otpInput = getByTestId('otp-input');
+        // No validation error should be present - API call should proceed
+        // Error attribute will be empty string (not null) when no error
+        expect(otpInput.getAttribute('error')).to.equal('');
+      });
+    });
   });
 
   describe('API error handling', () => {
-    it('should display error alert for invalid_otc with multiple attempts remaining', async () => {
+    it('should display error alert for invalid_otp with multiple attempts remaining', async () => {
       setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(2));
       const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
@@ -141,7 +216,7 @@ describe('VASS Component: EnterOTP', () => {
         expect(queryByTestId('enter-otp-success-alert')).to.not.exist;
       });
     });
-    it('should clear the OTC input after an error', async () => {
+    it('should clear the otp input after an error', async () => {
       setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(2));
       const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
@@ -154,7 +229,7 @@ describe('VASS Component: EnterOTP', () => {
     });
   });
 
-  describe('successful OTC verification', () => {
+  describe('successful otp verification', () => {
     it('should navigate to date-time page on successful verification', async () => {
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
@@ -178,7 +253,7 @@ describe('VASS Component: EnterOTP', () => {
         },
       );
 
-      // Verify we start on the enter-otc page
+      // Verify we start on the enter-otp page
       expect(getByTestId('location-display').textContent).to.equal(
         URLS.ENTER_OTP,
       );

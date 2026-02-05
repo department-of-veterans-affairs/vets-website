@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { addDays, addMinutes, subDays, format } from 'date-fns';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
@@ -140,7 +141,104 @@ describe('VASS Component: Wrapper', () => {
       expect(queryByTestId('child-content')).to.not.exist;
     });
   });
+  describe('beforeunload warning', () => {
+    let addEventListenerSpy;
+    let removeEventListenerSpy;
 
+    beforeEach(() => {
+      addEventListenerSpy = sinon.spy(window, 'addEventListener');
+      removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
+    });
+
+    afterEach(() => {
+      addEventListenerSpy.restore();
+      removeEventListenerSpy.restore();
+    });
+
+    it('should add beforeunload listener on mount', () => {
+      renderWithStoreAndRouter(
+        <Wrapper>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+
+      expect(addEventListenerSpy.calledWith('beforeunload', sinon.match.func))
+        .to.be.true;
+    });
+
+    it('should remove beforeunload listener on unmount', () => {
+      const screen = renderWithStoreAndRouter(
+        <Wrapper>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+
+      screen.unmount();
+
+      expect(
+        removeEventListenerSpy.calledWith('beforeunload', sinon.match.func),
+      ).to.be.true;
+    });
+
+    it('should not add beforeunload listener when disableBeforeUnload is true', () => {
+      renderWithStoreAndRouter(
+        <Wrapper disableBeforeUnload>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+
+      expect(addEventListenerSpy.calledWith('beforeunload', sinon.match.func))
+        .to.be.false;
+    });
+
+    it('should call preventDefault and set returnValue on beforeunload event', () => {
+      renderWithStoreAndRouter(
+        <Wrapper>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+
+      // Get the handler function that was registered
+      const beforeunloadHandler = addEventListenerSpy
+        .getCalls()
+        .find(call => call.args[0] === 'beforeunload')?.args[1];
+
+      expect(beforeunloadHandler).to.exist;
+
+      // Create a mock event
+      const mockEvent = {
+        preventDefault: sinon.spy(),
+        returnValue: '',
+      };
+
+      // Call the handler
+      beforeunloadHandler(mockEvent);
+
+      // Verify preventDefault was called and returnValue was set
+      expect(mockEvent.preventDefault.calledOnce).to.be.true;
+      expect(mockEvent.returnValue).to.equal('');
+    });
+
+    it('should not call preventDefault when disableBeforeUnload is true', () => {
+      renderWithStoreAndRouter(
+        <Wrapper disableBeforeUnload>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+
+      // Verify no beforeunload handler was registered
+      const beforeunloadHandler = addEventListenerSpy
+        .getCalls()
+        .find(call => call.args[0] === 'beforeunload');
+
+      expect(beforeunloadHandler).to.be.undefined;
+    });
+  });
   describe('when loading prop is true', () => {
     it('should render loading indicator', () => {
       const { getByTestId } = renderWithStoreAndRouter(

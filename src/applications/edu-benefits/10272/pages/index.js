@@ -5,6 +5,9 @@ import * as payeeNumber from './payeeNumber';
 import * as prepCourseName from './prepCourseName';
 import * as prepCourseAddress from './prepCourseAddress';
 import * as prepCourseOnline from './prepCourseOnline';
+import * as prepCoursePeriod from './prepCoursePeriod';
+import * as prepCourseCost from './prepCourseCost';
+import * as remarks from './remarks';
 
 export {
   hasPreviouslyApplied,
@@ -14,4 +17,7 @@ export {
   prepCourseName,
   prepCourseAddress,
   prepCourseOnline,
+  prepCoursePeriod,
+  prepCourseCost,
+  remarks,
 };

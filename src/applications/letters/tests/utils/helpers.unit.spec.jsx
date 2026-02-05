@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 
 import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
 
@@ -118,7 +118,7 @@ describe('Letters helpers: ', () => {
     });
 
     it('should include the awardEffectiveDate in the text for monthlyAward', () => {
-      const tree = SkinDeep.shallowRender(
+      const { container } = render(
         getBenefitOptionText(
           'monthlyAwardAmount',
           20,
@@ -126,7 +126,7 @@ describe('Letters helpers: ', () => {
           '1965-01-01T05:00:00.000+00:00',
         ),
       );
-      expect(tree.text()).to.contain('The effective date');
+      expect(container.textContent).to.contain('The effective date');
     });
   });
 
