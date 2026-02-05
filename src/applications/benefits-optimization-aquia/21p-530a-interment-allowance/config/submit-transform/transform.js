@@ -1,6 +1,10 @@
 import * as Sentry from '@sentry/browser';
 import { capitalize } from 'lodash';
 import DEFAULT_BRANCH_LABELS from 'platform/forms-system/src/js/web-component-patterns/content/serviceBranch.json';
+import {
+  states,
+  countries,
+} from '@department-of-veterans-affairs/platform-forms/address';
 
 // Custom sanitizer to strip view fields, empty objects, and normalize country codes
 const sanitize = (key, value) => {
@@ -70,6 +74,27 @@ export const transform = (formConfig, form) => {
       serviceBranch,
     };
   });
+
+  // convert state abbreviations to full names in place of birth if in USA
+  if (
+    veteranInformation?.placeOfBirth?.country === 'USA' &&
+    veteranInformation?.placeOfBirth?.state
+  ) {
+    const stateAbbr = veteranInformation.placeOfBirth.state;
+    const stateObj = states.USA.find(state => state.value === stateAbbr);
+    if (stateObj) {
+      veteranInformation.placeOfBirth.state = stateObj.label;
+    }
+  }
+
+  // convert country codes to full names in place of birth
+  if (veteranInformation?.placeOfBirth?.country) {
+    const countryCode = veteranInformation.placeOfBirth.country;
+    const countryObj = countries.find(country => country.value === countryCode);
+    if (countryObj) {
+      veteranInformation.placeOfBirth.country = countryObj.label;
+    }
+  }
 
   // Fit into subbmission object
   try {
