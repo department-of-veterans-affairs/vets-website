@@ -868,7 +868,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     expect(result.sampleTested).to.equal('Blood');
     expect(result.bodySite).to.equal('Arm');
     expect(result.testCode).to.equal('12345');
-    expect(result.type).to.equal(labTypes.OTHER); // Unknown code falls back to OTHER
+    expect(result.type).to.equal('12345'); // type is raw testCode value
     expect(result.comments).to.equal('No issues');
     expect(result.source).to.equal('oracle-health');
     expect(result.result).to.equal('This is a test');
@@ -893,7 +893,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       sortDate: undefined,
       bodySite: undefined,
       testCode: undefined,
-      type: labTypes.OTHER, // Falls back to OTHER for undefined testCode
+      type: undefined, // type is raw testCode value
       comments: undefined,
       source: undefined,
       result: null,
@@ -924,7 +924,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       sortDate: 'invalid-date',
       bodySite: undefined,
       testCode: undefined,
-      type: labTypes.OTHER, // Falls back to OTHER for undefined testCode
+      type: undefined, // type is raw testCode value
       comments: undefined,
       source: undefined,
       result: null,
@@ -934,7 +934,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     });
   });
 
-  it('should map known testCode values to friendly display names and labTypes', () => {
+  it('should map CH testCode to friendly display name', () => {
     const record = {
       id: 'test-id',
       attributes: {
@@ -944,10 +944,10 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     const result = convertUnifiedLabsAndTestRecord(record);
     expect(result.testCode).to.equal('Chemistry and hematology');
-    expect(result.type).to.equal(labTypes.CHEM_HEM);
+    expect(result.type).to.equal('CH'); // type is raw testCode value
   });
 
-  it('should map SP testCode to PATHOLOGY labType', () => {
+  it('should pass through SP testCode without display mapping', () => {
     const record = {
       id: 'test-id',
       attributes: {
@@ -957,10 +957,10 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     const result = convertUnifiedLabsAndTestRecord(record);
     expect(result.testCode).to.equal('SP'); // SP passes through (no display mapping)
-    expect(result.type).to.equal(labTypes.PATHOLOGY);
+    expect(result.type).to.equal('SP'); // type is raw testCode value
   });
 
-  it('should map MI testCode to MICROBIOLOGY labType', () => {
+  it('should pass through MI testCode without display mapping', () => {
     const record = {
       id: 'test-id',
       attributes: {
@@ -970,10 +970,10 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     const result = convertUnifiedLabsAndTestRecord(record);
     expect(result.testCode).to.equal('MI'); // MI passes through (no display mapping)
-    expect(result.type).to.equal(labTypes.MICROBIOLOGY);
+    expect(result.type).to.equal('MI'); // type is raw testCode value
   });
 
-  it('should fall back to OTHER labType for unknown testCode values', () => {
+  it('should pass through unknown testCode values', () => {
     const record = {
       id: 'test-id',
       attributes: {
@@ -983,7 +983,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     const result = convertUnifiedLabsAndTestRecord(record);
     expect(result.testCode).to.equal('UNKNOWN_CODE');
-    expect(result.type).to.equal(labTypes.OTHER);
+    expect(result.type).to.equal('UNKNOWN_CODE'); // type is raw testCode value
   });
 });
 
@@ -1025,7 +1025,7 @@ describe('labsAndTestsReducer - unified labs and tests', () => {
     expect(testRecord.sampleTested).to.equal('Blood');
     expect(testRecord.bodySite).to.equal('Arm');
     expect(testRecord.testCode).to.equal('12345');
-    expect(testRecord.type).to.equal(labTypes.OTHER); // Unknown code falls back to OTHER
+    expect(testRecord.type).to.equal('12345'); // type is raw testCode value
     expect(testRecord.comments).to.equal('No issues');
     expect(testRecord.result).to.equal('This is a test');
   });

@@ -28,20 +28,12 @@ import {
   mergeRadiologyDetails,
 } from '../util/imagesUtil';
 
+/**
+ * Maps API testCode values to user-friendly display names.
+ * Only codes that need a display name different from the raw code are included.
+ */
 const testCodeDisplayMap = {
   CH: 'Chemistry and hematology',
-};
-
-/**
- * Maps API testCode values to labTypes constants for downstream processing.
- * Used by blue button PDF generation to select the correct content generator.
- */
-const testCodeToLabTypeMap = {
-  CH: labTypes.CHEM_HEM,
-  MI: labTypes.MICROBIOLOGY,
-  SP: labTypes.PATHOLOGY,
-  CY: labTypes.PATHOLOGY, // Cytology is a type of pathology
-  EM: labTypes.PATHOLOGY, // Electron Microscopy is a type of pathology
 };
 
 const initialState = {
@@ -445,7 +437,7 @@ export const convertUnifiedLabsAndTestRecord = record => {
     testCode:
       testCodeDisplayMap[record.attributes.testCode] ||
       record.attributes.testCode,
-    type: testCodeToLabTypeMap[record.attributes.testCode] || labTypes.OTHER,
+    type: record.attributes.testCode,
     comments: record.attributes.comments,
     source: record.attributes.source,
     result: record.attributes.encodedData
