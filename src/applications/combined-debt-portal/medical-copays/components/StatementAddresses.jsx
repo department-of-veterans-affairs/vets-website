@@ -10,18 +10,18 @@ const StatementAddresses = ({ copay }) => {
 
   const normalizeVHACopay = () => ({
     facility: copay.attributes.facility.name,
-    statementAddress1: copay.attributes.facility.addressLine1,
-    statementAddress2: copay.attributes.facility.addressLine2,
-    statementAddress3: copay.attributes.facility.addressLine3,
-    statementCity: copay.attributes.city,
-    statementZip: copay.attributes.facility.postalCode,
-    statementState: copay.attributes.state,
-    recipientAddress1: copay.attributes.recipientAddress1,
-    recipientAddress2: copay.attributes.recipientAddress2,
-    recipientAddress3: copay.attributes.recipientAddress3,
-    recipientCity: copay.attributes.recipientCity,
-    recipientZip: copay.attributes.recipientZip,
-    recipientState: copay.attributes.recipientState,
+    statementAddress1: copay.attributes.facility?.address.addressLine1,
+    statementAddress2: copay.attributes.facility?.address.addressLine2,
+    statementAddress3: copay.attributes.facility?.address.addressLine3,
+    statementCity: copay.attributes.facility?.address.city,
+    statementZip: copay.attributes.facility?.address.postalCode,
+    statementState: copay.attributes.facility?.address.state,
+    recipientAddress1: copay.attributes.patient?.address.addressLine1,
+    recipientAddress2: copay.attributes.patient?.address.addressLine2,
+    recipientAddress3: copay.attributes.patient?.address.addressLine3,
+    recipientCity: copay.attributes.patient?.address.city,
+    recipientZip: copay.attributes.patient?.address.postalCode,
+    recipientState: copay.attributes.patient?.address.state,
   });
 
   const normalizeStandardCopay = () => ({
