@@ -146,12 +146,12 @@ describe('Feature Toggle Data Confirmation', () => {
       const table = container.querySelector('va-table');
       expect(table).to.exist;
 
-      const tableTitleSummary = table.getAttribute('table-title-summary');
-      expect(tableTitleSummary).to.exist;
-      expect(tableTitleSummary).to.include(
+      expect(table.getAttribute('table-title')).to.include(
         'This statement shows charges you received between May 3, 2024 and June 3, 2024',
       );
-      expect(table.getAttribute('table-title')).to.equal(tableTitleSummary);
+      expect(table.getAttribute('table-title-summary')).to.equal(
+        'Showing 1-3 of 3 charges',
+      );
     });
 
     it('renders va-table with table-title-summary when statement dates are missing', () => {
@@ -173,8 +173,11 @@ describe('Feature Toggle Data Confirmation', () => {
 
       const table = container.querySelector('va-table');
       expect(table).to.exist;
-      expect(table.getAttribute('table-title-summary')).to.equal(
+      expect(table.getAttribute('table-title')).to.equal(
         'This statement shows your current charges.',
+      );
+      expect(table.getAttribute('table-title-summary')).to.equal(
+        'Showing 1-2 of 2 charges',
       );
     });
 
@@ -205,7 +208,8 @@ describe('Feature Toggle Data Confirmation', () => {
       );
 
       await waitFor(() => {
-        expect(table.getAttribute('table-title-summary')).to.equal(
+        const updatedTable = container.querySelector('va-table');
+        expect(updatedTable.getAttribute('table-title-summary')).to.equal(
           'Showing 11-15 of 15 charges',
         );
       });
@@ -213,8 +217,9 @@ describe('Feature Toggle Data Confirmation', () => {
       // Focus logic targets va-table and sets tabindex="-1" on it; in jsdom
       // custom elements may not receive document.activeElement, so we assert
       // the correct component was targeted for focus.
-      expect(table).to.exist;
-      expect(table.getAttribute('tabindex')).to.equal('-1');
+      const tableAfterUpdate = container.querySelector('va-table');
+      expect(tableAfterUpdate).to.exist;
+      expect(tableAfterUpdate.getAttribute('tabindex')).to.equal('-1');
     });
   });
 
