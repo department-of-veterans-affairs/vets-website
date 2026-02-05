@@ -388,29 +388,56 @@ export function uploadFile(
         });
       } else if (req.status === 403 && !hasAttemptedTokenRefresh) {
         let errorResponse;
+        let isTokenExpired = false;
+
         try {
           errorResponse = JSON.parse(req.response);
           const errorMessage = errorResponse?.errors || '';
-          const isTokenExpired = errorMessage.includes('token has expired');
-
-          if (isTokenExpired && infoTokenExists()) {
-            refresh({ type: sessionStorage.getItem('serviceName') }).then(
-              () => {
-                return uploadFile(
-                  file,
-                  uiOptions,
-                  onProgress,
-                  onChange,
-                  onError,
-                  trackingPrefix,
-                  password,
-                  true,
-                )(dispatch, getState);
-              },
-            );
-          }
+          isTokenExpired = errorMessage.includes('token has expired');
         } catch (e) {
-          // fall through to show error
+          // Parse failed, treat as non-token error
+        }
+
+        const fileObj = { file, name: file.name, size: file.size };
+
+        if (isTokenExpired && infoTokenExists()) {
+          refresh({ type: sessionStorage.getItem('serviceName') }).then(response => {
+              if (!response.ok) {
+                throw new Error();
+              }
+              return uploadFile(
+                file,
+                uiOptions,
+                onProgress,
+                onChange,
+                onError,
+                trackingPrefix,
+                password,
+                true,
+              )(dispatch, getState);
+            })
+            .catch((e) => {
+              const refreshErrorMessage = 
+                'Your session could not be refreshed. Please sign in again and retry your upload.';
+              if (password) {
+                onChange({ ...fileObj, errorMessage: refreshErrorMessage, isEncrypted: true });
+              } else {
+                onChange({ ...fileObj, errorMessage: refreshErrorMessage });
+              }
+              Sentry.captureMessage('vets_upload_error: token refresh failed');
+              onError();
+            });
+        } else {
+          // Not a token expiration but a 403
+          const forbiddenMessage =
+            'You don\'t have permission to upload this file. Please sign in and try again.';
+          if (password) {
+            onChange({ ...fileObj, errorMessage: forbiddenMessage, isEncrypted: true });
+          } else {
+            onChange({ ...fileObj, errorMessage: forbiddenMessage });
+          }
+          Sentry.captureMessage('vets_upload_error: 403 forbidden');
+          onError();
         }
       } else {
         const fileObj = { file, name: file.name, size: file.size };
