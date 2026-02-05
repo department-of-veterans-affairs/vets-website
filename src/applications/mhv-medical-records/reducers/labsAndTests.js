@@ -28,6 +28,10 @@ import {
   mergeRadiologyDetails,
 } from '../util/imagesUtil';
 
+const testCodeDisplayMap = {
+  CH: 'Chemistry and hematology',
+};
+
 const initialState = {
   /**
    * The last time that the list was fetched and known to be up-to-date
@@ -426,7 +430,9 @@ export const convertUnifiedLabsAndTestRecord = record => {
     orderedBy: record.attributes.orderedBy,
     sampleTested: record.attributes.sampleTested,
     bodySite: record.attributes.bodySite,
-    testCode: record.attributes.testCode,
+    testCode:
+      testCodeDisplayMap[record.attributes.testCode] ||
+      record.attributes.testCode,
     type: record.attributes.testCode,
     comments: record.attributes.comments,
     source: record.attributes.source,

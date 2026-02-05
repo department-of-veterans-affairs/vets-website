@@ -933,6 +933,32 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       },
     });
   });
+
+  it('should map known testCode values to friendly display names', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        testCode: 'CH',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+    expect(result.testCode).to.equal('Chemistry and hematology');
+    expect(result.type).to.equal('CH');
+  });
+
+  it('should pass through unknown testCode values unchanged', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        testCode: 'UNKNOWN_CODE',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+    expect(result.testCode).to.equal('UNKNOWN_CODE');
+    expect(result.type).to.equal('UNKNOWN_CODE');
+  });
 });
 
 describe('labsAndTestsReducer - unified labs and tests', () => {
