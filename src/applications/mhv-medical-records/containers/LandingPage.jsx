@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -15,10 +15,12 @@ import environment from 'platform/utilities/environment';
 
 import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 import { downtimeNotificationParams, pageTitles } from '../util/constants';
+import { selectImagesDomainFlag } from '../util/selectors';
 import { createSession, postCreateAAL } from '../api/MrApi';
 import { sendDataDogAction } from '../util/helpers';
 
 const LAB_TEST_RESULTS_LABEL = 'Go to your lab and test results';
+const IMAGING_RESULTS_LABEL = 'Go to your medical imaging results';
 export const CARE_SUMMARIES_AND_NOTES_LABEL =
   'Go to your care summaries and notes';
 export const VACCINES_LABEL = 'Go to your vaccines';
@@ -40,6 +42,7 @@ const LandingPage = () => {
 
   const { isLoading } = useAcceleratedData();
   const history = useHistory();
+  const showImagesDomain = useSelector(selectImagesDomainFlag);
 
   const accordionRef = useRef(null);
 
@@ -137,8 +140,7 @@ const LandingPage = () => {
               Lab and test results
             </h2>
             <p className="vads-u-margin-bottom--2">
-              Get results of your VA medical tests. This includes blood tests,
-              X-rays, and other imaging tests.
+              Get results of your VA medical tests, including blood tests.
             </p>
             <va-link-action
               type="secondary"
@@ -153,6 +155,29 @@ const LandingPage = () => {
               }}
             />
           </section>
+          {showImagesDomain && (
+            <section>
+              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                Medical imaging results
+              </h2>
+              <p className="vads-u-margin-bottom--2">
+                Get results of your VA imaging tests, including X-rays, MRIs,
+                and CT scans.
+              </p>
+              <va-link-action
+                type="secondary"
+                href="/my-health/medical-records/imaging-results"
+                data-testid="radiology-landing-page-link"
+                text={IMAGING_RESULTS_LABEL}
+                onClick={event => {
+                  event.preventDefault();
+                  history.push('/imaging-results');
+                  sendAalViewList('Radiology');
+                  sendDataDogAction(IMAGING_RESULTS_LABEL);
+                }}
+              />
+            </section>
+          )}
           <section>
             <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
               Care summaries and notes
