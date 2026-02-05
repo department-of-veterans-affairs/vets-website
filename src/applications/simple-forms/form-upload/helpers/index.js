@@ -140,6 +140,7 @@ export const formMappings = {
   '20-10208': {
     subTitle: 'Document/Evidence Submission',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-20-10208-ARE.pdf',
+    showSupportingDocuments: true,
   },
 };
 
