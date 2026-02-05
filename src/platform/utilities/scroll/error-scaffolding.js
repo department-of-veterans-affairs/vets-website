@@ -713,20 +713,33 @@ function associateGroupErrorAnnotations(groupComponent, errorMessage) {
  * 2. Its internal input/select has aria-invalid="true"
  *
  * @param {HTMLElement} childComponent - The va-select or va-text-input child
+ * @param {boolean} parentRequired - Whether the parent date component is required
  * @returns {boolean} True if the child is invalid
  */
-function isDateChildInvalid(childComponent) {
+function isDateChildInvalid(childComponent, parentRequired) {
   if (!childComponent?.shadowRoot) return false;
 
   const input = childComponent.shadowRoot.querySelector(INPUT_SELECTOR);
 
   // Check invalid attribute/property on the child component itself,
   // or aria-invalid on the internal input
-  return (
+  if (
     childComponent.hasAttribute('invalid') ||
     childComponent.invalid === true ||
     input?.getAttribute('aria-invalid') === 'true'
-  );
+  ) {
+    return true;
+  }
+
+  // If parent is required, check if child has no value (handles initial submit)
+  if (parentRequired && input) {
+    const value = input.value?.trim();
+    if (!value || value === '') {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 /**
@@ -748,11 +761,15 @@ function associateDateErrorAnnotations(dateComponent, errorMessage) {
   if (!errorMessage) return;
 
   const children = getDateChildComponents(dateComponent);
+  const parentRequired =
+    dateComponent.hasAttribute('required') || dateComponent.required === true;
 
   // Determine which children need screen reader scaffolding:
   // - If ANY child is invalid: only scaffold invalid children (field-level errors)
   // - If NO children are invalid: scaffold ALL children (cross-field validation)
-  const invalidChildren = children.filter(child => isDateChildInvalid(child));
+  const invalidChildren = children.filter(child =>
+    isDateChildInvalid(child, parentRequired),
+  );
   const childrenToScaffold =
     invalidChildren.length > 0 ? invalidChildren : children;
 
