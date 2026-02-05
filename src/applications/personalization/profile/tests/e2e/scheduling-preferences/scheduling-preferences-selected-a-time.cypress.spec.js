@@ -336,7 +336,7 @@ describe('Scheduling preferences time selection', () => {
         .click();
 
       // Confirm that the preference has been removed
-      cy.findByText(/Update saved./i).should('exist');
+      cy.findByText(/Update saved/i).should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
