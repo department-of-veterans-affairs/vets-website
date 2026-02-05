@@ -92,7 +92,6 @@ const EnterOTP = () => {
       return;
     }
 
-    // Check appointment availability (may return appointment_already_booked error)
     const availabilityCheck = await getAppointmentAvailability();
 
     if (isAppointmentAlreadyBookedError(availabilityCheck.error)) {
