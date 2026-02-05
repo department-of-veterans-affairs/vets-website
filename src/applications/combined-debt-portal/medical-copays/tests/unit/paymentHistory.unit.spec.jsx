@@ -178,7 +178,7 @@ describe('Feature Toggle Data Confirmation', () => {
       );
     });
 
-    it('after pagination click, the va-table component is the focus target', () => {
+    it('after pagination click, the va-table component is the focus target', async () => {
       const charges = createCharges(15);
       const store = createMockStore(false);
       const { container } = render(
@@ -191,6 +191,11 @@ describe('Feature Toggle Data Confirmation', () => {
         </Provider>,
       );
 
+      const table = container.querySelector('va-table');
+      expect(table.getAttribute('table-title-summary')).to.equal(
+        'Showing 1-10 of 15 charges',
+      );
+
       const pagination = container.querySelector('va-pagination');
       pagination.dispatchEvent(
         new CustomEvent('pageSelect', {
@@ -199,10 +204,15 @@ describe('Feature Toggle Data Confirmation', () => {
         }),
       );
 
+      await waitFor(() => {
+        expect(table.getAttribute('table-title-summary')).to.equal(
+          'Showing 11-15 of 15 charges',
+        );
+      });
+
       // Focus logic targets va-table and sets tabindex="-1" on it; in jsdom
       // custom elements may not receive document.activeElement, so we assert
       // the correct component was targeted for focus.
-      const table = container.querySelector('va-table');
       expect(table).to.exist;
       expect(table.getAttribute('tabindex')).to.equal('-1');
     });
