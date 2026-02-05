@@ -35,15 +35,25 @@ const vamcUser = {
   },
 };
 
+const fillVeteranInfo = () => {
+  fillTextWebComponent('veteranFullName_first', data.veteranFullName.first);
+  fillTextWebComponent('veteranFullName_last', data.veteranFullName.last);
+  fillTextWebComponent('address_postalCode', data.address.postalCode);
+  cy.get('input[name="root_veteranSsn"]').type(data.ssn);
+  cy.get('select[name="root_veteranDateOfBirthMonth"]').select('February');
+  cy.get('input[name="root_veteranDateOfBirthDay"]').type('15');
+  cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
+};
+
 const setUpIntercepts = featureToggles => {
   cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
   setFeatureToggles(featureToggles);
 };
 
-const uploadImgPath =
+const uploadFilePath =
   'src/applications/representative-form-upload/tests/e2e/fixtures/data/vba_21_686c.pdf';
-const uploadImgDetails = {
-  name: uploadImgPath,
+const uploadFileDetails = {
+  name: uploadFilePath,
   size: 2783621,
   password: false,
   additionalData: {},
@@ -61,12 +71,12 @@ describe('Representative Form Upload', () => {
         'POST',
         '/accredited_representative_portal/v0/representative_form_upload',
         mockScannedFormUpload,
-      );
+      ).as('formUpload');
       cy.intercept(
         'POST',
         '/accredited_representative_portal/v0/upload_supporting_documents',
         mockScannedFormUpload,
-      );
+      ).as('supportingDocsUpload');
       cy.intercept(
         'POST',
         '/accredited_representative_portal/v0/submit_representative_form',
@@ -102,145 +112,108 @@ describe('Representative Form Upload', () => {
       cy.injectAxe();
       cy.axeCheck();
     });
+    const formId = '21-526ez';
+    describe(`form ${formId}`, () => {
+      it('allows submission', () => {
+        cy.visit(
+          `/representative/representative-form-upload/submit-va-form-${formId}`,
+        );
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-${formId}/introduction`,
+        );
 
-    ['21-526ez'].forEach(formId => {
-      describe(`form ${formId}`, () => {
-        it('allows submission', () => {
-          cy.visit(
-            `/representative/representative-form-upload/submit-va-form-${formId}`,
-          );
-          cy.location('pathname').should(
-            'eq',
-            `/representative/representative-form-upload/submit-va-form-${formId}/introduction`,
-          );
+        cy.injectAxe();
+        cy.axeCheck();
 
-          cy.injectAxe();
-          cy.axeCheck();
+        cy.get('a[href="#start"]')
+          .contains('Start form upload and submission')
+          .click();
 
-          cy.get('a[href="#start"]')
-            .contains('Start form upload and submission')
-            .click();
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-${formId}/veteran-information`,
+        );
 
-          cy.location('pathname').should(
-            'eq',
-            `/representative/representative-form-upload/submit-va-form-${formId}/veteran-information`,
-          );
+        cy.axeCheck();
 
-          cy.axeCheck();
+        fillVeteranInfo();
+        cy.axeCheck();
+        cy.findByRole('button', { name: /^Continue$/ }).click();
+        cy.axeCheck();
 
-          fillTextWebComponent(
-            'veteranFullName_first',
-            data.veteranFullName.first,
-          );
-          fillTextWebComponent(
-            'veteranFullName_last',
-            data.veteranFullName.last,
-          );
-          fillTextWebComponent('address_postalCode', data.address.postalCode);
-          cy.get('input[name="root_veteranSsn"]').type(data.ssn);
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-${formId}/upload-files`,
+        );
 
-          cy.get('select[name="root_veteranDateOfBirthMonth"]').select(
-            'February',
-          );
-          cy.get('input[name="root_veteranDateOfBirthDay"]').type('15');
-          cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
-          cy.axeCheck();
-          cy.findByRole('button', { name: /^Continue$/ }).click();
-          cy.axeCheck();
+        cy.fillVaFileInput('root_uploadedFile', uploadFileDetails);
 
-          cy.location('pathname').should(
-            'eq',
-            `/representative/representative-form-upload/submit-va-form-${formId}/upload-files`,
-          );
+        cy.axeCheck();
 
-          cy.fillVaFileInput('root_uploadedFile', uploadImgDetails);
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
-          // cy.wait(1000);
-          cy.axeCheck();
+        cy.findByRole('button', { name: /^Continue$/ }).click();
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-${formId}/review-and-submit`,
+        );
 
-          cy.findByRole('button', { name: /^Continue$/ }).click();
-          cy.location('pathname').should(
-            'eq',
-            `/representative/representative-form-upload/submit-va-form-${formId}/review-and-submit`,
-          );
+        cy.clickFormContinue();
 
-          cy.clickFormContinue();
+        cy.axeCheck();
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-${formId}/confirmation`,
+        );
+      });
 
-          cy.axeCheck();
-          cy.location('pathname').should(
-            'eq',
-            `/representative/representative-form-upload/submit-va-form-${formId}/confirmation`,
-          );
-        });
+      it('allows submission with supporting evidence', () => {
+        cy.visit(
+          `/representative/representative-form-upload/submit-va-form-${formId}`,
+        );
+        cy.injectAxe();
+        cy.axeCheck();
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-${formId}/introduction`,
+        );
 
-        it('allows submission with supporting evidence', () => {
-          cy.visit(
-            `/representative/representative-form-upload/submit-va-form-${formId}`,
-          );
-          cy.injectAxe();
-          cy.axeCheck();
-          cy.location('pathname').should(
-            'eq',
-            `/representative/representative-form-upload/submit-va-form-${formId}/introduction`,
-          );
+        cy.get('a[href="#start"]')
+          .contains('Start form upload and submission')
+          .click();
 
-          cy.get('a[href="#start"]')
-            .contains('Start form upload and submission')
-            .click();
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-${formId}/veteran-information`,
+        );
 
-          cy.location('pathname').should(
-            'eq',
-            `/representative/representative-form-upload/submit-va-form-${formId}/veteran-information`,
-          );
+        fillVeteranInfo();
 
-          fillTextWebComponent(
-            'veteranFullName_first',
-            data.veteranFullName.first,
-          );
-          fillTextWebComponent(
-            'veteranFullName_last',
-            data.veteranFullName.last,
-          );
-          fillTextWebComponent('address_postalCode', data.address.postalCode);
-          cy.get('input[name="root_veteranSsn"]').type(data.ssn);
-          cy.get('select[name="root_veteranDateOfBirthMonth"]').select(
-            'February',
-          );
-          cy.get('input[name="root_veteranDateOfBirthDay"]').type('15');
-          cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
-          // cy.axeCheck();
+        cy.findByRole('button', { name: /^Continue$/ }).click();
+        cy.axeCheck();
 
-          cy.findByRole('button', { name: /^Continue$/ }).click();
-          // cy.axeCheck();
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-${formId}/upload-files`,
+        );
 
-          cy.location('pathname').should(
-            'eq',
-            `/representative/representative-form-upload/submit-va-form-${formId}/upload-files`,
-          );
+        cy.fillVaFileInput('root_uploadedFile', uploadFileDetails);
+        cy.wait('@formUpload');
 
-          cy.fillVaFileInput('root_uploadedFile', uploadImgDetails);
+        cy.fillVaFileInputMultiple(
+          'root_supportingDocuments',
+          uploadFileDetails,
+        );
+        cy.wait('@supportingDocsUpload');
+        cy.axeCheck();
 
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
-          cy.wait(1000);
+        cy.clickFormContinue();
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-${formId}/review-and-submit`,
+        );
 
-          cy.fillVaFileInputMultiple(
-            'root_supportingDocuments',
-            uploadImgDetails,
-          );
-
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
-          cy.wait(1000);
-          cy.axeCheck();
-
-          cy.clickFormContinue();
-          cy.location('pathname').should(
-            'eq',
-            `/representative/representative-form-upload/submit-va-form-${formId}/review-and-submit`,
-          );
-
-          cy.clickFormContinue();
-          cy.axeCheck();
-        });
+        cy.clickFormContinue();
+        cy.axeCheck();
       });
     });
   });
@@ -283,13 +256,6 @@ describe('Representative Form Upload', () => {
         .contains('Start form upload and submission')
         .click();
 
-      // cy.location('pathname').should(
-      //   'eq',
-      //   `/representative/representative-form-upload/submit-va-form-21-526ez/is-veteran`,
-      // );
-
-      // cy.findByLabelText(/^The claimant is the Veteran$/).click();
-      // cy.findByRole('button', { name: /^Continue$/ }).click();
       cy.location('pathname').should(
         'eq',
         `/representative/representative-form-upload/submit-va-form-21-526ez/veteran-information`,
@@ -297,14 +263,7 @@ describe('Representative Form Upload', () => {
 
       cy.axeCheck();
 
-      fillTextWebComponent('veteranFullName_first', data.veteranFullName.first);
-      fillTextWebComponent('veteranFullName_last', data.veteranFullName.last);
-      fillTextWebComponent('address_postalCode', data.address.postalCode);
-      cy.get('input[name="root_veteranSsn"]').type(data.ssn);
-
-      cy.get('select[name="root_veteranDateOfBirthMonth"]').select('February');
-      cy.get('input[name="root_veteranDateOfBirthDay"]').type('15');
-      cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
+      fillVeteranInfo();
       cy.axeCheck();
       cy.findByRole('button', { name: /^Continue$/ }).click();
       cy.axeCheck();
@@ -314,9 +273,8 @@ describe('Representative Form Upload', () => {
         `/representative/representative-form-upload/submit-va-form-21-526ez/upload-files`,
       );
 
-      cy.fillVaFileInput('root_uploadedFile', uploadImgDetails);
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(1000);
+      cy.fillVaFileInput('root_uploadedFile', uploadFileDetails);
+      cy.wait('@formUpload');
       cy.axeCheck();
 
       cy.findByRole('button', { name: /^Continue$/ }).click();
