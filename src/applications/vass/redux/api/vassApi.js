@@ -163,11 +163,11 @@ export const vassApi = createApi({
           });
         } catch ({ errors }) {
           // captureError(error, false, 'get appointment availability');
-          // TODO: do something with error
           return {
             error: {
               code: errors?.[0]?.code,
               detail: errors?.[0]?.detail,
+              appointment: errors?.[0]?.appointment,
             },
           };
         }
@@ -206,5 +206,6 @@ export const {
   useGetAppointmentQuery,
   useGetTopicsQuery,
   useGetAppointmentAvailabilityQuery,
+  useLazyGetAppointmentAvailabilityQuery,
   useCancelAppointmentMutation,
 } = vassApi;
