@@ -36,11 +36,24 @@ function testFileUpload(func) {
   });
 }
 
-// clear any error state before next test
-function clearErrorState() {
-  cy.get('va-file-input').then($el => {
-    $el[0].removeAttribute('error');
-  });
+function deleteFile() {
+  cy.get('va-file-input')
+    .find('va-button-icon')
+    .then($el => {
+      if ($el.length > 1) {
+        $el[1].click();
+        cy.get('va-modal')
+          .shadow()
+          .find('va-button')
+          .then($el2 => {
+            if ($el2.length > 0) {
+              $el2[0].click();
+            }
+          });
+      }
+    });
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(200);
 }
 
 // test that an error is thrown if attempt made to continue without having added a file
@@ -50,7 +63,6 @@ function testContinueWithoutFile() {
     .shadow()
     .find('span.usa-error-message')
     .should('exist');
-  clearErrorState();
 }
 
 // test adding a variety of file types
@@ -61,7 +73,10 @@ function testFileUploads() {
     makeMinimalPDF,
     makeMinimalTxtFile,
   ];
-  funcs.forEach(func => testFileUpload(func));
+  funcs.forEach(func => {
+    testFileUpload(func);
+    deleteFile();
+  });
 }
 
 // test that a file with an invalid mimetype results in an error state
@@ -78,18 +93,17 @@ function testRejectInvalidMimeType() {
         /The file extension doesn.*t match the file format. Please choose a different file./i,
       );
   });
-  clearErrorState();
+  deleteFile();
 }
 
 // test that a file with invalid utf8 encoding results in an error state
 function testInvalidUTF8Encoding() {
-  clearErrorState();
   const invalidFile = makeInvalidUtf8File();
   cy.fillVaFileInput(SELECTOR, {}, invalidFile);
   cy.get('va-file-input')
     .invoke('attr', 'error')
     .should('match', /The file.*s encoding is not valid/i);
-  clearErrorState();
+  deleteFile();
 }
 
 // test that additional info is required and that once set the component is error free
@@ -114,6 +128,8 @@ function testAdditionalInfo() {
   cy.get('va-file-input')
     .find('va-select')
     .should('not.have.attr', 'error');
+
+  deleteFile();
 }
 
 // test that a file whose size exceeds limit results in an error
@@ -123,7 +139,7 @@ function testTooBig() {
   cy.get('va-file-input')
     .should('have.attr', 'error')
     .and('include', "We can't upload your file because it's too big.");
-  clearErrorState();
+  deleteFile();
 }
 
 // test that a file whose size is less than a limit results in an error
@@ -133,7 +149,7 @@ function testTooSmall() {
   cy.get('va-file-input')
     .should('have.attr', 'error')
     .and('include', "We can't upload your file because it's too small.");
-  clearErrorState();
+  deleteFile();
 }
 
 // test that a zero byte file upload results in an error
@@ -146,7 +162,7 @@ function testZeroBytes() {
       'include',
       'The file you selected is empty. Files must be larger than 0B.',
     );
-  clearErrorState();
+  deleteFile();
 }
 
 // test all file size limit scenarios
@@ -189,6 +205,7 @@ function testEncryptedPdf() {
       .find('span.usa-error-message')
       .should('not.exist');
   });
+  deleteFile();
 }
 
 // test files of a type not specified by accept result in an error
@@ -198,31 +215,7 @@ function testRejectFileNotAccepted() {
   cy.get('va-file-input')
     .should('have.attr', 'error')
     .and('include', 'We do not accept .fake files. Choose a new file.');
-  clearErrorState();
-}
-
-// test that a file can be deleted
-function testDeleteFile() {
-  cy.get('va-file-input')
-    .find('va-button-icon')
-    .then($el => {
-      if ($el.length > 1) {
-        $el[1].click();
-        cy.get('va-modal')
-          .shadow()
-          .find('va-button')
-          .then($el2 => {
-            if ($el2.length > 0) {
-              $el2[0].click();
-            }
-          });
-      }
-    });
-
-  cy.get('va-file-input')
-    .shadow()
-    .find('va-card')
-    .should('not.exist');
+  deleteFile();
 }
 
 // test happy path
@@ -270,7 +263,6 @@ const testConfig = createTestConfig(
           testFileSizeLimits();
           testEncryptedPdf();
           testRejectFileNotAccepted();
-          testDeleteFile();
           uploadValidFileAndNavigateToReviewPage();
         });
       },
@@ -296,7 +288,7 @@ const testConfig = createTestConfig(
               .find('va-button')
               .click();
 
-            testDeleteFile();
+            deleteFile();
             testFileUpload(makeMinimalJPG);
             cy.get('va-file-input')
               .find('va-select')
