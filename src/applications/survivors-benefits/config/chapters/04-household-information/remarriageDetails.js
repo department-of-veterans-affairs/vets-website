@@ -2,7 +2,6 @@ import {
   radioUI,
   radioSchema,
   textUI,
-  textSchema,
   titleUI,
   currentOrPastDateRangeUI,
   currentOrPastDateSchema,
@@ -47,7 +46,10 @@ export default {
     required: ['remarriageEndCause', 'remarriageDates'],
     properties: {
       remarriageEndCause: radioSchema(Object.keys(remarriageEndOptions)),
-      endCauseExplanation: textSchema,
+      endCauseExplanation: {
+        type: 'string',
+        maxLength: 256,
+      },
       remarriageDates: {
         type: 'object',
         required: ['from'],

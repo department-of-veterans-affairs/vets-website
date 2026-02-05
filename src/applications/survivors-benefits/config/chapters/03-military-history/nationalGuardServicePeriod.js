@@ -3,7 +3,6 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
   textUI,
-  textSchema,
   phoneUI,
   phoneSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -28,7 +27,10 @@ export default {
     required: ['nationalGuardActivationDate', 'unitPhone', 'unitName'],
     properties: {
       nationalGuardActivationDate: currentOrPastDateSchema,
-      unitName: textSchema,
+      unitName: {
+        type: 'string',
+        maxLength: 100,
+      },
       unitPhone: phoneSchema,
     },
   },

@@ -7,7 +7,6 @@ import {
   radioSchema,
   checkboxSchema,
   textUI,
-  textSchema,
   numberUI,
   numberSchema,
   arrayBuilderItemFirstPageTitleUI,
@@ -233,8 +232,14 @@ const recipientPage = {
     type: 'object',
     properties: {
       recipient: radioSchema(Object.keys(careRecipientLabels)),
-      recipientName: textSchema,
-      provider: textSchema,
+      recipientName: {
+        type: 'string',
+        maxLength: 100,
+      },
+      provider: {
+        type: 'string',
+        maxLength: 100,
+      },
     },
     required: ['recipient', 'provider'],
   },

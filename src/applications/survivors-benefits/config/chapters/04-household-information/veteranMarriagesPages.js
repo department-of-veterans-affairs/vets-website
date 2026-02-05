@@ -11,7 +11,6 @@ import {
   fullNameSchema,
   selectUI,
   textUI,
-  textSchema,
   checkboxUI,
   checkboxSchema,
   currentOrPastDateUI,
@@ -246,7 +245,10 @@ const endedPage = {
     type: 'object',
     properties: {
       reasonForSeparation: radioSchema(Object.keys(previousMarriageEndOptions)),
-      separationExplanation: textSchema,
+      separationExplanation: {
+        type: 'string',
+        maxLength: 256,
+      },
     },
     required: ['reasonForSeparation'],
   },

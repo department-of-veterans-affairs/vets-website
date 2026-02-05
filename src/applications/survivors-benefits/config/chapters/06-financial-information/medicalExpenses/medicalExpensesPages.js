@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   textUI,
-  textSchema,
   radioUI,
   radioSchema,
   currencyUI,
@@ -197,8 +196,14 @@ const recipientPage = {
     type: 'object',
     properties: {
       recipient: radioSchema(Object.keys(medicalExpenseRecipientLabels)),
-      childName: textSchema,
-      provider: textSchema,
+      childName: {
+        type: 'string',
+        maxLength: 100,
+      },
+      provider: {
+        type: 'string',
+        maxLength: 100,
+      },
     },
     required: ['recipient', 'provider'],
   },
@@ -219,7 +224,10 @@ const purposeDatePage = {
   schema: {
     type: 'object',
     properties: {
-      purpose: textSchema,
+      purpose: {
+        type: 'string',
+        maxLength: 256,
+      },
       paymentDate: currentOrPastDateSchema,
     },
     required: ['purpose', 'paymentDate'],

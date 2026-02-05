@@ -5,7 +5,6 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
   textUI,
-  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { transformDate } from './helpers';
@@ -83,9 +82,18 @@ const nameLocationPage = {
   schema: {
     type: 'object',
     properties: {
-      vaMedicalCenterName: textSchema,
-      city: textSchema,
-      state: textSchema,
+      vaMedicalCenterName: {
+        type: 'string',
+        maxLength: 100,
+      },
+      city: {
+        type: 'string',
+        maxLength: 100,
+      },
+      state: {
+        type: 'string',
+        maxLength: 100,
+      },
     },
     required: ['vaMedicalCenterName', 'city', 'state'],
   },

@@ -2,7 +2,6 @@ import {
   yesNoSchema,
   yesNoUI,
   textUI,
-  textSchema,
   titleUI,
   currentOrPastDateUI,
   currentOrPastDateSchema,
@@ -47,7 +46,10 @@ export default {
       'courtOrderedSeparation',
     ],
     properties: {
-      separationExplanation: textSchema,
+      separationExplanation: {
+        type: 'string',
+        maxLength: 256,
+      },
       separationStartDate: currentOrPastDateSchema,
       separationEndDate: currentOrPastDateSchema,
       courtOrderedSeparation: yesNoSchema,

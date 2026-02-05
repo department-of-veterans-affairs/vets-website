@@ -3,7 +3,6 @@ import {
   yesNoUI,
   titleUI,
   textUI,
-  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -32,7 +31,10 @@ export default {
     required: ['validMarriage'],
     properties: {
       validMarriage: yesNoSchema,
-      marriageValidityExplanation: textSchema,
+      marriageValidityExplanation: {
+        type: 'string',
+        maxLength: 256,
+      },
     },
   },
 };
