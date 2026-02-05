@@ -1,19 +1,36 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { sortStatementsByDate } from '../../combined/utils/helpers';
+import {
+  sortStatementsByDate,
+  showVHAPaymentHistory,
+} from '../../combined/utils/helpers';
 import HTMLStatementLink from './HTMLStatementLink';
 
 const HTMLStatementList = ({ selectedId }) => {
+  const shouldShowVHAPaymentHistory = state => {
+    showVHAPaymentHistory(state);
+  };
+
   const combinedPortalData = useSelector(state => state.combinedPortal);
-  const statements = combinedPortalData.mcp.statements ?? [];
-  // get selected statement
-  const [selectedCopay] = statements.filter(({ id }) => id === selectedId);
-  // get facility  number on selected statement
-  const facilityNumber = selectedCopay.pSFacilityNum;
-  // filter out all statements that are not related to this facility
-  const facilityCopays = statements.filter(
-    ({ pSFacilityNum }) => pSFacilityNum === facilityNumber,
+  const statements = combinedPortalData.mcp.statements ?? {};
+
+  // normalize to array
+  let statementArray = [];
+  if (Array.isArray(statements.data)) {
+    statementArray = statements.data;
+  } else if (statements.data) {
+    statementArray = [statements.data];
+  }
+
+  const selectedCopay = shouldShowVHAPaymentHistory
+    ? statementArray.find(({ id }) => id === selectedId)
+    : statements.find(({ id }) => id === selectedId);
+
+  const facilityNumber = selectedCopay?.attributes?.facilityNumber;
+
+  const facilityCopays = statementArray.filter(
+    ({ attributes }) => attributes?.facilityNumber === facilityNumber,
   );
 
   const sortedFacilityCopays = sortStatementsByDate(facilityCopays);
@@ -36,7 +53,11 @@ const HTMLStatementList = ({ selectedId }) => {
         {previousSortedFacilityCopays.map(statement => (
           <HTMLStatementLink
             id={statement.id}
-            statementDate={statement.pSStatementDateOutput}
+            statementDate={
+              shouldShowVHAPaymentHistory
+                ? statement?.attributes?.invoiceDate
+                : statement.pSStatementDateOutput
+            }
             key={statement.id}
           />
         ))}
