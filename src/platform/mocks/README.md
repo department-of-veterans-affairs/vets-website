@@ -15,10 +15,12 @@ const handlers = [
   ...commonHandlers,
 ];
 
-export const startMocking = () => setupWorker(...handlers).start({
-  onUnhandledRequest: 'bypass',
-  serviceWorker: { url: '/mockServiceWorker.js' },
-});
+export async function startMocking() {
+  await setupWorker(...handlers).start({
+    onUnhandledRequest: 'bypass',
+    serviceWorker: { url: '/mockServiceWorker.js' },
+  });
+}
 ```
 
 **2. Update your entry file:**
@@ -40,7 +42,13 @@ function initApp() {
 }
 
 if (process.env.USE_MOCKS === 'true') {
-  import('./mocks/browser').then(m => m.startMocking()).then(initApp);
+  import('./mocks/browser')
+    .then(({ startMocking }) => startMocking())
+    .then(initApp)
+    .catch(error => {
+      console.error('Failed to start MSW:', error);
+      initApp();
+    });
 } else {
   initApp();
 }
@@ -58,9 +66,20 @@ USE_MOCKS=true yarn watch --env entry=your-app --env api=http://mock-vets-api.lo
 
 ```
 platform/mocks/
-├── responses.js  # Pure mock data + factory functions (no dependencies)
-├── browser.js    # MSW browser handlers (for local dev with setupWorker)
+├── responses.js   # Pure mock data + factory functions
+├── browser.js     # MSW browser handlers (for local dev with setupWorker)
+├── exportsFile.js # Public API for @department-of-veterans-affairs/platform-mocks
+├── tests/         # Unit tests
 └── README.md
+```
+
+**Import options:**
+```javascript
+// Short path (recommended)
+import { mockApi, commonHandlers } from 'platform/mocks/browser';
+
+// Package-style path (also works)
+import { mockApi, commonHandlers } from '@department-of-veterans-affairs/platform-mocks/browser';
 ```
 
 ## Usage
@@ -72,13 +91,16 @@ Import pure data for use with any mocking approach:
 ```javascript
 import {
   mockUser,
-  mockFeatureToggles,
+  mockUserLOA1,
   createUserResponse,
   createFeatureTogglesResponse,
 } from 'platform/mocks/responses';
 
 // Use with Cypress
 cy.intercept('GET', '/v0/user', mockUser);
+
+// Test LOA gating with unverified user
+cy.intercept('GET', '/v0/user', mockUserLOA1);
 
 // Use with custom feature toggles
 cy.intercept('GET', '/v0/feature_toggles*', createFeatureTogglesResponse({
@@ -174,8 +196,39 @@ const fastHandlers = createCommonHandlers(apiUrl, 0);
 | Export | Description |
 |--------|-------------|
 | `mockUser` | Authenticated user (LOA3, verified) |
+| `mockUserLOA1` | Authenticated but unverified user (LOA1) |
 | `mockUserUnauthenticated` | 401 error response |
-| `createUserResponse(overrides)` | Factory with custom properties |
+| `createUserResponse(overrides)` | Factory with deep merge (see below) |
+
+#### Deep Merge for User Overrides
+
+`createUserResponse()` uses deep merge, so you only need to specify the fields you want to change. Nested properties are preserved:
+
+```javascript
+// Only override signIn.serviceName - other signIn props (ssoe, transactionid) are preserved
+createUserResponse({
+  data: { attributes: { profile: { signIn: { serviceName: 'logingov' } } } }
+})
+
+// Override multiple nested fields
+createUserResponse({
+  data: {
+    attributes: {
+      profile: { firstName: 'Jane', loa: { current: 1 } },
+      veteranStatus: { isVeteran: false }
+    }
+  }
+})
+```
+
+**Note:** Arrays are replaced, not merged by index:
+
+```javascript
+// This replaces the entire services array
+createUserResponse({
+  data: { attributes: { services: ['my-custom-service'] } }
+})
+```
 
 ### Feature Toggles
 
@@ -183,6 +236,16 @@ const fastHandlers = createCommonHandlers(apiUrl, 0);
 |--------|-------------|
 | `mockFeatureToggles` | Empty toggles (all disabled) |
 | `createFeatureTogglesResponse(toggles)` | Factory with specific toggles |
+
+To find available feature flag names, see [`src/platform/utilities/feature-toggles/featureFlagNames.json`](../../utilities/feature-toggles/featureFlagNames.json).
+
+```javascript
+// Enable specific flags for your app
+createFeatureTogglesResponse({
+  my_app_feature_flag: true,
+  another_flag: false,
+})
+```
 
 ### Maintenance Windows
 
@@ -246,8 +309,6 @@ export async function startMocking() {
   });
   console.log('[MSW] Mocking enabled');
 }
-
-export default startMocking;
 ```
 
 ### 2. Update your entry file

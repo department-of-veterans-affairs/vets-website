@@ -72,6 +72,7 @@ import responses from './responses';
 
 const {
   mockUser,
+  mockUserLOA1,
   mockUserUnauthenticated,
   mockFeatureToggles,
   mockMaintenanceWindows,
@@ -85,6 +86,7 @@ const {
 // Re-export responses for convenience
 export {
   mockUser,
+  mockUserLOA1,
   mockUserUnauthenticated,
   mockFeatureToggles,
   mockMaintenanceWindows,
