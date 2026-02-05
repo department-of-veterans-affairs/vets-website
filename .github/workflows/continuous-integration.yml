@@ -1953,7 +1953,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
-          fetch-depth: 0
+          # Shallow clone - we'll fetch main separately for the diff
+          fetch-depth: 1
+
+      - name: Fetch origin/main for diff
+        # Fetch only main branch with limited depth instead of full history (37k+ commits)
+        # --depth=100 covers PRs up to 100 commits behind main while keeping fetch time ~4s vs ~20s
+        run: git fetch origin main:refs/remotes/origin/main --depth=100
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -1967,15 +1973,18 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
+      # Lightweight install - only @actions/core is needed for the scripts in this job
+      - name: Get Node version
+        id: get-node-version
+        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Install minimal dependencies
+        run: npm install @actions/core
 
       - name: Get changed applications
         id: get-changed-apps
