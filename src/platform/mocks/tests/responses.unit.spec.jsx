@@ -3,6 +3,7 @@ import { expect } from 'chai';
 const {
   createUserResponse,
   mockUser,
+  mockUserLOA1,
   mockUserUnauthenticated,
   createFeatureTogglesResponse,
   mockFeatureToggles,
@@ -164,6 +165,31 @@ describe('platform/mocks/responses', () => {
       expect(mockUser.data.attributes.profile).to.exist;
       expect(mockUser.data.attributes.veteranStatus).to.exist;
       expect(mockUser.meta).to.exist;
+    });
+  });
+
+  describe('mockUserLOA1', () => {
+    it('should have LOA1 properties', () => {
+      expect(mockUserLOA1.data.attributes.profile.loa.current).to.equal(1);
+      expect(mockUserLOA1.data.attributes.profile.verified).to.be.false;
+      expect(mockUserLOA1.data.attributes.profile.multifactor).to.be.false;
+      expect(mockUserLOA1.data.attributes.profile.authnContext).to.equal(
+        'http://idmanagement.gov/ns/assurance/loa/1',
+      );
+    });
+
+    it('should not have identity-proofed service', () => {
+      expect(mockUserLOA1.data.attributes.services).to.not.include(
+        'identity-proofed',
+      );
+    });
+
+    it('should preserve other default user properties', () => {
+      expect(mockUserLOA1.data.attributes.profile.firstName).to.equal('Test');
+      expect(mockUserLOA1.data.attributes.profile.email).to.equal(
+        'test@example.com',
+      );
+      expect(mockUserLOA1.data.attributes.veteranStatus.isVeteran).to.be.true;
     });
   });
 

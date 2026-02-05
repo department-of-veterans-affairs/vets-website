@@ -107,6 +107,29 @@ function createUserResponse(overrides = {}) {
 /** Default authenticated user response */
 const mockUser = createUserResponse();
 
+/** LOA1 (unverified) user response */
+const mockUserLOA1 = createUserResponse({
+  data: {
+    attributes: {
+      profile: {
+        verified: false,
+        multifactor: false,
+        authnContext: 'http://idmanagement.gov/ns/assurance/loa/1',
+        loa: { current: 1 },
+      },
+      services: [
+        'facilities',
+        'hca',
+        'edu-benefits',
+        'form-save-in-progress',
+        'form-prefill',
+        'vet360',
+        'user-profile',
+      ],
+    },
+  },
+});
+
 /** Unauthenticated user error response (401) */
 const mockUserUnauthenticated = {
   errors: [
@@ -212,6 +235,7 @@ module.exports = {
   // User
   createUserResponse,
   mockUser,
+  mockUserLOA1,
   mockUserUnauthenticated,
 
   // Feature Toggles

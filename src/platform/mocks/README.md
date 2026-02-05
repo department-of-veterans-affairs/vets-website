@@ -174,6 +174,7 @@ const fastHandlers = createCommonHandlers(apiUrl, 0);
 | Export | Description |
 |--------|-------------|
 | `mockUser` | Authenticated user (LOA3, verified) |
+| `mockUserLOA1` | Authenticated but unverified user (LOA1) |
 | `mockUserUnauthenticated` | 401 error response |
 | `createUserResponse(overrides)` | Factory with deep merge (see below) |
 
