@@ -868,7 +868,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     expect(result.sampleTested).to.equal('Blood');
     expect(result.bodySite).to.equal('Arm');
     expect(result.testCode).to.equal('12345');
-    expect(result.type).to.equal('12345');
+    expect(result.type).to.equal(labTypes.OTHER); // Unknown code falls back to OTHER
     expect(result.comments).to.equal('No issues');
     expect(result.source).to.equal('oracle-health');
     expect(result.result).to.equal('This is a test');
@@ -893,7 +893,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       sortDate: undefined,
       bodySite: undefined,
       testCode: undefined,
-      type: undefined,
+      type: labTypes.OTHER, // Falls back to OTHER for undefined testCode
       comments: undefined,
       source: undefined,
       result: null,
@@ -924,7 +924,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       sortDate: 'invalid-date',
       bodySite: undefined,
       testCode: undefined,
-      type: undefined,
+      type: labTypes.OTHER, // Falls back to OTHER for undefined testCode
       comments: undefined,
       source: undefined,
       result: null,
@@ -934,7 +934,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     });
   });
 
-  it('should map known testCode values to friendly display names', () => {
+  it('should map known testCode values to friendly display names and labTypes', () => {
     const record = {
       id: 'test-id',
       attributes: {
@@ -944,10 +944,36 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     const result = convertUnifiedLabsAndTestRecord(record);
     expect(result.testCode).to.equal('Chemistry and hematology');
-    expect(result.type).to.equal('CH');
+    expect(result.type).to.equal(labTypes.CHEM_HEM);
   });
 
-  it('should pass through unknown testCode values unchanged', () => {
+  it('should map SP testCode to PATHOLOGY labType', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        testCode: 'SP',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+    expect(result.testCode).to.equal('SP'); // SP passes through (no display mapping)
+    expect(result.type).to.equal(labTypes.PATHOLOGY);
+  });
+
+  it('should map MI testCode to MICROBIOLOGY labType', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        testCode: 'MI',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+    expect(result.testCode).to.equal('MI'); // MI passes through (no display mapping)
+    expect(result.type).to.equal(labTypes.MICROBIOLOGY);
+  });
+
+  it('should fall back to OTHER labType for unknown testCode values', () => {
     const record = {
       id: 'test-id',
       attributes: {
@@ -957,7 +983,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     const result = convertUnifiedLabsAndTestRecord(record);
     expect(result.testCode).to.equal('UNKNOWN_CODE');
-    expect(result.type).to.equal('UNKNOWN_CODE');
+    expect(result.type).to.equal(labTypes.OTHER);
   });
 });
 
@@ -999,7 +1025,7 @@ describe('labsAndTestsReducer - unified labs and tests', () => {
     expect(testRecord.sampleTested).to.equal('Blood');
     expect(testRecord.bodySite).to.equal('Arm');
     expect(testRecord.testCode).to.equal('12345');
-    expect(testRecord.type).to.equal('12345');
+    expect(testRecord.type).to.equal(labTypes.OTHER); // Unknown code falls back to OTHER
     expect(testRecord.comments).to.equal('No issues');
     expect(testRecord.result).to.equal('This is a test');
   });
