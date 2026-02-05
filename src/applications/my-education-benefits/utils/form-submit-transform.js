@@ -584,7 +584,7 @@ export function createDirectDeposit(submissionForm) {
 
   const constructedBankInfo = {
     directDepositAccountNumber: effectiveBankAccount?.accountNumber,
-    directDepositAccountType: effectiveBankAccount?.accountType,
+    directDepositAccountType: effectiveBankAccount?.accountType?.toLowerCase(),
     directDepositRoutingNumber: effectiveBankAccount?.routingNumber,
   };
 
