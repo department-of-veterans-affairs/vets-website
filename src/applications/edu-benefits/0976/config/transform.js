@@ -155,7 +155,11 @@ export default function transform(formConfig, form) {
     data.isAuthenticated = !!form.data.isAuthenticated;
   }
 
-  const submitData = transformForSubmit(formConfig, { ...form, data });
+  const submitData = transformForSubmit(
+    formConfig,
+    { ...form, data },
+    { allowPartialAddress: true },
+  );
 
   return JSON.stringify({
     educationBenefitsClaim: {

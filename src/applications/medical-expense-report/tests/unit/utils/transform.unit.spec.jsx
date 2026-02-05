@@ -190,6 +190,7 @@ describe('submit transformer', () => {
     expect(parsedResult.medicalExpenseReportsClaim).to.have.property('form');
     expect(parsedForm).to.deep.equal({
       veteranSocialSecurityNumber: '123-45-6789',
+      vaFileNumber: '987654321',
     });
     expect(parsedResult).to.have.property('localTime');
   });
