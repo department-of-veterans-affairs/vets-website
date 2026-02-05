@@ -29,6 +29,18 @@ describe('Need Help shared component', () => {
       expect(screen.getByTestId('rx-need-help-container')).to.exist;
     });
 
+    it('renders with default h3 heading level if no headingLevel prop is provided', () => {
+      const screen = setup();
+      const heading = screen.getByRole('heading', { name: 'Need help?' });
+      expect(heading.tagName).to.equal('H3');
+    });
+
+    it('renders with correct heading level when provided', () => {
+      const screen = setup({ headingLevel: 2 });
+      const heading = screen.getByRole('heading', { name: 'Need help?' });
+      expect(heading.tagName).to.equal('H2');
+    });
+
     it('displays original content structure', () => {
       const screen = setup(false);
 
@@ -96,6 +108,18 @@ describe('Need Help shared component', () => {
     it('renders without errors', () => {
       const screen = setup(true);
       expect(screen.getByTestId('rx-need-help-container')).to.exist;
+    });
+
+    it('renders with default h3 heading level if no headingLevel prop is provided', () => {
+      const screen = setup();
+      const heading = screen.getByRole('heading', { name: 'Need help?' });
+      expect(heading.tagName).to.equal('H3');
+    });
+
+    it('renders with correct heading level when provided', () => {
+      const screen = setup({ headingLevel: 2 });
+      const heading = screen.getByRole('heading', { name: 'Need help?' });
+      expect(heading.tagName).to.equal('H2');
     });
 
     it('displays enhanced content structure', () => {
