@@ -5,6 +5,10 @@ import 'cypress-real-events/support';
 import '@cypress/code-coverage/support';
 import addContext from 'mochawesome/addContext';
 import './commands';
+// eslint-disable-next-line @department-of-veterans-affairs/use-resolved-path, import/no-unresolved
+import mockGeocodingData from '../../../../applications/facility-locator/constants/mock-geocoding-data.json';
+// eslint-disable-next-line @department-of-veterans-affairs/use-resolved-path, import/no-unresolved
+import mockProviderServices from '../../../../applications/facility-locator/constants/mock-provider-services.json';
 
 // Re-export URL utilities for easy access in tests
 // Usage: import { getBaseUrl, getTestUrl } from 'support/index';
@@ -84,6 +88,34 @@ beforeEach(() => {
   cy.intercept('GET', '/v0/maintenance_windows', {
     data: [],
   });
+
+  // Auto-mock Mapbox Geocoding API to prevent hitting real API (costs money per query).
+  // This is the primary cost driver - each user search hits the geocoding API.
+  // Uses mock data with actual geocoding results for Austin, TX.
+  // Tests can override this mock by registering their own more specific intercepts.
+  cy.intercept('GET', '**/api.mapbox.com/geocoding/**', {
+    statusCode: 200,
+    body: mockGeocodingData,
+  }).as('mapboxGeocoding');
+
+  // Mock static images API - also costs per request
+  cy.intercept('GET', '**/api.mapbox.com/styles/**/static/**', {
+    statusCode: 200,
+    headers: { 'content-type': 'image/png' },
+    body: Cypress.Blob.base64StringToBlob(
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+      'image/png',
+    ),
+  }).as('mapboxStatic');
+
+  // Mock Community Care Provider specialties API
+  // Facility locator with progressive disclosure fetches this on page load
+  // Uses mock data with actual CCP specialties (dentist, urgent care, etc.)
+  // Tests can override with their own specific data if needed
+  cy.intercept('GET', '/facilities_api/v2/ccp/specialties', {
+    statusCode: 200,
+    body: mockProviderServices,
+  }).as('ccpSpecialties');
 });
 
 // Assign the video path to the context property for failed tests
