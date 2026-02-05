@@ -961,9 +961,11 @@ The `AlertBackgroundBox` component (`components/shared/AlertBackgroundBox.jsx`) 
   - **MHV Decision Records**: Focus should be set to H1 on page load
 
 - **Implementation Pattern**:
-  - Add `role="status"` to VaAlert for screen reader announcement without stealing focus
+  - Use conditional role based on alert type:
+    - `role="status"` for success and warning alerts (non-interruptive)
+    - `role="alert"` for error alerts (interruptive, higher priority)
   - Always focus H1 on page load, not the alert
-  - Let `role="status"` handle the announcement automatically
+  - For dismissible alerts, move focus back to H1 after alert is dismissed
 
 - **AlertSlot Pattern**: For containers where the H1 is inside a child component (ComposeForm, ReplyForm, MessageThreadHeader), use the `alertSlot` prop pattern:
   ```jsx

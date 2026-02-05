@@ -179,6 +179,10 @@ const AlertBackgroundBox = props => {
     dispatch(closeAlert());
     dispatch(focusOutAlert());
     setShowAlertBackgroundBox(false);
+    // Per MHV accessibility decision records: move focus back to H1 after dismissing alert
+    setTimeout(() => {
+      focusElement(document.querySelector('h1'));
+    }, 100);
   };
 
   // sets custom server error messages for the landing page and folder view pages
@@ -240,7 +244,7 @@ const AlertBackgroundBox = props => {
       <VaAlert
         uswds
         ref={alertRef}
-        role="status"
+        role={activeAlert?.alertType === 'error' ? 'alert' : 'status'}
         background-only
         closeable={props.closeable}
         className="vads-u-margin-bottom--1 va-alert"
