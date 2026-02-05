@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { Toggler } from 'platform/utilities/feature-toggles';
+import { getFailedSubmissionsWithinLast30Days } from '../../utils/helpers';
 import * as TrackedItem from '../../utils/trackedItemContent';
 import FilesNeeded from '../claim-files-tab/FilesNeeded';
 import UploadType2ErrorAlert from '../UploadType2ErrorAlert';
@@ -20,7 +21,7 @@ function WhatYouNeedToDo({ claim }) {
   // Memoize failed submissions to prevent UploadType2ErrorAlert from receiving
   // a new array reference on every render, which would break its useEffect tracking
   const failedSubmissionsWithinLast30Days = useMemo(
-    () => TrackedItem.getFailedSubmissionsWithinLast30Days(evidenceSubmissions),
+    () => getFailedSubmissionsWithinLast30Days(evidenceSubmissions),
     [evidenceSubmissions],
   );
   const nothingNeededMessage = (

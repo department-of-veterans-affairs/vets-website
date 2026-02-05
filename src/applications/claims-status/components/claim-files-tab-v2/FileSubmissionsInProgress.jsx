@@ -5,7 +5,7 @@ import {
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import * as TrackedItem from '../../utils/trackedItemContent';
+import { getTrackedItemDisplayNameFromEvidenceSubmission } from '../../utils/helpers';
 import DocumentCard from '../DocumentCard';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
 import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
@@ -102,7 +102,7 @@ const FileSubmissionsInProgress = ({ claim }) => {
             >
               {currentPageItems.map((item, itemIndex) => {
                 const statusBadgeText = item.uploadStatusDisplayValue;
-                const requestType = TrackedItem.getTrackedItemDisplayNameFromEvidenceSubmission(
+                const requestType = getTrackedItemDisplayNameFromEvidenceSubmission(
                   item,
                 );
                 const requestTypeText = requestType

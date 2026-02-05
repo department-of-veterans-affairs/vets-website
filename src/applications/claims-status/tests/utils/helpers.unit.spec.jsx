@@ -13,38 +13,40 @@ import * as page from '../../utils/page';
 import { ANCHOR_LINKS } from '../../constants';
 
 import {
-  groupTimelineActivity,
-  isPopulatedClaim,
-  getDocTypeDescription,
+  claimAvailable,
   displayFileSize,
+  formatUploadDateTime,
+  generateClaimTitle,
+  getClaimPhaseTypeDescription,
+  getClaimPhaseTypeHeaderText,
+  getClaimStatusDescription,
+  getClaimType,
+  getDocTypeDescription,
+  getFailedSubmissionsWithinLast30Days,
   getItemDate,
-  getUserPhase,
-  getUserPhaseDescription,
   getPhaseDescription,
+  getPhaseItemText,
+  getShowEightPhases,
   getStatusDescription,
   getStatusMap,
-  getClaimStatusDescription,
+  getTimezoneDiscrepancyMessage,
+  getTrackedItemDisplayNameFromEvidenceSubmission,
+  getUploadErrorMessage,
+  getUserPhase,
+  getUserPhaseDescription,
+  groupClaimsByDocsNeeded,
+  groupTimelineActivity,
   isClaimComplete,
   isClaimOpen,
   isDisabilityCompensationClaim,
+  isPopulatedClaim,
   makeAuthRequest,
-  getClaimType,
   mockData,
   roundToNearest,
-  groupClaimsByDocsNeeded,
-  claimAvailable,
-  getClaimPhaseTypeHeaderText,
-  getPhaseItemText,
-  getUploadErrorMessage,
-  getClaimPhaseTypeDescription,
+  sentenceCase,
   setPageFocus,
   setTabDocumentTitle,
-  sentenceCase,
-  generateClaimTitle,
-  getShowEightPhases,
-  getTimezoneDiscrepancyMessage,
   showTimezoneDiscrepancyMessage,
-  formatUploadDateTime,
 } from '../../utils/helpers';
 
 import {
@@ -352,6 +354,53 @@ describe('Disability benefits helpers: ', () => {
       const size = displayFileSize(2097152);
 
       expect(size).to.equal('2MB');
+    });
+  });
+
+  describe('getFailedSubmissionsWithinLast30Days', () => {
+    const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+    const createEvidenceSubmission = (options = {}) => ({
+      id: 1,
+      uploadStatus: 'FAILED',
+      acknowledgementDate: tomorrow,
+      ...options,
+    });
+
+    it('should return empty array when evidenceSubmissions is undefined', () => {
+      const result = getFailedSubmissionsWithinLast30Days(undefined);
+      expect(result).to.be.an('array');
+      expect(result.length).to.equal(0);
+    });
+
+    it('should return empty array when evidenceSubmissions is null', () => {
+      const result = getFailedSubmissionsWithinLast30Days(null);
+      expect(result).to.be.an('array');
+      expect(result.length).to.equal(0);
+    });
+
+    it('should return empty array when there are no failed submissions', () => {
+      const evidenceSubmissions = [
+        createEvidenceSubmission({ uploadStatus: 'SUCCESS' }),
+        createEvidenceSubmission({ id: 2, uploadStatus: 'PENDING' }),
+      ];
+      const result = getFailedSubmissionsWithinLast30Days(evidenceSubmissions);
+
+      expect(result.length).to.equal(0);
+    });
+
+    it('should only return failed submissions within the last 30 days', () => {
+      const evidenceSubmissions = [
+        createEvidenceSubmission({ id: 4 }),
+        createEvidenceSubmission({ id: 3, acknowledgementDate: yesterday }),
+        createEvidenceSubmission({ id: 5 }),
+      ];
+      const result = getFailedSubmissionsWithinLast30Days(evidenceSubmissions);
+
+      expect(result.length).to.equal(2);
+      expect(result[0].id).to.equal(4);
+      expect(result[1].id).to.equal(5);
     });
   });
 
@@ -2021,6 +2070,59 @@ describe('Disability benefits helpers: ', () => {
       expect(() => formatUploadDateTime(undefined)).to.throw(
         /formatUploadDateTime: date parameter is required/,
       );
+    });
+  });
+
+  describe('getTrackedItemDisplayNameFromEvidenceSubmission', () => {
+    context('when the trackedItemId is present', () => {
+      it('should return the trackedItemFriendlyName when it is present', () => {
+        const evidenceSubmission = {
+          trackedItemId: 123,
+          trackedItemFriendlyName: 'Authorization to Disclose Information',
+          trackedItemDisplayName: '21-4142/21-4142a',
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
+
+        expect(result).to.equal('Authorization to Disclose Information');
+      });
+
+      it('should return the trackedItemDisplayName when the trackedItemFriendlyName is not present', () => {
+        const evidenceSubmission = {
+          trackedItemId: 123,
+          trackedItemDisplayName: '21-4142/21-4142a',
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
+
+        expect(result).to.equal('21-4142/21-4142a');
+      });
+
+      it("should return 'unknown' when neither trackedItemFriendlyName nor trackedItemDisplayName are present", () => {
+        const evidenceSubmission = {
+          trackedItemId: 123,
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
+
+        expect(result).to.equal('unknown');
+      });
+    });
+
+    context('when the trackedItemId is not present', () => {
+      it('should return null', () => {
+        const evidenceSubmission = {
+          trackedItemFriendlyName: 'Authorization to Disclose Information',
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
+
+        expect(result).to.equal(null);
+      });
     });
   });
 });

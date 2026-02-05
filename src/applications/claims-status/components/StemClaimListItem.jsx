@@ -2,8 +2,10 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { Toggler } from '~/platform/utilities/feature-toggles';
-import { buildDateFormatter } from '../utils/helpers';
-import * as TrackedItem from '../utils/trackedItemContent';
+import {
+  buildDateFormatter,
+  getFailedSubmissionsWithinLast30Days,
+} from '../utils/helpers';
 import ClaimCard from './ClaimCard';
 import UploadType2ErrorAlertSlim from './UploadType2ErrorAlertSlim';
 
@@ -16,7 +18,7 @@ export default function StemClaimListItem({ claim }) {
   // Memoize failed submissions to prevent UploadType2ErrorAlertSlim from receiving
   // a new array reference on every render, which would break its useEffect tracking
   const failedSubmissionsWithinLast30Days = useMemo(
-    () => TrackedItem.getFailedSubmissionsWithinLast30Days(evidenceSubmissions),
+    () => getFailedSubmissionsWithinLast30Days(evidenceSubmissions),
     [evidenceSubmissions],
   );
 

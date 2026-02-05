@@ -20,8 +20,8 @@ import {
   isClaimOpen,
   setPageFocus,
   setTabDocumentTitle,
+  getFailedSubmissionsWithinLast30Days,
 } from '../utils/helpers';
-import * as TrackedItem from '../utils/trackedItemContent';
 import {
   setUpPage,
   isTab,
@@ -87,7 +87,7 @@ class FilesPage extends React.Component {
   getFailedSubmissionsMemoized(evidenceSubmissions) {
     if (this._cachedEvidenceSubmissions !== evidenceSubmissions) {
       this._cachedEvidenceSubmissions = evidenceSubmissions;
-      this._cachedFailedSubmissions = TrackedItem.getFailedSubmissionsWithinLast30Days(
+      this._cachedFailedSubmissions = getFailedSubmissionsWithinLast30Days(
         evidenceSubmissions,
       );
     }

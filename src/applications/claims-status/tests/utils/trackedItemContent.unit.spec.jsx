@@ -2,25 +2,23 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
 import {
+  formatDescription,
   getFilesNeeded,
   getFilesOptional,
-  getFailedSubmissionsWithinLast30Days,
-  truncateDescription,
-  formatDescription,
-  hasBeenReviewed,
-  itemsNeedingAttentionFromVet,
-  isAutomated5103Notice,
-  isStandard5103Notice,
-  setDocumentRequestPageTitle,
+  getIsDBQ,
+  getIsProperNoun,
+  getIsSensitive,
+  getNoActionNeeded,
+  getNoProvidePrefix,
   getTrackedItemDateFromStatus,
   getTrackedItemDisplayFromSupportingDocument,
-  getTrackedItemDisplayNameFromEvidenceSubmission,
   getTrackedItemProperty,
-  getIsSensitive,
-  getIsDBQ,
-  getNoActionNeeded,
-  getIsProperNoun,
-  getNoProvidePrefix,
+  hasBeenReviewed,
+  isAutomated5103Notice,
+  isStandard5103Notice,
+  itemsNeedingAttentionFromVet,
+  setDocumentRequestPageTitle,
+  truncateDescription,
 } from '../../utils/trackedItemContent';
 
 describe('Tracked Item Content helpers:', () => {
@@ -333,53 +331,6 @@ describe('Tracked Item Content helpers:', () => {
     });
   });
 
-  describe('getFailedSubmissionsWithinLast30Days', () => {
-    const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-
-    const createEvidenceSubmission = (options = {}) => ({
-      id: 1,
-      uploadStatus: 'FAILED',
-      acknowledgementDate: tomorrow,
-      ...options,
-    });
-
-    it('should return empty array when evidenceSubmissions is undefined', () => {
-      const result = getFailedSubmissionsWithinLast30Days(undefined);
-      expect(result).to.be.an('array');
-      expect(result.length).to.equal(0);
-    });
-
-    it('should return empty array when evidenceSubmissions is null', () => {
-      const result = getFailedSubmissionsWithinLast30Days(null);
-      expect(result).to.be.an('array');
-      expect(result.length).to.equal(0);
-    });
-
-    it('should return empty array when there are no failed submissions', () => {
-      const evidenceSubmissions = [
-        createEvidenceSubmission({ uploadStatus: 'SUCCESS' }),
-        createEvidenceSubmission({ id: 2, uploadStatus: 'PENDING' }),
-      ];
-      const result = getFailedSubmissionsWithinLast30Days(evidenceSubmissions);
-
-      expect(result.length).to.equal(0);
-    });
-
-    it('should only return failed submissions within the last 30 days', () => {
-      const evidenceSubmissions = [
-        createEvidenceSubmission({ id: 4 }),
-        createEvidenceSubmission({ id: 3, acknowledgementDate: yesterday }),
-        createEvidenceSubmission({ id: 5 }),
-      ];
-      const result = getFailedSubmissionsWithinLast30Days(evidenceSubmissions);
-
-      expect(result.length).to.equal(2);
-      expect(result[0].id).to.equal(4);
-      expect(result[1].id).to.equal(5);
-    });
-  });
-
   describe('itemsNeedingAttentionFromVet', () => {
     it('should return number of needed items from vet', () => {
       const itemsNeeded = itemsNeedingAttentionFromVet([
@@ -613,59 +564,6 @@ describe('Tracked Item Content helpers:', () => {
     });
   });
 
-  describe('getTrackedItemDisplayNameFromEvidenceSubmission', () => {
-    context('when the trackedItemId is present', () => {
-      it('should return the trackedItemFriendlyName when it is present', () => {
-        const evidenceSubmission = {
-          trackedItemId: 123,
-          trackedItemFriendlyName: 'Authorization to Disclose Information',
-          trackedItemDisplayName: '21-4142/21-4142a',
-        };
-        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
-          evidenceSubmission,
-        );
-
-        expect(result).to.equal('Authorization to Disclose Information');
-      });
-
-      it('should return the trackedItemDisplayName when the trackedItemFriendlyName is not present', () => {
-        const evidenceSubmission = {
-          trackedItemId: 123,
-          trackedItemDisplayName: '21-4142/21-4142a',
-        };
-        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
-          evidenceSubmission,
-        );
-
-        expect(result).to.equal('21-4142/21-4142a');
-      });
-
-      it("should return 'unknown' when neither trackedItemFriendlyName nor trackedItemDisplayName are present", () => {
-        const evidenceSubmission = {
-          trackedItemId: 123,
-        };
-        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
-          evidenceSubmission,
-        );
-
-        expect(result).to.equal('unknown');
-      });
-    });
-
-    context('when the trackedItemId is not present', () => {
-      it('should return null', () => {
-        const evidenceSubmission = {
-          trackedItemFriendlyName: 'Authorization to Disclose Information',
-        };
-        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
-          evidenceSubmission,
-        );
-
-        expect(result).to.equal(null);
-      });
-    });
-  });
-
   describe('getTrackedItemProperty', () => {
     context('when the API provides the property', () => {
       it('should return a boolean value', () => {
@@ -764,10 +662,22 @@ describe('Tracked Item Content helpers:', () => {
 
   describe('getIsDBQ', () => {
     context('when API provides isDBQ', () => {
-      it('should return a boolean value', () => {
+      it('should return true when isDBQ is true', () => {
         const item = { displayName: 'Test', isDBQ: true };
 
         expect(getIsDBQ(item)).to.be.true;
+      });
+
+      it('should return true when isDBQ is false and displayName contains dbq', () => {
+        const item = { displayName: 'DBQ Test Item', isDBQ: false };
+
+        expect(getIsDBQ(item)).to.be.true;
+      });
+
+      it('should return false when isDBQ is false and displayName does not contain dbq', () => {
+        const item = { displayName: 'Medical Records', isDBQ: false };
+
+        expect(getIsDBQ(item)).to.be.false;
       });
     });
 

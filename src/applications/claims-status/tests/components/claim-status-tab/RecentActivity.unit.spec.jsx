@@ -1714,8 +1714,8 @@ describe('<RecentActivity>', () => {
       getByText('We made a request outside the VA: “medical Records.”');
     });
 
-    it('should fall back to displayName check when API value is false and displayName contains dbq', () => {
-      const claimWithConflict = {
+    it('should return false when API value is false and displayName does not contain dbq', () => {
+      const claimWithApiFalseNoDbqName = {
         attributes: {
           claimDate: '2024-05-02',
           claimPhaseDates: {
@@ -1733,9 +1733,9 @@ describe('<RecentActivity>', () => {
               id: 1,
               requestedDate: '2024-05-12',
               status: 'NEEDED_FROM_OTHERS',
-              displayName: 'DBQ Test Item',
-              friendlyName: 'DBQ Test',
-              isDBQ: false, // API says false, but displayName contains 'dbq'
+              displayName: 'Medical Records Request', // No 'dbq' in name
+              friendlyName: 'Medical Records',
+              isDBQ: false, // API explicitly says false
             },
           ],
         },
@@ -1743,12 +1743,12 @@ describe('<RecentActivity>', () => {
 
       const { getByText } = renderWithRouter(
         <Provider store={getStore(false)}>
-          <RecentActivity claim={claimWithConflict} />
+          <RecentActivity claim={claimWithApiFalseNoDbqName} />
         </Provider>,
       );
 
-      // displayName check should be used as fallback
-      getByText(`We made a request: “dBQ Test.”`);
+      // Should show non-DBQ content (outside VA request)
+      getByText('We made a request outside the VA: “medical Records.”');
     });
   });
 });

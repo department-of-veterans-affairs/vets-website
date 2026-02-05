@@ -157,19 +157,19 @@ describe('<FilesOptional>', () => {
       getByText('We made a request outside VA on April 21, 2025');
     });
 
-    it('should fall back to displayName check when API value is false and displayName contains dbq', () => {
-      const itemWithConflict = {
-        displayName: 'DBQ Test Item',
+    it('should return false when API value is false and displayName does not contain dbq', () => {
+      const itemWithApiFalseNoDbqName = {
+        displayName: 'Medical Records Request', // No 'dbq' in name
         requestedDate: '2025-04-21',
-        isDBQ: false, // API says false, but displayName contains 'dbq'
+        isDBQ: false, // API explicitly says false
       };
       const { getByText } = renderWithRouter(
-        <FilesOptional item={itemWithConflict} />,
+        <FilesOptional item={itemWithApiFalseNoDbqName} />,
       );
 
-      // displayName check should be used as fallback
-      getByText('Request for an exam');
-      getByText('We made a request for an exam on April 21, 2025');
+      // Should show non-DBQ content (outside VA request)
+      getByText('Request for evidence outside VA');
+      getByText('We made a request outside VA on April 21, 2025');
     });
 
     it('should use dictionary value when displayName has dbq but is in dictionary', () => {

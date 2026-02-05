@@ -209,25 +209,6 @@ export const getFilesOptional = (trackedItems, useLighthouse = true) => {
 };
 
 /**
- * Filter evidence submissions for failed uploads within the last 30 days
- * acknowledgementDate is set to 30 days after the submission failed (backend logic)
- * @param {Array} evidenceSubmissions - Array of evidence submission objects
- * @returns {Array} Filtered array of failed submissions within last 30 days
- */
-export const getFailedSubmissionsWithinLast30Days = evidenceSubmissions => {
-  if (!evidenceSubmissions || !Array.isArray(evidenceSubmissions)) {
-    return [];
-  }
-
-  return evidenceSubmissions.filter(
-    submission =>
-      submission.uploadStatus === 'FAILED' &&
-      submission.acknowledgementDate &&
-      new Date().toISOString() <= submission.acknowledgementDate,
-  );
-};
-
-/**
  * @param {Array} items
  * @returns {number}
  */
@@ -388,23 +369,6 @@ export const setPageTitle = trackedItem => {
   } else {
     setDocumentTitle('Document Request');
   }
-};
-
-/**
- * Gets the display name for an evidence submission
- * Evidence submissions are documents that have not yet been successfully created in Lighthouse.
- * @param {Object} evidenceSubmission - Evidence submission object with trackedItemId
- * @returns {string|null} Tracked item friendly name, display name, 'unknown', or null if no trackedItemId
- */
-export const getTrackedItemDisplayNameFromEvidenceSubmission = evidenceSubmission => {
-  if (evidenceSubmission.trackedItemId) {
-    return (
-      evidenceSubmission.trackedItemFriendlyName ||
-      evidenceSubmission.trackedItemDisplayName ||
-      'unknown'
-    );
-  }
-  return null;
 };
 
 /**

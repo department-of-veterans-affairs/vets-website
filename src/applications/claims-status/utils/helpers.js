@@ -210,6 +210,25 @@ function isInEvidenceGathering(claim) {
   return false;
 }
 
+/**
+ * Filter evidence submissions for failed uploads within the last 30 days
+ * acknowledgementDate is set to 30 days after the submission failed (backend logic)
+ * @param {Array} evidenceSubmissions - Array of evidence submission objects
+ * @returns {Array} Filtered array of failed submissions within last 30 days
+ */
+export function getFailedSubmissionsWithinLast30Days(evidenceSubmissions) {
+  if (!evidenceSubmissions || !Array.isArray(evidenceSubmissions)) {
+    return [];
+  }
+
+  return evidenceSubmissions.filter(
+    submission =>
+      submission.uploadStatus === 'FAILED' &&
+      submission.acknowledgementDate &&
+      new Date().toISOString() <= submission.acknowledgementDate,
+  );
+}
+
 export function getItemDate(item) {
   // Tracked item that has been marked received.
   // status is either INITIAL_REVIEW_COMPLETE,
@@ -1388,4 +1407,21 @@ export const getUploadErrorMessage = (
       'There was an error uploading your files. Please try again',
     type: 'error',
   };
+};
+
+/**
+ * Gets the display name for an evidence submission
+ * Evidence submissions are documents that have not yet been successfully created in Lighthouse.
+ * @param {Object} evidenceSubmission - Evidence submission object with trackedItemId
+ * @returns {string|null} Tracked item friendly name, display name, 'unknown', or null if no trackedItemId
+ */
+export const getTrackedItemDisplayNameFromEvidenceSubmission = evidenceSubmission => {
+  if (evidenceSubmission.trackedItemId) {
+    return (
+      evidenceSubmission.trackedItemFriendlyName ||
+      evidenceSubmission.trackedItemDisplayName ||
+      'unknown'
+    );
+  }
+  return null;
 };
