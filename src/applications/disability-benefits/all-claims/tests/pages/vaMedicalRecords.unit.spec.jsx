@@ -854,4 +854,206 @@ describe('VA Medical Records', () => {
       });
     });
   });
+
+  describe('treatedDisabilityNames validation', () => {
+    it('should submit when treatedDisabilityNames contains a known rated disability', async () => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...claimType,
+            ratedDisabilities,
+            vaTreatmentFacilities: [
+              {
+                treatmentCenterName: 'Sommerset VA Clinic',
+                treatedDisabilityNames: {
+                  diabetesmelitus: true,
+                  intervertebraldiscsyndrome: true,
+                },
+                treatmentDateRange: {
+                  from: '2015-05-XX',
+                },
+                treatmentCenterAddress: {
+                  country: 'USA',
+                  city: 'Sommerset',
+                  state: 'VA',
+                },
+              },
+            ],
+            serviceInformation: {
+              servicePeriods: [
+                {
+                  dateRange: { from: '2012-01-12' },
+                  serviceBranch: 'Coast Guard',
+                },
+                {
+                  dateRange: { from: '2001-05-30' },
+                  serviceBranch: 'Coast Guard',
+                },
+              ],
+            },
+          }}
+          onSubmit={onSubmit}
+        />,
+      );
+
+      await waitFor(() => {
+        form.find('form').simulate('submit');
+        expect(form.find('.usa-input-error-message').length).to.equal(0);
+        expect(onSubmit.called).to.be.true;
+        form.unmount();
+      });
+    });
+
+    it('should not submit when treatedDisabilityNames is not a subset of the known disabilities', async () => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...claimType,
+            ratedDisabilities,
+            vaTreatmentFacilities: [
+              {
+                treatmentCenterName: 'Sommerset VA Clinic',
+                treatedDisabilityNames: {
+                  loremipsumdolor: true, // this does not map to any of the rated disabilities
+                },
+                treatmentDateRange: {
+                  from: '2015-05-XX',
+                },
+                treatmentCenterAddress: {
+                  country: 'USA',
+                  city: 'Sommerset',
+                  state: 'VA',
+                },
+              },
+            ],
+            serviceInformation: {
+              servicePeriods: [
+                {
+                  dateRange: { from: '2012-01-12' },
+                  serviceBranch: 'Coast Guard',
+                },
+                {
+                  dateRange: { from: '2001-05-30' },
+                  serviceBranch: 'Coast Guard',
+                },
+              ],
+            },
+          }}
+          onSubmit={onSubmit}
+        />,
+      );
+
+      await waitFor(() => {
+        form.find('form').simulate('submit');
+        expect(form.find('.usa-input-error-message').length).to.equal(1);
+        expect(onSubmit.called).to.be.false;
+        form.unmount();
+      });
+    });
+
+    it('should not submit when treatedDisabilityNames is empty', async () => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...claimType,
+            ratedDisabilities,
+            vaTreatmentFacilities: [
+              {
+                treatmentCenterName: 'Sommerset VA Clinic',
+                treatedDisabilityNames: {},
+                treatmentDateRange: {
+                  from: '2015-05-XX',
+                },
+                treatmentCenterAddress: {
+                  country: 'USA',
+                  city: 'Sommerset',
+                  state: 'VA',
+                },
+              },
+            ],
+            serviceInformation: {
+              servicePeriods: [
+                {
+                  dateRange: { from: '2012-01-12' },
+                  serviceBranch: 'Coast Guard',
+                },
+                {
+                  dateRange: { from: '2001-05-30' },
+                  serviceBranch: 'Coast Guard',
+                },
+              ],
+            },
+          }}
+          onSubmit={onSubmit}
+        />,
+      );
+
+      await waitFor(() => {
+        form.find('form').simulate('submit');
+        expect(form.find('.usa-input-error-message').length).to.equal(1);
+        expect(onSubmit.called).to.be.false;
+        form.unmount();
+      });
+    });
+
+    it('should not submit when treatedDisabilityNames is not present', async () => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...claimType,
+            ratedDisabilities,
+            vaTreatmentFacilities: [
+              {
+                treatmentCenterName: 'Sommerset VA Clinic',
+                treatmentDateRange: {
+                  from: '2015-05-XX',
+                },
+                treatmentCenterAddress: {
+                  country: 'USA',
+                  city: 'Sommerset',
+                  state: 'VA',
+                },
+              },
+            ],
+            serviceInformation: {
+              servicePeriods: [
+                {
+                  dateRange: { from: '2012-01-12' },
+                  serviceBranch: 'Coast Guard',
+                },
+                {
+                  dateRange: { from: '2001-05-30' },
+                  serviceBranch: 'Coast Guard',
+                },
+              ],
+            },
+          }}
+          onSubmit={onSubmit}
+        />,
+      );
+
+      await waitFor(() => {
+        form.find('form').simulate('submit');
+        expect(form.find('.usa-input-error-message').length).to.equal(1);
+        expect(onSubmit.called).to.be.false;
+        form.unmount();
+      });
+    });
+  });
 });
