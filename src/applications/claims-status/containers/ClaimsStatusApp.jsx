@@ -15,6 +15,7 @@ import environment from 'platform/utilities/environment';
 import { setLastPage } from '../actions';
 import ServiceUnavailableAlert from '../components/ServiceUnavailableAlert';
 import { isLoadingFeatures } from '../selectors';
+import { DemoModeProvider, DemoModeToggle } from '../demo';
 
 const AppLoadingIndicator = ({ id }) => (
   <div className="loading-indicator-full-page-container">
@@ -42,15 +43,18 @@ function AppContent({ featureFlagsLoading, isDataAvailable }) {
   }
 
   return (
-    <div className="claims-status-content">
-      {!canUseApp && (
-        <ServiceUnavailableAlert
-          services={['claims', 'appeals']}
-          headerLevel={1}
-        />
-      )}
-      {isAppReady && <Outlet />}
-    </div>
+    <DemoModeProvider>
+      <div className="claims-status-content">
+        <DemoModeToggle />
+        {!canUseApp && (
+          <ServiceUnavailableAlert
+            services={['claims', 'appeals']}
+            headerLevel={1}
+          />
+        )}
+        {isAppReady && <Outlet />}
+      </div>
+    </DemoModeProvider>
   );
 }
 

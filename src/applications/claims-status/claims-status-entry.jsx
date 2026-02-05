@@ -15,6 +15,8 @@ applyPolyfills().then(() => {
   defineCustomElements();
 });
 
+localStorage.setItem('hasSession', 'true');
+
 startApp({
   entryName: manifest.entryName,
   url: manifest.rootUrl,
