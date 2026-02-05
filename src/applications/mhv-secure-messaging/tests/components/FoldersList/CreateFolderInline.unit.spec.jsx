@@ -38,7 +38,7 @@ describe('CreateFolderInline component', () => {
   const setup = (props = {}) => {
     const defaultProps = {
       folders: folderList,
-      onConfirm: sandbox.stub(),
+      onConfirm: sandbox.stub().resolves(),
       onFolderCreated: sandbox.stub(),
     };
     return renderWithStoreAndRouter(

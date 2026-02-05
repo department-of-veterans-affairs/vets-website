@@ -83,7 +83,10 @@ export const clearFolder = () => async dispatch => {
   dispatch({ type: Actions.Folder.CLEAR });
 };
 
-export const newFolder = folderName => async dispatch => {
+export const newFolder = (
+  folderName,
+  suppressSuccessAlert = false,
+) => async dispatch => {
   try {
     const response = await createFolder(folderName);
 
@@ -93,13 +96,15 @@ export const newFolder = folderName => async dispatch => {
     });
     dispatch(getFolders());
 
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_SUCCESS,
-        '',
-        Constants.Alerts.Folder.CREATE_FOLDER_SUCCESS,
-      ),
-    );
+    if (!suppressSuccessAlert) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_SUCCESS,
+          '',
+          Constants.Alerts.Folder.CREATE_FOLDER_SUCCESS,
+        ),
+      );
+    }
     return response.data.attributes;
   } catch (e) {
     sendDatadogError(e, 'action_folders_newFolder');
