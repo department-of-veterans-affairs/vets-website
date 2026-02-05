@@ -1,6 +1,6 @@
 import React from 'react';
+import Footer from '~/platform/site-wide/representative/components/footer/Footer';
 import ErrorHeader from '../components/Error/ErrorHeader';
-import Footer from '../components/Footer';
 
 const ErrorPage = ({ children }) => {
   return (

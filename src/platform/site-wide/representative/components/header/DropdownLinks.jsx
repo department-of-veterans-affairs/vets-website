@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Toggler } from 'platform/utilities/feature-toggles';
+import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   NAV_MENU_DROPDOWN,
@@ -27,15 +27,15 @@ const DropdownLinks = ({ closeDropdown, category }) => {
         NAV_MOBILE_DROPDOWN.map((link, i) => {
           return (
             <li key={i}>
-              <Link
-                to={link.URL}
+              <a
+                href={link.URL}
                 onClick={handleClick}
                 className="vads-u-color--black"
                 data-testid={link.TEST_ID}
                 data-eventname="nav-link-click"
               >
                 {link.LABEL}
-              </Link>
+              </a>
             </li>
           );
         })}
@@ -58,15 +58,15 @@ const DropdownLinks = ({ closeDropdown, category }) => {
                       className="people-search-icon"
                     />
                   )}
-                  <Link
-                    to={link.URL}
+                  <a
+                    href={link.URL}
                     onClick={handleClick}
                     className="nav__mobile-menu-links"
                     data-testid={link.TEST_ID}
                     data-eventname="nav-link-click"
                   >
                     {link.LABEL}
-                  </Link>
+                  </a>
                 </li>
               </Toggler.Enabled>
             </Toggler>
@@ -86,29 +86,29 @@ const DropdownLinks = ({ closeDropdown, category }) => {
                   className="people-search-icon"
                 />
               )}
-              <Link
-                to={link.URL}
+              <a
+                href={link.URL}
                 onClick={handleClick}
                 className="nav__mobile-menu-links"
                 data-testid={link.TEST_ID}
                 data-eventname="nav-link-click"
               >
                 {link.LABEL}
-              </Link>
+              </a>
             </li>
           );
         })}
       {category === 'mobileDashboard' && (
         <li>
-          <Link
-            to="/help"
+          <a
+            href="/help"
             onClick={handleClick}
             className="nav__mobile-menu-links"
             data-testid="user-nav-help-link"
             data-eventname="nav-link-click"
           >
             Help
-          </Link>
+          </a>
         </li>
       )}
       {category === 'mobile' && (
@@ -129,3 +129,8 @@ const DropdownLinks = ({ closeDropdown, category }) => {
 };
 
 export default DropdownLinks;
+
+DropdownLinks.propTypes = {
+  category: PropTypes.string,
+  closeDropdown: PropTypes.func,
+};
