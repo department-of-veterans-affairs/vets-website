@@ -189,7 +189,7 @@ describe('<SaveInProgressIntro>', () => {
   });
 
   describe('when user is logged in with an active saved form', () => {
-    it('renders in progress message with last saved date', () => {
+    it('should render in progress message with last saved date', () => {
       const lastUpdated = 946684800;
       const user = withSavedForm({}, { metadata: { lastUpdated } });
       const { els } = subject({ user });
@@ -203,7 +203,7 @@ describe('<SaveInProgressIntro>', () => {
       );
     });
 
-    it('renders with custom heading level', () => {
+    it('should render with custom heading level', () => {
       const user = withSavedForm();
       const { container } = subject({ user, headingLevel: 3 });
       const heading = container.querySelector('va-alert h3');
@@ -211,7 +211,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(heading.textContent).to.include('Your application is in progress');
     });
 
-    it('renders form start controls', () => {
+    it('should render form start controls', () => {
       const user = withSavedForm();
       const { container } = subject({ user });
       expect(
@@ -221,14 +221,14 @@ describe('<SaveInProgressIntro>', () => {
       ).to.exist;
     });
 
-    it('uses custom continue message when provided', () => {
+    it('should use custom continue message when provided', () => {
       const user = withSavedForm();
       const continueMsg = <p>Custom continue message</p>;
       const { container } = subject({ user, continueMsg });
       expect(container.textContent).to.include('Custom continue message');
     });
 
-    it('renders custom app type text', () => {
+    it('should render custom app type text', () => {
       const user = withSavedForm();
       const formConfig = createFormConfig({ customText: { appType: 'claim' } });
       const { container } = subject({ user, formConfig });
@@ -237,7 +237,7 @@ describe('<SaveInProgressIntro>', () => {
   });
 
   describe('when user is logged in with an expired saved form', () => {
-    it('renders expired message', () => {
+    it('should render expired message', () => {
       const now = new Date('2025-01-15T12:00:00Z');
       const nowUnix = Math.floor(now.getTime() / 1000);
       const user = withSavedForm(
@@ -259,7 +259,7 @@ describe('<SaveInProgressIntro>', () => {
   });
 
   describe('when user is logged in without saved form but with prefill available', () => {
-    it('renders default prefill notification', () => {
+    it('should render default prefill notification', () => {
       const user = withPrefill();
       const { els } = subject({ user });
       expect(els.alert).to.exist;
@@ -269,7 +269,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(els.alert.textContent).to.include('Since you’re signed in');
     });
 
-    it('renders custom verified prefill alert when provided', () => {
+    it('should render custom verified prefill alert when provided', () => {
       const user = withPrefill();
       const verifiedPrefillAlert = (
         <div data-testid="custom-prefill">Custom prefill alert</div>
@@ -280,7 +280,7 @@ describe('<SaveInProgressIntro>', () => {
   });
 
   describe('when user is logged in without saved form and no prefill', () => {
-    it('renders save in progress message', () => {
+    it('should render save in progress message', () => {
       const user = loggedIn();
       const { els } = subject({ user });
       expect(els.alert).to.exist;
@@ -289,15 +289,15 @@ describe('<SaveInProgressIntro>', () => {
       );
     });
 
-    it('renders form start controls', () => {
+    it('should render form start controls', () => {
       const user = loggedIn();
       const { els } = subject({ user });
       expect(els.actionLink).to.exist;
     });
   });
 
-  describe('when user is not logged in with prefill enabled', () => {
-    it('renders signInOptional variant with start link', () => {
+  describe('when user is logged out with prefill enabled', () => {
+    it('should render signInOptional variant with start link', () => {
       const user = createUser();
       const { els } = subject({ user, prefillEnabled: true });
       expect(els.alertSignIn).to.exist;
@@ -314,7 +314,7 @@ describe('<SaveInProgressIntro>', () => {
       );
     });
 
-    it('calls toggleLoginModal when sign in button is clicked', async () => {
+    it('should call toggleLoginModal when sign in button is clicked', async () => {
       const user = createUser();
       const toggleLoginModal = sinon.spy();
       const { els } = subject({
@@ -326,7 +326,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(toggleLoginModal.calledOnce).to.be.true;
     });
 
-    it('uses custom retention period', () => {
+    it('should use custom retention period', () => {
       const user = createUser();
       const { container } = subject({
         user,
@@ -337,7 +337,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(alertSignIn.getAttribute('time-limit')).to.equal('1 year');
     });
 
-    it('renders custom unauthStartText', () => {
+    it('should render custom unauthStartText', () => {
       const user = createUser();
       const { els } = subject({
         user,
@@ -347,7 +347,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(els.button.getAttribute('text')).to.include('Custom sign in text');
     });
 
-    it('renders custom unverified prefill alert', () => {
+    it('should render custom unverified prefill alert', () => {
       const user = createUser();
       const unverifiedPrefillAlert = (
         <div data-testid="custom-unverified">Custom unverified alert</div>
@@ -361,8 +361,8 @@ describe('<SaveInProgressIntro>', () => {
     });
   });
 
-  describe('when user is not logged in with hideUnauthedStartLink', () => {
-    it('renders signInRequired variant without start link', () => {
+  describe('when user is logged out with hideUnauthedStartLink prop', () => {
+    it('should render signInRequired variant without start link', () => {
       const user = createUser();
       const { els } = subject({
         user,
@@ -377,7 +377,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(els.startLink).to.not.exist;
     });
 
-    it('passes requiresVerified to toggleLoginModal', async () => {
+    it('should pass requiresVerified to toggleLoginModal', async () => {
       const user = createUser();
       const toggleLoginModal = sinon.spy();
       const { els } = subject({
@@ -391,7 +391,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(toggleLoginModal.firstCall.args[2]).to.be.true;
     });
 
-    it('uses requiresVerifiedUser from formConfig', async () => {
+    it('should use requiresVerifiedUser from formConfig', async () => {
       const user = createUser();
       const toggleLoginModal = sinon.spy();
       const formConfig = createFormConfig({ requiresVerifiedUser: true });
@@ -406,8 +406,8 @@ describe('<SaveInProgressIntro>', () => {
     });
   });
 
-  describe('when user is not logged in without prefill enabled', () => {
-    it('renders signInOptionalNoPrefill variant', () => {
+  describe('when user is logged out without prefill enabled', () => {
+    it('should render signInOptionalNoPrefill variant', () => {
       const user = createUser();
       const { els } = subject({ user });
       expect(els.alertSignIn).to.exist;
@@ -416,7 +416,7 @@ describe('<SaveInProgressIntro>', () => {
       );
     });
 
-    it('renders sign in button with correct text', () => {
+    it('should render sign in button with correct text', () => {
       const user = createUser();
       const { els } = subject({ user });
       expect(els.button).to.exist;
@@ -425,7 +425,7 @@ describe('<SaveInProgressIntro>', () => {
       );
     });
 
-    it('applies aria-label and aria-describedby to button', () => {
+    it('should apply aria-label and aria-describedby to button', () => {
       const user = createUser();
       const { els } = subject({
         user,
@@ -435,7 +435,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(els.button.getAttribute('label')).to.equal('test-aria-label');
     });
 
-    it('applies aria-describedby to the unauth start link', () => {
+    it('should apply aria-describedby to the unauth start link', () => {
       const user = createUser();
       const { container } = subject({
         user,
@@ -450,8 +450,41 @@ describe('<SaveInProgressIntro>', () => {
     });
   });
 
+  describe('when user is logged out with prefill enabled and verifyRequiredPrefill is true', () => {
+    it('should render signInOptionalNoPrefill variant', () => {
+      const user = createUser();
+      const { els } = subject({
+        user,
+        prefillEnabled: true,
+        verifyRequiredPrefill: true,
+      });
+      expect(els.alertSignIn).to.exist;
+      expect(els.alertSignIn.getAttribute('variant')).to.equal(
+        'signInOptionalNoPrefill',
+      );
+      expect(els.button).to.exist;
+      expect(els.startLink).to.exist;
+    });
+
+    it('should render custom unverified prefill alert when provided', () => {
+      const user = createUser();
+      const unverifiedPrefillAlert = (
+        <div data-testid="custom-unverified-verify">
+          Custom unverified alert for verified prefill
+        </div>
+      );
+      const { getByTestId } = subject({
+        user,
+        prefillEnabled: true,
+        verifyRequiredPrefill: true,
+        unverifiedPrefillAlert,
+      });
+      expect(getByTestId('custom-unverified-verify')).to.exist;
+    });
+  });
+
   describe('when buttonOnly is true', () => {
-    it('renders only buttons without alert wrapper for unauthenticated users', () => {
+    it('should render only buttons without alert wrapper for unauthenticated users', () => {
       const user = createUser();
       const { els } = subject({
         user,
@@ -463,7 +496,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(els.startLink).to.exist;
     });
 
-    it('hides start link when hideUnauthedStartLink is true', () => {
+    it('should hide start link when hideUnauthedStartLink is true', () => {
       const user = createUser();
       const { els } = subject({
         user,
@@ -474,7 +507,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(els.startLink).to.not.exist;
     });
 
-    it('does not render alert for authenticated users', () => {
+    it('should not render alert for authenticated users', () => {
       const user = loggedIn();
       const { els } = subject({
         user,
@@ -486,7 +519,7 @@ describe('<SaveInProgressIntro>', () => {
   });
 
   describe('when startMessageOnly is true', () => {
-    it('renders only the alert message without controls', () => {
+    it('should render only the alert message without controls', () => {
       const user = createUser();
       const { els } = subject({
         user,
@@ -495,7 +528,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(els.alertSignIn).to.exist;
     });
 
-    it('does not return null when resumeOnly is true and saved form exists', () => {
+    it('should not return null when resumeOnly is true and saved form exists', () => {
       const user = withSavedForm();
       const { container } = subject({
         user,
@@ -507,7 +540,7 @@ describe('<SaveInProgressIntro>', () => {
   });
 
   describe('when resumeOnly is true', () => {
-    it('renders nothing when no saved form exists', () => {
+    it('should render nothing when no saved form exists', () => {
       const user = loggedIn();
       const { container } = subject({
         user,
@@ -516,7 +549,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(container.textContent).to.be.empty;
     });
 
-    it('renders saved form alert when saved form exists', () => {
+    it('should render saved form alert when saved form exists', () => {
       const user = withSavedForm();
       const { container } = subject({
         user,
@@ -529,7 +562,7 @@ describe('<SaveInProgressIntro>', () => {
   });
 
   describe('when profile is loading', () => {
-    it('renders loading indicator', () => {
+    it('should render loading indicator', () => {
       const user = createUser({
         profile: { loading: true },
       });
@@ -540,7 +573,7 @@ describe('<SaveInProgressIntro>', () => {
       );
     });
 
-    it('does not render loading indicator when resumeOnly is true', () => {
+    it('should not render loading indicator when resumeOnly is true', () => {
       const user = createUser({
         profile: { loading: true },
       });
@@ -552,8 +585,8 @@ describe('<SaveInProgressIntro>', () => {
     });
   });
 
-  describe('navigation and routing', () => {
-    it('triggers no-login-start-form event on start link click', async () => {
+  describe('when navigating and routing', () => {
+    it('should trigger no-login-start-form event on start link click', async () => {
       const user = createUser();
       const { els } = subject({
         user,
@@ -563,7 +596,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(els.startLink).to.exist;
     });
 
-    it('uses VaLink when useWebComponentForNavigation is true', () => {
+    it('should use VaLink when useWebComponentForNavigation is true', () => {
       const user = createUser();
       const router = { push: sinon.spy() };
       const formConfig = createFormConfig({
@@ -579,7 +612,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(vaLink).to.exist;
     });
 
-    it('navigates when VaLink is clicked', async () => {
+    it('should navigate when VaLink is clicked', async () => {
       const user = createUser();
       const router = { push: sinon.spy() };
       const formConfig = createFormConfig({
@@ -597,7 +630,7 @@ describe('<SaveInProgressIntro>', () => {
     });
   });
 
-  describe('custom link component', () => {
+  describe('when using custom link component', () => {
     /* eslint-disable react/prop-types, @department-of-veterans-affairs/prefer-button-component */
     const CustomLink = ({ children, onClick }) => (
       <button type="button" onClick={onClick} data-testid="custom-link">
@@ -606,7 +639,7 @@ describe('<SaveInProgressIntro>', () => {
     );
     /* eslint-enable react/prop-types, @department-of-veterans-affairs/prefer-button-component */
 
-    it('renders custom link when provided', () => {
+    it('should render custom link when provided', () => {
       const user = createUser();
       const { getByTestId } = subject({
         user,
@@ -620,7 +653,7 @@ describe('<SaveInProgressIntro>', () => {
       );
     });
 
-    it('calls toggleLoginModal when custom link is clicked', async () => {
+    it('should call toggleLoginModal when custom link is clicked', async () => {
       const user = createUser();
       const toggleLoginModal = sinon.spy();
       const { getByTestId } = subject({
@@ -634,8 +667,8 @@ describe('<SaveInProgressIntro>', () => {
     });
   });
 
-  describe('downtime notification', () => {
-    it('renders downtime notification when downtime exists and user is not logged in', () => {
+  describe('when displaying downtime notification', () => {
+    it('should render downtime notification when downtime exists and user is not logged in', () => {
       const user = createUser();
       const downtime = { dependencies: ['mvi'] };
       const { container } = subject({
@@ -645,7 +678,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(container.textContent).to.exist;
     });
 
-    it('does not render downtime notification when user is logged in', () => {
+    it('should not render downtime notification when user is logged in', () => {
       const user = loggedIn();
       const downtime = { dependencies: ['mvi'] };
       const { container } = subject({
@@ -656,7 +689,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(container.textContent).to.exist;
     });
 
-    it('renders downtime notification when requiredForPrefill and no saved form', () => {
+    it('should render downtime notification when requiredForPrefill and no saved form', () => {
       const user = createUser();
       const downtime = {
         dependencies: ['mvi'],
@@ -671,7 +704,7 @@ describe('<SaveInProgressIntro>', () => {
     });
   });
 
-  describe('getStartPage method', () => {
+  describe('when determining start page', () => {
     let getNextPagePathStub;
 
     beforeEach(() => {
@@ -684,7 +717,7 @@ describe('<SaveInProgressIntro>', () => {
       getNextPagePathStub.restore();
     });
 
-    it('skips pages with unmet depends conditions', () => {
+    it('should skip pages with unmet depends conditions', () => {
       const pageListWithDepends = [
         { path: '/introduction', pageKey: 'introduction' },
         {
@@ -705,7 +738,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(getNextPagePathStub.lastCall.args[1]).to.deep.equal(formData);
     });
 
-    it('includes pages with met depends conditions', () => {
+    it('should include pages with met depends conditions', () => {
       const pageListWithDepends = [
         { path: '/introduction', pageKey: 'introduction' },
         {
@@ -725,7 +758,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(container.textContent).to.exist;
     });
 
-    it('uses pathname parameter when provided', () => {
+    it('should use pathname parameter when provided', () => {
       const pageListWithDepends = [
         { path: '/introduction', pageKey: 'introduction' },
         { path: '/step-1', pageKey: 'step-1', depends: () => false },
@@ -742,7 +775,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(getNextPagePathStub.lastCall.args[2]).to.equal('/step-2');
     });
 
-    it('handles multiple consecutive conditional pages', () => {
+    it('should handle multiple consecutive conditional pages', () => {
       const pageListWithMultipleDepends = [
         { path: '/introduction', pageKey: 'introduction' },
         {
@@ -772,8 +805,8 @@ describe('<SaveInProgressIntro>', () => {
     });
   });
 
-  describe('edge cases and additional coverage', () => {
-    it('does not render inProgress message when message is empty', () => {
+  describe('when handling edge cases', () => {
+    it('should not render inProgress message when message is empty', () => {
       const user = withSavedForm();
       const formConfig = createFormConfig({
         messages: { inProgress: '' },
@@ -786,7 +819,7 @@ describe('<SaveInProgressIntro>', () => {
       );
     });
 
-    it('renders afterButtonContent when not in buttonOnly mode', () => {
+    it('should render afterButtonContent when not in buttonOnly mode', () => {
       const user = loggedIn();
       const afterButtonContent = (
         <div data-testid="after-button">After button content</div>
@@ -795,21 +828,21 @@ describe('<SaveInProgressIntro>', () => {
       expect(getByTestId('after-button')).to.exist;
     });
 
-    it('renders children when present in saved form alert', () => {
+    it('should render children when present in saved form alert', () => {
       const user = withSavedForm();
       const children = <div data-testid="custom-children">Custom children</div>;
       const { getByTestId } = subject({ user, children });
       expect(getByTestId('custom-children')).to.exist;
     });
 
-    it('handles lastSavedDate prop when provided', () => {
+    it('should handle lastSavedDate prop when provided', () => {
       const lastSavedDate = 946684800000;
       const user = withSavedForm();
       const { container } = subject({ user, lastSavedDate });
       expect(container.textContent).to.include('last saved on');
     });
 
-    it('uses default app type when not provided', () => {
+    it('should use default app type when not provided', () => {
       const user = loggedIn();
       const formConfig = createFormConfig({ customText: {} });
       const { container } = subject({ user, formConfig });
