@@ -23,6 +23,7 @@ import {
   capitalizeEachWord,
   getPageTitle,
   hasGuardOrReservePeriod,
+  hasMedicalRecords,
   hasNewPtsdDisability,
   hasOtherEvidence,
   hasPrivateEvidence,
@@ -32,6 +33,7 @@ import {
   isAnswering781aQuestions,
   isAnswering781Questions,
   isBDD,
+  isEvidenceEnhancement,
   isNewConditionsOn,
   isNewConditionsOff,
   isNotUploadingPrivateMedical,
@@ -68,6 +70,7 @@ import {
   choosePtsdType,
   claimExamsInfo,
   contactInformation,
+  evidenceRequest,
   evidenceTypes,
   evidenceTypesBDD,
   evidenceChoiceIntro,
@@ -76,6 +79,7 @@ import {
   fullyDevelopedClaim,
   homelessOrAtRisk,
   individualUnemployability,
+  medicalRecords,
   mentalHealthChanges,
   militaryHistory,
   newPTSDFollowUp,
@@ -83,6 +87,7 @@ import {
   physicalHealthChanges,
   prisonerOfWar,
   privateMedicalRecords,
+  privateMedicalRecordsUpload,
   privateMedicalRecordsAttachments,
   privateMedicalAuthorizeRelease,
   privateMedicalRecordsRelease,
@@ -610,9 +615,30 @@ const formConfig = {
         evidenceTypes: {
           title: 'Types of supporting evidence',
           path: 'supporting-evidence/evidence-types',
-          depends: formData => !isBDD(formData),
+          depends: formData =>
+            !isBDD(formData) && !isEvidenceEnhancement(formData),
+          updateFormData: evidenceTypes.updateFormData,
           uiSchema: evidenceTypes.uiSchema,
           schema: evidenceTypes.schema,
+        },
+        evidenceRequest: {
+          title: 'Medical records that support your disability claim',
+          path: 'supporting-evidence/evidence-request',
+          depends: formData =>
+            !isBDD(formData) && isEvidenceEnhancement(formData),
+          uiSchema: evidenceRequest.uiSchema,
+          schema: evidenceRequest.schema,
+        },
+        medicalRecords: {
+          title: 'Types of medical records',
+          path: 'supporting-evidence/medical-records',
+          depends: formData =>
+            !isBDD(formData) &&
+            isEvidenceEnhancement(formData) &&
+            hasMedicalRecords(formData),
+          updateFormData: medicalRecords.updateFormData,
+          uiSchema: medicalRecords.uiSchema,
+          schema: medicalRecords.schema,
         },
         evidenceTypesBDD: {
           title: 'Types of supporting evidence for BDD',
@@ -634,6 +660,19 @@ const formConfig = {
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
+        },
+        privateMedicalRecordsUpload: {
+          title: 'Upload non-VA treatment records',
+          // TODO: REPLACE this path with 'supporting-evidence/private-medical-records-upload' once we deprecate the old upload page
+          path:
+            'supporting-evidence/private-medical-records-upload-enhancement',
+          // TODO: Remove the `disability526SupportingEvidenceEnhancement` check once the feature is live to all users
+          depends: formData =>
+            formData.disability526SupportingEvidenceEnhancement &&
+            hasPrivateEvidence(formData) &&
+            !isNotUploadingPrivateMedical(formData),
+          uiSchema: privateMedicalRecordsUpload.uiSchema,
+          schema: privateMedicalRecordsUpload.schema,
         },
         privateMedicalRecordsAttachments: {
           title: 'Non-VA treatment records',

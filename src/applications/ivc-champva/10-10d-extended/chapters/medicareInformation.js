@@ -1,6 +1,5 @@
 import React from 'react';
 import { memoize } from 'lodash';
-import set from 'platform/utilities/data/set';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import {
   textUI,
@@ -64,9 +63,6 @@ const getIsUnder65 = (applicants, medicare, index) => {
   );
   return getAgeInYears(curApp?.applicantDob) < 65;
 };
-
-const getPlanKeys = isUnder65 =>
-  isUnder65 ? ['ab', 'c', 'a'] : ['ab', 'c', 'a', 'b'];
 
 // helpers to determine plan status values
 const hasPartsAB = ({ medicare }, index) =>
@@ -171,18 +167,6 @@ const medicarePlanTypes = {
       ...radioUI({
         title: 'Which Medicare plan does this applicant have?',
         labels: MEDICARE_TYPE_LABELS,
-        updateSchema: (
-          _formData,
-          schema,
-          _uiSchema,
-          index,
-          _fields,
-          { applicants, medicare } = {},
-        ) => {
-          const isUnder65 = getIsUnder65(applicants, medicare, index);
-          const keys = getPlanKeys(isUnder65);
-          return set('enum', keys, schema);
-        },
       }),
     },
   },
@@ -190,7 +174,7 @@ const medicarePlanTypes = {
     type: 'object',
     required: ['medicarePlanType'],
     properties: {
-      medicarePlanType: radioSchema([]),
+      medicarePlanType: radioSchema(Object.keys(MEDICARE_TYPE_LABELS)),
     },
   },
 };
@@ -413,26 +397,6 @@ const medicarePartCCarrierEffectiveDatePage = {
   },
 };
 
-const medicarePartCPharmacyBenefitsPage = {
-  uiSchema: {
-    ...medicarePageTitleUI('Medicare pharmacy benefits'),
-    hasPharmacyBenefits: {
-      ...yesNoUI({
-        title:
-          'Does the applicant’s Medicare Part C (Advantage Plan) provide pharmacy benefits?',
-        hint: 'This information is on the front of the card.',
-      }),
-    },
-  },
-  schema: {
-    type: 'object',
-    required: ['hasPharmacyBenefits'],
-    properties: {
-      hasPharmacyBenefits: yesNoSchema,
-    },
-  },
-};
-
 const medicarePartCCardUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
@@ -628,12 +592,6 @@ export const medicarePages = arrayBuilderPages(
       title: 'Medicare Part C carrier and effective date',
       depends: hasPartC,
       ...medicarePartCCarrierEffectiveDatePage,
-    }),
-    medicarePartCPharmacyBenefits: pageBuilder.itemPage({
-      path: 'medicare-part-c-pharmacy-benefits/:index',
-      title: 'Medicare Part C pharmacy benefits',
-      depends: hasPartC,
-      ...medicarePartCPharmacyBenefitsPage,
     }),
     medicarePartCCardUpload: pageBuilder.itemPage({
       path: 'medicare-part-c-card/:index',

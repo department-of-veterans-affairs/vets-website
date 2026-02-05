@@ -317,4 +317,34 @@ describe('DownloadFileType — AAL logging', () => {
   // `if (isGenerating) return;` in generateTxt, but the state change completes
   // too quickly to be observed in a unit test. The PDF test above verifies the
   // shared isGenerating mechanism works correctly.
+
+  it('does not show loading indicator initially', async () => {
+    const screen = renderWithFormat('pdf');
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('downloading-indicator')).to.not.exist;
+    });
+  });
+
+  it('shows loading indicator during PDF generation', async () => {
+    // Make makePdf return a promise that doesn't resolve immediately
+    // so we can observe the loading state
+    makePdfStub.returns(new Promise(() => {})); // Never resolves
+
+    const screen = renderWithFormat('pdf');
+    const btn = await screen.findByTestId('download-report-button');
+
+    // Loading indicator should not exist initially
+    expect(screen.queryByTestId('downloading-indicator')).to.not.exist;
+
+    // Click the button to start generation
+    await userEvent.click(btn);
+
+    // Loading indicator should now appear
+    await waitFor(() => {
+      const loadingIndicator = screen.queryByTestId('downloading-indicator');
+      expect(loadingIndicator).to.exist;
+      expect(loadingIndicator).to.have.attr('message', 'Downloading report...');
+    });
+  });
 });

@@ -31,6 +31,7 @@ const ServiceType = ({
   if (facilityType === LocationType.HEALTH && vamcAutoSuggestEnabled) {
     return (
       <VAMCServiceAutosuggest
+        isMobile={isMobile}
         onChange={onChange}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}

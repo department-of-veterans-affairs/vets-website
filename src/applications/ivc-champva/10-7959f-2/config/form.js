@@ -1,7 +1,7 @@
 import { cloneDeep, merge } from 'lodash';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import {
   ssnUI,
   ssnSchema,
@@ -19,28 +19,19 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-import {
-  fileInputMultipleUI,
-  fileInputMultipleSchema,
-} from '../../shared/components/fileInputPattern';
-
 import transformForSubmit from './submitTransformer';
 import prefillTransformer from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import GetFormHelp from '../../shared/components/GetFormHelp';
+import FormFooter from '../components/FormFooter';
 import {
   validAddressCharsOnly,
   validObjectCharsOnly,
 } from '../../shared/validations';
 import paymentSelection from '../chapters/payments/paymentSelection';
-import {
-  UploadDocumentsVeteran,
-  UploadDocumentsProvider,
-} from '../components/UploadDocuments';
+import supportingDocs from '../chapters/documents/supportingDocs';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
@@ -54,9 +45,7 @@ const formConfig = {
   transformForSubmit,
   prefillTransformer,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
-  footerContent: GetFormHelp,
-  // submit: () =>
-  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  footerContent: FormFooter,
   trackingPrefix: 'fmp-cover-sheet-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -101,6 +90,24 @@ const formConfig = {
   },
   title: 'File a Foreign Medical Program (FMP) claim',
   subTitle: 'FMP Claim Cover Sheet (VA Form 10-7959f-2)',
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      {
+        href: '/health-care',
+        label: 'Health care',
+      },
+      {
+        href: '/health-care/foreign-medical-program',
+        label: 'Foreign Medical Program',
+      },
+      {
+        href: '#content',
+        label: 'File a Foreign Medical Program (FMP) claim',
+      },
+    ],
+    homeVeteransAffairs: true,
+    wrapping: true,
+  }),
   defaultDefinitions: {},
   chapters: {
     veteranInfoChapter: {
@@ -278,73 +285,19 @@ const formConfig = {
       },
     },
     fileUpload: {
-      title: 'Supporting files',
+      title: 'Supporting documents',
       pages: {
         page7: {
-          path: 'upload-supporting-documents',
-          title: 'Veteran payment docs',
+          path: 'veteran-payment-documents',
+          title: 'Veteran payment documents',
           depends: formData => formData.sendPayment === 'Veteran',
-          uiSchema: {
-            ...titleUI('Upload billing statements and supporting documents'),
-            'view:UploadDocuments': {
-              'ui:description': UploadDocumentsVeteran,
-            },
-            uploadSectionVeteran: {
-              ...fileInputMultipleUI({
-                errorMessages: { required: 'This document is required.' },
-                name: 'veteran-payment',
-                fileUploadUrl: `${
-                  environment.API_URL
-                }/ivc_champva/v1/forms/submit_supporting_documents`,
-                title: 'Upload supporting document',
-                formNumber: '10-7959F-2',
-              }),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['uploadSectionVeteran'],
-            properties: {
-              'view:UploadDocuments': {
-                type: 'object',
-                properties: {},
-              },
-              uploadSectionVeteran: fileInputMultipleSchema,
-            },
-          },
+          ...supportingDocs('veteran'),
         },
         page8: {
-          path: 'upload-supporting-documents-provider',
-          title: 'Provider payment docs',
+          path: 'provider-payment-documents',
+          title: 'Provider payment documents',
           depends: formData => formData.sendPayment === 'Provider',
-          uiSchema: {
-            ...titleUI('Upload billing statements and supporting documents'),
-            'view:UploadDocuments': {
-              'ui:description': UploadDocumentsProvider,
-            },
-            uploadSectionProvider: {
-              ...fileInputMultipleUI({
-                errorMessages: { required: 'This document is required.' },
-                name: 'provider-payment',
-                fileUploadUrl: `${
-                  environment.API_URL
-                }/ivc_champva/v1/forms/submit_supporting_documents`,
-                title: 'Upload supporting document',
-                formNumber: '10-7959F-2',
-              }),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['uploadSectionProvider'],
-            properties: {
-              'view:UploadDocuments': {
-                type: 'object',
-                properties: {},
-              },
-              uploadSectionProvider: fileInputMultipleSchema,
-            },
-          },
+          ...supportingDocs('provider'),
         },
       },
     },

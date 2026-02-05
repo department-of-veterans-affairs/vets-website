@@ -15,6 +15,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsCcdExtendedFileTypes = true,
     mhvMedicalRecordsCcdOH = true,
     mhvMedicalRecordsHoldTimeMessagingUpdate = true,
+    mhvMedicalRecordsImagesDomain = true,
     mhvMedicalRecordsMergeCvixIntoScdf = false,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
@@ -33,6 +34,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvSecureMessagingLargeAttachments = true,
     mhvSecureMessagingCuratedListFlow = true,
     mhvSecureMessagingRecentRecipients = true,
+    mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag = false,
   } = toggles;
 
   return {
@@ -126,6 +128,10 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicalRecordsHoldTimeMessagingUpdate,
         },
         {
+          name: 'mhv_medical_records_images_domain',
+          value: mhvMedicalRecordsImagesDomain,
+        },
+        {
           name: 'mhv_medical_records_merge_cvix_into_scdf',
           value: mhvMedicalRecordsMergeCvixIntoScdf,
         },
@@ -162,6 +168,11 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhvSecureMessagingRecentRecipients',
           value: mhvSecureMessagingRecentRecipients,
+        },
+        {
+          name:
+            'mhv_secure_messaging_cerner_pilot_system_maintenance_banner_flag',
+          value: mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
         },
       ],
     },
