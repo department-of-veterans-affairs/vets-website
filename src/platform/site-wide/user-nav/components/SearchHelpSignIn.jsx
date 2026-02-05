@@ -109,6 +109,7 @@ class SearchHelpSignIn extends Component {
           className="sign-in-link"
           text="Sign in"
           onClick={this.handleSignInSignUp}
+          disable-analytics
         />
       </div>
     );
