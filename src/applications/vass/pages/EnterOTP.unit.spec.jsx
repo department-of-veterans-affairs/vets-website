@@ -13,6 +13,7 @@ import {
 
 import EnterOTP from './EnterOTP';
 import { getDefaultRenderOptions, LocationDisplay } from '../utils/test-utils';
+import { otcSuccess } from '../tests/fixtures';
 import { FLOW_TYPES, URLS } from '../utils/constants';
 import {
   createOTPInvalidError,
@@ -231,13 +232,7 @@ describe('VASS Component: EnterOTP', () => {
 
   describe('successful otp verification', () => {
     it('should navigate to date-time page on successful verification', async () => {
-      setFetchJSONResponse(global.fetch.onCall(0), {
-        data: {
-          token: 'jwt-token',
-          expiresIn: 3600,
-          tokenType: 'Bearer',
-        },
-      });
+      setFetchJSONResponse(global.fetch.onCall(0), otcSuccess());
 
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
@@ -283,13 +278,7 @@ describe('VASS Component: EnterOTP', () => {
     });
 
     it('should navigate to cancel appointment page on successful verification', async () => {
-      setFetchJSONResponse(global.fetch.onCall(0), {
-        data: {
-          token: 'jwt-token',
-          expiresIn: 3600,
-          tokenType: 'Bearer',
-        },
-      });
+      setFetchJSONResponse(global.fetch.onCall(0), otcSuccess());
 
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
