@@ -37,7 +37,7 @@ export function loginHandler(loginType, isOAuth, oktaParams = {}) {
 export default function LoginButton({
   csp,
   onClick = loginHandler,
-  useOAuth = false,
+  useOAuth = true,
   ariaDescribedBy,
   actionLocation,
   queryParams = {},

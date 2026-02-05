@@ -6,7 +6,11 @@ import {
   sendDataDogAction,
 } from '../../util/helpers';
 
-export default function JobsCompleteAlert({ records, studyJobs }) {
+export default function JobsCompleteAlert({
+  records,
+  studyJobs,
+  basePath = '/labs-and-tests',
+}) {
   const endDate = formatDateAndTimeWithGenericZone(
     new Date(studyJobs[0].endDate + 3 * 24 * 60 * 60 * 1000), // Add 3 days
   );
@@ -25,7 +29,7 @@ export default function JobsCompleteAlert({ records, studyJobs }) {
         </p>
         <p className="vads-u-margin-bottom--0">
           <Link
-            to={`/labs-and-tests/${records[0].id}/images`}
+            to={`${basePath}/${records[0].id}/images`}
             data-testid="radiology-view-all-images"
             onClick={() => {
               sendDataDogAction('View all images');
@@ -54,7 +58,7 @@ export default function JobsCompleteAlert({ records, studyJobs }) {
           return (
             <li key={record.id} className={liClass}>
               <Link
-                to={`/labs-and-tests/${record.id}/images`}
+                to={`${basePath}/${record.id}/images`}
                 data-testid="radiology-view-all-images"
                 onClick={() => {
                   sendDataDogAction('View all images');
@@ -72,6 +76,7 @@ export default function JobsCompleteAlert({ records, studyJobs }) {
 }
 
 JobsCompleteAlert.propTypes = {
+  basePath: PropTypes.string,
   records: PropTypes.array,
   studyJobs: PropTypes.array,
 };

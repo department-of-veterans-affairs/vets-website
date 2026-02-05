@@ -21,6 +21,7 @@
 /**
  * @typedef {Object} FormConfig
  * @property {Array<Object>} [additionalRoutes]
+ * @property {boolean} [allowDuplicatePaths]
  * @property {string} [ariaDescribedBySubmit]
  * @property {string} [backLinkText]
  * @property {Record<string, FormConfigChapter>} [chapters]

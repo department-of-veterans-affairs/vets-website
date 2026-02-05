@@ -5,13 +5,13 @@
         "sign_in": {
           "service_name": "idme"
         },
-        "email": "john.doe@example.com",
+        "email": "rita.jackson@example.com",
         "loa": { "current": 3 },
-        "first_name": "John",
-        "middle_name": "",
-        "last_name": "Doe",
-        "gender": "M",
-        "birth_date": "1985-01-01",
+        "first_name": "Rita",
+        "middle_name": "Ann",
+        "last_name": "Jackson",
+        "gender": "F",
+        "birth_date": "1958-04-07",
         "verified": true
       },
       "veteran_status": {
@@ -20,11 +20,13 @@
         "served_in_military": true
       },
       "in_progress_forms": [],
-      "prefills_available": [],
+      "prefills_available": ["22-10272"],
       "services": [
         "facilities",
         "hca",
         "edu-benefits",
+        "form-save-in-progress",
+        "form-prefill",
         "evss-claims",
         "form526",
         "user-profile",
@@ -34,10 +36,10 @@
       ],
       "va_profile": {
         "status": "OK",
-        "birth_date": "19850101",
-        "family_name": "Doe",
-        "gender": "M",
-        "given_names": ["John", ""],
+        "birth_date": "19580407",
+        "family_name": "Jackson",
+        "gender": "F",
+        "given_names": ["Rita", ""],
         "active_status": "active",
         "facilities": [
           {
@@ -49,6 +51,75 @@
             "is_cerner": false
           }
         ]
+      },
+      "vet360ContactInformation": {
+        "mailingAddress": {
+          "addressLine1": "123 Charlesgate Rd",
+          "addressLine2": null,
+          "addressLine3": null,
+          "addressPou": "CORRESPONDENCE",
+          "addressType": "DOMESTIC",
+          "city": "Providence",
+          "countryName": "United States",
+          "countryCodeIso2": "US",
+          "countryCodeIso3": "USA",
+          "countryCodeFips": null,
+          "countyCode": null,
+          "countyName": null,
+          "createdAt": "2022-03-21T21:06:15.000Z",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2022-03-23T19:14:59.000Z",
+          "geocodeDate": "2022-03-23T19:15:00.000Z",
+          "geocodePrecision": null,
+          "id": 311999,
+          "internationalPostalCode": null,
+          "latitude": 45.2248,
+          "longitude": -121.3595,
+          "province": null,
+          "sourceDate": "2022-03-23T19:14:59.000Z",
+          "sourceSystemUser": null,
+          "stateCode": "RI",
+          "transactionId": "3ea3ecf8-3ddf-46d9-8a4b-b5554385b3fb",
+          "updatedAt": "2022-03-23T19:15:01.000Z",
+          "validationKey": null,
+          "vet360Id": "1273766",
+          "zipCode": "02903",
+          "zipCodeSuffix": null,
+          "badAddress": null
+        },
+        "email": {
+          "createdAt": "2018-04-20T17:24:13.000Z",
+          "emailAddress": "rita.jackson@example.com",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2019-03-07T22:32:40.000Z",
+          "id": 20648,
+          "sourceDate": "2019-03-07T22:32:40.000Z",
+          "sourceSystemUser": null,
+          "transactionId": "44a0858b-3dd1-4de2-903d-38b147981a9c",
+          "updatedAt": "2019-03-08T05:09:58.000Z",
+          "vet360Id": "1273766"
+        },
+        "homePhone": {
+          "areaCode": "415",
+          "countryCode": "1",
+          "createdAt": "2018-04-20T17:22:56.000Z",
+          "extension": null,
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2022-03-11T16:31:55.000Z",
+          "id": 2272982,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "5552852",
+          "phoneType": "HOME",
+          "sourceDate": "2022-03-11T16:31:55.000Z",
+          "sourceSystemUser": null,
+          "transactionId": "2814cdf6-7f2c-431b-95f3-d37f3837215d",
+          "updatedAt": "2022-03-11T16:31:56.000Z",
+          "vet360Id": "1273766"
+        }
       }
     }
   },

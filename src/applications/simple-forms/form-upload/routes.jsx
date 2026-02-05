@@ -44,6 +44,15 @@ const routes = formUploadForms.map(formId => {
     childRoutes: createRoutesWithSaveInProgress(config),
   };
 });
+
+routes.push({
+  path: '/',
+  onEnter: () => {
+    if (!window.Cypress) {
+      window.location.replace('/forms');
+    }
+  },
+});
 // or dynamic
 // {
 //   path: '/:formId',

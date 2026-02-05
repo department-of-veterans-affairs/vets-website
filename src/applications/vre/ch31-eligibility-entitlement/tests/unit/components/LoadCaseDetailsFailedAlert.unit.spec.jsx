@@ -36,7 +36,6 @@ describe('LoadCaseDetailsFailedAlert', () => {
 
     const wrapper = container.querySelector('div');
     expect(wrapper).to.exist;
-    expect(wrapper.classList.contains('usa-width-two-thirds')).to.be.true;
     expect(wrapper.classList.contains('vads-u-margin-y--3')).to.be.true;
   });
 });

@@ -18,7 +18,7 @@ const DocumentUpload = ({
           /, ([^,]*)$/,
           ', or $1',
         )} file. Your file should be no larger than 5MB.`}
-        label="Select a file to upload"
+        label="Upload your proof of the expense"
         maxFileSize={5200000}
         minFileSize={0}
         name="travel-pay-claim-document-upload"

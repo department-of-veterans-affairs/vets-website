@@ -44,7 +44,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       </div>
 
       <div className="vads-u-margin-bottom--5">
-        <h2>What You Need to Get Started Section</h2>
+        <h2>What You Need to Get Started</h2>
 
         <ul>
           <li>

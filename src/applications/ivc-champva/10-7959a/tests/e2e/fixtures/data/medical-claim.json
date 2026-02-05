@@ -1,0 +1,65 @@
+{
+  "description": "New medical claim with applicant as sponsor",
+  "data": {
+    "certifierRole": "sponsor",
+    "certifierReceivedPacket": true,
+    "claimStatus": "new",
+    "sponsorName": {
+      "first": "Sponsor",
+      "last": "Jones"
+    },
+    "sponsorAddress": {
+      "country": "USA",
+      "street": "123 Cert St",
+      "city": "Certland",
+      "state": "MD",
+      "postalCode": "12312"
+    },
+    "sponsorPhone": "5554443333",
+    "sponsorEmail": "cert@email.gov",
+    "applicantName": {
+      "first": "Jim",
+      "last": "Jones"
+    },
+    "applicantDob": "2000-10-25",
+    "applicantMemberNumber": "222111123",
+    "view:sharesAddressWith": "na",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "123 Bene Street",
+      "city": "Citytown",
+      "state": "MD",
+      "postalCode": "12345"
+    },
+    "applicantNewAddress": "no",
+    "applicantPhone": "1231231234",
+    "hasOhi": true,
+    "view:hasPolicies": true,
+    "policies": [
+      {
+        "type": "group",
+        "name": "BCBS"
+      }
+    ],
+    "claimType": "medical",
+    "claimIsAutoRelated": true,
+    "claimIsWorkRelated": true,
+    "medicalUpload": [
+      {
+        "name": "sample.png",
+        "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b63",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "primaryEob": [
+      {
+        "name": "sample.png",
+        "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b63",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "statementOfTruthSignature": "Sponsor Jones"
+  }
+}

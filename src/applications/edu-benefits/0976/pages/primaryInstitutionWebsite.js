@@ -24,7 +24,10 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      website: textSchema,
+      website: {
+        ...textSchema,
+        maxLength: 300,
+      },
     },
     required: ['website'],
   },

@@ -28,13 +28,13 @@ const uiSchema = {
         required: `Enter the academic year, such as ${getAcademicYearDisplay()}`,
       },
     }),
-    'ui:required': (formData, index) =>
-      index === 0 && formData?.agreementType !== 'startNewOpenEndedAgreement',
+    'ui:required': (formData, index, fullData) =>
+      index === 0 && fullData?.agreementType !== 'startNewOpenEndedAgreement',
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 eligible-individuals-note container',
       useAllFormData: true,
-      hideIf: (formData, index) =>
-        index !== 0 || formData?.agreementType === 'startNewOpenEndedAgreement',
+      hideIf: (formData, index, fullData) =>
+        index !== 0 || fullData?.agreementType === 'startNewOpenEndedAgreement',
     },
     'ui:validations': [
       (errors, fieldData, formData) => {
@@ -65,8 +65,8 @@ const uiSchema = {
     'ui:widget': 'text',
     'ui:readonly': true,
     'ui:options': {
-      hideIf: (formData, index) =>
-        index !== 0 || formData?.agreementType !== 'startNewOpenEndedAgreement',
+      hideIf: (formData, index, fullData) =>
+        index !== 0 || fullData?.agreementType !== 'startNewOpenEndedAgreement',
       classNames: 'eligible-individuals-note',
     },
   },

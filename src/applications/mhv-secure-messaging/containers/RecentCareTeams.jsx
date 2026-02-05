@@ -172,6 +172,7 @@ const RecentCareTeams = () => {
           recipientName: recipient?.name,
           careSystemVhaId: recipient?.stationNumber,
           ohTriageGroup: recipient?.ohTriageGroup,
+          stationNumber: recipient?.stationNumber,
         }),
       );
       setError(null); // Clear error on selection

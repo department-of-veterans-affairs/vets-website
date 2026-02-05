@@ -77,6 +77,26 @@ describe('Specify Other Exposures', () => {
     );
   });
 
+  describe('reviewTitle', () => {
+    it('returns only the user-entered description when on confirmation', () => {
+      const {
+        reviewTitle,
+      } = formConfig.chapters.disabilities.pages.specifyOtherExposures;
+      expect(reviewTitle({ formData, onReviewPage: false })).to.equal(
+        'Test Substance',
+      );
+    });
+
+    it('returns full "Hazard # of #: description" when on review page', () => {
+      const {
+        reviewTitle,
+      } = formConfig.chapters.disabilities.pages.specifyOtherExposures;
+      expect(reviewTitle({ formData })).to.equal(
+        'Hazard 3 of 3: Test Substance',
+      );
+    });
+  });
+
   it('should submit without dates (dates are optional)', () => {
     const dataNoDates = JSON.parse(JSON.stringify(formData));
     dataNoDates.toxicExposure.specifyOtherExposures.startDate = undefined;

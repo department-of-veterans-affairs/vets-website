@@ -1,7 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { showVHAPaymentHistory } from '../../combined/utils/helpers';
 
 const StatementAddresses = ({ copay }) => {
+  const shouldShowVHAPaymentHistory = useSelector(state =>
+    showVHAPaymentHistory(state),
+  );
+
+  const normalizeVHACopay = () => ({
+    facility: copay.attributes.facility.name,
+    statementAddress1: copay.attributes.facility.addressLine1,
+    statementAddress2: copay.attributes.facility.addressLine2,
+    statementAddress3: copay.attributes.facility.addressLine3,
+    statementCity: copay.attributes.city,
+    statementZip: copay.attributes.facility.postalCode,
+    statementState: copay.attributes.state,
+    recipientAddress1: copay.attributes.recipientAddress1,
+    recipientAddress2: copay.attributes.recipientAddress2,
+    recipientAddress3: copay.attributes.recipientAddress3,
+    recipientCity: copay.attributes.recipientCity,
+    recipientZip: copay.attributes.recipientZip,
+    recipientState: copay.attributes.recipientState,
+  });
+
+  const normalizeStandardCopay = () => ({
+    facility: copay.station.facilityName,
+    statementAddress1: copay.station.staTAddress1,
+    statementAddress2: copay.station.staTAddress2,
+    statementAddress3: copay.station.staTAddress3,
+    statementCity: copay.station.city,
+    statementZip: copay.station.ziPCde,
+    statementState: copay.station.state,
+    recipientAddress1: copay.station.recipientAddress1,
+    recipientAddress2: copay.station.recipientAddress2,
+    recipientAddress3: copay.station.recipientAddress3,
+    recipientCity: copay.pHCity,
+    recipientZip: copay.pHZipCde,
+    recipientState: copay.pHState,
+  });
+
+  const normalizedCopay = shouldShowVHAPaymentHistory
+    ? normalizeVHACopay()
+    : normalizeStandardCopay();
+
   return (
     <section>
       <h2 data-testid="statement-address-head" id="statement-addresses">
@@ -12,31 +54,32 @@ const StatementAddresses = ({ copay }) => {
       </h3>
       <p className="va-address-block vads-u-margin-left--0">
         <span data-testid="sender-facility-name">
-          {copay.station.facilityName}
+          {normalizedCopay.facility}
         </span>
         <br aria-hidden="true" />
         <span data-testid="sender-address-one">
-          {copay.station.staTAddress1}
+          {normalizedCopay.statementAddress1}
         </span>
         <br aria-hidden="true" />
-        {copay.station.staTAddress2 && (
+        {normalizedCopay.statementAddress2 && (
           <>
             <span data-testid="sender-address-two">
-              {copay.station.staTAddress2}
+              {normalizedCopay.statementAddress2}
             </span>
             <br aria-hidden="true" />
           </>
         )}
-        {copay.station.staTAddress3 && (
+        {normalizedCopay.statementAddress3 && (
           <>
             <span data-testid="sender-address-three">
-              {copay.station.staTAddress3 ? copay.station.staTAddress3 : ''}
+              {normalizedCopay.statementAddress3}
             </span>
             <br aria-hidden="true" />
           </>
         )}
         <span data-testid="sender-city-state-zip">
-          {copay.station.city}, {copay.station.state} {copay.station.ziPCde}
+          {normalizedCopay.statementCity}, {normalizedCopay.statementState}{' '}
+          {normalizedCopay.statementZip}
         </span>
       </p>
 
@@ -44,24 +87,29 @@ const StatementAddresses = ({ copay }) => {
         Recipient Address
       </h3>
       <p className="va-address-block vads-u-margin-left--0">
-        <span data-testid="recipient-address-one">{copay.pHAddress1}</span>
+        <span data-testid="recipient-address-one">
+          {normalizedCopay.recipientAddress1}
+        </span>
         <br aria-hidden="true" />
-        {copay.pHAddress2 && (
+        {normalizedCopay.recipientAddress2 && (
           <>
-            <span data-testid="recipient-address-two">{copay.pHAddress2}</span>
+            <span data-testid="recipient-address-two">
+              {normalizedCopay.recipientAddress2}
+            </span>
             <br aria-hidden="true" />
           </>
         )}
-        {copay.pHAddress3 && (
+        {normalizedCopay.recipientAddress3 && (
           <>
             <span data-testid="recipient-address-three">
-              {copay.pHAddress3}
+              {normalizedCopay.recipientAddress3}
             </span>
             <br aria-hidden="true" />
           </>
         )}
         <span data-testid="recipient-city-state-zip">
-          {copay.pHCity}, {copay.pHState} {copay.pHZipCde}
+          {normalizedCopay.recipientCity}, {normalizedCopay.recipientState}{' '}
+          {normalizedCopay.recipientZip}
         </span>
       </p>
       <p>

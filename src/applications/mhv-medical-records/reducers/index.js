@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import { breadcrumbsReducer } from './breadcrumbs';
 import { conditionReducer } from './conditions';
 import { labsAndTestsReducer } from './labsAndTests';
+import { radiologyReducer } from './radiology';
 import { careSummariesAndNotesReducer } from './careSummariesAndNotes';
 import { vaccineReducer } from './vaccines';
 import { vitalReducer } from './vitals';
@@ -21,6 +22,7 @@ const rootReducer = {
     breadcrumbs: breadcrumbsReducer,
     downloads: downloadsReducer,
     labsAndTests: labsAndTestsReducer,
+    radiology: radiologyReducer,
     careSummariesAndNotes: careSummariesAndNotesReducer,
     vaccines: vaccineReducer,
     vitals: vitalReducer,

@@ -201,6 +201,7 @@ const RecipientsSelect = ({
           recipientName: recipient.name,
           recipientId: recipient.id,
           ohTriageGroup: recipient.ohTriageGroup,
+          stationNumber: recipient.stationNumber,
         }),
       );
 
@@ -221,12 +222,14 @@ const RecipientsSelect = ({
       }
     },
     [
+      mhvSecureMessagingCuratedListFlow,
+      recentRecipients,
       recipientsList,
-      dispatch,
       selectedRecipient,
+      onValueChange,
       handleSetCheckboxMarked,
       handleSetElectronicSignature,
-      onValueChange,
+      dispatch,
     ],
   );
 

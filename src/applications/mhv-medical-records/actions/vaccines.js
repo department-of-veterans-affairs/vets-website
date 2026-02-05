@@ -12,8 +12,6 @@ import { getListWithRetry } from './common';
 
 export const getVaccinesList = (
   isCurrent = false,
-  page,
-  useBackendPagination = false,
   isAccelerating = false,
 ) => async dispatch => {
   dispatch({
@@ -32,23 +30,10 @@ export const getVaccinesList = (
         : Actions.Vaccines.GET_LIST,
       response,
       isCurrent,
-      useBackendPagination,
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     sendDatadogError(error, 'actions_vaccines_getVaccinesList');
-  }
-};
-
-export const checkForVaccineUpdates = () => async dispatch => {
-  try {
-    // We don't need to use getListWithRetry here. By the time we are checking for list updates,
-    // the list will already be loaded, by definition.
-    const response = await getVaccineList(1, false);
-    dispatch({ type: Actions.Vaccines.CHECK_FOR_UPDATE, response });
-  } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    sendDatadogError(error, 'actions_vaccines_checkForVaccineUpdates');
   }
 };
 

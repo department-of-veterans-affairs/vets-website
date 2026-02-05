@@ -440,6 +440,26 @@ const buildVeteranFullName = fullName => {
   });
 };
 
+const buildVeteranFullNameString = fullName => {
+  const nameObj = buildVeteranFullName(fullName);
+  if (!nameObj) {
+    return undefined;
+  }
+
+  const parts = [];
+  if (nameObj.first) {
+    parts.push(nameObj.first);
+  }
+  if (nameObj.middleinitial) {
+    parts.push(nameObj.middleinitial);
+  }
+  if (nameObj.last) {
+    parts.push(nameObj.last);
+  }
+
+  return parts.length ? parts.join(' ') : undefined;
+};
+
 const mapPreviousEmployers = employers =>
   pruneEmpty(
     toArray(employers).map(item => {
@@ -659,7 +679,8 @@ const buildSubmissionPayload = data => {
       stringOrUndefined(data?.additionalRemarks),
       MAX_LENGTHS.remarks,
     ),
-    signature: stringOrUndefined(data?.signatureOfClaimant),
+    signature: buildVeteranFullNameString(veteran.fullName),
+    // signature: stringOrUndefined(data?.signatureOfClaimant),
     signatureDate: stringOrUndefined(data?.dateSigned),
     files: pruneEmpty(toArray(data?.files)),
   };

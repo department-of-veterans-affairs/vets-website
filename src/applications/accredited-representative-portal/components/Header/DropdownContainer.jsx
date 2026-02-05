@@ -33,7 +33,6 @@ const DropdownContainer = profile => {
           setOpenDropdownId={setOpenDropdownId}
           dropdownClass="nav__profile-menu"
           className="nav__btn nav__btn--user vads-u-color--base arp-profile-dropdown"
-          srText="toggle menu"
           firstName={rep?.firstName}
           lastName={rep?.lastName}
           icon="account_circle"
@@ -49,7 +48,6 @@ const DropdownContainer = profile => {
           id="mobileDashboard"
           btnText="Menu"
           icon="menu"
-          srText="toggle menu"
           dropdownClass="nav__full-width"
           isOpen={openDropdownId === 'mobileDashboard'}
           className="nav__btn is--menu"

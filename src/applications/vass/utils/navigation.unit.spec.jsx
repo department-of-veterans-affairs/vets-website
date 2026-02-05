@@ -58,7 +58,7 @@ describe('VASS Utils: navigation', () => {
       expect(reviewRoute).to.exist;
       expect(reviewRoute.permissions.requireFormData).to.include('uuid');
       expect(reviewRoute.permissions.requireFormData).to.include(
-        'selectedDate',
+        'selectedSlot',
       );
       expect(reviewRoute.permissions.requireFormData).to.include(
         'selectedTopics',
@@ -75,7 +75,7 @@ describe('VASS Utils: navigation', () => {
       ]);
 
       const dateTimeRoute = routes.find(r => r.path === URLS.DATE_TIME);
-      expect(dateTimeRoute.setsData).to.deep.equal(['selectedDate']);
+      expect(dateTimeRoute.setsData).to.deep.equal(['selectedSlot']);
 
       const topicRoute = routes.find(r => r.path === URLS.TOPIC_SELECTION);
       expect(topicRoute.setsData).to.deep.equal(['selectedTopics']);
@@ -120,8 +120,8 @@ describe('VASS Utils: navigation', () => {
       expect(result).to.equal(URLS.VERIFY);
     });
 
-    it('should return the path of the route that sets selectedDate', () => {
-      const result = findRouteForField('selectedDate');
+    it('should return the path of the route that sets selectedSlot', () => {
+      const result = findRouteForField('selectedSlot');
       expect(result).to.equal(URLS.DATE_TIME);
     });
 
@@ -138,10 +138,10 @@ describe('VASS Utils: navigation', () => {
 
   describe('findMissingField', () => {
     it('should return null when all required fields are present', () => {
-      const requiredFields = ['uuid', 'lastname', 'dob'];
+      const requiredFields = ['uuid', 'lastName', 'dob'];
       const formState = {
         uuid: 'test-uuid',
-        lastname: 'Doe',
+        lastName: 'Doe',
         dob: '1990-01-15',
       };
       const result = findMissingField(requiredFields, formState);
@@ -149,38 +149,38 @@ describe('VASS Utils: navigation', () => {
     });
 
     it('should return the first missing field', () => {
-      const requiredFields = ['uuid', 'lastname', 'dob'];
+      const requiredFields = ['uuid', 'lastName', 'dob'];
       const formState = {
         uuid: 'test-uuid',
-        lastname: null,
+        lastName: null,
         dob: '1990-01-15',
       };
       const result = findMissingField(requiredFields, formState);
-      expect(result).to.equal('lastname');
+      expect(result).to.equal('lastName');
     });
 
     it('should return the first field when all are missing', () => {
-      const requiredFields = ['uuid', 'lastname', 'dob'];
+      const requiredFields = ['uuid', 'lastName', 'dob'];
       const formState = {};
       const result = findMissingField(requiredFields, formState);
       expect(result).to.equal('uuid');
     });
 
     it('should handle empty string as missing data', () => {
-      const requiredFields = ['uuid', 'lastname'];
+      const requiredFields = ['uuid', 'lastName'];
       const formState = {
         uuid: '',
-        lastname: 'Doe',
+        lastName: 'Doe',
       };
       const result = findMissingField(requiredFields, formState);
       expect(result).to.equal('uuid');
     });
 
     it('should handle undefined as missing data', () => {
-      const requiredFields = ['uuid', 'lastname'];
+      const requiredFields = ['uuid', 'lastName'];
       const formState = {
         uuid: undefined,
-        lastname: 'Doe',
+        lastName: 'Doe',
       };
       const result = findMissingField(requiredFields, formState);
       expect(result).to.equal('uuid');
@@ -235,18 +235,21 @@ describe('VASS Utils: navigation', () => {
       it('should validate review page requirements', () => {
         const requiredFields = [
           'uuid',
-          'lastname',
+          'lastName',
           'dob',
           'obfuscatedEmail',
-          'selectedDate',
+          'selectedSlot',
           'selectedTopics',
         ];
         const completeFormState = {
           uuid: 'c0ffee-1234',
-          lastname: 'Doe',
+          lastName: 'Doe',
           dob: '1990-01-15',
           obfuscatedEmail: 't***@example.com',
-          selectedDate: '2025-01-15T10:00:00.000Z',
+          selectedSlot: {
+            dtStartUtc: '2025-01-15T10:00:00.000Z',
+            dtEndUtc: '2025-01-15T10:30:00.000Z',
+          },
           selectedTopics: [{ topicId: '1', topicName: 'Health' }],
         };
         expect(findMissingField(requiredFields, completeFormState)).to.be.null;
@@ -255,18 +258,21 @@ describe('VASS Utils: navigation', () => {
       it('should return missing field for incomplete review page data', () => {
         const requiredFields = [
           'uuid',
-          'lastname',
+          'lastName',
           'dob',
           'obfuscatedEmail',
-          'selectedDate',
+          'selectedSlot',
           'selectedTopics',
         ];
         const incompleteFormState = {
           uuid: 'c0ffee-1234',
-          lastname: 'Doe',
+          lastName: 'Doe',
           dob: '1990-01-15',
           obfuscatedEmail: 't***@example.com',
-          selectedDate: '2025-01-15T10:00:00.000Z',
+          selectedSlot: {
+            dtStartUtc: '2025-01-15T10:00:00.000Z',
+            dtEndUtc: '2025-01-15T10:30:00.000Z',
+          },
           selectedTopics: [], // Missing topics
         };
         expect(findMissingField(requiredFields, incompleteFormState)).to.equal(
@@ -275,10 +281,10 @@ describe('VASS Utils: navigation', () => {
       });
 
       it('should validate enter-otc page requirements', () => {
-        const requiredFields = ['uuid', 'lastname', 'dob', 'obfuscatedEmail'];
+        const requiredFields = ['uuid', 'lastName', 'dob', 'obfuscatedEmail'];
         const formState = {
           uuid: 'c0ffee-1234',
-          lastname: 'Doe',
+          lastName: 'Doe',
           dob: '1990-01-15',
           obfuscatedEmail: 't***@example.com',
         };

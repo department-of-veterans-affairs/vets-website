@@ -42,8 +42,30 @@ const Wrapper = props => {
     loading = false,
     loadingMessage = 'Loading...',
     errorAlert = false,
+    disableBeforeUnload = false,
   } = props;
   const navigate = useNavigate();
+
+  // Warn on page refresh/close
+  useEffect(
+    () => {
+      if (disableBeforeUnload) {
+        return undefined;
+      }
+
+      const handleBeforeUnload = e => {
+        e.preventDefault();
+        e.returnValue = '';
+      };
+
+      window.addEventListener('beforeunload', handleBeforeUnload);
+
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+    },
+    [disableBeforeUnload],
+  );
 
   useEffect(() => {
     focusElement('h1');
@@ -131,6 +153,7 @@ export default Wrapper;
 Wrapper.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  disableBeforeUnload: PropTypes.bool,
   errorAlert: PropTypes.bool,
   loading: PropTypes.bool,
   loadingMessage: PropTypes.string,

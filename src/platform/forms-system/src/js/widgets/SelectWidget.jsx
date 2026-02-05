@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { asNumber } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 
 function processValue({ type }, value) {
   if (type === 'boolean') {
     return value === 'true';
-  } else if (type === 'number') {
+  }
+  if (type === 'number') {
     return asNumber(value);
   }
   return value === '' ? undefined : value;
@@ -70,4 +70,11 @@ function SelectWidget({
   );
 }
 
-export default onlyUpdateForKeys(['id', 'value', 'schema'])(SelectWidget);
+// Only re-render when id, value, or schema changes
+export default memo(SelectWidget, (prevProps, nextProps) => {
+  return (
+    prevProps.id === nextProps.id &&
+    prevProps.value === nextProps.value &&
+    prevProps.schema === nextProps.schema
+  );
+});

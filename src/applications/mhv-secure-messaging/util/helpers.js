@@ -452,7 +452,7 @@ export const findAllowedFacilities = recipients => {
 };
 
 export const getStationNumberFromRecipientId = (recipientId, recipients) => {
-  const recipient = recipients.find(item => item.triageTeamId === recipientId);
+  const recipient = recipients?.find(item => item.triageTeamId === recipientId);
   return recipient?.stationNumber || null;
 };
 

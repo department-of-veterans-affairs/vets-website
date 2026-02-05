@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import formReducer, {
-  setSelectedDate,
+  setSelectedSlot,
   setSelectedTopics,
   setObfuscatedEmail,
   setLowAuthFormData,
@@ -8,7 +8,7 @@ import formReducer, {
   clearFormData,
   hydrateFormData,
   loadFormDataFromStorage,
-  selectSelectedDate,
+  selectSelectedSlot,
   selectSelectedTopics,
   selectHydrated,
   selectObfuscatedEmail,
@@ -19,88 +19,85 @@ import formReducer, {
 } from './formSlice';
 import { FLOW_TYPES } from '../../utils/constants';
 import {
-  defaultVassFormState,
-  createVassFormRootState,
-} from '../../utils/test-utils';
+  createFormState,
+  createRootFormState,
+  createTopic,
+  createTopics,
+  defaultFormState,
+  emptySlot,
+} from '../../utils/form';
 
 describe('formSlice', () => {
   describe('reducer', () => {
     it('should return initial state', () => {
       const initialState = formReducer(undefined, { type: 'unknown' });
-      expect(initialState).to.deep.equal(defaultVassFormState);
+      expect(initialState).to.deep.equal(defaultFormState);
     });
 
-    describe('setSelectedDate', () => {
-      it('should set the selected date', () => {
-        const dateString = '2025-01-15T10:00:00.000Z';
-        const actual = formReducer(
-          defaultVassFormState,
-          setSelectedDate(dateString),
-        );
+    describe('setSelectedSlot', () => {
+      it('should set the selected slot', () => {
+        const slot = {
+          dtStartUtc: '2025-01-15T10:00:00.000Z',
+          dtEndUtc: '2025-01-15T11:00:00.000Z',
+        };
+        const actual = formReducer(createFormState(), setSelectedSlot(slot));
 
-        expect(actual.selectedDate).to.equal(dateString);
+        expect(actual.selectedSlot).to.deep.equal(slot);
         expect(actual.selectedTopics).to.deep.equal([]);
       });
 
-      it('should update the selected date when one already exists', () => {
-        const initialState = {
-          ...defaultVassFormState,
-          selectedDate: '2025-01-15T10:00:00.000Z',
-          selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
+      it('should update the selected slot when one already exists', () => {
+        const initialState = createFormState({
+          selectedSlot: {
+            dtStartUtc: '2025-01-15T10:00:00.000Z',
+            dtEndUtc: '2025-01-15T11:00:00.000Z',
+          },
+          selectedTopics: [createTopic('1')],
+        });
+        const newSlot = {
+          dtStartUtc: '2025-02-20T14:30:00.000Z',
+          dtEndUtc: '2025-02-20T15:30:00.000Z',
         };
-        const newDateString = '2025-02-20T14:30:00.000Z';
-        const actual = formReducer(
-          initialState,
-          setSelectedDate(newDateString),
-        );
+        const actual = formReducer(initialState, setSelectedSlot(newSlot));
 
-        expect(actual.selectedDate).to.equal(newDateString);
-        expect(actual.selectedTopics).to.deep.equal([
-          { topicId: '1', topicName: 'Topic 1' },
-        ]);
+        expect(actual.selectedSlot).to.deep.equal(newSlot);
+        expect(actual.selectedTopics).to.deep.equal([createTopic('1')]);
       });
     });
 
     describe('setSelectedTopics', () => {
       it('should set the selected topics', () => {
-        const topics = [
-          { topicId: '1', topicName: 'Topic 1' },
-          { topicId: '2', topicName: 'Topic 2' },
-          { topicId: '3', topicName: 'Topic 3' },
-        ];
+        const topics = createTopics('1', '2', '3');
         const actual = formReducer(
-          defaultVassFormState,
+          createFormState(),
           setSelectedTopics(topics),
         );
 
         expect(actual.selectedTopics).to.deep.equal(topics);
-        expect(actual.selectedDate).to.be.null;
+        expect(actual.selectedSlot.dtStartUtc).to.be.null;
       });
 
       it('should update the selected topics when some already exist', () => {
-        const initialState = {
-          ...defaultVassFormState,
-          selectedDate: '2025-01-15T10:00:00.000Z',
-          selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
-        };
-        const newTopics = [
-          { topicId: '2', topicName: 'Topic 2' },
-          { topicId: '3', topicName: 'Topic 3' },
-        ];
+        const initialState = createFormState({
+          selectedSlot: {
+            dtStartUtc: '2025-01-15T10:00:00.000Z',
+            dtEndUtc: '2025-01-15T11:00:00.000Z',
+          },
+          selectedTopics: [createTopic('1')],
+        });
+        const newTopics = createTopics('2', '3');
         const actual = formReducer(initialState, setSelectedTopics(newTopics));
 
         expect(actual.selectedTopics).to.deep.equal(newTopics);
-        expect(actual.selectedDate).to.equal('2025-01-15T10:00:00.000Z');
+        expect(actual.selectedSlot.dtStartUtc).to.equal(
+          '2025-01-15T10:00:00.000Z',
+        );
       });
 
       it('should handle setting an empty topics array', () => {
-        const initialState = {
-          ...defaultVassFormState,
-          selectedTopics: [
-            { topicId: '1', topicName: 'Topic 1' },
-            { topicId: '2', topicName: 'Topic 2' },
-          ],
-        };
+        const initialState = createFormState({
+          selectedTopics: createTopics('1', '2'),
+        });
         const actual = formReducer(initialState, setSelectedTopics([]));
 
         expect(actual.selectedTopics).to.deep.equal([]);
@@ -111,7 +108,7 @@ describe('formSlice', () => {
       it('should set the obfuscated email', () => {
         const email = 't***@example.com';
         const actual = formReducer(
-          defaultVassFormState,
+          createFormState(),
           setObfuscatedEmail(email),
         );
 
@@ -119,10 +116,9 @@ describe('formSlice', () => {
       });
 
       it('should update the obfuscated email when one already exists', () => {
-        const initialState = {
-          ...defaultVassFormState,
+        const initialState = createFormState({
           obfuscatedEmail: 'old***@example.com',
-        };
+        });
         const newEmail = 'new***@example.com';
         const actual = formReducer(initialState, setObfuscatedEmail(newEmail));
 
@@ -138,7 +134,7 @@ describe('formSlice', () => {
           dob: '1990-01-15',
         };
         const actual = formReducer(
-          defaultVassFormState,
+          createFormState(),
           setLowAuthFormData(payload),
         );
 
@@ -148,12 +144,11 @@ describe('formSlice', () => {
       });
 
       it('should update uuid, lastname, and dob when they already exist', () => {
-        const initialState = {
-          ...defaultVassFormState,
+        const initialState = createFormState({
           uuid: 'old-uuid',
           lastName: 'OldName',
           dob: '1980-05-20',
-        };
+        });
         const payload = {
           uuid: 'new-uuid',
           lastName: 'NewName',
@@ -170,7 +165,7 @@ describe('formSlice', () => {
     describe('setFlowType', () => {
       it('should set the flow type to schedule', () => {
         const actual = formReducer(
-          defaultVassFormState,
+          createFormState(),
           setFlowType(FLOW_TYPES.SCHEDULE),
         );
 
@@ -179,7 +174,7 @@ describe('formSlice', () => {
 
       it('should set the flow type to cancel', () => {
         const actual = formReducer(
-          defaultVassFormState,
+          createFormState(),
           setFlowType(FLOW_TYPES.CANCEL),
         );
 
@@ -187,10 +182,9 @@ describe('formSlice', () => {
       });
 
       it('should update the flow type when one already exists', () => {
-        const initialState = {
-          ...defaultVassFormState,
+        const initialState = createFormState({
           flowType: FLOW_TYPES.SCHEDULE,
-        };
+        });
         const actual = formReducer(
           initialState,
           setFlowType(FLOW_TYPES.CANCEL),
@@ -202,43 +196,59 @@ describe('formSlice', () => {
 
     describe('clearFormData', () => {
       it('should clear all form data including hydrated flag and reset flowType', () => {
-        const initialState = {
-          ...defaultVassFormState,
+        const initialState = createFormState({
           hydrated: true,
-          selectedDate: '2025-01-15T10:00:00.000Z',
-          selectedTopics: [
-            { topicId: '1', topicName: 'Topic 1' },
-            { topicId: '2', topicName: 'Topic 2' },
-          ],
+          selectedSlot: {
+            dtStartUtc: '2025-01-15T10:00:00.000Z',
+            dtEndUtc: '2025-01-15T11:00:00.000Z',
+          },
+          selectedTopics: createTopics('1', '2'),
           obfuscatedEmail: 't***@example.com',
           uuid: 'c0ffee-1234-beef-5678',
           lastName: 'Doe',
           dob: '1990-01-15',
           flowType: FLOW_TYPES.CANCEL,
-        };
+        });
         const actual = formReducer(initialState, clearFormData());
 
-        expect(actual).to.deep.equal(defaultVassFormState);
+        expect(actual.hydrated).to.be.false;
+        expect(actual.selectedSlot).to.deep.equal(emptySlot);
+        expect(actual.selectedTopics).to.deep.equal([]);
+        expect(actual.obfuscatedEmail).to.be.null;
+        expect(actual.uuid).to.be.null;
+        expect(actual.lastName).to.be.null;
+        expect(actual.dob).to.be.null;
+        expect(actual.flowType).to.equal(FLOW_TYPES.ANY);
       });
 
       it('should return initial state when clearing already empty data', () => {
-        const actual = formReducer(defaultVassFormState, clearFormData());
+        const actual = formReducer(createFormState(), clearFormData());
 
-        expect(actual).to.deep.equal(defaultVassFormState);
+        expect(actual.hydrated).to.be.false;
+        expect(actual.selectedSlot).to.deep.equal(emptySlot);
+        expect(actual.selectedTopics).to.deep.equal([]);
+        expect(actual.obfuscatedEmail).to.be.null;
+        expect(actual.uuid).to.be.null;
+        expect(actual.lastName).to.be.null;
+        expect(actual.dob).to.be.null;
+        expect(actual.flowType).to.equal(FLOW_TYPES.ANY);
       });
     });
 
     describe('hydrateFormData', () => {
       it('should set hydrated to true and merge payload', () => {
         const payload = {
-          selectedDate: '2025-03-01T10:00:00.000Z',
+          selectedSlot: {
+            dtStartUtc: '2025-03-01T10:00:00.000Z',
+            dtEndUtc: '2025-03-01T11:00:00.000Z',
+          },
           selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
           uuid: null,
         };
         const actual = formReducer(undefined, hydrateFormData(payload));
 
         expect(actual.hydrated).to.be.true;
-        expect(actual.selectedDate).to.equal(payload.selectedDate);
+        expect(actual.selectedSlot).to.deep.equal(payload.selectedSlot);
         expect(actual.selectedTopics).to.deep.equal(payload.selectedTopics);
         expect(actual.uuid).to.be.null;
         expect(actual.flowType).to.equal(FLOW_TYPES.ANY);
@@ -250,7 +260,10 @@ describe('formSlice', () => {
           lastName: 'Smith',
           dob: '1985-05-15',
           obfuscatedEmail: 's***@example.com',
-          selectedDate: '2025-04-01T14:00:00.000Z',
+          selectedSlot: {
+            dtStartUtc: '2025-04-01T14:00:00.000Z',
+            dtEndUtc: '2025-04-01T15:00:00.000Z',
+          },
           selectedTopics: [{ topicId: '2', topicName: 'Topic 2' }],
           flowType: FLOW_TYPES.CANCEL,
         };
@@ -261,7 +274,7 @@ describe('formSlice', () => {
         expect(actual.lastName).to.equal(payload.lastName);
         expect(actual.dob).to.equal(payload.dob);
         expect(actual.obfuscatedEmail).to.equal(payload.obfuscatedEmail);
-        expect(actual.selectedDate).to.equal(payload.selectedDate);
+        expect(actual.selectedSlot).to.deep.equal(payload.selectedSlot);
         expect(actual.selectedTopics).to.deep.equal(payload.selectedTopics);
         expect(actual.flowType).to.equal(FLOW_TYPES.CANCEL);
       });
@@ -270,7 +283,7 @@ describe('formSlice', () => {
         const actual = formReducer(undefined, hydrateFormData({}));
 
         expect(actual.hydrated).to.be.true;
-        expect(actual.selectedDate).to.be.null;
+        expect(actual.selectedSlot).to.deep.equal(emptySlot);
         expect(actual.selectedTopics).to.deep.equal([]);
         expect(actual.uuid).to.be.null;
         expect(actual.flowType).to.equal(FLOW_TYPES.ANY);
@@ -279,35 +292,35 @@ describe('formSlice', () => {
   });
 
   describe('selectors', () => {
-    describe('selectSelectedDate', () => {
-      it('should select the date from state', () => {
-        const state = createVassFormRootState({
-          selectedDate: '2025-01-15T10:00:00.000Z',
-        });
-        const result = selectSelectedDate(state);
-        expect(result).to.equal('2025-01-15T10:00:00.000Z');
+    describe('selectSelectedSlot', () => {
+      it('should select the slot from state', () => {
+        const selectedSlot = {
+          dtStartUtc: '2025-01-15T10:00:00.000Z',
+          dtEndUtc: '2025-01-15T11:00:00.000Z',
+        };
+        const state = createRootFormState({ selectedSlot });
+        const result = selectSelectedSlot(state);
+        expect(result).to.deep.equal(selectedSlot);
       });
 
-      it('should return null when no date is selected', () => {
-        const state = createVassFormRootState();
-        const result = selectSelectedDate(state);
-        expect(result).to.be.null;
+      it('should return empty slot when no slot is selected', () => {
+        const state = createRootFormState();
+        const result = selectSelectedSlot(state);
+        expect(result).to.deep.equal(emptySlot);
       });
     });
 
     describe('selectSelectedTopics', () => {
       it('should select the topics from state', () => {
-        const topics = [
-          { topicId: '1', topicName: 'Topic 1' },
-          { topicId: '2', topicName: 'Topic 2' },
-        ];
-        const state = createVassFormRootState({ selectedTopics: topics });
+        const topics = createTopics('1', '2');
+        const state = createRootFormState({ selectedTopics: topics });
         const result = selectSelectedTopics(state);
+        expect(result).to.deep.equal(topics);
         expect(result).to.deep.equal(topics);
       });
 
       it('should return empty array when no topics are selected', () => {
-        const state = createVassFormRootState();
+        const state = createRootFormState();
         const result = selectSelectedTopics(state);
         expect(result).to.deep.equal([]);
       });
@@ -315,7 +328,7 @@ describe('formSlice', () => {
 
     describe('selectHydrated', () => {
       it('should return hydration flag', () => {
-        const state = createVassFormRootState({ hydrated: true });
+        const state = createRootFormState({ hydrated: true });
         const result = selectHydrated(state);
         expect(result).to.be.true;
       });
@@ -323,7 +336,7 @@ describe('formSlice', () => {
 
     describe('selectObfuscatedEmail', () => {
       it('should select the obfuscated email from state', () => {
-        const state = createVassFormRootState({
+        const state = createRootFormState({
           obfuscatedEmail: 't***@example.com',
         });
         const result = selectObfuscatedEmail(state);
@@ -331,7 +344,7 @@ describe('formSlice', () => {
       });
 
       it('should return null when no obfuscated email is set', () => {
-        const state = createVassFormRootState();
+        const state = createRootFormState();
         const result = selectObfuscatedEmail(state);
         expect(result).to.be.null;
       });
@@ -339,23 +352,21 @@ describe('formSlice', () => {
 
     describe('selectUuid', () => {
       it('should select the uuid from state', () => {
-        const state = createVassFormRootState({
-          uuid: 'c0ffee-1234-beef-5678',
-        });
+        const state = createRootFormState({ uuid: 'c0ffee-1234-beef-5678' });
         const result = selectUuid(state);
         expect(result).to.equal('c0ffee-1234-beef-5678');
       });
     });
 
     describe('selectLastName', () => {
-      it('should select the lastname from state', () => {
-        const state = createVassFormRootState({ lastName: 'Doe' });
+      it('should select the lastName from state', () => {
+        const state = createRootFormState({ lastName: 'Doe' });
         const result = selectLastName(state);
         expect(result).to.equal('Doe');
       });
 
-      it('should return null when no lastname is set', () => {
-        const state = createVassFormRootState();
+      it('should return null when no lastName is set', () => {
+        const state = createRootFormState();
         const result = selectLastName(state);
         expect(result).to.be.null;
       });
@@ -363,13 +374,13 @@ describe('formSlice', () => {
 
     describe('selectDob', () => {
       it('should select the dob from state', () => {
-        const state = createVassFormRootState({ dob: '1990-01-15' });
+        const state = createRootFormState({ dob: '1990-01-15' });
         const result = selectDob(state);
         expect(result).to.equal('1990-01-15');
       });
 
       it('should return null when no dob is set', () => {
-        const state = createVassFormRootState();
+        const state = createRootFormState();
         const result = selectDob(state);
         expect(result).to.be.null;
       });
@@ -377,21 +388,19 @@ describe('formSlice', () => {
 
     describe('selectFlowType', () => {
       it('should select the flowType from state', () => {
-        const state = createVassFormRootState({
-          flowType: FLOW_TYPES.SCHEDULE,
-        });
+        const state = createRootFormState({ flowType: FLOW_TYPES.SCHEDULE });
         const result = selectFlowType(state);
         expect(result).to.equal(FLOW_TYPES.SCHEDULE);
       });
 
       it('should return cancel when flowType is cancel', () => {
-        const state = createVassFormRootState({ flowType: FLOW_TYPES.CANCEL });
+        const state = createRootFormState({ flowType: FLOW_TYPES.CANCEL });
         const result = selectFlowType(state);
         expect(result).to.equal(FLOW_TYPES.CANCEL);
       });
 
       it('should return any when flowType is any (default)', () => {
-        const state = createVassFormRootState();
+        const state = createRootFormState();
         const result = selectFlowType(state);
         expect(result).to.equal(FLOW_TYPES.ANY);
       });
@@ -419,11 +428,14 @@ describe('formSlice', () => {
     });
 
     it('should return form data when UUID and form data are stored', () => {
-      const formData = {
-        selectedDate: '2025-01-15T10:00:00.000Z',
+      const formData = createFormState({
+        selectedSlot: {
+          dtStartUtc: '2025-01-15T10:00:00.000Z',
+          dtEndUtc: '2025-01-15T11:00:00.000Z',
+        },
         selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
         uuid: 'test-uuid',
-      };
+      });
       sessionStorage.setItem('vass_current_uuid', JSON.stringify('test-uuid'));
       sessionStorage.setItem('vass_form', JSON.stringify(formData));
 
