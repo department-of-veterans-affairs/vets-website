@@ -4,16 +4,15 @@ import PropTypes from 'prop-types';
 const VABenefitsAccordion = ({ isResultsPage = false }) => {
   const links = [
     {
-      text:
-        'VA health benefits for Veterans who’ve experienced military sexual trauma',
+      text: 'Learn more about military sexual trauma',
       href: '/health-care/health-needs-conditions/military-sexual-trauma/',
     },
     {
-      text: 'VA health benefits for Veterans with mental health conditions',
+      text: 'Learn more about VA mental health services',
       href: '/health-care/health-needs-conditions/mental-health/',
     },
     {
-      text: 'VA health benefits for Veterans with PTSD',
+      text: 'Learn more about PTSD treatment',
       href: '/health-care/health-needs-conditions/mental-health/ptsd/',
     },
   ];

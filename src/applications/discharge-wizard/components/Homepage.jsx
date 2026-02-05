@@ -51,12 +51,11 @@ const HomePage = ({ router, setIntroPageViewed }) => {
           </li>
           <li>Traumatic brain injury (TBI)</li>
           <li>
-            Sexual assault or harassment during military service (at VA, we
-            refer to this as military sexual trauma or MST)
+            Sexual assault or harassment during military service ( referred to
+            this as military sexual trauma or MST)
           </li>
           <li>
-            Sexual orientation (including under the Don’t Ask, Don’t Tell
-            policy)
+            Sexual orientation, including under the Don’t Ask, Don’t Tell policy
           </li>
         </ul>
         <h2>How do I apply for a discharge upgrade or correction?</h2>
@@ -111,7 +110,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
             />
             <p>Or mail your written request to us at this address.</p>
             <p className="va-address-block">
-              U.S. Department of Veterans Affairs <br />
+              Department of Veterans Affairs <br />
               Evidence Intake Center
               <br />
               P.O. Box 4444
@@ -244,7 +243,4 @@ const mapDispatchToProps = {
   setIntroPageViewed: updateIntroPageViewed,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(HomePage);
+export default connect(null, mapDispatchToProps)(HomePage);
