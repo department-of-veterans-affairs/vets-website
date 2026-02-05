@@ -257,7 +257,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
 
       case dispStatusObj.activeParked:
         return (
-          <div>
+          <div className="vads-u-width--full">
             <p className="vads-u-margin-y--0" data-testid="active-parked">
               You can request this prescription when you need it.
             </p>
