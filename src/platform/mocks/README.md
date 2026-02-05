@@ -215,6 +215,16 @@ createUserResponse({
 | `mockFeatureToggles` | Empty toggles (all disabled) |
 | `createFeatureTogglesResponse(toggles)` | Factory with specific toggles |
 
+To find available feature flag names, see [`src/platform/utilities/feature-toggles/featureFlagNames.json`](../../utilities/feature-toggles/featureFlagNames.json).
+
+```javascript
+// Enable specific flags for your app
+createFeatureTogglesResponse({
+  my_app_feature_flag: true,
+  another_flag: false,
+})
+```
+
 ### Maintenance Windows
 
 | Export | Description |
