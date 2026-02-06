@@ -21,6 +21,8 @@ import {
   educationBenefitsHistory,
   hasPreviouslyApplied,
   payeeNumber,
+  testName,
+  organizationInfo,
   prepCourseName,
   prepCourseAddress,
   prepCourseOnline,
@@ -130,6 +132,25 @@ const formConfig = {
           },
           contactInfoRequiredKeys: ['mailingAddress'],
         }),
+      },
+    },
+    licensingAndCertificationChapter: {
+      title: 'Licensing and certification details',
+      pages: {
+        testName: {
+          path: 'test-name',
+          title:
+            "Tell us about the licensing or certification test you're preparing for",
+          uiSchema: testName.uiSchema,
+          schema: testName.schema,
+        },
+        organizationInfo: {
+          path: 'organization-info',
+          title:
+            'The name and mailing address of organization awarding license or certification',
+          uiSchema: organizationInfo.uiSchema,
+          schema: organizationInfo.schema,
+        },
       },
     },
     prepCourseChapter: {
