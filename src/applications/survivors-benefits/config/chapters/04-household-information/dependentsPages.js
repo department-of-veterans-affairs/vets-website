@@ -29,12 +29,9 @@ import {
   COUNTRY_NAMES,
   COUNTRY_VALUES,
 } from '../../../utils/labels';
+import { customAddressSchema } from '../../definitions';
 import { seriouslyDisabledDescription } from '../../../utils/helpers';
 import { AdditionalDependentsAlert } from '../../../components/FormAlerts';
-
-const updatedFullNameSchema = fullNameSchema;
-updatedFullNameSchema.properties.first.maxLength = 12;
-updatedFullNameSchema.properties.last.maxLength = 18;
 
 /**
  * Dependent children (array builder)
@@ -176,7 +173,7 @@ const namePage = {
   schema: {
     type: 'object',
     properties: {
-      childFullName: updatedFullNameSchema,
+      childFullName: fullNameSchema,
       childSocialSecurityNumber: ssnSchema,
       noSsn: checkboxSchema,
     },
@@ -255,23 +252,7 @@ const dobPlacePage = {
     properties: {
       childDateOfBirth: currentOrPastDateSchema,
       bornOutsideUS: checkboxSchema,
-      birthPlace: {
-        type: 'object',
-        required: ['city'],
-        properties: {
-          city: { type: 'string' },
-          state: {
-            type: 'string',
-            enum: STATE_VALUES,
-            enumNames: STATE_NAMES,
-          },
-          otherCountry: {
-            type: 'string',
-            enum: COUNTRY_VALUES,
-            enumNames: COUNTRY_NAMES,
-          },
-        },
-      },
+      birthPlace: customAddressSchema,
     },
   },
 };

@@ -6,6 +6,7 @@ import { focusElement } from 'platform/utilities/ui/focus';
 import {
   FIELD_TITLES,
   FIELD_OPTION_IDS,
+  errorMessages,
 } from '@@vap-svc/constants/schedulingPreferencesConstants';
 import { FIELD_NAMES } from 'platform/user/exportsFile';
 import { useSelector } from 'react-redux';
@@ -62,7 +63,7 @@ const ContactMethodSelect = ({ error, options, fieldName, setPageData }) => {
   );
 
   const content = {
-    errorMessage: 'Please select a contact method',
+    errorMessage: errorMessages.noPreferenceSelected,
   };
 
   const handlers = {
