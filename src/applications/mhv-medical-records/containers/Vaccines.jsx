@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -74,9 +74,10 @@ const Vaccines = props => {
   const isLoadingAcceleratedData =
     isAcceleratingVaccines && listState === loadStates.FETCHING;
 
-  const dispatchAction = isCurrent => {
-    return getVaccinesList(isCurrent, isAcceleratingVaccines);
-  };
+  const dispatchAction = useCallback(
+    isCurrent => getVaccinesList(isCurrent, isAcceleratingVaccines),
+    [isAcceleratingVaccines],
+  );
 
   useTrackAction(statsdFrontEndActions.VITALS_LIST);
 
@@ -87,6 +88,7 @@ const Vaccines = props => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.

@@ -124,17 +124,19 @@ const LabsAndTests = () => {
   const isLoadingAcceleratedData =
     isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
 
-  const dispatchAction = isCurrent => {
-    return getLabsAndTestsList(
-      isCurrent,
-      isAcceleratingLabsAndTests,
-      {
-        startDate: dateRange.fromDate,
-        endDate: dateRange.toDate,
-      },
-      mergeCvixWithScdf,
-    );
-  };
+  const dispatchAction = useCallback(
+    isCurrent =>
+      getLabsAndTestsList(
+        isCurrent,
+        isAcceleratingLabsAndTests,
+        {
+          startDate: dateRange.fromDate,
+          endDate: dateRange.toDate,
+        },
+        mergeCvixWithScdf,
+      ),
+    [isAcceleratingLabsAndTests, dateRange, mergeCvixWithScdf],
+  );
 
   useListRefresh({
     listState,
@@ -143,6 +145,7 @@ const LabsAndTests = () => {
     extractType: [refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR],
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.

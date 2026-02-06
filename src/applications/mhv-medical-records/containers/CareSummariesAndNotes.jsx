@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -64,12 +64,14 @@ const CareSummariesAndNotes = () => {
 
   const { isLoading, isAcceleratingCareNotes } = useAcceleratedData();
 
-  const dispatchAction = isCurrent => {
-    return getCareSummariesAndNotesList(isCurrent, isAcceleratingCareNotes, {
-      startDate: dateRange.fromDate,
-      endDate: dateRange.toDate,
-    });
-  };
+  const dispatchAction = useCallback(
+    isCurrent =>
+      getCareSummariesAndNotesList(isCurrent, isAcceleratingCareNotes, {
+        startDate: dateRange.fromDate,
+        endDate: dateRange.toDate,
+      }),
+    [isAcceleratingCareNotes, dateRange],
+  );
 
   useListRefresh({
     listState,
@@ -78,6 +80,7 @@ const CareSummariesAndNotes = () => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.

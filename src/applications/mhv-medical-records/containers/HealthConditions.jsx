@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -44,9 +44,11 @@ const HealthConditions = () => {
   useTrackAction(statsdFrontEndActions.HEALTH_CONDITIONS_LIST);
 
   const { isLoading, isAcceleratingConditions } = useAcceleratedData();
-  const dispatchAction = isCurrent => {
-    return getConditionsList(isCurrent, isAcceleratingConditions);
-  };
+
+  const dispatchAction = useCallback(
+    isCurrent => getConditionsList(isCurrent, isAcceleratingConditions),
+    [isAcceleratingConditions],
+  );
 
   useListRefresh({
     listState,
@@ -55,6 +57,7 @@ const HealthConditions = () => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
