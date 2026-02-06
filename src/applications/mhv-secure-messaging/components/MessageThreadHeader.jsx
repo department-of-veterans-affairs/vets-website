@@ -50,7 +50,7 @@ const MessageThreadHeader = props => {
   const [currentRecipient, setCurrentRecipient] = useState(null);
 
   const messages = useSelector(state => state.sm.threadDetails.messages);
-  const { isStale, providerAllowsReply } = useSelector(
+  const { isStale, replyDisabled } = useSelector(
     state => state.sm.threadDetails,
   );
 
@@ -119,9 +119,7 @@ const MessageThreadHeader = props => {
           <>
             <CannotReplyAlert
               visible={
-                cannotReply &&
-                !providerAllowsReply &&
-                !showBlockedTriageGroupAlert
+                cannotReply && replyDisabled && !showBlockedTriageGroupAlert
               }
               isOhMessage={isOhMessage}
             />
@@ -129,7 +127,7 @@ const MessageThreadHeader = props => {
               visible={
                 cannotReply &&
                 isStale &&
-                providerAllowsReply &&
+                !replyDisabled &&
                 !showBlockedTriageGroupAlert
               }
               isOhMessage={isOhMessage}

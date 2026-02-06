@@ -10,7 +10,7 @@ const initialState = {
   threadFolderId: undefined,
   replyToMessageId: undefined,
   isStale: false,
-  providerAllowsReply: true,
+  replyDisabled: false,
   cannotReply: false,
   draftInProgress: {
     messageId: null,

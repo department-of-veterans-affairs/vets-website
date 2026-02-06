@@ -48,7 +48,7 @@ const ReplyForm = props => {
 
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const signature = useSelector(state => state.sm.preferences?.signature);
-  const { replyToName, isSaving, isStale, providerAllowsReply } = useSelector(
+  const { replyToName, isSaving, isStale, replyDisabled } = useSelector(
     state => state.sm.threadDetails,
   );
 
@@ -157,9 +157,7 @@ const ReplyForm = props => {
           <>
             <CannotReplyAlert
               visible={
-                cannotReply &&
-                !providerAllowsReply &&
-                !showBlockedTriageGroupAlert
+                cannotReply && replyDisabled && !showBlockedTriageGroupAlert
               }
               isOhMessage={replyMessage.isOhMessage}
             />
@@ -167,7 +165,7 @@ const ReplyForm = props => {
               visible={
                 cannotReply &&
                 isStale &&
-                providerAllowsReply &&
+                !replyDisabled &&
                 !showBlockedTriageGroupAlert
               }
               isOhMessage={replyMessage.isOhMessage}

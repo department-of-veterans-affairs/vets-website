@@ -356,7 +356,7 @@ describe('Thread Details container', () => {
         },
         threadDetails: {
           isStale: isOlderThan(getLastSentMessage(messages).sentDate, 45),
-          providerAllowsReply: true,
+          replyDisabled: false,
           cannotReply: isOlderThan(getLastSentMessage(messages).sentDate, 45),
           drafts: [
             {
@@ -450,7 +450,7 @@ describe('Thread Details container', () => {
           isStale: false,
           // cannotReply is true from API (provider disabled replies)
           cannotReply: true,
-          providerAllowsReply: false,
+          replyDisabled: true,
           drafts: [
             {
               ...replyDraftMessage,

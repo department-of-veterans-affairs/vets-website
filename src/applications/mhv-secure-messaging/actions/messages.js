@@ -87,7 +87,9 @@ export const retrieveMessageThread = messageId => async dispatch => {
         ?.attributes.folderId.toString() ||
       response.data[0].attributes.folderId;
 
-    const canReply = !response.data.find(m => m.attributes.canReply === false);
+    const replyDisabled = response.data.some(
+      m => m.attributes.replyDisabled === true,
+    );
 
     const { isOhMessage } = response.data[0].attributes;
 
@@ -97,8 +99,8 @@ export const retrieveMessageThread = messageId => async dispatch => {
         replyToName,
         threadFolderId,
         isStale: isOlderThan(lastSentDate, 45),
-        providerAllowsReply: canReply,
-        cannotReply: isOlderThan(lastSentDate, 45) || !canReply,
+        replyDisabled,
+        cannotReply: isOlderThan(lastSentDate, 45) || replyDisabled,
         replyToMessageId: response.data[0].attributes.messageId,
         drafts: drafts.map(m => ({
           ...m.attributes,
