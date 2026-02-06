@@ -1,6 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
@@ -44,6 +46,36 @@ describe('evidenceChoiceAdditionalDocumentsPage', () => {
     expect(mhSupportAlert[0].getAttribute('trigger')).to.equal(
       'Get mental health and military sexual trauma support anytime',
     );
+
+    unmount();
+  });
+
+  it('should submit when supporting documents already exist', async () => {
+    const onSubmit = sinon.spy();
+    const { getByText, unmount } = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            evidenceChoiceAdditionalDocuments: [
+              {
+                name: 'supportingDoc.pdf',
+                size: 1024,
+                confirmationCode: 'CONFIRM123',
+                additionalData: { docType: 'L015' },
+              },
+            ],
+          }}
+          formData={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
+    );
+
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
 
     unmount();
   });
