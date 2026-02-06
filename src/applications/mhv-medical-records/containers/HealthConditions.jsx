@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
   useAcceleratedData,
@@ -19,6 +18,7 @@ import {
 } from '../util/constants';
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
+import useFocusH1OnLoad from '../hooks/useFocusH1OnLoad';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
@@ -80,15 +80,7 @@ const HealthConditions = () => {
   const isLoadingAcceleratedData =
     isAcceleratingConditions && listState === loadStates.FETCHING;
 
-  useEffect(
-    () => {
-      // Only focus h1 when not loading (h1 is in the DOM)
-      if (!isLoadingAcceleratedData && !isLoading) {
-        focusElement(document.querySelector('h1'));
-      }
-    },
-    [isLoadingAcceleratedData, isLoading],
-  );
+  useFocusH1OnLoad(isLoading, isLoadingAcceleratedData);
 
   return (
     <>

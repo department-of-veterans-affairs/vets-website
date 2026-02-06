@@ -128,10 +128,10 @@ const App = ({ children }) => {
         <MhvSecondaryNav />
         <div className="vads-l-grid-container">
           <TrackedSpinner
-            id="mr-feature-flag-loading-indicator"
+            id="mr-top-level-loading-indicator"
             message="Loading your medical records..."
             set-focus
-            data-testid="mr-feature-flag-loading-indicator"
+            data-testid="mr-top-level-loading-indicator"
           />
         </div>
       </>

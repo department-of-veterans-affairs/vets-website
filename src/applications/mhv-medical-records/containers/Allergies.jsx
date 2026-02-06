@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
 import {
   generatePdfScaffold,
@@ -33,6 +32,7 @@ import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { generateTextFile, getLastUpdatedText } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import useFocusH1OnLoad from '../hooks/useFocusH1OnLoad';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import RecordListSection from '../components/shared/RecordListSection';
@@ -106,15 +106,7 @@ const Allergies = props => {
   const isLoadingAcceleratedData =
     isAcceleratingAllergies && listState === loadStates.FETCHING;
 
-  useEffect(
-    () => {
-      // Only focus h1 when not loading (h1 is in the DOM)
-      if (!isLoadingAcceleratedData && !isLoading) {
-        focusElement(document.querySelector('h1'));
-      }
-    },
-    [isLoadingAcceleratedData, isLoading],
-  );
+  useFocusH1OnLoad(isLoading, isLoadingAcceleratedData);
 
   usePrintTitle(
     pageTitles.ALLERGIES_PAGE_TITLE,

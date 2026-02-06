@@ -2,7 +2,6 @@ import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
   useAcceleratedData,
@@ -28,6 +27,7 @@ import {
   statsdFrontEndActions,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
+import useFocusH1OnLoad from '../hooks/useFocusH1OnLoad';
 import RecordListSection from '../components/shared/RecordListSection';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import DateRangeSelector from '../components/shared/DateRangeSelector';
@@ -107,15 +107,7 @@ const CareSummariesAndNotes = () => {
   const isLoadingAcceleratedData =
     isAcceleratingCareNotes && listState === loadStates.FETCHING;
 
-  useEffect(
-    () => {
-      // Only focus h1 when not loading (h1 is in the DOM)
-      if (!isLoadingAcceleratedData && !isLoading) {
-        focusElement(document.querySelector('h1'));
-      }
-    },
-    [isLoadingAcceleratedData, isLoading],
-  );
+  useFocusH1OnLoad(isLoading, isLoadingAcceleratedData);
 
   // Handle date range selection from DateRangeSelector component
   const handleDateRangeSelect = useDateRangeSelector({

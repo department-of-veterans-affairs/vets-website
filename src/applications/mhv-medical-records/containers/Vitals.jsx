@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
   usePrintTitle,
@@ -21,6 +20,7 @@ import {
 } from '../util/constants';
 import { Actions } from '../util/actionTypes';
 import useAlerts from '../hooks/use-alerts';
+import useFocusH1OnLoad from '../hooks/useFocusH1OnLoad';
 import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
@@ -86,15 +86,7 @@ const Vitals = () => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      // Only focus h1 when not loading (h1 is in the DOM)
-      if (!isLoadingAcceleratedData && !isLoading) {
-        focusElement(document.querySelector('h1'));
-      }
-    },
-    [isLoadingAcceleratedData, isLoading],
-  );
+  useFocusH1OnLoad(isLoading, isLoadingAcceleratedData);
 
   usePrintTitle(
     pageTitles.VITALS_PAGE_TITLE,

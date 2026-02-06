@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -38,6 +37,7 @@ import {
   sendDataDogAction,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import useFocusH1OnLoad from '../hooks/useFocusH1OnLoad';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import RecordListSection from '../components/shared/RecordListSection';
@@ -104,15 +104,7 @@ const Vaccines = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      // Only focus h1 when not loading (h1 is in the DOM)
-      if (!isLoadingAcceleratedData && !isLoading) {
-        focusElement(document.querySelector('h1'));
-      }
-    },
-    [isLoadingAcceleratedData, isLoading],
-  );
+  useFocusH1OnLoad(isLoading, isLoadingAcceleratedData);
 
   usePrintTitle(
     pageTitles.VACCINES_PAGE_TITLE,

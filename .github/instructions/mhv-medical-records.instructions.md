@@ -394,6 +394,10 @@ Update this file when you:
 ### useTrackAction
 - **Purpose**: Track user actions for analytics
 
+### useFocusH1OnLoad
+- **Location**: `hooks/useFocusH1OnLoad.js`
+- **Purpose**: Focus on the h1 element when loading completes for accessibility
+
 ## Testing Patterns
 
 ### Unit Tests
