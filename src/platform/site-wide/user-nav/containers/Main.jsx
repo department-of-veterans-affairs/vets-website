@@ -10,7 +10,6 @@ import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
 import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
 import { initializeProfile } from 'platform/user/profile/actions';
 import { isInProgressPath } from 'platform/forms/helpers';
-import { signInServiceEnabled } from 'platform/user/authentication/selectors';
 import {
   isLoggedIn,
   isProfileLoading,
@@ -185,7 +184,7 @@ export const mapStateToProps = state => {
     isLOA3: isLOA3(state),
     isProfileLoading: isProfileLoading(state),
     shouldConfirmLeavingForm,
-    useSignInService: signInServiceEnabled(state),
+    useSignInService: true,
     user: selectUser(state),
     userGreeting: selectUserGreeting(state),
     ...state.navigation,
