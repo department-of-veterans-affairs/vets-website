@@ -44,7 +44,9 @@ export default {
       hint: 'Upload receipts, bills, or other proof of expenses (1KB–5MB).',
       formNumber: '21P-601',
       disallowEncryptedPdfs: true,
-      fileUploadUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+      fileUploadUrl: `${
+        environment.API_URL
+      }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
       maxFileSize: 1024 * 1024 * 5,
       minFileSize: 1,
     }),
