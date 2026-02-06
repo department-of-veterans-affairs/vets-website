@@ -4,7 +4,15 @@ export const FETCH_BACKEND_STATUSES_FAILURE = 'FETCH_BACKEND_STATUSES_FAILURE';
 export const FETCH_BACKEND_STATUSES_SUCCESS = 'FETCH_BACKEND_STATUSES_SUCCESS';
 export const LOADING_BACKEND_STATUSES = 'LOADING_BACKEND_STATUSES';
 
+export const FETCH_LOGIN_GOV_STATE_INCIDENTS_FAILURE =
+  'FETCH_LOGIN_GOV_STATE_INCIDENTS_FAILURE';
+export const FETCH_LOGIN_GOV_STATE_INCIDENTS_SUCCESS =
+  'FETCH_LOGIN_GOV_STATE_INCIDENTS_SUCCESS';
+export const LOADING_LOGIN_GOV_STATE_INCIDENTS =
+  'LOADING_LOGIN_GOV_STATE_INCIDENTS';
+
 const BASE_URL = '/backend_statuses';
+const LOGIN_GOV_STATE_INCIDENTS_URL = '/login_gov_state_incidents';
 
 export function getBackendStatuses() {
   return dispatch => {
@@ -15,5 +23,17 @@ export function getBackendStatuses() {
         dispatch({ type: FETCH_BACKEND_STATUSES_SUCCESS, data }),
       )
       .catch(() => dispatch({ type: FETCH_BACKEND_STATUSES_FAILURE }));
+  };
+}
+
+export function getLoginGovStateIncidents() {
+  return dispatch => {
+    dispatch({ type: LOADING_LOGIN_GOV_STATE_INCIDENTS });
+
+    return apiRequest(LOGIN_GOV_STATE_INCIDENTS_URL)
+      .then(({ data }) =>
+        dispatch({ type: FETCH_LOGIN_GOV_STATE_INCIDENTS_SUCCESS, data }),
+      )
+      .catch(() => dispatch({ type: FETCH_LOGIN_GOV_STATE_INCIDENTS_FAILURE }));
   };
 }
