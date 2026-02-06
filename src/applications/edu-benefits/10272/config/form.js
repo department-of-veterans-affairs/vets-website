@@ -15,12 +15,16 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import SubmissionInstructions from '../components/SubmissionInstructions';
+
 // Pages
 import {
   educationBenefitsElibility,
   educationBenefitsHistory,
   hasPreviouslyApplied,
   payeeNumber,
+  testName,
+  organizationInfo,
   prepCourseName,
   prepCourseAddress,
   prepCourseOnline,
@@ -132,6 +136,25 @@ const formConfig = {
         }),
       },
     },
+    licensingAndCertificationChapter: {
+      title: 'Licensing and certification details',
+      pages: {
+        testName: {
+          path: 'test-name',
+          title:
+            "Tell us about the licensing or certification test you're preparing for",
+          uiSchema: testName.uiSchema,
+          schema: testName.schema,
+        },
+        organizationInfo: {
+          path: 'organization-info',
+          title:
+            'The name and mailing address of organization awarding license or certification',
+          uiSchema: organizationInfo.uiSchema,
+          schema: organizationInfo.schema,
+        },
+      },
+    },
     prepCourseChapter: {
       title: 'Prep course details',
       pages: {
@@ -176,6 +199,23 @@ const formConfig = {
           title: 'Enter your remarks',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },
