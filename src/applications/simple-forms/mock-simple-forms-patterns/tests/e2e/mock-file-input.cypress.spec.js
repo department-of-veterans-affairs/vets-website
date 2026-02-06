@@ -113,6 +113,9 @@ function testInvalidUTF8Encoding() {
 function testAdditionalInfo() {
   testFileUpload(makeMinimalPNG);
 
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(1000);
+
   cy.findByText(/continue/i, { selector: 'button' }).click();
 
   // we should get an error because additional info not set
