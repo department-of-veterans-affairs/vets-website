@@ -7,6 +7,8 @@ import {
   dateOfBirthUI,
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
+  currentOrPastDateDigitsUI,
+  currentOrPastDateDigitsSchema,
   currentOrPastMonthYearDateUI,
   currentOrPastMonthYearDateRangeUI,
   currentOrPastMonthYearDateSchema,
@@ -18,6 +20,9 @@ export default {
   uiSchema: {
     ...titleUI('Date web components'),
     dateWCV3: currentOrPastDateUI('Web component - Generic'),
+    dateDigitsWCV3: currentOrPastDateDigitsUI(
+      'Web component - Date with digit month input',
+    ),
     dateOfBirthWCV3: dateOfBirthUI('Web component - Date of birth'),
     'view:dateSubTitle': {
       'ui:description': <h4>Date range pattern</h4>,
@@ -46,6 +51,7 @@ export default {
     type: 'object',
     properties: {
       dateWCV3: currentOrPastDateSchema,
+      dateDigitsWCV3: currentOrPastDateDigitsSchema,
       dateOfBirthWCV3: dateOfBirthSchema,
       'view:dateSubTitle': {
         type: 'object',
@@ -59,6 +65,6 @@ export default {
       dateMonthYear: currentOrPastMonthYearDateSchema,
       dateMonthYearRange: currentOrPastMonthYearDateRangeSchema,
     },
-    required: ['dateWCV3', 'dateMonthYear'],
+    required: ['dateWCV3', 'dateDigitsWCV3', 'dateMonthYear'],
   },
 };

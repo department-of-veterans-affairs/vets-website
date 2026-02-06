@@ -56,6 +56,10 @@ const isAppointmentNotFoundError = error => {
   return error?.code === APPOINTMENT_ERROR_CODES.APPOINTMENT_NOT_FOUND;
 };
 
+const isAppointmentAlreadyBookedError = error => {
+  return error?.code === AVAILABILITY_ERROR_CODES.APPOINTMENT_ALREADY_BOOKED;
+};
+
 export {
   isInvalidCredentialsError,
   isRateLimitExceededError,
@@ -65,4 +69,5 @@ export {
   isNotWhithinCohortError,
   isAppointmentFailedError,
   isAppointmentNotFoundError,
+  isAppointmentAlreadyBookedError,
 };
