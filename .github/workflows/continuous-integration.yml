@@ -1958,8 +1958,15 @@ jobs:
 
       - name: Fetch origin/main for diff
         # Fetch only main branch with limited depth instead of full history (37k+ commits)
-        # --depth=100 covers PRs up to 100 commits behind main while keeping fetch time ~4s vs ~20s
-        run: git fetch origin main:refs/remotes/origin/main --depth=100
+        # --depth=300 covers PRs up to ~2 weeks behind main (~150 commits/week)
+        # If the merge-base isn't in the shallow history (e.g. long-lived branches
+        # like update-node-22), falls back to a full fetch of main
+        run: |
+          git fetch origin main:refs/remotes/origin/main --depth=300
+          if ! git merge-base --is-ancestor $(git merge-base origin/main HEAD 2>/dev/null || echo "missing") HEAD 2>/dev/null; then
+            echo "Merge-base not found in shallow history — falling back to full fetch of main"
+            git fetch origin main:refs/remotes/origin/main --unshallow 2>/dev/null || git fetch origin main:refs/remotes/origin/main
+          fi
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
