@@ -8,6 +8,7 @@ if [[ "${VETS_WEBSITE_MHV_MOCK_SERVICE}" == "YES" ]]; then
     # Start vets-website
     printf "\n\n##### Starting vets-website #####\n"
     cd ../vets-website && yarn watch --env api=https://${CODESPACE_NAME}-3000.app.github.dev public=https://${CODESPACE_NAME}-3001.app.github.dev
+    exit 0
 fi
 
 
@@ -18,7 +19,9 @@ CODESPACE_MOCK_HOST=https://${CODESPACE_NAME}-3000.app.github.dev
 
 # Set default values
 MOCK_RESPONSES=${MOCK_RESPONSES:-src/platform/testing/local-dev-mock-api/common.js}
-if [[ -f  $MOCK_RESPONSES ]]; then 
+
+# As in MHV mocks, responses may be a directory
+if [[ -f "$MOCK_RESPONSES" || -d "$MOCK_RESPONSES" ]]; then 
     MOCKS_EXIST="YES"
 else
     MOCKS_EXIST="NO"
@@ -42,8 +45,8 @@ else
     printf "\n\n##### Codespace display name does not start with 'va-public-'. Setting up private environment. #####\n"
 fi
 
-if [ "$MAKE_APP_PUBLIC" == "YES" ]; then
-    if [ "$MOCKS_EXIST" == "YES" ]; then
+if [[ "$MAKE_APP_PUBLIC" == "YES" ]]; then
+    if [[ "$MOCKS_EXIST" == "YES" ]]; then
         # Start mock API server
         printf "\n\n##### Starting mock API server #####\n"
         yarn mock-api --responses "$MOCK_RESPONSES" &
@@ -52,13 +55,13 @@ if [ "$MAKE_APP_PUBLIC" == "YES" ]; then
     # Start vets-website
     if [[ -n "$ENTRY_APPS" && "$MOCKS_EXIST" == "YES" ]]; then
         printf "\n\n##### Starting vets-website with entry apps and mocks #####\n"
-        yarn watch --env entry="$ENTRY_APPS" api=$VETS_API_HOST &
-    elif [ -n "$ENTRY_APPS" ]; then
+        yarn watch --env entry="$ENTRY_APPS" api="$VETS_API_HOST" &
+    elif [[ -n "$ENTRY_APPS" ]]; then
         printf "\n\n##### Starting vets-website with entry apps and default API ####\n"
-        yarn watch --env entry="$ENTRY_APPS" api=$VETS_API_HOST &
+        yarn watch --env entry="$ENTRY_APPS" api="$VETS_API_HOST" &
     else
         printf "\n\n##### Starting vets-website with all apps and default API ####\n"
-        yarn watch --env api=$VETS_API_HOST &
+        yarn watch --env api="$VETS_API_HOST" &
     fi
 
     # Wait for servers to start
