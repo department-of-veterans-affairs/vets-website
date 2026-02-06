@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import propTypes from 'prop-types';
-import { datadogRum } from '@datadog/browser-rum';
 import ProgressButton from './ProgressButton';
 
 /**
@@ -14,7 +13,7 @@ import ProgressButton from './ProgressButton';
  */
 
 /**
- * Helper function to wrap a handler with optional DataDog tracking
+ * Helper function to wrap a handler with optional tracking callback
  * @param {Function} handler - The original handler function
  * @param {Function} trackingCallback - Optional tracking callback
  * @returns {Function} Wrapped handler with tracking
@@ -22,10 +21,9 @@ import ProgressButton from './ProgressButton';
 const wrapWithTracking = (handler, trackingCallback) => () => {
   if (!handler) return;
 
-  // If tracking callback is provided, call it to get properties and track
+  // If tracking callback is provided, call it
   if (trackingCallback) {
-    const trackingData = trackingCallback();
-    datadogRum.addAction(trackingData.actionName, trackingData.properties);
+    trackingCallback();
   }
 
   // Call the original handler function

@@ -1,16 +1,15 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import { datadogRum } from '@datadog/browser-rum';
 import {
   VaSidenav,
   VaSidenavItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { buildMajorSteps } from '../utils/buildMajorStepsFromConfig';
 import {
-  getSideNavChapterClickedTrackingData,
-  getMobileAccordionTrackingData,
-} from '../utils/datadogTracking';
+  trackSideNavChapterClick,
+  trackMobileAccordionClick,
+} from '../utils/datadogRumTracking';
 
 const DISABLED_STYLE =
   'vads-u-margin--0 vads-u-padding-y--1 vads-u-padding-left--2 vads-u-padding-right--0p5 vads-u-color--gray vads-u-border-color--gray-lightest vads-u-border-bottom--1px';
@@ -140,15 +139,11 @@ export default function ClaimFormSideNav({
               accordionButton.getAttribute('aria-expanded') === 'true';
             const state = isExpanded ? 'expanded' : 'collapsed';
 
-            const trackingData = getMobileAccordionTrackingData({
+            trackMobileAccordionClick({
               pathname,
               state,
+              accordionTitle: 'Form steps',
             });
-
-            datadogRum.addAction(
-              trackingData.actionName,
-              trackingData.properties,
-            );
           }, 0);
         };
 
@@ -198,11 +193,10 @@ export default function ClaimFormSideNav({
       });
     }
     // Track side nav click for DataDog RUM
-    const trackingData = getSideNavChapterClickedTrackingData({
+    trackSideNavChapterClick({
       pageData,
       currentPathname: pathname,
     });
-    datadogRum.addAction(trackingData.actionName, trackingData.properties);
 
     setFormData(formData);
     router.push(destination);

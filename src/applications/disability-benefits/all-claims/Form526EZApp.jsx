@@ -3,7 +3,6 @@ import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
-import { datadogRum } from '@datadog/browser-rum';
 
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -60,13 +59,13 @@ import {
 import ClaimFormSideNav from './components/ClaimFormSideNav';
 import ClaimFormSideNavErrorBoundary from './components/ClaimFormSideNavErrorBoundary';
 import {
-  getBackButtonTrackingData,
-  getContinueButtonTrackingData,
-  getSaveFormTrackingData,
-  getFormStartedTrackingData,
-  getFormResumptionTrackingData,
-  getFormSubmittedTrackingData,
-} from './utils/datadogTracking';
+  trackBackButtonClick,
+  trackContinueButtonClick,
+  trackSaveFormClick,
+  trackFormStarted,
+  trackFormResumption,
+  trackFormSubmitted,
+} from './utils/datadogRumTracking';
 
 // Module-level state holder for tracking callbacks to access current Redux state
 // This allows callbacks in formConfig to access runtime state without prop drilling
@@ -83,21 +82,21 @@ if (!formConfig.formOptions) {
 }
 
 formConfig.formOptions.onBackClickTracking = () =>
-  getBackButtonTrackingData({
+  trackBackButtonClick({
     featureToggles: runtimeState.featureToggles,
     formData: runtimeState.formData,
     pathname: runtimeState.pathname,
   });
 
 formConfig.formOptions.onContinueClickTracking = () =>
-  getContinueButtonTrackingData({
+  trackContinueButtonClick({
     featureToggles: runtimeState.featureToggles,
     formData: runtimeState.formData,
     pathname: runtimeState.pathname,
   });
 
 formConfig.formOptions.onSaveTracking = () =>
-  getSaveFormTrackingData({
+  trackSaveFormClick({
     featureToggles: runtimeState.featureToggles,
     formData: runtimeState.formData,
     pathname: runtimeState.pathname,
@@ -119,12 +118,11 @@ formConfig.onFormLoaded = props => {
     const alreadyTracked = sessionStorage.getItem(storageKey) === 'true';
 
     if (!alreadyTracked) {
-      const trackingData = getFormResumptionTrackingData({
+      trackFormResumption({
         featureToggles: runtimeState.featureToggles,
         formData: props.formData,
         returnUrl: props.returnUrl,
       });
-      datadogRum.addAction(trackingData.actionName, trackingData.properties);
       sessionStorage.setItem(storageKey, 'true');
     }
   }
@@ -142,11 +140,10 @@ formConfig.submit = (form, formConfigParam, options) => {
   return submitPromise.then(
     result => {
       // Track successful submission - NO PII, only metadata
-      const trackingData = getFormSubmittedTrackingData({
+      trackFormSubmitted({
         featureToggles: runtimeState.featureToggles,
         pathname: runtimeState.pathname,
       });
-      datadogRum.addAction(trackingData.actionName, trackingData.properties);
 
       return result;
     },
@@ -241,11 +238,10 @@ export const Form526Entry = ({
       const alreadyTracked = sessionStorage.getItem(storageKey) === 'true';
 
       if (isFirstFormPage && hasNoSavedForm && !alreadyTracked) {
-        const trackingData = getFormStartedTrackingData({
+        trackFormStarted({
           featureToggles,
           pathname: location?.pathname,
         });
-        datadogRum.addAction(trackingData.actionName, trackingData.properties);
         sessionStorage.setItem(storageKey, 'true');
       }
     },

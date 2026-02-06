@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { datadogRum } from '@datadog/browser-rum';
 
 import {
   Element,
@@ -33,13 +32,10 @@ class SaveFormLink extends React.Component {
       });
     }
 
-    // If tracking callback is provided, call it to get properties and track
+    // If tracking callback is provided, call it
     const onSaveTracking = formConfig?.formOptions?.onSaveTracking;
     if (onSaveTracking) {
-      const trackingData = onSaveTracking();
-      if (trackingData) {
-        datadogRum.addAction(trackingData.actionName, trackingData.properties);
-      }
+      onSaveTracking();
     }
 
     // Save form on a specific page form exit callback
