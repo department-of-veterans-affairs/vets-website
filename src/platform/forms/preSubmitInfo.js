@@ -23,5 +23,5 @@ export default {
       </a>
     </span>
   ),
-  error: 'You must accept the privacy policy before continuing.',
+  error: 'You must accept the privacy policy before continuing!',
 };
