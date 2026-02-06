@@ -5,7 +5,6 @@ import {
   testNumberOfWebComponentFields,
 } from '../../../../shared/tests/pages/pageTests.spec';
 import { ApplicantRelOriginPage } from '../../../chapters/ApplicantRelOriginPage';
-import { ApplicantGenderPage } from '../../../chapters/ApplicantGenderPage';
 import {
   SignerContactInfoPage,
   signerContactOnGoForward,
@@ -106,10 +105,6 @@ testComponentRender(
   />,
 );
 
-testComponentRender(
-  'ApplicantRelOriginPage',
-  <ApplicantGenderPage data={{ ...mockData.data }} />,
-);
 testComponentRender(
   'SignerContactInfoPage',
   <SignerContactInfoPage data={{}} />,

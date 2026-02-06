@@ -983,7 +983,7 @@ describe('1010d `validateApplicant` form validation', () => {
     applicantName: { first: 'John', last: 'Doe' },
     applicantDob: '1990-01-01',
     applicantSsn: '123456789',
-    applicantGender: { gender: 'M' },
+    applicantGender: 'male',
     applicantPhone: '555-123-4567',
     applicantAddress: {
       street: '123 Main St',
@@ -1019,7 +1019,7 @@ describe('1010d `validateApplicant` form validation', () => {
       ['last name is omitted', { applicantName: { first: 'John' } }],
       ['DOB is omitted', { applicantDob: undefined }],
       ['SSN is omitted', { applicantSsn: undefined }],
-      ['gender is omitted', { applicantGender: {} }],
+      ['gender is omitted', { applicantGender: undefined }],
       ['phone is omitted', { applicantPhone: undefined }],
       [
         'street is omitted',

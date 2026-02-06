@@ -400,7 +400,7 @@ const validateApplicantBasicFields = item => {
     applicantName,
     applicantDob,
     applicantSsn,
-    applicantGender: { gender } = {},
+    applicantGender,
     applicantPhone,
     applicantAddress: { street, city, state } = {},
     applicantRelationshipToSponsor,
@@ -409,7 +409,7 @@ const validateApplicantBasicFields = item => {
   if (!applicantName?.first || !applicantName?.last) return true;
   if (!applicantDob) return true;
   if (!applicantSsn) return true;
-  if (!gender) return true;
+  if (!applicantGender) return true;
   if (!applicantPhone) return true;
   if (!street || !city || !state) return true;
   return !applicantRelationshipToSponsor?.relationshipToVeteran;
