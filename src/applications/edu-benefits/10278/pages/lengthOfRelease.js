@@ -7,7 +7,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { validateCurrentOrPastDate } from '~/platform/forms-system/src/js/validation';
+import { validateCurrentOrFutureDate } from '~/platform/forms-system/src/js/validation';
 import { DISCLOSURE_OPTIONS } from '../helpers';
 
 const uiSchema = {
@@ -66,7 +66,7 @@ const uiSchema = {
         expandUnderCondition: value => value === 'date',
         required: formData => formData?.lengthOfRelease?.duration === 'date',
       }),
-      'ui:validations': [validateCurrentOrPastDate],
+      'ui:validations': [validateCurrentOrFutureDate],
     },
   },
 };
