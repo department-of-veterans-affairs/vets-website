@@ -24,6 +24,7 @@ const createFormConfig = (config = {}) => ({
     appType: 'application',
     ...(config.customText || {}),
   },
+  subTitle: 'Application for Health Benefits (VA Form 10-10EZ)',
   ...config,
 });
 
@@ -195,9 +196,9 @@ describe('<SaveInProgressIntro>', () => {
       const { els } = subject({ user });
       expect(els.alert).to.exist;
       expect(els.alert.textContent).to.include(
-        'Your application is in progress',
+        'You have an application in progress',
       );
-      expect(els.alert.textContent).to.include('will expire on');
+      expect(els.alert.textContent).to.include('until');
       expect(els.alert.textContent).to.include(
         format(fromUnixTime(lastUpdated), "MMMM d, yyyy', at'"),
       );
@@ -208,7 +209,9 @@ describe('<SaveInProgressIntro>', () => {
       const { container } = subject({ user, headingLevel: 3 });
       const heading = container.querySelector('va-alert h3');
       expect(heading).to.exist;
-      expect(heading.textContent).to.include('Your application is in progress');
+      expect(heading.textContent).to.include(
+        'You have an application in progress',
+      );
     });
 
     it('should render form start controls', () => {
@@ -219,13 +222,6 @@ describe('<SaveInProgressIntro>', () => {
           'va-button[data-testid="continue-your-application"]',
         ),
       ).to.exist;
-    });
-
-    it('should use custom continue message when provided', () => {
-      const user = withSavedForm();
-      const continueMsg = <p>Custom continue message</p>;
-      const { container } = subject({ user, continueMsg });
-      expect(container.textContent).to.include('Custom continue message');
     });
 
     it('should render custom app type text', () => {
@@ -556,7 +552,7 @@ describe('<SaveInProgressIntro>', () => {
         resumeOnly: true,
       });
       expect(container.textContent).to.include(
-        'Your application is in progress',
+        'You have an application in progress',
       );
     });
   });
@@ -806,19 +802,6 @@ describe('<SaveInProgressIntro>', () => {
   });
 
   describe('when handling edge cases', () => {
-    it('should not render inProgress message when message is empty', () => {
-      const user = withSavedForm();
-      const formConfig = createFormConfig({
-        messages: { inProgress: '' },
-      });
-      const { container } = subject({ user, formConfig });
-      const heading = container.querySelector('va-alert h2');
-      expect(heading).to.exist;
-      expect(heading.textContent).to.not.include(
-        'Your application is in progress',
-      );
-    });
-
     it('should render afterButtonContent when not in buttonOnly mode', () => {
       const user = loggedIn();
       const afterButtonContent = (
@@ -839,7 +822,7 @@ describe('<SaveInProgressIntro>', () => {
       const lastSavedDate = 946684800000;
       const user = withSavedForm();
       const { container } = subject({ user, lastSavedDate });
-      expect(container.textContent).to.include('last saved on');
+      expect(container.textContent).to.include('last saved');
     });
 
     it('should use default app type when not provided', () => {

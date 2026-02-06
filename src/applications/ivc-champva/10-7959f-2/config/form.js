@@ -79,7 +79,7 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   downtime: {
     dependencies: [externalServices.pega, externalServices.form107959f2],
   },

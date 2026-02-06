@@ -84,7 +84,7 @@ const formConfig = {
   },
   version: migrations.length,
   migrations,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: 'Please start over to register for FMP benefits.',
     noAuth:
