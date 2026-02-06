@@ -14,8 +14,20 @@ fi
 
 # script to start the mock API server and vets-website if MAKE_APP_PUBLIC is set to 'YES'
 
+# Mock host: if mocks are used and no VETS_API_HOST provided
+CODESPACE_MOCK_HOST=https://${CODESPACE_NAME}-3000.app.github.dev
+
 # Set default values
 MOCK_RESPONSES=${MOCK_RESPONSES:-src/platform/testing/local-dev-mock-api/common.js}
+if [[ -f  $MOCK_RESPONSES ]]; then 
+    MOCKS_EXIST="YES"
+else
+    MOCKS_EXIST="NO"
+fi
+
+
+# Default API HOST+PROTOCOL to use
+VETS_API_HOST=${VETS_API_OVERRIDE:-$CODESPACE_MOCK_HOST}
 
 # Get the display name of the Codespace
 DISPLAY_NAME=$(gh codespace view --json displayName -q .displayName)
@@ -31,17 +43,22 @@ else
     printf "\n\n##### Codespace display name does not start with 'va-public-'. Setting up private environment. #####\n"
 fi
 
-if [ "$MAKE_APP_PUBLIC" == "YES" ]; then
-    # Start mock API server
-    printf "\n\n##### Starting mock API server #####\n"
-    yarn mock-api --responses "$MOCK_RESPONSES" &
+if [ "$MAKE_APP_PUBLIC" == "YES" && "$MOCKS_EXIST" == "YES" ]; then
+        # Start mock API server
+        printf "\n\n##### Starting mock API server #####\n"
+        yarn mock-api --responses "$MOCK_RESPONSES" &
+    fi 
 
     # Start vets-website
-    printf "\n\n##### Starting vets-website #####\n"
-    if [ -n "$ENTRY_APPS" ]; then
-        yarn watch --env entry="$ENTRY_APPS" api=https://${CODESPACE_NAME}-3000.app.github.dev &
+    if [ -n "$ENTRY_APPS" && "$MOCKS_EXIST" == "YES" ]; then
+        printf "\n\n##### Starting vets-website with entry apps and mocks #####\n"
+        yarn watch --env entry="$ENTRY_APPS" api=$VETS_API_HOST &
+    elif [ -n "$ENTRY_APPS" ]; then
+        printf "\n\n##### Starting vets-website with entry apps and default API ####\n"
+        yarn watch --env entry="$ENTRY_APPS" api=$VETS_API_HOST &
     else
-        yarn watch --env api=https://${CODESPACE_NAME}-3000.app.github.dev &
+        printf "\n\n##### Starting vets-website with all apps and default API ####\n"
+        yarn watch --env api=$VETS_API_HOST &
     fi
 
     # Wait for servers to start
