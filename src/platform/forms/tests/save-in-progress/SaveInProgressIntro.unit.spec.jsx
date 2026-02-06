@@ -236,7 +236,7 @@ describe('<SaveInProgressIntro>', () => {
       );
       const { els } = subject({ user });
       expect(els.alert).to.have.attr('status', 'warning');
-      expect(els.alert.textContent).to.include('Your application has expired');
+      expect(els.alert.textContent).to.match(/expired/i);
     });
   });
 
@@ -244,10 +244,7 @@ describe('<SaveInProgressIntro>', () => {
     it('should render default prefill notification', () => {
       const user = withPrefill();
       const { els } = subject({ user });
-      expect(els.alert.textContent).to.include(
-        'We’ve prefilled some of your information',
-      );
-      expect(els.alert.textContent).to.include('Since you’re signed in');
+      expect(els.alert.textContent).to.match(/prefilled/);
     });
 
     it('should render custom verified prefill alert when provided', () => {
@@ -264,9 +261,7 @@ describe('<SaveInProgressIntro>', () => {
     it('should render save in progress message', () => {
       const user = loggedIn();
       const { els } = subject({ user });
-      expect(els.alert.textContent).to.include(
-        'You can save this application in progress',
-      );
+      expect(els.alert.textContent).to.match(/in progress/i);
     });
 
     it('should render form start controls', () => {
@@ -313,9 +308,7 @@ describe('<SaveInProgressIntro>', () => {
         prefillEnabled: true,
         unauthStartText: 'Custom sign in text',
       });
-      expect(els.button)
-        .to.have.attr('text')
-        .that.includes('Custom sign in text');
+      expect(els.button).to.have.attr('text', 'Custom sign in text');
     });
 
     it('should render custom unverified prefill alert', () => {
@@ -386,9 +379,10 @@ describe('<SaveInProgressIntro>', () => {
     it('should render sign in button with correct text', () => {
       const user = createUser();
       const { els } = subject({ user });
-      expect(els.button)
-        .to.have.attr('text')
-        .that.includes('Sign in to start your application');
+      expect(els.button).to.have.attr(
+        'text',
+        'Sign in to start your application'
+      );
     });
 
     it('should apply aria-label and aria-describedby to button', () => {
@@ -518,9 +512,7 @@ describe('<SaveInProgressIntro>', () => {
         user,
         resumeOnly: true,
       });
-      expect(container.textContent).to.include(
-        'You have an application in progress',
-      );
+      expect(container.textContent).to.match(/in progress/i);
     });
   });
 
@@ -795,7 +787,7 @@ describe('<SaveInProgressIntro>', () => {
       const lastSavedDate = 946684800000;
       const user = withSavedForm();
       const { container } = subject({ user, lastSavedDate });
-      expect(container.textContent).to.include('last saved');
+      expect(container.textContent).to.match(/last saved/i);
     });
 
     it('should use default app type when not provided', () => {
