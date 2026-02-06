@@ -148,6 +148,7 @@ import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import getPreSubmitInfo from '../content/preSubmitInfo';
 import ConfirmationAncillaryFormsWizard from '../components/confirmationFields/ConfirmationAncillaryFormsWizard';
+import { EvidenceRequestPage } from '../components/EvidenceRequestPage';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -626,6 +627,8 @@ const formConfig = {
           path: 'supporting-evidence/evidence-request',
           depends: formData =>
             !isBDD(formData) && isEvidenceEnhancement(formData),
+          CustomPage: EvidenceRequestPage,
+          CustomPageReview: null,
           uiSchema: evidenceRequest.uiSchema,
           schema: evidenceRequest.schema,
         },
