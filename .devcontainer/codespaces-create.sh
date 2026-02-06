@@ -18,7 +18,7 @@ yarn install-repos
 # Build vets-website
 printf "\n\n##### Installing vets-website #####\n"
 set -e
-cd ../vets-website && yarn cache clean && yarn install --production=false --prefer-offline
+cd ../vets-website && yarn cache clean && yarn install-safe
 
 if [[ "${VETS_WEBSITE_BUILD_SELF}" != "NO" ]]; then
   yarn build -- --host="${CODESPACE_NAME}-3001.githubpreview.dev/" --env api=${CODESPACE_NAME}-3000.githubpreview.dev/
