@@ -5,16 +5,19 @@ import {
   useLocation,
   useNavigate,
   useParams,
+  useSearchParams,
 } from 'react-router-dom-v5-compat';
 import { useBreadcrumbFocus } from 'platform/mhv/hooks/useBreadcrumbFocus';
 import { createBreadcrumbs } from '../util/helpers';
-import { medicationsUrls } from '../util/constants';
+import { medicationsUrls, STATION_NUMBER_PARAM } from '../util/constants';
 import { selectPageNumber } from '../selectors/selectPreferences';
 
 const RxBreadcrumbs = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { prescriptionId } = useParams();
+  const [searchParams] = useSearchParams();
+  const stationNumber = searchParams.get(STATION_NUMBER_PARAM);
   const currentPage = useSelector(selectPageNumber);
   const [breadcrumbs, setBreadcrumbs] = useState([]);
 
@@ -42,13 +45,20 @@ const RxBreadcrumbs = () => {
 
   let content = null;
 
+  // Build the back URL with station_number if present (required for v2 API)
+  const detailsBackUrl = stationNumber
+    ? `${
+        medicationsUrls.PRESCRIPTION_DETAILS
+      }/${prescriptionId}?${STATION_NUMBER_PARAM}=${stationNumber}`
+    : `${medicationsUrls.PRESCRIPTION_DETAILS}/${prescriptionId}`;
+
   if (
     location.pathname.includes(medicationsUrls.subdirectories.DOCUMENTATION)
   ) {
     content = (
       <div className="include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3">
         <va-link
-          href={`${medicationsUrls.PRESCRIPTION_DETAILS}/${prescriptionId}`}
+          href={detailsBackUrl}
           text="Back"
           data-testid="rx-breadcrumb-link"
         />
