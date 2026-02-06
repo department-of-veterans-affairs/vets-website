@@ -18,11 +18,14 @@ import UploadType2ErrorAlertSlim from './UploadType2ErrorAlertSlim';
 const formatDate = buildDateFormatter();
 
 const getLastUpdated = claim => {
-  const updatedOn = formatDate(
-    claim.attributes.claimPhaseDates?.phaseChangeDate,
-  );
+  const { claimPhaseDates, closeDate, claimDate } = claim.attributes || {};
+  const phaseChangeDate = claimPhaseDates?.phaseChangeDate;
+  const hasPhaseDate = !!phaseChangeDate;
+  const updatedOn = formatDate(phaseChangeDate || closeDate || claimDate);
 
-  return `Moved to this step on ${updatedOn}`;
+  return hasPhaseDate
+    ? `Moved to this step on ${updatedOn}`
+    : `Last updated on ${updatedOn}`;
 };
 
 const showPreDecisionCommunications = claim => {
@@ -32,6 +35,28 @@ const showPreDecisionCommunications = claim => {
 };
 
 const isClaimComplete = claim => claim.attributes.status === 'COMPLETE';
+
+const IVC_CHAMPVA_FORM_IDS = [
+  '10-10d',
+  '10-10d-extended',
+  '10-7959a',
+  '10-7959c',
+  '10-7959f-1',
+  '10-7959f-2',
+];
+
+const isChampvaClaim = claim => {
+  const { claimType, claimTypeBase, displayTitle } = claim.attributes || {};
+  const normalizedValues = [claimType, claimTypeBase, displayTitle]
+    .filter(Boolean)
+    .map(value => value.toLowerCase());
+
+  return normalizedValues.some(
+    value =>
+      value.includes('champva') ||
+      IVC_CHAMPVA_FORM_IDS.some(formId => value.includes(formId)),
+  );
+};
 
 const CommunicationsItem = ({ children, icon }) => {
   return (
@@ -72,12 +97,25 @@ export default function ClaimsListItem({ claim }) {
   );
 
   const inProgress = !isClaimComplete(claim);
+  const showSubmittedLabel =
+    isChampvaClaim(claim) && !claimPhaseDates?.phaseType && inProgress;
   const showPrecomms = showPreDecisionCommunications(claim);
   const formattedReceiptDate = formatDate(claimDate);
-  const humanStatus = showEightPhases
-    ? getClaimPhaseTypeHeaderText(claimPhaseDates.phaseType)
-    : getStatusDescription(status);
+  const phaseType = claimPhaseDates?.phaseType;
+  const phaseHeaderText =
+    showEightPhases && phaseType
+      ? getClaimPhaseTypeHeaderText(phaseType)
+      : getStatusDescription(status);
+  const humanStatus = phaseHeaderText || status;
   const showAlert = showPrecomms && documentsNeeded;
+  const cardLabel = useMemo(
+    () => {
+      if (showSubmittedLabel) return 'Submitted';
+      if (inProgress) return 'In Progress';
+      return null;
+    },
+    [inProgress, showSubmittedLabel],
+  );
 
   const ariaLabel = `Details for claim submitted on ${formattedReceiptDate}`;
   const href = `/your-claims/${claim.id}/status`;
@@ -92,7 +130,7 @@ export default function ClaimsListItem({ claim }) {
   return (
     <ClaimCard
       title={generateClaimTitle(claim)}
-      label={inProgress ? 'In Progress' : null}
+      label={cardLabel}
       subtitle={`Received on ${formattedReceiptDate}`}
     >
       <ul className="communications">

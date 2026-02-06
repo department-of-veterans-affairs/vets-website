@@ -885,6 +885,59 @@ describe('<ClaimsListItem>', () => {
     },
   );
 
+  context('when a claim has no phase metadata', () => {
+    it('renders fallback status and last updated text for server-generated claims', () => {
+      const claim = {
+        id: 42,
+        attributes: {
+          claimDate: '2025-01-10',
+          closeDate: '2025-01-17',
+          displayTitle: 'Claim for CHAMPVA application',
+          claimTypeBase: 'champva application claim',
+          status: 'Processed',
+        },
+      };
+
+      const { getByText, queryByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <ClaimsListItem claim={claim} />
+        </Provider>,
+      );
+
+      getByText('Claim for CHAMPVA application');
+      getByText('Submitted');
+      getByText('Received on January 10, 2025');
+      getByText('Processed');
+      getByText('Last updated on January 17, 2025');
+      expect(queryByText('Moved to this step on')).to.be.null;
+      expect(queryByText('In Progress')).to.be.null;
+    });
+
+    it('renders Submitted label for IVC CHAMPVA form IDs without champva text in title', () => {
+      const claim = {
+        id: 43,
+        attributes: {
+          claimDate: '2025-01-10',
+          closeDate: '2025-01-17',
+          displayTitle: 'Claim for 10-10d-extended',
+          claimTypeBase: '10-10d-extended claim',
+          status: 'Submission failed',
+        },
+      };
+
+      const { getByText, queryByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <ClaimsListItem claim={claim} />
+        </Provider>,
+      );
+
+      getByText('Claim for 10-10d-extended');
+      getByText('Submitted');
+      getByText('Submission failed');
+      expect(queryByText('In Progress')).to.be.null;
+    });
+  });
+
   context(
     'when the cst_show_document_upload_status feature toggle is disabled',
     () => {
