@@ -18,7 +18,7 @@ const SubmissionInstructions = () => {
         />{' '}
         to complete the submission process. You’ll need these items to receive
         reimbursement for costs associated with your prep course. If you would
-        rather print and mail your form attachements, the address for your
+        rather print and mail your form attachements, the addresses for your
         region will be listed at the end of this form.
       </p>
     </div>
