@@ -260,6 +260,7 @@ const testConfig = createTestConfig(
         });
       },
       [fileInputPage]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           testAdditionalInfo();
           testContinueWithoutFile();
@@ -270,7 +271,6 @@ const testConfig = createTestConfig(
           testEncryptedPdf();
           testRejectFileNotAccepted();
           uploadValidFileAndNavigateToReviewPage();
-          cy.injectAxeThenAxeCheck();
         });
       },
       [reviewAndSubmit]: ({ afterHook }) => {
