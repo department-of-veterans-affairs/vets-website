@@ -21,6 +21,7 @@
 /**
  * @typedef {Object} FormConfig
  * @property {Array<Object>} [additionalRoutes]
+ * @property {boolean} [allowDuplicatePaths]
  * @property {string} [ariaDescribedBySubmit]
  * @property {string} [backLinkText]
  * @property {Record<string, FormConfigChapter>} [chapters]
@@ -77,6 +78,7 @@
  * @property {boolean} [verifyRequiredPrefill]
  * @property {number} [version]
  * @property {string} [wizardStorageKey]
+ * @property {boolean} [dynamicPaths] do the form pages have dynamic paths, e.g. form-upload
  */
 
 /**
@@ -87,6 +89,7 @@
  * @property {string} [reviewPageTitle]
  * @property {string} [startNewAppButtonText]
  * @property {string} [submitButtonText]
+ * @property {string} [reviewPageFormTitle]
  */
 
 /**
@@ -265,7 +268,7 @@
  *   'ui:reviewField'?: React.ReactNode,
  *   'ui:reviewWidget'?: React.ReactNode,
  *   'ui:title'?: string | JSX.Element | React.ReactNode,
- *   'ui:validations'?: Array<((errors, formData, uiSchema, schema, errorMessages) => void)>,
+ *   'ui:validations'?: Array<((errors, fieldData, formData, schema, errorMessages) => void)>,
  *   'ui:webComponentField'?: React.ReactNode,
  *   'ui:widget'?: 'yesNo' | 'checkbox' | 'radio' | 'select' | 'email' | 'date' | 'textarea'  | OrAnyString | ((props: any) => JSX.Element),
  * } & {
@@ -624,21 +627,23 @@
 
 /**
  * @typedef {Object} PersonalInfoPageOptions - Options object for profilePersonalInfoPage function
+ * @property {boolean} [background] - Whether to display a background on the page
+ * @property {JSX.Element|React.ReactNode} [cardHeader] - Custom card header component
+ * @property {JSX.Element|React.ReactNode} [contentAfterButtons] - Content to display after the navigation buttons
+ * @property {JSX.Element|React.ReactNode} [contentBeforeButtons] - Content to display before the navigation buttons
+ * @property {DataAdapter} [dataAdapter] - Data adapter configuration object for the PersonalInformation component
+ * @property {Function} [depends] - Conditional function to determine if page should be shown
+ * @property {string|Function} [errorMessage] - Custom error message or component for missing data
+ * @property {JSX.Element|React.ReactNode} [footer] - Custom footer component
+ * @property {JSX.Element|React.ReactNode} [header] - Custom header component
+ * @property {boolean} [hideOnReview] - Whether to hide the page on the review page
  * @property {string} [key] - The page key within the form config chapter
- * @property {string} [title] - The title of the page
+ * @property {JSX.Element|React.ReactNode} [note] - Custom note component
  * @property {string} [path] - The path of the page
  * @property {PersonalInformationConfig} [personalInfoConfig] - Configuration object for the PersonalInformation component
- * @property {DataAdapter} [dataAdapter] - Data adapter configuration object for the PersonalInformation component
- * @property {string|Function} [errorMessage] - Custom error message or component for missing data
- * @property {JSX.Element|React.ReactNode} [cardHeader] - Custom card header component
- * @property {JSX.Element|React.ReactNode} [header] - Custom header component
- * @property {JSX.Element|React.ReactNode} [note] - Custom note component
- * @property {JSX.Element|React.ReactNode} [footer] - Custom footer component
- * @property {JSX.Element|React.ReactNode} [contentBeforeButtons] - Content to display before the navigation buttons
- * @property {JSX.Element|React.ReactNode} [contentAfterButtons] - Content to display after the navigation buttons
- * @property {boolean} [hideOnReview] - Whether to hide the page on the review page
- * @property {Function} [depends] - Conditional function to determine if page should be shown
- * @property {boolean} [background] - Whether to display a background on the page
+ * @property {boolean} [prefillPatternEnabled] - enable prefill pattern for
+ *  personal info
+ * @property {string} [title] - The title of the page
  */
 
 /**
@@ -648,41 +653,41 @@
 
 /**
  * @typedef {Object} ContactInfoPagesOptions - Options object for profileContactInfoPage function
- * @property {import('../utilities/data/profile').ContactInfoContent} [content]
- * @property {String} [contactPath] - Contact info path of
- *  formConfig page
- * @property {String} [addressSchema] - Profile
- *  address schema object
- * @property {Object} [emailSchema] - Email schema object for
- *  email string
- * @property {Object} [phoneSchema] - Phone schema object with
- *  country code, area code, phone number & extension values
- * @property {String} [wrapperKey] - wrapper key value set in
- *  ContactInfoKeys
  * @property {String} [addressKey] - address key value set in
  *  ContactInfoKeys
- * @property {String} [homePhoneKey] - home phone key value set in
- *  ContactInfoKeys
- * @property {String} [mobilePhoneKey] - mobile phone key value set in
- *  ContactInfoKeys
- * @property {String} [emailKey] - email key value set in ContactInfoKeys
- * @property {String[]} [contactInfoRequiredKeys] - array of key values in
- *  ContactInfoKeys that are to be required before proceeding
+ * @property {String} [addressSchema] - Profile
+ *  address schema object
  * @property {String} [contactInfoPageKey] - set page key
  *  within the form config chapter
- * @property {String[]} [included] - array of ContactInfoKeys to show on the contact info page
- * @property {Function} [depends] - depends callback function; return true to
- *  make the main confirmation page visible
+ * @property {String[]} [contactInfoRequiredKeys] - array of key values in
+ *  ContactInfoKeys that are to be required before proceeding
  * @property {Object} [contactInfoUiSchema] - custom uiSchema for the contact
  *  info page
- * @property {boolean} [disableMockContactInfo] - disable mock contact info
- *  data for testing
+ * @property {String} [contactPath] - Contact info path of
+ *  formConfig page
  * @property {number} [contactSectionHeadingLevel] - heading level for contact
  *  info sections
+ * @property {import('../utilities/data/profile').ContactInfoContent} [content]
+ * @property {Function} [depends] - depends callback function; return true to
+ *  make the main confirmation page visible
+ * @property {boolean} [disableMockContactInfo] - disable mock contact info
+ *  data for testing
  * @property {number} [editContactInfoHeadingLevel] - heading level for edit
  *  contact info pages
+ * @property {String} [emailKey] - email key value set in ContactInfoKeys
+ * @property {Object} [emailSchema] - Email schema object for
+ *  email string
+ * @property {String} [homePhoneKey] - home phone key value set in
+ *  ContactInfoKeys
+ * @property {String[]} [included] - array of ContactInfoKeys to show on the contact info page
+ * @property {String} [mobilePhoneKey] - mobile phone key value set in
+ *  ContactInfoKeys
+ * @property {Object} [phoneSchema] - Phone schema object with
+ *  country code, area code, phone number & extension values
  * @property {boolean} [prefillPatternEnabled] - enable prefill pattern for
  *  contact info
+ * @property {String} [wrapperKey] - wrapper key value set in
+ *  ContactInfoKeys
  */
 
 /**

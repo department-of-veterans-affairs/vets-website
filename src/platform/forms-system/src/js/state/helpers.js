@@ -1,6 +1,7 @@
 import React from 'react';
 import { dropRight, merge } from 'lodash';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import environment from 'platform/utilities/environment';
 import dataGet from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import unset from '../../../../utilities/data/unset';
@@ -855,6 +856,8 @@ export function createInitialState(formConfig) {
     formErrors: {},
   };
 
+  const uniquePaths = new Set();
+
   const pageAndDataState = createFormPageList(formConfig).reduce(
     (state, page) => {
       const definitions = {
@@ -864,6 +867,21 @@ export function createInitialState(formConfig) {
       let schema = replaceRefSchemas(page.schema, definitions, page.pageKey);
       // Throw an error if the new schema is invalid
       checkValidSchema(schema);
+      if (page.path) {
+        if (
+          !environment.isProduction() &&
+          uniquePaths.has(page.path) &&
+          !formConfig.allowDuplicatePaths
+        ) {
+          throw new Error(
+            `Duplicate page path found: ${page.path}. Page paths must be unique.
+            Paths must be unique because usually the side effects are unintentional,
+            such as going to the route you didn't expect to go to. (router.push will
+            go to the first path it finds, even if its "depends" is false)`,
+          );
+        }
+        uniquePaths.add(page.path);
+      }
       schema = updateItemsSchema(schema);
       const isArrayPage = page.showPagePerItem;
       const data = getDefaultFormState(

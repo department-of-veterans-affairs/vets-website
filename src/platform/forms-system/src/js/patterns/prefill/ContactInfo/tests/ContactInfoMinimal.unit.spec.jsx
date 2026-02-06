@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import vapProfile from 'platform/user/profile/vap-svc/tests/fixtures/mockVapProfile.json';
 import vapService from '@@vap-svc/reducers';
 import {
@@ -79,23 +78,6 @@ const defaultInitialState = {
 };
 
 describe('<ContactInfo>', () => {
-  let useFetchInProgressFormStub;
-
-  before(() => {
-    // Mock the useFetchInProgressForm hook to prevent API calls in tests
-    const useFetchInProgressFormModule = require('../../hooks/useFetchInProgressForm');
-    useFetchInProgressFormStub = sinon
-      .stub(useFetchInProgressFormModule, 'useFetchInProgressForm')
-      .returns(undefined);
-  });
-
-  after(() => {
-    // Restore the stub after all tests
-    if (useFetchInProgressFormStub) {
-      useFetchInProgressFormStub.restore();
-    }
-  });
-
   afterEach(() => {
     clearReturnState();
   });

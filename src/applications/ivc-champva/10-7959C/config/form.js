@@ -7,9 +7,9 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 import FormFooter from '../components/FormFooter';
+import prefillTransformer from './prefillTransformer';
 import transformForSubmit from './submitTransformer';
 import { nameWording, privWrapper } from '../../shared/utilities';
-import { prefillTransformer } from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
 import migrations from './migrations';
 import { blankSchema } from '../definitions';
@@ -65,7 +65,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  showReviewErrors: !environment.isProduction(),
   footerContent: FormFooter,
   submissionError: SubmissionError,
   formId: '10-7959C',
@@ -141,7 +140,7 @@ const formConfig = {
         formSignature: {
           // initialData: mockdata.data,
           path: 'form-signature',
-          title: 'Your information',
+          title: 'Signer role',
           ...certifierRole,
         },
         ohiScreen: {
@@ -160,7 +159,7 @@ const formConfig = {
         },
         signerEmail: {
           path: 'signer-email',
-          title: 'Beneficiary’s email address',
+          title: 'Signer’s email address',
           ...certifierEmail,
         },
       },

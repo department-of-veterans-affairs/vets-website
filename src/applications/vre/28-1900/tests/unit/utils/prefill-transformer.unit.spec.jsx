@@ -22,7 +22,7 @@ describe('getSafeUserFullName', () => {
     });
   });
 
-  it('should return empty strings for missing fields and not include suffix', () => {
+  it('should not include middle name or suffix when they are missing', () => {
     const userFullName = {
       first: 'John',
       last: 'Doe',
@@ -32,38 +32,60 @@ describe('getSafeUserFullName', () => {
 
     expect(result).to.deep.equal({
       first: 'John',
-      middle: '',
       last: 'Doe',
     });
+    expect(result).to.not.have.property('middle');
+    expect(result).to.not.have.property('suffix');
   });
 
-  it('should return all empty strings when userFullName is null', () => {
-    const result = getSafeUserFullName(null);
+  it('should return only first and last as empty strings when input is null, undefined, or empty', () => {
+    [null, undefined, {}].forEach(input => {
+      const result = getSafeUserFullName(input);
 
-    expect(result).to.deep.equal({
-      first: '',
-      middle: '',
-      last: '',
+      expect(result).to.deep.equal({
+        first: '',
+        last: '',
+      });
+      expect(result).to.not.have.property('middle');
+      expect(result).to.not.have.property('suffix');
     });
   });
 
-  it('should return all empty strings when userFullName is undefined', () => {
-    const result = getSafeUserFullName(undefined);
+  it('should not include middle name key when middle name is falsy', () => {
+    [null, undefined, ''].forEach(middleValue => {
+      const userFullName = {
+        first: 'John',
+        middle: middleValue,
+        last: 'Doe',
+      };
 
-    expect(result).to.deep.equal({
-      first: '',
-      middle: '',
-      last: '',
+      const result = getSafeUserFullName(userFullName);
+
+      expect(result).to.deep.equal({
+        first: 'John',
+        last: 'Doe',
+      });
+      expect(result).to.not.have.property('middle');
     });
   });
 
-  it('should return all empty strings when userFullName is an empty object', () => {
-    const result = getSafeUserFullName({});
+  it('should not include suffix key when suffix is falsy', () => {
+    [null, undefined, ''].forEach(suffixValue => {
+      const userFullName = {
+        first: 'John',
+        middle: 'A',
+        last: 'Doe',
+        suffix: suffixValue,
+      };
 
-    expect(result).to.deep.equal({
-      first: '',
-      middle: '',
-      last: '',
+      const result = getSafeUserFullName(userFullName);
+
+      expect(result).to.deep.equal({
+        first: 'John',
+        middle: 'A',
+        last: 'Doe',
+      });
+      expect(result).to.not.have.property('suffix');
     });
   });
 });
@@ -73,12 +95,6 @@ describe('prefillTransformer', () => {
     user: {
       profile: {
         dob: '1980-01-01',
-        userFullName: {
-          first: 'John',
-          middle: 'A',
-          last: 'Doe',
-          suffix: 'Jr.',
-        },
         vapContactInfo: {
           mailingAddress: {
             countryCodeIso3: 'USA',
@@ -96,30 +112,75 @@ describe('prefillTransformer', () => {
 
   it('should use getSafeUserFullName when view:vrePrefillName is true', () => {
     const pages = [];
-    const formData = { 'view:vrePrefillName': true };
-    const metadata = {};
-
-    prefillModule.prefillTransformer(pages, formData, metadata, mockState);
-  });
-
-  it('should not use getSafeUserFullName when view:vrePrefillName is false', () => {
-    const pages = [];
-    const existingFullName = { first: 'Jane', middle: 'B', last: 'Smith' };
     const formData = {
-      'view:vrePrefillName': false,
-      fullName: existingFullName,
+      'view:vrePrefillName': true,
+      veteranInformation: {
+        fullName: { first: 'John', middle: null, last: 'Doe' },
+      },
     };
     const metadata = {};
 
-    prefillModule.prefillTransformer(pages, formData, metadata, mockState);
+    const result = prefillModule.prefillTransformer(
+      pages,
+      formData,
+      metadata,
+      mockState,
+    );
+
+    expect(result.formData.fullName).to.deep.equal({
+      first: 'John',
+      last: 'Doe',
+    });
+    expect(result.formData.fullName).to.not.have.property('middle');
   });
 
-  it('should not use getSafeUserFullName when view:vrePrefillName is undefined', () => {
+  it('should use fullName directly when view:vrePrefillName is falsy', () => {
     const pages = [];
-    const existingFullName = { first: 'Jane', middle: 'B', last: 'Smith' };
-    const formData = { fullName: existingFullName };
+    const backendFullName = { first: 'Jane', middle: null, last: 'Smith' };
+    const formData = {
+      veteranInformation: {
+        fullName: backendFullName,
+      },
+    };
     const metadata = {};
 
-    prefillModule.prefillTransformer(pages, formData, metadata, mockState);
+    const result = prefillModule.prefillTransformer(
+      pages,
+      formData,
+      metadata,
+      mockState,
+    );
+
+    expect(result.formData.fullName).to.equal(backendFullName);
+    expect(result.formData.fullName.middle).to.be.null;
+  });
+
+  it('should map all prefill data correctly', () => {
+    const pages = [];
+    const formData = {
+      'view:vrePrefillName': true,
+      veteranInformation: {
+        fullName: { first: 'John', middle: 'A', last: 'Doe' },
+      },
+    };
+    const metadata = {};
+
+    const result = prefillModule.prefillTransformer(
+      pages,
+      formData,
+      metadata,
+      mockState,
+    );
+
+    expect(result.formData.dob).to.equal('1980-01-01');
+    expect(result.formData.veteranAddress).to.deep.equal({
+      country: 'USA',
+      street: '123 Main St',
+      street2: 'Apt 4',
+      street3: '',
+      city: 'Springfield',
+      state: 'IL',
+      postalCode: '62701',
+    });
   });
 });

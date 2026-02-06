@@ -3,11 +3,11 @@ import {
   currentOrPastDateSchema,
   currentOrPastDateRangeUI,
   textUI,
-  textSchema,
+  selectUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import VaComboBoxField from 'platform/forms-system/src/js/web-component-fields/VaComboBoxField';
 
 import { servicesOptions } from '../../../utils/labels';
+import { customTextSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -16,13 +16,12 @@ export default {
   uiSchema: {
     ...titleUI('Service period'),
     serviceBranch: {
-      'ui:webComponentField': VaComboBoxField,
-      'ui:title': 'Branch of service',
+      ...selectUI({
+        title: 'Branch of service',
+        options: servicesOptions,
+      }),
       'ui:errorMessages': {
         required: 'Select a branch',
-      },
-      'ui:options': {
-        labels: servicesOptions,
       },
     },
     activeServiceDateRange: currentOrPastDateRangeUI(
@@ -46,7 +45,8 @@ export default {
     properties: {
       serviceBranch: {
         type: 'string',
-        enum: Object.entries(servicesOptions).map(key => key[0]),
+        enum: servicesOptions.map(option => option.value),
+        enumNames: servicesOptions.map(option => option.label),
       },
       activeServiceDateRange: {
         type: 'object',
@@ -56,7 +56,7 @@ export default {
           to: currentOrPastDateSchema,
         },
       },
-      placeOfSeparation: textSchema,
+      placeOfSeparation: customTextSchema,
     },
   },
 };
