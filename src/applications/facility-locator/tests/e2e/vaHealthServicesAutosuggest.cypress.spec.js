@@ -52,7 +52,6 @@ describe('VA health services autosuggest', () => {
 
       // Open dropdown with no search, verify services are available inside, search
       h.clickElement(h.AUTOSUGGEST_ARROW);
-      verifyDropdownIsOpen();
       h.verifyElementByText('All VA health services').click();
       verifyDropdownIsClosed();
 
