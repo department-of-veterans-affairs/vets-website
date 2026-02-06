@@ -3,9 +3,14 @@ import sinon from 'sinon';
 
 import {
   routeToPageInFlow,
+  startDirectScheduleFlow,
+  startRequestAppointmentFlow,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
+  START_DIRECT_SCHEDULE_FLOW,
+  START_REQUEST_APPOINTMENT_FLOW,
 } from './actions';
+import { APPOINTMENT_SYSTEM } from '../../utils/constants';
 
 const testFlow = {
   page1: {
@@ -130,6 +135,175 @@ describe('VAOS newAppointment actions', () => {
         direction: 'previous',
       });
       expect(history.push.firstCall.args[0]).to.equal('/page2');
+    });
+  });
+
+  describe('startDirectScheduleFlow', () => {
+    beforeEach(() => {
+      global.window.dataLayer = [];
+    });
+
+    it('should dispatch START_DIRECT_SCHEDULE_FLOW and record vista event when ehr is vista', async () => {
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: { ehr: null },
+      });
+
+      const thunk = startDirectScheduleFlow({ ehr: APPOINTMENT_SYSTEM.vista });
+      await thunk(dispatch, getState);
+
+      expect(dispatch.calledOnce).to.be.true;
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: START_DIRECT_SCHEDULE_FLOW,
+      });
+      expect(global.window.dataLayer[0]).to.deep.include({
+        event: 'vaos-direct-vista-path-started',
+      });
+    });
+
+    it('should dispatch START_DIRECT_SCHEDULE_FLOW and record cerner event when ehr is cerner', async () => {
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: { ehr: null },
+      });
+
+      const thunk = startDirectScheduleFlow({ ehr: APPOINTMENT_SYSTEM.cerner });
+      await thunk(dispatch, getState);
+
+      expect(dispatch.calledOnce).to.be.true;
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: START_DIRECT_SCHEDULE_FLOW,
+      });
+      expect(global.window.dataLayer[0]).to.deep.include({
+        event: 'vaos-direct-cerner-path-started',
+      });
+    });
+
+    it('should fall back to state ehr when no ehr param is passed', async () => {
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: { ehr: APPOINTMENT_SYSTEM.cerner },
+      });
+
+      const thunk = startDirectScheduleFlow();
+      await thunk(dispatch, getState);
+
+      expect(dispatch.calledOnce).to.be.true;
+      expect(global.window.dataLayer[0]).to.deep.include({
+        event: 'vaos-direct-cerner-path-started',
+      });
+    });
+
+    it('should not record event when isRecordEvent is false', async () => {
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: { ehr: null },
+      });
+
+      const thunk = startDirectScheduleFlow({
+        isRecordEvent: false,
+        ehr: APPOINTMENT_SYSTEM.vista,
+      });
+      await thunk(dispatch, getState);
+
+      expect(dispatch.calledOnce).to.be.true;
+      expect(global.window.dataLayer.length).to.equal(0);
+    });
+  });
+
+  describe('startRequestAppointmentFlow', () => {
+    beforeEach(() => {
+      global.window.dataLayer = [];
+    });
+
+    it('should dispatch START_REQUEST_APPOINTMENT_FLOW and record vista request event', async () => {
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: { ehr: null },
+      });
+
+      const thunk = startRequestAppointmentFlow(
+        false,
+        APPOINTMENT_SYSTEM.vista,
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.calledOnce).to.be.true;
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: START_REQUEST_APPOINTMENT_FLOW,
+      });
+      expect(global.window.dataLayer[0]).to.deep.include({
+        event: 'vaos-request-vista-path-started',
+      });
+    });
+
+    it('should dispatch START_REQUEST_APPOINTMENT_FLOW and record cerner request event', async () => {
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: { ehr: null },
+      });
+
+      const thunk = startRequestAppointmentFlow(
+        false,
+        APPOINTMENT_SYSTEM.cerner,
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.calledOnce).to.be.true;
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: START_REQUEST_APPOINTMENT_FLOW,
+      });
+      expect(global.window.dataLayer[0]).to.deep.include({
+        event: 'vaos-request-cerner-path-started',
+      });
+    });
+
+    it('should record community-care event with vista ehr', async () => {
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: { ehr: null },
+      });
+
+      const thunk = startRequestAppointmentFlow(true, APPOINTMENT_SYSTEM.vista);
+      await thunk(dispatch, getState);
+
+      expect(dispatch.calledOnce).to.be.true;
+      expect(global.window.dataLayer[0]).to.deep.include({
+        event: 'vaos-community-care-vista-path-started',
+      });
+    });
+
+    it('should record community-care event with cerner ehr', async () => {
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: { ehr: null },
+      });
+
+      const thunk = startRequestAppointmentFlow(
+        true,
+        APPOINTMENT_SYSTEM.cerner,
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.calledOnce).to.be.true;
+      expect(global.window.dataLayer[0]).to.deep.include({
+        event: 'vaos-community-care-cerner-path-started',
+      });
+    });
+
+    it('should fall back to state ehr when no ehr param is passed', async () => {
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: { ehr: APPOINTMENT_SYSTEM.cerner },
+      });
+
+      const thunk = startRequestAppointmentFlow(false);
+      await thunk(dispatch, getState);
+
+      expect(dispatch.calledOnce).to.be.true;
+      expect(global.window.dataLayer[0]).to.deep.include({
+        event: 'vaos-request-cerner-path-started',
+      });
     });
   });
 });

@@ -528,3 +528,9 @@ export const POST_DRAFT_REFERRAL_APPOINTMENT_CACHE =
 export const POST_REFERRAL_REQUEST_CACHE = 'postReferralAppointmentCache';
 
 export const AMBULATORY_PATIENT_SUMMARY = 'ambulatory_patient_summary';
+
+export const APPOINTMENT_SYSTEM = {
+  vista: 'vista',
+  cerner: 'cerner',
+  hsrm: 'hsrm',
+};

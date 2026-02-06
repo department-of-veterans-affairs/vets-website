@@ -230,7 +230,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
     });
 
     expect(global.window.dataLayer[1]).to.deep.include({
-      event: 'vaos-community-care-submission-successful',
+      event: 'vaos-community-care-vista-submission-successful',
       flow: 'cc-request',
       'health-TypeOfCare': 'Primary care',
       'vaos-community-care-preferred-language': 'english',
@@ -287,7 +287,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
       expect(document.activeElement).to.be(alert);
     });
     expect(global.window.dataLayer[1]).to.deep.include({
-      event: 'vaos-community-care-submission-failed',
+      event: 'vaos-community-care-vista-submission-failed',
       flow: 'cc-request',
       'health-TypeOfCare': 'Primary care',
       'vaos-community-care-preferred-language': 'english',
