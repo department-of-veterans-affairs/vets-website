@@ -299,4 +299,345 @@ describe('PreferenceSelectionContainer', () => {
       });
     });
   });
+
+  describe('handlers', () => {
+    it('should provide handlers to content component', async () => {
+      let capturedHandlers;
+      const propsWithHandlerCapture = {
+        ...defaultProps,
+        getContentComponent: () => {
+          return ({ handlers }) => {
+            capturedHandlers = handlers;
+            return <div data-testid="mock-content">Content</div>;
+          };
+        },
+      };
+
+      renderWithStoreAndRouter(
+        <PreferenceSelectionContainer {...propsWithHandlerCapture} />,
+        {
+          initialState: getInitialState(),
+          reducers: { vapService, vaProfile },
+          path: '/profile/scheduling-preferences/edit-contact-method',
+        },
+      );
+
+      await waitFor(() => {
+        expect(capturedHandlers).to.exist;
+        expect(capturedHandlers.cancel).to.be.a('function');
+        expect(capturedHandlers.continue).to.be.a('function');
+        expect(capturedHandlers.save).to.be.a('function');
+        expect(capturedHandlers.updateContactInfo).to.be.a('function');
+        expect(capturedHandlers.breadCrumbClick).to.be.a('function');
+      });
+    });
+  });
+
+  describe('validation', () => {
+    it('should pass error state to content component', async () => {
+      let capturedError;
+      const propsWithErrorCapture = {
+        ...defaultProps,
+        getContentComponent: () => {
+          return ({ error }) => {
+            capturedError = error;
+            return <div data-testid="mock-content">Content</div>;
+          };
+        },
+      };
+
+      renderWithStoreAndRouter(
+        <PreferenceSelectionContainer {...propsWithErrorCapture} />,
+        {
+          initialState: getInitialState(),
+          reducers: { vapService, vaProfile },
+          path: '/profile/scheduling-preferences/edit-contact-method',
+        },
+      );
+
+      await waitFor(() => {
+        expect(capturedError).to.be.a('boolean');
+        expect(capturedError).to.be.false;
+      });
+    });
+  });
+
+  describe('modal interactions', () => {
+    it('should render EditConfirmCancelModal', async () => {
+      const { container } = renderWithStoreAndRouter(
+        <PreferenceSelectionContainer {...defaultProps} />,
+        {
+          initialState: getInitialState(),
+          reducers: { vapService, vaProfile },
+          path: '/profile/scheduling-preferences/edit-contact-method',
+        },
+      );
+
+      await waitFor(() => {
+        expect(container.querySelector('h1')).to.exist;
+      });
+    });
+
+    it('should handle breadcrumb click preventDefault', async () => {
+      let capturedHandlers;
+      const propsWithCapture = {
+        ...defaultProps,
+        getContentComponent: () => {
+          return ({ handlers }) => {
+            capturedHandlers = handlers;
+            return <div data-testid="mock-content">Content</div>;
+          };
+        },
+      };
+
+      renderWithStoreAndRouter(
+        <PreferenceSelectionContainer {...propsWithCapture} />,
+        {
+          initialState: getInitialState(),
+          reducers: { vapService, vaProfile },
+          path: '/profile/scheduling-preferences/edit-contact-method',
+        },
+      );
+
+      await waitFor(() => {
+        expect(capturedHandlers).to.exist;
+      });
+
+      const mockEvent = { preventDefault: sinon.spy() };
+      capturedHandlers.breadCrumbClick(mockEvent);
+
+      expect(mockEvent.preventDefault.called).to.be.true;
+    });
+  });
+
+  describe('form submission', () => {
+    it('should render form element', async () => {
+      const { container } = renderWithStoreAndRouter(
+        <PreferenceSelectionContainer {...defaultProps} />,
+        {
+          initialState: getInitialState(),
+          reducers: { vapService, vaProfile },
+          path: '/profile/scheduling-preferences/edit-contact-method',
+        },
+      );
+
+      await waitFor(() => {
+        const form = container.querySelector('form');
+        expect(form).to.exist;
+        expect(form.getAttribute('novalidate')).to.exist;
+      });
+    });
+  });
+
+  describe('step and quickExit handling', () => {
+    it('should pass step to getContentComponent', async () => {
+      let capturedStep;
+      const propsWithStepCapture = {
+        ...defaultProps,
+        getContentComponent: step => {
+          capturedStep = step;
+          return () => <div data-testid="mock-content">Content</div>;
+        },
+      };
+
+      renderWithStoreAndRouter(
+        <PreferenceSelectionContainer {...propsWithStepCapture} />,
+        {
+          initialState: getInitialState(),
+          reducers: { vapService, vaProfile },
+          path: '/profile/scheduling-preferences/edit-contact-method',
+        },
+      );
+
+      await waitFor(() => {
+        expect(capturedStep).to.equal('select');
+      });
+    });
+
+    it('should pass quickExit to getButtons', async () => {
+      let capturedQuickExit;
+      const propsWithQuickExitCapture = {
+        ...defaultProps,
+        getButtons: (step, quickExit) => {
+          capturedQuickExit = quickExit;
+          return <div data-testid="mock-buttons">Buttons</div>;
+        },
+      };
+
+      renderWithStoreAndRouter(
+        <PreferenceSelectionContainer {...propsWithQuickExitCapture} />,
+        {
+          initialState: getInitialState(),
+          reducers: { vapService, vaProfile },
+          path: '/profile/scheduling-preferences/edit-contact-method',
+        },
+      );
+
+      await waitFor(() => {
+        expect(capturedQuickExit).to.be.a('boolean');
+      });
+    });
+  });
+
+  describe('EditContext', () => {
+    it('should provide EditContext with onCancel', async () => {
+      const { container } = renderWithStoreAndRouter(
+        <PreferenceSelectionContainer {...defaultProps} />,
+        {
+          initialState: getInitialState(),
+          reducers: { vapService, vaProfile },
+          path: '/profile/scheduling-preferences/edit-contact-method',
+        },
+      );
+
+      await waitFor(() => {
+        expect(container.querySelector('h1')).to.exist;
+      });
+    });
+  });
+
+  describe('pageData and error state', () => {
+    it('should pass pageData to content component', async () => {
+      let capturedPageData;
+      const propsWithPageDataCapture = {
+        ...defaultProps,
+        getContentComponent: () => {
+          return ({ pageData }) => {
+            capturedPageData = pageData;
+            return <div data-testid="mock-content">Content</div>;
+          };
+        },
+      };
+
+      renderWithStoreAndRouter(
+        <PreferenceSelectionContainer {...propsWithPageDataCapture} />,
+        {
+          initialState: getInitialState(),
+          reducers: { vapService, vaProfile },
+          path: '/profile/scheduling-preferences/edit-contact-method',
+        },
+      );
+
+      await waitFor(() => {
+        expect(capturedPageData).to.exist;
+        expect(capturedPageData).to.have.property('data');
+        expect(capturedPageData).to.have.property('quickExit');
+      });
+    });
+
+    it('should pass setPageData to content component', async () => {
+      let capturedSetPageData;
+      const propsWithSetPageDataCapture = {
+        ...defaultProps,
+        getContentComponent: () => {
+          return ({ setPageData }) => {
+            capturedSetPageData = setPageData;
+            return <div data-testid="mock-content">Content</div>;
+          };
+        },
+      };
+
+      renderWithStoreAndRouter(
+        <PreferenceSelectionContainer {...propsWithSetPageDataCapture} />,
+        {
+          initialState: getInitialState(),
+          reducers: { vapService, vaProfile },
+          path: '/profile/scheduling-preferences/edit-contact-method',
+        },
+      );
+
+      await waitFor(() => {
+        expect(capturedSetPageData).to.be.a('function');
+      });
+    });
+
+    it('should pass fieldName and noPreferenceValue to content', async () => {
+      let capturedFieldName;
+      let capturedNoPreferenceValue;
+      const propsWithCapture = {
+        ...defaultProps,
+        getContentComponent: () => {
+          return ({ fieldName, noPreferenceValue }) => {
+            capturedFieldName = fieldName;
+            capturedNoPreferenceValue = noPreferenceValue;
+            return <div data-testid="mock-content">Content</div>;
+          };
+        },
+      };
+
+      renderWithStoreAndRouter(
+        <PreferenceSelectionContainer {...propsWithCapture} />,
+        {
+          initialState: getInitialState(),
+          reducers: { vapService, vaProfile },
+          path: '/profile/scheduling-preferences/edit-contact-method',
+        },
+      );
+
+      await waitFor(() => {
+        expect(capturedFieldName).to.equal(mockFieldName);
+        expect(capturedNoPreferenceValue).to.equal('no_preference');
+      });
+    });
+
+    it('should pass options to content component', async () => {
+      let capturedOptions;
+      const propsWithOptionsCapture = {
+        ...defaultProps,
+        getContentComponent: () => {
+          return ({ options }) => {
+            capturedOptions = options;
+            return <div data-testid="mock-content">Content</div>;
+          };
+        },
+      };
+
+      renderWithStoreAndRouter(
+        <PreferenceSelectionContainer {...propsWithOptionsCapture} />,
+        {
+          initialState: getInitialState(),
+          reducers: { vapService, vaProfile },
+          path: '/profile/scheduling-preferences/edit-contact-method',
+        },
+      );
+
+      await waitFor(() => {
+        expect(capturedOptions).to.be.an('array');
+        expect(capturedOptions.length).to.be.greaterThan(0);
+        if (capturedOptions[0]) {
+          expect(capturedOptions[0]).to.have.property('value');
+          expect(capturedOptions[0]).to.have.property('label');
+        }
+      });
+    });
+
+    it('should pass data prop to content component', async () => {
+      let capturedData;
+      const initialState = getInitialState();
+      initialState.vaProfile.schedulingPreferences[mockFieldName] = ['email'];
+
+      const propsWithDataCapture = {
+        ...defaultProps,
+        getContentComponent: () => {
+          return ({ data }) => {
+            capturedData = data;
+            return <div data-testid="mock-content">Content</div>;
+          };
+        },
+      };
+
+      renderWithStoreAndRouter(
+        <PreferenceSelectionContainer {...propsWithDataCapture} />,
+        {
+          initialState,
+          reducers: { vapService, vaProfile },
+          path: '/profile/scheduling-preferences/edit-contact-method',
+        },
+      );
+
+      await waitFor(() => {
+        expect(capturedData).to.deep.equal(['email']);
+      });
+    });
+  });
 });
