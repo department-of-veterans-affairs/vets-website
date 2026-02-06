@@ -97,19 +97,20 @@ export const validateOtherText = (errors, fieldData) => {
 export const ClaimInformationDescription = ({ formData }) => {
   const claimInformation = formData?.claimInformation;
   const claimInformationKeys = Object.keys(claimInformation);
-
   const claimInformationLabels = claimInformationKeys
     .filter(key => key !== 'otherText')
-    .map(key => {
-      let label;
-      if (key === 'minor') {
-        label = 'Change of address or direct deposit (minor claimants only)';
-      } else if (key === 'other') {
-        label = `Other: ${claimInformation.otherText}`;
-      } else {
-        label = DISCLOSURE_OPTIONS[key];
+    .map((key, index) => {
+      if ((key === 'minor' || key === 'other') && !claimInformation[key]) {
+        return null;
       }
-      return <li key={key}>{label}</li>;
+
+      const specialLabels = {
+        minor: 'Change of address or direct deposit (minor claimants only)',
+        other: `Other: ${claimInformation.otherText}`,
+      };
+
+      const label = specialLabels[key] || DISCLOSURE_OPTIONS[key];
+      return <li key={index}>{label}</li>;
     });
   return (
     <va-card background>
