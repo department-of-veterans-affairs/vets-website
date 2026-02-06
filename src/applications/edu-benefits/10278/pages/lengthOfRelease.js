@@ -7,21 +7,39 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+import { validateCurrentOrPastDate } from '~/platform/forms-system/src/js/validation';
+import { DISCLOSURE_OPTIONS } from '../helpers';
 
 const uiSchema = {
   ...titleUI('Length for the release of personal information'),
-  ...descriptionUI(
-    <va-card background>
-      <div>
-        <h3 className="vads-u-margin-top--0">
-          Here’s the personal information you selected:
-        </h3>
-        <ul>
-          <li>TBD once step 4, info to disclose, is merged</li>
-        </ul>
-      </div>
-    </va-card>,
-  ),
+  ...descriptionUI(({ formData }) => {
+    const claimInformation = formData?.claimInformation;
+    const claimInformationKeys = Object.keys(claimInformation);
+
+    const claimInformationLabels = claimInformationKeys
+      .filter(key => key !== 'otherText')
+      .map(key => {
+        let label;
+        if (key === 'minor') {
+          label = 'Change of address or direct deposit (minor claimants only)';
+        } else if (key === 'other') {
+          label = `Other: ${claimInformation.otherText}`;
+        } else {
+          label = DISCLOSURE_OPTIONS[key];
+        }
+        return <li key={key}>{label}</li>;
+      });
+    return (
+      <va-card background>
+        <div>
+          <h3 className="vads-u-margin-top--0">
+            Here’s the personal information you selected:
+          </h3>
+          <ul>{claimInformationLabels}</ul>
+        </div>
+      </va-card>
+    );
+  }),
   lengthOfRelease: {
     duration: radioUI({
       title:
@@ -35,18 +53,21 @@ const uiSchema = {
         required: 'You must provide an answer',
       },
     }),
-    date: currentOrPastDateUI({
-      title: 'Date of termination',
-      hint: "This date can't be in the past",
-      expandUnder: 'duration',
-      monthSelect: false,
-      removeDateHint: true,
-      errorMessages: {
-        required: 'Enter the date of the termination',
-      },
-      expandUnderCondition: value => value === 'date',
-      required: formData => formData?.lengthOfRelease?.duration === 'date',
-    }),
+    date: {
+      ...currentOrPastDateUI({
+        title: 'Date of termination',
+        hint: "This date can't be in the past",
+        expandUnder: 'duration',
+        monthSelect: false,
+        removeDateHint: true,
+        errorMessages: {
+          required: 'Enter the date of the termination',
+        },
+        expandUnderCondition: value => value === 'date',
+        required: formData => formData?.lengthOfRelease?.duration === 'date',
+      }),
+      'ui:validations': [validateCurrentOrPastDate],
+    },
   },
 };
 
