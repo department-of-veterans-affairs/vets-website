@@ -239,7 +239,7 @@ describe('Form Configuration', () => {
         const formData = {
           claimantRelationship: { relationship: 'other' },
         };
-        expect(page.title(formData)).to.equal('Claimant information');
+        expect(page.title(formData)).to.equal("Claimant's information");
       });
     });
 

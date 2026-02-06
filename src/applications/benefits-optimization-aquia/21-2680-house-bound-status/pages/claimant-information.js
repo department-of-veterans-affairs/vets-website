@@ -66,7 +66,7 @@ export const claimantInformationUiSchema = {
       const data = fullData || formData;
       const relationship = data?.claimantRelationship?.relationship;
       const title = `${relationshipLabels[relationship] ||
-        'Claimant'} name and date of birth`;
+        "Claimant's"} name and date of birth`;
 
       return {
         'ui:title': title,

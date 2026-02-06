@@ -161,7 +161,7 @@ const formConfig = {
               parent: "Veteran's parent's information",
             };
             const relationship = formData?.claimantRelationship?.relationship;
-            return relationshipLabels[relationship] || 'Claimant information';
+            return relationshipLabels[relationship] || "Claimant's information";
           },
           uiSchema: claimantInformationUiSchema,
           schema: claimantInformationSchema,
