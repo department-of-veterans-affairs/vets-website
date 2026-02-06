@@ -17,6 +17,7 @@ import {
   createAppointmentSaveFailedError,
   createServiceError,
 } from '../services/mocks/utils/errors';
+import { createAppointmentResponse } from '../services/mocks/utils/responses';
 
 const defaultFormState = {
   hydrated: true,
@@ -33,12 +34,9 @@ const defaultFormState = {
 
 const appointmentId = 'appt-123456';
 
-// TODO: Add mock appointment success response to fixtures
-const mockAppointmentSuccessResponse = {
-  data: {
-    appointmentId,
-  },
-};
+const mockAppointmentSuccessResponse = createAppointmentResponse({
+  appointmentId,
+});
 
 const defaultRenderOptions = getDefaultRenderOptions(defaultFormState);
 
