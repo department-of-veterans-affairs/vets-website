@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [[ "${VETS_WEBSITE_MHV_MOCK_SERVICE}" == "YES" ]]
 then
@@ -19,7 +19,8 @@ CODESPACE_MOCK_HOST=https://${CODESPACE_NAME}-3000.app.github.dev
 
 # Set default values
 MOCK_RESPONSES=${MOCK_RESPONSES:-src/platform/testing/local-dev-mock-api/common.js}
-if [[ -f  $MOCK_RESPONSES ]]; then 
+if [[ -f  $MOCK_RESPONSES ]]
+then 
     MOCKS_EXIST="YES"
 else
     MOCKS_EXIST="NO"

@@ -32,6 +32,4 @@ then
   cd ../content-build && cp .env.example .env && yarn cache clean && yarn install --production=false --prefer-offline && yarn fetch-drupal-cache && yarn build -- --host="${CODESPACE_NAME}-3002.githubpreview.dev/" --apps-directory-name=vets-website && npx http-server ./build/localhost --port 3002
 fi
 
-chmod +x ./.devcontainer/codespaces-start.sh
-
 printf "\n\n##### Your codespace has been created! #####\n"
