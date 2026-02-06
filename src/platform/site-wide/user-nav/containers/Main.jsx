@@ -184,7 +184,7 @@ export const mapStateToProps = state => {
     isLOA3: isLOA3(state),
     isProfileLoading: isProfileLoading(state),
     shouldConfirmLeavingForm,
-    useSignInService: true, //
+    useSignInService: true,
     user: selectUser(state),
     userGreeting: selectUserGreeting(state),
     ...state.navigation,
