@@ -4,6 +4,7 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { requiresSpouseInfo } from './helpers';
+import { showMultiplePageResponse } from '../../../helpers';
 
 const radioOptions = {
   YES: 'Yes',
@@ -15,7 +16,8 @@ const radioOptions = {
 export default {
   title: 'Current spouse marital history',
   path: 'household/marital-status/spouse-marital-history',
-  depends: requiresSpouseInfo,
+  depends: formData =>
+    !showMultiplePageResponse() && requiresSpouseInfo(formData),
   uiSchema: {
     ...titleUI('Current spouse’s marital history'),
     currentSpouseMaritalHistory: radioUI({
