@@ -45,42 +45,42 @@ const ResolvePage = ({ match }) => {
 
   const copayAttributes = useMemo(
     () => {
-      if (!copayDetail?.id) return DEFAULT_COPAY_ATTRIBUTES;
+      if (!selectedCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
 
       /* eslint-disable no-nested-ternary */
       return shouldShowVHAPaymentHistory
         ? {
-            TITLE: `Copay bill for ${copayDetail?.attributes.facility.name}`,
+            TITLE: `Copay bill for ${selectedCopay?.attributes.facility.name}`,
             FACILITY_NAME:
-              copayDetail.attributes.facility.name ||
-              getMedicalCenterNameByID(copayDetail.attributes.facility.name),
+              selectedCopay.attributes.facility.name ||
+              getMedicalCenterNameByID(selectedCopay.attributes.facility.name),
             INVOICE_DATE: verifyCurrentBalance(
-              copayDetail?.attributes.invoiceDate,
+              selectedCopay?.attributes.invoiceDate,
             ),
-            AMOUNT_DUE: `${copayDetail?.attributes.principalBalance}`,
-            ACCOUNT_NUMBER: copayDetail?.attributes.accountNumber,
-            CHARGES: copayDetail?.attributes?.lineItems ?? [],
+            AMOUNT_DUE: `${selectedCopay?.attributes.principalBalance}`,
+            ACCOUNT_NUMBER: selectedCopay?.attributes.accountNumber,
+            CHARGES: selectedCopay?.attributes?.lineItems ?? [],
           }
         : {
-            TITLE: `Copay bill for ${copayDetail?.station.facilityName}`,
+            TITLE: `Copay bill for ${selectedCopay?.station.facilityName}`,
             FACILITY_NAME:
-              copayDetail.station.facilityName ||
-              getMedicalCenterNameByID(copayDetail.station.facilityNum),
+              selectedCopay.station.facilityName ||
+              getMedicalCenterNameByID(selectedCopay.station.facilityNum),
             INVOICE_DATE: verifyCurrentBalance(
-              copayDetail?.pSStatementDateOutput,
+              selectedCopay?.pSStatementDateOutput,
             ),
             AMOUNT_DUE:
-              copayDetail?.pHAmtDueOutput?.replace(/&nbsp;/g, '') || '',
+              selectedCopay?.pHAmtDueOutput?.replace(/&nbsp;/g, '') || '',
             ACCOUNT_NUMBER:
-              copayDetail?.accountNumber || copayDetail?.pHAccountNumber,
+              selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber,
             CHARGES:
-              copayDetail?.details?.filter(
+              selectedCopay?.details?.filter(
                 charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
               ) ?? [],
           };
       /* eslint-disable no-nested-ternary */
     },
-    [copayDetail?.id, shouldShowVHAPaymentHistory],
+    [selectedCopay?.id, shouldShowVHAPaymentHistory],
   );
 
   // get veteran name

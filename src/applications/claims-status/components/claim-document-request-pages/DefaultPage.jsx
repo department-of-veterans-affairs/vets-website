@@ -2,11 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { isBefore, parseISO } from 'date-fns';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  formatDescription,
-  buildDateFormatter,
-  getDisplayFriendlyName,
-} from '../../utils/helpers';
+import { buildDateFormatter } from '../../utils/helpers';
+import * as TrackedItem from '../../utils/trackedItemContent';
 import AddFilesForm from '../claim-files-tab/AddFilesForm';
 import Notification from '../Notification';
 import Type1UnknownUploadError from '../Type1UnknownUploadError';
@@ -37,25 +34,20 @@ export default function DefaultPage({
   const frontendDescription = frontendContentOverride?.longDescription;
   const frontendNextSteps = frontendContentOverride?.nextSteps;
 
-  // Priority 3: Simple API description (plain text with formatting markers)
-  const apiDescription = formatDescription(item.description);
+  const isSensitive = TrackedItem.getIsSensitive(item);
+  const isDBQ = TrackedItem.getIsDBQ(item);
+  const noActionNeeded = TrackedItem.getNoActionNeeded(item);
 
-  // Use API boolean properties with fallback to evidenceDictionary
-  const isSensitive =
-    item.isSensitive ?? frontendContentOverride?.isSensitive ?? false;
-  const isDBQ = item.isDBQ ?? frontendContentOverride?.isDBQ ?? false;
-  const noActionNeeded =
-    item.noActionNeeded ?? frontendContentOverride?.noActionNeeded ?? false;
-
+  const apiDescription = TrackedItem.formatDescription(item.description);
   const isFirstParty = item.status === 'NEEDED_FROM_YOU';
   const isThirdParty = item.status === 'NEEDED_FROM_OTHERS';
 
   const getItemDisplayName = () => {
-    if (item.displayName.toLowerCase().includes('dbq')) {
+    if (isDBQ) {
       return 'Request for an exam';
     }
     if (item.friendlyName) {
-      return `Your ${getDisplayFriendlyName(item)}`;
+      return `Your ${TrackedItem.getDisplayFriendlyName(item)}`;
     }
     return 'Request for evidence outside VA';
   };
@@ -69,7 +61,7 @@ export default function DefaultPage({
     if (item.friendlyName && isSensitive) {
       return `Respond by ${dateFormatter(
         item.suspenseDate,
-      )} for: ${getDisplayFriendlyName(item)}`;
+      )} for: ${TrackedItem.getDisplayFriendlyName(item)}`;
     }
     if (item.friendlyName) {
       return `Respond by ${dateFormatter(item.suspenseDate)}`;
@@ -82,7 +74,9 @@ export default function DefaultPage({
   const getRequestText = () => {
     if (isDBQ) {
       return `We made a request on ${dateFormatter(item.requestedDate)} for: ${
-        item.friendlyName ? getDisplayFriendlyName(item) : item.displayName
+        item.friendlyName
+          ? TrackedItem.getDisplayFriendlyName(item)
+          : item.displayName
       }`;
     }
     if (item.friendlyName) {
