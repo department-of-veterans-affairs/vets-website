@@ -396,7 +396,7 @@ export const BENEFITS_LIST = [
   },
   {
     name: 'VetSuccess on Campus (VSOC)',
-    category: categories.EMPLOYMENT,
+    category: categories.EDUCATION,
     id: 'VSC',
     description:
       "If you're a Veteran or service member transitioning from military to college life, VSOC counselors can help you with vocational testing, career counseling, or getting faster access to certain VA benefits while you’re attending college.",
