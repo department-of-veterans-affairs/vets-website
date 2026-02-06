@@ -198,7 +198,7 @@ class SaveInProgressIntro extends React.Component {
     if (!isExpired) {
       const savedDateTime =
         savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
-      const formName = formConfig?.subTitle || '';
+      const formName = formConfig?.subTitle;
       const article = this.getArticle(appType);
 
       return {
@@ -429,7 +429,6 @@ class SaveInProgressIntro extends React.Component {
 
 SaveInProgressIntro.propTypes = {
   afterButtonContent: PropTypes.element,
-  alertTitle: PropTypes.string,
   ariaDescribedby: PropTypes.string,
   ariaLabel: PropTypes.string,
   buttonAriaDescribedby: PropTypes.string,
@@ -439,15 +438,11 @@ SaveInProgressIntro.propTypes = {
   devOnly: PropTypes.shape({
     forceShowFormControls: PropTypes.bool,
   }),
-  displayNonVeteranMessaging: PropTypes.bool,
   downtime: PropTypes.object,
   fetchInProgressForm: PropTypes.func,
   formConfig: PropTypes.shape({
-    signInHelpList: PropTypes.func,
     customText: PropTypes.shape({
       appType: PropTypes.string,
-      appAction: PropTypes.string,
-      appContinuing: PropTypes.string,
     }),
     requiresVerifiedUser: PropTypes.bool,
     formOptions: PropTypes.shape({
@@ -471,7 +466,6 @@ SaveInProgressIntro.propTypes = {
   removeInProgressForm: PropTypes.func,
   resumeOnly: PropTypes.bool,
   retentionPeriod: PropTypes.string,
-  retentionPeriodStart: PropTypes.string,
   returnUrl: PropTypes.string,
   router: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -487,14 +481,11 @@ SaveInProgressIntro.propTypes = {
 };
 
 SaveInProgressIntro.defaultProps = {
-  alertTitle: 'Sign in now to save your work in progress',
-  retentionPeriod: '60 days', // from
-  retentionPeriodStart: 'when you start or make updates to', // your {appType}
+  retentionPeriod: '60 days',
   unauthStartText: '',
   formConfig: {
-    customText: {
-      appType: '',
-    },
+    customText: { appType: '' },
+    subTitle: 'form',
   },
   headingLevel: 2,
   ariaLabel: null,
@@ -524,7 +515,6 @@ const mapDispatchToProps = {
  *   toggleLoginModal?: any,
  *   user?: any,
  *   afterButtonContent?: any,
- *   alertTitle?: string,
  *   ariaDescribedby?: string,
  *   ariaLabel?: string,
  *   buttonAriaDescribedby?: string,
@@ -534,14 +524,10 @@ const mapDispatchToProps = {
  *   devOnly?: {
  *     forceShowFormControls?: boolean,
  *   },
- *   displayNonVeteranMessaging?: boolean,
  *   downtime?: any,
  *   formConfig?: {
- *     signInHelpList?: any,
  *     customText?: {
  *       appType?: string,
- *       appAction?: string,
- *       appContinuing?: string,
  *     },
  *    requiresVerifiedUser?: any
  *   },
@@ -558,7 +544,6 @@ const mapDispatchToProps = {
  *   prefillTransformer?: any,
  *   resumeOnly?: boolean,
  *   retentionPeriod?: string,
- *   retentionPeriodStart?: string,
  *   returnUrl?: string,
  *   startMessageOnly?: boolean,
  *   startText?: string,
