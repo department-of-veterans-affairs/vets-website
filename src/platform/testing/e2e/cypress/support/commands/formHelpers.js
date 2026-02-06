@@ -70,13 +70,13 @@ Cypress.Commands.add('fillDate', (fieldName, dateString) => {
       cy.fillVaDate(vaDateElement, dateString, !!monthYearOnly);
     } else if (vaMemorableDateElement) {
       // USWDS v3 only
-      const vaMemorableDateMonthSelect = !!doc.querySelector(
-        `va-memorable-date[name="${fieldName}"][monthselect]`,
-      );
+      // Check the value of month-select attribute (default to true if not present)
+      const monthSelectAttr = vaMemorableDateElement.getAttribute('month-select');
+      const useMonthSelect = monthSelectAttr !== 'false';
       cy.fillVaMemorableDate(
         vaMemorableDateElement,
         dateString,
-        vaMemorableDateMonthSelect,
+        useMonthSelect,
       );
     } else {
       reactDate(fieldName, dateString);
