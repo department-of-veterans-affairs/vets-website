@@ -21,11 +21,14 @@ import {
   educationBenefitsHistory,
   hasPreviouslyApplied,
   payeeNumber,
+  testName,
+  organizationInfo,
   prepCourseName,
   prepCourseAddress,
   prepCourseOnline,
   prepCoursePeriod,
   prepCourseCost,
+  remarks,
 } from '../pages';
 
 import prefillTransform from './prefillTransform';
@@ -131,6 +134,25 @@ const formConfig = {
         }),
       },
     },
+    licensingAndCertificationChapter: {
+      title: 'Licensing and certification details',
+      pages: {
+        testName: {
+          path: 'test-name',
+          title:
+            "Tell us about the licensing or certification test you're preparing for",
+          uiSchema: testName.uiSchema,
+          schema: testName.schema,
+        },
+        organizationInfo: {
+          path: 'organization-info',
+          title:
+            'The name and mailing address of organization awarding license or certification',
+          uiSchema: organizationInfo.uiSchema,
+          schema: organizationInfo.schema,
+        },
+      },
+    },
     prepCourseChapter: {
       title: 'Prep course details',
       pages: {
@@ -164,6 +186,17 @@ const formConfig = {
           title: 'Enter the cost of the prep course including any fees',
           uiSchema: prepCourseCost.uiSchema,
           schema: prepCourseCost.schema,
+        },
+      },
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarks: {
+          path: 'remarks',
+          title: 'Enter your remarks',
+          uiSchema: remarks.uiSchema,
+          schema: remarks.schema,
         },
       },
     },
