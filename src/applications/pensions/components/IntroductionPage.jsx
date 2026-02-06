@@ -1,9 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { selectProfile } from 'platform/user/selectors';
+import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
+
 import { FormReactivationAlert } from './FormAlerts';
+import DisabilityRatingAlert from './DisabilityRatingAlert';
 
 const IntroductionPage = props => {
   const { route } = props;
@@ -11,6 +17,19 @@ const IntroductionPage = props => {
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const pbbFormsRequireLoa3 = useToggleValue(TOGGLE_NAMES.pbbFormsRequireLoa3);
+  const pensionRatingAlertLoggingEnabled = useToggleValue(
+    TOGGLE_NAMES.pensionRatingAlertLoggingEnabled,
+  );
+
+  // LOA3 Verified?
+  const isVerified = useSelector(
+    state => selectProfile(state)?.verified || false,
+  );
+  const hasInProgressForm = useSelector(state =>
+    selectProfile(state)?.savedForms?.some(
+      form => form.form === route.formConfig.formId,
+    ),
+  );
 
   return (
     <article className="schemaform-intro">
@@ -18,6 +37,7 @@ const IntroductionPage = props => {
         title="Apply for Veterans Pension benefits"
         subTitle="Application for Veterans Pension (VA Form 21P-527EZ)"
       />
+      {pensionRatingAlertLoggingEnabled && <DisabilityRatingAlert />}
       <p className="va-introtext">
         Use our online tool to fill out and submit your application for Veterans
         Pension benefits. If you’re a wartime Veteran and you’re at least 65
@@ -165,17 +185,43 @@ const IntroductionPage = props => {
           </va-additional-info>
         </va-process-list-item>
       </va-process-list>
-      <SaveInProgressIntro
-        hideUnauthedStartLink={pbbFormsRequireLoa3}
-        formConfig={formConfig}
-        prefillEnabled={formConfig.prefillEnabled}
-        pageList={pageList}
-        downtime={route.formConfig.downtime}
-        startText="Start the pension application"
-        retentionPeriod="one year"
-        retentionPeriodStart="when you start"
-        continueMsg={<FormReactivationAlert />}
-      />
+
+      {/* Only show the verify alert if all of the following are true:
+        - the feature toggle is enabled
+        - the user is NOT LOA3 verified
+        - the user does not have an in-progress form (we want LOA1 users to be
+          able to continue their form)
+      */}
+      {pbbFormsRequireLoa3 && !isVerified && !hasInProgressForm ? (
+        <>
+          <VerifyAlert />
+          <p>
+            If you don’t want to verify your identity right now, you can still
+            download and complete the PDF version of this application.
+          </p>
+          <p className="vads-u-margin-bottom--4">
+            <va-link
+              href="http://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
+              download
+              filetype="PDF"
+              text="Get VA Form 21P-527EZ form to download"
+              pages="17"
+            />
+          </p>
+        </>
+      ) : (
+        <SaveInProgressIntro
+          hideUnauthedStartLink={pbbFormsRequireLoa3}
+          formConfig={formConfig}
+          prefillEnabled={formConfig.prefillEnabled}
+          pageList={pageList}
+          downtime={route.formConfig.downtime}
+          startText="Start the pension application"
+          retentionPeriod="one year"
+          retentionPeriodStart="when you start"
+          continueMsg={<FormReactivationAlert />}
+        />
+      )}
       <div className="vads-u-margin-top--2">
         <va-omb-info
           res-burden={30}
@@ -190,6 +236,7 @@ const IntroductionPage = props => {
 IntroductionPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
+      formId: PropTypes.string,
       prefillEnabled: PropTypes.bool,
       savedFormMessages: PropTypes.object,
       title: PropTypes.string,

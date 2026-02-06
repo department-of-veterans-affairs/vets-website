@@ -101,6 +101,13 @@ describe('Get vital details action', () => {
       expect(typeof dispatch.firstCall.args[0]).to.equal('function');
     });
   });
+
+  it('should dispatch an add alert action on error and not throw', async () => {
+    mockApiRequest(error404, false);
+    const dispatch = sinon.spy();
+    await getVitalDetails('vitalType', [])(dispatch);
+    expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+  });
 });
 
 describe('set vitals list action', () => {

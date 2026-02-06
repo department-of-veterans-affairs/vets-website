@@ -17,13 +17,18 @@ export const isPatientVeteran = formData => {
 };
 
 /**
- * Helper function to check if the patient is spouse or parent
+ * Helper function to check if the patient is spouse, parent, or child (not the veteran)
  * @param {Object} formData - The form data
- * @returns {boolean} True if patient is spouse or parent (not veteran)
+ * @returns {boolean} True if patient is spouse, parent, or child (not veteran)
  */
-export const isPatientSpouseOrParent = formData => {
+export const isPatientSpouseOrParentOrChild = formData => {
   if (!formData || typeof formData !== 'object' || Array.isArray(formData)) {
     return false;
   }
-  return formData.claimantQuestion?.patientType === 'spouseOrParent';
+  const patientType = formData.claimantQuestion?.patientType;
+  return (
+    patientType === 'spouse' ||
+    patientType === 'parent' ||
+    patientType === 'child'
+  );
 };

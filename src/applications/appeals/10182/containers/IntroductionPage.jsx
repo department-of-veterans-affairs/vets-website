@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import { scrollTo } from 'platform/utilities/scroll';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import {
   startText,
@@ -47,6 +48,11 @@ const IntroductionPage = props => {
     unauthStartText,
     useActionLinks: true,
   };
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const decisionReviewNodFeb2025PdfEnabled = useToggleValue(
+    TOGGLE_NAMES.decisionReviewNodFeb2025PdfEnabled,
+  );
 
   return (
     <div className="schemaform-intro vads-u-margin-bottom--4">
@@ -140,7 +146,9 @@ const IntroductionPage = props => {
         <va-omb-info
           res-burden={30}
           omb-number="2900-0674"
-          exp-date="2/28/2022"
+          exp-date={
+            decisionReviewNodFeb2025PdfEnabled ? '4/30/2028' : '2/28/2022'
+          }
         />
       </div>
     </div>

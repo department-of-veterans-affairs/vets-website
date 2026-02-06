@@ -13,6 +13,7 @@ const useFeatureToggles = () => {
     cernerPilotSmFeatureFlag,
     mhvSecureMessagingCuratedListFlow,
     mhvSecureMessagingRecentRecipients,
+    mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
     mhvMockSessionFlag,
   } = useSelector(
     state => {
@@ -54,6 +55,11 @@ const useFeatureToggles = () => {
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients
           ],
+        mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES
+              .mhvSecureMessagingCernerPilotSystemMaintenanceBanner
+          ],
         mhvMockSessionFlag: state.featureToggles['mhv-mock-session'],
       };
     },
@@ -74,6 +80,7 @@ const useFeatureToggles = () => {
     cernerPilotSmFeatureFlag,
     mhvSecureMessagingCuratedListFlow,
     mhvSecureMessagingRecentRecipients,
+    mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
     mhvMockSessionFlag,
   };
 };

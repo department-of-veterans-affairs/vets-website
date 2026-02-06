@@ -15,6 +15,7 @@ import {
   DEBOUNCE_WAIT,
   getFileError,
   simulateUploadMultiple,
+  VaProgressUploadAnnounce,
 } from './vaFileInputFieldHelpers';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 
@@ -28,14 +29,13 @@ const VaFileInputMultipleField = props => {
   const [percentsUploaded, setPercentsUploaded] = useState([]);
   const [initPoll, setInitPoll] = useState(true);
   const dispatch = useDispatch();
+  const mappedProps = vaFileInputFieldMapping(props);
   const { percentUploaded, handleUpload } = useFileUpload(
-    uiOptions.fileUploadUrl,
-    uiOptions.accept,
-    uiOptions.formNumber,
+    uiOptions,
+    mappedProps.accept,
     dispatch,
   );
   const componentRef = useRef(null);
-  const mappedProps = vaFileInputFieldMapping(props);
 
   // if prefill, initialize values
   useEffect(() => {
@@ -380,28 +380,33 @@ const VaFileInputMultipleField = props => {
     .map((error, i) => (error ? null : i))
     .filter(i => i !== null);
   return (
-    <VaFileInputMultiple
-      {...mappedProps}
-      error={mappedProps.error}
-      ref={componentRef}
-      encrypted={encrypted}
-      onVaMultipleChange={handleChange}
-      onVaFileInputError={handleInternalFileInputError}
-      errors={errors}
-      resetVisualState={resetVisualState}
-      percentUploaded={percentsUploaded}
-      passwordErrors={passwordErrors}
-      onVaSelect={handleAdditionalInput}
-      maxFileSize={uiOptions.maxFileSize}
-      minFileSize={uiOptions.minFileSize}
-      slotFieldIndexes={slotFieldIndexes}
-    >
-      {mappedProps.additionalInput && (
-        <div className="additional-input-container">
-          {mappedProps.additionalInput()}
-        </div>
-      )}
-    </VaFileInputMultiple>
+    <>
+      <VaProgressUploadAnnounce
+        uploading={percentsUploaded.some(percent => !!percent)}
+      />
+      <VaFileInputMultiple
+        {...mappedProps}
+        error={mappedProps.error}
+        ref={componentRef}
+        encrypted={encrypted}
+        onVaMultipleChange={handleChange}
+        onVaFileInputError={handleInternalFileInputError}
+        errors={errors}
+        resetVisualState={resetVisualState}
+        percentUploaded={percentsUploaded}
+        passwordErrors={passwordErrors}
+        onVaSelect={handleAdditionalInput}
+        maxFileSize={uiOptions.maxFileSize}
+        minFileSize={uiOptions.minFileSize}
+        slotFieldIndexes={slotFieldIndexes}
+      >
+        {mappedProps.additionalInput && (
+          <div className="additional-input-container">
+            {mappedProps.additionalInput()}
+          </div>
+        )}
+      </VaFileInputMultiple>
+    </>
   );
 };
 

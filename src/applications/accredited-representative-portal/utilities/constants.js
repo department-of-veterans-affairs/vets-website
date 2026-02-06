@@ -19,7 +19,6 @@ export const getSignInUrl = ({ returnUrl } = {}) => {
   const url = new URL(signInPath, USIP_BASE_URL);
   url.searchParams.set(USIP_QUERY_PARAMS.application, USIP_APPLICATIONS.ARP);
   url.searchParams.set(USIP_QUERY_PARAMS.OAuth, true);
-  url.searchParams.set(USIP_QUERY_PARAMS.to, '/representative/dashboard');
   if (returnUrl) {
     url.searchParams.set(USIP_QUERY_PARAMS.to, returnUrl);
   }
@@ -38,10 +37,48 @@ export const SIGN_OUT_URL = (() => {
 
 export const SEARCH_PARAMS = {
   STATUS: 'status',
-  SORTBY: 'sortBy',
-  SORTORDER: 'sortOrder',
-  SIZE: 'pageSize',
-  NUMBER: 'pageNumber',
+  SORT: 'sort',
+  SIZE: 'perPage',
+  NUMBER: 'page',
+  SELECTED_INDIVIDUAL: 'show',
+};
+export const SORT_BY = {
+  CREATED: 'created_at',
+  RESOLVED: 'resolved_at',
+  OLDEST: 'oldest',
+  NEWEST: 'newest',
+};
+
+export const STATUSES = {
+  PENDING: 'pending',
+  PROCESSED: 'processed',
+};
+
+export const PROCESSED_SORT_DEFAULTS = {
+  SORT: 'newest',
+  // default is 20 per page
+  SIZE: '20',
+  // default is page 1
+  NUMBER: '1',
+  SELECTED_INDIVIDUAL: 'all',
+};
+
+export const PENDING_SORT_DEFAULTS = {
+  SORT: 'newest',
+  // default is 20 per page
+  SIZE: '20',
+  // default is page 1
+  NUMBER: '1',
+  SELECTED_INDIVIDUAL: 'all',
+};
+
+export const SUBMISSION_DEFAULTS = {
+  STATUS: null,
+  SORT: 'newest',
+  // default is 20 per page
+  SIZE: '20',
+  // default is page 1
+  NUMBER: '1',
 };
 
 export const NAV_MOBILE_DROPDOWN = [
@@ -69,9 +106,30 @@ export const NAV_MENU_DROPDOWN = [
     URL: '/submissions',
     TEST_ID: 'submissions-link',
   },
+];
+export const SORT_OPTIONS = {
+  DESC_OPTION: 'Submitted date (newest)',
+  ASC_OPTION: 'Submitted date (oldest)',
+};
+export const SORT_DEFAULTS = {
+  SORT_BY: 'created_at',
+  SORT_ORDER: 'desc',
+  // default is 20 per page
+  SIZE: 20,
+  // default is page 1
+  NUMBER: 1,
+  SELECTED_INDIVIDUAL: 'all',
+};
+
+export const DETAILS_BC_LABEL = 'details breadcrumb';
+export const SUBMISSIONS_BC_LABEL = 'submissions breadcrumb';
+export const submissionsBC = [
   {
-    LABEL: 'Help',
-    URL: '/get-help',
-    TEST_ID: 'user-nav-help-link',
+    href: '/representative',
+    label: 'VA.gov/representative home',
+  },
+  {
+    href: window.location.href,
+    label: 'Submissions',
   },
 ];

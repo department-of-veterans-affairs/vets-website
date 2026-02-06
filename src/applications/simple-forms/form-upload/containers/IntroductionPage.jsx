@@ -5,7 +5,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import {
-  VaAlert,
+  VaAlertSignIn,
   VaButton,
   VaLink,
   VaProcessList,
@@ -14,6 +14,7 @@ import {
 import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
 import { getFormContent, getFormNumber } from '../helpers';
 import { PrimaryActionLink } from '../config/constants';
+import { CustomTopContent } from '../pages/helpers';
 
 const IntroductionPage = ({ route }) => {
   const { formConfig, pageList } = route;
@@ -28,6 +29,7 @@ const IntroductionPage = ({ route }) => {
 
   return (
     <article className="schemaform-intro">
+      <CustomTopContent />
       <FormTitle title={title} subTitle={subTitle} />
       <h2>How to submit VA Form {formNumber}</h2>
       <p>You can upload and submit your completed form here on VA.gov.</p>
@@ -86,17 +88,14 @@ const IntroductionPage = ({ route }) => {
           customLink={PrimaryActionLink}
         />
       ) : (
-        <VaAlert status="info" visible>
-          <h2 slot="headline">Sign in now to upload your form</h2>
-          <p>
-            By signing in, we can fill in some of your information for you to
-            save you time.
-          </p>
-          <VaButton
-            text="Sign in to start uploading your form"
-            onClick={openLoginModal}
-          />
-        </VaAlert>
+        <VaAlertSignIn status="info" visible>
+          <span slot="SignInButton">
+            <VaButton
+              text="Sign in to start uploading your form"
+              onClick={openLoginModal}
+            />
+          </span>
+        </VaAlertSignIn>
       )}
     </article>
   );

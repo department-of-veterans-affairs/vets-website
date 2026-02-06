@@ -4,7 +4,7 @@
  */
 
 export const TITLE =
-  'Apply for a Veterans burial allowance for a state or tribal organization';
+  'Apply for a VA interment allowance for a state or tribal organization';
 export const SUBTITLE =
   'State or Tribal Organization Application for Interment Allowance (Under 38 U.S.C. Chapter 23) (VA Form 21-530a)';
 

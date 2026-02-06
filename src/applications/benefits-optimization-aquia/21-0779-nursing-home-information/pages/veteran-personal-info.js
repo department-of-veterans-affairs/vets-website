@@ -35,7 +35,7 @@ export const veteranPersonalInfoUiSchema = {
       const patientIsVeteran = isPatientVeteran(data);
 
       const subtitle = patientIsVeteran
-        ? 'Tell us about the veteran in the nursing home'
+        ? 'Tell us about the Veteran in the nursing home'
         : 'Tell us about the Veteran who is connected to the patient';
 
       return {
@@ -53,9 +53,17 @@ const fullNameSchemaWithMiddleInitial = {
   ...fullNameNoSuffixSchema,
   properties: {
     ...fullNameNoSuffixSchema.properties,
+    first: {
+      type: 'string',
+      maxLength: 12,
+    },
     middle: {
       type: 'string',
       maxLength: 1,
+    },
+    last: {
+      type: 'string',
+      maxLength: 18,
     },
   },
 };

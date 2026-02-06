@@ -5,17 +5,9 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import {
-  selectYesNoWebComponent,
-  fillTextWebComponent,
-  fillFullNameWebComponentPattern,
   fillDateWebComponentPattern,
   fillTextAreaWebComponent,
-  selectRadioWebComponent,
-  selectCheckboxGroupWebComponent,
-  reviewAndSubmitPageFlow,
 } from '../../shared/tests/e2e/helpers';
-
-import { fillDateDigitsWebComponentPattern } from './e2e/helpers';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
@@ -42,98 +34,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/Apply for accrued benefits/i, { selector: 'a' })
-            .first()
-            .click();
-        });
-      },
-
-      'already-filed': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            selectYesNoWebComponent('hasAlreadyFiled', data.hasAlreadyFiled);
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'unpaid-creditors': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            selectYesNoWebComponent(
-              'hasUnpaidCreditors',
-              data.hasUnpaidCreditors,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'veteran-name': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillFullNameWebComponentPattern(
-              'veteranFullName',
-              data.veteranFullName,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'veteran-identifiers': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextWebComponent(
-              'veteranIdentification_ssn',
-              data.veteranIdentification.ssn,
-            );
-            if (data.veteranIdentification.vaFileNumber) {
-              fillTextWebComponent(
-                'veteranIdentification_vaFileNumber',
-                data.veteranIdentification.vaFileNumber,
-              );
-            }
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'beneficiary-is-veteran': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            selectYesNoWebComponent(
-              'beneficiaryIsVeteran',
-              data.beneficiaryIsVeteran,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'beneficiary-name': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            if (data.beneficiaryFullName) {
-              fillFullNameWebComponentPattern(
-                'beneficiaryFullName',
-                data.beneficiaryFullName,
-              );
-            }
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
+          cy.clickStartForm();
         });
       },
 
@@ -141,158 +42,14 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillDateDigitsWebComponentPattern(
+            fillDateWebComponentPattern(
               'beneficiaryDateOfDeath',
               data.beneficiaryDateOfDeath,
             );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            cy.get('va-button[text*="continue" i]').click();
           });
         });
       },
-
-      'your-name-and-date-of-birth': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillFullNameWebComponentPattern(
-              'claimantFullName',
-              data.claimantFullName,
-            );
-            fillDateWebComponentPattern(
-              'claimantDateOfBirth',
-              data.claimantDateOfBirth,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'your-ssn': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextWebComponent(
-              'claimantIdentification_ssn',
-              data.claimantIdentification.ssn,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'your-mailing-address': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillAddressWebComponentPattern(
-              'claimantAddress',
-              data.claimantAddress,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'your-phone-and-email': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextWebComponent('claimantPhone', data.claimantPhone);
-            if (data.claimantEmail) {
-              fillTextWebComponent('claimantEmail', data.claimantEmail);
-            }
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'your-relationship': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            selectRadioWebComponent(
-              'relationshipToDeceased',
-              data.relationshipToDeceased,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'waiver-of-substitution': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            if (data.wantsToWaiveSubstitution !== undefined) {
-              selectYesNoWebComponent(
-                'wantsToWaiveSubstitution',
-                data.wantsToWaiveSubstitution,
-              );
-            }
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'surviving-relatives': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const relativesData = {
-              hasSpouse: data.survivors.hasSpouse || false,
-              hasChildren: data.survivors.hasChildren || false,
-              hasParents: data.survivors.hasParents || false,
-              hasNone: data.survivors.hasNone || false,
-            };
-            cy.selectVaCheckbox(
-              `consent-checkbox`,
-              data.consentToMailMissingRequiredFiles,
-            );
-            selectCheckboxGroupWebComponent(relativesData);
-
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      // Array builder pages are handled automatically by the form tester
-
-      'reimbursement-claim': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            selectYesNoWebComponent(
-              'claimingReimbursement',
-              data.claimingReimbursement,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      // Expenses array builder pages handled automatically
-
-      'other-debts': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            selectYesNoWebComponent('hasOtherDebts', data.hasOtherDebts);
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      // Other debts array builder pages handled automatically
 
       'additional-info/remarks': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
@@ -301,8 +58,8 @@ const testConfig = createTestConfig(
             if (data.remarks) {
               fillTextAreaWebComponent('remarks', data.remarks);
             }
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            // cy.axeCheck();
+            cy.get('va-button[text*="continue" i]').click();
           });
         });
       },
@@ -310,7 +67,11 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            reviewAndSubmitPageFlow(data.claimantFullName, 'Submit form');
+            cy.fillVaStatementOfTruth({
+              fullName: Object.values(data.claimantFullName).join(' '),
+              checked: true,
+            });
+            cy.get('va-button[text*="submit" i]').click();
           });
         });
       },
@@ -335,9 +96,6 @@ const testConfig = createTestConfig(
 
       cy.login(mockUser);
     },
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

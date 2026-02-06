@@ -1,21 +1,18 @@
 import React from 'react';
 import merge from 'lodash/merge';
 import { format, isValid, parseISO } from 'date-fns';
-
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { scrollAndFocus, scrollToTop } from 'platform/utilities/scroll';
 import titleCase from 'platform/utilities/data/titleCase';
 import { setUpPage, isTab } from './page';
-import { evidenceDictionary } from './evidenceDictionary';
-
 import { SET_UNAUTHORIZED } from '../actions/types';
 import {
+  ANCHOR_LINKS,
   DATE_FORMATS,
   disabilityCompensationClaimTypeCodes,
   pensionClaimTypeCodes,
   addOrRemoveDependentClaimTypeCodes,
-  standard5103Item,
   survivorsPensionClaimTypeCodes,
   DICClaimTypeCodes,
   veteransPensionClaimTypeCodes,
@@ -213,25 +210,6 @@ function isInEvidenceGathering(claim) {
   return false;
 }
 
-// START lighthouse_migration
-export const getTrackedItemDate = item => {
-  return item.closedDate || item.receivedDate || item.requestedDate;
-};
-// END lighthouse_migration
-
-export function getFilesNeeded(trackedItems, useLighthouse = true) {
-  // trackedItems are different between lighthouse and evss
-  // Therefore we have to filter them differntly
-  if (useLighthouse) {
-    return trackedItems.filter(item => item.status === 'NEEDED_FROM_YOU');
-  }
-
-  return trackedItems.filter(
-    event =>
-      event.status === 'NEEDED' && event.type === 'still_need_from_you_list',
-  );
-}
-
 /**
  * Filter evidence submissions for failed uploads within the last 30 days
  * acknowledgementDate is set to 30 days after the submission failed (backend logic)
@@ -248,19 +226,6 @@ export function getFailedSubmissionsWithinLast30Days(evidenceSubmissions) {
       submission.uploadStatus === 'FAILED' &&
       submission.acknowledgementDate &&
       new Date().toISOString() <= submission.acknowledgementDate,
-  );
-}
-
-export function getFilesOptional(trackedItems, useLighthouse = true) {
-  // trackedItems are different between lighthouse and evss
-  // Therefore we have to filter them differntly
-  if (useLighthouse) {
-    return trackedItems.filter(item => item.status === 'NEEDED_FROM_OTHERS');
-  }
-
-  return trackedItems.filter(
-    event =>
-      event.status === 'NEEDED' && event.type === 'still_need_from_others_list',
   );
 }
 
@@ -487,11 +452,6 @@ export function getDocTypeDescription(docType) {
 export const isPopulatedClaim = ({ claimDate, claimType, contentions }) =>
   !!claimType && (contentions && !!contentions.length) && !!claimDate;
 
-export function hasBeenReviewed(trackedItem) {
-  const reviewedStatuses = ['INITIAL_REVIEW_COMPLETE', 'ACCEPTED'];
-  return reviewedStatuses.includes(trackedItem.status);
-}
-
 export function stripEscapedChars(text) {
   return text && text.replace(/\\(n|r|t)/gm, '');
 }
@@ -502,22 +462,11 @@ export function stripHtml(text) {
 }
 
 export function scrubDescription(text) {
-  return stripEscapedChars(stripHtml(text));
-}
-
-export function truncateDescription(text, maxLength = 120) {
-  if (text && text.length > maxLength) {
-    return `${text.substr(0, maxLength)}…`;
-  }
-  return scrubDescription(text);
+  return stripEscapedChars(stripHtml(text ? text.trim() : ''));
 }
 
 export function isClaimComplete(claim) {
   return claim.attributes.decisionLetterSent || claim.attributes.phase === 8;
-}
-
-export function itemsNeedingAttentionFromVet(items) {
-  return items?.filter(item => item.status === 'NEEDED_FROM_YOU').length;
 }
 
 export function makeAuthRequest(
@@ -1280,27 +1229,6 @@ export const formatUploadDateTime = date => {
   return `${dateStr} at ${timeStr} ${tzAbbr}`;
 };
 
-// Covers two cases:
-//   1. Standard 5103s we get back from the API (only occurs when they're closed).
-//   2. Standard 5103s that we're mocking within our application logic.
-export const isStandard5103Notice = itemDisplayName => {
-  return (
-    itemDisplayName === '5103 Notice Response' ||
-    itemDisplayName === standard5103Item.displayName
-  );
-};
-
-export const isAutomated5103Notice = itemDisplayName => {
-  return itemDisplayName === 'Automated 5103 Notice Response';
-};
-
-export const is5103Notice = itemDisplayName => {
-  return (
-    isAutomated5103Notice(itemDisplayName) ||
-    isStandard5103Notice(itemDisplayName)
-  );
-};
-
 // Capitalizes the first letter in a given string
 export const sentenceCase = str => {
   return typeof str === 'string' && str.length > 0
@@ -1405,61 +1333,10 @@ export const generateClaimTitle = (claim, placement, tab) => {
   }
 };
 
-export const getDisplayFriendlyName = item => {
-  if (!evidenceDictionary[item.displayName]?.isProperNoun) {
-    let updatedFriendlyName = item.friendlyName;
-    updatedFriendlyName =
-      updatedFriendlyName.charAt(0).toLowerCase() +
-      updatedFriendlyName.slice(1);
-    return updatedFriendlyName;
-  }
-  return item.friendlyName;
-};
-
-export const getLabel = trackedItem => {
-  if (isAutomated5103Notice(trackedItem?.displayName)) {
-    return trackedItem?.displayName;
-  }
-
-  if (evidenceDictionary[(trackedItem?.displayName)]?.isSensitive) {
-    return 'Request for evidence';
-  }
-  if (trackedItem?.friendlyName && trackedItem?.status === 'NEEDED_FROM_YOU') {
-    return trackedItem.friendlyName;
-  }
-  if (!trackedItem?.friendlyName && trackedItem?.status === 'NEEDED_FROM_YOU') {
-    return 'Request for evidence';
-  }
-  if (trackedItem?.displayName.toLowerCase().includes('dbq')) {
-    return 'Request for an exam';
-  }
-  if (trackedItem?.friendlyName) {
-    return `Your ${getDisplayFriendlyName(trackedItem)}`;
-  }
-  return 'Request for evidence outside VA';
-};
-
-// Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
-// It is also used to set the Document Request Page breadcrumb text
-export function setDocumentRequestPageTitle(displayName) {
-  return isAutomated5103Notice(displayName)
-    ? 'Review evidence list (5103 notice)'
-    : displayName;
-}
-
 // Used to set page title for the CST Tabs
 export function setTabDocumentTitle(claim, tabName) {
   setDocumentTitle(generateClaimTitle(claim, 'document', tabName));
 }
-
-export const setPageTitle = trackedItem => {
-  if (trackedItem) {
-    const pageTitle = setDocumentRequestPageTitle(getLabel(trackedItem));
-    setDocumentTitle(pageTitle);
-  } else {
-    setDocumentTitle('Document Request');
-  }
-};
 
 // Used to set the page focus on the CST Tabs
 export function setPageFocus(lastPage, loading) {
@@ -1467,79 +1344,37 @@ export function setPageFocus(lastPage, loading) {
     if (!loading) {
       setUpPage();
     } else {
-      scrollToTop();
+      scrollToTop({ behavior: 'instant' });
     }
   } else {
-    scrollAndFocus(document.querySelector('.tab-header'));
+    scrollAndFocus(document.querySelector('.tab-header'), {
+      behavior: 'instant',
+    });
   }
 }
-// Used to get the oldest document date
-// Logic used in getTrackedItemDateFromStatus()
-export const getOldestDocumentDate = item => {
-  const arrDocumentDates = item.documents.map(document => document.uploadDate);
-  return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
-};
-// Logic here uses a given tracked items status to determine what the date should be.
-// This logic is used in RecentActivity and on the ClaimStatusHeader
-export const getTrackedItemDateFromStatus = item => {
-  switch (item.status) {
-    case 'NEEDED_FROM_YOU':
-    case 'NEEDED_FROM_OTHERS':
-      return item.requestedDate;
-    case 'NO_LONGER_REQUIRED':
-      return item.closedDate;
-    case 'SUBMITTED_AWAITING_REVIEW':
-      return getOldestDocumentDate(item);
-    case 'INITIAL_REVIEW_COMPLETE':
-    case 'ACCEPTED':
-      return item.receivedDate;
-    default:
-      return item.requestedDate;
-  }
-};
 
-export const renderDefaultThirdPartyMessage = displayName => {
-  return displayName.toLowerCase().includes('dbq') ? (
-    <>
-      We’ve requested an exam related to your claim. The examiner’s office will
-      contact you to schedule this appointment.
-      <br />
-    </>
-  ) : (
-    <>
-      <strong>You don’t need to do anything.</strong> We asked someone outside
-      VA for documents related to your claim.
-      <br />
-    </>
-  );
-};
-
-export const renderOverrideThirdPartyMessage = item => {
-  if (item.displayName.toLowerCase().includes('dbq')) {
-    return item.shortDescription || item.activityDescription;
-  }
-  if (item.shortDescription) {
-    return (
-      <>
-        <strong>You don’t need to do anything.</strong> {item.shortDescription}
-      </>
-    );
-  }
-  return item.activityDescription;
-};
-
-export const getUploadErrorMessage = (error, claimId) => {
+export const getUploadErrorMessage = (
+  error,
+  claimId,
+  showDocumentUploadStatus = false,
+) => {
   if (error?.errors?.[0]?.detail === 'DOC_UPLOAD_DUPLICATE') {
+    const filesPath = `/track-claims/your-claims/${claimId}/files`;
+    const isOnFilesPage = window.location.pathname === filesPath;
+    const anchorLink = showDocumentUploadStatus
+      ? ANCHOR_LINKS.filesReceived
+      : ANCHOR_LINKS.documentsFiled;
+    const linkHref = isOnFilesPage
+      ? `#${anchorLink}`
+      : `${filesPath}#${anchorLink}`;
+
     return {
       title: `You've already uploaded ${error?.fileName || 'files'}`,
       body: (
         <>
           It can take up to 2 days for the file to show up in{' '}
-          <va-link
-            text="your list of documents filed"
-            href={`/track-claims/your-claims/${claimId}/files`}
-          />
-          . Try checking back later before uploading again.
+          <va-link text="your list of documents filed" href={linkHref} />. Try
+          checking back later before uploading again.
         </>
       ),
       type: 'error',
@@ -1572,4 +1407,21 @@ export const getUploadErrorMessage = (error, claimId) => {
       'There was an error uploading your files. Please try again',
     type: 'error',
   };
+};
+
+/**
+ * Gets the display name for an evidence submission
+ * Evidence submissions are documents that have not yet been successfully created in Lighthouse.
+ * @param {Object} evidenceSubmission - Evidence submission object with trackedItemId
+ * @returns {string|null} Tracked item friendly name, display name, 'unknown', or null if no trackedItemId
+ */
+export const getTrackedItemDisplayNameFromEvidenceSubmission = evidenceSubmission => {
+  if (evidenceSubmission.trackedItemId) {
+    return (
+      evidenceSubmission.trackedItemFriendlyName ||
+      evidenceSubmission.trackedItemDisplayName ||
+      'unknown'
+    );
+  }
+  return null;
 };

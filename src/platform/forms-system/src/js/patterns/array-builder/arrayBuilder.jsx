@@ -1,5 +1,6 @@
 import React from 'react';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import environment from 'platform/utilities/environment';
 import {
   createArrayBuilderItemAddPath,
   onNavForwardKeepUrlParams,
@@ -376,6 +377,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     required: userRequired,
     useLinkInsteadOfYesNo = false,
     useButtonInsteadOfYesNo = false,
+    canEditItem,
+    canDeleteItem,
+    canAddItem,
     duplicateChecks = {},
   } = options;
   const hasMaxItemsFn = typeof maxItems === 'function';
@@ -460,7 +464,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     typeof userRequired === 'function' ? userRequired : () => userRequired;
 
   const getActiveItemPages = (formData, index, context = null) => {
-    return itemPages.filter(page => {
+    const activePages = itemPages.filter(page => {
       try {
         if (page.depends) {
           return safeDependsItem(page.depends)(formData, index, context);
@@ -470,6 +474,21 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         return false;
       }
     });
+
+    if (activePages.length === 0 && !environment.isProduction()) {
+      const contextInfo = context
+        ? ` Context: ${JSON.stringify(context)}.`
+        : '';
+      throw new Error(
+        `Array Builder Error: All item pages were filtered out for arrayPath "${arrayPath}" at index ${index}.${contextInfo} ` +
+          `This means all of your itemPage depends functions returned false for this item. ` +
+          `At least one itemPage must be available for every item in the array. ` +
+          `Check your depends conditions to ensure at least one itemPage depends always returns true, ` +
+          `or remove the depends condition from at least one itemPage to make it always available.`,
+      );
+    }
+
+    return activePages;
   };
 
   const getFirstItemPagePath = (formData, index, context = null) => {
@@ -500,7 +519,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       path = createArrayBuilderUpdatedPath({
         basePath,
         index: foundIndex == null ? index : foundIndex,
-        nounSingular,
+        arrayPath,
       });
     }
     goPath(path);
@@ -633,6 +652,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       required,
       useLinkInsteadOfYesNo,
       useButtonInsteadOfYesNo,
+      canEditItem,
+      canDeleteItem,
+      canAddItem,
       isReviewPage: false,
       duplicateChecks,
     };

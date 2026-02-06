@@ -61,7 +61,7 @@ export const STATEMENT_TYPE_LABELS = Object.freeze({
   [STATEMENT_TYPES.DECISION_REVIEW]:
     "I disagree with VA's decision on my benefit or claim, and I'd like to request a decision review.",
   [STATEMENT_TYPES.BUDDY_STATEMENT]:
-    'I want to provide context or details about a claim.',
+    'I want to submit a lay or witness statement to support a claim.',
   [STATEMENT_TYPES.PRIORITY_PROCESSING]:
     'I want to request faster claim processing because of my situation.',
   [STATEMENT_TYPES.PERSONAL_RECORDS]: 'I want to request my personal records.',
@@ -140,7 +140,7 @@ export const OTHER_REASONS = Object.freeze({
 export const ESCAPE_HATCH = Object.freeze(
   <div className="vads-u-margin-y--4">
     If you’d like to use VA Form 21-4138 for your statement instead, you can{' '}
-    <a href="/supporting-forms-for-claims/submit-statement-form-21-4138/personal-information">
+    <a href="/supporting-forms-for-claims/submit-statement-form-21-4138/personal-information?skip">
       go to VA Form 21-4138 now.
     </a>
   </div>,

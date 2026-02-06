@@ -1,6 +1,9 @@
+import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'platform/forms-system/src/js/patterns/array-builder';
+import { PersonalInformation } from 'platform/forms-system/src/js/components/PersonalInformation/PersonalInformation';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -23,13 +26,14 @@ import {
   waiverOfSubstitution,
   relativesOverview,
   relativesPages,
-  supportingDocuments,
   expensesClaim,
   expensesPages,
   otherDebts,
   otherDebtsPages,
   remarks,
+  supportingDocuments,
 } from '../pages';
+import { personalInfoConfig } from '../helpers/personalInformationConfig';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -39,7 +43,7 @@ const formConfig = {
   trackingPrefix: '21p-601-accrued-benefits-',
   useCustomScrollAndFocus: true,
   v3SegmentedProgressBar: true,
-  hideUnauthedStartLink: true,
+  hideUnauthedStartLink: false,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -50,9 +54,18 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for accrued benefits online.',
     noAuth: 'Please sign in again to continue your application.',
+  },
+  downtime: {
+    dependencies: [
+      externalServices.lighthouseBenefitsIntake,
+      externalServices.form21p601,
+    ],
   },
   preSubmitInfo: {
     statementOfTruth: {
@@ -65,7 +78,7 @@ const formConfig = {
   },
   title: 'Apply for accrued benefits online',
   subTitle:
-    'Primarily for executors or administrators of VA beneficiaries’ estates (VA Form 21P-601)',
+    'Primarily for anyone applying for accrued benefits only, to include executors or administrators of VA beneficiaries’ estates (VA Form 21P-601)',
   customText: {
     appType: 'form',
   },
@@ -80,6 +93,7 @@ const formConfig = {
           title: 'Previous applications',
           uiSchema: hasAlreadyFiled.uiSchema,
           schema: hasAlreadyFiled.schema,
+          scrollAndFocusTarget: 'h3',
         },
         hasUnpaidCreditors: {
           path: 'unpaid-creditors',
@@ -87,6 +101,7 @@ const formConfig = {
           depends: formData => formData?.hasAlreadyFiled === false,
           uiSchema: hasUnpaidCreditors.uiSchema,
           schema: hasUnpaidCreditors.schema,
+          scrollAndFocusTarget: 'h3',
         },
         eligibilitySummary: {
           path: 'eligibility-summary',
@@ -96,24 +111,35 @@ const formConfig = {
             formData?.hasUnpaidCreditors === true,
           uiSchema: eligibilitySummary.uiSchema,
           schema: eligibilitySummary.schema,
-          // This page should be the end - no continue button
-          hideNavButtons: true,
-          customNavButtons: () => null,
+          scrollAndFocusTarget: 'h3',
+        },
+        personalInformation: {
+          path: 'personal-information',
+          title: 'Personal info',
+          depends: formData => formData.isLoggedIn,
+          CustomPage: props => (
+            <PersonalInformation {...props} config={personalInfoConfig()} />
+          ),
+          CustomPageReview: null,
+          hideOnReview: true,
+          scrollAndFocusTarget,
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+          uiSchema: {},
         },
       },
     },
     veteranInformationChapter: {
       title: 'Veteran information',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         veteranFullName: {
           path: 'veteran-name',
           title: "Veteran's name",
           uiSchema: veteranFullName.uiSchema,
           schema: veteranFullName.schema,
-          scrollAndFocusTarget,
+          scrollAndFocusTarget: 'h3',
         },
         veteranIdentifiers: {
           path: 'veteran-identifiers',
@@ -126,16 +152,13 @@ const formConfig = {
     },
     deceasedBeneficiaryChapter: {
       title: 'Beneficiary information',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         beneficiaryIsVeteran: {
           path: 'beneficiary-is-veteran',
           title: 'Is the beneficiary the veteran?',
           uiSchema: beneficiaryIsVeteran.uiSchema,
           schema: beneficiaryIsVeteran.schema,
-          scrollAndFocusTarget,
+          scrollAndFocusTarget: 'h3',
         },
         beneficiaryFullName: {
           path: 'beneficiary-name',
@@ -143,7 +166,7 @@ const formConfig = {
           depends: formData => formData?.beneficiaryIsVeteran === false,
           uiSchema: beneficiaryFullName.uiSchema,
           schema: beneficiaryFullName.schema,
-          scrollAndFocusTarget,
+          scrollAndFocusTarget: 'h3',
         },
         beneficiaryDateOfDeath: {
           path: 'beneficiary-date-of-death',
@@ -156,9 +179,6 @@ const formConfig = {
     },
     yourInformationChapter: {
       title: 'Your information',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         claimantNameAndDob: {
           path: 'your-name-and-date-of-birth',
@@ -206,9 +226,6 @@ const formConfig = {
     },
     survivingRelativesChapter: {
       title: 'Surviving relatives',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         relativesOverview: {
           path: 'surviving-relatives',
@@ -219,35 +236,20 @@ const formConfig = {
         },
         relativesSummary: {
           ...relativesPages.relativesSummary,
-          depends: formData =>
-            formData?.survivors?.hasNone !== true &&
-            (!!formData?.survivors?.hasSpouse ||
-              !!formData?.survivors?.hasChildren ||
-              !!formData?.survivors?.hasParents),
+          depends: formData => formData?.survivors === true,
         },
         relativeNamePage: {
           ...relativesPages.relativeNamePage,
-          depends: formData =>
-            formData?.survivors?.hasNone !== true &&
-            (!!formData?.survivors?.hasSpouse ||
-              !!formData?.survivors?.hasChildren ||
-              !!formData?.survivors?.hasParents),
+          depends: formData => formData?.survivors === true,
         },
         relativeAddressPage: {
           ...relativesPages.relativeAddressPage,
-          depends: formData =>
-            formData?.survivors?.hasNone !== true &&
-            (!!formData?.survivors?.hasSpouse ||
-              !!formData?.survivors?.hasChildren ||
-              !!formData?.survivors?.hasParents),
+          depends: formData => formData?.survivors === true,
         },
       },
     },
     expensesAndDebtsChapter: {
       title: 'Expenses and debts',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         expensesClaim: {
           path: 'reimbursement-claim',
@@ -270,19 +272,17 @@ const formConfig = {
     },
     additionalInfoChapter: {
       title: 'Additional remarks',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         supportingDocuments: {
           title: 'Supporting documents',
           path: 'supporting-documents',
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
+          scrollAndFocusTarget: 'h3',
         },
         remarks: {
           path: 'additional-info/remarks',
-          title: 'Additional remarks (optional)',
+          title: 'Additional remarks',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,
           scrollAndFocusTarget,

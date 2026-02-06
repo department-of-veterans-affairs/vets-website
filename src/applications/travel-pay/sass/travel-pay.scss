@@ -8,9 +8,37 @@
 @import "../../../platform/mhv/secondary-nav/sass/mhv-sec-nav";
 
 // Complex claim review page styles for the buttons and links
+.currency-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.currency-symbol {
+  position: absolute;
+  left: 12px;
+  top: 80%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.currency-input-field::part(input) {
+  padding-left: 28px !important;
+}
+
+@media (max-width: 600px) {
+  .currency-symbol {
+    transform: translateY(-40%);
+  }
+  .currency-input-field::part(input) {
+    padding-left: 24px;
+  }
+}
+
 .expense-card-details {
   p {
     margin-block: 8px !important;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 }
 
@@ -25,7 +53,6 @@
   }
 
   .review-edit-button {
-    padding-inline: 20px;
     padding-block: 8px;
     line-height: 25px;
     align-items: center;
@@ -136,6 +163,17 @@ h2#pagination-info {
   va-icon {
     margin-right: 0.2rem;
     vertical-align: middle;
+  }
+}
+
+// Ensure document download links wrap long filenames
+[data-testid="user-submitted-documents"] {
+  word-break: break-word;
+  overflow-wrap: break-word;
+
+  va-link {
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 }
 

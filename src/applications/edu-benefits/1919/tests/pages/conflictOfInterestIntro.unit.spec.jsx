@@ -56,6 +56,6 @@ describe('Conflict of Interest Intro', () => {
     );
 
     expect(container.querySelectorAll('h3').length).to.equal(1);
-    expect(container.querySelectorAll('p').length).to.equal(3);
+    expect(container.querySelectorAll('p').length).to.equal(4);
   });
 });

@@ -3,7 +3,7 @@ name: E2E Test Stability Review
 on:
   schedule:
     - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
-  
+
 env:
   BUILDTYPE: vagovprod
 
@@ -11,6 +11,9 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-32-cores-latest
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -31,9 +34,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get Mapbox Token
         uses: ./.github/workflows/inject-secrets
@@ -72,6 +74,9 @@ jobs:
     name: Testing Reports Prep
     runs-on: ubuntu-22.04
     continue-on-error: true
+    permissions:
+      id-token: write
+      contents: read
     outputs:
       app_list: ${{ env.APPLICATION_LIST }}
     steps:
@@ -95,9 +100,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -118,6 +122,9 @@ jobs:
   fetch-e2e-allow-list:
     name: Fetch E2E Test Stability Allow List
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -125,9 +132,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -197,7 +203,7 @@ jobs:
       - name: Set output of CYPRESS_TESTS_TO_STRESS_TEST
         id: cypress-tests-to-stress-test
         run: echo tests=$CYPRESS_TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
-  
+
       - name: Upload artifact of Cypress Tests to Stress Test
         if: ${{ steps.cypress-tests-to-stress-test.outputs.tests == 'true' }}
         uses: ./.github/workflows/upload-artifact
@@ -217,6 +223,9 @@ jobs:
     name: E2E Test Stability Review
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 1200
+    permissions:
+      id-token: write
+      contents: read
     needs: [build, cypress-tests-prep]
     if: |
       needs.build.result == 'success' &&
@@ -251,9 +260,8 @@ jobs:
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Checkout vets-website
         if: needs.cypress-tests-prep.outputs.tests != '[]'
@@ -286,7 +294,7 @@ jobs:
       - name: Start server
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
-      
+
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact
         with:
@@ -330,6 +338,10 @@ jobs:
   update-e2e-allow-list:
     name: Update E2E Test Stability Allow List
     runs-on: ubuntu-22.04
+    permissions:
+      checks: write
+      id-token: write
+      contents: read
     needs:
       [
         testing-reports-prep,
@@ -348,9 +360,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -364,24 +375,8 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
       - name: Download Cypress E2E Mochawesome test results
         uses: ./.github/workflows/download-artifact

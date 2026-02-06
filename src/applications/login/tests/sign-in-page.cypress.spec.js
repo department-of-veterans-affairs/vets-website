@@ -1,31 +1,15 @@
 describe('Unified Sign-in Page', () => {
-  [false, true].forEach(value => {
-    beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: 'dslogon_button_disabled',
-              value,
-            },
-          ],
-        },
-      }).as('featureToggles');
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    });
+  beforeEach(() => {
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
+  });
 
-    const expectedText = !value
-      ? `We’ll remove this option after September 30, 2025`
-      : `This option is no longer available`;
-
-    it(`display correct sign-in content when feature toggle 'dslogon_button_disabled' is ${value}`, () => {
-      cy.visit('/sign-in/?oauth=false');
-      cy.wait('@featureToggles');
-      cy.get('body').should('be.visible');
-      cy.get('#dslogonH3').contains(expectedText);
-      cy.injectAxeThenAxeCheck();
-    });
+  it(`display correct sign-in content`, () => {
+    cy.visit('/sign-in/?oauth=false');
+    cy.get('body').should('be.visible');
+    cy.get('H1').contains('Sign in or create an account');
+    cy.get('H2').contains('Help and support');
+    cy.contains('a', 'Learn about creating an ID.me or Login.gov account');
+    cy.injectAxeThenAxeCheck();
   });
 });
 

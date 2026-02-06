@@ -5,13 +5,14 @@
       "vaMedicalFacility": "631"
     },
     "wantsInitialVaContact": true,
-    "isCoveredByHealthInsurance": true,
     "providers": [
       {
         "insuranceName": "Big Insurance Co",
         "insurancePolicyHolderName": "Jim Doe",
-        "insurancePolicyNumber": "2342344",
-        "insuranceGroupCode": "2324234434"
+        "view:policyNumberOrGroupCode": {
+          "insurancePolicyNumber": "2342344",
+          "insuranceGroupCode": "2324234434"
+        }
       }
     ],
     "isMedicaidEligible": true,

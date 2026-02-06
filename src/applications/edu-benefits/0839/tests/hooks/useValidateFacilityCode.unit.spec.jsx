@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
@@ -9,36 +10,6 @@ import * as actions from 'platform/forms-system/src/js/actions';
 import { useValidateFacilityCode } from '../../hooks/useValidateFacilityCode';
 
 const mockStore = configureStore([]);
-
-function renderHook(renderCallback, options = {}) {
-  const { initialProps, ...renderOptions } = options;
-  const result = React.createRef();
-  result.current = null;
-
-  function TestComponent({ renderCallbackProps }) {
-    const hookResult = renderCallback(renderCallbackProps);
-    result.current = hookResult;
-
-    React.useEffect(() => {
-      result.current = hookResult;
-    });
-
-    return null;
-  }
-
-  const { rerender: baseRerender, unmount } = render(
-    <TestComponent renderCallbackProps={initialProps} />,
-    renderOptions,
-  );
-
-  function rerender(rerenderCallbackProps) {
-    return baseRerender(
-      <TestComponent renderCallbackProps={rerenderCallbackProps} />,
-    );
-  }
-
-  return { result, rerender, unmount };
-}
 
 describe('useValidateFacilityCode', () => {
   let store;
@@ -113,7 +84,6 @@ describe('useValidateFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
           facilityMap: {
             main: {
               branches: [],
@@ -159,7 +129,6 @@ describe('useValidateFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
           facilityMap: {
             main: {
               branches: [],
@@ -206,7 +175,6 @@ describe('useValidateFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
           facilityMap: {
             main: {
               branches: [],
@@ -264,7 +232,6 @@ describe('useValidateFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
           facilityMap: {
             main: {
               branches: [],
@@ -323,7 +290,6 @@ describe('useValidateFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
           facilityMap: {
             main: {
               branches: [],
@@ -372,98 +338,6 @@ describe('useValidateFacilityCode', () => {
     }
   });
 
-  it('should calculate IHL eligibility correctly when program types include IHL', async () => {
-    const mockResponse = {
-      data: {
-        attributes: {
-          name: 'Test University',
-          address1: '123 Main St',
-          city: 'Boston',
-          state: 'MA',
-          zip: '02101',
-          country: 'USA',
-          programTypes: ['IHL', 'OJT'],
-          facilityMap: {
-            main: {
-              branches: [],
-              extensions: [],
-            },
-          },
-        },
-      },
-    };
-
-    apiRequestStub.resolves(mockResponse);
-
-    const formData = {
-      institutionDetails: {
-        facilityCode: '12345678',
-      },
-    };
-
-    renderHook(() => useValidateFacilityCode(formData), {
-      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
-    });
-
-    await waitFor(() => {
-      const successCall = setDataStub
-        .getCalls()
-        .find(
-          call =>
-            call.args[0].institutionDetails &&
-            call.args[0].institutionDetails.ihlEligible !== undefined,
-        );
-      expect(successCall).to.exist;
-      expect(successCall.args[0].institutionDetails.ihlEligible).to.be.true;
-    });
-  });
-
-  it('should calculate IHL eligibility correctly when program types do not include IHL', async () => {
-    const mockResponse = {
-      data: {
-        attributes: {
-          name: 'Test University',
-          address1: '123 Main St',
-          city: 'Boston',
-          state: 'MA',
-          zip: '02101',
-          country: 'USA',
-          programTypes: ['OJT', 'FLIGHT'],
-          facilityMap: {
-            main: {
-              branches: [],
-              extensions: [],
-            },
-          },
-        },
-      },
-    };
-
-    apiRequestStub.resolves(mockResponse);
-
-    const formData = {
-      institutionDetails: {
-        facilityCode: '12345678',
-      },
-    };
-
-    renderHook(() => useValidateFacilityCode(formData), {
-      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
-    });
-
-    await waitFor(() => {
-      const successCall = setDataStub
-        .getCalls()
-        .find(
-          call =>
-            call.args[0].institutionDetails &&
-            call.args[0].institutionDetails.ihlEligible !== undefined,
-        );
-      expect(successCall).to.exist;
-      expect(successCall.args[0].institutionDetails.ihlEligible).to.be.false;
-    });
-  });
-
   it('should handle missing or null program types', async () => {
     const mockResponse = {
       data: {
@@ -503,10 +377,10 @@ describe('useValidateFacilityCode', () => {
         .find(
           call =>
             call.args[0].institutionDetails &&
-            call.args[0].institutionDetails.ihlEligible !== undefined,
+            call.args[0].institutionDetails.institutionName ===
+              'Test University',
         );
       expect(successCall).to.exist;
-      expect(successCall.args[0].institutionDetails.ihlEligible).to.be.false;
     });
   });
 
@@ -536,7 +410,6 @@ describe('useValidateFacilityCode', () => {
       expect(
         errorCall.args[0].institutionDetails.institutionAddress,
       ).to.deep.equal({});
-      expect(errorCall.args[0].institutionDetails.ihlEligible).to.be.null;
     });
   });
 
@@ -545,7 +418,6 @@ describe('useValidateFacilityCode', () => {
       data: {
         attributes: {
           name: 'Test University',
-          programTypes: ['IHL'],
           facilityMap: {
             main: {
               branches: [],
@@ -601,7 +473,6 @@ describe('useValidateFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
           facilityMap: {
             main: {
               branches: [],
@@ -642,7 +513,6 @@ describe('useValidateFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
           facilityMap: {
             main: {
               branches: [],
@@ -662,7 +532,6 @@ describe('useValidateFacilityCode', () => {
           state: 'MA',
           zip: '02139',
           country: 'USA',
-          programTypes: ['IHL'],
           facilityMap: {
             main: {
               branches: [],

@@ -4,6 +4,8 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import mockUser from './fixtures/mocks/user.json';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
+import mockPrefillData from './fixtures/mocks/mockPrefillData.json';
+import sip from './fixtures/mocks/sip-put.json';
 
 const testConfig = createTestConfig(
   {
@@ -54,7 +56,11 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       cy.intercept('GET', '/v0/user', mockUser);
+
       cy.intercept('POST', formConfig.submitUrl, { status: 200 });
+      cy.intercept('PUT', '/v0/in_progress_forms/22-10297', sip);
+      cy.intercept('GET', '/v0/in_progress_forms/22-10297', mockPrefillData);
+
       cy.login(mockUser);
     },
 

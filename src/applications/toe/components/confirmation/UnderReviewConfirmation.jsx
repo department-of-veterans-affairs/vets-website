@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import LoadingIndicator from '../LoadingIndicator';
+import FormFooter from '../FormFooter';
 
 const UnderReviewConfirmation = ({
   user,
@@ -100,14 +101,12 @@ const UnderReviewConfirmation = ({
         <hr className="meb-hr" />
         <p>
           If more than a month has passed since you gave us your application and
-          you haven’t heard back, please don’t apply again. Contact us through{' '}
-          <a
+          you haven’t heard back, please don’t apply again.{' '}
+          <va-link
             href="https://ask.va.gov"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Ask VA
-          </a>
+            external
+            text="Contact us through Ask VA"
+          />
           .
         </p>
       </va-card>
@@ -129,52 +128,39 @@ const UnderReviewConfirmation = ({
         <h2>What can I do while I wait?</h2>
         <ul>
           <li>
-            If you need to submit documentation to VA, such as service records,
-            please send this through our{' '}
-            <a
+            <va-link
               href="https://ask.va.gov/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ask VA feature
-            </a>
+              external
+              text="If you need to submit documentation to VA, such as service records, please send this through our Ask VA feature"
+            />
             .
           </li>
           <li>
-            <a
+            <va-link
               href="/profile/direct-deposit"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Review and/or update your direct deposit information on your
-              VA.gov profile
-            </a>
+              text="Review and/or update your direct deposit information on your VA.gov profile"
+            />
             .
           </li>
           <li>
-            <a
+            <va-link
               href="/education/gi-bill-comparison-tool/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Use our GI Bill Comparison Tool to help you decide which schools
-              are best for you
-            </a>
+              text="Use our GI Bill Comparison Tool on VA.gov to help you decide which schools are best for you"
+            />
             .
           </li>
           <li>
-            <a
-              href="https://benefits.va.gov/GIBILL/docs/GIBguideseries/ChooseYourEducationPathway.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn more about VA benefits and programs through the Building
-              Your Future with the GI Bill Series
-            </a>
+            <va-link
+              href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
+              external
+              filetype="PDF"
+              text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series"
+            />
             .
           </li>
         </ul>
       </div>
+      <FormFooter />
     </>
   );
 };

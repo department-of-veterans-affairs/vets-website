@@ -9,7 +9,7 @@ function EligibilitySummary({ formData }) {
   if (formData.hasAlreadyFiled === true) {
     reason = "You've already filed for survivor benefits";
     explanation =
-      'Your accrued benefits claim is already included in your application for survivors benefits. You don’t need to fill out this form separately.';
+      "Your accrued benefits claim is already included in your application for survivors benefits. You don't need to fill out this form separately.";
   } else if (formData.hasUnpaidCreditors === true) {
     reason = 'You have unpaid creditors';
     explanation =
@@ -22,23 +22,28 @@ function EligibilitySummary({ formData }) {
     formData.hasUnpaidCreditors === false
   ) {
     return (
-      <va-alert status="error" role="alert" uswds>
-        <h3 slot="headline">Something went wrong</h3>
-        <p>
-          There was an error with the eligibility check. Please return to the
-          start of the form and try again.
-        </p>
-      </va-alert>
+      <>
+        <h3>Eligibility results</h3>
+        <va-alert status="error" role="alert" uswds>
+          <h3 slot="headline">Something went wrong</h3>
+          <p>
+            There was an error with the eligibility check. Please return to the
+            start of the form and try again.
+          </p>
+        </va-alert>
+      </>
     );
   }
 
   return (
     <>
+      <h3>Eligibility results</h3>
       <div className="vads-u-margin-top--3">
-        <va-card background icon-name="">
+        <va-card background icon-name="" role="alert">
           <div>
             <h4 className="vads-u-margin-top--1">
-              Based on your responses, you should not submit this form online.
+              Based on your responses, you may not be eligible to submit this
+              form online.
             </h4>
             <p>
               <strong>Your response:</strong>

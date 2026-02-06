@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -6,6 +6,7 @@ import {
   usePrintTitle,
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
+
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals, reloadRecords } from '../actions/vitals';
 import {
@@ -17,7 +18,6 @@ import {
   refreshExtractTypes,
   loadStates,
   statsdFrontEndActions,
-  CernerAlertContent,
 } from '../util/constants';
 import { Actions } from '../util/actionTypes';
 import useAlerts from '../hooks/use-alerts';
@@ -25,7 +25,6 @@ import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import RecordListSection from '../components/shared/RecordListSection';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
@@ -52,12 +51,8 @@ const Vitals = () => {
   const isLoadingAcceleratedData =
     (isCerner || isAcceleratingVitals) && listState === loadStates.FETCHING;
 
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getVitals(isCurrent, isCerner, isAcceleratingVitals);
-      };
-    },
+  const dispatchAction = useCallback(
+    isCurrent => getVitals(isCurrent, isCerner, isAcceleratingVitals),
     [isCerner, isAcceleratingVitals],
   );
 
@@ -70,6 +65,7 @@ const Vitals = () => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
@@ -95,12 +91,9 @@ const Vitals = () => {
     updatePageTitle,
   );
 
-  const PER_PAGE = useMemo(
-    () => {
-      return Object.keys(vitalTypes).length;
-    },
-    [vitalTypes],
-  );
+  const PER_PAGE = useMemo(() => {
+    return Object.keys(vitalTypes).length;
+  }, []);
 
   useEffect(
     () => {
@@ -115,11 +108,20 @@ const Vitals = () => {
         setCards(firstOfEach);
       }
     },
-    [vitals, vitalTypes],
+    [vitals],
   );
 
-  const content = () => {
-    return (
+  return (
+    <div id="vitals">
+      <PrintHeader />
+      <h1 data-testid="vitals" className="vads-u-margin--0">
+        Vitals
+      </h1>
+      <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
+        Vitals are basic health numbers your providers check at your
+        appointments.
+      </p>
+
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.VITALS}
@@ -143,63 +145,36 @@ const Vitals = () => {
               }}
             />
           )}
-        {cards?.length ? (
-          <RecordList
-            records={cards}
-            type={recordType.VITALS}
-            perPage={PER_PAGE}
-            hidePagination
-            domainOptions={{
-              isAccelerating: isCerner,
-            }}
-          />
-        ) : (
-          <NoRecordsMessage type={recordType.VITALS} />
+        {(isLoadingAcceleratedData || isLoading) && (
+          <div className="vads-u-margin-y--8">
+            <TrackedSpinner
+              id="vitals-page-spinner"
+              message="We’re loading your vitals."
+              setFocus
+              data-testid="loading-indicator"
+            />
+          </div>
         )}
-      </RecordListSection>
-    );
-  };
-
-  return (
-    <div id="vitals">
-      <PrintHeader />
-      <h1 data-testid="vitals" className="vads-u-margin--0">
-        Vitals
-      </h1>
-      <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
-        {`Vitals are basic health numbers your providers check at your
-        appointments.`}
-      </p>
-
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.VITALS} />
-
-      {isLoading && (
-        <div className="vads-u-margin-y--8">
-          <TrackedSpinner
-            id="vitals-page-spinner"
-            message="We’re loading your vitals."
-            setFocus
-            data-testid="loading-indicator"
-          />
-        </div>
-      )}
-      {!isLoading && (
-        <>
-          {isLoadingAcceleratedData && (
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
+          cards !== undefined && (
             <>
-              <div className="vads-u-margin-y--8">
-                <TrackedSpinner
-                  id="accelerated-vitals-page-spinner"
-                  message="We’re loading your records."
-                  setFocus
-                  data-testid="loading-indicator"
+              {cards?.length ? (
+                <RecordList
+                  records={cards}
+                  type={recordType.VITALS}
+                  perPage={PER_PAGE}
+                  hidePagination
+                  domainOptions={{
+                    isAccelerating: isCerner,
+                  }}
                 />
-              </div>
+              ) : (
+                <NoRecordsMessage type={recordType.VITALS} />
+              )}
             </>
           )}
-          {!isLoadingAcceleratedData && content()}
-        </>
-      )}
+      </RecordListSection>
     </div>
   );
 };

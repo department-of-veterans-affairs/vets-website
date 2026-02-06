@@ -321,12 +321,9 @@ export const shouldNotHaveValidationErrors = () => {
     );
 };
 
-export const shouldHaveValidationError = (expectedError = null) => {
-  if (expectedError === null) {
-    cy.get('[error]:not(:empty), [role="alert"]:not(:empty)').should('exist');
-  } else {
-    cy.get('[error]:not(:empty), [role="alert"]:not(:empty)').contains(
-      expectedError,
-    );
-  }
+export const shouldHaveVaTextInputError = (fieldName, expectedError) => {
+  cy.get(`va-text-input[name="${fieldName}"]`)
+    .shadow()
+    .find('.usa-error-message')
+    .should('contain.text', expectedError);
 };

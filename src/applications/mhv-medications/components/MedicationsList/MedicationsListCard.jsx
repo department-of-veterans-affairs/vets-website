@@ -53,6 +53,17 @@ const MedicationsListCard = ({ rx }) => {
     }
     return (
       <>
+        {rx &&
+          rx.isRefillable &&
+          rx.refillRemaining >= 0 && (
+            <p
+              data-testid="rx-refill-remaining"
+              data-dd-privacy="mask"
+              id={`refill-remaining-${rx.prescriptionId}`}
+            >
+              Refills remaining: {rx.refillRemaining}
+            </p>
+          )}
         {rx && <LastFilledInfo {...rx} />}
         {latestTrackingStatus && (
           <p
@@ -90,28 +101,14 @@ const MedicationsListCard = ({ rx }) => {
   };
 
   return (
-    <div
-      className={`no-print rx-card-container ${
-        pendingMed || pendingRenewal
-          ? 'vads-u-background-color--gray-lightest'
-          : 'vads-u-background-color--white'
-      } vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--base-dark no-break`}
+    <va-card
+      class={`no-print rx-card-container ${
+        pendingMed || pendingRenewal ? 'pending-med-or-renewal' : ''
+      } vads-u-margin-y--2 no-break`}
     >
-      <div
-        className="rx-card-details vads-u-padding--2"
-        data-testid="rx-card-info"
-      >
+      <div className="rx-card-details" data-testid="rx-card-info">
         <Link
           id={`card-header-${rx.prescriptionId}`}
-          aria-describedby={
-            pendingMed || pendingRenewal
-              ? `prescription-number-${rx.prescriptionId} pending-med-content-${
-                  rx.prescriptionId
-                }`
-              : `status-${rx.prescriptionId} status-description-${
-                  rx.prescriptionId
-                } fill-or-refill-button-${rx.prescriptionId}`
-          }
           data-dd-privacy="mask"
           data-dd-action-name={
             dataDogActionNames.medicationsListPage.MEDICATION_NAME_LINK_IN_CARD
@@ -134,12 +131,14 @@ const MedicationsListCard = ({ rx }) => {
               id={`prescription-number-${rx.prescriptionId}`}
             >
               Prescription number:{' '}
-              <span data-dd-privacy="mask">{rx.prescriptionNumber}</span>
+              <span data-dd-privacy="mask">
+                {rx.prescriptionNumber || 'Not available'}
+              </span>
             </p>
           )}
         {cardBodyContent()}
       </div>
-    </div>
+    </va-card>
   );
 };
 

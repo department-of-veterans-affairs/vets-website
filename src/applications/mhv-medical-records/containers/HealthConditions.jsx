@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -14,7 +14,6 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   refreshExtractTypes,
-  CernerAlertContent,
   statsdFrontEndActions,
   loadStates,
 } from '../util/constants';
@@ -23,8 +22,8 @@ import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
 
@@ -44,13 +43,10 @@ const HealthConditions = () => {
   );
   useTrackAction(statsdFrontEndActions.HEALTH_CONDITIONS_LIST);
 
-  const { isAcceleratingConditions } = useAcceleratedData();
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getConditionsList(isCurrent, isAcceleratingConditions);
-      };
-    },
+  const { isLoading, isAcceleratingConditions } = useAcceleratedData();
+
+  const dispatchAction = useCallback(
+    isCurrent => getConditionsList(isCurrent, isAcceleratingConditions),
     [isAcceleratingConditions],
   );
 
@@ -61,6 +57,7 @@ const HealthConditions = () => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
@@ -92,10 +89,6 @@ const HealthConditions = () => {
         This list includes the same information as your "VA problem list" in the
         previous My HealtheVet experience.
       </p>
-
-      <AcceleratedCernerFacilityAlert
-        {...CernerAlertContent.HEALTH_CONDITIONS}
-      />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -133,25 +126,30 @@ const HealthConditions = () => {
             condition, ask your provider at your next appointment.
           </p>
         </va-additional-info>
-        {isLoadingAcceleratedData && (
-          <>
-            <div className="vads-u-margin-y--8">
-              <va-loading-indicator
-                message="We’re loading your records."
-                setFocus
-                data-testid="accelerated-loading-indicator"
-              />
-            </div>
-          </>
+        {(isLoadingAcceleratedData || isLoading) && (
+          <div className="vads-u-margin-y--8">
+            <TrackedSpinner
+              id="conditions-page-spinner"
+              message="We’re loading your records."
+              setFocus
+              data-testid="accelerated-loading-indicator"
+            />
+          </div>
         )}
-        {!isLoadingAcceleratedData && conditions?.length ? (
-          <RecordList
-            records={conditions}
-            type={recordType.HEALTH_CONDITIONS}
-          />
-        ) : (
-          <NoRecordsMessage type={recordType.HEALTH_CONDITIONS} />
-        )}
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
+          conditions !== undefined && (
+            <>
+              {conditions?.length ? (
+                <RecordList
+                  records={conditions}
+                  type={recordType.HEALTH_CONDITIONS}
+                />
+              ) : (
+                <NoRecordsMessage type={recordType.HEALTH_CONDITIONS} />
+              )}
+            </>
+          )}
       </RecordListSection>
     </>
   );

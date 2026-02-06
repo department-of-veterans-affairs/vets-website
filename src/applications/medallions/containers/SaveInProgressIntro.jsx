@@ -38,6 +38,7 @@ class SaveInProgressIntro extends React.Component {
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(this.props.formId)
     );
+
     const isExpired = savedForm
       ? isBefore(fromUnixTime(savedForm.metadata.expiresAt), new Date())
       : false;

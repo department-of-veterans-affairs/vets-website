@@ -14,6 +14,10 @@ const DelayedRefillAlert = props => {
     });
   };
 
+  // Helper to get prescription ID - handles both V1 (prescriptionId) and V2 (id) response formats
+  // TODO: Remove fallback to `id` after vets-api PR #26244 is deployed
+  const getPrescriptionId = rx => rx.prescriptionId ?? rx.id;
+
   const sortedPrescriptions = sortPrescriptionsByName(refillAlertList);
 
   return (
@@ -28,24 +32,29 @@ const DelayedRefillAlert = props => {
         Some refills are taking longer than expected
       </h2>
       <p>Go to your medication details to find out what to do next:</p>
-      {sortedPrescriptions.map(rx => (
-        <p
-          className="vads-u-margin-bottom--0"
-          key={rx.prescriptionId}
-          data-dd-privacy="mask"
-        >
-          <Link
-            id={`refill-alert-link-${rx.prescriptionId}`}
-            data-dd-privacy="mask"
-            data-testid={`refill-alert-link-${rx.prescriptionId}`}
-            className="vads-u-font-weight--bold"
-            to={`/prescription/${rx.prescriptionId}`}
-            data-dd-action-name={dataDogActionName}
-          >
-            {rx.prescriptionName}
-          </Link>
-        </p>
-      ))}
+      <ul className="medications-list-style--none vads-u-padding-left--0">
+        {sortedPrescriptions.map(rx => {
+          const rxId = getPrescriptionId(rx);
+          return (
+            <li
+              className="vads-u-margin-bottom--2"
+              key={rxId}
+              data-dd-privacy="mask"
+            >
+              <Link
+                id={`refill-alert-link-${rxId}`}
+                data-dd-privacy="mask"
+                data-testid={`refill-alert-link-${rxId}`}
+                className="vads-u-font-weight--bold"
+                to={`/prescription/${rxId}`}
+                data-dd-action-name={dataDogActionName}
+              >
+                {rx.prescriptionName}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
     </VaAlert>
   );
 };
@@ -54,7 +63,9 @@ DelayedRefillAlert.propTypes = {
   dataDogActionName: PropTypes.string,
   refillAlertList: PropTypes.arrayOf(
     PropTypes.shape({
-      prescriptionId: PropTypes.number.isRequired,
+      // prescriptionId is the expected field, id is fallback for V2 API until vets-api PR #26244 is deployed
+      prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       prescriptionName: PropTypes.string.isRequired,
     }),
   ),

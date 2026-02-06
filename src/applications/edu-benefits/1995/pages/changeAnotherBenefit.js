@@ -1,6 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/22-1995-schema.json';
 import React from 'react';
 import { benefitsLabelsUpdate } from '../../utils/labels';
+import BenefitReviewField from '../components/BenefitReviewField';
 
 const { changeAnotherBenefit, benefitAppliedFor } = fullSchema.properties;
 
@@ -25,6 +26,7 @@ export const uiSchema = {
   benefitAppliedFor: {
     'ui:widget': 'radio',
     'ui:title': 'Which benefit do you want to change to?',
+    'ui:reviewField': BenefitReviewField,
     'ui:required': formData => formData.changeAnotherBenefit === 'Yes',
     'ui:options': {
       labels: benefitsLabelsUpdate,

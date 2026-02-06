@@ -2,18 +2,42 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-
+import * as userSelectors from 'platform/user/selectors';
+import sinon from 'sinon';
 import PrivacyPolicy from '../../containers/PrivacyPolicy';
 
 describe('22-1919 <PrivacyPolicy>', () => {
-  const fakeStore = (formData = {}) => ({
-    getState: () => ({
-      form: {
-        data: formData,
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
+  let dispatchSpy;
+  let isLoggedInStub;
+
+  const fakeStore = (formData = {}, isAuthenticated = false) => {
+    dispatchSpy = sinon.spy();
+    return {
+      getState: () => ({
+        form: {
+          data: formData,
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: isAuthenticated,
+          },
+        },
+      }),
+      subscribe: () => {},
+      dispatch: dispatchSpy,
+    };
+  };
+
+  beforeEach(() => {
+    isLoggedInStub = sinon
+      .stub(userSelectors, 'isLoggedIn')
+      .callsFake(state => state?.user?.login?.currentlyLoggedIn || false);
+  });
+
+  afterEach(() => {
+    if (isLoggedInStub) {
+      isLoggedInStub.restore();
+    }
   });
 
   const formData = {

@@ -1,8 +1,8 @@
-import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import NotesDetailsPage from './pages/NotesDetailsPage';
 import NotesListPage from './pages/NotesListPage';
 import notes from './fixtures/notes/notes.json';
+import { formatDateMonthDayCommaYear } from '../../util/dateHelpers';
 
 describe('Medical Records Care Summary Page', () => {
   const site = new MedicalRecordsSite();
@@ -32,9 +32,9 @@ describe('Medical Records Care Summary Page', () => {
     NotesDetailsPage.verifyProgressNoteSignedBy('JOHN TESTER');
 
     NotesDetailsPage.verifyProgressNoteSignedDate(
-      moment(
+      formatDateMonthDayCommaYear(
         notes.entry[4].resource.authenticator.extension[0].valueDateTime,
-      ).format('MMMM D, YYYY'),
+      ),
     );
 
     // Verify Progress Note Record Details

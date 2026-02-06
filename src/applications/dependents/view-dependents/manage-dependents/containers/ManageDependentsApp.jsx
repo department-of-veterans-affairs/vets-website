@@ -13,6 +13,21 @@ import {
   LOADING_STATUS,
 } from '../utils';
 
+/**
+ * @typedef {Object} ManageDependentsProps
+ * @property {string} relationship - dependent's relationship to user
+ * @property {function} updateFormData - action to update form data in redux
+ * @property {function} cleanupFormData - action to clean up form data in redux
+ * @property {function} submitFormData - action to submit form data
+ * @property {object} dependentsState - redux state for manage dependents forms
+ * @property {function} closeFormHandler - handler to close the manage
+ * dependents form
+ * @property {number} stateKey - index key for dependent
+ * @property {object} userInfo - user information from profile
+ *
+ * @param {ManageDependentsProps} props - component props
+ * @returns {JSX.Element} - ManageDependents component
+ */
 const ManageDependents = props => {
   const {
     relationship,

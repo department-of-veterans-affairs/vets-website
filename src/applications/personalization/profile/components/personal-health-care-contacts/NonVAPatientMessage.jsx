@@ -5,8 +5,7 @@ import PropTypes from 'prop-types';
 const NonVAPatientMessage = ({ testId }) => (
   <>
     <p data-testid={testId}>
-      Our records show that you don’t currently receive health care benefits
-      from the VA.
+      Our records show that you don’t currently receive VA health care benefits.
     </p>
     <p>
       If you think this is an error, call us at{' '}

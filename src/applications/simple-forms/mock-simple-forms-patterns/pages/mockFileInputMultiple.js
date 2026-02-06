@@ -4,6 +4,7 @@ import {
   fileInputMultipleUI,
   fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 /** @type {PageSchema} */
 export default {
@@ -11,13 +12,30 @@ export default {
     wcv3FileInputMultiple: fileInputMultipleUI({
       title: 'Web component v3 file input',
       required: true,
-      hint: 'Upload a file that is between 1KB and 5MB',
+      accept: '.png,.pdf,.txt,.jpg,.jpeg',
+      hint: 'Upload a file that is between 1KB and 100MB',
       headerSize: '3',
       formNumber: '31-4159',
       // disallowEncryptedPdfs: true,
-      skipUpload: true, // mock-forms does not have a backend for upload
-      maxFileSize: 1024 * 1024 * 5,
-      minFileSize: 1,
+      fileUploadUrl: `${
+        environment.API_URL
+      }/simple_forms_api/v1/supporting_documents_upload`,
+      skipUpload: false,
+      // uncomment to apply one max file size limit to all file types
+      // maxFileSize: 1024 * 1024 * 100, // 100MB
+      // uncomment to apply one min file size limit to all file types
+      // minFileSize: 1024, // 1KB
+      // comment out if you want the same file size limits to apply to all file types
+      fileSizesByFileType: {
+        pdf: {
+          maxFileSize: 1024 * 1024 * 50,
+          minFileSize: 1024,
+        },
+        default: {
+          maxFileSize: 1024 * 10,
+          minFileSize: 1,
+        },
+      },
       errorMessages: {
         additionalInput: 'Choose a document status',
       },

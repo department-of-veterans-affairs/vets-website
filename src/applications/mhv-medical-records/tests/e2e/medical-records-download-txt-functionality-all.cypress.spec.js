@@ -1,7 +1,7 @@
-import moment from 'moment-timezone';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import DownloadAllPage from './pages/DownloadAllPage';
 import MedicalRecordsLandingPage from './pages/MedicalRecordsLandingPage';
+import { currentDateAddSecondsForFileDownload } from '../../util/dateHelpers';
 // SKIPPING this test as of 06/07/2024 for phase 0 because of MHV-58512 (https://jira.devops.va.gov/browse/MHV-58512)
 describe.skip('Medical Records Download All TXT Functionality', () => {
   it('Medical Records Download All TXT Functionality', () => {
@@ -13,7 +13,7 @@ describe.skip('Medical Records Download All TXT Functionality', () => {
     // cy.readFile(`${Cypress.config('downloadsFolder')}/radiology_report.pdf`);
     site.verifyDownloadedTxtFile(
       'VA-Blue-Button-report-Safari-Mhvtp',
-      moment(),
+      currentDateAddSecondsForFileDownload(1),
       '',
     );
 

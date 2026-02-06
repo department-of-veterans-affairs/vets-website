@@ -12,7 +12,7 @@ const {
 } = formConfig.chapters.sectionTwoP1Chapter.pages.doctorInformationPage;
 const pageTitle = 'doctor information';
 
-const expectedNumberOfFields = 4;
+const expectedNumberOfFields = 1;
 testNumberOfFields(
   formConfig,
   schema,
@@ -21,7 +21,7 @@ testNumberOfFields(
   pageTitle,
 );
 
-const expectedNumberOfErrors = 0;
+const expectedNumberOfErrors = 1;
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
@@ -30,7 +30,7 @@ testNumberOfErrorsOnSubmit(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentFields = 8;
+const expectedNumberOfWebComponentFields = 7;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -39,7 +39,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 1;
+const expectedNumberOfWebComponentErrors = 5;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

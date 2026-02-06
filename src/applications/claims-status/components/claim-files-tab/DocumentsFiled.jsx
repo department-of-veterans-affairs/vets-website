@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from 'moment';
 
-import { ITEMS_PER_PAGE } from '../../constants';
+import { ANCHOR_LINKS, ITEMS_PER_PAGE } from '../../constants';
 import { buildDateFormatter } from '../../utils/helpers';
 import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 
@@ -111,7 +111,9 @@ function DocumentsFiled({ claim }) {
 
   return (
     <div className="documents-filed-container">
-      <h3 className="vads-u-margin-top--0">Documents filed</h3>
+      <h3 id={ANCHOR_LINKS.documentsFiled} className="vads-u-margin-top--0">
+        Documents filed
+      </h3>
       <TimezoneDiscrepancyMessage />
       {currentPageItems.length === 0 ? (
         <div>

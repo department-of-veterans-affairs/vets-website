@@ -1,17 +1,8 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useRef,
-  useCallback,
-} from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  focusElement,
-  scrollTo,
-} from '@department-of-veterans-affairs/platform-utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import EmergencyNote from '../EmergencyNote';
@@ -66,20 +57,7 @@ const ReplyForm = props => {
   const [hideDraft, setHideDraft] = useState(false);
   const [currentRecipient, setCurrentRecipient] = useState(null);
 
-  const handleEditDraftButton = useCallback(
-    () => {
-      if (isEditing === false) {
-        setIsEditing(true);
-        scrollTo('draft-reply-header');
-        focusElement(document.getElementById('draft-reply-header'));
-      } else {
-        setIsEditing(false);
-      }
-    },
-    [isEditing, setIsEditing],
-  );
-
-  const showEditDraftButton = useMemo(
+  const hasDraftReplyActive = useMemo(
     () => !cannotReply && !showBlockedTriageGroupAlert && !hideDraft,
     [cannotReply, showBlockedTriageGroupAlert, hideDraft],
   );
@@ -185,52 +163,18 @@ const ReplyForm = props => {
           />
         )}
 
-        {customFoldersRedesignEnabled && showEditDraftButton ? (
-          <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto">
-            <button
-              type="button"
-              className="usa-button
-                  vads-u-width--full
-                  mobile-lg:vads-u-width--auto
-                  reply-button-in-body
-                  vads-u-display--flex
-                  vads-u-flex-direction--row
-                  vads-u-justify-content--center
-                  vads-u-align-items--center
-                  vads-u-margin-right--0
-                  mobile-lg:vads-u-padding-x--7"
-              data-testid="edit-draft-button-body"
-              onClick={handleEditDraftButton}
-            >
-              <div className="vads-u-margin-right--0p5">
-                <va-icon icon="undo" aria-hidden="true" />
-              </div>
-              <span
-                className="message-action-button-text"
-                data-testid="edit-draft-button-body-text"
-              >
-                {`Edit draft repl${drafts?.length > 1 ? 'ies' : 'y'}`}
-              </span>
-            </button>
-          </div>
-        ) : (
-          !showEditDraftButton && (
+        {customFoldersRedesignEnabled &&
+          !hasDraftReplyActive && (
             <ReplyButton
               key="replyButton"
               visible={!cannotReply && !showBlockedTriageGroupAlert}
             />
-          )
-        )}
+          )}
 
         {!customFoldersRedesignEnabled && (
           <MessageActionButtons
             threadId={threadId}
-            hideDraft={hideDraft}
             hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
-            replyMsgId={replyMessage.messageId}
-            showEditDraftButton={showEditDraftButton}
-            handleEditDraftButton={handleEditDraftButton}
-            hasMultipleDrafts={drafts?.length > 1}
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
           />
@@ -246,7 +190,9 @@ const ReplyForm = props => {
             {!hideDraft && (
               <>
                 <h2 id="draft-reply-header" data-testid="draft-reply-header">
-                  {drafts && drafts.length > 1 ? 'Drafts' : 'Draft'}
+                  {drafts && drafts.length > 1
+                    ? 'Draft replies'
+                    : 'Draft reply'}
                 </h2>
                 <ReplyDrafts
                   drafts={drafts}

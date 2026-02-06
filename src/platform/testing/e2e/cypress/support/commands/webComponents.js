@@ -442,7 +442,9 @@ Cypress.Commands.add('enterWebComponentData', field => {
     }
 
     case 'VA-MEMORABLE-DATE': {
-      cy.fillVaMemorableDate(field.key, field.data);
+      const monthSelect = field.element.attr('month-select');
+      const useMonthSelect = monthSelect !== 'false';
+      cy.fillVaMemorableDate(field.key, field.data, useMonthSelect);
       break;
     }
 
@@ -578,19 +580,22 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'fillVaStatementOfTruth',
-  (field, { fullName, checked } = {}) => {
-    if (!fullName && typeof checked !== 'boolean') return;
+  ({ field = '', fullName = '', checked } = {}) => {
+    let element;
 
-    const element =
-      typeof field === 'string'
-        ? cy.get(`va-statement-of-truth[name="${field}"]`)
-        : cy.wrap(field);
+    if (!field) {
+      element = cy.get('va-statement-of-truth');
+    } else if (typeof field === 'string') {
+      element = cy.get(`va-statement-of-truth[name="${field}"]`);
+    } else {
+      element = cy.wrap(field);
+    }
 
     element.shadow().within(() => {
       if (fullName) {
         cy.get('va-text-input').then($el => cy.fillVaTextInput($el, fullName));
       }
-      if (checked) {
+      if (typeof checked === 'boolean') {
         cy.get('va-checkbox').then($el => cy.selectVaCheckbox($el, checked));
       }
     });

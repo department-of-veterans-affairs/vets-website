@@ -5,6 +5,13 @@ export const recordType = {
   LABS_AND_TESTS: 'lab and test results',
   VITALS: 'vitals',
   HEALTH_CONDITIONS: 'health conditions',
+  RADIOLOGY: 'radiology',
+};
+
+export const dataSourceTypes = {
+  VISTA_ONLY: 'vistaOnly',
+  OH_ONLY: 'ohOnly',
+  BOTH: 'both',
 };
 
 /** for use in Datadog RUM IDs, e.g. 'allergies-list-spinner' */
@@ -15,6 +22,7 @@ export const recordTypeKeyNames = {
   [recordType.LABS_AND_TESTS]: 'labs-and-tests',
   [recordType.VITALS]: 'vitals',
   [recordType.HEALTH_CONDITIONS]: 'health-conditions',
+  [recordType.RADIOLOGY]: 'radiology',
 };
 
 export const blueButtonRecordTypes = {
@@ -37,6 +45,7 @@ export const accessAlertTypes = {
   VITALS: 'vitals',
   LABS_AND_TESTS: 'labs and tests',
   HEALTH_CONDITIONS: 'health conditions',
+  RADIOLOGY: 'radiology',
   DOCUMENT: 'document',
   IMAGE_STATUS: 'image',
 };
@@ -87,6 +96,7 @@ export const loincCodes = {
   HEART_RATE: '8867-4',
   PULSE_OXIMETRY_1: '59408-5',
   PULSE_OXIMETRY_2: '2708-6',
+  UHD_RADIOLOGY: 'LP29684-5',
 };
 
 export const fhirResourceTypes = {
@@ -279,6 +289,12 @@ export const pageTitles = {
   HEALTH_CONDITIONS_DETAILS_PAGE_TITLE:
     'Health Condition Details - Medical Records | Veterans Affairs',
   VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
+  RADIOLOGY_PAGE_TITLE:
+    'Medical Imaging Results - Medical Records | Veterans Affairs',
+  RADIOLOGY_DETAILS_PAGE_TITLE:
+    'Medical Imaging Results Details - Medical Records | Veterans Affairs',
+  RADIOLOGY_IMAGES_PAGE_TITLE:
+    'Medical Imaging Results Images - Medical Records | Veterans Affairs',
   DOWNLOAD_PAGE_TITLE:
     'Download Medical Records Reports - Medical Records | Veterans Affairs',
   DOWNLOAD_FORMS_PAGES_TITLE:
@@ -367,6 +383,7 @@ export const Paths = {
   MYHEALTH: '/my-health',
   MR_LANDING_PAGE: '/',
   LABS_AND_TESTS: '/labs-and-tests/',
+  IMAGING_RESULTS: '/imaging-results/',
   CARE_SUMMARIES_AND_NOTES: '/summaries-and-notes/',
   VACCINES: '/vaccines/',
   ALLERGIES: '/allergies/',
@@ -393,6 +410,11 @@ export const Breadcrumbs = {
   LABS_AND_TESTS: {
     href: Paths.LABS_AND_TESTS,
     label: 'Lab and test results',
+    isRouterLink: true,
+  },
+  IMAGING_RESULTS: {
+    href: Paths.IMAGING_RESULTS,
+    label: 'Medical imaging results',
     isRouterLink: true,
   },
   CARE_SUMMARIES_AND_NOTES: {
@@ -462,6 +484,10 @@ export const CernerAlertContent = {
   LABS_AND_TESTS: {
     linkPath: '/pages/health_record/comprehensive_record/health_summaries',
     pageName: 'lab and test results',
+  },
+  RADIOLOGY: {
+    linkPath: '/pages/health_record/comprehensive_record/health_summaries',
+    pageName: 'radiology',
   },
   CARE_SUMMARIES_AND_NOTES: {
     linkPath: '/pages/health_record/app-views/cerner/reports/documents',
@@ -561,6 +587,7 @@ export const allowedVitalLoincs = [
 export const statsdFrontEndActions = {
   // list calls
   LABS_AND_TESTS_LIST: 'labs_and_tests_list',
+  IMAGING_RESULTS_LIST: 'imaging_results_list',
   CARE_SUMMARIES_AND_NOTES_LIST: 'care_summaries_and_notes_list',
   VACCINES_LIST: 'vaccines_list',
   ALLERGIES_LIST: 'allergies_list',
@@ -568,6 +595,7 @@ export const statsdFrontEndActions = {
   VITALS_LIST: 'vitals_list',
   // detail calls
   LABS_AND_TESTS_DETAILS: 'labs_and_tests_details',
+  IMAGING_RESULTS_DETAILS: 'imaging_results_details',
   RADIOLOGY_IMAGES_LIST: 'radiology_images_list',
   CARE_SUMMARIES_AND_NOTES_DETAILS: 'care_summaries_and_notes_details',
   VACCINES_DETAILS: 'vaccines_details',
@@ -578,4 +606,15 @@ export const statsdFrontEndActions = {
   DOWNLOAD_BLUE_BUTTON: 'download_blue_button',
   DOWNLOAD_CCD: 'download_ccd',
   DOWNLOAD_SEI: 'download_sei',
+};
+
+/**
+ * Facility ID for Meds by Mail users (primarily CHAMPVA beneficiaries)
+ * Used to conditionally display content specific to Meds by Mail servicing
+ */
+export const MEDS_BY_MAIL_FACILITY_ID = '741MM';
+
+export const uhdRecordSource = {
+  VISTA: 'vista',
+  ORACLE_HEALTH: 'oracle-health',
 };

@@ -1,9 +1,8 @@
 import React from 'react';
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
-import { generateTitle } from '../../../utils/helpers';
+import { fileInputMultipleSchema } from '~/platform/forms-system/src/js/web-component-patterns';
 import { burialUploadUI } from '../../../utils/upload';
-
-const { files } = fullSchemaBurials.definitions;
+import { validateFileUploads } from '../../../utils/validation';
+import { generateTitle } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
@@ -15,18 +14,19 @@ export default {
         </p>
         <h4>Medical Records</h4>
         <p>
-          If you’re claiming a burial allowance for a service-connected death,
-          you can submit supporting documents about their medical information.
+          If you’re applying for a burial allowance for a service-connected
+          death, you can submit supporting documents about their medical
+          information.
         </p>
         <p>
           <strong>Note:</strong> It’s your choice whether you want to submit
-          supporting documents. This information may help us process your claim
-          and confirm details about the deceased Veteran’s medical information
-          at the time of their death.
+          supporting documents. This information may help us process your
+          application and confirm details about the deceased Veteran’s medical
+          information at the time of their death.
         </p>
         <h5>If you have access</h5>
         <p>
-          If you have access to the Veteran's medical records, you can submit
+          If you have access to the Veteran’s medical records, you can submit
           copies of them with your online application or send them to us by
           mail.
         </p>
@@ -46,7 +46,8 @@ export default {
             If the Veteran was receiving care at a VA or federal health facility
             at the time of their death,
           </strong>{' '}
-          you can submit a statement in support of your claim (VA Form 21-4138).
+          you can submit a statement in support of your application (VA Form
+          21-4138).
         </p>
         <p>
           <va-link
@@ -101,17 +102,18 @@ export default {
         </ul>
       </>
     ),
-    additionalEvidence: burialUploadUI(
-      'Upload additional supporting documents',
-    ),
+    additionalEvidence: {
+      ...burialUploadUI({
+        title: 'Upload additional supporting documents',
+        required: false,
+      }),
+      'ui:validations': [validateFileUploads({ required: false })],
+    },
   },
   schema: {
     type: 'object',
     properties: {
-      additionalEvidence: {
-        ...files,
-        min: 1,
-      },
+      additionalEvidence: fileInputMultipleSchema(),
     },
   },
 };

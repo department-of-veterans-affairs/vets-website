@@ -145,11 +145,14 @@ const FolderThreadListView = () => {
     [dispatch, currentFolderId, location.pathname],
   );
 
+  // Effect to refetch threads when refetchRequired is true
+  // Includes location.pathname to ensure refetch happens when navigating back to this view
+  // Note: Use != null check for folderId because Inbox folder ID is 0 (falsy)
   useEffect(
     () => {
       if (
         refetchRequired &&
-        threadSort.folderId &&
+        threadSort.folderId != null &&
         threadSort.value &&
         threadSort.page
       )
@@ -161,6 +164,7 @@ const FolderThreadListView = () => {
         });
     },
     [
+      location.pathname,
       refetchRequired,
       retrieveListOfThreads,
       threadSort.folderId,

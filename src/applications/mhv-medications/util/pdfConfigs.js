@@ -13,11 +13,14 @@ import {
   prescriptionMedAndRenewalStatus,
 } from './helpers';
 import {
+  getPdfStatusDefinitionKey,
+  getStatusDefinitions,
+} from './helpers/getRxStatus';
+import {
   ACTIVE_NON_VA,
   DATETIME_FORMATS,
   FIELD_NOT_AVAILABLE,
   medStatusDisplayTypes,
-  pdfStatusDefinitions,
   RX_SOURCE,
   DISPENSE_STATUS,
 } from './constants';
@@ -60,7 +63,10 @@ import {
  *
  * @returns {Array<PdfConfigItem>}
  */
-export const buildNonVAPrescriptionPDFList = prescription => {
+export const buildNonVAPrescriptionPDFList = (
+  prescription,
+  isCernerPilot = false,
+) => {
   return [
     {
       sections: [
@@ -71,7 +77,7 @@ export const buildNonVAPrescriptionPDFList = prescription => {
               value: prescription.sig || 'Instructions not available',
               inline: true,
             },
-            {
+            !isCernerPilot && {
               title: 'Reason for use',
               value:
                 prescription.indicationForUse || 'Reason for use not available',
@@ -84,7 +90,7 @@ export const buildNonVAPrescriptionPDFList = prescription => {
             },
             {
               value:
-                "A VA provider added this medication record in your VA medical records. But this isn’t a prescription you filled through a VA pharmacy. This could be sample medications, over-the-counter medications, supplements or herbal remedies. You can’t request refills or manage this medication through this online tool. If you aren't taking this medication, ask your provider to remove it at your next appointment.",
+                "A VA provider added this medication record in your VA medical records. But this isn’t a prescription you filled through a VA pharmacy. This could be sample medications, over-the-counter medications, supplements or herbal remedies. You can't request refills or manage this medication through this online tool. If you aren’t taking this medication, ask your provider to remove it at your next appointment.",
             },
             {
               title: 'When you started taking this medication',
@@ -121,11 +127,20 @@ export const buildNonVAPrescriptionPDFList = prescription => {
  *
  * @returns {Array<PdfConfigItem>}
  */
-export const buildPrescriptionsPDFList = prescriptions => {
+export const buildPrescriptionsPDFList = (
+  prescriptions,
+  isCernerPilot = false,
+  isV2StatusMapping = false,
+) => {
+  const statusDefinitions = getStatusDefinitions(
+    isCernerPilot,
+    isV2StatusMapping,
+  );
+
   return prescriptions?.map(rx => {
     if (rx?.prescriptionSource === RX_SOURCE.NON_VA) {
       return {
-        ...buildNonVAPrescriptionPDFList(rx)[0],
+        ...buildNonVAPrescriptionPDFList(rx, isCernerPilot)[0],
         header: rx?.prescriptionName || rx?.orderableItem,
       };
     }
@@ -137,6 +152,11 @@ export const buildPrescriptionsPDFList = prescriptions => {
       rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
       rx?.dispStatus === DISPENSE_STATUS.RENEW;
     const isPending = pendingMed || pendingRenewal;
+
+    const statusDefinitionKey = getPdfStatusDefinitionKey(
+      rx.dispStatus,
+      rx.refillStatus,
+    );
 
     const mostRecentRxRefillLine = () => {
       const newest = getMostRecentRxRefill(rx);
@@ -170,7 +190,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
                   },
                   {
                     title: 'Prescription number',
-                    value: rx.prescriptionNumber,
+                    value: rx.prescriptionNumber || 'Not available',
                     inline: true,
                   },
                 ]
@@ -181,6 +201,8 @@ export const buildPrescriptionsPDFList = prescriptions => {
                 prescriptionMedAndRenewalStatus(
                   rx,
                   medStatusDisplayTypes.PRINT,
+                  isCernerPilot,
+                  isV2StatusMapping,
                 ),
               ),
               inline: true,
@@ -190,8 +212,8 @@ export const buildPrescriptionsPDFList = prescriptions => {
               value:
                 !pendingMed &&
                 !pendingRenewal &&
-                pdfStatusDefinitions?.[rx.refillStatus]?.length > 1
-                  ? pdfStatusDefinitions[rx.refillStatus].slice(1)
+                statusDefinitions?.[statusDefinitionKey]?.length > 1
+                  ? statusDefinitions[statusDefinitionKey].slice(1)
                   : [],
             },
             {
@@ -216,7 +238,12 @@ export const buildPrescriptionsPDFList = prescriptions => {
               value: validateIfAvailable('Facility', rx.facilityName),
               inline: true,
             },
-            {
+            (isCernerPilot && {
+              title: 'Pharmacy contact information',
+              value:
+                'Check your prescription label or contact your VA facility.',
+              inline: true,
+            }) || {
               title: 'Pharmacy phone number',
               value: validateIfAvailable(
                 'Pharmacy phone number',
@@ -229,7 +256,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
               value: validateIfAvailable('Instructions', rx.sig),
               inline: true,
             },
-            {
+            !isCernerPilot && {
               title: 'Reason for use',
               value: validateIfAvailable('Reason for use', rx.indicationForUse),
               inline: true,
@@ -355,7 +382,11 @@ export const buildAllergiesPDFList = allergies => {
  *
  * @returns {Array<PdfConfigItem>}
  */
-export const buildVAPrescriptionPDFList = prescription => {
+export const buildVAPrescriptionPDFList = (
+  prescription,
+  isCernerPilot = false,
+  isV2StatusMapping = false,
+) => {
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pendingMed =
@@ -364,6 +395,16 @@ export const buildVAPrescriptionPDFList = prescription => {
   const pendingRenewal =
     prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     prescription?.dispStatus === DISPENSE_STATUS.RENEW;
+
+  const statusDefinitions = getStatusDefinitions(
+    isCernerPilot,
+    isV2StatusMapping,
+  );
+  const statusDefinitionKey = getPdfStatusDefinitionKey(
+    prescription.dispStatus,
+    prescription.refillStatus,
+  );
+
   const VAPrescriptionPDFList = [
     {
       header: 'Most recent prescription',
@@ -385,7 +426,7 @@ export const buildVAPrescriptionPDFList = prescription => {
               ? [
                   {
                     title: 'Prescription number',
-                    value: prescription.prescriptionNumber,
+                    value: prescription.prescriptionNumber || 'Not available',
                     inline: true,
                   },
                 ]
@@ -396,6 +437,8 @@ export const buildVAPrescriptionPDFList = prescription => {
                 prescriptionMedAndRenewalStatus(
                   prescription,
                   medStatusDisplayTypes.PRINT,
+                  isCernerPilot,
+                  isV2StatusMapping,
                 ),
               ),
               inline: true,
@@ -405,8 +448,8 @@ export const buildVAPrescriptionPDFList = prescription => {
               value:
                 !pendingMed &&
                 !pendingRenewal &&
-                pdfStatusDefinitions?.[prescription.refillStatus]?.length > 1
-                  ? pdfStatusDefinitions[prescription.refillStatus].slice(1)
+                statusDefinitions?.[statusDefinitionKey]?.length > 1
+                  ? statusDefinitions[statusDefinitionKey].slice(1)
                   : [],
             },
             {
@@ -431,7 +474,12 @@ export const buildVAPrescriptionPDFList = prescription => {
               value: validateIfAvailable('Facility', prescription.facilityName),
               inline: true,
             },
-            {
+            (isCernerPilot && {
+              title: 'Pharmacy contact information',
+              value:
+                'Check your prescription label or contact your VA facility.',
+              inline: true,
+            }) || {
               title: 'Pharmacy phone number',
               value: validateIfAvailable(
                 'Pharmacy phone number',
@@ -444,7 +492,7 @@ export const buildVAPrescriptionPDFList = prescription => {
               value: validateIfAvailable('Instructions', prescription.sig),
               inline: true,
             },
-            {
+            !isCernerPilot && {
               title: 'Reason for use',
               value: validateIfAvailable(
                 'Reason for use',
@@ -478,7 +526,7 @@ export const buildVAPrescriptionPDFList = prescription => {
         },
       ],
     },
-    ...(showRefillHistory
+    ...(showRefillHistory && !isCernerPilot
       ? [
           {
             header: 'Refill history',
@@ -559,7 +607,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                             },
                           ]
                         : []),
-                      ...(!isPartialFill
+                      ...(!isPartialFill && !isCernerPilot
                         ? [
                             {
                               title: 'Medication description',
@@ -568,7 +616,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                             },
                           ]
                         : []),
-                      ...(hasValidDesc && !isPartialFill
+                      ...(hasValidDesc && !isPartialFill && !isCernerPilot
                         ? [
                             {
                               title: 'Note',
@@ -580,7 +628,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                             },
                           ]
                         : []),
-                      ...(!isPartialFill
+                      ...(!isPartialFill && !isCernerPilot
                         ? [
                             {
                               value: description,
@@ -619,9 +667,8 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
         },
         ...prescription.groupedMedications.map(previousPrescription => {
           return {
-            header: `Prescription number: ${
-              previousPrescription.prescriptionNumber
-            }`,
+            header: `Prescription number: ${previousPrescription.prescriptionNumber ||
+              'Not available'}`,
             indent: 32,
             items: [
               {

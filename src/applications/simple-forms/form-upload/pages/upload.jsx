@@ -3,20 +3,38 @@ import {
   descriptionUI,
   fileInputUI,
   fileInputSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import PropTypes from 'prop-types';
 import { UPLOAD_FORM_DESCRIPTION, MAX_FILE_SIZE } from '../config/constants';
-import { getFormContent } from '../helpers';
+import { getAlert, getFormContent } from '../helpers';
 import { CustomAlertPage } from './helpers';
 
 const { formNumber, title } = getFormContent();
 
 const warningsPresent = formData => formData.uploadedFile?.warnings?.length > 0;
 
+const UploadAlert = ({ uploadedFile }) => {
+  const props = {
+    name: 'uploadPage',
+    data: { uploadedFile },
+    formNumber,
+  };
+  const alert = getAlert(props, false);
+
+  return <div className="vads-u-margin-top--3">{alert}</div>;
+};
+
 export const uploadPage = {
   uiSchema: {
+    ...titleUI({
+      title: `Upload VA Form ${formNumber}`,
+      description: ({ formData: { uploadedFile } }) => (
+        <UploadAlert uploadedFile={uploadedFile} />
+      ),
+    }),
     ...descriptionUI(UPLOAD_FORM_DESCRIPTION),
     uploadedFile: {
       ...fileInputUI({

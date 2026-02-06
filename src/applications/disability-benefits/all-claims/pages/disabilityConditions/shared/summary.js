@@ -2,9 +2,10 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { arrayOptions } from './utils';
+import { arrayOptions, createNewConditionName } from './utils';
+import { updateClaimTypeFromArray } from './claimType';
+import ConfirmationNewAndRatedConditions from '../../../components/confirmationFields/ConfirmationNewAndRatedConditions';
 
-// Optional: helper right here
 const isOrphanSecondary = (item, fullData = {}) => {
   if (!item || item.cause !== 'SECONDARY') return false;
   const norm = s => (typeof s === 'string' ? s.trim().toLowerCase() : '');
@@ -12,7 +13,13 @@ const isOrphanSecondary = (item, fullData = {}) => {
   if (!target) return true;
 
   const newNames = (fullData?.newDisabilities ?? [])
-    .map(it => norm(it?.condition ?? it?.newCondition ?? it?.name))
+    .map(it =>
+      norm(
+        it?.condition
+          ? createNewConditionName(it, true)
+          : it?.newCondition ?? it?.name,
+      ),
+    )
     .filter(Boolean);
 
   const ratedNames = (fullData?.ratedDisabilities ?? [])
@@ -34,12 +41,13 @@ const summaryPage = {
             ) || [];
           if (orphans.length > 0) {
             errors.addError(
-              'There’s a secondary condition that’s no longer connected to an existing condition. Please update the secondary condition so it’s linked to a current condition or change its cause.',
+              'A secondary condition is no longer linked to an existing condition. Please delete it, relink it to a current condition, or update its cause.',
             );
           }
         },
       ],
     },
+    'ui:confirmationField': ConfirmationNewAndRatedConditions,
   },
   schema: {
     type: 'object',
@@ -48,6 +56,7 @@ const summaryPage = {
     },
     required: ['view:hasConditions'],
   },
+  updateFormData: updateClaimTypeFromArray,
 };
 
 export default summaryPage;

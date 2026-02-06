@@ -15,6 +15,8 @@ import {
   validateDateNotBeforeReference,
   validateSeparationDateWithRules,
   validateTitle10ActivationDate,
+  validateApproximateDate,
+  validateApproximateMonthYearDate,
 } from '../../../utils/dates/validations';
 
 describe('Disability benefits 526EZ -- Date validation utilities', () => {
@@ -219,6 +221,396 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
         reservesList,
       );
       expect(errors.addError.called).to.be.false;
+    });
+  });
+
+  describe('validateApproximateDate', () => {
+    describe('with allowPartial=true (default)', () => {
+      it('should accept year-only format', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-XX-XX');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should accept year-month format', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-06-XX');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should accept full date format', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-06-15');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should reject month-only format (no year)', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, 'XXXX-06-XX');
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include(
+          'a month and year',
+        );
+      });
+
+      it('should reject day-only format', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, 'XXXX-XX-15');
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include(
+          'a month and year',
+        );
+      });
+
+      it('should reject month-day without year', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, 'XXXX-06-15');
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include(
+          'a month and year',
+        );
+      });
+    });
+
+    describe('with allowPartial=false', () => {
+      it('should reject year-only format', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-XX-XX', { allowPartial: false });
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include(
+          'month, day, and year',
+        );
+      });
+
+      it('should reject year-month format', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-06-XX', { allowPartial: false });
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include(
+          'month, day, and year',
+        );
+      });
+
+      it('should accept full date format', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-06-15', { allowPartial: false });
+        expect(errors.addError.called).to.be.false;
+      });
+    });
+
+    describe('year validation', () => {
+      // Year range validation applies to individual date fields,
+      // whether standalone dates or dates within a range (start/end dates)
+      it('should reject year below minimum (default 1900)', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '1899-XX-XX');
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include('between 1900');
+      });
+
+      it('should reject year above maximum (default current year)', () => {
+        const errors = { addError: sinon.spy() };
+        const nextYear = new Date().getFullYear() + 1;
+        validateApproximateDate(errors, `${nextYear}-XX-XX`);
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include('between 1900');
+      });
+
+      it('should accept custom year range', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '1950-XX-XX', {
+          minYear: 1950,
+          maxYear: 2000,
+        });
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should reject year outside custom range', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2001-XX-XX', {
+          minYear: 1950,
+          maxYear: 2000,
+        });
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include(
+          'between 1950 and 2000',
+        );
+      });
+
+      it('should reject non-integer year', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, 'abcd-XX-XX');
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include(
+          'Please enter a year between',
+        );
+      });
+    });
+
+    describe('month validation', () => {
+      it('should reject invalid month (0)', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-00-XX');
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include('valid month');
+      });
+
+      it('should reject invalid month (13)', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-13-XX');
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include('valid month');
+      });
+
+      it('should accept valid months (1-12)', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-01-XX');
+        expect(errors.addError.called).to.be.false;
+
+        const errors2 = { addError: sinon.spy() };
+        validateApproximateDate(errors2, '2020-12-XX');
+        expect(errors2.addError.called).to.be.false;
+      });
+
+      it('should reject non-integer month', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-ab-XX');
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include('valid month');
+      });
+    });
+
+    describe('day validation', () => {
+      it('should reject invalid day (0)', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-06-00');
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include('valid day');
+      });
+
+      it('should reject invalid day (32)', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-06-32');
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include('valid day');
+      });
+
+      it('should accept valid days (1-31)', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-01-01');
+        expect(errors.addError.called).to.be.false;
+
+        const errors2 = { addError: sinon.spy() };
+        validateApproximateDate(errors2, '2020-01-31');
+        expect(errors2.addError.called).to.be.false;
+      });
+
+      it('should reject non-integer day', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-06-ab');
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include('valid day');
+      });
+
+      it('should reject invalid date for month (February 30)', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-02-30');
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include(
+          'valid date for the selected month',
+        );
+      });
+
+      it('should reject invalid date for month (April 31)', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-04-31');
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include(
+          'valid date for the selected month',
+        );
+      });
+
+      it('should accept February 29 on leap year', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-02-29');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should reject February 29 on non-leap year', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2021-02-29');
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include(
+          'valid date for the selected month',
+        );
+      });
+    });
+
+    describe('future date validation', () => {
+      it('should reject future dates', () => {
+        const errors = { addError: sinon.spy() };
+        const futureDate = moment()
+          .add(1, 'day')
+          .format('YYYY-MM-DD');
+        validateApproximateDate(errors, futureDate);
+        expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include(
+          'not in the future',
+        );
+      });
+
+      it('should accept past dates', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '2020-06-15');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it("should accept today's date", () => {
+        const errors = { addError: sinon.spy() };
+        const today = moment().format('YYYY-MM-DD');
+        validateApproximateDate(errors, today);
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should not check future date for partial dates', () => {
+        const errors = { addError: sinon.spy() };
+        // Partial dates skip future date validation, but year must still be within min/max range
+        // So we use current year (which passes year range validation)
+        const currentYear = new Date().getFullYear();
+        validateApproximateDate(errors, `${currentYear}-XX-XX`);
+        expect(errors.addError.called).to.be.false;
+      });
+    });
+
+    describe('edge cases', () => {
+      it('should handle empty string', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, '');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should handle null', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, null);
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should handle undefined', () => {
+        const errors = { addError: sinon.spy() };
+        validateApproximateDate(errors, undefined);
+        expect(errors.addError.called).to.be.false;
+      });
+    });
+  });
+
+  describe('validateApproximateMonthYearDate', () => {
+    const currentYear = new Date().getFullYear();
+
+    it('should accept empty date (field is optional)', () => {
+      const errors = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors, '');
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should accept null date (field is optional)', () => {
+      const errors = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors, null);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should accept undefined date (field is optional)', () => {
+      const errors = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors, undefined);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should accept year-only format (YYYY-XX)', () => {
+      const errors = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors, '2020-XX');
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should accept year-month format (YYYY-MM)', () => {
+      const errors = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors, '2020-06');
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should reject month-only format (XXXX-MM)', () => {
+      const errors = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors, 'XXXX-06');
+      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'You must enter a year if you select a month',
+      );
+    });
+
+    it('should reject invalid year range (too old)', () => {
+      const errors = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors, '1899-XX');
+      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.include('1900');
+      expect(errors.addError.firstCall.args[0]).to.include(
+        currentYear.toString(),
+      );
+    });
+
+    it('should reject invalid year range (too future)', () => {
+      const errors = { addError: sinon.spy() };
+      const futureYear = currentYear + 1;
+      validateApproximateMonthYearDate(errors, `${futureYear}-XX`);
+      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.include('1900');
+      expect(errors.addError.firstCall.args[0]).to.include(
+        currentYear.toString(),
+      );
+    });
+
+    it('should reject invalid month (0)', () => {
+      const errors = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors, '2020-00');
+      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.include('valid month');
+    });
+
+    it('should reject invalid month (13)', () => {
+      const errors = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors, '2020-13');
+      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.include('valid month');
+    });
+
+    it('should accept valid month range (1-12)', () => {
+      const errors1 = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors1, '2020-01');
+      expect(errors1.addError.called).to.be.false;
+
+      const errors2 = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors2, '2020-12');
+      expect(errors2.addError.called).to.be.false;
+    });
+
+    it('should accept current year', () => {
+      const errors = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors, `${currentYear}-XX`);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should accept year 1900', () => {
+      const errors = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors, '1900-XX');
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should accept full date format (YYYY-MM-DD) for backward compatibility', () => {
+      // The day portion is ignored, only year and month are validated
+      const errors1 = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors1, '2000-05-15');
+      expect(errors1.addError.called).to.be.false;
+
+      const errors2 = { addError: sinon.spy() };
+      validateApproximateMonthYearDate(errors2, '2020-12-31');
+      expect(errors2.addError.called).to.be.false;
     });
   });
 });

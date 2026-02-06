@@ -6,7 +6,7 @@ import maximalTestData from './fixtures/data/maximal-test.json';
 import manifest from '../../manifest.json';
 
 const FORM_ID = '21-0538';
-const STOP_PAGE = getAppUrl('686C-674');
+const STOP_PAGE = getAppUrl('686C-674-v2');
 
 const cypressSetup = (user = mockUser) => {
   Cypress.config('waitForAnimations', true);

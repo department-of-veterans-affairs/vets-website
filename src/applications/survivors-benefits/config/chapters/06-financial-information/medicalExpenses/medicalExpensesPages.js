@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   textUI,
-  textSchema,
   radioUI,
   radioSchema,
   currencyUI,
@@ -19,13 +18,15 @@ import {
   frequencyLabels,
 } from '../../../../utils/labels';
 import { transformDate } from '../../05-claim-information/helpers';
+import { customTextSchema } from '../../../definitions';
 
 function introDescription() {
   return (
     <div>
       <p className="vads-u-margin-top--0">
         We’ll now ask about medical or certain other expenses that aren’t
-        reimbursed. You may add up to 6 medical or other expenses.
+        reimbursed. You may add up to 6 medical, last, burial, or other
+        expenses.
       </p>
       <p>These types of expenses can include:</p>
       <ul>
@@ -41,6 +42,12 @@ function introDescription() {
           </span>
           that insurance doesn’t cover that occurred after you started this form
           or after you submitted an Intent to File
+        </li>
+        <li>
+          <span className="vads-u-font-weight--bold">
+            Last or burial expenses{' '}
+          </span>
+          that you paid for the last illness and burial of a spouse or child
         </li>
       </ul>
 
@@ -69,12 +76,11 @@ export const options = {
   maxItems: 6,
   isItemIncomplete: item =>
     !item?.recipient ||
-    (['VETERANS_CHILD', 'OTHER'].includes(item?.recipient) &&
-      !item?.recipientName) ||
+    (['CHILD'].includes(item?.recipient) && !item?.childName) ||
     !item?.purpose ||
     !item?.paymentDate ||
-    !item?.frequency ||
-    !item?.amount,
+    !item?.paymentFrequency ||
+    !item?.paymentAmount,
   text: {
     cancelAddTitle: 'Cancel adding this medical expense?',
     cancelEditTitle: 'Cancel editing this medical expense?',
@@ -95,8 +101,8 @@ export const options = {
     alertMaxItems: (
       <div>
         <p className="vads-u-margin-top--0">
-          You have added the maximum number of allowed medical and other
-          expenses for this application. Additional medical expenses can be
+          You have added the maximum number of allowed medical, last, burial,
+          and other expenses for this application. Additional medical expenses
           added using VA Form 21P-8416 and uploaded at the end of this
           application.
         </p>
@@ -111,21 +117,22 @@ export const options = {
     cardDescription: item => (
       <div>
         <span className="vads-u-display--block">
-          {transformDate(item.paymentDate) || 'Date not provided'}
+          {transformDate(item?.paymentDate) || 'Date not provided'}
         </span>
         <span className="vads-u-display--block">
-          {frequencyLabels[item.frequency] || 'Frequency not provided'}
+          {frequencyLabels[(item?.paymentFrequency)] ||
+            'Frequency not provided'}
         </span>
       </div>
     ),
-    summaryTitle: 'Review your medical and other expenses',
+    summaryTitle: 'Review your medical, last, burial, and other expenses',
   },
 };
 
 const introPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Medical and other expenses',
+      title: 'Medical, last, burial, and other expenses',
       nounSingular: options.nounSingular,
       nounPlural: options.nounPlural,
     }),
@@ -142,11 +149,12 @@ const summaryPage = {
     'view:medicalExpensesList': arrayBuilderYesNoUI(
       options,
       {
-        title: 'Do you have a medical or other expense to add?',
+        title: 'Do you have a medical, last, burial, or other expense to add?',
         hint: '',
       },
       {
-        title: 'Do you have another medical or other expense to add?',
+        title:
+          'Do you have another medical, last, burial, or other expense to add?',
         hint: '',
       },
     ),
@@ -163,25 +171,25 @@ const summaryPage = {
 const recipientPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      'Medical recipient and provider name',
+      'Expense recipient and provider name',
     ),
     recipient: radioUI({
       title: 'Who is the expense for?',
       labels: medicalExpenseRecipientLabels,
     }),
-    recipientName: textUI({
+    childName: textUI({
       title: 'Full name of the person who the expense is for',
       expandUnder: 'recipient',
-      expandUnderCondition: field =>
-        field === 'VETERANS_CHILD' || field === 'OTHER',
+      expandUnderCondition: field => field === 'CHILD',
       required: (formData, index, fullData) => {
         const items = formData?.medicalExpenses ?? fullData?.medicalExpenses;
         const item = items?.[index];
-        return ['VETERANS_CHILD'].includes(item?.recipient);
+        return ['CHILD'].includes(item?.recipient);
       },
     }),
-    paymentRecipient: textUI({
+    provider: textUI({
       title: 'Who receives the payment?',
+      hint: 'For example: provider’s name or insurance company',
       'ui:required': true,
     }),
   },
@@ -189,10 +197,10 @@ const recipientPage = {
     type: 'object',
     properties: {
       recipient: radioSchema(Object.keys(medicalExpenseRecipientLabels)),
-      recipientName: textSchema,
-      paymentRecipient: textSchema,
+      childName: customTextSchema,
+      provider: customTextSchema,
     },
-    required: ['recipient', 'paymentRecipient'],
+    required: ['recipient', 'provider'],
   },
 };
 
@@ -201,6 +209,7 @@ const purposeDatePage = {
     ...arrayBuilderItemSubsequentPageTitleUI('Expense purpose and date'),
     purpose: textUI({
       title: 'What’s the payment for?',
+      hint: 'For example: insurance premium or medical supplies',
     }),
     paymentDate: currentOrPastDateUI({
       title: 'What’s the date of the payment?',
@@ -210,7 +219,7 @@ const purposeDatePage = {
   schema: {
     type: 'object',
     properties: {
-      purpose: textSchema,
+      purpose: customTextSchema,
       paymentDate: currentOrPastDateSchema,
     },
     required: ['purpose', 'paymentDate'],
@@ -220,31 +229,34 @@ const purposeDatePage = {
 const frequencyCostPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Frequency and cost of care'),
-    frequency: radioUI({
+    paymentFrequency: radioUI({
       title: 'How often are the payments?',
       labels: frequencyLabels,
     }),
-    amount: currencyUI('How much is each payment?'),
+    paymentAmount: currencyUI({
+      title: 'How much is each payment?',
+      max: 999999999.0,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      frequency: radioSchema(Object.keys(frequencyLabels)),
-      amount: currencySchema,
+      paymentFrequency: radioSchema(Object.keys(frequencyLabels)),
+      paymentAmount: currencySchema,
     },
-    required: ['frequency', 'amount'],
+    required: ['paymentFrequency', 'paymentAmount'],
   },
 };
 
 export const medicalExpensesPages = arrayBuilderPages(options, pageBuilder => ({
   medicalExpensesIntro: pageBuilder.introPage({
-    title: 'Medical and other expenses',
+    title: 'Medical, last, burial, and other expenses',
     path: 'financial-information/medical-expenses',
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
   }),
   medicalExpensesSummary: pageBuilder.summaryPage({
-    title: 'Medical and other expenses',
+    title: 'Medical, last, burial, and other expenses',
     path: 'financial-information/medical-expenses/add',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,

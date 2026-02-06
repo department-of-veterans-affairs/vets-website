@@ -3,21 +3,117 @@ name: Continuous Integration
 on:
   push:
     branches:
-      - "**"
+      - '**'
     tags-ignore:
-      - "**"
+      - '**'
 
 concurrency:
   group: ${{ github.ref != 'refs/heads/main' && github.ref || github.sha }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
+  # TEMPORARY: This check will be removed once Shai Hulud 2.0 is no longer a moving target
+  # Fails and cancels the workflow if package.json or yarn.lock are modified
+  check-dependency-files:
+    name: Check for Dependency File Changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Check for package.json or yarn.lock changes
+        run: |
+          # Fetch main branch for comparison
+          git fetch origin main
+
+          # Check if package.json or yarn.lock have been modified
+          if git diff --name-only origin/main...HEAD | grep -qE '^(package\.json|yarn\.lock)$'; then
+            echo "⚠️  Dependency files modified. Checking if only approved packages were updated..."
+
+            # Get the diff and check if any non-approved package changes exist
+            PACKAGE_JSON_DIFF=$(git diff origin/main...HEAD package.json 2>/dev/null || echo "")
+            YARN_LOCK_DIFF=$(git diff origin/main...HEAD yarn.lock 2>/dev/null || echo "")
+
+            # Check if there are any changes to package.json that don't involve approved packages or scripts
+            if [ -n "$PACKAGE_JSON_DIFF" ]; then
+              # Get changed lines (excluding context lines and approved packages)
+              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v '"skin-deep"' | grep -v 'recompose' || echo "")
+
+              if [ -n "$CHANGED_LINES" ]; then
+                # Check if changes contain dependency version bumps (lines with version patterns like ^, ~, >=, etc.)
+                # or dependency section headers, excluding approved packages
+                DEPENDENCY_CHANGES=$(echo "$CHANGED_LINES" | grep -E '": "[\^~>=<]|"(dev|peer|optional)?[Dd]ependencies"' || echo "")
+
+                if [ -n "$DEPENDENCY_CHANGES" ]; then
+                  echo "❌ ERROR: package.json has dependency changes other than approved packages."
+                  echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
+                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, skin-deep, recompose, and the scripts section are allowed."
+                  echo ""
+                  echo "Dependency changes detected:"
+                  echo "$DEPENDENCY_CHANGES"
+                  exit 1
+                fi
+
+                echo "✓ Changes detected in scripts section or other non-dependency fields. Allowing changes."
+              fi
+            fi
+
+            # Check if there are any changes to yarn.lock that don't involve approved packages
+            if [ -n "$YARN_LOCK_DIFF" ]; then
+              # For yarn.lock, we need to check if changes are only in approved package sections
+              # Get all added/removed lines that don't contain approved packages
+              NON_APPROVED_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'skin-deep' | grep -v 'recompose' || echo "")
+
+              # Also check for package entry headers that might not contain the name on the same line
+              # In yarn.lock, package entries start with "package-name@version:"
+              # We need to be more lenient here as yarn.lock structure can have dependencies listed
+              # We'll check if there are substantial non-approved package changes
+              if [ -n "$NON_APPROVED_LOCK_CHANGES" ]; then
+                # Count lines to determine if changes are substantial
+                CHANGE_COUNT=$(echo "$NON_APPROVED_LOCK_CHANGES" | wc -l)
+
+                # If there are more than 275 lines of non-approved package changes, it's likely other packages
+                # This is a heuristic - yarn.lock changes for a single package typically affect surrounding context
+                if [ "$CHANGE_COUNT" -gt 275 ]; then
+                  echo "❌ ERROR: yarn.lock has been modified with substantial changes beyond approved packages."
+                  echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
+                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, skin-deep, and recompose are allowed."
+                  echo ""
+                  echo "Detected $CHANGE_COUNT lines of non-approved package changes in yarn.lock"
+                  exit 1
+                fi
+              fi
+            fi
+
+            echo "✓ Only approved package updates detected. Allowing changes."
+          else
+            echo "✓ No dependency file changes detected."
+          fi
+
+      - name: Cancel workflow on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.cancelWorkflowRun({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId
+            });
+
   build:
     name: Build
+    needs: [check-dependency-files]
     runs-on: ubuntu-16-cores-latest
+    permissions:
+      id-token: write
+      contents: read
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
       continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
+      deployment_concurrency_group: ${{ steps.get-changed-apps.outputs.deployment_concurrency_group }}
 
     strategy:
       fail-fast: false
@@ -34,9 +130,8 @@ jobs:
         if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -52,8 +147,15 @@ jobs:
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
         with:
-          delimiter: ","
-          output-type: "entry_name, continuous_deployment"
+          delimiter: ','
+          output-type: 'entry_name, continuous_deployment, deployment_concurrency_group'
+
+      - name: Log changed apps info
+        if: ${{ matrix.buildtype == 'vagovprod' }}
+        run: |
+          echo "Entry names: ${{ steps.get-changed-apps.outputs.entry_names }}"
+          echo "Continuous deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}"
+          echo "Deployment concurrency group: ${{ steps.get-changed-apps.outputs.deployment_concurrency_group }}"
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -127,6 +229,9 @@ jobs:
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -134,9 +239,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -216,8 +320,8 @@ jobs:
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
         with:
-          delimiter: ","
-          output-type: "entry_name, url, folder"
+          delimiter: ','
+          output-type: 'entry_name, url, folder'
 
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
@@ -326,6 +430,9 @@ jobs:
     needs: [fetch-allow-lists, tests-prep]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
+    permissions:
+      id-token: write
+      contents: read
     outputs:
       tests_ran: ${{ steps.run-tests.outputs.tests_ran }}
 
@@ -351,9 +458,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -378,7 +484,7 @@ jobs:
         env:
           TEST_TYPE: unit_test
           TESTS: ${{ env.DISALLOWED_TESTS }}
-          TESTS_PROPERTY: "DISALLOWED_TESTS"
+          TESTS_PROPERTY: 'DISALLOWED_TESTS'
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -387,9 +493,9 @@ jobs:
         id: run-tests
         run: |
           if [[ -n "$APP_FOLDERS" ]]; then
-            yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+            yarn test:unit:gha "{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
           else
-            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+            yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
           fi
 
         env:
@@ -421,7 +527,7 @@ jobs:
 
     env:
       APPS_TO_VERIFY: ${{ needs.tests-prep.outputs.apps-to-stress-test }}
-      DISALLOWED_TESTS: "[]"
+      DISALLOWED_TESTS: '[]'
 
     strategy:
       fail-fast: false
@@ -483,6 +589,9 @@ jobs:
     name: Update Unit Test Stability Allow List
     runs-on: ubuntu-22.04
     needs: [unit-tests-stress-test, fetch-allow-lists]
+    permissions:
+      id-token: write
+      contents: read
     if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure') }}
     continue-on-error: true
     env:
@@ -494,9 +603,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -509,24 +617,9 @@ jobs:
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
       - name: Download Unit Test results
         uses: ./.github/workflows/download-artifact
@@ -575,7 +668,7 @@ jobs:
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
         with:
-          output-type: "entry_name"
+          output-type: 'entry_name'
 
       - name: Audit dependencies
         if: steps.get-changed-apps.outputs.entry_names == ''
@@ -605,7 +698,7 @@ jobs:
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
         with:
-          output-type: "folder"
+          output-type: 'folder'
 
       - name: Annotate ESLint results
         run: |
@@ -635,6 +728,9 @@ jobs:
   testing-reports-prep:
     name: Testing Reports Prep
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
     continue-on-error: true
     outputs:
       app_list: ${{ env.APPLICATION_LIST }}
@@ -659,9 +755,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -684,6 +779,9 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     needs: [build]
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -692,9 +790,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -711,6 +808,9 @@ jobs:
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 120
     needs: [build, tests-prep, fetch-ecr-credentials]
+    permissions:
+      id-token: write
+      contents: read
     if: |
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success' &&
@@ -751,9 +851,8 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -813,7 +912,7 @@ jobs:
         run: node script/github-actions/double-check-allow-list.js
         env:
           TEST_TYPE: e2e
-          TEST_PROPERTY: "TESTS"
+          TEST_PROPERTY: 'TESTS'
 
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -855,14 +954,20 @@ jobs:
     name: E2E Test Stability Review
     runs-on: ubuntu-22.04
     timeout-minutes: 120
-    needs: [build, tests-prep]
+    needs: [build, tests-prep, fetch-ecr-credentials]
+    permissions:
+      id-token: write
+      contents: read
     if: |
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success' &&
       needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true' &&
       github.ref != 'refs/heads/main'
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      credentials:
+        username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
+        password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
 
     strategy:
       fail-fast: false
@@ -880,9 +985,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Download production build artifact
         uses: ./.github/workflows/download-artifact
@@ -939,17 +1043,24 @@ jobs:
           path: cypress/results
           retention-days: 1
 
+  # =========================================================================
+  # Node 22 Compatibility Checks
+  # These jobs verify that code being merged to main is compatible with Node 22
+  # They will be removed once the update-node-22 branch is merged
+  # =========================================================================
+
   node-22-unit-test-compatibility-check:
-    name: Node 22 Compatibility Check For Unit Tests
-    if: ${{ needs.tests-prep.outputs.changed_unit_tests != 'false' }}
+    name: Node 22 Unit Test Compatibility
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: [tests-prep]
+    if: github.ref != 'refs/heads/main'
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
-          ref: node-22-bug-bash-testing
+          ref: update-node-22
 
       - name: Get Node version
         id: get-node-version
@@ -966,8 +1077,8 @@ jobs:
           yarn install \
           --network-timeout 1000000000 \
           --prefer-offline \
-          --production=false
-
+          --production=false \
+          --ignore-scripts
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
@@ -980,46 +1091,200 @@ jobs:
         run: git fetch origin ${{ github.head_ref }}
 
       - name: Merge in feature branch
-        run: git merge origin/${{ github.ref_name }} --no-edit
+        run: git merge -X ours origin/${{ github.ref_name }} --no-edit
 
       - name: Manual dependencies install (post-merge)
         run: |
           yarn install \
           --network-timeout 1000000000 \
           --prefer-offline \
-          --production=false
+          --production=false \
+          --ignore-scripts
 
       - name: Create test results folder
         run: mkdir -p test-results
-
-      - name: Download Unit Test Stability Allow List
-        uses: ./.github/workflows/download-artifact
-        with:
-          name: changed-unit-tests
-          path: .
 
       - name: Run unit tests
         id: run-tests
         run: |
           echo "Unit tests being run on Node $(node --version)"
           if [[ -n "$APP_FOLDERS" ]]; then
-            yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+            yarn test:unit:gha "{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
           else
-            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+            yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
           fi
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
           APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
           IS_STRESS_TEST: false
-          NODE_COMPATBILITY_VERIFICATION: true
+          NODE_COMPATIBILITY_VERIFICATION: true
 
       - name: Archive unit test results
         if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: unit-test-node-compatibility-report
+          name: unit-test-node-22-compatibility-report
           path: mocha/results
+
+  node-22-cypress-compatibility-check:
+    name: Node 22 Cypress E2E Compatibility
+    runs-on: ubuntu-16-cores-latest
+    timeout-minutes: 120
+    needs: [build, tests-prep, fetch-ecr-credentials]
+    if: |
+      github.ref != 'refs/heads/main' &&
+      needs.build.result == 'success' &&
+      needs.tests-prep.result == 'success' &&
+      needs.tests-prep.outputs.e2e_count != '0'
+
+    container:
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
+      credentials:
+        username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
+        password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
+
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        ci_node_index: ${{ fromJson(needs.tests-prep.outputs.ci_node_index) }}
+
+    env:
+      CI_NODE_INDEX: ${{ needs.tests-prep.outputs.ci_node_index }}
+      TESTS: ${{ needs.tests-prep.outputs.cypress-tests }}
+
+    steps:
+      - name: Checkout
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+          ref: update-node-22
+
+      - name: Set up Git
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        working-directory: ${{ github.workspace }}
+        run: |
+          git config --global --add safe.directory $GITHUB_WORKSPACE
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Fetch target branch
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        working-directory: ${{ github.workspace }}
+        run: git fetch origin ${{ github.head_ref }}
+
+      - name: Merge in feature branch
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        working-directory: ${{ github.workspace }}
+        run: git merge -X ours origin/${{ github.ref_name }} --no-edit
+
+      - name: Download production build artifact
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: vagovprod.tar.bz2
+
+      - name: Install missing dependencies
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: apt-get update && apt-get install -y bzip2 curl
+
+      - name: Unpack build
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: |
+          mkdir -p build/vagovprod
+          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+
+      - name: Install dependencies
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: |
+          yarn install \
+          --network-timeout 1000000000 \
+          --prefer-offline \
+          --production=false \
+          --ignore-scripts
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+
+      - name: Install Cypress binary
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: |
+          npx cypress install
+          npx cypress --version
+
+      - name: Download Tests to run
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: e2e-tests-to-test
+          path: .
+
+      - name: Run Cypress tests
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "Cypress tests being run on Node $(node --version)"
+
+          echo "Starting test server..."
+          node src/platform/testing/e2e/test-server.js \
+            --buildtype=vagovprod \
+            --port=3001 \
+            --host=127.0.0.1 \
+            > test-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+
+          echo "Waiting for server to be ready..."
+          ready=false
+          for i in $(seq 1 30); do
+            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+              echo "Server is ready!"
+              ready=true
+              break
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 2
+          done
+
+          if [ "$ready" = false ]; then
+            echo "Server failed to start. Last 200 log lines:"
+            tail -n 200 test-server.log || cat test-server.log
+            exit 1
+          fi
+
+          node script/github-actions/run-cypress-tests.js
+        timeout-minutes: 120
+        env:
+          CYPRESS_CI: true
+          STEP: ${{ matrix.ci_node_index }}
+          NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
+          APP_URLS: 'http://localhost:3001'
+          NODE_COMPATIBILITY_VERIFICATION: true
+
+      - name: Archive test videos
+        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: cypress-node-22-video-artifacts-${{ matrix.ci_node_index }}
+          path: cypress/videos
+
+      - name: Archive test screenshots
+        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: cypress-node-22-screenshot-artifacts-${{ matrix.ci_node_index }}
+          path: cypress/screenshots
+
+      - name: Archive Mochawesome test results
+        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: cypress-node-22-mochawesome-results-${{ matrix.ci_node_index }}
+          path: cypress/results
+          retention-days: 1
 
   update-e2e-allow-list:
     name: Update E2E Test Stability Allow List
@@ -1031,6 +1296,10 @@ jobs:
         stress-test-cypress-tests,
         fetch-allow-lists,
       ]
+    permissions:
+      checks: write
+      id-token: write
+      contents: read
     if: ${{ always() && github.ref != 'refs/heads/main' && needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     continue-on-error: true
     env:
@@ -1042,9 +1311,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1058,24 +1326,8 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
       - name: Download Cypress E2E Mochawesome test results
         uses: ./.github/workflows/download-artifact
@@ -1142,6 +1394,10 @@ jobs:
     name: Testing Reports - Unit Tests
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests]
+    permissions:
+      checks: write
+      id-token: write
+      contents: read
     if: needs.unit-tests.outputs.tests_ran == 'true'
     continue-on-error: true
     env:
@@ -1163,15 +1419,14 @@ jobs:
 
       - name: Notify Slack about Unit test failures
         if: ${{ github.ref != 'refs/heads/main' }}
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        uses: ./.github/workflows/slack-notify
         continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Unit tests in `vets-website` have failed on the `main` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+          payload: '{"attachments": [{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Unit tests in `vets-website` have failed on the `main` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]}'
           channel_id: C026PD47Z19 #gha-test-status
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       # ------------------------
       # | Upload BigQuery Data |
@@ -1180,9 +1435,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1196,24 +1450,8 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
@@ -1268,6 +1506,10 @@ jobs:
     name: Testing Reports - Unit Test Stability Review
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests-stress-test]
+    permissions:
+      checks: write
+      id-token: write
+      contents: read
     if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure')}}
     continue-on-error: true
     env:
@@ -1290,9 +1532,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1306,24 +1547,8 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
@@ -1377,6 +1602,10 @@ jobs:
     name: Testing Reports - Unit Tests Coverage
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests]
+    permissions:
+      checks: write
+      id-token: write
+      contents: read
     if: needs.unit-tests.outputs.tests_ran == 'true'
     continue-on-error: true
     env:
@@ -1399,9 +1628,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1415,24 +1643,9 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
       # --------------------------------------
       # | Publish Unit Test Coverage Report       |
       # -------------------------------------
@@ -1504,6 +1717,10 @@ jobs:
     name: Testing Reports - Cypress E2E Tests
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, tests-prep, cypress-tests]
+    permissions:
+      checks: write
+      id-token: write
+      contents: read
     if: ${{ always() && needs.tests-prep.outputs.tests != '[]' && needs.tests-prep.outputs.cypress-tests != '' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
@@ -1514,15 +1731,14 @@ jobs:
 
       - name: Notify Slack about Cypress test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.cypress-tests.result == 'failure' }}
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        uses: ./.github/workflows/slack-notify
         continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> E2E tests in `vets-website` have failed on the `main` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: C026PD47Z19 #gha-test-status
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
         # ------------------------
         # | Upload BigQuery Data |
@@ -1530,9 +1746,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1546,24 +1761,8 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
         # --------------------------------------
         # | Publish Cypress E2E Testing Report |
@@ -1627,6 +1826,10 @@ jobs:
     name: Testing Reports - E2E Test Stability Review
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, tests-prep, stress-test-cypress-tests]
+    permissions:
+      checks: write
+      id-token: write
+      contents: read
     if: ${{ always() && (needs.stress-test-cypress-tests.result == 'success' || needs.stresss-test-cypress-tests.result == 'failure') }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
@@ -1637,15 +1840,14 @@ jobs:
 
       - name: Notify Slack about Cypress test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.cypress-tests.result == 'failure' }}
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        uses: ./.github/workflows/slack-notify
         continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> E2E tests in `vets-website` have failed on the `main` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: C026PD47Z19 #gha-test-status
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
         # ------------------------
         # | Upload BigQuery Data |
@@ -1653,9 +1855,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1669,24 +1870,8 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
         # --------------------------------------
         # | Publish Cypress E2E Testing Report |
@@ -1747,13 +1932,17 @@ jobs:
   test-stability-review-merge-status:
     name: QA Merge Status
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
+      checks: write
     needs:
       [
         cypress-tests,
+        node-22-cypress-compatibility-check,
         stress-test-cypress-tests,
         tests-prep,
         unit-tests,
-        node-22-unit-test-compatibility-check,
         unit-tests-stress-test,
         update-e2e-allow-list,
         update-unit-test-allow-list,
@@ -1769,9 +1958,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1793,8 +1981,8 @@ jobs:
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
         with:
-          delimiter: ","
-          output-type: "folder"
+          delimiter: ','
+          output-type: 'folder'
 
       - name: Init Dashboard Data Repo
         uses: ./.github/workflows/init-data-repo
@@ -1848,28 +2036,31 @@ jobs:
         uses: ./.github/workflows/annotations
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          check_title: "E2E Test Stability Allow List Annotations"
-          input_json: "./e2e-annotations.json"
+          check_title: 'E2E Test Stability Allow List Annotations'
+          input_json: './e2e-annotations.json'
 
       - name: Annotate Unit Test Files accordingly
         if: ${{ env.unit-test-annotations-json != '[]' }}
         uses: ./.github/workflows/annotations
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          check_title: "Unit Test Stability Allow List Annotations"
-          input_json: "./unit-test-annotations.json"
+          check_title: 'Unit Test Stability Allow List Annotations'
+          input_json: './unit-test-annotations.json'
 
       - name: Verify Merge Eligibility
         run: node script/github-actions/verify-merge-eligibility.js
         env:
           CYPRESS_TESTS_RESULT: ${{ needs.cypress-tests.result  }}
           CYPRESS_TESTS_STRESS_TEST_RESULT: ${{ needs.stress-test-cypress-tests.result }}
+          NODE_22_CYPRESS_COMPATIBILITY_RESULT: ${{ needs.node-22-cypress-compatibility-check.result }}
           UNIT_TESTS_STRESS_TEST_RESULT: ${{ needs.unit-tests-stress-test.result }}
-          NODE_22_COMPATIBILITY_RESULT: ${{ needs.node-22-unit-test-compatibility-check.result }}
 
   archive:
     name: Archive
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
 
     strategy:
       matrix:
@@ -1925,28 +2116,11 @@ jobs:
         if: env.IS_SINGLE_APP_BUILD == 'true'
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
-      - name: Configure AWS credentials (1)
+      - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
-
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Upload build
         run: |
@@ -1982,6 +2156,9 @@ jobs:
   deploy:
     name: Deploy
     needs: [build, set-deploy-environments]
+    permissions:
+      id-token: write
+      contents: read
     if: always() && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
     runs-on: ubuntu-22.04
     strategy:
@@ -2011,31 +2188,12 @@ jobs:
           BUILDTYPE: ${{ matrix.environment }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Configure AWS credentials (1)
+      - name: Configure AWS credentials
         if: steps.check-deployability.outputs.is_deployable == 'true'
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
-
-      - name: Get AWS IAM role
-        if: steps.check-deployability.outputs.is_deployable == 'true'
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/${{ matrix.iam_role }}
-          env_variable_name: ${{ matrix.iam_role }}
-
-      - name: Configure AWS Credentials (2)
-        if: steps.check-deployability.outputs.is_deployable == 'true'
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE != '' && env.AWS_FRONTEND_NONPROD_ROLE || env.AWS_FRONTEND_PROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Deploy
         if: steps.check-deployability.outputs.is_deployable == 'true'
@@ -2054,7 +2212,7 @@ jobs:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
     needs: [build, set-deploy-environments, determine-cd-eligibility]
-    if: always() && ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success' }}
+    if: always() && startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -2075,7 +2233,7 @@ jobs:
         id: get-slack-channel
         uses: ./.github/workflows/get-changed-apps
         with:
-          output-type: "slack_channel"
+          output-type: 'slack_channel'
 
       - name: Determine Slack channel
         id: determine-channel
@@ -2103,7 +2261,8 @@ jobs:
           --arg ref "${{ github.ref }}" \
           --arg entry "${{ needs.build.outputs.entry_names }}" \
           --arg slack_channel "${{ steps.determine-channel.outputs.channel }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
+          --arg concurrency_group "${{ needs.build.outputs.deployment_concurrency_group }}" \
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel, concurrency_group: $concurrency_group}}')"
 
       - name: Cancel CD dispatch due to holiday
         if: steps.holiday-check.outputs.is_holiday == 'true'
@@ -2114,6 +2273,9 @@ jobs:
     runs-on: ubuntu-22.04
     if: ${{ github.ref == 'refs/heads/main' && (failure() || cancelled()) }}
     needs: [deploy, build]
+    permissions:
+      id-token: write
+      contents: read
     env:
       ALERT_TEAMS: true # Alerts teams for single/grouped app builds when set to true
       DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
@@ -2141,24 +2303,22 @@ jobs:
         if: env.ALERT_TEAMS == 'true'
         uses: ./.github/workflows/get-changed-apps
         with:
-          output-type: "slack_group"
+          output-type: 'slack_group'
 
       - name: Notify application team in Slack
         if: env.ALERT_TEAMS == 'true' && steps.get-changed-apps.outputs.slack_groups != ''
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-changed-apps.outputs.slack_groups}} CI for your application failed on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Notify Slack
         if: steps.get-changed-apps.outputs.slack_groups == ''
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`main` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role: ${{ vars.AWS_ASSUME_ROLE }}

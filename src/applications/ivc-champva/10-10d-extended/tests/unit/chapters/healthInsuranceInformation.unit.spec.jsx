@@ -5,10 +5,8 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import {
   healthInsurancePages,
-  generateParticipantNames,
   healthInsuranceOptions,
 } from '../../../chapters/healthInsuranceInformation';
-import { selectHealthcareParticipantsOnGoForward } from '../../../chapters/SelectHealthcareParticipantsPage';
 
 const mockStore = state => createStore(() => state);
 const minimalStore = mockStore({
@@ -107,93 +105,6 @@ describe('healthInsurancePages depends functions', () => {
   });
 });
 
-describe('selectHealthcareParticipantsOnGoForward', () => {
-  const baseData = {
-    applicants: [
-      {
-        applicantName: { first: 'Bruce', last: 'Wayne' },
-        applicantSsn: '123123123',
-      },
-      {
-        applicantName: { first: 'Clark', last: 'Kent' },
-        applicantSsn: '321321321',
-      },
-      {
-        applicantName: { first: 'James', last: 'Gordon' },
-        applicantSsn: '543543543',
-      },
-    ],
-    healthInsurance: [{ provider: 'Blue Cross' }, { provider: 'Cigna' }],
-  };
-  it('should use setFormData to add applicants to each insurance plan', () => {
-    let fullData = JSON.parse(JSON.stringify(baseData));
-    selectHealthcareParticipantsOnGoForward({
-      fullData,
-      setFormData: newData => {
-        fullData = newData;
-      },
-    });
-    expect(fullData.healthInsurance[0]['view:applicantObjects'].length).to.eq(
-      baseData.applicants.length,
-    );
-  });
-});
-
-describe('generateParticipantNames', () => {
-  const baseData = {
-    healthInsurance: [
-      {
-        // Checklist of applicants that belong on this insurance plan
-        // Keys are a hash generated from applicant information (see `toHash` function)
-        healthcareParticipants: {
-          '274d8b67cb72': undefined,
-          '28da4d8d02f2': undefined,
-          '2a74b32b81f4': undefined,
-        },
-        'view:applicantObjects': [
-          {
-            applicantName: { first: 'Bruce', last: 'Wayne' },
-            applicantSsn: '123123123',
-          },
-          {
-            applicantName: { first: 'Clark', last: 'Kent' },
-            applicantSsn: '321321321',
-          },
-          {
-            applicantName: { first: 'James', last: 'Gordon' },
-            applicantSsn: '543543543',
-          },
-        ],
-      },
-    ],
-  };
-  it('should produce a list of applicant names matching those selected', () => {
-    const formData = JSON.parse(JSON.stringify(baseData));
-    // Associate two of the three applicants with this insurance policy
-    formData.healthInsurance[0].healthcareParticipants['274d8b67cb72'] = true;
-    formData.healthInsurance[0].healthcareParticipants['2a74b32b81f4'] = true;
-    expect(generateParticipantNames(formData.healthInsurance[0])).to.eq(
-      'Bruce Wayne, James Gordon',
-    );
-  });
-  it('should produce a default value when no applicants are selected', () => {
-    expect(generateParticipantNames(baseData.healthInsurance[0])).to.eq(
-      'No members specified',
-    );
-  });
-  it('should produce a default value when no applicants are available', () => {
-    const formData = JSON.parse(JSON.stringify(baseData));
-    delete formData.healthInsurance[0].healthcareParticipants;
-    delete formData.healthInsurance[0]['view:applicantObjects'];
-    expect(generateParticipantNames(formData.healthInsurance[0])).to.eq(
-      'No members specified',
-    );
-  });
-  it('should produce a default value when no arguments are passed', () => {
-    expect(generateParticipantNames()).to.eq('No participants');
-  });
-});
-
 describe('healthInsuranceOptions', () => {
   describe('text.getItemName', () => {
     it('should compute title from provider name', () => {
@@ -201,16 +112,6 @@ describe('healthInsuranceOptions', () => {
         provider: 'bcbs',
       });
       expect(res).to.equal('bcbs');
-    });
-  });
-
-  describe('text.cardDescription', () => {
-    it('should return JSX containing an unordered list', () => {
-      const res = healthInsuranceOptions.text.cardDescription({});
-      const { container } = render(
-        <Provider store={minimalStore}>{res}</Provider>,
-      );
-      expect(container.querySelector('ul')).to.not.be.undefined;
     });
   });
 });

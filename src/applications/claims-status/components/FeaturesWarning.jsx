@@ -1,23 +1,30 @@
 import React from 'react';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function FeaturesWarning() {
   return (
     <div>
       <h2 id="additional-services">Additional services</h2>
       <p>
-        <a href="/change-address/">
-          Change your address and other contact information
-        </a>
+        <VaLink
+          href="/change-address/"
+          text="Change your address and other contact information"
+          data-testid="change-address-link"
+        />
       </p>
       <p>
-        <a href="/resources/how-to-change-your-legal-name-on-file-with-va/">
-          Change your legal name on file with VA
-        </a>
+        <VaLink
+          href="/resources/how-to-change-your-legal-name-on-file-with-va/"
+          text="Change your legal name on file with VA"
+          data-testid="change-legal-name-link"
+        />
       </p>
       <p>
-        <a href="/disability/get-help-filing-claim/">
-          Get help filing your VA claim, decision review, or appeal
-        </a>
+        <VaLink
+          href="/disability/get-help-filing-claim/"
+          text="Get help filing your VA claim, decision review, or appeal"
+          data-testid="get-help-filing-claim-link"
+        />
       </p>
     </div>
   );

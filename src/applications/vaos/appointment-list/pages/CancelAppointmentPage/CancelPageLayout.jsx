@@ -1,7 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { shallowEqual } from 'recompose';
 import Address from '../../../components/Address';
 import FacilityDirectionsLink from '../../../components/FacilityDirectionsLink';
 import {
@@ -66,7 +65,7 @@ export default function CancelPageLayout() {
   );
 
   const heading = getHeading(appointment);
-  const { reasonForAppointment, patientComments } = appointment || {};
+  const { patientComments } = appointment || {};
   const facilityId = locationId;
 
   return (
@@ -182,12 +181,7 @@ export default function CancelPageLayout() {
           />
         </Where>
       )}
-      <Details
-        reason={reasonForAppointment}
-        otherDetails={patientComments}
-        level={3}
-        isCerner={isCerner}
-      />
+      <Details otherDetails={patientComments} level={3} isCerner={isCerner} />
     </>
   );
 }

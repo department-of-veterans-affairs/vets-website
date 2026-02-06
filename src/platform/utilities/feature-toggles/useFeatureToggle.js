@@ -1,8 +1,10 @@
-import { useEffect, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDebugValue, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { setData } from '../../forms-system/src/js/actions';
 import TOGGLE_NAMES from './featureFlagNames';
+
+export { TOGGLE_NAMES };
 
 export const toggleValuesSelector = state => state.featureToggles || {};
 
@@ -97,7 +99,14 @@ export const useToggleValue = toggleName => {
       `Invalid toggle name "${toggleName}". Did you add the toggle name to featureFlagNames.js?`,
     );
   }
-  return useSelector(state => toggleValuesSelector(state)?.[toggleName]);
+  const toggleValue = useSelector(
+    state => toggleValuesSelector(state)?.[toggleName],
+  );
+  useDebugValue(
+    toggleValue,
+    value => `${toggleName} value: ${value} type: ${typeof value}`,
+  );
+  return toggleValue;
 };
 
 export const useFeatureToggle = () => {

@@ -1,6 +1,17 @@
 import { expect } from 'chai';
 import formConfig from '../../config/form';
 
+it('should have the correct settings for claimantOther', () => {
+  const { claimantInformation } = formConfig.chapters;
+  const { pages } = claimantInformation;
+  const { claimantOther } = pages;
+  const validClaimant = { claimantRelationship: 'SPOUSE' };
+  const invalidClaimant = { claimantRelationship: 'OTHER' };
+
+  expect(claimantOther.depends(validClaimant)).to.be.false;
+  expect(claimantOther.depends(invalidClaimant)).to.be.true;
+});
+
 it('should have the correct setting for financialInformation', () => {
   const { financialInformation } = formConfig.chapters;
   const { pages } = financialInformation;
@@ -17,61 +28,62 @@ it('should have the correct setting for financialInformation', () => {
     incomeSources,
   } = pages;
 
-  const noSurvivorPension = { claims: { survivorPension: false } };
-  expect(incomeAndAssets.depends(noSurvivorPension)).to.be.false;
-  expect(submitSupportingDocs.depends(noSurvivorPension)).to.be.false;
-  expect(totalAssets.depends(noSurvivorPension)).to.be.false;
-  expect(transferredAssets.depends(noSurvivorPension)).to.be.false;
-  expect(homeOwnership.depends(noSurvivorPension)).to.be.false;
-  expect(landLotSize.depends(noSurvivorPension)).to.be.false;
-  expect(additionalLandValue.depends(noSurvivorPension)).to.be.false;
-  expect(marketableLand.depends(noSurvivorPension)).to.be.false;
-  expect(incomeSources.depends(noSurvivorPension)).to.be.false;
+  const nosurvivorsPension = { claims: { survivorsPension: false } };
+  expect(incomeAndAssets.depends(nosurvivorsPension)).to.be.false;
+  expect(submitSupportingDocs.depends(nosurvivorsPension)).to.be.false;
+  expect(totalAssets.depends(nosurvivorsPension)).to.be.false;
+  expect(transferredAssets.depends(nosurvivorsPension)).to.be.false;
+  expect(homeOwnership.depends(nosurvivorsPension)).to.be.false;
+  expect(landLotSize.depends(nosurvivorsPension)).to.be.false;
+  expect(additionalLandValue.depends(nosurvivorsPension)).to.be.false;
+  expect(marketableLand.depends(nosurvivorsPension)).to.be.false;
+  expect(incomeSources.depends(nosurvivorsPension)).to.be.false;
 
-  const withSurvivorPension = { claims: { survivorPension: true } };
-  expect(incomeAndAssets.depends(withSurvivorPension)).to.be.true;
-  expect(submitSupportingDocs.depends(withSurvivorPension)).to.be.false;
-  expect(totalAssets.depends(withSurvivorPension)).to.be.false;
-  expect(transferredAssets.depends(withSurvivorPension)).to.be.true;
-  expect(homeOwnership.depends(withSurvivorPension)).to.be.true;
-  expect(landLotSize.depends(withSurvivorPension)).to.be.false;
-  expect(additionalLandValue.depends(withSurvivorPension)).to.be.false;
-  expect(marketableLand.depends(withSurvivorPension)).to.be.false;
-  expect(incomeSources.depends(withSurvivorPension)).to.be.true;
+  const withsurvivorsPension = { claims: { survivorsPension: true } };
+  expect(incomeAndAssets.depends(withsurvivorsPension)).to.be.true;
+  expect(submitSupportingDocs.depends(withsurvivorsPension)).to.be.false;
+  expect(totalAssets.depends(withsurvivorsPension)).to.be.false;
+  expect(transferredAssets.depends(withsurvivorsPension)).to.be.true;
+  expect(homeOwnership.depends(withsurvivorsPension)).to.be.true;
+  expect(landLotSize.depends(withsurvivorsPension)).to.be.false;
+  expect(additionalLandValue.depends(withsurvivorsPension)).to.be.false;
+  expect(marketableLand.depends(withsurvivorsPension)).to.be.false;
+  expect(incomeSources.depends(withsurvivorsPension)).to.be.true;
 
-  const survivorPensionWithAllTrue = {
+  const survivorsPensionWithAllTrue = {
     claims: {
-      survivorPension: true,
+      survivorsPension: true,
     },
-    hasAssetsOverThreshold: true,
+    totalNetWorth: true,
     homeOwnership: true,
-    landLotSize: true,
+    homeAcreageMoreThanTwo: true,
   };
-  expect(incomeAndAssets.depends(survivorPensionWithAllTrue)).to.be.true;
-  expect(submitSupportingDocs.depends(survivorPensionWithAllTrue)).to.be.true;
-  expect(totalAssets.depends(survivorPensionWithAllTrue)).to.be.false;
-  expect(transferredAssets.depends(survivorPensionWithAllTrue)).to.be.true;
-  expect(homeOwnership.depends(survivorPensionWithAllTrue)).to.be.true;
-  expect(landLotSize.depends(survivorPensionWithAllTrue)).to.be.true;
-  expect(additionalLandValue.depends(survivorPensionWithAllTrue)).to.be.true;
-  expect(marketableLand.depends(survivorPensionWithAllTrue)).to.be.true;
-  expect(incomeSources.depends(survivorPensionWithAllTrue)).to.be.true;
+  expect(incomeAndAssets.depends(survivorsPensionWithAllTrue)).to.be.true;
+  expect(submitSupportingDocs.depends(survivorsPensionWithAllTrue)).to.be.true;
+  expect(totalAssets.depends(survivorsPensionWithAllTrue)).to.be.false;
+  expect(transferredAssets.depends(survivorsPensionWithAllTrue)).to.be.true;
+  expect(homeOwnership.depends(survivorsPensionWithAllTrue)).to.be.true;
+  expect(landLotSize.depends(survivorsPensionWithAllTrue)).to.be.true;
+  expect(additionalLandValue.depends(survivorsPensionWithAllTrue)).to.be.true;
+  expect(marketableLand.depends(survivorsPensionWithAllTrue)).to.be.true;
+  expect(incomeSources.depends(survivorsPensionWithAllTrue)).to.be.true;
 
-  const survivorPensionWithAllFalse = {
+  const survivorsPensionWithAllFalse = {
     claims: {
-      survivorPension: true,
+      survivorsPension: true,
     },
-    hasAssetsOverThreshold: false,
+    totalNetWorth: false,
     homeOwnership: false,
-    landLotSize: false,
+    homeAcreageMoreThanTwo: false,
   };
-  expect(incomeAndAssets.depends(survivorPensionWithAllFalse)).to.be.true;
-  expect(submitSupportingDocs.depends(survivorPensionWithAllFalse)).to.be.false;
-  expect(totalAssets.depends(survivorPensionWithAllFalse)).to.be.true;
-  expect(transferredAssets.depends(survivorPensionWithAllFalse)).to.be.true;
-  expect(homeOwnership.depends(survivorPensionWithAllFalse)).to.be.true;
-  expect(landLotSize.depends(survivorPensionWithAllFalse)).to.be.false;
-  expect(additionalLandValue.depends(survivorPensionWithAllFalse)).to.be.false;
-  expect(marketableLand.depends(survivorPensionWithAllFalse)).to.be.false;
-  expect(incomeSources.depends(survivorPensionWithAllFalse)).to.be.true;
+  expect(incomeAndAssets.depends(survivorsPensionWithAllFalse)).to.be.true;
+  expect(submitSupportingDocs.depends(survivorsPensionWithAllFalse)).to.be
+    .false;
+  expect(totalAssets.depends(survivorsPensionWithAllFalse)).to.be.true;
+  expect(transferredAssets.depends(survivorsPensionWithAllFalse)).to.be.true;
+  expect(homeOwnership.depends(survivorsPensionWithAllFalse)).to.be.true;
+  expect(landLotSize.depends(survivorsPensionWithAllFalse)).to.be.false;
+  expect(additionalLandValue.depends(survivorsPensionWithAllFalse)).to.be.false;
+  expect(marketableLand.depends(survivorsPensionWithAllFalse)).to.be.false;
+  expect(incomeSources.depends(survivorsPensionWithAllFalse)).to.be.true;
 });

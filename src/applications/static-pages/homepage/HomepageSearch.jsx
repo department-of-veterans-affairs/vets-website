@@ -12,7 +12,6 @@ import {
   addSearchGADataToStorage,
 } from 'platform/site-wide/search-analytics';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
-import { fetchTypeaheadSuggestions } from 'platform/utilities/search-utilities';
 
 /**
  * Homepage redesign
@@ -34,13 +33,8 @@ const HomepageSearch = () => {
     const inputValue = e.target.value;
     setUserInput(inputValue);
 
-    // don't display suggestions if input is too short
-    if (inputValue?.length < 3) {
-      clearSuggestions();
-      return;
-    }
-    const results = await fetchTypeaheadSuggestions(inputValue);
-    setLatestSuggestions(results);
+    // Typeahead disabled - clear suggestions
+    clearSuggestions();
   };
 
   useEffect(() => {
@@ -74,7 +68,7 @@ const HomepageSearch = () => {
       [SEARCH_LOCATION]: 'Homepage Search',
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov - In page search',
-      [SEARCH_TYPEAHEAD_ENABLED]: true,
+      [SEARCH_TYPEAHEAD_ENABLED]: false,
       [TYPEAHEAD_CLICKED]: typeaheadClicked,
       [TYPEAHEAD_LIST]: latestSuggestions,
     };

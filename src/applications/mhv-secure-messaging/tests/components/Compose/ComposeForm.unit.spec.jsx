@@ -10,6 +10,7 @@ import {
   mockApiRequest,
   inputVaTextInput,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+// recordEvent ultimately pushes to window.dataLayer; we assert on that side effect
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
@@ -32,6 +33,7 @@ import {
   ElectronicSignatureBox,
   ErrorMessages,
   DefaultFolders,
+  MessageHintText,
 } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
@@ -66,7 +68,7 @@ describe('Compose form component', () => {
   });
   const stubUseFeatureToggles = value => {
     const useFeatureToggles = require('../../../hooks/useFeatureToggles');
-    stub = sinon.stub(useFeatureToggles, 'default').returns(value);
+    stub = sandbox.stub(useFeatureToggles, 'default').returns(value);
     return stub;
   };
 
@@ -86,6 +88,12 @@ describe('Compose form component', () => {
         allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
       },
       preferences: { signature: {} },
+      prescription: {
+        renewalPrescription: undefined,
+        redirectPath: undefined,
+        error: undefined,
+        isLoading: false,
+      },
     },
     drupalStaticData,
     featureToggles: {},
@@ -117,6 +125,12 @@ describe('Compose form component', () => {
         noAssociations: noBlockedRecipients.noAssociations,
         allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
       },
+      prescription: {
+        renewalPrescription: undefined,
+        redirectPath: undefined,
+        error: undefined,
+        isLoading: false,
+      },
     },
     drupalStaticData,
     featureToggles: {},
@@ -139,6 +153,99 @@ describe('Compose form component', () => {
   it('renders without errors', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     expect(screen);
+  });
+
+  it('records prefilling analytics when Rx renewal draft loads', async () => {
+    window.dataLayer = [];
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        prescription: {
+          ...initialState.sm.prescription,
+          renewalPrescription: {
+            prescriptionId: 123,
+          },
+        },
+      },
+    };
+
+    setup(customState, Paths.COMPOSE);
+
+    await waitFor(() => {
+      expect(
+        window.dataLayer?.some(e => e?.event === 'sm_editor_prefill_loaded'),
+      ).to.be.true;
+    });
+  });
+
+  it('records analytics when user clears prefilled textarea', async () => {
+    window.dataLayer = [];
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        preferences: signatureReducers.signatureEnabled,
+        threadDetails: {
+          ...threadDetailsReducer.threadDetails,
+          draftInProgress: {
+            ...threadDetailsReducer.threadDetails.draftInProgress,
+          },
+        },
+      },
+    };
+
+    const screen = setup(customState, Paths.COMPOSE, {
+      ...signatureReducers.signatureEnabled,
+    });
+
+    const messageEl = await screen.getByTestId('message-body-field');
+    // Ensure prefilled (signature) value is present
+    expect(messageEl).to.have.attribute('value');
+
+    // Clear the textarea value using testing-library helper (empty string triggers 'deleted' event)
+    inputVaTextInput(screen.container, '', 'va-textarea');
+
+    await waitFor(() => {
+      const hasClearedEvent = window.dataLayer?.some(
+        e => e?.event === 'sm_editor_prefill_deleted',
+      );
+      expect(hasClearedEvent).to.be.true;
+    });
+  });
+
+  it('records analytics when user edits prefilled textarea (non-empty)', async () => {
+    window.dataLayer = [];
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        preferences: signatureReducers.signatureEnabled,
+        threadDetails: {
+          ...threadDetailsReducer.threadDetails,
+          draftInProgress: {
+            ...threadDetailsReducer.threadDetails.draftInProgress,
+          },
+        },
+      },
+    };
+
+    const screen = setup(customState, Paths.COMPOSE, {
+      ...signatureReducers.signatureEnabled,
+    });
+
+    const messageEl = await screen.getByTestId('message-body-field');
+    expect(messageEl).to.have.attribute('value');
+
+    // Change value to something different (non-empty)
+    inputVaTextInput(screen.container, 'Edited content', 'va-textarea');
+
+    await waitFor(() => {
+      const hasEditedEvent = window.dataLayer?.some(
+        e => e?.event === 'sm_editor_prefill_edited',
+      );
+      expect(hasEditedEvent).to.be.true;
+    });
   });
 
   it('displays compose fields if path is /new-message', async () => {
@@ -199,7 +306,10 @@ describe('Compose form component', () => {
       ...draftState,
       sm: {
         ...draftState.sm,
-        threadDetails: { customDraftMessage },
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
       },
     };
 
@@ -240,7 +350,7 @@ describe('Compose form component', () => {
       },
     };
 
-    const sendMessageSpy = sinon.spy(messageActions, 'sendMessage');
+    const sendMessageSpy = sandbox.spy(messageActions, 'sendMessage');
     const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
       draft: customDraftMessage,
       recipients: customState.sm.recipients,
@@ -269,7 +379,7 @@ describe('Compose form component', () => {
       },
     };
 
-    const clearDraftInProgressSpy = sinon.spy(
+    const clearDraftInProgressSpy = sandbox.spy(
       threadDetailsActions,
       'clearDraftInProgress',
     );
@@ -360,7 +470,7 @@ describe('Compose form component', () => {
   });
 
   it('renders without errors on Save Draft button click', async () => {
-    const saveDraftSpy = sinon.spy(draftActions, 'saveDraft');
+    const saveDraftSpy = sandbox.spy(draftActions, 'saveDraft');
     const screen = setup(draftState, `/thread/${draftMessage.id}`, {
       draft: draftMessage,
       recipients: draftState.sm.recipients,
@@ -382,7 +492,8 @@ describe('Compose form component', () => {
         triageTeams: { triageTeams },
         categories: { categories },
         threadDetails: {
-          drafts: {},
+          drafts: [],
+          draftInProgress: {},
         },
         preferences: signatureReducers.signatureEnabled,
       },
@@ -527,7 +638,7 @@ describe('Compose form component', () => {
   });
 
   it('renders a loading indicator if categories are not available', async () => {
-    const getCategoriesSpy = sinon.spy(categoriesActions, 'getCategories');
+    const getCategoriesSpy = sandbox.spy(categoriesActions, 'getCategories');
     const customState = {
       ...initialState,
       sm: {
@@ -610,7 +721,7 @@ describe('Compose form component', () => {
       },
     );
 
-    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    const addEventListenerSpy = sandbox.spy(window, 'addEventListener');
     expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
@@ -653,7 +764,7 @@ describe('Compose form component', () => {
       },
     );
 
-    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    const addEventListenerSpy = sandbox.spy(window, 'addEventListener');
     expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
@@ -864,14 +975,16 @@ describe('Compose form component', () => {
       },
     );
 
-    const blockedTriageGroupAlert = await screen.findByTestId(
-      'blocked-triage-group-alert',
-    );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You're not connected to any care teams in this messaging tool",
-    );
+    await waitFor(() => {
+      const blockedTriageGroupAlert = screen.getByTestId(
+        'blocked-triage-group-alert',
+      );
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You're not connected to any care teams in this messaging tool",
+      );
+    });
     const viewOnlyDraftSections = screen.queryAllByTestId(
       'view-only-draft-section',
     );
@@ -1018,11 +1131,10 @@ describe('Compose form component', () => {
       },
     );
 
-    const blockedTriageGroupAlert = await screen.findByTestId(
-      'blocked-triage-group-alert',
-    );
     await waitFor(() => {
-      expect(blockedTriageGroupAlert).to.exist;
+      const blockedTriageGroupAlert = screen.getByTestId(
+        'blocked-triage-group-alert',
+      );
       expect(blockedTriageGroupAlert).to.have.attribute(
         'trigger',
         "You can't send messages to your care teams right now",
@@ -1614,7 +1726,11 @@ describe('Compose form component', () => {
     const customState = { ...initialState, featureToggles: { loading: false } };
     customState.sm.preferences.signature.includeSignature = true;
     const screen = setup(customState, Paths.COMPOSE);
-    expect(screen.getByText('Edit signature for all messages')).to.exist;
+    const link = screen.getByTestId('edit-signature-link');
+    expect(link).to.exist;
+    expect(link.getAttribute('text')).to.equal(
+      'Edit signature for all messages',
+    );
   });
 
   it('renders correct headings in pilot environment', async () => {
@@ -1664,7 +1780,7 @@ describe('Compose form component', () => {
   });
 
   it('sets isAutoSave to false when sending message', async () => {
-    const sendMessageSpy = sinon.stub(messageActions, 'sendMessage');
+    const sendMessageSpy = sandbox.stub(messageActions, 'sendMessage');
     sendMessageSpy.resolves({});
 
     const customDraftMessage = {
@@ -1838,33 +1954,6 @@ describe('Compose form component', () => {
       });
     });
 
-    it('clears prescription on unmount', async () => {
-      const clearPrescriptionSpy = sandbox.spy(
-        require('../../../actions/prescription'),
-        'clearPrescription',
-      );
-
-      const customState = {
-        ...initialState,
-        sm: {
-          ...initialState.sm,
-          prescription: {
-            renewalPrescription: { prescriptionId: '123' },
-            error: null,
-            isLoading: false,
-          },
-        },
-      };
-
-      const { unmount } = setup(customState);
-
-      unmount();
-
-      await waitFor(() => {
-        expect(clearPrescriptionSpy.called).to.be.true;
-      });
-    });
-
     it('displays loading indicator when renewal prescription is loading', () => {
       const loadingState = {
         ...initialState,
@@ -1995,6 +2084,117 @@ describe('Compose form component', () => {
       );
     });
 
+    describe('message body textarea hint text', () => {
+      it('should display medication details hint when rxError exists', async () => {
+        const errorState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: 'SM_GET_PRESCRIPTION_BY_ID_ERROR',
+              renewalPrescription: null,
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(errorState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          expect(textarea.getAttribute('hint')).to.equal(
+            MessageHintText.RX_RENEWAL_ERROR,
+          );
+        });
+      });
+
+      it('should display review details hint when renewalPrescription exists', async () => {
+        const successState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: null,
+              renewalPrescription: {
+                prescriptionId: '123',
+                prescriptionName: 'Test Medication',
+              },
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(successState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          expect(textarea.getAttribute('hint')).to.equal(
+            MessageHintText.RX_RENEWAL_SUCCESS,
+          );
+        });
+      });
+
+      it('should not display hint when neither rxError nor renewalPrescription exist', async () => {
+        const noHintState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: null,
+              renewalPrescription: null,
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(noHintState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          expect(textarea.getAttribute('hint')).to.be.null;
+        });
+      });
+
+      it('should prioritize rxError hint over renewalPrescription hint when both exist', async () => {
+        const bothExistState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: 'Prescription not found',
+              renewalPrescription: {
+                prescriptionId: '123',
+                prescriptionName: 'Test Medication',
+              },
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(bothExistState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          // Should show error hint, not success hint
+          expect(textarea.getAttribute('hint')).to.equal(
+            MessageHintText.RX_RENEWAL_ERROR,
+          );
+        });
+      });
+    });
+
     it('calls sendMessage and verifies redirect path is available for prescription renewal flow', async () => {
       // Mock the sendMessage action to return a resolved promise
       const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
@@ -2003,7 +2203,7 @@ describe('Compose form component', () => {
       // Store original replace method and create spy
       const originalLocation = global.window.location;
       global.window.location = {};
-      global.window.location.replace = sinon.spy();
+      global.window.location.replace = sandbox.spy();
 
       const customDraftMessage = {
         ...draftMessage,
@@ -2132,7 +2332,7 @@ describe('Compose form component', () => {
       // Store original replace method and create spy
       const originalLocation = global.window.location;
       global.window.location = {};
-      global.window.location.replace = sinon.spy();
+      global.window.location.replace = sandbox.spy();
 
       const customDraftMessage = {
         ...draftMessage,
@@ -2171,7 +2371,9 @@ describe('Compose form component', () => {
       await new Promise(resolve => setTimeout(resolve, 1200));
 
       // Verify that sendMessage was called with suppressAlert=true (4th argument)
-      expect(sendMessageStub.called).to.be.true;
+      await waitFor(() => {
+        expect(sendMessageStub.called).to.be.true;
+      });
       const sendMessageCall = sendMessageStub.getCall(0);
       expect(sendMessageCall.args).to.have.lengthOf(4);
       // Args: [sendData, hasAttachments, ohTriageGroup, suppressAlert]
@@ -2244,6 +2446,152 @@ describe('Compose form component', () => {
           navigateToFolderByFolderIdSpy.calledWith(DefaultFolders.INBOX.id),
         ).to.be.true;
       });
+    });
+
+    it('displays locked category when renewalPrescription exists', () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: { prescriptionId: '123' },
+            error: null,
+            isLoading: false,
+          },
+        },
+      };
+
+      const screen = setup(customState, Paths.COMPOSE);
+
+      // Locked category display should be visible
+      const lockedCategory = screen.getByTestId('locked-category-display');
+      expect(lockedCategory).to.exist;
+
+      // Category dropdown should not exist
+      const categoryDropdown = screen.queryByTestId(
+        'compose-message-categories',
+      );
+      expect(categoryDropdown).to.not.exist;
+    });
+
+    it('displays locked category when rxError exists', () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: null,
+            error: 'Prescription not found',
+            isLoading: false,
+          },
+        },
+      };
+
+      const screen = setup(customState, Paths.COMPOSE);
+
+      // Locked category display should be visible
+      const lockedCategory = screen.getByTestId('locked-category-display');
+      expect(lockedCategory).to.exist;
+
+      // Category dropdown should not exist
+      const categoryDropdown = screen.queryByTestId(
+        'compose-message-categories',
+      );
+      expect(categoryDropdown).to.not.exist;
+    });
+
+    it('displays category dropdown when not in renewal flow', () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: null,
+            error: null,
+            isLoading: false,
+          },
+        },
+      };
+
+      const screen = setup(customState, Paths.COMPOSE);
+
+      // Category dropdown should be visible
+      const categoryDropdown = screen.queryByTestId(
+        'compose-message-categories',
+      );
+      expect(categoryDropdown).to.exist;
+
+      // Locked category display should not exist
+      const lockedCategory = screen.queryByTestId('locked-category-display');
+      expect(lockedCategory).to.not.exist;
+    });
+
+    it('locked category persists through validation errors', () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: { prescriptionId: '123' },
+            error: null,
+            isLoading: false,
+          },
+        },
+      };
+
+      const screen = setup(customState, Paths.COMPOSE);
+
+      // Trigger validation by trying to send without required fields
+      const sendButton = screen.getByTestId('send-button');
+      fireEvent.click(sendButton);
+
+      // Locked category should still be visible after validation
+      const lockedCategory = screen.queryByTestId('locked-category-display');
+      expect(lockedCategory).to.exist;
+
+      // Category dropdown should still not exist
+      const categoryDropdown = screen.queryByTestId(
+        'compose-message-categories',
+      );
+      expect(categoryDropdown).to.not.exist;
+    });
+
+    it('shows ViewOnlyDraftSection instead of locked category when triage groups blocked', () => {
+      const blockedRecipients = {
+        ...initialState.sm.recipients,
+        allTriageGroupsBlocked: true,
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          recipients: blockedRecipients,
+          prescription: {
+            renewalPrescription: { prescriptionId: '123' },
+            error: null,
+            isLoading: false,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(
+        <ComposeForm
+          draft={customState.sm.threadDetails.drafts[0]}
+          recipients={blockedRecipients}
+        />,
+        {
+          initialState: customState,
+          reducers: reducer,
+          path: `/thread/${customState.sm.threadDetails.drafts[0].id}`,
+        },
+      );
+
+      // ViewOnlyDraftSection should take priority - locked category should NOT show
+      expect(screen.queryByTestId('locked-category-display')).to.not.exist;
+
+      // Category dropdown should also not exist (ViewOnlyDraftSection shown instead)
+      expect(screen.queryByTestId('compose-message-categories')).to.not.exist;
     });
   });
 

@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import recordEvent from 'platform/monitoring/record-event';
 import { getFolders, newFolder } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
 import {
@@ -14,7 +13,7 @@ import {
 import { getPageTitle } from '../util/helpers';
 import FoldersList from '../components/FoldersList';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
-import CreateFolderModal from '../components/Modals/CreateFolderModal';
+import CreateFolderInline from '../components/FoldersList/CreateFolderInline';
 import InnerNavigation from '../components/InnerNavigation';
 import ComposeMessageButton from '../components/MessageActionButtons/ComposeMessageButton';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
@@ -24,7 +23,7 @@ const Folders = () => {
   const location = useLocation();
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folders = useSelector(state => state.sm.folders.folderList);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [newlyCreatedFolderName, setNewlyCreatedFolderName] = useState(null);
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
@@ -46,36 +45,36 @@ const Folders = () => {
     () => {
       dispatch(getFolders());
     },
-    [dispatch, location, isModalVisible],
+    [dispatch, location],
   );
 
   useEffect(
     () => {
-      if (!isModalVisible) {
-        const alertVisible = alertList[alertList?.length - 1];
-        const alertSelector =
-          folders !== undefined && !alertVisible?.isActive
-            ? 'h1'
-            : alertVisible?.isActive && 'va-alert';
+      const alertVisible = alertList[alertList?.length - 1];
+      const alertSelector =
+        folders !== undefined && !alertVisible?.isActive
+          ? 'h1'
+          : alertVisible?.isActive && 'va-alert';
 
-        const pageTitleTag = getPageTitle({
-          pathname: location.pathname,
-        });
+      const pageTitleTag = getPageTitle({
+        pathname: location.pathname,
+      });
 
-        focusElement(document.querySelector(alertSelector));
-        updatePageTitle(pageTitleTag);
-      }
+      focusElement(document.querySelector(alertSelector));
+      updatePageTitle(pageTitleTag);
     },
-    [alertList, folders, isModalVisible, location.pathname],
+    [alertList, folders, location.pathname],
   );
 
-  const openNewModal = () => {
-    dispatch(closeAlert());
-    setIsModalVisible(true);
+  const confirmFolderCreate = (folderName, onSuccess) => {
+    dispatch(newFolder(folderName)).then(() => {
+      onSuccess();
+      dispatch(getFolders());
+    });
   };
 
-  const confirmFolderCreate = (folderName, closeNewModal) => {
-    dispatch(newFolder(folderName)).then(closeNewModal());
+  const handleFolderCreated = folderName => {
+    setNewlyCreatedFolderName(folderName);
   };
 
   const content = () => {
@@ -126,27 +125,14 @@ const Folders = () => {
               folders={folders.filter(
                 folder => folder.id !== -1 && folder.id !== 0,
               )}
+              highlightName={newlyCreatedFolderName}
             />
           </>
         )}
-        <va-button
-          onClick={() => {
-            openNewModal();
-            recordEvent({
-              event: 'cta-button-click',
-              'button-type': 'primary',
-              'button-click-label': 'Create new folder',
-            });
-          }}
-          text="Create new folder"
-          data-testid="create-new-folder"
-          data-dd-action-name="Create New Folder Button"
-        />
-        <CreateFolderModal
-          isCreateNewModalVisible={isModalVisible}
-          setIsCreateNewModalVisible={setIsModalVisible}
-          onConfirm={confirmFolderCreate}
+        <CreateFolderInline
           folders={folders}
+          onConfirm={confirmFolderCreate}
+          onFolderCreated={handleFolderCreated}
         />
       </>
     );

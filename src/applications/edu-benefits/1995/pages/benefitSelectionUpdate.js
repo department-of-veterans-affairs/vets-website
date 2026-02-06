@@ -3,9 +3,8 @@ import {
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import React from 'react';
 import { benefitsLabelsUpdate } from '../../utils/labels';
-import { showRudisill1995 } from '../helpers';
+import BenefitReviewField from '../components/BenefitReviewField';
 
 const { benefitUpdate, benefitAppliedFor } = fullSchema.properties;
 
@@ -38,63 +37,43 @@ displayBenefit.enum.splice(1, 1, 'fryScholarship');
 displayNewBenefit.enum.splice(0, 1, 'chapter33');
 displayNewBenefit.enum.splice(1, 1, 'fryScholarship');
 
-const changeAnotherBenefitDescription = (
-  <p className="vads-u-color--gray-medium">
-    Note: if you select yes, this change will be applied with your next
-    enrollment certification if you are eligible for the benefit selected.
-  </p>
-);
-
 export const uiSchema = {
   benefitUpdate: {
     'ui:widget': 'radio',
     'ui:title': 'Which benefit have you most recently used?',
+    'ui:reviewField': BenefitReviewField,
     'ui:options': {
       labels: benefitsLabelsUpdate,
     },
   },
-  ...(showRudisill1995()
-    ? {
-        rudisillReview: {
-          ...radioUI({
-            title: 'Do you wish to request a Rudisill review?',
-            required: () => true,
-          }),
-        },
+  rudisillReview: {
+    ...radioUI({
+      title: 'Do you wish to request a Rudisill review?',
+      required: () => true,
+    }),
+    'ui:onChange': (value, oldValue, formData, onChange) => {
+      // Clear changeAnotherBenefit page data and sponsor information when rudisillReview changes to Yes
+      if (value === 'Yes' && oldValue !== 'Yes') {
+        onChange({
+          ...formData,
+          rudisillReview: value,
+          changeAnotherBenefit: undefined,
+          benefitAppliedFor: undefined,
+          sponsorFullName: undefined,
+          sponsorSocialSecurityNumber: undefined,
+          vaFileNumber: undefined,
+          'view:noSSN': undefined,
+        });
       }
-    : {
-        changeAnotherBenefit: {
-          ...radioUI({
-            title: 'Do you want to change to another benefit?',
-            description: changeAnotherBenefitDescription,
-          }),
-        },
-        benefitAppliedFor: {
-          'ui:title': 'Which benefit do you want to change to?',
-          'ui:widget': 'radio',
-          'ui:required': formData => formData.changeAnotherBenefit === 'Yes',
-          'ui:options': {
-            labels: benefitsLabelsUpdate,
-            hideIf: formData => formData.changeAnotherBenefit !== 'Yes',
-          },
-        },
-      }),
+    },
+  },
 };
 
 export const schema = {
   type: 'object',
-  required: showRudisill1995()
-    ? ['benefitUpdate', 'rudisillReview']
-    : ['benefitUpdate'],
+  required: ['benefitUpdate', 'rudisillReview'],
   properties: {
     benefitUpdate: displayBenefit,
-    ...(!showRudisill1995()
-      ? {
-          changeAnotherBenefit: radioSchema(['Yes', 'No']),
-          benefitAppliedFor: displayNewBenefit,
-        }
-      : {
-          rudisillReview: radioSchema(['Yes', 'No']),
-        }),
+    rudisillReview: radioSchema(['Yes', 'No']),
   },
 };

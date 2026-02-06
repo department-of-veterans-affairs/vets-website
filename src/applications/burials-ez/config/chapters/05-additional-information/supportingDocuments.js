@@ -1,6 +1,17 @@
 import React from 'react';
-import { generateTitle } from '../../../utils/helpers';
+import PropTypes from 'prop-types';
+import { generateTitle, showPdfFormAlignment } from '../../../utils/helpers';
 
+/**
+ * UI description content for the Supporting documents page.
+ *
+ * Renders conditional guidance based on the benefits selected and details
+ * about the Veteran’s death and requested burial services.
+ *
+ * @param {Object} props - React component props.
+ * @param {Object} props.formData - Current form data from the form system.
+ * @returns {JSX.Element} Supporting documents description content.
+ */
 function Description(props) {
   const isClaimingBurialAllowance =
     props.formData['view:claimedBenefits'].burialAllowance;
@@ -15,6 +26,7 @@ function Description(props) {
   );
   const hasSelectedTransportationCosts =
     props.formData['view:claimedBenefits'].transportation;
+  const pdfAligned = showPdfFormAlignment();
 
   let supportingDocumentsContent;
   if (isDeathCertificateRequired) {
@@ -48,43 +60,48 @@ function Description(props) {
   return (
     <>
       <p>
-        Next we'll ask you to submit supporting documents for your claim. If you
-        upload all of your supporting documents online now, you may be able to
-        get a faster decision on your claim.
+        Next we’ll ask you to submit supporting documents for your application.
+        {!pdfAligned && (
+          <>
+            {' '}
+            If you upload all of your supporting documents online now, you may
+            be able to get a faster decision on your application.
+          </>
+        )}
       </p>
 
       <p>
-        <strong>Note:</strong> If we receive your claim and we need additional
-        documents, we'll ask you to submit them. If you don't respond within 30
-        days of our request, we may decide your claim with the information
-        that's available to us.
+        <strong>Note:</strong> If we receive your application and we need
+        additional documents, we’ll ask you to submit them. If you don’t respond
+        within 30 days of our request, we may decide your application with the
+        information that’s available to us.
       </p>
 
       {supportingDocumentsContent}
 
       <h3>Medical records</h3>
       <p>
-        If you're claiming a burial allowance for a service-connected death, we
-        recommend submitting the Veteran's medical records. How you submit their
-        records depends on if you have access to them right now.
+        If you’re applying for a burial allowance for a service-connected death,
+        we recommend submitting the Veteran’s medical records. How you submit
+        their records depends on if you have access to them right now.
       </p>
 
       <p>
         <strong>Note:</strong> It’s your choice whether you want to submit the
-        Veteran’s medical records. They'll help us process your claim and
-        confirm information about the Veteran's medical history at the time of
+        Veteran’s medical records. They’ll help us process your application and
+        confirm information about the Veteran’s medical history at the time of
         their death.
       </p>
 
       <h4>If you have access</h4>
       <p>
-        If you have access to the Veteran's medical records, you can submit
+        If you have access to the Veteran’s medical records, you can submit
         copies of them with your online application or send them to us by mail.
       </p>
 
       <h4>If you don’t have access</h4>
       <p>
-        If you don’t have access to the Veteran’s medical records, you'll need
+        If you don’t have access to the Veteran’s medical records, you’ll need
         to authorize the release of their records to us. How you release their
         records depends on where the Veteran was receiving care at the time of
         their death.
@@ -97,10 +114,11 @@ function Description(props) {
 
       <p>
         <strong>
-          If the Veteran was receiving care at a VA health facility at the time
-          of their death,
+          If the Veteran was receiving care at a VA or federal health facility
+          at the time of their death,
         </strong>{' '}
-        you can submit a statement in support of your claim (VA Form 21-4138).
+        you can submit a statement in support of your application (VA Form
+        21-4138).
       </p>
       <ul>
         <li>
@@ -157,6 +175,15 @@ function Description(props) {
   );
 }
 
+Description.propTypes = {
+  formData: PropTypes.object.isRequired,
+};
+
+/**
+ * Page configuration for the Supporting documents page.
+ *
+ * @type {{ uiSchema: Object, schema: Object }}
+ */
 export default {
   uiSchema: {
     'ui:title': generateTitle('Supporting documents'),

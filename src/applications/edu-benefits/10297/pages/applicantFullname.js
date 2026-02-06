@@ -1,21 +1,31 @@
 import {
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
-  titleUI,
   dateOfBirthSchema,
   dateOfBirthUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 import AgeEligibility from '../components/AgeEligibility';
+import PersonalInformation from '../components/PersonalInformation';
 import { getAgeInYears } from '../helpers';
 
 const uiSchema = {
-  ...titleUI('Name and date of birth'),
-  applicantFullName: fullNameNoSuffixUI(),
-  dateOfBirth: dateOfBirthUI({
-    title: 'What is your date of birth?',
-    errorMessages: { required: 'Please enter date of birth' },
-  }),
+  'ui:description': PersonalInformation,
+  applicantFullName: {
+    ...fullNameNoSuffixUI(),
+    'ui:options': {
+      hideIf: () => true,
+    },
+  },
+  dateOfBirth: {
+    ...dateOfBirthUI({
+      title: 'What is your date of birth?',
+      errorMessages: { required: 'Please enter date of birth' },
+    }),
+    'ui:options': {
+      hideIf: () => true,
+    },
+  },
   eligibilityAlert: {
     title: '',
     'ui:description': AgeEligibility,
@@ -36,11 +46,14 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    applicantFullName: fullNameNoSuffixSchema,
+    applicantFullName: {
+      ...fullNameNoSuffixSchema,
+      required: [],
+    },
     dateOfBirth: dateOfBirthSchema,
     eligibilityAlert: { type: 'object', properties: {} },
   },
-  required: ['applicantFullName', 'dateOfBirth'],
+  // required: ['applicantFullName', 'dateOfBirth'],
 };
 
 export { schema, uiSchema };

@@ -1,5 +1,9 @@
 import React from 'react';
 
+/**
+ * Renders pension header content
+ * @returns {React.ReactElement} Pension header
+ */
 export function PensionHeader() {
   return (
     <>
@@ -17,6 +21,10 @@ export function PensionHeader() {
   );
 }
 
+/**
+ * Pension footer content
+ * @returns {React.ReactElement} Pension footer
+ */
 export function PensionFooter() {
   return (
     <va-additional-info trigger="Why we ask for this information">
@@ -28,6 +36,10 @@ export function PensionFooter() {
   );
 }
 
+/**
+ * Net worth footer content
+ * @returns {React.ReactElement} Net worth footer
+ */
 export function NetWorthFooter() {
   return (
     <va-additional-info trigger="Why we ask for this information">

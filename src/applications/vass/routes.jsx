@@ -1,23 +1,47 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom-v5-compat';
-import Verify from './pages/Verify';
-import EnterOTC from './pages/EnterOTC';
-import DateTimeSelection from './pages/DateTimeSelection';
-import TopicSelection from './pages/TopicSelection';
-import Review from './pages/Review';
-import Confirmation from './pages/Confirmation';
 
-const routes = () => {
+import withAuthorization from './containers/withAuthorization';
+import withFormData from './containers/withFormData';
+import withFlowGuard from './containers/withFlowGuard';
+import Error from './pages/Error';
+import { routes } from './utils/navigation';
+import { AUTH_LEVELS, FLOW_TYPES } from './utils/constants';
+
+const createRoutes = () => {
   return (
     <Routes>
-      <Route index element={<Verify />} />
-      <Route path="/enter-otc" element={<EnterOTC />} />
-      <Route path="/date-time" element={<DateTimeSelection />} />
-      <Route path="/topic-selection" element={<TopicSelection />} />
-      <Route path="/review" element={<Review />} />
-      <Route path="/confirmation" element={<Confirmation />} />
+      {routes.map((route, index) => {
+        // Wrap protected routes with appropriate HOC
+        let Component = route.component;
+        const { requiresAuthorization, requireFormData } = route.permissions;
+
+        // 1. Apply authorization HOC first (checks token/auth level)
+        if (
+          requiresAuthorization === AUTH_LEVELS.TOKEN ||
+          requiresAuthorization === AUTH_LEVELS.LOW_AUTH_ONLY
+        ) {
+          Component = withAuthorization(Component, requiresAuthorization);
+        }
+
+        // 2. Apply form data requirements
+        if (requireFormData) {
+          Component = withFormData(
+            Component,
+            Array.isArray(requireFormData) ? requireFormData : [],
+          );
+        }
+
+        // 3. Apply flow guard (prevents switching between schedule/cancel flows)
+        if (route.flowType && route.flowType !== FLOW_TYPES.ANY) {
+          Component = withFlowGuard(Component, route.flowType);
+        }
+
+        return <Route key={index} path={route.path} element={<Component />} />;
+      })}
+      <Route path="*" element={<Error />} />
     </Routes>
   );
 };
 
-export default routes();
+export default createRoutes();

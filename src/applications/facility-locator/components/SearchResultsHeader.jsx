@@ -76,27 +76,51 @@ export const SearchResultsHeader = ({
 
   const handleNumberOfResults = () => {
     const { totalEntries, currentPage, totalPages } = pagination;
+
     if (noResultsFound) {
       return 'No results found';
     }
     if (totalEntries === 1) {
       return 'Showing 1 result';
     }
-    if (totalEntries < 11 && totalEntries > 1) {
+    if (totalEntries < 11) {
       return `Showing 1 - ${totalEntries} results`;
     }
+
     if (totalEntries > 10) {
       const startResultNum = 10 * (currentPage - 1) + 1;
-      let endResultNum;
-
-      if (currentPage !== totalPages) {
-        endResultNum = 10 * currentPage;
-      } else endResultNum = totalEntries;
+      const endResultNum =
+        currentPage !== totalPages ? 10 * currentPage : totalEntries;
 
       return `Showing ${startResultNum} - ${endResultNum} of ${totalEntries} results`;
     }
     return 'Results';
   };
+
+  const isSpecialCategory = [
+    LocationType.URGENT_CARE,
+    LocationType.EMERGENCY_CARE,
+  ].includes(facilityType);
+
+  const resultsPrefix = isSpecialCategory
+    ? `${messagePrefix} for `
+    : `${handleNumberOfResults()} for `;
+
+  const FormattedServiceTypeText = () =>
+    formattedServiceType ? (
+      <>
+        {`, `}
+        <b>{`"${formattedServiceType}"`}</b>
+      </>
+    ) : null;
+
+  const FormattedLocationText = () =>
+    location ? (
+      <>
+        {` near `}
+        <b>{`"${location}"`}</b>
+      </>
+    ) : null;
 
   return (
     <div>
@@ -105,28 +129,10 @@ export const SearchResultsHeader = ({
         className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
         tabIndex="-1"
       >
-        {[LocationType.URGENT_CARE, LocationType.EMERGENCY_CARE].includes(
-          facilityType,
-        )
-          ? messagePrefix
-          : handleNumberOfResults()}{' '}
-        for &quot;
-        <b>{facilityTypes[facilityType]}</b>
-        &quot;
-        {formattedServiceType && (
-          <>
-            ,&nbsp;&quot;
-            <b>{formattedServiceType}</b>
-            &quot;
-          </>
-        )}
-        {location && (
-          <>
-            &nbsp;near &quot;
-            <b>{location}</b>
-            &quot;
-          </>
-        )}
+        {`${resultsPrefix}`}
+        <b>{`"${facilityTypes[facilityType] || ''}"`}</b>
+        {FormattedServiceTypeText()}
+        {FormattedLocationText()}
       </h2>
     </div>
   );

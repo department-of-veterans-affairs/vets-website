@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { expect } from 'chai';
-import { daysFromToday } from './utils/dates/dateHelper';
+import { daysFromToday } from '../utils/dates/formatting';
 
 import formConfig from '../config/form';
 import { CHAR_LIMITS } from '../constants';
@@ -59,7 +59,7 @@ describe('transform', () => {
         } catch (e) {
           // Show the contents of the transformed data so we can make a file for it
           // eslint-disable-next-line no-console
-          console.error(
+          console.log(
             `Transformed ${fileName}:`,
             transform(formConfig, rawData),
           );
@@ -162,5 +162,81 @@ describe('Test internal transform functions', () => {
         )}`,
       },
     ]);
+  });
+});
+
+describe('Country code transformation in submit transformer', () => {
+  it('should keep USA country code as-is (not convert to "United States")', () => {
+    const form = {
+      data: {
+        ...maximalData.data,
+        mailingAddress: {
+          country: 'USA',
+          addressLine1: '123 Any Street',
+          city: 'Anyville',
+          state: 'AK',
+          zipCode: '12345',
+        },
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+    expect(result.form526.mailingAddress.country).to.equal('USA');
+  });
+
+  it('should transform country code "CAN" to "Canada" for submission', () => {
+    const form = {
+      data: {
+        ...maximalData.data,
+        mailingAddress: {
+          country: 'CAN',
+          addressLine1: '123 Maple Street',
+          city: 'Toronto',
+          state: 'ON',
+          zipCode: 'M1M 1M1',
+        },
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+    expect(result.form526.mailingAddress.country).to.equal('Canada');
+  });
+
+  it('should transform country code "GBR" to "United Kingdom" for submission', () => {
+    const form = {
+      data: {
+        ...maximalData.data,
+        mailingAddress: {
+          country: 'GBR',
+          addressLine1: '123 High Street',
+          city: 'London',
+          state: 'England',
+          zipCode: 'SW1A 1AA',
+        },
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+    expect(result.form526.mailingAddress.country).to.equal('United Kingdom');
+  });
+
+  it('should leave full country name as-is when no code mapping exists', () => {
+    const form = {
+      data: {
+        ...maximalData.data,
+        mailingAddress: {
+          country: 'Some Unknown Country',
+          addressLine1: '123 Unknown Street',
+          city: 'Unknown City',
+          state: 'UK',
+          zipCode: '00000',
+        },
+      },
+    };
+
+    const result = JSON.parse(transform(formConfig, form));
+    expect(result.form526.mailingAddress.country).to.equal(
+      'Some Unknown Country',
+    );
   });
 });

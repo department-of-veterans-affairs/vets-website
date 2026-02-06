@@ -52,7 +52,7 @@ const LoginContainer = () => {
               </li>
               <li className="vads-u-margin--0">
                 <a href="/resources/support-for-common-logingov-and-idme-issues/">
-                  Common issues with Login.gov or ID.me
+                  Common issues with ID.me or Login.gov
                 </a>
               </li>
             </ul>

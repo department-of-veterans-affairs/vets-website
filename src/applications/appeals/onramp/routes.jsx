@@ -29,6 +29,8 @@ const routes = {
     { path: ROUTES.Q_2_0_CLAIM_TYPE, component: QuestionTemplate },
     { path: ROUTES.Q_2_IS_1A_LAW_POLICY_CHANGE, component: QuestionTemplate },
     { path: ROUTES.Q_2_IS_1B_NEW_EVIDENCE, component: QuestionTemplate },
+    { path: ROUTES.Q_2_IS_1B_2_JUDGE_HEARING, component: QuestionTemplate },
+    { path: ROUTES.Q_2_IS_1B_3_JUDGE_HEARING, component: QuestionTemplate },
     { path: ROUTES.Q_2_S_1_NEW_EVIDENCE, component: QuestionTemplate },
     { path: ROUTES.Q_2_S_2_WITHIN_120_DAYS, component: QuestionTemplate },
     { path: ROUTES.Q_2_H_2_NEW_EVIDENCE, component: QuestionTemplate },

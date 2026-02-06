@@ -4,9 +4,23 @@ import PropTypes from 'prop-types';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 import ViewDependentsLists from './ViewDependentsListsV2';
 import ViewDependentsHeader from '../components/ViewDependentsHeader/ViewDependentsHeaderV2';
-import { isServerError, isClientError } from '../util';
 import { errorFragment, noDependentsAlertV2 } from './helpers';
 
+/**
+ * @typedef ViewDependentsLayoutProps
+ * @property {Boolean} error error status
+ * @property {Boolean} hasMinimumRating true if disability rating is 30 or higher
+ * @property {Boolean} loading loading state
+ * @property {Boolean} manageDependentsToggle feature toggle
+ * @property {Array} notOnAwardDependents list of inactive dependents
+ * @property {Array} onAwardDependents list of active dependents
+ */
+/**
+ * Renders view dependents page content
+ * List of view dependent Layout
+ * @param {ViewDependentsLayoutProps} props - Component props
+ * @returns {JSX.Element} View dependents page layout
+ */
 function ViewDependentsLayout(props) {
   let mainContent;
   let hasDependents = false;
@@ -15,16 +29,17 @@ function ViewDependentsLayout(props) {
     mainContent = (
       <va-loading-indicator message="Loading your information..." />
     );
-  } else if (props.error && isServerError(props.error.code)) {
+  } else if (props.error) {
     mainContent = <va-alert status="error">{errorFragment}</va-alert>;
   } else if (
-    (props.error && isClientError(props.error.code)) ||
-    (props.onAwardDependents == null && props.notOnAwardDependents == null)
+    props.onAwardDependents.length === 0 &&
+    props.notOnAwardDependents.length === 0
   ) {
     mainContent = noDependentsAlertV2;
   } else {
-    // Don't show the alert if there are no on award dependents
-    hasDependents = props.onAwardDependents?.length > 0;
+    // Only show the alert if there are on award dependents AND a rating of 30+
+    hasDependents =
+      props.onAwardDependents.length > 0 && props.hasMinimumRating;
     mainContent = (
       <ViewDependentsLists
         manageDependentsToggle={props.manageDependentsToggle}
@@ -32,20 +47,19 @@ function ViewDependentsLayout(props) {
         hasDependents={hasDependents}
         onAwardDependents={props.onAwardDependents}
         notOnAwardDependents={props.notOnAwardDependents}
-        dependencyVerificationToggle={props.dependencyVerificationToggle}
       />
     );
   }
 
   const showActionLink =
-    !hasDependents &&
-    (props.notOnAwardDependents === null ||
-      props.notOnAwardDependents?.length === 0);
+    !hasDependents && props.notOnAwardDependents.length === 0;
   const layout = (
     <>
       <ViewDependentsHeader
         updateDiariesStatus={props.updateDiariesStatus}
         showAlert={hasDependents}
+        hasAwardDependents={props.onAwardDependents.length > 0}
+        hasMinimumRating={props.hasMinimumRating}
       />
       {mainContent}
       {showActionLink && (
@@ -64,9 +78,9 @@ function ViewDependentsLayout(props) {
 }
 
 ViewDependentsLayout.propTypes = {
-  dependencyVerificationToggle: PropTypes.bool,
   dependentsToggle: PropTypes.bool,
   error: PropTypes.object,
+  hasMinimumRating: PropTypes.bool,
   loading: PropTypes.bool,
   manageDependentsToggle: PropTypes.bool,
   notOnAwardDependents: PropTypes.array,

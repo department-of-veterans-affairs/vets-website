@@ -45,8 +45,9 @@ export const MedicalExpensesDescription = () => {
         <div>
           <p className="vads-u-margin-top--0">
             Non-reimbursable medical expenses include costs you or your spouse
-            paid for these types of health care for yourselves, your dependents,
-            or others you have the moral obligation to support:
+            (if you’re married) paid for these types of health care for
+            yourselves, your dependents, or others you have the legal or moral
+            obligation to support:
           </p>
           <ul>
             <li>Doctor or dentist appointments</li>

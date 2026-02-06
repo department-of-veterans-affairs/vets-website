@@ -40,7 +40,6 @@ describe('<AppContent>', () => {
         login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
         profile: {
           services: [
-            backendServices.EVSS_CLAIMS,
             backendServices.APPEALS_STATUS,
             backendServices.LIGHTHOUSE,
           ],
@@ -88,7 +87,6 @@ describe('<AppContent>', () => {
         login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
         profile: {
           services: [
-            backendServices.EVSS_CLAIMS,
             backendServices.APPEALS_STATUS,
             backendServices.LIGHTHOUSE,
           ],
@@ -161,7 +159,6 @@ describe('<AppContent>', () => {
         login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
         profile: {
           services: [
-            backendServices.EVSS_CLAIMS,
             backendServices.APPEALS_STATUS,
             backendServices.LIGHTHOUSE,
           ],
@@ -233,7 +230,6 @@ describe('<ClaimsStatusApp> - Platform DataDog RUM Integration', () => {
         login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
         profile: {
           services: [
-            backendServices.EVSS_CLAIMS,
             backendServices.APPEALS_STATUS,
             backendServices.LIGHTHOUSE,
           ],
@@ -262,6 +258,7 @@ describe('<ClaimsStatusApp> - Platform DataDog RUM Integration', () => {
       clientToken: 'pub21bfd23fdfb656231f24906ea91ccb01',
       service: 'benefits-claim-status-tool',
       version: '1.0.0',
+      sessionReplaySampleRate: 50,
     });
   });
 
@@ -304,7 +301,6 @@ describe('<ClaimsStatusApp> - Platform DataDog RUM Integration', () => {
         login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
         profile: {
           services: [
-            backendServices.EVSS_CLAIMS,
             backendServices.APPEALS_STATUS,
             backendServices.LIGHTHOUSE,
           ],
@@ -339,7 +335,6 @@ describe('<ClaimsStatusApp> - Platform DataDog RUM Integration', () => {
         login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
         profile: {
           services: [
-            backendServices.EVSS_CLAIMS,
             backendServices.APPEALS_STATUS,
             backendServices.LIGHTHOUSE,
           ],

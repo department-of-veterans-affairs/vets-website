@@ -19,16 +19,26 @@ export const locationOfDeathLabels = {
 };
 
 export const allowanceLabels = {
-  nonService:
-    'I’m claiming a burial allowance for a non-service-connected death',
-  service: 'I’m claiming a burial allowance for a service-connected death',
-  unclaimed:
-    'I’m claiming a burial allowance for the unclaimed remains of a Veteran',
+  service: {
+    title: 'Burial allowance for a service-connected death',
+    description:
+      'Select if the Veteran’s death was caused by an illness, injury, or condition related to their military service.',
+  },
+  nonService: {
+    title: 'Burial allowance for a non-service-connected death',
+    description:
+      'Select if the Veteran’s death wasn’t caused by their military service.',
+  },
+  unclaimed: {
+    title: 'Burial allowance for a Veteran’s unclaimed remains',
+    description:
+      'Select if the Veteran’s remains have not been claimed by relatives or friends.',
+  },
 };
 
 export const benefitsLabels = {
   burialAllowance: 'Burial and funeral costs',
-  plotAllowance: 'Cost of the plot (gravesite) or interment',
+  plotAllowance: 'Cost of the plot (gravesite) or final resting place',
   transportation:
     'Transportation costs of transporting the Veteran’s remains to the final resting place',
 };
@@ -36,7 +46,7 @@ export const benefitsLabels = {
 export const restingPlaceLabels = {
   cemetery: 'Cemetery or graveyard',
   mausoleum: 'Mausoleum, vault, tomb, or crypt',
-  privateResidence: 'Private residence',
+  privateResidence: 'Private residence or at home',
   other: 'Other',
 };
 
@@ -50,4 +60,15 @@ export const fasterClaimLabels = {
   Y:
     'Yes. I’ve uploaded all my supporting documents for my application for burial benefits',
   N: 'No. I have other supporting documents to submit later',
+};
+
+export const serviceBranchLabels = {
+  army: 'Army',
+  navy: 'Navy',
+  airForce: 'Air Force',
+  coastGuard: 'Coast Guard',
+  marineCorps: 'Marine Corps',
+  spaceForce: 'Space Force',
+  usphs: 'USPHS',
+  noaa: 'NOAA',
 };

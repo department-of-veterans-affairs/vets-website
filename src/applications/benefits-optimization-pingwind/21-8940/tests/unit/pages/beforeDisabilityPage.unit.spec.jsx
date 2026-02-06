@@ -13,7 +13,7 @@ const {
 
 const pageTitle = 'education and training before disability';
 
-const expectedNumberOfFields = 0; // only yes/no is always visible all values are in the page itself no field values
+const expectedNumberOfFields = 0;
 testNumberOfFields(
   formConfig,
   schema,
@@ -40,7 +40,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 0;
+const expectedNumberOfWebComponentErrors = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

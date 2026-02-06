@@ -3,6 +3,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { displayFileSize } from 'platform/utilities/ui/index';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
+import { infoTokenExists, refresh } from 'platform/utilities/oauth/utilities';
 import { timeFromNow } from '../../../utilities/date';
 import { transformForSubmit, handleSessionRefresh } from './helpers';
 
@@ -107,7 +108,13 @@ export function setItf(data) {
   };
 }
 
-export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
+export function submitToUrl(
+  body,
+  submitUrl,
+  trackingPrefix,
+  eventData,
+  hasAttemptedTokenRefresh = false,
+) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
   return new Promise((resolve, reject) => {
@@ -126,6 +133,34 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
           'response' in req ? req.response : req.responseText;
         const results = JSON.parse(responseBody || '{}');
         resolve(results);
+      } else if (req.status === 403 && !hasAttemptedTokenRefresh) {
+        try {
+          const errorResponse = JSON.parse(req.response);
+          const errorMessage = errorResponse?.errors || '';
+          const isTokenExpired = errorMessage.includes('token has expired');
+
+          if (isTokenExpired && infoTokenExists()) {
+            refresh({ type: sessionStorage.getItem('serviceName') })
+              .then(() => {
+                return submitToUrl(
+                  body,
+                  submitUrl,
+                  trackingPrefix,
+                  eventData,
+                  true,
+                );
+              })
+              .then(resolve)
+              .catch(reject);
+            return;
+          }
+        } catch (e) {
+          // JSON parse error, fall through to reject
+        }
+        // If we couldn't refresh or it wasn't a token expiration, reject with error
+        const error = new Error(`vets_server_error: ${req.statusText}`);
+        error.statusText = req.statusText;
+        reject(error);
       } else {
         let error;
         if (req.status === 429) {
@@ -237,6 +272,7 @@ export function uploadFile(
   onError,
   trackingPrefix,
   password,
+  hasAttemptedTokenRefresh = false,
 ) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
@@ -350,6 +386,32 @@ export function uploadFile(
           ...fileData,
           isEncrypted: !!password,
         });
+      } else if (req.status === 403 && !hasAttemptedTokenRefresh) {
+        let errorResponse;
+        try {
+          errorResponse = JSON.parse(req.response);
+          const errorMessage = errorResponse?.errors || '';
+          const isTokenExpired = errorMessage.includes('token has expired');
+
+          if (isTokenExpired && infoTokenExists()) {
+            refresh({ type: sessionStorage.getItem('serviceName') }).then(
+              () => {
+                return uploadFile(
+                  file,
+                  uiOptions,
+                  onProgress,
+                  onChange,
+                  onError,
+                  trackingPrefix,
+                  password,
+                  true,
+                )(dispatch, getState);
+              },
+            );
+          }
+        } catch (e) {
+          // fall through to show error
+        }
       } else {
         const fileObj = { file, name: file.name, size: file.size };
         let errorMessage = req.statusText;

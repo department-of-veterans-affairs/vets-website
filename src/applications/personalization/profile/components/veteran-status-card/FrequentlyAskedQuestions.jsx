@@ -15,7 +15,7 @@ const FrequentlyAskedQuestions = ({ createPdf, pdfError = false }) => (
           To fix an error in your disability rating, call us at{' '}
           <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
           <va-telephone contact={CONTACTS[711]} tty />
-          ).
+          ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
         </p>
         <p>
           To correct your service history information, call the Defense Manpower
@@ -61,6 +61,13 @@ const FrequentlyAskedQuestions = ({ createPdf, pdfError = false }) => (
               <PDFErrorAlert />
             </div>
           )}
+          <p>
+            <strong>Note:</strong> The Veteran Status Card is for identification
+            only and doesn’t guarantee benefits. Additional documentation may be
+            required. You may be unable to print your Veteran Status Card if
+            you’re ineligible, if there are issues with your records, or if a
+            system error occurs.
+          </p>
         </va-accordion-item>
       )}
       <va-accordion-item

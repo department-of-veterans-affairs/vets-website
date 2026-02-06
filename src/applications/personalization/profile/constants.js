@@ -11,6 +11,7 @@ export const PROFILE_TOGGLES = {
   profileShowPaperlessDelivery: false,
   profile2Enabled: false,
   profileHealthCareSettingsPage: false,
+  profileHideHealthCareContacts: false,
 };
 
 // The values of these constants map to the possible values that come back from
@@ -23,6 +24,8 @@ export const USA_MILITARY_BRANCHES = Object.freeze({
   marineCorps: 'Marine Corps',
   spaceForce: 'Space Force',
 });
+
+export const VA_SEAL_IMAGE_PATH = '/img/design/seal/seal.png';
 
 export const SERVICE_BADGE_IMAGE_PATHS = new Map([
   [USA_MILITARY_BRANCHES.army, '/img/vic-army-symbol.png'],
@@ -40,6 +43,9 @@ export const PROFILE_BREADCRUMB_BASE = [
   { href: '/profile', label: 'Profile', isRouterLink: true },
 ];
 
+const SCHEDULING_PREF_BASE_PATH =
+  '/profile/health-care-settings/scheduling-preferences';
+
 export const PROFILE_PATHS = Object.freeze({
   PROFILE_ROOT: '/profile',
   PERSONAL_INFORMATION: '/profile/personal-information',
@@ -51,8 +57,11 @@ export const PROFILE_PATHS = Object.freeze({
   HEALTH_CARE_SETTINGS: '/profile/health-care-settings',
   SCHEDULING_PREFERENCES:
     '/profile/health-care-settings/scheduling-preferences',
+  SCHEDULING_PREF_CONTACT_METHOD: `${SCHEDULING_PREF_BASE_PATH}/contact-method`,
+  SCHEDULING_PREF_CONTACT_TIMES: `${SCHEDULING_PREF_BASE_PATH}/contact-times`,
+  SCHEDULING_PREF_APPOINTMENT_TIMES: `${SCHEDULING_PREF_BASE_PATH}/appointment-times`,
   HEALTH_CARE_CONTACTS: '/profile/contacts',
-  SECURE_MESSAGES_SIGNATURE: '/profile/mhv-signature',
+  MESSAGES_SIGNATURE: '/profile/message-signature',
   DEPENDENTS_AND_CONTACTS: '/profile/dependents-and-contacts',
   CONTACTS: '/profile/contacts',
   ACCREDITED_REPRESENTATIVE: '/profile/accredited-representative',
@@ -77,8 +86,11 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   DIRECT_DEPOSIT: 'Direct deposit information',
   HEALTH_CARE_SETTINGS: 'Health care settings',
   SCHEDULING_PREFERENCES: 'Scheduling preferences',
+  SCHEDULING_PREF_CONTACT_METHOD: 'Contact method',
+  SCHEDULING_PREF_CONTACT_TIMES: 'Contact times',
+  SCHEDULING_PREF_APPOINTMENT_TIMES: 'Appointment times',
   HEALTH_CARE_CONTACTS: 'Health care contacts',
-  SECURE_MESSAGES_SIGNATURE: 'Secure messages signature',
+  MESSAGES_SIGNATURE: 'Messages signature',
   DEPENDENTS_AND_CONTACTS: 'Dependents and contacts',
   CONTACTS: 'Personal health care contacts',
   ACCREDITED_REPRESENTATIVE: 'Accredited representative or VSO',
@@ -198,6 +210,13 @@ export const NOTIFICATION_ITEM_IDS = Object.freeze({
   QUICK_SUBMIT: `item${RAW_IDS.QUICK_SUBMIT}`,
   BENEFIT_OVERPAYMENT_DEBT: `item${RAW_IDS.BENEFIT_OVERPAYMENT_DEBT}`,
   HEALTH_CARE_COPAY_BILL: `item${RAW_IDS.HEALTH_CARE_COPAY_BILL}`,
+});
+
+export const NOTIFICATION_ITEM_DESCRIPTIONS = Object.freeze({
+  [NOTIFICATION_ITEM_IDS.MEDICAL_IMAGES]:
+    'Notifications for when you can download the medical images you requested.',
+  [NOTIFICATION_ITEM_IDS.PRESCRIPTION_SHIPMENT]:
+    'Only available at some VA health facilities. Select both options to get all available notifications.',
 });
 
 export const NOTIFICATION_CHANNEL_IDS = Object.freeze({

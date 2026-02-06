@@ -233,11 +233,21 @@ const EditContactList = () => {
 
       <p className="vads-u-margin-bottom--3">
         Select and save the care teams you want to send messages to. You must
-        select at least one care team
-        {vistaFacilities?.length > 1
-          ? ' from one of your facilities.'
-          : '.'}{' '}
+        select at least 1 care team
+        {vistaFacilities?.length > 1 ? ' from 1 of your facilities.' : '.'}{' '}
+        <br />
+        <br />
+        <b>Note:</b> You can only edit care teams from some facilities. So all
+        facilities won’t be listed here.
       </p>
+
+      {isSaving && (
+        <va-loading-indicator
+          message="Saving your contact list..."
+          set-focus
+          data-testid="contact-list-saving-indicator"
+        />
+      )}
 
       {error && (
         <div>

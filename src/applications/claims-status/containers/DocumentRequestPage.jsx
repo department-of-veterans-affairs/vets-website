@@ -15,13 +15,8 @@ import {
   resetUploads,
   submitFiles,
 } from '../actions';
-import {
-  setDocumentRequestPageTitle,
-  getClaimType,
-  isAutomated5103Notice,
-  setPageTitle,
-  getLabel,
-} from '../utils/helpers';
+import { getClaimType } from '../utils/helpers';
+import * as TrackedItem from '../utils/trackedItemContent';
 import { setUpPage, setPageFocus, focusNotificationAlert } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
@@ -32,11 +27,11 @@ const statusPath = '../status';
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    setPageTitle(this.props.trackedItem);
+    TrackedItem.setPageTitle(this.props.trackedItem);
     if (!this.props.loading) {
       setUpPage(true, 'h1');
     } else {
-      scrollToTop();
+      scrollToTop({ behavior: 'instant' });
     }
   }
 
@@ -55,7 +50,7 @@ class DocumentRequestPage extends React.Component {
   componentDidUpdate(prevProps) {
     if (!this.props.loading && prevProps.loading) {
       setPageFocus('h1');
-      setPageTitle(this.props.trackedItem);
+      TrackedItem.setPageTitle(this.props.trackedItem);
     }
   }
 
@@ -131,7 +126,9 @@ class DocumentRequestPage extends React.Component {
             ? 'needed-from-you'
             : 'needed-from-others'
         }/${params.trackedItemId}`,
-        label: setDocumentRequestPageTitle(getLabel(trackedItem)),
+        label: TrackedItem.setDocumentRequestPageTitle(
+          TrackedItem.getLabel(trackedItem),
+        ),
         isRouterLink: true,
       },
     ];
@@ -162,7 +159,7 @@ class DocumentRequestPage extends React.Component {
                 />
               </div>
             )}
-          {isAutomated5103Notice(trackedItem.displayName) ? (
+          {TrackedItem.isAutomated5103Notice(trackedItem.displayName) ? (
             <Default5103EvidenceNotice item={trackedItem} />
           ) : (
             <>{this.getDefaultPage()}</>

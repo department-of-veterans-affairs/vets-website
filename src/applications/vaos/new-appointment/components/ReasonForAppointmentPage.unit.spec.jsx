@@ -45,44 +45,11 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
         }),
       ).to.exist;
 
-      // And the user should see radio buttons for each clinic
-      const radioOptions = screen.getAllByRole('radio');
-      expect(radioOptions).to.have.lengthOf(4);
-      await screen.findByLabelText(/This is a routine or follow-up visit./i);
-      await screen.findByLabelText(/I have a new medical problem./i);
-      await screen.findByLabelText(
-        /I have a concern or question about my medication./i,
-      );
-      await screen.findByLabelText(/My reason isn’t listed here./i);
-
       expect(
         screen.getByRole('heading', {
           name: /Only schedule appointments for non-urgent needs/i,
         }),
       );
-    });
-
-    it('should show validation for VA medical request', async () => {
-      const store = createTestStore(initialState);
-      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
-        store,
-      });
-      await screen.findByText(/Continue/i);
-
-      // click continue without selecting from radio button
-      fireEvent.click(screen.getByText(/Continue/));
-
-      // Then there should be a validation error
-      expect(await screen.findByText('Select a reason for your appointment')).to
-        .exist;
-      expect(screen.history.push.called).to.be.false;
-
-      fireEvent.click(
-        screen.getByText(/This is a routine or follow-up visit./),
-      );
-      fireEvent.click(screen.getByText(/Continue/));
-      expect(screen.queryByText('Select a reason for your appointment')).to.not
-        .exist;
     });
 
     it('should show error msg when not entering additional detail for appointment request', async () => {
@@ -98,10 +65,6 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
         store,
       });
       await screen.findByText(/Continue/i);
-
-      fireEvent.click(
-        screen.getByText(/This is a routine or follow-up visit./),
-      );
       fireEvent.click(screen.getByText(/Continue/));
 
       expect(await screen.findByRole('alert')).to.contain.text(
@@ -122,10 +85,6 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
         store,
       });
       await screen.findByText(/Continue/i);
-
-      fireEvent.click(
-        screen.getByText(/This is a routine or follow-up visit./),
-      );
       fireEvent.click(screen.getByText(/Continue/));
 
       expect(await screen.findByRole('alert')).to.contain.text(
@@ -280,6 +239,110 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
           'contact-information',
         ),
       );
+    });
+  });
+
+  describe('OH Request flow (updateRequestFlow)', () => {
+    const ohRequestState = {
+      featureToggles: {
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingCommunityCare: true,
+        vaOnlineSchedulingUseVpg: true,
+      },
+      user: {
+        profile: {
+          facilities: [
+            { facilityId: '983', isCerner: false },
+            { facilityId: '984', isCerner: false },
+          ],
+        },
+      },
+      newAppointment: {
+        data: {
+          // Use the actual ID for Food and Nutrition (123), not the idV2
+          typeOfCareId: '123',
+        },
+        pages: {},
+        facilities: {
+          // Key must match the typeOfCare.id ('123')
+          123: [
+            {
+              id: '983',
+              name: 'Test Facility',
+            },
+          ],
+        },
+        flowType: FLOW_TYPES.REQUEST,
+      },
+    };
+
+    it('should not show radio buttons for OH request flow', async () => {
+      const store = createTestStore(ohRequestState);
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+
+      await screen.findByText(/Continue/i);
+
+      // Radio buttons should not be present for OH request flow
+      const radioOptions = screen.queryAllByRole('radio');
+      expect(radioOptions).to.have.lengthOf(0);
+    });
+
+    it('should not show (*Required) indicator for OH request flow', async () => {
+      const store = createTestStore(ohRequestState);
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+
+      await screen.findByText(/Continue/i);
+
+      // The (*Required) span should not be present
+      expect(screen.queryByText('(*Required)')).to.not.exist;
+    });
+
+    it('should show textarea for additional info in OH request flow', async () => {
+      const store = createTestStore(ohRequestState);
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+
+      await screen.findByText(/Continue/i);
+
+      // Textarea should still be present
+      expect(screen.getByTestId('reason-comment-field')).to.exist;
+    });
+
+    it('should show validation error when textarea is empty in OH request flow', async () => {
+      const store = createTestStore(ohRequestState);
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+
+      await screen.findByText(/Continue/i);
+
+      // Click continue without entering text
+      fireEvent.click(screen.getByText(/Continue/));
+
+      expect(await screen.findByRole('alert')).to.contain.text(
+        'Provide more information about why you are requesting this appointment',
+      );
+    });
+
+    it('should not show radio button validation for OH request flow', async () => {
+      const store = createTestStore(ohRequestState);
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+
+      await screen.findByText(/Continue/i);
+
+      // Click continue without any input
+      fireEvent.click(screen.getByText(/Continue/));
+
+      // Should NOT show the radio button validation error
+      expect(screen.queryByText('Select a reason for your appointment')).to.not
+        .exist;
     });
   });
 });

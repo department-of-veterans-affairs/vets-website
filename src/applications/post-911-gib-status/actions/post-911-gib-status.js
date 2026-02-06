@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/browser';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from 'platform/utilities/environment';
 
 import {
   BACKEND_AUTHENTICATION_ERROR,
@@ -11,10 +12,14 @@ import {
   SERVICE_DOWNTIME_ERROR,
 } from '../utils/constants';
 
-export function getEnrollmentData(apiVersion) {
-  return dispatch =>
-    apiRequest(
-      '/post911_gi_bill_status',
+export function getEnrollmentData(apiVersion, enableSobClaimantService) {
+  return dispatch => {
+    const sobUrl = `${environment.API_URL}/sob/v0/ch33_status`;
+    const updatedUrl = enableSobClaimantService
+      ? sobUrl
+      : '/post911_gi_bill_status';
+    return apiRequest(
+      updatedUrl,
       apiVersion,
       response => {
         recordEvent({ event: 'post911-status-success' });
@@ -68,4 +73,5 @@ export function getEnrollmentData(apiVersion) {
       Sentry.captureException(error);
       return dispatch({ type: GET_ENROLLMENT_DATA_FAILURE });
     });
+  };
 }

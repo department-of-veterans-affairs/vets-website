@@ -44,4 +44,30 @@ describe('IntroductionPage', () => {
     expect(wrapper.find(LoadingIndicator)).to.have.lengthOf(1);
     wrapper.unmount();
   });
+
+  it('displays the new H1 and H2 titles when meb1995Reroute is true', () => {
+    const wrapper = shallow(<IntroductionPage {...baseProps} meb1995Reroute />);
+    const h1 = wrapper.find('h1');
+    const h2 = wrapper.find('h2').first();
+
+    expect(h1.text()).to.equal('Apply for VA education benefits');
+    expect(h2.text()).to.equal(
+      'Application for VA Education Benefits (VA Form 22-1990)',
+    );
+    wrapper.unmount();
+  });
+
+  it('displays the original H1 and H2 titles when meb1995Reroute is false', () => {
+    const wrapper = shallow(
+      <IntroductionPage {...baseProps} meb1995Reroute={false} />,
+    );
+    const h1 = wrapper.find('h1');
+    const h2 = wrapper.find('h2').first();
+
+    expect(h1.text()).to.equal('Apply for VA education benefits Form 22-1990');
+    expect(h2.text()).to.equal(
+      'Equal to VA Form 22-1990 (Application for VA Education Benefits)',
+    );
+    wrapper.unmount();
+  });
 });

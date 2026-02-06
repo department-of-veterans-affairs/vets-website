@@ -1,8 +1,8 @@
-import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
 import defaultVitals from '../fixtures/vitals.json';
+import { dateFormatWithoutTimezone } from '../../util/dateHelpers';
 
 describe('Medical Records Vitals Details Page', () => {
   const site = new MedicalRecordsSite();
@@ -18,9 +18,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
-      moment
-        .parseZone(defaultVitals.entry[3].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      dateFormatWithoutTimezone(
+        defaultVitals.entry[3].resource.effectiveDateTime,
+      ),
       `${Math.floor(
         defaultVitals.entry[3].resource.valueQuantity.value / 12,
       )} feet, ${defaultVitals.entry[3].resource.valueQuantity.value %
@@ -31,9 +31,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       1,
-      moment
-        .parseZone(defaultVitals.entry[13].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      dateFormatWithoutTimezone(
+        defaultVitals.entry[13].resource.effectiveDateTime,
+      ),
       `${Math.floor(
         defaultVitals.entry[13].resource.valueQuantity.value / 12,
       )} feet, ${defaultVitals.entry[13].resource.valueQuantity.value %
@@ -44,9 +44,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       2,
-      moment
-        .parseZone(defaultVitals.entry[23].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      dateFormatWithoutTimezone(
+        defaultVitals.entry[23].resource.effectiveDateTime,
+      ),
       `${Math.floor(
         defaultVitals.entry[23].resource.valueQuantity.value / 12,
       )} feet, ${defaultVitals.entry[23].resource.valueQuantity.value %
@@ -57,9 +57,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       3,
-      moment
-        .parseZone(defaultVitals.entry[33].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      dateFormatWithoutTimezone(
+        defaultVitals.entry[33].resource.effectiveDateTime,
+      ),
       `${Math.floor(
         defaultVitals.entry[33].resource.valueQuantity.value / 12,
       )} feet, ${defaultVitals.entry[33].resource.valueQuantity.value %

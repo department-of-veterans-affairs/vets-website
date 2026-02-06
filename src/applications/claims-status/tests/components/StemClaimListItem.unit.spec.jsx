@@ -4,7 +4,6 @@ import { fireEvent } from '@testing-library/dom';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as recordEventModule from '~/platform/monitoring/record-event';
 import { renderWithRouter } from '../utils';
 import StemClaimListItem from '../../components/StemClaimListItem';
@@ -57,13 +56,13 @@ describe('<StemClaimListItem>', () => {
 
   it('when click claimCardLink, should call record event', () => {
     const recordEventStub = sinon.stub(recordEventModule, 'default');
-    const { getByText, container } = renderWithRouter(
+    const { container } = renderWithRouter(
       <Provider store={getStore()}>
         <StemClaimListItem claim={defaultClaim} />
       </Provider>,
     );
-    getByText('Details');
-    const claimCardLink = $('a', container);
+    const claimCardLink = container.querySelector('va-link[text="Details"]');
+    expect(claimCardLink).to.exist;
     fireEvent.click(claimCardLink);
 
     expect(

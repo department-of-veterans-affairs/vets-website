@@ -14,6 +14,16 @@ import { getByBrokenText } from '../../util/testUtils';
 import { Paths } from '../../util/constants';
 
 describe('Interstitial page', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   const initialState = (isNewFlow = false) => {
     return {
       featureToggles: {
@@ -133,7 +143,7 @@ describe('Interstitial page', () => {
     });
 
     it('"Start a new message" link responds on Enter key', async () => {
-      const updateAcknowledgeSpy = sinon.spy(
+      const updateAcknowledgeSpy = sandbox.spy(
         threadDetailsActions,
         'acceptInterstitial',
       );
@@ -144,12 +154,11 @@ describe('Interstitial page', () => {
       });
       const startMessageLink = screen.getByTestId('start-message-link');
       userEvent.type(startMessageLink, '{enter}');
-      sinon.assert.calledWith(updateAcknowledgeSpy);
-      updateAcknowledgeSpy.restore();
+      sandbox.assert.calledWith(updateAcknowledgeSpy);
     });
 
     it('"Start a new message" link responds on Space key', async () => {
-      const updateAcknowledgeSpy = sinon.spy(
+      const updateAcknowledgeSpy = sandbox.spy(
         threadDetailsActions,
         'acceptInterstitial',
       );
@@ -160,8 +169,7 @@ describe('Interstitial page', () => {
       });
       const startMessageLink = screen.getByTestId('start-message-link');
       userEvent.type(startMessageLink, '{space}');
-      sinon.assert.calledWith(updateAcknowledgeSpy);
-      updateAcknowledgeSpy.restore();
+      sandbox.assert.calledWith(updateAcknowledgeSpy);
     });
 
     it('"Start a new message" link does not respond on Tab key', async () => {
@@ -239,7 +247,7 @@ describe('Interstitial page', () => {
   });
 
   it('dispatches getRecentRecipients when allRecipients exist and recentRecipients is undefined', async () => {
-    const getRecentRecipientsSpy = sinon.spy(
+    const getRecentRecipientsSpy = sandbox.spy(
       recipientsActions,
       'getRecentRecipients',
     );
@@ -268,12 +276,10 @@ describe('Interstitial page', () => {
       expect(getRecentRecipientsSpy.calledOnce).to.be.true;
       expect(getRecentRecipientsSpy.calledWith(6)).to.be.true;
     });
-
-    getRecentRecipientsSpy.restore();
   });
 
   it('does NOT dispatch getRecentRecipients when recentRecipients is already defined', async () => {
-    const getRecentRecipientsSpy = sinon.spy(
+    const getRecentRecipientsSpy = sandbox.spy(
       recipientsActions,
       'getRecentRecipients',
     );
@@ -297,12 +303,10 @@ describe('Interstitial page', () => {
     await waitFor(() => {
       expect(getRecentRecipientsSpy.called).to.be.false;
     });
-
-    getRecentRecipientsSpy.restore();
   });
 
   it('clicking continue link with type=reply calls acceptInterstitial but does not navigate', async () => {
-    const acceptInterstitialSpy = sinon.spy(
+    const acceptInterstitialSpy = sandbox.spy(
       threadDetailsActions,
       'acceptInterstitial',
     );
@@ -337,8 +341,6 @@ describe('Interstitial page', () => {
       // Should not navigate when type is 'reply'
       expect(history.location.pathname).to.equal(initialPath);
     });
-
-    acceptInterstitialSpy.restore();
   });
 
   it('renders without errors when prescriptionId is in URL params', () => {
@@ -368,7 +370,7 @@ describe('Interstitial page', () => {
   });
 
   it('dispatches clearPrescription when prescriptionId is not in URL params', async () => {
-    const clearPrescriptionSpy = sinon.spy(
+    const clearPrescriptionSpy = sandbox.spy(
       prescriptionActions,
       'clearPrescription',
     );
@@ -392,12 +394,10 @@ describe('Interstitial page', () => {
     await waitFor(() => {
       expect(clearPrescriptionSpy.calledOnce).to.be.true;
     });
-
-    clearPrescriptionSpy.restore();
   });
 
   it('dispatches redirectPath when redirectPath is in URL params', async () => {
-    const redirectPathSpy = sinon.spy(prescriptionActions, 'setRedirectPath');
+    const redirectPathSpy = sandbox.spy(prescriptionActions, 'setRedirectPath');
 
     // Component only dispatches setRedirectPath when recentRecipients is defined
     const stateWithRecentRecipients = {
@@ -419,16 +419,14 @@ describe('Interstitial page', () => {
       expect(redirectPathSpy.calledOnce).to.be.true;
       expect(redirectPathSpy.calledWith('/some/other/path')).to.be.true;
     });
-
-    redirectPathSpy.restore();
   });
 
   it('dispatches getPrescriptionById and acceptInterstitial when prescriptionId is in URL params', async () => {
-    const getPrescriptionSpy = sinon.spy(
+    const getPrescriptionSpy = sandbox.spy(
       prescriptionActions,
       'getPrescriptionById',
     );
-    const acceptInterstitialSpy = sinon.spy(
+    const acceptInterstitialSpy = sandbox.spy(
       threadDetailsActions,
       'acceptInterstitial',
     );
@@ -458,13 +456,10 @@ describe('Interstitial page', () => {
       expect(acceptInterstitialSpy.calledOnce).to.be.true;
       expect(history.location.pathname).to.equal('/new-message/recent/');
     });
-
-    getPrescriptionSpy.restore();
-    acceptInterstitialSpy.restore();
   });
 
   it('does NOT dispatch redirectPath when redirectPath is NOT in URL params', async () => {
-    const redirectPathSpy = sinon.spy(prescriptionActions, 'setRedirectPath');
+    const redirectPathSpy = sandbox.spy(prescriptionActions, 'setRedirectPath');
 
     // Component requires recentRecipients to be defined to process URL params
     const stateWithRecentRecipients = {
@@ -485,7 +480,51 @@ describe('Interstitial page', () => {
     await waitFor(() => {
       expect(redirectPathSpy.calledOnce).to.be.false;
     });
+  });
 
-    redirectPathSpy.restore();
+  it('redirects to inbox when recipientsError is true', async () => {
+    const stateWithRecipientsError = {
+      ...initialState(true),
+      sm: {
+        recipients: {
+          allRecipients: [],
+          recentRecipients: undefined,
+          error: true,
+        },
+      },
+    };
+
+    const { history } = renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: stateWithRecipientsError,
+      reducers: reducer,
+      path: '/new-message/',
+    });
+
+    await waitFor(() => {
+      expect(history.location.pathname).to.equal(Paths.INBOX);
+    });
+  });
+
+  it('does not redirect to inbox when recipientsError is false', async () => {
+    const stateWithoutRecipientsError = {
+      ...initialState(true),
+      sm: {
+        recipients: {
+          allRecipients: [{ id: 1, name: 'Team 1' }],
+          recentRecipients: undefined,
+          error: false,
+        },
+      },
+    };
+
+    const { history } = renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: stateWithoutRecipientsError,
+      reducers: reducer,
+      path: '/new-message/',
+    });
+
+    // Wait a bit to ensure no redirect happens
+    await new Promise(resolve => setTimeout(resolve, 100));
+    expect(history.location.pathname).to.equal('/new-message/');
   });
 });

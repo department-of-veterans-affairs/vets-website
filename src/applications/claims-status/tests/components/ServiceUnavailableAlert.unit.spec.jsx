@@ -5,7 +5,10 @@ import { render, within } from '@testing-library/react';
 import ServiceUnavailableAlert from '../../components/ServiceUnavailableAlert';
 
 describe('<ServiceUnavailableAlert>', () => {
-  it('should render va-alert with warning status, heading, and body text', () => {
+  const bodyText =
+    "We're sorry. There's a problem with our system. Refresh this page or try again later.";
+
+  it('should render va-alert with warning status', () => {
     const { container } = render(
       <ServiceUnavailableAlert services={['claims']} />,
     );
@@ -13,70 +16,81 @@ describe('<ServiceUnavailableAlert>', () => {
     const alert = container.querySelector('va-alert');
     expect(alert).to.be.visible;
     expect(alert).to.have.attr('status', 'warning');
-
-    // Test heading
-    const heading = container.querySelector('h3');
-    expect(heading).to.be.visible;
-    expect(heading.textContent).to.equal('Claim status is unavailable');
-
-    // Test static text once
-    expect(within(container).getByText(/Check back again in an hour/i)).to.be
-      .visible;
   });
 
-  context('when services contains only "claims"', () => {
+  context('plural form (default)', () => {
+    it('should render correct heading for claims only', () => {
+      const { container } = render(
+        <ServiceUnavailableAlert services={['claims']} />,
+      );
+
+      const heading = container.querySelector('h3');
+      expect(heading).to.be.visible;
+      expect(heading.textContent).to.equal(
+        "We can't access some of your claims right now",
+      );
+    });
+
+    it('should render correct heading for appeals only', () => {
+      const { container } = render(
+        <ServiceUnavailableAlert services={['appeals']} />,
+      );
+
+      const heading = container.querySelector('h3');
+      expect(heading.textContent).to.equal(
+        "We can't access some of your appeals right now",
+      );
+    });
+
+    it('should render correct heading for both claims and appeals', () => {
+      const { container } = render(
+        <ServiceUnavailableAlert services={['claims', 'appeals']} />,
+      );
+
+      const heading = container.querySelector('h3');
+      expect(heading.textContent).to.equal(
+        "We can't access some of your claims or appeals right now",
+      );
+    });
+
     it('should render correct body text', () => {
       const { container } = render(
         <ServiceUnavailableAlert services={['claims']} />,
       );
 
-      expect(
-        within(container).getByText(
-          /VA.gov is having trouble loading claims information/i,
-        ),
-      ).to.be.visible;
-
-      expect(
-        within(container).getByText(
-          /Note: You are still able to review appeals information/i,
-        ),
-      ).to.be.visible;
+      expect(within(container).getByText(bodyText)).to.be.visible;
     });
   });
 
-  context('when services contains only "appeals"', () => {
+  context('singular form (useSingular=true)', () => {
+    it('should render singular heading for claim', () => {
+      const { container } = render(
+        <ServiceUnavailableAlert services={['claims']} useSingular />,
+      );
+
+      const heading = container.querySelector('h3');
+      expect(heading.textContent).to.equal(
+        "We can't access your claim right now",
+      );
+    });
+
+    it('should render singular heading for appeal', () => {
+      const { container } = render(
+        <ServiceUnavailableAlert services={['appeals']} useSingular />,
+      );
+
+      const heading = container.querySelector('h3');
+      expect(heading.textContent).to.equal(
+        "We can't access your appeal right now",
+      );
+    });
+
     it('should render correct body text', () => {
       const { container } = render(
-        <ServiceUnavailableAlert services={['appeals']} />,
+        <ServiceUnavailableAlert services={['claims']} useSingular />,
       );
 
-      expect(
-        within(container).getByText(
-          /VA.gov is having trouble loading appeals information/i,
-        ),
-      ).to.be.visible;
-
-      expect(
-        within(container).getByText(
-          /Note: You are still able to review claims information/i,
-        ),
-      ).to.be.visible;
-    });
-  });
-
-  context('when services contains multiple services', () => {
-    it('should render correct body text with proper grammar', () => {
-      const { container } = render(
-        <ServiceUnavailableAlert services={['claims', 'appeals']} />,
-      );
-
-      expect(
-        within(container).getByText(
-          /VA.gov is having trouble loading claims and appeals information/i,
-        ),
-      ).to.be.visible;
-
-      expect(container.textContent).to.not.include('Note:');
+      expect(within(container).getByText(bodyText)).to.be.visible;
     });
   });
 
@@ -87,7 +101,24 @@ describe('<ServiceUnavailableAlert>', () => {
       );
 
       const heading = container.querySelector('h2');
-      expect(heading.textContent).to.equal('Claim status is unavailable');
+      expect(heading.textContent).to.equal(
+        "We can't access some of your claims right now",
+      );
+    });
+
+    it('should render h2 for singular form with headerLevel={2}', () => {
+      const { container } = render(
+        <ServiceUnavailableAlert
+          services={['claims']}
+          headerLevel={2}
+          useSingular
+        />,
+      );
+
+      const heading = container.querySelector('h2');
+      expect(heading.textContent).to.equal(
+        "We can't access your claim right now",
+      );
     });
   });
 

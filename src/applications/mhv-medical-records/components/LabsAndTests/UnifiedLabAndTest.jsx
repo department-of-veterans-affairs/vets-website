@@ -15,12 +15,17 @@ import ItemList from '../shared/ItemList';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-
-import { generateTextFile, itemListWrapper } from '../../util/helpers';
-
+import {
+  generateTextFile,
+  itemListWrapper,
+  sendDataDogAction,
+} from '../../util/helpers';
+import { RADIOLOGY_DETAILS_MY_VA_HEALTH_LINK } from '../../util/rumConstants';
 import {
   pageTitles,
   LABS_AND_TESTS_DISPLAY_LABELS,
+  uhdRecordSource,
+  loincCodes,
 } from '../../util/constants';
 
 import UnifiedLabAndTestObservations from './UnifiedLabAndTestObservations';
@@ -47,7 +52,17 @@ const UnifiedLabsAndTests = props => {
   const generatePdf = async () => {
     setDownloadStarted(true);
     const data = pdfPrinter({ record, user });
-    makePdf(data.title, data.body, 'medicalRecords', runningUnitTest);
+    try {
+      await makePdf(
+        data.title,
+        data.body,
+        'medicalRecords',
+        'Medical Records - Unified Lab/Test details - PDF generation error',
+        runningUnitTest,
+      );
+    } catch {
+      // makePdf handles error logging to Datadog/Sentry
+    }
   };
 
   const generateTxt = async () => {
@@ -129,35 +144,73 @@ const UnifiedLabsAndTests = props => {
             />
           </HeaderSection>
         </div>
-        {/*         RESULTS CARDS            */}
-        {record.observations && (
-          <div
-            className="test-results-container"
-            data-testid="test-observations"
-          >
-            <HeaderSection header="Results" className="test-results-header">
-              <InfoAlert highLowResults />
-              <div className="print-only">
-                <p>
-                  Your provider will review your results and explain what they
-                  mean for your health. To ask a question now, send a secure
-                  message to your care team.
-                </p>
-                <LabelValue label="Standard range">
-                  The standard range is one tool your providers use to
-                  understand your results. If your results are outside the
-                  standard range, this doesn’t automatically mean you have a
-                  health problem. Your provider will explain what your results
-                  mean for your health.
-                </LabelValue>
+
+        {record.source === uhdRecordSource.ORACLE_HEALTH &&
+          record.testCode === loincCodes.UHD_RADIOLOGY && (
+            <>
+              <div>
+                <HeaderSection
+                  header="Images"
+                  className="vads-u-margin-top--3 vads-u-margin-bottom--2"
+                >
+                  <p className="vads-u-margin-bottom--2">
+                    We’re working to give you access to your images here. For
+                    now, go to your My VA Health portal to review and download
+                    any images that are available.
+                  </p>
+                  <va-link-action
+                    class="no-print"
+                    type="secondary"
+                    href="https://patientportal.myhealth.va.gov/pages/health_record/imaging?authenticated=true"
+                    data-testid="radiology-oracle-health-link"
+                    text="Go to My VA Health"
+                    data-dd-action-name={RADIOLOGY_DETAILS_MY_VA_HEALTH_LINK}
+                    onClick={() => {
+                      sendDataDogAction(RADIOLOGY_DETAILS_MY_VA_HEALTH_LINK);
+                    }}
+                  />
+                </HeaderSection>
               </div>
-              <UnifiedLabAndTestObservations results={record.observations} />
-            </HeaderSection>
-          </div>
-        )}
+              <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            </>
+          )}
+
+        {/*         RESULTS CARDS            */}
+        {Array.isArray(record.observations) &&
+          record.observations.length > 0 && (
+            <>
+              <div
+                className="test-results-container"
+                data-testid="test-observations"
+              >
+                <HeaderSection header="Results" className="test-results-header">
+                  <InfoAlert highLowResults />
+                  <div className="print-only">
+                    <p>
+                      Your provider will review your results and explain what
+                      they mean for your health. To ask a question now, send a
+                      secure message to your care team.
+                    </p>
+                    <LabelValue label="Standard range">
+                      The standard range is one tool your providers use to
+                      understand your results. If your results are outside the
+                      standard range, this doesn’t automatically mean you have a
+                      health problem. Your provider will explain what your
+                      results mean for your health.
+                    </LabelValue>
+                  </div>
+                  <UnifiedLabAndTestObservations
+                    results={record.observations}
+                  />
+                </HeaderSection>
+              </div>
+              <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            </>
+          )}
       </HeaderSection>
-      <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
-      <DownloadingRecordsInfo description="L&TR Detail" />
+      <div className="vads-u-margin-top--3">
+        <DownloadingRecordsInfo description="L&TR Detail" />
+      </div>
       <PrintDownload
         description="L&TR Detail"
         downloadPdf={generatePdf}
@@ -181,6 +234,7 @@ UnifiedLabsAndTests.propTypes = {
     location: PropTypes.string,
     comments: PropTypes.arrayOf(PropTypes.string),
     result: PropTypes.string,
+    source: PropTypes.string,
     observations: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
   runningUnitTest: PropTypes.bool,

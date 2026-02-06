@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 149,
+  "totalApplications": 153,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -49,7 +49,7 @@
       "directoryPath": "src/applications/appeals/onramp",
       "appName": "Decision Reviews Onramp Tool",
       "entryName": "onramp",
-      "rootUrl": "/decision-reviews/explore-disability-claim-decision-review-options"
+      "rootUrl": "/decision-reviews/explore-disability-claim-options"
     },
     {
       "directoryPath": "src/applications/appeals/testing/download",
@@ -124,12 +124,6 @@
       "rootUrl": "/submit-state-interment-allowance-form-21p-530a"
     },
     {
-      "directoryPath": "src/applications/benefits-optimization-pingwind/21-4140",
-      "appName": "Employment Questionnaire",
-      "entryName": "21-4140",
-      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
-    },
-    {
       "directoryPath": "src/applications/benefits-optimization-pingwind/21-8940",
       "appName": "Apply for additional compensation based on inability to work",
       "entryName": "21-8940",
@@ -188,12 +182,6 @@
       "appName": "686C-674-v2",
       "entryName": "686C-674-v2",
       "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
-    },
-    {
-      "directoryPath": "src/applications/dependents/686c-674-old",
-      "appName": "686C-674",
-      "entryName": "686C-674",
-      "rootUrl": "/manage-dependents/add-remove-form-21-686c"
     },
     {
       "directoryPath": "src/applications/dependents/dependents-verification",
@@ -256,6 +244,12 @@
       "rootUrl": "/ds-v3-playground"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/0803",
+      "appName": "22-0803 Request for reimbursement of licensing or certification test fees",
+      "entryName": "0803-edu-benefits",
+      "rootUrl": "/forms/22-0803/request-reimbursement-licensing-or-certification-test-fees-online"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/0839",
       "appName": "0839",
       "entryName": "0839-edu-benefits",
@@ -292,6 +286,12 @@
       "rootUrl": "/school-administrators/35-percent-exemption"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/10272",
+      "appName": "22-10272 Application for reimbursement of preparatory (prep) course for licensing or certification test",
+      "entryName": "10272-edu-benefits",
+      "rootUrl": "/forms/22-10272/request-prep-course-reimbursement-online"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/10275",
       "appName": "10275",
       "entryName": "10275-edu-benefits",
@@ -299,9 +299,9 @@
     },
     {
       "directoryPath": "src/applications/edu-benefits/10278",
-      "appName": "Authorize VA to disclose personal information to a third party",
+      "appName": "Authorize VA to Disclose Personal Information to a Third Party for Education Benefits",
       "entryName": "10278-edu-benefits",
-      "rootUrl": "/education/10278"
+      "rootUrl": "/education/disclose-information-to-third-party/authorize-disclosure-form-22-10278"
     },
     {
       "directoryPath": "src/applications/edu-benefits/10282",
@@ -532,10 +532,10 @@
       "rootUrl": "/education/apply-for-gi-bill-form-22-1990"
     },
     {
-      "directoryPath": "src/applications/new-28-1900",
-      "appName": "New 28-1900 Veteran Readiness",
-      "entryName": "new-28-1900-chapter-31",
-      "rootUrl": "/temporary/apply-vre-form-28-1900"
+      "directoryPath": "src/applications/new-chapter-36-form",
+      "appName": "Personalized Career Planning and Guidance/Chapter 36 (VA Form 27-8832)",
+      "entryName": "new-chapter-36-form",
+      "rootUrl": "/temporary/apply-career-guidance-form-27-8832"
     },
     {
       "directoryPath": "src/applications/office-directory",
@@ -664,16 +664,16 @@
       "rootUrl": "/search"
     },
     {
-      "directoryPath": "src/applications/sign-in-changes",
-      "appName": "Sign-in changes reminder",
-      "entryName": "sign-in-changes",
-      "rootUrl": "/sign-in-changes-reminder"
-    },
-    {
       "directoryPath": "src/applications/sign-in-confirm-contact-email",
       "appName": "Sign In Confirm Contact Email",
       "entryName": "confirm-contact-email",
       "rootUrl": "/sign-in-confirm-contact-email"
+    },
+    {
+      "directoryPath": "src/applications/sign-in-health-portal",
+      "appName": "sign-in-health-portal",
+      "entryName": "sign-in-health-portal",
+      "rootUrl": "/sign-in-health-portal"
     },
     {
       "directoryPath": "src/applications/simple-forms-form-engine/12-3456",
@@ -730,6 +730,12 @@
       "rootUrl": "/supporting-forms-for-claims/submit-statement-form-21-4138"
     },
     {
+      "directoryPath": "src/applications/simple-forms/21-4140",
+      "appName": "Submit Employment Questionnaire",
+      "entryName": "21-4140",
+      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
+    },
+    {
       "directoryPath": "src/applications/simple-forms/21-4142",
       "appName": "Authorize the release of non-VA medical information to VA",
       "entryName": "21-4142-medical-release",
@@ -769,13 +775,19 @@
       "directoryPath": "src/applications/simple-forms/form-upload",
       "appName": "Form Upload",
       "entryName": "form-upload-flow",
-      "rootUrl": "/find-forms/upload"
+      "rootUrl": "/forms/upload"
     },
     {
       "directoryPath": "src/applications/simple-forms/mock-form-minimal-header",
       "appName": "Mock form minimal header",
       "entryName": "mock-form-minimal-header",
       "rootUrl": "/mock-form-minimal-header"
+    },
+    {
+      "directoryPath": "src/applications/simple-forms/mock-form-prefill",
+      "appName": "Mock Form with Prefill",
+      "entryName": "mock-form-prefill",
+      "rootUrl": "/mock-form-prefill"
     },
     {
       "directoryPath": "src/applications/simple-forms/mock-simple-forms-patterns",

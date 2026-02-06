@@ -58,8 +58,8 @@ export const convertMedication = med => {
   if (med.dispStatus?.toLowerCase()?.includes('non-va'))
     return convertNonVaMedication(med);
 
-  const { attributes } = med;
-  const phoneNum = pharmacyPhoneNumber(med.attributes);
+  const attributes = med.attributes || {};
+  const phoneNum = pharmacyPhoneNumber(attributes);
 
   return {
     id: med.id,
@@ -88,6 +88,21 @@ export const convertMedication = med => {
 };
 
 /**
+ * Format a practitioner's name from a practitioner object.
+ * @param {Object} practitioner - The practitioner object with name.given and name.family
+ * @returns {string} The formatted name or 'Not available' if name data is missing
+ */
+export const formatPractitionerName = practitioner => {
+  const given = Array.isArray(practitioner?.name?.given)
+    ? practitioner.name.given.join(' ')
+    : '';
+  return (
+    [given, practitioner?.name?.family].filter(Boolean).join(' ') ||
+    'Not available'
+  );
+};
+
+/**
  * Convert the appointment resource from the backend into the appropriate model.
  * @param {Object} appt an MHV appointment resource
  * @returns an appointment object that this application can use, or null if the param is null/undefined
@@ -96,8 +111,9 @@ export const convertAppointment = appt => {
   if (!appt) return null;
 
   const now = new Date();
-  const { attributes } = appt;
+  const attributes = appt.attributes || {};
   const appointmentTime = new Date(attributes.localStartTime);
+  const isValidAppointmentTime = !Number.isNaN(appointmentTime.getTime());
   const location = attributes.location?.attributes || { physicalAddress: {} };
   const { line, city, state, postalCode } = location.physicalAddress;
   const addressLines = line || [];
@@ -105,20 +121,13 @@ export const convertAppointment = appt => {
   const practitioners = attributes.practitioners || [];
   const practitionerNames =
     practitioners.length > 0
-      ? practitioners
-          .map(
-            practitioner =>
-              `${practitioner.name.given.join(' ')} ${
-                practitioner.name.family
-              }`,
-          )
-          .join(', ')
+      ? practitioners.map(formatPractitionerName).join(', ')
       : 'Not available';
 
   return {
     id: appt.id,
-    date: dateFormat(appointmentTime),
-    isUpcoming: isAfter(appointmentTime, now),
+    date: isValidAppointmentTime ? dateFormat(appointmentTime) : UNKNOWN,
+    isUpcoming: isValidAppointmentTime ? isAfter(appointmentTime, now) : false,
     appointmentType: attributes.kind ? capitalize(attributes.kind) : UNKNOWN,
     status: attributes.status === 'booked' ? 'Confirmed' : 'Pending',
     what: attributes.serviceName || 'General',
@@ -130,9 +139,11 @@ export const convertAppointment = appt => {
     clinicName: attributes.clinic || 'Unknown clinic',
     clinicPhone: clinic.phoneNumber || 'N/A',
     detailsShared: {
-      reason: attributes.serviceCategory?.[0]?.text
-        ? attributes.serviceCategory.map(item => item.text).join(', ')
-        : 'Not specified',
+      reason:
+        Array.isArray(attributes.serviceCategory) &&
+        attributes.serviceCategory[0]?.text
+          ? attributes.serviceCategory.map(item => item.text).join(', ')
+          : 'Not specified',
       otherDetails: attributes.friendlyName || 'No details provided',
     },
   };

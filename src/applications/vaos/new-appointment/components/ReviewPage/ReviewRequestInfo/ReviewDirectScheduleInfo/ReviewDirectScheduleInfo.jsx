@@ -1,10 +1,11 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import ReasonForAppointmentSection from '../ReasonForAppointmentSection';
-import ContactDetailSection from '../ContactDetailSection';
+import React from 'react';
 import AppointmentDate from '../../AppointmentDate';
+import ContactDetailSection from '../ContactDetailSection';
+import ReasonForAppointmentSection from '../ReasonForAppointmentSection';
 import TypeOfAppointmentSection from '../TypeOfAppointmentSection';
 import FacilitySection from '../VAAppointmentSection/FacilitySection';
+import OHProviderSection from './OHProviderSection';
 
 export default function ReviewDirectScheduleInfo({
   data,
@@ -21,6 +22,12 @@ export default function ReviewDirectScheduleInfo({
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <FacilitySection facility={facility} clinic={clinic} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
+      {!!data.selectedProvider && (
+        <>
+          <OHProviderSection data={data} />
+          <hr aria-hidden="true" className="vads-u-margin-y--2" />
+        </>
+      )}
       <AppointmentDate
         dates={data.selectedDates}
         facilityId={data.vaFacility}

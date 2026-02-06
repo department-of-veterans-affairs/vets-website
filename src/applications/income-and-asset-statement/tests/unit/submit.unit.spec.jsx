@@ -1,18 +1,16 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import { mockFetch } from 'platform/testing/unit/helpers';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import * as SubmitModule from '../../config/submit';
 import * as SubmitHelpers from '../../config/submit-helpers';
-import {
-  replacer,
-  submit,
-  removeDisallowedFields,
-  transform,
-} from '../../config/submit';
 
 describe('Income and asset submit', () => {
   describe('submit', () => {
+    const mockFormConfig = {
+      formId: '21P-0969',
+      trackingPrefix: '21p-0969',
+    };
+
     beforeEach(() => {
       window.VetsGov = { pollTimeout: 1 };
       window.URL = {
@@ -22,14 +20,11 @@ describe('Income and asset submit', () => {
 
     it('should reject if initial request fails', () => {
       mockFetch(new Error('fake error'), false);
-      const formConfig = {
-        chapters: {},
-      };
       const form = {
         data: {},
       };
 
-      return submit(form, formConfig).then(
+      return SubmitModule.submit(form, mockFormConfig).then(
         () => {
           expect.fail();
         },
@@ -44,126 +39,7 @@ describe('Income and asset submit', () => {
     });
   });
 
-  describe('transformForSubmit', () => {
-    it('should remove undefined, null, and view: prefixed fields', () => {
-      const formConfig = {
-        chapters: {},
-      };
-      const formData = {
-        data: {
-          mailingAddress: { street: '123 Main St' },
-          'view:viewField': 'someView',
-          undefinedField: undefined,
-          nullField: null,
-        },
-      };
-
-      const transformed = transformForSubmit(formConfig, formData, replacer);
-
-      expect(transformed).to.deep.equal(
-        JSON.stringify({
-          mailingAddress: { street: '123 Main St' },
-        }),
-      );
-    });
-  });
-
-  describe('removeDisallowedFields', () => {
-    it('should remove disallowed fields from the form data', () => {
-      const form = {
-        data: {
-          mailingAddress: { street: '123 Main St' }, // allowed field
-          vaFileNumberLastFour: 1234, // disallowed field
-          veteranSsnLastFour: 5678, // disallowed field
-          otherVeteranFullName: {
-            first: 'John',
-            last: 'Doe',
-          }, // disallowed field
-          otherVeteranSocialSecurityNumber: '123456789', // disallowed field
-          otherVaFileNumber: 'VA1234', // disallowed field
-        },
-      };
-
-      const cleanedForm = removeDisallowedFields(form);
-
-      expect(cleanedForm.data).to.eql({
-        mailingAddress: { street: '123 Main St' },
-      });
-    });
-  });
-
-  describe('replacer', () => {
-    it('should clean up empty objects', () => {
-      const formConfig = {
-        chapters: {},
-      };
-      const formData = { data: { mailingAddress: {}, telephone: null } };
-      const transformed = transformForSubmit(formConfig, formData, replacer);
-
-      expect(transformed).not.to.haveOwnProperty('data');
-      expect(transformed).not.to.haveOwnProperty('mailingAddress');
-      expect(transformed).not.to.haveOwnProperty('telephone');
-    });
-
-    it('should fix arrays', () => {
-      const formConfig = {
-        chapters: {},
-      };
-      const formData = {
-        data: {
-          someArray: [{ recipientName: { first: 'John', last: 'Doe' } }, 2, 3],
-        },
-      };
-      const transformed = transformForSubmit(formConfig, formData, replacer);
-
-      expect(transformed).to.equal(
-        JSON.stringify({
-          someArray: [{ recipientName: 'John Doe' }, null, null],
-        }),
-      );
-    });
-  });
-
-  describe('flattenRecipientName', () => {
-    context('should correctly flatten recipient name object to string', () => {
-      it('when only first and last are present', () => {
-        const recipientName = {
-          first: 'John',
-          last: 'Doe',
-        };
-        const flattenedName = replacer('recipientName', recipientName);
-        expect(flattenedName).to.equal('John Doe');
-      });
-
-      it('when first, middle, and last are present', () => {
-        const recipientName = {
-          first: 'John',
-          middle: 'M',
-          last: 'Doe',
-        };
-        const flattenedName = replacer('recipientName', recipientName);
-        expect(flattenedName).to.equal('John M Doe');
-      });
-
-      it('when first and last are strings and middle is null', () => {
-        const recipientName = {
-          first: 'John',
-          middle: null,
-          last: 'Doe',
-        };
-        const flattenedName = replacer('recipientName', recipientName);
-        expect(flattenedName).to.equal('John Doe');
-      });
-    });
-
-    it('should return string as is', () => {
-      const recipientName = 'Jane Doe';
-      const flattenedName = replacer('recipientName', recipientName);
-      expect(flattenedName).to.equal('Jane Doe');
-    });
-  });
-
-  describe('transform - shouldRemap conditions', () => {
+  describe('transform', () => {
     let spy;
 
     beforeEach(() => {
@@ -173,49 +49,175 @@ describe('Income and asset submit', () => {
     afterEach(() => {
       spy.restore();
     });
+    describe('remap `otherVeteran` fields', () => {
+      it('calls remapOtherVeteranFields when not logged in', () => {
+        const form = {
+          data: {
+            isLoggedIn: false,
+          },
+        };
 
-    it('calls remapOtherVeteranFields when not logged in', () => {
-      const form = {
-        data: {
-          isLoggedIn: false,
-        },
+        SubmitModule.transform(form);
+        expect(spy.calledOnce).to.be.true;
+      });
+
+      it('calls remapOtherVeteranFields when isLoggedIn is undefined', () => {
+        const form = {
+          data: {},
+        };
+
+        SubmitModule.transform(form);
+        expect(spy.calledOnce).to.be.true;
+      });
+
+      it('calls remapOtherVeteranFields when logged in and claimantType is not VETERAN', () => {
+        const form = {
+          data: {
+            isLoggedIn: true,
+            claimantType: 'SPOUSE',
+          },
+        };
+
+        SubmitModule.transform(form);
+        expect(spy.calledOnce).to.be.true;
+      });
+
+      it('does not call remapOtherVeteranFields when logged in and claimantType is VETERAN', () => {
+        const form = {
+          data: {
+            isLoggedIn: true,
+            claimantType: 'VETERAN',
+          },
+        };
+
+        SubmitModule.transform(form);
+        expect(spy.called).to.be.false;
+      });
+    });
+  });
+
+  describe('prepareFormData', () => {
+    it('collects all submitted documents into the files array', () => {
+      const inputData = {
+        trusts: [
+          {
+            uploadedDocuments: [
+              { name: 'trust1.pdf', confirmationCode: 'code1' },
+              { name: 'trust2.pdf', confirmationCode: 'code2' },
+            ],
+          },
+        ],
+        ownedAssets: [
+          {
+            uploadedDocuments: {
+              name: 'asset1.pdf',
+              confirmationCode: 'code3',
+            },
+          },
+        ],
+        files: [{ name: 'existing.pdf', confirmationCode: 'code0' }],
       };
 
-      transform({}, form);
-      expect(spy.calledOnce).to.be.true;
+      const preparedData = SubmitModule.prepareFormData(inputData);
+      const fileNames = preparedData.files.map(f => f.name);
+
+      expect(fileNames.length).to.equal(4);
+      expect(fileNames).to.include.members([
+        'existing.pdf',
+        'trust1.pdf',
+        'trust2.pdf',
+        'asset1.pdf',
+      ]);
     });
 
-    it('calls remapOtherVeteranFields when isLoggedIn is undefined', () => {
-      const form = {
-        data: {},
+    it('handles empty uploadedDocuments fields gracefully', () => {
+      const inputData = {
+        trusts: [
+          {
+            otherField: 'no files here',
+          },
+          {
+            uploadedDocuments: [], // Not required, but should be handled gracefully
+          },
+          {
+            uploadedDocuments: [
+              { name: 'trust1.pdf', confirmationCode: 'code1' },
+              { name: 'trust2.pdf', confirmationCode: 'code2' },
+            ],
+          },
+        ],
+        ownedAssets: [
+          {
+            otherField: 'still no files', // no uploadedDocuments field
+          },
+          {
+            uploadedDocuments: [], // This is the behavior we see with the forms system
+          },
+          {
+            uploadedDocuments: {
+              name: 'asset1.pdf',
+              confirmationCode: 'code3',
+            },
+          },
+        ],
+        files: [{ name: 'existing.pdf', confirmationCode: 'code0' }],
       };
 
-      transform({}, form);
-      expect(spy.calledOnce).to.be.true;
+      const preparedData = SubmitModule.prepareFormData(inputData);
+      const fileNames = preparedData.files.map(f => f.name);
+
+      expect(fileNames.length).to.equal(4);
+      expect(fileNames).to.include.members([
+        'existing.pdf',
+        'trust1.pdf',
+        'trust2.pdf',
+        'asset1.pdf',
+      ]);
+    });
+  });
+
+  describe('submission pipeline ordering', () => {
+    it('passes the output of prepareFormData into serializePreparedFormData', () => {
+      const inputForm = { data: { foo: 'bar' } };
+
+      // Expected behavior of prepareFormData
+      const prepared = SubmitModule.prepareFormData(inputForm.data);
+
+      // Expected behavior of serializePreparedFormData
+      const serialized = SubmitModule.serializePreparedFormData(prepared);
+
+      const wrappedOutput = SubmitModule.transform(inputForm);
+      const parsed = JSON.parse(wrappedOutput);
+
+      // Ensure the serialized output is exactly what transform() placed in the envelope
+      expect(parsed.incomeAndAssetsClaim.form).to.equal(serialized);
     });
 
-    it('calls remapOtherVeteranFields when logged in and claimantType is not VETERAN', () => {
-      const form = {
-        data: {
-          isLoggedIn: true,
-          claimantType: 'SPOUSE',
-        },
-      };
+    it('outputs an envelope containing serialized "form" string', () => {
+      const form = { data: { hello: 'world' } };
 
-      transform({}, form);
-      expect(spy.calledOnce).to.be.true;
+      const result = SubmitModule.transform(form);
+      const parsed = JSON.parse(result);
+
+      expect(parsed).to.have.property('incomeAndAssetsClaim');
+      expect(parsed.incomeAndAssetsClaim).to.have.property('form');
+
+      // Should be a JSON string
+      expect(typeof parsed.incomeAndAssetsClaim.form).to.equal('string');
     });
 
-    it('does not call remapOtherVeteranFields when logged in and claimantType is VETERAN', () => {
-      const form = {
-        data: {
-          isLoggedIn: true,
-          claimantType: 'VETERAN',
-        },
-      };
+    it('applies replacer and produces predictable final JSON', () => {
+      const form = { data: { sample: 'value' } };
 
-      transform({}, form);
-      expect(spy.called).to.be.false;
+      const result = SubmitModule.transform(form);
+      const parsed = JSON.parse(result);
+
+      const expectedPrepared = SubmitModule.prepareFormData(form.data);
+      const expectedSerialized = SubmitModule.serializePreparedFormData(
+        expectedPrepared,
+      );
+
+      expect(parsed.incomeAndAssetsClaim.form).to.equal(expectedSerialized);
     });
   });
 });

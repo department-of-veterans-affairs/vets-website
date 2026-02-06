@@ -20,7 +20,7 @@ $text-color: rgba(27, 27, 27, 1);
 
   .usa-hint {
     display: block;
-    color: var(--vads-color-gray-medium);
+    color: var(--vads-color-base-darker);
   }
 
   .p1 {
@@ -102,12 +102,6 @@ $text-color: rgba(27, 27, 27, 1);
       border-top: none;
     }
 
-    @media screen and (min-width: $small-screen) {
-      &.active {
-        border: $focus-outline;
-      }
-    }
-
     a {
       color: var(--vads-color-link);
 
@@ -132,7 +126,7 @@ $text-color: rgba(27, 27, 27, 1);
   }
 
   @media screen and (max-width: $small-screen) {
-    .facility-result + .facility-result {
+    .facility-result+.facility-result {
       border-top: solid 1px var(--vads-color-base-light);
     }
   }
@@ -188,7 +182,7 @@ $text-color: rgba(27, 27, 27, 1);
     padding: 0;
   }
 
-  .react-tabs__tab + .react-tabs__tab {
+  .react-tabs__tab+.react-tabs__tab {
     border-left: none;
   }
 
@@ -289,6 +283,7 @@ $text-color: rgba(27, 27, 27, 1);
     input {
       width: 100%;
       max-width: none;
+      font-size: 1rem;
 
       @media screen and (min-width: $small-desktop-screen) {
         max-width: 418px;
@@ -347,6 +342,14 @@ $text-color: rgba(27, 27, 27, 1);
       flex-basis: 100%;
       width: 100%;
     }
+
+    .service-type-dropdown-mobile>select,
+    .service-type-dropdown-tablet>select,
+    .service-type-dropdown-desktop>select {
+      font-size: 1rem;
+      height: auto;
+    }
+
 
     .usa-input-error {
       right: 0;
@@ -481,11 +484,6 @@ $text-color: rgba(27, 27, 27, 1);
         column-gap: 12px;
         align-items: flex-end;
       }
-    }
-
-    p.service-hint-text {
-      color: $vads-label-hint-text-color-on-light;
-      margin: 0.5em 0;
     }
   }
 
@@ -656,6 +654,7 @@ $text-color: rgba(27, 27, 27, 1);
   font-size: 0.9375rem;
   width: 1.5rem;
   height: 1.5rem;
+  padding: 0;
 
   &#active-pin {
     height: 38.5px;

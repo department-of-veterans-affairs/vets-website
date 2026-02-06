@@ -1,0 +1,107 @@
+{
+  "statusCode": 200,
+  "body": {
+    "formData": {
+      "certifierRole": "sponsor",
+      "certifierName": {
+        "first": "Certifier",
+        "last": "Jones"
+      },
+      "certifierAddress": {
+        "country": "USA",
+        "street": "123 Certifier St",
+        "city": "Certifier",
+        "state": "AL",
+        "postalCode": "12312"
+      },
+      "certifierPhone": "1231231234",
+      "certifierEmail": "certifier@email.gov",
+      "certifierRelationship": {
+        "relationshipToVeteran": {}
+      },
+      "sponsorName": {
+        "first": "Certifier",
+        "last": "Jones"
+      },
+      "sponsorDob": "1995-01-01",
+      "sponsorSsn": "123123123",
+      "sponsorAddress": {
+        "country": "USA",
+        "street": "123 Certifier St",
+        "city": "Certifier",
+        "state": "AL",
+        "postalCode": "12312"
+      },
+      "sponsorPhone": "1231231234",
+      "view:hasApplicants": false,
+      "applicants": [
+        {
+          "applicantName": {
+            "first": "Johnny",
+            "last": "Alvin"
+          },
+          "applicantDob": "2020-01-04",
+          "applicantSsn": "345345345",
+          "view:sharesAddressWith": "na",
+          "applicantAddress": {
+            "country": "USA",
+            "street": "456 Circle St",
+            "city": "Applicant",
+            "state": "IN",
+            "postalCode": "46790"
+          },
+          "applicantPhone": "5555551234",
+          "applicantGender": {
+            "gender": "male"
+          },
+          "applicantRelationshipToSponsor": {
+            "relationshipToVeteran": "child"
+          },
+          "applicantRelationshipOrigin": {
+            "relationshipToVeteran": "blood"
+          }
+        },
+        {
+          "applicantName": {
+            "first": "Jenny",
+            "last": "Jones"
+          },
+          "applicantDob": "1995-01-04",
+          "applicantSsn": "213454367",
+          "view:sharesAddressWith": "na",
+          "applicantAddress": {
+            "country": "USA",
+            "street": "123 Certifier St",
+            "city": "Certifier",
+            "state": "AL",
+            "postalCode": "12312"
+          },
+          "applicantPhone": "5555551234",
+          "applicantGender": {
+            "gender": "female"
+          },
+          "applicantRelationshipToSponsor": {
+            "relationshipToVeteran": "spouse"
+          },
+          "dateOfMarriageToSponsor": "2019-01-01"
+        }
+      ]
+    },
+    "metadata": {
+      "version": 0,
+      "returnUrl": "/medicare-and-other-health-insurance",
+      "savedAt": 1739200257608,
+      "submission": {
+        "status": false,
+        "errorMessage": false,
+        "id": false,
+        "timestamp": false,
+        "hasAttemptedSubmit": false
+      },
+      "createdAt": 1739200226,
+      "expiresAt": 32472162000,
+      "lastUpdated": 1739200257,
+      "inProgressFormId": 12345
+    }
+  }
+}

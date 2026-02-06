@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom-v5-compat';
 
 import {
   VaFileInputMultiple,
@@ -15,6 +16,7 @@ import {
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { DOC_TYPES } from '../../utils/helpers';
 import { FILE_TYPES, isPdf, validateFiles } from '../../utils/validations';
+import { checkIfRetry } from '../../utils/analytics';
 import mailMessage from '../MailMessage';
 import UploadStatus from '../UploadStatus';
 
@@ -25,7 +27,6 @@ import {
   PASSWORD_ERROR,
   DOC_TYPE_ERROR,
   SUBMIT_TEXT,
-  SUBMIT_FILES_FOR_REVIEW_TEXT,
   SEND_YOUR_DOCUMENTS_TEXT,
   ANCHOR_LINKS,
 } from '../../constants';
@@ -230,12 +231,19 @@ const createSubmissionPayload = (files, docTypes, encrypted) => {
 const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.cstShowDocumentUploadStatus);
-
+  const { id: claimId } = useParams();
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
   const [encrypted, setEncrypted] = useState([]);
   const [canShowUploadModal, setCanShowUploadModal] = useState(false);
   const fileInputRef = useRef(null);
+
+  // Build the href for "other ways to send documents" link
+  // When on the files tab, use anchor link; otherwise use full path
+  const otherWaysAnchor = `#${ANCHOR_LINKS.otherWaysToSendDocuments}`;
+  const otherWaysToSendHref = fileTab
+    ? otherWaysAnchor
+    : `/track-claims/your-claims/${claimId}/files${otherWaysAnchor}`;
 
   // Track document type changes and clear errors immediately
   useEffect(
@@ -376,7 +384,7 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
         </VaFileInputMultiple>
         <VaButton
           class="vads-u-margin-top--3"
-          text={toggleValue ? SUBMIT_FILES_FOR_REVIEW_TEXT : SUBMIT_TEXT}
+          text={SUBMIT_TEXT}
           onClick={handleSubmit}
         />
         {!toggleValue && (
@@ -391,11 +399,15 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
           <>
             <div className="vads-u-margin-top--3 vads-u-margin-bottom--5">
               <va-link
-                href={`#${ANCHOR_LINKS.otherWaysToSendDocuments}`}
+                href={otherWaysToSendHref}
                 text={SEND_YOUR_DOCUMENTS_TEXT}
                 onClick={e => {
-                  e.preventDefault();
-                  setPageFocus(e.target.href);
+                  // Only prevent default and scroll if we're on the files tab
+                  // Otherwise, let the link navigate to the files page
+                  if (fileTab) {
+                    e.preventDefault();
+                    setPageFocus(`#${ANCHOR_LINKS.otherWaysToSendDocuments}`);
+                  }
                 }}
               />
             </div>
@@ -409,7 +421,13 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
           <UploadStatus
             progress={progress}
             files={files.length}
-            onCancel={onCancel}
+            onCancel={() => {
+              const retryFileCount = files.filter(
+                fileData => checkIfRetry(fileData.file, claimId).isRetry,
+              ).length;
+
+              onCancel({ cancelFileCount: files.length, retryFileCount });
+            }}
           />
         </VaModal>
       </div>

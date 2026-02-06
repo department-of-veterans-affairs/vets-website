@@ -14,10 +14,12 @@ import {
   form0781HeadingTag,
   mentalHealthSupportAlert,
 } from '../../content/form0781';
+import ConfirmationTraumaticEventsMedicalRecordOptIn from '../../components/confirmationFields/ConfirmationTraumaticEventsMedicalRecordOptIn';
 
 export const uiSchema = {
   'ui:title': titleWithTag(consentPageTitle, form0781HeadingTag),
   'ui:description': consentPageDescription,
+  'ui:confirmationField': ConfirmationTraumaticEventsMedicalRecordOptIn,
   optionIndicator: radioUI({
     title: consentPageFormQuestion,
     labelHeaderLevel: '4',

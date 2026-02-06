@@ -11,12 +11,12 @@ class InfoPair extends React.Component {
 
     const row = (
       <div className={gridRowClasses}>
-        <div className="usa-width-one-third">
+        <div className="usa-width-two-thirds">
           <span>
             <strong>{this.props.label}: </strong>
           </span>
         </div>
-        <div className="usa-width-two-thirds" id={this.props.id}>
+        <div className="usa-width-one-third" id={this.props.id}>
           {this.props.value}
         </div>
       </div>

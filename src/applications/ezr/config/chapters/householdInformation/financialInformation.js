@@ -1,20 +1,22 @@
-import React from 'react';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import content from '../../../locales/en/content.json';
-import { includeSpousalInformation } from '../../../utils/helpers/form-config';
+import {
+  includeHouseholdInformationWithV2Prefill,
+  includeSpousalInformationWithV2Prefill,
+} from '../../../utils/helpers/form-config';
 import FinancialInformationReviewWarning from '../../../components/FormAlerts/FinancialInformationReviewWarning';
 import { LAST_YEAR } from '../../../utils/constants';
 import { VeteranAnnualIncomePage } from '../../../definitions/veteranAnnualIncome';
 import { DeductibleExpensesPage } from '../../../definitions/deductibleExpenses';
 import { SpouseAnnualIncomePage } from '../../../definitions/spouseAnnualIncome';
 import { FinancialSummaryPage } from '../../../definitions/financialSummary';
-import { FinancialIntroductionPage } from '../../../definitions/financialIntroduction';
+import FinancialIntroductionPage from '../../../definitions/financialIntroduction';
 import FinancialSummaryCardDescription from '../../../components/FormDescriptions/FinancialSummaryCardDescription';
+
 /**
  * Declare attributes for array builder pattern
  * @type {ArrayBuilderOptions}
  */
-
 const options = {
   arrayPath: 'financialInformation',
   nounPlural: `income and deductible for ${LAST_YEAR}`,
@@ -24,16 +26,8 @@ const options = {
   hideMaxItemsAlert: true,
   text: {
     getItemName: `Your annual income from ${LAST_YEAR}`,
-    summaryDescription: () => (
-      <FinancialInformationReviewWarning
-        isFormReviewPage={window?.location?.pathname.includes(
-          'review-and-submit',
-        )}
-      />
-    ),
-    cardDescription: item => {
-      return FinancialSummaryCardDescription(item);
-    },
+    summaryDescription: FinancialInformationReviewWarning,
+    cardDescription: FinancialSummaryCardDescription,
     editSaveButtonText: 'Continue',
     alertItemUpdated: `Your income and deductible for ${LAST_YEAR} has been updated`,
     alertItemDeleted: `Your income and deductible for ${LAST_YEAR} has been deleted`,
@@ -65,13 +59,15 @@ const spouseAnnualIncomePageSchemas = SpouseAnnualIncomePage();
 const FinancialInformationPages = arrayBuilderPages(options, pageBuilder => ({
   financialInformationIntroduction: pageBuilder.introPage({
     title: content['household-financial-information-introduction-title'],
-    path: 'household-information/financial-information-introduction',
+    path: 'household-information/financial-information-overview',
+    depends: includeHouseholdInformationWithV2Prefill,
     uiSchema: FinancialIntroductionPage.uiSchema,
     schema: FinancialIntroductionPage.schema,
   }),
   financialInformationSummary: pageBuilder.summaryPage({
     title: content['household-financial-information-summary-title'],
     path: 'household-information/financial-information',
+    depends: includeHouseholdInformationWithV2Prefill,
     uiSchema: summaryPageSchemas.uiSchema,
     schema: summaryPageSchemas.schema,
   }),
@@ -80,6 +76,7 @@ const FinancialInformationPages = arrayBuilderPages(options, pageBuilder => ({
       content['household-financial-information-veteran-annual-income-title'],
     path:
       'household-information/financial-information/:index/veteran-annual-income',
+    depends: includeHouseholdInformationWithV2Prefill,
     uiSchema: annualIncomePageSchemas.uiSchema,
     schema: annualIncomePageSchemas.schema,
   }),
@@ -88,7 +85,7 @@ const FinancialInformationPages = arrayBuilderPages(options, pageBuilder => ({
       content['household-financial-information-spouse-annual-income-title'],
     path:
       'household-information/financial-information/:index/spouse-annual-income',
-    depends: includeSpousalInformation,
+    depends: includeSpousalInformationWithV2Prefill,
     uiSchema: spouseAnnualIncomePageSchemas.uiSchema,
     schema: spouseAnnualIncomePageSchemas.schema,
   }),
@@ -96,6 +93,7 @@ const FinancialInformationPages = arrayBuilderPages(options, pageBuilder => ({
     title: content['household-financial-information-deductible-expenses-title'],
     path:
       'household-information/financial-information/:index/deductible-expenses',
+    depends: includeHouseholdInformationWithV2Prefill,
     uiSchema: deductiblePageSchemas.uiSchema,
     schema: deductiblePageSchemas.schema,
   }),

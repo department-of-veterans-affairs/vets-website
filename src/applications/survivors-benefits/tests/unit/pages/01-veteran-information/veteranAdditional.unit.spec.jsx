@@ -23,7 +23,7 @@ describe('Claimant Information Page', () => {
     const vaMemorableDates = $$('va-memorable-date', formDOM);
 
     const vaEverClaim = $(
-      'va-radio[label="Has the Veteran, surviving spouse, child or parent ever filed a claim with the VA?"]',
+      'va-radio[label="Has the Veteran, surviving spouse, child, or parent ever filed a claim with the VA?"]',
       formDOM,
     );
     const vaActiveDuty = $(

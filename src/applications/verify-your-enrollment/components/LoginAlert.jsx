@@ -5,7 +5,7 @@ import { CSP_IDS } from 'platform/user/authentication/constants';
 
 const LoginAlert = () => {
   const { ID_ME, LOGIN_GOV } = CSP_IDS;
-  const heading = `Verify your identity with Login.gov or ID.me to change your direct deposit information online`;
+  const heading = `Verify your identity with ID.me or Login.gov to change your direct deposit information online`;
   return (
     <VaAlert status="continue" visible uswds>
       <h2 slot="headline">{heading}</h2>
@@ -16,7 +16,7 @@ const LoginAlert = () => {
           This helps us protect your bank account and prevent fraud.
         </p>
         <p>
-          <strong>If you have a verified Login.gov or ID.me account</strong>,
+          <strong>If you have a verified ID.me or Login.gov account</strong>,
           sign out now. Then sign back in with that account to continue.
         </p>
         <p>

@@ -25,6 +25,13 @@ export const GET_LETTER_PDF_DOWNLOADING = 'GET_LETTER_PDF_DOWNLOADING';
 export const GET_LETTER_PDF_FAILURE = 'GET_LETTER_PDF_FAILURE';
 export const GET_LETTER_PDF_SUCCESS = 'GET_LETTER_PDF_SUCCESS';
 
+export const GET_TSA_LETTER_ELIGIBILITY_ERROR =
+  'GET_TSA_LETTER_ELIGIBILITY_ERROR';
+export const GET_TSA_LETTER_ELIGIBILITY_LOADING =
+  'GET_TSA_LETTER_ELIGIBILITY_LOADING';
+export const GET_TSA_LETTER_ELIGIBILITY_SUCCESS =
+  'GET_TSA_LETTER_ELIGIBILITY_SUCCESS';
+
 // updateBenefitSummaryRequestOption() actions
 export const UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION =
   'UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION';
@@ -102,4 +109,6 @@ import ADDRESS_DATA from 'platform/forms/address/data';
 export const STATE_CODE_TO_NAME = ADDRESS_DATA.states;
 
 export const GET_TSA_LETTER_ELIGIBILITY_ENDPOINT = '/v0/tsa_letter';
-export const DOWNLOAD_TSA_LETTER_ENDPOINT = id => `/v0/tsa_letter/${id}`;
+
+export const DOWNLOAD_TSA_LETTER_ENDPOINT = (id, versionId) =>
+  `/v0/tsa_letter/${id}/version/${versionId}/download`;

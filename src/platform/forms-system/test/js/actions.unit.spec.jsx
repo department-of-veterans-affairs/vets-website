@@ -1028,4 +1028,251 @@ describe('Schemaform actions:', () => {
       });
     });
   });
+  describe('uploadFile token refresh retry', () => {
+    let xhr;
+    let requests = [];
+    let refreshStub;
+    let infoTokenExistsStub;
+
+    beforeEach(() => {
+      global.FormData = sinon.stub().returns({
+        append: sinon.spy(),
+        set: sinon.spy(),
+      });
+      xhr = sinon.useFakeXMLHttpRequest();
+      xhr.onCreate = req => {
+        requests.push(req);
+      };
+
+      const oauthUtilities = require('platform/utilities/oauth/utilities');
+      refreshStub = sinon.stub(oauthUtilities, 'refresh').resolves();
+      infoTokenExistsStub = sinon
+        .stub(oauthUtilities, 'infoTokenExists')
+        .returns(true);
+    });
+
+    afterEach(() => {
+      delete global.FormData;
+      global.XMLHttpRequest = window.XMLHttpRequest;
+      xhr.restore();
+      requests = [];
+
+      if (refreshStub) refreshStub.restore();
+      if (infoTokenExistsStub) infoTokenExistsStub.restore();
+    });
+
+    it('should call refresh on 403 token expired error', async () => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        { name: '1.jpg', size: 1234 },
+        {
+          fileUploadUrl: '/v0/upload',
+          fileTypes: ['jpg'],
+          maxSize: 5000,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes,
+        },
+        f => f,
+        onChange,
+        () => {},
+        'test-prefix',
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: { formId: 'test-form', data: {} },
+      });
+
+      thunk(dispatch, getState);
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({
+          errors: 'Access token has expired',
+        }),
+      );
+
+      expect(refreshStub.called).to.be.true;
+
+      await refreshStub.returnValues[0];
+
+      expect(requests.length).to.equal(2);
+      expect(requests[1].url).to.equal('/v0/upload');
+    });
+
+    it('should not call refresh on 403 with different error', () => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        { name: '1.jpg', size: 1234 },
+        {
+          fileUploadUrl: '/v0/upload',
+          fileTypes: ['jpg'],
+          maxSize: 5000,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes,
+        },
+        f => f,
+        onChange,
+        () => {},
+        'test-prefix',
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: { formId: 'test-form', data: {} },
+      });
+
+      thunk(dispatch, getState);
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({
+          errors: 'Forbidden - insufficient permissions',
+        }),
+      );
+
+      expect(refreshStub.called).to.be.false;
+    });
+  });
+  describe('submitForm token refresh retry', () => {
+    let xhr;
+    let requests = [];
+    let refreshStub;
+    let infoTokenExistsStub;
+
+    beforeEach(() => {
+      testkit.reset();
+      xhr = sinon.useFakeXMLHttpRequest();
+      xhr.onCreate = req => {
+        requests.push(req);
+      };
+      window.dataLayer = [];
+
+      const oauthUtilities = require('platform/utilities/oauth/utilities');
+      refreshStub = sinon.stub(oauthUtilities, 'refresh').resolves();
+      infoTokenExistsStub = sinon
+        .stub(oauthUtilities, 'infoTokenExists')
+        .returns(true);
+    });
+
+    afterEach(() => {
+      testkit.reset();
+      global.XMLHttpRequest = window.XMLHttpRequest;
+      xhr.restore();
+      requests = [];
+      window.dataLayer = [];
+
+      if (refreshStub) refreshStub.restore();
+      if (infoTokenExistsStub) infoTokenExistsStub.restore();
+    });
+
+    it('should call refresh and retry on 403 token expired error', async () => {
+      const formConfig = {
+        chapters: {},
+        submitUrl: '/v0/submit',
+        trackingPrefix: 'test-form',
+      };
+      const form = {
+        pages: { testing: {} },
+        data: { test: 1 },
+      };
+      const thunk = submitForm(formConfig, form);
+      const dispatch = sinon.spy();
+      const response = { data: { confirmationNumber: '123' } };
+
+      const promise = thunk(dispatch);
+
+      // First request returns 403 with token expired
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({
+          errors: 'Access token has expired',
+        }),
+      );
+
+      // Wait for refresh to be called
+      await refreshStub.returnValues[0];
+
+      expect(refreshStub.called).to.be.true;
+      expect(requests.length).to.equal(2);
+
+      // Second request succeeds
+      requests[1].respond(200, null, JSON.stringify(response));
+
+      return promise.then(() => {
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: SET_SUBMITTED,
+          response: response.data,
+        });
+      });
+    });
+
+    it('should not call refresh on 403 with different error', () => {
+      const formConfig = {
+        chapters: {},
+        submitUrl: '/v0/submit',
+        trackingPrefix: 'test-form',
+      };
+      const form = {
+        pages: { testing: {} },
+        data: { test: 1 },
+      };
+      const thunk = submitForm(formConfig, form);
+      const dispatch = sinon.spy();
+
+      const promise = thunk(dispatch).then(() => {
+        expect(refreshStub.called).to.be.false;
+        expect(requests.length).to.equal(1);
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: SET_SUBMISSION,
+          field: 'status',
+          value: 'serverError',
+          extra: null,
+          errorMessage: 'vets_server_error: Forbidden',
+        });
+      });
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({
+          errors: 'Forbidden - insufficient permissions',
+        }),
+      );
+
+      return promise;
+    });
+
+    it('should not call refresh if infoTokenExists returns false', () => {
+      infoTokenExistsStub.returns(false);
+
+      const formConfig = {
+        chapters: {},
+        submitUrl: '/v0/submit',
+        trackingPrefix: 'test-form',
+      };
+      const form = {
+        pages: { testing: {} },
+        data: { test: 1 },
+      };
+      const thunk = submitForm(formConfig, form);
+      const dispatch = sinon.spy();
+
+      const promise = thunk(dispatch).then(() => {
+        expect(refreshStub.called).to.be.false;
+        expect(requests.length).to.equal(1);
+      });
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({
+          errors: 'Access token has expired',
+        }),
+      );
+
+      return promise;
+    });
+  });
 });

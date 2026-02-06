@@ -1,9 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import userEvent from '@testing-library/user-event';
 import reducers from '../../../reducers';
 import {
   inbox,
@@ -131,6 +132,18 @@ describe('Message List component', () => {
     expect(screen);
   });
 
+  it('renders the expected number of messages', async () => {
+    const screen = setup(
+      inbox,
+      threadSortingOptions.SENT_DATE_DESCENDING.value,
+      Paths.INBOX,
+    );
+    await waitFor(() => {
+      const messagesRendered = screen.getAllByTestId('message-list-item');
+      expect(messagesRendered).to.have.length(mockMessages.length);
+    });
+  });
+
   it('sorting list is present', async () => {
     const screen = setup(
       inbox,
@@ -147,7 +160,7 @@ describe('Message List component', () => {
       threadSortingOptions.SENT_DATE_DESCENDING.value,
       Paths.INBOX,
     );
-    fireEvent.click(screen.getByText('Newest to oldest'));
+    userEvent.click(screen.getByText('Newest to oldest'));
     expect(screen.queryByText('A to Z - Recipient’s name')).not.to.exist;
     expect(screen.getByText('A to Z - Sender’s name')).to.exist;
   });
@@ -158,7 +171,7 @@ describe('Message List component', () => {
       threadSortingOptions.DRAFT_DATE_DESCENDING.value,
       Paths.DRAFTS,
     );
-    fireEvent.click(screen.getByText('Newest to oldest'));
+    userEvent.click(screen.getByText('Newest to oldest'));
     expect(screen.queryByText('A to Z - Sender’s name')).not.to.exist;
     expect(screen.getByText('A to Z - Recipient’s name')).to.exist;
   });
@@ -169,7 +182,7 @@ describe('Message List component', () => {
       threadSortingOptions.SENT_DATE_DESCENDING.value,
       Paths.SENT,
     );
-    fireEvent.click(screen.getByText('Newest to oldest'));
+    userEvent.click(screen.getByText('Newest to oldest'));
     expect(screen.queryByText('A to Z - Sender’s name')).not.to.exist;
     expect(screen.getByText('A to Z - Recipient’s name')).to.exist;
   });
@@ -180,7 +193,7 @@ describe('Message List component', () => {
       threadSortingOptions.SENT_DATE_DESCENDING.value,
       `${Paths.FOLDERS}12345`,
     );
-    fireEvent.click(screen.getByText('Newest to oldest'));
+    userEvent.click(screen.getByText('Newest to oldest'));
     expect(screen.queryByText('A to Z - Sender’s name')).to.exist;
     expect(screen.queryByText('A to Z - Recipient’s name')).not.to.exist;
   });
@@ -286,7 +299,7 @@ describe('Message List component', () => {
       screen.container,
       threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.value,
     );
-    fireEvent.click(document.querySelector('va-button[text="Sort"]'));
+    userEvent.click(document.querySelector('va-button[text="Sort"]'));
     await waitFor(() => {
       screen.getAllByTestId('message-list-item');
     });
@@ -336,5 +349,85 @@ describe('Message List component', () => {
     );
     const threadListSort = screen.queryByTestId('thread-list-sort');
     expect(threadListSort).to.not.exist;
+  });
+
+  it('resets to page 1 when current page exceeds max page after filtering', async () => {
+    // NODE 22 FIX: Use padStart(2, '0') to ensure valid ISO 8601 date format.
+    // Previously, dates like '2023-05-3' were generated when i >= 8, which is
+    // not valid ISO format (should be '2023-05-03'). Moment.js in Node 22
+    // throws an error for non-ISO date strings instead of just warning.
+    const fifteenMessages = Array.from({ length: 15 }, (_, i) => ({
+      ...mockMessages[0],
+      messageId: 2817226 + i,
+      subject: `test ${i}`,
+      sentDate: `2023-05-${String(17 - i).padStart(2, '0')}T16:11:26.000Z`,
+    }));
+
+    const fiveMessages = Array.from({ length: 5 }, (_, i) => ({
+      ...mockMessages[0],
+      messageId: 9000000 + i,
+      subject: `filtered test ${i}`,
+      sentDate: `2023-06-${String(10 + i).padStart(2, '0')}T16:11:26.000Z`,
+    }));
+
+    const screen = setup(
+      inbox,
+      threadSortingOptions.SENT_DATE_DESCENDING.value,
+      Paths.INBOX,
+      fifteenMessages,
+    );
+
+    await waitFor(() => {
+      const messagesRendered = screen.getAllByTestId('message-list-item');
+      expect(messagesRendered).to.have.length(10);
+    });
+
+    const pagination = await $('va-pagination', screen.container);
+    const event = new CustomEvent('pageSelect', {
+      bubbles: true,
+      detail: { page: 2 },
+    });
+    pagination.dispatchEvent(event);
+
+    await waitFor(() => {
+      const messagesRendered = screen.getAllByTestId('message-list-item');
+      expect(messagesRendered).to.have.length(5);
+    });
+
+    cleanup();
+
+    const {
+      container,
+      getAllByTestId: getFilteredMessages,
+    } = renderWithStoreAndRouter(
+      <MessageList
+        messages={fiveMessages}
+        folder={inbox}
+        keyword="test"
+        sortOrder={threadSortingOptions.SENT_DATE_DESCENDING.value}
+        page={2}
+      />,
+      {
+        path: Paths.INBOX,
+        initialState: {
+          sm: {
+            folders: { folder: inbox },
+            messages: [],
+            search: {
+              page: 2,
+            },
+          },
+        },
+        reducers,
+      },
+    );
+
+    await waitFor(() => {
+      const messagesRendered = getFilteredMessages('message-list-item');
+      expect(messagesRendered).to.have.length(5);
+    });
+
+    const paginationAfterFilter = container.querySelector('va-pagination');
+    expect(paginationAfterFilter).to.not.exist;
   });
 });

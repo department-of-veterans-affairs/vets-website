@@ -53,12 +53,12 @@ describe('ReviewDependents', () => {
       dependents: { awarded: [] },
     });
 
-    const qualificationHeading = queryByRole('heading', { level: 5 });
+    const qualificationHeading = queryByRole('heading', { level: 4 });
     expect(qualificationHeading).to.be.null;
   });
 
   it('should show qualification section when dependents exist', () => {
-    const { getByRole } = renderWithStore({
+    const { getAllByRole } = renderWithStore({
       dependents: {
         awarded: [
           {
@@ -70,8 +70,9 @@ describe('ReviewDependents', () => {
       },
     });
 
-    const qualificationHeading = getByRole('heading', { level: 5 });
-    expect(qualificationHeading).to.not.be.null;
+    const qualificationHeadings = getAllByRole('heading', { level: 4 });
+    // Should have 2 h4 headings: 1 dependent name + "Check if someone is missing on your VA benefits"
+    expect(qualificationHeadings.length).to.equal(2);
   });
 
   it('should render correct number of dependent cards', () => {
@@ -92,11 +93,8 @@ describe('ReviewDependents', () => {
       dependents: { awarded: mockDependents },
     });
 
-    // Should have 2 headings, check if dependents quality & missing benefits
-    expect(getAllByRole('heading', { level: 4 }).length).to.equal(2);
-
-    // Count h5 headings that represent dependent names
-    expect(getAllByRole('heading', { level: 5 }).length).to.equal(2);
+    // Should have 3 h4 headings: 2 dependent names + "Check if someone is missing on your VA benefits"
+    expect(getAllByRole('heading', { level: 4 }).length).to.equal(3);
   });
 
   it('should render dependent information correctly', () => {
@@ -159,11 +157,13 @@ describe('ReviewDependents', () => {
     );
 
     expect(container.querySelector('va-alert[status="info"]')).to.exist;
+    expect(container.querySelector('va-alert[status="error"]')).to.not.exist;
     expect(setFormDataSpy.called).to.be.true;
     expect(setFormDataSpy.args[0][0]).to.deep.equal({
       vaDependentsV3: true,
       dependents: { awarded: [] },
       'view:addOrRemoveDependents': { add: true },
+      'view:dependentsApiError': false,
     });
   });
 
@@ -180,11 +180,13 @@ describe('ReviewDependents', () => {
     );
 
     expect(container.querySelector('va-alert[status="error"]')).to.exist;
+    expect(container.querySelector('va-alert[status="info"]')).to.not.exist;
     expect(setFormDataSpy.called).to.be.true;
     expect(setFormDataSpy.args[0][0]).to.deep.equal({
       vaDependentsV3: true,
       dependents: { awarded: [] },
       'view:addOrRemoveDependents': { add: true },
+      'view:dependentsApiError': true,
     });
   });
 

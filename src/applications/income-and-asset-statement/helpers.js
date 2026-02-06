@@ -28,7 +28,8 @@ export const hasSession = () => {
   return localStorage.getItem('hasSession') === 'true';
 };
 
-export const formatCurrency = num => `$${num.toLocaleString()}`;
+export const formatCurrency = num =>
+  typeof num === 'number' ? `$${num.toLocaleString()}` : '';
 
 /**
  * Formats a name object into a capitalized full name string with middle initial.
@@ -360,3 +361,52 @@ export const getIncompleteOwnedAssets = (
     hasBusiness: missingAssetTypes.includes('BUSINESS'),
   };
 };
+
+/**
+ * Determines whether uploaded documents exist and contain at least one file.
+ *
+ * @param {Array} uploadedDocuments - Array for files
+ * @returns {boolean} True if uploaded documents exist
+ */
+export const hasUploadedDocuments = uploadedDocuments =>
+  Array.isArray(uploadedDocuments) &&
+  uploadedDocuments.some(doc => Boolean(doc?.name));
+
+/**
+ * Determines whether at least one trust is incomplete.
+ *
+ * A trust is considered incomplete if:
+ * - The user declined to upload documents, OR
+ * - The user said they would upload documents but none were provided
+ *
+ * @param {Array} trusts - Trusts array from form data
+ * @return {boolean} True if at least one trust is incomplete
+ */
+export const hasIncompleteTrust = trusts =>
+  (trusts ?? []).some(trust => {
+    const declinedUpload = trust?.['view:addFormQuestion'] === false;
+
+    const saidYesButNoUpload =
+      trust?.['view:addFormQuestion'] === true &&
+      !hasUploadedDocuments(trust?.uploadedDocuments);
+
+    return declinedUpload || saidYesButNoUpload;
+  });
+
+/**
+ * Determines whether to show the declined upload alert for owned assets.
+ *
+ * @param {Object} ownedAssets - The owned assets data.
+ * @returns {boolean} True if any farm or business asset declined upload or has no uploaded document.
+ */
+export const shouldShowDeclinedAlert = ownedAssets =>
+  ownedAssets?.some(item => {
+    const isFarmOrBusiness =
+      item?.assetType === 'FARM' || item?.assetType === 'BUSINESS';
+    const declinedUpload = item?.['view:addFormQuestion'] === false;
+    const saidYesButEmptyArray =
+      item?.['view:addFormQuestion'] === true &&
+      (!item?.uploadedDocuments || !item.uploadedDocuments.name);
+
+    return isFarmOrBusiness && (declinedUpload || saidYesButEmptyArray);
+  });

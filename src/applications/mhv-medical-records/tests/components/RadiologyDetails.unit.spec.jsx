@@ -15,7 +15,7 @@ import radiologyWithMissingFields from '../fixtures/radiologyWithMissingFields.j
 import {
   convertCvixRadiologyRecord,
   convertMhvRadiologyRecord,
-} from '../../reducers/labsAndTests';
+} from '../../util/imagesUtil';
 
 describe('RadiologyDetails component', () => {
   describe('images', () => {
@@ -59,10 +59,13 @@ describe('RadiologyDetails component', () => {
 
     // This test will give different results when run in different time zones.
     it('should display the formatted date', () => {
-      const formattedDate = screen.getByText('April 4, 2024 9:03 p.m.', {
-        exact: true,
-        selector: 'span',
-      });
+      // Use regex to match the date format, ignoring the exact time which varies by timezone
+      const formattedDate = screen.getByText(
+        /April 4, 2024 \d{1,2}:\d{2} [ap]\.m\./,
+        {
+          selector: 'span',
+        },
+      );
       expect(formattedDate).to.exist;
     });
 
@@ -255,10 +258,13 @@ describe('RadiologyDetails component', () => {
 
     // This test will give different results when run in different time zones.
     it('should display the formatted date', () => {
-      const formattedDate = screen.getByText('January 6, 2004 7:27 p.m.', {
-        exact: true,
-        selector: 'span',
-      });
+      // Use regex to match the date format, ignoring the exact time which varies by timezone
+      const formattedDate = screen.getByText(
+        /January 6, 2004 \d{1,2}:\d{2} [ap]\.m\./,
+        {
+          selector: 'span',
+        },
+      );
       expect(formattedDate).to.exist;
     });
 

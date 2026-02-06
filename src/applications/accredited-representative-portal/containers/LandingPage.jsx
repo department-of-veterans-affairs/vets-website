@@ -1,7 +1,8 @@
 import React, { useEffect, useContext } from 'react';
-import { addStyleToShadowDomOnPages } from '../utilities/poaRequests';
-import { ProfileContext } from '../context/ProfileContext';
+import { Link } from 'react-router-dom';
+import { addStyleToShadowDomOnPages } from '../utilities/helpers';
 import { getSignInUrl } from '../utilities/constants';
+import { ProfileContext } from '../context/ProfileContext';
 
 const LandingPage = title => {
   const user = useContext(ProfileContext);
@@ -51,9 +52,9 @@ const LandingPage = title => {
               <p className="hp__hero-sub-header--login">
                 Create an account if you are a VA accredited representative
               </p>
-              <a className="hp__login" href={getSignInUrl()}>
-                Sign in or create an account
-              </a>
+              <Link className="hp__login" to={getSignInUrl().toString()}>
+                Sign in
+              </Link>
             </div>
           </div>
         </div>
@@ -66,7 +67,7 @@ const LandingPage = title => {
             </h2>
             <va-link
               class="arp__home__link--learn-more"
-              href="/representative/get-help"
+              href="/representative/help"
               text="Learn more about the portal"
             />
             <va-link
@@ -140,7 +141,7 @@ const LandingPage = title => {
               <va-link
                 class="hp__link"
                 reverse
-                href="/representative/get-help"
+                href="/representative/help"
                 text="Learn more about how to set up your account"
               />
               <p>

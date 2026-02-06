@@ -17,7 +17,7 @@ export const schema = {
   properties: {
     toursOfDuty: toursOfDuty.schema(fullSchema1995, {
       fields: ['serviceBranch', 'dateRange'],
-      required: ['serviceBranch', 'dateRange.from', 'dateRange.to'],
+      required: ['serviceBranch', 'dateRange.from'],
     }),
   },
 };

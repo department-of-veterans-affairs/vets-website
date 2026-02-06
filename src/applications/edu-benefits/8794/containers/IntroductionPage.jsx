@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
+import { isLoggedIn } from 'platform/user/selectors';
+import { useSelector } from 'react-redux';
 import { scrollToTop } from 'platform/utilities/scroll';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import OmbInfo from '../components/OmbInfo';
 
 const IntroductionPage = ({ route }) => {
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
   useEffect(() => {
     focusElement('.schemaform-title > h1');
     scrollToTop();
@@ -175,16 +178,14 @@ const IntroductionPage = ({ route }) => {
           </p>
         </va-process-list-item>
         <va-process-list-item header="Upload your PDF to the Education File Upload Portal or email it to your State Approving Agency (SAA)">
-          <p className="vads-u-margin-top--1">
-            <strong>If your institution has a facility code:</strong> Go to the
-            Education File Upload Portal and upload the completed PDF document
-            that you downloaded. This is how you submit this form.
+          <p className="vads-u-margin-top--1p5">
+            <strong>If your institution has a VA facility code:</strong> Go to
+            the Education File Upload Portal and upload the completed PDF
+            document that you downloaded. This is how you submit this form.
           </p>
           <p>
             <strong>
-              If your institution doesn’t have a VA facility code or if you are
-              submitting the form because your institution has changed
-              ownership:
+              If your institution doesn’t have a VA facility code:
             </strong>{' '}
             Email your completed PDF to your State Approving Agency (SAA). If
             you need help finding their email address,{' '}
@@ -205,11 +206,17 @@ const IntroductionPage = ({ route }) => {
         messages={route.formConfig.savedFormMessages}
         formConfig={route.formConfig}
         pageList={route.pageList}
-        startText="Start your 85/15 calculations report"
+        startText="Start your Designation of certifying official(s)"
         unauthStartText="Sign in to start your form"
+        hideUnauthedStartLink={!userLoggedIn}
       />
 
-      <OmbInfo />
+      <div
+        className={userLoggedIn ? 'vads-u-margin-top--4' : ''}
+        data-testid="omb-info"
+      >
+        <OmbInfo />
+      </div>
     </article>
   );
 };

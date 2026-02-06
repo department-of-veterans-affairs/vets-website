@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import ExpenseCard from './ExpenseCard';
 import { getExpenseType } from '../../../util/complex-claims-helper';
+import { setExpenseBackDestination } from '../../../redux/actions';
 
 const ExpenseCardList = ({
   expensesList,
@@ -16,20 +17,20 @@ const ExpenseCardList = ({
   showHeader = false,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { apptId, claimId } = useParams();
   const address = useSelector(selectVAPResidentialAddress);
   const expenseFields = getExpenseType(type);
 
   const onAddExpense = expenseRoute => {
+    dispatch(setExpenseBackDestination('review'));
     navigate(`/file-new-claim/${apptId}/${claimId}/${expenseRoute}`);
   };
 
   return (
     <section key={type} className="vads-u-margin-bottom--3">
       {showHeader && (
-        <h2 data-testid="expense-type-header" className="vads-u-font-size--h3">
-          {expenseFields.title}
-        </h2>
+        <h3 data-testid="expense-type-header">{expenseFields.title}</h3>
       )}
 
       {expensesList.map(expense => (

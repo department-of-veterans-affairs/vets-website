@@ -1,6 +1,6 @@
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user.json';
-import mockPrefill from './fixtures/mocks/mock-prefill-with-non-prefill-data.json';
+import mockPrefill from './fixtures/mocks/mock-prefill-with-v2-prefill-data.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
 import { goToNextPage } from './helpers';
 import {
@@ -18,7 +18,7 @@ import {
 
 // Add the feature toggle for the providers and dependents prefill
 featureToggles.data.features.push({
-  name: 'ezrProvidersAndDependentsPrefillEnabled',
+  name: 'ezrFormPrefillWithProvidersAndDependents',
   value: true,
 });
 featureToggles.data.features.push({
@@ -45,7 +45,7 @@ function advanceToFinancialIntroductionPage(hasSpouse) {
   goToNextPage('/household-information/dependents');
   cy.selectRadio('root_view:reportDependents', 'N');
   cy.injectAxeThenAxeCheck();
-  goToNextPage('/household-information/financial-information-introduction');
+  goToNextPage('/household-information/financial-information-overview');
   cy.injectAxeThenAxeCheck();
   goToNextPage('/household-information/financial-information');
   cy.injectAxeThenAxeCheck();

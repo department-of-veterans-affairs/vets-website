@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import AddressesTable from './addresses/AddressesTable';
-import PhoneNumbersTable from './phone-numbers/PhoneNumbersTable';
 
 const ContactInformationSection = ({ className, showBadAddress }) => {
   return (
@@ -60,8 +59,6 @@ const ContactInformationSection = ({ className, showBadAddress }) => {
         className="vads-u-margin-bottom--6"
         showBadAddress={showBadAddress}
       />
-
-      <PhoneNumbersTable className="vads-u-margin-bottom--6" />
     </div>
   );
 };

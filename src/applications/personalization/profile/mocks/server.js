@@ -5,6 +5,7 @@ const delay = require('mocker-api/lib/delay');
 const user = require('./endpoints/user');
 const mhvAcccount = require('./endpoints/mhvAccount');
 const address = require('./endpoints/address');
+const schedulingPreferences = require('./endpoints/schedulingPreferences');
 const emailAddress = require('./endpoints/email-adresses');
 const phoneNumber = require('./endpoints/phone-number');
 const ratingInfo = require('./endpoints/rating-info');
@@ -28,6 +29,7 @@ const fullName = require('./endpoints/full-name');
 const {
   baseUserTransitionAvailabilities,
 } = require('./endpoints/user-transition-availabilities');
+const connectedApps = require('./endpoints/connected-apps');
 
 const error500 = require('../tests/fixtures/500.json');
 const error401 = require('../tests/fixtures/401.json');
@@ -39,6 +41,7 @@ const maintenanceWindows = require('./endpoints/maintenance-windows');
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
 const contacts = require('../tests/fixtures/contacts.json');
+const vamcEhr = require('../tests/fixtures/vamc-ehr.json');
 // const contactsSingleEc = require('../tests/fixtures/contacts-single-ec.json');
 // const contactsSingleNok = require('../tests/fixtures/contacts-single-nok.json');
 
@@ -101,6 +104,8 @@ const responses = {
         res.json(
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
+            coeAccess: true,
+            coeFormRebuildCveteam: true,
             profileHideDirectDeposit: false,
             representativeStatusEnableV2Features: true,
             profileInternationalPhoneNumbers: false,
@@ -109,7 +114,7 @@ const responses = {
             profileShowNewHealthCareCopayBillNotificationSetting: false,
             profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
             profileShowMhvNotificationSettingsEmailRxShipment: true,
-            profileShowMhvNotificationSettingsNewSecureMessaging: true,
+            profileShowMhvNotificationSettingsNewSecureMessaging: false,
             profileShowMhvNotificationSettingsMedicalImages: true,
             profileShowQuickSubmitNotificationSetting: false,
             profileShowNoValidationKeyAddressAlert: false,
@@ -118,11 +123,14 @@ const responses = {
             profileShowPaperlessDelivery: false,
             profile2Enabled: true,
             profileHealthCareSettingsPage: true,
+            profileHideHealthCareContacts: true,
+            profileHideMissingClaimInformationNotificationSetting: true,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
             vreCutoverNotice: true,
-            mhvEmailConfirmation: false,
+            vrePrefillName: true,
+            mhvEmailConfirmation: true,
           }),
         ),
       secondsOfDelay,
@@ -284,27 +292,35 @@ const responses = {
     return res.status(200).json(bankAccounts.saved.success);
   },
   'GET /v0/profile/service_history': (_req, res) => {
-    // Succcess
-    return res.status(200).json(serviceHistory.airForce);
-
-    // No service history
-    // return res.status(200).json(serviceHistory.none);
-
-    // 403 error (no service found)
-    // return res
-    //   .status(200)
-    //   .json(serviceHistory.generateServiceHistoryError('403'));
-
-    // Non-403 error
-    // return res
-    //   .status(200)
-    //   .json(serviceHistory.generateServiceHistoryError('500'));
-
-    // Dishonorable discharge
-    // return res.status(200).json(serviceHistory.dishonorableDischarge);
-
-    // Unknown discharge
-    // return res.status(200).json(serviceHistory.unknownDischarge);
+    const branch = 'army'; // change this value to get different responses
+    switch (branch) {
+      case 'airForce':
+        return res.status(200).json(serviceHistory.airForce);
+      case 'army':
+        return res.status(200).json(serviceHistory.army);
+      case 'coastGuard':
+        return res.status(200).json(serviceHistory.coastGuard);
+      case 'marineCorps':
+        return res.status(200).json(serviceHistory.marineCorps);
+      case 'navy':
+        return res.status(200).json(serviceHistory.navy);
+      case 'spaceForce':
+        return res.status(200).json(serviceHistory.spaceForce);
+      case 'error403':
+        return res
+          .status(200)
+          .json(serviceHistory.generateServiceHistoryError('403'));
+      case 'error500':
+        return res
+          .status(200)
+          .json(serviceHistory.generateServiceHistoryError('500'));
+      case 'dishonorableDischarge':
+        return res.status(200).json(serviceHistory.dishonorableDischarge);
+      case 'unknownDischarge':
+        return res.status(200).json(serviceHistory.unknownDischarge);
+      default:
+        return res.status(200).json(serviceHistory.none);
+    }
   },
   'GET /v0/profile/vet_verification_status': (_req, res) => {
     return res.status(200).json(vetVerificationStatus.confirmed);
@@ -424,11 +440,63 @@ const responses = {
     // Return the transaction immediately - status will be checked via status endpoint
     return res.json(initializationTransaction);
   },
+  'GET /data/cms/vamc-ehr.json': vamcEhr,
   'GET /v0/profile/communication_preferences': (req, res) => {
     if (req?.query?.error === 'true') {
       return res.status(500).json(genericErrors.error500);
     }
     return delaySingleResponse(() => res.json(maximalSetOfPreferences), 1);
+  },
+  'GET /v0/profile/scheduling_preferences': (req, res) => {
+    const schedulingPreferencesResponse = 'all';
+    delaySingleResponse(() => {
+      switch (schedulingPreferencesResponse) {
+        case 'all':
+          return res.status(200).json(schedulingPreferences.all);
+        case 'none':
+          return res.status(200).json(schedulingPreferences.none);
+        case 'error':
+          return res.status(500).json(genericErrors.error500);
+        default:
+          return res.status(200).json('');
+      }
+    }, 1);
+  },
+  'POST /v0/profile/scheduling_preferences': (req, res) => {
+    return delaySingleResponse(
+      () =>
+        res.status(200).json({
+          data: {
+            id: '',
+            type: 'async_transaction_va_profile_scheduling_transactions',
+            attributes: {
+              transactionId: '94725087-d546-47e1-a247-f57ab0ed599c',
+              transactionStatus: 'RECEIVED',
+              type: 'AsyncTransaction::VAProfile::SchedulingTransaction',
+              metadata: [],
+            },
+          },
+        }),
+      1,
+    );
+  },
+  'DELETE /v0/profile/scheduling_preferences': (req, res) => {
+    return delaySingleResponse(
+      () =>
+        res.status(200).json({
+          data: {
+            id: '',
+            type: 'async_transaction_va_profile_scheduling_transactions',
+            attributes: {
+              transactionId: '94725087-d546-47e1-a247-f57ab0ed599c',
+              transactionStatus: 'RECEIVED',
+              type: 'AsyncTransaction::VAProfile::SchedulingTransaction',
+              metadata: [],
+            },
+          },
+        }),
+      1,
+    );
   },
   'PATCH /v0/profile/communication_preferences/:pref': (req, res) => {
     const {
@@ -455,6 +523,16 @@ const responses = {
     // return res.status(500).json(error500);
 
     delaySingleResponse(() => res.json(mockedRes), 1);
+  },
+
+  'GET /v0/profile/connected_applications': (req, res) => {
+    return delaySingleResponse(() => res.json(connectedApps.connectedApps), 1);
+  },
+  'DELETE /v0/profile/connected_applications/:appId': (req, res) => {
+    return delaySingleResponse(
+      () => connectedApps.deleteConnectedApp(req, res),
+      1,
+    );
   },
 
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,

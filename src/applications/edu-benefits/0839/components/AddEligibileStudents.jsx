@@ -15,11 +15,35 @@ const AddEligibileStudents = () => {
   );
   return (
     <div className="eligible-students-container">
-      <h4>
-        Total number of maximum eligible students reported:{' '}
-        {!allUnlimited ? maxContributions : 'Unlimited'}
-        {hasUnlimited && !allUnlimited ? ' or unlimited' : ''}
-      </h4>
+      <h4>Total number of maximum eligible students reported:</h4>
+      {!allUnlimited &&
+        !hasUnlimited && (
+          <p>
+            You reported a maximum of {maxContributions} eligible students for
+            participation.
+          </p>
+        )}
+
+      {!allUnlimited &&
+        hasUnlimited && (
+          <>
+            <p>
+              You reported a maximum of {maxContributions} eligible students for
+              participation, and
+            </p>
+            <p>
+              You have selected unlimited for the maximum number of eligible
+              students.
+            </p>
+          </>
+        )}
+
+      {allUnlimited && (
+        <p>
+          You have selected unlimited for the maximum number of eligible
+          students.
+        </p>
+      )}
     </div>
   );
 };

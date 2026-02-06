@@ -1,6 +1,10 @@
-import { useSelector } from 'react-redux';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
+/**
+ * Conditionally show adding student description
+ * @returns {React.ReactElement} Description for adding dependents options
+ */
 export const AddDependentsOptionsDescription = () => {
   const formData = useSelector(state => {
     return state?.form?.data || {};

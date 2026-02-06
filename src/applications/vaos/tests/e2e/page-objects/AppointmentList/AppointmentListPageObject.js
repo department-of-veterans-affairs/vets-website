@@ -20,11 +20,6 @@ export class AppointmentListPageObject extends PageObject {
     return this;
   }
 
-  scheduleAppointment(text = 'Start scheduling') {
-    cy.findByText(text).click({ waitForAnimations: true });
-    return this;
-  }
-
   selectListItem() {
     cy.findByTestId('appointment-list-item')
       .first()

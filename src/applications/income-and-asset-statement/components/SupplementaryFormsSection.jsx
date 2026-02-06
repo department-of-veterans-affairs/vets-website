@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MailingAddress from './MailingAddress';
-import { getIncompleteOwnedAssets } from '../helpers';
+import { getIncompleteOwnedAssets, hasIncompleteTrust } from '../helpers';
+import { SupportingDocumentsNeededList } from './OwnedAssetsDescriptions';
 
 const bodyTextMap = {
   BUSINESS: 'Report of Income from Property or Business (VA Form 21P-4185)',
@@ -19,9 +20,38 @@ const formLinks = {
   },
 };
 
+const getBodyText = ({ hasBusiness, hasFarm, hasTrust }) => {
+  const parts = [];
+
+  if (hasBusiness) {
+    parts.push(bodyTextMap.BUSINESS);
+  }
+
+  if (hasFarm) {
+    parts.push(bodyTextMap.FARM);
+  }
+
+  if (hasTrust) {
+    parts.push('supporting documents for a trust');
+  }
+
+  if (parts.length === 0) return null;
+
+  const joined =
+    parts.length === 1
+      ? parts[0]
+      : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`;
+
+  return `Since you decided to mail your ${joined}, complete the ${
+    parts.length > 1 ? 'items' : 'item'
+  } and send them to this address:`;
+};
+
 /**
- * Renders the appropriate VA form links for a given set of asset types.
- * @param {string[]} types - An array of asset types to include links for.
+ * Renders VA form download links for the provided asset types.
+ *
+ * @param {string[]} types - Asset types used to determine which form links to render.
+ * @returns {JSX.Element[]} Array of rendered link elements.
  */
 const renderFormLinks = types => {
   return types.filter(type => formLinks[type]).map(type => {
@@ -38,54 +68,31 @@ const SupplementaryFormsSection = ({ formData }) => {
   const { alertAssets, hasFarm, hasBusiness } = getIncompleteOwnedAssets(
     formData,
   );
+  const hasTrust = hasIncompleteTrust(formData?.trusts);
 
-  if (alertAssets.length === 0) return null;
+  if (alertAssets.length === 0 && !hasTrust) return null;
 
-  const renderContent = () => {
-    if (hasFarm && hasBusiness) {
-      return (
-        <>
-          <p>
-            Since you decided to mail the {bodyTextMap.BUSINESS} and{' '}
-            {bodyTextMap.FARM}, complete the forms and send them to this
-            address:
-          </p>
-          <MailingAddress />
-          {renderFormLinks(['BUSINESS', 'FARM'])}
-        </>
-      );
-    }
-    if (hasBusiness) {
-      return (
-        <>
-          <p>
-            Since you decided to mail the {bodyTextMap.BUSINESS}, complete the
-            form and send it to this address:
-          </p>
-          <MailingAddress />
-          {renderFormLinks(['BUSINESS'])}
-        </>
-      );
-    }
-    if (hasFarm) {
-      return (
-        <>
-          <p>
-            Since you decided to mail the {bodyTextMap.FARM}, complete the form
-            and send it to this address:
-          </p>
-          <MailingAddress />
-          {renderFormLinks(['FARM'])}
-        </>
-      );
-    }
-    return null;
-  };
+  const bodyText = getBodyText({ hasBusiness, hasFarm, hasTrust });
+
+  const linkTypes = [];
+  if (hasBusiness) linkTypes.push('BUSINESS');
+  if (hasFarm) linkTypes.push('FARM');
 
   return (
     <section>
       <h3>Where to mail supporting documents</h3>
-      {renderContent()}
+
+      {bodyText && <p>{bodyText}</p>}
+
+      <MailingAddress />
+
+      {linkTypes.length > 0 && renderFormLinks(linkTypes)}
+
+      {hasTrust && (
+        <va-additional-info trigger="What supporting documents should I send?">
+          <SupportingDocumentsNeededList />
+        </va-additional-info>
+      )}
     </section>
   );
 };
@@ -99,6 +106,7 @@ SupplementaryFormsSection.propTypes = {
         uploadedDocuments: PropTypes.object,
       }),
     ),
+    trusts: PropTypes.array,
   }),
 };
 

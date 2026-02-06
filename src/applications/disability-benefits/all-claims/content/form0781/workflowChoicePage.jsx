@@ -9,8 +9,8 @@ import {
 import { scrollToFirstError, scrollTo } from 'platform/utilities/scroll';
 import {
   form0781HeadingTag,
-  titleWithTag,
   mentalHealthSupportAlert,
+  titleWithTag,
 } from '../form0781';
 import { checkValidations } from '../../utils/submit';
 
@@ -19,8 +19,6 @@ import { form0781WorkflowChoices } from './workflowChoices';
 export const workflowChoicePageTitle =
   'Option to add a statement in support of mental health conditions';
 
-// Lists new conditions the veteran has claimed
-// The user should not get to this page if these conditions are not present
 const isPlaceholderRated = v => v === 'Rated Disability';
 
 const conditionSelections = formData => {
@@ -29,10 +27,17 @@ const conditionSelections = formData => {
         .filter(
           d => typeof d?.condition === 'string' && d.condition.trim() !== '',
         )
-        .filter(d => !isPlaceholderRated(d.condition)) // remove "Rated Disability"
+        .filter(d => !isPlaceholderRated(d.condition))
         .map(d => {
-          const s = d.condition.trim();
-          return s[0].toUpperCase() + s.slice(1);
+          const base = d.condition.trim();
+          const side =
+            typeof d?.sideOfBody === 'string'
+              ? d.sideOfBody.trim().toLowerCase()
+              : '';
+
+          const full = side ? `${base}, ${side}` : base;
+
+          return full.charAt(0).toUpperCase() + full.slice(1);
         })
         .filter(
           (() => {
@@ -546,9 +551,7 @@ const WorkflowChoicePage = props => {
       </VaAlert>
       <fieldset className="vads-u-margin-bottom--2">
         <legend id="root__title" className="schemaform-block-title">
-          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--3">
-            {titleWithTag(workflowChoicePageTitle, form0781HeadingTag)}
-          </h3>
+          {titleWithTag(workflowChoicePageTitle, form0781HeadingTag)}
         </legend>
         <div>
           {workflowChoicePageDescription(data)}

@@ -10,7 +10,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { DOWNLOAD_TSA_LETTER_ENDPOINT } from '../utils/constants';
 import { apiRequest } from '../utils/helpers';
 
-export const DownloadTsaLetter = ({ letter }) => {
+export const DownloadTsaLetter = ({ documentId, documentVersion }) => {
   const ref = useRef(null);
   const [error, setError] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
@@ -22,7 +22,7 @@ export const DownloadTsaLetter = ({ letter }) => {
 
       const getTsaLetterData = () => {
         return apiRequest(
-          DOWNLOAD_TSA_LETTER_ENDPOINT(letter.attributes.documentId),
+          DOWNLOAD_TSA_LETTER_ENDPOINT(documentId, documentVersion),
         )
           .then(response => {
             response.blob().then(blob => {
@@ -31,7 +31,8 @@ export const DownloadTsaLetter = ({ letter }) => {
               setLetterData(downloadUrl);
               recordEvent({
                 event: 'api_call',
-                'api-name': 'GET /v0/tsa_letter/:id',
+                'api-name':
+                  'GET /v0/tsa_letter/:id/version/:version_id/download',
                 'api-status': 'successful',
               });
             });
@@ -40,7 +41,7 @@ export const DownloadTsaLetter = ({ letter }) => {
             setError(true);
             recordEvent({
               event: 'api_call',
-              'api-name': 'GET /v0/tsa_letter/:id',
+              'api-name': 'GET /v0/tsa_letter/:id/version/:version_id/download',
               'api-status': 'error',
             });
           });
@@ -67,7 +68,7 @@ export const DownloadTsaLetter = ({ letter }) => {
         observer.disconnect();
       };
     },
-    [letter],
+    [documentId, documentVersion],
   );
 
   useEffect(
@@ -90,7 +91,7 @@ export const DownloadTsaLetter = ({ letter }) => {
     });
 
   return (
-    <va-accordion-item key="tsa-letter" ref={ref}>
+    <va-accordion-item data-testid="tsa-letter-accordion" ref={ref}>
       <h3 slot="headline">{letterTitle}</h3>
       <p>
         The {letterTitle} shows you’re eligible for free enrollment in
@@ -126,5 +127,6 @@ export const DownloadTsaLetter = ({ letter }) => {
 };
 
 DownloadTsaLetter.propTypes = {
-  letter: PropTypes.object.isRequired,
+  documentId: PropTypes.string.isRequired,
+  documentVersion: PropTypes.string.isRequired,
 };

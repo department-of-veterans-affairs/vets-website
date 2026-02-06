@@ -1,33 +1,7 @@
 import { expect } from 'chai';
-import {
-  isCerner,
-  profileHasEHRM,
-  profileHasVista,
-} from '../../selectors/facilities';
+import { profileHasEHRM, profileHasVista } from '../../selectors/facilities';
 
 describe('facilities selectors', () => {
-  describe('isCerner', () => {
-    it('should return true if the profile has Cerner facilities', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [{ isCerner: true }],
-          },
-        },
-      };
-      expect(isCerner(state)).to.be.true;
-    });
-    it('should return false if the profile lacks Cerner facilities', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [{ isCerner: false }],
-          },
-        },
-      };
-      expect(isCerner(state)).to.be.false;
-    });
-  });
   describe('profileHasEHRM', () => {
     it('should return true if the profile has EHRM facilities', () => {
       const profile = { facilities: [{ isCerner: true }] };

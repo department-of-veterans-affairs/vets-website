@@ -1,9 +1,8 @@
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import { shallowEqual } from 'recompose';
 import Address from '../../../components/Address';
 import FacilityPhone from '../../../components/FacilityPhone';
 import {
@@ -40,7 +39,7 @@ export default function CancelPageLayoutRequest() {
     shallowEqual,
   );
 
-  const { reasonForAppointment, patientComments } = appointment || {};
+  const { patientComments } = appointment || {};
   const { providerName } = preferredProvider || {};
 
   return (
@@ -140,12 +139,7 @@ export default function CancelPageLayoutRequest() {
             )}
             {!facilityPhone && <>Not available</>}
           </Section>
-          <Details
-            reason={reasonForAppointment}
-            otherDetails={patientComments}
-            request
-            level={3}
-          />
+          <Details otherDetails={patientComments} request level={3} />
         </>
       )}
       <Section heading="Your contact details" level={3}>

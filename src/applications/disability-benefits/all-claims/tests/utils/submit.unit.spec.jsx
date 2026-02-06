@@ -21,6 +21,12 @@ import {
   delete0781BehavioralData,
   sanitize0781PoliceReportData,
   sanitize0781BehaviorsDetails,
+  normalizeIncreases,
+  sanitizeNewDisabilities,
+  removeRatedDisabilityFromNew,
+  removeExtraData,
+  cleanUpMailingAddress,
+  getDisabilityName,
 } from '../../utils/submit';
 import {
   PTSD_INCIDENT_ITERATION,
@@ -64,6 +70,35 @@ describe('transformRelatedDisabilities', () => {
     expect(
       transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
     ).to.eql(['Some Condition Name']);
+  });
+});
+
+describe('getDisabilityName', () => {
+  it('should return the condition name for new disabilities', () => {
+    expect(getDisabilityName({ condition: 'tinnitus' })).to.eql('tinnitus');
+  });
+  it('should return the name for rated disabilities', () => {
+    expect(getDisabilityName({ name: 'Tinnitus' })).to.eql('Tinnitus');
+  });
+  it('should include sideOfBody when present', () => {
+    expect(
+      getDisabilityName({ condition: 'tinnitus', sideOfBody: 'Left' }),
+    ).to.eql('tinnitus, left');
+  });
+  it('should trim whitespace from condition and sideOfBody', () => {
+    expect(
+      getDisabilityName({ condition: '  tinnitus  ', sideOfBody: '  Right  ' }),
+    ).to.eql('tinnitus, right');
+  });
+  it('should not include sideOfBody if condition is empty', () => {
+    expect(getDisabilityName({ condition: '', sideOfBody: 'Left' })).to.eql('');
+  });
+  it('should handle disabilities with name and sideOfBody (rated disabilities)', () => {
+    // Note: rated disabilities use "name" not "condition", and typically don't have sideOfBody
+    // but if they did, it should still work
+    expect(
+      getDisabilityName({ name: 'Knee injury', sideOfBody: 'bilateral' }),
+    ).to.eql('Knee injury, bilateral');
   });
 });
 
@@ -142,6 +177,44 @@ describe('stringifyRelatedDisabilities', () => {
         treatedDisabilityNames: [
           'some condition name',
           'something with symbols *($#^%$@) not in the key',
+        ],
+      },
+    ]);
+  });
+  it('should correctly match conditions with sideOfBody', () => {
+    const formData = {
+      newDisabilities: [
+        {
+          condition: 'tinnitus',
+          sideOfBody: 'Left',
+        },
+        {
+          condition: 'knee pain',
+          sideOfBody: 'Right',
+        },
+        {
+          condition: 'back pain',
+          // no sideOfBody
+        },
+      ],
+      vaTreatmentFacilities: [
+        {
+          treatedDisabilityNames: {
+            tinnitusleft: true,
+            kneepainright: true,
+            backpain: true,
+          },
+        },
+      ],
+    };
+    expect(
+      stringifyRelatedDisabilities(formData).vaTreatmentFacilities,
+    ).to.deep.equal([
+      {
+        treatedDisabilityNames: [
+          'tinnitus, left',
+          'knee pain, right',
+          'back pain',
         ],
       },
     ]);
@@ -1162,5 +1235,493 @@ describe('addForm0781V2', () => {
     expect(resultWithVaFacilities.form0781).to.have.property(
       'treatmentProvidersDetails',
     );
+  });
+});
+
+describe('normalizeIncreases', () => {
+  it('returns original formData when feature flag is not enabled', () => {
+    const formData = {
+      ratedDisabilities: [{ name: 'Tinnitus' }],
+      newDisabilities: [
+        {
+          condition: 'Rated disability',
+          ratedDisability: 'Tinnitus',
+          conditionDate: '2020-01-01',
+        },
+      ],
+    };
+
+    const result = normalizeIncreases(formData);
+    expect(result).to.equal(formData);
+  });
+
+  it('moves matching increases from newDisabilities into ratedDisabilities and marks them as INCREASE', () => {
+    const formData = {
+      disabilityCompNewConditionsWorkflow: true,
+      ratedDisabilities: [
+        { name: 'Tinnitus' },
+        { name: 'Sciatica', approximateDate: '2019-01-01' },
+      ],
+      newDisabilities: [
+        {
+          condition: 'Rated disability',
+          ratedDisability: 'Tinnitus',
+          conditionDate: '2020-01-01',
+        },
+        {
+          condition: 'Some new condition',
+          cause: 'NEW',
+        },
+      ],
+    };
+
+    const result = normalizeIncreases(formData);
+    expect(result.ratedDisabilities).to.have.lengthOf(2);
+
+    const tinnitus = result.ratedDisabilities.find(d => d.name === 'Tinnitus');
+    const sciatica = result.ratedDisabilities.find(d => d.name === 'Sciatica');
+
+    expect(tinnitus['view:selected']).to.be.true;
+    expect(tinnitus.disabilityActionType).to.equal(
+      disabilityActionTypes.INCREASE,
+    );
+    expect(tinnitus.approximateDate).to.equal('2020-01-01');
+    expect(sciatica.approximateDate).to.equal('2019-01-01');
+    expect(result.newDisabilities).to.deep.equal([
+      {
+        condition: 'Some new condition',
+        cause: 'NEW',
+      },
+    ]);
+  });
+
+  it('handles newPrimaryDisabilities the same as newDisabilities', () => {
+    const formData = {
+      disabilityCompNewConditionsWorkflow: true,
+      ratedDisabilities: [{ name: 'Sciatica' }],
+      newPrimaryDisabilities: [
+        {
+          condition: 'Rated disability',
+          ratedDisability: 'Sciatica',
+          conditionDate: '2021-02-02',
+        },
+        {
+          condition: 'Brand new primary condition',
+          cause: 'NEW',
+        },
+      ],
+    };
+
+    const result = normalizeIncreases(formData);
+    const sciatica = result.ratedDisabilities[0];
+
+    expect(sciatica['view:selected']).to.be.true;
+    expect(sciatica.disabilityActionType).to.equal(
+      disabilityActionTypes.INCREASE,
+    );
+    expect(sciatica.approximateDate).to.equal('2021-02-02');
+
+    expect(result.newPrimaryDisabilities).to.deep.equal([
+      {
+        condition: 'Brand new primary condition',
+        cause: 'NEW',
+      },
+    ]);
+  });
+
+  it('deletes newDisabilities and newPrimaryDisabilities when all entries are true increases', () => {
+    const formData = {
+      disabilityCompNewConditionsWorkflow: true,
+      ratedDisabilities: [{ name: 'Tinnitus' }, { name: 'Sciatica' }],
+      newDisabilities: [
+        { condition: 'Rated disability', ratedDisability: 'Tinnitus' },
+      ],
+      newPrimaryDisabilities: [
+        { condition: 'Rated disability', ratedDisability: 'Sciatica' },
+      ],
+    };
+    const result = normalizeIncreases(formData);
+
+    expect(result).to.not.have.property('newDisabilities');
+    expect(result).to.not.have.property('newPrimaryDisabilities');
+    expect(result.ratedDisabilities).to.have.lengthOf(2);
+
+    const tinnitus = result.ratedDisabilities.find(d => d.name === 'Tinnitus');
+    const sciatica = result.ratedDisabilities.find(d => d.name === 'Sciatica');
+
+    expect(tinnitus.disabilityActionType).to.equal(
+      disabilityActionTypes.INCREASE,
+    );
+    expect(sciatica.disabilityActionType).to.equal(
+      disabilityActionTypes.INCREASE,
+    );
+  });
+
+  it('is tolerant of missing ratedDisabilities and new* arrays', () => {
+    const formData = {
+      disabilityCompNewConditionsWorkflow: true,
+    };
+
+    const result = normalizeIncreases(formData);
+    expect(result).to.deep.equal({
+      disabilityCompNewConditionsWorkflow: true,
+      ratedDisabilities: [],
+    });
+  });
+});
+
+describe('sanitizeNewDisabilities', () => {
+  it('returns original formData when feature flag is not enabled', () => {
+    const formData = {
+      newDisabilities: [{ condition: 'X', cause: 'NEW' }],
+    };
+
+    const result = sanitizeNewDisabilities(formData);
+    expect(result).to.equal(formData);
+  });
+
+  it('filters out entries missing condition or cause from newDisabilities and newPrimaryDisabilities', () => {
+    const formData = {
+      disabilityCompNewConditionsWorkflow: true,
+      newDisabilities: [
+        { condition: 'Valid condition', cause: 'NEW' },
+        { condition: 'Missing cause' },
+        { cause: 'NEW' },
+        null,
+      ],
+      newPrimaryDisabilities: [
+        { condition: 'Another valid condition', cause: 'SECONDARY' },
+        { condition: '', cause: 'SECONDARY' },
+        {},
+      ],
+    };
+    const result = sanitizeNewDisabilities(formData);
+
+    expect(result.newDisabilities).to.deep.equal([
+      { condition: 'Valid condition', cause: 'NEW' },
+    ]);
+    expect(result.newPrimaryDisabilities).to.deep.equal([
+      { condition: 'Another valid condition', cause: 'SECONDARY' },
+    ]);
+  });
+
+  it('deletes newDisabilities and newPrimaryDisabilities when all entries are invalid', () => {
+    const formData = {
+      disabilityCompNewConditionsWorkflow: true,
+      newDisabilities: [{ condition: 'Missing cause' }, { cause: 'NEW' }],
+      newPrimaryDisabilities: [{ condition: '' }, { cause: 'SECONDARY' }],
+    };
+    const result = sanitizeNewDisabilities(formData);
+
+    expect(result).to.not.have.property('newDisabilities');
+    expect(result).to.not.have.property('newPrimaryDisabilities');
+  });
+
+  it('does nothing when new* arrays are missing or not arrays', () => {
+    const formData = {
+      disabilityCompNewConditionsWorkflow: true,
+      newDisabilities: 'not-an-array',
+      newPrimaryDisabilities: undefined,
+    };
+    const result = sanitizeNewDisabilities(formData);
+
+    expect(result).to.deep.equal({
+      disabilityCompNewConditionsWorkflow: true,
+      newDisabilities: 'not-an-array',
+      newPrimaryDisabilities: undefined,
+    });
+  });
+});
+
+describe('removeRatedDisabilityFromNew', () => {
+  it('does nothing when there are no new* arrays present', () => {
+    const formData = {
+      ratedDisabilities: [{ name: 'Tinnitus' }],
+    };
+    const result = removeRatedDisabilityFromNew(formData);
+
+    expect(result).to.deep.equal(formData);
+  });
+
+  it('removes entries where condition is "Rated disability" from newDisabilities', () => {
+    const formData = {
+      ratedDisabilities: [{ name: 'Tinnitus' }],
+      newDisabilities: [
+        {
+          condition: 'Rated disability',
+          ratedDisability: 'Tinnitus',
+        },
+        {
+          condition: 'New condition',
+          cause: 'NEW',
+        },
+      ],
+    };
+    const result = removeRatedDisabilityFromNew(formData);
+
+    expect(result.newDisabilities).to.deep.equal([
+      {
+        condition: 'New condition',
+        cause: 'NEW',
+      },
+    ]);
+  });
+
+  it('removes entries where ratedDisability matches an existing ratedDisability name (case-insensitive)', () => {
+    const formData = {
+      ratedDisabilities: [{ name: 'Sciatica' }],
+      newPrimaryDisabilities: [
+        {
+          condition: 'Something',
+          ratedDisability: 'sciatica',
+        },
+        {
+          condition: 'Other',
+          ratedDisability: 'Not Rated',
+        },
+      ],
+    };
+    const result = removeRatedDisabilityFromNew(formData);
+
+    expect(result.newPrimaryDisabilities).to.deep.equal([
+      {
+        condition: 'Other',
+        ratedDisability: 'Not Rated',
+      },
+    ]);
+  });
+
+  it('deletes new keys when all entries represent increases', () => {
+    const formData = {
+      ratedDisabilities: [{ name: 'Tinnitus' }, { name: 'Sciatica' }],
+      newDisabilities: [
+        {
+          condition: 'Rated disability',
+          ratedDisability: 'Tinnitus',
+        },
+      ],
+      newSecondaryDisabilities: [
+        {
+          condition: 'Something',
+          ratedDisability: 'Sciatica',
+        },
+      ],
+    };
+    const result = removeRatedDisabilityFromNew(formData);
+
+    expect(result).to.not.have.property('newDisabilities');
+    expect(result).to.not.have.property('newSecondaryDisabilities');
+  });
+
+  it('keeps non-increase entries across all new lists', () => {
+    const formData = {
+      ratedDisabilities: [{ name: 'Tinnitus' }],
+      newDisabilities: [
+        {
+          condition: 'New condition 1',
+          cause: 'NEW',
+        },
+      ],
+      newPrimaryDisabilities: [
+        {
+          condition: 'New condition 2',
+          cause: 'NEW',
+        },
+      ],
+      newSecondaryDisabilities: [
+        {
+          condition: 'Secondary condition',
+          cause: 'SECONDARY',
+        },
+      ],
+    };
+    const result = removeRatedDisabilityFromNew(formData);
+
+    expect(result.newDisabilities).to.deep.equal([
+      {
+        condition: 'New condition 1',
+        cause: 'NEW',
+      },
+    ]);
+    expect(result.newPrimaryDisabilities).to.deep.equal([
+      {
+        condition: 'New condition 2',
+        cause: 'NEW',
+      },
+    ]);
+    expect(result.newSecondaryDisabilities).to.deep.equal([
+      {
+        condition: 'Secondary condition',
+        cause: 'SECONDARY',
+      },
+    ]);
+  });
+});
+
+describe('removeExtraData', () => {
+  it('strips rating metadata keys but keeps ratedDisabilities when non-empty', () => {
+    const formData = {
+      ratedDisabilities: [
+        {
+          name: 'Tinnitus',
+          ratingDecisionId: 123,
+          decisionCode: 'ABC',
+          decisionText: 'Some text',
+          ratingPercentage: 10,
+          someOtherField: 'keep-me',
+        },
+      ],
+      otherField: 'unchanged',
+    };
+    const result = removeExtraData(formData);
+
+    expect(result.ratedDisabilities).to.have.lengthOf(1);
+
+    const cleaned = result.ratedDisabilities[0];
+
+    expect(cleaned.name).to.equal('Tinnitus');
+    expect(cleaned.someOtherField).to.equal('keep-me');
+    expect(cleaned).to.not.have.property('ratingDecisionId');
+    expect(cleaned).to.not.have.property('decisionCode');
+    expect(cleaned).to.not.have.property('decisionText');
+    expect(cleaned).to.not.have.property('ratingPercentage');
+    expect(formData.ratedDisabilities[0]).to.have.property(
+      'ratingPercentage',
+      10,
+    );
+  });
+
+  it('deletes ratedDisabilities when the array is empty', () => {
+    const formData = {
+      ratedDisabilities: [],
+      otherField: 'value',
+    };
+    const result = removeExtraData(formData);
+
+    expect(result).to.not.have.property('ratedDisabilities');
+    expect(result.otherField).to.equal('value');
+  });
+
+  it('does nothing when ratedDisabilities is undefined', () => {
+    const formData = {
+      someField: true,
+    };
+    const result = removeExtraData(formData);
+
+    expect(result).to.deep.equal(formData);
+  });
+});
+
+describe('cleanUpMailingAddress', () => {
+  it('should normalize address lines by trimming and collapsing spaces', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '  123   Main   St  ',
+        addressLine2: '  Apt   5  ',
+        addressLine3: '  Building   A  ',
+        city: 'New York',
+        state: 'NY',
+        zipCode: '12345',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress.addressLine1).to.equal('123 Main St');
+    expect(result.mailingAddress.addressLine2).to.equal('Apt 5');
+    expect(result.mailingAddress.addressLine3).to.equal('Building A');
+  });
+
+  it('should normalize city by trimming and collapsing spaces', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        city: '  Los   Angeles  ',
+        state: 'CA',
+        zipCode: '90001',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress.city).to.equal('Los Angeles');
+  });
+
+  it('should preserve other address fields unchanged', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        city: 'New York',
+        state: 'NY',
+        zipCode: '12345',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress.country).to.equal('USA');
+    expect(result.mailingAddress.city).to.equal('New York');
+    expect(result.mailingAddress.state).to.equal('NY');
+    expect(result.mailingAddress.zipCode).to.equal('12345');
+  });
+
+  it('should remove invalid keys from mailing address', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        'view:livesOnMilitaryBase': true,
+        invalidKey: 'should be removed',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress).to.not.have.property(
+      'view:livesOnMilitaryBase',
+    );
+    expect(result.mailingAddress).to.not.have.property('invalidKey');
+  });
+
+  it('should handle empty address lines', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        addressLine2: '',
+        city: 'New York',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress).to.not.have.property('addressLine2');
+  });
+
+  it('should handle address line with only spaces', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        addressLine2: '     ',
+        city: 'New York',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    // Whitespace-only values become empty after normalization and are filtered out
+    expect(result.mailingAddress).to.not.have.property('addressLine2');
+  });
+
+  it('should handle empty string values in mailing address', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        addressLine2: '',
+        addressLine3: '',
+        city: 'New York',
+        state: 'NY',
+        zipCode: '12345',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress.addressLine1).to.equal('123 Main St');
+    expect(result.mailingAddress.city).to.equal('New York');
+    // Empty strings are filtered out (not included in result)
+    expect(result.mailingAddress).to.not.have.property('addressLine2');
+    expect(result.mailingAddress).to.not.have.property('addressLine3');
   });
 });

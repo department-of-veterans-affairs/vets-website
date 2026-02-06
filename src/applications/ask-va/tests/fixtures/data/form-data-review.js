@@ -41,7 +41,7 @@ export const mockData = {
     updatedInReview: '',
     searchLocationInput: '',
     getLocationInProgress: false,
-    currentUserLocation: '',
+    currentUserLocation: [],
     getLocationError: false,
     selectedFacility: null,
     vaHealthFacility: '',

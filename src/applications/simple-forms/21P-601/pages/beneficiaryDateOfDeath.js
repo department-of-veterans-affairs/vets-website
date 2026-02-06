@@ -1,13 +1,13 @@
 import {
   titleUI,
-  currentOrPastDateDigitsUI,
+  currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
     ...titleUI('Beneficiary’s date of death'),
-    beneficiaryDateOfDeath: currentOrPastDateDigitsUI(
+    beneficiaryDateOfDeath: currentOrPastDateUI(
       'When did the beneficiary die?',
     ),
   },

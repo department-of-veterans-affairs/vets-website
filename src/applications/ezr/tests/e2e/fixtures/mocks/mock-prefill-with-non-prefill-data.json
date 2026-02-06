@@ -40,11 +40,11 @@
         "insuranceGroupCode": "12365356"
       }
     ],
-    "maritalStatus": "Married",
     "spouseSocialSecurityNumber": "666834638",
     "spouseDateOfBirth": "1971-09-11",
     "dateOfMarriage": "1995-02-22",
     "cohabitedLastYear": true,
+    "sameAddress": true,
     "maritalStatus": "Married",
     "nonPrefill": {
       "previousFinancialInfo": {

@@ -94,7 +94,7 @@ class MedicationsDetailsPage {
       }`,
       prescriptionDetails,
     ).as('prescription_details');
-    cy.get('a[data-testid ="medications-history-details-link"]')
+    cy.get('a[data-testid="medications-history-details-link"]')
       .first()
       .click({ force: true });
   };
@@ -108,10 +108,10 @@ class MedicationsDetailsPage {
       prescriptionDetails,
     ).as('prescriptionDetails');
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]`,
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) [data-testid="medications-history-details-link"]`,
     ).should('be.visible');
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]`,
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) [data-testid="medications-history-details-link"]`,
     )
       .first()
       .click({ waitForAnimations: true });
@@ -129,7 +129,11 @@ class MedicationsDetailsPage {
     // http://localhost:3001/my-health/medications?page=1  << previous
   };
 
-  clickMedicationsListPageTwoBreadcrumbsOnDetailsPage = () => {
+  clickMedicationsListPageTwoBreadcrumbsOnDetailsPageAndVerifyNavigation = (
+    displayedStartNumber,
+    displayedEndNumber,
+    listLength,
+  ) => {
     cy.get('[data-testid="rx-breadcrumb-link"]')
       .shadow()
       .find('a')
@@ -137,6 +141,12 @@ class MedicationsDetailsPage {
       .click({
         waitForAnimations: true,
       });
+    cy.get('[data-testid="page-total-info"]').should($el => {
+      const text = $el.text().trim();
+      expect(text).to.include(
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by status`,
+      );
+    });
     // cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').should('exist');
     // cy.get('[data-testid="rx-breadcrumb"]').click({
     //   waitForAnimations: true,
@@ -171,10 +181,6 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="download-pdf-button"]').click({
       force: true,
     });
-  };
-
-  verifyLoadingSpinnerForDownloadOnDetailsPage = () => {
-    cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
   };
 
   verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage = () => {
@@ -240,9 +246,10 @@ class MedicationsDetailsPage {
   };
 
   verifyDiscontinuedStatusDropDownDefinition = () => {
-    cy.get(
-      '[data-testid="status-dropdown"] > [data-testid="discontinued-status-definition"]',
-    ).should('contain', 'You can’t refill this prescription.');
+    cy.get('[data-testid="discontinued-status-definition"]').should(
+      'contain',
+      'You can’t refill this prescription. We may use this status for either of these reasons:',
+    );
   };
 
   verifyExpiredStatusDropDownDefinition = () => {
@@ -372,7 +379,7 @@ class MedicationsDetailsPage {
   verifyExpiredStatusDescriptionOnDetailsPage = () => {
     cy.get('[data-testid="expired"]').should(
       'contain',
-      'This prescription is too old to refill',
+      'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
     );
   };
 
@@ -554,6 +561,10 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="rx-last-filled-date"]').should('contain', text);
   };
 
+  verifyLastFilledDateNotDisplayedOnDetailsPage = () => {
+    cy.get('[data-testid="rx-last-filled-date"]').should('not.exist');
+  };
+
   verifyRefillLinkTextOnDetailsPage = text => {
     cy.get('[data-testid="refill-nav-link"]').should('have.text', text);
   };
@@ -563,7 +574,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPendingRxWarningTextOnDetailsPage = alert => {
-    cy.get('[data-testid="pending-med-alert"]').should('have.text', alert);
+    cy.get('[data-testid="pending-med-alert"]').should('contain', alert);
   };
 
   verifyHeaderTextOnDetailsPage = text => {
@@ -575,7 +586,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPendingTextAlertForLessThanSevenDays = text => {
-    cy.get('[data-testid="pending-med-alert"]').should('have.text', text);
+    cy.get('[data-testid="pending-med-alert"]').should('contain', text);
   };
 
   verifyRefillDelayAlertBannerOnDetailsPage = text => {

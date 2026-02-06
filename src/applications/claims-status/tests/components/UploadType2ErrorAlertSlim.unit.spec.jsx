@@ -1,10 +1,24 @@
 import React from 'react';
 import { expect } from 'chai';
+import PropTypes from 'prop-types';
 import { renderWithRouter } from '../utils';
 
 import UploadType2ErrorAlertSlim from '../../components/UploadType2ErrorAlertSlim';
+import { Type2FailureAnalyticsProvider } from '../../contexts/Type2FailureAnalyticsContext';
+
+// Wrapper that provides the analytics context
+function TestWrapper({ children }) {
+  return (
+    <Type2FailureAnalyticsProvider>{children}</Type2FailureAnalyticsProvider>
+  );
+}
+
+TestWrapper.propTypes = {
+  children: PropTypes.node,
+};
 
 describe('<UploadType2ErrorAlertSlim>', () => {
+  const TEST_CLAIM_ID = 'test-claim-123';
   const createFailedSubmission = (acknowledgementDate, failedDate) => ({
     acknowledgementDate,
     id: 1,
@@ -23,26 +37,15 @@ describe('<UploadType2ErrorAlertSlim>', () => {
 
   it('should not render when there are no failed submissions', () => {
     const { container } = renderWithRouter(
-      <UploadType2ErrorAlertSlim failedSubmissions={[]} />,
+      <TestWrapper>
+        <UploadType2ErrorAlertSlim
+          claimId={TEST_CLAIM_ID}
+          failedSubmissions={[]}
+        />
+      </TestWrapper>,
     );
 
-    expect(container.firstChild).to.be.null;
-  });
-
-  it('should not render when failedSubmissions is null', () => {
-    const { container } = renderWithRouter(
-      <UploadType2ErrorAlertSlim failedSubmissions={null} />,
-    );
-
-    expect(container.firstChild).to.be.null;
-  });
-
-  it('should not render when failedSubmissions is undefined', () => {
-    const { container } = renderWithRouter(
-      <UploadType2ErrorAlertSlim failedSubmissions={undefined} />,
-    );
-
-    expect(container.firstChild).to.be.null;
+    expect(container.querySelector('va-alert')).to.not.exist;
   });
 
   it('should render when there are failed submissions', () => {
@@ -57,7 +60,12 @@ describe('<UploadType2ErrorAlertSlim>', () => {
       ),
     ];
     const { container } = renderWithRouter(
-      <UploadType2ErrorAlertSlim failedSubmissions={failedSubmissions} />,
+      <TestWrapper>
+        <UploadType2ErrorAlertSlim
+          claimId={TEST_CLAIM_ID}
+          failedSubmissions={failedSubmissions}
+        />
+      </TestWrapper>,
     );
     const alert = container.querySelector('va-alert');
 

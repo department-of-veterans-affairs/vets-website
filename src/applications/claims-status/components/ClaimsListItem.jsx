@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   Toggler,
@@ -7,10 +7,10 @@ import {
 import {
   getClaimPhaseTypeHeaderText,
   buildDateFormatter,
-  getFailedSubmissionsWithinLast30Days,
   getStatusDescription,
   generateClaimTitle,
   getShowEightPhases,
+  getFailedSubmissionsWithinLast30Days,
 } from '../utils/helpers';
 import ClaimCard from './ClaimCard';
 import UploadType2ErrorAlertSlim from './UploadType2ErrorAlertSlim';
@@ -82,8 +82,11 @@ export default function ClaimsListItem({ claim }) {
   const ariaLabel = `Details for claim submitted on ${formattedReceiptDate}`;
   const href = `/your-claims/${claim.id}/status`;
 
-  const failedSubmissionsWithinLast30Days = getFailedSubmissionsWithinLast30Days(
-    evidenceSubmissions,
+  // Memoize failed submissions to prevent UploadType2ErrorAlertSlim from receiving
+  // a new array reference on every render, which would break its useEffect tracking
+  const failedSubmissionsWithinLast30Days = useMemo(
+    () => getFailedSubmissionsWithinLast30Days(evidenceSubmissions),
+    [evidenceSubmissions],
   );
 
   return (
@@ -111,6 +114,7 @@ export default function ClaimsListItem({ claim }) {
       <Toggler toggleName={Toggler.TOGGLE_NAMES.cstShowDocumentUploadStatus}>
         <Toggler.Enabled>
           <UploadType2ErrorAlertSlim
+            claimId={claim.id}
             failedSubmissions={failedSubmissionsWithinLast30Days}
           />
         </Toggler.Enabled>

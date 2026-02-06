@@ -14,6 +14,7 @@ import {
   macroCase,
   extractContainedResource,
   dateFormatWithoutTimezone,
+  formatDateTimeInUserTimezone,
 } from '../util/helpers';
 
 const initialState = {
@@ -162,7 +163,7 @@ export const convertUnifiedVital = record => {
     id: record.id,
     measurement: record.attributes.measurement || EMPTY_FIELD,
     date: record.attributes.date
-      ? dateFormatWithoutTimezone(record.attributes.date)
+      ? formatDateTimeInUserTimezone(record.attributes.date)
       : EMPTY_FIELD,
     effectiveDateTime: record?.attributes.date,
     location: record.attributes.location || EMPTY_FIELD,
@@ -177,11 +178,10 @@ export const convertUnifiedVital = record => {
 export const vitalReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Vitals.GET: {
+      const list = Array.isArray(state.vitalsList) ? state.vitalsList : [];
       return {
         ...state,
-        vitalDetails: state.vitalsList.filter(
-          vital => vital.type === action.vitalType,
-        ),
+        vitalDetails: list.filter(vital => vital.type === action.vitalType),
       };
     }
     case Actions.Vitals.GET_LIST: {
@@ -189,7 +189,7 @@ export const vitalReducer = (state = initialState, action) => {
       const newList =
         action?.response?.entry
           ?.filter(entry =>
-            entry.resource.code.coding.some(coding =>
+            entry.resource?.code?.coding?.some(coding =>
               allowedVitalLoincs.includes(coding.code),
             ),
           )
@@ -208,9 +208,19 @@ export const vitalReducer = (state = initialState, action) => {
     case Actions.Vitals.GET_UNIFIED_LIST: {
       const oldList = state.vitalsList;
       const newList =
-        action.response.data?.map(vital => {
-          return convertUnifiedVital(vital);
-        }) || [];
+        action.response.data
+          ?.map(vital => {
+            return convertUnifiedVital(vital);
+          }) // Sort newest first using raw ISO timestamp; invalid/missing dates last
+          .sort((a, b) => {
+            const at = Date.parse(a.effectiveDateTime);
+            const bt = Date.parse(b.effectiveDateTime);
+            const ak = Number.isFinite(at) ? at : -Infinity;
+            const bk = Number.isFinite(bt) ? bt : -Infinity;
+            if (bk !== ak) return bk - ak;
+            // Optional stable tie-breaker by id to keep order deterministic
+            return String(a.id).localeCompare(String(b.id));
+          }) || [];
 
       return {
         ...state,

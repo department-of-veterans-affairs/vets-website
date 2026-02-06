@@ -17,7 +17,6 @@ export {
   // Validation functions
   isValidFullDate,
   isValidYear,
-  isValidPartialDate,
   validateAge,
   validateSeparationDate,
   validateServicePeriod,
@@ -58,6 +57,8 @@ export {
   validateDateNotBeforeReference,
   validateSeparationDateWithRules,
   validateTitle10ActivationDate,
+  validateApproximateDate,
+  validateApproximateMonthYearDate,
 } from './validations';
 
 // Product-specific exports for one-off functionality

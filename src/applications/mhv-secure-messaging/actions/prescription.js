@@ -1,4 +1,4 @@
-import { datadogRum } from '@datadog/browser-rum';
+import { dataDogLogger } from 'platform/monitoring/Datadog';
 import { Actions } from '../util/actionTypes';
 import { getPrescriptionById as apiGetPrescriptionById } from '../api/RxApi';
 
@@ -17,6 +17,12 @@ export const getPrescriptionById = prescriptionId => async dispatch => {
       error.errors = response.errors; // Preserve the original errors array
       throw error;
     }
+    if (
+      !response.data?.attributes?.prescriptionName ||
+      !response.data?.attributes?.prescriptionNumber
+    ) {
+      throw new Error('Non-VA medication');
+    }
     dispatch({
       type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
       payload: response.data?.attributes,
@@ -29,13 +35,17 @@ export const getPrescriptionById = prescriptionId => async dispatch => {
         : error.title || error.detail || error.message || error;
 
     // Log error to Datadog with context
-    const errorMessage = `Error fetching medication data for Secure Messaging Rx renewal request: ${errorPayload}`;
-    datadogRum.addError(new Error(errorMessage), {
-      source: 'prescription_action',
-      prescriptionId,
-      originalError: errorPayload,
-      errorStatus: error?.status,
-      context: 'Secure Messaging - Medication Renewal Request',
+    dataDogLogger({
+      message: `Error fetching medication data for Secure Messaging Rx renewal request: ${errorPayload}`,
+      attributes: {
+        source: 'prescription_action',
+        prescriptionId,
+        originalError: errorPayload,
+        errorStatus: error?.status,
+        context: 'Secure Messaging - Medication Renewal Request',
+      },
+      status: 'error',
+      error: e,
     });
 
     dispatch({

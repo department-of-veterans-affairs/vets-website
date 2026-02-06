@@ -1,5 +1,4 @@
-import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { currentOrPastMonthYearDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   dateRangeAdditionalInfo,
@@ -9,12 +8,19 @@ import {
   getSelectedCount,
   herbicidePageTitle,
   notSureDatesDetails,
+  reviewDateField,
   showCheckboxLoopDetailsPage,
   startDateApproximate,
   teSubtitle,
 } from '../../content/toxicExposure';
 import { HERBICIDE_LOCATIONS, TE_URL_PREFIX } from '../../constants';
-import { validateToxicExposureHerbicideDates } from '../../utils/validations';
+import { validateToxicExposureDates } from '../../utils/validations';
+import { validateApproximateMonthYearDate } from '../../utils/dates';
+import {
+  ForceFieldBlur,
+  makeDateConfirmationField,
+  monthYearDateSchemaWithFullDateSupport,
+} from './utils';
 
 /**
  * Make the uiSchema for each herbicide details page
@@ -36,16 +42,38 @@ function makeUiSchema(locationId) {
       herbicideDetails: {
         [locationId]: {
           startDate: {
-            ...currentOrPastDateUI({
+            ...currentOrPastMonthYearDateUI({
               title: startDateApproximate,
             }),
+            'ui:required': false,
+            // Replace platform validation (validateCurrentOrPastMonthYear) with custom validation
+            'ui:validations': [validateApproximateMonthYearDate],
+            'ui:errorMessages': {
+              pattern: 'Please enter a valid date',
+              required: 'Please enter a date',
+            },
+            'ui:reviewField': reviewDateField,
+            'ui:confirmationField': makeDateConfirmationField(
+              startDateApproximate,
+            ),
           },
           endDate: {
-            ...currentOrPastDateUI({
+            ...currentOrPastMonthYearDateUI({
               title: endDateApproximate,
             }),
+            'ui:required': false,
+            // Replace platform validation (validateCurrentOrPastMonthYear) with custom validation
+            'ui:validations': [validateApproximateMonthYearDate],
+            'ui:errorMessages': {
+              pattern: 'Please enter a valid date',
+              required: 'Please enter a date',
+            },
+            'ui:reviewField': reviewDateField,
+            'ui:confirmationField': makeDateConfirmationField(
+              endDateApproximate,
+            ),
           },
-          'ui:validations': [validateToxicExposureHerbicideDates],
+          'ui:validations': [validateToxicExposureDates],
           'view:notSure': {
             'ui:title': notSureDatesDetails,
             'ui:webComponentField': VaCheckboxField,
@@ -57,6 +85,12 @@ function makeUiSchema(locationId) {
       },
       'view:herbicideAdditionalInfo': {
         'ui:description': dateRangeAdditionalInfo,
+      },
+    },
+    _forceFieldBlur: {
+      'ui:field': ForceFieldBlur,
+      'ui:options': {
+        hideOnReview: true,
       },
     },
   };
@@ -80,8 +114,8 @@ function makeSchema(locationId) {
               [locationId]: {
                 type: 'object',
                 properties: {
-                  startDate: full526EZSchema.definitions.minimumYearDate,
-                  endDate: full526EZSchema.definitions.minimumYearDate,
+                  startDate: monthYearDateSchemaWithFullDateSupport,
+                  endDate: monthYearDateSchemaWithFullDateSupport,
                   'view:notSure': {
                     type: 'boolean',
                   },
@@ -94,6 +128,9 @@ function makeSchema(locationId) {
             properties: {},
           },
         },
+      },
+      _forceFieldBlur: {
+        type: 'boolean',
       },
     },
   };

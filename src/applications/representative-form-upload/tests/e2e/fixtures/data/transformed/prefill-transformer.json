@@ -13,6 +13,12 @@
       "postalCode": "12345"
     },
     "email": "john@veteran.com",
-    "ssn": "234232345"
+    "ssn": "234232345",
+    "attributes": {
+      "creationDate": "2025-12-30T17:53:50Z",
+      "expirationDate": "2026-12-30T17:53:50Z",
+      "status": "active",
+      "type": "compensation"
+    }
   }
 }

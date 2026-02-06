@@ -9,7 +9,7 @@ describe('<NextSteps>', () => {
   it('should render next steps section with 4 links', () => {
     const { container, queryByText } = render(<NextSteps />);
 
-    const links = $$('a', container);
+    const links = $$('va-link', container);
     expect(links.length).to.eq(4);
     expect(queryByText('Next steps')).to.exist;
   });

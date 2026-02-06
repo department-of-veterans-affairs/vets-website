@@ -22,13 +22,19 @@ class VitalsListPage extends BaseListPage {
   };
 
   clickLinkByRecordListItem = vitalsHeading => {
-    cy.contains(vitalsHeading, { includeShadowDom: true }).then(element => {
-      cy.wrap(element).should('have.prop', 'tagName', 'H2');
-      cy.wrap(element)
-        .parent()
-        .findByRole('link', { name: /Review your/ })
-        .click();
-    });
+    // Wait for the vitals list to be fully rendered
+    cy.get('[data-testid="vital-li-display-name"]').should('exist');
+
+    // Find the card containing the heading and click its review link
+    cy.contains('h2', vitalsHeading)
+      .closest('[data-testid="record-list-item"]')
+      .find('[data-testid="vital-li-review-over-time"]')
+      .should('be.visible')
+      .click();
+
+    // Wait for the detail page to load after navigation
+    cy.get('[data-testid="vital-date"]', { timeout: 10000 }).should('exist');
+    cy.get('[data-testid="vital-result"]').should('exist');
   };
 
   verifyVitalOnListPage = (index, name, measurement, date) => {

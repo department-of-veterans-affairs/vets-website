@@ -183,8 +183,11 @@ const RecipientsSelect = ({
         onValueChange(null);
         return;
       }
-
-      const recipient = recipientsList.find(r => +r.id === +value) || {};
+      const possibleRecipients =
+        mhvSecureMessagingCuratedListFlow && Array.isArray(recentRecipients)
+          ? [...recipientsList, ...recentRecipients]
+          : recipientsList;
+      const recipient = possibleRecipients.find(r => +r.id === +value) || {};
       const prevRecipient = selectedRecipient;
       const prevRequired = !!prevRecipient?.signatureRequired;
       const nextRequired = !!recipient.signatureRequired;
@@ -198,6 +201,7 @@ const RecipientsSelect = ({
           recipientName: recipient.name,
           recipientId: recipient.id,
           ohTriageGroup: recipient.ohTriageGroup,
+          stationNumber: recipient.stationNumber,
         }),
       );
 
@@ -218,12 +222,14 @@ const RecipientsSelect = ({
       }
     },
     [
+      mhvSecureMessagingCuratedListFlow,
+      recentRecipients,
       recipientsList,
-      dispatch,
       selectedRecipient,
+      onValueChange,
       handleSetCheckboxMarked,
       handleSetElectronicSignature,
-      onValueChange,
+      dispatch,
     ],
   );
 

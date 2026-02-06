@@ -3,7 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockEhrData from './fixtures/userResponse/vamc-ehr-cerner-mixed.json';
-import mockMixedCernerFacilitiesUser from './fixtures/userResponse/user-cerner-mixed.json';
+import mockPretransitionedCernerFacilitiesUser from './fixtures/userResponse/user-cerner-mixed-pretransitioned.json';
 import mockFacilities from './fixtures/facilityResponse/cerner-facility-mock-data.json';
 import mockFeatureToggles from './fixtures/toggles-response.json';
 
@@ -56,7 +56,7 @@ describe('SECURE MESSAGING AAL', () => {
         customFeatureToggles,
         mockEhrData,
         true,
-        mockMixedCernerFacilitiesUser,
+        mockPretransitionedCernerFacilitiesUser,
         mockFacilities,
       );
       cy.intercept('POST', Paths.AAL, {
@@ -67,7 +67,7 @@ describe('SECURE MESSAGING AAL', () => {
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.get(Locators.ALERTS.CERNER_ALERT)
-        .find('a')
+        .find('va-link-action')
         .click();
 
       cy.get('@submitLaunchMessagingAal.all').then(interceptions => {
@@ -89,7 +89,7 @@ describe('SECURE MESSAGING AAL', () => {
         mockFeatureToggles,
         mockEhrData,
         true,
-        mockMixedCernerFacilitiesUser,
+        mockPretransitionedCernerFacilitiesUser,
         mockFacilities,
       );
       cy.intercept('POST', Paths.AAL, {
@@ -100,7 +100,7 @@ describe('SECURE MESSAGING AAL', () => {
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.get(Locators.ALERTS.CERNER_ALERT)
-        .find('a')
+        .find('va-link-action')
         .click();
 
       cy.get('@submitLaunchMessagingAal.all').should('have.length', 0);

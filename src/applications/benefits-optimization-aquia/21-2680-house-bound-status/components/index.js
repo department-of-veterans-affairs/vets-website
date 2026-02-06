@@ -4,4 +4,7 @@
  */
 
 export { GetHelp } from './get-help';
-export { DownloadFormPDF } from './confirmation-page';
+export {
+  PreSubmitSignature,
+  preSubmitSignatureConfig,
+} from './pre-submit-signature';

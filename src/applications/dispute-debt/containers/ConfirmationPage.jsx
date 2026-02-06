@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import i18nDebtApp from 'applications/dispute-debt/i18n';
 import {
   ConfirmationView,
   ChapterSectionCollection,
 } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { Trans } from 'react-i18next';
 import { setDocumentTitle } from '../utils';
 
 import NeedHelp from '../components/NeedHelp';
@@ -20,6 +22,8 @@ export const ConfirmationPage = ({ route }) => {
   );
 
   const form = useSelector(state => state.form || {});
+  const userEmail = useSelector(state => state.user.profile.email || '');
+
   const { submission } = form;
   const { response, timestamp } = submission || {};
 
@@ -48,8 +52,14 @@ export const ConfirmationPage = ({ route }) => {
       filename="VA-Dispute-Debt-Submission.pdf"
     >
       <ConfirmationView.SubmissionAlert
-        title="Your dispute submission is in progress"
-        content="You will receive a letter in the email confirming receipt within 60 days."
+        title={i18nDebtApp.t('dispute-submission-alert.title')}
+        content={
+          <Trans
+            i18nKey="dispute-submission-alert.description"
+            values={{ email: userEmail }}
+            components={{ bold: <strong /> }}
+          />
+        }
         actions={null}
       />
       <ConfirmationView.SavePdfDownload />
@@ -59,11 +69,19 @@ export const ConfirmationPage = ({ route }) => {
       />
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList
-        item1Header="We’ll confirm when we receive your dispute request"
-        item1Content="After we receive your submission, we’ll review your dispute. You’ll receive a letter in the email confirming receipt within 60 days."
+        item1Header={i18nDebtApp.t(
+          'dispute-submitted-whats-next.first-action.header',
+        )}
+        item1Content={i18nDebtApp.t(
+          'dispute-submitted-whats-next.first-action.description',
+        )}
         item1Actions={null}
-        item2Header="We’ll review your dispute"
-        item2Content="A determination will be made within 180 days. We will mail you a letter with our decision."
+        item2Header={i18nDebtApp.t(
+          'dispute-submitted-whats-next.second-action.header',
+        )}
+        item2Content={i18nDebtApp.t(
+          'dispute-submitted-whats-next.second-action.description',
+        )}
       />
       <ConfirmationView.HowToContact />
       <ConfirmationView.GoBackLink />

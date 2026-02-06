@@ -1,0 +1,244 @@
+{
+  "data": {
+    "veteranFullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "veteranDateOfBirth": "1980-01-01",
+    "veteranSocialSecurityNumber": {
+        "ssn": "454544545"
+    },
+    "vaClaimsHistory": true,
+    "diedOnDuty": true,
+    "veteranDateOfDeath": "2020-01-01",
+    "claimantRelationship": "SPOUSE",
+    "claimantFullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "claimantDateOfBirth": "1985-01-01",
+    "claimantSocialSecurityNumber": "454544777",
+    "claimantIsVeteran": true,
+    "claimantAddress": {
+      "street": "101 Main St",
+      "street2": "Apartment 2B",
+      "city": "Anytown",
+      "state": "OH",
+      "postalCode": "01234",
+      "country": "USA"
+    },
+    "email": "john.doe@example.com",
+    "primaryPhone": {
+      "contact": "(555) 123-4567"
+    },
+    "claims": {
+        "dependencyIndemnityComp": true,
+        "survivorPension": true,
+        "accruedBenefits": true
+    },
+    "receivedBenefits": false,
+    "branchOfService": {
+        "MARINE_CORPS": true
+    },
+    "dateInitiallyEnteredActiveDuty": "2000-01-01",
+    "finalReleaseDateFromActiveDuty": "2010-01-01",
+    "cityStateOrForeignCountry": "Anytown, OH, USA",
+    "nationalGuardActivated": true,
+    "dateOfActivation": "2005-01-01",
+    "unitName": "Unit 1",
+    "unitPhoneNumber": {
+        "contact": "(555) 987-6543"
+    },
+    "unitAddress": {
+      "street": "101 Not Main St",
+      "city": "Anytown",
+      "state": "OH",
+      "postalCode": "01234",
+      "country": "USA"
+    },
+    "otherServiceNames": [
+      {
+        "otherServiceName": {
+          "first": "Alex",
+          "last": "Smith"
+        }
+      },
+      {
+        "otherServiceName": {
+          "first": "Todd",
+          "last": "Smith"
+        }
+      }
+    ],
+    "prisonerOfWar": true,
+    "powPeriod": {
+      "from": "2000-01-01",
+      "to": "2005-01-01"
+    },
+    "marriedToVeteranAtTimeOfDeath": true,
+    "marriageToVeteranStartDate": "2010-01-01",
+    "marriageToVeteranStartOutsideUS": false,
+    "marriageToVeteranStartLocation": {
+      "city": "Anytown",
+      "state": "OH"
+    },
+    "marriageType": "OTHER_WAY",
+    "marriageTypeOther": "Custom Marriage Type",
+    "marriageEndReason": "OTHER",
+    "marriageEndOtherReason": "Custom End Reason",
+    "marriageToVeteranEndDate": "2020-01-01",
+    "marriageToVeteranEndOutsideUS": false,
+    "marriageToVeteranEndLocation": {
+      "city": "Anytown",
+      "state": "OH"
+    },
+    "awareOfLegalIssues": true,
+    "legalIssueExplanation": "Custom Legal Issue Explanation",
+    "livedContinuouslyWithVeteran": false,
+    "separationDueToAssignedReasons": "RELATIONSHIP_DIFFERENCES",
+    "separationExplanation": "Custom Separation Explanation",
+    "separationStartDate": "2015-01-01",
+    "separationEndDate": "2020-01-01",
+    "courtOrderedSeparation": false,
+    "remarried": true,
+    "remarriageEndReason": "OTHER",
+    "remarriageEndOtherReason": "Custom Remarriage End Reason",
+    "remarriageDate": "2021-01-01",
+    "remarriageEndDate": "2022-01-01",
+    "additionalMarriages": true,
+    "recognizedAsSpouse": true,
+    "hadPreviousMarriages": true,
+    "spouseMarriages": [
+      {
+        "previousSpouseName": {
+          "first": "Alice",
+          "last": "Johnson"
+        },
+        "marriageToVeteranDate": "2010-01-01",
+        "marriageLocation": {
+          "city": "Anytown",
+          "state": "OH"
+        },
+        "marriageEndDate": "2020-01-01",
+        "marriageEndLocation": {
+          "city": "Anytown",
+          "state": "OH"
+        },
+        "marriageEndReason": "OTHER",
+        "marriageEndOtherExplanation": "Custom End Reason"
+      }
+    ],
+    "veteranMarriages": [
+      {
+        "previousSpouseFullName": {
+          "first": "Alice",
+          "last": "Johnson"
+        },
+        "marriageDate": "2010-01-01",
+        "marriageLocation": {
+          "city": "Anytown",
+          "state": "OH"
+        },
+        "dateOfTermination": "2020-01-01",
+        "marriageEndLocation": {
+          "city": "Anytown",
+          "state": "OH"
+        },
+        "marriageEndedBy": "OTHER",
+        "marriageEndedOther": "Custom End Reason"
+      }
+    ],
+    "expectingChild": true,
+    "hadChildWithVeteran": true,
+    "dependents": [
+      {
+        "dependentFullName": {
+          "first": "John",
+          "last": "Doe"
+        },
+        "dependentSocialSecurityNumber": "454544545",
+        "dateOfBirth": "2015-01-01",
+        "birthPlace": {
+          "city": "Anytown",
+          "state": "OH"
+        },
+        "relationship": "BIOLOGICAL",
+        "inSchool": true,
+        "seriouslyDisabled": false,
+        "hasBeenMarried": true,
+        "currentlyMarried": false,
+        "livesWithYou": false,
+        "mailingAddress": {
+          "street": "101 Main St",
+          "street2": "Apartment 2B",
+          "city": "Anytown",
+          "state": "OH",
+          "postalCode": "01234",
+          "country": "USA"
+        },
+        "custodianFullName": {
+          "first": "Jane",
+          "last": "Doe"
+        },
+        "monthlySupport": 500
+      }
+    ],
+    "benefit": "DIC",
+      "vaMedicalCenters": [
+        {
+          "vaMedicalCenterName": "Anytown VA Medical Center",
+          "city": "Anytown",
+          "state": "OH",
+          "startDate": "2020-01-01",
+          "endDate": "2021-01-01"
+        }
+      ],
+      "needRegularAssistance": true,
+      "inNursingHome": true,
+      "hasAssetsOverThreshold": true,
+      "totalAssets": 10000,
+      "transferredAssets": true,
+      "homeOwnership": true,
+      "landLotSize": true,
+      "additionalLandValue": 5000,
+      "additionalLandMarketable": true,
+      "moreThanFourSources": true,
+      "otherIncomeLastYearNoLongerReceive": true,
+      "incomeSources": [
+        {
+          "whoReceives": "SURVIVING_SPOUSE",
+          "typeOfIncome": "OTHER",
+          "otherTypeExplanation": "Custom Other Type Explanation",
+          "payer": "Custom Payer",
+          "amount": 1000
+        }
+      ],
+      "careExpenses": [
+        {
+          "typeOfCare": "IN_HOME_CARE_ATTENDANT",
+          "recipient": "CUSTODIAN_SPOUSE",
+          "provider": "Custom Provider",
+          "careDate": {
+            "from": "2020-01-01",
+            "to": "2021-01-01"
+          },
+          "frequency": "MONTHLY",
+          "paymentAmount": 500,
+          "hourlyRate": 25,
+          "weeklyHours": 20
+        }
+      ],
+      "medicalExpenses": [
+        {
+          "recipient": "VETERANS_CHILD",
+          "recipientName": "John Doe",
+          "paymentRecipient": "Custom Payment Recipient",
+          "purpose": "Custom Purpose",
+          "paymentDate": "2021-01-01",
+          "frequency": "YEARLY",
+          "amount": 1000
+        }
+      ],
+      "hasBankAccount": false
+  }
+}

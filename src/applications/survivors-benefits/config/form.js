@@ -2,6 +2,7 @@ import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import { TITLE, SUBTITLE } from '../utils/constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -13,7 +14,10 @@ import ErrorText from '../components/ErrorText';
 import veteranIdentification from './chapters/01-veteran-information/veteranIdentification';
 import veteranAdditional from './chapters/01-veteran-information/veteranAdditional';
 import veteranName from './chapters/01-veteran-information/veteranName';
-import claimantInformationPage from './chapters/02-claimant-information/claimantInformation';
+import claimantRelationship from './chapters/02-claimant-information/claimantRelationship';
+import claimantInformation from './chapters/02-claimant-information/claimantInformation';
+import claimantIdentification from './chapters/02-claimant-information/claimantIdentification';
+import claimantHistory from './chapters/02-claimant-information/claimantHistory';
 import mailingAddress from './chapters/02-claimant-information/mailingAddress';
 import contactInformation from './chapters/02-claimant-information/contactInformation';
 import benefitType from './chapters/02-claimant-information/benefitType';
@@ -26,6 +30,10 @@ import { otherServiceNamesPages } from './chapters/03-military-history/serviceNa
 import prisonerOfWarPage from './chapters/03-military-history/prisonerOfWar';
 import powPeriodOfTimePage from './chapters/03-military-history/powPeriodOfTime';
 import marriageToVeteran from './chapters/04-household-information/marriageToVeteran';
+import marriageToVeteranLocation from './chapters/04-household-information/marriageToVeteranLocation';
+import marriageToVeteranInfo from './chapters/04-household-information/marriageToVeteranInfo';
+import marriageToVeteranEnd from './chapters/04-household-information/marriageToVeteranEnd';
+import marriageToVeteranEndInfo from './chapters/04-household-information/marriageToVeteranEndInfo';
 import legalStatusOfMarriage from './chapters/04-household-information/legalStatusOfMarriage';
 import marriageStatus from './chapters/04-household-information/marriageStatus';
 import reasonForSeparation from './chapters/04-household-information/reasonForSeparation';
@@ -33,11 +41,15 @@ import separationDetails from './chapters/04-household-information/separationDet
 import remarriage from './chapters/04-household-information/remarriage';
 import remarriageDetails from './chapters/04-household-information/remarriageDetails';
 import additionalMarriages from './chapters/04-household-information/additionalMarriages';
-import previousMarriages from './chapters/04-household-information/previousMarriages';
+import spouseMarriages from './chapters/04-household-information/spouseMarriages';
 import { previousMarriagesPages } from './chapters/04-household-information/previousMarriagesPages';
 import { veteranMarriagesPages } from './chapters/04-household-information/veteranMarriagesPages';
 import veteranChildren from './chapters/04-household-information/veteranChildren';
+import dependentsCount from './chapters/04-household-information/dependentsCount';
 import dependentsPages from './chapters/04-household-information/dependentsPages';
+import dependentsResidence from './chapters/04-household-information/dependentsResidence';
+import dependentsAddress from './chapters/04-household-information/dependentsAddress';
+import dependentsCustodian from './chapters/04-household-information/dependentsCustodian';
 import dicBenefits from './chapters/05-claim-information/dicBenefits';
 import nursingHome from './chapters/05-claim-information/nursingHome';
 import { treatmentPages } from './chapters/05-claim-information/treatmentPages';
@@ -58,6 +70,7 @@ import directDepositAccount from './chapters/07-additional-information/directDep
 import otherPaymentOptions from './chapters/07-additional-information/otherPaymentOptions';
 import supportingDocuments from './chapters/07-additional-information/supportingDocuments';
 import uploadDocuments from './chapters/07-additional-information/uploadDocuments';
+import IncorrectForm from '../containers/IncorrectForm';
 // TODO: Will be added after mvp release
 // import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
 import { transform } from './submit-transformer';
@@ -111,7 +124,8 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  showReviewErrors: !environment.isProduction() && !environment.isStaging(),
+  // Commenting out to troubleshoot error on staging.
+  // showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
     // Chapter 1 - Veteran Information
     veteranInformation: {
@@ -141,11 +155,38 @@ const formConfig = {
     claimantInformation: {
       title: "Claimant's information",
       pages: {
+        claimantRelationship: {
+          path: 'claimant-relationship',
+          title: 'Claimant’s relationship to the Veteran',
+          uiSchema: claimantRelationship.uiSchema,
+          schema: claimantRelationship.schema,
+        },
+        claimantOther: {
+          path: 'claimant-other',
+          title: 'Claimant’s relationship to the Veteran',
+          CustomPage: IncorrectForm,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+          depends: formData => formData.claimantRelationship === 'OTHER',
+        },
         claimantInformation: {
           path: 'claimant-information',
-          title: 'Claimant’s relationship to the Veteran',
-          uiSchema: claimantInformationPage.uiSchema,
-          schema: claimantInformationPage.schema,
+          title: 'Claimant’s name and date of birth',
+          uiSchema: claimantInformation.uiSchema,
+          schema: claimantInformation.schema,
+        },
+        claimantIdentification: {
+          path: 'claimant-identification',
+          title: 'Claimant’s identification information',
+          uiSchema: claimantIdentification.uiSchema,
+          schema: claimantIdentification.schema,
+        },
+        claimantHistory: {
+          path: 'claimant-service-history',
+          title: 'Claimant’s service history',
+          uiSchema: claimantHistory.uiSchema,
+          schema: claimantHistory.schema,
         },
         mailingAddress: {
           path: 'claimant-mailing-address',
@@ -216,7 +257,7 @@ const formConfig = {
         powPeriodOfTime: {
           path: 'prisoner-of-war-period',
           title: 'Prisoner of war period',
-          depends: formData => formData?.prisonerOfWar === true,
+          depends: formData => formData?.pow === true,
           uiSchema: powPeriodOfTimePage.uiSchema,
           schema: powPeriodOfTimePage.schema,
         },
@@ -229,21 +270,57 @@ const formConfig = {
         marriageToVeteran: {
           path: 'household/marriage-to-veteran',
           title: 'Marriage to Veteran',
-          depends: formData => formData.claimantRelationship === 'SPOUSE',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE',
           uiSchema: marriageToVeteran.uiSchema,
           schema: marriageToVeteran.schema,
+        },
+        marriageToVeteranLocation: {
+          path: 'household/marriage-to-veteran-location',
+          title: 'Marriage to Veteran Location',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE',
+          uiSchema: marriageToVeteranLocation.uiSchema,
+          schema: marriageToVeteranLocation.schema,
+        },
+        marriageToVeteranInfo: {
+          path: 'household/marriage-to-veteran-info',
+          title: 'Marriage to Veteran Details',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE',
+          uiSchema: marriageToVeteranInfo.uiSchema,
+          schema: marriageToVeteranInfo.schema,
+        },
+        marriageToVeteranEnd: {
+          path: 'household/marriage-to-veteran-end',
+          title: 'Marriage to Veteran Details',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
+            !formData.marriedToVeteranAtTimeOfDeath,
+          uiSchema: marriageToVeteranEnd.uiSchema,
+          schema: marriageToVeteranEnd.schema,
+        },
+        marriageToVeteranEndInfo: {
+          path: 'household/marriage-to-veteran-end-info',
+          title: 'Marriage to Veteran Details',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE',
+          uiSchema: marriageToVeteranEndInfo.uiSchema,
+          schema: marriageToVeteranEndInfo.schema,
         },
         legalStatusOfMarriage: {
           path: 'household/legal-status-of-marriage',
           title: 'Legal status of marriage',
-          depends: formData => formData.claimantRelationship === 'SPOUSE',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE',
           uiSchema: legalStatusOfMarriage.uiSchema,
           schema: legalStatusOfMarriage.schema,
         },
         marriageStatus: {
           path: 'household/marriage-status',
           title: 'Marriage status',
-          depends: formData => formData.claimantRelationship === 'SPOUSE',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE',
           uiSchema: marriageStatus.uiSchema,
           schema: marriageStatus.schema,
         },
@@ -251,7 +328,7 @@ const formConfig = {
           path: 'household/reason-for-separation',
           title: 'Reason for separation',
           depends: formData =>
-            formData.claimantRelationship === 'SPOUSE' &&
+            formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
             formData.livedContinuouslyWithVeteran === false,
           uiSchema: reasonForSeparation.uiSchema,
           schema: reasonForSeparation.schema,
@@ -260,17 +337,17 @@ const formConfig = {
           path: 'household/separation-details',
           title: 'Separation details',
           depends: formData =>
-            formData.claimantRelationship === 'SPOUSE' &&
-            (formData.separationDueToAssignedReasons ===
-              'RELATIONSHIP_DIFFERENCES' ||
-              formData.separationDueToAssignedReasons === 'OTHER'),
+            formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
+            formData.separationDueToAssignedReasons &&
+            formData.separationDueToAssignedReasons !== 'OTHER',
           uiSchema: separationDetails.uiSchema,
           schema: separationDetails.schema,
         },
         remarriage: {
           path: 'household/remarriage',
           title: 'Remarriage',
-          depends: formData => formData.claimantRelationship === 'SPOUSE',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE',
           uiSchema: remarriage.uiSchema,
           schema: remarriage.schema,
         },
@@ -278,8 +355,8 @@ const formConfig = {
           path: 'household/remarriage-details',
           title: 'Remarriage details',
           depends: formData =>
-            formData.claimantRelationship === 'SPOUSE' &&
-            formData.remarried === true,
+            formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
+            formData.remarriedAfterVeteralDeath === true,
           uiSchema: remarriageDetails.uiSchema,
           schema: remarriageDetails.schema,
         },
@@ -287,22 +364,68 @@ const formConfig = {
           path: 'household/additional-marriages',
           title: 'Additional marriages',
           depends: formData =>
-            formData.claimantRelationship === 'SPOUSE' &&
-            formData.remarried === true,
+            formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
+            formData.remarriedAfterVeteralDeath === true,
           uiSchema: additionalMarriages.uiSchema,
           schema: additionalMarriages.schema,
         },
-        previousMarriages: {
-          path: 'household/previous-marriage-question',
+        spouseMarriages: {
+          path: 'household/spouse-marriage-question',
           title: 'Previous marriages',
-          depends: formData => formData.claimantRelationship === 'SPOUSE',
-          uiSchema: previousMarriages.uiSchema,
-          schema: previousMarriages.schema,
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE',
+          uiSchema: spouseMarriages.uiSchema,
+          schema: spouseMarriages.schema,
         },
         ...previousMarriagesPages,
         ...veteranMarriagesPages,
-        veteranChildren,
+        veteranChildren: {
+          path: 'household/children-of-veteran',
+          title: 'Children of Veteran',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE' ||
+            formData.hadPreviousMarriages === true,
+          uiSchema: veteranChildren.uiSchema,
+          schema: veteranChildren.schema,
+        },
+        dependentsCount: {
+          path: 'household/dependents-count',
+          title: 'Number of dependents',
+          uiSchema: dependentsCount.uiSchema,
+          schema: dependentsCount.schema,
+        },
         ...dependentsPages,
+        dependentsResidence: {
+          path: 'household/dependents-residence',
+          title: 'Dependent’s residence',
+          depends: formData => {
+            if (formData.veteranChildrenCount > 0) {
+              const livesWith = formData?.veteransChildren?.findIndex(
+                element => element.livesWith === false,
+              );
+              return livesWith !== -1;
+            }
+            return false;
+          },
+          uiSchema: dependentsResidence.uiSchema,
+          schema: dependentsResidence.schema,
+        },
+        dependentsAddress: {
+          path: 'household/dependents-address',
+          title: 'Dependent’s mailing address',
+          depends: formData =>
+            formData?.childrenLiveTogetherButNotWithSpouse === true,
+          uiSchema: dependentsAddress.uiSchema,
+          schema: dependentsAddress.schema,
+        },
+        dependentsName: {
+          path: 'household/dependents-custodian',
+          title: 'Dependent’s custodian',
+          depends: formData =>
+            formData?.childrenLiveTogetherButNotWithSpouse === true,
+          uiSchema: dependentsCustodian.uiSchema,
+          schema: dependentsCustodian.schema,
+        },
       },
     },
     // Chapter 5 - Claim Information
@@ -312,8 +435,7 @@ const formConfig = {
         dicBenefits: {
           title: 'D.I.C. benefits',
           path: 'claim-information/dic',
-          depends: formData =>
-            formData?.claims?.dependencyIndemnityComp === true,
+          depends: formData => formData?.claims?.DIC === true,
           uiSchema: dicBenefits.uiSchema,
           schema: dicBenefits.schema,
         },
@@ -333,7 +455,7 @@ const formConfig = {
         incomeAndAssets: {
           title: 'Income and assets',
           path: 'financial-information/income-and-assets',
-          depends: formData => formData?.claims?.survivorPension === true,
+          depends: formData => formData?.claims?.survivorsPension === true,
           uiSchema: incomeAndAssets.uiSchema,
           schema: incomeAndAssets.schema,
         },
@@ -341,8 +463,8 @@ const formConfig = {
           title: 'Submit supporting documents',
           path: 'financial-information/submit-supporting-documents',
           depends: formData =>
-            formData?.hasAssetsOverThreshold === true &&
-            formData?.claims?.survivorPension === true,
+            formData?.totalNetWorth === true &&
+            formData?.claims?.survivorsPension === true,
           uiSchema: submitSupportingDocs.uiSchema,
           schema: submitSupportingDocs.schema,
         },
@@ -350,22 +472,22 @@ const formConfig = {
           title: 'Total assets',
           path: 'financial-information/total-assets',
           depends: formData =>
-            formData?.hasAssetsOverThreshold === false &&
-            formData?.claims?.survivorPension === true,
+            formData?.totalNetWorth === false &&
+            formData?.claims?.survivorsPension === true,
           uiSchema: totalAssets.uiSchema,
           schema: totalAssets.schema,
         },
         transferredAssets: {
           title: 'Transferred assets',
           path: 'financial-information/transferred-assets',
-          depends: formData => formData?.claims?.survivorPension === true,
+          depends: formData => formData?.claims?.survivorsPension === true,
           uiSchema: transferredAssets.uiSchema,
           schema: transferredAssets.schema,
         },
         homeOwnership: {
           title: 'Homeownership',
           path: 'financial-information/homeownership',
-          depends: formData => formData?.claims?.survivorPension === true,
+          depends: formData => formData?.claims?.survivorsPension === true,
           uiSchema: homeOwnership.uiSchema,
           schema: homeOwnership.schema,
         },
@@ -374,7 +496,7 @@ const formConfig = {
           path: 'financial-information/land-lot-size',
           depends: formData =>
             formData?.homeOwnership === true &&
-            formData?.claims?.survivorPension === true,
+            formData?.claims?.survivorsPension === true,
           uiSchema: landLotSize.uiSchema,
           schema: landLotSize.schema,
         },
@@ -382,8 +504,8 @@ const formConfig = {
           title: 'Value of additional land',
           path: 'financial-information/additional-land-value',
           depends: formData =>
-            formData?.landLotSize === true &&
-            formData?.claims?.survivorPension === true,
+            formData?.homeAcreageMoreThanTwo === true &&
+            formData?.claims?.survivorsPension === true,
           uiSchema: additionalLandValue.uiSchema,
           schema: additionalLandValue.schema,
         },
@@ -391,15 +513,15 @@ const formConfig = {
           title: 'Marketable land',
           path: 'financial-information/marketable-land',
           depends: formData =>
-            formData?.landLotSize === true &&
-            formData?.claims?.survivorPension === true,
+            formData?.homeAcreageMoreThanTwo === true &&
+            formData?.claims?.survivorsPension === true,
           uiSchema: marketableLand.uiSchema,
           schema: marketableLand.schema,
         },
         incomeSources: {
           title: 'Income sources',
           path: 'financial-information/income-sources',
-          depends: formData => formData?.claims?.survivorPension === true,
+          depends: formData => formData?.claims?.survivorsPension === true,
           uiSchema: incomeSources.uiSchema,
           schema: incomeSources.schema,
         },
@@ -435,7 +557,6 @@ const formConfig = {
         supportingDocuments: {
           title: 'Supporting documents',
           path: 'additional-information/supporting-documents',
-          depends: formData => formData?.hasAssetsOverThreshold !== true,
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },

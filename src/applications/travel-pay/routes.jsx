@@ -20,6 +20,7 @@ import ExpensePage from './components/complex-claims/pages/ExpensePage';
 import ComplexClaimRedirect from './components/complex-claims/pages/ComplexClaimRedirect';
 import IntroductionPage from './components/complex-claims/pages/IntroductionPage';
 import UnsupportedMileage from './components/complex-claims/pages/UnsupportedMileage';
+import ClaimErrorPage from './components/complex-claims/pages/ClaimErrorPage';
 import App from './containers/App';
 import { EXPENSE_TYPES } from './constants';
 
@@ -37,6 +38,12 @@ const getRoutes = () => {
         element={<ComplexClaimSubmitFlowWrapper />}
       >
         <Route index element={<IntroductionPage />} />
+        <Route
+          path="create-claim-error"
+          element={<ClaimErrorPage isCreate />}
+        />
+        <Route path="get-claim-error" element={<ClaimErrorPage />} />
+
         <Route path=":claimId">
           <Route index element={<ComplexClaimRedirect />} />
           <Route path="choose-expense" element={<ChooseExpenseType />} />

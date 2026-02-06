@@ -7,7 +7,7 @@ import { FinancialInformationIntroduction } from '../components/IntroductionPage
  * Declare schema attributes for financial introduction page
  * @returns {PageSchema}
  */
-export const FinancialIntroductionPage = {
+export default {
   uiSchema: {
     ...titleUI(
       content['household-financial-information-introduction-title'],
