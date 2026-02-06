@@ -29,6 +29,7 @@ import { fileUpload } from './chapters/documents';
 import disabilitySeparation from '../pages/disabilitySeparation';
 import preDischargeClaim from '../pages/preDischargeClaim';
 import purpleHeartRecipient from '../pages/purpleHeartRecipient';
+import { servicePeriodsPages } from '../pages/servicePeriodsPages';
 import serviceStatus2 from '../pages/serviceStatus2';
 import { uploadDocumentsSchema, getUiSchema } from '../pages/uploadDocuments';
 
@@ -176,9 +177,11 @@ const formConfig = {
           uiSchema: purpleHeartRecipient.uiSchema,
           schema: purpleHeartRecipient.schema,
         },
+        ...servicePeriodsPages,
         serviceHistory: {
           path: 'service-history',
           title: 'Service history',
+          depends: formData => !formData['view:coeFormRebuildCveteam'],
           uiSchema: serviceHistory.uiSchema,
           schema: serviceHistory.schema,
         },
