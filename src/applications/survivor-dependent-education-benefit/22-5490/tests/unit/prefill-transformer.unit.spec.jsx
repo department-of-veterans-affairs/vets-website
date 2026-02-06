@@ -128,4 +128,65 @@ describe('prefillTransformer', () => {
       });
     });
   });
+
+  describe('Bank account confirmation fields prefill', () => {
+    it('correctly pre-fills routingNumberConfirmation field from bankInformation', () => {
+      const state = {
+        data: {
+          bankInformation: {
+            accountType: 'Checking',
+            accountNumber: '12345678',
+            routingNumber: '123456789',
+          },
+          formData: claimantInfo.data.formData,
+        },
+        user: { profile: {} },
+      };
+
+      const result = prefillTransformer(null, null, null, state);
+
+      expect(
+        result.formData['view:directDeposit'].bankAccount
+          .routingNumberConfirmation,
+      ).to.equal('123456789');
+    });
+
+    it('correctly pre-fills accountNumberConfirmation field from bankInformation', () => {
+      const state = {
+        data: {
+          bankInformation: {
+            accountType: 'Savings',
+            accountNumber: '98765432101',
+            routingNumber: '987654321',
+          },
+          formData: claimantInfo.data.formData,
+        },
+        user: { profile: {} },
+      };
+
+      const result = prefillTransformer(null, null, null, state);
+
+      expect(
+        result.formData['view:directDeposit'].bankAccount
+          .accountNumberConfirmation,
+      ).to.equal('98765432101');
+    });
+
+    it('handles missing bankInformation gracefully', () => {
+      const state = {
+        data: {
+          bankInformation: {},
+          formData: claimantInfo.data.formData,
+        },
+        user: { profile: {} },
+      };
+
+      const result = prefillTransformer(null, null, null, state);
+
+      expect(result.formData?.bankAccount?.routingNumberConfirmation).to.be
+        .undefined;
+      expect(result.formData?.bankAccount?.accountNumberConfirmation).to.be
+        .undefined;
+    });
+  });
 });
