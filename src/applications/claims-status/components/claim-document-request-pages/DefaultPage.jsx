@@ -40,6 +40,9 @@ export default function DefaultPage({
   // Priority 3: Simple API description (plain text with formatting markers)
   const apiDescription = formatDescription(item.description);
 
+  const hasDescriptionContent =
+    apiLongDescription || frontendDescription || apiDescription;
+
   // Use API boolean properties with fallback to evidenceDictionary
   const isSensitive =
     item.isSensitive ?? frontendContentOverride?.isSensitive ?? false;
@@ -147,8 +150,6 @@ export default function DefaultPage({
     );
   } else if (isFirstParty) {
     // Fallback: Empty state
-    const hasDescriptionContent =
-      apiLongDescription || frontendDescription || apiDescription;
     nextStepsContent = (
       <>
         <p>To respond to this request:</p>
@@ -306,7 +307,7 @@ export default function DefaultPage({
       )}
 
       {isFirstParty &&
-        frontendContentOverride && (
+        hasDescriptionContent && (
           <div
             className="vads-u-margin-y--4"
             data-testid="learn-about-request-section"
