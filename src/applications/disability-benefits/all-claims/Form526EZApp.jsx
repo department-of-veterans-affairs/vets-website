@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
@@ -13,6 +13,7 @@ import {
 } from '@department-of-veterans-affairs/platform-site-wide/wizard';
 import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
@@ -57,6 +58,11 @@ import {
 } from './containers/MissingServices';
 import ClaimFormSideNav from './components/ClaimFormSideNav';
 import ClaimFormSideNavErrorBoundary from './components/ClaimFormSideNavErrorBoundary';
+import {
+  getBackButtonTrackingData,
+  getContinueButtonTrackingData,
+  getSaveFormTrackingData,
+} from './utils/datadogTracking';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -98,6 +104,7 @@ export const isIntroPage = ({ pathname = '' } = {}) =>
 
 export const Form526Entry = ({
   children,
+  featureToggles,
   form,
   inProgressFormId,
   isBDDForm,
@@ -114,6 +121,35 @@ export const Form526Entry = ({
 }) => {
   const { profile = {} } = user;
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
+
+  // Create the back button tracking callback with access to Redux state
+  const enhancedFormConfig = useMemo(
+    () => ({
+      ...formConfig,
+      formOptions: {
+        ...formConfig.formOptions,
+        onBackClickTracking: () =>
+          getBackButtonTrackingData({
+            featureToggles,
+            formData: form?.data,
+            pathname: location?.pathname,
+          }),
+        onContinueClickTracking: () =>
+          getContinueButtonTrackingData({
+            featureToggles,
+            formData: form?.data,
+            pathname: location?.pathname,
+          }),
+        onSaveTracking: () =>
+          getSaveFormTrackingData({
+            featureToggles,
+            formData: form?.data,
+            pathname: location?.pathname,
+          }),
+      },
+    }),
+    [featureToggles, form?.data, location?.pathname],
+  );
 
   const hasSavedForm = savedForms.some(
     savedForm =>
@@ -249,7 +285,10 @@ export const Form526Entry = ({
 
   // wraps the app and redirects user if they are not enrolled
   const content = (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+    <RoutedSavableApp
+      formConfig={enhancedFormConfig}
+      currentLocation={location}
+    >
       {children}
     </RoutedSavableApp>
   );
@@ -384,6 +423,7 @@ export const Form526Entry = ({
 Form526Entry.propTypes = {
   accountUuid: PropTypes.string,
   children: PropTypes.any,
+  featureToggles: PropTypes.object,
   form: PropTypes.shape({
     data: PropTypes.object,
     loadedStatus: PropTypes.string,
@@ -416,6 +456,7 @@ Form526Entry.propTypes = {
 
 const mapStateToProps = state => ({
   accountUuid: state?.user?.profile?.accountUuid,
+  featureToggles: toggleValues(state),
   form: state?.form,
   inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   isBDDForm: isBDD(state?.form?.data),

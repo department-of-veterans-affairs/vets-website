@@ -400,6 +400,8 @@ class FormPage extends React.Component {
                 goForward={this.onContinue}
                 submitToContinue
                 useWebComponents={formOptions.useWebComponentForNavigation}
+                onBackClickTracking={formOptions?.onBackClickTracking}
+                onContinueClickTracking={formOptions?.onContinueClickTracking}
               />
               {contentAfterNavButtons}
             </>
