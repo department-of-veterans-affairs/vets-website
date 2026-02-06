@@ -16,10 +16,15 @@ import {
   fillGulfWarDateRange,
   fillAgentOrangeDateRange,
   fillTextWebComponent,
+  normalizeFeatureFlags,
 } from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
 import { advanceToHouseholdSection } from './helpers/household';
 import { handleOptionalServiceHistoryPage } from './helpers/handleOptionalServiceHistoryPage';
+
+const featureTogglesObject = normalizeFeatureFlags(
+  featureToggles.data.features,
+);
 
 function setUserData(user, prefillData) {
   cy.login(user);
@@ -41,7 +46,10 @@ function goToToxicExposurePageAndCheckYes() {
   cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
   advanceToHouseholdSection();
-  handleOptionalServiceHistoryPage(true);
+  handleOptionalServiceHistoryPage({
+    historyEnabled: featureTogglesObject.ezrServiceHistoryEnabled,
+    hasTeraYes: true,
+  });
   cy.injectAxeThenAxeCheck();
 }
 
@@ -80,10 +88,10 @@ describe('EZR TERA flow', () => {
     cy.injectAxeThenAxeCheck();
 
     goToNextPage('/military-service/other-toxic-exposure');
-    [...Array(7)].forEach(_ => goToPreviousPage());
-    cy.get('[name="root_hasTeraResponse"]').check('N');
+    [...Array(8)].forEach(_ => goToPreviousPage());
+    cy.selectYesNoVaRadioOption('root_hasTeraResponse');
     // Expect the tera section to be skipped. Instead, the user will move to the household section
-    goToNextPage('/household-information/marital-status');
+    goToNextPage('/household-information/marital-status-information');
   });
 });
 

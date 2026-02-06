@@ -8,7 +8,7 @@ import {
 } from '.';
 import { handleOptionalServiceHistoryPage } from './handleOptionalServiceHistoryPage';
 
-export const advanceToDependents = () => {
+export const advanceToDependents = testData => {
   cy.get('[href="#start"]')
     .first()
     .click();
@@ -30,7 +30,9 @@ export const advanceToDependents = () => {
   goToNextPage('/veteran-information/next-of-kin-summary');
   selectYesNoWebComponent('view:hasNextOfKin', false);
 
-  handleOptionalServiceHistoryPage();
+  handleOptionalServiceHistoryPage({
+    historyEnabled: testData.ezrServiceHistoryEnabled,
+  });
 
   goToNextPage('/household-information/marital-status');
   selectDropdownWebComponent(

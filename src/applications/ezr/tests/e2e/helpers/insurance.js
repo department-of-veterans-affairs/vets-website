@@ -30,7 +30,9 @@ export const advanceToInsurancePolicies = testData => {
   selectYesNoWebComponent('view:hasNextOfKin', false);
 
   // Skip TERA Section
-  handleOptionalServiceHistoryPage();
+  handleOptionalServiceHistoryPage({
+    historyEnabled: testData.ezrServiceHistoryEnabled,
+  });
 
   goToNextPage('/household-information/marital-status');
   selectDropdownWebComponent(

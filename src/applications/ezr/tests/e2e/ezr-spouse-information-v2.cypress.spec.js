@@ -5,7 +5,11 @@ import mockBasicPrefill from './fixtures/mocks/mock-prefill.json';
 import mockPrefillWithNonPrefillData from './fixtures/mocks/mock-prefill-with-v2-prefill-data.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
-import { goToNextPage, selectYesNoWebComponent } from './helpers';
+import {
+  goToNextPage,
+  selectYesNoWebComponent,
+  normalizeFeatureFlags,
+} from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 import {
   advanceToHouseholdSection,
@@ -21,6 +25,8 @@ featureToggles.data.features.push({
   name: 'ezrSpouseConfirmationFlowEnabled',
   value: true,
 });
+
+const featureFlagObject = normalizeFeatureFlags(featureToggles.data.features);
 
 function setUserDataAndAdvanceToSpouseSection(user, prefillData) {
   cy.login(user);
@@ -38,7 +44,9 @@ function setUserDataAndAdvanceToSpouseSection(user, prefillData) {
   cy.visit(manifest.rootUrl);
   cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
   advanceToHouseholdSection();
-  handleOptionalServiceHistoryPage();
+  handleOptionalServiceHistoryPage({
+    historyEnabled: featureFlagObject.ezrServiceHistoryEnabled,
+  });
   goToNextPage('/household-information/marital-status-information');
   cy.injectAxeThenAxeCheck();
 }
