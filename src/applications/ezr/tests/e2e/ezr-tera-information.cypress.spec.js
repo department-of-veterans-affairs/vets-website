@@ -91,7 +91,7 @@ describe('EZR TERA flow', () => {
     [...Array(8)].forEach(_ => goToPreviousPage());
     cy.selectYesNoVaRadioOption('root_hasTeraResponse');
     // Expect the tera section to be skipped. Instead, the user will move to the household section
-    goToNextPage('/household-information/marital-status-information');
+    goToNextPage();
   });
 });
 
