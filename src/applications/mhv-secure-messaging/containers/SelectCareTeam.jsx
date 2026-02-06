@@ -15,10 +15,10 @@ import {
   VaButton,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { datadogRum } from '@datadog/browser-rum';
+import { scrollToFirstError } from 'platform/utilities/scroll';
 
 import { populatedDraft } from '../selectors';
 import {
@@ -186,7 +186,7 @@ const SelectCareTeam = () => {
   );
 
   useEffect(() => {
-    focusElement(document.querySelector('h1'));
+    document.querySelector('h1')?.focus();
   }, []);
 
   useEffect(
@@ -372,10 +372,7 @@ const SelectCareTeam = () => {
       if (!selectedCareTeamId || !draftInProgress.recipientId) {
         setCareTeamError('Select a care team');
         selectionsValid = false;
-        const recipientSelect = document
-          .querySelector('[data-testid="compose-recipient-combobox"]')
-          ?.shadowRoot?.querySelector('input');
-        focusElement(recipientSelect);
+        scrollToFirstError();
       }
       return selectionsValid;
     },
