@@ -63,6 +63,7 @@ export const LETTER_TYPES = Object.freeze({
   certificateOfEligibility: 'certificate_of_eligibility',
   civilService: 'civil_service',
   commissary: 'commissary',
+  foreignMedicalProgram: 'foreign_medical_program',
   medicarePartD: 'medicare_partd',
   minimumEssentialCoverage: 'minimum_essential_coverage',
   proofOfService: 'proof_of_service',
