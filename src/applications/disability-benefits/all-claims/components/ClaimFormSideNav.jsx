@@ -1,11 +1,16 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   VaSidenav,
   VaSidenavItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { buildMajorSteps } from '../utils/buildMajorStepsFromConfig';
+import {
+  getSideNavChapterClickedTrackingData,
+  getMobileAccordionTrackingData,
+} from '../utils/datadogTracking';
 
 const DISABLED_STYLE =
   'vads-u-margin--0 vads-u-padding-y--1 vads-u-padding-left--2 vads-u-padding-right--0p5 vads-u-color--gray vads-u-border-color--gray-lightest vads-u-border-bottom--1px';
@@ -100,6 +105,82 @@ export default function ClaimFormSideNav({
   );
 
   /**
+   * Track mobile accordion expand/collapse events
+   * Listens for click events on the accordion button
+   */
+  useEffect(
+    () => {
+      if (!sidenavRef.current) return undefined;
+
+      // Wait for web components to hydrate before accessing shadow DOM
+      const setupAccordionTracking = () => {
+        const accordionItem = sidenavRef.current?.shadowRoot?.querySelector(
+          'va-accordion > va-accordion-item',
+        );
+
+        if (!accordionItem) {
+          return false;
+        }
+
+        // Get the button with aria-expanded inside the accordion item's shadow DOM
+        const accordionButton = accordionItem.shadowRoot?.querySelector(
+          'button[aria-expanded]',
+        );
+
+        if (!accordionButton) {
+          return false;
+        }
+
+        // Track accordion clicks
+        const handleAccordionClick = () => {
+          // Check state after click (it toggles, so we check the new state)
+          // Use setTimeout to get state after the DOM updates
+          setTimeout(() => {
+            const isExpanded =
+              accordionButton.getAttribute('aria-expanded') === 'true';
+            const state = isExpanded ? 'expanded' : 'collapsed';
+
+            const trackingData = getMobileAccordionTrackingData({
+              pathname,
+              state,
+            });
+
+            datadogRum.addAction(
+              trackingData.actionName,
+              trackingData.properties,
+            );
+          }, 0);
+        };
+
+        accordionButton.addEventListener('click', handleAccordionClick);
+
+        // Store cleanup function
+        return () => {
+          accordionButton.removeEventListener('click', handleAccordionClick);
+        };
+      };
+
+      // Try immediately
+      let cleanup = setupAccordionTracking();
+
+      // If not ready, retry after a short delay for web component hydration
+      if (!cleanup) {
+        const timeoutId = setTimeout(() => {
+          cleanup = setupAccordionTracking();
+        }, 100);
+
+        return () => {
+          clearTimeout(timeoutId);
+          if (cleanup) cleanup();
+        };
+      }
+
+      return cleanup;
+    },
+    [pathname],
+  );
+
+  /**
    * Handle navigation item click
    * Tracks analytics if enabled and navigates to the selected chapter
    * @param {Event} e - Click event
@@ -116,6 +197,13 @@ export default function ClaimFormSideNav({
         'form-sidenav-destination-path': destination,
       });
     }
+    // Track side nav click for DataDog RUM
+    const trackingData = getSideNavChapterClickedTrackingData({
+      pageData,
+      currentPathname: pathname,
+    });
+    datadogRum.addAction(trackingData.actionName, trackingData.properties);
+
     setFormData(formData);
     router.push(destination);
   }

@@ -3,6 +3,7 @@ import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
+import { datadogRum } from '@datadog/browser-rum';
 
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -62,6 +63,9 @@ import {
   getBackButtonTrackingData,
   getContinueButtonTrackingData,
   getSaveFormTrackingData,
+  getFormStartedTrackingData,
+  getFormResumptionTrackingData,
+  getFormSubmittedTrackingData,
 } from './utils/datadogTracking';
 
 // Module-level state holder for tracking callbacks to access current Redux state
@@ -98,6 +102,60 @@ formConfig.formOptions.onSaveTracking = () =>
     formData: runtimeState.formData,
     pathname: runtimeState.pathname,
   });
+
+// Wrap the original onFormLoaded to add form resumption tracking
+const originalOnFormLoaded = formConfig.onFormLoaded;
+formConfig.onFormLoaded = props => {
+  // Only track form resumption if we're actually loading a saved form
+  // Check for saved form metadata and that we're not on the first page
+  const isSavedFormResumption =
+    props.formData &&
+    Object.keys(props.formData).length > 0 &&
+    props.returnUrl &&
+    props.returnUrl !== '/veteran-information';
+
+  if (isSavedFormResumption) {
+    const storageKey = `${formConfig.formId}_formResumptionTracked`;
+    const alreadyTracked = sessionStorage.getItem(storageKey) === 'true';
+
+    if (!alreadyTracked) {
+      const trackingData = getFormResumptionTrackingData({
+        featureToggles: runtimeState.featureToggles,
+        formData: props.formData,
+        returnUrl: props.returnUrl,
+      });
+      datadogRum.addAction(trackingData.actionName, trackingData.properties);
+      sessionStorage.setItem(storageKey, 'true');
+    }
+  }
+
+  // Call original onFormLoaded
+  return originalOnFormLoaded(props);
+};
+
+// Wrap the original submit function to add form submission tracking
+const originalSubmit = formConfig.submit;
+formConfig.submit = (form, formConfigParam, options) => {
+  // Call original submit and track on success
+  const submitPromise = originalSubmit(form, formConfigParam, options);
+
+  return submitPromise.then(
+    result => {
+      // Track successful submission - NO PII, only metadata
+      const trackingData = getFormSubmittedTrackingData({
+        featureToggles: runtimeState.featureToggles,
+        pathname: runtimeState.pathname,
+      });
+      datadogRum.addAction(trackingData.actionName, trackingData.properties);
+
+      return result;
+    },
+    error => {
+      // Pass through errors without tracking
+      return Promise.reject(error);
+    },
+  );
+};
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -157,6 +215,12 @@ export const Form526Entry = ({
   const { profile = {} } = user;
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
 
+  const hasSavedForm = savedForms.some(
+    savedForm =>
+      savedForm.form === formConfig.formId &&
+      !isExpired(savedForm.metaData?.expiresAt),
+  );
+
   // Update module-level runtimeState so formConfig callbacks can access current Redux state
   useEffect(
     () => {
@@ -167,10 +231,25 @@ export const Form526Entry = ({
     [featureToggles, form?.data, location?.pathname],
   );
 
-  const hasSavedForm = savedForms.some(
-    savedForm =>
-      savedForm.form === formConfig.formId &&
-      !isExpired(savedForm.metaData?.expiresAt),
+  // Track when user starts the form from introduction page
+  // Only tracks once per session when user navigates to first form page without a saved form
+  useEffect(
+    () => {
+      const isFirstFormPage = location?.pathname === '/veteran-information';
+      const hasNoSavedForm = !hasSavedForm;
+      const storageKey = `${formConfig.formId}_formStartTracked`;
+      const alreadyTracked = sessionStorage.getItem(storageKey) === 'true';
+
+      if (isFirstFormPage && hasNoSavedForm && !alreadyTracked) {
+        const trackingData = getFormStartedTrackingData({
+          featureToggles,
+          pathname: location?.pathname,
+        });
+        datadogRum.addAction(trackingData.actionName, trackingData.properties);
+        sessionStorage.setItem(storageKey, 'true');
+      }
+    },
+    [location?.pathname, hasSavedForm, featureToggles],
   );
 
   const title = `${getPageTitle(isBDDForm)}${
