@@ -52,6 +52,7 @@ class LabsAndTestsListPage extends BaseListPage {
       entry.resource,
     );
     cy.findAllByTestId('record-list-item')
+      .should('be.visible')
       .find('a')
       .eq(_LabsAndTestsItemIndex)
       .click();

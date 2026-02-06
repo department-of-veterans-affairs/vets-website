@@ -26,6 +26,7 @@ class NotesListPage extends BaseListPage {
 
   clickNotesDetailsLink = (_NotesIndex = 0) => {
     cy.findAllByTestId('record-list-item')
+      .should('be.visible')
       .find('a')
       .eq(_NotesIndex)
       .click();
