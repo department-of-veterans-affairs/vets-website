@@ -51,12 +51,13 @@ import { parseDateToDateObj, isLocalToday } from '../utils/dates';
  */
 const ContestableIssues = props => {
   const {
+    apiLoadStatus,
+    appName,
+    formContext = {},
+    formData,
     id,
     options,
-    formContext = {},
     setFormData,
-    formData,
-    apiLoadStatus,
   } = props;
 
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -232,6 +233,7 @@ const ContestableIssues = props => {
       (!onReviewPage || (onReviewPage && !inReviewMode));
 
     const cardProps = {
+      appName,
       id,
       index,
       item,
