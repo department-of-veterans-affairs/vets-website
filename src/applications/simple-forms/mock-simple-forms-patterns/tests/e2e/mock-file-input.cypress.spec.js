@@ -53,7 +53,7 @@ function deleteFile() {
       }
     });
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(200);
+  // cy.wait(200);
 }
 
 // test that an error is thrown if attempt made to continue without having added a file
@@ -109,6 +109,15 @@ function testInvalidUTF8Encoding() {
 // test that additional info is required and that once set the component is error free
 function testAdditionalInfo() {
   testFileUpload(makeMinimalPNG);
+
+  // cy.get('va-file-input')
+  //   .find('va-select')
+  //   .should('exist')
+  //   .and('be.visible');
+
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(1000);
+
   cy.findByText(/continue/i, { selector: 'button' }).click();
 
   // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -260,9 +269,8 @@ const testConfig = createTestConfig(
         });
       },
       [fileInputPage]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
-          testAdditionalInfo();
+          cy.injectAxeThenAxeCheck();
           testContinueWithoutFile();
           testFileUploads();
           testRejectInvalidMimeType();
@@ -270,6 +278,7 @@ const testConfig = createTestConfig(
           testFileSizeLimits();
           testEncryptedPdf();
           testRejectFileNotAccepted();
+          testAdditionalInfo();
           uploadValidFileAndNavigateToReviewPage();
         });
       },
