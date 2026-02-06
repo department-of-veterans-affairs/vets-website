@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
@@ -103,12 +103,16 @@ describe('<PreSubmitInfo>', () => {
       const ppBox = container.querySelector('va-privacy-agreement');
 
       // Check all checkboxes
-      tcBox.__events.vaChange({ detail: { checked: true } });
-      frBox.__events.vaChange({ detail: { checked: true } });
-      ppBox.__events.vaChange({ detail: { checked: true } });
+      act(() => {
+        tcBox.__events.vaChange({ detail: { checked: true } });
+        frBox.__events.vaChange({ detail: { checked: true } });
+        ppBox.__events.vaChange({ detail: { checked: true } });
+      });
 
       // Uncheck one box
-      tcBox.__events.vaChange({ detail: { checked: false } });
+      act(() => {
+        tcBox.__events.vaChange({ detail: { checked: false } });
+      });
 
       await waitFor(() => {
         expect(props.onSectionComplete.calledWith(false)).to.be.true;
@@ -143,9 +147,11 @@ describe('<PreSubmitInfo>', () => {
       const ppBox = container.querySelector('va-privacy-agreement');
 
       // Check all boxes
-      tcBox.__events.vaChange({ detail: { checked: true } });
-      frBox.__events.vaChange({ detail: { checked: true } });
-      ppBox.__events.vaChange({ detail: { checked: true } });
+      act(() => {
+        tcBox.__events.vaChange({ detail: { checked: true } });
+        frBox.__events.vaChange({ detail: { checked: true } });
+        ppBox.__events.vaChange({ detail: { checked: true } });
+      });
 
       await waitFor(() => {
         expect(tcBox).to.not.have.attr('error');
@@ -163,10 +169,12 @@ describe('<PreSubmitInfo>', () => {
       const tcBox = container.querySelector(
         '[data-testid="terms-and-conditions"]',
       );
-      tcBox.__events.vaChange({ detail: { checked: true } });
-
       const frBox = container.querySelector('[data-testid="form-replacement"]');
-      frBox.__events.vaChange({ detail: { checked: true } });
+
+      act(() => {
+        tcBox.__events.vaChange({ detail: { checked: true } });
+        frBox.__events.vaChange({ detail: { checked: true } });
+      });
 
       await waitFor(() => {
         expect(props.onSectionComplete.calledWith(false)).to.be.true;
@@ -182,13 +190,14 @@ describe('<PreSubmitInfo>', () => {
       const tcBox = container.querySelector(
         '[data-testid="terms-and-conditions"]',
       );
-      tcBox.__events.vaChange({ detail: { checked: true } });
-
       const frBox = container.querySelector('[data-testid="form-replacement"]');
-      frBox.__events.vaChange({ detail: { checked: true } });
-
       const ppBox = container.querySelector('va-privacy-agreement');
-      ppBox.__events.vaChange({ detail: { checked: true } });
+
+      act(() => {
+        tcBox.__events.vaChange({ detail: { checked: true } });
+        frBox.__events.vaChange({ detail: { checked: true } });
+        ppBox.__events.vaChange({ detail: { checked: true } });
+      });
 
       await waitFor(() => {
         expect(props.onSectionComplete.calledWith(true)).to.be.true;
@@ -204,7 +213,10 @@ describe('<PreSubmitInfo>', () => {
       const tcBox = container.querySelector(
         '[data-testid="terms-and-conditions"]',
       );
-      tcBox.__events.vaChange({ detail: { checked: true } });
+
+      act(() => {
+        tcBox.__events.vaChange({ detail: { checked: true } });
+      });
 
       await waitFor(() => {
         expect(props.onSectionComplete.calledWith(false)).to.be.true;
@@ -218,10 +230,12 @@ describe('<PreSubmitInfo>', () => {
       const tcBox = container.querySelector(
         '[data-testid="terms-and-conditions"]',
       );
-      tcBox.__events.vaChange({ detail: { checked: true } });
-
       const frBox = container.querySelector('[data-testid="form-replacement"]');
       const ppBox = container.querySelector('va-privacy-agreement');
+
+      act(() => {
+        tcBox.__events.vaChange({ detail: { checked: true } });
+      });
 
       await waitFor(() => {
         expect(frBox).to.have.attr('error', 'This field is mandatory');
