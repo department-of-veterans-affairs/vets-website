@@ -74,33 +74,23 @@ function IntroductionLogin({
 
       {!isLoggedIn &&
         user?.login?.hasCheckedKeepAlive && (
-          <>
-            <va-alert-sign-in
-              variant={meb1995Reroute ? 'signInRequired' : 'signInOptional'}
-              time-limit="60 days"
-              heading-level={2}
-              visible
-            >
-              <span slot="SignInButton">
-                <va-button
-                  onClick={openLoginModal}
-                  text={
-                    meb1995Reroute
-                      ? 'Sign in or create an account'
-                      : UNAUTH_SIGN_IN_DEFAULT_MESSAGE
-                  }
-                />
-              </span>
-            </va-alert-sign-in>
-            <p className="vads-u-margin-top--4">
-              If you don't want to sign in, you can{' '}
-              <a href="https://www.va.gov/find-forms/about-form-22-1990e/">
-                apply using the paper form
-              </a>
-              . Please expect longer processing time for decisions when opting
-              for this method.
-            </p>
-          </>
+          <va-alert-sign-in
+            variant={meb1995Reroute ? 'signInRequired' : 'signInOptional'}
+            time-limit="60 days"
+            heading-level={2}
+            visible
+          >
+            <span slot="SignInButton">
+              <va-button
+                onClick={openLoginModal}
+                text={
+                  meb1995Reroute
+                    ? 'Sign in or create an account'
+                    : UNAUTH_SIGN_IN_DEFAULT_MESSAGE
+                }
+              />
+            </span>
+          </va-alert-sign-in>
         )}
       {isLoggedIn &&
         apiCallsComplete &&

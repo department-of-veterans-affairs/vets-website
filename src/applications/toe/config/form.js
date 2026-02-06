@@ -94,6 +94,8 @@ function customValidateAddress(errors, addressData, formData, currentSchema) {
   }
 }
 
+const mailingAddressSchema = address.schema(fullSchema1990e, true);
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -830,19 +832,10 @@ const formConfig = {
                         formData['view:mailingAddress']?.livesOnMilitaryBase;
 
                       if (livesOnBase) {
-                        const baseEnum = ['APO', 'FPO'];
-
-                        // Conditionally add DPO if the new flag is on
-                        if (formData?.mebDpoAddressOptionEnabled) {
-                          baseEnum.push('DPO');
-                        }
-
                         return {
                           type: 'string',
-                          title: formData?.mebDpoAddressOptionEnabled
-                            ? 'APO/FPO/DPO'
-                            : 'APO/FPO',
-                          enum: baseEnum,
+                          title: 'APO/DPO/FPO',
+                          enum: ['APO', 'DPO', 'FPO'],
                         };
                       }
 
@@ -913,9 +906,7 @@ const formConfig = {
                     type: 'object',
                     properties: {},
                   },
-                  [formFields.address]: {
-                    ...address.schema(fullSchema1990e, true),
-                  },
+                  [formFields.address]: mailingAddressSchema,
                 },
               },
             },
@@ -1357,6 +1348,394 @@ const formConfig = {
               'view:learnMore': {
                 type: 'object',
                 properties: {},
+              },
+            },
+          },
+        },
+      },
+    },
+    guardianInformationChapter: {
+      title: 'Parent/guardian/custodian information',
+      pages: {
+        guardianName: {
+          path: 'guardian-name',
+          title: 'Your parent/guardian/custodian’s name',
+          depends: formData =>
+            applicantIsaMinor(formData) && formData?.mebParentGuardianStep,
+          uiSchema: {
+            'ui:description': (
+              <>
+                <h3>Your parent/guardian/custodian’s name</h3>
+                <p>
+                  You and your parent/guardian/custodian should fill out their
+                  personal information below.
+                </p>
+              </>
+            ),
+            [formFields.guardianFirstName]: {
+              'ui:title': 'First name',
+              'ui:errorMessages': {
+                pattern:
+                  'Please enter a valid entry. Acceptable entries are letters, spaces, hyphens and apostrophes.',
+                required:
+                  'Please enter your parent/guardian/custodian first name.',
+              },
+              'ui:validations': [
+                (errors, field) => {
+                  if (field[0] === ' ' || isOnlyWhitespace(field)) {
+                    errors.addError(
+                      'First character must be a letter with no leading space.',
+                    );
+                  }
+                },
+              ],
+            },
+            [formFields.guardianMiddleName]: {
+              'ui:title': 'Middle name',
+              'ui:errorMessages': {
+                pattern:
+                  'Please enter a valid entry. Acceptable entries are letters, spaces, hyphens and apostrophes.',
+              },
+              'ui:validations': [
+                (errors, field) => {
+                  if (field[0] === ' ' || isOnlyWhitespace(field)) {
+                    errors.addError(
+                      'First character must be a letter with no leading space.',
+                    );
+                  }
+                },
+              ],
+            },
+            [formFields.guardianLastName]: {
+              'ui:title': 'Last or family name',
+              'ui:errorMessages': {
+                pattern:
+                  'Please enter a valid entry. Acceptable entries are letters, spaces, hyphens and apostrophes.',
+                required:
+                  'Please enter your parent/guardian/custodian last or family name.',
+              },
+              'ui:validations': [
+                (errors, field) => {
+                  if (field[0] === ' ' || isOnlyWhitespace(field)) {
+                    errors.addError(
+                      'First character must be a letter with no leading space.',
+                    );
+                  }
+                },
+              ],
+            },
+            [formFields.guardianNameSuffix]: {
+              'ui:title': 'Suffix',
+              'ui:placeholder': '- Select -',
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [
+              formFields.guardianFirstName,
+              formFields.guardianLastName,
+            ],
+            properties: {
+              [formFields.guardianFirstName]: {
+                type: 'string',
+                pattern: "^[a-zA-Z '-]{1,20}$",
+                maxLength: 20,
+              },
+              [formFields.guardianMiddleName]: {
+                type: 'string',
+                pattern: "^[a-zA-Z '-]{1,20}$",
+                maxLength: 20,
+              },
+              [formFields.guardianLastName]: {
+                type: 'string',
+                pattern: "^[a-zA-Z '-]{2,26}$",
+                maxLength: 26,
+              },
+              [formFields.guardianNameSuffix]: {
+                type: 'string',
+                enum: ['II', 'III', 'IV', 'Jr.', 'Sr.'],
+              },
+            },
+          },
+        },
+        guardianMailingAddress: {
+          path: 'guardian-mailing-address',
+          title: 'Your parent/guardian/custodian’s mailing address',
+          depends: formData =>
+            applicantIsaMinor(formData) && formData?.mebParentGuardianStep,
+          uiSchema: {
+            'ui:description': (
+              <>
+                <h3>Your parent/guardian/custodian’s mailing address</h3>
+                <p>
+                  You and your parent/guardian/custodian should fill out their
+                  contact information below.
+                </p>
+              </>
+            ),
+            guardianMailingAddress: {
+              livesOnMilitaryBase: {
+                'ui:title': (
+                  <span id="LiveOnMilitaryBaseTooltip">
+                    I live on a United States military base outside of the
+                    country
+                  </span>
+                ),
+                'ui:reviewField': YesNoReviewField,
+              },
+              'view:livesOnMilitaryBaseInfo': {
+                'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
+              },
+              [formFields.address]: {
+                ...address.uiSchema('', false, null, true),
+                'ui:validations': [customValidateAddress],
+                'ui:options': {
+                  updateSchema: (formData, addressSchema) => {
+                    const livesOnMilitaryBase =
+                      formData.guardianMailingAddress?.livesOnMilitaryBase;
+                    const country =
+                      formData.guardianMailingAddress?.address?.country ||
+                      'USA';
+
+                    // Get the current required fields, excluding state
+                    const required = (addressSchema.required || []).filter(
+                      field => field !== 'state',
+                    );
+
+                    // Only add state as required for USA or military base
+                    if (livesOnMilitaryBase || country === 'USA') {
+                      required.push('state');
+                    }
+
+                    if (livesOnMilitaryBase) {
+                      return {
+                        ...addressSchema,
+                        required,
+                        properties: {
+                          ...addressSchema.properties,
+                          state: {
+                            type: 'string',
+                            title: 'AE/AA/AP',
+                            enum: ['AE', 'AA', 'AP'],
+                            enumNames: [
+                              'AE - APO/DPO/FPO',
+                              'AA - APO/DPO/FPO',
+                              'AP - APO/DPO/FPO',
+                            ],
+                          },
+                        },
+                      };
+                    }
+
+                    let stateSchema = {
+                      type: 'string',
+                      title: 'State/County/Province',
+                    };
+
+                    if (country === 'USA') {
+                      stateSchema = {
+                        ...stateSchema,
+                        title: 'State',
+                        enum: constants.states.USA.map(state => state.value),
+                        enumNames: constants.states.USA.map(
+                          state => state.label,
+                        ),
+                      };
+                    }
+                    return {
+                      ...addressSchema,
+                      required,
+                      properties: {
+                        ...addressSchema.properties,
+                        state: stateSchema,
+                      },
+                    };
+                  },
+                },
+                country: {
+                  'ui:title': 'Country',
+                  'ui:required': formData =>
+                    !formData?.guardianMailingAddress?.livesOnMilitaryBase,
+                  'ui:disabled': formData =>
+                    formData.guardianMailingAddress.livesOnMilitaryBase,
+                  'ui:options': {
+                    updateSchema: (formData, schema, uiSchema) => {
+                      const countryUI = uiSchema;
+                      const addressFormData = get(
+                        ['guardianMailingAddress', 'address'],
+                        formData,
+                      );
+                      const livesOnMilitaryBase = get(
+                        ['guardianMailingAddress', 'livesOnMilitaryBase'],
+                        formData,
+                      );
+                      if (livesOnMilitaryBase) {
+                        countryUI['ui:disabled'] = true;
+                        const USA = {
+                          value: 'USA',
+                          label: 'United States',
+                        };
+                        addressFormData.country = USA.value;
+                        return {
+                          enum: [USA.value],
+                          enumNames: [USA.label],
+                          default: USA.value,
+                        };
+                      }
+                      countryUI['ui:disabled'] = false;
+                      return {
+                        type: 'string',
+                        enum: constants.countries.map(country => country.value),
+                        enumNames: constants.countries.map(
+                          country => country.label,
+                        ),
+                      };
+                    },
+                  },
+                },
+                street: {
+                  'ui:title': 'Street address',
+                  'ui:errorMessages': {
+                    minLength: 'Please enter your full street address',
+                  },
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError('You must provide a response');
+                      }
+                    },
+                  ],
+                },
+                street2: {
+                  'ui:title': 'Street address line 2',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError(
+                          'Please enter a valid street address line 2',
+                        );
+                      }
+                    },
+                  ],
+                  'ui:options': {
+                    // Always set minLength to 0 so an empty string doesn't fail
+                    updateSchema: (_formData, schema) => ({
+                      ...schema,
+                      minLength: 0,
+                    }),
+                  },
+                },
+                city: {
+                  'ui:errorMessages': {
+                    minLength: 'Please enter a valid city',
+                  },
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError('You must provide a response');
+                      }
+                    },
+                  ],
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      const livesOnBase =
+                        formData.guardianMailingAddress?.livesOnMilitaryBase;
+
+                      if (livesOnBase) {
+                        return {
+                          type: 'string',
+                          title: 'APO/DPO/FPO',
+                          enum: ['APO', 'DPO', 'FPO'],
+                        };
+                      }
+
+                      // If the user doesn’t live on a military base, we use a normal city text field
+                      return {
+                        type: 'string',
+                        title: 'City',
+                        minLength: 2,
+                        maxLength: 20,
+                      };
+                    },
+                  },
+                },
+                state: {
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (field?.length === 1) {
+                        errors.addError('Must be more than 1 character');
+                      } else if (field?.length > 31) {
+                        errors.addError('Must be less than 31 characters');
+                      }
+                    },
+                  ],
+                },
+                postalCode: {
+                  'ui:errorMessages': {
+                    pattern: 'Please provide a valid postal code',
+                  },
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError('You must provide a response');
+                      }
+                    },
+                  ],
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData.guardianMailingAddress?.address?.country !==
+                        'USA'
+                      ) {
+                        return {
+                          title: 'Postal code',
+                          type: 'string',
+                          pattern: '^[A-Z0-9 -]{3,10}$',
+                          minLength: 3,
+                          maxLength: 10,
+                        };
+                      }
+
+                      return {
+                        title: 'Zip code',
+                        type: 'string',
+                      };
+                    },
+                  },
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [],
+            properties: {
+              guardianMailingAddress: {
+                type: 'object',
+                properties: {
+                  livesOnMilitaryBase: {
+                    type: 'boolean',
+                  },
+                  'view:livesOnMilitaryBaseInfo': {
+                    type: 'object',
+                    properties: {},
+                  },
+                  [formFields.address]: {
+                    ...mailingAddressSchema,
+                    properties: {
+                      ...mailingAddressSchema.properties,
+                      street: {
+                        ...mailingAddressSchema.properties.street,
+                        minLength: 3,
+                        maxLength: 40,
+                      },
+                      street2: {
+                        ...mailingAddressSchema.properties.street2,
+                        maxLength: 40,
+                      },
+                    },
+                  },
+                },
               },
             },
           },

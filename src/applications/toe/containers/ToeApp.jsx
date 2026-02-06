@@ -30,7 +30,7 @@ function ToeApp({
   isLoggedIn,
   location,
   meb1995Reroute,
-  mebDpoAddressOptionEnabled,
+  mebParentGuardianStep,
   setFormData,
   sponsors,
   sponsorsInitial,
@@ -73,7 +73,7 @@ function ToeApp({
       sponsors,
       sponsorsInitial,
       sponsorsSavedState,
-      formData.sponsors,
+      formData,
     ],
   );
 
@@ -112,8 +112,15 @@ function ToeApp({
           meb1995Reroute,
         });
       }
+
+      if (mebParentGuardianStep !== formData.mebParentGuardianStep) {
+        setFormData({
+          ...formData,
+          mebParentGuardianStep,
+        });
+      }
     },
-    [formData, meb1995Reroute, setFormData],
+    [formData, meb1995Reroute, mebParentGuardianStep, setFormData],
   );
 
   useEffect(
@@ -192,18 +199,6 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
-        setFormData({
-          ...formData,
-          mebDpoAddressOptionEnabled,
-        });
-      }
-    },
-    [mebDpoAddressOptionEnabled],
-  );
-
-  useEffect(
-    () => {
       if (dob !== formData?.dob) {
         setFormData({
           ...formData,
@@ -211,7 +206,7 @@ function ToeApp({
         });
       }
     },
-    [dob, setFormData],
+    [dob, formData, setFormData],
   );
   return (
     <>
@@ -262,7 +257,7 @@ ToeApp.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   meb1995Reroute: PropTypes.bool,
-  mebDpoAddressOptionEnabled: PropTypes.bool,
+  mebParentGuardianStep: PropTypes.bool,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
