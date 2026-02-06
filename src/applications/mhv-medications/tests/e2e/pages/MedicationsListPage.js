@@ -798,8 +798,10 @@ class MedicationsListPage {
   };
 
   clickfilterAccordionDropdownOnListPage = () => {
-    cy.get('[data-testid="rx-filter"]').should('exist');
-    cy.get('[data-testid="rx-filter"]').click({ waitForAnimations: true });
+    cy.get('[data-testid="rx-filter"]')
+      .shadow()
+      .find('[type="button"]')
+      .click({ waitForAnimations: true });
   };
 
   verifyFilterOptionsOnListPage = (text, description) => {
@@ -817,7 +819,8 @@ class MedicationsListPage {
       .shadow()
       .find('[type="button"]')
       .should('have.text', 'Filter list')
-      .and('have.focus');
+      .should('have.attr', 'aria-expanded', 'true')
+      .should('have.focus');
   };
 
   verifyFilterButtonWhenAccordionExpanded = () => {
