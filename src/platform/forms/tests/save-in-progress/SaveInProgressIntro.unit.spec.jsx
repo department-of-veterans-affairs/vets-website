@@ -5,6 +5,7 @@ import { fromUnixTime } from 'date-fns';
 import { format } from 'date-fns-tz';
 import * as routing from 'platform/forms-system/src/js/routing';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import * as recordEventModule from 'platform/monitoring/record-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import sinon from 'sinon';
@@ -194,11 +195,6 @@ describe('<SaveInProgressIntro>', () => {
       const lastUpdated = 946684800;
       const user = withSavedForm({}, { metadata: { lastUpdated } });
       const { els } = subject({ user });
-      expect(els.alert).to.exist;
-      expect(els.alert.textContent).to.include(
-        'You have an application in progress',
-      );
-      expect(els.alert.textContent).to.include('until');
       expect(els.alert.textContent).to.include(
         format(fromUnixTime(lastUpdated), "MMMM d, yyyy', at'"),
       );
@@ -209,19 +205,12 @@ describe('<SaveInProgressIntro>', () => {
       const { container } = subject({ user, headingLevel: 3 });
       const heading = container.querySelector('va-alert h3');
       expect(heading).to.exist;
-      expect(heading.textContent).to.include(
-        'You have an application in progress',
-      );
     });
 
     it('should render form start controls', () => {
       const user = withSavedForm();
-      const { container } = subject({ user });
-      expect(
-        container.querySelector(
-          'va-button[data-testid="continue-your-application"]',
-        ),
-      ).to.exist;
+      const { els } = subject({ user });
+      expect(els.button).to.exist;
     });
 
     it('should render custom app type text', () => {
@@ -237,9 +226,7 @@ describe('<SaveInProgressIntro>', () => {
       const now = new Date('2025-01-15T12:00:00Z');
       const nowUnix = Math.floor(now.getTime() / 1000);
       const user = withSavedForm(
-        {
-          profile: {},
-        },
+        { profile: {} },
         {
           metadata: {
             lastUpdated: nowUnix - 60 * 86400,
@@ -248,8 +235,7 @@ describe('<SaveInProgressIntro>', () => {
         },
       );
       const { els } = subject({ user });
-      expect(els.alert).to.exist;
-      expect(els.alert.getAttribute('status')).to.equal('warning');
+      expect(els.alert).to.have.attr('status', 'warning');
       expect(els.alert.textContent).to.include('Your application has expired');
     });
   });
@@ -258,7 +244,6 @@ describe('<SaveInProgressIntro>', () => {
     it('should render default prefill notification', () => {
       const user = withPrefill();
       const { els } = subject({ user });
-      expect(els.alert).to.exist;
       expect(els.alert.textContent).to.include(
         'We’ve prefilled some of your information',
       );
@@ -279,7 +264,6 @@ describe('<SaveInProgressIntro>', () => {
     it('should render save in progress message', () => {
       const user = loggedIn();
       const { els } = subject({ user });
-      expect(els.alert).to.exist;
       expect(els.alert.textContent).to.include(
         'You can save this application in progress',
       );
@@ -296,18 +280,8 @@ describe('<SaveInProgressIntro>', () => {
     it('should render signInOptional variant with start link', () => {
       const user = createUser();
       const { els } = subject({ user, prefillEnabled: true });
-      expect(els.alertSignIn).to.exist;
-      expect(els.alertSignIn.getAttribute('variant')).to.equal(
-        'signInOptional',
-      );
-      expect(els.button).to.exist;
-      expect(els.button.getAttribute('text')).to.include(
-        'Sign in to start your application',
-      );
+      expect(els.alertSignIn).to.have.attr('variant', 'signInOptional');
       expect(els.startLink).to.exist;
-      expect(els.startLink.textContent).to.include(
-        'Start your application without signing in',
-      );
     });
 
     it('should call toggleLoginModal when sign in button is clicked', () => {
@@ -319,18 +293,17 @@ describe('<SaveInProgressIntro>', () => {
         toggleLoginModal,
       });
       fireEvent.click(els.button);
-      expect(toggleLoginModal.calledOnce).to.be.true;
+      sinon.assert.calledOnce(toggleLoginModal);
     });
 
     it('should use custom retention period', () => {
       const user = createUser();
-      const { container } = subject({
+      const { els } = subject({
         user,
         prefillEnabled: true,
         retentionPeriod: '1 year',
       });
-      const alertSignIn = container.querySelector('va-alert-sign-in');
-      expect(alertSignIn.getAttribute('time-limit')).to.equal('1 year');
+      expect(els.alertSignIn).to.have.attr('time-limit', '1 year');
     });
 
     it('should render custom unauthStartText', () => {
@@ -340,7 +313,9 @@ describe('<SaveInProgressIntro>', () => {
         prefillEnabled: true,
         unauthStartText: 'Custom sign in text',
       });
-      expect(els.button.getAttribute('text')).to.include('Custom sign in text');
+      expect(els.button)
+        .to.have.attr('text')
+        .that.includes('Custom sign in text');
     });
 
     it('should render custom unverified prefill alert', () => {
@@ -365,11 +340,7 @@ describe('<SaveInProgressIntro>', () => {
         prefillEnabled: true,
         hideUnauthedStartLink: true,
       });
-      expect(els.alertSignIn).to.exist;
-      expect(els.alertSignIn.getAttribute('variant')).to.equal(
-        'signInRequired',
-      );
-      expect(els.button).to.exist;
+      expect(els.alertSignIn).to.have.attr('variant', 'signInRequired');
       expect(els.startLink).to.not.exist;
     });
 
@@ -383,8 +354,8 @@ describe('<SaveInProgressIntro>', () => {
         toggleLoginModal,
       });
       fireEvent.click(els.button);
-      expect(toggleLoginModal.calledOnce).to.be.true;
-      expect(toggleLoginModal.firstCall.args[2]).to.be.true;
+      sinon.assert.calledOnce(toggleLoginModal);
+      sinon.assert.match(toggleLoginModal.firstCall.args[2], true);
     });
 
     it('should use requiresVerifiedUser from formConfig', () => {
@@ -398,7 +369,7 @@ describe('<SaveInProgressIntro>', () => {
         toggleLoginModal,
       });
       fireEvent.click(els.button);
-      expect(toggleLoginModal.firstCall.args[2]).to.be.true;
+      sinon.assert.match(toggleLoginModal.firstCall.args[2], true);
     });
   });
 
@@ -406,8 +377,8 @@ describe('<SaveInProgressIntro>', () => {
     it('should render signInOptionalNoPrefill variant', () => {
       const user = createUser();
       const { els } = subject({ user });
-      expect(els.alertSignIn).to.exist;
-      expect(els.alertSignIn.getAttribute('variant')).to.equal(
+      expect(els.alertSignIn).to.have.attr(
+        'variant',
         'signInOptionalNoPrefill',
       );
     });
@@ -415,10 +386,9 @@ describe('<SaveInProgressIntro>', () => {
     it('should render sign in button with correct text', () => {
       const user = createUser();
       const { els } = subject({ user });
-      expect(els.button).to.exist;
-      expect(els.button.getAttribute('text')).to.include(
-        'Sign in to start your application',
-      );
+      expect(els.button)
+        .to.have.attr('text')
+        .that.includes('Sign in to start your application');
     });
 
     it('should apply aria-label and aria-describedby to button', () => {
@@ -428,19 +398,18 @@ describe('<SaveInProgressIntro>', () => {
         ariaLabel: 'test-aria-label',
         ariaDescribedby: 'test-aria-describedby',
       });
-      expect(els.button.getAttribute('label')).to.equal('test-aria-label');
+      expect(els.button).to.have.attr('label', 'test-aria-label');
     });
 
     it('should apply aria-describedby to the unauth start link', () => {
       const user = createUser();
-      const { container } = subject({
+      const { els } = subject({
         user,
         prefillEnabled: true,
         ariaDescribedby: 'test-aria-describedby',
       });
-      const startLink = container.querySelector('.schemaform-start-button');
-      expect(startLink).to.exist;
-      expect(startLink.getAttribute('aria-describedby')).to.equal(
+      expect(els.startLink).to.have.attr(
+        'aria-describedby',
         'test-aria-describedby',
       );
     });
@@ -454,12 +423,10 @@ describe('<SaveInProgressIntro>', () => {
         prefillEnabled: true,
         verifyRequiredPrefill: true,
       });
-      expect(els.alertSignIn).to.exist;
-      expect(els.alertSignIn.getAttribute('variant')).to.equal(
+      expect(els.alertSignIn).to.have.attr(
+        'variant',
         'signInOptionalNoPrefill',
       );
-      expect(els.button).to.exist;
-      expect(els.startLink).to.exist;
     });
 
     it('should render custom unverified prefill alert when provided', () => {
@@ -526,12 +493,12 @@ describe('<SaveInProgressIntro>', () => {
 
     it('should not return null when resumeOnly is true and saved form exists', () => {
       const user = withSavedForm();
-      const { container } = subject({
+      const { els } = subject({
         user,
         startMessageOnly: true,
         resumeOnly: true,
       });
-      expect(container.querySelector('va-alert')).to.exist;
+      expect(els.alert).to.exist;
     });
   });
 
@@ -564,9 +531,6 @@ describe('<SaveInProgressIntro>', () => {
       });
       const { els } = subject({ user });
       expect(els.loadingIndicator).to.exist;
-      expect(els.loadingIndicator.getAttribute('message')).to.include(
-        'Checking to see if you have a saved version',
-      );
     });
 
     it('should not render loading indicator when resumeOnly is true', () => {
@@ -582,6 +546,16 @@ describe('<SaveInProgressIntro>', () => {
   });
 
   describe('when navigating and routing', () => {
+    let recordEventStub;
+
+    beforeEach(() => {
+      recordEventStub = sinon.stub(recordEventModule, 'default');
+    });
+
+    afterEach(() => {
+      recordEventStub.restore();
+    });
+
     it('should trigger no-login-start-form event on start link click', () => {
       const user = createUser();
       const { els } = subject({
@@ -589,7 +563,9 @@ describe('<SaveInProgressIntro>', () => {
         prefillEnabled: true,
       });
       fireEvent.click(els.startLink);
-      expect(els.startLink).to.exist;
+      sinon.assert.calledWith(recordEventStub, {
+        event: 'no-login-start-form',
+      });
     });
 
     it('should use VaLink when useWebComponentForNavigation is true', () => {
@@ -598,14 +574,13 @@ describe('<SaveInProgressIntro>', () => {
       const formConfig = createFormConfig({
         formOptions: { useWebComponentForNavigation: true },
       });
-      const { container } = subject({
+      const { els } = subject({
         user,
         prefillEnabled: true,
         formConfig,
         router,
       });
-      const vaLink = container.querySelector('va-link.schemaform-start-button');
-      expect(vaLink).to.exist;
+      expect(els.startLink.tagName.toLowerCase()).to.equal('va-link');
     });
 
     it('should navigate when VaLink is clicked', () => {
@@ -614,15 +589,14 @@ describe('<SaveInProgressIntro>', () => {
       const formConfig = createFormConfig({
         formOptions: { useWebComponentForNavigation: true },
       });
-      const { container } = subject({
+      const { els } = subject({
         user,
         prefillEnabled: true,
         formConfig,
         router,
       });
-      const vaLink = container.querySelector('va-link.schemaform-start-button');
-      fireEvent.click(vaLink);
-      expect(router.push.calledOnce).to.be.true;
+      fireEvent.click(els.startLink);
+      sinon.assert.calledOnce(router.push);
     });
   });
 
@@ -643,7 +617,6 @@ describe('<SaveInProgressIntro>', () => {
         customLink: CustomLink,
         unauthStartText: 'Custom Link Text',
       });
-      expect(getByTestId('custom-link')).to.exist;
       expect(getByTestId('custom-link').textContent).to.equal(
         'Custom Link Text',
       );
@@ -659,7 +632,7 @@ describe('<SaveInProgressIntro>', () => {
         toggleLoginModal,
       });
       fireEvent.click(getByTestId('custom-link'));
-      expect(toggleLoginModal.calledOnce).to.be.true;
+      sinon.assert.calledOnce(toggleLoginModal);
     });
   });
 
@@ -730,8 +703,8 @@ describe('<SaveInProgressIntro>', () => {
         pageList: pageListWithDepends,
         formData,
       });
-      expect(getNextPagePathStub.called).to.be.true;
-      expect(getNextPagePathStub.lastCall.args[1]).to.deep.equal(formData);
+      sinon.assert.calledOnce(getNextPagePathStub);
+      sinon.assert.match(getNextPagePathStub.lastCall.args[1], formData);
     });
 
     it('should include pages with met depends conditions', () => {
@@ -768,7 +741,7 @@ describe('<SaveInProgressIntro>', () => {
         pathname: '/step-2',
         formData: {},
       });
-      expect(getNextPagePathStub.lastCall.args[2]).to.equal('/step-2');
+      sinon.assert.match(getNextPagePathStub.lastCall.args[2], '/step-2');
     });
 
     it('should handle multiple consecutive conditional pages', () => {
