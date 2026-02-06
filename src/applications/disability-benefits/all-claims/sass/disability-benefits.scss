@@ -311,3 +311,10 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
   text-overflow: ellipsis;
   line-height: 1.5;
 }
+
+// Needed to hide field that injects rated disability.
+// Satisfies schema requirements when new conditions workflow
+// feature flag is toggled from disabled to enabled and vice-versa
+#form-526[data-location="new-disabilities/add"] .schemaform-field-template.rated-disability {
+  display: none;
+}
