@@ -39,6 +39,7 @@ describe('Medical Records View Allergies for VistA Users (Path 3)', () => {
       if ($body.find('[data-testid="record-list-item"]').length > 0) {
         cy.get('[data-testid="record-list-item"]')
           .first()
+          .should('be.visible')
           .within(() => {
             cy.get('a').should('be.visible');
             // VistA format uses "Date entered:" label
@@ -60,8 +61,8 @@ describe('Medical Records View Allergies for VistA Users (Path 3)', () => {
     cy.get('body').then($body => {
       if ($body.find('[data-testid="record-list-item"]').length > 0) {
         cy.get('[data-testid="record-list-item"]')
-          .should('be.visible')
           .first()
+          .should('be.visible')
           .find('a')
           .click();
 
