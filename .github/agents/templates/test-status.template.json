@@ -1,0 +1,30 @@
+{
+  "last_run": null,
+  "last_run_by": null,
+  "build_status": {
+    "webpack": "unknown",
+    "last_error": null
+  },
+  "unit_tests": {
+    "total": 0,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "coverage": {
+      "statements": 0,
+      "branches": 0,
+      "functions": 0,
+      "lines": 0
+    },
+    "failures": []
+  },
+  "e2e_tests": {
+    "total": 0,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "failures": []
+  },
+  "axe_violations": [],
+  "notes": []
+}
