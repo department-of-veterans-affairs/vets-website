@@ -10,12 +10,16 @@ const SubmittedStep = ({ prescriptions }) => {
         'these medications',
       )}. It may take up to 7 days to start processing your request.`
     : 'You haven’t requested any medication refills.';
+
+  const noteText = prescriptions.length
+    ? 'Medications prescribed in the last 24 hours may not be here yet.'
+    : 'Medication refills you requested in the last 24 hours may not be here yet.';
   return (
     <va-process-list-item header="Request submitted" level={2}>
       <p>{descriptionText}</p>
       <p>
-        <strong>Note:</strong> Medications prescribed in the last 24 hours may
-        not be here yet.
+        <strong>Note:</strong>
+        {` ${noteText}`}
       </p>
       {/* TODO map prescriptions to Prescription components */}
     </va-process-list-item>
