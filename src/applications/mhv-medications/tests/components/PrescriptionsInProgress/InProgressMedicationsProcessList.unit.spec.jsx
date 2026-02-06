@@ -108,6 +108,12 @@ describe('InProgressMedicationsProcessList Component', () => {
         ),
       ).to.exist;
     });
+
+    it('displays empty state text when no prescriptions are submitted', () => {
+      const screen = setup([]);
+      expect(screen.getByText(/You haven’t requested any medication refills/))
+        .to.exist;
+    });
   });
 
   describe('InProgressStep', () => {
@@ -152,6 +158,11 @@ describe('InProgressMedicationsProcessList Component', () => {
       ];
       const screen = setup(multipleInProgressPrescriptions);
       expect(screen.getByText(/these medication requests/)).to.exist;
+    });
+
+    it('displays empty state text when no prescriptions are in progress', () => {
+      const screen = setup([]);
+      expect(screen.getByText(/No fills are currently in progress/)).to.exist;
     });
   });
 
@@ -203,6 +214,11 @@ describe('InProgressMedicationsProcessList Component', () => {
           /These medications are on their way to you or have already arrived/,
         ),
       ).to.exist;
+    });
+
+    it('displays empty state text when no prescriptions are shipped', () => {
+      const screen = setup([]);
+      expect(screen.getByText(/No medications have recently shipped/)).to.exist;
     });
   });
 
