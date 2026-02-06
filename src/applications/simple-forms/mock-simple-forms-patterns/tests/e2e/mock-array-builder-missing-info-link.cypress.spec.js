@@ -83,6 +83,11 @@ const testConfig = createTestConfig(
             // TODO: re-enable once the following ticket is resolved:
             // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4469
             // tryContinueAndShouldBeStoppedByError();
+
+            // Wait required to avoid race condition with SIP causing page rerender.
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
+            cy.wait(200);
+
             deleteCard();
             continueNoError();
           });
