@@ -274,10 +274,15 @@ export function startRequestAppointmentFlow(isCommunityCare, ehr) {
         ? APPOINTMENT_SYSTEM.cerner
         : APPOINTMENT_SYSTEM.vista);
 
+    // Community care uses HSRM, so don't include EHR suffix
+    const ehrSuffix = isCommunityCare
+      ? ''
+      : `-${isCernerEhr === APPOINTMENT_SYSTEM.cerner ? 'cerner' : 'vista'}`;
+
     recordEvent({
-      event: `vaos-${isCommunityCare ? 'community-care' : 'request'}-${
-        isCernerEhr === APPOINTMENT_SYSTEM.cerner ? 'cerner' : 'vista'
-      }-path-started`,
+      event: `vaos-${
+        isCommunityCare ? 'community-care' : 'request'
+      }${ehrSuffix}-path-started`,
     });
 
     dispatch({
@@ -987,10 +992,13 @@ export function submitAppointmentOrRequest(history) {
         'vaos-number-of-days-from-preference': daysFromPreference.join('-'),
       };
 
+      // Community care uses HSRM, so don't include EHR suffix
+      const ehrSuffix = isCommunityCare
+        ? ''
+        : `-${selectedEhr === APPOINTMENT_SYSTEM.cerner ? 'cerner' : 'vista'}`;
+
       recordEvent({
-        event: `${GA_PREFIX}-${eventType}-${
-          selectedEhr === APPOINTMENT_SYSTEM.cerner ? 'cerner' : 'vista'
-        }-submission`,
+        event: `${GA_PREFIX}-${eventType}${ehrSuffix}-submission`,
         flow,
         ...additionalEventData,
       });
@@ -1010,9 +1018,7 @@ export function submitAppointmentOrRequest(history) {
         });
 
         recordEvent({
-          event: `${GA_PREFIX}-${eventType}-${
-            selectedEhr === APPOINTMENT_SYSTEM.cerner ? 'cerner' : 'vista'
-          }-submission-successful`,
+          event: `${GA_PREFIX}-${eventType}${ehrSuffix}-submission-successful`,
           flow,
           ...additionalEventData,
         });
@@ -1047,9 +1053,7 @@ export function submitAppointmentOrRequest(history) {
         );
 
         recordEvent({
-          event: `${GA_PREFIX}-${eventType}-${
-            selectedEhr === APPOINTMENT_SYSTEM.cerner ? 'cerner' : 'vista'
-          }-submission-failed`,
+          event: `${GA_PREFIX}-${eventType}${ehrSuffix}-submission-failed`,
           flow,
           ...additionalEventData,
         });

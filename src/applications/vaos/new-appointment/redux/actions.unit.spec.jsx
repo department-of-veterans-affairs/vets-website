@@ -258,7 +258,7 @@ describe('VAOS newAppointment actions', () => {
       });
     });
 
-    it('should record community-care event with vista ehr', async () => {
+    it('should record community-care event without ehr suffix', async () => {
       const dispatch = sinon.spy();
       const getState = () => ({
         newAppointment: { ehr: null },
@@ -269,25 +269,7 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.calledOnce).to.be.true;
       expect(global.window.dataLayer[0]).to.deep.include({
-        event: 'vaos-community-care-vista-path-started',
-      });
-    });
-
-    it('should record community-care event with cerner ehr', async () => {
-      const dispatch = sinon.spy();
-      const getState = () => ({
-        newAppointment: { ehr: null },
-      });
-
-      const thunk = startRequestAppointmentFlow(
-        true,
-        APPOINTMENT_SYSTEM.cerner,
-      );
-      await thunk(dispatch, getState);
-
-      expect(dispatch.calledOnce).to.be.true;
-      expect(global.window.dataLayer[0]).to.deep.include({
-        event: 'vaos-community-care-cerner-path-started',
+        event: 'vaos-community-care-path-started',
       });
     });
 
