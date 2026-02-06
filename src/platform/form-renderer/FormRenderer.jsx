@@ -1,5 +1,6 @@
 import React from 'react';
 import { getNestedProperty, renderStr } from './util';
+import './sass/FormRenderer.scss';
 
 function renderPart(part, data, depth, key = '') {
   const label = renderStr(part.label, data);
@@ -76,14 +77,15 @@ function createChecklist(obj) {
     <li id={`li-${obj.key}`} key={obj.key}>
       <div key={obj.key}>
         {label}
-        {obj.options.map(opt => (
-          <div key={opt}>✓ {opt}</div>
-        ))}
+        <ul>
+          {obj.options.map(opt => {
+            return <li key={opt}>✓ {opt}</li>;
+          })}
+        </ul>
       </div>
     </li>
   );
 }
-
 function render(cfg, data) {
   let listItemCount = 0;
   let orderedListCount = 0;
@@ -112,7 +114,6 @@ function render(cfg, data) {
         <ol
           {...orderedListCount > 0 && {
             'aria-describedby': descId,
-            'aria-label': 'Questions, numbering continues',
           }}
           start={start}
           id={olId}
