@@ -42,6 +42,19 @@ export class ReviewPageObject extends PageObject {
   }
 
   /**
+   * Assert the date and time description contains the given text (e.g. date or time portion).
+   * Use this to verify the displayed appointment date/time after changing the selection.
+   * @param {string} text - Text that should appear in the date-time-description (e.g. "June 3, 2025" or "1:30")
+   * @returns {ReviewPageObject}
+   */
+  assertDateTimeDescriptionContains(text) {
+    this.assertElement('date-time-description', {
+      containsText: text,
+    });
+    return this;
+  }
+
+  /**
    * Assert the topic section is displayed
    * @returns {ReviewPageObject}
    */

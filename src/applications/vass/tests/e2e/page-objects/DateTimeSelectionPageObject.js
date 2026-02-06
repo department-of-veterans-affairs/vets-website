@@ -101,6 +101,19 @@ export class DateTimeSelectionPageObject extends PageObject {
   }
 
   /**
+   * Select a time slot by index (0-based). Use after a date is already selected.
+   * Consistent with VAOS referral flow: select by index for deterministic tests.
+   * @param {number} index - Index of the time slot to select (0-based)
+   * @returns {DateTimeSelectionPageObject}
+   */
+  selectTimeSlotByIndex(index = 0) {
+    cy.get('.vaos-calendar__option-cell input[type="radio"]:not([disabled])')
+      .eq(index)
+      .click({ force: true });
+    return this;
+  }
+
+  /**
    * Click the continue button
    * @returns {DateTimeSelectionPageObject}
    */

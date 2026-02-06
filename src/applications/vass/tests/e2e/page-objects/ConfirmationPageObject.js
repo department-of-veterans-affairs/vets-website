@@ -140,6 +140,17 @@ export class ConfirmationPageObject extends PageObject {
   }
 
   /**
+   * Assert the confirmation page "When" section displays the given date/time text.
+   * Use this to verify the confirmed appointment shows the updated time (e.g. after changing date/time).
+   * @param {string} text - Text that should appear in the When section (e.g. formatted date or time)
+   * @returns {ConfirmationPageObject}
+   */
+  assertWhenSectionContainsDateTime(text) {
+    cy.findByTestId('when-section').should('contain.text', text);
+    return this;
+  }
+
+  /**
    * Assert the add to calendar button
    * @returns {ConfirmationPageObject}
    */

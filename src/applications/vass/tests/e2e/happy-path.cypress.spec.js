@@ -1,3 +1,4 @@
+import { formatInTimeZone } from 'date-fns-tz';
 import VerifyPageObject from './page-objects/VerifyPageObject';
 import EnterOTPPageObject from './page-objects/EnterOTPPageObject';
 import DateTimeSelectionPageObject from './page-objects/DateTimeSelectionPageObject';
@@ -11,6 +12,8 @@ import {
   mockAppointmentDetailsApi,
   mockCancelAppointmentApi,
 } from './vass-e2e-helpers';
+import MockAppointmentAvailabilityResponse from '../fixtures/MockAppointmentAvailabilityResponse';
+import MockAppointmentDetailsResponse from '../fixtures/MockAppointmentDetailsResponse';
 import { createMockJwt } from '../../utils/mock-helpers';
 import MockAuthenticateOtpResponse from '../fixtures/MockAuthenticateOtpResponse';
 import ReviewPageObject from './page-objects/ReviewPageObject';
@@ -22,6 +25,9 @@ import { createAppointmentAlreadyBookedError } from '../../services/mocks/utils/
 
 const uuid = 'c0ffee-1234-beef-5678';
 const expiresIn = 3600;
+
+// Fixed "today" for consistent calendar and slot selection (same pattern as VAOS referral-appointments)
+const mockToday = new Date('2025-06-02T12:00:00Z');
 
 describe('VASS Schedule Appointment', () => {
   beforeEach(() => {
@@ -40,6 +46,8 @@ describe('VASS Schedule Appointment', () => {
 
   describe('Schedule Appointment', () => {
     beforeEach(() => {
+      cy.visit(`/service-member/benefits/solid-start/schedule?uuid=${uuid}`);
+
       mockAppointmentAvailabilityApi();
 
       mockTopicsApi();
@@ -51,17 +59,12 @@ describe('VASS Schedule Appointment', () => {
       });
     });
 
-    it('should schedule an appointment from a schedule link url', () => {
-      cy.visit(`/service-member/benefits/solid-start/schedule?uuid=${uuid}`);
-
+    it('should schedule an appointment', () => {
       VerifyPageObject.assertVerifyPage();
 
       cy.injectAxeThenAxeCheck();
 
-      VerifyPageObject.fillAndSubmitForm({
-        lastName: 'Smith',
-        dateOfBirth: '1935-04-07',
-      });
+      VerifyPageObject.fillAndSubmitValidForm();
 
       cy.wait('@vass:post:request-otp');
       EnterOTPPageObject.assertEnterOTPPage();
@@ -95,6 +98,154 @@ describe('VASS Schedule Appointment', () => {
       cy.injectAxeThenAxeCheck();
       ConfirmationPageObject.assertAddToCalendarButton();
       ConfirmationPageObject.assertPrintFunctionality();
+    });
+
+    it('should allow the user to change the date and time', () => {
+      const topic = 'General VA benefits';
+
+      // Fixed slots for deterministic assertions (same day, two times)
+      const firstSlotStart = '2025-06-03T13:00:00.000Z';
+      const secondSlotStart = '2025-06-03T13:30:00.000Z';
+      const firstSlot = MockAppointmentAvailabilityResponse.createSlot({
+        dtStartUtc: firstSlotStart,
+        dtEndUtc: '2025-06-03T13:30:00.000Z',
+      });
+      const secondSlot = MockAppointmentAvailabilityResponse.createSlot({
+        dtStartUtc: secondSlotStart,
+        dtEndUtc: '2025-06-03T14:00:00.000Z',
+      });
+      mockAppointmentAvailabilityApi({
+        response: new MockAppointmentAvailabilityResponse({
+          availableSlots: [firstSlot, secondSlot],
+        }).toJSON(),
+      });
+
+      mockAppointmentDetailsApi({
+        appointmentId: 'abcdef123456',
+        response: new MockAppointmentDetailsResponse({
+          appointmentId: 'abcdef123456',
+          startUTC: secondSlotStart,
+          endUTC: '2025-06-03T14:00:00.000Z',
+        }).toJSON(),
+      });
+
+      // Format expected date/time in the same timezone as the app (works in UTC or any server TZ)
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const expectedDate = formatInTimeZone(
+        firstSlotStart,
+        tz,
+        'EEEE, MMMM dd, yyyy',
+      );
+      const expectedTime1 = formatInTimeZone(firstSlotStart, tz, 'hh:mm a');
+      const expectedTime2 = formatInTimeZone(secondSlotStart, tz, 'hh:mm a');
+
+      // Control time so calendar and slots are consistent
+      cy.clock(mockToday, ['Date']);
+
+      VerifyPageObject.assertVerifyPage();
+      cy.injectAxeThenAxeCheck();
+      VerifyPageObject.fillAndSubmitValidForm();
+
+      cy.wait('@vass:post:request-otp');
+      EnterOTPPageObject.assertEnterOTPPage();
+      cy.injectAxeThenAxeCheck();
+      EnterOTPPageObject.fillAndSubmitValidOTP();
+
+      cy.wait('@vass:get:appointment-availability');
+      DateTimeSelectionPageObject.assertDateTimeSelectionPage();
+      cy.injectAxeThenAxeCheck();
+      // Select first slot (index 0) in a consistent manner
+      DateTimeSelectionPageObject.selectFirstAvailableDate();
+      DateTimeSelectionPageObject.selectTimeSlotByIndex(0);
+      DateTimeSelectionPageObject.clickContinue();
+
+      cy.wait('@vass:get:topics');
+      cy.injectAxeThenAxeCheck();
+      TopicSelectionPageObject.assertTopicSelectionPage();
+      TopicSelectionPageObject.selectTopicAndContinue(topic);
+
+      ReviewPageObject.assertReviewPage();
+      cy.injectAxeThenAxeCheck();
+      ReviewPageObject.assertTopicDescription(topic);
+      ReviewPageObject.assertDateTimeDescriptionContains(expectedDate);
+      ReviewPageObject.assertDateTimeDescriptionContains(expectedTime1);
+
+      // Change date/time: go back and select the second slot
+      ReviewPageObject.clickEditDateTime();
+      DateTimeSelectionPageObject.assertDateTimeSelectionPage();
+      DateTimeSelectionPageObject.selectFirstAvailableDate();
+      DateTimeSelectionPageObject.selectTimeSlotByIndex(1);
+      DateTimeSelectionPageObject.clickContinue();
+
+      TopicSelectionPageObject.assertTopicSelectionPage();
+      TopicSelectionPageObject.clickContinue();
+
+      ReviewPageObject.assertReviewPage();
+      ReviewPageObject.assertDateTimeDescriptionContains(expectedDate);
+      ReviewPageObject.assertDateTimeDescriptionContains(expectedTime2);
+      ReviewPageObject.clickConfirmAppointment();
+
+      cy.wait('@vass:post:appointment');
+      cy.injectAxeThenAxeCheck();
+      cy.wait('@vass:get:appointment-details');
+
+      ConfirmationPageObject.assertConfirmationPage({
+        agentName: 'Agent Smith',
+        topics: [topic],
+      });
+      ConfirmationPageObject.assertWhenSectionContainsDateTime(expectedDate);
+      ConfirmationPageObject.assertWhenSectionContainsDateTime(expectedTime2);
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should allow the user to change the topic', () => {
+      const firstTopic = 'General VA benefits';
+      const secondTopic = 'Education';
+
+      VerifyPageObject.assertVerifyPage();
+      cy.injectAxeThenAxeCheck();
+      VerifyPageObject.fillAndSubmitValidForm();
+
+      cy.wait('@vass:post:request-otp');
+      EnterOTPPageObject.assertEnterOTPPage();
+      cy.injectAxeThenAxeCheck();
+      EnterOTPPageObject.fillAndSubmitValidOTP();
+
+      cy.wait('@vass:get:appointment-availability');
+      DateTimeSelectionPageObject.assertDateTimeSelectionPage();
+      cy.injectAxeThenAxeCheck();
+      DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
+
+      cy.wait('@vass:get:topics');
+      cy.injectAxeThenAxeCheck();
+      TopicSelectionPageObject.assertTopicSelectionPage();
+      TopicSelectionPageObject.selectTopicAndContinue(firstTopic);
+
+      ReviewPageObject.assertReviewPage();
+      cy.injectAxeThenAxeCheck();
+      ReviewPageObject.assertTopicDescription(firstTopic);
+
+      // Change topic: go back, unselect first and select second
+      ReviewPageObject.clickEditTopic();
+      TopicSelectionPageObject.assertTopicSelectionPage();
+      TopicSelectionPageObject.unselectTopicByTestId(
+        'topic-checkbox-general-va-benefits',
+      );
+      TopicSelectionPageObject.selectTopicAndContinue(secondTopic);
+
+      ReviewPageObject.assertReviewPage();
+      ReviewPageObject.assertTopicDescription(secondTopic);
+      ReviewPageObject.clickConfirmAppointment();
+
+      cy.wait('@vass:post:appointment');
+      cy.injectAxeThenAxeCheck();
+      cy.wait('@vass:get:appointment-details');
+
+      ConfirmationPageObject.assertConfirmationPage({
+        agentName: 'Agent Smith',
+        topics: [secondTopic],
+      });
+      cy.injectAxeThenAxeCheck();
     });
   });
 
@@ -229,6 +380,39 @@ describe('VASS Schedule Appointment', () => {
         cy.wait('@vass:get:appointment-details');
 
         AlreadyScheduledPageObject.assertAlreadyScheduledPage();
+        cy.injectAxeThenAxeCheck();
+      });
+
+      it('should allow the user to cancel', () => {
+        cy.visit(`/service-member/benefits/solid-start/schedule?uuid=${uuid}`);
+
+        VerifyPageObject.assertVerifyPage();
+        cy.injectAxeThenAxeCheck();
+        VerifyPageObject.fillAndSubmitValidForm();
+
+        cy.wait('@vass:post:request-otp');
+        EnterOTPPageObject.assertEnterOTPPage();
+        cy.injectAxeThenAxeCheck();
+        EnterOTPPageObject.fillAndSubmitValidOTP();
+
+        cy.wait('@vass:get:appointment-availability');
+        cy.wait('@vass:get:appointment-details');
+
+        AlreadyScheduledPageObject.assertAlreadyScheduledPage();
+        cy.injectAxeThenAxeCheck();
+        AlreadyScheduledPageObject.clickCancelAppointment();
+
+        CancelAppointmentPageObject.assertCancelAppointmentPage({
+          agentName: 'Agent Smith',
+        });
+        cy.injectAxeThenAxeCheck();
+
+        CancelAppointmentPageObject.clickYesCancelAppointment();
+        cy.wait('@vass:post:cancel-appointment');
+
+        CancelConfirmationPageObject.assertCancelConfirmationPage({
+          agentName: 'Agent Smith',
+        });
         cy.injectAxeThenAxeCheck();
       });
     });

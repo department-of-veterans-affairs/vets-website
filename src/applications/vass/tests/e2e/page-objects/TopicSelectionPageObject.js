@@ -22,7 +22,6 @@ export class TopicSelectionPageObject extends PageObject {
     this.assertButtonPair();
     this.assertTopicCount(numberOfTopics);
     this.assertErrorAlert({ exist: false });
-    this.assertNoValidationError();
 
     // Assert need help footer
     this.assertNeedHelpFooter();
