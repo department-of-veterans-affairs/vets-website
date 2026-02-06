@@ -1,5 +1,8 @@
 import 'platform/polyfills';
-import '../all-claims/sass/disability-benefits.scss';
+import './sass/representative-526ez.scss';
+
+// Import ARP styles for header/footer
+import '~/applications/accredited-representative-portal/sass/accredited-representative-portal.scss';
 
 import startApp from 'platform/startup';
 import routes from './routes';

@@ -39,26 +39,9 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_21_526EZ,
   transformForSubmit: transform,
 
-  // Save in progress settings
-  saveInProgress: {
-    messages: {
-      inProgress:
-        'Your disability compensation application (21-526EZ) for this veteran is in progress.',
-      expired:
-        'Your saved disability compensation application (21-526EZ) has expired. Please start a new application.',
-      saved: 'Your disability compensation application has been saved.',
-    },
-  },
-
   // Form metadata
   version: 0,
   prefillEnabled: false, // Rep isn't the veteran, no prefill
-  savedFormMessages: {
-    notFound:
-      'Please start over to file a disability compensation claim for this veteran.',
-    noAuth:
-      'Please sign in again to resume your disability compensation application.',
-  },
 
   // Page components
   introduction: RepIntroductionPage,

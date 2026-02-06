@@ -1,0 +1,22 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+.representative-526ez {
+  -webkit-font-smoothing: antialiased;
+
+  .usa-width-two-thirds {
+    max-width: 627px;
+    padding: 0;
+  }
+
+  .schemaform-title {
+    margin-bottom: 32px;
+  }
+
+  .schemaform-chapter-progress {
+    display: none;
+  }
+}

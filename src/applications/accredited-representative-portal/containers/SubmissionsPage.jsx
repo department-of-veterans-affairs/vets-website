@@ -83,7 +83,7 @@ const SubmissionsPage = title => {
           The form will be processed by VA Centralized Mail after submission.
         </p>
         <va-link-action
-          href="/representative/representative-form-upload/submit-va-form-21-526EZ"
+          href="/representative/file-disability-claim-form-21-526ez"
           text="Upload and submit VA Form 21-526EZ"
           type="secondary"
         />

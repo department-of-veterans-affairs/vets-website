@@ -9,7 +9,7 @@ describe('Representative 526EZ Form Configuration', () => {
 
   it('has correct rootUrl', () => {
     expect(formConfig.rootUrl).to.equal(
-      '/disability/representative/file-disability-claim-form-21-526ez',
+      '/representative/file-disability-claim-form-21-526ez',
     );
   });
 

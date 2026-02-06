@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { claimantSearch, extractICN } from '../utilities/mviLookup';
+import { claimantSearch, extractClaimantData } from '../utilities/mviLookup';
 
 /**
  * VeteranLookupButton - Component to perform MVI lookup after veteran info is entered
  *
  * This component is displayed after the veteran identification fields and allows
  * the representative to verify the veteran's identity through MVI lookup.
+ *
+ * On successful lookup, stores:
+ * - claimantId: UUID used to identify the veteran in subsequent API calls
+ *   (the backend resolves this to the actual ICN when submitting to EVSS/Lighthouse)
+ * - claimantData: Additional verified information about the veteran
  */
 const VeteranLookupButton = ({ formData, setFormData }) => {
   const [lookupState, setLookupState] = useState({
@@ -31,12 +36,15 @@ const VeteranLookupButton = ({ formData, setFormData }) => {
 
     try {
       const response = await claimantSearch({ fullName, ssn, dateOfBirth });
-      const icn = extractICN(response);
+      const claimantData = extractClaimantData(response);
 
-      if (icn) {
+      if (claimantData) {
         setFormData({
           ...formData,
-          veteranIcn: icn,
+          // Store the claimant UUID - backend will resolve to ICN when needed
+          claimantId: claimantData.claimantId,
+          // Store verified claimant data for display/confirmation
+          'view:claimantData': claimantData,
           'view:mviLookupComplete': true,
         });
         setLookupState({ loading: false, error: null, success: true });
@@ -103,7 +111,7 @@ VeteranLookupButton.propTypes = {
     }),
     ssn: PropTypes.string,
     dateOfBirth: PropTypes.string,
-    veteranIcn: PropTypes.string,
+    claimantId: PropTypes.string,
   }),
   setFormData: PropTypes.func.isRequired,
 };

@@ -17,8 +17,8 @@ import VeteranLookupButton from '../components/VeteranLookupButton';
  *
  * This page collects the veteran's identifying information so the representative
  * can file a 526EZ on their behalf. The information is used to:
- * 1. Perform an MVI lookup to get the veteran's ICN
- * 2. Include in the submission payload for EVSS/Lighthouse
+ * 1. Perform an MVI lookup to verify the veteran's identity
+ * 2. Store the claimant UUID (backend resolves to ICN for EVSS/Lighthouse)
  *
  * Fields:
  * - fullName (first, middle, last, suffix)
@@ -52,9 +52,22 @@ export const schema = {
       type: 'object',
       properties: {},
     },
-    // Hidden field to store the veteran ICN after successful lookup
-    veteranIcn: {
+    // Claimant UUID from MVI lookup - backend resolves to ICN when submitting
+    claimantId: {
       type: 'string',
+    },
+    // Verified claimant data from MVI lookup (for display/confirmation)
+    'view:claimantData': {
+      type: 'object',
+      properties: {
+        claimantId: { type: 'string' },
+        firstName: { type: 'string' },
+        lastName: { type: 'string' },
+        city: { type: 'string' },
+        state: { type: 'string' },
+        postalCode: { type: 'string' },
+        representative: { type: 'string' },
+      },
     },
     'view:mviLookupComplete': {
       type: 'boolean',

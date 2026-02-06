@@ -1,6 +1,6 @@
-import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import formConfig from '../config/form';
+import createSchemaFormReducer from 'platform/forms-system/src/js/state';
 
 export default {
-  form: createSaveInProgressFormReducer(formConfig),
+  form: createSchemaFormReducer(formConfig),
 };

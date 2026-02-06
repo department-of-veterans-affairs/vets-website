@@ -19,13 +19,25 @@ const API_VERSION = 'accredited_representative_portal/v0';
 export async function claimantSearch(veteranData) {
   const { fullName, ssn, dateOfBirth } = veteranData;
 
+  // DEBUG: Log the incoming date format
+  // eslint-disable-next-line no-console
+  console.log('[MVI Lookup] dateOfBirth value:', dateOfBirth, 'type:', typeof dateOfBirth);
+
+  // Backend expects snake_case parameter names
+  // Note: The backend expects 'dob' not 'birth_date' (matching ARP ClaimantSearchPage)
+  /* eslint-disable camelcase */
   const searchPayload = {
-    firstName: fullName?.first,
-    middleName: fullName?.middle || '',
-    lastName: fullName?.last,
+    first_name: fullName?.first,
+    middle_name: fullName?.middle || '',
+    last_name: fullName?.last,
     ssn: ssn?.replace(/-/g, ''), // Remove dashes from SSN
-    dateOfBirth,
+    dob: dateOfBirth,
   };
+  /* eslint-enable camelcase */
+
+  // DEBUG: Log the full payload being sent
+  // eslint-disable-next-line no-console
+  console.log('[MVI Lookup] Sending payload:', JSON.stringify(searchPayload, null, 2));
 
   const baseUrl = `${environment.API_URL}/${API_VERSION}`;
   const url = `${baseUrl}/claimant/search`;
@@ -36,9 +48,10 @@ export async function claimantSearch(veteranData) {
     method: 'POST',
     credentials: 'include',
     headers: {
-      'X-Key-Inflection': 'camel',
       'Content-Type': 'application/json',
+      'X-Key-Inflection': 'camel',
       'X-CSRF-Token': csrfToken,
+      'Source-App-Name': 'representative',
     },
     body: JSON.stringify(searchPayload),
   };
@@ -62,25 +75,41 @@ export async function claimantSearch(veteranData) {
 }
 
 /**
- * Extract ICN from MVI lookup response
+ * Extract claimant data from MVI lookup response
+ *
+ * The claimant search endpoint returns claimant information including:
+ * - id: A UUID that identifies the claimant in the ARP system
+ * - firstName, lastName, city, state, etc.
+ *
+ * Note: The actual ICN (Integration Control Number) is NOT returned to the
+ * frontend for security reasons. The backend will use the claimant UUID to
+ * look up the ICN when submitting the 526EZ form.
  *
  * @param {Object} mviResponse - Response from claimant search
- * @returns {string|null} - The veteran's ICN or null if not found
+ * @returns {Object|null} - Claimant data object or null if not found
  */
-export function extractICN(mviResponse) {
-  // The structure may vary - check multiple possible locations
-  // API may return icn or claimantId depending on the endpoint version
-  const attributes = mviResponse?.data?.attributes;
-  return (
-    attributes?.icn ||
-    attributes?.claimantId ||
-    mviResponse?.icn ||
-    mviResponse?.claimantId ||
-    null
-  );
+export function extractClaimantData(mviResponse) {
+  const data = mviResponse?.data;
+  
+  if (!data?.id) {
+    return null;
+  }
+  
+  return {
+    // The claimant UUID - used to identify the veteran in subsequent API calls
+    // The backend will resolve this to the actual ICN when needed
+    claimantId: data.id,
+    // Additional claimant info that can be displayed/verified
+    firstName: data.firstName,
+    lastName: data.lastName,
+    city: data.city,
+    state: data.state,
+    postalCode: data.postalCode,
+    representative: data.representative,
+  };
 }
 
 export default {
   claimantSearch,
-  extractICN,
+  extractClaimantData,
 };

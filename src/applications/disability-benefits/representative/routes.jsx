@@ -1,17 +1,15 @@
-import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
+import { createRoutes } from 'platform/forms-system/src/js/routing/createRoutes';
 
 import RepForm526EZApp from './RepForm526EZApp';
 import formConfig from './config/form';
 
-const routes = [
-  {
-    path: '/',
-    component: RepForm526EZApp,
-    indexRoute: {
-      onEnter: (nextState, replace) => replace('/introduction'),
-    },
-    childRoutes: createRoutesWithSaveInProgress(formConfig),
+const route = {
+  path: '/',
+  component: RepForm526EZApp,
+  indexRoute: {
+    onEnter: (nextState, replace) => replace('/introduction'),
   },
-];
+  childRoutes: createRoutes(formConfig),
+};
 
-export default routes;
+export default route;
