@@ -1083,6 +1083,5 @@ export const onFormLoaded = props => {
  * @param {object} formData
  * @returns {boolean} true if hasEvidenceChoice is present, false otherwise
  */
-export const hasEvidenceChoice = formData => {
-  return formData?.['view:hasEvidenceChoice'] === true;
-};
+export const hasEvidenceChoice = formData =>
+  formData?.['view:hasEvidenceChoice'] === true;
