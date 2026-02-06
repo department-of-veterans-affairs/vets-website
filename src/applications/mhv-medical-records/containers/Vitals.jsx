@@ -51,14 +51,9 @@ const Vitals = () => {
   const isLoadingAcceleratedData =
     (isCerner || isAcceleratingVitals) && listState === loadStates.FETCHING;
 
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getVitals(isCurrent, isCerner, isAcceleratingVitals);
-      };
-    },
-    [isCerner, isAcceleratingVitals],
-  );
+  const dispatchAction = isCurrent => {
+    return getVitals(isCurrent, isCerner, isAcceleratingVitals);
+  };
 
   useTrackAction(statsdFrontEndActions.VITALS_LIST);
 

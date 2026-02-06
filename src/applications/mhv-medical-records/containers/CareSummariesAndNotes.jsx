@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -64,21 +64,12 @@ const CareSummariesAndNotes = () => {
 
   const { isLoading, isAcceleratingCareNotes } = useAcceleratedData();
 
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getCareSummariesAndNotesList(
-          isCurrent,
-          isAcceleratingCareNotes,
-          {
-            startDate: dateRange.fromDate,
-            endDate: dateRange.toDate,
-          },
-        );
-      };
-    },
-    [isAcceleratingCareNotes, dateRange],
-  );
+  const dispatchAction = isCurrent => {
+    return getCareSummariesAndNotesList(isCurrent, isAcceleratingCareNotes, {
+      startDate: dateRange.fromDate,
+      endDate: dateRange.toDate,
+    });
+  };
 
   useListRefresh({
     listState,

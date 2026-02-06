@@ -124,22 +124,17 @@ const LabsAndTests = () => {
   const isLoadingAcceleratedData =
     isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
 
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getLabsAndTestsList(
-          isCurrent,
-          isAcceleratingLabsAndTests,
-          {
-            startDate: dateRange.fromDate,
-            endDate: dateRange.toDate,
-          },
-          mergeCvixWithScdf,
-        );
-      };
-    },
-    [isAcceleratingLabsAndTests, dateRange, mergeCvixWithScdf],
-  );
+  const dispatchAction = isCurrent => {
+    return getLabsAndTestsList(
+      isCurrent,
+      isAcceleratingLabsAndTests,
+      {
+        startDate: dateRange.fromDate,
+        endDate: dateRange.toDate,
+      },
+      mergeCvixWithScdf,
+    );
+  };
 
   useListRefresh({
     listState,

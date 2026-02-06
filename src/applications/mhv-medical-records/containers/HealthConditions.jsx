@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -44,14 +44,9 @@ const HealthConditions = () => {
   useTrackAction(statsdFrontEndActions.HEALTH_CONDITIONS_LIST);
 
   const { isLoading, isAcceleratingConditions } = useAcceleratedData();
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getConditionsList(isCurrent, isAcceleratingConditions);
-      };
-    },
-    [isAcceleratingConditions],
-  );
+  const dispatchAction = isCurrent => {
+    return getConditionsList(isCurrent, isAcceleratingConditions);
+  };
 
   useListRefresh({
     listState,
