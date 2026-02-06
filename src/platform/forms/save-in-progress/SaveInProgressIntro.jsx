@@ -95,7 +95,7 @@ class SaveInProgressIntro extends React.Component {
         }
         return {
           alert: (
-            <va-alert status="info" class="vads-u-margin-bottom--4" visible>
+            <va-alert status="info" class="vads-u-margin-bottom--4">
               <Header slot="headline">
                 We’ve prefilled some of your information
               </Header>
@@ -111,7 +111,7 @@ class SaveInProgressIntro extends React.Component {
       // Logged in, no saved form, no prefill available
       return {
         alert: (
-          <va-alert status="info" class="vads-u-margin-bottom--4" visible slim>
+          <va-alert status="info" class="vads-u-margin-bottom--4" slim>
             You can save this {appType} in progress, and come back later to
             finish filling it out.
           </va-alert>
@@ -283,7 +283,6 @@ class SaveInProgressIntro extends React.Component {
       <VaButton
         onClick={this.openLoginModal}
         label={ariaLabel}
-        uswds
         messageAriaDescribedby={this.props.buttonAriaDescribedby}
         text={unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
       />
