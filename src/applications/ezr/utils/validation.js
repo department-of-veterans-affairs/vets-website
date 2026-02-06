@@ -167,8 +167,7 @@ export const validateServiceDates = (
   const fromDate = convertToDateField(lastEntryDate);
   const toDate = convertToDateField(lastDischargeDate);
   const dateOfBirthPlus15 = add(new Date(veteranDateOfBirth), { years: 15 });
-  const yearFromToday = add(new Date(), { years: 1 });
-  const endDate = format(yearFromToday, 'MMMM d, yyyy');
+  const endDate = format(new Date(), 'MMMM d, yyyy');
   const messages = {
     entryDate: content['validation-error--service-entry-date'],
     dischargeDate: replaceStrValues(
@@ -184,10 +183,7 @@ export const validateServiceDates = (
     errors.lastEntryDate.addError(messages.entryDate);
   }
 
-  if (
-    !isValidDateRange(fromDate, toDate) ||
-    isAfter(new Date(lastDischargeDate), yearFromToday)
-  ) {
+  if (!isValidDateRange(fromDate, toDate)) {
     errors.lastDischargeDate.addError(messages.dischargeDate);
   }
 };

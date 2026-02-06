@@ -31,7 +31,7 @@ export const advanceToInsurancePolicies = testData => {
 
   // Skip TERA Section
   handleOptionalServiceHistoryPage({
-    historyEnabled: testData.ezrServiceHistoryEnabled,
+    historyEnabled: testData['view:ezrServiceHistoryEnabled'],
   });
 
   goToNextPage('/household-information/marital-status');

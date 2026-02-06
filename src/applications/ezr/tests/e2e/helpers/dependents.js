@@ -31,7 +31,7 @@ export const advanceToDependents = testData => {
   selectYesNoWebComponent('view:hasNextOfKin', false);
 
   handleOptionalServiceHistoryPage({
-    historyEnabled: testData.ezrServiceHistoryEnabled,
+    historyEnabled: testData['view:ezrServiceHistoryEnabled'],
   });
 
   goToNextPage('/household-information/marital-status');

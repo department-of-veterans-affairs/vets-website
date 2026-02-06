@@ -88,10 +88,10 @@ describe('EZR TERA flow', () => {
     cy.injectAxeThenAxeCheck();
 
     goToNextPage('/military-service/other-toxic-exposure');
-    [...Array(8)].forEach(_ => goToPreviousPage());
-    cy.selectYesNoVaRadioOption('root_hasTeraResponse');
+    [...Array(7)].forEach(_ => goToPreviousPage());
+    cy.selectYesNoVaRadioOption('root_hasTeraResponse', false);
     // Expect the tera section to be skipped. Instead, the user will move to the household section
-    goToNextPage();
+    goToNextPage('/household-information/marital-status');
   });
 });
 

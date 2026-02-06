@@ -22,11 +22,8 @@ export default {
   uiSchema: {
     ...titleUI(content['service-info--last-period-title']),
     lastServiceBranch: selectUI({
-      'ui:title': content['service-info--last-period-branch-label'],
-      'ui:options': {
-        labels: SERVICE_BRANCH_LABELS,
-      },
-      required: () => true,
+      title: content['service-info--last-period-branch-label'],
+      labels: SERVICE_BRANCH_LABELS,
     }),
     lastEntryDate: currentOrPastDateUI(
       content['service-info--service-start-date-label'],
@@ -34,12 +31,10 @@ export default {
     lastDischargeDate: currentOrPastDateUI(
       content['service-info--service-end-date-label'],
     ),
-    dischargeType: {
-      'ui:title': content['service-info--last-period-character-label'],
-      'ui:options': {
-        labels: DISCHARGE_TYPE_LABELS,
-      },
-    },
+    dischargeType: selectUI({
+      title: content['service-info--last-period-character-label'],
+      labels: DISCHARGE_TYPE_LABELS,
+    }),
     'ui:validations': [validateServiceDates],
   },
   schema: {

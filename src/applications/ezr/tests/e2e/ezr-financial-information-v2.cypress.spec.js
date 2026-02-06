@@ -69,7 +69,7 @@ function setUserDataAndAdvanceToHouseholdSection(user, prefillData) {
   cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
   advanceToHouseholdSection();
   handleOptionalServiceHistoryPage({
-    historyEnabled: data.ezrServiceHistoryEnabled,
+    historyEnabled: data['view:ezrServiceHistoryEnabled'],
   });
   cy.injectAxeThenAxeCheck();
 }
