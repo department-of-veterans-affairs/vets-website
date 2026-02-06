@@ -466,4 +466,143 @@ describe('SendRxRenewalMessage Component', () => {
       expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
     });
   });
+
+  describe('Click analytics', () => {
+    beforeEach(() => {
+      global.window.dataLayer = [];
+    });
+
+    afterEach(() => {
+      global.window.dataLayer = [];
+    });
+
+    it('should record analytics event when va-link is clicked', async () => {
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const event = global.window.dataLayer?.find(
+          e => e.event === 'cta-action-link-click',
+        );
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'cta-action-link-click',
+          'action-link-click-label': 'Send a renewal request message',
+          'action-link-type': 'secondary',
+        });
+      });
+    });
+
+    it('should record analytics event when action link is clicked', async () => {
+      const screen = setup(mockRx, {
+        isActionLink: true,
+        isOracleHealth: true,
+      });
+      const link = screen.getByTestId(
+        'send-renewal-request-message-action-link',
+      );
+
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const event = global.window.dataLayer?.find(
+          e => e.event === 'cta-action-link-click',
+        );
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'cta-action-link-click',
+          'action-link-click-label': 'Send a renewal request message',
+          'action-link-type': 'primary',
+        });
+      });
+    });
+
+    it('should record analytics event when Continue button is clicked', async () => {
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+
+      // Open the modal first
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      // Clear dataLayer to isolate button click event
+      global.window.dataLayer = [];
+
+      // Click the Continue button
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      await waitFor(() => {
+        const event = global.window.dataLayer?.find(
+          e => e.event === 'cta-button-click',
+        );
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'cta-button-click',
+          'button-click-label': 'Continue',
+          'button-type': 'primary',
+        });
+      });
+    });
+
+    it('should record analytics event when Back button is clicked', async () => {
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+
+      // Open the modal first
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      // Clear dataLayer to isolate button click event
+      global.window.dataLayer = [];
+
+      // Click the Back button
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.secondaryButtonClick();
+
+      await waitFor(() => {
+        const event = global.window.dataLayer?.find(
+          e => e.event === 'cta-button-click',
+        );
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'cta-button-click',
+          'button-click-label': 'Back',
+          'button-type': 'secondary',
+        });
+      });
+    });
+
+    it('should record analytics event when modal loads', async () => {
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+
+      // Clear dataLayer before opening modal
+      global.window.dataLayer = [];
+
+      // Open the modal
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const event = global.window.dataLayer?.find(
+          e => e.event === 'modal-load',
+        );
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'modal-load',
+          'modal-title': "You're leaving medications to send a message",
+        });
+      });
+    });
+  });
 });

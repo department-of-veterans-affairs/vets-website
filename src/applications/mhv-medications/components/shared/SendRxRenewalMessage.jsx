@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { selectSecureMessagingMedicationsRenewalRequestFlag } from '../../util/selectors';
 
 const SendRxRenewalMessage = ({
@@ -22,6 +23,18 @@ const SendRxRenewalMessage = ({
     rx.prescriptionId
   }&redirectPath=${redirectPath}`;
   const [showRenewalModal, setShowRenewalModal] = useState(false);
+
+  useEffect(
+    () => {
+      if (showRenewalModal) {
+        recordEvent({
+          event: 'modal-load',
+          'modal-title': "You're leaving medications to send a message",
+        });
+      }
+    },
+    [showRenewalModal],
+  );
 
   const isExpiredLessThan120Days =
     (rx.dispStatus === 'Expired' || rx.dispStatus === 'Inactive') &&
@@ -52,9 +65,21 @@ const SendRxRenewalMessage = ({
         primaryButtonText="Continue"
         secondaryButtonText="Back"
         onPrimaryButtonClick={() => {
+          recordEvent({
+            event: 'cta-button-click',
+            'button-click-label': 'Continue',
+            'button-type': 'primary',
+          });
           window.location.href = secureMessagesUrl;
         }}
-        onSecondaryButtonClick={() => setShowRenewalModal(false)}
+        onSecondaryButtonClick={() => {
+          recordEvent({
+            event: 'cta-button-click',
+            'button-click-label': 'Back',
+            'button-type': 'secondary',
+          });
+          setShowRenewalModal(false);
+        }}
         onCloseEvent={() => setShowRenewalModal(false)}
         visible={showRenewalModal}
         status="info"
@@ -95,13 +120,22 @@ const RenderLinkVariation = ({
   setShowRenewalModal,
   isExpired,
 }) => {
+  const handleClick = () => {
+    recordEvent({
+      event: 'cta-action-link-click',
+      'action-link-click-label': 'Send a renewal request message',
+      'action-link-type': isActionLink ? 'primary' : 'secondary',
+    });
+    setShowRenewalModal(true);
+  };
+
   return isActionLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <Link
       to="#"
       className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
       data-testid="send-renewal-request-message-action-link"
-      onClick={() => setShowRenewalModal(true)}
+      onClick={handleClick}
     >
       Send a renewal request message
     </Link>
@@ -120,7 +154,7 @@ const RenderLinkVariation = ({
         href="#"
         text="Send a renewal request message"
         data-testid="send-renewal-request-message-link"
-        onClick={() => setShowRenewalModal(true)}
+        onClick={handleClick}
       />
     </>
   );
