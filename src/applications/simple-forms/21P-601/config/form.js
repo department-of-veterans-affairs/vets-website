@@ -32,6 +32,8 @@ import {
   otherDebtsPages,
   remarks,
   supportingDocuments,
+  expenseDocuments,
+  debtDocuments,
 } from '../pages';
 import { personalInfoConfig } from '../helpers/personalInformationConfig';
 
@@ -256,6 +258,14 @@ const formConfig = {
           scrollAndFocusTarget,
         },
         ...expensesPages,
+        expenseDocuments: {
+          path: 'expense-documents',
+          title: 'Upload expense documents',
+          depends: formData => (formData?.expenses?.length || 0) > 0,
+          uiSchema: expenseDocuments.uiSchema,
+          schema: expenseDocuments.schema,
+          scrollAndFocusTarget: 'h3',
+        },
         otherDebts: {
           path: 'other-debts',
           title: 'Other debts',
@@ -265,6 +275,14 @@ const formConfig = {
           scrollAndFocusTarget,
         },
         ...otherDebtsPages,
+        debtDocuments: {
+          path: 'debt-documents',
+          title: 'Upload debt documents',
+          depends: formData => (formData?.otherDebts?.length || 0) > 0,
+          uiSchema: debtDocuments.uiSchema,
+          schema: debtDocuments.schema,
+          scrollAndFocusTarget: 'h3',
+        },
       },
     },
     additionalInfoChapter: {
