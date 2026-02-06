@@ -113,11 +113,18 @@ function mockFetch(returnVal, shouldResolve = true) {
   fetchStub.callsFake(url => {
     let response = returnVal;
     if (!response) {
-      response = new Response();
-      response.ok = false;
-      response.url = url;
-      response.status = 404;
-      response.statusText = 'Not Found';
+      // Use status 404 to make ok = false (read-only in Node 22)
+      response = new Response(null, {
+        status: 404,
+        statusText: 'Not Found',
+      });
+
+      // Define url as a writable property (read-only in native Response)
+      Object.defineProperty(response, 'url', {
+        value: url,
+        writable: true,
+        configurable: true,
+      });
     }
 
     return shouldResolve ? Promise.resolve(response) : Promise.reject(response);
