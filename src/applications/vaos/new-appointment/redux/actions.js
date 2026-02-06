@@ -48,6 +48,7 @@ import { getSlots } from '../../services/slot';
 import { getCommunityCareV2 } from '../../services/vaos/index';
 import { getPreciseLocation } from '../../utils/address';
 import {
+  APPOINTMENT_SYSTEM,
   DATE_FORMATS,
   FACILITY_SORT_METHODS,
   FACILITY_TYPES,
@@ -77,6 +78,7 @@ import {
   getNewAppointment,
   getTypeOfCare,
   getTypeOfCareFacilities,
+  selectIsCernerAppointment,
 } from './selectors';
 
 export const GA_FLOWS = {
@@ -238,27 +240,54 @@ export function updateFacilityEhr(ehr) {
   };
 }
 
-export function startDirectScheduleFlow({ isRecordEvent = true } = {}) {
-  if (isRecordEvent) {
-    recordEvent({
-      event: 'vaos-direct-path-started',
-    });
-  }
+export function startDirectScheduleFlow({ isRecordEvent = true, ehr } = {}) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    // Use passed ehr param if available, otherwise fall back to state
+    const isCernerEhr =
+      ehr ||
+      (selectIsCernerAppointment(state)
+        ? APPOINTMENT_SYSTEM.cerner
+        : APPOINTMENT_SYSTEM.vista);
 
-  return {
-    type: START_DIRECT_SCHEDULE_FLOW,
+    if (isRecordEvent) {
+      recordEvent({
+        event: `vaos-direct-${
+          isCernerEhr === APPOINTMENT_SYSTEM.cerner ? 'cerner' : 'vista'
+        }-path-started`,
+      });
+    }
+
+    dispatch({
+      type: START_DIRECT_SCHEDULE_FLOW,
+    });
   };
 }
 
-export function startRequestAppointmentFlow(isCommunityCare) {
-  recordEvent({
-    event: `vaos-${
-      isCommunityCare ? 'community-care' : 'request'
-    }-path-started`,
-  });
+export function startRequestAppointmentFlow(isCommunityCare, ehr) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    // Use passed ehr param if available, otherwise fall back to state
+    const isCernerEhr =
+      ehr ||
+      (selectIsCernerAppointment(state)
+        ? APPOINTMENT_SYSTEM.cerner
+        : APPOINTMENT_SYSTEM.vista);
 
-  return {
-    type: START_REQUEST_APPOINTMENT_FLOW,
+    // Community care uses HSRM, so don't include EHR suffix
+    const ehrSuffix = isCommunityCare
+      ? ''
+      : `-${isCernerEhr === APPOINTMENT_SYSTEM.cerner ? 'cerner' : 'vista'}`;
+
+    recordEvent({
+      event: `vaos-${
+        isCommunityCare ? 'community-care' : 'request'
+      }${ehrSuffix}-path-started`,
+    });
+
+    dispatch({
+      type: START_REQUEST_APPOINTMENT_FLOW,
+    });
   };
 }
 
@@ -858,6 +887,7 @@ export function submitAppointmentOrRequest(history) {
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
     const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
     const useVpg = selectFeatureUseVpg(state);
+    const selectedEhr = selectIsCernerAppointment(state);
 
     dispatch({
       type: FORM_SUBMIT,
@@ -865,12 +895,15 @@ export function submitAppointmentOrRequest(history) {
 
     let additionalEventData = {
       'health-TypeOfCare': typeOfCare,
+      'ehr-system': selectedEhr,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
       const flow = GA_FLOWS.DIRECT;
       recordEvent({
-        event: `${GA_PREFIX}-direct-submission`,
+        event: `${GA_PREFIX}-${
+          selectedEhr === APPOINTMENT_SYSTEM.cerner ? 'cerner' : 'vista'
+        }-direct-submission`,
         flow,
         ...additionalEventData,
       });
@@ -887,7 +920,9 @@ export function submitAppointmentOrRequest(history) {
         });
 
         recordEvent({
-          event: `${GA_PREFIX}-direct-submission-successful`,
+          event: `${GA_PREFIX}-${
+            selectedEhr === APPOINTMENT_SYSTEM.cerner ? 'cerner' : 'vista'
+          }-direct-submission-successful`,
           flow,
           ...additionalEventData,
         });
@@ -897,6 +932,7 @@ export function submitAppointmentOrRequest(history) {
         const extraData = {
           vaFacility: data?.vaFacility,
           clinicId: data?.clinicId,
+          ehr: selectedEhr,
         };
         captureError(error, true, 'Direct submission failure', extraData);
         dispatch({
@@ -908,7 +944,9 @@ export function submitAppointmentOrRequest(history) {
         dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
 
         recordEvent({
-          event: `${GA_PREFIX}-direct-submission-failed`,
+          event: `${GA_PREFIX}-${
+            selectedEhr === APPOINTMENT_SYSTEM.cerner ? 'cerner' : 'vista'
+          }-direct-submission-failed`,
           flow,
           ...additionalEventData,
         });
@@ -954,8 +992,13 @@ export function submitAppointmentOrRequest(history) {
         'vaos-number-of-days-from-preference': daysFromPreference.join('-'),
       };
 
+      // Community care uses HSRM, so don't include EHR suffix
+      const ehrSuffix = isCommunityCare
+        ? ''
+        : `-${selectedEhr === APPOINTMENT_SYSTEM.cerner ? 'cerner' : 'vista'}`;
+
       recordEvent({
-        event: `${GA_PREFIX}-${eventType}-submission`,
+        event: `${GA_PREFIX}-${eventType}${ehrSuffix}-submission`,
         flow,
         ...additionalEventData,
       });
@@ -975,7 +1018,7 @@ export function submitAppointmentOrRequest(history) {
         });
 
         recordEvent({
-          event: `${GA_PREFIX}-${eventType}-submission-successful`,
+          event: `${GA_PREFIX}-${eventType}${ehrSuffix}-submission-successful`,
           flow,
           ...additionalEventData,
         });
@@ -991,6 +1034,7 @@ export function submitAppointmentOrRequest(history) {
             facility: requestBody.facility,
             typeOfCareId: requestBody.typeOfCareId,
             cityState: requestBody.cityState,
+            ehr: selectedEhr,
           };
         }
         captureError(error, true, 'Request submission failure', extraData);
@@ -1009,7 +1053,7 @@ export function submitAppointmentOrRequest(history) {
         );
 
         recordEvent({
-          event: `${GA_PREFIX}-${eventType}-submission-failed`,
+          event: `${GA_PREFIX}-${eventType}${ehrSuffix}-submission-failed`,
           flow,
           ...additionalEventData,
         });

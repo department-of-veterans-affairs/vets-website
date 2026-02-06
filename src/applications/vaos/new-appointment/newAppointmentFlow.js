@@ -126,12 +126,12 @@ async function vaFacilityNext(state, dispatch) {
   }
 
   if (eligibility.direct) {
-    dispatch(startDirectScheduleFlow());
+    dispatch(startDirectScheduleFlow({ ehr }));
     return 'clinicChoice';
   }
 
   if (eligibility.request) {
-    dispatch(startRequestAppointmentFlow());
+    dispatch(startRequestAppointmentFlow(false, ehr));
     return 'requestDateTime';
   }
 
