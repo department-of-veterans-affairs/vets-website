@@ -10,6 +10,7 @@ import AppointmentCard from '../components/AppointmentCard';
 import { useGetAppointmentQuery } from '../redux/api/vassApi';
 import { selectSelectedTopics, setFlowType } from '../redux/slices/formSlice';
 import { FLOW_TYPES, URLS } from '../utils/constants';
+import { isServerError, isAppointmentNotFoundError } from '../utils/errors';
 
 const Confirmation = () => {
   const { appointmentId } = useParams();
@@ -18,7 +19,11 @@ const Confirmation = () => {
   const selectedTopics = useSelector(selectSelectedTopics);
   const detailsCardOnly = searchParams.get('details') === 'true';
   const navigate = useNavigate();
-  const { data: appointmentData, isLoading, isError } = useGetAppointmentQuery({
+  const {
+    data: appointmentData,
+    isLoading,
+    error: appointmentError,
+  } = useGetAppointmentQuery({
     appointmentId,
   });
 
@@ -27,13 +32,10 @@ const Confirmation = () => {
     navigate(`${URLS.CANCEL_APPOINTMENT}/${appointmentId}`);
   };
 
-  if (isError) {
-    return <div>Error</div>;
-  }
-
   return (
     <Wrapper
       testID="confirmation-page"
+      disableBeforeUnload
       showBackLink={detailsCardOnly}
       loading={isLoading}
       loadingMessage="Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page."
@@ -41,6 +43,10 @@ const Confirmation = () => {
         detailsCardOnly
           ? undefined
           : 'Your VA Solid Start appointment is scheduled'
+      }
+      errorAlert={
+        isServerError(appointmentError) ||
+        isAppointmentNotFoundError(appointmentError)
       }
     >
       {!detailsCardOnly && (
