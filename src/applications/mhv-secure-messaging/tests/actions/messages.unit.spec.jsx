@@ -7,6 +7,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
 import { expect } from 'chai';
+import { datadogRum } from '@datadog/browser-rum';
 import * as monitoring from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { Actions } from '../../util/actionTypes';
 import * as Constants from '../../util/constants';
@@ -483,6 +484,7 @@ describe('messages actions', () => {
     const store = mockStore();
     mockApiRequest(messageResponse);
     window.dataLayer = [];
+    const addActionSpy = sinon.spy(datadogRum, 'addAction');
 
     const messageData = {
       category: 'MEDICATIONS',
@@ -518,11 +520,23 @@ describe('messages actions', () => {
         e?.['api-status'] === 'successful',
     );
     expect(hasApiCall).to.be.true;
+
+    // Check that datadogRum.addAction was called
+    expect(addActionSpy.called).to.be.true;
+    expect(
+      addActionSpy.calledWith('Rx SM Renewal API Call', {
+        status: 'successful',
+        latencyMs: sinon.match.number,
+      }),
+    ).to.be.true;
+
+    addActionSpy.restore();
   });
 
   it('should log error when prescription renewal message fails', async () => {
     const store = mockStore();
     loggerSpy.reset(); // Reset from previous test
+    const addActionSpy = sinon.spy(datadogRum, 'addAction');
     const rxErrorResponse = {
       errors: [
         {
@@ -570,6 +584,18 @@ describe('messages actions', () => {
         e?.['api-status'] === 'fail',
     );
     expect(failEvent).to.exist;
+
+    // Check that datadogRum.addAction was called with fail status
+    expect(addActionSpy.called).to.be.true;
+    expect(
+      addActionSpy.calledWith('Rx SM Renewal API Call', {
+        status: 'fail',
+        latencyMs: sinon.match.number,
+        errorKey: sinon.match.string,
+      }),
+    ).to.be.true;
+
+    addActionSpy.restore();
   });
 
   it('should dispatch action on sendReply', async () => {

@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
+import { datadogRum } from '@datadog/browser-rum';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { cleanup } from '@testing-library/react';
 import { fireEvent, waitFor } from '@testing-library/dom';
@@ -434,6 +435,7 @@ describe('Medications Prescriptions container', () => {
     });
 
     it('should call recordEvent when rxRenewalMessageSuccess query param is present', async () => {
+      const addActionSpy = sinon.spy(datadogRum, 'addAction');
       setup(initialState, '/?rxRenewalMessageSuccess=true');
 
       await waitFor(() => {
@@ -447,6 +449,18 @@ describe('Medications Prescriptions container', () => {
           'api-status': 'successful',
         });
       });
+
+      // Check that datadogRum.addAction was called
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(
+        addActionSpy.calledWith('Rx SM Renewal Return', {
+          status: 'successful',
+        }),
+      ).to.be.true;
+
+      addActionSpy.restore();
     });
 
     it('should not call recordEvent when rxRenewalMessageSuccess query param is not present', async () => {

@@ -8,6 +8,7 @@ import React, {
 import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   usePrintTitle,
   updatePageTitle,
@@ -109,6 +110,9 @@ const Prescriptions = () => {
           event: 'api_call',
           'api-name': 'Rx SM Renewal',
           'api-status': 'successful',
+        });
+        datadogRum.addAction('Rx SM Renewal Return', {
+          status: 'successful',
         });
       }
     },

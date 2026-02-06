@@ -924,8 +924,15 @@ describe('RecentCareTeams component', () => {
   });
 
   describe('Google Analytics (recordEvent)', () => {
+    let addActionSpy;
+
     beforeEach(() => {
       window.dataLayer = [];
+      addActionSpy = sinon.spy(datadogRum, 'addAction');
+    });
+
+    afterEach(() => {
+      addActionSpy.restore();
     });
 
     it('should push event when a recent care team is selected', async () => {
@@ -942,6 +949,18 @@ describe('RecentCareTeams component', () => {
         );
         expect(hasEvent).to.be.true;
       });
+
+      // Check that datadogRum.addAction was called
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(
+        addActionSpy.calledWith('Recent Care Team Selected', {
+          selectLabel: sinon.match.string,
+          selectValue: 'recent care team',
+          required: true,
+        }),
+      ).to.be.true;
     });
 
     it('should push event when "A different care team" is selected', async () => {
@@ -958,6 +977,18 @@ describe('RecentCareTeams component', () => {
         );
         expect(hasEvent).to.be.true;
       });
+
+      // Check that datadogRum.addAction was called
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(
+        addActionSpy.calledWith('Recent Care Team Selected', {
+          selectLabel: sinon.match.string,
+          selectValue: 'other',
+          required: true,
+        }),
+      ).to.be.true;
     });
   });
 

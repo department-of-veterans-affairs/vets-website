@@ -1039,12 +1039,16 @@ describe('SelectCareTeam', () => {
   });
 
   describe('Analytics - VA Health Systems Displayed', () => {
+    let addActionSpy;
+
     beforeEach(() => {
       global.window.dataLayer = [];
+      addActionSpy = sinon.spy(datadogRum, 'addAction');
     });
 
     afterEach(() => {
       global.window.dataLayer = [];
+      addActionSpy.restore();
     });
 
     const findDataLayerEvent = eventName => {
@@ -1090,6 +1094,18 @@ describe('SelectCareTeam', () => {
           version: 'radio',
         });
       });
+
+      // Check that datadogRum.addAction was called
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(
+        addActionSpy.calledWith('SM VA Health Systems Displayed', {
+          status: 'successful',
+          healthSystemsCount: 3,
+          version: 'radio',
+        }),
+      ).to.be.true;
     });
 
     it('should call recordEvent when 6 or more VA health systems are displayed as dropdown', async () => {
@@ -1131,6 +1147,18 @@ describe('SelectCareTeam', () => {
           version: 'dropdown',
         });
       });
+
+      // Check that datadogRum.addAction was called
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(
+        addActionSpy.calledWith('SM VA Health Systems Displayed', {
+          status: 'successful',
+          healthSystemsCount: 6,
+          version: 'dropdown',
+        }),
+      ).to.be.true;
     });
 
     it('should not call recordEvent when only one VA health system exists', async () => {
@@ -1201,6 +1229,18 @@ describe('SelectCareTeam', () => {
           'error-key': 'no-health-systems',
         });
       });
+
+      // Check that datadogRum.addAction was called with fail status
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(
+        addActionSpy.calledWith('SM VA Health Systems Displayed', {
+          status: 'fail',
+          healthSystemsCount: 0,
+          errorKey: 'no-health-systems',
+        }),
+      ).to.be.true;
     });
   });
 
