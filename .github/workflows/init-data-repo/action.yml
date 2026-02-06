@@ -22,8 +22,22 @@ runs:
       with:
         node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-    # TODO: Potentially use install composite
+    - name: Get yarn.lock hash
+      id: get-yarn-lock-hash
+      shell: bash
+      run: echo YARN_LOCK_HASH=$(sha256sum qa-standards-dashboard-data/yarn.lock | cut -d ' ' -f 1) >> $GITHUB_OUTPUT
+
+    - name: Cache qa-standards-dashboard-data dependencies
+      id: cache-dashboard-deps
+      uses: actions/cache@v4
+      with:
+        path: |
+          qa-standards-dashboard-data/.cache/yarn
+          qa-standards-dashboard-data/node_modules
+        key: qa-dashboard-${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ steps.get-yarn-lock-hash.outputs.YARN_LOCK_HASH }}
+
     - name: Install dependencies
+      if: steps.cache-dashboard-deps.outputs.cache-hit != 'true'
       shell: bash
       run: yarn install --frozen-lockfile --prefer-offline --production=false --ignore-scripts
       env:
