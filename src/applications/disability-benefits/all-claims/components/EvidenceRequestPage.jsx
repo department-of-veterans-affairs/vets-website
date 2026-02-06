@@ -76,7 +76,7 @@ export const EvidenceRequestPage = ({
         setAlertType(prevState => [...prevState, 'va']);
       }
 
-      if (hasPrivateEvidence(data)) {
+      if (hasPrivateEvidence(data) && privateEvidenceUploads.length > 0) {
         updatedFormData.privateMedicalRecordAttachments = [];
         updatedFormData['view:selectableEvidenceTypes'] = {
           ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
@@ -166,17 +166,16 @@ export const EvidenceRequestPage = ({
 
   const alertMessage = () => {
     if (
-      alertType.length === 1 &&
-      (alertType.includes('va') || alertType.includes('privateFacility'))
-    ) {
-      return 'We’ve removed information about your medical centers from this claim.';
-    }
-    if (
-      alertType.length === 2 &&
       alertType.includes('privateMedicalRecords') &&
       (alertType.includes('va') || alertType.includes('privateFacility'))
     ) {
       return 'We’ve removed information about your medical centers and deleted the medical records you uploaded from this claim.';
+    }
+    if (
+      (alertType.includes('va') || alertType.includes('privateFacility')) &&
+      !alertType.includes('privateMedicalRecords')
+    ) {
+      return 'We’ve removed information about your medical centers from this claim.';
     }
     return '';
   };
