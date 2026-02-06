@@ -20,10 +20,16 @@ export const PreSubmitInfo = ({
     false,
   );
   const [formReplacementChecked, setFormReplacementChecked] = useState(false);
-  const [termsAndConditionsError, setTermsAndConditionsError] = useState(false);
-  const [formReplacementError, setFormReplacementError] = useState(false);
   const [privacyPolicyChecked, setPrivacyPolicyChecked] = useState(false);
-  const [privacyPolicyError, setPrivacyPolicyError] = useState(false);
+
+  // Derive error states directly from props and checked state.
+  // Avoids an extra render cycle from useEffect + setState, which caused
+  // flaky test failures under Node 22's faster scheduler timing.
+  const termsAndConditionsError =
+    showError && !hasSubmit && !termsAndConditionsChecked;
+  const formReplacementError =
+    showError && !hasSubmit && !formReplacementChecked;
+  const privacyPolicyError = showError && !hasSubmit && !privacyPolicyChecked;
 
   const applicantFullName = getApplicantName(formData);
 
@@ -40,25 +46,6 @@ export const PreSubmitInfo = ({
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [termsAndConditionsChecked, formReplacementChecked, privacyPolicyChecked],
-  );
-
-  useEffect(
-    () => {
-      setTermsAndConditionsError(
-        showError && !hasSubmit && !termsAndConditionsChecked,
-      );
-      setFormReplacementError(
-        showError && !hasSubmit && !formReplacementChecked,
-      );
-      setPrivacyPolicyError(showError && !hasSubmit && !privacyPolicyChecked);
-    },
-    [
-      showError,
-      hasSubmit,
-      termsAndConditionsChecked,
-      formReplacementChecked,
-      privacyPolicyChecked,
-    ],
   );
 
   if (isSubmitPending) {
