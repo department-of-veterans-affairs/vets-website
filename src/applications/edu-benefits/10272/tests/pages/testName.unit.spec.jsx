@@ -5,13 +5,13 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
-describe('22-10272 Your education benefits information Step 1 - Page 2', () => {
+describe('22-10272 Licensing and Certification Details Step 3 - Page 1', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.educationBenefitsChapter.pages.educationBenefitsHistory;
+  } = formConfig.chapters.licensingAndCertificationChapter.pages.testName;
 
-  it('should render with a textarea', () => {
+  it('should render with a text input field', () => {
     const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -19,15 +19,15 @@ describe('22-10272 Your education benefits information Step 1 - Page 2', () => {
         uiSchema={uiSchema}
       />,
     );
-    const benefitsHistoryTextarea = container.querySelector(
-      'va-textarea[label="Please enter all VA education benefits you have previously applied for"',
+    const testNameTextInput = container.querySelector(
+      `va-text-input[label^="What's the name of the licensing"`,
     );
 
-    expect(benefitsHistoryTextarea).to.exist;
-    expect($$('va-textarea', container).length).to.equal(1);
+    expect(testNameTextInput).to.exist;
+    expect($$('va-text-input', container).length).to.equal(1);
   });
 
-  it('should render an error message if the textarea has no input', async () => {
+  it('should render an error message if the text input has no input', async () => {
     const { container, getByRole } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -36,10 +36,10 @@ describe('22-10272 Your education benefits information Step 1 - Page 2', () => {
       />,
     );
 
-    expect($$('va-textarea', container).length).to.equal(1);
+    expect($$('va-text-input', container).length).to.equal(1);
     getByRole('button', { name: /submit/i }).click();
     await waitFor(() => {
-      expect($$('va-textarea[error]', container).length).to.equal(1);
+      expect($$('va-text-input[error]', container).length).to.equal(1);
     });
   });
 });
