@@ -497,7 +497,11 @@ jobs:
       needs.tests-prep.outputs.e2e_count != '0'
 
     container:
+<<<<<<< update-node-22
       image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
+=======
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+>>>>>>> main
       credentials:
         username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
         password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
@@ -655,15 +659,25 @@ jobs:
     name: Cypress E2E Tests (Node 22)
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 120
+<<<<<<< update-node-22
     needs: [build, reuse-build, tests-prep, fetch-ecr-credentials]
+=======
+    needs: [build, tests-prep, fetch-ecr-credentials]
+>>>>>>> main
     permissions:
       id-token: write
       contents: read
     if: |
+<<<<<<< update-node-22
       always() &&
       inputs.run_full_e2e_suite &&
       inputs.use_node_22 &&
       (needs.build.result == 'success' || needs.reuse-build.result == 'success') &&
+=======
+      inputs.run_full_e2e_suite &&
+      inputs.use_node_22 &&
+      needs.build.result == 'success' &&
+>>>>>>> main
       needs.tests-prep.result == 'success' &&
       needs.tests-prep.outputs.e2e_count != '0'
 
@@ -759,6 +773,7 @@ jobs:
           TEST_TYPE: e2e
           TEST_PROPERTY: 'TESTS'
 
+<<<<<<< update-node-22
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         shell: bash
@@ -793,6 +808,15 @@ jobs:
           fi
 
           node script/github-actions/run-cypress-tests.js
+=======
+      - name: Start server
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+
+      - name: Run Cypress tests
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: node script/github-actions/run-cypress-tests.js
+>>>>>>> main
         timeout-minutes: 120
         env:
           CYPRESS_CI: true
