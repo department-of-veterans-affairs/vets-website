@@ -633,9 +633,6 @@ export const form = {
       middle: 'Middle',
       last: 'LastName',
       suffix: 'Jr.',
-      socialOrServiceNum: {
-        ssn: '454544545',
-      },
       dateOfBirth: '1999-01-03',
     },
     relationshipToVeteran: "I'm the Veteran",

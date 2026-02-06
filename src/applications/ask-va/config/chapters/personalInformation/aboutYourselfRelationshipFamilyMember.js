@@ -3,8 +3,6 @@ import {
   dateOfBirthSchema,
   dateOfBirthUI,
   selectSchema,
-  ssnSchema,
-  ssnUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
@@ -42,14 +40,6 @@ const aboutYourselfRelationshipFamilyMemberPage = {
           hideEmptyValueInReview: true,
         },
       },
-      socialOrServiceNum: {
-        ssn: {
-          ...ssnUI(),
-          'ui:errorMessages': {
-            required: 'Please enter your Social Security Number',
-          },
-        },
-      },
       dateOfBirth: {
         ...dateOfBirthUI(),
         'ui:errorMessages': {
@@ -84,13 +74,6 @@ const aboutYourselfRelationshipFamilyMemberPage = {
             maxLength: 30,
           },
           suffix: selectSchema(suffixes),
-          socialOrServiceNum: {
-            type: 'object',
-            required: ['ssn'],
-            properties: {
-              ssn: ssnSchema,
-            },
-          },
           dateOfBirth: dateOfBirthSchema,
         },
       },

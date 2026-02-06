@@ -8,9 +8,6 @@ steps:
   - action: typeTextInput
     target: FAMILY_MEMBER_LAST_NAME
     value:  Smith
-  # - action: typeTextInput
-  #   target: SSN
-  #   value:  789345522
   - action: select
     target: MONTH
     value:  2

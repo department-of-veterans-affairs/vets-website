@@ -155,13 +155,8 @@ export const branchOfServiceRuleforCategories = [
 export const hasPrefillInformation = form => {
   if (!form?.aboutYourself) return false;
 
-  const { first, last, dateOfBirth, socialOrServiceNum } = form.aboutYourself;
-  return !!(
-    first &&
-    last &&
-    dateOfBirth &&
-    (socialOrServiceNum?.ssn || socialOrServiceNum?.serviceNumber)
-  );
+  const { first, last, dateOfBirth } = form.aboutYourself;
+  return !!(first && last && dateOfBirth);
 };
 
 // Response Page headers

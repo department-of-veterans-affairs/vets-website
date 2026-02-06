@@ -1,20 +1,15 @@
-import React from 'react';
-
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
   selectSchema,
   selectUI,
-  serviceNumberSchema,
-  serviceNumberUI,
-  ssnSchema,
-  ssnUI,
   titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
+
 import {
   branchesOfService,
   CHAPTER_3,
@@ -22,20 +17,6 @@ import {
   yesNoOptions,
 } from '../../../constants';
 import { isBranchOfServiceRequired } from '../../helpers';
-
-const ssnServiceInfo = (
-  <div className="vads-u-margin-bottom--neg2p5">
-    <p className="vads-u-margin-bottom--1">
-      <span className="vads-u-font-weight--bold">
-        Social Security or service number
-      </span>
-      <span className="form-required-span">(*Required)</span>
-    </p>
-    <p className="vads-u-font-size--sm vads-u-margin-bottom-1">
-      Please provide one of the following:
-    </p>
-  </div>
-);
 
 const aboutTheVeteranPage = {
   uiSchema: {
@@ -80,21 +61,6 @@ const aboutTheVeteranPage = {
           required: 'Please let us know if the Veteran is deceased',
         },
       }),
-      socialOrServiceNum: {
-        'ui:title': ssnServiceInfo,
-        'ui:options': { showFieldLabel: true },
-        ssn: ssnUI(),
-        serviceNumber: serviceNumberUI('Service number'),
-        'ui:validations': [
-          (errors, field) => {
-            if (!Object.keys(field).some(key => field[key])) {
-              errors.addError(
-                "Please enter either the Veteran's Social Security number or Service number",
-              );
-            }
-          },
-        ],
-      },
       branchOfService: selectUI({
         title: CHAPTER_3.VETERANS_BRANCH_OF_SERVICE.TITLE,
         errorMessages: {
@@ -142,14 +108,6 @@ const aboutTheVeteranPage = {
           },
           suffix: selectSchema(suffixes),
           isVeteranDeceased: yesNoSchema,
-          socialOrServiceNum: {
-            type: 'object',
-            properties: {
-              ssn: ssnSchema,
-              serviceNumber: serviceNumberSchema,
-            },
-            required: [],
-          },
           branchOfService: {
             type: 'string',
             enum: branchesOfService,

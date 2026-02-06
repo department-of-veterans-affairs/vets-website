@@ -1,11 +1,10 @@
 import { expect } from 'chai';
+
 import prefillTransformer from '../../config/prefill-transformer';
 
 const buildFormData = (
   first = '',
   last = '',
-  serviceNumber = undefined,
-  ssn = undefined,
   phoneNumber = '',
   businessPhone = '',
   emailAddress = '',
@@ -16,8 +15,6 @@ const buildFormData = (
     personalInformation: {
       first,
       last,
-      ...(serviceNumber && { serviceNumber }),
-      ...(ssn && { socialSecurityNumber: ssn }),
     },
     contactInformation: {
       phone: phoneNumber,
@@ -35,14 +32,6 @@ const buildFormData = (
     aboutYourself: {
       first,
       last,
-      ...(serviceNumber || ssn
-        ? {
-            socialOrServiceNum: {
-              ...(serviceNumber && { serviceNumber }),
-              ...(ssn && { ssn }),
-            },
-          }
-        : {}),
       branchOfService,
     },
     phoneNumber: phoneNumber || '',
@@ -63,8 +52,6 @@ describe('Ask VA prefill transformer', () => {
     const formData = buildFormData(
       'Peter',
       'Parker',
-      undefined,
-      '123456987',
       '555-123-4567',
       '',
       'pparker@dailyBugle.com',
@@ -130,7 +117,7 @@ describe('Ask VA prefill transformer', () => {
   });
 
   it('should handle empty strings and undefined values consistently', () => {
-    const formData = buildFormData('', '', '', '', '', '', {}, '');
+    const formData = buildFormData('', '', '', '', {}, '');
 
     const transformedData = prefillTransformer(
       pages,
@@ -143,39 +130,5 @@ describe('Ask VA prefill transformer', () => {
       formData: formData.expected,
       pages,
     });
-  });
-
-  it('should only include socialOrServiceNum when values are present', () => {
-    // Test with only service number
-    const withServiceNumber = buildFormData('John', 'Doe', '12345', undefined);
-    const transformedServiceNumber = prefillTransformer(
-      pages,
-      withServiceNumber.payload,
-      metadata,
-    );
-    expect(
-      transformedServiceNumber.formData.aboutYourself.socialOrServiceNum,
-    ).to.deep.equal({
-      serviceNumber: '12345',
-    });
-
-    // Test with only SSN
-    const withSSN = buildFormData('John', 'Doe', undefined, '987654321');
-    const transformedSSN = prefillTransformer(pages, withSSN.payload, metadata);
-    expect(
-      transformedSSN.formData.aboutYourself.socialOrServiceNum,
-    ).to.deep.equal({
-      ssn: '987654321',
-    });
-
-    // Test with neither
-    const withNeither = buildFormData('John', 'Doe');
-    const transformedNeither = prefillTransformer(
-      pages,
-      withNeither.payload,
-      metadata,
-    );
-    expect(transformedNeither.formData.aboutYourself.socialOrServiceNum).to.be
-      .undefined;
   });
 });
