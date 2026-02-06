@@ -164,11 +164,7 @@ export const vassApi = createApi({
         } catch ({ errors }) {
           // captureError(error, false, 'get appointment availability');
           return {
-            error: {
-              code: errors?.[0]?.code,
-              detail: errors?.[0]?.detail,
-              appointment: errors?.[0]?.appointment,
-            },
+            error: errors?.[0],
           };
         }
       },

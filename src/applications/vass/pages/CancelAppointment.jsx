@@ -11,6 +11,13 @@ import {
 import { FLOW_TYPES, URLS } from '../utils/constants';
 import { setFlowType } from '../redux/slices/formSlice';
 
+const getLoadingMessage = isCanceling => {
+  if (isCanceling) {
+    return 'Canceling appointment. This may take up to 30 seconds. Please don’t refresh the page.';
+  }
+  return 'Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page.';
+};
+
 const CancelAppointment = () => {
   const { appointmentId } = useParams();
   const navigate = useNavigate();
@@ -18,13 +25,18 @@ const CancelAppointment = () => {
   const { data: appointmentData, isLoading } = useGetAppointmentQuery({
     appointmentId,
   });
-  const [cancelAppointment] = useCancelAppointmentMutation();
+  const [
+    cancelAppointment,
+    { isLoading: isCanceling, error: cancelAppointmentError },
+  ] = useCancelAppointmentMutation();
 
   const onCancelAppointment = useCallback(
     async () => {
       try {
-        await cancelAppointment({ appointmentId });
-        navigate(`${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/${appointmentId}`);
+        const result = await cancelAppointment({ appointmentId });
+        if (result.data?.appointmentId) {
+          navigate(`${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/${appointmentId}`);
+        }
       } catch (error) {
         // TODO: handle error
       }
@@ -42,13 +54,16 @@ const CancelAppointment = () => {
     [appointmentData?.appointmentId, dispatch, navigate],
   );
 
+  const loadingMessage = getLoadingMessage(isCanceling);
+
   return (
     <Wrapper
       showBackLink
-      loading={isLoading}
+      loading={isLoading || isCanceling}
+      errorAlert={cancelAppointmentError}
       testID="cancel-appointment-page"
       pageTitle="Would you like to cancel this appointment?"
-      loadingMessage="Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page."
+      loadingMessage={loadingMessage}
     >
       <div className="vads-u-margin-top--6">
         <AppointmentCard
