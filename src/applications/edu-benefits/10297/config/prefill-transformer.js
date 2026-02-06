@@ -7,8 +7,13 @@ export default function prefillTransformer(pages, formData, metadata, state) {
   const claimantContactInfo = claimant?.contactInfo || {};
 
   // User profile data (fallback source)
-  const { dob, email: profileEmail, userFullName, vapContactInfo } =
-    state.user.profile || {};
+  const {
+    dob,
+    email: profileEmail,
+    ssn: profileSsn,
+    userFullName,
+    vapContactInfo,
+  } = state.user.profile || {};
 
   const prefillContactInformation = data => {
     const { applicantFullName, email, ssn, mailingAddress, dateOfBirth } = data;
@@ -22,8 +27,10 @@ export default function prefillTransformer(pages, formData, metadata, state) {
         last: claimant.lastName,
         suffix: claimant.suffix,
       };
-    } else {
-      prefillName = applicantFullName || userFullName;
+    } else if (applicantFullName?.first || applicantFullName?.last) {
+      prefillName = applicantFullName;
+    } else if (userFullName?.first || userFullName?.last) {
+      prefillName = userFullName;
     }
 
     // Email: prefer claimant, fallback to profile
@@ -95,7 +102,7 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     newData.dateOfBirth = prefillDob;
     newData.applicantFullName = prefillName;
     newData.mailingAddress = prefillMailingAddress;
-    newData.ssn = ssn;
+    newData.ssn = ssn || profileSsn;
     newData.claimantId = claimant.claimantId;
     return newData;
   };
