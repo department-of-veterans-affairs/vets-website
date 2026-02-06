@@ -224,9 +224,6 @@ function AddressAutosuggest({
       keepDataOnBlur
       showDownCaret={false}
       shouldShowNoResults
-      showOptionsRestriction={
-        !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
-      }
       isLoading={isGeocoding}
       loadingMessage="Searching..."
       useProgressiveDisclosure={useProgressiveDisclosure || false}

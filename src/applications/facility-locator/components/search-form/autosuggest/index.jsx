@@ -43,7 +43,7 @@ function Autosuggest({
   loadingMessage = '',
   useProgressiveDisclosure,
   AutosuggestOptionComponent = AutosuggestOption,
-  showOptionsRestriction = inputValue?.length >= 3,
+  showOptionsRestriction = !!inputValue && inputValue?.length >= 3,
 }) {
   const {
     isOpen,
