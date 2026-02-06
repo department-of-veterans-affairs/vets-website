@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import PropTypes from 'prop-types';
@@ -6,7 +6,6 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import {
   formatDate,
   formatISODateToMMDDYYYY,
-  setPageFocus,
   showVHAPaymentHistory,
 } from '../../combined/utils/helpers';
 
@@ -17,6 +16,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
   const columns = ['Date', 'Description', 'Billing Reference', 'Amount'];
 
   const MAX_ROWS = 10;
+  const tableRef = useRef(null);
 
   const paginate = (array, pageSize, pageNumber) => {
     return array?.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
@@ -64,7 +64,13 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
   function onPageChange(page) {
     setCurrentData(paginate(normalizedCharges, MAX_ROWS, page));
     setCurrentPage(page);
-    setPageFocus(`va-table`);
+
+    // Focus on table for screen reader announcement
+    requestAnimationFrame(() => {
+      if (tableRef.current) {
+        tableRef.current.focus();
+      }
+    });
   }
 
   const numPages = Math.ceil(normalizedCharges?.length / MAX_ROWS);
@@ -81,18 +87,12 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
       !selectedCopay?.statementStartDate ||
       !selectedCopay?.statementEndDate
     ) {
-      if (normalizedCharges?.length > MAX_ROWS) {
-        return `This statement shows your current charges. ${paginationText}.`;
-      }
       return 'This statement shows your current charges.';
     }
 
     const startDate = formatDate(selectedCopay.statementStartDate);
     const endDate = formatDate(selectedCopay.statementEndDate);
 
-    if (normalizedCharges?.length > MAX_ROWS) {
-      return `This statement shows charges you received between ${startDate} and ${endDate}. ${paginationText}.`;
-    }
     return `This statement shows charges you received between ${startDate} and ${endDate}.`;
   };
   const renderDescription = charge => (
@@ -172,12 +172,18 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
 
       <div key={`table-wrapper-${currentPage}`}>
         <va-table
+          ref={tableRef}
+          id="statement-charges-table"
+          tabindex="-1"
           table-title={getStatementDateRange()}
-          table-title-summary={paginationText}
+          table-title-summary={
+            normalizedCharges?.length > MAX_ROWS ? paginationText : undefined
+          }
           scrollable={false}
           table-type="bordered"
           full-width
           unbounded
+          class="vads-u-display--block"
         >
           <va-table-row>
             {columns.map((col, index) => (
