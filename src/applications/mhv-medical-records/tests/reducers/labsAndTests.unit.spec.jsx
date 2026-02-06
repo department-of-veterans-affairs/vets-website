@@ -934,11 +934,12 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     });
   });
 
-  it('should map CH testCode to friendly display name', () => {
+  it('should use testCodeDisplay from API when available', () => {
     const record = {
       id: 'test-id',
       attributes: {
         testCode: 'CH',
+        testCodeDisplay: 'Chemistry and hematology',
       },
     };
 
@@ -947,33 +948,35 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     expect(result.type).to.equal('CH'); // type is raw testCode value
   });
 
-  it('should pass through SP testCode without display mapping', () => {
+  it('should use testCodeDisplay from API for SP', () => {
     const record = {
       id: 'test-id',
       attributes: {
         testCode: 'SP',
+        testCodeDisplay: 'Surgical Pathology',
       },
     };
 
     const result = convertUnifiedLabsAndTestRecord(record);
-    expect(result.testCode).to.equal('SP'); // SP passes through (no display mapping)
+    expect(result.testCode).to.equal('Surgical Pathology');
     expect(result.type).to.equal('SP'); // type is raw testCode value
   });
 
-  it('should pass through MI testCode without display mapping', () => {
+  it('should use testCodeDisplay from API for MI', () => {
     const record = {
       id: 'test-id',
       attributes: {
         testCode: 'MI',
+        testCodeDisplay: 'Microbiology',
       },
     };
 
     const result = convertUnifiedLabsAndTestRecord(record);
-    expect(result.testCode).to.equal('MI'); // MI passes through (no display mapping)
+    expect(result.testCode).to.equal('Microbiology');
     expect(result.type).to.equal('MI'); // type is raw testCode value
   });
 
-  it('should pass through unknown testCode values', () => {
+  it('should fall back to raw testCode when testCodeDisplay is not provided', () => {
     const record = {
       id: 'test-id',
       attributes: {
@@ -982,7 +985,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     };
 
     const result = convertUnifiedLabsAndTestRecord(record);
-    expect(result.testCode).to.equal('UNKNOWN_CODE');
+    expect(result.testCode).to.equal('UNKNOWN_CODE'); // falls back to raw testCode
     expect(result.type).to.equal('UNKNOWN_CODE'); // type is raw testCode value
   });
 });

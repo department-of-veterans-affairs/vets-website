@@ -28,14 +28,6 @@ import {
   mergeRadiologyDetails,
 } from '../util/imagesUtil';
 
-/**
- * Maps API testCode values to user-friendly display names.
- * Only codes that need a display name different from the raw code are included.
- */
-const testCodeDisplayMap = {
-  CH: 'Chemistry and hematology',
-};
-
 const initialState = {
   /**
    * The last time that the list was fetched and known to be up-to-date
@@ -434,9 +426,7 @@ export const convertUnifiedLabsAndTestRecord = record => {
     orderedBy: record.attributes.orderedBy,
     sampleTested: record.attributes.sampleTested,
     bodySite: record.attributes.bodySite,
-    testCode:
-      testCodeDisplayMap[record.attributes.testCode] ||
-      record.attributes.testCode,
+    testCode: record.attributes.testCodeDisplay || record.attributes.testCode,
     type: record.attributes.testCode,
     comments: record.attributes.comments,
     source: record.attributes.source,
