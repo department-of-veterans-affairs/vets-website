@@ -7,7 +7,7 @@ import * as featureToggles from 'platform/utilities/feature-toggles';
 import vapService from '~/platform/user/profile/vap-svc/reducers';
 import vaProfile from '@@profile/reducers/vaProfile';
 import { FIELD_NAMES } from '@@vap-svc/constants';
-import { PreferenceSelectionContainer } from './PreferenceSelectionContainer';
+import { PreferenceSelectionContainer } from '../../../../components/health-care-settings/sub-tasks/PreferenceSelectionContainer';
 
 const mockFieldName = FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD;
 
