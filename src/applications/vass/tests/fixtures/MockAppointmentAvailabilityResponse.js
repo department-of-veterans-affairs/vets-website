@@ -8,6 +8,8 @@ import {
 } from '../../services/mocks/utils/errors';
 import { createAppointmentAvailabilityResponse } from '../../services/mocks/utils/responses';
 
+/** @typedef {import('../../redux/slices/formSlice').Slot} Slot */
+
 /**
  * Mock appointment availability response.
  *
@@ -23,7 +25,7 @@ export default class MockAppointmentAvailabilityResponse {
    *
    * @param {Object} props - Properties used to create the mock response.
    * @param {string} [props.appointmentId='e61e1a40-1e63-f011-bec2-001dd80351ea'] - Unique identifier for the appointment.
-   * @param {Array} [props.availableSlots=[]] - Array of available time slots.
+   * @param {Slot[]} [props.availableSlots=[]] - Array of available time slots.
    * @memberof MockAppointmentAvailabilityResponse
    */
   constructor({
@@ -39,7 +41,7 @@ export default class MockAppointmentAvailabilityResponse {
   /**
    * Returns the response as a plain object.
    *
-   * @returns {Object} The mock response object.
+   * @returns {{ data: { appointmentId: string, availableSlots: Slot[] } }} The mock response object.
    * @memberof MockAppointmentAvailabilityResponse
    */
   toJSON() {
@@ -53,7 +55,7 @@ export default class MockAppointmentAvailabilityResponse {
    * @param {Object} props - Slot properties.
    * @param {string} props.dtStartUtc - ISO8601 UTC datetime string for slot start.
    * @param {string} props.dtEndUtc - ISO8601 UTC datetime string for slot end.
-   * @returns {Object} Time slot object.
+   * @returns {Slot} Time slot object.
    * @memberof MockAppointmentAvailabilityResponse
    */
   static createSlot({ dtStartUtc, dtEndUtc }) {
@@ -68,7 +70,7 @@ export default class MockAppointmentAvailabilityResponse {
    * @param {number} [props.numberOfSlots=5] - Number of slots to generate.
    * @param {number} [props.slotDurationMinutes=30] - Duration of each slot in minutes.
    * @param {Date} [props.startDate] - Start date for slots (defaults to tomorrow).
-   * @returns {Array} Array of time slot objects.
+   * @returns {Slot[]} Array of time slot objects.
    * @memberof MockAppointmentAvailabilityResponse
    */
   static createSlots({

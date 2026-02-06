@@ -7,6 +7,8 @@ import {
 } from '../../services/mocks/utils/errors';
 import { createAppointmentDetailsResponse } from '../../services/mocks/utils/responses';
 
+/** @typedef {import('../../utils/appointments').Appointment} Appointment */
+
 /**
  * Mock appointment details response.
  *
@@ -20,16 +22,7 @@ export default class MockAppointmentDetailsResponse {
   /**
    * Creates an instance of MockAppointmentDetailsResponse.
    *
-   * @param {Object} props - Properties used to create the mock response.
-   * @param {string} [props.appointmentId='e61e1a40-1e63-f011-bec2-001dd80351ea'] - Unique identifier for the appointment.
-   * @param {string} [props.startUTC='2025-12-24T10:00:00Z'] - Start date and time (UTC, ISO8601).
-   * @param {string} [props.endUTC='2025-12-24T10:30:00Z'] - End date and time (UTC, ISO8601).
-   * @param {string} [props.agentId='353dd0fc-335b-ef11-bfe3-001dd80a9f48'] - Unique identifier for the agent.
-   * @param {string} [props.agentNickname='Agent Smith'] - Agent's display name.
-   * @param {number} [props.appointmentStatusCode=1] - Status code for the appointment.
-   * @param {string} [props.appointmentStatus='Confirmed'] - Human-readable status.
-   * @param {string} [props.cohortStartUtc='2025-12-01T00:00:00Z'] - Cohort start date (UTC, ISO8601).
-   * @param {string} [props.cohortEndUtc='2026-02-28T23:59:59Z'] - Cohort end date (UTC, ISO8601).
+   * @param {Partial<Appointment>} [props={}] - Properties used to create the mock response.
    * @memberof MockAppointmentDetailsResponse
    */
   constructor({
@@ -59,7 +52,7 @@ export default class MockAppointmentDetailsResponse {
   /**
    * Returns the response as a plain object.
    *
-   * @returns {Object} The mock response object.
+   * @returns {Appointment} The mock response object (appointment details).
    * @memberof MockAppointmentDetailsResponse
    */
   toJSON() {

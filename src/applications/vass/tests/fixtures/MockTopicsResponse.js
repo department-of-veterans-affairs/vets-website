@@ -6,6 +6,8 @@ import {
 import { createTopicsResponse } from '../../services/mocks/utils/responses';
 import { createDefaultTopics } from '../../services/mocks/utils/topic';
 
+/** @typedef {import('../../utils/appointments').Topic} Topic */
+
 /**
  * Mock topics response.
  *
@@ -20,7 +22,7 @@ export default class MockTopicsResponse {
    * Creates an instance of MockTopicsResponse.
    *
    * @param {Object} props - Properties used to create the mock response.
-   * @param {Array} [props.topics=[]] - Array of topic objects with topicId and topicName.
+   * @param {Topic[]} [props.topics=[]] - Array of topic objects with topicId and topicName.
    * @memberof MockTopicsResponse
    */
   constructor({ topics = [] } = {}) {
@@ -32,7 +34,7 @@ export default class MockTopicsResponse {
   /**
    * Returns the response as a plain object.
    *
-   * @returns {Object} The mock response object.
+   * @returns {{ data: { topics: Topic[] } }} The mock response object.
    * @memberof MockTopicsResponse
    */
   toJSON() {
@@ -44,7 +46,7 @@ export default class MockTopicsResponse {
    *
    * @static
    * @param {number} [numberOfTopics=17] - Number of topics to include in the response.
-   * @returns {Array} Array of topic objects.
+   * @returns {Topic[]} Array of topic objects.
    * @memberof MockTopicsResponse
    */
   static createDefaultTopics(numberOfTopics = 17) {
