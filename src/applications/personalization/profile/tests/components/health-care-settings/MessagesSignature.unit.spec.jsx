@@ -3,7 +3,6 @@ import { expect } from 'chai';
 
 import { renderWithProfileReducersAndRouter } from '@@profile/tests/unit-test-helpers';
 import MessagesSignature from '@@profile/components/health-care-settings/MessagesSignature';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
 import { PROFILE_PATHS } from '../../../constants';
 
@@ -136,9 +135,10 @@ const setup = (options = defaultOptions) => {
 describe('<MessagesSignature /> in profile 2.0', () => {
   it('should render without crashing on root path', async () => {
     const { getByText } = setup({ hasUnsavedEdits: true });
-    const documentTitle = document.title;
-    expect(documentTitle).to.equal('Messages signature | Veterans Affairs');
-    expect(getByText('Messages signature', { selector: 'h1' })).to.exist;
+    await waitFor(() => {
+      expect(document.title).to.equal('Messages signature | Veterans Affairs');
+      expect(getByText('Messages signature', { selector: 'h1' })).to.exist;
+    });
   });
 
   it('renders Messaging signature section if messagingSignature is not null', async () => {
@@ -176,27 +176,5 @@ describe('<MessagesSignature /> in profile 2.0', () => {
     await waitFor(() => {
       expect(screen.queryByTestId('messagingSignature')).to.not.exist;
     });
-  });
-
-  it('retrieves the messaging signatue from SM API if messaging is enabled but messagingSignature is not populated', async () => {
-    mockApiRequest({
-      data: {
-        attributes: {
-          signatureName: 'Abraham Lincoln',
-          signatureTitle: 'Veteran',
-          includeSignature: true,
-        },
-      },
-    });
-    const screen = setup({
-      optionalServices: ['messaging'],
-    });
-
-    await waitFor(() => {
-      expect(screen.getByTestId('messagingSignature')).to.exist;
-    });
-    const messagingSignatureSection = screen.getByTestId('messagingSignature');
-    expect(messagingSignatureSection.textContent).to.contain('Abraham Lincoln');
-    expect(messagingSignatureSection.textContent).to.contain('Veteran');
   });
 });

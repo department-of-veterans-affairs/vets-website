@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMessagingSignature } from 'platform/user/profile/actions';
 import { isVAPatient } from '~/platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
+import { clearMostRecentlySavedField } from 'platform/user/exportsFile';
 import Headline from '../ProfileSectionHeadline';
 import { ProfileInfoSection } from '../ProfileInfoSection';
 import MessagingSignature from '../personal-information/MessagingSignature';
@@ -55,11 +56,19 @@ const MessageSignature = () => {
 
   const pageHeader = 'Messages signature';
 
+  const clearSuccessAlert = useCallback(
+    () => dispatch(clearMostRecentlySavedField()),
+    [dispatch],
+  );
   useEffect(
     () => {
       document.title = `${pageHeader} | Veterans Affairs`;
+
+      return () => {
+        clearSuccessAlert();
+      };
     },
-    [pageHeader],
+    [clearSuccessAlert, pageHeader],
   );
 
   useEffect(
