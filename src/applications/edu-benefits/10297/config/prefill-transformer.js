@@ -96,6 +96,7 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     newData.applicantFullName = prefillName;
     newData.mailingAddress = prefillMailingAddress;
     newData.ssn = ssn;
+    newData.claimantId = claimant.claimantId;
     return newData;
   };
 
