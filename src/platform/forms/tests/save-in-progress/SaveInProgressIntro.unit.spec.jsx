@@ -381,7 +381,7 @@ describe('<SaveInProgressIntro>', () => {
       const { els } = subject({ user });
       expect(els.button).to.have.attr(
         'text',
-        'Sign in to start your application'
+        'Sign in to start your application',
       );
     });
 
