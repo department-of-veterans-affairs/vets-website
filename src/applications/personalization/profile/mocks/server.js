@@ -29,6 +29,7 @@ const fullName = require('./endpoints/full-name');
 const {
   baseUserTransitionAvailabilities,
 } = require('./endpoints/user-transition-availabilities');
+const connectedApps = require('./endpoints/connected-apps');
 
 const error500 = require('../tests/fixtures/500.json');
 const error401 = require('../tests/fixtures/401.json');
@@ -123,6 +124,7 @@ const responses = {
             profile2Enabled: true,
             profileHealthCareSettingsPage: true,
             profileHideHealthCareContacts: true,
+            profileHideMissingClaimInformationNotificationSetting: true,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
@@ -290,27 +292,35 @@ const responses = {
     return res.status(200).json(bankAccounts.saved.success);
   },
   'GET /v0/profile/service_history': (_req, res) => {
-    // Succcess
-    return res.status(200).json(serviceHistory.airForce);
-
-    // No service history
-    // return res.status(200).json(serviceHistory.none);
-
-    // 403 error (no service found)
-    // return res
-    //   .status(200)
-    //   .json(serviceHistory.generateServiceHistoryError('403'));
-
-    // Non-403 error
-    // return res
-    //   .status(200)
-    //   .json(serviceHistory.generateServiceHistoryError('500'));
-
-    // Dishonorable discharge
-    // return res.status(200).json(serviceHistory.dishonorableDischarge);
-
-    // Unknown discharge
-    // return res.status(200).json(serviceHistory.unknownDischarge);
+    const branch = 'army'; // change this value to get different responses
+    switch (branch) {
+      case 'airForce':
+        return res.status(200).json(serviceHistory.airForce);
+      case 'army':
+        return res.status(200).json(serviceHistory.army);
+      case 'coastGuard':
+        return res.status(200).json(serviceHistory.coastGuard);
+      case 'marineCorps':
+        return res.status(200).json(serviceHistory.marineCorps);
+      case 'navy':
+        return res.status(200).json(serviceHistory.navy);
+      case 'spaceForce':
+        return res.status(200).json(serviceHistory.spaceForce);
+      case 'error403':
+        return res
+          .status(200)
+          .json(serviceHistory.generateServiceHistoryError('403'));
+      case 'error500':
+        return res
+          .status(200)
+          .json(serviceHistory.generateServiceHistoryError('500'));
+      case 'dishonorableDischarge':
+        return res.status(200).json(serviceHistory.dishonorableDischarge);
+      case 'unknownDischarge':
+        return res.status(200).json(serviceHistory.unknownDischarge);
+      default:
+        return res.status(200).json(serviceHistory.none);
+    }
   },
   'GET /v0/profile/vet_verification_status': (_req, res) => {
     return res.status(200).json(vetVerificationStatus.confirmed);
@@ -513,6 +523,16 @@ const responses = {
     // return res.status(500).json(error500);
 
     delaySingleResponse(() => res.json(mockedRes), 1);
+  },
+
+  'GET /v0/profile/connected_applications': (req, res) => {
+    return delaySingleResponse(() => res.json(connectedApps.connectedApps), 1);
+  },
+  'DELETE /v0/profile/connected_applications/:appId': (req, res) => {
+    return delaySingleResponse(
+      () => connectedApps.deleteConnectedApp(req, res),
+      1,
+    );
   },
 
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,

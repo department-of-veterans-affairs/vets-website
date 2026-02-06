@@ -1,0 +1,6 @@
+{
+    "data": {
+      "type": "feature_toggles",
+      "features": [{ "name": "loading", "value": false }]
+    }
+  }
