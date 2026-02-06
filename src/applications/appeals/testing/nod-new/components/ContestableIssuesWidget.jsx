@@ -7,7 +7,7 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import { getContestableIssues as getContestableIssuesAction } from '../../../10182/actions';
+// import { getContestableIssues as getContestableIssuesAction } from '../../../10182/actions';
 
 import { IssueCard } from './IssueCard';
 import { APP_NAME } from '../../../10182/constants';
@@ -337,7 +337,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = {
   setFormData: setData,
-  getContestableIssues: getContestableIssuesAction,
+  getContestableIssues: () => {},
 };
 
 export { ContestableIssuesWidget };
