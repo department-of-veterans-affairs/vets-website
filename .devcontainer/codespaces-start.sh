@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ "${VETS_WEBSITE_MHV_MOCK_SERVICE}" == "YES" ]]
-then
+if [[ "${VETS_WEBSITE_MHV_MOCK_SERVICE}" == "YES" ]]; then
     # Start mock services
     printf "\n\n##### Starting MHV mock services #####\n"
     yarn mock-api --responses src/platform/mhv/api/mocks &
@@ -19,8 +18,7 @@ CODESPACE_MOCK_HOST=https://${CODESPACE_NAME}-3000.app.github.dev
 
 # Set default values
 MOCK_RESPONSES=${MOCK_RESPONSES:-src/platform/testing/local-dev-mock-api/common.js}
-if [[ -f  $MOCK_RESPONSES ]]
-then 
+if [[ -f  $MOCK_RESPONSES ]]; then 
     MOCKS_EXIST="YES"
 else
     MOCKS_EXIST="NO"
@@ -52,12 +50,10 @@ if [ "$MAKE_APP_PUBLIC" == "YES" ]; then
     fi 
 
     # Start vets-website
-    if [ -n "$ENTRY_APPS" && "$MOCKS_EXIST" == "YES" ]
-    then
+    if [ -n "$ENTRY_APPS" && "$MOCKS_EXIST" == "YES" ]; then
         printf "\n\n##### Starting vets-website with entry apps and mocks #####\n"
         yarn watch --env entry="$ENTRY_APPS" api=$VETS_API_HOST &
-    elif [ -n "$ENTRY_APPS" ]
-    then
+    elif [ -n "$ENTRY_APPS" ]; then
         printf "\n\n##### Starting vets-website with entry apps and default API ####\n"
         yarn watch --env entry="$ENTRY_APPS" api=$VETS_API_HOST &
     else
