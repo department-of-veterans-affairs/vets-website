@@ -111,9 +111,7 @@ const Prescriptions = () => {
           'api-name': 'Rx SM Renewal',
           'api-status': 'successful',
         });
-        datadogRum.addAction('Rx SM Renewal Return', {
-          status: 'successful',
-        });
+        datadogRum.addAction('Rx Renewal Success');
       }
     },
     [rxRenewalMessageSuccess],

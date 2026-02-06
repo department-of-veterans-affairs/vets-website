@@ -1,7 +1,6 @@
 import moment from 'moment-timezone';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { dataDogLogger } from 'platform/monitoring/Datadog';
-import { datadogRum } from '@datadog/browser-rum';
 import { Actions } from '../util/actionTypes';
 import {
   getMessage,
@@ -208,10 +207,6 @@ export const sendMessage = (
         'api-latency-ms': Date.now() - startTimeMs,
         'error-key': undefined,
       });
-      datadogRum.addAction('Rx SM Renewal API Call', {
-        status: 'successful',
-        latencyMs: Date.now() - startTimeMs,
-      });
     }
     dispatch(resetRecentRecipient());
     dispatch(setThreadRefetchRequired(true));
@@ -239,11 +234,6 @@ export const sendMessage = (
         'api-status': 'fail',
         'api-latency-ms': Date.now() - startTimeMs,
         'error-key': errorCode,
-      });
-      datadogRum.addAction('Rx SM Renewal API Call', {
-        status: 'fail',
-        latencyMs: Date.now() - startTimeMs,
-        errorKey: errorCode,
       });
     }
 

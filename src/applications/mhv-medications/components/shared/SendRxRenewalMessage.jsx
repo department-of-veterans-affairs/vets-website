@@ -45,12 +45,10 @@ const SendRxRenewalMessage = ({
   const handleOpenModal = () => {
     setShowRenewalModal(true);
     recordEvent({
-      event: 'cta-button-click',
-      'button-click-label': 'Send a renewal request message',
+      event: 'va-modal',
+      'modal-title': "You're leaving medications to send a message",
     });
-    datadogRum.addAction('Rx Renewal Modal Opened', {
-      buttonLabel: 'Send a renewal request message',
-    });
+    datadogRum.addAction('Rx Renewal Modal Open');
   };
 
   const handleContinue = () => {
@@ -58,9 +56,7 @@ const SendRxRenewalMessage = ({
       event: 'cta-button-click',
       'button-click-label': 'Continue to send renewal message',
     });
-    datadogRum.addAction('Rx Renewal Modal Continue', {
-      buttonLabel: 'Continue',
-    });
+    datadogRum.addAction('Rx Renewal Modal Continue');
     window.location.href = secureMessagesUrl;
   };
 
@@ -78,7 +74,7 @@ const SendRxRenewalMessage = ({
       event: 'cta-button-click',
       'button-click-label': 'Close renewal modal',
     });
-    datadogRum.addAction('Rx Renewal Modal Closed');
+    datadogRum.addAction('Rx Renewal Modal Close');
     setShowRenewalModal(false);
   };
 
