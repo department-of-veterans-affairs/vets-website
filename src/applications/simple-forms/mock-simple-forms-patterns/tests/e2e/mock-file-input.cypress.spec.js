@@ -261,16 +261,16 @@ const testConfig = createTestConfig(
       },
       [fileInputPage]: ({ afterHook }) => {
         afterHook(() => {
-          cy.injectAxeThenAxeCheck();
+          testAdditionalInfo();
           testContinueWithoutFile();
           testFileUploads();
           testRejectInvalidMimeType();
           testInvalidUTF8Encoding();
-          testAdditionalInfo();
           testFileSizeLimits();
           testEncryptedPdf();
           testRejectFileNotAccepted();
           uploadValidFileAndNavigateToReviewPage();
+          cy.injectAxeThenAxeCheck();
         });
       },
       [reviewAndSubmit]: ({ afterHook }) => {
