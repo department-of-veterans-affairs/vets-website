@@ -70,6 +70,8 @@ export const CLEAR_UNSAVED_EXPENSE_CHANGES = 'CLEAR_UNSAVED_EXPENSE_CHANGES';
 export const SET_REVIEW_PAGE_ALERT = 'SET_REVIEW_PAGE_ALERT';
 export const CLEAR_REVIEW_PAGE_ALERT = 'CLEAR_REVIEW_PAGE_ALERT';
 export const SET_EXPENSE_BACK_DESTINATION = 'SET_EXPENSE_BACK_DESTINATION';
+export const SET_UNSAVED_CHANGES_MODAL_VISIBLE =
+  'SET_UNSAVED_CHANGES_MODAL_VISIBLE';
 
 // Helper function to add isOutOfBounds to claim details
 function addOutOfBoundsFlag(claimData) {
@@ -861,5 +863,13 @@ export function setReviewPageAlert({ title, description, type }) {
 export function clearReviewPageAlert() {
   return {
     type: CLEAR_REVIEW_PAGE_ALERT,
+  };
+}
+
+// Unsaved changes modal visibility action
+export function setUnsavedChangesModalVisible(isVisible) {
+  return {
+    type: SET_UNSAVED_CHANGES_MODAL_VISIBLE,
+    payload: isVisible,
   };
 }
