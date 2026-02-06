@@ -16,6 +16,7 @@ import {
   getLastSentMessage,
   isOlderThan,
   decodeHtmlEntities,
+  isMigrationPhaseBlockingReplies,
 } from '../util/helpers';
 import { resetRecentRecipient } from './recipients';
 import { setThreadRefetchRequired } from './threads';
@@ -87,14 +88,16 @@ export const retrieveMessageThread = messageId => async dispatch => {
         ?.attributes.folderId.toString() ||
       response.data[0].attributes.folderId;
 
-    const { isOhMessage } = response.data[0].attributes;
+    const { isOhMessage, ohMigrationPhase } = response.data[0].attributes;
 
     dispatch({
       type: Actions.Thread.GET_THREAD,
       payload: {
         replyToName,
         threadFolderId,
-        cannotReply: isOlderThan(lastSentDate, 45),
+        cannotReply:
+          isOlderThan(lastSentDate, 45) ||
+          isMigrationPhaseBlockingReplies(ohMigrationPhase),
         replyToMessageId: response.data[0].attributes.messageId,
         drafts: drafts.map(m => ({
           ...m.attributes,
