@@ -18,12 +18,14 @@ import {
   selectComplexClaimCreationLoadingState,
   selectComplexClaimFetchLoadingState,
   selectHasUnsavedExpenseChanges,
+  selectIsUnsavedChangesModalVisible,
 } from '../redux/selectors';
 import DowntimeWindowAlert from './DownTimeWindowAlert';
 import {
   getAppointmentData,
   getComplexClaimDetails,
   clearUnsavedExpenseChanges,
+  setUnsavedChangesModalVisible,
 } from '../redux/actions';
 import UnsavedChangesModal from '../components/UnsavedChangesModal';
 import {
@@ -69,10 +71,6 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const location = useLocation();
   const isErrorRoute = location.pathname.endsWith('/get-claim-error');
   const [shouldRedirect, setShouldRedirect] = useState(false);
-  const [
-    isUnsavedChangesModalVisible,
-    setIsUnsavedChangesModalVisible,
-  ] = useState(false);
   const {
     useToggleValue,
     TOGGLE_NAMES,
@@ -95,6 +93,9 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const claimError = complexClaim.fetch?.error;
 
   const hasUnsavedChanges = useSelector(selectHasUnsavedExpenseChanges);
+  const isUnsavedChangesModalVisible = useSelector(
+    selectIsUnsavedChangesModalVisible,
+  );
   const isComplexClaimCreationLoading = useSelector(
     selectComplexClaimCreationLoadingState,
   );
@@ -147,14 +148,14 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const handleBackLinkClick = e => {
     if (hasUnsavedChanges) {
       e.preventDefault();
-      setIsUnsavedChangesModalVisible(true);
+      dispatch(setUnsavedChangesModalVisible(true));
     }
     // If no unsaved changes, let the default link behavior happen
   };
 
   const handleLeaveWithoutSaving = () => {
     dispatch(clearUnsavedExpenseChanges());
-    setIsUnsavedChangesModalVisible(false);
+    dispatch(setUnsavedChangesModalVisible(false));
 
     // Navigate to the appropriate back location
     const backHref = getBackRoute({
@@ -172,7 +173,7 @@ const ComplexClaimSubmitFlowWrapper = () => {
   };
 
   const handleContinueEditing = () => {
-    setIsUnsavedChangesModalVisible(false);
+    dispatch(setUnsavedChangesModalVisible(false));
   };
 
   if (isLoading) {
