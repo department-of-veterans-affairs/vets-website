@@ -1,20 +1,18 @@
 import manifest from '../../manifest.json';
 import features from '../fixtures/features';
+import avsData from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
+import { mockAvsErrors } from '../../mocks/data';
 
 const avsId = '9A7AF40B2BC2471EA116891839113252';
 const testUrl = `${manifest.rootUrl}/${avsId}`;
 const mhvPageNotFoundHeading = 'Page not found';
 const mhvUnauthorizedHeading = 'We can’t give you access to this page';
 
-import avsData from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
-
-const avs = require('../../api/mocks/avs');
-
 const getAvsApiResponse = apiStatus => {
   if (apiStatus === 200) return avsData;
-  if (apiStatus === 400) return avs.badRequestError;
-  if (apiStatus === 401) return avs.unauthorizedError;
-  if (apiStatus === 404) return avs.notFoundError;
+  if (apiStatus === 400) return mockAvsErrors.badRequest;
+  if (apiStatus === 401) return mockAvsErrors.unauthorized;
+  if (apiStatus === 404) return mockAvsErrors.notFound;
   return {};
 };
 
