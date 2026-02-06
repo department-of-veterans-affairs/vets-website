@@ -97,6 +97,14 @@
       {
         "name": "disability_526_supporting_evidence_enhancement",
         "value": false
+      },
+      {
+        "name": "sidenav_526ez_enabled",
+        "value": true
+      },
+    {
+        "name": "526ez_required_sha_for_bdd_enabled",
+        "value": true
       }
     ]
   }

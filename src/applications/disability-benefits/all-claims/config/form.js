@@ -102,6 +102,7 @@ import {
   secondaryFinalIncident,
   separationLocation,
   separationPay,
+  separationHealthAssessmentUpload,
   serviceTreatmentRecords,
   serviceTreatmentRecordsAttachments,
   socialBehaviorChanges,
@@ -611,6 +612,13 @@ const formConfig = {
           depends: formData => isUploadingSTR(formData),
           uiSchema: serviceTreatmentRecordsAttachments.uiSchema,
           schema: serviceTreatmentRecordsAttachments.schema,
+        },
+        separationHealthAssessmentUpload: {
+          title: 'Upload Separation Health Assessment Part A',
+          path: 'supporting-evidence/separation-health-assessment-upload',
+          depends: formData => isUploadingSTR(formData), // TODO: Need to incorporate feature flag check
+          uiSchema: separationHealthAssessmentUpload.uiSchema,
+          schema: separationHealthAssessmentUpload.schema,
         },
         evidenceTypes: {
           title: 'Types of supporting evidence',
