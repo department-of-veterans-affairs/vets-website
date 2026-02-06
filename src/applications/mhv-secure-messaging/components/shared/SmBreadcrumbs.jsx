@@ -466,8 +466,9 @@ const SmBreadcrumbs = () => {
   if (shortenBreadcrumb) {
     return (
       <div className="mobile-lg:vads-u-margin-y--2">
-        <a
-          className="vads-c-action-link--green"
+        <va-link
+          back
+          text="Back"
           href={resolvedBackLinkHref}
           onClick={event => {
             event.preventDefault();
@@ -475,9 +476,7 @@ const SmBreadcrumbs = () => {
           }}
           data-testid="sm-breadcrumbs-back"
           data-dd-action-name="Breadcrumb - Back"
-        >
-          Back
-        </a>
+        />
       </div>
     );
   }
