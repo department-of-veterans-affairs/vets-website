@@ -10,11 +10,6 @@ export const HINT_TEXT =
   'You can upload .pdf, .jpg, .jpeg, .png, .gif, .bmp, or .txt files. Each file should be no larger than 50 MB for non-PDF files or 99 MB for PDF files. Larger files may take longer to upload, depending on the internet connection.';
 export const LABEL_TEXT = 'Select files to upload';
 
-// Error messages
-export const VALIDATION_ERROR = 'Please select a file first';
-export const PASSWORD_ERROR = 'Please provide a password to decrypt this file';
-export const DOC_TYPE_ERROR = 'Please provide a document type';
-
 export const ATTACHMENTS_TYPE = [
   { value: 'L015', label: 'Buddy/Lay Statement' },
   { value: 'L018', label: 'Civilian Police Reports' },
