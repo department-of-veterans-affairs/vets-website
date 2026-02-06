@@ -89,19 +89,6 @@ describe('income receipt waiver list and loop pages', () => {
         'John Doe’s waived income from social security',
       );
     });
-    it('should return "Alex Smith’s waived income from `payer`" if recipient is Veteran and not logged in', () => {
-      const item = {
-        recipientRelationship: 'VETERAN',
-        recipientName: { first: 'Jane', last: 'Smith' },
-        payer: 'social security',
-      };
-      expect(
-        options.text.getItemName(item, 0, {
-          ...mockFormData,
-          isLoggedIn: false,
-        }),
-      ).to.equal('Alex Smith’s waived income from social security');
-    });
     it('should return "Jane Smith’s waived income from `payer`" if recipient is not Veteran', () => {
       const item = {
         recipientRelationship: 'SPOUSE',

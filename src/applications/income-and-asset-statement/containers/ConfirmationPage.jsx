@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { isLoggedIn } from 'platform/user/selectors';
 import environment from 'platform/utilities/environment';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import NextStepsSection from '../components/NextStepsSection';
@@ -15,7 +14,6 @@ if (!environment.isProduction() && !environment.isStaging()) {
 
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
-  const loggedIn = useSelector(isLoggedIn);
   const { formConfig } = props.route;
   const { submission } = form;
   const submitDate = submission.timestamp;
@@ -53,30 +51,16 @@ export const ConfirmationPage = props => {
       <h2>Save a copy of your form</h2>
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
-      <NextStepsSection loggedIn={loggedIn} />
+      <NextStepsSection />
       <SupplementaryFormsSection formData={form.data} />
       <ConfirmationView.WhatsNextProcessList
         item1Content={
-          loggedIn ? (
-            <>
-              <p>
-                This can take up to 10 days. When we receive your form, we’ll
-                update the status on My VA.
-              </p>
-            </>
-          ) : (
-            <>
-              <p>
-                This can take up to 10 days. When we receive your form, we’ll
-                send you a confirmation email.
-              </p>
-            </>
-          )
-        }
-        item1Actions={
-          loggedIn
-            ? undefined
-            : null /* Special: null turns off the default link for logged-out users */
+          <>
+            <p>
+              This can take up to 10 days. When we receive your form, we’ll
+              update the status on My VA.
+            </p>
+          </>
         }
       />
       <section>
@@ -124,7 +108,6 @@ ConfirmationPage.propTypes = {
       timestamp: PropTypes.string,
     }),
   }),
-  isLoggedIn: PropTypes.bool,
   route: PropTypes.shape({
     formConfig: PropTypes.object.isRequired,
   }),
