@@ -33,6 +33,11 @@ function testFileUpload(func) {
       .find('span.file-label')
       .should('exist')
       .and('contain', file.name);
+
+    cy.get('va-file-input')
+      .find('va-select')
+      .should('exist')
+      .and('be.visible');
   });
 }
 
@@ -52,8 +57,6 @@ function deleteFile() {
           });
       }
     });
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
-  // cy.wait(200);
 }
 
 // test that an error is thrown if attempt made to continue without having added a file
@@ -110,18 +113,8 @@ function testInvalidUTF8Encoding() {
 function testAdditionalInfo() {
   testFileUpload(makeMinimalPNG);
 
-  // cy.get('va-file-input')
-  //   .find('va-select')
-  //   .should('exist')
-  //   .and('be.visible');
-
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(1000);
-
   cy.findByText(/continue/i, { selector: 'button' }).click();
 
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(150);
   // we should get an error because additional info not set
   cy.get('va-file-input')
     .find('va-select')
@@ -133,9 +126,6 @@ function testAdditionalInfo() {
     .then($el => {
       cy.selectVaSelect($el, 'public');
     });
-
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(100);
 
   // error should be gone
   cy.get('va-file-input')
@@ -213,9 +203,6 @@ function testEncryptedPdf() {
       });
       $el[0].dispatchEvent(event);
     });
-
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(550);
 
     cy.get('va-file-input')
       .find('span.usa-error-message')
