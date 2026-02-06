@@ -111,7 +111,7 @@ describe('FormRenderer', () => {
     const secondItemTextContent = listItems[1].textContent;
 
     expect(olElement).to.exist;
-    expect(listItems.length).to.equal(2);
+    expect(listItems.length).to.equal(4);
     expect(firstItemTextContent).to.equal(
       'Is this child your biological child?No',
     );
