@@ -9,7 +9,8 @@
     "dateOfBirth": "1941-03-01",
     "placeOfBirth": {
       "city": "Tatooine Settlement",
-      "state": "Arizona"
+      "state": "AZ",
+      "country": "USA"
     },
     "ssn": "796121234",
     "vaServiceNumber": "A12345678",
