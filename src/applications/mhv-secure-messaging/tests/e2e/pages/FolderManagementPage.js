@@ -62,6 +62,20 @@ class FolderManagementPage {
     return cy.get('[data-testid="alert-text"]');
   };
 
+  createFolderSuccessAlert = () => {
+    return cy.get('[data-testid="create-folder-success-alert"]');
+  };
+
+  verifyCreateFolderSuccessMessage = () => {
+    this.createFolderSuccessAlert()
+      .should('be.visible')
+      .and('contain.text', Data.FOLDER_CREATED_SUCCESSFULLY);
+  };
+
+  verifyCreateFolderSuccessMessageHasFocus = () => {
+    cy.get('[data-testid="create-new-folder"]').should('have.focus');
+  };
+
   verifyDeleteSuccessMessageText = () => {
     this.folderConfirmation().should(
       'contain.text',

@@ -19,7 +19,6 @@ import {
 } from '../../util/constants';
 import { handleHeader, getPageTitle } from '../../util/helpers';
 import { submitLaunchMyVaHealthAal } from '../../api/SmApi';
-import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
@@ -191,7 +190,6 @@ const FolderHeader = props => {
             threadCount={threadCount}
           />
         )}
-        <ManageFolderButtons folder={folder} />
       </>
     </>
   );

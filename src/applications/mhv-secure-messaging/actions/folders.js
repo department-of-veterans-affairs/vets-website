@@ -70,7 +70,7 @@ export const retrieveFolder = folderId => async dispatch => {
       }
     })
     .catch(error => {
-      sendDatadogError(error, 'action_folders_getFolders');
+      sendDatadogError(error, 'action_folders_retrieveFolder');
       dispatch({
         type: Actions.Folder.GET,
         response: null,
@@ -83,7 +83,10 @@ export const clearFolder = () => async dispatch => {
   dispatch({ type: Actions.Folder.CLEAR });
 };
 
-export const newFolder = folderName => async dispatch => {
+export const newFolder = (
+  folderName,
+  suppressSuccessAlert = false,
+) => async dispatch => {
   try {
     const response = await createFolder(folderName);
 
@@ -93,16 +96,18 @@ export const newFolder = folderName => async dispatch => {
     });
     dispatch(getFolders());
 
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_SUCCESS,
-        '',
-        Constants.Alerts.Folder.CREATE_FOLDER_SUCCESS,
-      ),
-    );
+    if (!suppressSuccessAlert) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_SUCCESS,
+          '',
+          Constants.Alerts.Folder.CREATE_FOLDER_SUCCESS,
+        ),
+      );
+    }
     return response.data.attributes;
   } catch (e) {
-    sendDatadogError(e, 'action_folders_getFolders');
+    sendDatadogError(e, 'action_folders_newFolder');
     if (e.errors && e.errors.length > 0 && e.errors[0].code === 'SM126') {
       dispatch(
         addAlert(
@@ -136,7 +141,7 @@ export const delFolder = folderId => async dispatch => {
       ),
     );
   } catch (error) {
-    sendDatadogError(error, 'action_folders_getFolders');
+    sendDatadogError(error, 'action_folders_delFolder');
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_ERROR,
@@ -147,20 +152,27 @@ export const delFolder = folderId => async dispatch => {
   }
 };
 
-export const renameFolder = (folderId, newName) => async dispatch => {
+export const renameFolder = (
+  folderId,
+  newName,
+  suppressSuccessAlert = false,
+) => async dispatch => {
   try {
     await updateFolderName(folderId, newName);
     await dispatch(getFolders());
     await dispatch(retrieveFolder(folderId));
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_SUCCESS,
-        '',
-        Constants.Alerts.Folder.RENAME_FOLDER_SUCCESS,
-      ),
-    );
+    if (!suppressSuccessAlert) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_SUCCESS,
+          '',
+          Constants.Alerts.Folder.RENAME_FOLDER_SUCCESS,
+        ),
+      );
+    }
+    return true; // Indicate success to caller
   } catch (e) {
-    sendDatadogError(e, 'action_folders_getFolders');
+    sendDatadogError(e, 'action_folders_renameFolder');
     if (e.errors && e.errors.length > 0 && e.errors[0].code === 'SM126') {
       dispatch(
         addAlert(
@@ -178,5 +190,6 @@ export const renameFolder = (folderId, newName) => async dispatch => {
         ),
       );
     }
+    throw e; // Re-throw so component can handle error state
   }
 };

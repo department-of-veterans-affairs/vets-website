@@ -1,4 +1,5 @@
 import {
+  VaAlert,
   VaModal,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -27,17 +28,38 @@ const ManageFolderButtons = props => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [isEditExpanded, setIsEditExpanded] = useState(false);
   const [folderName, setFolderName] = useState('');
+  const [showRenameSuccess, setShowRenameSuccess] = useState(false);
   const folderNameInput = useRef();
   const editFolderButtonRef = useRef(null);
   const removeButton = useRef(null);
   const emptyFolderConfirmBtn = useRef(null);
   const removeFolderRef = useRef(null);
+  const prevFolderIdRef = useRef(folder?.folderId);
 
   useEffect(() => {
     if (!folders) {
       dispatch(getFolders());
     }
   }, []);
+
+  // Reset local state when navigating to a different folder (not on initial mount)
+  useEffect(
+    () => {
+      if (
+        prevFolderIdRef.current !== undefined &&
+        prevFolderIdRef.current !== folder?.folderId
+      ) {
+        setShowRenameSuccess(false);
+        setIsEditExpanded(false);
+        setFolderName('');
+        setNameWarning('');
+        setIsEmptyWarning(false);
+        setDeleteModal(false);
+      }
+      prevFolderIdRef.current = folder?.folderId;
+    },
+    [folder?.folderId],
+  );
 
   useEffect(
     () => {
@@ -131,11 +153,20 @@ const ManageFolderButtons = props => {
       } else if (folderMatch.length > 0) {
         setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
       } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-        await dispatch(renameFolder(folder.folderId, folderName));
-        setIsEditExpanded(false);
-        setFolderName('');
-        setNameWarning('');
-        focusElement(editFolderButtonRef.current);
+        try {
+          // Pass suppressSuccessAlert=true to prevent global alert, we show inline alert instead
+          await dispatch(renameFolder(folder.folderId, folderName, true));
+          setIsEditExpanded(false);
+          setFolderName('');
+          setNameWarning('');
+          setShowRenameSuccess(true);
+          // Per accessibility guidance: leave focus on triggering control (Edit button)
+          // The slim alert with role="status" will announce the success message
+          focusElement(editFolderButtonRef.current);
+        } catch (error) {
+          // If rename fails, keep form open - global error alert will be shown by action
+          // Error already logged to Datadog via sendDatadogError in renameFolder action
+        }
       } else {
         setNameWarning(
           ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
@@ -152,22 +183,40 @@ const ManageFolderButtons = props => {
           <h2 className="vads-u-margin-top--3 vads-u-margin-bottom--2">
             Edit folder
           </h2>
-          <div className="vads-u-display--flex vads-u-flex-direction--column">
+          {showRenameSuccess && (
+            <VaAlert
+              status="success"
+              slim
+              closeable
+              closeBtnAriaLabel="Close notification"
+              onCloseEvent={() => setShowRenameSuccess(false)}
+              className="vads-u-margin-bottom--2"
+              role="status"
+              data-testid="rename-success-alert"
+            >
+              <p className="vads-u-margin-y--0">
+                {Alerts.Folder.RENAME_FOLDER_SUCCESS}
+              </p>
+            </VaAlert>
+          )}
+          <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-flex-wrap--wrap">
             {/* Edit folder name button */}
-            <va-button
-              ref={editFolderButtonRef}
-              secondary
-              full-width
-              text="Edit folder name"
-              onClick={openEditForm}
-              data-dd-action-name="Edit Folder Name Button"
-              data-testid="edit-folder-button"
-            />
+            <div className="vads-u-width--full medium-screen:vads-u-width--auto vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--0">
+              <va-button
+                ref={editFolderButtonRef}
+                secondary
+                full-width
+                text="Edit folder name"
+                onClick={openEditForm}
+                data-dd-action-name="Edit Folder Name Button"
+                data-testid="edit-folder-button"
+              />
+            </div>
 
             {/* Inline edit form - shown when expanded */}
             {isEditExpanded && (
               <div
-                className="vads-u-margin-top--2 vads-u-margin-left--0p5 vads-u-border-left--5px vads-u-border-color--primary vads-u-padding-left--2"
+                className="vads-u-margin-top--2 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-margin-left--0p5 vads-u-border-left--5px vads-u-border-color--primary vads-u-padding-left--2 vads-u-width--full medium-screen:vads-u-order--last"
                 data-testid="edit-folder-form"
               >
                 <VaTextInput
@@ -211,16 +260,18 @@ const ManageFolderButtons = props => {
             )}
 
             {/* Remove folder button - red destructive style */}
-            <va-button
-              ref={removeFolderRef}
-              secondary
-              full-width
-              text="Remove folder"
-              onClick={openDelModal}
-              data-dd-action-name="Remove Folder Button"
-              data-testid="remove-folder-button"
-              class="vads-u-margin-top--1 sm-button-destructive"
-            />
+            <div className="vads-u-width--full medium-screen:vads-u-width--auto medium-screen:vads-u-margin-left--1">
+              <va-button
+                ref={removeFolderRef}
+                secondary
+                full-width
+                text="Remove folder"
+                onClick={openDelModal}
+                data-dd-action-name="Remove Folder Button"
+                data-testid="remove-folder-button"
+                class="sm-button-destructive"
+              />
+            </div>
           </div>
         </>
       )}

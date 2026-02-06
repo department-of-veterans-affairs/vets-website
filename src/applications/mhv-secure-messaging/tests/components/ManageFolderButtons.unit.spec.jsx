@@ -196,7 +196,7 @@ describe('Manage Folder Buttons component', () => {
     });
   });
 
-  it('Edit folder name button renders with full-width attribute', () => {
+  it('Edit folder name button renders with secondary attribute', () => {
     const screen = renderWithStoreAndRouter(
       <ManageFolderButtons folder={folder} />,
       {
@@ -205,11 +205,10 @@ describe('Manage Folder Buttons component', () => {
       },
     );
     const editButton = screen.getByTestId('edit-folder-button');
-    expect(editButton).to.have.attribute('full-width');
     expect(editButton).to.have.attribute('secondary');
   });
 
-  it('Remove folder button renders with full-width attribute and destructive styling class', () => {
+  it('Remove folder button renders with secondary attribute and destructive styling class', () => {
     const screen = renderWithStoreAndRouter(
       <ManageFolderButtons folder={folder} />,
       {
@@ -218,7 +217,6 @@ describe('Manage Folder Buttons component', () => {
       },
     );
     const removeButton = screen.getByTestId('remove-folder-button');
-    expect(removeButton).to.have.attribute('full-width');
     expect(removeButton).to.have.attribute('secondary');
     expect(removeButton.getAttribute('class')).to.include(
       'sm-button-destructive',
