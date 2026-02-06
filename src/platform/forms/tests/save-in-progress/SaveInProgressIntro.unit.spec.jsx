@@ -310,7 +310,7 @@ describe('<SaveInProgressIntro>', () => {
       );
     });
 
-    it('should call toggleLoginModal when sign in button is clicked', async () => {
+    it('should call toggleLoginModal when sign in button is clicked', () => {
       const user = createUser();
       const toggleLoginModal = sinon.spy();
       const { els } = subject({
@@ -318,7 +318,7 @@ describe('<SaveInProgressIntro>', () => {
         prefillEnabled: true,
         toggleLoginModal,
       });
-      await fireEvent.click(els.button);
+      fireEvent.click(els.button);
       expect(toggleLoginModal.calledOnce).to.be.true;
     });
 
@@ -373,7 +373,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(els.startLink).to.not.exist;
     });
 
-    it('should pass requiresVerified to toggleLoginModal', async () => {
+    it('should pass requiresVerified to toggleLoginModal', () => {
       const user = createUser();
       const toggleLoginModal = sinon.spy();
       const { els } = subject({
@@ -382,12 +382,12 @@ describe('<SaveInProgressIntro>', () => {
         hideUnauthedStartLink: true,
         toggleLoginModal,
       });
-      await fireEvent.click(els.button);
+      fireEvent.click(els.button);
       expect(toggleLoginModal.calledOnce).to.be.true;
       expect(toggleLoginModal.firstCall.args[2]).to.be.true;
     });
 
-    it('should use requiresVerifiedUser from formConfig', async () => {
+    it('should use requiresVerifiedUser from formConfig', () => {
       const user = createUser();
       const toggleLoginModal = sinon.spy();
       const formConfig = createFormConfig({ requiresVerifiedUser: true });
@@ -397,7 +397,7 @@ describe('<SaveInProgressIntro>', () => {
         formConfig,
         toggleLoginModal,
       });
-      await fireEvent.click(els.button);
+      fireEvent.click(els.button);
       expect(toggleLoginModal.firstCall.args[2]).to.be.true;
     });
   });
@@ -582,13 +582,13 @@ describe('<SaveInProgressIntro>', () => {
   });
 
   describe('when navigating and routing', () => {
-    it('should trigger no-login-start-form event on start link click', async () => {
+    it('should trigger no-login-start-form event on start link click', () => {
       const user = createUser();
       const { els } = subject({
         user,
         prefillEnabled: true,
       });
-      await fireEvent.click(els.startLink);
+      fireEvent.click(els.startLink);
       expect(els.startLink).to.exist;
     });
 
@@ -608,7 +608,7 @@ describe('<SaveInProgressIntro>', () => {
       expect(vaLink).to.exist;
     });
 
-    it('should navigate when VaLink is clicked', async () => {
+    it('should navigate when VaLink is clicked', () => {
       const user = createUser();
       const router = { push: sinon.spy() };
       const formConfig = createFormConfig({
@@ -621,19 +621,19 @@ describe('<SaveInProgressIntro>', () => {
         router,
       });
       const vaLink = container.querySelector('va-link.schemaform-start-button');
-      await fireEvent.click(vaLink);
+      fireEvent.click(vaLink);
       expect(router.push.calledOnce).to.be.true;
     });
   });
 
   describe('when using custom link component', () => {
-    /* eslint-disable react/prop-types, @department-of-veterans-affairs/prefer-button-component */
-    const CustomLink = ({ children, onClick }) => (
-      <button type="button" onClick={onClick} data-testid="custom-link">
+    /* eslint-disable react/prop-types */
+    const CustomLink = ({ children, onClick, href }) => (
+      <a href={href} onClick={onClick} data-testid="custom-link">
         {children}
-      </button>
+      </a>
     );
-    /* eslint-enable react/prop-types, @department-of-veterans-affairs/prefer-button-component */
+    /* eslint-enable react/prop-types */
 
     it('should render custom link when provided', () => {
       const user = createUser();
@@ -649,7 +649,7 @@ describe('<SaveInProgressIntro>', () => {
       );
     });
 
-    it('should call toggleLoginModal when custom link is clicked', async () => {
+    it('should call toggleLoginModal when custom link is clicked', () => {
       const user = createUser();
       const toggleLoginModal = sinon.spy();
       const { getByTestId } = subject({
@@ -658,7 +658,7 @@ describe('<SaveInProgressIntro>', () => {
         customLink: CustomLink,
         toggleLoginModal,
       });
-      await fireEvent.click(getByTestId('custom-link'));
+      fireEvent.click(getByTestId('custom-link'));
       expect(toggleLoginModal.calledOnce).to.be.true;
     });
   });
