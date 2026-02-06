@@ -67,10 +67,8 @@ export const MAINTENANCE_WINDOWS_DELAY = 300;
  */
 export const delay = (ctx, ms = DEFAULT_DELAY) => ctx.delay(ms);
 
-// Import pure data from responses (webpack handles CommonJS -> ES interop)
-import responses from './responses';
-
-const {
+// Import response data for use in handler factories below
+import {
   mockUser,
   mockUserLOA1,
   mockUserUnauthenticated,
@@ -81,9 +79,9 @@ const {
   createUserResponse,
   createFeatureTogglesResponse,
   createMaintenanceWindowsResponse,
-} = responses;
+} from './responses';
 
-// Re-export responses for convenience
+// Re-export response data and factory functions for convenience
 export {
   mockUser,
   mockUserLOA1,
