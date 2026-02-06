@@ -25,9 +25,7 @@ const wrapWithTracking = (handler, trackingCallback) => () => {
   // If tracking callback is provided, call it to get properties and track
   if (trackingCallback) {
     const trackingData = trackingCallback();
-    if (trackingData) {
-      datadogRum.addAction(trackingData.actionName, trackingData.properties);
-    }
+    datadogRum.addAction(trackingData.actionName, trackingData.properties);
   }
 
   // Call the original handler function

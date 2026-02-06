@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
@@ -64,6 +64,41 @@ import {
   getSaveFormTrackingData,
 } from './utils/datadogTracking';
 
+// Module-level state holder for tracking callbacks to access current Redux state
+// This allows callbacks in formConfig to access runtime state without prop drilling
+const runtimeState = {
+  featureToggles: {},
+  formData: {},
+  pathname: '',
+};
+
+// Add tracking callbacks to formConfig before routes are created
+// These callbacks will read from runtimeState which gets updated by the component
+if (!formConfig.formOptions) {
+  formConfig.formOptions = {};
+}
+
+formConfig.formOptions.onBackClickTracking = () =>
+  getBackButtonTrackingData({
+    featureToggles: runtimeState.featureToggles,
+    formData: runtimeState.formData,
+    pathname: runtimeState.pathname,
+  });
+
+formConfig.formOptions.onContinueClickTracking = () =>
+  getContinueButtonTrackingData({
+    featureToggles: runtimeState.featureToggles,
+    formData: runtimeState.formData,
+    pathname: runtimeState.pathname,
+  });
+
+formConfig.formOptions.onSaveTracking = () =>
+  getSaveFormTrackingData({
+    featureToggles: runtimeState.featureToggles,
+    formData: runtimeState.formData,
+    pathname: runtimeState.pathname,
+  });
+
 export const serviceRequired = [
   backendServices.FORM526,
   backendServices.ORIGINAL_CLAIMS,
@@ -122,32 +157,13 @@ export const Form526Entry = ({
   const { profile = {} } = user;
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
 
-  // Create the back button tracking callback with access to Redux state
-  const enhancedFormConfig = useMemo(
-    () => ({
-      ...formConfig,
-      formOptions: {
-        ...formConfig.formOptions,
-        onBackClickTracking: () =>
-          getBackButtonTrackingData({
-            featureToggles,
-            formData: form?.data,
-            pathname: location?.pathname,
-          }),
-        onContinueClickTracking: () =>
-          getContinueButtonTrackingData({
-            featureToggles,
-            formData: form?.data,
-            pathname: location?.pathname,
-          }),
-        onSaveTracking: () =>
-          getSaveFormTrackingData({
-            featureToggles,
-            formData: form?.data,
-            pathname: location?.pathname,
-          }),
-      },
-    }),
+  // Update module-level runtimeState so formConfig callbacks can access current Redux state
+  useEffect(
+    () => {
+      runtimeState.featureToggles = featureToggles;
+      runtimeState.formData = form?.data;
+      runtimeState.pathname = location?.pathname;
+    },
     [featureToggles, form?.data, location?.pathname],
   );
 
@@ -285,10 +301,7 @@ export const Form526Entry = ({
 
   // wraps the app and redirects user if they are not enrolled
   const content = (
-    <RoutedSavableApp
-      formConfig={enhancedFormConfig}
-      currentLocation={location}
-    >
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
   );
