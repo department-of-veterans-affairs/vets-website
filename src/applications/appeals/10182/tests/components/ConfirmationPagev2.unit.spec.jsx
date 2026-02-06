@@ -136,7 +136,7 @@ describe('ConfirmationPageV2', () => {
       'file-2.pdf',
     ]);
     expect($('.evidence-later', container)).to.not.exist;
-    expect($$('va-link-action', container).length).to.eq(2);
+    expect($$('va-link-action', container).length).to.eq(1);
   });
 
   it('should render the confirmation page with evidence submitted later', () => {
