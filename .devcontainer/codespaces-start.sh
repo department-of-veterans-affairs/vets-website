@@ -50,7 +50,7 @@ if [ "$MAKE_APP_PUBLIC" == "YES" ]; then
     fi 
 
     # Start vets-website
-    if [ -n "$ENTRY_APPS" && "$MOCKS_EXIST" == "YES" ]; then
+    if [[ -n "$ENTRY_APPS" && "$MOCKS_EXIST" == "YES" ]]; then
         printf "\n\n##### Starting vets-website with entry apps and mocks #####\n"
         yarn watch --env entry="$ENTRY_APPS" api=$VETS_API_HOST &
     elif [ -n "$ENTRY_APPS" ]; then
