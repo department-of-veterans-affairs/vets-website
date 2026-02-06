@@ -7,6 +7,7 @@ import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 import { selectProfile } from 'platform/user/selectors';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import {
   informalConferenceLabel,
   informalConferenceLabels,
@@ -28,6 +29,7 @@ import {
   ConfirmationSummary,
   ConfirmationReturnLink,
 } from '../../shared/components/ConfirmationSummary';
+import { ConfirmationAlert } from '../../shared/components/ConfirmationAlert';
 import { ConfirmationTitle } from '../../shared/components/ConfirmationTitle';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
@@ -35,6 +37,11 @@ import { getReadableDate } from '../../shared/utils/dates';
 
 export const ConfirmationPageV2 = () => {
   resetStoredSubTask();
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const myVADisplayEnabled = useToggleValue(
+    TOGGLE_NAMES.decisionReviewsMyVADisplay,
+  );
 
   const alertRef = useRef(null);
 
@@ -79,9 +86,23 @@ export const ConfirmationPageV2 = () => {
   return (
     <>
       <ConfirmationTitle pageTitle={formTitle} />
-      <SubmissionAlert
-        title="Your Higher Level Review request submission is in progress"
-        content={
+      {myVADisplayEnabled && (
+        <SubmissionAlert
+          title="Your Higher Level Review request submission is in progress"
+          content={
+            <>
+              <p className="vads-u-margin-top--0">
+                You submitted the request on {submitDate}. It can take a few
+                days for us to receive your request. We’ll send you a
+                confirmation letter once we’ve processed your request.
+              </p>
+              {hasConference && <p>{conferenceMessage}</p>}
+            </>
+          }
+        />
+      )}
+      {!myVADisplayEnabled && (
+        <ConfirmationAlert alertTitle="Your Higher Level Review request submission is in progress">
           <>
             <p className="vads-u-margin-top--0">
               You submitted the request on {submitDate}. It can take a few days
@@ -90,9 +111,8 @@ export const ConfirmationPageV2 = () => {
             </p>
             {hasConference && <p>{conferenceMessage}</p>}
           </>
-        }
-      />
-
+        </ConfirmationAlert>
+      )}
       <ConfirmationSummary
         name="Higher-Level Review"
         downloadUrl={downloadUrl}
