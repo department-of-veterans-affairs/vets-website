@@ -1,5 +1,6 @@
 import React from 'react';
 import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
+import './footer.scss';
 
 const Footer = () => {
   return (
@@ -32,23 +33,20 @@ const Footer = () => {
       >
         <ul>
           <li>
+            <a href="https://www.va.gov/ogc/accreditation.asp">
+              About Accreditation
+            </a>
+          </li>
+          <li>
             <a href="https://department.va.gov/about/">About VA</a>
           </li>
           <li>
-            <a href="https://va.gov/accessibility-at-va">
-              Accessibility support
-            </a>
+            <a href="https://va.gov/accessibility-at-va">Accessibility</a>
           </li>
           <li>
             <a href="https://department.va.gov/foia/">
-              Freedom of Information Act (FOIA) requests
+              Freedom of Information Act (FOIA)
             </a>
-          </li>
-          <li>
-            <a href="https://va.gov/oig/">Office of Inspector General</a>
-          </li>
-          <li>
-            <a href="https://va.gov/privacy-policy/">Privacy policy</a>
           </li>
           <li>
             <a href="https://va.gov/ormdi/NOFEAR_Select.asp">
@@ -56,8 +54,17 @@ const Footer = () => {
             </a>
           </li>
           <li>
+            <a href="https://va.gov/oig/">Office of Inspector General</a>
+          </li>
+          <li>
+            <a href="https://va.gov/privacy-policy/">
+              Privacy, policies, and legal information
+            </a>
+          </li>
+
+          <li>
             <a href="https://va.gov/performance-dashboard/">
-              Performance reports
+              VA performance dashboard
             </a>
           </li>
         </ul>

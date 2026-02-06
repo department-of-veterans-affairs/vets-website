@@ -1,16 +1,16 @@
 import React from 'react';
+import GovBanner from './GovBanner';
+import Nav from './Nav';
+import './header.scss';
 
-import GovBanner from './Header/GovBanner';
-import Nav from './Header/Nav';
-
-const Header = () => {
+const Header = profile => {
   return (
     <header
       data-testid="arp-header"
       className="header vads-u-background-color--white"
     >
       <GovBanner />
-      <Nav />
+      <Nav {...profile} />
     </header>
   );
 };

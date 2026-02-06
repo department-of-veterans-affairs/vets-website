@@ -85,6 +85,7 @@ export default Dropdown;
 
 Dropdown.propTypes = {
   btnText: PropTypes.string,
+  category: PropTypes.string,
   children: PropTypes.object,
   className: PropTypes.string,
   closeIcon: PropTypes.string,
@@ -93,8 +94,11 @@ Dropdown.propTypes = {
   firstName: PropTypes.string,
   icon: PropTypes.string,
   iconClassName: PropTypes.string,
+  id: PropTypes.string,
+  isOpen: PropTypes.bool,
   lastName: PropTypes.string,
   secondaryIcon: PropTypes.string,
+  setOpenDropdownId: PropTypes.func,
   size: PropTypes.number,
   view: PropTypes.string,
 };
