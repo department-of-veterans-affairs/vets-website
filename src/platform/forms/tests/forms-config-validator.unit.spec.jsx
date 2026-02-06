@@ -75,6 +75,7 @@ const remapFormId = {
 
 const formConfigKeys = [
   'additionalRoutes',
+  'allowDuplicatePaths',
   'ariaDescribedBySubmit',
   'backLinkText',
   'chapters',
