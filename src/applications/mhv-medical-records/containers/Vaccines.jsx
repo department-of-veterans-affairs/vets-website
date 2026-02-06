@@ -79,7 +79,7 @@ const Vaccines = props => {
     [isAcceleratingVaccines],
   );
 
-  useTrackAction(statsdFrontEndActions.VITALS_LIST);
+  useTrackAction(statsdFrontEndActions.VACCINES_LIST);
 
   useListRefresh({
     listState,
