@@ -2,6 +2,8 @@ import recordEvent from '@department-of-veterans-affairs/platform-monitoring/rec
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
+import { isEqual } from 'lodash';
 import { GA_PREFIX } from '../../utils/constants';
 import { getPageTitle } from '../newAppointmentFlow';
 import {
@@ -9,6 +11,8 @@ import {
   startNewAppointmentFlow,
 } from '../redux/actions';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import MigrationInProgressError from './MigrationInProgressError';
+import MigrationWarning from './MigrationWarning';
 
 const pageKey = 'urgentCareInformation';
 function handleClick(history, dispatch) {
@@ -24,10 +28,85 @@ function handleClick(history, dispatch) {
   };
 }
 
+function getMigrationSchedule(schedules, disabledPhases) {
+  // return schedules.map(s => disabledPhases.includes(s.phases.current));
+  return (
+    schedules.find(s => {
+      return disabledPhases.includes(s.phases.current);
+    }) || null
+  );
+}
+
+function getMigrationScheduleFacilityIds(migrationSchedule) {
+  if (migrationSchedule) {
+    return migrationSchedule.facilities.map(facility => facility.facilityId);
+  }
+  return [];
+}
+
+function checkExclusiveRegistration(migrationSchedule, patientFacilities) {
+  const migratingFacilitiesIds = getMigrationScheduleFacilityIds(
+    migrationSchedule,
+  );
+
+  const patientFacilityIds = patientFacilities?.map(facility => {
+    return facility.facilityId;
+  });
+
+  return isEqual(migratingFacilitiesIds, patientFacilityIds);
+}
+
+function checkMixedRegistration(migrationSchedule, patientFacilities) {
+  const migratingFacilitiesIds = getMigrationScheduleFacilityIds(
+    migrationSchedule,
+  );
+
+  const patientFacilityIds = patientFacilities?.map(facility => {
+    return facility.facilityId;
+  });
+
+  return patientFacilityIds
+    ?.map(current => migratingFacilitiesIds?.some(id => id === current))
+    .some(val => val === true);
+}
+
 export default function UrgentCareInformationPage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+  const patientFacilities = useSelector(selectPatientFacilities);
+  const migrationSchedules = useSelector(
+    state => state.user.profile.migrationSchedules,
+  );
+
+  // Get migration warning phases.
+  let migrationSchedule = getMigrationSchedule(migrationSchedules, [
+    'p0',
+    'p1',
+  ]);
+  const isInWarningPhase = !!migrationSchedule;
+
+  // Get migration error phases if not in the warning phase.
+  let isInErrorPhase = false;
+  if (!isInWarningPhase) {
+    migrationSchedule = getMigrationSchedule(migrationSchedules, ['p2']);
+    isInErrorPhase = !!migrationSchedule;
+  }
+
+  // Check if the user is exclusively registered at the migrating facilities.
+  const isExclusiveRegistration = checkExclusiveRegistration(
+    migrationSchedule,
+    patientFacilities,
+  );
+
+  // Check if the user is registred at some of the migrating facilities.
+  let isMixedRegistration = false;
+  if (!isExclusiveRegistration) {
+    isMixedRegistration = checkMixedRegistration(
+      migrationSchedule,
+      patientFacilities,
+    );
+  }
 
   useEffect(
     () => {
@@ -43,16 +122,33 @@ export default function UrgentCareInformationPage() {
   return (
     <div>
       <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
+      {isInWarningPhase && (
+        <MigrationWarning
+          facilities={migrationSchedule.facilities}
+          migrationDate={migrationSchedule.migrationDate}
+          endDate={migrationSchedule.phases.p7}
+        />
+      )}
+      {isInErrorPhase && (
+        <MigrationInProgressError
+          endDate={migrationSchedule.phases.p7}
+          facilities={migrationSchedule.facilities}
+        />
+      )}
       <p>
-        You can schedule or request non-urgent appointments for future dates.
+        {' '}
+        You can schedule or request non-urgent appointments for future dates.{' '}
       </p>
-      <a
-        className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--3"
-        href="/"
-        onClick={handleClick(history, dispatch)}
-      >
-        Start scheduling an appointment
-      </a>
+      {((!isInErrorPhase && !isInWarningPhase) ||
+        (isInErrorPhase && isMixedRegistration)) && (
+        <a
+          className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--3"
+          href="/"
+          onClick={handleClick(history, dispatch)}
+        >
+          Start scheduling an appointment
+        </a>
+      )}
       <h2 className="vads-u-font-size--h3 vads-u-margin--0">
         If you need help sooner, use one of these urgent communications options:
       </h2>
