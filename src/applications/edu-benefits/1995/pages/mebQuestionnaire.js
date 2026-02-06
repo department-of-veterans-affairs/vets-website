@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
@@ -97,6 +97,18 @@ const ResultDescription = ({
       mebBenefitSelection: undefined,
       mebSameBenefitSelection: undefined,
     });
+
+  /**
+   * Suppress beforeunload alert on result pages.
+   * Result pages don't collect user input, so there's no data to lose.
+   * The suppression flag is checked by the wrapped beforeunload listener in Form1995App.jsx.
+   */
+  useEffect(() => {
+    window.__suppressBeforeunload = true;
+    return () => {
+      delete window.__suppressBeforeunload;
+    };
+  }, []);
 
   return (
     <div>
