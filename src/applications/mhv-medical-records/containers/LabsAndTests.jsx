@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -10,7 +10,10 @@ import {
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
-import { selectHoldTimeMessagingUpdate } from '../util/selectors';
+import {
+  selectHoldTimeMessagingUpdate,
+  selectImagesDomainFlag,
+} from '../util/selectors';
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import {
@@ -54,9 +57,10 @@ const LabsAndTests = () => {
   const updatedRecordList = useSelector(
     state => state.mr.labsAndTests.updatedList,
   );
-  const labsAndTests = useSelector(
+  const labsAndTestsRaw = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
   );
+  const showImagesDomain = useSelector(selectImagesDomainFlag);
   const { imageStatus: studyJobs } = useSelector(state => state.mr.images);
   const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
   const mergeCvixWithScdf = useSelector(
@@ -64,6 +68,30 @@ const LabsAndTests = () => {
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvMedicalRecordsMergeCvixIntoScdf
       ],
+  );
+
+  // Filter out radiology records when the images domain flag is enabled
+  const filterOutRadiology = useCallback(
+    list => {
+      if (!showImagesDomain || !list) return list;
+      return list.filter(
+        record =>
+          record?.type !== labTypes.RADIOLOGY &&
+          record?.type !== labTypes.CVIX_RADIOLOGY,
+      );
+    },
+    [showImagesDomain],
+  );
+
+  const labsAndTests = useMemo(() => filterOutRadiology(labsAndTestsRaw), [
+    filterOutRadiology,
+    labsAndTestsRaw,
+  ]);
+
+  // Also filter updatedRecordList so NewRecordsIndicator comparison is accurate
+  const filteredUpdatedList = useMemo(
+    () => filterOutRadiology(updatedRecordList),
+    [filterOutRadiology, updatedRecordList],
   );
 
   const radRecordsWithImagesReady = labsAndTests?.filter(radRecord => {
@@ -96,20 +124,17 @@ const LabsAndTests = () => {
   const isLoadingAcceleratedData =
     isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
 
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getLabsAndTestsList(
-          isCurrent,
-          isAcceleratingLabsAndTests,
-          {
-            startDate: dateRange.fromDate,
-            endDate: dateRange.toDate,
-          },
-          mergeCvixWithScdf,
-        );
-      };
-    },
+  const dispatchAction = useCallback(
+    isCurrent =>
+      getLabsAndTestsList(
+        isCurrent,
+        isAcceleratingLabsAndTests,
+        {
+          startDate: dateRange.fromDate,
+          endDate: dateRange.toDate,
+        },
+        mergeCvixWithScdf,
+      ),
     [isAcceleratingLabsAndTests, dateRange, mergeCvixWithScdf],
   );
 
@@ -120,6 +145,7 @@ const LabsAndTests = () => {
     extractType: [refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR],
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
@@ -179,8 +205,8 @@ const LabsAndTests = () => {
             ]}
             newRecordsFound={
               Array.isArray(labsAndTests) &&
-              Array.isArray(updatedRecordList) &&
-              labsAndTests.length !== updatedRecordList.length
+              Array.isArray(filteredUpdatedList) &&
+              labsAndTests.length !== filteredUpdatedList.length
             }
             reloadFunction={() => {
               dispatch(reloadRecords());
