@@ -152,7 +152,7 @@ const downtimeTesting = ({
 
       cy.get('va-alert [slot="headline"]', { timeout: Timeouts.slow })
         .should('be.visible')
-        .and('contain', 'is in progress');
+        .and('contain', 'last saved');
       cy.injectAxeThenAxeCheck();
 
       cy.get(h.CONTINUE_APP_LINK).click();
