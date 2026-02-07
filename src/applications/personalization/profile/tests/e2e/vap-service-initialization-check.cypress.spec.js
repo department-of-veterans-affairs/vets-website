@@ -1,13 +1,3 @@
-/**
- * E2E test to verify that InitializeVAPServiceID is not being called multiple times
- * when navigating through profile pages.
- *
- * This test intercepts the VA Profile initialization endpoint and verifies that:
- * 1. The initialization endpoint is called exactly once per session
- * 2. Navigation between profile pages does not trigger additional initialization calls
- * 3. The component properly checks initialization status before making API calls
- */
-
 import { PROFILE_PATHS } from '@@profile/constants';
 import { mockUser } from '@@profile/tests/fixtures/users/user';
 import mockPersonalInformation from '@@profile/tests/fixtures/personal-information-success.json';
