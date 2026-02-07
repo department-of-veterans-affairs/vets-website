@@ -2,11 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { isBefore, parseISO } from 'date-fns';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  formatDescription,
-  buildDateFormatter,
-  getDisplayFriendlyName,
-} from '../../utils/helpers';
+import { buildDateFormatter } from '../../utils/helpers';
+import * as TrackedItem from '../../utils/trackedItemContent';
 import AddFilesForm from '../claim-files-tab/AddFilesForm';
 import Notification from '../Notification';
 import Type1UnknownUploadError from '../Type1UnknownUploadError';
@@ -31,37 +28,46 @@ export default function DefaultPage({
   // Priority 1: API-provided structured content (JSON blocks → TrackedItemContent)
   const apiLongDescription = item.longDescription?.blocks;
   const apiNextSteps = item.nextSteps?.blocks;
+
   // Priority 2: Frontend dictionary JSX (legacy fallback during migration)
   const frontendContentOverride = evidenceDictionary[item.displayName];
   const frontendDescription = frontendContentOverride?.longDescription;
   const frontendNextSteps = frontendContentOverride?.nextSteps;
-  const frontendNoActionNeeded = frontendContentOverride?.noActionNeeded;
+
   // Priority 3: Simple API description (plain text with formatting markers)
-  const apiDescription = formatDescription(item.description);
+  const apiDescription = TrackedItem.formatDescription(item.description);
+
+  const hasDescriptionContent =
+    apiLongDescription || frontendDescription || apiDescription;
+
+  // Use API boolean properties with fallback to evidenceDictionary
+  const isSensitive = TrackedItem.getIsSensitive(item);
+  const isDBQ = TrackedItem.getIsDBQ(item);
+  const noActionNeeded = TrackedItem.getNoActionNeeded(item);
 
   const isFirstParty = item.status === 'NEEDED_FROM_YOU';
   const isThirdParty = item.status === 'NEEDED_FROM_OTHERS';
 
   const getItemDisplayName = () => {
-    if (item.displayName.toLowerCase().includes('dbq')) {
+    if (isDBQ) {
       return 'Request for an exam';
     }
     if (item.friendlyName) {
-      return `Your ${getDisplayFriendlyName(item)}`;
+      return `Your ${TrackedItem.getDisplayFriendlyName(item)}`;
     }
     return 'Request for evidence outside VA';
   };
   const getFirstPartyDisplayName = () => {
-    if (frontendContentOverride?.isSensitive) {
+    if (isSensitive) {
       return `Request for evidence`;
     }
     return item.friendlyName || 'Request for evidence';
   };
   const getFirstPartyRequestText = () => {
-    if (item.friendlyName && frontendContentOverride?.isSensitive) {
+    if (item.friendlyName && isSensitive) {
       return `Respond by ${dateFormatter(
         item.suspenseDate,
-      )} for: ${getDisplayFriendlyName(item)}`;
+      )} for: ${TrackedItem.getDisplayFriendlyName(item)}`;
     }
     if (item.friendlyName) {
       return `Respond by ${dateFormatter(item.suspenseDate)}`;
@@ -72,9 +78,11 @@ export default function DefaultPage({
   };
 
   const getRequestText = () => {
-    if (frontendContentOverride?.isDBQ) {
+    if (isDBQ) {
       return `We made a request on ${dateFormatter(item.requestedDate)} for: ${
-        item.friendlyName ? getDisplayFriendlyName(item) : item.displayName
+        item.friendlyName
+          ? TrackedItem.getDisplayFriendlyName(item)
+          : item.displayName
       }`;
     }
     if (item.friendlyName) {
@@ -143,7 +151,7 @@ export default function DefaultPage({
       <>
         <p>To respond to this request:</p>
         <ul className="bullet-disc">
-          {apiLongDescription || frontendDescription || apiDescription ? (
+          {hasDescriptionContent ? (
             <li data-testid="next-steps-in-what-we-need-from-you">
               Gather and submit any documents or forms listed in the{' '}
               <strong>What we need from you</strong> section
@@ -156,7 +164,7 @@ export default function DefaultPage({
           )}
           <li>You can upload documents online or mail them to us</li>
         </ul>
-        {(apiLongDescription || frontendDescription || apiDescription) && (
+        {hasDescriptionContent && (
           <p>
             If you need help understanding this request, check your claim letter
             online.
@@ -228,7 +236,7 @@ export default function DefaultPage({
           </div>
         )}
       {isFirstParty &&
-        (pastDueDate ? (
+        pastDueDate && (
           <va-alert status="warning" class="vads-u-margin-y--4">
             <h2
               slot="headline"
@@ -247,18 +255,16 @@ export default function DefaultPage({
               ).
             </p>
           </va-alert>
-        ) : (
-          !item.friendlyName && (
-            <div className="vads-u-margin-top--4 vads-u-margin-bottom--2">
-              <p>
-                We requested this evidence from you on{' '}
-                {dateFormatter(item.requestedDate)}. You can still send the
-                evidence after the “respond by” date, but it may delay your
-                claim.
-              </p>
-            </div>
-          )
-        ))}
+        )}
+      {isFirstParty && (
+        <div className="vads-u-margin-top--4 vads-u-margin-bottom--2">
+          <p>
+            We requested this evidence from you on{' '}
+            {dateFormatter(item.requestedDate)}. You can still send the evidence
+            after the “respond by” date, but it may delay your claim.
+          </p>
+        </div>
+      )}
 
       {/* What we need from you or What we’re notifying you about section */}
       {isFirstParty ? (
@@ -285,7 +291,7 @@ export default function DefaultPage({
         <div className="optional-upload">
           <p className="vads-u-margin-y--2">
             <strong>This is just a notice. No action is needed by you.</strong>
-            {!frontendNoActionNeeded && (
+            {!noActionNeeded && (
               <>
                 {' '}
                 But, if you have documents related to this request, uploading
@@ -298,7 +304,7 @@ export default function DefaultPage({
       )}
 
       {isFirstParty &&
-        frontendContentOverride && (
+        hasDescriptionContent && (
           <div
             className="vads-u-margin-y--4"
             data-testid="learn-about-request-section"
