@@ -16,6 +16,8 @@
     - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
     - [Debugging Node 22 CI failures](#debugging-node-22-ci-failures)
   - [Running a mock API for local development](#running-a-mock-api-for-local-development)
+    - [Option 1: MSW browser mocking (recommended for new work)](#option-1-msw-browser-mocking-recommended-for-new-work)
+    - [Option 2: mocker-api (legacy)](#option-2-mocker-api-legacy)
   - [More commands](#more-commands)
   - [Supported Browsers](#supported-browsers)
   - [API Keys](#api-keys)
@@ -265,6 +267,18 @@ git branch -D temp-test-node22
 **Note:** The Node 22 branch uses happy-dom instead of jsdom, which can cause different behavior in tests, particularly with sessionStorage, web components, and async operations.
 
 ## Running a mock API for local development
+
+### Option 1: MSW browser mocking (recommended for new work)
+
+MSW (Mock Service Worker) intercepts API requests directly in the browser — no separate server process needed. Define your mock handlers in your app, then run:
+
+```sh
+USE_MOCKS=true yarn watch --env entry=your-app --env api=http://mock-vets-api.local
+```
+
+See [`src/platform/mocks/README.md`](src/platform/mocks/README.md) for full setup instructions, available mock data, and troubleshooting.
+
+### Option 2: mocker-api (legacy)
 
 In separate terminal from your local dev server, run
 
