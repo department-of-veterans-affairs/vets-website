@@ -81,10 +81,7 @@ export default function AfterVisitSummary({ data: appointment }) {
       </Section>
     );
   }
-  if (!hasAvs && !hasValidPdfAvs && featureAddOHAvs) {
-    if (hasRetrievalErrors) {
-      return null;
-    }
+  if (!hasAvs && !hasValidPdfAvs) {
     return (
       <Section heading={heading}>
         <p className="vads-u-margin--0">
