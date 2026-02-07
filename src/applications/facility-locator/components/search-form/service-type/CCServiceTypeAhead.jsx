@@ -5,7 +5,7 @@ import Downshift from 'downshift';
 import classNames from 'classnames';
 import MessagePromptDiv from './MessagePromptDiv';
 
-const MIN_SEARCH_CHARS = 2;
+const MIN_SEARCH_CHARS = 3;
 /**
  * CC Providers' Service Types Typeahead
  */
@@ -83,7 +83,7 @@ class CCServiceTypeAhead extends Component {
       return false;
     }
     const specialtyName = this.getSpecialtyName(specialty);
-    if (input.length >= 2 && specialtyName) {
+    if (input.length >= MIN_SEARCH_CHARS && specialtyName) {
       return specialtyName
         .trim()
         .toLowerCase()
@@ -154,7 +154,7 @@ class CCServiceTypeAhead extends Component {
   renderTryAnotherServicePrompt = inputValue => {
     if (
       inputValue &&
-      inputValue.length >= 2 &&
+      inputValue.length >= MIN_SEARCH_CHARS &&
       !this.matchingServices(inputValue).length
     ) {
       return (
