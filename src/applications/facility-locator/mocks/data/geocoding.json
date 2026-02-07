@@ -1,0 +1,122 @@
+{
+  "type": "FeatureCollection",
+  "query": ["port"],
+  "features": [
+    {
+      "id": "place.265169132",
+      "type": "Feature",
+      "place_type": ["place"],
+      "relevance": 1,
+      "properties": {
+        "mapbox_id": "dXJuOm1ieHBsYzpEODRvN0E",
+        "wikidata": "Q7231645"
+      },
+      "text": "Porter Ranch",
+      "place_name": "Porter Ranch, California, United States",
+      "bbox": [-118.591947, 34.257259, -118.520704, 34.324675],
+      "center": [-118.5619, 34.282307],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-118.5619, 34.282307]
+      },
+      "context": [
+        { "id": "district.14051052", "text": "Los Angeles County" },
+        { "id": "region.419052", "short_code": "US-CA", "text": "California" },
+        { "id": "country.8940", "short_code": "us", "text": "United States" }
+      ]
+    },
+    {
+      "id": "place.265349356",
+      "type": "Feature",
+      "place_type": ["place"],
+      "relevance": 1,
+      "properties": {
+        "mapbox_id": "dXJuOm1ieHBsYzpEOURvN0E",
+        "wikidata": "Q983853"
+      },
+      "text": "Port Hueneme",
+      "place_name": "Port Hueneme, California, United States",
+      "bbox": [-119.221424, 34.115505, -119.186028, 34.181297],
+      "center": [-119.19544, 34.14782],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-119.19544, 34.14782]
+      },
+      "context": [
+        { "id": "district.23676652", "text": "Ventura County" },
+        { "id": "region.419052", "short_code": "US-CA", "text": "California" },
+        { "id": "country.8940", "short_code": "us", "text": "United States" }
+      ]
+    },
+    {
+      "id": "place.265210092",
+      "type": "Feature",
+      "place_type": ["place"],
+      "relevance": 1,
+      "properties": {
+        "mapbox_id": "dXJuOm1ieHBsYzpEODdJN0E",
+        "wikidata": "Q927173"
+      },
+      "text": "Porterville",
+      "place_name": "Porterville, California, United States",
+      "bbox": [-119.214661, 35.843462, -118.562496, 36.139315],
+      "center": [-119.01619, 36.07055],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-119.01619, 36.07055]
+      },
+      "context": [
+        { "id": "district.23209708", "text": "Tulare County" },
+        { "id": "region.419052", "short_code": "US-CA", "text": "California" },
+        { "id": "country.8940", "short_code": "us", "text": "United States" }
+      ]
+    },
+    {
+      "id": "place.265464044",
+      "type": "Feature",
+      "place_type": ["place"],
+      "relevance": 1,
+      "properties": {
+        "mapbox_id": "dXJuOm1ieHBsYzpEOUtvN0E",
+        "wikidata": "Q6106"
+      },
+      "text": "Portland",
+      "place_name": "Portland, Oregon, United States",
+      "bbox": [-122.919769, 45.424089, -122.453655, 45.815277],
+      "center": [-122.67837, 45.515198],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.67837, 45.515198]
+      },
+      "context": [
+        { "id": "district.16615148", "text": "Multnomah County" },
+        { "id": "region.402668", "short_code": "US-OR", "text": "Oregon" },
+        { "id": "country.8940", "short_code": "us", "text": "United States" }
+      ]
+    },
+    {
+      "id": "place.265971948",
+      "type": "Feature",
+      "place_type": ["place"],
+      "relevance": 1,
+      "properties": {
+        "mapbox_id": "dXJuOm1ieHBsYzpEOXBvN0E",
+        "wikidata": "Q342803"
+      },
+      "text": "Portsmouth",
+      "place_name": "Portsmouth, Virginia, United States",
+      "bbox": [-76.420368, 36.786062, -76.289357, 36.959636],
+      "center": [-76.29792, 36.83536],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-76.29792, 36.83536]
+      },
+      "context": [
+        { "id": "district.18990828", "text": "Portsmouth city" },
+        { "id": "region.91372", "short_code": "US-VA", "text": "Virginia" },
+        { "id": "country.8940", "short_code": "us", "text": "United States" }
+      ]
+    }
+  ],
+  "attribution": "NOTICE: © 2025 Mapbox and its suppliers. All rights reserved."
+}
