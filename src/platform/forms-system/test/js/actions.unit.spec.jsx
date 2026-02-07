@@ -1062,6 +1062,7 @@ describe('Schemaform actions:', () => {
     });
 
     it('should call refresh on 403 token expired error', async () => {
+      refreshStub.resolves({ ok: true, status: 200 });
       const onChange = sinon.spy();
       const thunk = uploadFile(
         { name: '1.jpg', size: 1234 },
@@ -1167,6 +1168,7 @@ describe('Schemaform actions:', () => {
     });
 
     it('should call refresh and retry on 403 token expired error', async () => {
+      refreshStub.resolves({ ok: true, status: 200 });
       const formConfig = {
         chapters: {},
         submitUrl: '/v0/submit',
@@ -1273,6 +1275,259 @@ describe('Schemaform actions:', () => {
       );
 
       return promise;
+    });
+  });
+  describe('403 Error Handling', () => {
+    let xhr;
+    let requests = [];
+    let refreshStub;
+    let infoTokenExistsStub;
+
+    beforeEach(() => {
+      testkit.reset();
+      global.FormData = sinon.stub().returns({
+        append: sinon.spy(),
+        set: sinon.spy(),
+      });
+      xhr = sinon.useFakeXMLHttpRequest();
+      xhr.onCreate = req => {
+        requests.push(req);
+      };
+      window.dataLayer = [];
+
+      const oauthUtilities = require('platform/utilities/oauth/utilities');
+      refreshStub = sinon.stub(oauthUtilities, 'refresh');
+      infoTokenExistsStub = sinon.stub(oauthUtilities, 'infoTokenExists');
+    });
+
+    afterEach(() => {
+      testkit.reset();
+      delete global.FormData;
+      global.XMLHttpRequest = window.XMLHttpRequest;
+      xhr.restore();
+      requests = [];
+      window.dataLayer = [];
+
+      if (refreshStub) refreshStub.restore();
+      if (infoTokenExistsStub) infoTokenExistsStub.restore();
+    });
+
+    const createUploadThunk = (overrides = {}) => {
+      const config = {
+        file: { name: 'test.pdf', size: 1234 },
+        uiOptions: {
+          fileUploadUrl: '/v0/upload',
+          fileTypes: ['pdf'],
+          maxSize: 5000,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes,
+        },
+        onProgress: sinon.spy(),
+        onChange: sinon.spy(),
+        onError: sinon.spy(),
+        trackingPrefix: 'test-prefix',
+        password: null,
+        ...overrides,
+      };
+
+      return {
+        thunk: uploadFile(
+          config.file,
+          config.uiOptions,
+          config.onProgress,
+          config.onChange,
+          config.onError,
+          config.trackingPrefix,
+          config.password,
+        ),
+        ...config,
+      };
+    };
+
+    const executeThunk = thunk => {
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: { formId: 'test-form', data: {} },
+      });
+      thunk(dispatch, getState);
+      return { dispatch, getState };
+    };
+
+    it('should retry once and succeed after token refresh', async () => {
+      refreshStub.resolves({ ok: true, status: 200 });
+      infoTokenExistsStub.returns(true);
+
+      const { thunk, onChange, onError } = createUploadThunk();
+      executeThunk(thunk);
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({ errors: 'token has expired' }),
+      );
+
+      await refreshStub.returnValues[0];
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      expect(requests.length).to.equal(2);
+      expect(refreshStub.callCount).to.equal(1);
+
+      requests[1].respond(
+        200,
+        null,
+        JSON.stringify({
+          data: { attributes: { name: 'test.pdf', confirmationCode: 'ABC' } },
+        }),
+      );
+
+      expect(onError.called).to.be.false;
+      expect(onChange.lastCall.args[0].confirmationCode).to.equal('ABC');
+    });
+
+    it('should show error when refresh returns non-ok response', async () => {
+      refreshStub.resolves({ ok: false, status: 500 });
+      infoTokenExistsStub.returns(true);
+
+      const { thunk, onChange, onError } = createUploadThunk();
+      executeThunk(thunk);
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({ errors: 'token has expired' }),
+      );
+
+      await refreshStub.returnValues[0];
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      expect(requests.length).to.equal(1);
+      expect(onError.called).to.be.true;
+      expect(onChange.lastCall.args[0].errorMessage).to.include(
+        'Your file was not uploaded. We had a network error. Try again later.',
+      );
+    });
+
+    it('should show error when refresh network fails', async () => {
+      refreshStub.rejects(new Error('Network error'));
+      infoTokenExistsStub.returns(true);
+
+      const { thunk, onChange, onError } = createUploadThunk();
+      executeThunk(thunk);
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({ errors: 'token has expired' }),
+      );
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      expect(onError.called).to.be.true;
+      expect(onChange.lastCall.args[0].errorMessage).to.include(
+        'Your file was not uploaded. We had a network error. Try again later.',
+      );
+    });
+
+    it('should show forbidden error for non-token 403 without refresh', () => {
+      infoTokenExistsStub.returns(true);
+
+      const { thunk, onChange, onError } = createUploadThunk();
+      executeThunk(thunk);
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({ errors: 'Access denied' }),
+      );
+
+      expect(refreshStub.called).to.be.false;
+      expect(onError.called).to.be.true;
+      expect(onChange.lastCall.args[0].errorMessage).to.include(
+        "You don't have permission to upload this file. Please try resigning in.",
+      );
+    });
+
+    it('should show forbidden error when infoToken missing', () => {
+      infoTokenExistsStub.returns(false);
+
+      const { thunk, onChange, onError } = createUploadThunk();
+      executeThunk(thunk);
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({ errors: 'token has expired' }),
+      );
+
+      expect(refreshStub.called).to.be.false;
+      expect(onError.called).to.be.true;
+      expect(onChange.lastCall.args[0].errorMessage).to.include(
+        "You don't have permission to upload this file. Please try resigning in.",
+      );
+    });
+
+    it('should not retry more than once (no infinite loop)', async () => {
+      refreshStub.resolves({ ok: true, status: 200 });
+      infoTokenExistsStub.returns(true);
+
+      const { thunk, onError } = createUploadThunk();
+      executeThunk(thunk);
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({ errors: 'token has expired' }),
+      );
+
+      await refreshStub.returnValues[0];
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      requests[1].respond(
+        403,
+        null,
+        JSON.stringify({ errors: 'token has expired' }),
+      );
+
+      await new Promise(resolve => setTimeout(resolve, 50));
+
+      expect(refreshStub.callCount).to.equal(1);
+      expect(requests.length).to.equal(2);
+      expect(onError.called).to.be.true;
+    });
+
+    it('should handle malformed 403 response JSON', () => {
+      infoTokenExistsStub.returns(true);
+
+      const { thunk, onChange, onError } = createUploadThunk();
+      executeThunk(thunk);
+
+      requests[0].respond(403, null, 'invalid json');
+
+      expect(refreshStub.called).to.be.false;
+      expect(onError.called).to.be.true;
+      expect(onChange.lastCall.args[0].errorMessage).to.include(
+        "You don't have permission to upload this file. Please try resigning in.",
+      );
+    });
+
+    it('should preserve isEncrypted flag on 403 error for password-protected files', async () => {
+      refreshStub.resolves({ ok: false, status: 500 });
+      infoTokenExistsStub.returns(true);
+
+      const { thunk, onChange } = createUploadThunk({ password: 'secret' });
+      executeThunk(thunk);
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({ errors: 'token has expired' }),
+      );
+
+      await refreshStub.returnValues[0];
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      expect(onChange.lastCall.args[0].isEncrypted).to.be.true;
+      expect(onChange.lastCall.args[0].file).to.exist;
     });
   });
 });
