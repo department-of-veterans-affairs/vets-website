@@ -272,15 +272,15 @@ describe('Reply form component', () => {
       messages: threadDetails.messages,
     });
 
-    const blockedTriageGroupAlert = await screen.findByTestId(
-      'blocked-triage-group-alert',
-    );
-
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
-    );
+    await waitFor(() => {
+      const blockedTriageGroupAlert = screen.getByTestId(
+        'blocked-triage-group-alert',
+      );
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+      );
+    });
   });
 
   it('displays BlockedTriageGroupAlert with blocked group (only) if multiple groups are blocked', async () => {
@@ -308,14 +308,15 @@ describe('Reply form component', () => {
       messages: threadDetails.messages,
     });
 
-    const blockedTriageGroupAlert = await screen.findByTestId(
-      'blocked-triage-group-alert',
-    );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
-    );
+    await waitFor(() => {
+      const blockedTriageGroupAlert = screen.getByTestId(
+        'blocked-triage-group-alert',
+      );
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+      );
+    });
   });
 
   it('displays BlockedTriageGroupAlert with blocked group (only) if no associations at all', async () => {
@@ -343,14 +344,15 @@ describe('Reply form component', () => {
       messages: threadDetails.messages,
     });
 
-    const blockedTriageGroupAlert = await screen.findByTestId(
-      'blocked-triage-group-alert',
-    );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
-    );
+    await waitFor(() => {
+      const blockedTriageGroupAlert = screen.getByTestId(
+        'blocked-triage-group-alert',
+      );
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+      );
+    });
   });
 
   it('allows reply if OH message and not associated with recipient', async () => {
