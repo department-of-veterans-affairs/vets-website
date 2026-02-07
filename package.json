@@ -283,7 +283,6 @@
     "dompurify": "^3.1.6",
     "dotenv": "^10.0.0",
     "downloadjs": "^1.4.7",
-    "downshift": "^1.22.5",
     "downshift-v9": "npm:downshift@^9.0.8",
     "express": "^4.17.1",
     "fast-levenshtein": "^2.0.6",

@@ -12,14 +12,15 @@ describe('Facility Locator Address Autosuggest provides correct results from map
 
     cy.get('#street-city-state-zip').type('Port');
     cy.wait('@mapbox');
-    cy.get('#downshift-0-menu').should('exist');
-    cy.get('#downshift-0-menu')
+    // useCombobox hook generates IDs based on inputId prop
+    cy.get('#street-city-state-zip-menu').should('exist');
+    cy.get('#street-city-state-zip-menu')
       .children()
       .should('have.length', 5);
-    cy.get('#downshift-0-item-1').should('exist');
+    cy.get('#street-city-state-zip-item-1').should('exist');
     cy.get('#street-city-state-zip').type('{downArrow}');
     cy.get('#street-city-state-zip').type('{downArrow}'); // mouseover doesn't seem to work in cypress to trigger css changes
-    cy.get('#downshift-0-item-1').should('have.class', 'selected');
+    cy.get('#street-city-state-zip-item-1').should('have.class', 'selected');
     cy.get('#street-city-state-zip').type('{enter}');
     cy.axeCheck(); // check with menu open
 

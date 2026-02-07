@@ -242,8 +242,9 @@ describe('AutosuggestField in Pre-need-integration', () => {
 
     wrapper.update();
 
-    const downshiftRenderFn = wrapper.find('Downshift').prop('render');
-    const rendered = downshiftRenderFn({
+    // Downshift v9 uses children function instead of render prop
+    const downshiftChildrenFn = wrapper.find('Downshift').prop('children');
+    const rendered = downshiftChildrenFn({
       getInputProps: () => ({}),
       getItemProps: ({ item }) => ({ key: item.id }),
       isOpen: true,

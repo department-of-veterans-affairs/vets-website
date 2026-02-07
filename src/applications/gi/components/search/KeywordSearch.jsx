@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useEffect } from 'react';
 import { debounce } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import Downshift from 'downshift';
+import Downshift from 'downshift-v9';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { WAIT_INTERVAL, KEY_CODES } from '../../constants';

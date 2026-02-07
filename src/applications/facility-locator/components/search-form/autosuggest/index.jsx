@@ -57,7 +57,8 @@ function Autosuggest({
   } = useCombobox({
     items: options,
     itemToString,
-    inputId,
+    id: inputId, // Controls menu/item IDs (e.g., inputId-menu, inputId-item-0)
+    inputId, // Controls the input element's ID
     onSelectedItemChange: handleOnSelect,
     onInputValueChange,
     inputValue,

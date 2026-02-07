@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import Downshift from 'downshift';
+import Downshift from 'downshift-v9';
 import classNames from 'classnames';
 import sortListByFuzzyMatch from 'platform/forms-system/src/js/utilities/fuzzy-matching';
 
@@ -140,8 +140,9 @@ const Typeahead = ({ uiSchema, idSchema, formData, onChange, onBlur }) => {
       selectedItem={input}
       onOuterClick={handleBlur}
       itemToString={item => (typeof item === 'string' ? item : item.label)}
-      render={data => renderOptions(data)}
-    />
+    >
+      {data => renderOptions(data)}
+    </Downshift>
   );
 };
 
