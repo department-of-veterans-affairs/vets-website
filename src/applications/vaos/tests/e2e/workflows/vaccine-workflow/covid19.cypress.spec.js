@@ -310,7 +310,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       });
     });
 
-    describe.skip('And veteran does not have a home address', () => {
+    describe('And veteran does not have a home address', () => {
       beforeEach(setup);
 
       it('should submit form', () => {
@@ -514,7 +514,7 @@ describe('VAOS covid-19 vaccine flow', () => {
   });
 
   describe('When appointment can not be scheduled', () => {
-    it.skip('should display 500 error message', () => {
+    it('should display 500 error message', () => {
       // Arrange
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
