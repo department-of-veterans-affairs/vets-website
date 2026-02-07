@@ -6,7 +6,10 @@ export default function Section({ children, heading, level = 2 }) {
 
   return (
     <>
-      <Heading className="vads-u-font-size--h4 vads-u-margin-bottom--0p5">
+      <Heading
+        role="heading"
+        className="vads-u-font-size--h4 vads-u-margin-bottom--0p5"
+      >
         {heading}
       </Heading>
       {children}
