@@ -40,6 +40,7 @@ class Allergies {
 
   selectAllergy = ({ index = 0 } = {}) => {
     cy.get('[data-testid="record-list-item"]')
+      .should('be.visible')
       .eq(index)
       .find('a')
       .first()

@@ -22,6 +22,7 @@ class VaccinesListPage extends BaseListPage {
 
   clickVaccinesDetailsLink = (vaccinesIndex = 0) => {
     cy.findAllByTestId('record-list-item')
+      .should('be.visible')
       .find('a')
       .eq(vaccinesIndex)
       .click();

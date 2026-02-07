@@ -22,6 +22,7 @@ class MicrobiologyListPage extends BaseListPage {
 
   clickMicrobiologyDetailsLink = (_MicrobiologyIndex = 0) => {
     cy.findAllByTestId('record-list-item')
+      .should('be.visible')
       .find('a')
       .eq(_MicrobiologyIndex)
       .click();

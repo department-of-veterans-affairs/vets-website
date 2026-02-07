@@ -36,6 +36,7 @@ class ConditionsListPage extends BaseListPage {
 
   clickConditionsDetailsLink = (_conditionIndex = 0) => {
     cy.findAllByTestId('record-list-item')
+      .should('be.visible')
       .find('a')
       .eq(_conditionIndex)
       .click();
