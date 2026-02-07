@@ -326,7 +326,7 @@ const responses = {
       data: appointment,
     });
   },
-  'GET /vaos/v2/appointments/avs_binary/:appointmentId': (req, res) => {
+  'GET /vaos/v2/appointments/avs_binaries/:appointmentId': (req, res) => {
     const { appointmentId } = req.params;
     const docIds = req.query.doc_ids ? req.query.doc_ids.split(',') : [];
 

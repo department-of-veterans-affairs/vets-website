@@ -54,7 +54,7 @@ describe('VAOS Services: AVS', () => {
 
       // Verify the API call was made correctly
       expect(global.fetch.firstCall.args[0]).to.contain(
-        `/vaos/v2/appointments/avs_binary/${appointmentId}`,
+        `/vaos/v2/appointments/avs_binaries/${appointmentId}`,
       );
       expect(global.fetch.firstCall.args[0]).to.contain(
         'doc_ids=208750417891,208750417892',
@@ -321,7 +321,7 @@ describe('VAOS Services: AVS', () => {
 
       const fetchUrl = global.fetch.firstCall.args[0];
       expect(fetchUrl).to.contain(
-        '/vaos/v2/appointments/avs_binary/TEST_APPT_123',
+        '/vaos/v2/appointments/avs_binaries/TEST_APPT_123',
       );
       expect(fetchUrl).to.contain('doc_ids=DOC_001,DOC_002,DOC_003');
     });

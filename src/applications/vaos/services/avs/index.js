@@ -39,7 +39,7 @@ function mergeAvsPdfData(avsPdfArray) {
 export async function fetchAvsPdfBinaries(appointmentId, avsPdfArray) {
   const ids = avsPdfArray.map(avsPdfObj => avsPdfObj.id).join(',');
   return apiRequestWithUrl(
-    `/vaos/v2/appointments/avs_binary/${appointmentId}?doc_ids=${ids}`,
+    `/vaos/v2/appointments/avs_binaries/${appointmentId}?doc_ids=${ids}`,
     {
       method: 'GET',
     },
