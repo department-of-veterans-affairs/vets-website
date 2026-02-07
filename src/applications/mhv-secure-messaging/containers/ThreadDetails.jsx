@@ -98,25 +98,16 @@ const ThreadDetails = props => {
 
   useEffect(
     () => {
-      if (!isCreateNewModalVisible) {
-        const alertVisible = alertList[alertList?.length - 1];
-        const alertSelector =
-          folder !== undefined && !alertVisible?.isActive
-            ? 'h1'
-            : alertVisible?.isActive && 'va-alert';
+      // Always focus on H1 per MHV accessibility decision records.
+      // Alert content is announced via role="status" without stealing focus.
+      if (!isCreateNewModalVisible && isLoaded) {
         setTimeout(() => {
-          focusElement(document.querySelector(alertSelector));
+          focusElement(document.querySelector('h1'));
         }, 300);
       }
     },
-    [alertList, folder, isCreateNewModalVisible, header],
+    [alertList, isLoaded, isCreateNewModalVisible, header],
   );
-
-  useEffect(() => {
-    if (header.current) {
-      focusElement(header.current);
-    }
-  });
 
   const content = () => {
     if (!isLoaded) {
@@ -144,6 +135,7 @@ const ThreadDetails = props => {
             style={{ display: isSending && 'none' }}
           >
             <ReplyForm
+              alertSlot={<AlertBackgroundBox closeable />}
               cannotReply={cannotReply}
               drafts={drafts || []}
               header={header}
@@ -180,6 +172,7 @@ const ThreadDetails = props => {
       return (
         <div className="compose-container">
           <ComposeForm
+            alertSlot={<AlertBackgroundBox closeable />}
             draft={drafts[0]}
             recipients={recipients}
             pageTitle="Edit draft"
@@ -191,6 +184,7 @@ const ThreadDetails = props => {
       return (
         <>
           <MessageThreadHeader
+            alertSlot={<AlertBackgroundBox closeable />}
             message={messages[0]}
             cannotReply={cannotReply}
             isCreateNewModalVisible={isCreateNewModalVisible}
@@ -226,13 +220,7 @@ const ThreadDetails = props => {
     return null;
   };
 
-  return (
-    <div className="message-detail-container">
-      {/* Only display alerts after acknowledging the Interstitial page or if this thread does not contain drafts */}
-      <AlertBackgroundBox closeable />
-      {content()}
-    </div>
-  );
+  return <div className="message-detail-container">{content()}</div>;
 };
 
 ThreadDetails.propTypes = {

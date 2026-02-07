@@ -50,17 +50,15 @@ const Folders = () => {
 
   useEffect(
     () => {
-      const alertVisible = alertList[alertList?.length - 1];
-      const alertSelector =
-        folders !== undefined && !alertVisible?.isActive
-          ? 'h1'
-          : alertVisible?.isActive && 'va-alert';
-
       const pageTitleTag = getPageTitle({
         pathname: location.pathname,
       });
 
-      focusElement(document.querySelector(alertSelector));
+      // Always focus on H1 per MHV accessibility decision records.
+      // Alert content is announced via role="status" without stealing focus.
+      if (folders !== undefined) {
+        focusElement(document.querySelector('h1'));
+      }
       updatePageTitle(pageTitleTag);
     },
     [alertList, folders, location.pathname],
@@ -89,13 +87,18 @@ const Folders = () => {
     }
     if (folders === null || folders === false) {
       return (
-        <va-alert status="error" visible class="vads-u-margin-y--9">
-          <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
-          <p>
-            You can’t view your secure message because something went wrong on
-            our end. Please check back soon.
-          </p>
-        </va-alert>
+        <>
+          <AlertBackgroundBox closeable />
+          <va-alert status="error" visible class="vads-u-margin-y--9">
+            <h2 slot="headline">
+              We’re sorry. Something went wrong on our end
+            </h2>
+            <p>
+              You can’t view your secure message because something went wrong on
+              our end. Please check back soon.
+            </p>
+          </va-alert>
+        </>
       );
     }
     return (
@@ -103,6 +106,9 @@ const Folders = () => {
         <h1 className="vads-u-margin-bottom--2" data-testid="my-folder-header">
           Messages: {Breadcrumbs.FOLDERS.label}
         </h1>
+
+        <AlertBackgroundBox closeable />
+
         {(noAssociations || allTriageGroupsBlocked) && (
           <BlockedTriageGroupAlert
             alertStyle={
@@ -138,12 +144,7 @@ const Folders = () => {
     );
   };
 
-  return (
-    <div className="folders-container">
-      <AlertBackgroundBox closeable />
-      {folders?.length > 0 && content()}
-    </div>
-  );
+  return <div className="folders-container">{content()}</div>;
 };
 
 export default Folders;

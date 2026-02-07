@@ -217,12 +217,11 @@ const FolderThreadListView = () => {
 
   useEffect(
     () => {
-      const alertVisible = alertList[alertList?.length - 1];
-      const alertSelector =
-        folder !== undefined && !alertVisible?.isActive
-          ? 'h1'
-          : alertVisible?.isActive && 'va-alert';
-      focusElement(document.querySelector(alertSelector));
+      // Always focus on H1 per MHV accessibility decision records.
+      // Alert content is announced via role="status" without stealing focus.
+      if (folder !== undefined) {
+        focusElement(document.querySelector('h1'));
+      }
     },
     [alertList, folder],
   );
@@ -335,9 +334,9 @@ const FolderThreadListView = () => {
   return (
     <div className="vads-u-padding--0">
       <div className="main-content vads-u-display--flex vads-u-flex-direction--column">
-        <AlertBackgroundBox closeable />
         {folder === null ? (
-          <></>
+          /* Error state: show alert at top since there's no H1/content */
+          <AlertBackgroundBox closeable />
         ) : (
           folderId === undefined && <LoadingIndicator />
         )}
@@ -348,6 +347,8 @@ const FolderThreadListView = () => {
               threadCount={threadList?.length}
               searchProps={{ searchResults, awaitingResults, keyword, query }}
             />
+
+            <AlertBackgroundBox closeable />
 
             {content}
             <Footer />
