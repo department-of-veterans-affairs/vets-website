@@ -61,22 +61,26 @@ export default function AfterVisitSummary({ data: appointment }) {
   );
 
   if (hasAvsError || hasRetrievalErrors) {
-    if (featureTravelPayViewClaimDetails) {
+    if (featureTravelPayViewClaimDetails && !hasAvs) {
       return null;
     }
 
     return (
       <Section heading={heading}>
-        <InfoAlert
-          status="error"
-          level={1}
-          headline="We can't access after-visit summaries at this time."
-        >
-          We're sorry. We've run into a problem.
-        </InfoAlert>
+        {!featureTravelPayViewClaimDetails && (
+          <InfoAlert
+            status="error"
+            level={2}
+            headline="We can't access after-visit summaries at this time."
+          >
+            We're sorry. We've run into a problem.
+          </InfoAlert>
+        )}
         <AvsPdfList
           avsPairs={avsPairs}
-          hasError={hasAvsError || hasRetrievalErrors}
+          featureTravelPayViewClaimDetails={featureTravelPayViewClaimDetails}
+          hasAvsError={hasAvsError}
+          hasRetrievalErrors={hasRetrievalErrors}
         />
       </Section>
     );
@@ -93,7 +97,12 @@ export default function AfterVisitSummary({ data: appointment }) {
   if (featureAddOHAvs && hasValidPdfAvs) {
     return (
       <Section heading={heading}>
-        <AvsPdfList avsPairs={avsPairs} hasError={false} />
+        <AvsPdfList
+          avsPairs={avsPairs}
+          featureTravelPayViewClaimDetails={featureTravelPayViewClaimDetails}
+          hasAvsError={false}
+          hasRetrievalErrors={false}
+        />
       </Section>
     );
   }
@@ -102,7 +111,7 @@ export default function AfterVisitSummary({ data: appointment }) {
       <va-link
         href={`${appointment?.avsPath}`}
         text="Go to after visit summary"
-        data-testid="after-vist-summary-link"
+        data-testid="after-visit-summary-link"
         onClick={handleLegacyAvsClick}
       />
     </Section>

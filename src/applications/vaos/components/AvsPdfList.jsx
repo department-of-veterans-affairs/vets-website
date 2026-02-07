@@ -13,10 +13,18 @@ function handleOhAvsPdfClick(pdfCount) {
   });
 }
 
-export default function AvsPdfList({ avsPairs, hasError }) {
-  if (!avsPairs || avsPairs.length === 0) return null;
+export default function AvsPdfList({
+  avsPairs,
+  hasAvsError,
+  hasRetrievalErrors,
+  featureTravelPayViewClaimDetails,
+}) {
+  if (!avsPairs || avsPairs.length === 0 || hasAvsError) return null;
 
-  const marginClass = hasError ? 'vads-u-margin-top--2' : '';
+  const marginClass =
+    hasRetrievalErrors && !featureTravelPayViewClaimDetails
+      ? 'vads-u-margin-top--2'
+      : '';
 
   return (
     <ul
@@ -56,5 +64,7 @@ AvsPdfList.propTypes = {
       url: PropTypes.string,
     }),
   ),
-  hasError: PropTypes.bool,
+  featureTravelPayViewClaimDetails: PropTypes.bool,
+  hasAvsError: PropTypes.bool,
+  hasRetrievalErrors: PropTypes.bool,
 };

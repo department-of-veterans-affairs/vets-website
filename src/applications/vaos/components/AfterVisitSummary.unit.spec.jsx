@@ -11,6 +11,7 @@ describe('VAOS Component: AfterVisitSummary', () => {
   const initialAvsState = {
     featureToggles: {
       vaOnlineSchedulingAddOhAvs: true,
+      travelPayViewClaimDetails: false,
     },
   };
   let sandbox;
@@ -54,7 +55,7 @@ describe('VAOS Component: AfterVisitSummary', () => {
     );
 
     // Assert
-    expect(screen.queryByTestId('after-vist-summary-link')).to.exist;
+    expect(screen.queryByTestId('after-visit-summary-link')).to.exist;
   });
 
   it('Should display after visit summary link error message', async () => {
@@ -67,7 +68,7 @@ describe('VAOS Component: AfterVisitSummary', () => {
     const screen = renderWithStoreAndRouter(
       <AfterVisitSummary data={appointment} />,
       {
-        initialState,
+        initialState: initialAvsState,
       },
     );
 
@@ -108,14 +109,14 @@ describe('VAOS Component: AfterVisitSummary', () => {
     const screen = renderWithStoreAndRouter(
       <AfterVisitSummary data={appointment} />,
       {
-        initialState,
+        initialState: initialAvsState,
       },
     );
 
     // Assert
-    expect(screen.queryByTestId('after-vist-summary-link')).to.exist;
+    expect(screen.queryByTestId('after-visit-summary-link')).to.exist;
 
-    userEvent.click(screen.queryByTestId('after-vist-summary-link'));
+    userEvent.click(screen.queryByTestId('after-visit-summary-link'));
     expect(window.dataLayer[0]).to.deep.equal({
       event: 'vaos-after-visit-summary-link-clicked',
     });

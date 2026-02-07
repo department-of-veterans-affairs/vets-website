@@ -203,9 +203,11 @@ class AppointmentDetailPageObject extends PageObject {
   assertAfterVisitSummaryError({ exist = true } = {}) {
     if (exist) {
       // Wait for appointment details page to load
-      cy.findByText(/Some appointment features/i, { timeout: 1000 }).should(
-        'exist',
-      );
+
+      cy.findByRole('heading', {
+        name: /Some appointment features|can.t access/,
+        timeout: 1000,
+      }).should('exist');
 
       // Check for ErrorAlert error (new approach with travelPayViewClaimDetails flag)
       // or AfterVisitSummary error (legacy approach without flag)
