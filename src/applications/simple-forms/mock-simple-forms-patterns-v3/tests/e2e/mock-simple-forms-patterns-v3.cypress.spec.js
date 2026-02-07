@@ -12,8 +12,13 @@ import manifest from '../../manifest.json';
 function addFile(option) {
   cy.fillVaFileInputMultiple('root_supportingDocuments', {});
 
+  cy.get('va-file-input-multiple')
+    .shadow()
+    .find('va-file-input')
+    .should('exist');
+
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(550);
+  cy.wait(1000);
 
   cy.get('va-file-input-multiple').then($el => {
     const vaFileInput = $el[0].shadowRoot.querySelector('va-file-input');
