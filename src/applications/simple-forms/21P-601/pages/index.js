@@ -20,6 +20,8 @@ import otherDebts from './otherDebts';
 import { otherDebtsPages } from './otherDebtsList';
 import remarks from './remarks';
 import supportingDocuments from './supportingDocuments';
+import expenseDocuments from './expenseDocuments';
+import debtDocuments from './debtDocuments';
 
 export {
   hasAlreadyFiled,
@@ -44,4 +46,6 @@ export {
   otherDebtsPages,
   remarks,
   supportingDocuments,
+  expenseDocuments,
+  debtDocuments,
 };
