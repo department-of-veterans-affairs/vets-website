@@ -60,7 +60,7 @@ export default function AfterVisitSummary({ data: appointment }) {
     [objectUrls],
   );
 
-  if (hasAvsError) {
+  if (hasAvsError || hasRetrievalErrors) {
     if (featureTravelPayViewClaimDetails) {
       return null;
     }
@@ -81,7 +81,7 @@ export default function AfterVisitSummary({ data: appointment }) {
       </Section>
     );
   }
-  if (!hasAvs && !hasValidPdfAvs) {
+  if (!hasAvs && !hasValidPdfAvs && featureAddOHAvs) {
     if (hasRetrievalErrors) {
       return null;
     }
