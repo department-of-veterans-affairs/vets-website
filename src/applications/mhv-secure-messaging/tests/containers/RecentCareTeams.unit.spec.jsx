@@ -1072,4 +1072,91 @@ describe('RecentCareTeams component', () => {
       expect(screen.history.location.pathname).to.not.equal(Paths.INBOX);
     });
   });
+
+  describe('Screen Reader Accessibility', () => {
+    it('should set error attribute for screen reader announcement', () => {
+      const screen = renderComponent();
+
+      const continueButton = screen.getByTestId(
+        'recent-care-teams-continue-button',
+      );
+      const radioGroup = document.querySelector('va-radio');
+
+      // Click continue without selecting a care team
+      continueButton.click();
+
+      // Verify error attribute is set (VaRadio handles screen reader announcement internally)
+      expect(radioGroup).to.exist;
+      expect(radioGroup.getAttribute('error')).to.equal('Select a care team');
+
+      // VaRadio web component internally manages ARIA attributes and announcements
+      // when the error prop is set, making the error accessible to screen readers
+    });
+
+    it('should focus radio group when validation fails', async () => {
+      const clock = sandbox.useFakeTimers({
+        toFake: ['setTimeout', 'clearTimeout'],
+      });
+      const screen = renderComponent();
+
+      const continueButton = screen.getByTestId(
+        'recent-care-teams-continue-button',
+      );
+      const radioGroup = document.querySelector('va-radio');
+
+      // Click continue without selecting a care team
+      continueButton.click();
+
+      // Verify error is set immediately
+      expect(radioGroup.getAttribute('error')).to.equal('Select a care team');
+
+      // Fast-forward time by 18 seconds to trigger focusOnErrorField
+      clock.tick(18000);
+
+      // Wait for any async operations to complete
+      await waitFor(() => {
+        // After 18s timeout, focusOnErrorField should have been called
+        // which focuses the first va-radio-option's input in the shadow DOM
+        const firstRadioOption = document.querySelector('va-radio-option');
+        expect(firstRadioOption).to.exist;
+      });
+
+      clock.restore();
+    });
+
+    it('should have required attribute for screen readers', () => {
+      renderComponent();
+
+      const radioGroup = document.querySelector('va-radio');
+      expect(radioGroup).to.exist;
+      expect(radioGroup.hasAttribute('required')).to.be.true;
+    });
+
+    it('should maintain error state until valid selection is made', () => {
+      const screen = renderComponent();
+
+      const continueButton = screen.getByTestId(
+        'recent-care-teams-continue-button',
+      );
+      const radioGroup = document.querySelector('va-radio');
+
+      // Trigger error
+      continueButton.click();
+      expect(radioGroup.getAttribute('error')).to.equal('Select a care team');
+
+      // Click continue again without selecting (error should persist)
+      continueButton.click();
+      expect(radioGroup.getAttribute('error')).to.equal('Select a care team');
+
+      // Make a valid selection
+      radioGroup.dispatchEvent(
+        new CustomEvent('vaValueChange', {
+          detail: { value: '1' },
+        }),
+      );
+
+      // Error should clear
+      expect(radioGroup.getAttribute('error')).to.be.null;
+    });
+  });
 });

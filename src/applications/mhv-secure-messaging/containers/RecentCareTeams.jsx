@@ -9,12 +9,12 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { scrollToFirstError } from 'platform/utilities/scroll';
 import EmergencyNote from '../components/EmergencyNote';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import * as Constants from '../util/constants';
 import { BlockedTriageAlertStyles, ParentComponent } from '../util/constants';
 import { getRecentRecipients } from '../actions/recipients';
-import { focusOnErrorField } from '../util/formHelpers';
 import { updateDraftInProgress } from '../actions/threadDetails';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 import manifest from '../manifest.json';
@@ -42,6 +42,7 @@ const RecentCareTeams = () => {
     error: recipientsError,
   } = recipients;
   const h1Ref = useRef(null);
+  const radioRef = useRef(null);
   const {
     mhvSecureMessagingRecentRecipients,
     featureTogglesLoading,
@@ -124,6 +125,15 @@ const RecentCareTeams = () => {
     [recentRecipients],
   );
 
+  useEffect(
+    () => {
+      if (error) {
+        scrollToFirstError();
+      }
+    },
+    [error],
+  );
+
   const getDestinationPath = useCallback(
     (includeRootUrl = false) => {
       const selectCareTeamPath = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
@@ -144,7 +154,6 @@ const RecentCareTeams = () => {
       event?.preventDefault();
       if (!selectedCareTeam) {
         setError('Select a care team');
-        focusOnErrorField();
         return;
       }
       setError(null); // Clear error on valid submit
@@ -221,6 +230,7 @@ const RecentCareTeams = () => {
       )}
       <EmergencyNote dropDownFlag />
       <VaRadio
+        ref={radioRef}
         class="vads-u-margin-bottom--3"
         error={error}
         label={RECENT_RECIPIENTS_LABEL}
