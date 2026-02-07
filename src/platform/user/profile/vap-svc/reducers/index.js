@@ -239,6 +239,22 @@ export default function vapService(state = initialState, action) {
         transactionsAwaitingUpdate: state.transactionsAwaitingUpdate?.filter(
           tid => tid !== transactionId,
         ),
+        transactions: state.transactions.map(
+          t =>
+            t.data.attributes.transactionId === transactionId
+              ? {
+                  ...t,
+                  data: {
+                    ...t.data,
+                    attributes: {
+                      ...t.data.attributes,
+                      transactionStatus:
+                        VAP_SERVICE.TRANSACTION_STATUS.COMPLETED_FAILURE,
+                    },
+                  },
+                }
+              : t,
+        ),
       };
     }
 
