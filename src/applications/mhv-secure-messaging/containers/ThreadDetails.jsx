@@ -100,20 +100,14 @@ const ThreadDetails = props => {
     () => {
       // Always focus on H1 per MHV accessibility decision records.
       // Alert content is announced via role="status" without stealing focus.
-      if (!isCreateNewModalVisible && folder !== undefined) {
+      if (!isCreateNewModalVisible && isLoaded) {
         setTimeout(() => {
           focusElement(document.querySelector('h1'));
         }, 300);
       }
     },
-    [alertList, folder, isCreateNewModalVisible, header],
+    [alertList, isLoaded, isCreateNewModalVisible, header],
   );
-
-  useEffect(() => {
-    if (header.current) {
-      focusElement(header.current);
-    }
-  });
 
   const content = () => {
     if (!isLoaded) {

@@ -87,13 +87,18 @@ const Folders = () => {
     }
     if (folders === null || folders === false) {
       return (
-        <va-alert status="error" visible class="vads-u-margin-y--9">
-          <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
-          <p>
-            You can’t view your secure message because something went wrong on
-            our end. Please check back soon.
-          </p>
-        </va-alert>
+        <>
+          <AlertBackgroundBox closeable />
+          <va-alert status="error" visible class="vads-u-margin-y--9">
+            <h2 slot="headline">
+              We’re sorry. Something went wrong on our end
+            </h2>
+            <p>
+              You can’t view your secure message because something went wrong on
+              our end. Please check back soon.
+            </p>
+          </va-alert>
+        </>
       );
     }
     return (
@@ -139,13 +144,7 @@ const Folders = () => {
     );
   };
 
-  return (
-    <div className="folders-container">
-      {/* Show alert in error state when folders fail to load */}
-      {(!folders || folders?.length === 0) && <AlertBackgroundBox closeable />}
-      {folders?.length > 0 && content()}
-    </div>
-  );
+  return <div className="folders-container">{content()}</div>;
 };
 
 export default Folders;

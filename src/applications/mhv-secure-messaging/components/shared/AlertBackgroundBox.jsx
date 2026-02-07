@@ -227,15 +227,19 @@ const AlertBackgroundBox = props => {
 
   const handleAlertFocus = useCallback(
     () => {
-      setTimeout(() => {
-        focusElement(
-          props.focus
-            ? alertRef.current.shadowRoot.querySelector('button')
-            : alertRef.current,
-        );
-      }, 500);
+      // Only auto-focus for error alerts. Success/warning alerts use role="status"
+      // to announce via AT without stealing focus from H1.
+      if (activeAlert?.alertType === 'error') {
+        setTimeout(() => {
+          focusElement(
+            props.focus
+              ? alertRef.current.shadowRoot.querySelector('button')
+              : alertRef.current,
+          );
+        }, 500);
+      }
     },
-    [props.focus],
+    [props.focus, activeAlert?.alertType],
   );
 
   return (
