@@ -1,5 +1,6 @@
 import { INSURANCE_VIEW_FIELDS } from '../../../utils/constants';
 import { goToNextPage, selectYesNoWebComponent } from '.';
+import { handleOptionalServiceHistoryPage } from './handleOptionalServiceHistoryPage';
 
 export const advanceToHouseholdSection = () => {
   cy.get('[href="#start"]')
@@ -23,9 +24,11 @@ export const advanceToHouseholdSection = () => {
   selectYesNoWebComponent('view:hasNextOfKin', false);
 };
 
-export const advanceFromHouseholdToReview = () => {
-  goToNextPage('/military-service/toxic-exposure');
-  cy.get('[name="root_hasTeraResponse"]').check('N');
+export const advanceFromHouseholdToReview = ({ featureFlags = {} }) => {
+  handleOptionalServiceHistoryPage({
+    historyEnabled: featureFlags.ezrServiceHistoryEnabled,
+  });
+
   goToNextPage('/insurance-information/medicaid-eligibility');
   selectYesNoWebComponent('view:isMedicaidEligible_isMedicaidEligible', false);
 
