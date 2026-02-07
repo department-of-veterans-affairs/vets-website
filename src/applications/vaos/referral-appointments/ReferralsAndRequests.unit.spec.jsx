@@ -18,7 +18,6 @@ import MockReferralListResponse from '../tests/fixtures/MockReferralListResponse
 
 const initialStateVAOSService = {
   featureToggles: {
-    vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingCCDirectScheduling: true,
   },
 };
