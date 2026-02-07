@@ -94,6 +94,36 @@ export const validateOtherText = (errors, fieldData) => {
   }
 };
 
+export const ClaimInformationDescription = ({ formData }) => {
+  const claimInformation = formData?.claimInformation;
+  const claimInformationKeys = Object.keys(claimInformation);
+  const claimInformationLabels = claimInformationKeys
+    .filter(key => key !== 'otherText')
+    .map((key, index) => {
+      if ((key === 'minor' || key === 'other') && !claimInformation[key]) {
+        return null;
+      }
+
+      const specialLabels = {
+        minor: 'Change of address or direct deposit (minor claimants only)',
+        other: `Other: ${claimInformation.otherText}`,
+      };
+
+      const label = specialLabels[key] || DISCLOSURE_OPTIONS[key];
+      return <li key={index}>{label}</li>;
+    });
+  return (
+    <va-card background>
+      <div>
+        <h3 className="vads-u-margin-top--0">
+          Here’s the personal information you selected:
+        </h3>
+        <ul>{claimInformationLabels}</ul>
+      </div>
+    </va-card>
+  );
+};
+
 export const InformationToDiscloseReviewField = ({
   children,
   disclosureKeys,

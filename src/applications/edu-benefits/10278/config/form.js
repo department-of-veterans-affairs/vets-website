@@ -27,6 +27,7 @@ import {
   thirdPartyPersonName,
   thirdPartyPersonAddress,
   discloseInformation,
+  lengthOfRelease,
   securitySetup,
   securitySetupPinPassword,
   securitySetupCustomQuestion,
@@ -236,6 +237,17 @@ const formConfig = {
             }
             goPath('/third-party-person-details-1');
           },
+        },
+      },
+    },
+    lengthOfReleaseChapter: {
+      title: 'Length of release',
+      pages: {
+        lengthOfRelease: {
+          path: 'length-of-release',
+          title: 'Length of release',
+          uiSchema: lengthOfRelease.uiSchema,
+          schema: lengthOfRelease.schema,
         },
       },
     },

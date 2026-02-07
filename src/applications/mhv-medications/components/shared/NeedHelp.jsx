@@ -70,7 +70,7 @@ const NeedHelp = ({ page }) => {
         />
 
         <p>
-          Can't find your self-entered medications? You can still download a
+          Can’t find your self-entered medications? You can still download a
           copy of any self-entered health information.
         </p>
         <va-link

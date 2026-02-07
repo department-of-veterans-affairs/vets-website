@@ -150,7 +150,7 @@ const InformationToDiscloseField = props => {
 
       <VaCheckboxGroup
         id={`${wrapperId}-checkbox-group`}
-        label="Here is a list of all benefit and claim information you can allow [display full name of person or name of organization] to see. Select the information that you want to share."
+        label={`Here is a list of all benefit and claim information you can allow ${thirdPartyName} to see. Select the information that you want to share.`}
         required
         error={groupError}
       >
