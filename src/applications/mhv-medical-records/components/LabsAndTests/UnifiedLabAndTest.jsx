@@ -136,12 +136,15 @@ const UnifiedLabsAndTests = props => {
             >
               <ItemList list={record.comments} />
             </LabelValue>
-            <LabelValue
-              ifEmpty="None Noted"
-              label={LABS_AND_TESTS_DISPLAY_LABELS.RESULTS}
-              value={record.result}
-              testId="lab-and-test-results"
-            />
+            {!Array.isArray(record.observations) ||
+            record.observations.length === 0 ? (
+              <LabelValue
+                ifEmpty="None Noted"
+                label={LABS_AND_TESTS_DISPLAY_LABELS.RESULTS}
+                value={record.result}
+                testId="lab-and-test-results"
+              />
+            ) : null}
           </HeaderSection>
         </div>
 
