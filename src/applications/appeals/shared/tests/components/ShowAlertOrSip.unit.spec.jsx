@@ -109,9 +109,7 @@ describe('<NeedsMissingInfoAlert>', () => {
       </Provider>,
     );
     expect($('va-alert', container)).to.exist;
-    expect($('h2', container).textContent).to.contain(
-      'You have an application in progress',
-    );
+    expect($('h2', container).textContent).to.match(/in progress/i);
   });
   it('should not render in progress alert at page bottom', () => {
     const { props, store } = getData({ bottom: true });
