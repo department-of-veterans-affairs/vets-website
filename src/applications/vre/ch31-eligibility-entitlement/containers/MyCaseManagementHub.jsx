@@ -12,8 +12,6 @@ import LoadCaseDetailsFailedAlert from '../components/LoadCaseDetailsFailedAlert
 import ApplicationInterruptedAlert from '../components/ApplicationInterruptedAlert';
 import CaseProgressBar from '../components/CaseProgressBar';
 import { getCurrentStepFromStateList } from '../helpers';
-// import CaseProgressAccordion from '../components/CaseProgressAccordion';
-// import CaseProgressProcessList from '../components/CaseProgressProcessList';
 
 const stepLabels = [
   'Application Received',
@@ -140,18 +138,9 @@ const MyCaseManagementHub = () => {
 
             <CaseProgressBar
               current={current}
-              setCurrent={setCurrent}
               stepLabels={stepLabels}
               stateList={stateList}
             />
-            {/* <CaseProgressAccordion
-                stepLabels={stepLabels}
-                stateList={stateList}
-              /> */}
-            {/* <CaseProgressProcessList
-              stepLabels={stepLabels}
-              stateList={stateList}
-            /> */}
 
             <HubCardList step={current} stateList={stateList} />
           </>
