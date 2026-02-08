@@ -10,7 +10,6 @@ import {
   decodeBase64Report,
   formatNameFirstToLast,
   buildInitialDateRange,
-  formatDateTime,
   sortByDate,
 } from '../util/helpers';
 import {
@@ -411,12 +410,10 @@ export const convertLabsAndTestsRecord = record => {
 };
 
 export const convertUnifiedLabsAndTestRecord = record => {
-  const { formattedDate, formattedTime } = formatDateTime(
-    record.attributes.dateCompleted,
-  );
-  const date = formattedDate
-    ? `${formattedDate}, ${formattedTime}`
-    : EMPTY_FIELD;
+  // Use dateFormatWithoutTimezone to match PHR behavior - display the "wall clock time"
+  // as recorded, without converting to the user's local timezone
+  const date =
+    dateFormatWithoutTimezone(record.attributes.dateCompleted) || EMPTY_FIELD;
   return {
     id: record.id,
     date,
