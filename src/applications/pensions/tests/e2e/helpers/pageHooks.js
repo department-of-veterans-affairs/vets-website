@@ -35,7 +35,7 @@ const pageHooks = returnUrl => ({
     if (returnUrl) {
       cy.get('va-alert [slot="headline"]', { timeout: Timeouts.slow })
         .should('be.visible')
-        .and('contain', 'last saved');
+        .and('contain', 'in progress');
       cy.injectAxeThenAxeCheck();
 
       cy.get('va-button[data-testid="continue-your-application"]').click();

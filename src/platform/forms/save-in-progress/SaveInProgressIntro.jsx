@@ -230,7 +230,6 @@ class SaveInProgressIntro extends React.Component {
               {expiredMessage(formConfig)}
             </span>
           </div>
-          <div>{this.props.children}</div>
         </va-alert>
       ),
       includesFormControls: false,
