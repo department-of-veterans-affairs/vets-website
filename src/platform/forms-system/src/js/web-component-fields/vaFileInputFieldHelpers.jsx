@@ -150,7 +150,7 @@ export function formatFileSize(filesSize) {
  */
 function checkFileSizeByFileType(file, fileSizesByFileType) {
   const { type, size } = file;
-  const _type = type.split('/')[1];
+  const _type = type.includes('text') ? 'txt' : type.split('/')[1];
   const limits = fileSizesByFileType[_type] || fileSizesByFileType.default;
   let error = null;
   if (limits) {

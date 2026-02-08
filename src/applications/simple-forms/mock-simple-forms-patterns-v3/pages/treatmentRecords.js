@@ -134,7 +134,7 @@ const supportingDocuments = {
       formNumber: '31-4159',
       skipUpload: true,
       maxFileSize: 1024 * 1024 * 100, // 100MB
-      minFileSize: 1024, // 1KB
+      minFileSize: 1, // 1KB
       errorMessages: {
         additionalInput: 'Choose a document type',
       },
