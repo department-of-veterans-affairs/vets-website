@@ -110,7 +110,7 @@ import insurancePolicyPages from './chapters/insuranceInformation/policies';
 import vaFacilityPage from './chapters/insuranceInformation/vaFacility';
 import InsuranceInformationPage from '../components/FormPages/InsuranceInformation';
 
-// declare schema definitions
+//  declare schema definitions
 const { date } = FULL_SCHEMA.definitions;
 
 /**
