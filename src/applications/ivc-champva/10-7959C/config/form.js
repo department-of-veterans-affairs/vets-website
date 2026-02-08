@@ -65,7 +65,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  showReviewErrors: !environment.isProduction(),
   footerContent: FormFooter,
   submissionError: SubmissionError,
   formId: '10-7959C',
@@ -141,7 +140,7 @@ const formConfig = {
         formSignature: {
           // initialData: mockdata.data,
           path: 'form-signature',
-          title: 'Your information',
+          title: 'Signer role',
           ...certifierRole,
         },
         ohiScreen: {
@@ -160,7 +159,7 @@ const formConfig = {
         },
         signerEmail: {
           path: 'signer-email',
-          title: 'Beneficiary’s email address',
+          title: 'Signer’s email address',
           ...certifierEmail,
         },
       },

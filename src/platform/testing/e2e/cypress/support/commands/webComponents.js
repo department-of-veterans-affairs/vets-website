@@ -437,7 +437,9 @@ Cypress.Commands.add('enterWebComponentData', field => {
     }
 
     case 'VA-MEMORABLE-DATE': {
-      cy.fillVaMemorableDate(field.key, field.data);
+      const monthSelect = field.element.attr('month-select');
+      const useMonthSelect = monthSelect !== 'false';
+      cy.fillVaMemorableDate(field.key, field.data, useMonthSelect);
       break;
     }
 

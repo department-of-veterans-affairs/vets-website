@@ -10,7 +10,7 @@ import {
   SignerContactInfoPage,
   signerContactOnGoForward,
 } from '../../../chapters/signerInformation';
-import mockData from '../../e2e/fixtures/data/maximal-test.json';
+import mockData from '../../e2e/fixtures/data/veteran.json';
 import formConfig from '../../../config/form';
 
 testNumberOfWebComponentFields(
