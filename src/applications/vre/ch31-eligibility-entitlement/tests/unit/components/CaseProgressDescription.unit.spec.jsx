@@ -13,8 +13,8 @@ describe('CaseProgressDescription', () => {
       <CaseProgressDescription step={1} />,
     );
 
-    getByText(/We've received your application for VR&E benefits\./i);
-    getByText(/There's nothing you need to do right now\./i);
+    getByText(/received your application for VR&E benefits\./i);
+    getByText(/nothing you need to do right now\./i);
   });
 
   it('renders step 2 description (includes va-link)', () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import ApplicationInterruptedAlert from '../../../components/ApplicationInterruptedAlert';
+import ApplicationDiscontinuedAlert from '../../../components/ApplicationDiscontinuedAlert';
 
 const makeStore = (state = {}) => ({
   getState: () => state,
@@ -13,9 +13,9 @@ const makeStore = (state = {}) => ({
 const renderWithStore = (ui, state) =>
   render(<Provider store={makeStore(state)}>{ui}</Provider>);
 
-describe('ApplicationInterruptedAlert', () => {
+describe('ApplicationDiscontinuedAlert', () => {
   it('renders va-alert with error status and visible', () => {
-    const { container } = renderWithStore(<ApplicationInterruptedAlert />, {
+    const { container } = renderWithStore(<ApplicationDiscontinuedAlert />, {
       ch31PdfLetterDownload: { loading: false, error: null },
     });
 
@@ -29,35 +29,34 @@ describe('ApplicationInterruptedAlert', () => {
   });
 
   it('renders headline inside va-alert', () => {
-    const { container } = renderWithStore(<ApplicationInterruptedAlert />, {
+    const { container } = renderWithStore(<ApplicationDiscontinuedAlert />, {
       ch31PdfLetterDownload: { loading: false, error: null },
     });
 
     const headline = container.querySelector('va-alert h3[slot="headline"]');
     expect(headline).to.exist;
     expect(headline.textContent).to.match(
-      /sorry, your vr&e chapter 31 benefits have been interrupted/i,
+      /processing your chapter 31 claim has been discontinued/i,
     );
   });
 
   it('renders explanatory text and default reason fallback', () => {
-    const { getByText } = renderWithStore(<ApplicationInterruptedAlert />, {
+    const { getByText } = renderWithStore(<ApplicationDiscontinuedAlert />, {
       ch31PdfLetterDownload: { loading: false, error: null },
     });
 
     expect(
       getByText(
-        /your vr&e chapter 31 benefits have been interrupted for the following reasons:/i,
+        /your vr&e chapter 31 claim has been discontinued for the following reasons:/i,
       ),
     ).to.exist;
-
     expect(getByText(/no reason provided\./i)).to.exist;
   });
 
-  it('renders provided interrupted reason when passed', () => {
-    const reason = 'You did not complete required counseling sessions.';
+  it('renders provided discontinued reason when passed', () => {
+    const reason = '079 - Plan Developed/Redeveloped';
     const { getByText, queryByText } = renderWithStore(
-      <ApplicationInterruptedAlert interruptedReason={reason} />,
+      <ApplicationDiscontinuedAlert discontinuedReason={reason} />,
       { ch31PdfLetterDownload: { loading: false, error: null } },
     );
 
@@ -65,8 +64,8 @@ describe('ApplicationInterruptedAlert', () => {
     expect(queryByText(/no reason provided\./i)).to.be.null;
   });
 
-  it('renders "View my letter" link inside the alert', () => {
-    const { container } = renderWithStore(<ApplicationInterruptedAlert />, {
+  it('renders "View my letter" link when not downloading', () => {
+    const { container } = renderWithStore(<ApplicationDiscontinuedAlert />, {
       ch31PdfLetterDownload: { loading: false, error: null },
     });
 
@@ -77,8 +76,31 @@ describe('ApplicationInterruptedAlert', () => {
     expect(link.getAttribute('text')).to.equal('View my letter');
   });
 
+  it('renders loading indicator when downloading', () => {
+    const { container } = renderWithStore(<ApplicationDiscontinuedAlert />, {
+      ch31PdfLetterDownload: { loading: true, error: null },
+    });
+
+    const loader = container.querySelector('va-loading-indicator');
+    expect(loader).to.exist;
+    expect(loader.getAttribute('message')).to.equal(
+      'Downloading your letter...',
+    );
+  });
+
+  it('renders download error message when present', () => {
+    const { getByText } = renderWithStore(<ApplicationDiscontinuedAlert />, {
+      ch31PdfLetterDownload: {
+        loading: false,
+        error: { status: 500, messages: ['Server error'] },
+      },
+    });
+
+    expect(getByText(/we can't download your letter right now/i)).to.exist;
+  });
+
   it('applies layout classes on outer container', () => {
-    const { container } = renderWithStore(<ApplicationInterruptedAlert />, {
+    const { container } = renderWithStore(<ApplicationDiscontinuedAlert />, {
       ch31PdfLetterDownload: { loading: false, error: null },
     });
 

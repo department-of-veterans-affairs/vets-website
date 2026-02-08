@@ -41,6 +41,7 @@ const MyCaseManagementHub = () => {
   const caseStatusError = caseStatusState?.error;
 
   const attrs = caseStatusDetails?.attributes || {};
+  const resCaseId = attrs?.resCaseId;
   const externalStatus = attrs.externalStatus || {};
 
   const {
@@ -119,10 +120,16 @@ const MyCaseManagementHub = () => {
 
       {caseStatusError && <LoadCaseDetailsFailedAlert />}
       {isDiscontinued && (
-        <ApplicationDiscontinuedAlert discontinuedReason={discontinuedReason} />
+        <ApplicationDiscontinuedAlert
+          discontinuedReason={discontinuedReason}
+          resCaseId={resCaseId}
+        />
       )}
       {isInterrupted && (
-        <ApplicationInterruptedAlert interruptedReason={interruptedReason} />
+        <ApplicationInterruptedAlert
+          interruptedReason={interruptedReason}
+          resCaseId={resCaseId}
+        />
       )}
 
       {!caseStatusError &&
