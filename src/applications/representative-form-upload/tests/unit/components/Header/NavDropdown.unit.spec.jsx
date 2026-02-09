@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
-import Dropdown from '../../../../components/Header/Dropdown';
+import Dropdown from '~/platform/site-wide/representative/components/header/Dropdown';
 
 describe('NavDropdown', () => {
   const defaultProps = {
