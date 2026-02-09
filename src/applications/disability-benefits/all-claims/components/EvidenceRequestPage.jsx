@@ -179,29 +179,41 @@ export const EvidenceRequestPage = ({
     }
     return '';
   };
-  const renderFacilityList = (facilities, nameKey) => (
-    <>
-      {facilities.slice(0, maxDisplayedItems).map((facility, index) => (
-        <li key={index}>
-          {facility[nameKey] || 'Medical center name not entered'}
-        </li>
-      ))}
-      {facilities.length > maxDisplayedItems && (
-        <li>{facilities.length - maxDisplayedItems} other medical centers</li>
-      )}
-    </>
-  );
+  const renderFacilityList = (facilities, nameKey) => {
+    const showAll = facilities.length <= maxDisplayedItems + 1;
+    const displayList = showAll
+      ? facilities
+      : facilities.slice(0, maxDisplayedItems);
+    return (
+      <ul>
+        {displayList.map((facility, index) => (
+          <li key={index}>
+            {facility[nameKey] || 'Name of medical center wasn’t added'}
+          </li>
+        ))}
+        {!showAll && (
+          <li>{facilities.length - maxDisplayedItems} other medical centers</li>
+        )}
+      </ul>
+    );
+  };
 
-  const renderFileList = files => (
-    <>
-      {files.slice(0, maxDisplayedItems).map((file, index) => (
-        <li key={index}>{file.name}</li>
-      ))}
-      {files.length > maxDisplayedItems && (
-        <li>{files.length - maxDisplayedItems} other medical records</li>
-      )}
-    </>
-  );
+  const renderFileList = files => {
+    const showAll = files.length <= maxDisplayedItems + 1;
+    const displayList = showAll ? files : files.slice(0, maxDisplayedItems);
+    return (
+      <ul>
+        {displayList.slice(0, maxDisplayedItems).map((file, index) => (
+          <li key={index}>{file.name}</li>
+        ))}
+
+        {!showAll && (
+          <li>{files.length - maxDisplayedItems} other medical records</li>
+        )}
+      </ul>
+    );
+  };
+
   return (
     <>
       <h3>Medical records that support your disability claim</h3>
@@ -260,7 +272,7 @@ export const EvidenceRequestPage = ({
       <VaModal
         clickToClose
         modalTitle="Change your medical records?"
-        onCloseEvent={() => setModalVisible(false)}
+        onCloseEvent={handlers.onCancelChange}
         onPrimaryButtonClick={handlers.onChangeAndRemove}
         onSecondaryButtonClick={handlers.onCancelChange}
         visible={modalVisible}
