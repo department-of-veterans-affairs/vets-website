@@ -69,7 +69,7 @@ describe('10-7959f-2 IntroductionPage', () => {
     expect(selectors().identityAlert).to.exist;
   });
 
-  it('should render start button & direct deposit alert when the user is LOA3 status', () => {
+  it('should render start button & direct deposit information when the user is LOA3 status', () => {
     const { selectors } = subject();
     const { directDepositTitle, startBtn } = selectors();
     expect(directDepositTitle).to.exist;
