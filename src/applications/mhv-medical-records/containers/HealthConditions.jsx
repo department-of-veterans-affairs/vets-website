@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   updatePageTitle,
@@ -44,12 +44,9 @@ const HealthConditions = () => {
   useTrackAction(statsdFrontEndActions.HEALTH_CONDITIONS_LIST);
 
   const { isLoading, isAcceleratingConditions } = useAcceleratedData();
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getConditionsList(isCurrent, isAcceleratingConditions);
-      };
-    },
+
+  const dispatchAction = useCallback(
+    isCurrent => getConditionsList(isCurrent, isAcceleratingConditions),
     [isAcceleratingConditions],
   );
 
@@ -60,6 +57,7 @@ const HealthConditions = () => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.

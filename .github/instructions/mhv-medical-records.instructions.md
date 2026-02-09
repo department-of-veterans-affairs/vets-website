@@ -368,9 +368,32 @@ Update this file when you:
   - `listCurrentAsOf`: Date when list was last confirmed current
   - `refreshStatus`: PHR refresh status array
   - `extractType`: Extract type(s) to check (e.g., 'Allergy')
-  - `dispatchAction`: Action creator to fetch data
+  - `dispatchAction`: Action creator to fetch data (should be wrapped in `useCallback`)
   - `dispatch`: Redux dispatch function
-- **Behavior**: Fetches data when refresh is current and local data is stale
+  - `isLoading`: (optional, default `false`) Whether feature toggles are still loading. When `true`, defers fetching until toggles finish loading to ensure the correct accelerated/non-accelerated API path is used.
+- **Behavior**: 
+  - Fetches data when refresh is current and local data is stale
+  - Waits for `isLoading` to be `false` before dispatching any fetches
+  - Use `useCallback` for `dispatchAction` to provide a stable function reference and avoid unnecessary effect re-runs
+- **Usage Pattern**:
+  ```javascript
+  const { isLoading, isAcceleratingDomain } = useAcceleratedData();
+  
+  const dispatchAction = useCallback(
+    isCurrent => getRecordsList(isCurrent, isAcceleratingDomain),
+    [isAcceleratingDomain],
+  );
+  
+  useListRefresh({
+    listState,
+    listCurrentAsOf,
+    refreshStatus: refresh.status,
+    extractType: refreshExtractTypes.DOMAIN,
+    dispatchAction,
+    dispatch,
+    isLoading,
+  });
+  ```
 
 ### useAlerts
 - **Location**: `hooks/use-alerts.js`
@@ -747,12 +770,20 @@ import { getAllergies, getAllergy } from '../api/MrApi';
 
 ### Handling PHR Refresh in a List Component
 ```javascript
+const { isLoading, isAcceleratingAllergies } = useAcceleratedData();
+
+const dispatchAction = useCallback(
+  isCurrent => getAllergiesList(isCurrent, isAcceleratingAllergies),
+  [isAcceleratingAllergies],
+);
+
 useListRefresh({
   listState,
   listCurrentAsOf,
   refreshStatus: refresh.status,
   extractType: refreshExtractTypes.ALLERGY,
-  dispatchAction: getAllergiesList,
+  dispatchAction,
   dispatch,
+  isLoading,
 });
 ```

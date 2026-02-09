@@ -18,17 +18,16 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
 
   const MAX_ROWS = 10;
 
-  function paginate(array, pageSize, pageNumber) {
+  const paginate = (array, pageSize, pageNumber) => {
     return array?.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
-  }
+  };
 
-  function getPaginationText(
+  const getPaginationText = (
     currentPage,
     pageSize,
     totalItems,
     label = 'charges',
-  ) {
-    // Ensure numbers are valid
+  ) => {
     if (totalItems === 0) {
       return `Showing 0 ${label}`;
     }
@@ -37,7 +36,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
     const end = Math.min(currentPage * pageSize, totalItems);
 
     return `Showing ${start}-${end} of ${totalItems} ${label}`;
-  }
+  };
 
   const normalizedCharges = shouldShowVHAPaymentHistory
     ? charges.map(item => ({
@@ -70,20 +69,20 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
 
   const numPages = Math.ceil(normalizedCharges?.length / MAX_ROWS);
 
-  const getStatementDateRange = () => {
-    const pageText = getPaginationText(
-      currentPage,
-      MAX_ROWS,
-      normalizedCharges?.length,
-      'charges',
-    );
+  const paginationText = getPaginationText(
+    currentPage,
+    MAX_ROWS,
+    normalizedCharges?.length,
+    'charges',
+  );
 
+  const getStatementDateRange = () => {
     if (
       !selectedCopay?.statementStartDate ||
       !selectedCopay?.statementEndDate
     ) {
       if (normalizedCharges?.length > MAX_ROWS) {
-        return `This statement shows your current charges. ${pageText}.`;
+        return `This statement shows your current charges. ${paginationText}.`;
       }
       return 'This statement shows your current charges.';
     }
@@ -92,7 +91,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
     const endDate = formatDate(selectedCopay.statementEndDate);
 
     if (normalizedCharges?.length > MAX_ROWS) {
-      return `This statement shows charges you received between ${startDate} and ${endDate}. ${pageText}.`;
+      return `This statement shows charges you received between ${startDate} and ${endDate}. ${paginationText}.`;
     }
     return `This statement shows charges you received between ${startDate} and ${endDate}.`;
   };
@@ -174,6 +173,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
       <div key={`table-wrapper-${currentPage}`}>
         <va-table
           table-title={getStatementDateRange()}
+          table-title-summary={paginationText}
           scrollable={false}
           table-type="bordered"
           full-width
