@@ -202,13 +202,11 @@ const StepOne = ({ formResponses }) => {
             <p>
               You can appoint an accredited attorney, claims agent, or Veterans
               Service Organization (VSO) representative.{' '}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
+              <va-link
+                external
                 href="/get-help-from-accredited-representative/find-rep"
-              >
-                Get help from an accredited representative (opens in a new tab)
-              </a>
+                text="Get help from an accredited representative"
+              />
               .
             </p>
           </>
