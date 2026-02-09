@@ -8,14 +8,10 @@ import { uniqueId } from 'lodash';
 import { ITEMS_PER_PAGE } from '../../constants';
 import {
   buildDateFormatter,
-  getOldestDocumentDate,
   getPhaseItemText,
-  is5103Notice,
   getShowEightPhases,
-  renderDefaultThirdPartyMessage,
-  getDisplayFriendlyName,
 } from '../../utils/helpers';
-import { evidenceDictionary } from '../../utils/evidenceDictionary';
+import * as TrackedItem from '../../utils/trackedItemContent';
 import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 
 export default function RecentActivity({ claim }) {
@@ -67,8 +63,9 @@ export default function RecentActivity({ claim }) {
 
     trackedItems.forEach(item => {
       const updatedDisplayName =
-        (item.friendlyName && getDisplayFriendlyName(item)) || item.displayName;
-      const displayName = is5103Notice(item.displayName)
+        (item.friendlyName && TrackedItem.getDisplayFriendlyName(item)) ||
+        item.displayName;
+      const displayName = TrackedItem.is5103Notice(item.displayName)
         ? 'List of evidence we may need (5103 notice)'
         : updatedDisplayName;
 
@@ -90,7 +87,7 @@ export default function RecentActivity({ claim }) {
 
       if (item.documents?.length > 0) {
         addItems(
-          getOldestDocumentDate(item),
+          TrackedItem.getOldestDocumentDate(item),
           `We received your document(s) for the request: “${displayName}”`,
           item,
         );
@@ -98,16 +95,9 @@ export default function RecentActivity({ claim }) {
 
       if (item.requestedDate) {
         if (item.status === 'NEEDED_FROM_OTHERS') {
-          // Use API boolean properties with fallback to evidenceDictionary
-          const isDBQ =
-            item.isDBQ ??
-            evidenceDictionary[item.displayName]?.isDBQ ??
-            item.displayName?.toLowerCase().includes('dbq') ??
-            false;
-
           addItems(
             item.requestedDate,
-            isDBQ
+            TrackedItem.getIsDBQ(item)
               ? `We made a request: “${displayName}.”`
               : `We made a request outside the VA: “${displayName}.”`,
             item,
@@ -225,7 +215,7 @@ export default function RecentActivity({ claim }) {
             <br />
           </>
         ) : (
-          renderDefaultThirdPartyMessage(item.oldDisplayName)
+          TrackedItem.renderDefaultThirdPartyMessage(item.oldDisplayName)
         )}
         <Link
           aria-label={`About this notice for ${item.friendlyName ||

@@ -139,7 +139,7 @@ describe('Schemaform actions:', () => {
         });
       });
 
-      requests[0].respond(200, null, JSON.stringify(response));
+      requests[0].respond(200, {}, JSON.stringify(response));
 
       return promise;
     });
@@ -176,7 +176,7 @@ describe('Schemaform actions:', () => {
         });
       });
 
-      requests[0].respond(400, null, JSON.stringify(response));
+      requests[0].respond(400, {}, JSON.stringify(response));
 
       return promise;
     });
@@ -210,7 +210,7 @@ describe('Schemaform actions:', () => {
         expect(sentryReports[1].extra.statusText).to.equal('Bad Request');
       });
 
-      requests[0].respond(400, null, JSON.stringify(response));
+      requests[0].respond(400, {}, JSON.stringify(response));
 
       return promise;
     });
@@ -599,7 +599,7 @@ describe('Schemaform actions:', () => {
       thunk(dispatch, getState);
       requests[0].respond(
         200,
-        null,
+        {},
         JSON.stringify({
           data: {
             attributes: {
@@ -651,7 +651,7 @@ describe('Schemaform actions:', () => {
       thunk(dispatch, getState);
       requests[0].respond(
         200,
-        null,
+        {},
         JSON.stringify({
           data: {
             attributes: {
@@ -785,7 +785,7 @@ describe('Schemaform actions:', () => {
 
       thunk(dispatch, getState);
 
-      requests[0].respond(500, null, undefined);
+      requests[0].respond(500, {}, undefined);
 
       expect(onChange.firstCall.args[0]).to.eql({
         name: '1.jpg',
@@ -826,7 +826,7 @@ describe('Schemaform actions:', () => {
 
       thunk(dispatch, getState);
 
-      requests[0].respond(500, null, undefined);
+      requests[0].respond(500, {}, undefined);
 
       expect(onChange.firstCall.args[0]).to.eql({
         name: '1.jpg',
@@ -1087,7 +1087,7 @@ describe('Schemaform actions:', () => {
 
       requests[0].respond(
         403,
-        null,
+        {},
         JSON.stringify({
           errors: 'Access token has expired',
         }),
@@ -1126,7 +1126,7 @@ describe('Schemaform actions:', () => {
 
       requests[0].respond(
         403,
-        null,
+        {},
         JSON.stringify({
           errors: 'Forbidden - insufficient permissions',
         }),

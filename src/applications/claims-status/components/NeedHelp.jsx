@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { getDisplayFriendlyName } from '../utils/helpers';
+import * as TrackedItem from '../utils/trackedItemContent';
 
 export function NeedHelp({ item }) {
   const alias =
@@ -38,7 +38,7 @@ export function NeedHelp({ item }) {
         {alias && (
           <p>
             The VA benefits hotline may refer to the “
-            {getDisplayFriendlyName(item)}” request as {alias}
+            {TrackedItem.getDisplayFriendlyName(item)}” request as {alias}
           </p>
         )}
       </div>
