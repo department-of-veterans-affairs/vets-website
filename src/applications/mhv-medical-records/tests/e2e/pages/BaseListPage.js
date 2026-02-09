@@ -4,9 +4,12 @@ class BaseListPage {
   };
 
   clickPrintOrDownload = () => {
-    // Wait for menu button to be visible, then click
+    // Wait for page heading to be visible (indicates page has fully loaded)
+    cy.get('h1').should('be.visible');
+    // Wait for menu button to be visible and enabled, then click
     cy.get('[data-testid="print-download-menu"]')
       .should('be.visible')
+      .and('not.be.disabled')
       .click();
     // Wait for menu to open
     cy.get('[data-testid="print-download-menu"]').should(
