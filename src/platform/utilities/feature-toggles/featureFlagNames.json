@@ -327,6 +327,7 @@
   "vaDependentsBrowserMonitoringEnabled": "va_dependents_browser_monitoring_enabled",
   "vaDependentsNetWorthAndPension": "va_dependents_net_worth_and_pension",
   "vaDependentsDuplicateModals": "va_dependents_duplicate_modals",
+  "vaDependentsNoSsn": "va_dependents_no_ssn",
   "vaOnlineScheduling": "va_online_scheduling",
   "vaOnlineSchedulingBookingExclusion": "va_online_scheduling_booking_exclusion",
   "vaOnlineSchedulingCancel": "va_online_scheduling_cancel",
