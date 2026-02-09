@@ -18,11 +18,6 @@ on:
         required: false
         type: string
         default: ''
-      use_node_22:
-        description: 'Use Node 22 Docker image for E2E tests (for Node 22 upgrade verification)'
-        required: false
-        type: boolean
-        default: false
       reuse_build_from_run:
         description: 'Skip build and reuse artifacts from a previous run ID (for faster iteration)'
         required: false
@@ -485,14 +480,14 @@ jobs:
     name: Cypress E2E Tests
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 120
-    needs: [build, tests-prep, fetch-ecr-credentials]
+    needs: [build, reuse-build, tests-prep, fetch-ecr-credentials]
     permissions:
       id-token: write
       contents: read
     if: |
+      always() &&
       inputs.run_full_e2e_suite &&
-      !inputs.use_node_22 &&
-      needs.build.result == 'success' &&
+      (needs.build.result == 'success' || needs.reuse-build.result == 'success') &&
       needs.tests-prep.result == 'success' &&
       needs.tests-prep.outputs.e2e_count != '0'
 
@@ -651,177 +646,6 @@ jobs:
           path: cypress/results
           retention-days: 1
 
-  cypress-tests-node-22:
-    name: Cypress E2E Tests (Node 22)
-    runs-on: ubuntu-16-cores-latest
-    timeout-minutes: 120
-    needs: [build, reuse-build, tests-prep, fetch-ecr-credentials]
-    permissions:
-      id-token: write
-      contents: read
-    if: |
-      always() &&
-      inputs.run_full_e2e_suite &&
-      inputs.use_node_22 &&
-      (needs.build.result == 'success' || needs.reuse-build.result == 'success') &&
-      needs.tests-prep.result == 'success' &&
-      needs.tests-prep.outputs.e2e_count != '0'
-
-    container:
-      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
-      credentials:
-        username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
-        password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
-
-    strategy:
-      fail-fast: false
-      max-parallel: 12
-      matrix:
-        ci_node_index: ${{ fromJson(needs.tests-prep.outputs.ci_node_index) }}
-
-    env:
-      CI_NODE_INDEX: ${{ needs.tests-prep.outputs.ci_node_index }}
-      TESTS: ${{ needs.tests-prep.outputs.cypress-tests }}
-
-    steps:
-      - name: Checkout vets-website
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-
-      - name: Configure AWS credentials
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_region: us-gov-west-1
-          role: ${{ vars.AWS_ASSUME_ROLE }}
-
-      - name: Get va-vsp-bot token
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Init Dashboard Data Repo
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: ./.github/workflows/init-data-repo
-
-      - name: Set Up BigQuery Creds
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: ./.github/workflows/configure-bigquery
-
-      - name: Fetch E2E Test Stability Allow List
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_TYPE: e2e
-
-      - name: Download production build artifact
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: ./.github/workflows/download-artifact
-        with:
-          name: vagovprod.tar.bz2
-
-      - name: Install missing dependencies
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: apt-get update && apt-get install -y bzip2 curl
-
-      - name: Unpack build
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: |
-          mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
-
-      - name: Install dependencies
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: ./.github/workflows/install
-        timeout-minutes: 20
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            /github/home/.cache/Cypress
-            node_modules
-
-      - name: Download Tests to run
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: ./.github/workflows/download-artifact
-        with:
-          name: e2e-tests-to-test
-          path: .
-
-      - name: Check for newly added disallowed tests
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node script/github-actions/double-check-allow-list.js
-        env:
-          TEST_TYPE: e2e
-          TEST_PROPERTY: 'TESTS'
-
-      - name: Run Cypress tests
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          echo "Starting test server..."
-          node src/platform/testing/e2e/test-server.js \
-            --buildtype=vagovprod \
-            --port=3001 \
-            --host=127.0.0.1 \
-            > test-server.log 2>&1 &
-          SERVER_PID=$!
-          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
-
-          echo "Waiting for server to be ready..."
-          ready=false
-          for i in $(seq 1 30); do
-            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
-              echo "Server is ready!"
-              ready=true
-              break
-            fi
-            echo "Attempt $i failed, retrying..."
-            sleep 2
-          done
-
-          if [ "$ready" = false ]; then
-            echo "Server failed to start. Last 200 log lines:"
-            tail -n 200 test-server.log || cat test-server.log
-            exit 1
-          fi
-
-          node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 120
-        env:
-          CYPRESS_CI: true
-          STEP: ${{ matrix.ci_node_index }}
-          NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
-          APP_URLS: 'http://localhost:3001'
-
-      - name: Archive test videos
-        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: cypress-video-artifacts-node-22-${{ matrix.ci_node_index }}
-          path: cypress/videos
-
-      - name: Archive test screenshots
-        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: cypress-screenshot-artifacts-node-22-${{ matrix.ci_node_index }}
-          path: cypress/screenshots
-
-      - name: Archive Mochawesome test results
-        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && always() }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: cypress-mochawesome-test-results-node-22-${{ matrix.ci_node_index }}
-          path: cypress/results
-          retention-days: 1
-
   testing-reports-prep:
     name: Testing Reports Prep
     runs-on: ubuntu-22.04
@@ -964,7 +788,7 @@ jobs:
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
     runs-on: ubuntu-22.04
-    needs: [testing-reports-prep, tests-prep, cypress-tests, cypress-tests-node-22]
+    needs: [testing-reports-prep, tests-prep, cypress-tests]
     permissions:
       checks: write
       id-token: write
@@ -975,9 +799,7 @@ jobs:
       needs.tests-prep.outputs.cypress-tests != '' &&
       (
         needs.cypress-tests.result == 'success' ||
-        needs.cypress-tests.result == 'failure' ||
-        needs.cypress-tests-node-22.result == 'success' ||
-        needs.cypress-tests-node-22.result == 'failure'
+        needs.cypress-tests.result == 'failure'
       )
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
@@ -1015,7 +837,7 @@ jobs:
           merge-multiple: true
 
       - name: Download Cypress E2E video artifacts
-        if: ${{ needs.cypress-tests.result == 'failure' || needs.cypress-tests-node-22.result == 'failure' }}
+        if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/download-artifact
         with:
           pattern: cypress-video-artifacts-*
@@ -1040,7 +862,7 @@ jobs:
           TEST_RESULTS_TABLE_NAME: cypress_test_results
 
       - name: Upload Cypress E2E test videos to s3
-        if: ${{ needs.cypress-tests.result == 'failure' || needs.cypress-tests-node-22.result == 'failure' }}
+        if: ${{ needs.cypress-tests.result == 'failure' }}
         run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
 
       - name: Upload Cypress E2E test report to s3
@@ -1052,6 +874,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Cypress Tests Summary (Full Suite)
-          conclusion: ${{ inputs.use_node_22 && needs.cypress-tests-node-22.result || needs.cypress-tests.result }}
+          conclusion: ${{ needs.cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}

@@ -3,19 +3,6 @@
  * Figma Mock:
  * https://www.figma.com/design/OiiDTTVTCf8j0GngRg0xxD/VA-Debt-Portal?node-id=10527-16565&t=BcrIGkQHNAsON5Hs-0
  *
- * Status types by Category:
- * 1: Account is being updated
- * 2: Being sent to Treasury soon
- * 3: Benefits Offset
- * 4: Collections are paused
- * 5: Under review
- * 6: Make a Compromise offer payment
- * 7: Make a monthly payment
- * 8: Make a payment
- * 9: Sent to Treasury
- * 10: Verify status
- * 11: Address needed
- * 12: FSR needs to be submitted
  */
 
 export const DIARY_CODE_STATUS_TYPE = {
