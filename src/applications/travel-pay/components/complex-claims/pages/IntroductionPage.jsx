@@ -160,6 +160,12 @@ const IntroductionPage = () => {
                 need to leave and come back. You can review your in-progress
                 claims in your travel reimbursement page.
               </p>
+              <p>
+                <va-link
+                  href="/my-health/travel-pay/claims/"
+                  text="Go to your travel reimbursement claims page"
+                />
+              </p>
               {appointment &&
                 !appointment.isCC && (
                   <va-link-action
