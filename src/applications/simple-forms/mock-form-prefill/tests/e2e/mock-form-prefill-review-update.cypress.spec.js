@@ -75,7 +75,6 @@ const testConfig = createTestConfig(
       );
       cy.login(user);
     },
-    skip: Cypress.env('CI'), // Skip CI initially until content-build is merged
   },
   manifest,
   formConfig,
