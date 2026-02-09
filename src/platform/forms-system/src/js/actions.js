@@ -197,8 +197,12 @@ export function submitToUrl(
 
     req.setRequestHeader('X-Key-Inflection', 'camel');
     req.setRequestHeader('Content-Type', 'application/json');
-    req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
-    req.setRequestHeader('Source-App-Name', window.appName);
+    if (csrfTokenStored) {
+      req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
+    }
+    if (window.appName) {
+      req.setRequestHeader('Source-App-Name', window.appName);
+    }
     req.withCredentials = true;
 
     req.send(body);
@@ -272,6 +276,7 @@ export function uploadFile(
   onError,
   trackingPrefix,
   password,
+  hasAttemptedTokenRefresh = false,
 ) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
@@ -385,7 +390,7 @@ export function uploadFile(
           ...fileData,
           isEncrypted: !!password,
         });
-      } else if (req.status === 403) {
+      } else if (req.status === 403 && !hasAttemptedTokenRefresh) {
         let errorResponse;
         try {
           errorResponse = JSON.parse(req.response);
@@ -403,6 +408,7 @@ export function uploadFile(
                   onError,
                   trackingPrefix,
                   password,
+                  true,
                 )(dispatch, getState);
               },
             );
@@ -477,8 +483,12 @@ export function uploadFile(
     });
 
     req.setRequestHeader('X-Key-Inflection', 'camel');
-    req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
-    req.setRequestHeader('Source-App-Name', window.appName);
+    if (csrfTokenStored) {
+      req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
+    }
+    if (window.appName) {
+      req.setRequestHeader('Source-App-Name', window.appName);
+    }
     req.withCredentials = true;
     req.send(payload);
 
