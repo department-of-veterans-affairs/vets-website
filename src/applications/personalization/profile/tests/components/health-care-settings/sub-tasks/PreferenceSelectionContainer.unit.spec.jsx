@@ -23,9 +23,7 @@ describe('PreferenceSelectionContainer', () => {
     },
     getButtons: () => (
       <div data-testid="mock-buttons">
-        <button type="button" data-testid="cancel-button">
-          Cancel
-        </button>
+        <va-button data-testid="cancel-button">Cancel</va-button>
       </div>
     ),
   };
