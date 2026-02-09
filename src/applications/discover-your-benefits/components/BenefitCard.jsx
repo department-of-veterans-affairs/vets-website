@@ -84,6 +84,7 @@ BenefitCard.propTypes = {
     whenToApplyDescription: PropTypes.string,
     whenToApplyNote: PropTypes.string,
   }),
+  isBenefitRecommended: PropTypes.func,
 };
 
 export default BenefitCard;
