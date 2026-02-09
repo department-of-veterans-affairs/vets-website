@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { generatePDF } from '../../api/generatePDF';
 import formData from '../fixtures/data/form-data.json';
