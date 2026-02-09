@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import environment from 'platform/utilities/environment';
@@ -117,43 +117,57 @@ const ResultDescription = ({
   linkText,
   answers,
   resultHeader,
-}) => (
-  <div>
-    {resultHeader && (
-      <h2 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
-        {resultHeader}
-      </h2>
-    )}
-    <p>{body}</p>
-    {linkHref &&
-      linkText && (
-        <va-link-action type="primary" href={linkHref} text={linkText} />
+}) => {
+  /**
+   * Suppress beforeunload alert on result pages.
+   * Result pages don't collect user input, so there's no data to lose.
+   * The suppression flag is checked by the wrapped beforeunload listener in Form1995App.jsx.
+   */
+  useEffect(() => {
+    window.__suppressBeforeunload = true;
+    return () => {
+      delete window.__suppressBeforeunload;
+    };
+  }, []);
+
+  return (
+    <div>
+      {resultHeader && (
+        <h2 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
+          {resultHeader}
+        </h2>
       )}
-    <div className="usa-alert background-color-only">
-      <h4 className="vads-u-margin-top--0">Your answers:</h4>
-      <ul className="vads-u-list-style--none vads-u-padding-left--0">
-        {answers.map((answer, index) => (
-          <li
-            key={index}
-            className="vads-u-display--flex vads-u-align-items--start vads-u-margin-bottom--2"
-          >
-            <span className="vads-u-margin-right--1">
-              <va-icon icon="check" size={3} style={{ color: '#008817' }} />
-            </span>
-            <span>{answer}</span>
-          </li>
-        ))}
-      </ul>
+      <p>{body}</p>
+      {linkHref &&
+        linkText && (
+          <va-link-action type="primary" href={linkHref} text={linkText} />
+        )}
+      <div className="usa-alert background-color-only">
+        <h4 className="vads-u-margin-top--0">Your answers:</h4>
+        <ul className="vads-u-list-style--none vads-u-padding-left--0">
+          {answers.map((answer, index) => (
+            <li
+              key={index}
+              className="vads-u-display--flex vads-u-align-items--start vads-u-margin-bottom--2"
+            >
+              <span className="vads-u-margin-right--1">
+                <va-icon icon="check" size={3} style={{ color: '#008817' }} />
+              </span>
+              <span>{answer}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <va-link
+        href={`${
+          environment.BASE_URL
+        }/education/apply-for-education-benefits/application/1995/introduction`}
+        text="Restart questionnaire"
+        class="vads-u-display--block vads-u-margin-top--3"
+      />
     </div>
-    <va-link
-      href={`${
-        environment.BASE_URL
-      }/education/apply-for-education-benefits/application/1995/introduction`}
-      text="Restart questionnaire"
-      class="vads-u-display--block vads-u-margin-top--3"
-    />
-  </div>
-);
+  );
+};
 
 const SameBenefitResultDescription = ({ formData }) => {
   // Use mebSameBenefitSelection if available (non-LOA3), otherwise use currentBenefitType (LOA3)
