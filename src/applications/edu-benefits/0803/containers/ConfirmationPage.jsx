@@ -21,6 +21,15 @@ export const getClaimIdFromLocalStage = () => {
 };
 
 function AlertBox() {
+  // We want to focus on the 'Complete all submission steps' header
+  // when the page loads. Normally, it's enough to just call `scrollAndFocus`
+  // within a useEffect in the main component. Here though, I was
+  // running into an issue where the h2 would get focus and then
+  // almost immediately lose it. Best I can tell, this is due
+  // to the fact that it exists within a `va-alert` custom
+  // component, and this custom component does some extra stuff
+  // on load/render that potentially blurs the h2. Hence this
+  // useRef + addEventListener workaround.
   const ref = useRef(null);
   const scrollToH2 = () => {
     const headerH2 = document.querySelector('#next-steps-header');
