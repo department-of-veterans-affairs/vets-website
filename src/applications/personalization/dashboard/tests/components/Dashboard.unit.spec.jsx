@@ -365,8 +365,9 @@ describe('<Dashboard />', () => {
 
     it('suppresses <MhvAlertConfirmEmail /> when email.updatedAt is after 3/1/2025', async () => {
       mockFetch();
-      initialState.user.profile.vapContactInfo.email.updatedAt =
-        '2025-09-09T12:00:00.000+00:00';
+      const date = '2025-09-09T12:00:00.000+00:00';
+      initialState.user.profile.vapContactInfo.email.updatedAt = date;
+      initialState.user.profile.vapContactInfo.email.confirmationDate = date;
       const { queryByTestId } = renderInReduxProvider(<Dashboard />, {
         initialState,
         reducers,

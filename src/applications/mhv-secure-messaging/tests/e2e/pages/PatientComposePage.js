@@ -35,6 +35,9 @@ class PatientComposePage {
           expect(request.category).to.eq(mockRequest.category);
           expect(request.recipient_id).to.eq(mockRequest.recipient_id);
           expect(request.subject).to.eq(mockRequest.subject);
+          if (mockRequest.station_number) {
+            expect(request.station_number).to.eq(mockRequest.station_number);
+          }
         }
         return req;
       });

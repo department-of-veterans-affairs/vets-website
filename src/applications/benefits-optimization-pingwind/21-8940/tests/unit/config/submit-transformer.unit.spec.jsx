@@ -70,11 +70,7 @@ describe('21-8940 submit transformer', () => {
               { startDate: '2019-06-01', endDate: '2019-08-01' },
             ],
           },
-          {
-            doctorName: '  ',
-            doctorAddress: {},
-            treatmentDates: [],
-          },
+          { doctorName: '  ', doctorAddress: {}, treatmentDates: [] },
         ],
         hospitals: [
           {
@@ -109,10 +105,7 @@ describe('21-8940 submit transformer', () => {
             timeLost: '12',
             earnings: '9000',
           },
-          {
-            employerName: '',
-            employerAddress: {},
-          },
+          { employerName: '', employerAddress: {} },
         ],
         employmentHistory: [
           {
@@ -166,10 +159,7 @@ describe('21-8940 submit transformer', () => {
             typeOfEducation: 'Vocational training',
             datesOfTraining: { from: '2010-01-01', to: '2010-06-01' },
           },
-          {
-            typeOfEducation: 'Second entry',
-            datesOfTraining: {},
-          },
+          { typeOfEducation: 'Second entry', datesOfTraining: {} },
         ],
         educationAfterDisability: [
           {
@@ -178,7 +168,7 @@ describe('21-8940 submit transformer', () => {
           },
         ],
         additionalRemarks: 'Needs assistance with tasks.',
-        signatureOfClaimant: 'John Doe',
+        signatureOfClaimant: 'AlexanderThe M LonglastnameBeyond',
         dateSigned: '2024-01-01',
         files: [{ name: 'supporting.pdf' }, null, {}],
       },
@@ -289,7 +279,7 @@ describe('21-8940 submit transformer', () => {
     expect(payload.receiveExpectWorkersCompensation).to.be.true;
     expect(payload.attemptedEmploy).to.be.true;
     expect(payload.remarks).to.equal('Needs assistance with tasks.');
-    expect(payload.signature).to.equal('John Doe');
+    expect(payload.signature).to.equal('AlexanderThe M LonglastnameBeyond');
     expect(payload.signatureDate).to.equal('2024-01-01');
     expect(payload.files).to.deep.equal([{ name: 'supporting.pdf' }]);
   });

@@ -471,6 +471,78 @@ describe('validateAirTravelFields', () => {
       'You entered a return date for a one-way trip',
     );
   });
+
+  describe('validateAirTravelFields - same-day ROUND_TRIP handling', () => {
+    beforeEach(() => {
+      formState = {
+        vendorName: 'Acme Airlines',
+        tripType: TRIP_TYPES.ROUND_TRIP.value,
+        departureDate: '',
+        returnDate: '',
+        departedFrom: 'JFK',
+        arrivedTo: 'LAX',
+      };
+    });
+
+    it('passes when dates are ISO datetimes and departureDate === returnDate for ROUND_TRIP', () => {
+      formState.departureDate = '2025-01-05T00:00:00.000Z';
+      formState.returnDate = '2025-01-05T23:59:59.000Z';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.departureDate).to.equal(null);
+      expect(nextErrors.returnDate).to.equal(null);
+    });
+
+    it('passes when departureDate === returnDate for ROUND_TRIP', () => {
+      formState.departureDate = '2025-01-05';
+      formState.returnDate = '2025-01-05';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.departureDate).to.equal(null);
+      expect(nextErrors.returnDate).to.equal(null);
+    });
+
+    it('fails when departureDate > returnDate', () => {
+      formState.departureDate = '2025-01-06';
+      formState.returnDate = '2025-01-05';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.departureDate).to.equal(
+        'Departure date must be before return date',
+      );
+      expect(nextErrors.returnDate).to.equal(
+        'Return date must be later than departure date',
+      );
+    });
+
+    it('still fails if departureDate === returnDate but tripType is ONE_WAY and returnDate exists', () => {
+      formState.tripType = TRIP_TYPES.ONE_WAY.value;
+      formState.departureDate = '2025-01-05';
+      formState.returnDate = '2025-01-05';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.returnDate).to.equal(
+        'You entered a return date for a one-way trip',
+      );
+      expect(nextErrors.tripType).to.equal(
+        'You entered a return date for a one-way trip',
+      );
+    });
+
+    it('passes when returnDate is empty for ONE_WAY', () => {
+      formState.tripType = TRIP_TYPES.ONE_WAY.value;
+      formState.departureDate = '2025-01-05';
+      formState.returnDate = '';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.returnDate).to.equal(null);
+    });
+  });
 });
 
 describe('validateCommonCarrierFields', () => {

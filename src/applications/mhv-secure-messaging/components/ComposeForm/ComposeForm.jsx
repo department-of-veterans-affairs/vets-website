@@ -494,6 +494,7 @@ const ComposeForm = props => {
         };
         messageData[`${'draft_id'}`] = draft?.messageId;
         messageData[`${'recipient_id'}`] = draftInProgress.recipientId;
+        messageData[`${'station_number'}`] = draftInProgress.stationNumber;
 
         let sendData;
         if (attachmentsRef.current.length > 0) {
@@ -543,6 +544,7 @@ const ComposeForm = props => {
       draftInProgress.category,
       draftInProgress.ohTriageGroup,
       draftInProgress.recipientId,
+      draftInProgress.stationNumber,
       draftInProgress.subject,
       electronicSignature,
       history,
