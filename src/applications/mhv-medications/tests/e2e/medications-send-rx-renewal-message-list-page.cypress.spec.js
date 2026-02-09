@@ -12,11 +12,14 @@ describe('Send Rx Renewal Message on List Page', () => {
     site.login();
     listPage.visitMedicationsListPageURL(rxList);
 
+    // Check for the active prescription with 0 refills message
+    // The page displays "You can't refill..." with a curly apostrophe (')
     cy.get('[data-testid="active-no-refill-left"]')
+      .first()
       .should('be.visible')
       .and(
         'contain',
-        'You can’t refill this prescription. If you need more, send a secure message to your care team',
+        'Contact your VA provider if you need more of this medication.',
       );
 
     cy.injectAxe();

@@ -327,6 +327,7 @@ export const dispStatusObjV2 = {
   inactive: 'Inactive',
   transferred: 'Transferred',
   nonVA: ACTIVE_NON_VA,
+  expired: 'Expired',
 };
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
@@ -444,6 +445,20 @@ export const REFILL_STATUS = {
   NOT_STARTED: 'notStarted',
   IN_PROGRESS: 'inProgress',
   ERROR: 'error',
+};
+
+// Loading messages for refill prescription page
+export const REFILL_LOADING_MESSAGES = {
+  SUBMITTING_REFILL_REQUESTS: 'Submitting refill requests...',
+  LOADING_PRESCRIPTIONS: 'Loading prescriptions...',
+  LOADING: 'Loading...',
+  UPDATING_REFILL_LIST: 'Updating your refillable prescriptions list...',
+};
+
+// Error messages for refill prescription page
+export const REFILL_ERROR_MESSAGES = {
+  BULK_REFILL_FAILED: 'Failed to submit refill request',
+  NO_PRESCRIPTIONS_SELECTED: 'Select at least one prescription to refill',
 };
 
 export const DATETIME_FORMATS = {
