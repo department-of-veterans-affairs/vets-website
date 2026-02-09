@@ -4,7 +4,16 @@ class BaseListPage {
   };
 
   clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-download-menu"]').click({ force: true });
+    // Wait for menu button to be visible, then click
+    cy.get('[data-testid="print-download-menu"]')
+      .should('be.visible')
+      .click();
+    // Wait for menu to open
+    cy.get('[data-testid="print-download-menu"]').should(
+      'have.attr',
+      'aria-expanded',
+      'true',
+    );
   };
 
   verifyPrintButton = () => {

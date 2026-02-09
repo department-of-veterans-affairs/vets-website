@@ -31,23 +31,14 @@ describe('Medical Records View Allergies', () => {
     );
 
     cy.get('body').should('be.visible');
-    cy.get(
-      '[data-testid="allergies-list"], [data-testid="no-records-message"], h1',
-      { timeout: 10000 },
-    ).should('exist');
 
-    cy.get('body').then($body => {
-      if ($body.find('[data-testid="record-list-item"]').length > 0) {
-        cy.get('[data-testid="record-list-item"]')
-          .first()
-          .find('a')
-          .should('be.visible')
-          .click();
+    // Wait for list to load, then click first allergy
+    cy.get('[data-testid="record-list-item"]', { timeout: 10000 })
+      .first()
+      .should('be.visible')
+      .find('a')
+      .click();
 
-        cy.url().should('include', '/allergies/');
-      } else {
-        cy.get('h1').should('contain', 'Allergies');
-      }
-    });
+    cy.url().should('include', '/allergies/');
   });
 });
