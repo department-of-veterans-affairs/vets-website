@@ -11,7 +11,8 @@ import { datadogRum } from '@datadog/browser-rum';
 const trackAction = (actionName, properties) => {
   datadogRum.addAction(actionName, properties);
   // Uncomment for debugging:
-  // console.log(`[DataDog Tracking] ${actionName}:`, properties);
+  // eslint-disable-next-line no-console
+  console.log(`[DataDog Tracking] ${actionName}:`, properties);
 };
 
 /**

@@ -18,7 +18,7 @@ import ProgressButton from './ProgressButton';
  * @param {Function} trackingCallback - Optional tracking callback
  * @returns {Function} Wrapped handler with tracking
  */
-const wrapWithTracking = (handler, trackingCallback) => () => {
+const wrapWithTracking = (handler, trackingCallback) => (...args) => {
   if (!handler) return;
 
   // If tracking callback is provided, call it
@@ -26,8 +26,8 @@ const wrapWithTracking = (handler, trackingCallback) => () => {
     trackingCallback();
   }
 
-  // Call the original handler function
-  handler();
+  // Call the original handler function with all arguments (including event)
+  handler(...args);
 };
 
 const FormNavButtons = ({
@@ -39,12 +39,12 @@ const FormNavButtons = ({
   onContinueClickTracking,
 }) => {
   const handleBackClick = useCallback(
-    () => wrapWithTracking(goBack, onBackClickTracking)(),
+    wrapWithTracking(goBack, onBackClickTracking),
     [goBack, onBackClickTracking],
   );
 
   const handleContinueClick = useCallback(
-    () => wrapWithTracking(goForward, onContinueClickTracking)(),
+    wrapWithTracking(goForward, onContinueClickTracking),
     [goForward, onContinueClickTracking],
   );
 
