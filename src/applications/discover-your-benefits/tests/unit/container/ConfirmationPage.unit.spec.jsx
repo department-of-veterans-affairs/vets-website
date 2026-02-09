@@ -48,18 +48,6 @@ const mockBenefits = [
     whenToApplyDescription: 'Before or after you separate from service',
   },
   {
-    id: '7',
-    name: 'VA national cemetery burial benefit',
-    category: categories.BURIALS,
-    whenToApplyDescription: 'After you separate from service',
-  },
-  {
-    id: '8',
-    name: 'Veterans Affairs Life Insurance benefit',
-    category: categories.LIFE_INSURANCE,
-    whenToApplyDescription: 'After you separate from service',
-  },
-  {
     id: '9',
     name: 'Disability housing grant benefit',
     category: categories.HOUSING,
@@ -69,6 +57,18 @@ const mockBenefits = [
     id: '10',
     name: 'Quick Access Benefit benefit',
     category: categories.MORE_SUPPORT,
+    whenToApplyDescription: 'After you separate from service',
+  },
+  {
+    id: '7',
+    name: 'VA national cemetery burial benefit',
+    category: categories.BURIALS,
+    whenToApplyDescription: 'After you separate from service',
+  },
+  {
+    id: '8',
+    name: 'Veterans Affairs Life Insurance benefit',
+    category: categories.LIFE_INSURANCE,
     whenToApplyDescription: 'After you separate from service',
   },
 ];
