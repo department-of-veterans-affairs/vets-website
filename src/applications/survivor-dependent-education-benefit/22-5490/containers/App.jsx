@@ -167,15 +167,7 @@ function App({
         );
       }
     },
-    [
-      getDuplicateContactInfo,
-      formData?.email,
-      formData?.mobilePhone?.phone,
-      duplicateEmail,
-      formData,
-      duplicatePhone,
-      setFormData,
-    ],
+    [getDuplicateContactInfo, formData?.email, formData?.mobilePhone?.phone],
   );
 
   return (
