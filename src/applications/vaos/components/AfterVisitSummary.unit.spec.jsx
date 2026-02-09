@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
+import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { datadogRum } from '@datadog/browser-rum';
 import { renderWithStoreAndRouter } from '../tests/mocks/setup';
@@ -223,7 +224,9 @@ describe('VAOS Component: AfterVisitSummary', () => {
       initialState: initialAvsState,
     });
 
-    expect(datadogAddActionStub.calledOnce).to.be.true;
+    await waitFor(() => {
+      expect(datadogAddActionStub.calledOnce).to.be.true;
+    });
     expect(
       datadogAddActionStub.calledWith('vaos-oh-avs-pdf-rendered', {
         pdfCount: 1,

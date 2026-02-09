@@ -1,7 +1,6 @@
 module.exports = [
   { name: 'profile_show_profile_2.0', value: false },
   { name: 'vaOnlineScheduling', value: true },
-  { name: 'vaOnlineSchedulingCancel', value: true },
   { name: 'vaOnlineSchedulingCommunityCare', value: true },
   { name: 'vaOnlineSchedulingDirect', value: true },
   { name: 'vaOnlineSchedulingRequests', value: true },

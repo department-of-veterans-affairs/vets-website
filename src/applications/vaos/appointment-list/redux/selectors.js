@@ -3,7 +3,6 @@ import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/s
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
 import { createSelector } from 'reselect';
 import {
-  selectFeatureCancel,
   selectFeatureRequests,
   selectFeatureUseVpg,
 } from '../../redux/selectors';
@@ -676,7 +675,6 @@ export function selectConfirmedAppointmentData(state, appointment) {
     phone,
     practitionerName,
     providerAddress,
-    showCancelButton: selectFeatureCancel(state),
     startDate,
     status,
     timeZoneAbbr,

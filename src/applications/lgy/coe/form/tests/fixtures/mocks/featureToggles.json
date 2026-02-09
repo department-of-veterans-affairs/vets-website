@@ -1,0 +1,15 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "coe_access",
+        "value": true
+      },
+      {
+        "name": "coe_form_rebuild_cveteam",
+        "value": true
+      }
+    ]
+  }
+}
