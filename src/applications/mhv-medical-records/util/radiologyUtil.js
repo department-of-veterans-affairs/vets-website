@@ -197,7 +197,8 @@ export const normalizeProcedureName = name => {
   return name
     .replace(/[\r\n]+/g, ' ')
     .replace(/\s+/g, ' ')
-    .trim();
+    .trim()
+    .toLowerCase();
 };
 
 export const radiologyRecordHash = record => {

@@ -82,16 +82,6 @@ const extractHashFromId = id => {
 };
 
 /**
- * Normalize a procedure name for case-insensitive comparison.
- * Uses normalizeProcedureName from radiologyUtil and adds lowercase conversion.
- * @param {string} name - The procedure name
- * @returns {string} - The normalized lowercase name
- */
-const normalizeNameForComparison = name => {
-  return normalizeProcedureName(name).toLowerCase();
-};
-
-/**
  * Check if two dates are on the same calendar day.
  * @param {string} date1 - First date string
  * @param {string} date2 - Second date string (can be ISO string or timestamp)
@@ -142,11 +132,11 @@ export const mergeRadiologyLists = (
   for (const phrRecord of phrRadiologyTestsList) {
     let matchingCvix = null;
     const phrHash = extractHashFromId(phrRecord.id);
-    const phrNormalizedName = normalizeNameForComparison(phrRecord.name);
+    const phrNormalizedName = normalizeProcedureName(phrRecord.name);
 
     for (const cvixRecord of cvixRadiologyTestsList) {
       const cvixHash = extractHashFromId(cvixRecord.id);
-      const cvixNormalizedName = normalizeNameForComparison(cvixRecord.name);
+      const cvixNormalizedName = normalizeProcedureName(cvixRecord.name);
 
       // Match by hash (primary) - catches records with same core fields
       const hashesMatch = phrHash && cvixHash && phrHash === cvixHash;
