@@ -420,6 +420,62 @@ describe('Thread Details container', () => {
     expect(screen.getByTestId('delete-draft-button')).to.exist;
   });
 
+  it('with reply draft where message is stale but cannotReply is true (useCanReplyField enabled)', async () => {
+    stubUseFeatureToggles({
+      useCanReplyField: true,
+    });
+
+    const { category, subject } = replyDraftThread.threadDetails.messages[0];
+
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        triageTeams: {
+          triageTeams: recipients,
+        },
+        threadDetails: {
+          isStale: isOlderThan(getLastSentMessage(messages).sentDate, 45),
+          replyDisabled: true,
+          cannotReply: true,
+          drafts: [
+            {
+              ...replyDraftMessage,
+              draftDate: new Date(),
+            },
+          ],
+          messages: [
+            {
+              ...replyMessage,
+              isOhMessage: true,
+              sentDate: subDays(new Date(), 46).toISOString(),
+            },
+            olderMessage,
+          ],
+          isLoading: false,
+          replyToName: replyMessage.senderName,
+          threadFolderId: '0',
+          replyToMessageId: replyMessage.messageId,
+        },
+      },
+    };
+
+    const screen = setup(state);
+
+    expect(
+      await screen.findByText(`Messages: ${category} - ${subject}`, {
+        exact: false,
+      }),
+    ).to.exist;
+
+    expect(document.querySelector('va-textarea')).to.not.exist;
+
+    // Even though the message is stale, since replyDisabled is true, the stale alert is overridden
+    expect(screen.queryByTestId('expired-alert-message')).to.be.null;
+    expect(screen.queryByTestId('cannot-reply-alert-message')).to.exist;
+  });
+
   it('with reply draft where message is not stale but cannotReply is true (useCanReplyField enabled)', async () => {
     // Enable the useCanReplyField feature toggle
     stubUseFeatureToggles({
@@ -570,6 +626,68 @@ describe('Thread Details container', () => {
     // Even though cannotReply is true, since useCanReplyField is disabled, the reply button should still show
     expect(screen.queryByTestId('expired-alert-message')).to.be.null;
     expect(screen.getByText('Reply')).to.exist;
+  });
+
+  it('displays BlockedTriageGroupAlert if recipient is blocked even when stale and replyDisabled', async () => {
+    stubUseFeatureToggles({
+      useCanReplyField: true,
+    });
+
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        threadDetails: {
+          ...threadDetails,
+          isStale: true,
+          cannotReply: true,
+          replyDisabled: true,
+        },
+        recipients: {
+          allRecipients: oneBlockedRecipient.mockAllRecipients,
+          allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
+          blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            oneBlockedRecipient.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            oneBlockedRecipient.associatedBlockedTriageGroupsQty,
+          noAssociations: oneBlockedRecipient.noAssociations,
+          allTriageGroupsBlocked: oneBlockedRecipient.allTriageGroupsBlocked,
+        },
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: [
+              {
+                facilityId: '662',
+                isCerner: false,
+              },
+              {
+                facilityId: '636',
+                isCerner: false,
+              },
+            ],
+          },
+        },
+      },
+    };
+
+    const screen = setup(state);
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+    );
+
+    // BlockedTriageGroupAlert trumps stale and cannot reply alerts
+    expect(screen.queryByTestId('expired-alert-message')).to.be.null;
+    expect(screen.queryByTestId('cannot-reply-alert-message')).to.be.null;
   });
 
   it.skip('with a reply draft message on a replied to message is LESS than 45 days', async () => {
