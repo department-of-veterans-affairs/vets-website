@@ -100,7 +100,7 @@ export const ClaimInformationDescription = ({ formData }) => {
   const claimInformationLabels = claimInformationKeys
     .filter(key => key !== 'otherText')
     .map((key, index) => {
-      if ((key === 'minor' || key === 'other') && !claimInformation[key]) {
+      if (!claimInformation[key]) {
         return null;
       }
 
