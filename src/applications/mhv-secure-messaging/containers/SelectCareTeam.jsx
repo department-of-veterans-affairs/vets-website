@@ -124,6 +124,15 @@ const SelectCareTeam = () => {
     [draftInProgress, dispatch],
   );
 
+  useEffect(
+    () => {
+      if (careTeamError) {
+        scrollToFirstError();
+      }
+    },
+    [careTeamError],
+  );
+
   const careTeamHandler = useCallback(
     recipient => {
       const newId = recipient?.id ? recipient.id.toString() : null;
@@ -186,7 +195,9 @@ const SelectCareTeam = () => {
   );
 
   useEffect(() => {
-    document.querySelector('h1')?.focus();
+    if (h1Ref.current) {
+      h1Ref.current.focus();
+    }
   }, []);
 
   useEffect(
@@ -372,7 +383,6 @@ const SelectCareTeam = () => {
       if (!selectedCareTeamId || !draftInProgress.recipientId) {
         setCareTeamError('Select a care team');
         selectionsValid = false;
-        scrollToFirstError();
       }
       return selectionsValid;
     },
@@ -521,7 +531,7 @@ const SelectCareTeam = () => {
   if (allTriageGroupsBlocked) {
     return (
       <div className="choose-va-health-care-system">
-        <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
+        <h1 className="vads-u-margin-bottom--2" tabIndex="-1" ref={h1Ref}>
           Select care team
         </h1>
         <BlockedTriageGroupAlert
@@ -545,7 +555,7 @@ const SelectCareTeam = () => {
 
   return (
     <div className="choose-va-health-care-system">
-      <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
+      <h1 className="vads-u-margin-bottom--2" tabIndex="-1" ref={h1Ref}>
         Select care team
       </h1>
       {showBlockedAlert && (
