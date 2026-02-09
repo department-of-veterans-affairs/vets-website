@@ -31,6 +31,7 @@ function ToeApp({
   location,
   meb1995Reroute,
   mebParentGuardianStep,
+  mebBankInfoConfirmationField,
   setFormData,
   sponsors,
   sponsorsInitial,
@@ -41,6 +42,20 @@ function ToeApp({
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
+
+  useEffect(
+    () => {
+      if (
+        mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
+      ) {
+        setFormData({
+          ...formData,
+          mebBankInfoConfirmationField,
+        });
+      }
+    },
+    [mebBankInfoConfirmationField, formData, setFormData],
+  );
 
   useEffect(
     () => {
@@ -257,6 +272,7 @@ ToeApp.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   meb1995Reroute: PropTypes.bool,
+  mebBankInfoConfirmationField: PropTypes.bool,
   mebParentGuardianStep: PropTypes.bool,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,

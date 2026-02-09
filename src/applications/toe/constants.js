@@ -29,6 +29,7 @@ export const CHANGE_YOUR_NAME =
 
 export const formFields = {
   accountNumber: 'accountNumber',
+  accountNumberConfirmation: 'accountNumberConfirmation',
   accountType: 'accountType',
   address: 'address',
   bankAccount: 'bankAccount',
@@ -57,6 +58,7 @@ export const formFields = {
   relationshipToServiceMember: 'relationshipToServiceMember',
   receiveTextMessages: 'receiveTextMessages',
   routingNumber: 'routingNumber',
+  routingNumberConfirmation: 'routingNumberConfirmation',
   selectedSponsors: 'selectedSponsors',
   sponsorDateOfBirth: 'sponsorDateOfBirth',
   sponsorFullName: 'sponsorFullName',
