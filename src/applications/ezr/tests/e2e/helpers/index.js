@@ -246,3 +246,9 @@ export const clearDeductibleExpenses = () => {
     '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses"',
   ).clear();
 };
+
+export const normalizeFeatureFlags = features =>
+  features.reduce((acc, { name, value }) => {
+    acc[name] = value;
+    return acc;
+  }, {});

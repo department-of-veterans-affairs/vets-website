@@ -26,15 +26,8 @@ import ReviewPage from '.';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import { mockAppointmentSubmitApi } from '../../../tests/mocks/mockApis';
 
-const initialStateVAOSService = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
-
 describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
   const defaultState = {
-    ...initialStateVAOSService,
     user: {
       profile: {
         facilities: [{ facilityId: '983', isCerner: false }],
