@@ -24,7 +24,7 @@ describe('VASS Component: TopicSelection', () => {
       getDefaultRenderOptions({
         obfuscatedEmail: 's****@email.com',
         uuid: 'c0ffee-1234-beef-5678',
-        lastname: 'Smith',
+        lastName: 'Smith',
         dob: '1935-04-07',
       }),
     );

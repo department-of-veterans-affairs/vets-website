@@ -21,7 +21,7 @@ import { validateZIP } from '../validations';
 import {
   shouldAutoDetectMilitary,
   shouldShowZipCode,
-  createAddressLineValidator,
+  createAddressValidator,
   updateCountrySchema,
   updateStateSchema,
   isStateRequired,
@@ -39,6 +39,14 @@ const defaultAddressUI = {
       street3: 'addressLine3',
       postalCode: 'zipCode',
       isMilitary: 'view:livesOnMilitaryBase',
+    },
+    // Pass validations through addressUI's built-in support
+    // This integrates properly with the platform's validation lifecycle
+    validations: {
+      street: [createAddressValidator('addressLine1')],
+      street2: [createAddressValidator('addressLine2')],
+      street3: [createAddressValidator('addressLine3')],
+      city: [createAddressValidator('city')],
     },
   }),
 };
@@ -138,17 +146,18 @@ export const uiSchema = {
         hideIf: formData => !shouldShowZipCode(formData),
       },
     },
+    // Keep explicit field definitions for review card display
+    // Validations are handled via addressUI's validations option
+    // Note: Only define fields we actually need to customize (addressLine1, city)
+    // Do NOT add addressLine2/3 here - it breaks the platform's updateSchema for military labels
     addressLine1: {
       ...defaultAddressUI.addressLine1,
-      'ui:validations': [createAddressLineValidator(20, 'Address line 1')],
     },
-    addressLine2: {
-      ...defaultAddressUI.addressLine2,
-      'ui:validations': [createAddressLineValidator(20, 'Address line 2')],
-    },
-    addressLine3: {
-      ...defaultAddressUI.addressLine3,
-      'ui:validations': [createAddressLineValidator(20, 'Address line 3')],
+    city: {
+      ...defaultAddressUI.city,
+      'ui:options': {
+        ...defaultAddressUI.city['ui:options'],
+      },
     },
   },
   'view:contactInfoDescription': {

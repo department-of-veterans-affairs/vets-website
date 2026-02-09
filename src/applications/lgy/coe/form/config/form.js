@@ -1,6 +1,8 @@
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
+import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -31,7 +33,6 @@ import preDischargeClaim from '../pages/preDischargeClaim';
 import purpleHeartRecipient from '../pages/purpleHeartRecipient';
 import serviceStatus2 from '../pages/serviceStatus2';
 import { uploadDocumentsSchema, getUiSchema } from '../pages/uploadDocuments';
-// import disabilitySeparation from '../pages/disabilitySeparation';
 
 // TODO: When schema is migrated to vets-json-schema, remove common
 // definitions from form schema and get them from common definitions instead
@@ -39,6 +40,7 @@ import { uploadDocumentsSchema, getUiSchema } from '../pages/uploadDocuments';
 import { certificateUseOptions } from '../constants';
 import certificateUse from '../pages/certificateUse';
 import hadPriorLoans from '../pages/hadPriorLoans';
+import currentOwnership from '../pages/currentOwnership';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -92,18 +94,26 @@ const formConfig = {
           : 'Your personal information on file';
       },
       pages: {
+        yourInformation: personalInformation,
+        ...profileContactInfoPages({
+          depends: formData => formData['view:coeFormRebuildCveteam'],
+          included: ['mailingAddress', 'email', 'homePhone'],
+          contactInfoRequiredKeys: ['mailingAddress', 'email', 'homePhone'],
+          content: {
+            ...getContent('application'),
+            title: 'Confirm the contact information we have on file for you',
+            description: null,
+          },
+        }),
         applicantInformationSummary: {
           path: 'applicant-information',
-          // There seems to be a bug where the depends clause is ignored for the first item in the form
-          // depends: formData => {
-          //   console.log('the value 2:', formData);
-          //   return !formData['view:coeFormRebuildCveteam'];
-          // },
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
           title: 'Your personal information on file',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
         },
-        yourInformation: personalInformation,
       },
     },
     contactInformationChapter: {
@@ -111,6 +121,9 @@ const formConfig = {
       pages: {
         mailingAddress: {
           path: 'mailing-address',
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
           title: mailingAddress.title,
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
@@ -118,6 +131,9 @@ const formConfig = {
         },
         additionalInformation: {
           path: 'additional-contact-information',
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
           title: additionalInformation.title,
           uiSchema: additionalInformation.uiSchema,
           schema: additionalInformation.schema,
@@ -233,6 +249,18 @@ const formConfig = {
           },
           uiSchema: hadPriorLoans.uiSchema,
           schema: hadPriorLoans.schema,
+        },
+        currentOwnership: {
+          path: 'current-ownership',
+          title: 'Ownership of properties with VA home loans',
+          depends: formData => {
+            return (
+              formData['view:coeFormRebuildCveteam'] &&
+              formData?.loanHistory?.hadPriorLoans
+            );
+          },
+          uiSchema: currentOwnership.uiSchema,
+          schema: currentOwnership.schema,
         },
       },
     },

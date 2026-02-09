@@ -7,7 +7,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { selectProfile } from 'platform/user/selectors';
 import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 import { formatDateLong } from 'platform/utilities/date';
 import { showPdfFormAlignment } from '../utils/helpers';
@@ -17,7 +17,6 @@ const IntroductionPage = ({ route }) => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
 
-  const loggedIn = useSelector(isLoggedIn);
   // LOA3 Verified?
   const isVerified = useSelector(
     state => selectProfile(state)?.verified || false,
@@ -136,7 +135,7 @@ const IntroductionPage = ({ route }) => {
         - the user does not have an in-progress form (we want LOA1 users to be
           able to continue their form)
       */}
-      {loggedIn && pbbFormsRequireLoa3 && !isVerified && !hasInProgressForm ? (
+      {pbbFormsRequireLoa3 && !isVerified && !hasInProgressForm ? (
         <>
           <VerifyAlert />
           <p>
