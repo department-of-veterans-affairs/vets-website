@@ -523,7 +523,7 @@ module.exports = async (env = {}) => {
 
       new StylelintPlugin({
         configFile: '.stylelintrc.json',
-        exclude: ['node_modules', 'build', 'coverage', '.cache'],
+        exclude: ['.direnv', 'node_modules', 'build', 'coverage', '.cache'],
         fix: true,
       }),
 
