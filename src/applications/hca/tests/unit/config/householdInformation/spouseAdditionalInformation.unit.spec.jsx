@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca SpouseAdditionalInformation config', () => {
   const {
@@ -13,7 +15,7 @@ describe('hca SpouseAdditionalInformation config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 4;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
@@ -30,4 +32,33 @@ describe('hca SpouseAdditionalInformation config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        cohabitedLastYear: {
+          type: 'boolean',
+        },
+        sameAddress: {
+          type: 'boolean',
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'ui:description': {},
+      cohabitedLastYear: {
+        'ui:title': {},
+      },
+      sameAddress: {
+        'ui:title': {},
+      },
+    },
+    expectedRequired: ['sameAddress'],
+    pageName: pageTitle,
+  });
 });

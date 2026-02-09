@@ -357,7 +357,7 @@ describe('Upload Type 2 Error Alert on Status Tab', () => {
         );
         trackClaimsPage.verifyInProgressClaim(false);
         // Alert should be visible on the Status tab
-        trackClaimsPage.verifyUploadType2ErrorAlert();
+        trackClaimsPage.verifyUploadType2ErrorAlert(true);
         // Verify files are displayed in chronological order (most recent first)
         trackClaimsPage.verifyUploadType2ErrorAlertFileOrder([
           'medical-records.pdf',
@@ -397,7 +397,7 @@ describe('Upload Type 2 Error Alert on Status Tab', () => {
         trackClaimsPage.verifyInProgressClaim(false);
 
         // Verify alert is visible
-        trackClaimsPage.verifyUploadType2ErrorAlert();
+        trackClaimsPage.verifyUploadType2ErrorAlert(true);
 
         // Verify "nothing needed" message is NOT present
         cy.get('.no-documents').should('not.exist');

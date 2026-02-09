@@ -19,7 +19,7 @@ const safeFnsDate = date => {
 
   // Try parsing as ISO string first (only if it looks like ISO format)
   let parsedDate = null;
-  if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}/.test(date)) {
+  if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
     parsedDate = parseISO(date);
     if (isValid(parsedDate)) {
       return parsedDate;
@@ -279,6 +279,74 @@ export const validateApproximateDate = (errors, dateString, options = {}) => {
     const now = new Date();
     if (isDateAfter(constructedDate, now)) {
       errors.addError('Please enter a date that is not in the future');
+    }
+  }
+};
+
+/**
+ * Validate month/year-only date - supports year-only or year+month
+ * Neither year nor month is required, but if month is provided, year is also required
+ * Format: YYYY-XX (year-only) or YYYY-MM (year+month)
+ * Full dates (YYYY-MM-DD) are accepted for backward compatibility,
+ * but the day portion is intentionally ignored - only year and month are validated.
+ * @param {Object} errors - Errors object
+ * @param {string} dateString - Date string in format YYYY-MM, YYYY-XX, or YYYY-MM-DD
+ */
+export const validateApproximateMonthYearDate = (errors, dateString) => {
+  // Empty is OK - field is not required
+  if (!dateString) return;
+
+  // Split on '-' and extract only year and month (ignore day portion if present)
+  const [year, month] = dateString.split('-');
+  const isMonthValid = month && month !== 'XX' && month !== '';
+  const isYearMissing = !year || year === 'XXXX' || year === '';
+
+  // Parse year as number if it exists and is not XXXX
+  const yearNum = year && year !== 'XXXX' && year !== '' ? Number(year) : null;
+
+  // If year is present but not a valid integer, show generic error
+  if (yearNum !== null && !Number.isInteger(yearNum)) {
+    errors.addError('Please enter a valid date');
+    return;
+  }
+
+  // Check for month-only input FIRST
+  if (isMonthValid && isYearMissing) {
+    errors.addError('You must enter a year if you select a month');
+    return;
+  }
+
+  // Validate year range (1900 to current year)
+  const minYear = 1900;
+  const currentYear = new Date().getFullYear();
+  if (
+    yearNum !== null &&
+    Number.isInteger(yearNum) &&
+    (yearNum < minYear || yearNum > currentYear)
+  ) {
+    errors.addError(
+      `Please enter a year between ${minYear} and ${currentYear}`,
+    );
+    return;
+  }
+
+  // Check format: allow year-only (YYYY-XX) or year-month (YYYY-MM)
+  const hasValidYear = yearNum !== null && Number.isInteger(yearNum);
+  const isValidFormat =
+    (hasValidYear && !isMonthValid) || (hasValidYear && isMonthValid);
+
+  if (!isValidFormat) {
+    errors.addError(
+      'Enter a year only (e.g., 1988) or a month and year (e.g., June 1988)',
+    );
+    return;
+  }
+
+  // Validate month if present
+  if (isMonthValid) {
+    const m = Number(month);
+    if (!Number.isInteger(m) || m < 1 || m > 12) {
+      errors.addError('Please enter a valid month');
     }
   }
 };

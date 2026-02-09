@@ -874,7 +874,7 @@ class TrackClaimsPageV2 {
     );
     cy.get('.what-were-doing-container va-card')
       .find('.active-va-link')
-      .should('contain', 'Overview of the process');
+      .should('contain', 'Learn more about the review process');
     cy.get('.what-were-doing-container va-card')
       .find('.active-va-link')
       .click();
@@ -982,10 +982,12 @@ class TrackClaimsPageV2 {
     );
   }
 
-  verifyUploadType2ErrorAlert() {
+  verifyUploadType2ErrorAlert(isStatusPage = false) {
+    const headingElement = isStatusPage ? 'h4' : 'h3';
+
     cy.get('va-alert[status="error"]').should('be.visible');
     cy.get('va-alert[status="error"]')
-      .find('h3')
+      .find(headingElement)
       .should('contain', 'We need you to submit files by mail or in person');
   }
 

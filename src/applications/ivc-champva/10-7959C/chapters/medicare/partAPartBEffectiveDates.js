@@ -1,8 +1,5 @@
-import {
-  titleUI,
-  currentOrPastDateUI,
-  currentOrPastDateSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { futureDateSchema, futureDateUI } from '../../definitions';
 import { titleWithNameUI } from '../../utils/titles';
 import content from '../../locales/en/content.json';
 
@@ -27,7 +24,7 @@ export default {
         headerLevel: 2,
         headerStyleLevel: 3,
       }),
-      applicantMedicarePartAEffectiveDate: currentOrPastDateUI({
+      medicarePartAEffectiveDate: futureDateUI({
         title: INPUT_LABEL,
         hint: HINT_TEXT.partA,
         classNames: 'vads-u-margin-top--neg1p5',
@@ -39,7 +36,7 @@ export default {
         headerLevel: 2,
         headerStyleLevel: 3,
       }),
-      applicantMedicarePartBEffectiveDate: currentOrPastDateUI({
+      medicarePartBEffectiveDate: futureDateUI({
         title: INPUT_LABEL,
         hint: HINT_TEXT.partB,
         classNames: 'vads-u-margin-top--neg1p5',
@@ -51,16 +48,16 @@ export default {
     properties: {
       'view:medicarePartAEffectiveDate': {
         type: 'object',
-        required: ['applicantMedicarePartAEffectiveDate'],
+        required: ['medicarePartAEffectiveDate'],
         properties: {
-          applicantMedicarePartAEffectiveDate: currentOrPastDateSchema,
+          medicarePartAEffectiveDate: futureDateSchema,
         },
       },
       'view:medicarePartBEffectiveDate': {
         type: 'object',
-        required: ['applicantMedicarePartBEffectiveDate'],
+        required: ['medicarePartBEffectiveDate'],
         properties: {
-          applicantMedicarePartBEffectiveDate: currentOrPastDateSchema,
+          medicarePartBEffectiveDate: futureDateSchema,
         },
       },
     },

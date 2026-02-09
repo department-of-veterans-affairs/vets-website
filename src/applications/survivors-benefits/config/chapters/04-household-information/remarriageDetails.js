@@ -2,12 +2,12 @@ import {
   radioUI,
   radioSchema,
   textUI,
-  textSchema,
   titleUI,
-  currentOrPastDateUI,
+  currentOrPastDateRangeUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { remarriageEndOptions } from '../../../utils/labels';
+import { customTextSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -16,38 +16,46 @@ export default {
   depends: formData => formData.remarried === true,
   uiSchema: {
     ...titleUI('Remarriage details'),
-    remarriageEndReason: radioUI({
+    remarriageEndCause: radioUI({
       title: 'How did the marriage end?',
       labels: remarriageEndOptions,
     }),
-    remarriageEndOtherReason: {
+    endCauseExplanation: {
       ...textUI({
         title: 'Tell us how the marriage ended.',
-        required: formData => formData?.remarriageEndReason === 'OTHER',
+        required: formData => formData?.remarriageEndCause === 'other',
       }),
       'ui:options': {
-        expandUnder: 'remarriageEndReason',
-        expandUnderCondition: 'OTHER',
+        expandUnder: 'remarriageEndCause',
+        expandUnderCondition: 'other',
       },
     },
-    remarriageDate: currentOrPastDateUI({
-      title: 'Date of marriage',
-      monthSelect: false,
-    }),
-    remarriageEndDate: currentOrPastDateUI({
-      title: 'Date marriage ended',
-      hint: 'Leave blank if you are still married',
-      monthSelect: false,
-    }),
+    remarriageDates: currentOrPastDateRangeUI(
+      {
+        title: 'Date of marriage',
+        monthSelect: false,
+      },
+      {
+        title: 'Date marriage ended',
+        hint: 'Leave blank if you are still married',
+        monthSelect: false,
+      },
+    ),
   },
   schema: {
     type: 'object',
-    required: ['remarriageEndReason', 'remarriageDate'],
+    required: ['remarriageEndCause', 'remarriageDates'],
     properties: {
-      remarriageEndReason: radioSchema(Object.keys(remarriageEndOptions)),
-      remarriageEndOtherReason: textSchema,
-      remarriageDate: currentOrPastDateSchema,
-      remarriageEndDate: currentOrPastDateSchema,
+      remarriageEndCause: radioSchema(Object.keys(remarriageEndOptions)),
+      endCauseExplanation: customTextSchema,
+      remarriageDates: {
+        type: 'object',
+        required: ['from'],
+        properties: {
+          from: currentOrPastDateSchema,
+          to: currentOrPastDateSchema,
+        },
+      },
     },
   },
 };

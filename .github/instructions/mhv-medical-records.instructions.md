@@ -147,6 +147,10 @@ Update this file when you:
 #### Download/Blue Button Constants
 - **BB_DOMAIN_DISPLAY_MAP**: Maps domain keys to display names for Blue Button reports
 - **documentTypes**: `BB` (medical records reports), `CCD` (continuity of care document), `SEI` (self-entered information)
+- **dataSourceTypes**: User data source classifications for Download Report page
+  - `VISTA_ONLY`: User has only VistA facilities
+  - `OH_ONLY`: User has only Oracle Health (Cerner) facilities
+  - `VISTA_AND_OH`: User has both VistA and Oracle Health facilities
 - **studyJobStatus**: Image study request statuses (`NEW`, `QUEUED`, `PROCESSING`, `COMPLETE`, `ERROR`)
 
 ### Helper Functions (`util/helpers.js`)
@@ -250,7 +254,6 @@ Update this file when you:
   - Use `getAccelerated*` API functions for v2 endpoints
   - Dispatch `GET_UNIFIED_LIST` or `GET_UNIFIED_ITEM` action types
   - Date range parameters required for accelerated endpoints
-  - V2 endpoints typically support backend pagination
 - **Fallback**: Non-accelerated users use v1 endpoints with separate VistA/OH paths
 
 ### Oracle Health (Cerner) Integration
@@ -352,6 +355,9 @@ Update this file when you:
 - **HeaderSectionContext**: Provides header section state across components
   - Use `HeaderSectionProvider` in App.jsx
   - Access with `useContext(HeaderSectionContext)`
+- **DownloadReportContext** (`context/DownloadReportContext.js`): Shares CCD download state and handlers across Download Report page components
+  - Use `DownloadReportProvider` to wrap child components
+  - Access with `useDownloadReport()` hook
 
 ## Custom Hooks
 
@@ -362,12 +368,32 @@ Update this file when you:
   - `listCurrentAsOf`: Date when list was last confirmed current
   - `refreshStatus`: PHR refresh status array
   - `extractType`: Extract type(s) to check (e.g., 'Allergy')
-  - `dispatchAction`: Action creator to fetch data
+  - `dispatchAction`: Action creator to fetch data (should be wrapped in `useCallback`)
   - `dispatch`: Redux dispatch function
-  - `page`: Current page number (for pagination)
-  - `useBackendPagination`: Enable backend pagination
-  - `checkUpdatesAction`: Action to check for updates
-- **Behavior**: Fetches data when refresh is current and local data is stale
+  - `isLoading`: (optional, default `false`) Whether feature toggles are still loading. When `true`, defers fetching until toggles finish loading to ensure the correct accelerated/non-accelerated API path is used.
+- **Behavior**: 
+  - Fetches data when refresh is current and local data is stale
+  - Waits for `isLoading` to be `false` before dispatching any fetches
+  - Use `useCallback` for `dispatchAction` to provide a stable function reference and avoid unnecessary effect re-runs
+- **Usage Pattern**:
+  ```javascript
+  const { isLoading, isAcceleratingDomain } = useAcceleratedData();
+  
+  const dispatchAction = useCallback(
+    isCurrent => getRecordsList(isCurrent, isAcceleratingDomain),
+    [isAcceleratingDomain],
+  );
+  
+  useListRefresh({
+    listState,
+    listCurrentAsOf,
+    refreshStatus: refresh.status,
+    extractType: refreshExtractTypes.DOMAIN,
+    dispatchAction,
+    dispatch,
+    isLoading,
+  });
+  ```
 
 ### useAlerts
 - **Location**: `hooks/use-alerts.js`
@@ -378,6 +404,12 @@ Update this file when you:
 
 ### useInitialFhirLoadTimeout
 - **Purpose**: Handle timeout for initial FHIR data load
+
+### useSelfEnteredPdf (`hooks/useSelfEnteredPdf.js`)
+- **Purpose**: Manage Self-Entered Information (SEI) PDF download state and logic
+
+### useNewestAlertFocus (`hooks/useNewestAlertFocus.js`)
+- **Purpose**: Focus on the newest visible alert for accessibility (screen reader support)
 
 ### useReloadResetListOnUnmount
 - **Purpose**: Reset list state when component unmounts
@@ -463,7 +495,7 @@ Update this file when you:
 - `getAcceleratedAllergy(id)`: Get allergy detail (v2)
 
 ### Vaccines
-- `getVaccineList(page, useCache)`: Get vaccines with optional pagination
+- `getVaccineList()`: Get vaccines list
 - `getVaccine(id)`: Get vaccine detail
 - `getAcceleratedImmunizations()`: Get immunizations (v2)
 - `getAcceleratedImmunization(id)`: Get immunization detail (v2)
@@ -700,7 +732,6 @@ import {
   setDatadogRumUser,
   MhvSecondaryNav,
   useBackToTop,
-  formatBirthDate,
 } from '@department-of-veterans-affairs/mhv/exports';
 ```
 
@@ -735,12 +766,20 @@ import { getAllergies, getAllergy } from '../api/MrApi';
 
 ### Handling PHR Refresh in a List Component
 ```javascript
+const { isLoading, isAcceleratingAllergies } = useAcceleratedData();
+
+const dispatchAction = useCallback(
+  isCurrent => getAllergiesList(isCurrent, isAcceleratingAllergies),
+  [isAcceleratingAllergies],
+);
+
 useListRefresh({
   listState,
   listCurrentAsOf,
   refreshStatus: refresh.status,
   extractType: refreshExtractTypes.ALLERGY,
-  dispatchAction: getAllergiesList,
+  dispatchAction,
   dispatch,
+  isLoading,
 });
 ```

@@ -19,20 +19,21 @@ export default {
   uiSchema: {
     ...titleUI(TITLE_TEXT, DESC_TEXT),
     ...descriptionUI(FileUploadDescription),
-    applicantMedicarePartDCardFront: attachmentUI({
+    medicarePartDCardFront: attachmentUI({
       label: INPUT_LABELS.cardFront,
       attachmentId: ATTACHMENT_IDS.medicareDCardFront,
     }),
-    applicantMedicarePartDCardBack: attachmentUI({
+    medicarePartDCardBack: attachmentUI({
       label: INPUT_LABELS.cardBack,
       attachmentId: ATTACHMENT_IDS.medicareDCardBack,
     }),
   },
   schema: {
     type: 'object',
+    required: ['medicarePartDCardFront', 'medicarePartDCardBack'],
     properties: {
-      applicantMedicarePartDCardFront: singleAttachmentSchema,
-      applicantMedicarePartDCardBack: singleAttachmentSchema,
+      medicarePartDCardFront: singleAttachmentSchema,
+      medicarePartDCardBack: singleAttachmentSchema,
     },
   },
 };

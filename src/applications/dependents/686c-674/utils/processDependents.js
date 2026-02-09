@@ -20,6 +20,7 @@ import { calculateAge } from '../../shared/utils';
 export const slugifyKey = dependent =>
   slugifyText(
     `${dependent?.fullName?.first || ''}-${dependent?.ssn?.slice(-4) || ''}`,
+    { convertCamelCase: false },
   );
 
 /**

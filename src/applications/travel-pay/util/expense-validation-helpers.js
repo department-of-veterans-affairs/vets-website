@@ -18,6 +18,119 @@ export const DATE_VALIDATION_TYPE = Object.freeze({
 });
 
 /**
+ * Helper to determine which fields to validate.
+ *
+ * If fieldName is provided, only that field is validated.
+ * Otherwise, allFields are validated.
+ *
+ * @param {string[]} allFields - List of all fields for the expense type.
+ * @param {string} [fieldName] - Optional field being updated.
+ * @returns {string[]} - Array of field names to validate
+ */
+const getFieldsToValidate = (allFields, fieldName) => {
+  return fieldName ? [fieldName] : allFields;
+};
+
+/**
+ * Determines whether a date string is fully entered and represents
+ * a valid calendar date in ISO YYYY-MM-DD format.
+ *
+ * This prevents partial, placeholder, or invalid values (e.g. "-01",
+ * "2025-01", "2025-00-10", "2025-13-40") from being treated as complete.
+ *
+ * Used to ensure date comparisons only run when both dates are real
+ * and comparable.
+ */
+const isCompleteDate = date => {
+  if (typeof date !== 'string') return false;
+
+  // Must strictly match YYYY-MM-DD
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
+
+  const [year, month, day] = date.split('-').map(Number);
+
+  // Validate calendar ranges
+  if (month < 1 || month > 12) return false;
+  if (day < 1 || day > 31) return false;
+
+  // Ensure the date actually exists (handles Feb 30, leap years, etc.)
+  const parsed = new Date(year, month - 1, day);
+
+  return (
+    parsed.getFullYear() === year &&
+    parsed.getMonth() === month - 1 &&
+    parsed.getDate() === day
+  );
+};
+
+/**
+ * Normalizes a date string to ISO date-only format (YYYY-MM-DD).
+ *
+ * If the input is a full ISO datetime string (e.g. "2025-09-15T08:00:00Z"),
+ * this returns only the date portion ("2025-09-15").
+ *
+ * Returns null if the input is not a string.
+ *
+ * This ensures consistent format for validation and comparison.
+ */
+const normalizeDate = date =>
+  typeof date === 'string' ? date.split('T')[0] : null;
+
+/**
+ * Determines which air travel fields should be validated,
+ * including dependent fields based on cross-field relationships.
+ */
+export const getAirTravelFieldsToValidate = (
+  allFields,
+  fieldName,
+  formState,
+) => {
+  const fieldsToValidate = getFieldsToValidate(allFields, fieldName);
+  const departureDateComplete = isCompleteDate(formState.departureDate);
+  const returnDateComplete = isCompleteDate(formState.returnDate);
+
+  // If departureDate changes and both dates are complete,
+  // also validate returnDate for ordering checks
+  if (
+    fieldName === 'departureDate' &&
+    departureDateComplete &&
+    returnDateComplete &&
+    !fieldsToValidate.includes('returnDate')
+  ) {
+    fieldsToValidate.push('returnDate');
+  }
+
+  // If returnDate changes and both dates are complete,
+  // also validate departureDate for ordering checks
+  if (
+    fieldName === 'returnDate' &&
+    returnDateComplete &&
+    departureDateComplete &&
+    !fieldsToValidate.includes('departureDate')
+  ) {
+    fieldsToValidate.push('departureDate');
+  }
+
+  // If tripType changes
+  // ensure returnDate is revalidated
+  if (fieldName === 'tripType' && !fieldsToValidate.includes('returnDate')) {
+    fieldsToValidate.push('returnDate');
+  }
+
+  // If returnDate changes and tripType is ONE_WAY,
+  // ensure tripType is revalidated
+  if (
+    fieldName === 'returnDate' &&
+    formState.tripType === TRIP_TYPES.ONE_WAY.value &&
+    !fieldsToValidate.includes('tripType')
+  ) {
+    fieldsToValidate.push('tripType');
+  }
+
+  return fieldsToValidate;
+};
+
+/**
  * Parses a date input from the form and returns an object with month, day, and year.
  *
  * The date input can be either:
@@ -52,6 +165,22 @@ export const parseDateInput = dateInput => {
 };
 
 /**
+ * Returns an error message if the given date is in the future.
+ * Expects numeric or string year, month, and day values.
+ */
+export const getFutureDateError = ({ year, month, day }) => {
+  if (!year || !month || !day) return null;
+
+  const selectedDate = new Date(Number(year), Number(month) - 1, Number(day));
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  selectedDate.setHours(0, 0, 0, 0);
+
+  return selectedDate > today ? "Don't enter a future date" : null;
+};
+
+/**
  * Validates the purchase date of a receipt.
  *
  * Rules:
@@ -68,11 +197,9 @@ export const parseDateInput = dateInput => {
  * @param {string|object} dateInput - The date value from the form. Can be a string
  *                                     like "01-01-2025" or an object { month, day, year }.
  * @param {string} type - The type of validation to perform: CHANGE, BLUR, or SUBMIT.
- * @param {function} setExtraFieldErrors - Function to update the error state for the field.
- * @returns {boolean} - Returns true if the date is valid, false otherwise.
+ * @returns {{purchaseDate: string|null, isValid: boolean}} - Returns error object and validity status.
  */
-export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
-  // Always start by clearing any previous error
+export const validateReceiptDate = (dateInput, type) => {
   let error = null;
 
   let { month, day, year } = parseDateInput(dateInput);
@@ -87,24 +214,12 @@ export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
   const isComplete = parts.every(p => Number.isInteger(p));
 
   if (type === DATE_VALIDATION_TYPE.SUBMIT && isAllEmpty) {
-    error = 'Enter the date of your receipt';
+    error = 'Enter the date on your receipt';
   } else if (isComplete) {
-    const selectedDate = new Date(year, month - 1, day);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Normalize to midnight
-    selectedDate.setHours(0, 0, 0, 0); // Normalize selected date
-
-    if (selectedDate > today) {
-      error = "Don't enter a future date";
-    }
+    error = getFutureDateError({ year, month, day });
   }
 
-  setExtraFieldErrors(prev => ({
-    ...prev,
-    purchaseDate: error,
-  }));
-
-  return !error;
+  return { purchaseDate: error, isValid: !error };
 };
 
 /**
@@ -116,12 +231,10 @@ export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
  *  - Must be no more than 2,000 characters long.
  *
  * @param {string} description - The value of the description field from the form.
- * @param {function} setExtraFieldErrors - Function to update the error state for the field.
  * @param {string} type - Validation type: CHANGE, BLUR, SUBMIT
- * @returns {boolean} - Returns true if the description is valid, false otherwise.
+ * @returns {{description: string|null, isValid: boolean}} - Returns error object and validity status.
  */
-export const validateDescription = (description, setExtraFieldErrors, type) => {
-  // Always start by clearing any previous error
+export const validateDescription = (description, type) => {
   let error = null;
 
   if (type === DATE_VALIDATION_TYPE.SUBMIT && !description) {
@@ -132,8 +245,7 @@ export const validateDescription = (description, setExtraFieldErrors, type) => {
     error = 'Enter no more than 2,000 characters';
   }
 
-  setExtraFieldErrors(prev => ({ ...prev, description: error }));
-  return !error;
+  return { description: error, isValid: !error };
 };
 
 /**
@@ -147,21 +259,17 @@ export const validateDescription = (description, setExtraFieldErrors, type) => {
  *  - On BLUR, auto-formats to 2 decimal places (e.g., 2.5 → 2.50)
  *
  * @param {string|number} amount - The value of the costRequested field from the form.
- * @param {function} setExtraFieldErrors - Function to update the error state for the field.
  * @param {string} type - Validation type: CHANGE, BLUR, SUBMIT
- * @param {function} setFormState - (Optional) State setter for the form, used to update the formatted value on BLUR.
  * @param {string} fieldName - (Optional) Name of the field in formState, defaults to 'costRequested'.
- * @returns {boolean} - Returns true if the requested amount is valid, false otherwise.
+ * @returns {{errors: Object, formattedValue: string|null, isValid: boolean}} - Returns errors, formatted value for BLUR, and validity.
  */
 export const validateRequestedAmount = (
   amount,
-  setExtraFieldErrors,
   type = DATE_VALIDATION_TYPE.SUBMIT,
-  setFormState,
   fieldName = 'costRequested',
 ) => {
-  // Always start by clearing any previous error
   let error = null;
+  let formattedValue = null;
 
   const strAmount = (amount ?? '').toString().trim();
 
@@ -191,39 +299,136 @@ export const validateRequestedAmount = (
       error = 'Enter an amount greater than 0';
     }
 
-    // Auto-format to 2 decimal places on BLUR if valid
-    if (
-      !error &&
-      !Number.isNaN(parsed) &&
-      type === DATE_VALIDATION_TYPE.BLUR &&
-      setFormState
-    ) {
-      const formatted = parsed.toFixed(2);
-      setFormState(prev => ({
-        ...prev,
-        [fieldName]: formatted,
-      }));
+    // Return formatted value on BLUR if valid
+    if (!error && !Number.isNaN(parsed) && type === DATE_VALIDATION_TYPE.BLUR) {
+      formattedValue = parsed.toFixed(2);
     }
   }
 
-  // Update error state
-  setExtraFieldErrors(prev => ({ ...prev, [fieldName]: error }));
-
-  return !error;
+  return {
+    errors: { [fieldName]: error },
+    formattedValue,
+    isValid: !error,
+  };
 };
 
 /**
- * Helper to determine which fields to validate.
- *
- * If fieldName is provided, only that field is validated.
- * Otherwise, allFields are validated.
- *
- * @param {string[]} allFields - List of all fields for the expense type.
- * @param {string} [fieldName] - Optional field being updated.
- * @returns {string[]} - Array of field names to validate
+ * Helper: Validates air travel trip type field
  */
-const getFieldsToValidate = (allFields, fieldName) => {
-  return fieldName ? [fieldName] : allFields;
+const validateAirTravelTripType = (tripType, returnDate) => {
+  if (!tripType) {
+    return 'Select a trip type';
+  }
+  if (tripType === TRIP_TYPES.ONE_WAY.value && returnDate) {
+    return 'You entered a return date for a one-way trip';
+  }
+  return null;
+};
+
+/**
+ * Helper: Validates air travel vendor name field
+ */
+const validateAirTravelVendorName = vendorName => {
+  if (!vendorName) {
+    return 'Enter the company name';
+  }
+  return null;
+};
+
+/**
+ * Helper: Validates air travel departure date field
+ */
+const validateAirTravelDepartureDate = (departureDate, returnDate) => {
+  if (!departureDate) {
+    return 'Enter a departure date';
+  }
+
+  const normalizedDepartureDate = normalizeDate(departureDate);
+  const normalizedReturnDate = normalizeDate(returnDate);
+
+  const departureDateComplete = isCompleteDate(normalizedDepartureDate);
+  const returnDateComplete = isCompleteDate(normalizedReturnDate);
+
+  if (!departureDateComplete) {
+    return null; // Partial date, no error
+  }
+
+  const [year, month, day] = normalizedDepartureDate.split('-');
+  const futureDateError = getFutureDateError({ year, month, day });
+
+  if (futureDateError) {
+    return futureDateError;
+  }
+
+  if (returnDateComplete && normalizedDepartureDate > normalizedReturnDate) {
+    return 'Departure date must be before return date';
+  }
+
+  return null;
+};
+
+/**
+ * Helper: Validates air travel return date field
+ */
+const validateAirTravelReturnDate = (
+  returnDate,
+  tripType,
+  departureDate,
+  fieldName,
+) => {
+  const normalizedDepartureDate = normalizeDate(departureDate);
+  const normalizedReturnDate = normalizeDate(returnDate);
+
+  const departureDateComplete = isCompleteDate(normalizedDepartureDate);
+  const returnDateComplete = isCompleteDate(normalizedReturnDate);
+  const shouldValidateReturnDate = tripType === TRIP_TYPES.ROUND_TRIP.value;
+
+  // One-way trip with a return date
+  if (tripType === TRIP_TYPES.ONE_WAY.value && returnDateComplete) {
+    return 'You entered a return date for a one-way trip';
+  }
+
+  // Round-trip validations
+  if (shouldValidateReturnDate) {
+    if (!returnDateComplete) {
+      // Only show required error if returnDate field itself is being validated,
+      // not as a side-effect of tripType changing
+      if (
+        fieldName === 'returnDate' ||
+        fieldName === null ||
+        fieldName === undefined
+      ) {
+        return 'Enter a return date';
+      }
+      return null; // Partial date from tripType change, no error
+    }
+
+    const [year, month, day] = normalizedReturnDate.split('-');
+    const futureDateError = getFutureDateError({ year, month, day });
+
+    if (futureDateError) {
+      return futureDateError;
+    }
+
+    if (
+      departureDateComplete &&
+      normalizedReturnDate < normalizedDepartureDate
+    ) {
+      return 'Return date must be later than departure date';
+    }
+  }
+
+  return null;
+};
+
+/**
+ * Helper: Validates airport fields (departedFrom, arrivedTo)
+ */
+const validateAirportField = value => {
+  if (!value) {
+    return 'Enter the airport name';
+  }
+  return null;
 };
 
 /**
@@ -242,12 +447,11 @@ const getFieldsToValidate = (allFields, fieldName) => {
  *  - A single field (pass fieldName)
  *
  * @param {Object} formState - The current state of the expense form
- * @param {Object} errors - The current validation errors object
  * @param {string} [fieldName] - Optional. Name of the single field to validate
- * @returns {Object} nextErrors - Updated errors object with validation results
+ * @returns {Object} errors - Object with validation error messages (null values for valid fields)
  */
-export const validateAirTravelFields = (formState, errors, fieldName) => {
-  const nextErrors = { ...errors };
+export const validateAirTravelFields = (formState, fieldName) => {
+  const errors = {};
 
   const allFields = [
     'vendorName',
@@ -259,104 +463,54 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
   ];
 
   // Determine which fields to validate
-  const fieldsToValidate = getFieldsToValidate(allFields, fieldName);
-
-  if (
-    fieldName === 'departureDate' &&
-    formState.returnDate &&
-    !fieldsToValidate.includes('returnDate')
-  ) {
-    // If departureDate is being updated and returnDate exists, also validate returnDate
-    fieldsToValidate.push('returnDate');
-  } else if (
-    fieldName === 'returnDate' &&
-    formState.departureDate &&
-    !fieldsToValidate.includes('departureDate')
-  ) {
-    // If returnDate is being updated and departureDate exists, also validate departureDate
-    fieldsToValidate.push('departureDate');
-  } else if (
-    fieldName === 'tripType' &&
-    formState.returnDate !== '' &&
-    !fieldsToValidate.includes('returnDate')
-  ) {
-    // If tripType is being updated and returnDate exists, also validate returnDate
-    fieldsToValidate.push('returnDate');
-  } else if (
-    fieldName === 'returnDate' &&
-    formState.tripType === TRIP_TYPES.ONE_WAY.value &&
-    !fieldsToValidate.includes('tripType')
-  ) {
-    // If returnDate is being updated and tripType is ONE_WAY, also validate tripType
-    fieldsToValidate.push('tripType');
-  }
+  const fieldsToValidate = getAirTravelFieldsToValidate(
+    allFields,
+    fieldName,
+    formState,
+  );
 
   // vendorName
   if (fieldsToValidate.includes('vendorName')) {
-    if (!formState.vendorName) nextErrors.vendorName = 'Enter the company name';
-    else delete nextErrors.vendorName;
+    errors.vendorName = validateAirTravelVendorName(formState.vendorName);
   }
 
   // tripType
   if (fieldsToValidate.includes('tripType')) {
-    if (!formState.tripType) nextErrors.tripType = 'Select a trip type';
-    else if (
-      formState.tripType === TRIP_TYPES.ONE_WAY.value &&
-      formState.returnDate
-    ) {
-      nextErrors.tripType = 'You entered a return date for a one-way trip';
-    } else delete nextErrors.tripType;
+    errors.tripType = validateAirTravelTripType(
+      formState.tripType,
+      formState.returnDate,
+    );
   }
 
   // departureDate
   if (fieldsToValidate.includes('departureDate')) {
-    if (!formState.departureDate)
-      nextErrors.departureDate = 'Enter a departure date';
-    else if (
-      formState.returnDate &&
-      formState.departureDate > formState.returnDate
-    )
-      nextErrors.departureDate = 'Departure date must be before return date';
-    else delete nextErrors.departureDate;
+    errors.departureDate = validateAirTravelDepartureDate(
+      formState.departureDate,
+      formState.returnDate,
+    );
   }
 
   // returnDate
   if (fieldsToValidate.includes('returnDate')) {
-    if (
-      formState.tripType === TRIP_TYPES.ROUND_TRIP.value &&
-      !formState.returnDate
-    ) {
-      nextErrors.returnDate = 'Enter a return date';
-    } else if (
-      formState.departureDate &&
-      formState.returnDate &&
-      formState.returnDate < formState.departureDate
-    ) {
-      nextErrors.returnDate = 'Return date must be later than departure date';
-    } else if (
-      formState.tripType === TRIP_TYPES.ONE_WAY.value &&
-      formState.returnDate
-    ) {
-      nextErrors.returnDate = 'You entered a return date for a one-way trip';
-    } else {
-      delete nextErrors.returnDate;
-    }
+    errors.returnDate = validateAirTravelReturnDate(
+      formState.returnDate,
+      formState.tripType,
+      formState.departureDate,
+      fieldName,
+    );
   }
 
   // departedFrom
   if (fieldsToValidate.includes('departedFrom')) {
-    if (!formState.departedFrom)
-      nextErrors.departedFrom = 'Enter the airport name';
-    else delete nextErrors.departedFrom;
+    errors.departedFrom = validateAirportField(formState.departedFrom);
   }
 
   // arrivedTo
   if (fieldsToValidate.includes('arrivedTo')) {
-    if (!formState.arrivedTo) nextErrors.arrivedTo = 'Enter the airport name';
-    else delete nextErrors.arrivedTo;
+    errors.arrivedTo = validateAirportField(formState.arrivedTo);
   }
 
-  return nextErrors;
+  return errors;
 };
 
 /**
@@ -371,12 +525,11 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
  *  - A single field (determined via getFieldsToValidate)
  *
  * @param {Object} formState - The current state of the expense form
- * @param {Object} errors - The current validation errors object
  * @param {string} [fieldName] - Optional. Name of the field being updated.
- * @returns {Object} nextErrors - Updated errors object with validation results
+ * @returns {Object} errors - Object with validation error messages (null values for valid fields)
  */
-export const validateCommonCarrierFields = (formState, errors, fieldName) => {
-  const nextErrors = { ...errors };
+export const validateCommonCarrierFields = (formState, fieldName) => {
+  const errors = {};
 
   // Use helper to determine which fields to validate
   const fieldsToValidate = getFieldsToValidate(
@@ -386,19 +539,19 @@ export const validateCommonCarrierFields = (formState, errors, fieldName) => {
 
   // carrierType
   if (fieldsToValidate.includes('carrierType')) {
-    if (!formState.carrierType)
-      nextErrors.carrierType = 'Select a transportation type';
-    else delete nextErrors.carrierType;
+    errors.carrierType = !formState.carrierType
+      ? 'Select a transportation type'
+      : null;
   }
 
   // reasonNotUsingPOV
   if (fieldsToValidate.includes('reasonNotUsingPOV')) {
-    if (!formState.reasonNotUsingPOV)
-      nextErrors.reasonNotUsingPOV = 'Select a reason';
-    else delete nextErrors.reasonNotUsingPOV;
+    errors.reasonNotUsingPOV = !formState.reasonNotUsingPOV
+      ? 'Select a reason'
+      : null;
   }
 
-  return nextErrors;
+  return errors;
 };
 
 /**
@@ -414,28 +567,31 @@ export const validateCommonCarrierFields = (formState, errors, fieldName) => {
  *  - A single field (determined via getFieldsToValidate)
  *
  * @param {Object} formState - The current state of the expense form
- * @param {Object} errors - The current validation errors object
  * @param {string} [fieldName] - Optional. Name of the field being updated.
- * @returns {Object} nextErrors - Updated errors object with validation results
+ * @returns {Object} errors - Object with validation error messages (null values for valid fields)
  */
-export const validateLodgingFields = (formState, errors, fieldName) => {
-  const nextErrors = { ...errors };
+export const validateLodgingFields = (formState, fieldName) => {
+  const errors = {};
 
   const allFields = ['vendor', 'checkInDate', 'checkOutDate'];
 
   // Use helper to determine which fields to validate
   const fieldsToValidate = getFieldsToValidate(allFields, fieldName);
+  const checkInDateComplete = isCompleteDate(formState.checkInDate);
+  const checkOutDateComplete = isCompleteDate(formState.checkOutDate);
 
   // If one of the date fields is being updated, also validate the other
   if (
     fieldName === 'checkInDate' &&
-    formState.checkOutDate &&
+    checkInDateComplete &&
+    checkOutDateComplete &&
     !fieldsToValidate.includes('checkOutDate')
   ) {
     fieldsToValidate.push('checkOutDate');
   } else if (
     fieldName === 'checkOutDate' &&
-    formState.checkInDate &&
+    checkOutDateComplete &&
+    checkInDateComplete &&
     !fieldsToValidate.includes('checkInDate')
   ) {
     fieldsToValidate.push('checkInDate');
@@ -443,40 +599,55 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
 
   // vendor
   if (fieldsToValidate.includes('vendor')) {
-    if (!formState.vendor) nextErrors.vendor = 'Enter the name on your receipt';
-    else delete nextErrors.vendor;
+    errors.vendor = !formState.vendor ? 'Enter the name on your receipt' : null;
   }
 
   // checkInDate
   if (fieldsToValidate.includes('checkInDate')) {
-    if (!formState.checkInDate)
-      nextErrors.checkInDate = 'Enter the date you checked in';
-    else if (
-      formState.checkOutDate &&
-      formState.checkInDate >= formState.checkOutDate
-    ) {
-      nextErrors.checkInDate =
-        'Check-in date must be earlier than check-out date';
+    const { checkInDate, checkOutDate } = formState;
+
+    if (!checkInDate) {
+      errors.checkInDate = 'Enter the date you checked in';
+    } else if (!checkInDateComplete) {
+      errors.checkInDate = null; // Partial date, no error
     } else {
-      delete nextErrors.checkInDate;
+      const [year, month, day] = checkInDate.split('-');
+      const futureDateError = getFutureDateError({ year, month, day });
+
+      if (futureDateError) {
+        errors.checkInDate = futureDateError;
+      } else if (checkOutDateComplete && checkInDate >= checkOutDate) {
+        errors.checkInDate =
+          'Check-in date must be earlier than check-out date';
+      } else {
+        errors.checkInDate = null;
+      }
     }
   }
 
   // checkOutDate
   if (fieldsToValidate.includes('checkOutDate')) {
-    if (!formState.checkOutDate)
-      nextErrors.checkOutDate = 'Enter the date you checked out';
-    else if (
-      formState.checkInDate &&
-      formState.checkOutDate &&
-      formState.checkOutDate <= formState.checkInDate
-    ) {
-      nextErrors.checkOutDate =
-        'Check-out date must be later than check-in date';
-    } else delete nextErrors.checkOutDate;
+    const { checkInDate, checkOutDate } = formState;
+
+    if (!checkOutDate) {
+      errors.checkOutDate = 'Enter the date you checked out';
+    } else if (!checkOutDateComplete) {
+      errors.checkOutDate = null; // Partial date, no error
+    } else {
+      const [year, month, day] = checkOutDate.split('-');
+      const futureDateError = getFutureDateError({ year, month, day });
+
+      if (futureDateError) {
+        errors.checkOutDate = futureDateError;
+      } else if (checkInDateComplete && checkOutDate <= checkInDate) {
+        errors.checkOutDate = 'Check-out date must be later than check-in date';
+      } else {
+        errors.checkOutDate = null;
+      }
+    }
   }
 
-  return nextErrors;
+  return errors;
 };
 
 /**
@@ -488,23 +659,20 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
  * Can validate all fields or a single field (via `fieldName`).
  *
  * @param {Object} formState - The current state of the expense form
- * @param {Object} errors - The current validation errors object
  * @param {string} [fieldName] - Optional. Name of the field being updated.
- * @returns {Object} nextErrors - Updated errors object with validation results
+ * @returns {Object} errors - Object with validation error messages (null values for valid fields)
  */
-export const validateMealFields = (formState, errors, fieldName) => {
-  const nextErrors = { ...errors };
+export const validateMealFields = (formState, fieldName) => {
+  const errors = {};
 
   // Use helper to determine which fields to validate
   const fieldsToValidate = getFieldsToValidate(['vendorName'], fieldName);
 
   if (fieldsToValidate.includes('vendorName')) {
-    nextErrors.vendorName = formState.vendorName
-      ? undefined
-      : 'Enter the name on your receipt';
-
-    if (!nextErrors.vendorName) delete nextErrors.vendorName;
+    errors.vendorName = !formState.vendorName
+      ? 'Enter the name on your receipt'
+      : null;
   }
 
-  return nextErrors;
+  return errors;
 };

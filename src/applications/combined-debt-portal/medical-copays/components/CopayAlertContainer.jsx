@@ -1,14 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import { useHistory } from 'react-router-dom';
 import { VaLinkAction } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { useSelector } from 'react-redux';
 import {
   getCopayAlertContent,
   phoneContent,
 } from '../../combined/utils/copayAlertContent';
+import { showVHAPaymentHistory } from '../../combined/utils/helpers';
 
 const CopayAlertContainer = ({ type, copay }) => {
-  const copayAlertContent = getCopayAlertContent(copay, type);
+  const history = useHistory();
+  const shouldShowVHAPaymentHistory = useSelector(state =>
+    showVHAPaymentHistory(state),
+  );
+  const copayAlertContent = getCopayAlertContent(
+    copay,
+    type,
+    shouldShowVHAPaymentHistory,
+  );
 
   return (
     <va-alert
@@ -28,6 +39,7 @@ const CopayAlertContainer = ({ type, copay }) => {
           onClick={event => {
             event.preventDefault();
             recordEvent({ event: 'cta-link-click-copay-resolve-link' });
+            history.push(`/copay-balances/${copay.id}/resolve`);
           }}
           text="Resolve your bill"
           type="primary"

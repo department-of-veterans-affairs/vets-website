@@ -231,21 +231,27 @@ const transformMilitaryDutyStatus = data => {
   const dutyStatus = data?.dutyStatus || {};
   const dutyDetails = data?.dutyStatusDetails || {};
 
-  // Only include this section if the veteran is in Reserve/Guard
-  // Check for both 'yes' string and true boolean (exclude 'no' string and false boolean)
-  if (
-    dutyStatus.reserveOrGuardStatus !== 'yes' &&
-    dutyStatus.reserveOrGuardStatus !== true
-  ) {
+  // Check if user answered the Reserve/Guard question
+  const { reserveOrGuardStatus } = dutyStatus;
+
+  // If user answered "No" to Reserve/Guard, still send data with false value
+  // so backend can fill "NO" in the PDF
+  if (reserveOrGuardStatus === 'no' || reserveOrGuardStatus === false) {
     return null;
   }
 
-  return {
-    currentDutyStatus: dutyDetails.currentDutyStatus || null,
-    veteranDisabilitiesPreventMilitaryDuties: yesNoToBoolean(
-      dutyDetails.disabilitiesPreventDuties,
-    ),
-  };
+  // If user answered "Yes" to Reserve/Guard, send details
+  if (reserveOrGuardStatus === 'yes' || reserveOrGuardStatus === true) {
+    return {
+      currentDutyStatus: dutyDetails.currentDutyStatus || null,
+      veteranDisabilitiesPreventMilitaryDuties: yesNoToBoolean(
+        dutyDetails.disabilitiesPreventDuties,
+      ),
+    };
+  }
+
+  // If question not answered, return null
+  return null;
 };
 
 /**
@@ -258,26 +264,35 @@ const transformBenefitEntitlementPayments = data => {
   const benefitsDetails = data?.benefitsDetails || {};
   const remarks = data?.remarks || {};
 
-  // Only include this section if the veteran receives benefits
-  // Check for both 'yes' string and true boolean (exclude 'no' string and false boolean)
-  if (
-    benefitsInfo.benefitEntitlement !== 'yes' &&
-    benefitsInfo.benefitEntitlement !== true
-  ) {
-    return null;
+  // Check if user answered the benefit entitlement question
+  const { benefitEntitlement } = benefitsInfo;
+
+  // If user answered "No" to benefit entitlement, still send data with false value
+  // so backend can fill "NO" in the PDF
+  if (benefitEntitlement === 'no' || benefitEntitlement === false) {
+    return {
+      sickRetirementOtherBenefits: false,
+      remarks: remarks.remarks || null,
+    };
   }
 
-  return {
-    sickRetirementOtherBenefits: true, // Must be true if section is included
-    typeOfBenefit: benefitsDetails.benefitType || null,
-    grossMonthlyAmountOfBenefit: formatCurrency(
-      benefitsDetails.grossMonthlyAmount,
-    ),
-    dateBenefitBegan: formatDate(benefitsDetails.startReceivingDate),
-    dateFirstPaymentIssued: formatDate(benefitsDetails.firstPaymentDate),
-    dateBenefitWillStop: formatDate(benefitsDetails.stopReceivingDate),
-    remarks: remarks.remarks || null,
-  };
+  // If user answered "Yes" to benefit entitlement, send details
+  if (benefitEntitlement === 'yes' || benefitEntitlement === true) {
+    return {
+      sickRetirementOtherBenefits: true,
+      typeOfBenefit: benefitsDetails.benefitType || null,
+      grossMonthlyAmountOfBenefit: formatCurrency(
+        benefitsDetails.grossMonthlyAmount,
+      ),
+      dateBenefitBegan: formatDate(benefitsDetails.startReceivingDate),
+      dateFirstPaymentIssued: formatDate(benefitsDetails.firstPaymentDate),
+      dateBenefitWillStop: formatDate(benefitsDetails.stopReceivingDate),
+      remarks: remarks.remarks || null,
+    };
+  }
+
+  // If question not answered, return null
+  return null;
 };
 
 /**
@@ -307,27 +322,9 @@ export const transformForSubmit = (formConfig, form) => {
     delete transformed.benefitEntitlementPayments;
   }
 
-  // Add certification (required by API)
-  // Handle both platform statementOfTruth pattern and custom component pattern
-  const veteranName = data?.veteranInformation?.veteranFullName || {};
-  const defaultSignature = [
-    veteranName.first,
-    veteranName.middle,
-    veteranName.last,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  // Platform's statementOfTruth stores: signature and statementOfTruthCertified
-  // Custom component (for fixtures) stores: certification.signature and certification.certified
-  const signatureValue =
-    data?.signature || data?.certification?.signature || defaultSignature;
-  const certifiedValue =
-    data?.statementOfTruthCertified ?? data?.certification?.certified ?? true;
-
   transformed.certification = {
-    signature: signatureValue,
-    certified: Boolean(certifiedValue),
+    signature: data?.statementOfTruthSignature,
+    certified: Boolean(data?.statementOfTruthCertified),
   };
 
   // Remove all null and undefined values from the payload

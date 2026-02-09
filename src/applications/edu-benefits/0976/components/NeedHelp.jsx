@@ -6,9 +6,15 @@ export default function NeedHelp() {
       <va-need-help>
         <div slot="content">
           <p>
-            Call us at <va-telephone contact="8008271000" />. We're here Monday
-            through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have hearing loss,
-            call <va-telephone contact="711" tty />.
+            <strong>
+              If you need help gathering your information or filling out your
+              form,
+            </strong>{' '}
+            <va-link
+              external
+              href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/elr.asp"
+              text="contact your Education Liaison Representative."
+            />
           </p>
         </div>
       </va-need-help>

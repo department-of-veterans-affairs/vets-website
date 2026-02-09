@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -9,6 +9,9 @@ import { buildMajorSteps } from '../utils/buildMajorStepsFromConfig';
 
 const DISABLED_STYLE =
   'vads-u-margin--0 vads-u-padding-y--1 vads-u-padding-left--2 vads-u-padding-right--0p5 vads-u-color--gray vads-u-border-color--gray-lightest vads-u-border-bottom--1px';
+
+const PREVIOUS_STEP_STYLE =
+  'vads-u-color--link vads-u-text-decoration--underline';
 /**
  * Side navigation component for the 526EZ disability claims form
  *
@@ -32,6 +35,11 @@ export default function ClaimFormSideNav({
   router,
   setFormData,
 }) {
+  /**
+   * Ref to access the VaSidenav shadow DOM for mobile accordion control
+   */
+  const sidenavRef = useRef(null);
+
   /**
    * Memoize major steps with formData and pathname dependencies
    * Rebuilds when save-in-progress loads or when navigating between pages
@@ -68,6 +76,30 @@ export default function ClaimFormSideNav({
   );
 
   /**
+   * Close mobile accordion when navigating between pages
+   */
+  useEffect(
+    () => {
+      if (sidenavRef.current) {
+        const accordionItem = sidenavRef.current.shadowRoot?.querySelector(
+          'va-accordion > va-accordion-item',
+        );
+
+        if (accordionItem) {
+          // Save current scroll position before closing accordion
+          const { scrollY } = window;
+
+          accordionItem.removeAttribute('open');
+
+          // Restore scroll position to prevent accordion close from scrolling
+          window.scrollTo(0, scrollY);
+        }
+      }
+    },
+    [pathname],
+  );
+
+  /**
    * Handle navigation item click
    * Tracks analytics if enabled and navigates to the selected chapter
    * @param {Event} e - Click event
@@ -90,7 +122,8 @@ export default function ClaimFormSideNav({
 
   return (
     <VaSidenav
-      header="Form sections"
+      ref={sidenavRef}
+      header="Form steps"
       icon-background-color="vads-color-link"
       icon-name="description"
       id="default-sidenav"
@@ -118,6 +151,7 @@ export default function ClaimFormSideNav({
             label={label}
             href="#"
             data-page={page.key}
+            className={PREVIOUS_STEP_STYLE}
             onClick={e => handleClick(e, page)}
           />
         ) : (

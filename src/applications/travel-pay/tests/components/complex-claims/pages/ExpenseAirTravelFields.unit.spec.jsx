@@ -75,9 +75,9 @@ describe('ExpenseAirTravelFields', () => {
   });
 
   it('calls onBlur when focusing out of vendor input', async () => {
-    const onChangeSpy = sinon.spy();
+    const onBlurSpy = sinon.spy();
     const { container } = render(
-      <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
+      <ExpenseAirTravelFields {...defaultProps} onBlur={onBlurSpy} />,
     );
 
     const vendorInput = container.querySelector(
@@ -87,10 +87,10 @@ describe('ExpenseAirTravelFields', () => {
     simulateVaInputBlur(vendorInput, 'United Airlines');
 
     await waitFor(() => {
-      expect(onChangeSpy.called).to.be.true;
+      expect(onBlurSpy.called).to.be.true;
       const value =
-        onChangeSpy.firstCall.args[0]?.detail?.value ||
-        onChangeSpy.firstCall.args[0]?.target?.value;
+        onBlurSpy.firstCall.args[0]?.detail?.value ||
+        onBlurSpy.firstCall.args[0]?.target?.value;
       expect(value).to.equal('United Airlines');
     });
   });
@@ -130,9 +130,9 @@ describe('ExpenseAirTravelFields', () => {
   });
 
   it('calls onBlur when focusing out of departure airport input', async () => {
-    const onChangeSpy = sinon.spy();
+    const onBlurSpy = sinon.spy();
     const { container } = render(
-      <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
+      <ExpenseAirTravelFields {...defaultProps} onBlur={onBlurSpy} />,
     );
     const departedFrom = container.querySelector(
       'va-text-input[name="departedFrom"]',
@@ -140,18 +140,18 @@ describe('ExpenseAirTravelFields', () => {
     simulateVaInputBlur(departedFrom, 'SFO');
 
     await waitFor(() => {
-      expect(onChangeSpy.called).to.be.true;
+      expect(onBlurSpy.called).to.be.true;
       const value =
-        onChangeSpy.firstCall.args[0]?.detail?.value ||
-        onChangeSpy.firstCall.args[0]?.target?.value;
+        onBlurSpy.firstCall.args[0]?.detail?.value ||
+        onBlurSpy.firstCall.args[0]?.target?.value;
       expect(value).to.equal('SFO');
     });
   });
 
   it('calls onBlur when when focusing out of arrival airport input', async () => {
-    const onChangeSpy = sinon.spy();
+    const onBlurSpy = sinon.spy();
     const { container } = render(
-      <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
+      <ExpenseAirTravelFields {...defaultProps} onBlur={onBlurSpy} />,
     );
     const arrivedTo = container.querySelector(
       'va-text-input[name="arrivedTo"]',
@@ -159,10 +159,10 @@ describe('ExpenseAirTravelFields', () => {
     simulateVaInputBlur(arrivedTo, 'ORD');
 
     await waitFor(() => {
-      expect(onChangeSpy.called).to.be.true;
+      expect(onBlurSpy.called).to.be.true;
       const value =
-        onChangeSpy.firstCall.args[0]?.detail?.value ||
-        onChangeSpy.firstCall.args[0]?.target?.value;
+        onBlurSpy.firstCall.args[0]?.detail?.value ||
+        onBlurSpy.firstCall.args[0]?.target?.value;
       expect(value).to.equal('ORD');
     });
   });

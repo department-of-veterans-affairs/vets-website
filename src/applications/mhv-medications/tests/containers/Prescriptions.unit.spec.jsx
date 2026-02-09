@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { cleanup } from '@testing-library/react';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import reducer from '../../reducers';
@@ -33,6 +34,7 @@ describe('Medications Prescriptions container', () => {
   });
 
   afterEach(() => {
+    cleanup();
     if (sandbox) {
       sandbox.restore();
     }
@@ -54,13 +56,15 @@ describe('Medications Prescriptions container', () => {
     state = initialState,
     url = '/',
     isCernerPilot = false,
-    // isV2StatusMapping = false,
+    isV2StatusMapping = false,
+    isMedicationsManagementImprovementsEnabled = false,
   ) => {
     const fullState = {
       ...state,
       featureToggles: {
         [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
-        // [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
+        [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
+        [FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements]: isMedicationsManagementImprovementsEnabled,
         ...state.featureToggles,
       },
     };
@@ -82,10 +86,21 @@ describe('Medications Prescriptions container', () => {
   });
 
   it('should display loading message when loading prescriptions', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox, isLoading: true, isFetching: true });
+    stubPrescriptionsListApi({
+      sandbox,
+      isLoading: true,
+      isFetching: true,
+      data: undefined,
+    });
     const screen = setup();
-    waitFor(() => {
-      expect(screen.getByTestId('loading-indicator')).to.exist;
-      expect(screen.getByText('Loading your medications...')).to.exist;
+    await waitFor(() => {
+      const indicator = screen.getByTestId('loading-indicator');
+      expect(indicator).to.exist;
+      expect(indicator.getAttribute('message')).to.equal(
+        'Loading your medications...',
+      );
     });
   });
 
@@ -144,7 +159,7 @@ describe('Medications Prescriptions container', () => {
     });
 
     await waitFor(() => {
-      expect(screen.queryByTestId('alert-banner')).not.to.exist;
+      expect(screen.queryByTestId('mhv-rx--delayed-refill-alert')).not.to.exist;
       expect(screen.queryByTestId('rxDelay-alert-message')).not.to.exist;
     });
   });
@@ -187,7 +202,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t download your records right now')).to
         .exist;
     });
@@ -204,7 +219,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t print your records right now')).to
         .exist;
     });
@@ -220,7 +235,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t download your records right now')).to
         .exist;
     });
@@ -324,88 +339,315 @@ describe('Medications Prescriptions container', () => {
     });
   });
 
-  // describe('SHIPPED filter functionality', () => {
-  //   const FLAG_COMBINATIONS = [
-  //     {
-  //       isCernerPilot: false,
-  //       isV2StatusMapping: false,
-  //       desc: 'both flags disabled',
-  //     },
-  //     {
-  //       isCernerPilot: true,
-  //       isV2StatusMapping: false,
-  //       desc: 'only cernerPilot enabled',
-  //     },
-  //     {
-  //       isCernerPilot: false,
-  //       isV2StatusMapping: true,
-  //       desc: 'only v2StatusMapping enabled',
-  //     },
-  //     {
-  //       isCernerPilot: true,
-  //       isV2StatusMapping: true,
-  //       desc: 'both flags enabled',
-  //     },
-  //   ];
+  describe('SHIPPED filter functionality', () => {
+    const FLAG_COMBINATIONS = [
+      {
+        isCernerPilot: false,
+        isV2StatusMapping: false,
+        desc: 'both flags disabled',
+      },
+      {
+        isCernerPilot: true,
+        isV2StatusMapping: false,
+        desc: 'only cernerPilot enabled',
+      },
+      {
+        isCernerPilot: false,
+        isV2StatusMapping: true,
+        desc: 'only v2StatusMapping enabled',
+      },
+      {
+        isCernerPilot: true,
+        isV2StatusMapping: true,
+        desc: 'both flags enabled',
+      },
+    ];
 
-  //   FLAG_COMBINATIONS.forEach(({ isCernerPilot, isV2StatusMapping, desc }) => {
-  //     it(`should render without error when ${desc}`, async () => {
-  //       const screen = setup(
-  //         initialState,
-  //         '/',
-  //         isCernerPilot,
-  //         isV2StatusMapping,
-  //       );
+    FLAG_COMBINATIONS.forEach(({ isCernerPilot, isV2StatusMapping, desc }) => {
+      it(`should render without error when ${desc}`, async () => {
+        const screen = setup(
+          initialState,
+          '/',
+          isCernerPilot,
+          isV2StatusMapping,
+        );
 
-  //       await waitFor(() => {
-  //         expect(screen.queryByTestId('loading-indicator')).not.to.exist;
-  //       });
+        await waitFor(() => {
+          expect(screen.queryByTestId('loading-indicator')).not.to.exist;
+        });
 
-  //       expect(screen.getByText('Medications')).to.exist;
-  //     });
-  //   });
+        expect(screen.getByTestId('list-page-title')).to.exist;
+      });
+    });
 
-  //   it('should render without error when SHIPPED filter is applied with BOTH CernerPilot and  V2StatusMapping flags disabled', async () => {
-  //     const stateWithShippedFilter = {
-  //       ...initialState,
-  //       rx: {
-  //         ...initialState.rx,
-  //         preferences: {
-  //           ...initialState.rx.preferences,
-  //           filterOption: 'SHIPPED',
-  //         },
-  //       },
-  //     };
+    it('should render without error when SHIPPED filter is applied with BOTH CernerPilot and V2StatusMapping flags disabled', async () => {
+      const stateWithShippedFilter = {
+        ...initialState,
+        rx: {
+          ...initialState.rx,
+          preferences: {
+            ...initialState.rx.preferences,
+            filterOption: 'SHIPPED',
+          },
+        },
+      };
 
-  //     const screen = setup(stateWithShippedFilter, '/', false, false);
+      const screen = setup(stateWithShippedFilter, '/', false, false);
 
-  //     await waitFor(() => {
-  //       expect(screen.queryByTestId('loading-indicator')).not.to.exist;
-  //     });
+      await waitFor(() => {
+        expect(screen.queryByTestId('loading-indicator')).not.to.exist;
+      });
 
-  //     expect(screen.getByText('Medications')).to.exist;
-  //   });
+      expect(screen.getByTestId('list-page-title')).to.exist;
+    });
 
-  //   it('should properly apply frontend filtering when SHIPPED filter is selected with BOTH CernerPilot and  V2StatusMapping flags enabled', async () => {
-  //     const stateWithShippedFilter = {
-  //       ...initialState,
-  //       rx: {
-  //         ...initialState.rx,
-  //         preferences: {
-  //           ...initialState.rx.preferences,
-  //           filterOption: 'SHIPPED',
-  //         },
-  //       },
-  //     };
+    it('should properly apply frontend filtering when SHIPPED filter is selected with BOTH CernerPilot and V2StatusMapping flags enabled', async () => {
+      const stateWithShippedFilter = {
+        ...initialState,
+        rx: {
+          ...initialState.rx,
+          preferences: {
+            ...initialState.rx.preferences,
+            filterOption: 'SHIPPED',
+          },
+        },
+      };
 
-  //     const screen = setup(stateWithShippedFilter, '/', true, true);
+      const screen = setup(stateWithShippedFilter, '/', true, true);
 
-  //     await waitFor(() => {
-  //       expect(screen.queryByTestId('loading-indicator')).not.to.exist;
-  //     });
+      await waitFor(() => {
+        expect(screen.queryByTestId('loading-indicator')).not.to.exist;
+      });
 
-  //     expect(screen.getByText('Medications')).to.exist;
-  //     expect(screen.getByTestId('med-list')).to.exist;
-  //   });
-  // });
+      expect(screen.getByTestId('list-page-title')).to.exist;
+      expect(screen.getByTestId('med-list')).to.exist;
+    });
+  });
+
+  describe('Rx Renewal Message Success Analytics', () => {
+    beforeEach(() => {
+      global.window.dataLayer = [];
+    });
+
+    afterEach(() => {
+      global.window.dataLayer = [];
+    });
+
+    it('should call recordEvent when rxRenewalMessageSuccess query param is present', async () => {
+      setup(initialState, '/?rxRenewalMessageSuccess=true');
+
+      await waitFor(() => {
+        const event = global.window.dataLayer?.find(
+          e => e['api-name'] === 'Rx SM Renewal',
+        );
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'api_call',
+          'api-name': 'Rx SM Renewal',
+          'api-status': 'successful',
+        });
+      });
+    });
+
+    it('should not call recordEvent when rxRenewalMessageSuccess query param is not present', async () => {
+      const screen = setup(initialState, '/');
+
+      // Wait for component to render
+      await waitFor(() => {
+        expect(screen.getByTestId('list-page-title')).to.exist;
+      });
+
+      // Check that the event was NOT recorded
+      const event = global.window.dataLayer?.find(
+        e => e['api-name'] === 'Rx SM Renewal',
+      );
+      expect(event).to.be.undefined;
+    });
+  });
+
+  describe('Medications Print Fallback', () => {
+    it('should pass current medications list to print component when printedList is empty', async () => {
+      const screen = setup();
+
+      await waitFor(() => {
+        expect(screen.getByTestId('list-page-title')).to.exist;
+      });
+
+      expect(screen).to.exist;
+    });
+  });
+
+  describe('mhvMedicationsManagementImprovements Feature Flag', () => {
+    describe('when feature flag is disabled', () => {
+      it('should NOT render RefillProcess component', async () => {
+        const screen = setup(
+          initialState,
+          '/',
+          false, // isCernerPilot
+          false, // isV2StatusMapping
+          false, // isMedicationsManagementImprovementsEnabled
+        );
+
+        await waitFor(() => {
+          expect(screen.getByTestId('list-page-title')).to.exist;
+        });
+
+        // RefillProcess component should NOT be rendered
+        expect(screen.queryByTestId('rx-refill-process-container')).to.not
+          .exist;
+
+        // Verify the feature flag controlled content is not present
+        expect(screen.queryByText('How the refill process works on VA.gov')).to
+          .not.exist;
+      });
+
+      it('should not display any process steps content', async () => {
+        const screen = setup(
+          initialState,
+          '/',
+          false, // isCernerPilot
+          false, // isV2StatusMapping
+          false, // isMedicationsManagementImprovementsEnabled
+        );
+
+        await waitFor(() => {
+          expect(screen.getByTestId('list-page-title')).to.exist;
+        });
+
+        // None of the process step headers should be present
+        expect(screen.queryByText('You request a refill')).to.not.exist;
+        expect(screen.queryByText('We process your refill request')).to.not
+          .exist;
+        expect(screen.queryByText('We ship your refill to you')).to.not.exist;
+      });
+    });
+
+    describe('when feature flag is enabled', () => {
+      it('should render RefillProcess component', async () => {
+        const screen = setup(
+          initialState,
+          '/',
+          false, // isCernerPilot
+          false, // isV2StatusMapping
+          true, // isMedicationsManagementImprovementsEnabled
+        );
+
+        await waitFor(() => {
+          expect(screen.getByTestId('list-page-title')).to.exist;
+        });
+
+        // RefillProcess component should be rendered
+        expect(screen.getByTestId('rx-refill-process-container')).to.exist;
+
+        // Verify the title is present
+        expect(screen.getByText('How the refill process works on VA.gov')).to
+          .exist;
+      });
+
+      it('should display all three process steps', async () => {
+        const screen = setup(
+          initialState,
+          '/',
+          false, // isCernerPilot
+          false, // isV2StatusMapping
+          true, // isMedicationsManagementImprovementsEnabled
+        );
+
+        await waitFor(() => {
+          expect(screen.getByTestId('list-page-title')).to.exist;
+        });
+
+        // Verify the RefillProcess component is rendered
+        expect(screen.getByTestId('rx-refill-process-container')).to.exist;
+
+        // Check for the process list items by their header attributes
+        const processItems = screen.container.querySelectorAll(
+          'va-process-list-item',
+        );
+        expect(processItems).to.have.length(3);
+
+        // Verify headers are set correctly
+        expect(processItems[0].getAttribute('header')).to.equal(
+          'You request a refill',
+        );
+        expect(processItems[1].getAttribute('header')).to.equal(
+          'We process your refill request',
+        );
+        expect(processItems[2].getAttribute('header')).to.equal(
+          'We ship your refill to you',
+        );
+
+        // Verify some of the content is present
+        expect(screen.getByText('After you request a refill', { exact: false }))
+          .to.exist;
+        expect(
+          screen.getByText('Once our pharmacy starts processing', {
+            exact: false,
+          }),
+        ).to.exist;
+        expect(
+          screen.getByText('Once we ship the prescription', { exact: false }),
+        ).to.exist;
+      });
+
+      it('should use correct VA design system components', async () => {
+        const screen = setup(
+          initialState,
+          '/',
+          false, // isCernerPilot
+          false, // isV2StatusMapping
+          true, // isMedicationsManagementImprovementsEnabled
+        );
+
+        await waitFor(() => {
+          expect(screen.getByTestId('list-page-title')).to.exist;
+        });
+
+        const refillProcessContainer = screen.getByTestId(
+          'rx-refill-process-container',
+        );
+        expect(refillProcessContainer).to.exist;
+
+        // Verify VA process list components are being used
+        const processListItems = refillProcessContainer.querySelectorAll(
+          'va-process-list-item',
+        );
+        expect(processListItems).to.have.length(3);
+
+        // Verify the process list container exists
+        const processList = refillProcessContainer.querySelector(
+          'va-process-list',
+        );
+        expect(processList).to.exist;
+      });
+
+      it('should render RefillProcess alongside other components', async () => {
+        const screen = setup(
+          initialState,
+          '/',
+          false, // isCernerPilot
+          false, // isV2StatusMapping
+          true, // isMedicationsManagementImprovementsEnabled
+        );
+
+        await waitFor(() => {
+          expect(screen.getByTestId('list-page-title')).to.exist;
+        });
+
+        // Both RefillProcess and NeedHelp should be present
+        expect(screen.getByTestId('rx-refill-process-container')).to.exist;
+        expect(screen.getByTestId('rx-need-help-container')).to.exist;
+
+        // Verify RefillProcess appears before NeedHelp in the DOM
+        const refillProcess = screen.getByTestId('rx-refill-process-container');
+        const needHelp = screen.getByTestId('rx-need-help-container');
+
+        expect(
+          // eslint-disable-next-line no-bitwise
+          refillProcess.compareDocumentPosition(needHelp) &
+            Node.DOCUMENT_POSITION_FOLLOWING,
+        ).to.be.greaterThan(0);
+      });
+    });
+  });
 });

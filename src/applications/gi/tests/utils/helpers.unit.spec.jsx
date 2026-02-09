@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import mapboxClient from '../../components/MapboxClient';
 import {
   addAllOption,
   convertRatingToStars,
@@ -45,7 +44,6 @@ import {
   toSnakeLower,
   humanize,
   tagsForRecord,
-  formatMDY,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -388,24 +386,29 @@ describe('GIBCT helpers:', () => {
     });
   });
   describe('searchCriteriaFromCoords', () => {
-    let reverseGeocodeStub;
+    // Import server and rest from mocha-setup to mock the mapbox API
+    // The sinon stub on mapboxClient doesn't work because mbxClient is created
+    // at module load time from mbxGeo(mapboxClient)
+    const { server, rest } = require('platform/testing/unit/mocha-setup');
+
     beforeEach(() => {
-      reverseGeocodeStub = sinon.stub(mapboxClient, 'reverseGeocode').returns({
-        send: () =>
-          Promise.resolve({
-            body: {
+      // Mock the mapbox geocoding API endpoint
+      server.use(
+        rest.get('https://api.mapbox.com/geocoding/*', (req, res, ctx) => {
+          return res(
+            ctx.status(200),
+            ctx.json({
               features: [
                 {
-                  placeName:
+                  // eslint-disable-next-line camelcase
+                  place_name:
                     'Kinney Creek Road, Gales Creek, Oregon 97117, United States',
                 },
               ],
-            },
-          }),
-      });
-    });
-    afterEach(() => {
-      reverseGeocodeStub.restore();
+            }),
+          );
+        }),
+      );
     });
 
     it('should return searchString and position based on coordinates', async () => {
@@ -416,9 +419,9 @@ describe('GIBCT helpers:', () => {
 
       expect(result).to.be.an('object');
       expect(result).to.have.all.keys('searchString', 'position');
-      // expect(result.searchString).to.equal(
-      //   'Kinney Creek Road, Gales Creek, Oregon 97117, United States',
-      // );
+      expect(result.searchString).to.equal(
+        'Kinney Creek Road, Gales Creek, Oregon 97117, United States',
+      );
       expect(result.position).to.deep.equal({ longitude, latitude });
     });
   });
@@ -1247,19 +1250,6 @@ describe('GIBCT helpers:', () => {
     it('handles non-string values in categories by stringifying then lowercasing', () => {
       const rec = { categories: [123, true, 'FiNaNcIaL'] };
       expect(tagsForRecord(rec)).to.deep.equal(['123', 'true', 'financial']);
-    });
-  });
-  describe('formatMDY (API dates YYYY-MM-DD)', () => {
-    it('formats API date strings like "2020-10-29" to "10/29/2020"', () => {
-      expect(formatMDY('2020-10-29')).to.equal('10/29/2020');
-      expect(formatMDY('1996-10-20')).to.equal('10/20/1996');
-      expect(formatMDY('2022-01-05')).to.equal('01/05/2022');
-    });
-
-    it('returns empty string for falsy inputs', () => {
-      expect(formatMDY('')).to.equal('');
-      expect(formatMDY(null)).to.equal('');
-      expect(formatMDY(undefined)).to.equal('');
     });
   });
 });

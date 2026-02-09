@@ -46,27 +46,35 @@ export const emailNeedsConfirmation = ({
     return false;
   }
 
-  // Confirmation Date is null
-  const hasNoConfirmationDate =
-    vet360ContactInformation?.email?.confirmationDate === null;
+  // Has no email address
+  const hasNoEmailAddress = !vet360ContactInformation?.email?.emailAddress;
+
+  // Confirmation Date is null, undefined, or empty
+  const confirmationDate = vet360ContactInformation?.email?.confirmationDate;
+  const hasNoConfirmationDate = !confirmationDate;
 
   // Confirmation Date is before March 1, 2025
-  const confirmationDateIsBefore =
-    hasNoConfirmationDate === false
-      ? isBefore(
-          parseISO(
-            userAttributes.vet360ContactInformation?.email?.confirmationDate,
-          ),
-          beforeDate,
-        )
-      : false;
+  const confirmationDateIsBefore = !hasNoConfirmationDate
+    ? isBefore(parseISO(confirmationDate), beforeDate)
+    : false;
+
+  // Updated Date is null, undefined, or empty
+  const updatedAt = vet360ContactInformation?.email?.updatedAt;
+  const hasNoUpdatedDate = !updatedAt;
+
+  // Updated Date is before March 1, 2025
+  const updatedDateIsBefore = !hasNoUpdatedDate
+    ? isBefore(parseISO(updatedAt), beforeDate)
+    : false;
 
   return (
     [CSP_IDS.LOGIN_GOV, CSP_IDS.ID_ME].includes(loginType) &&
     profile?.verified && // Verified User
     vaProfile?.vaPatient && // VA Patient
     vaProfile?.facilities?.length > 0 && // Assigned to a facility
-    (hasNoConfirmationDate || confirmationDateIsBefore) // Confirmation Date related
+    (hasNoEmailAddress ||
+      ((hasNoConfirmationDate || confirmationDateIsBefore) &&
+        (hasNoUpdatedDate || updatedDateIsBefore))) // Need confirmation if BOTH dates are old/missing
   );
 };
 
@@ -145,4 +153,14 @@ export const checkPortalRequirements = ({
     needsPortalNotice: redirectElligible && hasActiveFacility,
     needsMyHealth: redirectElligible && !hasApprovedFacility,
   };
+};
+
+export const parseAssuranceLevel = url => {
+  if (typeof url !== 'string') return undefined;
+
+  const match = url.match(/\/(loa|ial)\/(\d+)\/?$/i);
+  if (!match) return undefined;
+
+  const [, type, level] = match;
+  return `${type.toLowerCase()}${level}`;
 };

@@ -2,21 +2,18 @@ import {
   yesNoSchema,
   yesNoUI,
   textUI,
-  textSchema,
   titleUI,
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { isYes } from '../../../utils/helpers';
+import { customTextSchema } from '../../definitions';
 import { CourtOrderSeparationAlert } from '../../../components/FormAlerts';
 
 /** @type {PageSchema} */
 export default {
   title: 'Separation details',
   path: 'household/separation-details',
-  depends: formData =>
-    formData.separationDueToAssignedReasons === 'RELATIONSHIP_DIFFERENCES' ||
-    formData.separationDueToAssignedReasons === 'OTHER',
   uiSchema: {
     ...titleUI('Separation details'),
     separationExplanation: textUI({
@@ -50,7 +47,7 @@ export default {
       'courtOrderedSeparation',
     ],
     properties: {
-      separationExplanation: textSchema,
+      separationExplanation: customTextSchema,
       separationStartDate: currentOrPastDateSchema,
       separationEndDate: currentOrPastDateSchema,
       courtOrderedSeparation: yesNoSchema,

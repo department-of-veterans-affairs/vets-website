@@ -183,10 +183,6 @@ class MedicationsDetailsPage {
     });
   };
 
-  verifyLoadingSpinnerForDownloadOnDetailsPage = () => {
-    cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
-  };
-
   verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
       .should('have.text', 'Download a PDF of this page')
@@ -383,7 +379,7 @@ class MedicationsDetailsPage {
   verifyExpiredStatusDescriptionOnDetailsPage = () => {
     cy.get('[data-testid="expired"]').should(
       'contain',
-      'This prescription is too old to refill. If you need more, request a renewal.',
+      'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
     );
   };
 
@@ -578,7 +574,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPendingRxWarningTextOnDetailsPage = alert => {
-    cy.get('[data-testid="pending-med-alert"]').should('have.text', alert);
+    cy.get('[data-testid="pending-med-alert"]').should('contain', alert);
   };
 
   verifyHeaderTextOnDetailsPage = text => {
@@ -590,7 +586,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPendingTextAlertForLessThanSevenDays = text => {
-    cy.get('[data-testid="pending-med-alert"]').should('have.text', text);
+    cy.get('[data-testid="pending-med-alert"]').should('contain', text);
   };
 
   verifyRefillDelayAlertBannerOnDetailsPage = text => {

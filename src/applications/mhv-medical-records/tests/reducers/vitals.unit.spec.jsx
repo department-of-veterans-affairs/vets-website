@@ -177,6 +177,25 @@ describe('vitalReducer', () => {
     expect(newState.updatedList.length).to.equal(0);
   });
 
+  it('handles entries with missing code.coding without crashing', () => {
+    const response = {
+      entry: [
+        { resource: { id: 1, code: {} } }, // missing coding array
+        { resource: { id: 2 } }, // missing code entirely
+        { resource: { id: 3, code: { coding: [{ code: '8310-5' }] } } }, // valid
+      ],
+      resourceType: 'Observation',
+    };
+    expect(() => {
+      vitalReducer({}, { type: Actions.Vitals.GET_LIST, response });
+    }).to.not.throw();
+    const newState = vitalReducer(
+      {},
+      { type: Actions.Vitals.GET_LIST, response },
+    );
+    expect(newState.vitalsList.length).to.equal(1);
+  });
+
   it('moves updatedList into vitalsList on request', () => {
     const newState = vitalReducer(
       {
@@ -352,7 +371,7 @@ describe('getMeasurement', () => {
 });
 
 describe('convertUnifiedVital function', () => {
-  it('should convert a unified vital record to the expected format', () => {
+  it('should convert a unified vital record to the expected format with date in user timezone', () => {
     const record = {
       id: '49c80309-efa0-41fd-84a0-870ed1b38100',
       type: 'observation',
@@ -368,16 +387,18 @@ describe('convertUnifiedVital function', () => {
     };
 
     const converted = convertUnifiedVital(record);
-    expect(converted).to.deep.equal({
-      id: '49c80309-efa0-41fd-84a0-870ed1b38100',
-      type: 'HEIGHT',
-      name: 'Height',
-      measurement: '6 feet, 3.0 inches',
-      date: 'November 14, 2024, 6:19 p.m.',
-      effectiveDateTime: '2024-11-14T18:19:23Z',
-      location: 'FT COLLINS HEALTH SCREENING',
-      notes: 'Patient was calm during measurement.',
-    });
+    expect(converted.id).to.equal('49c80309-efa0-41fd-84a0-870ed1b38100');
+    expect(converted.type).to.equal('HEIGHT');
+    expect(converted.name).to.equal('Height');
+    expect(converted.measurement).to.equal('6 feet, 3.0 inches');
+    expect(converted.effectiveDateTime).to.equal('2024-11-14T18:19:23Z');
+    expect(converted.location).to.equal('FT COLLINS HEALTH SCREENING');
+    expect(converted.notes).to.equal('Patient was calm during measurement.');
+    // Date is formatted in user timezone with timezone abbreviation (UTC 18:19 → local time)
+    expect(converted.date).to.include('November 14, 2024');
+    expect(converted.date).to.match(
+      /\d{1,2}:\d{2} (a\.m\.|p\.m\.) [A-Z]{2,4}$/,
+    );
   });
 });
 

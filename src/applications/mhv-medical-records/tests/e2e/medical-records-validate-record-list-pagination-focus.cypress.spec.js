@@ -24,20 +24,24 @@ describe('Medical Records View Vaccines', () => {
     // With no page specified, default is page 1 but focus should be on <h1>
     cy.get('h1').should('be.focused');
 
-    // Click page 2 in the pagination
+    // Wait for records to render before interacting with pagination
+    cy.get('#showingRecords').should('be.visible');
+
+    // Click next page using class selector (more stable than aria-label after component-library updates)
     cy.get('va-pagination')
+      .should('be.visible')
       .shadow()
-      .find('a[aria-label="page 2, last page"]')
-      .click();
+      .find('[class="usa-pagination__link usa-pagination__next-page"]')
+      .click({ waitForAnimations: true });
 
     // After page change, focus should be on "Showing..."
     cy.get('#showingRecords').should('be.focused');
 
-    // Click page 1 in the pagination
+    // Click previous page
     cy.get('va-pagination')
       .shadow()
-      .find('a[aria-label="page 1, first page"]')
-      .click();
+      .find('[class="usa-pagination__link usa-pagination__previous-page"]')
+      .click({ waitForAnimations: true });
 
     // After page change back to page 1, focus should remain on "Showing..."
     cy.get('#showingRecords').should('be.focused');

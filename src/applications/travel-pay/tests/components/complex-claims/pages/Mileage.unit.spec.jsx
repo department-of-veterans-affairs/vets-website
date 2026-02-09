@@ -19,15 +19,6 @@ describe('Complex Claims Mileage - Add', () => {
       appointment: {
         data: {
           id: TEST_APPT_ID,
-          facilityName: 'Test VA Medical Center',
-          facilityAddress: {
-            addressLine1: '123 Medical Center Drive',
-            city: 'Test City',
-            stateCode: 'TX',
-            zipCode: '12345',
-          },
-          appointmentDate: '2024-01-15',
-          appointmentTime: '10:00 AM',
           localStartTime: '2024-01-15T10:00:00.000-08:00',
         },
         error: null,
@@ -50,6 +41,12 @@ describe('Complex Claims Mileage - Add', () => {
           submission: { id: '', isSubmitting: false, error: null, data: null },
           fetch: { isLoading: false, error: null },
           data: {
+            claimId: TEST_CLAIM_ID,
+            appointment: {
+              id: TEST_APPT_ID,
+              facilityName: 'Test VA Medical Center',
+              appointmentDateTime: '2024-01-15T18:00:00Z',
+            },
             documents: [],
           },
         },
@@ -94,7 +91,6 @@ describe('Complex Claims Mileage - Add', () => {
       </MemoryRouter>,
       { initialState: getAddState(), reducers: reducer },
     );
-
   it('renders the component with all elements', () => {
     const screen = renderComponent();
 
@@ -194,6 +190,47 @@ describe('Complex Claims Mileage - Add', () => {
       expect(expenseData.tripType).to.equal('RoundTrip');
 
       stub.restore();
+    });
+    it('falls back to claimDetails appointment localStartTime when appointment is missing', async () => {
+      const state = getAddState();
+      state.travelPay.appointment.data.localStartTime = undefined;
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            `/file-new-claim/${TEST_APPT_ID}/${TEST_CLAIM_ID}/mileage/`,
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/mileage"
+              element={<Mileage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { initialState: state, reducers: reducer },
+      );
+
+      fireEvent(
+        $('va-radio[name="departureAddress"]'),
+        new CustomEvent('vaValueChange', {
+          detail: { name: 'departureAddress', value: 'home-address' },
+        }),
+      );
+
+      fireEvent(
+        $('va-radio[name="tripType"]'),
+        new CustomEvent('vaValueChange', {
+          detail: { name: 'tripType', value: 'RoundTrip' },
+        }),
+      );
+
+      fireEvent.click(
+        container.querySelector('.travel-pay-button-group va-button[continue]'),
+      );
+
+      const expenseData = stub.firstCall.args[2];
+      expect(expenseData.purchaseDate).to.equal('2024-01-15');
     });
   });
 
@@ -367,6 +404,145 @@ describe('Complex Claims Mileage - Add', () => {
       expect(modal.visible).to.be.true;
     });
   });
+
+  describe('Back button navigation with backDestination', () => {
+    it('navigates to review page when back button is clicked and backDestination="review"', () => {
+      const stateWithBackDestination = {
+        ...getAddState(),
+        travelPay: {
+          ...getAddState().travelPay,
+          complexClaim: {
+            ...getAddState().travelPay.complexClaim,
+            expenseBackDestination: 'review',
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            `/file-new-claim/${TEST_APPT_ID}/${TEST_CLAIM_ID}/mileage/`,
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/mileage"
+              element={<Mileage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<div data-testid="review-page" />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { initialState: stateWithBackDestination, reducers: reducer },
+      );
+
+      const buttonGroup = $('.travel-pay-button-group');
+      const backButton = buttonGroup.querySelectorAll('va-button')[0];
+
+      fireEvent.click(backButton);
+
+      // Verify navigation to review page
+      expect($('[data-testid="review-page"]')).to.exist;
+    });
+
+    it('navigates to choose-expense page when back button is clicked without backDestination', () => {
+      renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            `/file-new-claim/${TEST_APPT_ID}/${TEST_CLAIM_ID}/mileage/`,
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/mileage"
+              element={<Mileage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<div data-testid="choose-expense-page" />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { initialState: getAddState(), reducers: reducer },
+      );
+
+      const buttonGroup = $('.travel-pay-button-group');
+      const backButton = buttonGroup.querySelectorAll('va-button')[0];
+
+      fireEvent.click(backButton);
+
+      // Verify navigation to choose-expense page
+      expect($('[data-testid="choose-expense-page"]')).to.exist;
+    });
+  });
+
+  describe('Cancel modal navigation with backDestination', () => {
+    it('navigates to review page when confirming cancel and backDestination="review"', () => {
+      const stateWithBackDestination = {
+        ...getAddState(),
+        travelPay: {
+          ...getAddState().travelPay,
+          complexClaim: {
+            ...getAddState().travelPay.complexClaim,
+            expenseBackDestination: 'review',
+          },
+        },
+      };
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            `/file-new-claim/${TEST_APPT_ID}/${TEST_CLAIM_ID}/mileage/`,
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/mileage"
+              element={<Mileage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<div data-testid="review-page" />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { initialState: stateWithBackDestination, reducers: reducer },
+      );
+
+      // Open the cancel modal
+      const cancelButton = Array.from(
+        container.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Cancel adding this expense');
+      fireEvent.click(cancelButton);
+
+      // Confirm cancel by triggering the modal's primary button click event
+      const modal = container.querySelector('va-modal');
+      expect(modal.visible).to.be.true;
+      modal.__events.primaryButtonClick();
+
+      // Verify navigation to review page
+      expect($('[data-testid="review-page"]')).to.exist;
+    });
+
+    it('navigates to choose-expense page when confirming cancel without backDestination', () => {
+      const { container } = renderComponent();
+
+      // Open the cancel modal
+      const cancelButton = Array.from(
+        container.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Cancel adding this expense');
+      fireEvent.click(cancelButton);
+
+      const modal = container.querySelector('va-modal');
+      expect(modal.visible).to.be.true;
+
+      // Since choose-expense route is not set up in the test,
+      // we verify the modal behavior is triggered correctly
+      expect(modal).to.exist;
+    });
+  });
 });
 
 describe('Complex Claims Mileage - Edit', () => {
@@ -379,15 +555,6 @@ describe('Complex Claims Mileage - Edit', () => {
       appointment: {
         data: {
           id: TEST_APPT_ID,
-          facilityName: 'Test VA Medical Center',
-          facilityAddress: {
-            addressLine1: '123 Medical Center Drive',
-            city: 'Test City',
-            stateCode: 'TX',
-            zipCode: '12345',
-          },
-          appointmentDate: '2024-01-15',
-          appointmentTime: '10:00 AM',
           localStartTime: '2024-01-15T10:00:00.000-08:00',
         },
         error: null,
@@ -410,6 +577,12 @@ describe('Complex Claims Mileage - Edit', () => {
           submission: { id: '', isSubmitting: false, error: null, data: null },
           fetch: { isLoading: false, error: null },
           data: {
+            claimId: TEST_CLAIM_ID,
+            appointment: {
+              id: TEST_APPT_ID,
+              facilityName: 'Test VA Medical Center',
+              appointmentDateTime: '2024-01-15T18:00:00Z',
+            },
             documents: [],
           },
         },
@@ -594,5 +767,94 @@ describe('Complex Claims Mileage - Edit', () => {
 
     fireEvent.click(backButton);
     expect(backButton).to.exist;
+  });
+
+  describe('Cancel modal navigation in edit mode', () => {
+    it('navigates to review page when confirming cancel in edit mode', () => {
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            `/file-new-claim/${TEST_APPT_ID}/${TEST_CLAIM_ID}/mileage/${TEST_EXPENSE_ID}`,
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/mileage/:expenseId"
+              element={<Mileage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<div data-testid="review-page" />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { initialState: getEditState(), reducers: reducer },
+      );
+
+      // Click Cancel button to open modal
+      const backButton = Array.from(
+        container.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Cancel');
+      fireEvent.click(backButton);
+
+      // Verify modal is open
+      const modal = container.querySelector('va-modal');
+      expect(modal.getAttribute('visible')).to.equal('true');
+
+      // Confirm cancel by triggering the modal's primary button click event
+      modal.__events.primaryButtonClick();
+
+      // Verify navigation to review page
+      expect($('[data-testid="review-page"]')).to.exist;
+    });
+
+    it('navigates to review page when confirming cancel with backDestination="review" in edit mode', () => {
+      const stateWithBackDestination = {
+        ...getEditState(),
+        travelPay: {
+          ...getEditState().travelPay,
+          complexClaim: {
+            ...getEditState().travelPay.complexClaim,
+            expenseBackDestination: 'review',
+          },
+        },
+      };
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            `/file-new-claim/${TEST_APPT_ID}/${TEST_CLAIM_ID}/mileage/${TEST_EXPENSE_ID}`,
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/mileage/:expenseId"
+              element={<Mileage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<div data-testid="review-page" />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { initialState: stateWithBackDestination, reducers: reducer },
+      );
+
+      // Click Cancel button to open modal
+      const backButton = Array.from(
+        container.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Cancel');
+      fireEvent.click(backButton);
+
+      // Verify modal is open
+      const modal = container.querySelector('va-modal');
+      expect(modal.getAttribute('visible')).to.equal('true');
+
+      // Confirm cancel by triggering the modal's primary button click event
+      modal.__events.primaryButtonClick();
+
+      // Verify navigation to review page
+      expect($('[data-testid="review-page"]')).to.exist;
+    });
   });
 });

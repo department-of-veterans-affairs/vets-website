@@ -130,7 +130,7 @@ export default function ClaimDetailsContent({
         className="vads-u-font-size--h2 vads-u-font-weight--bold"
         data-testid="claim-details-claim-number"
       >
-        Claim number: {claimNumber}
+        Claim number: <span data-dd-privacy="mask">{claimNumber}</span>
       </span>
 
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
@@ -243,7 +243,7 @@ export default function ClaimDetailsContent({
         </>
       )}
       <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-        Claim submission timeline
+        Claim timeline
       </p>
       <p className="vads-u-margin-y--0">
         {complexClaimsToggle ? 'Created' : 'Submitted'} on {createDate} at{' '}
@@ -256,7 +256,7 @@ export default function ClaimDetailsContent({
         Appointment information
       </p>
       <p className="vads-u-margin-y--0">
-        {appointmentDate} at {appointmentTime} appointment
+        {appointmentDate} at {appointmentTime}
       </p>
       <p className="vads-u-margin-top--0">{facilityName}</p>
       {claimsMgmtToggle && (
@@ -264,7 +264,7 @@ export default function ClaimDetailsContent({
           {documentCategories.user.length > 0 && (
             <>
               <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-                Documents you submitted
+                Documents added to this claim
               </p>
               {getDocLinkList(documentCategories.user)}
             </>

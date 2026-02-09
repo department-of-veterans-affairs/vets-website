@@ -22,10 +22,6 @@ export default {
     medicarePlanType: radioUI({
       title: INPUT_LABEL,
       labels: SCHEMA_LABELS,
-      updateSchema: formData => {
-        if (formData['view:allowMedicarePlanB']) return {};
-        return { enum: SCHEMA_ENUM.slice(0, -1) };
-      },
     }),
   },
   schema: {

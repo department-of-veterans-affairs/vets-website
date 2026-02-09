@@ -47,7 +47,7 @@ describe('<ClaimDetailLayout>', () => {
     );
     expect($('va-alert', container.container)).to.exist;
     expect(container.container.textContent).to.include(
-      'VA.gov is having trouble loading claims information',
+      "We can't access your claim right now",
     );
   });
 

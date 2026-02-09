@@ -669,7 +669,13 @@ describe('Failed Submissions in Progress Empty State', () => {
         cy.contains('Date failed:').should('exist');
       });
 
-      cy.injectAxeThenAxeCheck();
+      // ignore heading order violation (see [Design](https://www.figma.com/design/m1Xt8XjVDjZIbliCYcCKpE/Document-status?node-id=10278-153082&t=Xo9NNjbMT73BjVWx-4))
+      // See decision thread: https://www.figma.com/design/m1Xt8XjVDjZIbliCYcCKpE?node-id=10278-153120#1554363796
+      cy.injectAxeThenAxeCheck('main', {
+        rules: {
+          'heading-order': { enabled: false },
+        },
+      });
     });
   });
 });
@@ -858,12 +864,20 @@ describe('Google Analytics', () => {
     clickSubmitButton(SUBMIT_TEXT);
 
     assertDataLayerEvent('claims-upload-start', [
-      'file-count',
-      'retry-file-count',
-      'total-retry-attempts',
+      'event',
+      'api-name',
+      'api-status',
+      'error-key',
+      'upload-cancel-file-count',
+      'upload-fail-alert-count',
+      'upload-fail-file-count',
+      'upload-file-count',
+      'upload-retry',
+      'upload-retry-file-count',
+      'upload-success-file-count',
     ]);
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('should record claims-upload-success event on successful upload', () => {
@@ -885,10 +899,24 @@ describe('Google Analytics', () => {
     clickSubmitButton(SUBMIT_TEXT);
 
     cy.wait('@uploadRequest');
+    // Wait for upload modal to close before running axe check
+    cy.get('#upload-status').should('not.be.visible');
 
-    assertDataLayerEvent('claims-upload-success', ['file-count']);
+    assertDataLayerEvent('claims-upload-success', [
+      'event',
+      'api-name',
+      'api-status',
+      'error-key',
+      'upload-cancel-file-count',
+      'upload-fail-alert-count',
+      'upload-fail-file-count',
+      'upload-file-count',
+      'upload-retry',
+      'upload-retry-file-count',
+      'upload-success-file-count',
+    ]);
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('should record claims-upload-failure event on Type 1 upload failure', () => {
@@ -899,13 +927,24 @@ describe('Google Analytics', () => {
     clickSubmitButton(SUBMIT_TEXT);
 
     cy.wait('@uploadRequest');
+    // Wait for upload modal to close before running axe check
+    cy.get('#upload-status').should('not.be.visible');
 
     assertDataLayerEvent('claims-upload-failure', [
-      'failed-file-count',
-      'error-code',
+      'event',
+      'api-name',
+      'api-status',
+      'error-key',
+      'upload-cancel-file-count',
+      'upload-fail-alert-count',
+      'upload-fail-file-count',
+      'upload-file-count',
+      'upload-retry',
+      'upload-retry-file-count',
+      'upload-success-file-count',
     ]);
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('should include retry count when uploading the same file multiple times', () => {
@@ -920,8 +959,17 @@ describe('Google Analytics', () => {
 
     // Verify failure event fired on first attempt (retryable)
     assertDataLayerEvent('claims-upload-failure', [
-      'failed-file-count',
-      'error-code',
+      'event',
+      'api-name',
+      'api-status',
+      'error-key',
+      'upload-cancel-file-count',
+      'upload-fail-alert-count',
+      'upload-fail-file-count',
+      'upload-file-count',
+      'upload-retry',
+      'upload-retry-file-count',
+      'upload-success-file-count',
     ]);
 
     // Wait for error alert to appear
@@ -939,12 +987,23 @@ describe('Google Analytics', () => {
     uploadFileAndSelectType('test-document.txt', 'L034', 0, true); // force: true for retry
     clickSubmitButton(SUBMIT_TEXT);
 
+    cy.wait('@uploadRequest');
+
     // Verify retry event fired (retryable)
     assertDataLayerEvent('claims-upload-start', [
-      'retry-file-count',
-      'total-retry-attempts',
+      'event',
+      'api-name',
+      'api-status',
+      'error-key',
+      'upload-cancel-file-count',
+      'upload-fail-alert-count',
+      'upload-fail-file-count',
+      'upload-file-count',
+      'upload-retry',
+      'upload-retry-file-count',
+      'upload-success-file-count',
     ]);
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });

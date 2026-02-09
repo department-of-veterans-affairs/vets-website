@@ -13,6 +13,8 @@ import {
   capitalizeFirstLetter,
   matchYearPattern,
   additionalInstitutionDetailsArrayOptions,
+  arrayBuilderOptions,
+  yellowRibbonProgramCardDescription,
 } from '../helpers';
 
 describe('0839 Helpers', () => {
@@ -1179,6 +1181,154 @@ describe('0839 Helpers', () => {
       expect(matchYearPattern('')).to.be.false;
       expect(matchYearPattern('invalid')).to.be.false;
       expect(matchYearPattern('2024')).to.be.false;
+    });
+  });
+  describe('arrayBuilderOptions', () => {
+    it('has expected base configuration', () => {
+      expect(arrayBuilderOptions.arrayPath).to.equal(
+        'yellowRibbonProgramRequest',
+      );
+      expect(arrayBuilderOptions.nounSingular).to.equal('contribution');
+      expect(arrayBuilderOptions.nounPlural).to.equal('contributions');
+      expect(arrayBuilderOptions.required).to.equal(true);
+    });
+
+    describe('title', () => {
+      it('returns expected us title', () => {
+        const props = {
+          formData: {
+            institutionDetails: {
+              isUsaSchool: true,
+            },
+          },
+        };
+        expect(arrayBuilderOptions.title(props)).to.equal(
+          'U.S. Yellow Ribbon Program contributions',
+        );
+      });
+      it('returns expected foreign title', () => {
+        const props = {
+          formData: {
+            institutionDetails: {
+              isUsaSchool: false,
+            },
+          },
+        };
+        expect(arrayBuilderOptions.title(props)).to.equal(
+          'Foreign Yellow Ribbon Program contributions',
+        );
+      });
+      it('returns expected foreign title if institution details is null', () => {
+        const props = {
+          formData: {},
+        };
+        expect(arrayBuilderOptions.title(props)).to.equal(
+          'Foreign Yellow Ribbon Program contributions',
+        );
+      });
+    });
+
+    describe('text.summaryTitle', () => {
+      it('returns us title if us school', () => {
+        const props = {
+          formData: {
+            institutionDetails: {
+              isUsaSchool: true,
+            },
+          },
+        };
+
+        expect(arrayBuilderOptions.text.summaryTitle(props)).to.equal(
+          'Review your Yellow Ribbon Program contributions (U.S. schools)',
+        );
+      });
+      it('returns foreign title if foreign school', () => {
+        const props = {
+          formData: {
+            institutionDetails: {
+              isUsaSchool: false,
+            },
+          },
+        };
+
+        expect(arrayBuilderOptions.text.summaryTitle(props)).to.equal(
+          'Review your Yellow Ribbon Program contributions (foreign schools)',
+        );
+      });
+      it('returns foreign title if null insitution details', () => {
+        const props = {
+          formData: {},
+        };
+
+        expect(arrayBuilderOptions.text.summaryTitle(props)).to.equal(
+          'Review your Yellow Ribbon Program contributions (foreign schools)',
+        );
+      });
+    });
+    describe('text.getItemName', () => {
+      it('returns expected ItemName starting new agreement', () => {
+        const props = {
+          academicYearDisplay: '2026-2027',
+        };
+
+        expect(arrayBuilderOptions.text.getItemName(props)).to.equal(
+          '2026-2027',
+        );
+      });
+      it('returns expected ItemName modify existing agreement', () => {
+        const props = {
+          academicYear: '2026-2027',
+        };
+
+        expect(arrayBuilderOptions.text.getItemName(props)).to.equal(
+          '2026-2027',
+        );
+      });
+    });
+    describe('text.cardDescription', () => {
+      it('returns null when item is null or undefined', () => {
+        expect(arrayBuilderOptions.text.cardDescription(null)).to.equal(null);
+        expect(arrayBuilderOptions.text.cardDescription(undefined)).to.equal(
+          null,
+        );
+      });
+
+      it('renders cardDescription', () => {
+        const item = {
+          degreeLevel: 'Graduate',
+          collegeOrProfessionalSchool: 'Colege"',
+        };
+        const result = arrayBuilderOptions.text.getItemName(item);
+        expect(result).to.not.be.null;
+      });
+    });
+  });
+  describe('yellowRibbonProgramCardDescription', () => {
+    it('returns null when item is null or undefined', () => {
+      expect(yellowRibbonProgramCardDescription(null)).to.equal(null);
+      expect(yellowRibbonProgramCardDescription(undefined)).to.equal(null);
+    });
+
+    it('renders contribution', () => {
+      const item = {
+        maximumStudentsOption: 'specific',
+        maximumStudents: 10,
+        degreeLevel: 'Graduate',
+        collegeOrProfessionalSchool: 'College',
+      };
+      const result = yellowRibbonProgramCardDescription(item);
+      expect(result).to.not.be.null;
+    });
+
+    it('renders contribution unlimited', () => {
+      const item = {
+        maximumStudentsOption: 'unlimited',
+        degreeLevel: 'Graduate',
+        collegeOrProfessionalSchool: 'College',
+        specificContributionAmount: 100,
+      };
+      const result = yellowRibbonProgramCardDescription(item);
+      expect(result).to.not.be.null;
     });
   });
 });

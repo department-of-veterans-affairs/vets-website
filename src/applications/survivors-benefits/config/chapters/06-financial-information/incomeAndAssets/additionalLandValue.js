@@ -6,17 +6,18 @@ import {
 
 const uiSchema = {
   ...titleUI('Value of additional land'),
-  additionalLandValue: currencyUI({
+  homeAcreageValue: currencyUI({
     title: 'What’s the value of the land that’s more than 2 acres?',
     hint: 'Don’t include the value of the residence or the first 2 acres',
+    max: 999999999,
   }),
 };
 
 const schema = {
   type: 'object',
-  required: ['additionalLandValue'],
+  required: ['homeAcreageValue'],
   properties: {
-    additionalLandValue: currencySchema,
+    homeAcreageValue: currencySchema,
   },
 };
 

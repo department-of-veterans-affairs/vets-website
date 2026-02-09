@@ -129,6 +129,13 @@ export const formMappings = {
     subTitle: 'Report of Income from Property or Business',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-4185-ARE.pdf',
   },
+
+  '21P-535': {
+    subTitle:
+      'Application for Dependency and Indemnity Compensation by Parent(s) (Including Accrued Benefits and Death Compensation when Applicable)',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-535-ARE.pdf',
+    showSupportingDocuments: true,
+  },
 };
 
 const extractFormSlug = path => {

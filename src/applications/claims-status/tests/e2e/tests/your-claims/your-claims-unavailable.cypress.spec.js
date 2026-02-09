@@ -9,6 +9,9 @@ import {
 } from '../../support/helpers/mocks';
 
 describe('Your claims unavailable,', () => {
+  const bodyText =
+    "We're sorry. There's a problem with our system. Refresh this page or try again later.";
+
   beforeEach(() => {
     mockFeatureToggles();
     mockStemEndpoint();
@@ -23,13 +26,15 @@ describe('Your claims unavailable,', () => {
     cy.visit('/track-claims');
     cy.injectAxe();
 
-    cy.findByRole('heading', {
-      name: 'Claim and Appeal status is unavailable',
-      level: 3,
-    });
-    cy.findByText(
-      'VA.gov is having trouble loading claims and appeals information at this time. Check back again in an hour.',
-    );
+    cy.get('va-alert[status="warning"]')
+      .should('exist')
+      .within(() => {
+        cy.contains(
+          'h3',
+          "We can't access some of your claims or appeals right now",
+        ).should('exist');
+        cy.contains(bodyText).should('exist');
+      });
 
     cy.axeCheck();
   });
@@ -41,13 +46,15 @@ describe('Your claims unavailable,', () => {
     cy.visit('/track-claims');
     cy.injectAxe();
 
-    cy.findByRole('heading', {
-      name: 'Claim status is unavailable',
-      level: 3,
-    });
-    cy.findByText(
-      'VA.gov is having trouble loading claims information at this time. Check back again in an hour. Note: You are still able to review appeals information.',
-    );
+    cy.get('va-alert[status="warning"]')
+      .should('exist')
+      .within(() => {
+        cy.contains(
+          'h3',
+          "We can't access some of your claims right now",
+        ).should('exist');
+        cy.contains(bodyText).should('exist');
+      });
 
     cy.axeCheck();
   });
@@ -59,13 +66,15 @@ describe('Your claims unavailable,', () => {
     cy.visit('/track-claims');
     cy.injectAxe();
 
-    cy.findByRole('heading', {
-      name: 'Appeal status is unavailable',
-      level: 3,
-    });
-    cy.findByText(
-      'VA.gov is having trouble loading appeals information at this time. Check back again in an hour. Note: You are still able to review claims information.',
-    );
+    cy.get('va-alert[status="warning"]')
+      .should('exist')
+      .within(() => {
+        cy.contains(
+          'h3',
+          "We can't access some of your appeals right now",
+        ).should('exist');
+        cy.contains(bodyText).should('exist');
+      });
 
     cy.axeCheck();
   });

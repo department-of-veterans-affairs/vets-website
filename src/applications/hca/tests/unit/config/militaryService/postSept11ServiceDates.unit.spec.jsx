@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca Post 9/11 Service Dates config', () => {
   const {
@@ -13,7 +15,7 @@ describe('hca Post 9/11 Service Dates config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 4;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
@@ -30,4 +32,57 @@ describe('hca Post 9/11 Service Dates config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        'view:gulfWarServiceDates': {
+          type: 'object',
+          properties: {
+            gulfWarStartDate: {
+              type: 'string',
+              pattern: {},
+            },
+            gulfWarEndDate: {
+              type: 'string',
+              pattern: {},
+            },
+          },
+        },
+        'view:dateRange': {
+          type: 'object',
+          properties: {},
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'view:gulfWarServiceDates': {
+        'ui:validations': {},
+        gulfWarStartDate: {
+          'ui:description': {},
+          'ui:title': {},
+          'ui:errorMessages': {},
+          'ui:validations': {},
+          'ui:options': {},
+        },
+        gulfWarEndDate: {
+          'ui:description': {},
+          'ui:title': {},
+          'ui:errorMessages': {},
+          'ui:validations': {},
+          'ui:options': {},
+        },
+      },
+      'view:dateRange': {
+        'ui:description': {},
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });

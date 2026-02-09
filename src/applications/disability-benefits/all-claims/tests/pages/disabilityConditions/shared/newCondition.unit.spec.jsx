@@ -95,4 +95,32 @@ describe('526 new condition shared page', () => {
     );
     expect(error).to.exist;
   });
+
+  it('shows error when input is only whitespace', async () => {
+    const { getByRole, findByText, getByTestId } = mountPage();
+    const input = getByTestId('autocomplete-input');
+    input.value = '   ';
+
+    fireEvent.input(input);
+    fireEvent.click(getByRole('button', { name: /submit/i }));
+
+    const error = await findByText(
+      /Enter a condition, diagnosis, or short description/i,
+    );
+    expect(error).to.exist;
+  });
+
+  it('shows error when input exceeds 255 characters', async () => {
+    const { getByRole, findByText, getByTestId } = mountPage();
+    const input = getByTestId('autocomplete-input');
+    input.value = 'a'.repeat(256);
+
+    fireEvent.input(input);
+    fireEvent.click(getByRole('button', { name: /submit/i }));
+
+    const error = await findByText(
+      /This field should be less than 255 characters/i,
+    );
+    expect(error).to.exist;
+  });
 });

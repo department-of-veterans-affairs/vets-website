@@ -2,7 +2,7 @@ import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationPageITF from '../containers/ConfirmationPageITF';
 import IntroductionPageITF from '../containers/IntroductionPageITF';
 import { itfClaimantInformationPage } from '../pages/itfClaimantInformation';
 import { itfVeteranInformationPage } from '../pages/itfVeteranInformation';
@@ -15,7 +15,7 @@ import ITFSubmissionError from './ITFSubmissionError';
 import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
 import ITF403Error from '../components/ITF403Error';
 import ITF500Error from '../components/ITF500Error';
-import ExistingItf from '../components/ExistingItf';
+import ITFExistingClaim from '../components/ITFExistingClaim';
 
 const form210966 = (pathname = null) => {
   const { subTitle, formNumber } = getFormContent(pathname);
@@ -28,11 +28,15 @@ const form210966 = (pathname = null) => {
     submitUrl: `${
       environment.API_URL
     }/accredited_representative_portal/v0/intent_to_file`,
-    dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
+    dev: {
+      collapsibleNavLinks: true,
+      showNavLinks: !window.Cypress,
+      disableWindowUnloadInCI: true,
+    },
     disableSave: true,
     trackingPrefix,
     introduction: IntroductionPageITF,
-    confirmation: ConfirmationPage,
+    confirmation: ConfirmationPageITF,
     CustomTopContent,
     customText: {
       appType: 'form',
@@ -56,18 +60,18 @@ const form210966 = (pathname = null) => {
         path: 'intent-to-file-no-representation',
         pageKey: 'intent-to-file-no-representation',
         component: ITF403Error,
-        depends: formData => formData,
+        depends: () => false,
       },
       {
         path: 'intent-to-file-unknown',
         pageKey: 'intent-to-file-unknown',
         component: ITF500Error,
-        depends: formData => formData,
+        depends: () => false,
       },
       {
         path: 'existing-itf',
         pageKey: 'existing-itf',
-        component: ExistingItf,
+        component: ITFExistingClaim,
         depends: () => false,
       },
     ],
@@ -120,9 +124,9 @@ const form210966 = (pathname = null) => {
       claimantInformationChapter: {
         title: 'Claimant and Veteran information',
         reviewDescription: () => (
-          <div className="itf-review-heading">
+          <h4 className="itf-review-heading">
             Claimant and Veteran information
-          </div>
+          </h4>
         ),
         pages: {
           claimantInformation: {

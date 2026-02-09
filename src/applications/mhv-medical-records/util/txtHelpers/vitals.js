@@ -1,11 +1,8 @@
 import { txtLineDotted } from '@department-of-veterans-affairs/mhv/exports';
 
+// Extracts unique vital types from a list of vital records.
 const formatVitals = vitals => {
-  const typeArray = [];
-  vitals.map(
-    record => !typeArray.includes(record.type) && typeArray.push(record.type),
-  );
-  return typeArray;
+  return [...new Set((vitals ?? []).map(record => record.type))];
 };
 
 const vitalNameParse = name => {
@@ -33,7 +30,7 @@ ${vitalTypes
       vitalType => `
 ${vitalNameParse(vitalType)}
 ${txtLineDotted}
-  ${records
+  ${(records ?? [])
     .filter(record => record.type === vitalType)
     .map(
       record => `

@@ -12,6 +12,7 @@ import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-b
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 
 import { employmentAppliedFields } from '../definitions/constants';
+import { HideDefaultDateHint } from '../helpers/dateHint';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -56,6 +57,12 @@ const summaryPage = {
     [employmentAppliedFields.hasTriedEmployment]: arrayBuilderYesNoUI(options, {
       title:
         'Have you tried to obtain employment since you became too disabled to work?',
+      hint:
+        'If you have tried to get a job since you became too disabled to work, you’ll need to add at least one employment application record. You can add up to three.',
+      errorMessages: {
+        required:
+          'Please select "Yes" if you have at least one employment application record to add.',
+      },
     }),
   },
   schema: {
@@ -82,9 +89,13 @@ const employmentInformationPage = {
       omit: ['street3'],
     }),
     [employmentAppliedFields.typeOfWork]: textUI('Type of work applied for'),
-    [employmentAppliedFields.dateApplied]: currentOrPastDateUI({
-      title: 'Date you applied for employment',
-    }),
+    [employmentAppliedFields.dateApplied]: {
+      ...currentOrPastDateUI({
+        title: 'Date you applied for employment',
+        hint: 'For example: January 19 2022',
+      }),
+      'ui:description': HideDefaultDateHint,
+    },
   },
   schema: {
     type: 'object',
@@ -120,7 +131,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
   }),
   employmentHistoryPage: pageBuilder.itemPage({
     title: 'Employment application record',
-    path: 'employment-application-record/:index/',
+    path: 'employment-application-record/:index/basic-info',
     uiSchema: employmentInformationPage.uiSchema,
     schema: employmentInformationPage.schema,
   }),

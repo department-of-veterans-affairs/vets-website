@@ -1,38 +1,33 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const ApplicationDiscontinuedAlert = () => {
+const ApplicationDiscontinuedAlert = ({ discontinuedReason }) => {
   return (
-    <div className="usa-width-two-thirds vads-u-margin-y--3">
+    <div className="vads-u-margin-y--3">
       <va-alert
         close-btn-aria-label="Close notification"
         status="error"
         visible
       >
-        <h3 slot="headline">Sorry, your application has been discontinued</h3>
-        <p className="vads-u-margin-y--0">
-          Please contact the Central Office at{' '}
-          <va-telephone contact="8773459876" /> between the hours 8:00am ET and
-          5:00pm ET. You can find a copy of the letter down below.
-        </p>
+        <h3 slot="headline">
+          Sorry, processing your Chapter 31 claim has been discontinued
+        </h3>
         <p>
-          Your application has been discontinued and it’s ineligible for Chapter
-          31 benefits for the following reason:
+          Your VR&E Chapter 31 claim has been discontinued for the following
+          reasons:
         </p>
+        <p>{discontinuedReason || 'No reason provided.'}</p>
         <p>
-          More information can be found in your letter and you can download a
-          copy of your letter by clicking on “Download Letter”:
+          Please visit your eFolder to view your detailed letter and next steps.
         </p>
-        <p className="usa-width-one-whole">
-          <va-link
-            download
-            filetype="PDF"
-            href="https://www.va.gov"
-            text="Download Letter"
-          />
-        </p>
+        <va-link-action href="https://va.gov" text="eFolder" type="primary" />
       </va-alert>
     </div>
   );
+};
+
+ApplicationDiscontinuedAlert.propTypes = {
+  discontinuedReason: PropTypes.string,
 };
 
 export default ApplicationDiscontinuedAlert;

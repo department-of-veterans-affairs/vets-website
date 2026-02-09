@@ -17,7 +17,7 @@ describe('<MhvSecondaryNav />', () => {
     const apptLink = getByRole('link', { name: /^Appointments/ });
     expect(apptLink.href).to.match(/my-health\/appointments\/$/);
     const msgLink = getByRole('link', { name: /^Messages/ });
-    expect(msgLink.href).to.match(/my-health\/secure-messages\/inbox$/);
+    expect(msgLink.href).to.match(/my-health\/secure-messages\/inbox\/$/);
     const medLink = getByRole('link', { name: /^Medications/ });
     expect(medLink.href).to.match(/my-health\/medications\/$/);
     const mrLink = getByRole('link', { name: /^Records/ });

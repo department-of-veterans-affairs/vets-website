@@ -243,7 +243,9 @@ describe('Claim status', () => {
             cy.findByText(expectedStep);
             cy.findByText(expectedDescription);
             cy.findByText('Moved to this step on January 2, 2025');
-            cy.findByRole('link', { name: 'Overview of the process' });
+            cy.findByRole('link', {
+              name: 'Learn more about the review process',
+            });
 
             cy.axeCheck();
           });

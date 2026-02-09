@@ -259,10 +259,17 @@ const yellowRibbonCardTitleCase = str => {
   return result.join(' ');
 };
 
-const yellowRibbonProgramCardDescription = item => {
+export const yellowRibbonProgramCardDescription = item => {
   if (!item) return null;
   return (
     <div>
+      <p>
+        {`Max. number of students: ${
+          item?.maximumStudentsOption === 'specific'
+            ? item?.maximumStudents
+            : 'Unlimited'
+        }`}
+      </p>
       <p>{yellowRibbonCardTitleCase(item.degreeLevel)}</p>
       <p>{yellowRibbonCardTitleCase(item.collegeOrProfessionalSchool)}</p>
       <p>{CURRENCY_LABELS[item.schoolCurrency]}</p>
@@ -289,12 +296,9 @@ export const arrayBuilderOptions = {
     } Yellow Ribbon Program contributions`;
   },
   text: {
-    getItemName: item =>
-      `Max. number of students: ${
-        item?.maximumStudentsOption === 'specific'
-          ? item?.maximumStudents
-          : 'Unlimited'
-      }`,
+    getItemName: item => {
+      return item?.academicYear || item?.academicYearDisplay;
+    },
     cardDescription: item => yellowRibbonProgramCardDescription(item),
     summaryTitle: props => {
       const institutionDetails = props?.formData?.institutionDetails;

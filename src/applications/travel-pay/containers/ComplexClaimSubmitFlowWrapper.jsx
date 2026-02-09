@@ -212,21 +212,22 @@ const ComplexClaimSubmitFlowWrapper = () => {
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-margin-bottom--0">
         <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
-          <va-link
-            back
-            data-testid="complex-claim-back-link"
-            disable-analytics
-            href={
-              getBackRoute({
-                isIntroductionPage,
-                apptId,
-                entryPoint,
-                effectiveClaimId,
-              }).href
-            }
-            text={isIntroductionPage ? 'Back to appointment' : 'Back'}
-            onClick={handleBackLinkClick}
-          />
+          <p>
+            <va-link
+              back
+              data-testid="complex-claim-back-link"
+              href={
+                getBackRoute({
+                  isIntroductionPage,
+                  apptId,
+                  entryPoint,
+                  effectiveClaimId,
+                }).href
+              }
+              text={isIntroductionPage ? 'Back to appointment' : 'Back'}
+              onClick={handleBackLinkClick}
+            />
+          </p>
         </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           <Outlet />

@@ -6,6 +6,7 @@ import {
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import {
   selectComplexClaim,
@@ -27,6 +28,7 @@ const ChooseExpenseType = () => {
   const title = 'What type of expense do you want to add?';
 
   useSetPageTitle(title);
+  useSetFocus();
 
   // Check if claim already has a mileage expense
   const hasExistingMileageExpense = () => {
@@ -93,6 +95,7 @@ const ChooseExpenseType = () => {
       <VaRadio
         label="Select an expense type"
         required
+        enableAnalytics
         class="vads-u-margin-top--2"
         error={showError || mileageError ? errorMessage : null}
         onVaValueChange={event => {
@@ -106,6 +109,7 @@ const ChooseExpenseType = () => {
             tile
             key={option.route}
             label={option.title}
+            name="choose-expense-type"
             value={option.route}
             description={
               option.name === EXPENSE_TYPES.Mileage.name ? hintText : ''
@@ -118,7 +122,6 @@ const ChooseExpenseType = () => {
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
-        disable-analytics
         onPrimaryClick={handleContinue}
         onSecondaryClick={handleBack}
       />

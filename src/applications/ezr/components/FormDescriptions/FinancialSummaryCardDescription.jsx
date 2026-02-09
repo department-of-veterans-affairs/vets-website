@@ -39,7 +39,7 @@ const renderList = (rows, keyPrefix) => (
   <ul className="no-bullets">
     {rows.map(({ key, label, value }) => (
       <li key={`${keyPrefix}-${key}`}>
-        {label} {formatCurrency(value)}
+        {label}: {formatCurrency(value)}
       </li>
     ))}
   </ul>

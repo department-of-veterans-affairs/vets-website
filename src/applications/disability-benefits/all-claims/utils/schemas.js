@@ -29,8 +29,8 @@ import {
 
 import {
   capitalizeEachWord,
-  disabilityIsSelected,
   isClaimingIncrease,
+  isNewConditionOption,
   isPlaceholderRated,
   pathWithIndex,
   sippableId,
@@ -104,12 +104,49 @@ export const makeSchemaForNewDisabilities = createSelector(
  */
 export const makeSchemaForRatedDisabilities = createSelector(
   formData => (isClaimingIncrease(formData) ? formData.ratedDisabilities : []),
-  (ratedDisabilities = []) => ({
-    properties: ratedDisabilities
-      .filter(disabilityIsSelected)
+  formData =>
+    Array.isArray(formData?.newDisabilities) ? formData.newDisabilities : [],
+
+  (ratedDisabilities = [], newDisabilities = []) => {
+    // rated disabilities from the current workflow (view:selected)
+    const fromRatedDisabilities = ratedDisabilities
+      .filter(disability => disability?.['view:selected'])
       .map(disability => disability.name)
-      .reduce(createCheckboxSchema, {}),
-  }),
+      .filter(name => typeof name === 'string' && name.trim().length > 0);
+
+    const fromNewDisabilities = newDisabilities
+      .map(d => {
+        const ratedDisability =
+          typeof d?.ratedDisability === 'string'
+            ? d.ratedDisability.trim()
+            : null;
+
+        if (!ratedDisability) return null;
+        if (isNewConditionOption(ratedDisability)) return null;
+
+        return ratedDisability;
+      })
+      .filter(Boolean);
+
+    const dedupedByNormalizedName = new Map();
+
+    [...fromRatedDisabilities, ...fromNewDisabilities].forEach(name => {
+      const normalizedKey = name.toLowerCase();
+
+      if (!dedupedByNormalizedName.has(normalizedKey)) {
+        dedupedByNormalizedName.set(normalizedKey, name);
+      }
+    });
+
+    const uniqueRatedDisabilities = [...dedupedByNormalizedName.values()];
+
+    const properties = uniqueRatedDisabilities.reduce(
+      (schema, disabilityName) => createCheckboxSchema(schema, disabilityName),
+      {},
+    );
+
+    return { properties };
+  },
 );
 
 /**

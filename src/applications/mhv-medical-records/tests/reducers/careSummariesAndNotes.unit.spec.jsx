@@ -352,6 +352,14 @@ describe('getRecordType', () => {
     expect(getRecordType(pnNote)).to.equal(noteTypes.PHYSICIAN_PROCEDURE_NOTE);
     expect(getRecordType(crNote)).to.equal(noteTypes.CONSULT_RESULT);
   });
+
+  it('should handle records with missing type or coding without crashing', () => {
+    expect(() => getRecordType({})).to.not.throw();
+    expect(() => getRecordType({ type: {} })).to.not.throw();
+    expect(() => getRecordType({ type: { coding: undefined } })).to.not.throw();
+    expect(getRecordType({})).to.equal(noteTypes.OTHER);
+    expect(getRecordType({ type: {} })).to.equal(noteTypes.OTHER);
+  });
 });
 
 describe('getAttending', () => {

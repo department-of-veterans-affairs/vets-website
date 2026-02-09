@@ -137,7 +137,10 @@ describe('Travel Pay – IntroductionPage', () => {
       ),
     ).to.exist;
 
-    expect($(`va-link[href="${BTSSS_PORTAL_URL}"]`, container)).to.exist;
+    const btsssPortalLink = $(`va-link[href="${BTSSS_PORTAL_URL}"]`, container);
+    expect(btsssPortalLink).to.exist;
+    expect(btsssPortalLink).to.have.attribute('external');
+
     expect($(`va-link[href="${FIND_FACILITY_TP_CONTACT_LINK}"]`, container)).to
       .exist;
   });
@@ -237,7 +240,7 @@ describe('Travel Pay – IntroductionPage', () => {
 
     expect($('va-omb-info[exp-date="11/30/2027"]'), container).to.exist;
     expect($('va-omb-info[omb-number="2900-0798"]'), container).to.exist;
-    expect($('va-omb-info[res-burden="15"]'), container).to.exist;
+    expect($('va-omb-info[res-burden="10"]'), container).to.exist;
   });
 
   it('renders the Need help section with contact info', () => {
@@ -252,7 +255,9 @@ describe('Travel Pay – IntroductionPage', () => {
     );
 
     expect(getByText('Need help?')).to.exist;
-    expect(getByText(/BTSSS call center/i)).to.exist;
+    expect(
+      getByText(/You can call the Beneficiary Travel Self Service System/i),
+    ).to.exist;
     expect($('va-telephone[contact="8555747292"]', container)).to.exist;
     expect($('va-telephone[tty][contact="711"]', container)).to.exist;
   });
@@ -637,5 +642,73 @@ describe('Travel Pay – IntroductionPage', () => {
         'intro',
       );
     });
+  });
+
+  it('shows OutOfBoundsAppointmentAlert when appointment is out of bounds', () => {
+    const stateWithOutOfBoundsAppointment = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isOutOfBounds: true,
+          },
+        },
+      },
+    };
+
+    const { getByRole } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      {
+        initialState: stateWithOutOfBoundsAppointment,
+        reducers: reducer,
+      },
+    );
+
+    // Verify the alert is displayed
+    expect(
+      getByRole('heading', {
+        name: /your appointment happened more than 30 days ago/i,
+      }),
+    ).to.exist;
+  });
+
+  it('does not show OutOfBoundsAppointmentAlert when appointment is not out of bounds', () => {
+    const stateWithInBoundsAppointment = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isOutOfBounds: false,
+          },
+        },
+      },
+    };
+
+    const { queryByRole } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      {
+        initialState: stateWithInBoundsAppointment,
+        reducers: reducer,
+      },
+    );
+
+    // Verify the alert is NOT displayed
+    expect(
+      queryByRole('heading', {
+        name: /your appointment happened more than 30 days ago/i,
+      }),
+    ).to.not.exist;
   });
 });

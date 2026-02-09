@@ -28,5 +28,16 @@ export const selectSecureMessagingMedicationsRenewalRequestFlag = state =>
 export const selectCernerPilotFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot];
 
-// Hardcoded to true temporarily until feature flag is added in separate PR
-export const selectV2StatusMappingFlag = () => true;
+export const selectV2StatusMappingFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping];
+
+export const selectEnableKramesHtmlSanitizationFlag = state =>
+  state.featureToggles[
+    FEATURE_FLAG_NAMES.mhvMedicationsEnableKramesHtmlSanitization
+  ];
+
+export const selectMedicationsManagementImprovementsFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements];
+
+export const selectOracleHealthCutoverFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsOracleHealthCutover];

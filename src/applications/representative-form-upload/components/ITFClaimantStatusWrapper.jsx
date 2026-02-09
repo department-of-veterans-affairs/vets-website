@@ -10,6 +10,7 @@ const ITFClaimantStatusWrapper = ({ children }) => {
       <FormTitle title={`Submit VA Form ${formNumber}`} subTitle={subTitle} />
       <va-segmented-progress-bar
         current={2}
+        header-level={2}
         heading-text="Claimant information"
         total={3}
       />

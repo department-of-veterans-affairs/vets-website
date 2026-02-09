@@ -1,18 +1,5 @@
-import { parseISODate } from 'platform/forms-system/src/js/helpers';
-
+import { coerceStringValue } from '.';
 import { REGEXP } from '../constants';
-
-/**
- * Detect non-string & return empty string if it isn't
- * @param {*} value
- * @return {string}
- */
-const coerceStringValue = value => {
-  if (typeof value === 'string') {
-    return value;
-  }
-  return '';
-};
 
 /** Replace "percent" with "%" - see va.gov-team/issues/34810
  * Include spacing in regexp so:
@@ -39,15 +26,6 @@ const replaceApostrophe = text => text.replace(REGEXP.APOSTROPHE, "'");
  */
 export const replaceWhitespace = text =>
   text.replace(REGEXP.WHITESPACE, ' ').trim();
-
-/**
- * Add leading zero to numbers < 10
- * using slice since we have some Veterans using older Safari versions that
- * don't support padStart or Intl.NumberFormat
- * @param {String} part - date part (month or day) to add leading zeros to
- * @returns {String}
- */
-const addLeadingZero = part => `00${part || ''}`.slice(-2);
 
 /** ***************** */
 
@@ -86,27 +64,3 @@ export const replaceSubmittedData = text =>
     (resultingText, transformer) => transformer(resultingText),
     text || '',
   );
-
-/**
- * Change a date string with no leading zeros (e.g. 2020-1-2) into a date with
- * leading zeros (e.g. 2020-01-02) as expected in the schema
- * @param {String} dateString YYYY-M-D or YYYY-MM-DD date string
- * @returns {String} YYYY-MM-DD date string
- */
-export const fixDateFormat = (date, yearOnly = false) => {
-  const dateString = coerceStringValue(date).replace(REGEXP.WHITESPACE, '');
-
-  if (dateString.length === 10 || dateString === '') {
-    return dateString;
-  }
-
-  // Stopgap solution to properly format a year only when provided for a VA treatment date "before 2005"
-  // Coming into this function it will have a format of {year}-01. Here we'll add a day of 01
-  // Remove this when the new date components are implemented and the fields are required
-  if (yearOnly) {
-    return `${dateString}-01`;
-  }
-
-  const { day, month, year } = parseISODate(dateString);
-  return `${year}-${addLeadingZero(month)}-${addLeadingZero(day)}`;
-};

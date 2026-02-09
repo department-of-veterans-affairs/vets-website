@@ -1,6 +1,17 @@
 import React from 'react';
-import { generateTitle } from '../../../utils/helpers';
+import PropTypes from 'prop-types';
+import { generateTitle, showPdfFormAlignment } from '../../../utils/helpers';
 
+/**
+ * UI description content for the Supporting documents page.
+ *
+ * Renders conditional guidance based on the benefits selected and details
+ * about the Veteran’s death and requested burial services.
+ *
+ * @param {Object} props - React component props.
+ * @param {Object} props.formData - Current form data from the form system.
+ * @returns {JSX.Element} Supporting documents description content.
+ */
 function Description(props) {
   const isClaimingBurialAllowance =
     props.formData['view:claimedBenefits'].burialAllowance;
@@ -15,6 +26,7 @@ function Description(props) {
   );
   const hasSelectedTransportationCosts =
     props.formData['view:claimedBenefits'].transportation;
+  const pdfAligned = showPdfFormAlignment();
 
   let supportingDocumentsContent;
   if (isDeathCertificateRequired) {
@@ -49,8 +61,13 @@ function Description(props) {
     <>
       <p>
         Next we’ll ask you to submit supporting documents for your application.
-        If you upload all of your supporting documents online now, you may be
-        able to get a faster decision on your application.
+        {!pdfAligned && (
+          <>
+            {' '}
+            If you upload all of your supporting documents online now, you may
+            be able to get a faster decision on your application.
+          </>
+        )}
       </p>
 
       <p>
@@ -158,6 +175,15 @@ function Description(props) {
   );
 }
 
+Description.propTypes = {
+  formData: PropTypes.object.isRequired,
+};
+
+/**
+ * Page configuration for the Supporting documents page.
+ *
+ * @type {{ uiSchema: Object, schema: Object }}
+ */
 export default {
   uiSchema: {
     'ui:title': generateTitle('Supporting documents'),

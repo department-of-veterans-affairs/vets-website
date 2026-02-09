@@ -5,7 +5,7 @@ import {
   VaLinkAction,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getTrackedItemDisplayNameFromEvidenceSubmission } from '../utils/helpers';
-import { recordType2FailureEventStatusPage } from '../utils/analytics';
+import { recordType2FailureEvent } from '../utils/analytics';
 
 const HEADING = 'We need you to submit files by mail or in person';
 
@@ -15,7 +15,7 @@ function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
   useEffect(
     () => {
       if (failedSubmissions && failedSubmissions.length > 0 && isStatusPage) {
-        recordType2FailureEventStatusPage();
+        recordType2FailureEvent({ count: 1 });
       }
     },
     [failedSubmissions, isStatusPage],

@@ -1,3 +1,33 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+@media (max-width: $small-screen) {
+  .form-22-10272-container {
+    padding-inline: 0.5rem;
+  }
+
+  .form-22-10272-container .schemaform-buttons,
+  .form-22-10272-container .form-progress-buttons {
+    display: flex;
+    flex-direction: column !important;
+
+    div {
+      width: 100%;
+    }
+
+    div:first-of-type {
+      order: 2;
+    }
+  }
+}
+
+body[data-location="education-benefits-eligibility"] {
+  .form-panel {
+    max-width: 35rem;
+  }
+
+  va-card {
+    max-width: 27rem;
+  }
+}

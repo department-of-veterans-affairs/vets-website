@@ -229,4 +229,67 @@ describe('EducationFacilitySearch', () => {
       expect(params.get('name')).to.equal(mockLocationResponse.zipCode[0].text);
     });
   });
+
+  it('should display a previously saved value', async () => {
+    const initialValue = '12345678 - TEST SCHOOL';
+    const { view } = renderWithStore({
+      form: { data: { school: initialValue } },
+    });
+
+    // Should be just 1 option shown
+    const radioOptions = view.container.querySelectorAll('va-radio-option');
+    expect(radioOptions.length).to.equal(1);
+
+    // Single option shown should show previously stored answer
+    const initialOption = view.container.querySelector(
+      `va-radio-option[label="${initialValue}"]`,
+    );
+    expect(initialOption.outerHTML).to.include('checked="true"');
+  });
+
+  it('should NOT display the previously saved value on new text search', async () => {
+    const searchTerm = 'Test school';
+    const initialValue = '12345678 - TEST SCHOOL';
+    apiRequestStub.resolves(mockFacilityData);
+
+    const { view } = renderWithStore({
+      form: {
+        data: {
+          school: initialValue,
+        },
+      },
+    });
+
+    // Initial option shows at start
+    const getInitialOption = () =>
+      view.container.querySelector(`va-radio-option[label="${initialValue}"]`);
+    expect(getInitialOption()).to.exist;
+
+    // Run a new search
+    const searchInput = view.getByRole('searchbox', {
+      name: /search for your school/i,
+    });
+    const searchBtn = view.getByRole('button', {
+      name: /search/i,
+    });
+
+    userEvent.type(searchInput, searchTerm);
+    userEvent.click(searchBtn);
+
+    expect(getInitialOption()).to.not.exist;
+    expect(view.container.querySelector('va-loading-indicator')).to.exist;
+    expect(apiRequestStub.called).to.be.true;
+
+    // Confirm results are rendering
+    const resultsDescription = await view.findByText(/showing 2 results for/i);
+    expect(resultsDescription).to.exist;
+
+    const radioOptions = view.container.querySelectorAll('va-radio-option');
+    expect(radioOptions.length).to.equal(2);
+
+    // Confirm original value is gone
+    radioOptions.forEach(option => {
+      expect(option.outerHTML).to.not.include(initialValue);
+    });
+  });
 });

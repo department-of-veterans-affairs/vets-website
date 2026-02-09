@@ -7,6 +7,7 @@ import {
 import { validateChars } from '../utils/validation';
 
 export * from './attachments';
+export * from './dates';
 
 export const addressWithValidationUI = (options = {}) => {
   const charValidation = { 'ui:validations': [validateChars] };

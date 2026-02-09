@@ -9,21 +9,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import page from '../../../../config/chapters/04-household-information/separationDetails';
 
 describe('Separation details page', () => {
-  const { uiSchema, schema, depends } = page;
-
-  it('depends only for specific separation reasons', () => {
-    expect(depends).to.be.a('function');
-    expect(
-      Boolean(
-        depends({ separationDueToAssignedReasons: 'RELATIONSHIP_DIFFERENCES' }),
-      ),
-    ).to.be.true;
-    expect(Boolean(depends({ separationDueToAssignedReasons: 'OTHER' }))).to.be
-      .true;
-    expect(
-      Boolean(depends({ separationDueToAssignedReasons: 'SOMETHING_ELSE' })),
-    ).to.be.false;
-  });
+  const { uiSchema, schema } = page;
 
   it('contains courtOrderAlert with correct hideIf behavior', () => {
     expect(uiSchema).to.be.an('object');

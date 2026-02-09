@@ -83,10 +83,8 @@ Prepare.propTypes = {
   children: PropTypes.node,
 };
 
-export function CCDetails({ otherDetails, request, level = 2 }) {
-  const heading = request
-    ? 'Details you’d like to share with your provider'
-    : 'Details you shared with your provider';
+export function CCDetails({ otherDetails, level = 2 }) {
+  const heading = 'Reason for appointment';
   return (
     <Section heading={heading} level={level}>
       <span className="vaos-u-word-break--break-word" data-dd-privacy="mask">
@@ -98,21 +96,13 @@ export function CCDetails({ otherDetails, request, level = 2 }) {
 CCDetails.propTypes = {
   level: PropTypes.number,
   otherDetails: PropTypes.string,
-  request: PropTypes.bool,
 };
 
-export function Details({
-  otherDetails,
-  request,
-  level = 2,
-  isCerner = false,
-}) {
+export function Details({ otherDetails, level = 2, isCerner = false }) {
   // Do not display details for Oracle (Cerner) appointments
   if (isCerner) return null;
 
-  const heading = request
-    ? 'Details you’d like to share with your provider'
-    : 'Details you shared with your provider';
+  const heading = 'Reason for appointment';
   return (
     <Section heading={heading} level={level}>
       <span className="vaos-u-word-break--break-word" data-dd-privacy="mask">
@@ -125,8 +115,6 @@ Details.propTypes = {
   isCerner: PropTypes.bool,
   level: PropTypes.number,
   otherDetails: PropTypes.string,
-  reason: PropTypes.string,
-  request: PropTypes.bool,
 };
 
 export function ClinicOrFacilityPhone({
@@ -201,9 +189,10 @@ export default function DetailPageLayout({
   );
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     // Focus on the heading after render -- added function to utilities/ui/focus.js to shorten this interval
     // but still allows cypress tests to run properly
-    const wait = waitTime(50);
+    const wait = waitTime(100);
     waitForRenderThenFocus(
       '#vaos-appointment-details-page-heading',
       document,
@@ -238,7 +227,8 @@ export default function DetailPageLayout({
             <AppointmentTasksSection appointment={appointment} />
           )}
         {isPastAppointment &&
-          APPOINTMENT_STATUS.booked === appointment.status && (
+          (APPOINTMENT_STATUS.booked === appointment.status ||
+            APPOINTMENT_STATUS.fulfilled === appointment.status) && (
             <AfterVisitSummary data={appointment} />
           )}
         {children}

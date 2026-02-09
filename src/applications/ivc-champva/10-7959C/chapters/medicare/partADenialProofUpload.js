@@ -14,16 +14,16 @@ export default {
   uiSchema: {
     ...titleUI(TITLE_TEXT, MedicareIneligibilityDescription),
     ...descriptionUI(FileUploadDescription),
-    medicarePartADenialProof: attachmentUI({
+    medicareIneligibilityUpload: attachmentUI({
       label: TITLE_TEXT,
       attachmentId: ATTACHMENT_IDS.ssaLetter,
     }),
   },
   schema: {
     type: 'object',
-    required: ['medicarePartADenialProof'],
+    required: ['medicareIneligibilityUpload'],
     properties: {
-      medicarePartADenialProof: singleAttachmentSchema,
+      medicareIneligibilityUpload: singleAttachmentSchema,
     },
   },
 };

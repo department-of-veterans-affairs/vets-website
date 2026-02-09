@@ -20,7 +20,7 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
         tabindex="-1"
       >
         <p className="vads-u-margin-y--0" id={id}>
-          Update saved.
+          Update saved
         </p>
       </va-alert>
     </>

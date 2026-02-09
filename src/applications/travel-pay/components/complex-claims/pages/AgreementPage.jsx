@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
 import TravelAgreementContent from '../../TravelAgreementContent';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import { submitComplexClaim } from '../../../redux/actions';
@@ -24,6 +25,7 @@ const AgreementPage = () => {
   const title = 'Beneficiary travel agreement';
 
   useSetPageTitle(title);
+  useSetFocus();
 
   const onSubmit = async () => {
     setIsAgreementError(!isAgreementChecked);
@@ -59,7 +61,7 @@ const AgreementPage = () => {
         fraudulent claim.
       </p>
       <p>
-        By submitting this claim, you agree to the beneficiary travel agreement.
+        By submitting this claim, you agree to the beneficiary travel agreement:
       </p>
       <TravelAgreementContent />
       <VaCheckbox
@@ -76,6 +78,7 @@ const AgreementPage = () => {
         hint={null}
         label="I confirm that the information is true and correct to the best of my knowledge and belief. I’ve read and I accept the beneficiary travel agreement."
         onVaChange={() => setIsAgreementChecked(!isAgreementChecked)}
+        enableAnalytics
         required
       />
       <TravelPayButtonPair

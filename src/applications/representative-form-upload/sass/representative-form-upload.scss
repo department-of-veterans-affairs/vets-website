@@ -39,8 +39,7 @@
 //overriding default classes set at the forms level to match figma
 .form-21-0966,
 .form-21-686c,
-.form-21-526EZ,
-.form-21-0966 {
+.form-21-526EZ {
   -webkit-font-smoothing: antialiased;
   [for="root_vaFileNumber"] {
     margin-top: 1.5rem;
@@ -80,6 +79,11 @@
   .schemaform-chapter-progress {
     display: none;
   }
+
+  .schemaform-sip-save-link {
+    display: none;
+  }
+
   .usa-input,
   input,
   va-text-input,
@@ -160,7 +164,7 @@
       max-width: unset;
     }
   }
-  .schemaform-title>.schemaform-subtitle {
+  .schemaform-title > .schemaform-subtitle {
     font-family: Bitter, Georgia, Cambria, "Times New Roman", Times, serif;
     font-size: 1.25rem !important;
   }
@@ -190,8 +194,13 @@
   .rjsf {
     div.vads-u-margin-y--2:first-child {
       margin-top: 0 !important;
-      [id="root_view:claimantTitle__title"]  {
+      [id="root_view:claimantTitle__title"] {
         padding: 0;
+        line-height: 1;
+      }
+      //targeting title above form fields
+      &div:first-child {
+        line-height: 1;
       }
     }
   }
@@ -199,11 +208,10 @@
   [id="root_view:veteranTitle__title"] {
     padding-top: 32px;
   }
-
 }
 .form-review-panel-page-representative-form-upload {
   margin-bottom: 0;
-  margin-top: 20px
+  margin-top: 20px;
 }
 
 .arp-alert-right-file-p {
@@ -222,6 +230,12 @@
 }
 
 .form-21-0966 {
+  .form-review-panel-page-header-row {
+    va-button[text="Edit"] {
+      display: none;
+    }
+  }
+
   .form-review-panel-page {
     div[name="veteranInformationPageScrollElement"] {
       display: none;
@@ -268,4 +282,12 @@
   font-family: Bitter, Georgia, Cambria, "Times New Roman", Times, serif;
   font-size: 1.25rem;
   font-weight: 700;
+}
+
+.form {
+  &__icon {
+    &--warning {
+      margin: 0 4px;
+    }
+  }
 }

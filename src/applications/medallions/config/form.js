@@ -1,9 +1,9 @@
 import React from 'react';
-import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import get from 'platform/utilities/data/get';
-import { TITLE, SUBTITLE } from '../constants.js';
+import Footer from '../components/Footer';
+import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -20,6 +20,9 @@ import applicantRelationToVet from '../pages/applicantRelationToVet';
 import applicantRelationToVetOrg from '../pages/applicantRelationToVetOrg';
 import applicantRelationToVetOrg2 from '../pages/applicantRelationToVetOrg2';
 import applicantContactInfo from '../pages/applicantContactInfo';
+import ApplicantContactInfoLoggedIn from '../pages/applicantContactInfoLoggedIn';
+import EditPhone from '../pages/editPhone';
+import EditEmail from '../pages/editEmail';
 import applicantContactInfo2 from '../pages/applicantContactInfo2';
 import applicantMailingAddress from '../pages/applicantMailingAddress';
 import applicantMailingAddress2 from '../pages/applicantMailingAddress2';
@@ -35,6 +38,8 @@ import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 import typeOfRequest from '../pages/typeOfRequest';
 import replacementMedallionReason from '../pages/replacementMedallionReason';
 import typeOfMedallion from '../pages/typeOfMedallion';
+import presidentialMemorialCertificate from '../pages/presidentialMemorialCertificate';
+import quantityOfCertificates from '../pages/quantityOfCertificates';
 import medallionSizeBronze from '../pages/medallionSizeBronze';
 import medallionSizeMOH from '../pages/medallionSizeMOH';
 import {
@@ -78,6 +83,9 @@ const formConfig = {
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  footerContent: ({ currentLocation }) => (
+    <Footer formConfig={formConfig} currentLocation={currentLocation} />
+  ),
   getHelp: GetFormHelp,
   defaultDefinitions: {},
   chapters: {
@@ -139,7 +147,46 @@ const formConfig = {
           depends: formData =>
             ['familyMember', 'personalRep', 'other'].includes(
               formData.relationToVetRadio,
-            ),
+            ) && !isUserSignedIn(formData),
+        },
+        applicantContactInfoLoggedIn: {
+          title: 'Your contact information',
+          path: 'applicant-contact-info-logged-in',
+          depends: formData =>
+            ['familyMember', 'personalRep', 'other'].includes(
+              formData.relationToVetRadio,
+            ) && isUserSignedIn(formData),
+          CustomPage: ApplicantContactInfoLoggedIn,
+          CustomPageReview: ApplicantContactInfoLoggedIn,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editPhone: {
+          title: 'Edit phone number',
+          path: 'applicant-contact-info-logged-in/edit-phone',
+          depends: () => false, // accessed directly from contact details page
+          CustomPage: EditPhone,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editEmail: {
+          title: 'Edit email address',
+          path: 'applicant-contact-info-logged-in/edit-email',
+          depends: () => false, // accessed directly from contact details page
+          CustomPage: EditEmail,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
         applicantContactInfo2: {
           path: 'applicant-contact-info-2',
@@ -325,6 +372,20 @@ const formConfig = {
             formData.typeOfRequestRadio === 'new' &&
             formData.typeOfMedallionRadio === 'medalOfHonor',
         },
+        // PMC is usually used in reference to Presidential Memorial Certificate
+        presidentialMemorialCertificate: {
+          path: 'presidential-memorial-certificate',
+          title: 'Presidential Memorial Certificate',
+          uiSchema: presidentialMemorialCertificate.uiSchema,
+          schema: presidentialMemorialCertificate.schema,
+        },
+        quantityOfCertificates: {
+          path: 'quantity-of-certificates',
+          title: 'Presidential Memorial Certificate',
+          uiSchema: quantityOfCertificates.uiSchema,
+          schema: quantityOfCertificates.schema,
+          depends: formData => formData.pmcYesNo === true,
+        },
       },
     },
     supportingDocuments: {
@@ -345,8 +406,6 @@ const formConfig = {
       },
     },
   },
-  // getHelp,
-  footerContent,
 };
 
 export default formConfig;

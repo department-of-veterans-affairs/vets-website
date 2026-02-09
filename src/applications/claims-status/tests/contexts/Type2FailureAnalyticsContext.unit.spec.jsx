@@ -26,21 +26,21 @@ TestAlert.defaultProps = {
 };
 
 describe('Type2FailureAnalyticsContext', () => {
-  let recordType2FailureEventListPageStub;
+  let recordType2FailureEventStub;
   // Use a slightly larger wait than the actual debounce for safety
   const TEST_WAIT_MS = DEBOUNCE_MS + 50;
 
   beforeEach(() => {
-    recordType2FailureEventListPageStub = sinon.stub(
+    recordType2FailureEventStub = sinon.stub(
       analytics,
-      'recordType2FailureEventListPage',
+      'recordType2FailureEvent',
     );
   });
 
   afterEach(() => {
     // Restore specific stub
-    if (recordType2FailureEventListPageStub) {
-      recordType2FailureEventListPageStub.restore();
+    if (recordType2FailureEventStub) {
+      recordType2FailureEventStub.restore();
     }
     // Cleanup React DOM
     cleanup();
@@ -51,8 +51,8 @@ describe('Type2FailureAnalyticsContext', () => {
     new Promise(resolve => setTimeout(resolve, TEST_WAIT_MS));
   // Helper to assert event was called with specific count
   const expectEventCalledWithCount = count => {
-    expect(recordType2FailureEventListPageStub.calledOnce).to.be.true;
-    const callArgs = recordType2FailureEventListPageStub.getCall(0).args[0];
+    expect(recordType2FailureEventStub.calledOnce).to.be.true;
+    const callArgs = recordType2FailureEventStub.getCall(0).args[0];
     expect(callArgs).to.deep.equal({ count });
   };
 
@@ -93,7 +93,7 @@ describe('Type2FailureAnalyticsContext', () => {
 
       await waitForDebounce();
 
-      expect(recordType2FailureEventListPageStub.notCalled).to.be.true;
+      expect(recordType2FailureEventStub.notCalled).to.be.true;
     });
 
     it('should only count alerts with hasFailures=true', async () => {
@@ -126,7 +126,7 @@ describe('Type2FailureAnalyticsContext', () => {
       await waitForDebounce();
 
       // Event should not fire because all alerts unmounted before debounce completed
-      expect(recordType2FailureEventListPageStub.notCalled).to.be.true;
+      expect(recordType2FailureEventStub.notCalled).to.be.true;
     });
 
     it('should handle alerts mounting at different times', async () => {
@@ -167,7 +167,7 @@ describe('Type2FailureAnalyticsContext', () => {
       await waitForDebounce();
 
       // Event should not fire
-      expect(recordType2FailureEventListPageStub.notCalled).to.be.true;
+      expect(recordType2FailureEventStub.notCalled).to.be.true;
     });
 
     it('should reset state on provider unmount (new page visit)', async () => {
@@ -180,7 +180,7 @@ describe('Type2FailureAnalyticsContext', () => {
 
       await waitForDebounce();
 
-      expect(recordType2FailureEventListPageStub.calledOnce).to.be.true;
+      expect(recordType2FailureEventStub.calledOnce).to.be.true;
 
       // Unmount provider (simulating navigation away from claims list)
       unmount();
@@ -195,7 +195,7 @@ describe('Type2FailureAnalyticsContext', () => {
       await waitForDebounce();
 
       // Event should fire again because provider was unmounted/remounted
-      expect(recordType2FailureEventListPageStub.calledTwice).to.be.true;
+      expect(recordType2FailureEventStub.calledTwice).to.be.true;
     });
 
     it('should fire again when provider remounts with new key (pagination pattern)', async () => {
@@ -227,8 +227,8 @@ describe('Type2FailureAnalyticsContext', () => {
       await waitForDebounce();
 
       // Event fires again for page 2 with 3 alerts
-      expect(recordType2FailureEventListPageStub.calledTwice).to.be.true;
-      const secondCall = recordType2FailureEventListPageStub.getCall(1).args[0];
+      expect(recordType2FailureEventStub.calledTwice).to.be.true;
+      const secondCall = recordType2FailureEventStub.getCall(1).args[0];
       expect(secondCall).to.deep.equal({ count: 3 });
     });
 
@@ -254,7 +254,7 @@ describe('Type2FailureAnalyticsContext', () => {
 
       await waitForDebounce();
       // Event should not fire because all alerts unmounted
-      expect(recordType2FailureEventListPageStub.notCalled).to.be.true;
+      expect(recordType2FailureEventStub.notCalled).to.be.true;
     });
   });
 });

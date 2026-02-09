@@ -16,7 +16,8 @@ const uiSchema = {
           </p>
           <p className="vads-u-display--flex">
             <va-icon icon="close" size="3" class="vads-u-margin-right--1p5" />
-            You have not previously applied for VA education benefits.
+            You have not previously applied and been found eligible for the VA
+            education benefit you want to use
           </p>
         </va-card>
         <p>

@@ -152,6 +152,9 @@ const ArrayBuilderCards = ({
   const incompleteTimeoutRef = useRef(null);
   const nounSingularSlug = slugifyText(nounSingular);
 
+  const getCardSelector = index =>
+    `va-card[name="${nounSingularSlug}_${index}"][data-array-path="${arrayPath}"]`;
+
   useEffect(() => {
     isMounted.current = true;
     return () => {
@@ -163,7 +166,7 @@ const ArrayBuilderCards = ({
     ARRAY_BUILDER_EVENTS.INCOMPLETE_ITEM_ERROR,
     ({ index, arrayPath: incompleteArrayPath }) => {
       if (incompleteArrayPath === arrayPath) {
-        const card = `va-card[name="${nounSingularSlug}_${index}"]`;
+        const card = getCardSelector(index);
         scrollTo(card);
         focusElement(`${card} .array-builder-missing-info-alert`);
       }
@@ -174,7 +177,7 @@ const ArrayBuilderCards = ({
     ARRAY_BUILDER_EVENTS.DUPLICATE_ITEM_ERROR,
     ({ index, arrayPath: duplicateArrayPath }) => {
       if (duplicateArrayPath === arrayPath) {
-        const card = `va-card[name="${nounSingularSlug}_${index}"]`;
+        const card = getCardSelector(index);
         requestAnimationFrame(() => {
           if (!isMounted.current) {
             return;
@@ -207,9 +210,7 @@ const ArrayBuilderCards = ({
         focusElement(
           'button',
           null,
-          `va-card[name="${slugifyText(
-            nounSingular,
-          )}_${lastIndex}"] [data-action="remove"]`,
+          `${getCardSelector(lastIndex)} [data-action="remove"]`,
         );
       });
     }
@@ -237,7 +238,11 @@ const ArrayBuilderCards = ({
 
   const Card = ({ index, children }) => (
     <div className="vads-u-margin-top--2">
-      <va-card uswds name={`${nounSingularSlug}_${index}`}>
+      <va-card
+        uswds
+        name={`${nounSingularSlug}_${index}`}
+        data-array-path={arrayPath}
+      >
         {children}
       </va-card>
     </div>

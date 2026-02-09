@@ -11,7 +11,7 @@ import {
   options,
 } from '../../../../config/chapters/03-military-history/serviceNames';
 
-const arrayPath = 'otherServiceNames';
+const arrayPath = 'veteranPreviousNames';
 
 describe('Survivors Benefits Service Names Pages', () => {
   it('renders the service names intro', async () => {

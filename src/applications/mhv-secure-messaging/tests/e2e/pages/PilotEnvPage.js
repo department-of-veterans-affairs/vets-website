@@ -200,20 +200,10 @@ class PilotEnvPage {
       });
   };
 
-  navigateToSelectCareTeamPage = (
-    searchMockResponse = require('../fixtures/searchResponses/search-sent-folder-response.json'),
-  ) => {
-    // Set up intercept BEFORE navigating to interstitial page
-    // because the interstitial page will trigger the search on mount
-    cy.intercept('POST', Paths.INTERCEPT.SENT_SEARCH, searchMockResponse).as(
-      'recentRecipients',
-    );
-
+  navigateToSelectCareTeamPage = () => {
     cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
       force: true,
     });
-
-    cy.wait('@recentRecipients');
 
     PatientInterstitialPage.getStartMessageLink()
       .should('be.visible')
@@ -224,7 +214,7 @@ class PilotEnvPage {
     cy.get(`va-radio-option`).should('have.length', 5);
     cy.get(`.vads-u-margin-bottom--1 > a`)
       .should(`have.attr`, `href`, Data.LINKS.CARE_TEAM_HELP)
-      .and('have.text', Data.CURATED_LIST.CANT_FIND_TEAM);
+      .and('have.text', Data.CURATED_LIST.CANT_FIND_TEAM_LINK);
 
     cy.get(`.vads-u-margin-top--2 > a`)
       .should(`have.attr`, `href`, Data.LINKS.CONTACT_LIST)
