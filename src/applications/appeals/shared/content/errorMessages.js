@@ -16,7 +16,8 @@ const errorMessages = {
 
   decisions: {
     blankDate: 'You must enter a decision date',
-    pastDate: cutoffDate => `The date must be before ${cutoffDate}.`,
+    dateUnavailable: availableDate =>
+      `This decision date isn't available to add yet. You can enter it after ${availableDate}.`,
     recentDate:
       'You must add an issue with a decision date that’s less than a year old',
     newerDate:
