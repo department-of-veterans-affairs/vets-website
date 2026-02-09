@@ -284,7 +284,7 @@ class PatientMessageDraftsPage {
 
   verifyDraftMessageBannerTextHasFocus = () => {
     cy.get('h1').should('have.focus');
-    cy.get('[data-testid="alert-text"]').should(
+    cy.findByTestId('alert-text').should(
       'contain.text',
       'Draft was successfully deleted.',
     );
