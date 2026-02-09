@@ -142,6 +142,7 @@ formConfig.submit = (form, formConfigParam, options) => {
       // Track successful submission - NO PII, only metadata
       trackFormSubmitted({
         featureToggles: runtimeState.featureToggles,
+        formData: runtimeState.formData,
         pathname: runtimeState.pathname,
       });
 
@@ -240,12 +241,13 @@ export const Form526Entry = ({
       if (isFirstFormPage && hasNoSavedForm && !alreadyTracked) {
         trackFormStarted({
           featureToggles,
+          formData: form?.data,
           pathname: location?.pathname,
         });
         sessionStorage.setItem(storageKey, 'true');
       }
     },
-    [location?.pathname, hasSavedForm, featureToggles],
+    [location?.pathname, hasSavedForm, featureToggles, form?.data],
   );
 
   const title = `${getPageTitle(isBDDForm)}${

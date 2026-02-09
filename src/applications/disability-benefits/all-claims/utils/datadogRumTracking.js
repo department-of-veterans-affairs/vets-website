@@ -4,15 +4,22 @@ import { datadogRum } from '@datadog/browser-rum';
 /**
  * Helper function to track DataDog RUM actions
  * Centralizes all datadogRum.addAction calls for easier debugging and maintenance
+ * Wrapped in try-catch to ensure tracking failures never break the form
  *
  * @param {string} actionName - Name of the action to track
  * @param {object} properties - Properties to attach to the action
  */
 const trackAction = (actionName, properties) => {
-  datadogRum.addAction(actionName, properties);
-  // Uncomment for debugging:
-  // eslint-disable-next-line no-console
-  console.log(`[DataDog Tracking] ${actionName}:`, properties);
+  try {
+    datadogRum.addAction(actionName, properties);
+    // Uncomment for debugging:
+    // eslint-disable-next-line no-console
+    console.log(`[DataDog Tracking] ${actionName}:`, properties);
+  } catch (error) {
+    // Silent fail - tracking should never break the form
+    // eslint-disable-next-line no-console
+    console.error('[DataDog Tracking Error]', error);
+  }
 };
 
 /**
@@ -39,7 +46,7 @@ export const trackBackButtonClick = ({
   // Prepare DataDog action properties
   const properties = {
     formId: VA_FORM_IDS.FORM_21_526EZ,
-    pathname,
+    sourcePath: pathname,
     clickCount: newCount,
   };
 
@@ -48,10 +55,9 @@ export const trackBackButtonClick = ({
     properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
   }
 
-  // Add chapter index if user has used side nav
-  if (formData?.['view:sideNavChapterIndex'] !== undefined) {
-    properties.sideNavChapterIndex = formData['view:sideNavChapterIndex'];
-  }
+  // Track if user has side nav enabled (boolean)
+  properties.sidenavIsActive =
+    formData?.['view:sideNavChapterIndex'] !== undefined;
 
   trackAction('Form navigation - Back button clicked', properties);
 };
@@ -69,7 +75,7 @@ export const trackSaveFormClick = ({ featureToggles, formData, pathname }) => {
   // Prepare DataDog action properties
   const properties = {
     formId: VA_FORM_IDS.FORM_21_526EZ,
-    pathname,
+    sourcePath: pathname,
   };
 
   // Add sidenav feature toggle status
@@ -77,10 +83,9 @@ export const trackSaveFormClick = ({ featureToggles, formData, pathname }) => {
     properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
   }
 
-  // Add chapter index if user has used side nav
-  if (formData?.['view:sideNavChapterIndex'] !== undefined) {
-    properties.sideNavChapterIndex = formData['view:sideNavChapterIndex'];
-  }
+  // Track if user has side nav enabled (boolean)
+  properties.sidenavIsActive =
+    formData?.['view:sideNavChapterIndex'] !== undefined;
 
   trackAction(
     'Form save in progress - Finish this application later clicked',
@@ -112,7 +117,7 @@ export const trackContinueButtonClick = ({
   // Prepare DataDog action properties
   const properties = {
     formId: VA_FORM_IDS.FORM_21_526EZ,
-    pathname,
+    sourcePath: pathname,
     clickCount: newCount,
   };
 
@@ -121,10 +126,9 @@ export const trackContinueButtonClick = ({
     properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
   }
 
-  // Add chapter index if user has used side nav
-  if (formData?.['view:sideNavChapterIndex'] !== undefined) {
-    properties.sideNavChapterIndex = formData['view:sideNavChapterIndex'];
-  }
+  // Track if user has side nav enabled (boolean)
+  properties.sidenavIsActive =
+    formData?.['view:sideNavChapterIndex'] !== undefined;
 
   trackAction('Form navigation - Continue button clicked', properties);
 };
@@ -135,18 +139,23 @@ export const trackContinueButtonClick = ({
  *
  * @param {object} params - Parameters for tracking
  * @param {object} params.featureToggles - Feature toggles from Redux state
+ * @param {object} params.formData - Current form data containing side nav state
  * @param {string} params.pathname - Current page pathname (first form page)
  */
-export const trackFormStarted = ({ featureToggles, pathname }) => {
+export const trackFormStarted = ({ featureToggles, formData, pathname }) => {
   const properties = {
     formId: VA_FORM_IDS.FORM_21_526EZ,
-    firstPagePath: pathname,
+    sourcePath: pathname,
   };
 
   // Add sidenav feature toggle status
   if (featureToggles?.disability526SidenavEnabled !== undefined) {
     properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
   }
+
+  // Track if user has used side nav (boolean)
+  properties.sidenavIsActive =
+    formData?.['view:sideNavChapterIndex'] !== undefined;
 
   trackAction(
     'Form started - User began form from introduction page',
@@ -178,10 +187,9 @@ export const trackFormResumption = ({
     properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
   }
 
-  // Add chapter index if user has used side nav
-  if (formData?.['view:sideNavChapterIndex'] !== undefined) {
-    properties.sideNavChapterIndex = formData['view:sideNavChapterIndex'];
-  }
+  // Track if user has side nav enabled (boolean)
+  properties.sidenavIsActive =
+    formData?.['view:sideNavChapterIndex'] !== undefined;
 
   trackAction('Form resumption - Saved form loaded', properties);
 };
@@ -192,13 +200,13 @@ export const trackFormResumption = ({
  *
  * @param {object} params - Parameters for tracking
  * @param {object} params.pageData - Page data including key, label, and path
- * @param {string} params.currentPathname - Current page pathname before navigation
+ * @param {string} params.pathname - Current page pathname before navigation
  */
-export const trackSideNavChapterClick = ({ pageData, currentPathname }) => {
+export const trackSideNavChapterClick = ({ pageData, pathname }) => {
   const properties = {
     formId: VA_FORM_IDS.FORM_21_526EZ,
     chapterTitle: pageData.label,
-    sourcePath: currentPathname,
+    sourcePath: pathname,
   };
 
   trackAction('Side navigation - Chapter clicked', properties);
@@ -211,9 +219,10 @@ export const trackSideNavChapterClick = ({ pageData, currentPathname }) => {
  *
  * @param {object} params - Parameters for tracking
  * @param {object} params.featureToggles - Feature toggles from Redux state
+ * @param {object} params.formData - Current form data containing side nav state
  * @param {string} params.pathname - Current page pathname (review/submit page)
  */
-export const trackFormSubmitted = ({ featureToggles, pathname }) => {
+export const trackFormSubmitted = ({ featureToggles, formData, pathname }) => {
   const properties = {
     formId: VA_FORM_IDS.FORM_21_526EZ,
   };
@@ -223,10 +232,11 @@ export const trackFormSubmitted = ({ featureToggles, pathname }) => {
     properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
   }
 
-  // Add source page path if available
-  if (pathname) {
-    properties.sourcePath = pathname;
-  }
+  // Track if user has used side nav (boolean)
+  properties.sidenavIsActive =
+    formData?.['view:sideNavChapterIndex'] !== undefined;
+
+  properties.sourcePath = pathname;
 
   trackAction('Form submission - Form successfully submitted', properties);
 };
@@ -250,12 +260,8 @@ export const trackMobileAccordionClick = ({
     formId: VA_FORM_IDS.FORM_21_526EZ,
     state,
     accordionTitle,
+    sourcePath: pathname,
   };
-
-  // Add source page path
-  if (pathname) {
-    properties.sourcePath = pathname;
-  }
 
   trackAction('Side navigation - Mobile accordion clicked', properties);
 };

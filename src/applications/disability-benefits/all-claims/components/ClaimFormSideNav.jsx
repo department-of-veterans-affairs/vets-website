@@ -195,7 +195,7 @@ export default function ClaimFormSideNav({
     // Track side nav click for DataDog RUM
     trackSideNavChapterClick({
       pageData,
-      currentPathname: pathname,
+      pathname,
     });
 
     setFormData(formData);
