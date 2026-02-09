@@ -79,10 +79,13 @@ const Folders = () => {
     const folderCount = folders?.length;
     if (folders === undefined) {
       return (
-        <va-loading-indicator
-          message="Loading your secure message..."
-          setFocus
-        />
+        <>
+          <AlertBackgroundBox closeable />
+          <va-loading-indicator
+            message="Loading your secure message..."
+            setFocus
+          />
+        </>
       );
     }
     if (folders === null || folders === false) {

@@ -283,7 +283,11 @@ class PatientMessageDraftsPage {
   };
 
   verifyDraftMessageBannerTextHasFocus = () => {
-    cy.focused().should('contain.text', 'Draft was successfully deleted.');
+    cy.get('h1').should('have.focus');
+    cy.get('[data-testid="alert-text"]').should(
+      'contain.text',
+      'Draft was successfully deleted.',
+    );
   };
 
   verifySavedMessageAlertText = (text = Data.MESSAGE_WAS_SAVED) => {
