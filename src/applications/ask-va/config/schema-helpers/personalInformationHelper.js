@@ -41,9 +41,7 @@ export const validateSSandSNGroup = (errors, values, formData) => {
     ) &&
     !Object.keys(values).some(key => values[key])
   ) {
-    errors.addError(
-      `Please enter your Social Security number or Service number`,
-    );
+    errors.addError(`Enter your Social Security number or Service number`);
   }
 };
 
@@ -109,7 +107,7 @@ export const personalInformationAboutYourselfUiSchemas = {
     'ui:autocomplete': 'given-name',
     'ui:required': () => true,
     'ui:errorMessages': {
-      required: 'Please enter a first name',
+      required: 'Enter a first name',
       pattern: 'This field accepts alphabetic characters only',
     },
     'ui:options': {
@@ -133,7 +131,7 @@ export const personalInformationAboutYourselfUiSchemas = {
     'ui:autocomplete': 'family-name',
     'ui:required': () => true,
     'ui:errorMessages': {
-      required: 'Please enter a last name',
+      required: 'Enter a last name',
       pattern: 'This field accepts alphabetic characters only',
     },
     'ui:options': {
@@ -209,7 +207,7 @@ export const aboutYourselfGeneralUISchema = {
     'ui:autocomplete': 'given-name',
     'ui:required': () => true,
     'ui:errorMessages': {
-      required: 'Please enter a first name',
+      required: 'Enter a first name',
       pattern: 'This field accepts alphabetic characters only',
     },
     'ui:options': {
@@ -233,7 +231,7 @@ export const aboutYourselfGeneralUISchema = {
     'ui:autocomplete': 'family-name',
     'ui:required': () => true,
     'ui:errorMessages': {
-      required: 'Please enter a last name',
+      required: 'Enter a last name',
       pattern: 'This field accepts alphabetic characters only',
     },
     'ui:options': {

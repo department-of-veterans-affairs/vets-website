@@ -90,7 +90,7 @@ describe('aboutTheVeteranPage', () => {
           '.usa-input-error-message',
         );
         expect(errorMessage.textContent).to.contain(
-          "Please enter either the Veteran's Social Security number or Service number",
+          "Enter either the Veteran's Social Security number or Service number",
         );
       });
     });
