@@ -174,6 +174,7 @@ export default function VAFacilityPageV2() {
       <div>
         {pageHeader}
         <InfoAlert
+          addRole="alert"
           status="error"
           level={2}
           headline="We can’t schedule your appointment right now"

@@ -46,33 +46,33 @@ const DetailCopayPage = ({ match }) => {
 
   const copayAttributes = useMemo(
     () => {
-      if (!copayDetail?.id) return DEFAULT_COPAY_ATTRIBUTES;
+      if (!selectedCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
 
       /* eslint-disable no-nested-ternary */
       return shouldShowVHAPaymentHistory
         ? {
-            TITLE: `Copay bill for ${copayDetail?.attributes.facility.name}`,
+            TITLE: `Copay bill for ${selectedCopay?.attributes.facility.name}`,
             INVOICE_DATE: verifyCurrentBalance(
-              copayDetail?.attributes.invoiceDate,
+              selectedCopay?.attributes.invoiceDate,
             ),
-            ACCOUNT_NUMBER: copayDetail?.attributes.accountNumber,
-            CHARGES: copayDetail?.attributes?.lineItems ?? [],
+            ACCOUNT_NUMBER: selectedCopay?.attributes.accountNumber,
+            CHARGES: selectedCopay?.attributes?.lineItems ?? [],
           }
         : {
-            TITLE: `Copay bill for ${copayDetail?.station.facilityName}`,
+            TITLE: `Copay bill for ${selectedCopay?.station.facilityName}`,
             INVOICE_DATE: verifyCurrentBalance(
-              copayDetail?.pSStatementDateOutput,
+              selectedCopay?.pSStatementDateOutput,
             ),
             ACCOUNT_NUMBER:
-              copayDetail?.accountNumber || copayDetail?.pHAccountNumber,
+              selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber,
             CHARGES:
-              copayDetail?.details?.filter(
+              selectedCopay?.details?.filter(
                 charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
               ) ?? [],
           };
       /* eslint-disable no-nested-ternary */
     },
-    [copayDetail?.id, shouldShowVHAPaymentHistory],
+    [selectedCopay?.id, shouldShowVHAPaymentHistory],
   );
 
   // Handle alert separately

@@ -62,17 +62,18 @@ const AccreditedRepresentative = ({ isLOA3 }) => {
           concatAddress={concatAddress}
           vcfUrl={vcfUrl}
         />
-        <h2 className="vads-u-font-size--h3">
-          How to replace your current accredited representative
-        </h2>{' '}
+        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
+          How to change your accredited representative or VSO
+        </h2>
         <p>
-          If you appoint a new accredited representative, they will replace your
-          current one.
+          You can discharge your accredited representative at any time and for
+          any reason. Or, you can appoint a new accredited representative to
+          replace your current one.
         </p>
         <va-link
           class="home__link"
-          href={`${BASE_URL}/get-help-from-accredited-representative`}
-          text="Find and appoint a new accredited representative or VSO"
+          href={`${BASE_URL}/resources/va-accredited-representative-faqs/`}
+          text="Read our VA accredited representative FAQs"
         />
       </div>
     );
@@ -106,7 +107,7 @@ const AccreditedRepresentative = ({ isLOA3 }) => {
         className="vads-u-margin-bottom--2 rep-section-header"
         data-focus-target
       >
-        Accredited Representative or VSO
+        Accredited representative or VSO
       </h1>
       {content()}
     </>

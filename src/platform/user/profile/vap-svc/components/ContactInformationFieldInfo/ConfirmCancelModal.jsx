@@ -27,13 +27,13 @@ const ConfirmCancelModal = props => {
       onCloseEvent={onHide}
       onPrimaryButtonClick={handlers.primary}
       onSecondaryButtonClick={handlers.secondary}
-      primaryButtonText="Yes, cancel my changes"
-      secondaryButtonText="No, go back to editing"
+      primaryButtonText="Cancel changes"
+      secondaryButtonText="Keep editing"
       data-testid="confirm-cancel-modal"
       uswds
     >
       <p className="vads-u-margin-bottom--0">
-        {`You haven't finished editing and saving the changes to your ${activeSection}. If you cancel now, we won't save your changes.`}
+        {`You haven't saved the changes you made to your ${activeSection}. If you cancel, we won't save your changes.`}
       </p>
     </VaModal>
   );

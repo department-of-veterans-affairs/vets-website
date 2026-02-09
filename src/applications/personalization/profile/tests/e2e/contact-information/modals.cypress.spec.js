@@ -84,7 +84,7 @@ const checkModals = options => {
     .first()
     .find('va-button')
     .shadow()
-    .findByText(/yes, cancel my changes/i)
+    .findByText(/Cancel changes/i)
     .click();
 };
 
@@ -125,7 +125,7 @@ const checkRemovalWhileEditingModal = options => {
     .first()
     .find('va-button')
     .shadow()
-    .findByText(/yes, cancel my changes/i)
+    .findByText(/Cancel changes/i)
     .click();
 };
 

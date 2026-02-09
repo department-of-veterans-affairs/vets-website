@@ -721,7 +721,7 @@ describe('<DefaultPage>', () => {
         } else if (testCase.item.description) {
           expect(getByTestId('api-description')).to.exist;
           getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
-          expect(queryByTestId('learn-about-request-section')).to.not.exist;
+          expect(queryByTestId('learn-about-request-section')).to.exist;
         } else {
           expect(getByTestId('empty-state-description')).to.exist;
           getByText(new RegExp(testCase.expectedDescriptionText, 'i'));

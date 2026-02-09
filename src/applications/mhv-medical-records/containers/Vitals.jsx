@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -51,12 +51,8 @@ const Vitals = () => {
   const isLoadingAcceleratedData =
     (isCerner || isAcceleratingVitals) && listState === loadStates.FETCHING;
 
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getVitals(isCurrent, isCerner, isAcceleratingVitals);
-      };
-    },
+  const dispatchAction = useCallback(
+    isCurrent => getVitals(isCurrent, isCerner, isAcceleratingVitals),
     [isCerner, isAcceleratingVitals],
   );
 
@@ -69,6 +65,7 @@ const Vitals = () => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.

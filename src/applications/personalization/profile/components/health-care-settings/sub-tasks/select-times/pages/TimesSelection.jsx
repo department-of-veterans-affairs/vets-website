@@ -10,6 +10,7 @@ import { focusElement } from 'platform/utilities/ui/focus';
 import {
   FIELD_ADDITIONAL_CONTENT,
   FIELD_OPTION_IDS_INVERTED,
+  errorMessages,
 } from '@@vap-svc/constants/schedulingPreferencesConstants';
 
 const TimesSelection = ({ error, fieldName, pageData, setPageData }) => {
@@ -18,7 +19,7 @@ const TimesSelection = ({ error, fieldName, pageData, setPageData }) => {
   }, []);
 
   const content = {
-    errorMessage: 'Please choose an option to continue.',
+    errorMessage: errorMessages.noPreferenceSelected,
   };
 
   const options = FIELD_OPTION_IDS_INVERTED[fieldName];

@@ -14,7 +14,6 @@ import { fetchCommunicationPreferenceGroups } from '@@profile/ducks/communicatio
 import { focusElement } from '~/platform/utilities/ui';
 import { PROFILE_PATH_NAMES } from '@@profile/constants';
 import { LOADING_STATES } from '~/applications/personalization/common/constants';
-import InitializeVAPServiceID from '~/platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
 import Headline from '../ProfileSectionHeadline';
 import { FieldHasBeenUpdated } from '../alerts/FieldHasBeenUpdated';
 import { Description } from './Description';
@@ -58,33 +57,31 @@ export const PaperlessDelivery = () => {
   );
 
   return (
-    <InitializeVAPServiceID>
-      <>
-        <Headline>{PROFILE_PATH_NAMES.PAPERLESS_DELIVERY}</Headline>
-        <DowntimeNotification
-          appTitle="paperless delivery page"
-          dependencies={[externalServices.VAPRO_NOTIFICATION_SETTINGS]}
-        >
-          {isLoading && (
-            <VaLoadingIndicator message="We’re loading your information." />
-          )}
-          {hasAPIError && <ApiErrorAlert />}
-          {showContent && (
-            <>
-              <Description />
-              <MissingEmailAlert emailAddress={emailAddress} />
-              <FieldHasBeenUpdated slim />
-              <ProfileEmail emailAddress={emailAddress} />
-              <hr
-                aria-hidden="true"
-                className="vads-u-margin-y--3 vads-u-border-top--0"
-              />
-              <Documents />
-              <Note />
-            </>
-          )}
-        </DowntimeNotification>
-      </>
-    </InitializeVAPServiceID>
+    <>
+      <Headline>{PROFILE_PATH_NAMES.PAPERLESS_DELIVERY}</Headline>
+      <DowntimeNotification
+        appTitle="paperless delivery page"
+        dependencies={[externalServices.VAPRO_NOTIFICATION_SETTINGS]}
+      >
+        {isLoading && (
+          <VaLoadingIndicator message="We're loading your information." />
+        )}
+        {hasAPIError && <ApiErrorAlert />}
+        {showContent && (
+          <>
+            <Description />
+            <MissingEmailAlert emailAddress={emailAddress} />
+            <FieldHasBeenUpdated slim />
+            <ProfileEmail emailAddress={emailAddress} />
+            <hr
+              aria-hidden="true"
+              className="vads-u-margin-y--3 vads-u-border-top--0"
+            />
+            <Documents />
+            <Note />
+          </>
+        )}
+      </DowntimeNotification>
+    </>
   );
 };

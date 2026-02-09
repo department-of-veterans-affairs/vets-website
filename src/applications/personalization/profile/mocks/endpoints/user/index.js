@@ -529,8 +529,8 @@ const baseUserResponses = {
               isCerner: false,
             },
           ],
-          vaPatient: false,
-          mhvAccountState: 'NONE',
+          vaPatient: true,
+          mhvAccountState: 'REGISTERED',
           schedulingPreferencesPilotEligible: true,
         },
         veteranStatus: {

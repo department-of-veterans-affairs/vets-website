@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
@@ -73,9 +73,10 @@ const Allergies = props => {
       ({ facilityId }) => facilityId === MEDS_BY_MAIL_FACILITY_ID,
     ) ?? false;
 
-  const dispatchAction = isCurrent => {
-    return getAllergiesList(isCurrent, isAcceleratingAllergies, isCerner);
-  };
+  const dispatchAction = useCallback(
+    isCurrent => getAllergiesList(isCurrent, isAcceleratingAllergies, isCerner),
+    [isAcceleratingAllergies, isCerner],
+  );
 
   useListRefresh({
     listState,
@@ -84,6 +85,7 @@ const Allergies = props => {
     extractType: refreshExtractTypes.ALLERGY,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   useTrackAction(statsdFrontEndActions.ALLERGIES_LIST);

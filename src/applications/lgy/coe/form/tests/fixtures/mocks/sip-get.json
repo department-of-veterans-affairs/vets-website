@@ -1,0 +1,42 @@
+{
+  "formData": {
+    "data": {
+      "attributes": {
+        "veteran": {
+          "firstName": "Mitchell",
+          "middleName": "George",
+          "lastName": "Jenkins",
+          "gender": "M",
+          "dateOfBirth": "1956-07-10",
+          "ssn": "6789",
+          "vaFileNumber": "2345",
+          "homePhone": "5558081234",
+          "email": "mitchell.jenkins.test@gmail.com",
+          "view:maritalStatus": {
+            "maritalStatus": "MARRIED"
+          },
+          "spouseFullName": {
+            "first": "Michelle",
+            "last": "Smith"
+          },
+          "spouseDateOfBirth": "1984-08-03",
+          "spouseSocialSecurityNumber": "451906574",
+          "maritalStatus": "Married",
+          "dateOfMarriage": "2020-10-15",
+          "cohabitedLastYear": true,
+          "view:reportDependents": true,
+          "view:skipDependentInfo": false,
+          "isMedicaidEligible": false,
+          "isEnrolledMedicarePartA": true,
+          "medicarePartAEffectiveDate": "2009-01-02",
+          "medicareClaimNumber": "7AD5WC9MW60"
+        }
+      }
+    }
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/veteran-details"
+  }
+}

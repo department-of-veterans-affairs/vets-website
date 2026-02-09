@@ -13,6 +13,7 @@ const {
   createUnauthorizedError,
   createInvalidCredentialsError,
   createNotWithinCohortError,
+  createAppointmentAlreadyBookedError,
 } = require('./utils/errors');
 
 const mockUUIDs = Object.freeze({
@@ -35,6 +36,13 @@ const mockUUIDs = Object.freeze({
     email: 's****@email.com',
   },
   'not-within-cohort': {
+    lastName: 'Smith',
+    dob: '1935-04-07',
+    otp: '123456',
+    email: 's****@email.com',
+  },
+  // Test user with existing appointment - use this UUID to test redirect flow
+  'has-appointment': {
     lastName: 'Smith',
     dob: '1935-04-07',
     otp: '123456',
@@ -168,6 +176,16 @@ const responses = {
 
     if (uuid === 'not-within-cohort') {
       return res.status(401).json(createNotWithinCohortError());
+    }
+
+    if (uuid === 'has-appointment') {
+      return res
+        .status(409)
+        .json(
+          createAppointmentAlreadyBookedError(
+            mockAppointments[0].appointmentId,
+          ),
+        );
     }
 
     return res.json({

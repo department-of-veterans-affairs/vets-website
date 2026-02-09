@@ -547,6 +547,7 @@ describe('Refill Prescriptions Component', () => {
           {
             isLoading: false,
             error: null,
+            isSuccess: true,
             data: {
               successfulIds: [prescription.prescriptionId],
               failedIds: [],
@@ -616,6 +617,7 @@ describe('Refill Prescriptions Component', () => {
           {
             isLoading: false,
             error: null,
+            isSuccess: true,
             data: {
               successfulIds: [
                 { id: prescription.prescriptionId, stationNumber: '989' },
@@ -864,6 +866,51 @@ describe('Refill Prescriptions Component', () => {
 
       stubAllergiesApi({ sandbox });
       setup();
+    });
+  });
+
+  it('derives refillRequestStatus correctly from RTK Query state', async () => {
+    // This test ensures refillRequestStatus correctly derives FINISHED from RTK Query state
+    // preventing race condition where manual status updates conflict with RTK Query
+    sandbox.restore();
+
+    const bulkRefillStub = sinon.stub().resolves({
+      data: { successfulIds: [22377956], failedIds: [] },
+    });
+
+    sandbox
+      .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+      .returns({
+        data: { prescriptions: refillablePrescriptions, meta: {} },
+        error: false,
+        isLoading: false,
+        isFetching: false,
+      });
+
+    sandbox
+      .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+      .returns([
+        bulkRefillStub,
+        {
+          isLoading: false,
+          error: null,
+          isSuccess: true,
+          data: { successfulIds: [22377956], failedIds: [] },
+        },
+      ]);
+
+    stubAllergiesApi({ sandbox });
+    const screen = setup();
+
+    // Should show success notification when RTK Query indicates success
+    // This tests that refillRequestStatus correctly derives FINISHED from RTK Query state
+    await waitFor(() => {
+      const successTitle = screen.queryByTestId('success-refill-title');
+      const errorTitle = screen.queryByTestId('error-refill-title');
+
+      // Should show success, not error
+      expect(successTitle).to.exist;
+      expect(errorTitle).to.not.exist;
     });
   });
 });

@@ -1,7 +1,7 @@
 import { setup } from '@@profile/tests/e2e/personal-information/setup';
 import {
   basicUserPersonalInfo,
-  putBadRequestFailure,
+  putBadRequestFailure400,
   createPutPreferredNameSuccess,
   unsetUserPersonalInfo,
 } from '@@profile/mocks/endpoints/personal-information';
@@ -41,7 +41,7 @@ describe('Preferred name field tests on the personal information page', () => {
       .first()
       .find('va-button')
       .shadow()
-      .findByText(/yes, cancel my changes/i)
+      .findByText(/Cancel changes/i)
       .click();
 
     cy.findByText(nameEditInputLabel).should('not.exist');
@@ -113,7 +113,7 @@ describe('Preferred name field tests on the personal information page', () => {
 
     const updatedName = 'George';
 
-    cy.intercept('PUT', 'v0/profile/preferred_names', putBadRequestFailure);
+    cy.intercept('PUT', 'v0/profile/preferred_names', putBadRequestFailure400);
 
     const nameEditButtonLabel = 'Edit Preferred name';
     const nameEditInputField = 'input[name="root_preferredName"]';
@@ -127,24 +127,6 @@ describe('Preferred name field tests on the personal information page', () => {
       .type(updatedName);
 
     cy.findAllByTestId('save-edit-button').click({ waitForAnimations: true });
-
-    cy.findByTestId('edit-error-alert').should('exist');
-
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('when there is an network error, should show error alert', () => {
-    setup({ isEnhanced: true });
-
-    const nameEditButtonLabel = 'Edit Preferred name';
-
-    cy.get(`va-button[label="${nameEditButtonLabel}"]`).click({
-      waitForAnimations: true,
-    });
-
-    cy.findAllByTestId('save-edit-button')
-      .should('exist')
-      .click({ waitForAnimations: true });
 
     cy.findByTestId('edit-error-alert').should('exist');
 

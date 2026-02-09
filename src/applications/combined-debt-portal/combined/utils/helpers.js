@@ -1,12 +1,14 @@
+import React from 'react';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { addDays, format, isBefore, isEqual, isValid } from 'date-fns';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
-import React from 'react';
 import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { head } from 'lodash';
+import i18nCombinedDebtPortal from '../../i18n';
 
 export const APP_TYPES = Object.freeze({
   DEBT: 'DEBT',
@@ -299,4 +301,22 @@ export const healthResourceCenterPhoneContent = () => {
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </>
   );
+};
+
+export const tCdp = i18nCombinedDebtPortal.getFixedT(
+  null,
+  null,
+  'combined-debt-portal',
+);
+
+export const getSortedDate = (
+  data,
+  key = 'debtHistory',
+  dateField = 'date',
+) => {
+  const dates = data?.[key]?.map(m => new Date(m[dateField])) ?? [];
+  const sortedHistory = dates.sort((a, b) => Date.parse(b) - Date.parse(a));
+  return isValid(head(sortedHistory))
+    ? format(head(sortedHistory), 'MM/dd/yyyy')
+    : '';
 };

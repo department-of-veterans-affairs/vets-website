@@ -1,5 +1,6 @@
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import { UPDATE_LOGGEDIN_STATUS } from 'platform/user/authentication/actions';
+import vapContactInfoReducer from 'platform/user/profile/vap-svc/reducers';
 import formConfig from '../../form/config/form';
 
 import { CALLSTATUS } from '../constants';
@@ -55,4 +56,5 @@ const certificateOfEligibility = (state = initialState, action) => {
 export default {
   certificateOfEligibility,
   form: createSaveInProgressFormReducer(formConfig),
+  vapService: vapContactInfoReducer,
 };

@@ -17,6 +17,7 @@ import { FLOW_TYPES, URLS } from '../utils/constants';
 import {
   createOTPInvalidError,
   createOTPAccountLockedError,
+  createAppointmentAlreadyBookedError,
 } from '../services/mocks/utils/errors';
 
 const defaultRenderOptions = getDefaultRenderOptions({
@@ -144,6 +145,9 @@ describe('VASS Component: EnterOTP', () => {
           tokenType: 'Bearer',
         },
       });
+      setFetchJSONResponse(global.fetch.onCall(1), {
+        data: { availableSlots: [] },
+      });
       const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
       const continueButton = getByTestId('continue-button');
@@ -238,6 +242,9 @@ describe('VASS Component: EnterOTP', () => {
           tokenType: 'Bearer',
         },
       });
+      setFetchJSONResponse(global.fetch.onCall(1), {
+        data: { availableSlots: [] },
+      });
 
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
@@ -270,6 +277,49 @@ describe('VASS Component: EnterOTP', () => {
     });
   });
 
+  describe('appointment already booked redirect', () => {
+    it('should navigate to already-scheduled page when user has existing appointment', async () => {
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        data: {
+          token: 'jwt-token',
+          expiresIn: 3600,
+          tokenType: 'Bearer',
+        },
+      });
+      setFetchJSONFailure(
+        global.fetch.onCall(1),
+        createAppointmentAlreadyBookedError('appt-123'),
+      );
+
+      const { container, getByTestId } = renderWithStoreAndRouterV6(
+        <>
+          <Routes>
+            <Route path={URLS.ENTER_OTP} element={<EnterOTP />} />
+            <Route
+              path={`${URLS.ALREADY_SCHEDULED}/:appointmentId`}
+              element={<div>Already Scheduled Page</div>}
+            />
+          </Routes>
+          <LocationDisplay />
+        </>,
+        {
+          ...defaultRenderOptions,
+          initialEntries: [URLS.ENTER_OTP],
+        },
+      );
+
+      inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
+      const continueButton = getByTestId('continue-button');
+      continueButton.click();
+
+      await waitFor(() => {
+        expect(getByTestId('location-display').textContent).to.equal(
+          `${URLS.ALREADY_SCHEDULED}/appt-123`,
+        );
+      });
+    });
+  });
+
   describe('when cancellation flow is active', () => {
     it('should display the correct page title', () => {
       const { getByTestId } = renderWithStoreAndRouterV6(<EnterOTP />, {
@@ -289,6 +339,9 @@ describe('VASS Component: EnterOTP', () => {
           expiresIn: 3600,
           tokenType: 'Bearer',
         },
+      });
+      setFetchJSONResponse(global.fetch.onCall(1), {
+        data: { availableSlots: [] },
       });
 
       const { container, getByTestId } = renderWithStoreAndRouterV6(

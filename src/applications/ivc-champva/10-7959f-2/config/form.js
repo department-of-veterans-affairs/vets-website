@@ -20,7 +20,6 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import transformForSubmit from './submitTransformer';
-import prefillTransformer from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -43,14 +42,17 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit,
-  prefillTransformer,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   footerContent: FormFooter,
   trackingPrefix: 'fmp-cover-sheet-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  dev: {
+    disableWindowUnloadInCI: true,
+  },
   formOptions: {
+    useWebComponentForNavigation: true,
     filterInactiveNestedPageData: true,
   },
   customText: {

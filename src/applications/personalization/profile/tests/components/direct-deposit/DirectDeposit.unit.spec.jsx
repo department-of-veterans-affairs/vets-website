@@ -249,7 +249,7 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
       const additionalInfoElement = getByTestId('gi-bill-additional-info');
       expect(additionalInfoElement).to.exist;
       expect(additionalInfoElement.getAttribute('trigger').trim()).to.equal(
-        'How to update your direct deposit information for Montgomery GI Bill',
+        'Learn how to update your direct deposit information for Montgomery GI Bill',
       );
 
       // Test the description paragraph

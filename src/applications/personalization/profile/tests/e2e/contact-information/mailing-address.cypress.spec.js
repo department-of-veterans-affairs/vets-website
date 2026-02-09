@@ -165,7 +165,7 @@ const confirmWebAddressesAreBlocked = () => {
     .first()
     .find('va-button')
     .shadow()
-    .findByText(/yes, cancel my changes/i)
+    .findByText(/Cancel changes/i)
     .click();
 };
 

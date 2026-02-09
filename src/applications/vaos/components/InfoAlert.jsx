@@ -25,6 +25,7 @@ export default function InfoAlert({
   headline,
   level = 2,
   status,
+  addRole = undefined,
 }) {
   const H = `h${level}`;
   if (backgroundOnly) {
@@ -45,7 +46,12 @@ export default function InfoAlert({
     );
   }
   return (
-    <va-alert class={className} status={status} uswds>
+    <va-alert
+      role={addRole || undefined}
+      class={className}
+      status={status}
+      uswds
+    >
       {headline && (
         <H className="vads-u-font-size--h3" slot="headline">
           {headline}
@@ -59,6 +65,7 @@ export default function InfoAlert({
 InfoAlert.propTypes = {
   status: PropTypes.oneOf(['info', 'error', 'success', 'warning', 'continue'])
     .isRequired,
+  addRole: PropTypes.string,
   backgroundOnly: PropTypes.bool,
   children: PropTypes.node,
   className: PropTypes.string,

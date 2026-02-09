@@ -17,6 +17,7 @@ import {
  * @param {string|array} extractType the relevant extract type(s) from the PHR refresh status call (e.g. ALLERGY)
  * @param {function} dispatchAction the action creator function that will fetch the list
  * @param {function} dispatch the React dispatch function
+ * @param {boolean} isLoading whether feature toggles are still loading (optional, defaults to false)
  */
 function useListRefresh({
   listState,
@@ -25,6 +26,7 @@ function useListRefresh({
   extractType,
   dispatchAction,
   dispatch,
+  isLoading = false,
 }) {
   const refreshIsCurrent = useMemo(
     () => {
@@ -64,10 +66,13 @@ function useListRefresh({
   useEffect(
     /**
      * Dispatch the action to refresh list data if:
-     * 1. The list has not yet been fetched.
-     * 2. The list data is stale, the refresh is current, and list is not currently being fetched.
+     * 1. Feature toggles have finished loading (isLoading is false).
+     * 2. The list has not yet been fetched.
+     * 3. The list data is stale, the refresh is current, and list is not currently being fetched.
      */
     () => {
+      if (isLoading) return;
+
       const shouldFetch =
         listState === loadStates.PRE_FETCH ||
         (listState !== loadStates.FETCHING && refreshIsCurrent && isDataStale);
@@ -76,7 +81,14 @@ function useListRefresh({
         dispatch(dispatchAction(refreshIsCurrent));
       }
     },
-    [refreshIsCurrent, listState, isDataStale, dispatchAction, dispatch],
+    [
+      refreshIsCurrent,
+      listState,
+      isDataStale,
+      dispatchAction,
+      dispatch,
+      isLoading,
+    ],
   );
 }
 

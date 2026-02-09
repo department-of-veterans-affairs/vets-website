@@ -5,10 +5,10 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
   textUI,
-  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { transformDate } from './helpers';
+import { customTextSchema } from '../../definitions';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -83,9 +83,9 @@ const nameLocationPage = {
   schema: {
     type: 'object',
     properties: {
-      vaMedicalCenterName: textSchema,
-      city: textSchema,
-      state: textSchema,
+      vaMedicalCenterName: customTextSchema,
+      city: customTextSchema,
+      state: customTextSchema,
     },
     required: ['vaMedicalCenterName', 'city', 'state'],
   },

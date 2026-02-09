@@ -13,7 +13,8 @@ import {
   STATE_NAMES,
   COUNTRY_VALUES,
   COUNTRY_NAMES,
-} from './helpers';
+} from '../../../utils/labels';
+import { customAddressSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -64,25 +65,7 @@ export default {
     properties: {
       marriageToVeteranStartDate: currentOrPastDateSchema,
       marriageToVeteranStartOutsideUS: checkboxSchema,
-      marriageToVeteranStartLocation: {
-        type: 'object',
-        required: ['city'],
-        properties: {
-          city: {
-            type: 'string',
-          },
-          state: {
-            type: 'string',
-            enum: STATE_VALUES,
-            enumNames: STATE_NAMES,
-          },
-          otherCountry: {
-            type: 'string',
-            enum: COUNTRY_VALUES,
-            enumNames: COUNTRY_NAMES,
-          },
-        },
-      },
+      marriageToVeteranStartLocation: customAddressSchema,
     },
   },
 };

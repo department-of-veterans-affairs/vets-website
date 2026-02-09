@@ -32,16 +32,11 @@ export const PreSubmitInfo = ({
 
   useEffect(
     () => {
-      if (
+      onSectionComplete(
         termsAndConditionsChecked &&
-        formReplacementChecked &&
-        privacyPolicyChecked
-      ) {
-        onSectionComplete(true);
-      }
-      return () => {
-        onSectionComplete(false);
-      };
+          formReplacementChecked &&
+          privacyPolicyChecked,
+      );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [termsAndConditionsChecked, formReplacementChecked, privacyPolicyChecked],
@@ -49,11 +44,13 @@ export const PreSubmitInfo = ({
 
   useEffect(
     () => {
-      if (showError && !hasSubmit) {
-        setTermsAndConditionsError(!termsAndConditionsChecked);
-        setFormReplacementError(!formReplacementChecked);
-        setPrivacyPolicyError(!privacyPolicyChecked);
-      }
+      setTermsAndConditionsError(
+        showError && !hasSubmit && !termsAndConditionsChecked,
+      );
+      setFormReplacementError(
+        showError && !hasSubmit && !formReplacementChecked,
+      );
+      setPrivacyPolicyError(showError && !hasSubmit && !privacyPolicyChecked);
     },
     [
       showError,

@@ -62,7 +62,14 @@ describe('RefillNotification', () => {
       'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
     );
   });
+  it('should NOT display error message when finished but still fetching (race condition fix)', () => {
+    // updated data, we should not show "Request not submitted" error
+    const screen = setup('finished', [], [], true); // finished status, no meds yet, but isFetching=true
 
+    // Should not show error notification during fetch
+    expect(screen.queryByTestId('error-refill-title')).to.not.exist;
+    expect(screen.queryByTestId('error-refill-description')).to.not.exist;
+  });
   it('should display partial success message when some refill requests fail', () => {
     const screen = setup(initRefillStatus, initSuccessfulMeds, initFailedMeds);
 

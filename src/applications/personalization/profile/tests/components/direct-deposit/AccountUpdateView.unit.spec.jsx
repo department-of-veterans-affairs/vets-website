@@ -184,10 +184,7 @@ describe('<AccountUpdateView />', () => {
     expect(modal).to.have.attribute('visible', 'true');
 
     expect(
-      getByText(
-        'finished editing and saving the changes to your direct deposit information',
-        { exact: false },
-      ),
+      getByText("If you cancel, we won't save your changes.", { exact: false }),
     ).to.exist;
   });
 });

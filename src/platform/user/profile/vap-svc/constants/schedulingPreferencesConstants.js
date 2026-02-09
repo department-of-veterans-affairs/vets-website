@@ -201,3 +201,7 @@ export const SCHEDULING_PREF_PATHS = {
   CONTACT_TIMES: `${BASE_PATH}/contact-times`,
   APPOINTMENT_TIMES: `${BASE_PATH}/appointment-times`,
 };
+
+export const errorMessages = {
+  noPreferenceSelected: 'Select a scheduling preference',
+};

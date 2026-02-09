@@ -1,5 +1,21 @@
 {
   "data": {
+    "certifierRole": "sponsor",
+    "certifierName": {
+      "first": "Certifier",
+      "last": "Jones"
+    },
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Certifier St",
+      "city": "Certifier",
+      "state": "MD",
+      "postalCode": "12312"
+    },
+    "certifierPhone": "1231231234",
+    "certifierEmail": "certifier@email.gov",
+    "sponsorDob": "1958-01-01",
+    "sponsorSsn": "123123123",
     "view:hasApplicants": true,
     "applicants": [
       {
@@ -38,47 +54,10 @@
           }
         ],
         "applicantDependentStatus": "over18HelplessChild"
-      },
-      {
-        "applicantName": {
-          "first": "Jenny",
-          "last": "Alvin"
-        },
-        "applicantDob": "2001-01-04",
-        "applicantSsn": "213454367",
-        "view:sharesAddressWith": "na",
-        "applicantAddress": {
-          "street": "456 Square Rd",
-          "city": "Applicant",
-          "country": "USA",
-          "state": "IN",
-          "postalCode": "56792"
-        },
-        "applicantPhone": "3175551234",
-        "applicantGender": "female",
-        "applicantRelationshipToSponsor": "spouse",
-        "dateOfMarriageToSponsor": "2025-01-01"
       }
     ],
-    "certifierRole": "sponsor",
-    "certifierName": {
-      "first": "Certifier",
-      "last": "Jones"
-    },
-    "certifierAddress": {
-      "street": "123 Certifier St",
-      "city": "Certifier",
-      "country": "USA",
-      "state": "AL",
-      "postalCode": "12312"
-    },
-    "certifierPhone": "1231231234",
-    "certifierEmail": "certifier@email.gov",
-    "sponsorDob": "1958-01-01",
-    "sponsorSsn": "123123123",
-    "sponsorEmail": "certifier@email.gov",
-    "view:hasHealthInsurance": false,
     "view:hasMedicare": false,
+    "view:hasHealthInsurance": false,
     "statementOfTruthSignature": "Certifier Jones"
   }
 }

@@ -119,6 +119,110 @@ describe('Feature Toggle Data Confirmation', () => {
     });
   });
 
+  describe('StatementTable focus', () => {
+    const mockSelectedCopay = {
+      pHNewBalance: 25,
+      pHTotCredits: 15,
+      pHPrevBal: 30,
+      pSStatementDateOutput: '05/03/2024',
+      pSStatementVal: 'STMT-123',
+      statementStartDate: '2024-05-03',
+      statementEndDate: '2024-06-03',
+    };
+
+    it('renders va-table with table-title-summary set to the statement date range', () => {
+      const charges = createCharges(3);
+      const store = createMockStore(false);
+      const { container } = render(
+        <Provider store={store}>
+          <StatementTable
+            charges={charges}
+            formatCurrency={mockFormatCurrency}
+            selectedCopay={{ ...mockSelectedCopay }}
+          />
+        </Provider>,
+      );
+
+      const table = container.querySelector('va-table');
+      expect(table).to.exist;
+
+      expect(table.getAttribute('table-title')).to.include(
+        'This statement shows charges you received between May 3, 2024 and June 3, 2024',
+      );
+      expect(table.getAttribute('table-title-summary')).to.equal(
+        'Showing 1-3 of 3 charges',
+      );
+    });
+
+    it('renders va-table with table-title-summary when statement dates are missing', () => {
+      const charges = createCharges(2);
+      const store = createMockStore(false);
+      const { container } = render(
+        <Provider store={store}>
+          <StatementTable
+            charges={charges}
+            formatCurrency={mockFormatCurrency}
+            selectedCopay={{
+              ...mockSelectedCopay,
+              statementStartDate: null,
+              statementEndDate: null,
+            }}
+          />
+        </Provider>,
+      );
+
+      const table = container.querySelector('va-table');
+      expect(table).to.exist;
+      expect(table.getAttribute('table-title')).to.equal(
+        'This statement shows your current charges.',
+      );
+      expect(table.getAttribute('table-title-summary')).to.equal(
+        'Showing 1-2 of 2 charges',
+      );
+    });
+
+    it('after pagination click, the va-table component is the focus target', async () => {
+      const charges = createCharges(15);
+      const store = createMockStore(false);
+      const { container } = render(
+        <Provider store={store}>
+          <StatementTable
+            charges={charges}
+            formatCurrency={mockFormatCurrency}
+            selectedCopay={{ ...mockSelectedCopay }}
+          />
+        </Provider>,
+      );
+
+      const table = container.querySelector('va-table');
+      expect(table.getAttribute('table-title-summary')).to.equal(
+        'Showing 1-10 of 15 charges',
+      );
+
+      const pagination = container.querySelector('va-pagination');
+      pagination.dispatchEvent(
+        new CustomEvent('pageSelect', {
+          detail: { page: 2 },
+          bubbles: true,
+        }),
+      );
+
+      await waitFor(() => {
+        const updatedTable = container.querySelector('va-table');
+        expect(updatedTable.getAttribute('table-title-summary')).to.equal(
+          'Showing 11-15 of 15 charges',
+        );
+      });
+
+      // Focus logic targets va-table and sets tabindex="-1" on it; in jsdom
+      // custom elements may not receive document.activeElement, so we assert
+      // the correct component was targeted for focus.
+      const tableAfterUpdate = container.querySelector('va-table');
+      expect(tableAfterUpdate).to.exist;
+      expect(tableAfterUpdate.getAttribute('tabindex')).to.equal('-1');
+    });
+  });
+
   // TODO: to be removed once toggle is fully enabled
   it('showVHAPaymentHistory is false', () => {
     const mockState = {

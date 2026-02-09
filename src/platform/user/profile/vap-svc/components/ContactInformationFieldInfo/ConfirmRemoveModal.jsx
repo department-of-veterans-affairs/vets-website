@@ -56,11 +56,10 @@ const ConfirmRemoveModal = ({
     modalContent = (
       <>
         <p className="vads-u-margin-top--1">
-          Your signature will no longer appear on outgoing secure messages.
+          This will remove your signature on outgoing messages.
         </p>
         <p className="vads-u-margin-top--1">
-          You can always come back to your profile later if you want to add this
-          signature again.
+          You can always add another messages signature any time.
         </p>
       </>
     );

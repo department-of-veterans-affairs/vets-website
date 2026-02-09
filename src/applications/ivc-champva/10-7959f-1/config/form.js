@@ -4,6 +4,7 @@ import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import {
   ssnOrVaFileNumberNoHintSchema,
+  ssnOrVaFileNumberNoHintUI,
   fullNameUI,
   fullNameSchema,
   titleUI,
@@ -19,7 +20,7 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { expandPhoneNumberToInternational } from './migrations';
+import migrations from './migrations';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import SubmissionError from '../../shared/components/SubmissionError';
@@ -27,10 +28,6 @@ import SubmissionError from '../../shared/components/SubmissionError';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
-import {
-  ssnOrVaFileNumberCustomUI,
-  CustomSSNReviewPage,
-} from '../helpers/CustomSSN';
 import {
   validAddressCharsOnly,
   validObjectCharsOnly,
@@ -70,6 +67,13 @@ const formConfig = {
   },
   submissionError: SubmissionError,
   formId: '10-7959F-1',
+  dev: {
+    disableWindowUnloadInCI: true,
+  },
+  formOptions: {
+    useWebComponentForNavigation: true,
+    filterInactiveNestedPageData: true,
+  },
   saveInProgress: {
     messages: {
       inProgress: 'Your FMP registration (10-7959F-1) is in progress.',
@@ -78,8 +82,8 @@ const formConfig = {
       saved: 'Your FMP benefits registration has been saved.',
     },
   },
-  version: 1,
-  migrations: [expandPhoneNumberToInternational],
+  version: migrations.length,
+  migrations,
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to register for FMP benefits.',
@@ -151,9 +155,7 @@ const formConfig = {
               `Identification information`,
               `You must enter either a Social Security number or VA file number.`,
             ),
-            messageAriaDescribedby:
-              'You must enter either a Social Security number or VA file number.',
-            veteranSocialSecurityNumber: ssnOrVaFileNumberCustomUI(),
+            veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintUI(),
           },
           schema: {
             type: 'object',
@@ -163,7 +165,6 @@ const formConfig = {
               veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintSchema,
             },
           },
-          CustomPageReview: CustomSSNReviewPage,
         },
       },
     },

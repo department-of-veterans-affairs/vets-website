@@ -8,14 +8,13 @@ import {
   vaFileNumberSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { hasSession } from '../../../helpers';
 import { SSNReviewField } from '../../../components/SSNReviewField';
 
 /** @type {PageSchema} */
 export default {
   title: 'Veteran information',
   path: 'veteran/information',
-  depends: formData => !(formData?.claimantType === 'VETERAN' && hasSession()),
+  depends: formData => formData?.claimantType !== 'VETERAN',
   uiSchema: {
     ...titleUI('Veteran information'),
     otherVeteranFullName: fullNameNoSuffixUI(title => `Veteran’s ${title}`),

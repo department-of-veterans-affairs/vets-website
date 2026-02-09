@@ -219,6 +219,32 @@ describe('stringifyRelatedDisabilities', () => {
       },
     ]);
   });
+  it('should match conditions with sideOfBody in newPrimaryDisabilities', () => {
+    const formData = {
+      newPrimaryDisabilities: [
+        {
+          condition: 'carpal tunnel syndrome',
+          cause: 'NEW',
+          sideOfBody: 'LEFT',
+          primaryDescription: 'Secondary to ankle sprain\nDescription',
+        },
+      ],
+      vaTreatmentFacilities: [
+        {
+          treatedDisabilityNames: {
+            carpaltunnelsyndromeleft: true,
+          },
+        },
+      ],
+    };
+    expect(
+      stringifyRelatedDisabilities(formData).vaTreatmentFacilities,
+    ).to.deep.equal([
+      {
+        treatedDisabilityNames: ['carpal tunnel syndrome, left'],
+      },
+    ]);
+  });
 });
 
 describe('getFlatIncidentKeys', () => {

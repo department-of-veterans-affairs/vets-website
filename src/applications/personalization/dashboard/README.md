@@ -18,11 +18,11 @@ The React/Redux frontend for the VA.gov MyVA. Modeled after [Profile's README](h
 
 # Purpose and overview
 
-The authenticated experience team wants to work towards a concierge-like VA experience, one that puts veterans and other customers at the center of the interaction. 
+The authenticated experience team wants to work towards a concierge-like VA experience, one that puts veterans and other customers at the center of the interaction.
 
 My VA aims to meet this expectation by providing Veterans with a direct route to their most critical tasks and updates.
 
-Sources: 
+Sources:
 - [Authenticated Experience team charter](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/authenticated-experience/charter.md)
 - [Product outline: My VA](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/identity-personalization/my-va/README.md)
 
@@ -62,7 +62,7 @@ Visit [https://localhost:3001/my-va](https://localhost:3001/my-va).
 
 Run all unit tests for My VA:
 ```
-yarn test:unit src/applications/personalization/dashboard/tests/**/*.unit.spec.js*                 
+yarn test:unit src/applications/personalization/dashboard/tests/**/*.unit.spec.js*
 ```
 
 ## e2e tests
@@ -70,7 +70,7 @@ yarn test:unit src/applications/personalization/dashboard/tests/**/*.unit.spec.j
 **Before running any Cypress tests**, first make sure that:
 1. `vets-website` is being served locally on port 3001
 2. any mock server is **NOT** running
-   - this includes `vets-api` or our local mock server 
+   - this includes `vets-api` or our local mock server
 
 ### Open Cypress UI
 Caveat: can be buggy and laggy

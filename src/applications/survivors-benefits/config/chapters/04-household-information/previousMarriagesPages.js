@@ -17,35 +17,21 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import constants from 'vets-json-schema/dist/constants.json';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { previousMarriageEndOptions } from '../../../utils/labels';
 import { handleSpouseMaxMarriagesAlert } from '../../../components/FormAlerts';
+import {
+  STATE_VALUES,
+  STATE_NAMES,
+  COUNTRY_VALUES,
+  COUNTRY_NAMES,
+  previousMarriageEndOptions,
+} from '../../../utils/labels';
+import { customAddressSchema } from '../../definitions';
 
 // Show previous marriages pages ONLY if user answered YES to hadPreviousMarriages
 // Ansering NO skips all previous marriage flows and jumps to Dependents
 const shouldShowPreviousMarriages = formData =>
   formData.hadPreviousMarriages === true;
-
-// Get military states to filter them out
-const MILITARY_STATE_VALUES = constants.militaryStates.map(
-  state => state.value,
-);
-
-// Get states from the same source as the addressUI component
-const filteredStates = constants.states.USA.filter(
-  state => !MILITARY_STATE_VALUES.includes(state.value),
-);
-const STATE_VALUES = filteredStates.map(state => state.value);
-const STATE_NAMES = filteredStates.map(state => state.label);
-
-// Get countries from the same source as the addressUI component
-const COUNTRY_VALUES = constants.countries
-  .filter(country => country.value !== 'USA')
-  .map(country => country.value);
-const COUNTRY_NAMES = constants.countries
-  .filter(country => country.value !== 'USA')
-  .map(country => country.label);
 
 /** @type {ArrayBuilderOptions} */
 // arrayPath is spouseMarriages because it's the spouse's previous marriages
@@ -253,25 +239,7 @@ const marriageDateAndLocationPage = {
     properties: {
       dateOfMarriage: currentOrPastDateSchema,
       marriedOutsideUS: checkboxSchema,
-      locationOfMarriage: {
-        type: 'object',
-        required: ['city'],
-        properties: {
-          city: {
-            type: 'string',
-          },
-          state: {
-            type: 'string',
-            enum: STATE_VALUES,
-            enumNames: STATE_NAMES,
-          },
-          otherCountry: {
-            type: 'string',
-            enum: COUNTRY_VALUES,
-            enumNames: COUNTRY_NAMES,
-          },
-        },
-      },
+      locationOfMarriage: customAddressSchema,
     },
   },
 };
@@ -355,25 +323,7 @@ const marriageEndDateAndLocationPage = {
     properties: {
       dateOfSeparation: currentOrPastDateSchema,
       marriageEndedOutsideUS: checkboxSchema,
-      locationOfSeparation: {
-        type: 'object',
-        required: ['city'],
-        properties: {
-          city: {
-            type: 'string',
-          },
-          state: {
-            type: 'string',
-            enum: STATE_VALUES,
-            enumNames: STATE_NAMES,
-          },
-          otherCountry: {
-            type: 'string',
-            enum: COUNTRY_VALUES,
-            enumNames: COUNTRY_NAMES,
-          },
-        },
-      },
+      locationOfSeparation: customAddressSchema,
     },
   },
 };
