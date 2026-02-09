@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { FIELD_NAMES } from 'platform/user/exportsFile';
@@ -50,6 +50,7 @@ describe('AppointmentTimesWrapper', () => {
 
   afterEach(() => {
     sandbox.restore();
+    cleanup();
   });
 
   it('renders without crashing', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
+import { waitFor, cleanup } from '@testing-library/react';
 import sinon from 'sinon';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import * as featureToggles from 'platform/utilities/feature-toggles';
@@ -51,6 +51,7 @@ describe('TimesSelection', () => {
 
   afterEach(() => {
     useFeatureToggleStub.restore();
+    cleanup();
   });
 
   describe('basic rendering', () => {
