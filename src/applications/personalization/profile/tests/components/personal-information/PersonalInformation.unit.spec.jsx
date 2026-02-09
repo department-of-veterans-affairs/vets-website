@@ -5,7 +5,10 @@ import { renderWithProfileReducersAndRouter } from '@@profile/tests/unit-test-he
 import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
+import sinon from 'sinon';
 import { PROFILE_PATHS } from '../../../constants';
+import * as helpers from '../../../helpers';
 
 function createInitialState(
   { hasUnsavedEdits, toggles, optionalServices = [], mhvAccount } = {
@@ -32,9 +35,7 @@ function createInitialState(
 
   return {
     featureToggles: {
-      ...{
-        loading: false,
-      },
+      loading: false,
       ...toggles,
     },
     vaProfile: {
@@ -176,6 +177,68 @@ describe('<PersonalInformation />', () => {
 
     await waitFor(() => {
       expect(screen.queryByTestId('messagingSignature')).to.not.exist;
+    });
+  });
+
+  it('does render Messaging signature if profile2 is enabled but health care settings is not enabled', async () => {
+    const mhvAccount = {
+      messagingSignature: {
+        signatureName: 'Abraham Lincoln',
+        signatureTitle: 'Veteran',
+      },
+    };
+
+    const screen = setup({
+      toggles: { [TOGGLE_NAMES.profile2Enabled]: true },
+      optionalServices: ['messaging'],
+      mhvAccount,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('messagingSignature')).to.exist;
+    });
+  });
+
+  it('renders a va-alert if profile2 and health care settings are enabled', async () => {
+    sinon.stub(helpers, 'handleRouteChange').callsFake(() => {});
+
+    const screen = setup({
+      hasUnsavedEdits: false,
+      toggles: {
+        [TOGGLE_NAMES.profile2Enabled]: true,
+        [TOGGLE_NAMES.profileHealthCareSettingsPage]: true,
+      },
+      optionalServices: ['messaging'],
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('messagingSignature')).to.not.exist;
+      expect(screen.getByRole('alert')).to.exist;
+      const link = screen.getByRole('link');
+      expect(link).to.have.attribute(
+        'text',
+        'Manage the signature on your messages',
+      );
+      link.click();
+      expect(helpers.handleRouteChange.called).to.be.true;
+      helpers.handleRouteChange.restore();
+    });
+  });
+
+  it('renders the SingleFieldLoadFailAlert if hasError is true', async () => {
+    const screen = setup({
+      optionalServices: ['messaging'],
+      messagingSignature: {
+        error: true,
+      },
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          /something went wrong on our end and we can’t load your signature information/i,
+        ),
+      ).to.exist;
     });
   });
 
