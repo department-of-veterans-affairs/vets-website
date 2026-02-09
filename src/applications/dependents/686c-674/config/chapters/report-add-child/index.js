@@ -5,7 +5,6 @@ import { intro } from './intro';
 import { summary } from './summary';
 import { information } from './information';
 import { arrayBuilderOptions } from './config';
-import { identification } from './identification';
 import { placeOfBirth } from './placeOfBirth';
 import { relationshipType } from './relationshipType';
 import { stepchild } from './stepchild';
@@ -48,13 +47,6 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       path: '686-report-add-child/:index/information',
       uiSchema: information.uiSchema,
       schema: information.schema,
-    }),
-    addChildIdentification: pages.itemPage({
-      depends: shouldIncludePage,
-      title: 'Child’s Identification',
-      path: '686-report-add-child/:index/identification',
-      uiSchema: identification.uiSchema,
-      schema: identification.schema,
     }),
     addChildPlaceOfBirth: pages.itemPage({
       depends: shouldIncludePage,

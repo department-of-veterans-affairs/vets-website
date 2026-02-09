@@ -1,6 +1,7 @@
+import React from 'react';
+
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-
 import {
   profilePersonalInfoPage,
   profileContactInfoPages,
@@ -14,17 +15,22 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import SubmissionInstructions from '../components/SubmissionInstructions';
+
 // Pages
 import {
   educationBenefitsElibility,
   educationBenefitsHistory,
   hasPreviouslyApplied,
   payeeNumber,
+  testName,
+  organizationInfo,
   prepCourseName,
   prepCourseAddress,
   prepCourseOnline,
   prepCoursePeriod,
   prepCourseCost,
+  remarks,
 } from '../pages';
 
 import prefillTransform from './prefillTransform';
@@ -107,8 +113,13 @@ const formConfig = {
             dateOfBirth: { show: true, required: false },
           },
           dataAdapter: {
-            ssnPath: 'vaFileNumber',
+            ssnPath: 'ssn',
           },
+          header: (
+            <h3 className="vads-u-margin-bottom--3">
+              Confirm the personal information we have on file for you
+            </h3>
+          ),
         }),
         payeeNumber: {
           path: 'payee-number',
@@ -123,6 +134,25 @@ const formConfig = {
           },
           contactInfoRequiredKeys: ['mailingAddress'],
         }),
+      },
+    },
+    licensingAndCertificationChapter: {
+      title: 'Licensing and certification details',
+      pages: {
+        testName: {
+          path: 'test-name',
+          title:
+            "Tell us about the licensing or certification test you're preparing for",
+          uiSchema: testName.uiSchema,
+          schema: testName.schema,
+        },
+        organizationInfo: {
+          path: 'organization-info',
+          title:
+            'The name and mailing address of organization awarding license or certification',
+          uiSchema: organizationInfo.uiSchema,
+          schema: organizationInfo.schema,
+        },
       },
     },
     prepCourseChapter: {
@@ -158,6 +188,34 @@ const formConfig = {
           title: 'Enter the cost of the prep course including any fees',
           uiSchema: prepCourseCost.uiSchema,
           schema: prepCourseCost.schema,
+        },
+      },
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarks: {
+          path: 'remarks',
+          title: 'Enter your remarks',
+          uiSchema: remarks.uiSchema,
+          schema: remarks.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },

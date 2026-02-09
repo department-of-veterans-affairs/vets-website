@@ -1,12 +1,11 @@
 import CustomPersonalInfo from '../../../components/CustomPersonalInfo';
 import CustomPersonalInfoReview from '../../../components/CustomPersonalInfoReview';
-import { hasSession } from '../../../helpers';
 
 /** @type {PageSchema} */
 export default {
   title: 'Personal information',
   path: 'personal/information',
-  depends: formData => formData?.claimantType === 'VETERAN' && hasSession(),
+  depends: formData => formData?.claimantType === 'VETERAN',
   CustomPage: CustomPersonalInfo,
   CustomPageReview: CustomPersonalInfoReview,
   hideOnReview: false,

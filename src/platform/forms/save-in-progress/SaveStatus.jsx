@@ -62,9 +62,11 @@ function SaveStatus({
       {autoSavedStatus === SAVE_STATUSES.success && (
         <div className="panel saved-success-container vads-u-display--flex vads-u-padding--1 vads-u-margin-bottom--1p5 vads-u-display--block">
           <va-alert status="success" slim uswds>
-            {appSavedSuccessfullyMessage}
-            {savedAtMessage}
-            {formIdMessage}
+            <p className="vads-u-margin--0">
+              {appSavedSuccessfullyMessage}
+              {savedAtMessage}
+              {formIdMessage}
+            </p>
           </va-alert>
         </div>
       )}
@@ -79,25 +81,27 @@ function SaveStatus({
           slim
           uswds
         >
-          {autoSavedStatus === SAVE_STATUSES.clientFailure &&
-            `We’re sorry. We’re unable to connect to VA.gov. Please check that you’re connected to the Internet, so we can save your ${appType} in progress.`}
-          {autoSavedStatus === SAVE_STATUSES.failure &&
-            `We’re sorry, but we’re having some issues and are working to fix them. You can continue filling out the ${appType}, but it will not be automatically saved as you fill it out.`}
-          {!isLoggedIn &&
-            autoSavedStatus === SAVE_STATUSES.noAuth && (
-              <span>
-                Sorry, you’re no longer signed in.{' '}
-                <SignInLink
-                  className="va-button-link"
-                  isLoggedIn={isLoggedIn}
-                  showLoginModal={showLoginModal}
-                  toggleLoginModal={toggleLoginModal}
-                >
-                  Sign in to save your {appType} in progress
-                </SignInLink>
-                .
-              </span>
-            )}
+          <p className="vads-u-margin--0">
+            {autoSavedStatus === SAVE_STATUSES.clientFailure &&
+              `We’re sorry. We’re unable to connect to VA.gov. Please check that you’re connected to the Internet, so we can save your ${appType} in progress.`}
+            {autoSavedStatus === SAVE_STATUSES.failure &&
+              `We’re sorry, but we’re having some issues and are working to fix them. You can continue filling out the ${appType}, but it will not be automatically saved as you fill it out.`}
+            {!isLoggedIn &&
+              autoSavedStatus === SAVE_STATUSES.noAuth && (
+                <span>
+                  Sorry, you’re no longer signed in.{' '}
+                  <SignInLink
+                    className="va-button-link"
+                    isLoggedIn={isLoggedIn}
+                    showLoginModal={showLoginModal}
+                    toggleLoginModal={toggleLoginModal}
+                  >
+                    Sign in to save your {appType} in progress
+                  </SignInLink>
+                  .
+                </span>
+              )}
+          </p>
         </va-alert>
       )}
     </div>
@@ -110,8 +114,11 @@ SaveStatus.propTypes = {
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       appSavedSuccessfullyMessage: PropTypes.string,
+      appType: PropTypes.string,
     }),
   }),
+  showLoginModal: PropTypes.bool,
+  toggleLoginModal: PropTypes.func,
 };
 
 export default SaveStatus;

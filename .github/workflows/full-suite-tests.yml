@@ -18,11 +18,11 @@ on:
         required: false
         type: string
         default: ''
-      use_node_22:
-        description: 'Use Node 22 Docker image for E2E tests (for Node 22 upgrade verification)'
+      reuse_build_from_run:
+        description: 'Skip build and reuse artifacts from a previous run ID (for faster iteration)'
         required: false
-        type: boolean
-        default: false
+        type: string
+        default: ''
 
 concurrency:
   group: full-suite-tests-${{ github.ref }}
@@ -103,7 +103,7 @@ jobs:
   build:
     name: Build
     needs: [validate-inputs]
-    if: ${{ inputs.run_full_e2e_suite }}
+    if: ${{ inputs.run_full_e2e_suite && inputs.reuse_build_from_run == '' }}
     runs-on: ubuntu-16-cores-latest
     permissions:
       id-token: write
@@ -159,6 +159,30 @@ jobs:
 
       - name: Upload build artifact
         uses: ./.github/workflows/upload-artifact
+        with:
+          name: vagovprod.tar.bz2
+          path: vagovprod.tar.bz2
+          retention-days: 1
+
+  reuse-build:
+    name: Reuse Build from Previous Run
+    needs: [validate-inputs]
+    if: ${{ inputs.run_full_e2e_suite && inputs.reuse_build_from_run != '' }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Download build artifact from previous run
+        run: gh run download ${{ inputs.reuse_build_from_run }} -n vagovprod.tar.bz2
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Re-upload build artifact for this run
+        uses: actions/upload-artifact@v4
         with:
           name: vagovprod.tar.bz2
           path: vagovprod.tar.bz2
@@ -456,21 +480,22 @@ jobs:
     name: Cypress E2E Tests
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 120
-    needs: [build, tests-prep, fetch-ecr-credentials]
+    needs: [build, reuse-build, tests-prep, fetch-ecr-credentials]
     permissions:
       id-token: write
       contents: read
     if: |
+      always() &&
       inputs.run_full_e2e_suite &&
-      needs.build.result == 'success' &&
+      (needs.build.result == 'success' || needs.reuse-build.result == 'success') &&
       needs.tests-prep.result == 'success' &&
       needs.tests-prep.outputs.e2e_count != '0'
 
     container:
-      image: ${{ inputs.use_node_22 && 'cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1' || '008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge' }}
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
       credentials:
-        username: ${{ inputs.use_node_22 && '' || needs.fetch-ecr-credentials.outputs.ecr_user }}
-        password: ${{ inputs.use_node_22 && '' || needs.fetch-ecr-credentials.outputs.ecr_password }}
+        username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
+        password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
 
     strategy:
       fail-fast: false
@@ -522,6 +547,10 @@ jobs:
         with:
           name: vagovprod.tar.bz2
 
+      - name: Install missing dependencies
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: apt-get update && apt-get install -y bzip2 curl
+
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: |
@@ -554,13 +583,40 @@ jobs:
           TEST_TYPE: e2e
           TEST_PROPERTY: 'TESTS'
 
-      - name: Start server
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
-
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node script/github-actions/run-cypress-tests.js
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "Starting test server..."
+          node src/platform/testing/e2e/test-server.js \
+            --buildtype=vagovprod \
+            --port=3001 \
+            --host=127.0.0.1 \
+            > test-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+
+          echo "Waiting for server to be ready..."
+          ready=false
+          for i in $(seq 1 30); do
+            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+              echo "Server is ready!"
+              ready=true
+              break
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 2
+          done
+
+          if [ "$ready" = false ]; then
+            echo "Server failed to start. Last 200 log lines:"
+            tail -n 200 test-server.log || cat test-server.log
+            exit 1
+          fi
+
+          node script/github-actions/run-cypress-tests.js
         timeout-minutes: 120
         env:
           CYPRESS_CI: true
@@ -737,7 +793,14 @@ jobs:
       checks: write
       id-token: write
       contents: read
-    if: ${{ always() && inputs.run_full_e2e_suite && needs.tests-prep.outputs.cypress-tests != '' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    if: |
+      always() &&
+      inputs.run_full_e2e_suite &&
+      needs.tests-prep.outputs.cypress-tests != '' &&
+      (
+        needs.cypress-tests.result == 'success' ||
+        needs.cypress-tests.result == 'failure'
+      )
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     continue-on-error: true

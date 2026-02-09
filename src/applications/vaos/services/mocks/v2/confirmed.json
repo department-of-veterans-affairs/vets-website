@@ -6588,6 +6588,111 @@
         "future": true,
         "showScheduleLink": false
       }
+    },
+    {
+      "id": "9acb74b5706752a1f09a147fa838f709824c64f5d66fbea4eab4e7be34f1cdd0",
+      "type": "appointments",
+      "attributes": {
+        "id": "9acb74b5706752a1f09a147fa838f709824c64f5d66fbea4eab4e7be34f1cdd0",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "413938333136353130"
+          },
+          {
+            "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+            "value": "983:16510"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "SERVICE CONNECTED",
+                "display": "SERVICE CONNECTED"
+              }
+            ],
+            "text": "SERVICE CONNECTED"
+          }
+        ],
+        "patientIcn": "1012845331V153043",
+        "locationId": "984",
+        "clinic": "308",
+        "practitioners": [],
+        "start": "2025-12-26T00:20:00Z",
+        "end": "2025-12-26T00:50:00Z",
+        "minutesDuration": 30,
+        "slot": {
+          "id": "3230323531323235303032303A323032353132323530303530",
+          "start": "2025-12-26T00:20:00Z",
+          "end": "2025-12-26T00:50:00Z"
+        },
+        "created": "2025-05-14T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": ["CANCELLED BY PATIENT"],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": false,
+          "clinic": {
+            "physicalLocation": "Here",
+            "phoneNumber": "7325",
+            "primaryStopCode": 407,
+            "phoneNumberExtension": ""
+          }
+        },
+        "localStartTime": "2025-12-24T14:20:00.000-10:00",
+        "station": "983",
+        "ien": "16510",
+        "isCerner": false,
+        "serviceName": "Friendly Name Sydney Opthal",
+        "physicalLocation": "Here",
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_facilities",
+            "name": "Dayton VA Clinic",
+            "classification": "Other Outpatient Services (OOS)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 41.142464,
+            "long": -102.97669,
+            "website": "https://www.cheyenne.va.gov/locations/Sidney_VA_MSOC.asp",
+            "phone": {
+              "main": "308-254-6085"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["1116 10th Avenue"],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "69162-2001"
+            },
+            "healthService": [
+              "EmergencyCare",
+              "MentalHealthCare",
+              "PrimaryCare"
+            ],
+            "ehrSystem": "VistA"
+          }
+        },
+        "type": "VA",
+        "modality": "vaInPerson",
+        "pending": false,
+        "past": true,
+        "future": false,
+        "showScheduleLink": false
+      }
     }
   ]
 }
