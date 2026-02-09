@@ -135,30 +135,33 @@ export const mergeRadiologyLists = (
     const phrNormalizedName = normalizeProcedureName(phrRecord.name);
 
     for (const cvixRecord of cvixRadiologyTestsList) {
-      const cvixHash = extractHashFromId(cvixRecord.id);
-      const cvixNormalizedName = normalizeProcedureName(cvixRecord.name);
+      // Skip if this CVIX record was already matched to another PHR record
+      if (!matchedCvixIds.has(cvixRecord.id)) {
+        const cvixHash = extractHashFromId(cvixRecord.id);
+        const cvixNormalizedName = normalizeProcedureName(cvixRecord.name);
 
-      // Match by hash (primary) - catches records with same core fields
-      const hashesMatch = phrHash && cvixHash && phrHash === cvixHash;
+        // Match by hash (primary) - catches records with same core fields
+        const hashesMatch = phrHash && cvixHash && phrHash === cvixHash;
 
-      // Match by timestamp to the minute (legacy behavior)
-      const datesMatchToMinute = areDatesEqualToMinute(
-        phrRecord.sortDate,
-        cvixRecord.sortDate,
-      );
+        // Match by timestamp to the minute (legacy behavior)
+        const datesMatchToMinute = areDatesEqualToMinute(
+          phrRecord.sortDate,
+          cvixRecord.sortDate,
+        );
 
-      // Match by normalized procedure name + same calendar day (fallback for
-      // records where radiologist differs between PHR and CVIX)
-      const nameAndDayMatch =
-        phrNormalizedName &&
-        cvixNormalizedName &&
-        phrNormalizedName === cvixNormalizedName &&
-        areDatesOnSameDay(phrRecord.sortDate, cvixRecord.sortDate);
+        // Match by normalized procedure name + same calendar day (fallback for
+        // records where radiologist differs between PHR and CVIX)
+        const nameAndDayMatch =
+          phrNormalizedName &&
+          cvixNormalizedName &&
+          phrNormalizedName === cvixNormalizedName &&
+          areDatesOnSameDay(phrRecord.sortDate, cvixRecord.sortDate);
 
-      if (hashesMatch || datesMatchToMinute || nameAndDayMatch) {
-        matchingCvix = cvixRecord;
-        matchedCvixIds.add(matchingCvix.id);
-        break;
+        if (hashesMatch || datesMatchToMinute || nameAndDayMatch) {
+          matchingCvix = cvixRecord;
+          matchedCvixIds.add(matchingCvix.id);
+          break;
+        }
       }
     }
     if (matchingCvix) {

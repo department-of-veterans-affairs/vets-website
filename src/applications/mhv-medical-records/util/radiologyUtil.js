@@ -217,11 +217,12 @@ export const radiologyRecordHash = record => {
   // Normalize procedure name to handle whitespace differences between PHR and CVIX
   const normalizedProcedureName = normalizeProcedureName(procedureName);
 
-  // Use empty string for undefined/null radiologist to ensure consistent hashing
+  // Use empty string for undefined/null values to ensure consistent hashing
   // between PHR (which has radiologist) and CVIX (which may not have it at top level)
   const normalizedRadiologist = radiologist || '';
+  const normalizedStationNumber = stationNumber || '';
 
-  const dataString = `${normalizedProcedureName}|${normalizedRadiologist}|${stationNumber}|${date}`;
+  const dataString = `${normalizedProcedureName}|${normalizedRadiologist}|${normalizedStationNumber}|${date}`;
   return generateHash(dataString).substring(0, 8);
 };
 
