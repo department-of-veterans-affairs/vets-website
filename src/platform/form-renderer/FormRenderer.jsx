@@ -78,7 +78,7 @@ function createChecklist(obj) {
     <li id={`li-${obj.key}`} key={obj.key}>
       <div key={obj.key}>
         {label}
-        <ul>
+        <ul className="no-bullets">
           {obj.options.map(opt => {
             return <li key={opt}>✓ {opt}</li>;
           })}
@@ -109,7 +109,7 @@ function render(cfg, data) {
       <div key={olId}>
         {orderedListCount > 0 && (
           <p id={descId} className="sr-only">
-            Question numbering continues in this section.
+            Question numbering continues from the previous section.
           </p>
         )}
         <ol
