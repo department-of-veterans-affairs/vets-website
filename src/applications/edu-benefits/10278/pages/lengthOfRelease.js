@@ -33,7 +33,7 @@ const uiSchema = {
         monthSelect: false,
         removeDateHint: true,
         errorMessages: {
-          required: 'Enter the date of the termination',
+          required: 'Enter date of termination',
         },
         expandUnderCondition: value => value === 'date',
         required: formData => formData?.lengthOfRelease?.duration === 'date',
