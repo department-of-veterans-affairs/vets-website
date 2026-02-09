@@ -52,7 +52,7 @@ describe('aboutTheVeteranPage', () => {
       'They/them/theirs',
       'Ze/zir/zirs',
       'Use my preferred name',
-      'If not listed, please provide your preferred pronouns',
+      'If not listed, provide your preferred pronouns',
       'Man',
       'Non-binary',
       'Transgender man',

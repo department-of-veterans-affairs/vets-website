@@ -634,7 +634,7 @@ describe('Components and Utility Functions', () => {
       new: 'Your inquiry is current in queue to be reviewed.',
       'in progress': 'Your inquiry is currently being reviewed by an agent.',
       solved:
-        'Your inquiry has been closed. If you have additional questions please open a new inquiry.',
+        'Your inquiry has been closed. If you have additional questions open a new inquiry.',
       reopened:
         'Your reply to this inquiry has been received, and the inquiry is currently being reviewed by an agent.',
       closed: 'Closed.',

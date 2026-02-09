@@ -498,7 +498,7 @@ const ResponseInboxPage = ({ router }) => {
                   className="usa-link"
                   href={`${manifest.rootUrl}/introduction`}
                 >
-                  please ask a new question
+                  ask a new question
                 </a>
                 .
               </p>
