@@ -1,39 +1,15 @@
 {
   "data": {
-    "view:hasApplicants": true,
-    "applicants": [
-      {
-        "applicantName": {
-          "first": "Johnny",
-          "last": "Alvin"
-        },
-        "applicantDob": "2003-01-04",
-        "applicantSsn": "345345345",
-        "view:sharesAddressWith": "na",
-        "applicantAddress": {
-          "street": "456 Circle St",
-          "city": "Applicant",
-          "country": "USA",
-          "state": "IN",
-          "postalCode": "56790"
-        },
-        "applicantPhone": "5555551234",
-        "applicantGender": "male",
-        "applicantRelationshipToSponsor": "child",
-        "applicantRelationshipOrigin": "blood",
-        "applicantDependentStatus": "over18HelplessChild"
-      }
-    ],
     "certifierRole": "other",
     "certifierName": {
       "first": "Certifier",
       "last": "Jones"
-    }, 
+    },
     "certifierAddress": {
+      "country": "USA",
       "street": "123 Certifier St",
       "city": "Certifier",
-      "country": "USA",
-      "state": "AL",
+      "state": "MD",
       "postalCode": "12312"
     },
     "certifierPhone": "1231231234",
@@ -48,17 +24,25 @@
       "last": "Johnson"
     },
     "sponsorDob": "1958-01-01",
-    "view:sharesAddressWith": "na",
-    "sponsorAddress": {
-      "country": "USA",
-      "street": "123 Sponsor St",
-      "city": "Sponsor",
-      "state": "AL",
-      "postalCode": "12312"
-    },
-    "sponsorPhone": "5552223333",
     "sponsorSsn": "123123123",
     "sponsorIsDeceased": false,
+    "sponsorPhone": "5552223333",
+    "view:hasApplicants": true,
+    "applicants": [
+      {
+        "applicantName": {
+          "first": "Johnny",
+          "last": "Alvin"
+        },
+        "applicantDob": "2003-01-04",
+        "applicantSsn": "345345345",
+        "applicantPhone": "5555551234",
+        "applicantGender": "male",
+        "applicantRelationshipToSponsor": "child",
+        "applicantRelationshipOrigin": "blood",
+        "applicantDependentStatus": "over18HelplessChild"
+      }
+    ],
     "view:hasHealthInsurance": false,
     "view:hasMedicare": false,
     "statementOfTruthSignature": "Certifier Jones"

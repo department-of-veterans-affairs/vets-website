@@ -1,8 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
-import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-
 import ContactInformationSection from './ContactInformationSection';
 import { EmailInformationSection } from './email-addresses';
 import LoadFail from '../alerts/LoadFail';
@@ -14,14 +12,14 @@ const ContactInformationContent = ({ hasVAPServiceError, showBadAddress }) => {
       {hasVAPServiceError ? (
         <LoadFail />
       ) : (
-        <InitializeVAPServiceID>
+        <>
           <ContactInformationSection
             className="vads-u-margin-bottom--6"
             showBadAddress={showBadAddress}
           />
           <EmailInformationSection />
           <PhoneNumbersTable className="vads-u-margin-bottom--6" />
-        </InitializeVAPServiceID>
+        </>
       )}
     </>
   );

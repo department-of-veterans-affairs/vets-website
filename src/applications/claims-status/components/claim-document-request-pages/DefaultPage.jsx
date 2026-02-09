@@ -2,11 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { isBefore, parseISO } from 'date-fns';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  formatDescription,
-  buildDateFormatter,
-  getDisplayFriendlyName,
-} from '../../utils/helpers';
+import { buildDateFormatter } from '../../utils/helpers';
+import * as TrackedItem from '../../utils/trackedItemContent';
 import AddFilesForm from '../claim-files-tab/AddFilesForm';
 import Notification from '../Notification';
 import Type1UnknownUploadError from '../Type1UnknownUploadError';
@@ -38,24 +35,25 @@ export default function DefaultPage({
   const frontendNextSteps = frontendContentOverride?.nextSteps;
 
   // Priority 3: Simple API description (plain text with formatting markers)
-  const apiDescription = formatDescription(item.description);
+  const apiDescription = TrackedItem.formatDescription(item.description);
+
+  const hasDescriptionContent =
+    apiLongDescription || frontendDescription || apiDescription;
 
   // Use API boolean properties with fallback to evidenceDictionary
-  const isSensitive =
-    item.isSensitive ?? frontendContentOverride?.isSensitive ?? false;
-  const isDBQ = item.isDBQ ?? frontendContentOverride?.isDBQ ?? false;
-  const noActionNeeded =
-    item.noActionNeeded ?? frontendContentOverride?.noActionNeeded ?? false;
+  const isSensitive = TrackedItem.getIsSensitive(item);
+  const isDBQ = TrackedItem.getIsDBQ(item);
+  const noActionNeeded = TrackedItem.getNoActionNeeded(item);
 
   const isFirstParty = item.status === 'NEEDED_FROM_YOU';
   const isThirdParty = item.status === 'NEEDED_FROM_OTHERS';
 
   const getItemDisplayName = () => {
-    if (item.displayName.toLowerCase().includes('dbq')) {
+    if (isDBQ) {
       return 'Request for an exam';
     }
     if (item.friendlyName) {
-      return `Your ${getDisplayFriendlyName(item)}`;
+      return `Your ${TrackedItem.getDisplayFriendlyName(item)}`;
     }
     return 'Request for evidence outside VA';
   };
@@ -69,7 +67,7 @@ export default function DefaultPage({
     if (item.friendlyName && isSensitive) {
       return `Respond by ${dateFormatter(
         item.suspenseDate,
-      )} for: ${getDisplayFriendlyName(item)}`;
+      )} for: ${TrackedItem.getDisplayFriendlyName(item)}`;
     }
     if (item.friendlyName) {
       return `Respond by ${dateFormatter(item.suspenseDate)}`;
@@ -82,7 +80,9 @@ export default function DefaultPage({
   const getRequestText = () => {
     if (isDBQ) {
       return `We made a request on ${dateFormatter(item.requestedDate)} for: ${
-        item.friendlyName ? getDisplayFriendlyName(item) : item.displayName
+        item.friendlyName
+          ? TrackedItem.getDisplayFriendlyName(item)
+          : item.displayName
       }`;
     }
     if (item.friendlyName) {
@@ -147,8 +147,6 @@ export default function DefaultPage({
     );
   } else if (isFirstParty) {
     // Fallback: Empty state
-    const hasDescriptionContent =
-      apiLongDescription || frontendDescription || apiDescription;
     nextStepsContent = (
       <>
         <p>To respond to this request:</p>
@@ -238,7 +236,7 @@ export default function DefaultPage({
           </div>
         )}
       {isFirstParty &&
-        (pastDueDate ? (
+        pastDueDate && (
           <va-alert status="warning" class="vads-u-margin-y--4">
             <h2
               slot="headline"
@@ -257,18 +255,16 @@ export default function DefaultPage({
               ).
             </p>
           </va-alert>
-        ) : (
-          !item.friendlyName && (
-            <div className="vads-u-margin-top--4 vads-u-margin-bottom--2">
-              <p>
-                We requested this evidence from you on{' '}
-                {dateFormatter(item.requestedDate)}. You can still send the
-                evidence after the “respond by” date, but it may delay your
-                claim.
-              </p>
-            </div>
-          )
-        ))}
+        )}
+      {isFirstParty && (
+        <div className="vads-u-margin-top--4 vads-u-margin-bottom--2">
+          <p>
+            We requested this evidence from you on{' '}
+            {dateFormatter(item.requestedDate)}. You can still send the evidence
+            after the “respond by” date, but it may delay your claim.
+          </p>
+        </div>
+      )}
 
       {/* What we need from you or What we’re notifying you about section */}
       {isFirstParty ? (
@@ -308,7 +304,7 @@ export default function DefaultPage({
       )}
 
       {isFirstParty &&
-        frontendContentOverride && (
+        hasDescriptionContent && (
           <div
             className="vads-u-margin-y--4"
             data-testid="learn-about-request-section"

@@ -4,6 +4,7 @@ import VaccinesListItem from './VaccinesListItem';
 import VitalListItem from './VitalListItem';
 import ConditionListItem from './ConditionListItem';
 import LabsAndTestsListItem from './LabsAndTestsListItem';
+import RadiologyListItem from './RadiologyListItem';
 import CareSummariesAndNotesListItem from './CareSummariesAndNotesListItem';
 import { recordType } from '../../util/constants';
 import AllergyListItem from './AllergyListItem';
@@ -13,6 +14,8 @@ const RecordListItem = props => {
   switch (type) {
     case recordType.LABS_AND_TESTS:
       return <LabsAndTestsListItem record={record} options={domainOptions} />;
+    case recordType.RADIOLOGY:
+      return <RadiologyListItem record={record} />;
     case recordType.CARE_SUMMARIES_AND_NOTES:
       return <CareSummariesAndNotesListItem record={record} />;
     case recordType.VACCINES:
