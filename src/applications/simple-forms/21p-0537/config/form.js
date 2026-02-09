@@ -58,6 +58,9 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   additionalRoutes: [
     {
       path: 'id-form',

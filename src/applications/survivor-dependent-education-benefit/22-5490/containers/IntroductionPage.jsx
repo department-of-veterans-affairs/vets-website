@@ -98,22 +98,22 @@ export const IntroductionPage = ({
       <va-alert
         close-btn-aria-label="Close notification"
         status="warning"
-        visible
+        class="vads-u-margin-y--4"
       >
-        <div>
-          If you are a Veteran or service member claiming a benefit based on
-          your own service, this may not be the right benefit for you.{' '}
-          <a
-            target="_blank"
-            href="https://www.va.gov/education/other-va-education-benefits"
-            rel="noreferrer"
-          >
-            Learn more about other education benefits
-          </a>
-        </div>
+        <h2 slot="headline">
+          If you’re a Veteran or service member claiming a benefit based on your
+          own service, this may not be the right benefit for you.
+        </h2>
+        <a
+          target="_blank"
+          href="https://www.va.gov/education/other-va-education-benefits"
+          rel="noreferrer"
+        >
+          Learn more about other education benefits
+        </a>
       </va-alert>
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow these steps to get started
+      <h2 className="vads-u-margin-top--0">
+        Follow these steps to get started:
       </h2>
       <va-process-list>
         <va-process-list-item header="Check your eligibility">
@@ -128,7 +128,10 @@ export const IntroductionPage = ({
               </p>
             )}
           </p>
-          <va-additional-info trigger="What are the Fry Scholarship (Chapter 33) eligibility requirements?">
+          <va-additional-info
+            trigger="What are the Fry Scholarship (Chapter 33) eligibility requirements?"
+            class="vads-u-margin-bottom--2"
+          >
             <p>
               <strong>
                 You may be eligible for Fry Scholarship benefits if you’re the
