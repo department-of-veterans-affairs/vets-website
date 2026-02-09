@@ -1,6 +1,11 @@
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 import { datadogRum } from '@datadog/browser-rum';
-import { SIDENAV_COMPONENT_ID } from '../constants';
+import {
+  SIDENAV_COMPONENT_ID,
+  TRACKING_BACK_BUTTON_CLICKS,
+  TRACKING_CONTINUE_BUTTON_CLICKS,
+  TRACKING_FORM_RESUMPTION,
+} from '../constants';
 
 /**
  * Helper function to track DataDog RUM actions
@@ -34,10 +39,12 @@ const trackAction = (actionName, properties) => {
  */
 export const trackBackButtonClick = ({ featureToggles, pathname }) => {
   // Track back button clicks in sessionStorage
-  const storageKey = `${VA_FORM_IDS.FORM_21_526EZ}_backButtonClickCount`;
-  const currentCount = parseInt(sessionStorage.getItem(storageKey) || '0', 10);
+  const currentCount = parseInt(
+    sessionStorage.getItem(TRACKING_BACK_BUTTON_CLICKS) || '0',
+    10,
+  );
   const newCount = currentCount + 1;
-  sessionStorage.setItem(storageKey, newCount.toString());
+  sessionStorage.setItem(TRACKING_BACK_BUTTON_CLICKS, newCount.toString());
 
   // Prepare DataDog action properties
   const properties = {
@@ -48,7 +55,8 @@ export const trackBackButtonClick = ({ featureToggles, pathname }) => {
 
   // Add sidenav feature toggle status
   if (featureToggles?.disability526SidenavEnabled !== undefined) {
-    properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
+    properties.disability526SidenavEnabled =
+      featureToggles.disability526SidenavEnabled;
   }
 
   // Track if side nav component is actually rendered on page (accounts for gradual rollout)
@@ -74,11 +82,15 @@ export const trackSaveFormClick = ({ featureToggles, pathname }) => {
 
   // Add sidenav feature toggle status
   if (featureToggles?.disability526SidenavEnabled !== undefined) {
-    properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
+    properties.disability526SidenavEnabled =
+      featureToggles.disability526SidenavEnabled;
   }
 
   // Track if side nav component is actually rendered on page (accounts for gradual rollout)
   properties.sidenavIsActive = !!document.getElementById(SIDENAV_COMPONENT_ID);
+
+  // Clear form resumption tracking flag so if user resumes again in same session, it tracks
+  sessionStorage.removeItem(TRACKING_FORM_RESUMPTION);
 
   trackAction(
     'Form save in progress - Finish this application later clicked',
@@ -97,10 +109,12 @@ export const trackSaveFormClick = ({ featureToggles, pathname }) => {
  */
 export const trackContinueButtonClick = ({ featureToggles, pathname }) => {
   // Track continue button clicks in sessionStorage
-  const storageKey = `${VA_FORM_IDS.FORM_21_526EZ}_continueButtonClickCount`;
-  const currentCount = parseInt(sessionStorage.getItem(storageKey) || '0', 10);
+  const currentCount = parseInt(
+    sessionStorage.getItem(TRACKING_CONTINUE_BUTTON_CLICKS) || '0',
+    10,
+  );
   const newCount = currentCount + 1;
-  sessionStorage.setItem(storageKey, newCount.toString());
+  sessionStorage.setItem(TRACKING_CONTINUE_BUTTON_CLICKS, newCount.toString());
 
   // Prepare DataDog action properties
   const properties = {
@@ -111,7 +125,8 @@ export const trackContinueButtonClick = ({ featureToggles, pathname }) => {
 
   // Add sidenav feature toggle status
   if (featureToggles?.disability526SidenavEnabled !== undefined) {
-    properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
+    properties.disability526SidenavEnabled =
+      featureToggles.disability526SidenavEnabled;
   }
 
   // Track if side nav component is actually rendered on page (accounts for gradual rollout)
@@ -136,7 +151,8 @@ export const trackFormStarted = ({ featureToggles, pathname }) => {
 
   // Add sidenav feature toggle status
   if (featureToggles?.disability526SidenavEnabled !== undefined) {
-    properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
+    properties.disability526SidenavEnabled =
+      featureToggles.disability526SidenavEnabled;
   }
 
   // Track if side nav component is actually rendered on page (accounts for gradual rollout)
@@ -164,7 +180,8 @@ export const trackFormResumption = ({ featureToggles, returnUrl }) => {
 
   // Add sidenav feature toggle status
   if (featureToggles?.disability526SidenavEnabled !== undefined) {
-    properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
+    properties.disability526SidenavEnabled =
+      featureToggles.disability526SidenavEnabled;
   }
 
   // Track if side nav component is actually rendered on page (accounts for gradual rollout)
@@ -192,9 +209,8 @@ export const trackSideNavChapterClick = ({ pageData, pathname }) => {
 };
 
 /**
- * Tracks successful form submission
- * This tracks when the user successfully submits the 526EZ form
- * Note: DataDog automatically captures user id, session id, timestamp, and device type
+ * Tracks form submission attempts
+ * This tracks when the user clicks the submit button on the 526EZ form
  *
  * @param {object} params - Parameters for tracking
  * @param {object} params.featureToggles - Feature toggles from Redux state
@@ -207,7 +223,8 @@ export const trackFormSubmitted = ({ featureToggles, pathname }) => {
 
   // Add sidenav feature toggle status
   if (featureToggles?.disability526SidenavEnabled !== undefined) {
-    properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
+    properties.disability526SidenavEnabled =
+      featureToggles.disability526SidenavEnabled;
   }
 
   // Track if side nav component is actually rendered on page (accounts for gradual rollout)
@@ -215,13 +232,12 @@ export const trackFormSubmitted = ({ featureToggles, pathname }) => {
 
   properties.sourcePath = pathname;
 
-  trackAction('Form submission - Form successfully submitted', properties);
+  trackAction('Form submission - Submit button clicked', properties);
 };
 
 /**
  * Tracks mobile sidenav accordion expand/collapse
  * This tracks when users interact with the mobile accordion to show/hide navigation
- * Note: DataDog automatically captures user id, session id, timestamp, and device type
  *
  * @param {object} params - Parameters for tracking
  * @param {string} params.pathname - Current page pathname

@@ -349,6 +349,13 @@ export const SERVICE_BRANCHES = 'militaryServiceBranches';
 // Sidenav component ID - single source of truth for DOM references
 export const SIDENAV_COMPONENT_ID = 'default-sidenav';
 
+// Session storage keys for tracking
+export const TRACKING_BACK_BUTTON_CLICKS = '21-526EZ_backButtonClickCount';
+export const TRACKING_CONTINUE_BUTTON_CLICKS =
+  '21-526EZ_continueButtonClickCount';
+export const TRACKING_FORM_RESUMPTION = '21-526EZ_formResumptionTracked';
+export const TRACKING_FORM_START = '21-526EZ_formStartTracked';
+
 // sessionStorage key used for the user entered separation date in the wizard
 // used by the first page of the form to populate the form data
 export const SAVED_SEPARATION_DATE = 'savedSeparationDate';

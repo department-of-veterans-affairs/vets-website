@@ -5,6 +5,11 @@ import { Link } from 'react-router';
 
 import { focusElement } from 'platform/utilities/ui';
 import { dismissITFMessage as dismissITFMessageAction } from '../actions';
+import { trackFormResumption } from '../utils/datadogRumTracking';
+import {
+  TRACKING_FORM_RESUMPTION,
+  DISABILITY_526_V2_ROOT_URL,
+} from '../constants';
 
 import {
   itfMessage,
@@ -12,9 +17,29 @@ import {
   itfSuccess,
   itfActive,
 } from '../content/itfWrapper';
-import { DISABILITY_526_V2_ROOT_URL } from '../constants';
 
 export class ITFBanner extends React.Component {
+  componentDidUpdate(prevProps) {
+    // Track form resumption when ITF banner is dismissed
+    if (!prevProps.messageDismissed && this.props.messageDismissed) {
+      try {
+        const alreadyTracked =
+          sessionStorage.getItem(TRACKING_FORM_RESUMPTION) === 'true';
+
+        if (!alreadyTracked) {
+          trackFormResumption({
+            featureToggles: this.props.featureToggles || {},
+            returnUrl: window.location.pathname,
+          });
+          sessionStorage.setItem(TRACKING_FORM_RESUMPTION, 'true');
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('[Form Resumption Tracking Error]', error);
+      }
+    }
+  }
+
   dismissMessage = () => {
     this.props.dismissITFMessage();
   };
@@ -88,6 +113,7 @@ ITFBanner.propTypes = {
   children: PropTypes.node,
   currentExpDate: PropTypes.string,
   dismissITFMessage: PropTypes.func,
+  featureToggles: PropTypes.object,
   messageDismissed: PropTypes.bool,
   previousExpDate: PropTypes.string,
   previousITF: PropTypes.object,

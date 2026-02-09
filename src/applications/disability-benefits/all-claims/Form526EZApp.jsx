@@ -36,6 +36,7 @@ import {
   DATA_DOG_TOKEN,
   DATA_DOG_SERVICE,
   DATA_DOG_VERSION,
+  TRACKING_FORM_START,
 } from './constants';
 import {
   isBDD,
@@ -63,7 +64,6 @@ import {
   trackContinueButtonClick,
   trackSaveFormClick,
   trackFormStarted,
-  trackFormResumption,
   trackFormSubmitted,
 } from './utils/datadogRumTracking';
 
@@ -98,34 +98,6 @@ formConfig.formOptions.onSaveTracking = () =>
     featureToggles: runtimeState.featureToggles,
     pathname: runtimeState.pathname,
   });
-
-// Wrap the original onFormLoaded to add form resumption tracking
-const originalOnFormLoaded = formConfig.onFormLoaded;
-formConfig.onFormLoaded = props => {
-  // Only track form resumption if we're actually loading a saved form
-  // Check for saved form metadata and that we're not on the first page
-  const isSavedFormResumption =
-    props.formData &&
-    Object.keys(props.formData).length > 0 &&
-    props.returnUrl &&
-    props.returnUrl !== '/veteran-information';
-
-  if (isSavedFormResumption) {
-    const storageKey = `${formConfig.formId}_formResumptionTracked`;
-    const alreadyTracked = sessionStorage.getItem(storageKey) === 'true';
-
-    if (!alreadyTracked) {
-      trackFormResumption({
-        featureToggles: runtimeState.featureToggles,
-        returnUrl: props.returnUrl,
-      });
-      sessionStorage.setItem(storageKey, 'true');
-    }
-  }
-
-  // Call original onFormLoaded
-  return originalOnFormLoaded(props);
-};
 
 // Wrap the original submit function to add form submission tracking
 const originalSubmit = formConfig.submit;
@@ -230,15 +202,15 @@ export const Form526Entry = ({
     () => {
       const isFirstFormPage = location?.pathname === '/veteran-information';
       const hasNoSavedForm = !hasSavedForm;
-      const storageKey = `${formConfig.formId}_formStartTracked`;
-      const alreadyTracked = sessionStorage.getItem(storageKey) === 'true';
+      const alreadyTracked =
+        sessionStorage.getItem(TRACKING_FORM_START) === 'true';
 
       if (isFirstFormPage && hasNoSavedForm && !alreadyTracked) {
         trackFormStarted({
           featureToggles,
           pathname: location?.pathname,
         });
-        sessionStorage.setItem(storageKey, 'true');
+        sessionStorage.setItem(TRACKING_FORM_START, 'true');
       }
     },
     [location?.pathname, hasSavedForm, featureToggles, form?.data],
@@ -482,7 +454,11 @@ export const Form526Entry = ({
               user={user}
               verify
             >
-              <ITFWrapper location={location} title={title}>
+              <ITFWrapper
+                location={location}
+                title={title}
+                featureToggles={featureToggles}
+              >
                 {content}
               </ITFWrapper>
             </RequiredLoginView>
@@ -496,7 +472,11 @@ export const Form526Entry = ({
     title,
     <article id="form-526" data-location={`${location?.pathname?.slice(1)}`}>
       <RequiredLoginView serviceRequired={serviceRequired} user={user} verify>
-        <ITFWrapper location={location} title={title}>
+        <ITFWrapper
+          location={location}
+          title={title}
+          featureToggles={featureToggles}
+        >
           {content}
         </ITFWrapper>
       </RequiredLoginView>

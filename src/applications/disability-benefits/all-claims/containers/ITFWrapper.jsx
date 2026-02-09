@@ -78,7 +78,7 @@ export class ITFWrapper extends React.Component {
   );
 
   render() {
-    const { itf, title } = this.props;
+    const { itf, title, featureToggles } = this.props;
 
     if (this.shouldBlockITF(this.props.location.pathname)) {
       return this.props.children;
@@ -95,7 +95,7 @@ export class ITFWrapper extends React.Component {
     if (itf.fetchCallState === requestStates.failed) {
       // We'll get here after the fetchITF promise is fulfilled
       return (
-        <ITFBanner title={title} status="error">
+        <ITFBanner title={title} status="error" featureToggles={featureToggles}>
           {this.props.children}
         </ITFBanner>
       );
@@ -116,6 +116,7 @@ export class ITFWrapper extends React.Component {
             previousITF={itf.previousITF}
             currentExpDate={currentExpDate}
             previousExpDate={prevExpDate}
+            featureToggles={featureToggles}
           >
             {this.props.children}
           </ITFBanner>
@@ -128,6 +129,7 @@ export class ITFWrapper extends React.Component {
           title={title}
           status={status}
           currentExpDate={currentExpDate}
+          featureToggles={featureToggles}
         >
           {this.props.children}
         </ITFBanner>
@@ -146,7 +148,7 @@ export class ITFWrapper extends React.Component {
     // We'll get here after the createITF promise is fulfilled and we have no
     // active ITF because of a failed creation call
     return (
-      <ITFBanner title={title} status="error">
+      <ITFBanner title={title} status="error" featureToggles={featureToggles}>
         {this.props.children}
       </ITFBanner>
     );
@@ -177,6 +179,7 @@ ITFWrapper.propTypes = {
   }),
   fetchITF: PropTypes.func.isRequired,
   createITF: PropTypes.func.isRequired,
+  featureToggles: PropTypes.object,
   noITFPages: PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(RegExp)]),
   ),
