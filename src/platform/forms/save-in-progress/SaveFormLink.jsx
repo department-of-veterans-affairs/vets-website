@@ -35,7 +35,12 @@ class SaveFormLink extends React.Component {
     // If tracking callback is provided, call it
     const onSaveTracking = formConfig?.formOptions?.onSaveTracking;
     if (onSaveTracking) {
-      onSaveTracking();
+      try {
+        onSaveTracking();
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('[Tracking Error]', error);
+      }
     }
 
     // Save form on a specific page form exit callback

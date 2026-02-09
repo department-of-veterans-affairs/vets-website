@@ -21,12 +21,17 @@ import ProgressButton from './ProgressButton';
 const wrapWithTracking = (handler, trackingCallback) => (...args) => {
   if (!handler) return;
 
-  // If tracking callback is provided, call it
+  // Call tracking callback
   if (trackingCallback) {
-    trackingCallback();
+    try {
+      trackingCallback();
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('[Tracking Error]', error);
+    }
   }
 
-  // Call the original handler function with all arguments (including event)
+  // Call the original handler function with all arguments
   handler(...args);
 };
 
