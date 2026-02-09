@@ -131,7 +131,7 @@ describe('FormRenderer', () => {
     expect(srElement).to.exist;
     expect(count).to.equal(2);
     expect(srElement.textContent).to.equal(
-      'Question numbering continues in this section.',
+      'Question numbering continues from the previous section.',
     );
 
     tree.unmount();
