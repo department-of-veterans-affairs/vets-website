@@ -40,7 +40,6 @@ export const options = {
   nounSingular: 'previous marriage',
   nounPlural: 'previous marriages',
   required: false,
-  minItems: 0,
   isItemIncomplete: item =>
     !item?.spouseFullName?.first ||
     !item?.spouseFullName?.last ||
