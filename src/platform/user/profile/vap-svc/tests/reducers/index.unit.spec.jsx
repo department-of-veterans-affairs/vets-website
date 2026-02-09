@@ -190,9 +190,21 @@ describe('vapService reducer', () => {
     expect(state.metadata.mostRecentErroredTransactionId).to.eql(111);
   });
 
-  it('should set transaction update failed', () => {
+  it('should set transaction update failed and update transaction status', () => {
     const state = vapService(
-      { transactionsAwaitingUpdate: [111] },
+      {
+        transactions: [
+          {
+            data: {
+              attributes: {
+                transactionId: 111,
+                transactionStatus: VAP_SERVICE.TRANSACTION_STATUS.RECEIVED,
+              },
+            },
+          },
+        ],
+        transactionsAwaitingUpdate: [111],
+      },
       {
         type: 'VAP_SERVICE_TRANSACTION_UPDATE_FAILED',
         transaction: {
@@ -206,6 +218,9 @@ describe('vapService reducer', () => {
     );
 
     expect(state.transactionsAwaitingUpdate.length).to.eql(0);
+    expect(state.transactions[0].data.attributes.transactionStatus).to.eql(
+      VAP_SERVICE.TRANSACTION_STATUS.COMPLETED_FAILURE,
+    );
   });
 
   it('should set transaction cleared', () => {
