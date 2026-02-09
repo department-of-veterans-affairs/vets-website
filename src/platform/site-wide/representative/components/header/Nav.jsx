@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { recordDatalayerEvent } from '../../utilities/analytics';
-import { getSignInUrl } from '../../utilities/constants';
+import { getSignInUrl, NAV_DESKTOP } from '../../utilities/constants';
 import DropdownContainer from './DropdownContainer';
 
 function SignInButton() {
@@ -14,7 +14,30 @@ function SignInButton() {
     </a>
   );
 }
-
+function Navbar() {
+  const isActive = path => window.location.pathname.startsWith(path);
+  return NAV_DESKTOP.map((link, i) => {
+    return (
+      <a
+        key={i}
+        className={`nav__btn desktop ${isActive(link.URL) && 'is--active'}`}
+        href={link.URL}
+        data-testid={link.TEST_ID}
+        onClick={recordDatalayerEvent}
+        data-eventname="nav-link-click"
+      >
+        {link.ICON && (
+          <va-icon
+            icon={link.ICON}
+            size={link.SIZE}
+            className={link.ICON_CLASS}
+          />
+        )}
+        {link.LABEL}
+      </a>
+    );
+  });
+}
 export const Nav = data => {
   const [navHidden, isNavHidden] = useState('');
   const { profile } = data;
@@ -77,32 +100,7 @@ export const Nav = data => {
           data-testid="desktop-nav-row"
         >
           <div className="nav__container vads-u-display--flex">
-            <a
-              className="nav__btn desktop"
-              href="/representative/find-claimant"
-              data-testid="desktop-search-link"
-              onClick={recordDatalayerEvent}
-              data-eventname="nav-link-click"
-            >
-              <va-icon icon="search" size={2} className="people-search-icon" />
-              Find Claimant
-            </a>
-            <a
-              className="nav__btn desktop"
-              href="/representative/representation-requests"
-              data-testid="desktop-poa-link"
-              onClick={recordDatalayerEvent}
-              data-eventname="nav-link-click"
-            >
-              Representation Requests
-            </a>
-            <a
-              className="nav__btn desktop"
-              href="/representative/submissions"
-              data-testid="desktop-search-link"
-            >
-              Submissions
-            </a>
+            <Navbar />
           </div>
         </div>
       )}

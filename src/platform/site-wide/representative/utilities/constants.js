@@ -61,3 +61,24 @@ export const NAV_MENU_DROPDOWN = [
     TEST_ID: 'submissions-link',
   },
 ];
+
+export const NAV_DESKTOP = [
+  {
+    LABEL: 'Find Claimant',
+    URL: '/representative/find-claimant',
+    TEST_ID: 'desktop-search-link',
+    ICON: 'search',
+    ICON_CLASS: 'people-search-icon',
+    ICON_SIZE: '2',
+  },
+  {
+    LABEL: 'Representation Requests',
+    URL: '/representative/representation-requests',
+    TEST_ID: 'desktop-poa-link',
+  },
+  {
+    LABEL: 'Submissions',
+    URL: '/representative/submissions',
+    TEST_ID: 'submissions-link',
+  },
+];
