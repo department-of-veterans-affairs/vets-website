@@ -417,11 +417,12 @@ const responses = {
     const isDirect = req.query.type === 'direct';
     const ineligibilityReasons = [];
 
-    // Direct scheduling, Facility 983, not primaryCare
+    // Direct scheduling, Facility 983, not primaryCare or clinicalPharmacyPrimaryCare
     if (
       isDirect &&
       req.query.facility_id.startsWith('984') &&
-      req.query.clinical_service_id !== 'primaryCare'
+      req.query.clinical_service_id !== 'primaryCare' &&
+      req.query.clinical_service_id !== 'clinicalPharmacyPrimaryCare'
     ) {
       ineligibilityReasons.push({
         coding: [
