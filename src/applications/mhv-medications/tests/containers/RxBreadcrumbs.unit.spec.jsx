@@ -3,6 +3,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/react';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import reducers from '../../reducers';
 import RxBreadcrumbs from '../../containers/RxBreadcrumbs';
 import { medicationsUrls } from '../../util/constants';
@@ -68,9 +69,10 @@ describe('Medications Breadcrumbs', () => {
     const screen = setup({}, [medicationsUrls.subdirectories.BASE]);
 
     await waitFor(() => {
-      const element = screen.container.querySelector('va-breadcrumbs');
+      const element = $('va-breadcrumbs', screen.container);
       expect(element).to.exist;
       expect(element).to.have.attribute('data-testid', 'rx-breadcrumb');
+      // Wait for the web component to fully hydrate its properties
       expect(element.breadcrumbList).to.exist;
     });
   });
@@ -79,7 +81,7 @@ describe('Medications Breadcrumbs', () => {
     const screen = setup({}, [medicationsUrls.subdirectories.REFILL]);
 
     await waitFor(() => {
-      const element = screen.container.querySelector('va-breadcrumbs');
+      const element = $('va-breadcrumbs', screen.container);
       expect(element).to.exist;
       expect(element).to.have.attribute('data-testid', 'rx-breadcrumb');
       expect(element.breadcrumbList).to.exist;
