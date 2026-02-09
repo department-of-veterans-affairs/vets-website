@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { setSubmission } from 'platform/forms-system/src/js/actions';
-import { scrollAndFocus } from 'platform/utilities/scroll';
+import { focusElement } from 'platform/utilities/ui/focus';
 import environment from '~/platform/utilities/environment';
 import RegionalAccordion from '../components/RegionalAccordion';
 import ConfirmationProcessList from '../components/ConfirmationProcessList';
@@ -22,7 +22,7 @@ export const getClaimIdFromLocalStage = () => {
 
 function AlertBox() {
   // We want to focus on the 'Complete all submission steps' header
-  // when the page loads. Normally, it's enough to just call `scrollAndFocus`
+  // when the page loads. Normally, it's enough to just call `focusElement`
   // within a useEffect in the main component. Here though, I was
   // running into an issue where the h2 would get focus and then
   // almost immediately lose it. Best I can tell, this is due
@@ -33,7 +33,7 @@ function AlertBox() {
   const ref = useRef(null);
   const scrollToH2 = () => {
     const headerH2 = document.querySelector('#next-steps-header');
-    scrollAndFocus(headerH2);
+    focusElement(headerH2);
   };
   useEffect(() => {
     const alertNode = ref.current;
