@@ -237,7 +237,6 @@
     "semver": "^7.3.5",
     "sinon": "^3.2.1",
     "sinon-v20": "npm:sinon@^20.0.0",
-    "skin-deep": "^1.0.0",
     "stylelint": "^13.13.1",
     "stylelint-order": "^4.1.0",
     "stylelint-scss": "^3.21.0",
@@ -265,7 +264,7 @@
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-logs": "^5.8.0",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "54.5.2",
+    "@department-of-veterans-affairs/component-library": "54.6.1",
     "@department-of-veterans-affairs/css-library": "^0.29.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
@@ -330,7 +329,6 @@
     "react-router-last-location": "^2.0.1",
     "react-tabs": "^3.2.3",
     "react-transition-group": "^4.4.2",
-    "recompose": "^0.30.0",
     "redux": "^4.1.1",
     "redux-localstorage": "^0.4.1",
     "redux-mock-store": "^1.5.4",
@@ -343,7 +341,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#6f83c6cd8093b5fffe3463d2d3b794a8e91b6d4c",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#292ebeae984e8fb39b8b1277bdbcd1a5296553c8",
     "web-vitals": "^4.2.4"
   },
   "resolutions": {
