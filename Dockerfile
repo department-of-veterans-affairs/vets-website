@@ -1,10 +1,6 @@
 # based on https://github.com/nodejs/docker-node/blob/master/4.7/slim/Dockerfile
 
-<<<<<<< Updated upstream
-FROM public.ecr.aws/bitnami/node:14.15.5
-=======
 FROM public.ecr.aws/docker/library/node:22.22
->>>>>>> Stashed changes
 
 # default case is Jenkins, but we want to be able to overwrite this
 ARG userid=504
