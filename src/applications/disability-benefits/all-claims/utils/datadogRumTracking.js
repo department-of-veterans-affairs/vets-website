@@ -18,7 +18,6 @@ import {
 const trackAction = (actionName, properties) => {
   try {
     datadogRum.addAction(actionName, properties);
-    // Uncomment for debugging:
     // eslint-disable-next-line no-console
     console.log(`[DataDog Tracking] ${actionName}:`, properties);
   } catch (error) {
@@ -54,9 +53,8 @@ export const trackBackButtonClick = ({ featureToggles, pathname }) => {
   };
 
   // Add sidenav feature toggle status
-  if (featureToggles?.disability526SidenavEnabled !== undefined) {
-    properties.disability526SidenavEnabled =
-      featureToggles.disability526SidenavEnabled;
+  if (featureToggles?.sidenav526ezEnabled !== undefined) {
+    properties.sidenav526ezEnabled = featureToggles.sidenav526ezEnabled;
   }
 
   // Track if side nav component is actually rendered on page (accounts for gradual rollout)
@@ -81,9 +79,8 @@ export const trackSaveFormClick = ({ featureToggles, pathname }) => {
   };
 
   // Add sidenav feature toggle status
-  if (featureToggles?.disability526SidenavEnabled !== undefined) {
-    properties.disability526SidenavEnabled =
-      featureToggles.disability526SidenavEnabled;
+  if (featureToggles?.sidenav526ezEnabled !== undefined) {
+    properties.sidenav526ezEnabled = featureToggles.sidenav526ezEnabled;
   }
 
   // Track if side nav component is actually rendered on page (accounts for gradual rollout)
@@ -124,9 +121,8 @@ export const trackContinueButtonClick = ({ featureToggles, pathname }) => {
   };
 
   // Add sidenav feature toggle status
-  if (featureToggles?.disability526SidenavEnabled !== undefined) {
-    properties.disability526SidenavEnabled =
-      featureToggles.disability526SidenavEnabled;
+  if (featureToggles?.sidenav526ezEnabled !== undefined) {
+    properties.sidenav526ezEnabled = featureToggles.sidenav526ezEnabled;
   }
 
   // Track if side nav component is actually rendered on page (accounts for gradual rollout)
@@ -150,9 +146,8 @@ export const trackFormStarted = ({ featureToggles, pathname }) => {
   };
 
   // Add sidenav feature toggle status
-  if (featureToggles?.disability526SidenavEnabled !== undefined) {
-    properties.disability526SidenavEnabled =
-      featureToggles.disability526SidenavEnabled;
+  if (featureToggles?.sidenav526ezEnabled !== undefined) {
+    properties.sidenav526ezEnabled = featureToggles.sidenav526ezEnabled;
   }
 
   // Track if side nav component is actually rendered on page (accounts for gradual rollout)
@@ -179,9 +174,8 @@ export const trackFormResumption = ({ featureToggles, returnUrl }) => {
   };
 
   // Add sidenav feature toggle status
-  if (featureToggles?.disability526SidenavEnabled !== undefined) {
-    properties.disability526SidenavEnabled =
-      featureToggles.disability526SidenavEnabled;
+  if (featureToggles?.sidenav526ezEnabled !== undefined) {
+    properties.sidenav526ezEnabled = featureToggles.sidenav526ezEnabled;
   }
 
   // Track if side nav component is actually rendered on page (accounts for gradual rollout)
@@ -222,9 +216,8 @@ export const trackFormSubmitted = ({ featureToggles, pathname }) => {
   };
 
   // Add sidenav feature toggle status
-  if (featureToggles?.disability526SidenavEnabled !== undefined) {
-    properties.disability526SidenavEnabled =
-      featureToggles.disability526SidenavEnabled;
+  if (featureToggles?.sidenav526ezEnabled !== undefined) {
+    properties.sidenav526ezEnabled = featureToggles.sidenav526ezEnabled;
   }
 
   // Track if side nav component is actually rendered on page (accounts for gradual rollout)
