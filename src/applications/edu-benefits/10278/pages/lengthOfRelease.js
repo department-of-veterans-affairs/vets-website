@@ -36,6 +36,7 @@ const uiSchema = {
         },
         expandUnderCondition: value => value === 'date',
         required: formData => formData?.lengthOfRelease?.duration === 'date',
+        expandedContentFocus: true,
       }),
       'ui:validations': [validateCurrentOrFutureDate],
     },
