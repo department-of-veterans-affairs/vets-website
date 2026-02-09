@@ -9,12 +9,18 @@ import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
 import mockPdfDownload from './fixtures/mocks/mock-pdf-download.json';
 import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
-import { selectYesNoWebComponent, goToNextPage } from './helpers';
+import {
+  selectYesNoWebComponent,
+  goToNextPage,
+  normalizeFeatureFlags,
+} from './helpers';
 import {
   fillContactPersonalInfo,
   fillContactAddress,
 } from './helpers/emergency-contacts';
+import { handleOptionalServiceHistoryPage } from './helpers/handleOptionalServiceHistoryPage';
 
+const featureFlagObject = normalizeFeatureFlags(featureToggles.data.features);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
@@ -147,6 +153,9 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillContactAddress(data.nextOfKins[1]);
+          });
+          handleOptionalServiceHistoryPage({
+            historyEnabled: featureFlagObject.ezrServiceHistoryEnabled,
           });
         });
       },

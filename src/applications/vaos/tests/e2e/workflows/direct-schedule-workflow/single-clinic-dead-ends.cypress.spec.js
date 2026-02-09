@@ -93,7 +93,7 @@ describe('VAOS direct schedule flow - Single clinic dead ends', () => {
           .assertClinicChoiceValidationErrors()
           .selectClinic({ selection: /I need a different clinic/i })
           .assertWarningAlert({
-            text: /You’ve reached the limit for appointment requests at this location/i,
+            text: /You can’t request a different clinic online/i,
           })
           .assertNextButton({ isEnabled: false });
 

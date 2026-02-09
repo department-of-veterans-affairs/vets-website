@@ -54,7 +54,8 @@ const ResolvePage = ({ match }) => {
             FACILITY_NAME:
               selectedCopay.attributes.facility.name ||
               getMedicalCenterNameByID(selectedCopay.attributes.facility.name),
-            INVOICE_DATE: verifyCurrentBalance(
+            INVOICE_DATE: selectedCopay?.attributes?.invoiceDate,
+            IS_CURRENT_DATE: verifyCurrentBalance(
               selectedCopay?.attributes.invoiceDate,
             ),
             AMOUNT_DUE: `${selectedCopay?.attributes.principalBalance}`,
@@ -66,7 +67,8 @@ const ResolvePage = ({ match }) => {
             FACILITY_NAME:
               selectedCopay.station.facilityName ||
               getMedicalCenterNameByID(selectedCopay.station.facilityNum),
-            INVOICE_DATE: verifyCurrentBalance(
+            INVOICE_DATE: selectedCopay?.pSStatementDateOutput,
+            IS_CURRENT_DATE: verifyCurrentBalance(
               selectedCopay?.pSStatementDateOutput,
             ),
             AMOUNT_DUE:
@@ -95,12 +97,13 @@ const ResolvePage = ({ match }) => {
     () => {
       if (!isAnyElementFocused()) setPageFocus();
 
-      if (
-        !copayDetail?.id &&
-        copayDetail.id !== selectedId &&
+      const shouldFetch =
+        shouldShowVHAPaymentHistory &&
+        selectedId &&
         !isCopayDetailLoading &&
-        shouldShowVHAPaymentHistory
-      ) {
+        copayDetail?.id !== selectedId;
+
+      if (shouldFetch) {
         dispatch(getCopayDetailStatement(`${selectedId}`));
       }
     },
@@ -113,7 +116,7 @@ const ResolvePage = ({ match }) => {
     ],
   );
 
-  if (!selectedCopay?.id || isCopayDetailLoading) {
+  if (isCopayDetailLoading) {
     return <VaLoadingIndicator message="Loading features..." />;
   }
 

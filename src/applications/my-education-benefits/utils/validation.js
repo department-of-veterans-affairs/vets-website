@@ -62,7 +62,7 @@ export const validateEffectiveDate = (errors, dateString) => {
 };
 
 const isValidAccountNumber = accountNumber => {
-  return /^[a-z0-9*]+$/.test(accountNumber);
+  return /^[a-z0-9]+$/.test(accountNumber);
 };
 
 export const validateBankAccountNumber = (

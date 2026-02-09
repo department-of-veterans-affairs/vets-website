@@ -238,6 +238,7 @@
       "suffix": "Jr."
     },
     "hasTeraResponse": true,
+    "view:ezrServiceHistoryEnabled":true,
     "radiationCleanupEfforts": true,
     "gulfWarService": true,
     "view:gulfWarServiceDates": {

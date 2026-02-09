@@ -24,17 +24,10 @@ import {
   mockFacilityApi,
 } from '../../../tests/mocks/mockApis';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
-
 describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
   let store;
 
   const defaultState = {
-    ...initialState,
     newAppointment: {
       pages: {},
       data: {
