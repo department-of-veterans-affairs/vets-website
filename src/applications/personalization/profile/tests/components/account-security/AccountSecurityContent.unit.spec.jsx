@@ -105,4 +105,43 @@ describe('AccountSecurityContent component', () => {
     expect(alert).to.exist;
     expect(alert.getAttribute('variant')).to.eql('verifyIdMe');
   });
+
+  it('renders <AccountBlocked /> when isBlocked is true', () => {
+    const { getByTestId } = renderWithProfileReducersAndRouter(
+      <AccountSecurityContent />,
+      {
+        initialState: {
+          ...createCustomProfileState({
+            directDeposit: {
+              controlInformation: {
+                isCompetent: false,
+              },
+            },
+          }),
+        },
+      },
+    );
+
+    expect(getByTestId('account-blocked-alert')).to.exist;
+  });
+
+  it('renders <MPIConnectionError /> when user profile status is SERVER_ERROR', () => {
+    const { getByTestId } = renderWithProfileReducersAndRouter(
+      <AccountSecurityContent />,
+      {
+        initialState: {
+          ...createCustomProfileState({
+            user: {
+              profile: {
+                loa: { current: 3 },
+                status: 'SERVER_ERROR',
+              },
+            },
+          }),
+        },
+      },
+    );
+
+    expect(getByTestId('mpi-connection-error')).to.exist;
+  });
 });
