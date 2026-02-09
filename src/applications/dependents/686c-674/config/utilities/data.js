@@ -585,13 +585,16 @@ function transformStepchildByFlag(item) {
   };
 
   if (item.removalReason === 'stepchildNotMember') {
+    const supportingStepchild = item.stepchildFinancialSupport === 'Y';
     return {
       ...baseData,
       dateStepchildLeftHousehold: item.endDate,
       whoDoesTheStepchildLiveWith: item.whoDoesTheStepchildLiveWith || {},
       address: item.address || {},
-      livingExpensesPaid: 'Less than half',
-      supportingStepchild: false,
+      livingExpensesPaid: supportingStepchild
+        ? 'More than half'
+        : 'Less than half',
+      supportingStepchild,
     };
   }
 

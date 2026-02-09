@@ -52,7 +52,8 @@ const DetailCopayPage = ({ match }) => {
       return shouldShowVHAPaymentHistory
         ? {
             TITLE: `Copay bill for ${selectedCopay?.attributes.facility.name}`,
-            INVOICE_DATE: verifyCurrentBalance(
+            INVOICE_DATE: selectedCopay?.attributes?.invoiceDate,
+            IS_CURRENT_DATE: verifyCurrentBalance(
               selectedCopay?.attributes.invoiceDate,
             ),
             ACCOUNT_NUMBER: selectedCopay?.attributes.accountNumber,
@@ -60,7 +61,8 @@ const DetailCopayPage = ({ match }) => {
           }
         : {
             TITLE: `Copay bill for ${selectedCopay?.station.facilityName}`,
-            INVOICE_DATE: verifyCurrentBalance(
+            INVOICE_DATE: selectedCopay?.pSStatementDateOutput,
+            IS_CURRENT_DATE: verifyCurrentBalance(
               selectedCopay?.pSStatementDateOutput,
             ),
             ACCOUNT_NUMBER:
@@ -78,11 +80,10 @@ const DetailCopayPage = ({ match }) => {
   // Handle alert separately
   useEffect(
     () => {
-      if (copayDetail?.id && !copayAttributes.INVOICE_DATE) {
-        setAlert('past-due-balance');
-      }
+      if (!selectedCopay?.id) return;
+      setAlert(copayAttributes.IS_CURRENT_DATE ? 'status' : 'past-due-balance');
     },
-    [copayDetail?.id, copayAttributes.INVOICE_DATE],
+    [selectedCopay?.id, copayAttributes],
   );
 
   useEffect(

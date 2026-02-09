@@ -1,25 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, Link, useLoaderData } from 'react-router-dom';
 import { recordDatalayerEvent } from '../../utilities/analytics';
-import { getSignInUrl } from '../../utilities/constants';
+import { getSignInUrl, NAV_DESKTOP } from '../../utilities/constants';
 import DropdownContainer from './DropdownContainer';
 
 function SignInButton() {
   return (
-    <Link
+    <a
       data-testid="user-nav-sign-in-link"
       className="nav__btn is--sign-in"
-      to={getSignInUrl().toString()}
+      href={getSignInUrl().toString()}
     >
       Sign in
-    </Link>
+    </a>
   );
 }
-
-export const Nav = () => {
+function Navbar() {
+  const isActive = path => window.location.pathname.startsWith(path);
+  return NAV_DESKTOP.map((link, i) => {
+    return (
+      <a
+        key={i}
+        className={`nav__btn desktop ${isActive(link.URL) && 'is--active'}`}
+        href={link.URL}
+        data-testid={link.TEST_ID}
+        onClick={recordDatalayerEvent}
+        data-eventname="nav-link-click"
+      >
+        {link.ICON && (
+          <va-icon
+            icon={link.ICON}
+            size={link.SIZE}
+            className={link.ICON_CLASS}
+          />
+        )}
+        {link.LABEL}
+      </a>
+    );
+  });
+}
+export const Nav = data => {
   const [navHidden, isNavHidden] = useState('');
-  const profile = useLoaderData()?.profile;
-
+  const { profile } = data;
   useEffect(() => {
     const isAuthorized = localStorage.getItem('userAuthorized');
     isNavHidden(isAuthorized);
@@ -27,11 +48,11 @@ export const Nav = () => {
   return (
     <nav className="nav">
       <div className="nav__container nav__container-primary vads-u-display--flex">
-        <Link
+        <a
           data-testid="nav-home-link"
           aria-label="VA Accredited Representative Portal"
           className="nav__link vads-u-display--flex"
-          to="/"
+          href="/representative"
           onClick={recordDatalayerEvent}
           data-eventname="nav-link-click"
         >
@@ -52,11 +73,11 @@ export const Nav = () => {
             src="/img/arp-header-logo-dark.svg"
             alt="VA Accredited Representative Portal, U.S. Department of Veterans Affairs"
           />
-        </Link>
+        </a>
 
         <div className="heading-right">
-          <Link
-            to="/help"
+          <a
+            href="/representative/help"
             className={`usa-button-secondary heading-help-link  ${
               profile ? 'logged-in' : ''
             }`}
@@ -65,7 +86,7 @@ export const Nav = () => {
             data-eventname="nav-link-click"
           >
             Help
-          </Link>
+          </a>
           {profile ? <DropdownContainer rep={profile} /> : <SignInButton />}
         </div>
       </div>
@@ -79,38 +100,7 @@ export const Nav = () => {
           data-testid="desktop-nav-row"
         >
           <div className="nav__container vads-u-display--flex">
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? 'nav__btn is--active desktop' : 'nav__btn desktop'
-              }
-              to="/find-claimant"
-              data-testid="desktop-search-link"
-              onClick={recordDatalayerEvent}
-              data-eventname="nav-link-click"
-            >
-              <va-icon icon="search" size={2} className="people-search-icon" />
-              Find Claimant
-            </NavLink>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? 'nav__btn is--active desktop' : 'nav__btn desktop'
-              }
-              to="/representation-requests"
-              data-testid="desktop-poa-link"
-              onClick={recordDatalayerEvent}
-              data-eventname="nav-link-click"
-            >
-              Representation Requests
-            </NavLink>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? 'nav__btn is--active desktop' : 'nav__btn desktop'
-              }
-              to="/submissions"
-              data-testid="desktop-search-link"
-            >
-              Submissions
-            </NavLink>
+            <Navbar />
           </div>
         </div>
       )}
