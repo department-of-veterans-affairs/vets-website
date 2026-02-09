@@ -1,5 +1,6 @@
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 import { datadogRum } from '@datadog/browser-rum';
+import { SIDENAV_COMPONENT_ID } from '../constants';
 
 /**
  * Helper function to track DataDog RUM actions
@@ -29,14 +30,9 @@ const trackAction = (actionName, properties) => {
  *
  * @param {object} params - Parameters for tracking
  * @param {object} params.featureToggles - Feature toggles from Redux state
- * @param {object} params.formData - Current form data containing side nav state
  * @param {string} params.pathname - Current page pathname
  */
-export const trackBackButtonClick = ({
-  featureToggles,
-  formData,
-  pathname,
-}) => {
+export const trackBackButtonClick = ({ featureToggles, pathname }) => {
   // Track back button clicks in sessionStorage
   const storageKey = `${VA_FORM_IDS.FORM_21_526EZ}_backButtonClickCount`;
   const currentCount = parseInt(sessionStorage.getItem(storageKey) || '0', 10);
@@ -55,9 +51,8 @@ export const trackBackButtonClick = ({
     properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
   }
 
-  // Track if user has side nav enabled (boolean)
-  properties.sidenavIsActive =
-    formData?.['view:sideNavChapterIndex'] !== undefined;
+  // Track if side nav component is actually rendered on page (accounts for gradual rollout)
+  properties.sidenavIsActive = !!document.getElementById(SIDENAV_COMPONENT_ID);
 
   trackAction('Form navigation - Back button clicked', properties);
 };
@@ -68,10 +63,9 @@ export const trackBackButtonClick = ({
  *
  * @param {object} params - Parameters for tracking
  * @param {object} params.featureToggles - Feature toggles from Redux state
- * @param {object} params.formData - Current form data containing side nav state
  * @param {string} params.pathname - Current page pathname
  */
-export const trackSaveFormClick = ({ featureToggles, formData, pathname }) => {
+export const trackSaveFormClick = ({ featureToggles, pathname }) => {
   // Prepare DataDog action properties
   const properties = {
     formId: VA_FORM_IDS.FORM_21_526EZ,
@@ -83,9 +77,8 @@ export const trackSaveFormClick = ({ featureToggles, formData, pathname }) => {
     properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
   }
 
-  // Track if user has side nav enabled (boolean)
-  properties.sidenavIsActive =
-    formData?.['view:sideNavChapterIndex'] !== undefined;
+  // Track if side nav component is actually rendered on page (accounts for gradual rollout)
+  properties.sidenavIsActive = !!document.getElementById(SIDENAV_COMPONENT_ID);
 
   trackAction(
     'Form save in progress - Finish this application later clicked',
@@ -100,14 +93,9 @@ export const trackSaveFormClick = ({ featureToggles, formData, pathname }) => {
  *
  * @param {object} params - Parameters for tracking
  * @param {object} params.featureToggles - Feature toggles from Redux state
- * @param {object} params.formData - Current form data containing side nav state
  * @param {string} params.pathname - Current page pathname
  */
-export const trackContinueButtonClick = ({
-  featureToggles,
-  formData,
-  pathname,
-}) => {
+export const trackContinueButtonClick = ({ featureToggles, pathname }) => {
   // Track continue button clicks in sessionStorage
   const storageKey = `${VA_FORM_IDS.FORM_21_526EZ}_continueButtonClickCount`;
   const currentCount = parseInt(sessionStorage.getItem(storageKey) || '0', 10);
@@ -126,9 +114,8 @@ export const trackContinueButtonClick = ({
     properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
   }
 
-  // Track if user has side nav enabled (boolean)
-  properties.sidenavIsActive =
-    formData?.['view:sideNavChapterIndex'] !== undefined;
+  // Track if side nav component is actually rendered on page (accounts for gradual rollout)
+  properties.sidenavIsActive = !!document.getElementById(SIDENAV_COMPONENT_ID);
 
   trackAction('Form navigation - Continue button clicked', properties);
 };
@@ -139,10 +126,9 @@ export const trackContinueButtonClick = ({
  *
  * @param {object} params - Parameters for tracking
  * @param {object} params.featureToggles - Feature toggles from Redux state
- * @param {object} params.formData - Current form data containing side nav state
  * @param {string} params.pathname - Current page pathname (first form page)
  */
-export const trackFormStarted = ({ featureToggles, formData, pathname }) => {
+export const trackFormStarted = ({ featureToggles, pathname }) => {
   const properties = {
     formId: VA_FORM_IDS.FORM_21_526EZ,
     sourcePath: pathname,
@@ -153,9 +139,8 @@ export const trackFormStarted = ({ featureToggles, formData, pathname }) => {
     properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
   }
 
-  // Track if user has used side nav (boolean)
-  properties.sidenavIsActive =
-    formData?.['view:sideNavChapterIndex'] !== undefined;
+  // Track if side nav component is actually rendered on page (accounts for gradual rollout)
+  properties.sidenavIsActive = !!document.getElementById(SIDENAV_COMPONENT_ID);
 
   trackAction(
     'Form started - User began form from introduction page',
@@ -169,14 +154,9 @@ export const trackFormStarted = ({ featureToggles, formData, pathname }) => {
  *
  * @param {object} params - Parameters for tracking
  * @param {object} params.featureToggles - Feature toggles from Redux state
- * @param {object} params.formData - Form data being resumed
  * @param {string} params.returnUrl - URL where user is being redirected
  */
-export const trackFormResumption = ({
-  featureToggles,
-  formData,
-  returnUrl,
-}) => {
+export const trackFormResumption = ({ featureToggles, returnUrl }) => {
   const properties = {
     formId: VA_FORM_IDS.FORM_21_526EZ,
     returnUrl,
@@ -187,9 +167,8 @@ export const trackFormResumption = ({
     properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
   }
 
-  // Track if user has side nav enabled (boolean)
-  properties.sidenavIsActive =
-    formData?.['view:sideNavChapterIndex'] !== undefined;
+  // Track if side nav component is actually rendered on page (accounts for gradual rollout)
+  properties.sidenavIsActive = !!document.getElementById(SIDENAV_COMPONENT_ID);
 
   trackAction('Form resumption - Saved form loaded', properties);
 };
@@ -219,10 +198,9 @@ export const trackSideNavChapterClick = ({ pageData, pathname }) => {
  *
  * @param {object} params - Parameters for tracking
  * @param {object} params.featureToggles - Feature toggles from Redux state
- * @param {object} params.formData - Current form data containing side nav state
  * @param {string} params.pathname - Current page pathname (review/submit page)
  */
-export const trackFormSubmitted = ({ featureToggles, formData, pathname }) => {
+export const trackFormSubmitted = ({ featureToggles, pathname }) => {
   const properties = {
     formId: VA_FORM_IDS.FORM_21_526EZ,
   };
@@ -232,9 +210,8 @@ export const trackFormSubmitted = ({ featureToggles, formData, pathname }) => {
     properties.sidenav526ezEnabled = featureToggles.disability526SidenavEnabled;
   }
 
-  // Track if user has used side nav (boolean)
-  properties.sidenavIsActive =
-    formData?.['view:sideNavChapterIndex'] !== undefined;
+  // Track if side nav component is actually rendered on page (accounts for gradual rollout)
+  properties.sidenavIsActive = !!document.getElementById(SIDENAV_COMPONENT_ID);
 
   properties.sourcePath = pathname;
 

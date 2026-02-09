@@ -84,21 +84,18 @@ if (!formConfig.formOptions) {
 formConfig.formOptions.onBackClickTracking = () =>
   trackBackButtonClick({
     featureToggles: runtimeState.featureToggles,
-    formData: runtimeState.formData,
     pathname: runtimeState.pathname,
   });
 
 formConfig.formOptions.onContinueClickTracking = () =>
   trackContinueButtonClick({
     featureToggles: runtimeState.featureToggles,
-    formData: runtimeState.formData,
     pathname: runtimeState.pathname,
   });
 
 formConfig.formOptions.onSaveTracking = () =>
   trackSaveFormClick({
     featureToggles: runtimeState.featureToggles,
-    formData: runtimeState.formData,
     pathname: runtimeState.pathname,
   });
 
@@ -120,7 +117,6 @@ formConfig.onFormLoaded = props => {
     if (!alreadyTracked) {
       trackFormResumption({
         featureToggles: runtimeState.featureToggles,
-        formData: props.formData,
         returnUrl: props.returnUrl,
       });
       sessionStorage.setItem(storageKey, 'true');
@@ -142,7 +138,6 @@ formConfig.submit = (form, formConfigParam, options) => {
       // Track successful submission - NO PII, only metadata
       trackFormSubmitted({
         featureToggles: runtimeState.featureToggles,
-        formData: runtimeState.formData,
         pathname: runtimeState.pathname,
       });
 
@@ -241,7 +236,6 @@ export const Form526Entry = ({
       if (isFirstFormPage && hasNoSavedForm && !alreadyTracked) {
         trackFormStarted({
           featureToggles,
-          formData: form?.data,
           pathname: location?.pathname,
         });
         sessionStorage.setItem(storageKey, 'true');

@@ -346,6 +346,9 @@ export const SHOW_8940_4192 = 'showSubforms';
 
 export const SERVICE_BRANCHES = 'militaryServiceBranches';
 
+// Sidenav component ID - single source of truth for DOM references
+export const SIDENAV_COMPONENT_ID = 'default-sidenav';
+
 // sessionStorage key used for the user entered separation date in the wizard
 // used by the first page of the form to populate the form data
 export const SAVED_SEPARATION_DATE = 'savedSeparationDate';

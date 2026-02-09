@@ -10,6 +10,7 @@ import {
   trackSideNavChapterClick,
   trackMobileAccordionClick,
 } from '../utils/datadogRumTracking';
+import { SIDENAV_COMPONENT_ID } from '../constants';
 
 const DISABLED_STYLE =
   'vads-u-margin--0 vads-u-padding-y--1 vads-u-padding-left--2 vads-u-padding-right--0p5 vads-u-color--gray vads-u-border-color--gray-lightest vads-u-border-bottom--1px';
@@ -208,7 +209,7 @@ export default function ClaimFormSideNav({
       header="Form steps"
       icon-background-color="vads-color-link"
       icon-name="description"
-      id="default-sidenav"
+      id={SIDENAV_COMPONENT_ID}
     >
       {landingPages.map((page, index) => {
         const label = `Step ${index + 1}: ${page.label}`;
