@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
-import { useLocation } from 'react-router-dom';
+import { Prompt, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMessagingSignature } from 'platform/user/profile/actions';
 import { isVAPatient } from '~/platform/user/selectors';
@@ -17,6 +17,9 @@ const MessageSignature = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const vaPatient = useSelector(isVAPatient);
+  const hasUnsavedEdits = useSelector(
+    state => state.vapService.hasUnsavedEdits,
+  );
   const userServices = useSelector(state => state.user.profile.services);
   const isMessagingServiceEnabled = userServices.includes(
     backendServices.MESSAGING,
@@ -50,13 +53,25 @@ const MessageSignature = () => {
     [messagingSignatureName, location.hash],
   );
 
+  useEffect(
+    () => {
+      // Show alert when navigating away
+      if (hasUnsavedEdits) {
+        window.onbeforeunload = () => true;
+        return;
+      }
+
+      window.onbeforeunload = undefined;
+    },
+    [hasUnsavedEdits],
+  );
+
   const signaturePresent =
     !!messagingSignature?.signatureName?.trim() &&
     !!messagingSignature?.signatureTitle?.trim();
 
   const cardFields = [
     {
-      // title: FIELD_TITLES[FIELD_NAMES.MESSAGING_SIGNATURE],
       description: 'Choose edit to add a message signature.',
       id: FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE],
       value: (
@@ -70,6 +85,11 @@ const MessageSignature = () => {
   ];
   return (
     <>
+      <Prompt
+        message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
+        when={hasUnsavedEdits}
+      />
+
       <Headline>Messages signature</Headline>
       {vaPatient ? (
         <>
