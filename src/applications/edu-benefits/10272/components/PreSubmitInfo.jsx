@@ -12,7 +12,7 @@ import {
 import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
 
 const SIGNATURE_MISMATCH_MESSAGE =
-  'Enter your name exactly as it appears on your form';
+  'Enter your full name exactly as it appears on your request';
 
 export function PreSubmitInfo({
   formData,
@@ -41,34 +41,43 @@ export function PreSubmitInfo({
     (showError || statementOfTruthSignatureBlurred) && signatureMismatch;
 
   return (
-    <VaStatementOfTruth
-      heading={statementOfTruth.heading}
-      inputLabel={statementOfTruth.textInputLabel || 'Your full name'}
-      inputValue={formData?.statementOfTruthSignature}
-      inputMessageAriaDescribedby={`${statementOfTruth.heading}: ${
-        statementOfTruth.messageAriaDescribedby
-      }`}
-      inputError={
-        showSignatureError
-          ? `${SIGNATURE_MISMATCH_MESSAGE}: ${expectedFullName}`
-          : undefined
-      }
-      checked={formData?.statementOfTruthCertified}
-      onVaInputChange={event =>
-        setPreSubmit('statementOfTruthSignature', event.detail.value)
-      }
-      onVaInputBlur={() => setStatementOfTruthSignatureBlurred(true)}
-      onVaCheckboxChange={event =>
-        setPreSubmit('statementOfTruthCertified', event.detail.checked)
-      }
-      checkboxError={
-        showError && !formData?.statementOfTruthCertified
-          ? 'You must certify by checking the box'
-          : undefined
-      }
-    >
-      {statementOfTruthBodyElement(formData, statementOfTruth.body)}
-    </VaStatementOfTruth>
+    <div>
+      <p className="vads-u-margin-x--4" data-testid="statement-of-truth-note">
+        <strong>Note:</strong> According to federal law, there are criminal
+        penalties, including a fine and/or imprisonment for up to 5 years, for
+        withholding information or for providing incorrect information
+        (Reference: 18 U.S.C. 1001).
+      </p>
+
+      <VaStatementOfTruth
+        heading={statementOfTruth.heading}
+        inputLabel={statementOfTruth.textInputLabel || 'Your full name'}
+        inputValue={formData?.statementOfTruthSignature}
+        inputMessageAriaDescribedby={`${statementOfTruth.heading}: ${
+          statementOfTruth.messageAriaDescribedby
+        }`}
+        inputError={
+          showSignatureError
+            ? `${SIGNATURE_MISMATCH_MESSAGE}: ${expectedFullName}`
+            : undefined
+        }
+        checked={formData?.statementOfTruthCertified}
+        onVaInputChange={event =>
+          setPreSubmit('statementOfTruthSignature', event.detail.value)
+        }
+        onVaInputBlur={() => setStatementOfTruthSignatureBlurred(true)}
+        onVaCheckboxChange={event =>
+          setPreSubmit('statementOfTruthCertified', event.detail.checked)
+        }
+        checkboxError={
+          showError && !formData?.statementOfTruthCertified
+            ? 'You must certify by checking the box'
+            : undefined
+        }
+      >
+        {statementOfTruthBodyElement(formData, statementOfTruth.body)}
+      </VaStatementOfTruth>
+    </div>
   );
 }
 
