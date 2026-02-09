@@ -115,7 +115,7 @@ function testAdditionalInfo() {
 
   // add a wait to ensure additional input has fully rendered and updated before triggering validation
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  // cy.wait(1000);
+  cy.wait(1000);
 
   cy.findByText(/continue/i, { selector: 'button' }).click();
 

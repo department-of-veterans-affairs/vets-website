@@ -17,19 +17,17 @@ function addFile(option) {
     .find('va-file-input')
     .should('exist');
 
+  // add a wait to ensure additional input has fully rendered and updated before triggering validation
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(5000);
+  cy.wait(1000);
 
-  cy.get('va-file-input-multiple').then($el => {
-    const vaFileInput = $el[0].shadowRoot.querySelector('va-file-input');
-    const vaSelect = vaFileInput.querySelector('va-select');
-    cy.wrap(vaSelect).then($select => {
-      // sometimes vaSelect is null due to CI race conditions
-      if (vaSelect) {
-        cy.selectVaSelect($select, option);
-      }
+  cy.get('va-file-input-multiple')
+    .shadow('va-file-input')
+    .first()
+    .find('va-select')
+    .then($select => {
+      cy.selectVaSelect($select, option);
     });
-  });
   cy.findByText(/continue/i, { selector: 'button' }).click();
 }
 
