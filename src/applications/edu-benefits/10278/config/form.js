@@ -20,6 +20,7 @@ import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import informationToDisclose from '../pages/informationToDisclose';
 import prefillTransform from './prefillTransform';
 
 import {
@@ -218,6 +219,24 @@ const formConfig = {
             }),
           }),
         ),
+      },
+    },
+    informationToDiscloseChapter: {
+      title: 'Information to disclose',
+      pages: {
+        informationToDisclose: {
+          path: 'information-to-disclose',
+          title: 'Information to disclose',
+          uiSchema: informationToDisclose.uiSchema,
+          schema: informationToDisclose.schema,
+          onNavBack: ({ formData, goPath }) => {
+            if (formData?.discloseInformation?.authorize === 'organization') {
+              goPath('/organizations/representatives-summary');
+              return;
+            }
+            goPath('/third-party-person-details-1');
+          },
+        },
       },
     },
     securitySetupChapter: {

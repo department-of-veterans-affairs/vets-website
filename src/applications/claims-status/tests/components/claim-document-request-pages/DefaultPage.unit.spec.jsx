@@ -268,6 +268,9 @@ describe('<DefaultPage>', () => {
     getByText(
       'We haven’t received the information we asked for. You can still send it, but we may review your claim without it.',
     );
+    getByText(
+      'We requested this evidence from you on March 7, 2024. You can still send the evidence after the “respond by” date, but it may delay your claim.',
+    );
   });
   it('should display pass due explanation text when suspense date is in the future', () => {
     const item = {
@@ -718,7 +721,7 @@ describe('<DefaultPage>', () => {
         } else if (testCase.item.description) {
           expect(getByTestId('api-description')).to.exist;
           getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
-          expect(queryByTestId('learn-about-request-section')).to.not.exist;
+          expect(queryByTestId('learn-about-request-section')).to.exist;
         } else {
           expect(getByTestId('empty-state-description')).to.exist;
           getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
@@ -1297,6 +1300,175 @@ describe('<DefaultPage>', () => {
         expect(getByTestId('frontend-next-steps')).to.exist;
         expect(queryByTestId('api-long-description')).to.not.exist;
         expect(queryByTestId('api-next-steps')).to.not.exist;
+      });
+    });
+  });
+
+  // ============================================================
+  // BOOLEAN PROPERTY FALLBACK TESTS
+  // Tests for API → dictionary → false fallback hierarchy
+  // for isSensitive, isDBQ, and noActionNeeded properties
+  // ============================================================
+  describe('Boolean property fallback pattern (API → dictionary → false)', () => {
+    const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
+
+    describe('isSensitive property', () => {
+      const isSensitiveTestCases = [
+        {
+          name: 'uses API value when present (API: true, dictionary: false)',
+          displayName: 'Employment info needed', // dictionary has no isSensitive
+          friendlyName: 'Test sensitive item',
+          isSensitive: true,
+          expectedHeader: 'Request for evidence',
+          subheaderIncludesFor: true,
+        },
+        {
+          name: 'uses dictionary value when API absent (dictionary: true)',
+          displayName: 'ASB - tell us where, when, how exposed', // dictionary has isSensitive: true
+          friendlyName: 'Asbestos info',
+          isSensitive: undefined,
+          expectedHeader: 'Request for evidence',
+          subheaderIncludesFor: true,
+        },
+        {
+          name: 'defaults to false when both API and dictionary absent',
+          displayName: 'Unknown item type', // no dictionary entry
+          friendlyName: 'Custom friendly name',
+          isSensitive: undefined,
+          expectedHeader: 'Custom friendly name',
+          subheaderIncludesFor: false,
+        },
+      ];
+
+      isSensitiveTestCases.forEach(testCase => {
+        it(testCase.name, () => {
+          const item = {
+            id: 300,
+            displayName: testCase.displayName,
+            status: 'NEEDED_FROM_YOU',
+            requestedDate: '2025-12-01',
+            suspenseDate: futureSuspenseDate,
+            friendlyName: testCase.friendlyName,
+            canUploadFile: true,
+            isSensitive: testCase.isSensitive,
+          };
+
+          const { getByText, container } = renderWithReduxAndRouter(
+            <DefaultPage {...defaultProps} item={item} />,
+            { initialState },
+          );
+
+          getByText(testCase.expectedHeader);
+          const h1 = container.querySelector('h1');
+          const subheaderSpan = h1.querySelector('span');
+          if (testCase.subheaderIncludesFor) {
+            expect(subheaderSpan.textContent).to.include('for:');
+          } else {
+            expect(subheaderSpan.textContent).to.not.include('for:');
+          }
+        });
+      });
+    });
+
+    describe('isDBQ property', () => {
+      const isDBQTestCases = [
+        {
+          name: 'uses API value when present (API: true, dictionary: false)',
+          displayName: 'Unknown third party request', // no dictionary entry
+          isDBQ: true,
+          expectOutsideVA: false,
+        },
+        {
+          name: 'uses dictionary value when API absent (dictionary: true)',
+          displayName: 'DBQ AUDIO Hearing Loss and Tinnitus', // dictionary has isDBQ: true
+          isDBQ: undefined,
+          expectOutsideVA: false,
+        },
+        {
+          name: 'defaults to false when both API and dictionary absent',
+          displayName: 'Unknown third party type', // no dictionary entry
+          isDBQ: undefined,
+          expectOutsideVA: true,
+        },
+      ];
+
+      isDBQTestCases.forEach(testCase => {
+        it(testCase.name, () => {
+          const item = {
+            id: 304,
+            displayName: testCase.displayName,
+            status: 'NEEDED_FROM_OTHERS',
+            requestedDate: '2025-12-01',
+            suspenseDate: futureSuspenseDate,
+            friendlyName: 'Test request',
+            canUploadFile: true,
+            isDBQ: testCase.isDBQ,
+          };
+
+          const { container } = renderWithReduxAndRouter(
+            <DefaultPage {...defaultProps} item={item} />,
+            { initialState },
+          );
+
+          const h1 = container.querySelector('h1');
+          const subheaderSpan = h1.querySelector('span');
+          if (testCase.expectOutsideVA) {
+            expect(subheaderSpan.textContent).to.include('outside VA');
+          } else {
+            expect(subheaderSpan.textContent).to.not.include('outside VA');
+          }
+        });
+      });
+    });
+
+    describe('noActionNeeded property', () => {
+      const noActionNeededTestCases = [
+        {
+          name: 'uses API value when present (API: true, dictionary: false)',
+          displayName: 'PMR Pending', // dictionary has no noActionNeeded
+          noActionNeeded: true,
+          expectUploadSuggestion: false,
+        },
+        {
+          name: 'uses dictionary value when API absent (dictionary: true)',
+          displayName: 'DBQ AUDIO Hearing Loss and Tinnitus', // dictionary has noActionNeeded: true
+          noActionNeeded: undefined,
+          expectUploadSuggestion: false,
+        },
+        {
+          name: 'defaults to false when both API and dictionary absent',
+          displayName: 'Unknown third party type', // no dictionary entry
+          noActionNeeded: undefined,
+          expectUploadSuggestion: true,
+        },
+      ];
+
+      noActionNeededTestCases.forEach(testCase => {
+        it(testCase.name, () => {
+          const item = {
+            id: 308,
+            displayName: testCase.displayName,
+            status: 'NEEDED_FROM_OTHERS',
+            requestedDate: '2025-12-01',
+            suspenseDate: futureSuspenseDate,
+            canUploadFile: true,
+            noActionNeeded: testCase.noActionNeeded,
+          };
+
+          const { queryByText } = renderWithReduxAndRouter(
+            <DefaultPage {...defaultProps} item={item} />,
+            { initialState },
+          );
+
+          const uploadSuggestion = queryByText(
+            /if you have documents related to this request, uploading them/i,
+          );
+          if (testCase.expectUploadSuggestion) {
+            expect(uploadSuggestion).to.exist;
+          } else {
+            expect(uploadSuggestion).to.not.exist;
+          }
+        });
       });
     });
   });
