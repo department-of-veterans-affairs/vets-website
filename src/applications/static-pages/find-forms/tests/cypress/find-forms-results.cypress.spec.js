@@ -128,16 +128,16 @@ describe('find forms search results', () => {
     modal()
       .scrollIntoView()
       .within(() => {
-        cy.get(h.ADOBE_LINK)
-          .should('contain.text', 'Get Acrobat Reader for free from Adobe')
-          .should('have.attr', 'href')
-          .and('include', 'https://get.adobe.com/reader/');
+        cy.get('va-link[external]')
+          .should('have.attr', 'text', 'Get Acrobat Reader for free from Adobe')
+          .should('have.attr', 'href', 'https://get.adobe.com/reader/');
 
-        cy.get(h.MODAL_DOWNLOAD_LINK)
+        cy.get('va-link[download]')
+          .should('have.attr', 'filetype', 'PDF')
           .should('contain.text', 'Download VA Form 10-252')
-          .should('have.attr', 'href')
-          .and(
-            'include',
+          .should(
+            'have.attr',
+            'href',
             'https://www.va.gov/vaforms/medical/pdf/10-252%20Authorization%20To%20Release%20Protected%20Health%20Information%20To%20State%20Local%20Public%20Authorities.pdf',
           );
 
