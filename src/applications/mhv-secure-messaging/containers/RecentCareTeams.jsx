@@ -10,7 +10,9 @@ import {
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import EmergencyNote from '../components/EmergencyNote';
+import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import * as Constants from '../util/constants';
+import { BlockedTriageAlertStyles, ParentComponent } from '../util/constants';
 import { getRecentRecipients } from '../actions/recipients';
 import { focusOnErrorField } from '../util/formHelpers';
 import { updateDraftInProgress } from '../actions/threadDetails';
@@ -35,6 +37,8 @@ const RecentCareTeams = () => {
     recentRecipients,
     allRecipients,
     noAssociations,
+    allTriageGroupsBlocked,
+    blockedFacilities,
     error: recipientsError,
   } = recipients;
   const h1Ref = useRef(null);
@@ -168,6 +172,7 @@ const RecentCareTeams = () => {
           recipientName: recipient?.name,
           careSystemVhaId: recipient?.stationNumber,
           ohTriageGroup: recipient?.ohTriageGroup,
+          stationNumber: recipient?.stationNumber,
         }),
       );
       setError(null); // Clear error on selection
@@ -186,11 +191,34 @@ const RecentCareTeams = () => {
     return <va-loading-indicator message="Loading..." />;
   }
 
+  if (allTriageGroupsBlocked) {
+    return (
+      <>
+        <h1 className="vads-u-margin-bottom--3" tabIndex="-1" ref={h1Ref}>
+          Care teams you recently sent messages to
+        </h1>
+        <BlockedTriageGroupAlert
+          alertStyle={BlockedTriageAlertStyles.ALERT}
+          parentComponent={ParentComponent.FOLDER_HEADER}
+        />
+      </>
+    );
+  }
+
+  const showSingleFacilityBlockedAlert =
+    blockedFacilities?.length === 1 && !allTriageGroupsBlocked;
+
   return (
     <>
       <h1 className="vads-u-margin-bottom--3" tabIndex="-1" ref={h1Ref}>
         Care teams you recently sent messages to
       </h1>
+      {showSingleFacilityBlockedAlert && (
+        <BlockedTriageGroupAlert
+          alertStyle={BlockedTriageAlertStyles.INFO}
+          parentComponent={ParentComponent.FOLDER_HEADER}
+        />
+      )}
       <EmergencyNote dropDownFlag />
       <VaRadio
         class="vads-u-margin-bottom--3"

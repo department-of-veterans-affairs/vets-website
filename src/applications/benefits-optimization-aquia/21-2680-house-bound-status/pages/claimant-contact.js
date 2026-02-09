@@ -5,10 +5,10 @@
  */
 
 import {
-  phoneUI,
-  phoneSchema,
   emailUI,
   emailSchema,
+  internationalPhoneUI,
+  internationalPhoneSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { isClaimantVeteran } from '../utils/relationship-helpers';
@@ -20,7 +20,7 @@ import { getVeteranName, getClaimantName } from '../utils/name-helpers';
  */
 export const claimantContactUiSchema = {
   claimantContact: {
-    claimantPhoneNumber: phoneUI('Home phone number'),
+    claimantPhoneNumber: internationalPhoneUI(),
     claimantEmail: emailUI('Email address'),
   },
   'ui:options': {
@@ -79,8 +79,11 @@ export const claimantContactSchema = {
     claimantContact: {
       type: 'object',
       properties: {
-        claimantPhoneNumber: phoneSchema,
-        claimantEmail: emailSchema,
+        claimantPhoneNumber: internationalPhoneSchema(),
+        claimantEmail: {
+          ...emailSchema,
+          maxLength: 70,
+        },
       },
     },
   },
