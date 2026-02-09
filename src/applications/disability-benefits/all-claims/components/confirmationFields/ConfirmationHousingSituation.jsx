@@ -83,12 +83,17 @@ const ConfirmationHousingSituation = ({ formData }) => {
           <>
             <li>
               <div className="vads-u-color--gray">
-                Please provide the name of a person or place we can call if we
-                need to get in touch with you:
+                Let us know where we can contact you if you also lose access to
+                your phone number:
               </div>
             </li>
-            <li>Name: {homelessnessContact.name}</li>
-            <li>Phone number: {homelessnessContact.phoneNumber}</li>
+            <li>
+              Name of alternate contact or place: {homelessnessContact.name}
+            </li>
+            <li>
+              Phone number of alternate contact or place:{' '}
+              {homelessnessContact.phoneNumber}
+            </li>
           </>
         )}
       </ul>

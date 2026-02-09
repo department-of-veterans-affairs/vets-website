@@ -210,7 +210,6 @@ describe('Add Child Chapter', () => {
       'addChildIntro',
       'addChildSummary',
       'addChildInformation',
-      'addChildIdentification',
       'addChildPlaceOfBirth',
       'addChildRelationshipType',
       'disabilityPartOne',
