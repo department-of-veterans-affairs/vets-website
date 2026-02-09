@@ -14,8 +14,6 @@ const PreviousStatements = ({ selectedId }) => {
   const allStatements =
     useSelector(state => state.combinedPortal.mcp.statements) || [];
 
-  // For VHA Payment History (new API), use recentStatements from the detail response
-  // Filter out the current statement
   const previousStatements = shouldShowVHAPaymentHistory
     ? (copayDetail?.attributes?.recentStatements || []).filter(
         copay => copay.id !== selectedId,
@@ -34,11 +32,10 @@ const PreviousStatements = ({ selectedId }) => {
           .sort((a, b) => {
             const dateA = new Date(a.pSStatementDateOutput);
             const dateB = new Date(b.pSStatementDateOutput);
-            return dateB - dateA; // Sort descending (newest first)
+            return dateB - dateA;
           });
       })();
 
-  // Don't render anything if there are no previous statements
   if (previousStatements.length === 0) {
     return null;
   }
