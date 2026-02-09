@@ -41,23 +41,17 @@ export function statementOfTruthFullName(
   if (useProfileFullName && profileFullName) {
     fullName = profileFullName;
   } else {
-    fullName = get(
-      formData,
+    const path =
       typeof fullNamePath === 'function'
         ? fullNamePath(formData)
-        : fullNamePath || 'veteran.fullName',
-    );
+        : fullNamePath || 'veteran.fullName';
+    fullName = get(formData, path);
   }
 
-  let fullNameString = fullName?.first || '';
-
-  if (fullName?.middle) {
-    fullNameString += ` ${fullName?.middle}`;
-  }
-
-  fullNameString += ` ${fullName?.last || ''}`;
-
-  return fullNameString;
+  return [fullName?.first, fullName?.middle, fullName?.last]
+    .filter(Boolean)
+    .map(part => part.trim())
+    .join(' ');
 }
 
 export function fullNameReducer(fullNameString) {
