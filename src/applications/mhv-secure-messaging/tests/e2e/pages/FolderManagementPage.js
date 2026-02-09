@@ -97,15 +97,18 @@ class FolderManagementPage {
   selectFolderFromModal = (folderName = `Trash`) => {
     cy.wait('@folders');
 
-    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID)
+    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID, { timeout: 10000 })
       .should('be.visible')
-      .scrollIntoView();
+      .scrollIntoView()
+      .click();
 
-    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID).click();
+    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID, { timeout: 10000 })
+      .should('exist')
+      .and('be.visible');
 
-    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID).then(() => {
-      cy.findByLabelText(folderName, { timeout: 10000 }).click();
-    });
+    cy.findByLabelText(folderName, { timeout: 10000 })
+      .should('be.visible')
+      .click();
   };
 
   confirmMovingMessageToFolder = (
