@@ -238,7 +238,7 @@ const SearchResult = ({
                 disable-border
                 uswds
               >
-                <dl>{associatedOrgs?.map(org => <dd key={org}>{org}</dd>)}</dl>
+                {associatedOrgs?.map(org => <div>{org}</div>)}
               </va-additional-info>
             </div>
           )}
