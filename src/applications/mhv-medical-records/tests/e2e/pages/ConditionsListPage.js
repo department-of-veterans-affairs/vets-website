@@ -40,6 +40,8 @@ class ConditionsListPage extends BaseListPage {
       .find('a')
       .eq(_conditionIndex)
       .click();
+    // Wait for detail page to load
+    cy.get('h1').should('be.visible');
   };
 }
 export default new ConditionsListPage();

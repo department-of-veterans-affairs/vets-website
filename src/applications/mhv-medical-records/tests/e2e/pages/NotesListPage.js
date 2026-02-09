@@ -30,6 +30,8 @@ class NotesListPage extends BaseListPage {
       .find('a')
       .eq(_NotesIndex)
       .click();
+    // Wait for detail page to load
+    cy.get('h1').should('be.visible');
   };
 }
 

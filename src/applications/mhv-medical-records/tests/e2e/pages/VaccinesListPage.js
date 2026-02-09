@@ -26,6 +26,8 @@ class VaccinesListPage extends BaseListPage {
       .find('a')
       .eq(vaccinesIndex)
       .click();
+    // Wait for detail page to load
+    cy.get('h1').should('be.visible');
   };
 
   clickBackToTopButtonOnListPage = () => {

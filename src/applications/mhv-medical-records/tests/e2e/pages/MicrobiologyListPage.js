@@ -26,6 +26,8 @@ class MicrobiologyListPage extends BaseListPage {
       .find('a')
       .eq(_MicrobiologyIndex)
       .click();
+    // Wait for detail page to load
+    cy.get('h1').should('be.visible');
   };
 }
 

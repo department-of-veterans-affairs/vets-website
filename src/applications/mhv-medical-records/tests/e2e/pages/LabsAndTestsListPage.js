@@ -46,16 +46,19 @@ class LabsAndTestsListPage extends BaseListPage {
   };
 
   clickLabsAndTestsDetailsLink = (_LabsAndTestsItemIndex = 0, entry) => {
+    // Mock the detail API response if the call is made (non-accelerated path)
     cy.intercept(
       'GET',
       `/my_health/v1/medical_records/labs_and_tests/${entry.resource.id}`,
       entry.resource,
-    );
+    ).as('labsAndTestsDetail');
     cy.findAllByTestId('record-list-item')
       .should('be.visible')
       .find('a')
       .eq(_LabsAndTestsItemIndex)
       .click();
+    // Wait for detail page to load (don't wait for API - accelerated path uses list data)
+    cy.get('h1').should('be.visible');
   };
 
   // "Radiology has no details call so we always use the list call for everything"
@@ -72,6 +75,8 @@ class LabsAndTestsListPage extends BaseListPage {
     cy.get('@radLink').scrollIntoView();
     cy.get('@radLink').should('be.visible');
     cy.get('@radLink').click();
+    // Wait for detail page to load
+    cy.get('h1').should('be.visible');
   };
 
   loadVAPaginationNext = () => {
