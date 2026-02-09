@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import Header from '../../../components/Header';
-import DropdownContainer from '../../../components/Header/DropdownContainer';
+import Header from '~/platform/site-wide/representative/components/header/Header';
+import DropdownContainer from '~/platform/site-wide/representative/components/header/DropdownContainer';
 import { renderTestComponent, renderTestApp } from '../helpers';
 
 const profile = {
