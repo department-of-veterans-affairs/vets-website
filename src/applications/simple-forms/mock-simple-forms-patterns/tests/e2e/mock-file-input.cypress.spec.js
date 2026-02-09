@@ -65,7 +65,7 @@ function testContinueWithoutFile() {
   cy.get('va-file-input')
     .shadow()
     .find('span.usa-error-message')
-    .should('exist');
+    .should('contain', 'File is required.');
 }
 
 // test adding a variety of file types
@@ -115,7 +115,7 @@ function testAdditionalInfo() {
 
   // add a wait to ensure additional input has fully rendered and updated before triggering validation
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(1000);
+  // cy.wait(1000);
 
   cy.findByText(/continue/i, { selector: 'button' }).click();
 
@@ -144,8 +144,8 @@ function testTooBig() {
   const tooBigFile = makeMinimalTxtFile(100);
   cy.fillVaFileInput(SELECTOR, {}, tooBigFile);
   cy.get('va-file-input')
-    .should('have.attr', 'error')
-    .and('include', "We can't upload your file because it's too big.");
+    .find('span.usa-error-message')
+    .should('contain', "We can't upload your file because it's too big.");
   deleteFile();
 }
 
@@ -154,8 +154,8 @@ function testTooSmall() {
   const tooSmallFile = makeMinimalTxtFile(1);
   cy.fillVaFileInput(SELECTOR, {}, tooSmallFile);
   cy.get('va-file-input')
-    .should('have.attr', 'error')
-    .and('include', "We can't upload your file because it's too small.");
+    .find('span.usa-error-message')
+    .should('contain', "We can't upload your file because it's too small.");
   deleteFile();
 }
 
@@ -164,9 +164,9 @@ function testZeroBytes() {
   const zeroFile = makeMinimalTxtFile(0);
   cy.fillVaFileInput(SELECTOR, {}, zeroFile);
   cy.get('va-file-input')
-    .should('have.attr', 'error')
-    .and(
-      'include',
+    .find('span.usa-error-message')
+    .should(
+      'contain',
       'The file you selected is empty. Files must be larger than 0B.',
     );
   deleteFile();
@@ -209,7 +209,7 @@ function testEncryptedPdf() {
     });
 
     cy.get('va-file-input')
-      .find('span.usa-error-message')
+      .find('va-text-input')
       .should('not.exist');
   });
   deleteFile();
@@ -220,8 +220,8 @@ function testRejectFileNotAccepted() {
   const file = makeNotAcceptedFile();
   cy.fillVaFileInput(SELECTOR, {}, file);
   cy.get('va-file-input')
-    .should('have.attr', 'error')
-    .and('include', 'We do not accept .fake files. Choose a new file.');
+    .find('span.usa-error-message')
+    .should('contain', 'We do not accept .fake files. Choose a new file.');
   deleteFile();
 }
 
