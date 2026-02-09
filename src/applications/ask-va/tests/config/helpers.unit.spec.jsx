@@ -639,7 +639,7 @@ describe('Components and Utility Functions', () => {
         'Your reply to this inquiry has been received, and the inquiry is currently being reviewed by an agent.',
       closed: 'Closed.',
       'reference number not found':
-        "No Results found. We could not locate an inquiry that matches your ID. Please check the number and re-enter. If you receive this message again, you can submit a new inquiry with your original question. Include your old inquiry number for reference and we'll work to get your question fully answered.",
+        "No Results found. We could not locate an inquiry that matches your ID. Check the number and re-enter. If you receive this message again, you can submit a new inquiry with your original question. Include your old inquiry number for reference and we'll work to get your question fully answered.",
       'ANY OTHER VALUE': 'error',
     };
     it('returns proper descriptive text', () => {

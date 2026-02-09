@@ -32,7 +32,7 @@ const ssnServiceInfo = (
       <span className="form-required-span">(*Required)</span>
     </p>
     <p className="vads-u-font-size--sm vads-u-margin-bottom-1">
-      Please provide one of the following:
+      Provide one of the following:
     </p>
   </div>
 );
