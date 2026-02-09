@@ -54,7 +54,7 @@ import secondaryTwoMailingAddressPage from './chapters/secondaryTwo/mailingAddre
 import secondaryTwoContactInfoPage from './chapters/secondaryTwo/contactInformation';
 import FacilityConfirmation from '../components/FormPages/FacilityConfirmation';
 
-//  sign as representative
+// sign as representative
 import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
 import documentUpload from './chapters/signAsRepresentative/documentUpload';
 

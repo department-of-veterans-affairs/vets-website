@@ -3,7 +3,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 
-//  internal app imports
+// internal app imports
 import manifest from '../manifest.json';
 import content from '../locales/en/content.json';
 import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../utils/constants';

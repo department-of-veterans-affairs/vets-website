@@ -198,7 +198,7 @@ class SaveInProgressIntro extends React.Component {
     if (!isExpired) {
       const savedDateTime =
         savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
-      const formName = formConfig?.subTitle;
+      const formName = formConfig?.subTitle || appType;
       const article = this.getArticle(appType);
 
       return {
@@ -210,8 +210,8 @@ class SaveInProgressIntro extends React.Component {
             </Header>
             <p>
               You can continue filling out this {appType} with your saved
-              information until {expirationDate}. If you don’t submit your{' '}
-              {appType} by that date, you’ll need to start over.
+              information until <strong>{expirationDate}</strong>. If you don’t
+              submit your {appType} by that date, you’ll need to start over.
             </p>
             <div>{this.props.children}</div>
             {this.getFormControls(savedForm)}
@@ -243,27 +243,31 @@ class SaveInProgressIntro extends React.Component {
     ariaDescribedby,
     appType,
   ) => {
+    const linkText = `Start your ${appType} without signing in`;
+    const linkClassName = 'schemaform-start-button';
+    const startPage = this.getStartPage();
+
     const unauthStartLink = this.props.formConfig?.formOptions
       ?.useWebComponentForNavigation ? (
       <p>
         <VaLink
           onClick={this.handleClickAndReroute}
-          href={this.getStartPage()}
-          className="schemaform-start-button"
+          href={startPage}
+          className={linkClassName}
           aria-label={ariaLabel}
-          text={`Start your ${appType} without signing in`}
+          text={linkText}
         />
       </p>
     ) : (
       <p>
         <Link
           onClick={this.handleClick}
-          to={this.getStartPage}
-          className="schemaform-start-button"
+          to={startPage}
+          className={linkClassName}
           aria-label={ariaLabel}
           aria-describedby={ariaDescribedby}
         >
-          Start your {appType} without signing in
+          {linkText}
         </Link>
       </p>
     );
@@ -443,10 +447,10 @@ SaveInProgressIntro.propTypes = {
     customText: PropTypes.shape({
       appType: PropTypes.string,
     }),
-    requiresVerifiedUser: PropTypes.bool,
     formOptions: PropTypes.shape({
       useWebComponentForNavigation: PropTypes.bool,
     }),
+    requiresVerifiedUser: PropTypes.bool,
     subTitle: PropTypes.string,
   }),
   formData: PropTypes.object,
@@ -484,7 +488,6 @@ SaveInProgressIntro.defaultProps = {
   unauthStartText: '',
   formConfig: {
     customText: { appType: '' },
-    subTitle: 'form',
   },
   headingLevel: 2,
   ariaLabel: null,
@@ -528,6 +531,10 @@ const mapDispatchToProps = {
  *     customText?: {
  *       appType?: string,
  *     },
+ *    formOptions?: {
+ *      useWebComponentForNavigation: boolean,
+ *    },
+ *    subTitle: string,
  *    requiresVerifiedUser?: any
  *   },
  *   formData?: any,
