@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
 
 import {
   BTSSS_PORTAL_URL,
@@ -161,10 +161,9 @@ const IntroductionPage = () => {
                 claims in your travel reimbursement page.
               </p>
               <p>
-                <va-link
-                  href="/my-health/travel-pay/claims/"
-                  text="Go to your travel reimbursement claims page"
-                />
+                <Link to="/claims/">
+                  Go to your travel reimbursement claims page
+                </Link>
               </p>
               {appointment &&
                 !appointment.isCC && (
