@@ -868,7 +868,11 @@ export function createInitialState(formConfig) {
       // Throw an error if the new schema is invalid
       checkValidSchema(schema);
       if (page.path) {
-        if (!environment.isProduction() && uniquePaths.has(page.path)) {
+        if (
+          !environment.isProduction() &&
+          uniquePaths.has(page.path) &&
+          !formConfig.allowDuplicatePaths
+        ) {
           throw new Error(
             `Duplicate page path found: ${page.path}. Page paths must be unique.
             Paths must be unique because usually the side effects are unintentional,
