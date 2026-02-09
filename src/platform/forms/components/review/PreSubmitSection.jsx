@@ -49,8 +49,8 @@ export function statementOfTruthFullName(
   }
 
   return [fullName?.first, fullName?.middle, fullName?.last]
+    .map(part => part?.trim())
     .filter(Boolean)
-    .map(part => part.trim())
     .join(' ');
 }
 

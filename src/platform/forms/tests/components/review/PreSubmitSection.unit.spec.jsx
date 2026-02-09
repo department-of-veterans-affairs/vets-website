@@ -361,4 +361,21 @@ describe('statementOfTruthFullName', () => {
     const result = statementOfTruthFullName(formData, statementOfTruth);
     expect(result).to.equal('John Doe');
   });
+
+  it('should filter out middle name with only whitespace', () => {
+    const formData = {
+      veteran: {
+        fullName: {
+          first: 'John',
+          middle: '   ',
+          last: 'Doe',
+        },
+      },
+    };
+    const statementOfTruth = {
+      fullNamePath: 'veteran.fullName',
+    };
+    const result = statementOfTruthFullName(formData, statementOfTruth);
+    expect(result).to.equal('John Doe');
+  });
 });
