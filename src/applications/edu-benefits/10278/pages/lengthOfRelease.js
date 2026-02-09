@@ -14,8 +14,7 @@ const uiSchema = {
   ...descriptionUI(ClaimInformationDescription),
   lengthOfRelease: {
     duration: radioUI({
-      title:
-        'Select how long you want us to release your personal information.',
+      title: 'Select how long you want to release your personal information.',
       labels: {
         ongoing: 'Ongoing until you give us a written notice to terminate',
         date:
