@@ -3,6 +3,7 @@ import {
   DEPENDENT_VIEW_FIELDS,
   INSURANCE_VIEW_FIELDS,
   MAX_DEPENDENTS,
+  HIGH_DISABILITY_MINIMUM,
 } from '../constants';
 
 /**
@@ -405,3 +406,40 @@ export function spouseAddressDoesNotMatchVeteransV2(formData) {
   const sameAddress = arraySameAddress ?? rootSameAddress;
   return includeSpousalInformationV2(formData) && !sameAddress;
 }
+
+/**
+ * Helper that determines if the Veteran has a lower disability rating
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the viewfield value is less than the high-
+ * disability minimum
+ */
+export const hasLowDisabilityRating = formData => {
+  return formData['view:totalDisabilityRating'] < HIGH_DISABILITY_MINIMUM;
+};
+
+export const hasHighCompensation = formData => {
+  const { vaCompensationType } = formData;
+  return vaCompensationType === 'highDisability';
+};
+
+/**
+ * Helper that determines if the user is short form eligible
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the total disability rating is less than the
+ * minimum percetage and the user does not self-declares they receive
+ * compensation equal to that of a high-disability-rated Veteran
+ */
+export const notShortFormEligible = formData => {
+  return hasLowDisabilityRating(formData) && !hasHighCompensation(formData);
+};
+
+/**
+ * Helper that determines if the user has available service history or wishes
+ * to update it
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they want to update their
+ * service information (or lacks service history on file)
+ */
+export const doesVeteranWantToUpdateServiceInfo = formData =>
+  formData['view:ezrServiceHistoryEnabled'] &&
+  !formData.isServiceHistoryCorrect;
