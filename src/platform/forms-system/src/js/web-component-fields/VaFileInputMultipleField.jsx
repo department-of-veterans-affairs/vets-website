@@ -259,8 +259,8 @@ const VaFileInputMultipleField = props => {
 
   const handleFileRemoved = index => {
     setErrors(removeOneFromArray(errors, index));
-    errorManager.setFileCheckError(index, false);
-    errorManager.setInternalFileInputErrors(index, false);
+    errorManager.removeFileCheckError(index);
+    errorManager.removeInternalFileInputError(index);
     errorManager.removeInstance(index);
 
     setEncrypted(removeOneFromArray(encrypted, index));
