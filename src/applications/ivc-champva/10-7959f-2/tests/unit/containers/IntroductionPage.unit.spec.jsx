@@ -21,7 +21,6 @@ describe('10-7959f-2 IntroductionPage', () => {
           loadedData: { metadata: {} },
           lastSavedDate: null,
           migrations: [],
-          prefillTransformer: null,
         },
         user: {
           login: {
