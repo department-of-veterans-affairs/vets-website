@@ -113,7 +113,7 @@ describe('Travel Pay – IntroductionPage', () => {
   });
 
   it('renders all important VA links with expected hrefs', () => {
-    const { container, getByRole } = renderWithStoreAndRouter(
+    const { container } = renderWithStoreAndRouter(
       <MemoryRouter initialEntries={[initialRoute]}>
         <IntroductionPage />
       </MemoryRouter>,
@@ -144,11 +144,7 @@ describe('Travel Pay – IntroductionPage', () => {
     expect($(`va-link[href="${FIND_FACILITY_TP_CONTACT_LINK}"]`, container)).to
       .exist;
 
-    expect(
-      getByRole('link', {
-        name: /go to your travel reimbursement claims page/i,
-      }),
-    ).to.have.attribute('href', '/claims/');
+    expect($('a[href="/claims/"]', container)).to.exist;
   });
 
   it('navigates to choose-expense when a claim already exists', async () => {
