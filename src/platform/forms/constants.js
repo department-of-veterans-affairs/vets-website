@@ -124,7 +124,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_524_UPLOAD: '21P-524-UPLOAD',
   FORM_21P_601_UPLOAD: '21P-601-UPLOAD',
   FORM_21P_4706B_UPLOAD: '21P-4706B-UPLOAD',
-  FORM_21P_471_UPLOAD: '21P-471-UPLOAD',
+  FORM_21P_4171_UPLOAD: '21P-4171-UPLOAD',
   FORM_21P_8924_UPLOAD: '21P-8924-UPLOAD',
 });
 
@@ -327,7 +327,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     )}/21P-4706B/introduction/`,
     [VA_FORM_IDS.FORM_21P_471_UPLOAD]: `${tryGetAppUrl(
       'form-upload-flow',
-    )}/21P-471/introduction/`,
+    )}/21P-4171/introduction/`,
     [VA_FORM_IDS.FORM_21P_8924_UPLOAD]: `${tryGetAppUrl(
       'form-upload-flow',
     )}/21P-8924/introduction/`,
@@ -476,11 +476,11 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'form-21p-8924-upload-',
   },
   {
-    id: VA_FORM_IDS.FORM_21P_471_UPLOAD,
-    benefit: 'form 21P-471 upload',
-    title: 'form 21P-471 upload',
-    description: 'uploaded file for form 21P-471',
-    trackingPrefix: 'form-21p-471-upload-',
+    id: VA_FORM_IDS.FORM_21P_4171_UPLOAD,
+    benefit: 'form 21P-4171 upload',
+    title: 'form 21P-4171 upload',
+    description: 'uploaded file for form 21P-4171',
+    trackingPrefix: 'form-21p-4171-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21P_4706B_UPLOAD,
