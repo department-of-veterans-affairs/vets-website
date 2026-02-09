@@ -14,10 +14,10 @@ const PreviousStatements = ({ selectedId }) => {
   const allStatements =
     useSelector(state => state.combinedPortal.mcp.statements) || [];
 
-  // For VHA Payment History (new API), use recentCopays from the detail response
+  // For VHA Payment History (new API), use recentStatements from the detail response
   // Filter out the current statement
   const previousStatements = shouldShowVHAPaymentHistory
-    ? (copayDetail?.attributes?.recentCopays || []).filter(
+    ? (copayDetail?.attributes?.recentStatements || []).filter(
         copay => copay.id !== selectedId,
       )
     : (() => {

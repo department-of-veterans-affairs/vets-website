@@ -13,7 +13,7 @@ describe('PreviousStatements', () => {
   };
 
   describe('when showVHAPaymentHistory is true', () => {
-    it('should render when recentCopays exist and filter out current statement', () => {
+    it('should render when recentStatements exist and filter out current statement', () => {
       const mockState = {
         featureToggles: {
           [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
@@ -22,7 +22,7 @@ describe('PreviousStatements', () => {
           mcp: {
             selectedStatement: {
               attributes: {
-                recentCopays: [
+                recentStatements: [
                   { id: '1', invoiceDate: '2024-01-01' },
                   { id: '2', invoiceDate: '2024-02-01' },
                   { id: '3', invoiceDate: '2024-03-01' },
@@ -47,7 +47,7 @@ describe('PreviousStatements', () => {
       wrapper.unmount();
     });
 
-    it('should return null when recentCopays is empty', () => {
+    it('should return null when recentStatements is empty', () => {
       const mockState = {
         featureToggles: {
           [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
@@ -56,7 +56,7 @@ describe('PreviousStatements', () => {
           mcp: {
             selectedStatement: {
               attributes: {
-                recentCopays: [],
+                recentStatements: [],
               },
             },
           },
@@ -74,7 +74,7 @@ describe('PreviousStatements', () => {
       wrapper.unmount();
     });
 
-    it('should return null when recentCopays does not exist', () => {
+    it('should return null when recentStatements does not exist', () => {
       const mockState = {
         featureToggles: {
           [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
@@ -108,7 +108,7 @@ describe('PreviousStatements', () => {
           mcp: {
             selectedStatement: {
               attributes: {
-                recentCopays: [
+                recentStatements: [
                   { id: '1', invoiceDate: '2024-01-01' },
                   { id: '3', invoiceDate: '2024-03-01' },
                   { id: '2', invoiceDate: '2024-02-01' },
@@ -145,7 +145,7 @@ describe('PreviousStatements', () => {
           mcp: {
             selectedStatement: {
               attributes: {
-                recentCopays: [{ id: '1', invoiceDate: '2024-01-01' }],
+                recentStatements: [{ id: '1', invoiceDate: '2024-01-01' }],
               },
             },
           },
