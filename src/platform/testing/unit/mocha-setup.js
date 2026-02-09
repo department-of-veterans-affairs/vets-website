@@ -176,6 +176,12 @@ function setupJSDom() {
   if (!URL.revokeObjectURL) {
     URL.revokeObjectURL = () => {};
   }
+  if (window.URL && !window.URL.createObjectURL) {
+    window.URL.createObjectURL = () => '';
+  }
+  if (window.URL && !window.URL.revokeObjectURL) {
+    window.URL.revokeObjectURL = () => {};
+  }
 
   // Override global Event constructors to use jsdom's implementations
   // In Node 22, native Event constructors create objects incompatible with jsdom
