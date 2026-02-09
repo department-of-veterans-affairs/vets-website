@@ -4,10 +4,10 @@ import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import { createStore } from 'redux';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import HTMLStatementList from '../../components/HTMLStatementList';
+import PreviousStatements from '../../components/PreviousStatements';
 import HTMLStatementLink from '../../components/HTMLStatementLink';
 
-describe('HTMLStatementList', () => {
+describe('PreviousStatements', () => {
   const createMockStore = state => {
     return createStore(() => state);
   };
@@ -36,7 +36,7 @@ describe('HTMLStatementList', () => {
       const store = createMockStore(mockState);
       const wrapper = mount(
         <Provider store={store}>
-          <HTMLStatementList selectedId="2" />
+          <PreviousStatements selectedId="2" />
         </Provider>,
       );
 
@@ -66,11 +66,11 @@ describe('HTMLStatementList', () => {
       const store = createMockStore(mockState);
       const wrapper = mount(
         <Provider store={store}>
-          <HTMLStatementList selectedId="1" />
+          <PreviousStatements selectedId="1" />
         </Provider>,
       );
 
-      expect(wrapper.find(HTMLStatementList).children()).to.have.lengthOf(0);
+      expect(wrapper.find(PreviousStatements).children()).to.have.lengthOf(0);
       wrapper.unmount();
     });
 
@@ -91,11 +91,11 @@ describe('HTMLStatementList', () => {
       const store = createMockStore(mockState);
       const wrapper = mount(
         <Provider store={store}>
-          <HTMLStatementList selectedId="1" />
+          <PreviousStatements selectedId="1" />
         </Provider>,
       );
 
-      expect(wrapper.find(HTMLStatementList).children()).to.have.lengthOf(0);
+      expect(wrapper.find(PreviousStatements).children()).to.have.lengthOf(0);
       wrapper.unmount();
     });
 
@@ -123,7 +123,7 @@ describe('HTMLStatementList', () => {
       const store = createMockStore(mockState);
       const wrapper = mount(
         <Provider store={store}>
-          <HTMLStatementList selectedId="4" />
+          <PreviousStatements selectedId="4" />
         </Provider>,
       );
 
@@ -155,7 +155,7 @@ describe('HTMLStatementList', () => {
       const store = createMockStore(mockState);
       const wrapper = mount(
         <Provider store={store}>
-          <HTMLStatementList selectedId="999" />
+          <PreviousStatements selectedId="999" />
         </Provider>,
       );
 
@@ -200,7 +200,7 @@ describe('HTMLStatementList', () => {
       const store = createMockStore(mockState);
       const wrapper = mount(
         <Provider store={store}>
-          <HTMLStatementList selectedId="2" />
+          <PreviousStatements selectedId="2" />
         </Provider>,
       );
 
@@ -233,11 +233,11 @@ describe('HTMLStatementList', () => {
       const store = createMockStore(mockState);
       const wrapper = mount(
         <Provider store={store}>
-          <HTMLStatementList selectedId="1" />
+          <PreviousStatements selectedId="1" />
         </Provider>,
       );
 
-      expect(wrapper.find(HTMLStatementList).children()).to.have.lengthOf(0);
+      expect(wrapper.find(PreviousStatements).children()).to.have.lengthOf(0);
       wrapper.unmount();
     });
 
@@ -257,11 +257,11 @@ describe('HTMLStatementList', () => {
       const store = createMockStore(mockState);
       const wrapper = mount(
         <Provider store={store}>
-          <HTMLStatementList selectedId="1" />
+          <PreviousStatements selectedId="1" />
         </Provider>,
       );
 
-      expect(wrapper.find(HTMLStatementList).children()).to.have.lengthOf(0);
+      expect(wrapper.find(PreviousStatements).children()).to.have.lengthOf(0);
       wrapper.unmount();
     });
 
@@ -297,7 +297,7 @@ describe('HTMLStatementList', () => {
       const store = createMockStore(mockState);
       const wrapper = mount(
         <Provider store={store}>
-          <HTMLStatementList selectedId="1" />
+          <PreviousStatements selectedId="1" />
         </Provider>,
       );
 
@@ -340,7 +340,7 @@ describe('HTMLStatementList', () => {
       const store = createMockStore(mockState);
       const wrapper = mount(
         <Provider store={store}>
-          <HTMLStatementList selectedId="1" />
+          <PreviousStatements selectedId="1" />
         </Provider>,
       );
 
@@ -367,11 +367,11 @@ describe('HTMLStatementList', () => {
       const store = createMockStore(mockState);
       const wrapper = mount(
         <Provider store={store}>
-          <HTMLStatementList selectedId="1" />
+          <PreviousStatements selectedId="1" />
         </Provider>,
       );
 
-      expect(wrapper.find(HTMLStatementList).children()).to.have.lengthOf(0);
+      expect(wrapper.find(PreviousStatements).children()).to.have.lengthOf(0);
       wrapper.unmount();
     });
 
@@ -391,11 +391,11 @@ describe('HTMLStatementList', () => {
       const store = createMockStore(mockState);
       const wrapper = mount(
         <Provider store={store}>
-          <HTMLStatementList selectedId="1" />
+          <PreviousStatements selectedId="1" />
         </Provider>,
       );
 
-      expect(wrapper.find(HTMLStatementList).children()).to.have.lengthOf(0);
+      expect(wrapper.find(PreviousStatements).children()).to.have.lengthOf(0);
       wrapper.unmount();
     });
   });

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { showVHAPaymentHistory } from '../../combined/utils/helpers';
 import HTMLStatementLink from './HTMLStatementLink';
 
-const HTMLStatementList = ({ selectedId }) => {
+const PreviousStatements = ({ selectedId }) => {
   const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
     useSelector(state => state),
   );
@@ -69,8 +69,8 @@ const HTMLStatementList = ({ selectedId }) => {
   );
 };
 
-HTMLStatementList.propTypes = {
+PreviousStatements.propTypes = {
   selectedId: PropTypes.string,
 };
 
-export default HTMLStatementList;
+export default PreviousStatements;

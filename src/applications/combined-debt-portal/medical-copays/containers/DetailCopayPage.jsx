@@ -6,7 +6,7 @@ import Modals from '../../combined/components/Modals';
 import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
 import StatementCharges from '../components/StatementCharges';
-import HTMLStatementList from '../components/HTMLStatementList';
+import PreviousStatements from '../components/PreviousStatements';
 import StatementAddresses from '../components/StatementAddresses';
 import NeedHelpCopay from '../components/NeedHelpCopay';
 import {
@@ -247,7 +247,7 @@ const DetailCopayPage = ({ match }) => {
             fullName={fullName}
           />
         </div>
-        <HTMLStatementList selectedId={selectedId} />
+        <PreviousStatements selectedId={selectedId} />
         <StatementAddresses
           data-testid="statement-addresses"
           copay={selectedCopay}
