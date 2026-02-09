@@ -44,11 +44,7 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: ({ afterHook }) => {
-        afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'a' })
-            .first()
-            .click();
-        });
+        afterHook(() => cy.clickStartForm());
       },
       // When we land on this screener page, progressing through the form is
       // blocked (by design). To successfully complete the test,
