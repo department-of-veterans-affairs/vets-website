@@ -74,6 +74,7 @@ import {
   evidenceTypes,
   evidenceTypesBDD,
   evidenceChoiceIntro,
+  evidenceChoiceAdditionalDocuments,
   federalOrders,
   finalIncident,
   fullyDevelopedClaim,
@@ -724,19 +725,20 @@ const formConfig = {
           schema: evidenceChoiceIntro.schema,
         },
         evidenceChoiceAdditionalDocuments: {
-          title: 'Non-VA treatment records you uploaded',
-          // NOTE: a temporary copy of `additionalDocuments` for testing purposes
+          title: 'Upload supporting documents and additional forms',
           path: 'supporting-evidence/additional-evidence-enhancement',
           depends: formData =>
             hasEvidenceChoice(formData) &&
             formData.disability526SupportingEvidenceEnhancement,
-          uiSchema: additionalDocuments.uiSchema,
-          schema: additionalDocuments.schema,
+          uiSchema: evidenceChoiceAdditionalDocuments.uiSchema,
+          schema: evidenceChoiceAdditionalDocuments.schema,
         },
         additionalDocuments: {
           title: 'Non-VA treatment records you uploaded',
           path: 'supporting-evidence/additional-evidence',
-          depends: hasOtherEvidence,
+          depends: formData =>
+            hasOtherEvidence(formData) &&
+            !formData.disability526SupportingEvidenceEnhancement,
           uiSchema: additionalDocuments.uiSchema,
           schema: additionalDocuments.schema,
         },

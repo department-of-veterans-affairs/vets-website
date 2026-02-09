@@ -12,6 +12,7 @@ describe('VAOS Component: AfterVisitSummary', () => {
   const initialAvsState = {
     featureToggles: {
       vaOnlineSchedulingAddOhAvs: true,
+      travelPayViewClaimDetails: false,
     },
   };
   let sandbox;
@@ -55,7 +56,7 @@ describe('VAOS Component: AfterVisitSummary', () => {
     );
 
     // Assert
-    expect(screen.queryByTestId('after-vist-summary-link')).to.exist;
+    expect(screen.queryByTestId('after-visit-summary-link')).to.exist;
   });
 
   it('Should display after visit summary link error message', async () => {
@@ -68,13 +69,35 @@ describe('VAOS Component: AfterVisitSummary', () => {
     const screen = renderWithStoreAndRouter(
       <AfterVisitSummary data={appointment} />,
       {
-        initialState,
+        initialState: initialAvsState,
       },
     );
 
     await screen.findByRole('heading', {
       name: /We can't access after-visit summaries at this time./i,
     });
+  });
+
+  it('Should return null when avsError exists and travel pay feature is enabled', () => {
+    // Arrange
+    const appointment = {
+      avsError: 'Error retrieving AVS info',
+    };
+
+    const stateWithTravelPay = {
+      featureToggles: {
+        travelPayViewClaimDetails: true,
+      },
+    };
+
+    // Act
+    const { container } = renderWithStoreAndRouter(
+      <AfterVisitSummary data={appointment} />,
+      { initialState: stateWithTravelPay },
+    );
+
+    // Assert - When feature flag is enabled, AfterVisitSummary returns null (ErrorAlert handles it)
+    expect(container.firstChild).to.not.exist;
   });
 
   it('Should record google analytics when after visit summary link is clicked ', () => {
@@ -87,14 +110,14 @@ describe('VAOS Component: AfterVisitSummary', () => {
     const screen = renderWithStoreAndRouter(
       <AfterVisitSummary data={appointment} />,
       {
-        initialState,
+        initialState: initialAvsState,
       },
     );
 
     // Assert
-    expect(screen.queryByTestId('after-vist-summary-link')).to.exist;
+    expect(screen.queryByTestId('after-visit-summary-link')).to.exist;
 
-    userEvent.click(screen.queryByTestId('after-vist-summary-link'));
+    userEvent.click(screen.queryByTestId('after-visit-summary-link'));
     expect(window.dataLayer[0]).to.deep.equal({
       event: 'vaos-after-visit-summary-link-clicked',
     });
