@@ -15,9 +15,7 @@ const PreviousStatements = ({ selectedId }) => {
     useSelector(state => state.combinedPortal.mcp.statements) || [];
 
   const previousStatements = shouldShowVHAPaymentHistory
-    ? (copayDetail?.attributes?.recentStatements || []).filter(
-        copay => copay.id !== selectedId,
-      )
+    ? copayDetail?.attributes?.recentStatements || []
     : (() => {
         // Legacy logic for old data
         const selectedCopay = allStatements.find(({ id }) => id === selectedId);

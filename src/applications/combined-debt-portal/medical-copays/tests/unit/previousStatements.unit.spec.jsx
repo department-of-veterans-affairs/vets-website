@@ -86,7 +86,7 @@ const legacyState = statements =>
 
 describe('PreviousStatements', () => {
   describe('when showVHAPaymentHistory is true', () => {
-    it('should render when recentStatements exist and filter out current statement', () => {
+    it('should render when recentStatements exist', () => {
       const store = createMockStore(
         vhaState([
           vhaStatement('1', '2024-01-01'),
@@ -104,7 +104,7 @@ describe('PreviousStatements', () => {
       expect(wrapper.find('[data-testid="view-statements"]')).to.have.lengthOf(
         1,
       );
-      expect(wrapper.find(HTMLStatementLink)).to.have.lengthOf(2);
+      expect(wrapper.find(HTMLStatementLink)).to.have.lengthOf(3);
       wrapper.unmount();
     });
 
@@ -153,10 +153,11 @@ describe('PreviousStatements', () => {
       );
 
       const links = wrapper.find(HTMLStatementLink);
-      expect(links).to.have.lengthOf(3);
+      expect(links).to.have.lengthOf(4);
       expect(links.at(0).prop('statementDate')).to.equal('2024-01-01');
       expect(links.at(1).prop('statementDate')).to.equal('2024-03-01');
       expect(links.at(2).prop('statementDate')).to.equal('2024-02-01');
+      expect(links.at(3).prop('statementDate')).to.equal('2024-04-01');
       wrapper.unmount();
     });
 
