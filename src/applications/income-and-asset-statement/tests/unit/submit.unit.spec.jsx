@@ -50,17 +50,6 @@ describe('Income and asset submit', () => {
       spy.restore();
     });
     describe('remap `otherVeteran` fields', () => {
-      it('calls remapOtherVeteranFields when not logged in', () => {
-        const form = {
-          data: {
-            isLoggedIn: false,
-          },
-        };
-
-        SubmitModule.transform(form);
-        expect(spy.calledOnce).to.be.true;
-      });
-
       it('calls remapOtherVeteranFields when isLoggedIn is undefined', () => {
         const form = {
           data: {},
@@ -70,7 +59,7 @@ describe('Income and asset submit', () => {
         expect(spy.calledOnce).to.be.true;
       });
 
-      it('calls remapOtherVeteranFields when logged in and claimantType is not VETERAN', () => {
+      it('calls remapOtherVeteranFields when claimantType is not VETERAN', () => {
         const form = {
           data: {
             isLoggedIn: true,
@@ -82,7 +71,7 @@ describe('Income and asset submit', () => {
         expect(spy.calledOnce).to.be.true;
       });
 
-      it('does not call remapOtherVeteranFields when logged in and claimantType is VETERAN', () => {
+      it('does not call remapOtherVeteranFields when claimantType is VETERAN', () => {
         const form = {
           data: {
             isLoggedIn: true,
