@@ -1,8 +1,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
-
-import GovBanner from '../../../../components/Header/GovBanner';
+import GovBanner from '~/platform/site-wide/representative/components/header/GovBanner';
 
 describe('GovBanner', () => {
   it('renders toggle text on mobile', () => {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createMemoryHistory } from 'history-v4';
 import ReactTestUtils from 'react-dom/test-utils';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -132,38 +132,69 @@ function mockFetch(returnVal, shouldResolve = true) {
 }
 
 export function setFetchJSONResponse(stub, data = null) {
-  const response = new Response();
-  response.ok = true;
-  response.url = environment.API_URL;
+  // Use status 200 to make ok = true (read-only in Node 22)
+  const response = new Response(null, {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  // Define url as a writable property (read-only in native Response)
+  Object.defineProperty(response, 'url', {
+    value: environment.API_URL,
+    writable: true,
+    configurable: true,
+  });
+
   if (data) {
-    response.headers.set('Content-Type', 'application/json');
     response.json = () => Promise.resolve(data);
   }
   stub.resolves(response);
 }
 
 export function setFetchJSONFailure(stub, data) {
+  // Use status 400 to make ok = false (read-only in Node 22)
   const response = new Response(null, {
+    status: 400,
     headers: { 'content-type': ['application/json'] },
   });
-  response.ok = false;
-  response.url = environment.API_URL;
+
+  // Define url as a writable property (read-only in native Response)
+  Object.defineProperty(response, 'url', {
+    value: environment.API_URL,
+    writable: true,
+    configurable: true,
+  });
+
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
 
 export function setFetchBlobResponse(stub, data) {
-  const response = new Response();
-  response.ok = true;
-  response.url = environment.API_URL;
+  // Use status 200 to make ok = true (read-only in Node 22)
+  const response = new Response(null, { status: 200 });
+
+  // Define url as a writable property (read-only in native Response)
+  Object.defineProperty(response, 'url', {
+    value: environment.API_URL,
+    writable: true,
+    configurable: true,
+  });
+
   response.blob = () => Promise.resolve(data);
   stub.resolves(response);
 }
 
 export function setFetchBlobFailure(stub, error) {
-  const response = new Response();
-  response.ok = false;
-  response.url = environment.API_URL;
+  // Use status 400 to make ok = false (read-only in Node 22)
+  const response = new Response(null, { status: 400 });
+
+  // Define url as a writable property (read-only in native Response)
+  Object.defineProperty(response, 'url', {
+    value: environment.API_URL,
+    writable: true,
+    configurable: true,
+  });
+
   response.blob = () => Promise.reject(new Error(error));
   stub.resolves(response);
 }
@@ -258,6 +289,15 @@ const createTestHistory = (path = '/') => {
   const history = createMemoryHistory({ initialEntries: [path] });
   sinon.spy(history, 'replace');
   sinon.spy(history, 'push');
+
+  // Add backwards-compatible .reset() method for sinon-v20
+  // In sinon v20, .reset() was renamed to .resetHistory()
+  if (!history.replace.reset) {
+    history.replace.reset = history.replace.resetHistory;
+  }
+  if (!history.push.reset) {
+    history.push.reset = history.push.resetHistory;
+  }
 
   return history;
 };
