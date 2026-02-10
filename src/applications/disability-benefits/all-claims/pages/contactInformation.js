@@ -184,25 +184,6 @@ export const schema = {
         postalCode: 'zipCode',
         isMilitary: 'view:livesOnMilitaryBase',
       },
-      // NOTE: No `extend` overrides here. The platform's profileAddress uses
-      // maxLength: 100, but we intentionally do NOT override it to 20/30.
-      // Doing so would cause JSON schema to check raw values (before
-      // normalization), falsely triggering edit mode for data with extra
-      // spaces that normalizes to under the limit.
-      //
-      // Instead, all 526EZ-specific validation (maxLength + pattern) is
-      // handled through normalized paths:
-      //
-      // 1. startInEdit (hasInvalidPrefillData) — forces ReviewCardField into
-      //    edit mode when prefilled data is invalid AFTER normalization.
-      //    Checks both maxLength and pattern. This prevents false triggers
-      //    from extra spaces while catching genuinely invalid data.
-      //
-      // 2. createAddressValidator (ui:validations) — validates on user
-      //    interaction with the same normalization + friendly error messages.
-      //
-      // 3. Prefill normalization — trims/collapses spaces at data entry time
-      //    in prefillTransformer, and at submit time in cleanUpMailingAddress.
     }),
     'view:contactInfoDescription': {
       type: 'object',
