@@ -14,6 +14,7 @@ import {
   PROFILE_PATH_NAMES,
   PROFILE_PATHS,
   SERVICE_BADGE_IMAGE_PATHS,
+  VA_SEAL_IMAGE_PATH,
 } from '../../constants';
 import { getServiceBranchDisplayName, handleRouteChange } from '../../helpers';
 import { formatFullName } from '../../../common/helpers';
@@ -21,7 +22,6 @@ import { formatFullName } from '../../../common/helpers';
 const NameTag = ({
   userFullName: { first, middle, last, suffix },
   latestBranchOfService,
-  showBadgeImage,
 }) => {
   const history = useHistory();
 
@@ -74,6 +74,12 @@ const NameTag = ({
     latestBranch: [...latestBranchClasses].join(' '),
   };
 
+  const sealSrc =
+    SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService) || VA_SEAL_IMAGE_PATH;
+  const sealAlt = SERVICE_BADGE_IMAGE_PATHS.has(latestBranchOfService)
+    ? `${getServiceBranchDisplayName(latestBranchOfService)} seal`
+    : 'VA seal';
+
   const ariaLabel = 'My information';
 
   return (
@@ -83,14 +89,12 @@ const NameTag = ({
       className={classes.wrapper}
     >
       <div className={classes.serviceBadge}>
-        {showBadgeImage && (
-          <img
-            src={SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService)}
-            alt={`${latestBranchOfService} seal`}
-            className="vads-u-padding-right--3"
-            style={{ maxHeight: '75px' }}
-          />
-        )}
+        <img
+          src={sealSrc}
+          alt={sealAlt}
+          className="vads-u-padding-right--3"
+          style={{ maxHeight: '75px' }}
+        />
       </div>
       <div>
         <dl className="vads-u-margin-y--0 dd-privacy-mask">
@@ -127,7 +131,6 @@ const mapStateToProps = state => {
   return {
     userFullName: state.vaProfile?.hero?.userFullName,
     latestBranchOfService,
-    showBadgeImage: SERVICE_BADGE_IMAGE_PATHS.has(latestBranchOfService),
   };
 };
 
@@ -143,7 +146,6 @@ NameTag.defaultProps = {
 
 NameTag.propTypes = {
   latestBranchOfService: PropTypes.string,
-  showBadgeImage: PropTypes.bool,
   userFullName: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,

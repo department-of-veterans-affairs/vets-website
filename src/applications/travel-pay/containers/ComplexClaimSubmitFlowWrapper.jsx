@@ -64,9 +64,9 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { apptId, claimId } = useParams();
-  const isErrorRoute = window?.location?.pathname?.endsWith('/get-claim-error');
-  const [shouldRedirect, setShouldRedirect] = useState(false);
   const location = useLocation();
+  const isErrorRoute = location.pathname.endsWith('/get-claim-error');
+  const [shouldRedirect, setShouldRedirect] = useState(false);
   const [
     isUnsavedChangesModalVisible,
     setIsUnsavedChangesModalVisible,
