@@ -14,11 +14,29 @@ import { UploadDocumentsReview } from '../components/UploadDocumentsReview';
 export const DocumentTypeSelect = () => {
   const formData = useSelector(state => state?.form?.data);
   const requiredDocumentTypes = [];
-  if (
-    formData?.identity === serviceStatuses.ADSM &&
-    formData?.militaryHistory?.purpleHeartRecipient
-  ) {
-    requiredDocumentTypes.push('Purple Heart Certificate');
+  if (formData?.identity === serviceStatuses.VETERAN) {
+    requiredDocumentTypes.push('Discharge papers (DD214)');
+  } else if (formData?.identity === serviceStatuses.ADSM) {
+    requiredDocumentTypes.push('Statement of Service');
+    if (formData?.militaryHistory?.purpleHeartRecipient) {
+      requiredDocumentTypes.push('Purple Heart Certificate');
+    }
+  } else if (formData?.identity === serviceStatuses.NADNA) {
+    requiredDocumentTypes.push(
+      'Statement of Service',
+      'Creditable number of years',
+      'Retirement Points Statement',
+    );
+  }
+  else if (formData?.identity === serviceStatuses.DNANA) {
+    requiredDocumentTypes.push(
+      'Separation and Report of Service', 'Retirement Points Accounting', 'Proof of character of service', 'Department of Defense Discharge Certificate'
+    );
+  }
+  else if (formData?.identity === serviceStatuses.DRNA) {
+    requiredDocumentTypes.push(
+      'Separation and Report of Service', 'Retirement Points Accounting', 'Proof of character of service', 'Department of Defense Discharge Certificate'
+    );
   }
   return (
     <VaSelect required label="Document type" name="attachmentType">
@@ -78,8 +96,8 @@ const requiredDocumentMessages = {
       <ul>
         <li>Statement of Service</li>
         <li>
-          Creditable number of years served or Retirement Points Statement or
-          equivalent
+          Creditable number of years served <strong>or</strong> Retirement
+          Points Statement or equivalent
         </li>
       </ul>
       {statementOfServiceInfo}
