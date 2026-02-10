@@ -4,6 +4,7 @@ import {
   refresh,
 } from 'platform/utilities/oauth/utilities';
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { logger } from '@bio-aquia/shared/utils/logger';
 
 const TOKEN_EXPIRATION_BUFFER = 120; // expiration buffer set to two minutes.
@@ -82,7 +83,7 @@ export const customSubmit = async (form, formConfig) => {
   // This converts frontend form structure to backend API schema
   const body = formConfig.transformForSubmit
     ? formConfig.transformForSubmit(formConfig, form)
-    : JSON.stringify(form.data);
+    : transformForSubmit(formConfig, form);
 
   // Submit to the API using platform's submitToUrl function
   // This still includes the reactive 403 retry logic as a safety net

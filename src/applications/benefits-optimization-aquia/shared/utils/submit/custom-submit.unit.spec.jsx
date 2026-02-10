@@ -15,6 +15,7 @@ describe('customSubmit', () => {
   let getInfoTokenStub;
   let refreshStub;
   let submitToUrlStub;
+  let platformTransformStub;
   let customSubmit;
 
   const mockFormConfig = {
@@ -39,6 +40,7 @@ describe('customSubmit', () => {
     getInfoTokenStub = sandbox.stub();
     refreshStub = sandbox.stub().resolves();
     submitToUrlStub = sandbox.stub().resolves({ success: true });
+    platformTransformStub = sandbox.stub().returns('{"transformed":"data"}');
 
     // Set default service name in sessionStorage
     sessionStorage.setItem('serviceName', 'idme');
@@ -54,6 +56,11 @@ describe('customSubmit', () => {
       .callsFake(infoTokenExistsStub);
     sandbox.stub(platformUtils, 'getInfoToken').callsFake(getInfoTokenStub);
     sandbox.stub(platformUtils, 'refresh').callsFake(refreshStub);
+
+    const platformHelpers = await import('platform/forms-system/src/js/helpers');
+    sandbox
+      .stub(platformHelpers, 'transformForSubmit')
+      .callsFake(platformTransformStub);
 
     const platformActions = await import('platform/forms-system/src/js/actions');
     sandbox.stub(platformActions, 'submitToUrl').callsFake(submitToUrlStub);
@@ -226,7 +233,7 @@ describe('customSubmit', () => {
   });
 
   describe('Form Transformation and Submission', () => {
-    it('should use JSON.stringify if no transformer provided', async () => {
+    it('should use platform transformForSubmit if no custom transformer provided', async () => {
       infoTokenExistsStub.returns(false);
 
       const configWithoutTransformer = {
@@ -236,13 +243,9 @@ describe('customSubmit', () => {
 
       await customSubmit(mockForm, configWithoutTransformer);
 
-      const expectedBody = JSON.stringify(mockForm.data);
+      expect(platformTransformStub.calledOnce).to.be.true;
       expect(
-        submitToUrlStub.calledWith(
-          expectedBody,
-          configWithoutTransformer.submitUrl,
-          configWithoutTransformer.trackingPrefix,
-        ),
+        platformTransformStub.calledWith(configWithoutTransformer, mockForm),
       ).to.be.true;
     });
 
