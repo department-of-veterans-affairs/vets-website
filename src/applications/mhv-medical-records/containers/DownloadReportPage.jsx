@@ -297,13 +297,11 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           vistaFacilityNames={vistaFacilityNames}
           showHoldTimeMessaging={holdTimeMessagingUpdate}
         />
-        {dataSourceType !== dataSourceTypes.OH_ONLY && (
-          <BlueButtonSection
-            activeAlert={activeAlert}
-            failedBBDomains={failedBBDomains}
-            successfulBBDownload={successfulBBDownload}
-          />
-        )}
+        <BlueButtonSection
+          activeAlert={activeAlert}
+          failedBBDomains={failedBBDomains}
+          successfulBBDownload={successfulBBDownload}
+        />
         {renderContent()}
         <NeedHelpSection />
       </div>
