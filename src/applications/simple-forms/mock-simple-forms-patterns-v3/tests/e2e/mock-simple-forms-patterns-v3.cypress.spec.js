@@ -22,7 +22,8 @@ function addFile(option, elementName) {
   cy.wait(1000);
 
   cy.get('va-file-input-multiple')
-    .shadow('va-file-input')
+    .shadow()
+    .find('va-file-input')
     .first()
     .find('va-select')
     .then($select => {
