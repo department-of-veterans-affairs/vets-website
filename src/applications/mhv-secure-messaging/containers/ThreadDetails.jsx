@@ -112,10 +112,13 @@ const ThreadDetails = props => {
   const content = () => {
     if (!isLoaded) {
       return (
-        <va-loading-indicator
-          message="Loading your secure message..."
-          setFocus
-        />
+        <>
+          <AlertBackgroundBox closeable />
+          <va-loading-indicator
+            message="Loading your secure message..."
+            setFocus
+          />
+        </>
       );
     }
     if (drafts?.length > 0 && messages?.length > 0) {
@@ -209,13 +212,20 @@ const ThreadDetails = props => {
       );
     }
     if (message !== undefined && message === null) {
-      <va-alert status="error" visible class="vads-u-margin-y--9">
-        <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
-        <p>
-          You can’t view your secure message because something went wrong on our
-          end. Please check back soon.
-        </p>
-      </va-alert>;
+      return (
+        <>
+          <AlertBackgroundBox closeable />
+          <va-alert status="error" visible class="vads-u-margin-y--9">
+            <h2 slot="headline">
+              We’re sorry. Something went wrong on our end
+            </h2>
+            <p>
+              You can’t view your secure message because something went wrong on
+              our end. Please check back soon.
+            </p>
+          </va-alert>
+        </>
+      );
     }
     return null;
   };
