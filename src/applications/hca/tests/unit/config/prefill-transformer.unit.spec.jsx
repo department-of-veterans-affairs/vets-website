@@ -95,8 +95,8 @@ describe('hca `prefillTransformer` utility', () => {
   it('should return correct form data when profile data omits all addresses', () => {
     const prefillData = getData();
     expect(Object.keys(prefillData)).to.have.lengthOf(16);
-    expect(Object.keys(prefillData).veteranAddress).to.not.exist;
-    expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
+    expect(prefillData.veteranAddress).to.not.exist;
+    expect(prefillData.veteranHomeAddress).to.not.exist;
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(undefined);
   });
 
@@ -109,7 +109,7 @@ describe('hca `prefillTransformer` utility', () => {
   it('should return correct form data when profile data omits mailing address', () => {
     const prefillData = getData({ residentialAddress });
     expect(Object.keys(prefillData)).to.have.lengthOf(17);
-    expect(prefillData.veteranAddress).to.equal(undefined);
+    expect(prefillData.veteranHomeAddress).to.exist;
     expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(7);
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(undefined);
   });
@@ -117,7 +117,9 @@ describe('hca `prefillTransformer` utility', () => {
   it('should return correct form data when profile data includes mailing address that does not match residential address', () => {
     const prefillData = getData({ residentialAddress, mailingAddress });
     expect(Object.keys(prefillData)).to.have.lengthOf(18);
+    expect(prefillData.veteranAddress).to.exist;
     expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(7);
+    expect(prefillData.veteranHomeAddress).to.exist;
     expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(7);
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.false;
   });
@@ -128,7 +130,8 @@ describe('hca `prefillTransformer` utility', () => {
       mailingAddress: residentialAddress,
     });
     expect(Object.keys(prefillData)).to.have.lengthOf(17);
-    expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
+    expect(prefillData.veteranHomeAddress).to.not.exist;
+    expect(prefillData.veteranAddress).to.exist;
     expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(7);
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.true;
   });
