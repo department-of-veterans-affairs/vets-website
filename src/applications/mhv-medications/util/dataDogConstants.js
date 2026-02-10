@@ -8,9 +8,10 @@ import {
 
 export const pageType = {
   DETAILS: 'Details Page',
+  DOCUMENTATION: 'Documentation',
+  IN_PROGRESS: 'In-progress',
   LIST: 'List Page',
   REFILL: 'Refill Page',
-  DOCUMENTATION: 'Documentation',
 };
 
 export const dataDogActionNames = {
@@ -43,6 +44,16 @@ export const dataDogActionNames = {
     GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
       pageType.LIST
     }`,
+    GO_TO_ALLERGIES_AND_REACTIONS_LINK: `Go to allergies and reactions link - ${
+      pageType.LIST
+    }`,
+    LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK: `Learn more about managing medications online link - ${
+      pageType.LIST
+    }`,
+    START_A_NEW_MESSAGE_LINK: `Start a new message link - ${pageType.LIST}`,
+    GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${
+      pageType.LIST
+    }`,
   },
   detailsPage: {
     COMPOSE_A_MESSAGE_LINK: `Compose A Message Link - ${pageType.DETAILS}`,
@@ -73,6 +84,16 @@ export const dataDogActionNames = {
     }`,
     REFILL_ALERT_LINK: `Med Link in Delay Alert - ${pageType.REFILL}`,
     GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
+      pageType.REFILL
+    }`,
+    GO_TO_ALLERGIES_AND_REACTIONS_LINK: `Go to allergies and reactions link - ${
+      pageType.REFILL
+    }`,
+    LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK: `Learn more about managing medications online link - ${
+      pageType.REFILL
+    }`,
+    START_A_NEW_MESSAGE_LINK: `Start a new message link - ${pageType.REFILL}`,
+    GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${
       pageType.REFILL
     }`,
   },
