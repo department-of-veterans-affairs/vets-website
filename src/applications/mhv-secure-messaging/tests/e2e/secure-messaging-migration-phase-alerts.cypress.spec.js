@@ -66,12 +66,12 @@ const updateMigrationPhase = (threadData, inboxData, phase) => {
 };
 
 const validateMigrationAlert = shouldExist => {
-  cy.findByText(
-    'You can’t use messages to contact providers at some facilities right now',
-  ).should(shouldExist ? 'exist' : 'not.exist');
-  cy.contains(
-    'You can’t send or receive new messages or reply to conversations with providers at',
-  ).should(shouldExist ? 'exist' : 'not.exist');
+  cy.findByText(Alerts.MIGRATION_ALERT_H2).should(
+    shouldExist ? 'exist' : 'not.exist',
+  );
+  cy.contains(Alerts.MIGRATION_ALERT_BODY).should(
+    shouldExist ? 'exist' : 'not.exist',
+  );
 };
 
 describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
