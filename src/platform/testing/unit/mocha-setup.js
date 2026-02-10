@@ -326,6 +326,22 @@ function setupJSDom() {
       return null;
     };
   }
+
+  // Stub customElements for web component support (JSDOM 20 doesn't have it)
+  // This allows web components from @department-of-veterans-affairs/web-components
+  // to be defined and used in tests
+  if (!window.customElements) {
+    const customElementsRegistry = new Map();
+    window.customElements = {
+      define: (name, constructor) => {
+        customElementsRegistry.set(name, constructor);
+      },
+      get: name => customElementsRegistry.get(name),
+      whenDefined: name => {
+        return Promise.resolve(customElementsRegistry.get(name));
+      },
+    };
+  }
 }
 /* eslint-disable no-console */
 
