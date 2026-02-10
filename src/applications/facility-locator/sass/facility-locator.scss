@@ -23,6 +23,11 @@ $text-color: rgba(27, 27, 27, 1);
     color: var(--vads-color-base-darker);
   }
 
+  .service-hint-text {
+    color: var(--vads-color-base-darker);
+    margin: 0.25rem 0 0.5rem 0;
+  }
+
   .p1 {
     padding: 0.5em 0;
   }

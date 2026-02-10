@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import { useCombobox } from 'downshift-v9';
@@ -7,12 +7,14 @@ import useServiceType, {
 } from '../../../hooks/useServiceType';
 import Autosuggest from '../autosuggest';
 
+const ALL_VA_HEALTH_SERVICES = 'All VA health services';
+
 const VAMCServiceAutosuggest = ({
   committedServiceDisplay,
   isMobile,
-  onDraftChange,
   searchInitiated,
   setSearchInitiated,
+  onDraftChange,
 }) => {
   const { selector, serviceTypeFilter } = useServiceType();
   const [inputValue, setInputValue] = useState(null);
@@ -20,86 +22,119 @@ const VAMCServiceAutosuggest = ({
   const [allVAMCServices, setAllVAMCServices] = useState([]);
   const inputRef = useRef(null);
 
-  const getServices = input => {
-    const services = serviceTypeFilter(
-      input || null,
-      FACILITY_TYPE_FILTERS.VAMC,
-    );
+  // Track inputValue via ref for the committedServiceDisplay effect,
+  // which needs to check inputValue without re-running when it changes
+  const inputValueRef = useRef(inputValue);
+  inputValueRef.current = inputValue;
 
-    if (!services?.length) {
-      setOptions([]);
-    }
+  const getServices = useCallback(
+    input => {
+      const services = serviceTypeFilter(
+        input || null,
+        FACILITY_TYPE_FILTERS.VAMC,
+      );
 
-    const serviceOptions = services.map(service => {
-      let displayName = service?.[0];
-
-      if (displayName && service?.[1]) {
-        displayName = `${displayName} (${service?.[1]})`;
-      } else if (!displayName) {
-        return null;
+      if (!services?.length) {
+        setOptions([]);
       }
 
-      return {
-        id: service[0],
-        serviceId: service[3],
-        toDisplay: displayName,
-      };
-    });
+      const serviceOptions = services.map(service => {
+        let displayName = service?.[0];
 
-    if (serviceOptions?.length) {
-      setOptions(serviceOptions);
+        if (displayName && service?.[1]) {
+          displayName = `${displayName} (${service?.[1]})`;
+        } else if (!displayName) {
+          return null;
+        }
 
-      if (!allVAMCServices?.length) {
-        setAllVAMCServices(serviceOptions);
-      }
-    }
-  };
+        return {
+          id: service[0],
+          serviceId: service[3],
+          toDisplay: displayName,
+        };
+      });
 
-  useEffect(
-    () => {
-      if (selector?.data) {
-        getServices();
-      }
-
-      // Handles edge cases where the form might be re-rendered between
-      // viewpoints or for any other reason and the autosuggest input is lost
-      if (!inputValue && committedServiceDisplay) {
-        setInputValue(committedServiceDisplay);
+      if (serviceOptions?.length) {
+        setOptions(serviceOptions);
+        setAllVAMCServices(prev => (prev.length ? prev : serviceOptions));
       }
     },
-    [selector],
+    [serviceTypeFilter],
+  );
+
+  // Initialize services when selector data becomes available
+  useEffect(
+    () => {
+      if (selector?.data && !allVAMCServices.length) {
+        getServices();
+      }
+    },
+    [selector, allVAMCServices.length, getServices],
+  );
+
+  // Handles edge cases where the form might be re-rendered between
+  // viewpoints or for any other reason and the autosuggest input is lost.
+  // Also clears input when committedServiceDisplay becomes null (e.g., facility type change)
+  useEffect(
+    () => {
+      if (committedServiceDisplay) {
+        // Only set if input is currently empty to avoid overwriting user input
+        if (!inputValueRef.current) {
+          setInputValue(committedServiceDisplay);
+        }
+      } else if (
+        inputValueRef.current &&
+        committedServiceDisplay === null &&
+        inputRef.current &&
+        document.activeElement !== inputRef.current
+      ) {
+        // Clear input when committedServiceDisplay is explicitly null
+        // This happens when user changes facility type
+        // Only clear if the input field is not currently focused (prevents clearing mid-typing)
+        setInputValue(null);
+        setOptions(allVAMCServices);
+      }
+    },
+    [committedServiceDisplay, allVAMCServices],
   );
 
   // If the user has not typed a service at all, or types something that does not
   // match any of the services, we'll search for "All VA health services" when the
-  // search button is clicked. This just prefills the input with that text so it won't
-  // be a confusing experience for the user.
-  // The searchInitiated variable is only used for this purpose so we reset it at the bottom
+  // search button is clicked. This prefills the input and updates the form state
+  // so the URL params reflect the actual service type being searched.
   useEffect(
     () => {
-      if (searchInitiated) {
-        const selectedValueFromDropdown = options?.filter(
-          service => service.toDisplay === inputValue,
-        )?.[0];
+      if (!searchInitiated) return;
 
-        const typedValueHasNoMatch =
-          inputValue?.length &&
-          inputValue !== selectedValueFromDropdown?.toDisplay;
+      const matchedService = options.find(
+        service => service.toDisplay === inputValue,
+      );
 
-        if (typedValueHasNoMatch || !inputValue) {
-          setInputValue('All VA health services');
+      if (!matchedService) {
+        const allServicesOption = options.find(
+          service => service.id === ALL_VA_HEALTH_SERVICES,
+        );
+
+        setInputValue(ALL_VA_HEALTH_SERVICES);
+
+        if (onDraftChange && allServicesOption) {
+          onDraftChange({
+            serviceType: allServicesOption.serviceId,
+            vamcServiceDisplay: allServicesOption.toDisplay,
+          });
         }
       }
 
       setSearchInitiated(false);
     },
-    [options, searchInitiated],
+    [options, searchInitiated, inputValue, onDraftChange, setSearchInitiated],
   );
 
   const handleClearClick = () => {
-    onDraftChange?.({ serviceType: null, vamcServiceDisplay: null });
     setInputValue(null);
     setOptions(allVAMCServices);
+
+    onDraftChange?.({ serviceType: null, vamcServiceDisplay: null });
 
     if (inputRef?.current) {
       focusElement(inputRef.current);
@@ -198,9 +233,9 @@ const VAMCServiceAutosuggest = ({
 VAMCServiceAutosuggest.propTypes = {
   committedServiceDisplay: PropTypes.string,
   isMobile: PropTypes.bool,
-  onDraftChange: PropTypes.func,
   searchInitiated: PropTypes.bool,
   setSearchInitiated: PropTypes.func,
+  onDraftChange: PropTypes.func,
 };
 
 export default VAMCServiceAutosuggest;

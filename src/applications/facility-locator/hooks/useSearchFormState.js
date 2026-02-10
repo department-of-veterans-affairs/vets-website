@@ -4,6 +4,7 @@ import {
   validateForm,
 } from '../reducers/searchQuery';
 
+/** Manages draft form state before Redux commit (dual-state pattern). */
 const useSearchFormState = currentQuery => {
   const [selectedServiceType, setSelectedServiceType] = useState(null);
 

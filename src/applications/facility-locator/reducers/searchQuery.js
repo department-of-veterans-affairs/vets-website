@@ -16,40 +16,37 @@ import {
   CLEAR_SEARCH_TEXT,
   GEOLOCATE_USER,
 } from '../actions/actionTypes';
+// Test data fallback for localhost (same pattern as useServiceType hook)
 import vaHealthcareServices from '../tests/hooks/test-va-healthcare-services.json';
 
-// VA health services array indices (from Drupal CMS data structure)
-const SERVICE_INDEX = {
-  DISPLAY_NAME: 0,
-  SERVICE_ID: 3,
-};
-
 /**
- * Returns VA health services data with localhost fallback.
- * On localhost the JSON endpoint returns 404, so we use test data.
+ * Selector that returns VA health services data, with localhost fallback.
+ * On localhost, the JSON endpoint returns 404, so we use test data.
+ * This centralizes the localhost handling in one place.
+ * @param {Object} vaHealthServicesData - from state.drupalStaticData.vaHealthServicesData
+ * @returns {Object} - data with .data array property
  */
 export const getVaHealthServicesData = vaHealthServicesData => {
-  if (environment?.BUILDTYPE === 'localhost') {
+  const localEnv = environment?.BUILDTYPE === 'localhost';
+  if (localEnv || !Array.isArray(vaHealthServicesData?.data)) {
     return vaHealthcareServices;
   }
   return vaHealthServicesData;
 };
 
 /**
- * Looks up display name for a VA health service by its ID.
+ * Given a serviceId and the VA healthcare services data,
+ * return the display name for that service.
  * @param {string} serviceId - e.g., "mentalHealth"
  * @param {Object} vaHealthServicesData - from state.drupalStaticData.vaHealthServicesData
- * @returns {string|null} - e.g., "Mental health care", or null if not found
+ * @returns {string|null} - e.g., "Mental health care"
  */
 export const getServiceDisplayName = (serviceId, vaHealthServicesData) => {
   if (!serviceId) return null;
-
-  const { data: services } =
-    getVaHealthServicesData(vaHealthServicesData) ?? {};
-  if (!Array.isArray(services)) return null;
-
-  const service = services.find(s => s[SERVICE_INDEX.SERVICE_ID] === serviceId);
-  return service?.[SERVICE_INDEX.DISPLAY_NAME] ?? null;
+  const data = getVaHealthServicesData(vaHealthServicesData);
+  if (!Array.isArray(data?.data)) return null;
+  const service = data.data.find(item => item[3] === serviceId);
+  return service ? service[0] : null;
 };
 
 export const INITIAL_STATE = {
