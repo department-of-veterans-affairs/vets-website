@@ -53,6 +53,13 @@ const useSearchFormSync = ({
       const shouldSyncFromRedux =
         isInitialSync && !hasUrlParams && hasReduxData;
 
+      // Always mark initial sync as complete to prevent re-running
+      // initial sync logic on subsequent renders
+      if (!shouldSyncFromUrl && !shouldSyncFromRedux) {
+        lastSyncedUrlRef.current = currentUrl;
+        return;
+      }
+
       if (shouldSyncFromUrl || shouldSyncFromRedux) {
         synchronizingRef.current = true;
         setDraftFormState(prev => {

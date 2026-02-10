@@ -82,6 +82,20 @@ export const SearchForm = props => {
       zoomLevel: currentQuery.zoomLevel,
     };
 
+    // CC_PROVIDER serviceType validation first (matches E2E test expectations)
+    if (
+      draftFormState.facilityType === LocationType.CC_PROVIDER &&
+      (!draftFormState.serviceType || !selectedServiceType)
+    ) {
+      setDraftFormState(prev => ({
+        ...prev,
+        serviceTypeChanged: true,
+        isValid: false,
+      }));
+      focusElement('#service-type-ahead-input');
+      return;
+    }
+
     if (!draftFormState.searchString) {
       setDraftFormState(prev => ({
         ...prev,
@@ -99,19 +113,6 @@ export const SearchForm = props => {
         isValid: false,
       }));
       focusElement('#facility-type-dropdown');
-      return;
-    }
-
-    if (
-      draftFormState.facilityType === LocationType.CC_PROVIDER &&
-      (!draftFormState.serviceType || !selectedServiceType)
-    ) {
-      setDraftFormState(prev => ({
-        ...prev,
-        serviceTypeChanged: true,
-        isValid: false,
-      }));
-      focusElement('#service-type-ahead-input');
       return;
     }
 
@@ -144,7 +145,7 @@ export const SearchForm = props => {
     }
 
     setSearchInitiated(true);
-    onSubmit();
+    onSubmit(draftFormState);
   };
 
   const handleGeolocationButtonClick = e => {
@@ -251,7 +252,10 @@ export const SearchForm = props => {
       </VaModal>
       <form id="facility-search-controls" onSubmit={handleSubmit}>
         <AddressAutosuggest
-          currentQuery={draftFormState}
+          currentQuery={{
+            ...draftFormState,
+            geolocationInProgress: currentQuery.geolocationInProgress,
+          }}
           geolocateUser={handleGeolocationButtonClick}
           inputRef={locationInputFieldRef}
           isMobile={isMobile}
