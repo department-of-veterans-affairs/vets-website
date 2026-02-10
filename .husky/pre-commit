@@ -1,6 +1,3 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 # Skip catalog regeneration during rebase, cherry-pick, merge, or bisect
 if [ -f .git/REBASE_HEAD ] || [ -f .git/CHERRY_PICK_HEAD ] || [ -f .git/MERGE_HEAD ] || [ -f .git/BISECT_LOG ]; then
   ./node_modules/.bin/lint-staged

@@ -7,6 +7,7 @@ import {
   selectFeatureUseBrowserTimezone,
   selectSystemIds,
   selectFeatureUseVpg,
+  selectFeatureAddOhAvs,
 } from '../../redux/selectors';
 import {
   APPOINTMENT_TYPES,
@@ -46,6 +47,8 @@ import {
   has404AppointmentIdError,
 } from '../../utils/error';
 import { selectAppointmentById } from './selectors';
+import { fetchAvsPdfBinaries } from '../../services/avs';
+import { separateFetchableAvsPdfs } from '../../utils/avs';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_FUTURE_APPOINTMENTS_FAILED =
@@ -369,6 +372,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
     try {
       const state = getState();
       const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
+      const addOhAvs = selectFeatureAddOhAvs(state);
 
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
@@ -379,10 +383,19 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       let facilityId = getVAAppointmentLocationId(appointment);
       let facility = state.appointments.facilityData?.[facilityId];
 
-      if (!appointment || (facilityId && !facility)) {
-        dispatch({
-          type: FETCH_CONFIRMED_DETAILS,
-        });
+      // Determine if we need to show loading state
+      const needsAppointmentFetch = !appointment || (facilityId && !facility);
+
+      // Check if Cerner appointment might need AVS fetching
+      // Actual binary check happens in separateFetchableAvsPdfs()
+      const needsAvsFetch =
+        appointment?.vaos?.isCerner &&
+        addOhAvs &&
+        appointment?.avsPdf?.length > 0;
+
+      // Dispatch loading if we need to fetch appointment data OR AVS data
+      if (needsAppointmentFetch || needsAvsFetch) {
+        dispatch({ type: FETCH_CONFIRMED_DETAILS });
       }
 
       if (!appointment) {
@@ -417,11 +430,23 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       // we don't, fetch it
       if (facilityId && !facility) {
         try {
-          facility = await getLocation({
-            facilityId,
-          });
+          facility = await getLocation({ facilityId });
         } catch (e) {
           captureError(e);
+        }
+      }
+
+      if (appointment.vaos?.isCerner && addOhAvs && !appointment.avsError) {
+        const { toFetch, doNotFetch } = separateFetchableAvsPdfs(
+          appointment.avsPdf,
+        );
+        if (toFetch.length) {
+          // Waits for all AVS PDFs for appointment detail to be fetched before completing action
+          const fetchedAndProcessedPdfs = await fetchAvsPdfBinaries(
+            appointment.id,
+            toFetch,
+          );
+          appointment.avsPdf = [...fetchedAndProcessedPdfs, ...doNotFetch];
         }
       }
       dispatch({
@@ -429,6 +454,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         appointment,
         id,
         facility,
+        addOhAvs,
       });
     } catch (e) {
       captureError(e);

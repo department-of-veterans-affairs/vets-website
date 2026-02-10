@@ -634,12 +634,12 @@ describe('Components and Utility Functions', () => {
       new: 'Your inquiry is current in queue to be reviewed.',
       'in progress': 'Your inquiry is currently being reviewed by an agent.',
       solved:
-        'Your inquiry has been closed. If you have additional questions please open a new inquiry.',
+        'Your inquiry has been closed. If you have additional questions, open a new inquiry.',
       reopened:
         'Your reply to this inquiry has been received, and the inquiry is currently being reviewed by an agent.',
       closed: 'Closed.',
       'reference number not found':
-        "No Results found. We could not locate an inquiry that matches your ID. Please check the number and re-enter. If you receive this message again, you can submit a new inquiry with your original question. Include your old inquiry number for reference and we'll work to get your question fully answered.",
+        "No Results found. We could not locate an inquiry that matches your ID. Check the number and re-enter. If you receive this message again, you can submit a new inquiry with your original question. Include your old inquiry number for reference and we'll work to get your question fully answered.",
       'ANY OTHER VALUE': 'error',
     };
     it('returns proper descriptive text', () => {

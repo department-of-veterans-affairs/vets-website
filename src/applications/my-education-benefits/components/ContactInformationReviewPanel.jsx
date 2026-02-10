@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaButton } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export function formatPhoneNumber(phoneNumber) {
   // Ensure we're dealing with a string of numbers.

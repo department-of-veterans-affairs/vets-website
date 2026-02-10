@@ -236,6 +236,7 @@ export function transform(formConfig, form) {
           condition: sd.condition,
           cause: causeTypes.NEW,
           classificationCode: sd.classificationCode,
+          sideOfBody: sd.sideOfBody,
           // truncate description to 400 characters
           primaryDescription: descString.substring(
             0,
