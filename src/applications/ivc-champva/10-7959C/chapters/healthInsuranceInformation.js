@@ -16,6 +16,7 @@ import {
   attachmentUI,
   blankSchema,
   singleAttachmentSchema,
+  textareaSchema,
 } from '../definitions';
 
 const MEDIGAP = {
@@ -292,7 +293,7 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
     schema: {
       type: 'object',
       properties: {
-        [keyname]: { type: 'string', maxLength: 155 },
+        [keyname]: textareaSchema,
       },
     },
   };
