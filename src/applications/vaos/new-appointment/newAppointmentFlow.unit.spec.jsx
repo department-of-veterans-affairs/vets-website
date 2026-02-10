@@ -390,6 +390,9 @@ describe('VAOS newAppointmentFlow', () => {
         ).typeOfFacility.next(state, dispatch);
         expect(nextState).to.equal('ccRequestDateTime');
         expect(dispatchedActions[0].type).to.equal(
+          'newAppointment/FORM_UPDATE_FACILITY_EH',
+        );
+        expect(dispatchedActions[1].type).to.equal(
           'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
         );
       });

@@ -241,20 +241,10 @@ export function updateFacilityEhr(ehr) {
 }
 
 export function startDirectScheduleFlow({ isRecordEvent = true, ehr } = {}) {
-  return async (dispatch, getState) => {
-    const state = getState();
-    // Use passed ehr param if available, otherwise fall back to state
-    const isCernerEhr =
-      ehr ||
-      (selectIsCernerAppointment(state)
-        ? APPOINTMENT_SYSTEM.cerner
-        : APPOINTMENT_SYSTEM.vista);
-
-    if (isRecordEvent) {
+  return async dispatch => {
+    if (isRecordEvent && ehr) {
       recordEvent({
-        event: `vaos-direct-${
-          isCernerEhr === APPOINTMENT_SYSTEM.cerner ? 'cerner' : 'vista'
-        }-path-started`,
+        event: `vaos-direct-${ehr}-path-started`,
       });
     }
 
@@ -264,26 +254,18 @@ export function startDirectScheduleFlow({ isRecordEvent = true, ehr } = {}) {
   };
 }
 
-export function startRequestAppointmentFlow(isCommunityCare, ehr) {
-  return async (dispatch, getState) => {
-    const state = getState();
-    // Use passed ehr param if available, otherwise fall back to state
-    const isCernerEhr =
-      ehr ||
-      (selectIsCernerAppointment(state)
-        ? APPOINTMENT_SYSTEM.cerner
-        : APPOINTMENT_SYSTEM.vista);
+export function startRequestAppointmentFlow({ ehr } = {}) {
+  return async dispatch => {
+    // Set EHR state for CC flows (hsrm) before dispatching the flow action
+    if (ehr === APPOINTMENT_SYSTEM.hsrm) {
+      dispatch(updateFacilityEhr(APPOINTMENT_SYSTEM.hsrm));
+    }
 
-    // Community care uses HSRM, so don't include EHR suffix
-    const ehrSuffix = isCommunityCare
-      ? ''
-      : `-${isCernerEhr === APPOINTMENT_SYSTEM.cerner ? 'cerner' : 'vista'}`;
-
-    recordEvent({
-      event: `vaos-${
-        isCommunityCare ? 'community-care' : 'request'
-      }${ehrSuffix}-path-started`,
-    });
+    if (ehr) {
+      recordEvent({
+        event: `vaos-request-${ehr}-path-started`,
+      });
+    }
 
     dispatch({
       type: START_REQUEST_APPOINTMENT_FLOW,
@@ -1107,8 +1089,9 @@ export function requestProvidersList(address) {
 }
 
 export function requestAppointmentDateChoice(history) {
-  return dispatch => {
-    dispatch(startRequestAppointmentFlow());
+  return (dispatch, getState) => {
+    const ehr = getNewAppointment(getState())?.ehr;
+    dispatch(startRequestAppointmentFlow({ ehr }));
     history.replace('/new-appointment/request-date');
   };
 }
