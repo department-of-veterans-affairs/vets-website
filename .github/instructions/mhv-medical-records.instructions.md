@@ -399,6 +399,10 @@ Update this file when you:
 - **Location**: `hooks/use-alerts.js`
 - **Purpose**: Manage alert state and display
 
+### useFocusAfterLoading
+- **Location**: `hooks/useFocusAfterLoading.js`
+- **Purpose**: Focus on the h1 element when loading completes, improving accessibility for screen reader users.
+
 ### useFocusOutline
 - **Purpose**: Manage focus outline visibility for accessibility
 
