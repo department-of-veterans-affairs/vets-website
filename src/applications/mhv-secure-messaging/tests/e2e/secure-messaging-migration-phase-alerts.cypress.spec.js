@@ -23,12 +23,6 @@ import migrationInboxMessages from './fixtures/threads-response-migration-phase.
  *    - Reply button is visible
  * 3. When thread has no migration phase (null or undefined):
  *    - Reply button is visible
- *
- * Note: MigratingFacilitiesAlerts display is covered by unit tests because it
- * requires platform-level Redux state injection for migrationSchedules that is
- * complex to configure in E2E tests. See:
- * - tests/components/MessageThreadComponents/MessageThreadHeader.unit.spec.jsx
- * - tests/components/Reply/ReplyForm.unit.spec.jsx
  */
 
 /**
@@ -71,6 +65,15 @@ const updateMigrationPhase = (threadData, inboxData, phase) => {
   return { updatedThread, updatedInbox };
 };
 
+const validateMigrationAlert = shouldExist => {
+  cy.findByText(
+    'You can’t use messages to contact providers at some facilities right now',
+  ).should(shouldExist ? 'exist' : 'not.exist');
+  cy.contains(
+    'You can’t send or receive new messages or reply to conversations with providers at',
+  ).should(shouldExist ? 'exist' : 'not.exist');
+};
+
 describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
   describe('No Migration Phase', () => {
     it('does not display MigratingFacilitiesAlerts when ohMigrationPhase is null', () => {
@@ -90,7 +93,7 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
 
       // Verify Reply button is visible (normal thread)
       cy.get(Locators.BUTTONS.REPLY).should('exist');
-
+      validateMigrationAlert(false);
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
     });
@@ -119,7 +122,7 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
 
       // Verify CannotReplyAlert is NOT displayed (migration alert takes precedence)
       cy.get('[data-testid="cannot-reply-alert"]').should('not.exist');
-
+      validateMigrationAlert(true);
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
     });
@@ -145,7 +148,7 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
 
       // Verify Reply button is hidden during migration phase p4
       cy.get(Locators.BUTTONS.REPLY).should('not.exist');
-
+      validateMigrationAlert(true);
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
     });
@@ -171,7 +174,7 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
 
       // Verify Reply button is hidden during migration phase p5
       cy.get(Locators.BUTTONS.REPLY).should('not.exist');
-
+      validateMigrationAlert(true);
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
     });
@@ -196,7 +199,7 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
 
       // Verify Reply button is visible (p2 does not block replies)
       cy.get(Locators.BUTTONS.REPLY).should('exist');
-
+      validateMigrationAlert(false);
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
     });
