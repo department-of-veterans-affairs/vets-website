@@ -61,23 +61,39 @@ describe('OracleHealthTransitionAlerts', () => {
   describe('when no alerts should be shown', () => {
     it('returns null when required data is missing', () => {
       const scenarios = [
-        { blockedPrescriptions: [], migratingFacilities: mockMigratingFacilities, desc: 'empty prescriptions' },
-        { blockedPrescriptions, migratingFacilities: [], desc: 'empty migrations' },
-        { blockedPrescriptions, migratingFacilities: [{ ...mockMigratingFacilities[0], phases: null }], desc: 'missing phases' },
+        {
+          blockedPrescriptions: [],
+          migratingFacilities: mockMigratingFacilities,
+          desc: 'empty prescriptions',
+        },
+        {
+          blockedPrescriptions,
+          migratingFacilities: [],
+          desc: 'empty migrations',
+        },
+        {
+          blockedPrescriptions,
+          migratingFacilities: [
+            { ...mockMigratingFacilities[0], phases: null },
+          ],
+          desc: 'missing phases',
+        },
       ];
 
-      scenarios.forEach(({ blockedPrescriptions: rxs, migratingFacilities: migs }) => {
-        const { container } = render(
-          <BrowserRouter>
-            <OracleHealthT3Alert
-              blockedPrescriptions={rxs}
-              migratingFacilities={migs}
-              hasRefillable
-            />
-          </BrowserRouter>,
-        );
-        expect(container.firstChild).to.be.null;
-      });
+      scenarios.forEach(
+        ({ blockedPrescriptions: rxs, migratingFacilities: migs }) => {
+          const { container } = render(
+            <BrowserRouter>
+              <OracleHealthT3Alert
+                blockedPrescriptions={rxs}
+                migratingFacilities={migs}
+                hasRefillable
+              />
+            </BrowserRouter>,
+          );
+          expect(container.firstChild).to.be.null;
+        },
+      );
     });
   });
 
@@ -207,12 +223,12 @@ describe('OracleHealthTransitionAlerts', () => {
         </BrowserRouter>,
       );
 
-      expect(withRefillable.querySelector('va-alert').getAttribute('data-testid')).to.equal(
-        'oracle-health-t3-alert-with-refillable',
-      );
-      expect(noRefillable.querySelector('va-alert').getAttribute('data-testid')).to.equal(
-        'oracle-health-t3-alert-no-refillable',
-      );
+      expect(
+        withRefillable.querySelector('va-alert').getAttribute('data-testid'),
+      ).to.equal('oracle-health-t3-alert-with-refillable');
+      expect(
+        noRefillable.querySelector('va-alert').getAttribute('data-testid'),
+      ).to.equal('oracle-health-t3-alert-no-refillable');
     });
   });
 
@@ -242,4 +258,3 @@ describe('OracleHealthTransitionAlerts', () => {
     });
   });
 });
-
