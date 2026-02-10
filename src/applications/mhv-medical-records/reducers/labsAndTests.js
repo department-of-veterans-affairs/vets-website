@@ -426,7 +426,9 @@ export const convertUnifiedLabsAndTestRecord = record => {
     orderedBy: record.attributes.orderedBy,
     sampleTested: record.attributes.sampleTested,
     bodySite: record.attributes.bodySite,
-    testCode: record.attributes.testCodeDisplay || record.attributes.testCode,
+    testCode: record.attributes.testCode,
+    testCodeDisplay:
+      record.attributes.testCodeDisplay || record.attributes.testCode,
     type: record.attributes.testCode,
     comments: record.attributes.comments,
     source: record.attributes.source,

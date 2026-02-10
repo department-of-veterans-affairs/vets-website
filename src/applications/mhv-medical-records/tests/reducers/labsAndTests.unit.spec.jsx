@@ -853,6 +853,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
         sampleTested: 'Blood',
         bodySite: 'Arm',
         testCode: '12345',
+        testCodeDisplay: '12345',
         comments: 'No issues',
         source: 'oracle-health',
         encodedData: 'VGhpcyBpcyBhIHRlc3Q=',
@@ -893,6 +894,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       sortDate: undefined,
       bodySite: undefined,
       testCode: undefined,
+      testCodeDisplay: undefined,
       type: undefined, // type is raw testCode value
       comments: undefined,
       source: undefined,
@@ -924,6 +926,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       sortDate: 'invalid-date',
       bodySite: undefined,
       testCode: undefined,
+      testCodeDisplay: undefined,
       type: undefined, // type is raw testCode value
       comments: undefined,
       source: undefined,
@@ -944,7 +947,8 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     };
 
     const result = convertUnifiedLabsAndTestRecord(record);
-    expect(result.testCode).to.equal('Chemistry and hematology');
+    expect(result.testCode).to.equal('CH');
+    expect(result.testCodeDisplay).to.equal('Chemistry and hematology');
     expect(result.type).to.equal('CH'); // type is raw testCode value
   });
 
@@ -958,7 +962,8 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     };
 
     const result = convertUnifiedLabsAndTestRecord(record);
-    expect(result.testCode).to.equal('Surgical Pathology');
+    expect(result.testCode).to.equal('SP');
+    expect(result.testCodeDisplay).to.equal('Surgical Pathology');
     expect(result.type).to.equal('SP'); // type is raw testCode value
   });
 
@@ -972,7 +977,8 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     };
 
     const result = convertUnifiedLabsAndTestRecord(record);
-    expect(result.testCode).to.equal('Microbiology');
+    expect(result.testCode).to.equal('MI');
+    expect(result.testCodeDisplay).to.equal('Microbiology');
     expect(result.type).to.equal('MI'); // type is raw testCode value
   });
 
@@ -986,6 +992,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     const result = convertUnifiedLabsAndTestRecord(record);
     expect(result.testCode).to.equal('UNKNOWN_CODE'); // falls back to raw testCode
+    expect(result.testCodeDisplay).to.equal('UNKNOWN_CODE'); // falls back to raw testCode
     expect(result.type).to.equal('UNKNOWN_CODE'); // type is raw testCode value
   });
 });
@@ -1004,6 +1011,7 @@ describe('labsAndTestsReducer - unified labs and tests', () => {
           sampleTested: 'Blood',
           bodySite: 'Arm',
           testCode: '12345',
+          testCodeDisplay: '12345',
           comments: 'No issues',
           encodedData: 'VGhpcyBpcyBhIHRlc3Q=',
         },
@@ -1028,6 +1036,7 @@ describe('labsAndTestsReducer - unified labs and tests', () => {
     expect(testRecord.sampleTested).to.equal('Blood');
     expect(testRecord.bodySite).to.equal('Arm');
     expect(testRecord.testCode).to.equal('12345');
+    expect(testRecord.testCodeDisplay).to.equal('12345');
     expect(testRecord.type).to.equal('12345'); // type is raw testCode value
     expect(testRecord.comments).to.equal('No issues');
     expect(testRecord.result).to.equal('This is a test');
