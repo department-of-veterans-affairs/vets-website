@@ -8,10 +8,11 @@ const formatLabel = key =>
 
 const ReviewField = data => {
   const { formData: files = [] } = data.children.props;
+  const title = data.uiSchema?.['ui:title'];
   if (files.length === 0) {
     return (
       <div className="review-row">
-        <dt>Files</dt>
+        <dt>{title || 'Files'}</dt>
         <dd>No files uploaded</dd>
       </div>
     );
@@ -19,6 +20,14 @@ const ReviewField = data => {
 
   return (
     <>
+      {title && (
+        <div className="review-row">
+          <dt>{title}</dt>
+          <dd>
+            {files.length} {files.length === 1 ? 'file' : 'files'}
+          </dd>
+        </div>
+      )}
       {files.map((file, index) => (
         <React.Fragment key={index}>
           <div className="review-row">

@@ -175,7 +175,7 @@ export const fileInputUI = options => {
         return (
           <>
             <div className="review-row">
-              <dt>File name</dt>
+              <dt>{title}</dt>
               <dd>{file?.name}</dd>
             </div>
             {file?.additionalData &&
