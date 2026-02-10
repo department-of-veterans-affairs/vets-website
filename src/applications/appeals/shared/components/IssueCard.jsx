@@ -6,8 +6,18 @@ import '../definitions';
 import { IssueCardContent } from './IssueCardContent';
 import BasicLink from './web-component-wrappers/BasicLink';
 
-// It would be better to validate the date based on the app's requirements
-// import { isValidDate } from '../validations/date';
+/**
+ * If the issue has activeReview: true and a titleOfActiveReview as 'Supplemental Claim',
+ * the issue is under active review for SC (we will eventually support all 3 DR apps).
+ * @param {ContestableIssueItem|AdditionalIssueItem} item
+ */
+export const determineActiveReview = item => {
+  const { activeReview, titleOfActiveReview } = item;
+
+  return activeReview && titleOfActiveReview === 'Supplemental Claim';
+  // Use the below line instead to support all 3 DR apps instead of just SC.
+  // return activeReview && appName === ACTIVE_REVIEW_TITLES[titleOfActiveReview];
+};
 
 /**
  * IssueCard
@@ -24,6 +34,7 @@ import BasicLink from './web-component-wrappers/BasicLink';
  * @return {JSX.Element}
  */
 export const IssueCard = ({
+  appName,
   id,
   index,
   item = {},
@@ -33,6 +44,10 @@ export const IssueCard = ({
   onRemove,
   showSeparator = false,
 }) => {
+  if (!item) {
+    return null;
+  }
+
   // On the review & submit page, there may be more than one
   // of these components in edit mode with the same content, e.g. 526
   // ratedDisabilities & unemployabilityDisabilities causing
@@ -44,13 +59,13 @@ export const IssueCard = ({
   const isEditable = !!item.issue;
   const issueName = item.issue || item.ratingIssueSubjectText;
   const isBlocked = item.isBlocked || false;
+  const isActiveReview = determineActiveReview(item);
 
   const wrapperClass = [
     'widget-wrapper',
     isEditable ? 'additional-issue' : '',
     showCheckbox ? '' : 'checkbox-hidden',
     'vads-u-padding-top--2',
-    'vads-u-padding-right--3',
     'vads-u-margin-bottom--0',
     isBlocked && index > 0 ? 'vads-u-margin-top--5' : '',
     // Remove border for blocked issues; add border for first selectable issues
@@ -108,6 +123,28 @@ export const IssueCard = ({
         />
       </div>
     ) : null;
+
+  const activeReviewMessage = isActiveReview ? (
+    <va-alert class="vads-u-margin-top--0p5" slim status="info" visible>
+      <p className="vads-u-margin-top--0">
+        {issueName} is part of an active {appName}. Submitting it again may
+        delay your decision.
+      </p>
+      <va-link
+        text="Check your claim status"
+        href="/claim-or-appeal-status/"
+        external
+      />
+    </va-alert>
+  ) : null;
+
+  const sharedCardContent = (
+    <>
+      <IssueCardContent id={`issue-${index}-description`} {...item} />
+      {editControls}
+    </>
+  );
+
   return (
     <li id={`issue-${index}`} name={`issue-${index}`} key={index}>
       <div className={wrapperClass}>
@@ -121,6 +158,8 @@ export const IssueCard = ({
             onVaChange={handlers.onChange}
           >
             <div slot="internal-description">
+              {activeReviewMessage}
+              <div className="vads-u-padding-right--3">{sharedCardContent}</div>
               <IssueCardContent id={`issue-${index}-description`} {...item} />
               {editControls}
             </div>
@@ -137,6 +176,7 @@ export const IssueCard = ({
             >
               {issueName}
             </strong>
+            {sharedCardContent}
 
             <IssueCardContent id={`issue-${index}-description`} {...item} />
             {editControls}
@@ -147,23 +187,4 @@ export const IssueCard = ({
   );
 };
 
-IssueCard.propTypes = {
-  id: PropTypes.string,
-  index: PropTypes.number,
-  item: PropTypes.shape({
-    issue: PropTypes.string,
-    decisionDate: PropTypes.string,
-    ratingIssueSubjectText: PropTypes.string,
-    description: PropTypes.string,
-    ratingIssuePercentNumber: PropTypes.string,
-    approxDecisionDate: PropTypes.string,
-    [SELECTED]: PropTypes.bool,
-  }),
-  options: PropTypes.shape({
-    appendId: PropTypes.string,
-  }),
-  showCheckbox: PropTypes.bool,
-  showSeparator: PropTypes.bool,
-  onChange: PropTypes.func,
-  onRemove: PropTypes.func,
-};
+
