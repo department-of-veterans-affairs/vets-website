@@ -11,6 +11,7 @@ import {
   isStateRequired,
   createAddressValidator,
   normalizeAddressLine,
+  hasInvalidPrefillData,
 } from '../../utils/contactInformationHelpers';
 
 describe('contactInformationHelpers', () => {
@@ -563,6 +564,132 @@ describe('contactInformationHelpers', () => {
           expect(errors.addError.called).to.be.false;
         });
       });
+    });
+  });
+
+  describe('hasInvalidPrefillData', () => {
+    it('should return false for null/undefined input', () => {
+      expect(hasInvalidPrefillData(null)).to.be.false;
+      expect(hasInvalidPrefillData(undefined)).to.be.false;
+    });
+
+    it('should return false for valid address data', () => {
+      expect(
+        hasInvalidPrefillData({
+          addressLine1: '123 Main St',
+          city: 'Anytown',
+        }),
+      ).to.be.false;
+    });
+
+    it('should return false for empty fields', () => {
+      expect(
+        hasInvalidPrefillData({
+          addressLine1: '',
+          addressLine2: '',
+          city: '',
+        }),
+      ).to.be.false;
+    });
+
+    it('should return true for addressLine1 with disallowed characters', () => {
+      expect(
+        hasInvalidPrefillData({
+          addressLine1: '123 Main St @#!',
+          city: 'Anytown',
+        }),
+      ).to.be.true;
+    });
+
+    it('should return true for addressLine2 with disallowed characters', () => {
+      expect(
+        hasInvalidPrefillData({
+          addressLine1: '123 Main St',
+          addressLine2: 'Apt (2)',
+          city: 'Anytown',
+        }),
+      ).to.be.true;
+    });
+
+    it('should return true for addressLine3 with disallowed characters', () => {
+      expect(
+        hasInvalidPrefillData({
+          addressLine1: '123 Main St',
+          addressLine3: 'Suite [5]',
+          city: 'Anytown',
+        }),
+      ).to.be.true;
+    });
+
+    it('should return true for city with disallowed characters', () => {
+      expect(
+        hasInvalidPrefillData({
+          addressLine1: '123 Main St',
+          city: 'Any$town!',
+        }),
+      ).to.be.true;
+    });
+
+    it('should return false for address with extra spaces (normalized before check)', () => {
+      // Extra spaces get collapsed by normalization, so they should NOT
+      // be considered invalid — same behavior as createAddressValidator
+      expect(
+        hasInvalidPrefillData({
+          addressLine1: '123  Main   St',
+          city: 'Los    Angeles',
+        }),
+      ).to.be.false;
+    });
+
+    it('should return false for address with leading/trailing spaces', () => {
+      expect(
+        hasInvalidPrefillData({
+          addressLine1: '  123 Main St  ',
+          city: '  Anytown  ',
+        }),
+      ).to.be.false;
+    });
+
+    it('should return true if any one field is invalid even if others are valid', () => {
+      expect(
+        hasInvalidPrefillData({
+          addressLine1: '123 Main St', // valid
+          addressLine2: 'Apt 2', // valid
+          city: 'Bad@City', // invalid
+        }),
+      ).to.be.true;
+    });
+
+    it('should return false when only missing fields are present', () => {
+      expect(hasInvalidPrefillData({})).to.be.false;
+    });
+
+    it('should allow all valid special characters in address lines', () => {
+      // Pattern allows: ' . , & # -
+      expect(
+        hasInvalidPrefillData({
+          addressLine1: "St. Mary's #2, A-B&C",
+        }),
+      ).to.be.false;
+    });
+
+    it('should allow all valid special characters in city', () => {
+      // City pattern allows: ' . # -
+      expect(
+        hasInvalidPrefillData({
+          city: "St. Mary's #2-B",
+        }),
+      ).to.be.false;
+    });
+
+    it('should detect comma in city as invalid', () => {
+      // City pattern does NOT allow commas
+      expect(
+        hasInvalidPrefillData({
+          addressLine1: '123 Main St',
+          city: 'Anytown, MI',
+        }),
+      ).to.be.true;
     });
   });
 });

@@ -22,6 +22,7 @@ import {
   shouldAutoDetectMilitary,
   shouldShowZipCode,
   createAddressValidator,
+  hasInvalidPrefillData,
   updateCountrySchema,
   updateStateSchema,
   isStateRequired,
@@ -104,6 +105,12 @@ export const uiSchema = {
       viewComponent: AddressViewField,
       classNames:
         'vads-web-component-pattern vads-web-component-pattern-address',
+      // Force edit mode when prefilled address data has invalid characters.
+      // Uses the same normalized validation as createAddressValidator so that
+      // extra spaces (which get collapsed) don't falsely trigger edit mode,
+      // but genuinely disallowed characters do. maxLength is already handled
+      // by the JSON schema via the `extend` option on addressSchema.
+      startInEdit: hasInvalidPrefillData,
     },
     // Override country field to display 'USA' instead of 'United States'
     country: {
@@ -176,6 +183,25 @@ export const schema = {
         street3: 'addressLine3',
         postalCode: 'zipCode',
         isMilitary: 'view:livesOnMilitaryBase',
+      },
+      // Restore 526EZ-specific maxLength so the JSON schema validator catches
+      // invalid prefilled data at initial render. Without these, the platform
+      // default (maxLength: 100) means ReviewCardField won't detect errors and
+      // won't start in edit mode — leaving the user stuck on a view-only card
+      // with hidden validation errors they can't see or fix.
+      //
+      // NOTE: Only maxLength is set here, NOT pattern. The pattern validation
+      // is handled by createAddressValidator (ui:validations) which normalizes
+      // spaces before checking — preventing false failures from consecutive
+      // spaces in prefilled data and showing user-friendly error messages
+      // instead of the raw regex pattern. (See PR #42005)
+      extend: {
+        street: { maxLength: 20 },
+        street2: { maxLength: 20 },
+        street3: { maxLength: 20 },
+        city: {
+          maxLength: fullSchema.definitions.address.properties.city.maxLength,
+        },
       },
     }),
     'view:contactInfoDescription': {
