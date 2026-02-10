@@ -88,6 +88,17 @@ describe('Medications Breadcrumbs', () => {
     });
   });
 
+  it('renders breadcrumbs on IN_PROGRESS route', async () => {
+    const screen = setup({}, [medicationsUrls.subdirectories.IN_PROGRESS]);
+
+    await waitFor(() => {
+      const element = screen.container.querySelector('va-breadcrumbs');
+      expect(element).to.exist;
+      expect(element).to.have.attribute('data-testid', 'rx-breadcrumb');
+      expect(element.breadcrumbList).to.exist;
+    });
+  });
+
   it('renders nothing on unknown medications sub-route', () => {
     const screen = setup({}, [
       `${medicationsUrls.MEDICATIONS_URL}/no-page-here`,
