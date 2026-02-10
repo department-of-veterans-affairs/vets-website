@@ -42,7 +42,6 @@ const RecentCareTeams = () => {
     error: recipientsError,
   } = recipients;
   const h1Ref = useRef(null);
-  const radioRef = useRef(null);
   const {
     mhvSecureMessagingRecentRecipients,
     featureTogglesLoading,
@@ -230,7 +229,6 @@ const RecentCareTeams = () => {
       )}
       <EmergencyNote dropDownFlag />
       <VaRadio
-        ref={radioRef}
         class="vads-u-margin-bottom--3"
         error={error}
         label={RECENT_RECIPIENTS_LABEL}
