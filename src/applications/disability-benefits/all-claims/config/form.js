@@ -678,6 +678,7 @@ const formConfig = {
         privateMedicalRecordsAttachments: {
           title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records-upload',
+          // TODO: Remove page once enhanced page is approved to be merged prod flow
           depends: formData =>
             !formData.disability526SupportingEvidenceEnhancement &&
             hasPrivateEvidence(formData) &&
