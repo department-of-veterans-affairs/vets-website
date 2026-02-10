@@ -17,8 +17,8 @@ const safelyTrack = (trackFn, context) => {
   }
 };
 
-export const createTrackingNavButtons = getTrackingContext => {
-  const TrackingNavButtons = ({
+export const createNavButtonsWithTracking = getTrackingContext => {
+  const NavButtonsWithTracking = ({
     DefaultNavButtons = FormNavButtons,
     goBack,
     goForward,
@@ -55,7 +55,7 @@ export const createTrackingNavButtons = getTrackingContext => {
     );
   };
 
-  TrackingNavButtons.propTypes = {
+  NavButtonsWithTracking.propTypes = {
     DefaultNavButtons: PropTypes.elementType,
     goBack: PropTypes.func,
     goForward: PropTypes.func,
@@ -63,5 +63,5 @@ export const createTrackingNavButtons = getTrackingContext => {
     useWebComponents: PropTypes.bool,
   };
 
-  return TrackingNavButtons;
+  return NavButtonsWithTracking;
 };

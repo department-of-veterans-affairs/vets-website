@@ -59,7 +59,7 @@ import {
 } from './containers/MissingServices';
 import ClaimFormSideNav from './components/ClaimFormSideNav';
 import ClaimFormSideNavErrorBoundary from './components/ClaimFormSideNavErrorBoundary';
-import { createTrackingNavButtons } from './components/TrackingNavButtons';
+import { createNavButtonsWithTracking } from './components/NavButtonsWithTracking';
 import { trackingSaveFormLink } from './utils/tracking/trackingSaveFormLink';
 import {
   trackFormStarted,
@@ -78,7 +78,7 @@ const getTrackingContext = () => ({
   pathname: runtimeState.pathname,
 });
 
-const TrackingNavButtons = createTrackingNavButtons(getTrackingContext);
+const NavButtonsWithTracking = createNavButtonsWithTracking(getTrackingContext);
 const wrapSaveFormExit = trackingSaveFormLink(getTrackingContext);
 
 // Add tracking callbacks to formConfig before routes are created
@@ -87,7 +87,7 @@ if (!formConfig.formOptions) {
   formConfig.formOptions = {};
 }
 
-formConfig.formOptions.NavButtonsWithWrapper = TrackingNavButtons;
+formConfig.formOptions.NavButtonsWithWrapper = NavButtonsWithTracking;
 formConfig.onFormExit = wrapSaveFormExit(formConfig.onFormExit);
 
 // Wrap the submit function to add form submission tracking

@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import * as datadogRumTracking from '../../utils/tracking/datadogRumTracking';
-import { createTrackingNavButtons } from '../../components/TrackingNavButtons';
+import { createNavButtonsWithTracking } from '../../components/NavButtonsWithTracking';
 
-describe('TrackingNavButtons', () => {
+describe('NavButtonsWithTracking', () => {
   const trackingContext = {
     featureToggles: { sidenav526ezEnabled: true },
     pathname: '/test-path',
@@ -33,10 +33,12 @@ describe('TrackingNavButtons', () => {
       </div>
     );
 
-    const TrackingNavButtons = createTrackingNavButtons(() => trackingContext);
+    const NavButtonsWithTracking = createNavButtonsWithTracking(
+      () => trackingContext,
+    );
 
     const { getByText } = render(
-      <TrackingNavButtons
+      <NavButtonsWithTracking
         DefaultNavButtons={DefaultNavButtons}
         goBack={goBack}
         goForward={goForward}
@@ -77,10 +79,12 @@ describe('TrackingNavButtons', () => {
       </div>
     );
 
-    const TrackingNavButtons = createTrackingNavButtons(() => trackingContext);
+    const NavButtonsWithTracking = createNavButtonsWithTracking(
+      () => trackingContext,
+    );
 
     const { getByText } = render(
-      <TrackingNavButtons
+      <NavButtonsWithTracking
         DefaultNavButtons={DefaultNavButtons}
         goBack={goBack}
         goForward={goForward}
