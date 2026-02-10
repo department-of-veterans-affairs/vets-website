@@ -7,6 +7,7 @@
     "build": "./script/build.sh --scaffold",
     "install-safe": "yarn install --ignore-scripts && yarn postinstall",
     "build-analyze-app": "node ./script/build-analyze-app.js",
+    "analyze-static-pages-bundle": "node ./script/analyze-static-pages-bundle.js",
     "build:codespaces": "./.devcontainer/codespaces-create.sh",
     "build:production": "NODE_ENV=production yarn build --buildtype=vagovprod",
     "build:webpack": "NODE_OPTIONS='--max-old-space-size=20480 --openssl-legacy-provider' webpack --config config/webpack.config.js",
