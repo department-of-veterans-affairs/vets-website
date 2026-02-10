@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import propTypes from 'prop-types';
 import ProgressButton from './ProgressButton';
 
@@ -12,53 +12,18 @@ import ProgressButton from './ProgressButton';
  * navigate the user to the next page only if validation is successful.
  */
 
-/**
- * Helper function to wrap a handler with optional tracking callback
- * @param {Function} handler - The original handler function
- * @param {Function} trackingCallback - Optional tracking callback
- * @returns {Function} Wrapped handler with tracking
- */
-const wrapWithTracking = (handler, trackingCallback) => (...args) => {
-  if (!handler) return;
-
-  // Call tracking callback
-  if (trackingCallback) {
-    try {
-      trackingCallback();
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('[Tracking Error]', error);
-    }
-  }
-
-  // Call the original handler function with all arguments
-  handler(...args);
-};
-
 const FormNavButtons = ({
   goBack,
   goForward,
   submitToContinue,
   useWebComponents,
-  onBackClickTracking,
-  onContinueClickTracking,
 }) => {
-  const handleBackClick = useCallback(
-    wrapWithTracking(goBack, onBackClickTracking),
-    [goBack, onBackClickTracking],
-  );
-
-  const handleContinueClick = useCallback(
-    wrapWithTracking(goForward, onContinueClickTracking),
-    [goForward, onContinueClickTracking],
-  );
-
   return (
     <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
       <div className="small-6 medium-5 columns">
         {goBack && (
           <ProgressButton
-            onButtonClick={handleBackClick}
+            onButtonClick={goBack}
             buttonText="Back"
             buttonClass="usa-button-secondary"
             beforeText="«"
@@ -69,7 +34,7 @@ const FormNavButtons = ({
       <div className="small-6 medium-5 end columns">
         <ProgressButton
           submitButton={submitToContinue}
-          onButtonClick={handleContinueClick}
+          onButtonClick={goForward}
           buttonText="Continue"
           buttonClass="usa-button-primary"
           afterText="»"
@@ -85,8 +50,6 @@ FormNavButtons.propTypes = {
   goForward: propTypes.func,
   submitToContinue: propTypes.bool,
   useWebComponents: propTypes.bool,
-  onBackClickTracking: propTypes.func,
-  onContinueClickTracking: propTypes.func,
 };
 
 export default FormNavButtons;

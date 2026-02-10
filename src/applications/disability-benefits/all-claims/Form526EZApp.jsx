@@ -59,21 +59,27 @@ import {
 } from './containers/MissingServices';
 import ClaimFormSideNav from './components/ClaimFormSideNav';
 import ClaimFormSideNavErrorBoundary from './components/ClaimFormSideNavErrorBoundary';
+import { createTrackingNavButtons } from './components/TrackingNavButtons';
+import { trackingSaveFormLink } from './utils/tracking/trackingSaveFormLink';
 import {
-  trackBackButtonClick,
-  trackContinueButtonClick,
-  trackSaveFormClick,
   trackFormStarted,
   trackFormSubmitted,
-} from './utils/datadogRumTracking';
+} from './utils/tracking/datadogRumTracking';
 
 // Module-level state holder for tracking callbacks to access current Redux state
 // This allows callbacks in formConfig to access runtime state without prop drilling
 const runtimeState = {
   featureToggles: {},
-  formData: {},
   pathname: '',
 };
+
+const getTrackingContext = () => ({
+  featureToggles: runtimeState.featureToggles,
+  pathname: runtimeState.pathname,
+});
+
+const TrackingNavButtons = createTrackingNavButtons(getTrackingContext);
+const wrapSaveFormExit = trackingSaveFormLink(getTrackingContext);
 
 // Add tracking callbacks to formConfig before routes are created
 // These callbacks will read from runtimeState which gets updated by the component
@@ -81,23 +87,8 @@ if (!formConfig.formOptions) {
   formConfig.formOptions = {};
 }
 
-formConfig.formOptions.onBackClickTracking = () =>
-  trackBackButtonClick({
-    featureToggles: runtimeState.featureToggles,
-    pathname: runtimeState.pathname,
-  });
-
-formConfig.formOptions.onContinueClickTracking = () =>
-  trackContinueButtonClick({
-    featureToggles: runtimeState.featureToggles,
-    pathname: runtimeState.pathname,
-  });
-
-formConfig.formOptions.onSaveTracking = () =>
-  trackSaveFormClick({
-    featureToggles: runtimeState.featureToggles,
-    pathname: runtimeState.pathname,
-  });
+formConfig.formOptions.NavButtonsWithWrapper = TrackingNavButtons;
+formConfig.onFormExit = wrapSaveFormExit(formConfig.onFormExit);
 
 // Wrap the submit function to add form submission tracking
 const defaultSubmit = formConfig.submit;
@@ -190,10 +181,9 @@ export const Form526Entry = ({
   useEffect(
     () => {
       runtimeState.featureToggles = featureToggles;
-      runtimeState.formData = form?.data;
       runtimeState.pathname = location?.pathname;
     },
-    [featureToggles, form?.data, location?.pathname],
+    [featureToggles, location?.pathname],
   );
 
   // Track when user starts the form from introduction page

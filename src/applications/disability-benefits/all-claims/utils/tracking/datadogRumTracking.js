@@ -5,7 +5,7 @@ import {
   TRACKING_BACK_BUTTON_CLICKS,
   TRACKING_CONTINUE_BUTTON_CLICKS,
   TRACKING_FORM_RESUMPTION,
-} from '../constants';
+} from '../../constants';
 
 /**
  * Helper function to track DataDog RUM actions

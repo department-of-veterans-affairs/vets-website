@@ -23,24 +23,13 @@ class SaveFormLink extends React.Component {
 
   handleSave = event => {
     event.preventDefault();
-    const { route = {}, form, locationPathname, formConfig } = this.props;
+    const { route = {}, form, locationPathname } = this.props;
     const { formId, version, submission, trackingPrefix } = form;
     let { data } = form;
     if (trackingPrefix) {
       recordEvent({
         event: `${trackingPrefix}sip-form-save-intent`,
       });
-    }
-
-    // If tracking callback is provided, call it
-    const onSaveTracking = formConfig?.formOptions?.onSaveTracking;
-    if (onSaveTracking) {
-      try {
-        onSaveTracking();
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('[Tracking Error]', error);
-      }
     }
 
     // Save form on a specific page form exit callback
@@ -148,7 +137,6 @@ SaveFormLink.propTypes = {
     rootUrl: PropTypes.string,
     formOptions: PropTypes.shape({
       useWebComponentForNavigation: PropTypes.bool,
-      onSaveTracking: PropTypes.func,
     }),
     customText: PropTypes.shape({
       appType: PropTypes.string,

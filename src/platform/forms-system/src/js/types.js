@@ -610,6 +610,7 @@
  * @property {boolean} [useWebComponentForNavigation] - utilize VADS button web components for page nav
  * @property {boolean} [focusOnAlertRole] - apply focus to va-alert on submission error
  * @property {boolean} [scaffoldAndFocusFormErrors] - create screen reader-only error messages and move focus to first error on submit
+ * @property {(props: any) => React.ReactNode} [NavButtonsWithWrapper] - optional wrapper for default back/continue buttons (receives DefaultNavButtons)
  */
 
 /**

@@ -9,7 +9,7 @@ import { buildMajorSteps } from '../utils/buildMajorStepsFromConfig';
 import {
   trackSideNavChapterClick,
   trackMobileAccordionClick,
-} from '../utils/datadogRumTracking';
+} from '../utils/tracking/datadogRumTracking';
 import { SIDENAV_COMPONENT_ID } from '../constants';
 
 const DISABLED_STYLE =

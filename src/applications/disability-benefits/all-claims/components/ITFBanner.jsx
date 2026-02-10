@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 import { focusElement } from 'platform/utilities/ui';
 import { dismissITFMessage as dismissITFMessageAction } from '../actions';
-import { trackFormResumption } from '../utils/datadogRumTracking';
+import { trackFormResumption } from '../utils/tracking/datadogRumTracking';
 import {
   TRACKING_FORM_RESUMPTION,
   DISABILITY_526_V2_ROOT_URL,

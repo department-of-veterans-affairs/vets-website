@@ -309,9 +309,11 @@ class FormPage extends React.Component {
         />
       );
     }
-    const NavButtons = route.formConfig?.useTopBackLink
+    const DefaultNavButtons = route.formConfig?.useTopBackLink
       ? FormNavButtonContinue
       : FormNavButtons;
+    const NavButtonsWithWrapper = formOptions?.NavButtonsWithWrapper;
+    const NavButtons = NavButtonsWithWrapper || DefaultNavButtons;
 
     const {
       contentBeforeNavButtons,
@@ -395,14 +397,23 @@ class FormPage extends React.Component {
           ) : (
             <>
               {contentBeforeNavButtons}
-              <NavButtons
-                goBack={!isFirstRoutePage && this.goBack}
-                goForward={this.onContinue}
-                submitToContinue
-                useWebComponents={formOptions.useWebComponentForNavigation}
-                onBackClickTracking={formOptions?.onBackClickTracking}
-                onContinueClickTracking={formOptions?.onContinueClickTracking}
-              />
+              {/* Allow apps to wrap the default nav buttons (e.g., tracking) without changing UI */}
+              {NavButtonsWithWrapper ? (
+                <NavButtonsWithWrapper
+                  DefaultNavButtons={DefaultNavButtons}
+                  goBack={!isFirstRoutePage && this.goBack}
+                  goForward={this.onContinue}
+                  submitToContinue
+                  useWebComponents={formOptions.useWebComponentForNavigation}
+                />
+              ) : (
+                <DefaultNavButtons
+                  goBack={!isFirstRoutePage && this.goBack}
+                  goForward={this.onContinue}
+                  submitToContinue
+                  useWebComponents={formOptions.useWebComponentForNavigation}
+                />
+              )}
               {contentAfterNavButtons}
             </>
           )}
@@ -481,6 +492,7 @@ FormPage.propTypes = {
         collapsibleNavLinks: PropTypes.bool,
       }),
       formOptions: PropTypes.shape({
+        NavButtonsWithWrapper: PropTypes.elementType,
         noBottomNav: PropTypes.bool,
         useWebComponentForNavigation: PropTypes.bool,
       }),
