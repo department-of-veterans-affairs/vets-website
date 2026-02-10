@@ -292,7 +292,7 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
     schema: {
       type: 'object',
       properties: {
-        [keyname]: { type: 'string', maxLength: 200 },
+        [keyname]: { type: 'string', maxLength: 155 },
       },
     },
   };
