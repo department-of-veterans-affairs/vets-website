@@ -3,7 +3,6 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { standardTitle } from '../content/form0781';
-import { evidenceRequestAdditionalInformation } from '../content/evidenceRequest';
 
 export const uiSchema = {
   'ui:title': standardTitle(
@@ -15,9 +14,6 @@ export const uiSchema = {
     hint:
       'If you select “Yes,” we’ll request these records from VA or private medical centers. Or you can upload copies of your private medical records.',
   }),
-  additionalInformation: {
-    'ui:description': evidenceRequestAdditionalInformation,
-  },
 };
 
 export const schema = {
@@ -25,9 +21,5 @@ export const schema = {
   required: ['view:hasMedicalRecords'],
   properties: {
     'view:hasMedicalRecords': yesNoSchema,
-    additionalInformation: {
-      type: 'object',
-      properties: {},
-    },
   },
 };
