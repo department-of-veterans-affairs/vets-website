@@ -6,17 +6,6 @@ import {
   trackContinueButtonClick,
 } from '../utils/tracking/datadogRumTracking';
 
-const safelyTrack = (trackFn, context) => {
-  if (!trackFn) return;
-
-  try {
-    trackFn(context);
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('[Tracking Error]', error);
-  }
-};
-
 export const createNavButtonsWithTracking = getTrackingContext => {
   const NavButtonsWithTracking = ({
     DefaultNavButtons = FormNavButtons,
@@ -29,7 +18,7 @@ export const createNavButtonsWithTracking = getTrackingContext => {
       (...args) => {
         if (!goBack) return;
         const { featureToggles, pathname } = getTrackingContext() || {};
-        safelyTrack(trackBackButtonClick, { featureToggles, pathname });
+        trackBackButtonClick?.({ featureToggles, pathname });
         goBack(...args);
       },
       [goBack],
@@ -39,7 +28,7 @@ export const createNavButtonsWithTracking = getTrackingContext => {
       (...args) => {
         if (!goForward) return;
         const { featureToggles, pathname } = getTrackingContext() || {};
-        safelyTrack(trackContinueButtonClick, { featureToggles, pathname });
+        trackContinueButtonClick?.({ featureToggles, pathname });
         goForward(...args);
       },
       [goForward],
