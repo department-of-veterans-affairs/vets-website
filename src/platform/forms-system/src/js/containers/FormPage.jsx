@@ -313,7 +313,20 @@ class FormPage extends React.Component {
       ? FormNavButtonContinue
       : FormNavButtons;
     const NavButtonsWithWrapper = formOptions?.NavButtonsWithWrapper;
-    const NavButtons = NavButtonsWithWrapper || DefaultNavButtons;
+    const isValidNavWrapper = isReactComponent(NavButtonsWithWrapper);
+    if (
+      !environment.isProduction() &&
+      NavButtonsWithWrapper &&
+      !isValidNavWrapper
+    ) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        '[FormPage] NavButtonsWithWrapper is set but is not a valid component. Falling back to default buttons.',
+      );
+    }
+    const NavButtons = isValidNavWrapper
+      ? NavButtonsWithWrapper
+      : DefaultNavButtons;
 
     const {
       contentBeforeNavButtons,
@@ -398,7 +411,7 @@ class FormPage extends React.Component {
             <>
               {contentBeforeNavButtons}
               {/* Allow apps to wrap the default nav buttons (e.g., tracking) without changing UI */}
-              {NavButtonsWithWrapper ? (
+              {isValidNavWrapper ? (
                 <NavButtonsWithWrapper
                   DefaultNavButtons={DefaultNavButtons}
                   goBack={!isFirstRoutePage && this.goBack}
