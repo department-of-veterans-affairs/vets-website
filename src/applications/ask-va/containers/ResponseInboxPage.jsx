@@ -219,8 +219,8 @@ const ResponseInboxPage = ({ router }) => {
             We’ve run into a problem
           </h2>
           <p className="vads-u-font-size--base">
-            We’re sorry. Something went wrong on our end. Please try again later
-            or call us at <VaTelephone contact="800-698-2411" /> (
+            We’re sorry. Something went wrong on our end. Try again later or
+            call us at <VaTelephone contact="800-698-2411" /> (
             <VaTelephone contact="711" tty />
             ). We’re here 24/7.
           </p>
@@ -498,7 +498,7 @@ const ResponseInboxPage = ({ router }) => {
                   className="usa-link"
                   href={`${manifest.rootUrl}/introduction`}
                 >
-                  please ask a new question
+                  ask a new question
                 </a>
                 .
               </p>
