@@ -194,9 +194,9 @@ describe('Private Medical Records Upload page', () => {
     it('handleAdditionalInput should return docType object for valid value', () => {
       const fileConfig = uiSchema.privateMedicalRecordAttachments['ui:options'];
       const result = fileConfig.handleAdditionalInput({
-        detail: { value: 'L049' },
+        detail: { value: 'L107' },
       });
-      expect(result).to.deep.equal({ docType: 'L049' });
+      expect(result).to.deep.equal({ docType: 'L107' });
     });
   });
 
