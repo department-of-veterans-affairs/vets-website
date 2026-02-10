@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 /**
@@ -14,10 +14,23 @@ const useFocusAfterLoading = ({
   isLoading,
   isLoadingAcceleratedData = false,
 }) => {
+  const hasFocused = useRef(false);
+
   useEffect(
     () => {
-      // Only focus h1 when not loading (h1 is in the DOM)
-      if (!isLoadingAcceleratedData && !isLoading) {
+      // Reset the flag when loading starts again
+      if (isLoading || isLoadingAcceleratedData) {
+        hasFocused.current = false;
+      }
+    },
+    [isLoading, isLoadingAcceleratedData],
+  );
+
+  useEffect(
+    () => {
+      // Only focus h1 once when loading completes (h1 is in the DOM)
+      if (!isLoadingAcceleratedData && !isLoading && !hasFocused.current) {
+        hasFocused.current = true;
         focusElement(document.querySelector('h1'));
       }
     },
