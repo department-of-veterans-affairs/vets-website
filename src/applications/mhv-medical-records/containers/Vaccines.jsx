@@ -106,7 +106,10 @@ const Vaccines = props => {
     [dispatch],
   );
 
-  useFocusAfterLoading({ isLoading, isLoadingAcceleratedData });
+  useFocusAfterLoading({
+    isLoading: isLoading || listState === loadStates.FETCHING,
+    isLoadingAcceleratedData,
+  });
 
   usePrintTitle(
     pageTitles.VACCINES_PAGE_TITLE,

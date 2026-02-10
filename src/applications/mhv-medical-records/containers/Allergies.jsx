@@ -108,7 +108,10 @@ const Allergies = props => {
   const isLoadingAcceleratedData =
     isAcceleratingAllergies && listState === loadStates.FETCHING;
 
-  useFocusAfterLoading({ isLoading, isLoadingAcceleratedData });
+  useFocusAfterLoading({
+    isLoading: isLoading || listState === loadStates.FETCHING,
+    isLoadingAcceleratedData,
+  });
 
   usePrintTitle(
     pageTitles.ALLERGIES_PAGE_TITLE,

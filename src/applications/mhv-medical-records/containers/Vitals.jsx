@@ -83,7 +83,10 @@ const Vitals = () => {
     [dispatch],
   );
 
-  useFocusAfterLoading({ isLoading, isLoadingAcceleratedData });
+  useFocusAfterLoading({
+    isLoading: isLoading || listState === loadStates.FETCHING,
+    isLoadingAcceleratedData,
+  });
 
   usePrintTitle(
     pageTitles.VITALS_PAGE_TITLE,

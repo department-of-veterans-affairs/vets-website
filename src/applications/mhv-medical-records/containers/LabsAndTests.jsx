@@ -163,7 +163,10 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  useFocusAfterLoading({ isLoading, isLoadingAcceleratedData });
+  useFocusAfterLoading({
+    isLoading: isLoading || listState === loadStates.FETCHING,
+    isLoadingAcceleratedData,
+  });
 
   const handleDateRangeSelect = useDateRangeSelector({
     updateDateRangeAction: updateLabsAndTestDateRange,

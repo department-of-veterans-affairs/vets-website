@@ -101,7 +101,10 @@ const CareSummariesAndNotes = () => {
   const isLoadingAcceleratedData =
     isAcceleratingCareNotes && listState === loadStates.FETCHING;
 
-  useFocusAfterLoading({ isLoading, isLoadingAcceleratedData });
+  useFocusAfterLoading({
+    isLoading: isLoading || listState === loadStates.FETCHING,
+    isLoadingAcceleratedData,
+  });
 
   // Handle date range selection from DateRangeSelector component
   const handleDateRangeSelect = useDateRangeSelector({

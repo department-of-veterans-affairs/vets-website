@@ -67,7 +67,12 @@ describe('Medical Records View Allergies for VistA Users (Path 3)', () => {
 
         // Wait for detail page to load
         cy.get('h1').should('be.visible');
+        // Verify detail page displays
+        cy.url().should('include', '/allergies/');
 
+        // Verify VistA format fields are loaded before a11y check
+        cy.contains('Date entered').should('be.visible');
+        cy.get('[data-testid="allergy-type"]').should('exist');
         cy.injectAxeThenAxeCheck();
 
         // Verify detail page displays

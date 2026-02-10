@@ -78,7 +78,10 @@ const HealthConditions = () => {
   const isLoadingAcceleratedData =
     isAcceleratingConditions && listState === loadStates.FETCHING;
 
-  useFocusAfterLoading({ isLoading, isLoadingAcceleratedData });
+  useFocusAfterLoading({
+    isLoading: isLoading || listState === loadStates.FETCHING,
+    isLoadingAcceleratedData,
+  });
 
   return (
     <>
