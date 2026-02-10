@@ -66,8 +66,8 @@ const IdentityPage = ({ location, route, router }) => {
   );
 
   /**
-   * reset enrollment status data on when first loading the page if user is
-   * not logged in, else redirect to introduction page
+   * reset enrollment status data when first loading the page if user is
+   * not logged in, else redirect to the next valid page for logged-in users
    */
   useEffect(
     () => {
