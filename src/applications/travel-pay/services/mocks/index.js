@@ -1,5 +1,6 @@
 const fs = require('fs');
 const delay = require('mocker-api/lib/delay');
+
 const {
   getExpenseHandler,
   createExpenseHandler,
@@ -7,13 +8,13 @@ const {
   deleteExpenseHandler,
   setClaimRef,
 } = require('./expenses/expenseHandlers');
-const { getAppointmentById } = require('./vaos/appointmentUtils');
+const { buildAppointmentsFromClaims } = require('./vaos/appointmentUtils');
 const {
-  APPOINTMENT_MAP,
-  NON_MATCHING_APPOINTMENTS,
-} = require('./vaos/appointmentData');
+  getAppointmentByIdHandler,
+  getAppointmentsHandler,
+} = require('./vaos/appointmentHandlers');
 const { buildClaim } = require('./claims/baseClaim');
-const { mockClaimsResponse } = require('./claims/baseClaimList');
+const { baseClaimList, mockClaimsResponse } = require('./claims/baseClaimList');
 const {
   STATUS_KEYS,
   EXPENSE_TYPE_OPTIONS,
@@ -22,32 +23,32 @@ const {
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
 
-const appointment = {
-  original: require('./vaos-appointment-original.json'),
-  claim: require('./vaos-appointment-with-claim.json'),
-  savedClaim: require('./vaos-appointment-with-saved-claim.json'),
-  noClaim: require('./vaos-appointment-no-claim.json'),
-};
-
-const savedClaimAppointment = require('./vaos-appointment-with-saved-claim.json');
-
 const user = {
   withAddress: require('./user.json'),
   noAddress: require('./user-no-address.json'),
 };
 
-const appointmentAttributes = savedClaimAppointment.data.attributes;
-const appointmentId = savedClaimAppointment.data.id;
+// 👉 Change the claim status here to see the different claim status in appointments
+const {
+  baseAppointments,
+  savedClaim,
+  savedClaimAppointment,
+} = buildAppointmentsFromClaims(baseClaimList, STATUS_KEYS.SAVED);
 
 // 👉 Change the claim details here to see the different claim status for mocks
 const claim = buildClaim({
+  claimId: savedClaim.id,
+  claimNumber: savedClaim.claimNumber,
   claimStatus: STATUS_KEYS.SAVED, // e.g., INCOMPLETE, SAVED, CLAIMPAID
   expenseTypeOptions: EXPENSE_TYPE_OPTIONS.ALL, // ALL | NONE | MILEAGE_ONLY
+  daysOffset: -3, // Set this to the baseClaimList saved status -(index + 2)
   appointmentOverride: {
-    id: appointmentId,
-    appointmentDateTime: appointmentAttributes.start,
-    facilityId: appointmentAttributes.locationId,
-    facilityName: appointmentAttributes.location?.attributes?.name,
+    id: savedClaimAppointment?.id,
+    appointmentDateTime:
+      savedClaimAppointment?.attributes?.travelPayClaim?.claim
+        ?.appointmentDateTime,
+    facilityId: savedClaim.facilityId,
+    facilityName: savedClaim.facilityName,
   },
 });
 
@@ -57,50 +58,6 @@ const maintenanceWindows = {
   none: require('./maintenance-windows/none.json'),
   enabled: require('./maintenance-windows/enabled.json'),
 };
-
-// Helper function to generate appointment dates and times
-function generateAppointmentDates(daysOffset) {
-  const baseDate = new Date();
-  const appointmentDate = new Date(baseDate);
-  appointmentDate.setDate(baseDate.getDate() + daysOffset);
-
-  // Set appointment time to 8:00 AM local time
-  appointmentDate.setHours(8, 0, 0, 0);
-
-  // IMPORTANT: localStartTime has proper timezone offset (e.g. -08:00 for PST)
-  // This represents actual local time: 8:00 AM PST
-  const localStartTime = appointmentDate.toISOString().replace('Z', '-08:00');
-
-  // start is in true UTC (8:00 AM PST = 4:00 PM UTC)
-  const startDate = new Date(appointmentDate);
-  startDate.setHours(startDate.getHours() + 8); // Convert PST to UTC
-  const start = startDate.toISOString();
-
-  const endDate = new Date(startDate);
-  endDate.setMinutes(endDate.getMinutes() + 30); // 30 minutes later
-  const end = endDate.toISOString();
-
-  return { localStartTime, start, end };
-}
-
-function overrideAppointment(appt, id, { localStartTime, start, end }) {
-  const attributes = {
-    ...appt.data.attributes,
-    id,
-    localStartTime,
-    start,
-    end,
-  };
-
-  return {
-    ...appt,
-    data: {
-      ...appt.data,
-      id,
-      attributes,
-    },
-  };
-}
 
 const featureTogglesResponse = {
   data: {
@@ -130,16 +87,7 @@ const responses = {
   'GET /v0/user': user.withAddress,
   'GET /v0/feature_toggles': featureTogglesResponse,
   // Get travel-pay appointment - handle specific IDs first
-  'GET /vaos/v2/appointments/:id': (req, res) => {
-    return res.json(
-      getAppointmentById({
-        id: req.params.id,
-        appointment,
-        generateAppointmentDates,
-        overrideAppointment,
-      }),
-    );
-  },
+  'GET /vaos/v2/appointments/:id': getAppointmentByIdHandler(baseAppointments),
   // 'GET /vaos/v2/appointments/:id': (req, res) => {
   //   return res.status(503).json({
   //     errors: [
@@ -153,110 +101,8 @@ const responses = {
   //   });
   // },
   // Get appointments - handles both date range queries and list view
-  'GET /vaos/v2/appointments': (req, res) => {
-    const { start: startParam, end: endParam } = req.query;
+  'GET /vaos/v2/appointments': getAppointmentsHandler(baseAppointments),
 
-    // Build the baseClaim appointment
-    const baseClaim = buildClaim({ claimStatus: 'Saved' });
-    const baseClaimAppt = {
-      id: baseClaim.appointment.id,
-      type: 'appointments',
-      attributes: {
-        ...baseClaim.appointment,
-        // Convert it to proper localStartTime format with timezone offset
-        // Example: "2025-03-20T16:30:00Z" (claim) -> "2025-03-20T16:30:00.000-08:00" (localStartTime)
-        localStartTime: new Date(baseClaim.appointment.appointmentDateTime)
-          .toISOString()
-          .replace('Z', '.000-08:00'),
-        start: baseClaim.appointment.appointmentDateTime,
-        end: new Date(
-          new Date(baseClaim.appointment.appointmentDateTime).getTime() +
-            30 * 60 * 1000,
-        ).toISOString(),
-        travelPayClaim: {
-          metadata: {
-            status: 200,
-            success: true,
-            message: 'Data retrieved successfully',
-          },
-          claim: {
-            claimId: baseClaim.claimId,
-            claimNumber: baseClaim.claimNumber,
-            claimStatus: baseClaim.claimStatus,
-            appointmentDate: baseClaim.appointment.appointmentDate,
-            facilityName: baseClaim.appointment.facilityName,
-            createdOn: baseClaim.createdOn,
-            modifiedOn: baseClaim.modifiedOn,
-          },
-        },
-      },
-    };
-
-    // Build all appointments from APPOINTMENT_MAP
-    const allAppointments = Object.keys(APPOINTMENT_MAP).map(id =>
-      getAppointmentById({
-        id,
-        appointment,
-        generateAppointmentDates,
-        overrideAppointment: (
-          apptData,
-          apptId,
-          { localStartTime, start, end },
-        ) => ({
-          ...apptData.data,
-          id: apptId,
-          type: 'appointments',
-          attributes: {
-            ...apptData.data.attributes,
-            id: apptId,
-            localStartTime,
-            start,
-            end,
-            ...(apptData.data.attributes.travelPayClaim && {
-              travelPayClaim: apptData.data.attributes.travelPayClaim,
-            }),
-          },
-        }),
-      }),
-    );
-
-    // Add non-matching appointments to test filtering
-    const nonMatchingAppointments = NON_MATCHING_APPOINTMENTS.map(a => ({
-      ...appointment.noClaim.data,
-      id: a.id,
-      type: 'appointments',
-      attributes: {
-        ...appointment.noClaim.data.attributes,
-        id: a.id,
-        localStartTime: a.localStartTime,
-        start: a.start,
-        end: a.end,
-      },
-    }));
-
-    // Combine everything
-    const combinedAppointments = [
-      ...allAppointments,
-      baseClaimAppt,
-      ...nonMatchingAppointments,
-    ];
-
-    // Filter by start/end if provided
-    if (startParam && endParam) {
-      const startDate = new Date(startParam);
-      const endDate = new Date(endParam);
-
-      const filteredAppointments = combinedAppointments.filter(appt => {
-        const apptStart = new Date(appt.attributes.start);
-        return apptStart >= startDate && apptStart <= endDate;
-      });
-
-      return res.json({ data: filteredAppointments });
-    }
-
-    // Return everything if no date range
-    return res.json({ data: combinedAppointments });
-  },
   // Get all claims
   // 'GET /travel_pay/v0/claims'
   'GET /travel_pay/v0/claims': mockClaimsResponse,
@@ -310,7 +156,25 @@ const responses = {
 
   // Get claim
   // GET /travel_pay/v0/claims/:id
-  'GET /travel_pay/v0/claims/:id': claim,
+  'GET /travel_pay/v0/claims/:id': (req, res) => {
+    const { id } = req.params;
+
+    // Find the claim the user actually clicked on
+    const listClaim = baseClaimList.find(c => c.id === id);
+    if (!listClaim) {
+      return res.status(404).json({
+        errors: [
+          {
+            title: 'Not found',
+            status: 404,
+            detail: 'Claim not found',
+          },
+        ],
+      });
+    }
+
+    return res.json(claim);
+  },
   //
   // 'GET /travel_pay/v0/claims/:id': (req, res) => {
   //   return res.status(403).json({
