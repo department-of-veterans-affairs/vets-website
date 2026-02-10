@@ -79,4 +79,61 @@ describe('22-10278 information to disclose page', () => {
     expect(getByText('Taras Kurilo')).to.exist;
     expect(getByText('Jane Doe')).to.exist;
   });
+
+  it('setAll(false) clears otherText when unchecking "Select all"', () => {
+    const formData = {
+      statusOfClaim: true,
+      currentBenefit: true,
+      paymentHistory: true,
+      amountOwed: true,
+      minor: true,
+      other: true,
+      otherText: 'some text',
+    };
+    const { container } = renderPage({ claimInformation: formData }, formData);
+
+    const selectAllCheckbox = container.querySelector(
+      'va-checkbox[label="Select all benefit and claim information"]',
+    );
+    selectAllCheckbox.dispatchEvent(
+      new CustomEvent('vaChange', { detail: { checked: false } }),
+    );
+
+    const otherInput = container.querySelector('va-text-input');
+    expect(otherInput).to.not.exist;
+  });
+
+  it('setOne removes text input when unchecking the "Other" checkbox', () => {
+    const formData = {
+      other: true,
+      otherText: 'some explanation',
+    };
+    const { container } = renderPage({ claimInformation: formData }, formData);
+
+    expect(container.querySelector('va-text-input')).to.exist;
+
+    const otherCheckbox = container.querySelector('va-checkbox[label="Other"]');
+    otherCheckbox.dispatchEvent(
+      new CustomEvent('vaChange', { detail: { checked: false } }),
+    );
+
+    const otherInput = container.querySelector('va-text-input');
+    expect(otherInput).to.not.exist;
+  });
+
+  it('setOtherExplanation updates otherText via text input', () => {
+    const formData = { other: true, otherText: '' };
+    const { container } = renderPage({ claimInformation: formData }, formData);
+
+    const otherInput = container.querySelector('va-text-input');
+    expect(otherInput).to.exist;
+
+    otherInput.dispatchEvent(
+      new CustomEvent('vaInput', { detail: { value: 'new explanation' } }),
+    );
+
+    expect(otherInput.getAttribute('label')).to.equal(
+      'Specify other information you’d like to disclose',
+    );
+  });
 });

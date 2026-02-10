@@ -15,6 +15,11 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import SubmissionInstructions from '../components/SubmissionInstructions';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
+import PreSubmitInfo from '../components/PreSubmitInfo';
+import PrivacyPolicy from '../components/PrivacyPolicy';
+
 // Pages
 import {
   educationBenefitsElibility,
@@ -60,18 +65,30 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer: prefillTransform,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'applicantName',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your request.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  CustomReviewTopContent,
   customText: {
     appType: 'request',
     continueAppButtonText: 'Continue your request',
     startNewAppButtonText: 'Start a new request',
     finishAppLaterMessage: 'Finish this request later',
     appSavedSuccessfullyMessage: 'We’ve saved your request.',
+    reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
   },
   defaultDefinitions: {},
   useCustomScrollAndFocus: true,
@@ -197,6 +214,23 @@ const formConfig = {
           title: 'Enter your remarks',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },

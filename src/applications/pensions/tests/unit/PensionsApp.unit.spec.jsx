@@ -16,11 +16,15 @@ const pensionLocation = {
   query: '{}',
 };
 
-const store = ({ pensionFormEnabled = true, loading = true } = {}) => ({
+const store = ({
+  pensionFormEnabled = true,
+  loading = true,
+  isLoggedIn = true,
+} = {}) => ({
   getState: () => ({
     user: {
       login: {
-        currentlyLoggedIn: true,
+        currentlyLoggedIn: isLoggedIn,
       },
     },
     featureToggles: {
@@ -77,5 +81,22 @@ describe('PensionsApp', () => {
     });
 
     global.window.location = oldLocation;
+  });
+
+  it('should render redirect loading indicator when user is not logged in on form page', () => {
+    const mockStore = store({ loading: false, isLoggedIn: false });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <PensionsApp
+          location={{ ...pensionLocation, pathname: '/inside-form' }}
+        />
+      </Provider>,
+    );
+
+    const loadingIndicator = container.querySelector('va-loading-indicator');
+    expect(loadingIndicator).to.exist;
+    expect(loadingIndicator.getAttribute('message')).to.equal(
+      'Redirecting to introduction page...',
+    );
   });
 });
