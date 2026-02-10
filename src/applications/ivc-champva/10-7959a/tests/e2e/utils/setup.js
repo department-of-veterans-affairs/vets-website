@@ -23,8 +23,3 @@ export const setupBasicTest = (props = {}) => {
   cy.intercept('POST', APIs.submit, mockSubmission);
   cy.intercept('POST', APIs.upload, mockAttachment);
 };
-
-export const setupForGuest = (props = {}) => {
-  const { features = mockFeatures } = props;
-  setupBasicTest({ features });
-};

@@ -3,7 +3,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../../config/form';
 import manifest from '../../../manifest.json';
 import { fillStatementOfTruthAndSubmit } from './fillers';
-import { setupForGuest } from './setup';
+import { setupBasicTest } from './setup';
 
 export const getConfig = (dataSets = []) =>
   createTestConfig(
@@ -19,7 +19,7 @@ export const getConfig = (dataSets = []) =>
           afterHook(() => fillStatementOfTruthAndSubmit());
         },
       },
-      setupPerTest: () => setupForGuest(),
+      setupPerTest: () => setupBasicTest(),
     },
     manifest,
     formConfig,

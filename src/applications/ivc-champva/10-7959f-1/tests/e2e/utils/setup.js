@@ -20,8 +20,3 @@ export const setupBasicTest = (props = {}) => {
   cy.intercept('GET', APIs.vamc, mockVamc);
   cy.intercept('POST', APIs.submit, mockSubmission);
 };
-
-export const setupForGuest = (props = {}) => {
-  const { features = mockFeatures } = props;
-  setupBasicTest({ features });
-};

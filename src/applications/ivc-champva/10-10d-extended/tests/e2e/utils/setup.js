@@ -41,8 +41,3 @@ export const setupForAuth = (props = {}) => {
 
   cy.login(user);
 };
-
-export const setupForGuest = (props = {}) => {
-  const { features = mockFeatures } = props;
-  setupBasicTest({ features });
-};
