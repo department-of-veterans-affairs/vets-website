@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
@@ -73,9 +73,10 @@ const Allergies = props => {
       ({ facilityId }) => facilityId === MEDS_BY_MAIL_FACILITY_ID,
     ) ?? false;
 
-  const dispatchAction = isCurrent => {
-    return getAllergiesList(isCurrent, isAcceleratingAllergies, isCerner);
-  };
+  const dispatchAction = useCallback(
+    isCurrent => getAllergiesList(isCurrent, isAcceleratingAllergies, isCerner),
+    [isAcceleratingAllergies, isCerner],
+  );
 
   useListRefresh({
     listState,
@@ -84,6 +85,7 @@ const Allergies = props => {
     extractType: refreshExtractTypes.ALLERGY,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   useTrackAction(statsdFrontEndActions.ALLERGIES_LIST);
@@ -136,17 +138,20 @@ const Allergies = props => {
       ),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
-    makePdf(
-      pdfName,
-      pdfData,
-      'medicalRecords',
-      'Medical Records - Allergies - PDF generation error',
-      runningUnitTest,
-    );
+    try {
+      await makePdf(
+        pdfName,
+        pdfData,
+        'medicalRecords',
+        'Medical Records - Allergies - PDF generation error',
+        runningUnitTest,
+      );
+    } catch {
+      // makePdf handles error logging to Datadog/Sentry
+    }
   };
 
   const generateAllergyListItemTxt = item => {
-    setDownloadStarted(true);
     if (isCerner) {
       return `
 ${txtLine}\n\n
@@ -169,6 +174,7 @@ Provider notes: ${item.notes}\n`;
   };
 
   const generateAllergiesTxt = async () => {
+    setDownloadStarted(true);
     // Conditional content based on whether user has Meds by Mail facility
     const additionalInfo = hasMedsByMailFacility
       ? `
@@ -225,7 +231,9 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         </div>
       )}
 
-      {downloadStarted && <DownloadSuccessAlert />}
+      {downloadStarted && (
+        <DownloadSuccessAlert className="vads-u-margin-bottom--3" />
+      )}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.ALLERGY}

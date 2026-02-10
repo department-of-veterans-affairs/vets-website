@@ -25,6 +25,8 @@ import {
   sanitizeNewDisabilities,
   removeRatedDisabilityFromNew,
   removeExtraData,
+  cleanUpMailingAddress,
+  getDisabilityName,
 } from '../../utils/submit';
 import {
   PTSD_INCIDENT_ITERATION,
@@ -68,6 +70,35 @@ describe('transformRelatedDisabilities', () => {
     expect(
       transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
     ).to.eql(['Some Condition Name']);
+  });
+});
+
+describe('getDisabilityName', () => {
+  it('should return the condition name for new disabilities', () => {
+    expect(getDisabilityName({ condition: 'tinnitus' })).to.eql('tinnitus');
+  });
+  it('should return the name for rated disabilities', () => {
+    expect(getDisabilityName({ name: 'Tinnitus' })).to.eql('Tinnitus');
+  });
+  it('should include sideOfBody when present', () => {
+    expect(
+      getDisabilityName({ condition: 'tinnitus', sideOfBody: 'Left' }),
+    ).to.eql('tinnitus, left');
+  });
+  it('should trim whitespace from condition and sideOfBody', () => {
+    expect(
+      getDisabilityName({ condition: '  tinnitus  ', sideOfBody: '  Right  ' }),
+    ).to.eql('tinnitus, right');
+  });
+  it('should not include sideOfBody if condition is empty', () => {
+    expect(getDisabilityName({ condition: '', sideOfBody: 'Left' })).to.eql('');
+  });
+  it('should handle disabilities with name and sideOfBody (rated disabilities)', () => {
+    // Note: rated disabilities use "name" not "condition", and typically don't have sideOfBody
+    // but if they did, it should still work
+    expect(
+      getDisabilityName({ name: 'Knee injury', sideOfBody: 'bilateral' }),
+    ).to.eql('Knee injury, bilateral');
   });
 });
 
@@ -147,6 +178,70 @@ describe('stringifyRelatedDisabilities', () => {
           'some condition name',
           'something with symbols *($#^%$@) not in the key',
         ],
+      },
+    ]);
+  });
+  it('should correctly match conditions with sideOfBody', () => {
+    const formData = {
+      newDisabilities: [
+        {
+          condition: 'tinnitus',
+          sideOfBody: 'Left',
+        },
+        {
+          condition: 'knee pain',
+          sideOfBody: 'Right',
+        },
+        {
+          condition: 'back pain',
+          // no sideOfBody
+        },
+      ],
+      vaTreatmentFacilities: [
+        {
+          treatedDisabilityNames: {
+            tinnitusleft: true,
+            kneepainright: true,
+            backpain: true,
+          },
+        },
+      ],
+    };
+    expect(
+      stringifyRelatedDisabilities(formData).vaTreatmentFacilities,
+    ).to.deep.equal([
+      {
+        treatedDisabilityNames: [
+          'tinnitus, left',
+          'knee pain, right',
+          'back pain',
+        ],
+      },
+    ]);
+  });
+  it('should match conditions with sideOfBody in newPrimaryDisabilities', () => {
+    const formData = {
+      newPrimaryDisabilities: [
+        {
+          condition: 'carpal tunnel syndrome',
+          cause: 'NEW',
+          sideOfBody: 'LEFT',
+          primaryDescription: 'Secondary to ankle sprain\nDescription',
+        },
+      ],
+      vaTreatmentFacilities: [
+        {
+          treatedDisabilityNames: {
+            carpaltunnelsyndromeleft: true,
+          },
+        },
+      ],
+    };
+    expect(
+      stringifyRelatedDisabilities(formData).vaTreatmentFacilities,
+    ).to.deep.equal([
+      {
+        treatedDisabilityNames: ['carpal tunnel syndrome, left'],
       },
     ]);
   });
@@ -1540,5 +1635,119 @@ describe('removeExtraData', () => {
     const result = removeExtraData(formData);
 
     expect(result).to.deep.equal(formData);
+  });
+});
+
+describe('cleanUpMailingAddress', () => {
+  it('should normalize address lines by trimming and collapsing spaces', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '  123   Main   St  ',
+        addressLine2: '  Apt   5  ',
+        addressLine3: '  Building   A  ',
+        city: 'New York',
+        state: 'NY',
+        zipCode: '12345',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress.addressLine1).to.equal('123 Main St');
+    expect(result.mailingAddress.addressLine2).to.equal('Apt 5');
+    expect(result.mailingAddress.addressLine3).to.equal('Building A');
+  });
+
+  it('should normalize city by trimming and collapsing spaces', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        city: '  Los   Angeles  ',
+        state: 'CA',
+        zipCode: '90001',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress.city).to.equal('Los Angeles');
+  });
+
+  it('should preserve other address fields unchanged', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        city: 'New York',
+        state: 'NY',
+        zipCode: '12345',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress.country).to.equal('USA');
+    expect(result.mailingAddress.city).to.equal('New York');
+    expect(result.mailingAddress.state).to.equal('NY');
+    expect(result.mailingAddress.zipCode).to.equal('12345');
+  });
+
+  it('should remove invalid keys from mailing address', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        'view:livesOnMilitaryBase': true,
+        invalidKey: 'should be removed',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress).to.not.have.property(
+      'view:livesOnMilitaryBase',
+    );
+    expect(result.mailingAddress).to.not.have.property('invalidKey');
+  });
+
+  it('should handle empty address lines', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        addressLine2: '',
+        city: 'New York',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress).to.not.have.property('addressLine2');
+  });
+
+  it('should handle address line with only spaces', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        addressLine2: '     ',
+        city: 'New York',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    // Whitespace-only values become empty after normalization and are filtered out
+    expect(result.mailingAddress).to.not.have.property('addressLine2');
+  });
+
+  it('should handle empty string values in mailing address', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        addressLine2: '',
+        addressLine3: '',
+        city: 'New York',
+        state: 'NY',
+        zipCode: '12345',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress.addressLine1).to.equal('123 Main St');
+    expect(result.mailingAddress.city).to.equal('New York');
+    // Empty strings are filtered out (not included in result)
+    expect(result.mailingAddress).to.not.have.property('addressLine2');
+    expect(result.mailingAddress).to.not.have.property('addressLine3');
   });
 });

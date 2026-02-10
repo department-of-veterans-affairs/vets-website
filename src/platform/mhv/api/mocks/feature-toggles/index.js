@@ -10,11 +10,13 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
     mhvMedicationsManagementImprovements = false,
+    mhvMedicationsOracleHealthCutover = false,
 
     // OH integration work
     mhvMedicalRecordsCcdExtendedFileTypes = true,
     mhvMedicalRecordsCcdOH = true,
     mhvMedicalRecordsHoldTimeMessagingUpdate = true,
+    mhvMedicalRecordsImagesDomain = true,
     mhvMedicalRecordsMergeCvixIntoScdf = false,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
@@ -33,6 +35,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvSecureMessagingLargeAttachments = true,
     mhvSecureMessagingCuratedListFlow = true,
     mhvSecureMessagingRecentRecipients = true,
+    mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag = false,
   } = toggles;
 
   return {
@@ -104,6 +107,10 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicationsManagementImprovements,
         },
         {
+          name: 'mhv_medications_oracle_health_cutover',
+          value: mhvMedicationsOracleHealthCutover,
+        },
+        {
           name: 'mhv_medications_display_new_cerner_facility_alert',
           value: mhvMedicationsDisplayNewCernerFacilityAlert,
         },
@@ -124,6 +131,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_hold_time_messaging_update',
           value: mhvMedicalRecordsHoldTimeMessagingUpdate,
+        },
+        {
+          name: 'mhv_medical_records_images_domain',
+          value: mhvMedicalRecordsImagesDomain,
         },
         {
           name: 'mhv_medical_records_merge_cvix_into_scdf',
@@ -162,6 +173,11 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhvSecureMessagingRecentRecipients',
           value: mhvSecureMessagingRecentRecipients,
+        },
+        {
+          name:
+            'mhv_secure_messaging_cerner_pilot_system_maintenance_banner_flag',
+          value: mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
         },
       ],
     },

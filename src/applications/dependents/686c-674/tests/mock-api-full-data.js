@@ -100,7 +100,7 @@ const mockDependents = {
           awardIndicator: 'Y',
         },
         {
-          firstName: 'JOE', // Left school & no permanent disability
+          firstName: 'JOE', // Left school
           lastName: 'FOSTER',
           dateOfBirth: createDate(19),
           ssn: '3468',
@@ -109,16 +109,7 @@ const mockDependents = {
           awardIndicator: 'Y',
         },
         {
-          firstName: 'MIKE', // Left school & has permanent disability
-          lastName: 'FOSTER',
-          dateOfBirth: createDate(20),
-          ssn: '3499',
-          relationshipToVeteran: 'Child', // prefill
-          relationship: 'Child', // API
-          awardIndicator: 'Y',
-        },
-        {
-          firstName: 'STACY', // Left household & < 50% financial support
+          firstName: 'STACY', // Stepchild left household & < 50% financial support
           lastName: 'FOSTER',
           dateOfBirth: createDate(0, 4),
           ssn: '3233',
@@ -127,7 +118,7 @@ const mockDependents = {
           awardIndicator: 'Y',
         },
         {
-          firstName: 'JENNIFER', // Left household & >= 50% financial support
+          firstName: 'JENNIFER', // Stepchild left household & >= 50% financial support
           lastName: 'FOSTER',
           dateOfBirth: createDate(4),
           ssn: '3311',
@@ -246,6 +237,8 @@ const responses = {
         { name: 'va_dependents_verification', value: true },
         { name: 'vaDependentsBrowserMonitoringEnabled', value: true },
         { name: 'va_dependents_browser_monitoring_enabled', value: true },
+        { name: 'va_dependents_no_ssn', value: true },
+        { name: 'vaDependentsNoSsn', value: true },
       ],
     },
   },

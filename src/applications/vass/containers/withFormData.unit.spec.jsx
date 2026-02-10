@@ -2,10 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
-import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
-import { combineReducers, applyMiddleware, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import { commonReducer } from 'platform/startup/store';
+import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import withFormData from './withFormData';
@@ -13,25 +10,10 @@ import { URLS } from '../utils/constants';
 import * as formSlice from '../redux/slices/formSlice';
 import {
   getDefaultRenderOptions,
-  reducers,
-  vassApi,
+  getHydratedFormRenderOptions,
+  LocationDisplay,
+  TestComponent,
 } from '../utils/test-utils';
-
-// Helper component to display current location for testing navigation
-const LocationDisplay = () => {
-  const location = useLocation();
-  return (
-    <div data-testid="location-display">
-      {location.pathname}
-      {location.search}
-    </div>
-  );
-};
-
-// Simple test component to wrap
-const TestComponent = () => (
-  <div data-testid="test-component">Test Content</div>
-);
 
 describe('VASS Containers: withFormData', () => {
   let loadFormDataFromStorageStub;
@@ -65,7 +47,7 @@ describe('VASS Containers: withFormData', () => {
     it('should render the wrapped component', () => {
       const WrappedComponent = withFormData(TestComponent, [
         'uuid',
-        'lastname',
+        'lastName',
         'dob',
       ]);
 
@@ -74,7 +56,7 @@ describe('VASS Containers: withFormData', () => {
         getDefaultRenderOptions({
           hydrated: true,
           uuid: 'test-uuid',
-          lastname: 'Smith',
+          lastName: 'Smith',
           dob: '1990-01-01',
         }),
       );
@@ -155,8 +137,8 @@ describe('VASS Containers: withFormData', () => {
       expect(queryByTestId('test-component')).to.not.exist;
     });
 
-    it('should redirect to route that sets missing field (selectedDate)', async () => {
-      const WrappedComponent = withFormData(TestComponent, ['selectedDate']);
+    it('should redirect to route that sets missing field (selectedSlot)', async () => {
+      const WrappedComponent = withFormData(TestComponent, ['selectedSlot']);
 
       const { getByTestId, queryByTestId } = renderWithStoreAndRouterV6(
         <>
@@ -172,7 +154,10 @@ describe('VASS Containers: withFormData', () => {
         {
           ...getDefaultRenderOptions({
             hydrated: true,
-            selectedDate: null,
+            selectedSlot: {
+              dtStartUtc: null,
+              dtEndUtc: null,
+            },
           }),
           initialEntries: ['/test'],
         },
@@ -222,7 +207,7 @@ describe('VASS Containers: withFormData', () => {
     it('should redirect based on first missing field when multiple are missing', async () => {
       const WrappedComponent = withFormData(TestComponent, [
         'uuid',
-        'selectedDate',
+        'selectedSlot',
       ]);
 
       const { getByTestId } = renderWithStoreAndRouterV6(
@@ -244,7 +229,10 @@ describe('VASS Containers: withFormData', () => {
           ...getDefaultRenderOptions({
             hydrated: true,
             uuid: null,
-            selectedDate: null,
+            selectedSlot: {
+              dtStartUtc: null,
+              dtEndUtc: null,
+            },
           }),
           initialEntries: ['/test'],
         },
@@ -263,7 +251,7 @@ describe('VASS Containers: withFormData', () => {
     it('should attempt to hydrate from sessionStorage when not hydrated and data is missing', async () => {
       const savedData = {
         uuid: 'saved-uuid',
-        lastname: 'SavedName',
+        lastName: 'SavedName',
         dob: '1990-01-01',
       };
       loadFormDataFromStorageStub.returns(savedData);
@@ -327,24 +315,10 @@ describe('VASS Containers: withFormData', () => {
     it('should dispatch clearFormData when redirecting to Verify route', async () => {
       const WrappedComponent = withFormData(TestComponent, ['uuid']);
 
-      const initialState = {
-        vassForm: {
-          hydrated: true,
-          selectedDate: '2025-01-01',
-          obfuscatedEmail: 's***@example.com',
-          token: 'valid-token',
-          selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
-          uuid: null,
-          lastname: 'Smith',
-          dob: '1935-04-07',
-        },
-      };
-
-      const store = createStore(
-        combineReducers({ ...commonReducer, ...reducers }),
-        initialState,
-        applyMiddleware(thunk, vassApi.middleware),
-      );
+      // Set uuid to null to reroute to Verify page
+      const defaultOptions = getHydratedFormRenderOptions({
+        uuid: null,
+      });
 
       const { getByTestId } = renderWithStoreAndRouterV6(
         <>
@@ -358,9 +332,7 @@ describe('VASS Containers: withFormData', () => {
           <LocationDisplay />
         </>,
         {
-          reducers,
-          additionalMiddlewares: [vassApi.middleware],
-          store,
+          ...defaultOptions,
           initialEntries: ['/test'],
         },
       );
@@ -371,33 +343,24 @@ describe('VASS Containers: withFormData', () => {
         );
       });
 
-      const state = store.getState();
-      expect(state.vassForm.selectedDate).to.be.null;
+      const state = defaultOptions.store.getState();
+      expect(state.vassForm.selectedSlot).to.deep.equal({
+        dtStartUtc: null,
+        dtEndUtc: null,
+      });
       expect(state.vassForm.selectedTopics).to.deep.equal([]);
-      expect(state.vassForm.token).to.be.null;
     });
 
     it('should not clear form data when redirecting to non-Verify routes', async () => {
-      const WrappedComponent = withFormData(TestComponent, ['selectedDate']);
+      const WrappedComponent = withFormData(TestComponent, ['selectedSlot']);
 
-      const initialState = {
-        vassForm: {
-          hydrated: true,
-          selectedDate: null,
-          obfuscatedEmail: 's***@example.com',
-          token: 'valid-token',
-          selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
-          uuid: 'test-uuid',
-          lastname: 'Smith',
-          dob: '1935-04-07',
+      // Set selectedSlot to reroute to Date Time page
+      const defaultOptions = getHydratedFormRenderOptions({
+        selectedSlot: {
+          dtStartUtc: null,
+          dtEndUtc: null,
         },
-      };
-
-      const store = createStore(
-        combineReducers({ ...commonReducer, ...reducers }),
-        initialState,
-        applyMiddleware(thunk, vassApi.middleware),
-      );
+      });
 
       const { getByTestId } = renderWithStoreAndRouterV6(
         <>
@@ -411,9 +374,7 @@ describe('VASS Containers: withFormData', () => {
           <LocationDisplay />
         </>,
         {
-          reducers,
-          additionalMiddlewares: [vassApi.middleware],
-          store,
+          ...defaultOptions,
           initialEntries: ['/test'],
         },
       );
@@ -424,9 +385,8 @@ describe('VASS Containers: withFormData', () => {
         );
       });
 
-      const state = store.getState();
+      const state = defaultOptions.store.getState();
       // Form data should NOT be cleared when redirecting to non-Verify routes
-      expect(state.vassForm.token).to.equal('valid-token');
       expect(state.vassForm.uuid).to.equal('test-uuid');
     });
   });

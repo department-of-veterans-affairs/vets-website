@@ -124,7 +124,8 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  showReviewErrors: !environment.isProduction() && !environment.isStaging(),
+  // Commenting out to troubleshoot error on staging.
+  // showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
     // Chapter 1 - Veteran Information
     veteranInformation: {
@@ -295,7 +296,7 @@ const formConfig = {
           title: 'Marriage to Veteran Details',
           depends: formData =>
             formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-            !formData.marriedAtDeath,
+            !formData.marriedToVeteranAtTimeOfDeath,
           uiSchema: marriageToVeteranEnd.uiSchema,
           schema: marriageToVeteranEnd.schema,
         },
@@ -412,14 +413,16 @@ const formConfig = {
         dependentsAddress: {
           path: 'household/dependents-address',
           title: 'Dependent’s mailing address',
-          depends: formData => formData?.dependentsResidence === true,
+          depends: formData =>
+            formData?.childrenLiveTogetherButNotWithSpouse === true,
           uiSchema: dependentsAddress.uiSchema,
           schema: dependentsAddress.schema,
         },
         dependentsName: {
           path: 'household/dependents-custodian',
           title: 'Dependent’s custodian',
-          depends: formData => formData?.dependentsResidence === true,
+          depends: formData =>
+            formData?.childrenLiveTogetherButNotWithSpouse === true,
           uiSchema: dependentsCustodian.uiSchema,
           schema: dependentsCustodian.schema,
         },
