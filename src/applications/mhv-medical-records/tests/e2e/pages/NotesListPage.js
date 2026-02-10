@@ -35,8 +35,10 @@ class NotesListPage extends BaseListPage {
       .eq(_NotesIndex)
       .should('be.visible')
       .click();
-    // Wait for detail page to load
-    cy.get('h1').should('be.visible');
+    // Wait for detail page to load - check for print menu as indicator
+    cy.get('[data-testid="print-download-menu"]', { timeout: 10000 }).should(
+      'be.visible',
+    );
   };
 }
 

@@ -4,6 +4,8 @@ class BaseListPage {
   };
 
   clickPrintOrDownload = () => {
+    // Wait for page to fully load first
+    cy.get('h1').should('be.visible');
     // Wait for menu button to be visible and enabled, then click
     cy.get('[data-testid="print-download-menu"]')
       .should('be.visible')
