@@ -154,7 +154,8 @@ class ContactListPage {
       `include.text`,
       Alerts.CONTACT_LIST.SAVED,
     );
-    cy.get('h1').should('have.focus');
+    // Success alerts use role="status" for AT announcement without stealing
+    // focus from the user's current position (per MHV accessibility decisions).
   };
 
   clickBackToInbox = () => {
