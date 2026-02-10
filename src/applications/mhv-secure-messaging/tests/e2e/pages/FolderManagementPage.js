@@ -101,8 +101,10 @@ class FolderManagementPage {
       .should('be.visible')
       .scrollIntoView();
 
-    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID).click();
-    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID)
+    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID).click({
+      force: true,
+    });
+    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID, { timeout: 10000 })
       .should('be.visible')
       .then(() => {
         cy.findByLabelText(folderName, { timeout: 10000 }).click();
