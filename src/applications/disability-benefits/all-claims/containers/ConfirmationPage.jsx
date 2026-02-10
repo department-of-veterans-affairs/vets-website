@@ -9,10 +9,10 @@ import {
   WIZARD_STATUS,
   FORM_STATUS_BDD,
   SAVED_SEPARATION_DATE,
-  TRACKING_BACK_BUTTON_CLICKS,
-  TRACKING_CONTINUE_BUTTON_CLICKS,
-  TRACKING_FORM_RESUMPTION,
-  TRACKING_FORM_START,
+  TRACKING_526EZ_BACK_BUTTON_CLICKS,
+  TRACKING_526EZ_CONTINUE_BUTTON_CLICKS,
+  TRACKING_526EZ_FORM_RESUMPTION,
+  TRACKING_526EZ_FORM_START,
 } from '../constants';
 import {
   howLongForDecision,
@@ -93,10 +93,10 @@ export default class ConfirmationPage extends React.Component {
     sessionStorage.removeItem(SAVED_SEPARATION_DATE);
 
     // Clear tracking session storage
-    sessionStorage.removeItem(TRACKING_BACK_BUTTON_CLICKS);
-    sessionStorage.removeItem(TRACKING_CONTINUE_BUTTON_CLICKS);
-    sessionStorage.removeItem(TRACKING_FORM_RESUMPTION);
-    sessionStorage.removeItem(TRACKING_FORM_START);
+    sessionStorage.removeItem(TRACKING_526EZ_BACK_BUTTON_CLICKS);
+    sessionStorage.removeItem(TRACKING_526EZ_CONTINUE_BUTTON_CLICKS);
+    sessionStorage.removeItem(TRACKING_526EZ_FORM_RESUMPTION);
+    sessionStorage.removeItem(TRACKING_526EZ_FORM_START);
 
     return this.ConfirmationPageContent(this.props);
   }

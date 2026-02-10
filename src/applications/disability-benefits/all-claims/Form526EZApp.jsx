@@ -36,7 +36,7 @@ import {
   DATA_DOG_TOKEN,
   DATA_DOG_SERVICE,
   DATA_DOG_VERSION,
-  TRACKING_FORM_START,
+  TRACKING_526EZ_FORM_START,
 } from './constants';
 import {
   isBDD,
@@ -193,14 +193,14 @@ export const Form526Entry = ({
       const isFirstFormPage = location?.pathname === '/veteran-information';
       const hasNoSavedForm = !hasSavedForm;
       const alreadyTracked =
-        sessionStorage.getItem(TRACKING_FORM_START) === 'true';
+        sessionStorage.getItem(TRACKING_526EZ_FORM_START) === 'true';
 
       if (isFirstFormPage && hasNoSavedForm && !alreadyTracked) {
         trackFormStarted({
           featureToggles,
           pathname: location?.pathname,
         });
-        sessionStorage.setItem(TRACKING_FORM_START, 'true');
+        sessionStorage.setItem(TRACKING_526EZ_FORM_START, 'true');
       }
     },
     [location?.pathname, hasSavedForm, featureToggles, form?.data],
