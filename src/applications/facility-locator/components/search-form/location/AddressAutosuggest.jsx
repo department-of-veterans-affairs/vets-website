@@ -221,6 +221,9 @@ function AddressAutosuggest({
           isMobile={isMobile}
         />
       }
+      showOptionsRestriction={
+        !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
+      }
       keepDataOnBlur
       showDownCaret={false}
       shouldShowNoResults
