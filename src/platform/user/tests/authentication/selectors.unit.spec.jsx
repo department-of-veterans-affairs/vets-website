@@ -113,15 +113,13 @@ describe('authentication selectors', () => {
   });
 
   describe('isAuthenticatedWithOAuth', () => {
-    let originalCookie;
-    before(() => {
-      originalCookie = document.cookie;
-    });
-    beforeEach(() => {
-      document.cookie = '';
-    });
-    after(() => {
-      document.cookie = originalCookie;
+    const clearInfoTokenCookie = () => {
+      document.cookie =
+        'vagov_info_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    };
+
+    afterEach(() => {
+      clearInfoTokenCookie();
     });
     it('returns true when the authBroker is sis', () => {
       const state = {
