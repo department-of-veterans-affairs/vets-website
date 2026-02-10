@@ -6,46 +6,11 @@ class PatientInterstitialPage {
   };
 
   getCrisisLineModal = () => {
-    // Check for old modal first, then fall back to new component
-    return cy.get('body').then($body => {
-      if ($body.find('#modal-crisisline').length > 0) {
-        return cy.get(`#modal-crisisline`);
-      }
-      return cy
-        .get('va-crisis-line-modal')
-        .shadow()
-        .find('va-modal');
-    });
+    return cy.get(`#modal-crisisline`);
   };
 
   getCrisisLineModalLink = () => {
-    // Check for old modal first, then fall back to new component
-    return cy.get('body').then($body => {
-      if ($body.find('#modal-crisisline').length > 0) {
-        return cy.get(`.va-crisis-panel-list`).find(`li`);
-      }
-      return cy
-        .get('va-crisis-line-modal')
-        .shadow()
-        .find('va-modal')
-        .shadow()
-        .find(`.va-crisis-panel-list li`);
-    });
-  };
-
-  getCrisisLineCloseButton = () => {
-    // Check for old modal first, then fall back to new component
-    return cy.get('body').then($body => {
-      if ($body.find('#modal-crisisline').length > 0) {
-        return cy.get('.va-modal-close');
-      }
-      return cy
-        .get('va-crisis-line-modal')
-        .shadow()
-        .find('va-modal')
-        .shadow()
-        .find('.va-modal-close');
-    });
+    return cy.get(`.va-crisis-panel-list`).find(`li`);
   };
 
   getContinueButton = () => {
@@ -65,10 +30,9 @@ class PatientInterstitialPage {
   //   PatientInterstitialPage.getStartMessageLink().click();
 
   CheckFocusOnVcl = () => {
-    this.getCrisisLineLink().click();
-    this.getCrisisLineModal().should('exist');
-    this.getCrisisLineCloseButton().click({ force: true });
-    this.getCrisisLineLink().should('have.focus');
+    cy.get(Locators.ALERTS.VA_CRISIS_LINE).click();
+    cy.get('.va-modal-close').click();
+    cy.get(Locators.ALERTS.VA_CRISIS_LINE).should('have.focus');
   };
 }
 export default new PatientInterstitialPage();

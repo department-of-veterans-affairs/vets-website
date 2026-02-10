@@ -13,7 +13,7 @@ describe('Header <Header>', () => {
 
   it('renders content', () => {
     expect(wrapper.find('OfficialGovtWebsite')).to.have.lengthOf(1);
-    expect(wrapper.find('ForwardRef(VaCrisisLineModal)')).to.have.lengthOf(1);
+    expect(wrapper.find('VeteranCrisisLine')).to.have.lengthOf(1);
     expect(wrapper.find('Connect(LogoRow)')).to.have.lengthOf(1);
     expect(wrapper.find('Connect(Menu)')).to.have.lengthOf(1);
   });

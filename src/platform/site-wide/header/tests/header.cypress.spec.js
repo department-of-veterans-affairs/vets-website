@@ -36,9 +36,7 @@ describe('global header', () => {
       header()
         .scrollIntoView()
         .within(() => {
-          const crisisLineModal = () => cy.get('va-crisis-line-modal');
-          const crisisLineButton = crisisLineModal().find('button');
-          crisisLineButton.should('exist').should('be.visible');
+          verifyElement('.va-crisis-line');
           verifyElement('.va-notice--banner');
           verifyElement('.va-header-logo-wrapper');
           verifyElement(
@@ -46,7 +44,7 @@ describe('global header', () => {
           );
           verifyElement('.sitewide-search-drop-down-panel-button');
           h.verifyLinkWithoutSelector(
-            6,
+            1,
             'Contact us',
             `${window.location.origin}/contact-us`,
           );
@@ -68,9 +66,7 @@ describe('global header', () => {
       header()
         .scrollIntoView()
         .within(() => {
-          const crisisLineModal = () => cy.get('va-crisis-line-modal');
-          const crisisLineButton = crisisLineModal().find('button');
-          crisisLineButton.should('exist').should('be.visible');
+          verifyElement('#header-crisis-line');
           verifyElement('.header-logo-row svg');
           verifyElement('.sign-in-links');
 

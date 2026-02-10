@@ -43,9 +43,7 @@ describe('global footer', () => {
           );
 
           for (const [index, link] of topRailLinks.entries()) {
-            // first 10 links are in the crisis line modals
-            const linkIndex = index + 10;
-            h.verifyLinkWithoutSelector(linkIndex, link.title, link.href);
+            h.verifyLinkWithoutSelector(index, link.title, link.href);
           }
 
           // Language section
@@ -93,9 +91,7 @@ describe('global footer', () => {
       footerAccordion()
         .scrollIntoView()
         .within(() => {
-          const crisisLineModal = () => cy.get('va-crisis-line-modal');
-          const crisisLineButton = crisisLineModal().find('button');
-          crisisLineButton.should('exist').should('be.visible');
+          h.verifyElement('#footer-crisis-line');
 
           const footerSections = [
             { title: 'Contact us', column: 4 },
