@@ -88,7 +88,7 @@ describe('Cross-App Navigation Links', () => {
 
       // /find-locations should be VaLinkAction (cross-app)
       const findFacilityLink = screen.container.querySelector(
-        'va-link-action[href="/find-locations"]',
+        'va-link[href="/find-locations"]',
       );
       expect(findFacilityLink).to.exist;
       expect(findFacilityLink.getAttribute('text')).to.equal(

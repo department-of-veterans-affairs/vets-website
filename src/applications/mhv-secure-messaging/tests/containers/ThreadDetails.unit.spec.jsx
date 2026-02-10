@@ -408,7 +408,7 @@ describe('Thread Details container', () => {
       '2 messages in this conversation',
     );
     const findFacilityLink = screen.container.querySelector(
-      'va-link-action[data-dd-action-name="cannot-reply-find-facility"]',
+      'va-link[data-dd-action-name="cannot-reply-find-facility"]',
     );
     expect(findFacilityLink).to.exist;
     expect(screen.getByText(Alerts.Message.STALE_REPLY_BODY.OH)).to.exist;
