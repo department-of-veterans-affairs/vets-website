@@ -822,10 +822,8 @@ class MedicationsListPage {
 
   verifyFilterButtonWhenAccordionExpanded = () => {
     cy.get('[data-testid="filter-button"]')
-      .shadow()
-      .find('[type="button"]')
       .should('be.visible')
-      .and('have.text', 'Apply filter');
+      .and('have.attr', 'text', 'Apply filter');
   };
 
   clickFilterButtonOnAccordion = (url, filterRx) => {
