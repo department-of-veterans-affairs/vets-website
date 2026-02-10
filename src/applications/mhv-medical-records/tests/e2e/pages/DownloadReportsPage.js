@@ -27,7 +27,7 @@ class DownloadReportsPage {
   };
 
   verifyCcdDownloadXmlFileButton = () => {
-    cy.get('[data-testid="generateCcdButtonXml"]').should('be.visible');
+    cy.get('[data-testid="generateCcdButtonXmlVistA"]').should('be.visible');
   };
 
   clickCcdDownloadXmlFileButton = (
@@ -48,7 +48,7 @@ class DownloadReportsPage {
         body: xmlBody,
       }).as('getXml');
       // Use shadow DOM to access the anchor inside the va-link web component
-      cy.get('[data-testid="generateCcdButtonXml"]')
+      cy.get('[data-testid="generateCcdButtonXmlVistA"]')
         .shadow()
         .find('a')
         .click({ force: true });
@@ -64,7 +64,7 @@ class DownloadReportsPage {
       ccdGenerateResponse,
     ).as('ccdGenerateResponse');
     // Use shadow DOM to access the anchor inside the va-link web component
-    cy.get('[data-testid="generateCcdButtonXml"]')
+    cy.get('[data-testid="generateCcdButtonXmlVistA"]')
       .shadow()
       .find('a')
       .click({ force: true });
@@ -178,7 +178,7 @@ class DownloadReportsPage {
   verifyDualAccordionVisible = () => {
     // Verify both VistA and OH download sections exist by checking for their download buttons
     // Using .should('exist') instead of .should('be.visible') because web components can have 0x0 dimensions
-    cy.get('[data-testid="generateCcdButtonXmlVista"]', {
+    cy.get('[data-testid="generateCcdButtonXmlVistA"]', {
       timeout: 15000,
     }).should('exist');
     cy.get('[data-testid="generateCcdButtonXmlOH"]', {
@@ -194,13 +194,13 @@ class DownloadReportsPage {
 
   verifyVistaDownloadLinksVisible = () => {
     // Using .should('exist') instead of .should('be.visible') because web components can have 0x0 dimensions
-    cy.get('[data-testid="generateCcdButtonXmlVista"]', {
+    cy.get('[data-testid="generateCcdButtonXmlVistA"]', {
       timeout: 15000,
     }).should('exist');
-    cy.get('[data-testid="generateCcdButtonPdfVista"]', {
+    cy.get('[data-testid="generateCcdButtonPdfVistA"]', {
       timeout: 15000,
     }).should('exist');
-    cy.get('[data-testid="generateCcdButtonHtmlVista"]', {
+    cy.get('[data-testid="generateCcdButtonHtmlVistA"]', {
       timeout: 15000,
     }).should('exist');
   };
@@ -230,7 +230,7 @@ class DownloadReportsPage {
         body: xmlBody,
       }).as('downloadCcdVistaXml');
 
-      cy.get('[data-testid="generateCcdButtonXmlVista"]', { timeout: 15000 })
+      cy.get('[data-testid="generateCcdButtonXmlVistA"]', { timeout: 15000 })
         .shadow()
         .find('a')
         .click({ force: true });
@@ -253,7 +253,7 @@ class DownloadReportsPage {
       body: pdfMock,
     }).as('downloadCcdVistaPdf');
 
-    cy.get('[data-testid="generateCcdButtonPdfVista"]', { timeout: 15000 })
+    cy.get('[data-testid="generateCcdButtonPdfVistA"]', { timeout: 15000 })
       .shadow()
       .find('a')
       .click({ force: true });
@@ -274,7 +274,7 @@ class DownloadReportsPage {
         body: htmlBody,
       }).as('downloadCcdVistaHtml');
 
-      cy.get('[data-testid="generateCcdButtonHtmlVista"]', { timeout: 15000 })
+      cy.get('[data-testid="generateCcdButtonHtmlVistA"]', { timeout: 15000 })
         .shadow()
         .find('a')
         .click({ force: true });
