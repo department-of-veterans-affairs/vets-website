@@ -160,7 +160,7 @@ const InformationToDiscloseField = props => {
           indeterminate={someSelected}
           onVaChange={e => setAll(getChecked(e))}
         />
-
+        <hr className="vads-u-margin-y--2" />
         {keys.map(key => {
           const opt = DISCLOSURE_OPTIONS[key];
           const label = typeof opt === 'string' ? opt : opt.title;
