@@ -1,5 +1,3 @@
-import React from 'react';
-
 import PropTypes from 'prop-types';
 
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
@@ -21,11 +19,7 @@ const StatementUiTitle = props => {
     titleStr = 'Tell us about the claimed issue that you’re addressing';
   }
 
-  return (
-    <legend className="vads-u-font-family--serif vads-u-font-size--h5 vads-u-font-weight--bold">
-      {titleStr}
-    </legend>
-  );
+  return titleStr;
 };
 
 StatementUiTitle.propTypes = {

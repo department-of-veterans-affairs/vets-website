@@ -30,6 +30,7 @@ describe('Schemaform <SipsDevModal>', () => {
       { path: '/introduction' },
       { path: '/page-1' },
       { path: '/page-2' },
+      { path: '/page-3/:index/test' },
       { path: 'review-and-submit' },
     ],
   };
@@ -147,6 +148,35 @@ describe('Schemaform <SipsDevModal>', () => {
       version: 1,
       data: newData.data,
       sipsUrl: '/page-2',
+    });
+    // Modal closed
+    expect(dom.querySelector('va-modal')).to.be.null;
+  });
+
+  it('should go to indexed page in return url', () => {
+    setLoc();
+    const data = cloneDeep(props);
+    let result = {};
+    const updateResult = (formId, modData, version, sipsUrl) => {
+      result = { formId, data: modData, version, sipsUrl };
+    };
+    const modal = ReactTestUtils.renderIntoDocument(
+      <div>
+        <SipsDevModal {...data} saveAndRedirectToReturnUrl={updateResult} />
+      </div>,
+    );
+    const dom = getFormDOM(modal);
+    // open the sips modal
+    dom.click('va-link[icon-name="settings"]');
+    const vaSelect = dom.querySelector('va-select');
+    vaSelect.__events.vaSelect({ target: { value: '/page-3/0/test' } });
+    // Update button
+    dom.click('va-button[text="Update"]');
+    expect(result).to.deep.equal({
+      formId: 'test',
+      version: 1,
+      data: {},
+      sipsUrl: '/page-3/0/test',
     });
     // Modal closed
     expect(dom.querySelector('va-modal')).to.be.null;

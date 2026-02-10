@@ -27,12 +27,6 @@ import {
 import { DATE_FORMATS, TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import { onCalendarChange, startDirectScheduleFlow } from '../../redux/actions';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
-
 describe('VAOS Page: ReviewPage direct scheduling', () => {
   let storeState;
   let store;
@@ -45,7 +39,6 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     });
     start = new Date();
     storeState = {
-      ...initialState,
       newAppointment: {
         pages: {},
         data: {
@@ -320,28 +313,19 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('This tool isn’t working right now');
 
     expect(screen.baseElement).contain.text(
-      'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
+      'We’re sorry. There’s a problem with appointments. Refresh this page or try again later.',
     );
     expect(screen.baseElement).contain.text(
-      'If you need to schedule now, call your VA facility.',
+      'If you need to schedule now, call your facility.',
     );
 
-    expect(
-      screen.getByRole('heading', {
-        level: 3,
-        name: /Cheyenne VA Medical Center/i,
-      }),
-    );
+    expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
 
     const alert = document.querySelector('va-alert');
-    expect(within(alert).getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
-    expect(alert).to.contain.text('Cheyenne, WyomingWY');
-    expect(within(alert).getByText(/82001-5356/)).to.be.ok;
     expect(within(alert).getByTestId('facility-telephone')).to.exist;
-    // expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {
       expect(document.activeElement).to.be(alert);
@@ -381,17 +365,15 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'Something went wrong when we tried to submit your appointment. Call your VA medical center to schedule this appointment.',
+      'We’re sorry. Something went wrong when you tried to submit your appointment. Try again later. Or call your facility to help with your appointment.',
     );
 
     // Not sure of a better way to search for test just within the alert
     const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
-    expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(screen.getByTestId('facility-telephone')).to.exist;
 
     expect(screen.history.push.called).to.be.false;
@@ -432,10 +414,10 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
-      'You already have an overlapping booked appointment. Please schedule for a different day.',
+      'You already have an appointment scheduled for this day and time. Choose a different day or time. Or call your facility to help with your appointment.',
     );
 
     expect(screen.getByTestId('facility-telephone')).to.exist;
@@ -443,8 +425,6 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     // Not sure of a better way to search for test just within the alert
     const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
-    expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {
       expect(document.activeElement).to.be(alert);
@@ -483,13 +463,13 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('This tool isn’t working right now');
 
     expect(screen.baseElement).contain.text(
-      'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
+      'We’re sorry. There’s a problem with appointments. Refresh this page or try again later.',
     );
     expect(screen.baseElement).contain.text(
-      'If you need to schedule now, call your VA facility.',
+      'If you need to schedule now, call your facility.',
     );
 
     expect(screen.getByTestId('facility-telephone')).to.exist;
@@ -497,8 +477,6 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     // Not sure of a better way to search for test just within the alert
     const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
-    expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {
       expect(document.activeElement).to.be(alert);

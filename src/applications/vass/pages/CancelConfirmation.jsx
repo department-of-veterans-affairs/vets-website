@@ -1,26 +1,22 @@
 import React from 'react';
+import { useParams } from 'react-router-dom-v5-compat';
 import Wrapper from '../layout/Wrapper';
 import AppointmentCard from '../components/AppointmentCard';
-// TODO: replace with actual data from API
-const appointmentData = {
-  appointmentId: 'abcdef123456',
-  topics: [
-    {
-      topicId: '123',
-      topicName: 'General Health',
-    },
-  ],
-  dtStartUtc: '2024-07-01T14:00:00Z',
-  dtEndUtc: '2024-07-01T14:30:00Z',
-  providerName: 'Bill Brasky',
-  typeOfCare: 'Solid Start',
-};
+import { VASS_PHONE_NUMBER } from '../utils/constants';
+import { useGetAppointmentQuery } from '../redux/api/vassApi';
 
 const CancelConfirmation = () => {
+  const { appointmentId } = useParams();
+  const { data: appointmentData, isLoading } = useGetAppointmentQuery({
+    appointmentId,
+  });
   return (
     <Wrapper
       testID="cancel-confirmation-page"
+      disableBeforeUnload
+      loading={isLoading}
       pageTitle="You have canceled your appointment"
+      loadingMessage="Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page."
     >
       <p
         className="vads-u-margin-bottom--4"
@@ -29,7 +25,7 @@ const CancelConfirmation = () => {
         If you need to reschedule, call us at{' '}
         <va-telephone
           data-testid="cancel-confirmation-phone"
-          contact="8008270611"
+          contact={VASS_PHONE_NUMBER}
         />
         . We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>

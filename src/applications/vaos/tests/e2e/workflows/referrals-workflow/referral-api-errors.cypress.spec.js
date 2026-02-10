@@ -10,6 +10,7 @@ import {
   mockDraftReferralAppointmentApi,
   mockAppointmentDetailsApi,
   mockSubmitAppointmentApi,
+  saveScreenshot,
 } from './referrals-cypress-helpers';
 import MockUser from '../../../fixtures/MockUser';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
@@ -80,6 +81,9 @@ describe('VAOS Referral API Error Handling', () => {
 
         // Verify error message is displayed
         referralsAndRequests.assertApiError();
+        saveScreenshot(
+          `vaos_ccDirectScheduling_referralsList_apiError_${errorType}`,
+        );
       });
     });
   });
@@ -119,6 +123,9 @@ describe('VAOS Referral API Error Handling', () => {
 
         // Verify error message is displayed
         scheduleReferral.assertApiError();
+        saveScreenshot(
+          `vaos_ccDirectScheduling_referralDetail_apiError_${errorType}`,
+        );
       });
     });
   });
@@ -178,6 +185,9 @@ describe('VAOS Referral API Error Handling', () => {
 
         // Verify error message is displayed
         chooseDateAndTime.assertApiError();
+        saveScreenshot(
+          `vaos_ccDirectScheduling_selectingSlotTimes_apiError_${errorType}`,
+        );
       });
     });
   });
@@ -262,6 +272,9 @@ describe('VAOS Referral API Error Handling', () => {
         // Wait for submit appointment API call
         cy.wait('@v2:post:submitAppointment');
         cy.injectAxeThenAxeCheck();
+        saveScreenshot(
+          `vaos_ccDirectScheduling_reviewAndConfirm_apiError_${errorType}`,
+        );
 
         // Verify error message is displayed
         reviewAndConfirm.assertApiErrorAlert();
@@ -368,6 +381,9 @@ describe('VAOS Referral API Error Handling', () => {
 
         // Verify error message is displayed
         completeReferral.assertApiError();
+        saveScreenshot(
+          `vaos_ccDirectScheduling_appointmentSubmit_apiError_${errorType}`,
+        );
       });
     });
 
@@ -438,6 +454,7 @@ describe('VAOS Referral API Error Handling', () => {
       // Verify error message is displayed
       completeReferral.assertNotBookedError();
       cy.injectAxeThenAxeCheck();
+      saveScreenshot(`vaos_ccDirectScheduling_appointmentSubmit_timeoutError`);
     });
   });
 });

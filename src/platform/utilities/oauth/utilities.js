@@ -160,7 +160,9 @@ export async function createOAuthRequest({
   );
 
   sessionStorage.setItem('ci', usedClientId);
-  recordEvent({ event: `login-attempted-${type}-oauth-${clientId}` });
+  if (environment.isProduction() && !environment.isTest()) {
+    recordEvent({ event: `login-attempted-${type}-oauth-${clientId}` });
+  }
   return url.toString();
 }
 
@@ -213,11 +215,13 @@ export const requestToken = async ({ code, redirectUri, csp }) => {
     credentials: 'include',
   });
 
-  recordEvent({
-    event: response.ok
-      ? `login-success-${csp}-oauth-tokenexchange`
-      : `login-failure-${csp}-oauth-tokenexchange`,
-  });
+  if (environment.isProduction() && !environment.isTest()) {
+    recordEvent({
+      event: response.ok
+        ? `login-success-${csp}-oauth-tokenexchange`
+        : `login-failure-${csp}-oauth-tokenexchange`,
+    });
+  }
 
   if (response.ok) {
     removeStateAndVerifier();
@@ -226,15 +230,35 @@ export const requestToken = async ({ code, redirectUri, csp }) => {
   return response;
 };
 
-export const refresh = async ({ type }) => {
-  const url = new URL(
-    API_SIGN_IN_SERVICE_URL({ endpoint: OAUTH_ENDPOINTS.REFRESH, type }),
-  );
+const activeRefreshRequests = new Map();
+const refreshTimeout = 10000; // 10 seconds
 
-  return fetch(url.href, {
-    method: 'POST',
-    credentials: 'include',
-  });
+export const refresh = async ({ type }) => {
+  if (activeRefreshRequests.has(type)) {
+    return activeRefreshRequests.get(type);
+  }
+
+  const requestPromise = (async () => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), refreshTimeout);
+    try {
+      const url = new URL(
+        API_SIGN_IN_SERVICE_URL({ endpoint: OAUTH_ENDPOINTS.REFRESH, type }),
+      );
+      return await fetch(url.href, {
+        method: 'POST',
+        credentials: 'include',
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timeoutId);
+      activeRefreshRequests.delete(type);
+    }
+  })();
+
+  activeRefreshRequests.set(type, requestPromise);
+
+  return requestPromise;
 };
 
 export const infoTokenExists = () => {
@@ -327,7 +351,9 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
   const sleep = time => {
     return new Promise(resolve => setTimeout(resolve, time));
   };
-  recordEvent({ event: `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}` });
+  if (environment.isProduction() && !environment.isTest()) {
+    recordEvent({ event: `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}` });
+  }
 
   sessionStorage.removeItem('shouldRedirectExpiredSession');
   updateLoggedInStatus(false);
@@ -362,6 +388,8 @@ export function createOktaOAuthRequest({
   );
 
   sessionStorage.setItem('ci', clientId);
-  recordEvent({ event: `login-attempted-${loginType}-oauth-${clientId}` });
+  if (environment.isProduction() && !environment.isTest()) {
+    recordEvent({ event: `login-attempted-${loginType}-oauth-${clientId}` });
+  }
   return url.toString();
 }

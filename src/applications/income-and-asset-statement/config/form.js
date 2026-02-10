@@ -49,11 +49,17 @@ const formConfig = {
     // },
   },
   version: 0,
+  migrations: [],
   prefillEnabled: true,
   prefillTransformer,
   dev: {
     disableWindowUnloadInCI: true,
   },
+  downtime: {
+    requiredForPrefill: false,
+    dependencies: [],
+  },
+
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
       {
@@ -82,14 +88,10 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData => {
-        if (formData?.claimantType === 'VETERAN') {
-          return formData?.isLoggedIn
-            ? 'veteranFullName'
-            : 'otherVeteranFullName';
-        }
-        return 'claimantFullName';
-      },
+      fullNamePath: formData =>
+        formData?.claimantType === 'VETERAN'
+          ? 'veteranFullName'
+          : 'claimantFullName',
     },
   },
   title: 'Pension or DIC Income and Asset Statement',

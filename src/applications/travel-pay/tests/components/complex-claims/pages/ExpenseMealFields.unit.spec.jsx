@@ -63,9 +63,9 @@ describe('ExpenseMealFields', () => {
   });
 
   it('calls onBlur when focusing out of the vendor field', async () => {
-    const onChangeSpy = sinon.spy();
+    const onBlurSpy = sinon.spy();
     const { container } = render(
-      <ExpenseMealFields {...defaultProps} onChange={onChangeSpy} />,
+      <ExpenseMealFields {...defaultProps} onBlur={onBlurSpy} />,
     );
 
     const vaInput = container.querySelector('va-text-input[name="vendorName"]');
@@ -74,20 +74,20 @@ describe('ExpenseMealFields', () => {
     simulateVaInputBlur(vaInput, 'New Vendor');
 
     await waitFor(() => {
-      expect(onChangeSpy.called).to.be.true;
-      const eventArg = onChangeSpy.firstCall.args[0];
+      expect(onBlurSpy.called).to.be.true;
+      const eventArg = onBlurSpy.firstCall.args[0];
       const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('New Vendor');
     });
   });
 
   it('clears the error when input changes', async () => {
-    const onChangeSpy = sinon.spy();
+    const onBlurSpy = sinon.spy();
     const { container, rerender } = render(
       <ExpenseMealFields
         {...defaultProps}
         errors={{ vendorName: 'Vendor is required' }}
-        onChange={onChangeSpy}
+        onBlur={onBlurSpy}
       />,
     );
 
@@ -98,14 +98,14 @@ describe('ExpenseMealFields', () => {
     simulateVaInputBlur(input, 'Updated Vendor');
 
     await waitFor(() => {
-      expect(onChangeSpy.called).to.be.true;
+      expect(onBlurSpy.called).to.be.true;
       // Re-render with cleared error
       rerender(
         <ExpenseMealFields
           {...defaultProps}
           errors={{}}
           formState={{ vendorName: 'Updated Vendor' }}
-          onChange={onChangeSpy}
+          onBlur={onBlurSpy}
         />,
       );
       const updatedInput = container.querySelector(

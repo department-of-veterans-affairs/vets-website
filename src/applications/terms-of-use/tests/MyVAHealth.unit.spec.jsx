@@ -3,11 +3,11 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, waitFor, cleanup, fireEvent } from '@testing-library/react';
 import {
-  setupServer,
   createPutHandler,
   createPostHandler,
   jsonResponse,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import MyVAHealth from '../components/MyVAHealth';
@@ -17,17 +17,11 @@ const oldLocation = window.location;
 describe('MyVAHealth', () => {
   const ssoeTarget = `https://staging-patientportal.myhealth.va.gov/`;
   const altSsoeTarget = `https://sandbox-patientportal.myhealth.va.gov/`;
-  const server = setupServer();
-
-  before(() => server.listen());
 
   afterEach(() => {
-    server.resetHandlers();
     cleanup();
     window.location = oldLocation;
   });
-
-  after(() => server.close());
 
   it('should render', () => {
     const { container } = render(<MyVAHealth />);

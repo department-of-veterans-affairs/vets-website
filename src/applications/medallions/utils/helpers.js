@@ -167,6 +167,8 @@ export const createPayload = (file, formId, password) => {
 export function parseResponse({ data }) {
   const { name } = data.attributes;
   const focusFileCard = () => {
+    // Guard against document being undefined if component unmounts before timeout fires
+    if (typeof document === 'undefined') return;
     const target = $$('.schemaform-file-list li').find(entry =>
       entry.textContent?.trim().includes(name),
     );
@@ -380,6 +382,24 @@ export const createCancelUpload = (uploadRequest, removeFile) => index => {
     uploadRequest.abort();
   }
   removeFile(index);
+};
+
+export const formatPhone = phone => {
+  if (!phone) return 'Not provided';
+
+  // Remove all non-digit characters
+  const digitsOnly = phone.replace(/\D/g, '');
+
+  // Format as xxx-xxx-xxxx if we have exactly 10 digits
+  if (digitsOnly.length === 10) {
+    return `${digitsOnly.slice(0, 3)}-${digitsOnly.slice(
+      3,
+      6,
+    )}-${digitsOnly.slice(6)}`;
+  }
+
+  // If not 10 digits, return as-is (fallback)
+  return phone;
 };
 
 export const formatSuggestedAddress = address => {

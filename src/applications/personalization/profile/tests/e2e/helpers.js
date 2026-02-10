@@ -136,6 +136,24 @@ export function mockNotificationSettingsAPIs(toggles) {
   mockFeatureToggles(toggles ? () => toggles : null);
 }
 
+export function createMockTransactionResponse(step = 'RECEIVED') {
+  return {
+    statusCode: 200,
+    body: {
+      data: {
+        id: step === 'COMPLETED' ? 'mock-transaction-id' : '',
+        type: 'async_transaction_va_profile_mock_transactions',
+        attributes: {
+          transactionId: 'mock-transaction-id',
+          transactionStatus: step,
+          type: 'AsyncTransaction::VAProfile::MockTransaction',
+          metadata: [],
+        },
+      },
+    },
+  };
+}
+
 /**
  * Mock happy path for loa3 user where all the required APIs are mocked for the profile to load.
  * Specific feature toggles should be passed in as an object, otherwise the default toggles will be used with false values

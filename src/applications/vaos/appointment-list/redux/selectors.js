@@ -3,8 +3,8 @@ import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/s
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
 import { createSelector } from 'reselect';
 import {
-  selectFeatureCancel,
   selectFeatureRequests,
+  selectFeatureUseVpg,
 } from '../../redux/selectors';
 import {
   getAppointmentTimezone,
@@ -170,11 +170,16 @@ export function selectFacilitySettingsStatus(state) {
 }
 
 export function selectCanUseVaccineFlow(state) {
+  const featureUseVpg = selectFeatureUseVpg(state);
   return state.appointments.facilitySettings?.some(
     facility =>
-      facility.services.find(
-        service => service.id === TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
-      )?.direct.enabled,
+      featureUseVpg
+        ? facility.services.find(
+            service => service.id === TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+          )?.bookedAppointments
+        : facility.services.find(
+            service => service.id === TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+          )?.direct.enabled,
   );
 }
 
@@ -190,6 +195,8 @@ export function getUpcomingAppointmentListInfo(state) {
     appointmentsByMonth: selectUpcomingAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
+    hasBackendServiceFailures: !!state.appointments?.backendServiceFailures
+      ?.meta?.length,
   };
 }
 
@@ -668,7 +675,6 @@ export function selectConfirmedAppointmentData(state, appointment) {
     phone,
     practitionerName,
     providerAddress,
-    showCancelButton: selectFeatureCancel(state),
     startDate,
     status,
     timeZoneAbbr,

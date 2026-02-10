@@ -9,6 +9,7 @@ import {
   hasPartsABorC,
   needsPartADenialNotice,
 } from '../../utils/helpers';
+import mbiNumber from './mbiNumber';
 import overview from './overview';
 import partACardUpload from './partACardUpload';
 import partADenialNotice from './partADenialNotice';
@@ -20,7 +21,6 @@ import partBCardUpload from './partBCardUpload';
 import partBEffectiveDates from './partBEffectiveDates';
 import partCCardUpload from './partCCardUpload';
 import partCEffectiveDate from './partCEffectiveDate';
-import partCPharmacyBenefits from './partCPharmacyBenefits';
 import partDCardUpload from './partDCardUpload';
 import partDEffectiveDate from './partDEffectiveDate';
 import partDStatus from './partDStatus.rev2025';
@@ -48,6 +48,12 @@ export const medicarePagesRev2025 = {
     depends: formData => formData[REV2025_TOGGLE_KEY] && hasMedicare(formData),
     ...planTypes,
   },
+  medicareBeneficiaryIdentifier: {
+    path: 'medicare-beneficiary-identifier',
+    title: 'Medicare beneficiary identifier',
+    depends: formData => formData[REV2025_TOGGLE_KEY] && hasMedicare(formData),
+    ...mbiNumber,
+  },
   medicarePartAEffectiveDate: {
     path: 'medicare-part-a-effective-date',
     title: 'Medicare Part A effective date',
@@ -56,7 +62,7 @@ export const medicarePagesRev2025 = {
   },
   medicarePartACardUpload: {
     path: 'medicare-part-a-card',
-    title: 'Upload Medicare Part A card',
+    title: 'Medicare Part A card',
     depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartA(formData),
     ...partACardUpload,
   },
@@ -68,34 +74,34 @@ export const medicarePagesRev2025 = {
   },
   medicarePartBCardUpload: {
     path: 'medicare-part-b-card',
-    title: 'Upload Medicare Part B card',
+    title: 'Medicare Part B card',
     depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartB(formData),
     ...partBCardUpload,
   },
   medicarePartADenial: {
     path: 'medicare-part-a-denial-notice',
-    title: 'Medicare Part A denial',
+    title: 'Medicare Part A denial notice',
     depends: formData =>
       formData[REV2025_TOGGLE_KEY] && needsPartADenialNotice(formData),
     ...partADenialNotice,
   },
   medicarePartADenialProofUpload: {
     path: 'medicare-proof-of-part-a-denial',
-    title: 'Upload proof of Medicare ineligibility',
+    title: 'Proof of Medicare ineligibility',
     depends: formData =>
       formData[REV2025_TOGGLE_KEY] && hasPartADenialNotice(formData),
     ...partADenialProofUpload,
   },
   medicarePartAPartBEffectiveDates: {
     path: 'medicare-parts-a-and-b-effective-dates',
-    title: 'Medicare effective dates',
+    title: 'Medicare Parts A & B effective dates',
     depends: formData =>
       formData[REV2025_TOGGLE_KEY] && hasPartsABorC(formData),
     ...partAPartBEffectiveDates,
   },
   medicareABCardUpload: {
     path: 'medicare-parts-a-and-b-card',
-    title: 'Medicare card (A/B)',
+    title: 'Medicare Parts A & B card',
     depends: formData =>
       formData[REV2025_TOGGLE_KEY] && hasPartsABorC(formData),
     ...partAPartBCardUpload,
@@ -106,12 +112,6 @@ export const medicarePagesRev2025 = {
     depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartC(formData),
     ...partCEffectiveDate,
   },
-  medicarePartCPharmacyBenefits: {
-    path: 'medicare-part-c-pharmacy-benefits',
-    title: 'Medicare Part C pharmacy benefits',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartC(formData),
-    ...partCPharmacyBenefits,
-  },
   medicarePartCCardUpload: {
     path: 'medicare-part-c-card',
     title: 'Medicare Part C card',
@@ -121,8 +121,7 @@ export const medicarePagesRev2025 = {
   medicarePartDStatus: {
     path: 'medicare-part-d-status',
     title: 'Medicare Part D status',
-    depends: formData =>
-      formData[REV2025_TOGGLE_KEY] && hasPartsABorC(formData),
+    depends: formData => formData[REV2025_TOGGLE_KEY] && hasMedicare(formData),
     ...partDStatus,
   },
   medicarePartDCarrierEffectiveDate: {

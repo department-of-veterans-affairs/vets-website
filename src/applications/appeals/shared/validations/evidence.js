@@ -1,10 +1,5 @@
-import { convertToDateField } from 'platform/forms-system/src/js/validation';
-import { isValidDateRange } from 'platform/forms-system/src/js/utilities/validations';
-
 import { getIssueName, getSelected } from '../utils/issues';
-
 import { errorMessages } from '../../995/constants';
-import { validateDate } from '../../995/validations/date';
 import sharedErrorMessages from '../content/errorMessages';
 import { REGEXP } from '../constants';
 
@@ -24,20 +19,6 @@ export const validateIssues = (
   );
   if (!issues?.length || !allSelectedIssues) {
     errors.addError(errorMessages.evidence.issuesMissing);
-  }
-};
-
-export const validateToDate = (errors, data, evidenceOrTreatmentDates) => {
-  const dates = data[evidenceOrTreatmentDates] || {};
-  validateDate(errors, dates?.to, { dateType: 'evidence' });
-
-  // modified from validateDateRange
-  const fromDate = convertToDateField(dates?.from);
-  const toDate = convertToDateField(dates?.to);
-
-  if (!isValidDateRange(fromDate, toDate, true)) {
-    errors.addError(sharedErrorMessages.endDateBeforeStart);
-    errors.addError('other'); // invalid inputs
   }
 };
 

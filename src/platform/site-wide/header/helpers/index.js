@@ -127,7 +127,22 @@ export const createShouldShowMinimal = ({ enabled, excludePaths }) => {
 
   if (enabled && excludePaths?.length) {
     showMinimal = path => {
-      return !path || !excludePaths.includes(path);
+      let isExcludedPath;
+      if (path) {
+        // exclude paths that start with a "*" signify dynamic routes
+        const hasDynamicExcludePaths = excludePaths.some(p =>
+          p.startsWith('*'),
+        );
+        // path has two or more path parts, e.g. /21-0779/introduction
+        const DYNAMIC_PATH_REGEX = /^(\/[^/\s]+){2,}$/;
+        const isDynamicPath = DYNAMIC_PATH_REGEX.test(path);
+        isExcludedPath =
+          isDynamicPath && hasDynamicExcludePaths
+            ? excludePaths.some(p => path.endsWith(p.replace(/\*/g, '')))
+            : excludePaths.includes(path);
+      }
+
+      return !path || !isExcludedPath;
     };
   }
 

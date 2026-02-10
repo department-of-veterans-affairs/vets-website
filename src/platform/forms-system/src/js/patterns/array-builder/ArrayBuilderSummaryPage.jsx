@@ -133,12 +133,12 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
   function CustomPage(props) {
     const {
       index: updateItemIndex,
-      nounSingular: updatedNounSingular,
+      arrayPathSlug: updatedArrayPathSlug,
     } = getUpdatedItemFromPath();
     const arrayData = get(arrayPath, props.data);
+    const arrayPathSlug = slugifyText(arrayPath);
     const updatedItemData =
-      updatedNounSingular === nounSingular.toLowerCase() &&
-      updateItemIndex != null
+      updatedArrayPathSlug === arrayPathSlug && updateItemIndex != null
         ? arrayData?.[updateItemIndex]
         : null;
 
@@ -168,6 +168,9 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       duplicateChecks,
       fullData: props.fullData,
     });
+
+    const getTitleSelector = () =>
+      `[data-title-for-noun-singular="${nounSingular}"][data-array-path="${arrayPath}"]`;
 
     const setDataFromRef = data => {
       const dataToSet = { ...(dataRef.current || {}), ...data };
@@ -221,11 +224,11 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     useEffect(
       () => {
-        if (updatedNounSingular === nounSingular.toLowerCase()) {
+        if (updatedArrayPathSlug === arrayPathSlug) {
           setShowUpdatedAlert(() => updateItemIndex != null);
         }
       },
-      [updatedNounSingular, updateItemIndex, nounSingular],
+      [updatedArrayPathSlug, updateItemIndex, arrayPathSlug],
     );
 
     useEffect(
@@ -334,11 +337,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     function onDismissUpdatedAlert() {
       setShowUpdatedAlert(false);
       requestAnimationFrame(() => {
-        focusElement(
-          document.querySelector(
-            `[data-title-for-noun-singular="${nounSingular}"]`,
-          ),
-        );
+        focusElement(document.querySelector(getTitleSelector()));
       });
     }
 
@@ -347,11 +346,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       setRemovedItemText('');
       setRemovedItemIndex(null);
       requestAnimationFrame(() => {
-        focusElement(
-          document.querySelector(
-            `[data-title-for-noun-singular="${nounSingular}"]`,
-          ),
-        );
+        focusElement(document.querySelector(getTitleSelector()));
       });
     }
 
@@ -395,6 +390,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         <Heading
           className={classNames(baseClasses, headingStyle)}
           data-title-for-noun-singular={nounSingular}
+          data-array-path={arrayPath}
         >
           {text}
         </Heading>

@@ -80,7 +80,7 @@ describe('Medical Expenses Pages', () => {
     });
 
     vaRecipient.__events.vaValueChange({
-      detail: { value: 'VETERANS_CHILD' },
+      detail: { value: 'CHILD' },
     });
     expect($(vaRecipientOtherSelector, formDOM)).to.exist;
     vaRecipient.__events.vaValueChange({
@@ -91,20 +91,20 @@ describe('Medical Expenses Pages', () => {
   it('should check isItemIncomplete', () => {
     const { isItemIncomplete } = options;
     const completeItem = {
-      recipient: 'VETERANS_CHILD',
-      recipientName: 'John Doe',
+      recipient: 'CHILD',
+      childName: 'John Doe',
       purpose: 'Dr. Smith',
       paymentDate: '2020-01-01',
-      amount: 100,
-      frequency: 'monthly',
+      paymentAmount: 100,
+      paymentFrequency: 'MONTHLY',
     };
     const incompleteItem = {
-      recipient: 'VETERANS_CHILD',
+      recipient: 'CHILD',
       // missing recipientName
       purpose: 'Dr. Smith',
       paymentDate: '2020-01-01',
-      amount: 100,
-      frequency: 'monthly',
+      paymentAmount: 100,
+      paymentFrequency: 'MONTHLY',
     };
 
     expect(isItemIncomplete(completeItem)).to.be.false;
@@ -123,7 +123,7 @@ describe('Medical Expenses Pages', () => {
     const { text } = options;
     const itemWithData = {
       paymentDate: '2020-01-15',
-      frequency: 'MONTHLY',
+      paymentFrequency: 'MONTHLY',
     };
     const itemWithoutData = {};
 

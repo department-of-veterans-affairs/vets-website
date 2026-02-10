@@ -1,12 +1,14 @@
+import React from 'react';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { addDays, format, isBefore, isEqual, isValid } from 'date-fns';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
-import React from 'react';
 import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { head } from 'lodash';
+import i18nCombinedDebtPortal from '../../i18n';
 
 export const APP_TYPES = Object.freeze({
   DEBT: 'DEBT',
@@ -22,6 +24,15 @@ export const ALERT_TYPES = Object.freeze({
 
 export const API_RESPONSES = Object.freeze({
   ERROR: -1,
+});
+
+export const DEFAULT_COPAY_ATTRIBUTES = Object.freeze({
+  TITLE: 'title',
+  INVOICE_DATE: 'invoiceDate',
+  ACCOUNT_NUMBER: 'accountNumber',
+  FACILITY_NAME: 'facilityName',
+  CHARGES: [],
+  AMOUNT_DUE: 0.0,
 });
 
 export const combinedPortalAccess = state =>
@@ -50,6 +61,16 @@ export const formatDate = date => {
   const newDate =
     typeof date === 'string' ? new Date(date.replace(/-/g, '/')) : date;
   return isValid(newDate) ? format(new Date(newDate), 'MMMM d, y') : '';
+};
+
+export const formatISODateToMMDDYYYY = isoString => {
+  const date = new Date(isoString);
+
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // months are 0-based
+  const year = date.getUTCFullYear();
+
+  return `${month}/${day}/${year}`;
 };
 
 export const currency = amount => {
@@ -118,15 +139,21 @@ export const transform = data => {
   });
 };
 
-export const setPageFocus = selector => {
-  const el = document.querySelector(selector);
+export const isAnyElementFocused = () => {
+  return document.activeElement && document.activeElement !== document.body;
+};
+
+export const focusElement = el => {
   if (el) {
     el.setAttribute('tabIndex', -1);
     el.focus();
-  } else {
-    document.querySelector('#main h1').setAttribute('tabIndex', -1);
-    document.querySelector('#main h1').focus();
   }
+};
+
+export const setPageFocus = selector => {
+  const el =
+    document.querySelector(selector) || document.querySelector('#main h1');
+  focusElement(el);
 };
 
 // 'Manually' generating PDF instead of using generatePdf so we can
@@ -274,4 +301,22 @@ export const healthResourceCenterPhoneContent = () => {
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </>
   );
+};
+
+export const tCdp = i18nCombinedDebtPortal.getFixedT(
+  null,
+  null,
+  'combined-debt-portal',
+);
+
+export const getSortedDate = (
+  data,
+  key = 'debtHistory',
+  dateField = 'date',
+) => {
+  const dates = data?.[key]?.map(m => new Date(m[dateField])) ?? [];
+  const sortedHistory = dates.sort((a, b) => Date.parse(b) - Date.parse(a));
+  return isValid(head(sortedHistory))
+    ? format(head(sortedHistory), 'MM/dd/yyyy')
+    : '';
 };

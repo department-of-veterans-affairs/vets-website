@@ -86,9 +86,9 @@ const ProcessList = () => {
           </p>
           <p>
             We may request more information from you to make a decision about
-            your medical expense reimbursement. If we request more information,
+            your claim for survivors benefits. If we request more information,
             you’ll need to respond within 30 days. If you don’t, we may decide
-            your expenses with the evidence that’s available to us.
+            your claim with the evidence that’s available to us.
           </p>
         </va-additional-info>
       </va-process-list-item>
@@ -120,7 +120,9 @@ export const IntroductionPage = props => {
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (
         <SaveInProgressIntro
+          returnUrl="/veteran"
           headingLevel={2}
+          hideUnauthedStartLink
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}

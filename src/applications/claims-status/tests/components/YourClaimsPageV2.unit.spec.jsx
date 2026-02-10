@@ -142,6 +142,24 @@ describe('<YourClaimsPageV2>', () => {
     wrapper.unmount();
   });
 
+  it('should render a loading skeleton even when list has data if any request is still loading', () => {
+    const props = cloneDeep(defaultProps);
+    // List has data but one request is still loading
+    props.claimsLoading = false;
+    props.appealsLoading = false;
+    props.stemClaimsLoading = true;
+    // props.list already has data from defaultProps
+    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
+    const expectComponentCount = (component, count) => {
+      expect(wrapper.find(component).length).to.equal(count);
+    };
+    // Should show loading skeleton, not the list
+    expectComponentCount('ClaimCardLoadingSkeleton', 1);
+    expectComponentCount('ClaimsListItem', 0);
+    expectComponentCount('AppealListItem', 0);
+    wrapper.unmount();
+  });
+
   it('should not show visible loading skeleton but announce content loaded when claims have loaded', () => {
     const props = cloneDeep(defaultProps);
     props.claimsLoading = false;

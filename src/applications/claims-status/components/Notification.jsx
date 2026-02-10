@@ -34,7 +34,9 @@ export default function Notification({
       status={type}
       visible
     >
-      <h2 slot="headline">{title}</h2>
+      <h2 slot="headline" className="vads-u-margin-top--0">
+        {title}
+      </h2>
       <div className="vads-u-margin-y--0">{body}</div>
     </VaAlert>
   );

@@ -4,11 +4,11 @@ import { errorMessages, REGEX_EMPTY_DATE } from '../constants';
 import { validateDate, validateYMDate } from './date';
 
 import { MAX_LENGTH } from '../../../shared/constants';
-import { fixDateFormat } from '../../../shared/utils/replace';
+import { fixDateFormat } from '../../../shared/utils/dates';
 import {
   validateAddressParts,
   validateIssues,
-  validateToDate,
+  // validateToDate,
   validateUniqueLocationOrFacility,
 } from '../../../shared/validations/evidence';
 import sharedErrorMessages from '../../../shared/content/errorMessages';
@@ -53,8 +53,9 @@ export const validateVaIssues = (
 export const validateVaFromDate = (errors, data) =>
   validateDate(errors, data.evidenceDates?.from, { dateType: 'evidence' });
 
-export const validateVaToDate = (errors, data) => {
-  validateToDate(errors, data, 'evidenceDates');
+export const validateVaToDate = () => {
+  // export const validateVaToDate = (errors, data) => {
+  // validateToDate(errors, data, 'evidenceDates');
 };
 
 export const validateVaDate = (errors, data) =>
@@ -146,8 +147,9 @@ export const validatePrivateIssues = (
 export const validatePrivateFromDate = (errors, data) =>
   validateDate(errors, data.treatmentDateRange?.from, { dateType: 'evidence' });
 
-export const validatePrivateToDate = (errors, data) => {
-  validateToDate(errors, data, 'treatmentDateRange');
+export const validatePrivateToDate = () => {
+  // export const validatePrivateToDate = (errors, data) => {
+  // validateToDate(errors, data, 'treatmentDateRange');
 };
 
 export const buildPrivateString = (

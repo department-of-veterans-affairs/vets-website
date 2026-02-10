@@ -26,8 +26,9 @@ describe('ProgramApprovalInformation', () => {
       'Commit to the Principles of Excellence for educational institutions',
     );
     const links = $$('va-link', container);
-    expect(links.length).to.eq(14);
+    expect(links.length).to.eq(12);
   });
+
   it('Should not render form 10275 link when toggle OFF', () => {
     const { container } = renderWithStoreAndRouter(
       <ProgramApprovalInformation />,
@@ -41,6 +42,6 @@ describe('ProgramApprovalInformation', () => {
     );
 
     const links = $$('va-link', container);
-    expect(links.length).to.eq(13);
+    expect(links.length).to.eq(11);
   });
 });

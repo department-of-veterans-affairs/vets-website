@@ -18,7 +18,11 @@ const {
 } = require('./debts');
 const { createClaimsSuccess, createClaimsFailure } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
-const { createApplications } = require('./benefit-applications');
+const {
+  createApplications,
+  createApplicationsEmpty,
+  createApplicationsFailure,
+} = require('./benefit-applications');
 const { allFoldersWithUnreadMessages, allFolders } = require('./messaging');
 const {
   user81Copays,
@@ -160,8 +164,19 @@ const responses = {
         return res.status(200).json('');
     }
   },
-  'GET /v0/my_va/submission_statuses': createApplications(),
-  // 'GET /v0/my_va/submission_statuses': { data: [] },
+  'GET /v0/my_va/submission_statuses': (_req, res) => {
+    const applicationsStatus = 'success';
+    switch (applicationsStatus) {
+      case 'success':
+        return res.status(200).json(createApplications());
+      case 'empty':
+        return res.status(200).json(createApplicationsEmpty());
+      case 'failure':
+        return res.status(400).json(createApplicationsFailure());
+      default:
+        return '';
+    }
+  },
   'POST /v0/my_va/submission_pdf_urls': (_req, res) => {
     // return res.status(500).json({
     //   error: 'bad request',

@@ -1,0 +1,217 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+
+#btnAcceptDisclaimer {
+  @include media($medium-screen) {
+    margin-left: 23px;
+  }
+}
+
+.merger {
+  article {
+    &.webchat__basic-transcript__activity:last-of-type {
+      padding-bottom: 0;
+    }
+  }
+}
+.webchat__suggested-actions__item-box {
+  padding: 0 !important;
+  margin: 5px !important;
+}
+
+.webchat__suggested-actions__button {
+  width: 83% !important;
+  margin: 0 0 0 2.9em !important;
+}
+
+.webchat__send-box-text-box {
+  margin: 0;
+}
+
+// Ensure the send box main container allows wrapping so counter appears on new line
+.webchat__send-box__main {
+  flex-wrap: wrap !important;
+}
+
+.webchat-character-counter {
+  font-size: 16px;
+  color: rgb(0, 0, 0);
+  text-align: left;
+  padding: 0 0 8px 10px;
+  margin: 0;
+  display: block;
+  width: 100%;
+  flex-basis: 100%;
+  flex-shrink: 0;
+  min-width: 100%;
+  max-width: 100%;
+  order: 2;
+  clear: both;
+  background-color: transparent !important;
+  background: none !important;
+  transition: color 0.2s ease;
+
+  // Turn red when approaching or over limit
+  &.warning {
+    color: rgb(181, 9, 9);
+    font-weight: bold;
+    background-color: transparent !important;
+    background: none !important;
+  }
+}
+
+.webchat__suggested-actions__stack {
+  margin-bottom: 1em !important;
+  overflow-y: hidden !important;
+  .webchat__suggested-action__text {
+    line-height: 2em !important;
+  }
+}
+
+button.webchat__suggested-actions__button:hover {
+  background: rgb(0, 62, 115) !important;
+}
+
+button.webchat__suggested-actions__button:active {
+  background: rgb(17, 46, 81) !important;
+}
+
+.jumplink {
+  color: rgb(0, 62, 115);
+  margin: 20px 0px;
+  text-decoration: underline;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  //transition-property: color, background-color, border-color;
+}
+
+.fixed-header-chatbot {
+  // font-size: 50px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 400px;
+  margin: 1%;
+  // background-color: green;
+  // border: 2px solid #4caf50;
+  z-index: 1;
+}
+
+.chatbot-icon {
+  position: fixed;
+  width: 140px;
+  bottom: 0;
+  right: 0;
+  margin: 1%;
+  padding-bottom: 20px;
+  // background-color: #4caf50;
+  // border: 2px solid #4caf50;
+  // border-radius: 50%;
+  z-index: 1;
+}
+
+.hide {
+  display: none;
+}
+
+.unhide {
+  display: block;
+}
+
+.close-chatbot-button {
+  width: 30px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  margin: 3px;
+  background-color: rgb(255, 255, 255);
+}
+
+#corner-bot {
+  z-index: 999;
+}
+
+.ac-textBlock {
+  color: rgb(0, 0, 0) !important;
+}
+
+div.ac-container[style*="rgb(255, 226, 178)"] {
+  background-color: rgb(250, 243, 209) !important;
+}
+
+.va-chatbot-status-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.va-chatbot-status-wrapper .va-chatbot-ai-disclaimer {
+  font-style: italic;
+}
+
+// Visually indicate when the WebChat send box is disabled (e.g., expired session)
+.webchat__send-box-text-box__input[aria-disabled="true"],
+.webchat__send-box-text-box__input[disabled] {
+  background-color: $color-gray-lighter;
+  cursor: not-allowed;
+}
+
+button.webchat__send-button[aria-disabled="true"],
+button.webchat__send-button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.va-chatbot-session-expired-banner {
+  position: absolute;
+  right: 16px;
+  bottom: 80px;
+  color: var(--vads-color-secondary-dark);
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.va-chatbot-session-expired-banner__icon {
+  margin-right: 0.2rem;
+}
+
+// styles for new chatbot
+.va-chatbot-message-bubble {
+  border-radius: 0.25rem;
+  position: relative;
+}
+
+.va-chatbot-message-nub {
+  display: block;
+  height: 12px;
+  position: absolute;
+  top: 0;
+  width: 12px;
+}
+
+.va-chatbot-message-nub--va {
+  color: $color-primary-alt-lightest;
+  left: -8px;
+}
+
+.va-chatbot-message-nub--user {
+  color: $color-gray-lightest;
+  right: -8px;
+  transform: scaleX(-1);
+}
+
+.va-chatbot-message-nub__path {
+  fill: currentColor;
+}
+
+.va-chatbot-chatbox-container {
+  min-height: 550px;
+  max-height: 100%;
+  position: relative;
+  width: 100%;
+}

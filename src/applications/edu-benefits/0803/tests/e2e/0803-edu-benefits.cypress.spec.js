@@ -32,7 +32,7 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-text-input[id="veteran-signature"]').then(el => {
-            cy.fillVaTextInput(el, 'John Doe');
+            cy.fillVaTextInput(el, 'MITCHELL G JENKINS');
           });
           cy.get('va-checkbox[id="veteran-certify"]').then(el => {
             cy.selectVaCheckbox(el, true);

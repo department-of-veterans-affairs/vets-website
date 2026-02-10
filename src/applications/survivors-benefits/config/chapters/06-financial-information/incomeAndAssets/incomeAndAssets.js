@@ -102,16 +102,16 @@ const WhatWeConsiderAsset = () => (
 const uiSchema = {
   ...titleUI('Income and assets', Description),
   'ui:description': WhatWeConsiderAsset,
-  hasAssetsOverThreshold: yesNoUI({
+  totalNetWorth: yesNoUI({
     title: 'Do you and your dependents have over $25,000 in assets?',
   }),
 };
 
 const schema = {
   type: 'object',
-  required: ['hasAssetsOverThreshold'],
+  required: ['totalNetWorth'],
   properties: {
-    hasAssetsOverThreshold: yesNoSchema,
+    totalNetWorth: yesNoSchema,
   },
 };
 

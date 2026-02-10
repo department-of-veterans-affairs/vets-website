@@ -1,9 +1,14 @@
-export function prefillTransformer(pages, formData, metadata) {
-  // TODO: update this in future after we've explored how we want to use
-  // prefill on this form.
+const prefillTransformer = (pages, formData, metadata) => {
+  const isFreshPrefill = metadata?.prefill === true;
+  const updatedMetadata = isFreshPrefill
+    ? { ...metadata, returnUrl: undefined }
+    : metadata;
+
   return {
     pages,
-    formData,
-    metadata,
+    formData: { ...formData },
+    metadata: updatedMetadata,
   };
-}
+};
+
+export default prefillTransformer;

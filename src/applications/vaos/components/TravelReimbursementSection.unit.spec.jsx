@@ -351,7 +351,7 @@ describe('VAOS Component: TravelReimbursement', () => {
       'Your appointment happened more than 30 days ago',
     );
     expect(visibleModal.getAttribute('primary-button-text')).to.equal(
-      'Yes, I want to file',
+      'File claim',
     );
     expect(visibleModal.getAttribute('secondary-button-text')).to.equal(
       'Don’t file',
@@ -430,7 +430,7 @@ describe('VAOS Component: TravelReimbursement', () => {
       'Your appointment happened more than 30 days ago',
     );
     expect(visibleModal.getAttribute('primary-button-text')).to.equal(
-      'Yes, I want to file',
+      'File claim',
     );
     expect(visibleModal.getAttribute('secondary-button-text')).to.equal(
       'Don’t file',

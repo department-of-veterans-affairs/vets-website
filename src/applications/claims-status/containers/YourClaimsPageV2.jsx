@@ -217,17 +217,15 @@ class YourClaimsPageV2 extends React.Component {
     let pageInfo;
     const allRequestsLoaded =
       !claimsLoading && !appealsLoading && !stemClaimsLoading;
-    const allRequestsLoading =
-      claimsLoading && appealsLoading && stemClaimsLoading;
-    const atLeastOneRequestLoading =
-      claimsLoading || appealsLoading || stemClaimsLoading;
     const emptyList = !(list && list.length);
     const emptyFilteredList = !(filteredList && filteredList.length);
     const { claimsFilter } = this.state;
     const filterLabel =
       claimsFilter === 'all' ? 'records' : `${claimsFilter} records`;
 
-    if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
+    // Wait for all requests to complete before rendering results
+    // This prevents multiple re-renders as each request completes
+    if (!allRequestsLoaded) {
       content = <ClaimCardLoadingSkeleton />;
     } else if (!emptyFilteredList) {
       const listLen = filteredList.length;
@@ -245,7 +243,7 @@ class YourClaimsPageV2 extends React.Component {
           {pageInfo}
           <div className="claim-list">
             {pageItems.map(claim => this.renderListItem(claim))}
-            <ClaimCardLoadingSkeleton isLoading={atLeastOneRequestLoading} />
+            <ClaimCardLoadingSkeleton isLoading={false} />
             {shouldPaginate && (
               <VaPagination
                 page={this.state.page}
@@ -256,7 +254,7 @@ class YourClaimsPageV2 extends React.Component {
           </div>
         </Type2FailureAnalyticsProvider>
       );
-    } else if (allRequestsLoaded) {
+    } else {
       content = <NoClaims recordType={filterLabel} />;
     }
 

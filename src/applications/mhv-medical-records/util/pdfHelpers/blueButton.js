@@ -40,17 +40,29 @@ export const generateBlueButtonData = (
     accountSummary,
   },
   recordFilter,
+  holdTimeMessagingUpdate,
 ) => {
   const data = [];
+  const labsAndTestsCommonSubtitles = [
+    'If you have questions about these results, send a secure message to your care team.',
+    'Note: If you have questions about more than 1 test ordered by the same care team, send 1 message with all of your questions.',
+    `Showing ${labsAndTests?.length} records from newest to oldest`,
+  ];
 
   data.push({
     type: recordType.LABS_AND_TESTS,
     title: 'Lab and test results',
     subtitles: [
-      'Most lab and test results are available 36 hours after the lab confirms them. Pathology results may take 14 days or longer to confirm.',
-      'If you have questions about these results, send a secure message to your care team.',
-      'Note: If you have questions about more than 1 test ordered by the same care team, send 1 message with all of your questions.',
-      `Showing ${labsAndTests?.length} records from newest to oldest`,
+      ...(holdTimeMessagingUpdate
+        ? [
+            `Your test results are available here as soon as they're ready. You may have access to your results before your care team reviews them.`,
+            'Please give your care team some time to review your results. Test results can be complex. Your team can help you understand what the results mean for your overall health.',
+            'If you do review results on your own, remember that many factors can affect what they mean for you. If you have concerns, contact your care team.',
+          ]
+        : [
+            'Most lab and test results are available 36 hours after the lab confirms them. Pathology results may take 14 days or longer to confirm.',
+          ]),
+      ...labsAndTestsCommonSubtitles,
     ],
     selected: recordFilter.includes('labTests'),
     records: isArrayAndHasItems(labsAndTests)

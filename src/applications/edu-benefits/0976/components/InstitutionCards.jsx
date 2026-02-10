@@ -1,11 +1,10 @@
 import React from 'react';
-import { INSTITUTION_TYPES } from '../constants';
 import FacilityCodeAdditionalInfo from './FacilityCodeAdditionalInfo';
 
 export const EmptyCard = () => {
   return (
     <div>
-      <h3>--</h3>
+      <h3 aria-label="Institution not found">--</h3>
       <p>--</p>
     </div>
   );
@@ -23,7 +22,7 @@ export const DetailsCard = ({ details }) => {
 
   return (
     <div>
-      <h3>{details.name}</h3>
+      <h3 aria-label={details.name}>{details.name}</h3>
       <p className="vads-u-margin-bottom--0">{street}</p>
       {street2 && <p className="vads-u-margin-y--0">{street2}</p>}
       {street3 && <p className="vads-u-margin-y--0">{street3}</p>}
@@ -31,10 +30,6 @@ export const DetailsCard = ({ details }) => {
         {city}, {state} {postalCode}
       </p>
       <FacilityCodeAdditionalInfo />
-      <p>
-        <strong>The institution is classified as:</strong>
-      </p>
-      <p>{INSTITUTION_TYPES[details.type] || 'Other'}</p>
     </div>
   );
 };

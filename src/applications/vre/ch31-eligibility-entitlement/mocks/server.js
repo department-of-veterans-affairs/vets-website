@@ -7,9 +7,15 @@ const responses = {
       attributes: {
         resCaseId: 123456,
         isTransferredToCwnrs: false,
+        orientationAppointmentDetails: {
+          appointmentDateTime: '2026-01-14T18:46:18.688Z',
+          appointmentPlace: '31223 Corn Drive , Hamilton NJ-21223',
+        },
         externalStatus: {
           isDiscontinued: false,
-          discontinuedReason: null,
+          discontinuedReason: '079 - Plan Developed/Redeveloped',
+          isInterrupted: false,
+          interruptedReason: '079 - Plan Developed/Redeveloped',
           stateList: [
             {
               stepCode: 'APPL',

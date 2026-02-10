@@ -13,9 +13,12 @@ import {
   INCLUDE_IMAGE_ENDPOINT,
   rxListSortingOptions,
 } from '../util/constants';
-import { selectCernerPilotFlag } from '../util/selectors';
+import {
+  selectCernerPilotFlag,
+  selectEnableKramesHtmlSanitizationFlag,
+} from '../util/selectors';
 
-const documentationApiBasePath = `${environment.API_URL}/my_health/v1`;
+export const documentationApiBasePath = `${environment.API_URL}/my_health/v1`;
 
 export const getApiBasePath = state => {
   // Handle loading state - default to v1
@@ -35,6 +38,174 @@ export const getRefillMethod = state => {
 
   const isCernerPilot = selectCernerPilotFlag(state);
   return isCernerPilot ? 'POST' : 'PATCH';
+};
+
+/**
+ * Build query path for getPrescriptionsExportList endpoint
+ * @param {Object} params - Query parameters
+ * @param {string} params.filterOption - Filter option string
+ * @param {string} params.sortEndpoint - Sort endpoint string
+ * @param {boolean} params.includeImage - Whether to include images
+ * @returns {Object} Object containing the path
+ */
+export const buildExportListQuery = ({
+  filterOption = '',
+  sortEndpoint,
+  includeImage = false,
+}) => ({
+  path: `/prescriptions?${filterOption}${sortEndpoint}${
+    includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
+  }`,
+});
+
+/**
+ * Build query path for getPrescriptionsList endpoint
+ * @param {Object} params - Query parameters
+ * @returns {Object} Object containing the path
+ */
+export const buildPrescriptionsListQuery = (params = {}) => {
+  const {
+    page = 1,
+    perPage = 10,
+    sortEndpoint = rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
+    filterOption = '',
+    includeImage = false,
+  } = params;
+
+  let queryParams = `page=${page}&per_page=${perPage}`;
+  if (filterOption) queryParams += filterOption;
+  if (sortEndpoint) queryParams += sortEndpoint;
+  if (includeImage) queryParams += '&include_image=true';
+
+  return {
+    path: `/prescriptions?${queryParams}`,
+  };
+};
+
+/**
+ * Build query path for getPrescriptionById endpoint
+ * @param {string} id - Prescription ID
+ * @returns {Object} Object containing the path
+ */
+export const buildPrescriptionByIdQuery = id => ({
+  path: `/prescriptions/${id}`,
+});
+
+/**
+ * Build query path for getRefillablePrescriptions endpoint
+ * @returns {Object} Object containing the path
+ */
+export const buildRefillablePrescriptionsQuery = () => ({
+  path: `/prescriptions/list_refillable_prescriptions`,
+});
+
+/**
+ * Transform response for getPrescriptionsExportList endpoint
+ * @param {Object} response - API response
+ * @returns {Object} Transformed response with prescriptions and meta
+ */
+export const transformExportListResponse = response => {
+  if (response?.data && Array.isArray(response.data)) {
+    return {
+      prescriptions: response.data.map(prescription =>
+        convertPrescription(prescription),
+      ),
+      meta: response.meta || {},
+    };
+  }
+  return { prescriptions: [], meta: {} };
+};
+
+/**
+ * Transform response for getPrescriptionsList endpoint
+ * @param {Object} response - API response
+ * @returns {Object} Transformed response with prescriptions, pagination, etc.
+ */
+export const transformPrescriptionsListResponse = response => {
+  if (response?.data && Array.isArray(response.data)) {
+    return {
+      prescriptions: response.data.map(prescription =>
+        convertPrescription(prescription),
+      ),
+      refillAlertList: filterRecentlyRequestedForAlerts(
+        response.meta?.recentlyRequested || [],
+      ),
+      pagination: response.meta?.pagination || {},
+      meta: response.meta || {},
+    };
+  }
+  return {
+    prescriptions: [],
+    refillAlertList: [],
+    pagination: {},
+    meta: {},
+  };
+};
+
+/**
+ * Transform response for getPrescriptionById endpoint
+ * @param {Object} response - API response
+ * @returns {Object|null} Transformed prescription or null
+ */
+export const transformPrescriptionByIdResponse = response => {
+  if (response && (response.data || response.attributes || response.resource)) {
+    return convertPrescription(response.data || response);
+  }
+  return null;
+};
+
+/**
+ * Transform response for getRefillablePrescriptions endpoint
+ * @param {Object} response - API response
+ * @returns {Object} Transformed response with refillable prescriptions
+ */
+export const transformRefillablePrescriptionsResponse = response => {
+  if (response?.data && Array.isArray(response.data)) {
+    return {
+      prescriptions: response.data
+        .map(prescription => convertPrescription(prescription))
+        .sort((a, b) => a.prescriptionName.localeCompare(b.prescriptionName))
+        .filter(prescription => prescription?.isRefillable),
+      refillAlertList: filterRecentlyRequestedForAlerts(
+        response.meta?.recentlyRequested || [],
+      ),
+      meta: response.meta || {},
+    };
+  }
+  return {
+    prescriptions: [],
+    refillAlertList: [],
+    meta: {},
+  };
+};
+
+/**
+ * Transform response for bulkRefillPrescriptions endpoint
+ * @param {Object} response - API response
+ * @returns {Object} Transformed response with successful and failed IDs
+ */
+export const transformBulkRefillResponse = response => {
+  return {
+    successfulIds: response?.successfulIds || [],
+    failedIds: response?.failedIds || [],
+  };
+};
+
+export const transformPrescriptionDocumentationResponse = (response, state) => {
+  const html = response?.data?.attributes?.html;
+
+  if (!html) {
+    return null;
+  }
+
+  // Check feature flag to determine if we should use the sanitizer
+  // Default to true (sanitize) when flag is not set or loading
+  const shouldEnableSanitization =
+    !state?.featureToggles ||
+    state.featureToggles.loading ||
+    selectEnableKramesHtmlSanitizationFlag(state) !== false;
+
+  return shouldEnableSanitization ? sanitizeKramesHtmlStr(html) : html;
 };
 
 // Create the prescriptions API slice
@@ -74,121 +245,41 @@ export const prescriptionsApi = createApi({
   tagTypes: ['Prescription'],
   endpoints: builder => ({
     getPrescriptionsExportList: builder.query({
-      query: ({ filterOption = '', sortEndpoint, includeImage = false }) => ({
-        path: `/prescriptions?${filterOption}${sortEndpoint}${
-          includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
-        }`,
-      }),
+      query: buildExportListQuery,
       providesTags: ['Prescription'],
-      transformResponse: response => {
-        if (response?.data && Array.isArray(response.data)) {
-          return {
-            prescriptions: response.data.map(prescription =>
-              convertPrescription(prescription),
-            ),
-            meta: response.meta || {},
-          };
-        }
-        return { prescriptions: [], meta: {} };
-      },
+      transformResponse: transformExportListResponse,
     }),
     getPrescriptionsList: builder.query({
-      query: (params = {}) => {
-        const {
-          page = 1,
-          perPage = 10,
-          sortEndpoint = rxListSortingOptions[defaultSelectedSortOption]
-            .API_ENDPOINT,
-          filterOption = '',
-          includeImage = false,
-        } = params;
-
-        let queryParams = `page=${page}&per_page=${perPage}`;
-        if (filterOption) queryParams += filterOption;
-        if (sortEndpoint) queryParams += sortEndpoint;
-        if (includeImage) queryParams += '&include_image=true';
-
-        return {
-          path: `/prescriptions?${queryParams}`,
-        };
-      },
+      query: buildPrescriptionsListQuery,
       providesTags: ['Prescription'],
-      transformResponse: response => {
-        // Handle the response structure and convert prescriptions
-        if (response?.data && Array.isArray(response.data)) {
-          return {
-            prescriptions: response.data.map(prescription =>
-              convertPrescription(prescription),
-            ),
-            refillAlertList: filterRecentlyRequestedForAlerts(
-              response.meta?.recentlyRequested || [],
-            ),
-            pagination: response.meta?.pagination || {},
-            meta: response.meta || {},
-          };
-        }
-        return {
-          prescriptions: [],
-          refillAlertList: [],
-          pagination: {},
-          meta: {},
-        };
-      },
+      transformResponse: transformPrescriptionsListResponse,
     }),
     getPrescriptionById: builder.query({
-      query: id => ({
-        path: `/prescriptions/${id}`,
-      }),
+      query: buildPrescriptionByIdQuery,
       providesTags: ['Prescription'],
-      transformResponse: response => {
-        // If it's a single prescription (not in an entry array)
-        if (
-          response &&
-          (response.data || response.attributes || response.resource)
-        ) {
-          return convertPrescription(response.data || response);
-        }
-        return null;
-      },
+      transformResponse: transformPrescriptionByIdResponse,
     }),
     getRefillablePrescriptions: builder.query({
-      query: () => ({
-        path: `/prescriptions/list_refillable_prescriptions`,
-      }),
+      query: buildRefillablePrescriptionsQuery,
       providesTags: ['Prescription'],
-      transformResponse: response => {
-        if (response?.data && Array.isArray(response.data)) {
-          return {
-            prescriptions: response.data
-              .map(prescription => convertPrescription(prescription))
-              .sort((a, b) =>
-                a.prescriptionName.localeCompare(b.prescriptionName),
-              )
-              .filter(prescription => prescription?.isRefillable),
-            refillAlertList: filterRecentlyRequestedForAlerts(
-              response.meta?.recentlyRequested || [],
-            ),
-            meta: response.meta || {},
-          };
-        }
-        return {
-          prescriptions: [],
-          refillAlertList: [],
-          meta: {},
-        };
-      },
+      // Refetch when tab regains focus to sync state across multiple tabs
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+      transformResponse: transformRefillablePrescriptionsResponse,
     }),
     getPrescriptionDocumentation: builder.query({
       // This endpoint always hits v1 docs API regardless of Cerner pilot flag
-      async queryFn(id) {
+      async queryFn(id, { getState }) {
         try {
           const response = await apiRequest(
             `${documentationApiBasePath}/prescriptions/${id}/documentation`,
           );
 
-          const html = response?.data?.attributes?.html
-            ? sanitizeKramesHtmlStr(response.data.attributes.html)
-            : null;
+          const state = getState();
+          const html = transformPrescriptionDocumentationResponse(
+            response,
+            state,
+          );
 
           return { data: html };
         } catch (error) {
@@ -287,15 +378,10 @@ export const prescriptionsApi = createApi({
           }
         }
       },
-      // Note: We intentionally don't invalidate tags here because the UI filters out
-      // successfully refilled prescriptions immediately. This avoids an extra API call.
-      // The cache will naturally refresh when the user navigates away and back.
-      transformResponse: response => {
-        return {
-          successfulIds: response?.successfulIds || [],
-          failedIds: response?.failedIds || [],
-        };
-      },
+      // Invalidate prescription cache to prevent duplicate refill attempts
+      // This ensures the refillable list is updated immediately after successful refills
+      invalidatesTags: ['Prescription'],
+      transformResponse: transformBulkRefillResponse,
     }),
   }),
 });

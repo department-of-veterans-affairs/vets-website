@@ -10,6 +10,7 @@ import {
   mockApiRequest,
   inputVaTextInput,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+// recordEvent ultimately pushes to window.dataLayer; we assert on that side effect
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
@@ -152,6 +153,99 @@ describe('Compose form component', () => {
   it('renders without errors', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     expect(screen);
+  });
+
+  it('records prefilling analytics when Rx renewal draft loads', async () => {
+    window.dataLayer = [];
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        prescription: {
+          ...initialState.sm.prescription,
+          renewalPrescription: {
+            prescriptionId: 123,
+          },
+        },
+      },
+    };
+
+    setup(customState, Paths.COMPOSE);
+
+    await waitFor(() => {
+      expect(
+        window.dataLayer?.some(e => e?.event === 'sm_editor_prefill_loaded'),
+      ).to.be.true;
+    });
+  });
+
+  it('records analytics when user clears prefilled textarea', async () => {
+    window.dataLayer = [];
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        preferences: signatureReducers.signatureEnabled,
+        threadDetails: {
+          ...threadDetailsReducer.threadDetails,
+          draftInProgress: {
+            ...threadDetailsReducer.threadDetails.draftInProgress,
+          },
+        },
+      },
+    };
+
+    const screen = setup(customState, Paths.COMPOSE, {
+      ...signatureReducers.signatureEnabled,
+    });
+
+    const messageEl = await screen.getByTestId('message-body-field');
+    // Ensure prefilled (signature) value is present
+    expect(messageEl).to.have.attribute('value');
+
+    // Clear the textarea value using testing-library helper (empty string triggers 'deleted' event)
+    inputVaTextInput(screen.container, '', 'va-textarea');
+
+    await waitFor(() => {
+      const hasClearedEvent = window.dataLayer?.some(
+        e => e?.event === 'sm_editor_prefill_deleted',
+      );
+      expect(hasClearedEvent).to.be.true;
+    });
+  });
+
+  it('records analytics when user edits prefilled textarea (non-empty)', async () => {
+    window.dataLayer = [];
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        preferences: signatureReducers.signatureEnabled,
+        threadDetails: {
+          ...threadDetailsReducer.threadDetails,
+          draftInProgress: {
+            ...threadDetailsReducer.threadDetails.draftInProgress,
+          },
+        },
+      },
+    };
+
+    const screen = setup(customState, Paths.COMPOSE, {
+      ...signatureReducers.signatureEnabled,
+    });
+
+    const messageEl = await screen.getByTestId('message-body-field');
+    expect(messageEl).to.have.attribute('value');
+
+    // Change value to something different (non-empty)
+    inputVaTextInput(screen.container, 'Edited content', 'va-textarea');
+
+    await waitFor(() => {
+      const hasEditedEvent = window.dataLayer?.some(
+        e => e?.event === 'sm_editor_prefill_edited',
+      );
+      expect(hasEditedEvent).to.be.true;
+    });
   });
 
   it('displays compose fields if path is /new-message', async () => {
@@ -881,14 +975,16 @@ describe('Compose form component', () => {
       },
     );
 
-    const blockedTriageGroupAlert = await screen.findByTestId(
-      'blocked-triage-group-alert',
-    );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You're not connected to any care teams in this messaging tool",
-    );
+    await waitFor(() => {
+      const blockedTriageGroupAlert = screen.getByTestId(
+        'blocked-triage-group-alert',
+      );
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You're not connected to any care teams in this messaging tool",
+      );
+    });
     const viewOnlyDraftSections = screen.queryAllByTestId(
       'view-only-draft-section',
     );
@@ -1035,11 +1131,10 @@ describe('Compose form component', () => {
       },
     );
 
-    const blockedTriageGroupAlert = await screen.findByTestId(
-      'blocked-triage-group-alert',
-    );
     await waitFor(() => {
-      expect(blockedTriageGroupAlert).to.exist;
+      const blockedTriageGroupAlert = screen.getByTestId(
+        'blocked-triage-group-alert',
+      );
       expect(blockedTriageGroupAlert).to.have.attribute(
         'trigger',
         "You can't send messages to your care teams right now",
@@ -1856,33 +1951,6 @@ describe('Compose form component', () => {
         expect(args.body).to.include('Prescription expiration date: ');
         expect(args.body).to.include('Reason for use: ');
         expect(args.body).to.include('Quantity: ');
-      });
-    });
-
-    it('clears prescription on unmount', async () => {
-      const clearPrescriptionSpy = sandbox.spy(
-        require('../../../actions/prescription'),
-        'clearPrescription',
-      );
-
-      const customState = {
-        ...initialState,
-        sm: {
-          ...initialState.sm,
-          prescription: {
-            renewalPrescription: { prescriptionId: '123' },
-            error: null,
-            isLoading: false,
-          },
-        },
-      };
-
-      const { unmount } = setup(customState);
-
-      unmount();
-
-      await waitFor(() => {
-        expect(clearPrescriptionSpy.called).to.be.true;
       });
     });
 

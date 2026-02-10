@@ -1,21 +1,36 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsListPage from './pages/MedicationsListPage';
 import rxList from './fixtures/listOfPrescriptions.json';
+import oracleHealthRxList from './fixtures/oracle-health-prescriptions.json';
+import cernerUser from './fixtures/cerner-user.json';
 
 describe('Send Rx Renewal Message Component', () => {
-  beforeEach(() => {
+  it('displays fallback message for Active prescription with 0 refills on list page', () => {
     const site = new MedicationsSite();
-    site.login();
-  });
-
-  it('displays renewal request link for Active prescription with 0 refills on list page', () => {
     const listPage = new MedicationsListPage();
 
+    site.login();
     listPage.visitMedicationsListPageURL(rxList);
 
     cy.get('[data-testid="active-no-refill-left"]')
+      .first()
       .should('be.visible')
-      .and('contain', 'You have no refills left');
+      .and(
+        'contain',
+        'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
+      );
+
+    cy.injectAxe();
+    cy.axeCheck('main');
+  });
+
+  it('displays renewal request link for Oracle Health prescriptions', () => {
+    const site = new MedicationsSite();
+    const listPage = new MedicationsListPage();
+
+    // Use Cerner user and Oracle Health prescriptions for renewal link
+    site.login(true, false, cernerUser);
+    listPage.visitMedicationsListPageURL(oracleHealthRxList);
 
     cy.get('[data-testid="send-renewal-request-message-link"]')
       .should('exist')
@@ -25,10 +40,13 @@ describe('Send Rx Renewal Message Component', () => {
     cy.axeCheck('main');
   });
 
-  it('renewal request link is clickable', () => {
+  it('renewal request link is clickable for Oracle Health prescriptions', () => {
+    const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
-    listPage.visitMedicationsListPageURL(rxList);
+    // Use Cerner user and Oracle Health prescriptions for renewal link
+    site.login(true, false, cernerUser);
+    listPage.visitMedicationsListPageURL(oracleHealthRxList);
 
     cy.get('[data-testid="send-renewal-request-message-link"]')
       .first()
@@ -40,9 +58,18 @@ describe('Send Rx Renewal Message Component', () => {
   });
 
   it('modal has correct properties and button text', () => {
+    const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
-    listPage.visitMedicationsListPageURL(rxList);
+    // Use Cerner user and Oracle Health prescriptions for renewal link
+    site.login(true, false, cernerUser);
+    listPage.visitMedicationsListPageURL(oracleHealthRxList);
+
+    cy.get('[data-testid="send-renewal-request-message-link"]')
+      .first()
+      .shadow()
+      .find('a')
+      .click();
 
     cy.get('va-modal')
       .should('have.attr', 'status', 'info')
@@ -61,8 +88,10 @@ describe('Send Rx Renewal Message Component', () => {
   });
 
   it('displays fallback content for refill in process prescriptions', () => {
+    const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
+    site.login();
     listPage.visitMedicationsListPageURL(rxList);
 
     cy.get('[data-testid="rx-refillinprocess-info"]').then($el => {
@@ -76,8 +105,10 @@ describe('Send Rx Renewal Message Component', () => {
   });
 
   it('displays fallback content for submitted prescriptions', () => {
+    const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
+    site.login();
     listPage.visitMedicationsListPageURL(rxList);
 
     cy.get('[data-testid="submitted-refill-request"]').then($el => {
@@ -91,8 +122,10 @@ describe('Send Rx Renewal Message Component', () => {
   });
 
   it('displays fallback message for expired prescriptions older than 120 days', () => {
+    const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
+    site.login();
     listPage.visitMedicationsListPageURL(rxList);
 
     cy.get('[data-testid="expired"]').then($expired => {
@@ -102,7 +135,7 @@ describe('Send Rx Renewal Message Component', () => {
           .and('be.visible')
           .and(
             'contain',
-            'This prescription is too old to refill. If you need more, request a renewal.',
+            'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
           );
       }
     });
@@ -112,8 +145,10 @@ describe('Send Rx Renewal Message Component', () => {
   });
 
   it('does not display renewal link for non-VA prescriptions', () => {
+    const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
+    site.login();
     listPage.visitMedicationsListPageURL(rxList);
 
     cy.get('[data-testid="non-VA-prescription"]').then($nonVA => {
@@ -136,8 +171,10 @@ describe('Send Rx Renewal Message Component', () => {
   });
 
   it('displays discontinued prescription message without renewal link', () => {
+    const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
+    site.login();
     listPage.visitMedicationsListPageURL(rxList);
 
     cy.get('[data-testid="discontinued"]').then($discontinued => {
@@ -146,7 +183,7 @@ describe('Send Rx Renewal Message Component', () => {
 
         const discontinuedText = $discontinued.text();
         expect(discontinuedText).to.include(
-          "You can't refill this prescription",
+          'You can’t refill this prescription',
         );
 
         cy.wrap($discontinued)

@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   textUI,
-  textSchema,
   radioUI,
   radioSchema,
   currencyUI,
@@ -19,6 +18,7 @@ import {
   frequencyLabels,
 } from '../../../../utils/labels';
 import { transformDate } from '../../05-claim-information/helpers';
+import { customTextSchema } from '../../../definitions';
 
 function introDescription() {
   return (
@@ -76,12 +76,11 @@ export const options = {
   maxItems: 6,
   isItemIncomplete: item =>
     !item?.recipient ||
-    (['VETERANS_CHILD', 'OTHER'].includes(item?.recipient) &&
-      !item?.recipientName) ||
+    (['CHILD'].includes(item?.recipient) && !item?.childName) ||
     !item?.purpose ||
     !item?.paymentDate ||
-    !item?.frequency ||
-    !item?.amount,
+    !item?.paymentFrequency ||
+    !item?.paymentAmount,
   text: {
     cancelAddTitle: 'Cancel adding this medical expense?',
     cancelEditTitle: 'Cancel editing this medical expense?',
@@ -118,10 +117,11 @@ export const options = {
     cardDescription: item => (
       <div>
         <span className="vads-u-display--block">
-          {transformDate(item.paymentDate) || 'Date not provided'}
+          {transformDate(item?.paymentDate) || 'Date not provided'}
         </span>
         <span className="vads-u-display--block">
-          {frequencyLabels[item.frequency] || 'Frequency not provided'}
+          {frequencyLabels[(item?.paymentFrequency)] ||
+            'Frequency not provided'}
         </span>
       </div>
     ),
@@ -177,18 +177,17 @@ const recipientPage = {
       title: 'Who is the expense for?',
       labels: medicalExpenseRecipientLabels,
     }),
-    recipientName: textUI({
+    childName: textUI({
       title: 'Full name of the person who the expense is for',
       expandUnder: 'recipient',
-      expandUnderCondition: field =>
-        field === 'VETERANS_CHILD' || field === 'OTHER',
+      expandUnderCondition: field => field === 'CHILD',
       required: (formData, index, fullData) => {
         const items = formData?.medicalExpenses ?? fullData?.medicalExpenses;
         const item = items?.[index];
-        return ['VETERANS_CHILD'].includes(item?.recipient);
+        return ['CHILD'].includes(item?.recipient);
       },
     }),
-    paymentRecipient: textUI({
+    provider: textUI({
       title: 'Who receives the payment?',
       hint: 'For example: provider’s name or insurance company',
       'ui:required': true,
@@ -198,10 +197,10 @@ const recipientPage = {
     type: 'object',
     properties: {
       recipient: radioSchema(Object.keys(medicalExpenseRecipientLabels)),
-      recipientName: textSchema,
-      paymentRecipient: textSchema,
+      childName: customTextSchema,
+      provider: customTextSchema,
     },
-    required: ['recipient', 'paymentRecipient'],
+    required: ['recipient', 'provider'],
   },
 };
 
@@ -220,7 +219,7 @@ const purposeDatePage = {
   schema: {
     type: 'object',
     properties: {
-      purpose: textSchema,
+      purpose: customTextSchema,
       paymentDate: currentOrPastDateSchema,
     },
     required: ['purpose', 'paymentDate'],
@@ -230,19 +229,22 @@ const purposeDatePage = {
 const frequencyCostPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Frequency and cost of care'),
-    frequency: radioUI({
+    paymentFrequency: radioUI({
       title: 'How often are the payments?',
       labels: frequencyLabels,
     }),
-    amount: currencyUI('How much is each payment?'),
+    paymentAmount: currencyUI({
+      title: 'How much is each payment?',
+      max: 999999999.0,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      frequency: radioSchema(Object.keys(frequencyLabels)),
-      amount: currencySchema,
+      paymentFrequency: radioSchema(Object.keys(frequencyLabels)),
+      paymentAmount: currencySchema,
     },
-    required: ['frequency', 'amount'],
+    required: ['paymentFrequency', 'paymentAmount'],
   },
 };
 

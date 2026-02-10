@@ -16,4 +16,10 @@ export const employedByVAFields = {
   datesOfEmployment: 'datesOfEmployment',
   lostTime: 'lostTime',
   highestIncome: 'highestIncome',
+
+  hasCertifiedSection2: 'hasCertifiedSection2',
+  hasUnderstoodSection2: 'hasUnderstoodSection2',
+
+  hasCertifiedSection3: 'hasCertifiedSection3',
+  hasUnderstoodSection3: 'hasUnderstoodSection3',
 };

@@ -27,7 +27,7 @@ const DeleteExpenseModal = ({
   return (
     <VaModal
       data-testid="delete-expense-modal"
-      modalTitle="Delete this expense"
+      modalTitle="Delete this expense?"
       onCloseEvent={onCloseEvent}
       onPrimaryButtonClick={onPrimaryButtonClick}
       onSecondaryButtonClick={onSecondaryButtonClick}

@@ -52,40 +52,25 @@ describe('22-0803 keyboard only specs', () => {
     );
     cy.injectAxeThenAxeCheck();
     cy.contains('Personal information');
-    cy.contains('John Doe');
+    cy.contains('MITCHELL G JENKINS');
     cy.contains('1863');
     cy.repeatKey('Tab', 6);
     cy.realPress('Space');
 
-    // Mailing Address Page
+    // Contact Info Page
     cy.url().should(
       'include',
-      formConfig.chapters.personalInformationChapter.pages.mailingAddress.path,
+      formConfig.chapters.personalInformationChapter.pages.confirmContactInfo
+        .path,
     );
     cy.injectAxeThenAxeCheck();
     cy.contains('Mailing address');
-    cy.repeatKey('Tab', 2);
-    cy.selectVaSelect('root_mailingAddress_country', 'USA');
-    cy.realPress('Tab');
-    cy.typeInFocused('123 Fake St');
-    cy.repeatKey('Tab', 3);
-    cy.typeInFocused('Tulsa');
-    cy.repeatKey('Tab', 1);
-    cy.selectVaSelect('root_mailingAddress_state', 'OK');
-    cy.realPress('Tab');
-    cy.typeInFocused('12345');
-    cy.tabToContinueForm();
-
-    // Phone and email page
-    cy.url().should(
-      'include',
-      formConfig.chapters.personalInformationChapter.pages.phoneAndEmail.path,
-    );
-    cy.injectAxeThenAxeCheck();
-    cy.contains('Phone and email address');
-    cy.tabToElement('[name="root_emailAddress"]');
-    cy.typeInFocused('john@example.com');
-    cy.tabToContinueForm();
+    cy.contains('123 Mailing Address St');
+    cy.contains('Home phone number');
+    cy.contains('Mobile phone number');
+    cy.contains('Email address');
+    cy.repeatKey('Tab', 7);
+    cy.realPress('Space');
 
     // Test name and date page
     cy.url().should(
@@ -154,7 +139,7 @@ describe('22-0803 keyboard only specs', () => {
     cy.url().should('include', 'review-and-submit');
     cy.injectAxeThenAxeCheck();
     cy.tabToElement('input[id="inputField"]');
-    cy.realType('John Doe');
+    cy.realType('MITCHELL G JENKINS');
     cy.realPress('Tab');
     cy.realPress('Space');
     cy.repeatKey('Tab', 3);

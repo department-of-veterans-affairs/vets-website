@@ -1,38 +1,65 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { downloadCh31PdfLetter } from '../actions/ch31-my-eligibility-and-benefits';
 
-const ApplicationDiscontinuedAlert = () => {
+const ApplicationDiscontinuedAlert = ({ discontinuedReason, resCaseId }) => {
+  const dispatch = useDispatch();
+  const { loading: isDownloading, error: downloadError } = useSelector(
+    state => state?.ch31PdfLetterDownload || {},
+  );
+
+  const handleDownload = event => {
+    event.preventDefault();
+
+    if (isDownloading) return;
+
+    dispatch(downloadCh31PdfLetter(resCaseId));
+  };
+
+  const downloadErrorMessage = downloadError
+    ? "We can't download your letter right now. Please try again later."
+    : null;
+
   return (
-    <div className="usa-width-two-thirds vads-u-margin-y--3">
+    <div className="vads-u-margin-y--3">
       <va-alert
         close-btn-aria-label="Close notification"
         status="error"
         visible
       >
-        <h3 slot="headline">Sorry, your application has been discontinued</h3>
-        <p className="vads-u-margin-y--0">
-          Please contact the Central Office at{' '}
-          <va-telephone contact="8773459876" /> between the hours 8:00am ET and
-          5:00pm ET. You can find a copy of the letter down below.
-        </p>
+        <h3 slot="headline">
+          Sorry, processing your Chapter 31 claim has been discontinued
+        </h3>
         <p>
-          Your application has been discontinued and it’s ineligible for Chapter
-          31 benefits for the following reason:
+          Your VR&E Chapter 31 claim has been discontinued for the following
+          reasons:
         </p>
-        <p>
-          More information can be found in your letter and you can download a
-          copy of your letter by clicking on “Download Letter”:
-        </p>
-        <p className="usa-width-one-whole">
-          <va-link
-            download
-            filetype="PDF"
-            href="https://www.va.gov"
-            text="Download Letter"
+        <p>{discontinuedReason || 'No reason provided.'}</p>
+        <p>Please view your detailed letter and next steps.</p>
+        <p>If you need more information, please contact your counselor.</p>
+        {isDownloading ? (
+          <va-loading-indicator
+            label="Loading"
+            message="Downloading your letter..."
           />
-        </p>
+        ) : (
+          <va-link-action
+            href="#"
+            text="View my letter"
+            type="primary"
+            onClick={handleDownload}
+          />
+        )}
+        {downloadErrorMessage && <p>{downloadErrorMessage}</p>}
       </va-alert>
     </div>
   );
+};
+
+ApplicationDiscontinuedAlert.propTypes = {
+  discontinuedReason: PropTypes.string,
+  resCaseId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default ApplicationDiscontinuedAlert;

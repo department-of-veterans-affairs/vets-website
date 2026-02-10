@@ -139,7 +139,7 @@ describe('Schemaform actions:', () => {
         });
       });
 
-      requests[0].respond(200, null, JSON.stringify(response));
+      requests[0].respond(200, {}, JSON.stringify(response));
 
       return promise;
     });
@@ -176,7 +176,7 @@ describe('Schemaform actions:', () => {
         });
       });
 
-      requests[0].respond(400, null, JSON.stringify(response));
+      requests[0].respond(400, {}, JSON.stringify(response));
 
       return promise;
     });
@@ -210,7 +210,7 @@ describe('Schemaform actions:', () => {
         expect(sentryReports[1].extra.statusText).to.equal('Bad Request');
       });
 
-      requests[0].respond(400, null, JSON.stringify(response));
+      requests[0].respond(400, {}, JSON.stringify(response));
 
       return promise;
     });
@@ -599,7 +599,7 @@ describe('Schemaform actions:', () => {
       thunk(dispatch, getState);
       requests[0].respond(
         200,
-        null,
+        {},
         JSON.stringify({
           data: {
             attributes: {
@@ -651,7 +651,7 @@ describe('Schemaform actions:', () => {
       thunk(dispatch, getState);
       requests[0].respond(
         200,
-        null,
+        {},
         JSON.stringify({
           data: {
             attributes: {
@@ -785,7 +785,7 @@ describe('Schemaform actions:', () => {
 
       thunk(dispatch, getState);
 
-      requests[0].respond(500, null, undefined);
+      requests[0].respond(500, {}, undefined);
 
       expect(onChange.firstCall.args[0]).to.eql({
         name: '1.jpg',
@@ -826,7 +826,7 @@ describe('Schemaform actions:', () => {
 
       thunk(dispatch, getState);
 
-      requests[0].respond(500, null, undefined);
+      requests[0].respond(500, {}, undefined);
 
       expect(onChange.firstCall.args[0]).to.eql({
         name: '1.jpg',
@@ -1086,7 +1086,7 @@ describe('Schemaform actions:', () => {
 
       requests[0].respond(
         403,
-        null,
+        {},
         JSON.stringify({
           errors: 'Access token has expired',
         }),
@@ -1125,13 +1125,154 @@ describe('Schemaform actions:', () => {
 
       requests[0].respond(
         403,
-        null,
+        {},
         JSON.stringify({
           errors: 'Forbidden - insufficient permissions',
         }),
       );
 
       expect(refreshStub.called).to.be.false;
+    });
+  });
+  describe('submitForm token refresh retry', () => {
+    let xhr;
+    let requests = [];
+    let refreshStub;
+    let infoTokenExistsStub;
+
+    beforeEach(() => {
+      testkit.reset();
+      xhr = sinon.useFakeXMLHttpRequest();
+      xhr.onCreate = req => {
+        requests.push(req);
+      };
+      window.dataLayer = [];
+
+      const oauthUtilities = require('platform/utilities/oauth/utilities');
+      refreshStub = sinon.stub(oauthUtilities, 'refresh').resolves();
+      infoTokenExistsStub = sinon
+        .stub(oauthUtilities, 'infoTokenExists')
+        .returns(true);
+    });
+
+    afterEach(() => {
+      testkit.reset();
+      global.XMLHttpRequest = window.XMLHttpRequest;
+      xhr.restore();
+      requests = [];
+      window.dataLayer = [];
+
+      if (refreshStub) refreshStub.restore();
+      if (infoTokenExistsStub) infoTokenExistsStub.restore();
+    });
+
+    it('should call refresh and retry on 403 token expired error', async () => {
+      const formConfig = {
+        chapters: {},
+        submitUrl: '/v0/submit',
+        trackingPrefix: 'test-form',
+      };
+      const form = {
+        pages: { testing: {} },
+        data: { test: 1 },
+      };
+      const thunk = submitForm(formConfig, form);
+      const dispatch = sinon.spy();
+      const response = { data: { confirmationNumber: '123' } };
+
+      const promise = thunk(dispatch);
+
+      // First request returns 403 with token expired
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({
+          errors: 'Access token has expired',
+        }),
+      );
+
+      // Wait for refresh to be called
+      await refreshStub.returnValues[0];
+
+      expect(refreshStub.called).to.be.true;
+      expect(requests.length).to.equal(2);
+
+      // Second request succeeds
+      requests[1].respond(200, null, JSON.stringify(response));
+
+      return promise.then(() => {
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: SET_SUBMITTED,
+          response: response.data,
+        });
+      });
+    });
+
+    it('should not call refresh on 403 with different error', () => {
+      const formConfig = {
+        chapters: {},
+        submitUrl: '/v0/submit',
+        trackingPrefix: 'test-form',
+      };
+      const form = {
+        pages: { testing: {} },
+        data: { test: 1 },
+      };
+      const thunk = submitForm(formConfig, form);
+      const dispatch = sinon.spy();
+
+      const promise = thunk(dispatch).then(() => {
+        expect(refreshStub.called).to.be.false;
+        expect(requests.length).to.equal(1);
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: SET_SUBMISSION,
+          field: 'status',
+          value: 'serverError',
+          extra: null,
+          errorMessage: 'vets_server_error: Forbidden',
+        });
+      });
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({
+          errors: 'Forbidden - insufficient permissions',
+        }),
+      );
+
+      return promise;
+    });
+
+    it('should not call refresh if infoTokenExists returns false', () => {
+      infoTokenExistsStub.returns(false);
+
+      const formConfig = {
+        chapters: {},
+        submitUrl: '/v0/submit',
+        trackingPrefix: 'test-form',
+      };
+      const form = {
+        pages: { testing: {} },
+        data: { test: 1 },
+      };
+      const thunk = submitForm(formConfig, form);
+      const dispatch = sinon.spy();
+
+      const promise = thunk(dispatch).then(() => {
+        expect(refreshStub.called).to.be.false;
+        expect(requests.length).to.equal(1);
+      });
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({
+          errors: 'Access token has expired',
+        }),
+      );
+
+      return promise;
     });
   });
 });

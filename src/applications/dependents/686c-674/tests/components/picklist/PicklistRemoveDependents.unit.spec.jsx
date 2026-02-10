@@ -135,6 +135,7 @@ describe('PicklistRemoveDependents', () => {
       ...dep,
       key: slugifyText(
         `${dep.fullName.first.toLowerCase()}-${dep.ssn.slice(-4)}`,
+        { convertCamelCase: false },
       ),
       selected: index === 1,
     }));

@@ -3,7 +3,6 @@ import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/p
 import formConfig from '../../../config/form';
 import mockData from '../../e2e/fixtures/data/test-data.json';
 import maxData from '../../e2e/fixtures/data/maximal-test.json';
-import FileFieldWrapped from '../../../components/FileUploadWrapper';
 
 // Call the depends() function for any page that relies on it
 describe('dependent page logic', () => {
@@ -384,13 +383,6 @@ testNumberOfWebComponentFields(
   'Applicant secondary card',
   { ...mockData.data },
 );
-
-describe('FileFieldWrapped', () => {
-  it('should be called', () => {
-    const ffw = FileFieldWrapped({});
-    expect(ffw).to.not.be.undefined;
-  });
-});
 
 testNumberOfWebComponentFields(
   formConfig,

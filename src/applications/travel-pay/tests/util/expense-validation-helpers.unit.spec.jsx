@@ -14,28 +14,6 @@ import {
   validateMealFields,
 } from '../../util/expense-validation-helpers';
 
-const mockSetExtraFieldErrors = () => {
-  const calls = [];
-  const fn = updater => {
-    const prev = calls.length ? calls[calls.length - 1] : {};
-    const next = typeof updater === 'function' ? updater(prev) : updater;
-    calls.push(next);
-  };
-  fn.calls = calls;
-  return fn;
-};
-
-const mockSetFormState = () => {
-  const calls = [];
-  const fn = updater => {
-    const prev = calls.length ? calls[calls.length - 1] : {};
-    const next = typeof updater === 'function' ? updater(prev) : updater;
-    calls.push(next);
-  };
-  fn.calls = calls;
-  return fn;
-};
-
 const getFutureDateString = () => {
   const d = new Date();
   d.setDate(d.getDate() + 1);
@@ -96,243 +74,144 @@ describe('validateReceiptDate', () => {
   });
 
   it('shows required error on SUBMIT when date is empty', () => {
-    const setErrors = mockSetExtraFieldErrors();
+    const result = validateReceiptDate(null, DATE_VALIDATION_TYPE.SUBMIT);
 
-    const isValid = validateReceiptDate(
-      null,
-      DATE_VALIDATION_TYPE.SUBMIT,
-      setErrors,
-    );
-
-    expect(isValid).to.be.false;
-    expect(setErrors.calls.pop()).to.deep.equal({
-      purchaseDate: 'Enter the date of your receipt',
-    });
+    expect(result.isValid).to.be.false;
+    expect(result.purchaseDate).to.equal('Enter the date on your receipt');
   });
 
   it('does not show required error on CHANGE', () => {
-    const setErrors = mockSetExtraFieldErrors();
+    const result = validateReceiptDate(null, DATE_VALIDATION_TYPE.CHANGE);
 
-    const isValid = validateReceiptDate(
-      null,
-      DATE_VALIDATION_TYPE.CHANGE,
-      setErrors,
-    );
-
-    expect(isValid).to.be.true;
-    expect(setErrors.calls.pop()).to.deep.equal({
-      purchaseDate: null,
-    });
+    expect(result.isValid).to.be.true;
+    expect(result.purchaseDate).to.be.null;
   });
 
   it('does not error on partial date', () => {
-    const setErrors = mockSetExtraFieldErrors();
-
-    const isValid = validateReceiptDate(
+    const result = validateReceiptDate(
       { month: '1', day: null, year: null },
       DATE_VALIDATION_TYPE.SUBMIT,
-      setErrors,
     );
 
-    expect(isValid).to.be.true;
-    expect(setErrors.calls.pop()).to.deep.equal({
-      purchaseDate: null,
-    });
+    expect(result.isValid).to.be.true;
+    expect(result.purchaseDate).to.be.null;
   });
 
   it('shows future date error when date is in the future', () => {
     MockDate.set('2025-01-01T00:00:00Z');
-    const setErrors = mockSetExtraFieldErrors();
 
-    const isValid = validateReceiptDate(
+    const result = validateReceiptDate(
       { month: '12', day: '31', year: '2025' },
       DATE_VALIDATION_TYPE.SUBMIT,
-      setErrors,
     );
 
-    expect(isValid).to.be.false;
-    expect(setErrors.calls.pop()).to.deep.equal({
-      purchaseDate: "Don't enter a future date",
-    });
+    expect(result.isValid).to.be.false;
+    expect(result.purchaseDate).to.equal("Don't enter a future date");
   });
 
   it('passes for a valid past date', () => {
     MockDate.set('2025-01-10T00:00:00Z');
-    const setErrors = mockSetExtraFieldErrors();
 
-    const isValid = validateReceiptDate(
+    const result = validateReceiptDate(
       '2025-01-01',
       DATE_VALIDATION_TYPE.SUBMIT,
-      setErrors,
     );
 
-    expect(isValid).to.be.true;
-    expect(setErrors.calls.pop()).to.deep.equal({
-      purchaseDate: null,
-    });
+    expect(result.isValid).to.be.true;
+    expect(result.purchaseDate).to.be.null;
   });
 });
 
 describe('validateDescription', () => {
   it('shows required error on SUBMIT when empty', () => {
-    const setErrors = mockSetExtraFieldErrors();
+    const result = validateDescription('', DATE_VALIDATION_TYPE.SUBMIT);
 
-    const isValid = validateDescription(
-      '',
-      setErrors,
-      DATE_VALIDATION_TYPE.SUBMIT,
-    );
-
-    expect(isValid).to.be.false;
-    expect(setErrors.calls.pop()).to.deep.equal({
-      description: 'Enter a description',
-    });
+    expect(result.isValid).to.be.false;
+    expect(result.description).to.equal('Enter a description');
   });
 
   it('shows min length error when too short', () => {
-    const setErrors = mockSetExtraFieldErrors();
+    const result = validateDescription('abc', DATE_VALIDATION_TYPE.BLUR);
 
-    const isValid = validateDescription(
-      'abc',
-      setErrors,
-      DATE_VALIDATION_TYPE.BLUR,
-    );
-
-    expect(isValid).to.be.false;
-    expect(setErrors.calls.pop()).to.deep.equal({
-      description: 'Enter at least 5 characters',
-    });
+    expect(result.isValid).to.be.false;
+    expect(result.description).to.equal('Enter at least 5 characters');
   });
 
   it('shows max length error when too long', () => {
-    const setErrors = mockSetExtraFieldErrors();
     const longText = 'a'.repeat(2001);
 
-    const isValid = validateDescription(
-      longText,
-      setErrors,
-      DATE_VALIDATION_TYPE.CHANGE,
-    );
+    const result = validateDescription(longText, DATE_VALIDATION_TYPE.CHANGE);
 
-    expect(isValid).to.be.false;
-    expect(setErrors.calls.pop()).to.deep.equal({
-      description: 'Enter no more than 2,000 characters',
-    });
+    expect(result.isValid).to.be.false;
+    expect(result.description).to.equal('Enter no more than 2,000 characters');
   });
 
   it('passes for valid description', () => {
-    const setErrors = mockSetExtraFieldErrors();
-
-    const isValid = validateDescription(
+    const result = validateDescription(
       'Valid description',
-      setErrors,
       DATE_VALIDATION_TYPE.SUBMIT,
     );
 
-    expect(isValid).to.be.true;
-    expect(setErrors.calls.pop()).to.deep.equal({
-      description: null,
-    });
+    expect(result.isValid).to.be.true;
+    expect(result.description).to.be.null;
   });
 });
 
 describe('validateRequestedAmount', () => {
   it('shows required error on SUBMIT when empty', () => {
-    const setErrors = mockSetExtraFieldErrors();
+    const result = validateRequestedAmount('', DATE_VALIDATION_TYPE.SUBMIT);
 
-    const isValid = validateRequestedAmount(
-      '',
-      setErrors,
-      DATE_VALIDATION_TYPE.SUBMIT,
-    );
-
-    expect(isValid).to.be.false;
-    expect(setErrors.calls.pop()).to.deep.equal({
-      costRequested: 'Enter an amount',
-    });
+    expect(result.isValid).to.be.false;
+    expect(result.errors.costRequested).to.equal('Enter an amount');
   });
 
   it('rejects non-numeric input', () => {
-    const setErrors = mockSetExtraFieldErrors();
+    const result = validateRequestedAmount('abc', DATE_VALIDATION_TYPE.BLUR);
 
-    const isValid = validateRequestedAmount(
-      'abc',
-      setErrors,
-      DATE_VALIDATION_TYPE.BLUR,
-    );
-
-    expect(isValid).to.be.false;
-    expect(setErrors.calls.pop()).to.deep.equal({
-      costRequested: 'Enter an amount in numbers',
-    });
+    expect(result.isValid).to.be.false;
+    expect(result.errors.costRequested).to.equal('Enter an amount in numbers');
   });
 
   it('rejects more than 2 decimal places', () => {
-    const setErrors = mockSetExtraFieldErrors();
+    const result = validateRequestedAmount('1.234', DATE_VALIDATION_TYPE.BLUR);
 
-    const isValid = validateRequestedAmount(
-      '1.234',
-      setErrors,
-      DATE_VALIDATION_TYPE.BLUR,
+    expect(result.isValid).to.be.false;
+    expect(result.errors.costRequested).to.equal(
+      'Enter an amount using this format: x.xx',
     );
-
-    expect(isValid).to.be.false;
-    expect(setErrors.calls.pop()).to.deep.equal({
-      costRequested: 'Enter an amount using this format: x.xx',
-    });
   });
 
   it('rejects zero or negative amounts', () => {
-    const setErrors = mockSetExtraFieldErrors();
+    const result = validateRequestedAmount('0', DATE_VALIDATION_TYPE.BLUR);
 
-    const isValid = validateRequestedAmount(
-      '0',
-      setErrors,
-      DATE_VALIDATION_TYPE.BLUR,
+    expect(result.isValid).to.be.false;
+    expect(result.errors.costRequested).to.equal(
+      'Enter an amount greater than 0',
     );
-
-    expect(isValid).to.be.false;
-    expect(setErrors.calls.pop()).to.deep.equal({
-      costRequested: 'Enter an amount greater than 0',
-    });
   });
 
   it('auto-formats amount to 2 decimals on BLUR', () => {
-    const setErrors = mockSetExtraFieldErrors();
-    const setFormState = mockSetFormState();
+    const result = validateRequestedAmount('2.5', DATE_VALIDATION_TYPE.BLUR);
 
-    const isValid = validateRequestedAmount(
-      '2.5',
-      setErrors,
-      DATE_VALIDATION_TYPE.BLUR,
-      setFormState,
-    );
-
-    expect(isValid).to.be.true;
-    expect(setFormState.calls.pop()).to.deep.equal({
-      costRequested: '2.50',
-    });
+    expect(result.isValid).to.be.true;
+    expect(result.formattedValue).to.equal('2.50');
+    expect(result.errors.costRequested).to.be.null;
   });
 
   it('passes for valid amount without formatting on CHANGE', () => {
-    const setErrors = mockSetExtraFieldErrors();
-
-    const isValid = validateRequestedAmount(
+    const result = validateRequestedAmount(
       '10.25',
-      setErrors,
       DATE_VALIDATION_TYPE.CHANGE,
     );
 
-    expect(isValid).to.be.true;
-    expect(setErrors.calls.pop()).to.deep.equal({
-      costRequested: null,
-    });
+    expect(result.isValid).to.be.true;
+    expect(result.formattedValue).to.be.null;
+    expect(result.errors.costRequested).to.be.null;
   });
 });
 
 describe('validateAirTravelFields', () => {
   let formState;
-  let errors;
 
   beforeEach(() => {
     formState = {
@@ -343,15 +222,15 @@ describe('validateAirTravelFields', () => {
       departedFrom: '',
       arrivedTo: '',
     };
-    errors = {};
   });
 
   it('validates all fields at once and sets errors for empty values', () => {
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
     expect(nextErrors).to.deep.equal({
       vendorName: 'Enter the company name',
       tripType: 'Select a trip type',
       departureDate: 'Enter a departure date',
+      returnDate: null,
       departedFrom: 'Enter the airport name',
       arrivedTo: 'Enter the airport name',
     });
@@ -359,9 +238,9 @@ describe('validateAirTravelFields', () => {
 
   it('validates a single field and leaves others untouched', () => {
     formState.vendorName = 'Acme Airlines';
-    const nextErrors = validateAirTravelFields(formState, errors, 'vendorName');
+    const nextErrors = validateAirTravelFields(formState, 'vendorName');
 
-    expect(nextErrors.vendorName).to.be.undefined;
+    expect(nextErrors.vendorName).to.equal(null);
   });
 
   it('throws error when departureDate is after returnDate and both are complete', () => {
@@ -371,7 +250,6 @@ describe('validateAirTravelFields', () => {
         returnDate: '2025-01-10',
         tripType: TRIP_TYPES.ROUND_TRIP.value,
       },
-      {},
       'departureDate',
     );
 
@@ -394,9 +272,15 @@ describe('validateAirTravelFields', () => {
       arrivedTo: 'LAX',
     };
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
-    expect(nextErrors).to.deep.equal({});
+    // All fields should return null for valid values
+    expect(nextErrors.vendorName).to.equal(null);
+    expect(nextErrors.tripType).to.equal(null);
+    expect(nextErrors.departureDate).to.equal(null);
+    expect(nextErrors.returnDate).to.equal(null);
+    expect(nextErrors.departedFrom).to.equal(null);
+    expect(nextErrors.arrivedTo).to.equal(null);
   });
 
   it('requires returnDate for ROUND_TRIP', () => {
@@ -404,8 +288,18 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = '2025-01-05';
     formState.returnDate = '';
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
     expect(nextErrors.returnDate).to.equal('Enter a return date');
+  });
+
+  it('does not require returnDate for ONE_WAY', () => {
+    formState.tripType = TRIP_TYPES.ONE_WAY.value;
+    formState.departureDate = '2025-01-01';
+    formState.returnDate = '';
+
+    const nextErrors = validateAirTravelFields(formState);
+
+    expect(nextErrors.returnDate).to.equal(null);
   });
 
   it('errors if returnDate is entered for ONE_WAY trip', () => {
@@ -413,7 +307,7 @@ describe('validateAirTravelFields', () => {
     formState.returnDate = '2025-01-10';
     formState.departureDate = '2025-01-05';
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
     expect(nextErrors.returnDate).to.equal(
       'You entered a return date for a one-way trip',
@@ -427,18 +321,18 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = '2025-01-05';
     formState.returnDate = ''; // empty, so no comparison error
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
-    expect(nextErrors.departureDate).to.be.undefined;
+    expect(nextErrors.departureDate).to.equal(null);
   });
 
   it('validates returnDate only if departureDate exists', () => {
     formState.returnDate = '2025-01-10';
     formState.departureDate = ''; // empty, so no comparison error
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
-    expect(nextErrors.returnDate).to.be.undefined;
+    expect(nextErrors.returnDate).to.equal(null);
   });
 
   it('errors if departureDate is in the future', () => {
@@ -449,7 +343,7 @@ describe('validateAirTravelFields', () => {
 
     formState.departureDate = futureDate;
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
     expect(nextErrors.departureDate).to.equal("Don't enter a future date");
   });
@@ -464,7 +358,7 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = '2025-01-05';
     formState.returnDate = futureDate;
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
     expect(nextErrors.returnDate).to.equal("Don't enter a future date");
   });
@@ -478,7 +372,7 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = futureDate;
     formState.returnDate = '2025-01-01';
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
     expect(nextErrors.departureDate).to.equal("Don't enter a future date");
   });
@@ -493,26 +387,176 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = '2025-01-01';
     formState.returnDate = futureDate;
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
     expect(nextErrors.returnDate).to.equal("Don't enter a future date");
+  });
+
+  it('clears returnDate error when switching from ROUND_TRIP to ONE_WAY', () => {
+    formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
+    formState.departureDate = '2025-01-01';
+    formState.returnDate = '2025-01-10';
+
+    let nextErrors = validateAirTravelFields(formState);
+    expect(nextErrors.returnDate).to.equal(null);
+
+    // Switch trip type to ONE_WAY
+    formState.tripType = TRIP_TYPES.ONE_WAY.value;
+    nextErrors = validateAirTravelFields(formState);
+
+    // Error should appear because returnDate is present
+    expect(nextErrors.returnDate).to.equal(
+      'You entered a return date for a one-way trip',
+    );
+  });
+
+  it('requires returnDate when switching from ONE_WAY to ROUND_TRIP', () => {
+    formState.tripType = TRIP_TYPES.ONE_WAY.value;
+    formState.departureDate = '2025-01-01';
+    formState.returnDate = ''; // no return date
+
+    let nextErrors = validateAirTravelFields(formState);
+    expect(nextErrors.returnDate).to.equal(null);
+
+    // Switch trip type to ROUND_TRIP
+    formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
+    nextErrors = validateAirTravelFields(formState);
+
+    expect(nextErrors.returnDate).to.equal('Enter a return date');
+  });
+
+  it('shows errors on both tripType and returnDate for ONE_WAY with returnDate', () => {
+    formState.tripType = TRIP_TYPES.ONE_WAY.value;
+    formState.returnDate = '2025-01-10';
+    formState.departureDate = '2025-01-05';
+
+    const nextErrors = validateAirTravelFields(formState);
+
+    expect(nextErrors.returnDate).to.equal(
+      'You entered a return date for a one-way trip',
+    );
+    expect(nextErrors.tripType).to.equal(
+      'You entered a return date for a one-way trip',
+    );
+  });
+
+  it('revalidates returnDate when tripType changes and returnDate is empty', () => {
+    formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
+    formState.departureDate = '2025-01-01';
+    formState.returnDate = '';
+
+    let nextErrors = validateAirTravelFields(formState);
+    expect(nextErrors.returnDate).to.equal('Enter a return date');
+
+    // Change tripType to ONE_WAY
+    formState.tripType = TRIP_TYPES.ONE_WAY.value;
+    nextErrors = validateAirTravelFields(formState);
+
+    expect(nextErrors.returnDate).to.equal(null);
+  });
+
+  it('revalidates returnDate when tripType changes and returnDate exists', () => {
+    formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
+    formState.departureDate = '2025-01-01';
+    formState.returnDate = '2025-01-02';
+
+    let nextErrors = validateAirTravelFields(formState);
+    expect(nextErrors.returnDate).to.equal(null);
+
+    // Change tripType to ONE_WAY
+    formState.tripType = TRIP_TYPES.ONE_WAY.value;
+    nextErrors = validateAirTravelFields(formState);
+
+    expect(nextErrors.returnDate).to.equal(
+      'You entered a return date for a one-way trip',
+    );
+  });
+
+  describe('validateAirTravelFields - same-day ROUND_TRIP handling', () => {
+    beforeEach(() => {
+      formState = {
+        vendorName: 'Acme Airlines',
+        tripType: TRIP_TYPES.ROUND_TRIP.value,
+        departureDate: '',
+        returnDate: '',
+        departedFrom: 'JFK',
+        arrivedTo: 'LAX',
+      };
+    });
+
+    it('passes when dates are ISO datetimes and departureDate === returnDate for ROUND_TRIP', () => {
+      formState.departureDate = '2025-01-05T00:00:00.000Z';
+      formState.returnDate = '2025-01-05T23:59:59.000Z';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.departureDate).to.equal(null);
+      expect(nextErrors.returnDate).to.equal(null);
+    });
+
+    it('passes when departureDate === returnDate for ROUND_TRIP', () => {
+      formState.departureDate = '2025-01-05';
+      formState.returnDate = '2025-01-05';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.departureDate).to.equal(null);
+      expect(nextErrors.returnDate).to.equal(null);
+    });
+
+    it('fails when departureDate > returnDate', () => {
+      formState.departureDate = '2025-01-06';
+      formState.returnDate = '2025-01-05';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.departureDate).to.equal(
+        'Departure date must be before return date',
+      );
+      expect(nextErrors.returnDate).to.equal(
+        'Return date must be later than departure date',
+      );
+    });
+
+    it('still fails if departureDate === returnDate but tripType is ONE_WAY and returnDate exists', () => {
+      formState.tripType = TRIP_TYPES.ONE_WAY.value;
+      formState.departureDate = '2025-01-05';
+      formState.returnDate = '2025-01-05';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.returnDate).to.equal(
+        'You entered a return date for a one-way trip',
+      );
+      expect(nextErrors.tripType).to.equal(
+        'You entered a return date for a one-way trip',
+      );
+    });
+
+    it('passes when returnDate is empty for ONE_WAY', () => {
+      formState.tripType = TRIP_TYPES.ONE_WAY.value;
+      formState.departureDate = '2025-01-05';
+      formState.returnDate = '';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.returnDate).to.equal(null);
+    });
   });
 });
 
 describe('validateCommonCarrierFields', () => {
   let formState;
-  let errors;
 
   beforeEach(() => {
     formState = {
       carrierType: '',
       reasonNotUsingPOV: '',
     };
-    errors = {};
   });
 
   it('sets errors when fields are empty', () => {
-    const nextErrors = validateCommonCarrierFields(formState, errors);
+    const nextErrors = validateCommonCarrierFields(formState);
 
     expect(nextErrors).to.deep.equal({
       carrierType: 'Select a transportation type',
@@ -525,27 +569,23 @@ describe('validateCommonCarrierFields', () => {
       carrierType: 'Bus',
       reasonNotUsingPOV: 'No personal vehicle',
     };
-    const nextErrors = validateCommonCarrierFields(formState, errors);
+    const nextErrors = validateCommonCarrierFields(formState);
 
-    expect(nextErrors).to.deep.equal({});
+    expect(nextErrors.carrierType).to.equal(null);
+    expect(nextErrors.reasonNotUsingPOV).to.equal(null);
   });
 
   it('validates a single field only', () => {
     formState.carrierType = 'Train';
-    const nextErrors = validateCommonCarrierFields(
-      formState,
-      errors,
-      'carrierType',
-    );
+    const nextErrors = validateCommonCarrierFields(formState, 'carrierType');
 
-    expect(nextErrors.carrierType).to.be.undefined;
-    expect(nextErrors.reasonNotUsingPOV).to.be.undefined; // untouched
+    expect(nextErrors.carrierType).to.equal(null);
+    expect(nextErrors.reasonNotUsingPOV).to.be.undefined; // not validated
   });
 });
 
 describe('validateLodgingFields', () => {
   let formState;
-  let errors;
 
   beforeEach(() => {
     formState = {
@@ -553,11 +593,10 @@ describe('validateLodgingFields', () => {
       checkInDate: '',
       checkOutDate: '',
     };
-    errors = {};
   });
 
   it('validates all fields at once and sets errors for empty values', () => {
-    const nextErrors = validateLodgingFields(formState, errors);
+    const nextErrors = validateLodgingFields(formState);
 
     expect(nextErrors).to.deep.equal({
       vendor: 'Enter the name on your receipt',
@@ -568,9 +607,9 @@ describe('validateLodgingFields', () => {
 
   it('validates a single field (vendor) and leaves others untouched', () => {
     formState.vendor = 'Hotel California';
-    const nextErrors = validateLodgingFields(formState, errors, 'vendor');
+    const nextErrors = validateLodgingFields(formState, 'vendor');
 
-    expect(nextErrors.vendor).to.be.undefined;
+    expect(nextErrors.vendor).to.equal(null);
     expect(nextErrors.checkInDate).to.be.undefined;
     expect(nextErrors.checkOutDate).to.be.undefined;
   });
@@ -581,11 +620,10 @@ describe('validateLodgingFields', () => {
         checkInDate: '2025-01',
         checkOutDate: '2025-01-10',
       },
-      {},
       'checkInDate',
     );
 
-    expect(nextErrors.checkInDate).to.be.undefined;
+    expect(nextErrors.checkInDate).to.equal(null);
   });
 
   it('does not throw ordering error when checkOutDate is incomplete', () => {
@@ -594,23 +632,22 @@ describe('validateLodgingFields', () => {
         checkInDate: '2025-01-10',
         checkOutDate: '2025-01',
       },
-      {},
       'checkOutDate',
     );
 
-    expect(nextErrors.checkOutDate).to.be.undefined;
+    expect(nextErrors.checkOutDate).to.equal(null);
   });
 
   it('requires checkInDate if empty', () => {
     formState.checkOutDate = '2025-01-10';
-    const nextErrors = validateLodgingFields(formState, errors, 'checkInDate');
+    const nextErrors = validateLodgingFields(formState, 'checkInDate');
 
     expect(nextErrors.checkInDate).to.equal('Enter the date you checked in');
   });
 
   it('requires checkOutDate if empty', () => {
     formState.checkInDate = '2025-01-05';
-    const nextErrors = validateLodgingFields(formState, errors, 'checkOutDate');
+    const nextErrors = validateLodgingFields(formState, 'checkOutDate');
 
     expect(nextErrors.checkOutDate).to.equal('Enter the date you checked out');
   });
@@ -621,7 +658,6 @@ describe('validateLodgingFields', () => {
         checkInDate: '2025-01-10',
         checkOutDate: '2025-01-05',
       },
-      {},
       'checkInDate',
     );
 
@@ -638,16 +674,18 @@ describe('validateLodgingFields', () => {
     formState.checkInDate = '2025-01-05';
     formState.checkOutDate = '2025-01-10';
 
-    const nextErrors = validateLodgingFields(formState, errors);
+    const nextErrors = validateLodgingFields(formState);
 
-    expect(nextErrors).to.deep.equal({});
+    expect(nextErrors.vendor).to.equal(null);
+    expect(nextErrors.checkInDate).to.equal(null);
+    expect(nextErrors.checkOutDate).to.equal(null);
   });
 
   it('flags error if checkInDate is in the future', () => {
     formState.checkInDate = getFutureDateString();
     formState.checkOutDate = '2025-01-10';
 
-    const nextErrors = validateLodgingFields(formState, errors);
+    const nextErrors = validateLodgingFields(formState);
 
     expect(nextErrors.checkInDate).to.equal("Don't enter a future date");
   });
@@ -656,7 +694,7 @@ describe('validateLodgingFields', () => {
     formState.checkInDate = '2025-01-05';
     formState.checkOutDate = getFutureDateString();
 
-    const nextErrors = validateLodgingFields(formState, errors);
+    const nextErrors = validateLodgingFields(formState);
 
     expect(nextErrors.checkOutDate).to.equal("Don't enter a future date");
   });
@@ -664,13 +702,10 @@ describe('validateLodgingFields', () => {
   it('allows ordering error on checkOutDate even when checkInDate is future', () => {
     const futureDate = getFutureDateString();
 
-    const nextErrors = validateLodgingFields(
-      {
-        checkInDate: futureDate,
-        checkOutDate: '2025-01-01',
-      },
-      {},
-    );
+    const nextErrors = validateLodgingFields({
+      checkInDate: futureDate,
+      checkOutDate: '2025-01-01',
+    });
 
     expect(nextErrors.checkInDate).to.equal("Don't enter a future date");
     expect(nextErrors.checkOutDate).to.equal(
@@ -689,7 +724,7 @@ describe('validateMealFields', () => {
   });
 
   it('validates all fields at once and sets error for empty vendorName', () => {
-    const nextErrors = validateMealFields(formState, errors);
+    const nextErrors = validateMealFields(formState);
 
     expect(nextErrors).to.deep.equal({
       vendorName: 'Enter the name on your receipt',
@@ -700,23 +735,24 @@ describe('validateMealFields', () => {
     formState.vendorName = 'Test Vendor';
     errors.vendorName = 'Previous error';
 
-    const nextErrors = validateMealFields(formState, errors);
+    const nextErrors = validateMealFields(formState);
 
-    expect(nextErrors).to.deep.equal({});
+    expect(nextErrors.vendorName).to.equal(null);
   });
 
   it('validates only the specified field (vendorName) when fieldName is provided', () => {
-    const nextErrors = validateMealFields(formState, errors, 'vendorName');
+    const nextErrors = validateMealFields(formState, 'vendorName');
 
     expect(nextErrors.vendorName).to.equal('Enter the name on your receipt');
   });
 
-  it('preserves other unrelated errors', () => {
+  it('does not include unrelated fields in validation result', () => {
     formState.vendorName = 'Test Vendor';
-    errors.otherField = 'Some other error';
 
-    const nextErrors = validateMealFields(formState, errors);
+    const nextErrors = validateMealFields(formState);
 
-    expect(nextErrors).to.deep.equal({ otherField: 'Some other error' });
+    // Only vendorName should be in the result
+    expect(nextErrors.vendorName).to.equal(null);
+    expect(nextErrors.otherField).to.be.undefined;
   });
 });

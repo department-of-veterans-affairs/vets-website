@@ -5,6 +5,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import formConfig from '@bio-aquia/21p-530a-interment-allowance/config/form';
+import { useDatadogRum } from '@bio-aquia/shared/hooks';
 
 /**
  * Main application container component for VA Form 21P-530A Interment Allowance
@@ -29,6 +30,9 @@ export const App = ({ location, children }) => {
   const isLoadingFeatures = useToggleLoadingValue();
   const formEnabled = useToggleValue(TOGGLE_NAMES.form530aEnabled);
 
+  // Initialize Datadog RUM for form monitoring
+  useDatadogRum('21p-530a');
+
   // Show loading indicator while feature flags are being fetched
   if (isLoadingFeatures) {
     return (
@@ -44,7 +48,7 @@ export const App = ({ location, children }) => {
 
   // Redirect to home if form is disabled
   if (!formEnabled) {
-    window.location.replace('/find-forms/about-form-21p-530a/');
+    window.location.replace('/forms/21p-530a/');
     return null;
   }
 

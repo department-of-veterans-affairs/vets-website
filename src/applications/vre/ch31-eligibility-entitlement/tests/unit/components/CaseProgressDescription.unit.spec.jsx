@@ -13,9 +13,8 @@ describe('CaseProgressDescription', () => {
       <CaseProgressDescription step={1} />,
     );
 
-    getByText(
-      /Your application for VR&E benefits has not yet been received and\/or is being routed for evaluation\./i,
-    );
+    getByText(/received your application for VR&E benefits\./i);
+    getByText(/nothing you need to do right now\./i);
   });
 
   it('renders step 2 description (includes va-link)', () => {
@@ -23,22 +22,30 @@ describe('CaseProgressDescription', () => {
       <CaseProgressDescription step={2} />,
     );
 
-    getByText(/Once your VR&E Benefits Application has been deemed complete/i);
+    getByText(/currently being reviewed for basic eligibility/i);
+    getByText(/web page\./i);
 
     const link = container.querySelector('va-link[href="/"]');
     expect(link).to.exist;
-    expect(link.getAttribute('text')).to.equal(
-      'VR&E Check My Eligibility web page.',
-    );
+    expect(link.getAttribute('text')).to.equal('VR&E Check My Eligibility');
   });
 
-  it('renders step 3 description', () => {
-    const { getByText } = renderWithRouter(
+  it('renders step 3 description and orientation content', () => {
+    const { container, getByText } = renderWithRouter(
       <CaseProgressDescription step={3} />,
     );
 
-    getByText(/VR-03 Appointment and Orientation Notification Letter/i);
-    getByText(/Orientation Tools and Resources/i);
+    getByText(/basic eligibility has been determined/i);
+    const orientationMentions = container.querySelectorAll('p');
+    expect(
+      Array.from(orientationMentions).some(node =>
+        /Orientation Video/i.test(node.textContent),
+      ),
+    ).to.equal(true);
+    getByText(/Orientation Completion/i);
+
+    const card = container.querySelector('va-card');
+    expect(card).to.exist;
   });
 
   it('renders step 4 description', () => {
@@ -46,8 +53,8 @@ describe('CaseProgressDescription', () => {
       <CaseProgressDescription step={4} />,
     );
 
-    getByText(/telecounseling appointment/i);
-    getByText(/request an in-person appointment/i);
+    getByText(/check your email for confirmation/i);
+    getByText(/Career Planning/i);
   });
 
   it('renders step 5 description', () => {
@@ -55,8 +62,8 @@ describe('CaseProgressDescription', () => {
       <CaseProgressDescription step={5} />,
     );
 
-    getByText(/Entitlement Determination for Chapter 31 Benefits/i);
-    getByText(/Entitlement Determination Date/i);
+    getByText(/Entitlement Determination Review/i);
+    getByText(/Career Planning/i);
   });
 
   it('renders step 6 description', () => {
@@ -64,9 +71,8 @@ describe('CaseProgressDescription', () => {
       <CaseProgressDescription step={6} />,
     );
 
-    getByText(/rehabilitation goal/i);
-    getByText(/Reemployment/i);
-    getByText(/Self-Employment/i);
+    getByText(/Rehabilitation Plan/i);
+    getByText(/review and approval/i);
   });
 
   it('renders step 7 description', () => {
@@ -74,14 +80,17 @@ describe('CaseProgressDescription', () => {
       <CaseProgressDescription step={7} />,
     );
 
-    getByText(/Rehabilitation Plan or Career Track is approved/i);
-    getByText(/your Chapter 31 benefits will begin/i);
+    getByText(/Career Track has been initiated/i);
   });
 
+  // --------------------------
+  // Default
+  // --------------------------
   it('returns null for unknown step', () => {
     const { container } = renderWithRouter(
       <CaseProgressDescription step={999} />,
     );
-    expect(container.querySelector('p')).to.equal(null);
+
+    expect(container.innerHTML).to.equal('');
   });
 });

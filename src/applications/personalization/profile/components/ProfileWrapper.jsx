@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import NameTag from '~/applications/personalization/components/NameTag';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
+import { isSchedulingPreferencesPilotEligible as isSchedulingPreferencesPilotEligibleSelector } from '~/platform/user/selectors';
 import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 import ProfileSubNav from './ProfileSubNav';
 import { PROFILE_PATHS } from '../constants';
@@ -20,6 +21,7 @@ import { selectProfileToggles } from '../selectors';
 const LAYOUTS = {
   SIDEBAR: 'sidebar',
   FULL_WIDTH: 'full-width',
+  FULL_WIDTH_AND_BREADCRUMBS: 'full-width-and-breadcrumbs',
 };
 
 // we want to use a different layout for the specific routes
@@ -28,7 +30,18 @@ const LAYOUTS = {
 const getLayout = ({ currentPathname }) => {
   const path = normalizePath(currentPathname);
 
-  const fullWidthPaths = [PROFILE_PATHS.EDIT, PROFILE_PATHS.PROFILE_ROOT];
+  const fullWidthAndBreadcrumbsPaths = [PROFILE_PATHS.PROFILE_ROOT];
+
+  const fullWidthPaths = [
+    PROFILE_PATHS.EDIT,
+    PROFILE_PATHS.SCHEDULING_PREF_CONTACT_METHOD,
+    PROFILE_PATHS.SCHEDULING_PREF_CONTACT_TIMES,
+    PROFILE_PATHS.SCHEDULING_PREF_APPOINTMENT_TIMES,
+  ];
+
+  if (fullWidthAndBreadcrumbsPaths.includes(path)) {
+    return LAYOUTS.FULL_WIDTH_AND_BREADCRUMBS;
+  }
 
   // if the current path is in the list of full width paths, use that layout
   if (fullWidthPaths.includes(path)) {
@@ -43,6 +56,7 @@ const ProfileWrapper = ({
   children,
   isLOA3,
   isInMVI,
+  isSchedulingPreferencesPilotEligible,
   profile2Enabled,
   totalDisabilityRating,
   totalDisabilityRatingError,
@@ -93,6 +107,9 @@ const ProfileWrapper = ({
                   routes={routesForNav}
                   isLOA3={isLOA3}
                   isInMVI={isInMVI}
+                  isSchedulingPreferencesPilotEligible={
+                    isSchedulingPreferencesPilotEligible
+                  }
                 />
               </>
             ) : (
@@ -100,6 +117,9 @@ const ProfileWrapper = ({
                 routes={routesForNav}
                 isLOA3={isLOA3}
                 isInMVI={isInMVI}
+                isSchedulingPreferencesPilotEligible={
+                  isSchedulingPreferencesPilotEligible
+                }
               />
             )}
           </div>
@@ -120,6 +140,10 @@ const ProfileWrapper = ({
                     routes={routesForNav}
                     isLOA3={isLOA3}
                     isInMVI={isInMVI}
+                    isSchedulingPreferencesPilotEligible={
+                      isSchedulingPreferencesPilotEligible
+                    }
+                    className="vads-u-margin-bottom--5"
                   />
                 ) : (
                   <nav className="va-subnav" aria-labelledby="subnav-header">
@@ -134,6 +158,9 @@ const ProfileWrapper = ({
                         routes={routesForNav}
                         isLOA3={isLOA3}
                         isInMVI={isInMVI}
+                        isSchedulingPreferencesPilotEligible={
+                          isSchedulingPreferencesPilotEligible
+                        }
                       />
                     </div>
                   </nav>
@@ -150,7 +177,22 @@ const ProfileWrapper = ({
       )}
 
       {layout === LAYOUTS.FULL_WIDTH && (
-        <ProfileFullWidthContainer profile2Enabled={profile2Enabled}>
+        <ProfileFullWidthContainer
+          profile2Enabled={profile2Enabled}
+          breadcrumbs={false}
+        >
+          <>
+            {children}
+            <ProfilePrivacyPolicy />
+          </>
+        </ProfileFullWidthContainer>
+      )}
+
+      {layout === LAYOUTS.FULL_WIDTH_AND_BREADCRUMBS && (
+        <ProfileFullWidthContainer
+          profile2Enabled={profile2Enabled}
+          breadcrumbs
+        >
           <>
             {children}
             <ProfilePrivacyPolicy />
@@ -175,12 +217,16 @@ const mapStateToProps = (state, ownProps) => {
   const hero = state.vaProfile?.hero;
   const profileToggles = selectProfileToggles(state);
   const profile2Enabled = profileToggles?.profile2Enabled;
+  const isSchedulingPreferencesPilotEligible = isSchedulingPreferencesPilotEligibleSelector(
+    state,
+  );
   return {
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
     totalDisabilityRatingError: hasTotalDisabilityError(state),
     showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors) && !profile2Enabled,
     profile2Enabled,
+    isSchedulingPreferencesPilotEligible,
   };
 };
 
@@ -192,6 +238,7 @@ ProfileWrapper.propTypes = {
   hero: PropTypes.object,
   isInMVI: PropTypes.bool,
   isLOA3: PropTypes.bool,
+  isSchedulingPreferencesPilotEligible: PropTypes.bool,
   location: PropTypes.object,
   profile2Enabled: PropTypes.bool,
   showNameTag: PropTypes.bool,

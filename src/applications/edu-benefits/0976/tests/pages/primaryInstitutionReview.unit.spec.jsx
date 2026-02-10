@@ -45,8 +45,6 @@ describe('22-0976 primary institution review page', () => {
 
     expect(getByText('Review your institution details')).to.exist;
     expect(getByText('Test University')).to.exist;
-    expect(getByText('The institution is classified as:')).to.exist;
-    expect(getByText('Public institution')).to.exist;
     expect(getByText('123 Fake St.')).to.exist;
     expect(getByText('Tulsa, OK 12345')).to.exist;
   });
@@ -61,6 +59,5 @@ describe('22-0976 primary institution review page', () => {
     });
 
     expect(getByText('Review your institution details')).to.exist;
-    expect(() => getByText('The institution is classified as:')).to.throw;
   });
 });
