@@ -93,27 +93,27 @@ describe('When user is registered at a single transitioning facility only', () =
           // },
           migrationSchedules: [
             {
-              migrationDate: '2026-05-01',
+              migrationDate: 'May 01, 2026',
               facilities: [
                 {
                   facilityId: '983',
-                  facilityName: 'Test VA Medical Center 1',
+                  name: 'Test VA Medical Center 1',
                 },
               ],
               phases: {
                 current: 'p1',
-                p0: 'March 1, 2026',
-                p1: 'March 15, 2026',
-                p2: 'April 1, 2026',
-                p3: 'April 24, 2026',
-                p4: 'April 27, 2026',
-                p5: 'May 1, 2026', // Migration start
-                p6: 'May 3, 2026',
-                p7: 'May 8, 2026', // Migration end
+                p0: 'March 1, 2026 at 12:00AM ET',
+                p1: 'March 15, 2026 at 12:00AM ET',
+                p2: 'April 1, 2026 at 12:00AM ET',
+                p3: 'April 24, 2026 at 12:00AM ET',
+                p4: 'April 27, 2026 at 12:00AM ET',
+                p5: 'May 1, 2026 at 12:00AM ET', // Migration start
+                p6: 'May 3, 2026 at 12:00AM ET',
+                p7: 'May 8, 2026 at 12:00AM ET', // Migration end
               },
             },
             {
-              migrationDate: '2026-03-01',
+              migrationDate: 'March 03, 2026',
               facilities: [
                 {
                   id: '565',
@@ -122,14 +122,14 @@ describe('When user is registered at a single transitioning facility only', () =
               ],
               phases: {
                 current: 'p5',
-                p0: 'January 1, 2026',
-                p1: 'January 15, 2026',
-                p2: 'February 1, 2026',
-                p3: 'February 24, 2026',
-                p4: 'February 27, 2026',
-                p5: 'March 1, 2026',
-                p6: 'March 3, 2026',
-                p7: 'March 8, 2026',
+                p0: 'January 1, 2026 at 12:00AM ET',
+                p1: 'January 15, 2026 at 12:00AM ET',
+                p2: 'February 1, 2026 at 12:00AM ET',
+                p3: 'February 24, 2026 at 12:00AM ET',
+                p4: 'February 27, 2026 at 12:00AM ET',
+                p5: 'March 1, 2026 at 12:00AM ET',
+                p6: 'March 3, 2026 at 12:00AM ET',
+                p7: 'March 8, 2026 at 12:00AM ET',
               },
             },
           ],
@@ -142,7 +142,7 @@ describe('When user is registered at a single transitioning facility only', () =
       initialState,
     });
     screen.debug();
-    screen.getByText(/From 2026/i);
+    screen.getByText(/From March 15, 2026 at 12:00AM ET/i);
     screen.getByRole('link', {
       name: /Find a VA health facility Link opens in a new tab/i,
     });
@@ -160,19 +160,19 @@ describe('When user is registered at a single transitioning facility only', () =
               facilities: [
                 {
                   facilityId: '983',
-                  facilityName: 'Test VA Medical Center 1',
+                  name: 'Test VA Medical Center 1',
                 },
               ],
               phases: {
                 current: 'p2',
-                p0: 'March 1, 2026',
-                p1: 'March 15, 2026',
-                p2: 'April 1, 2026',
-                p3: 'April 24, 2026',
-                p4: 'April 27, 2026',
-                p5: 'May 1, 2026', // Migration start
-                p6: 'May 3, 2026',
-                p7: 'May 8, 2026', // Migration end
+                p0: 'March 1, 2026 at 12:00AM ET',
+                p1: 'March 15, 2026 at 12:00AM ET',
+                p2: 'April 1, 2026 at 12:00AM ET',
+                p3: 'April 24, 2026 at 12:00AM ET',
+                p4: 'April 27, 2026 at 12:00AM ET',
+                p5: 'May 1, 2026 at 12:00AM ET', // Migration start
+                p6: 'May 3, 2026 at 12:00AM ET',
+                p7: 'May 8, 2026 at 12:00AM ET', // Migration end
               },
             },
             {
@@ -185,14 +185,14 @@ describe('When user is registered at a single transitioning facility only', () =
               ],
               phases: {
                 current: 'p5',
-                p0: 'January 1, 2026',
-                p1: 'January 15, 2026',
-                p2: 'February 1, 2026',
-                p3: 'February 24, 2026',
-                p4: 'February 27, 2026',
-                p5: 'March 1, 2026',
-                p6: 'March 3, 2026',
-                p7: 'March 8, 2026',
+                p0: 'January 1, 2026 at 12:00AM ET',
+                p1: 'January 15, 2026 at 12:00AM ET',
+                p2: 'February 1, 2026 at 12:00AM ET',
+                p3: 'February 24, 2026 at 12:00AM ET',
+                p4: 'February 27, 2026 at 12:00AM ET',
+                p5: 'March 1, 2026 at 12:00AM ET',
+                p6: 'March 3, 2026 at 12:00AM ET',
+                p7: 'March 8, 2026 at 12:00AM ET',
               },
             },
           ],
@@ -234,23 +234,23 @@ describe('When user is registered at multiple transitioning facilities only', ()
               facilities: [
                 {
                   facilityId: '983',
-                  facilityName: 'Test VA Medical Center 1',
+                  name: 'Test VA Medical Center 1',
                 },
                 {
                   facilityId: '984',
-                  facilityName: 'Test VA Medical Center 2',
+                  name: 'Test VA Medical Center 2',
                 },
               ],
               phases: {
                 current: 'p1',
-                p0: 'March 1, 2026',
-                p1: 'March 15, 2026',
-                p2: 'April 1, 2026',
-                p3: 'April 24, 2026',
-                p4: 'April 27, 2026',
-                p5: 'May 1, 2026', // Migration start
-                p6: 'May 3, 2026',
-                p7: 'May 8, 2026', // Migration end
+                p0: 'March 1, 2026 at 12:00AM ET',
+                p1: 'March 15, 2026 at 12:00AM ET',
+                p2: 'April 1, 2026 at 12:00AM ET',
+                p3: 'April 24, 2026 at 12:00AM ET',
+                p4: 'April 27, 2026 at 12:00AM ET',
+                p5: 'May 1, 2026 at 12:00AM ET', // Migration start
+                p6: 'May 3, 2026 at 12:00AM ET',
+                p7: 'May 8, 2026 at 12:00AM ET', // Migration end
               },
             },
             {
@@ -263,14 +263,14 @@ describe('When user is registered at multiple transitioning facilities only', ()
               ],
               phases: {
                 current: 'p5',
-                p0: 'January 1, 2026',
-                p1: 'January 15, 2026',
-                p2: 'February 1, 2026',
-                p3: 'February 24, 2026',
-                p4: 'February 27, 2026',
-                p5: 'March 1, 2026',
-                p6: 'March 3, 2026',
-                p7: 'March 8, 2026',
+                p0: 'January 1, 2026 at 12:00AM ET',
+                p1: 'January 15, 2026 at 12:00AM ET',
+                p2: 'February 1, 2026 at 12:00AM ET',
+                p3: 'February 24, 2026 at 12:00AM ET',
+                p4: 'February 27, 2026 at 12:00AM ET',
+                p5: 'March 1, 2026 at 12:00AM ET',
+                p6: 'March 3, 2026 at 12:00AM ET',
+                p7: 'March 8, 2026 at 12:00AM ET',
               },
             },
           ],
@@ -284,7 +284,7 @@ describe('When user is registered at multiple transitioning facilities only', ()
     });
 
     // Assert
-    expect(screen.getByText(/From 2026/i)).to.be.ok;
+    expect(screen.getByText(/From March 15, 2026 at 12:00AM ET/i)).to.be.ok;
     expect(
       screen.getByRole('link', {
         name: /Find a VA health facility Link opens in a new tab/i,
@@ -313,23 +313,23 @@ describe('When user is registered at multiple transitioning facilities only', ()
               facilities: [
                 {
                   facilityId: '983',
-                  facilityName: 'Test VA Medical Center 1',
+                  name: 'Test VA Medical Center 1',
                 },
                 {
                   facilityId: '984',
-                  facilityName: 'Test VA Medical Center 2',
+                  name: 'Test VA Medical Center 2',
                 },
               ],
               phases: {
                 current: 'p2',
-                p0: 'March 1, 2026',
-                p1: 'March 15, 2026',
-                p2: 'April 1, 2026',
-                p3: 'April 24, 2026',
-                p4: 'April 27, 2026',
-                p5: 'May 1, 2026', // Migration start
-                p6: 'May 3, 2026',
-                p7: 'May 8, 2026', // Migration end
+                p0: 'March 1, 2026 at 12:00AM ET',
+                p1: 'March 15, 2026 at 12:00AM ET',
+                p2: 'April 1, 2026 at 12:00AM ET',
+                p3: 'April 24, 2026 at 12:00AM ET',
+                p4: 'April 27, 2026 at 12:00AM ET',
+                p5: 'May 1, 2026 at 12:00AM ET', // Migration start
+                p6: 'May 3, 2026 at 12:00AM ET',
+                p7: 'May 8, 2026 at 12:00AM ET', // Migration end
               },
             },
             {
@@ -342,14 +342,14 @@ describe('When user is registered at multiple transitioning facilities only', ()
               ],
               phases: {
                 current: 'p5',
-                p0: 'January 1, 2026',
-                p1: 'January 15, 2026',
-                p2: 'February 1, 2026',
-                p3: 'February 24, 2026',
-                p4: 'February 27, 2026',
-                p5: 'March 1, 2026',
-                p6: 'March 3, 2026',
-                p7: 'March 8, 2026',
+                p0: 'January 1, 2026 at 12:00AM ET',
+                p1: 'January 15, 2026 at 12:00AM ET',
+                p2: 'February 1, 2026 at 12:00AM ET',
+                p3: 'February 24, 2026 at 12:00AM ET',
+                p4: 'February 27, 2026 at 12:00AM ET',
+                p5: 'March 1, 2026v',
+                p6: 'March 3, 2026 at 12:00AM ET',
+                p7: 'March 8, 2026 at 12:00AM ET',
               },
             },
           ],
@@ -397,19 +397,19 @@ describe('When user is registered at mixed transitioning/non-transitioning facil
             facilities: [
               {
                 facilityId: '983',
-                facilityName: 'Test VA Medical Center 1',
+                name: 'Test VA Medical Center 1',
               },
             ],
             phases: {
               current: 'p2',
-              p0: 'March 1, 2026',
-              p1: 'March 15, 2026',
-              p2: 'April 1, 2026',
-              p3: 'April 24, 2026',
-              p4: 'April 27, 2026',
-              p5: 'May 1, 2026', // Migration start
-              p6: 'May 3, 2026',
-              p7: 'May 8, 2026', // Migration end
+              p0: 'March 1, 2026 at 12:00AM ET',
+              p1: 'March 15, 2026 at 12:00AM ET',
+              p2: 'April 1, 2026 at 12:00AM ET',
+              p3: 'April 24, 2026 at 12:00AM ET',
+              p4: 'April 27, 2026 at 12:00AM ET',
+              p5: 'May 1, 2026 at 12:00AM ET', // Migration start
+              p6: 'May 3, 2026v',
+              p7: 'May 8, 2026 at 12:00AM ET', // Migration end
             },
           },
           {
@@ -422,14 +422,14 @@ describe('When user is registered at mixed transitioning/non-transitioning facil
             ],
             phases: {
               current: 'p5',
-              p0: 'January 1, 2026',
-              p1: 'January 15, 2026',
-              p2: 'February 1, 2026',
-              p3: 'February 24, 2026',
-              p4: 'February 27, 2026',
-              p5: 'March 1, 2026',
-              p6: 'March 3, 2026',
-              p7: 'March 8, 2026',
+              p0: 'January 1, 2026 at 12:00AM ET',
+              p1: 'January 15, 2026 at 12:00AM ET',
+              p2: 'February 1, 2026 at 12:00AM ET',
+              p3: 'February 24, 2026 at 12:00AM ET',
+              p4: 'February 27, 2026 at 12:00AM ET',
+              p5: 'March 1, 2026 at 12:00AM ET',
+              p6: 'March 3, 2026 at 12:00AM ET',
+              p7: 'March 8, 2026 at 12:00AM ET',
             },
           },
         ],
