@@ -2,15 +2,19 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { setObfuscatedEmail, setLowAuthFormData } from '../slices/formSlice';
-import { setVassToken, getValidVassToken } from '../../utils/auth';
+import { setVassToken, getVassToken } from '../../utils/auth';
 import { createInvalidTokenError } from '../../services/mocks/utils/errors';
 
 const api = async (url, options, ...rest) => {
   return apiRequest(`${environment.API_URL}${url}`, options, ...rest);
 };
 
+/**
+ * Gets the VASS token from the cookie and returns it if it exists.
+ * @returns {Object} An object with the token and error if it exists.
+ */
 const getTokenOrError = () => {
-  const token = getValidVassToken();
+  const token = getVassToken();
   if (!token) {
     return {
       token: null,

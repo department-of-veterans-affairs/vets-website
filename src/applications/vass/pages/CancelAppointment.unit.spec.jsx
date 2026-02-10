@@ -31,11 +31,11 @@ const getVassApiState = () =>
   createVassApiStateWithAppointment(appointmentId, appointmentData);
 
 describe('VASS Page: CancelAppointment', () => {
-  let getValidVassTokenStub;
+  let getVassTokenStub;
 
   beforeEach(() => {
-    getValidVassTokenStub = sinon
-      .stub(authUtils, 'getValidVassToken')
+    getVassTokenStub = sinon
+      .stub(authUtils, 'getVassToken')
       .returns('mock-token');
     mockFetch();
     setFetchJSONResponse(
@@ -46,7 +46,7 @@ describe('VASS Page: CancelAppointment', () => {
 
   afterEach(() => {
     resetFetch();
-    getValidVassTokenStub.restore();
+    getVassTokenStub.restore();
   });
 
   it('renders page, appointment card, and buttons', () => {

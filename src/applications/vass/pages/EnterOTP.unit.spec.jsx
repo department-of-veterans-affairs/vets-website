@@ -43,18 +43,18 @@ const renderComponent = () =>
   renderWithStoreAndRouterV6(<EnterOTP />, defaultRenderOptions);
 
 describe('VASS Component: EnterOTP', () => {
-  let getValidVassTokenStub;
+  let getVassTokenStub;
 
   beforeEach(() => {
     mockFetch();
-    getValidVassTokenStub = sinon
-      .stub(authUtils, 'getValidVassToken')
+    getVassTokenStub = sinon
+      .stub(authUtils, 'getVassToken')
       .returns('mock-token');
   });
 
   afterEach(() => {
     resetFetch();
-    getValidVassTokenStub.restore();
+    getVassTokenStub.restore();
   });
 
   it('should initialize correctly', () => {

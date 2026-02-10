@@ -24,19 +24,17 @@ const mockAppointmentAvailability = {
 };
 
 describe('VASS Component: DateTimeSelection', () => {
-  let getValidVassTokenStub;
+  let getVassTokenStub;
 
   beforeEach(() => {
     mockFetch();
-    getValidVassTokenStub = sinon
-      .stub(auth, 'getValidVassToken')
-      .returns('mock-token');
+    getVassTokenStub = sinon.stub(auth, 'getVassToken').returns('mock-token');
     setFetchJSONResponse(global.fetch.onCall(0), mockAppointmentAvailability);
   });
 
   afterEach(() => {
     resetFetch();
-    getValidVassTokenStub.restore();
+    getVassTokenStub.restore();
   });
 
   const renderComponent = (

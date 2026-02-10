@@ -46,17 +46,17 @@ const renderComponent = () =>
   renderWithStoreAndRouterV6(<Review />, defaultRenderOptions);
 
 describe('VASS Component: Review', () => {
-  let getValidVassTokenStub;
+  let getVassTokenStub;
 
   beforeEach(() => {
-    getValidVassTokenStub = sinon
-      .stub(authUtils, 'getValidVassToken')
+    getVassTokenStub = sinon
+      .stub(authUtils, 'getVassToken')
       .returns('mock-token');
     mockFetch();
   });
 
   afterEach(() => {
-    getValidVassTokenStub.restore();
+    getVassTokenStub.restore();
     resetFetch();
   });
 
