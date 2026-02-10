@@ -374,6 +374,7 @@ class FormPage extends React.Component {
             appStateData={appStateData}
             formContext={this.formContext}
             NavButtons={NavButtons}
+            DefaultNavButtons={DefaultNavButtons}
             formOptions={formOptions}
           />
         </div>
