@@ -669,7 +669,11 @@ const ExpensePage = () => {
   const handleBack = () => {
     if (isEditMode) {
       setIsCancelModalVisible(true);
+    } else if (backDestination === 'review') {
+      // User clicked "Add another [expense]" from review page accordion
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } else {
+      // User came from choose-expense page
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     }
   };
