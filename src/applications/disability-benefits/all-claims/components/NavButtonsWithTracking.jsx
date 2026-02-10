@@ -32,7 +32,7 @@ export const createNavButtonsWithTracking = getTrackingContext => {
         safelyTrack(trackBackButtonClick, { featureToggles, pathname });
         goBack(...args);
       },
-      [getTrackingContext, goBack],
+      [goBack],
     );
 
     const handleContinueClick = useCallback(
@@ -42,7 +42,7 @@ export const createNavButtonsWithTracking = getTrackingContext => {
         safelyTrack(trackContinueButtonClick, { featureToggles, pathname });
         goForward(...args);
       },
-      [getTrackingContext, goForward],
+      [goForward],
     );
 
     return (
