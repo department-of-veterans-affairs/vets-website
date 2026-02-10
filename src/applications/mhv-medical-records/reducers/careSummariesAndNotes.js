@@ -30,6 +30,15 @@ const initialState = {
   listState: loadStates.PRE_FETCH,
 
   /**
+   * Whether the current list was populated via a GET_UNIFIED_LIST action.
+   * When true, incoming GET_LIST dispatches (e.g. from Blue Button) will
+   * NOT overwrite updatedList, preventing V1 data from contaminating the
+   * accelerated V2 list.
+   * @type {boolean}
+   */
+  listIsUnified: false,
+
+  /**
    * The list of care summaries and notes returned from the api
    * @type {Array}
    */
@@ -376,9 +385,19 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
         careSummariesAndNotesList: newList,
+        listIsUnified: true,
       };
     }
     case Actions.CareSummariesAndNotes.GET_LIST: {
+      // If the list was populated via GET_UNIFIED_LIST, don't let a V1 GET_LIST
+      // (e.g. from Blue Button) overwrite the data via updatedList.
+      if (state.listIsUnified) {
+        return {
+          ...state,
+          listState: loadStates.FETCHED,
+        };
+      }
+
       const oldList = state.careSummariesAndNotesList;
       // Harden: coerce entry list to array before chaining map/filter/sort
       const fhirEntry = Array.isArray(action.response?.entry)

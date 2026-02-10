@@ -255,6 +255,11 @@ Update this file when you:
   - Dispatch `GET_UNIFIED_LIST` or `GET_UNIFIED_ITEM` action types
   - Date range parameters required for accelerated endpoints
 - **Fallback**: Non-accelerated users use v1 endpoints with separate VistA/OH paths
+- **CRITICAL — `listIsUnified` guard**: Each domain reducer tracks a `listIsUnified` boolean.
+  - Set to `true` when `GET_UNIFIED_LIST` populates the list.
+  - When `true`, incoming `GET_LIST` actions (e.g. from Blue Button report downloads) are **ignored** — they do not set `updatedList`.
+  - This prevents V1 data from contaminating the V2 list and avoids false-positive `NewRecordsIndicator` alerts.
+  - The Blue Button download feature dispatches V1 `GET_LIST` actions for all domains; the `listIsUnified` guard ensures these are harmless when the accelerated path is active.
 
 ### Oracle Health (Cerner) Integration
 - **Detection**: Check if user has Cerner facilities
@@ -578,6 +583,7 @@ state.mr = {
   allergies: {
     listCurrentAsOf: Date,
     listState: 'PRE_FETCH' | 'FETCHING' | 'FETCHED',
+    listIsUnified: Boolean, // true when populated via GET_UNIFIED_LIST
     allergiesList: Array,
     updatedList: Array,
     allergyDetails: Object,
@@ -590,6 +596,7 @@ state.mr = {
     labsAndTestsDetails: Object,
     listState: String,
     listCurrentAsOf: Date,
+    listIsUnified: Boolean, // true when populated via GET_UNIFIED_LIST
     dateRange: { option, fromDate, toDate },
     imageStatus: Object,
   },
@@ -699,6 +706,7 @@ export const convertAllergy = allergy => {
 - ❌ **Never** assume an array has elements; always check existence
 - ❌ **Never** use moment.js for new code; prefer date-fns
 - ❌ **Never** skip Datadog error tracking in catch blocks in Redux action creators
+- ❌ **Never** dispatch V1 `GET_LIST` actions into a reducer that was already populated by `GET_UNIFIED_LIST` without the `listIsUnified` guard — this causes cross-version data contamination and false `NewRecordsIndicator` alerts
 
 ### Performance Considerations
 - ✅ Use lazy loading for page containers
