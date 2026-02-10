@@ -88,12 +88,12 @@ const testConfig = createTestConfig(
           cy.fillVaMemorableDate(
             'root_enrollmentPeriodStart',
             '2025-01-15',
-            true,
+            false,
           );
           cy.fillVaMemorableDate(
             'root_enrollmentPeriodEnd',
             '2025-06-15',
-            true,
+            false,
           );
           cy.tabToSubmitForm();
         });
