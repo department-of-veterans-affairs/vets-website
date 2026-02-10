@@ -29,7 +29,7 @@ RUN apt-get install -y --no-install-recommends libasound2 libatk1.0-0 libc6 libc
     libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
     fonts-liberation libnss3 lsb-release xdg-utils \
     x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
-    xfonts-cyrillic x11-apps xvfb xauth netcat-openbsd dumb-init libgbm-dev
+    x11-apps xvfb xauth netcat-openbsd dumb-init libgbm-dev
 
 RUN curl -k "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 RUN unzip awscliv2.zip
