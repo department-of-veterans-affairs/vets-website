@@ -11,11 +11,13 @@ import manifest from '../manifest.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
+import BusinessPersonal from '../containers/BusinessPersonal';
 
 // Category and Topic pages
 
 // Your Question
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
+
 
 // Your Personal Information - Authenticated
 import YourPersonalInformationAuthenticated from '../components/YourPersonalInformationAuthenticated';
@@ -113,6 +115,18 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {},
+          },
+        },
+        businessPersonal: {
+          path: 'business-or-personal',
+          title: CHAPTER_2.PAGE_3.TITLE,
+          CustomPage: BusinessPersonal,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
           },
         },
         yourQuestionB: {
