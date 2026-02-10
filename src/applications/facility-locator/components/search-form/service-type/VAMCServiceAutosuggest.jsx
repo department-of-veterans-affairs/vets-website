@@ -11,6 +11,7 @@ const ALL_VA_HEALTH_SERVICES = 'All VA health services';
 
 const VAMCServiceAutosuggest = ({
   committedServiceDisplay,
+  isMobile,
   searchInitiated,
   setSearchInitiated,
   onDraftChange,
@@ -231,6 +232,7 @@ const VAMCServiceAutosuggest = ({
 
 VAMCServiceAutosuggest.propTypes = {
   committedServiceDisplay: PropTypes.string,
+  isMobile: PropTypes.bool,
   searchInitiated: PropTypes.bool,
   setSearchInitiated: PropTypes.func,
   onDraftChange: PropTypes.func,
