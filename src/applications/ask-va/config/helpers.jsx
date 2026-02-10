@@ -704,7 +704,7 @@ export const getDescriptiveTextFromCRM = status => {
     case 'in progress':
       return 'Your inquiry is currently being reviewed by an agent.';
     case 'solved':
-      return 'Your inquiry has been closed. If you have additional questions open a new inquiry.';
+      return 'Your inquiry has been closed. If you have additional questions, open a new inquiry.';
     case 'reopened':
       return 'Your reply to this inquiry has been received, and the inquiry is currently being reviewed by an agent.';
     case 'closed':
