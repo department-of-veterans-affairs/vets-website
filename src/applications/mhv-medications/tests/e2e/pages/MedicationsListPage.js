@@ -814,9 +814,7 @@ class MedicationsListPage {
 
   verifyFilterHeaderTextHasFocusafterExpanded = () => {
     cy.get('[data-testid="rx-filter"]')
-      .shadow()
-      .find('[type="button"]')
-      .should('have.text', 'Filter list')
+      .should('have.attr', 'header', 'Filter list')
       .and('have.focus');
   };
 
