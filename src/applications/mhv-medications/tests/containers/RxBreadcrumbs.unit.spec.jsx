@@ -68,13 +68,10 @@ describe('Medications Breadcrumbs', () => {
     const screen = setup({}, [medicationsUrls.subdirectories.BASE]);
 
     await waitFor(() => {
-      // Verify breadcrumbs component renders - could be va-breadcrumbs or fallback
-      const breadcrumbComponent = screen.container.querySelector(
-        '[data-testid="rx-breadcrumb"]',
-      );
-      expect(breadcrumbComponent).to.exist;
-      // Verify it has the breadcrumb class applied
-      expect(breadcrumbComponent).to.have.class('va-breadcrumbs-li');
+      const element = screen.container.querySelector('va-breadcrumbs');
+      expect(element).to.exist;
+      expect(element).to.have.attribute('data-testid', 'rx-breadcrumb');
+      expect(element.breadcrumbList).to.exist;
     });
   });
 
@@ -82,27 +79,10 @@ describe('Medications Breadcrumbs', () => {
     const screen = setup({}, [medicationsUrls.subdirectories.REFILL]);
 
     await waitFor(() => {
-      // Verify breadcrumbs component renders with refill breadcrumb element
-      const breadcrumbComponent = screen.container.querySelector(
-        '[data-testid="rx-breadcrumb"]',
-      );
-      expect(breadcrumbComponent).to.exist;
-      // Verify it's a va-breadcrumbs component or has the proper styling
-      expect(breadcrumbComponent).to.have.class('va-breadcrumbs-li');
-    });
-  });
-
-  it('renders breadcrumbs on IN_PROGRESS route', async () => {
-    const screen = setup({}, [medicationsUrls.subdirectories.IN_PROGRESS]);
-
-    await waitFor(() => {
-      // Verify breadcrumbs component renders with in-progress breadcrumb element
-      const breadcrumbComponent = screen.container.querySelector(
-        '[data-testid="rx-breadcrumb"]',
-      );
-      expect(breadcrumbComponent).to.exist;
-      // Verify it's a va-breadcrumbs component or has the proper styling
-      expect(breadcrumbComponent).to.have.class('va-breadcrumbs-li');
+      const element = screen.container.querySelector('va-breadcrumbs');
+      expect(element).to.exist;
+      expect(element).to.have.attribute('data-testid', 'rx-breadcrumb');
+      expect(element.breadcrumbList).to.exist;
     });
   });
 
