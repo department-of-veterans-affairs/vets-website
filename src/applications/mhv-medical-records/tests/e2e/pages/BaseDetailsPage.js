@@ -4,7 +4,17 @@ class BaseDetailsPage {
   };
 
   clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-download-menu"]').click({ force: true });
+    // Wait for menu button to be visible and enabled, then click
+    cy.get('[data-testid="print-download-menu"]')
+      .should('be.visible')
+      .and('not.be.disabled')
+      .click();
+    // Wait for menu to actually open
+    cy.get('[data-testid="print-download-menu"]').should(
+      'have.attr',
+      'aria-expanded',
+      'true',
+    );
   };
 
   verifyPrintButton = () => {
