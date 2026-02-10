@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
   useAcceleratedData,
@@ -37,6 +36,7 @@ import { getTimeFrame, getDisplayTimeFrame } from '../util/helpers';
 
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
+import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import useDateRangeSelector from '../hooks/useDateRangeSelector';
@@ -158,11 +158,12 @@ const LabsAndTests = () => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
     },
     [dispatch],
   );
+
+  useFocusAfterLoading({ isLoading, isLoadingAcceleratedData });
 
   const handleDateRangeSelect = useDateRangeSelector({
     updateDateRangeAction: updateLabsAndTestDateRange,
@@ -228,7 +229,7 @@ const LabsAndTests = () => {
             <TrackedSpinner
               id="labs-and-tests-page-spinner"
               message="We’re loading your records."
-              setFocus
+              set-focus
               data-testid="loading-indicator"
             />
           </div>

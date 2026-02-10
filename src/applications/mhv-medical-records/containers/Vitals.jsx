@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
   usePrintTitle,
@@ -21,6 +20,7 @@ import {
 } from '../util/constants';
 import { Actions } from '../util/actionTypes';
 import useAlerts from '../hooks/use-alerts';
+import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
@@ -78,11 +78,12 @@ const Vitals = () => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
     },
     [dispatch],
   );
+
+  useFocusAfterLoading({ isLoading, isLoadingAcceleratedData });
 
   usePrintTitle(
     pageTitles.VITALS_PAGE_TITLE,
@@ -150,7 +151,7 @@ const Vitals = () => {
             <TrackedSpinner
               id="vitals-page-spinner"
               message="We’re loading your vitals."
-              setFocus
+              set-focus
               data-testid="loading-indicator"
             />
           </div>

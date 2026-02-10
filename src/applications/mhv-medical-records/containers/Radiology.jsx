@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -23,6 +22,7 @@ import {
 
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
+import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
@@ -93,13 +93,14 @@ const Radiology = () => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.RADIOLOGY_PAGE_TITLE);
     },
     [dispatch],
   );
 
   const isLoading = listState === loadStates.FETCHING;
+
+  useFocusAfterLoading({ isLoading });
 
   return (
     <div id="radiology">
@@ -140,7 +141,7 @@ const Radiology = () => {
             <TrackedSpinner
               id="radiology-page-spinner"
               message="We're loading your records."
-              setFocus
+              set-focus
               data-testid="loading-indicator"
             />
           </div>
