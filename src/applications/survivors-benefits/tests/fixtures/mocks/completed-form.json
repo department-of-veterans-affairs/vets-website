@@ -386,11 +386,11 @@
       "dateOfSeparation": "2012-01-01",
       "locationOfSeparation": {
         "city": "City2",
-        "state": "ALB"
+         "state": "PA"
       },
       "locationOfMarriage": {
         "city": "City1",
-        "state": "PA"
+        "otherCountry": "ALB"
       },
       "spouseFullName": {
         "first": "Spouse2Fi",
