@@ -10,6 +10,16 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { scrollToFirstError } from 'platform/utilities/scroll';
 import { checkValidations } from '../utils/submit';
 import { hasVAEvidence, hasPrivateEvidence } from '../utils';
+import {
+  evidenceRequestAdditionalInfo,
+  evidenceRequestQuestion,
+  privateEvidenceContent,
+  vaEvidenceContent,
+  privateFacilityContent,
+  alertMessageForCentersAndFiles,
+  alertMessageForCenters,
+  alertMessageForFiles,
+} from '../content/evidenceRequest';
 
 export const EvidenceRequestPage = ({
   data,
@@ -45,7 +55,8 @@ export const EvidenceRequestPage = ({
     );
   };
   const missingSelection = (error, _fieldData, formData) => {
-    if (formData?.[selectionField] === undefined) {
+    const value = formData?.[selectionField];
+    if (value !== true && value !== false) {
       error.addError?.(missingSelectionErrorMessage);
     }
   };
@@ -75,21 +86,24 @@ export const EvidenceRequestPage = ({
         };
         setAlertType(prevState => [...prevState, 'va']);
       }
-
-      if (hasPrivateEvidence(data) && privateEvidenceUploads.length > 0) {
-        updatedFormData.privateMedicalRecordAttachments = [];
-        updatedFormData['view:selectableEvidenceTypes'] = {
-          ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
-          'view:hasPrivateMedicalRecords': false,
-        };
-        setAlertType(prevState => [...prevState, 'privateMedicalRecords']);
+      if (hasPrivateEvidence(data)) {
+        const hasPrivateUploads = privateEvidenceUploads.length > 0;
+        const hasPrivateFacilities = privateFacility.length > 0;
+        if (hasPrivateUploads) {
+          updatedFormData.privateMedicalRecordAttachments = [];
+          setAlertType(prevState => [...prevState, 'privateMedicalRecords']);
+        }
+        if (hasPrivateFacilities) {
+          updatedFormData.providerFacility = [];
+          setAlertType(prevState => [...prevState, 'privateFacility']);
+        }
+        if (hasPrivateUploads || hasPrivateFacilities) {
+          updatedFormData['view:selectableEvidenceTypes'] = {
+            ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
+            'view:hasPrivateMedicalRecords': false,
+          };
+        }
       }
-
-      if (privateFacility.length > 0) {
-        updatedFormData.providerFacility = [];
-        setAlertType(prevState => [...prevState, 'privateFacility']);
-      }
-
       setFormData(updatedFormData);
       setModalVisible(false);
       setAlertVisible(true);
@@ -138,7 +152,7 @@ export const EvidenceRequestPage = ({
         setFormData(updatedFormData);
         setAlertVisible(false);
         setTimeout(() => {
-          goForward(data);
+          goForward(updatedFormData);
         }, 100);
       } else {
         setAlertVisible(false);
@@ -157,25 +171,26 @@ export const EvidenceRequestPage = ({
       }
     },
   };
-  const evidenceRequestQuestion = {
-    label:
-      'Are there medical records related to your claim that you’d like us to access on your behalf from VA or private medical centers?',
-    hint:
-      'If you select “Yes,” we’ll request these records from VA or private medical centers. Or you can upload copies of your private medical records.',
-  };
 
   const alertMessage = () => {
     if (
       alertType.includes('privateMedicalRecords') &&
       (alertType.includes('va') || alertType.includes('privateFacility'))
     ) {
-      return 'We’ve removed information about your medical centers and deleted the medical records you uploaded from this claim.';
+      return alertMessageForCentersAndFiles;
     }
     if (
       (alertType.includes('va') || alertType.includes('privateFacility')) &&
       !alertType.includes('privateMedicalRecords')
     ) {
-      return 'We’ve removed information about your medical centers from this claim.';
+      return alertMessageForCenters;
+    }
+    if (
+      alertType.includes('privateMedicalRecords') &&
+      !alertType.includes('va') &&
+      !alertType.includes('privateFacility')
+    ) {
+      return alertMessageForFiles;
     }
     return '';
   };
@@ -219,7 +234,6 @@ export const EvidenceRequestPage = ({
       <h3>Medical records that support your disability claim</h3>
       <div className="vads-u-margin-bottom--1">
         <VaAlert
-          data-testid="remove-police-alert"
           closeBtnAriaLabel="Close notification"
           closeable
           onCloseEvent={() => setAlertVisible(false)}
@@ -233,6 +247,38 @@ export const EvidenceRequestPage = ({
           <p className="vads-u-margin-y--0">{alertMessage()}</p>
         </VaAlert>
       </div>
+      <VaModal
+        clickToClose
+        modalTitle="Change your medical records?"
+        onCloseEvent={handlers.onCancelChange}
+        onPrimaryButtonClick={handlers.onChangeAndRemove}
+        onSecondaryButtonClick={handlers.onCancelChange}
+        visible={modalVisible}
+        status="warning"
+        primaryButtonText="Change and remove"
+        secondaryButtonText="Cancel change"
+      >
+        {hasVAEvidence(data) &&
+          vaEvidence.length > 0 && (
+            <>
+              {vaEvidenceContent}
+              {renderFacilityList(vaEvidence, 'treatmentCenterName')}
+            </>
+          )}
+        {hasPrivateEvidence(data) &&
+          privateEvidenceUploads.length > 0 && (
+            <>
+              {privateEvidenceContent}
+              {renderFileList(privateEvidenceUploads)}
+            </>
+          )}
+        {privateFacility.length > 0 && (
+          <>
+            {privateFacilityContent}
+            {renderFacilityList(privateFacility, 'providerFacilityName')}
+          </>
+        )}
+      </VaModal>
       <form onSubmit={handlers.onSubmit}>
         <VaRadio
           label={evidenceRequestQuestion.label}
@@ -257,85 +303,33 @@ export const EvidenceRequestPage = ({
             value="false"
           />
         </VaRadio>
-      </form>
-      <va-additional-info trigger="The differences between VA and private medical centers">
-        <p>
-          <strong>VA medical centers</strong> include VA medical centers or
-          clinics, as well as doctors through the TRICARE health care program.
-        </p>
-        <p>
-          <strong>Private medical centers</strong> include private doctors, such
-          as Veterans Choice doctor. You can also choose to upload copies of
-          your medical records instead of giving us permission to request them.
-        </p>
-      </va-additional-info>
-      <VaModal
-        clickToClose
-        modalTitle="Change your medical records?"
-        onCloseEvent={handlers.onCancelChange}
-        onPrimaryButtonClick={handlers.onChangeAndRemove}
-        onSecondaryButtonClick={handlers.onCancelChange}
-        visible={modalVisible}
-        status="warning"
-        primaryButtonText="Change and remove"
-        secondaryButtonText="Cancel change"
-      >
-        {hasVAEvidence(data) &&
-          vaEvidence.length > 0 && (
-            <>
-              <p>
-                You can choose not to submit medical records to support your
-                claim. If you do so, we’ll remove the information you shared
-                about these VA medical centers:
-              </p>
-              {renderFacilityList(vaEvidence, 'treatmentCenterName')}
-            </>
-          )}
-        {hasPrivateEvidence(data) &&
-          privateEvidenceUploads.length > 0 && (
-            <>
-              <p>
-                We’ll also delete these medical records you uploaded related to
-                your claimed conditions:
-              </p>
-              {renderFileList(privateEvidenceUploads)}
-            </>
-          )}
-        {privateFacility.length > 0 && (
+        {evidenceRequestAdditionalInfo}
+
+        {onReviewPage ? (
+          /**
+           * Does not use web component for design consistency on all pages.
+           * @see https://github.com/department-of-veterans-affairs/vets-website/pull/35911
+           */
+          // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
+          <button
+            className="usa-button-primary"
+            type="button"
+            onClick={event => handlers.onUpdatePage(event)}
+          >
+            Update page
+          </button>
+        ) : (
           <>
-            <p>
-              You can choose not to submit medical records to support your
-              claim. If you do so, we’ll remove the information you shared about
-              these private medical centers:
-            </p>
-            {renderFacilityList(privateFacility, 'providerFacilityName')}
+            {contentBeforeButtons}
+            <FormNavButtons
+              goBack={goBack}
+              goForward={handlers.onSubmit}
+              submitToContinue
+            />
+            {contentAfterButtons}
           </>
         )}
-      </VaModal>
-      {onReviewPage ? (
-        /**
-         * Does not use web component for design consistency on all pages.
-         * @see https://github.com/department-of-veterans-affairs/vets-website/pull/35911
-         */
-        // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
-        <button
-          className="usa-button-primary"
-          type="button"
-          onClick={event => handlers.onUpdatePage(event)}
-        >
-          Update page
-        </button>
-      ) : (
-        <>
-          {contentBeforeButtons}
-          <FormNavButtons
-            goBack={goBack}
-            goForward={handlers.onSubmit}
-            submitToContinue
-          />
-          {contentAfterButtons}
-        </>
-      )}
+      </form>
     </>
   );
 };
@@ -347,6 +341,6 @@ EvidenceRequestPage.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   setFormData: PropTypes.func,
-  updatePage: PropTypes.bool,
-  onReviewPage: PropTypes.func,
+  updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };

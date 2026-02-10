@@ -48,7 +48,7 @@ describe('EvidenceRequestPage', () => {
     expect(container.querySelector('va-radio-option[label="Yes"]')).to.exist;
     expect(container.querySelector('va-radio-option[label="No"]')).to.exist;
   });
-  it('should display the VA treatment centers in modal when the user switches from  Yes to No and clicks continue, if VA treatment centers were previously provided.', async () => {
+  it('should display the VA treatment centers in modal when the user choose No but provided VA treatment centers and clicks continue', async () => {
     const data = {
       'view:hasMedicalRecords': false,
       'view:selectableEvidenceTypes': {
@@ -72,7 +72,7 @@ describe('EvidenceRequestPage', () => {
     });
   });
 
-  it('should display the private medical records in modal when the user switches from  Yes to No and clicks continue, if private medical records were previously provided.', async () => {
+  it('should display the private medical records in modal when the user choose No but provided medical records previously and clicks continue', async () => {
     const data = {
       'view:hasMedicalRecords': false,
       'view:selectableEvidenceTypes': {
@@ -95,7 +95,7 @@ describe('EvidenceRequestPage', () => {
     });
   });
 
-  it('should display the private treatment centers in modal when the user switches from  Yes to No and clicks continue, if private treatment centers were previously provided.', async () => {
+  it('should display the private treatment centers in modal when the user choose No but provided treatment centers previously and clicks continue', async () => {
     const data = {
       'view:hasMedicalRecords': false,
       'view:selectableEvidenceTypes': {
