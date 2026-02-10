@@ -1,5 +1,7 @@
 /**
- * E2E test for mock form prefill.
+ * E2E test for mock form prefill - Edit Contact Info (form-only update).
+ * Tests editing contact info fields that only update the form data,
+ * not the VA profile.
  */
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
@@ -10,6 +12,8 @@ import mockSubmit from '../fixtures/mocks/application-submit.json';
 import mockSipGet from '../fixtures/mocks/sip-get.json';
 import mockSipPut from '../fixtures/mocks/sip-put.json';
 import mockVamcEhr from '../fixtures/mocks/vamc-ehr.json';
+import mockProfileStatus from '../fixtures/mocks/profile-status.json';
+import mockAddressValidation from '../fixtures/mocks/address-validation.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import { reviewAndSubmitPageFlow } from './helpers';
@@ -27,11 +31,32 @@ const testConfig = createTestConfig(
             .click({ force: true });
         });
       },
+      'personal-information': ({ afterHook }) => {
+        afterHook(() => {
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
+      },
+      'contact-information': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-link[label="Edit mailing address"]').click();
+
+          // update mailing address in the form only
+          cy.fillVaTextInput('root_addressLine1', '456 Edited Street');
+          cy.fillVaTextInput('root_city', 'Updated City');
+          cy.selectVaSelect('root_stateCode', 'CA');
+          cy.fillVaTextInput('root_zipCode', '90210');
+          cy.findByLabelText('No, only update this form').click();
+          cy.findByTestId('save-edit-button').click();
+
+          cy.findByTestId('confirm-address-button').click();
+          cy.url().should('include', 'contact-information');
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
+      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { fullName } = data;
-
             reviewAndSubmitPageFlow(fullName, 'Submit application');
           });
         });
@@ -46,10 +71,16 @@ const testConfig = createTestConfig(
         '/v0/in_progress_forms/FORM-MOCK-PREFILL',
         mockSipGet,
       );
+      cy.intercept('GET', '/v0/profile/status/', mockProfileStatus);
       cy.intercept(
         'PUT',
         '/v0/in_progress_forms/FORM-MOCK-PREFILL',
         mockSipPut,
+      );
+      cy.intercept(
+        'POST',
+        '/v0/profile/address_validation',
+        mockAddressValidation,
       );
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
       cy.login(user);

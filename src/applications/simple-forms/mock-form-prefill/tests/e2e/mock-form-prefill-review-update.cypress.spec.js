@@ -10,6 +10,8 @@ import mockSubmit from '../fixtures/mocks/application-submit.json';
 import mockSipGet from '../fixtures/mocks/sip-get.json';
 import mockSipPut from '../fixtures/mocks/sip-put.json';
 import mockVamcEhr from '../fixtures/mocks/vamc-ehr.json';
+import mockProfileStatus from '../fixtures/mocks/profile-status.json';
+import mockAddressValidation from '../fixtures/mocks/address-validation.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import { reviewAndSubmitPageFlow } from './helpers';
@@ -30,8 +32,21 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const { fullName } = data;
+            cy.get('va-button[label="Edit contact information"]').click();
 
+            // update mailing address in the form only
+            cy.get('va-link[label="Edit mailing address"]').click();
+            cy.fillVaTextInput('root_addressLine1', '456 Edited Street');
+            cy.fillVaTextInput('root_city', 'Updated City');
+            cy.selectVaSelect('root_stateCode', 'CA');
+            cy.fillVaTextInput('root_zipCode', '90210');
+            cy.findByLabelText('No, only update this form').click();
+            cy.findByTestId('save-edit-button').click();
+            cy.findByTestId('confirm-address-button').click();
+
+            // cy.get('va-button[text="Update page"]').click();
+
+            const { fullName } = data;
             reviewAndSubmitPageFlow(fullName, 'Submit application');
           });
         });
@@ -46,12 +61,18 @@ const testConfig = createTestConfig(
         '/v0/in_progress_forms/FORM-MOCK-PREFILL',
         mockSipGet,
       );
+      cy.intercept('GET', '/v0/profile/status/', mockProfileStatus);
       cy.intercept(
         'PUT',
         '/v0/in_progress_forms/FORM-MOCK-PREFILL',
         mockSipPut,
       );
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+      cy.intercept(
+        'POST',
+        '/v0/profile/address_validation',
+        mockAddressValidation,
+      );
       cy.login(user);
     },
   },
