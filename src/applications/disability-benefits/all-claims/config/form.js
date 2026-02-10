@@ -679,6 +679,7 @@ const formConfig = {
           title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records-upload',
           depends: formData =>
+            !formData.disability526SupportingEvidenceEnhancement &&
             hasPrivateEvidence(formData) &&
             !isNotUploadingPrivateMedical(formData),
           uiSchema: privateMedicalRecordsAttachments.uiSchema,
