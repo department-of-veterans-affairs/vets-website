@@ -25,7 +25,7 @@ describe('dynamicTitleHelpers', () => {
         },
       };
       expect(getHospitalizationStatusTitle(formData)).to.equal(
-        'Is Anakin Skywalker hospitalized?',
+        'Is Anakin Skywalker receiving hospital care?',
       );
     });
 
@@ -42,7 +42,7 @@ describe('dynamicTitleHelpers', () => {
         },
       };
       expect(getHospitalizationStatusTitle(formData)).to.equal(
-        'Is Padmé Amidala hospitalized?',
+        'Is Padmé Amidala receiving hospital care?',
       );
     });
 
@@ -56,7 +56,7 @@ describe('dynamicTitleHelpers', () => {
         },
       };
       expect(getHospitalizationStatusTitle(formData)).to.equal(
-        'Is the Veteran hospitalized?',
+        'Is the Veteran receiving hospital care?',
       );
     });
 
@@ -70,7 +70,7 @@ describe('dynamicTitleHelpers', () => {
         },
       };
       expect(getHospitalizationStatusTitle(formData)).to.equal(
-        'Is the claimant hospitalized?',
+        'Is the claimant receiving hospital care?',
       );
     });
 
@@ -87,7 +87,7 @@ describe('dynamicTitleHelpers', () => {
         },
       };
       expect(getHospitalizationStatusTitle(formData)).to.equal(
-        'Is Luke Skywalker hospitalized?',
+        'Is Luke Skywalker receiving hospital care?',
       );
     });
 
@@ -104,14 +104,14 @@ describe('dynamicTitleHelpers', () => {
         },
       };
       expect(getHospitalizationStatusTitle(formData)).to.equal(
-        'Is Shmi Skywalker hospitalized?',
+        'Is Shmi Skywalker receiving hospital care?',
       );
     });
 
     it('should handle missing relationship', () => {
       const formData = {};
       expect(getHospitalizationStatusTitle(formData)).to.equal(
-        'Is the claimant hospitalized?',
+        'Is the claimant receiving hospital care?',
       );
     });
 
@@ -128,7 +128,7 @@ describe('dynamicTitleHelpers', () => {
         },
       };
       expect(getHospitalizationStatusTitle(formData)).to.equal(
-        'Is Yoda hospitalized?',
+        'Is Yoda receiving hospital care?',
       );
     });
   });
