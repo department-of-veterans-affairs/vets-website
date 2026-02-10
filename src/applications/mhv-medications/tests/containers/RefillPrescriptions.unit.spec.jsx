@@ -67,6 +67,13 @@ describe('Refill Prescriptions Component', () => {
       login: {
         currentlyLoggedIn: true,
       },
+      profile: {
+        userFullName: {
+          first: 'Test',
+          last: 'User',
+        },
+        dob: '1990-01-01',
+      },
     },
   };
 
@@ -911,6 +918,488 @@ describe('Refill Prescriptions Component', () => {
       // Should show success, not error
       expect(successTitle).to.exist;
       expect(errorTitle).to.not.exist;
+    });
+  });
+
+  describe('Oracle Health Transition Alerts', () => {
+    describe('when mhv_medications_oracle_health_cutover feature flag is disabled', () => {
+      it('does not show alerts and shows all prescriptions', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [prescriptionInTransition],
+        });
+
+        const state = {
+          ...initialState,
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_medications_oracle_health_cutover: false,
+          },
+          user: {
+            ...initialState.user,
+            profile: {
+              userFullName: {
+                first: 'Test',
+                last: 'User',
+              },
+              dob: '1990-01-01',
+              facilities: [
+                {
+                  facilityId: 515,
+                  isCerner: false,
+                  oracleHealthTransitionDate: '2026-02-15',
+                },
+              ],
+            },
+          },
+        };
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3AlertNoRefillable = screen.queryByTestId(
+            'oracle-health-t3-alert-no-refillable',
+          );
+          const t3AlertWithRefillable = screen.queryByTestId(
+            'oracle-health-t3-alert-with-refillable',
+          );
+          expect(t3AlertNoRefillable).to.not.exist;
+          expect(t3AlertWithRefillable).to.not.exist;
+
+          const checkboxGroup = screen.queryByTestId('refill-checkbox-group');
+          expect(checkboxGroup).to.exist;
+          expect(checkboxGroup.label).to.equal(
+            'You have 1 prescription ready to refill.',
+          );
+        });
+      });
+    });
+
+    describe('when mhv_medications_oracle_health_cutover feature flag is enabled', () => {
+      it('shows NoRefillable alert when all prescriptions are blocked', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [prescriptionInTransition],
+        });
+
+        const state = {
+          ...initialState,
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_medications_oracle_health_cutover: true,
+          },
+          user: {
+            ...initialState.user,
+            profile: {
+              ...initialState.user.profile,
+              facilities: [
+                {
+                  facilityId: 515,
+                  isCerner: false,
+                },
+              ],
+              vaProfile: {
+                ohMigrationInfo: {
+                  migrationSchedules: [
+                    {
+                      migrationDate: '2026-04-11',
+                      facilities: [{ facilityId: 515 }],
+                      phases: {
+                        current: 'p4',
+                        p0: '2026-02-10',
+                        p1: '2026-02-12',
+                        p2: '2026-03-12',
+                        p3: '2026-04-05',
+                        p4: '2026-04-08',
+                        p5: '2026-04-11',
+                        p6: '2026-04-13',
+                        p7: '2026-04-18',
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        };
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3Alert = screen.queryByTestId(
+            'oracle-health-t3-alert-no-refillable',
+          );
+          expect(t3Alert).to.exist;
+        });
+      });
+
+      it('shows WithRefillable alert when some prescriptions are blocked', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        const prescriptionNotInTransition = {
+          ...refillablePrescriptions[1],
+          facilityId: '442',
+          stationNumber: '442',
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [
+            prescriptionInTransition,
+            prescriptionNotInTransition,
+          ],
+        });
+
+        const state = {
+          ...initialState,
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_medications_oracle_health_cutover: true,
+          },
+          user: {
+            ...initialState.user,
+            profile: {
+              ...initialState.user.profile,
+              facilities: [
+                {
+                  facilityId: 515,
+                  isCerner: false,
+                },
+              ],
+              vaProfile: {
+                ohMigrationInfo: {
+                  migrationSchedules: [
+                    {
+                      migrationDate: '2026-04-11',
+                      facilities: [{ facilityId: 515 }],
+                      phases: {
+                        current: 'p4',
+                        p0: '2026-02-10',
+                        p1: '2026-02-12',
+                        p2: '2026-03-12',
+                        p3: '2026-04-05',
+                        p4: '2026-04-08',
+                        p5: '2026-04-11',
+                        p6: '2026-04-13',
+                        p7: '2026-04-18',
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        };
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3Alert = screen.queryByTestId(
+            'oracle-health-t3-alert-with-refillable',
+          );
+          expect(t3Alert).to.exist;
+        });
+      });
+
+      it('does not show alert when no prescriptions are blocked', async () => {
+        sandbox.restore();
+        const prescriptionNotInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: '442',
+          stationNumber: '442',
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [prescriptionNotInTransition],
+        });
+
+        const state = {
+          ...initialState,
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_medications_oracle_health_cutover: true,
+          },
+          user: {
+            ...initialState.user,
+            profile: {
+              ...initialState.user.profile,
+              facilities: [
+                {
+                  facilityId: 515,
+                  isCerner: false,
+                },
+              ],
+              vaProfile: {
+                ohMigrationInfo: {
+                  migrationSchedules: [
+                    {
+                      migrationDate: '2026-04-11',
+                      facilities: [{ facilityId: 515 }],
+                      phases: {
+                        current: 'p4',
+                        p0: '2026-02-10',
+                        p1: '2026-02-12',
+                        p2: '2026-03-12',
+                        p3: '2026-04-05',
+                        p4: '2026-04-08',
+                        p5: '2026-04-11',
+                        p6: '2026-04-13',
+                        p7: '2026-04-18',
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        };
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3AlertNoRefillable = screen.queryByTestId(
+            'oracle-health-t3-alert-no-refillable',
+          );
+          const t3AlertWithRefillable = screen.queryByTestId(
+            'oracle-health-t3-alert-with-refillable',
+          );
+          expect(t3AlertNoRefillable).to.not.exist;
+          expect(t3AlertWithRefillable).to.not.exist;
+        });
+      });
+
+      it('filters blocked prescriptions from refill list', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        const prescriptionNotInTransition = {
+          ...refillablePrescriptions[1],
+          facilityId: '442',
+          stationNumber: '442',
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [
+            prescriptionInTransition,
+            prescriptionNotInTransition,
+          ],
+        });
+
+        const state = {
+          ...initialState,
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_medications_oracle_health_cutover: true,
+          },
+          user: {
+            ...initialState.user,
+            profile: {
+              ...initialState.user.profile,
+              facilities: [
+                {
+                  facilityId: 515,
+                  isCerner: false,
+                },
+              ],
+              vaProfile: {
+                ohMigrationInfo: {
+                  migrationSchedules: [
+                    {
+                      migrationDate: '2026-04-11',
+                      facilities: [{ facilityId: 515 }],
+                      phases: {
+                        current: 'p4',
+                        p0: '2026-02-10',
+                        p1: '2026-02-12',
+                        p2: '2026-03-12',
+                        p3: '2026-04-05',
+                        p4: '2026-04-08',
+                        p5: '2026-04-11',
+                        p6: '2026-04-13',
+                        p7: '2026-04-18',
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        };
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const checkboxGroup = screen.queryByTestId('refill-checkbox-group');
+          expect(checkboxGroup).to.exist;
+          expect(checkboxGroup.label).to.equal(
+            'You have 1 prescription ready to refill.',
+          );
+        });
+      });
+
+      it('handles all 4 Michigan facilities correctly', async () => {
+        sandbox.restore();
+        const michiganPrescriptions = [
+          {
+            ...refillablePrescriptions[0],
+            facilityId: 506,
+            stationNumber: 506,
+          },
+          {
+            ...refillablePrescriptions[1],
+            facilityId: 515,
+            stationNumber: 515,
+          },
+          {
+            ...refillablePrescriptions[2],
+            facilityId: 553,
+            stationNumber: 553,
+          },
+          {
+            ...refillablePrescriptions[3],
+            facilityId: 585,
+            stationNumber: 585,
+          },
+        ];
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: michiganPrescriptions,
+        });
+
+        const state = {
+          ...initialState,
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_medications_oracle_health_cutover: true,
+          },
+          user: {
+            ...initialState.user,
+            profile: {
+              ...initialState.user.profile,
+              facilities: [
+                { facilityId: 506, isCerner: false },
+                { facilityId: 515, isCerner: false },
+                { facilityId: 553, isCerner: false },
+                { facilityId: 585, isCerner: false },
+              ],
+              vaProfile: {
+                ohMigrationInfo: {
+                  migrationSchedules: [
+                    {
+                      migrationDate: '2026-04-11',
+                      facilities: [
+                        { facilityId: 506 },
+                        { facilityId: 515 },
+                        { facilityId: 553 },
+                        { facilityId: 585 },
+                      ],
+                      phases: {
+                        current: 'p4',
+                        p0: '2026-02-10',
+                        p1: '2026-02-12',
+                        p2: '2026-03-12',
+                        p3: '2026-04-05',
+                        p4: '2026-04-08',
+                        p5: '2026-04-11',
+                        p6: '2026-04-13',
+                        p7: '2026-04-18',
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        };
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const t3Alert = screen.queryByTestId(
+            'oracle-health-t3-alert-no-refillable',
+          );
+          expect(t3Alert).to.exist;
+        });
+      });
+
+      it('hides generic no-refills message when prescriptions are blocked', async () => {
+        sandbox.restore();
+        const prescriptionInTransition = {
+          ...refillablePrescriptions[0],
+          facilityId: 515,
+          stationNumber: 515,
+        };
+        initMockApis({
+          sinonSandbox: sandbox,
+          prescriptions: [prescriptionInTransition],
+        });
+
+        const state = {
+          ...initialState,
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_medications_oracle_health_cutover: true,
+          },
+          user: {
+            ...initialState.user,
+            profile: {
+              ...initialState.user.profile,
+              facilities: [
+                {
+                  facilityId: 515,
+                  isCerner: false,
+                },
+              ],
+              vaProfile: {
+                ohMigrationInfo: {
+                  migrationSchedules: [
+                    {
+                      migrationDate: '2026-04-11',
+                      facilities: [{ facilityId: 515 }],
+                      phases: {
+                        current: 'p4',
+                        p0: '2026-02-10',
+                        p1: '2026-02-12',
+                        p2: '2026-03-12',
+                        p3: '2026-04-05',
+                        p4: '2026-04-08',
+                        p5: '2026-04-11',
+                        p6: '2026-04-13',
+                        p7: '2026-04-18',
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        };
+
+        const screen = setup(state);
+
+        await waitFor(() => {
+          const noRefillsMessage = screen.queryByTestId('no-refills-message');
+          expect(noRefillsMessage).to.not.exist;
+        });
+      });
     });
   });
 });
