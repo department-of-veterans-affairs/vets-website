@@ -76,7 +76,7 @@ describe('datadogRumTracking', () => {
 
   it('swallows errors from datadogRum.addAction', () => {
     addActionStub.restore();
-    sinon
+    addActionStub = sinon
       .stub(datadogBrowserRum.datadogRum, 'addAction')
       .throws(new Error('fail'));
     getElementByIdStub.withArgs(SIDENAV_COMPONENT_ID).returns(null);
@@ -87,7 +87,5 @@ describe('datadogRumTracking', () => {
         pathname: '/start',
       }),
     ).to.not.throw();
-
-    datadogBrowserRum.datadogRum.addAction.restore();
   });
 });
