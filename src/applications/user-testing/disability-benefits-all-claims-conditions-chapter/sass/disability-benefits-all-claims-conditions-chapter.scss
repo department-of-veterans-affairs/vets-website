@@ -1,3 +1,4 @@
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
@@ -22,7 +23,7 @@
 
   &__option {
     display: block;
-    padding: 0.5rem;
+    padding: units(1);
     margin: 0;
     cursor: pointer;
 
