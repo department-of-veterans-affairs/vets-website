@@ -7,7 +7,13 @@ import { waitFor } from '@testing-library/dom';
 import { PROFILE_PATHS } from '../../../constants';
 
 function createInitialState(
-  { hasUnsavedEdits, toggles, optionalServices = [], mhvAccount } = {
+  {
+    hasUnsavedEdits,
+    toggles,
+    optionalServices = [],
+    mhvAccount,
+    vaPatient = true,
+  } = {
     hasUnsavedEdits: false,
     toggles: {},
     mhvAccount: {},
@@ -69,7 +75,7 @@ function createInitialState(
         },
         services,
         mhvAccount,
-        vaPatient: true,
+        vaPatient,
       },
     },
     vapService: {
@@ -158,6 +164,17 @@ describe('<MessagesSignature /> in profile 2.0', () => {
 
     expect(messagingSignatureSection.innerHTML).to.contain('Abraham Lincoln');
     expect(messagingSignatureSection.innerHTML).to.contain('Veteran');
+  });
+
+  it('renders <NonVAPatientMessage /> if user is not a VA patient', async () => {
+    const screen = setup({
+      optionalServices: ['messaging'],
+      vaPatient: false,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('non-va-patient-message')).to.exist;
+    });
   });
 
   it.skip('does not render Messaging signature section if messaging service is not enabled', async () => {
