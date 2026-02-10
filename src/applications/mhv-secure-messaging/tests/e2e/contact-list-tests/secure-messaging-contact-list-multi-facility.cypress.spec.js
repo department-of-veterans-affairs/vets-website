@@ -79,7 +79,7 @@ describe('SM MULTI FACILITY CONTACT LIST', () => {
     ContactListPage.verifyContactListSavedAlert();
     ContactListPage.verifySingleCheckBox(selectedTeam[0], true);
 
-    cy.wait('@savedList')
+    cy.get('@savedList')
       .its('request.body')
       .then(req => {
         const selected = req.updatedTriageTeams.filter(el =>
@@ -119,7 +119,7 @@ describe('SM MULTI FACILITY CONTACT LIST', () => {
     ContactListPage.verifySingleCheckBox(selectedTeamList[1], true);
     ContactListPage.verifySingleCheckBox(selectedTeamList[2], true);
 
-    cy.wait('@savedList')
+    cy.get('@savedList')
       .its('request.body')
       .then(req => {
         const selected = req.updatedTriageTeams.filter(

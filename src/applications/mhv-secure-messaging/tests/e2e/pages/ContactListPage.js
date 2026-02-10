@@ -148,7 +148,23 @@ class ContactListPage {
       .find(`button`)
       .click({ force: true });
 
+    cy.wait('@savedList');
     cy.wait('@updatedRecipients');
+
+    // After both network responses, React needs render cycles to propagate
+    // state through useEffects (vistaRecipients → allTriageTeams →
+    // isContactListChanged → isNavigationBlocked). React schedules effects
+    // via MessageChannel (macrotasks), but Cypress chains commands via
+    // microtasks which execute first. A fixed delay ensures the browser event
+    // loop has processed all pending macrotasks — including React's effect
+    // cascade — before the test continues to navigate away.
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(200);
+
+    cy.get(Locators.ALERTS.GEN_ALERT).should(
+      'include.text',
+      Alerts.CONTACT_LIST.SAVED,
+    );
   };
 
   verifyContactListSavedAlert = () => {
