@@ -140,9 +140,6 @@ export const EvidenceRequestPage = ({
         };
         setFormData(updatedFormData);
         setAlertVisible(false);
-        setTimeout(() => {
-          goForward(data);
-        }, 100);
       } else if (hasMedicalRecords === false && hasPrivateEvidence(data)) {
         const updatedFormData = { ...data };
         updatedFormData['view:selectableEvidenceTypes'] = {
@@ -151,9 +148,6 @@ export const EvidenceRequestPage = ({
         };
         setFormData(updatedFormData);
         setAlertVisible(false);
-        setTimeout(() => {
-          goForward(updatedFormData);
-        }, 100);
       } else {
         setAlertVisible(false);
         goForward(data);
@@ -286,7 +280,7 @@ export const EvidenceRequestPage = ({
           required
           uswds="true"
           class="rjsf-web-component-field hydrated"
-          aria-invalid="false"
+          aria-invalid={hasError ? 'true' : 'false'}
           onVaValueChange={handlers.onSelection}
           error={hasError}
         >
