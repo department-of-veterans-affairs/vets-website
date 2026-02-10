@@ -1,4 +1,4 @@
-FROM node:22.22.0-bookworm
+FROM public.ecr.aws/docker/library/node:22.22.0-bookworm
 
 # Copy startup script into place
 COPY src/platform/utilities/preview-environment/start.sh .
