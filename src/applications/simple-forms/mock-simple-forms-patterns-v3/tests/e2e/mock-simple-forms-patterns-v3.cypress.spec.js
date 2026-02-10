@@ -26,7 +26,9 @@ function addFile(option, elementName) {
     .first()
     .find('va-select')
     .then($select => {
-      cy.selectVaSelect($select, option);
+      if ($select) {
+        cy.selectVaSelect($select, option);
+      }
     });
   cy.findByText(/continue/i, { selector: 'button' }).click();
 }
