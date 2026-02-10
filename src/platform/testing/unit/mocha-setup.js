@@ -318,6 +318,14 @@ function setupJSDom() {
     enumerable: true,
     writable: true,
   });
+
+  // Stub HTMLCanvasElement.prototype.getContext for axe-core color contrast checks
+  // JSDOM 20 doesn't implement canvas, but axe-core needs it to detect icon ligatures
+  if (typeof window.HTMLCanvasElement !== 'undefined') {
+    window.HTMLCanvasElement.prototype.getContext = function() {
+      return null;
+    };
+  }
 }
 /* eslint-disable no-console */
 
