@@ -22,17 +22,21 @@ const MedicationsListCard = ({ rx }) => {
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
   const useV2StatusMapping = isCernerPilot && isV2StatusMapping;
+  const isPendingDispense =
+    rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE;
 
   const pendingMed =
-    rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    rx?.dispStatus ===
-      (useV2StatusMapping
-        ? dispStatusObjV2.inprogress
-        : DISPENSE_STATUS.NEW_ORDER);
+    isPendingDispense &&
+    (useV2StatusMapping
+      ? rx?.dispStatus === dispStatusObjV2.inprogress &&
+        rx?.refillStatus?.toLowerCase() === 'neworder'
+      : rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER);
   const pendingRenewal =
-    rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    rx?.dispStatus ===
-      (useV2StatusMapping ? dispStatusObjV2.inprogress : DISPENSE_STATUS.RENEW);
+    isPendingDispense &&
+    (useV2StatusMapping
+      ? rx?.dispStatus === dispStatusObjV2.inprogress &&
+        rx?.refillStatus?.toLowerCase() === 'renew'
+      : rx?.dispStatus === DISPENSE_STATUS.RENEW);
   const latestTrackingStatus = rx?.trackingList?.[0];
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);

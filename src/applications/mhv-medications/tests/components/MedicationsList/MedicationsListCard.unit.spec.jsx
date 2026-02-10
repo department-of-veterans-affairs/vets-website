@@ -377,15 +377,37 @@ describe('Medication card component', () => {
   });
 
   describe('V2 pending medication status handling (when both flags are enabled)', () => {
-    it('shows pending text when dispStatus is In progress and prescriptionSource is PD', () => {
+    it('shows pending new order text when V2 enabled with refillStatus neworder', () => {
       const rx = {
         ...prescriptionsListItem,
         prescriptionSource: 'PD',
         dispStatus: 'In progress',
+        refillStatus: 'neworder',
       };
       const screen = setupWithFlags(rx, true, true);
-      // When V2 is enabled, 'In progress' maps to pending status
-      expect(screen.getByTestId('pending-renewal-rx')).to.exist;
+      expect(screen.getByText(/new prescription from your provider/)).to.exist;
+    });
+
+    it('shows pending renewal text when V2 enabled with refillStatus renew', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'PD',
+        dispStatus: 'In progress',
+        refillStatus: 'renew',
+      };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen.getByText(/renewal you requested/)).to.exist;
+    });
+
+    it('handles case-insensitive refillStatus values', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'PD',
+        dispStatus: 'In progress',
+        refillStatus: 'NewOrder',
+      };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen.getByText(/new prescription from your provider/)).to.exist;
     });
 
     it('does not show pending text when prescriptionSource is not PD with V2 In progress status', () => {
@@ -393,6 +415,7 @@ describe('Medication card component', () => {
         ...prescriptionsListItem,
         prescriptionSource: 'VA',
         dispStatus: 'In progress',
+        refillStatus: 'neworder',
       };
       const screen = setupWithFlags(rx, true, true);
       expect(screen.queryByTestId('pending-renewal-rx')).to.not.exist;
@@ -403,6 +426,17 @@ describe('Medication card component', () => {
         ...prescriptionsListItem,
         prescriptionSource: 'PD',
         dispStatus: 'Active',
+        refillStatus: 'neworder',
+      };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen.queryByTestId('pending-renewal-rx')).to.not.exist;
+    });
+
+    it('does not show pending text when refillStatus is missing with V2 enabled', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'PD',
+        dispStatus: 'In progress',
       };
       const screen = setupWithFlags(rx, true, true);
       expect(screen.queryByTestId('pending-renewal-rx')).to.not.exist;
@@ -413,6 +447,7 @@ describe('Medication card component', () => {
         ...prescriptionsListItem,
         prescriptionSource: 'PD',
         dispStatus: 'In progress',
+        refillStatus: 'neworder',
       };
       const screen = setupWithFlags(rx, true, false);
       // V2 status mapping requires both flags; with only cernerPilot, 'In progress' is not recognized
@@ -424,6 +459,7 @@ describe('Medication card component', () => {
         ...prescriptionsListItem,
         prescriptionSource: 'PD',
         dispStatus: 'In progress',
+        refillStatus: 'neworder',
       };
       const screen = setupWithFlags(rx, false, true);
       // V2 status mapping requires both flags
