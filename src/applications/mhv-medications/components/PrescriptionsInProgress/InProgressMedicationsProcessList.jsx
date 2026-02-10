@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Prescription from './Prescription';
-import pluralize from '../../util/helpers/pluralize';
 import TooEarlyToRefillCard from './TooEarlyToRefillCard';
+import pluralize from '../../util/helpers/pluralize';
 
 const SubmittedStep = ({ submitted = [], tooEarly = [] }) => {
   const descriptionText = submitted.length
