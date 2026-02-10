@@ -25,29 +25,26 @@ const EmailSignup = () => {
     }
   });
 
-  useEffect(
-    () => {
-      const textInput = document?.querySelector('va-text-input');
-      const shadowRoot = textInput?.shadowRoot;
+  useEffect(() => {
+    const textInput = document?.querySelector('va-text-input');
+    const shadowRoot = textInput?.shadowRoot;
 
-      if (shadowRoot && !headerHasFocused) {
-        const inputHeader = shadowRoot?.querySelector('h2');
+    if (shadowRoot && !headerHasFocused) {
+      const inputHeader = shadowRoot?.querySelector('h2');
 
-        if (inputHeader) {
-          inputHeader.addEventListener('focus', () => {
-            inputHeader.style.outline = 'none';
-          });
-        }
-
-        if (inputHeader && inputError) {
-          inputHeader.setAttribute('tabindex', '-1');
-          inputHeader.focus();
-          setHeaderHasFocused(true);
-        }
+      if (inputHeader) {
+        inputHeader.addEventListener('focus', () => {
+          inputHeader.style.outline = 'none';
+        });
       }
-    },
-    [inputError],
-  );
+
+      if (inputHeader && inputError) {
+        inputHeader.setAttribute('tabindex', '-1');
+        inputHeader.focus();
+        setHeaderHasFocused(true);
+      }
+    }
+  }, [inputError]);
 
   const setInputErrorState = () => {
     if (!email || !email?.length || !isValidEmail(email)) {
@@ -107,14 +104,12 @@ const EmailSignup = () => {
         />
         <VaTextInput
           autocomplete="email"
-          charcount
           class="homepage-email-input"
           error={inputError || null}
           form-heading="Sign up to get the latest VA updates"
           form-heading-level="2"
           inputmode="email"
           label="Email address"
-          maxlength={130}
           onBlur={setInputErrorState}
           onInput={onInput}
           onKeyDown={event => {
