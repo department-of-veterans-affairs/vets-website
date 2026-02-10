@@ -80,7 +80,12 @@ for (const featureSet of featureSets) {
     });
 
     it('shows error message when typing in `back pain`, NOT selecting a service type, and attempting to search', () => {
+      h.typeInCityStateInput('Austin, TX');
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.CC_PRO);
+
+      // Wait for services to be saved to state and input field to not be disabled
+      cy.wait('@mockServices');
+
       h.typeInCCPServiceTypeInput('back pain');
       h.submitSearchForm();
 
