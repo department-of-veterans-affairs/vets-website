@@ -46,6 +46,7 @@ function setUserDataAndAdvanceToSpouseSection(user, prefillData) {
   advanceToHouseholdSection();
   handleOptionalServiceHistoryPage({
     historyEnabled: featureFlagObject.ezrServiceHistoryEnabled,
+    hasServiceHistoryInfo: prefillData['view:hasPrefillServiceHistory'],
   });
   goToNextPage('/household-information/marital-status-information');
   cy.injectAxeThenAxeCheck();

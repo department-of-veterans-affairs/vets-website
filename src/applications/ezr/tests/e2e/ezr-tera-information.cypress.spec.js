@@ -48,6 +48,7 @@ function goToToxicExposurePageAndCheckYes() {
   advanceToHouseholdSection();
   handleOptionalServiceHistoryPage({
     historyEnabled: featureTogglesObject.ezrServiceHistoryEnabled,
+    hasServiceHistoryInfo: featureTogglesObject.hasPrefillServiceHistory,
     hasTeraYes: true,
   });
   cy.injectAxeThenAxeCheck();

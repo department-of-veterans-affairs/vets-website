@@ -27,6 +27,7 @@ export const advanceToHouseholdSection = () => {
 export const advanceFromHouseholdToReview = ({ featureFlags = {} }) => {
   handleOptionalServiceHistoryPage({
     historyEnabled: featureFlags.ezrServiceHistoryEnabled,
+    hasServiceHistoryInfo: featureFlags.hasPrefillServiceHistory,
   });
 
   goToNextPage('/insurance-information/medicaid-eligibility');

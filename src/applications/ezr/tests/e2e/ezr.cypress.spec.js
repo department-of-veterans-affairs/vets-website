@@ -156,6 +156,7 @@ const testConfig = createTestConfig(
           });
           handleOptionalServiceHistoryPage({
             historyEnabled: featureFlagObject.ezrServiceHistoryEnabled,
+            hasServiceHistoryInfo: true,
           });
         });
       },
