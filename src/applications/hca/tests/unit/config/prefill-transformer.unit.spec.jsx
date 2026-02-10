@@ -23,6 +23,7 @@ describe('hca `prefillTransformer` utility', () => {
     residentialAddress = null,
     mailingAddress = null,
     status = null,
+    loggedIn = false,
     prefillData = defaultPrefillData,
   } = {}) => {
     const state = {
@@ -33,6 +34,9 @@ describe('hca `prefillTransformer` utility', () => {
             mailingAddress,
           },
           status,
+        },
+        login: {
+          currentlyLoggedIn: loggedIn,
         },
       },
     };
@@ -90,7 +94,7 @@ describe('hca `prefillTransformer` utility', () => {
 
   it('should return correct form data when profile data omits all addresses', () => {
     const prefillData = getData();
-    expect(Object.keys(prefillData)).to.have.lengthOf(15);
+    expect(Object.keys(prefillData)).to.have.lengthOf(16);
     expect(Object.keys(prefillData).veteranAddress).to.not.exist;
     expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(undefined);
@@ -98,13 +102,13 @@ describe('hca `prefillTransformer` utility', () => {
 
   it('should return correct form data when user record is located in MPI', () => {
     const prefillData = getData({ status: 'OK' });
-    expect(Object.keys(prefillData)).to.have.lengthOf(16);
+    expect(Object.keys(prefillData)).to.have.lengthOf(17);
     expect(prefillData['view:isUserInMvi']).to.be.true;
   });
 
   it('should return correct form data when profile data omits mailing address', () => {
     const prefillData = getData({ residentialAddress });
-    expect(Object.keys(prefillData)).to.have.lengthOf(16);
+    expect(Object.keys(prefillData)).to.have.lengthOf(17);
     expect(prefillData.veteranAddress).to.equal(undefined);
     expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(7);
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(undefined);
@@ -112,7 +116,7 @@ describe('hca `prefillTransformer` utility', () => {
 
   it('should return correct form data when profile data includes mailing address that does not match residential address', () => {
     const prefillData = getData({ residentialAddress, mailingAddress });
-    expect(Object.keys(prefillData)).to.have.lengthOf(17);
+    expect(Object.keys(prefillData)).to.have.lengthOf(18);
     expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(7);
     expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(7);
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.false;
@@ -123,7 +127,7 @@ describe('hca `prefillTransformer` utility', () => {
       residentialAddress,
       mailingAddress: residentialAddress,
     });
-    expect(Object.keys(prefillData)).to.have.lengthOf(16);
+    expect(Object.keys(prefillData)).to.have.lengthOf(17);
     expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
     expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(7);
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.true;
@@ -132,7 +136,7 @@ describe('hca `prefillTransformer` utility', () => {
   context('prefills valid veteranDateOfBirth', () => {
     it('should return correct form data when profile data includes valid veteranDateOfBirth', () => {
       const prefillData = getData({});
-      expect(Object.keys(prefillData)).to.have.lengthOf(15);
+      expect(Object.keys(prefillData)).to.have.lengthOf(16);
       expect(prefillData.veteranDateOfBirth).to.equal(
         defaultPrefillData.veteranDateOfBirth,
       );
@@ -149,7 +153,7 @@ describe('hca `prefillTransformer` utility', () => {
       const prefillData = getData({
         prefillData: prefillDataWithoutDateOfBirth,
       });
-      expect(Object.keys(prefillData)).to.have.lengthOf(14);
+      expect(Object.keys(prefillData)).to.have.lengthOf(15);
       expect(prefillData.veteranDateOfBirth).to.not.exist;
     });
 
@@ -160,7 +164,7 @@ describe('hca `prefillTransformer` utility', () => {
           veteranDateOfBirth: '1880-05-04',
         },
       });
-      expect(Object.keys(prefillData)).to.have.lengthOf(15);
+      expect(Object.keys(prefillData)).to.have.lengthOf(16);
       expect(prefillData.veteranDateOfBirth).to.not.exist;
     });
   });
@@ -168,7 +172,7 @@ describe('hca `prefillTransformer` utility', () => {
   context('prefills valid phone numbers', () => {
     it('should return correct form data when profile data includes valid USA phone numbers', () => {
       const prefillData = getData({});
-      expect(Object.keys(prefillData)).to.have.lengthOf(15);
+      expect(Object.keys(prefillData)).to.have.lengthOf(16);
       expect(prefillData.homePhone).to.equal(defaultPrefillData.homePhone);
       expect(prefillData.mobilePhone).to.equal(defaultPrefillData.mobilePhone);
     });
@@ -181,7 +185,7 @@ describe('hca `prefillTransformer` utility', () => {
           mobilePhone: '416123-4567',
         },
       });
-      expect(Object.keys(prefillData)).to.have.lengthOf(15);
+      expect(Object.keys(prefillData)).to.have.lengthOf(16);
       expect(prefillData.homePhone).to.not.exist;
       expect(prefillData.mobilePhone).to.not.exist;
     });
@@ -194,8 +198,29 @@ describe('hca `prefillTransformer` utility', () => {
       const prefillData = getData({
         prefillData: prefillDataWithoutHomePhone,
       });
-      expect(Object.keys(prefillData)).to.have.lengthOf(14);
+      expect(Object.keys(prefillData)).to.have.lengthOf(15);
       expect(prefillData.homePhone).to.not.exist;
+    });
+  });
+
+  context('sets login state', () => {
+    it('should set view:isLoggedIn to true when user is logged in', () => {
+      const prefillData = getData({ loggedIn: true });
+      expect(prefillData['view:isLoggedIn']).to.be.true;
+    });
+
+    it('should set view:isLoggedIn to false when user is not logged in', () => {
+      const prefillData = getData({ loggedIn: false });
+      expect(prefillData['view:isLoggedIn']).to.be.false;
+    });
+
+    it('should set view:isLoggedIn even when no other prefill data exists', () => {
+      const prefillData = getData({
+        loggedIn: true,
+        prefillData: {},
+      });
+      expect(prefillData['view:isLoggedIn']).to.be.true;
+      expect(Object.keys(prefillData)).to.include('view:isLoggedIn');
     });
   });
 });

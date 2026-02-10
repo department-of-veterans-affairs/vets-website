@@ -71,8 +71,16 @@ const IdentityPage = ({ location, route, router }) => {
    */
   useEffect(
     () => {
-      if (loggedIn) router.push('/');
-      else dispatch(resetEnrollmentStatus());
+      if (loggedIn) {
+        const nextPage = getNextPagePath(
+          route.pageList,
+          formData,
+          location.pathname,
+        );
+        router.push(nextPage || '/');
+      } else {
+        dispatch(resetEnrollmentStatus());
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [loggedIn],
