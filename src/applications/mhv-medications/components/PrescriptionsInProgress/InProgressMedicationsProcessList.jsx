@@ -29,7 +29,7 @@ const SubmittedStep = ({ submitted = [], tooEarly = [] }) => {
           <Prescription key={prescription.prescriptionId} {...prescription} />
         ))}
       </div>
-      {!!tooEarly.length && <TooEarlyToRefillCard tooEarly={tooEarly} />}
+      {tooEarly.length > 0 && <TooEarlyToRefillCard tooEarly={tooEarly} />}
     </va-process-list-item>
   );
 };

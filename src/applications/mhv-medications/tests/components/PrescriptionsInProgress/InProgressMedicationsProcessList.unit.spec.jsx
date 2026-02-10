@@ -128,10 +128,16 @@ describe('InProgressMedicationsProcessList Component', () => {
       const submittedSection = within(
         screen.getByTestId('submitted-prescriptions'),
       );
-      expect(submittedSection.getByRole('link', { name: 'Medication A' })).to
-        .exist;
-      expect(submittedSection.getByRole('link', { name: 'Medication B' })).to
-        .exist;
+
+      const linkA = submittedSection.getByRole('link', {
+        name: 'Medication A',
+      });
+      expect(linkA).to.have.attribute('href', '/my-health/medications/1');
+
+      const linkB = submittedSection.getByRole('link', {
+        name: 'Medication B',
+      });
+      expect(linkB).to.have.attribute('href', '/my-health/medications/2');
     });
 
     it('displays empty state text when no prescriptions are submitted', () => {
@@ -165,14 +171,24 @@ describe('InProgressMedicationsProcessList Component', () => {
       const submittedSection = within(
         screen.getByTestId('submitted-prescriptions'),
       );
-      expect(submittedSection.getByRole('link', { name: 'Submitted Med' })).to
-        .exist;
+      const submittedLink = submittedSection.getByRole('link', {
+        name: 'Submitted Med',
+      });
+      expect(submittedLink).to.have.attribute(
+        'href',
+        '/my-health/medications/1',
+      );
       expect(submittedSection.queryByRole('link', { name: 'Too Early Med' })).to
         .to.be.null;
 
       const tooEarlySection = within(screen.getByTestId('too-early-section'));
-      expect(tooEarlySection.getByRole('link', { name: 'Too Early Med' })).to
-        .exist;
+      const tooEarlyLink = tooEarlySection.getByRole('link', {
+        name: 'Too Early Med',
+      });
+      expect(tooEarlyLink).to.have.attribute(
+        'href',
+        '/my-health/medications/2',
+      );
       expect(tooEarlySection.queryByRole('link', { name: 'Submitted Med' })).to
         .be.null;
     });

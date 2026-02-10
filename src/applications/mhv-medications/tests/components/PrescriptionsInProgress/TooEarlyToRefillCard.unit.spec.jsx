@@ -48,7 +48,11 @@ describe('TooEarlyToRefillCard Component', () => {
     ];
     const screen = setup(tooEarlyPrescriptions);
     const card = within(screen.getByTestId('too-early-section'));
-    expect(card.getByRole('link', { name: 'Medication A' })).to.exist;
-    expect(card.getByRole('link', { name: 'Medication B' })).to.exist;
+
+    const medALink = card.getByRole('link', { name: 'Medication A' });
+    expect(medALink).to.have.attribute('href', '/my-health/medications/1');
+
+    const medBCard = card.getByRole('link', { name: 'Medication B' });
+    expect(medBCard).to.have.attribute('href', '/my-health/medications/2');
   });
 });
