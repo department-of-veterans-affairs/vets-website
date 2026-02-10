@@ -268,6 +268,9 @@ describe('<DefaultPage>', () => {
     getByText(
       'We haven’t received the information we asked for. You can still send it, but we may review your claim without it.',
     );
+    getByText(
+      'We requested this evidence from you on March 7, 2024. You can still send the evidence after the “respond by” date, but it may delay your claim.',
+    );
   });
   it('should display pass due explanation text when suspense date is in the future', () => {
     const item = {
@@ -718,7 +721,7 @@ describe('<DefaultPage>', () => {
         } else if (testCase.item.description) {
           expect(getByTestId('api-description')).to.exist;
           getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
-          expect(queryByTestId('learn-about-request-section')).to.not.exist;
+          expect(queryByTestId('learn-about-request-section')).to.exist;
         } else {
           expect(getByTestId('empty-state-description')).to.exist;
           getByText(new RegExp(testCase.expectedDescriptionText, 'i'));

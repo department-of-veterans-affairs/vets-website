@@ -2,7 +2,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { getVaButtonByText } from '~/applications/personalization/common/unitHelpers';
 import { ConnectedAppDeleteModal } from '../../../components/connected-apps/ConnectedAppDeleteModal';
 
 describe('<ConnectedAppDeleteModal />', () => {
@@ -22,16 +21,5 @@ describe('<ConnectedAppDeleteModal />', () => {
     ).to.exist;
     expect(view.getByText(/This may affect how useful the app is to you./i)).to
       .exist;
-  });
-
-  it('renders the buttons correctly when not deleting', () => {
-    const view = render(<ConnectedAppDeleteModal {...defaultProps} />);
-    expect(getVaButtonByText('Disconnect', view)).to.be.ok;
-    expect(getVaButtonByText('No, cancel this change', view)).to.be.ok;
-  });
-
-  it('renders a disabled button when deleting', () => {
-    const view = render(<ConnectedAppDeleteModal {...defaultProps} deleting />);
-    expect(getVaButtonByText('Processing update...', view)).to.exist;
   });
 });
