@@ -31,7 +31,7 @@ describe('SM DELETE REPLY DRAFT', () => {
     PatientMessageDraftsPage.clickDeleteButton();
     PatientMessageDraftsPage.confirmDeleteDraft(updatedSingleThreadResponse);
     PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
-    PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
+    PatientMessageDraftsPage.verifyDraftDeletedAlertAndH1Focus();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

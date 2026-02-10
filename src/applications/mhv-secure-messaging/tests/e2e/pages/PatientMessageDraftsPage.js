@@ -282,7 +282,7 @@ class PatientMessageDraftsPage {
     });
   };
 
-  verifyDraftMessageBannerTextHasFocus = () => {
+  verifyDraftDeletedAlertAndH1Focus = () => {
     cy.get('h1').should('have.focus');
     cy.findByTestId('alert-text').should(
       'contain.text',

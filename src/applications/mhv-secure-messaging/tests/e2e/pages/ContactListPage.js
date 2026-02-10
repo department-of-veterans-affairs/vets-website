@@ -153,13 +153,14 @@ class ContactListPage {
 
     // After both network responses, React needs render cycles to propagate
     // state through useEffects (vistaRecipients → allTriageTeams →
-    // isContactListChanged → isNavigationBlocked). React schedules effects
-    // via MessageChannel (macrotasks), but Cypress chains commands via
-    // microtasks which execute first. A fixed delay ensures the browser event
-    // loop has processed all pending macrotasks — including React's effect
-    // cascade — before the test continues to navigate away.
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(200);
+    // isContactListChanged → isNavigationBlocked). Wait for the navigation
+    // guard's data attribute to reflect that navigation is no longer blocked,
+    // proving the full React state cascade has settled.
+    cy.get('[data-testid="navigation-guard"]').should(
+      'have.attr',
+      'data-navigation-blocked',
+      'false',
+    );
 
     cy.get(Locators.ALERTS.GEN_ALERT).should(
       'include.text',
