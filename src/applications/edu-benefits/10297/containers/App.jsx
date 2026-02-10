@@ -6,7 +6,6 @@ import { isLoggedIn } from 'platform/user/selectors';
 import { useSelector } from 'react-redux';
 import formConfig from '../config/form';
 import { addStyleToShadowDomOnPages } from '../../utils/helpers';
-import NeedHelp from '../components/NeedHelp';
 import Breadcrumbs from '../components/Breadcrumbs';
 import manifest from '../manifest.json';
 import { TITLE } from '../constants';
@@ -39,7 +38,6 @@ export default function App({ location, children }) {
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
-      <NeedHelp />
     </div>
   );
 }

@@ -10,8 +10,8 @@ const uiSchema = {
 
   'view:activeDutyInfo': {
     'ui:description': (
-      <va-alert status="info" class="vads-u-margin-top--4">
-        <h4>What to know if you’re on active duty</h4>
+      <va-alert status="info">
+        <h4 slot="headline">What to know if you’re on active duty</h4>
         <p>
           If you’re on active duty while enrolled in the program, you will not
           get a Monthly Housing Allowance (MHA) from VA since you will be
