@@ -31,7 +31,7 @@ function handleClick(history, dispatch) {
 function getMigrationSchedule(schedules, disabledPhases) {
   // return schedules.map(s => disabledPhases.includes(s.phases.current));
   return (
-    schedules.find(s => {
+    schedules?.find(s => {
       return disabledPhases.includes(s.phases.current);
     }) || null
   );
@@ -89,7 +89,13 @@ export default function UrgentCareInformationPage() {
   // Get migration error phases if not in the warning phase.
   let isInErrorPhase = false;
   if (!isInWarningPhase) {
-    migrationSchedule = getMigrationSchedule(migrationSchedules, ['p2']);
+    migrationSchedule = getMigrationSchedule(migrationSchedules, [
+      'p2',
+      'p3',
+      'p4',
+      'p5',
+      'p6',
+    ]);
     isInErrorPhase = !!migrationSchedule;
   }
 
@@ -125,7 +131,7 @@ export default function UrgentCareInformationPage() {
       {isInWarningPhase && (
         <MigrationWarning
           facilities={migrationSchedule.facilities}
-          migrationDate={migrationSchedule.migrationDate}
+          startDate={migrationSchedule.phases[migrationSchedule.phases.current]}
           endDate={migrationSchedule.phases.p7}
         />
       )}

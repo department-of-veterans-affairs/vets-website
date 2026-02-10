@@ -7,25 +7,21 @@ export default function MigrationInProgressError({ endDate, facilities }) {
     <va-alert status="error">
       <h2>
         You can’t schedule at{' '}
-        {`${
-          facilities.length === 1
-            ? facilities[0].facilityName
-            : 'some facilities'
-        }`}{' '}
+        {`${facilities.length === 1 ? facilities[0].name : 'some facilities'}`}{' '}
         right now
       </h2>
       {facilities.length === 1 && (
         <p>
           Scheduling online is unavailable until {endDate} at{' '}
-          {facilities[0].facilityName}
+          {facilities[0].name}
         </p>
       )}
       {facilities.length > 1 && (
         <>
-          <p>Scheduling online is unavailable until {endDate} at</p>
+          <p>Scheduling online is unavailable until {endDate} at:</p>
           <ul>
             {facilities.map((facility, index) => (
-              <li key={index}>{facility.facilityName}</li>
+              <li key={index}>{facility.name}</li>
             ))}
           </ul>
         </>
