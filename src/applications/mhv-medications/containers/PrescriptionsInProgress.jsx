@@ -31,7 +31,10 @@ const PrescriptionsInProgress = () => {
       return <ApiErrorNotification errorType="access" content="medications" />;
     }
 
-    // TODO: Implement empty state design for when there are no in-progress medications
+    if (!prescriptions.length) {
+      return <p>No fills are currently in progress.</p>;
+    }
+
     return <InProgressMedicationsProcessList prescriptions={prescriptions} />;
   };
 
