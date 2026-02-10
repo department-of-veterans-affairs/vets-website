@@ -9,6 +9,7 @@ import { renderWithRouter } from '../utils';
 const getStore = (
   cstClaimPhasesEnabled = true,
   cstShowDocumentUploadStatus = false,
+  champvaProviderEnabled = false,
 ) =>
   createStore(() => ({
     featureToggles: {
@@ -16,6 +17,8 @@ const getStore = (
       cst_claim_phases: cstClaimPhasesEnabled,
       // eslint-disable-next-line camelcase
       cst_show_document_upload_status: cstShowDocumentUploadStatus,
+      // eslint-disable-next-line camelcase
+      benefits_claims_ivc_champva_provider: champvaProviderEnabled,
     },
   }));
 
@@ -898,19 +901,21 @@ describe('<ClaimsListItem>', () => {
         },
       };
 
-      const { getByText, queryByText } = renderWithRouter(
-        <Provider store={getStore(false)}>
+      const { container, getByText, queryByText } = renderWithRouter(
+        <Provider store={getStore(false, false, true)}>
           <ClaimsListItem claim={claim} />
         </Provider>,
       );
 
-      getByText('Claim for CHAMPVA application');
-      getByText('Submitted');
-      getByText('Received on January 10, 2025');
-      getByText('Processed');
-      getByText('Last updated on January 17, 2025');
-      expect(queryByText('Moved to this step on')).to.be.null;
-      expect(queryByText('In Progress')).to.be.null;
+      getByText('Application for CHAMPVA benefits');
+      getByText('In Progress');
+      expect(container).to.contain.text('Submitted on: January 10, 2025');
+      expect(container).to.contain.text('Received on: January 17, 2025');
+      const reviewLink = container.querySelector(
+        'va-link[text="Review details"]',
+      );
+      expect(reviewLink).to.not.exist;
+      expect(queryByText('Processed')).to.be.null;
     });
 
     it('renders Submitted label for IVC CHAMPVA form IDs without champva text in title', () => {
@@ -925,16 +930,22 @@ describe('<ClaimsListItem>', () => {
         },
       };
 
-      const { getByText, queryByText } = renderWithRouter(
-        <Provider store={getStore(false)}>
+      const { container, getByText, queryByText } = renderWithRouter(
+        <Provider store={getStore(false, false, true)}>
           <ClaimsListItem claim={claim} />
         </Provider>,
       );
 
-      getByText('Claim for 10-10d-extended');
-      getByText('Submitted');
-      getByText('Submission failed');
-      expect(queryByText('In Progress')).to.be.null;
+      getByText('Application for CHAMPVA benefits');
+      getByText('In Progress');
+      getByText('VA Form 10-10d');
+      expect(container).to.contain.text('Submitted on: January 10, 2025');
+      expect(container).to.contain.text('Received on: January 17, 2025');
+      const reviewLink = container.querySelector(
+        'va-link[text="Review details"]',
+      );
+      expect(reviewLink).to.not.exist;
+      expect(queryByText('Submission failed')).to.be.null;
     });
   });
 

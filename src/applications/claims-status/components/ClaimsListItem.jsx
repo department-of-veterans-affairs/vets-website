@@ -45,6 +45,36 @@ const IVC_CHAMPVA_FORM_IDS = [
   '10-7959f-2',
 ];
 
+const CHAMPVA_FORM_TITLE_MAP = {
+  '10-10d': 'Application for CHAMPVA benefits',
+  '10-10d-extended': 'Application for CHAMPVA benefits',
+  '10-7959a': 'CHAMPVA claim',
+  '10-7959c': 'CHAMPVA other health insurance certification',
+  '10-7959f-1': 'Foreign Medical Program registration',
+  '10-7959f-2': 'Foreign Medical Program claim',
+};
+
+const CHAMPVA_FORM_DISPLAY_MAP = {
+  '10-10d': '10-10d',
+  '10-10d-extended': '10-10d',
+  '10-7959a': '10-7959a',
+  '10-7959c': '10-7959c',
+  '10-7959f-1': '10-7959f-1',
+  '10-7959f-2': '10-7959f-2',
+};
+
+const extractFormId = claim => {
+  const { claimType, claimTypeBase, displayTitle } = claim.attributes || {};
+  const searchSpace = [claimType, claimTypeBase, displayTitle]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+  const match = searchSpace.match(
+    /10-10d-extended|10-7959f-1|10-7959f-2|10-7959a|10-7959c|10-10d/,
+  );
+  return match?.[0];
+};
+
 const isChampvaClaim = claim => {
   const { claimType, claimTypeBase, displayTitle } = claim.attributes || {};
   const normalizedValues = [claimType, claimTypeBase, displayTitle]
@@ -91,14 +121,19 @@ export default function ClaimsListItem({ claim }) {
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
+  const champvaProviderEnabled = useToggleValue(
+    TOGGLE_NAMES.benefitsClaimsIvcChampvaProvider,
+  );
   const showEightPhases = getShowEightPhases(
     claimTypeCode,
     cstClaimPhasesEnabled,
   );
 
   const inProgress = !isClaimComplete(claim);
-  const showSubmittedLabel =
-    isChampvaClaim(claim) && !claimPhaseDates?.phaseType && inProgress;
+  const champvaFormId = extractFormId(claim);
+  const showChampvaPatternCard =
+    champvaProviderEnabled && isChampvaClaim(claim);
+  const showSubmittedLabel = showChampvaPatternCard && inProgress;
   const showPrecomms = showPreDecisionCommunications(claim);
   const formattedReceiptDate = formatDate(claimDate);
   const phaseType = claimPhaseDates?.phaseType;
@@ -110,7 +145,7 @@ export default function ClaimsListItem({ claim }) {
   const showAlert = showPrecomms && documentsNeeded;
   const cardLabel = useMemo(
     () => {
-      if (showSubmittedLabel) return 'Submitted';
+      if (showSubmittedLabel) return 'In Progress';
       if (inProgress) return 'In Progress';
       return null;
     },
@@ -126,6 +161,41 @@ export default function ClaimsListItem({ claim }) {
     () => getFailedSubmissionsWithinLast30Days(evidenceSubmissions),
     [evidenceSubmissions],
   );
+
+  if (showChampvaPatternCard) {
+    const champvaTitle = CHAMPVA_FORM_TITLE_MAP[champvaFormId];
+    const displayFormId = CHAMPVA_FORM_DISPLAY_MAP[champvaFormId];
+    const submittedOn = formatDate(claimDate);
+    const receivedOn = formatDate(claim.attributes.closeDate || claimDate);
+
+    return (
+      <ClaimCard
+        title={champvaTitle || 'Application for CHAMPVA benefits'}
+        label={cardLabel}
+      >
+        {displayFormId && (
+          <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
+            VA Form {displayFormId}
+          </p>
+        )}
+        <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
+          Submitted on: {submittedOn}
+          <br />
+          Received on: {receivedOn}
+        </p>
+        <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
+          Next step: We’ll review your form. If we need more information, we’ll
+          contact you.
+        </p>
+        <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
+          If you have questions, call us at{' '}
+          <va-telephone contact="8008271000" /> (
+          <va-telephone contact="711" tty />
+          ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        </p>
+      </ClaimCard>
+    );
+  }
 
   return (
     <ClaimCard
