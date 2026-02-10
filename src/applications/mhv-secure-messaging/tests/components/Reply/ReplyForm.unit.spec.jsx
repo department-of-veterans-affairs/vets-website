@@ -409,4 +409,148 @@ describe('Reply form component', () => {
       'Draft reply',
     );
   });
+
+  describe('OH Migration Phase tests', () => {
+    const migrationSchedules = [
+      {
+        facilities: [{ facilityId: '123', facilityName: 'Test Facility' }],
+        phases: {
+          current: 'p3',
+          p3: '2026-02-01',
+          p4: '2026-02-08',
+          p5: '2026-02-15',
+          p6: '2026-02-22',
+        },
+      },
+    ];
+
+    const createMigrationState = ohMigrationPhase => ({
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          ...threadDetailsReducer.threadDetails,
+          ohMigrationPhase,
+        },
+      },
+      user: {
+        profile: {
+          migrationSchedules: migrationSchedules.map(schedule => ({
+            ...schedule,
+            phases: {
+              ...schedule.phases,
+              current: ohMigrationPhase,
+            },
+          })),
+        },
+      },
+    });
+
+    const MIGRATION_ALERT_H2 = /You can.t use messages to contact providers at some facilities right now/i;
+
+    it('renders MigratingFacilitiesAlerts component when ohMigrationPhase is p3', async () => {
+      const customState = createMigrationState('p3');
+      const screen = render(customState);
+
+      await waitFor(() => {
+        const h2 = screen.getByText(MIGRATION_ALERT_H2);
+        expect(h2.tagName).to.equal('H2');
+      });
+    });
+
+    it('renders MigratingFacilitiesAlerts component when ohMigrationPhase is p4', async () => {
+      const customState = createMigrationState('p4');
+      const screen = render(customState);
+
+      await waitFor(() => {
+        const h2 = screen.getByText(MIGRATION_ALERT_H2);
+        expect(h2.tagName).to.equal('H2');
+      });
+    });
+
+    it('renders MigratingFacilitiesAlerts component when ohMigrationPhase is p5', async () => {
+      const customState = createMigrationState('p5');
+      const screen = render(customState);
+
+      await waitFor(() => {
+        const h2 = screen.getByText(MIGRATION_ALERT_H2);
+        expect(h2.tagName).to.equal('H2');
+      });
+    });
+
+    it('does not render MigratingFacilitiesAlerts when ohMigrationPhase is null', async () => {
+      const customState = createMigrationState(null);
+      const screen = render(customState);
+
+      await waitFor(() => {
+        expect(screen.queryByText(MIGRATION_ALERT_H2)).to.not.exist;
+      });
+    });
+
+    it('does not render MigratingFacilitiesAlerts when ohMigrationPhase is p0', async () => {
+      const customState = createMigrationState('p0');
+      const screen = render(customState);
+
+      await waitFor(() => {
+        expect(screen.queryByText(MIGRATION_ALERT_H2)).to.not.exist;
+      });
+    });
+
+    it('does not render MigratingFacilitiesAlerts when ohMigrationPhase is p2', async () => {
+      const customState = createMigrationState('p2');
+      const screen = render(customState);
+
+      await waitFor(() => {
+        expect(screen.queryByText(MIGRATION_ALERT_H2)).to.not.exist;
+      });
+    });
+
+    it('hides CannotReplyAlert when in migration phase p3 even if cannotReply is true', async () => {
+      const customState = createMigrationState('p3');
+      const screen = render(customState, { cannotReply: true });
+
+      await waitFor(() => {
+        expect(screen.queryByTestId('expired-alert-message')).to.not.exist;
+      });
+    });
+
+    it('shows CannotReplyAlert when not in migration phase and cannotReply is true', async () => {
+      const customState = createMigrationState(null);
+      const screen = render(customState, { cannotReply: true });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('expired-alert-message')).to.exist;
+      });
+    });
+
+    it('hides BlockedTriageGroupAlert when in migration phase p4', async () => {
+      const customState = {
+        ...createMigrationState('p4'),
+        sm: {
+          ...createMigrationState('p4').sm,
+          recipients: {
+            allRecipients: oneBlockedRecipient.mockAllRecipients,
+            allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
+            blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
+            associatedTriageGroupsQty:
+              oneBlockedRecipient.associatedTriageGroupsQty,
+            associatedBlockedTriageGroupsQty:
+              oneBlockedRecipient.associatedBlockedTriageGroupsQty,
+            noAssociations: oneBlockedRecipient.noAssociations,
+            allTriageGroupsBlocked: oneBlockedRecipient.allTriageGroupsBlocked,
+          },
+        },
+      };
+
+      const screen = render(customState, {
+        drafts: threadDetails.drafts,
+        recipients: customState.sm.recipients,
+        messages: threadDetails.messages,
+      });
+
+      await waitFor(() => {
+        expect(screen.queryByTestId('blocked-triage-group-alert')).to.not.exist;
+      });
+    });
+  });
 });

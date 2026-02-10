@@ -110,6 +110,7 @@ export const retrieveMessageThread = messageId => async dispatch => {
           messageBody: decodeHtmlEntities(m.attributes.body),
         })),
         isOhMessage,
+        ohMigrationPhase,
       },
     });
   } catch (e) {
