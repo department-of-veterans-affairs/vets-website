@@ -36,22 +36,31 @@ describe('<FirstPartyRequestPage>', () => {
     uploading: false,
   };
 
+  const createTrackedItem = (overrides = {}) => ({
+    id: 1,
+    closedDate: null,
+    description: null,
+    displayName: 'First party display name',
+    overdue: false,
+    receivedDate: null,
+    requestedDate: '2024-03-07',
+    status: 'NEEDED_FROM_YOU',
+    suspenseDate: fiveMonthsFromNowSuspenseDate,
+    uploadsAllowed: true,
+    canUploadFile: true,
+    documents: [],
+    date: '2024-03-07',
+    ...overrides,
+  });
+
   it('should render updated UI', () => {
-    const item = {
-      closedDate: null,
-      canUploadFile: true,
-      description: 'First party description',
-      displayName: 'First party display name',
+    const item = createTrackedItem({
       id: 467558,
+      description: 'First party description',
       overdue: true,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_YOU',
       suspenseDate: nineMonthsAgoSuspenseDate,
-      uploadsAllowed: true,
       documents: '[]',
-      date: '2024-03-07',
-    };
+    });
     const { getByText, container } = renderWithReduxAndRouter(
       <FirstPartyRequestPage {...defaultProps} item={item} />,
       { initialState },
@@ -87,24 +96,16 @@ describe('<FirstPartyRequestPage>', () => {
   });
 
   it('should render update 21-4142 information', () => {
-    const item = {
-      closedDate: null,
+    const item = createTrackedItem({
+      id: 14268,
       description: '21-4142 text',
       displayName: '21-4142/21-4142a',
       friendlyName: 'Authorization to Disclose Information',
       friendlyDescription: 'good description',
-      canUploadFile: true,
       supportAliases: ['VA Form 21-4142'],
-      id: 14268,
       overdue: true,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_YOU',
       suspenseDate: nineMonthsAgoSuspenseDate,
-      uploadsAllowed: true,
-      documents: [],
-      date: '2024-03-07',
-    };
+    });
     const { getByText, container } = renderWithReduxAndRouter(
       <FirstPartyRequestPage {...defaultProps} item={item} />,
       { initialState },
@@ -123,21 +124,17 @@ describe('<FirstPartyRequestPage>', () => {
   });
 
   it('should render updated request language when the tracked item is a sensitive item', () => {
-    const item = {
-      closedDate: null,
+    const item = createTrackedItem({
+      id: 467558,
       description: 'old description',
       friendlyName: 'Friendly sensitive item name',
       displayName: 'ASB - tell us where, when, how exposed',
-      id: 467558,
       overdue: true,
-      receivedDate: null,
       requestedDate: '2024-03-25',
-      status: 'NEEDED_FROM_YOU',
       suspenseDate: nineMonthsAgoSuspenseDate,
       canUploadFile: false,
-      documents: [],
       date: '2024-03-21',
-    };
+    });
     const { getByText } = renderWithReduxAndRouter(
       <FirstPartyRequestPage {...defaultProps} item={item} />,
       { initialState },
@@ -151,21 +148,13 @@ describe('<FirstPartyRequestPage>', () => {
   });
 
   it('should display past due alert when suspense date is in the past', () => {
-    const item = {
-      closedDate: null,
+    const item = createTrackedItem({
+      id: 467558,
       description: 'Buddy statement text',
       displayName: 'Submit buddy statement(s)',
-      id: 467558,
       overdue: true,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_YOU',
       suspenseDate: nineMonthsAgoSuspenseDate,
-      uploadsAllowed: true,
-      canUploadFile: true,
-      documents: [],
-      date: '2024-03-07',
-    };
+    });
     const { getByText, container } = renderWithReduxAndRouter(
       <FirstPartyRequestPage {...defaultProps} item={item} />,
       { initialState },
@@ -182,21 +171,13 @@ describe('<FirstPartyRequestPage>', () => {
   });
 
   it('should display explanation text when suspense date is in the future', () => {
-    const item = {
-      closedDate: null,
+    const item = createTrackedItem({
+      id: 467558,
       description: 'Buddy statement text',
       displayName: 'Submit buddy statement(s)',
-      id: 467558,
       overdue: true,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_YOU',
       suspenseDate: fiveMonthsFromNowSuspenseDate,
-      uploadsAllowed: true,
-      canUploadFile: true,
-      documents: [],
-      date: '2024-03-07',
-    };
+    });
     const { getByText, container } = renderWithReduxAndRouter(
       <FirstPartyRequestPage {...defaultProps} item={item} />,
       { initialState },
@@ -209,21 +190,10 @@ describe('<FirstPartyRequestPage>', () => {
   });
 
   describe('Type 1 error alerts', () => {
-    const trackedItem = {
-      closedDate: null,
+    const trackedItem = createTrackedItem({
       description: 'desc',
       displayName: 'Submit buddy statement(s)',
-      id: 1,
-      overdue: false,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_YOU',
-      suspenseDate: fiveMonthsFromNowSuspenseDate,
-      uploadsAllowed: true,
-      canUploadFile: true,
-      documents: [],
-      date: '2024-03-07',
-    };
+    });
 
     context('when cst_show_document_upload_status is disabled', () => {
       it('should not render unknown error alert', () => {
@@ -504,7 +474,7 @@ describe('<FirstPartyRequestPage>', () => {
         expectedSubheaderPattern: /Respond by/,
         expectedSubheaderExcludes: 'Unknown Request Type',
         expectedDescriptionText:
-          'we\u2019re unable to provide more information about the request',
+          'we’re unable to provide more information about the request',
         expectedNextStepsTestId: 'next-steps-in-claim-letter',
         showsAddFilesForm: true,
         showsPastDueAlert: false,
@@ -525,7 +495,7 @@ describe('<FirstPartyRequestPage>', () => {
         expectedHeader: 'Request for evidence',
         expectedSubheaderPattern: /Respond by .* for: Generic Request No Override/,
         expectedDescriptionText:
-          'we\u2019re unable to provide more information about the request',
+          'we’re unable to provide more information about the request',
         expectedNextStepsTestId: 'next-steps-in-claim-letter',
         showsAddFilesForm: true,
         showsPastDueAlert: false,

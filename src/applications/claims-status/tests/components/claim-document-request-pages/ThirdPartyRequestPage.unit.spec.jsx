@@ -36,22 +36,30 @@ describe('<ThirdPartyRequestPage>', () => {
     uploading: false,
   };
 
+  const createTrackedItem = (overrides = {}) => ({
+    id: 1,
+    closedDate: null,
+    description: null,
+    displayName: 'Third party display name',
+    overdue: false,
+    receivedDate: null,
+    requestedDate: '2024-03-07',
+    status: 'NEEDED_FROM_OTHERS',
+    suspenseDate: fiveMonthsFromNowSuspenseDate,
+    uploadsAllowed: true,
+    canUploadFile: true,
+    documents: [],
+    date: '2024-03-07',
+    ...overrides,
+  });
+
   it('should render updated default UI when status is NEEDED_FROM_OTHERS', () => {
-    const item = {
-      closedDate: null,
-      description: 'Third party description',
-      displayName: 'Third party display name',
+    const item = createTrackedItem({
       id: 467558,
+      description: 'Third party description',
       overdue: true,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_OTHERS',
       suspenseDate: nineMonthsAgoSuspenseDate,
-      uploadsAllowed: true,
-      canUploadFile: true,
-      documents: [],
-      date: '2024-03-07',
-    };
+    });
     const { getByText, container } = renderWithReduxAndRouter(
       <ThirdPartyRequestPage {...defaultProps} item={item} />,
       { initialState },
@@ -77,22 +85,14 @@ describe('<ThirdPartyRequestPage>', () => {
   });
 
   it('should render updated RV1 reserve records content', () => {
-    const item = {
-      closedDate: null,
+    const item = createTrackedItem({
+      id: 467558,
       description: 'old description',
       friendlyName: 'Friendly RV1 name',
       displayName: 'RV1 - Reserve Records Request',
-      id: 467558,
       overdue: true,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_OTHERS',
       suspenseDate: nineMonthsAgoSuspenseDate,
-      uploadsAllowed: true,
-      canUploadFile: true,
-      documents: [],
-      date: '2024-03-07',
-    };
+    });
     const { getByText } = renderWithReduxAndRouter(
       <ThirdPartyRequestPage {...defaultProps} item={item} />,
       { initialState },
@@ -107,21 +107,17 @@ describe('<ThirdPartyRequestPage>', () => {
   });
 
   it('should render updated request language when the tracked item is a DBQ', () => {
-    const item = {
-      closedDate: null,
+    const item = createTrackedItem({
+      id: 467558,
       description: 'old description',
       friendlyName: 'Friendly DBQ name',
       displayName: 'DBQ AUDIO Hearing Loss and Tinnitus',
-      id: 467558,
       overdue: true,
-      receivedDate: null,
       requestedDate: '2024-03-25',
-      status: 'NEEDED_FROM_OTHERS',
       suspenseDate: nineMonthsAgoSuspenseDate,
       canUploadFile: false,
-      documents: [],
       date: '2024-03-21',
-    };
+    });
     const { getByText } = renderWithReduxAndRouter(
       <ThirdPartyRequestPage {...defaultProps} item={item} />,
       { initialState },
@@ -134,21 +130,10 @@ describe('<ThirdPartyRequestPage>', () => {
   });
 
   describe('Type 1 error alerts', () => {
-    const trackedItem = {
-      closedDate: null,
+    const trackedItem = createTrackedItem({
       description: 'desc',
       displayName: 'Submit buddy statement(s)',
-      id: 1,
-      overdue: false,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_OTHERS',
-      suspenseDate: fiveMonthsFromNowSuspenseDate,
-      uploadsAllowed: true,
-      canUploadFile: true,
-      documents: [],
-      date: '2024-03-07',
-    };
+    });
 
     context('when cst_show_document_upload_status is disabled', () => {
       it('should not render unknown error alert', () => {
