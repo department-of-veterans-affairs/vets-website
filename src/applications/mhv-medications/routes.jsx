@@ -9,6 +9,7 @@ import manifest from './manifest.json';
 import AppProviders from './containers/AppProviders';
 import App from './containers/App';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
+import { selectMedicationsManagementImprovementsFlag } from './util/selectors';
 // import { allergiesLoader } from './loaders/allergiesLoader';
 // Disabling loaders temporarily while rolling out Oracle Health Pilot
 // TODO: When the pilot is complete, re-enable loaders
@@ -23,6 +24,9 @@ const PrescriptionDetails = lazyWithRetry(() =>
 );
 const PrescriptionDetailsDocumentation = lazyWithRetry(() =>
   import('./containers/PrescriptionDetailsDocumentation'),
+);
+const PrescriptionsInProgress = lazyWithRetry(() =>
+  import('./containers/PrescriptionsInProgress'),
 );
 
 // Loading component to display while lazy-loaded components are being fetched
@@ -63,6 +67,25 @@ RouteWrapper.propTypes = {
   children: PropTypes.node,
 };
 
+const FeatureFlaggedRoute = ({ Component, selector }) => {
+  const isEnabled = useSelector(selector);
+
+  if (!isEnabled) {
+    return <MhvPageNotFound />;
+  }
+
+  return (
+    <RouteWrapper>
+      <Component />
+    </RouteWrapper>
+  );
+};
+
+FeatureFlaggedRoute.propTypes = {
+  Component: PropTypes.elementType.isRequired,
+  selector: PropTypes.func.isRequired,
+};
+
 const routes = [
   {
     path: 'refill',
@@ -72,6 +95,16 @@ const routes = [
   {
     path: '/',
     element: <RouteWrapper Component={Prescriptions} />,
+    // loader: prescriptionsLoader,
+  },
+  {
+    path: 'in-progress',
+    element: (
+      <FeatureFlaggedRoute
+        Component={PrescriptionsInProgress}
+        selector={selectMedicationsManagementImprovementsFlag}
+      />
+    ),
     // loader: prescriptionsLoader,
   },
   {

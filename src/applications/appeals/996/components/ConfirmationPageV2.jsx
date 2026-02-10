@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
+import { SubmissionAlert } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { scrollTo } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
-
 import { selectProfile } from 'platform/user/selectors';
-
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import {
   informalConferenceLabel,
   informalConferenceLabels,
@@ -25,7 +24,6 @@ import {
 } from '../content/InformalConferenceRep';
 import { CONFERENCE_TIMES_V2_5 } from '../constants';
 import { formTitle } from '../content/title';
-
 import {
   chapterHeaderClass,
   ConfirmationSummary,
@@ -35,11 +33,15 @@ import { ConfirmationAlert } from '../../shared/components/ConfirmationAlert';
 import { ConfirmationTitle } from '../../shared/components/ConfirmationTitle';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
-
 import { getReadableDate } from '../../shared/utils/dates';
 
 export const ConfirmationPageV2 = () => {
   resetStoredSubTask();
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const myVADisplayEnabled = useToggleValue(
+    TOGGLE_NAMES.decisionReviewsMyVADisplay,
+  );
 
   const alertRef = useRef(null);
 
@@ -84,17 +86,33 @@ export const ConfirmationPageV2 = () => {
   return (
     <>
       <ConfirmationTitle pageTitle={formTitle} />
-      <ConfirmationAlert alertTitle="Your Higher Level Review request submission is in progress">
-        <>
-          <p className="vads-u-margin-top--0">
-            You submitted the request on {submitDate}. It can take a few days
-            for us to receive your request. We’ll send you a confirmation letter
-            once we’ve processed your request.
-          </p>
-          {hasConference && <p>{conferenceMessage}</p>}
-        </>
-      </ConfirmationAlert>
-
+      {myVADisplayEnabled && (
+        <SubmissionAlert
+          title="Your Higher Level Review request submission is in progress"
+          content={
+            <>
+              <p className="vads-u-margin-top--0">
+                You submitted the request on {submitDate}. It can take a few
+                days for us to receive your request. We’ll send you a
+                confirmation letter once we’ve processed your request.
+              </p>
+              {hasConference && <p>{conferenceMessage}</p>}
+            </>
+          }
+        />
+      )}
+      {!myVADisplayEnabled && (
+        <ConfirmationAlert alertTitle="Your Higher Level Review request submission is in progress">
+          <>
+            <p className="vads-u-margin-top--0">
+              You submitted the request on {submitDate}. It can take a few days
+              for us to receive your request. We’ll send you a confirmation
+              letter once we’ve processed your request.
+            </p>
+            {hasConference && <p>{conferenceMessage}</p>}
+          </>
+        </ConfirmationAlert>
+      )}
       <ConfirmationSummary
         name="Higher-Level Review"
         downloadUrl={downloadUrl}

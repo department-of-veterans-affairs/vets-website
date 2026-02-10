@@ -50,8 +50,8 @@ describe('10-7959f-2 IntroductionPage', () => {
       </Provider>,
     );
     const selectors = () => ({
-      directDepositAlert: container.querySelector(
-        '[data-testid="fmp-direct-deposit-alert"]',
+      directDepositTitle: container.querySelector(
+        '[data-testid="fmp-direct-deposit-title"]',
       ),
       identityAlert: container.querySelector(
         'va-alert-sign-in[variant="verifyIdMe"]',
@@ -69,17 +69,17 @@ describe('10-7959f-2 IntroductionPage', () => {
     expect(selectors().identityAlert).to.exist;
   });
 
-  it('should render start button & direct deposit alert when the user is LOA3 status', () => {
+  it('should render start button & direct deposit information when the user is LOA3 status', () => {
     const { selectors } = subject();
-    const { directDepositAlert, startBtn } = selectors();
-    expect(directDepositAlert).to.exist;
+    const { directDepositTitle, startBtn } = selectors();
+    expect(directDepositTitle).to.exist;
     expect(startBtn).to.exist;
   });
 
   it('should render login alert when the user is logged out', () => {
     const { selectors } = subject({ loggedIn: false, loaState: null });
-    const { directDepositAlert, signInAlert } = selectors();
-    expect(directDepositAlert).to.not.exist;
+    const { directDepositTitle, signInAlert } = selectors();
+    expect(directDepositTitle).to.not.exist;
     expect(signInAlert).to.exist;
   });
 });
