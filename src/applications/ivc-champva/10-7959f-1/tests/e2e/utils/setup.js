@@ -15,7 +15,7 @@ export const setupBasicTest = (props = {}) => {
 
   const { features = mockFeatures } = props;
 
-  cy.intercept('GET', APIs.features, features).as('mockFeatures');
+  cy.intercept('GET', APIs.features, features);
   cy.intercept('GET', APIs.maintenance, mockMaintenanceWindows);
   cy.intercept('GET', APIs.vamc, mockVamc);
   cy.intercept('POST', APIs.submit, mockSubmission);
