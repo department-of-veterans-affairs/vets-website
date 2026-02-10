@@ -27,12 +27,6 @@ import {
 import { DATE_FORMATS, TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import { onCalendarChange, startDirectScheduleFlow } from '../../redux/actions';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
-
 describe('VAOS Page: ReviewPage direct scheduling', () => {
   let storeState;
   let store;
@@ -45,7 +39,6 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     });
     start = new Date();
     storeState = {
-      ...initialState,
       newAppointment: {
         pages: {},
         data: {
