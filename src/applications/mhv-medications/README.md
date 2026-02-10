@@ -80,8 +80,8 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 Install the required Node.js version:
 
 ```bash
-nvm install 14.15.0
-nvm alias default 14.15.0
+nvm install 22.22.0
+nvm alias default 22.22.0
 ```
 
 ---
@@ -97,7 +97,7 @@ npm install -g yarn@1.19.1
 Verify installed versions:
 
 ```bash
-node --version    # Should output: v14.15.0
+node --version    # Should output: v22.22.0
 yarn --version    # Should output: 1.19.1
 ```
 
