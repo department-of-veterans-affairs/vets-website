@@ -9,8 +9,8 @@ class BaseDetailsPage {
       .should('be.visible')
       .and('not.be.disabled')
       .click();
-    // Wait for menu to actually open
-    cy.get('[data-testid="print-download-menu"]').should(
+    // Wait for menu to actually open (longer timeout for CI)
+    cy.get('[data-testid="print-download-menu"]', { timeout: 10000 }).should(
       'have.attr',
       'aria-expanded',
       'true',
