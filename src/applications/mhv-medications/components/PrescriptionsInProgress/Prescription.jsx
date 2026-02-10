@@ -4,9 +4,24 @@ import { Link } from 'react-router-dom-v5-compat';
 
 import { dateFormat } from '../../util/helpers';
 
-const Prescription = ({ prescriptionId, prescriptionName, lastUpdated }) => {
-  // TODO update this to return different labels based on status
-  const getSubtext = () => `Request submitted: ${dateFormat(lastUpdated)}`;
+const Prescription = ({
+  prescriptionId,
+  prescriptionName,
+  lastUpdated,
+  status,
+}) => {
+  const getSubtext = () => {
+    switch (status) {
+      case 'in-progress':
+        return `Expected fill date: ${dateFormat(lastUpdated)}`;
+      case 'shipped':
+        // TODO: Add in tracking link
+        return `Date shipped: ${dateFormat(lastUpdated)}`;
+      case 'submitted':
+      default:
+        return `Request submitted: ${dateFormat(lastUpdated)}`;
+    }
+  };
 
   return (
     <div>
@@ -26,6 +41,7 @@ Prescription.propTypes = {
   lastUpdated: PropTypes.string.isRequired,
   prescriptionId: PropTypes.number.isRequired,
   prescriptionName: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
 };
 
 export default Prescription;

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import pluralize from '../../util/helpers/pluralize';
+import Prescription from './Prescription';
 
 const SubmittedStep = ({ prescriptions }) => {
   const descriptionText = prescriptions.length
@@ -45,7 +46,15 @@ const InProgressStep = ({ prescriptions }) => {
   return (
     <va-process-list-item header="Fill in progress" level={2}>
       <p>{descriptionText}</p>
-      {/* TODO map prescriptions to Prescription components */}
+      {prescriptions.map(rx => (
+        <Prescription
+          key={rx.prescriptionId}
+          prescriptionId={rx.prescriptionId}
+          prescriptionName={rx.prescriptionName}
+          lastUpdated={rx.lastUpdated}
+          status={rx.status}
+        />
+      ))}
     </va-process-list-item>
   );
 };
