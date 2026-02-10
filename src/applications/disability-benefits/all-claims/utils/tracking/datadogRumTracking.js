@@ -1,10 +1,9 @@
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 import { datadogRum } from '@datadog/browser-rum';
 import {
-  SIDENAV_COMPONENT_ID,
-  TRACKING_BACK_BUTTON_CLICKS,
-  TRACKING_CONTINUE_BUTTON_CLICKS,
-  TRACKING_FORM_RESUMPTION,
+  TRACKING_526EZ_BACK_BUTTON_CLICKS,
+  TRACKING_526EZ_CONTINUE_BUTTON_CLICKS,
+  TRACKING_526EZ_FORM_RESUMPTION,
 } from '../../constants';
 
 /**
@@ -37,11 +36,14 @@ const trackAction = (actionName, properties) => {
 export const trackBackButtonClick = ({ featureToggles, pathname }) => {
   // Track back button clicks in sessionStorage
   const currentCount = parseInt(
-    sessionStorage.getItem(TRACKING_BACK_BUTTON_CLICKS) || '0',
+    sessionStorage.getItem(TRACKING_526EZ_BACK_BUTTON_CLICKS) || '0',
     10,
   );
   const newCount = currentCount + 1;
-  sessionStorage.setItem(TRACKING_BACK_BUTTON_CLICKS, newCount.toString());
+  sessionStorage.setItem(
+    TRACKING_526EZ_BACK_BUTTON_CLICKS,
+    newCount.toString(),
+  );
 
   // Prepare DataDog action properties
   const properties = {
@@ -54,9 +56,6 @@ export const trackBackButtonClick = ({ featureToggles, pathname }) => {
   if (featureToggles?.sidenav526ezEnabled !== undefined) {
     properties.sidenav526ezEnabled = featureToggles.sidenav526ezEnabled;
   }
-
-  // Track if side nav component is actually rendered on page (accounts for gradual rollout)
-  properties.sidenavIsActive = !!document.getElementById(SIDENAV_COMPONENT_ID);
 
   trackAction('Form navigation - Back button clicked', properties);
 };
@@ -81,11 +80,8 @@ export const trackSaveFormClick = ({ featureToggles, pathname }) => {
     properties.sidenav526ezEnabled = featureToggles.sidenav526ezEnabled;
   }
 
-  // Track if side nav component is actually rendered on page (accounts for gradual rollout)
-  properties.sidenavIsActive = !!document.getElementById(SIDENAV_COMPONENT_ID);
-
   // Clear form resumption tracking flag so if user resumes again in same session, it tracks
-  sessionStorage.removeItem(TRACKING_FORM_RESUMPTION);
+  sessionStorage.removeItem(TRACKING_526EZ_FORM_RESUMPTION);
 
   trackAction(
     'Form save in progress - Finish this application later clicked',
@@ -105,11 +101,14 @@ export const trackSaveFormClick = ({ featureToggles, pathname }) => {
 export const trackContinueButtonClick = ({ featureToggles, pathname }) => {
   // Track continue button clicks in sessionStorage
   const currentCount = parseInt(
-    sessionStorage.getItem(TRACKING_CONTINUE_BUTTON_CLICKS) || '0',
+    sessionStorage.getItem(TRACKING_526EZ_CONTINUE_BUTTON_CLICKS) || '0',
     10,
   );
   const newCount = currentCount + 1;
-  sessionStorage.setItem(TRACKING_CONTINUE_BUTTON_CLICKS, newCount.toString());
+  sessionStorage.setItem(
+    TRACKING_526EZ_CONTINUE_BUTTON_CLICKS,
+    newCount.toString(),
+  );
 
   // Prepare DataDog action properties
   const properties = {
@@ -122,9 +121,6 @@ export const trackContinueButtonClick = ({ featureToggles, pathname }) => {
   if (featureToggles?.sidenav526ezEnabled !== undefined) {
     properties.sidenav526ezEnabled = featureToggles.sidenav526ezEnabled;
   }
-
-  // Track if side nav component is actually rendered on page (accounts for gradual rollout)
-  properties.sidenavIsActive = !!document.getElementById(SIDENAV_COMPONENT_ID);
 
   trackAction('Form navigation - Continue button clicked', properties);
 };
@@ -147,9 +143,6 @@ export const trackFormStarted = ({ featureToggles, pathname }) => {
   if (featureToggles?.sidenav526ezEnabled !== undefined) {
     properties.sidenav526ezEnabled = featureToggles.sidenav526ezEnabled;
   }
-
-  // Track if side nav component is actually rendered on page (accounts for gradual rollout)
-  properties.sidenavIsActive = !!document.getElementById(SIDENAV_COMPONENT_ID);
 
   trackAction(
     'Form started - User began form from introduction page',
@@ -175,9 +168,6 @@ export const trackFormResumption = ({ featureToggles, returnUrl }) => {
   if (featureToggles?.sidenav526ezEnabled !== undefined) {
     properties.sidenav526ezEnabled = featureToggles.sidenav526ezEnabled;
   }
-
-  // Track if side nav component is actually rendered on page (accounts for gradual rollout)
-  properties.sidenavIsActive = !!document.getElementById(SIDENAV_COMPONENT_ID);
 
   trackAction('Form resumption - Saved form loaded', properties);
 };
@@ -217,9 +207,6 @@ export const trackFormSubmitted = ({ featureToggles, pathname }) => {
   if (featureToggles?.sidenav526ezEnabled !== undefined) {
     properties.sidenav526ezEnabled = featureToggles.sidenav526ezEnabled;
   }
-
-  // Track if side nav component is actually rendered on page (accounts for gradual rollout)
-  properties.sidenavIsActive = !!document.getElementById(SIDENAV_COMPONENT_ID);
 
   properties.sourcePath = pathname;
 
