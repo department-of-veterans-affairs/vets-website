@@ -350,6 +350,9 @@ describe('Medication card component', () => {
   });
 
   describe('Pending medication status handling', () => {
+    // V1 pending statuses only apply when V2 mapping is NOT enabled
+    const v1FlagCombinations = FLAG_COMBINATIONS.filter(({ useV2 }) => !useV2);
+
     const pendingStatuses = [
       {
         dispStatus: 'NewOrder',
@@ -359,7 +362,7 @@ describe('Medication card component', () => {
     ];
 
     pendingStatuses.forEach(({ dispStatus, expectedText }) => {
-      FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, desc }) => {
+      v1FlagCombinations.forEach(({ cernerPilot, v2StatusMapping, desc }) => {
         it(`shows pending ${dispStatus} text when ${desc}`, () => {
           const rx = {
             ...prescriptionsListItem,
@@ -370,6 +373,61 @@ describe('Medication card component', () => {
           expect(screen.getByText(expectedText)).to.exist;
         });
       });
+    });
+  });
+
+  describe('V2 pending medication status handling (when both flags are enabled)', () => {
+    it('shows pending text when dispStatus is In progress and prescriptionSource is PD', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'PD',
+        dispStatus: 'In progress',
+      };
+      const screen = setupWithFlags(rx, true, true);
+      // When V2 is enabled, 'In progress' maps to pending status
+      expect(screen.getByTestId('pending-renewal-rx')).to.exist;
+    });
+
+    it('does not show pending text when prescriptionSource is not PD with V2 In progress status', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'VA',
+        dispStatus: 'In progress',
+      };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen.queryByTestId('pending-renewal-rx')).to.not.exist;
+    });
+
+    it('does not show pending text when dispStatus is not In progress with V2 enabled', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'PD',
+        dispStatus: 'Active',
+      };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen.queryByTestId('pending-renewal-rx')).to.not.exist;
+    });
+
+    it('does not show V2 pending text when only cernerPilot flag is enabled', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'PD',
+        dispStatus: 'In progress',
+      };
+      const screen = setupWithFlags(rx, true, false);
+      // V2 status mapping requires both flags; with only cernerPilot, 'In progress' is not recognized
+      expect(screen.queryByTestId('pending-renewal-rx')).to.not.exist;
+    });
+
+    it('does not show V2 pending text when only v2StatusMapping flag is enabled', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        prescriptionSource: 'PD',
+        dispStatus: 'In progress',
+      };
+      const screen = setupWithFlags(rx, false, true);
+      // V2 status mapping requires both flags
+      expect(screen.queryByTestId('pending-renewal-rx')).to.not.exist;
     });
   });
 
