@@ -1,8 +1,10 @@
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
-import { cleanup } from '@testing-library/react';
+import { cleanup, waitFor } from '@testing-library/react';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { Toggler } from '~/platform/utilities/feature-toggles';
+import * as mfaImport from '~/platform/user/authentication/utilities';
 import AccountSecurityContent from '../../../components/account-security/AccountSecurityContent';
 import {
   createCustomProfileState,
@@ -11,7 +13,14 @@ import {
 } from '../../unit-test-helpers';
 
 describe('AccountSecurityContent component', () => {
-  afterEach(cleanup);
+  beforeEach(() => {
+    sinon.stub(mfaImport, 'mfa').callsFake(() => {});
+  });
+
+  afterEach(() => {
+    cleanup();
+    mfaImport.mfa?.restore();
+  });
 
   it('renders without crashing', () => {
     const { getByText } = renderWithProfileReducersAndRouter(
@@ -143,5 +152,61 @@ describe('AccountSecurityContent component', () => {
     );
 
     expect(getByTestId('mpi-connection-error')).to.exist;
+  });
+
+  it("renders <SignInServiceUpdateLink /> when identity isn't verified and profile2 is enabled", () => {
+    const { getByText } = renderWithProfileReducersAndRouter(
+      <AccountSecurityContent />,
+      {
+        initialState: {
+          ...createCustomProfileState({
+            user: {
+              profile: {
+                loa: { current: 1 },
+              },
+            },
+          }),
+          ...createFeatureTogglesState({
+            [Toggler.TOGGLE_NAMES.profile2Enabled]: true,
+          }),
+        },
+      },
+    );
+
+    expect(getByText('Update your sign-in information on the ID.me website')).to
+      .exist;
+  });
+
+  it('renders 2-factor authentication notice when multifactor is false', async () => {
+    const view = renderWithProfileReducersAndRouter(
+      <AccountSecurityContent />,
+      {
+        initialState: {
+          ...createCustomProfileState({
+            user: {
+              profile: {
+                loa: { current: 3 },
+                multifactor: false,
+              },
+            },
+          }),
+          ...createFeatureTogglesState({
+            [Toggler.TOGGLE_NAMES.profile2Enabled]: true,
+          }),
+        },
+      },
+    );
+
+    expect(
+      view.getByText(/Add an extra layer of protection called multifactor/),
+    ).to.exist;
+    const button = view.getByRole('button', {
+      text: /Sign in again through ID\.me to get started/,
+    });
+    expect(button).to.exist;
+    button.click();
+    await waitFor(() => {
+      expect(mfaImport.mfa.called).to.be.true;
+    });
   });
 });
