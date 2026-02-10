@@ -8,6 +8,8 @@ import useServiceType, {
 } from '../../../hooks/useServiceType';
 import Autosuggest from '../autosuggest';
 
+const MIN_SEARCH_CHARS = 3;
+
 const VAMCServiceAutosuggest = ({
   onChange,
   searchInitiated,
@@ -188,6 +190,9 @@ const VAMCServiceAutosuggest = ({
       noItemsMessage="No results found."
       onClearClick={handleClearClick}
       onInputValueChange={handleInputValueChange}
+      showOptionsRestriction={
+        !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
+      }
       options={options}
       showDownCaret
       showError={false}
