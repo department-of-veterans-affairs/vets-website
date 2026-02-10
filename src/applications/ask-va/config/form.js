@@ -11,7 +11,7 @@ import manifest from '../manifest.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-import BusinessPersonal from '../containers/BusinessPersonal';
+import BusinessPersonal from '../containers/BusinessPersonalStandalone';
 
 // Category and Topic pages
 
@@ -63,12 +63,14 @@ import {
 } from './helpers';
 import YourQuestionBPage from '../containers/YourQuestionB';
 import prefillTransformer from './prefill-transformer';
+import BusinessPersonalStandalone from '../containers/BusinessPersonalStandalone';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   trackingPrefix: 'ask-the-va-',
   introduction: IntroductionPage,
+  businessPersonal: BusinessPersonal,
   confirmation: ConfirmationPage,
   formId: '0873',
   customText: {
@@ -115,18 +117,6 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {},
-          },
-        },
-        businessPersonal: {
-          path: 'business-or-personal',
-          title: CHAPTER_2.PAGE_3.TITLE,
-          CustomPage: BusinessPersonal,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: {
-            // This does still need to be here or it'll throw an error
-            type: 'object',
-            properties: {}, // The properties can be empty
           },
         },
         yourQuestionB: {
