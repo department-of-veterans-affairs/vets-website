@@ -15,7 +15,7 @@ export const OracleHealthT3Alert = ({
 }) => {
   const config = CernerAlertContent.MEDICATIONS;
   const migration = migratingFacilities?.[0];
-  
+
   // Don't render if no migration data or no blocked prescriptions
   if (!migration?.phases || !blockedPrescriptions?.length) {
     return null;
@@ -67,7 +67,6 @@ OracleHealthT3Alert.propTypes = {
       prescriptionName: PropTypes.string,
     }),
   ).isRequired,
-  hasRefillable: PropTypes.bool,
   migratingFacilities: PropTypes.arrayOf(
     PropTypes.shape({
       migrationDate: PropTypes.string,
@@ -90,4 +89,5 @@ OracleHealthT3Alert.propTypes = {
     }),
   ).isRequired,
   className: PropTypes.string,
+  hasRefillable: PropTypes.bool,
 };

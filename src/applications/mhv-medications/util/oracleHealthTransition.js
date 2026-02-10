@@ -202,7 +202,6 @@ export const filterPrescriptionsByTransition = (
   } catch (error) {
     // On error, fail safe by returning all prescriptions as available
     // This prevents blocking legitimate refills due to filtering errors
-    console.error('Error filtering prescriptions by transition:', error);
     return { available: prescriptions || [], blocked: [] };
   }
 };
