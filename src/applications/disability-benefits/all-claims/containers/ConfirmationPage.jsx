@@ -11,7 +11,6 @@ import {
   SAVED_SEPARATION_DATE,
   TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
   TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
-  TRACKING_526EZ_SIDENAV_FORM_RESUMPTION,
   TRACKING_526EZ_SIDENAV_FORM_START,
 } from '../constants';
 import {
@@ -95,7 +94,6 @@ export default class ConfirmationPage extends React.Component {
     // Clear tracking session storage
     sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS);
     sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS);
-    sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_FORM_RESUMPTION);
     sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_FORM_START);
 
     return this.ConfirmationPageContent(this.props);

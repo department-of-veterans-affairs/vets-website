@@ -7,7 +7,8 @@ import { focusElement } from 'platform/utilities/ui';
 import { dismissITFMessage as dismissITFMessageAction } from '../actions';
 import { trackFormResumption } from '../utils/tracking/datadogRumTracking';
 import {
-  TRACKING_526EZ_SIDENAV_FORM_RESUMPTION,
+  TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
+  TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
   DISABILITY_526_V2_ROOT_URL,
 } from '../constants';
 
@@ -23,24 +24,14 @@ export class ITFBanner extends React.Component {
     // Track form resumption when ITF banner is dismissed
     if (!prevProps.messageDismissed && this.props.messageDismissed) {
       try {
-        const alreadyTracked =
-          sessionStorage.getItem(TRACKING_526EZ_SIDENAV_FORM_RESUMPTION) ===
-          'true';
-
-        if (!alreadyTracked) {
-          trackFormResumption({
-            featureToggles: this.props.featureToggles || {},
-            returnUrl: window.location.pathname,
-          });
-          sessionStorage.setItem(
-            TRACKING_526EZ_SIDENAV_FORM_RESUMPTION,
-            'true',
-          );
-          sessionStorage.setItem(
-            TRACKING_526EZ_SIDENAV_FORM_RESUMPTION,
-            'true',
-          );
-        }
+        trackFormResumption({
+          featureToggles: this.props.featureToggles || {},
+          returnUrl: window.location.pathname,
+        });
+        sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS);
+        sessionStorage.removeItem(
+          TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
+        );
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error('[Form Resumption Tracking Error]', error);

@@ -6,10 +6,7 @@ import {
   trackSaveFormClick,
   trackFormStarted,
 } from '../../utils/tracking/datadogRumTracking';
-import {
-  TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
-  TRACKING_526EZ_SIDENAV_FORM_RESUMPTION,
-} from '../../constants';
+import { TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS } from '../../constants';
 
 describe('datadogRumTracking', () => {
   let addActionStub;
@@ -46,17 +43,11 @@ describe('datadogRumTracking', () => {
     });
   });
 
-  it('clears resumption flag and tracks save form click', () => {
-    sessionStorage.setItem(TRACKING_526EZ_SIDENAV_FORM_RESUMPTION, 'true');
+  it('tracks save form click', () => {
     trackSaveFormClick({
       featureToggles: { sidenav526ezEnabled: false },
       pathname: '/save-path',
     });
-
-    expect(
-      sessionStorage.getItem(TRACKING_526EZ_SIDENAV_FORM_RESUMPTION),
-    ).to.equal(null);
-    expect(addActionStub.calledOnce).to.be.true;
 
     const [actionName, properties] = addActionStub.firstCall.args;
     expect(actionName).to.equal(
@@ -68,7 +59,7 @@ describe('datadogRumTracking', () => {
     });
   });
 
-  it('swallows errors from datadogRum.addAction', () => {
+  it('does not throw when datadogRum.addAction fails', () => {
     addActionStub.restore();
     addActionStub = sinon
       .stub(datadogBrowserRum.datadogRum, 'addAction')

@@ -3,7 +3,6 @@ import { datadogRum } from '@datadog/browser-rum';
 import {
   TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
   TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
-  TRACKING_526EZ_SIDENAV_FORM_RESUMPTION,
 } from '../../constants';
 
 /**
@@ -79,9 +78,6 @@ export const trackSaveFormClick = ({ featureToggles, pathname }) => {
   if (featureToggles?.sidenav526ezEnabled !== undefined) {
     properties.sidenav526ezEnabled = featureToggles.sidenav526ezEnabled;
   }
-
-  // Clear form resumption tracking flag so if user resumes again in same session, it tracks
-  sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_FORM_RESUMPTION);
 
   trackAction(
     'Form save in progress - Finish this application later clicked',
