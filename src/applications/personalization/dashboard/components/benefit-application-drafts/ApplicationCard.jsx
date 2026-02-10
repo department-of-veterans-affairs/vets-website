@@ -28,7 +28,7 @@ const QuestionsContent = () => (
   <p className="vads-u-margin-bottom--0">
     If you have questions, call us at <va-telephone contact="8008271000" /> (
     <va-telephone contact="711" tty />
-    ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+    ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
   </p>
 );
 
@@ -67,7 +67,7 @@ const ActionNeededContent = () => (
         We’re sorry. There was a problem with our system. We couldn’t process
         this form. Call us at <va-telephone contact="8008271000" /> (
         <va-telephone contact="711" tty />
-        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </va-alert>
   </div>
