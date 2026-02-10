@@ -157,6 +157,32 @@ describe('Locator url and parameters builder', () => {
     );
   });
 
+  it('should encode special characters in request query string', () => {
+    const { fetchOtherReps } = getEndpointOptions();
+    const { requestUrl } = getApi(fetchOtherReps);
+
+    const params = resolveParamsWithUrl({
+      address: '1 Test Parkway Apt #20, Chicago, Illinois, 60605',
+      lat,
+      long,
+      name: 'Test ?&=# Test',
+      page: 1,
+      perPage: 10,
+      sort,
+      distance,
+    });
+
+    const test = `${requestUrl}${params}`;
+    expect(test).to.eql(
+      `${
+        environment.API_URL
+      }/services/veteran/v0/other_accredited_representatives` +
+        `?address=1%20Test%20Parkway%20Apt%20%2320%2C%20Chicago%2C%20Illinois%2C%2060605` +
+        `&lat=40.17887&long=-99.27246&name=Test%20%3F%26%3D%23%20Test&page=1&per_page=10` +
+        `&sort=distance_asc&type=veteran_service_officer&distance=100`,
+    );
+  });
+
   it('uses new accredited_individuals endpoints when flag is ON', () => {
     setRepSearchEndpointsFromFlag(true); // new endpoints
     const { fetchVSOReps, fetchOtherReps } = getEndpointOptions();
