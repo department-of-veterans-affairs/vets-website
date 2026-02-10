@@ -22,7 +22,7 @@ module.exports = [
   },
   { name: 'vaOnlineSchedulingListViewClinicInfo', value: true },
   { name: 'vaOnlineSchedulingAddOhAvs', value: true },
-  { name: 'vaOnlineSchedulingImmediateCareAlert', value: false },
+  { name: 'vaOnlineSchedulingImmediateCareAlert', value: true },
   { name: 'vaOnlineSchedulingRemoveFacilityConfigCheck', value: true },
   { name: 'vaOnlineSchedulingUseBrowserTimezone', value: true },
   { name: 'vaOnlineSchedulingUseVpg', value: true },
