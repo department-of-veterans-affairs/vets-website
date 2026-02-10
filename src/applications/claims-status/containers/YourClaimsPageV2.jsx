@@ -45,16 +45,14 @@ import ClaimLetterSection from '../components/claim-letters/ClaimLetterSection';
 import { Type2FailureAnalyticsProvider } from '../contexts/Type2FailureAnalyticsContext';
 
 /**
- * Determines if a claim, appeal, or STEM claim is closed.
+ * Determines if a claim or STEM claim is closed.
  * - Benefits claims: closed when status is 'COMPLETE'
  * - STEM claims: always closed (denied)
- * - Appeals: closed when active === false
  */
 function isItemClosed(item) {
   return (
     item.attributes.status === 'COMPLETE' ||
-    item.attributes.claimType === 'STEM' ||
-    item.attributes.active === false
+    item.attributes.claimType === 'STEM'
   );
 }
 
@@ -66,7 +64,9 @@ class YourClaimsPageV2 extends React.Component {
 
     this.state = {
       page: YourClaimsPageV2.getPageFromURL(props),
-      claimsFilter: sessionStorage.getItem('claimsFilter') || 'all',
+      claimsFilter: props.cstClaimsListFilterEnabled
+        ? sessionStorage.getItem('claimsFilter') || 'all'
+        : 'all',
     };
   }
 
@@ -123,7 +123,7 @@ class YourClaimsPageV2 extends React.Component {
     const newURL = `${this.props.location.pathname}?page=${event.detail.page}`;
     this.props.navigate(newURL);
     this.setState({ page: event.detail.page });
-    // Move focus to "Showing X - Y of Z records..." for screenreaders
+    // Move focus to pagination info for screenreaders
     setPageFocus('#pagination-info');
   }
 
@@ -135,10 +135,10 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   getFilteredList() {
-    const { list } = this.props;
+    const { list, cstClaimsListFilterEnabled } = this.props;
     const { claimsFilter } = this.state;
 
-    if (claimsFilter === 'all') return list;
+    if (!cstClaimsListFilterEnabled || claimsFilter === 'all') return list;
 
     return list.filter(
       item =>
@@ -207,7 +207,7 @@ class YourClaimsPageV2 extends React.Component {
     const {
       appealsLoading,
       claimsLoading,
-      list,
+      cstClaimsListFilterEnabled,
       stemClaimsLoading,
     } = this.props;
 
@@ -217,7 +217,6 @@ class YourClaimsPageV2 extends React.Component {
     let pageInfo;
     const allRequestsLoaded =
       !claimsLoading && !appealsLoading && !stemClaimsLoading;
-    const emptyList = !(list && list.length);
     const emptyFilteredList = !(filteredList && filteredList.length);
     const { claimsFilter } = this.state;
     const filterLabel =
@@ -233,10 +232,17 @@ class YourClaimsPageV2 extends React.Component {
       const shouldPaginate = numPages > 1;
 
       const pageItems = getVisibleRows(filteredList, this.state.page);
-      const range = getPageRange(this.state.page, listLen);
-      const { end, start } = range;
-      const txt = `Showing ${start}-${end} of ${listLen} ${filterLabel}`;
-      pageInfo = <p id="pagination-info">{txt}</p>;
+
+      if (shouldPaginate) {
+        const range = getPageRange(this.state.page, listLen);
+        const { end, start } = range;
+
+        const txt = cstClaimsListFilterEnabled
+          ? `Showing ${start}-${end} of ${listLen} ${filterLabel}`
+          : `Showing ${start} \u2012 ${end} of ${listLen} events`;
+
+        pageInfo = <p id="pagination-info">{txt}</p>;
+      }
 
       content = (
         <Type2FailureAnalyticsProvider key={this.state.page}>
@@ -255,7 +261,11 @@ class YourClaimsPageV2 extends React.Component {
         </Type2FailureAnalyticsProvider>
       );
     } else {
-      content = <NoClaims recordType={filterLabel} />;
+      content = cstClaimsListFilterEnabled ? (
+        <NoClaims recordType={filterLabel} />
+      ) : (
+        <NoClaims />
+      );
     }
 
     return (
@@ -275,12 +285,29 @@ class YourClaimsPageV2 extends React.Component {
               Your claims, decision reviews, or appeals
             </h2>
             <div>{this.renderErrorMessages()}</div>
-            <div className="claims-filter-container vads-u-margin-y--2">
-              <ClaimsFilter
-                selected={this.state.claimsFilter}
-                onFilterChange={this.handleFilterChange}
-              />
-            </div>
+            {cstClaimsListFilterEnabled ? (
+              <div className="claims-filter-container vads-u-margin-y--2">
+                <ClaimsFilter
+                  selected={this.state.claimsFilter}
+                  onFilterChange={this.handleFilterChange}
+                />
+              </div>
+            ) : (
+              <div className="additional-info-loading-container">
+                <va-additional-info
+                  id="claims-combined"
+                  class="claims-combined"
+                  trigger="Find out why we sometimes combine claims"
+                >
+                  <div>
+                    If you turn in a new claim while we're reviewing another one
+                    from you, we'll add any new information to the original
+                    claim and close the new claim, with no action required from
+                    you.
+                  </div>
+                </va-additional-info>
+              </div>
+            )}
             {content}
             <ClaimLetterSection />
             <h2 id="what-if-i-dont-see-my-appeal">
@@ -308,6 +335,7 @@ YourClaimsPageV2.propTypes = {
   canAccessClaims: PropTypes.bool,
   claimsAvailable: PropTypes.string,
   claimsLoading: PropTypes.bool,
+  cstClaimsListFilterEnabled: PropTypes.bool,
   fullName: PropTypes.shape({}),
   getAppealsV2: PropTypes.func,
   getClaims: PropTypes.func,
@@ -333,6 +361,10 @@ function mapStateToProps(state) {
   const canAccessClaims = services.includes(backendServices.LIGHTHOUSE);
   const stemAutomatedDecision = toggleValues(state)[
     FEATURE_FLAG_NAMES.stemAutomatedDecision
+  ];
+
+  const cstClaimsListFilterEnabled = toggleValues(state)[
+    FEATURE_FLAG_NAMES.cstClaimsListFilter
   ];
 
   const stemClaims = stemAutomatedDecision ? claimsV2Root.stemClaims : [];
@@ -363,6 +395,7 @@ function mapStateToProps(state) {
     canAccessClaims,
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
+    cstClaimsListFilterEnabled,
     fullName: state.user.profile.userFullName,
     list: groupClaimsByDocsNeeded(sortedList),
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,

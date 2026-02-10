@@ -29,14 +29,25 @@ const DEFAULT_FEATURES = [
  *
  * @param {Object} options - Configuration options
  * @param {boolean} options.showDocumentUploadStatus - Toggle for document upload status feature
+ * @param {boolean} options.cstClaimsListFilter - Toggle for claims list filter feature
  */
-export const mockFeatureToggles = ({ showDocumentUploadStatus } = {}) => {
+export const mockFeatureToggles = ({
+  showDocumentUploadStatus,
+  cstClaimsListFilter,
+} = {}) => {
   const features = [...DEFAULT_FEATURES];
 
   if (showDocumentUploadStatus !== undefined) {
     features.push({
       name: 'cst_show_document_upload_status',
       value: showDocumentUploadStatus,
+    });
+  }
+
+  if (cstClaimsListFilter !== undefined) {
+    features.push({
+      name: 'cst_claims_list_filter',
+      value: cstClaimsListFilter,
     });
   }
 
