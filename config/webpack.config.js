@@ -363,10 +363,9 @@ module.exports = async (env = {}) => {
               loader: 'sass-loader',
               options: {
                 sourceMap: true,
-                // api: 'modern-compiler',
-                // implementation: require('sass-embedded'),
                 sassOptions: {
                   silenceDeprecations: [
+                    'legacy-js-api',
                     'import',
                     'if-function',
                     'slash-div',
