@@ -90,7 +90,7 @@ export default function prefillTransformer(pages, formData, metadata, state) {
           // spaces and collapse consecutive spaces. This prevents the most
           // common source of invalid prefilled data (extra spaces from backend
           // systems). Note: save-in-progress can also produce un-normalized
-          // data, which is handled by ValidatedReviewCardField + startInEdit.
+          // data, which is handled by ReviewCardField's startInEdit option.
           addressLine1: normalizeAddressLine(mailingAddress.addressLine1) || '',
           addressLine2: normalizeAddressLine(mailingAddress.addressLine2),
           addressLine3: normalizeAddressLine(mailingAddress.addressLine3),

@@ -772,10 +772,9 @@ describe('Disability benefits 526EZ contact information', () => {
       // and pattern against the normalized value — the same logic used
       // by createAddressValidator on user interaction.
       //
-      // Additionally, the JSON schema extend sets maxLength: 20 for
-      // address lines and maxLength: 30 for city. This lets the
-      // constructor's errorSchemaIsValid check also catch over-length
-      // data as a belt-and-suspenders approach.
+      // When startInEdit forces edit mode, ReviewCardField sets
+      // canCancel: false, which hides the Cancel button. This prevents
+      // the user from escaping to view mode with invalid data.
 
       it('should start mailing address card in edit mode when addressLine1 exceeds 20 characters', () => {
         const form = mount(
