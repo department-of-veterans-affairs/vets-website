@@ -18,7 +18,7 @@ describe('HCA-Registration-Only: Authenticated user', () => {
     });
 
     it('should not follow the registration only pathway', () => {
-      goToNextPage('/veteran-information/birth-information');
+      goToNextPage();
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -30,7 +30,7 @@ describe('HCA-Registration-Only: Authenticated user', () => {
     });
 
     it('should not follow the registration only pathway', () => {
-      goToNextPage('/veteran-information/birth-information');
+      goToNextPage();
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -39,18 +39,18 @@ describe('HCA-Registration-Only: Authenticated user', () => {
     beforeEach(() => {
       setupForAuth({ features: mockFeatures, disabilityRating: 30 });
       startAsAuthUser();
-      goToNextPage('/va-benefits-package');
+      goToNextPage();
     });
 
     it('should allow user to advance to the application if `full medical benefits` is selected on the form page', () => {
       cy.selectVaRadioOption('root_view:vaBenefitsPackage', 'fullPackage');
-      goToNextPage('/veteran-information/birth-information');
+      goToNextPage();
       cy.injectAxeThenAxeCheck();
     });
 
     it('should block user from advancing to the application if `reg only` is selected on the form page', () => {
       cy.selectVaRadioOption('root_view:vaBenefitsPackage', 'regOnly');
-      goToNextPage('/care-for-service-connected-conditions');
+      goToNextPage();
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -67,7 +67,7 @@ describe('HCA-Registration-Only: Guest user', () => {
     });
 
     it('should not follow the registration only pathway', () => {
-      goToNextPage('/va-benefits/pension-information');
+      goToNextPage();
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -78,7 +78,7 @@ describe('HCA-Registration-Only: Guest user', () => {
     });
 
     it('should not follow the registration only pathway', () => {
-      goToNextPage('/va-benefits/confirm-service-pay');
+      goToNextPage();
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -86,18 +86,18 @@ describe('HCA-Registration-Only: Guest user', () => {
   context('when user selects `lowDisability` (10-40%) compensation', () => {
     beforeEach(() => {
       advanceToVaBenefits(testData, { compensation: 'lowDisability' });
-      goToNextPage('/va-benefits/benefits-package');
+      goToNextPage();
     });
 
     it('should allow user to continue through the application if `full medical benefits` is selected on the form page', () => {
       cy.selectVaRadioOption('root_view:vaBenefitsPackage', 'fullPackage');
-      goToNextPage('/military-service/service-information');
+      goToNextPage();
       cy.injectAxeThenAxeCheck();
     });
 
     it('should block user from advancing to the application if `reg only` is selected on the form page', () => {
       cy.selectVaRadioOption('root_view:vaBenefitsPackage', 'regOnly');
-      goToNextPage('/va-benefits/service-connected-care');
+      goToNextPage();
       cy.injectAxeThenAxeCheck();
     });
   });

@@ -23,55 +23,55 @@ describe('HCA-Household: Full disclosure', () => {
   });
 
   it('works with full spousal and dependent information', () => {
-    goToNextPage('/household-information/share-financial-information');
+    goToNextPage();
     cy.selectYesNoVaRadioOption('root_discloseFinancialInformation', true);
 
-    goToNextPage('/household-information/financial-information-needed');
-    goToNextPage('/household-information/marital-status');
+    goToNextPage();
+    goToNextPage();
     cy.get('[name="root_maritalStatus"]').select('Married');
 
-    goToNextPage('/household-information/spouse-personal-information');
+    goToNextPage();
     fillSpousalBasicInformation(testData);
 
-    goToNextPage('/household-information/spouse-additional-information');
+    goToNextPage();
     cy.selectYesNoVaRadioOption('root_cohabitedLastYear', true);
     cy.selectYesNoVaRadioOption('root_sameAddress', true);
 
-    goToNextPage('/household-information/your-dependents');
-    goToNextPage('/household-information/dependents');
+    goToNextPage();
+    goToNextPage();
     cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
 
-    goToNextPage('/household-information/dependents/0/basic-information');
+    goToNextPage();
     fillDependentBasicInformation(testData.dependents[0]);
 
-    goToNextPage('/household-information/dependents/0/additional-information');
+    goToNextPage();
     cy.selectRadio('root_disabledBefore18', 'N');
     cy.selectRadio('root_cohabitedLastYear', 'N');
     cy.selectRadio('root_view:dependentIncome', 'Y');
 
-    goToNextPage('/household-information/dependents/0/financial-support');
+    goToNextPage();
     cy.selectRadio('root_receivedSupportLastYear', 'Y');
 
-    goToNextPage('/household-information/dependents/0/annual-income');
+    goToNextPage();
     fillDependentIncome(testData.dependents[0]);
 
-    goToNextPage('/household-information/dependents/0/education-expenses');
+    goToNextPage();
     cy.selectRadio('root_attendedSchoolLastYear', 'Y');
     cy.fill(
       '[name="root_dependentEducationExpenses"]',
       testData.dependents[0].dependentEducationExpenses,
     );
 
-    goToNextPage('/household-information/dependents');
+    goToNextPage();
     cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
 
-    goToNextPage('/household-information/veteran-annual-income');
+    goToNextPage();
     fillVeteranIncome(testData);
 
-    goToNextPage('/household-information/spouse-annual-income');
+    goToNextPage();
     fillSpousalIncome(testData);
 
-    goToNextPage('/household-information/deductible-expenses');
+    goToNextPage();
     fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToSubmit(testData);

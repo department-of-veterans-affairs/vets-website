@@ -9,7 +9,7 @@ describe('HCA-User-Authenticated: No DOB value', () => {
   });
 
   it('works with profile data that has no date of birth ', () => {
-    goToNextPage('/veteran-information/profile-information-dob');
+    goToNextPage();
     cy.injectAxeThenAxeCheck();
   });
 });
@@ -21,7 +21,7 @@ describe('HCA-User-Authenticated: Invalid DOB value', () => {
   });
 
   it('works with profile data that has an invalid date of birth ', () => {
-    goToNextPage('/veteran-information/profile-information-dob');
+    goToNextPage();
     cy.injectAxeThenAxeCheck();
   });
 });
@@ -33,7 +33,7 @@ describe('HCA-User-Authenticated: With DOB value', () => {
   });
 
   it('works with profile data that has valid date of birth ', () => {
-    goToNextPage('/veteran-information/birth-information');
+    goToNextPage();
     cy.injectAxeThenAxeCheck();
   });
 });

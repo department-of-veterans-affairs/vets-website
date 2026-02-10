@@ -19,11 +19,11 @@ describe('HCA-Household: Non-disclosure', () => {
   });
 
   it('works without sharing household information', () => {
-    goToNextPage('/household-information/share-financial-information');
+    goToNextPage();
     cy.selectYesNoVaRadioOption('root_discloseFinancialInformation', false);
 
-    goToNextPage('/household-information/share-financial-information-confirm');
-    goToNextPage('/household-information/marital-status');
+    goToNextPage();
+    goToNextPage();
     cy.get('[name="root_maritalStatus"]').select(testData.maritalStatus);
 
     advanceFromHouseholdToSubmit(testData, { disclosureAssertionValue: false });
@@ -31,21 +31,21 @@ describe('HCA-Household: Non-disclosure', () => {
   });
 
   it('works without spouse or dependent information', () => {
-    goToNextPage('/household-information/share-financial-information');
+    goToNextPage();
     cy.selectYesNoVaRadioOption('root_discloseFinancialInformation', true);
 
-    goToNextPage('/household-information/financial-information-needed');
-    goToNextPage('/household-information/marital-status');
+    goToNextPage();
+    goToNextPage();
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
-    goToNextPage('/household-information/your-dependents');
-    goToNextPage('/household-information/dependents');
+    goToNextPage();
+    goToNextPage();
     cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
 
-    goToNextPage('/household-information/veteran-annual-income');
+    goToNextPage();
     fillVeteranIncome(testData);
 
-    goToNextPage('/household-information/deductible-expenses');
+    goToNextPage();
     fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToSubmit(testData);
