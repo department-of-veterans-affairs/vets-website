@@ -133,19 +133,18 @@ export default function ClaimFormSideNav({
 
         // Track accordion clicks
         const handleAccordionClick = () => {
-          // Check state after click (it toggles, so we check the new state)
-          // Use setTimeout to get state after the DOM updates
-          setTimeout(() => {
-            const isExpanded =
-              accordionButton.getAttribute('aria-expanded') === 'true';
-            const state = isExpanded ? 'expanded' : 'collapsed';
+          // Read current state before the click toggles it
+          const isCurrentlyExpanded =
+            accordionButton.getAttribute('aria-expanded') === 'true';
 
-            trackMobileAccordionClick({
-              pathname,
-              state,
-              accordionTitle: 'Form steps',
-            });
-          }, 0);
+          // After click, state will be the opposite
+          const state = isCurrentlyExpanded ? 'collapsed' : 'expanded';
+
+          trackMobileAccordionClick({
+            pathname,
+            state,
+            accordionTitle: 'Form steps',
+          });
         };
 
         accordionButton.addEventListener('click', handleAccordionClick);

@@ -99,15 +99,15 @@ formConfig.formOptions.onSaveTracking = () =>
     pathname: runtimeState.pathname,
   });
 
-// Wrap the original submit function to add form submission tracking
-const originalSubmit = formConfig.submit;
+// Wrap the submit function to add form submission tracking
+const defaultSubmit = formConfig.submit;
 formConfig.submit = (form, formConfigParam, options) => {
-  // Call original submit and track on success
-  const submitPromise = originalSubmit(form, formConfigParam, options);
+  // Call the default submit and track on success
+  const submitPromise = defaultSubmit(form, formConfigParam, options);
 
   return submitPromise.then(
     result => {
-      // Track successful submission - NO PII, only metadata
+      // Track successful submission
       trackFormSubmitted({
         featureToggles: runtimeState.featureToggles,
         pathname: runtimeState.pathname,
