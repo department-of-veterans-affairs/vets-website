@@ -53,7 +53,7 @@ describe('<ConfirmationPage>', () => {
         <ConfirmationPage router={router} />
       </Provider>,
     );
-    expect(getByTestId('download-link')).to.exist;
+    expect(getByTestId('print-page')).to.exist;
   });
   it('should call window.print when print button is clicked', () => {
     window.print = window.print || (() => {});
