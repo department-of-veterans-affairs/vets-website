@@ -128,8 +128,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  // Commenting out to troubleshoot error on staging.
-  // showReviewErrors: !environment.isProduction() && !environment.isStaging(),
+  showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
     // Chapter 1 - Veteran Information
     veteranInformation: {
