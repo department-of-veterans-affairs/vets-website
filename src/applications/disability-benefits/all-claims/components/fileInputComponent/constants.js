@@ -84,4 +84,16 @@ export const ATTACHMENTS_TYPE = [
   },
 ];
 
+export const PMR_ATTACHMENTS_TYPES = [
+  {
+    value: 'L049',
+    label: 'Medical Treatment Record - Non-Government Facility',
+  },
+  { value: 'L702', label: 'Disability Benefits Questionnaire (DBQ)' },
+  {
+    value: 'L107',
+    label: 'VA 21-4142 Authorization for Release of Information',
+  },
+  { value: 'L023', label: 'Other' },
+];
 export const ADDITIONAL_ATTACHMENT_LABEL = 'What type of document is this?';

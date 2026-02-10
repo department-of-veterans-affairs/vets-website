@@ -19,7 +19,7 @@ import {
   handleAdditionalInput,
   additionalInputUpdate,
 } from '../../../utils/fileInputComponent/fileInputMultiUIConfig';
-import { additionalInput } from '../../../components/fileInputComponent/AdditionalUploadInput';
+import { additionalInput } from '../../../components/fileInputComponent/PMRAdditionalUploadInput';
 
 export const uiSchema = {
   'ui:title': standardTitle(pmrTitle),
