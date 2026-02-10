@@ -43,6 +43,10 @@ class LabsAndTestsListPage extends BaseListPage {
       '@mockUser',
       '@featureToggles',
     ]);
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   clickLabsAndTestsDetailsLink = (_LabsAndTestsItemIndex = 0, entry) => {
@@ -52,9 +56,13 @@ class LabsAndTestsListPage extends BaseListPage {
       entry.resource,
     );
     cy.findAllByTestId('record-list-item')
+      .should('be.visible')
       .find('a')
       .eq(_LabsAndTestsItemIndex)
+      .should('be.visible')
       .click();
+    // Wait for detail page to load
+    cy.get('h1').should('be.visible');
   };
 
   // "Radiology has no details call so we always use the list call for everything"

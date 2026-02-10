@@ -27,6 +27,10 @@ class ConditionsListPage extends BaseListPage {
     // cy.get('[href="/my-health/medical-records/conditions"]').click();
     cy.visit('my-health/medical-records/conditions');
     cy.wait('@ConditionsList');
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   verifyConditionsPageTitle = () => {
@@ -36,9 +40,13 @@ class ConditionsListPage extends BaseListPage {
 
   clickConditionsDetailsLink = (_conditionIndex = 0) => {
     cy.findAllByTestId('record-list-item')
+      .should('be.visible')
       .find('a')
       .eq(_conditionIndex)
+      .should('be.visible')
       .click();
+    // Wait for detail page to load
+    cy.get('h1').should('be.visible');
   };
 }
 export default new ConditionsListPage();
