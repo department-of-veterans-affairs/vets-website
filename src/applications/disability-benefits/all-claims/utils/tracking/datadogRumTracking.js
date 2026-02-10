@@ -18,7 +18,6 @@ import {
 const trackAction = (actionName, properties) => {
   try {
     datadogRum.addAction(actionName, properties);
-    // eslint-disable-next-line no-console
   } catch (error) {
     // Silent fail - tracking should never break the form
     // eslint-disable-next-line no-console
