@@ -15,19 +15,19 @@ import {
 describe('datadogRumTracking', () => {
   let addActionStub;
   let getElementByIdStub;
-  let consoleLogStub;
+  let consoleErrorStub;
 
   beforeEach(() => {
     addActionStub = sinon.stub(datadogBrowserRum.datadogRum, 'addAction');
     getElementByIdStub = sinon.stub(document, 'getElementById');
-    consoleLogStub = sinon.stub(console, 'log');
+    consoleErrorStub = sinon.stub(console, 'error');
     sessionStorage.clear();
   });
 
   afterEach(() => {
     addActionStub.restore();
     getElementByIdStub.restore();
-    consoleLogStub.restore();
+    consoleErrorStub.restore();
   });
 
   it('tracks back button clicks and increments the counter', () => {
