@@ -374,6 +374,8 @@ export const Alerts = {
   ERROR_LOADING_RECIPIENTS_HEADER:
     'We can’t load your care team list right now',
   SEND_MESSAGE_SUCCESS: `Message sent`,
+  MIGRATION_ALERT_H2:
+    "You can't use messages to contact providers at some facilities right now",
 };
 
 export const Data = {
