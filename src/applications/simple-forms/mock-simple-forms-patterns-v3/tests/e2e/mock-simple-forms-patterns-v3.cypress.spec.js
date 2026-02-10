@@ -46,15 +46,7 @@ const testConfig = createTestConfig(
         });
       },
       'upload-file': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillVaFileInput('root_uploadedFile', {});
-          cy.get('va-file-input')
-            .find('va-select')
-            .then($el => {
-              cy.selectVaSelect($el, 'tax');
-            });
-          cy.findByText(/continue/i, { selector: 'button' }).click();
-        });
+        afterHook(() => addFile('tax'));
       },
       'supporting-documents': ({ afterHook }) => {
         afterHook(() => addFile('private'));
