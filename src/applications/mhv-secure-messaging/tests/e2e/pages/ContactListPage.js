@@ -148,7 +148,6 @@ class ContactListPage {
       .find(`button`)
       .click({ force: true });
 
-    cy.wait('@savedList');
     cy.wait('@updatedRecipients');
   };
 
