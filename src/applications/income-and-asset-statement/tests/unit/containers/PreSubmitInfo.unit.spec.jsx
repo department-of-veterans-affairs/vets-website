@@ -70,20 +70,7 @@ const getData = ({
 };
 
 describe('<PreSubmitInfo />', () => {
-  describe('when not logged in', () => {
-    it('should render the va-statement-of-truth and not va-privacy-agreement', () => {
-      const { props, mockStore } = getData({ loggedIn: false });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <PreSubmitInfo {...props} />
-        </Provider>,
-      );
-      expect($('va-statement-of-truth', container)).to.exist;
-      expect($('va-privacy-agreement', container)).not.to.exist;
-    });
-  });
-
-  describe('when logged in and is not a self-representing veteran', () => {
+  describe('when not a self-representing veteran', () => {
     it('should render the va-statement-of-truth component and not va-privacy-agreement', () => {
       const { props, mockStore } = getData({
         loggedIn: true,
@@ -102,7 +89,7 @@ describe('<PreSubmitInfo />', () => {
     });
   });
 
-  describe('when logged in and is a self-representing veteran', () => {
+  describe('when a self-representing veteran', () => {
     it('should render the va-privacy-agreement component and use profile name', () => {
       const { props, mockStore } = getData({
         loggedIn: true,

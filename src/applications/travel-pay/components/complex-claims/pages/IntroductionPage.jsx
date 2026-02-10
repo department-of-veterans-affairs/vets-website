@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
 
 import {
   BTSSS_PORTAL_URL,
@@ -159,6 +159,11 @@ const IntroductionPage = () => {
                 <strong>Note:</strong> We’ll save your added expenses if you
                 need to leave and come back. You can review your in-progress
                 claims in your travel reimbursement page.
+              </p>
+              <p>
+                <Link to="/claims/">
+                  Go to your travel reimbursement claims page
+                </Link>
               </p>
               {appointment &&
                 !appointment.isCC && (
