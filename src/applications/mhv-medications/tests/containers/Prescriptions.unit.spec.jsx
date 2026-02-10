@@ -454,11 +454,7 @@ describe('Medications Prescriptions container', () => {
       await waitFor(() => {
         expect(addActionSpy.called).to.be.true;
       });
-      expect(
-        addActionSpy.calledWith('Rx SM Renewal Return', {
-          status: 'successful',
-        }),
-      ).to.be.true;
+      expect(addActionSpy.calledWith('Rx Renewal Success')).to.be.true;
 
       addActionSpy.restore();
     });
