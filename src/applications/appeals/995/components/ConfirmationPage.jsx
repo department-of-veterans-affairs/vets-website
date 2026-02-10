@@ -2,7 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
+import { SubmissionAlert } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { selectProfile } from 'platform/user/selectors';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 // Content
 import { title995 } from '../content/title';
@@ -42,6 +44,12 @@ import { convertBoolResponseToYesNo } from '../../shared/utils/form-data-display
 
 export const ConfirmationPage = () => {
   resetStoredSubTask();
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const myVADisplayEnabled = useToggleValue(
+    TOGGLE_NAMES.decisionReviewsMyVADisplay,
+  );
+
   const form = useSelector(state => state.form || {});
   const profile = useSelector(state => selectProfile(state));
 
@@ -63,13 +71,27 @@ export const ConfirmationPage = () => {
   return (
     <>
       <ConfirmationTitle pageTitle={title995} />
-      <ConfirmationAlert alertTitle="Your Supplemental Claim submission is in progress">
-        <p>
-          You submitted the request on {submitDate}. It can take a few days for
-          us to receive your request. We’ll send you a confirmation letter once
-          we’ve processed your request.
-        </p>
-      </ConfirmationAlert>
+      {myVADisplayEnabled && (
+        <SubmissionAlert
+          title="Your Supplemental Claim submission is in progress"
+          content={
+            <p>
+              You submitted the request on {submitDate}. It can take a few days
+              for us to receive your request. We’ll send you a confirmation
+              letter once we’ve processed your request.
+            </p>
+          }
+        />
+      )}
+      {!myVADisplayEnabled && (
+        <ConfirmationAlert alertTitle="Your Supplemental Claim submission is in progress">
+          <p>
+            You submitted the request on {submitDate}. It can take a few days
+            for us to receive your request. We’ll send you a confirmation letter
+            once we’ve processed your request.
+          </p>
+        </ConfirmationAlert>
+      )}
       <ConfirmationSummary
         name="Supplemental Claim"
         downloadUrl={downloadUrl}
