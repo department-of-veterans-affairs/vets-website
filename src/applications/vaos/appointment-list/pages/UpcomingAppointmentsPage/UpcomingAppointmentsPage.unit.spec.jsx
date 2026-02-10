@@ -11,12 +11,6 @@ import { renderWithStoreAndRouter } from '../../../tests/mocks/setup';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import UpcomingAppointmentsPage from './UpcomingAppointmentsPage';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
-
 describe('VAOS Component: UpcomingAppointmentsList', () => {
   beforeEach(() => {
     mockFetch();
@@ -51,14 +45,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: {
-        ...initialState,
-        featureToggles: {
-          ...initialState.featureToggles,
-        },
-      },
-    });
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {});
 
     // Assert
     // Using date string here since we don't want the timezone coversion twice.
@@ -97,9 +84,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState,
-    });
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {});
 
     // Assert
     const utcString = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -134,9 +119,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState,
-    });
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {});
 
     // Assert
     const utcString = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -171,9 +154,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState,
-    });
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {});
 
     // Assert
     const utcString = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -208,9 +189,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState,
-    });
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {});
 
     const utcString = format(now, "yyyy-MM-dd'T'HH:mm:ss'Z'");
     await screen.findAllByLabelText(
@@ -250,9 +229,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState,
-    });
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {});
 
     // Assert
     await screen.findAllByText('VA appointment');
@@ -278,9 +255,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       });
 
       // Act
-      const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-        initialState,
-      });
+      const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {});
 
       // Assert
       let alert = null;
@@ -316,9 +291,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       });
 
       // Act
-      const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-        initialState,
-      });
+      const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {});
 
       // Assert
       let alert = null;
@@ -356,9 +329,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       });
 
       // Act
-      const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-        initialState,
-      });
+      const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {});
 
       // Assert
       let alert = null;

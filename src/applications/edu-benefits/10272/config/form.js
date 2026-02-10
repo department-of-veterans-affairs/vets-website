@@ -15,6 +15,8 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import SubmissionInstructions from '../components/SubmissionInstructions';
+
 // Pages
 import {
   educationBenefitsElibility,
@@ -197,6 +199,23 @@ const formConfig = {
           title: 'Enter your remarks',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },
