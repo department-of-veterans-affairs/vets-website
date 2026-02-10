@@ -1,11 +1,25 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 
 import CaseProgressDescription from '../../../components/CaseProgressDescription';
 
 const renderWithRouter = ui => render(<MemoryRouter>{ui}</MemoryRouter>);
+
+function selectVaRadio(container, value) {
+  const vaRadio = container.querySelector('va-radio');
+  expect(vaRadio).to.exist;
+  // Simulate va-radio value change (shadow event)
+  fireEvent(
+    vaRadio,
+    new CustomEvent('vaValueChange', {
+      detail: { value },
+      bubbles: true,
+      composed: true,
+    }),
+  );
+}
 
 describe('CaseProgressDescription', () => {
   // --------------------------
@@ -116,31 +130,126 @@ describe('CaseProgressDescription', () => {
   // --------------------------
   // Step 4
   // --------------------------
-  it('renders step 4 PENDING description', () => {
-    const { getByText } = renderWithRouter(
+  it('renders step 4 PENDING instructions and radio options', () => {
+    const { container, getByText, getAllByText } = renderWithRouter(
       <CaseProgressDescription step={4} status="PENDING" />,
     );
+    getByText(/VR&E has received and processed your application/i);
+    getAllByText(/Schedule your Initial Evaluation Counselor Meeting/i);
 
-    getByText(/telecounseling appointment/i);
-    getByText(/request an in-person appointment/i);
+    // Find va-radio and its options
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio).to.exist;
+    const options = container.querySelectorAll('va-radio-option');
+    expect(options.length).to.equal(2);
+
+    // Labels
+    expect(
+      Array.from(options).some(
+        opt => opt.getAttribute('label') === 'Telecounseling meeting',
+      ),
+    ).to.be.true;
+    expect(
+      Array.from(options).some(
+        opt => opt.getAttribute('label') === 'In-person appointment',
+      ),
+    ).to.be.true;
+
+    // No VaAdditionalInfo or VaButton yet
+    expect(container.querySelector('va-additional-info')).to.be.null;
+    expect(container.querySelector('va-button')).to.be.null;
   });
 
-  it('renders step 4 ACTIVE description', () => {
-    const { getByText } = renderWithRouter(
-      <CaseProgressDescription step={4} status="ACTIVE" />,
+  it('shows Telecounseling info and submit when selected', async () => {
+    const { container, getByText } = renderWithRouter(
+      <CaseProgressDescription step={4} status="PENDING" />,
     );
+    selectVaRadio(container, 'Telecounseling meeting');
 
-    getByText(/uploaded to your VA eFolder/i);
-    getByText(/Career Planning/i);
+    // Wait for info and button to appear
+    await waitFor(() => {
+      const addl = container.querySelector('va-additional-info');
+      expect(addl).to.exist;
+      const btn = container.querySelector('va-button');
+      expect(btn).to.exist;
+    });
+
+    // Info content
+    getByText(/Telecounseling uses Microsoft Teams/i);
+    getByText(/private setting to ensure confidentiality/i);
+    // Button
+    const btn = container.querySelector('va-button');
+    expect(btn.getAttribute('text')).to.equal('Submit');
   });
 
-  it('renders step 4 COMPLETED description', () => {
-    const { getByText } = renderWithRouter(
-      <CaseProgressDescription step={4} status="COMPLETED" />,
+  it('shows In-person info and submit when selected', async () => {
+    const { container, getByText } = renderWithRouter(
+      <CaseProgressDescription step={4} status="PENDING" />,
     );
+    selectVaRadio(container, 'In-person appointment');
 
-    getByText(/met with your VR&E counselor/i);
-    getByText(/Entitlement Determination/i);
+    await waitFor(() => {
+      const addl = container.querySelector('va-additional-info');
+      expect(addl).to.exist;
+      const btn = container.querySelector('va-button');
+      expect(btn).to.exist;
+    });
+
+    getByText(
+      /If your appointment is in-person appointment at a specified location/i,
+    );
+    getByText(
+      /Plan for the initial evaluation appointment to last two hours or more/i,
+    );
+    getByText(/Do not bring minor children with you/i);
+    getByText(/you may bring the documents outlined/i);
+
+    const btn = container.querySelector('va-button');
+    expect(btn.getAttribute('text')).to.equal('Submit');
+  });
+
+  it('submits Telecounseling and shows confirmation', async () => {
+    const { container, getByText, queryByText } = renderWithRouter(
+      <CaseProgressDescription step={4} status="PENDING" />,
+    );
+    selectVaRadio(container, 'Telecounseling meeting');
+    await waitFor(() => {
+      expect(container.querySelector('va-button')).to.exist;
+    });
+    const btn = container.querySelector('va-button');
+    fireEvent.click(btn);
+
+    // Confirmation text
+    await waitFor(() => {
+      getByText(/You have scheduled your Initial Evaluation Appointment/i);
+      getByText(/please use your appointment confirmation/i);
+    });
+
+    // Radio and options gone
+    expect(container.querySelector('va-radio')).to.be.null;
+    expect(queryByText(/Schedule your Initial Evaluation Counselor Meeting/i))
+      .to.be.null;
+  });
+
+  it('submits In-person and shows confirmation', async () => {
+    const { container, getByText, queryByText } = renderWithRouter(
+      <CaseProgressDescription step={4} status="PENDING" />,
+    );
+    selectVaRadio(container, 'In-person appointment');
+    await waitFor(() => {
+      expect(container.querySelector('va-button')).to.exist;
+    });
+    const btn = container.querySelector('va-button');
+    fireEvent.click(btn);
+
+    await waitFor(() => {
+      getByText(/You have scheduled your Initial Evaluation Appointment/i);
+      getByText(/please use your appointment confirmation/i);
+    });
+
+    expect(container.querySelector('va-radio')).to.be.null;
+    expect(queryByText(/Schedule your Initial Evaluation Counselor Meeting/i))
+      .to.be.null;
   });
 
   // --------------------------

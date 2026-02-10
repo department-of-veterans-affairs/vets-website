@@ -1,12 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom-v5-compat';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLink,
+  VaRadio,
+  VaRadioOption,
+  VaAdditionalInfo,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import HubCardList from './HubCardList';
 import SelectPreferenceView from './SelectPreferenceView';
 
+const initialEvaluationMeetingTypeRadioGroupName =
+  'initial_evaluation_meeting_type_preference';
+
+const INITIAL_EVALUATION_MEETING_TYPE = {
+  TELECOUNSELING: 'Telecounseling meeting',
+  IN_PERSON: 'In-person appointment',
+};
+
 const CaseProgressDescription = ({ step, status, showHubCards = false }) => {
   const navigate = useNavigate();
+  const [
+    initialEvaluationMeetingType,
+    setInitialEvaluationMeetingType,
+  ] = useState();
+  const [
+    initialEvaluationMeetingTypeSubmitted,
+    setInitialEvaluationMeetingTypeSubmitted,
+  ] = useState(false);
+
+  const submitInitialEvaluationMeetingType = () => {
+    setInitialEvaluationMeetingTypeSubmitted(true);
+  };
 
   const handleRouteChange = href => event => {
     event.preventDefault();
@@ -182,51 +208,120 @@ const CaseProgressDescription = ({ step, status, showHubCards = false }) => {
     }
 
     case 4: {
-      if (status === 'ACTIVE') {
+      if (initialEvaluationMeetingTypeSubmitted) {
         return (
           <>
             <p>
-              VR&E has received and processed your Chapter 31 Benefits. Your
-              VR-03 Appointment and Orientation Notification Letter has been
-              created, uploaded to your VA eFolder (see link below), and sent to
-              you in the mail. The letter includes details about your scheduled
-              Initial Evaluation Appointment and outlines what you need to
-              prepare for your meeting. Please visit the “Career Planning” Page
-              to familiarize yourself with your career tools and the 28-1902w
-              (Information for Veteran Readiness and Employment Entitlement
-              Determination) Form.
+              You have scheduled your Initial Evaluation Appointment. If you
+              need to reschedule, please use your appointment confirmation,
+              rescheduling link sent to you via email and text. If you need
+              further assistance, please contact your counselor.
             </p>
             {hubCards}
           </>
         );
       }
-
-      if (status === 'COMPLETED') {
-        return (
-          <>
-            <p>
-              You have met with your VR&E counselor and provided the necessary
-              information for your initial evaluation. If there are any
-              outstanding requests for additional information or documentation,
-              please submit those as soon as possible so your Counselor can
-              complete the Entitlement Determination.
-            </p>
-            {hubCards}
-          </>
-        );
-      }
-
       return (
         <>
           <p>
-            After your application for VR&E Benefits is processed and your basic
-            eligible is determined for Chapter 31 Benefits, you will receive a
-            notification for an appointment, usually in the form of a VR-03
-            Appointment and Orientation Notification Letter. This letter will
-            include the date and time of your telecounseling appointment. If you
-            prefer not to complete your initial evaluation via a telecounseling
-            session, you have the option to request an in-person appointment.
+            VR&E has received and processed your application for Chapter 31
+            benefits. Please check your email for confirmation that you can
+            schedule your Initial Evaluation Counselor Meeting online. After
+            scheduling, you will receive a confirmation of the meeting in a
+            VR-03 Appointment and Orientation Notification Letter, which will be
+            mailed to you. To prepare for your Initial Evaluation Counselor
+            Meeting, please visit the "Career Planning" web page found below.
           </p>
+          <va-card background class="vads-u-padding-top--0">
+            <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
+              Schedule your Initial Evaluation Counselor Meeting
+            </h2>
+            <p>
+              You can either meet them in person, at their office, or you can
+              meet them online. Please, select your preference from the radio
+              button down below.
+            </p>
+            <VaRadio
+              label="My preference is to:"
+              onVaValueChange={e => {
+                setInitialEvaluationMeetingType(e.detail.value);
+              }}
+            >
+              <VaRadioOption
+                label={INITIAL_EVALUATION_MEETING_TYPE.TELECOUNSELING}
+                name={initialEvaluationMeetingTypeRadioGroupName}
+                value={INITIAL_EVALUATION_MEETING_TYPE.TELECOUNSELING}
+              />
+              {initialEvaluationMeetingType ===
+                INITIAL_EVALUATION_MEETING_TYPE.TELECOUNSELING && (
+                <div className="vads-u-margin-left--4">
+                  <VaAdditionalInfo
+                    trigger="Additional Info"
+                    className="vads-u-margin-bottom--1"
+                  >
+                    <p>
+                      Telecounseling uses Microsoft Teams, which is accessible
+                      on any web-enabled device, such as a smartphone, tablet,
+                      or laptop computer, with a webcam and microphone. You will
+                      need to download the free application and click on
+                      Telecounseling link to start the meeting.
+                    </p>
+                    <p>
+                      Note: During the Telecounseling initial evaluation
+                      appointment, you must be in a private setting to ensure
+                      confidentiality of your personal information and to avoid
+                      any distractions. If you wish to have anyone present
+                      during your appointment, you must sign a release of
+                      information before the person may attend your appointment.
+                      The setting must also provide sufficient lightning and
+                      noise control. If you are driving or a passenger in an
+                      automobile during the scheduled appointment, the meeting
+                      will be immediately canceled or rescheduled.
+                    </p>
+                  </VaAdditionalInfo>
+                  <VaButton
+                    onClick={submitInitialEvaluationMeetingType}
+                    text="Submit"
+                  />
+                </div>
+              )}
+              <VaRadioOption
+                label={INITIAL_EVALUATION_MEETING_TYPE.IN_PERSON}
+                name={initialEvaluationMeetingTypeRadioGroupName}
+                value={INITIAL_EVALUATION_MEETING_TYPE.IN_PERSON}
+              />
+              {initialEvaluationMeetingType ===
+                INITIAL_EVALUATION_MEETING_TYPE.IN_PERSON && (
+                <div className="vads-u-margin-left--4">
+                  <VaAdditionalInfo
+                    trigger="Additional Info"
+                    className="vads-u-margin-bottom--1"
+                  >
+                    <p>
+                      If your appointment is in-person appointment at a
+                      specified location
+                    </p>
+                    <p>
+                      a) Plan for the initial evaluation appointment to last two
+                      hours or more as the appointment may also involve career
+                      assessment, if you did not complete the online career
+                      assessment.
+                    </p>
+                    <p>b) Do not bring minor children with you.</p>
+                    <p>
+                      c) If you have not submitted your required documents prior
+                      to your scheduled initial evaluation, you may bring the
+                      documents outlined.
+                    </p>
+                  </VaAdditionalInfo>
+                  <VaButton
+                    onClick={submitInitialEvaluationMeetingType}
+                    text="Submit"
+                  />
+                </div>
+              )}
+            </VaRadio>
+          </va-card>
           {hubCards}
         </>
       );
