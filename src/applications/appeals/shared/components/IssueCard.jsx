@@ -11,10 +11,14 @@ import BasicLink from './web-component-wrappers/BasicLink';
  * the issue is under active review for SC (we will eventually support all 3 DR apps).
  * @param {ContestableIssueItem|AdditionalIssueItem} item
  */
-export const determineActiveReview = item => {
+export const determineActiveReview = (appName, item) => {
   const { activeReview, titleOfActiveReview } = item;
 
-  return activeReview && titleOfActiveReview === 'Supplemental Claim';
+  return (
+    activeReview &&
+    appName === 'Supplemental Claim' &&
+    titleOfActiveReview === 'Supplemental Claim'
+  );
   // Use the below line instead to support all 3 DR apps instead of just SC.
   // return activeReview && appName === ACTIVE_REVIEW_TITLES[titleOfActiveReview];
 };
@@ -59,7 +63,7 @@ export const IssueCard = ({
   const isEditable = !!item.issue;
   const issueName = item.issue || item.ratingIssueSubjectText;
   const isBlocked = item.isBlocked || false;
-  const isActiveReview = determineActiveReview(item);
+  const isActiveReview = determineActiveReview(appName, item);
 
   const wrapperClass = [
     'widget-wrapper',
@@ -160,8 +164,6 @@ export const IssueCard = ({
             <div slot="internal-description">
               {activeReviewMessage}
               <div className="vads-u-padding-right--3">{sharedCardContent}</div>
-              <IssueCardContent id={`issue-${index}-description`} {...item} />
-              {editControls}
             </div>
           </VaCheckbox>
         ) : (
@@ -177,9 +179,6 @@ export const IssueCard = ({
               {issueName}
             </strong>
             {sharedCardContent}
-
-            <IssueCardContent id={`issue-${index}-description`} {...item} />
-            {editControls}
           </div>
         )}
       </div>
@@ -187,4 +186,24 @@ export const IssueCard = ({
   );
 };
 
-
+IssueCard.propTypes = {
+  appName: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  index: PropTypes.number,
+  item: PropTypes.shape({
+    issue: PropTypes.string,
+    decisionDate: PropTypes.string,
+    ratingIssueSubjectText: PropTypes.string,
+    description: PropTypes.string,
+    ratingIssuePercentNumber: PropTypes.string,
+    approxDecisionDate: PropTypes.string,
+    [SELECTED]: PropTypes.bool,
+  }),
+  options: PropTypes.shape({
+    appendId: PropTypes.string,
+  }),
+  showCheckbox: PropTypes.bool,
+  showSeparator: PropTypes.bool,
+  onChange: PropTypes.func,
+  onRemove: PropTypes.func,
+};
