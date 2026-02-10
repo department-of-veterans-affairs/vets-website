@@ -25,12 +25,13 @@ function addFile(option, elementName) {
     .shadow()
     .find('va-file-input')
     .first()
-    .find('va-select')
-    .then($select => {
-      if ($select) {
-        cy.selectVaSelect($select, option);
+    .then($fileInput => {
+      const $select = $fileInput.find('va-select');
+      if ($select.length > 0) {
+        cy.selectVaSelect($select[0], option);
       }
     });
+
   cy.findByText(/continue/i, { selector: 'button' }).click();
 }
 
