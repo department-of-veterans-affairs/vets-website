@@ -303,6 +303,14 @@ module.exports = async (env = {}) => {
   const baseConfig = {
     mode: isOptimizedBuild ? 'production' : 'development',
     devtool: false,
+    cache: {
+      type: 'filesystem',
+      buildDependencies: {
+        config: [__filename],
+        babel: [path.resolve(__dirname, '../babel.config.json')],
+        postcss: [path.resolve(__dirname, '../postcss.config.js')],
+      },
+    },
     entry: entryFiles,
     output: {
       path: path.resolve(buildPath, 'generated'),
@@ -355,9 +363,10 @@ module.exports = async (env = {}) => {
               loader: 'sass-loader',
               options: {
                 sourceMap: true,
+                // api: 'modern-compiler',
+                // implementation: require('sass-embedded'),
                 sassOptions: {
                   silenceDeprecations: [
-                    'legacy-js-api',
                     'import',
                     'if-function',
                     'slash-div',
