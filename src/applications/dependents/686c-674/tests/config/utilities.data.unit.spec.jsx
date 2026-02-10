@@ -1580,7 +1580,7 @@ describe('transformPicklistToV2', () => {
     });
   });
 
-  it('should ignore stepchildNotMember if stepchild has >50% financial support', () => {
+  it('should map stepchildNotMember with >50% financial support to More than half', () => {
     const data = {
       [PICKLIST_DATA]: [
         {
@@ -1620,9 +1620,9 @@ describe('transformPicklistToV2', () => {
           first: 'STEP',
           last: 'CHILD',
         },
-        livingExpensesPaid: 'Less than half',
+        livingExpensesPaid: 'More than half',
         ssn: '333445555',
-        supportingStepchild: false,
+        supportingStepchild: true,
         whoDoesTheStepchildLiveWith: {
           first: 'John',
           last: 'Doe',

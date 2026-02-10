@@ -15,7 +15,6 @@ import {
 const initialState = {
   featureToggles: {
     vaOnlineScheduling: true,
-    vaOnlineSchedulingCancel: true,
   },
   user: {
     login: {
