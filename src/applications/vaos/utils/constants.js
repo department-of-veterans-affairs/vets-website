@@ -534,3 +534,7 @@ export const APPOINTMENT_SYSTEM = {
   cerner: 'cerner',
   hsrm: 'hsrm',
 };
+
+// AVS error message constants
+export const AVS_ERROR_EMPTY_BINARY = 'Retrieved empty AVS binary';
+export const AVS_ERROR_RETRIEVAL = 'Error retrieving AVS binary';
