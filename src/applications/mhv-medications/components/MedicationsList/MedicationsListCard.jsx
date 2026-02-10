@@ -1,23 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
+
+import {
+  selectCernerPilotFlag,
+  selectV2StatusMappingFlag,
+} from '../../util/selectors';
 import {
   DATETIME_FORMATS,
   RX_SOURCE,
   DISPENSE_STATUS,
+  dispStatusObjV2,
 } from '../../util/constants';
 
 const MedicationsListCard = ({ rx }) => {
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const useV2StatusMapping = isCernerPilot && isV2StatusMapping;
+
   const pendingMed =
     rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
+    rx?.dispStatus ===
+      (useV2StatusMapping
+        ? dispStatusObjV2.inprogress
+        : DISPENSE_STATUS.NEW_ORDER);
   const pendingRenewal =
     rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    rx?.dispStatus === DISPENSE_STATUS.RENEW;
+    rx?.dispStatus ===
+      (useV2StatusMapping ? dispStatusObjV2.inprogress : DISPENSE_STATUS.RENEW);
   const latestTrackingStatus = rx?.trackingList?.[0];
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);
