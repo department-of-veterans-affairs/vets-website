@@ -9,8 +9,8 @@ import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-sub
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
-function addFile(option) {
-  cy.fillVaFileInputMultiple('root_supportingDocuments', {});
+function addFile(option, elementName) {
+  cy.fillVaFileInputMultiple(elementName, {});
 
   cy.get('va-file-input-multiple')
     .shadow()
@@ -46,13 +46,21 @@ const testConfig = createTestConfig(
         });
       },
       'upload-file': ({ afterHook }) => {
-        afterHook(() => addFile('tax'));
+        afterHook(() => {
+          cy.fillVaFileInput('root_uploadedFile', {});
+          cy.get('va-file-input')
+            .find('va-select')
+            .then($el => {
+              cy.selectVaSelect($el, 'tax');
+            });
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
       },
       'supporting-documents': ({ afterHook }) => {
-        afterHook(() => addFile('private'));
+        afterHook(() => addFile('private', 'root_supportingDocuments'));
       },
       'treatment-records/:index/supporting-documents': ({ afterHook }) => {
-        afterHook(() => addFile('xray'));
+        afterHook(() => addFile('xray', 'root_supportingDocuments'));
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
