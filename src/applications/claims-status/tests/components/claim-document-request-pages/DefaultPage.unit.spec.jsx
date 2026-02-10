@@ -6,7 +6,7 @@ import { within } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { renderWithReduxAndRouter } from '../../utils';
-import { buildDateFormatter, scrubDescription } from '../../../utils/helpers';
+import { buildDateFormatter } from '../../../utils/helpers';
 import { evidenceDictionary } from '../../../utils/evidenceDictionary';
 
 import DefaultPage from '../../../components/claim-document-request-pages/DefaultPage';
@@ -69,7 +69,7 @@ describe('<DefaultPage>', () => {
     getByText('You can find blank copies of many VA forms online.');
     expect($('va-link', container)).to.exist;
     expect($('.optional-upload', container)).to.not.exist;
-    getByText(scrubDescription(item.description));
+    getByText(item.description);
     expect($('va-additional-info', container)).to.exist;
     expect($('va-file-input-multiple', container)).to.exist;
 
@@ -155,7 +155,7 @@ describe('<DefaultPage>', () => {
     getByText(
       'But, if you have documents related to this request, uploading them on this page may help speed up the evidence review for your claim.',
     );
-    getByText(scrubDescription(item.description));
+    getByText(item.description);
     getByText('What we’re notifying you about');
     expect($('va-additional-info', container)).to.exist;
     expect($('va-file-input-multiple', container)).to.exist;
@@ -267,6 +267,9 @@ describe('<DefaultPage>', () => {
     getByText('Deadline passed for requested information');
     getByText(
       'We haven’t received the information we asked for. You can still send it, but we may review your claim without it.',
+    );
+    getByText(
+      'We requested this evidence from you on March 7, 2024. You can still send the evidence after the “respond by” date, but it may delay your claim.',
     );
   });
   it('should display pass due explanation text when suspense date is in the future', () => {
@@ -718,7 +721,7 @@ describe('<DefaultPage>', () => {
         } else if (testCase.item.description) {
           expect(getByTestId('api-description')).to.exist;
           getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
-          expect(queryByTestId('learn-about-request-section')).to.not.exist;
+          expect(queryByTestId('learn-about-request-section')).to.exist;
         } else {
           expect(getByTestId('empty-state-description')).to.exist;
           getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
@@ -931,6 +934,541 @@ describe('<DefaultPage>', () => {
         } else {
           expect(addFilesForm).to.not.exist;
         }
+      });
+    });
+  });
+
+  describe('API description formatting', () => {
+    const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
+
+    it('should render newlines as separate paragraphs', () => {
+      const item = {
+        id: 100,
+        displayName: 'Test Request',
+        status: 'NEEDED_FROM_YOU',
+        requestedDate: '2025-12-01',
+        suspenseDate: futureSuspenseDate,
+        description: 'Line one\nLine two\nLine three',
+        canUploadFile: true,
+      };
+      const { container } = renderWithReduxAndRouter(
+        <DefaultPage {...defaultProps} item={item} />,
+        { initialState },
+      );
+      const apiDescription = container.querySelector(
+        '[data-testid="api-description"]',
+      );
+      expect(apiDescription).to.exist;
+      const paragraphs = apiDescription.querySelectorAll('p');
+      expect(paragraphs.length).to.equal(3);
+      expect(paragraphs[0].textContent).to.equal('Line one');
+      expect(paragraphs[1].textContent).to.equal('Line two');
+      expect(paragraphs[2].textContent).to.equal('Line three');
+    });
+
+    it('should render {b}...{/b} as bold text', () => {
+      const item = {
+        id: 101,
+        displayName: 'Test Request',
+        status: 'NEEDED_FROM_YOU',
+        requestedDate: '2025-12-01',
+        suspenseDate: futureSuspenseDate,
+        description: 'This is {b}important{/b} text',
+        canUploadFile: true,
+      };
+      const { container } = renderWithReduxAndRouter(
+        <DefaultPage {...defaultProps} item={item} />,
+        { initialState },
+      );
+      const apiDescription = container.querySelector(
+        '[data-testid="api-description"]',
+      );
+      expect(apiDescription).to.exist;
+      const strongElement = apiDescription.querySelector('strong');
+      expect(strongElement).to.exist;
+      expect(strongElement.textContent).to.equal('important');
+    });
+
+    it('should render [*] markers as list items', () => {
+      const item = {
+        id: 102,
+        displayName: 'Test Request',
+        status: 'NEEDED_FROM_YOU',
+        requestedDate: '2025-12-01',
+        suspenseDate: futureSuspenseDate,
+        description: '[*] First item\n[*] Second item\n[*] Third item',
+        canUploadFile: true,
+      };
+      const { container } = renderWithReduxAndRouter(
+        <DefaultPage {...defaultProps} item={item} />,
+        { initialState },
+      );
+      const apiDescription = container.querySelector(
+        '[data-testid="api-description"]',
+      );
+      expect(apiDescription).to.exist;
+      const list = apiDescription.querySelector('ul');
+      expect(list).to.exist;
+      const listItems = list.querySelectorAll('li');
+      expect(listItems.length).to.equal(3);
+      expect(listItems[0].textContent).to.equal('First item');
+      expect(listItems[1].textContent).to.equal('Second item');
+      expect(listItems[2].textContent).to.equal('Third item');
+    });
+
+    it('should render {*} markers as list items', () => {
+      const item = {
+        id: 103,
+        displayName: 'Test Request',
+        status: 'NEEDED_FROM_YOU',
+        requestedDate: '2025-12-01',
+        suspenseDate: futureSuspenseDate,
+        description: '{*} Item A\n{*} Item B',
+        canUploadFile: true,
+      };
+      const { container } = renderWithReduxAndRouter(
+        <DefaultPage {...defaultProps} item={item} />,
+        { initialState },
+      );
+      const apiDescription = container.querySelector(
+        '[data-testid="api-description"]',
+      );
+      expect(apiDescription).to.exist;
+      const list = apiDescription.querySelector('ul');
+      expect(list).to.exist;
+      const listItems = list.querySelectorAll('li');
+      expect(listItems.length).to.equal(2);
+    });
+
+    it('should render combined formatting (bold text within list items)', () => {
+      const item = {
+        id: 104,
+        displayName: 'Test Request',
+        status: 'NEEDED_FROM_YOU',
+        requestedDate: '2025-12-01',
+        suspenseDate: futureSuspenseDate,
+        description:
+          '{b}Important:{/b} Please provide:\n[*] {b}Document A{/b}\n[*] Document B',
+        canUploadFile: true,
+      };
+      const { container } = renderWithReduxAndRouter(
+        <DefaultPage {...defaultProps} item={item} />,
+        { initialState },
+      );
+      const apiDescription = container.querySelector(
+        '[data-testid="api-description"]',
+      );
+      expect(apiDescription).to.exist;
+
+      // Check for bold text in paragraph
+      const paragraph = apiDescription.querySelector('p');
+      expect(paragraph).to.exist;
+      const strongInParagraph = paragraph.querySelector('strong');
+      expect(strongInParagraph).to.exist;
+      expect(strongInParagraph.textContent).to.equal('Important:');
+
+      // Check for list with bold item
+      const list = apiDescription.querySelector('ul');
+      expect(list).to.exist;
+      const listItems = list.querySelectorAll('li');
+      expect(listItems.length).to.equal(2);
+      const strongInListItem = listItems[0].querySelector('strong');
+      expect(strongInListItem).to.exist;
+      expect(strongInListItem.textContent).to.equal('Document A');
+    });
+  });
+
+  // API STRUCTURED CONTENT FALLBACK PATTERN TESTS
+  describe('API structured content fallback pattern', () => {
+    const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
+
+    const mockApiLongDescription = {
+      blocks: [
+        {
+          type: 'paragraph',
+          content:
+            'This is API-provided structured content for longDescription.',
+        },
+        {
+          type: 'list',
+          style: 'bullet',
+          items: ['API item 1', 'API item 2', 'API item 3'],
+        },
+      ],
+    };
+
+    const mockApiNextSteps = {
+      blocks: [
+        {
+          type: 'paragraph',
+          content: 'These are API-provided structured next steps.',
+        },
+      ],
+    };
+
+    context('longDescription fallback priority', () => {
+      it('Priority 1: API-provided structured content (JSON blocks → TrackedItemContent)', () => {
+        const item = {
+          id: 200,
+          displayName: '21-4142/21-4142a',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          longDescription: mockApiLongDescription, // API value present
+          description: 'Old simple description',
+        };
+
+        const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        // Should render API structured content
+        expect(getByTestId('api-long-description')).to.exist;
+        // Should NOT render frontend or simple API description
+        expect(queryByTestId('frontend-description')).to.not.exist;
+        expect(queryByTestId('api-description')).to.not.exist;
+        expect(queryByTestId('empty-state-description')).to.not.exist;
+      });
+    });
+
+    context('nextSteps fallback priority', () => {
+      it('Priority 1: API structured next steps', () => {
+        const item = {
+          id: 205,
+          displayName: '21-4142/21-4142a',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          nextSteps: mockApiNextSteps, // API value present
+        };
+
+        const {
+          getByTestId,
+          queryByTestId,
+          getByText,
+        } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        // Should render API structured next steps
+        expect(getByTestId('api-next-steps')).to.exist;
+        getByText('These are API-provided structured next steps.');
+        // Should NOT render frontend or generic next steps
+        expect(queryByTestId('frontend-next-steps')).to.not.exist;
+        expect(queryByTestId('next-steps-in-what-we-need-from-you')).to.not
+          .exist;
+      });
+    });
+
+    context('API content with generic next steps', () => {
+      it('References "What we need from you" when API longDescription exists', () => {
+        const item = {
+          id: 209,
+          displayName: 'Unknown Item Type',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          longDescription: mockApiLongDescription, // Has API content
+          // No nextSteps
+        };
+
+        const { getByTestId, getByText } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        // Should show "What we need from you" reference
+        const listItem = getByTestId('next-steps-in-what-we-need-from-you');
+        expect(listItem).to.exist;
+        expect(listItem.textContent).to.include(
+          'Gather and submit any documents',
+        );
+        expect(listItem.textContent).to.include('What we need from you');
+        // Should also show help text about claim letters
+        getByText(
+          'If you need help understanding this request, check your claim letter online.',
+        );
+      });
+    });
+
+    context('combined API structured content scenarios', () => {
+      it('Renders both API longDescription and nextSteps when both are provided', () => {
+        const item = {
+          id: 213,
+          displayName: 'Unknown Item Type',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          longDescription: mockApiLongDescription,
+          nextSteps: mockApiNextSteps,
+        };
+
+        const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        // Should render both API structured contents
+        expect(getByTestId('api-long-description')).to.exist;
+        expect(getByTestId('api-next-steps')).to.exist;
+        // Should NOT render any fallback content
+        expect(queryByTestId('frontend-description')).to.not.exist;
+        expect(queryByTestId('frontend-next-steps')).to.not.exist;
+        expect(queryByTestId('api-description')).to.not.exist;
+        expect(queryByTestId('next-steps-in-what-we-need-from-you')).to.not
+          .exist;
+      });
+
+      it('Renders API longDescription with frontend nextSteps (mixed API and dictionary)', () => {
+        const item = {
+          id: 214,
+          displayName: '21-4142/21-4142a',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          longDescription: mockApiLongDescription, // API
+          // nextSteps will come from dictionary
+        };
+
+        const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        // Should render API structured longDescription
+        expect(getByTestId('api-long-description')).to.exist;
+        // Should render frontend dictionary nextSteps
+        expect(getByTestId('frontend-next-steps')).to.exist;
+        // Should NOT render frontend description
+        expect(queryByTestId('frontend-description')).to.not.exist;
+        expect(queryByTestId('api-next-steps')).to.not.exist;
+      });
+
+      it('Renders frontend description with API nextSteps', () => {
+        const item = {
+          id: 215,
+          displayName: '21-4142/21-4142a',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          // longDescription will come from dictionary
+          nextSteps: mockApiNextSteps, // API
+        };
+
+        const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        // Should render frontend dictionary longDescription
+        expect(getByTestId('frontend-description')).to.exist;
+        // Should render API structured nextSteps
+        expect(getByTestId('api-next-steps')).to.exist;
+        // Should NOT render API longDescription
+        expect(queryByTestId('api-long-description')).to.not.exist;
+        expect(queryByTestId('frontend-next-steps')).to.not.exist;
+      });
+    });
+
+    context('backward compatibility', () => {
+      it('Maintains existing behavior when API fields are undefined', () => {
+        const item = {
+          id: 216,
+          displayName: '21-4142/21-4142a',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+          // longDescription and nextSteps not included (undefined)
+        };
+
+        const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={item} />,
+          { initialState },
+        );
+
+        // Should fallback to dictionary (existing behavior)
+        expect(getByTestId('frontend-description')).to.exist;
+        expect(getByTestId('frontend-next-steps')).to.exist;
+        expect(queryByTestId('api-long-description')).to.not.exist;
+        expect(queryByTestId('api-next-steps')).to.not.exist;
+      });
+    });
+  });
+
+  // ============================================================
+  // BOOLEAN PROPERTY FALLBACK TESTS
+  // Tests for API → dictionary → false fallback hierarchy
+  // for isSensitive, isDBQ, and noActionNeeded properties
+  // ============================================================
+  describe('Boolean property fallback pattern (API → dictionary → false)', () => {
+    const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
+
+    describe('isSensitive property', () => {
+      const isSensitiveTestCases = [
+        {
+          name: 'uses API value when present (API: true, dictionary: false)',
+          displayName: 'Employment info needed', // dictionary has no isSensitive
+          friendlyName: 'Test sensitive item',
+          isSensitive: true,
+          expectedHeader: 'Request for evidence',
+          subheaderIncludesFor: true,
+        },
+        {
+          name: 'uses dictionary value when API absent (dictionary: true)',
+          displayName: 'ASB - tell us where, when, how exposed', // dictionary has isSensitive: true
+          friendlyName: 'Asbestos info',
+          isSensitive: undefined,
+          expectedHeader: 'Request for evidence',
+          subheaderIncludesFor: true,
+        },
+        {
+          name: 'defaults to false when both API and dictionary absent',
+          displayName: 'Unknown item type', // no dictionary entry
+          friendlyName: 'Custom friendly name',
+          isSensitive: undefined,
+          expectedHeader: 'Custom friendly name',
+          subheaderIncludesFor: false,
+        },
+      ];
+
+      isSensitiveTestCases.forEach(testCase => {
+        it(testCase.name, () => {
+          const item = {
+            id: 300,
+            displayName: testCase.displayName,
+            status: 'NEEDED_FROM_YOU',
+            requestedDate: '2025-12-01',
+            suspenseDate: futureSuspenseDate,
+            friendlyName: testCase.friendlyName,
+            canUploadFile: true,
+            isSensitive: testCase.isSensitive,
+          };
+
+          const { getByText, container } = renderWithReduxAndRouter(
+            <DefaultPage {...defaultProps} item={item} />,
+            { initialState },
+          );
+
+          getByText(testCase.expectedHeader);
+          const h1 = container.querySelector('h1');
+          const subheaderSpan = h1.querySelector('span');
+          if (testCase.subheaderIncludesFor) {
+            expect(subheaderSpan.textContent).to.include('for:');
+          } else {
+            expect(subheaderSpan.textContent).to.not.include('for:');
+          }
+        });
+      });
+    });
+
+    describe('isDBQ property', () => {
+      const isDBQTestCases = [
+        {
+          name: 'uses API value when present (API: true, dictionary: false)',
+          displayName: 'Unknown third party request', // no dictionary entry
+          isDBQ: true,
+          expectOutsideVA: false,
+        },
+        {
+          name: 'uses dictionary value when API absent (dictionary: true)',
+          displayName: 'DBQ AUDIO Hearing Loss and Tinnitus', // dictionary has isDBQ: true
+          isDBQ: undefined,
+          expectOutsideVA: false,
+        },
+        {
+          name: 'defaults to false when both API and dictionary absent',
+          displayName: 'Unknown third party type', // no dictionary entry
+          isDBQ: undefined,
+          expectOutsideVA: true,
+        },
+      ];
+
+      isDBQTestCases.forEach(testCase => {
+        it(testCase.name, () => {
+          const item = {
+            id: 304,
+            displayName: testCase.displayName,
+            status: 'NEEDED_FROM_OTHERS',
+            requestedDate: '2025-12-01',
+            suspenseDate: futureSuspenseDate,
+            friendlyName: 'Test request',
+            canUploadFile: true,
+            isDBQ: testCase.isDBQ,
+          };
+
+          const { container } = renderWithReduxAndRouter(
+            <DefaultPage {...defaultProps} item={item} />,
+            { initialState },
+          );
+
+          const h1 = container.querySelector('h1');
+          const subheaderSpan = h1.querySelector('span');
+          if (testCase.expectOutsideVA) {
+            expect(subheaderSpan.textContent).to.include('outside VA');
+          } else {
+            expect(subheaderSpan.textContent).to.not.include('outside VA');
+          }
+        });
+      });
+    });
+
+    describe('noActionNeeded property', () => {
+      const noActionNeededTestCases = [
+        {
+          name: 'uses API value when present (API: true, dictionary: false)',
+          displayName: 'PMR Pending', // dictionary has no noActionNeeded
+          noActionNeeded: true,
+          expectUploadSuggestion: false,
+        },
+        {
+          name: 'uses dictionary value when API absent (dictionary: true)',
+          displayName: 'DBQ AUDIO Hearing Loss and Tinnitus', // dictionary has noActionNeeded: true
+          noActionNeeded: undefined,
+          expectUploadSuggestion: false,
+        },
+        {
+          name: 'defaults to false when both API and dictionary absent',
+          displayName: 'Unknown third party type', // no dictionary entry
+          noActionNeeded: undefined,
+          expectUploadSuggestion: true,
+        },
+      ];
+
+      noActionNeededTestCases.forEach(testCase => {
+        it(testCase.name, () => {
+          const item = {
+            id: 308,
+            displayName: testCase.displayName,
+            status: 'NEEDED_FROM_OTHERS',
+            requestedDate: '2025-12-01',
+            suspenseDate: futureSuspenseDate,
+            canUploadFile: true,
+            noActionNeeded: testCase.noActionNeeded,
+          };
+
+          const { queryByText } = renderWithReduxAndRouter(
+            <DefaultPage {...defaultProps} item={item} />,
+            { initialState },
+          );
+
+          const uploadSuggestion = queryByText(
+            /if you have documents related to this request, uploading them/i,
+          );
+          if (testCase.expectUploadSuggestion) {
+            expect(uploadSuggestion).to.exist;
+          } else {
+            expect(uploadSuggestion).to.not.exist;
+          }
+        });
       });
     });
   });

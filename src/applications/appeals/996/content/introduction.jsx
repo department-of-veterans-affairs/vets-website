@@ -91,7 +91,12 @@ export const ProcessList = () => (
 
 export const OmbBlock = () => (
   <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-y--4">
-    <va-omb-info res-burden="15" omb-number="2900-0862" exp-date="03/31/2027">
+    <va-omb-info
+      res-burden="15"
+      omb-number="2900-0862"
+      exp-date="03/31/2027"
+      modal-click-to-close
+    >
       <>
         <h2 className="vads-u-font-size--h3">Respondent Burden:</h2>
         <p>

@@ -32,7 +32,7 @@ const ssnServiceInfo = (
       <span className="form-required-span">(*Required)</span>
     </p>
     <p className="vads-u-font-size--sm vads-u-margin-bottom-1">
-      Please provide one of the following:
+      Provide one of the following:
     </p>
   </div>
 );
@@ -47,7 +47,7 @@ const aboutTheVeteranPage = {
         'ui:autocomplete': 'given-name',
         'ui:required': () => true,
         'ui:errorMessages': {
-          required: "Please provide the Veteran's first name",
+          required: "Provide the Veteran's first name",
         },
       },
       middle: {
@@ -61,7 +61,7 @@ const aboutTheVeteranPage = {
         'ui:autocomplete': 'family-name',
         'ui:required': () => true,
         'ui:errorMessages': {
-          required: "Please provide the Veteran's last name",
+          required: "Provide the Veteran's last name",
         },
       },
       suffix: {
@@ -77,7 +77,7 @@ const aboutTheVeteranPage = {
         title: CHAPTER_3.VET_DECEASED.TITLE,
         labels: yesNoOptions,
         errorMessages: {
-          required: 'Please let us know if the Veteran is deceased',
+          required: 'Let us know if the Veteran is deceased',
         },
       }),
       socialOrServiceNum: {
@@ -89,7 +89,7 @@ const aboutTheVeteranPage = {
           (errors, field) => {
             if (!Object.keys(field).some(key => field[key])) {
               errors.addError(
-                "Please enter either the Veteran's Social Security number or Service number",
+                "Enter either the Veteran's Social Security number or Service number",
               );
             }
           },
@@ -110,7 +110,7 @@ const aboutTheVeteranPage = {
       }),
       dateOfBirth: dateOfBirthUI({
         errorMessages: {
-          required: "Please provide the Veteran's date of birth",
+          required: "Provide the Veteran's date of birth",
         },
       }),
     },

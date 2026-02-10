@@ -1,13 +1,13 @@
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
-import { parse, parseISO, add, format, isToday, isValid } from 'date-fns';
+import { parse, parseISO, add, format, isValid } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
-import { addLeadingZero, coerceStringValue } from '.';
 import {
   FORMAT_YMD_DATE_FNS,
   FORMAT_READABLE_DATE_FNS,
-  REGEXP,
   VA_LONG_FORM_MONTHS,
+  REGEXP,
 } from '../constants';
+import { addLeadingZero, coerceStringValue } from '.';
 
 const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -21,16 +21,6 @@ export const getCurrentTimeZoneAbbr = () => {
   const now = new Date();
 
   return formatInTimeZone(now, timezone, 'zzz');
-};
-
-/**
- * Helper: Format date part in readable format
- * @param {Date} date - Date to format
- * @param {string} timezone - Target timezone (defaults to user's current timezone)
- * @returns {string} Formatted date (e.g., "January 15, 2024")
- */
-export const formatDatePart = (date, timezone = USER_TIMEZONE) => {
-  return formatInTimeZone(date, timezone, 'MMMM d, yyyy');
 };
 
 /**
@@ -106,11 +96,24 @@ export const getReadableDate = dateString =>
   parseDate(dateString, FORMAT_READABLE_DATE_FNS, FORMAT_YMD_DATE_FNS);
 
 /**
+ * Return any given date as a UTC date, preserving the calendar date
+ * Takes the LOCAL calendar date components and creates a UTC date at midnight
+ * @param {Date} date - The date to convert (uses local calendar date components)
+ * @returns {Date} - UTC date at midnight with the same calendar date
+ */
+export const getUTCDateFromDate = date => {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
+  );
+};
+
+/**
  * Get current UTC date at start of day (midnight)
  * @returns {Date} - Current UTC date at start of day
  */
 export const getCurrentUTCStartOfDay = () => {
   const now = new Date();
+
   return new Date(
     Date.UTC(
       now.getUTCFullYear(),
@@ -125,38 +128,28 @@ export const getCurrentUTCStartOfDay = () => {
 };
 
 /**
- * Convert any date to UTC start of day (preserving calendar date)
- * @param {Date} date - The date to convert
- * @returns {Date} - UTC date at start of day
- */
-export const toUTCStartOfDay = date => {
-  return new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
-  );
-};
-
-/**
- * Check if a date is today in local timezone
+ * Check if a date is in the future in UTC timezone
  * @param {Date} date - Date to check
- * @returns {boolean} - True if date is today locally
+ * @returns {boolean} - True if date is after today in UTC
  */
-export const isLocalToday = date => {
-  return isToday(date);
-};
-
-/**
- * Check if a date is today or in the future in UTC timezone
- * @param {Date} date - Date to check
- * @returns {boolean} - True if date is today or future in UTC
- */
-export const isUTCTodayOrFuture = date => {
+export const isUTCFuture = date => {
   const utcToday = getCurrentUTCStartOfDay();
-  const issueDateUtc = toUTCStartOfDay(date);
-  return issueDateUtc.getTime() >= utcToday.getTime();
+  const issueDate = getUTCDateFromDate(date);
+
+  return issueDate > utcToday;
 };
 
-const getAbbreviatedMonth = monthText =>
-  monthText === 'Sep' ? 'Sept.' : `${monthText}.`;
+/**
+ * Check if a date is today in UTC timezone
+ * @param {Date} date - Date to check (local calendar date)
+ * @returns {boolean} - True if date is today in UTC
+ */
+export const isUTCToday = date => {
+  const utcToday = getCurrentUTCStartOfDay();
+  const issueDate = getUTCDateFromDate(date);
+
+  return issueDate.getTime() === utcToday.getTime();
+};
 
 /**
  * Format a date object to VA.gov style with proper month abbreviations
@@ -178,7 +171,7 @@ export const formatDateToReadableString = date => {
 
   // Use standard abbreviation with period, handle September special case
   const monthText = format(date, 'MMM');
-  const abbreviatedMonth = getAbbreviatedMonth(monthText);
+  const abbreviatedMonth = monthText === 'Sep' ? 'Sept.' : `${monthText}.`;
   const day = format(date, 'd');
   const year = format(date, 'yyyy');
 
@@ -186,70 +179,28 @@ export const formatDateToReadableString = date => {
 };
 
 /**
- * Format a date string (e.g. '2002-02') to VA.gov style with proper month abbreviations
- * Similar to the above method, but doesn't include the date, just month and year
- * @param {string} date
- * @returns {string} - Date in VA.gov format (e.g. "Dec. 2025" or "March 2025")
- */
-export const formatMonthYearToReadableString = date => {
-  if (!date || date?.length < 7 || date?.length > 7) {
-    return date;
-  }
-
-  const dateArray = date.split('-');
-  const dateObj = new Date(dateArray[0], dateArray[1] - 1);
-  const month = dateArray[1];
-
-  if (VA_LONG_FORM_MONTHS.includes(parseInt(month - 1, 10))) {
-    return `${format(dateObj, 'MMMM')} ${dateArray[0]}`;
-  }
-
-  // Use standard abbreviation with period, handle September special case
-  const abbreviatedMonth = getAbbreviatedMonth(format(dateObj, 'MMM'));
-
-  return `${abbreviatedMonth} ${dateArray[0]}`;
-};
-
-/**
  * Helper: Format time part in readable format
  * @param {Date} date - Date to format
- * @param {string} timezone - Target timezone (defaults to user's current timezone)
  * @returns {string} Formatted time (e.g., "3:45 p.m.")
  */
-export const formatTimePart = (date, timezone = USER_TIMEZONE) => {
+const formatTimePart = date => {
   // Use date-fns-tz to format time with proper AM/PM formatting
-  const timeString = formatInTimeZone(date, timezone, 'h:mm a');
+  const timeString = formatInTimeZone(date, USER_TIMEZONE, 'h:mm a');
   // Convert "AM" to "a.m." and "PM" to "p.m." to match VA style guide
   return timeString.replace(/AM/g, 'a.m.').replace(/PM/g, 'p.m.');
-};
-
-/**
- * Helper: Format date with midnight in local timezone
- * E.g., in California (UTC-8), if decision was today, UTC midnight tomorrow converts to 5:00 p.m. today
- * Business decision: Don't allow same-day appeals, so we show stable "12:00 a.m. tomorrow" format
- * @param {Date} date - Date to format
- * @param {string} timezoneAbbr - Timezone abbreviation (optional, will be determined automatically)
- * @returns {string} Formatted date with midnight time
- */
-export const formatDateWithMidnight = (date, timezoneAbbr) => {
-  const userTimezone = USER_TIMEZONE;
-  const abbr = timezoneAbbr || getCurrentTimeZoneAbbr();
-  return `${formatDatePart(date, userTimezone)}, 12:00 a.m. ${abbr}`;
 };
 
 /**
  * Helper: Format date with specific time in local timezone
  * Used for showing UTC conversion times, e.g., in Japan (UTC+9), UTC midnight becomes 9:00 a.m. JST
  * @param {Date} date - Date to format
- * @param {string} timezoneAbbr - Timezone abbreviation (optional, will be determined automatically)
  * @returns {string} Formatted date with specific time
  */
-export const formatDateWithTime = (date, timezoneAbbr) => {
-  const userTimezone = USER_TIMEZONE;
-  const abbr = timezoneAbbr || getCurrentTimeZoneAbbr();
-  const datePart = formatDatePart(date, userTimezone);
-  const timePart = formatTimePart(date, userTimezone);
-  return `${datePart}, ${timePart} ${abbr}`;
+export const formatDateWithTime = date => {
+  const timezoneAbbr = getCurrentTimeZoneAbbr();
+  const datePart = formatDateToReadableString(date);
+  const timePart = formatTimePart(date);
+  return `${datePart}, ${timePart} ${timezoneAbbr}`;
 };
 
 /**

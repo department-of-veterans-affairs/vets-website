@@ -64,6 +64,19 @@ const isCompleteDate = date => {
 };
 
 /**
+ * Normalizes a date string to ISO date-only format (YYYY-MM-DD).
+ *
+ * If the input is a full ISO datetime string (e.g. "2025-09-15T08:00:00Z"),
+ * this returns only the date portion ("2025-09-15").
+ *
+ * Returns null if the input is not a string.
+ *
+ * This ensures consistent format for validation and comparison.
+ */
+const normalizeDate = date =>
+  typeof date === 'string' ? date.split('T')[0] : null;
+
+/**
  * Determines which air travel fields should be validated,
  * including dependent fields based on cross-field relationships.
  */
@@ -330,21 +343,24 @@ const validateAirTravelDepartureDate = (departureDate, returnDate) => {
     return 'Enter a departure date';
   }
 
-  const departureDateComplete = isCompleteDate(departureDate);
-  const returnDateComplete = isCompleteDate(returnDate);
+  const normalizedDepartureDate = normalizeDate(departureDate);
+  const normalizedReturnDate = normalizeDate(returnDate);
+
+  const departureDateComplete = isCompleteDate(normalizedDepartureDate);
+  const returnDateComplete = isCompleteDate(normalizedReturnDate);
 
   if (!departureDateComplete) {
     return null; // Partial date, no error
   }
 
-  const [year, month, day] = departureDate.split('-');
+  const [year, month, day] = normalizedDepartureDate.split('-');
   const futureDateError = getFutureDateError({ year, month, day });
 
   if (futureDateError) {
     return futureDateError;
   }
 
-  if (returnDateComplete && departureDate > returnDate) {
+  if (returnDateComplete && normalizedDepartureDate > normalizedReturnDate) {
     return 'Departure date must be before return date';
   }
 
@@ -360,8 +376,11 @@ const validateAirTravelReturnDate = (
   departureDate,
   fieldName,
 ) => {
-  const departureDateComplete = isCompleteDate(departureDate);
-  const returnDateComplete = isCompleteDate(returnDate);
+  const normalizedDepartureDate = normalizeDate(departureDate);
+  const normalizedReturnDate = normalizeDate(returnDate);
+
+  const departureDateComplete = isCompleteDate(normalizedDepartureDate);
+  const returnDateComplete = isCompleteDate(normalizedReturnDate);
   const shouldValidateReturnDate = tripType === TRIP_TYPES.ROUND_TRIP.value;
 
   // One-way trip with a return date
@@ -384,14 +403,17 @@ const validateAirTravelReturnDate = (
       return null; // Partial date from tripType change, no error
     }
 
-    const [year, month, day] = returnDate.split('-');
+    const [year, month, day] = normalizedReturnDate.split('-');
     const futureDateError = getFutureDateError({ year, month, day });
 
     if (futureDateError) {
       return futureDateError;
     }
 
-    if (departureDateComplete && returnDate < departureDate) {
+    if (
+      departureDateComplete &&
+      normalizedReturnDate < normalizedDepartureDate
+    ) {
       return 'Return date must be later than departure date';
     }
   }

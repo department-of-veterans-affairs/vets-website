@@ -28,30 +28,30 @@ export const FIELD_OPTION_IDS = {
     NO_PREFERENCE: 'option-6',
   },
   [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]: {
-    MONDAY_MORNING: 7,
-    MONDAY_AFTERNOON: 8,
-    TUESDAY_MORNING: 9,
-    TUESDAY_AFTERNOON: 10,
-    WEDNESDAY_MORNING: 11,
-    WEDNESDAY_AFTERNOON: 12,
-    THURSDAY_MORNING: 13,
-    THURSDAY_AFTERNOON: 14,
-    FRIDAY_MORNING: 15,
-    FRIDAY_AFTERNOON: 16,
-    NO_PREFERENCE: 17,
+    MONDAY_MORNING: 'option-7',
+    MONDAY_AFTERNOON: 'option-8',
+    TUESDAY_MORNING: 'option-9',
+    TUESDAY_AFTERNOON: 'option-10',
+    WEDNESDAY_MORNING: 'option-11',
+    WEDNESDAY_AFTERNOON: 'option-12',
+    THURSDAY_MORNING: 'option-13',
+    THURSDAY_AFTERNOON: 'option-14',
+    FRIDAY_MORNING: 'option-15',
+    FRIDAY_AFTERNOON: 'option-16',
+    NO_PREFERENCE: 'option-17',
   },
   [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]: {
-    MONDAY_MORNING: 18,
-    MONDAY_AFTERNOON: 19,
-    TUESDAY_MORNING: 20,
-    TUESDAY_AFTERNOON: 21,
-    WEDNESDAY_MORNING: 22,
-    WEDNESDAY_AFTERNOON: 23,
-    THURSDAY_MORNING: 24,
-    THURSDAY_AFTERNOON: 25,
-    FRIDAY_MORNING: 26,
-    FRIDAY_AFTERNOON: 27,
-    NO_PREFERENCE: 28,
+    MONDAY_MORNING: 'option-18',
+    MONDAY_AFTERNOON: 'option-19',
+    TUESDAY_MORNING: 'option-20',
+    TUESDAY_AFTERNOON: 'option-21',
+    WEDNESDAY_MORNING: 'option-22',
+    WEDNESDAY_AFTERNOON: 'option-23',
+    THURSDAY_MORNING: 'option-24',
+    THURSDAY_AFTERNOON: 'option-25',
+    FRIDAY_MORNING: 'option-26',
+    FRIDAY_AFTERNOON: 'option-27',
+    NO_PREFERENCE: 'option-28',
   },
   [FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING]: {
     yes: 29,
@@ -68,6 +68,13 @@ export const FIELD_OPTION_IDS = {
     female: 36,
     noPreference: 37,
   },
+};
+
+export const FIELD_ADDITIONAL_CONTENT = {
+  [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]:
+    'Select the days and times of day you want to go to your appointments.',
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]:
+    'Select the days and times of day you want us to contact you.',
 };
 
 export const FIELD_OPTION_IDS_INVERTED = {
@@ -193,4 +200,8 @@ export const SCHEDULING_PREF_PATHS = {
   CONTACT_METHOD: `${BASE_PATH}/contact-method`,
   CONTACT_TIMES: `${BASE_PATH}/contact-times`,
   APPOINTMENT_TIMES: `${BASE_PATH}/appointment-times`,
+};
+
+export const errorMessages = {
+  noPreferenceSelected: 'Select a scheduling preference',
 };

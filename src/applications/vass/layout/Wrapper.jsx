@@ -8,6 +8,27 @@ import classNames from 'classnames';
 import { focusElement } from 'platform/utilities/ui';
 
 import NeedHelp from '../components/NeedHelp';
+import ErrorAlert from '../components/ErrorAlert';
+
+// TODO: combine errorAlert and verificationError into a single prop
+
+const getContent = (errorAlert, verificationError, children) => {
+  if (errorAlert) {
+    return <ErrorAlert />;
+  }
+  if (verificationError) {
+    return (
+      <va-alert
+        data-testid="verification-error-alert"
+        class="vads-u-margin-top--4"
+        status="error"
+      >
+        {verificationError}
+      </va-alert>
+    );
+  }
+  return children;
+};
 
 const Wrapper = props => {
   const {
@@ -20,8 +41,31 @@ const Wrapper = props => {
     verificationError,
     loading = false,
     loadingMessage = 'Loading...',
+    errorAlert = false,
+    disableBeforeUnload = false,
   } = props;
   const navigate = useNavigate();
+
+  // Warn on page refresh/close
+  useEffect(
+    () => {
+      if (disableBeforeUnload) {
+        return undefined;
+      }
+
+      const handleBeforeUnload = e => {
+        e.preventDefault();
+        e.returnValue = '';
+      };
+
+      window.addEventListener('beforeunload', handleBeforeUnload);
+
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+    },
+    [disableBeforeUnload],
+  );
 
   useEffect(() => {
     focusElement('h1');
@@ -49,6 +93,8 @@ const Wrapper = props => {
     );
   }
 
+  const content = getContent(errorAlert, verificationError, children);
+
   return (
     <div
       className={classNames(`vads-l-grid-container vads-u-padding-x--2p5`, {
@@ -58,51 +104,44 @@ const Wrapper = props => {
       })}
       data-testid={testID}
     >
-      {showBackLink && (
-        <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--0">
-          <nav aria-label="backlink">
-            <va-link
-              back
-              aria-label="Back link"
-              data-testid="back-link"
-              text="Back"
-              href="#"
-              onClick={e => {
-                e.preventDefault();
-                navigate(-1);
-              }}
-            />
-          </nav>
-        </div>
-      )}
+      {!errorAlert &&
+        showBackLink && (
+          <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--0">
+            <nav aria-label="backlink">
+              <va-link
+                back
+                aria-label="Back link"
+                data-testid="back-link"
+                text="Back"
+                href="#"
+                onClick={e => {
+                  e.preventDefault();
+                  navigate(-1);
+                }}
+              />
+            </nav>
+          </div>
+        )}
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {pageTitle && (
-            <h1 tabIndex="-1" data-testid="header">
-              {pageTitle}
-              {required && (
-                <span className="vass-usa-label--required vads-u-font-family--sans">
-                  (*Required)
-                </span>
-              )}
-            </h1>
-          )}
+          {!errorAlert &&
+            pageTitle && (
+              <h1 tabIndex="-1" data-testid="header">
+                {pageTitle}
+                {required && (
+                  <span className="vass-usa-label--required vads-u-font-family--sans">
+                    (*Required)
+                  </span>
+                )}
+              </h1>
+            )}
           <DowntimeNotification
             appTitle="VA Solid Start"
             dependencies={[externalServices.vass]}
           >
-            {!verificationError && children}
-            {verificationError && (
-              <va-alert
-                data-testid="verification-error-alert"
-                class="vads-u-margin-top--4"
-                status="error"
-              >
-                {verificationError}
-              </va-alert>
-            )}
-            <NeedHelp />
+            {content}
           </DowntimeNotification>
+          <NeedHelp />
         </div>
       </div>
     </div>
@@ -112,8 +151,10 @@ const Wrapper = props => {
 export default Wrapper;
 
 Wrapper.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   className: PropTypes.string,
+  disableBeforeUnload: PropTypes.bool,
+  errorAlert: PropTypes.bool,
   loading: PropTypes.bool,
   loadingMessage: PropTypes.string,
   pageTitle: PropTypes.string,

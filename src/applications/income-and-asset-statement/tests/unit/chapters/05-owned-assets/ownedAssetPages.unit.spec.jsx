@@ -209,41 +209,6 @@ describe('owned asset list and loop pages', () => {
         );
       });
 
-      it('should return "Alex Smith’s income from a business" if recipient is Veteran and assetType is "business" and not logged in', () => {
-        const item = {
-          recipientRelationship: 'VETERAN',
-          assetType: 'BUSINESS',
-        };
-        expect(
-          options.text.getItemName(item, 0, {
-            ...mockFormData,
-            isLoggedIn: false,
-          }),
-        ).to.equal('Alex Smith’s income from a business');
-      });
-
-      it('should return "Alex Smith’s income from a farm" if recipient is Veteran and assetType is "farm" and not logged in', () => {
-        const item = { recipientRelationship: 'VETERAN', assetType: 'FARM' };
-        expect(
-          options.text.getItemName(item, 0, {
-            ...mockFormData,
-            isLoggedIn: false,
-          }),
-        ).to.equal('Alex Smith’s income from a farm');
-      });
-
-      it('should return "Alex Smith’s income from a rental property" if recipient is Veteran and assetType is "rental property" and not logged in', () => {
-        const item = {
-          recipientRelationship: 'VETERAN',
-          assetType: 'RENTAL_PROPERTY',
-        };
-        expect(
-          options.text.getItemName(item, 0, {
-            ...mockFormData,
-            isLoggedIn: false,
-          }),
-        ).to.equal('Alex Smith’s income from a rental property');
-      });
       it('should return undefined if required keys are not defined', () => {
         expect(options.text.getItemName({}, 0)).to.be.undefined;
       });

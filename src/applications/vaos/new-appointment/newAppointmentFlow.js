@@ -1,10 +1,8 @@
 /* eslint-disable no-shadow */
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
-  selectFeatureOHDirectSchedule,
-  selectFeatureOHRequest,
+  selectFeatureUseVpg,
   selectFeaturePCMHI,
-  selectFeatureRemoveFacilityConfigCheck,
   selectFeatureSubstanceUseDisorder,
   selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
@@ -88,11 +86,7 @@ async function vaFacilityNext(state, dispatch) {
   const location = getChosenFacilityInfo(state);
   const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
   const isCerner = isCernerLocation(location?.id, cernerSiteIds);
-  const featureOHDirectSchedule = selectFeatureOHDirectSchedule(state);
-  const featureOHRequest = selectFeatureOHRequest(state);
-  const featureRemoveFacilityConfigCheck = selectFeatureRemoveFacilityConfigCheck(
-    state,
-  );
+  const featureUseVpg = selectFeatureUseVpg(state);
 
   const typeOfCareEnabled = OH_ENABLED_TYPES_OF_CARE.includes(
     getTypeOfCare(state.newAppointment.data)?.idV2,
@@ -100,30 +94,6 @@ async function vaFacilityNext(state, dispatch) {
 
   const ehr = isCerner ? 'cerner' : 'vista';
   dispatch(updateFacilityEhr(ehr));
-
-  if (isCerner) {
-    if ((featureOHDirectSchedule || featureOHRequest) && typeOfCareEnabled) {
-      // Fetch eligibility if we haven't already
-      if (!eligibility) {
-        const siteId = getSiteIdFromFacilityId(location.id);
-
-        eligibility = await dispatch(
-          checkEligibility({
-            location,
-            siteId,
-            showModal: false,
-            isCerner: true,
-          }),
-        );
-      }
-
-      if (featureRemoveFacilityConfigCheck) {
-        if (eligibility.direct === true || eligibility.request === true)
-          return 'selectProvider';
-      } else return 'selectProvider';
-    }
-    return 'scheduleCerner';
-  }
 
   // Fetch eligibility if we haven't already
   if (!eligibility) {
@@ -134,9 +104,22 @@ async function vaFacilityNext(state, dispatch) {
         location,
         siteId,
         showModal: true,
-        isCerner: false,
+        isCerner,
       }),
     );
+  }
+
+  if (isCerner) {
+    if (
+      featureUseVpg &&
+      typeOfCareEnabled &&
+      (eligibility.direct || eligibility.request)
+    ) {
+      return 'selectProvider';
+    }
+    if (!featureUseVpg || !typeOfCareEnabled) {
+      return 'scheduleCerner';
+    }
   }
 
   if (eligibility.direct) {
@@ -148,6 +131,9 @@ async function vaFacilityNext(state, dispatch) {
     dispatch(startRequestAppointmentFlow());
     return 'requestDateTime';
   }
+
+  // Display Cerner error page when feature flag is on per conversation with UI team.
+  // if (featureRemoveFacilityConfigCheck) return 'scheduleCerner';
 
   dispatch(showEligibilityModal());
   return VA_FACILITY_V2_KEY;

@@ -53,6 +53,17 @@ const MedicationsListCard = ({ rx }) => {
     }
     return (
       <>
+        {rx &&
+          rx.isRefillable &&
+          rx.refillRemaining >= 0 && (
+            <p
+              data-testid="rx-refill-remaining"
+              data-dd-privacy="mask"
+              id={`refill-remaining-${rx.prescriptionId}`}
+            >
+              Refills remaining: {rx.refillRemaining}
+            </p>
+          )}
         {rx && <LastFilledInfo {...rx} />}
         {latestTrackingStatus && (
           <p

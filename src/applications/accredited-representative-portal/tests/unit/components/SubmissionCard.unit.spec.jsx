@@ -58,8 +58,9 @@ describe('SubmissionCard', () => {
     const statusText = container.querySelector('.submission__card-status');
     expect(statusText.textContent).to.include('Confirmation:');
     expect(statusText.textContent).to.include('ABC123456');
-    expect(statusText.textContent).to.include('VBMS eFolder status:');
-    expect(statusText.textContent).to.include('Received');
+    const statusRow = container.querySelector('.submission__card-status--row');
+    expect(statusRow.textContent).to.include('VBMS eFolder status:');
+    expect(statusRow.textContent).to.include('Received');
   });
 
   it('renders status message for "processing_error"', () => {
@@ -74,7 +75,7 @@ describe('SubmissionCard', () => {
       </MemoryRouter>,
     );
 
-    const status = container.querySelector('.submission__card-status');
+    const status = container.querySelector('.submission__card-status--row');
     expect(status.textContent).to.include('Processing error');
   });
 
@@ -90,7 +91,7 @@ describe('SubmissionCard', () => {
       </MemoryRouter>,
     );
 
-    const status = container.querySelector('.submission__card-status');
+    const status = container.querySelector('.submission__card-status--row');
     expect(status.textContent).to.include('Awaiting receipt');
   });
 });
