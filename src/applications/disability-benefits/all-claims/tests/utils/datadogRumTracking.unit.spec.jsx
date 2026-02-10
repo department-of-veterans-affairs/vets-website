@@ -7,8 +7,8 @@ import {
   trackFormStarted,
 } from '../../utils/tracking/datadogRumTracking';
 import {
-  TRACKING_526EZ_BACK_BUTTON_CLICKS,
-  TRACKING_526EZ_FORM_RESUMPTION,
+  TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
+  TRACKING_526EZ_SIDENAV_FORM_RESUMPTION,
 } from '../../constants';
 
 describe('datadogRumTracking', () => {
@@ -32,9 +32,9 @@ describe('datadogRumTracking', () => {
       pathname: '/test-path',
     });
 
-    expect(sessionStorage.getItem(TRACKING_526EZ_BACK_BUTTON_CLICKS)).to.equal(
-      '1',
-    );
+    expect(
+      sessionStorage.getItem(TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS),
+    ).to.equal('1');
     expect(addActionStub.calledOnce).to.be.true;
 
     const [actionName, properties] = addActionStub.firstCall.args;
@@ -47,15 +47,15 @@ describe('datadogRumTracking', () => {
   });
 
   it('clears resumption flag and tracks save form click', () => {
-    sessionStorage.setItem(TRACKING_526EZ_FORM_RESUMPTION, 'true');
+    sessionStorage.setItem(TRACKING_526EZ_SIDENAV_FORM_RESUMPTION, 'true');
     trackSaveFormClick({
       featureToggles: { sidenav526ezEnabled: false },
       pathname: '/save-path',
     });
 
-    expect(sessionStorage.getItem(TRACKING_526EZ_FORM_RESUMPTION)).to.equal(
-      null,
-    );
+    expect(
+      sessionStorage.getItem(TRACKING_526EZ_SIDENAV_FORM_RESUMPTION),
+    ).to.equal(null);
     expect(addActionStub.calledOnce).to.be.true;
 
     const [actionName, properties] = addActionStub.firstCall.args;

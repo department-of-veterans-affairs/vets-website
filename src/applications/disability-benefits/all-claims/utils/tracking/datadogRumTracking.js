@@ -1,9 +1,9 @@
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 import { datadogRum } from '@datadog/browser-rum';
 import {
-  TRACKING_526EZ_BACK_BUTTON_CLICKS,
-  TRACKING_526EZ_CONTINUE_BUTTON_CLICKS,
-  TRACKING_526EZ_FORM_RESUMPTION,
+  TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
+  TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
+  TRACKING_526EZ_SIDENAV_FORM_RESUMPTION,
 } from '../../constants';
 
 /**
@@ -36,12 +36,12 @@ const trackAction = (actionName, properties) => {
 export const trackBackButtonClick = ({ featureToggles, pathname }) => {
   // Track back button clicks in sessionStorage
   const currentCount = parseInt(
-    sessionStorage.getItem(TRACKING_526EZ_BACK_BUTTON_CLICKS) || '0',
+    sessionStorage.getItem(TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS) || '0',
     10,
   );
   const newCount = currentCount + 1;
   sessionStorage.setItem(
-    TRACKING_526EZ_BACK_BUTTON_CLICKS,
+    TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
     newCount.toString(),
   );
 
@@ -81,7 +81,7 @@ export const trackSaveFormClick = ({ featureToggles, pathname }) => {
   }
 
   // Clear form resumption tracking flag so if user resumes again in same session, it tracks
-  sessionStorage.removeItem(TRACKING_526EZ_FORM_RESUMPTION);
+  sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_FORM_RESUMPTION);
 
   trackAction(
     'Form save in progress - Finish this application later clicked',
@@ -101,12 +101,13 @@ export const trackSaveFormClick = ({ featureToggles, pathname }) => {
 export const trackContinueButtonClick = ({ featureToggles, pathname }) => {
   // Track continue button clicks in sessionStorage
   const currentCount = parseInt(
-    sessionStorage.getItem(TRACKING_526EZ_CONTINUE_BUTTON_CLICKS) || '0',
+    sessionStorage.getItem(TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS) ||
+      '0',
     10,
   );
   const newCount = currentCount + 1;
   sessionStorage.setItem(
-    TRACKING_526EZ_CONTINUE_BUTTON_CLICKS,
+    TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
     newCount.toString(),
   );
 
