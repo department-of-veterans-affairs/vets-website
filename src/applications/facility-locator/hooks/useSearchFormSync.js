@@ -68,11 +68,17 @@ const useSearchFormSync = ({
 
           if (shouldSyncFromUrl) {
             const serviceType = location.query.serviceType || null;
-            const vamcServiceDisplay =
-              location.query.vamcServiceDisplay ||
-              (serviceType
-                ? getServiceDisplayName(serviceType, vaHealthServicesData)
-                : null);
+            const facilityIsHealth = location.query.facilityType === 'health';
+
+            let vamcServiceDisplay = location.query.vamcServiceDisplay || null;
+            if (!vamcServiceDisplay && serviceType) {
+              vamcServiceDisplay = getServiceDisplayName(
+                serviceType,
+                vaHealthServicesData,
+              );
+            } else if (!vamcServiceDisplay && facilityIsHealth) {
+              vamcServiceDisplay = 'All VA health services';
+            }
 
             stateFromUrl = {
               facilityType: location.query.facilityType || null,

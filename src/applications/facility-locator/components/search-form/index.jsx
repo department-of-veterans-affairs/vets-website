@@ -215,7 +215,10 @@ export const SearchForm = props => {
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
         isTablet={isTablet}
-        committedVamcServiceDisplay={currentQuery.vamcServiceDisplay}
+        committedVamcServiceDisplay={
+          draftFormState.vamcServiceDisplay ||
+          (draftFormState.serviceType && currentQuery.vamcServiceDisplay)
+        }
         onVamcDraftChange={updateDraftState}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}

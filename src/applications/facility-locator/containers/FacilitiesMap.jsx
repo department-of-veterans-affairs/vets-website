@@ -216,6 +216,8 @@ const FacilitiesMap = props => {
 
     updateUrlParams({
       address: searchString,
+      facilityType,
+      serviceType,
     });
     props.genBBoxFromAddress(
       {
@@ -514,6 +516,7 @@ const FacilitiesMap = props => {
               isMobile={isMobile}
               isSmallDesktop={isSmallDesktop}
               isTablet={isTablet}
+              location={props.location}
               mobileMapUpdateEnabled={mobileMapUpdateEnabled}
               onChange={props.updateSearchQuery}
               onSubmit={handleSearch}
@@ -522,6 +525,7 @@ const FacilitiesMap = props => {
               setSearchInitiated={setSearchInitiated}
               suppressPPMS={props.suppressPPMS}
               useProgressiveDisclosure={useProgressiveDisclosure}
+              vaHealthServicesData={props.vaHealthServicesData}
               vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
             />
             <EmergencyCareAlert
@@ -949,6 +953,7 @@ const mapStateToProps = state => ({
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   useProgressiveDisclosure: facilitiesUseFlProgressiveDisclosure(state),
+  vaHealthServicesData: state.drupalStaticData?.vaHealthServicesData,
   vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
 });
 
