@@ -41,52 +41,31 @@ const log = logger.withContext('customSubmit');
  * @returns {Promise} Promise that resolves with API response or rejects with error
  */
 export const customSubmit = async (form, formConfig) => {
-  // Check if user has an authentication token
-  if (infoTokenExists()) {
-    const infoToken = getInfoToken();
+  const infoToken = infoTokenExists() ? getInfoToken() : null;
+  const expirationTime = infoToken?.access_token_expiration;
+  const serviceName = sessionStorage.getItem('serviceName');
 
-    if (infoToken?.access_token_expiration) {
-      // Get current time and token expiration time (both in seconds)
-      const currentTime = Math.floor(Date.now() / 1000);
-      const expirationTime = infoToken.access_token_expiration;
-      const timeUntilExpiration = expirationTime - currentTime;
+  if (expirationTime && serviceName) {
+    const timeUntilExpiration = expirationTime - Math.floor(Date.now() / 1000);
 
-      // Only refresh if token expires within the expiration buffer
-      // This catches tokens about to expire without always refreshing
-      const shouldRefresh = timeUntilExpiration < TOKEN_EXPIRATION_BUFFER;
-
-      if (shouldRefresh) {
+    if (timeUntilExpiration < TOKEN_EXPIRATION_BUFFER) {
+      try {
         log.info('Refreshing token');
-
-        try {
-          const serviceName = sessionStorage.getItem('serviceName');
-          await refresh({ type: serviceName });
-
-          log.info('Token refreshed successfully');
-        } catch (error) {
-          // If token refresh fails, still attempt submission
-          // The submitToUrl function will handle token refresh on 403 as fallback
-          log.warn(
-            'Proactive token refresh failed, proceeding with submission',
-            error,
-          );
-        }
-      } else {
-        log.debug(`Token expires in ${timeUntilExpiration}s, skipping refresh`);
+        await refresh({ type: serviceName });
+        log.info('Token refreshed successfully');
+      } catch (error) {
+        log.warn(
+          'Proactive token refresh failed, proceeding with submission',
+          error,
+        );
       }
     }
-  } else {
-    log.debug('No auth token found, skipping refresh');
   }
 
-  // Transform the form data using the configured transformer
-  // This converts frontend form structure to backend API schema
   const body = formConfig.transformForSubmit
     ? formConfig.transformForSubmit(formConfig, form)
     : transformForSubmit(formConfig, form);
 
-  // Submit to the API using platform's submitToUrl function
-  // This still includes the reactive 403 retry logic as a safety net
   return submitToUrl(body, formConfig.submitUrl, formConfig.trackingPrefix);
 };
 
