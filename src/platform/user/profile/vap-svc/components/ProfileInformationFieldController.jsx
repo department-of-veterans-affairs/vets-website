@@ -609,17 +609,12 @@ class ProfileInformationFieldController extends React.Component {
         <AddressValidationView
           refreshTransaction={this.refreshTransactionNotProps}
           transaction={transaction}
-          transactionRequest={transactionRequest}
+          transactionError={transactionError}
           title={title}
-          clearErrors={this.clearErrors}
           successCallback={this.props.successCallback}
         />
       );
     }
-
-    const error =
-      transactionRequest?.error ||
-      (isFailedTransaction(transaction) ? {} : null);
 
     return (
       <div data-field-name={fieldName} data-testid={fieldName}>
@@ -666,7 +661,7 @@ class ProfileInformationFieldController extends React.Component {
           isEnrolledInVAHealthCare={isEnrolledInVAHealthCare}
           isVisible={showRemoveModal}
           onHide={this.closeModal}
-          error={error}
+          error={transactionError}
         />
 
         {content}

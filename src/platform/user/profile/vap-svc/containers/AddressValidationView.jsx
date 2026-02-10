@@ -5,15 +5,11 @@ import {
   VaAlert,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  isFailedTransaction,
-  isPendingTransaction,
-} from 'platform/user/profile/vap-svc/util/transactions';
+import { isPendingTransaction } from 'platform/user/profile/vap-svc/util/transactions';
 import {
   hasBadAddress,
   selectAddressValidation,
 } from 'platform/user/profile/vap-svc/selectors';
-import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import { formatAddress } from 'platform/forms/address/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
@@ -360,8 +356,9 @@ class AddressValidationView extends React.Component {
       addressValidationErrorCode,
       confirmedSuggestions,
       suggestedAddresses,
-      transaction,
-      transactionRequest,
+      // transaction,
+      // transactionRequest,
+      transactionError,
       isLoading,
       overrideValidationKey,
       isNoValidationKeyAlertEnabled,
@@ -382,19 +379,20 @@ class AddressValidationView extends React.Component {
     const shouldShowSuggestions =
       confirmedSuggestions && confirmedSuggestions.length > 0;
 
-    const error =
-      transactionRequest?.error ||
-      (isFailedTransaction(transaction) ? {} : null);
-
     return (
       <>
-        <div role="alert">
+        {/*
+        Show the address validation alert when there is no service transaction error.
+        A transaction error alert will appear in the element position right before this component and
+        under the field component header.
+        */}
+        {!transactionError && (
           <VaAlert
             className="vads-u-margin-bottom--1 vads-u-margin-top--0"
             status={addressValidationError ? 'error' : 'warning'}
             visible
-            uswds
             slim={addressValidationMessage?.slim}
+            role="alert"
           >
             {addressValidationMessage.headline && (
               <h4 id="address-validation-alert-heading" slot="headline">
@@ -405,15 +403,10 @@ class AddressValidationView extends React.Component {
               editFunction={this.onEditClick}
             />
           </VaAlert>
-        </div>
+        )}
         <form onSubmit={this.onSubmit}>
           {this.renderAddressOption(addressFromUser)}
           {shouldShowSuggestions && this.renderAddressOption({}, 'suggested')}
-          {error && (
-            <div className="vads-u-margin-bottom--1" role="alert">
-              <VAPServiceEditModalErrorMessage error={error} />
-            </div>
-          )}
 
           <div className="vads-u-display--flex mobile-lg:vads-u-display--block vads-u-flex-direction--column">
             {this.renderPrimaryButton()}
@@ -528,6 +521,7 @@ AddressValidationView.propTypes = {
   successCallback: PropTypes.func,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
+  transactionError: PropTypes.object,
   userHasBadAddress: PropTypes.bool,
   overrideValidationKey: PropTypes.number,
   vapServiceFormFields: PropTypes.object,
