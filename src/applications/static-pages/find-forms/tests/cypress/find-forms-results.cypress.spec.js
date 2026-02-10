@@ -134,7 +134,7 @@ describe('find forms search results', () => {
 
         cy.get('va-link[download]')
           .should('have.attr', 'filetype', 'PDF')
-          .should('contain.text', 'Download VA Form 10-252')
+          .should('have.attr', 'text', 'Download VA Form 10-252')
           .should(
             'have.attr',
             'href',
