@@ -19,6 +19,10 @@ class VitalsListPage extends BaseListPage {
       '@maintenanceWindow',
       '@status',
     ]);
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   clickLinkByRecordListItem = vitalsHeading => {
@@ -31,6 +35,11 @@ class VitalsListPage extends BaseListPage {
       .find('[data-testid="vital-li-review-over-time"]')
       .should('be.visible')
       .click();
+
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
 
     // Wait for the detail page to load after navigation
     cy.get('[data-testid="vital-date"]', { timeout: 10000 }).should('exist');
