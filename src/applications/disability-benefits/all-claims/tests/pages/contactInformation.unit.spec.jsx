@@ -765,19 +765,17 @@ describe('Disability benefits 526EZ contact information', () => {
     });
 
     describe('ReviewCardField edit state for invalid prefilled addresses', () => {
-      // Two mechanisms force the ReviewCardField to start in edit mode:
+      // The mailingAddress uses ReviewCardField with
+      // startInEdit: hasInvalidPrefillData. This forces edit mode when
+      // prefilled/saved data would fail validation AFTER normalization
+      // (trim + collapse consecutive spaces). It checks both maxLength
+      // and pattern against the normalized value — the same logic used
+      // by createAddressValidator on user interaction.
       //
-      // 1. JSON schema maxLength (via `extend` on addressSchema): If a
-      //    prefilled field exceeds the 526EZ limit (20 chars for address lines,
-      //    30 for city), the JSON schema error makes errorSchemaIsValid() return
-      //    false → edit mode.
-      //
-      // 2. startInEdit with hasInvalidPrefillData: If a prefilled field has
-      //    disallowed characters (per the 526EZ regex pattern), the startInEdit
-      //    function returns true → edit mode. This function normalizes spaces
-      //    (trim + collapse) before checking the pattern — same logic as
-      //    createAddressValidator — so extra spaces don't falsely trigger it.
-      //    (See PR #42005 for the normalization rationale.)
+      // Additionally, the JSON schema extend sets maxLength: 20 for
+      // address lines and maxLength: 30 for city. This lets the
+      // constructor's errorSchemaIsValid check also catch over-length
+      // data as a belt-and-suspenders approach.
 
       it('should start mailing address card in edit mode when addressLine1 exceeds 20 characters', () => {
         const form = mount(
@@ -816,11 +814,10 @@ describe('Disability benefits 526EZ contact information', () => {
         form.unmount();
       });
 
-      it('should NOT start in edit mode for address with extra spaces (spaces are normalized before pattern check)', () => {
-        // This is the key regression test for PR #42005 — extra spaces in
-        // prefilled data should not trigger edit mode. The startInEdit
-        // function (hasInvalidPrefillData) normalizes spaces before checking
-        // the pattern, just like createAddressValidator does.
+      it('should NOT start in edit mode for address with extra spaces (spaces are normalized before validation)', () => {
+        // Regression test for PR #42005 — extra spaces in prefilled data
+        // should not trigger edit mode. hasInvalidPrefillData normalizes
+        // spaces before checking, just like createAddressValidator does.
         const form = mount(
           <Provider store={fakeStore}>
             <DefinitionTester
@@ -849,7 +846,46 @@ describe('Disability benefits 526EZ contact information', () => {
         const mailingSection = form.find('.review-card');
         const mailingCard = mailingSection.at(1);
         // Should be in view mode — extra spaces are normalized (collapsed)
-        // before pattern check, so they don't trigger edit mode
+        // before both maxLength and pattern checks
+        expect(mailingCard.find('.input-section').length).to.equal(0);
+        expect(mailingCard.find('button.edit-button').exists()).to.be.true;
+
+        form.unmount();
+      });
+
+      it('should NOT start in edit mode when extra spaces make raw length exceed 20 but normalized length is under 20', () => {
+        // This is the key test: the raw value "  also.        spaces" is 21
+        // chars (> maxLength 20) but after normalization becomes "also. spaces"
+        // (12 chars). Since hasInvalidPrefillData normalizes before checking,
+        // this should NOT trigger edit mode.
+        const form = mount(
+          <Provider store={fakeStore}>
+            <DefinitionTester
+              definitions={formConfig.defaultDefinitions}
+              schema={schema}
+              data={{
+                phoneAndEmail: {
+                  primaryPhone: '1231231231',
+                  emailAddress: 'a@b.co',
+                },
+                mailingAddress: {
+                  'view:livesOnMilitaryBase': false,
+                  country: 'USA',
+                  addressLine1: '123 Main St',
+                  addressLine3: '  also.        spaces',
+                  city: 'Anytown',
+                  state: 'MI',
+                  zipCode: '12345',
+                },
+              }}
+              formData={{}}
+              uiSchema={uiSchema}
+            />
+          </Provider>,
+        );
+
+        const mailingSection = form.find('.review-card');
+        const mailingCard = mailingSection.at(1);
         expect(mailingCard.find('.input-section').length).to.equal(0);
         expect(mailingCard.find('button.edit-button').exists()).to.be.true;
 

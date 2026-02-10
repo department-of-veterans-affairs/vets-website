@@ -105,11 +105,11 @@ export const uiSchema = {
       viewComponent: AddressViewField,
       classNames:
         'vads-web-component-pattern vads-web-component-pattern-address',
-      // Force edit mode when prefilled address data has invalid characters.
-      // Uses the same normalized validation as createAddressValidator so that
-      // extra spaces (which get collapsed) don't falsely trigger edit mode,
-      // but genuinely disallowed characters do. maxLength is already handled
-      // by the JSON schema via the `extend` option on addressSchema.
+      // Force edit mode when prefilled/saved address data is invalid.
+      // Uses normalized validation (trim + collapse spaces) so extra spaces
+      // don't falsely trigger edit mode, but genuinely invalid data does.
+      // Checks both maxLength and pattern against normalized values.
+      // This runs in ReviewCardField's constructor on mount.
       startInEdit: hasInvalidPrefillData,
     },
     // Override country field to display 'USA' instead of 'United States'
@@ -184,25 +184,25 @@ export const schema = {
         postalCode: 'zipCode',
         isMilitary: 'view:livesOnMilitaryBase',
       },
-      // Restore 526EZ-specific maxLength so the JSON schema validator catches
-      // invalid prefilled data at initial render. Without these, the platform
-      // default (maxLength: 100) means ReviewCardField won't detect errors and
-      // won't start in edit mode — leaving the user stuck on a view-only card
-      // with hidden validation errors they can't see or fix.
+      // NOTE: No `extend` overrides here. The platform's profileAddress uses
+      // maxLength: 100, but we intentionally do NOT override it to 20/30.
+      // Doing so would cause JSON schema to check raw values (before
+      // normalization), falsely triggering edit mode for data with extra
+      // spaces that normalizes to under the limit.
       //
-      // NOTE: Only maxLength is set here, NOT pattern. The pattern validation
-      // is handled by createAddressValidator (ui:validations) which normalizes
-      // spaces before checking — preventing false failures from consecutive
-      // spaces in prefilled data and showing user-friendly error messages
-      // instead of the raw regex pattern. (See PR #42005)
-      extend: {
-        street: { maxLength: 20 },
-        street2: { maxLength: 20 },
-        street3: { maxLength: 20 },
-        city: {
-          maxLength: fullSchema.definitions.address.properties.city.maxLength,
-        },
-      },
+      // Instead, all 526EZ-specific validation (maxLength + pattern) is
+      // handled through normalized paths:
+      //
+      // 1. startInEdit (hasInvalidPrefillData) — forces ReviewCardField into
+      //    edit mode when prefilled data is invalid AFTER normalization.
+      //    Checks both maxLength and pattern. This prevents false triggers
+      //    from extra spaces while catching genuinely invalid data.
+      //
+      // 2. createAddressValidator (ui:validations) — validates on user
+      //    interaction with the same normalization + friendly error messages.
+      //
+      // 3. Prefill normalization — trims/collapses spaces at data entry time
+      //    in prefillTransformer, and at submit time in cleanUpMailingAddress.
     }),
     'view:contactInfoDescription': {
       type: 'object',

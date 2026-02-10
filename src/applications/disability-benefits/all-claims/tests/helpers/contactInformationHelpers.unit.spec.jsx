@@ -691,5 +691,43 @@ describe('contactInformationHelpers', () => {
         }),
       ).to.be.true;
     });
+
+    it('should return true for addressLine1 exceeding 20 chars after normalization', () => {
+      expect(
+        hasInvalidPrefillData({
+          addressLine1: 'This Address Is Way Too Long For Field',
+          city: 'Anytown',
+        }),
+      ).to.be.true;
+    });
+
+    it('should return true for city exceeding 30 chars after normalization', () => {
+      expect(
+        hasInvalidPrefillData({
+          addressLine1: '123 Main St',
+          city:
+            'A Very Long City Name That Exceeds The Thirty Character Maximum',
+        }),
+      ).to.be.true;
+    });
+
+    it('should return false when extra spaces make raw length > 20 but normalized length <= 20', () => {
+      // Raw: "  also.        spaces" = 21 chars (> 20)
+      // Normalized: "also. spaces" = 12 chars (<= 20)
+      expect(
+        hasInvalidPrefillData({
+          addressLine3: '  also.        spaces',
+        }),
+      ).to.be.false;
+    });
+
+    it('should return true when normalized length still exceeds maxLength', () => {
+      // Even after normalization, this is over 20 chars
+      expect(
+        hasInvalidPrefillData({
+          addressLine1: '1234567890 1234567890 Extra',
+        }),
+      ).to.be.true;
+    });
   });
 });

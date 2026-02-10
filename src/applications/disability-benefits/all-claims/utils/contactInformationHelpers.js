@@ -196,11 +196,11 @@ export const createAddressValidator = fieldKey => {
 /**
  * Check if any address field has invalid prefilled data using normalized
  * validation. This runs the same normalization (trim + collapse spaces) as
- * createAddressValidator before checking against the pattern, so extra spaces
- * won't falsely trigger edit mode, but genuinely invalid characters will.
+ * createAddressValidator before checking both maxLength AND pattern, so extra
+ * spaces won't falsely trigger edit mode, but genuinely invalid data will.
  *
  * Used by ReviewCardField's startInEdit to force edit mode when prefilled
- * address data contains characters that aren't allowed by the schema.
+ * address data would fail validation after normalization.
  *
  * NOTE: ReviewCardField passes the field's own data (the mailingAddress
  * object) to startInEdit, not the root form data.
@@ -226,9 +226,13 @@ export const hasInvalidPrefillData = addressData => {
     const config = ADDRESS_FIELD_CONFIG[configKey];
     const normalized = normalizeAddressLine(value);
 
-    // Check pattern against the normalized value — same logic as
-    // createAddressValidator so validation is consistent everywhere
-    return !config.pattern.test(normalized);
+    // Check both maxLength and pattern against the normalized value —
+    // same logic as createAddressValidator so validation is consistent.
+    // All checks use the normalized value so extra spaces (which get
+    // collapsed) don't falsely trigger edit mode.
+    if (normalized.length > config.maxLength) return true;
+    if (!config.pattern.test(normalized)) return true;
+    return false;
   });
 };
 
