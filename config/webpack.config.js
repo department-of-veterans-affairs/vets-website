@@ -284,6 +284,8 @@ module.exports = async (env = {}) => {
     destination: buildtype,
     ...env,
   };
+  const isStylelintEnabled =
+    buildOptions.stylelint === true || buildOptions.stylelint === 'true';
 
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = { ...apps, ...globalEntryFiles };
@@ -303,6 +305,18 @@ module.exports = async (env = {}) => {
   const baseConfig = {
     mode: isOptimizedBuild ? 'production' : 'development',
     devtool: false,
+    cache:
+      buildtype !== LOCALHOST
+        ? false
+        : {
+            type: 'filesystem',
+            cacheDirectory: path.resolve(__dirname, '../.cache/webpack'),
+            buildDependencies: {
+              config: [__filename],
+              babel: [path.resolve(__dirname, '../babel.config.json')],
+              postcss: [path.resolve(__dirname, '../postcss.config.js')],
+            },
+          },
     entry: entryFiles,
     output: {
       path: path.resolve(buildPath, 'generated'),
@@ -521,12 +535,6 @@ module.exports = async (env = {}) => {
         filename: '[file].map',
       }),
 
-      new StylelintPlugin({
-        configFile: '.stylelintrc.json',
-        exclude: ['node_modules', 'build', 'coverage', '.cache'],
-        fix: true,
-      }),
-
       new MiniCssExtractPlugin(),
 
       new webpack.IgnorePlugin({
@@ -571,6 +579,16 @@ module.exports = async (env = {}) => {
       new WebpackManifestPlugin({
         fileName: 'file-manifest.json',
         filter: ({ isChunk }) => isChunk,
+      }),
+    );
+  }
+
+  if (isStylelintEnabled) {
+    baseConfig.plugins.push(
+      new StylelintPlugin({
+        configFile: '.stylelintrc.json',
+        exclude: ['node_modules', 'build', 'coverage', '.cache'],
+        fix: true,
       }),
     );
   }
