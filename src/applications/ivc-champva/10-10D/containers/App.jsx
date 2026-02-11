@@ -45,10 +45,9 @@ export default function App({ location, children }) {
     );
   });
 
-  // redirect to merged form if feature is active & user doesn't have an in-progress form
+  // redirect to merged form
   useLayoutEffect(
     () => {
-      if (isAppLoading) return;
       window.location.replace(getAppUrl('10-10d-extended'));
     },
     [isAppLoading],
