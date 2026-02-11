@@ -413,13 +413,21 @@ describe('Reply form component', () => {
   describe('OH Migration Phase tests', () => {
     const migrationSchedules = [
       {
-        facilities: [{ facilityId: '123', facilityName: 'Test Facility' }],
+        migrationDate: 'February 13, 2026',
+        facilities: [
+          { facilityId: '979', facilityName: 'Test VA Medical Center' },
+        ],
+        migrationStatus: 'ACTIVE',
         phases: {
           current: 'p3',
-          p3: '2026-02-01',
-          p4: '2026-02-08',
-          p5: '2026-02-15',
-          p6: '2026-02-22',
+          p0: 'December 15, 2025 at 12:00AM ET',
+          p1: 'December 30, 2025 at 12:00AM ET',
+          p2: 'January 14, 2026 at 12:00AM ET',
+          p3: 'February 7, 2026 at 12:00AM ET',
+          p4: 'February 10, 2026 at 12:00AM ET',
+          p5: 'February 13, 2026 at 12:00AM ET',
+          p6: 'February 15, 2026 at 12:00AM ET',
+          p7: 'February 20, 2026 at 12:00AM ET',
         },
       },
     ];

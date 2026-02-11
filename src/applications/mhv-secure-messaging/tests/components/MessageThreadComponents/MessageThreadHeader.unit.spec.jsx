@@ -140,17 +140,28 @@ describe('MessageThreadHeader component', () => {
   });
 
   describe('MigratingFacilitiesAlerts visibility', () => {
+    const MIGRATION_ALERT_H2 = /You can.t use messages to contact providers at some facilities right now/i;
+
     const migrationSchedulesFixture = [
       {
-        facilities: [{ name: 'Test Facility', id: '123' }],
+        migrationDate: 'February 13, 2026',
+        facilities: [
+          {
+            facilityId: '979',
+            facilityName: 'Test VA Medical Center',
+          },
+        ],
+        migrationStatus: 'ACTIVE',
         phases: {
           current: 'p3',
-          p3Start: '2026-02-01',
-          p3End: '2026-02-10',
-          p4Start: '2026-02-10',
-          p4End: '2026-02-15',
-          p5Start: '2026-02-15',
-          p5End: '2026-02-20',
+          p0: 'December 15, 2025 at 12:00AM ET',
+          p1: 'December 30, 2025 at 12:00AM ET',
+          p2: 'January 14, 2026 at 12:00AM ET',
+          p3: 'February 7, 2026 at 12:00AM ET',
+          p4: 'February 10, 2026 at 12:00AM ET',
+          p5: 'February 13, 2026 at 12:00AM ET',
+          p6: 'February 15, 2026 at 12:00AM ET',
+          p7: 'February 20, 2026 at 12:00AM ET',
         },
       },
     ];
@@ -173,7 +184,8 @@ describe('MessageThreadHeader component', () => {
       };
       const screen = setup(state, defaultProps);
       // When in migration phase, the MigratingFacilitiesAlerts component should be rendered
-      expect(screen.container.querySelector('.message-detail-header')).to.exist;
+      const h2 = screen.getByText(MIGRATION_ALERT_H2);
+      expect(h2.tagName).to.equal('H2');
     });
 
     it('renders MigratingFacilitiesAlerts when in migration phase p4', () => {
@@ -199,7 +211,8 @@ describe('MessageThreadHeader component', () => {
         },
       };
       const screen = setup(state, defaultProps);
-      expect(screen.container.querySelector('.message-detail-header')).to.exist;
+      const h2 = screen.getByText(MIGRATION_ALERT_H2);
+      expect(h2.tagName).to.equal('H2');
     });
 
     it('renders MigratingFacilitiesAlerts when in migration phase p5', () => {
@@ -225,7 +238,8 @@ describe('MessageThreadHeader component', () => {
         },
       };
       const screen = setup(state, defaultProps);
-      expect(screen.container.querySelector('.message-detail-header')).to.exist;
+      const h2 = screen.getByText(MIGRATION_ALERT_H2);
+      expect(h2.tagName).to.equal('H2');
     });
 
     it('does not render MigratingFacilitiesAlerts when not in migration phase', () => {
@@ -241,7 +255,7 @@ describe('MessageThreadHeader component', () => {
       };
       const screen = setup(state, defaultProps);
       // The component wrapper should exist, but no migration alert content
-      expect(screen.container.querySelector('.message-detail-header')).to.exist;
+      expect(screen.queryByText(MIGRATION_ALERT_H2)).to.not.exist;
     });
 
     it('does not render MigratingFacilitiesAlerts for phase p1', () => {
@@ -256,7 +270,7 @@ describe('MessageThreadHeader component', () => {
         },
       };
       const screen = setup(state, defaultProps);
-      expect(screen.container.querySelector('.message-detail-header')).to.exist;
+      expect(screen.queryByText(MIGRATION_ALERT_H2)).to.not.exist;
     });
 
     it('does not render MigratingFacilitiesAlerts for phase p2', () => {
@@ -271,7 +285,7 @@ describe('MessageThreadHeader component', () => {
         },
       };
       const screen = setup(state, defaultProps);
-      expect(screen.container.querySelector('.message-detail-header')).to.exist;
+      expect(screen.queryByText(MIGRATION_ALERT_H2)).to.not.exist;
     });
   });
 
