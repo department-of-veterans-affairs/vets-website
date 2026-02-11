@@ -5,6 +5,9 @@ import {
   getFullNameLabels,
   isEligibleForDecisionReview,
   isEligibleToSubmitStatement,
+  isUserVeteran,
+  isClaimantVeteran,
+  isNonVeteranClaimant,
 } from '../../helpers';
 import { STATEMENT_TYPES } from '../../config/constants';
 
@@ -106,6 +109,23 @@ describe('isEligibleToSubmitStatement', () => {
     expect(isEligibleToSubmitStatement(formData)).to.equal(false);
   });
 
+  it('is eligible for NEW_EVIDENCE when user is not a veteran', () => {
+    formData = {
+      statementType: STATEMENT_TYPES.NEW_EVIDENCE,
+      claimantType: 'forVeteran',
+    };
+    expect(isEligibleToSubmitStatement(formData)).to.equal(true);
+  });
+
+  it('is ineligible for NEW_EVIDENCE when user is a veteran', () => {
+    formData = {
+      statementType: STATEMENT_TYPES.NEW_EVIDENCE,
+      claimantType: 'self',
+      'view:userIsVeteran': true,
+    };
+    expect(isEligibleToSubmitStatement(formData)).to.equal(false);
+  });
+
   it('is not ineligible if statementType is not specified - user may have been redirected', () => {
     formData = {};
     expect(isEligibleToSubmitStatement(formData)).to.equal(true);
@@ -118,5 +138,48 @@ describe('isEligibleToSubmitStatement', () => {
   it('is not ineligible if formData is undefined - user may have been redirected', () => {
     formData = undefined;
     expect(isEligibleToSubmitStatement(formData)).to.equal(true);
+  });
+});
+
+describe('isUserVeteran', () => {
+  it('returns true when view:userIsVeteran is true', () => {
+    expect(isUserVeteran({ 'view:userIsVeteran': true })).to.equal(true);
+  });
+
+  it('returns false when view:userIsVeteran is false', () => {
+    expect(isUserVeteran({ 'view:userIsVeteran': false })).to.equal(false);
+  });
+});
+
+describe('isClaimantVeteran', () => {
+  it('returns true when claimantType is self', () => {
+    expect(isClaimantVeteran({ claimantType: 'self' })).to.equal(true);
+  });
+
+  it('returns true when claimantType is veteranSelf', () => {
+    expect(isClaimantVeteran({ claimantType: 'veteranSelf' })).to.equal(true);
+  });
+
+  it('returns false when claimantType is forVeteran', () => {
+    expect(isClaimantVeteran({ claimantType: 'forVeteran' })).to.equal(false);
+  });
+});
+
+describe('isNonVeteranClaimant', () => {
+  it('returns true for non-veteran claimant types', () => {
+    expect(isNonVeteranClaimant({ claimantType: 'forVeteran' })).to.equal(true);
+    expect(isNonVeteranClaimant({ claimantType: 'anotherVeteran' })).to.equal(
+      true,
+    );
+    expect(isNonVeteranClaimant({ claimantType: 'familyMember' })).to.equal(
+      true,
+    );
+    expect(
+      isNonVeteranClaimant({ claimantType: 'familyMemberOtherVeteran' }),
+    ).to.equal(true);
+  });
+
+  it('returns false for veteran claimant types', () => {
+    expect(isNonVeteranClaimant({ claimantType: 'self' })).to.equal(false);
   });
 });
