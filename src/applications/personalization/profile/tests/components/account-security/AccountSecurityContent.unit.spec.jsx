@@ -200,7 +200,7 @@ describe('AccountSecurityContent component', () => {
     expect(
       view.getByText(/Add an extra layer of protection called multifactor/),
     ).to.exist;
-    const button = view.getByRole('button', {
+    const button = view.container.querySelector('va-button', {
       text: /Sign in again through ID\.me to get started/,
     });
     expect(button).to.exist;

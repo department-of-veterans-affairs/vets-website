@@ -55,7 +55,6 @@ const AccountSetupList = ({ isIdentityVerified, isMultifactorEnabled }) => {
             <va-button
               onClick={mfaHandler}
               text={`Sign in again through ${label} to get started`}
-              role="button"
             />
           </>
         )}
