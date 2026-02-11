@@ -6,37 +6,31 @@ Cypress.Commands.add('verifySearchArea', () => {
   const clickInterval = 10;
 
   // Zoom in
-  [...Array(15)].forEach(_ =>
+  [...Array(15)].forEach(_ => {
+    cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true });
     // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy
-      .get('.mapboxgl-ctrl-zoom-in')
-      .click({ waitForAnimations: true })
-      .wait(clickInterval),
-  );
+    cy.wait(clickInterval);
+  });
 
   // Verify search are button present
   cy.get('#search-area-control').contains('Search this area of the map');
 
   // Zoom out
-  [...Array(13)].forEach(_ =>
+  [...Array(13)].forEach(_ => {
+    cy.get('.mapboxgl-ctrl-zoom-out').click({ waitForAnimations: true });
     // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy
-      .get('.mapboxgl-ctrl-zoom-out')
-      .click({ waitForAnimations: true })
-      .wait(clickInterval),
-  );
+    cy.wait(clickInterval);
+  });
 
   // Verify search area button text changed
   cy.get('#search-area-control').contains('Zoom in to search');
 
   // Zoom in again
-  [...Array(12)].forEach(_ =>
+  [...Array(12)].forEach(_ => {
+    cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true });
     // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy
-      .get('.mapboxgl-ctrl-zoom-in')
-      .click({ waitForAnimations: true })
-      .wait(clickInterval),
-  );
+    cy.wait(clickInterval);
+  });
 
   // Verify search area button text changed back
   cy.get('#search-area-control').contains('Search this area of the map');
