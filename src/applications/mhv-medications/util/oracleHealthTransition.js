@@ -2,31 +2,6 @@
  * Oracle Health EHR Transition Utilities for Medications
  */
 
-const isFormattedDate = dateStr =>
-  dateStr.includes(',') || /[A-Za-z]/.test(dateStr);
-
-/**
- * Format a phase date for display
- * @param {string} phaseDate - ISO date string or pre-formatted date from backend
- * @param {string} fallbackDate - Fallback date if phaseDate is null/undefined
- * @returns {string} Formatted date string
- */
-export const formatPhaseDate = (phaseDate, fallbackDate) => {
-  if (!phaseDate) return fallbackDate;
-  if (isFormattedDate(phaseDate)) return phaseDate;
-
-  try {
-    return new Date(phaseDate).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      timeZone: 'UTC',
-    });
-  } catch (error) {
-    return fallbackDate;
-  }
-};
-
 /**
  * Validate migrations array
  * @param {Array} migrations - Migration data array

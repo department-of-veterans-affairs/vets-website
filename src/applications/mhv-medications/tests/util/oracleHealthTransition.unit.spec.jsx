@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
-  formatPhaseDate,
   isFacilityTransitioning,
   shouldBlockRefills,
   shouldBlockRenewals,
@@ -56,17 +55,6 @@ describe('oracleHealthTransition utilities', () => {
     sandbox.restore();
   });
 
-  describe('formatPhaseDate', () => {
-    it('formats ISO dates to readable format and uses fallback for invalid dates', () => {
-      expect(formatPhaseDate('2026-04-13', 'Fallback')).to.equal(
-        'April 13, 2026',
-      );
-      expect(formatPhaseDate('March 1, 2026', 'Fallback')).to.equal(
-        'March 1, 2026',
-      );
-      expect(formatPhaseDate(null, 'Fallback Date')).to.equal('Fallback Date');
-    });
-  });
 
   describe('isFacilityTransitioning', () => {
     it('returns true when facility ID exists in migrations data, false otherwise', () => {
