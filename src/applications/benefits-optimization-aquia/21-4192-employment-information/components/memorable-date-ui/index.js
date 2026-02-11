@@ -3,4 +3,4 @@
  * @description Barrel export for memorableDateUI component
  */
 
-export { MemorableDateUI } from './memorable-date-ui';
+export { MemorableDateUI, MemorableDateSchema } from './memorable-date-ui';

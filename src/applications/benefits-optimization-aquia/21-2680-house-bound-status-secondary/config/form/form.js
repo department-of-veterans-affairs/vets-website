@@ -2,12 +2,15 @@
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import {
+  examinationDateSchema,
+  examinationDateUiSchema,
+} from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import { TITLE, SUBTITLE } from '../../constants';
 import manifest from '../../manifest.json';
 import { IntroductionPage } from '../../containers/introduction-page';
 import { ConfirmationPage } from '../../containers/confirmation-page';
 
-import nameAndDateOfBirth from '../../pages/nameAndDateOfBirth';
 import { GetHelp } from '../../components';
 
 /** @type {FormConfig} */
@@ -63,19 +66,18 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    examinationOverviewChapter: {
+      title: 'Examination Overview',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        examinationDate: {
+          path: 'examination-date',
+          title: 'Exam',
+          uiSchema: examinationDateUiSchema,
+          schema: examinationDateSchema,
         },
       },
     },
   },
-  // getHelp,
   footerContent,
 };
 

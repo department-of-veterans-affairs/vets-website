@@ -1,7 +1,9 @@
+// TODO: I need to add this to plattform.
 import React from 'react';
 import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
 import { validateDate } from 'platform/forms-system/src/js/validation';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 /**
  * Validates that all date parts (day, month, year) are provided and form a valid date.
@@ -85,3 +87,5 @@ export const MemorableDateUI = options => {
     ),
   };
 };
+
+export const MemorableDateSchema = commonDefinitions.date;
