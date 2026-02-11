@@ -95,12 +95,12 @@ export const CernerAlertContent = {
     bodyIntro: 'Some of your secure messages may be in a different portal.',
     // Migration alert configuration
     warningPhases: ['p1', 'p2'],
-    warningMessage: `you won’t be able to send or receive new messages or reply to conversations with providers at`,
+    warningMessage: `you won't be able to send new messages or reply to conversations with providers at`,
     warningGetNote: facilityText =>
       `During this time, you can still call ${facilityText} to contact your provider.`,
     errorPhases: ['p3', 'p4', 'p5'],
     errorHeadline: `You can’t use messages to contact providers at some facilities right now`,
-    errorMessage: `You can’t send or receive new messages or reply to conversations with providers at`,
+    errorMessage: `You can't send new messages or reply to conversations with providers at`,
     errorNote:
       'If you need to contact your provider now, call the facility directly.',
     errorStartDate: 'p3',
