@@ -9,6 +9,11 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     formData: {
       ...formData,
       'view:userIsVeteran': isUserVeteran,
+      'view:profileFullName': {
+        first: userFullName.first || '',
+        middle: userFullName.middle || '',
+        last: userFullName.last || '',
+      },
       fullName: isUserVeteran
         ? {
             first: userFullName.first || formData?.fullName?.first,
