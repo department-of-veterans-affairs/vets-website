@@ -144,6 +144,7 @@ const DashboardHeader = ({
         href="/profile"
         text="Go to your profile"
         className="vads-u-margin-top--2"
+        testId="my-va-to-profile-link"
         onClick={() => {
           recordEvent({
             event: 'dashboard-navigation',
@@ -279,7 +280,6 @@ const Dashboard = ({
   showNotifications,
   isVAPatient,
   user,
-  dataLoadingDisabled,
   getAppeals,
   shouldLoadAppeals,
   getClaims,
@@ -310,20 +310,20 @@ const Dashboard = ({
 
   useEffect(
     () => {
-      if (!dataLoadingDisabled && shouldLoadAppeals) {
+      if (shouldLoadAppeals) {
         getAppeals();
       }
     },
-    [dataLoadingDisabled, getAppeals, shouldLoadAppeals],
+    [getAppeals, shouldLoadAppeals],
   );
 
   useEffect(
     () => {
-      if (!dataLoadingDisabled && shouldLoadClaims) {
+      if (shouldLoadClaims) {
         getClaims();
       }
     },
-    [dataLoadingDisabled, getClaims, shouldLoadClaims],
+    [getClaims, shouldLoadClaims],
   );
 
   useEffect(
@@ -344,25 +344,20 @@ const Dashboard = ({
 
   useEffect(
     () => {
-      if (!dataLoadingDisabled && isVAPatient) {
+      if (isVAPatient) {
         fetchConfirmedFutureAppointments();
       }
     },
-    [dataLoadingDisabled, fetchConfirmedFutureAppointments, isVAPatient],
+    [fetchConfirmedFutureAppointments, isVAPatient],
   );
 
   useEffect(
     () => {
-      if (shouldFetchUnreadMessages && !dataLoadingDisabled && isVAPatient) {
+      if (shouldFetchUnreadMessages && isVAPatient) {
         fetchUnreadMessages();
       }
     },
-    [
-      shouldFetchUnreadMessages,
-      fetchUnreadMessages,
-      dataLoadingDisabled,
-      isVAPatient,
-    ],
+    [shouldFetchUnreadMessages, fetchUnreadMessages, isVAPatient],
   );
 
   useEffect(
@@ -425,11 +420,12 @@ const Dashboard = ({
 
   useEffect(
     () => {
-      if (!showGenericDebtCard) {
+      // Wait for the toggles to load to determine whether to fetch debts
+      if (!showLoader && !showGenericDebtCard) {
         getDebts(true);
       }
     },
-    [getDebts, showGenericDebtCard],
+    [showLoader, getDebts, showGenericDebtCard],
   );
 
   useEffect(
