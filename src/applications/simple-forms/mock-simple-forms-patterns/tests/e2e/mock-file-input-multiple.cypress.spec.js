@@ -63,6 +63,9 @@ function testFileUploads() {
   for (let i = 0; i < funcs.length; i++) {
     deleteFile();
   }
+  // time to reset....
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(1000);
   cy.log('TEST: testFileUploads - END');
 }
 
@@ -366,6 +369,7 @@ const testConfig = createTestConfig(
             cy.get('@fileInputMultipleSection').click();
             cy.get('@fileInputMultipleSection')
               .find('div.review-row')
+              .eq(1)
               .then($el => {
                 expect($el[0].querySelector('dd').textContent).to.equal(
                   'placeholder.jpg',
@@ -389,6 +393,7 @@ const testConfig = createTestConfig(
 
             cy.get('@fileInputMultipleSection')
               .find('div.review-row')
+              .eq(1)
               .then($el => {
                 expect($el[0].querySelector('dd').textContent).to.equal(
                   'test.txt',
