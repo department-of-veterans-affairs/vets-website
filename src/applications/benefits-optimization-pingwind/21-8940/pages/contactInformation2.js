@@ -2,7 +2,7 @@ import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/V
 import {
   emailToSendNotificationsSchema,
   emailToSendNotificationsUI,
-  inlineTitleUI,
+  titleUI,
   internationalPhoneSchema,
   internationalPhoneUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -15,7 +15,7 @@ import { veteranFields } from '../definitions/constants';
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
-      ...inlineTitleUI('Contact information', 'How can we reach you?'),
+      ...titleUI('Contact information', 'How can we reach you?'),
       [veteranFields.homePhone]: {
         ...internationalPhoneUI({
           title: 'Primary phone number',

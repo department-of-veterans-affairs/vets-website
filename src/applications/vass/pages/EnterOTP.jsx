@@ -3,13 +3,20 @@ import { useNavigate } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import { useErrorFocus } from '../hooks/useErrorFocus';
 import Wrapper from '../layout/Wrapper';
-import { usePostOTPVerificationMutation } from '../redux/api/vassApi';
+import {
+  usePostOTPVerificationMutation,
+  useLazyGetAppointmentAvailabilityQuery,
+} from '../redux/api/vassApi';
 import {
   selectFlowType,
   selectObfuscatedEmail,
 } from '../redux/slices/formSlice';
 import { FLOW_TYPES, URLS, OTC_ERROR_CODES } from '../utils/constants';
-import { isAccountLockedError, isServerError } from '../utils/errors';
+import {
+  isAccountLockedError,
+  isServerError,
+  isAppointmentAlreadyBookedError,
+} from '../utils/errors';
 
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   switch (errorCode) {
@@ -54,12 +61,27 @@ const EnterOTP = () => {
     postOTPVerification,
     { isLoading, error: postOTPVerificationError },
   ] = usePostOTPVerificationMutation();
+  const [
+    getAppointmentAvailability,
+    { isFetching: isCheckingAvailability },
+  ] = useLazyGetAppointmentAvailabilityQuery();
 
   const handleSubmit = async () => {
     if (code === '') {
       setOtpError('Please enter your one-time verification code');
       return;
     }
+
+    if (!/^\d+$/.test(code)) {
+      setOtpError('Your verification code should only contain numbers');
+      return;
+    }
+
+    if (code.length !== 6) {
+      setOtpError('Your verification code should be 6 digits');
+      return;
+    }
+
     const response = await postOTPVerification({
       otp: code,
     });
@@ -69,6 +91,15 @@ const EnterOTP = () => {
       setCode('');
       return;
     }
+
+    const availabilityCheck = await getAppointmentAvailability();
+
+    if (isAppointmentAlreadyBookedError(availabilityCheck.error)) {
+      const { appointmentId } = availabilityCheck.error.appointment;
+      navigate(`${URLS.ALREADY_SCHEDULED}/${appointmentId}`, { replace: true });
+      return;
+    }
+
     if (cancellationFlow) {
       // TODO: handle cancellation flow
       navigate(`${URLS.CANCEL_APPOINTMENT}/abcdef123456`, { replace: true });
@@ -120,6 +151,8 @@ const EnterOTP = () => {
         label="Enter your one-time verification code"
         name="otp"
         value={code}
+        inputmode="numeric"
+        maxlength="6"
         onBlur={e => {
           if (e.target.value !== '') {
             setOtpError('');
@@ -131,6 +164,7 @@ const EnterOTP = () => {
         required
         error={otpError}
         data-testid="otp-input"
+        autocomplete="one-time-code"
         show-input-error
       />
       <div className="vads-u-display--flex vads-u-margin-top--4 vass-form__button-container vass-flex-direction--column">
@@ -140,7 +174,7 @@ const EnterOTP = () => {
           text="Continue"
           data-testid="continue-button"
           uswds
-          loading={isLoading}
+          loading={isLoading || isCheckingAvailability}
         />
       </div>
     </Wrapper>

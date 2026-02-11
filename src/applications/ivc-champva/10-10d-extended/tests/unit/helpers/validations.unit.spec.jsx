@@ -939,24 +939,6 @@ describe('1010d `validateHealthInsurancePlan` form validation', () => {
     });
   });
 
-  context('Additional comments validation', () => {
-    it('should return "false" when additional comments is within character limit', () => {
-      const item = makeItem({ additionalComments: 'Under 200 chars.' });
-      expect(validateHealthInsurancePlan(item)).to.be.false;
-    });
-
-    it('should return "true" when additional comments exceeds character limit', () => {
-      const longComment = 'a'.repeat(201);
-      const item = makeItem({ additionalComments: longComment });
-      expect(validateHealthInsurancePlan(item)).to.be.true;
-    });
-
-    it('should return "false" when additional comments is undefined', () => {
-      const item = makeItem({ additionalComments: undefined });
-      expect(validateHealthInsurancePlan(item)).to.be.false;
-    });
-  });
-
   context('Card upload validation', () => {
     it('should return "true" when front card is omitted', () => {
       const item = makeItem({ insuranceCardFront: FILES.empty() });

@@ -55,7 +55,7 @@ const MedicationsListCard = ({ rx }) => {
       <>
         {rx &&
           rx.isRefillable &&
-          rx.refillRemaining >= 1 && (
+          rx.refillRemaining >= 0 && (
             <p
               data-testid="rx-refill-remaining"
               data-dd-privacy="mask"

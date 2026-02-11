@@ -99,6 +99,7 @@ import ReviewField from '../review/FileInputMultiple';
  * @param {string} [options.formNumber] - the form's number
  * @param {boolean} [options.skipUpload] - skip attempt to upload in dev when there is no backend
  * @param {boolean} [options.disallowEncryptedPdfs] - don't allow encrypted pdfs
+ * @param {Record<string, { maxFileSize: number, minFileSize: number }>} [options.fileSizesByFileType] - object that specifies max and min file size limits by file type or by default
  * @returns {UISchemaOptions}
  */
 export const fileInputMultipleUI = options => {
@@ -208,19 +209,33 @@ export const fileInputMultipleUI = options => {
 
         const data = (
           <>
-            {formData.map((file, i) => (
-              <ul key={i}>
-                <li>
-                  <span className="vads-u-color--gray">name</span>: {file.name}
-                </li>
-                <li>
-                  <span className="vads-u-color--gray">size</span>: {file.size}B
-                </li>
-                <li>
-                  <span className="vads-u-color--gray">type</span>: {file.type}
-                </li>
-              </ul>
-            ))}
+            {formData.map((file, i) => {
+              const hasAdditionalData =
+                file.additionalData &&
+                Object.keys(file.additionalData).length > 0;
+              if (!hasAdditionalData) {
+                return <div key={i}>{file.name}</div>;
+              }
+              return (
+                <ul key={i}>
+                  <li>
+                    <span className="vads-u-color--gray">Name</span>:{' '}
+                    {file.name}
+                  </li>
+                  {Object.entries(file.additionalData).map(([key, value]) => (
+                    <li key={key}>
+                      <span className="vads-u-color--gray">
+                        {key
+                          .replace(/([A-Z])/g, ' $1')
+                          .replace(/^./, s => s.toUpperCase())
+                          .trim()}
+                      </span>
+                      : {value}
+                    </li>
+                  ))}
+                </ul>
+              );
+            })}
           </>
         );
         return { data };
