@@ -5,7 +5,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 import { uiSchema, schema } from '../../pages/remarks';
 
-describe('8794 – Remarks page', () => {
+describe('22-10272 – Remarks page', () => {
   const renderPage = () =>
     render(
       <DefinitionTester

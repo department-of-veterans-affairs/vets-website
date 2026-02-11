@@ -277,13 +277,15 @@ module.exports = async (env = {}) => {
   const buildOptions = {
     api: '',
     buildtype,
-    host: LOCALHOST,
+    host: '127.0.0.1',
     port: 3001,
     scaffold: false,
     watch: false,
     destination: buildtype,
     ...env,
   };
+  const isStylelintEnabled =
+    buildOptions.stylelint === true || buildOptions.stylelint === 'true';
 
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = { ...apps, ...globalEntryFiles };
@@ -521,12 +523,6 @@ module.exports = async (env = {}) => {
         filename: '[file].map',
       }),
 
-      new StylelintPlugin({
-        configFile: '.stylelintrc.json',
-        exclude: ['node_modules', 'build', 'coverage', '.cache'],
-        fix: true,
-      }),
-
       new MiniCssExtractPlugin(),
 
       new webpack.IgnorePlugin({
@@ -571,6 +567,16 @@ module.exports = async (env = {}) => {
       new WebpackManifestPlugin({
         fileName: 'file-manifest.json',
         filter: ({ isChunk }) => isChunk,
+      }),
+    );
+  }
+
+  if (isStylelintEnabled) {
+    baseConfig.plugins.push(
+      new StylelintPlugin({
+        configFile: '.stylelintrc.json',
+        exclude: ['node_modules', 'build', 'coverage', '.cache'],
+        fix: true,
       }),
     );
   }

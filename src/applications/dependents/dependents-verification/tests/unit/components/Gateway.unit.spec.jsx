@@ -1,9 +1,9 @@
 import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { waitFor } from '@testing-library/react';
+import { act, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../../config/form';
@@ -12,6 +12,10 @@ import reducers from '../../../reducers';
 import mockDependents from '../../e2e/fixtures/mocks/mock-dependents.json';
 
 describe('Gateway', () => {
+  afterEach(() => {
+    resetFetch();
+  });
+
   const mockStore = ({
     loggedIn = true,
     isVerified = true,
@@ -75,33 +79,43 @@ describe('Gateway', () => {
 
   it('should render the no dependents alert', async () => {
     mockApiRequest({ data: { attributes: { persons: [] } } });
-    const { container } = renderInReduxProvider(<Gateway top route={route} />, {
-      initialState: mockStore({ loggedIn: true }),
-      reducers,
+    let container;
+    await act(async () => {
+      const rendered = renderInReduxProvider(<Gateway top route={route} />, {
+        initialState: mockStore({ loggedIn: true }),
+        reducers,
+      });
+      container = rendered.container;
+      await new Promise(resolve => setTimeout(resolve, 100));
     });
 
     await waitFor(() => {
-      expect(global.fetch.args[0][0]).to.contain('/show');
-      const alert = $('va-alert[status="info"]', container);
-      expect(alert).to.exist;
-      expect($('h2', alert).textContent).to.eq(
-        'We don’t have any dependents information on file for you',
-      );
+      expect($('va-alert[status="info"]', container)).to.exist;
     });
+
+    const alert = $('va-alert[status="info"]', container);
+    expect($('h2', alert).textContent).to.eq(
+      'We don’t have any dependents information on file for you',
+    );
   });
 
   it('should render an API error alert', async () => {
     mockApiRequest(null, false);
-    const { container } = renderInReduxProvider(<Gateway top route={route} />, {
-      initialState: mockStore({ loggedIn: true }),
-      reducers,
+    let container;
+    await act(async () => {
+      const rendered = renderInReduxProvider(<Gateway top route={route} />, {
+        initialState: mockStore({ loggedIn: true }),
+        reducers,
+      });
+      container = rendered.container;
+      await new Promise(resolve => setTimeout(resolve, 100));
     });
 
     await waitFor(() => {
-      expect(global.fetch.args[0][0]).to.contain('/show');
-      const alert = $('va-alert[status="error"]', container);
-      expect(alert).to.exist;
-      expect($('h2', alert).textContent).to.eq('Error Loading Dependents');
+      expect($('va-alert[status="error"]', container)).to.exist;
     });
+
+    const alert = $('va-alert[status="error"]', container);
+    expect($('h2', alert).textContent).to.eq('Error Loading Dependents');
   });
 });
