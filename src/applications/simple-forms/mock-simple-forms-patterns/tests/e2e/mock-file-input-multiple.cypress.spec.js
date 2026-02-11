@@ -50,6 +50,7 @@ function deleteFile() {
 
 // test adding a variety of file types
 function testFileUploads() {
+  cy.log('TEST: testFileUploads - START');
   const funcs = [
     makeMinimalJPG,
     makeMinimalPNG,
@@ -62,10 +63,12 @@ function testFileUploads() {
   for (let i = 0; i < funcs.length; i++) {
     deleteFile();
   }
+  cy.log('TEST: testFileUploads - END');
 }
 
 // test that a file with an invalid mimetype results in an error state
 function testRejectInvalidMimeType() {
+  cy.log('TEST: testRejectInvalidMimeType - START');
   cy.wrap(makeMinimalPNG()).then(file => {
     const moddedFile = new File([file], 'placeholder.zip', { type: file.type });
     cy.fillVaFileInputMultiple(SELECTOR, {}, [moddedFile]);
@@ -84,10 +87,12 @@ function testRejectInvalidMimeType() {
       );
     deleteFile();
   });
+  cy.log('TEST: testRejectInvalidMimeType - END');
 }
 
 // test that a file has proper utf8 encoding
 function testInvalidUTF8Encoding() {
+  cy.log('TEST: testInvalidUTF8Encoding - START');
   const invalidFile = makeInvalidUtf8File();
   cy.fillVaFileInputMultiple(SELECTOR, {}, [invalidFile]);
   cy.get('va-file-input-multiple')
@@ -100,10 +105,12 @@ function testInvalidUTF8Encoding() {
     .invoke('text')
     .should('match', /The file.*s encoding is not valid/i);
   deleteFile();
+  cy.log('TEST: testInvalidUTF8Encoding - END');
 }
 
 // test that a file whose size exceeds limit results in an error
 function testTooBig() {
+  cy.log('TEST: testTooBig - START');
   const tooBigFile = makeMinimalTxtFile(100);
   cy.fillVaFileInputMultiple(SELECTOR, {}, [tooBigFile]);
   cy.get('va-file-input-multiple')
@@ -116,10 +123,12 @@ function testTooBig() {
     .invoke('text')
     .should('match', /We can.*t upload your file because it.*s too big\./i);
   deleteFile();
+  cy.log('TEST: testTooBig - END');
 }
 
 // test that a file whose size is less than a limit results in an error
 function testTooSmall() {
+  cy.log('TEST: testTooSmall - START');
   const tooSmallFile = makeMinimalTxtFile(1);
   cy.fillVaFileInputMultiple(SELECTOR, {}, [tooSmallFile]);
   cy.get('va-file-input-multiple')
@@ -132,10 +141,12 @@ function testTooSmall() {
     .invoke('text')
     .should('match', /We can.*t upload your file because it.*s too small\./i);
   deleteFile();
+  cy.log('TEST: testTooSmall - END');
 }
 
 // test that a zero byte file upload results in an error
 function testZeroBytes() {
+  cy.log('TEST: testZeroBytes - START');
   const zeroFile = makeMinimalTxtFile(0);
   cy.fillVaFileInputMultiple(SELECTOR, {}, [zeroFile]);
   cy.get('va-file-input-multiple')
@@ -151,17 +162,21 @@ function testZeroBytes() {
       'The file you selected is empty. Files must be larger than 0B.',
     );
   deleteFile();
+  cy.log('TEST: testZeroBytes - END');
 }
 
 // test all file size limit scenarios
 function testFileSizeLimits() {
+  cy.log('TEST: testFileSizeLimits - START');
   testTooBig();
   testTooSmall();
   testZeroBytes();
+  cy.log('TEST: testFileSizeLimits - END');
 }
 
 // test that encrypted pdfs require passwords
 function testEncryptedPdf() {
+  cy.log('TEST: testEncryptedPdf - START');
   cy.wrap(makeEncryptedPDF()).then(file => {
     cy.fillVaFileInputMultiple(SELECTOR, {}, [file]);
     cy.get('va-file-input-multiple')
@@ -214,10 +229,12 @@ function testEncryptedPdf() {
       .should('not.exist');
   });
   deleteFile();
+  cy.log('TEST: testEncryptedPdf - END');
 }
 
 // test files of a type not specified by accept result in an error
 function testRejectFileNotAccepted() {
+  cy.log('TEST: testRejectFileNotAccepted - START');
   const file = makeNotAcceptedFile();
 
   cy.fillVaFileInputMultiple(SELECTOR, {}, [file]);
@@ -231,10 +248,12 @@ function testRejectFileNotAccepted() {
     .invoke('text')
     .should('contain', 'We do not accept .fake files. Choose a new file.');
   deleteFile();
+  cy.log('TEST: testRejectFileNotAccepted - END');
 }
 
 // test that an error is thrown if attempt made to continue without having added a file
 function testContinueWithoutFile() {
+  cy.log('TEST: testContinueWithoutFile - START');
   cy.findByText(/continue/i, { selector: 'button' }).click();
   cy.get('va-file-input-multiple')
     .shadow()
@@ -243,9 +262,11 @@ function testContinueWithoutFile() {
     .shadow()
     .find('span.usa-error-message')
     .should('contain', 'File is required.');
+  cy.log('TEST: testContinueWithoutFile - END');
 }
 
 function testAdditionalInfo() {
+  cy.log('TEST: testAdditionalInfo - START');
   testFileUpload(makeMinimalPNG);
 
   // add a wait to ensure additional input has fully rendered and updated before triggering validation
@@ -275,10 +296,12 @@ function testAdditionalInfo() {
       expect($select.error).to.be.undefined;
     });
   deleteFile();
+  cy.log('TEST: testAdditionalInfo - END');
 }
 
 // test happy path
 function uploadValidFileAndNavigateToReviewPage() {
+  cy.log('TEST: uploadValidFileAndNavigateToReviewPage - START');
   cy.wrap(makeMinimalJPG()).then(file => {
     testFileUpload([file]);
   });
@@ -293,6 +316,7 @@ function uploadValidFileAndNavigateToReviewPage() {
     });
   cy.findByText(/continue/i, { selector: 'button' }).click();
   cy.url().should('include', '/review-and-submit');
+  cy.log('TEST: uploadValidFileAndNavigateToReviewPage - END');
 }
 
 const fileInputMultiplePage = 'file-input-multiple';
