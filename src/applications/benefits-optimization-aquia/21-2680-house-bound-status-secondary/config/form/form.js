@@ -1,8 +1,11 @@
 // @ts-check
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import {
+  diagnosisSchema,
+  diagnosisUiSchema,
+  disabilitiesSchema,
+  disabilitiesUiSchema,
   examinationDateSchema,
   examinationDateUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
@@ -29,23 +32,7 @@ const formConfig = {
     collapsibleNavLinks: true,
     disableWindowUnloadInCI: true,
   },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      {
-        href: '/pension',
-        label: 'Pension',
-      },
-      {
-        href: '/pension/aid-attendance-housebound',
-        label: 'Aid attendance housebound',
-      },
-      {
-        href: '/pension/aid-attendance-housebound/apply-form-21-2680-secondary',
-        label: 'Apply form 21 2680 secondary',
-      },
-    ],
-  }),
+  v3SegmentedProgressBar: { useDiv: true },
   formId: VA_FORM_IDS.FORM_21_2680_S,
   saveInProgress: {
     // messages: {
@@ -74,6 +61,23 @@ const formConfig = {
           title: 'Exam',
           uiSchema: examinationDateUiSchema,
           schema: examinationDateSchema,
+        },
+        diagnosis: {
+          path: 'diagnosis',
+          title: 'Diagnosis',
+          uiSchema: diagnosisUiSchema,
+          schema: diagnosisSchema,
+        },
+      },
+    },
+    patiendVitals: {
+      title: 'Patient Vitals',
+      pages: {
+        disabilities: {
+          path: 'disabilities',
+          title: 'Disabilities',
+          uiSchema: disabilitiesUiSchema,
+          schema: disabilitiesSchema,
         },
       },
     },
