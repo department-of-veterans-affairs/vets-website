@@ -1,10 +1,10 @@
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { cloneDeep, merge } from 'lodash';
+import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import { cloneDeep } from 'lodash';
-import merge from 'lodash/merge';
-
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import {
   ssnOrVaFileNumberNoHintSchema,
+  ssnOrVaFileNumberNoHintUI,
   fullNameUI,
   fullNameSchema,
   titleUI,
@@ -20,7 +20,7 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { expandPhoneNumberToInternational } from './migrations';
+import migrations from './migrations';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import SubmissionError from '../../shared/components/SubmissionError';
@@ -28,16 +28,12 @@ import SubmissionError from '../../shared/components/SubmissionError';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
-
-// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
-import {
-  ssnOrVaFileNumberCustomUI,
-  CustomSSNReviewPage,
-} from '../helpers/CustomSSN';
 import {
   validAddressCharsOnly,
   validObjectCharsOnly,
 } from '../../shared/validations';
+
+// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -49,8 +45,6 @@ const formConfig = {
   transformForSubmit,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   footerContent: GetFormHelp,
-  // submit: () =>
-  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959f-1-FMP-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -73,6 +67,13 @@ const formConfig = {
   },
   submissionError: SubmissionError,
   formId: '10-7959F-1',
+  dev: {
+    disableWindowUnloadInCI: true,
+  },
+  formOptions: {
+    useWebComponentForNavigation: true,
+    filterInactiveNestedPageData: true,
+  },
   saveInProgress: {
     messages: {
       inProgress: 'Your FMP registration (10-7959F-1) is in progress.',
@@ -81,8 +82,8 @@ const formConfig = {
       saved: 'Your FMP benefits registration has been saved.',
     },
   },
-  version: 1,
-  migrations: [expandPhoneNumberToInternational],
+  version: migrations.length,
+  migrations,
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to register for FMP benefits.',
@@ -91,6 +92,24 @@ const formConfig = {
   },
   title: 'Register for the Foreign Medical Program (FMP)',
   subTitle: 'FMP Registration Form (VA Form 10-7959f-1)',
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      {
+        href: '/health-care',
+        label: 'Health care',
+      },
+      {
+        href: '/health-care/foreign-medical-program',
+        label: 'Foreign Medical Program',
+      },
+      {
+        href: '#content',
+        label: 'Register for the Foreign Medical Program (FMP)',
+      },
+    ],
+    homeVeteransAffairs: true,
+    wrapping: true,
+  }),
   defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
@@ -136,9 +155,7 @@ const formConfig = {
               `Identification information`,
               `You must enter either a Social Security number or VA file number.`,
             ),
-            messageAriaDescribedby:
-              'You must enter either a Social Security number or VA file number.',
-            veteranSocialSecurityNumber: ssnOrVaFileNumberCustomUI(),
+            veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintUI(),
           },
           schema: {
             type: 'object',
@@ -148,7 +165,6 @@ const formConfig = {
               veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintSchema,
             },
           },
-          CustomPageReview: CustomSSNReviewPage,
         },
       },
     },

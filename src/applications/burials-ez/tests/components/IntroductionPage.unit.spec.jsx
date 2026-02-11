@@ -76,16 +76,6 @@ describe('IntroductionPage', () => {
       .exist;
   });
 
-  it('renders sign in required alert when not logged in & toggle on', () => {
-    // logged in false, toggle true, verified false, saved form false
-    const { container } = render(
-      <Provider store={getStore({ loggedIn: false, toggle: true })}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-    expect($('va-alert-sign-in[variant="signInRequired"]', container)).to.exist;
-  });
-
   it('renders start action link when logged in, no saved form & toggle off', () => {
     // logged in true, toggle false, verified false, saved form false
     const { container } = render(

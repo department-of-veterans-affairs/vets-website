@@ -3,11 +3,11 @@ import {
   currentOrPastDateSchema,
   currentOrPastDateRangeUI,
   textUI,
-  textSchema,
   selectUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { servicesOptions } from '../../../utils/labels';
+import { customTextSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -56,7 +56,7 @@ export default {
           to: currentOrPastDateSchema,
         },
       },
-      placeOfSeparation: textSchema,
+      placeOfSeparation: customTextSchema,
     },
   },
 };

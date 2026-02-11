@@ -5,7 +5,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
-describe('payeeNumber', () => {
+describe('22-10272 Your Personal Information Step 2 - Page 2', () => {
   const {
     schema,
     uiSchema,
