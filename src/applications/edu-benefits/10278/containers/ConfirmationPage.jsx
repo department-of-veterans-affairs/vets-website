@@ -16,14 +16,26 @@ export const ConfirmationPage = props => {
       confirmationNumber={confirmationNumber}
       pdfUrl={submission.response?.pdfUrl}
     >
-      <ConfirmationView.SubmissionAlert />
-      <ConfirmationView.SavePdfDownload />
-      <ConfirmationView.ChapterSectionCollection />
-      <ConfirmationView.PrintThisPage />
-      <ConfirmationView.WhatsNextProcessList />
-      <ConfirmationView.HowToContact />
+      <ConfirmationView.SubmissionAlert
+        content={
+          <p>
+            Your submission is in progress.
+            {confirmationNumber &&
+              ` Your confirmation number is ${confirmationNumber}.`}
+          </p>
+        }
+        actions={null}
+      />
+      <ConfirmationView.WhatsNextProcessList
+        item1Content="When we receive your form, we'll send you an email."
+        item1Actions={null}
+      />
       <ConfirmationView.GoBackLink />
-      <ConfirmationView.NeedHelp />
+      <va-button
+        class="vads-u-margin-y--3"
+        text="Print this page"
+        onClick={() => window.print()}
+      />
     </ConfirmationView>
   );
 };
