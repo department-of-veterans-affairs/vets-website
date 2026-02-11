@@ -12,9 +12,9 @@ import {
   getPhaseItemText,
   is5103Notice,
   getShowEightPhases,
-  renderDefaultThirdPartyMessage,
   getDisplayFriendlyName,
 } from '../../utils/helpers';
+import { DemoNotation } from '../../demo';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
 import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 
@@ -102,7 +102,7 @@ export default function RecentActivity({ claim }) {
           const isDBQ =
             item.isDBQ ??
             evidenceDictionary[item.displayName]?.isDBQ ??
-            item.displayName?.toLowerCase().includes('dbq') ??
+            item?.displayName?.toLowerCase()?.includes('dbq') ??
             false;
 
           addItems(
@@ -191,8 +191,9 @@ export default function RecentActivity({ claim }) {
       itemStatus === 'NEEDED_FROM_OTHERS' || itemStatus === 'NEEDED_FROM_YOU'
     );
   };
-  const requestType = itemStatus => {
-    if (itemStatus === 'NEEDED_FROM_YOU') return 'Request for you';
+  const getRequestTag = itemStatus => {
+    if (itemStatus === 'NEEDED_FROM_YOU') return 'REQUESTED FOR YOU';
+    if (itemStatus === 'NEEDED_FROM_OTHERS') return 'REQUEST OUTSIDE VA';
     return undefined;
   };
 
@@ -211,76 +212,79 @@ export default function RecentActivity({ claim }) {
     [setCurrentPage],
   );
 
-  const thirdPartyRequesAlertText = item => {
-    return (
-      <va-alert
-        data-testid={`item-from-others-${item.id}`}
-        class="optional-alert vads-u-padding-bottom--1"
-        status="info"
-        slim
-      >
-        {item.activityDescription ? (
-          <>
-            {item.activityDescription}
-            <br />
-          </>
-        ) : (
-          renderDefaultThirdPartyMessage(item.oldDisplayName)
-        )}
-        <Link
-          aria-label={`About this notice for ${item.friendlyName ||
-            item.displayName}`}
-          className="add-your-claims-link"
-          to={`../needed-from-others/${item.id}`}
-        >
-          About this notice
-        </Link>
-      </va-alert>
-    );
-  };
-
   return (
     <div className="recent-activity-container">
       <h3 className="vads-u-margin-top--0">Recent activity</h3>
+      <DemoNotation
+        theme="change"
+        title="DS updates: Tag"
+        before={
+          'usa-label "Request for you" for NEEDED_FROM_YOU only; no label for NEEDED_FROM_OTHERS'
+        }
+        after={
+          'usa-label "REQUESTED FOR YOU" for NEEDED_FROM_YOU; "REQUEST OUTSIDE VA" for NEEDED_FROM_OTHERS'
+        }
+      />
+      <DemoNotation
+        theme="change"
+        title="Design change: Third-party requests"
+        before="Blue slim alert to illustrate third-party requests"
+        after="Body copy + VADS tag (REQUEST OUTSIDE VA) to indicate third-party requests"
+      />
+      <DemoNotation
+        theme="change"
+        title="Design change: Link text"
+        before={'"View details" link text'}
+        after={'"Learn more about this notice" link text'}
+      />
       <TimezoneDiscrepancyMessage />
       {pageLength > 0 && (
         <ol className="va-list-horizontal">
           {currentPageItems.map(item => (
             <li
-              key={item.id}
+              key={item?.id}
               className="vads-u-margin-bottom--2 vads-u-padding-bottom--1"
             >
               <h4 className="vads-u-margin-y--0">
-                {buildDateFormatter()(item.date)}
+                {buildDateFormatter()(item?.date)}
               </h4>
-              {hasRequestType(item.status) ? (
+              {hasRequestType(item?.status) ? (
                 <>
-                  {requestType(item.status) && (
-                    <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
-                      {requestType(item.status)}
-                    </p>
+                  {getRequestTag(item.status) && (
+                    <span className="usa-label">
+                      {getRequestTag(item?.status)}
+                    </span>
                   )}
                   <p
                     className="item-description vads-u-margin-top--0 vads-u-margin-bottom--1"
                     data-dd-privacy="mask"
                     data-dd-action-name="item description"
                   >
-                    {item.description}
+                    {item?.description}
                   </p>
+                  {item?.activityDescription && (
+                    <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                      {item.activityDescription}
+                    </p>
+                  )}
+                  <Link
+                    aria-label={`Learn more about this notice for ${item?.friendlyName ||
+                      item?.displayName}`}
+                    className="add-your-claims-link"
+                    to={`../needed-from-others/${item?.id}`}
+                  >
+                    Learn more about this notice
+                  </Link>
                 </>
               ) : (
-                <>
-                  <p
-                    className="item-description vads-u-margin-top--0p5 vads-u-margin-bottom--1"
-                    data-dd-privacy="mask"
-                    data-dd-action-name="item description"
-                  >
-                    {item.description}
-                  </p>
-                </>
+                <p
+                  className="item-description vads-u-margin-top--0p5 vads-u-margin-bottom--1"
+                  data-dd-privacy="mask"
+                  data-dd-action-name="item description"
+                >
+                  {item?.description}
+                </p>
               )}
-              {item.status === 'NEEDED_FROM_OTHERS' &&
-                thirdPartyRequesAlertText(item)}
             </li>
           ))}
         </ol>

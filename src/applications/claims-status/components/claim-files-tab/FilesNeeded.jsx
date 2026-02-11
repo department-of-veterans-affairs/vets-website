@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom-v5-compat';
-import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaCriticalAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
 import {
@@ -13,7 +13,7 @@ import { standard5103Item } from '../../constants';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function FilesNeeded({ claimId, item, previousPage = null }) {
-  // useNavigate for client-side routing (avoids full page reload with VaLinkAction).
+  // useNavigate for client-side routing (avoids full page reload with VaCriticalAction).
   // This is how 'to=""' worked in the previous version of this component.
   const navigate = useNavigate();
   // We will not use the truncateDescription() here as these descriptions are custom and specific to what we want
@@ -64,40 +64,27 @@ export default function FilesNeeded({ claimId, item, previousPage = null }) {
   };
   const formattedDueDate = buildDateFormatter()(item.suspenseDate);
   return (
-    <va-alert
-      data-testid={`item-${item.id}`}
-      class="primary-alert vads-u-margin-bottom--2"
-      status="warning"
-    >
-      <h4 slot="headline" className="alert-title">
-        {getItemDisplayName()}
-      </h4>
-
-      <p>Respond by {formattedDueDate}</p>
-
-      <span className="alert-description">{getItemDescription()}</span>
-      <div className="link-action-container">
-        <VaLinkAction
-          aria-label={`About this request for ${item.friendlyName ||
-            item.displayName}`}
-          href={`/track-claims/your-claims/${claimId}/needed-from-you/${
+    <>
+      <va-card data-testid={`item-${item.id}`} class="vads-u-margin-bottom--2">
+        <h4 className="vads-u-margin-top--0 vads-u-font-size--h3">
+          {getItemDisplayName()}
+        </h4>
+        <p className="vads-u-margin-y--1">{getItemDescription()}</p>
+        <VaCriticalAction
+          link={`/track-claims/your-claims/${claimId}/needed-from-you/${
             item.id
           }`}
+          text={`Requested by ${formattedDueDate}`}
           onClick={e => {
-            // Prevent full page reload, use React Router instead
             e.preventDefault();
-
             if (previousPage !== null) {
               sessionStorage.setItem('previousPage', previousPage);
             }
-
             navigate(`/your-claims/${claimId}/needed-from-you/${item.id}`);
           }}
-          text="About this request"
-          type="secondary"
         />
-      </div>
-    </va-alert>
+      </va-card>
+    </>
   );
 }
 
