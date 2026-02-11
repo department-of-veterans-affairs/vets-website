@@ -29,6 +29,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
   const defaultState = {
     newAppointment: {
+      ehr: 'vista',
       pages: {},
       data: {
         facilityType: FACILITY_TYPES.VAMC.id,
