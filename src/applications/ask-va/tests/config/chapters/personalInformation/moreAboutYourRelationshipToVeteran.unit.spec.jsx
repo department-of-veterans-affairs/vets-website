@@ -99,7 +99,7 @@ describe('moreAboutYourRelationshipToVeteran', () => {
           'va-text-input[name="root_relationshipNotListed"]',
         );
         expect(textInput.getAttribute('error')).to.equal(
-          'Please enter your relationship to the Veteran',
+          'Enter your relationship to the Veteran',
         );
       });
     });

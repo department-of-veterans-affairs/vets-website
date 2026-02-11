@@ -29,7 +29,7 @@ export const generateGenericContent = record => {
     items: itemKeys.filter(key => record[key]).map(key => {
       return {
         title: LABS_AND_TESTS_DISPLAY_DISPLAY_MAP[key],
-        value: record[key],
+        value: key === 'testCode' ? record.testCodeDisplay : record[key],
         inline: true,
       };
     }),

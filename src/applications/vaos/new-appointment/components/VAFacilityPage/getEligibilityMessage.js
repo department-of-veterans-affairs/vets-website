@@ -13,6 +13,7 @@ export default function getEligibilityMessage({
 
   const requestReason = eligibility.requestReasons[0];
   const directReason = eligibility.directReasons[0];
+  const requestDisabled = !eligibility.request;
 
   if (
     (requestReason === ELIGIBILITY_REASONS.notSupported &&
@@ -32,7 +33,7 @@ export default function getEligibilityMessage({
       </>
     );
   } else if (
-    requestReason === ELIGIBILITY_REASONS.notSupported &&
+    (requestReason === ELIGIBILITY_REASONS.notSupported || requestDisabled) &&
     (directReason === ELIGIBILITY_REASONS.noClinics ||
       directReason === ELIGIBILITY_REASONS.noMatchingClinics)
   ) {

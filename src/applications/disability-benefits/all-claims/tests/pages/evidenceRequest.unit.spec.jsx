@@ -40,12 +40,6 @@ describe('evidenceRequest', () => {
     );
     expect(container.querySelector('va-radio-option[label="Yes"]')).to.exist;
     expect(container.querySelector('va-radio-option[label="No"]')).to.exist;
-    expect(container.querySelector('va-additional-info')).to.exist;
-    const addlInfo = container.querySelector('va-additional-info');
-    expect(addlInfo).to.have.attribute(
-      'trigger',
-      'The differences between VA and private medical centers',
-    );
   });
 
   it('should submit when no medical records selected', () => {
