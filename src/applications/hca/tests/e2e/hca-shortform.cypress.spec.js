@@ -34,10 +34,10 @@ describe('HCA-ShortForm-Authenticated: Low disability', () => {
   it('works with self disclosure of VA compensation type of High Disability', () => {
     advanceToAuthShortForm();
 
-    goToNextPage();
+    goToNextPage('/va-benefits/basic-information');
     cy.selectVaRadioOption('root_vaCompensationType', 'highDisability');
 
-    goToNextPage();
+    goToNextPage('/va-benefits/confirm-service-pay');
     advanceFromShortFormToSubmit(testData);
     cy.injectAxeThenAxeCheck();
   });
@@ -52,21 +52,21 @@ describe('HCA-ShortForm: Unauthenticated', () => {
   it('works with self disclosure of va compensation type of High Disability', () => {
     fillIdentityForm(testData);
 
-    goToNextPage();
-    goToNextPage();
-    goToNextPage();
+    goToNextPage('/veteran-information/birth-information');
+    goToNextPage('/veteran-information/maiden-name-information');
+    goToNextPage('/veteran-information/birth-sex');
     cy.selectVaRadioOption('root_gender', 'M');
 
-    goToNextPage();
-    goToNextPage();
+    goToNextPage('/veteran-information/demographic-information');
+    goToNextPage('/veteran-information/veteran-address');
     cy.fillAddress('root_veteranAddress', testData.veteranAddress);
     cy.selectYesNoVaRadioOption('root_view:doesMailingMatchHomeAddress', true);
 
-    goToNextPage();
-    goToNextPage();
+    goToNextPage('/veteran-information/contact-information');
+    goToNextPage('/va-benefits/basic-information');
     cy.selectVaRadioOption('root_vaCompensationType', 'highDisability');
 
-    goToNextPage();
+    goToNextPage('/va-benefits/confirm-service-pay');
     advanceFromShortFormToSubmit(testData);
     cy.injectAxeThenAxeCheck();
   });
