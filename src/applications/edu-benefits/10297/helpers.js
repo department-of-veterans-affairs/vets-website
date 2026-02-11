@@ -251,7 +251,7 @@ export const validateBankAccountNumber = (
   // Check if the account number matches the obfuscated format
   const isValidObfuscated = accountNumberRegex.test(accountNumber.trim());
   // Access bank account data from the form
-  const bankAccount = formData['view:directDeposit']?.bankAccount;
+  const { bankAccount } = formData;
 
   // Check if the provided account number matches the original (obfuscated) account number
   const matchesOriginal =
@@ -280,7 +280,7 @@ export const validateRoutingNumber = (
   // Check if the routing number matches the obfuscated format
   const isValidObfuscated = routingNumberRegex.test(routingNumber.trim());
   // Access bank account data from the form
-  const bankAccount = formData['view:directDeposit']?.bankAccount;
+  const { bankAccount } = formData;
   // Check if the provided routing number matches the original (obfuscated) routing number
   const matchesOriginal =
     routingNumber.trim() === bankAccount.originalRoutingNumber;

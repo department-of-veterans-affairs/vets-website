@@ -10,7 +10,7 @@ import { addStyleToShadowDomOnPages } from '../../utils/helpers';
 import Breadcrumbs from '../components/Breadcrumbs';
 import manifest from '../manifest.json';
 import { TITLE } from '../constants';
-import { fetchPersonalInformation } from '../actions';
+import { fetchDirectDeposit, fetchPersonalInformation } from '../actions';
 import prefillTransformer from '../config/prefill-transformer';
 
 function App({
@@ -22,8 +22,10 @@ function App({
   formData,
   claimantInfo,
   user,
+  getDirectDeposit,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
+  const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
   useEffect(() => {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
@@ -76,6 +78,16 @@ function App({
     [claimantInfo, formData, setFormData, user?.login?.currentlyLoggedIn],
   );
 
+  useEffect(
+    () => {
+      if (user?.login?.currentlyLoggedIn && !fetchedDirectDeposit) {
+        setFetchedDirectDeposit(true);
+        getDirectDeposit();
+      }
+    },
+    [fetchedDirectDeposit, getDirectDeposit, user?.login?.currentlyLoggedIn],
+  );
+
   return (
     <div className="form-22-10297-container row">
       <div className="vads-u-padding-left--0">
@@ -92,6 +104,7 @@ App.propTypes = {
   children: PropTypes.node,
   claimantInfo: PropTypes.object,
   formData: PropTypes.object,
+  getDirectDeposit: PropTypes.func,
   getPersonalInformation: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
@@ -113,6 +126,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
+  getDirectDeposit: fetchDirectDeposit,
   getPersonalInformation: fetchPersonalInformation,
   setFormData: setData,
 };

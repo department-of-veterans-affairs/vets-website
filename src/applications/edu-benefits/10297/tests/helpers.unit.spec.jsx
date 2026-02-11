@@ -319,17 +319,16 @@ describe('Account Number Confirmation Validation', () => {
 
   it('should show error when confirmation does not match account number', () => {
     const formData = {
-      'view:directDeposit': {
-        bankAccount: {
-          accountNumber: '12345678',
-          accountNumberConfirmation: '87654321',
-        },
+      bankAccount: {
+        accountNumber: '12345678',
+        accountNumberConfirmation: '87654321',
       },
     };
 
     const validationFn =
-      directDeposit.uiSchema['view:directDeposit'].bankAccount
-        .accountNumberConfirmation['ui:validations'][0];
+      directDeposit.uiSchema.bankAccount.accountNumberConfirmation[
+        'ui:validations'
+      ][0];
     validationFn(errors, '87654321', formData);
 
     expect(errors.addError.calledOnce).to.be.true;
@@ -340,17 +339,16 @@ describe('Account Number Confirmation Validation', () => {
 
   it('should not show error when confirmation matches account number', () => {
     const formData = {
-      'view:directDeposit': {
-        bankAccount: {
-          accountNumber: '12345678',
-          accountNumberConfirmation: '12345678',
-        },
+      bankAccount: {
+        accountNumber: '12345678',
+        accountNumberConfirmation: '12345678',
       },
     };
 
     const validationFn =
-      directDeposit.uiSchema['view:directDeposit'].bankAccount
-        .accountNumberConfirmation['ui:validations'][0];
+      directDeposit.uiSchema.bankAccount.accountNumberConfirmation[
+        'ui:validations'
+      ][0];
     validationFn(errors, '12345678', formData);
 
     expect(errors.addError.called).to.be.false;
@@ -358,16 +356,15 @@ describe('Account Number Confirmation Validation', () => {
 
   it('should not show error when confirmation field is empty', () => {
     const formData = {
-      'view:directDeposit': {
-        bankAccount: {
-          accountNumber: '12345678',
-        },
+      bankAccount: {
+        accountNumber: '12345678',
       },
     };
 
     const validationFn =
-      directDeposit.uiSchema['view:directDeposit'].bankAccount
-        .accountNumberConfirmation['ui:validations'][0];
+      directDeposit.uiSchema.bankAccount.accountNumberConfirmation[
+        'ui:validations'
+      ][0];
     validationFn(errors, '', formData);
 
     expect(errors.addError.called).to.be.false;
@@ -375,16 +372,15 @@ describe('Account Number Confirmation Validation', () => {
 
   it('should not show error when account number is missing', () => {
     const formData = {
-      'view:directDeposit': {
-        bankAccount: {
-          accountNumberConfirmation: '12345678',
-        },
+      bankAccount: {
+        accountNumberConfirmation: '12345678',
       },
     };
 
     const validationFn =
-      directDeposit.uiSchema['view:directDeposit'].bankAccount
-        .accountNumberConfirmation['ui:validations'][0];
+      directDeposit.uiSchema.bankAccount.accountNumberConfirmation[
+        'ui:validations'
+      ][0];
     validationFn(errors, '12345678', formData);
 
     expect(errors.addError.called).to.be.false;
@@ -400,17 +396,16 @@ describe('Routing Number Confirmation Validation', () => {
 
   it('should show error when confirmation does not match routing number', () => {
     const formData = {
-      'view:directDeposit': {
-        bankAccount: {
-          routingNumber: '123456789',
-          routingNumberConfirmation: '987654321',
-        },
+      bankAccount: {
+        routingNumber: '123456789',
+        routingNumberConfirmation: '987654321',
       },
     };
 
     const validationFn =
-      directDeposit.uiSchema['view:directDeposit'].bankAccount
-        .routingNumberConfirmation['ui:validations'][0];
+      directDeposit.uiSchema.bankAccount.routingNumberConfirmation[
+        'ui:validations'
+      ][0];
     validationFn(errors, '987654321', formData);
 
     expect(errors.addError.calledOnce).to.be.true;
@@ -421,17 +416,16 @@ describe('Routing Number Confirmation Validation', () => {
 
   it('should not show error when confirmation matches routing number', () => {
     const formData = {
-      'view:directDeposit': {
-        bankAccount: {
-          routingNumber: '123456789',
-          routingNumberConfirmation: '123456789',
-        },
+      bankAccount: {
+        routingNumber: '123456789',
+        routingNumberConfirmation: '123456789',
       },
     };
 
     const validationFn =
-      directDeposit.uiSchema['view:directDeposit'].bankAccount
-        .routingNumberConfirmation['ui:validations'][0];
+      directDeposit.uiSchema.bankAccount.routingNumberConfirmation[
+        'ui:validations'
+      ][0];
     validationFn(errors, '123456789', formData);
 
     expect(errors.addError.called).to.be.false;
@@ -439,16 +433,15 @@ describe('Routing Number Confirmation Validation', () => {
 
   it('should not show error when confirmation field is empty', () => {
     const formData = {
-      'view:directDeposit': {
-        bankAccount: {
-          routingNumber: '123456789',
-        },
+      bankAccount: {
+        routingNumber: '123456789',
       },
     };
 
     const validationFn =
-      directDeposit.uiSchema['view:directDeposit'].bankAccount
-        .routingNumberConfirmation['ui:validations'][0];
+      directDeposit.uiSchema.bankAccount.routingNumberConfirmation[
+        'ui:validations'
+      ][0];
     validationFn(errors, '', formData);
 
     expect(errors.addError.called).to.be.false;
@@ -456,16 +449,15 @@ describe('Routing Number Confirmation Validation', () => {
 
   it('should not show error when routing number is missing', () => {
     const formData = {
-      'view:directDeposit': {
-        bankAccount: {
-          routingNumberConfirmation: '123456789',
-        },
+      bankAccount: {
+        routingNumberConfirmation: '123456789',
       },
     };
 
     const validationFn =
-      directDeposit.uiSchema['view:directDeposit'].bankAccount
-        .routingNumberConfirmation['ui:validations'][0];
+      directDeposit.uiSchema.bankAccount.routingNumberConfirmation[
+        'ui:validations'
+      ][0];
     validationFn(errors, '123456789', formData);
 
     expect(errors.addError.called).to.be.false;
@@ -481,18 +473,14 @@ describe('Routing Number and Account Number Cannot Match Validation', () => {
 
   it('should show error on routing number field when routing number matches account number', () => {
     const formData = {
-      'view:directDeposit': {
-        bankAccount: {
-          routingNumber: '123456789',
-          accountNumber: '123456789',
-        },
+      bankAccount: {
+        routingNumber: '123456789',
+        accountNumber: '123456789',
       },
     };
 
     const validationFn =
-      directDeposit.uiSchema['view:directDeposit'].bankAccount.routingNumber[
-        'ui:validations'
-      ][1];
+      directDeposit.uiSchema.bankAccount.routingNumber['ui:validations'][1];
     validationFn(errors, '123456789', formData);
 
     expect(errors.addError.calledOnce).to.be.true;
@@ -503,18 +491,14 @@ describe('Routing Number and Account Number Cannot Match Validation', () => {
 
   it('should show error on account number field when account number matches routing number', () => {
     const formData = {
-      'view:directDeposit': {
-        bankAccount: {
-          routingNumber: '123456789',
-          accountNumber: '123456789',
-        },
+      bankAccount: {
+        routingNumber: '123456789',
+        accountNumber: '123456789',
       },
     };
 
     const validationFn =
-      directDeposit.uiSchema['view:directDeposit'].bankAccount.accountNumber[
-        'ui:validations'
-      ][1];
+      directDeposit.uiSchema.bankAccount.accountNumber['ui:validations'][1];
     validationFn(errors, '123456789', formData);
 
     expect(errors.addError.calledOnce).to.be.true;
@@ -525,26 +509,20 @@ describe('Routing Number and Account Number Cannot Match Validation', () => {
 
   it('should not show error when routing number and account number are different', () => {
     const formData = {
-      'view:directDeposit': {
-        bankAccount: {
-          routingNumber: '123456789',
-          accountNumber: '987654321',
-        },
+      bankAccount: {
+        routingNumber: '123456789',
+        accountNumber: '987654321',
       },
     };
 
     const routingValidationFn =
-      directDeposit.uiSchema['view:directDeposit'].bankAccount.routingNumber[
-        'ui:validations'
-      ][1];
+      directDeposit.uiSchema.bankAccount.routingNumber['ui:validations'][1];
     routingValidationFn(errors, '123456789', formData);
 
     expect(errors.addError.called).to.be.false;
 
     const accountValidationFn =
-      directDeposit.uiSchema['view:directDeposit'].bankAccount.accountNumber[
-        'ui:validations'
-      ][1];
+      directDeposit.uiSchema.bankAccount.accountNumber['ui:validations'][1];
     accountValidationFn(errors, '987654321', formData);
 
     expect(errors.addError.called).to.be.false;
@@ -552,35 +530,27 @@ describe('Routing Number and Account Number Cannot Match Validation', () => {
 
   it('should not show error when either field is empty', () => {
     const formDataEmptyRouting = {
-      'view:directDeposit': {
-        bankAccount: {
-          routingNumber: '',
-          accountNumber: '123456789',
-        },
+      bankAccount: {
+        routingNumber: '',
+        accountNumber: '123456789',
       },
     };
 
     const routingValidationFn =
-      directDeposit.uiSchema['view:directDeposit'].bankAccount.routingNumber[
-        'ui:validations'
-      ][1];
+      directDeposit.uiSchema.bankAccount.routingNumber['ui:validations'][1];
     routingValidationFn(errors, '', formDataEmptyRouting);
 
     expect(errors.addError.called).to.be.false;
 
     const formDataEmptyAccount = {
-      'view:directDeposit': {
-        bankAccount: {
-          routingNumber: '123456789',
-          accountNumber: '',
-        },
+      bankAccount: {
+        routingNumber: '123456789',
+        accountNumber: '',
       },
     };
 
     const accountValidationFn =
-      directDeposit.uiSchema['view:directDeposit'].bankAccount.accountNumber[
-        'ui:validations'
-      ][1];
+      directDeposit.uiSchema.bankAccount.accountNumber['ui:validations'][1];
     accountValidationFn(errors, '', formDataEmptyAccount);
 
     expect(errors.addError.called).to.be.false;

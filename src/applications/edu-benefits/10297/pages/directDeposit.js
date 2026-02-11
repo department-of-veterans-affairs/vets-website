@@ -19,100 +19,94 @@ const checkImageSrc = (() => {
 })();
 
 const uiSchema = {
-  'view:directDeposit': {
-    'ui:title': 'Direct deposit information',
-    'ui:field': DirectDepositField,
-    'ui:options': {
-      hideLabelText: true,
-      showFieldLabel: false,
-      viewComponent: DirectDepositViewField,
-      volatileData: true,
-    },
-    'ui:description': (
-      <p>
-        <strong>Note:</strong> We make payments only through direct deposit,
-        also called electronic funds transfer (EFT).
-      </p>
-    ),
-    bankAccount: {
-      ...bankAccountUI,
-      'ui:order': [
-        'accountType',
-        'routingNumber',
-        'routingNumberConfirmation',
-        'accountNumber',
-        'accountNumberConfirmation',
+  'ui:title': 'Direct deposit information',
+  'ui:field': DirectDepositField,
+  'ui:options': {
+    hideLabelText: true,
+    showFieldLabel: false,
+    viewComponent: DirectDepositViewField,
+    volatileData: true,
+  },
+  'ui:description': (
+    <p>
+      <strong>Note:</strong> We make payments only through direct deposit, also
+      called electronic funds transfer (EFT).
+    </p>
+  ),
+  bankAccount: {
+    ...bankAccountUI,
+    'ui:order': [
+      'accountType',
+      'routingNumber',
+      'routingNumberConfirmation',
+      'accountNumber',
+      'accountNumberConfirmation',
+    ],
+    routingNumber: {
+      ...bankAccountUI.routingNumber,
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid 9-digit routing number',
+      },
+      'ui:reviewField': ObfuscateReviewField,
+      'ui:validations': [
+        validateRoutingNumber,
+        (errors, fieldData, formData) => {
+          const accountNumber = formData?.bankAccount?.accountNumber;
+          if (fieldData && accountNumber && fieldData === accountNumber) {
+            errors.addError(
+              'Your bank routing number and bank account number cannot match',
+            );
+          }
+        },
       ],
-      routingNumber: {
-        ...bankAccountUI.routingNumber,
-        'ui:errorMessages': {
-          pattern: 'Please enter a valid 9-digit routing number',
-        },
-        'ui:reviewField': ObfuscateReviewField,
-        'ui:validations': [
-          validateRoutingNumber,
-          (errors, fieldData, formData) => {
-            const accountNumber =
-              formData['view:directDeposit']?.bankAccount?.accountNumber;
-            if (fieldData && accountNumber && fieldData === accountNumber) {
-              errors.addError(
-                'Your bank routing number and bank account number cannot match',
-              );
-            }
-          },
-        ],
+    },
+    routingNumberConfirmation: {
+      'ui:title': 'Confirm bank routing number',
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid 9-digit routing number',
       },
-      routingNumberConfirmation: {
-        'ui:title': 'Confirm bank routing number',
-        'ui:errorMessages': {
-          pattern: 'Please enter a valid 9-digit routing number',
+      'ui:reviewField': ObfuscateReviewField,
+      'ui:validations': [
+        (errors, fieldData, formData) => {
+          const routingNumber = formData?.bankAccount?.routingNumber;
+          if (fieldData && routingNumber && fieldData !== routingNumber) {
+            errors.addError('Your bank routing number must match');
+          }
         },
-        'ui:reviewField': ObfuscateReviewField,
-        'ui:validations': [
-          (errors, fieldData, formData) => {
-            const routingNumber =
-              formData['view:directDeposit']?.bankAccount?.routingNumber;
-            if (fieldData && routingNumber && fieldData !== routingNumber) {
-              errors.addError('Your bank routing number must match');
-            }
-          },
-        ],
+      ],
+    },
+    accountNumber: {
+      ...bankAccountUI.accountNumber,
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid 5-17 digit bank account number',
       },
-      accountNumber: {
-        ...bankAccountUI.accountNumber,
-        'ui:errorMessages': {
-          pattern: 'Please enter a valid 5-17 digit bank account number',
+      'ui:reviewField': ObfuscateReviewField,
+      'ui:validations': [
+        validateBankAccountNumber,
+        (errors, fieldData, formData) => {
+          const routingNumber = formData?.bankAccount?.routingNumber;
+          if (fieldData && routingNumber && fieldData === routingNumber) {
+            errors.addError(
+              'Your bank routing number and bank account number cannot match',
+            );
+          }
         },
-        'ui:reviewField': ObfuscateReviewField,
-        'ui:validations': [
-          validateBankAccountNumber,
-          (errors, fieldData, formData) => {
-            const routingNumber =
-              formData['view:directDeposit']?.bankAccount?.routingNumber;
-            if (fieldData && routingNumber && fieldData === routingNumber) {
-              errors.addError(
-                'Your bank routing number and bank account number cannot match',
-              );
-            }
-          },
-        ],
+      ],
+    },
+    accountNumberConfirmation: {
+      'ui:title': 'Confirm bank account number',
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid 5-17 digit bank account number',
       },
-      accountNumberConfirmation: {
-        'ui:title': 'Confirm bank account number',
-        'ui:errorMessages': {
-          pattern: 'Please enter a valid 5-17 digit bank account number',
+      'ui:reviewField': ObfuscateReviewField,
+      'ui:validations': [
+        (errors, fieldData, formData) => {
+          const accountNumber = formData?.bankAccount?.accountNumber;
+          if (fieldData && accountNumber && fieldData !== accountNumber) {
+            errors.addError('Your bank account number must match');
+          }
         },
-        'ui:reviewField': ObfuscateReviewField,
-        'ui:validations': [
-          (errors, fieldData, formData) => {
-            const accountNumber =
-              formData['view:directDeposit']?.bankAccount?.accountNumber;
-            if (fieldData && accountNumber && fieldData !== accountNumber) {
-              errors.addError('Your bank account number must match');
-            }
-          },
-        ],
-      },
+      ],
     },
   },
   'view:learnMore': {
@@ -145,40 +139,35 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    'view:directDeposit': {
+    bankAccount: {
       type: 'object',
+      required: [
+        'accountType',
+        'accountNumber',
+        'accountNumberConfirmation',
+        'routingNumber',
+        'routingNumberConfirmation',
+      ],
       properties: {
-        bankAccount: {
-          type: 'object',
-          required: [
-            'accountType',
-            'accountNumber',
-            'accountNumberConfirmation',
-            'routingNumber',
-            'routingNumberConfirmation',
-          ],
-          properties: {
-            accountType: {
-              type: 'string',
-              enum: ['Checking', 'Savings'],
-            },
-            routingNumber: {
-              type: 'string',
-              pattern: '^[\\d*]{5}\\d{4}$',
-            },
-            routingNumberConfirmation: {
-              type: 'string',
-              pattern: '^[\\d*]{5}\\d{4}$',
-            },
-            accountNumber: {
-              type: 'string',
-              pattern: '^[\\d*]{5,17}$',
-            },
-            accountNumberConfirmation: {
-              type: 'string',
-              pattern: '^[\\d*]{5,17}$',
-            },
-          },
+        accountType: {
+          type: 'string',
+          enum: ['Checking', 'Savings'],
+        },
+        routingNumber: {
+          type: 'string',
+          pattern: '^[\\d*]{5}\\d{4}$',
+        },
+        routingNumberConfirmation: {
+          type: 'string',
+          pattern: '^[\\d*]{5}\\d{4}$',
+        },
+        accountNumber: {
+          type: 'string',
+          pattern: '^[\\d*]{5,17}$',
+        },
+        accountNumberConfirmation: {
+          type: 'string',
+          pattern: '^[\\d*]{5,17}$',
         },
       },
     },
