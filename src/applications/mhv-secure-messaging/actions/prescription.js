@@ -13,10 +13,10 @@ export const getPrescriptionById = prescriptionId => async (
     if (!prescriptionId || prescriptionId === 'undefined') {
       throw new Error('Prescription ID is required');
     }
+    const { featureToggles } = getState();
     const isCernerPilot =
-      getState()?.featureToggles?.[
-        FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot
-      ] || false;
+      !featureToggles?.loading &&
+      featureToggles?.[FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot] === true;
     const response = await apiGetPrescriptionById(
       prescriptionId,
       isCernerPilot,
