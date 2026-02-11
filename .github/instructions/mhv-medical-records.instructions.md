@@ -245,12 +245,12 @@ Used in CCD download sections to distinguish records before vs after VistA-to-OH
 - **formatCutoverDate(dateString)**: Formats `YYYY-MM-DD` to readable format (e.g., `"April 30, 2022"`)
 - **createBeforeCutoverFacilityNames(ohFacilities, ehrDataByVhaId, transitionTable, getNameFn)**:
   - Returns `Array<{ id: string, content: JSX.Element|string }>`
-  - Appends `"(before <strong>date</strong>)"` suffix for facilities in transition table
+  - Appends `"<strong>(before date)</strong>"` suffix for facilities in transition table
   - Only appends suffix if cutover date is current date or older (future dates show plain name)
   - Plain facility name for facilities not in transition table
 - **createAfterCutoverFacilityNames(ohFacilities, ehrDataByVhaId, transitionTable, getNameFn)**:
   - Returns `Array<{ id: string, content: JSX.Element|string }>`
-  - Appends `"(<strong>date</strong> - present)"` suffix for facilities in transition table
+  - Appends `"<strong>(date-present)</strong>"` suffix for facilities in transition table
   - Only appends suffix if cutover date is current date or older (future dates show plain name)
   - Plain facility name for facilities not in transition table
 

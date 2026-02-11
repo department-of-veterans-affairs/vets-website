@@ -44,7 +44,7 @@ describe('VistaAndOHContent', () => {
         id: '757-before',
         content: (
           <>
-            VA Central Ohio health care (before <strong>April 30, 2022</strong>)
+            VA Central Ohio health care <strong>(before April 30, 2022)</strong>
           </>
         ),
       },
@@ -54,8 +54,8 @@ describe('VistaAndOHContent', () => {
         id: '757-after',
         content: (
           <>
-            VA Central Ohio health care (<strong>April 30, 2022</strong> -
-            present)
+            VA Central Ohio health care{' '}
+            <strong>(April 30, 2022-present)</strong>
           </>
         ),
       },
@@ -260,8 +260,8 @@ describe('VistaAndOHContent', () => {
             id: '757-before',
             content: (
               <>
-                VA Central Ohio health care (before{' '}
-                <strong>April 30, 2022</strong>)
+                VA Central Ohio health care{' '}
+                <strong>(before April 30, 2022)</strong>
               </>
             ),
           },
@@ -271,8 +271,8 @@ describe('VistaAndOHContent', () => {
             id: '757-after',
             content: (
               <>
-                VA Central Ohio health care (<strong>April 30, 2022</strong> -
-                present)
+                VA Central Ohio health care{' '}
+                <strong>(April 30, 2022-present)</strong>
               </>
             ),
           },

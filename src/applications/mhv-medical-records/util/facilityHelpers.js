@@ -115,7 +115,7 @@ export const createBeforeCutoverFacilityNames = (
             id: `${facility.facilityId}-before`,
             content: (
               <>
-                {name} (before <strong>{formattedDate}</strong>)
+                {name} <strong>(before {formattedDate})</strong>
               </>
             ),
           };
@@ -162,7 +162,11 @@ export const createAfterCutoverFacilityNames = (
             id: `${facility.facilityId}-after`,
             content: (
               <>
-                {name} (<strong>{formattedDate}</strong> - present)
+                {name}{' '}
+                <strong>
+                  ({formattedDate}
+                  -present)
+                </strong>
               </>
             ),
           };

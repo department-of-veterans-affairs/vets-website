@@ -216,9 +216,9 @@ describe('facilityHelpers', () => {
       expect(container.textContent).to.include('VA Central Ohio health care');
       expect(container.textContent).to.include('(before April 30, 2022)');
       expect(container.querySelector('strong')).to.exist;
-      // Only the date is bolded, not the entire parenthetical
+      // The entire parenthetical is bolded
       expect(container.querySelector('strong').textContent).to.equal(
-        'April 30, 2022',
+        '(before April 30, 2022)',
       );
     });
 
@@ -361,11 +361,11 @@ describe('facilityHelpers', () => {
       // Render the JSX to test the content
       const { container } = render(<div>{result[0].content}</div>);
       expect(container.textContent).to.include('VA Central Ohio health care');
-      expect(container.textContent).to.include('(April 30, 2022 - present)');
+      expect(container.textContent).to.include('(April 30, 2022-present)');
       expect(container.querySelector('strong')).to.exist;
-      // Only the date is bolded, not the entire parenthetical
+      // The entire parenthetical is bolded
       expect(container.querySelector('strong').textContent).to.equal(
-        'April 30, 2022',
+        '(April 30, 2022-present)',
       );
     });
 
@@ -401,7 +401,7 @@ describe('facilityHelpers', () => {
       // First result should have bolded date
       expect(result[0]).to.have.property('id', '757-after');
       const { container: container1 } = render(<div>{result[0].content}</div>);
-      expect(container1.textContent).to.include('(April 30, 2022 - present)');
+      expect(container1.textContent).to.include('(April 30, 2022-present)');
 
       // Second result should be plain string
       expect(result[1]).to.have.property('id', '999');
@@ -410,7 +410,7 @@ describe('facilityHelpers', () => {
       // Third result should have bolded date
       expect(result[2]).to.have.property('id', '668-after');
       const { container: container3 } = render(<div>{result[2].content}</div>);
-      expect(container3.textContent).to.include('(October 24, 2020 - present)');
+      expect(container3.textContent).to.include('(October 24, 2020-present)');
     });
 
     it('should filter out facilities with no name lookup result', () => {
