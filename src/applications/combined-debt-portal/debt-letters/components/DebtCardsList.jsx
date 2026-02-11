@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import DebtSummaryCard from './DebtSummaryCard';
+import SummaryCard from '../../combined/components/SummaryCard';
 
 const DebtCardsList = () => {
   const { debts } = useSelector(
@@ -14,7 +14,11 @@ const DebtCardsList = () => {
         after processing.
       </p>
       {debts.map((debt, index) => (
-        <DebtSummaryCard key={`${index}-${debt.compositeDebtId}`} debt={debt} />
+        <SummaryCard
+          key={`${index}-${debt.compositeDebtId}`}
+          type="debt"
+          data={debt}
+        />
       ))}
     </div>
   );

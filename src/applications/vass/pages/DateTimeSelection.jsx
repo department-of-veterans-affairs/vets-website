@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import CalendarWidget from 'platform/shared/calendar/CalendarWidget';
 
 import Wrapper from '../layout/Wrapper';
 import {
-  setSelectedDate,
-  selectSelectedDate,
+  setSelectedSlot,
+  selectSelectedSlot,
   selectUuid,
 } from '../redux/slices/formSlice';
 import { useGetAppointmentAvailabilityQuery } from '../redux/api/vassApi';
@@ -16,23 +16,57 @@ import {
   getTimezoneDescByTimeZoneString,
   getBrowserTimezone,
 } from '../utils/timezone';
+import { isNotWhithinCohortError, isServerError } from '../utils/errors';
+import { removeVassToken } from '../utils/auth';
 
 const DateTimeSelection = () => {
   const dispatch = useDispatch();
-  const selectedDate = useSelector(selectSelectedDate);
+  const selectedSlot = useSelector(selectSelectedSlot);
   const uuid = useSelector(selectUuid);
   const navigate = useNavigate();
   const {
     data: appointmentAvailability,
     isLoading: loading,
+    error: appointmentAvailabilityError,
   } = useGetAppointmentAvailabilityQuery(uuid);
   const [{ error, handleSetError }] = useErrorFocus([
     '.vaos-calendar__validation-msg',
   ]);
+  const isNavigatingAway = useRef(false);
 
   const timezone = getBrowserTimezone();
 
   const slots = mapAppointmentAvailabilityToSlots(appointmentAvailability);
+
+  // Warn on back button
+  useEffect(() => {
+    window.history.pushState(null, '', window.location.pathname);
+
+    const handlePopState = () => {
+      if (isNavigatingAway.current) {
+        return;
+      }
+
+      // eslint-disable-next-line no-alert
+      const confirmLeave = window.confirm(
+        'This page is asking you to confirm that you want to leave — information you’ve entered may not be saved.',
+      );
+
+      if (!confirmLeave) {
+        window.history.pushState(null, '', window.location.pathname);
+      } else {
+        isNavigatingAway.current = true;
+        removeVassToken();
+        window.history.back();
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
 
   // This is for loading not sure if we will need it
   const disabledMessage = null;
@@ -47,13 +81,29 @@ const DateTimeSelection = () => {
     if (!selectedSlotTime) {
       return;
     }
-    // Update selected dates and clear any previous error state
-    dispatch(setSelectedDate(selectedSlotTime));
+    const selectedSlotData = slots.find(
+      slot => slot.start === selectedSlotTime,
+    );
+    if (!selectedSlotData) {
+      dispatch(
+        setSelectedSlot({
+          dtStartUtc: null,
+          dtEndUtc: null,
+        }),
+      );
+      return;
+    }
+    dispatch(
+      setSelectedSlot({
+        dtStartUtc: selectedSlotData.start,
+        dtEndUtc: selectedSlotData.end,
+      }),
+    );
     handleSetError('');
   };
 
   const handleContinue = () => {
-    if (!selectedDate) {
+    if (!selectedSlot.dtStartUtc || !selectedSlot.dtEndUtc) {
       handleSetError(
         'Please select a preferred date and time for your appointment.',
       );
@@ -70,6 +120,10 @@ const DateTimeSelection = () => {
       required
       loading={loading}
       loadingMessage="Loading appointment availability. This may take up to 30 seconds. Please don’t refresh the page."
+      errorAlert={
+        isServerError(appointmentAvailabilityError) ||
+        isNotWhithinCohortError(appointmentAvailabilityError)
+      }
     >
       <div data-testid="content">
         <p>
@@ -85,7 +139,7 @@ const DateTimeSelection = () => {
       <CalendarWidget
         maxSelections={1}
         availableSlots={slots}
-        value={selectedDate ? [selectedDate] : []}
+        value={selectedSlot?.dtStartUtc ? [selectedSlot.dtStartUtc] : []}
         id="dateTime"
         timezone={timezone}
         additionalOptions={{

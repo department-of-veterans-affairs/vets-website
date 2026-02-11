@@ -6,8 +6,12 @@ import { personalInformationPage } from 'platform/forms-system/src/js/components
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import { organizationRepresentativesArrayOptions } from '../helpers';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PrivacyPolicy from '../components/PrivacyPolicy';
+import PreSubmitInfo from '../components/PreSubmitInfo';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import thirdPartyOrganizationRepresentativesSummary from '../pages/thirdPartyOrganizationRepresentativesSummary ';
 import thirdPartyOrganizationInformation from '../pages/thirdPartyOrganizationInformation';
 import thirdPartyOrganizationRepresentativesIntro from '../pages/thirdPartyOrganizationRepresentativesIntro';
@@ -16,12 +20,22 @@ import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import informationToDisclose from '../pages/informationToDisclose';
 import prefillTransform from './prefillTransform';
 
 import {
   thirdPartyPersonName,
   thirdPartyPersonAddress,
   discloseInformation,
+  lengthOfRelease,
+  securitySetup,
+  securitySetupPinPassword,
+  securitySetupCustomQuestion,
+  securitySetupMotherBornLocation,
+  securitySetupHighSchool,
+  securitySetupPetName,
+  securitySetupTeacherName,
+  securitySetupFatherMiddleName,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -49,18 +63,29 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer: prefillTransform,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    statementOfTruth: {
+      heading: 'Declaration of intent',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'claimantPersonalInformation.fullName',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your form.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  CustomReviewTopContent,
   customText: {
-    appType: 'application',
+    appType: 'form',
     continueAppButtonText: 'Continue your form',
     startNewAppButtonText: 'Start a new form',
     finishAppLaterMessage: 'Finish this form later',
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
+    reviewPageTitle: 'Review',
     submitButtonText: 'Continue',
   },
   defaultDefinitions: {
@@ -152,7 +177,6 @@ const formConfig = {
         },
       },
     },
-
     thirdPartyOrganizationsChapter: {
       title: 'Third party contact information',
       pages: {
@@ -196,6 +220,140 @@ const formConfig = {
             }),
           }),
         ),
+      },
+    },
+    informationToDiscloseChapter: {
+      title: 'Information to disclose',
+      pages: {
+        informationToDisclose: {
+          path: 'information-to-disclose',
+          title: 'Information to disclose',
+          uiSchema: informationToDisclose.uiSchema,
+          schema: informationToDisclose.schema,
+          onNavBack: ({ formData, goPath }) => {
+            if (formData?.discloseInformation?.authorize === 'organization') {
+              goPath('/organizations/representatives-summary');
+              return;
+            }
+            goPath('/third-party-person-details-1');
+          },
+        },
+      },
+    },
+    lengthOfReleaseChapter: {
+      title: 'Length of release',
+      pages: {
+        lengthOfRelease: {
+          path: 'length-of-release',
+          title: 'Length of release',
+          uiSchema: lengthOfRelease.uiSchema,
+          schema: lengthOfRelease.schema,
+        },
+      },
+    },
+    securitySetupChapter: {
+      title: 'Security setup',
+      pages: {
+        securitySetup: {
+          path: 'security-setup',
+          title: 'Security setup',
+          uiSchema: securitySetup.uiSchema,
+          schema: securitySetup.schema,
+          onNavForward: ({ formData, goPath }) => {
+            const question = formData?.securityQuestion?.question;
+            if (question === 'pin') {
+              goPath('/security-setup-pin-password');
+            } else if (question === 'create') {
+              goPath('/security-setup-custom-question');
+            } else if (question === 'motherBornLocation') {
+              goPath('/security-setup-mother-born-location');
+            } else if (question === 'highSchool') {
+              goPath('/security-setup-high-school');
+            } else if (question === 'petName') {
+              goPath('/security-setup-pet-name');
+            } else if (question === 'teacherName') {
+              goPath('/security-setup-teacher-name');
+            } else if (question === 'fatherMiddleName') {
+              goPath('/security-setup-father-middle-name');
+            }
+          },
+        },
+        securitySetupPinPassword: {
+          path: 'security-setup-pin-password',
+          title: 'Security setup',
+          uiSchema: securitySetupPinPassword.uiSchema,
+          schema: securitySetupPinPassword.schema,
+          depends: formData => formData?.securityQuestion?.question === 'pin',
+          onNavBack: ({ goPath }) => {
+            goPath('/security-setup');
+          },
+        },
+        securitySetupCustomQuestion: {
+          path: 'security-setup-custom-question',
+          title: 'Security setup',
+          uiSchema: securitySetupCustomQuestion.uiSchema,
+          schema: securitySetupCustomQuestion.schema,
+          depends: formData =>
+            formData?.securityQuestion?.question === 'create',
+          onNavBack: ({ goPath }) => {
+            goPath('/security-setup');
+          },
+        },
+        securitySetupMotherBornLocation: {
+          path: 'security-setup-mother-born-location',
+          title: 'Security setup',
+          uiSchema: securitySetupMotherBornLocation.uiSchema,
+          schema: securitySetupMotherBornLocation.schema,
+          depends: formData =>
+            formData?.securityQuestion?.question === 'motherBornLocation',
+          onNavBack: ({ goPath }) => {
+            goPath('/security-setup');
+          },
+        },
+        securitySetupHighSchool: {
+          path: 'security-setup-high-school',
+          title: 'Security setup',
+          uiSchema: securitySetupHighSchool.uiSchema,
+          schema: securitySetupHighSchool.schema,
+          depends: formData =>
+            formData?.securityQuestion?.question === 'highSchool',
+          onNavBack: ({ goPath }) => {
+            goPath('/security-setup');
+          },
+        },
+        securitySetupPetName: {
+          path: 'security-setup-pet-name',
+          title: 'Security setup',
+          uiSchema: securitySetupPetName.uiSchema,
+          schema: securitySetupPetName.schema,
+          depends: formData =>
+            formData?.securityQuestion?.question === 'petName',
+          onNavBack: ({ goPath }) => {
+            goPath('/security-setup');
+          },
+        },
+        securitySetupTeacherName: {
+          path: 'security-setup-teacher-name',
+          title: 'Security setup',
+          uiSchema: securitySetupTeacherName.uiSchema,
+          schema: securitySetupTeacherName.schema,
+          depends: formData =>
+            formData?.securityQuestion?.question === 'teacherName',
+          onNavBack: ({ goPath }) => {
+            goPath('/security-setup');
+          },
+        },
+        securitySetupFatherMiddleName: {
+          path: 'security-setup-father-middle-name',
+          title: 'Security setup',
+          uiSchema: securitySetupFatherMiddleName.uiSchema,
+          schema: securitySetupFatherMiddleName.schema,
+          depends: formData =>
+            formData?.securityQuestion?.question === 'fatherMiddleName',
+          onNavBack: ({ goPath }) => {
+            goPath('/security-setup');
+          },
+        },
       },
     },
   },

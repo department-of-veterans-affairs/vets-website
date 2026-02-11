@@ -36,7 +36,7 @@ describe('SM CONTACT LIST BREADCRUMB BACK NAVIGATION', () => {
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
     // Ensure Back breadcrumb visible and clickable
-    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
+    cy.findByTestId('sm-breadcrumbs-back').should('have.text', 'Back');
     SharedComponents.clickBackBreadcrumb();
 
     // Verify returned to Inbox
@@ -66,7 +66,7 @@ describe('SM CONTACT LIST BREADCRUMB BACK NAVIGATION', () => {
     GeneralFunctionsPage.verifyPageHeader('Messages: Contact list');
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
+    cy.findByTestId('sm-breadcrumbs-back').should('have.text', 'Back');
     SharedComponents.clickBackBreadcrumb();
 
     // When no active draft and previousUrl isn't properly set, falls back to inbox

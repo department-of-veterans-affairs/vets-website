@@ -19,11 +19,11 @@ import {
 
 const { data: testData } = maxTestData;
 
-function submitDependentInformation(dependent, showIncomePages) {
+function submitDependentInformation(dependent, showIncomePages, rawData) {
   cy.visit(manifest.rootUrl);
   cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
-  advanceToDependents();
+  advanceToDependents(rawData);
 
   goToNextPage('/household-information/dependents');
   cy.get(`[name="root_${DEPENDENT_VIEW_FIELDS.add}"]`).check('Y');
@@ -74,13 +74,13 @@ describe('EZR Dependents', () => {
 
   describe('default behavior with maximum data', () => {
     it('should successfully fill dependent information', () => {
-      submitDependentInformation(testData.dependents[0], true);
+      submitDependentInformation(testData.dependents[0], true, testData);
     });
   });
 
   describe('dependent is between 18 and 23 years old and earned no income', () => {
     it('does not show the income or education expenses pages, but still successfully fills the other dependent information', () => {
-      submitDependentInformation(testData.dependents[1], false);
+      submitDependentInformation(testData.dependents[1], false, testData);
     });
   });
 });

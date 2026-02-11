@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   textUI,
-  textSchema,
   radioUI,
   radioSchema,
   currencyUI,
@@ -19,6 +18,7 @@ import {
   frequencyLabels,
 } from '../../../../utils/labels';
 import { transformDate } from '../../05-claim-information/helpers';
+import { customTextSchema } from '../../../definitions';
 
 function introDescription() {
   return (
@@ -76,8 +76,7 @@ export const options = {
   maxItems: 6,
   isItemIncomplete: item =>
     !item?.recipient ||
-    (['VETERANS_CHILD', 'OTHER'].includes(item?.recipient) &&
-      !item?.recipientOther) ||
+    (['CHILD'].includes(item?.recipient) && !item?.childName) ||
     !item?.purpose ||
     !item?.paymentDate ||
     !item?.paymentFrequency ||
@@ -178,15 +177,14 @@ const recipientPage = {
       title: 'Who is the expense for?',
       labels: medicalExpenseRecipientLabels,
     }),
-    recipientOther: textUI({
+    childName: textUI({
       title: 'Full name of the person who the expense is for',
       expandUnder: 'recipient',
-      expandUnderCondition: field =>
-        field === 'VETERANS_CHILD' || field === 'OTHER',
+      expandUnderCondition: field => field === 'CHILD',
       required: (formData, index, fullData) => {
         const items = formData?.medicalExpenses ?? fullData?.medicalExpenses;
         const item = items?.[index];
-        return ['VETERANS_CHILD'].includes(item?.recipient);
+        return ['CHILD'].includes(item?.recipient);
       },
     }),
     provider: textUI({
@@ -199,8 +197,8 @@ const recipientPage = {
     type: 'object',
     properties: {
       recipient: radioSchema(Object.keys(medicalExpenseRecipientLabels)),
-      recipientOther: textSchema,
-      provider: textSchema,
+      childName: customTextSchema,
+      provider: customTextSchema,
     },
     required: ['recipient', 'provider'],
   },
@@ -221,7 +219,7 @@ const purposeDatePage = {
   schema: {
     type: 'object',
     properties: {
-      purpose: textSchema,
+      purpose: customTextSchema,
       paymentDate: currentOrPastDateSchema,
     },
     required: ['purpose', 'paymentDate'],
@@ -235,7 +233,10 @@ const frequencyCostPage = {
       title: 'How often are the payments?',
       labels: frequencyLabels,
     }),
-    paymentAmount: currencyUI('How much is each payment?'),
+    paymentAmount: currencyUI({
+      title: 'How much is each payment?',
+      max: 999999999.0,
+    }),
   },
   schema: {
     type: 'object',

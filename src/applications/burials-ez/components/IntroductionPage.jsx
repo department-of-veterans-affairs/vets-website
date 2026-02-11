@@ -7,15 +7,16 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { selectProfile } from 'platform/user/selectors';
 import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
+import { formatDateLong } from 'platform/utilities/date';
+import { showPdfFormAlignment } from '../utils/helpers';
 
 const IntroductionPage = ({ route }) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
 
-  const loggedIn = useSelector(isLoggedIn);
   // LOA3 Verified?
   const isVerified = useSelector(
     state => selectProfile(state)?.verified || false,
@@ -28,6 +29,25 @@ const IntroductionPage = ({ route }) => {
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const pbbFormsRequireLoa3 = useToggleValue(TOGGLE_NAMES.pbbFormsRequireLoa3);
+
+  const launchDate = '2026-02-19';
+
+  const FormUpdateText = () => (
+    <>
+      <p>
+        You should know that we updated our online form.{' '}
+        <strong>
+          If you started applying online before {formatDateLong(launchDate)}
+        </strong>
+        , we have some new questions for you to answer. And we changed some
+        questions, so you may need to provide certain information again.
+      </p>
+      <p>
+        Select <strong>Continue your application</strong> to use our updated
+        form. Or come back later to finish your application.
+      </p>
+    </>
+  );
 
   return (
     <div className="schemaform-intro vads-u-margin-bottom--6">
@@ -115,7 +135,7 @@ const IntroductionPage = ({ route }) => {
         - the user does not have an in-progress form (we want LOA1 users to be
           able to continue their form)
       */}
-      {loggedIn && pbbFormsRequireLoa3 && !isVerified && !hasInProgressForm ? (
+      {pbbFormsRequireLoa3 && !isVerified && !hasInProgressForm ? (
         <>
           <VerifyAlert />
           <p>
@@ -140,6 +160,7 @@ const IntroductionPage = ({ route }) => {
           pageList={route.pageList}
           downtime={route.formConfig.downtime}
           startText="Start the burial allowance and transportation benefits application"
+          continueMsg={showPdfFormAlignment() ? <FormUpdateText /> : null}
         />
       )}
 

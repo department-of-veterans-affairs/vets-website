@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import formConfig from '../../../config/form';
 import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/pageTests.spec';
 
-import mockData from '../../e2e/fixtures/data/test-data.json';
+import mockData from '../../e2e/fixtures/data/medical-claim.json';
 import { insuranceOptions } from '../../../chapters/healthInsuranceInformation';
 import NotEnrolledPage from '../../../components/FormPages/NotEnrolledPage';
 

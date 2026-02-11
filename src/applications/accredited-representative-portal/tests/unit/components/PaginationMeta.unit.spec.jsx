@@ -23,7 +23,7 @@ describe('PaginationMeta', () => {
   let useSearchParamsStub;
   beforeEach(() => {
     const searchParams = new URLSearchParams(
-      '?status=processed&sort=oldest&pageNumber=1&pageSize=20&as_selected_individual=true',
+      '?status=processed&sort=oldest&page=1&perPage=20&show=you',
     );
 
     useSearchParamsStub = sinon

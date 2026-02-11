@@ -66,7 +66,7 @@ describe('Form Configuration', () => {
     it('should have hospitalizationChapter', () => {
       expect(formConfig.chapters.hospitalizationChapter).to.exist;
       expect(formConfig.chapters.hospitalizationChapter.title).to.include(
-        'Hospitalization',
+        'Hospital care',
       );
     });
   });
@@ -370,7 +370,7 @@ describe('Form Configuration', () => {
           },
         };
         expect(page.title(formData)).to.equal(
-          'Is Anakin Skywalker hospitalized?',
+          'Is Anakin Skywalker receiving hospital care?',
         );
       });
 
@@ -379,7 +379,9 @@ describe('Form Configuration', () => {
           claimantRelationship: { relationship: 'veteran' },
           veteranInformation: { veteranFullName: {} },
         };
-        expect(page.title(formData)).to.equal('Is the Veteran hospitalized?');
+        expect(page.title(formData)).to.equal(
+          'Is the Veteran receiving hospital care?',
+        );
       });
 
       it('should use claimant name when claimant is not veteran', () => {
@@ -389,7 +391,9 @@ describe('Form Configuration', () => {
             claimantFullName: { first: 'Padmé', last: 'Amidala' },
           },
         };
-        expect(page.title(formData)).to.equal('Is Padmé Amidala hospitalized?');
+        expect(page.title(formData)).to.equal(
+          'Is Padmé Amidala receiving hospital care?',
+        );
       });
 
       it('should use default claimant text when claimant name missing', () => {
@@ -397,7 +401,9 @@ describe('Form Configuration', () => {
           claimantRelationship: { relationship: 'spouse' },
           claimantInformation: { claimantFullName: {} },
         };
-        expect(page.title(formData)).to.equal('Is the claimant hospitalized?');
+        expect(page.title(formData)).to.equal(
+          'Is the claimant receiving hospital care?',
+        );
       });
     });
 
