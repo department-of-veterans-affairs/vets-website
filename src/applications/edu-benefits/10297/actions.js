@@ -1,9 +1,7 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
-export const CLAIMANT_INFO_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/forms_claimant_info`;
+export const CLAIMANT_INFO_ENDPOINT = `${environment.API_URL}/meb_api/v0/claimant_info`;
 
 export const FETCH_PERSONAL_INFORMATION = 'FETCH_PERSONAL_INFORMATION';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS =
