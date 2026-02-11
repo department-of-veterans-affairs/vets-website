@@ -8,6 +8,7 @@ import { IntroductionPage } from '../../containers/introduction-page';
 import { ConfirmationPage } from '../../containers/confirmation-page';
 
 import nameAndDateOfBirth from '../../pages/nameAndDateOfBirth';
+import { GetHelp } from '../../components';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -19,6 +20,7 @@ const formConfig = {
   trackingPrefix: '21-2680-house-bound-status-secondary-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  getHelp: GetHelp,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,

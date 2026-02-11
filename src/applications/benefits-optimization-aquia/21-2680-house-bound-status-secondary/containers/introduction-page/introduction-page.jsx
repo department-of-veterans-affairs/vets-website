@@ -14,38 +14,76 @@ const OMB_EXP_DATE = '02/28/2026';
 const ProcessList = () => {
   return (
     <va-process-list>
-      <va-process-list-item header="Prepare">
-        <h4>To fill out this application, you’ll need your:</h4>
+      <va-process-list-item header="Check your eligibility">
+        <p>You should fill out this examination if you are:</p>
         <ul>
-          <li>Social Security number (required)</li>
+          <li>a Medical Doctor (MD) </li>
+          <li>a Doctor of Osteopathic (DO) medicine </li>
+          <li>a physician assistant </li>
+          <li>or advanced practice registered nurse </li>
+        </ul>
+        <p>and</p>
+        <ul>
+          <li>
+            your patient informed you that you to complete the medical provider
+            portion of 21-2680
+          </li>
+        </ul>
+      </va-process-list-item>
+      <va-process-list-item header="Gather your information">
+        <p>You’ll need this information about the person applying:</p>
+        <ul>
+          <li>Their name</li>
+          <li>Their date of birth</li>
+        </ul>
+        <p>We will ask questions about the patient related to:</p>
+        <ul>
+          <li>
+            their relevant disabilities and how those disabilities impact their
+            Activities for Daily Living (ADLs)
+          </li>
+          <li>whether they are blind </li>
+          <li>whether they are bedridden</li>
+          <li>
+            details about how well they
+            <ul>
+              <li>ambulate</li>
+              <li>where they go</li>
+              <li>and what they are able to do during a typical day</li>
+            </ul>
+          </li>
+          <li>
+            whether they experience
+            <ul>
+              <li>physical or mental impairment</li>
+              <li>loss of coordination </li>
+              <li>
+                or enfeeblement that require assistance with daily living.
+              </li>
+            </ul>
+          </li>
         </ul>
         <p>
-          <strong>What if I need help filling out my application?</strong> An
-          accredited representative, like a Veterans Service Officer (VSO), can
-          help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
-          </a>
+          If the person applying is currently in nursing home, we’ll need to
+          know the name of the nursing home.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>Complete this benefits form.</p>
+      <va-process-list-item header="Start your application">
         <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
+          We’ll take you through each step of the process. It should take about
+          30 minutes.
         </p>
-      </va-process-list-item>
-      <va-process-list-item header="VA Review">
         <p>
-          We process claims within a week. If more than a week has passed since
-          you submitted your application and you haven’t heard back, please
-          don’t apply again. Call us at.
+          The purpose of this examination is for you to provide medical findings
+          related to whether the claimant is housebound or in need of the
+          regular aid and attendance of another person. Please provide as much
+          description as needed for each question as this will assist us in
+          making our decision.
         </p>
-      </va-process-list-item>
-      <va-process-list-item header="Decision">
         <p>
-          Once we’ve processed your claim, you’ll get a notice in the mail with
-          our decision.
+          Once you have completed this form, signed it, and submitted, we will
+          notify you and your patient of the submission. After we have processed
+          the claim, your patient will be notified of our decision.
         </p>
       </va-process-list-item>
     </va-process-list>
@@ -67,9 +105,14 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
+      <p>
+        Use this form to complete the medical provider portion of the
+        application for Aid and Attendance or Housebound allowance benefits.
+        Based on your examination and diagnosis, we’ll determine if your patient
+        is eligible for additional monthly compensation or pension benefits.
+      </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for House Bound Status (Medical
-        Professional).
+        Follow the steps below to apply:
       </h2>
       <ProcessList />
       {showVerifyIdentify ? (
