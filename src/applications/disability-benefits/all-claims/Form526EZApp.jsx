@@ -82,7 +82,13 @@ const defaultSubmit = formConfig.submit;
 formConfig.submit = (submittedForm, formConfigParam, options) => {
   return defaultSubmit(submittedForm, formConfigParam, options).then(
     result => {
-      trackFormSubmitted();
+      try {
+        trackFormSubmitted();
+      } catch (error) {
+        if (Sentry?.captureException) {
+          Sentry.captureException(error);
+        }
+      }
       return result;
     },
     error => Promise.reject(error),
