@@ -3,6 +3,7 @@ import {
   concatObservationInterpretations,
   formatDate,
   dateFormatWithoutTimezone,
+  formatDateTimeInUserTimezone,
   extractContainedByRecourceType,
   extractContainedResource,
   getObservationValueWithUnits,
@@ -410,10 +411,14 @@ export const convertLabsAndTestsRecord = record => {
 };
 
 export const convertUnifiedLabsAndTestRecord = record => {
-  // Use dateFormatWithoutTimezone to match PHR behavior - display the "wall clock time"
-  // as recorded, without converting to the user's local timezone
-  const date =
-    dateFormatWithoutTimezone(record.attributes.dateCompleted) || EMPTY_FIELD;
+  // If facility_timezone is available, the backend has already converted date_completed
+  // to facility local time - display it as-is (wall clock time).
+  // If facility_timezone is null, date_completed is still UTC - convert to user's browser timezone.
+  const { facilityTimezone, dateCompleted } = record.attributes;
+  const date = facilityTimezone
+    ? dateFormatWithoutTimezone(dateCompleted) || EMPTY_FIELD
+    : formatDateTimeInUserTimezone(dateCompleted) || EMPTY_FIELD;
+
   return {
     id: record.id,
     date,
@@ -427,10 +432,11 @@ export const convertUnifiedLabsAndTestRecord = record => {
     type: record.attributes.testCode,
     comments: record.attributes.comments,
     source: record.attributes.source,
+    facilityTimezone,
     result: record.attributes.encodedData
       ? decodeBase64Report(record.attributes.encodedData)
       : null,
-    sortDate: record.attributes.dateCompleted,
+    sortDate: dateCompleted,
     base: {
       ...record,
     },

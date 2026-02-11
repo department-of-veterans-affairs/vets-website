@@ -896,6 +896,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       type: undefined,
       comments: undefined,
       source: undefined,
+      facilityTimezone: undefined,
       result: null,
       base: {
         ...record,
@@ -927,11 +928,72 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       type: undefined,
       comments: undefined,
       source: undefined,
+      facilityTimezone: undefined,
       result: null,
       base: {
         ...record,
       },
     });
+  });
+
+  it('should use dateFormatWithoutTimezone when facilityTimezone is present', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T12:42:00-05:00',
+        display: 'Test Name',
+        facilityTimezone: 'America/New_York',
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is present, dateFormatWithoutTimezone is used
+    // which strips the timezone and displays wall clock time
+    expect(result.date).to.equal('January 31, 2025, 12:42 p.m.');
+    expect(result.facilityTimezone).to.equal('America/New_York');
+  });
+
+  it('should use formatDateTimeInUserTimezone when facilityTimezone is null', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T17:42:00+00:00',
+        display: 'Test Name',
+        facilityTimezone: null,
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is null, formatDateTimeInUserTimezone is used
+    // which converts UTC to user's browser timezone and appends timezone abbreviation
+    // The fake clock is set to 2024-12-31 UTC, and the test runs in a specific timezone
+    // The result should include a timezone abbreviation (e.g., EST, PST, UTC)
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
+    expect(result.facilityTimezone).to.be.null;
+  });
+
+  it('should use formatDateTimeInUserTimezone when facilityTimezone is undefined', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T17:42:00Z',
+        display: 'Test Name',
+        // facilityTimezone not present (undefined)
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is undefined, formatDateTimeInUserTimezone is used
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
+    expect(result.facilityTimezone).to.be.undefined;
   });
 });
 
