@@ -3,13 +3,12 @@ import {
   AUTH_PARAMS as USIP_QUERY_PARAMS,
   EXTERNAL_APPS as USIP_APPLICATIONS,
 } from 'platform/user/authentication/constants';
-
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
-
 import {
   API_SIGN_IN_SERVICE_URL as SIS_API_URL,
   OAUTH_KEYS as SIS_QUERY_PARAM_KEYS,
 } from '~/platform/utilities/oauth/constants';
+import { HOME_LABEL } from './poaRequests';
 
 const ARP_SIGN_IN_URL = '/representative/sign-in';
 const USIP_BASE_URL = environment.BASE_URL;
@@ -101,7 +100,7 @@ export const SUBMISSIONS_BC_LABEL = 'submissions breadcrumb';
 export const submissionsBC = [
   {
     href: '/representative',
-    label: 'VA.gov/representative home',
+    label: HOME_LABEL,
   },
   {
     href: window.location.href,

@@ -142,6 +142,14 @@ export const isValidMilitaryZip = (zipCode, state) => {
   return pattern ? pattern.test(zipCode) : false;
 };
 
+export const isValidNameLength = (errors, fieldData, length) => {
+  if (fieldData && fieldData.length > length) {
+    errors.addError(
+      `Please enter a name under ${length} characters. If your name is longer, enter the first ${length} characters only.`,
+    );
+  }
+};
+
 /**
  * Validation messages
  * Provides consistent error messages across the application

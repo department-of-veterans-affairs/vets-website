@@ -6,11 +6,14 @@ import {
   setFetchJSONResponse,
   setFetchJSONFailure,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+import * as api from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from 'platform/utilities/environment';
 import * as helpers from '../../../helpers';
 
 import {
   fetchCh31Eligibility,
   fetchCh31CaseStatusDetails,
+  downloadCh31PdfLetter,
 } from '../../../actions/ch31-my-eligibility-and-benefits';
 import {
   CH31_FETCH_STARTED,
@@ -27,6 +30,13 @@ import {
   CH31_CASE_STATUS_DETAILS_ERROR_403_FORBIDDEN,
   CH31_CASE_STATUS_DETAILS_ERROR_500_SERVER,
   CH31_CASE_STATUS_DETAILS_ERROR_503_UNAVAILABLE,
+  CH31_PDF_LETTER_DOWNLOAD_STARTED,
+  CH31_PDF_LETTER_DOWNLOAD_SUCCEEDED,
+  CH31_PDF_LETTER_DOWNLOAD_FAILED,
+  CH31_PDF_LETTER_DOWNLOAD_ERROR_400_BAD_REQUEST,
+  CH31_PDF_LETTER_DOWNLOAD_ERROR_403_FORBIDDEN,
+  CH31_PDF_LETTER_DOWNLOAD_ERROR_500_SERVER,
+  CH31_PDF_LETTER_DOWNLOAD_ERROR_503_UNAVAILABLE,
 } from '../../../constants';
 
 const setup = () => {
@@ -385,5 +395,117 @@ describe('fetchCh31CaseStatusDetails action', () => {
     expect(action.error.messages[0]).to.equal('Network error');
 
     extractStub.restore();
+  });
+});
+
+describe('downloadCh31PdfLetter action', () => {
+  let apiStub;
+  let downloadStub;
+
+  beforeEach(() => {
+    apiStub = sinon.stub(api, 'apiRequest');
+    downloadStub = sinon.stub(helpers, 'downloadPdfBlob');
+  });
+
+  afterEach(() => {
+    if (apiStub) apiStub.restore();
+    if (downloadStub) downloadStub.restore();
+  });
+
+  it('dispatches START then FAILED when resCaseId is missing', async () => {
+    const dispatch = sinon.spy();
+
+    await downloadCh31PdfLetter()(dispatch);
+
+    expect(dispatch.callCount).to.equal(2);
+    expect(dispatch.getCall(0).args[0].type).to.equal(
+      CH31_PDF_LETTER_DOWNLOAD_STARTED,
+    );
+    const action = dispatch.getCall(1).args[0];
+    expect(action.type).to.equal(CH31_PDF_LETTER_DOWNLOAD_FAILED);
+    expect(action.error.messages[0]).to.equal('Missing case ID');
+    expect(apiStub.called).to.equal(false);
+  });
+
+  it('dispatches START then SUCCEEDED and downloads the PDF', async () => {
+    const dispatch = sinon.spy();
+    const mockBlob = new Blob(['pdf content'], { type: 'application/pdf' });
+    const blobStub = sinon.stub().resolves(mockBlob);
+    apiStub.resolves({ blob: blobStub });
+
+    await downloadCh31PdfLetter(123)(dispatch);
+
+    expect(
+      apiStub.calledWith(
+        `${environment.API_URL}/vre/v0/ch31_discontinued_letter`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ resCaseId: 123 }),
+        },
+      ),
+    ).to.equal(true);
+    expect(blobStub.called).to.equal(true);
+    expect(
+      downloadStub.calledWith(mockBlob, 'ch31_discontinued_letter_123.pdf'),
+    ).to.equal(true);
+
+    expect(dispatch.getCall(0).args[0].type).to.equal(
+      CH31_PDF_LETTER_DOWNLOAD_STARTED,
+    );
+    const action = dispatch.getCall(1).args[0];
+    expect(action.type).to.equal(CH31_PDF_LETTER_DOWNLOAD_SUCCEEDED);
+    expect(action.payload).to.deep.equal({ resCaseId: 123 });
+  });
+
+  it('maps 403 → CH31_PDF_LETTER_DOWNLOAD_ERROR_403_FORBIDDEN', async () => {
+    const dispatch = sinon.spy();
+    apiStub.rejects(makeError(403));
+
+    await downloadCh31PdfLetter(123)(dispatch);
+
+    expect(dispatch.getCall(0).args[0].type).to.equal(
+      CH31_PDF_LETTER_DOWNLOAD_STARTED,
+    );
+    const action = dispatch.getCall(1).args[0];
+    expect(action.type).to.equal(CH31_PDF_LETTER_DOWNLOAD_ERROR_403_FORBIDDEN);
+    expect(action.error.status).to.equal(403);
+  });
+
+  it('maps 500/504 → CH31_PDF_LETTER_DOWNLOAD_ERROR_500_SERVER', async () => {
+    const dispatch = sinon.spy();
+    apiStub.rejects(makeError(504));
+
+    await downloadCh31PdfLetter(123)(dispatch);
+
+    const action = dispatch.getCall(1).args[0];
+    expect(action.type).to.equal(CH31_PDF_LETTER_DOWNLOAD_ERROR_500_SERVER);
+    expect(action.error.status).to.equal(504);
+  });
+
+  it('maps 400 → CH31_PDF_LETTER_DOWNLOAD_ERROR_400_BAD_REQUEST', async () => {
+    const dispatch = sinon.spy();
+    apiStub.rejects(makeError(400));
+
+    await downloadCh31PdfLetter(123)(dispatch);
+
+    const action = dispatch.getCall(1).args[0];
+    expect(action.type).to.equal(
+      CH31_PDF_LETTER_DOWNLOAD_ERROR_400_BAD_REQUEST,
+    );
+    expect(action.error.status).to.equal(400);
+  });
+
+  it('maps 503 → CH31_PDF_LETTER_DOWNLOAD_ERROR_503_UNAVAILABLE', async () => {
+    const dispatch = sinon.spy();
+    apiStub.rejects(makeError(503));
+
+    await downloadCh31PdfLetter(123)(dispatch);
+
+    const action = dispatch.getCall(1).args[0];
+    expect(action.type).to.equal(
+      CH31_PDF_LETTER_DOWNLOAD_ERROR_503_UNAVAILABLE,
+    );
+    expect(action.error.status).to.equal(503);
   });
 });

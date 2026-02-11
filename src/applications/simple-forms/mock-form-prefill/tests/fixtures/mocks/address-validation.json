@@ -1,0 +1,23 @@
+{
+  "addresses": [
+    {
+      "address": {
+        "addressLine1": "456 Edited Street",
+        "addressType": "DOMESTIC",
+        "city": "Updated City",
+        "countryName": "United States",
+        "countryCodeIso3": "USA",
+        "stateCode": "CA",
+        "zipCode": "90210"
+      },
+      "addressMetaData": {
+        "confidenceScore": 0.0,
+        "addressType": "Domestic",
+        "deliveryPointValidation": "MISSING_ZIP"
+      }
+    }
+  ],
+  "overrideValidationKey": 1217835228,
+  "validationKey": 1217835228,
+  "validated": true
+}

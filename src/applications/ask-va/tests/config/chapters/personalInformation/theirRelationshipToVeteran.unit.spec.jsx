@@ -92,7 +92,7 @@ describe('theirRelationshipToVeteranPage', () => {
       const textInput = container.querySelector('va-text-input');
       expect(textInput).to.exist;
       expect(textInput.getAttribute('label')).to.equal(
-        'Please describe their relationship to the Veteran',
+        'Describe their relationship to the Veteran',
       );
     });
 
