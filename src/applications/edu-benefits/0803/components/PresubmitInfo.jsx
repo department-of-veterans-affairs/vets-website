@@ -57,7 +57,7 @@ function PresubmitInfo({
         fullNameReducer(expectedFullName);
       setInputError(
         (showError || signatureBlurred) && !namesMatch
-          ? `Please enter your name exactly as it appears on your application: ${expectedFullName}`
+          ? `Enter your name exactly as it appears on your application: ${expectedFullName}`
           : null,
       );
 
