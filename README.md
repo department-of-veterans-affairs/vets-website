@@ -66,6 +66,12 @@ To **recompile your application when you make changes**, run:
 yarn watch
 ```
 
+Stylelint is disabled by default in watch to improve performance. To enable it, pass:
+
+```sh
+yarn watch --env stylelint=true
+```
+
 You can also **limit the applications Webpack builds** with `--env entry`:
 
 ```sh
