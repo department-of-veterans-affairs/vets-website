@@ -51,8 +51,8 @@ describe('<IssueCard>', () => {
 
       expect($$('va-checkbox', container)).to.have.lengthOf(1);
       expect($$('[label="new-issue-22"]', container)).to.have.lengthOf(1);
-      expect($$('.edit-issue-link', container).length).to.equal(2);
-      expect($$('.remove-issue', container).length).to.equal(2);
+      expect($$('.edit-issue-link', container).length).to.equal(1);
+      expect($$('.remove-issue', container).length).to.equal(1);
     });
 
     it('should render a selected issue with appendId included', () => {
