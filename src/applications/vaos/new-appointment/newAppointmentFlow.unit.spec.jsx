@@ -609,7 +609,9 @@ describe('VAOS newAppointmentFlow', () => {
         expect(nextState).to.equal('vaFacilityV2');
       });
 
-      it('should show eligibility modal when Cerner facility is selected, VPG is enabled and Type of care is Pharmacy but patient is not eligible', async () => {
+      // Disabled because we are temporarily disabling pharmacy as an OH type of care for dark deploy
+      // See: https://dsva.slack.com/archives/C098ZSW3C1L/p1770748394811109
+      it.skip('should show eligibility modal when Cerner facility is selected, VPG is enabled and Type of care is Pharmacy but patient is not eligible', async () => {
         mockFetch();
 
         const state = {
