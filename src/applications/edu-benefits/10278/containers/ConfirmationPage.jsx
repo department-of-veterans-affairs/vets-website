@@ -20,9 +20,8 @@ export const ConfirmationPage = props => {
       <ConfirmationView.SubmissionAlert
         content={
           <p>
-            Your submission is in progress.
-            {confirmationNumber &&
-              ` Your confirmation number is ${confirmationNumber}.`}
+            Your submission is in progress. Your confirmation number is{' '}
+            {confirmationNumber}.
           </p>
         }
         actions={null}
