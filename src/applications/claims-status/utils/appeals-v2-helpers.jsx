@@ -2076,19 +2076,6 @@ export function isClosed(item) {
   return item.attributes.status === 'COMPLETE';
 }
 
-/**
- * Determines if an item (appeal or claim) is open/in progress
- * @param {Object} item - Appeal or claim object
- * @returns {boolean} - true if in progress, false if closed
- */
-export function isInProgress(item) {
-  return !isClosed(item);
-}
-
-// export function sortByInProgress(item1, item2) {
-
-// }
-
 export function getVisibleRows(list, currentPage) {
   const currentIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   if (!list.length) {
