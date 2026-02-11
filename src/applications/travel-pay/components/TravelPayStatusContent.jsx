@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { VaBackToTop } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -85,6 +86,10 @@ function SmocEntryContent({ complexClaimsEnabled }) {
     </>
   );
 }
+
+SmocEntryContent.propTypes = {
+  complexClaimsEnabled: PropTypes.bool,
+};
 
 export default function TravelPayStatusContent() {
   const dispatch = useDispatch();
