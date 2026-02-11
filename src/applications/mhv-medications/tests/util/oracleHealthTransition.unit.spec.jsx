@@ -55,7 +55,6 @@ describe('oracleHealthTransition utilities', () => {
     sandbox.restore();
   });
 
-
   describe('isFacilityTransitioning', () => {
     it('returns true when facility ID exists in migrations data, false otherwise', () => {
       expect(
