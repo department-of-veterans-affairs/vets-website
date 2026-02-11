@@ -151,11 +151,16 @@ applyTo: "src/applications/mhv-secure-messaging/**"
 - Entry: `/my-health/secure-messages/new-message?prescriptionId={id}&redirectPath={path}`
 - Detection: `renewalPrescription?.prescriptionId || rxError`
 - State: `prescription` reducer (`{ renewalPrescription, redirectPath, error, isLoading }`)
-- API: `api/RxApi.js` — `GET /my_health/v1/prescriptions/{prescriptionId}`
+- **Fetch API**: `api/RxApi.js` — `GET /my_health/v1/prescriptions/{prescriptionId}`
+- **Send API**: `api/SmApi.js` — `createRenewalMessage()` → `POST /my_health/v1/messaging/messages/renewal`
+  - `prescription_id` sent as a **top-level field** in the message payload (not embedded in body)
+  - `sendMessage` action routes to `createRenewalMessage` when 4th arg `isRxRenewal` is `true`
+  - vets-api Faraday camelcase middleware transforms `prescription_id` → `prescriptionId` for upstream MHV API
 - Category locked to "Medications" via `LockedCategoryDisplay` component
 - Body auto-populated via `buildRxRenewalMessageBody(prescription)` from `util/helpers.js`
 - Errors: 404 → allow manual entry; non-VA meds → warning; log to Datadog
 - After send: redirect to `redirectPath` with `?rxRenewalMessageSuccess=true`
+- **Note**: `prescriptionId` is NOT saved in drafts — it remains in Redux state from the initial navigation URL param
 
 ## MHV Platform Integration
 
@@ -236,6 +241,26 @@ import { dateFormat, decodeHtmlEntities, sortRecipients } from '../util/helpers'
 - ❌ Allow replies without checking 45-day rule
 - ❌ Skip error handling in async actions
 - ❌ Forget `setThreadRefetchRequired(true)` after state-changing operations
+- ❌ Use dot notation for snake_case API keys — ESLint camelCase rule blocks `messageData.draft_id`
+
+### Bracket Notation for snake_case API Payload Keys
+
+vets-api expects snake_case keys (`draft_id`, `recipient_id`, `prescription_id`) but ESLint enforces camelCase. The codebase uses template-literal bracket notation to bypass the rule:
+
+```javascript
+// ✅ CORRECT — bypasses ESLint camelCase
+messageData[`${'draft_id'}`] = draft?.messageId;
+messageData[`${'recipient_id'}`] = draftInProgress.recipientId;
+messageData[`${'prescription_id'}`] = rxPrescriptionId.toString();
+```
+
+```javascript
+// ❌ WRONG — ESLint camelCase violation
+messageData.draft_id = draft?.messageId;
+messageData['draft_id'] = draft?.messageId; // Also flagged
+```
+
+Follow this pattern for any new snake_case key added to message payloads.
 
 ## Thread List Refresh Pattern
 

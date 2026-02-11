@@ -41,6 +41,28 @@ site.login(); // Mock user login, sets up session and feature flags
   cy.intercept('GET', Paths.SM_API_BASE, mockData).as('getData');
   ```
 
+### Intercept Path Must Match FE Routing Logic
+
+When the FE conditionally routes to different API endpoints, the Cypress intercept path **must match what the FE actually calls**, not what seems logically correct from a business perspective.
+
+```javascript
+// ✅ CORRECT — FE routes based on isRxRenewalDraft, which is true when rxError is set
+// Even for the 404 error path, the renewal endpoint is used
+cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES_RENEWAL}`, {}).as('sentMessage');
+```
+
+```javascript
+// ❌ WRONG — The test logic says "no redirectPath" so you might think standard endpoint,
+// but isRxRenewalDraft is still true (derived from rxError), so FE calls renewal endpoint
+cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
+```
+
+**Key intercept paths:**
+| Path | Constant | When used |
+|---|---|---|
+| `/messaging/messages` | `Paths.INTERCEPT.MESSAGES` | Standard message send |
+| `/messaging/messages/renewal` | `Paths.INTERCEPT.MESSAGES_RENEWAL` | RX renewal send (ALL renewal paths, including 404/error) |
+
 ## Web Component Selectors
 
 - External links (`VaLink`) render as `<va-link>` (NOT `<va-link-action>`)
