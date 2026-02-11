@@ -346,6 +346,14 @@ export const SHOW_8940_4192 = 'showSubforms';
 
 export const SERVICE_BRANCHES = 'militaryServiceBranches';
 
+// Session storage keys for tracking
+export const TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS =
+  '21-526EZ_backButtonClickCount';
+export const TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS =
+  '21-526EZ_continueButtonClickCount';
+export const TRACKING_526EZ_SIDENAV_FORM_START = '21-526EZ_formStartTracked';
+export const TRACKING_526EZ_SIDENAV_TOGGLE = '21-526EZ_sidenavEnabled';
+
 // sessionStorage key used for the user entered separation date in the wizard
 // used by the first page of the form to populate the form data
 export const SAVED_SEPARATION_DATE = 'savedSeparationDate';
