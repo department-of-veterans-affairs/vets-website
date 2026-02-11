@@ -18,7 +18,10 @@ fullNameUI.middle['ui:title'] = 'Middle initial';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Your personal information'),
+    ...titleUI({
+      title: 'Your personal information',
+      ariaDescribedby: 'Hello world Step 1 or 2',
+    }),
     fullName: fullNameUI,
     dateOfBirth: dateOfBirthUI(),
     placeOfBirth: textUI({

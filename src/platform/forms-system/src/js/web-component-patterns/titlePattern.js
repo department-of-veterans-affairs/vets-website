@@ -29,6 +29,7 @@ export const Title = ({
   headerLevel: userHeaderLevel,
   headerStyleLevel: userHeaderStyleLevel,
   classNames,
+  ariaDescribedBy,
 }) => {
   const { headerLevel, headerStyleLevel } = useHeadingLevels(
     userHeaderLevel,
@@ -56,9 +57,18 @@ export const Title = ({
         }
       : {};
 
+  const ariaProps = ariaDescribedBy
+    ? { 'aria-describedby': ariaDescribedBy }
+    : {};
+
   return (
     <>
-      <CustomHeader className={className} {...focusHeaderProps}>
+      <CustomHeader
+        className={className}
+        {...focusHeaderProps}
+        {...ariaProps}
+        aria-describedby="nav-form-header"
+      >
         {title}
       </CustomHeader>
       {description && (
@@ -127,6 +137,7 @@ export const titleUI = (titleOption, descriptionOption) => {
     headerLevel,
     headerStyleLevel,
     classNames,
+    ariaDescribedBy,
   } = isTitleObject(titleOption)
     ? titleOption
     : {
@@ -147,6 +158,7 @@ export const titleUI = (titleOption, descriptionOption) => {
               headerLevel={headerLevel}
               headerStyleLevel={headerStyleLevel}
               classNames={classNames}
+              ariaDescribedBy={ariaDescribedBy}
             />
           </legend>
         )
@@ -157,6 +169,7 @@ export const titleUI = (titleOption, descriptionOption) => {
           headerLevel={headerLevel}
           headerStyleLevel={headerStyleLevel}
           classNames={classNames}
+          ariaDescribedBy={ariaDescribedBy}
         />
       ),
   };
