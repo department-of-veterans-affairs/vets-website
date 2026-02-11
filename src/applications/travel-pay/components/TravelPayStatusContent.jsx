@@ -11,7 +11,7 @@ import { BTSSS_PORTAL_URL } from '../constants';
 import TravelPayStatusList from './TravelPayStatusList';
 import TravelPayDateRangeSelect from './TravelPayDateRangeSelect';
 
-function SmocEntryContent() {
+function SmocEntryContent({ complexClaimsEnabled }) {
   return (
     <>
       <p className="vads-u-font-family--serif vads-u-font-size--lg">
@@ -19,30 +19,69 @@ function SmocEntryContent() {
         your travel claims.
       </p>
       <h2 className="vads-u-margin-top--2">
-        File a new claim for travel reimbursement online
+        {complexClaimsEnabled
+          ? 'File a new claim for travel pay online'
+          : 'File a new claim for travel reimbursement online'}
       </h2>
-      <p>
-        If you're claiming mileage only, you can file a travel claim for
-        eligible past appointments here on VA.gov.
-      </p>
-      <va-link-action
-        href="/my-health/appointments/past"
-        text="Go to your past appointments"
-        class="vads-u-margin-y--1"
-      />
-      <p>
-        <strong>
-          If you need to submit receipts for other expenses, like tolls, meals,
-          or lodging
-        </strong>
-        , you can file your travel claim through the{' '}
-        <va-link
-          external
-          href={BTSSS_PORTAL_URL}
-          text="Beneficiary Travel Self-Service System"
-        />
-        .
-      </p>
+      {complexClaimsEnabled ? (
+        <>
+          <p>
+            Go to your list of past appointments to file a travel reimbursement
+            claim for eligible appointments.
+          </p>
+          <va-link-action
+            href="/my-health/appointments/past"
+            text="Go to your past appointments"
+            class="vads-u-margin-y--1"
+          />
+          <p>
+            You'll need to use the Beneficiary Travel Self Service System
+            (BTSSS) if any of these things are true:
+          </p>
+          <ul>
+            <li>You don't see your appointment in your appointments list</li>
+            <li>Your travel was one way</li>
+            <li>
+              Your travel started from an address other than the one we have on
+              file
+            </li>
+          </ul>
+          <va-link
+            external
+            href={BTSSS_PORTAL_URL}
+            text="Go to the BTSSS website"
+          />
+          <p>
+            <strong>Note:</strong> You can continue saved or incomplete claims
+            by selecting Travel reimbursement claim details.
+          </p>
+        </>
+      ) : (
+        <>
+          <p>
+            If you're claiming mileage only, you can file a travel claim for
+            eligible past appointments here on VA.gov.
+          </p>
+          <va-link-action
+            href="/my-health/appointments/past"
+            text="Go to your past appointments"
+            class="vads-u-margin-y--1"
+          />
+          <p>
+            <strong>
+              If you need to submit receipts for other expenses, like tolls,
+              meals, or lodging
+            </strong>
+            , you can file your travel claim through the{' '}
+            <va-link
+              external
+              href={BTSSS_PORTAL_URL}
+              text="Beneficiary Travel Self-Service System"
+            />
+            .
+          </p>
+        </>
+      )}
     </>
   );
 }
@@ -101,11 +140,14 @@ export default function TravelPayStatusContent() {
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,
   );
+  const complexClaimsEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPayEnableComplexClaims,
+  );
 
   return (
     <div className="vads-l-col--12 medium-screen:vads-l-col--8">
       {smocEnabled ? (
-        <SmocEntryContent />
+        <SmocEntryContent complexClaimsEnabled={complexClaimsEnabled} />
       ) : (
         <>
           <h2 className="vads-u-font-size--h4">
@@ -132,7 +174,9 @@ export default function TravelPayStatusContent() {
       <div className="btsss-claims-sort-and-filter-container">
         <h2 className="vads-u-margin-top--2">Your travel claims</h2>
         <p>
-          This list shows all the appointments you've filed a travel claim for.
+          {complexClaimsEnabled
+            ? "This list shows all the travel reimbursement claims you've started or filed."
+            : "This list shows all the appointments you've filed a travel claim for."}
         </p>
         {smocEnabled &&
           !claimsMgmtToggle && (
