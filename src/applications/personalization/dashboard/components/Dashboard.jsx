@@ -96,7 +96,12 @@ const DashboardHeader = ({
   return (
     <div>
       {displayOnboardingInformation && (
-        <VaAlert status="info" visible className="vads-u-margin-top--4">
+        <VaAlert
+          status="info"
+          visible
+          className="vads-u-margin-top--4"
+          data-testid="onboarding-beta-alert"
+        >
           <h2 className="dd-privacy-mask">
             {' '}
             Welcome to VA, {user.profile.userFullName.first}
@@ -303,7 +308,7 @@ const Dashboard = ({
     localStorage.setItem('welcomeToMyVAModalIsDismissed', 'true');
   };
 
-  React.useEffect(
+  useEffect(
     () => {
       if (!dataLoadingDisabled && shouldLoadAppeals) {
         getAppeals();
@@ -312,7 +317,7 @@ const Dashboard = ({
     [dataLoadingDisabled, getAppeals, shouldLoadAppeals],
   );
 
-  React.useEffect(
+  useEffect(
     () => {
       if (!dataLoadingDisabled && shouldLoadClaims) {
         getClaims();
@@ -474,7 +479,7 @@ const Dashboard = ({
                 isLOA3={isLOA3}
                 showConfirmEmail={props.showConfirmEmail}
                 showNotifications={showNotifications}
-                user={props.user}
+                user={user}
               />
 
               <Toggler
