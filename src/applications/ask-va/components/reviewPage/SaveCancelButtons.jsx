@@ -9,22 +9,13 @@ const SaveCancelButtons = ({ closeSection, keys, title, scroll }) => {
       <ProgressButton
         submitButton
         onButtonClick={() => {
-          closeSection(keys, title);
-          scroll(`chapter${title}ScrollElement`);
+          // Do nothing
         }}
         buttonText="Save"
         buttonClass="usa-button-primary vads-u-width--auto"
         ariaLabel={`Save ${title}`}
+        useWebComponents
       />
-      <button
-        aria-label="Cancel"
-        type="button"
-        id="cancel"
-        className="usa-button-secondary vads-u-width--auto"
-        onClick={() => closeSection(keys, title)}
-      >
-        Cancel
-      </button>
     </div>
   );
 };
