@@ -24,7 +24,7 @@ const uiSchema = {
   activeDutyDuringHitechVets: yesNoUI({
     title:
       'Do you expect to be called to active duty while enrolled in this program?',
-    errorMessages: { required: 'Select an option' },
+    errorMessages: { required: 'You must select an option' },
   }),
 };
 
