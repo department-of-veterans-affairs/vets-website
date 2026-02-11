@@ -37,9 +37,11 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   ) : null;
   return (
     <p className="poa-request__meta" role="text">
-      {`Showing ${totalCount > 0 &&
-        `${initCount}-${pageSizeCount} of`} ${totalCount} ${searchStatus ||
-        ''} ${resultType || ''} ${selectedIndividual === 'you' ? 'for ' : ''}`}
+      {`Showing ${
+        totalCount > 0 ? `${initCount}-${pageSizeCount} of ` : ''
+      }${totalCount} ${searchStatus || ''} ${resultType || ''} ${
+        selectedIndividual === 'you' ? 'for ' : ''
+      }`}
       {selectedIndividual === 'you' ? userName : ''}
       {` sorted by `}“
       <strong>
