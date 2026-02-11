@@ -84,25 +84,6 @@ beforeEach(() => {
   cy.intercept('GET', '/v0/maintenance_windows', {
     data: [],
   });
-
-  // Auto-mock Mapbox Geocoding API to prevent hitting real API (costs money per query).
-  // Returns an empty FeatureCollection so tests don't depend on external geocoding.
-  // Tests that need specific geocoding results can register their own intercepts.
-  cy.intercept('GET', '**/api.mapbox.com/geocoding/**', {
-    statusCode: 200,
-    body: { type: 'FeatureCollection', query: [], features: [] },
-  }).as('mapboxGeocoding');
-
-  // Mock Mapbox static images API — also costs per request.
-  // Returns a transparent 1x1 PNG.
-  cy.intercept('GET', '**/api.mapbox.com/styles/**/static/**', {
-    statusCode: 200,
-    headers: { 'content-type': 'image/png' },
-    body: Cypress.Blob.base64StringToBlob(
-      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
-      'image/png',
-    ),
-  }).as('mapboxStatic');
 });
 
 // Assign the video path to the context property for failed tests
