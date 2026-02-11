@@ -52,10 +52,39 @@ const CHAMPVA_FORM_DISPLAY_MAP = {
 
 const CLAIM_STATUS_LABEL_MAP = {
   CLAIM_RECEIVED: 'RECEIVED',
-  INITIAL_REVIEW: 'IN PROGRESS',
-  EVIDENCE_GATHERING_REVIEW_DECISION: 'IN PROGRESS',
-  PREPARATION_FOR_NOTIFICATION: 'IN PROGRESS',
-  COMPLETE: 'CLOSED',
+  INITIAL_REVIEW: 'SUBMISSION IN PROGRESS',
+  EVIDENCE_GATHERING_REVIEW_DECISION: 'SUBMISSION IN PROGRESS',
+  PREPARATION_FOR_NOTIFICATION: 'SUBMISSION IN PROGRESS',
+  COMPLETE: 'RECEIVED',
+};
+
+const RECEIVED_STATUSES = new Set([
+  'processed',
+  'manually processed',
+  'vbms',
+  'complete',
+]);
+
+const ACTION_NEEDED_STATUSES = new Set([
+  'error',
+  'failed',
+  'rejected',
+  'submission failed',
+  'action needed',
+  'expired',
+]);
+
+const getChampvaStatusLabel = rawStatus => {
+  const status = rawStatus?.toString()?.trim();
+  if (!status) return 'SUBMISSION IN PROGRESS';
+
+  if (CLAIM_STATUS_LABEL_MAP[status]) return CLAIM_STATUS_LABEL_MAP[status];
+
+  const normalized = status.toLowerCase();
+  if (RECEIVED_STATUSES.has(normalized)) return 'RECEIVED';
+  if (ACTION_NEEDED_STATUSES.has(normalized)) return 'ACTION NEEDED';
+
+  return 'SUBMISSION IN PROGRESS';
 };
 
 const extractFormId = claim => {
@@ -104,12 +133,12 @@ const Claim = ({ claim }) => {
   const champvaFormId = extractFormId(claim);
   const champvaTitle = CHAMPVA_FORM_TITLE_MAP[champvaFormId];
   const champvaDisplayFormId = CHAMPVA_FORM_DISPLAY_MAP[champvaFormId];
-  const champvaStatusLabel =
-    CLAIM_STATUS_LABEL_MAP[claim.attributes.status] || 'RECEIVED';
+  const champvaStatusLabel = getChampvaStatusLabel(claim.attributes.status);
   const receivedDate = format(
     new Date(replace(claim.attributes.closeDate || claimDate)),
     'MMMM d, yyyy',
   );
+  const showReceivedDate = champvaStatusLabel === 'RECEIVED';
 
   const content = showChampvaCard ? (
     <>
@@ -124,8 +153,12 @@ const Claim = ({ claim }) => {
       )}
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
         Submitted on: {dateRecd}
-        <br />
-        Received on: {receivedDate}
+        {showReceivedDate && (
+          <>
+            <br />
+            Received on: {receivedDate}
+          </>
+        )}
       </p>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
         Next step: We’ll review your form. If we need more information, we’ll

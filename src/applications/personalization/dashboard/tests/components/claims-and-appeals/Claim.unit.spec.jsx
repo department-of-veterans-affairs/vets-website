@@ -114,7 +114,7 @@ describe('<Claim />', () => {
       },
     });
 
-    expect(tree.getByText('CLOSED')).to.exist;
+    expect(tree.getByText('RECEIVED')).to.exist;
     expect(tree.getByText(/Application for CHAMPVA benefits/)).to.exist;
     expect(tree.getByText(/VA Form 10-10d/)).to.exist;
     expect(tree.getByText(/Submitted on:/)).to.exist;
@@ -142,7 +142,7 @@ describe('<Claim />', () => {
       },
     });
 
-    expect(tree.getByText('CLOSED')).to.exist;
+    expect(tree.getByText('RECEIVED')).to.exist;
     expect(tree.getByText(/Application for CHAMPVA benefits/)).to.exist;
     expect(tree.getByText(/VA Form 10-10d/)).to.exist;
     expect(tree.getByText(/Submitted on:/)).to.exist;
@@ -152,5 +152,26 @@ describe('<Claim />', () => {
       'va-link[text="Review details"]',
     );
     expect(reviewLink).to.not.exist;
+  });
+
+  it('should render CHAMPVA action needed pill for failed statuses in redesign path', () => {
+    const claim = makeClaimObject({
+      updateDate: daysAgo(15),
+      claimType: '10-10d-extended',
+      displayTitle: 'Application for CHAMPVA benefits',
+      status: 'Submission failed',
+      claimDate: '2026-02-05',
+    });
+
+    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          benefits_claims_ivc_champva_provider: true,
+        },
+      },
+    });
+
+    expect(tree.getByText('ACTION NEEDED')).to.exist;
   });
 });
