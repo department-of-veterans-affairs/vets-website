@@ -79,6 +79,37 @@ describe('transform', () => {
 });
 
 describe('Test internal transform functions', () => {
+  it('will preserve sideOfBody for secondary disabilities', () => {
+    const form = {
+      data: {
+        ...maximalData.data,
+        newDisabilities: [
+          {
+            cause: 'SECONDARY',
+            'view:secondaryFollowUp': {
+              causedByDisability: 'Diabetes Mellitus0',
+              causedByDisabilityDescription: 'Nerve damage from diabetes',
+            },
+            condition: 'carpal tunnel syndrome',
+            sideOfBody: 'LEFT',
+            'view:descriptionInfo': {},
+          },
+        ],
+      },
+    };
+    expect(
+      JSON.parse(transform(formConfig, form)).form526.newPrimaryDisabilities,
+    ).to.deep.equal([
+      {
+        condition: 'carpal tunnel syndrome',
+        cause: 'NEW',
+        sideOfBody: 'LEFT',
+        primaryDescription:
+          'Secondary to Diabetes Mellitus0\nNerve damage from diabetes',
+      },
+    ]);
+  });
+
   it('will truncate long descriptions', () => {
     const getString = (key, diff = 0) =>
       new Array(42)

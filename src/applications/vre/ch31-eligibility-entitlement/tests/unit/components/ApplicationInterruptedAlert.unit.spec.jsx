@@ -1,11 +1,23 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import ApplicationInterruptedAlert from '../../../components/ApplicationInterruptedAlert';
+
+const makeStore = (state = {}) => ({
+  getState: () => state,
+  subscribe: () => () => {},
+  dispatch: () => {},
+});
+
+const renderWithStore = (ui, state) =>
+  render(<Provider store={makeStore(state)}>{ui}</Provider>);
 
 describe('ApplicationInterruptedAlert', () => {
   it('renders va-alert with error status and visible', () => {
-    const { container } = render(<ApplicationInterruptedAlert />);
+    const { container } = renderWithStore(<ApplicationInterruptedAlert />, {
+      ch31PdfLetterDownload: { loading: false, error: null },
+    });
 
     const alert = container.querySelector('va-alert');
     expect(alert).to.exist;
@@ -17,7 +29,9 @@ describe('ApplicationInterruptedAlert', () => {
   });
 
   it('renders headline inside va-alert', () => {
-    const { container } = render(<ApplicationInterruptedAlert />);
+    const { container } = renderWithStore(<ApplicationInterruptedAlert />, {
+      ch31PdfLetterDownload: { loading: false, error: null },
+    });
 
     const headline = container.querySelector('va-alert h3[slot="headline"]');
     expect(headline).to.exist;
@@ -27,7 +41,9 @@ describe('ApplicationInterruptedAlert', () => {
   });
 
   it('renders explanatory text and default reason fallback', () => {
-    const { getByText } = render(<ApplicationInterruptedAlert />);
+    const { getByText } = renderWithStore(<ApplicationInterruptedAlert />, {
+      ch31PdfLetterDownload: { loading: false, error: null },
+    });
 
     expect(
       getByText(
@@ -40,32 +56,34 @@ describe('ApplicationInterruptedAlert', () => {
 
   it('renders provided interrupted reason when passed', () => {
     const reason = 'You did not complete required counseling sessions.';
-    const { getByText, queryByText } = render(
+    const { getByText, queryByText } = renderWithStore(
       <ApplicationInterruptedAlert interruptedReason={reason} />,
+      { ch31PdfLetterDownload: { loading: false, error: null } },
     );
 
     expect(getByText(reason)).to.exist;
     expect(queryByText(/no reason provided\./i)).to.be.null;
   });
 
-  it('renders eFolder link inside the alert', () => {
-    const { container, getByText } = render(<ApplicationInterruptedAlert />);
+  it('renders "View my letter" link inside the alert', () => {
+    const { container } = renderWithStore(<ApplicationInterruptedAlert />, {
+      ch31PdfLetterDownload: { loading: false, error: null },
+    });
 
     const link = container.querySelector('va-link-action');
     expect(link).to.exist;
-    expect(link.getAttribute('href')).to.equal('https://va.gov');
+    expect(link.getAttribute('href')).to.equal('#');
     expect(link.getAttribute('type')).to.equal('primary');
-
-    // Text is rendered via attribute on web component; ensure visible text node exists
-    expect(getByText(/efolder/i)).to.exist;
+    expect(link.getAttribute('text')).to.equal('View my letter');
   });
 
   it('applies layout classes on outer container', () => {
-    const { container } = render(<ApplicationInterruptedAlert />);
+    const { container } = renderWithStore(<ApplicationInterruptedAlert />, {
+      ch31PdfLetterDownload: { loading: false, error: null },
+    });
 
     const wrapper = container.querySelector('div');
     expect(wrapper).to.exist;
-    expect(wrapper.classList.contains('usa-width-two-thirds')).to.be.true;
     expect(wrapper.classList.contains('vads-u-margin-y--3')).to.be.true;
   });
 });

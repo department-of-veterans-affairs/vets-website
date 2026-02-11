@@ -381,8 +381,16 @@ yourDocument: fileInputUI({
   hint: 'Upload a file that is less than 5MB',
   headerSize: '3',
   formNumber: '31-4159',
-  maxFileSize: 1024 * 1024 * 5,
-  minFileSize: 1,
+  fileSizesByFileType: { // specify file size limits by file type
+    pdf: {
+      maxFileSize: 1024 * 1024 * 50,
+      minFileSize: 1024
+    },
+    default: {
+      maxFileSize: 1024 * 3,
+      minFileSize: 1
+    }
+  },
   disallowEncryptedPdfs: true,
   errorMessages: {
     additionalInput: 'Choose a document status',
@@ -449,8 +457,16 @@ financialHardshipDocuments: fileInputMultipleUI({
   headerSize: '3',
   formNumber: '31-4159',
   // disallowEncryptedPdfs: true,
-  maxFileSize: 1024 * 1024 * 5,
-  minFileSize: 1,
+  fileSizesByFileType: { // specify file size limits by file type
+    pdf: {
+      maxFileSize: 1024 * 1024 * 50,
+      minFileSize: 1024
+    },
+    default: {
+      maxFileSize: 1024 * 3,
+      minFileSize: 1
+    }
+  },
   errorMessages: {
     additionalInput: 'Choose a document status',
   },
@@ -1006,7 +1022,8 @@ Need selection field?
 ├─ Multiple checkboxes? → checkboxGroupUI + checkboxGroupSchema
 ├─ Service branch selection?
 │  ├─ All service branches? → serviceBranchUI() + serviceBranchSchema()
-│  └─ Specific branches only? → serviceBranchUI({ groups: ['army', 'navy'] }) + serviceBranchSchema(['army', 'navy'])
+│  ├─ Specific groups only? → serviceBranchUI({ groups: ['army', 'navy'] }) + serviceBranchSchema(['army', 'navy'])
+│  └─ Specific branches across groups? → serviceBranchUI({ branches: ['AF', 'SF', 'PHS'] }) + serviceBranchSchema(['AF', 'SF', 'PHS'])
 └─ Relationship to veteran?
    ├─ All relationships? → relationshipToVeteranUI + relationshipToVeteranSchema
    └─ Just spouse/child? → relationshipToVeteranSpouseOrChildUI + relationshipToVeteranSpouseOrChildSchema
@@ -1632,20 +1649,31 @@ export default {
     ...titleUI('Military service'),
     // All service branches
     serviceBranchDefault: serviceBranchUI(),
-
+    // disable optgroups
+    serviceBranchNoOptGroups: serviceBranchUI({
+      optGroups: false
+    }),
     // Or with specific branches only
-    serviceBranchSubset: serviceBranchUI({
+    serviceBranchGroupSubset: serviceBranchUI({
       title: 'Select your service branch',
       hint: 'Choose the branch you served in',
       required: true,
       groups: ['army', 'navy', 'air force'],
     }),
+    serviceBranchWithBranchSubset: serviceBranchUI({
+      title: 'Select a service branch',
+      hint: 'Choose your branch',
+      required: true,
+      branches: ['AF', 'SF', 'ARMY', 'PHS']
+    })
   },
   schema: {
     type: 'object',
     properties: {
       serviceBranchDefault: serviceBranchSchema(),
-      serviceBranchSubset: serviceBranchSchema(['army', 'navy', 'air force']),
+      serviceBranchNoOptGroups: serviceBranchSchema(),
+      serviceBranchSubset: serviceBranchSchema({ groups: ['army', 'navy', 'air force'] }),
+      serviceBranchWithBranchSubset: serviceBranchSchema({ branches:['AF', 'SF', 'ARMY', 'PHS'] })
     },
     required: ['serviceBranch'],
   },

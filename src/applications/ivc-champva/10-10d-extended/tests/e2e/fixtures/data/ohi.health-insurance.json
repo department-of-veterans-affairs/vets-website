@@ -1,33 +1,8 @@
 {
   "data": {
+    "view:hasMedicare": false,
+    "view:hasHealthInsurance": true,
     "healthInsurance": [
-      {
-        "insuranceType": "ppo",
-        "provider": "Cigna",
-        "effectiveDate": "2024-10-01",
-        "throughEmployer": true,
-        "eob": true,
-        "additionalComments": "Some additional comments...",
-        "healthcareParticipants": {
-          "28e7f1064a74": true
-        },
-        "insuranceCardFront": [
-          {
-            "attachmentId": "Front of health insurance card",
-            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
-            "name": "sample.png",
-            "isEncrypted": false
-          }
-        ],
-        "insuranceCardBack": [
-          {
-            "attachmentId": "Back of health insurance card",
-            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
-            "name": "sample.png",
-            "isEncrypted": false
-          }
-        ]
-      },
       {
         "insuranceType": "medigap",
         "medigapPlan": "K",
@@ -57,11 +32,6 @@
         ]
       }
     ],
-    "view:hasProofMultipleApplicants": {
-      "hasProofMultipleApplicants": false
-    },
-    "view:hasHealthInsurance": true,
-    "view:hasMedicare": false,
     "statementOfTruthSignature": "Certifier Jones"
   }
 }
