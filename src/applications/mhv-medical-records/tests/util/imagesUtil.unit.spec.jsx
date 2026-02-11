@@ -118,4 +118,109 @@ describe('mergeRadiologyLists', () => {
       },
     ]);
   });
+
+  it('merges records by hash when dates differ (ticket #132099)', () => {
+    // This test verifies the fix for duplicate radiology records appearing
+    // when PHR and CVIX have the same study but with different timestamps
+    const phrList = [
+      {
+        id: 'r12345-abc123ef',
+        sortDate: '2020-01-01T10:00:00Z',
+        data: 'phr1',
+      },
+    ];
+    const cvixList = [
+      {
+        id: 'r67890-abc123ef', // Same hash, different raw ID
+        sortDate: '2020-01-01T10:05:00Z', // 5 minutes later - would not match by date
+        studyId: 'c1',
+        imageCount: 1,
+      },
+    ];
+    const result = mergeRadiologyLists(phrList, cvixList);
+    expect(result.length).to.equal(1);
+    expect(result[0]).to.deep.equal({
+      id: 'r12345-abc123ef',
+      sortDate: '2020-01-01T10:00:00Z',
+      data: 'phr1',
+      studyId: 'c1',
+      imageCount: 1,
+    });
+  });
+
+  it('does not merge records when hashes and dates both differ', () => {
+    const phrList = [
+      {
+        id: 'r12345-abc123ef',
+        sortDate: '2020-01-01T10:00:00Z',
+        data: 'phr1',
+      },
+    ];
+    const cvixList = [
+      {
+        id: 'r67890-different1',
+        sortDate: '2020-01-01T10:05:00Z', // Different date and different hash
+        studyId: 'c1',
+        imageCount: 1,
+      },
+    ];
+    const result = mergeRadiologyLists(phrList, cvixList);
+    expect(result.length).to.equal(2);
+  });
+
+  it('merges records by normalized procedure name + same day (ticket #132099)', () => {
+    // This test verifies the fix for duplicate radiology records where:
+    // - PHR has no newline in procedure name, CVIX has newline
+    // - Radiologist differs (included in hash)
+    // - Same calendar day but different times
+    const phrList = [
+      {
+        id: 'r12345-abc123ef',
+        name: 'KNEE 4 OR MORE VIEWS (LEFT)', // No newline
+        sortDate: '2024-04-04T17:08:00Z',
+        data: 'phr1',
+      },
+    ];
+    const cvixList = [
+      {
+        id: 'r67890-different1', // Different hash due to radiologist mismatch
+        name: 'KNEE\n 4 OR MORE VIEWS (LEFT)', // Has newline
+        sortDate: '2024-04-04T17:03:00Z', // Same day, different time (5 min diff)
+        studyId: 'c1',
+        imageCount: 4,
+      },
+    ];
+    const result = mergeRadiologyLists(phrList, cvixList);
+    expect(result.length).to.equal(1);
+    expect(result[0]).to.deep.equal({
+      id: 'r12345-abc123ef',
+      name: 'KNEE 4 OR MORE VIEWS (LEFT)',
+      sortDate: '2024-04-04T17:08:00Z',
+      data: 'phr1',
+      studyId: 'c1',
+      imageCount: 4,
+    });
+  });
+
+  it('does not merge records with different procedure names even on same day', () => {
+    const phrList = [
+      {
+        id: 'r12345-abc123ef',
+        name: 'KNEE 4 OR MORE VIEWS (LEFT)',
+        sortDate: '2024-04-04T17:08:00Z',
+        data: 'phr1',
+      },
+    ];
+    const cvixList = [
+      {
+        id: 'r67890-different1',
+        name: 'CT THORAX W/CONT', // Different procedure
+        sortDate: '2024-04-04T17:03:00Z', // Same day
+        studyId: 'c1',
+        imageCount: 4,
+      },
+    ];
+    const result = mergeRadiologyLists(phrList, cvixList);
+    expect(result.length).to.equal(2);
+  });
 });

@@ -3,7 +3,6 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import {
   selectFeatureUseVpg,
   selectFeaturePCMHI,
-  selectFeatureRemoveFacilityConfigCheck,
   selectFeatureSubstanceUseDisorder,
   selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
@@ -88,9 +87,6 @@ async function vaFacilityNext(state, dispatch) {
   const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
   const isCerner = isCernerLocation(location?.id, cernerSiteIds);
   const featureUseVpg = selectFeatureUseVpg(state);
-  const featureRemoveFacilityConfigCheck = selectFeatureRemoveFacilityConfigCheck(
-    state,
-  );
 
   const typeOfCareEnabled = OH_ENABLED_TYPES_OF_CARE.includes(
     getTypeOfCare(state.newAppointment.data)?.idV2,
@@ -107,22 +103,23 @@ async function vaFacilityNext(state, dispatch) {
       checkEligibility({
         location,
         siteId,
-        showModal: !isCerner,
+        showModal: true,
         isCerner,
       }),
     );
   }
 
   if (isCerner) {
-    if (featureUseVpg && typeOfCareEnabled) {
-      if (featureRemoveFacilityConfigCheck) {
-        if (eligibility.direct === true || eligibility.request === true)
-          return 'selectProvider';
-      } else if (eligibility.direct === true || eligibility.request === true)
-        return 'selectProvider';
+    if (
+      featureUseVpg &&
+      typeOfCareEnabled &&
+      (eligibility.direct || eligibility.request)
+    ) {
+      return 'selectProvider';
     }
-
-    return 'scheduleCerner';
+    if (!featureUseVpg || !typeOfCareEnabled) {
+      return 'scheduleCerner';
+    }
   }
 
   if (eligibility.direct) {
@@ -136,7 +133,7 @@ async function vaFacilityNext(state, dispatch) {
   }
 
   // Display Cerner error page when feature flag is on per conversation with UI team.
-  if (featureRemoveFacilityConfigCheck) return 'scheduleCerner';
+  // if (featureRemoveFacilityConfigCheck) return 'scheduleCerner';
 
   dispatch(showEligibilityModal());
   return VA_FACILITY_V2_KEY;
