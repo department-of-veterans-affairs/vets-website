@@ -12,6 +12,7 @@ describe('UnifiedLabsAndTests Component', () => {
     name: 'Test Name',
     date: '2025-04-21',
     testCode: '12345',
+    testCodeDisplay: '12345',
     sampleTested: 'Blood',
     bodySite: 'Arm',
     orderedBy: 'Dr. Smith',

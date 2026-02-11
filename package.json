@@ -78,7 +78,8 @@
     "url": "https://github.com/department-of-veterans-affairs/vets-website/issues"
   },
   "lint-staged": {
-    "*.(js|jsx)": "eslint --fix -c ./.eslintrc.changed.js"
+    "*.(js|jsx)": "eslint --fix -c ./.eslintrc.changed.js",
+    "*.{css,sass,scss}": "stylelint --fix"
   },
   "nyc": {
     "sourceMap": false,
@@ -271,7 +272,6 @@
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
     "@mapbox/mapbox-sdk": "~0.13.2",
     "@reduxjs/toolkit": "^1.9.5",
-
     "botframework-webchat": "4.17.0",
     "cacheable-request": "^4.0.1",
     "camelcase-keys-recursive": "^1.0.0",
