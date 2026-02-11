@@ -52,7 +52,6 @@ const schema = {
       required: ['city', 'state'],
     },
   },
-  required: ['motherBornLocation'],
 };
 
 export { schema, uiSchema };
