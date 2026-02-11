@@ -15,12 +15,19 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import SubmissionInstructions from '../components/SubmissionInstructions';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
+import PreSubmitInfo from '../components/PreSubmitInfo';
+import PrivacyPolicy from '../components/PrivacyPolicy';
+
 // Pages
 import {
   educationBenefitsElibility,
   educationBenefitsHistory,
   hasPreviouslyApplied,
   payeeNumber,
+  testName,
+  organizationInfo,
   prepCourseName,
   prepCourseAddress,
   prepCourseOnline,
@@ -58,18 +65,30 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer: prefillTransform,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'applicantName',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your request.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  CustomReviewTopContent,
   customText: {
     appType: 'request',
     continueAppButtonText: 'Continue your request',
     startNewAppButtonText: 'Start a new request',
     finishAppLaterMessage: 'Finish this request later',
     appSavedSuccessfullyMessage: 'We’ve saved your request.',
+    reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
   },
   defaultDefinitions: {},
   useCustomScrollAndFocus: true,
@@ -132,6 +151,25 @@ const formConfig = {
         }),
       },
     },
+    licensingAndCertificationChapter: {
+      title: 'Licensing and certification details',
+      pages: {
+        testName: {
+          path: 'test-name',
+          title:
+            "Tell us about the licensing or certification test you're preparing for",
+          uiSchema: testName.uiSchema,
+          schema: testName.schema,
+        },
+        organizationInfo: {
+          path: 'organization-info',
+          title:
+            'The name and mailing address of organization awarding license or certification',
+          uiSchema: organizationInfo.uiSchema,
+          schema: organizationInfo.schema,
+        },
+      },
+    },
     prepCourseChapter: {
       title: 'Prep course details',
       pages: {
@@ -176,6 +214,23 @@ const formConfig = {
           title: 'Enter your remarks',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },

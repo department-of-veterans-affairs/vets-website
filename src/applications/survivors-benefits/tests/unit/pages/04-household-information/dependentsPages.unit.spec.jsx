@@ -124,17 +124,17 @@ describe('Dependents Pages', () => {
     expect(ssnElUnset.getAttribute('required')).to.equal('true');
   });
 
-  it('birthPlace state/country is displayed when bornOutsideUS is true', () => {
+  it('birthPlace state/country is displayed when bornOutsideUs is true', () => {
     const { dependentDobPlace: page } = dependentsPages;
 
-    // bornOutsideUS => city shown and required, country shown and required
+    // bornOutsideUs => city shown and required, country shown and required
     const form = render(
       <DefinitionTester
         arrayPath="veteransChildren"
         schema={page.schema}
         uiSchema={page.uiSchema}
         pagePerItemIndex={0}
-        data={{ veteransChildren: [{ bornOutsideUS: true }] }}
+        data={{ veteransChildren: [{ bornOutsideUs: true }] }}
       />,
     );
     const formDOM = getFormDOM(form);
@@ -151,7 +151,7 @@ describe('Dependents Pages', () => {
     expect(countrySelect.getAttribute('required')).to.equal('true');
   });
 
-  it('birthPlace city/state is displayed when bornOutsideUS does not exist', () => {
+  it('birthPlace city/state is displayed when bornOutsideUs does not exist', () => {
     const { dependentDobPlace: page } = dependentsPages;
 
     // bornInsideUS => state shown and required, country hidden and not required

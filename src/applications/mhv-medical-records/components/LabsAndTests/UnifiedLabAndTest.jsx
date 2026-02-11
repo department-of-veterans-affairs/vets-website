@@ -97,7 +97,7 @@ const UnifiedLabsAndTests = props => {
             <LabelValue
               ifEmpty="None Noted"
               label={LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE}
-              value={record.testCode}
+              value={record.testCodeDisplay}
               testId="lab-and-test-code"
               data-dd-action-name="[lab and tests - test code]"
             />
@@ -231,6 +231,7 @@ UnifiedLabsAndTests.propTypes = {
     name: PropTypes.string,
     date: PropTypes.string,
     testCode: PropTypes.string,
+    testCodeDisplay: PropTypes.string,
     sampleTested: PropTypes.string,
     bodySite: PropTypes.string,
     orderedBy: PropTypes.string,
