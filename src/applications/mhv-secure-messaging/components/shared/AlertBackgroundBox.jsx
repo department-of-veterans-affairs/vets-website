@@ -272,9 +272,7 @@ const AlertBackgroundBox = props => {
         >
           {alertContent}
         </p>
-        <SrOnlyTag className="sr-only" aria-live="polite" aria-atomic="true">
-          {alertAriaLabel}
-        </SrOnlyTag>
+        <SrOnlyTag className="sr-only">{alertAriaLabel}</SrOnlyTag>
         {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS &&
           !enteredFromSent && (
             <RouterLink
