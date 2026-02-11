@@ -849,7 +849,8 @@ class MedicationsListPage {
   };
 
   verifyFocusOnPaginationTextInformationOnListPage = text => {
-    cy.findByTestId('page-total-info')
+    cy.findAllByTestId('page-total-info')
+      .first()
       .should('be.focused')
       .and('contain', text);
   };
