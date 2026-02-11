@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 153,
+  "totalApplications": 152,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -110,6 +110,12 @@
       "appName": "21-2680 House Bound Status",
       "entryName": "21-2680-house-bound-status",
       "rootUrl": "/pension/aid-attendance-housebound/apply-form-21-2680"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-2680-house-bound-status-secondary",
+      "appName": "21-2680 House Bound Status (Medical Professional)",
+      "entryName": "21-2680-house-bound-status-secondary",
+      "rootUrl": "/pension/aid-attendance-housebound/apply-form-21-2680-secondary"
     },
     {
       "directoryPath": "src/applications/benefits-optimization-aquia/21-4192-employment-information",
