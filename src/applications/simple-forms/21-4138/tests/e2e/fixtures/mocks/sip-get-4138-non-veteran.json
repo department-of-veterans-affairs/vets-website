@@ -1,0 +1,11 @@
+{
+  "formData": {
+    "view:userIsVeteran": false
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": false,
+    "returnUrl": "/statement-type"
+  }
+}
+
