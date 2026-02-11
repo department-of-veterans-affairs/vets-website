@@ -3,6 +3,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Actions } from '../../util/actionTypes';
 import {
   getPrescriptionById,
@@ -46,6 +47,40 @@ describe('prescription actions', () => {
       mockApiRequest(mockResponse);
 
       const store = mockStore();
+      await store.dispatch(getPrescriptionById(prescriptionId));
+
+      const actions = store.getActions();
+      expect(actions[0]).to.deep.equal({
+        type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
+      });
+      expect(actions[1]).to.deep.equal({
+        type: Actions.Prescriptions.IS_LOADING,
+      });
+      expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
+        payload: mockResponse.data.attributes,
+      });
+    });
+
+    it('should dispatch success action using v2 API when Cerner pilot is enabled', async () => {
+      const prescriptionId = '456';
+      const mockResponse = {
+        data: {
+          attributes: {
+            id: prescriptionId,
+            name: 'OH Prescription',
+            prescriptionName: 'OH Prescription',
+            prescriptionNumber: 'RX789',
+          },
+        },
+      };
+      mockApiRequest(mockResponse);
+
+      const store = mockStore({
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: true,
+        },
+      });
       await store.dispatch(getPrescriptionById(prescriptionId));
 
       const actions = store.getActions();
