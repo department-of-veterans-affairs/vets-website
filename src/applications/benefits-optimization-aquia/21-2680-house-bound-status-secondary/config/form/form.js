@@ -2,12 +2,12 @@
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
-import manifest from '../manifest.json';
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import { TITLE, SUBTITLE } from '../../constants';
+import manifest from '../../manifest.json';
+import { IntroductionPage } from '../../containers/introduction-page';
+import { ConfirmationPage } from '../../containers/confirmation-page';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import nameAndDateOfBirth from '../../pages/nameAndDateOfBirth';
 
 /** @type {FormConfig} */
 const formConfig = {

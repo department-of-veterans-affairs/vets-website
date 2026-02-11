@@ -5,7 +5,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE, SUBTITLE } from '../../constants';
 
 const OMB_RES_BURDEN = 30;
 const OMB_NUMBER = '2900-0721';

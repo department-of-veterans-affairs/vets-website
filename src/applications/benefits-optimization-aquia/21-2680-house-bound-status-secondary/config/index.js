@@ -1,0 +1,1 @@
+export { formConfig } from './form';
