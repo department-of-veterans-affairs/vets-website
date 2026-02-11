@@ -20,7 +20,7 @@ services:
       test: ['CMD', 'curl', '-f', 'http://localhost:3002']
       interval: 10s
       timeout: 5s
-      retries: 90
+      retries: 120
     restart: unless-stopped
     volumes:
       - .:/application
