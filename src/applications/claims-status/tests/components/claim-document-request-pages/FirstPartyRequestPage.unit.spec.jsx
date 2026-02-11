@@ -9,7 +9,7 @@ import { renderWithReduxAndRouter } from '../../utils';
 import { buildDateFormatter } from '../../../utils/helpers';
 import { evidenceDictionary } from '../../../utils/evidenceDictionary';
 
-import DefaultPage from '../../../components/claim-document-request-pages/DefaultPage';
+import FirstPartyRequestPage from '../../../components/claim-document-request-pages/FirstPartyRequestPage';
 
 const formatDate = buildDateFormatter();
 
@@ -28,7 +28,7 @@ const initialState = {
   },
 };
 
-describe('<DefaultPage>', () => {
+describe('<FirstPartyRequestPage>', () => {
   const defaultProps = {
     onCancel: () => {},
     onSubmit: () => {},
@@ -36,24 +36,33 @@ describe('<DefaultPage>', () => {
     uploading: false,
   };
 
+  const createTrackedItem = (overrides = {}) => ({
+    id: 1,
+    closedDate: null,
+    description: null,
+    displayName: 'First party display name',
+    overdue: false,
+    receivedDate: null,
+    requestedDate: '2024-03-07',
+    status: 'NEEDED_FROM_YOU',
+    suspenseDate: fiveMonthsFromNowSuspenseDate,
+    uploadsAllowed: true,
+    canUploadFile: true,
+    documents: [],
+    date: '2024-03-07',
+    ...overrides,
+  });
+
   it('should render updated UI', () => {
-    const item = {
-      closedDate: null,
-      canUploadFile: true,
-      description: 'First praty description',
-      displayName: 'First party display name',
+    const item = createTrackedItem({
       id: 467558,
+      description: 'First party description',
       overdue: true,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_YOU',
       suspenseDate: nineMonthsAgoSuspenseDate,
-      uploadsAllowed: true,
       documents: '[]',
-      date: '2024-03-07',
-    };
+    });
     const { getByText, container } = renderWithReduxAndRouter(
-      <DefaultPage {...defaultProps} item={item} />,
+      <FirstPartyRequestPage {...defaultProps} item={item} />,
       { initialState },
     );
     expect($('#default-page', container)).to.exist;
@@ -87,26 +96,18 @@ describe('<DefaultPage>', () => {
   });
 
   it('should render update 21-4142 information', () => {
-    const item = {
-      closedDate: null,
+    const item = createTrackedItem({
+      id: 14268,
       description: '21-4142 text',
       displayName: '21-4142/21-4142a',
       friendlyName: 'Authorization to Disclose Information',
       friendlyDescription: 'good description',
-      canUploadFile: true,
       supportAliases: ['VA Form 21-4142'],
-      id: 14268,
       overdue: true,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_YOU',
       suspenseDate: nineMonthsAgoSuspenseDate,
-      uploadsAllowed: true,
-      documents: [],
-      date: '2024-03-07',
-    };
+    });
     const { getByText, container } = renderWithReduxAndRouter(
-      <DefaultPage {...defaultProps} item={item} />,
+      <FirstPartyRequestPage {...defaultProps} item={item} />,
       { initialState },
     );
     expect($('#default-page', container)).to.exist;
@@ -121,118 +122,21 @@ describe('<DefaultPage>', () => {
     expect($('va-additional-info', container)).to.exist;
     expect($('va-file-input-multiple', container)).to.exist;
   });
-  it('should render updated default UI  when status is NEEDED_FROM_OTHERS', () => {
-    const item = {
-      closedDate: null,
-      description: 'Third party description',
-      displayName: 'Third party display name',
+
+  it('should render updated request language when the tracked item is a sensitive item', () => {
+    const item = createTrackedItem({
       id: 467558,
-      overdue: true,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_OTHERS',
-      suspenseDate: nineMonthsAgoSuspenseDate,
-      uploadsAllowed: true,
-      canUploadFile: true,
-      documents: [],
-      date: '2024-03-07',
-    };
-    const { getByText, container } = renderWithReduxAndRouter(
-      <DefaultPage {...defaultProps} item={item} />,
-      { initialState },
-    );
-    expect($('#default-page', container)).to.exist;
-    expect($('.add-files-form', container)).to.exist;
-    expect($('.due-date-header', container)).to.not.exist;
-    getByText('Request for evidence outside VA');
-    getByText(
-      `We made a request outside VA on ${formatDate(
-        item.requestedDate,
-      )} for: Third party display name`,
-    );
-    expect($('.optional-upload', container)).to.exist;
-    getByText('This is just a notice. No action is needed by you.');
-    getByText(
-      'But, if you have documents related to this request, uploading them on this page may help speed up the evidence review for your claim.',
-    );
-    getByText(item.description);
-    getByText('What we’re notifying you about');
-    expect($('va-additional-info', container)).to.exist;
-    expect($('va-file-input-multiple', container)).to.exist;
-  });
-  it('should render updated RV1 reserve records content', () => {
-    const item = {
-      closedDate: null,
-      description: 'old description',
-      friendlyName: 'Friendly RV1 name',
-      displayName: 'RV1 - Reserve Records Request',
-      id: 467558,
-      overdue: true,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_OTHERS',
-      suspenseDate: nineMonthsAgoSuspenseDate,
-      uploadsAllowed: true,
-      canUploadFile: true,
-      documents: [],
-      date: '2024-03-07',
-    };
-    const { getByText } = renderWithReduxAndRouter(
-      <DefaultPage {...defaultProps} item={item} />,
-      { initialState },
-    );
-    getByText('Your friendly RV1 name');
-    getByText(
-      'For your benefits claim, we’ve requested your service records or treatment records from your reserve unit.',
-    );
-    getByText(
-      `We made a request outside VA on ${formatDate(item.requestedDate)}`,
-    );
-  });
-  it(`should render updated request language on when the track item is a DBQ`, () => {
-    const item = {
-      closedDate: null,
-      description: 'old description',
-      friendlyName: 'Friendly DBQ name',
-      displayName: 'DBQ AUDIO Hearing Loss and Tinnitus',
-      id: 467558,
-      overdue: true,
-      receivedDate: null,
-      requestedDate: '2024-03-25',
-      status: 'NEEDED_FROM_OTHERS',
-      suspenseDate: nineMonthsAgoSuspenseDate,
-      canUploadFile: false,
-      documents: [],
-      date: '2024-03-21',
-    };
-    const { getByText } = renderWithReduxAndRouter(
-      <DefaultPage {...defaultProps} item={item} />,
-      { initialState },
-    );
-    getByText(
-      `We made a request on ${formatDate(
-        item.requestedDate,
-      )} for: friendly DBQ name`,
-    );
-  });
-  it(`should render updated request language on when the track item is a sensitive item`, () => {
-    const item = {
-      closedDate: null,
       description: 'old description',
       friendlyName: 'Friendly sensitive item name',
       displayName: 'ASB - tell us where, when, how exposed',
-      id: 467558,
       overdue: true,
-      receivedDate: null,
       requestedDate: '2024-03-25',
-      status: 'NEEDED_FROM_YOU',
       suspenseDate: nineMonthsAgoSuspenseDate,
       canUploadFile: false,
-      documents: [],
       date: '2024-03-21',
-    };
+    });
     const { getByText } = renderWithReduxAndRouter(
-      <DefaultPage {...defaultProps} item={item} />,
+      <FirstPartyRequestPage {...defaultProps} item={item} />,
       { initialState },
     );
     getByText('Request for evidence');
@@ -242,24 +146,17 @@ describe('<DefaultPage>', () => {
       )} for: friendly sensitive item name`,
     );
   });
-  it('should display pass due alert when suspense date is in the past', () => {
-    const item = {
-      closedDate: null,
+
+  it('should display past due alert when suspense date is in the past', () => {
+    const item = createTrackedItem({
+      id: 467558,
       description: 'Buddy statement text',
       displayName: 'Submit buddy statement(s)',
-      id: 467558,
       overdue: true,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_YOU',
       suspenseDate: nineMonthsAgoSuspenseDate,
-      uploadsAllowed: true,
-      canUploadFile: true,
-      documents: [],
-      date: '2024-03-07',
-    };
+    });
     const { getByText, container } = renderWithReduxAndRouter(
-      <DefaultPage {...defaultProps} item={item} />,
+      <FirstPartyRequestPage {...defaultProps} item={item} />,
       { initialState },
     );
     expect($('#default-page', container)).to.exist;
@@ -272,54 +169,36 @@ describe('<DefaultPage>', () => {
       'We requested this evidence from you on March 7, 2024. You can still send the evidence after the “respond by” date, but it may delay your claim.',
     );
   });
-  it('should display pass due explanation text when suspense date is in the future', () => {
-    const item = {
-      closedDate: null,
+
+  it('should display explanation text when suspense date is in the future', () => {
+    const item = createTrackedItem({
+      id: 467558,
       description: 'Buddy statement text',
       displayName: 'Submit buddy statement(s)',
-      id: 467558,
       overdue: true,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_YOU',
       suspenseDate: fiveMonthsFromNowSuspenseDate,
-      uploadsAllowed: true,
-      canUploadFile: true,
-      documents: [],
-      date: '2024-03-07',
-    };
+    });
     const { getByText, container } = renderWithReduxAndRouter(
-      <DefaultPage {...defaultProps} item={item} />,
+      <FirstPartyRequestPage {...defaultProps} item={item} />,
       { initialState },
     );
     expect($('#default-page', container)).to.exist;
     expect($('.add-files-form', container)).to.exist;
     getByText(
-      'We requested this evidence from you on March 7, 2024. You can still send the evidence after the “respond by” date, but it may delay your claim.',
+      'We requested this evidence from you on March 7, 2024. You can still send the evidence after the \u201Crespond by\u201D date, but it may delay your claim.',
     );
   });
 
   describe('Type 1 error alerts', () => {
-    const trackedItem = {
-      closedDate: null,
+    const trackedItem = createTrackedItem({
       description: 'desc',
       displayName: 'Submit buddy statement(s)',
-      id: 1,
-      overdue: false,
-      receivedDate: null,
-      requestedDate: '2024-03-07',
-      status: 'NEEDED_FROM_YOU',
-      suspenseDate: fiveMonthsFromNowSuspenseDate,
-      uploadsAllowed: true,
-      canUploadFile: true,
-      documents: [],
-      date: '2024-03-07',
-    };
+    });
 
     context('when cst_show_document_upload_status is disabled', () => {
       it('should not render unknown error alert', () => {
         const { queryByTestId } = renderWithReduxAndRouter(
-          <DefaultPage
+          <FirstPartyRequestPage
             {...defaultProps}
             item={trackedItem}
             type1UnknownErrors={null}
@@ -332,7 +211,11 @@ describe('<DefaultPage>', () => {
 
       it('should not render known error alert (duplicate file, etc.)', () => {
         const { queryByTestId } = renderWithReduxAndRouter(
-          <DefaultPage {...defaultProps} item={trackedItem} message={null} />,
+          <FirstPartyRequestPage
+            {...defaultProps}
+            item={trackedItem}
+            message={null}
+          />,
           { initialState },
         );
 
@@ -362,7 +245,7 @@ describe('<DefaultPage>', () => {
       tests.forEach(({ description, type1UnknownErrors }) => {
         it(description, () => {
           const { queryByTestId } = renderWithReduxAndRouter(
-            <DefaultPage
+            <FirstPartyRequestPage
               {...defaultProps}
               item={trackedItem}
               type1UnknownErrors={type1UnknownErrors}
@@ -381,7 +264,7 @@ describe('<DefaultPage>', () => {
 
       it('should render the type 1 unknown error alert when type1UnknownErrors exists', () => {
         const { getByTestId } = renderWithReduxAndRouter(
-          <DefaultPage
+          <FirstPartyRequestPage
             {...defaultProps}
             item={trackedItem}
             type1UnknownErrors={[
@@ -411,7 +294,7 @@ describe('<DefaultPage>', () => {
           type: 'error',
         };
         const { getByTestId } = renderWithReduxAndRouter(
-          <DefaultPage
+          <FirstPartyRequestPage
             {...defaultProps}
             item={trackedItem}
             message={message}
@@ -437,7 +320,7 @@ describe('<DefaultPage>', () => {
           type: 'error',
         };
         const { getAllByTestId } = renderWithReduxAndRouter(
-          <DefaultPage
+          <FirstPartyRequestPage
             {...defaultProps}
             item={trackedItem}
             message={message}
@@ -466,10 +349,6 @@ describe('<DefaultPage>', () => {
     });
   });
 
-  // ============================================================
-  // PATH COVERAGE TESTS
-  // Parameterized tests to exercise all DefaultPage.jsx rendering paths
-  // ============================================================
   describe('First party path coverage tests', () => {
     const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
     const pastSuspenseDate = nineMonthsAgoSuspenseDate;
@@ -496,7 +375,6 @@ describe('<DefaultPage>', () => {
           'we need your permission to request your personal information',
         showsAddFilesForm: true,
         showsPastDueAlert: false,
-        showsThirdPartyNotice: false,
       },
       {
         id: 2,
@@ -516,7 +394,6 @@ describe('<DefaultPage>', () => {
           'we need your permission to request your personal information',
         showsAddFilesForm: true,
         showsPastDueAlert: true,
-        showsThirdPartyNotice: false,
       },
       {
         id: 3,
@@ -537,7 +414,6 @@ describe('<DefaultPage>', () => {
           'To process your disability claim for asbestos exposure',
         showsAddFilesForm: true,
         showsPastDueAlert: false,
-        showsThirdPartyNotice: false,
       },
       {
         id: 15,
@@ -560,7 +436,6 @@ describe('<DefaultPage>', () => {
           'To process your disability claim for asbestos exposure, we need information about your asbestos-related disease or disability:',
         showsAddFilesForm: true,
         showsPastDueAlert: false,
-        showsThirdPartyNotice: false,
       },
       {
         id: 4,
@@ -578,11 +453,9 @@ describe('<DefaultPage>', () => {
         expectedSubheaderPattern: /Respond by .* for: Employer \(21-4192\)/,
         expectedDescriptionText:
           'we sent a letter to your last employer to ask about your job and why you left',
-        // Generic next steps shown because no nextSteps in dictionary
         expectedNextStepsTestId: 'next-steps-in-what-we-need-from-you',
         showsAddFilesForm: true,
         showsPastDueAlert: false,
-        showsThirdPartyNotice: false,
       },
       {
         id: 5,
@@ -596,7 +469,7 @@ describe('<DefaultPage>', () => {
           friendlyName: 'Custom friendly name for testing',
           canUploadFile: true,
         },
-        dictionaryEntry: null, // No dictionary entry
+        dictionaryEntry: null,
         expectedHeader: 'Custom friendly name for testing',
         expectedSubheaderPattern: /Respond by/,
         expectedSubheaderExcludes: 'Unknown Request Type',
@@ -605,7 +478,6 @@ describe('<DefaultPage>', () => {
         expectedNextStepsTestId: 'next-steps-in-claim-letter',
         showsAddFilesForm: true,
         showsPastDueAlert: false,
-        showsThirdPartyNotice: false,
       },
       {
         id: 6,
@@ -619,7 +491,7 @@ describe('<DefaultPage>', () => {
           description: null,
           canUploadFile: true,
         },
-        dictionaryEntry: null, // No dictionary entry
+        dictionaryEntry: null,
         expectedHeader: 'Request for evidence',
         expectedSubheaderPattern: /Respond by .* for: Generic Request No Override/,
         expectedDescriptionText:
@@ -627,7 +499,6 @@ describe('<DefaultPage>', () => {
         expectedNextStepsTestId: 'next-steps-in-claim-letter',
         showsAddFilesForm: true,
         showsPastDueAlert: false,
-        showsThirdPartyNotice: false,
       },
       {
         id: 7,
@@ -641,14 +512,13 @@ describe('<DefaultPage>', () => {
           description: 'API-provided description for this request',
           canUploadFile: true,
         },
-        dictionaryEntry: null, // No dictionary entry
+        dictionaryEntry: null,
         expectedHeader: 'Request for evidence',
         expectedSubheaderPattern: /Respond by .* for: Another Generic Request/,
         expectedDescriptionText: 'API-provided description for this request',
         expectedNextStepsTestId: 'next-steps-in-what-we-need-from-you',
         showsAddFilesForm: true,
         showsPastDueAlert: false,
-        showsThirdPartyNotice: false,
       },
       {
         id: 8,
@@ -668,7 +538,6 @@ describe('<DefaultPage>', () => {
           'we need your permission to request your personal information',
         showsAddFilesForm: false,
         showsPastDueAlert: false,
-        showsThirdPartyNotice: false,
       },
     ];
 
@@ -681,7 +550,7 @@ describe('<DefaultPage>', () => {
           queryByTestId,
           container,
         } = renderWithReduxAndRouter(
-          <DefaultPage {...defaultProps} item={testCase.item} />,
+          <FirstPartyRequestPage {...defaultProps} item={testCase.item} />,
           { initialState },
         );
 
@@ -747,338 +616,6 @@ describe('<DefaultPage>', () => {
     });
   });
 
-  describe('Third party path coverage tests', () => {
-    const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
-
-    // Helper to get dictionary entry for a displayName
-    const getDictEntry = displayName => evidenceDictionary[displayName];
-
-    const thirdPartyTestCases = [
-      {
-        id: 9,
-        name: 'DBQ request with noActionNeeded',
-        item: {
-          id: 9,
-          displayName: 'DBQ AUDIO Hearing Loss and Tinnitus',
-          status: 'NEEDED_FROM_OTHERS',
-          requestedDate: '2025-12-01',
-          suspenseDate: futureSuspenseDate,
-          canUploadFile: true,
-        },
-        dictionaryEntry: getDictEntry('DBQ AUDIO Hearing Loss and Tinnitus'),
-        expectedHeader: 'Request for an exam',
-        expectedSubheaderPattern: /We made a request on .* for: DBQ AUDIO/,
-        expectedDescriptionText:
-          'we’ve requested a disability exam for your hearing',
-        showsAddFilesForm: true,
-      },
-      {
-        id: 10,
-        name: 'Frontend override with noActionNeeded (non-DBQ)',
-        item: {
-          id: 10,
-          displayName: 'Employer (21-4192)',
-          status: 'NEEDED_FROM_OTHERS',
-          requestedDate: '2025-12-01',
-          suspenseDate: futureSuspenseDate,
-          canUploadFile: true,
-        },
-        dictionaryEntry: getDictEntry('Employer (21-4192)'),
-        expectedHeader: 'Request for evidence outside VA',
-        expectedSubheaderPattern: /We made a request outside VA on .* for: Employer/,
-        expectedDescriptionText: 'we sent a letter to your last employer',
-        showsAddFilesForm: true,
-      },
-      {
-        id: 11,
-        name: 'WITH friendlyName, no frontend override',
-        item: {
-          id: 11,
-          displayName: 'Unknown Third Party Request',
-          status: 'NEEDED_FROM_OTHERS',
-          requestedDate: '2025-12-01',
-          suspenseDate: futureSuspenseDate,
-          friendlyName: 'Third party friendly name',
-          canUploadFile: true,
-        },
-        dictionaryEntry: null, // No dictionary entry
-        expectedHeader: 'Your third party friendly name',
-        expectedSubheaderPattern: /We made a request outside VA on/,
-        expectedSubheaderExcludes: 'Unknown Third Party Request',
-        // No description shown for third party without frontend/API description
-        expectedDescriptionText: null,
-        showsAddFilesForm: true,
-      },
-      {
-        id: 12,
-        name: 'No friendlyName, no frontend override',
-        item: {
-          id: 12,
-          displayName: 'Generic Third Party Request',
-          status: 'NEEDED_FROM_OTHERS',
-          requestedDate: '2025-12-01',
-          suspenseDate: futureSuspenseDate,
-          canUploadFile: true,
-        },
-        dictionaryEntry: null,
-        expectedHeader: 'Request for evidence outside VA',
-        expectedSubheaderPattern: /We made a request outside VA on .* for: Generic Third Party Request/,
-        // No description shown for third party without frontend/API description
-        expectedDescriptionText: null,
-        showsAddFilesForm: true,
-      },
-      {
-        id: 13,
-        name: 'Frontend override with longDescription, NOT noActionNeeded',
-        item: {
-          id: 13,
-          displayName: 'PMR Pending',
-          status: 'NEEDED_FROM_OTHERS',
-          requestedDate: '2025-12-01',
-          suspenseDate: futureSuspenseDate,
-          canUploadFile: true,
-        },
-        dictionaryEntry: getDictEntry('PMR Pending'),
-        expectedHeader: 'Request for evidence outside VA',
-        expectedSubheaderPattern: /We made a request outside VA on .* for: PMR Pending/,
-        expectedDescriptionText: 'we’ve requested your non-VA medical records',
-        showsAddFilesForm: true,
-      },
-      {
-        id: 14,
-        name: 'No frontend override, WITH API description',
-        item: {
-          id: 14,
-          displayName: 'Generic Third Party Request',
-          status: 'NEEDED_FROM_OTHERS',
-          requestedDate: '2025-12-01',
-          suspenseDate: futureSuspenseDate,
-          description: 'API-provided description for this request',
-          canUploadFile: true,
-        },
-        dictionaryEntry: null,
-        expectedHeader: 'Request for evidence outside VA',
-        expectedSubheaderPattern: /We made a request outside VA on .* for: Generic Third Party Request/,
-        expectedDescriptionText: 'API-provided description for this request',
-        showsAddFilesForm: true,
-      },
-    ];
-
-    thirdPartyTestCases.forEach(testCase => {
-      it(`Path ${testCase.id}: ${testCase.name}`, () => {
-        const {
-          getByText,
-          getByTestId,
-          queryByText,
-          queryByTestId,
-          container,
-        } = renderWithReduxAndRouter(
-          <DefaultPage {...defaultProps} item={testCase.item} />,
-          { initialState },
-        );
-
-        // Verify header
-        getByText(testCase.expectedHeader);
-
-        // Verify subheader
-        const h1 = $('h1', container);
-        const subheaderSpan = $('span', h1);
-        expect(subheaderSpan.textContent).to.match(
-          testCase.expectedSubheaderPattern,
-        );
-        if (testCase.expectedSubheaderExcludes) {
-          expect(subheaderSpan.textContent).to.not.include(
-            testCase.expectedSubheaderExcludes,
-          );
-        }
-
-        // Verify section header (always "What we're notifying you about" for third party)
-        getByText('What we’re notifying you about', { selector: 'h2' });
-
-        // Verify third party notice (always shown for third party)
-        expect($('.optional-upload', container)).to.exist;
-        expect(
-          queryByText('This is just a notice. No action is needed by you.'),
-        ).to.exist;
-
-        // Verify description content (no "Learn about" section for third party)
-        if (testCase.dictionaryEntry?.longDescription) {
-          expect(getByTestId('frontend-description')).to.exist;
-          getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
-        } else if (testCase.item.description) {
-          expect(getByTestId('api-description')).to.exist;
-          getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
-        } else {
-          // Third party requests without frontend/API description show no description
-          // (empty-state-description is only shown for first party requests)
-          expect(queryByTestId('frontend-description')).to.not.exist;
-          expect(queryByTestId('api-description')).to.not.exist;
-          expect(queryByTestId('empty-state-description')).to.not.exist;
-        }
-        expect(queryByTestId('learn-about-request-section')).to.not.exist;
-
-        // Verify upload suggestion visibility (hidden when noActionNeeded is true)
-        const uploadSuggestion = queryByText(
-          /if you have documents related to this request, uploading them/i,
-        );
-        if (testCase.dictionaryEntry?.noActionNeeded) {
-          expect(uploadSuggestion).to.not.exist;
-        } else {
-          expect(uploadSuggestion).to.exist;
-        }
-
-        // Verify AddFilesForm
-        const addFilesForm = $('.add-files-form', container);
-        if (testCase.showsAddFilesForm) {
-          expect(addFilesForm).to.exist;
-        } else {
-          expect(addFilesForm).to.not.exist;
-        }
-      });
-    });
-  });
-
-  describe('API description formatting', () => {
-    const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
-
-    it('should render newlines as separate paragraphs', () => {
-      const item = {
-        id: 100,
-        displayName: 'Test Request',
-        status: 'NEEDED_FROM_YOU',
-        requestedDate: '2025-12-01',
-        suspenseDate: futureSuspenseDate,
-        description: 'Line one\nLine two\nLine three',
-        canUploadFile: true,
-      };
-      const { container } = renderWithReduxAndRouter(
-        <DefaultPage {...defaultProps} item={item} />,
-        { initialState },
-      );
-      const apiDescription = container.querySelector(
-        '[data-testid="api-description"]',
-      );
-      expect(apiDescription).to.exist;
-      const paragraphs = apiDescription.querySelectorAll('p');
-      expect(paragraphs.length).to.equal(3);
-      expect(paragraphs[0].textContent).to.equal('Line one');
-      expect(paragraphs[1].textContent).to.equal('Line two');
-      expect(paragraphs[2].textContent).to.equal('Line three');
-    });
-
-    it('should render {b}...{/b} as bold text', () => {
-      const item = {
-        id: 101,
-        displayName: 'Test Request',
-        status: 'NEEDED_FROM_YOU',
-        requestedDate: '2025-12-01',
-        suspenseDate: futureSuspenseDate,
-        description: 'This is {b}important{/b} text',
-        canUploadFile: true,
-      };
-      const { container } = renderWithReduxAndRouter(
-        <DefaultPage {...defaultProps} item={item} />,
-        { initialState },
-      );
-      const apiDescription = container.querySelector(
-        '[data-testid="api-description"]',
-      );
-      expect(apiDescription).to.exist;
-      const strongElement = apiDescription.querySelector('strong');
-      expect(strongElement).to.exist;
-      expect(strongElement.textContent).to.equal('important');
-    });
-
-    it('should render [*] markers as list items', () => {
-      const item = {
-        id: 102,
-        displayName: 'Test Request',
-        status: 'NEEDED_FROM_YOU',
-        requestedDate: '2025-12-01',
-        suspenseDate: futureSuspenseDate,
-        description: '[*] First item\n[*] Second item\n[*] Third item',
-        canUploadFile: true,
-      };
-      const { container } = renderWithReduxAndRouter(
-        <DefaultPage {...defaultProps} item={item} />,
-        { initialState },
-      );
-      const apiDescription = container.querySelector(
-        '[data-testid="api-description"]',
-      );
-      expect(apiDescription).to.exist;
-      const list = apiDescription.querySelector('ul');
-      expect(list).to.exist;
-      const listItems = list.querySelectorAll('li');
-      expect(listItems.length).to.equal(3);
-      expect(listItems[0].textContent).to.equal('First item');
-      expect(listItems[1].textContent).to.equal('Second item');
-      expect(listItems[2].textContent).to.equal('Third item');
-    });
-
-    it('should render {*} markers as list items', () => {
-      const item = {
-        id: 103,
-        displayName: 'Test Request',
-        status: 'NEEDED_FROM_YOU',
-        requestedDate: '2025-12-01',
-        suspenseDate: futureSuspenseDate,
-        description: '{*} Item A\n{*} Item B',
-        canUploadFile: true,
-      };
-      const { container } = renderWithReduxAndRouter(
-        <DefaultPage {...defaultProps} item={item} />,
-        { initialState },
-      );
-      const apiDescription = container.querySelector(
-        '[data-testid="api-description"]',
-      );
-      expect(apiDescription).to.exist;
-      const list = apiDescription.querySelector('ul');
-      expect(list).to.exist;
-      const listItems = list.querySelectorAll('li');
-      expect(listItems.length).to.equal(2);
-    });
-
-    it('should render combined formatting (bold text within list items)', () => {
-      const item = {
-        id: 104,
-        displayName: 'Test Request',
-        status: 'NEEDED_FROM_YOU',
-        requestedDate: '2025-12-01',
-        suspenseDate: futureSuspenseDate,
-        description:
-          '{b}Important:{/b} Please provide:\n[*] {b}Document A{/b}\n[*] Document B',
-        canUploadFile: true,
-      };
-      const { container } = renderWithReduxAndRouter(
-        <DefaultPage {...defaultProps} item={item} />,
-        { initialState },
-      );
-      const apiDescription = container.querySelector(
-        '[data-testid="api-description"]',
-      );
-      expect(apiDescription).to.exist;
-
-      // Check for bold text in paragraph
-      const paragraph = apiDescription.querySelector('p');
-      expect(paragraph).to.exist;
-      const strongInParagraph = paragraph.querySelector('strong');
-      expect(strongInParagraph).to.exist;
-      expect(strongInParagraph.textContent).to.equal('Important:');
-
-      // Check for list with bold item
-      const list = apiDescription.querySelector('ul');
-      expect(list).to.exist;
-      const listItems = list.querySelectorAll('li');
-      expect(listItems.length).to.equal(2);
-      const strongInListItem = listItems[0].querySelector('strong');
-      expect(strongInListItem).to.exist;
-      expect(strongInListItem.textContent).to.equal('Document A');
-    });
-  });
-
-  // API STRUCTURED CONTENT FALLBACK PATTERN TESTS
   describe('API structured content fallback pattern', () => {
     const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
 
@@ -1107,7 +644,7 @@ describe('<DefaultPage>', () => {
     };
 
     context('longDescription fallback priority', () => {
-      it('Priority 1: API-provided structured content (JSON blocks → TrackedItemContent)', () => {
+      it('Priority 1: API-provided structured content (JSON blocks)', () => {
         const item = {
           id: 200,
           displayName: '21-4142/21-4142a',
@@ -1115,18 +652,16 @@ describe('<DefaultPage>', () => {
           requestedDate: '2025-12-01',
           suspenseDate: futureSuspenseDate,
           canUploadFile: true,
-          longDescription: mockApiLongDescription, // API value present
+          longDescription: mockApiLongDescription,
           description: 'Old simple description',
         };
 
         const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
-          <DefaultPage {...defaultProps} item={item} />,
+          <FirstPartyRequestPage {...defaultProps} item={item} />,
           { initialState },
         );
 
-        // Should render API structured content
         expect(getByTestId('api-long-description')).to.exist;
-        // Should NOT render frontend or simple API description
         expect(queryByTestId('frontend-description')).to.not.exist;
         expect(queryByTestId('api-description')).to.not.exist;
         expect(queryByTestId('empty-state-description')).to.not.exist;
@@ -1142,7 +677,7 @@ describe('<DefaultPage>', () => {
           requestedDate: '2025-12-01',
           suspenseDate: futureSuspenseDate,
           canUploadFile: true,
-          nextSteps: mockApiNextSteps, // API value present
+          nextSteps: mockApiNextSteps,
         };
 
         const {
@@ -1150,14 +685,12 @@ describe('<DefaultPage>', () => {
           queryByTestId,
           getByText,
         } = renderWithReduxAndRouter(
-          <DefaultPage {...defaultProps} item={item} />,
+          <FirstPartyRequestPage {...defaultProps} item={item} />,
           { initialState },
         );
 
-        // Should render API structured next steps
         expect(getByTestId('api-next-steps')).to.exist;
         getByText('These are API-provided structured next steps.');
-        // Should NOT render frontend or generic next steps
         expect(queryByTestId('frontend-next-steps')).to.not.exist;
         expect(queryByTestId('next-steps-in-what-we-need-from-you')).to.not
           .exist;
@@ -1178,7 +711,7 @@ describe('<DefaultPage>', () => {
         };
 
         const { getByTestId, getByText } = renderWithReduxAndRouter(
-          <DefaultPage {...defaultProps} item={item} />,
+          <FirstPartyRequestPage {...defaultProps} item={item} />,
           { initialState },
         );
 
@@ -1210,7 +743,7 @@ describe('<DefaultPage>', () => {
         };
 
         const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
-          <DefaultPage {...defaultProps} item={item} />,
+          <FirstPartyRequestPage {...defaultProps} item={item} />,
           { initialState },
         );
 
@@ -1238,13 +771,13 @@ describe('<DefaultPage>', () => {
         };
 
         const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
-          <DefaultPage {...defaultProps} item={item} />,
+          <FirstPartyRequestPage {...defaultProps} item={item} />,
           { initialState },
         );
 
         // Should render API structured longDescription
         expect(getByTestId('api-long-description')).to.exist;
-        // Should render frontend dictionary nextSteps
+        // Should render frontend nextSteps
         expect(getByTestId('frontend-next-steps')).to.exist;
         // Should NOT render frontend description
         expect(queryByTestId('frontend-description')).to.not.exist;
@@ -1264,7 +797,7 @@ describe('<DefaultPage>', () => {
         };
 
         const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
-          <DefaultPage {...defaultProps} item={item} />,
+          <FirstPartyRequestPage {...defaultProps} item={item} />,
           { initialState },
         );
 
@@ -1287,15 +820,13 @@ describe('<DefaultPage>', () => {
           requestedDate: '2025-12-01',
           suspenseDate: futureSuspenseDate,
           canUploadFile: true,
-          // longDescription and nextSteps not included (undefined)
         };
 
         const { getByTestId, queryByTestId } = renderWithReduxAndRouter(
-          <DefaultPage {...defaultProps} item={item} />,
+          <FirstPartyRequestPage {...defaultProps} item={item} />,
           { initialState },
         );
 
-        // Should fallback to dictionary (existing behavior)
         expect(getByTestId('frontend-description')).to.exist;
         expect(getByTestId('frontend-next-steps')).to.exist;
         expect(queryByTestId('api-long-description')).to.not.exist;
@@ -1309,14 +840,14 @@ describe('<DefaultPage>', () => {
   // Tests for API → dictionary → false fallback hierarchy
   // for isSensitive, isDBQ, and noActionNeeded properties
   // ============================================================
-  describe('Boolean property fallback pattern (API → dictionary → false)', () => {
+  describe('Boolean property fallback pattern (API -> dictionary -> false)', () => {
     const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
 
     describe('isSensitive property', () => {
       const isSensitiveTestCases = [
         {
           name: 'uses API value when present (API: true, dictionary: false)',
-          displayName: 'Employment info needed', // dictionary has no isSensitive
+          displayName: 'Employment info needed', // dictionary has no isSensitive value
           friendlyName: 'Test sensitive item',
           isSensitive: true,
           expectedHeader: 'Request for evidence',
@@ -1354,7 +885,7 @@ describe('<DefaultPage>', () => {
           };
 
           const { getByText, container } = renderWithReduxAndRouter(
-            <DefaultPage {...defaultProps} item={item} />,
+            <FirstPartyRequestPage {...defaultProps} item={item} />,
             { initialState },
           );
 
@@ -1365,108 +896,6 @@ describe('<DefaultPage>', () => {
             expect(subheaderSpan.textContent).to.include('for:');
           } else {
             expect(subheaderSpan.textContent).to.not.include('for:');
-          }
-        });
-      });
-    });
-
-    describe('isDBQ property', () => {
-      const isDBQTestCases = [
-        {
-          name: 'uses API value when present (API: true, dictionary: false)',
-          displayName: 'Unknown third party request', // no dictionary entry
-          isDBQ: true,
-          expectOutsideVA: false,
-        },
-        {
-          name: 'uses dictionary value when API absent (dictionary: true)',
-          displayName: 'DBQ AUDIO Hearing Loss and Tinnitus', // dictionary has isDBQ: true
-          isDBQ: undefined,
-          expectOutsideVA: false,
-        },
-        {
-          name: 'defaults to false when both API and dictionary absent',
-          displayName: 'Unknown third party type', // no dictionary entry
-          isDBQ: undefined,
-          expectOutsideVA: true,
-        },
-      ];
-
-      isDBQTestCases.forEach(testCase => {
-        it(testCase.name, () => {
-          const item = {
-            id: 304,
-            displayName: testCase.displayName,
-            status: 'NEEDED_FROM_OTHERS',
-            requestedDate: '2025-12-01',
-            suspenseDate: futureSuspenseDate,
-            friendlyName: 'Test request',
-            canUploadFile: true,
-            isDBQ: testCase.isDBQ,
-          };
-
-          const { container } = renderWithReduxAndRouter(
-            <DefaultPage {...defaultProps} item={item} />,
-            { initialState },
-          );
-
-          const h1 = container.querySelector('h1');
-          const subheaderSpan = h1.querySelector('span');
-          if (testCase.expectOutsideVA) {
-            expect(subheaderSpan.textContent).to.include('outside VA');
-          } else {
-            expect(subheaderSpan.textContent).to.not.include('outside VA');
-          }
-        });
-      });
-    });
-
-    describe('noActionNeeded property', () => {
-      const noActionNeededTestCases = [
-        {
-          name: 'uses API value when present (API: true, dictionary: false)',
-          displayName: 'PMR Pending', // dictionary has no noActionNeeded
-          noActionNeeded: true,
-          expectUploadSuggestion: false,
-        },
-        {
-          name: 'uses dictionary value when API absent (dictionary: true)',
-          displayName: 'DBQ AUDIO Hearing Loss and Tinnitus', // dictionary has noActionNeeded: true
-          noActionNeeded: undefined,
-          expectUploadSuggestion: false,
-        },
-        {
-          name: 'defaults to false when both API and dictionary absent',
-          displayName: 'Unknown third party type', // no dictionary entry
-          noActionNeeded: undefined,
-          expectUploadSuggestion: true,
-        },
-      ];
-
-      noActionNeededTestCases.forEach(testCase => {
-        it(testCase.name, () => {
-          const item = {
-            id: 308,
-            displayName: testCase.displayName,
-            status: 'NEEDED_FROM_OTHERS',
-            requestedDate: '2025-12-01',
-            suspenseDate: futureSuspenseDate,
-            canUploadFile: true,
-            noActionNeeded: testCase.noActionNeeded,
-          };
-
-          const { queryByText } = renderWithReduxAndRouter(
-            <DefaultPage {...defaultProps} item={item} />,
-            { initialState },
-          );
-
-          const uploadSuggestion = queryByText(
-            /if you have documents related to this request, uploading them/i,
-          );
-          if (testCase.expectUploadSuggestion) {
-            expect(uploadSuggestion).to.exist;
-          } else {
-            expect(uploadSuggestion).to.not.exist;
           }
         });
       });
