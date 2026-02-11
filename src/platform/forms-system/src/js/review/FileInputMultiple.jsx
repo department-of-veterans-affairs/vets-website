@@ -21,12 +21,15 @@ const ReviewField = data => {
   return (
     <>
       {title && (
-        <div className="review-row">
-          <dt>{title}</dt>
-          <dd>
-            {files.length} {files.length === 1 ? 'file' : 'files'}
-          </dd>
-        </div>
+        <>
+          <div className="review-row">
+            <dt>{title}</dt>
+            <dd>
+              {files.length} {files.length === 1 ? 'file' : 'files'}
+            </dd>
+          </div>
+          {files.length > 1 && <div className="vads-u-margin-bottom--3" />}
+        </>
       )}
       {files.map((file, index) => (
         <React.Fragment key={index}>
