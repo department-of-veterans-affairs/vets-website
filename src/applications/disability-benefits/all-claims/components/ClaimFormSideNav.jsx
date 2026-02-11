@@ -45,6 +45,12 @@ export default function ClaimFormSideNav({
   const sidenavRef = useRef(null);
 
   /**
+   * Track previous accordion state to detect actual toggle events
+   * Prevents tracking clicks on chapter items that bubble through
+   */
+  const previousAccordionStateRef = useRef(null);
+
+  /**
    * Memoize major steps with formData and pathname dependencies
    * Rebuilds when save-in-progress loads or when navigating between pages
    * @type {import('../utils/buildMajorStepsFromConfig').MajorStep[]}
@@ -95,6 +101,9 @@ export default function ClaimFormSideNav({
 
           accordionItem.removeAttribute('open');
 
+          // Update ref to reflect closed state
+          previousAccordionStateRef.current = false;
+
           // Restore scroll position to prevent accordion close from scrolling
           window.scrollTo(0, scrollY);
         }
@@ -105,7 +114,8 @@ export default function ClaimFormSideNav({
 
   /**
    * Handle clicks on sidenav to track accordion expand/collapse
-   * Uses event delegation to catch clicks on accordion button in shadow DOM
+   * Only tracks when accordion state actually changes to avoid tracking
+   * chapter navigation clicks that bubble through
    */
   const handleSidenavClick = () => {
     // Defer to next tick so web component's click handler updates aria-expanded first
@@ -124,14 +134,21 @@ export default function ClaimFormSideNav({
 
       const isExpanded =
         accordionButton.getAttribute('aria-expanded') === 'true';
-      const state = isExpanded ? 'expanded' : 'collapsed';
-      const accordionTitle = accordionButton.textContent?.trim();
 
-      trackMobileAccordionClick({
-        pathname,
-        state,
-        accordionTitle,
-      });
+      // Only track if the state actually changed
+      if (previousAccordionStateRef.current !== isExpanded) {
+        const state = isExpanded ? 'expanded' : 'collapsed';
+        const accordionTitle = accordionButton.textContent?.trim();
+
+        trackMobileAccordionClick({
+          pathname,
+          state,
+          accordionTitle,
+        });
+
+        // Update the ref with the new state
+        previousAccordionStateRef.current = isExpanded;
+      }
     }, 0);
   };
 

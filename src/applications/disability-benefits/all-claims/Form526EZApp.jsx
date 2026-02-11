@@ -169,8 +169,14 @@ export const Form526Entry = ({
         sessionStorage.getItem(TRACKING_526EZ_SIDENAV_FORM_START) === 'true';
 
       if (isFirstFormPage && hasNoSavedForm && !alreadyTracked) {
-        trackFormStarted();
-        sessionStorage.setItem(TRACKING_526EZ_SIDENAV_FORM_START, 'true');
+        try {
+          trackFormStarted();
+          sessionStorage.setItem(TRACKING_526EZ_SIDENAV_FORM_START, 'true');
+        } catch (error) {
+          if (Sentry?.captureException) {
+            Sentry.captureException(error);
+          }
+        }
       }
     },
     [location?.pathname, hasSavedForm, featureToggles, form?.data],

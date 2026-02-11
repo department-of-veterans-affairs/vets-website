@@ -15,10 +15,19 @@ import {
  * @returns {{ sourcePath: string, sidenav526ezEnabled: boolean|undefined }}
  */
 const getTrackingDefaults = () => {
-  const raw = sessionStorage.getItem(TRACKING_526EZ_SIDENAV_TOGGLE);
+  let sidenav526ezEnabled;
+
+  try {
+    const raw = sessionStorage.getItem(TRACKING_526EZ_SIDENAV_TOGGLE);
+    sidenav526ezEnabled = raw !== null ? raw === 'true' : undefined;
+  } catch (error) {
+    // Storage access blocked (privacy mode, CSP, etc.)
+    sidenav526ezEnabled = undefined;
+  }
+
   return {
     sourcePath: window.location.pathname,
-    sidenav526ezEnabled: raw !== null ? raw === 'true' : undefined,
+    sidenav526ezEnabled,
   };
 };
 
@@ -48,15 +57,21 @@ const trackAction = (actionName, properties) => {
 export const trackBackButtonClick = () => {
   const { sourcePath, sidenav526ezEnabled } = getTrackingDefaults();
 
-  const currentCount = parseInt(
-    sessionStorage.getItem(TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS) || '0',
-    10,
-  );
-  const newCount = currentCount + 1;
-  sessionStorage.setItem(
-    TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
-    newCount.toString(),
-  );
+  let newCount = 1;
+
+  try {
+    const currentCount = parseInt(
+      sessionStorage.getItem(TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS) || '0',
+      10,
+    );
+    newCount = currentCount + 1;
+    sessionStorage.setItem(
+      TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
+      newCount.toString(),
+    );
+  } catch (error) {
+    // Storage access blocked - continue with default count
+  }
 
   const properties = {
     formId: VA_FORM_IDS.FORM_21_526EZ,
@@ -101,16 +116,22 @@ export const trackSaveFormClick = () => {
 export const trackContinueButtonClick = () => {
   const { sourcePath, sidenav526ezEnabled } = getTrackingDefaults();
 
-  const currentCount = parseInt(
-    sessionStorage.getItem(TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS) ||
-      '0',
-    10,
-  );
-  const newCount = currentCount + 1;
-  sessionStorage.setItem(
-    TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
-    newCount.toString(),
-  );
+  let newCount = 1;
+
+  try {
+    const currentCount = parseInt(
+      sessionStorage.getItem(TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS) ||
+        '0',
+      10,
+    );
+    newCount = currentCount + 1;
+    sessionStorage.setItem(
+      TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
+      newCount.toString(),
+    );
+  } catch (error) {
+    // Storage access blocked - continue with default count
+  }
 
   const properties = {
     formId: VA_FORM_IDS.FORM_21_526EZ,
