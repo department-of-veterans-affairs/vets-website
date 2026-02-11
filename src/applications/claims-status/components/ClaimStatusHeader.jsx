@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { DemoNotation } from '../demo';
 
 import {
   buildDateFormatter,
@@ -28,8 +29,14 @@ export default function ClaimStatusHeader({ claim }) {
   return (
     <div className="claim-status-header-container">
       <h2 className="tab-header vads-u-margin-y--0">Claim status</h2>
+      <DemoNotation
+        theme="change"
+        title="Update Status Tab intro text"
+        before={'"Here\'s the latest information on your claim."'}
+        after={'"Review the latest status of your claim."'}
+      />
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--3 va-introtext">
-        Here’s the latest information on your claim.
+        Review the latest status of your claim.
       </p>
       {isOpen && (
         <div className="vads-u-margin-bottom--4">

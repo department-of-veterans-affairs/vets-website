@@ -46,6 +46,7 @@ const NotationBox = ({ theme = 'info', children, style = {} }) => {
     borderRadius: '4px',
     padding: '10px 12px',
     marginTop: '12px',
+    marginBottom: '12px',
     fontSize: '13px',
     fontFamily: 'monospace',
     lineHeight: '1.5',

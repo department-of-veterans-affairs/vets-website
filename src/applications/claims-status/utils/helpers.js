@@ -234,6 +234,44 @@ export function getFilesNeeded(trackedItems, useLighthouse = true) {
 }
 
 /**
+ * Check if a tracked item has an active (non-failed) evidence submission.
+ * @param {number} trackedItemId - The tracked item ID to check
+ * @param {Array} evidenceSubmissions - Array of evidence submission objects
+ * @returns {boolean} True if there's a non-failed submission for this tracked item
+ */
+export function hasActiveEvidenceSubmission(
+  trackedItemId,
+  evidenceSubmissions,
+) {
+  if (!evidenceSubmissions || !Array.isArray(evidenceSubmissions)) {
+    return false;
+  }
+  return evidenceSubmissions.some(
+    submission =>
+      submission.trackedItemId === trackedItemId &&
+      submission.uploadStatus !== 'FAILED',
+  );
+}
+
+/**
+ * Get tracked items that still need action from the user, excluding items
+ * that have an active (non-failed) evidence submission.
+ * Use this when evidenceSubmissions data is available to hide cards for items
+ * the user has already responded to, before VBMS updates the tracked item status.
+ * @param {Array} trackedItems - Array of tracked item objects
+ * @param {Array} evidenceSubmissions - Array of evidence submission objects
+ * @returns {Array} Filtered array of tracked items needing user action
+ */
+export function getFilesNeededWithoutActiveSubmissions(
+  trackedItems,
+  evidenceSubmissions,
+) {
+  return getFilesNeeded(trackedItems).filter(
+    item => !hasActiveEvidenceSubmission(item.id, evidenceSubmissions),
+  );
+}
+
+/**
  * Filter evidence submissions for failed uploads within the last 30 days
  * acknowledgementDate is set to 30 days after the submission failed (backend logic)
  * @param {Array} evidenceSubmissions - Array of evidence submission objects

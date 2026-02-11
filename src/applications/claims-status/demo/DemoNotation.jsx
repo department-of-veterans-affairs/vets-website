@@ -4,15 +4,22 @@ import { useDemoMode } from './DemoModeContext';
 import NotationBox, { themes } from './NotationBox';
 
 /**
- * Generic demo notation component for annotating UI changes.
+ * Demo notation component for annotating UI changes.
  * Only renders when demo mode is active.
  *
  * @param {string} title - The title/name of the change
- * @param {string} description - Description of what changed
  * @param {string} theme - Visual theme: 'info', 'change', 'new', 'removed', 'api'
- * @param {string[]} details - Optional list of additional details
+ * @param {string} before - Description of the previous state
+ * @param {string} after - Description of the new state
+ * @param {string} description - General description (used when before/after not applicable)
  */
-const DemoNotation = ({ title, description, theme = 'info', details }) => {
+const DemoNotation = ({
+  title,
+  theme = 'info',
+  before,
+  after,
+  description,
+}) => {
   const { isActive } = useDemoMode();
 
   if (!isActive) {
@@ -24,32 +31,34 @@ const DemoNotation = ({ title, description, theme = 'info', details }) => {
   return (
     <NotationBox theme={theme}>
       <div style={{ marginBottom: '4px' }}>
-        <span style={{ fontWeight: 'bold' }}>{themeConfig.label}</span>
+        <div style={{ fontStyle: 'italic' }}>{themeConfig.label}</div>
         {title && (
-          <span style={{ marginLeft: '8px', fontWeight: 'bold' }}>{title}</span>
+          <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{title}</div>
         )}
       </div>
-      {description && <div>{description}</div>}
-      {details &&
-        details.length > 0 && (
-          <ul
-            style={{
-              margin: '8px 0 0 0',
-              paddingLeft: '20px',
-            }}
-          >
-            {details.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        {before && (
+          <div style={{ fontWeight: 'normal', fontStyle: 'italic' }}>
+            Before: {before}
+          </div>
         )}
+        {after && (
+          <div>
+            <strong>After: {after}</strong>
+          </div>
+        )}
+        {description && (
+          <div style={{ fontWeight: 'normal' }}>Note: {description}</div>
+        )}
+      </div>
     </NotationBox>
   );
 };
 
 DemoNotation.propTypes = {
+  after: PropTypes.string,
+  before: PropTypes.string,
   description: PropTypes.string,
-  details: PropTypes.arrayOf(PropTypes.string),
   theme: PropTypes.oneOf(['info', 'change', 'new', 'removed', 'api']),
   title: PropTypes.string,
 };
