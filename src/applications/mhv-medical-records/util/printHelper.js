@@ -45,7 +45,7 @@ export const txtPrinter = ({ record, user }) => {
     `${LABS_AND_TESTS_DISPLAY_LABELS.DATE}: ${record.date}`,
     `${txtLine}\n`,
     record.testCode
-      ? `${LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE}: ${record.testCode}`
+      ? `${LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE}: ${record.testCodeDisplay}`
       : `${LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE}: None Noted`,
     record.sampleTested
       ? `${LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED}: ${record.sampleTested}`

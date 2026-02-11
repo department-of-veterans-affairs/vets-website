@@ -11,7 +11,7 @@ const familyMembersLocationOfResidencePage = {
     familyMembersLocationOfResidence: selectUI({
       title: CHAPTER_3.FAMILY_MEMBERS_LOCATION_OF_RESIDENCE.QUESTION_1,
       errorMessages: {
-        required: 'Please select your location',
+        required: 'Select your location',
       },
     }),
   },

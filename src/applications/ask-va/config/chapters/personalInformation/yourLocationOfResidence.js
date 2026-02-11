@@ -13,7 +13,7 @@ const yourLocationOfResidencePage = {
     yourLocationOfResidence: selectUI({
       title: CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.QUESTION_1,
       errorMessages: {
-        required: 'Please select your location of residence',
+        required: 'Select your location of residence',
       },
     }),
   },

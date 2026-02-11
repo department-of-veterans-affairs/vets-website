@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import debounce from 'platform/utilities/data/debounce';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 import {
   useFileUpload,
@@ -188,12 +187,6 @@ const VaFileInputField = props => {
     setError(null);
     passwordErrorManager.setNeedsPassword(encryptedCheck);
     setEncrypted(encryptedCheck);
-
-    // cypress test / skip the network call and its callbacks
-    if (environment.isTest() && !environment.isUnitTest()) {
-      childrenProps.onChange(e.detail.mockFormData);
-      return;
-    }
 
     if (uiOptions.skipUpload && !encryptedCheck) {
       simulateUploadSingle(setPercent, childrenProps.onChange, fileFromEvent);
