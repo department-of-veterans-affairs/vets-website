@@ -16,7 +16,7 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import ConfirmationPageCopy from '../containers/ConfirmationPageCopy';
+import ConfirmationPageCopy from '../containers/ConfirmationPageRemoveAfterTesting';
 
 // pages
 import goals from '../pages/goals';

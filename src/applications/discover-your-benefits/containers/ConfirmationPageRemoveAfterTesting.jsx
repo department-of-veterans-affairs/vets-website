@@ -11,9 +11,9 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { displayResults as displayResultsAction } from '../reducers/actions';
-import { BENEFITS_LIST } from '../constants/benefitsCopy';
+import { BENEFITS_LIST } from '../constants/benefitsRemoveAfterTesting';
 import GetFormHelp from '../components/GetFormHelp';
-import Benefits from './components/BenefitsCopy';
+import Benefits from './components/BenefitsRemoveAfterTesting';
 
 const ConfirmationPage = ({ formConfig, location, router }) => {
   const dispatch = useDispatch();

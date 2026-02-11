@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import BenefitCard from '../../components/BenefitCardCopy';
+import BenefitCard from '../../components/BenefitCardRemoveAfterTesting';
 import NoResultsBanner from '../../components/NoResultsBanner';
 
 const Benefits = ({
