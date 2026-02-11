@@ -11,7 +11,6 @@ import {
 } from '../../redux/selectors';
 import { getSiteIdFromFacilityId } from '../../services/location';
 import {
-  APPOINTMENT_SYSTEM,
   AUDIOLOGY_TYPES_OF_CARE,
   DATE_FORMATS,
   FACILITY_SORT_METHODS,
@@ -441,7 +440,7 @@ export function selectAppointmentSlotsStatus(state) {
   return getNewAppointment(state).appointmentSlotsStatus;
 }
 
-export function selectIsCernerAppointment(state) {
+export function selectAppointmentEhr(state) {
   const newAppointment = getNewAppointment(state);
-  return newAppointment?.ehr === APPOINTMENT_SYSTEM.cerner;
+  return newAppointment?.ehr;
 }
