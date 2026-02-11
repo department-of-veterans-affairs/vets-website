@@ -121,8 +121,21 @@ export default function prefillTransformer(pages, formData, metadata, state) {
       ...data,
       bankAccount: {
         ...state.data?.bankInformation,
-        accountNumberConfirmation: state.data?.bankInformation?.accountNumber,
-        routingNumberConfirmation: state.data?.bankInformation?.routingNumber,
+        accountNumber:
+          data.bankAccount?.accountNumber ||
+          state.data?.bankInformation?.accountNumber,
+        accountNumberConfirmation:
+          data.bankAccount?.accountNumber ||
+          state.data?.bankInformation?.accountNumber,
+        accountType:
+          data.bankAccount?.accountType ||
+          state.data?.bankInformation?.accountType,
+        routingNumber:
+          data.bankAccount?.routingNumber ||
+          state.data?.bankInformation?.routingNumber,
+        routingNumberConfirmation:
+          data.bankAccount?.routingNumber ||
+          state.data?.bankInformation?.routingNumber,
       },
     };
   };

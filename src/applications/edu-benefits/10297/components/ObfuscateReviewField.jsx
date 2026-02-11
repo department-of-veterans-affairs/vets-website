@@ -5,8 +5,8 @@ import { obfuscate } from '../helpers';
 function ObfuscateReviewField({ children, uiSchema }) {
   return (
     <div className="review-row">
-      <dt>{uiSchema['ui:title']}</dt>
-      <dd>{obfuscate(children.props.formData)}</dd>
+      <dt>{uiSchema?.['ui:title']}</dt>
+      <dd>{obfuscate(children?.props?.formData)}</dd>
     </div>
   );
 }
