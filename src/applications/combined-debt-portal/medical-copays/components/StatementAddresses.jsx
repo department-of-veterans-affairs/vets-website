@@ -9,9 +9,9 @@ const StatementAddresses = ({ copay }) => {
   );
 
   const normalizeVHACopay = () => {
-    const facilityName = copay?.attributes?.name;
-    const facilityAddress = copay?.attributes?.facility;
-    const patientAddress = copay?.attributes?.patient;
+    const facilityName = copay?.attributes?.facility.name;
+    const facilityAddress = copay?.attributes?.facility?.address;
+    const patientAddress = copay?.attributes?.patient?.address;
     return {
       facility: facilityName,
       statementAddress1: facilityAddress?.addressLine1,
