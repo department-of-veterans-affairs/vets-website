@@ -370,6 +370,7 @@ function buildUploadNotification(
   now,
   timezoneOffset,
   claimId,
+  requestName,
 ) {
   const isOnFilesPage = window.location.pathname.endsWith('/files');
   const statusLinkHref = isOnFilesPage
@@ -388,18 +389,20 @@ function buildUploadNotification(
 
   if (showDocumentUploadStatus) {
     return {
-      title: `Document submission started on ${uploadDate}`,
+      title: requestName
+        ? `Submission started for ${requestName}`
+        : `Document submission started on ${uploadDate}`,
       body: (
         <>
           <span>
-            Your submission is in progress. It can take up to 2 days for us to
-            receive your files.
+            Your submission started on <strong>{uploadDate}</strong>. It can take
+            up to 2 days for us to receive your files.
           </span>
           {timezoneNote}
           <va-link
             class="vads-u-display--block vads-u-margin-top--2"
             href={statusLinkHref}
-            text="Check the status of your submission"
+            text="Check the status of your submissions"
             onClick={e => {
               if (isOnFilesPage) {
                 e.preventDefault();
@@ -500,6 +503,10 @@ export function submitFiles(
 
                 const timezoneOffset = now.getTimezoneOffset();
 
+                const requestName = trackedItem
+                  ? trackedItem.friendlyName || trackedItem.displayName
+                  : null;
+
                 const notificationMessage = buildUploadNotification(
                   uploadDate,
                   showDocumentUploadStatus,
@@ -507,6 +514,7 @@ export function submitFiles(
                   now,
                   timezoneOffset,
                   claimId,
+                  requestName,
                 );
 
                 dispatch(setNotification(notificationMessage));

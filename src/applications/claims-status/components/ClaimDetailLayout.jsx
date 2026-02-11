@@ -19,6 +19,7 @@ import ClaimContentionList from './ClaimContentionList';
 import Notification from './Notification';
 import TabNav from './TabNav';
 import Type1UnknownUploadError from './Type1UnknownUploadError';
+import { DemoNotation } from '../demo';
 
 const focusHeader = () => {
   setFocus('.claim-contentions-header');
@@ -83,6 +84,16 @@ export default function ClaimDetailLayout(props) {
             type1UnknownErrors.length > 0
           ) && (
             <div className="vads-u-margin-top--5">
+              <DemoNotation
+                theme="change"
+                title="DS updates: Content update"
+                before={
+                  'Generic title: "Document submission started on [date]"'
+                }
+                after={
+                  '"Submission started for [Name of evidence request]" with date moved to body text'
+                }
+              />
               <Notification
                 title={message.title}
                 body={message.body}
