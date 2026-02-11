@@ -618,3 +618,65 @@ export const uhdRecordSource = {
   VISTA: 'vista',
   ORACLE_HEALTH: 'oracle-health',
 };
+
+/**
+ * Oracle Health facility transition table.
+ * Maps facility IDs to their cutover dates when they transitioned from VistA to Oracle Health.
+ * Used to display date-qualified facility names in CCD download sections.
+ *
+ * @property {string} facilityName - Display name for the facility
+ * @property {string} location - City, State location of the facility
+ * @property {string} cutoverDate - Date the facility transitioned to Oracle Health (YYYY-MM-DD format)
+ */
+export const ohFacilityTransitionTable = {
+  '668': {
+    facilityName: 'Mann-Grandstaff VA Medical Center',
+    location: 'Spokane, WA',
+    cutoverDate: '2020-10-24',
+  },
+  '687': {
+    facilityName: 'Jonathan M. Wainwright Memorial VA Medical Center',
+    location: 'Walla Walla, WA',
+    cutoverDate: '2022-03-26',
+  },
+  '757': {
+    facilityName: 'VA Central Ohio Health Care System',
+    location: 'Columbus, OH',
+    cutoverDate: '2022-04-30',
+  },
+  '653': {
+    facilityName: 'Roseburg VA Health Care System',
+    location: 'Roseburg, OR',
+    cutoverDate: '2022-06-11',
+  },
+  '692': {
+    facilityName: 'VA Southern Oregon Rehabilitation Center and Clinics',
+    location: 'White City, OR',
+    cutoverDate: '2022-06-11',
+  },
+  '556': {
+    facilityName: 'Captain James A. Lovell Federal Health Care Center',
+    location: 'Chicago, IL',
+    cutoverDate: '2024-03-09',
+  },
+  '553': {
+    facilityName: 'VA Detroit Healthcare System',
+    location: 'Detroit, MI',
+    cutoverDate: '2026-04-11',
+  },
+  '655': {
+    facilityName: 'VA Saginaw Healthcare System',
+    location: 'Saginaw, MI',
+    cutoverDate: '2026-04-11',
+  },
+  '506': {
+    facilityName: 'VA Ann Arbor Healthcare System',
+    location: 'Ann Arbor, MI',
+    cutoverDate: '2026-04-11',
+  },
+  '515': {
+    facilityName: 'VA Battle Creek Medical Center',
+    location: 'Battle Creek, MI',
+    cutoverDate: '2026-04-11',
+  },
+};

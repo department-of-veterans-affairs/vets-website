@@ -49,6 +49,8 @@ DownloadReportProvider.propTypes = {
     // Facility data (optional, not used by all components)
     vistaFacilityNames: PropTypes.arrayOf(PropTypes.string),
     ohFacilityNames: PropTypes.arrayOf(PropTypes.string),
+    ohFacilityNamesAfterCutover: PropTypes.arrayOf(PropTypes.node),
+    ohFacilityNamesBeforeCutover: PropTypes.arrayOf(PropTypes.node),
     // Self-entered accordion state (optional, only used by VistaOnlyContent)
     expandSelfEntered: PropTypes.bool,
     selfEnteredAccordionRef: PropTypes.object,

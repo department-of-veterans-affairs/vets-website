@@ -59,3 +59,92 @@ export const formatFacilityUnorderedList = facilities => {
     </ul>
   );
 };
+
+/**
+ * Formats a cutover date into a readable string (e.g., "October 24, 2020").
+ *
+ * @param {string} dateString - Date in YYYY-MM-DD format
+ * @returns {string} Formatted date string (e.g., "October 24, 2020")
+ */
+export const formatCutoverDate = dateString => {
+  const date = new Date(`${dateString}T00:00:00`);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
+/**
+ * Creates an array of facility names with "before [cutover date]" appended
+ * for facilities in the transition table. The date portion is bolded.
+ *
+ * @param {Array<Object>} ohFacilities - Array of OH facility objects with facilityId property
+ * @param {Object} ehrDataByVhaId - EHR data mapping for facility name lookup
+ * @param {Object} transitionTable - Mapping of facility IDs to cutover dates
+ * @param {Function} getNameFn - Function to get facility name from EHR data
+ * @returns {Array<JSX.Element|string>} Array of facility names with bolded "before [date]" suffix for transitioned facilities
+ */
+export const createBeforeCutoverFacilityNames = (
+  ohFacilities,
+  ehrDataByVhaId,
+  transitionTable,
+  getNameFn,
+) => {
+  if (!ehrDataByVhaId || !ohFacilities) return [];
+
+  return ohFacilities
+    .map(facility => {
+      const name = getNameFn(ehrDataByVhaId, facility.facilityId);
+      if (!name) return null;
+
+      const transitionData = transitionTable[facility.facilityId];
+      if (transitionData) {
+        const formattedDate = formatCutoverDate(transitionData.cutoverDate);
+        return (
+          <>
+            {name} <strong>(before {formattedDate})</strong>
+          </>
+        );
+      }
+      return name;
+    })
+    .filter(name => name);
+};
+
+/**
+ * Creates an array of facility names with "[cutover date] - present" appended
+ * for facilities in the transition table. The date portion is bolded.
+ *
+ * @param {Array<Object>} ohFacilities - Array of OH facility objects with facilityId property
+ * @param {Object} ehrDataByVhaId - EHR data mapping for facility name lookup
+ * @param {Object} transitionTable - Mapping of facility IDs to cutover dates
+ * @param {Function} getNameFn - Function to get facility name from EHR data
+ * @returns {Array<JSX.Element|string>} Array of facility names with bolded "[date] - present" suffix for transitioned facilities
+ */
+export const createAfterCutoverFacilityNames = (
+  ohFacilities,
+  ehrDataByVhaId,
+  transitionTable,
+  getNameFn,
+) => {
+  if (!ehrDataByVhaId || !ohFacilities) return [];
+
+  return ohFacilities
+    .map(facility => {
+      const name = getNameFn(ehrDataByVhaId, facility.facilityId);
+      if (!name) return null;
+
+      const transitionData = transitionTable[facility.facilityId];
+      if (transitionData) {
+        const formattedDate = formatCutoverDate(transitionData.cutoverDate);
+        return (
+          <>
+            {name} <strong>({formattedDate} - present)</strong>
+          </>
+        );
+      }
+      return name;
+    })
+    .filter(name => name);
+};

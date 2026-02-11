@@ -5,35 +5,35 @@ import { dataSourceTypes } from '../../util/constants';
 import LastUpdatedCard from './LastUpdatedCard';
 import HoldTimeInfo from '../shared/HoldTimeInfo';
 
-const CONTENT = {
-  [dataSourceTypes.OH_ONLY]: {
-    heading: 'Download your medical records report',
-    description: (
+const BOTH_CONTENT = {
+  heading: 'Download your medical records reports',
+  getDescription: (
+    vistaFacilityNames,
+    ohFacilityNamesAfterCutover,
+    ohFacilityNamesBeforeCutover,
+  ) => (
+    <>
       <p>
-        Download your Continuity of Care Document (CCD), a summary of your VA
-        medical records.
+        You can choose which VA medical records to download as a single report
+        (called your VA Blue Button report) or download your self-entered health
+        information for these facilities:
       </p>
-    ),
-  },
-  [dataSourceTypes.BOTH]: {
-    heading: 'Download your medical records reports',
-    getDescription: (vistaFacilityNames, ohFacilityNames) => (
-      <>
-        <p>
-          You can download your VA medical records as a single report (called
-          your VA Blue Button report) or download your self-entered health
-          information for these facilities:
-        </p>
-        {formatFacilityUnorderedList(vistaFacilityNames)}
-        <p>
-          VA medical records for these facilities aren’t available in your Blue
-          Button report right now. Download your Continuity of Care Document
-          (CCD) to access medical records for these facilities:
-        </p>
-        {formatFacilityUnorderedList(ohFacilityNames)}
-      </>
-    ),
-  },
+      {formatFacilityUnorderedList([
+        ...vistaFacilityNames,
+        ...ohFacilityNamesBeforeCutover,
+      ])}
+      <p>
+        Or you can download your Continuity of Care Document (CCD) to access a
+        summary of your medical records for these facilities:
+      </p>
+      {formatFacilityUnorderedList(ohFacilityNamesAfterCutover)}
+    </>
+  ),
+};
+
+const CONTENT = {
+  [dataSourceTypes.OH_ONLY]: BOTH_CONTENT,
+  [dataSourceTypes.BOTH]: BOTH_CONTENT,
   [dataSourceTypes.VISTA_ONLY]: {
     heading: 'Download your medical records reports',
     description: (
@@ -48,14 +48,18 @@ const CONTENT = {
 const IntroSection = ({
   dataSourceType = dataSourceTypes.VISTA_ONLY,
   lastSuccessfulUpdate = null,
-  ohFacilityNames = [],
+  ohFacilityNamesAfterCutover = [],
+  ohFacilityNamesBeforeCutover = [],
   vistaFacilityNames = [],
   showHoldTimeMessaging = false,
 }) => {
   const content = CONTENT[dataSourceType];
   const description =
-    content.getDescription?.(vistaFacilityNames, ohFacilityNames) ||
-    content.description;
+    content.getDescription?.(
+      vistaFacilityNames,
+      ohFacilityNamesAfterCutover,
+      ohFacilityNamesBeforeCutover,
+    ) || content.description;
 
   return (
     <>
@@ -72,7 +76,8 @@ const IntroSection = ({
 IntroSection.propTypes = {
   dataSourceType: PropTypes.oneOf(Object.values(dataSourceTypes)),
   lastSuccessfulUpdate: PropTypes.object,
-  ohFacilityNames: PropTypes.arrayOf(PropTypes.string),
+  ohFacilityNamesAfterCutover: PropTypes.arrayOf(PropTypes.node),
+  ohFacilityNamesBeforeCutover: PropTypes.arrayOf(PropTypes.node),
   showHoldTimeMessaging: PropTypes.bool,
   vistaFacilityNames: PropTypes.arrayOf(PropTypes.string),
 };
