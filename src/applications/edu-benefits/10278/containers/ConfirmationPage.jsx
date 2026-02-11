@@ -32,6 +32,7 @@ export const ConfirmationPage = props => {
       />
       <ConfirmationView.GoBackLink />
       <va-button
+        secondary
         class="vads-u-margin-y--3"
         text="Print this page"
         onClick={() => window.print()}
