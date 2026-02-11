@@ -29,7 +29,6 @@ const ThreadDetails = props => {
   const location = useLocation();
   const history = useHistory();
 
-  const alertList = useSelector(state => state.sm.alerts?.alertList);
   const recipients = useSelector(state => state.sm.recipients);
   const { cannotReply, drafts, messages, threadFolderId } = useSelector(
     state => state.sm.threadDetails,
@@ -106,7 +105,7 @@ const ThreadDetails = props => {
         }, 300);
       }
     },
-    [alertList, isLoaded, isCreateNewModalVisible, header],
+    [isLoaded, isCreateNewModalVisible, header],
   );
 
   const content = () => {

@@ -37,7 +37,6 @@ const FolderThreadListView = () => {
     state => state.sm.threads,
   );
   const threadSort = useSelector(state => state.sm.threads.threadSort);
-  const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
   const folderId = folder?.folderId;
   const {
@@ -223,7 +222,7 @@ const FolderThreadListView = () => {
         focusElement(document.querySelector('h1'));
       }
     },
-    [alertList, folder],
+    [folder],
   );
 
   useInterval(() => {
