@@ -106,6 +106,7 @@ export default function transform(formConfig, form) {
       clonedData.securityAnswer = {
         securityAnswerLocation: clonedData.securityAnswerLocation,
       };
+      delete clonedData.securityAnswerLocation;
     } else {
       clonedData.securityAnswer = {
         securityAnswerCreate: clonedData.securityAnswerCreate,
@@ -158,8 +159,6 @@ export default function transform(formConfig, form) {
   ].reduce((formData, transformer) => {
     return transformer(formData);
   }, form.data);
-
-  // console.log('transformedData', transformedData);
 
   return JSON.stringify({
     educationBenefitsClaim: {
