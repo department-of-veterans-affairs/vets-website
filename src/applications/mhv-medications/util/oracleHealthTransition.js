@@ -12,38 +12,41 @@ const isValidMigrations = migrations =>
 
 /**
  * Find migration for a facility
- * @param {string} facilityId - Facility/station ID
- * @param {Array} migrations - Migration data array
+ * @param {Object} params - Parameters object
+ * @param {string} params.facilityId - Facility/station ID
+ * @param {Array} params.migrations - Migration data array
  * @returns {Object|null} Migration object or null
  */
-const findMigrationByFacility = (facilityId, migrations) =>
+const findMigrationByFacility = ({ facilityId, migrations }) =>
   migrations.find(m =>
     m.facilities?.some(f => String(f.facilityId) === String(facilityId)),
   );
 
 /**
  * Check if a facility is transitioning to Oracle Health
- * @param {string} facilityId - Facility/station ID
- * @param {Array} migrations - Migration data from backend
+ * @param {Object} params - Parameters object
+ * @param {string} params.facilityId - Facility/station ID
+ * @param {Array} params.migrations - Migration data from backend
  * @returns {boolean}
  */
-export const isFacilityTransitioning = (facilityId, migrations) => {
+export const isFacilityTransitioning = ({ facilityId, migrations }) => {
   if (!facilityId || !isValidMigrations(migrations)) return false;
-  return !!findMigrationByFacility(facilityId, migrations);
+  return !!findMigrationByFacility({ facilityId, migrations });
 };
 
 /**
  * Check if refills should be blocked for a prescription
- * @param {Object} prescription - Prescription object
- * @param {boolean} isFeatureFlagEnabled - Whether feature flag is enabled
- * @param {Array} migrations - Migration data from backend
+ * @param {Object} params - Parameters object
+ * @param {Object} params.prescription - Prescription object
+ * @param {boolean} params.isFeatureFlagEnabled - Whether feature flag is enabled
+ * @param {Array} params.migrations - Migration data from backend
  * @returns {boolean}
  */
-export const shouldBlockRefills = (
+export const shouldBlockRefills = ({
   prescription,
   isFeatureFlagEnabled,
   migrations,
-) => {
+}) => {
   if (
     !prescription?.stationNumber ||
     !isFeatureFlagEnabled ||
@@ -52,10 +55,10 @@ export const shouldBlockRefills = (
     return false;
   }
 
-  const migration = findMigrationByFacility(
-    prescription.stationNumber,
+  const migration = findMigrationByFacility({
+    facilityId: prescription.stationNumber,
     migrations,
-  );
+  });
   if (!migration) return false;
 
   // Block refills during p4 and p5 phases (full block)
@@ -64,16 +67,17 @@ export const shouldBlockRefills = (
 
 /**
  * Check if renewals should be blocked for a prescription
- * @param {Object} prescription - Prescription object
- * @param {boolean} isFeatureFlagEnabled - Whether feature flag is enabled
- * @param {Array} migrations - Migration data from backend
+ * @param {Object} params - Parameters object
+ * @param {Object} params.prescription - Prescription object
+ * @param {boolean} params.isFeatureFlagEnabled - Whether feature flag is enabled
+ * @param {Array} params.migrations - Migration data from backend
  * @returns {boolean}
  */
-export const shouldBlockRenewals = (
+export const shouldBlockRenewals = ({
   prescription,
   isFeatureFlagEnabled,
   migrations,
-) => {
+}) => {
   if (
     !prescription?.stationNumber ||
     !isFeatureFlagEnabled ||
@@ -82,10 +86,10 @@ export const shouldBlockRenewals = (
     return false;
   }
 
-  const migration = findMigrationByFacility(
-    prescription.stationNumber,
+  const migration = findMigrationByFacility({
+    facilityId: prescription.stationNumber,
     migrations,
-  );
+  });
   if (!migration) return false;
 
   // Block renewals during p3, p4, and p5 phases (renewal block + full block)
@@ -94,16 +98,17 @@ export const shouldBlockRenewals = (
 
 /**
  * Filter prescriptions into available and blocked based on transition phase
- * @param {Array} prescriptions - Array of prescription objects
- * @param {boolean} isFeatureFlagEnabled - Whether feature flag is enabled
- * @param {Array} migrations - Migration data from backend
+ * @param {Object} params - Parameters object
+ * @param {Array} params.prescriptions - Array of prescription objects
+ * @param {boolean} params.isFeatureFlagEnabled - Whether feature flag is enabled
+ * @param {Array} params.migrations - Migration data from backend
  * @returns {Object} Object with available and blocked arrays
  */
-export const filterPrescriptionsByTransition = (
+export const filterPrescriptionsByTransition = ({
   prescriptions,
   isFeatureFlagEnabled,
   migrations,
-) => {
+}) => {
   try {
     if (!prescriptions || !Array.isArray(prescriptions)) {
       return { available: [], blocked: [] };
@@ -115,11 +120,11 @@ export const filterPrescriptionsByTransition = (
 
     return prescriptions.reduce(
       (acc, prescription) => {
-        const shouldBlock = shouldBlockRefills(
+        const shouldBlock = shouldBlockRefills({
           prescription,
           isFeatureFlagEnabled,
           migrations,
-        );
+        });
         acc[shouldBlock ? 'blocked' : 'available'].push(prescription);
         return acc;
       },

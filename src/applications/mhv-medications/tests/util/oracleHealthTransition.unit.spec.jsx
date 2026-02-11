@@ -58,36 +58,48 @@ describe('oracleHealthTransition utilities', () => {
   describe('isFacilityTransitioning', () => {
     it('returns true when facility ID exists in migrations data, false otherwise', () => {
       expect(
-        isFacilityTransitioning(TRANSITIONING_FACILITY_ID, [
-          mockMichiganMigration,
-        ]),
+        isFacilityTransitioning({
+          facilityId: TRANSITIONING_FACILITY_ID,
+          migrations: [mockMichiganMigration],
+        }),
       ).to.be.true;
       expect(
-        isFacilityTransitioning(NON_TRANSITIONING_FACILITY_ID, [
-          mockMichiganMigration,
-        ]),
+        isFacilityTransitioning({
+          facilityId: NON_TRANSITIONING_FACILITY_ID,
+          migrations: [mockMichiganMigration],
+        }),
       ).to.be.false;
-      expect(isFacilityTransitioning(null, [mockMichiganMigration])).to.be
-        .false;
+      expect(
+        isFacilityTransitioning({
+          facilityId: null,
+          migrations: [mockMichiganMigration],
+        }),
+      ).to.be.false;
     });
   });
 
   describe('shouldBlockRefills', () => {
     it('returns true only when mhv_medications_oracle_health_cutover feature flag enabled AND facility transitioning AND in p4 phase', () => {
       expect(
-        shouldBlockRefills(mockPrescription, true, [
-          createMigrationWithPhase('p4'),
-        ]),
+        shouldBlockRefills({
+          prescription: mockPrescription,
+          isFeatureFlagEnabled: true,
+          migrations: [createMigrationWithPhase('p4')],
+        }),
       ).to.be.true;
       expect(
-        shouldBlockRefills(mockPrescription, true, [
-          createMigrationWithPhase('p1'),
-        ]),
+        shouldBlockRefills({
+          prescription: mockPrescription,
+          isFeatureFlagEnabled: true,
+          migrations: [createMigrationWithPhase('p1')],
+        }),
       ).to.be.false;
       expect(
-        shouldBlockRefills(mockPrescription, false, [
-          createMigrationWithPhase('p4'),
-        ]),
+        shouldBlockRefills({
+          prescription: mockPrescription,
+          isFeatureFlagEnabled: false,
+          migrations: [createMigrationWithPhase('p4')],
+        }),
       ).to.be.false;
     });
   });
@@ -95,19 +107,25 @@ describe('oracleHealthTransition utilities', () => {
   describe('shouldBlockRenewals', () => {
     it('returns true when mhv_medications_oracle_health_cutover feature flag enabled AND facility transitioning AND in p3 or p4 phase', () => {
       expect(
-        shouldBlockRenewals(mockPrescription, true, [
-          createMigrationWithPhase('p3'),
-        ]),
+        shouldBlockRenewals({
+          prescription: mockPrescription,
+          isFeatureFlagEnabled: true,
+          migrations: [createMigrationWithPhase('p3')],
+        }),
       ).to.be.true;
       expect(
-        shouldBlockRenewals(mockPrescription, true, [
-          createMigrationWithPhase('p4'),
-        ]),
+        shouldBlockRenewals({
+          prescription: mockPrescription,
+          isFeatureFlagEnabled: true,
+          migrations: [createMigrationWithPhase('p4')],
+        }),
       ).to.be.true;
       expect(
-        shouldBlockRenewals(mockPrescription, true, [
-          createMigrationWithPhase('p1'),
-        ]),
+        shouldBlockRenewals({
+          prescription: mockPrescription,
+          isFeatureFlagEnabled: true,
+          migrations: [createMigrationWithPhase('p1')],
+        }),
       ).to.be.false;
     });
   });
@@ -132,17 +150,19 @@ describe('oracleHealthTransition utilities', () => {
     ];
 
     it('splits prescriptions into available/blocked arrays based on facility transition status and phase', () => {
-      const disabled = filterPrescriptionsByTransition(
-        mockPrescriptions,
-        false,
-        [mockMichiganMigration],
-      );
+      const disabled = filterPrescriptionsByTransition({
+        prescriptions: mockPrescriptions,
+        isFeatureFlagEnabled: false,
+        migrations: [mockMichiganMigration],
+      });
       expect(disabled.available).to.have.lengthOf(3);
       expect(disabled.blocked).to.have.lengthOf(0);
 
-      const enabled = filterPrescriptionsByTransition(mockPrescriptions, true, [
-        createMigrationWithPhase('p4'),
-      ]);
+      const enabled = filterPrescriptionsByTransition({
+        prescriptions: mockPrescriptions,
+        isFeatureFlagEnabled: true,
+        migrations: [createMigrationWithPhase('p4')],
+      });
       expect(enabled.available).to.have.lengthOf(1);
       expect(enabled.blocked).to.have.lengthOf(2);
     });
@@ -150,19 +170,29 @@ describe('oracleHealthTransition utilities', () => {
     it('returns empty arrays for null/empty input and fails open (all available) when no migrations', () => {
       // Null/empty prescriptions
       expect(
-        filterPrescriptionsByTransition(null, true, [mockMichiganMigration]),
+        filterPrescriptionsByTransition({
+          prescriptions: null,
+          isFeatureFlagEnabled: true,
+          migrations: [mockMichiganMigration],
+        }),
       ).to.deep.equal({ available: [], blocked: [] });
-      expect(filterPrescriptionsByTransition([], true, [])).to.deep.equal({
+      expect(
+        filterPrescriptionsByTransition({
+          prescriptions: [],
+          isFeatureFlagEnabled: true,
+          migrations: [],
+        }),
+      ).to.deep.equal({
         available: [],
         blocked: [],
       });
 
       // Empty migrations (fail-safe: all prescriptions available)
-      const result = filterPrescriptionsByTransition(
-        mockPrescriptions,
-        true,
-        [],
-      );
+      const result = filterPrescriptionsByTransition({
+        prescriptions: mockPrescriptions,
+        isFeatureFlagEnabled: true,
+        migrations: [],
+      });
       expect(result.available).to.have.lengthOf(3);
       expect(result.blocked).to.have.lengthOf(0);
     });

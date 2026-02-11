@@ -188,6 +188,61 @@ const transitioningUser = {
   },
 };
 
+const michiganTransitioningUser = {
+  ...cernerUser,
+  data: {
+    ...cernerUser.data,
+    attributes: {
+      ...cernerUser.data.attributes,
+      va_profile: {
+        ...cernerUser.data.attributes.va_profile,
+        oh_migration_info: {
+          user_at_pretransitioned_oh_facility: false,
+          user_facility_ready_for_info_alert: false,
+          user_facility_migrating_to_oh: true,
+          migration_schedules: [
+            {
+              migration_date: '2026-04-11',
+              facilities: [
+                {
+                  facility_id: '506',
+                  facility_name:
+                    'Lieutenant Colonel Charles S. Kettles VA Medical Center',
+                },
+                {
+                  facility_id: '515',
+                  facility_name: 'Battle Creek VA Medical Center',
+                },
+                {
+                  facility_id: '553',
+                  facility_name:
+                    'Aleda E. Lutz Department of Veterans Affairs Medical Center',
+                },
+                {
+                  facility_id: '585',
+                  facility_name:
+                    'John D. Dingell Department of Veterans Affairs Medical Center',
+                },
+              ],
+              phases: {
+                current: 'p4', // Warning phase - change to 'p4' to test error blocking
+                p0: 'April 11, 2026',
+                p1: 'March 27, 2026',
+                p2: 'April 4, 2026',
+                p3: 'April 5, 2026',
+                p4: 'April 8, 2026',
+                p5: 'April 10, 2026',
+                p6: 'April 13, 2026',
+                p7: 'April 17, 2026',
+              },
+            },
+          ],
+        },
+      },
+    },
+  },
+};
+
 const generateUserWithFacilities = ({ facilities = [], name = 'Harry' }) => {
   return {
     ...defaultUser,
@@ -253,6 +308,7 @@ module.exports = {
   defaultUser,
   cernerUser,
   transitioningUser,
+  michiganTransitioningUser,
   noFacilityUser,
   generateUser,
   generateUserWithServiceProvider,

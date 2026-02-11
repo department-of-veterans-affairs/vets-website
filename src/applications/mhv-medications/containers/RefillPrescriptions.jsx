@@ -43,7 +43,7 @@ import {
 } from '../selectors/selectUser';
 import {
   selectCernerPilotFlag,
-  selectOracleHealthCutoverFlag,
+  selectMhvMedicationsOracleHealthCutover,
 } from '../util/selectors';
 import { OracleHealthT3Alert } from '../components/OracleHealthTransitionAlerts';
 import { filterPrescriptionsByTransition } from '../util/oracleHealthTransition';
@@ -159,8 +159,8 @@ const RefillPrescriptions = () => {
   } = useAcceleratedData();
 
   const migratingFacilities = useSelector(selectOracleHealthMigrations);
-  const isOracleHealthFeatureEnabled = useSelector(
-    selectOracleHealthCutoverFlag,
+  const isOracleHealthCutoverEnabled = useSelector(
+    selectMhvMedicationsOracleHealthCutover,
   );
 
   const isDataLoading = isLoading || isRefilling;
@@ -179,14 +179,14 @@ const RefillPrescriptions = () => {
     blocked: blockedPrescriptions,
   } = useMemo(
     () =>
-      filterPrescriptionsByTransition(
-        refillableData?.prescriptions,
-        isOracleHealthFeatureEnabled,
-        migratingFacilities,
-      ),
+      filterPrescriptionsByTransition({
+        prescriptions: refillableData?.prescriptions,
+        isFeatureFlagEnabled: isOracleHealthCutoverEnabled,
+        migrations: migratingFacilities,
+      }),
     [
       refillableData?.prescriptions,
-      isOracleHealthFeatureEnabled,
+      isOracleHealthCutoverEnabled,
       migratingFacilities,
     ],
   );

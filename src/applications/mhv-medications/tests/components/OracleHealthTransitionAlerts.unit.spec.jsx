@@ -3,60 +3,19 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { BrowserRouter } from 'react-router-dom-v5-compat';
 import { OracleHealthT3Alert } from '../../components/OracleHealthTransitionAlerts';
+import { michiganTransitioningUser } from '../../mocks/api/user';
+import michiganPrescriptions from '../e2e/fixtures/list-refillable-oh-ehr-michigan-prescriptions.json';
 
 describe('OracleHealthTransitionAlerts', () => {
-  const blockedPrescriptions = [
-    {
-      prescriptionId: 123,
-      prescriptionName: 'MEDICATION A 10MG TAB',
-    },
-    {
-      prescriptionId: 456,
-      prescriptionName: 'MEDICATION B 20MG CAP',
-    },
-  ];
+  const blockedPrescriptions = michiganPrescriptions.data.map(rx => ({
+    prescriptionId: rx.attributes.prescriptionId,
+    prescriptionName: rx.attributes.prescriptionName,
+  }));
 
-  const singleBlockedPrescription = [
-    {
-      prescriptionId: 123,
-      prescriptionName: 'MEDICATION A 10MG TAB',
-    },
-  ];
+  const singleBlockedPrescription = [blockedPrescriptions[0]];
 
-  const mockMigratingFacilities = [
-    {
-      migrationDate: '2026-04-01',
-      facilities: [
-        {
-          facilityId: '506',
-          facilityName: 'VA Ann Arbor Healthcare System',
-        },
-        {
-          facilityId: '515',
-          facilityName: 'Battle Creek VA Medical Center',
-        },
-        {
-          facilityId: '553',
-          facilityName: 'John D. Dingell VA Medical Center',
-        },
-        {
-          facilityId: '585',
-          facilityName: 'Aleda E. Lutz VA Medical Center',
-        },
-      ],
-      phases: {
-        current: 'p4',
-        p0: 'February 1, 2026',
-        p1: 'February 15, 2026',
-        p2: 'March 1, 2026',
-        p3: 'March 25, 2026',
-        p4: 'March 28, 2026',
-        p5: 'April 1, 2026',
-        p6: 'April 13, 2026',
-        p7: 'April 18, 2026',
-      },
-    },
-  ];
+  const mockMigratingFacilities =
+    michiganTransitioningUser.data.attributes.va_profile.oh_migration_info.migration_schedules;
 
   describe('when no alerts should be shown', () => {
     it('returns null when required data is missing', () => {
@@ -152,13 +111,13 @@ describe('OracleHealthTransitionAlerts', () => {
         </BrowserRouter>,
       );
 
-      expect(getByText('MEDICATION A 10MG TAB')).to.exist;
-      expect(getByText('MEDICATION B 20MG CAP')).to.exist;
+      expect(getByText('AMLODIPINE BESYLATE 10MG TAB')).to.exist;
+      expect(getByText('LISINOPRIL 20MG TAB')).to.exist;
 
       const links = container.querySelectorAll('a');
       expect(links).to.have.length.at.least(2);
-      expect(links[0].getAttribute('href')).to.equal('/prescription/123');
-      expect(links[1].getAttribute('href')).to.equal('/prescription/456');
+      expect(links[0].getAttribute('href')).to.equal('/prescription/100506');
+      expect(links[1].getAttribute('href')).to.equal('/prescription/100515');
     });
 
     it('displays end date from migration phases', () => {
@@ -196,7 +155,7 @@ describe('OracleHealthTransitionAlerts', () => {
 
       const link = container.querySelector('a');
       expect(link.getAttribute('aria-label')).to.equal(
-        'View details for MEDICATION A 10MG TAB',
+        'View details for AMLODIPINE BESYLATE 10MG TAB',
       );
     });
   });
