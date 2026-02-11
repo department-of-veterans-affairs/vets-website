@@ -319,6 +319,7 @@ const testConfig = createTestConfig(
       },
       [fileInputMultiplePage]: ({ afterHook }) => {
         afterHook(() => {
+          cy.get('va-file-input-multiple').should('exist');
           cy.injectAxeThenAxeCheck();
           testAdditionalInfo();
           testContinueWithoutFile();
