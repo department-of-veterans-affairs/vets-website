@@ -971,10 +971,10 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     const result = convertUnifiedLabsAndTestRecord(record);
 
-    // When facilityTimezone is null, formatDateTimeInUserTimezone is used
-    // which converts UTC to user's browser timezone and appends timezone abbreviation
-    // The fake clock is set to 2024-12-31 UTC, and the test runs in a specific timezone
-    // The result should include a timezone abbreviation (e.g., EST, PST, UTC)
+    // When facilityTimezone is null, formatDateTimeInUserTimezone is used,
+    // which converts the UTC date/time to the user's browser timezone and
+    // appends a timezone abbreviation to the formatted string.
+    // The result should include the date and end with a timezone abbreviation (e.g., EST, PST, UTC).
     expect(result.date).to.include('January 31, 2025');
     expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
     expect(result.facilityTimezone).to.be.null;

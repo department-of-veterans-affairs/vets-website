@@ -411,9 +411,9 @@ export const convertLabsAndTestsRecord = record => {
 };
 
 export const convertUnifiedLabsAndTestRecord = record => {
-  // If facility_timezone is available, the backend has already converted date_completed
+  // If facilityTimezone is truthy, the backend has already converted dateCompleted
   // to facility local time - display it as-is (wall clock time).
-  // If facility_timezone is null, date_completed is still UTC - convert to user's browser timezone.
+  // If facilityTimezone is null or undefined (falsy), dateCompleted is still UTC - convert to the user's browser timezone.
   const { facilityTimezone, dateCompleted } = record.attributes;
   const date = facilityTimezone
     ? dateFormatWithoutTimezone(dateCompleted) || EMPTY_FIELD
