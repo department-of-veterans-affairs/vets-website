@@ -10,8 +10,6 @@ const { runCommand } = require('../utils');
 // Configuration
 const DEFAULT_SPEC_PATTERN = '{src,script}/**/*.unit.spec.js?(x)';
 const STATIC_PAGES_PATTERN = 'src/platform/site-wide/**/*.unit.spec.js?(x)';
-const FORMS_VALIDATOR_PATTERN =
-  'src/platform/forms/tests/forms-config-validator.unit.spec.jsx';
 const MAX_MEMORY = '8192'; // Reduced from 32768 to prevent memory issues
 
 // Command line options
@@ -105,18 +103,15 @@ function getTestPatterns() {
     ),
   ];
 
-  // If any config/form.js files changed, include the forms config validator
-  const hasFormConfigChanges = changedFiles.some(file =>
-    /config\/form\.js.?$/.test(file),
-  );
-
   // Always include static pages pattern
-  const patterns = [
-    ...appPatterns,
-    ...platformPatterns,
-    STATIC_PAGES_PATTERN,
-    ...(hasFormConfigChanges ? [FORMS_VALIDATOR_PATTERN] : []),
-  ];
+  const patterns = [...appPatterns, ...platformPatterns, STATIC_PAGES_PATTERN];
+
+  // If any config/form.js files changed, include the forms config validator
+  if (changedFiles.some(file => /config\/form\.js.?$/.test(file))) {
+    patterns.push(
+      'src/platform/forms/tests/forms-config-validator.unit.spec.jsx',
+    );
+  }
 
   // Remove duplicates (static pages may already be in platform patterns)
   return [...new Set(patterns)];
