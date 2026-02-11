@@ -76,10 +76,25 @@ const IntroSection = ({
 IntroSection.propTypes = {
   dataSourceType: PropTypes.oneOf(Object.values(dataSourceTypes)),
   lastSuccessfulUpdate: PropTypes.object,
-  ohFacilityNamesAfterCutover: PropTypes.arrayOf(PropTypes.node),
-  ohFacilityNamesBeforeCutover: PropTypes.arrayOf(PropTypes.node),
+  ohFacilityNamesAfterCutover: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      content: PropTypes.node,
+    }),
+  ),
+  ohFacilityNamesBeforeCutover: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      content: PropTypes.node,
+    }),
+  ),
   showHoldTimeMessaging: PropTypes.bool,
-  vistaFacilityNames: PropTypes.arrayOf(PropTypes.string),
+  vistaFacilityNames: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      content: PropTypes.node,
+    }),
+  ),
 };
 
 export default IntroSection;

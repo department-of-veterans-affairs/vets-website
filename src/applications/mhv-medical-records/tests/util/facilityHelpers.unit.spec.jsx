@@ -75,16 +75,16 @@ describe('facilityHelpers', () => {
   });
 
   describe('formatFacilityUnorderedList', () => {
-    it('should return empty string when facilities is null', () => {
-      expect(formatFacilityUnorderedList(null)).to.equal('');
+    it('should return NONE_RECORDED when facilities is null', () => {
+      expect(formatFacilityUnorderedList(null)).to.equal('None recorded');
     });
 
-    it('should return empty string when facilities is undefined', () => {
-      expect(formatFacilityUnorderedList(undefined)).to.equal('');
+    it('should return NONE_RECORDED when facilities is undefined', () => {
+      expect(formatFacilityUnorderedList(undefined)).to.equal('None recorded');
     });
 
-    it('should return empty string when facilities is an empty array', () => {
-      expect(formatFacilityUnorderedList([])).to.equal('');
+    it('should return NONE_RECORDED when facilities is an empty array', () => {
+      expect(formatFacilityUnorderedList([])).to.equal('None recorded');
     });
 
     it('should render a single facility in an unordered list', () => {
@@ -208,14 +208,17 @@ describe('facilityHelpers', () => {
       );
 
       expect(result).to.have.lengthOf(1);
+      expect(result[0]).to.have.property('id', '757-before');
+      expect(result[0]).to.have.property('content');
 
       // Render the JSX to test the content
-      const { container } = render(<div>{result[0]}</div>);
+      const { container } = render(<div>{result[0].content}</div>);
       expect(container.textContent).to.include('VA Central Ohio health care');
       expect(container.textContent).to.include('(before April 30, 2022)');
       expect(container.querySelector('strong')).to.exist;
+      // Only the date is bolded, not the entire parenthetical
       expect(container.querySelector('strong').textContent).to.equal(
-        '(before April 30, 2022)',
+        'April 30, 2022',
       );
     });
 
@@ -229,7 +232,8 @@ describe('facilityHelpers', () => {
       );
 
       expect(result).to.have.lengthOf(1);
-      expect(result[0]).to.equal('VA Unknown health care');
+      expect(result[0]).to.have.property('id', '999');
+      expect(result[0]).to.have.property('content', 'VA Unknown health care');
     });
 
     it('should handle multiple facilities with mixed transition status', () => {
@@ -248,14 +252,17 @@ describe('facilityHelpers', () => {
       expect(result).to.have.lengthOf(3);
 
       // First result should have bolded date
-      const { container: container1 } = render(<div>{result[0]}</div>);
+      expect(result[0]).to.have.property('id', '757-before');
+      const { container: container1 } = render(<div>{result[0].content}</div>);
       expect(container1.textContent).to.include('(before April 30, 2022)');
 
       // Second result should be plain string
-      expect(result[1]).to.equal('VA Unknown health care');
+      expect(result[1]).to.have.property('id', '999');
+      expect(result[1]).to.have.property('content', 'VA Unknown health care');
 
       // Third result should have bolded date
-      const { container: container3 } = render(<div>{result[2]}</div>);
+      expect(result[2]).to.have.property('id', '668-before');
+      const { container: container3 } = render(<div>{result[2].content}</div>);
       expect(container3.textContent).to.include('(before October 24, 2020)');
     });
 
@@ -269,6 +276,30 @@ describe('facilityHelpers', () => {
       );
 
       expect(result).to.deep.equal([]);
+    });
+
+    it('should return plain facility name for facility with future cutover date', () => {
+      const futureDate = new Date();
+      futureDate.setFullYear(futureDate.getFullYear() + 1);
+      const futureDateStr = futureDate.toISOString().split('T')[0];
+
+      const futureTransitionTable = {
+        '757': { cutoverDate: futureDateStr },
+      };
+      const ohFacilities = [{ facilityId: '757' }];
+      const result = createBeforeCutoverFacilityNames(
+        ohFacilities,
+        mockEhrData,
+        futureTransitionTable,
+        mockGetNameFn,
+      );
+
+      expect(result).to.have.lengthOf(1);
+      expect(result[0]).to.have.property('id', '757');
+      expect(result[0]).to.have.property(
+        'content',
+        'VA Central Ohio health care',
+      );
     });
   });
 
@@ -324,14 +355,17 @@ describe('facilityHelpers', () => {
       );
 
       expect(result).to.have.lengthOf(1);
+      expect(result[0]).to.have.property('id', '757-after');
+      expect(result[0]).to.have.property('content');
 
       // Render the JSX to test the content
-      const { container } = render(<div>{result[0]}</div>);
+      const { container } = render(<div>{result[0].content}</div>);
       expect(container.textContent).to.include('VA Central Ohio health care');
       expect(container.textContent).to.include('(April 30, 2022 - present)');
       expect(container.querySelector('strong')).to.exist;
+      // Only the date is bolded, not the entire parenthetical
       expect(container.querySelector('strong').textContent).to.equal(
-        '(April 30, 2022 - present)',
+        'April 30, 2022',
       );
     });
 
@@ -345,7 +379,8 @@ describe('facilityHelpers', () => {
       );
 
       expect(result).to.have.lengthOf(1);
-      expect(result[0]).to.equal('VA Unknown health care');
+      expect(result[0]).to.have.property('id', '999');
+      expect(result[0]).to.have.property('content', 'VA Unknown health care');
     });
 
     it('should handle multiple facilities with mixed transition status', () => {
@@ -364,14 +399,17 @@ describe('facilityHelpers', () => {
       expect(result).to.have.lengthOf(3);
 
       // First result should have bolded date
-      const { container: container1 } = render(<div>{result[0]}</div>);
+      expect(result[0]).to.have.property('id', '757-after');
+      const { container: container1 } = render(<div>{result[0].content}</div>);
       expect(container1.textContent).to.include('(April 30, 2022 - present)');
 
       // Second result should be plain string
-      expect(result[1]).to.equal('VA Unknown health care');
+      expect(result[1]).to.have.property('id', '999');
+      expect(result[1]).to.have.property('content', 'VA Unknown health care');
 
       // Third result should have bolded date
-      const { container: container3 } = render(<div>{result[2]}</div>);
+      expect(result[2]).to.have.property('id', '668-after');
+      const { container: container3 } = render(<div>{result[2].content}</div>);
       expect(container3.textContent).to.include('(October 24, 2020 - present)');
     });
 
@@ -385,6 +423,30 @@ describe('facilityHelpers', () => {
       );
 
       expect(result).to.deep.equal([]);
+    });
+
+    it('should return plain facility name for facility with future cutover date', () => {
+      const futureDate = new Date();
+      futureDate.setFullYear(futureDate.getFullYear() + 1);
+      const futureDateStr = futureDate.toISOString().split('T')[0];
+
+      const futureTransitionTable = {
+        '757': { cutoverDate: futureDateStr },
+      };
+      const ohFacilities = [{ facilityId: '757' }];
+      const result = createAfterCutoverFacilityNames(
+        ohFacilities,
+        mockEhrData,
+        futureTransitionTable,
+        mockGetNameFn,
+      );
+
+      expect(result).to.have.lengthOf(1);
+      expect(result[0]).to.have.property('id', '757');
+      expect(result[0]).to.have.property(
+        'content',
+        'VA Central Ohio health care',
+      );
     });
   });
 });

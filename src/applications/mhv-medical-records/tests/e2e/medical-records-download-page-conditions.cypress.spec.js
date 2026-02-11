@@ -9,7 +9,7 @@ import bothSourcesUser from './fixtures/users/both-sources-user.json';
  *
  * Tests all conditional branches in the component:
  * 1. if (hasBothDataSources) - Renders VistaAndOHContent
- * 2. if (hasOHOnly) - Renders OHOnlyContent
+ * 2. if (hasOHOnly) - Renders VistaAndOHContent (same layout as BOTH)
  * 3. Default return - Renders VistaOnlyContent (for VistA-only users)
  *
  * Based on the current DownloadReportPage.jsx logic:
@@ -100,9 +100,11 @@ describe('Medical Records Download Page - Conditional Rendering', () => {
       DownloadReportsPage.goToReportsPage();
     });
 
-    it('renders OHOnlyContent component with singular heading', () => {
-      // Verify the page title for OHOnlyContent (singular "report")
-      cy.contains('h1', 'Download your medical records report').should('exist');
+    it('renders VistaAndOHContent component with plural heading for OH-only users', () => {
+      // Verify the page title (plural "reports" same as other user types)
+      cy.contains('h1', 'Download your medical records reports').should(
+        'exist',
+      );
 
       // Verify NeedHelpSection is rendered
       cy.contains('Need help?').should('exist');
@@ -690,8 +692,10 @@ describe('Medical Records Download Page - AcceleratedCernerFacilityAlert', () =>
       });
       DownloadReportsPage.goToReportsPage();
 
-      // Verify the page loads correctly with OHOnlyContent
-      cy.contains('h1', 'Download your medical records report').should('exist');
+      // Verify the page loads correctly with VistaAndOHContent (plural heading)
+      cy.contains('h1', 'Download your medical records reports').should(
+        'exist',
+      );
 
       cy.injectAxeThenAxeCheck();
     });
@@ -755,7 +759,7 @@ describe('Medical Records Download Page - CCD Download Functionality', () => {
 describe('Medical Records Download Page - Component Differentiation', () => {
   const site = new MedicalRecordsSite();
 
-  it('OH-only users see singular "report" heading, VistA users see plural "reports"', () => {
+  it('OH-only users now see plural "reports" heading (same as other user types)', () => {
     // First check OH-only user
     site.login(ohOnlyUser, false);
     site.mockFeatureToggles({
@@ -764,8 +768,8 @@ describe('Medical Records Download Page - Component Differentiation', () => {
     });
     DownloadReportsPage.goToReportsPage();
 
-    cy.contains('h1', 'Download your medical records report').should('exist');
-    cy.contains('h1', 'Download your medical records reports').should(
+    cy.contains('h1', 'Download your medical records reports').should('exist');
+    cy.contains('h1', 'Download your medical records report').should(
       'not.exist',
     );
 

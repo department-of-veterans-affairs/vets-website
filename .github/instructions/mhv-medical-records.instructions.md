@@ -152,6 +152,11 @@ Update this file when you:
   - `OH_ONLY`: User has only Oracle Health (Cerner) facilities
   - `VISTA_AND_OH`: User has both VistA and Oracle Health facilities
 - **studyJobStatus**: Image study request statuses (`NEW`, `QUEUED`, `PROCESSING`, `COMPLETE`, `ERROR`)
+- **ohFacilityTransitionTable**: Maps Oracle Health facility IDs to their VistA-to-OH cutover dates
+  - Used to display date-qualified facility names in CCD download sections
+  - Keys are facility IDs (e.g., `'668'`, `'757'`)
+  - Values contain `cutoverDate` in `YYYY-MM-DD` format
+  - Example: `{ '757': { cutoverDate: '2022-04-30' } }`
 
 ### Helper Functions (`util/helpers.js`)
 
@@ -220,6 +225,35 @@ Update this file when you:
 - **focusOnErrorField()**: Focus on first error field in form
 - **decodeBase64Report(data)**: Decode base64 report data to UTF-8 string
 - **getFailedDomainList(failed, displayMap)**: Format failed domain list with display names
+
+### Facility Helpers (`util/facilityHelpers.js`)
+Utility functions for formatting and displaying facility names, particularly for CCD download sections.
+
+#### Facility List Formatting
+- **formatFacilityList(facilities)**: Formats array of facility names into grammatically correct string
+  - 1 facility: `"VA Western New York health care"`
+  - 2 facilities: `"Facility A and Facility B"`
+  - 3+ facilities: `"Facility A, Facility B, and Facility C"`
+- **formatFacilityUnorderedList(facilities)**: Formats facilities as `<ul>` with `<li>` items
+  - Accepts strings or objects with `{ id, content }` structure
+  - Returns `NONE_RECORDED` for empty/null input
+
+#### Cutover Date Helpers
+These helpers create facility name arrays with date suffixes for transitioned OH facilities.
+Used in CCD download sections to distinguish records before vs after VistA-to-OH transition.
+
+- **formatCutoverDate(dateString)**: Formats `YYYY-MM-DD` to readable format (e.g., `"April 30, 2022"`)
+- **createBeforeCutoverFacilityNames(ohFacilities, ehrDataByVhaId, transitionTable, getNameFn)**:
+  - Returns `Array<{ id: string, content: JSX.Element|string }>`
+  - Appends `"(before <strong>date</strong>)"` suffix for facilities in transition table
+  - Only appends suffix if cutover date is current date or older (future dates show plain name)
+  - Plain facility name for facilities not in transition table
+- **createAfterCutoverFacilityNames(ohFacilities, ehrDataByVhaId, transitionTable, getNameFn)**:
+  - Returns `Array<{ id: string, content: JSX.Element|string }>`
+  - Appends `"(<strong>date</strong> - present)"` suffix for facilities in transition table
+  - Only appends suffix if cutover date is current date or older (future dates show plain name)
+  - Plain facility name for facilities not in transition table
+
 
 ## Business Logic & Requirements
 

@@ -47,10 +47,24 @@ DownloadReportProvider.propTypes = {
     // Test utilities
     runningUnitTest: PropTypes.bool,
     // Facility data (optional, not used by all components)
-    vistaFacilityNames: PropTypes.arrayOf(PropTypes.string),
-    ohFacilityNames: PropTypes.arrayOf(PropTypes.string),
-    ohFacilityNamesAfterCutover: PropTypes.arrayOf(PropTypes.node),
-    ohFacilityNamesBeforeCutover: PropTypes.arrayOf(PropTypes.node),
+    vistaFacilityNames: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        content: PropTypes.node,
+      }),
+    ),
+    ohFacilityNamesAfterCutover: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        content: PropTypes.node,
+      }),
+    ),
+    ohFacilityNamesBeforeCutover: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        content: PropTypes.node,
+      }),
+    ),
     // Self-entered accordion state (optional, only used by VistaOnlyContent)
     expandSelfEntered: PropTypes.bool,
     selfEnteredAccordionRef: PropTypes.object,

@@ -3,17 +3,17 @@ import DownloadReportsPage from './pages/DownloadReportsPage';
 import ohOnlyUser from './fixtures/users/oh-only-user.json';
 
 /**
- * Cypress tests for OHOnlyContent component
+ * Cypress tests for OH-only user experience
  *
  * Tests the Oracle Health-only user experience for the CCD download page,
  * including:
  * - Content rendering (heading, description, download links)
  * - Accessibility compliance
  *
- * Note: OHOnlyContent is rendered when hasOHOnly is true in DownloadReportPage.jsx
- * The component receives testIdSuffix="OH" and ddSuffix="OH" from the parent
+ * Note: OH-only users now render VistaAndOHContent (same as BOTH users)
+ * with testIdSuffix="OH" and ddSuffix="OH" for CCD downloads
  */
-describe('Medical Records Download Page - OHOnlyContent Component', () => {
+describe('Medical Records Download Page - OH-Only User Experience', () => {
   const site = new MedicalRecordsSite();
 
   describe('Content Rendering', () => {
@@ -26,14 +26,16 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
       DownloadReportsPage.goToReportsPage();
     });
 
-    it('renders the main heading for OH-only users (singular "report")', () => {
-      cy.contains('h1', 'Download your medical records report').should('exist');
+    it('renders the main heading for OH-only users (plural "reports")', () => {
+      cy.contains('h1', 'Download your medical records reports').should(
+        'exist',
+      );
       cy.injectAxeThenAxeCheck();
     });
 
-    it('renders the CCD description text', () => {
+    it('renders the intro description text for OH users', () => {
       cy.contains(
-        'Download your Continuity of Care Document (CCD), a summary of your VA medical records.',
+        'You can choose which VA medical records to download as a single report',
       ).should('exist');
       cy.injectAxeThenAxeCheck();
     });
@@ -110,7 +112,7 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
       // Verify h1 exists and is first
       cy.get('h1')
         .first()
-        .should('contain.text', 'Download your medical records report');
+        .should('contain.text', 'Download your medical records reports');
 
       // Verify h2 exists for CCD section
       cy.get('h2').should(
@@ -146,7 +148,7 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
   });
 
   describe('OH-Only vs Other User Types', () => {
-    it('does not display Blue Button report section for OH-only users', () => {
+    it('displays Blue Button report section for OH-only users', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
@@ -154,11 +156,9 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
       });
       DownloadReportsPage.goToReportsPage();
 
-      // OH-only users should NOT see Blue Button section
-      cy.contains('h2', 'Download your VA Blue Button report').should(
-        'not.exist',
-      );
-      cy.get('[data-testid="go-to-download-all"]').should('not.exist');
+      // OH-only users now see Blue Button section
+      cy.contains('h2', 'Download your VA Blue Button report').should('exist');
+      cy.get('[data-testid="go-to-download-all"]').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -178,7 +178,7 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
       cy.injectAxeThenAxeCheck();
     });
 
-    it('uses singular "report" in heading (not plural "reports")', () => {
+    it('uses plural "reports" in heading (same as VistA and Both users)', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
@@ -186,10 +186,12 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
       });
       DownloadReportsPage.goToReportsPage();
 
-      // OH-only has singular heading
-      cy.contains('h1', 'Download your medical records report').should('exist');
-      // Should NOT have plural version
+      // OH-only now has plural heading (same as other user types)
       cy.contains('h1', 'Download your medical records reports').should(
+        'exist',
+      );
+      // Should NOT have singular version
+      cy.contains('h1', 'Download your medical records report').should(
         'not.exist',
       );
 
@@ -198,7 +200,7 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
   });
 });
 
-describe('Medical Records Download Page - OHOnlyContent CCD Downloads', () => {
+describe('Medical Records Download Page - OH-Only User CCD Downloads', () => {
   const site = new MedicalRecordsSite();
 
   describe('CCD V2 Download Functionality', () => {

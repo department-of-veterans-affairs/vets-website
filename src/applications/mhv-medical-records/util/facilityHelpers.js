@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { NONE_RECORDED } from './constants';
 /**
  * Formats an array of facility names into a grammatically correct string.
  * Handles comma placement and "and" conjunction for multiple facilities.
@@ -26,13 +26,13 @@ export const formatFacilityList = facilities => {
 /**
  * Formats an array of facility names into an unordered list of facility names.
  *
- * @param {Array<string>} facilities - Array of facility names
- * @returns {JSX.Element|string} Formatted as an unordered list of facility names, or empty string if no facilities
+ * @param {Array<string|{id: string, content: JSX.Element|string}>} facilities - Array of facility names (strings) or objects with id and content
+ * @returns {JSX.Element|string} Formatted as an unordered list of facility names, or NONE_RECORDED if no facilities
  *
  * @example
- * // Returns empty string for empty/null array
- * formatFacilityUnorderedList([]) // ''
- * formatFacilityUnorderedList(null) // ''
+ * // Returns NONE_RECORDED for empty/null array
+ * formatFacilityUnorderedList([]) // 'None recorded'
+ * formatFacilityUnorderedList(null) // 'None recorded'
  *
  * @example
  * // Returns JSX unordered list for array with items
@@ -42,20 +42,24 @@ export const formatFacilityList = facilities => {
  * // </ul>
  *
  * @example
- * // Multiple facilities
- * formatFacilityUnorderedList(['VA Western New York health care', 'VA Pacific Islands health care'])
- * // <ul>
- * //   <li>VA Western New York health care</li>
- * //   <li>VA Pacific Islands health care</li>
- * // </ul>
+ * // Supports objects with id and content for unique keys
+ * formatFacilityUnorderedList([{ id: '757', content: 'VA Central Ohio health care' }])
  */
 export const formatFacilityUnorderedList = facilities => {
-  if (!facilities || facilities.length === 0) return '';
+  if (!facilities || facilities.length === 0) return NONE_RECORDED;
   return (
     <ul>
-      {facilities.map(facility => (
-        <li key={facility}>{facility}</li>
-      ))}
+      {facilities.map((facility, index) => {
+        // Handle both string items and object items with id/content
+        const isObject =
+          typeof facility === 'object' && facility !== null && 'id' in facility;
+        const key = isObject ? facility.id : `facility-${index}`;
+        const content = isObject ? facility.content : facility;
+        return (
+          // eslint-disable-next-line react/no-array-index-key
+          <li key={key}>{content}</li>
+        );
+      })}
     </ul>
   );
 };
@@ -83,7 +87,7 @@ export const formatCutoverDate = dateString => {
  * @param {Object} ehrDataByVhaId - EHR data mapping for facility name lookup
  * @param {Object} transitionTable - Mapping of facility IDs to cutover dates
  * @param {Function} getNameFn - Function to get facility name from EHR data
- * @returns {Array<JSX.Element|string>} Array of facility names with bolded "before [date]" suffix for transitioned facilities
+ * @returns {Array<{id: string, content: JSX.Element|string}>} Array of objects with facility ID and content (name with bolded "before [date]" suffix for transitioned facilities)
  */
 export const createBeforeCutoverFacilityNames = (
   ohFacilities,
@@ -93,6 +97,9 @@ export const createBeforeCutoverFacilityNames = (
 ) => {
   if (!ehrDataByVhaId || !ohFacilities) return [];
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   return ohFacilities
     .map(facility => {
       const name = getNameFn(ehrDataByVhaId, facility.facilityId);
@@ -100,16 +107,23 @@ export const createBeforeCutoverFacilityNames = (
 
       const transitionData = transitionTable[facility.facilityId];
       if (transitionData) {
-        const formattedDate = formatCutoverDate(transitionData.cutoverDate);
-        return (
-          <>
-            {name} <strong>(before {formattedDate})</strong>
-          </>
-        );
+        const cutoverDate = new Date(`${transitionData.cutoverDate}T00:00:00`);
+        // Only append suffix if cutover date is current date or older
+        if (cutoverDate <= today) {
+          const formattedDate = formatCutoverDate(transitionData.cutoverDate);
+          return {
+            id: `${facility.facilityId}-before`,
+            content: (
+              <>
+                {name} (before <strong>{formattedDate}</strong>)
+              </>
+            ),
+          };
+        }
       }
-      return name;
+      return { id: facility.facilityId, content: name };
     })
-    .filter(name => name);
+    .filter(item => item);
 };
 
 /**
@@ -120,7 +134,7 @@ export const createBeforeCutoverFacilityNames = (
  * @param {Object} ehrDataByVhaId - EHR data mapping for facility name lookup
  * @param {Object} transitionTable - Mapping of facility IDs to cutover dates
  * @param {Function} getNameFn - Function to get facility name from EHR data
- * @returns {Array<JSX.Element|string>} Array of facility names with bolded "[date] - present" suffix for transitioned facilities
+ * @returns {Array<{id: string, content: JSX.Element|string}>} Array of objects with facility ID and content (name with bolded "[date] - present" suffix for transitioned facilities)
  */
 export const createAfterCutoverFacilityNames = (
   ohFacilities,
@@ -130,6 +144,9 @@ export const createAfterCutoverFacilityNames = (
 ) => {
   if (!ehrDataByVhaId || !ohFacilities) return [];
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   return ohFacilities
     .map(facility => {
       const name = getNameFn(ehrDataByVhaId, facility.facilityId);
@@ -137,14 +154,21 @@ export const createAfterCutoverFacilityNames = (
 
       const transitionData = transitionTable[facility.facilityId];
       if (transitionData) {
-        const formattedDate = formatCutoverDate(transitionData.cutoverDate);
-        return (
-          <>
-            {name} <strong>({formattedDate} - present)</strong>
-          </>
-        );
+        const cutoverDate = new Date(`${transitionData.cutoverDate}T00:00:00`);
+        // Only append suffix if cutover date is current date or older
+        if (cutoverDate <= today) {
+          const formattedDate = formatCutoverDate(transitionData.cutoverDate);
+          return {
+            id: `${facility.facilityId}-after`,
+            content: (
+              <>
+                {name} (<strong>{formattedDate}</strong> - present)
+              </>
+            ),
+          };
+        }
       }
-      return name;
+      return { id: facility.facilityId, content: name };
     })
-    .filter(name => name);
+    .filter(item => item);
 };

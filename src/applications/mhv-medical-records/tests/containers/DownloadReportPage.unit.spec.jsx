@@ -440,7 +440,7 @@ describe('DownloadRecordsPage - Missing EHR data for facility names', () => {
       path: '/download-all',
     });
     // When ehrDataByVhaId is missing or doesn't contain matching facility IDs,
-    // vistaFacilityNames and ohFacilityNames will be empty arrays
+    // vistaFacilityNames will be an empty array
     // The component should still render without errors
     expect(screen).to.exist;
     expect(screen.getByText('Download your medical records reports')).to.exist;

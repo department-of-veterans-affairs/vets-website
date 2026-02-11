@@ -36,13 +36,29 @@ describe('VistaAndOHContent', () => {
     handleDownloadCCD: () => {},
     handleDownloadCCDV2: () => {},
     runningUnitTest: true,
-    vistaFacilityNames: ['VA Western New York health care'],
-    ohFacilityNames: ['VA Central Ohio health care'],
+    vistaFacilityNames: [
+      { id: '528A4', content: 'VA Western New York health care' },
+    ],
     ohFacilityNamesBeforeCutover: [
-      'VA Central Ohio health care (before April 30, 2022)',
+      {
+        id: '757-before',
+        content: (
+          <>
+            VA Central Ohio health care (before <strong>April 30, 2022</strong>)
+          </>
+        ),
+      },
     ],
     ohFacilityNamesAfterCutover: [
-      'VA Central Ohio health care (April 30, 2022 - present)',
+      {
+        id: '757-after',
+        content: (
+          <>
+            VA Central Ohio health care (<strong>April 30, 2022</strong> -
+            present)
+          </>
+        ),
+      },
     ],
     expandSelfEntered: false,
     selfEnteredAccordionRef: { current: null },
@@ -228,7 +244,9 @@ describe('VistaAndOHContent', () => {
     it('displays VistA facility names', () => {
       const { getByText } = renderComponent({
         ccdExtendedFileTypeFlag: true,
-        vistaFacilityNames: ['VA Western New York health care'],
+        vistaFacilityNames: [
+          { id: '528A4', content: 'VA Western New York health care' },
+        ],
       });
 
       expect(getByText(/VA Western New York health care/)).to.exist;
@@ -238,10 +256,26 @@ describe('VistaAndOHContent', () => {
       const { getAllByText } = renderComponent({
         ccdExtendedFileTypeFlag: true,
         ohFacilityNamesBeforeCutover: [
-          'VA Central Ohio health care (before April 30, 2022)',
+          {
+            id: '757-before',
+            content: (
+              <>
+                VA Central Ohio health care (before{' '}
+                <strong>April 30, 2022</strong>)
+              </>
+            ),
+          },
         ],
         ohFacilityNamesAfterCutover: [
-          'VA Central Ohio health care (April 30, 2022 - present)',
+          {
+            id: '757-after',
+            content: (
+              <>
+                VA Central Ohio health care (<strong>April 30, 2022</strong> -
+                present)
+              </>
+            ),
+          },
         ],
       });
 

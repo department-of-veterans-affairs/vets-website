@@ -37,7 +37,6 @@ describe('OHOnlyContent', () => {
     CCDRetryTimestamp: null,
     runningUnitTest: true,
     vistaFacilityNames: [],
-    ohFacilityNames: [],
     expandSelfEntered: false,
     selfEnteredAccordionRef: { current: null },
   };

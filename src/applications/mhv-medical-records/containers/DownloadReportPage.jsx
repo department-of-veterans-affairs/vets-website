@@ -95,19 +95,12 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       if (!ehrDataByVhaId) return [];
       const vistaFacilities = facilities.filter(f => !f.isCerner);
       return vistaFacilities
-        .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
-        .filter(name => name); // Filter out undefined/null names
-    },
-    [facilities, ehrDataByVhaId],
-  );
-
-  const ohFacilityNames = useMemo(
-    () => {
-      if (!ehrDataByVhaId) return [];
-      const ohFacilities = facilities.filter(f => f.isCerner);
-      return ohFacilities
-        .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
-        .filter(name => name); // Filter out undefined/null names
+        .map(f => {
+          const name = getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId);
+          if (!name) return null;
+          return { id: f.facilityId, content: name };
+        })
+        .filter(item => item); // Filter out null items
     },
     [facilities, ehrDataByVhaId],
   );
@@ -283,7 +276,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       runningUnitTest,
       // Facility data
       vistaFacilityNames,
-      ohFacilityNames,
       ohFacilityNamesBeforeCutover,
       ohFacilityNamesAfterCutover,
       // Self-entered accordion state (only used by VistaOnlyContent)
@@ -301,7 +293,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       activeAlert,
       runningUnitTest,
       vistaFacilityNames,
-      ohFacilityNames,
       ohFacilityNamesBeforeCutover,
       ohFacilityNamesAfterCutover,
       expandSelfEntered,
