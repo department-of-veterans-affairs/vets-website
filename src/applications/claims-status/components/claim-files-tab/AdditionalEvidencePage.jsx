@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 
 import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';
-import FilesOptional from './FilesOptional';
-import FilesNeeded from './FilesNeeded';
+import { DemoNotation } from '../../demo';
 
 import { setPageFocus, focusNotificationAlert } from '../../utils/page';
 import {
@@ -81,7 +80,7 @@ class AdditionalEvidencePage extends React.Component {
         />
       );
     } else {
-      const { message, filesNeeded } = this.props;
+      const { message } = this.props;
       content = (
         <div className="additional-evidence-container">
           {message && (
@@ -99,20 +98,14 @@ class AdditionalEvidencePage extends React.Component {
           </h3>
           {isOpen ? (
             <>
-              {filesNeeded.map(item => (
-                <FilesNeeded
-                  key={item.id}
-                  claimId={claim.id}
-                  item={item}
-                  evidenceWaiverSubmitted5103={
-                    claim.attributes.evidenceWaiverSubmitted5103
-                  }
-                  previousPage="files"
-                />
-              ))}
-              {this.props.filesOptional.map(item => (
-                <FilesOptional key={item.id} id={claim.id} item={item} />
-              ))}
+              <DemoNotation
+                theme="removed"
+                title="Individual request alerts"
+                before="FilesNeeded and FilesOptional alerts displayed here (duplicated from Status tab)"
+                after={
+                  'Removed - users redirected via "Review your requests" alert to Status tab'
+                }
+              />
               <AddFilesForm
                 fileTab
                 progress={this.props.progress}

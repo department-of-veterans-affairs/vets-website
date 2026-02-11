@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { clearNotification } from '../actions';
+import { DemoNotation } from '../demo';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import AdditionalEvidencePage from '../components/claim-files-tab/AdditionalEvidencePage';
 import ClaimFileHeader from '../components/claim-files-tab/ClaimFileHeader';
+import ReviewRequestsAlert from '../components/claim-files-tab/ReviewRequestsAlert';
 import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
 import OtherWaysToSendYourDocuments from '../components/claim-files-tab-v2/OtherWaysToSendYourDocuments';
 import FileSubmissionsInProgress from '../components/claim-files-tab-v2/FileSubmissionsInProgress';
@@ -18,6 +20,7 @@ import withRouter from '../utils/withRouter';
 import {
   claimAvailable,
   getFailedSubmissionsWithinLast30Days,
+  getFilesNeeded,
   isClaimOpen,
   setPageFocus,
   setTabDocumentTitle,
@@ -111,6 +114,7 @@ class FilesPage extends React.Component {
       evidenceSubmissions,
     } = claim.attributes;
     const isOpen = isClaimOpen(status, closeDate);
+    const hasOpenRequests = getFilesNeeded(trackedItems).length > 0;
 
     const documentsTurnedIn = trackedItems.filter(
       item => !item.status.startsWith(NEED_ITEMS_STATUS),
@@ -127,6 +131,12 @@ class FilesPage extends React.Component {
 
     return (
       <div className="claim-files">
+        <DemoNotation
+          theme="change"
+          title="Files tab change"
+          before="Individual evidence request and 3P request alerts shown inline"
+          after="Alerts removed — new warning alert redirects users to Status tab to complete open requests"
+        />
         <ClaimFileHeader isOpen={isOpen} />
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstShowDocumentUploadStatus}>
           <Toggler.Enabled>
@@ -134,6 +144,7 @@ class FilesPage extends React.Component {
               failedSubmissions={failedSubmissionsWithinLast30Days}
               isStatusPage={false}
             />
+            <ReviewRequestsAlert hasOpenRequests={hasOpenRequests} />
             <AdditionalEvidencePage additionalEvidenceTitle="Upload additional evidence" />
             <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
             <FileSubmissionsInProgress claim={claim} />

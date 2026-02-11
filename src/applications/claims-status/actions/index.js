@@ -391,12 +391,12 @@ function buildUploadNotification(
     return {
       title: requestName
         ? `Submission started for ${requestName}`
-        : `Document submission started on ${uploadDate}`,
+        : 'Document submission started',
       body: (
         <>
           <span>
-            Your submission started on <strong>{uploadDate}</strong>. It can take
-            up to 2 days for us to receive your files.
+            Your submission started on <strong>{uploadDate}</strong>. It can
+            take up to 2 days for us to receive your files.
           </span>
           {timezoneNote}
           <va-link
