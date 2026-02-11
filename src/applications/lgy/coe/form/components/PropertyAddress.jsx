@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const PropertyAddress = ({ formData }) => {
   const { city, postalCode, state, street1, street2, street3 } =
-    formData?.loanHistory?.relevantPriorLoans?.propertyAddress || {};
+    formData?.propertyAddress || {};
 
   if (!street1 || !city || !state || !postalCode) {
     return null;
@@ -29,4 +30,8 @@ export const PropertyAddress = ({ formData }) => {
       {city}, {state} {postalCode} <br />
     </p>
   );
+};
+
+PropertyAddress.propTypes = {
+  formData: PropTypes.object,
 };

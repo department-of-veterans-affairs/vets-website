@@ -3,7 +3,26 @@ import {
   addressUI,
   arrayBuilderItemFirstPageTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { VaSelectField } from 'platform/forms-system/src/js/web-component-fields';
+
+const customAddressSchema = {
+  ...addressSchema({
+    keys: { street: 'street1' },
+    omit: ['isMilitary'],
+  }),
+  properties: {
+    ...addressSchema({
+      keys: { street: 'street1' },
+      omit: ['isMilitary'],
+    }).properties,
+    country: {
+      ...addressSchema({
+        keys: { street: 'street1' },
+        omit: ['isMilitary'],
+      }).properties.country,
+      default: 'USA',
+    },
+  },
+};
 
 export default {
   uiSchema: {
@@ -19,18 +38,12 @@ export default {
         omit: ['isMilitary'],
       }),
       country: {
-        'ui:title': 'Country',
-        'ui:autocomplete': 'country',
-        'ui:webComponentField': VaSelectField,
-        'ui:required': () => true,
+        ...addressUI({
+          keys: { street: 'street1' },
+          omit: ['isMilitary'],
+        }).country,
         'ui:options': {
-          // inert: true, // can't use inert because it prevents selection needed to toggle state input
-          updateSchema: () => ({
-            type: 'string',
-            enum: ['USA'],
-            enumNames: ['United States'],
-            // default: 'USA', // using default doesn't update state input to select component
-          }),
+          inert: true,
         },
       },
     },
@@ -38,10 +51,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      propertyAddress: addressSchema({
-        keys: { street: 'street1' },
-        omit: ['isMilitary'],
-      }),
+      propertyAddress: customAddressSchema,
     },
     required: ['propertyAddress'],
   },

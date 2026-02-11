@@ -6,17 +6,16 @@ import {
   numberUI,
   numberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-// import { PropertyAddress } from '../components/PropertyAddress';
+import { PropertyAddress } from '../components/PropertyAddress';
 
 export default {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       () => 'Property with VA home loan: Existing VA home loan details',
-      // eslint-disable-next-line no-unused-vars
       ({ formData }) => (
         <div>
           <p>Provide VA home loan information for this property.</p>
-          {/* <PropertyAddress formData={formData} /> */}
+          <PropertyAddress formData={formData} />
         </div>
       ),
     ),

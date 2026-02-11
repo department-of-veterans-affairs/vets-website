@@ -11,7 +11,7 @@ import {
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { entitlementRestorationOptions } from '../constants';
-// import { PropertyAddress } from '../components/PropertyAddress';
+import { PropertyAddress } from '../components/PropertyAddress';
 
 const emptyObjectSchema = {
   type: 'object',
@@ -71,7 +71,6 @@ export default {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       () => 'Property with VA home loan: Entitlement restoration',
-      // eslint-disable-next-line no-unused-vars
       ({ formData }) => (
         <div>
           <p>
@@ -79,7 +78,7 @@ export default {
             entitlement again for future VA‑backed loans if the VA home loan on
             this property is paid off.
           </p>
-          {/* <PropertyAddress formData={formData} /> */}
+          <PropertyAddress formData={formData} />
         </div>
       ),
     ),
