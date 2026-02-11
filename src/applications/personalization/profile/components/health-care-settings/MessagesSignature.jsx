@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { openModal, clearMostRecentlySavedField } from '@@vap-svc/actions';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import { Prompt, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +31,24 @@ const MessageSignature = () => {
   );
   const messagingSignatureName = messagingSignature?.signatureName;
   const hasMessagingSignatureError = messagingSignature?.error !== undefined;
+
+  const clearSuccessAlert = useCallback(
+    () => dispatch(clearMostRecentlySavedField()),
+    [dispatch],
+  );
+
+  const openEditModal = useCallback(() => dispatch(openModal()), [dispatch]);
+
+  useEffect(
+    () => {
+      document.title = `Messages Signature | Veterans Affairs`;
+
+      return () => {
+        clearSuccessAlert();
+      };
+    },
+    [clearSuccessAlert],
+  );
 
   useEffect(
     () => {
@@ -64,6 +83,15 @@ const MessageSignature = () => {
       window.onbeforeunload = undefined;
     },
     [hasUnsavedEdits],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        openEditModal(null);
+      };
+    },
+    [openEditModal],
   );
 
   const signaturePresent =
