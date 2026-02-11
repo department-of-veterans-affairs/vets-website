@@ -52,6 +52,8 @@ src/platform/user/authentication @department-of-veterans-affairs/octo-identity @
 src/platform/user/tests/authentication @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend # unit tests
 src/platform/user/authorization/components/IdentityNotVerified.jsx @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/user/tests/authorization/components/IdentityNotVerified.unit.spec.jsx @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend # unit tests
+src/platform/user/authorization/components/VerifyAlert.jsx @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/user/tests/authorization/components/VerifyAlert.unit.spec.jsx @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend # unit tests
 src/platform/utilities/oauth @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/utilities/tests/oauth @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend # unit tests
 src/platform/utilities/sso @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
@@ -220,7 +222,7 @@ src/applications/health-care-supply-reordering @department-of-veterans-affairs/v
 src/applications/avs @department-of-veterans-affairs/after-visit-summary @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/mhv-signin-cta @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/mhv @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
-.github/instructions/mhv-secure-messaging.instructions.md @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
+.github/instructions/mhv-secure-messaging.*.instructions.md @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 .github/instructions/mhv-medical-records.instructions.md @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Profile

@@ -46,43 +46,44 @@ const DetailCopayPage = ({ match }) => {
 
   const copayAttributes = useMemo(
     () => {
-      if (!copayDetail?.id) return DEFAULT_COPAY_ATTRIBUTES;
+      if (!selectedCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
 
       /* eslint-disable no-nested-ternary */
       return shouldShowVHAPaymentHistory
         ? {
-            TITLE: `Copay bill for ${copayDetail?.attributes.facility.name}`,
-            INVOICE_DATE: verifyCurrentBalance(
-              copayDetail?.attributes.invoiceDate,
+            TITLE: `Copay bill for ${selectedCopay?.attributes.facility.name}`,
+            INVOICE_DATE: selectedCopay?.attributes?.invoiceDate,
+            IS_CURRENT_DATE: verifyCurrentBalance(
+              selectedCopay?.attributes.invoiceDate,
             ),
-            ACCOUNT_NUMBER: copayDetail?.attributes.accountNumber,
-            CHARGES: copayDetail?.attributes?.lineItems ?? [],
+            ACCOUNT_NUMBER: selectedCopay?.attributes.accountNumber,
+            CHARGES: selectedCopay?.attributes?.lineItems ?? [],
           }
         : {
-            TITLE: `Copay bill for ${copayDetail?.station.facilityName}`,
-            INVOICE_DATE: verifyCurrentBalance(
-              copayDetail?.pSStatementDateOutput,
+            TITLE: `Copay bill for ${selectedCopay?.station.facilityName}`,
+            INVOICE_DATE: selectedCopay?.pSStatementDateOutput,
+            IS_CURRENT_DATE: verifyCurrentBalance(
+              selectedCopay?.pSStatementDateOutput,
             ),
             ACCOUNT_NUMBER:
-              copayDetail?.accountNumber || copayDetail?.pHAccountNumber,
+              selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber,
             CHARGES:
-              copayDetail?.details?.filter(
+              selectedCopay?.details?.filter(
                 charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
               ) ?? [],
           };
       /* eslint-disable no-nested-ternary */
     },
-    [copayDetail?.id, shouldShowVHAPaymentHistory],
+    [selectedCopay?.id, shouldShowVHAPaymentHistory],
   );
 
   // Handle alert separately
   useEffect(
     () => {
-      if (copayDetail?.id && !copayAttributes.INVOICE_DATE) {
-        setAlert('past-due-balance');
-      }
+      if (!selectedCopay?.id) return;
+      setAlert(copayAttributes.IS_CURRENT_DATE ? 'status' : 'past-due-balance');
     },
-    [copayDetail?.id, copayAttributes.INVOICE_DATE],
+    [selectedCopay?.id, copayAttributes],
   );
 
   useEffect(

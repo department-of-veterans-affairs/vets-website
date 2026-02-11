@@ -472,9 +472,9 @@ export default {
         first: 'JENNIFER',
         last: 'FOSTER',
       },
-      livingExpensesPaid: 'Less than half',
+      livingExpensesPaid: 'More than half',
       ssn: '331133113',
-      supportingStepchild: false,
+      supportingStepchild: true,
       whoDoesTheStepchildLiveWith: {
         first: 'First',
         last: 'Last',

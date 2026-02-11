@@ -135,7 +135,7 @@ describe('SearchControls Component', () => {
 
     expect(wrapper.find('span.usa-input-error-message')).to.have.lengthOf(1);
     expect(wrapper.find('span.usa-input-error-message').text()).to.contain(
-      'Please fill in a city or facility name',
+      'Fill in a city or facility name',
     );
     wrapper.unmount();
   });

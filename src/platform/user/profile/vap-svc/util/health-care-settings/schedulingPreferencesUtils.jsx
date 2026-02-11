@@ -4,16 +4,18 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { AddressView } from 'platform/user/exportsFile';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import PropTypes from 'prop-types';
-import { FIELD_NAMES, FIELD_TITLES } from '../../constants';
+import AddressView from '../../components/AddressField/AddressView';
 import {
   FIELD_ITEM_IDS,
+  FIELD_NAMES,
   FIELD_OPTION_IDS,
   FIELD_OPTION_IDS_INVERTED,
   FIELD_OPTION_IN_COPY,
+  FIELD_SECTION_HEADERS,
+  errorMessages,
 } from '../../constants/schedulingPreferencesConstants';
 
 import {
@@ -48,6 +50,42 @@ const SINGLE_VALUE_SCHEDULING_PREFERENCES = [
   ...INLINE_SCHEDULING_PREFERENCES,
   FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
 ];
+
+const inlinePreferenceFormTitle = fieldName => {
+  return `Select your ${FIELD_SECTION_HEADERS[fieldName]
+    .toLowerCase()
+    .replace(/s$/, '')}.`;
+};
+
+export const sortDaysAndTimes = days => {
+  const dayOrder = {
+    monday: 0,
+    tuesday: 1,
+    wednesday: 2,
+    thursday: 3,
+    friday: 4,
+  };
+
+  const timeOrder = {
+    morning: 0,
+    afternoon: 1,
+  };
+
+  return Object.entries(days)
+    .sort(([a], [b]) => {
+      const dayA = dayOrder[a.toLowerCase()];
+      const dayB = dayOrder[b.toLowerCase()];
+      return dayA - dayB;
+    })
+    .map(([day, times]) => {
+      const sortedTimes = times.sort((a, b) => {
+        const timeA = timeOrder[a];
+        const timeB = timeOrder[b];
+        return timeA - timeB;
+      });
+      return [day, sortedTimes];
+    });
+};
 
 export const isSchedulingPreference = fieldName => {
   return [
@@ -133,8 +171,11 @@ export const schedulingPreferencesUiSchema = fieldName => {
     default:
       return {
         [fieldName]: radioUI({
-          title: FIELD_TITLES[fieldName],
+          title: inlinePreferenceFormTitle(fieldName),
           labels: { ...schedulingPreferenceOptions(fieldName) },
+          errorMessages: {
+            enum: errorMessages.noPreferenceSelected,
+          },
         }),
       };
   }
@@ -298,9 +339,11 @@ export const getSchedulingPreferencesTimesDisplay = (fieldName, optionIds) => {
     days[formattedDay].push(timeOfDay.toLowerCase());
   });
 
+  const sortedDays = sortDaysAndTimes(days);
+
   return (
     <ul className="vads-u-margin-y--0">
-      {Object.entries(days).map(([day, times]) => (
+      {sortedDays.map(([day, times]) => (
         <li key={day}>
           {day}: {times.join(' or ')}
         </li>

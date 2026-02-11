@@ -429,6 +429,8 @@ export const convertUnifiedLabsAndTestRecord = record => {
     sampleTested: record.attributes.sampleTested,
     bodySite: record.attributes.bodySite,
     testCode: record.attributes.testCode,
+    testCodeDisplay:
+      record.attributes.testCodeDisplay || record.attributes.testCode,
     type: record.attributes.testCode,
     comments: record.attributes.comments,
     source: record.attributes.source,
