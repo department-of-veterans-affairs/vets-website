@@ -14,11 +14,7 @@ import {
   resetUploads,
   clearAdditionalEvidenceNotification,
 } from '../../actions';
-import {
-  getFilesNeeded,
-  getFilesOptional,
-  isClaimOpen,
-} from '../../utils/helpers';
+import { isClaimOpen } from '../../utils/helpers';
 import withRouter from '../../utils/withRouter';
 
 const filesPath = `../files`;
@@ -136,7 +132,6 @@ class AdditionalEvidencePage extends React.Component {
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
   const claim = claimsState.claimDetail.detail;
-  const { trackedItems } = claim.attributes;
 
   return {
     loading: claimsState.claimDetail.loading,
@@ -146,8 +141,6 @@ function mapStateToProps(state) {
     uploadError: claimsState.uploads.uploadError,
     uploadComplete: claimsState.uploads.uploadComplete,
     message: claimsState.notifications.additionalEvidenceMessage,
-    filesNeeded: getFilesNeeded(trackedItems),
-    filesOptional: getFilesOptional(trackedItems),
     showDocumentUploadStatus:
       state.featureToggles?.cst_show_document_upload_status || false,
     timezoneMitigationEnabled:
@@ -168,8 +161,6 @@ AdditionalEvidencePage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearAdditionalEvidenceNotification: PropTypes.func,
-  filesNeeded: PropTypes.array,
-  filesOptional: PropTypes.array,
   getClaim: PropTypes.func,
   loading: PropTypes.bool,
   location: PropTypes.object,

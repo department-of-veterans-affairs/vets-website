@@ -109,7 +109,7 @@ export default function ClaimsListItem({ claim }) {
               '"We requested more information from you: Check the claim details to learn more."'
             }
             after={
-              '"We need more information from you. (in bold) This message will go away when we finish reviewing your response."'
+              '"We need more information from you." (bold) + "This message will go away when we finish reviewing your response."'
             }
           />
           <va-alert status="info" slim>

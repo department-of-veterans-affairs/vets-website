@@ -411,7 +411,7 @@ const baseClaims = [
       evidenceSubmissions: [
         createEvidenceSubmission(111, 1, {
           acknowledgementDate: new Date(
-            Date.now() + 25 * 24 * 60 * 60 * 1000,
+            Date.now() - 1 * 24 * 60 * 60 * 1000,
           ).toISOString(),
           createdAt: new Date(
             Date.now() - 3 * 24 * 60 * 60 * 1000,
@@ -421,6 +421,20 @@ const baseClaims = [
             Date.now() - 2 * 24 * 60 * 60 * 1000,
           ).toISOString(),
           fileName: 'medical-records.pdf',
+        }),
+        // SUCCESS submission for tracked item 2: makes the "Tracked item card hidden"
+        // DemoNotation visible during design review (card hides after upload)
+        createEvidenceSubmission(112, 2, {
+          acknowledgementDate: new Date(
+            Date.now() + 25 * 24 * 60 * 60 * 1000,
+          ).toISOString(),
+          createdAt: new Date(
+            Date.now() - 1 * 24 * 60 * 60 * 1000,
+          ).toISOString(),
+          documentType: 'Buddy/Lay Statement',
+          fileName: 'buddy-statement.pdf',
+          trackedItemId: 2,
+          uploadStatus: 'SUCCESS',
         }),
       ],
       contentions: [
@@ -436,8 +450,6 @@ const baseClaims = [
           friendlyName: 'Authorization to disclose information',
           shortDescription:
             'We need your permission to request your personal information from a non-VA source, like a private doctor or hospital.',
-          activityDescription:
-            'We requested your proof of service on your behalf. No action is needed.',
           canUploadFile: true,
         }),
         // NEEDED_FROM_YOU #2: "Provide witness or corroboration statements"
