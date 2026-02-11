@@ -104,86 +104,36 @@ export default function ClaimFormSideNav({
   );
 
   /**
-   * Track mobile accordion expand/collapse events
-   * Listens for click events on the accordion button
+   * Handle clicks on sidenav to track accordion expand/collapse
+   * Uses event delegation to catch clicks on accordion button in shadow DOM
    */
-  useEffect(
-    () => {
-      if (!sidenavRef.current) return undefined;
+  const handleSidenavClick = () => {
+    // Defer to next tick so web component's click handler updates aria-expanded first
+    setTimeout(() => {
+      const accordionItem = sidenavRef.current?.shadowRoot?.querySelector(
+        'va-accordion > va-accordion-item',
+      );
 
-      // Wait for web components to hydrate before accessing shadow DOM
-      const setupAccordionTracking = () => {
-        const accordionItem = sidenavRef.current?.shadowRoot?.querySelector(
-          'va-accordion > va-accordion-item',
-        );
+      if (!accordionItem) return;
 
-        if (!accordionItem) {
-          return false;
-        }
+      const accordionButton = accordionItem.shadowRoot?.querySelector(
+        'button[aria-expanded]',
+      );
 
-        // Get the button with aria-expanded inside the accordion item's shadow DOM
-        const accordionButton = accordionItem.shadowRoot?.querySelector(
-          'button[aria-expanded]',
-        );
+      if (!accordionButton) return;
 
-        if (!accordionButton) {
-          return false;
-        }
+      const isExpanded =
+        accordionButton.getAttribute('aria-expanded') === 'true';
+      const state = isExpanded ? 'expanded' : 'collapsed';
+      const accordionTitle = accordionButton.textContent?.trim();
 
-        // Track accordion clicks
-        const handleAccordionClick = () => {
-          // Read current state before the click toggles it
-          const isCurrentlyExpanded =
-            accordionButton.getAttribute('aria-expanded') === 'true';
-
-          // After click, state will be the opposite
-          const state = isCurrentlyExpanded ? 'collapsed' : 'expanded';
-
-          trackMobileAccordionClick({
-            pathname,
-            state,
-            accordionTitle: 'Form steps',
-          });
-        };
-
-        accordionButton.addEventListener('click', handleAccordionClick);
-
-        // Store cleanup function
-        return () => {
-          accordionButton.removeEventListener('click', handleAccordionClick);
-        };
-      };
-
-      // Try immediately
-      let cleanup = setupAccordionTracking();
-
-      // If not ready, retry with exponential backoff for web component hydration
-      if (!cleanup) {
-        const maxAttempts = 5;
-        let attempt = 0;
-        let timeoutId = null;
-
-        const scheduleRetry = delay => {
-          timeoutId = setTimeout(() => {
-            cleanup = setupAccordionTracking();
-            if (cleanup || attempt >= maxAttempts) return;
-            attempt += 1;
-            scheduleRetry(delay * 2);
-          }, delay);
-        };
-
-        scheduleRetry(100);
-
-        return () => {
-          if (timeoutId) clearTimeout(timeoutId);
-          if (cleanup) cleanup();
-        };
-      }
-
-      return cleanup;
-    },
-    [pathname],
-  );
+      trackMobileAccordionClick({
+        pathname,
+        state,
+        accordionTitle,
+      });
+    }, 0);
+  };
 
   /**
    * Handle navigation item click
@@ -219,6 +169,7 @@ export default function ClaimFormSideNav({
       icon-background-color="vads-color-link"
       icon-name="description"
       id="default-sidenav"
+      onClick={handleSidenavClick}
     >
       {landingPages.map((page, index) => {
         const label = `Step ${index + 1}: ${page.label}`;
