@@ -21,31 +21,31 @@ describe('HCA-Household: Spousal disclosure', () => {
   });
 
   it('works with spouse who lived with Veteran', () => {
-    goToNextPage();
+    goToNextPage('/household-information/share-financial-information');
     cy.selectYesNoVaRadioOption('root_discloseFinancialInformation', true);
 
-    goToNextPage();
-    goToNextPage();
+    goToNextPage('/household-information/financial-information-needed');
+    goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select(testData.maritalStatus);
 
-    goToNextPage();
+    goToNextPage('/household-information/spouse-personal-information');
     fillSpousalBasicInformation(testData);
 
-    goToNextPage();
+    goToNextPage('/household-information/spouse-additional-information');
     cy.selectYesNoVaRadioOption('root_cohabitedLastYear', true);
     cy.selectYesNoVaRadioOption('root_sameAddress', true);
 
-    goToNextPage();
-    goToNextPage();
+    goToNextPage('/household-information/your-dependents');
+    goToNextPage('/household-information/dependents');
     cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
 
-    goToNextPage();
+    goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
 
-    goToNextPage();
+    goToNextPage('/household-information/spouse-annual-income');
     fillSpousalIncome(testData);
 
-    goToNextPage();
+    goToNextPage('/household-information/deductible-expenses');
     fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToSubmit(testData);
@@ -53,24 +53,24 @@ describe('HCA-Household: Spousal disclosure', () => {
   });
 
   it('works with spouse who did not live with Veteran', () => {
-    goToNextPage();
+    goToNextPage('/household-information/share-financial-information');
     cy.selectYesNoVaRadioOption('root_discloseFinancialInformation', true);
 
-    goToNextPage();
-    goToNextPage();
+    goToNextPage('/household-information/financial-information-needed');
+    goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select(testData.maritalStatus);
 
-    goToNextPage();
+    goToNextPage('/household-information/spouse-personal-information');
     fillSpousalBasicInformation(testData);
 
-    goToNextPage();
+    goToNextPage('/household-information/spouse-additional-information');
     cy.selectYesNoVaRadioOption('root_cohabitedLastYear', false);
     cy.selectYesNoVaRadioOption('root_sameAddress', false);
 
-    goToNextPage();
+    goToNextPage('/household-information/spouse-financial-support');
     cy.selectYesNoVaRadioOption('root_provideSupportLastYear', false);
 
-    goToNextPage();
+    goToNextPage('/household-information/spouse-contact-information');
     cy.fillAddress(
       'root_spouseAddress',
       testData['view:spouseContactInformation'].spouseAddress,
@@ -80,17 +80,17 @@ describe('HCA-Household: Spousal disclosure', () => {
       testData['view:spouseContactInformation'].spousePhone,
     );
 
-    goToNextPage();
-    goToNextPage();
+    goToNextPage('/household-information/your-dependents');
+    goToNextPage('/household-information/dependents');
     cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
 
-    goToNextPage();
+    goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
 
-    goToNextPage();
+    goToNextPage('/household-information/spouse-annual-income');
     fillSpousalIncome(testData);
 
-    goToNextPage();
+    goToNextPage('/household-information/deductible-expenses');
     fillDeductibleExpenses(testData);
 
     advanceFromHouseholdToSubmit(testData);
