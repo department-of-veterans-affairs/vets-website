@@ -15,7 +15,8 @@ describe('OracleHealthTransitionAlerts', () => {
   const singleBlockedPrescription = [blockedPrescriptions[0]];
 
   const mockMigratingFacilities =
-    michiganTransitioningUser.data.attributes.va_profile.oh_migration_info.migration_schedules;
+    michiganTransitioningUser.data.attributes.va_profile.oh_migration_info
+      .migration_schedules;
 
   describe('when no alerts should be shown', () => {
     it('returns null when required data is missing', () => {
