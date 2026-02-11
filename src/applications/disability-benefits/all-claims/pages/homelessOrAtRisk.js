@@ -98,7 +98,7 @@ export const uiSchema = {
   homelessnessContact: {
     'ui:title': ' ',
     'ui:description':
-      'Please provide the name of a person or place we can call if we need to get in touch with you.',
+      'Let us know where we can contact you if you also lose access to your phone number.',
     'ui:options': {
       expandUnder: 'homelessOrAtRisk',
       expandUnderCondition: housing =>
@@ -106,12 +106,16 @@ export const uiSchema = {
         housing === HOMELESSNESS_TYPES.atRisk,
     },
     name: {
-      'ui:title': 'Name',
+      'ui:title': 'Name of alternate contact or place',
       'ui:required': getHomelessOrAtRisk,
     },
-    phoneNumber: merge({}, phoneUI('Phone number'), {
-      'ui:required': getHomelessOrAtRisk,
-    }),
+    phoneNumber: merge(
+      {},
+      phoneUI('Phone number of alternate contact or place'),
+      {
+        'ui:required': getHomelessOrAtRisk,
+      },
+    ),
   },
   'ui:confirmationField': ConfirmationHousingSituation,
 };

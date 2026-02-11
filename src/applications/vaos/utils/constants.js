@@ -481,7 +481,7 @@ export const OH_ENABLED_TYPES_OF_CARE = [
   // 'audiology',
   // 'audiology-hearing aid support',
   // 'audiology-routine exam',
-  'clinicalPharmacyPrimaryCare',
+  // 'clinicalPharmacyPrimaryCare',
   // 'cpap',
   'foodAndNutrition',
   // 'homeSleepTesting',
@@ -528,3 +528,7 @@ export const POST_DRAFT_REFERRAL_APPOINTMENT_CACHE =
 export const POST_REFERRAL_REQUEST_CACHE = 'postReferralAppointmentCache';
 
 export const AMBULATORY_PATIENT_SUMMARY = 'ambulatory_patient_summary';
+
+// AVS error message constants
+export const AVS_ERROR_EMPTY_BINARY = 'Retrieved empty AVS binary';
+export const AVS_ERROR_RETRIEVAL = 'Error retrieving AVS binary';
