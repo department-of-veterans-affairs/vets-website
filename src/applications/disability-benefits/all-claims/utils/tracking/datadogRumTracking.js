@@ -3,7 +3,7 @@ import { datadogRum } from '@datadog/browser-rum';
 import {
   TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
   TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
-  TRACKING_526EZ_SIDENAV_TOGGLE,
+  TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE,
 } from '../../constants';
 
 /**
@@ -18,7 +18,7 @@ const getTrackingDefaults = () => {
   let sidenav526ezEnabled;
 
   try {
-    const raw = sessionStorage.getItem(TRACKING_526EZ_SIDENAV_TOGGLE);
+    const raw = sessionStorage.getItem(TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE);
     sidenav526ezEnabled = raw !== null ? raw === 'true' : undefined;
   } catch (error) {
     // Storage access blocked (privacy mode, CSP, etc.)

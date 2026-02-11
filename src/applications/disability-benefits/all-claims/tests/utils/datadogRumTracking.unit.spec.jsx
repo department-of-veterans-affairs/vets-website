@@ -8,7 +8,7 @@ import {
 } from '../../utils/tracking/datadogRumTracking';
 import {
   TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
-  TRACKING_526EZ_SIDENAV_TOGGLE,
+  TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE,
 } from '../../constants';
 
 describe('datadogRumTracking', () => {
@@ -27,7 +27,7 @@ describe('datadogRumTracking', () => {
   });
 
   it('tracks back button clicks and increments the counter', () => {
-    sessionStorage.setItem(TRACKING_526EZ_SIDENAV_TOGGLE, 'true');
+    sessionStorage.setItem(TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE, 'true');
 
     trackBackButtonClick();
 
@@ -46,7 +46,7 @@ describe('datadogRumTracking', () => {
   });
 
   it('tracks save form click', () => {
-    sessionStorage.setItem(TRACKING_526EZ_SIDENAV_TOGGLE, 'false');
+    sessionStorage.setItem(TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE, 'false');
 
     trackSaveFormClick();
 

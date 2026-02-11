@@ -12,7 +12,7 @@ import {
   TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
   TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
   TRACKING_526EZ_SIDENAV_FORM_START,
-  TRACKING_526EZ_SIDENAV_TOGGLE,
+  TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE,
 } from '../constants';
 import {
   howLongForDecision,
@@ -96,7 +96,7 @@ export default class ConfirmationPage extends React.Component {
     sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS);
     sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS);
     sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_FORM_START);
-    sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_TOGGLE);
+    sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE);
 
     return this.ConfirmationPageContent(this.props);
   }

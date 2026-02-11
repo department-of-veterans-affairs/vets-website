@@ -37,7 +37,7 @@ import {
   DATA_DOG_SERVICE,
   DATA_DOG_VERSION,
   TRACKING_526EZ_SIDENAV_FORM_START,
-  TRACKING_526EZ_SIDENAV_TOGGLE,
+  TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE,
 } from './constants';
 import {
   isBDD,
@@ -67,10 +67,8 @@ import {
   trackFormSubmitted,
 } from './utils/tracking/datadogRumTracking';
 
-// formConfig must be mutated in place because the platform forms system
-// (RoutedSavableApp, FormPage, SaveFormLink, SubmitController) reads
-// formConfig from route objects built at module load time via
-// createRoutesWithSaveInProgress(formConfig) in routes.jsx.
+// formConfig must be mutated in place because the platform forms system reads it
+// from route objects built at module load time via createRoutesWithSaveInProgress(formConfig).
 if (!formConfig.formOptions) {
   formConfig.formOptions = {};
 }
@@ -259,7 +257,7 @@ export const Form526Entry = ({
     () => {
       if (sideNavFeatureEnabled !== undefined) {
         sessionStorage.setItem(
-          TRACKING_526EZ_SIDENAV_TOGGLE,
+          TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE,
           String(sideNavFeatureEnabled),
         );
       }

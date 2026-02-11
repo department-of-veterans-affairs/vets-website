@@ -352,7 +352,7 @@ export const TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS =
 export const TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS =
   '21-526EZ_continueButtonClickCount';
 export const TRACKING_526EZ_SIDENAV_FORM_START = '21-526EZ_formStartTracked';
-export const TRACKING_526EZ_SIDENAV_TOGGLE = '21-526EZ_sidenavEnabled';
+export const TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE = '21-526EZ_sidenavEnabled';
 
 // sessionStorage key used for the user entered separation date in the wizard
 // used by the first page of the form to populate the form data
