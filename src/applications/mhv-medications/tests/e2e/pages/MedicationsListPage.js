@@ -850,8 +850,8 @@ class MedicationsListPage {
 
   verifyFocusOnPaginationTextInformationOnListPage = text => {
     cy.findAllByTestId('page-total-info')
-      .first()
-      .should('be.focused')
+      .filter(':focused')
+      .should('have.length', 1)
       .and('contain', text);
   };
 
