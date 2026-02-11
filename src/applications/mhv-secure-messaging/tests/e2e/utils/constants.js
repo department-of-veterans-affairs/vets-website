@@ -49,6 +49,7 @@ export const Paths = {
     MESSAGE_SIGNATURE: '/my_health/v1/messaging/preferences/signature',
     MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
     MESSAGES: '/my_health/v1/messaging/messages',
+    MESSAGES_RENEWAL: '/my_health/v1/messaging/messages/renewal',
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,

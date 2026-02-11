@@ -211,6 +211,43 @@ export const createMessage = (sendData, attachmentFlag, ohTriageGroup) => {
 };
 
 /**
+ * Create a new prescription renewal message.
+ * @param {*} sendData
+ * @param {Boolean} attachmentFlag
+ * @param {Boolean} ohTriageGroup
+ * @returns
+ */
+export const createRenewalMessage = (
+  sendData,
+  attachmentFlag,
+  ohTriageGroup,
+) => {
+  if (attachmentFlag === false) {
+    return apiRequest(
+      `${apiBasePath}/messaging/messages/renewal${
+        ohTriageGroup ? `?is_oh_triage_group=${ohTriageGroup}` : ''
+      }`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: sendData,
+      },
+    );
+  }
+  return apiRequest(
+    `${apiBasePath}/messaging/messages/renewal${
+      ohTriageGroup ? `?is_oh_triage_group=${ohTriageGroup}` : ''
+    }`,
+    {
+      method: 'POST',
+      body: sendData,
+    },
+  );
+};
+
+/**
  * Create a new "reply to" message.
  * @param {*} message
  * @returns

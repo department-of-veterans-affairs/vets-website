@@ -479,6 +479,54 @@ describe('messages actions', () => {
       });
   });
 
+  it('should call renewal endpoint when isRxRenewal is true', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+    const messageData = {
+      category: 'MEDICATIONS',
+      body: 'Test body',
+      subject: 'Renewal Needed',
+    };
+    messageData[`${'recipient_id'}`] = '2710520';
+    messageData[`${'prescription_id'}`] = '24654491';
+
+    await store.dispatch(
+      sendMessage(
+        JSON.stringify(messageData),
+        false,
+        false,
+        true, // isRxRenewal = true
+      ),
+    );
+
+    const fetchUrl = global.fetch.firstCall.args[0];
+    expect(fetchUrl).to.include('/messaging/messages/renewal');
+  });
+
+  it('should call standard endpoint when isRxRenewal is false', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+    const messageData = {
+      category: 'EDUCATION',
+      body: 'Test body',
+      subject: 'Test subject',
+    };
+    messageData[`${'recipient_id'}`] = '2710520';
+
+    await store.dispatch(
+      sendMessage(
+        JSON.stringify(messageData),
+        false,
+        false,
+        false, // isRxRenewal = false
+      ),
+    );
+
+    const fetchUrl = global.fetch.firstCall.args[0];
+    expect(fetchUrl).to.include('/messaging/messages');
+    expect(fetchUrl).to.not.include('/messaging/messages/renewal');
+  });
+
   it('should log prescription renewal message when isRxRenewal is true', async () => {
     const store = mockStore();
     mockApiRequest(messageResponse);
