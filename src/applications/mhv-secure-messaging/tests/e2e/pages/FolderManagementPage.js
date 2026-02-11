@@ -102,13 +102,14 @@ class FolderManagementPage {
       .scrollIntoView()
       .click();
 
+    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID).click({
+      force: true,
+    });
     cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID, { timeout: 10000 })
-      .should('exist')
-      .and('be.visible');
-
-    cy.findByLabelText(folderName, { timeout: 10000 })
       .should('be.visible')
-      .click();
+      .then(() => {
+        cy.findByLabelText(folderName, { timeout: 10000 }).click();
+      });
   };
 
   confirmMovingMessageToFolder = (
