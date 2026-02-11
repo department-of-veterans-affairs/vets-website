@@ -46,7 +46,7 @@
   "marriageEndedExplanation": "Some other reason",
   "receivedBenefits": false,
   "claims": {
-    "DIC": true,
+    "dic": true,
     "survivorsPension": true,
     "accruedBenefits": true
   },
