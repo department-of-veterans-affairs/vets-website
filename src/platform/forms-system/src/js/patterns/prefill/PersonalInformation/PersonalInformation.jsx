@@ -214,17 +214,7 @@ export const PersonalInformation = ({
                   Date of birth:
                 </dt>
                 <dd
-                  className="dd-privacy-mask medium-screen:vads-u-display--inline-block vads-u-display--none"
-                  data-dd-action-name="Veteran's date of birth"
-                >
-                  {isValid(dobDateObj) ? (
-                    format(dobDateObj, FORMAT_READABLE_DATE_FNS)
-                  ) : (
-                    <span data-testid="dob-not-available">Not available</span>
-                  )}
-                </dd>
-                <dd
-                  className="dd-privacy-mask vads-u-display--inline-block medium-screen:vads-u-display--none"
+                  className="vads-u-display--inline-block dd-privacy-mask vads-u-font-family--sans"
                   data-dd-action-name="Veteran's date of birth"
                 >
                   {isValid(dobDateObj) ? (
