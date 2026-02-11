@@ -20,6 +20,7 @@ const normalizeAndCategorizeFacility = (
     vhaId: removeVhaPrefix(facilityEntity?.fieldFacilityLocatorApiId),
     vamcFacilityName: facilityEntity?.title,
     vamcSystemName: facilityEntity?.fieldRegionPage?.entity?.title,
+    // vamcSystemName: facilityEntity?.title,
     ehr: facilityEntity?.fieldRegionPage?.entity?.fieldVamcEhrSystem,
   };
 

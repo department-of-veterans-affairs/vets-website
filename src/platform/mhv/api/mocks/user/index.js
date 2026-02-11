@@ -324,15 +324,52 @@ const acceleratedCernerUser = {
         cernerFacilityIds: ['757'],
         facilities: [
           {
-            facilityId: '757',
-            isCerner: true,
-          },
-          {
             facilityId: '528',
             isCerner: false,
           },
+
           {
-            facilityId: '459',
+            facilityId: '668',
+            isCerner: false,
+          },
+          {
+            facilityId: '667',
+            isCerner: false,
+          },
+          {
+            facilityId: '757',
+            isCerner: false,
+          },
+          {
+            facilityId: '653',
+            isCerner: false,
+          },
+          {
+            facilityId: '692',
+            isCerner: false,
+          },
+          {
+            facilityId: '556',
+            isCerner: false,
+          },
+          {
+            facilityId: '553',
+            isCerner: false,
+          },
+          {
+            facilityId: '655',
+            isCerner: false,
+          },
+          {
+            facilityId: '506',
+            isCerner: false,
+          },
+          {
+            facilityId: '515',
+            isCerner: false,
+          },
+          {
+            facilityId: '687',
             isCerner: false,
           },
         ],

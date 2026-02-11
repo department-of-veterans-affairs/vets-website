@@ -3,7 +3,7 @@ import AlertSection from './AlertSection';
 import CCDDownloadSection from './CCDDownloadSection';
 import TrackedSpinner from '../shared/TrackedSpinner';
 import useSelfEnteredPdf from '../../hooks/useSelfEnteredPdf';
-import { formatFacilityList } from '../../util/facilityHelpers';
+import { formatFacilityListWithCutoverDate } from '../../util/facilityHelpers';
 import { useDownloadReport } from '../../context/DownloadReportContext';
 import CCDDescription from './CCDDescription';
 
@@ -39,7 +39,8 @@ const VistaAndOHContent = () => {
         {ccdExtendedFileTypeFlag ? (
           <>
             <p className="vads-u-font-weight--bold">
-              CCD: medical records from {formatFacilityList(vistaFacilityNames)}
+              CCD: medical records from{' '}
+              {formatFacilityListWithCutoverDate(vistaFacilityNames)}
             </p>
 
             <div className="vads-u-margin-bottom--4">
@@ -53,7 +54,8 @@ const VistaAndOHContent = () => {
             </div>
 
             <p className="vads-u-font-weight--bold">
-              CCD: medical records from {formatFacilityList(ohFacilityNames)}
+              CCD: medical records from{' '}
+              {formatFacilityListWithCutoverDate(ohFacilityNames)}
             </p>
 
             <CCDDownloadSection

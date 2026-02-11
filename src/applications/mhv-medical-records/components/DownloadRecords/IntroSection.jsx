@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatFacilityUnorderedList } from '../../util/facilityHelpers';
+import { formatFacilityUnorderedListWithCutoverDate } from '../../util/facilityHelpers';
 import { dataSourceTypes } from '../../util/constants';
 import LastUpdatedCard from './LastUpdatedCard';
 import HoldTimeInfo from '../shared/HoldTimeInfo';
@@ -24,13 +24,13 @@ const CONTENT = {
           your VA Blue Button report) or download your self-entered health
           information for these facilities:
         </p>
-        {formatFacilityUnorderedList(vistaFacilityNames)}
+        {formatFacilityUnorderedListWithCutoverDate(vistaFacilityNames)}
         <p>
           VA medical records for these facilities aren’t available in your Blue
           Button report right now. Download your Continuity of Care Document
           (CCD) to access medical records for these facilities:
         </p>
-        {formatFacilityUnorderedList(ohFacilityNames)}
+        {formatFacilityUnorderedListWithCutoverDate(ohFacilityNames)}
       </>
     ),
   },
