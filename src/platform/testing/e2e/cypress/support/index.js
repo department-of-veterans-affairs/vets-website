@@ -5,10 +5,6 @@ import 'cypress-real-events/support';
 import '@cypress/code-coverage/support';
 import addContext from 'mochawesome/addContext';
 import './commands';
-// eslint-disable-next-line @department-of-veterans-affairs/use-resolved-path, import/no-unresolved
-import mockGeocodingData from '../../../../applications/facility-locator/constants/mock-geocoding-data.json';
-// eslint-disable-next-line @department-of-veterans-affairs/use-resolved-path, import/no-unresolved
-import mockProviderServices from '../../../../applications/facility-locator/constants/mock-provider-services.json';
 
 // Re-export URL utilities for easy access in tests
 // Usage: import { getBaseUrl, getTestUrl } from 'support/index';
@@ -90,15 +86,15 @@ beforeEach(() => {
   });
 
   // Auto-mock Mapbox Geocoding API to prevent hitting real API (costs money per query).
-  // This is the primary cost driver - each user search hits the geocoding API.
-  // Uses mock data with actual geocoding results for Austin, TX.
-  // Tests can override this mock by registering their own more specific intercepts.
+  // Returns an empty FeatureCollection so tests don't depend on external geocoding.
+  // Tests that need specific geocoding results can register their own intercepts.
   cy.intercept('GET', '**/api.mapbox.com/geocoding/**', {
     statusCode: 200,
-    body: mockGeocodingData,
+    body: { type: 'FeatureCollection', query: [], features: [] },
   }).as('mapboxGeocoding');
 
-  // Mock static images API - also costs per request
+  // Mock Mapbox static images API — also costs per request.
+  // Returns a transparent 1x1 PNG.
   cy.intercept('GET', '**/api.mapbox.com/styles/**/static/**', {
     statusCode: 200,
     headers: { 'content-type': 'image/png' },
@@ -107,15 +103,6 @@ beforeEach(() => {
       'image/png',
     ),
   }).as('mapboxStatic');
-
-  // Mock Community Care Provider specialties API
-  // Facility locator with progressive disclosure fetches this on page load
-  // Uses mock data with actual CCP specialties (dentist, urgent care, etc.)
-  // Tests can override with their own specific data if needed
-  cy.intercept('GET', '/facilities_api/v2/ccp/specialties', {
-    statusCode: 200,
-    body: mockProviderServices,
-  }).as('ccpSpecialties');
 });
 
 // Assign the video path to the context property for failed tests
