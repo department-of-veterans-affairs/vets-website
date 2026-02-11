@@ -1,19 +1,16 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Toggler,
-  useFeatureToggle,
-} from '~/platform/utilities/feature-toggles';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import {
   getClaimPhaseTypeHeaderText,
   buildDateFormatter,
-  getFailedSubmissionsWithinLast30Days,
   getStatusDescription,
   generateClaimTitle,
   getShowEightPhases,
 } from '../utils/helpers';
 import ClaimCard from './ClaimCard';
-import UploadType2ErrorAlertSlim from './UploadType2ErrorAlertSlim';
+import { DemoNotation } from '../demo';
+import useFailureLabel from '../hooks/useFailureLabel';
 
 const formatDate = buildDateFormatter();
 
@@ -30,8 +27,6 @@ const showPreDecisionCommunications = claim => {
 
   return !decisionLetterSent && status !== 'COMPLETE';
 };
-
-const isClaimComplete = claim => claim.attributes.status === 'COMPLETE';
 
 const CommunicationsItem = ({ children, icon }) => {
   return (
@@ -71,7 +66,6 @@ export default function ClaimsListItem({ claim }) {
     cstClaimPhasesEnabled,
   );
 
-  const inProgress = !isClaimComplete(claim);
   const showPrecomms = showPreDecisionCommunications(claim);
   const formattedReceiptDate = formatDate(claimDate);
   const humanStatus = showEightPhases
@@ -82,17 +76,12 @@ export default function ClaimsListItem({ claim }) {
   const ariaLabel = `Details for claim submitted on ${formattedReceiptDate}`;
   const href = `/your-claims/${claim.id}/status`;
 
-  // Memoize failed submissions to prevent UploadType2ErrorAlertSlim from receiving
-  // a new array reference on every render, which would break its useEffect tracking
-  const failedSubmissionsWithinLast30Days = useMemo(
-    () => getFailedSubmissionsWithinLast30Days(evidenceSubmissions),
-    [evidenceSubmissions],
-  );
+  const { failureLabel } = useFailureLabel(evidenceSubmissions, claim.id);
 
   return (
     <ClaimCard
       title={generateClaimTitle(claim)}
-      label={inProgress ? 'In Progress' : null}
+      label={failureLabel}
       subtitle={`Received on ${formattedReceiptDate}`}
     >
       <ul className="communications">
@@ -111,24 +100,23 @@ export default function ClaimsListItem({ claim }) {
         {humanStatus && <p>{humanStatus}</p>}
         <p>{getLastUpdated(claim)}</p>
       </div>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.cstShowDocumentUploadStatus}>
-        <Toggler.Enabled>
-          <UploadType2ErrorAlertSlim
-            claimId={claim.id}
-            failedSubmissions={failedSubmissionsWithinLast30Days}
-          />
-        </Toggler.Enabled>
-      </Toggler>
       {showAlert && (
-        <va-alert status="info" slim>
-          <span className="vads-u-font-weight--bold">
-            We requested more information from you:
-          </span>{' '}
-          Check the claim details to learn more.
-          <div className="vads-u-margin-top--2">
-            This message will go away when we finish reviewing your response.
-          </div>
-        </va-alert>
+        <>
+          <DemoNotation
+            theme="change"
+            title="Update content"
+            before={
+              '"We requested more information from you: Check the claim details to learn more."'
+            }
+            after={
+              '"We need more information from you. (in bold) This message will go away when we finish reviewing your response."'
+            }
+          />
+          <va-alert status="info" slim>
+            <strong>We need more information from you.</strong> This message
+            will go away when we finish reviewing your response.
+          </va-alert>
+        </>
       )}
       <ClaimCard.Link ariaLabel={ariaLabel} href={href} />
     </ClaimCard>
