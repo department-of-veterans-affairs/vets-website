@@ -42,7 +42,7 @@ const options = {
   nounPlural: 'properties with VA home loans',
   required: false,
   isItemIncomplete: item =>
-    !item?.dateRange ||
+    !item?.loanDate ||
     !item?.entitlementRestoration ||
     !item?.propertyAddress?.street1 ||
     !item?.propertyAddress?.city ||
@@ -74,7 +74,7 @@ const options = {
     ),
     cardDescription: itemData => (
       <div>
-        {formatReviewDate(itemData?.dateRange, true)}
+        {formatReviewDate(itemData?.loanDate, true)}
         <div>
           {getEntitlementRestorationText(itemData?.entitlementRestoration)}
         </div>

@@ -19,7 +19,7 @@ export default {
         </div>
       ),
     ),
-    dateRange: currentOrPastMonthYearDateUI({
+    loanDate: currentOrPastMonthYearDateUI({
       title: 'Loan date',
     }),
     vaLoanNumber: numberUI({
@@ -30,9 +30,9 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      dateRange: currentOrPastMonthYearDateSchema,
+      loanDate: currentOrPastMonthYearDateSchema,
       vaLoanNumber: numberSchema,
     },
-    required: ['dateRange'],
+    required: ['loanDate'],
   },
 };
