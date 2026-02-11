@@ -303,14 +303,18 @@ module.exports = async (env = {}) => {
   const baseConfig = {
     mode: isOptimizedBuild ? 'production' : 'development',
     devtool: false,
-    cache: {
-      type: 'filesystem',
-      buildDependencies: {
-        config: [__filename],
-        babel: [path.resolve(__dirname, '../babel.config.json')],
-        postcss: [path.resolve(__dirname, '../postcss.config.js')],
-      },
-    },
+    cache:
+      buildtype !== LOCALHOST
+        ? false
+        : {
+            type: 'filesystem',
+            cacheDirectory: path.resolve(__dirname, '../.cache/webpack'),
+            buildDependencies: {
+              config: [__filename],
+              babel: [path.resolve(__dirname, '../babel.config.json')],
+              postcss: [path.resolve(__dirname, '../postcss.config.js')],
+            },
+          },
     entry: entryFiles,
     output: {
       path: path.resolve(buildPath, 'generated'),
