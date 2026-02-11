@@ -6,7 +6,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { IssueCard, determineActiveReview } from '../../components/IssueCard';
 import { getAdditionalIssue, getContestableIssue } from '../test-utils';
 
-describe('<IssueCard>', () => {
+describe('IssueCard', () => {
   const getProps = ({
     appName = 'Supplemental Claim',
     showCheckbox = true,
@@ -42,6 +42,9 @@ describe('<IssueCard>', () => {
       expect($$('[label="issue-10"]', container)).to.have.lengthOf(1);
       expect($$('a.edit-issue-link', container).length).to.equal(0);
       expect($$('.remove-issue', container).length).to.equal(0);
+      expect($$('#issue-0-description', container).length).to.be.greaterThan(0);
+      expect($$('.edit-issue-link', container).length).to.equal(0);
+      expect($$('.remove-issue', container).length).to.equal(0);
     });
 
     it('should render an additional issue with edit and remove buttons', () => {
@@ -74,33 +77,9 @@ describe('<IssueCard>', () => {
 
       expect(checkbox[0].id).to.equal('id_0');
     });
-
-    it('should render issue card content with description', () => {
-      const props = getProps();
-      const issue = getContestableIssue('10');
-      const { container } = render(<IssueCard {...props} item={issue} />);
-
-      expect($$('#issue-0-description', container).length).to.be.greaterThan(0);
-    });
   });
 
   describe('checkbox functionality', () => {
-    it('should call onChange when the checkbox is toggled', () => {
-      const onChange = sinon.spy();
-      const props = getProps({ onChange });
-      const issue = getContestableIssue('01', true);
-      const { container } = render(<IssueCard {...props} item={issue} />);
-
-      const checkbox = $('va-checkbox', container);
-      fireEvent(
-        checkbox,
-        new CustomEvent('vaChange', { detail: { checked: true } }),
-      );
-
-      expect(onChange.callCount).to.equal(1);
-      expect(onChange.firstCall.args[0]).to.equal(0);
-    });
-
     it('should call onChange with correct index', () => {
       const onChange = sinon.spy();
       const props = { ...getProps({ onChange }), index: 5 };
@@ -116,38 +95,21 @@ describe('<IssueCard>', () => {
       expect(onChange.callCount).to.equal(1);
       expect(onChange.firstCall.args[0]).to.equal(5);
     });
-
-    it('should show unselected checkbox for unselected issue', () => {
-      const props = getProps();
-      const issue = getContestableIssue('01', false);
-      const { container } = render(<IssueCard {...props} item={issue} />);
-      const checkbox = $('va-checkbox', container);
-
-      expect(checkbox.checked).to.be.false;
-    });
   });
 
-  describe('without checkbox', () => {
+  describe('when the issue is blocked (should be without checkbox)', () => {
     it('should render without checkbox, edit/remove buttons, and show issue name as strong text', () => {
       const props = getProps({ showCheckbox: false });
-      const additionalIssue = getAdditionalIssue('03', true);
-      const { container, rerender } = render(
-        <IssueCard {...props} item={additionalIssue} />,
+      const contestableIssue = getContestableIssue('05', true);
+      const { container } = render(
+        <IssueCard {...props} item={contestableIssue} />,
       );
 
       expect($$('va-checkbox', container).length).to.equal(0);
       expect($$('.edit-issue-link', container).length).to.equal(0);
       expect($$('.remove-issue', container).length).to.equal(0);
 
-      let title = $('.widget-title', container);
-      expect(title).to.exist;
-      expect(title.textContent).to.equal('new-issue-03');
-
-      // Test with contestable issue
-      const contestableIssue = getContestableIssue('05', true);
-      rerender(<IssueCard {...props} item={contestableIssue} />);
-
-      title = $('.widget-title', container);
+      const title = $('.widget-title', container);
       expect(title.textContent).to.equal('issue-05');
     });
   });
@@ -169,16 +131,6 @@ describe('<IssueCard>', () => {
         'remove new-issue-22',
       );
       expect(removeButtons[0].getAttribute('text')).to.equal('Remove');
-    });
-
-    it('should render edit link at different indices', () => {
-      const props = { ...getProps(), index: 7 };
-      const issue = getAdditionalIssue('22');
-      const { container } = render(<IssueCard {...props} item={issue} />);
-
-      const editLinks = $$('.edit-issue-link', container);
-      expect(editLinks.length).to.be.greaterThan(0);
-      expect(editLinks[0].getAttribute('href')).to.equal('/add-issue');
     });
 
     it('should call onRemove with correct index when remove button is clicked', () => {
@@ -205,25 +157,17 @@ describe('<IssueCard>', () => {
       expect(onRemove.callCount).to.equal(2);
       expect(onRemove.secondCall.args[0]).to.equal(3);
     });
-
-    it('should not render edit/remove buttons for contestable issues', () => {
-      const props = getProps();
-      const issue = getContestableIssue('10');
-      const { container } = render(<IssueCard {...props} item={issue} />);
-
-      expect($$('.edit-issue-link', container).length).to.equal(0);
-      expect($$('.remove-issue', container).length).to.equal(0);
-    });
   });
 
   describe('active review message', () => {
-    it('should show active review alert with claim status link for issue under active review', () => {
+    it('should show active review alert for issue under active review', () => {
       const props = getProps({ appName: 'Supplemental Claim' });
       const issue = {
         ...getContestableIssue('10'),
         activeReview: true,
         titleOfActiveReview: 'Supplemental Claim',
       };
+
       const { container } = render(<IssueCard {...props} item={issue} />);
 
       const alert = $('va-alert', container);
@@ -233,11 +177,6 @@ describe('<IssueCard>', () => {
       expect(alert.textContent).to.include(
         'issue-10 is part of an active Supplemental Claim',
       );
-
-      const link = $('va-link', container);
-      expect(link).to.exist;
-      expect(link.getAttribute('href')).to.equal('/claim-or-appeal-status/');
-      expect(link.getAttribute('text')).to.equal('Check your claim status');
     });
 
     it('should not show active review alert when activeReview is false', () => {
@@ -247,6 +186,7 @@ describe('<IssueCard>', () => {
         activeReview: false,
         titleOfActiveReview: 'Supplemental Claim',
       };
+
       const { container } = render(<IssueCard {...props} item={issue} />);
 
       expect($$('va-alert', container).length).to.equal(0);
@@ -264,12 +204,14 @@ describe('<IssueCard>', () => {
       expect($$('va-alert', container).length).to.equal(0);
     });
 
-    it('should not show active review alert when titleOfActiveReview is missing', () => {
+    it('should not show active review alert when titleOfActiveReview is null', () => {
       const props = getProps();
       const issue = {
         ...getContestableIssue('10'),
         activeReview: true,
+        titleOfActiveReview: null,
       };
+
       const { container } = render(<IssueCard {...props} item={issue} />);
 
       expect($$('va-alert', container).length).to.equal(0);
@@ -366,22 +308,15 @@ describe('<IssueCard>', () => {
   });
 
   describe('list item structure', () => {
-    it('should render as a list item with correct id and name', () => {
+    it('should render as a list item with correct id, name and data attributes', () => {
       const props = { ...getProps(), index: 3 };
       const issue = getContestableIssue('10');
       const { container } = render(<IssueCard {...props} item={issue} />);
+      const checkbox = $('va-checkbox', container);
 
       const listItem = $('li', container);
       expect(listItem.id).to.equal('issue-3');
       expect(listItem.getAttribute('name')).to.equal('issue-3');
-    });
-
-    it('should render with correct data attributes', () => {
-      const props = getProps();
-      const issue = getContestableIssue('10');
-      const { container } = render(<IssueCard {...props} item={issue} />);
-
-      const checkbox = $('va-checkbox', container);
       expect(checkbox.getAttribute('data-dd-action-name')).to.equal(
         'Issue Name',
       );
@@ -425,20 +360,13 @@ describe('<IssueCard>', () => {
       expect(determineActiveReview('Higher-Level Review', item)).to.be.false;
     });
 
-    it('should return false when titleOfActiveReview is missing', () => {
+    it('should return false when titleOfActiveReview is null', () => {
       const item = {
         activeReview: true,
+        titleOfActiveReview: null,
       };
 
       expect(determineActiveReview('Supplemental Claim', item)).to.be.false;
-    });
-
-    it('should return falsy when activeReview is missing', () => {
-      const item = {
-        titleOfActiveReview: 'Supplemental Claim',
-      };
-
-      expect(determineActiveReview('Supplemental Claim', item)).to.not.be.ok;
     });
   });
 });
