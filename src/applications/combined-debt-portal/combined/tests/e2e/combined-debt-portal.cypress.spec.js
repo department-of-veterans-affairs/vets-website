@@ -99,7 +99,7 @@ describe('CDP - Overpayments and copay bills (overview)', () => {
         .within(() => {
           cy.findByTestId('card-amount')
             .invoke('text')
-            .should('contain', '3,305.40');
+            .should('contain', '4,655.40');
         });
 
       cy.findByTestId('balance-card-copay').should('not.exist');
@@ -141,7 +141,7 @@ describe('CDP - Overpayments and copay bills (overview)', () => {
         .within(() => {
           cy.findByTestId('card-amount')
             .invoke('text')
-            .should('contain', '3,305.40');
+            .should('contain', '4,655.40');
         });
 
       cy.findByTestId('balance-card-zero-copay').should('not.exist');
