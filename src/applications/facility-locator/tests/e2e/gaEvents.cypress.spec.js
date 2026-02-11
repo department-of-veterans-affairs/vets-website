@@ -53,26 +53,24 @@ for (const featureSet of featuresToTest) {
 
         cy.get('.i-pin-card-map')
           .first()
-          .click()
-          .as('markerClick')
-          .then(() => {
-            assertEventAndAttributes(win, 'fl-map-pin-click', [
-              'event',
-              'fl-facility-type',
-              'fl-facility-id',
-              'fl-facility-classification',
-              'fl-facility-name',
-              'fl-facility-distance-from-search',
-            ]);
-          });
+          .click();
+        cy.then(() => {
+          assertEventAndAttributes(win, 'fl-map-pin-click', [
+            'event',
+            'fl-facility-type',
+            'fl-facility-id',
+            'fl-facility-classification',
+            'fl-facility-name',
+            'fl-facility-distance-from-search',
+          ]);
+        });
 
         [...Array(5)].forEach(_ =>
           cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true }),
         );
 
-        cy.get('#mapbox-gl-container')
-          .should('exist')
-          .scrollIntoView();
+        cy.get('#mapbox-gl-container').should('exist');
+        cy.get('#mapbox-gl-container').scrollIntoView();
 
         cy.get('#mapbox-gl-container', { timeout: 10000 }).should(() => {
           assertDataLayerEvent(win, 'fl-map-zoom-in');
