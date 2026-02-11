@@ -127,11 +127,9 @@ describe('Medical Records Download Page - Conditional Rendering', () => {
       cy.injectAxeThenAxeCheck();
     });
 
-    it('does NOT display Blue Button section for OH-only users', () => {
-      cy.contains('h2', 'Download your VA Blue Button report').should(
-        'not.exist',
-      );
-      cy.get('[data-testid="go-to-download-all"]').should('not.exist');
+    it('displays Blue Button section for OH-only users', () => {
+      cy.contains('h2', 'Download your VA Blue Button report').should('exist');
+      cy.get('[data-testid="go-to-download-all"]').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -640,7 +638,7 @@ describe('Medical Records Download Page - Blue Button Section', () => {
     });
   });
 
-  describe('No Blue Button for OH-only users', () => {
+  describe('Blue Button for OH-only users', () => {
     beforeEach(() => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
@@ -650,11 +648,9 @@ describe('Medical Records Download Page - Blue Button Section', () => {
       DownloadReportsPage.goToReportsPage();
     });
 
-    it('does not display Blue Button section for OH-only users', () => {
-      cy.contains('h2', 'Download your VA Blue Button report').should(
-        'not.exist',
-      );
-      cy.get('[data-testid="go-to-download-all"]').should('not.exist');
+    it('displays Blue Button section for OH-only users', () => {
+      cy.contains('h2', 'Download your VA Blue Button report').should('exist');
+      cy.get('[data-testid="go-to-download-all"]').should('exist');
       cy.injectAxeThenAxeCheck();
     });
   });

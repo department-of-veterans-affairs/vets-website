@@ -146,7 +146,7 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
   });
 
   describe('OH-Only vs Other User Types', () => {
-    it('does not display Blue Button report section for OH-only users', () => {
+    it('displays Blue Button report section for OH-only users', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
@@ -154,11 +154,9 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
       });
       DownloadReportsPage.goToReportsPage();
 
-      // OH-only users should NOT see Blue Button section
-      cy.contains('h2', 'Download your VA Blue Button report').should(
-        'not.exist',
-      );
-      cy.get('[data-testid="go-to-download-all"]').should('not.exist');
+      // OH-only users now see Blue Button section
+      cy.contains('h2', 'Download your VA Blue Button report').should('exist');
+      cy.get('[data-testid="go-to-download-all"]').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
