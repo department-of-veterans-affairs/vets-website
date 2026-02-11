@@ -24,7 +24,6 @@ import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
-import sinon from 'sinon';
 
 // Polyfill Request.prototype.arrayBuffer for MSW v1 compatibility with node-fetch
 // node-fetch v2 doesn't implement arrayBuffer() on Request
@@ -231,21 +230,17 @@ function setupJSDom() {
   }
 
   Object.defineProperty(global, 'sessionStorage', {
-    get: () => {
-      // Always return the current window's sessionStorage
-      return currentRealWindow ? currentRealWindow.sessionStorage : {};
-    },
+    value: window.sessionStorage,
     configurable: true,
     enumerable: true,
+    writable: true,
   });
 
   Object.defineProperty(global, 'localStorage', {
-    get: () => {
-      // Always return the current window's localStorage
-      return currentRealWindow ? currentRealWindow.localStorage : {};
-    },
+    value: window.localStorage,
     configurable: true,
     enumerable: true,
+    writable: true,
   });
 
   /* sets up `window` for testing */
@@ -329,6 +324,22 @@ function setupJSDom() {
   if (typeof window.HTMLCanvasElement !== 'undefined') {
     window.HTMLCanvasElement.prototype.getContext = function() {
       return null;
+    };
+  }
+
+  // Stub customElements for web component support (JSDOM 20 doesn't have it)
+  // This allows web components from @department-of-veterans-affairs/web-components
+  // to be defined and used in tests
+  if (!window.customElements) {
+    const customElementsRegistry = new Map();
+    window.customElements = {
+      define: (name, constructor) => {
+        customElementsRegistry.set(name, constructor);
+      },
+      get: name => customElementsRegistry.get(name),
+      whenDefined: name => {
+        return Promise.resolve(customElementsRegistry.get(name));
+      },
     };
   }
 }
@@ -465,27 +476,6 @@ const server = setupServer(
     return res(ctx.status(200), ctx.body(''));
   }),
 );
-
-// Create a global Sinon sandbox for automatic cleanup between tests
-let globalSinonSandbox = null;
-
-// Expose sandbox creation function for tests
-const createTestSandbox = () => {
-  // If tests are managing their own sandbox, don't interfere
-  return sinon.createSandbox();
-};
-
-// Export sandbox creator for tests that need custom setup
-global.__TEST_SANDBOX__ = createTestSandbox;
-
-// Polyfill deprecated sinon.sandbox.create() to use sinon.createSandbox() instead
-// This ensures compatibility with older test code while supporting Node 22+
-if (!sinon.sandbox?.create) {
-  if (!sinon.sandbox) {
-    sinon.sandbox = {};
-  }
-  sinon.sandbox.create = () => sinon.createSandbox();
-}
 
 // Export server and rest for tests that need to add custom handlers
 export { server, rest };
