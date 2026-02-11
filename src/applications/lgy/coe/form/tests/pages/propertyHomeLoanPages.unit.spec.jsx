@@ -28,7 +28,7 @@ describe('COE VA home loans array builder pages', () => {
       'relevant-prior-loans/:index/property-address',
     );
     expect(propertiesHomeLoansPages.propertyHomeLoanDetailsPage.path).to.equal(
-      'relevant-prior-loans/:index/loans-details',
+      'relevant-prior-loans/:index/loan-details',
     );
     expect(
       propertiesHomeLoansPages.propertyHomeLoanEntitlementRestorationPage.path,
