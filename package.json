@@ -78,7 +78,8 @@
     "url": "https://github.com/department-of-veterans-affairs/vets-website/issues"
   },
   "lint-staged": {
-    "*.(js|jsx)": "eslint --fix -c ./.eslintrc.changed.js"
+    "*.(js|jsx)": "eslint --fix -c ./.eslintrc.changed.js",
+    "*.{css,sass,scss}": "stylelint --fix"
   },
   "nyc": {
     "sourceMap": false,
@@ -271,7 +272,6 @@
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
     "@mapbox/mapbox-sdk": "~0.13.2",
     "@reduxjs/toolkit": "^1.9.5",
-
     "botframework-webchat": "4.17.0",
     "cacheable-request": "^4.0.1",
     "camelcase-keys-recursive": "^1.0.0",
@@ -341,7 +341,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#292ebeae984e8fb39b8b1277bdbcd1a5296553c8",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#038e4d11922a89cfb2cfbb74108b9c9b0284ee78",
     "web-vitals": "^4.2.4"
   },
   "resolutions": {
