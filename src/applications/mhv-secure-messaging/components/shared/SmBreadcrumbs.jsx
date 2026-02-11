@@ -465,7 +465,7 @@ const SmBreadcrumbs = () => {
 
   if (shortenBreadcrumb) {
     return (
-      <div className="mobile-lg:vads-u-margin-y--2">
+      <div className="vads-u-margin-y--3">
         <va-link
           back
           text="Back"
