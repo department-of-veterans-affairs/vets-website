@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { cleanup } from '@testing-library/react';
+import { cleanup, waitFor } from '@testing-library/react';
 import * as featureToggles from 'platform/utilities/feature-toggles';
 
 import FinancialInformation from '../../components/FinancialInformation';
@@ -50,8 +50,10 @@ describe('FinancialInformation', () => {
     expect(link).to.exist;
   });
 
-  it('sets the document title', () => {
+  it('sets the document title', async () => {
     render(<FinancialInformation />);
-    expect(document.title).to.include('Financial information');
+    await waitFor(() => {
+      expect(document.title).to.include('Financial information');
+    });
   });
 });
