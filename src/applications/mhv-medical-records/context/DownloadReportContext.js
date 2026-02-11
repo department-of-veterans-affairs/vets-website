@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 /**
  * Context for sharing CCD download state and handlers between
  * DownloadReportPage and its child components (VistaOnlyContent,
- * OHOnlyContent, VistaAndOHContent).
+ * VistaAndOHContent).
  *
  * This eliminates prop drilling of shared props across the download
  * report component hierarchy.

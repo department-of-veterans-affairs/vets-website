@@ -83,8 +83,10 @@ describe('Medical Records Download Page - Conditional Rendering', () => {
     });
 
     it('displays facility names in CCD section headings', () => {
-      // VistaAndOHContent shows facility names using formatFacilityList
-      cy.contains('p', 'CCD: medical records from').should('exist');
+      // VistaAndOHContent shows facility names using formatFacilityUnorderedList
+      cy.contains('p', 'Download your CCD for these facilities').should(
+        'exist',
+      );
 
       cy.injectAxeThenAxeCheck();
     });
@@ -112,10 +114,28 @@ describe('Medical Records Download Page - Conditional Rendering', () => {
       cy.injectAxeThenAxeCheck();
     });
 
+    it('displays Blue Button report section for OH-only users', () => {
+      // OH-only users now see same layout as both-sources users
+      cy.contains('h2', 'Download your VA Blue Button report').should('exist');
+      cy.get('[data-testid="go-to-download-all"]').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
     it('displays CCD download section heading', () => {
       cy.contains('h2', 'Download your Continuity of Care Document').should(
         'exist',
       );
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('displays self-entered health information section with download button', () => {
+      // OH-only users now see same layout as both-sources users
+      cy.contains('h2', 'Download your self-entered health information').should(
+        'exist',
+      );
+      cy.get('[data-testid="downloadSelfEnteredButton"]').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -125,15 +145,6 @@ describe('Medical Records Download Page - Conditional Rendering', () => {
       cy.get('[data-testid="generateCcdButtonXmlOH"]').should('exist');
       cy.get('[data-testid="generateCcdButtonPdfOH"]').should('exist');
       cy.get('[data-testid="generateCcdButtonHtmlOH"]').should('exist');
-
-      cy.injectAxeThenAxeCheck();
-    });
-
-    it('does NOT display Blue Button section for OH-only users', () => {
-      cy.contains('h2', 'Download your VA Blue Button report').should(
-        'not.exist',
-      );
-      cy.get('[data-testid="go-to-download-all"]').should('not.exist');
 
       cy.injectAxeThenAxeCheck();
     });
