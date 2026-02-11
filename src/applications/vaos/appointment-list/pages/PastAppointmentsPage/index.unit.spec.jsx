@@ -23,11 +23,6 @@ import { renderWithStoreAndRouter } from '../../../tests/mocks/setup';
 import { mockToday } from '../../../tests/mocks/constants';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
 const now = startOfDay(mockToday, 'day');
 const start = subMonths(now, 3);
 const end = addDays(new Date(now).setMinutes(0), 1);
@@ -52,9 +47,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState,
-    });
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {});
 
     await screen.findByText(/We didn’t find any results in this date range/i);
 
@@ -74,7 +67,6 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState: {
-        ...initialState,
         appointments: {
           pastStatus: 'loading',
         },
@@ -112,9 +104,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState,
-    });
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {});
 
     await screen.findByText(/We didn’t find any results in this date range/i);
 
@@ -147,9 +137,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState,
-    });
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {});
 
     // Assert
     await screen.findAllByLabelText(
@@ -200,9 +188,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState,
-    });
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {});
 
     // Assert
     await screen.findAllByLabelText(
@@ -254,9 +240,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState,
-    });
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {});
 
     // Assert
     return expect(screen.findByText(/We didn’t find any results/i)).to
@@ -280,9 +264,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState,
-    });
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {});
 
     // Assert
     await screen.findAllByLabelText(
@@ -349,9 +331,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState,
-    });
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {});
 
     // Assert
     await screen.findAllByLabelText(
@@ -391,9 +371,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState,
-    });
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {});
 
     // Assert
     await screen.findAllByLabelText(

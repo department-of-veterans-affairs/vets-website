@@ -1,5 +1,5 @@
-import { subTitle4142 } from './evidence/form4142';
 import {
+  APP_SUBHEADER,
   EVIDENCE_PRIVATE_AUTHORIZATION_URL,
   EVIDENCE_PRIVATE_DETAILS_URL,
   EVIDENCE_PRIVATE_PROMPT_URL,
@@ -35,5 +35,5 @@ const isNonVaEvidencePage = currentPath =>
  */
 export const getSubTitle = ({ currentLocation = window.location } = {}) => {
   const path = currentLocation.pathname || '';
-  return isNonVaEvidencePage(path) ? subTitle4142 : FORM_ID;
+  return isNonVaEvidencePage(path) ? APP_SUBHEADER : FORM_ID;
 };

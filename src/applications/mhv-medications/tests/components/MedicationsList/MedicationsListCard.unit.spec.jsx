@@ -132,6 +132,42 @@ describe('Medication card component', () => {
     expect(shippedOn);
   });
 
+  it('shows number of refills when it is refillable and has at least 1 refill remaining', () => {
+    const rx = {
+      ...prescriptionsListItem,
+      isRefillable: true,
+      dispStatus: 'Active',
+      refillRemaining: 3,
+    };
+    const { getByTestId } = setup(rx);
+    expect(getByTestId('rx-refill-remaining')).to.have.text(
+      'Refills remaining: 3',
+    );
+  });
+
+  it('Does not show number of refills when it is not refillable', () => {
+    const rx = {
+      ...prescriptionsListItem,
+      dispStatus: 'Active',
+      refillRemaining: 3,
+    };
+    const { queryByTestId } = setup(rx);
+    expect(queryByTestId('rx-refill-remaining')).to.be.null;
+  });
+
+  it('Does show number of refills when it has 0 refill remaining', () => {
+    const rx = {
+      ...prescriptionsListItem,
+      isRefillable: true,
+      dispStatus: 'Active',
+      refillRemaining: 0,
+    };
+    const { getByTestId } = setup(rx);
+    expect(getByTestId('rx-refill-remaining')).to.have.text(
+      'Refills remaining: 0',
+    );
+  });
+
   it('displays "Not available" when prescription number is missing', () => {
     const rx = {
       ...prescriptionsListItem,

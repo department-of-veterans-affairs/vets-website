@@ -42,34 +42,29 @@ const IntroductionPage = ({ route }) => {
           through the Foreign Medical Program (FMP). Use this form to file a
           claim with FMP.
         </p>
-        <h2 className="vads-u-font-size--h3">
-          What to know before you fill out this form
-        </h2>
+        <h2>What to know before you fill out this form</h2>
         <p>When you prepare to file, be sure to have these on hand:</p>
         <ul>
+          <li>An itemized billing statement to support your claim</li>
           <li>
-            You’ll need to upload an itemized billing statement to support your
-            claim
+            A receipt or other proof that you paid, only if you already paid the
+            provider
           </li>
-          <li>
-            If you already paid the provider, you’ll need to upload a receipt or
-            other proof that you paid
-          </li>
-          <li>
-            For certain types of claims, you may need other supporting documents
-          </li>
+          <li>Other supporting documents for certain types of claims</li>
         </ul>
-        <p className="vads-u-margin-bottom--4">
+        <p>
           <va-link
             text="Find out which supporting documents you need"
             href="/health-care/file-foreign-medical-program-claim/#supporting-documents-to-send-w"
           />
         </p>
         {isUserLOA3 && (
-          <va-alert status="info" data-testid="fmp-direct-deposit-alert">
-            <h2 slot="headline">Set up direct deposit</h2>
+          <>
+            <h2 data-testid="fmp-direct-deposit-title">
+              Set up direct deposit
+            </h2>
             {directDepositSetupInfo}
-          </va-alert>
+          </>
         )}
         <div className="vads-u-margin-y--4">
           <SaveInProgressIntro {...sipIntroProps} />

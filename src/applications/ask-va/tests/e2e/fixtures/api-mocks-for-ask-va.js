@@ -166,14 +166,14 @@ const interceptSubtopics = [
 export const interceptAskVaResponses = () => {
   cy.intercept(
     'GET',
-    `http://localhost:3000/ask_va_api/v0/contents?type=category*`,
+    '/ask_va_api/v0/contents?type=category*',
     responseCategory,
   );
 
   interceptTopics.forEach(({ parentId, response }) => {
     cy.intercept(
       'GET',
-      `http://localhost:3000/ask_va_api/v0/contents?type=topic&parent_id=${parentId}*`,
+      `/ask_va_api/v0/contents?type=topic&parent_id=${parentId}*`,
       response,
     );
   });
@@ -181,20 +181,20 @@ export const interceptAskVaResponses = () => {
   interceptSubtopics.forEach(({ parentId, response }) => {
     cy.intercept(
       'GET',
-      `http://localhost:3000/ask_va_api/v0/contents?type=subtopic&parent_id=${parentId}*`,
+      `/ask_va_api/v0/contents?type=subtopic&parent_id=${parentId}*`,
       response,
     );
   });
 
   cy.intercept(
     'POST',
-    `http://localhost:3000/ask_va_api/v0/health_facilities*`,
+    '/ask_va_api/v0/health_facilities*',
     responseHealthFacilities,
   );
 
   cy.intercept(
     'GET',
-    `http://localhost:3000/ask_va_api/v0/education_facilities/search?name=austin*`,
+    '/ask_va_api/v0/education_facilities/search?name=austin*',
     responseEducationFacilities,
   );
 };

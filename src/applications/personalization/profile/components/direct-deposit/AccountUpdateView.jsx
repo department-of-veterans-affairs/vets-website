@@ -122,7 +122,7 @@ export const AccountUpdateView = props => {
       <ConfirmCancelModal
         isVisible={!!showCancelModal}
         closeModal={exitUpdateView}
-        activeSection="direct deposit information"
+        activeSection="bank account information"
         onHide={() => setShowCancelModal(false)}
       />
     </>
