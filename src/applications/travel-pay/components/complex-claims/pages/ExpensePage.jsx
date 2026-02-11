@@ -95,7 +95,6 @@ const ExpensePage = () => {
   // Refs
   const initialFormStateRef = useRef({});
   const previousHasChangesRef = useRef(false);
-  const hasLoadedExpenseRef = useRef(false);
 
   // State
   const [formState, setFormState] = useState({});
@@ -134,10 +133,10 @@ const ExpensePage = () => {
   useSetFocus();
 
   // Effects
-  // Effect 1: Reset loaded flag when expenseId changes
+  // Effect 1: Reset initial form state when expenseId changes
   useEffect(
     () => {
-      hasLoadedExpenseRef.current = false;
+      initialFormStateRef.current = {};
     },
     [expenseId],
   );
@@ -146,7 +145,11 @@ const ExpensePage = () => {
   // This fetches the full expense with type-specific fields and then loads the document receipt
   useEffect(
     () => {
-      if (!isEditMode || !expenseId || hasLoadedExpenseRef.current) {
+      if (
+        !isEditMode ||
+        !expenseId ||
+        Object.keys(initialFormStateRef.current).length > 0
+      ) {
         return undefined;
       }
 
@@ -163,19 +166,15 @@ const ExpensePage = () => {
             expenseConfig.apiRoute
           }/${expenseId}`;
           const expenseResponse = await apiRequest(expenseUrl);
-          dispatch(fetchExpenseSuccess(expenseId));
           const fetchedExpense = expenseResponse.data || expenseResponse;
 
           if (!isMounted) return;
 
-          // Step 2: Hydrate form with expense data
-          const initialState = {
+          // Step 2: Build initial state with expense data
+          let initialState = {
             ...fetchedExpense,
             purchaseDate: fetchedExpense.dateIncurred || '',
           };
-          setFormState(initialState);
-          setPreviousFormState(initialState);
-          initialFormStateRef.current = initialState;
 
           // Step 3: Load document if it exists (use Redux state for document metadata)
           const documentId = expenseWithDocument?.documentId;
@@ -202,9 +201,10 @@ const ExpensePage = () => {
               fileData: base64File,
             };
 
+            // Add receipt to initial state
+            initialState = { ...initialState, receipt };
+
             if (isMounted) {
-              setFormState(prev => ({ ...prev, receipt }));
-              setPreviousFormState(prev => ({ ...prev, receipt }));
               setExpenseDocument(
                 new File([blob], filename, {
                   type: contentType,
@@ -214,10 +214,13 @@ const ExpensePage = () => {
             }
           }
 
+          // Step 4: Hydrate form with complete initial state
           if (isMounted) {
-            hasLoadedExpenseRef.current = true;
-            dispatch(fetchExpenseSuccess(expenseId));
+            setFormState(initialState);
+            setPreviousFormState(initialState);
+            initialFormStateRef.current = initialState;
             setIsDocumentLoading(false);
+            dispatch(fetchExpenseSuccess(expenseId));
           }
         } catch (err) {
           // Failed to fetch expense or document
@@ -239,7 +242,6 @@ const ExpensePage = () => {
       claimId,
       expenseWithDocument?.documentId,
       expenseWithDocument?.receipt?.filename,
-      previousDocumentId,
       dispatch,
     ],
   );
@@ -247,6 +249,11 @@ const ExpensePage = () => {
   // Effect 3: Track unsaved changes by comparing current state to initial state
   useEffect(
     () => {
+      // Skip comparison if we're in edit mode and still loading (initialFormStateRef not yet populated)
+      if (isEditMode && Object.keys(initialFormStateRef.current).length === 0) {
+        return;
+      }
+
       const hasChanges =
         JSON.stringify(formState) !==
         JSON.stringify(initialFormStateRef.current);
@@ -256,7 +263,7 @@ const ExpensePage = () => {
         previousHasChangesRef.current = hasChanges;
       }
     },
-    [formState, dispatch],
+    [formState, dispatch, isEditMode],
   );
 
   // Effect 4: Scroll to first error after validation and DOM update
@@ -680,14 +687,18 @@ const ExpensePage = () => {
   };
 
   const handleBack = () => {
-    if (isEditMode) {
+    // On edit mode, "Cancel" takes the place of the normal back button
+    if (isEditMode && hasUnsavedChanges) {
       setIsCancelModalVisible(true);
-    } else if (backDestination === 'review') {
-      // User clicked "Add another [expense]" from review page accordion
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else if (!isEditMode && hasUnsavedChanges) {
+      // On add mode, the back button should trigger the "leave page" modal if there are unsaved changes
+      dispatch(setUnsavedChangesModalVisible(true));
     } else {
-      // User came from choose-expense page
-      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+      navigate(
+        `/file-new-claim/${apptId}/${claimId}/${
+          backDestination === 'review' ? 'review' : 'choose-expense'
+        }`,
+      );
     }
   };
 
@@ -809,7 +820,7 @@ const ExpensePage = () => {
       <p>{pageDescription}</p>
       {isFetchingDocument ||
       isFetchingExpense ||
-      (isEditMode && !hasLoadedExpenseRef.current) ? (
+      (isEditMode && Object.keys(initialFormStateRef.current).length === 0) ? (
         <va-loading-indicator message="Loading expense details..." set-focus />
       ) : (
         <>
