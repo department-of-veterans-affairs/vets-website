@@ -4,7 +4,12 @@ import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
-import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
+import {
+  dateFormat,
+  getPrescriptionDetailUrl,
+  getRxStatus,
+  rxSourceIsNonVA,
+} from '../../util/helpers';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 import {
@@ -134,7 +139,7 @@ const MedicationsListCard = ({ rx }) => {
           }
           data-testid="medications-history-details-link"
           className="vads-u-font-weight--bold"
-          to={`prescription/${rx.prescriptionId}`}
+          to={getPrescriptionDetailUrl(rx)}
         >
           <span data-dd-privacy="mask">
             {rx?.prescriptionName || rx?.orderableItem}
