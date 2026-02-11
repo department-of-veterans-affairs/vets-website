@@ -1514,6 +1514,185 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     );
   });
 
+  describe('Back button navigation with backDestination', () => {
+    it('navigates to review page when back button is clicked in add mode with backDestination="review"', async () => {
+      const baseState = getEditState([]);
+      const stateWithBackDestination = {
+        ...baseState,
+        travelPay: {
+          ...baseState.travelPay,
+          complexClaim: {
+            ...baseState.travelPay.complexClaim,
+            expenseBackDestination: 'review',
+          },
+        },
+      };
+
+      const { container, getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/43555/lodging']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+              element={<ExpensePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<div>Review Page</div>}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<div>Choose Expense Page</div>}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        { initialState: stateWithBackDestination, reducers: reducer },
+      );
+
+      // Wait for page to load
+      await waitFor(() => {
+        const vendorField = container.querySelector(
+          'va-text-input[name="vendor"]',
+        );
+        expect(vendorField).to.exist;
+      });
+
+      // Find and click the Back button in the button pair
+      const buttonGroup = container.querySelector('.travel-pay-button-group');
+      const backButton = Array.from(
+        buttonGroup.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Back');
+      expect(backButton).to.exist;
+      fireEvent.click(backButton);
+
+      // Verify navigation to review page
+      await waitFor(() => {
+        const location = getByTestId('location-display');
+        expect(location.textContent).to.equal(
+          '/file-new-claim/12345/43555/review',
+        );
+      });
+    });
+
+    it('navigates to choose-expense page when back button is clicked in add mode without backDestination="review"', async () => {
+      const baseState = getEditState([]);
+      const stateWithoutReviewDestination = {
+        ...baseState,
+        travelPay: {
+          ...baseState.travelPay,
+          complexClaim: {
+            ...baseState.travelPay.complexClaim,
+            expenseBackDestination: 'choose-expense',
+          },
+        },
+      };
+
+      const { container, getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/43555/lodging']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+              element={<ExpensePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<div>Review Page</div>}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<div>Choose Expense Page</div>}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        { initialState: stateWithoutReviewDestination, reducers: reducer },
+      );
+
+      // Wait for page to load
+      await waitFor(() => {
+        const vendorField = container.querySelector(
+          'va-text-input[name="vendor"]',
+        );
+        expect(vendorField).to.exist;
+      });
+
+      // Find and click the Back button in the button pair
+      const buttonGroup = container.querySelector('.travel-pay-button-group');
+      const backButton = Array.from(
+        buttonGroup.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Back');
+      expect(backButton).to.exist;
+      fireEvent.click(backButton);
+
+      // Verify navigation to choose-expense page
+      await waitFor(() => {
+        const location = getByTestId('location-display');
+        expect(location.textContent).to.equal(
+          '/file-new-claim/12345/43555/choose-expense',
+        );
+      });
+    });
+
+    it('navigates to choose-expense page when back button is clicked in add mode with undefined backDestination', async () => {
+      const baseState = getEditState([]);
+      const stateWithUndefinedDestination = {
+        ...baseState,
+        travelPay: {
+          ...baseState.travelPay,
+          complexClaim: {
+            ...baseState.travelPay.complexClaim,
+            expenseBackDestination: undefined,
+          },
+        },
+      };
+
+      const { container, getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/43555/toll']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+              element={<ExpensePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<div>Review Page</div>}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<div>Choose Expense Page</div>}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        { initialState: stateWithUndefinedDestination, reducers: reducer },
+      );
+
+      // Wait for page to load
+      await waitFor(() => {
+        const amountField = container.querySelector(
+          'va-text-input[name="costRequested"]',
+        );
+        expect(amountField).to.exist;
+      });
+
+      // Find and click the Back button in the button pair
+      const buttonGroup = container.querySelector('.travel-pay-button-group');
+      const backButton = Array.from(
+        buttonGroup.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Back');
+      expect(backButton).to.exist;
+      fireEvent.click(backButton);
+
+      // Verify navigation to choose-expense page
+      await waitFor(() => {
+        const location = getByTestId('location-display');
+        expect(location.textContent).to.equal(
+          '/file-new-claim/12345/43555/choose-expense',
+        );
+      });
+    });
+  });
+
   describe('Cancel modal navigation with backDestination', () => {
     it('navigates to review page when confirming cancel in add mode with backDestination="review"', async () => {
       const baseState = getEditState([]);
