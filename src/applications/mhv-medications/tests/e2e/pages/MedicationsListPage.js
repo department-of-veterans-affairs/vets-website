@@ -791,15 +791,15 @@ class MedicationsListPage {
   };
 
   verifyLabelTextWhenFilterAccordionExpanded = () => {
-    cy.get('[data-testid="filter-option"]')
+    cy.findByTestId('filter-option')
       .shadow()
       .find('[class="usa-legend"]', { force: true })
       .should('contain', 'Select a filter');
   };
 
   clickfilterAccordionDropdownOnListPage = () => {
-    cy.get('[data-testid="rx-filter"]').should('exist');
-    cy.get('[data-testid="rx-filter"]').click({ waitForAnimations: true });
+    cy.findByTestId('rx-filter').should('exist');
+    cy.findByTestId('rx-filter').click({ waitForAnimations: true });
   };
 
   verifyFilterOptionsOnListPage = (text, description) => {
@@ -813,24 +813,20 @@ class MedicationsListPage {
   };
 
   verifyFilterHeaderTextHasFocusafterExpanded = () => {
-    cy.get('[data-testid="rx-filter"]')
-      .shadow()
-      .find('[type="button"]')
-      .should('have.text', 'Filter list')
+    cy.findByTestId('rx-filter')
+      .should('have.attr', 'header', 'Filter list')
       .and('have.focus');
   };
 
   verifyFilterButtonWhenAccordionExpanded = () => {
-    cy.get('[data-testid="filter-button"]')
-      .shadow()
-      .find('[type="button"]')
+    cy.findByTestId('filter-button')
       .should('be.visible')
-      .and('have.text', 'Apply filter');
+      .and('have.attr', 'text', 'Apply filter');
   };
 
   clickFilterButtonOnAccordion = (url, filterRx) => {
     cy.intercept('GET', `${url}`, filterRx);
-    cy.get('[data-testid="filter-button"]')
+    cy.findByTestId('filter-button')
       .shadow()
       .find('[type="button"]')
       .click({ waitForAnimations: true });
@@ -844,7 +840,7 @@ class MedicationsListPage {
 
   verifyAllMedicationsRadioButtonIsChecked = () => {
     cy.contains('All medications').should('be.visible');
-    cy.get('[data-testid="filter-button"]')
+    cy.findByTestId('filter-button')
       .shadow()
       .find('[type="button"],[value="ALL Medications"],[aria-checked="true"]', {
         force: true,
@@ -853,14 +849,14 @@ class MedicationsListPage {
   };
 
   verifyFocusOnPaginationTextInformationOnListPage = text => {
-    cy.get('[data-testid="page-total-info"]')
+    cy.findByTestId('page-total-info')
       .should('be.focused')
       .and('contain', text);
   };
 
   verifyFilterCollapsedOnListPage = () => {
-    cy.get('[data-testid="filter-button"]').should('not.be.visible');
-    cy.get('[data-testid="filter-option"]').should('not.be.visible');
+    cy.findByTestId('filter-button').should('not.be.visible');
+    cy.findByTestId('filter-option').should('not.be.visible');
   };
 
   visitMedicationsListPageURL = medication => {
@@ -895,8 +891,8 @@ class MedicationsListPage {
   };
 
   clickResetFilterButtonOnFilterAccordionDropDown = () => {
-    cy.get('[data-testid="filter-reset-button"]').should('exist');
-    cy.get('[data-testid="filter-reset-button"]').click({
+    cy.findByTestId('filter-reset-button').should('exist');
+    cy.findByTestId('filter-reset-button').click({
       waitForAnimations: true,
     });
   };

@@ -10,6 +10,7 @@ describe('Medications List Page Filter Accordion', () => {
     listPage.visitMedicationsListPageURL(rxList);
     cy.injectAxe();
     cy.axeCheck('main');
+    cy.wait('@Medications');
     listPage.verifyLabelTextWhenFilterAccordionExpanded();
     listPage.clickfilterAccordionDropdownOnListPage();
     listPage.verifyFilterHeaderTextHasFocusafterExpanded();
