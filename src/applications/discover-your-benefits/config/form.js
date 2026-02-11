@@ -49,9 +49,9 @@ export const formConfig = {
   trackingPrefix: 'discover-your-benefits-',
   introduction: IntroductionPage,
   // Need to insert a feature flag here
-  confirmation: environment.isProduction()
-    ? ConfirmationPageCopy
-    : ConfirmationPage,
+  confirmation: !environment.isProduction()
+    ? ConfirmationPage
+    : ConfirmationPageCopy,
   v3SegmentedProgressBar: true,
   stepLabels: 'Goals;Service;Separation;Discharge;Disability;Review',
   formId: 'T-QSTNR',
