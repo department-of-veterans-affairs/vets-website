@@ -2,12 +2,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   formatPhaseDate,
-  getCurrentTransitionPhase,
   isFacilityTransitioning,
   shouldBlockRefills,
   shouldBlockRenewals,
   filterPrescriptionsByTransition,
-  MEDICATION_PHASES,
 } from '../../util/oracleHealthTransition';
 
 const TRANSITIONING_FACILITY_ID = '515';
@@ -67,33 +65,6 @@ describe('oracleHealthTransition utilities', () => {
         'March 1, 2026',
       );
       expect(formatPhaseDate(null, 'Fallback Date')).to.equal('Fallback Date');
-    });
-  });
-
-  describe('getCurrentTransitionPhase', () => {
-    it('uses backend-provided current phase and fails safe when missing', () => {
-      // Backend phase is used
-      const migration = createMigrationWithPhase('p4');
-      expect(getCurrentTransitionPhase(migration)).to.equal(
-        MEDICATION_PHASES.FULL_BLOCK,
-      );
-
-      // Missing current phase - fails safe to pre-alert
-      const migrationNoCurrent = {
-        ...mockMichiganMigration,
-        phases: { p0: '2026-02-10', p1: '2026-02-25' },
-      };
-      expect(getCurrentTransitionPhase(migrationNoCurrent)).to.equal(
-        MEDICATION_PHASES.PRE_ALERT,
-      );
-
-      // Invalid migration data
-      expect(getCurrentTransitionPhase(null)).to.equal(
-        MEDICATION_PHASES.PRE_ALERT,
-      );
-      expect(getCurrentTransitionPhase({})).to.equal(
-        MEDICATION_PHASES.PRE_ALERT,
-      );
     });
   });
 

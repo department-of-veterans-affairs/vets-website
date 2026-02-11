@@ -27,52 +27,6 @@ export const formatPhaseDate = (phaseDate, fallbackDate) => {
   }
 };
 
-export const MEDICATION_PHASES = {
-  PRE_ALERT: 'pre_alert',
-  ALERT_ONLY: 'alert_only',
-  RENEWAL_BLOCK: 'renewal_block',
-  FULL_BLOCK: 'full_block',
-  POST_TRANSITION: 'post_transition',
-};
-
-/**
- * Map backend phase codes to local phase names
- * @param {string} backendPhase - Phase code from backend (p0-p7)
- * @returns {string} Local phase name
- */
-const mapBackendPhaseToLocal = backendPhase => {
-  const phaseMap = {
-    p0: MEDICATION_PHASES.PRE_ALERT,
-    p1: MEDICATION_PHASES.ALERT_ONLY,
-    p2: MEDICATION_PHASES.ALERT_ONLY,
-    p3: MEDICATION_PHASES.RENEWAL_BLOCK,
-    p4: MEDICATION_PHASES.FULL_BLOCK,
-    p5: MEDICATION_PHASES.FULL_BLOCK,
-    p6: MEDICATION_PHASES.POST_TRANSITION,
-    p7: MEDICATION_PHASES.POST_TRANSITION,
-  };
-  return phaseMap[backendPhase] || MEDICATION_PHASES.PRE_ALERT;
-};
-
-/**
- * Get current transition phase from backend migration data
- * @param {Object} migrationData - Migration data from backend
- * @returns {string} Current phase name
- */
-export const getCurrentTransitionPhase = migrationData => {
-  if (!migrationData || typeof migrationData !== 'object') {
-    return MEDICATION_PHASES.PRE_ALERT;
-  }
-
-  // Backend must provide current phase
-  if (migrationData.phases?.current) {
-    return mapBackendPhaseToLocal(migrationData.phases.current);
-  }
-
-  // Missing current phase - fail safe to pre-alert (no blocking)
-  return MEDICATION_PHASES.PRE_ALERT;
-};
-
 /**
  * Validate migrations array
  * @param {Array} migrations - Migration data array
@@ -129,8 +83,8 @@ export const shouldBlockRefills = (
   );
   if (!migration) return false;
 
-  const phase = getCurrentTransitionPhase(migration);
-  return phase === MEDICATION_PHASES.FULL_BLOCK;
+  // Block refills during p4 and p5 phases (full block)
+  return ['p4', 'p5'].includes(migration.phases?.current);
 };
 
 /**
@@ -159,11 +113,8 @@ export const shouldBlockRenewals = (
   );
   if (!migration) return false;
 
-  const phase = getCurrentTransitionPhase(migration);
-  return [
-    MEDICATION_PHASES.RENEWAL_BLOCK,
-    MEDICATION_PHASES.FULL_BLOCK,
-  ].includes(phase);
+  // Block renewals during p3, p4, and p5 phases (renewal block + full block)
+  return ['p3', 'p4', 'p5'].includes(migration.phases?.current);
 };
 
 /**
