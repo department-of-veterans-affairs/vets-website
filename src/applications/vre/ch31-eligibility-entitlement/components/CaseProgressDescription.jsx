@@ -5,7 +5,6 @@ import {
   VaLink,
   VaRadio,
   VaRadioOption,
-  VaAdditionalInfo,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import HubCardList from './HubCardList';
@@ -182,10 +181,7 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
               {initialEvaluationMeetingType ===
                 INITIAL_EVALUATION_MEETING_TYPE.TELECOUNSELING && (
                 <div className="vads-u-margin-left--4">
-                  <VaAdditionalInfo
-                    trigger="Additional Info"
-                    className="vads-u-margin-bottom--1"
-                  >
+                  <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-padding-left--2">
                     <p>
                       Telecounseling uses Microsoft Teams, which is accessible
                       on any web-enabled device, such as a smartphone, tablet,
@@ -205,7 +201,8 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
                       automobile during the scheduled appointment, the meeting
                       will be immediately canceled or rescheduled.
                     </p>
-                  </VaAdditionalInfo>
+                  </div>
+
                   <VaButton
                     onClick={submitInitialEvaluationMeetingType}
                     text="Submit"
@@ -220,10 +217,7 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
               {initialEvaluationMeetingType ===
                 INITIAL_EVALUATION_MEETING_TYPE.IN_PERSON && (
                 <div className="vads-u-margin-left--4">
-                  <VaAdditionalInfo
-                    trigger="Additional Info"
-                    className="vads-u-margin-bottom--1"
-                  >
+                  <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-padding-left--2">
                     <p>
                       If your appointment is in-person appointment at a
                       specified location
@@ -240,7 +234,8 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
                       to your scheduled initial evaluation, you may bring the
                       documents outlined.
                     </p>
-                  </VaAdditionalInfo>
+                  </div>
+
                   <VaButton
                     onClick={submitInitialEvaluationMeetingType}
                     text="Submit"

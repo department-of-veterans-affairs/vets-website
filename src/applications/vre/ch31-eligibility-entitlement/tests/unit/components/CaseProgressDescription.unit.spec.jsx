@@ -100,8 +100,6 @@ describe('CaseProgressDescription', () => {
 
     // Wait for info and button to appear
     await waitFor(() => {
-      const addl = container.querySelector('va-additional-info');
-      expect(addl).to.exist;
       const btn = container.querySelector('va-button');
       expect(btn).to.exist;
     });
@@ -121,8 +119,6 @@ describe('CaseProgressDescription', () => {
     selectVaRadio(container, 'In-person appointment');
 
     await waitFor(() => {
-      const addl = container.querySelector('va-additional-info');
-      expect(addl).to.exist;
       const btn = container.querySelector('va-button');
       expect(btn).to.exist;
     });
