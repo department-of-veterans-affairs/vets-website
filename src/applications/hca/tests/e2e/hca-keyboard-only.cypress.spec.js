@@ -56,11 +56,11 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToContinueForm();
 
     // VA disability compensation
-    cy.selectRadioFromData('name="root_vaCompensationType"]', 'none');
+    cy.selectVaRadioOption('root_vaCompensationType', 'none');
     cy.tabToContinueForm();
 
     // VA pension
-    cy.selectRadioFromData('[name="root_vaPensionType"]', 'No');
+    cy.selectVaRadioOption('root_vaPensionType', 'No');
     cy.tabToContinueForm();
 
     // Military service
@@ -71,16 +71,16 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToElementAndPressSpace(selector('purpleHeartRecipient'));
     cy.tabToContinueForm();
 
-    // Toxic exposure
-    cy.selectRadioFromData('[name="root_hasTeraResponse"]', 'Y');
+    // Toxic Exposure
+    cy.selectYesNoVaRadioOption('root_hasTeraResponse', true);
     cy.tabToContinueForm();
 
-    // Radian clean-up
-    cy.selectRadioFromData('name="root_radiationCleanupEfforts"]', 'Y');
+    // Radiation cleanup
+    cy.selectYesNoVaRadioOption('root_radiationCleanupEfforts', true);
     cy.tabToContinueForm();
 
-    // Gulf War service
-    cy.selectRadioFromData('[name="root_gulfWarService"]', 'Y');
+    // Gulf War Service
+    cy.selectYesNoVaRadioOption('root_gulfWarService', true);
     cy.tabToContinueForm();
 
     // Gulf War service dates
@@ -92,12 +92,12 @@ describe('HCA-Keyboard-Only', () => {
     cy.typeInDate(selector('gulfWarEndDate'), gulfWarEndDate);
     cy.tabToContinueForm();
 
-    // Combat Operation service
-    cy.selectRadioFromData('name="root_combatOperationService"]', 'N');
+    // Combat Operation Service
+    cy.selectYesNoVaRadioOption('root_combatOperationService', false);
     cy.tabToContinueForm();
 
-    // Agent Orange exposure
-    cy.selectRadioFromData('[name="root_exposedToAgentOrange"]', 'N');
+    // Agent Orange Exposure
+    cy.selectYesNoVaRadioOption('root_exposedToAgentOrange', false);
     cy.tabToContinueForm();
 
     // Other toxic exposures
@@ -125,7 +125,7 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToElementAndPressSpace('.usa-button-primary');
 
     // Disclose financial info
-    cy.selectRadioFromData('discloseFinancialInformation', 'Y');
+    cy.selectYesNoVaRadioOption('root_discloseFinancialInformation', true);
     cy.tabToContinueForm();
 
     // Financial info needed
@@ -149,8 +149,8 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToContinueForm();
 
     // Spouse's addt'l info
-    cy.selectRadioFromData('[name="root_cohabitedLastYear"]', 'Y');
-    cy.selectRadioFromData('[name="root_sameAddress"]', 'N');
+    cy.selectYesNoVaRadioOption('root_cohabitedLastYear', true);
+    cy.selectYesNoVaRadioOption('root_sameAddress', false);
     cy.tabToContinueForm();
 
     // Spouse's contact info
@@ -161,8 +161,11 @@ describe('HCA-Keyboard-Only', () => {
     cy.typeInIfDataExists('[name="root_spousePhone"]', spousePhone);
     cy.tabToContinueForm();
 
-    // Dependents
-    cy.selectRadioFromData('[name="root_view:reportDependents"]', 'Y');
+    // Your dependents (informational page)
+    cy.tabToElementAndPressSpace('.usa-button-primary');
+
+    // Dependents summary
+    cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
     cy.tabToElementAndPressSpace('.usa-button-primary');
 
     // Dependent's basic info
@@ -193,7 +196,7 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToContinueForm();
 
     // Dependent's income
-    selector = field => `[name="root_view:${field}_${field}`;
+    selector = field => `[name="root_view:${field}_${field}"]`;
     cy.typeInIfDataExists(selector('grossIncome'), '20000');
     cy.typeInIfDataExists(selector('netIncome'), '10');
     cy.typeInIfDataExists(selector('otherIncome'), '10');
@@ -204,8 +207,8 @@ describe('HCA-Keyboard-Only', () => {
     cy.typeInIfDataExists('[name="root_dependentEducationExpenses"]', '453');
     cy.tabToContinueForm();
 
-    // Review dependents
-    cy.selectRadioFromData('[name="root_view:reportDependents"]', 'N');
+    // Review dependents - say no to adding more
+    cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
     cy.tabToElementAndPressSpace('.usa-button-primary');
 
     // Veteran's income
@@ -231,11 +234,11 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToContinueForm();
 
     // Medicaid eligibility
-    cy.selectRadioFromData('[name="root_isMedicaidEligible"]', 'Y');
+    cy.selectYesNoVaRadioOption('root_isMedicaidEligible', true);
     cy.tabToContinueForm();
 
     // Medicare enrollment
-    cy.selectRadioFromData('[name="root_isEnrolledMedicarePartA"]', 'Y');
+    cy.selectYesNoVaRadioOption('root_isEnrolledMedicarePartA', true);
     cy.tabToContinueForm();
 
     // Medicare Part A effective date
@@ -253,37 +256,53 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToElementAndPressSpace('.usa-button-primary');
 
     // Health insurance coverage
-    cy.selectRadioFromData('[name="root_isCoveredByHealthInsurance"]', 'Y');
+    cy.selectYesNoVaRadioOption('root_view:hasHealthInsuranceToAdd', true);
+    cy.tabToContinueForm();
 
+    // Policy information
     const policy = testData.providers[0];
-    selector = field => `[name="root_providers_0_${field}"]`;
-    cy.typeInIfDataExists(selector('insuranceName'), policy.insuranceName);
+    cy.typeInIfDataExists('[name="root_insuranceName"]', policy.insuranceName);
     cy.typeInIfDataExists(
-      selector('insurancePolicyHolderName'),
+      '[name="root_insurancePolicyHolderName"]',
       policy.insurancePolicyHolderName,
     );
+    // Fill policy number or group code (at least one required)
+    const policyOrGroupCode = policy['view:policyNumberOrGroupCode'];
     cy.typeInIfDataExists(
-      selector('insurancePolicyNumber'),
-      policy.insurancePolicyNumber,
+      '[name="root_view:policyNumberOrGroupCode_insurancePolicyNumber"]',
+      policyOrGroupCode.insurancePolicyNumber,
     );
+
+    cy.typeInIfDataExists(
+      '[name="root_view:policyNumberOrGroupCode_insuranceGroupCode"]',
+      policyOrGroupCode.insuranceGroupCode,
+    );
+
+    cy.tabToContinueForm();
+
+    // Review insurance policies - say no to adding more
+    cy.selectYesNoVaRadioOption('root_view:hasHealthInsuranceToAdd', false);
     cy.tabToContinueForm();
 
     // VA medical facility
     const { vaMedicalFacility, 'view:facilityState': facilityState } = testData[
       'view:preferredFacility'
     ];
-    selector = field => `[name="root_view:preferredFacility_${field}"]`;
-    cy.selectDropdownFromData(
-      selector('[name="root_view:facilityState"]'),
+    cy.get('[name="root_view:preferredFacility_view:facilityState"]').should(
+      'exist',
+    );
+    cy.selectVaSelect(
+      'root_view:preferredFacility_view:facilityState',
       facilityState,
     );
     cy.wait('@getFacilities');
-    cy.selectDropdownFromData(
-      selector('[name="root_vaMedicalFacility"]'),
+    cy.selectVaSelect(
+      'root_view:preferredFacility_vaMedicalFacility',
       vaMedicalFacility,
     );
 
-    cy.selectRadioFromData('[name="root_wantsInitialVaContact"]', 'Y');
+    // Want VA to contact you (same page as facility)
+    cy.selectYesNoVaRadioOption('root_wantsInitialVaContact', true);
     cy.tabToContinueForm();
 
     // Review / Submit

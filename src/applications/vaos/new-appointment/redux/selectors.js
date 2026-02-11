@@ -439,3 +439,8 @@ export function selectFacilitiesRadioWidget(state) {
 export function selectAppointmentSlotsStatus(state) {
   return getNewAppointment(state).appointmentSlotsStatus;
 }
+
+export function selectAppointmentEhr(state) {
+  const newAppointment = getNewAppointment(state);
+  return newAppointment?.ehr;
+}
