@@ -61,7 +61,6 @@ import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
 import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
 import ConfirmRemoveModal from './ContactInformationFieldInfo/ConfirmRemoveModal';
 import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
-import GenericErrorAlert from './GenericErrorAlert';
 
 import ProfileInformationView from './ProfileInformationView';
 import ProfileInformationEditView from './ProfileInformationEditView';
@@ -502,7 +501,6 @@ class ProfileInformationFieldController extends React.Component {
       ariaDescribedBy,
       CustomConfirmCancelModal,
       showUpdateSuccessAlert,
-      showErrorAlert,
       showCopyAddressModal,
     } = this.props;
 
@@ -537,12 +535,6 @@ class ProfileInformationFieldController extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        {showErrorAlert && (
-          <div className="vads-u-width--full">
-            <GenericErrorAlert fieldName={fieldName} />
-          </div>
-        )}
-
         {showUpdateSuccessAlert && (
           <div className="vads-u-width--full">
             <UpdateSuccessAlert fieldName={fieldName} />
@@ -741,7 +733,14 @@ ProfileInformationFieldController.propTypes = {
   successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
-  transactionError: PropTypes.any,
+  transactionError: PropTypes.shape({
+    errors: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.string,
+        message: PropTypes.string,
+      }),
+    ),
+  }),
   transactionRequest: PropTypes.object,
   updateMessagingSignature: PropTypes.func,
   workPhone: PropTypes.object,
