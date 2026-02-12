@@ -187,7 +187,7 @@ export const fileInputUI = options => {
                       .replace(/^./, s => s.toUpperCase())
                       .trim()}
                   </dt>
-                  <dd>{value}</dd>
+                  <dd>{file.additionalDataLabels?.[key] || value}</dd>
                 </div>
               ))}
           </>
@@ -215,7 +215,7 @@ export const fileInputUI = options => {
                     .replace(/^./, s => s.toUpperCase())
                     .trim()}
                 </span>
-                : {value}
+                : {formData.additionalDataLabels?.[key] || value}
               </li>
             ))}
           </ul>
@@ -266,6 +266,10 @@ export const fileInputSchema = (options = {}) => {
         },
       },
       additionalData: {
+        type: 'object',
+        properties: {},
+      },
+      additionalDataLabels: {
         type: 'object',
         properties: {},
       },

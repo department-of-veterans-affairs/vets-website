@@ -230,7 +230,7 @@ export const fileInputMultipleUI = options => {
                           .replace(/^./, s => s.toUpperCase())
                           .trim()}
                       </span>
-                      : {value}
+                      : {file.additionalDataLabels?.[key] || value}
                     </li>
                   ))}
                 </ul>
@@ -276,6 +276,10 @@ export const fileInputMultipleSchema = (options = {}) => {
           },
         },
         additionalData: {
+          type: 'object',
+          properties: {},
+        },
+        additionalDataLabels: {
           type: 'object',
           properties: {},
         },

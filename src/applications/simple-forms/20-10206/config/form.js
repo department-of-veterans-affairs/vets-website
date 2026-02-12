@@ -23,6 +23,7 @@ import otherCompPenDetailsPg from '../pages/otherCompensationAndPensionDetails';
 import otherBenefitDetailsPg from '../pages/otherBenefitDetails';
 import additionalRecordsInformationPg from '../pages/additionalRecordsInformation';
 import associatedVARegionalOfficePg from '../pages/associatedVARegionalOffice';
+import fileUploadPrototypePg from '../pages/fileUploadPrototype';
 import { PREPARER_TYPES, RECORD_TYPES, SUBTITLE, TITLE } from './constants';
 import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
@@ -243,6 +244,13 @@ const formConfig = {
           uiSchema: additionalRecordsInformationPg.uiSchema,
           schema: additionalRecordsInformationPg.schema,
           pageClass: 'additional-records-information',
+        },
+        fileUploadPrototypePage: {
+          path: 'file-upload-prototype',
+          title: 'Upload supporting documents (prototype)',
+          uiSchema: fileUploadPrototypePg.uiSchema,
+          schema: fileUploadPrototypePg.schema,
+          pageClass: 'file-upload-prototype',
         },
       },
     },

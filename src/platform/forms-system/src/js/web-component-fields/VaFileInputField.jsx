@@ -213,10 +213,26 @@ const VaFileInputField = props => {
   const handleAdditionalInput = e => {
     if (mappedProps.handleAdditionalInput) {
       const payload = mappedProps.handleAdditionalInput(e);
+
+      // Extract the selected option's display text for the review page
+      let additionalDataLabels;
+      if (payload && e.detail?.value) {
+        const selectedOption = e.target?.querySelector(
+          `option[value="${e.detail.value}"]`,
+        );
+        if (selectedOption) {
+          additionalDataLabels = {};
+          Object.keys(payload).forEach(key => {
+            additionalDataLabels[key] = selectedOption.textContent.trim();
+          });
+        }
+      }
+
       childrenProps.onChange({
         _id,
         ...childrenProps.formData,
         additionalData: payload,
+        ...(additionalDataLabels && { additionalDataLabels }),
       });
     }
   };

@@ -346,9 +346,25 @@ const VaFileInputMultipleField = props => {
     if (mappedProps.handleAdditionalInput) {
       const payload = mappedProps.handleAdditionalInput(e);
       const updatedFormData = [...(childrenProps.formData || [])];
+
+      // Extract the selected option's display text for the review page
+      let additionalDataLabels;
+      if (payload && e.detail?.value) {
+        const selectedOption = e.target?.querySelector(
+          `option[value="${e.detail.value}"]`,
+        );
+        if (selectedOption) {
+          additionalDataLabels = {};
+          Object.keys(payload).forEach(key => {
+            additionalDataLabels[key] = selectedOption.textContent.trim();
+          });
+        }
+      }
+
       updatedFormData[index] = {
         ...updatedFormData[index],
         additionalData: payload,
+        ...(additionalDataLabels && { additionalDataLabels }),
       };
 
       childrenProps.onChange(updatedFormData);
