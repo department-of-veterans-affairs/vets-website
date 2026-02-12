@@ -74,7 +74,7 @@ import IncorrectForm from '../containers/IncorrectForm';
 // TODO: Will be added after mvp release
 // import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
 import { transform } from './submit-transformer';
-import migrations from '../utils/migrations';
+import { onFormLoaded } from '../utils/onFormLoaded';
 // import prefillTransformer from './prefill-transformer';
 
 /** @type {FormConfig} */
@@ -104,8 +104,8 @@ const formConfig = {
       saved: 'Your benefits application has been saved.',
     },
   },
-  version: 2,
-  migrations,
+  version: 0,
+  onFormLoaded,
   formSavedPage: FormSavedPage,
   defaultDefinitions,
   savedFormMessages: {
