@@ -511,6 +511,16 @@ export const RecipientStatus = {
   NOT_ASSOCIATED: 'Not Associated',
 };
 
+/**
+ * OH (Oracle Health) migration phases that block message replies.
+ * During facility migration from VistA to Oracle Health, replies are blocked
+ * during certain phases (T-6 through T+2).
+ * - p3: T-6 to T-3
+ * - p4: T-3 to T-1
+ * - p5: T to T+2
+ */
+export const OhMigrationPhasesBlockingReplies = ['p3', 'p4', 'p5'];
+
 export const BlockedTriageAlertStyles = {
   INFO: 'info',
   WARNING: 'warning',

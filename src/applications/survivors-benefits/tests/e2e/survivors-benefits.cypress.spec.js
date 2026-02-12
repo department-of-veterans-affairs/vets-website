@@ -150,10 +150,10 @@ const testConfig = createTestConfig(
                 data.marriageToVeteranStartDate,
               );
             }
-            if (data.marriageToVeteranStartOutsideUS !== undefined) {
+            if (data.marriageToVeteranStartOutsideUs !== undefined) {
               cy.selectVaCheckbox(
                 'root_marriageToVeteranStartOutsideUS',
-                data.marriageToVeteranStartOutsideUS,
+                data.marriageToVeteranStartOutsideUs,
               );
             }
             if (data.marriageToVeteranStartLocation) {
@@ -175,10 +175,10 @@ const testConfig = createTestConfig(
                 data.marriageToVeteranEndDate,
               );
             }
-            if (data.marriageToVeteranEndOutsideUS !== undefined) {
+            if (data.marriageToVeteranEndOutsideUs !== undefined) {
               cy.selectVaCheckbox(
                 'root_marriageToVeteranEndOutsideUS',
-                data.marriageToVeteranEndOutsideUS,
+                data.marriageToVeteranEndOutsideUs,
               );
             }
             if (data.marriageToVeteranEndLocation) {
@@ -254,10 +254,10 @@ const testConfig = createTestConfig(
                 data.spouseMarriages[index].marriageToVeteranDate,
               );
             }
-            if (data?.spouseMarriages[index]?.marriedOutsideUS !== undefined) {
+            if (data?.spouseMarriages[index]?.marriedOutsideUs !== undefined) {
               cy.selectVaCheckbox(
                 'root_marriedOutsideUS',
-                data.spouseMarriages[index].marriedOutsideUS,
+                data.spouseMarriages[index].marriedOutsideUs,
               );
             }
             if (data?.spouseMarriages[index]?.marriageLocation) {
@@ -312,10 +312,10 @@ const testConfig = createTestConfig(
                 data.veteranMarriages[index].marriageDate,
               );
             }
-            if (data?.veteranMarriages[index]?.marriedOutsideUS !== undefined) {
+            if (data?.veteranMarriages[index]?.marriedOutsideUs !== undefined) {
               cy.selectVaCheckbox(
                 'root_marriedOutsideUS',
-                data.veteranMarriages[index].marriedOutsideUS,
+                data.veteranMarriages[index].marriedOutsideUs,
               );
             }
             if (data?.veteranMarriages[index]?.marriageLocation) {
@@ -371,10 +371,10 @@ const testConfig = createTestConfig(
                 data.dependents[index].dateOfBirth,
               );
             }
-            if (data?.dependents[index]?.bornOutsideUS !== undefined) {
+            if (data?.dependents[index]?.bornOutsideUs !== undefined) {
               cy.selectVaCheckbox(
                 'root_bornOutsideUS',
-                data.dependents[index].bornOutsideUS,
+                data.dependents[index].bornOutsideUs,
               );
             }
             if (data?.dependents[index]?.birthPlace) {

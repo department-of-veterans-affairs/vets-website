@@ -28,7 +28,6 @@ const isMissingParameterError = error => {
   return (
     error?.code === AUTH_ERROR_CODES.MISSING_PARAMETER ||
     error?.code === OTC_ERROR_CODES.MISSING_PARAMETER ||
-    error?.code === AVAILABILITY_ERROR_CODES.MISSING_PARAMETER ||
     error?.code === APPOINTMENT_ERROR_CODES.MISSING_PARAMETER
   );
 };
@@ -60,6 +59,10 @@ const isAppointmentAlreadyBookedError = error => {
   return error?.code === AVAILABILITY_ERROR_CODES.APPOINTMENT_ALREADY_BOOKED;
 };
 
+const isCancellationFailedError = error => {
+  return error?.code === APPOINTMENT_ERROR_CODES.CANCELLATION_FAILED;
+};
+
 export {
   isInvalidCredentialsError,
   isRateLimitExceededError,
@@ -70,4 +73,5 @@ export {
   isAppointmentFailedError,
   isAppointmentNotFoundError,
   isAppointmentAlreadyBookedError,
+  isCancellationFailedError,
 };
