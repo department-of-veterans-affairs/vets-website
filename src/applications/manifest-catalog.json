@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 150,
+  "totalApplications": 149,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -572,12 +572,6 @@
       "appName": "Welcome VA Setup Review Information Form",
       "entryName": "welcome-va-setup-review-information",
       "rootUrl": "/my-va/welcome-va-setup"
-    },
-    {
-      "directoryPath": "src/applications/personalization/view-representative",
-      "appName": "View your representative",
-      "entryName": "view-representative",
-      "rootUrl": "/view-change-representative/view"
     },
     {
       "directoryPath": "src/applications/post-911-gib-status",
