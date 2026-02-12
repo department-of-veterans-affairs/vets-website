@@ -20,11 +20,9 @@ import {
   selectFeatureMentalHealthHistoryFiltering,
   selectFeatureRecentLocationsFilter,
   selectFeatureRemoveFacilityConfigCheck,
-  selectFeatureOHRequest,
   selectFeatureUseBrowserTimezone,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
-  selectFeatureOHDirectSchedule,
   selectFeatureUseVpg,
 } from '../../redux/selectors';
 import {
@@ -50,6 +48,7 @@ import { getSlots } from '../../services/slot';
 import { getCommunityCareV2 } from '../../services/vaos/index';
 import { getPreciseLocation } from '../../utils/address';
 import {
+  APPOINTMENT_SYSTEM,
   DATE_FORMATS,
   FACILITY_SORT_METHODS,
   FACILITY_TYPES,
@@ -79,6 +78,7 @@ import {
   getNewAppointment,
   getTypeOfCare,
   getTypeOfCareFacilities,
+  selectAppointmentEhr,
 } from './selectors';
 
 export const GA_FLOWS = {
@@ -240,27 +240,36 @@ export function updateFacilityEhr(ehr) {
   };
 }
 
-export function startDirectScheduleFlow({ isRecordEvent = true } = {}) {
-  if (isRecordEvent) {
-    recordEvent({
-      event: 'vaos-direct-path-started',
-    });
-  }
+export function startDirectScheduleFlow({ isRecordEvent = true, ehr } = {}) {
+  return async dispatch => {
+    if (isRecordEvent && ehr) {
+      recordEvent({
+        event: `vaos-direct-${ehr}-path-started`,
+      });
+    }
 
-  return {
-    type: START_DIRECT_SCHEDULE_FLOW,
+    dispatch({
+      type: START_DIRECT_SCHEDULE_FLOW,
+    });
   };
 }
 
-export function startRequestAppointmentFlow(isCommunityCare) {
-  recordEvent({
-    event: `vaos-${
-      isCommunityCare ? 'community-care' : 'request'
-    }-path-started`,
-  });
+export function startRequestAppointmentFlow({ ehr } = {}) {
+  return async dispatch => {
+    // Set EHR state for CC flows (hsrm) before dispatching the flow action
+    if (ehr === APPOINTMENT_SYSTEM.hsrm) {
+      dispatch(updateFacilityEhr(APPOINTMENT_SYSTEM.hsrm));
+    }
 
-  return {
-    type: START_REQUEST_APPOINTMENT_FLOW,
+    if (ehr) {
+      recordEvent({
+        event: `vaos-request-${ehr}-path-started`,
+      });
+    }
+
+    dispatch({
+      type: START_REQUEST_APPOINTMENT_FLOW,
+    });
   };
 }
 
@@ -859,8 +868,8 @@ export function submitAppointmentOrRequest(history) {
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
     const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
-    const updateRequestLimits = selectFeatureOHRequest(state);
-    const updateDSLimits = selectFeatureOHDirectSchedule(state);
+    const useVpg = selectFeatureUseVpg(state);
+    const selectedEhr = selectAppointmentEhr(state);
 
     dispatch({
       type: FORM_SUBMIT,
@@ -868,12 +877,13 @@ export function submitAppointmentOrRequest(history) {
 
     let additionalEventData = {
       'health-TypeOfCare': typeOfCare,
+      'ehr-system': selectedEhr,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
       const flow = GA_FLOWS.DIRECT;
       recordEvent({
-        event: `${GA_PREFIX}-direct-submission`,
+        event: `${GA_PREFIX}-${selectedEhr}-direct-submission`,
         flow,
         ...additionalEventData,
       });
@@ -881,10 +891,7 @@ export function submitAppointmentOrRequest(history) {
       try {
         let appointment = null;
         appointment = await createAppointment({
-          appointment: transformFormToVAOSAppointment(
-            getState(),
-            updateDSLimits,
-          ),
+          appointment: transformFormToVAOSAppointment(getState(), useVpg),
           featureUseBrowserTimezone,
         });
 
@@ -893,7 +900,7 @@ export function submitAppointmentOrRequest(history) {
         });
 
         recordEvent({
-          event: `${GA_PREFIX}-direct-submission-successful`,
+          event: `${GA_PREFIX}-${selectedEhr}-direct-submission-successful`,
           flow,
           ...additionalEventData,
         });
@@ -903,6 +910,7 @@ export function submitAppointmentOrRequest(history) {
         const extraData = {
           vaFacility: data?.vaFacility,
           clinicId: data?.clinicId,
+          ehr: selectedEhr,
         };
         captureError(error, true, 'Direct submission failure', extraData);
         dispatch({
@@ -914,7 +922,7 @@ export function submitAppointmentOrRequest(history) {
         dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
 
         recordEvent({
-          event: `${GA_PREFIX}-direct-submission-failed`,
+          event: `${GA_PREFIX}-${selectedEhr}-direct-submission-failed`,
           flow,
           ...additionalEventData,
         });
@@ -923,7 +931,6 @@ export function submitAppointmentOrRequest(history) {
     } else {
       const isCommunityCare =
         newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
-      const eventType = isCommunityCare ? 'community-care' : 'request';
       const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
       const today = new Date();
       const daysFromPreference = ['null', 'null', 'null'];
@@ -961,7 +968,7 @@ export function submitAppointmentOrRequest(history) {
       };
 
       recordEvent({
-        event: `${GA_PREFIX}-${eventType}-submission`,
+        event: `${GA_PREFIX}-request-${selectedEhr}-submission`,
         flow,
         ...additionalEventData,
       });
@@ -969,7 +976,7 @@ export function submitAppointmentOrRequest(history) {
       try {
         requestBody = isCommunityCare
           ? transformFormToVAOSCCRequest(getState())
-          : transformFormToVAOSVARequest(getState(), updateRequestLimits);
+          : transformFormToVAOSVARequest(getState(), useVpg);
 
         const requestData = await createAppointment({
           appointment: requestBody,
@@ -981,7 +988,7 @@ export function submitAppointmentOrRequest(history) {
         });
 
         recordEvent({
-          event: `${GA_PREFIX}-${eventType}-submission-successful`,
+          event: `${GA_PREFIX}-request-${selectedEhr}-submission-successful`,
           flow,
           ...additionalEventData,
         });
@@ -997,6 +1004,7 @@ export function submitAppointmentOrRequest(history) {
             facility: requestBody.facility,
             typeOfCareId: requestBody.typeOfCareId,
             cityState: requestBody.cityState,
+            ehr: selectedEhr,
           };
         }
         captureError(error, true, 'Request submission failure', extraData);
@@ -1015,7 +1023,7 @@ export function submitAppointmentOrRequest(history) {
         );
 
         recordEvent({
-          event: `${GA_PREFIX}-${eventType}-submission-failed`,
+          event: `${GA_PREFIX}-request-${selectedEhr}-submission-failed`,
           flow,
           ...additionalEventData,
         });
@@ -1069,8 +1077,9 @@ export function requestProvidersList(address) {
 }
 
 export function requestAppointmentDateChoice(history) {
-  return dispatch => {
-    dispatch(startRequestAppointmentFlow());
+  return (dispatch, getState) => {
+    const ehr = getNewAppointment(getState())?.ehr;
+    dispatch(startRequestAppointmentFlow({ ehr }));
     history.replace('/new-appointment/request-date');
   };
 }

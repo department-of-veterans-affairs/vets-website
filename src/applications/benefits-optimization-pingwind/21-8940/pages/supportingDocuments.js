@@ -4,13 +4,8 @@ import environment from 'platform/utilities/environment';
 import {
   fileInputMultipleSchema,
   fileInputMultipleUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-const PAGE_TITLE = (
-  <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
-    Uploading supporting documents
-  </h3>
-);
 
 const PAGE_DESCRIPTION = (
   <>
@@ -18,7 +13,7 @@ const PAGE_DESCRIPTION = (
       You can upload documents to support your claim. This step is optional.
     </p>
     <VaAlert status="info" uswds visible class="vads-u-margin-bottom--3">
-      <h3 slot="headline">What you can upload</h3>
+      <h2 slot="headline">What you can upload</h2>
       <ul className="vads-u-margin-top--1">
         <li>Medical records and treatment history</li>
         <li>Doctor’s statements or reports</li>
@@ -41,7 +36,7 @@ const MAX_FILE_SIZE_BYTES = 25 * 1024 * 1024;
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': PAGE_TITLE,
+    ...titleUI('Uploading supporting documents'),
     'ui:description': PAGE_DESCRIPTION,
     supportingDocuments: {
       ...fileInputMultipleUI({

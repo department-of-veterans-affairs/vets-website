@@ -19,6 +19,7 @@
     },
     "dateDefault": "1999-02-02",
     "dateWCV3": "2000-02-12",
+    "dateDigitsWCV3": "2001-03-15",
     "dateRange": {
       "from": "1999-01-03",
       "to": "1999-01-03"
@@ -205,6 +206,7 @@
       "error": null
     },
     "wcv3ServiceBranchDefault": "NAVY",
-    "wcv3ServiceBranchCustom": "CG"
+    "wcv3ServiceBranchCustom": "CG",
+    "wcv3ServiceBranchCustomBranches": "PHS"
   }
 }

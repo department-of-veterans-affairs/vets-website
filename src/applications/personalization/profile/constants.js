@@ -11,7 +11,6 @@ export const PROFILE_TOGGLES = {
   profileShowPaperlessDelivery: false,
   profile2Enabled: false,
   profileHealthCareSettingsPage: false,
-  profileSchedulingPreferences: false,
   profileHideHealthCareContacts: false,
 };
 
@@ -25,6 +24,8 @@ export const USA_MILITARY_BRANCHES = Object.freeze({
   marineCorps: 'Marine Corps',
   spaceForce: 'Space Force',
 });
+
+export const VA_SEAL_IMAGE_PATH = '/img/design/seal/seal.png';
 
 export const SERVICE_BADGE_IMAGE_PATHS = new Map([
   [USA_MILITARY_BRANCHES.army, '/img/vic-army-symbol.png'],
@@ -209,6 +210,13 @@ export const NOTIFICATION_ITEM_IDS = Object.freeze({
   QUICK_SUBMIT: `item${RAW_IDS.QUICK_SUBMIT}`,
   BENEFIT_OVERPAYMENT_DEBT: `item${RAW_IDS.BENEFIT_OVERPAYMENT_DEBT}`,
   HEALTH_CARE_COPAY_BILL: `item${RAW_IDS.HEALTH_CARE_COPAY_BILL}`,
+});
+
+export const NOTIFICATION_ITEM_DESCRIPTIONS = Object.freeze({
+  [NOTIFICATION_ITEM_IDS.MEDICAL_IMAGES]:
+    'Notifications for when you can download the medical images you requested.',
+  [NOTIFICATION_ITEM_IDS.PRESCRIPTION_SHIPMENT]:
+    'Only available at some VA health facilities. Select both options to get all available notifications.',
 });
 
 export const NOTIFICATION_CHANNEL_IDS = Object.freeze({

@@ -11,7 +11,7 @@ export const directDepositSetupInfo = (
     <p>
       <va-link
         text="Learn how to set up direct deposit for FMP claims"
-        href="http://preview-prod.vfs.va.gov/preview?nodeId=85191"
+        href="/resources/how-to-set-up-direct-deposit-for-foreign-medical-program-claims/"
       />
     </p>
     <p className="vads-u-margin-bottom--0">

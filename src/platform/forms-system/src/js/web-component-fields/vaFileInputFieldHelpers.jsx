@@ -14,13 +14,18 @@ import {
 const MAX_FILE_SIZE_MB = 25;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
-const createPayload = (file, formId, password = null) => {
+const createPayloadDefault = (file, formId, password = null) => {
   const payload = new FormData();
   payload.set('form_id', formId);
   payload.append('file', file);
   if (password) payload.append('password', password);
   return payload;
 };
+
+const parseResponseDefault = ({ data }, file) => ({
+  ...data?.attributes,
+  file,
+});
 
 export const uploadFile = (
   fileUploadUrl,
@@ -30,13 +35,15 @@ export const uploadFile = (
   onProgress,
   accept = '.pdf,.jpeg,.png',
   password,
+  createPayload,
+  parseResponse,
 ) => {
   const uiOptions = {
     fileUploadUrl,
     fileTypes: accept.split(','),
     maxSize: MAX_FILE_SIZE_BYTES,
-    createPayload,
-    parseResponse: ({ data }, file) => ({ ...data?.attributes, file }),
+    createPayload: createPayload || createPayloadDefault,
+    parseResponse: parseResponse || parseResponseDefault,
   };
 
   return dispatch => {
@@ -71,7 +78,11 @@ export const getFileSize = num => {
 export const allKeysAreEmpty = (obj = {}) =>
   Object.keys(obj).every(key => !obj[key] || isEmpty(obj[key]));
 
-export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
+export const useFileUpload = (
+  { fileUploadUrl, formNumber, createPayload, parseResponse },
+  accept,
+  dispatch,
+) => {
   const [isUploading, setIsUploading] = useState(false);
   const [percentUploaded, setPercentUploaded] = useState(null);
 
@@ -98,12 +109,65 @@ export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
         onFileUploading,
         accept,
         password,
+        createPayload,
+        parseResponse,
       ),
     );
   };
 
   return { isUploading, percentUploaded, handleUpload };
 };
+
+/**
+ * Converts the size of a file from bytes to a more human-readable format for
+ * rendering the file size label. This function calculates the file size in
+ * appropriate units (B, KB, MB, GB, TB) based on the size provided. It uses
+ * logarithmic scaling to determine the unit, then formats the size to one
+ * decimal place for units KB and above.
+ *
+ * @param {number} filesSize - The size of the file in bytes
+ * @returns {string} - The formatted file size with appropriate unit
+ */
+export function formatFileSize(filesSize) {
+  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+  if (filesSize === 0) return '0 B';
+
+  const unitIndex = Math.floor(Math.log(filesSize) / Math.log(1024));
+  if (unitIndex === 0) return `${filesSize} ${units[unitIndex]}`;
+
+  const sizeInUnit = filesSize / 1024 ** unitIndex;
+  const formattedSize = sizeInUnit.toFixed(unitIndex < 2 ? 0 : 1);
+  return `${formattedSize}\xa0${units[unitIndex]}`;
+}
+
+/** @typedef {maxFileSize: number, minFileSize: number} FileSizeLimits */
+/** @typedef {Record<string, FileSizeLimits>} FileSizeMap */
+
+/**
+ * @param {File} file - uploaded file
+ * @param {FileSizeMap} fileSizesByFileType - map of file types to max/min file sizes
+ * @returns {string | null}
+ */
+function checkFileSizeByFileType(file, fileSizesByFileType) {
+  const { type, size } = file;
+  const _type = type.includes('text') ? 'txt' : type.split('/')[1];
+  const limits = fileSizesByFileType[_type] || fileSizesByFileType.default;
+  let error = null;
+  if (limits) {
+    const { minFileSize, maxFileSize } = limits;
+    if (maxFileSize && size > maxFileSize) {
+      error = `We can't upload your file because it's too big. ${_type} files must be less than ${formatFileSize(
+        maxFileSize,
+      )}.`;
+    }
+    if (minFileSize && size < minFileSize) {
+      error = `We can't upload your file because it's too small. ${_type} files must be at least ${formatFileSize(
+        minFileSize,
+      )}.`;
+    }
+  }
+  return error;
+}
 
 /**
  *
@@ -114,7 +178,7 @@ export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
  */
 export async function getFileError(
   file,
-  { disallowEncryptedPdfs },
+  { disallowEncryptedPdfs, fileSizesByFileType },
   files = [],
 ) {
   let fileError = null;
@@ -127,7 +191,11 @@ export async function getFileError(
     }
   }
 
-  // don't do more checks if there is a duplicate file
+  if (fileSizesByFileType) {
+    fileError = checkFileSizeByFileType(file, fileSizesByFileType);
+  }
+
+  // don't do more checks if there is a duplicate file or file size error
   if (!fileError) {
     const checks = await standardFileChecks(file);
     encryptedCheck = !!checks.checkIsEncryptedPdf;

@@ -220,7 +220,7 @@ export const Alerts = {
       'Folder could not be removed. Try again later. If this problem persists, contact the help desk.',
     DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER: 'Empty this folder',
     DELETE_FOLDER_ERROR_NOT_EMPTY_BODY: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
-    RENAME_FOLDER_SUCCESS: 'Folder was successfully renamed.',
+    RENAME_FOLDER_SUCCESS: 'Folder renamed',
     RENAME_FOLDER_ERROR:
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
     FOLDER_NAME_TAKEN:
@@ -511,6 +511,16 @@ export const RecipientStatus = {
   NOT_ASSOCIATED: 'Not Associated',
 };
 
+/**
+ * OH (Oracle Health) migration phases that block message replies.
+ * During facility migration from VistA to Oracle Health, replies are blocked
+ * during certain phases (T-6 through T+2).
+ * - p3: T-6 to T-3
+ * - p4: T-3 to T-1
+ * - p5: T to T+2
+ */
+export const OhMigrationPhasesBlockingReplies = ['p3', 'p4', 'p5'];
+
 export const BlockedTriageAlertStyles = {
   INFO: 'info',
   WARNING: 'warning',
@@ -551,12 +561,6 @@ export const RxRenewalText = {
 
 export const downtimeNotificationParams = {
   appTitle: 'this messaging tool',
-};
-
-export const CernerTransitioningFacilities = {
-  NORTH_CHICAGO: {
-    facilityId: '556',
-  },
 };
 
 export const filterDescription = {

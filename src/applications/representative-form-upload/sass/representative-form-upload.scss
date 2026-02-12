@@ -5,7 +5,6 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
-@import "./Header";
 
 .form_container {
   padding: 0 16px;
@@ -79,6 +78,11 @@
   .schemaform-chapter-progress {
     display: none;
   }
+
+  .schemaform-sip-save-link {
+    display: none;
+  }
+
   .usa-input,
   input,
   va-text-input,

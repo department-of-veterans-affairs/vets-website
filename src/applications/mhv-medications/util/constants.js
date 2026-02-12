@@ -1,3 +1,6 @@
+// Query parameter name for station number (used for v2 API with Cerner pilot)
+export const STATION_NUMBER_PARAM = 'station_number';
+
 export const rxListSortingOptions = {
   alphabeticallyByStatus: {
     API_ENDPOINT: '&sort=alphabetical-status',
@@ -17,14 +20,16 @@ export const medicationsUrls = {
   VA_HOME: '/../../../',
   MHV_HOME: '/../../my-health',
   MEDICATIONS_URL: '/my-health/medications',
+  MEDICATIONS_IN_PROGRESS: '/my-health/medications/in-progress',
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
   MEDICATIONS_REFILL: '/my-health/medications/refill',
   PRESCRIPTION_DETAILS: '/my-health/medications/prescription',
   subdirectories: {
     BASE: '/',
-    REFILL: '/refill',
-    DETAILS: '/prescription',
     DOCUMENTATION: '/documentation',
+    IN_PROGRESS: '/in-progress',
+    DETAILS: '/prescription',
+    REFILL: '/refill',
   },
 };
 
@@ -32,6 +37,7 @@ export const ALL_MEDICATIONS_FILTER_KEY = 'ALL_MEDICATIONS';
 export const ACTIVE_FILTER_KEY = 'ACTIVE';
 export const RECENTLY_REQUESTED_FILTER_KEY = 'RECENTLY_REQUESTED';
 export const RENEWAL_FILTER_KEY = 'RENEWAL';
+export const RENEWABLE_FILTER_KEY = 'RENEWABLE';
 export const NON_ACTIVE_FILTER_KEY = 'NON_ACTIVE';
 export const INACTIVE_FILTER_KEY = 'INACTIVE';
 export const IN_PROGRESS_FILTER_KEY = 'IN_PROGRESS';
@@ -93,8 +99,7 @@ export const filterOptionsV2 = {
     name: 'filter option',
     description:
       'Includes prescriptions you’re actively taking that have refills or prescriptions you can refill by contacting your provider',
-    url:
-      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On Hold,Active: Parked,Active: Submitted',
+    url: '&filter[[disp_status][eq]]=Active',
     showingContentDisplayName: ' active',
   },
   [IN_PROGRESS_FILTER_KEY]: {
@@ -102,23 +107,22 @@ export const filterOptionsV2 = {
     name: 'filter option',
     description:
       'Includes refill requests you submitted and refills the VA pharmacy is processing',
-    url:
-      '&filter[[disp_status][eq]]=Active: Refill in Process,Active: Submitted',
+    url: '&filter[[disp_status][eq]]=In progress',
     showingContentDisplayName: ' in progress',
   },
   [SHIPPED_FILTER_KEY]: {
     label: 'Shipped',
     name: 'filter option',
     description: 'Includes refills with current tracking information available',
-    url: '&filter[[disp_status][eq]]=Active',
+    url: '&filter[[disp_status][eq]]=Active&filter[[is_trackable][eq]]=true',
     showingContentDisplayName: ' shipped',
   },
-  [RENEWAL_FILTER_KEY]: {
+  [RENEWABLE_FILTER_KEY]: {
     label: 'Renewal needed before refill',
     name: 'filter option',
     description:
       'Includes prescriptions you’re taking that have no refills left',
-    url: '&filter[[disp_status][eq]]=Active,Expired',
+    url: '&filter[[is_renewable][eq]]=true',
     showingContentDisplayName: ' renewal needed before refill',
   },
   [INACTIVE_FILTER_KEY]: {
@@ -126,14 +130,13 @@ export const filterOptionsV2 = {
     name: 'filter option',
     description:
       'Includes prescriptions you can’t refill without contacting your provider first',
-    url:
-      '&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown,Active: On Hold',
+    url: '&filter[[disp_status][eq]]=Inactive',
     showingContentDisplayName: ' inactive',
   },
   [TRANSFERRED_FILTER_KEY]: {
     label: 'Transferred',
     name: 'filter option',
-    description: 'A prescription moved to VA’s  new electronic health record',
+    description: 'A prescription moved to VA’s new electronic health record',
     url: '&filter[[disp_status][eq]]=Transferred',
     showingContentDisplayName: ' transferred',
   },
@@ -141,7 +144,7 @@ export const filterOptionsV2 = {
     label: 'Status not available',
     name: 'filter option',
     description: '',
-    url: '&filter[[disp_status][eq]]=Unknown',
+    url: '&filter[[disp_status][eq]]=Status not available',
     showingContentDisplayName: ' status not available',
   },
 };
@@ -329,6 +332,7 @@ export const dispStatusObjV2 = {
   inactive: 'Inactive',
   transferred: 'Transferred',
   nonVA: ACTIVE_NON_VA,
+  expired: 'Expired',
 };
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
@@ -446,6 +450,20 @@ export const REFILL_STATUS = {
   NOT_STARTED: 'notStarted',
   IN_PROGRESS: 'inProgress',
   ERROR: 'error',
+};
+
+// Loading messages for refill prescription page
+export const REFILL_LOADING_MESSAGES = {
+  SUBMITTING_REFILL_REQUESTS: 'Submitting refill requests...',
+  LOADING_PRESCRIPTIONS: 'Loading prescriptions...',
+  LOADING: 'Loading...',
+  UPDATING_REFILL_LIST: 'Updating your refillable prescriptions list...',
+};
+
+// Error messages for refill prescription page
+export const REFILL_ERROR_MESSAGES = {
+  BULK_REFILL_FAILED: 'Failed to submit refill request',
+  NO_PRESCRIPTIONS_SELECTED: 'Select at least one prescription to refill',
 };
 
 export const DATETIME_FORMATS = {

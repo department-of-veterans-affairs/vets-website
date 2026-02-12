@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
-import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
+import {
+  dateFormat,
+  getPrescriptionDetailUrl,
+  getRxStatus,
+  rxSourceIsNonVA,
+} from '../../util/helpers';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import {
   DATETIME_FORMATS,
@@ -53,6 +58,17 @@ const MedicationsListCard = ({ rx }) => {
     }
     return (
       <>
+        {rx &&
+          rx.isRefillable &&
+          rx.refillRemaining >= 0 && (
+            <p
+              data-testid="rx-refill-remaining"
+              data-dd-privacy="mask"
+              id={`refill-remaining-${rx.prescriptionId}`}
+            >
+              Refills remaining: {rx.refillRemaining}
+            </p>
+          )}
         {rx && <LastFilledInfo {...rx} />}
         {latestTrackingStatus && (
           <p
@@ -104,7 +120,7 @@ const MedicationsListCard = ({ rx }) => {
           }
           data-testid="medications-history-details-link"
           className="vads-u-font-weight--bold"
-          to={`prescription/${rx.prescriptionId}`}
+          to={getPrescriptionDetailUrl(rx)}
         >
           <span data-dd-privacy="mask">
             {rx?.prescriptionName || rx?.orderableItem}
