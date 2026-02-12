@@ -45,3 +45,7 @@ export {
   spineTrunkAndNeckSchema,
   spineTrunkAndNeckUiSchema,
 } from './spine-trunk-and-neck';
+export {
+  otherPathologySchema,
+  otherPathologyUiSchema,
+} from './other-pathology';

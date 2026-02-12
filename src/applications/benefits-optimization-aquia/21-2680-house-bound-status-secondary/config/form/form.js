@@ -34,6 +34,8 @@ import {
   lowerExtremitiesUiSchema,
   spineTrunkAndNeckSchema,
   spineTrunkAndNeckUiSchema,
+  otherPathologySchema,
+  otherPathologyUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import {
   TITLE,
@@ -189,6 +191,12 @@ const formConfig = {
           title: 'Spine, trunk and neck',
           uiSchema: spineTrunkAndNeckUiSchema,
           schema: spineTrunkAndNeckSchema,
+        },
+        otherPathology: {
+          path: 'other-pathology',
+          title: 'Other pathology',
+          uiSchema: otherPathologyUiSchema,
+          schema: otherPathologySchema,
         },
       },
     },
