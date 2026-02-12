@@ -121,6 +121,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_10272: '22-10272',
   FORM_22_0803: '22-0803',
   FORM_20_10208_UPLOAD: '20-10208-UPLOAD',
+  FORM_22_0989: '22-0989',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -315,6 +316,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_0803]: `${tryGetAppUrl('0803-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_MOCK_PREFILL]: `${tryGetAppUrl('mock-form-prefill')}/`,
     [VA_FORM_IDS.FORM_22_10272]: `${tryGetAppUrl('22-10272')}/`,
+    [VA_FORM_IDS.FORM_22_0989]: `${tryGetAppUrl('0989-edu-benefits')}/`,
   };
 };
 
@@ -1010,6 +1012,13 @@ export const MY_VA_SIP_FORMS = [
     description:
       '22-10272 Application for Reimbursement of Licensing or Certification Test and Preparation Course Fees',
     trackingPrefix: '10272-edu-benefits',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_0989,
+    benefit: 'Entitlement restoration',
+    title: '22-0989 Entitlement restoration',
+    description: 'Entitlement restoration',
+    trackingPrefix: '0989-edu-benefits-',
   },
 ];
 

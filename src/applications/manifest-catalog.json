@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 153,
+  "totalApplications": 152,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -260,6 +260,12 @@
       "appName": "Program Apporval in a Foreign Country (VA Form 22-0976)",
       "entryName": "0976-edu-benefits",
       "rootUrl": "/education/0976"
+    },
+    {
+      "directoryPath": "src/applications/edu-benefits/0989",
+      "appName": "22-0989 Entitlement restoration",
+      "entryName": "0989-edu-benefits",
+      "rootUrl": "/forms/0989"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0994",
