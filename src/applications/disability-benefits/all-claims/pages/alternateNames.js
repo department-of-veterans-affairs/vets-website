@@ -28,15 +28,27 @@ export const uiSchema = {
         'ui:title': 'First name',
         'ui:autocomplete': 'given-name',
         'ui:required': hasAlternateName,
+        'ui:errorMessages': {
+          pattern:
+            "Name may only contain letters, numbers, spaces, and these special characters: - / '",
+        },
       },
       middle: {
         'ui:title': 'Middle name',
         'ui:autocomplete': 'additional-name',
+        'ui:errorMessages': {
+          pattern:
+            "Name may only contain letters, numbers, spaces, and these special characters: - / '",
+        },
       },
       last: {
         'ui:title': 'Last name',
         'ui:autocomplete': 'family-name',
         'ui:required': hasAlternateName,
+        'ui:errorMessages': {
+          pattern:
+            "Name may only contain letters, numbers, spaces, and these special characters: - / '",
+        },
       },
     },
   },
