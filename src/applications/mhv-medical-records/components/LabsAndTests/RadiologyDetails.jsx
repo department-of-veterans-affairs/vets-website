@@ -379,7 +379,7 @@ ${record.results}`;
           <TrackedSpinner
             id="radiology-images-requested-spinner"
             message="Loading..."
-            setFocus
+            set-focus
             data-testid="loading-indicator"
           />
         );
