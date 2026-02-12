@@ -210,5 +210,17 @@ describe('PrescriptionsInProgress container', () => {
         'Medication shipped',
       );
     });
+
+    it('displays in-progress prescription in the Fill in progress step', () => {
+      stubFetchHook({ prescriptions: mockPrescriptions });
+      const screen = setup();
+      const inProgressLink = screen.getByRole('link', {
+        name: /Zoloft 25mg/i,
+      });
+      expect(inProgressLink).to.exist;
+      expect(inProgressLink.getAttribute('href')).to.equal(
+        '/my-health/medications/2',
+      );
+    });
   });
 });

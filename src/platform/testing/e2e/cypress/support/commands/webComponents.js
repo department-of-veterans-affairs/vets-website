@@ -185,34 +185,29 @@ Cypress.Commands.add('fillVaTelephoneInput', (field, value) => {
   }
 });
 
-Cypress.Commands.add('fillVaFileInput', (field, value) => {
+Cypress.Commands.add('fillVaFileInput', (field, value, file) => {
   if (typeof value !== 'undefined') {
     const element =
       typeof field === 'string'
         ? cy.get(`va-file-input[name="${field}"]`)
         : cy.wrap(field);
-    cy.log('made it here');
+
     element.then(async $el => {
       const el = $el[0];
 
-      const pngFile = await makeMinimalPNG();
-      const mockFormData = {
-        name: value?.name || 'placeholder.png',
-        size: value?.size || 123,
-        password: value?.password || 'abc',
-        additionalData: value?.additionalData || {},
-        confirmationCode: value?.confirmationCode || '123456',
-        isEncrypted: value?.isEncrypted || true,
-        hasAdditionalInputError: false,
-        hasPasswordError: false,
-      };
-      const fileSelectEvent = new CustomEvent('vaChange', {
-        detail: { files: [pngFile], mockFormData },
-        bubbles: true,
-        composed: true,
-      });
+      cy.then(() => file || makeMinimalPNG()).then(async mockFile => {
+        const selectFileArg = {
+          contents: Cypress.Buffer.from(await mockFile.arrayBuffer()),
+          fileName: mockFile.name || 'placeholder.png',
+          mimeType: mockFile.type || 'image/png',
+          lastModified: mockFile.lastModified || Date.now(),
+        };
 
-      el.dispatchEvent(fileSelectEvent);
+        cy.wrap(el)
+          .shadow()
+          .find('input[type="file"]')
+          .selectFile(selectFileArg, { force: true });
+      });
     });
   }
 });

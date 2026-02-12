@@ -76,7 +76,11 @@ const DocumentCard = ({
         </p>
       )}
       {link && (
-        <div className="vads-u-margin-top--0p5">
+        <div
+          className="vads-u-margin-top--0p5"
+          data-dd-privacy="mask"
+          data-dd-action-name="link with filename in label"
+        >
           <VaLink active href={link.href} text={link.text} label={link.label} />
         </div>
       )}
