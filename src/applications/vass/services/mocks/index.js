@@ -13,6 +13,7 @@ const {
   createUnauthorizedError,
   createInvalidCredentialsError,
   createNotWithinCohortError,
+  createAppointmentAlreadyBookedError,
 } = require('./utils/errors');
 
 const mockUUIDs = Object.freeze({
@@ -21,24 +22,36 @@ const mockUUIDs = Object.freeze({
     dob: '1935-04-07',
     otp: '123456',
     email: 's****@email.com',
+    appointmentId: 'abcdef123456',
   },
   'authenticate-otc-vass-api-error': {
     lastName: 'Smith',
     dob: '1935-04-07',
     otp: '123456',
     email: 's****@email.com',
+    appointmentId: undefined, // no appointment id for this uuid because this uuid is used for authentication errors
   },
   'authenticate-otc-service-error': {
     lastName: 'Smith',
     dob: '1935-04-07',
     otp: '123456',
     email: 's****@email.com',
+    appointmentId: undefined, // no appointment id for this uuid because this uuid is used for service errors
   },
   'not-within-cohort': {
     lastName: 'Smith',
     dob: '1935-04-07',
     otp: '123456',
     email: 's****@email.com',
+    appointmentId: undefined, // no appointment id for this uuid because this uuid is used for not within cohort errors
+  },
+  // Test user with existing appointment - use this UUID to test redirect flow
+  'has-appointment': {
+    lastName: 'Smith',
+    dob: '1935-04-07',
+    otp: '123456',
+    email: 's****@email.com',
+    appointmentId: 'existing-appointment-id',
   },
 });
 
@@ -51,7 +64,10 @@ const lowAuthVerificationTimeout = 15 * 60 * 1000; // 15 minutes
 const otpUseCounts = new Map(); // uuid -> count
 const maxOtpUseCount = 5;
 
-const mockAppointments = [createAppointmentData()];
+const mockAppointments = [
+  createAppointmentData({ appointmentId: 'abcdef123456' }),
+  createAppointmentData({ appointmentId: 'existing-appointment-id' }),
+];
 
 const responses = {
   'POST /vass/v0/request-otp': (req, res) => {
@@ -170,9 +186,17 @@ const responses = {
       return res.status(401).json(createNotWithinCohortError());
     }
 
+    const mockData = mockUUIDs[uuid];
+
+    if (uuid === 'has-appointment') {
+      return res
+        .status(409)
+        .json(createAppointmentAlreadyBookedError(mockData.appointmentId));
+    }
+
     return res.json({
       data: {
-        appointmentId: uuid,
+        appointmentId: mockData.appointmentId,
         availableSlots: generateSlots(),
       },
     });

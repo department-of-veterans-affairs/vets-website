@@ -7,7 +7,8 @@ import { scrollToTop } from 'platform/utilities/scroll';
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import Notification from '../components/Notification';
-import DefaultPage from '../components/claim-document-request-pages/DefaultPage';
+import FirstPartyRequestPage from '../components/claim-document-request-pages/FirstPartyRequestPage';
+import ThirdPartyRequestPage from '../components/claim-document-request-pages/ThirdPartyRequestPage';
 import {
   cancelUpload,
   clearNotification,
@@ -15,13 +16,8 @@ import {
   resetUploads,
   submitFiles,
 } from '../actions';
-import {
-  setDocumentRequestPageTitle,
-  getClaimType,
-  isAutomated5103Notice,
-  setPageTitle,
-  getLabel,
-} from '../utils/helpers';
+import { getClaimType } from '../utils/helpers';
+import * as TrackedItem from '../utils/trackedItemContent';
 import { setUpPage, setPageFocus, focusNotificationAlert } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
@@ -32,7 +28,7 @@ const statusPath = '../status';
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    setPageTitle(this.props.trackedItem);
+    TrackedItem.setPageTitle(this.props.trackedItem);
     if (!this.props.loading) {
       setUpPage(true, 'h1');
     } else {
@@ -55,7 +51,7 @@ class DocumentRequestPage extends React.Component {
   componentDidUpdate(prevProps) {
     if (!this.props.loading && prevProps.loading) {
       setPageFocus('h1');
-      setPageTitle(this.props.trackedItem);
+      TrackedItem.setPageTitle(this.props.trackedItem);
     }
   }
 
@@ -67,36 +63,36 @@ class DocumentRequestPage extends React.Component {
     this.props.navigate(redirectPath);
   }
 
-  getDefaultPage() {
+  getRequestPage() {
     const {
       message,
       type1UnknownErrors,
       timezoneMitigationEnabled,
       showDocumentUploadStatus,
     } = this.props;
-    return (
-      <>
-        <DefaultPage
-          item={this.props.trackedItem}
-          message={showDocumentUploadStatus ? message : null}
-          onCancel={this.props.cancelUpload}
-          onSubmit={files =>
-            this.props.submitFiles(
-              this.props.claim.id,
-              this.props.trackedItem,
-              files,
-              showDocumentUploadStatus,
-              timezoneMitigationEnabled,
-            )
-          }
-          progress={this.props.progress}
-          type1UnknownErrors={
-            showDocumentUploadStatus ? type1UnknownErrors : null
-          }
-          uploading={this.props.uploading}
-        />
-      </>
-    );
+
+    const pageProps = {
+      item: this.props.trackedItem,
+      message: showDocumentUploadStatus ? message : null,
+      onCancel: this.props.cancelUpload,
+      onSubmit: files =>
+        this.props.submitFiles(
+          this.props.claim.id,
+          this.props.trackedItem,
+          files,
+          showDocumentUploadStatus,
+          timezoneMitigationEnabled,
+        ),
+      progress: this.props.progress,
+      type1UnknownErrors: showDocumentUploadStatus ? type1UnknownErrors : null,
+      uploading: this.props.uploading,
+    };
+
+    if (this.props.trackedItem?.status === 'NEEDED_FROM_YOU') {
+      return <FirstPartyRequestPage {...pageProps} />;
+    }
+
+    return <ThirdPartyRequestPage {...pageProps} />;
   }
 
   render() {
@@ -131,7 +127,9 @@ class DocumentRequestPage extends React.Component {
             ? 'needed-from-you'
             : 'needed-from-others'
         }/${params.trackedItemId}`,
-        label: setDocumentRequestPageTitle(getLabel(trackedItem)),
+        label: TrackedItem.setDocumentRequestPageTitle(
+          TrackedItem.getLabel(trackedItem),
+        ),
         isRouterLink: true,
       },
     ];
@@ -158,14 +156,15 @@ class DocumentRequestPage extends React.Component {
                   title={message.title}
                   body={message.body}
                   type={message.type}
+                  maskTitle={message.type === 'error'}
                   onSetFocus={focusNotificationAlert}
                 />
               </div>
             )}
-          {isAutomated5103Notice(trackedItem.displayName) ? (
+          {TrackedItem.isAutomated5103Notice(trackedItem.displayName) ? (
             <Default5103EvidenceNotice item={trackedItem} />
           ) : (
-            <>{this.getDefaultPage()}</>
+            <>{this.getRequestPage()}</>
           )}
         </>
       );

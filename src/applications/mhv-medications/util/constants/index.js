@@ -1,7 +1,7 @@
 // Re-export everything for backward compatibility
 // Consumers can continue using: import { X } from '../util/constants';
 
-export { medicationsUrls } from './urls';
+export { STATION_NUMBER_PARAM, medicationsUrls } from './urls';
 
 export {
   SESSION_SELECTED_SORT_OPTION,
