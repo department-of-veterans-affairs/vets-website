@@ -36,7 +36,7 @@ const ApplicationInterruptedAlert = ({ interruptedReason, resCaseId }) => {
           reasons:
         </p>
         <p>{interruptedReason || 'No reason provided.'}</p>
-        <p>Please view your detailed letter and next steps.</p>
+        <p>If you need more information, please contact your counselor.</p>
         {isDownloading ? (
           <va-loading-indicator
             label="Loading"
