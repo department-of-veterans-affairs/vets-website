@@ -10,6 +10,8 @@ import {
   examinationDateUiSchema,
   physicalMeasurementsSchema,
   physicalMeasurementsUiSchema,
+  nutritionSchema,
+  nutritionUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import { TITLE, SUBTITLE } from '../../constants';
 import manifest from '../../manifest.json';
@@ -86,6 +88,12 @@ const formConfig = {
           title: 'Physical measurements',
           uiSchema: physicalMeasurementsUiSchema,
           schema: physicalMeasurementsSchema,
+        },
+        nutrition: {
+          path: 'nutrition',
+          title: 'Nutrition',
+          uiSchema: nutritionUiSchema,
+          schema: nutritionSchema,
         },
       },
     },

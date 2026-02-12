@@ -12,3 +12,4 @@ export {
   physicalMeasurementsSchema,
   physicalMeasurementsUiSchema,
 } from './physical-measurements';
+export { nutritionSchema, nutritionUiSchema } from './nutrition';
