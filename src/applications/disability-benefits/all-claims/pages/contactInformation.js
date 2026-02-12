@@ -159,11 +159,30 @@ export const uiSchema = {
     // Do NOT add addressLine2/3 here - it breaks the platform's updateSchema for military labels
     addressLine1: {
       ...defaultAddressUI.addressLine1,
+      'ui:options': {
+        ...defaultAddressUI.addressLine1['ui:options'],
+        charcount: true,
+      },
+    },
+    addressLine2: {
+      ...defaultAddressUI.addressLine2,
+      'ui:options': {
+        ...defaultAddressUI.addressLine2['ui:options'],
+        charcount: true,
+      },
+    },
+    addressLine3: {
+      ...defaultAddressUI.addressLine3,
+      'ui:options': {
+        ...defaultAddressUI.addressLine3['ui:options'],
+        charcount: true,
+      },
     },
     city: {
       ...defaultAddressUI.city,
       'ui:options': {
         ...defaultAddressUI.city['ui:options'],
+        charcount: true,
       },
     },
   },
