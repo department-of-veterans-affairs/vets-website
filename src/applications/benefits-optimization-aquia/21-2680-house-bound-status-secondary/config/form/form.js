@@ -26,6 +26,8 @@ import {
   nursingHomeCareUiSchema,
   benefitPaymentsManagementSchema,
   benefitPaymentsManagementUiSchema,
+  postureSchema,
+  postureUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import {
   TITLE,
@@ -157,6 +159,12 @@ const formConfig = {
           title: 'Benefit payments management',
           uiSchema: benefitPaymentsManagementUiSchema,
           schema: benefitPaymentsManagementSchema,
+        },
+        posture: {
+          path: 'posture',
+          title: 'Posture',
+          uiSchema: postureUiSchema,
+          schema: postureSchema,
         },
       },
     },

@@ -32,3 +32,4 @@ export {
   benefitPaymentsManagementSchema,
   benefitPaymentsManagementUiSchema,
 } from './benefit-payments-management';
+export { postureSchema, postureUiSchema } from './posture';
