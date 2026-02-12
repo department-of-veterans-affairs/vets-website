@@ -1,5 +1,4 @@
 export * from './formatting';
-export * from './healthInsurance';
+export * from './health-insurance';
 export * from './medicare';
 export * from './utilities';
-export * from './validations';
