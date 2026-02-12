@@ -11,6 +11,7 @@ import {
   combineUnitNameAddress,
   chapter4Transform,
   checkForHowMarriageEnded,
+  transformClaim,
 } from '../utils/transformers';
 
 export const transform = (formConfig, form) => {
@@ -25,6 +26,7 @@ export const transform = (formConfig, form) => {
   transformedData = combineUnitNameAddress(transformedData);
   transformedData = chapter4Transform(transformedData);
   transformedData = checkForHowMarriageEnded(transformedData);
+  transformedData = transformClaim(transformedData);
   return JSON.stringify({
     survivorsBenefitsClaim: {
       form: transformedData,
