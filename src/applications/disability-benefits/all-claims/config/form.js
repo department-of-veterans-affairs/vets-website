@@ -505,7 +505,9 @@ const formConfig = {
         prisonerOfWar: {
           title: 'Prisoner of war (POW)',
           path: 'pow',
-          depends: formData => hasRealNewOrSecondaryConditions(formData),
+          depends: formData =>
+            showNewlyBDDPages(formData) &&
+            hasRealNewOrSecondaryConditions(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
           appStateSelector: state => ({
