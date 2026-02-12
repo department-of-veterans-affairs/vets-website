@@ -5,6 +5,16 @@
     "bankAccountNumber": "1233",
     "bankRoutingNumber": "123123123",
     "bankName": "Bigbank Co.",
+    "confinements": [
+      {
+        "from": "2016-01-01",
+        "to": "2017-01-01"
+      },
+      {
+        "from": "2017-01-06",
+        "to": "2017-04-01"
+      }
+    ],
     "phoneAndEmail": {
       "primaryPhone": "4445551212",
       "emailAddress": "test2@test1.net"
