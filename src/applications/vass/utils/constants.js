@@ -52,8 +52,8 @@ const AUTH_ERROR_CODES = Object.freeze({
   MISSING_PARAMETER: 'missing_parameter',
 });
 
-// OTP/OTC Verification errors (POST /vass/v0/authenticate-otp)
-const OTC_ERROR_CODES = Object.freeze({
+// OTP Verification errors (POST /vass/v0/authenticate-otp)
+const OTP_ERROR_CODES = Object.freeze({
   INVALID_OTP: 'invalid_otp',
   ACCOUNT_LOCKED: 'account_locked',
   OTP_EXPIRED: 'otp_expired',
@@ -95,7 +95,7 @@ module.exports = {
   VASS_TOKEN_COOKIE_NAME,
   VASS_COOKIE_OPTIONS,
   AUTH_ERROR_CODES,
-  OTC_ERROR_CODES,
+  OTP_ERROR_CODES,
   TOKEN_ERROR_CODES,
   AVAILABILITY_ERROR_CODES,
   APPOINTMENT_ERROR_CODES,
