@@ -253,7 +253,6 @@ const RecipientsSelect = ({
       let groupedOptions = [];
 
       // Insert Recent care teams group first (if available)
-      // debugger;
       if (Array.isArray(recentRecipients) && recentRecipients.length > 0) {
         options.push(
           <optgroup key="recent-care-teams" label="Recent care teams">
@@ -268,12 +267,13 @@ const RecipientsSelect = ({
       }
 
       recipientsListSorted.forEach(item => {
-        // debugger;
         if (item.vamcSystemName === undefined) {
           options.push(
             <option key={item.id} value={item.id}>
               {item.suggestedNameDisplay || item.name}
-              {`\t(${shortenSystemName(item.vamcSystemName)})`}
+              {item.vamcSystemName
+                ? `\t(${shortenSystemName(item.vamcSystemName)})`
+                : `\t(${shortenSystemName(item.healthCareSystemName)})`}
             </option>,
           );
         } else if (item.vamcSystemName !== currentVamcSystemName) {
@@ -298,7 +298,6 @@ const RecipientsSelect = ({
         );
       });
 
-      // TODO add to this optgroup as well
       // Push the last group
       if (currentVamcSystemName !== null) {
         options.push(
@@ -307,7 +306,6 @@ const RecipientsSelect = ({
           </optgroup>,
         );
       }
-      // console.log('Pushed last group', currentVamcSystemName);
 
       return options;
     },
