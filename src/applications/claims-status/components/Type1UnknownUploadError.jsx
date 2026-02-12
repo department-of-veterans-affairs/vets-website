@@ -49,7 +49,12 @@ export default function Type1UnknownUploadError({ errorFiles }) {
       >
         {errorFiles.map(file => (
           <li key={file.fileName}>
-            <strong>{file.fileName}</strong>
+            <strong
+              data-dd-privacy="mask"
+              data-dd-action-name="failed upload filename"
+            >
+              {file.fileName}
+            </strong>
             <br />
             File type: {file.docType || 'Unknown'}
           </li>
