@@ -13,6 +13,10 @@ export default function App({ location, children }) {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const profileLoading = useSelector(state => isProfileLoading(state));
 
+  useEffect(() => {
+    document.title = `${formConfig.title} | Veterans Affairs`;
+  }, []);
+
   useEffect(
     () => {
       if (
