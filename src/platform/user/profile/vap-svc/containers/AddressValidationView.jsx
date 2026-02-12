@@ -356,8 +356,6 @@ class AddressValidationView extends React.Component {
       addressValidationErrorCode,
       confirmedSuggestions,
       suggestedAddresses,
-      // transaction,
-      // transactionRequest,
       transactionError,
       isLoading,
       overrideValidationKey,
@@ -515,15 +513,20 @@ AddressValidationView.propTypes = {
   formAppData: PropTypes.object,
   isLoading: PropTypes.bool,
   isNoValidationKeyAlertEnabled: PropTypes.bool,
+  overrideValidationKey: PropTypes.number,
   refreshTransaction: PropTypes.func,
   selectedAddress: PropTypes.object,
   selectedAddressId: PropTypes.string,
   successCallback: PropTypes.func,
-  transaction: PropTypes.object,
-  transactionRequest: PropTypes.object,
-  transactionError: PropTypes.object,
+  transactionError: PropTypes.shape({
+    errors: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.string,
+        message: PropTypes.string,
+      }),
+    ),
+  }),
   userHasBadAddress: PropTypes.bool,
-  overrideValidationKey: PropTypes.number,
   vapServiceFormFields: PropTypes.object,
 };
 
