@@ -40,6 +40,8 @@ import {
   leaveHomeFrequencyUiSchema,
   aidsForLocomotionSchema,
   aidsForLocomotionUiSchema,
+  examinersInformationSchema,
+  examinersInformationUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import {
   TITLE,
@@ -213,6 +215,17 @@ const formConfig = {
           title: 'Aids for locomotion',
           uiSchema: aidsForLocomotionUiSchema,
           schema: aidsForLocomotionSchema,
+        },
+      },
+    },
+    examinersInformation: {
+      title: 'Examiner\u2019s information',
+      pages: {
+        examinersInformation: {
+          path: 'examiners-information',
+          title: 'Examiner\u2019s information',
+          uiSchema: examinersInformationUiSchema,
+          schema: examinersInformationSchema,
         },
       },
     },

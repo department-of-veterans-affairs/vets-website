@@ -57,3 +57,7 @@ export {
   aidsForLocomotionSchema,
   aidsForLocomotionUiSchema,
 } from './aids-for-locomotion';
+export {
+  examinersInformationSchema,
+  examinersInformationUiSchema,
+} from './examiners-information';
