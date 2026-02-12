@@ -28,6 +28,7 @@ const formUploadForms = [
   '21-651',
   '21P-4185',
   '21P-535',
+  '20-10208',
 ];
 const config = formConfig();
 

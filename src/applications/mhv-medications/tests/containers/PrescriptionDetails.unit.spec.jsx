@@ -53,6 +53,11 @@ describe('Prescription details container', () => {
       },
     };
 
+    // Include station_number in URL when Cerner pilot is enabled (required for v2 API)
+    const urlPath = isCernerPilot
+      ? '/prescriptions/1234567891?station_number=688'
+      : '/prescriptions/1234567891';
+
     return renderWithStoreAndRouterV6(
       <Routes>
         <Route
@@ -63,7 +68,42 @@ describe('Prescription details container', () => {
       {
         initialState: fullState,
         reducers: reducer,
-        initialEntries: ['/prescriptions/1234567891'],
+        initialEntries: [urlPath],
+        additionalMiddlewares: [
+          allergiesApi.middleware,
+          prescriptionsApi.middleware,
+        ],
+      },
+    );
+  };
+
+  // Setup for testing redirect behavior - allows custom URL path
+  const setupWithCustomUrl = (state = {}, urlPath, isCernerPilot = false) => {
+    const fullState = {
+      ...state,
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
+        ...state.featureToggles,
+      },
+    };
+
+    return renderWithStoreAndRouterV6(
+      <Routes>
+        <Route
+          path="/prescriptions/:prescriptionId"
+          element={<PrescriptionDetails />}
+        />
+        <Route
+          path="/"
+          element={
+            <div data-testid="medications-list-page">Medications List</div>
+          }
+        />
+      </Routes>,
+      {
+        initialState: fullState,
+        reducers: reducer,
+        initialEntries: [urlPath],
         additionalMiddlewares: [
           allergiesApi.middleware,
           prescriptionsApi.middleware,
@@ -86,6 +126,24 @@ describe('Prescription details container', () => {
       expect(screen.getByTestId('prescription-name')).to.exist.and.to.have.text(
         singlePrescription.prescriptionName,
       );
+    });
+  });
+
+  it('should redirect to medications list when Cerner pilot enabled but station_number missing', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
+    stubPrescriptionIdApi({ sandbox });
+    stubUsePrefetch({ sandbox });
+
+    const screen = setupWithCustomUrl(
+      {},
+      '/prescriptions/123456', // URL without station_number
+      true, // isCernerPilot = true
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId('medications-list-page')).to.exist;
     });
   });
 

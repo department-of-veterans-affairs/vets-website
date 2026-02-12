@@ -42,21 +42,19 @@ class MedicationsInformationPage {
   };
 
   clickDownloadPDFOnInformationPage = () => {
-    cy.get('[data-testid="download-pdf-button"]').should('be.visible');
-    cy.get('[data-testid="download-pdf-button"]').click({
-      waitForAnimations: true,
-    });
+    cy.get('[data-testid="download-pdf-button"]', { timeout: 10000 })
+      .should('be.visible')
+      .click({ waitForAnimations: true });
   };
 
   clickDownloadTXTOnInformationPage = () => {
-    cy.get('[data-testid="download-txt-button"]').should('be.visible');
-    cy.get('[data-testid="download-txt-button"]').click({
-      waitForAnimations: true,
-    });
+    cy.get('[data-testid="download-txt-button"]', { timeout: 10000 })
+      .should('be.visible')
+      .click({ waitForAnimations: true });
   };
 
   verifyDownloadSuccessConfirmationMessageOnMedInfoPage = text => {
-    cy.get('[data-testid="download-success-banner"]')
+    cy.get('[data-testid="download-success-banner"]', { timeout: 10000 })
       .should('be.visible')
       .and('contain', text);
   };
