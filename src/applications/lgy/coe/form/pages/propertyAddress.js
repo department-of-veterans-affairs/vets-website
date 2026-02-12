@@ -1,28 +1,27 @@
 import {
-  addressSchema,
-  addressUI,
   arrayBuilderItemFirstPageTitleUI,
+  addressNoMilitaryUI,
+  addressNoMilitarySchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+const remappedSchema = addressNoMilitarySchema({
+  keys: { street: 'street1' },
+});
+
 const customAddressSchema = {
-  ...addressSchema({
-    keys: { street: 'street1' },
-    omit: ['isMilitary'],
-  }),
+  ...remappedSchema,
   properties: {
-    ...addressSchema({
-      keys: { street: 'street1' },
-      omit: ['isMilitary'],
-    }).properties,
+    ...remappedSchema.properties,
     country: {
-      ...addressSchema({
-        keys: { street: 'street1' },
-        omit: ['isMilitary'],
-      }).properties.country,
+      ...remappedSchema.properties.country,
       default: 'USA',
     },
   },
 };
+
+const remappedUI = addressNoMilitaryUI({
+  keys: { street: 'street1' },
+});
 
 export default {
   uiSchema: {
@@ -33,15 +32,9 @@ export default {
         'Provide the address of the property that was purchased with a VA home loan.',
     }),
     propertyAddress: {
-      ...addressUI({
-        keys: { street: 'street1' },
-        omit: ['isMilitary'],
-      }),
+      ...remappedUI,
       country: {
-        ...addressUI({
-          keys: { street: 'street1' },
-          omit: ['isMilitary'],
-        }).country,
+        ...remappedUI.country,
         'ui:options': {
           inert: true,
         },
