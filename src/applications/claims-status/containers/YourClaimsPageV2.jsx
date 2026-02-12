@@ -221,7 +221,7 @@ class YourClaimsPageV2 extends React.Component {
 
       const pageItems = getVisibleRows(filteredList, this.state.page);
 
-      if (shouldPaginate) {
+      if (cstClaimsListFilterEnabled || shouldPaginate) {
         const range = getPageRange(this.state.page, listLen);
         const { end, start } = range;
 
@@ -301,11 +301,29 @@ class YourClaimsPageV2 extends React.Component {
             <h2 id="what-if-i-dont-see-my-appeal">
               What if I can't find my claim, decision review, or appeal?
             </h2>
-            <p>
-              If you recently submitted a claim or requested a Higher Level
-              Review or Board appeal, we might still be processing it. Check
-              back for updates.
-            </p>
+            {cstClaimsListFilterEnabled ? (
+              <>
+                <h3>We might still be processing it</h3>
+                <p>
+                  If you recently submitted a claim or requested a Higher Level
+                  Review or Board appeal, we might still be processing it. Check
+                  back for updates.
+                </p>
+                <h3>We combined your claims</h3>
+                <p>
+                  If you turn in a new claim while we're reviewing another one,
+                  we may combine your claims. We'll add any new information to
+                  your existing claim. You may not see a separate entry for the
+                  new claim. You don't need to do anything.
+                </p>
+              </>
+            ) : (
+              <p>
+                If you recently submitted a claim or requested a Higher Level
+                Review or Board appeal, we might still be processing it. Check
+                back for updates.
+              </p>
+            )}
             <TravelClaimsSection />
             <FeaturesWarning />
             <NeedHelp />
