@@ -40,17 +40,17 @@ const ThreadDetails = props => {
   const recipients = useSelector(state => state.sm.recipients);
   const {
     cannotReply,
-    isStale,
     drafts,
     messages,
     threadFolderId,
+    replyDisabled,
   } = useSelector(state => state.sm.threadDetails);
 
   const threadCantReply = useMemo(
     () => {
-      return useCanReplyField ? cannotReply : isStale;
+      return useCanReplyField ? replyDisabled || cannotReply : cannotReply;
     },
-    [useCanReplyField, cannotReply, isStale],
+    [useCanReplyField, cannotReply, replyDisabled],
   );
 
   const { folder } = useSelector(state => state.sm.folders);
