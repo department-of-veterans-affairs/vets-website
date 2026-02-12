@@ -22,6 +22,7 @@ const BROWSER_MONITORING_PROPS = {
   clientToken: 'puba5e0866f8008f60a6bc8b09ae555dd92',
   site: 'ddog-gov.com',
   service: '10-10d',
+  version: '1.0.0',
   env: environment.vspEnvironment(),
   sessionSampleRate: 100,
   sessionReplaySampleRate: 100,
@@ -30,7 +31,9 @@ const BROWSER_MONITORING_PROPS = {
   trackResources: true,
   trackLongTasks: true,
   defaultPrivacyLevel: 'mask-user-input',
-  beforeSend: ({ resource, type }) => {
+  beforeSend: ({ action, type, resource }) => {
+    // eslint-disable-next-line no-param-reassign
+    if (action?.type === 'click') action.target.name = 'Form item';
     return !(
       type === 'resource' &&
       EXCLUDED_DOMAINS.some(domain => resource.url.includes(domain))
