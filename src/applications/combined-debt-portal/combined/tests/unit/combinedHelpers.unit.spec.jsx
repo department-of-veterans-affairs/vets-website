@@ -8,6 +8,7 @@ import { createStore, combineReducers } from 'redux';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+import MockDate from 'mockdate';
 import {
   APP_TYPES,
   ALERT_TYPES,
@@ -141,6 +142,14 @@ describe('Helper Functions', () => {
   });
 
   describe('verifyCurrentBalance', () => {
+    beforeEach(() => {
+      MockDate.set('2025-01-15');
+    });
+
+    afterEach(() => {
+      MockDate.reset();
+    });
+
     it('should return true if current date is on or before due date', () => {
       const futureDate = addMonths(new Date(), 1);
       expect(verifyCurrentBalance(futureDate)).to.be.true;
@@ -244,6 +253,14 @@ describe('Helper Functions', () => {
   });
 
   describe('calcDueDate', () => {
+    beforeEach(() => {
+      MockDate.set('2025-01-15');
+    });
+
+    afterEach(() => {
+      MockDate.reset();
+    });
+
     it('should calculate due date 30 days from given date', () => {
       const startDate = '2023-01-01';
       const result = calcDueDate(startDate, 30);
