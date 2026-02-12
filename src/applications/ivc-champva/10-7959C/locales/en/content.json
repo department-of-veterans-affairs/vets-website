@@ -44,6 +44,7 @@
   "health-insurance--addtl-comments-title": "%s health insurance additional comments",
   "health-insurance--addtl-comments-title--review": "Additional comments",
   "health-insurance--addtl-comments-label": "Do you have any additional comments about the beneficiary’s health insurance?",
+  "health-insurance--addtl-comments-hint": "Use this space to let us know about any upcoming changes in the insurance coverage you added.",
   "health-insurance--card-upload-title": "Upload %s health insurance card",
   "health-insurance--card-upload-title--review": "Health insurance card",
   "health-insurance--card-upload-description": "You’ll need to submit a copy of the front and back of this health insurance card.",

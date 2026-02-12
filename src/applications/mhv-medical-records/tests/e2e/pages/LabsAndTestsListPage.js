@@ -55,11 +55,18 @@ class LabsAndTestsListPage extends BaseListPage {
       `/my_health/v1/medical_records/labs_and_tests/${entry.resource.id}`,
       entry.resource,
     );
-    cy.findAllByTestId('record-list-item')
-      .should('be.visible')
-      .find('a')
-      .eq(_LabsAndTestsItemIndex)
-      .should('be.visible')
+    // Find the link by href using entry id for reliability
+    const expectedHref = `/my-health/medical-records/labs-and-tests/${
+      entry.resource.id
+    }`;
+    cy.get(`a[href="${expectedHref}"]`)
+      .first()
+      .scrollIntoView();
+    cy.get(`a[href="${expectedHref}"]`)
+      .first()
+      .should('be.visible');
+    cy.get(`a[href="${expectedHref}"]`)
+      .first()
       .click();
     // Wait for detail page to load - check for print menu as indicator
     cy.get('[data-testid="print-download-menu"]', { timeout: 10000 }).should(
