@@ -17,6 +17,7 @@ import { MARRIAGE_TYPES, PICKLIST_DATA } from '../constants';
 import {
   ADD_WORKFLOW_MAPPINGS,
   REMOVE_WORKFLOW_MAPPINGS,
+  NO_SSN_REASON_PAYLOAD_MAPPINGS,
   getV2Destination,
 } from '../dataMappings';
 
@@ -156,6 +157,7 @@ export function buildSubmissionData(payload) {
   // Use centralized workflow mappings from dataMappings.js
   const addDataMappings = ADD_WORKFLOW_MAPPINGS;
   const removeDataMappings = REMOVE_WORKFLOW_MAPPINGS;
+  const noSsnReasonMappings = NO_SSN_REASON_PAYLOAD_MAPPINGS;
 
   // Add options
   const enabledAddOptions = {};
@@ -169,6 +171,34 @@ export function buildSubmissionData(payload) {
         }
       }
     });
+
+    // Tranform No SSN Reason for the payload
+    if (
+      addOptions.addSpouse === true &&
+      sourceData?.spouseInformation?.noSsn === true
+    ) {
+      cleanData.spouseInformation.noSsnReason =
+        noSsnReasonMappings[(sourceData?.spouseInformation?.noSsnReason)];
+    }
+    if (addOptions.addChild === true && sourceData?.childrenToAdd?.length > 0) {
+      sourceData.childrenToAdd.forEach((child, index) => {
+        if (child.noSsn === true) {
+          cleanData.childrenToAdd[index].noSsnReason =
+            noSsnReasonMappings[child.noSsnReason];
+        }
+      });
+    }
+    if (
+      addOptions.report674 === true &&
+      sourceData?.studentInformation?.length > 0
+    ) {
+      sourceData.studentInformation.forEach((student, index) => {
+        if (student.noSsn === true) {
+          cleanData.studentInformation[index].noSsnReason =
+            noSsnReasonMappings[student.noSsnReason];
+        }
+      });
+    }
   }
 
   // Remove options
