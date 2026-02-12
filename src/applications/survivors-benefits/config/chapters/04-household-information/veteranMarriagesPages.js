@@ -162,7 +162,7 @@ const marriageDatePlacePage = {
         'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
       required: formData => !formData['view:marriageDate'],
     }),
-    marriedOutsideUS: checkboxUI({
+    marriedOutsideUs: checkboxUI({
       title: 'They got married outside the U.S.',
     }),
     locationOfMarriage: {
@@ -172,13 +172,13 @@ const marriageDatePlacePage = {
         'ui:required': (formData, index) => {
           const item = formData?.veteranMarriages?.[index];
           const currentPageData = formData;
-          return !(item?.marriedOutsideUS || currentPageData?.marriedOutsideUS);
+          return !(item?.marriedOutsideUs || currentPageData?.marriedOutsideUs);
         },
         'ui:options': {
           hideIf: (formData, index) => {
             const item = formData?.veteranMarriages?.[index];
             const currentPageData = formData;
-            return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
+            return item?.marriedOutsideUs || currentPageData?.marriedOutsideUs;
           },
         },
       },
@@ -187,14 +187,14 @@ const marriageDatePlacePage = {
         'ui:required': (formData, index) => {
           const item = formData?.veteranMarriages?.[index];
           const currentPageData = formData;
-          return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
+          return item?.marriedOutsideUs || currentPageData?.marriedOutsideUs;
         },
         'ui:options': {
           hideIf: (formData, index) => {
             const item = formData?.veteranMarriages?.[index];
             const currentPageData = formData;
             return !(
-              item?.marriedOutsideUS || currentPageData?.marriedOutsideUS
+              item?.marriedOutsideUs || currentPageData?.marriedOutsideUs
             );
           },
           labels: COUNTRY_VALUES.reduce((acc, value, idx) => {
@@ -213,7 +213,7 @@ const marriageDatePlacePage = {
     required: ['locationOfMarriage', 'dateOfMarriage'],
     properties: {
       dateOfMarriage: currentOrPastDateSchema,
-      marriedOutsideUS: checkboxSchema,
+      marriedOutsideUs: checkboxSchema,
       locationOfMarriage: customAddressSchema,
     },
   },

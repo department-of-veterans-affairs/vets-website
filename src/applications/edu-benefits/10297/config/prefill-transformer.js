@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getPrefillIntlPhoneNumber } from '../helpers';
+import { getPrefillIntlPhoneNumber, getSchemaCountryCode } from '../helpers';
 
 export default function prefillTransformer(pages, formData, metadata, state) {
   // Claimant data from MEB API (primary source)
@@ -80,7 +80,7 @@ export default function prefillTransformer(pages, formData, metadata, state) {
         city: claimantContactInfo.city,
         state: claimantContactInfo.stateCode,
         postalCode: claimantContactInfo.zipCode || claimantContactInfo.zipcode,
-        country: claimantContactInfo.countryCode,
+        country: getSchemaCountryCode(claimantContactInfo.countryCode),
       };
     } else if (vapContactInfo?.mailingAddress?.addressLine1) {
       prefillMailingAddress = {

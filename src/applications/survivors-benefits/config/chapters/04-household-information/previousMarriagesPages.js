@@ -45,8 +45,8 @@ export const options = {
     !item?.spouseFullName?.last ||
     !item?.dateOfMarriage ||
     !item?.locationOfMarriage?.city ||
-    (!item?.marriedOutsideUS && !item?.locationOfMarriage?.state) ||
-    (item?.marriedOutsideUS && !item?.locationOfMarriage?.otherCountry) ||
+    (!item?.marriedOutsideUs && !item?.locationOfMarriage?.state) ||
+    (item?.marriedOutsideUs && !item?.locationOfMarriage?.otherCountry) ||
     !item?.reasonForSeparation ||
     (item?.reasonForSeparation === 'OTHER' && !item?.separationExplanation),
   maxItems: 2,
@@ -179,7 +179,7 @@ const marriageDateAndLocationPage = {
       title: 'Date of marriage',
       monthSelect: false,
     }),
-    marriedOutsideUS: checkboxUI({
+    marriedOutsideUs: checkboxUI({
       title: 'I got married outside the U.S.',
     }),
     locationOfMarriage: {
@@ -189,13 +189,13 @@ const marriageDateAndLocationPage = {
         'ui:required': (formData, index) => {
           const item = formData?.spouseMarriages?.[index];
           const currentPageData = formData;
-          return !(item?.marriedOutsideUS || currentPageData?.marriedOutsideUS);
+          return !(item?.marriedOutsideUs || currentPageData?.marriedOutsideUs);
         },
         'ui:options': {
           hideIf: (formData, index) => {
             const item = formData?.spouseMarriages?.[index];
             const currentPageData = formData;
-            return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
+            return item?.marriedOutsideUs || currentPageData?.marriedOutsideUs;
           },
           labels: STATE_VALUES.reduce((acc, value, idx) => {
             acc[value] = STATE_NAMES[idx];
@@ -211,14 +211,14 @@ const marriageDateAndLocationPage = {
         'ui:required': (formData, index) => {
           const item = formData?.spouseMarriages?.[index];
           const currentPageData = formData;
-          return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
+          return item?.marriedOutsideUs || currentPageData?.marriedOutsideUs;
         },
         'ui:options': {
           hideIf: (formData, index) => {
             const item = formData?.spouseMarriages?.[index];
             const currentPageData = formData;
             return !(
-              item?.marriedOutsideUS || currentPageData?.marriedOutsideUS
+              item?.marriedOutsideUs || currentPageData?.marriedOutsideUs
             );
           },
           labels: COUNTRY_VALUES.reduce((acc, value, idx) => {
@@ -237,7 +237,7 @@ const marriageDateAndLocationPage = {
     required: ['dateOfMarriage', 'locationOfMarriage'],
     properties: {
       dateOfMarriage: currentOrPastDateSchema,
-      marriedOutsideUS: checkboxSchema,
+      marriedOutsideUs: checkboxSchema,
       locationOfMarriage: customAddressSchema,
     },
   },

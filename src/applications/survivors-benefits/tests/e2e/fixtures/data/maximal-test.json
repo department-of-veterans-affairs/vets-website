@@ -77,7 +77,7 @@
     },
     "marriedToVeteranAtTimeOfDeath": true,
     "marriageToVeteranStartDate": "2010-01-01",
-    "marriageToVeteranStartOutsideUS": false,
+    "marriageToVeteranStartOutsideUs": false,
     "marriageToVeteranStartLocation": {
       "city": "Anytown",
       "state": "OH"
@@ -87,7 +87,7 @@
     "marriageEndReason": "OTHER",
     "marriageEndOtherReason": "Custom End Reason",
     "marriageToVeteranEndDate": "2020-01-01",
-    "marriageToVeteranEndOutsideUS": false,
+    "marriageToVeteranEndOutsideUs": false,
     "marriageToVeteranEndLocation": {
       "city": "Anytown",
       "state": "OH"
