@@ -908,7 +908,7 @@ describe('<ClaimsListItem>', () => {
       );
 
       getByText('Application for CHAMPVA benefits');
-      getByText('In Progress');
+      getByText('Received');
       expect(container).to.contain.text('Submitted on: January 10, 2025');
       expect(container).to.contain.text('Received on: January 17, 2025');
       const reviewLink = container.querySelector(
@@ -937,10 +937,10 @@ describe('<ClaimsListItem>', () => {
       );
 
       getByText('Application for CHAMPVA benefits');
-      getByText('In Progress');
+      getByText('Action Needed');
       getByText('VA Form 10-10d');
       expect(container).to.contain.text('Submitted on: January 10, 2025');
-      expect(container).to.contain.text('Received on: January 17, 2025');
+      expect(container).to.not.contain.text('Received on: January 17, 2025');
       const reviewLink = container.querySelector(
         'va-link[text="Review details"]',
       );

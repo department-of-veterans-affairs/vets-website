@@ -63,6 +63,44 @@ const CHAMPVA_FORM_DISPLAY_MAP = {
   '10-7959f-2': '10-7959f-2',
 };
 
+const CLAIM_STATUS_LABEL_MAP = {
+  CLAIM_RECEIVED: 'Received',
+  INITIAL_REVIEW: 'In Progress',
+  EVIDENCE_GATHERING_REVIEW_DECISION: 'In Progress',
+  PREPARATION_FOR_NOTIFICATION: 'In Progress',
+  COMPLETE: 'Received',
+};
+
+const RECEIVED_STATUSES = new Set([
+  'processed',
+  'manually processed',
+  'vbms',
+  'complete',
+]);
+
+const ACTION_NEEDED_STATUSES = new Set([
+  'error',
+  'failed',
+  'rejected',
+  'submission failed',
+  'action needed',
+  'expired',
+]);
+
+const getChampvaStatusLabel = rawStatus => {
+  const statusValue = rawStatus?.toString()?.trim();
+  if (!statusValue) return 'In Progress';
+
+  if (CLAIM_STATUS_LABEL_MAP[statusValue])
+    return CLAIM_STATUS_LABEL_MAP[statusValue];
+
+  const normalized = statusValue.toLowerCase();
+  if (RECEIVED_STATUSES.has(normalized)) return 'Received';
+  if (ACTION_NEEDED_STATUSES.has(normalized)) return 'Action Needed';
+
+  return 'In Progress';
+};
+
 const extractFormId = claim => {
   const { claimType, claimTypeBase, displayTitle } = claim.attributes || {};
   const searchSpace = [claimType, claimTypeBase, displayTitle]
@@ -133,7 +171,8 @@ export default function ClaimsListItem({ claim }) {
   const champvaFormId = extractFormId(claim);
   const showChampvaPatternCard =
     champvaProviderEnabled && isChampvaClaim(claim);
-  const showSubmittedLabel = showChampvaPatternCard && inProgress;
+  const champvaStatusLabel = getChampvaStatusLabel(status);
+  const showReceivedDate = champvaStatusLabel === 'Received';
   const showPrecomms = showPreDecisionCommunications(claim);
   const formattedReceiptDate = formatDate(claimDate);
   const phaseType = claimPhaseDates?.phaseType;
@@ -145,11 +184,10 @@ export default function ClaimsListItem({ claim }) {
   const showAlert = showPrecomms && documentsNeeded;
   const cardLabel = useMemo(
     () => {
-      if (showSubmittedLabel) return 'In Progress';
       if (inProgress) return 'In Progress';
       return null;
     },
-    [inProgress, showSubmittedLabel],
+    [inProgress],
   );
 
   const ariaLabel = `Details for claim submitted on ${formattedReceiptDate}`;
@@ -167,11 +205,15 @@ export default function ClaimsListItem({ claim }) {
     const displayFormId = CHAMPVA_FORM_DISPLAY_MAP[champvaFormId];
     const submittedOn = formatDate(claimDate);
     const receivedOn = formatDate(claim.attributes.closeDate || claimDate);
+    const nextStepText =
+      champvaStatusLabel === 'Received'
+        ? 'Next step: We’ll review your form. If we need more information, we’ll contact you.'
+        : 'Next step: We’ll confirm that we’ve received your form. This can take up to 30 days.';
 
     return (
       <ClaimCard
         title={champvaTitle || 'Application for CHAMPVA benefits'}
-        label={cardLabel}
+        label={champvaStatusLabel}
       >
         {displayFormId && (
           <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
@@ -180,12 +222,15 @@ export default function ClaimsListItem({ claim }) {
         )}
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
           Submitted on: {submittedOn}
-          <br />
-          Received on: {receivedOn}
+          {showReceivedDate && (
+            <>
+              <br />
+              Received on: {receivedOn}
+            </>
+          )}
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
-          Next step: We’ll review your form. If we need more information, we’ll
-          contact you.
+          {nextStepText}
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
           If you have questions, call us at{' '}
