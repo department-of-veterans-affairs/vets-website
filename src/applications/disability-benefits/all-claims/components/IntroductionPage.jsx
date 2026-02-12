@@ -36,7 +36,7 @@ class IntroductionPage extends React.Component {
     const startText = getStartText(isBDDForm);
     document.title = `${pageTitle}${DOCUMENT_TITLE_SUFFIX}`;
 
-    const subwayTitle = `Follow the steps below to file ${
+    const subwayTitle = `Follow the steps provided to file ${
       isBDDForm
         ? 'a BDD claim.'
         : 'a claim for a new or secondary condition or for increased disability compensation.'
