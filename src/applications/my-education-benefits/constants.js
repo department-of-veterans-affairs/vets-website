@@ -8,6 +8,7 @@ export const LETTER_URL = `${environment.API_URL}/meb_api/v0/claim_letter`;
 export const YOUR_PROFILE_URL = '/profile';
 export const formFields = {
   accountNumber: 'accountNumber',
+  accountNumberConfirmation: 'accountNumberConfirmation',
   accountType: 'accountType',
   activeDutyKicker: 'activeDutyKicker',
   additionalConsiderationsNote: 'additionalConsiderationsNote',
@@ -32,6 +33,7 @@ export const formFields = {
   phoneNumber: 'phoneNumber',
   receiveTextMessages: 'receiveTextMessages',
   routingNumber: 'routingNumber',
+  routingNumberConfirmation: 'routingNumberConfirmation',
   selectedReserveKicker: 'selectedReserveKicker',
   seniorRotcCommission: 'seniorRotcCommission',
   serviceHistoryIncorrect: 'serviceHistoryIncorrect',
