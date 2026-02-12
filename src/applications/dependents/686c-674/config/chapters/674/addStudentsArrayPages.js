@@ -172,8 +172,9 @@ export const studentInformationPage = {
     noSsnReason: radioUI({
       title: 'Why doesn’t your child have a Social Security number?',
       labels: {
-        NONRESIDENT_ALIEN: 'Nonresident alien',
-        NONE_ASSIGNED: 'No SSN has been assigned or requested',
+        NONRESIDENT_ALIEN:
+          'They can’t get an SSN based on their immigration status',
+        NONE_ASSIGNED: 'They haven’t gotten their SSN yet',
       },
       required: (_chapterData, index, formData) =>
         formData?.studentInformation?.[index]?.noSsn === true,
