@@ -77,8 +77,10 @@ describe('<NameTag>', () => {
         view.getByRole('img', { alt: /coast guard seal/ });
       });
       it('should render the veteran status card link', () => {
-        const link = view.getByRole('link');
-        expect(link).to.have.attribute('text', 'Veteran Status Card');
+        const link = view.container.querySelector(
+          'va-link[text="Veteran Status Card"]',
+        );
+        expect(link).to.exist;
         link.click();
         expect(helpers.handleRouteChange.called).to.be.true;
       });

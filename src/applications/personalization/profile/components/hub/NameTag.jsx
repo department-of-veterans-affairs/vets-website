@@ -110,7 +110,6 @@ const NameTag = ({
           )}
         </dl>
         <VaLink
-          role="link"
           active
           className="vads-u-display--block vads-u-margin-top--2"
           href={PROFILE_PATHS.VETERAN_STATUS_CARD}

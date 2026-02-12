@@ -16,7 +16,6 @@ export const ProfileHubItem = ({
     href,
     text: heading,
     onClick: reactLink ? event => handleRouteChange(event, history) : undefined,
-    role: 'link',
   };
 
   return (

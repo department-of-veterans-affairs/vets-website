@@ -228,11 +228,6 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
   return (
     <div>
       <Headline>{headlineText}</Headline>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.profile2Enabled}>
-        <Toggler.Disabled>
-          <a href="/test">Service history information</a>
-        </Toggler.Disabled>
-      </Toggler>
       <DowntimeNotification
         appTitle="military information page"
         dependencies={[externalServices.VAPRO_MILITARY_INFO]}

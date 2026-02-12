@@ -183,7 +183,7 @@ const PersonalInformationSection = ({ dob }) => {
         isProfile2Enabled &&
         isHealthCareSettingsEnabled && (
           <div className="vads-u-margin-top--4">
-            <va-alert slim status="info" visible role="alert">
+            <va-alert slim status="info" visible>
               <p className="vads-u-margin-y--0">
                 Your health care messages signature has moved to your health
                 care settings.{' '}
@@ -191,7 +191,6 @@ const PersonalInformationSection = ({ dob }) => {
                   href={PROFILE_PATHS.MESSAGES_SIGNATURE}
                   text="Manage the signature on your messages"
                   onClick={event => handleRouteChange(event, history)}
-                  role="link"
                 />
                 .
               </p>

@@ -29,7 +29,7 @@ describe('<ProfileHubItem />', () => {
       />,
     );
 
-    const vaLink = container.getByRole('link');
+    const vaLink = container.container.querySelector('va-link');
     expect(vaLink).to.exist;
     expect(vaLink.getAttribute('href')).to.equal(href);
     expect(vaLink.getAttribute('text')).to.equal(heading);

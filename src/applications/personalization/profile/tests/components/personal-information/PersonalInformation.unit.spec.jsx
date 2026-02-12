@@ -213,8 +213,10 @@ describe('<PersonalInformation />', () => {
 
     await waitFor(() => {
       expect(screen.queryByTestId('messagingSignature')).to.not.exist;
-      expect(screen.getByRole('alert')).to.exist;
-      const link = screen.getByRole('link');
+      expect(screen.container.querySelector('va-alert')).to.exist;
+      const link = screen.container.querySelector(
+        'va-link[text="Manage the signature on your messages"]',
+      );
       expect(link).to.have.attribute(
         'text',
         'Manage the signature on your messages',
