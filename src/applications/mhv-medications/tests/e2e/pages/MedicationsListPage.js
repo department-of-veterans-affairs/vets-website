@@ -817,7 +817,20 @@ class MedicationsListPage {
       .shadow()
       .find('[type="button"]')
       .should('have.text', 'Filter list')
-      .and('have.focus');
+      .then($btn => {
+        if (!$btn.is(':focus')) {
+          // TODO remove this debugging code
+          // eslint-disable-next-line cypress/unsafe-to-chain-command
+          cy.focused().then($focused => {
+            const tagName = $focused.prop('tagName') || 'NONE';
+            const testId = $focused.attr('data-testid') || 'undefined';
+            const text = ($focused.text() || '').substring(0, 50);
+            throw new Error(
+              `Expected "Filter list" button to be focused, but focus is on <${tagName}> data-testid="${testId}" text="${text}"`,
+            );
+          });
+        }
+      });
   };
 
   verifyFilterButtonWhenAccordionExpanded = () => {
