@@ -146,8 +146,8 @@ const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="expired">
-              You can’t refill this prescripition. Contact your VA provider if
-              you need more of this medicaton.
+              You can’t refill this prescription. Contact your VA provider if
+              you need more of this medication.
             </p>
           </div>
         );
