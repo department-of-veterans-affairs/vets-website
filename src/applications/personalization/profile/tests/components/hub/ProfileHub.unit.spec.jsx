@@ -10,10 +10,16 @@ import ProfileHub from '../../../components/hub/ProfileHub';
 
 const getInitialState = ({
   schedulingPreferencesPilotEligible = false,
+  hasBadAddress = false,
 } = {}) => ({
   user: {
     profile: {
       schedulingPreferencesPilotEligible,
+      vapContactInfo: {
+        mailingAddress: {
+          badAddress: hasBadAddress,
+        },
+      },
     },
   },
 });
@@ -26,12 +32,15 @@ describe('<ProfileHub />', () => {
   const renderProfileHub = ({
     hideHealthCareContacts = false,
     isSchedulingPreferencesPilotEligible = false,
+    hasBadAddress = false,
   } = {}) => {
     useToggleValueStub.returns(hideHealthCareContacts);
     return render(<ProfileHub />, {
       initialState: getInitialState({
         schedulingPreferencesPilotEligible: isSchedulingPreferencesPilotEligible,
+        hasBadAddress,
       }),
+      path: '/profile',
     });
   };
 
@@ -118,5 +127,35 @@ describe('<ProfileHub />', () => {
     getByText('VA benefit letters and documents and Veteran Status Card');
     getByText('Preferences for receiving email and text notifications');
     getByText('Sign-in information and connected apps');
+  });
+
+  it('should render BadAddressAlert when hasBadAddress is true', () => {
+    const { container } = renderProfileHub({ hasBadAddress: true });
+
+    const badAddressAlert = container.querySelector(
+      '[data-testid="bad-address-profile-alert"]',
+    );
+    expect(badAddressAlert).to.exist;
+    expect(badAddressAlert).to.have.class('vads-u-margin-top--0');
+    expect(badAddressAlert).to.have.class('vads-u-margin-bottom--4');
+    expect(badAddressAlert).to.have.class('vads-l-col--10');
+  });
+
+  it('should not render BadAddressAlert when hasBadAddress is false', () => {
+    const { container } = renderProfileHub({ hasBadAddress: false });
+
+    const badAddressAlert = container.querySelector(
+      '[data-testid="bad-address-profile-alert"]',
+    );
+    expect(badAddressAlert).to.not.exist;
+  });
+
+  it('should not render BadAddressAlert when hasBadAddress is undefined', () => {
+    const { container } = renderProfileHub({ hasBadAddress: undefined });
+
+    const badAddressAlert = container.querySelector(
+      '[data-testid="bad-address-profile-alert"]',
+    );
+    expect(badAddressAlert).to.not.exist;
   });
 });
