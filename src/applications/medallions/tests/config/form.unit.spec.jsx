@@ -26,9 +26,9 @@ describe('formConfig', () => {
     expect(formConfig.chapters.applicantInformation).to.have.property('pages');
   });
 
-  it('should have a submit function that resolves with confirmationNumber', async () => {
-    const result = await formConfig.submit();
-    expect(result).to.have.nested.property('attributes.confirmationNumber');
+  it('should have a submitUrl pointing to simple_forms_api', () => {
+    expect(formConfig.submitUrl).to.be.a('string');
+    expect(formConfig.submitUrl).to.include('simple_forms_api/v1/simple_forms');
   });
 
   it('should have a getHelp property', () => {
