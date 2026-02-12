@@ -22,7 +22,7 @@ describe('HCA-Household: Spousal disclosure', () => {
 
   it('works with spouse who lived with Veteran', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.selectRadio('root_discloseFinancialInformation', 'Y');
+    cy.selectYesNoVaRadioOption('root_discloseFinancialInformation', true);
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
@@ -32,8 +32,8 @@ describe('HCA-Household: Spousal disclosure', () => {
     fillSpousalBasicInformation(testData);
 
     goToNextPage('/household-information/spouse-additional-information');
-    cy.selectRadio('root_cohabitedLastYear', 'Y');
-    cy.selectRadio('root_sameAddress', 'Y');
+    cy.selectYesNoVaRadioOption('root_cohabitedLastYear', true);
+    cy.selectYesNoVaRadioOption('root_sameAddress', true);
 
     goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
@@ -54,7 +54,7 @@ describe('HCA-Household: Spousal disclosure', () => {
 
   it('works with spouse who did not live with Veteran', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.selectRadio('root_discloseFinancialInformation', 'Y');
+    cy.selectYesNoVaRadioOption('root_discloseFinancialInformation', true);
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
@@ -64,11 +64,11 @@ describe('HCA-Household: Spousal disclosure', () => {
     fillSpousalBasicInformation(testData);
 
     goToNextPage('/household-information/spouse-additional-information');
-    cy.selectRadio('root_cohabitedLastYear', 'N');
-    cy.selectRadio('root_sameAddress', 'N');
+    cy.selectYesNoVaRadioOption('root_cohabitedLastYear', false);
+    cy.selectYesNoVaRadioOption('root_sameAddress', false);
 
     goToNextPage('/household-information/spouse-financial-support');
-    cy.selectRadio('root_provideSupportLastYear', 'N');
+    cy.selectYesNoVaRadioOption('root_provideSupportLastYear', false);
 
     goToNextPage('/household-information/spouse-contact-information');
     cy.fillAddress(
