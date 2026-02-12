@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 
 import createDisclosureTitle from '../../../components/DisclosureTitle';
 
@@ -8,21 +8,21 @@ describe('Pensions DisclosureTitle', () => {
   it('should render', () => {
     const DisclosureTitle = createDisclosureTitle('test', 'Blah blah');
 
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <DisclosureTitle
         id="id"
         formData={{ test: { first: 'Jane', last: 'Doe' } }}
       />,
     );
 
-    expect(tree.text()).to.contain('Jane Doe');
-    expect(tree.text()).to.contain('Blah blah');
+    expect(container.textContent).to.contain('Jane Doe');
+    expect(container.textContent).to.contain('Blah blah');
   });
 
   it('should render spouse name', () => {
     const DisclosureTitle = createDisclosureTitle('spouse', 'Blah blah');
 
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <DisclosureTitle
         id="id"
         formData={{
@@ -45,7 +45,7 @@ describe('Pensions DisclosureTitle', () => {
       />,
     );
 
-    expect(tree.text()).to.contain('Jane Doe');
-    expect(tree.text()).to.contain('Blah blah');
+    expect(container.textContent).to.contain('Jane Doe');
+    expect(container.textContent).to.contain('Blah blah');
   });
 });

@@ -4,6 +4,8 @@ import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform
 export const applyFocus = (parentId, headerHasFocused, setHeaderHasFocused) => {
   if (!headerHasFocused) {
     setTimeout(() => {
+      // Guard against document being undefined if component unmounts before timeout fires
+      if (typeof document === 'undefined') return;
       const header = document
         .getElementById(parentId)
         ?.shadowRoot?.querySelector('h1');

@@ -2,7 +2,7 @@ const VASS_PHONE_NUMBER = '8008270611';
 
 const URLS = Object.freeze({
   VERIFY: '/',
-  ENTER_OTC: '/enter-otc',
+  ENTER_OTP: '/enter-otp',
   DATE_TIME: '/date-time',
   TOPIC_SELECTION: '/topic-selection',
   REVIEW: '/review',
@@ -66,14 +66,14 @@ const TOKEN_ERROR_CODES = Object.freeze({
   UNAUTHORIZED: 'unauthorized',
 });
 
-// Appointment availability errors (GET /vass/v0/appointment-availablity)
+// Appointment availability errors (GET /vass/v0/appointment-availability)
 const AVAILABILITY_ERROR_CODES = Object.freeze({
   APPOINTMENT_ALREADY_BOOKED: 'appointment_already_booked',
   NOT_WITHIN_COHORT: 'not_within_cohort',
   NO_SLOTS_AVAILABLE: 'no_slots_available',
 });
 
-// Appointment errors (POST/GET /vass/v0/appointment)
+// Appointment errors (POST/GET /vass/v0/appointment /vass/v0/appointment/:appointmentId/cancel)
 const APPOINTMENT_ERROR_CODES = Object.freeze({
   APPOINTMENT_SAVE_FAILED: 'appointment_save_failed',
   APPOINTMENT_NOT_FOUND: 'appointment_not_found',

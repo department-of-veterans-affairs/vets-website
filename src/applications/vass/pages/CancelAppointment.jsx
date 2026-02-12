@@ -9,37 +9,47 @@ import {
   useCancelAppointmentMutation,
 } from '../redux/api/vassApi';
 import { FLOW_TYPES, URLS } from '../utils/constants';
-import { setFlowType, setSelectedDate } from '../redux/slices/formSlice';
+import { setFlowType } from '../redux/slices/formSlice';
+import {
+  isCancellationFailedError,
+  isMissingParameterError,
+  isServerError,
+} from '../utils/errors';
+
+const getLoadingMessage = isCanceling => {
+  if (isCanceling) {
+    return 'Canceling appointment. This may take up to 30 seconds. Please don’t refresh the page.';
+  }
+  return 'Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page.';
+};
 
 const CancelAppointment = () => {
   const { appointmentId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { data: appointmentData, isLoading } = useGetAppointmentQuery({
+  const {
+    data: appointmentData,
+    isLoading,
+    error: appointmentError,
+  } = useGetAppointmentQuery({
     appointmentId,
   });
-  const [cancelAppointment] = useCancelAppointmentMutation();
+  const [
+    cancelAppointment,
+    { isLoading: isCanceling, error: cancelAppointmentError },
+  ] = useCancelAppointmentMutation();
 
   const onCancelAppointment = useCallback(
     async () => {
-      try {
-        if (appointmentData?.startUTC) {
-          // After canceling the appointment, the dates are cleared on the VASS end. We save them to render on the confirmation page.
-          dispatch(setSelectedDate(new Date(appointmentData.startUTC)));
-        }
-        await cancelAppointment({ appointmentId });
-        navigate(`${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/${appointmentId}`);
-      } catch (error) {
-        // TODO: handle error
+      const result = await cancelAppointment({ appointmentId });
+      if (result.error) {
+        return;
       }
+      navigate(
+        `${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/${result.data.appointmentId}`,
+      );
     },
-    [
-      appointmentData?.startUTC,
-      appointmentId,
-      cancelAppointment,
-      dispatch,
-      navigate,
-    ],
+    [cancelAppointment, appointmentId, navigate],
   );
 
   const onAbortCancelAppointment = useCallback(
@@ -52,13 +62,22 @@ const CancelAppointment = () => {
     [appointmentData?.appointmentId, dispatch, navigate],
   );
 
+  const loadingMessage = getLoadingMessage(isCanceling);
+
   return (
     <Wrapper
       showBackLink
-      loading={isLoading}
+      flowType={FLOW_TYPES.CANCEL}
+      loading={isLoading || isCanceling}
+      errorAlert={
+        isCancellationFailedError(cancelAppointmentError) ||
+        isMissingParameterError(cancelAppointmentError) ||
+        isServerError(cancelAppointmentError) ||
+        isServerError(appointmentError)
+      }
       testID="cancel-appointment-page"
       pageTitle="Would you like to cancel this appointment?"
-      loadingMessage="Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page."
+      loadingMessage={loadingMessage}
     >
       <div className="vads-u-margin-top--6">
         <AppointmentCard

@@ -70,11 +70,7 @@ describe('21-8940 submit transformer', () => {
               { startDate: '2019-06-01', endDate: '2019-08-01' },
             ],
           },
-          {
-            doctorName: '  ',
-            doctorAddress: {},
-            treatmentDates: [],
-          },
+          { doctorName: '  ', doctorAddress: {}, treatmentDates: [] },
         ],
         hospitals: [
           {
@@ -109,10 +105,7 @@ describe('21-8940 submit transformer', () => {
             timeLost: '12',
             earnings: '9000',
           },
-          {
-            employerName: '',
-            employerAddress: {},
-          },
+          { employerName: '', employerAddress: {} },
         ],
         employmentHistory: [
           {
@@ -166,10 +159,7 @@ describe('21-8940 submit transformer', () => {
             typeOfEducation: 'Vocational training',
             datesOfTraining: { from: '2010-01-01', to: '2010-06-01' },
           },
-          {
-            typeOfEducation: 'Second entry',
-            datesOfTraining: {},
-          },
+          { typeOfEducation: 'Second entry', datesOfTraining: {} },
         ],
         educationAfterDisability: [
           {
@@ -178,7 +168,7 @@ describe('21-8940 submit transformer', () => {
           },
         ],
         additionalRemarks: 'Needs assistance with tasks.',
-        signatureOfClaimant: 'John Doe',
+        signatureOfClaimant: 'AlexanderThe M LonglastnameBeyond',
         dateSigned: '2024-01-01',
         files: [{ name: 'supporting.pdf' }, null, {}],
       },
@@ -200,9 +190,9 @@ describe('21-8940 submit transformer', () => {
     const payload = JSON.parse(transformed.increase_compensation_claim.form);
 
     expect(payload.veteranFullName).to.deep.equal({
-      first: 'AlexanderThe',
+      first: 'AlexanderTheGreat',
       middleinitial: 'M',
-      last: 'LonglastnameBeyond',
+      last: 'LonglastnameBeyondLimit',
     });
     expect(payload.veteranAddress).to.deep.equal({
       street: '123 Main St',
@@ -235,7 +225,7 @@ describe('21-8940 submit transformer', () => {
       },
     ]);
     expect(payload.occupationDuringMostEarnings).to.equal(
-      'Lead Systems Architect with',
+      'Lead Systems Architect with multiple responsibilities',
     );
     expect(payload.preventMilitaryDuties).to.be.true;
     expect(payload.previousEmployers).to.deep.equal([
@@ -265,14 +255,14 @@ describe('21-8940 submit transformer', () => {
     ]);
     expect(payload.education).to.deep.equal({ college: 'Jr' });
     expect(payload.educationTrainingPreUnemployability).to.deep.equal({
-      name: 'Vocational t',
+      name: 'Vocational training',
       datesOfTraining: {
         from: '2010-01-01',
         to: '2010-06-01',
       },
     });
     expect(payload.educationTrainingPostUnemployability).to.deep.equal({
-      name: 'Technical co',
+      name: 'Technical course',
       datesOfTraining: {
         from: '2015-01-01',
         to: '2015-03-01',
@@ -289,7 +279,9 @@ describe('21-8940 submit transformer', () => {
     expect(payload.receiveExpectWorkersCompensation).to.be.true;
     expect(payload.attemptedEmploy).to.be.true;
     expect(payload.remarks).to.equal('Needs assistance with tasks.');
-    expect(payload.signature).to.equal('John Doe');
+    expect(payload.signature).to.equal(
+      'AlexanderTheGreat M LonglastnameBeyondLimit',
+    );
     expect(payload.signatureDate).to.equal('2024-01-01');
     expect(payload.files).to.deep.equal([{ name: 'supporting.pdf' }]);
   });
@@ -366,7 +358,7 @@ describe('21-8940 submit transformer', () => {
 
     expect(payload.trainingPreDisabled).to.be.true;
     expect(payload.educationTrainingPreUnemployability).to.deep.equal({
-      name: 'Single entry',
+      name: 'Single entry training',
       datesOfTraining: {
         from: '2011-05-01',
         to: '2011-09-01',
@@ -374,7 +366,7 @@ describe('21-8940 submit transformer', () => {
     });
     expect(payload.trainingPostUnemployment).to.be.true;
     expect(payload.educationTrainingPostUnemployability).to.deep.equal({
-      name: 'Post disabil',
+      name: 'Post disability course',
       datesOfTraining: {
         from: '2018-02-01',
         to: '2018-06-01',

@@ -1,0 +1,64 @@
+{
+  "data": [
+    {
+      "id": "7179613",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 7179613,
+        "category": "OTHER",
+        "subject": "Test Migration Phase Message",
+        "body": "This is a test message during facility migration",
+        "attachment": null,
+        "sentDate": "2026-02-05T14:34:28.000Z",
+        "senderId": 20029,
+        "senderName": "SPARROW, JACK",
+        "recipientId": 6820911,
+        "recipientName": "MORGAN, JAMES",
+        "readReceipt": null,
+        "triageGroupName": "Test-Cardio-Clinic",
+        "proxySenderName": null,
+        "threadId": 7176615,
+        "folderId": 0,
+        "messageBody": "This is a test message during facility migration",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false,
+        "isOhMessage": true,
+        "ohMigrationPhase": "p3"
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7179613"
+      }
+    },
+    {
+      "id": "7176616",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 7176616,
+        "category": "OTHER",
+        "subject": "Test Migration Phase Message",
+        "body": "Original message in thread",
+        "attachment": null,
+        "sentDate": "2026-02-04T19:31:18.000Z",
+        "senderId": 6820911,
+        "senderName": "MORGAN, JAMES",
+        "recipientId": 6910405,
+        "recipientName": "Test-Cardio-Clinic",
+        "readReceipt": "READ",
+        "triageGroupName": "Test-Cardio-Clinic",
+        "proxySenderName": null,
+        "threadId": 7176615,
+        "folderId": 0,
+        "messageBody": "Original message in thread",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false,
+        "isOhMessage": true,
+        "ohMigrationPhase": "p3"
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7176616"
+      }
+    }
+  ]
+}

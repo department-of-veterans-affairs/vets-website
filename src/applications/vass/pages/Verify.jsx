@@ -45,7 +45,7 @@ const Verify = () => {
     [dispatch, cancellationFlow],
   );
 
-  const [lastname, setLastname] = useState('');
+  const [lastName, setLastName] = useState('');
   const [dob, setDob] = useState('');
 
   const [
@@ -54,7 +54,7 @@ const Verify = () => {
   ] = usePostAuthenticationMutation();
 
   const [
-    { error: lastnameError, handleSetError: setLastnameError },
+    { error: lastNameError, handleSetError: setLastNameError },
     { error: dobError, handleSetError: setDobError },
     { handleSetError: setAuthError },
   ] = useErrorFocus([
@@ -67,9 +67,9 @@ const Verify = () => {
   const [verificationError, setVerificationError] = useState(undefined);
 
   const handleSubmit = async () => {
-    if (lastname === '' || dob === '') {
-      if (lastname === '') {
-        setLastnameError('Please enter your last name');
+    if (lastName === '' || dob === '') {
+      if (lastName === '') {
+        setLastNameError('Please enter your last name');
       }
       if (dob === '') {
         setDobError('Please enter your date of birth');
@@ -78,7 +78,7 @@ const Verify = () => {
     }
     const response = await postAuthentication({
       uuid,
-      lastname,
+      lastName,
       dob,
     });
     if (response.error) {
@@ -91,7 +91,7 @@ const Verify = () => {
       setAttemptCount(count => count + 1);
       return;
     }
-    navigate(URLS.ENTER_OTC);
+    navigate(URLS.ENTER_OTP);
   };
 
   const pageTitle = getPageTitle(cancellationFlow, verificationError);
@@ -117,19 +117,19 @@ const Verify = () => {
       <va-text-input
         data-testid="last-name-input"
         label="Your last name"
-        value={lastname}
+        value={lastName}
         name="last-name"
         onBlur={e => {
           // Clear the error if the user has entered a value
           if (e.target.value !== '') {
-            setLastnameError('');
+            setLastNameError('');
           }
         }}
         onInput={e => {
-          setLastname(e.target.value);
+          setLastName(e.target.value);
         }}
         required
-        error={lastnameError}
+        error={lastNameError}
         show-input-error
       />
       <VaMemorableDate
@@ -140,7 +140,7 @@ const Verify = () => {
         onDateBlur={e => {
           // Clear the error if the user has entered a value
           if (e.target.value !== '') {
-            setDobError(undefined);
+            setDobError('');
           }
         }}
         onDateChange={e => {
