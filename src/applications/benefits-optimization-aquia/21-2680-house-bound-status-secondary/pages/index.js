@@ -33,3 +33,7 @@ export {
   benefitPaymentsManagementUiSchema,
 } from './benefit-payments-management';
 export { postureSchema, postureUiSchema } from './posture';
+export {
+  upperExtremitiesSchema,
+  upperExtremitiesUiSchema,
+} from './upper-extremities';
