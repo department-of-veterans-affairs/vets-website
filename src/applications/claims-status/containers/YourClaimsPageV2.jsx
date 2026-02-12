@@ -37,24 +37,13 @@ import {
   getVisibleRows,
   getPageRange,
   sortByLastUpdated,
+  isClosed,
 } from '../utils/appeals-v2-helpers';
 import { setPageFocus } from '../utils/page';
 import { groupClaimsByDocsNeeded, setDocumentTitle } from '../utils/helpers';
 import ClaimsFilter from '../components/ClaimsFilter';
 import ClaimLetterSection from '../components/claim-letters/ClaimLetterSection';
 import { Type2FailureAnalyticsProvider } from '../contexts/Type2FailureAnalyticsContext';
-
-/**
- * Determines if a claim or STEM claim is closed.
- * - Benefits claims: closed when status is 'COMPLETE'
- * - STEM claims: always closed (denied)
- */
-function isItemClosed(item) {
-  return (
-    item.attributes.status === 'COMPLETE' ||
-    item.attributes.claimType === 'STEM'
-  );
-}
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -141,8 +130,7 @@ class YourClaimsPageV2 extends React.Component {
     if (!cstClaimsListFilterEnabled || claimsFilter === 'all') return list;
 
     return list.filter(
-      item =>
-        claimsFilter === 'closed' ? isItemClosed(item) : !isItemClosed(item),
+      item => (claimsFilter === 'closed' ? isClosed(item) : !isClosed(item)),
     );
   }
 
@@ -375,7 +363,7 @@ function mapStateToProps(state) {
     ...claimsV2Root.claims,
     ...stemClaims,
   ]
-    .filter(isItemClosed)
+    .filter(isClosed)
     .sort(sortByLastUpdated);
 
   const inProgressClaims = [
@@ -383,7 +371,7 @@ function mapStateToProps(state) {
     ...claimsV2Root.claims,
     ...stemClaims,
   ]
-    .filter(item => !isItemClosed(item))
+    .filter(item => !isClosed(item))
     .sort(sortByLastUpdated);
 
   const sortedList = [...inProgressClaims, ...closedClaims];

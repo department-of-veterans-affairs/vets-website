@@ -75,8 +75,8 @@ const SchoolStateOrResidencyStateCustomPage = props => {
                 className="usa-input-error-message vads-u-margin-bottom--3"
                 id="root_subject-error-message"
               >
-                <span className="sr-only">Error</span> Please select school
-                state or residency state
+                <span className="sr-only">Error</span> Select school state or
+                residency state
               </span>
             )}
             <VaSelect

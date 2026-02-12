@@ -83,7 +83,6 @@ const formConfig = {
       pages: {
         ...profilePersonalInfoPage(),
         ...profileContactInfoPages({
-          contactPath: 'veteran-information',
           contactInfoRequiredKeys: ['mailingAddress'],
         }),
       },

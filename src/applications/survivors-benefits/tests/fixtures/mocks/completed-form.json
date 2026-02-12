@@ -249,7 +249,7 @@
         "city": "Hamburg",
         "otherCountry": "DEU"
       },
-      "bornOutsideUS": true,
+      "bornOutsideUs": true,
       "relationship": "ADOPTED",
       "inSchool": false,
       "seriouslyDisabled": true,
@@ -272,7 +272,7 @@
         "state": "OH",
         "otherCountry": "USA"
       },
-      "bornOutsideUS": false,
+      "bornOutsideUs": false,
       "relationship": "BIOLOGICAL",
       "inSchool": true,
       "seriouslyDisabled": false,
@@ -294,7 +294,7 @@
         "state": "MO",
         "otherCountry": "USA"
       },
-      "bornOutsideUS": false,
+      "bornOutsideUs": false,
       "relationship": "STEPCHILD",
       "inSchool": true,
       "seriouslyDisabled": false,
@@ -320,6 +320,7 @@
     {
       "reasonForSeparation": "OTHER",
       "separationExplanation": "Some other reason",
+      "marriedOutsideUs": true,
       "dateOfMarriage": "1990-01-01",
       "dateOfSeparation": "2000-01-01",
       "locationOfSeparation": {
@@ -328,7 +329,7 @@
       },
       "locationOfMarriage": {
         "city": "Another City",
-        "state": "TX"
+        "otherCountry": "ALB"
       },
       "spouseFullName": {
         "first": "SpouseFirst",
@@ -380,15 +381,16 @@
     },
     {
       "reasonForSeparation": "DIVORCE",
+      "marriedOutsideUs": true,
       "dateOfMarriage": "2002-01-01",
       "dateOfSeparation": "2012-01-01",
       "locationOfSeparation": {
         "city": "City2",
-        "state": "PA"
+         "state": "PA"
       },
       "locationOfMarriage": {
         "city": "City1",
-        "state": "PA"
+        "otherCountry": "ALB"
       },
       "spouseFullName": {
         "first": "Spouse2Fi",
