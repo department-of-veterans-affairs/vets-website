@@ -340,8 +340,14 @@ module.exports = async (env = {}) => {
           ],
           exclude: /node_modules/,
         },
+        // TEMPORARY: Disable Sass processing while errors are being fixed in parallel.
+        // Remove this block and restore the sass-loader in the rule below when ready.
         {
-          test: /\.(sa|sc|c)ss$/,
+          test: /\.(sa|sc)ss$/,
+          use: 'null-loader',
+        },
+        {
+          test: /\.css$/,
           use: [
             MiniCssExtractPlugin.loader,
             {
@@ -353,22 +359,24 @@ module.exports = async (env = {}) => {
             {
               loader: 'postcss-loader',
             },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: true,
-                sassOptions: {
-                  silenceDeprecations: [
-                    'legacy-js-api',
-                    'import',
-                    'if-function',
-                    'slash-div',
-                    'global-builtin',
-                    'color-functions',
-                  ],
-                },
-              },
-            },
+            // TEMPORARY: Sass processing disabled - sass-loader removed while errors
+            // are being fixed in parallel. Restore the sass-loader block when ready.
+            // {
+            //   loader: 'sass-loader',
+            //   options: {
+            //     sourceMap: true,
+            //     sassOptions: {
+            //       silenceDeprecations: [
+            //         'legacy-js-api',
+            //         'import',
+            //         'if-function',
+            //         'slash-div',
+            //         'global-builtin',
+            //         'color-functions',
+            //       ],
+            //     },
+            //   },
+            // },
           ],
         },
         {
