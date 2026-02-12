@@ -9,6 +9,7 @@ import {
   rxListSortingOptions,
   ALL_MEDICATIONS_FILTER_KEY,
   filterOptions,
+  STATION_NUMBER_PARAM,
 } from '../util/constants';
 
 /**
@@ -49,20 +50,28 @@ const buildQueryParams = preferences => {
  *       platform code is already fetching feature toggles,
  *       user profile, maintenance windows, etc.
  */
-export const prescriptionsLoader = ({ params }) => {
+export const prescriptionsLoader = ({ params, request }) => {
   const fetchPromises = [];
   const rxId = params?.prescriptionId || null;
+
+  // Extract station_number from URL query params
+  const url = new URL(request.url);
+  const stationNumber = url.searchParams.get(STATION_NUMBER_PARAM);
+
+  const state = store.getState();
 
   // For refill pages, load refillable prescriptions
   if (window.location.pathname.endsWith('/refill')) {
     fetchPromises.push(store.dispatch(getRefillablePrescriptions.initiate()));
   } else if (!rxId) {
-    const state = store.getState();
     const prefs = buildQueryParams(state.rx.preferences);
     fetchPromises.push(store.dispatch(getPrescriptionsList.initiate(prefs)));
   } else if (rxId) {
-    // If on a prescription detail page, fetch that specific prescription
-    fetchPromises.push(store.dispatch(getPrescriptionById.initiate(rxId)));
+    // Fetch that specific prescription
+    // station_number is passed when available (required for v2 API)
+    fetchPromises.push(
+      store.dispatch(getPrescriptionById.initiate({ id: rxId, stationNumber })),
+    );
   }
 
   return defer(Promise.all(fetchPromises));

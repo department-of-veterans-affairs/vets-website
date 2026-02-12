@@ -5,18 +5,16 @@ import { TrackedItemContent } from '../../../components/TrackedItemContent';
 
 describe('TrackedItemContent', () => {
   it('should render content with multiple blocks', () => {
-    const content = {
-      blocks: [
-        {
-          type: 'paragraph',
-          content: 'First paragraph',
-        },
-        {
-          type: 'paragraph',
-          content: 'Second paragraph',
-        },
-      ],
-    };
+    const content = [
+      {
+        type: 'paragraph',
+        content: 'First paragraph',
+      },
+      {
+        type: 'paragraph',
+        content: 'Second paragraph',
+      },
+    ];
     const { container } = render(<TrackedItemContent content={content} />);
     const paragraphs = container.querySelectorAll('p');
     expect(paragraphs).to.have.length(2);
@@ -24,19 +22,17 @@ describe('TrackedItemContent', () => {
   });
 
   it('should render paragraph and list blocks', () => {
-    const content = {
-      blocks: [
-        {
-          type: 'paragraph',
-          content: 'Here is a list:',
-        },
-        {
-          type: 'list',
-          style: 'bullet',
-          items: ['Item 1', 'Item 2'],
-        },
-      ],
-    };
+    const content = [
+      {
+        type: 'paragraph',
+        content: 'Here is a list:',
+      },
+      {
+        type: 'list',
+        style: 'bullet',
+        items: ['Item 1', 'Item 2'],
+      },
+    ];
     const { container } = render(<TrackedItemContent content={content} />);
     const p = container.querySelector('p');
     const ul = container.querySelector('ul');
@@ -47,22 +43,20 @@ describe('TrackedItemContent', () => {
   });
 
   it('should render content with links', () => {
-    const content = {
-      blocks: [
-        {
-          type: 'paragraph',
-          content: [
-            'Visit ',
-            {
-              type: 'link',
-              text: 'VA Form 21-4142',
-              href: '/find-forms/about-form-21-4142/',
-              style: 'active',
-            },
-          ],
-        },
-      ],
-    };
+    const content = [
+      {
+        type: 'paragraph',
+        content: [
+          'Visit ',
+          {
+            type: 'link',
+            text: 'VA Form 21-4142',
+            href: '/find-forms/about-form-21-4142/',
+            style: 'active',
+          },
+        ],
+      },
+    ];
     const { container } = render(<TrackedItemContent content={content} />);
     const link = container.querySelector('va-link');
     expect(link).to.exist;
@@ -72,19 +66,17 @@ describe('TrackedItemContent', () => {
   });
 
   it('should render content with telephone numbers', () => {
-    const content = {
-      blocks: [
-        {
-          type: 'paragraph',
-          content: [
-            'Call us at ',
-            { type: 'telephone', contact: '8008271000' },
-            ' or TTY ',
-            { type: 'telephone', contact: '711', tty: true },
-          ],
-        },
-      ],
-    };
+    const content = [
+      {
+        type: 'paragraph',
+        content: [
+          'Call us at ',
+          { type: 'telephone', contact: '8008271000' },
+          ' or TTY ',
+          { type: 'telephone', contact: '711', tty: true },
+        ],
+      },
+    ];
     const { container } = render(<TrackedItemContent content={content} />);
     const telephones = container.querySelectorAll('va-telephone');
     expect(telephones).to.have.length(2);
@@ -93,29 +85,27 @@ describe('TrackedItemContent', () => {
   });
 
   it('should render real-world content structure', () => {
-    const content = {
-      blocks: [
-        {
-          type: 'paragraph',
-          content:
-            'For your benefits claim, we need your permission to request your personal information from a non-VA source, like a private doctor or hospital.',
-        },
-        {
-          type: 'paragraph',
-          content: 'Personal information may include:',
-        },
-        {
-          type: 'list',
-          style: 'bullet',
-          items: [
-            'Medical treatments',
-            'Hospitalizations',
-            'Psychotherapy',
-            'Outpatient care',
-          ],
-        },
-      ],
-    };
+    const content = [
+      {
+        type: 'paragraph',
+        content:
+          'For your benefits claim, we need your permission to request your personal information from a non-VA source, like a private doctor or hospital.',
+      },
+      {
+        type: 'paragraph',
+        content: 'Personal information may include:',
+      },
+      {
+        type: 'list',
+        style: 'bullet',
+        items: [
+          'Medical treatments',
+          'Hospitalizations',
+          'Psychotherapy',
+          'Outpatient care',
+        ],
+      },
+    ];
     const { container } = render(<TrackedItemContent content={content} />);
     const paragraphs = container.querySelectorAll('p');
     expect(paragraphs).to.have.length(2);

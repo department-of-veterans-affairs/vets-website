@@ -11,7 +11,6 @@ import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentsGetApi,
   mockClinicsApi,
-  mockEligibilityApi,
   mockEligibilityCCApi,
   mockEligibilityDirectApi,
   mockEligibilityRequestApi,
@@ -32,7 +31,9 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
 
     mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles({
+      vaOnlineSchedulingImmediateCareAlert: false,
       vaOnlineSchedulingRemoveFacilityConfigCheck: false,
+      vaOnlineSchedulingUseVpg: false,
     });
     mockVamcEhrApi();
   });
@@ -81,7 +82,8 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           isDirect: true,
           isRequest: false,
         });
-        mockEligibilityApi({ responseCode: 502 });
+        mockEligibilityDirectApi({ responseCode: 502 });
+        mockEligibilityRequestApi({ responseCode: 502 });
         mockClinicsApi({
           locationId: '983',
           response: [],

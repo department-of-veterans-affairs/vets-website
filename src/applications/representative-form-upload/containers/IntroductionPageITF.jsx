@@ -27,7 +27,6 @@ const IntroductionPageITF = ({ route, router }) => {
       return (
         <VaLinkAction
           href="#start"
-          label="Start form upload and submission"
           class=" representative-form__start"
           text="Start the submission"
           onClick={startForm}

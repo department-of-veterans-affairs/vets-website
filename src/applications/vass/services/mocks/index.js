@@ -1,5 +1,4 @@
 /* istanbul ignore file */
-/* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
 const mockTopics = require('./utils/topic');
 const { generateSlots, createMockJwt } = require('../../utils/mock-helpers');
@@ -14,32 +13,45 @@ const {
   createUnauthorizedError,
   createInvalidCredentialsError,
   createNotWithinCohortError,
+  createAppointmentAlreadyBookedError,
 } = require('./utils/errors');
 
 const mockUUIDs = Object.freeze({
   'c0ffee-1234-beef-5678': {
-    lastname: 'Smith',
+    lastName: 'Smith',
     dob: '1935-04-07',
-    otc: '123456',
+    otp: '123456',
     email: 's****@email.com',
+    appointmentId: 'abcdef123456',
   },
   'authenticate-otc-vass-api-error': {
-    lastname: 'Smith',
+    lastName: 'Smith',
     dob: '1935-04-07',
-    otc: '123456',
+    otp: '123456',
     email: 's****@email.com',
+    appointmentId: undefined, // no appointment id for this uuid because this uuid is used for authentication errors
   },
   'authenticate-otc-service-error': {
-    lastname: 'Smith',
+    lastName: 'Smith',
     dob: '1935-04-07',
-    otc: '123456',
+    otp: '123456',
     email: 's****@email.com',
+    appointmentId: undefined, // no appointment id for this uuid because this uuid is used for service errors
   },
   'not-within-cohort': {
-    lastname: 'Smith',
+    lastName: 'Smith',
     dob: '1935-04-07',
-    otc: '123456',
+    otp: '123456',
     email: 's****@email.com',
+    appointmentId: undefined, // no appointment id for this uuid because this uuid is used for not within cohort errors
+  },
+  // Test user with existing appointment - use this UUID to test redirect flow
+  'has-appointment': {
+    lastName: 'Smith',
+    dob: '1935-04-07',
+    otp: '123456',
+    email: 's****@email.com',
+    appointmentId: 'existing-appointment-id',
   },
 });
 
@@ -49,14 +61,17 @@ const maxLowAuthVerifications = 3;
 const lowAuthVerificationTimeout = 15 * 60 * 1000; // 15 minutes
 
 // Keep a count of how manny attempts to use the OTC have been made for each uuid
-const otcUseCounts = new Map(); // uuid -> count
-const maxOtcUseCount = 5;
+const otpUseCounts = new Map(); // uuid -> count
+const maxOtpUseCount = 5;
 
-const mockAppointments = [createAppointmentData()];
+const mockAppointments = [
+  createAppointmentData({ appointmentId: 'abcdef123456' }),
+  createAppointmentData({ appointmentId: 'existing-appointment-id' }),
+];
 
 const responses = {
-  'POST /vass/v0/authenticate': (req, res) => {
-    const { uuid, lastname, dob } = req.body;
+  'POST /vass/v0/request-otp': (req, res) => {
+    const { uuid, lastName, dob } = req.body;
 
     if (uuid === 'authenticate-vass-api-error') {
       return res.status(500).json(createVassApiError());
@@ -85,7 +100,7 @@ const responses = {
       `${new Date().toISOString()}|${attemptCount + 1}`,
     );
     const mockUser = mockUUIDs[uuid];
-    if (lastname === mockUser?.lastname && dob === mockUser?.dob) {
+    if (lastName === mockUser?.lastName && dob === mockUser?.dob) {
       lowAuthVerifications.delete(uuid);
       return res.json({
         data: {
@@ -101,23 +116,23 @@ const responses = {
 
     return res.status(401).json(createInvalidCredentialsError());
   },
-  'POST /vass/v0/authenticate-otc': (req, res) => {
-    const { otc, uuid, lastname, dob } = req.body;
+  'POST /vass/v0/authenticate-otp': (req, res) => {
+    const { otp, uuid, lastName, dob } = req.body;
     if (uuid === 'authenticate-otc-vass-api-error') {
       return res.status(500).json(createVassApiError());
     }
     if (uuid === 'authenticate-otc-service-error') {
       return res.status(500).json(createServiceError());
     }
-    const useCount = otcUseCounts.get(uuid) || 0;
-    otcUseCounts.set(uuid, useCount + 1);
+    const useCount = otpUseCounts.get(uuid) || 0;
+    otpUseCounts.set(uuid, useCount + 1);
     const mockUser = mockUUIDs[uuid];
     if (
-      otc === mockUser?.otc &&
-      lastname === mockUser?.lastname &&
+      otp === mockUser?.otp &&
+      lastName === mockUser?.lastName &&
       dob === mockUser?.dob
     ) {
-      otcUseCounts.delete(uuid); // reset the use count on successful verification to allow for new attempts
+      otpUseCounts.delete(uuid); // reset the use count on successful verification to allow for new attempts
       const expiresIn = 3600; // 1 hour
       return res.json({
         data: {
@@ -127,12 +142,12 @@ const responses = {
         },
       });
     }
-    if (useCount >= maxOtcUseCount) {
+    if (useCount >= maxOtpUseCount) {
       return res.status(401).json(createOTPAccountLockedError(900));
     }
     return res
       .status(401)
-      .json(createOTPInvalidError(maxOtcUseCount - useCount));
+      .json(createOTPInvalidError(maxOtpUseCount - useCount));
   },
   'POST /vass/v0/appointment': (req, res) => {
     return res.json({
@@ -157,7 +172,7 @@ const responses = {
       },
     });
   },
-  'GET /vass/v0/appointment-availablity': (req, res) => {
+  'GET /vass/v0/appointment-availability': (req, res) => {
     const { headers } = req;
     const [, token] = headers.authorization?.split(' ') || [];
     const tokenPayload = decodeJwt(token);
@@ -171,10 +186,18 @@ const responses = {
       return res.status(401).json(createNotWithinCohortError());
     }
 
+    const mockData = mockUUIDs[uuid];
+
+    if (uuid === 'has-appointment') {
+      return res
+        .status(409)
+        .json(createAppointmentAlreadyBookedError(mockData.appointmentId));
+    }
+
     return res.json({
       data: {
-        appointmentId: uuid,
-        availableTimeSlots: generateSlots(),
+        appointmentId: mockData.appointmentId,
+        availableSlots: generateSlots(),
       },
     });
   },

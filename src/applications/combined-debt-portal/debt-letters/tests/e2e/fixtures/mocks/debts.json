@@ -236,6 +236,48 @@
         }
       ],
       "compositeDebtId": "30100"
+    },
+    {
+      "fileNumber": "796121210",
+      "payeeNumber": "00",
+      "personEntitled": "ANDERSON",
+      "deductionCode": "21",
+      "benefitType": "Loan Guaranty",
+      "diaryCode": "212",
+      "diaryCodeDescription": "Bad Address - Locator Request Sent",
+      "amountOverpaid": 0,
+      "amountWithheld": 0,
+      "originalAr": 600,
+      "currentAr": 600,
+      "debtHistory": [
+        {
+          "date": "11/15/2024",
+          "letterCode": "212",
+          "description": "Bad Address - Locator Request Sent"
+        }
+      ],
+      "compositeDebtId": "21212"
+    },
+    {
+      "fileNumber": "796121203",
+      "payeeNumber": "00",
+      "personEntitled": "WILSON",
+      "deductionCode": "72",
+      "benefitType": "CH33 Housing EDU",
+      "diaryCode": "061",
+      "diaryCodeDescription": "Collections are paused",
+      "amountOverpaid": 0,
+      "amountWithheld": 0,
+      "originalAr": 750,
+      "currentAr": 750,
+      "debtHistory": [
+        {
+          "date": "12/20/2024",
+          "letterCode": "061",
+          "description": "Collection paused per request"
+        }
+      ],
+      "compositeDebtId": "72061"
     }
   ]
 }
