@@ -73,28 +73,23 @@ const IntroSection = ({
   );
 };
 
+// Facility name can be a string or an object with id and content
+// (formatFacilityUnorderedList supports both formats)
+const facilityNameShape = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.shape({
+    id: PropTypes.string,
+    content: PropTypes.node,
+  }),
+]);
+
 IntroSection.propTypes = {
   dataSourceType: PropTypes.oneOf(Object.values(dataSourceTypes)),
   lastSuccessfulUpdate: PropTypes.object,
-  ohFacilityNamesAfterCutover: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      content: PropTypes.node,
-    }),
-  ),
-  ohFacilityNamesBeforeCutover: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      content: PropTypes.node,
-    }),
-  ),
+  ohFacilityNamesAfterCutover: PropTypes.arrayOf(facilityNameShape),
+  ohFacilityNamesBeforeCutover: PropTypes.arrayOf(facilityNameShape),
   showHoldTimeMessaging: PropTypes.bool,
-  vistaFacilityNames: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      content: PropTypes.node,
-    }),
-  ),
+  vistaFacilityNames: PropTypes.arrayOf(facilityNameShape),
 };
 
 export default IntroSection;

@@ -11,6 +11,16 @@ import PropTypes from 'prop-types';
  */
 const DownloadReportContext = createContext(null);
 
+// Facility name can be a string or an object with id and content
+// (formatFacilityUnorderedList supports both formats)
+const facilityNameShape = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.shape({
+    id: PropTypes.string,
+    content: PropTypes.node,
+  }),
+]);
+
 /**
  * Provider component that wraps child components with download report context.
  *
@@ -47,24 +57,9 @@ DownloadReportProvider.propTypes = {
     // Test utilities
     runningUnitTest: PropTypes.bool,
     // Facility data (optional, not used by all components)
-    vistaFacilityNames: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        content: PropTypes.node,
-      }),
-    ),
-    ohFacilityNamesAfterCutover: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        content: PropTypes.node,
-      }),
-    ),
-    ohFacilityNamesBeforeCutover: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        content: PropTypes.node,
-      }),
-    ),
+    vistaFacilityNames: PropTypes.arrayOf(facilityNameShape),
+    ohFacilityNamesAfterCutover: PropTypes.arrayOf(facilityNameShape),
+    ohFacilityNamesBeforeCutover: PropTypes.arrayOf(facilityNameShape),
     // Self-entered accordion state (optional, only used by VistaOnlyContent)
     expandSelfEntered: PropTypes.bool,
     selfEnteredAccordionRef: PropTypes.object,

@@ -276,12 +276,12 @@ describe('Medical Records Download Page - Feature Flag Conditions', () => {
       });
       DownloadReportsPage.goToReportsPage();
 
-      // With flag disabled, should NOT see PDF and HTML buttons
-      cy.get('[data-testid="generateCcdButtonPdfOH"]').should('not.exist');
-      cy.get('[data-testid="generateCcdButtonHtmlOH"]').should('not.exist');
+      // With flag disabled, should NOT see PDF and HTML buttons (no suffix variant)
+      cy.get('[data-testid="generateCcdButtonPdf"]').should('not.exist');
+      cy.get('[data-testid="generateCcdButtonHtml"]').should('not.exist');
 
-      // But XML should still exist
-      cy.get('[data-testid="generateCcdButtonXmlOH"]').should('exist');
+      // But XML should still exist (no suffix when flag disabled)
+      cy.get('[data-testid="generateCcdButtonXml"]').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -779,10 +779,11 @@ describe('Medical Records Download Page - Component Differentiation', () => {
     });
     DownloadReportsPage.goToReportsPage();
 
+    // Verify heading uses plural "reports" (not singular "report")
     cy.contains('h1', 'Download your medical records reports').should('exist');
-    cy.contains('h1', 'Download your medical records report').should(
-      'not.exist',
-    );
+    cy.get('h1').should($h1 => {
+      expect($h1.text()).to.include('reports');
+    });
 
     cy.injectAxeThenAxeCheck();
   });
