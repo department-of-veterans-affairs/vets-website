@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { renderHook } from '@testing-library/react-hooks';
@@ -13,6 +14,17 @@ import {
 } from '../../hooks/useBrowserMonitoring';
 
 const mockStore = configureMockStore();
+const wrapper = store => {
+  const Wrapper = ({ children }) => (
+    <Provider store={store}>{children}</Provider>
+  );
+
+  Wrapper.propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+
+  return Wrapper;
+};
 
 describe('profile useBrowserMonitoring hook', () => {
   const sandbox = sinon.createSandbox();
@@ -33,11 +45,6 @@ describe('profile useBrowserMonitoring hook', () => {
   const setEnvironment = buildtype => {
     envConfig.BUILDTYPE = buildtype;
   };
-
-  // eslint-disable-next-line react/prop-types
-  const wrapper = store => ({ children }) => (
-    <Provider store={store}>{children}</Provider>
-  );
 
   beforeEach(() => {
     envConfig = ENVIRONMENT_CONFIGURATIONS[global.__BUILDTYPE__];

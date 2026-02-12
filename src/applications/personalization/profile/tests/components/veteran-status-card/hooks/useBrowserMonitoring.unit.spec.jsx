@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { renderHook } from '@testing-library/react-hooks';
@@ -11,6 +12,17 @@ import { TOGGLE_NAMES } from '~/platform/utilities/feature-toggles';
 import { useBrowserMonitoring } from '../../../../components/veteran-status-card/hooks/useBrowserMonitoring';
 
 const mockStore = configureMockStore();
+const wrapper = store => {
+  const Wrapper = ({ children }) => (
+    <Provider store={store}>{children}</Provider>
+  );
+
+  Wrapper.propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+
+  return Wrapper;
+};
 
 describe('useBrowserMonitoring hook', () => {
   const sandbox = sinon.createSandbox();
@@ -32,11 +44,6 @@ describe('useBrowserMonitoring hook', () => {
   const setEnvironment = buildtype => {
     envConfig.BUILDTYPE = buildtype;
   };
-
-  // eslint-disable-next-line react/prop-types
-  const wrapper = store => ({ children }) => (
-    <Provider store={store}>{children}</Provider>
-  );
 
   beforeEach(() => {
     savedMocha = window.Mocha;
