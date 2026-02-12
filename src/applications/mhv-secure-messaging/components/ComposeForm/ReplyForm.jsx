@@ -55,9 +55,13 @@ const ReplyForm = props => {
 
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const signature = useSelector(state => state.sm.preferences?.signature);
-  const { replyToName, isSaving, isStale, replyDisabled, ohMigrationPhase } = useSelector(
-    state => state.sm.threadDetails,
-  );
+  const {
+    replyToName,
+    isSaving,
+    isStale,
+    replyDisabled,
+    ohMigrationPhase,
+  } = useSelector(state => state.sm.threadDetails);
   const isInMigrationPhase = isMigrationPhaseBlockingReplies(ohMigrationPhase);
 
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
@@ -165,7 +169,10 @@ const ReplyForm = props => {
           <>
             <CannotReplyAlert
               visible={
-                cannotReply && replyDisabled && !showBlockedTriageGroupAlert && !isInMigrationPhase
+                cannotReply &&
+                replyDisabled &&
+                !showBlockedTriageGroupAlert &&
+                !isInMigrationPhase
               }
               isOhMessage={replyMessage.isOhMessage}
             />
@@ -181,7 +188,12 @@ const ReplyForm = props => {
           </>
         ) : (
           <StaleMessageAlert
-            visible={cannotReply && isStale && !showBlockedTriageGroupAlert && !isInMigrationPhase}
+            visible={
+              cannotReply &&
+              isStale &&
+              !showBlockedTriageGroupAlert &&
+              !isInMigrationPhase
+            }
             isOhMessage={replyMessage.isOhMessage}
           />
         )}

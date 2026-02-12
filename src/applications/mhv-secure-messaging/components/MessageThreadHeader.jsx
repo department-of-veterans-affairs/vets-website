@@ -137,7 +137,10 @@ const MessageThreadHeader = props => {
           <>
             <CannotReplyAlert
               visible={
-                cannotReply && replyDisabled && !showBlockedTriageGroupAlert && !isInMigrationPhase
+                cannotReply &&
+                replyDisabled &&
+                !showBlockedTriageGroupAlert &&
+                !isInMigrationPhase
               }
               isOhMessage={isOhMessage}
             />
@@ -153,7 +156,12 @@ const MessageThreadHeader = props => {
           </>
         ) : (
           <StaleMessageAlert
-            visible={cannotReply && isStale && !showBlockedTriageGroupAlert && !isInMigrationPhase}
+            visible={
+              cannotReply &&
+              isStale &&
+              !showBlockedTriageGroupAlert &&
+              !isInMigrationPhase
+            }
             isOhMessage={isOhMessage}
           />
         )}
