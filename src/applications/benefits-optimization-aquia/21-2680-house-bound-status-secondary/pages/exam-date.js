@@ -5,9 +5,9 @@
  */
 
 import {
-  MemorableDateUI,
-  MemorableDateSchema,
-} from '../../21-4192-employment-information/components/memorable-date-ui';
+  currentOrPastDateSchema,
+  currentOrPastDateUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 /**
  * uiSchema for Examination Date page
@@ -15,7 +15,7 @@ import {
  */
 export const examinationDateUiSchema = {
   'ui:title': 'Exam',
-  dateOfExamination: MemorableDateUI('Date of examination'),
+  dateOfExamination: currentOrPastDateUI('Date of examination'),
 };
 
 /**
@@ -26,6 +26,6 @@ export const examinationDateSchema = {
   type: 'object',
   required: ['dateOfExamination'],
   properties: {
-    dateOfExamination: MemorableDateSchema,
+    dateOfExamination: currentOrPastDateSchema,
   },
 };
