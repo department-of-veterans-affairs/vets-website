@@ -13,7 +13,7 @@ import {
   checkboxSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { getClaimantName } from '../utils/name-helpers';
+import { getClaimantName } from '@bio-aquia/21-2680-house-bound-status-secondary/utils';
 
 /**
  * uiSchema for Physical Measurements page

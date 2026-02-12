@@ -1,6 +1,6 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
-import formConfig from '../config/form';
-import App from '../containers/app';
+import formConfig from '@bio-aquia/21-2680-house-bound-status-secondary/config/form';
+import App from '@bio-aquia/21-2680-house-bound-status-secondary/containers/app';
 
 const route = {
   path: '/',
