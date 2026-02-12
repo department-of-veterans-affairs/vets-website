@@ -1,5 +1,22 @@
 /* eslint-disable camelcase */
 const responses = {
+  'POST /vre/v0/ch31_case_milestones': async (_, res) => {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // Uncomment to test error status
+    // return res.status(500);
+
+    return res.status(200).json({
+      data: {
+        id: '',
+        type: 'ch31_case_milestones',
+        attributes: {
+          res_case_id: 123,
+          response_message: 'The case milestones have been updated',
+        },
+      },
+    });
+  },
   'GET /vre/v0/ch31_case_details': {
     data: {
       id: '',
@@ -27,11 +44,11 @@ const responses = {
             },
             {
               stepCode: 'ORICMPT',
-              status: 'COMPLETED',
+              status: 'ACTIVE',
             },
             {
               stepCode: 'INTAKE',
-              status: 'ACTIVE',
+              status: 'PENDING',
             },
             {
               stepCode: 'ENTLDET',

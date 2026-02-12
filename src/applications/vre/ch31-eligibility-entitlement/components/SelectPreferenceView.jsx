@@ -5,10 +5,15 @@ import {
   VaButton,
   VaCheckbox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser } from 'platform/user/selectors';
+import { submitCh31CaseMilestones } from '../actions/ch31-case-milestones';
+import { MILESTONE_COMPLETION_TYPES } from '../constants';
 
 const ORIENTATION_TYPE = {
   WATCH_VIDEO: 'Watch the VA Orientation Video online',
-  SCHEDULE_MEETING: 'Schedule a meeting with my local RO',
+  COMPLETE_DURING_MEETING:
+    'Complete orientation during the Initial Evaluation Counselor Meeting',
 };
 
 const preferenceRadioGroupName = 'orientation_type_preference';
@@ -16,9 +21,28 @@ const preferenceRadioGroupName = 'orientation_type_preference';
 export default function SelectPreferenceView() {
   const [orientationTypeRadioValue, setOrientationTypeRadioValue] = useState();
   const [attestationChecked, setAttestationChecked] = useState(false);
+  const [checkboxError, setCheckboxError] = useState(false);
+  const user = useSelector(selectUser);
+  const ch31CaseMilestonesState = useSelector(
+    state => state?.ch31CaseMilestones,
+  );
+  const dispatch = useDispatch();
 
   const submitAttestation = () => {
-    // TODO: Impelement submission logic
+    if (
+      orientationTypeRadioValue === ORIENTATION_TYPE.WATCH_VIDEO &&
+      !attestationChecked
+    ) {
+      setCheckboxError(true);
+      return;
+    }
+
+    dispatch(
+      submitCh31CaseMilestones({
+        milestoneCompletionType: MILESTONE_COMPLETION_TYPES.STEP_3,
+        user,
+      }),
+    );
   };
 
   return (
@@ -35,6 +59,7 @@ export default function SelectPreferenceView() {
         label="My preference is to:"
         onVaValueChange={e => {
           setOrientationTypeRadioValue(e.detail.value);
+          setCheckboxError(false);
           setAttestationChecked(false);
         }}
       >
@@ -57,26 +82,36 @@ export default function SelectPreferenceView() {
               checkboxDescription="Please check the box above if you have watched the Video Tutorial provided."
               label="I acknowledge and attest that I have watched and understand the five Paths for Career Planning."
               checked={attestationChecked}
-              onVaChange={e => setAttestationChecked(e.target.checked)}
+              required
+              error={
+                checkboxError
+                  ? 'You must acknowledge and attest that you have watched the video.'
+                  : undefined
+              }
+              onVaChange={e => {
+                setAttestationChecked(e.target.checked);
+                setCheckboxError(false);
+              }}
             />
-            <VaButton onClick={submitAttestation} text="Submit" />
+            <VaButton
+              loading={ch31CaseMilestonesState?.loading}
+              onClick={submitAttestation}
+              text="Submit"
+            />
           </div>
         )}
         <VaRadioOption
-          label={ORIENTATION_TYPE.SCHEDULE_MEETING}
+          label={ORIENTATION_TYPE.COMPLETE_DURING_MEETING}
           name={preferenceRadioGroupName}
-          value={ORIENTATION_TYPE.SCHEDULE_MEETING}
+          value={ORIENTATION_TYPE.COMPLETE_DURING_MEETING}
         />
-        {orientationTypeRadioValue === ORIENTATION_TYPE.SCHEDULE_MEETING && (
+        {orientationTypeRadioValue ===
+          ORIENTATION_TYPE.COMPLETE_DURING_MEETING && (
           <div className="vads-u-margin-left--4">
-            <p>
-              You will be redirected to an external link to schedule your
-              Orientation appointment with your local RO.
-            </p>
-            <va-link-action
-              href="https://va.gov/vso/"
-              text="Schedule your appointment"
-              type="primary"
+            <VaButton
+              loading={ch31CaseMilestonesState?.loading}
+              onClick={submitAttestation}
+              text="Submit"
             />
           </div>
         )}
