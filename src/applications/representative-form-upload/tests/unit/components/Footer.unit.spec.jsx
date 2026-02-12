@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import Footer from '../../../components/Footer';
+import Footer from '~/platform/site-wide/representative/components/footer/Footer';
 
 describe('Footer', () => {
   const subject = () => render(<Footer />);

@@ -235,6 +235,7 @@ const Vaccines = props => {
                     }))}
                     type={recordType.VACCINES}
                   />
+
                   <DownloadingRecordsInfo description="Vaccines" />
                   <PrintDownload
                     description="Vaccines - List"

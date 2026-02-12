@@ -1,6 +1,7 @@
+import React from 'react';
+
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-
 import {
   profilePersonalInfoPage,
   profileContactInfoPages,
@@ -14,15 +15,25 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import SubmissionInstructions from '../components/SubmissionInstructions';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
+import PreSubmitInfo from '../components/PreSubmitInfo';
+import PrivacyPolicy from '../components/PrivacyPolicy';
+
 // Pages
 import {
   educationBenefitsElibility,
   educationBenefitsHistory,
   hasPreviouslyApplied,
   payeeNumber,
+  testName,
+  organizationInfo,
   prepCourseName,
   prepCourseAddress,
   prepCourseOnline,
+  prepCoursePeriod,
+  prepCourseCost,
+  remarks,
 } from '../pages';
 
 import prefillTransform from './prefillTransform';
@@ -54,18 +65,30 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer: prefillTransform,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'applicantName',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your request.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  CustomReviewTopContent,
   customText: {
     appType: 'request',
     continueAppButtonText: 'Continue your request',
     startNewAppButtonText: 'Start a new request',
     finishAppLaterMessage: 'Finish this request later',
     appSavedSuccessfullyMessage: 'We’ve saved your request.',
+    reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
   },
   defaultDefinitions: {},
   useCustomScrollAndFocus: true,
@@ -105,8 +128,13 @@ const formConfig = {
             dateOfBirth: { show: true, required: false },
           },
           dataAdapter: {
-            ssnPath: 'vaFileNumber',
+            ssnPath: 'ssn',
           },
+          header: (
+            <h3 className="vads-u-margin-bottom--3">
+              Confirm the personal information we have on file for you
+            </h3>
+          ),
         }),
         payeeNumber: {
           path: 'payee-number',
@@ -121,6 +149,25 @@ const formConfig = {
           },
           contactInfoRequiredKeys: ['mailingAddress'],
         }),
+      },
+    },
+    licensingAndCertificationChapter: {
+      title: 'Licensing and certification details',
+      pages: {
+        testName: {
+          path: 'test-name',
+          title:
+            "Tell us about the licensing or certification test you're preparing for",
+          uiSchema: testName.uiSchema,
+          schema: testName.schema,
+        },
+        organizationInfo: {
+          path: 'organization-info',
+          title:
+            'The name and mailing address of organization awarding license or certification',
+          uiSchema: organizationInfo.uiSchema,
+          schema: organizationInfo.schema,
+        },
       },
     },
     prepCourseChapter: {
@@ -144,6 +191,46 @@ const formConfig = {
           title: `How you'll take the prep course`,
           uiSchema: prepCourseOnline.uiSchema,
           schema: prepCourseOnline.schema,
+        },
+        prepCoursePeriod: {
+          path: 'prep-course-details-3',
+          title: 'Provide the start and end dates of your prep course',
+          uiSchema: prepCoursePeriod.uiSchema,
+          schema: prepCoursePeriod.schema,
+        },
+        prepCourseCost: {
+          path: 'prep-course-details-4',
+          title: 'Enter the cost of the prep course including any fees',
+          uiSchema: prepCourseCost.uiSchema,
+          schema: prepCourseCost.schema,
+        },
+      },
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarks: {
+          path: 'remarks',
+          title: 'Enter your remarks',
+          uiSchema: remarks.uiSchema,
+          schema: remarks.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },

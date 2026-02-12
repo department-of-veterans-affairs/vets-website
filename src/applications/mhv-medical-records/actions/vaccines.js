@@ -32,7 +32,6 @@ export const getVaccineDetails = (vaccineId, vaccineList) => async dispatch => {
     // does not support fetching a single vaccine at this time
     return { data: { notFound: true } };
   };
-
   try {
     await dispatchDetails(
       vaccineId,

@@ -5,7 +5,6 @@ import App from './containers/App';
 import MyEligibilityAndBenefits from './containers/MyEligibilityAndBenefits';
 import MyCaseManagementHub from './containers/MyCaseManagementHub';
 import CareerPlanning from './containers/CareerPlanning';
-import OrientationToolsAndResources from './containers/OrientationToolsAndResources';
 
 const routes = (
   <Routes>
@@ -13,10 +12,6 @@ const routes = (
       <Route index element={<MyEligibilityAndBenefits />} />
       <Route path="my-case-management-hub" element={<MyCaseManagementHub />} />
       <Route path="career-planning" element={<CareerPlanning />} />
-      <Route
-        path="orientation-tools-and-resources"
-        element={<OrientationToolsAndResources />}
-      />
     </Route>
   </Routes>
 );
