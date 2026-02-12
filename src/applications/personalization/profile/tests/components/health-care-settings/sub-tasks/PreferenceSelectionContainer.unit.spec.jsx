@@ -716,6 +716,7 @@ describe('PreferenceSelectionContainer', () => {
     it('should advance step to confirm when validation passes on continue', async () => {
       let capturedHandlers;
       let capturedStep;
+      let capturedPageData;
       const initialState = getInitialState();
       initialState.vaProfile.schedulingPreferences[mockFieldName] = [
         'no_preference',
@@ -725,8 +726,9 @@ describe('PreferenceSelectionContainer', () => {
         ...defaultProps,
         getContentComponent: step => {
           capturedStep = step;
-          return ({ handlers }) => {
+          return ({ handlers, pageData }) => {
             capturedHandlers = handlers;
+            capturedPageData = pageData;
             return <div data-testid="mock-content">Content</div>;
           };
         },
@@ -741,15 +743,15 @@ describe('PreferenceSelectionContainer', () => {
         },
       );
 
-      // Wait for the pageData to be initialized from redux
+      // Wait for pageData to be initialized from redux so handlers
+      // close over the populated data (avoids race with useEffect)
       await waitFor(() => {
-        expect(capturedHandlers).to.exist;
+        expect(capturedPageData?.data?.[mockFieldName]).to.deep.equal([
+          'no_preference',
+        ]);
       });
 
-      // Small delay for useEffect to populate pageData from redux
-      await waitFor(() => {
-        capturedHandlers.continue();
-      });
+      capturedHandlers.continue();
 
       await waitFor(() => {
         expect(capturedStep).to.equal('confirm');
