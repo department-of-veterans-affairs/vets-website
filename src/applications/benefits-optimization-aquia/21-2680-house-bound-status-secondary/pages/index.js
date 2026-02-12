@@ -14,3 +14,4 @@ export {
 } from './physical-measurements';
 export { nutritionSchema, nutritionUiSchema } from './nutrition';
 export { gaitSchema, gaitUiSchema } from './gait';
+export { vitalSignsSchema, vitalSignsUiSchema } from './vital-signs';

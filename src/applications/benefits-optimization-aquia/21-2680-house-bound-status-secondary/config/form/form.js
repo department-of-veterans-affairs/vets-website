@@ -14,13 +14,17 @@ import {
   nutritionUiSchema,
   gaitSchema,
   gaitUiSchema,
+  vitalSignsSchema,
+  vitalSignsUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
-import { TITLE, SUBTITLE } from '../../constants';
-import manifest from '../../manifest.json';
-import { IntroductionPage } from '../../containers/introduction-page';
-import { ConfirmationPage } from '../../containers/confirmation-page';
-
-import { GetHelp } from '../../components';
+import {
+  TITLE,
+  SUBTITLE,
+} from '@bio-aquia/21-2680-house-bound-status-secondary/constants';
+import manifest from '@bio-aquia/21-2680-house-bound-status-secondary/manifest.json';
+import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status-secondary/containers/introduction-page';
+import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status-secondary/containers/confirmation-page';
+import { GetHelp } from '@bio-aquia/21-2680-house-bound-status-secondary/components';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -102,6 +106,12 @@ const formConfig = {
           title: 'Gait',
           uiSchema: gaitUiSchema,
           schema: gaitSchema,
+        },
+        vitalSigns: {
+          path: 'vital-signs',
+          title: 'Vital signs',
+          uiSchema: vitalSignsUiSchema,
+          schema: vitalSignsSchema,
         },
       },
     },
