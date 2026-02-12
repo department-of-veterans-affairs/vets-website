@@ -24,6 +24,8 @@ import {
   blindnessUiSchema,
   nursingHomeCareSchema,
   nursingHomeCareUiSchema,
+  benefitPaymentsManagementSchema,
+  benefitPaymentsManagementUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import {
   TITLE,
@@ -149,6 +151,12 @@ const formConfig = {
           title: 'Nursing home care',
           uiSchema: nursingHomeCareUiSchema,
           schema: nursingHomeCareSchema,
+        },
+        benefitPaymentsManagement: {
+          path: 'benefit-payments-management',
+          title: 'Benefit payments management',
+          uiSchema: benefitPaymentsManagementUiSchema,
+          schema: benefitPaymentsManagementSchema,
         },
       },
     },

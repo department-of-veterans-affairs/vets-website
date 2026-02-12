@@ -28,3 +28,7 @@ export {
   nursingHomeCareSchema,
   nursingHomeCareUiSchema,
 } from './nursing-home-care';
+export {
+  benefitPaymentsManagementSchema,
+  benefitPaymentsManagementUiSchema,
+} from './benefit-payments-management';
