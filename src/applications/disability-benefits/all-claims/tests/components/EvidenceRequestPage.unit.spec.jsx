@@ -177,7 +177,7 @@ describe('EvidenceRequestPage', () => {
     });
   });
 
-  it('should remove private medical record attachments when confirming modal', async () => {
+  it('should delete privateMedicalRecordAttachments when confirming modal (private uploads only)', async () => {
     const setFormData = sinon.spy();
     const data = {
       'view:hasMedicalRecords': false,
@@ -204,15 +204,12 @@ describe('EvidenceRequestPage', () => {
       expect(updatedData).to.not.have.property(
         'privateMedicalRecordAttachments',
       );
-      expect(
-        updatedData['view:selectableEvidenceTypes'][
-          'view:hasPrivateMedicalRecords'
-        ],
-      ).to.be.false;
+      const selectableTypes1 = updatedData['view:selectableEvidenceTypes'];
+      expect(selectableTypes1['view:hasPrivateMedicalRecords']).to.be.false;
     });
   });
 
-  it('should remove private provider facilities when confirming modal', async () => {
+  it('should delete providerFacility when confirming modal (private facilities only)', async () => {
     const setFormData = sinon.spy();
     const data = {
       'view:hasMedicalRecords': false,
@@ -237,15 +234,12 @@ describe('EvidenceRequestPage', () => {
       expect(setFormData.called).to.be.true;
       const updatedData = setFormData.firstCall.args[0];
       expect(updatedData).to.not.have.property('providerFacility');
-      expect(
-        updatedData['view:selectableEvidenceTypes'][
-          'view:hasPrivateMedicalRecords'
-        ],
-      ).to.be.false;
+      const selectableTypes2 = updatedData['view:selectableEvidenceTypes'];
+      expect(selectableTypes2['view:hasPrivateMedicalRecords']).to.be.false;
     });
   });
 
-  it('should remove both private uploads and facilities when confirming modal', async () => {
+  it('should delete both private evidence keys when confirming modal (uploads and facilities)', async () => {
     const setFormData = sinon.spy();
     const data = {
       'view:hasMedicalRecords': false,
@@ -274,11 +268,8 @@ describe('EvidenceRequestPage', () => {
         'privateMedicalRecordAttachments',
       );
       expect(updatedData).to.not.have.property('providerFacility');
-      expect(
-        updatedData['view:selectableEvidenceTypes'][
-          'view:hasPrivateMedicalRecords'
-        ],
-      ).to.be.false;
+      const selectableTypes3 = updatedData['view:selectableEvidenceTypes'];
+      expect(selectableTypes3['view:hasPrivateMedicalRecords']).to.be.false;
     });
   });
 
