@@ -410,6 +410,42 @@ describe('SendRxRenewalMessage Component', () => {
       const screen = setup(rx);
       expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
     });
+
+    it('includes station_number in secure messages URL when stationNumber is present', async () => {
+      const rx = {
+        ...mockRx,
+        prescriptionId: 98765,
+        stationNumber: '668',
+        isRenewable: true,
+      };
+
+      const screen = setup(rx);
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+    });
+
+    it('omits station_number from URL when stationNumber is missing', async () => {
+      const rx = {
+        ...mockRx,
+        prescriptionId: 98765,
+        stationNumber: undefined,
+        isRenewable: true,
+      };
+
+      const screen = setup(rx);
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+    });
   });
 
   describe('Edge cases', () => {
