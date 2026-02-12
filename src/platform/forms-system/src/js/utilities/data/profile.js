@@ -412,6 +412,8 @@ export const getMissingInfo = ({ data, keys, content, requiredKeys = [] }) => {
 
   const homePhoneObj = data[keys.homePhone] || {};
   const mobilePhoneObj = data[keys.mobilePhone] || {};
+  const emailObj = data[keys.email] || {};
+  const addressObject = data[keys.address] || {};
 
   const isValidHomePhone =
     homePhoneObj.isInternational || isValidPhone(getPhoneString(homePhoneObj));
@@ -419,6 +421,10 @@ export const getMissingInfo = ({ data, keys, content, requiredKeys = [] }) => {
   const isValidMobilePhone =
     mobilePhoneObj.isInternational ||
     isValidPhone(getPhoneString(mobilePhoneObj));
+
+  const isValidEmailAddress = isValidEmail(
+    (emailObj.emailAddress || '').trim(),
+  );
 
   if (keys.homePhone && keys.mobilePhone && eitherPhone) {
     missingInfo.push(
@@ -434,10 +440,9 @@ export const getMissingInfo = ({ data, keys, content, requiredKeys = [] }) => {
     }
   }
   if (keys.email && requiredKeys.includes(keys.email)) {
-    missingInfo.push(data[keys.email] ? '' : content.missingEmail);
+    missingInfo.push(isValidEmailAddress ? '' : content.missingEmail);
   }
   if (keys.address && requiredKeys.includes(keys.address)) {
-    const addressObject = data[keys.address] || {};
     const isUS = addressObject.addressType !== ADDRESS_TYPES.international;
     const hasRequiredAddressFields =
       addressObject.countryName &&
