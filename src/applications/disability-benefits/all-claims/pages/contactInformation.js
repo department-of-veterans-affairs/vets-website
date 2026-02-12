@@ -177,6 +177,19 @@ export const schema = {
   properties: {
     phoneAndEmail,
     mailingAddress: addressSchema({
+      // Apply 526EZ-specific maxLength limits at the JSON schema level so that
+      // RJSF's built-in validation catches length violations reliably on every
+      // render cycle. The platform's profileAddress schema uses maxLength: 100,
+      // but the 526EZ backend requires 20/30. This is defense-in-depth alongside
+      // the custom createAddressValidator (which validates normalized values).
+      // NOTE: Do NOT add `pattern` here — it bypasses normalization and shows
+      // raw regex error messages (see PR #42005 regression).
+      extend: {
+        street: { maxLength: 20 },
+        street2: { maxLength: 20 },
+        street3: { maxLength: 20 },
+        city: { maxLength: 30 },
+      },
       keys: {
         street: 'addressLine1',
         street2: 'addressLine2',
