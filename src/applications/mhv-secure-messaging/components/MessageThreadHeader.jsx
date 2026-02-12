@@ -4,6 +4,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import MigratingFacilitiesAlerts from 'platform/mhv/components/CernerFacilityAlert/MigratingFacilitiesAlerts';
 import MessageActionButtons from './MessageActionButtons';
 import {
   Categories,
@@ -12,7 +13,11 @@ import {
   RecipientStatus,
   BlockedTriageAlertStyles,
 } from '../util/constants';
-import { getPageTitle, scrollIfFocusedAndNotInView } from '../util/helpers';
+import {
+  getPageTitle,
+  scrollIfFocusedAndNotInView,
+  isMigrationPhaseBlockingReplies,
+} from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import StaleMessageAlert from './shared/StaleMessageAlert';
@@ -53,6 +58,12 @@ const MessageThreadHeader = props => {
   const { isStale, replyDisabled } = useSelector(
     state => state.sm.threadDetails,
   );
+  const userProfile = useSelector(state => state.user.profile);
+  const migratingFacilities = userProfile?.migrationSchedules || [];
+  const ohMigrationPhase = useSelector(
+    state => state.sm.threadDetails.ohMigrationPhase,
+  );
+  const isInMigrationPhase = isMigrationPhaseBlockingReplies(ohMigrationPhase);
 
   useEffect(
     () => {
@@ -115,11 +126,18 @@ const MessageThreadHeader = props => {
           {`Messages: ${categoryLabel} - ${subject}`}
         </h1>
 
+        {isInMigrationPhase && (
+          <MigratingFacilitiesAlerts
+            healthTool="SECURE_MESSAGING"
+            className="vads-u-margin-y--4"
+            migratingFacilities={migratingFacilities}
+          />
+        )}
         {useCanReplyField ? (
           <>
             <CannotReplyAlert
               visible={
-                cannotReply && replyDisabled && !showBlockedTriageGroupAlert
+                cannotReply && replyDisabled && !showBlockedTriageGroupAlert && !isInMigrationPhase
               }
               isOhMessage={isOhMessage}
             />
@@ -135,23 +153,24 @@ const MessageThreadHeader = props => {
           </>
         ) : (
           <StaleMessageAlert
-            visible={cannotReply && isStale && !showBlockedTriageGroupAlert}
+            visible={cannotReply && isStale && !showBlockedTriageGroupAlert && !isInMigrationPhase}
             isOhMessage={isOhMessage}
           />
         )}
       </header>
 
-      {currentRecipient && (
-        <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
-          <BlockedTriageGroupAlert
-            alertStyle={BlockedTriageAlertStyles.ALERT}
-            parentComponent={ParentComponent.MESSAGE_THREAD}
-            currentRecipient={currentRecipient}
-            setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
-            isOhMessage={isOhMessage}
-          />
-        </div>
-      )}
+      {currentRecipient &&
+        !isInMigrationPhase && (
+          <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
+            <BlockedTriageGroupAlert
+              alertStyle={BlockedTriageAlertStyles.ALERT}
+              parentComponent={ParentComponent.MESSAGE_THREAD}
+              currentRecipient={currentRecipient}
+              setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
+              isOhMessage={isOhMessage}
+            />
+          </div>
+        )}
 
       {customFoldersRedesignEnabled ? (
         <ReplyButton
