@@ -38,6 +38,8 @@ import {
   otherPathologyUiSchema,
   leaveHomeFrequencySchema,
   leaveHomeFrequencyUiSchema,
+  aidsForLocomotionSchema,
+  aidsForLocomotionUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import {
   TITLE,
@@ -205,6 +207,12 @@ const formConfig = {
           title: 'How often does the patient leave home?',
           uiSchema: leaveHomeFrequencyUiSchema,
           schema: leaveHomeFrequencySchema,
+        },
+        aidsForLocomotion: {
+          path: 'aids-for-locomotion',
+          title: 'Aids for locomotion',
+          uiSchema: aidsForLocomotionUiSchema,
+          schema: aidsForLocomotionSchema,
         },
       },
     },

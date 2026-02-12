@@ -53,3 +53,7 @@ export {
   leaveHomeFrequencySchema,
   leaveHomeFrequencyUiSchema,
 } from './leave-home-frequency';
+export {
+  aidsForLocomotionSchema,
+  aidsForLocomotionUiSchema,
+} from './aids-for-locomotion';
