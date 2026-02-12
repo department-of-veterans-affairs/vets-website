@@ -13,6 +13,7 @@ import {
   DISABILITY_SHARED_CONFIG,
   hasRatedDisabilities,
   isDisabilityPtsd,
+  showNewlyBDDPages,
 } from '../../utils';
 
 import { NULL_CONDITION_STRING } from '../../constants';
@@ -61,7 +62,7 @@ export const disabilityBenefitsWorkflow = {
   },
   followUpDesc: {
     title: 'Follow-up questions',
-    depends: formData => claimingNew(formData),
+    depends: formData => claimingNew(formData) && showNewlyBDDPages(formData),
     path: 'new-disabilities/follow-up',
     uiSchema: {
       'ui:description':

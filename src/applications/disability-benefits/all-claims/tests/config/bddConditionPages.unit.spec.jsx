@@ -136,11 +136,20 @@ describe('BDD Condition Pages - depends functions', () => {
   describe('followUpDesc page depends (V1 workflow)', () => {
     const { followUpDesc } = disabilityBenefitsWorkflow;
 
-    it('should show follow-up description for BDD veterans claiming new conditions', () => {
+    it('should show follow-up description for BDD veterans when toggle is enabled', () => {
       const formData = createBDDFormData({
+        disability526ExtraBDDPagesEnabled: true,
         newDisabilities: [{ condition: 'knee pain' }],
       });
       expect(followUpDesc.depends(formData)).to.be.true;
+    });
+
+    it('should not show follow-up description for BDD veterans when toggle is disabled', () => {
+      const formData = createBDDFormData({
+        disability526ExtraBDDPagesEnabled: false,
+        newDisabilities: [{ condition: 'knee pain' }],
+      });
+      expect(followUpDesc.depends(formData)).to.be.false;
     });
 
     it('should show follow-up description for non-BDD veterans claiming new conditions', () => {
@@ -152,6 +161,7 @@ describe('BDD Condition Pages - depends functions', () => {
 
     it('should not show follow-up description when not claiming new conditions', () => {
       const formData = createBDDFormData({
+        disability526ExtraBDDPagesEnabled: true,
         'view:claimType': { 'view:claimingIncrease': true },
       });
       expect(followUpDesc.depends(formData)).to.not.be.ok;
