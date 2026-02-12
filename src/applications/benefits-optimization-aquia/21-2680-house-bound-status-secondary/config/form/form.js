@@ -18,6 +18,8 @@ import {
   vitalSignsUiSchema,
   bedConfinementSchema,
   bedConfinementUiSchema,
+  assistanceWithActivitiesSchema,
+  assistanceWithActivitiesUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import {
   TITLE,
@@ -125,6 +127,12 @@ const formConfig = {
           title: 'Bed confinement',
           uiSchema: bedConfinementUiSchema,
           schema: bedConfinementSchema,
+        },
+        assistanceWithActivities: {
+          path: 'assistance-with-activities',
+          title: 'Assistance with activities',
+          uiSchema: assistanceWithActivitiesUiSchema,
+          schema: assistanceWithActivitiesSchema,
         },
       },
     },

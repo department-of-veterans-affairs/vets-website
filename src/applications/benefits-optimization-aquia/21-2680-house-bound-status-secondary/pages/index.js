@@ -19,3 +19,7 @@ export {
   bedConfinementSchema,
   bedConfinementUiSchema,
 } from './bed-confinement';
+export {
+  assistanceWithActivitiesSchema,
+  assistanceWithActivitiesUiSchema,
+} from './assistance-with-activities';
