@@ -16,11 +16,7 @@ const NavButtonsWithTracking = ({
   const handleBackClick = useCallback(
     (...args) => {
       if (!goBack) return;
-      try {
-        trackBackButtonClick();
-      } catch (error) {
-        // Swallow tracking errors so navigation is not blocked
-      }
+      trackBackButtonClick();
       goBack(...args);
     },
     [goBack],
@@ -29,11 +25,7 @@ const NavButtonsWithTracking = ({
   const handleContinueClick = useCallback(
     (...args) => {
       if (!goForward) return;
-      try {
-        trackContinueButtonClick();
-      } catch (error) {
-        // Swallow tracking errors so navigation is not blocked
-      }
+      trackContinueButtonClick();
       goForward(...args);
     },
     [goForward],

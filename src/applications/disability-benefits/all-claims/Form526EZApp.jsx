@@ -80,13 +80,7 @@ const defaultSubmit = formConfig.submit;
 formConfig.submit = (submittedForm, formConfigParam, options) => {
   return defaultSubmit(submittedForm, formConfigParam, options).then(
     result => {
-      try {
-        trackFormSubmitted();
-      } catch (error) {
-        if (Sentry?.captureException) {
-          Sentry.captureException(error);
-        }
-      }
+      trackFormSubmitted();
       return result;
     },
     error => Promise.reject(error),
@@ -167,13 +161,11 @@ export const Form526Entry = ({
         sessionStorage.getItem(TRACKING_526EZ_SIDENAV_FORM_START) === 'true';
 
       if (isFirstFormPage && hasNoSavedForm && !alreadyTracked) {
+        trackFormStarted();
         try {
-          trackFormStarted();
           sessionStorage.setItem(TRACKING_526EZ_SIDENAV_FORM_START, 'true');
         } catch (error) {
-          if (Sentry?.captureException) {
-            Sentry.captureException(error);
-          }
+          // Storage access blocked - tracking will still work without this flag
         }
       }
     },

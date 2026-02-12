@@ -23,15 +23,14 @@ export class ITFBanner extends React.Component {
   componentDidUpdate(prevProps) {
     // Track form resumption when ITF banner is dismissed
     if (!prevProps.messageDismissed && this.props.messageDismissed) {
+      trackFormResumption();
       try {
-        trackFormResumption();
         sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS);
         sessionStorage.removeItem(
           TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
         );
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('[Form Resumption Tracking Error]', error);
+        // Storage access blocked - silent fail
       }
     }
   }
