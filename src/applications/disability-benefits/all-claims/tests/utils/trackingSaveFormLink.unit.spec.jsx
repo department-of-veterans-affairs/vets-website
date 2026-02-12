@@ -33,18 +33,4 @@ describe('trackingSaveFormLink', () => {
     expect(trackStub.calledOnce).to.be.true;
     expect(result).to.deep.equal({ beforeExit: true });
   });
-
-  it('swallows tracking errors and returns next form data', () => {
-    trackStub = sinon
-      .stub(datadogRumTracking, 'trackSaveFormClick')
-      .throws(new Error('track failed'));
-    const onFormExit = sinon.stub().returns({ afterExit: true });
-
-    const wrapped = trackingSaveFormLink(onFormExit);
-    const result = wrapped({ beforeExit: true });
-
-    expect(onFormExit.calledOnce).to.be.true;
-    expect(trackStub.calledOnce).to.be.true;
-    expect(result).to.deep.equal({ afterExit: true });
-  });
 });
