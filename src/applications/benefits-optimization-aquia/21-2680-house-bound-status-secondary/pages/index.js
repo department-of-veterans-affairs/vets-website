@@ -49,3 +49,7 @@ export {
   otherPathologySchema,
   otherPathologyUiSchema,
 } from './other-pathology';
+export {
+  leaveHomeFrequencySchema,
+  leaveHomeFrequencyUiSchema,
+} from './leave-home-frequency';

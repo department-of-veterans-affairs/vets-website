@@ -36,6 +36,8 @@ import {
   spineTrunkAndNeckUiSchema,
   otherPathologySchema,
   otherPathologyUiSchema,
+  leaveHomeFrequencySchema,
+  leaveHomeFrequencyUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import {
   TITLE,
@@ -197,6 +199,12 @@ const formConfig = {
           title: 'Other pathology',
           uiSchema: otherPathologyUiSchema,
           schema: otherPathologySchema,
+        },
+        leaveHomeFrequency: {
+          path: 'leave-home-frequency',
+          title: 'How often does the patient leave home?',
+          uiSchema: leaveHomeFrequencyUiSchema,
+          schema: leaveHomeFrequencySchema,
         },
       },
     },
