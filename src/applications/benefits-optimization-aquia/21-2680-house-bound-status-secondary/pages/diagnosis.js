@@ -1,9 +1,15 @@
 /**
- *
+ * @module pages/diagnosis
+ * @description Standard form system configuration for Diagnosis page
+ * VA Form 21-2680 - House Bound Status (Medical Professional)
  */
 
 import { textareaUI } from 'platform/forms-system/src/js/web-component-patterns';
 
+/**
+ * uiSchema for Diagnosis page
+ * Collects a complete diagnosis with significant symptoms for each condition
+ */
 export const diagnosisUiSchema = {
   'ui:title': 'Diagnosis',
   diagnosis: textareaUI({
@@ -20,6 +26,10 @@ export const diagnosisUiSchema = {
   }),
 };
 
+/**
+ * JSON Schema for Diagnosis page
+ * Validates diagnosis text field (max 1000 characters)
+ */
 export const diagnosisSchema = {
   type: 'object',
   required: ['diagnosis'],

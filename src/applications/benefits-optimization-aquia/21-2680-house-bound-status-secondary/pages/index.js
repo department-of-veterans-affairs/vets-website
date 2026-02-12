@@ -1,3 +1,9 @@
+/**
+ * @module pages
+ * @description Barrel export for all page configurations
+ * VA Form 21-2680 - House Bound Status (Medical Professional)
+ */
+
 export { default as nameAndDateOfBirth } from './nameAndDateOfBirth';
 export { examinationDateSchema, examinationDateUiSchema } from './exam-date';
 export { diagnosisSchema, diagnosisUiSchema } from './diagnosis';

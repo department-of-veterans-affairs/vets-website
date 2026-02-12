@@ -1,5 +1,10 @@
 /**
+ * @module pages/physical-measurements
+ * @description Standard form system configuration for Physical Measurements page
+ * VA Form 21-2680 - House Bound Status (Medical Professional)
  *
+ * Collects claimant age, weight (with estimate checkbox), and height (feet/inches).
+ * Field titles update dynamically based on claimant name via updateUiSchema.
  */
 
 import {
@@ -9,12 +14,22 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+/**
+ * Extract the claimant's full name from form data
+ * @param {Object} formData - The full form data object
+ * @returns {string} The claimant's full name, or 'Claimant' as fallback
+ */
 const getClaimantName = formData => {
   const first = formData?.fullName?.first || '';
   const last = formData?.fullName?.last || '';
   return first && last ? `${first} ${last}` : 'Claimant';
 };
 
+/**
+ * uiSchema for Physical Measurements page
+ * Collects claimant age (yrs), weight (lbs), weight estimate flag, and height (ft/in).
+ * Uses updateUiSchema to dynamically set field titles based on claimant name.
+ */
 export const physicalMeasurementsUiSchema = {
   ...titleUI(
     ({ formData }) => `${getClaimantName(formData)}'s age, weight, and height`,
@@ -75,6 +90,11 @@ export const physicalMeasurementsUiSchema = {
   },
 };
 
+/**
+ * JSON Schema for Physical Measurements page
+ * Validates age (max 3 digits), weight (max 3 digits),
+ * weight estimate checkbox, and height with feet (max 1 digit) and inches (max 2 digits)
+ */
 export const physicalMeasurementsSchema = {
   type: 'object',
   required: ['age', 'weight', 'height'],
