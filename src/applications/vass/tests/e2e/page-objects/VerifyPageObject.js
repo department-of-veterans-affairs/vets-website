@@ -111,13 +111,47 @@ export class VerifyPageObject extends PageObject {
   }
 
   /**
-   * Enter a date of birth using the VaMemorableDate component
+   * Enter a date of birth using the VaMemorableDate component.
+   * Uses standard Cypress .type() instead of cy.fillVaMemorableDate() because
+   * the platform command uses cy.realType() (from cypress-real-events) in Chrome,
+   * which hangs indefinitely in headless Chrome inside Docker CI containers.
    * @param {string} dateString - Date in YYYY-MM-DD format (e.g., '1990-01-15')
    * @returns {VerifyPageObject}
    */
   enterDateOfBirth(dateString) {
-    // monthSelect is false in Verify.jsx, so pass false for useMonthSelect
-    cy.fillVaMemorableDate('date-of-birth', dateString, false);
+    const [year, month, day] = dateString.split('-').map(
+      dateComponent =>
+        // eslint-disable-next-line no-restricted-globals
+        isFinite(dateComponent)
+          ? parseInt(dateComponent, 10).toString()
+          : dateComponent,
+    );
+
+    const getSelectors = type =>
+      `va-text-input.input-${type}, va-text-input.usa-form-group--${type}-input`;
+
+    cy.get('va-memorable-date[name="date-of-birth"]')
+      .shadow()
+      .then(el => {
+        cy.wrap(el)
+          .find(getSelectors('month'))
+          .shadow()
+          .find('input')
+          .type(`{selectall}{del}${month}`, { force: true });
+
+        cy.wrap(el)
+          .find(getSelectors('day'))
+          .shadow()
+          .find('input')
+          .type(`{selectall}{del}${day}`, { force: true });
+
+        cy.wrap(el)
+          .find(getSelectors('year'))
+          .shadow()
+          .find('input')
+          .type(`{selectall}{del}${year}`, { force: true });
+      });
+
     return this;
   }
 
