@@ -81,20 +81,11 @@ describe('combined debt portal component helpers', () => {
   });
 
   describe('LoadingSpinner helper: ', () => {
-    it('should render without crashing', () => {
-      const { container } = render(<LoadingSpinner margin={3} />);
-      expect(container).to.exist;
-    });
-
     it('should render va-loading-indicator element', () => {
       const { container } = render(<LoadingSpinner margin={3} />);
       const loadingIndicator = container.querySelector('va-loading-indicator');
-      expect(loadingIndicator).to.exist;
-    });
 
-    it('should render the correct message in va-loading-indicator', () => {
-      const { container } = render(<LoadingSpinner margin={3} />);
-      const loadingIndicator = container.querySelector('va-loading-indicator');
+      expect(loadingIndicator).to.exist;
       expect(loadingIndicator.getAttribute('message')).to.equal(
         'Please wait while we load the application for you.',
       );
