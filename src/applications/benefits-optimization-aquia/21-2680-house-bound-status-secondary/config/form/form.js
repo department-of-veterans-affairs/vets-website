@@ -20,6 +20,10 @@ import {
   bedConfinementUiSchema,
   assistanceWithActivitiesSchema,
   assistanceWithActivitiesUiSchema,
+  blindnessSchema,
+  blindnessUiSchema,
+  nursingHomeCareSchema,
+  nursingHomeCareUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import {
   TITLE,
@@ -133,6 +137,18 @@ const formConfig = {
           title: 'Assistance with activities',
           uiSchema: assistanceWithActivitiesUiSchema,
           schema: assistanceWithActivitiesSchema,
+        },
+        blindness: {
+          path: 'blindness',
+          title: 'Blindness',
+          uiSchema: blindnessUiSchema,
+          schema: blindnessSchema,
+        },
+        nursingHomeCare: {
+          path: 'nursing-home-care',
+          title: 'Nursing home care',
+          uiSchema: nursingHomeCareUiSchema,
+          schema: nursingHomeCareSchema,
         },
       },
     },

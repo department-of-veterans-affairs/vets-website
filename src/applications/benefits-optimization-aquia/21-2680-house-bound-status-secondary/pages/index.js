@@ -23,3 +23,8 @@ export {
   assistanceWithActivitiesSchema,
   assistanceWithActivitiesUiSchema,
 } from './assistance-with-activities';
+export { blindnessSchema, blindnessUiSchema } from './blindness';
+export {
+  nursingHomeCareSchema,
+  nursingHomeCareUiSchema,
+} from './nursing-home-care';
