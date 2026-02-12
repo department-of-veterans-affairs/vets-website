@@ -10,7 +10,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataDir: path.join(__dirname, 'fixtures', 'data'),
-    dataSets: ['minimal-test'],
+    dataSets: ['minimal-test', 'child-in-school', 'surviving-spouse'],
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {

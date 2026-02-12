@@ -1,0 +1,74 @@
+{
+  "data": {
+    "veteranFullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "veteranDateOfBirth": "1980-01-01",
+    "veteranSocialSecurityNumber": {
+      "ssn": "454544545"
+    },
+    "vaClaimsHistory": true,
+    "diedOnDuty": true,
+    "claimantRelationship": "SURVIVING_SPOUSE",
+    "veteranDateOfDeath": "2020-01-01",
+    "claimantFullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "claimantDateOfBirth": "1955-05-05",
+    "claimantSocialSecurityNumber": "454544545",
+    "claimantIsVeteran": true,
+    "claimantAddress": {
+      "street": "101 Main St",
+      "city": "Anytown",
+      "state": "OH",
+      "postalCode": "01234",
+      "country": "USA"
+    },
+    "claimantEmail": "myemail72585885@unattended.com",
+    "claimantPhone": {
+      "callingCode": 1,
+      "countryCode": "US",
+      "contact": "(555) 511-2312"
+    },
+    "claims": {
+      "DIC": true
+    },
+    "receivedBenefits": true,
+    "branchOfService": {
+      "MARINE_CORPS": true
+    },
+    "marriageType": "ceremonial",
+    "marriageToVeteranStartDate": "2010-01-01",
+    "marriageToVeteranStartLocation": {
+      "city": "Anytown",
+      "state": "OH"
+    },
+    "marriedToVeteranAtTimeOfDeath": false,
+    "howMarriageEnded": "death",
+    "marriageToVeteranEndDate": "2023-03-03",
+    "marriageToVeteranEndLocation": {
+      "city": "EndCity",
+      "state": "AL"
+    },
+    "validMarriage": false,
+    "livedContinuouslyWithVeteran": true,
+    "remarriedAfterVeteralDeath": false,
+    "recognizedAsSpouse": true,
+    "hadPreviousMarriages": false,
+    "pregnantWithVeteran": false,
+    "childWithVeteran": true,
+    "veteranChildrenCount": 0,
+    "benefit": "DIC",
+    "claimingMonthlySpecialPension": false,
+    "claimantLivesInANursingHome": false,
+    "hasBankAccount": true,
+    "bankAccount": {
+      "accountType": "checking",
+      "bankName": "My Bank",
+      "routingNumber": "011000015",
+      "accountNumber": "987654321"
+    }
+  }
+}
