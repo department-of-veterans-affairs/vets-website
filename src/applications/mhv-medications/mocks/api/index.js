@@ -168,7 +168,7 @@ const responses = {
           data: {
             attributes: {
               prescriptionList: successfulIds,
-              failedPrescriptionList: failedIds,
+              failedPrescriptionIds: failedIds,
             },
           },
         }),

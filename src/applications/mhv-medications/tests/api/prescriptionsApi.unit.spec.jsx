@@ -331,7 +331,6 @@ describe('prescriptionsApi', () => {
           prescriptionsApi.endpoints.getRefillablePrescriptions.select,
         ).to.be.a('function');
       });
-
     });
 
     describe('getPrescriptionDocumentation', () => {
