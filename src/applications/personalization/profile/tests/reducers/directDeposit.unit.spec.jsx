@@ -251,10 +251,158 @@ describe('directDeposit reducer', () => {
     expect(directDeposit(initialState, action)).deep.equal(expectedState);
   });
 
-  it('should handle DIRECT_DEPOSIT_SAVE_FAILED fallback to true', () => {
+  it('should handle DIRECT_DEPOSIT_FETCH_SUCCEEDED with missing response properties', () => {
+    const action = {
+      type: DIRECT_DEPOSIT_FETCH_SUCCEEDED,
+      response: {},
+    };
+    const expectedState = {
+      controlInformation: null,
+      paymentAccount: null,
+      loadError: null,
+      saveError: null,
+      ui: {
+        isEditing: false,
+        isSaving: false,
+      },
+      veteranStatus: null,
+    };
+    expect(directDeposit(initialState, action)).deep.equal(expectedState);
+  });
+
+  it('should handle DIRECT_DEPOSIT_FETCH_SUCCEEDED with null response', () => {
+    const action = {
+      type: DIRECT_DEPOSIT_FETCH_SUCCEEDED,
+      response: null,
+    };
+    const expectedState = {
+      controlInformation: null,
+      paymentAccount: null,
+      loadError: null,
+      saveError: null,
+      ui: {
+        isEditing: false,
+        isSaving: false,
+      },
+      veteranStatus: null,
+    };
+    expect(directDeposit(initialState, action)).deep.equal(expectedState);
+  });
+
+  it('should handle DIRECT_DEPOSIT_SAVE_SUCCEEDED with missing response properties', () => {
+    const action = {
+      type: DIRECT_DEPOSIT_SAVE_SUCCEEDED,
+      response: {},
+    };
+    const expectedState = {
+      controlInformation: null,
+      paymentAccount: null,
+      loadError: null,
+      saveError: null,
+      ui: {
+        isEditing: false,
+        isSaving: false,
+      },
+      veteranStatus: null,
+    };
+    expect(directDeposit(initialState, action)).deep.equal(expectedState);
+  });
+
+  it('should handle DIRECT_DEPOSIT_SAVE_SUCCEEDED with null response', () => {
+    const action = {
+      type: DIRECT_DEPOSIT_SAVE_SUCCEEDED,
+      response: null,
+    };
+    const expectedState = {
+      controlInformation: null,
+      paymentAccount: null,
+      loadError: null,
+      saveError: null,
+      ui: {
+        isEditing: false,
+        isSaving: false,
+      },
+      veteranStatus: null,
+    };
+    expect(directDeposit(initialState, action)).deep.equal(expectedState);
+  });
+
+  it('should handle DIRECT_DEPOSIT_FETCH_FAILED with null response', () => {
+    const action = {
+      type: DIRECT_DEPOSIT_FETCH_FAILED,
+      response: null,
+    };
+    const expectedState = {
+      ...initialState,
+      loadError: true,
+    };
+    expect(directDeposit(initialState, action)).deep.equal(expectedState);
+  });
+
+  it('should handle DIRECT_DEPOSIT_EDIT_TOGGLED with null open parameter', () => {
+    const stateWithEditing = {
+      ...initialState,
+      ui: {
+        ...initialState.ui,
+        isEditing: true,
+      },
+    };
+    const action = {
+      type: DIRECT_DEPOSIT_EDIT_TOGGLED,
+      open: null,
+    };
+    const expectedState = {
+      ...initialState,
+      ui: {
+        ...initialState.ui,
+        isEditing: false, // null ?? !true = !true = false
+      },
+    };
+    expect(directDeposit(stateWithEditing, action)).deep.equal(expectedState);
+  });
+
+  it('should handle DIRECT_DEPOSIT_EDIT_TOGGLED with undefined open parameter', () => {
+    const stateWithEditing = {
+      ...initialState,
+      ui: {
+        ...initialState.ui,
+        isEditing: false,
+      },
+    };
+    const action = {
+      type: DIRECT_DEPOSIT_EDIT_TOGGLED,
+      open: undefined,
+    };
+    const expectedState = {
+      ...initialState,
+      ui: {
+        ...initialState.ui,
+        isEditing: true, // undefined ?? !false = !false = true
+      },
+    };
+    expect(directDeposit(stateWithEditing, action)).deep.equal(expectedState);
+  });
+
+  it('should handle DIRECT_DEPOSIT_SAVE_FAILED with only errors array (no error property)', () => {
     const action = {
       type: DIRECT_DEPOSIT_SAVE_FAILED,
-      response: {},
+      response: { errors: ['Error 1'] },
+    };
+    const expectedState = {
+      ...initialState,
+      saveError: ['Error 1'],
+      ui: {
+        ...initialState.ui,
+        isSaving: false,
+      },
+    };
+    expect(directDeposit(initialState, action)).deep.equal(expectedState);
+  });
+
+  it('should handle DIRECT_DEPOSIT_SAVE_FAILED with null response', () => {
+    const action = {
+      type: DIRECT_DEPOSIT_SAVE_FAILED,
+      response: null,
     };
     const expectedState = {
       ...initialState,
