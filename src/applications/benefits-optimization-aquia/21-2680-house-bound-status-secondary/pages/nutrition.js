@@ -11,9 +11,9 @@ import { textareaUI } from 'platform/forms-system/src/js/web-component-patterns'
  * Collects information about the claimant's nutritional status
  */
 export const nutritionUiSchema = {
-  'ui:title': 'Nutrition',
   nutrition: textareaUI({
-    title: ' ',
+    title: 'Nutrition',
+    labelHeaderLevel: '3',
     errorMessages: {
       required: 'Nutrition information is required',
     },

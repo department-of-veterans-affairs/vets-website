@@ -13,3 +13,4 @@ export {
   physicalMeasurementsUiSchema,
 } from './physical-measurements';
 export { nutritionSchema, nutritionUiSchema } from './nutrition';
+export { gaitSchema, gaitUiSchema } from './gait';

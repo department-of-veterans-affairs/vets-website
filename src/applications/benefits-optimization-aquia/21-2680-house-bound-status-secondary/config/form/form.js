@@ -12,6 +12,8 @@ import {
   physicalMeasurementsUiSchema,
   nutritionSchema,
   nutritionUiSchema,
+  gaitSchema,
+  gaitUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import { TITLE, SUBTITLE } from '../../constants';
 import manifest from '../../manifest.json';
@@ -94,6 +96,12 @@ const formConfig = {
           title: 'Nutrition',
           uiSchema: nutritionUiSchema,
           schema: nutritionSchema,
+        },
+        gait: {
+          path: 'gait',
+          title: 'Gait',
+          uiSchema: gaitUiSchema,
+          schema: gaitSchema,
         },
       },
     },
