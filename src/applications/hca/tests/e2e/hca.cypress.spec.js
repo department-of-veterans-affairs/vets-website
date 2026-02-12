@@ -27,7 +27,10 @@ const testConfig = createTestConfig(
       },
       'household-information/share-financial-information': ({ afterHook }) => {
         afterHook(() => {
-          cy.selectRadio('root_discloseFinancialInformation', 'N');
+          cy.selectYesNoVaRadioOption(
+            'root_discloseFinancialInformation',
+            false,
+          );
           goToNextPage();
         });
       },

@@ -112,6 +112,7 @@
   "form107959c": "form107959c",
   "form107959a": "form107959a",
   "form107959f2": "form107959f2",
+  "form1095bMultipleYears": "form1095b_multiple_years",
   "form1919Release": "form_1919_release",
   "form2010206": "form2010206",
   "form2010207": "form2010207",
@@ -397,5 +398,6 @@
   "meb1995InstructionPageUpdateV3": "meb_1995_instruction_page_update_v3",
   "sobClaimantService": "sob_claimant_service",
   "form10203ClaimantService": "form_10203_claimant_service",
-  "meb5490Under18Flow": "meb_5490_under_18_flow"
+  "meb5490Under18Flow": "meb_5490_under_18_flow",
+  "discoverYourBenefitsResultsPageUpdate": "discover_your_benefits_results_page_update"
 }
