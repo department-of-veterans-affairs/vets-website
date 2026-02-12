@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import MigratingFacilitiesAlerts from 'platform/mhv/components/CernerFacilityAlert/MigratingFacilitiesAlerts';
 import EmergencyNote from '../EmergencyNote';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
@@ -17,7 +18,10 @@ import {
   RecipientStatus,
   Recipients,
 } from '../../util/constants';
-import { getPageTitle } from '../../util/helpers';
+import {
+  getPageTitle,
+  isMigrationPhaseBlockingReplies,
+} from '../../util/helpers';
 import { clearThread } from '../../actions/threadDetails';
 import { getPatientSignature } from '../../actions/preferences';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
@@ -42,11 +46,15 @@ const ReplyForm = props => {
   const { customFoldersRedesignEnabled } = useFeatureToggles();
   const header = useRef();
 
+  const userProfile = useSelector(state => state.user.profile);
+  const migratingFacilities = userProfile?.migrationSchedules || [];
+
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const signature = useSelector(state => state.sm.preferences?.signature);
-  const { replyToName, isSaving } = useSelector(
+  const { replyToName, isSaving, ohMigrationPhase } = useSelector(
     state => state.sm.threadDetails,
   );
+  const isInMigrationPhase = isMigrationPhaseBlockingReplies(ohMigrationPhase);
 
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [category, setCategory] = useState(null);
@@ -152,19 +160,30 @@ const ReplyForm = props => {
         {alertSlot}
 
         <CannotReplyAlert
-          visible={cannotReply && !showBlockedTriageGroupAlert}
+          visible={
+            cannotReply && !showBlockedTriageGroupAlert && !isInMigrationPhase
+          }
           isOhMessage={replyMessage.isOhMessage}
         />
 
-        {currentRecipient && (
-          <BlockedTriageGroupAlert
-            alertStyle={BlockedTriageAlertStyles.ALERT}
-            parentComponent={ParentComponent.REPLY_FORM}
-            currentRecipient={currentRecipient}
-            setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
-            isOhMessage={replyMessage.isOhMessage}
+        {isInMigrationPhase && (
+          <MigratingFacilitiesAlerts
+            healthTool="SECURE_MESSAGING"
+            className="vads-u-margin-y--4"
+            migratingFacilities={migratingFacilities}
           />
         )}
+
+        {currentRecipient &&
+          !isInMigrationPhase && (
+            <BlockedTriageGroupAlert
+              alertStyle={BlockedTriageAlertStyles.ALERT}
+              parentComponent={ParentComponent.REPLY_FORM}
+              currentRecipient={currentRecipient}
+              setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
+              isOhMessage={replyMessage.isOhMessage}
+            />
+          )}
 
         {customFoldersRedesignEnabled &&
           !hasDraftReplyActive && (
