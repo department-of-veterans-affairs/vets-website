@@ -48,6 +48,7 @@ import {
   StudentCurrentIncomeContent,
   StudentExpectedIncomeContent,
 } from '../../../components/StudentIncomeContent';
+import { NO_SSN_REASON_MAPPINGS } from '../../dataMappings';
 
 /** @type {ArrayBuilderOptions} */
 export const addStudentsOptions = {
@@ -172,9 +173,8 @@ export const studentInformationPage = {
     noSsnReason: radioUI({
       title: 'Why doesn’t your child have a Social Security number?',
       labels: {
-        NONRESIDENT_ALIEN:
-          'They can’t get an SSN based on their immigration status',
-        NONE_ASSIGNED: 'They haven’t gotten their SSN yet',
+        IMMIGRATION_STATUS: NO_SSN_REASON_MAPPINGS.IMMIGRATION_STATUS,
+        NONE_ASSIGNED: NO_SSN_REASON_MAPPINGS.NONE_ASSIGNED,
       },
       required: (_chapterData, index, formData) =>
         formData?.studentInformation?.[index]?.noSsn === true,
@@ -209,7 +209,10 @@ export const studentInformationPage = {
       birthDate: currentOrPastDateSchema,
       'view:studentIdTitle': { type: 'object', properties: {} },
       noSsn: checkboxSchema,
-      noSsnReason: radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED']),
+      noSsnReason: radioSchema([
+        NO_SSN_REASON_MAPPINGS.IMMIGRATION_STATUS,
+        NO_SSN_REASON_MAPPINGS.NONE_ASSIGNED,
+      ]),
       ssn: ssnSchema,
     },
   },

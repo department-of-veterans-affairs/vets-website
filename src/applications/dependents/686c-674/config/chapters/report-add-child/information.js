@@ -13,6 +13,7 @@ import {
   ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderOptions } from './config';
+import { NO_SSN_REASON_MAPPINGS } from '../../dataMappings';
 
 export const information = {
   uiSchema: {
@@ -42,24 +43,27 @@ export const information = {
         hideIf: (_formData, _index, fullData) => !fullData?.vaDependentsNoSsn, // check feature flag
       },
     },
-    noSsnReason: radioUI({
-      title: 'Why doesn’t your child have a Social Security number?',
-      labels: {
-        NONRESIDENT_ALIEN:
-          'They can’t get an SSN based on their immigration status',
-        NONE_ASSIGNED: 'They haven’t gotten their SSN yet',
+    noSsnReason: radioUI(
+      // check feature flag
+      {
+        title: 'Why doesn’t your child have a Social Security number?',
+        labels: {
+          IMMIGRATION_STATUS: NO_SSN_REASON_MAPPINGS.IMMIGRATION_STATUS,
+          NONE_ASSIGNED: NO_SSN_REASON_MAPPINGS.NONE_ASSIGNED,
+        },
+        required: (_chapterData, index, formData) =>
+          formData?.childrenToAdd?.[index]?.noSsn === true,
+        hideIf: (formData, index) => {
+          const addMode = formData?.childrenToAdd?.[index]?.noSsn;
+          const editMode = formData?.noSsn;
+          return !(addMode || editMode);
+        },
+        errorMessages: {
+          required:
+            'Tell us why the child doesn’t have a Social Security number',
+        },
       },
-      required: (_chapterData, index, formData) =>
-        formData?.childrenToAdd?.[index]?.noSsn === true,
-      hideIf: (formData, index) => {
-        const addMode = formData?.childrenToAdd?.[index]?.noSsn;
-        const editMode = formData?.noSsn;
-        return !(addMode || editMode);
-      },
-      errorMessages: {
-        required: 'Tell us why the child doesn’t have a Social Security number',
-      },
-    }),
+    ),
     ssn: {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': (_chapterData, index, formData) =>
@@ -82,7 +86,10 @@ export const information = {
       birthDate: currentOrPastDateSchema,
       'view:childIdTitle': { type: 'object', properties: {} },
       noSsn: checkboxSchema,
-      noSsnReason: radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED']),
+      noSsnReason: radioSchema([
+        NO_SSN_REASON_MAPPINGS.IMMIGRATION_STATUS,
+        NO_SSN_REASON_MAPPINGS.NONE_ASSIGNED,
+      ]),
       ssn: ssnSchema,
     },
   },

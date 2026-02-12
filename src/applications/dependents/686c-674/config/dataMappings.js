@@ -38,6 +38,11 @@ export const REMOVE_WORKFLOW_MAPPINGS = {
   reportChild18OrOlderIsNotAttendingSchool: ['childStoppedAttendingSchool'],
 };
 
+export const NO_SSN_REASON_MAPPINGS = {
+  IMMIGRATION_STATUS: 'They can’t get an SSN based on their immigration status',
+  NONE_ASSIGNED: 'They haven’t gotten their SSN yet',
+};
+
 /**
  * V3 to V2 transformation routes.
  * Maps V3 removal reasons to V2 data arrays and transformation functions.

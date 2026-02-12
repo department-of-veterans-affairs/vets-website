@@ -15,6 +15,7 @@ import {
 
 import { CancelButton, certificateNotice } from '../../../helpers';
 import { getFullName, getFormatedDate } from '../../../../../shared/utils';
+import { NO_SSN_REASON_MAPPINGS } from '../../../dataMappings';
 
 export const schema = {
   type: 'object',
@@ -27,7 +28,10 @@ export const schema = {
         birthDate: dateOfBirthSchema,
         'view:spouseIdTitle': { type: 'object', properties: {} },
         noSsn: checkboxSchema,
-        noSsnReason: radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED']),
+        noSsnReason: radioSchema([
+          NO_SSN_REASON_MAPPINGS.IMMIGRATION_STATUS,
+          NO_SSN_REASON_MAPPINGS.NONE_ASSIGNED,
+        ]),
         ssn: ssnSchema,
       },
     },
@@ -64,9 +68,8 @@ export const uiSchema = {
     noSsnReason: radioUI({
       title: 'Why doesn’t your spouse have a Social Security number?',
       labels: {
-        NONRESIDENT_ALIEN:
-          'They can’t get an SSN based on their immigration status',
-        NONE_ASSIGNED: 'They haven’t gotten their SSN yet',
+        IMMIGRATION_STATUS: NO_SSN_REASON_MAPPINGS.IMMIGRATION_STATUS,
+        NONE_ASSIGNED: NO_SSN_REASON_MAPPINGS.NONE_ASSIGNED,
       },
       required: (_chapterData, _index, formData) =>
         formData?.spouseInformation?.noSsn === true,
