@@ -155,6 +155,22 @@ describe('Compose form component', () => {
     expect(screen);
   });
 
+  it('renders alertSlot content after H1', async () => {
+    const screen = setup(initialState, Paths.COMPOSE, {
+      alertSlot: <div data-testid="test-alert-slot">Test alert</div>,
+    });
+    await waitFor(() => {
+      const h1 = screen.getByRole('heading', { level: 1 });
+      const alertSlot = screen.getByTestId('test-alert-slot');
+      expect(h1).to.exist;
+      expect(alertSlot).to.exist;
+      const html = screen.container.innerHTML;
+      expect(html.indexOf('<h1')).to.be.lessThan(
+        html.indexOf('data-testid="test-alert-slot"'),
+      );
+    });
+  });
+
   it('records prefilling analytics when Rx renewal draft loads', async () => {
     window.dataLayer = [];
     const customState = {

@@ -251,7 +251,7 @@ const AlertBackgroundBox = props => {
         role={activeAlert?.alertType === 'error' ? 'alert' : 'status'}
         background-only
         closeable={props.closeable}
-        className="vads-u-margin-bottom--1 va-alert"
+        className="vads-u-margin-y--3 va-alert"
         close-btn-aria-label="Close notification"
         disable-analytics="false"
         full-width="false"

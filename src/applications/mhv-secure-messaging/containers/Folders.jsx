@@ -21,7 +21,6 @@ import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAler
 const Folders = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folders = useSelector(state => state.sm.folders.folderList);
   const [newlyCreatedFolderName, setNewlyCreatedFolderName] = useState(null);
 
@@ -61,7 +60,7 @@ const Folders = () => {
       }
       updatePageTitle(pageTitleTag);
     },
-    [alertList, folders, location.pathname],
+    [folders, location.pathname],
   );
 
   const confirmFolderCreate = (folderName, onSuccess) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { cleanup } from '@testing-library/react';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -51,12 +51,14 @@ describe('Folder Header component', () => {
     path = initialPath,
     threadCount = initialThreadCount,
     folder = customFolder,
+    extraProps = {},
   ) => {
     return renderWithStoreAndRouter(
       <FolderHeader
         folder={folder}
         threadCount={threadCount}
         searchProps={{ ...searchProps }}
+        {...extraProps}
       />,
       {
         initialState: state,
@@ -65,6 +67,26 @@ describe('Folder Header component', () => {
       },
     );
   };
+
+  it('renders alertSlot content after H1', async () => {
+    const screen = setup(
+      initialState,
+      initialPath,
+      initialThreadCount,
+      customFolder,
+      { alertSlot: <div data-testid="test-alert-slot">Test alert</div> },
+    );
+    await waitFor(() => {
+      const h1 = screen.getByRole('heading', { level: 1 });
+      const alertSlot = screen.getByTestId('test-alert-slot');
+      expect(h1).to.exist;
+      expect(alertSlot).to.exist;
+      const html = screen.container.innerHTML;
+      expect(html.indexOf('<h1')).to.be.lessThan(
+        html.indexOf('data-testid="test-alert-slot"'),
+      );
+    });
+  });
 
   describe('displays empty custom folder view', () => {
     const emptyFolder = {
