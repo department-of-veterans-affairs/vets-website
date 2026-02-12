@@ -939,7 +939,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     });
   });
 
-  it('should use dateFormatWithoutTimezone when facilityTimezone is present', () => {
+  it('should display facility timezone when facilityTimezone is present', () => {
     const record = {
       id: 'test-id',
       attributes: {
@@ -952,13 +952,14 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     const result = convertUnifiedLabsAndTestRecord(record);
 
-    // When facilityTimezone is present, dateFormatWithoutTimezone is used
-    // which strips the timezone and displays wall clock time
-    expect(result.date).to.equal('January 31, 2025, 12:42 p.m.');
+    // When facilityTimezone is present, formatDateTimeInUserTimezone uses it
+    // to display the time in facility timezone with abbreviation
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
     expect(result.facilityTimezone).to.equal('America/New_York');
   });
 
-  it('should use formatDateTimeInUserTimezone when facilityTimezone is null', () => {
+  it('should fall back to browser timezone when facilityTimezone is null', () => {
     const record = {
       id: 'test-id',
       attributes: {
@@ -971,16 +972,14 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     const result = convertUnifiedLabsAndTestRecord(record);
 
-    // When facilityTimezone is null, formatDateTimeInUserTimezone is used,
-    // which converts the UTC date/time to the user's browser timezone and
-    // appends a timezone abbreviation to the formatted string.
-    // The result should include the date and end with a timezone abbreviation (e.g., EST, PST, UTC).
+    // When facilityTimezone is null, falls back to user's browser timezone
+    // with timezone abbreviation displayed
     expect(result.date).to.include('January 31, 2025');
     expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
     expect(result.facilityTimezone).to.be.null;
   });
 
-  it('should use formatDateTimeInUserTimezone when facilityTimezone is undefined', () => {
+  it('should fall back to browser timezone when facilityTimezone is undefined', () => {
     const record = {
       id: 'test-id',
       attributes: {
@@ -993,7 +992,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     const result = convertUnifiedLabsAndTestRecord(record);
 
-    // When facilityTimezone is undefined, formatDateTimeInUserTimezone is used
+    // When facilityTimezone is undefined, falls back to user's browser timezone
     expect(result.date).to.include('January 31, 2025');
     expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
     expect(result.facilityTimezone).to.be.undefined;
