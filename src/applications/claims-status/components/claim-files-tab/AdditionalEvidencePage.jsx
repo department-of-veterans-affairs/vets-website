@@ -87,6 +87,7 @@ class AdditionalEvidencePage extends React.Component {
                 title={message.title}
                 body={message.body}
                 type={message.type}
+                maskTitle={message.type === 'error'}
                 onSetFocus={focusNotificationAlert}
               />
             </>

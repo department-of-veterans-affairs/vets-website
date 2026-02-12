@@ -251,7 +251,11 @@ describe('<ClaimsStatusApp> - Platform DataDog RUM Integration', () => {
     );
 
     expect(useBrowserMonitoringStub.calledOnce).to.be.true;
-    expect(useBrowserMonitoringStub.firstCall.args[0]).to.deep.equal({
+
+    const callArgs = useBrowserMonitoringStub.firstCall.args[0];
+    const { beforeSend, ...staticArgs } = callArgs;
+
+    expect(staticArgs).to.deep.equal({
       toggleName: 'cstUseDataDogRUM',
       loggedIn: true,
       applicationId: '75bb17aa-34f0-4366-b196-eb11eda75425',
@@ -260,6 +264,18 @@ describe('<ClaimsStatusApp> - Platform DataDog RUM Integration', () => {
       version: '1.0.0',
       sessionReplaySampleRate: 50,
     });
+
+    expect(beforeSend).to.be.a('function');
+
+    // Test that beforeSend scrubs click event metadata
+    const clickEvent = {
+      action: {
+        type: 'click',
+        target: { name: 'Sensitive_File_Name.pdf' },
+      },
+    };
+    expect(beforeSend(clickEvent)).to.be.true;
+    expect(clickEvent.action.target.name).to.equal('Clicked item');
   });
 
   it('should call platform useBrowserMonitoring with loggedIn false when user not logged in', () => {

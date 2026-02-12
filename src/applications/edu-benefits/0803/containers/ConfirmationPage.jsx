@@ -58,8 +58,7 @@ function AlertBox() {
       </h2>
       <p className="vads-u-margin-y--0">
         This form requires additional steps for successful submission. Follow
-        the instructions below carefully to ensure your form is submitted
-        correctly.
+        the instructions carefully to ensure your form is submitted correctly.
       </p>
     </va-alert>
   );
@@ -110,7 +109,7 @@ export const ConfirmationPage = props => {
     >
       <AlertBox />
       <h2 id="foo" className="vads-u-font-size--h2 vad-u-margin-top--0">
-        To submit your form, follow the steps below
+        To submit your form, follow these steps
       </h2>
       <ConfirmationProcessList
         pdfUrl={`${
