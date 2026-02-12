@@ -40,11 +40,15 @@ export function transform(formConfig, form) {
 
   const identificationTransform = formData => {
     const clonedData = _.cloneDeep(formData);
-    const { activeDutyDuringHitechVets } = clonedData;
+    const { activeDutyDuringHitechVets, claimantId } = clonedData;
+
+    // Remove ssn from submission, use claimantId instead
+    delete clonedData.ssn;
 
     return {
       ...clonedData,
       activeDutyDuringHitechVets,
+      claimantId,
     };
   };
 

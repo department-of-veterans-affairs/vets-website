@@ -20,7 +20,7 @@ describe('HCA-Household: Non-disclosure', () => {
 
   it('works without sharing household information', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.selectRadio('root_discloseFinancialInformation', 'N');
+    cy.selectYesNoVaRadioOption('root_discloseFinancialInformation', false);
 
     goToNextPage('/household-information/share-financial-information-confirm');
     goToNextPage('/household-information/marital-status');
@@ -32,7 +32,7 @@ describe('HCA-Household: Non-disclosure', () => {
 
   it('works without spouse or dependent information', () => {
     goToNextPage('/household-information/share-financial-information');
-    cy.selectRadio('root_discloseFinancialInformation', 'Y');
+    cy.selectYesNoVaRadioOption('root_discloseFinancialInformation', true);
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');

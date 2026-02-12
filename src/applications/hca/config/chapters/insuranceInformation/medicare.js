@@ -1,8 +1,10 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { FULL_SCHEMA } from '../../../utils/imports';
+// @ts-check
+import {
+  titleUI,
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import content from '../../../locales/en/content.json';
-
-const { isEnrolledMedicarePartA } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -10,16 +12,15 @@ export default {
       content['insurance-info--medicare-enrollment-title'],
       content['insurance-info--medicare-enrollment-description'],
     ),
-    isEnrolledMedicarePartA: {
-      'ui:title': content['insurance-info--medicare-enrollment-label'],
-      'ui:widget': 'yesNo',
-    },
+    isEnrolledMedicarePartA: yesNoUI({
+      title: content['insurance-info--medicare-enrollment-label'],
+    }),
   },
   schema: {
     type: 'object',
     required: ['isEnrolledMedicarePartA'],
     properties: {
-      isEnrolledMedicarePartA,
+      isEnrolledMedicarePartA: yesNoSchema,
     },
   },
 };
