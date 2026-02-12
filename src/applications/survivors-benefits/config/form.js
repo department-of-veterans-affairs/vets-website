@@ -104,7 +104,7 @@ const formConfig = {
       saved: 'Your benefits application has been saved.',
     },
   },
-  version: 0,
+  version: 2,
   migrations,
   formSavedPage: FormSavedPage,
   defaultDefinitions,
