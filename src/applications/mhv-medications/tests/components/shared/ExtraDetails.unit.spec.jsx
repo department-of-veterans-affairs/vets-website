@@ -99,7 +99,7 @@ describe('Medications List Card Extra Details', () => {
 
   const setupWithRenewalLink = (
     rx = prescription,
-    showRenewalLink = false,
+    renewalLinkShownAbove = false,
     initialState = {},
     isCernerPilot = false,
     isV2StatusMapping = false,
@@ -131,7 +131,7 @@ describe('Medications List Card Extra Details', () => {
     };
 
     return renderWithStoreAndRouterV6(
-      <ExtraDetails {...rx} showRenewalLink={showRenewalLink} />,
+      <ExtraDetails {...rx} renewalLinkShownAbove={renewalLinkShownAbove} />,
       {
         initialState: state,
         reducers: testReducers,
@@ -335,8 +335,8 @@ describe('Medications List Card Extra Details', () => {
       );
     });
   });
-  describe('showRenewalLink prop suppresses renewal link in ExtraDetails', () => {
-    it('suppresses renewal link when showRenewalLink is true for Active with 0 refills (OH)', async () => {
+  describe('renewalLinkShownAbove prop suppresses renewal link in ExtraDetails', () => {
+    it('suppresses renewal link when renewalLinkShownAbove is true for Active with 0 refills (OH)', async () => {
       const screen = setupWithRenewalLink(
         {
           ...prescription,
@@ -353,7 +353,7 @@ describe('Medications List Card Extra Details', () => {
         .exist;
     });
 
-    it('shows renewal link when showRenewalLink is false for Active with 0 refills (OH)', async () => {
+    it('shows renewal link when renewalLinkShownAbove is false for Active with 0 refills (OH)', async () => {
       const screen = setupWithRenewalLink(
         {
           ...prescription,
@@ -370,7 +370,7 @@ describe('Medications List Card Extra Details', () => {
         .exist;
     });
 
-    it('suppresses renewal link when showRenewalLink is true for Expired (OH)', async () => {
+    it('suppresses renewal link when renewalLinkShownAbove is true for Expired (OH)', async () => {
       const screen = setupWithRenewalLink(
         {
           ...prescription,
@@ -387,7 +387,7 @@ describe('Medications List Card Extra Details', () => {
         .exist;
     });
 
-    it('suppresses renewal link when showRenewalLink is true for V2 Inactive (OH)', async () => {
+    it('suppresses renewal link when renewalLinkShownAbove is true for V2 Inactive (OH)', async () => {
       const screen = setupWithRenewalLink(
         {
           ...prescription,

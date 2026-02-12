@@ -193,7 +193,7 @@ describe('SendRxRenewalMessage Component', () => {
         .exist;
     });
 
-    it('renders fallback content when showFallBackContent is true', () => {
+    it('renders fallback content when suppressRenewalLink is true', () => {
       const rx = {
         ...mockRx,
         dispStatus: 'Active',
@@ -205,7 +205,7 @@ describe('SendRxRenewalMessage Component', () => {
       );
       const screen = setup(rx, {
         fallbackContent,
-        showFallBackContent: true,
+        suppressRenewalLink: true,
         isOracleHealth: true,
       });
       expect(screen.getByTestId('fallback')).to.exist;
@@ -226,13 +226,13 @@ describe('SendRxRenewalMessage Component', () => {
       expect(screen.queryByTestId('fallback')).to.not.exist;
     });
 
-    it('returns null when showFallBackContent is true and no fallback content provided', () => {
+    it('returns null when suppressRenewalLink is true and no fallback content provided', () => {
       const rx = {
         ...mockRx,
         isRenewable: true,
       };
       const screen = setup(rx, {
-        showFallBackContent: true,
+        suppressRenewalLink: true,
         isOracleHealth: true,
       });
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
