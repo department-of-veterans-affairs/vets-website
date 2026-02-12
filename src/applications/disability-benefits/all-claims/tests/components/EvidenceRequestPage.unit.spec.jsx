@@ -273,6 +273,34 @@ describe('EvidenceRequestPage', () => {
     });
   });
 
+  it('should delete providerFacility when confirming modal even when hasPrivateEvidence is false', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': false,
+      'view:selectableEvidenceTypes': {},
+      providerFacility: [{ providerFacilityName: 'Private Clinic 1' }],
+    };
+
+    const { container } = render(page({ data, setFormData }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+    });
+
+    const primaryButton = container.querySelector('va-modal');
+    fireEvent(primaryButton, new CustomEvent('primaryButtonClick'));
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      const updatedData = setFormData.firstCall.args[0];
+      expect(updatedData).to.not.have.property('providerFacility');
+      const selectableTypes = updatedData['view:selectableEvidenceTypes'] || {};
+      expect(selectableTypes['view:hasPrivateMedicalRecords']).to.be.false;
+    });
+  });
+
   it('should show success alert after removing evidence', async () => {
     const setFormData = sinon.spy();
     const data = {

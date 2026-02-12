@@ -103,6 +103,13 @@ export const EvidenceRequestPage = ({
             'view:hasPrivateMedicalRecords': false,
           };
         }
+      } else if (privateFacility.length > 0) {
+        delete updatedFormData.providerFacility;
+        setAlertType(prevState => [...prevState, 'privateFacility']);
+        updatedFormData['view:selectableEvidenceTypes'] = {
+          ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
+          'view:hasPrivateMedicalRecords': false,
+        };
       }
       setFormData(updatedFormData);
       setModalVisible(false);
