@@ -62,7 +62,7 @@ const mailOption = (
       <br role="presentation" />
       Ottawa, Ontario
       <br role="presentation" />
-      Canada, K1A OP5
+      Canada, K1A 0P5
     </address>
   </>
 );
