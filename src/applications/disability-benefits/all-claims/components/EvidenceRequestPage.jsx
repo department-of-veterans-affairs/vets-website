@@ -79,7 +79,7 @@ export const EvidenceRequestPage = ({
       const updatedFormData = { ...data };
 
       if (hasVAEvidence(data)) {
-        updatedFormData.vaTreatmentFacilities = [];
+        delete updatedFormData.vaTreatmentFacilities;
         updatedFormData['view:selectableEvidenceTypes'] = {
           ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
           'view:hasVaMedicalRecords': false,
@@ -90,11 +90,11 @@ export const EvidenceRequestPage = ({
         const hasPrivateUploads = privateEvidenceUploads.length > 0;
         const hasPrivateFacilities = privateFacility.length > 0;
         if (hasPrivateUploads) {
-          updatedFormData.privateMedicalRecordAttachments = [];
+          delete updatedFormData.privateMedicalRecordAttachments;
           setAlertType(prevState => [...prevState, 'privateMedicalRecords']);
         }
         if (hasPrivateFacilities) {
-          updatedFormData.providerFacility = [];
+          delete updatedFormData.providerFacility;
           setAlertType(prevState => [...prevState, 'privateFacility']);
         }
         if (hasPrivateUploads || hasPrivateFacilities) {

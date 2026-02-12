@@ -170,7 +170,7 @@ describe('EvidenceRequestPage', () => {
     await waitFor(() => {
       expect(setFormData.called).to.be.true;
       const updatedData = setFormData.firstCall.args[0];
-      expect(updatedData.vaTreatmentFacilities).to.deep.equal([]);
+      expect(updatedData).to.not.have.property('vaTreatmentFacilities');
       expect(
         updatedData['view:selectableEvidenceTypes']['view:hasVaMedicalRecords'],
       ).to.be.false;
