@@ -47,8 +47,6 @@ describe('VASS Schedule Appointment', () => {
 
   describe('Schedule Appointment', () => {
     beforeEach(() => {
-      cy.visit(`/service-member/benefits/solid-start/schedule?uuid=${uuid}`);
-
       mockAppointmentAvailabilityApi();
 
       mockTopicsApi();
@@ -56,6 +54,12 @@ describe('VASS Schedule Appointment', () => {
       mockCreateAppointmentApi();
 
       mockAppointmentDetailsApi();
+      cy.visit(`/service-member/benefits/solid-start/schedule?uuid=${uuid}`);
+    });
+
+    it('should load the verify page', () => {
+      VerifyPageObject.assertVerifyPage();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('should schedule an appointment', () => {
