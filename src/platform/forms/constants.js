@@ -513,6 +513,8 @@ export const MY_VA_SIP_FORMS = [
     title: 'form 21-4170 upload',
     description: 'uploaded file for form 21-4170',
     trackingPrefix: 'form-21-4170-upload-',
+  },
+  {
     id: VA_FORM_IDS.FORM_20_10208_UPLOAD,
     benefit: 'form 20-10208 upload',
     title: 'form 20-10208 upload',
