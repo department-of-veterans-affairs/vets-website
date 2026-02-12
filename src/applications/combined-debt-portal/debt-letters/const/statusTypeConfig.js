@@ -1,13 +1,13 @@
 export const STATUS_TYPE_CONFIG = {
   '1': {
     alertType: 'info',
-    category: 'Account is being updated',
+    category: 'diaryCodes.statusTypes.1.category',
     links: ['details'],
     phoneSet: 'dmc',
   },
   '2': {
     alertType: 'warning',
-    category: 'Being sent to Treasury soon',
+    category: 'diaryCodes.statusTypes.2.category',
     linksByView: {
       summary: ['details', 'resolve'],
       details: ['resolve'],
@@ -15,7 +15,7 @@ export const STATUS_TYPE_CONFIG = {
   },
   '3': {
     alertType: 'info',
-    category: 'Benefits Offset',
+    category: 'diaryCodes.statusTypes.3.category',
     linksByView: {
       summary: ['details'],
       details: ['askVa'],
@@ -24,7 +24,7 @@ export const STATUS_TYPE_CONFIG = {
   },
   '4': {
     alertType: 'info',
-    category: 'Collections are Paused',
+    category: 'diaryCodes.statusTypes.4.category',
     linksByView: {
       summary: ['details', 'resolve'],
       details: ['resolve'],
@@ -33,7 +33,7 @@ export const STATUS_TYPE_CONFIG = {
   },
   '5': {
     alertType: 'info',
-    category: 'Under Review',
+    category: 'diaryCodes.statusTypes.5.category',
     linksByView: {
       summary: ['details', 'resolve'],
       details: ['makePayment'],
@@ -41,7 +41,7 @@ export const STATUS_TYPE_CONFIG = {
   },
   '6': {
     alertType: 'info',
-    category: 'Make a Compromise Offer Payment',
+    category: 'diaryCodes.statusTypes.6.category',
     linksByView: {
       summary: ['details', 'resolve'],
       details: ['makePayment'],
@@ -49,7 +49,7 @@ export const STATUS_TYPE_CONFIG = {
   },
   '7': {
     alertType: 'info',
-    category: 'Make a Monthly Payment',
+    category: 'diaryCodes.statusTypes.7.category',
     linksByView: {
       summary: ['details', 'resolve'],
       details: ['makePayment'],
@@ -57,7 +57,7 @@ export const STATUS_TYPE_CONFIG = {
   },
   '8': {
     alertType: 'warning',
-    category: 'Make a Payment',
+    category: 'diaryCodes.statusTypes.8.category',
     linksByView: {
       summary: ['details', 'resolve'],
       details: ['resolve'],
@@ -65,27 +65,25 @@ export const STATUS_TYPE_CONFIG = {
   },
   '9': {
     alertType: 'warning',
-    category: 'Sent to Treasury',
+    category: 'diaryCodes.statusTypes.9.category',
     links: ['details'],
     phoneSet: 'treasury',
   },
   '10': {
     alertType: 'info',
-    category: 'Verify Status',
+    category: 'diaryCodes.statusTypes.10.category',
     links: ['details'],
     phoneSet: 'dmc',
   },
   '11': {
     alertType: 'info',
-    category: 'Address needed',
-    linksByView: {
-      summary: ['details'],
-      details: ['updateAddress'],
-    },
+    category: 'diaryCodes.statusTypes.11.category',
+    links: ['details'],
+    phoneSet: 'dmc',
   },
   '12': {
     alertType: 'warning',
-    category: 'FSR needs to be submitted',
+    category: 'diaryCodes.statusTypes.12.category',
     linksByView: {
       summary: ['details', 'resolve'],
       details: ['requestHelp'],

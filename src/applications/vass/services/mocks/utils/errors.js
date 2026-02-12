@@ -24,6 +24,17 @@ const createUnauthorizedError = () => {
   };
 };
 
+const createInvalidTokenError = () => {
+  return {
+    errors: [
+      {
+        code: TOKEN_ERROR_CODES.INVALID_TOKEN,
+        detail: 'Token is invalid or already revoked',
+      },
+    ],
+  };
+};
+
 const createOTPInvalidError = (attemptsRemaining = 0) => {
   return {
     errors: [
@@ -104,6 +115,22 @@ const createNotWithinCohortError = () => {
   };
 };
 
+const createAppointmentAlreadyBookedError = appointmentId => {
+  return {
+    errors: [
+      {
+        code: AVAILABILITY_ERROR_CODES.APPOINTMENT_ALREADY_BOOKED,
+        detail: 'Veteran already has a scheduled appointment',
+        appointment: {
+          appointmentId,
+          dtStartUTC: '2026-02-10T14:00:00Z',
+          dtEndUTC: '2026-02-10T14:30:00Z',
+        },
+      },
+    ],
+  };
+};
+
 module.exports = {
   createVassApiError,
   createOTPInvalidError,
@@ -114,4 +141,6 @@ module.exports = {
   createServiceError,
   createInvalidCredentialsError,
   createNotWithinCohortError,
+  createAppointmentAlreadyBookedError,
+  createInvalidTokenError,
 };

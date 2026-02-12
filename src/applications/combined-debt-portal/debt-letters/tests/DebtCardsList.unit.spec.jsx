@@ -178,7 +178,23 @@ describe('DebtLettersSummary', () => {
         </BrowserRouter>
       </Provider>,
     );
-    expect(wrapper.getAllByTestId('debt-summary-item')).to.have.lengthOf(4);
+    expect(wrapper.getAllByTestId(/^summary-card-/)).to.have.lengthOf(4);
+    wrapper.unmount();
+  });
+
+  it('renders the payment notice text', () => {
+    const wrapper = render(
+      <Provider store={fakeStore}>
+        <BrowserRouter>
+          <DebtCardsList />
+        </BrowserRouter>
+      </Provider>,
+    );
+    expect(
+      wrapper.getByText(
+        /Please note that payments may take up to 4 business days to reflect/,
+      ),
+    ).to.exist;
     wrapper.unmount();
   });
 });

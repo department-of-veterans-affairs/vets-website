@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -38,6 +37,7 @@ import {
   sendDataDogAction,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import RecordListSection from '../components/shared/RecordListSection';
@@ -74,11 +74,12 @@ const Vaccines = props => {
   const isLoadingAcceleratedData =
     isAcceleratingVaccines && listState === loadStates.FETCHING;
 
-  const dispatchAction = isCurrent => {
-    return getVaccinesList(isCurrent, isAcceleratingVaccines);
-  };
+  const dispatchAction = useCallback(
+    isCurrent => getVaccinesList(isCurrent, isAcceleratingVaccines),
+    [isAcceleratingVaccines],
+  );
 
-  useTrackAction(statsdFrontEndActions.VITALS_LIST);
+  useTrackAction(statsdFrontEndActions.VACCINES_LIST);
 
   useListRefresh({
     listState,
@@ -87,6 +88,7 @@ const Vaccines = props => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
@@ -99,11 +101,15 @@ const Vaccines = props => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
     },
     [dispatch],
   );
+
+  useFocusAfterLoading({
+    isLoading: isLoading || listState !== loadStates.FETCHED,
+    isLoadingAcceleratedData,
+  });
 
   usePrintTitle(
     pageTitles.VACCINES_PAGE_TITLE,
@@ -236,7 +242,7 @@ const Vaccines = props => {
             <TrackedSpinner
               id="vaccines-page-spinner"
               message="We’re loading your records."
-              setFocus
+              set-focus
               data-testid="loading-indicator"
             />
           </div>

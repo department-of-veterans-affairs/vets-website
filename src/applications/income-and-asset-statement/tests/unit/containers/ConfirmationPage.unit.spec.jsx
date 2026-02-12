@@ -119,7 +119,7 @@ describe('Confirmation page', () => {
     expect(queryByText(/Your confirmation number is/i)).to.be.null;
   });
 
-  it('should show the "Check the status of your form on My VA" link when user is logged in', () => {
+  it('should show the "Check the status of your form on My VA" link', () => {
     const { mockStore } = getData();
 
     const { container } = render(
@@ -133,21 +133,5 @@ describe('Confirmation page', () => {
     );
 
     expect(link).to.not.be.null;
-  });
-
-  it('should not show the "Check the status of your form on My VA" link when user is not logged in', () => {
-    const { mockStore } = getData({ loggedIn: false });
-
-    const { container } = render(
-      <Provider store={mockStore}>
-        <ConfirmationPage route={{ formConfig }} />
-      </Provider>,
-    );
-
-    const link = container.querySelector(
-      'va-link[text="Check the status of your form on My VA"][href="/my-va#benefit-applications"]',
-    );
-
-    expect(link).to.be.null;
   });
 });
