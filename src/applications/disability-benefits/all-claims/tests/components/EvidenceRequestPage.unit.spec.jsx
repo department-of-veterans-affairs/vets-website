@@ -177,6 +177,111 @@ describe('EvidenceRequestPage', () => {
     });
   });
 
+  it('should remove private medical record attachments when confirming modal', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': false,
+      'view:selectableEvidenceTypes': {
+        'view:hasPrivateMedicalRecords': true,
+      },
+      privateMedicalRecordAttachments: [{ name: 'record1.pdf' }],
+    };
+
+    const { container } = render(page({ data, setFormData }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+    });
+
+    const primaryButton = container.querySelector('va-modal');
+    fireEvent(primaryButton, new CustomEvent('primaryButtonClick'));
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      const updatedData = setFormData.firstCall.args[0];
+      expect(updatedData).to.not.have.property(
+        'privateMedicalRecordAttachments',
+      );
+      expect(
+        updatedData['view:selectableEvidenceTypes'][
+          'view:hasPrivateMedicalRecords'
+        ],
+      ).to.be.false;
+    });
+  });
+
+  it('should remove private provider facilities when confirming modal', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': false,
+      'view:selectableEvidenceTypes': {
+        'view:hasPrivateMedicalRecords': true,
+      },
+      providerFacility: [{ providerFacilityName: 'Private Clinic 1' }],
+    };
+
+    const { container } = render(page({ data, setFormData }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+    });
+
+    const primaryButton = container.querySelector('va-modal');
+    fireEvent(primaryButton, new CustomEvent('primaryButtonClick'));
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      const updatedData = setFormData.firstCall.args[0];
+      expect(updatedData).to.not.have.property('providerFacility');
+      expect(
+        updatedData['view:selectableEvidenceTypes'][
+          'view:hasPrivateMedicalRecords'
+        ],
+      ).to.be.false;
+    });
+  });
+
+  it('should remove both private uploads and facilities when confirming modal', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': false,
+      'view:selectableEvidenceTypes': {
+        'view:hasPrivateMedicalRecords': true,
+      },
+      privateMedicalRecordAttachments: [{ name: 'record1.pdf' }],
+      providerFacility: [{ providerFacilityName: 'Private Clinic 1' }],
+    };
+
+    const { container } = render(page({ data, setFormData }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+    });
+
+    const primaryButton = container.querySelector('va-modal');
+    fireEvent(primaryButton, new CustomEvent('primaryButtonClick'));
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      const updatedData = setFormData.firstCall.args[0];
+      expect(updatedData).to.not.have.property(
+        'privateMedicalRecordAttachments',
+      );
+      expect(updatedData).to.not.have.property('providerFacility');
+      expect(
+        updatedData['view:selectableEvidenceTypes'][
+          'view:hasPrivateMedicalRecords'
+        ],
+      ).to.be.false;
+    });
+  });
+
   it('should show success alert after removing evidence', async () => {
     const setFormData = sinon.spy();
     const data = {
