@@ -22,7 +22,7 @@ const noSsnFormData = {
   },
   spouseInformation: {
     noSsn: true,
-    noSsnReason: 'They can’t get an SSN based on their immigration status',
+    noSsnReason: 'NONRESIDENT_ALIEN',
   },
   vaDependentsNoSsn: true,
 };
