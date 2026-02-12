@@ -62,11 +62,6 @@ describe('VASS Schedule Appointment', () => {
       cy.visit(`/service-member/benefits/solid-start/schedule?uuid=${uuid}`);
     });
 
-    it('should load the verify page', () => {
-      VerifyPageObject.assertVerifyPage();
-      cy.injectAxeThenAxeCheck();
-    });
-
     it('should schedule an appointment', () => {
       VerifyPageObject.assertVerifyPage();
 
