@@ -1,8 +1,11 @@
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { format } from 'date-fns';
+import { fireEvent } from '@testing-library/react';
 import { daysAgo } from '@@profile/tests/helpers';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
+import * as recordEventModule from '~/platform/monitoring/record-event';
 
 import Appeal from '../../../components/claims-and-appeals/Appeal';
 import { APPEAL_TYPES, EVENT_TYPES } from '../../../utils/appeals-helpers';
@@ -85,7 +88,20 @@ const getHeadingText = container => {
 };
 
 describe('Appeal', () => {
+  let sandbox;
+  let recordEventStub;
   const name = { first: 'Test', middle: 'T', last: 'User' };
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    recordEventStub = sandbox
+      .stub(recordEventModule, 'default')
+      .callsFake(() => {});
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   it('renders a legacy appeal with compensation program area', () => {
     const updateDate = daysAgo(1);
@@ -361,5 +377,28 @@ describe('Appeal', () => {
 
     const heading = getHeadingText(container);
     expect(heading).to.include('Pension appeal updated:');
+  });
+
+  it('calls recordEvent when Review details link is clicked', () => {
+    const appeal = makeAppealObject({
+      updateDate: daysAgo(1),
+    });
+
+    const { container } = renderWithStoreAndRouter(
+      <Appeal appeal={appeal} name={name} />,
+      { initialState: {} },
+    );
+
+    recordEventStub.reset();
+    const link = container.querySelector('va-link[text="Review details"]');
+    fireEvent.click(link);
+    expect(recordEventStub.calledOnce).to.be.true;
+    expect(
+      recordEventStub.calledWith({
+        event: 'dashboard-navigation',
+        'dashboard-action': 'view-button',
+        'dashboard-product': 'view-appeal',
+      }),
+    ).to.be.true;
   });
 });

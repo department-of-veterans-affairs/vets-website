@@ -1,6 +1,9 @@
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
+import { fireEvent } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
+import * as recordEventModule from '~/platform/monitoring/record-event';
 
 import Claim from '../../../components/claims-and-appeals/Claim';
 
@@ -27,6 +30,20 @@ function makeClaimObject({
 }
 
 describe('Claim', () => {
+  let sandbox;
+  let recordEventStub;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    recordEventStub = sandbox
+      .stub(recordEventModule, 'default')
+      .callsFake(() => {});
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   it('renders the claim heading with type and date', () => {
     const claim = makeClaimObject({});
 
@@ -203,5 +220,17 @@ describe('Claim', () => {
 
     expect(getByText(/Status: Closed/)).to.exist;
     expect(getByText(/We sent you a decision letter/)).to.exist;
+  });
+
+  it('calls recordEvent when Review details link is clicked', () => {
+    const claim = makeClaimObject({});
+
+    const { container } = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState: {},
+    });
+
+    const link = container.querySelector('va-link[text="Review details"]');
+    fireEvent.click(link);
+    expect(recordEventStub.called).to.be.true;
   });
 });
