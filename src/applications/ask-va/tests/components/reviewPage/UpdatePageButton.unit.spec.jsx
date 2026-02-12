@@ -8,34 +8,16 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import UpdatePageButton from '../../../components/reviewPage/UpdatePageButton';
 
 describe('<UpdatePageButton />', () => {
-  let mockScroll;
   const mockTitle = 'TestSection';
   const mockKeys = ['key1', 'key2'];
 
-  beforeEach(() => {
-    mockScroll = (...args) => {
-      mockScroll.calls.push(args);
-    };
-    mockScroll.calls = [];
-  });
-
   it('renders without crashing', () => {
-    render(
-      <UpdatePageButton
-        keys={mockKeys}
-        title={mockTitle}
-        scroll={mockScroll}
-      />,
-    );
+    render(<UpdatePageButton keys={mockKeys} title={mockTitle} />);
   });
 
   it('Renders the correct button', () => {
     const { container } = render(
-      <UpdatePageButton
-        keys={mockKeys}
-        title={mockTitle}
-        scroll={mockScroll}
-      />,
+      <UpdatePageButton keys={mockKeys} title={mockTitle} />,
     );
 
     const updateButton = $('va-button', container);
@@ -46,6 +28,7 @@ describe('<UpdatePageButton />', () => {
 
   it('calls closeSection and scroll when "Update page" button is clicked', () => {
     const mockCloseSection = sinon.spy();
+    const mockScroll = sinon.spy();
 
     const { container } = render(
       <UpdatePageButton
@@ -65,9 +48,8 @@ describe('<UpdatePageButton />', () => {
     expect(mockCloseSection.calledOnce).to.be.true;
     expect(mockCloseSection.calledWith(mockKeys, mockTitle)).to.be.true;
 
-    expect(mockScroll.calls.length).to.equal(1);
-    expect(mockScroll.calls[0]).to.deep.equal([
-      `chapter${mockTitle}ScrollElement`,
-    ]);
+    expect(mockScroll.calledOnce).to.be.true;
+    expect(mockScroll.calledWith(`chapter${mockTitle}ScrollElement`)).to.be
+      .true;
   });
 });
