@@ -79,12 +79,19 @@ describe('oracleHealthTransition utilities', () => {
   });
 
   describe('shouldBlockRefills', () => {
-    it('returns true only when mhv_medications_oracle_health_cutover feature flag enabled AND facility transitioning AND in p4 phase', () => {
+    it('returns true only when mhv_medications_oracle_health_cutover feature flag enabled AND facility transitioning AND in p4 or p5 phase', () => {
       expect(
         shouldBlockRefills({
           prescription: mockPrescription,
           isFeatureFlagEnabled: true,
           migrations: [createMigrationWithPhase('p4')],
+        }),
+      ).to.be.true;
+      expect(
+        shouldBlockRefills({
+          prescription: mockPrescription,
+          isFeatureFlagEnabled: true,
+          migrations: [createMigrationWithPhase('p5')],
         }),
       ).to.be.true;
       expect(
@@ -105,7 +112,7 @@ describe('oracleHealthTransition utilities', () => {
   });
 
   describe('shouldBlockRenewals', () => {
-    it('returns true when mhv_medications_oracle_health_cutover feature flag enabled AND facility transitioning AND in p3 or p4 phase', () => {
+    it('returns true when mhv_medications_oracle_health_cutover feature flag enabled AND facility transitioning AND in p3, p4, or p5 phase', () => {
       expect(
         shouldBlockRenewals({
           prescription: mockPrescription,
@@ -118,6 +125,13 @@ describe('oracleHealthTransition utilities', () => {
           prescription: mockPrescription,
           isFeatureFlagEnabled: true,
           migrations: [createMigrationWithPhase('p4')],
+        }),
+      ).to.be.true;
+      expect(
+        shouldBlockRenewals({
+          prescription: mockPrescription,
+          isFeatureFlagEnabled: true,
+          migrations: [createMigrationWithPhase('p5')],
         }),
       ).to.be.true;
       expect(

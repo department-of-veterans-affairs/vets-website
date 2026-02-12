@@ -12,6 +12,22 @@ import { dateFormat } from '../../util/helpers';
 
 const refillablePrescriptions = require('../fixtures/refillablePrescriptionsList.json');
 
+const mockMichiganMigration = {
+  migrationDate: '2026-04-11',
+  facilities: [{ facilityId: 515 }],
+  phases: {
+    current: 'p4',
+    p0: 'February 10, 2026',
+    p1: 'February 12, 2026',
+    p2: 'March 12, 2026',
+    p3: 'April 5, 2026',
+    p4: 'April 8, 2026',
+    p5: 'April 11, 2026',
+    p6: 'April 13, 2026',
+    p7: 'April 18, 2026',
+  },
+};
+
 let sandbox;
 
 const initMockApis = ({
@@ -1012,23 +1028,7 @@ describe('Refill Prescriptions Component', () => {
               ],
               vaProfile: {
                 ohMigrationInfo: {
-                  migrationSchedules: [
-                    {
-                      migrationDate: '2026-04-11',
-                      facilities: [{ facilityId: 515 }],
-                      phases: {
-                        current: 'p4',
-                        p0: 'February 10, 2026',
-                        p1: 'February 12, 2026',
-                        p2: 'March 12, 2026',
-                        p3: 'April 5, 2026',
-                        p4: 'April 8, 2026',
-                        p5: 'April 11, 2026',
-                        p6: 'April 13, 2026',
-                        p7: 'April 18, 2026',
-                      },
-                    },
-                  ],
+                  migrationSchedules: [mockMichiganMigration],
                 },
               },
             },
@@ -1083,23 +1083,7 @@ describe('Refill Prescriptions Component', () => {
               ],
               vaProfile: {
                 ohMigrationInfo: {
-                  migrationSchedules: [
-                    {
-                      migrationDate: '2026-04-11',
-                      facilities: [{ facilityId: 515 }],
-                      phases: {
-                        current: 'p4',
-                        p0: 'February 10, 2026',
-                        p1: 'February 12, 2026',
-                        p2: 'March 12, 2026',
-                        p3: 'April 5, 2026',
-                        p4: 'April 8, 2026',
-                        p5: 'April 11, 2026',
-                        p6: 'April 13, 2026',
-                        p7: 'April 18, 2026',
-                      },
-                    },
-                  ],
+                  migrationSchedules: [mockMichiganMigration],
                 },
               },
             },
@@ -1146,23 +1130,7 @@ describe('Refill Prescriptions Component', () => {
               ],
               vaProfile: {
                 ohMigrationInfo: {
-                  migrationSchedules: [
-                    {
-                      migrationDate: '2026-04-11',
-                      facilities: [{ facilityId: 515 }],
-                      phases: {
-                        current: 'p4',
-                        p0: 'February 10, 2026',
-                        p1: 'February 12, 2026',
-                        p2: 'March 12, 2026',
-                        p3: 'April 5, 2026',
-                        p4: 'April 8, 2026',
-                        p5: 'April 11, 2026',
-                        p6: 'April 13, 2026',
-                        p7: 'April 18, 2026',
-                      },
-                    },
-                  ],
+                  migrationSchedules: [mockMichiganMigration],
                 },
               },
             },
@@ -1221,23 +1189,7 @@ describe('Refill Prescriptions Component', () => {
               ],
               vaProfile: {
                 ohMigrationInfo: {
-                  migrationSchedules: [
-                    {
-                      migrationDate: '2026-04-11',
-                      facilities: [{ facilityId: 515 }],
-                      phases: {
-                        current: 'p4',
-                        p0: 'February 10, 2026',
-                        p1: 'February 12, 2026',
-                        p2: 'March 12, 2026',
-                        p3: 'April 5, 2026',
-                        p4: 'April 8, 2026',
-                        p5: 'April 11, 2026',
-                        p6: 'April 13, 2026',
-                        p7: 'April 18, 2026',
-                      },
-                    },
-                  ],
+                  migrationSchedules: [mockMichiganMigration],
                 },
               },
             },
@@ -1304,24 +1256,13 @@ describe('Refill Prescriptions Component', () => {
                 ohMigrationInfo: {
                   migrationSchedules: [
                     {
-                      migrationDate: '2026-04-11',
+                      ...mockMichiganMigration,
                       facilities: [
                         { facilityId: 506 },
                         { facilityId: 515 },
                         { facilityId: 553 },
                         { facilityId: 585 },
                       ],
-                      phases: {
-                        current: 'p4',
-                        p0: 'February 10, 2026',
-                        p1: 'February 12, 2026',
-                        p2: 'March 12, 2026',
-                        p3: 'April 5, 2026',
-                        p4: 'April 8, 2026',
-                        p5: 'April 11, 2026',
-                        p6: 'April 13, 2026',
-                        p7: 'April 18, 2026',
-                      },
                     },
                   ],
                 },
@@ -1370,23 +1311,7 @@ describe('Refill Prescriptions Component', () => {
               ],
               vaProfile: {
                 ohMigrationInfo: {
-                  migrationSchedules: [
-                    {
-                      migrationDate: '2026-04-11',
-                      facilities: [{ facilityId: 515 }],
-                      phases: {
-                        current: 'p4',
-                        p0: 'February 10, 2026',
-                        p1: 'February 12, 2026',
-                        p2: 'March 12, 2026',
-                        p3: 'April 5, 2026',
-                        p4: 'April 8, 2026',
-                        p5: 'April 11, 2026',
-                        p6: 'April 13, 2026',
-                        p7: 'April 18, 2026',
-                      },
-                    },
-                  ],
+                  migrationSchedules: [mockMichiganMigration],
                 },
               },
             },

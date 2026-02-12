@@ -226,7 +226,7 @@ const michiganTransitioningUser = {
               ],
               phases: {
                 current: 'p4', // Warning phase - change to 'p4' to test error blocking
-                p0: 'April 11, 2026',
+                p0: 'March 11, 2026',
                 p1: 'March 27, 2026',
                 p2: 'April 4, 2026',
                 p3: 'April 5, 2026',
