@@ -32,6 +32,8 @@ import {
   upperExtremitiesUiSchema,
   lowerExtremitiesSchema,
   lowerExtremitiesUiSchema,
+  spineTrunkAndNeckSchema,
+  spineTrunkAndNeckUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import {
   TITLE,
@@ -181,6 +183,12 @@ const formConfig = {
           title: 'Lower extremities',
           uiSchema: lowerExtremitiesUiSchema,
           schema: lowerExtremitiesSchema,
+        },
+        spineTrunkAndNeck: {
+          path: 'spine-trunk-and-neck',
+          title: 'Spine, trunk and neck',
+          uiSchema: spineTrunkAndNeckUiSchema,
+          schema: spineTrunkAndNeckSchema,
         },
       },
     },

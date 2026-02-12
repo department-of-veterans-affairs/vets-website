@@ -41,3 +41,7 @@ export {
   lowerExtremitiesSchema,
   lowerExtremitiesUiSchema,
 } from './lower-extremities';
+export {
+  spineTrunkAndNeckSchema,
+  spineTrunkAndNeckUiSchema,
+} from './spine-trunk-and-neck';
