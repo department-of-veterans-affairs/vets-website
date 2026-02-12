@@ -138,7 +138,7 @@ describe('<ProfileHub />', () => {
     expect(badAddressAlert).to.exist;
     expect(badAddressAlert).to.have.class('vads-u-margin-top--0');
     expect(badAddressAlert).to.have.class('vads-u-margin-bottom--4');
-    expect(badAddressAlert).to.have.class('vads-l-col--10');
+    expect(badAddressAlert).to.have.class('vads-l-col--12');
   });
 
   it('should not render BadAddressAlert when hasBadAddress is false', () => {
