@@ -231,7 +231,7 @@ const additionalComments = {
   schema: {
     type: 'object',
     properties: {
-      additionalComments: { type: 'string', maxLength: 200 },
+      additionalComments: { type: 'string', maxLength: 155 },
     },
   },
 };

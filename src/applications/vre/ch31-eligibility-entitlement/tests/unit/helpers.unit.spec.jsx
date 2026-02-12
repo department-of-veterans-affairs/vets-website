@@ -1,10 +1,12 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import {
   formatDate,
   getStatus,
   extractMessages,
   pickStatusStyle,
   getCurrentStepFromStateList,
+  downloadPdfBlob,
 } from '../../helpers';
 
 describe('helpers', () => {
@@ -266,5 +268,79 @@ describe('getCurrentStepFromStateList', () => {
     ];
 
     expect(getCurrentStepFromStateList(stateList, TOTAL)).to.equal(TOTAL);
+  });
+});
+
+describe('downloadPdfBlob', () => {
+  let createObjectURLStub;
+  let revokeObjectURLStub;
+  let createElementStub;
+  let appendChildStub;
+  let removeChildStub;
+  let mockLink;
+
+  beforeEach(() => {
+    mockLink = {
+      href: '',
+      download: '',
+      click: sinon.stub(),
+    };
+
+    createObjectURLStub = sinon
+      .stub(URL, 'createObjectURL')
+      .returns('blob:mock-url');
+    revokeObjectURLStub = sinon.stub(URL, 'revokeObjectURL');
+
+    const originalCreateElement = document.createElement.bind(document);
+    createElementStub = sinon
+      .stub(document, 'createElement')
+      .callsFake(tagName => {
+        if (tagName === 'a') {
+          return mockLink;
+        }
+        return originalCreateElement(tagName);
+      });
+
+    const originalAppendChild = document.body.appendChild.bind(document.body);
+    const originalRemoveChild = document.body.removeChild.bind(document.body);
+    appendChildStub = sinon
+      .stub(document.body, 'appendChild')
+      .callsFake(child => {
+        if (child === mockLink) {
+          return child;
+        }
+        return originalAppendChild(child);
+      });
+    removeChildStub = sinon
+      .stub(document.body, 'removeChild')
+      .callsFake(child => {
+        if (child === mockLink) {
+          return child;
+        }
+        return originalRemoveChild(child);
+      });
+  });
+
+  afterEach(() => {
+    if (createObjectURLStub) createObjectURLStub.restore();
+    if (revokeObjectURLStub) revokeObjectURLStub.restore();
+    if (createElementStub) createElementStub.restore();
+    if (appendChildStub) appendChildStub.restore();
+    if (removeChildStub) removeChildStub.restore();
+  });
+
+  it('creates a link, triggers download, and cleans up', () => {
+    const blob = new Blob(['pdf content'], { type: 'application/pdf' });
+
+    downloadPdfBlob(blob, 'test.pdf');
+
+    expect(createObjectURLStub.calledWith(blob)).to.equal(true);
+    expect(createElementStub.calledWith('a')).to.equal(true);
+    expect(mockLink.href).to.equal('blob:mock-url');
+    expect(mockLink.download).to.equal('test.pdf');
+    expect(appendChildStub.calledWith(mockLink)).to.equal(true);
+    expect(mockLink.click.calledOnce).to.equal(true);
+    expect(removeChildStub.calledWith(mockLink)).to.equal(true);
+    expect(revokeObjectURLStub.calledWith('blob:mock-url')).to.equal(true);
   });
 });

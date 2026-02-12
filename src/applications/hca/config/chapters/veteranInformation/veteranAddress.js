@@ -1,9 +1,14 @@
+// @ts-check
 import merge from 'lodash/merge';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  titleUI,
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
@@ -34,14 +39,13 @@ export default {
         },
       },
     }),
-    'view:doesMailingMatchHomeAddress': {
-      'ui:title': content['vet-info--address-match-label'],
-      'ui:widget': 'yesNo',
-      'ui:required': () => true,
-    },
+    'view:doesMailingMatchHomeAddress': yesNoUI({
+      title: content['vet-info--address-match-label'],
+    }),
   },
   schema: {
     type: 'object',
+    required: ['view:doesMailingMatchHomeAddress'],
     properties: {
       veteranAddress: merge(
         {},
@@ -55,9 +59,7 @@ export default {
           },
         },
       ),
-      'view:doesMailingMatchHomeAddress': {
-        type: 'boolean',
-      },
+      'view:doesMailingMatchHomeAddress': yesNoSchema,
     },
   },
 };

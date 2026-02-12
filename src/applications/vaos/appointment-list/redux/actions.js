@@ -442,10 +442,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         );
         if (toFetch.length) {
           // Waits for all AVS PDFs for appointment detail to be fetched before completing action
-          const fetchedAndProcessedPdfs = await fetchAvsPdfBinaries(
-            appointment.id,
-            toFetch,
-          );
+          const fetchedAndProcessedPdfs = await fetchAvsPdfBinaries(toFetch);
           appointment.avsPdf = [...fetchedAndProcessedPdfs, ...doNotFetch];
         }
       }

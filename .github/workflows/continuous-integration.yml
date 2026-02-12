@@ -886,7 +886,7 @@ jobs:
 
       - name: Install missing dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: apt-get update && apt-get install -y bzip2 curl
+        run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y bzip2 curl
 
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -1027,7 +1027,7 @@ jobs:
           name: vagovprod.tar.bz2
 
       - name: Install missing dependencies
-        run: apt-get update && apt-get install -y bzip2 curl
+        run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y bzip2 curl
 
       - name: Unpack build
         run: |
@@ -1252,7 +1252,7 @@ jobs:
 
       - name: Install missing dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: apt-get update && apt-get install -y bzip2 curl
+        run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y bzip2 curl
 
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -2272,65 +2272,69 @@ jobs:
           DEST: s3://${{ matrix.bucket }}
           ASSET_DEST: s3://${{ matrix.asset_bucket }}
 
-  cd-prod-deploy:
-    name: CD Production Deploy
-    runs-on: ubuntu-22.04
-    needs: [build, set-deploy-environments, determine-cd-eligibility]
-    if: always() && startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
-    steps:
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
-
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
-
-      - name: Get Slack channel
-        id: get-slack-channel
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          output-type: 'slack_channel'
-
-      - name: Determine Slack channel
-        id: determine-channel
-        shell: bash
-        run: |
-          entries="${{ needs.build.outputs.entry_names }}"
-          channel="${{ steps.get-slack-channel.outputs.slack_channels }}"
-          if [[ "$entries" == *","* ]]; then
-            echo "channel=" >> $GITHUB_OUTPUT
-          else
-            echo "channel=$channel" >> $GITHUB_OUTPUT
-          fi
-      - name: Check if today is a holiday
-        id: holiday-check
-        uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
-
-      - name: Dispatch Event to Next Workflow
-        if: steps.holiday-check.outputs.is_holiday == 'false'
-        run: |
-          curl -X POST \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          https://api.github.com/repos/${{ github.repository }}/dispatches \
-          -d "$(jq -n --arg sha "${{ github.sha }}" \
-          --arg ref "${{ github.ref }}" \
-          --arg entry "${{ needs.build.outputs.entry_names }}" \
-          --arg slack_channel "${{ steps.determine-channel.outputs.channel }}" \
-          --arg concurrency_group "${{ needs.build.outputs.deployment_concurrency_group }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel, concurrency_group: $concurrency_group}}')"
-
-      - name: Cancel CD dispatch due to holiday
-        if: steps.holiday-check.outputs.is_holiday == 'true'
-        run: echo "Skipping CD dispatch; holiday freeze is active."
+  # NOTE: cd-prod-deploy has been intentionally disabled. The CD production
+  # deploy pipeline is currently not in use. If re-enabling, also uncomment
+  # continuous-deploy-production.yml.
+  #
+  # cd-prod-deploy:
+  #   name: CD Production Deploy
+  #   runs-on: ubuntu-22.04
+  #   needs: [build, set-deploy-environments, determine-cd-eligibility]
+  #   if: always() && startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+  #       with:
+  #         fetch-depth: 0
+  #
+  #     - name: Install dependencies
+  #       uses: ./.github/workflows/install
+  #       timeout-minutes: 30
+  #       with:
+  #         key: ${{ hashFiles('yarn.lock') }}
+  #         yarn_cache_folder: .cache/yarn
+  #         path: |
+  #           .cache/yarn
+  #           node_modules
+  #
+  #     - name: Get Slack channel
+  #       id: get-slack-channel
+  #       uses: ./.github/workflows/get-changed-apps
+  #       with:
+  #         output-type: 'slack_channel'
+  #
+  #     - name: Determine Slack channel
+  #       id: determine-channel
+  #       shell: bash
+  #       run: |
+  #         entries="${{ needs.build.outputs.entry_names }}"
+  #         channel="${{ steps.get-slack-channel.outputs.slack_channels }}"
+  #         if [[ "$entries" == *","* ]]; then
+  #           echo "channel=" >> $GITHUB_OUTPUT
+  #         else
+  #           echo "channel=$channel" >> $GITHUB_OUTPUT
+  #         fi
+  #     - name: Check if today is a holiday
+  #       id: holiday-check
+  #       uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
+  #
+  #     - name: Dispatch Event to Next Workflow
+  #       if: steps.holiday-check.outputs.is_holiday == 'false'
+  #       run: |
+  #         curl -X POST \
+  #         -H "Accept: application/vnd.github.v3+json" \
+  #         -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+  #         https://api.github.com/repos/${{ github.repository }}/dispatches \
+  #         -d "$(jq -n --arg sha "${{ github.sha }}" \
+  #         --arg ref "${{ github.ref }}" \
+  #         --arg entry "${{ needs.build.outputs.entry_names }}" \
+  #         --arg slack_channel "${{ steps.determine-channel.outputs.channel }}" \
+  #         --arg concurrency_group "${{ needs.build.outputs.deployment_concurrency_group }}" \
+  #         '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel, concurrency_group: $concurrency_group}}')"
+  #
+  #     - name: Cancel CD dispatch due to holiday
+  #       if: steps.holiday-check.outputs.is_holiday == 'true'
+  #       run: echo "Skipping CD dispatch; holiday freeze is active."
 
   notify-failure:
     name: Notify Failure
