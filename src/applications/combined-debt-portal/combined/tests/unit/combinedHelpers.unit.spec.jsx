@@ -253,18 +253,9 @@ describe('Helper Functions', () => {
   });
 
   describe('calcDueDate', () => {
-    beforeEach(() => {
-      MockDate.set('2025-01-15');
-    });
-
-    afterEach(() => {
-      MockDate.reset();
-    });
-
     it('should calculate due date 30 days from given date', () => {
       const startDate = '2023-01-01';
       const result = calcDueDate(startDate, 30);
-      // calcDueDate adds days to the date and formats it
       const expectedDate = formatDate(addDays(new Date(startDate), 30));
       expect(result).to.equal(expectedDate);
     });
