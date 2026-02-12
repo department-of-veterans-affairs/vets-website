@@ -30,6 +30,8 @@ import {
   postureUiSchema,
   upperExtremitiesSchema,
   upperExtremitiesUiSchema,
+  lowerExtremitiesSchema,
+  lowerExtremitiesUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import {
   TITLE,
@@ -173,6 +175,12 @@ const formConfig = {
           title: 'Upper extremities',
           uiSchema: upperExtremitiesUiSchema,
           schema: upperExtremitiesSchema,
+        },
+        lowerExtremities: {
+          path: 'lower-extremities',
+          title: 'Lower extremities',
+          uiSchema: lowerExtremitiesUiSchema,
+          schema: lowerExtremitiesSchema,
         },
       },
     },

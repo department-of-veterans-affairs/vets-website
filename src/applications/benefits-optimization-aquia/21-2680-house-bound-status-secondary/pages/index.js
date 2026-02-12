@@ -37,3 +37,7 @@ export {
   upperExtremitiesSchema,
   upperExtremitiesUiSchema,
 } from './upper-extremities';
+export {
+  lowerExtremitiesSchema,
+  lowerExtremitiesUiSchema,
+} from './lower-extremities';
