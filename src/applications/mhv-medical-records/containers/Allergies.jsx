@@ -109,7 +109,7 @@ const Allergies = props => {
     isAcceleratingAllergies && listState === loadStates.FETCHING;
 
   useFocusAfterLoading({
-    isLoading: isLoading || listState === loadStates.FETCHING,
+    isLoading: isLoading || listState !== loadStates.FETCHED,
     isLoadingAcceleratedData,
   });
 

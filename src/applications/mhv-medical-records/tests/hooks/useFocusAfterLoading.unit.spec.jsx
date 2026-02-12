@@ -1,12 +1,24 @@
+import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
+import { MemoryRouter } from 'react-router-dom';
 import * as sinon from 'sinon';
 import useFocusAfterLoading from '../../hooks/useFocusAfterLoading';
 
 const defaultProps = {
   isLoading: false,
   isLoadingAcceleratedData: false,
+};
+
+// Wrapper component to provide router context
+const createWrapper = (initialEntries = ['/']) => {
+  // eslint-disable-next-line react/prop-types
+  return function Wrapper({ children }) {
+    return (
+      <MemoryRouter initialEntries={initialEntries}>{children}</MemoryRouter>
+    );
+  };
 };
 
 describe('useFocusAfterLoading hook', () => {
@@ -30,40 +42,48 @@ describe('useFocusAfterLoading hook', () => {
 
   describe('basic loading behavior', () => {
     it('does not focus h1 when isLoading is true', () => {
-      renderHook(() =>
-        useFocusAfterLoading({
-          ...defaultProps,
-          isLoading: true,
-        }),
+      renderHook(
+        () =>
+          useFocusAfterLoading({
+            ...defaultProps,
+            isLoading: true,
+          }),
+        { wrapper: createWrapper() },
       );
 
       expect(h1FocusSpy.called).to.be.false;
     });
 
     it('does not focus h1 when isLoadingAcceleratedData is true', () => {
-      renderHook(() =>
-        useFocusAfterLoading({
-          ...defaultProps,
-          isLoadingAcceleratedData: true,
-        }),
+      renderHook(
+        () =>
+          useFocusAfterLoading({
+            ...defaultProps,
+            isLoadingAcceleratedData: true,
+          }),
+        { wrapper: createWrapper() },
       );
 
       expect(h1FocusSpy.called).to.be.false;
     });
 
     it('does not focus h1 when both loading states are true', () => {
-      renderHook(() =>
-        useFocusAfterLoading({
-          isLoading: true,
-          isLoadingAcceleratedData: true,
-        }),
+      renderHook(
+        () =>
+          useFocusAfterLoading({
+            isLoading: true,
+            isLoadingAcceleratedData: true,
+          }),
+        { wrapper: createWrapper() },
       );
 
       expect(h1FocusSpy.called).to.be.false;
     });
 
     it('focuses h1 when both loading states are false', async () => {
-      renderHook(() => useFocusAfterLoading(defaultProps));
+      renderHook(() => useFocusAfterLoading(defaultProps), {
+        wrapper: createWrapper(),
+      });
 
       await waitFor(() => {
         expect(h1FocusSpy.called).to.be.true;
@@ -71,10 +91,12 @@ describe('useFocusAfterLoading hook', () => {
     });
 
     it('focuses h1 when only isLoading is passed (default isLoadingAcceleratedData)', async () => {
-      renderHook(() =>
-        useFocusAfterLoading({
-          isLoading: false,
-        }),
+      renderHook(
+        () =>
+          useFocusAfterLoading({
+            isLoading: false,
+          }),
+        { wrapper: createWrapper() },
       );
 
       await waitFor(() => {
@@ -91,7 +113,7 @@ describe('useFocusAfterLoading hook', () => {
             ...defaultProps,
             isLoading: props.isLoading,
           }),
-        { initialProps: { isLoading: true } },
+        { initialProps: { isLoading: true }, wrapper: createWrapper() },
       );
 
       // While loading, h1 should not be focused
@@ -112,7 +134,10 @@ describe('useFocusAfterLoading hook', () => {
             ...defaultProps,
             isLoadingAcceleratedData: props.isLoadingAcceleratedData,
           }),
-        { initialProps: { isLoadingAcceleratedData: true } },
+        {
+          initialProps: { isLoadingAcceleratedData: true },
+          wrapper: createWrapper(),
+        },
       );
 
       expect(h1FocusSpy.called).to.be.false;
@@ -131,7 +156,10 @@ describe('useFocusAfterLoading hook', () => {
             isLoading: props.isLoading,
             isLoadingAcceleratedData: props.isLoadingAcceleratedData,
           }),
-        { initialProps: { isLoading: true, isLoadingAcceleratedData: true } },
+        {
+          initialProps: { isLoading: true, isLoadingAcceleratedData: true },
+          wrapper: createWrapper(),
+        },
       );
 
       // Both loading - no focus
@@ -153,7 +181,10 @@ describe('useFocusAfterLoading hook', () => {
 
   describe('focus-once behavior', () => {
     it('only focuses h1 once when re-rendered with same not-loading props', async () => {
-      const { rerender } = renderHook(() => useFocusAfterLoading(defaultProps));
+      const { rerender } = renderHook(
+        () => useFocusAfterLoading(defaultProps),
+        { wrapper: createWrapper() },
+      );
 
       await waitFor(() => {
         expect(h1FocusSpy.calledOnce).to.be.true;
@@ -173,7 +204,7 @@ describe('useFocusAfterLoading hook', () => {
             ...defaultProps,
             isLoading: props.isLoading,
           }),
-        { initialProps: { isLoading: true } },
+        { initialProps: { isLoading: true }, wrapper: createWrapper() },
       );
 
       // Initially loading, no focus
@@ -207,7 +238,10 @@ describe('useFocusAfterLoading hook', () => {
             isLoading: false,
             isLoadingAcceleratedData: props.isLoadingAcceleratedData,
           }),
-        { initialProps: { isLoadingAcceleratedData: false } },
+        {
+          initialProps: { isLoadingAcceleratedData: false },
+          wrapper: createWrapper(),
+        },
       );
 
       await waitFor(() => {
@@ -222,6 +256,27 @@ describe('useFocusAfterLoading hook', () => {
 
       await waitFor(() => {
         expect(h1FocusSpy.calledTwice).to.be.true;
+      });
+    });
+  });
+
+  describe('pagination deep-link behavior', () => {
+    it('does not focus h1 when URL has page param (deep-link to pagination)', async () => {
+      renderHook(() => useFocusAfterLoading(defaultProps), {
+        wrapper: createWrapper(['/vaccines?page=2']),
+      });
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+      expect(h1FocusSpy.called).to.be.false;
+    });
+
+    it('focuses h1 normally when URL has no page param', async () => {
+      renderHook(() => useFocusAfterLoading(defaultProps), {
+        wrapper: createWrapper(['/vaccines']),
+      });
+
+      await waitFor(() => {
+        expect(h1FocusSpy.called).to.be.true;
       });
     });
   });

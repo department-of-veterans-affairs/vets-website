@@ -98,7 +98,7 @@ const Radiology = () => {
     [dispatch],
   );
 
-  const isLoading = listState === loadStates.FETCHING;
+  const isLoading = listState !== loadStates.FETCHED;
 
   useFocusAfterLoading({ isLoading });
 

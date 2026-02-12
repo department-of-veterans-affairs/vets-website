@@ -164,7 +164,7 @@ const LabsAndTests = () => {
   );
 
   useFocusAfterLoading({
-    isLoading: isLoading || listState === loadStates.FETCHING,
+    isLoading: isLoading || listState !== loadStates.FETCHED,
     isLoadingAcceleratedData,
   });
 
