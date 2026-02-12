@@ -50,7 +50,7 @@
       "newPrimaryDisabilities": [
         {
           "cause": "NEW",
-          "primaryDescription": "This disability is related to my military service.",
+          "primaryDescription": "I developed asthma during military service.",
           "condition": "asthma"
         }
       ],

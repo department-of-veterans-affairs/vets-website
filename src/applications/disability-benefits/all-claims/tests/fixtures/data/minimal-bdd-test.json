@@ -77,6 +77,7 @@
       "newDisabilities": [
         {
           "cause": "NEW",
+          "primaryDescription": "I developed asthma during military service.",
           "condition": "asthma",
           "view:descriptionInfo": {}
         }
