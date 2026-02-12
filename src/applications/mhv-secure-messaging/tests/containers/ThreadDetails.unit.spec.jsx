@@ -552,7 +552,7 @@ describe('Thread Details container', () => {
     expect(screen.queryByText('Reply')).to.not.exist;
   });
 
-  it('with reply draft where message is not stale but cannotReply is true (useCanReplyField disabled)', async () => {
+  it('with reply draft where message is not stale but replyDisabled is true (useCanReplyField disabled)', async () => {
     // Enable the useCanReplyField feature toggle
     stubUseFeatureToggles({
       useCanReplyField: false,
@@ -579,8 +579,8 @@ describe('Thread Details container', () => {
         },
         threadDetails: {
           isStale: false,
-          // cannotReply is true from API (provider disabled replies)
-          cannotReply: true,
+          replyDisabled: true,
+          cannotReply: false,
           drafts: [
             {
               ...replyDraftMessage,
