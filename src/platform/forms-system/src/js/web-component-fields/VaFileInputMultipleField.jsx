@@ -396,8 +396,6 @@ const VaFileInputMultipleField = props => {
         percentUploaded={percentsUploaded}
         passwordErrors={passwordErrors}
         onVaSelect={handleAdditionalInput}
-        maxFileSize={uiOptions.maxFileSize}
-        minFileSize={uiOptions.minFileSize}
         slotFieldIndexes={slotFieldIndexes}
       >
         {mappedProps.additionalInput && (
