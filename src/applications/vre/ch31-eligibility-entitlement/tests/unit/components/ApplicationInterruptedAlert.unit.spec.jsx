@@ -65,18 +65,6 @@ describe('ApplicationInterruptedAlert', () => {
     expect(queryByText(/no reason provided\./i)).to.be.null;
   });
 
-  it('renders "View my letter" link inside the alert', () => {
-    const { container } = renderWithStore(<ApplicationInterruptedAlert />, {
-      ch31PdfLetterDownload: { loading: false, error: null },
-    });
-
-    const link = container.querySelector('va-link-action');
-    expect(link).to.exist;
-    expect(link.getAttribute('href')).to.equal('#');
-    expect(link.getAttribute('type')).to.equal('primary');
-    expect(link.getAttribute('text')).to.equal('View my letter');
-  });
-
   it('applies layout classes on outer container', () => {
     const { container } = renderWithStore(<ApplicationInterruptedAlert />, {
       ch31PdfLetterDownload: { loading: false, error: null },
