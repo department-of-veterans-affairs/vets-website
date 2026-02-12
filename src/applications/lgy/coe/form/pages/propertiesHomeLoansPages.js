@@ -79,9 +79,8 @@ const options = {
           {getEntitlementRestorationText(itemData?.entitlementRestoration)}
         </div>
         <div>
-          {itemData?.naturalDisaster?.affected && (
-            <>Damaged or destroyed by a federally declared natural disaster</>
-          )}
+          {itemData?.naturalDisaster?.affected &&
+            'Damaged or destroyed by a federally declared natural disaster'}
         </div>
       </div>
     ),
