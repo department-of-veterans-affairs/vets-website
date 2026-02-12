@@ -31,3 +31,8 @@ va-textarea[name="root_otherBenefitDetails"]::part(input-type-textarea) {
   border: 1px solid var(--vads-color-gray-medium);
   background-color: var(--vads-color-white);
 }
+
+va-accordion-item::part(accordion-header) {
+  background-position: left 1.25rem center!important;
+  padding: 1rem 1.25rem 1rem 3.5rem!important;
+}
