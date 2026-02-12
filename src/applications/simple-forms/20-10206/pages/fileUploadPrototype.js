@@ -9,15 +9,23 @@ import {
   selectSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+const DOCUMENT_TYPE_LABELS = {
+  medical: 'Medical record',
+  financial: 'Financial document',
+  legal: 'Legal document',
+  correspondence: 'Correspondence',
+  other: 'Other',
+};
+
 const DocumentUploadView = ({ formData }) => (
-  <div className="vads-u-padding--2">
-    <p>
-      <strong>File</strong>: {formData.documentUpload?.name || 'No file'}
-    </p>
+  <div>
+    <h4 className="vads-u-margin-top--0 vads-u-font-size--h3">
+      {formData.documentUpload?.name || 'No file'}
+    </h4>
     {formData.documentType && (
-      <p>
-        <strong>Document type</strong>: {formData.documentType}
-      </p>
+      <div>
+        {DOCUMENT_TYPE_LABELS[formData.documentType] || formData.documentType}
+      </div>
     )}
   </div>
 );
@@ -44,6 +52,8 @@ export default {
         showSave: true,
         reviewMode: true,
         reviewItemHeaderLevel: '4',
+        useVaCards: true,
+        useCardStyle: true,
       },
       items: {
         'ui:options': {

@@ -523,6 +523,73 @@ export default class ArrayField extends React.Component {
                 </CardOrDiv>
               );
             }
+            if (uiOptions.useCardStyle) {
+              return (
+                <div
+                  id={`${this.props.name}_${index}`}
+                  key={index}
+                  className="vads-u-margin-top--2"
+                >
+                  <va-card uswds>
+                    <div>
+                      <ViewField
+                        formData={item}
+                        onEdit={() => this.handleEdit(index)}
+                      />
+                    </div>
+                    <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
+                      <va-link
+                        active
+                        text="Edit"
+                        label={`Edit ${ariaItemName}`}
+                        onClick={e => {
+                          e.preventDefault();
+                          this.handleEdit(index);
+                        }}
+                      />
+                      <va-button-icon
+                        button-type="delete"
+                        label={`Remove ${ariaItemName}`}
+                        onClick={() =>
+                          this.handleRemove(index, uiOptions.confirmRemove)
+                        }
+                      />
+                    </span>
+                    {uiOptions.confirmRemove && (
+                      <VaModal
+                        clickToClose
+                        status="warning"
+                        modalTitle={`Are you sure you want to remove this ${uiItemName}?`}
+                        primaryButtonText={modalPrimaryButtonText}
+                        secondaryButtonText={modalSecondaryButtonText}
+                        onCloseEvent={() => this.closeRemoveModal(index)}
+                        onPrimaryButtonClick={() =>
+                          this.handleRemoveModal(index)
+                        }
+                        onSecondaryButtonClick={() =>
+                          this.closeRemoveModal(index)
+                        }
+                        visible={isRemoving}
+                        uswds
+                      >
+                        <>
+                          {(uiOptions.confirmRemoveDescription ||
+                            uiOptions.confirmRemoveDisplayFields) && (
+                            <p>
+                              {uiOptions.confirmRemoveDescription}
+                              {typeof uiOptions.confirmRemoveDisplayFields ===
+                              'function'
+                                ? uiOptions.confirmRemoveDisplayFields(item)
+                                : ''}
+                            </p>
+                          )}
+                        </>
+                      </VaModal>
+                    )}
+                  </va-card>
+                </div>
+              );
+            }
             return (
               <CardOrDiv
                 id={`${this.props.name}_${index}`}
