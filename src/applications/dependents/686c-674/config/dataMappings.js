@@ -38,6 +38,11 @@ export const REMOVE_WORKFLOW_MAPPINGS = {
   reportChild18OrOlderIsNotAttendingSchool: ['childStoppedAttendingSchool'],
 };
 
+export const NO_SSN_REASON_UI_MAPPINGS = {
+  NONRESIDENT_ALIEN: 'They can’t get an SSN based on their immigration status',
+  NONE_ASSIGNED: 'They haven’t gotten their SSN yet',
+};
+
 export const NO_SSN_REASON_PAYLOAD_MAPPINGS = {
   NONRESIDENT_ALIEN: 'Nonresident Alien',
   NONE_ASSIGNED: 'No SSN Assigned by SSA',
