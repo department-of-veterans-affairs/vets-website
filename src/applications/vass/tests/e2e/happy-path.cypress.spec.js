@@ -11,6 +11,7 @@ import {
   mockCreateAppointmentApi,
   mockAppointmentDetailsApi,
   mockCancelAppointmentApi,
+  patchCookiesForCI,
 } from './vass-e2e-helpers';
 import MockAppointmentAvailabilityResponse from '../fixtures/MockAppointmentAvailabilityResponse';
 import MockAppointmentDetailsResponse from '../fixtures/MockAppointmentDetailsResponse';
@@ -32,6 +33,10 @@ const mockToday = new Date('2025-06-02T12:00:00Z');
 
 describe('VASS Schedule Appointment', () => {
   beforeEach(() => {
+    // Patch document.cookie so the VASS JWT cookie can be stored
+    // in CI where the test server runs on http://127.0.0.1 (not HTTPS/va.gov)
+    patchCookiesForCI();
+
     // Setup API mocks before visiting the page
     mockRequestOtpApi();
 

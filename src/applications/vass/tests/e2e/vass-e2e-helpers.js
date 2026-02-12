@@ -7,6 +7,42 @@ import MockAppointmentDetailsResponse from '../fixtures/MockAppointmentDetailsRe
 import MockCancelAppointmentResponse from '../fixtures/MockCancelAppointmentResponse';
 
 /**
+ * Patches document.cookie to strip `Secure` and `Domain` attributes.
+ *
+ * In the vagovprod build, VASS cookies are set with
+ *   { secure: true, domain: 'va.gov', sameSite: 'strict' }
+ * which prevents the cookie from being stored when the Cypress test server
+ * runs on http://127.0.0.1 (not HTTPS, not va.gov).
+ *
+ * Call this in a `beforeEach` **before** `cy.visit()` so the patch is in
+ * place before application code runs.
+ *
+ * @export
+ */
+export function patchCookiesForCI() {
+  cy.on('window:before:load', win => {
+    const cookieDesc = Object.getOwnPropertyDescriptor(
+      win.Document.prototype,
+      'cookie',
+    );
+
+    if (cookieDesc && cookieDesc.set) {
+      Object.defineProperty(win.document, 'cookie', {
+        get() {
+          return cookieDesc.get.call(this);
+        },
+        set(value) {
+          // Strip attributes that prevent cookie storage in CI
+          const cleaned = value.replace(/;\s*[Ss]ecure/g, '');
+          cookieDesc.set.call(this, cleaned);
+        },
+        configurable: true,
+      });
+    }
+  });
+}
+
+/**
  * Function to add custom Cypress commands.
  *
  * @export

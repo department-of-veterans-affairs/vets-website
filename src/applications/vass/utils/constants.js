@@ -38,7 +38,6 @@ const VASS_COOKIE_OPTIONS = {
   secure: isProduction,
   sameSite: isProduction ? 'strict' : undefined,
   path: '/',
-  ...(isProduction ? { domain: 'va.gov' } : {}),
 };
 
 /**
