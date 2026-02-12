@@ -230,10 +230,6 @@ Update this file when you:
 Utility functions for formatting and displaying facility names, particularly for CCD download sections.
 
 #### Facility List Formatting
-- **formatFacilityList(facilities)**: Formats array of facility names into grammatically correct string
-  - 1 facility: `"VA Western New York health care"`
-  - 2 facilities: `"Facility A and Facility B"`
-  - 3+ facilities: `"Facility A, Facility B, and Facility C"`
 - **formatFacilityUnorderedList(facilities)**: Formats facilities as `<ul>` with `<li>` items
   - Accepts strings or objects with `{ id, content }` structure
   - Returns `NONE_RECORDED` for empty/null input
