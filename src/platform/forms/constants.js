@@ -126,6 +126,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_4706B_UPLOAD: '21P-4706B-UPLOAD',
   FORM_21P_4171_UPLOAD: '21P-4171-UPLOAD',
   FORM_21P_8924_UPLOAD: '21P-8924-UPLOAD',
+  FORM_20_10208_UPLOAD: '20-10208-UPLOAD',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -331,6 +332,9 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21P_8924_UPLOAD]: `${tryGetAppUrl(
       'form-upload-flow',
     )}/21P-8924/introduction/`,
+    [VA_FORM_IDS.FORM_20_10208_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/20-10208/introduction/`,
     [VA_FORM_IDS.FORM_21P_534EZ]: `${tryGetAppUrl('survivors-benefits')}/`,
     [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
     [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('22-10278')}/`,
@@ -509,6 +513,11 @@ export const MY_VA_SIP_FORMS = [
     title: 'form 21-4170 upload',
     description: 'uploaded file for form 21-4170',
     trackingPrefix: 'form-21-4170-upload-',
+    id: VA_FORM_IDS.FORM_20_10208_UPLOAD,
+    benefit: 'form 20-10208 upload',
+    title: 'form 20-10208 upload',
+    description: 'uploaded file for form 20-10208',
+    trackingPrefix: 'form-20-10208-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21P_4185_UPLOAD,

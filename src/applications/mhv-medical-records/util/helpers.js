@@ -37,15 +37,22 @@ export {
 /**
  * @param {*} timestamp
  * @param {*} format defaults to 'MMMM d, yyyy, h:mm a zzz', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
- * @returns {String} formatted timestamp
+ * @returns {String} formatted timestamp or null if invalid
  */
 export const dateFormat = (timestamp, format = null) => {
-  const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
-  return formatInTimeZone(
-    new Date(timestamp),
-    timeZone,
-    format || 'MMMM d, yyyy, h:mm a zzz',
-  );
+  if (!timestamp) return null;
+  const dateObj = new Date(timestamp);
+  if (Number.isNaN(dateObj.getTime())) return null;
+  try {
+    const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
+    return formatInTimeZone(
+      dateObj,
+      timeZone,
+      format || 'MMMM d, yyyy, h:mm a zzz',
+    );
+  } catch {
+    return null;
+  }
 };
 
 export const dateFormatWithoutTime = str => {

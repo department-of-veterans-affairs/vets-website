@@ -171,6 +171,9 @@ export const formMappings = {
   '21P-8924': {
     subTitle: 'Application of Surviving Spouse or Child for REPS Benefits',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-8924-ARE.pdf',
+  '20-10208': {
+    subTitle: 'Document/Evidence Submission',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-20-10208-ARE.pdf',
     showSupportingDocuments: true,
   },
 };
