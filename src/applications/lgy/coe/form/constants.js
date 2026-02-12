@@ -75,3 +75,5 @@ export const certificateUseOptions = {
   CASH_OUT_REFINANCE: 'CASH_OUT_REFINANCE',
   INTEREST_RATE_REDUCTION_REFINANCE: 'INTEREST_RATE_REDUCTION_REFINANCE',
 };
+
+export const TOGGLE_KEY = 'coeFormRebuildCveteam';
