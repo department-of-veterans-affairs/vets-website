@@ -208,6 +208,7 @@ const formConfig = {
               formData.relationToVetRadio,
             ) && !isUserSignedIn(formData),
         },
+        // Address Validation pt1 will go here
         applicantMailingAddressLoggedIn: {
           title: 'Your mailing address',
           path: 'applicant-mailing-address-logged-in',
@@ -252,6 +253,7 @@ const formConfig = {
               formData.relationToVetRadio,
             ),
         },
+        // Address Validation pt2 will go here
       },
     },
     veteranInformation: {
