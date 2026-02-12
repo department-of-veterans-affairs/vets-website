@@ -358,7 +358,7 @@ describe('Review Page Utils', () => {
 
     beforeEach(() => {
       sandbox = sinon.createSandbox();
-      originalMockFlag = constants.mockTestingFlagforAPI;
+      originalMockFlag = constants.mockTestingFlagForAPI;
       originalEnvUrl = constants.envUrl;
 
       Object.defineProperty(constants, 'envUrl', {
@@ -367,7 +367,7 @@ describe('Review Page Utils', () => {
         writable: true,
       });
 
-      Object.defineProperty(constants, 'mockTestingFlagforAPI', {
+      Object.defineProperty(constants, 'mockTestingFlagForAPI', {
         value: true,
         configurable: true,
         writable: true,
@@ -377,7 +377,7 @@ describe('Review Page Utils', () => {
     afterEach(() => {
       sandbox.restore();
 
-      Object.defineProperty(constants, 'mockTestingFlagforAPI', {
+      Object.defineProperty(constants, 'mockTestingFlagForAPI', {
         value: originalMockFlag,
         configurable: true,
         writable: true,

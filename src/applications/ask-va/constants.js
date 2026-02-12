@@ -22,28 +22,28 @@ export const baseURL = '/ask_va_api/v0';
 // const isToggleEnabled = !isLoadingFeatureFlags && isMockApiEnabled;
 // const isProduction = environment.isProduction();
 
-// export const mockTestingFlagforAPI =
+// export const mockTestingFlagForAPI =
 //   (isToggleEnabled || isLocalhost) && !isProduction;
 
-export const mockTestingFlagforAPI =
+export const mockTestingFlagForAPI =
   envUrl === 'http://localhost:3000' || envUrl === 'http://127.0.0.1:3000'; // enable this flag when testing locally for API calls
 
 // Overridable for testing
-export const getMockTestingFlagforAPI = () => mockTestingFlagforAPI;
+export const getMockTestingFlagForAPI = () => mockTestingFlagForAPI;
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/contents?type=category${
-    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+    mockTestingFlagForAPI ? '&user_mock_data=true' : ''
   }`,
   GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%${
-    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+    mockTestingFlagForAPI ? '&user_mock_data=true' : ''
   }`,
   GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%${
-    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+    mockTestingFlagForAPI ? '&user_mock_data=true' : ''
   }`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   ANNOUNCEMENTS: `${baseURL}/announcements${
-    mockTestingFlagforAPI ? '?user_mock_data=true' : ''
+    mockTestingFlagForAPI ? '?user_mock_data=true' : ''
   }`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,

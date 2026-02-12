@@ -1,7 +1,7 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { formatDate } from '../config/helpers';
 import submitTransformer from '../config/submit-transformer';
-import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
+import { URL, envUrl, mockTestingFlagForAPI } from '../constants';
 import { mockSubmitResponse } from './mockData';
 import { askVAAttachmentStorage } from './StorageAdapter';
 
@@ -207,7 +207,7 @@ export const handleFormSubmission = async ({
         onSuccess?.({ inquiryNumber, contactPreference });
       },
       onError,
-      mockEnabled: mockTestingFlagforAPI,
+      mockEnabled: mockTestingFlagForAPI,
     });
   } catch (error) {
     onError?.(error);

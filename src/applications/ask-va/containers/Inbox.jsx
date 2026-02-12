@@ -2,7 +2,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ServerErrorAlert } from '../config/helpers';
-import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
+import { URL, envUrl, mockTestingFlagForAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
 import { categorizeByLOA } from '../utils/inbox';
 import InboxLayout from '../components/inbox/InboxLayout';
@@ -25,7 +25,7 @@ export default function Inbox() {
   const getApiData = useCallback(url => {
     setLoading(true);
 
-    if (mockTestingFlagforAPI && !window.Cypress) {
+    if (mockTestingFlagForAPI && !window.Cypress) {
       saveInState(mockInquiries.data);
       return Promise.resolve();
     }

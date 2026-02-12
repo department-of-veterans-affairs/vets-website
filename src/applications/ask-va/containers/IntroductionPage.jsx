@@ -30,7 +30,7 @@ import {
   getVAStatusFromCRM,
   getVAStatusIconAndMessage,
 } from '../config/helpers';
-import { envUrl, mockTestingFlagforAPI } from '../constants';
+import { envUrl, mockTestingFlagForAPI } from '../constants';
 import { mockInquiryStatusResponse } from '../utils/mockData';
 import Inbox from './Inbox';
 
@@ -107,7 +107,7 @@ const IntroductionPage = props => {
     // Mocking the API response for testing when searching for reference number
     // A-20250106-308944
     if (
-      mockTestingFlagforAPI &&
+      mockTestingFlagForAPI &&
       searchReferenceNumber === 'A-20250106-308944'
     ) {
       setInquiryData(mockInquiryStatusResponse.data);

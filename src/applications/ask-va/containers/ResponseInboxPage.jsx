@@ -26,7 +26,7 @@ import {
 } from '../config/helpers';
 import {
   envUrl,
-  getMockTestingFlagforAPI,
+  getMockTestingFlagForAPI,
   RESPONSE_PAGE,
   URL,
 } from '../constants';
@@ -72,7 +72,7 @@ const ResponseInboxPage = ({ router }) => {
 
       setLoading(true);
 
-      if (getMockTestingFlagforAPI()) {
+      if (getMockTestingFlagForAPI()) {
         // Simulate API delay
         return new Promise(resolve => {
           setTimeout(() => {
@@ -118,7 +118,7 @@ const ResponseInboxPage = ({ router }) => {
     setLoading(true);
     setError(false);
 
-    if (getMockTestingFlagforAPI() && !window.Cypress) {
+    if (getMockTestingFlagForAPI() && !window.Cypress) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
@@ -168,7 +168,7 @@ const ResponseInboxPage = ({ router }) => {
   const getDownloadData = url => {
     setError(false);
 
-    if (getMockTestingFlagforAPI()) {
+    if (getMockTestingFlagForAPI()) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
