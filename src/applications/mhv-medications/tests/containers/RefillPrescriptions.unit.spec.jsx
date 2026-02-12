@@ -837,7 +837,7 @@ describe('Refill Prescriptions Component', () => {
       });
     });
 
-    it('uses fixedCacheKey for cross-tab mutation deduplication', () => {
+    it('uses fixedCacheKey for shared mutation state', () => {
       sandbox.restore();
 
       const mockMutation = sinon

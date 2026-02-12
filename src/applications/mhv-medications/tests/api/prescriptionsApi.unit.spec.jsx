@@ -332,23 +332,6 @@ describe('prescriptionsApi', () => {
         ).to.be.a('function');
       });
 
-      it('should have refetchOnFocus enabled for cross-tab synchronization', () => {
-        const endpoint = prescriptionsApi.endpoints.getRefillablePrescriptions;
-        // The refetchOnFocus option should be configured for this endpoint
-        // This ensures medication lists sync when switching between tabs
-        expect(endpoint).to.exist;
-        // RTK Query endpoints with refetchOnFocus: true will automatically
-        // refetch data when the browser tab regains focus
-      });
-
-      it('should have refetchOnReconnect enabled for network reliability', () => {
-        const endpoint = prescriptionsApi.endpoints.getRefillablePrescriptions;
-        // The refetchOnReconnect option should be configured for this endpoint
-        // This ensures medication lists refresh after network reconnection
-        expect(endpoint).to.exist;
-        // RTK Query endpoints with refetchOnReconnect: true will automatically
-        // refetch data when network connection is restored
-      });
     });
 
     describe('getPrescriptionDocumentation', () => {
