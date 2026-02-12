@@ -8,6 +8,8 @@ import {
   disabilitiesUiSchema,
   examinationDateSchema,
   examinationDateUiSchema,
+  physicalMeasurementsSchema,
+  physicalMeasurementsUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import { TITLE, SUBTITLE } from '../../constants';
 import manifest from '../../manifest.json';
@@ -78,6 +80,12 @@ const formConfig = {
           title: 'Disabilities',
           uiSchema: disabilitiesUiSchema,
           schema: disabilitiesSchema,
+        },
+        physicalMeasurements: {
+          path: 'physical-measurements',
+          title: 'Physical measurements',
+          uiSchema: physicalMeasurementsUiSchema,
+          schema: physicalMeasurementsSchema,
         },
       },
     },
