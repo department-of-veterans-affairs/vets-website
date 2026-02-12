@@ -15,3 +15,7 @@ export {
 export { nutritionSchema, nutritionUiSchema } from './nutrition';
 export { gaitSchema, gaitUiSchema } from './gait';
 export { vitalSignsSchema, vitalSignsUiSchema } from './vital-signs';
+export {
+  bedConfinementSchema,
+  bedConfinementUiSchema,
+} from './bed-confinement';

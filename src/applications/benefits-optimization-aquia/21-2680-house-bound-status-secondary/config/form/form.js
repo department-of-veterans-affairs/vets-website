@@ -16,6 +16,8 @@ import {
   gaitUiSchema,
   vitalSignsSchema,
   vitalSignsUiSchema,
+  bedConfinementSchema,
+  bedConfinementUiSchema,
 } from '@bio-aquia/21-2680-house-bound-status-secondary/pages';
 import {
   TITLE,
@@ -81,7 +83,7 @@ const formConfig = {
       },
     },
     patiendVitals: {
-      title: 'Patient Vitals',
+      title: 'Patient vitals',
       pages: {
         disabilities: {
           path: 'disabilities',
@@ -112,6 +114,17 @@ const formConfig = {
           title: 'Vital signs',
           uiSchema: vitalSignsUiSchema,
           schema: vitalSignsSchema,
+        },
+      },
+    },
+    disabilityDiagnosis: {
+      title: 'Disability diagnosis',
+      pages: {
+        bedConfinement: {
+          path: 'bed-confinement',
+          title: 'Bed confinement',
+          uiSchema: bedConfinementUiSchema,
+          schema: bedConfinementSchema,
         },
       },
     },
