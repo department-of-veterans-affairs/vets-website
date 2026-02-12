@@ -2,6 +2,7 @@ import React from 'react';
 
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 import { SearchForm } from '../../../components/search-form';
 import { benefitsServices } from '../../../config';
 
@@ -89,5 +90,121 @@ describe('SearchForm', () => {
     const wrapper = shallow(<SearchForm currentQuery={query} />);
     expect(wrapper.find('ForwardRef(VaModal)').prop('visible')).to.be.false;
     wrapper.unmount();
+  });
+
+  describe('Draft state behavior', () => {
+    const getDefaultProps = () => ({
+      currentQuery: {
+        facilityType: null,
+        serviceType: null,
+        searchString: '',
+        zoomLevel: 4,
+        geocodeError: 0,
+      },
+      onChange: sinon.spy(),
+      onSubmit: sinon.spy(),
+      setSearchInitiated: sinon.spy(),
+      searchInitiated: false,
+      isMobile: false,
+      isSmallDesktop: false,
+      isTablet: false,
+      useProgressiveDisclosure: false,
+      vamcAutoSuggestEnabled: false,
+    });
+
+    it('should call onChange immediately when facility type changes', () => {
+      const props = getDefaultProps();
+      const wrapper = shallow(<SearchForm {...props} />);
+
+      const facilityType = wrapper.find('FacilityType');
+      facilityType.prop('handleFacilityTypeChange')({
+        target: { value: 'health' },
+      });
+
+      expect(props.onChange.calledOnce).to.be.true;
+      expect(props.onChange.firstCall.args[0]).to.deep.include({
+        facilityType: 'health',
+        serviceType: null,
+        vamcServiceDisplay: null,
+      });
+      wrapper.unmount();
+    });
+
+    it('should call onChange when service type changes to clear errors', () => {
+      const props = {
+        ...getDefaultProps(),
+        currentQuery: {
+          ...getDefaultProps().currentQuery,
+          facilityType: 'benefits',
+        },
+      };
+      const wrapper = shallow(<SearchForm {...props} />);
+
+      // Get the ServiceType component and call its handler
+      const serviceType = wrapper.find('ServiceType');
+      serviceType.prop('handleServiceTypeChange')({
+        target: { value: 'ApplyingForBenefits' },
+        selectedItem: { name: 'Applying for Benefits' },
+      });
+
+      expect(props.onChange.calledOnce).to.be.true;
+      expect(props.onChange.firstCall.args[0]).to.deep.equal({
+        serviceType: 'ApplyingForBenefits',
+      });
+      wrapper.unmount();
+    });
+
+    it('should call onChange with all draft values on valid form submit', () => {
+      const props = {
+        ...getDefaultProps(),
+        currentQuery: {
+          ...getDefaultProps().currentQuery,
+          searchString: '10001',
+        },
+      };
+      const wrapper = shallow(<SearchForm {...props} />);
+
+      // Set facility type in draft state via the handler
+      const facilityType = wrapper.find('FacilityType');
+      facilityType.prop('handleFacilityTypeChange')({
+        target: { value: 'health' },
+      });
+
+      // Submit form
+      const form = wrapper.find('form#facility-search-controls');
+      form.simulate('submit', { preventDefault: () => {} });
+
+      expect(props.onChange.called).to.be.true;
+      const { lastCall } = props.onChange;
+      expect(lastCall.args[0]).to.deep.include({
+        facilityType: 'health',
+        searchString: '10001',
+      });
+      wrapper.unmount();
+    });
+
+    it('should prevent duplicate search with same draft values', () => {
+      const props = {
+        ...getDefaultProps(),
+        currentQuery: {
+          ...getDefaultProps().currentQuery,
+          searchString: '10001',
+          facilityType: 'health',
+          zoomLevel: 4,
+        },
+      };
+      const wrapper = shallow(<SearchForm {...props} />);
+
+      const form = wrapper.find('form#facility-search-controls');
+
+      // First submit
+      form.simulate('submit', { preventDefault: () => {} });
+      expect(props.onSubmit.calledOnce).to.be.true;
+
+      // Second submit with same values should be prevented
+      form.simulate('submit', { preventDefault: () => {} });
+      expect(props.onSubmit.calledOnce).to.be.true; // Still only once
+      wrapper.unmount();
+    });
   });
 });
