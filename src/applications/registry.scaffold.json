@@ -164,7 +164,23 @@
   },
   {
     "appName": "Apply for Individual Unemployability disability benefits",
-    "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-unemployability-compensation-form-21-8940 ", 
+    "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-unemployability-compensation-form-21-8940 ",
     "widgetType": "unemployability-compensation"
+  },
+  {
+    "appName": "Facility Locator",
+    "entryName": "facilities",
+    "rootUrl": "/find-locations",
+    "template": {
+      "title": "Find VA Locations"
+    }
+  },
+  {
+    "appName": "Apply for Health Care",
+    "entryName": "hca",
+    "rootUrl": "/health-care/apply-for-health-care-form-10-10ez",
+    "template": {
+      "title": "Apply for Health Care"
+    }
   }
 ]
