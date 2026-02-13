@@ -101,15 +101,29 @@ const SearchControls = props => {
         Search for an accredited representative
       </h2>
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
-        <div className="vads-u-margin-top--4">
-          <RepTypeSelector
-            representativeType={representativeType}
-            onChange={onChange}
-          />
+        <RepTypeSelector
+          representativeType={representativeType}
+          onChange={onChange}
+        />
+
+        <div className="vads-u-margin-top--1">
+          <p>
+            <strong>Note:</strong> If you’re not sure what type of accredited
+            representative you’d like to appoint, you can learn about the
+            services they offer.
+          </p>
+          <p>
+            <va-link
+              href="/resources/va-accredited-representative-faqs/"
+              text="Learn about the types of accredited representatives"
+              external="true" // Enables behavior of opening in a new tab
+              data-testid="accredited-representative-faqs-link"
+            />
+          </p>
         </div>
 
         <div className="search-controls-text-inputs">
-          <div className="geolocation-container vads-u-margin-top--1">
+          <div className="geolocation-container">
             <div className="location-input">
               <va-text-input
                 style={{ order: 1 }}
