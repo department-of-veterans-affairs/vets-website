@@ -1,0 +1,15 @@
+{
+  "buildCommand": "bash script/vercel-build.sh",
+  "outputDirectory": "build/localhost",
+  "installCommand": "yarn install --frozen-lockfile --production=false",
+  "framework": null,
+  "regions": ["iad1"],
+  "rewrites": [
+    { "source": "/v0/:path*", "destination": "/api/mock?__original_path=/v0/:path*" },
+    { "source": "/facilities_api/:path*", "destination": "/api/mock?__original_path=/facilities_api/:path*" },
+    { "source": "/data/:path*", "destination": "/api/mock?__original_path=/data/:path*" },
+    { "source": "/csrf_token", "destination": "/api/mock?__original_path=/csrf_token" },
+    { "source": "/find-locations/:path*", "destination": "/find-locations/index.html" },
+    { "source": "/health-care/apply-for-health-care-form-10-10ez/:path*", "destination": "/health-care/apply-for-health-care-form-10-10ez/index.html" }
+  ]
+}
