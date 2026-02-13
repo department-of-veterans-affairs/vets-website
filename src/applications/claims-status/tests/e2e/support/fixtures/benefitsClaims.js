@@ -29,6 +29,7 @@ export const createBenefitsClaimListItem = ({
   status = 'CLAIM_RECEIVED',
 } = {}) => ({
   id: '123456789',
+  type: 'claim',
   attributes: {
     claimDate,
     claimPhaseDates: {
