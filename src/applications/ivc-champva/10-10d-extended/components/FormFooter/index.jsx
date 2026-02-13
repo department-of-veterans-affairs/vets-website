@@ -1,5 +1,5 @@
 import React from 'react';
-import { CONTACTS } from '../../imports';
+import { CONTACTS } from '../../utils/imports';
 
 const GetFormHelp = (
   <>

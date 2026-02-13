@@ -7,6 +7,7 @@ const useFeatureToggles = () => {
     isComboBoxEnabled,
     isAalEnabled,
     readReceiptsEnabled,
+    useCanReplyField,
     customFoldersRedesignEnabled,
     largeAttachmentsEnabled,
     isDowntimeBypassEnabled,
@@ -30,6 +31,10 @@ const useFeatureToggles = () => {
         readReceiptsEnabled:
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingReadReceipts
+          ],
+        useCanReplyField:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingCanReplyField
           ],
         customFoldersRedesignEnabled:
           state.featureToggles[
@@ -74,6 +79,7 @@ const useFeatureToggles = () => {
     isComboBoxEnabled,
     readReceiptsEnabled,
     isAalEnabled,
+    useCanReplyField,
     customFoldersRedesignEnabled,
     largeAttachmentsEnabled,
     isDowntimeBypassEnabled,

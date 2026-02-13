@@ -6,7 +6,7 @@ import { toHash } from '../../../../shared/utilities';
 import {
   healthInsurancePageTitleUI,
   medicarePageTitleUI,
-} from '../../../helpers/titles';
+} from '../../../utils/titles';
 
 describe('1010d `medicarePageTitleUI` util', () => {
   const DEFAULT_ITEM = { medicareParticipant: toHash('123123123') };
