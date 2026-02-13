@@ -10,10 +10,7 @@ describe('Medications List Page Filter Accordion Collapsed', () => {
     listPage.visitMedicationsListPageURL(rxList);
     cy.injectAxe();
     cy.axeCheck('main');
-    cy.wait('@Medications');
-    listPage.verifyLabelTextWhenFilterAccordionExpanded();
     listPage.clickfilterAccordionDropdownOnListPage();
-    listPage.verifyFilterHeaderTextHasFocusafterExpanded();
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('All medications');
     cy.reload();

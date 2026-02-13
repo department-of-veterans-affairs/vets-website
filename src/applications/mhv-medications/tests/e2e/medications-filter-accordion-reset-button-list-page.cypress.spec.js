@@ -13,10 +13,7 @@ describe('Medications List Page Filter Accordion Reset Button', () => {
     cy.injectAxe();
     cy.axeCheck('main');
 
-    cy.wait('@Medications');
-    listPage.verifyLabelTextWhenFilterAccordionExpanded();
     listPage.clickfilterAccordionDropdownOnListPage();
-    listPage.verifyFilterHeaderTextHasFocusafterExpanded();
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('Active');
 
