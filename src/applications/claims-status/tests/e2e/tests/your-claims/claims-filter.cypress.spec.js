@@ -73,6 +73,28 @@ describe('Feature flag: cstClaimsListFilter', () => {
 
       cy.axeCheck();
     });
+
+    it('should not show pagination info when fewer than 10 items', () => {
+      cy.get('#pagination-info').should('not.exist');
+
+      cy.axeCheck();
+    });
+
+    it('should display single paragraph in "What if" section without subsections', () => {
+      cy.findByText(
+        'If you recently submitted a claim or requested a Higher Level Review or Board appeal, we might still be processing it. Check back for updates.',
+      );
+
+      // Subsection headings should NOT exist
+      cy.findByRole('heading', {
+        name: 'We might still be processing it',
+      }).should('not.exist');
+      cy.findByRole('heading', { name: 'We combined your claims' }).should(
+        'not.exist',
+      );
+
+      cy.axeCheck();
+    });
   });
 
   context('when enabled', () => {
@@ -184,6 +206,23 @@ describe('Feature flag: cstClaimsListFilter', () => {
         cy.window().then(win => {
           expect(win.sessionStorage.getItem('claimsFilter')).to.equal('closed');
         });
+
+        cy.axeCheck();
+      });
+
+      it('should show pagination info even with fewer than 10 items', () => {
+        cy.findByText('Showing 1-4 of 4 records');
+
+        cy.axeCheck();
+      });
+
+      it('should display "What if" section with two subsections', () => {
+        cy.findByRole('heading', { name: 'We might still be processing it' });
+        cy.findByRole('heading', { name: 'We combined your claims' });
+
+        cy.findByText(
+          "If you turn in a new claim while we're reviewing another one, we may combine your claims. We'll add any new information to your existing claim. You may not see a separate entry for the new claim. You don't need to do anything.",
+        );
 
         cy.axeCheck();
       });
