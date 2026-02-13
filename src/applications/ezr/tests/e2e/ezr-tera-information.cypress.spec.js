@@ -41,14 +41,17 @@ function setUserData(user, prefillData) {
   }).as('mockSip');
 }
 
-function goToToxicExposurePageAndCheckYes() {
+function goToToxicExposurePageAndCheckYes(prefillData) {
   cy.visit(manifest.rootUrl);
   cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
   advanceToHouseholdSection();
+  const hasServiceHistoryInfo = !!prefillData?.formData?.[
+    'view:hasPrefillServiceHistory'
+  ];
   handleOptionalServiceHistoryPage({
     historyEnabled: featureTogglesObject.ezrServiceHistoryEnabled,
-    hasServiceHistoryInfo: featureTogglesObject.hasPrefillServiceHistory,
+    hasServiceHistoryInfo,
     hasTeraYes: true,
   });
   cy.injectAxeThenAxeCheck();
@@ -57,7 +60,15 @@ function goToToxicExposurePageAndCheckYes() {
 describe('EZR TERA flow', () => {
   beforeEach(() => {
     setUserData(mockUser, mockPrefill);
-    goToToxicExposurePageAndCheckYes();
+    goToToxicExposurePageAndCheckYes(mockPrefill);
+  });
+
+  afterEach(() => {
+    cy.contains('button', 'Continue').then($btn => {
+      if ($btn.length && !$btn.is(':disabled')) {
+        cy.wrap($btn).click({ force: true });
+      }
+    });
   });
 
   it('should not show tera information questions when the user does not have any tera information to report', () => {
@@ -100,7 +111,7 @@ describe("EZR branching logic based on the user's DOB", () => {
   describe('when the user has a DOB prior to 1966', () => {
     beforeEach(() => {
       setUserData(mockUserAgentOrangeDob, mockPrefillAgentOrangeDob);
-      goToToxicExposurePageAndCheckYes();
+      goToToxicExposurePageAndCheckYes(mockPrefillAgentOrangeDob);
     });
 
     it('displays the radiation cleanup, Gulf War, combat operations, agent orange, and other toxic exposure pages', () => {
@@ -136,7 +147,7 @@ describe("EZR branching logic based on the user's DOB", () => {
   describe('when the user has a DOB between 1966 and 1975', () => {
     beforeEach(() => {
       setUserData(mockUserCombatOperationsDob, mockPrefillCombatOperationsDob);
-      goToToxicExposurePageAndCheckYes();
+      goToToxicExposurePageAndCheckYes(mockPrefillCombatOperationsDob);
     });
 
     it('displays the Gulf War, combat operations, and other toxic exposure pages', () => {
@@ -164,7 +175,7 @@ describe("EZR branching logic based on the user's DOB", () => {
         mockUserPostSept11ServiceDob,
         mockPrefillPostSept11ServiceDob,
       );
-      goToToxicExposurePageAndCheckYes();
+      goToToxicExposurePageAndCheckYes(mockPrefillPostSept11ServiceDob);
     });
 
     it('displays the post-9/11 Gulf War, combat operations, and other toxic exposure pages', () => {
@@ -198,7 +209,7 @@ describe("EZR branching logic based on the user's DOB", () => {
   describe('when the user has a DOB after the present day - 15 years', () => {
     beforeEach(() => {
       setUserData(mockUserOtherExposureDob, mockPrefillOtherExposureDob);
-      goToToxicExposurePageAndCheckYes();
+      goToToxicExposurePageAndCheckYes(mockPrefillOtherExposureDob);
     });
 
     it('only displays the other toxic exposure pages', () => {

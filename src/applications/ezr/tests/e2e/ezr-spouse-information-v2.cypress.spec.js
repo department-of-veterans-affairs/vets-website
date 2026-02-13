@@ -44,9 +44,13 @@ function setUserDataAndAdvanceToSpouseSection(user, prefillData) {
   cy.visit(manifest.rootUrl);
   cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
   advanceToHouseholdSection();
+  const hasServiceHistoryInfo =
+    prefillData?.formData?.['view:hasPrefillServiceHistory'];
+
   handleOptionalServiceHistoryPage({
     historyEnabled: featureFlagObject.ezrServiceHistoryEnabled,
-    hasServiceHistoryInfo: prefillData['view:hasPrefillServiceHistory'],
+    hasServiceHistoryInfo,
+    fillServiceHistory: true,
   });
   goToNextPage('/household-information/marital-status-information');
   cy.injectAxeThenAxeCheck();

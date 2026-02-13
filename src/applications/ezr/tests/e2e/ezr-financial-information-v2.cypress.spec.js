@@ -70,7 +70,7 @@ function setUserDataAndAdvanceToHouseholdSection(user, prefillData) {
   advanceToHouseholdSection();
   handleOptionalServiceHistoryPage({
     historyEnabled: data['view:ezrServiceHistoryEnabled'],
-    hasServiceHistoryInfo: data['view:hasPrefillServiceHistory'],
+    hasServiceHistoryInfo: !data['view:hasPrefillServiceHistory'],
   });
   cy.injectAxeThenAxeCheck();
 }

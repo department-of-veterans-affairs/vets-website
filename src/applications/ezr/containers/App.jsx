@@ -31,7 +31,7 @@ const App = props => {
     isProvidersAndDependentsPrefillEnabled,
     isSpouseConfirmationFlowEnabled,
   } = features;
-  const ezrServiceHistoryEnabled = true; // This feature is always enabled in the EZR app
+  const ezrServiceHistoryEnabled = true; // This feature is always enabled in the EZR app!
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,

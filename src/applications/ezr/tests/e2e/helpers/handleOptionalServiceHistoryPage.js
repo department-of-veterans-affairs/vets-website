@@ -28,7 +28,6 @@ export const fillServicePeriod = (historyData = {}) => {
     fillHistory.lastDischargeDate,
   );
   selectDropdownWebComponent('dischargeType', fillHistory.dischargeType);
-  cy.injectAxeThenAxeCheck();
 };
 
 export const handleOptionalServiceHistoryPage = ({
@@ -38,17 +37,18 @@ export const handleOptionalServiceHistoryPage = ({
   servicePeriodData = {},
   fillServiceHistory = false,
 } = {}) => {
-  const skipUpdateInfo = !(
-    fillServiceHistory || Object.keys(servicePeriodData).length > 0
-  );
   if (historyEnabled) {
     if (hasServiceHistoryInfo) {
       goToNextPage('/military-service/review-service-information');
       cy.selectYesNoVaRadioOption(
         'root_isServiceHistoryCorrect',
-        skipUpdateInfo,
+        !fillServiceHistory,
       );
-    } else if (!hasServiceHistoryInfo || !skipUpdateInfo) {
+    }
+    if (
+      !hasServiceHistoryInfo ||
+      (hasServiceHistoryInfo && fillServiceHistory)
+    ) {
       goToNextPage('/military-service/service-period');
       fillServicePeriod(servicePeriodData);
       goToNextPage('/military-service/additional-information');
