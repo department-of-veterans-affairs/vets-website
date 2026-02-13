@@ -89,8 +89,7 @@ const ContactInfo = ({
       : profile.vapContactInfo || {};
 
   const dataWrap = data[keys.wrapper] || {};
-  const email =
-    dataWrap[keys.email]?.emailAddress || dataWrap[keys.email] || '';
+  const email = dataWrap[keys.email] || '';
   const homePhone = dataWrap[keys.homePhone] || {};
   const mobilePhone = dataWrap[keys.mobilePhone] || {};
   const address = dataWrap[keys.address] || {};
@@ -167,7 +166,7 @@ const ContactInfo = ({
           );
         }
         if (keys.email) {
-          wrapper[keys.email] = contactInfo.email;
+          wrapper[keys.email] = contactInfo.email?.emailAddress;
         }
         setFormData({ ...data, [keys.wrapper]: wrapper });
       }
@@ -291,7 +290,7 @@ const ContactInfo = ({
         </Headers>
         {showSuccessAlert('email', content.email)}
         <span className="dd-privacy-hidden" data-dd-action-name="email">
-          {dataWrap[keys.email]?.emailAddress || dataWrap[keys.email] || ''}
+          {dataWrap[keys.email] || ''}
         </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
