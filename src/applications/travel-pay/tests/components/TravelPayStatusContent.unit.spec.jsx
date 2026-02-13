@@ -61,27 +61,22 @@ describe('TravelPayStatusContent', () => {
     it('renders past appointments link', () => {
       renderComponent({ hasComplexClaimsFeatureFlag: true });
 
-      expect($('va-link-action[text="Go to your past appointments"]')).to
-        .exist;
+      expect($('va-link-action[text="Go to your past appointments"]')).to.exist;
     });
 
     it('renders BTSSS fallback guidance', () => {
       const screen = renderComponent({ hasComplexClaimsFeatureFlag: true });
 
-      expect(
-        screen.getByText(
-          /Beneficiary Travel Self Service System/i,
-        ),
-      ).to.exist;
+      expect(screen.getByText(/Beneficiary Travel Self Service System/i)).to
+        .exist;
       expect($('va-link[text="Go to the BTSSS website"]')).to.exist;
     });
 
     it('renders the saved claims note', () => {
       const screen = renderComponent({ hasComplexClaimsFeatureFlag: true });
 
-      expect(
-        screen.getByText(/You can continue saved or incomplete claims/i),
-      ).to.exist;
+      expect(screen.getByText(/You can continue saved or incomplete claims/i))
+        .to.exist;
     });
 
     it('renders the complex claims list description', () => {
@@ -126,8 +121,7 @@ describe('TravelPayStatusContent', () => {
     it('renders past appointments link', () => {
       renderComponent({ hasSmocFeatureFlag: true });
 
-      expect($('va-link-action[text="Go to your past appointments"]')).to
-        .exist;
+      expect($('va-link-action[text="Go to your past appointments"]')).to.exist;
     });
 
     it('renders BTSSS link for other expenses', () => {
@@ -150,9 +144,8 @@ describe('TravelPayStatusContent', () => {
     it('does not render complex claims content', () => {
       const screen = renderComponent({ hasSmocFeatureFlag: true });
 
-      expect(
-        screen.queryByText('File a new claim for travel pay online'),
-      ).to.be.null;
+      expect(screen.queryByText('File a new claim for travel pay online')).to.be
+        .null;
     });
   });
 
@@ -180,9 +173,8 @@ describe('TravelPayStatusContent', () => {
     it('does not render SMOC or complex claims content', () => {
       const screen = renderComponent();
 
-      expect(
-        screen.queryByText('File a new claim for travel pay online'),
-      ).to.be.null;
+      expect(screen.queryByText('File a new claim for travel pay online')).to.be
+        .null;
       expect(
         screen.queryByText('File a new claim for travel reimbursement online'),
       ).to.be.null;
