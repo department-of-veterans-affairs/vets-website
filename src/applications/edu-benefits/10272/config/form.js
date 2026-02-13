@@ -167,6 +167,9 @@ const formConfig = {
             'The name and mailing address of organization awarding license or certification',
           uiSchema: organizationInfo.uiSchema,
           schema: organizationInfo.schema,
+          initialData: {
+            organizationAddress: { country: 'USA' },
+          },
         },
       },
     },
@@ -185,6 +188,9 @@ const formConfig = {
             'The name and mailing address of the organization giving the prep course',
           uiSchema: prepCourseAddress.uiSchema,
           schema: prepCourseAddress.schema,
+          initialData: {
+            prepCourseOrganizationAddress: { country: 'USA' },
+          },
         },
         prepCourseOnline: {
           path: 'prep-course-details-2',
