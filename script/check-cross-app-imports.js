@@ -5,16 +5,82 @@ const fs = require('fs-extra');
 const path = require('path');
 const omit = require('lodash/omit');
 const pickBy = require('lodash/pickBy');
-const findImports = require('find-imports');
 const commandLineArgs = require('command-line-args');
 const core = require('@actions/core');
+const glob = require('glob');
+const { promisify } = require('util');
 
-function getImports(filePath) {
-  return findImports(filePath, {
-    absoluteImports: true,
-    relativeImports: true,
-    packageImports: false,
+const globAsync = promisify(glob);
+
+/**
+ * Fast regex-based import extraction.
+ * Extracts import/require statements from file content.
+ */
+function extractImportsFromContent(content) {
+  const imports = [];
+
+  // Remove single-line comments to avoid matching commented imports
+  const contentWithoutComments = content.replace(/\/\/.*$/gm, '');
+
+  // Match ES6 imports: import ... from 'path' or import 'path'
+  const es6ImportRegex = /import\s+(?:(?:[\w*{}\s,]+)\s+from\s+)?['"]([^'"]+)['"]/g;
+  for (const match of contentWithoutComments.matchAll(es6ImportRegex)) {
+    imports.push(match[1]);
+  }
+
+  // Match dynamic imports: import('path')
+  const dynamicImportRegex = /import\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
+  for (const match of contentWithoutComments.matchAll(dynamicImportRegex)) {
+    imports.push(match[1]);
+  }
+
+  // Match require statements: require('path')
+  const requireRegex = /require\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
+  for (const match of contentWithoutComments.matchAll(requireRegex)) {
+    imports.push(match[1]);
+  }
+
+  // Filter to only relative and absolute imports (not packages)
+  return imports.filter(
+    imp => imp.startsWith('.') || imp.startsWith('applications/'),
+  );
+}
+
+/**
+ * Fast parallel import scanning using glob + regex.
+ * Much faster than find-imports for large codebases.
+ */
+async function getImportsFast(globPattern, ignorePatterns = []) {
+  // Convert to JS/TS specific patterns
+  const pattern = Array.isArray(globPattern) ? globPattern[0] : globPattern;
+  const jsPattern = pattern.replace('**/*.*', '**/*.{js,jsx,ts,tsx,mjs}');
+
+  const ignoreList = ['**/node_modules/**', ...ignorePatterns];
+  const files = await globAsync(jsPattern, {
+    ignore: ignoreList,
   });
+
+  // Process all files in parallel
+  const fileResults = await Promise.all(
+    files.map(async filePath => {
+      try {
+        const content = await fs.readFile(filePath, 'utf8');
+        const imports = extractImportsFromContent(content);
+        return { filePath, imports };
+      } catch {
+        return { filePath, imports: [] };
+      }
+    }),
+  );
+
+  const results = {};
+  for (const { filePath, imports } of fileResults) {
+    if (imports.length > 0) {
+      results[filePath] = imports;
+    }
+  }
+
+  return results;
 }
 
 function getAppNameFromFilePath(filePath) {
@@ -85,12 +151,14 @@ function updateGraph(graph, appName, importerFilePath, importeeFilePath) {
   });
 }
 
-function buildGraph() {
+async function buildGraph() {
   const graph = {};
-  const files = ['src/applications/**/*.*', '!src/applications/*.*'];
-  const imports = getImports(files);
+  const globPattern = 'src/applications/**/*.*';
+  const ignorePatterns = ['src/applications/*.*']; // Ignore files directly in applications folder
+  const imports = await getImportsFast(globPattern, ignorePatterns);
 
-  Object.keys(imports).forEach(importerFilePath => {
+  const importerFiles = Object.keys(imports);
+  importerFiles.forEach(importerFilePath => {
     const appName = getAppNameFromFilePath(importerFilePath);
     const filePathAsArray = importerFilePath.split('/');
 
@@ -157,13 +225,9 @@ const appHasCrossAppImports = (importGraph, appFolder) => {
     app => !ignoredApps.has(app),
   );
 
-  console.log('relevant imports from: ', Object.keys(importedFrom));
-
   const hasRelevantImportsTo = Object.keys(importedTo).some(
     app => !ignoredApps.has(app),
   );
-
-  console.log('relevant imports to: ', Object.keys(importedTo));
 
   return hasRelevantImportsFrom || hasRelevantImportsTo;
 };
@@ -174,17 +238,14 @@ const appHasCrossAppImports = (importGraph, appFolder) => {
  * @param {string[]} appFolders - Array of app folders in 'src/applications'.
  * @returns {Object|null} Cross app import dependency graph.
  */
-const getCrossAppImports = appFolders => {
+const getCrossAppImports = async appFolders => {
   // Suppress errors from 'find-imports' when building graph.
   console.error = () => {};
   console.log('Analyzing app imports...');
 
-  const importGraph = dedupeGraph(buildGraph());
-  const platformImports = findImports('src/platform/**/*.*', {
-    absoluteImports: true,
-    relativeImports: true,
-    packageImports: false,
-  });
+  const importGraph = dedupeGraph(await buildGraph());
+
+  const platformImports = await getImportsFast(['src/platform/**/*.*']);
 
   // Zero out references from src/platform so that they won't flag isolation checks.
   // This approach preserves data in case you want to log or debug it,
@@ -223,44 +284,48 @@ let appFolders = options['app-folders'] && options['app-folders'].split(',');
 const checkAllowlist = options['check-allowlist'];
 const failOnCrossAppImport = options['fail-on-cross-app-import'];
 
-// Generate full cross app import report when no apps are specified
-if (!appFolders && !checkAllowlist) {
-  const outputPath = path.join('./tmp', 'cross-app-imports.json');
-  const crossAppJson = getCrossAppImports();
-  fs.outputFileSync(outputPath, JSON.stringify(crossAppJson, null, 2));
-  core.exportVariable(
-    'APPS_NOT_ISOLATED',
-    JSON.stringify(
-      Object.keys(crossAppJson).filter(app =>
-        appHasCrossAppImports(crossAppJson, app),
+// Main execution wrapped in async IIFE
+(async () => {
+  // Generate full cross app import report when no apps are specified
+  if (!appFolders && !checkAllowlist) {
+    const outputPath = path.join('./tmp', 'cross-app-imports.json');
+    const crossAppJson = await getCrossAppImports();
+    fs.outputFileSync(outputPath, JSON.stringify(crossAppJson, null, 2));
+    core.exportVariable(
+      'APPS_NOT_ISOLATED',
+      JSON.stringify(
+        Object.keys(crossAppJson).filter(app =>
+          appHasCrossAppImports(crossAppJson, app),
+        ),
       ),
-    ),
-  );
-  console.log(`Cross app import report saved at: ${outputPath}`);
-  process.exit(0);
-}
+    );
+    console.log(`Cross app import report saved at: ${outputPath}`);
+    process.exit(0);
+  }
 
-// Check all apps on the allowlist when this option is specified
-if (checkAllowlist) {
-  appFolders = changedAppsConfig.apps.map(app => app.rootFolder);
-}
+  // Check all apps on the allowlist when this option is specified
+  if (checkAllowlist) {
+    appFolders = changedAppsConfig.apps.map(app => app.rootFolder);
+  }
 
-// Check that all provided apps exist
-for (const appFolder of appFolders) {
-  const appPath = path.join(__dirname, '../src/applications', appFolder);
-  if (!fs.existsSync(appPath)) throw new Error(`${appPath} does not exist.`);
-}
+  // Check that all provided apps exist
+  for (const appFolder of appFolders) {
+    const appPath = path.join(__dirname, '../src/applications', appFolder);
+    if (!fs.existsSync(appPath)) throw new Error(`${appPath} does not exist.`);
+  }
 
-const crossAppImports = getCrossAppImports(appFolders);
-if (crossAppImports && failOnCrossAppImport) {
-  // For clarity, only show apps that have cross app imports
-  const checkApp = (appObj, app) => appHasCrossAppImports(crossAppImports, app);
-  const filteredImports = pickBy(crossAppImports, checkApp);
-  console.log('Cross app imports found:');
-  console.log(JSON.stringify(filteredImports, null, 2));
-  process.exit(1);
-} else if (crossAppImports) {
-  console.log(JSON.stringify(crossAppImports, null, 2));
-} else {
-  console.log('No cross app imports were found!');
-}
+  const crossAppImports = await getCrossAppImports(appFolders);
+  if (crossAppImports && failOnCrossAppImport) {
+    // For clarity, only show apps that have cross app imports
+    const checkApp = (appObj, app) =>
+      appHasCrossAppImports(crossAppImports, app);
+    const filteredImports = pickBy(crossAppImports, checkApp);
+    console.log('Cross app imports found:');
+    console.log(JSON.stringify(filteredImports, null, 2));
+    process.exit(1);
+  } else if (crossAppImports) {
+    console.log(JSON.stringify(crossAppImports, null, 2));
+  } else {
+    console.log('No cross app imports were found!');
+  }
+})();

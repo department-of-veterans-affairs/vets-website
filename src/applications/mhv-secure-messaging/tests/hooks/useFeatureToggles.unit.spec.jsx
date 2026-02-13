@@ -47,6 +47,7 @@ describe('useFeatureToggles', () => {
         [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
         [FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients]: true,
         [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilotSystemMaintenanceBanner]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCanReplyField]: true,
         'mhv-mock-session': true,
       },
     };
@@ -67,6 +68,7 @@ describe('useFeatureToggles', () => {
       mhvSecureMessagingRecentRecipients: true,
       mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag: true,
       mhvMockSessionFlag: true,
+      useCanReplyField: true,
     });
   });
 });
