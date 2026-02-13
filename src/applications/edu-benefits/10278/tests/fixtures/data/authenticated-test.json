@@ -1,0 +1,81 @@
+{
+  "data": {
+    "securityAnswerText": "mypassword",
+    "securityQuestion": {
+      "question": "pin"
+    },
+    "lengthOfRelease": {
+      "duration": "ongoing"
+    },
+    "claimInformation": {
+      "statusOfClaim": false,
+      "currentBenefit": false,
+      "paymentHistory": true,
+      "amountOwed": false,
+      "minor": false,
+      "other": false,
+      "otherText": ""
+    },
+    "thirdPartyPersonAddress": {
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "1234 Test Ave",
+        "city": "Anaheim",
+        "state": "CA",
+        "postalCode": "24680"
+      }
+    },
+    "thirdPartyPersonName": {
+      "fullName": {
+        "first": "Third",
+        "middle": "Party",
+        "last": "Contact"
+      }
+    },
+    "discloseInformation": {
+      "authorize": "person"
+    },
+    "claimantContactInformation": {
+      "phoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "(555) 123-4567"
+      },
+      "emailAddress": "john.doe@example.com"
+    },
+    "claimantAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "123 Main St",
+      "street2": "Apt 48",
+      "city": "City",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "claimantPersonalInformation": {
+      "fullName": {
+        "first": "John",
+        "middle": "",
+        "last": "Doe"
+      },
+      "dateOfBirth": "1985-01-01",
+      "veteranId": {}
+    },
+    "organizationAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA"
+    },
+    "securityAnswerCreate": {},
+    "securityAnswerLocation": {},
+    "userLoggedIn": true,
+    "applicantName": {
+      "first": "John",
+      "middle": "Michael",
+      "last": "Doe"
+    },
+    "dateOfBirth": "1985-01-01",
+    "ssn": "987654321",
+    "vaFileNumber": "987654321"
+  }
+}
