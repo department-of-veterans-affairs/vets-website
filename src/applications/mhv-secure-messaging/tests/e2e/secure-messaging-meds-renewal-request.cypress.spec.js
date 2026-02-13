@@ -7,6 +7,7 @@ import PatientComposePage from './pages/PatientComposePage';
 import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
 import medicationResponse from './fixtures/medicationResponses/single-medication-response.json';
 import medicationNotFoundResponse from './fixtures/medicationResponses/medication-not-found-response.json';
+import renewalMessageResponse from './fixtures/renewal-message-response.json';
 import searchMockResponse from './fixtures/searchResponses/search-sent-folder-response.json';
 import PatientRecentRecipientsPage from './pages/PatientRecentRecipientsPage';
 import SharedComponents from './pages/SharedComponents';
@@ -93,9 +94,11 @@ describe('SM Medications Renewal Request', () => {
       );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-      cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES_RENEWAL}`, {}).as(
-        'sentMessage',
-      );
+      cy.intercept(
+        'POST',
+        `${Paths.INTERCEPT.MESSAGES_RENEWAL}`,
+        renewalMessageResponse,
+      ).as('sentMessage');
       PatientComposePage.sendMessageButton().click();
       cy.wait('@sentMessage')
         .its('request')
@@ -177,9 +180,11 @@ describe('SM Medications Renewal Request', () => {
       );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-      cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES_RENEWAL}`, {}).as(
-        'sentMessage',
-      );
+      cy.intercept(
+        'POST',
+        `${Paths.INTERCEPT.MESSAGES_RENEWAL}`,
+        renewalMessageResponse,
+      ).as('sentMessage');
       PatientComposePage.sendMessageButton().click();
       cy.wait('@sentMessage')
         .its('request')
@@ -249,9 +254,11 @@ describe('SM Medications Renewal Request', () => {
       );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-      cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES_RENEWAL}`, {}).as(
-        'sentMessage',
-      );
+      cy.intercept(
+        'POST',
+        `${Paths.INTERCEPT.MESSAGES_RENEWAL}`,
+        renewalMessageResponse,
+      ).as('sentMessage');
       PatientComposePage.sendMessageButton().click();
       cy.wait('@sentMessage')
         .its('request')
@@ -320,9 +327,11 @@ describe('SM Medications Renewal Request', () => {
       );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-      cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES_RENEWAL}`, {}).as(
-        'sentMessage',
-      );
+      cy.intercept(
+        'POST',
+        `${Paths.INTERCEPT.MESSAGES_RENEWAL}`,
+        renewalMessageResponse,
+      ).as('sentMessage');
       PatientComposePage.sendMessageButton().click();
       cy.wait('@sentMessage')
         .its('request')
@@ -565,9 +574,11 @@ describe('SM Medications Renewal Request', () => {
       );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-      cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES_RENEWAL}`, {}).as(
-        'sentMessage',
-      );
+      cy.intercept(
+        'POST',
+        `${Paths.INTERCEPT.MESSAGES_RENEWAL}`,
+        renewalMessageResponse,
+      ).as('sentMessage');
       PatientComposePage.sendMessageButton().click();
       cy.wait('@sentMessage')
         .its('request')
@@ -625,9 +636,11 @@ describe('SM Medications Renewal Request', () => {
       );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-      cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES_RENEWAL}`, {}).as(
-        'sentMessage',
-      );
+      cy.intercept(
+        'POST',
+        `${Paths.INTERCEPT.MESSAGES_RENEWAL}`,
+        renewalMessageResponse,
+      ).as('sentMessage');
       PatientComposePage.sendMessageButton().click();
       cy.wait('@sentMessage')
         .its('request')
@@ -680,9 +693,11 @@ describe('SM Medications Renewal Request', () => {
       );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-      cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES_RENEWAL}`, {}).as(
-        'sentMessage',
-      );
+      cy.intercept(
+        'POST',
+        `${Paths.INTERCEPT.MESSAGES_RENEWAL}`,
+        renewalMessageResponse,
+      ).as('sentMessage');
       PatientComposePage.sendMessageButton().click();
       cy.wait('@sentMessage')
         .its('request')
