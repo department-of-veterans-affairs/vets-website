@@ -77,17 +77,19 @@ export function paginateInquiries(inquiries, itemsPerPage) {
 
 export function filterAndSort({
   inquiriesArray,
-  query = '',
-  categoryFilter = 'All',
-  statusFilter = 'All',
+  filters: { category = 'All', status = 'All', query = '' } = {
+    category: 'All',
+    status: 'All',
+    query: '',
+  },
 }) {
   // Since Array.sort() sorts it in place, create a shallow copy first
   const inquiriesCopy = [...inquiriesArray];
   const filteredAndSorted = inquiriesCopy
     .filter(inq => {
       return (
-        [inq.categoryName, 'All'].includes(categoryFilter) &&
-        [inq.status, 'All'].includes(statusFilter)
+        [inq.categoryName, 'All'].includes(category) &&
+        [inq.status, 'All'].includes(status)
       );
     })
     .sort((a, b) =>
