@@ -3,7 +3,7 @@
     "hasBankAccount": false,
       "claimingMonthlySpecialPension": false,
       "claimantLivesInANursingHome": false,
-      "dicType": "DIC",
+      "benefit": "DIC",
       "view:isAddingDependent": false,
       "recognizedAsSpouse": false,
       "hadPreviousMarriages": false,
@@ -26,7 +26,7 @@
       "marriedToVeteranAtTimeOfDeath": true,
       "receivedBenefits": true,
       "claims": {
-        "DIC": true
+        "dic": true
       },
       "claimantEmail": "myemail72585885@unattended.com",
       "claimantPhone": {

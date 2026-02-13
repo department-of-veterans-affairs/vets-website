@@ -157,7 +157,6 @@ describe('VAOS Page: ProviderSelectPage', () => {
     });
   });
 
-  /* Commenting out for now to unblock OH request test in staging */
   describe('when user is over request limit', () => {
     it('should display correct call a provider text', async () => {
       const store = createTestStore({

@@ -7,11 +7,11 @@ import { ProfileContext } from '../context/ProfileContext';
 const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   const profile = useContext(ProfileContext);
   const [searchParams] = useSearchParams();
-  const pageSize = Number(searchParams.get('pageSize')) || defaults.SIZE;
-  const pageNumber = Number(searchParams.get('pageNumber')) || defaults.NUMBER;
+  const pageSize = Number(searchParams.get('perPage')) || defaults.SIZE;
+  const pageNumber = Number(searchParams.get('page')) || defaults.NUMBER;
   const sortOrder = searchParams.get(SEARCH_PARAMS.SORT) || defaults.SORT;
   const selectedIndividual =
-    searchParams.get('as_selected_individual') || defaults.SELECTED_INDIVIDUAL;
+    searchParams.get('show') || defaults.SELECTED_INDIVIDUAL;
   const searchStatus = searchParams.get('status') || '';
   let initCount;
   let pageSizeCount = pageSize * pageNumber;
@@ -32,24 +32,22 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
 
   const userName = profile ? (
     <span className="poa-request__user-name">
-      "You ({profile.firstName.toLowerCase()} {profile.lastName.toLowerCase()}
-      )"
+      {`"You (${profile.firstName.toLowerCase()} ${profile.lastName.toLowerCase()})"`}
     </span>
   ) : null;
   return (
-    <p className="poa-request__meta">
-      Showing{' '}
-      {totalCount > 0 && (
-        <span>
-          {initCount}-{pageSizeCount} of{' '}
-        </span>
-      )}
-      {totalCount} {searchStatus || ''} {resultType || ''}{' '}
-      {selectedIndividual === 'true' && 'for'}{' '}
-      {selectedIndividual === 'true' && userName} sorted by “
+    <p className="poa-request__meta" role="text">
+      {`Showing ${
+        totalCount > 0 ? `${initCount}-${pageSizeCount} of ` : ''
+      }${totalCount} ${searchStatus || ''} ${resultType || ''} ${
+        selectedIndividual === 'you' ? 'for ' : ''
+      }`}
+      {selectedIndividual === 'you' ? userName : ''}
+      {` sorted by `}“
       <strong>
-        {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (
-        {sortOrder})
+        {`${
+          searchStatus === 'processed' ? 'Processed' : 'Submitted'
+        } date (${sortOrder})`}
       </strong>
       ”
     </p>

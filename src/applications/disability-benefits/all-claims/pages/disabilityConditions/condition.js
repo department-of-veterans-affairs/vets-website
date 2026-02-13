@@ -11,6 +11,7 @@ import {
   createRatedDisabilityDescriptions,
   getRemainingRatedDisabilities,
 } from './shared/utils';
+import { updateClaimTypeFromArray } from './shared/claimType';
 
 /** @returns {PageSchema} */
 const conditionPage = {
@@ -69,6 +70,7 @@ const conditionPage = {
     },
     required: ['ratedDisability'],
   },
+  updateFormData: updateClaimTypeFromArray,
 };
 
 export default conditionPage;

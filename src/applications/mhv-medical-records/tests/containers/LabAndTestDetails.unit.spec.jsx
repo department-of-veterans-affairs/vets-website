@@ -172,11 +172,30 @@ describe('LabAndTestDetails radiology', () => {
 
 describe('Accelerated LabAndTestDetails', () => {
   const buildInitialState = () => ({
-    user,
+    user: {
+      ...user,
+      profile: {
+        ...user.profile,
+        facilities: [
+          {
+            facilityId: '983',
+            isCerner: true,
+          },
+        ],
+      },
+    },
     mr: {
       labsAndTests: {
         labsAndTestsDetails: convertLabsAndTestsRecord(radiologyMhv),
         labsAndTestsList: [],
+      },
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+        data: {
+          cernerFacilities: [{ vhaId: '983' }],
+        },
       },
     },
     featureToggles: {

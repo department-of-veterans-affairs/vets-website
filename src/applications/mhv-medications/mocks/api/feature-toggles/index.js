@@ -13,6 +13,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsV2StatusMapping = false,
     mhvMedicationsEnableKramesHtmlSanitization = true,
     mhvMedicationsManagementImprovements = false,
+    mhvMedicationsOracleHealthCutover = false,
   } = toggles;
 
   return {
@@ -70,6 +71,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_management_improvements',
           value: mhvMedicationsManagementImprovements,
+        },
+        {
+          name: 'mhv_medications_oracle_health_cutover',
+          value: mhvMedicationsOracleHealthCutover,
         },
       ],
     },
