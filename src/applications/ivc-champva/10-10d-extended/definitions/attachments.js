@@ -1,6 +1,6 @@
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import { FILE_TYPES_ACCEPTED } from '../constants';
+import { FILE_TYPES_ACCEPTED } from '../utils/constants';
 import content from '../locales/en/content.json';
 
 const BUTTON_TEXT = content['attachments--button-text'];
