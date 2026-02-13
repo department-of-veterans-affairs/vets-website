@@ -200,6 +200,7 @@ describe('Feature flag: cstClaimsListFilter', () => {
 
         // Revisit the page
         cy.visit('/track-claims');
+        cy.injectAxe();
 
         // Filter should still be on Closed (2 items, not 4)
         cy.get('[data-testid="claim-card"]').should('have.length', 2);
