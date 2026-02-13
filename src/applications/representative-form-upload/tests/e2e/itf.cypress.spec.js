@@ -23,26 +23,52 @@ Cypress.Commands.add('denyArpUser', () => {
 });
 
 Cypress.Commands.add('fillVeteranDetail', (fillBirthday = true) => {
-  fillTextWebComponent('veteranFullName_first', data.veteranFullName.first);
-  fillTextWebComponent('veteranFullName_last', data.veteranFullName.last);
-  cy.get('input[name="root_veteranSsn"]').type(data.ssn);
+  fillTextWebComponent(
+    'veteranSubPage_veteranFullName_first',
+    data.veteranFullName.first,
+  );
+  fillTextWebComponent(
+    'veteranSubPage_veteranFullName_last',
+    data.veteranFullName.last,
+  );
+  cy.get('input[name="root_veteranSubPage_veteranSsn"]').type(data.ssn);
 
   if (fillBirthday) {
-    cy.get('select[name="root_veteranDateOfBirthMonth"]').select('February');
-    cy.get('input[name="root_veteranDateOfBirthDay"]').type('15');
-    cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
+    cy.get('select[name="root_veteranSubPage_veteranDateOfBirthMonth"]').select(
+      'February',
+    );
+    cy.get('input[name="root_veteranSubPage_veteranDateOfBirthDay"]').type(
+      '15',
+    );
+    cy.get('input[name="root_veteranSubPage_veteranDateOfBirthYear"]').type(
+      '1990',
+    );
   }
   cy.axeCheck();
-  cy.get('input[name="root_vaFileNumber"]').type('123456789');
+  cy.get('input[name="root_veteranSubPage_vaFileNumber"]').type('123456789');
 });
 
 Cypress.Commands.add('fillClaimantDetail', () => {
-  fillTextWebComponent('claimantFullName_first', data.claimantFullName.first);
-  fillTextWebComponent('claimantFullName_last', data.claimantFullName.last);
-  cy.get('input[name="root_claimantSsn"]').type(data.claimantSsn);
-  cy.get('select[name="root_claimantDateOfBirthMonth"]').select('September');
-  cy.get('input[name="root_claimantDateOfBirthDay"]').type('21');
-  cy.get('input[name="root_claimantDateOfBirthYear"]').type('2009');
+  fillTextWebComponent(
+    'claimantSubPage_claimantFullName_first',
+    data.claimantFullName.first,
+  );
+  fillTextWebComponent(
+    'claimantSubPage_claimantFullName_last',
+    data.claimantFullName.last,
+  );
+  cy.get('input[name="root_claimantSubPage_claimantSsn"]').type(
+    data.claimantSsn,
+  );
+  cy.get('select[name="root_claimantSubPage_claimantDateOfBirthMonth"]').select(
+    'September',
+  );
+  cy.get('input[name="root_claimantSubPage_claimantDateOfBirthDay"]').type(
+    '21',
+  );
+  cy.get('input[name="root_claimantSubPage_claimantDateOfBirthYear"]').type(
+    '2009',
+  );
 });
 
 Cypress.Commands.add('mockItfCheck', () => {

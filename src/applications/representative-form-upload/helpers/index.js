@@ -8,6 +8,7 @@ import { timeFromNow } from 'platform/utilities/date/index';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import testData from '../tests/e2e/fixtures/data/veteran.json';
 import claimantTestData from '../tests/e2e/fixtures/data/itf-claimant.json';
+import testITFData from '../tests/e2e/fixtures/data/itf-veteran.json';
 import {
   FORM_UPLOAD_FILE_UPLOADING_ALERT,
   FORM_UPLOAD_INSTRUCTION_ALERT,
@@ -32,6 +33,7 @@ const formMappings = {
 
 export const mockData = testData.data;
 export const claimantMockData = claimantTestData.data;
+export const mockITFData = testITFData.data;
 
 export const getFormNumber = (pathname = null) => {
   const path = pathname || window?.location?.pathname;
@@ -105,6 +107,13 @@ export const getMockData = (dependent = false) => {
     return undefined;
   }
   return dependent ? mockData : claimantMockData;
+};
+
+export const getITFMockData = (dependent = false) => {
+  if (!environment.isLocalhost() || window.Cypress) {
+    return undefined;
+  }
+  return dependent ? mockITFData : claimantMockData;
 };
 
 export const formattedPhoneNumber = phoneNumber => {

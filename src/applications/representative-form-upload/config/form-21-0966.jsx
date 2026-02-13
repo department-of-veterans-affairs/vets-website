@@ -8,7 +8,11 @@ import { itfClaimantInformationPage } from '../pages/itfClaimantInformation';
 import { itfVeteranInformationPage } from '../pages/itfVeteranInformation';
 import { IsVeteranPage, isVeteranPage } from '../pages/isVeteranPage';
 import { itfTransformForSubmit } from './submit-transformer';
-import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
+import {
+  getITFMockData,
+  scrollAndFocusTarget,
+  getFormContent,
+} from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
 import { getIntentsToFile } from '../helpers/intent-to-file-helper';
 import ITFSubmissionError from './ITFSubmissionError';
@@ -117,7 +121,7 @@ const form210966 = (pathname = null) => {
             scrollAndFocusTarget,
             // we want req'd fields prefilled for LOCAL testing/previewing
             // one single initialData prop here will suffice for entire form
-            initialData: getMockData(),
+            initialData: getITFMockData(),
           },
         },
       },
@@ -155,7 +159,7 @@ const form210966 = (pathname = null) => {
             scrollAndFocusTarget,
             // we want req'd fields prefilled for LOCAL testing/previewing
             // one single initialData prop here will suffice for entire form
-            initialData: getMockData(true),
+            initialData: getITFMockData(true),
           },
         },
       },
