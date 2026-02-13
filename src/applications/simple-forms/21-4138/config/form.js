@@ -61,12 +61,6 @@ import testData from '../tests/e2e/fixtures/data/user.json';
 
 const mockData = testData.data;
 
-const confirmPersonalInformationHeader = React.createElement(
-  'h3',
-  { className: 'vads-u-margin-bottom--3' },
-  'Confirm the personal information we have on file for you',
-);
-
 const confirmPersonalInformationCardHeader = React.createElement(
   'h4',
   { className: 'vads-u-font-size--h3 vads-u-margin-top--0' },
@@ -114,7 +108,6 @@ const confirmPersonalInformationPages = profilePersonalInfoPage({
   dataAdapter: {
     ssnPath: 'idNumber.ssn',
   },
-  header: confirmPersonalInformationHeader,
   cardHeader: confirmPersonalInformationCardHeader,
   note: confirmPersonalInformationNote,
   footer: confirmPersonalInformationFooter,
