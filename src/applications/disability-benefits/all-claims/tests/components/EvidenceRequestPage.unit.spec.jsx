@@ -170,10 +170,192 @@ describe('EvidenceRequestPage', () => {
     await waitFor(() => {
       expect(setFormData.called).to.be.true;
       const updatedData = setFormData.firstCall.args[0];
-      expect(updatedData.vaTreatmentFacilities).to.deep.equal([]);
+      expect(updatedData).to.not.have.property('vaTreatmentFacilities');
       expect(
         updatedData['view:selectableEvidenceTypes']['view:hasVaMedicalRecords'],
       ).to.be.false;
+    });
+  });
+
+  it('should delete privateMedicalRecordAttachments when confirming modal (private uploads only)', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': false,
+      'view:selectableEvidenceTypes': {
+        'view:hasPrivateMedicalRecords': true,
+      },
+      privateMedicalRecordAttachments: [{ name: 'record1.pdf' }],
+    };
+
+    const { container } = render(page({ data, setFormData }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+    });
+
+    const primaryButton = container.querySelector('va-modal');
+    fireEvent(primaryButton, new CustomEvent('primaryButtonClick'));
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      const updatedData = setFormData.firstCall.args[0];
+      expect(updatedData).to.not.have.property(
+        'privateMedicalRecordAttachments',
+      );
+      const selectableTypes1 = updatedData['view:selectableEvidenceTypes'];
+      expect(selectableTypes1['view:hasPrivateMedicalRecords']).to.be.false;
+    });
+  });
+
+  it('should delete providerFacility when confirming modal (private facilities only)', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': false,
+      'view:selectableEvidenceTypes': {
+        'view:hasPrivateMedicalRecords': true,
+      },
+      providerFacility: [{ providerFacilityName: 'Private Clinic 1' }],
+    };
+
+    const { container } = render(page({ data, setFormData }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+    });
+
+    const primaryButton = container.querySelector('va-modal');
+    fireEvent(primaryButton, new CustomEvent('primaryButtonClick'));
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      const updatedData = setFormData.firstCall.args[0];
+      expect(updatedData).to.not.have.property('providerFacility');
+      const selectableTypes2 = updatedData['view:selectableEvidenceTypes'];
+      expect(selectableTypes2['view:hasPrivateMedicalRecords']).to.be.false;
+    });
+  });
+
+  it('should delete both private evidence keys when confirming modal (uploads and facilities)', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': false,
+      'view:selectableEvidenceTypes': {
+        'view:hasPrivateMedicalRecords': true,
+      },
+      privateMedicalRecordAttachments: [{ name: 'record1.pdf' }],
+      providerFacility: [{ providerFacilityName: 'Private Clinic 1' }],
+    };
+
+    const { container } = render(page({ data, setFormData }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+    });
+
+    const primaryButton = container.querySelector('va-modal');
+    fireEvent(primaryButton, new CustomEvent('primaryButtonClick'));
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      const updatedData = setFormData.firstCall.args[0];
+      expect(updatedData).to.not.have.property(
+        'privateMedicalRecordAttachments',
+      );
+      expect(updatedData).to.not.have.property('providerFacility');
+      const selectableTypes3 = updatedData['view:selectableEvidenceTypes'];
+      expect(selectableTypes3['view:hasPrivateMedicalRecords']).to.be.false;
+    });
+  });
+
+  it('should delete vaTreatmentFacilities when confirming modal even when hasVAEvidence is false', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': false,
+      'view:selectableEvidenceTypes': {},
+      vaTreatmentFacilities: [{ treatmentCenterName: 'VA Hospital 1' }],
+    };
+
+    const { container } = render(page({ data, setFormData }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+    });
+
+    const primaryButton = container.querySelector('va-modal');
+    fireEvent(primaryButton, new CustomEvent('primaryButtonClick'));
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      const updatedData = setFormData.firstCall.args[0];
+      expect(updatedData).to.not.have.property('vaTreatmentFacilities');
+      const selectableTypes = updatedData['view:selectableEvidenceTypes'] || {};
+      expect(selectableTypes['view:hasVaMedicalRecords']).to.be.false;
+    });
+  });
+
+  it('should delete providerFacility when confirming modal even when hasPrivateEvidence is false', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': false,
+      'view:selectableEvidenceTypes': {},
+      providerFacility: [{ providerFacilityName: 'Private Clinic 1' }],
+    };
+
+    const { container } = render(page({ data, setFormData }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+    });
+
+    const primaryButton = container.querySelector('va-modal');
+    fireEvent(primaryButton, new CustomEvent('primaryButtonClick'));
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      const updatedData = setFormData.firstCall.args[0];
+      expect(updatedData).to.not.have.property('providerFacility');
+      const selectableTypes = updatedData['view:selectableEvidenceTypes'] || {};
+      expect(selectableTypes['view:hasPrivateMedicalRecords']).to.be.false;
+    });
+  });
+
+  it('should delete privateMedicalRecordAttachments when confirming modal even when hasPrivateEvidence is false', async () => {
+    const setFormData = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': false,
+      'view:selectableEvidenceTypes': {},
+      privateMedicalRecordAttachments: [{ name: 'record1.pdf' }],
+    };
+
+    const { container } = render(page({ data, setFormData }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+    });
+
+    const primaryButton = container.querySelector('va-modal');
+    fireEvent(primaryButton, new CustomEvent('primaryButtonClick'));
+
+    await waitFor(() => {
+      expect(setFormData.called).to.be.true;
+      const updatedData = setFormData.firstCall.args[0];
+      expect(updatedData).to.not.have.property(
+        'privateMedicalRecordAttachments',
+      );
+      const selectableTypes = updatedData['view:selectableEvidenceTypes'] || {};
+      expect(selectableTypes['view:hasPrivateMedicalRecords']).to.be.false;
     });
   });
 
@@ -263,6 +445,32 @@ describe('EvidenceRequestPage', () => {
       expect(updatedData['view:hasMedicalRecords']).to.be.true;
       expect(modal).to.have.attribute('visible', 'false');
     });
+  });
+
+  it('should set evidence flags and patient4142Acknowledgement to false and go forward when No selected after evidence removed', () => {
+    const setFormData = sinon.spy();
+    const goForward = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': false,
+      'view:selectableEvidenceTypes': {
+        'view:hasVaMedicalRecords': true,
+        'view:hasPrivateMedicalRecords': true,
+      },
+      patient4142Acknowledgement: true,
+    };
+
+    const { container } = render(page({ data, setFormData, goForward }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    expect(setFormData.called).to.be.true;
+    const updatedData = setFormData.firstCall.args[0];
+    const selectableTypes = updatedData['view:selectableEvidenceTypes'] || {};
+    expect(selectableTypes['view:hasVaMedicalRecords']).to.be.false;
+    expect(selectableTypes['view:hasPrivateMedicalRecords']).to.be.false;
+    expect(updatedData.patient4142Acknowledgement).to.be.false;
+
+    expect(goForward.called).to.be.true;
+    expect(goForward.firstCall.args[0]).to.deep.equal(updatedData);
   });
 
   it('should render update button on review page', () => {
