@@ -385,7 +385,9 @@ const RefillPrescriptions = () => {
                     migratingFacilities={migratingFacilities}
                   />
                 ) : (
-                  <CernerFacilityAlert healthTool="MEDICATIONS" />
+                  isOracleHealthCutoverEnabled && (
+                    <CernerFacilityAlert healthTool="MEDICATIONS" />
+                  )
                 )}
                 <h2
                   className="vads-u-margin-top--3"
@@ -490,10 +492,12 @@ const RefillPrescriptions = () => {
                       available. If you need a prescription, contact your care
                       team.
                     </p>
-                    <CernerFacilityAlert
-                      healthTool="MEDICATIONS"
-                      className="vads-u-margin-top--2"
-                    />
+                    {isOracleHealthCutoverEnabled && (
+                      <CernerFacilityAlert
+                        healthTool="MEDICATIONS"
+                        className="vads-u-margin-top--2"
+                      />
+                    )}
                   </>
                 )}
               </>

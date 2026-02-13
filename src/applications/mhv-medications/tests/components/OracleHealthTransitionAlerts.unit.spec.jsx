@@ -1,22 +1,50 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom-v5-compat';
+import configureStore from 'redux-mock-store';
 import { OracleHealthT3Alert } from '../../components/OracleHealthTransitionAlerts';
 import { michiganTransitioningUser } from '../../mocks/api/user';
 import michiganPrescriptions from '../e2e/fixtures/list-refillable-oh-ehr-michigan-prescriptions.json';
 
 describe('OracleHealthTransitionAlerts', () => {
+  const mockStore = configureStore([]);
+  const initialState = {
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medications_oracle_health_cutover: true,
+    },
+  };
+
   const blockedPrescriptions = michiganPrescriptions.data.map(rx => ({
     prescriptionId: rx.attributes.prescriptionId,
     prescriptionName: rx.attributes.prescriptionName,
+    stationNumber: rx.attributes.stationNumber,
   }));
 
   const singleBlockedPrescription = [blockedPrescriptions[0]];
 
-  const mockMigratingFacilities =
-    michiganTransitioningUser.data.attributes.va_profile.oh_migration_info
-      .migration_schedules;
+  // Transform snake_case API response to camelCase expected by component
+  const mockMigratingFacilities = michiganTransitioningUser.data.attributes.va_profile.oh_migration_info.migration_schedules.map(
+    schedule => ({
+      ...schedule,
+      migrationDate: schedule.migration_date,
+      facilities: schedule.facilities.map(facility => ({
+        facilityId: facility.facility_id,
+        facilityName: facility.facility_name,
+      })),
+    }),
+  );
+
+  const renderWithProviders = (component, state = initialState) => {
+    const store = mockStore(state);
+    return render(
+      <Provider store={store}>
+        <BrowserRouter>{component}</BrowserRouter>
+      </Provider>,
+    );
+  };
 
   describe('when no alerts should be shown', () => {
     it('returns null when required data is missing', () => {
@@ -42,18 +70,36 @@ describe('OracleHealthTransitionAlerts', () => {
 
       scenarios.forEach(
         ({ blockedPrescriptions: rxs, migratingFacilities: migs }) => {
-          const { container } = render(
-            <BrowserRouter>
-              <OracleHealthT3Alert
-                blockedPrescriptions={rxs}
-                migratingFacilities={migs}
-                hasRefillable
-              />
-            </BrowserRouter>,
+          const { container } = renderWithProviders(
+            <OracleHealthT3Alert
+              blockedPrescriptions={rxs}
+              migratingFacilities={migs}
+              hasRefillable
+            />,
           );
           expect(container.firstChild).to.be.null;
         },
       );
+    });
+
+    it('returns null when feature flag is disabled', () => {
+      const stateWithFlagDisabled = {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_oracle_health_cutover: false,
+        },
+      };
+
+      const { container } = renderWithProviders(
+        <OracleHealthT3Alert
+          blockedPrescriptions={blockedPrescriptions}
+          migratingFacilities={mockMigratingFacilities}
+          hasRefillable
+        />,
+        stateWithFlagDisabled,
+      );
+
+      expect(container.firstChild).to.be.null;
     });
   });
 
@@ -65,10 +111,8 @@ describe('OracleHealthTransitionAlerts', () => {
     };
 
     it('renders error alert with correct test ID', () => {
-      const { container } = render(
-        <BrowserRouter>
-          <OracleHealthT3Alert {...withRefillableProps} />
-        </BrowserRouter>,
+      const { container } = renderWithProviders(
+        <OracleHealthT3Alert {...withRefillableProps} />,
       );
 
       const alert = container.querySelector('va-alert');
@@ -80,10 +124,8 @@ describe('OracleHealthTransitionAlerts', () => {
     });
 
     it('displays standard headline', () => {
-      const { container } = render(
-        <BrowserRouter>
-          <OracleHealthT3Alert {...withRefillableProps} />
-        </BrowserRouter>,
+      const { container } = renderWithProviders(
+        <OracleHealthT3Alert {...withRefillableProps} />,
       );
 
       const headline = container.querySelector('[slot="headline"]');
@@ -94,10 +136,8 @@ describe('OracleHealthTransitionAlerts', () => {
     });
 
     it('displays error message with end date', () => {
-      const { container } = render(
-        <BrowserRouter>
-          <OracleHealthT3Alert {...withRefillableProps} />
-        </BrowserRouter>,
+      const { container } = renderWithProviders(
+        <OracleHealthT3Alert {...withRefillableProps} />,
       );
 
       expect(container.textContent).to.include(
@@ -106,10 +146,8 @@ describe('OracleHealthTransitionAlerts', () => {
     });
 
     it('displays all blocked prescriptions with links', () => {
-      const { getByText, container } = render(
-        <BrowserRouter>
-          <OracleHealthT3Alert {...withRefillableProps} />
-        </BrowserRouter>,
+      const { getByText, container } = renderWithProviders(
+        <OracleHealthT3Alert {...withRefillableProps} />,
       );
 
       expect(getByText('AMLODIPINE BESYLATE 10MG TAB')).to.exist;
@@ -117,25 +155,25 @@ describe('OracleHealthTransitionAlerts', () => {
 
       const links = container.querySelectorAll('a');
       expect(links).to.have.length.at.least(2);
-      expect(links[0].getAttribute('href')).to.equal('/prescription/100506');
-      expect(links[1].getAttribute('href')).to.equal('/prescription/100515');
+      expect(links[0].getAttribute('href')).to.equal(
+        '/prescription/100506?station_number=506',
+      );
+      expect(links[1].getAttribute('href')).to.equal(
+        '/prescription/100515?station_number=515',
+      );
     });
 
     it('displays end date from migration phases', () => {
-      const { getByText } = render(
-        <BrowserRouter>
-          <OracleHealthT3Alert {...withRefillableProps} />
-        </BrowserRouter>,
+      const { getByText } = renderWithProviders(
+        <OracleHealthT3Alert {...withRefillableProps} />,
       );
 
       expect(getByText(/April 13, 2026/)).to.exist;
     });
 
     it('displays additional info about calling pharmacy', () => {
-      const { container } = render(
-        <BrowserRouter>
-          <OracleHealthT3Alert {...withRefillableProps} />
-        </BrowserRouter>,
+      const { container } = renderWithProviders(
+        <OracleHealthT3Alert {...withRefillableProps} />,
       );
 
       expect(container.textContent).to.include(
@@ -144,14 +182,12 @@ describe('OracleHealthTransitionAlerts', () => {
     });
 
     it('includes accessible aria labels on prescription links', () => {
-      const { container } = render(
-        <BrowserRouter>
-          <OracleHealthT3Alert
-            blockedPrescriptions={singleBlockedPrescription}
-            migratingFacilities={mockMigratingFacilities}
-            hasRefillable
-          />
-        </BrowserRouter>,
+      const { container } = renderWithProviders(
+        <OracleHealthT3Alert
+          blockedPrescriptions={singleBlockedPrescription}
+          migratingFacilities={mockMigratingFacilities}
+          hasRefillable
+        />,
       );
 
       const link = container.querySelector('a');
@@ -163,24 +199,20 @@ describe('OracleHealthTransitionAlerts', () => {
 
   describe('hasRefillable prop handling', () => {
     it('sets correct test ID based on hasRefillable prop', () => {
-      const { container: withRefillable } = render(
-        <BrowserRouter>
-          <OracleHealthT3Alert
-            blockedPrescriptions={blockedPrescriptions}
-            migratingFacilities={mockMigratingFacilities}
-            hasRefillable
-          />
-        </BrowserRouter>,
+      const { container: withRefillable } = renderWithProviders(
+        <OracleHealthT3Alert
+          blockedPrescriptions={blockedPrescriptions}
+          migratingFacilities={mockMigratingFacilities}
+          hasRefillable
+        />,
       );
 
-      const { container: noRefillable } = render(
-        <BrowserRouter>
-          <OracleHealthT3Alert
-            blockedPrescriptions={blockedPrescriptions}
-            migratingFacilities={mockMigratingFacilities}
-            hasRefillable={false}
-          />
-        </BrowserRouter>,
+      const { container: noRefillable } = renderWithProviders(
+        <OracleHealthT3Alert
+          blockedPrescriptions={blockedPrescriptions}
+          migratingFacilities={mockMigratingFacilities}
+          hasRefillable={false}
+        />,
       );
 
       expect(
@@ -204,14 +236,12 @@ describe('OracleHealthTransitionAlerts', () => {
         },
       ];
 
-      const { getByText } = render(
-        <BrowserRouter>
-          <OracleHealthT3Alert
-            blockedPrescriptions={blockedPrescriptions}
-            migratingFacilities={customMigration}
-            hasRefillable
-          />
-        </BrowserRouter>,
+      const { getByText } = renderWithProviders(
+        <OracleHealthT3Alert
+          blockedPrescriptions={blockedPrescriptions}
+          migratingFacilities={customMigration}
+          hasRefillable
+        />,
       );
 
       expect(getByText(/May 15, 2026/)).to.exist;

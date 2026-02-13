@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 import { CernerAlertContent } from '~/platform/mhv/components/CernerFacilityAlert/constants';
+import { getPrescriptionDetailUrl } from '../util/helpers';
+import { selectMhvMedicationsOracleHealthCutoverFlag } from '../util/selectors';
 
 /**
  * Component to render alerts for prescriptions blocked during Oracle Health transition
@@ -14,14 +17,41 @@ export const OracleHealthT3Alert = ({
   className = '',
 }) => {
   const config = CernerAlertContent.MEDICATIONS;
-  const migration = migratingFacilities?.[0];
+  const isOracleHealthCutoverEnabled = useSelector(
+    selectMhvMedicationsOracleHealthCutoverFlag,
+  );
 
-  // Don't render if no migration data or no blocked prescriptions
-  if (!migration?.phases || !blockedPrescriptions?.length) {
+  // Don't render if feature flag is disabled
+  if (!isOracleHealthCutoverEnabled) {
     return null;
   }
 
-  const endDate = migration.phases[config.errorEndDate];
+  // Don't render if no migration data or no blocked prescriptions
+  if (!migratingFacilities?.length || !blockedPrescriptions?.length) {
+    return null;
+  }
+
+  const blockedFacilityIds = [
+    ...new Set(
+      blockedPrescriptions
+        .map(rx => String(rx.stationNumber))
+        .filter(id => id != null && id !== 'undefined'),
+    ),
+  ];
+
+  // Find migration schedule(s) that include the blocked prescription facilities
+  const relevantMigration = migratingFacilities.find(migration =>
+    migration.facilities?.some(f =>
+      blockedFacilityIds.includes(String(f.facilityId)),
+    ),
+  );
+
+  // Don't render if no matching migration found or no phases defined
+  if (!relevantMigration?.phases) {
+    return null;
+  }
+
+  const endDate = relevantMigration.phases[config.errorEndDate];
   const testId = hasRefillable
     ? 'oracle-health-t3-alert-with-refillable'
     : 'oracle-health-t3-alert-no-refillable';
@@ -45,7 +75,7 @@ export const OracleHealthT3Alert = ({
           {blockedPrescriptions.map(prescription => (
             <li key={prescription.prescriptionId}>
               <Link
-                to={`/prescription/${prescription.prescriptionId}`}
+                to={getPrescriptionDetailUrl(prescription)}
                 className="vads-u-text-decoration--underline"
                 aria-label={`View details for ${prescription.prescriptionName}`}
               >
@@ -65,6 +95,7 @@ OracleHealthT3Alert.propTypes = {
     PropTypes.shape({
       prescriptionId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       prescriptionName: PropTypes.string,
+      stationNumber: PropTypes.string,
     }),
   ).isRequired,
   migratingFacilities: PropTypes.arrayOf(

@@ -28,6 +28,14 @@ const mockMichiganMigration = {
   },
 };
 
+const mockMichiganMigrationT45 = {
+  ...mockMichiganMigration,
+  phases: {
+    ...mockMichiganMigration.phases,
+    current: 'p2',
+  },
+};
+
 let sandbox;
 
 const initMockApis = ({
@@ -938,6 +946,50 @@ describe('Refill Prescriptions Component', () => {
   });
 
   describe('Oracle Health Transition Alerts', () => {
+    // Helper to create state with Oracle Health migration flags
+    const createMigrationState = ({
+      featureFlagEnabled,
+      migrationData = mockMichiganMigrationT45,
+      facilities = [],
+      includeMigrationSchedules = false,
+    }) => {
+      const userProfile = {
+        ...initialState.user.profile,
+        ...(facilities.length > 0 && { facilities }),
+        userFacilityMigratingToOh: true,
+        migrationSchedules: [migrationData],
+      };
+
+      if (includeMigrationSchedules) {
+        userProfile.vaProfile = {
+          ohMigrationInfo: {
+            migrationSchedules: [migrationData],
+          },
+        };
+      }
+
+      return {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_oracle_health_cutover: featureFlagEnabled,
+        },
+        user: {
+          ...initialState.user,
+          profile: userProfile,
+        },
+      };
+    };
+
+    // Common facility configurations
+    const michiganFacility515 = [{ facilityId: 515, isCerner: false }];
+    const allMichiganFacilities = [
+      { facilityId: 506, isCerner: false },
+      { facilityId: 515, isCerner: false },
+      { facilityId: 553, isCerner: false },
+      { facilityId: 585, isCerner: false },
+    ];
+
     describe('when mhv_medications_oracle_health_cutover feature flag is disabled', () => {
       it('does not show alerts and shows all prescriptions', async () => {
         sandbox.restore();
@@ -1010,30 +1062,12 @@ describe('Refill Prescriptions Component', () => {
           prescriptions: [prescriptionInTransition],
         });
 
-        const state = {
-          ...initialState,
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medications_oracle_health_cutover: true,
-          },
-          user: {
-            ...initialState.user,
-            profile: {
-              ...initialState.user.profile,
-              facilities: [
-                {
-                  facilityId: 515,
-                  isCerner: false,
-                },
-              ],
-              vaProfile: {
-                ohMigrationInfo: {
-                  migrationSchedules: [mockMichiganMigration],
-                },
-              },
-            },
-          },
-        };
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
 
         const screen = setup(state);
 
@@ -1065,30 +1099,12 @@ describe('Refill Prescriptions Component', () => {
           ],
         });
 
-        const state = {
-          ...initialState,
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medications_oracle_health_cutover: true,
-          },
-          user: {
-            ...initialState.user,
-            profile: {
-              ...initialState.user.profile,
-              facilities: [
-                {
-                  facilityId: 515,
-                  isCerner: false,
-                },
-              ],
-              vaProfile: {
-                ohMigrationInfo: {
-                  migrationSchedules: [mockMichiganMigration],
-                },
-              },
-            },
-          },
-        };
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
 
         const screen = setup(state);
 
@@ -1112,30 +1128,12 @@ describe('Refill Prescriptions Component', () => {
           prescriptions: [prescriptionNotInTransition],
         });
 
-        const state = {
-          ...initialState,
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medications_oracle_health_cutover: true,
-          },
-          user: {
-            ...initialState.user,
-            profile: {
-              ...initialState.user.profile,
-              facilities: [
-                {
-                  facilityId: 515,
-                  isCerner: false,
-                },
-              ],
-              vaProfile: {
-                ohMigrationInfo: {
-                  migrationSchedules: [mockMichiganMigration],
-                },
-              },
-            },
-          },
-        };
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
 
         const screen = setup(state);
 
@@ -1171,30 +1169,12 @@ describe('Refill Prescriptions Component', () => {
           ],
         });
 
-        const state = {
-          ...initialState,
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medications_oracle_health_cutover: true,
-          },
-          user: {
-            ...initialState.user,
-            profile: {
-              ...initialState.user.profile,
-              facilities: [
-                {
-                  facilityId: 515,
-                  isCerner: false,
-                },
-              ],
-              vaProfile: {
-                ohMigrationInfo: {
-                  migrationSchedules: [mockMichiganMigration],
-                },
-              },
-            },
-          },
-        };
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
 
         const screen = setup(state);
 
@@ -1236,40 +1216,20 @@ describe('Refill Prescriptions Component', () => {
           prescriptions: michiganPrescriptions,
         });
 
-        const state = {
-          ...initialState,
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medications_oracle_health_cutover: true,
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: {
+            ...mockMichiganMigration,
+            facilities: [
+              { facilityId: 506 },
+              { facilityId: 515 },
+              { facilityId: 553 },
+              { facilityId: 585 },
+            ],
           },
-          user: {
-            ...initialState.user,
-            profile: {
-              ...initialState.user.profile,
-              facilities: [
-                { facilityId: 506, isCerner: false },
-                { facilityId: 515, isCerner: false },
-                { facilityId: 553, isCerner: false },
-                { facilityId: 585, isCerner: false },
-              ],
-              vaProfile: {
-                ohMigrationInfo: {
-                  migrationSchedules: [
-                    {
-                      ...mockMichiganMigration,
-                      facilities: [
-                        { facilityId: 506 },
-                        { facilityId: 515 },
-                        { facilityId: 553 },
-                        { facilityId: 585 },
-                      ],
-                    },
-                  ],
-                },
-              },
-            },
-          },
-        };
+          facilities: allMichiganFacilities,
+          includeMigrationSchedules: true,
+        });
 
         const screen = setup(state);
 
@@ -1293,36 +1253,121 @@ describe('Refill Prescriptions Component', () => {
           prescriptions: [prescriptionInTransition],
         });
 
-        const state = {
-          ...initialState,
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medications_oracle_health_cutover: true,
-          },
-          user: {
-            ...initialState.user,
-            profile: {
-              ...initialState.user.profile,
-              facilities: [
-                {
-                  facilityId: 515,
-                  isCerner: false,
-                },
-              ],
-              vaProfile: {
-                ohMigrationInfo: {
-                  migrationSchedules: [mockMichiganMigration],
-                },
-              },
-            },
-          },
-        };
+        const state = createMigrationState({
+          featureFlagEnabled: true,
+          migrationData: mockMichiganMigration,
+          facilities: michiganFacility515,
+          includeMigrationSchedules: true,
+        });
 
         const screen = setup(state);
 
         await waitFor(() => {
           const noRefillsMessage = screen.queryByTestId('no-refills-message');
           expect(noRefillsMessage).to.not.exist;
+        });
+      });
+    });
+
+    describe('CernerFacilityAlert (T-45 alert)', () => {
+      describe('when mhv_medications_oracle_health_cutover feature flag is disabled', () => {
+        it('does not show T-45 alert with refillable prescriptions', async () => {
+          sandbox.restore();
+          const prescriptionNotInTransition = {
+            ...refillablePrescriptions[0],
+            facilityId: '442',
+            stationNumber: '442',
+          };
+          initMockApis({
+            sinonSandbox: sandbox,
+            prescriptions: [prescriptionNotInTransition],
+          });
+
+          const state = createMigrationState({ featureFlagEnabled: false });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.not.exist;
+          });
+        });
+
+        it('does not show T-45 alert with no refillable prescriptions', async () => {
+          sandbox.restore();
+          initMockApis({ sinonSandbox: sandbox, prescriptions: [] });
+
+          const state = createMigrationState({ featureFlagEnabled: false });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.not.exist;
+          });
+        });
+      });
+
+      describe('when mhv_medications_oracle_health_cutover feature flag is enabled', () => {
+        it('shows T-45 alert when there are refillable prescriptions and no blocked prescriptions', async () => {
+          sandbox.restore();
+          const prescriptionNotInTransition = {
+            ...refillablePrescriptions[0],
+            facilityId: '442',
+            stationNumber: '442',
+          };
+          initMockApis({
+            sinonSandbox: sandbox,
+            prescriptions: [prescriptionNotInTransition],
+          });
+
+          const state = createMigrationState({ featureFlagEnabled: true });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.exist;
+          });
+        });
+
+        it('shows T-45 alert when there are no refillable prescriptions and no blocked prescriptions', async () => {
+          sandbox.restore();
+          initMockApis({ sinonSandbox: sandbox, prescriptions: [] });
+
+          const state = createMigrationState({ featureFlagEnabled: true });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.exist;
+          });
+        });
+
+        it('does not show T-45 alert when there are blocked prescriptions', async () => {
+          sandbox.restore();
+          const prescriptionInTransition = {
+            ...refillablePrescriptions[0],
+            facilityId: 515,
+            stationNumber: 515,
+          };
+          initMockApis({
+            sinonSandbox: sandbox,
+            prescriptions: [prescriptionInTransition],
+          });
+
+          const state = createMigrationState({
+            featureFlagEnabled: true,
+            migrationData: mockMichiganMigration, // Use error phase for blocking
+            facilities: michiganFacility515,
+            includeMigrationSchedules: true,
+          });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            // Should show T-3 alert instead of T-45
+            expect(screen.queryByTestId('oracle-health-t3-alert-no-refillable'))
+              .to.exist;
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.not.exist;
+          });
         });
       });
     });
