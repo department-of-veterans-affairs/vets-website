@@ -10,6 +10,7 @@ describe('Medications List Page Filter Accordion Reset Button', () => {
     const listPage = new MedicationsListPage();
     site.login();
     listPage.visitMedicationsListPageURL(rxList);
+
     cy.injectAxe();
     cy.axeCheck('main');
 
