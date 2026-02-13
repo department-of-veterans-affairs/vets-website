@@ -117,7 +117,7 @@ const SearchControls = props => {
               id="accredited-representative-faqs-link"
               href="/resources/va-accredited-representative-faqs/"
               text="Learn about the types of accredited representatives"
-              external="true" // Enables behavior of opening in a new tab
+              external // Enables behavior of opening in a new tab
             />
           </p>
         </div>
