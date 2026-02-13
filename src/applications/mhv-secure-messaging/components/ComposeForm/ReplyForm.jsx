@@ -8,6 +8,8 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import MigratingFacilitiesAlerts from 'platform/mhv/components/CernerFacilityAlert/MigratingFacilitiesAlerts';
 import EmergencyNote from '../EmergencyNote';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
+import StaleMessageAlert from '../shared/StaleMessageAlert';
+
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ReplyDrafts from './ReplyDrafts';
 import MessageActionButtons from '../MessageActionButtons';
@@ -43,7 +45,10 @@ const ReplyForm = props => {
     setIsSending,
   } = props;
   const dispatch = useDispatch();
-  const { customFoldersRedesignEnabled } = useFeatureToggles();
+  const {
+    customFoldersRedesignEnabled,
+    useCanReplyField,
+  } = useFeatureToggles();
   const header = useRef();
 
   const userProfile = useSelector(state => state.user.profile);
@@ -51,9 +56,13 @@ const ReplyForm = props => {
 
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const signature = useSelector(state => state.sm.preferences?.signature);
-  const { replyToName, isSaving, ohMigrationPhase } = useSelector(
-    state => state.sm.threadDetails,
-  );
+  const {
+    replyToName,
+    isSaving,
+    isStale,
+    replyDisabled,
+    ohMigrationPhase,
+  } = useSelector(state => state.sm.threadDetails);
   const isInMigrationPhase = isMigrationPhaseBlockingReplies(ohMigrationPhase);
 
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
@@ -159,12 +168,38 @@ const ReplyForm = props => {
 
         {alertSlot}
 
-        <CannotReplyAlert
-          visible={
-            cannotReply && !showBlockedTriageGroupAlert && !isInMigrationPhase
-          }
-          isOhMessage={replyMessage.isOhMessage}
-        />
+        {useCanReplyField ? (
+          <>
+            <CannotReplyAlert
+              visible={
+                cannotReply &&
+                replyDisabled &&
+                !showBlockedTriageGroupAlert &&
+                !isInMigrationPhase
+              }
+              isOhMessage={replyMessage.isOhMessage}
+            />
+            <StaleMessageAlert
+              visible={
+                cannotReply &&
+                isStale &&
+                !replyDisabled &&
+                !showBlockedTriageGroupAlert
+              }
+              isOhMessage={replyMessage.isOhMessage}
+            />
+          </>
+        ) : (
+          <StaleMessageAlert
+            visible={
+              cannotReply &&
+              isStale &&
+              !showBlockedTriageGroupAlert &&
+              !isInMigrationPhase
+            }
+            isOhMessage={replyMessage.isOhMessage}
+          />
+        )}
 
         {isInMigrationPhase && (
           <MigratingFacilitiesAlerts

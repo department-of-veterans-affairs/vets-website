@@ -25,6 +25,10 @@ class Vitals {
     cy.get('[data-testid="vitals-landing-page-link"]').as('vitals-link');
     cy.get('@vitals-link').should('be.visible');
     cy.get('@vitals-link').click();
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   viewNextPage = () => {

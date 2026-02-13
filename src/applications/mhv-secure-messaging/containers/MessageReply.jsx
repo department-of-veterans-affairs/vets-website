@@ -95,7 +95,7 @@ const MessageReply = () => {
           <MessageActionButtons
             threadId={messages[0]?.threadId}
             message={messages[0]}
-            cannotReply={false}
+            hideReplyButton={false}
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
           />

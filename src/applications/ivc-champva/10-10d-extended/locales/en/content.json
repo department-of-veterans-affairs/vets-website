@@ -27,6 +27,7 @@
   "button--update-page": "Update page",
   "dates--default-label": "Date",
   "form-label--middle-initial": "Middle initial",
+  "form-loading-text": "Loading application...",
   "form-title": "Apply for CHAMPVA benefits",
   "form-subtitle": "Application for CHAMPVA benefits (VA Form 10-10d)",
   "form-start-text": "Start the form",

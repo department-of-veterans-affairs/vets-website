@@ -3,8 +3,8 @@ import {
   checkboxGroupUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { toHash } from '../../../shared/utilities';
-import { healthInsurancePageTitleUI } from '../../helpers/titles';
-import { formatFullName } from '../../helpers';
+import { healthInsurancePageTitleUI } from '../../utils/titles';
+import { formatFullName } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 
 const TITLE_TEXT = content['health-insurance--participant-title'];
