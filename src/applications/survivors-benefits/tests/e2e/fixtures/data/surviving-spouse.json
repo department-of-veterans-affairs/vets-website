@@ -33,7 +33,7 @@
       "contact": "(555) 511-2312"
     },
     "claims": {
-      "DIC": true
+      "dic": true
     },
     "receivedBenefits": true,
     "branchOfService": {

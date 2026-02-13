@@ -33,14 +33,14 @@
     "claimantPhone": {
       "callingCode": 1,
       "countryCode": "US",
-      "contact": "5551113333",
+      "contact": "(555) 111-3333",
       "_isValid": true,
       "_error": null,
       "_touched": true,
       "_required": true
     },
     "claims": {
-      "DIC": true
+      "dic": true
     },
     "receivedBenefits": false,
     "serviceBranch": "spaceForce",
@@ -102,6 +102,17 @@
     ],
     "view:isAddingDependent": false,
     "childrenLiveTogetherButNotWithSpouse": true,
+    "custodianFullName": {
+    "first": "Custodian",
+    "last": "Custodianlast"
+    },
+    "custodianAddress": {
+      "country": "USA",
+      "street": "123 Child St",
+      "city": "Child City",
+      "state": "AL",
+      "postalCode": "12313"
+    },
     "claimingMonthlySpecialPension": false,
     "claimantLivesInANursingHome": false,
     "view:careExpensesList": false,
