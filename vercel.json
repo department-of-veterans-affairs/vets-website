@@ -5,6 +5,7 @@
   "framework": null,
   "regions": ["iad1"],
   "rewrites": [
+    { "source": "/", "destination": "/api/landing" },
     { "source": "/v0/:path*", "destination": "/api/mock?__original_path=/v0/:path*" },
     { "source": "/facilities_api/:path*", "destination": "/api/mock?__original_path=/facilities_api/:path*" },
     { "source": "/data/:path*", "destination": "/api/mock?__original_path=/data/:path*" },
