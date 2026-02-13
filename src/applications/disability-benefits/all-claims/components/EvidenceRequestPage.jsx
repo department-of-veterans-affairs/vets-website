@@ -49,8 +49,8 @@ export const EvidenceRequestPage = ({
 
   const hasEvidenceToRemove = () => {
     return (
-      (hasVAEvidence(data) && vaEvidence.length > 0) ||
-      (hasPrivateEvidence(data) && privateEvidenceUploads.length > 0) ||
+      vaEvidence.length > 0 ||
+      privateEvidenceUploads.length > 0 ||
       privateFacility.length > 0
     );
   };
@@ -77,40 +77,26 @@ export const EvidenceRequestPage = ({
   const handlers = {
     onChangeAndRemove: () => {
       const updatedFormData = { ...data };
+      const selectableEvidenceTypes = {
+        ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
+      };
 
-      if (hasVAEvidence(data)) {
+      if (vaEvidence.length > 0) {
         delete updatedFormData.vaTreatmentFacilities;
-        updatedFormData['view:selectableEvidenceTypes'] = {
-          ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
-          'view:hasVaMedicalRecords': false,
-        };
+        selectableEvidenceTypes['view:hasVaMedicalRecords'] = false;
         setAlertType(prevState => [...prevState, 'va']);
       }
-      if (hasPrivateEvidence(data)) {
-        const hasPrivateUploads = privateEvidenceUploads.length > 0;
-        const hasPrivateFacilities = privateFacility.length > 0;
-        if (hasPrivateUploads) {
-          delete updatedFormData.privateMedicalRecordAttachments;
-          setAlertType(prevState => [...prevState, 'privateMedicalRecords']);
-        }
-        if (hasPrivateFacilities) {
-          delete updatedFormData.providerFacility;
-          setAlertType(prevState => [...prevState, 'privateFacility']);
-        }
-        if (hasPrivateUploads || hasPrivateFacilities) {
-          updatedFormData['view:selectableEvidenceTypes'] = {
-            ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
-            'view:hasPrivateMedicalRecords': false,
-          };
-        }
-      } else if (privateFacility.length > 0) {
-        delete updatedFormData.providerFacility;
-        setAlertType(prevState => [...prevState, 'privateFacility']);
-        updatedFormData['view:selectableEvidenceTypes'] = {
-          ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
-          'view:hasPrivateMedicalRecords': false,
-        };
+      if (privateEvidenceUploads.length > 0) {
+        delete updatedFormData.privateMedicalRecordAttachments;
+        selectableEvidenceTypes['view:hasPrivateMedicalRecords'] = false;
+        setAlertType(prevState => [...prevState, 'privateMedicalRecords']);
       }
+      if (privateFacility.length > 0) {
+        delete updatedFormData.providerFacility;
+        selectableEvidenceTypes['view:hasPrivateMedicalRecords'] = false;
+        setAlertType(prevState => [...prevState, 'privateFacility']);
+      }
+      updatedFormData['view:selectableEvidenceTypes'] = selectableEvidenceTypes;
       setFormData(updatedFormData);
       setModalVisible(false);
       setAlertVisible(true);
@@ -259,20 +245,18 @@ export const EvidenceRequestPage = ({
         primaryButtonText="Change and remove"
         secondaryButtonText="Cancel change"
       >
-        {hasVAEvidence(data) &&
-          vaEvidence.length > 0 && (
-            <>
-              {vaEvidenceContent}
-              {renderFacilityList(vaEvidence, 'treatmentCenterName')}
-            </>
-          )}
-        {hasPrivateEvidence(data) &&
-          privateEvidenceUploads.length > 0 && (
-            <>
-              {privateEvidenceContent}
-              {renderFileList(privateEvidenceUploads)}
-            </>
-          )}
+        {vaEvidence.length > 0 && (
+          <>
+            {vaEvidenceContent}
+            {renderFacilityList(vaEvidence, 'treatmentCenterName')}
+          </>
+        )}
+        {privateEvidenceUploads.length > 0 && (
+          <>
+            {privateEvidenceContent}
+            {renderFileList(privateEvidenceUploads)}
+          </>
+        )}
         {privateFacility.length > 0 && (
           <>
             {privateFacilityContent}
