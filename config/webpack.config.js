@@ -267,7 +267,14 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
     });
   /* eslint-enable no-nested-ternary */
 
-  return [...appRegistry, ...scaffoldRegistry]
+  // Deduplicate by rootUrl — scaffold entries take precedence
+  const scaffoldUrls = new Set(scaffoldRegistry.map(e => e.rootUrl));
+  const deduped = [
+    ...appRegistry.filter(({ rootUrl }) => !scaffoldUrls.has(rootUrl)),
+    ...scaffoldRegistry,
+  ];
+
+  return deduped
     .filter(({ rootUrl }) => rootUrl)
     .map(generateHtmlFile);
 }
