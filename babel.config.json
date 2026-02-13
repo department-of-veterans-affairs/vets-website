@@ -140,6 +140,10 @@
           "@department-of-veterans-affairs/platform-user/local-vapsvc": "./src/platform/user/profile/vap-svc/util/local-vapsvc.js",
           "@department-of-veterans-affairs/platform-user/disableFTUXModals": "./src/platform/user/tests/disableFTUXModals.js",
 
+          "@department-of-veterans-affairs/platform-mocks/exports": "./src/platform/mocks/exportsFile.js",
+          "@department-of-veterans-affairs/platform-mocks/browser": "./src/platform/mocks/browser.js",
+          "@department-of-veterans-affairs/platform-mocks/responses": "./src/platform/mocks/responses.js",
+
           "@department-of-veterans-affairs/platform-testing/exports": "./src/platform/testing/exportsFile.js",
           "@department-of-veterans-affairs/platform-testing/contract": "./src/platform/testing/contract/index.js",
           "@department-of-veterans-affairs/platform-testing/form-tester": "./src/platform/testing/e2e/cypress/support/form-tester/index.js",

@@ -6,6 +6,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getLabsAndTestsDetails } from '../actions/labsAndTests';
+import { getRadiologyDetails } from '../actions/radiology';
 import PrintHeader from '../components/shared/PrintHeader';
 import ImageGallery from '../components/shared/ImageGallery';
 import DateSubheading from '../components/shared/DateSubheading';
@@ -23,11 +24,12 @@ import { sendDataDogAction } from '../util/helpers';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
 
-const RadiologyImagesList = ({ isTesting }) => {
+const RadiologyImagesList = ({ isTesting, basePath = '/labs-and-tests' }) => {
   const apiImagingPath = `${
     environment.API_URL
   }/my_health/v1/medical_records/imaging`;
 
+  const isRadiologyDomain = basePath === '/imaging-results';
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -36,7 +38,13 @@ const RadiologyImagesList = ({ isTesting }) => {
   const { labId } = useParams();
 
   const radiologyDetails = useSelector(
-    state => state.mr.labsAndTests.labsAndTestsDetails,
+    state =>
+      isRadiologyDomain
+        ? state.mr.radiology.radiologyDetails
+        : state.mr.labsAndTests.labsAndTestsDetails,
+  );
+  const radiologyList = useSelector(
+    state => (isRadiologyDomain ? state.mr.radiology.radiologyList : null),
   );
   const imageList = useSelector(state => state.mr.images.imageList);
   const studyJobs = useSelector(state => state.mr.images.imageStatus);
@@ -48,8 +56,8 @@ const RadiologyImagesList = ({ isTesting }) => {
   const [isStudyJobsLoaded, setStudyJobsLoaded] = useState(isTesting || false);
   const [dicomDownloadStarted, setDicomDownloadStarted] = useState(false);
   const returnToDetailsPage = useCallback(
-    () => history.push(`/labs-and-tests/${labId}`),
-    [history, labId],
+    () => history.push(`${basePath}/${labId}`),
+    [history, labId, basePath],
   );
 
   const studyJob = useMemo(
@@ -71,13 +79,22 @@ const RadiologyImagesList = ({ isTesting }) => {
   useEffect(
     () => {
       if (labId) {
-        dispatch(getLabsAndTestsDetails(labId)).then(() => {
-          setRadiologyDetailsLoaded(true);
-        });
+        if (isRadiologyDomain) {
+          dispatch(getRadiologyDetails(labId, radiologyList)).then(() => {
+            setRadiologyDetailsLoaded(true);
+          });
+        } else {
+          dispatch(getLabsAndTestsDetails(labId)).then(() => {
+            setRadiologyDetailsLoaded(true);
+          });
+        }
       }
-      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE);
+      const title = isRadiologyDomain
+        ? pageTitles.RADIOLOGY_IMAGES_PAGE_TITLE
+        : pageTitles.LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE;
+      updatePageTitle(title);
     },
-    [labId, dispatch],
+    [labId, dispatch, isRadiologyDomain, radiologyList],
   );
 
   useEffect(
@@ -110,11 +127,17 @@ const RadiologyImagesList = ({ isTesting }) => {
     () => {
       if (radiologyDetails?.imageCount === 0) {
         returnToDetailsPage();
-      } else {
-        focusElement('h1');
+      } else if (
+        radiologyDetails &&
+        studyJob?.status === studyJobStatus.COMPLETE
+      ) {
+        // Defer focus to next frame to ensure h1 is in the DOM after React commits
+        requestAnimationFrame(() => {
+          focusElement(document.querySelector('h1'));
+        });
       }
     },
-    [radiologyDetails, returnToDetailsPage],
+    [radiologyDetails, studyJob, returnToDetailsPage],
   );
 
   const handleDicomDownload = () => {
@@ -223,7 +246,7 @@ const RadiologyImagesList = ({ isTesting }) => {
           <TrackedSpinner
             id="radiology-image-page-spinner"
             message="Loading..."
-            setFocus
+            set-focus
             data-testid="loading-indicator"
           />
         </div>
@@ -235,5 +258,6 @@ const RadiologyImagesList = ({ isTesting }) => {
 export default RadiologyImagesList;
 
 RadiologyImagesList.propTypes = {
+  basePath: PropTypes.string,
   isTesting: PropTypes.bool,
 };

@@ -2,10 +2,12 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useBreadcrumbFocus } from 'platform/mhv/hooks/useBreadcrumbFocus';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 import { navigateToFolderByFolderId } from '../../util/helpers';
 import manifest from '../../manifest.json';
+import { Paths } from '../../util/constants';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const SmBreadcrumbs = () => {
@@ -419,10 +421,17 @@ const SmBreadcrumbs = () => {
     [location.pathname, previousUrl],
   );
 
-  const handleRouteChange = ({ detail }) => {
-    const { href } = detail;
-    history.push(href);
-  };
+  const onRouteChange = useCallback(
+    ({ detail }) => {
+      const href = detail?.href;
+      if (href) history.push(href);
+    },
+    [history],
+  );
+
+  const { handleRouteChange, handleClick } = useBreadcrumbFocus({
+    onRouteChange,
+  });
 
   // Determine the correct back link href based on compose flow logic
   // Special case for contact list: use previousUrl directly to avoid timing issues
@@ -450,26 +459,35 @@ const SmBreadcrumbs = () => {
     ],
   );
 
-  return shortenBreadcrumb ? (
-    <div className="vads-u-padding-y--4 vads-u-display--inline-block">
-      <va-link
-        back
-        text="Back"
-        href={backLinkHref}
-        onClick={e => {
-          e.preventDefault();
-          navigateBack();
-        }}
-        data-testid="sm-breadcrumbs-back"
-        data-dd-action-name="Breadcrumb - Back"
-      />
-    </div>
-  ) : (
+  // Wherever backLinkHref is derived today, add a resolved fallback:
+  const fallbackBackHref = `${manifest.rootUrl}${Paths.INBOX}`;
+  const resolvedBackLinkHref = backLinkHref || fallbackBackHref;
+
+  if (shortenBreadcrumb) {
+    return (
+      <div className="vads-u-margin-y--3">
+        <va-link
+          back
+          text="Back"
+          href={resolvedBackLinkHref}
+          onClick={event => {
+            event.preventDefault();
+            navigateBack();
+          }}
+          data-testid="sm-breadcrumbs-back"
+          data-dd-action-name="Breadcrumb - Back"
+        />
+      </div>
+    );
+  }
+
+  return (
     <VaBreadcrumbs
       breadcrumbList={newCrumbsList}
       label="Breadcrumb"
       home-veterans-affairs
       onRouteChange={handleRouteChange}
+      onClick={handleClick}
       className="mobile-lg:vads-u-margin-y--2"
       dataTestid="sm-breadcrumbs"
       data-dd-action-name="Breadcrumb"

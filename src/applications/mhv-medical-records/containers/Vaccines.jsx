@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  useLocation,
-  useHistory,
-} from 'react-router-dom/cjs/react-router-dom.min';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -24,12 +18,7 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 
 import RecordList from '../components/RecordList/RecordList';
-import RecordListNew from '../components/RecordList/RecordListNew';
-import {
-  getVaccinesList,
-  reloadRecords,
-  checkForVaccineUpdates,
-} from '../actions/vaccines';
+import { getVaccinesList, reloadRecords } from '../actions/vaccines';
 import PrintHeader from '../components/shared/PrintHeader';
 import {
   recordType,
@@ -46,9 +35,9 @@ import {
   generateTextFile,
   getLastUpdatedText,
   sendDataDogAction,
-  getParamValue,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import RecordListSection from '../components/shared/RecordListSection';
@@ -72,44 +61,25 @@ const Vaccines = props => {
     updatedList: updatedRecordList,
     listState,
     vaccinesList: vaccines,
-    listMetadata: metadata,
-    updateNeeded,
     listCurrentAsOf: vaccinesCurrentAsOf,
   } = useSelector(state => state.mr.vaccines);
   const user = useSelector(state => state.user.profile);
   const refresh = useSelector(state => state.mr.refresh);
-  const { useBackendPagination } = useSelector(state => {
-    const toggles = state.featureToggles;
-    return {
-      useBackendPagination:
-        toggles[
-          FEATURE_FLAG_NAMES.mhvMedicalRecordsSupportBackendPaginationVaccine
-        ],
-    };
-  });
 
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
-
-  const location = useLocation();
-  const history = useHistory();
-  const paramPage = getParamValue(location.search, 'page');
 
   const { isLoading, isAcceleratingVaccines } = useAcceleratedData();
 
   const isLoadingAcceleratedData =
     isAcceleratingVaccines && listState === loadStates.FETCHING;
 
-  const dispatchAction = isCurrent => {
-    return getVaccinesList(
-      isCurrent,
-      paramPage,
-      useBackendPagination,
-      isAcceleratingVaccines,
-    );
-  };
+  const dispatchAction = useCallback(
+    isCurrent => getVaccinesList(isCurrent, isAcceleratingVaccines),
+    [isAcceleratingVaccines],
+  );
 
-  useTrackAction(statsdFrontEndActions.VITALS_LIST);
+  useTrackAction(statsdFrontEndActions.VACCINES_LIST);
 
   useListRefresh({
     listState,
@@ -118,9 +88,7 @@ const Vaccines = props => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
-    page: paramPage,
-    useBackendPagination,
-    checkUpdatesAction: checkForVaccineUpdates,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
@@ -133,11 +101,15 @@ const Vaccines = props => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
     },
     [dispatch],
   );
+
+  useFocusAfterLoading({
+    isLoading: isLoading || listState !== loadStates.FETCHED,
+    isLoadingAcceleratedData,
+  });
 
   usePrintTitle(
     pageTitles.VACCINES_PAGE_TITLE,
@@ -218,24 +190,6 @@ const Vaccines = props => {
 
     generateTextFile(content.join(''), fileName);
   };
-  /**
-   * Change to page 1 and fetch the list of vaccines from the server.
-   */
-  const loadUpdatedRecords = () => {
-    if (paramPage === '1') {
-      dispatch(
-        getVaccinesList(
-          true,
-          paramPage,
-          useBackendPagination,
-          isAcceleratingVaccines,
-        ),
-      );
-    } else {
-      // The page change will trigger a fetch.
-      history.push(`${history.location.pathname}?page=1`);
-    }
-  };
 
   return (
     <div id="vaccines">
@@ -263,11 +217,7 @@ const Vaccines = props => {
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.VACCINE}
-        recordCount={
-          useBackendPagination
-            ? metadata?.pagination?.totalEntries
-            : vaccines?.length
-        }
+        recordCount={vaccines?.length}
         recordType={recordType.VACCINES}
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
@@ -277,19 +227,13 @@ const Vaccines = props => {
             refreshState={refresh}
             extractType={refreshExtractTypes.VPR}
             newRecordsFound={
-              useBackendPagination
-                ? updateNeeded
-                : Array.isArray(vaccines) &&
-                  Array.isArray(updatedRecordList) &&
-                  vaccines.length !== updatedRecordList.length
+              Array.isArray(vaccines) &&
+              Array.isArray(updatedRecordList) &&
+              vaccines.length !== updatedRecordList.length
             }
-            reloadFunction={
-              useBackendPagination
-                ? loadUpdatedRecords
-                : () => {
-                    dispatch(reloadRecords());
-                  }
-            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
           />
         )}
 
@@ -298,7 +242,7 @@ const Vaccines = props => {
             <TrackedSpinner
               id="vaccines-page-spinner"
               message="We’re loading your records."
-              setFocus
+              set-focus
               data-testid="loading-indicator"
             />
           </div>
@@ -309,24 +253,13 @@ const Vaccines = props => {
             <>
               {vaccines?.length ? (
                 <>
-                  {useBackendPagination && vaccines ? (
-                    <RecordListNew
-                      records={vaccines?.map(vaccine => ({
-                        ...vaccine,
-                        isOracleHealthData: isAcceleratingVaccines,
-                      }))}
-                      type={recordType.VACCINES}
-                      metadata={metadata}
-                    />
-                  ) : (
-                    <RecordList
-                      records={vaccines?.map(vaccine => ({
-                        ...vaccine,
-                        isOracleHealthData: isAcceleratingVaccines,
-                      }))}
-                      type={recordType.VACCINES}
-                    />
-                  )}
+                  <RecordList
+                    records={vaccines?.map(vaccine => ({
+                      ...vaccine,
+                      isOracleHealthData: isAcceleratingVaccines,
+                    }))}
+                    type={recordType.VACCINES}
+                  />
 
                   <DownloadingRecordsInfo description="Vaccines" />
                   <PrintDownload

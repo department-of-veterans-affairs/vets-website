@@ -30,7 +30,7 @@ describe(manifest.appName, () => {
   it('Check the Draft folder', () => {
     FolderLoadPage.loadDraftMessages();
     FolderLoadPage.verifyFolderHeaderText('Messages: Drafts');
-    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
+    SharedComponents.assertBackBreadcrumbLabel();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
@@ -38,7 +38,7 @@ describe(manifest.appName, () => {
   it('Check the Trash folder', () => {
     FolderLoadPage.loadDeletedMessages();
     FolderLoadPage.verifyFolderHeaderText('Messages: Trash');
-    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
+    SharedComponents.assertBackBreadcrumbLabel();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

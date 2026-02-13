@@ -1,10 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import InfoAlert from './InfoAlert';
 import { selectAppointmentTravelClaim } from '../appointment-list/redux/selectors';
+import useAmbAvs from './AppointmentCard/hooks/useAmbAvs';
+import { selectFeatureAddOhAvs } from '../redux/selectors';
 
 const ErrorAlert = ({ appointment }) => {
-  const hasAvsError = Boolean(appointment.avsError);
+  const featureAddOHAvs = useSelector(state => selectFeatureAddOhAvs(state));
+
+  const { hasRetrievalErrors } = useAmbAvs(appointment, featureAddOHAvs);
+  const hasAvsError = Boolean(appointment.avsError) || hasRetrievalErrors;
   const claimData = selectAppointmentTravelClaim(appointment);
   if (!claimData) return null;
 

@@ -74,6 +74,8 @@ import IncorrectForm from '../containers/IncorrectForm';
 // TODO: Will be added after mvp release
 // import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
 import { transform } from './submit-transformer';
+import { onFormLoaded } from '../utils/onFormLoaded';
+// import prefillTransformer from './prefill-transformer';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -84,6 +86,7 @@ const formConfig = {
   trackingPrefix: 'survivors-534ez',
   v3SegmentedProgressBar: true,
   prefillEnabled: true,
+  // prefillTransformer,
   dev: {
     disableWindowUnloadInCI: true,
     showNavLinks: true,
@@ -102,6 +105,7 @@ const formConfig = {
     },
   },
   version: 0,
+  onFormLoaded,
   formSavedPage: FormSavedPage,
   defaultDefinitions,
   savedFormMessages: {

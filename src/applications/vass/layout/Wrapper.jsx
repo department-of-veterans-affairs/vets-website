@@ -9,12 +9,12 @@ import { focusElement } from 'platform/utilities/ui';
 
 import NeedHelp from '../components/NeedHelp';
 import ErrorAlert from '../components/ErrorAlert';
+import { FLOW_TYPES } from '../utils/constants';
 
-// TODO: combine errorAlert and verificationError into a single prop
-
-const getContent = (errorAlert, verificationError, children) => {
+// TODO: Maybe combine errorAlert and verificationError into a single prop
+const getContent = (errorAlert, verificationError, children, flowType) => {
   if (errorAlert) {
-    return <ErrorAlert />;
+    return <ErrorAlert flowType={flowType} />;
   }
   if (verificationError) {
     return (
@@ -42,8 +42,31 @@ const Wrapper = props => {
     loading = false,
     loadingMessage = 'Loading...',
     errorAlert = false,
+    disableBeforeUnload = false,
+    flowType = FLOW_TYPES.SCHEDULE,
   } = props;
   const navigate = useNavigate();
+
+  // Warn on page refresh/close
+  useEffect(
+    () => {
+      if (disableBeforeUnload) {
+        return undefined;
+      }
+
+      const handleBeforeUnload = e => {
+        e.preventDefault();
+        e.returnValue = '';
+      };
+
+      window.addEventListener('beforeunload', handleBeforeUnload);
+
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+    },
+    [disableBeforeUnload],
+  );
 
   useEffect(() => {
     focusElement('h1');
@@ -71,7 +94,7 @@ const Wrapper = props => {
     );
   }
 
-  const content = getContent(errorAlert, verificationError, children);
+  const content = getContent(errorAlert, verificationError, children, flowType);
 
   return (
     <div
@@ -131,7 +154,9 @@ export default Wrapper;
 Wrapper.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  disableBeforeUnload: PropTypes.bool,
   errorAlert: PropTypes.bool,
+  flowType: PropTypes.oneOf(Object.values(FLOW_TYPES)),
   loading: PropTypes.bool,
   loadingMessage: PropTypes.string,
   pageTitle: PropTypes.string,

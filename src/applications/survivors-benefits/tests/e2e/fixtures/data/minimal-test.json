@@ -26,7 +26,7 @@
       "marriedToVeteranAtTimeOfDeath": true,
       "receivedBenefits": true,
       "claims": {
-        "DIC": true
+        "dic": true
       },
       "claimantEmail": "myemail72585885@unattended.com",
       "claimantPhone": {
