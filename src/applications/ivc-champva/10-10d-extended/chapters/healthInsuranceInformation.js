@@ -15,12 +15,12 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { validFieldCharsOnly } from '../../shared/validations';
+import { replaceStrValues } from '../utils/helpers';
 import {
-  replaceStrValues,
   validateHealthInsurancePlan,
   validateOHIDates,
-} from '../helpers';
-import { healthInsurancePageTitleUI } from '../helpers/titles';
+} from '../utils/validations';
+import { healthInsurancePageTitleUI } from '../utils/titles';
 import { attachmentUI, singleAttachmentSchema } from '../definitions';
 import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
 import HealthInsuranceSummaryCard from '../components/FormDescriptions/HealthInsuranceSummaryCard';
