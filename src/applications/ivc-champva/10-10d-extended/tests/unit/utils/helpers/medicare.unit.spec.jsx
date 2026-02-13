@@ -1,9 +1,9 @@
 import { expect } from 'chai';
-import { toHash } from '../../../../shared/utilities';
+import { toHash } from '../../../../../shared/utilities';
 import {
   generateParticipantName,
   getEligibleApplicantsWithoutMedicare,
-} from '../../../helpers';
+} from '../../../../utils/helpers';
 
 describe('1010d `generateParticipantName` util', () => {
   it('should return formatted participant name when match found', () => {

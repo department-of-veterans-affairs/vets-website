@@ -10,7 +10,7 @@ import {
   validateApplicantSsn,
   validateSponsorSsn,
   validateFutureDate,
-} from '../../../helpers/validations';
+} from '../../../utils/validations';
 
 describe('1010d `validateSponsorSsn` form validation', () => {
   let errors;
