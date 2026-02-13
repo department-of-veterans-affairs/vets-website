@@ -9,7 +9,6 @@ import _ from 'platform/utilities/data';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from 'platform/utilities/scroll';
 import { checkValidations } from '../utils/submit';
-import { hasVAEvidence, hasPrivateEvidence } from '../utils';
 import {
   evidenceRequestAdditionalInfo,
   evidenceRequestQuestion,
@@ -125,22 +124,17 @@ export const EvidenceRequestPage = ({
         scrollToFirstError();
       } else if (hasMedicalRecords === false && hasEvidenceToRemove()) {
         setModalVisible(true);
-      } else if (hasMedicalRecords === false && hasVAEvidence(data)) {
+      } else if (hasMedicalRecords === false) {
         const updatedFormData = { ...data };
         updatedFormData['view:selectableEvidenceTypes'] = {
           ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
           'view:hasVaMedicalRecords': false,
-        };
-        setFormData(updatedFormData);
-        setAlertVisible(false);
-      } else if (hasMedicalRecords === false && hasPrivateEvidence(data)) {
-        const updatedFormData = { ...data };
-        updatedFormData['view:selectableEvidenceTypes'] = {
-          ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
           'view:hasPrivateMedicalRecords': false,
         };
+        updatedFormData.patient4142Acknowledgement = false;
         setFormData(updatedFormData);
         setAlertVisible(false);
+        goForward(updatedFormData);
       } else {
         setAlertVisible(false);
         goForward(data);

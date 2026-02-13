@@ -447,6 +447,32 @@ describe('EvidenceRequestPage', () => {
     });
   });
 
+  it('should set evidence flags and patient4142Acknowledgement to false and go forward when No selected after evidence removed', () => {
+    const setFormData = sinon.spy();
+    const goForward = sinon.spy();
+    const data = {
+      'view:hasMedicalRecords': false,
+      'view:selectableEvidenceTypes': {
+        'view:hasVaMedicalRecords': true,
+        'view:hasPrivateMedicalRecords': true,
+      },
+      patient4142Acknowledgement: true,
+    };
+
+    const { container } = render(page({ data, setFormData, goForward }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    expect(setFormData.called).to.be.true;
+    const updatedData = setFormData.firstCall.args[0];
+    const selectableTypes = updatedData['view:selectableEvidenceTypes'] || {};
+    expect(selectableTypes['view:hasVaMedicalRecords']).to.be.false;
+    expect(selectableTypes['view:hasPrivateMedicalRecords']).to.be.false;
+    expect(updatedData.patient4142Acknowledgement).to.be.false;
+
+    expect(goForward.called).to.be.true;
+    expect(goForward.firstCall.args[0]).to.deep.equal(updatedData);
+  });
+
   it('should render update button on review page', () => {
     const { container } = render(page({ onReviewPage: true }));
 
