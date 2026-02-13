@@ -16,14 +16,14 @@ import { filterAndSort } from '../../utils/inbox';
 
 /**
  * @typedef {Object} Props
- * @property {string[]} categories
+ * @property {string[]} categoryOptions
  * @property {{ business: Inquiry[], personal: Inquiry[] }} inquiries
  */
 
 /**
  * @param {Props} props
  */
-export default function InboxLayout({ inquiries, categories }) {
+export default function InboxLayout({ inquiries, categoryOptions }) {
   const [statusFilter, setStatusFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [pendingStatusFilter, setPendingStatusFilter] = useState('All');
@@ -88,7 +88,7 @@ export default function InboxLayout({ inquiries, categories }) {
                 }}
               >
                 <option value="All">All</option>
-                {categories.map(category => (
+                {categoryOptions.map(category => (
                   <option key={category} value={category}>
                     {category}
                   </option>
@@ -189,8 +189,9 @@ export default function InboxLayout({ inquiries, categories }) {
     </div>
   );
 }
+
 InboxLayout.propTypes = {
-  categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  categoryOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
   inquiries: PropTypes.shape({
     business: InquiriesList.propTypes.inquiries.isRequired,
     personal: InquiriesList.propTypes.inquiries.isRequired,

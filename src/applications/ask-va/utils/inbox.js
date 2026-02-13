@@ -2,8 +2,17 @@ import Fuse from 'fuse.js';
 import { compareDesc } from 'date-fns';
 import { getVAStatusFromCRM } from '../config/helpers';
 
-export function flattenInquiry(inquiry) {
-  const { id, type, attributes } = inquiry;
+/**
+ * @typedef {import('../components/inbox/InquiryCard').Inquiry} Inquiry
+ */
+
+/**
+ *
+ * @param {object} rawInquiry
+ * @returns {Inquiry}
+ */
+export function flattenInquiry(rawInquiry) {
+  const { id, type, attributes } = rawInquiry;
   return {
     id,
     type,
@@ -14,6 +23,11 @@ export function flattenInquiry(inquiry) {
 
 /** Splits inquires into buckets by their Level of Authentication
  *  @param {Array} rawInquiries
+ *  @returns {{
+ *   business: Inquiry[],
+ *   personal: Inquiry[],
+ *   uniqueCategories: string[]
+ * }}
  */
 export function categorizeByLOA(rawInquiries) {
   const buckets = rawInquiries.reduce(
@@ -33,10 +47,6 @@ export function categorizeByLOA(rawInquiries) {
   // Convert the Set into an array
   return { ...buckets, uniqueCategories: [...buckets.uniqueCategories] };
 }
-
-/**
- * @typedef {import('../components/inbox/InquiryCard').Inquiry} Inquiry
- */
 
 /** Splits an array into buckets of limited size
  * @param {Inquiry[]} inquiries The list of items
