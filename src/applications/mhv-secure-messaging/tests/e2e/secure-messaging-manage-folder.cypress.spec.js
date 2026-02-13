@@ -37,7 +37,9 @@ describe('manage custom folders', () => {
 
     PatientMessageCustomFolderPage.loadCustomFolderWithNoMessages();
 
-    cy.findByText('There are no messages in this folder.').should('be.visible');
+    cy.findByText(
+      'There are no messages in this folder. If this folder is no longer needed, you can remove it.',
+    ).should('be.visible');
 
     FolderManagementPage.clickDeleteFolderButton();
 
