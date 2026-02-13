@@ -4,7 +4,7 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import MedicarePageTitle from '../components/FormDescriptions/MedicarePageTitle';
-import { replaceStrValues } from './formatting';
+import { replaceStrValues } from './helpers/formatting';
 
 /**
  * Creates a dynamic Health Insurance page title with provider name.
