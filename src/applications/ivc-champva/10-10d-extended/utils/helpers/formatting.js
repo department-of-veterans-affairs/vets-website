@@ -1,35 +1,26 @@
 /**
- * Builds a single `streetCombined` string from all properties in `addr` whose keys
- * include "street" (case-insensitive). `undefined`, `null`, and empty-string values
- * are skipped. Parts are joined by a space or newline.
- *
- * @typedef {Object} ConcatStreetOptions
- * @property {boolean} [newLines=false] - If true, join parts with `\n` instead of a space.
- *
- * @param {Object} [addr={}] - Source address object (e.g., { street, street2, ... }).
- * @param {ConcatStreetOptions} [options] - Optional settings.
- * @returns {Object} A shallow copy of `addr` with an added `streetCombined` property.
- *
- * @example
- * concatStreets({ street: '123 Main', street2: 'Apt 4B' });
- * // => { street: '123 Main', street2: 'Apt 4B', streetCombined: '123 Main Apt 4B' }
- *
- * @example
- * concatStreets({ Street: '123 Main', street2: '', street3: null }, { newLines: true });
- * // => { Street: '123 Main', street2: '', street3: null, streetCombined: '123 Main' }
+ * Capitalizes the first letter of a string.
+ * @param {string} str - String to capitalize
+ * @returns {string} String with first letter capitalized, or empty string if falsy
  */
-export const concatStreets = (addr = {}, options = {}) => {
-  const { newLines = false } = options;
-  const sep = newLines ? '\n' : ' ';
+export const capitalizeFirst = (str = '') =>
+  str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 
-  const streetCombined = Object.entries(addr)
-    .filter(
-      ([k, v]) => k.toLowerCase().includes('street') && v != null && v !== '',
-    )
-    .map(([, v]) => String(v).trim())
-    .join(sep)
-    .trim();
-
+/**
+ * Combines all address properties whose key contains "street" into `streetCombined`.
+ *
+ * @param {Object} [addr={}]
+ * @param {Object} [options={}]
+ * @param {boolean} [options.newLines=false]
+ * @returns {Object}
+ */
+export const concatStreets = (addr = {}, { newLines = false } = {}) => {
+  const separator = newLines ? '\n' : ' ';
+  const { street, street2, street3 } = addr;
+  const streetCombined = [street, street2, street3]
+    .map(value => String(value ?? '').trim())
+    .filter(Boolean)
+    .join(separator);
   return { ...addr, streetCombined };
 };
 
@@ -52,6 +43,13 @@ export const formatFullName = (name = {}, { includeMiddle = false } = {}) => {
   );
   return parts.join(' ');
 };
+
+/**
+ * Adds possessive apostrophe-s to a string.
+ * @param {string} str - String to make possessive
+ * @returns {string} String with 's appended, or original string if falsy
+ */
+export const makePossessive = (str = '') => (str ? `${str}’s` : str);
 
 /**
  * Replace placeholder(s) in a string with one or more values.
