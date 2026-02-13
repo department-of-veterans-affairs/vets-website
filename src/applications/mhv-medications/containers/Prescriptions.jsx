@@ -18,6 +18,7 @@ import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
+import RefillPrescriptionsV2 from './RefillPrescriptionsV2';
 
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { getPrescriptionsExportList } from '../api/prescriptionsApi';
@@ -355,6 +356,10 @@ const Prescriptions = () => {
       </>
     );
   };
+
+  if (isManagementImprovementsEnabled) {
+    return <RefillPrescriptionsV2 />;
+  }
 
   return (
     <>

@@ -582,6 +582,67 @@ class MedicationsRefillPage {
       .should('have.text', suggestion)
       .and('be.visible');
   };
+
+  // V2 Management Improvements methods
+
+  verifyRefillPageTitleV2 = () => {
+    cy.get('[data-testid="refill-page-title"]').should(
+      'contain',
+      'Medications',
+    );
+  };
+
+  verifyRefillPageSubtitleV2 = () => {
+    cy.get('[data-testid="refill-page-subtitle"]').should(
+      'contain',
+      'Medications you can refill now',
+    );
+  };
+
+  verifyRefillSuccessDescriptionTextV2 = () => {
+    cy.get('[data-testid="success-refill-description"]').should(
+      'contain',
+      'in-progress medications',
+    );
+  };
+
+  verifySuccessLinkGoesToInProgressV2 = () => {
+    cy.get('[data-testid="back-to-medications-page-link"]')
+      .should('be.visible')
+      .and('have.attr', 'href')
+      .and('include', '/my-health/medications/in-progress');
+  };
+
+  verifySuccessLinkTextV2 = () => {
+    cy.get('[data-testid="back-to-medications-page-link"]').should(
+      'contain',
+      'Go to your in-progress medications',
+    );
+  };
+
+  verifyMedicationNameBoldedInSuccessList = prescriptionName => {
+    cy.get('[data-testid="successful-medication-list"]')
+      .find('strong')
+      .should('contain', prescriptionName);
+  };
+
+  verifyProcessStepOneContentV2 = () => {
+    cy.get('[header="You request a refill"]').should('contain', 'In progress');
+  };
+
+  verifyProcessStepThreeContentV2 = () => {
+    cy.get('[header="We ship your refill to you"]').should(
+      'contain',
+      'Shipped',
+    );
+  };
+
+  verifyRenewableMedsLinkV2 = () => {
+    cy.get('[data-testid="medications-page-link"]').should(
+      'contain',
+      'Go to your list of renewable meds',
+    );
+  };
 }
 
 export default MedicationsRefillPage;
