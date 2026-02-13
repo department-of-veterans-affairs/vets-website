@@ -35,12 +35,9 @@ import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAler
 import { updateDraftInProgress } from '../actions/threadDetails';
 import RouteLeavingGuard from '../components/shared/RouteLeavingGuard';
 import { saveDraft } from '../actions/draftDetails';
-import manifest from '../manifest.json';
-import featureToggles from '../hooks/useFeatureToggles';
 import { draftIsClean } from '../util/helpers';
 
 const SelectCareTeam = () => {
-  const { mhvSecureMessagingCuratedListFlow } = featureToggles();
   const dispatch = useDispatch();
   const history = useHistory();
   const {
@@ -389,30 +386,8 @@ const SelectCareTeam = () => {
     [draftInProgress.recipientId, selectedCareTeamId],
   );
 
-  const getDestinationPath = useCallback(
-    (includeRootUrl = false) => {
-      const inProgressPath = `${Paths.MESSAGE_THREAD}${
-        draftInProgress.messageId
-      }`;
-      const startPath = `${Paths.COMPOSE}${Paths.START_MESSAGE}`;
-      const path = draftInProgress.messageId ? inProgressPath : startPath;
-      return includeRootUrl ? `${manifest.rootUrl}${path}` : path;
-    },
-    [draftInProgress],
-  );
-
-  const getDestinationLabel = useCallback(
-    () => {
-      return draftInProgress.messageId
-        ? 'Continue to draft'
-        : 'Continue to start message';
-    },
-    [draftInProgress],
-  );
-
   const handlers = {
-    onContinue: event => {
-      event?.preventDefault();
+    onContinue: () => {
       if (!checkValidity()) return;
 
       const selectedRecipientStationNumber = allowedRecipients.find(
@@ -431,7 +406,11 @@ const SelectCareTeam = () => {
           }),
         );
       }
-      history.push(getDestinationPath());
+      if (draftInProgress.messageId) {
+        history.push(`${Paths.MESSAGE_THREAD}${draftInProgress.messageId}`);
+      } else {
+        history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}`);
+      }
     },
   };
 
@@ -607,26 +586,14 @@ const SelectCareTeam = () => {
           </div>
         )}
         <div>
-          {mhvSecureMessagingCuratedListFlow ? (
-            <va-link-action
-              href={getDestinationPath(true)}
-              text={getDestinationLabel()}
-              data-testid="continue-button"
-              data-dd-action-name="Continue button on Select care team page"
-              onClick={e => handlers.onContinue(e)}
-              class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
-              type="primary"
-            />
-          ) : (
-            <VaButton
-              continue
-              class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
-              data-testid="continue-button"
-              data-dd-action-name="Continue button on Select care team page"
-              onClick={e => handlers.onContinue(e)}
-              text={null}
-            />
-          )}
+          <VaButton
+            continue
+            class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
+            data-testid="continue-button"
+            data-dd-action-name="Continue button on Select care team page"
+            onClick={e => handlers.onContinue(e)}
+            text={null}
+          />
         </div>
       </div>
     </div>
