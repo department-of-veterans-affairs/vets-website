@@ -1,6 +1,6 @@
-import { toHash } from '../../shared/utilities';
+import { toHash } from '../../../shared/utilities';
 import { formatFullName } from './formatting';
-import content from '../locales/en/content.json';
+import content from '../../locales/en/content.json';
 
 const APPLICANT_TEXT = content['noun--applicant'];
 const NO_PARTICIPANT_TEXT = content['medicare--participant-none'];
