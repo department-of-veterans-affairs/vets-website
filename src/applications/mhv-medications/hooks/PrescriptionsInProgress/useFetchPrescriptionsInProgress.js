@@ -16,7 +16,7 @@ const mockData = [
   {
     prescriptionId: 3,
     prescriptionName: 'Lipitor 20mg',
-    status: 'submitted',
+    status: 'too-early',
     lastUpdated: '2026-02-01T04:00:00.000Z',
   },
   {

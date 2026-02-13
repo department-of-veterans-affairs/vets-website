@@ -13,18 +13,18 @@ import {
   currentOrPastDateSchema,
   yesNoUI,
   yesNoSchema,
-  textareaUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { validFieldCharsOnly } from '../../shared/validations';
+import { replaceStrValues } from '../utils/helpers';
 import {
-  replaceStrValues,
   validateHealthInsurancePlan,
   validateOHIDates,
-} from '../helpers';
-import { healthInsurancePageTitleUI } from '../helpers/titles';
+} from '../utils/validations';
+import { healthInsurancePageTitleUI } from '../utils/titles';
 import { attachmentUI, singleAttachmentSchema } from '../definitions';
 import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
 import HealthInsuranceSummaryCard from '../components/FormDescriptions/HealthInsuranceSummaryCard';
+import addtlComments from './healthInsuranceInformation/addtlComments';
 import participants from './healthInsuranceInformation/participants';
 import planTypes from './healthInsuranceInformation/planTypes';
 import content from '../locales/en/content.json';
@@ -215,27 +215,6 @@ const prescriptionCoverage = {
   },
 };
 
-const additionalComments = {
-  uiSchema: {
-    ...healthInsurancePageTitleUI('health insurance additional comments'),
-    additionalComments: textareaUI({
-      title:
-        'Do you have any additional comments about the applicant(s) health insurance?',
-      charcount: true,
-    }),
-    'ui:validations': [
-      (errors, formData) =>
-        validFieldCharsOnly(errors, null, formData, 'additionalComments'),
-    ],
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      additionalComments: { type: 'string', maxLength: 155 },
-    },
-  },
-};
-
 const healthInsuranceCardUploadPage = {
   uiSchema: {
     ...healthInsurancePageTitleUI(
@@ -301,7 +280,7 @@ export const healthInsurancePages = arrayBuilderPages(
     comments: pageBuilder.itemPage({
       path: 'health-insurance-additional-comments/:index',
       title: 'Type of insurance',
-      ...additionalComments,
+      ...addtlComments,
     }),
     participants: pageBuilder.itemPage({
       path: 'health-insurance-participants/:index',
