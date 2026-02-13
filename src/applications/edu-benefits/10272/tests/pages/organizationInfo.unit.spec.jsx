@@ -13,7 +13,11 @@ describe('22-10272 Licensing and Certification Details Step 3 - Page 2', () => {
     uiSchema,
   } = formConfig.chapters.licensingAndCertificationChapter.pages.organizationInfo;
 
-  const renderPage = (formData = {}) =>
+  const renderPage = (
+    formData = {
+      organizationAddress: { country: 'USA' },
+    },
+  ) =>
     render(
       <DefinitionTester
         schema={schema}
