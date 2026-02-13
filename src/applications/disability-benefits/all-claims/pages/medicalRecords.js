@@ -29,7 +29,7 @@ export const uiSchema = {
   'ui:title': standardTitle('Types of medical records'),
   'view:selectableEvidenceTypes': {
     'ui:title':
-      'What type of medical records would you like us to access on your behalf?',
+      'What types of medical records would you like us to access on your behalf?',
     'ui:webComponentField': VaCheckboxGroupField,
     'ui:options': {
       showFieldLabel: true,
@@ -42,7 +42,7 @@ export const uiSchema = {
       },
     ],
     'ui:errorMessages': {
-      atLeastOne: 'Please select at least one type of supporting evidence',
+      atLeastOne: 'Select at least one type of medical record',
     },
     'view:hasVaMedicalRecords': { 'ui:title': 'VA medical records' },
     'view:hasPrivateMedicalRecords': {
