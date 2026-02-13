@@ -65,9 +65,9 @@ const DisabilityRatingAlert = () => {
           Consider your disability rating before you apply
         </h2>
         <p className="vads-u-margin-y--0">
-          If you have a 100% disability rating, applying for Veterans Pension is
-          unlikely to increase your monthly payments. We always pay the higher
-          payment amount.
+          If you have a 100% service-connected disability rating, applying for
+          Veterans Pension is unlikely to increase your monthly payments. We
+          always pay the higher payment amount.
         </p>
         <p className="vads-u-margin-bottom--0">
           <VaLink />
@@ -104,9 +104,9 @@ const DisabilityRatingAlert = () => {
         Applying likely won’t increase your monthly payments
       </h2>
       <p className="vads-u-margin-y--0">
-        Our records show you have a 100% disability rating. Your monthly
-        disability compensation payment is higher than a Veterans Pension
-        payment in most cases.
+        Our records show you have a 100% service-connected disability rating.
+        Your monthly disability compensation payment is higher than a Veterans
+        Pension payment in most cases.
       </p>
       <p>
         We always pay the higher payment amount. So applying for a Veterans
