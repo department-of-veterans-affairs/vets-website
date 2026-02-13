@@ -38,7 +38,6 @@ describe('Medical Records View Lab and Tests - Non-Oracle Health User', () => {
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
   });
 
-  // Skipping to unblock PR
   it.skip('renders the legacy labs and tests list for a non-Cerner user', () => {
     site.loadPage();
 
