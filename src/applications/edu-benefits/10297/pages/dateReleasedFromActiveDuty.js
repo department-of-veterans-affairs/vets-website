@@ -4,7 +4,7 @@ import { currentOrPastDateSchema } from '~/platform/forms-system/src/js/web-comp
 import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
 
 const uiSchema = {
-  ...titleUI('Your active duty release date'),
+  ...titleUI('Active duty status release date'),
   dateReleasedFromActiveDuty: {
     'ui:title':
       'Please provide the date you were or will be released from active duty.',
@@ -23,9 +23,12 @@ const uiSchema = {
   'view:releaseDateNote': {
     'ui:description': (
       <p className="vads-u-margin-top--4" data-testid="static-note">
-        <strong>Note:</strong> When we review your application, we may ask for a
-        copy of your DD 214 or a certification of your expected release date.
-        You can request that certification from your Military Personnel Office.
+        <strong>Note:</strong> If you are a transitioning service member on
+        terminal leave, we may ask you to provide your future-dated DD 214. If
+        we’re otherwise unable to verify that your release from active duty is
+        within 180 days from this application’s date, we may contact you for a
+        certification of expected release date. You can request that document
+        from your Military Personnel Office.
       </p>
     ),
   },

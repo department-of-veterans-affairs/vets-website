@@ -111,12 +111,27 @@ export function transform(formConfig, form) {
   const usFormTransform = formData =>
     transformForSubmit(formConfig, { ...form, data: formData });
 
+  const directDepositTransform = formData => {
+    const clonedData = _.cloneDeep(formData);
+    const { bankAccount } = clonedData;
+
+    return {
+      ...clonedData,
+      bankAccount: {
+        accountType: bankAccount?.accountType.toLowerCase(),
+        accountNumber: bankAccount?.accountNumber,
+        routingNumber: bankAccount?.routingNumber,
+      },
+    };
+  };
+
   const transformedData = [
     contactInfoTransform,
     eligibilityTransform,
     identificationTransform,
     employmentDetailsTransform,
     privacyAgreementTransform,
+    directDepositTransform,
     usFormTransform,
     trainingProviderTransform,
   ].reduce((formData, transformer) => {

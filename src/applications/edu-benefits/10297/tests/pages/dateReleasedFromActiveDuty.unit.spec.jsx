@@ -32,14 +32,16 @@ describe('Date released from active duty page', () => {
   it('renders the title, label, and static note', () => {
     const { getByText, container } = renderPage();
 
-    expect(getByText('Your active duty release date')).to.exist;
+    expect(getByText('Active duty status release date')).to.exist;
 
     const dateField = container.querySelector(
       '[name="root_dateReleasedFromActiveDuty"]',
     );
     expect(dateField).to.exist;
 
-    expect(getByText(/when we review your application, we may ask/i)).to.exist;
+    expect(
+      getByText(/If you are a transitioning service member on terminal leave/i),
+    ).to.exist;
   });
 
   // it('shows a validation error when the date is omitted', () => {
