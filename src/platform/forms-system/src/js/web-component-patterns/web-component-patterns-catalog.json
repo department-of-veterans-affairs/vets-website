@@ -2,7 +2,7 @@
   "title": "VA.gov Web Component Form Field Patterns Catalog (RJSF)",
   "description": "Catalog of all acceptable web component uiSchema and schema patterns for form fields in VA.gov applications. These patterns are used in pairs to define form field behavior and validation in RJSF (React JSON Schema Form) implementations using the VA design system web components.",
   "importPath": "platform/forms-system/src/js/web-component-patterns",
-  "totalPatterns": 53,
+  "totalPatterns": 54,
   "patterns": [
     {
       "category": "Address",
@@ -84,6 +84,15 @@
       "schema": "arrayBuilderYesNoSchema",
       "schemaType": "object",
       "schemaDescription": "schema for arrayBuilderYesNoUI"
+    },
+    {
+      "category": "ArrayStack",
+      "uiSchema": "arrayStackUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for an inline array with card-style items.",
+      "schema": "arrayStackSchema",
+      "schemaType": "function",
+      "schemaDescription": "Schema for arrayStackUI."
     },
     {
       "category": "Bank",

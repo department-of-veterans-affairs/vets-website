@@ -2,6 +2,7 @@ export * from './addressDeprecatedPattern';
 export * from './addressPattern';
 export * from './arnPattern';
 export * from './arrayBuilderPatterns';
+export * from './arrayStackPattern';
 export * from './bankPattern';
 export * from './checkboxGroupPattern';
 export * from './checkboxPattern';
