@@ -6,6 +6,8 @@ import MockDate from 'mockdate';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles/useFeatureToggle';
+
 import reducer from '../../redux/reducer';
 import TravelPayStatusContent from '../../components/TravelPayStatusContent';
 
@@ -20,12 +22,10 @@ describe('TravelPayStatusContent', () => {
   } = {}) => ({
     featureToggles: {
       loading: false,
-      /* eslint-disable camelcase */
-      travel_pay_submit_mileage_expense: hasSmocFeatureFlag,
-      travel_pay_enable_complex_claims: hasComplexClaimsFeatureFlag,
-      travel_pay_view_claim_details: hasClaimDetailsFeatureFlag,
-      travel_pay_claims_management: hasClaimsMgmtFeatureFlag,
-      /* eslint-enable camelcase */
+      [TOGGLE_NAMES.travelPaySubmitMileageExpense]: hasSmocFeatureFlag,
+      [TOGGLE_NAMES.travelPayEnableComplexClaims]: hasComplexClaimsFeatureFlag,
+      [TOGGLE_NAMES.travelPayViewClaimDetails]: hasClaimDetailsFeatureFlag,
+      [TOGGLE_NAMES.travelPayClaimsManagement]: hasClaimsMgmtFeatureFlag,
     },
     travelPay: {
       travelClaims: {
