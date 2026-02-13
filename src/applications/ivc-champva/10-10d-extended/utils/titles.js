@@ -178,8 +178,8 @@ export const medicarePageTitleUI = (title, description = null) => {
  * Creates a dynamic title that adapts based on the certifier's role.
  *
  * Displays different text depending on whether the user is the applicant (self)
- * or someone filling out the form on behalf of the beneficiary (other).
- * Always uses role-based text (e.g., "Your" or "Beneficiary's"), not names.
+ * or someone filling out the form on behalf of the Veteran or beneficiary (other).
+ * Always uses role-based text (e.g., "Your" or "Veteran's"), not names.
  *
  * @param {string} title - Title template with placeholder for role-based text
  * @param {string|React.Component} [description=null] - Optional description element
@@ -189,12 +189,12 @@ export const medicarePageTitleUI = (title, description = null) => {
  * @param {string} [options.roleKey='certifierRole'] - Form data key containing the role
  * @param {string} [options.matchRole='applicant'] - Role value that indicates self
  * @param {string} [options.self='Your'] - Text to use when user is applicant
- * @param {string} [options.other='Beneficiary'] - Text to use when user is not applicant
+ * @param {string} [options.other='Veteran'] - Text to use when user is not applicant
  * @param {boolean} [options.possessive=true] - Whether to add possessive 's to other
  * @returns {Object} UI schema object for titleUI
  *
  * @example
- * // "Your mailing address" or "Beneficiary's mailing address"
+ * // "Your mailing address" or "Veteran's mailing address"
  * titleWithRoleUI('%s mailing address')
  *
  * @example
@@ -219,7 +219,7 @@ export const titleWithRoleUI = makeSubjectTitleUI({ mode: 'role' });
  * Creates a dynamic title using the applicant's name or role-based text.
  *
  * When the certifier is the applicant (self), displays role-based text (e.g., "Your").
- * When filling out for someone else, displays the beneficiary's name with optional
+ * When filling out for someone else, displays the Veteran's name with optional
  * possessive form. Includes PII masking CSS classes for privacy protection.
  *
  * @param {string} title - Title template with placeholder for name or role text
@@ -233,7 +233,7 @@ export const titleWithRoleUI = makeSubjectTitleUI({ mode: 'role' });
  * @param {string} [options.roleKey='certifierRole'] - Form data key containing the role
  * @param {string} [options.matchRole='applicant'] - Role value that indicates self
  * @param {string} [options.self='Your'] - Text to use when user is applicant
- * @param {string} [options.other='Beneficiary'] - Fallback text when name is unavailable
+ * @param {string} [options.other='Veteran'] - Fallback text when name is unavailable
  * @param {string} [options.classNames] - Custom CSS classes (defaults to PII masking classes)
  * @returns {Object} UI schema object for titleUI with PII protection
  *

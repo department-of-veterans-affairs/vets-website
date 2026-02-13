@@ -7,7 +7,7 @@ export const capitalizeFirst = (str = '') =>
   str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 
 /**
- * Combines all address properties whose key contains "street" into `streetCombined`.
+ * Combines all street properties within an address object into `streetCombined` string.
  *
  * @param {Object} [addr={}]
  * @param {Object} [options={}]
