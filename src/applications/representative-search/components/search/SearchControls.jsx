@@ -114,10 +114,10 @@ const SearchControls = props => {
           </p>
           <p>
             <va-link
+              id="accredited-representative-faqs-link"
               href="/resources/va-accredited-representative-faqs/"
               text="Learn about the types of accredited representatives"
               external="true" // Enables behavior of opening in a new tab
-              data-testid="accredited-representative-faqs-link"
             />
           </p>
         </div>

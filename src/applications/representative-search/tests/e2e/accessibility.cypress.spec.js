@@ -25,37 +25,42 @@ describe('Accessibility', () => {
     cy.visit('/get-help-from-accredited-representative/find-rep/');
     generateFeatureToggles();
 
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
 
-    // Verify focused on input location
-    cy.get('#representative-search-controls').trigger('mousedown');
-    cy.tab();
-    cy.get('va-radio').trigger('keydown', {
-      keyCode: 9,
-      which: 9,
-    });
-    cy.tab();
-    cy.get('input[name="Address, city, state, or postal code"]').focus();
-    cy.get('input[name="Address, city, state, or postal code"]').trigger(
-      'keydown',
-      {
-        keyCode: 9,
-        which: 9,
-      },
-    );
+    cy.get('va-radio[label="Type of accredited representative"]')
+      .find('va-radio-option')
+      .first()
+      .click();
 
-    // Verify focused on name input
-    cy.get('input[name="Name of accredited representative"]').focused();
-    cy.get('input[name="Name of accredited representative"]').trigger(
-      'keydown',
-      {
-        keyCode: 9,
-        which: 9,
-      },
-    );
+    cy.realPress('Tab');
 
-    // Verify focused on Search button
-    cy.get('va-button[text="Search"]').focused();
+    cy.get('va-link#accredited-representative-faqs-link')
+      .find('a')
+      .should('be.focused');
+
+    cy.realPress('Tab');
+
+    cy.get('va-text-input#street-city-state-zip')
+      .find('input')
+      .should('be.focused');
+
+    cy.realPress('Tab');
+    cy.realPress('Tab'); // Skip "Use my location" for now
+
+    cy.get('va-select[label="Search area"]')
+      .find('select')
+      .should('be.focused');
+
+    cy.realPress('Tab');
+
+    cy.get('va-text-input[name="Name of accredited representative"]')
+      .find('input')
+      .should('be.focused');
+
+    cy.realPress('Tab');
+
+    cy.get('va-button[text="Search"]')
+      .find('button')
+      .should('be.focused');
   });
 });
