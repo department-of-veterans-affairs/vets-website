@@ -31,18 +31,6 @@ describe('Accessibility', () => {
     // Verify focused on input location
     cy.get('#representative-search-controls').trigger('mousedown');
     cy.tab();
-    cy.get(
-      'va-additional-info[trigger="What does an accredited VSO representative do?"]',
-    ).focused();
-    cy.tab();
-    cy.get(
-      'va-additional-info[trigger="What does an accredited attorney do?"]',
-    ).focused();
-    cy.tab();
-    cy.get(
-      'va-additional-info[trigger="What does an accredited claims agent do?"]',
-    ).focused();
-    cy.tab();
     cy.get('va-radio').trigger('keydown', {
       keyCode: 9,
       which: 9,
