@@ -4,7 +4,7 @@ import {
   getAgeInYears,
   page15aDepends,
   populateFirstApplicant,
-} from '../../../helpers/utilities';
+} from '../../../../utils/helpers';
 
 describe('page15a depends function', () => {
   const isApp = {

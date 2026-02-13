@@ -1,4 +1,39 @@
 /**
+ * Builds a single `streetCombined` string from all properties in `addr` whose keys
+ * include "street" (case-insensitive). `undefined`, `null`, and empty-string values
+ * are skipped. Parts are joined by a space or newline.
+ *
+ * @typedef {Object} ConcatStreetOptions
+ * @property {boolean} [newLines=false] - If true, join parts with `\n` instead of a space.
+ *
+ * @param {Object} [addr={}] - Source address object (e.g., { street, street2, ... }).
+ * @param {ConcatStreetOptions} [options] - Optional settings.
+ * @returns {Object} A shallow copy of `addr` with an added `streetCombined` property.
+ *
+ * @example
+ * concatStreets({ street: '123 Main', street2: 'Apt 4B' });
+ * // => { street: '123 Main', street2: 'Apt 4B', streetCombined: '123 Main Apt 4B' }
+ *
+ * @example
+ * concatStreets({ Street: '123 Main', street2: '', street3: null }, { newLines: true });
+ * // => { Street: '123 Main', street2: '', street3: null, streetCombined: '123 Main' }
+ */
+export const concatStreets = (addr = {}, options = {}) => {
+  const { newLines = false } = options;
+  const sep = newLines ? '\n' : ' ';
+
+  const streetCombined = Object.entries(addr)
+    .filter(
+      ([k, v]) => k.toLowerCase().includes('street') && v != null && v !== '',
+    )
+    .map(([, v]) => String(v).trim())
+    .join(sep)
+    .trim();
+
+  return { ...addr, streetCombined };
+};
+
+/**
  * Generates a full name string from a fullName object.
  *
  * @param {Object} name - The name components.
