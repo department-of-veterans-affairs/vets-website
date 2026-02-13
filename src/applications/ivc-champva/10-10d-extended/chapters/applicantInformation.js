@@ -30,13 +30,10 @@ import {
 
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
-import {
-  validateApplicant,
-  validateApplicantSsn,
-} from '../helpers/validations';
-import { page15aDepends } from '../helpers/utilities';
+import { validateApplicant, validateApplicantSsn } from '../utils/validations';
+import { page15aDepends } from '../utils/helpers';
 import { attachmentSchema, attachmentUI } from '../definitions';
-import { APPLICANTS_MAX } from '../constants';
+import { APPLICANTS_MAX } from '../utils/constants';
 
 import { isInRange } from '../../10-10D/helpers/utilities';
 import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
