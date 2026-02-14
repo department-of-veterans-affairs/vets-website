@@ -4,10 +4,14 @@ set -e
 echo "=== Vercel Build: vets-website (frontend only) ==="
 echo "Building apps: static-pages, facilities, hca"
 
-# Vercel provides VERCEL_URL (e.g. my-app-xyz.vercel.app) during builds.
-# We use it to construct the API base URL so frontend API calls go to
-# our mock serverless function on the same deployment.
-if [ -n "$VERCEL_URL" ]; then
+# Vercel sets VERCEL_URL to the unique *deployment* URL (e.g.
+# my-app-abc123.vercel.app) which differs from the production alias
+# (e.g. my-app.vercel.app).  If the user visits via the alias the
+# browser treats the deployment URL as a different origin and blocks
+# API calls with CORS errors.  Prefer the stable production URL.
+if [ -n "$VERCEL_PROJECT_PRODUCTION_URL" ]; then
+  API_URL="https://${VERCEL_PROJECT_PRODUCTION_URL}"
+elif [ -n "$VERCEL_URL" ]; then
   API_URL="https://${VERCEL_URL}"
 else
   API_URL="http://localhost:3001"
