@@ -30,6 +30,20 @@ class MedicationsRefillPage {
     cy.visit(medicationsUrls.MEDICATIONS_REFILL);
   };
 
+  loadRefillPageV2 = (prescriptions, basePath = this.basePath) => {
+    this.basePath = basePath;
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
+    cy.intercept(
+      'GET',
+      `${this.basePath}/prescriptions/list_refillable_prescriptions`,
+      prescriptions,
+    ).as('refillList');
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
+  };
+
   loadRefillPageForApiCallFailure = () => {
     cy.visit(medicationsUrls.MEDICATIONS_REFILL);
   };

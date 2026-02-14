@@ -11,7 +11,7 @@ describe('Medications Refill V2 Error Notification', () => {
     const refillPage = new MedicationsRefillPage();
 
     site.loginWithManagementImprovements();
-    refillPage.loadRefillPage(prescriptions);
+    refillPage.loadRefillPageV2(prescriptions);
     cy.injectAxe();
     cy.axeCheck('main');
     refillPage.verifyRefillPageTitleV2();
@@ -34,7 +34,7 @@ describe('Medications Refill V2 Error Notification', () => {
     const refillPage = new MedicationsRefillPage();
 
     site.loginWithManagementImprovements();
-    refillPage.loadRefillPage(prescriptions);
+    refillPage.loadRefillPageV2(prescriptions);
     cy.injectAxe();
     cy.axeCheck('main');
     refillPage.verifyRefillPageTitleV2();

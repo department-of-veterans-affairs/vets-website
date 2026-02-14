@@ -8,7 +8,7 @@ describe('Medications Refill Page V2 Layout', () => {
     const refillPage = new MedicationsRefillPage();
 
     site.loginWithManagementImprovements();
-    refillPage.loadRefillPage(prescriptions);
+    refillPage.loadRefillPageV2(prescriptions);
     cy.injectAxe();
     cy.axeCheck('main');
     refillPage.verifyRefillPageTitleV2();
@@ -21,7 +21,7 @@ describe('Medications Refill Page V2 Layout', () => {
     const refillPage = new MedicationsRefillPage();
 
     site.loginWithManagementImprovements();
-    refillPage.loadRefillPage(prescriptions);
+    refillPage.loadRefillPageV2(prescriptions);
     cy.injectAxe();
     cy.axeCheck('main');
     refillPage.verifyProcessStepOneContentV2();
