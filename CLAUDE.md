@@ -271,6 +271,51 @@ Many applications use the VA Forms System (built on react-jsonschema-form):
   yarn mock-api --responses path/to/responses.js
   ```
 
+## Vercel Preview Deployments
+
+The repo includes a Vercel deployment setup for preview/review environments with a built-in mock API.
+
+### How It Works
+
+- **`vercel.json`** configures the build, output directory, and URL rewrites
+- **`script/vercel-build.sh`** builds only `static-pages`, `facilities`, and `hca` apps with the Vercel deployment URL as the API base
+- **`api/mock.js`** is a Vercel serverless function that serves mock VA API responses
+- **`api/landing.js`** renders a landing page with links to the deployed apps and a mock session toggle
+
+### Mock API Routes (`api/mock.js`)
+
+The serverless function handles these endpoints:
+
+| Method | Path | Response |
+|--------|------|----------|
+| GET | `/v0/user` | Mock authenticated LOA3 user |
+| GET | `/v0/feature_toggles` | Empty feature toggles |
+| GET | `/v0/maintenance_windows` | Empty maintenance windows |
+| GET | `/csrf_token` | Mock CSRF token |
+| GET | `/v0/in_progress_forms/1010ez` | Prefilled HCA form data |
+| PUT | `/v0/in_progress_forms/1010ez` | Save-in-progress response |
+| GET | `/v0/health_care_applications/rating_info` | Disability rating |
+| POST | `/v0/health_care_applications/enrollment_status` | Enrollment status |
+| POST | `/v0/health_care_applications` | Form submission response |
+| POST | `/facilities_api/v2/va` | Facility search results |
+| POST | `/facilities_api/v2/ccp/*` | Community care provider results |
+| GET | `/facilities_api/v2/ccp/specialties` | Provider specialties |
+| GET | `/facilities_api/v2/va/:id` | Single facility detail |
+
+### URL Rewrite Pattern
+
+Vercel rewrites route API paths to the serverless function:
+- `/v0/*` and `/facilities_api/*` and `/data/*` and `/csrf_token` are all rewritten to `/api/mock?__original_path=<original-path>`
+- App paths like `/find-locations/*` and `/health-care/apply-for-health-care-form-10-10ez/*` are rewritten to their respective `index.html` for SPA routing
+
+### Adding New Mock Routes
+
+To add a new mock endpoint, edit `api/mock.js`:
+1. Add mock response data as a const at the top of the file
+2. Add a route entry in the `routes` object inside `matchRoute()`
+3. If the route has path parameters, add prefix matching logic below the exact-match block
+4. Add a rewrite rule in `vercel.json` if the path prefix isn't already covered
+
 ## CI/CD
 
 - **GitHub Actions** handles most CI/CD (`.github/workflows/`)
