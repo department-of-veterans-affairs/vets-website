@@ -55,6 +55,7 @@ export const Paths = {
     SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
     SENT_SEARCH: '/my_health/v1/messaging/folders/-1/search*',
     PRESCRIPTIONS: '/my_health/v1/prescriptions/',
+    PRESCRIPTIONS_V2: '/my_health/v2/prescriptions/',
   },
 };
 

@@ -12,7 +12,7 @@ describe('<ProcessList />', () => {
 
     expect(list).to.exist;
     expect(list.textContent).to.contain(
-      'need to have applied for at least one of these VA education benefits',
+      'You’ll need to apply and be found eligible for the VA education',
     );
     expect(list.textContent).to.contain(
       'Your social security number or VA file number along with payee',

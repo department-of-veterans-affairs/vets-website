@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantWording } from '../../../shared/utilities';
-import { VaRadio, VaRadioOption } from '../../imports';
+import { VaRadio, VaRadioOption } from '../../utils/imports';
 import content from '../../locales/en/content.json';
 
 // declare reusable constants

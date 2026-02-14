@@ -153,6 +153,15 @@ describe('transform function', () => {
           },
         },
       ],
+      governingBodyAndFaculty: [
+        {
+          fullName: {
+            first: 'Extra',
+            last: 'Member',
+          },
+          title: 'President',
+        },
+      ],
       programs: [
         {
           programName: 'Program 1',
