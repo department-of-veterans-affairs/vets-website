@@ -533,7 +533,37 @@ describe('Medications Prescriptions container', () => {
     });
 
     describe('when feature flag is enabled', () => {
-      it('should render RefillProcess component', async () => {
+      const stubV2Apis = () => {
+        sandbox
+          .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+          .returns({
+            data: {
+              prescriptions: [
+                {
+                  prescriptionId: 22377956,
+                  prescriptionName: 'MELOXICAM 15MG TAB',
+                  prescriptionNumber: '2720554',
+                  isRefillable: true,
+                },
+              ],
+              meta: {},
+            },
+            error: false,
+            isLoading: false,
+            isFetching: false,
+          });
+        sandbox
+          .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+          .returns([
+            sinon
+              .stub()
+              .resolves({ data: { successfulIds: [], failedIds: [] } }),
+            { isLoading: false, error: null },
+          ]);
+      };
+
+      it('should render RefillPrescriptionsV2 with correct title', async () => {
+        stubV2Apis();
         const screen = setup(
           initialState,
           '/',
@@ -543,18 +573,21 @@ describe('Medications Prescriptions container', () => {
         );
 
         await waitFor(() => {
-          expect(screen.getByTestId('list-page-title')).to.exist;
+          expect(screen.getByTestId('refill-page-title')).to.exist;
         });
 
-        // RefillProcess component should be rendered
-        expect(screen.getByTestId('rx-refill-process-container')).to.exist;
+        // Verify the V2 title is "Medications"
+        expect(screen.getByTestId('refill-page-title')).to.have.text(
+          'Medications',
+        );
 
-        // Verify the title is present
+        // Verify the process step guide title is present
         expect(screen.getByText('How the refill process works on VA.gov')).to
           .exist;
       });
 
       it('should display all three process steps', async () => {
+        stubV2Apis();
         const screen = setup(
           initialState,
           '/',
@@ -564,11 +597,8 @@ describe('Medications Prescriptions container', () => {
         );
 
         await waitFor(() => {
-          expect(screen.getByTestId('list-page-title')).to.exist;
+          expect(screen.getByTestId('refill-page-title')).to.exist;
         });
-
-        // Verify the RefillProcess component is rendered
-        expect(screen.getByTestId('rx-refill-process-container')).to.exist;
 
         // Check for the process list items by their header attributes
         const processItems = screen.container.querySelectorAll(
@@ -601,6 +631,7 @@ describe('Medications Prescriptions container', () => {
       });
 
       it('should use correct VA design system components', async () => {
+        stubV2Apis();
         const screen = setup(
           initialState,
           '/',
@@ -610,28 +641,25 @@ describe('Medications Prescriptions container', () => {
         );
 
         await waitFor(() => {
-          expect(screen.getByTestId('list-page-title')).to.exist;
+          expect(screen.getByTestId('refill-page-title')).to.exist;
         });
 
-        const refillProcessContainer = screen.getByTestId(
-          'rx-refill-process-container',
-        );
-        expect(refillProcessContainer).to.exist;
+        // Verify the process list header is present
+        expect(screen.getByTestId('progress-list-header')).to.exist;
 
         // Verify VA process list components are being used
-        const processListItems = refillProcessContainer.querySelectorAll(
+        const processListItems = screen.container.querySelectorAll(
           'va-process-list-item',
         );
         expect(processListItems).to.have.length(3);
 
         // Verify the process list container exists
-        const processList = refillProcessContainer.querySelector(
-          'va-process-list',
-        );
+        const processList = screen.container.querySelector('va-process-list');
         expect(processList).to.exist;
       });
 
-      it('should render RefillProcess alongside other components', async () => {
+      it('should render ProcessList alongside NeedHelp component', async () => {
+        stubV2Apis();
         const screen = setup(
           initialState,
           '/',
@@ -641,20 +669,20 @@ describe('Medications Prescriptions container', () => {
         );
 
         await waitFor(() => {
-          expect(screen.getByTestId('list-page-title')).to.exist;
+          expect(screen.getByTestId('refill-page-title')).to.exist;
         });
 
-        // Both RefillProcess and NeedHelp should be present
-        expect(screen.getByTestId('rx-refill-process-container')).to.exist;
+        // Both ProcessList header and NeedHelp should be present
+        expect(screen.getByTestId('progress-list-header')).to.exist;
         expect(screen.getByTestId('rx-need-help-container')).to.exist;
 
-        // Verify RefillProcess appears before NeedHelp in the DOM
-        const refillProcess = screen.getByTestId('rx-refill-process-container');
+        // Verify ProcessList appears before NeedHelp in the DOM
+        const progressHeader = screen.getByTestId('progress-list-header');
         const needHelp = screen.getByTestId('rx-need-help-container');
 
         expect(
           // eslint-disable-next-line no-bitwise
-          refillProcess.compareDocumentPosition(needHelp) &
+          progressHeader.compareDocumentPosition(needHelp) &
             Node.DOCUMENT_POSITION_FOLLOWING,
         ).to.be.greaterThan(0);
       });
