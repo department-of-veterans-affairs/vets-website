@@ -1,8 +1,8 @@
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
   radioUI,
+  descriptionUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -13,19 +13,18 @@ import {
   currentOrPastDateSchema,
   yesNoUI,
   yesNoSchema,
-  textareaUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
-import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { validFieldCharsOnly } from '../../shared/validations';
+import { replaceStrValues } from '../utils/helpers';
 import {
-  replaceStrValues,
   validateHealthInsurancePlan,
   validateOHIDates,
-} from '../helpers';
-import { healthInsurancePageTitleUI } from '../helpers/titles';
+} from '../utils/validations';
+import { healthInsurancePageTitleUI } from '../utils/titles';
+import { attachmentUI, singleAttachmentSchema } from '../definitions';
+import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
 import HealthInsuranceSummaryCard from '../components/FormDescriptions/HealthInsuranceSummaryCard';
+import addtlComments from './healthInsuranceInformation/addtlComments';
 import participants from './healthInsuranceInformation/participants';
 import planTypes from './healthInsuranceInformation/planTypes';
 import content from '../locales/en/content.json';
@@ -216,40 +215,18 @@ const prescriptionCoverage = {
   },
 };
 
-const additionalComments = {
-  uiSchema: {
-    ...healthInsurancePageTitleUI('health insurance additional comments'),
-    additionalComments: textareaUI({
-      title:
-        'Do you have any additional comments about the applicant(s) health insurance?',
-      charcount: true,
-    }),
-    'ui:validations': [
-      (errors, formData) =>
-        validFieldCharsOnly(errors, null, formData, 'additionalComments'),
-    ],
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      additionalComments: { type: 'string', maxLength: 200 },
-    },
-  },
-};
-
 const healthInsuranceCardUploadPage = {
   uiSchema: {
     ...healthInsurancePageTitleUI(
       'Upload %s health insurance card',
       'You’ll need to submit a copy of the front and back of this health insurance card.',
     ),
-    ...fileUploadBlurb,
-    insuranceCardFront: fileUploadUI({
+    ...descriptionUI(FileUploadDescription),
+    insuranceCardFront: attachmentUI({
       label: 'Upload front of the health insurance card',
       attachmentId: 'Front of health insurance card',
-      'ui:hint': 'Upload front and back as separate files.',
     }),
-    insuranceCardBack: fileUploadUI({
+    insuranceCardBack: attachmentUI({
       label: 'Upload back of the health insurance card',
       attachmentId: 'Back of health insurance card',
     }),
@@ -258,31 +235,8 @@ const healthInsuranceCardUploadPage = {
     type: 'object',
     required: ['insuranceCardFront', 'insuranceCardBack'],
     properties: {
-      'view:fileUploadBlurb': blankSchema,
-      insuranceCardFront: {
-        type: 'array',
-        maxItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
-      insuranceCardBack: {
-        type: 'array',
-        maxItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      insuranceCardFront: singleAttachmentSchema,
+      insuranceCardBack: singleAttachmentSchema,
     },
   },
 };
@@ -326,7 +280,7 @@ export const healthInsurancePages = arrayBuilderPages(
     comments: pageBuilder.itemPage({
       path: 'health-insurance-additional-comments/:index',
       title: 'Type of insurance',
-      ...additionalComments,
+      ...addtlComments,
     }),
     participants: pageBuilder.itemPage({
       path: 'health-insurance-participants/:index',
@@ -336,7 +290,6 @@ export const healthInsurancePages = arrayBuilderPages(
     insuranceCard: pageBuilder.itemPage({
       path: 'health-insurance-card/:index',
       title: 'Upload health insurance card',
-      CustomPage: FileFieldCustom,
       ...healthInsuranceCardUploadPage,
     }),
   }),

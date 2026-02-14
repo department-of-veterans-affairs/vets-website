@@ -13,8 +13,8 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_10_7959F_1: '10-7959F-1',
   FORM_10_7959F_2: '10-7959F-2',
   FORM_10182: '10182',
-  FORM_1330M: '1330M',
-  FORM_1330M2: '1330M2',
+  FORM_1330M: '40-1330M',
+  FORM_1330M2: '40-1330M2',
   FORM_1919: '22-1919',
   FORM_20_0995: '20-0995',
   FORM_20_0996: '20-0996',
@@ -81,7 +81,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_MOCK_MINIMAL_HEADER: 'FORM-MOCK-MINIMAL-HEADER',
   FORM_MOCK_PATTERNS_V3: 'FORM_MOCK_PATTERNS_V3',
   FORM_MOCK_SF_PATTERNS: 'FORM_MOCK_SF_PATTERNS',
-  FORM_MOCK_PREFILL: 'FORM_MOCK_PREFILL',
+  FORM_MOCK_PREFILL: 'FORM-MOCK-PREFILL',
   FORM_MOCK: '00-1234',
   FORM_T_QSTNR: 'T-QSTNR',
   FORM_VA_2346A: 'MDOT',
@@ -102,6 +102,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_0304_UPLOAD: '21-0304-UPLOAD',
   FORM_21_651_UPLOAD: '21-651-UPLOAD',
   FORM_21P_4185_UPLOAD: '21P-4185-UPLOAD',
+  FORM_21P_535_UPLOAD: '21P-535-UPLOAD',
   FORM_22_10297: '22-10297',
   FORM_22_0839: '22-0839',
   FORM_22_10275: '22-10275',
@@ -119,6 +120,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_0976: '22-0976',
   FORM_22_10272: '22-10272',
   FORM_22_0803: '22-0803',
+  FORM_20_10208_UPLOAD: '20-10208-UPLOAD',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -303,6 +305,9 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21P_4185_UPLOAD]: `${tryGetAppUrl(
       'form-upload-flow',
     )}/21P-4185/introduction/`,
+    [VA_FORM_IDS.FORM_20_10208_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/20-10208/introduction/`,
     [VA_FORM_IDS.FORM_21P_534EZ]: `${tryGetAppUrl('survivors-benefits')}/`,
     [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
     [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('22-10278')}/`,
@@ -441,6 +446,13 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'form-21-0779-upload-',
   },
   {
+    id: VA_FORM_IDS.FORM_20_10208_UPLOAD,
+    benefit: 'form 20-10208 upload',
+    title: 'form 20-10208 upload',
+    description: 'uploaded file for form 20-10208',
+    trackingPrefix: 'form-20-10208-upload-',
+  },
+  {
     id: VA_FORM_IDS.FORM_21P_4185_UPLOAD,
     benefit: 'Report of Income from Property or Business',
     title: 'form 21P-4185 upload',
@@ -528,6 +540,15 @@ export const MY_VA_SIP_FORMS = [
     title: 'form 21-2680 upload',
     description: 'uploaded file for form 21-2680',
     trackingPrefix: 'form-21-2680-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_535_UPLOAD,
+    benefit:
+      'Dependency and Indemnity Compensation by Parent(s) (Including Accrued Benefits and Death Compensation When Applicable)',
+    title: 'form 21P-535',
+    description:
+      'Dependency and Indemnity Compensation by Parent(s) (Including Accrued Benefits and Death Compensation When Applicable)',
+    trackingPrefix: 'form-21P-535-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21_0845,

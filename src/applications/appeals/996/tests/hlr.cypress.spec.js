@@ -1,3 +1,6 @@
+/**
+ * E2E test for 996 form.
+ */
 import path from 'path';
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 import testForm from '~/platform/testing/e2e/cypress/support/form-tester';

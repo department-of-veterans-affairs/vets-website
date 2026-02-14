@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
   useAcceleratedData,
@@ -15,6 +15,7 @@ import {
 } from '../actions/careSummariesAndNotes';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
+import useDateRangeSelector from '../hooks/useDateRangeSelector';
 import {
   ALERT_TYPE_ERROR,
   DEFAULT_DATE_RANGE,
@@ -26,25 +27,20 @@ import {
   statsdFrontEndActions,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
+import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import RecordListSection from '../components/shared/RecordListSection';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import DateRangeSelector, {
-  getDateRangeList,
-} from '../components/shared/DateRangeSelector';
+import DateRangeSelector from '../components/shared/DateRangeSelector';
 import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
-import {
-  calculateDateRange,
-  getTimeFrame,
-  getDisplayTimeFrame,
-  sendDataDogAction,
-} from '../util/helpers';
+import { getTimeFrame, getDisplayTimeFrame } from '../util/helpers';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const updatedRecordList = useSelector(
     state => state.mr.careSummariesAndNotes.updatedList,
   );
@@ -68,19 +64,12 @@ const CareSummariesAndNotes = () => {
 
   const { isLoading, isAcceleratingCareNotes } = useAcceleratedData();
 
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getCareSummariesAndNotesList(
-          isCurrent,
-          isAcceleratingCareNotes,
-          {
-            startDate: dateRange.fromDate,
-            endDate: dateRange.toDate,
-          },
-        );
-      };
-    },
+  const dispatchAction = useCallback(
+    isCurrent =>
+      getCareSummariesAndNotesList(isCurrent, isAcceleratingCareNotes, {
+        startDate: dateRange.fromDate,
+        endDate: dateRange.toDate,
+      }),
     [isAcceleratingCareNotes, dateRange],
   );
 
@@ -91,6 +80,7 @@ const CareSummariesAndNotes = () => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
@@ -103,7 +93,6 @@ const CareSummariesAndNotes = () => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
     },
     [dispatch],
@@ -112,29 +101,18 @@ const CareSummariesAndNotes = () => {
   const isLoadingAcceleratedData =
     isAcceleratingCareNotes && listState === loadStates.FETCHING;
 
+  useFocusAfterLoading({
+    isLoading: isLoading || listState !== loadStates.FETCHED,
+    isLoadingAcceleratedData,
+  });
+
   // Handle date range selection from DateRangeSelector component
-  const handleDateRangeSelect = useCallback(
-    event => {
-      const { value } = event.detail;
-      const { fromDate, toDate } = calculateDateRange(value);
-
-      // Update Redux with new range
-      dispatch(updateNotesDateRange(value, fromDate, toDate));
-
-      dispatch({
-        type: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
-        payload: loadStates.PRE_FETCH,
-      });
-
-      // DataDog tracking
-      const selectedOption = getDateRangeList().find(
-        option => option.value === value,
-      );
-      const label = selectedOption ? selectedOption.label : 'Unknown';
-      sendDataDogAction(`Notes date option - ${label}`);
-    },
-    [dispatch],
-  );
+  const handleDateRangeSelect = useDateRangeSelector({
+    updateDateRangeAction: updateNotesDateRange,
+    updateListStateActionType: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
+    dataDogLabel: 'Notes date option',
+    history,
+  });
 
   return (
     <div id="care-summaries-and-notes">
@@ -184,7 +162,7 @@ const CareSummariesAndNotes = () => {
             <TrackedSpinner
               id="notes-page-spinner"
               message="We’re loading your records."
-              setFocus
+              set-focus
               data-testid="loading-indicator"
             />
           </div>

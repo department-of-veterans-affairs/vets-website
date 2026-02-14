@@ -210,6 +210,7 @@
       },
       "biologicalParentSsn": "333444554",
       "biologicalParentDob": "2014-09-19",
+      "relationshipType": "STEPCHILD",
       "relationshipToChild": {
         "adopted": true,
         "stepchild": true
@@ -269,7 +270,7 @@
         "currentTermDates": {
           "officialSchoolStartDate": "1991-02-19",
           "expectedStudentStartDate": "2000-01-19",
-          "expectedGraduationDate": "2025-12-19"
+          "expectedGraduationDate": "2026-12-19"
         },
         "isSchoolAccredited": true,
         "view:accredited": {},

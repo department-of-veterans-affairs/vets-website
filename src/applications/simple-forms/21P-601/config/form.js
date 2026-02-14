@@ -26,12 +26,12 @@ import {
   waiverOfSubstitution,
   relativesOverview,
   relativesPages,
-  supportingDocuments,
   expensesClaim,
   expensesPages,
   otherDebts,
   otherDebtsPages,
   remarks,
+  supportingDocuments,
 } from '../pages';
 import { personalInfoConfig } from '../helpers/personalInformationConfig';
 
@@ -54,6 +54,9 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for accrued benefits online.',
     noAuth: 'Please sign in again to continue your application.',
@@ -279,7 +282,7 @@ const formConfig = {
         },
         remarks: {
           path: 'additional-info/remarks',
-          title: 'Additional remarks (optional)',
+          title: 'Additional remarks',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,
           scrollAndFocusTarget,

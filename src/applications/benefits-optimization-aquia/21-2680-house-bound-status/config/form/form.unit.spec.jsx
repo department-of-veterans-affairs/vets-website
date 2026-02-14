@@ -66,7 +66,7 @@ describe('Form Configuration', () => {
     it('should have hospitalizationChapter', () => {
       expect(formConfig.chapters.hospitalizationChapter).to.exist;
       expect(formConfig.chapters.hospitalizationChapter.title).to.include(
-        'Hospitalization',
+        'Hospital care',
       );
     });
   });
@@ -153,8 +153,8 @@ describe('Form Configuration', () => {
       expect(formConfig.version).to.be.a('number');
     });
 
-    it('should have prefill enabled', () => {
-      expect(formConfig.prefillEnabled).to.be.true;
+    it('should have prefill disabled', () => {
+      expect(formConfig.prefillEnabled).to.be.false;
     });
 
     it('should have submit transformer', () => {
@@ -192,22 +192,13 @@ describe('Form Configuration', () => {
       expect(formConfig.preSubmitInfo).to.be.an('object');
     });
 
-    it('should have statementOfTruth', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth).to.exist;
-      expect(formConfig.preSubmitInfo.statementOfTruth.body).to.include(
-        'identifying information',
-      );
+    it('should have required set to true', () => {
+      expect(formConfig.preSubmitInfo.required).to.be.true;
     });
 
-    it('should have correct fullNamePath for statement of truth', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth.fullNamePath).to.equal(
-        'veteranInformation.veteranFullName',
-      );
-    });
-
-    it('should have messageAriaDescribedby for accessibility', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth.messageAriaDescribedby)
-        .to.exist;
+    it('should have CustomComponent for signature', () => {
+      expect(formConfig.preSubmitInfo.CustomComponent).to.exist;
+      expect(formConfig.preSubmitInfo.CustomComponent).to.be.a('function');
     });
   });
 
@@ -322,8 +313,31 @@ describe('Form Configuration', () => {
       const page =
         formConfig.chapters.claimantInformationChapter.pages.claimantContact;
 
-      it('should include claimant name in title when name is provided', () => {
+      it('should use veteran name when veteran is claimant', () => {
         const formData = {
+          claimantRelationship: { relationship: 'veteran' },
+          veteranInformation: {
+            veteranFullName: { first: 'Luke', last: 'Skywalker' },
+          },
+        };
+        expect(page.title(formData)).to.equal(
+          "Luke Skywalker's phone number and email address",
+        );
+      });
+
+      it('should use default veteran text when veteran is claimant but name missing', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'veteran' },
+          veteranInformation: { veteranFullName: {} },
+        };
+        expect(page.title(formData)).to.equal(
+          "Veteran's phone number and email address",
+        );
+      });
+
+      it('should include claimant name in title when claimant is not veteran', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'spouse' },
           claimantInformation: {
             claimantFullName: { first: 'Han', last: 'Solo' },
           },
@@ -333,8 +347,9 @@ describe('Form Configuration', () => {
         );
       });
 
-      it('should use default title when claimant name is missing', () => {
+      it('should use default claimant text when claimant name is missing', () => {
         const formData = {
+          claimantRelationship: { relationship: 'spouse' },
           claimantInformation: { claimantFullName: {} },
         };
         expect(page.title(formData)).to.equal(
@@ -355,7 +370,7 @@ describe('Form Configuration', () => {
           },
         };
         expect(page.title(formData)).to.equal(
-          'Is Anakin Skywalker hospitalized?',
+          'Is Anakin Skywalker receiving hospital care?',
         );
       });
 
@@ -364,7 +379,9 @@ describe('Form Configuration', () => {
           claimantRelationship: { relationship: 'veteran' },
           veteranInformation: { veteranFullName: {} },
         };
-        expect(page.title(formData)).to.equal('Is the Veteran hospitalized?');
+        expect(page.title(formData)).to.equal(
+          'Is the Veteran receiving hospital care?',
+        );
       });
 
       it('should use claimant name when claimant is not veteran', () => {
@@ -374,7 +391,9 @@ describe('Form Configuration', () => {
             claimantFullName: { first: 'Padmé', last: 'Amidala' },
           },
         };
-        expect(page.title(formData)).to.equal('Is Padmé Amidala hospitalized?');
+        expect(page.title(formData)).to.equal(
+          'Is Padmé Amidala receiving hospital care?',
+        );
       });
 
       it('should use default claimant text when claimant name missing', () => {
@@ -382,7 +401,9 @@ describe('Form Configuration', () => {
           claimantRelationship: { relationship: 'spouse' },
           claimantInformation: { claimantFullName: {} },
         };
-        expect(page.title(formData)).to.equal('Is the claimant hospitalized?');
+        expect(page.title(formData)).to.equal(
+          'Is the claimant receiving hospital care?',
+        );
       });
     });
 
@@ -488,7 +509,7 @@ describe('Form Configuration', () => {
 
   describe('Conditional Page Logic', () => {
     describe('Claimant Information Conditional Pages', () => {
-      it('should show claimant pages when claimantRelationship is not veteran', () => {
+      it('should show claimant info, SSN, and address pages when claimantRelationship is not veteran', () => {
         const formData = {
           claimantRelationship: {
             relationship: 'spouse',
@@ -502,16 +523,13 @@ describe('Form Configuration', () => {
           formConfig.chapters.claimantInformationChapter.pages.claimantSSN;
         const claimantAddressPage =
           formConfig.chapters.claimantInformationChapter.pages.claimantAddress;
-        const claimantContactPage =
-          formConfig.chapters.claimantInformationChapter.pages.claimantContact;
 
         expect(claimantInfoPage.depends(formData)).to.be.true;
         expect(claimantSSNPage.depends(formData)).to.be.true;
         expect(claimantAddressPage.depends(formData)).to.be.true;
-        expect(claimantContactPage.depends(formData)).to.be.true;
       });
 
-      it('should hide claimant pages when claimantRelationship is veteran', () => {
+      it('should hide claimant info, SSN, and address pages when claimantRelationship is veteran', () => {
         const formData = {
           claimantRelationship: {
             relationship: 'veteran',
@@ -525,13 +543,19 @@ describe('Form Configuration', () => {
           formConfig.chapters.claimantInformationChapter.pages.claimantSSN;
         const claimantAddressPage =
           formConfig.chapters.claimantInformationChapter.pages.claimantAddress;
-        const claimantContactPage =
-          formConfig.chapters.claimantInformationChapter.pages.claimantContact;
 
         expect(claimantInfoPage.depends(formData)).to.be.false;
         expect(claimantSSNPage.depends(formData)).to.be.false;
         expect(claimantAddressPage.depends(formData)).to.be.false;
-        expect(claimantContactPage.depends(formData)).to.be.false;
+      });
+
+      it('should always show claimant contact page regardless of relationship', () => {
+        const claimantContactPage =
+          formConfig.chapters.claimantInformationChapter.pages.claimantContact;
+
+        // claimantContact page should not have a depends function
+        // because it should always be shown to collect contact info
+        expect(claimantContactPage.depends).to.be.undefined;
       });
     });
 

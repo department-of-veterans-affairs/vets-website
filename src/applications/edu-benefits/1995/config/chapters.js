@@ -21,13 +21,8 @@ import { updateApplicantInformationPage } from '../../utils/helpers';
 import {
   yourInformationPage,
   benefitSwitchPage,
-  sameBenefitResultPage,
-  foreignSchoolResultPage,
-  mgibAdResultPage,
-  mgibSrResultPage,
-  toeResultPage,
-  deaResultPage,
-  fryResultPage,
+  sameBenefitSelectionPage,
+  buildResultPage,
 } from '../pages/mebQuestionnaire';
 
 const isRerouteEnabledOnForm = formData => formData?.isMeb1995Reroute === true;
@@ -219,7 +214,6 @@ export const chapters = {
 export const mebChapters = {
   questionnaire: {
     title: 'Determine your path',
-    hideFormNavProgress: true,
     pages: {
       mebYourInformation: {
         path: 'questionnaire/your-information',
@@ -230,22 +224,34 @@ export const mebChapters = {
       },
       mebBenefitSelection: {
         path: 'questionnaire/benefit-selection',
+        title: 'Benefit you want to change to',
         depends: formData =>
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit',
         hideSaveLinkAndStatus: true,
         ...benefitSwitchPage(),
       },
+      sameBenefitSelection: {
+        path: 'questionnaire/same-benefit-selection',
+        title: 'Which benefit have you most recently used?',
+        depends: formData =>
+          isRerouteEnabledOnForm(formData) &&
+          formData.mebWhatDoYouWantToDo === 'same-benefit' &&
+          !formData.currentBenefitType,
+        hideSaveLinkAndStatus: true,
+        ...sameBenefitSelectionPage(),
+      },
       sameBenefitResult: {
         path: 'results/same-benefit',
         title:
-          "Dependent's Application for VA Education Benefits (VA Form 22-5490)",
+          "Dependents' Application for VA Education Benefits (VA Form 22-5490)",
         depends: formData =>
           isRerouteEnabledOnForm(formData) &&
-          formData.mebWhatDoYouWantToDo === 'same-benefit',
+          formData.mebWhatDoYouWantToDo === 'same-benefit' &&
+          (formData.currentBenefitType || formData.mebSameBenefitSelection),
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...sameBenefitResultPage(),
+        ...buildResultPage(),
       },
       foreignSchoolResult: {
         path: 'results/foreign-school',
@@ -254,7 +260,7 @@ export const mebChapters = {
           formData.mebWhatDoYouWantToDo === 'foreign-school',
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...foreignSchoolResultPage(),
+        ...buildResultPage(),
       },
       mgibAdResult: {
         path: 'results/mgib-ad',
@@ -265,7 +271,7 @@ export const mebChapters = {
           formData.mebBenefitSelection === 'mgib-ad',
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...mgibAdResultPage(),
+        ...buildResultPage(),
       },
       mgibSrResult: {
         path: 'results/mgib-sr',
@@ -276,7 +282,7 @@ export const mebChapters = {
           formData.mebBenefitSelection === 'mgib-sr',
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...mgibSrResultPage(),
+        ...buildResultPage(),
       },
       toeResult: {
         path: 'results/toe',
@@ -287,7 +293,7 @@ export const mebChapters = {
           formData.mebBenefitSelection === 'toe',
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...toeResultPage(),
+        ...buildResultPage(),
       },
       deaResult: {
         path: 'results/dea',
@@ -298,7 +304,7 @@ export const mebChapters = {
           formData.mebBenefitSelection === 'dea',
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...deaResultPage(),
+        ...buildResultPage(),
       },
       fryResult: {
         path: 'results/fry',
@@ -309,7 +315,18 @@ export const mebChapters = {
           formData.mebBenefitSelection === 'fry',
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
-        ...fryResultPage(),
+        ...buildResultPage(),
+      },
+      pgibResult: {
+        path: 'results/pgib',
+        title: 'Application for VA Education Benefits (VA Form 22-1990)',
+        depends: formData =>
+          isRerouteEnabledOnForm(formData) &&
+          formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
+          formData.mebBenefitSelection === 'pgib',
+        hideSaveLinkAndStatus: true,
+        hideNavButtons: true,
+        ...buildResultPage(),
       },
     },
   },

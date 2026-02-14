@@ -1,50 +1,108 @@
-import { addDays, setHours, setMinutes, addMinutes } from 'date-fns';
+const { addDays, addMinutes, format } = require('date-fns');
+const { zonedTimeToUtc } = require('date-fns-tz');
+const { base64UrlEncode } = require('./jwt-utils');
+
+const TZ_ET = 'America/New_York';
+const TZ_PT = 'America/Los_Angeles';
 
 /**
  * Generates appointment time slots for weekdays over a specified period.
  *
- * Creates slots starting at 8 AM with 30-minute intervals, excluding weekends.
- * Each slot has a start and end time in ISO 8601 format.
+ * Creates 30-min slots, excluding weekends.
+ * ONLY returns slots that are within 8AM–5PM in BOTH ET and PT (overlap window),
+ * and returns timestamps in ISO 8601 UTC (Z).
  *
  * @param {number} numberOfDays - Number of days to generate slots for (default: 14)
- * @param {number} slotsPerDay - Number of time slots per day (default: 18)
- * @returns {Array<{start: string, end: string}>} Array of slot objects with ISO timestamp strings
+ * @param {number} slotsPerDay - Max number of time slots per day to return (default: 12) Must be less than or equal to 12.
+ * @returns {Array<{start: string, end: string}>} Array of slot objects with ISO timestamp strings (UTC)
  *
  * @example
  * const slots = generateSlots(7, 10);
  * // Returns 10 slots per weekday for the next 7 days
- * // Each slot: { start: '2025-11-27T08:00:00.000Z', end: '2025-11-27T08:30:00.000Z' }
+ * // Each slot: { dtStartUtc: '2025-11-27T08:00:00.000Z', dtEndUtc: '2025-11-27T08:30:00.000Z' }
  */
-const generateSlots = (numberOfDays = 14, slotsPerDay = 18) => {
+const generateSlots = (numberOfDays = 14, slotsPerDay = 12) => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-
-  // Generate time slots (8 AM, 8:30 AM, 9 AM, etc.)
-  const timeSlots = Array.from(
-    { length: slotsPerDay },
-    (_, index) => 8 + index * 0.5,
-  );
 
   const days = Array.from({ length: numberOfDays }, (_, index) =>
     addDays(today, index + 1),
   ).filter(date => {
     const dayOfWeek = date.getDay();
-    return dayOfWeek !== 0 && dayOfWeek !== 6; // Skip weekends
+    return dayOfWeek !== 0 && dayOfWeek !== 6; // Skip weekends (0 = Sunday, 6 = Saturday)
   });
 
   return days.flatMap(date => {
-    return timeSlots.map(hour => {
-      const hours = Math.floor(hour);
-      const minutes = (hour % 1) * 60;
-      const slotStart = setMinutes(setHours(date, hours), minutes);
-      const slotEnd = addMinutes(slotStart, 30);
+    const yyyyMmDd = format(date, 'yyyy-MM-dd');
 
-      return {
-        start: slotStart.toISOString(),
-        end: slotEnd.toISOString(),
-      };
-    });
+    // Business-hour boundaries in each timezone (local wall-clock)
+    const etStartUtc = zonedTimeToUtc(`${yyyyMmDd}T08:00:00`, TZ_ET);
+    const etEndUtc = zonedTimeToUtc(`${yyyyMmDd}T17:00:00`, TZ_ET);
+
+    const ptStartUtc = zonedTimeToUtc(`${yyyyMmDd}T08:00:00`, TZ_PT);
+    const ptEndUtc = zonedTimeToUtc(`${yyyyMmDd}T17:00:00`, TZ_PT);
+
+    // Overlap window in UTC: [max(starts), min(ends)]
+    const windowStartUtc = new Date(
+      Math.max(etStartUtc.getTime(), ptStartUtc.getTime()),
+    );
+    const windowEndUtc = new Date(
+      Math.min(etEndUtc.getTime(), ptEndUtc.getTime()),
+    );
+
+    // If no overlap (shouldn't happen for ET/PT), return no slots
+    if (windowStartUtc >= windowEndUtc) return [];
+
+    // Build 30-min slots within the overlap, starting on the hour/half-hour
+    const slots = [];
+    let cursor = new Date(windowStartUtc);
+
+    // Ensure cursor is aligned to :00 or :30 (in UTC)
+    const m = cursor.getUTCMinutes();
+    if (m !== 0 && m !== 30) {
+      const bump = m < 30 ? 30 - m : 60 - m;
+      cursor = addMinutes(cursor, bump);
+    }
+    cursor.setUTCSeconds(0, 0);
+
+    while (cursor < windowEndUtc && slots.length < slotsPerDay) {
+      const end = addMinutes(cursor, 30);
+      if (end <= windowEndUtc) {
+        slots.push({
+          dtStartUtc: cursor.toISOString(),
+          dtEndUtc: end.toISOString(),
+        });
+      }
+      cursor = addMinutes(cursor, 30);
+    }
+
+    return slots;
   });
 };
 
-export { generateSlots };
+/**
+ * Creates a mock JWT token for testing purposes.
+ *
+ * @param {string} uuid - The UUID of the start schedule url param
+ * @param {number} expiresIn - The number of seconds until the token expires (default: 3600 seconds = 1 hour)
+ * @returns {string} The mock JWT token
+ */
+function createMockJwt(uuid, expiresIn = 3600) {
+  const now = Math.floor(Date.now() / 1000);
+  const header = { alg: 'HS256', typ: 'JWT' };
+
+  const defaultPayload = {
+    sub: uuid,
+    jti: 'mock-jti',
+    iat: now,
+    exp: now + expiresIn,
+  };
+
+  const encodedHeader = base64UrlEncode(JSON.stringify(header));
+  const encodedPayload = base64UrlEncode(JSON.stringify(defaultPayload));
+  const mockSignature = base64UrlEncode('mock-signature');
+
+  return `${encodedHeader}.${encodedPayload}.${mockSignature}`;
+}
+
+module.exports = { generateSlots, createMockJwt };

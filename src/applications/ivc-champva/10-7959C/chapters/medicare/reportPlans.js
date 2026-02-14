@@ -3,10 +3,10 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'Report Medicare Plans';
-const INPUT_LABEL =
-  'Does the beneficiary have Medicare information to provide or update at this time?';
+const TITLE_TEXT = content['medicare--report-plan-title'];
+const INPUT_LABEL = content['medicare--report-plan-label'];
 
 export default {
   uiSchema: {

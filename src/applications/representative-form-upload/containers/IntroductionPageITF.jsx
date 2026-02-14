@@ -9,13 +9,14 @@ import {
   VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
-import { getFormNumber } from '../helpers';
+import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
+import { getFormContent, getFormNumber } from '../helpers';
 import { ITF_PATH } from '../constants';
 
 const IntroductionPageITF = ({ route, router }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
-
+  const { subTitle } = getFormContent();
   const startBtn = useMemo(
     () => {
       const startForm = () => {
@@ -26,7 +27,6 @@ const IntroductionPageITF = ({ route, router }) => {
       return (
         <VaLinkAction
           href="#start"
-          label="Start form upload and submission"
           class=" representative-form__start"
           text="Start the submission"
           onClick={startForm}
@@ -41,11 +41,7 @@ const IntroductionPageITF = ({ route, router }) => {
   }, []);
   return (
     <article className="schemaform-intro representative-form">
-      <h1 data-testid="form-title">Submit VA Form {formNumber}</h1>
-      <p className="va-introtext">
-        Intent to File a Claim for Compensation and/or Pension, or Survivors
-        Pension and/or DIC
-      </p>
+      <FormTitle title={`Submit VA Form ${formNumber}`} subTitle={subTitle} />
       <h2 className="representative-form__h2">
         Follow these steps to complete the submission
       </h2>

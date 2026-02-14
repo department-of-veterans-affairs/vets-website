@@ -63,7 +63,7 @@ jobs:
       permissions: write-all
       needs: ecr-login
       container: 
-        image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+        image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
         credentials: 
           username: ${{ needs.ecr-login.outputs.ECR_USERNAME }}
           password: ${{ needs.ecr-login.outputs.ECR_PASSWORD }}
@@ -94,6 +94,9 @@ jobs:
           with:
             name: dist-without-markdown
 
+        - name: Install missing dependencies
+          run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y bzip2 curl
+
         - name: Unpack artifact
           run: |
             mkdir vets-website
@@ -113,11 +116,38 @@ jobs:
           run: |
             yarn install --ignore-scripts
 
-        - name: Start server
-          run: |
-           mkdir build
-           node src/platform/testing/e2e/test-server.js --buildtype=../vets-website --port=3001 &
-
         - name: Run Cypress tests
+          shell: bash
           run: |
+            set -euo pipefail
+
+            mkdir -p build
+
+            echo "Starting test server..."
+            node src/platform/testing/e2e/test-server.js \
+              --buildtype=../vets-website \
+              --port=3001 \
+              --host=127.0.0.1 \
+              > test-server.log 2>&1 &
+            SERVER_PID=$!
+            trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+
+            echo "Waiting for server to be ready..."
+            ready=false
+            for i in $(seq 1 30); do
+              if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+                echo "Server is ready!"
+                ready=true
+                break
+              fi
+              echo "Attempt $i failed, retrying..."
+              sleep 2
+            done
+
+            if [ "$ready" = false ]; then
+              echo "Server failed to start. Last 200 log lines:"
+              tail -n 200 test-server.log || cat test-server.log
+              exit 1
+            fi
+
             npx cypress run --config-file config/cypress.config.js --browser chrome --headless --spec 'src/${{ inputs.platform-or-application }}/${{ inputs.product }}/**/*.cypress.spec.js'

@@ -7,6 +7,8 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
+import { recordRadioOptionClick } from '../../../util/events-helpers';
 import {
   createExpense,
   updateExpense,
@@ -17,6 +19,9 @@ import {
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
   selectAllExpenses,
+  selectExpenseBackDestination,
+  selectComplexClaim,
+  selectAppointment,
 } from '../../../redux/selectors';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import {
@@ -33,8 +38,14 @@ const Mileage = () => {
 
   const isEditMode = !!expenseId;
 
+  useSetFocus();
+
+  const { data: appointment } = useSelector(selectAppointment);
+  const { data: claimDetails = {} } = useSelector(selectComplexClaim);
+
   const allExpenses = useSelector(selectAllExpenses);
   const address = useSelector(selectVAPResidentialAddress);
+  const backDestination = useSelector(selectExpenseBackDestination);
 
   const title = 'Mileage';
 
@@ -52,7 +63,7 @@ const Mileage = () => {
   });
   const previousHasChangesRef = useRef(false);
 
-  const [formState, setFormState] = useState({ description: 'Mileage' });
+  const [formState, setFormState] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showTripTypeError, setShowTripTypeError] = useState(false);
   const [showDepartureAddressError, setShowDepartureAddresError] = useState(
@@ -64,7 +75,27 @@ const Mileage = () => {
     const name = explicitName ?? event.target?.name ?? event.detail?.name; // rarely used, but safe to include
     const value =
       event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
+
+    // Only process when value actually changes (prevents duplicate events)
+    if (!value || formState[name] === value) return;
+
     setFormState(prev => ({ ...prev, [name]: value }));
+
+    // Track radio button selections
+    if (name === 'tripType') {
+      const optionLabel =
+        value === TRIP_TYPES.ROUND_TRIP.value
+          ? TRIP_TYPES.ROUND_TRIP.label
+          : TRIP_TYPES.ONE_WAY.label;
+      recordRadioOptionClick(
+        'Was your drive round trip or one way?',
+        optionLabel,
+      );
+    } else if (name === 'departureAddress') {
+      const optionLabel =
+        value === 'home-address' ? 'Home address' : 'Another address';
+      recordRadioOptionClick('Which address did you depart from?', optionLabel);
+    }
   };
 
   // Track unsaved changes
@@ -93,7 +124,6 @@ const Mileage = () => {
         const initialState = {
           departureAddress: 'home-address',
           tripType: TRIP_TYPES.ROUND_TRIP.value,
-          description: 'Mileage',
         };
         setFormState(initialState);
         initialFormStateRef.current = initialState;
@@ -121,11 +151,6 @@ const Mileage = () => {
   const handleContinue = async () => {
     if (!validatePage()) return;
 
-    const expenseData = {
-      ...formState,
-      expenseType: EXPENSE_TYPE_KEYS.MILEAGE,
-    };
-
     // Check if user selected "another-address" or "one-way"
     if (
       formState.departureAddress === 'another-address' ||
@@ -134,6 +159,17 @@ const Mileage = () => {
       navigate(`/file-new-claim/${apptId}/${claimId}/unsupported`);
       return;
     }
+
+    // Building the mileage expense request body
+
+    const expenseData = {
+      purchaseDate:
+        appointment?.localStartTime?.slice(0, 10) ??
+        claimDetails.appointment?.appointmentDateTime?.slice(0, 10) ??
+        '',
+      description: 'Mileage',
+      tripType: formState.tripType,
+    };
 
     try {
       if (isEditMode) {
@@ -182,6 +218,8 @@ const Mileage = () => {
   const handleBack = () => {
     if (isEditMode) {
       setIsModalVisible(true);
+    } else if (backDestination === 'review') {
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } else {
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     }
@@ -192,11 +230,12 @@ const Mileage = () => {
   const handleConfirmCancel = () => {
     handleCloseModal();
     dispatch(setUnsavedExpenseChanges(false));
-    navigate(
-      isEditMode
-        ? `/file-new-claim/${apptId}/${claimId}/review`
-        : `/file-new-claim/${apptId}/${claimId}/choose-expense`,
-    );
+
+    if (isEditMode || backDestination === 'review') {
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else {
+      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+    }
   };
 
   return (
@@ -242,11 +281,14 @@ const Mileage = () => {
           } ${address.zipCode}`}
           value="home-address"
           checked={formState.departureAddress === 'home-address'}
+          name="mileage-departure-address-radio"
+          data-dd-privacy="mask"
         />
         <va-radio-option
           label="Another address"
           value="another-address"
           checked={formState.departureAddress === 'another-address'}
+          name="mileage-departure-address-radio"
         />
       </VaRadio>
 
@@ -262,11 +304,13 @@ const Mileage = () => {
           label={TRIP_TYPES.ROUND_TRIP.label}
           value={TRIP_TYPES.ROUND_TRIP.value}
           checked={formState.tripType === TRIP_TYPES.ROUND_TRIP.value}
+          name="mileage-trip-type-radio"
         />
         <va-radio-option
           label={TRIP_TYPES.ONE_WAY.label}
           value={TRIP_TYPES.ONE_WAY.value}
           checked={formState.tripType === TRIP_TYPES.ONE_WAY.value}
+          name="mileage-trip-type-radio"
         />
       </VaRadio>
 

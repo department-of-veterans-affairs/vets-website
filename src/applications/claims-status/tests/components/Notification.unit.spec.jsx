@@ -60,4 +60,14 @@ describe('<Notification>', () => {
       expect(document.activeElement).to.equal(selector);
     });
   });
+
+  it('should pass role prop to va-alert', () => {
+    const { container } = render(
+      <Notification title={title} body={body} role="alert" type="error" />,
+    );
+
+    const selector = container.querySelector('va-alert');
+    expect(selector).to.exist;
+    expect(selector).to.have.attr('role', 'alert');
+  });
 });

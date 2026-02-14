@@ -3,29 +3,32 @@ import {
   currentOrPastDateUI,
   textSchema,
   textUI,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, privWrapper } from '../../../shared/utilities';
+import { titleWithNameUI } from '../../utils/titles';
 import { validateChars } from '../../utils/validation';
+import content from '../../locales/en/content.json';
 
-const PAGE_TITLE = ({ formData }) => {
-  const name = nameWording(formData, undefined, undefined, true);
-  return privWrapper(`${name} Medicare Part A carrier`);
+const TITLE_TEXT = content['medicare--part-a-carrier-title'];
+const INPUT_LABELS = {
+  carrier: content['medicare--carrier-label'],
+  effectiveDate: content['medicare--part-a-effective-date-label'],
+};
+const HINT_TEXT = {
+  carrier: content['medicare--carrier-hint'],
+  effectiveDate: content['medicare--part-a-effective-date-hint'],
 };
 
 export default {
   uiSchema: {
-    ...titleUI(PAGE_TITLE),
+    ...titleWithNameUI(TITLE_TEXT),
     applicantMedicarePartACarrier: textUI({
-      title: 'Name of insurance carrier',
-      hint:
-        'The insurance carrier may be listed as “Medicare Health Insurance” on the insurance card.',
+      title: INPUT_LABELS.carrier,
+      hint: HINT_TEXT.carrier,
       validations: [validateChars],
     }),
     applicantMedicarePartAEffectiveDate: currentOrPastDateUI({
-      title: 'Medicare Part A effective date',
-      hint:
-        'You may find the effective date on the front of the Medicare card near “Coverage starts” or “Effective date.”',
+      title: INPUT_LABELS.effectiveDate,
+      hint: HINT_TEXT.effectiveDate,
     }),
   },
   schema: {

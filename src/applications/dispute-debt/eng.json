@@ -1,19 +1,47 @@
 {
+  "debt-selection": {
+    "submitted-note": "Note: This debt has already been disputed on {{ date }} and cannot be disputed again. It can take up to 60 days to process."
+  },
   "dispute-submission-alert": {
     "title": "Your dispute submission is in progress",
-    "description": "An email confirmation has been sent to <bold>{{ email }}</bold>. You should also receive a confirmation letter in the mail within 60 days. We expect to issue a decision within 180 days and will notify you of the outcome in a follow-up letter."
+    "description": "We sent a confirmation email to <bold>{{ email }}</bold>. We’ll send you a confirmation letter in the mail once we’ve processed your dispute. You should receive that letter within 60 days.<br/><br/> We expect to make a decision on your dispute within 180 days. We’ll notify you of the outcome with a letter in the mail."
   },
   "dispute-submitted-whats-next": {
     "first-action": {
       "number": "1",
-      "header": "We’ll confirm when we processed your request",
-      "description": "After we receive your submission, we’ll review your dispute. You should receive a confirmation letter by mail within 60 days."
+      "header": "We’ll confirm when we processed your dispute",
+      "description": "After we receive your submission, we’ll review your dispute. You should receive a confirmation letter in the mail within 60 days."
     },
     "second-action": {
       "number": "2",
       "header": "We’ll review your dispute",
-      "description": "A decision is normally made within 180 days.  We will send you a letter with the outcome."
+      "description": "We expect to make a decision on your dispute within 180 days. We’ll notify you of the outcome with a letter in the mail."
     }
+  },
+  "sip-options": {
+    "start-text": "Start your dispute",
+    "unauth-start-text": "Sign in or create an account",
+    "retention-period": "60 days"
+  },
+  "form-intro": {
+    "title": "Dispute your VA debt",
+    "info": {
+      "about-form": "Use this form if you’d like to dispute all or part of the debt.",
+      "before-form": "What to know before you fill out this form",
+      "form-usage": "Right now, you can only use this form to dispute debts from benefit overpayments. You can’t use it to dispute copay bills atthis time.",
+      "dispute-charges-link": "Learn how to dispute copay bills",
+      "payments-note": "You may need to make payments on your debt while we review your dispute."
+    },
+    "alert": {
+      "title": "We’re sorry. This application is unavailable.",
+      "description": "We are currently working on this application",
+      "link": "Go back to VA.gov"
+    }
+  },
+  "downtime-notification-app-title": "dispute debt system",
+  "loading-indicator": {
+    "label": "Loading",
+    "message": "Loading application..."
   },
   "shared": {
     "contact": {
@@ -101,7 +129,7 @@
       "type-header": "Submission type",
       "dmc-title": "Submission details",
       "vet-title": "Form submitted on {{date}}",
-      "text": "Your submission is complete. Submissions are processed in the order they are received. Dispute decisions are normally made with 180 days. We will send you a letter with the outcome."
+      "text": "We’ll send you a confirmation letter in the mail once we’ve processed your dispute. You should receive that letter within 60 days.\n\nWe expect to make a decision on your dispute within 180 days. We’ll notify you of the outcome with a letter in the mail."
     },
     "section-headings": {
       "information-submitted": "Information submitted on this dispute",

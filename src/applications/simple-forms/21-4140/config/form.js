@@ -14,13 +14,13 @@ import identificationInformation from '../pages/identificationInformation';
 import address from '../pages/address';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import { employersPages } from '../pages/employers';
-import EmploymentCheckPage from '../containers/EmploymentCheckPage';
-import EmploymentCheckReview from '../containers/EmploymentCheckReview';
+import prefillTransformer from './prefill-transformer';
 import {
   shouldShowEmploymentSection,
   shouldShowUnemploymentSection,
 } from '../utils/employment';
 
+import employmentCheck from '../pages/employmentCheck';
 import employed from '../pages/employed';
 import unemployed from '../pages/unemployed';
 import evidence from '../pages/evidence';
@@ -34,12 +34,13 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   transformForSubmit,
+  prefillTransformer,
   preSubmitInfo: {
     statementOfTruth: {
       body:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: 'fullName',
     },
   },
@@ -69,7 +70,7 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     personalInformationChapter: {
-      title: 'Your personal information',
+      title: 'Section I: Your personal information',
       pages: {
         nameAndDateOfBirth: {
           path: 'name-and-date-of-birth',
@@ -80,7 +81,7 @@ const formConfig = {
       },
     },
     identificationInformationChapter: {
-      title: 'Your identification information',
+      title: 'Section I: Your identification information',
       pages: {
         identificationInformation: {
           path: 'identification-information',
@@ -91,7 +92,7 @@ const formConfig = {
       },
     },
     mailingInformationChapter: {
-      title: 'Your mailing information',
+      title: 'Section I: Your mailing information',
       pages: {
         address: {
           path: 'address',
@@ -102,7 +103,7 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Your contact information',
+      title: 'Section I: Your contact information',
       pages: {
         phoneAndEmailAddress: {
           path: 'phone-and-email-address',
@@ -112,20 +113,21 @@ const formConfig = {
         },
       },
     },
-    employmentChapter: {
-      title: 'Employment information',
+    employmentCheckChapter: {
+      title: 'Section I: Employment Confirmation',
       pages: {
         employmentCheck: {
           path: 'employment-check',
           title: 'Employment in the past 12 months',
-          CustomPage: EmploymentCheckPage,
-          CustomPageReview: EmploymentCheckReview,
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          uiSchema: employmentCheck.uiSchema,
+          schema: employmentCheck.schema,
+          updateFormData: employmentCheck.updateFormData,
         },
+      },
+    },
+    employmentChapter: {
+      title: 'Section II: Employment information',
+      pages: {
         ...Object.fromEntries(
           Object.entries(employersPages).map(([key, page]) => [
             key,
@@ -151,7 +153,11 @@ const formConfig = {
           schema: employed.schema,
           depends: shouldShowEmploymentSection,
         },
-
+      },
+    },
+    unemploymentChapter: {
+      title: 'Section III: Unemployment information',
+      pages: {
         unemployed: {
           path: 'unemployed',
           title: 'Unemployed',
@@ -163,7 +169,7 @@ const formConfig = {
     },
 
     evidenceChapter: {
-      title: 'Evidence',
+      title: 'Supporting documentation',
       pages: {
         evidence: {
           path: 'evidence',

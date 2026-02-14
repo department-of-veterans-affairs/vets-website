@@ -3,8 +3,9 @@ import {
   emailUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'Your email address';
+const TITLE_TEXT = content['signer--email-title'];
 
 export default {
   uiSchema: {

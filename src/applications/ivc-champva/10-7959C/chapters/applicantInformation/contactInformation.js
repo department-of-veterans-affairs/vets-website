@@ -3,20 +3,15 @@ import {
   emailUI,
   phoneSchema,
   phoneUI,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, privWrapper } from '../../../shared/utilities';
+import { titleWithNameUI } from '../../utils/titles';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'contact information';
-
-const PAGE_TITLE = ({ formData }) =>
-  privWrapper(
-    `${nameWording(formData, undefined, undefined, true)} ${TITLE_TEXT}`,
-  );
+const TITLE_TEXT = content['applicant--contact-info-title'];
 
 export default {
   uiSchema: {
-    ...titleUI(PAGE_TITLE),
+    ...titleWithNameUI(TITLE_TEXT),
     applicantPhone: phoneUI(),
     applicantEmail: emailUI({
       hideIf: formData => formData.certifierRole === 'applicant',

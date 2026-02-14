@@ -5,6 +5,7 @@ const sample = [
     attributes: {
       display: 'Surgical Pathology',
       testCode: 'SP',
+      testCodeDisplay: 'Surgical Pathology',
       dateCompleted: '2019-03-12T16:30:00Z',
       sampleTested: 'BONE MARROW',
       bodySite: null,
@@ -19,6 +20,7 @@ const sample = [
     attributes: {
       display: 'CH',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-23T22:06:02Z',
       sampleTested: 'SERUM',
       bodySite: 'Central Vien',
@@ -107,6 +109,7 @@ const sample = [
     attributes: {
       display: 'CH - FULL SAMPLE',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-23T22:06:02Z',
       sampleTested: 'SERUM',
       bodySite: 'Central Vien',
@@ -147,6 +150,7 @@ const staging = [
     attributes: {
       display: '*Glomerular Filtration Rate, Estimated',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-13T16:35:00Z',
       sampleTested: '',
       encodedData: '',
@@ -176,6 +180,7 @@ const staging = [
     attributes: {
       display: 'Hemoglobin A1c',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-13T16:35:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -216,6 +221,7 @@ const staging = [
     attributes: {
       display: 'RBC Product',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-22T17:18:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -244,6 +250,7 @@ const staging = [
     attributes: {
       display: 'Basic Metabolic Panel',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-13T16:35:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -356,6 +363,7 @@ const staging = [
     attributes: {
       display: 'Flexible Crossmatch',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-22T17:19:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -432,6 +440,7 @@ const staging = [
     attributes: {
       display: 'Blood Type',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-22T17:19:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -460,6 +469,7 @@ const staging = [
     attributes: {
       display: 'Thyroid Stimulating Hormone',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-13T16:35:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -488,6 +498,7 @@ const staging = [
     attributes: {
       display: 'ABSC',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-22T17:19:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -516,6 +527,7 @@ const staging = [
     attributes: {
       display: '*Differential Automated',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-13T16:35:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -580,6 +592,7 @@ const staging = [
     attributes: {
       display: 'Lipid Panel',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-13T16:35:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -633,6 +646,7 @@ const staging = [
     attributes: {
       display: 'CBC w/ Diff',
       testCode: 'CH',
+      testCodeDisplay: 'Chemistry and hematology',
       dateCompleted: '2025-01-13T16:35:00+00:00',
       sampleTested: '',
       encodedData: '',
@@ -749,6 +763,80 @@ const staging = [
           sampleTested: '',
         },
       ],
+    },
+  },
+  // EKG with valid date
+  {
+    id: 'EKG-001-VALID-DATE',
+    type: 'DiagnosticReport',
+    attributes: {
+      display: 'EKG (ELECTROCARDIOGRAM)',
+      testCode: 'EKG',
+      dateCompleted: '2025-06-15T10:30:00Z',
+      sampleTested: null,
+      bodySite: null,
+      location: 'CARDIOLOGY CLINIC - VA MEDICAL CENTER',
+      orderedBy: 'Dr. Jane Smith',
+      comments: 'Normal sinus rhythm. No acute ST-T wave changes.',
+      source: 'oracle-health',
+      observations: [
+        {
+          testCode: 'HEART_RATE',
+          value: { text: '72 bpm', type: 'Quantity' },
+          referenceRange: '60 - 100 bpm',
+          status: 'final',
+          comments: '',
+        },
+        {
+          testCode: 'PR_INTERVAL',
+          value: { text: '160 ms', type: 'Quantity' },
+          referenceRange: '120 - 200 ms',
+          status: 'final',
+          comments: '',
+        },
+      ],
+    },
+  },
+  // EKG with NULL date - should display "None recorded" instead of epoch date
+  {
+    id: 'EKG-002-NULL-DATE',
+    type: 'DiagnosticReport',
+    attributes: {
+      display: 'EKG (ELECTROCARDIOGRAM) - NULL DATE',
+      testCode: 'EKG',
+      dateCompleted: null,
+      sampleTested: null,
+      bodySite: null,
+      location: 'CARDIOLOGY CLINIC - VA MEDICAL CENTER',
+      orderedBy: 'Dr. John Doe',
+      comments: 'Sinus bradycardia. Otherwise normal EKG.',
+      source: 'oracle-health',
+      observations: [
+        {
+          testCode: 'HEART_RATE',
+          value: { text: '55 bpm', type: 'Quantity' },
+          referenceRange: '60 - 100 bpm',
+          status: 'final',
+          comments: 'Mild bradycardia',
+        },
+      ],
+    },
+  },
+  // EKG with empty string date - should also display "None recorded"
+  {
+    id: 'EKG-003-EMPTY-DATE',
+    type: 'DiagnosticReport',
+    attributes: {
+      display: 'EKG (ELECTROCARDIOGRAM) - EMPTY DATE',
+      testCode: 'EKG',
+      dateCompleted: '',
+      sampleTested: null,
+      bodySite: null,
+      location: 'PRIMARY CARE CLINIC',
+      orderedBy: 'Dr. Robert Wilson',
+      comments: 'Normal EKG. No changes from previous.',
+      source: 'oracle-health',
+      observations: [],
     },
   },
 ];

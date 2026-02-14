@@ -42,10 +42,9 @@ describe('Medical Records View Lab and Tests', () => {
     cy.injectAxeThenAxeCheck();
 
     const CARDS_PER_PAGE = 3;
-    cy.get(':nth-child(4) > [data-testid="record-list-item"]').should(
-      'have.length',
-      CARDS_PER_PAGE,
-    );
+    cy.get(
+      'ul.record-list-items.no-print [data-testid="record-list-item"]',
+    ).should('have.length', CARDS_PER_PAGE);
     cy.get("[data-testid='filter-display-message']").should('be.visible');
     cy.get("[data-testid='filter-display-message']").should('not.be.empty');
     // go to a specific lab
@@ -57,7 +56,9 @@ describe('Medical Records View Lab and Tests', () => {
     cy.get('[data-testid="header-time"]').contains('January 23, 2025');
 
     cy.get('[data-testid="lab-and-test-code"]').should('be.visible');
-    cy.get('[data-testid="lab-and-test-code"]').contains('CH');
+    cy.get('[data-testid="lab-and-test-code"]').contains(
+      'Chemistry and hematology',
+    );
 
     cy.get('[data-testid="lab-and-test-sample-tested"]').should('be.visible');
     cy.get('[data-testid="lab-and-test-sample-tested"]').contains('SERUM');

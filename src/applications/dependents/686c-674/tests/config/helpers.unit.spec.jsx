@@ -9,7 +9,109 @@ import {
   generateTransition,
   generateTitle,
   CancelButton,
+  incomeQuestionUpdateUiSchema,
 } from '../../config/helpers';
+
+describe('incomeQuestionUpdateUiSchema', () => {
+  it('should return empty ui:options hint when feature flag is true', () => {
+    const formData = {
+      vaDependentsNetWorthAndPension: true,
+    };
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({
+      'ui:options': {
+        hint: '',
+      },
+    });
+  });
+
+  it('should return empty object when feature flag is false', () => {
+    const formData = {
+      vaDependentsNetWorthAndPension: false,
+    };
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({});
+  });
+
+  it('should return empty object when feature flag is undefined', () => {
+    const formData = {};
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({});
+  });
+
+  it('should return empty object when formData is undefined', () => {
+    const result = incomeQuestionUpdateUiSchema(undefined);
+
+    expect(result).to.deep.equal({});
+  });
+
+  it('should return empty object when formData is null', () => {
+    const result = incomeQuestionUpdateUiSchema(null);
+
+    expect(result).to.deep.equal({});
+  });
+
+  it('should return empty object when feature flag is null', () => {
+    const formData = {
+      vaDependentsNetWorthAndPension: null,
+    };
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({});
+  });
+
+  it('should return empty object when feature flag is 0', () => {
+    const formData = {
+      vaDependentsNetWorthAndPension: 0,
+    };
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({});
+  });
+
+  it('should return empty object when feature flag is empty string', () => {
+    const formData = {
+      vaDependentsNetWorthAndPension: '',
+    };
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({});
+  });
+
+  it('should return empty ui:options hint when feature flag is truthy non-boolean', () => {
+    const formData = {
+      vaDependentsNetWorthAndPension: 'true',
+    };
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({
+      'ui:options': {
+        hint: '',
+      },
+    });
+  });
+
+  it('should preserve other formData properties without modification', () => {
+    const formData = {
+      vaDependentsNetWorthAndPension: true,
+      someOtherProperty: 'value',
+      anotherProperty: 123,
+    };
+    const result = incomeQuestionUpdateUiSchema(formData);
+
+    expect(result).to.deep.equal({
+      'ui:options': {
+        hint: '',
+      },
+    });
+    // Verify formData wasn't modified
+    expect(formData.someOtherProperty).to.equal('value');
+    expect(formData.anotherProperty).to.equal(123);
+  });
+});
 
 describe('generateTransition and generateTitle', () => {
   it('renders a transition element with the correct class and text', () => {

@@ -25,9 +25,11 @@ import homeHospiceCareAfterDischarge from './chapters/02-veteran-information/hom
 import separationDocuments from './chapters/03-military-history/separationDocuments';
 import uploadDD214 from './chapters/03-military-history/uploadDD214';
 import serviceNumber from './chapters/03-military-history/serviceNumber';
+import servicePeriod from './chapters/03-military-history/servicePeriod';
 import servicePeriods from './chapters/03-military-history/servicePeriods';
 import previousNamesQuestion from './chapters/03-military-history/previousNamesQuestion';
 import previousNames from './chapters/03-military-history/previousNames';
+import { powPages } from './chapters/03-military-history/powPages';
 
 import benefitsSelection from './chapters/04-benefits-selection/benefitsSelection';
 import burialAllowancePartOne from './chapters/04-benefits-selection/burialAllowancePartOne';
@@ -41,6 +43,9 @@ import tribalLandLocation from './chapters/04-benefits-selection/tribalLandLocat
 import plotAllowancePartOne from './chapters/04-benefits-selection/plotAllowancePartOne';
 import plotAllowancePartTwo from './chapters/04-benefits-selection/plotAllowancePartTwo';
 import transportationExpenses from './chapters/04-benefits-selection/transportationExpenses';
+
+import createDirectDepositPage from '../components/DirectDeposit';
+
 import supportingDocuments from './chapters/05-additional-information/supportingDocuments';
 import fasterClaimProcessing from './chapters/05-additional-information/fasterClaimProcessing';
 import deathCertificate from './chapters/05-additional-information/deathCertificate';
@@ -54,6 +59,7 @@ import {
   showDeathCertificateRequiredPage,
   showHomeHospiceCarePage,
   showHomeHospiceCareAfterDischargePage,
+  showPdfFormAlignment,
 } from '../utils/helpers';
 import { submit } from './submit';
 import manifest from '../manifest.json';
@@ -90,7 +96,7 @@ const formConfig = {
       saved: 'Your burial benefits application has been saved.',
     },
   },
-  version: 3,
+  version: 3, // Change to 4 when PDF alignment feature toggle is enabled and enable migration
   migrations,
   prefillEnabled: true,
   dev: {
@@ -307,13 +313,25 @@ const formConfig = {
           uiSchema: serviceNumber.uiSchema,
           schema: serviceNumber.schema,
         },
+        servicePeriod: {
+          title: 'Service period',
+          reviewTitle: () => (
+            <span className="vads-u-font-size--h3">Service period</span>
+          ),
+          path: 'military-history/service-period',
+          depends: form =>
+            showPdfFormAlignment() && !get('view:separationDocuments', form),
+          uiSchema: servicePeriod.uiSchema,
+          schema: servicePeriod.schema,
+        },
         servicePeriods: {
           title: 'Service periods',
           reviewTitle: () => (
             <span className="vads-u-font-size--h3">Service periods</span>
           ),
           path: 'military-history/service-periods',
-          depends: form => !get('view:separationDocuments', form),
+          depends: form =>
+            !showPdfFormAlignment() && !get('view:separationDocuments', form),
           uiSchema: servicePeriods.uiSchema,
           schema: servicePeriods.schema,
         },
@@ -336,6 +354,7 @@ const formConfig = {
           uiSchema: previousNames.uiSchema,
           schema: previousNames.schema,
         },
+        ...powPages,
       },
     },
     benefitsSelection: {
@@ -361,7 +380,7 @@ const formConfig = {
           schema: burialAllowancePartOne.schema,
         },
         burialAllowanceConfirmation: {
-          title: 'Burial allowance',
+          title: 'Statement of truth',
           reviewTitle: ' ',
           path: 'benefits/burial-allowance/statement-of-truth',
           depends: form => {
@@ -373,7 +392,9 @@ const formConfig = {
               'burialAllowanceRequested.unclaimed',
               form,
             );
-            return burialsSelected && unclaimedSelected;
+            const isFuneralDirector =
+              get('relationshipToVeteran', form) === 'funeralDirector';
+            return burialsSelected && unclaimedSelected && isFuneralDirector;
           },
           uiSchema: burialAllowanceConfirmation.uiSchema,
           schema: burialAllowanceConfirmation.schema,
@@ -473,6 +494,7 @@ const formConfig = {
     additionalInformation: {
       title: 'Additional information',
       pages: {
+        directDeposit: createDirectDepositPage(),
         supportingDocuments: {
           title: 'Supporting Documents',
           reviewTitle: () => (
@@ -531,6 +553,7 @@ const formConfig = {
             </span>
           ),
           path: 'additional-information/fdc-program',
+          depends: () => !showPdfFormAlignment(),
           uiSchema: fasterClaimProcessing.uiSchema,
           schema: fasterClaimProcessing.schema,
         },

@@ -38,6 +38,9 @@ const childContent = (
         <Link to="/upload-file">File upload</Link>
       </li>
       <li>
+        <Link to="/supporting-documents">File upload multiple</Link>
+      </li>
+      <li>
         <Link to="/treatment-records">
           Multiple responses list & loop (required) [Treatment records]
         </Link>
@@ -126,6 +129,15 @@ const childContent = (
         <a
           target="_blank"
           rel="noreferrer"
+          href="https://www.figma.com/design/4A3O3mVx4xDAKfHE7fPF1U/VADS-Templates--Patterns--and-Forms?node-id=2988-63596&p=f&t=6U0yAXfFmWc95Kt9-0"
+        >
+          File upload multiple
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
           href="https://www.figma.com/file/4A3O3mVx4xDAKfHE7fPF1U/VADS-Templates%2C-Patterns%2C-and-Forms?type=design&node-id=5751%3A10777&mode=design&t=FYk7L3PJ9a16WGP9-1://www.figma.com/file/4A3O3mVx4xDAKfHE7fPF1U/VADS-Templates%2C-Patterns%2C-and-Forms?type=design&node-id=2988-9602&mode=design&t=G7cHyOgjfgKxCDPo-11"
         >
           Multiple responses list & loop (TBD)
@@ -196,12 +208,23 @@ const childContent = (
         >
           Service branch
         </a>
+      </li>
+      <li>
         <a
           target="_blank"
           rel="noreferrer"
           href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages/upload.js"
         >
           File upload
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages/supportingDocuments.js"
+        >
+          File upload multiple
         </a>
       </li>
       <li>

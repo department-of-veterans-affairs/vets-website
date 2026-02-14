@@ -3,16 +3,45 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import {
   checkboxRequiredSchema,
   checkboxUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Authorization and Certification',
-    'ui:description': 'Read and Agree to the following statements',
+    ...titleUI('Section VI: Authorization, Certification, and Signature'),
+    'ui:description': (
+      <div>
+        <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
+          <h2 slot="headline" className="vads-u-font-weight--bold">
+            What to expect:
+          </h2>
+          <div className="vads-u-margin--0">
+            <ul style={{ marginBottom: 0 }}>
+              <li>Authorize the release of your application</li>
+              <li>Certify the information you have included is true</li>
+              <li>Review important legal disclaimers</li>
+              <li>Review all your information</li>
+              <li>Electronically sign and submit</li>
+              <li>Takes about 2-5 minutes</li>
+            </ul>
+          </div>
+        </VaAlert>
+        <div className="vads-u-margin-top--5">
+          <p className="vads-u-font-weight--bold vads-u-margin-top--0">
+            Acknowledgements
+          </p>
+          <p>
+            Read and agree to the following authorization and certification
+            statements, and review the legal information presented.
+          </p>
+        </div>
+      </div>
+    ),
     'ui:order': [
       'authorizationRelease',
       'certificationStatements',
+      'serviceConnectedStatements',
       'view:sectionSixPenaltyAlert',
       'view:sectionSixPrivacyAlert',
       'view:sectionSixBurdenAlert',
@@ -21,9 +50,9 @@ export default {
       'ui:field': 'ViewField',
       'ui:description': (
         <VaAlert status="warning" class="vads-u-margin-top--3" uswds visible>
-          <h3 slot="headline">
-            <b>Penalty</b>
-          </h3>
+          <h2 slot="headline" className="vads-u-font-weight--bold">
+            Penalty
+          </h2>
           <p className="vads-u-margin--0">
             The law provides severe penalties which include fine or imprisonment
             or both for the willful submission of any statement or evidence of a
@@ -37,8 +66,8 @@ export default {
       'ui:field': 'ViewField',
       'ui:description': (
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h3 slot="headline">
-            <b>Privacy Act Notice</b>
+          <h3 slot="headline" className="vads-u-font-weight--bold">
+            Privacy Act Notice
           </h3>
           <p className="vads-u-margin--0">
             VA will not disclose information collected on this form to any
@@ -66,8 +95,8 @@ export default {
       'ui:field': 'ViewField',
       'ui:description': (
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <h3 slot="headline">
-            <b>Respondent Burden:</b>
+          <h3 slot="headline" className="vads-u-font-weight--bold">
+            Respondent Burden
           </h3>
           <p className="vads-u-margin--0">
             An agency may not conduct or sponsor, and a person is not required
@@ -93,15 +122,15 @@ export default {
         'I have read and understand the Authorization for Release of Information.',
       description: (
         <div>
-          <h3 className="vads-u-font-weight--bold vads-u-font-size--h4 vads-u-margin-bottom--1 vads-u-margin-top--0">
-            AUTHORIZATION FOR RELEASE OF INFORMATION
-          </h3>
+          <p className="vads-u-font-weight--bold vads-u-margin-bottom--1 vads-u-margin-top--0">
+            Authorization for Release of Information
+          </p>
           <p className="vads-u-margin-top--0">
             I authorize the person or entity, including but not limited to any
             organization, service provider, employer, or Government agency, to
             give the Department of Veterans Affairs any information about me
             except protected health information, and I waive any privilege which
-            make the information confidential.
+            makes the information confidential.
           </p>
         </div>
       ),
@@ -120,9 +149,9 @@ export default {
       title: 'I have read and understand the Certification of Statements.',
       description: (
         <div>
-          <h3 className="vads-u-font-weight--bold vads-u-font-size--h4 vads-u-margin-bottom--1 vads-u-margin-top--0">
-            CERTIFICATION OF STATEMENTS
-          </h3>
+          <p className="vads-u-font-weight--bold vads-u-margin-bottom--1 vads-u-margin-top--0">
+            Certification of Statements
+          </p>
           <p className="vads-u-margin-top--0">
             I CERTIFY THAT as a result of my service-connected disabilities, I
             am unable to secure or follow any substantially gainful occupation
@@ -144,16 +173,49 @@ export default {
       },
       label: 'I have read and understand the Certification of Statements',
     }),
+    serviceConnectedStatements: checkboxUI({
+      title:
+        'I have read and understand the information about total disability benefits.',
+      description: (
+        <div>
+          <p className="vads-u-font-weight--bold vads-u-margin-bottom--1 vads-u-margin-top--0">
+            Important Information About Total Disability Benefits
+          </p>
+          <p className="vads-u-margin-top--0">
+            I understand that if I am granted service-connected total disability
+            benefits based on my unemployability, I must immediately inform VA
+            if I return to work. I also understand that total disability
+            benefits paid to me after I begin work may be considered an
+            overpayment requiring repayment to VA.
+          </p>
+        </div>
+      ),
+      classNames:
+        'vads-u-background-color--gray-lightest vads-u-padding--4 vads-u-margin-bottom--4',
+      marginTop: null,
+      required: () => true,
+      errorMessages: {
+        enum: 'You must acknowledge the information to continue.',
+        required: 'You must acknowledge the information to continue.',
+      },
+      label:
+        'I have read and understand the information about total disability benefits',
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       authorizationRelease: checkboxRequiredSchema,
       certificationStatements: checkboxRequiredSchema,
+      serviceConnectedStatements: checkboxRequiredSchema,
       'view:sectionSixPenaltyAlert': { type: 'object', properties: {} },
       'view:sectionSixPrivacyAlert': { type: 'object', properties: {} },
       'view:sectionSixBurdenAlert': { type: 'object', properties: {} },
     },
-    required: ['authorizationRelease', 'certificationStatements'],
+    required: [
+      'authorizationRelease',
+      'certificationStatements',
+      'serviceConnectedStatements',
+    ],
   },
 };

@@ -13,6 +13,7 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "email": "john@veteran.com"
+    "email": "john@veteran.com",
+    "vaFileNumber": "99999999"
   }
 }

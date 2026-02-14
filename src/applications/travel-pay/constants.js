@@ -9,6 +9,8 @@ export const REIMBURSEMENT_URL =
   '/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/';
 export const PAST_APPOINTMENTS_LINK = '/my-health/appointments/past';
 
+export const COMPLEX_CLAIMS_ANALYTICS_NAMESPACE = 'complex-claims';
+
 export const STATUSES = {
   Incomplete: {
     name: 'Incomplete',
@@ -217,7 +219,7 @@ export const EXPENSE_TYPES = Object.freeze({
     name: 'common carrier',
     title: 'Public transportation, taxi, or rideshare',
     route: 'common-carrier',
-    apiRoute: 'common_carrier',
+    apiRoute: 'commoncarrier',
   },
   [EXPENSE_TYPE_KEYS.AIRTRAVEL]: {
     addButtonText: 'air travel',
@@ -256,15 +258,16 @@ export const EXPENSE_TYPES = Object.freeze({
 export const TRANSPORTATION_OPTIONS = Object.freeze([
   'Bus',
   'Subway',
+  'Taxi',
   'Train',
   'Other',
 ]);
 
 export const TRANSPORTATION_REASONS = Object.freeze({
-  PrivatelyOwnedVehicleNotAvailable: {
+  'Privately Owned Vehicle Not Available': {
     label: "I don't own a private vehicle or it wasn't available",
   },
-  MedicallyIndicated: {
+  'Medically Indicated': {
     label: 'Medical reasons',
   },
   Other: {

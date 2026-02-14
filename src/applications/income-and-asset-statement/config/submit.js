@@ -89,8 +89,8 @@ export function prepareFormData(data) {
   // Step 1: clone to avoid mutating original form (Redux immutability)
   const clonedData = cloneDeep(data);
 
-  const { claimantType, isLoggedIn } = clonedData;
-  const userIsVeteran = isLoggedIn === true && claimantType === 'VETERAN';
+  const { claimantType } = clonedData;
+  const userIsVeteran = claimantType === 'VETERAN';
 
   // Step 2: remap “otherVeteran*” → “veteran*” only when necessary
   const dataWithVeteranFieldsAdjusted = userIsVeteran
@@ -226,13 +226,6 @@ export async function submit(form, formConfig) {
       errorResponse?.detail === 'Invalid Authenticity Token'
     ) {
       // Log the CSRF error before retrying
-      // eslint-disable-next-line no-console
-      console.log('[CSRF Error] DD_LOGS check:', {
-        exists: !!window.DD_LOGS,
-        hasLogger: !!window.DD_LOGS?.logger,
-        hasError: !!window.DD_LOGS?.logger?.error,
-      });
-
       if (window.DD_LOGS?.logger?.error) {
         window.DD_LOGS.logger.error(
           '21P-0969 CSRF token invalid, retrying request',
@@ -250,13 +243,6 @@ export async function submit(form, formConfig) {
       localStorage.setItem('csrfToken', '');
       return sendRequest().catch(retryError => {
         // Log the failed retry
-        // eslint-disable-next-line no-console
-        console.log('[CSRF Retry Failed] DD_LOGS check:', {
-          exists: !!window.DD_LOGS,
-          hasLogger: !!window.DD_LOGS?.logger,
-          hasError: !!window.DD_LOGS?.logger?.error,
-        });
-
         if (window.DD_LOGS?.logger?.error) {
           window.DD_LOGS.logger.error('21P-0969 CSRF retry failed', {
             formId: formConfig.formId,

@@ -20,7 +20,7 @@ import additionalInformation from './chapters/06-additional-information';
 
 const formConfig = {
   formId: VA_FORM_IDS.FORM_21P_527EZ,
-  version: 10,
+  version: migrations.length,
   migrations,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

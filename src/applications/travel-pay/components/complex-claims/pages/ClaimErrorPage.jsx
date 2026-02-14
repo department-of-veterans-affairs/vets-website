@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
 import { PAST_APPOINTMENTS_LINK } from '../../../constants';
 import WhatHappensNextSection from './WhatHappensNextSection';
 import { ComplexClaimsHelpSection } from '../../HelpText';
@@ -14,6 +15,7 @@ const ClaimErrorPage = ({ isCreate }) => {
     ? 'We’re sorry. We couldn’t start your travel reimbursement claim. Try to file your claim again.'
     : 'We’re sorry. We can’t access your claim information right now. Try again later.';
   useSetPageTitle(header);
+  useSetFocus();
   return (
     <div>
       <h1>{header}</h1>

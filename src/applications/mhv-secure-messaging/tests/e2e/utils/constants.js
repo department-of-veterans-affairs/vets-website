@@ -55,6 +55,7 @@ export const Paths = {
     SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
     SENT_SEARCH: '/my_health/v1/messaging/folders/-1/search*',
     PRESCRIPTIONS: '/my_health/v1/prescriptions/',
+    PRESCRIPTIONS_V2: '/my_health/v2/prescriptions/',
   },
 };
 
@@ -146,6 +147,7 @@ export const Locators = {
     TRASH: `#trash-button`,
     BUTTON_TEXT: '[data-testid="trash-button-text"]',
     MOVE_BUTTON_TEST_ID: 'move-button-text',
+    MOVE_MODAL_TEST_ID: 'move-to-modal',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="send-button"]',
     SEND_TEST_ID: 'send-button',
@@ -372,6 +374,11 @@ export const Alerts = {
   SEARCH_TERM_REQUIRED: 'Please enter a search term.',
   ERROR_LOADING_RECIPIENTS_HEADER:
     'We can’t load your care team list right now',
+  SEND_MESSAGE_SUCCESS: `Message sent`,
+  MIGRATION_ALERT_H2:
+    'You can’t use messages to contact providers at some facilities right now',
+  MIGRATION_ALERT_BODY:
+    'You can’t send or receive new messages or reply to conversations with providers at',
 };
 
 export const Data = {
@@ -397,8 +404,8 @@ export const Data = {
   FOLDER_NAME_CANNOT_BLANK: 'Folder name cannot be blank',
   FOLDER_REMOVED_SUCCESSFULLY: 'Folder was successfully removed.',
   FOLDER_CREATED_SUCCESSFULLY: 'Folder was successfully created.',
-  FOLDER_RENAMED_SUCCESSFULLY: 'Folder was successfully renamed.',
-  SECURE_MSG_SENT_SUCCESSFULLY: 'Message Sent.',
+  FOLDER_RENAMED_SUCCESSFULLY: 'Folder renamed',
+  SECURE_MSG_SENT_SUCCESSFULLY: 'Message sent',
   PLEASE_SELECT_RECIPIENT: 'Please select a recipient.',
   PLEASE_SELECT_VALID_RECIPIENT: 'Please select a valid recipient.',
   PLEASE_SELECT_CATEGORY: 'Please select a category.',
@@ -409,7 +416,6 @@ export const Data = {
   CONTINUE_EDITING: 'Continue editing',
   MESSAGE_MOVED_TO_TRASH:
     'Message conversation was successfully moved to Trash.',
-  MESSAGE_SENT: `Message Sent.`,
   TEST_VIDEO: 'test_video.mp4',
   CREATE_FOLDER_TEST: 'create folder test',
   IS_ACTIVE: 'is-active',
@@ -424,7 +430,8 @@ export const Data = {
   HCS_SELECT: `Select care team`,
   REPLY_HEADER: `Only use messages for non-urgent needs`,
   RECENT_RECIPIENTS_HEADER: 'Care teams you recently sent messages to',
-  RECENT_RECIPIENTS_LABEL: `Select a team you want to message. This list only includes teams that you’ve sent messages to in the last 6 months. If you want to contact another team, select “A different care team.”`,
+  RECENT_RECIPIENTS_LABEL: 'Select a team you want to message',
+  RECENT_RECIPIENTS_HINT: `This list only includes teams that you've sent messages to in the last 6 months. If you want to contact another team, select "A different care team."`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',
@@ -442,7 +449,7 @@ export const Data = {
   READ_RECEIPT: `Opened by your care team`,
   UNREAD_RECEIPT: `Not yet opened by your care team`,
   CURATED_LIST: {
-    CANT_FIND_TEAM: `What to do if you can’t find your care team`,
+    CANT_FIND_TEAM_LINK: `Learn what to do if you can’t find your care team`,
     CONTACT_LIST_UPDATE: `Update your contact list`,
     SELECT_CARE_TEAM: `Select a different care team`,
   },
@@ -626,7 +633,7 @@ export const Data = {
 
 export const Assertions = {
   MESSAGES: 'Messages',
-  FOLDER_RENAMED_SUCCESS: 'Folder was successfully renamed.',
+  FOLDER_RENAMED_SUCCESS: 'Folder renamed',
   MESSAGE_CONVERSATION_SUCCESS: 'Message conversation was successfully moved.',
   MESSAGE_CONVERSATION_SUCCESS_TRASH:
     'Message conversation was successfully moved to Trash.',

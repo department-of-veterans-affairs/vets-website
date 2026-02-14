@@ -80,7 +80,7 @@ describe('<EstimatedBenefits>', () => {
     const fakeDispatch = sinon.spy();
     tree.setProps({ dispatchShowModal: fakeDispatch });
     const learnMoreButton = tree.find('#book-stipend-learn-more').hostNodes();
-    learnMoreButton.simulate('click');
+    learnMoreButton.getDOMNode().click();
     expect(fakeDispatch.calledOnce).to.be.true;
     tree.unmount();
   });

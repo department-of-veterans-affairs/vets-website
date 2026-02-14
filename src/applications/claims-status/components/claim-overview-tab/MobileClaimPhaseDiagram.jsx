@@ -27,12 +27,14 @@ export default function MobileClaimPhaseDiagram({ currentPhase }) {
   return (
     <div className="mobile vads-u-margin-bottom--4">
       <svg
+        role="img"
+        aria-labelledby="mobileClaimPhaseDiagramTitle"
         style={{ maxWidth: '100%' }}
         viewBox="0 0 352 115"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <title>{accessibilityTitle}</title>
+        <title id="mobileClaimPhaseDiagramTitle">{accessibilityTitle}</title>
         <rect
           width="352"
           height="114"

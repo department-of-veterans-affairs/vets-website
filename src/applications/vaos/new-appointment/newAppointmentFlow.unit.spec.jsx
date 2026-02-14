@@ -366,7 +366,7 @@ describe('VAOS newAppointmentFlow', () => {
         expect(nextState).to.equal('audiologyCareType');
       });
 
-      it('should be requestDateTime if CC is chosen', () => {
+      it('should be requestDateTime if CC is chosen', async () => {
         const state = {
           newAppointment: {
             data: {
@@ -376,14 +376,23 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const dispatch = sinon.spy();
+        const dispatchedActions = [];
+        const dispatch = action => {
+          if (typeof action === 'function') {
+            return action(dispatch, () => state);
+          }
+          dispatchedActions.push(action);
+          return action;
+        };
 
-        const nextState = getNewAppointmentFlow(state).typeOfFacility.next(
+        const nextState = await getNewAppointmentFlow(
           state,
-          dispatch,
-        );
+        ).typeOfFacility.next(state, dispatch);
         expect(nextState).to.equal('ccRequestDateTime');
-        expect(dispatch.firstCall.args[0].type).to.equal(
+        expect(dispatchedActions[0].type).to.equal(
+          'newAppointment/FORM_UPDATE_FACILITY_EH',
+        );
+        expect(dispatchedActions[1].type).to.equal(
           'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
         );
       });
@@ -459,8 +468,7 @@ describe('VAOS newAppointmentFlow', () => {
           featureToggles: {
             ...defaultState.featureToggles,
             vaOnlineSchedulingDirect: true,
-            vaOnlineSchedulingOhDirectSchedule: true,
-            vaOnlineSchedulingOhRequest: true,
+            vaOnlineSchedulingUseVpg: true,
           },
           user: {
             profile: {
@@ -530,6 +538,168 @@ describe('VAOS newAppointmentFlow', () => {
         expect(nextState).to.equal('selectProvider');
       });
 
+      it('should show eligibility modal when Cerner facility is selected, VPG is enabled and type of care is foodAndNutrition but patient is not eligible', async () => {
+        mockFetch();
+
+        const state = {
+          featureToggles: {
+            ...defaultState.featureToggles,
+            vaOnlineSchedulingDirect: true,
+            vaOnlineSchedulingUseVpg: true,
+          },
+          user: {
+            profile: {
+              facilities: [
+                {
+                  facilityId: '983',
+                  isCerner: false,
+                },
+                {
+                  facilityId: '692',
+                  isCerner: false,
+                },
+              ],
+            },
+          },
+          drupalStaticData: {
+            vamcEhrData: {
+              loading: false,
+              data: {
+                ehrDataByVhaId: {
+                  692: {
+                    vhaId: '692',
+                    vamcFacilityName: 'White City VA Medical Center',
+                    vamcSystemName: 'VA Southern Oregon health care',
+                    ehr: 'cerner',
+                  },
+                },
+                cernerFacilities: [
+                  {
+                    vhaId: '692',
+                    vamcFacilityName: 'White City VA Medical Center',
+                    vamcSystemName: 'VA Southern Oregon health care',
+                    ehr: 'cerner',
+                  },
+                ],
+                vistaFacilities: [],
+              },
+            },
+          },
+
+          newAppointment: {
+            data: {
+              vaFacility: '692',
+              typeOfCareId: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID,
+            },
+            facilities: {
+              123: [
+                {
+                  id: '692',
+                },
+              ],
+            },
+            eligibility: {
+              '692_123': {
+                direct: false,
+                request: false,
+              },
+            },
+          },
+        };
+        const dispatch = sinon.spy();
+
+        const nextState = await getNewAppointmentFlow(state).vaFacilityV2.next(
+          state,
+          dispatch,
+        );
+
+        // Should show eligibility modal and stay on vaFacilityV2
+        expect(dispatch.called).to.be.true;
+        expect(nextState).to.equal('vaFacilityV2');
+      });
+
+      // Disabled because we are temporarily disabling pharmacy as an OH type of care for dark deploy
+      // See: https://dsva.slack.com/archives/C098ZSW3C1L/p1770748394811109
+      it.skip('should show eligibility modal when Cerner facility is selected, VPG is enabled and Type of care is Pharmacy but patient is not eligible', async () => {
+        mockFetch();
+
+        const state = {
+          featureToggles: {
+            ...defaultState.featureToggles,
+            vaOnlineSchedulingDirect: true,
+            vaOnlineSchedulingUseVpg: true,
+          },
+          user: {
+            profile: {
+              facilities: [
+                {
+                  facilityId: '983',
+                  isCerner: false,
+                },
+                {
+                  facilityId: '692',
+                  isCerner: false,
+                },
+              ],
+            },
+          },
+          drupalStaticData: {
+            vamcEhrData: {
+              loading: false,
+              data: {
+                ehrDataByVhaId: {
+                  692: {
+                    vhaId: '692',
+                    vamcFacilityName: 'White City VA Medical Center',
+                    vamcSystemName: 'VA Southern Oregon health care',
+                    ehr: 'cerner',
+                  },
+                },
+                cernerFacilities: [
+                  {
+                    vhaId: '692',
+                    vamcFacilityName: 'White City VA Medical Center',
+                    vamcSystemName: 'VA Southern Oregon health care',
+                    ehr: 'cerner',
+                  },
+                ],
+                vistaFacilities: [],
+              },
+            },
+          },
+
+          newAppointment: {
+            data: {
+              vaFacility: '692',
+              typeOfCareId: TYPE_OF_CARE_IDS.PHARMACY_ID,
+            },
+            facilities: {
+              160: [
+                {
+                  id: '692',
+                },
+              ],
+            },
+            eligibility: {
+              '692_160': {
+                direct: false,
+                request: false,
+              },
+            },
+          },
+        };
+        const dispatch = sinon.spy();
+
+        const nextState = await getNewAppointmentFlow(state).vaFacilityV2.next(
+          state,
+          dispatch,
+        );
+
+        // Should show eligibility modal and stay on vaFacilityV2
+        expect(dispatch.called).to.be.true;
+        expect(nextState).to.equal('vaFacilityV2');
+      });
+
       it('should be clinicChoice page if eligible', async () => {
         mockFetch();
         const state = {
@@ -543,15 +713,24 @@ describe('VAOS newAppointmentFlow', () => {
             },
           },
         };
-        const dispatch = sinon.spy();
+        const dispatchedActions = [];
+        const dispatch = action => {
+          if (typeof action === 'function') {
+            return action(dispatch, () => state);
+          }
+          dispatchedActions.push(action);
+          return action;
+        };
 
         const nextState = await getNewAppointmentFlow(state).vaFacilityV2.next(
           state,
           dispatch,
         );
-        expect(dispatch.secondCall.args[0].type).to.equal(
-          'newAppointment/START_DIRECT_SCHEDULE_FLOW',
-        );
+        expect(
+          dispatchedActions.some(
+            a => a.type === 'newAppointment/START_DIRECT_SCHEDULE_FLOW',
+          ),
+        ).to.be.true;
         expect(nextState).to.equal('clinicChoice');
       });
       it('should be requestDateTime if not direct eligible', async () => {

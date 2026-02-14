@@ -10,6 +10,29 @@ import {
 } from './selectors/featureToggles';
 import formConfig from './config/form';
 
+/**
+ * Intercept beforeunload event listeners to allow suppression on specific pages.
+ * This is used to prevent "Leave site?" alerts on questionnaire result pages,
+ * which don't collect user input and have nothing to save.
+ */
+const originalAddEventListener = window.addEventListener.bind(window);
+window.addEventListener = function wrappedAddEventListener(
+  type,
+  listener,
+  options,
+) {
+  if (type === 'beforeunload' && typeof listener === 'function') {
+    const wrappedListener = function wrappedBeforeunloadListener(e) {
+      if (window.__suppressBeforeunload === true) {
+        return null;
+      }
+      return listener.call(this, e);
+    };
+    return originalAddEventListener(type, wrappedListener, options);
+  }
+  return originalAddEventListener(type, listener, options);
+};
+
 function Form1995Entry({
   children,
   claimantCurrentBenefit,
@@ -74,10 +97,21 @@ function Form1995Entry({
 
   const formKey = rerouteFlag ? 'reroute' : 'legacy';
 
+  const modifiedConfig = {
+    ...formConfig,
+    chapters: {
+      ...formConfig.chapters,
+      questionnaire: {
+        ...formConfig.chapters.questionnaire,
+        hideFormNavProgress: rerouteFlag === true,
+      },
+    },
+  };
+
   return (
     <RoutedSavableApp
       key={formKey}
-      formConfig={formConfig}
+      formConfig={modifiedConfig}
       currentLocation={location}
     >
       {children}

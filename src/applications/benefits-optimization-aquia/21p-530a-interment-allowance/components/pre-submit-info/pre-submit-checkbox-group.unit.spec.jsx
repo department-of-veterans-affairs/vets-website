@@ -385,6 +385,66 @@ describe('PreSubmitCheckboxGroup', () => {
       });
     });
 
+    it('should set AGREED flag when checkbox is checked', async () => {
+      const store = createMockStore(null, mockFormData);
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo.CustomComponent
+            showError={false}
+            onSectionComplete={mockOnSectionComplete}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaCheckboxChange', {
+          detail: { checked: true },
+        }),
+      );
+
+      await waitFor(() => {
+        expect(store.dispatch.callCount).to.be.greaterThan(1);
+
+        const lastAction = store.dispatch.lastCall.args[0];
+        expect(lastAction.type).to.equal('SET_DATA');
+        expect(lastAction.data.AGREED).to.be.true;
+        expect(lastAction.data.certification.certified).to.be.true;
+      });
+    });
+
+    it('should leave AGREED false when checkbox is unchecked', async () => {
+      const store = createMockStore(null, mockFormData);
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo.CustomComponent
+            showError={false}
+            onSectionComplete={mockOnSectionComplete}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaCheckboxChange', {
+          detail: { checked: false },
+        }),
+      );
+
+      await waitFor(() => {
+        expect(store.dispatch.callCount).to.be.greaterThan(0);
+
+        const lastAction = store.dispatch.lastCall.args[0];
+        expect(lastAction.type).to.equal('SET_DATA');
+        expect(lastAction.data.AGREED).to.be.false;
+        expect(lastAction.data.certification.certified).to.be.false;
+      });
+    });
+
     it('should not dispatch after form submission', () => {
       const store = createMockStore('submitted');
 

@@ -5,7 +5,7 @@ import { folderPathByFolderId, isCustomFolder } from '../util/helpers';
 import { DefaultFolders as Folders } from '../util/constants';
 
 const FoldersList = props => {
-  const { folders, showUnread } = props;
+  const { folders, showUnread, highlightName } = props;
 
   const folderNameDdAction = useCallback(folder => {
     const { id } = folder;
@@ -40,6 +40,15 @@ const FoldersList = props => {
                     {folder.id === Folders.DELETED.id
                       ? Folders.DELETED.header
                       : folder.name}{' '}
+                    {highlightName &&
+                      folder.name === highlightName && (
+                        <span
+                          className="usa-label vads-u-background-color--primary vads-u-margin-left--1"
+                          data-testid="folder-new-tag"
+                        >
+                          NEW
+                        </span>
+                      )}
                     {showUnread &&
                       folder.unreadCount > 0 &&
                       folder.id !== Folders.DRAFTS.id &&
@@ -56,7 +65,7 @@ const FoldersList = props => {
 
 FoldersList.propTypes = {
   folders: PropTypes.array,
-  highlightId: PropTypes.string,
+  highlightName: PropTypes.string,
   showUnread: PropTypes.bool,
 };
 

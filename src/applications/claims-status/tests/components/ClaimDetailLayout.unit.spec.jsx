@@ -47,7 +47,7 @@ describe('<ClaimDetailLayout>', () => {
     );
     expect($('va-alert', container.container)).to.exist;
     expect(container.container.textContent).to.include(
-      'VA.gov is having trouble loading claims information',
+      "We can't access your claim right now",
     );
   });
 
@@ -188,10 +188,11 @@ describe('<ClaimDetailLayout>', () => {
       </Provider>,
     );
 
-    const selector = container.querySelector('va-alert');
-    expect(selector).to.exist;
+    const alert = container.querySelector('va-alert');
+    expect(alert).to.exist;
+    const headline = alert.querySelector('h2');
     await waitFor(() => {
-      expect(document.activeElement).to.equal(selector);
+      expect(document.activeElement).to.equal(headline);
     });
   });
 

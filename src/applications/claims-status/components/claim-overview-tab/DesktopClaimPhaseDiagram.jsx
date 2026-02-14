@@ -27,13 +27,15 @@ export default function DesktopClaimPhaseDiagram({ currentPhase }) {
   return (
     <div className="desktop vads-u-margin-bottom--4">
       <svg
+        role="img"
+        aria-labelledby="desktopClaimPhaseDiagramTitle"
         width="570"
         height="166"
         viewBox="0 0 570 166"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <title>{accessibilityTitle}</title>
+        <title id="desktopClaimPhaseDiagramTitle">{accessibilityTitle}</title>
         <rect
           x="178.279"
           y="33.9127"

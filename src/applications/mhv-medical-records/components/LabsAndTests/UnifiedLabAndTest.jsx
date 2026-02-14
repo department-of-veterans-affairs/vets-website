@@ -52,7 +52,17 @@ const UnifiedLabsAndTests = props => {
   const generatePdf = async () => {
     setDownloadStarted(true);
     const data = pdfPrinter({ record, user });
-    makePdf(data.title, data.body, 'medicalRecords', runningUnitTest);
+    try {
+      await makePdf(
+        data.title,
+        data.body,
+        'medicalRecords',
+        'Medical Records - Unified Lab/Test details - PDF generation error',
+        runningUnitTest,
+      );
+    } catch {
+      // makePdf handles error logging to Datadog/Sentry
+    }
   };
 
   const generateTxt = async () => {
@@ -87,7 +97,7 @@ const UnifiedLabsAndTests = props => {
             <LabelValue
               ifEmpty="None Noted"
               label={LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE}
-              value={record.testCode}
+              value={record.testCodeDisplay}
               testId="lab-and-test-code"
               data-dd-action-name="[lab and tests - test code]"
             />
@@ -126,12 +136,15 @@ const UnifiedLabsAndTests = props => {
             >
               <ItemList list={record.comments} />
             </LabelValue>
-            <LabelValue
-              ifEmpty="None Noted"
-              label={LABS_AND_TESTS_DISPLAY_LABELS.RESULTS}
-              value={record.result}
-              testId="lab-and-test-results"
-            />
+            {!Array.isArray(record.observations) ||
+            record.observations.length === 0 ? (
+              <LabelValue
+                ifEmpty="None Noted"
+                label={LABS_AND_TESTS_DISPLAY_LABELS.RESULTS}
+                value={record.result}
+                testId="lab-and-test-results"
+              />
+            ) : null}
           </HeaderSection>
         </div>
 
@@ -218,6 +231,7 @@ UnifiedLabsAndTests.propTypes = {
     name: PropTypes.string,
     date: PropTypes.string,
     testCode: PropTypes.string,
+    testCodeDisplay: PropTypes.string,
     sampleTested: PropTypes.string,
     bodySite: PropTypes.string,
     orderedBy: PropTypes.string,

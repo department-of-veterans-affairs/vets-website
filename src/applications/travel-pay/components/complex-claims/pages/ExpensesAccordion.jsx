@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 
 import ExpenseCardList from './ExpenseCardList';
 import { getExpenseType } from '../../../util/complex-claims-helper';
+import { EXPENSE_TYPES } from '../../../constants';
 
 const ExpensesAccordion = ({
   documents = [],
   expenses = [],
   groupAccordionItemsByType = false,
+  headerLevel = 3,
 }) => {
   // Group expenses by expenseType and attach their document
   const groupedExpenses = useMemo(
@@ -27,6 +29,10 @@ const ExpensesAccordion = ({
   );
 
   const expenseEntries = Object.entries(groupedExpenses);
+  const expenseTypeOrder = Object.keys(EXPENSE_TYPES);
+  expenseEntries.sort(([a], [b]) => {
+    return expenseTypeOrder.indexOf(a) - expenseTypeOrder.indexOf(b);
+  });
   const hasExpenses = expenseEntries.length > 0;
 
   // No expenses case
@@ -44,6 +50,7 @@ const ExpensesAccordion = ({
           <va-accordion-item
             key={type}
             header={`${getExpenseType(type).title} (${expensesList.length})`}
+            level={headerLevel}
           >
             <ExpenseCardList
               expensesList={expensesList}
@@ -56,7 +63,11 @@ const ExpensesAccordion = ({
       ) : (
         // Single accordion item with grouped sections inside
         // Expense cards are organized by type and each type has a header that is displayed
-        <va-accordion-item header="Submitted expenses" bordered level={3}>
+        <va-accordion-item
+          header="Submitted expenses"
+          bordered
+          level={headerLevel}
+        >
           {expenseEntries.map(([type, expensesList]) => (
             <ExpenseCardList
               key={type}
@@ -75,6 +86,7 @@ ExpensesAccordion.propTypes = {
   documents: PropTypes.array,
   expenses: PropTypes.array,
   groupAccordionItemsByType: PropTypes.bool,
+  headerLevel: PropTypes.number,
 };
 
 export default ExpensesAccordion;

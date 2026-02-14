@@ -63,15 +63,16 @@ function swapNames(formData) {
 
 function splitVaSsnField(formData) {
   const parsedFormData = JSON.parse(formData);
-  const transformedValue = parsedFormData;
+  const transformedValue = { ...parsedFormData };
   if (parsedFormData?.veteranSocialSecurityNumber?.ssn) {
     transformedValue.veteranSocialSecurityNumber =
       parsedFormData?.veteranSocialSecurityNumber?.ssn;
+  } else {
+    delete transformedValue.veteranSocialSecurityNumber;
   }
   if (parsedFormData?.veteranSocialSecurityNumber?.vaFileNumber) {
     transformedValue.vaFileNumber =
       parsedFormData?.veteranSocialSecurityNumber?.vaFileNumber;
-    transformedValue.veteranSocialSecurityNumber = undefined;
   }
   return JSON.stringify(transformedValue);
 }
@@ -140,12 +141,31 @@ function renameExpenseConditionalFields(formData) {
   return JSON.stringify(transformedValue);
 }
 
+function transformWeeklyHoursToNumber(formData) {
+  const parsedFormData = JSON.parse(formData);
+  const transformedValue = parsedFormData;
+
+  // Transform weeklyHours from string to number in careExpenses
+  if (Array.isArray(transformedValue.careExpenses)) {
+    transformedValue.careExpenses = transformedValue.careExpenses.map(
+      expense => {
+        if (expense?.weeklyHours === undefined) return expense;
+        const weeklyHoursNumber = Number(expense.weeklyHours);
+        return { ...expense, weeklyHours: weeklyHoursNumber };
+      },
+    );
+  }
+
+  return JSON.stringify(transformedValue);
+}
+
 export const transform = (formConfig, form) => {
   let transformedData = transformForSubmit(formConfig, form);
   transformedData = swapNames(transformedData);
   transformedData = splitVaSsnField(transformedData);
   transformedData = switchToInternationalPhone(transformedData);
   transformedData = renameExpenseConditionalFields(transformedData);
+  transformedData = transformWeeklyHoursToNumber(transformedData);
   return JSON.stringify({
     medicalExpenseReportsClaim: {
       form: transformedData,

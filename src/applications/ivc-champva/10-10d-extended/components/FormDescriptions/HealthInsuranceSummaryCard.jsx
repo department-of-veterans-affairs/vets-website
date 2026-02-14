@@ -1,9 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { format, parseISO } from 'date-fns';
 import { SCHEMA_LABELS } from '../../chapters/healthInsuranceInformation/planTypes';
-import { generateParticipantNames } from '../../helpers';
+import { generateParticipantNames } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 
 const TEXT_PRESENT = content['health-insurance--summary-date-present'];
@@ -41,13 +40,6 @@ const HealthInsuranceSummaryCard = item => {
       </li>
     </ul>
   );
-};
-
-HealthInsuranceSummaryCard.propTypes = {
-  effectiveDate: PropTypes.string,
-  expirationDate: PropTypes.string,
-  healthcareParticipants: PropTypes.object,
-  insuranceType: PropTypes.string,
 };
 
 export default HealthInsuranceSummaryCard;

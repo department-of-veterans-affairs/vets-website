@@ -1,96 +1,403 @@
 {
-  "veteranFullName": {
-    "first": "John",
-    "last": "Doe"
+  "hasBankAccount": true,
+  "bankAccount": {
+    "accountType": "checking",
+    "bankName": "My Bank",
+    "routingNumber": "011000015",
+    "accountNumber": "987654321"
   },
-  "claims" : {
-    "dependencyIndemnityComp" : true
-  },
-  "veteranDateOfBirth": "1989-02-16",
-  "hasBankAccount": false,
-  "moreThanFourSources": false,
-  "otherIncomeLastYearNoLongerReceive": false,
-  "homeOwnership": false,
-  "transferredAssets": false,
-  "view:whatTransferredAssets": {},
-  "totalAssets": 100,
-  "hasAssetsOverThreshold": false,
-  "needRegularAssistance": false,
-  "inNursingHome": false,
-  "dicType": "DIC",
+  "bankAdditionalInfo": {},
+  "claimingMonthlySpecialPension": false,
+  "claimantLivesInANursingHome": false,
+  "view:vaMedicalCentersMissingInformation": {},
+  "view:isAddingDicBenefits": false,
   "recognizedAsSpouse": true,
-  "hadPreviousMarriages": false,
-  "remarried": false,
-  "separationReason": "MEDICAL_FINANCIAL",
-  "separationExplanation": "Court Order",
-  "separationStartDate": "2005-02-20",
-  "separationEndDate": "2006-02-20",
-  "courtOrderedSeparation": true,
-  "courtOrderAlert": {},
+  "hadPreviousMarriages": true,
+  "remarriedAfterVeteralDeath": true,
+  "remarriageDates": {
+    "from": "2020-01-01",
+    "to": "2022-02-02"
+  },
+  "endCauseExplanation": "Some other cause",
+  "remarriageEndCause": "other",
+  "claimantHasAdditionalMarriages": true,
   "separationDueToAssignedReasons": "RELATIONSHIP_DIFFERENCES",
+  "separationExplanation": "Some explanation",
+  "separationStartDate": "2021-01-01",
+  "separationEndDate": "2022-01-01",
+  "courtOrderedSeparation": false,
   "livedContinuouslyWithVeteran": false,
-  "awareOfLegalIssues": false,
-  "marriedAtDeath": true,
-  "marriageDate": "1999-12-12",
-  "marriageEndDate": "1999-12-20",
-  "placeOfMarriage": "test",
-  "placeMarriageEnded": "test",
-  "marriageType": "CIVIL_RELIGIOUS",
-  "receivedBenefits": true,
-  "email": "test@gmail.com",
-  "primaryPhone": {
+  "validMarriage": true,
+  "marriageValidityExplanation": "Some explanation",
+  "marriageToVeteranEndDate": "2023-03-03",
+  "marriageToVeteranEndLocation": {
+    "city": "EndCity",
+    "state": "AL"
+  },
+  "marriageType": "other",
+  "typeOfMarriageExplanation": "Some other way",
+  "marriageToVeteranStartDate": "2022-03-03",
+  "marriageToVeteranStartLocation": {
+    "city": "StartCity",
+    "state": "AL"
+  },
+  "marriedToVeteranAtTimeOfDeath": false,
+  "howMarriageEnded": "other",
+  "marriageEndedExplanation": "Some other reason",
+  "receivedBenefits": false,
+  "claims": {
+    "dic": true,
+    "survivorsPension": true,
+    "accruedBenefits": true
+  },
+  "claimantEmail": "myemail72585885@unattended.com",
+  "claimantPhone": {
     "callingCode": 1,
     "countryCode": "US",
-    "contact": "5713319111",
-    "_isValid": true,
-    "_error": null,
-    "_touched": true,
-    "_required": true
+    "contact": "5551113333",
+    "IsValid": true,
+    "Error": null,
+    "Touched": true,
+    "Required": true
   },
   "claimantAddress": {
+    "view:militaryBaseDescription": {},
     "country": "USA",
-    "street": "11775 Test Drive",
-    "city": "Chantilly",
-    "state": "VA",
-    "postalCode": "22026",
-    "view:militaryBaseDescription": {}
+    "street": "1234 Testing Dr",
+    "street2": "AB",
+    "city": "Testville",
+    "state": "AL",
+    "postalCode": "12313"
   },
-  "claimantRelationship": "SPOUSE",
+  "claimantIsVeteran": false,
+  "claimantSocialSecurityNumber": "332213313",
   "claimantFullName": {
-    "first": "John",
-    "last": "Doe"
+    "first": "Jane",
+    "middle": "Middle",
+    "last": "Doe",
+    "suffix": "Jr."
   },
-  "claimantSocialSecurityNumber": "230635555",
-  "claimantDateOfBirth": "1950-02-16",
-  "claimantIsVeteran": true,
-  "vaClaimsHistory": false,
-  "diedOnDuty": false,
-  "veteranDateOfDeath": "1999-02-16",
-  "veteranSocialSecurityNumber": "230635555",
-  "view:warningAlert": {},
+  "claimantDateOfBirth": "1955-05-05",
+  "claimantRelationship": "SURVIVING_SPOUSE",
   "seriouslyDisabled": {},
-  "branchOfService": {},
-  "unitPhoneNumber": {},
-  "unitAddress": {
-    "view:militaryBaseDescription": {}
+  "vaClaimsHistory": true,
+  "diedOnDuty": true,
+  "veteranDateOfDeath": "2002-02-02",
+  "veteranSocialSecurityNumber": {
+    "ssn": "321313311",
+    "vaFileNumber": "11001100"
   },
-  "view:hasOtherServiceNames": false,
-  "powPeriod": {},
-  "additionalMarriagesAlert": {},
-  "view:isAddingDicBenefits": false,
-  "vaMedicalCenters": [
-    {
-      "startDate": "1999-02-16",
-      "endDate": "1999-02-16",
-      "vaMedicalCenterName": "test",
-      "city": "test",
-      "state": "test"
-    }
-  ],
-  "view:marketableInfo": {},
-  "view:hasMonthlyIncomeSource": false,
+  "veteranServiceNumber": "A11111111",
+  "view:warningAlert": {},
+  "veteranFullName": {
+    "first": "Jonathan",
+    "middle": "Kevin",
+    "last": "Testerson",
+    "suffix": "Jr."
+  },
+  "veteranDateOfBirth": "1954-01-11",
+  "view:isAddingDependent": false,
   "view:careExpensesList": false,
   "view:medicalExpensesList": false,
-  "bankAdditionalInfo": {},
-  "files": []
+  "files": [],
+  "view:uploadMessage": {},
+  "statementOfTruthSignature": "Jane Middle Doe",
+  "statementOfTruthCertified": true,
+  "pregnantWithVeteran": false,
+  "childWithVeteran": false,
+  "moreThanFourIncomeSources": true,
+  "otherIncome": true,
+  "landMarketable": true,
+  "homeAcreageValue": 5000,
+  "homeAcreageMoreThanTwo": true,
+  "homeOwnership": true,
+  "transferredAssets": true,
+  "netWorthEstimation": 60000,
+  "totalNetWorth": false,
+  "incomeEntries": [
+    {
+      "recipient": "CHILD",
+      "recipientName": "Child name",
+      "incomeType": "OTHER",
+      "incomeTypeOther": "something",
+      "incomePayer": "USA",
+      "monthlyIncome": 121123
+    },
+    {
+      "recipient": "SURVIVING_SPOUSE",
+      "recipientName": "Child name",
+      "incomeType": "INTEREST_DIVIDENDS",
+      "incomePayer": "USA",
+      "monthlyIncome": 111111
+    }
+  ],
+  "powDateRange": {
+    "from": "1950-01-01",
+    "to": "1953-02-02"
+  },
+  "pow": true,
+  "veteranPreviousNames": [
+    {
+      "otherServiceName": {
+        "first": "Other",
+        "last": "ServiceThat",
+        "middle": "Name",
+        "suffix": "Jr."
+      }
+    },
+    {
+      "otherServiceName": {
+        "first": "John",
+        "last": "Other",
+        "middle": "Test"
+      }
+    }
+  ],
+  "serviceBranch": "spaceForce",
+  "nationalGuardActivated": true,
+  "nationalGuardActivationDate": "2001-09-11",
+  "unitName": "Unit Name",
+  "unitPhone": "5551112222",
+  "unitAddress": {
+    "view:militaryBaseDescription": {},
+    "country": "USA",
+    "street": "999 Unit St",
+    "city": "North Unitton",
+    "state": "AL",
+    "postalCode": "12313"
+  },
+  "activeServiceDateRange": {
+    "from": "1995-01-01",
+    "to": "2000-01-01"
+  },
+  "placeOfSeparation": "Some City, ST",
+  "careExpenses": [
+    {
+      "careType": "IN_HOME_CARE_ATTENDANT",
+      "recipient": "SURVIVING_SPOUSE",
+      "provider": "Some provider",
+      "careDateRange": {
+        "from": "2020-01-01"
+      },
+      "paymentAmount": 200,
+      "noCareEndDate": true,
+      "paymentFrequency": "MONTHLY",
+      "hoursPerWeek": "20",
+      "ratePerHour": 15
+    },
+    {
+      "careType": "CARE_FACILITY",
+      "recipient": "OTHER",
+      "recipientName": "Other name",
+      "provider": "Some provider 2",
+      "careDateRange": {
+        "from": "2021-01-01",
+        "to": "2022-01-01"
+      },
+      "noCareEndDate": false,
+      "paymentAmount": 300,
+      "paymentFrequency": "ANNUALLY"
+    }
+  ],
+  "medicalExpenses": [
+    {
+      "recipient": "SURVIVING_SPOUSE",
+      "provider": "Some provider 2",
+      "purpose": "Some purpose2",
+      "paymentDate": "2022-05-05",
+      "paymentAmount": 150,
+      "paymentFrequency": "MONTHLY"
+    },
+    {
+      "recipient": "CHILD",
+      "childName": "Child name",
+      "provider": "Some provider 1",
+      "purpose": "Some purpose1",
+      "paymentDate": "2022-05-05",
+      "paymentAmount": 150,
+      "paymentFrequency": "ANNUALLY"
+    },
+    {
+      "recipient": "VETERAN",
+      "provider": "Some provider 32",
+      "purpose": "Some purpose32",
+      "paymentDate": "2022-05-05",
+      "paymentAmount": 150,
+      "paymentFrequency": "ONE_TIME"
+    }
+  ],
+  "benefit": "1151DIC",
+  "treatments": [
+    {
+      "startDate": "2020-01-01",
+      "endDate": "2021-01-01",
+      "vaMedicalCenterName": "Atlanta VA Medical Center",
+      "city": "Decatur",
+      "state": "GA"
+    }
+  ],
+  "veteranChildrenCount": "12",
+  "veteransChildren": [
+    {
+      "childFullName": {
+        "first": "MiddleChild",
+        "last": "Testerson"
+      },
+      "childDateOfBirth": "2010-10-10",
+      "childSocialSecurityNumber": "123451234",
+      "birthPlace": {
+        "city": "Hamburg",
+        "otherCountry": "DEU"
+      },
+      "bornOutsideUs": true,
+      "relationship": "ADOPTED",
+      "inSchool": false,
+      "seriouslyDisabled": true,
+      "hasBeenMarried": false,
+      "currentlyMarried": false,
+      "livesWith": true,
+      "childSupport": 5000
+    },
+    {
+      "childFullName": {
+        "first": "FirstChild",
+        "middle": "ChildMiddle",
+        "last": "LastName",
+        "suffix": "Jr."
+      },
+      "childDateOfBirth": "2010-10-10",
+      "childSocialSecurityNumber": "123451234",
+      "birthPlace": {
+        "city": "Some City",
+        "state": "OH",
+        "otherCountry": "USA"
+      },
+      "bornOutsideUs": false,
+      "relationship": "BIOLOGICAL",
+      "inSchool": true,
+      "seriouslyDisabled": false,
+      "hasBeenMarried": true,
+      "currentlyMarried": false,
+      "livesWith": false,
+      "childSupport": 5000
+    },
+    {
+      "childFullName": {
+        "first": "Reallylong",
+        "middle": "Reallylong",
+        "last": "Reallylong"
+      },
+      "childDateOfBirth": "2010-10-10",
+      "childSocialSecurityNumber": "123451234",
+      "birthPlace": {
+        "city": "SomeAnother City",
+        "state": "MO",
+        "otherCountry": "USA"
+      },
+      "bornOutsideUs": false,
+      "relationship": "STEPCHILD",
+      "inSchool": true,
+      "seriouslyDisabled": false,
+      "hasBeenMarried": true,
+      "currentlyMarried": false,
+      "livesWith": false,
+      "childSupport": 5000
+    }
+  ],
+  "childrenLiveTogetherButNotWithSpouse": true,
+  "custodianFullName": {
+    "first": "Custodian",
+    "last": "Custodianlast"
+  },
+  "custodianAddress": {
+    "country": "USA",
+    "street": "123 Child St",
+    "city": "Child City",
+    "state": "AL",
+    "postalCode": "12313"
+  },
+  "veteranMarriages": [
+    {
+      "reasonForSeparation": "OTHER",
+      "separationExplanation": "Some other reason",
+      "marriedOutsideUs": true,
+      "dateOfMarriage": "1990-01-01",
+      "dateOfSeparation": "2000-01-01",
+      "locationOfSeparation": {
+        "city": "Some City",
+        "state": "TX"
+      },
+      "locationOfMarriage": {
+        "city": "Another City",
+        "otherCountry": "ALB"
+      },
+      "spouseFullName": {
+        "first": "SpouseFirst",
+        "last": "SpouseLast",
+        "middle": "SpouseMiddle",
+        "suffix": "Jr."
+      }
+    },
+    {
+      "reasonForSeparation": "DIVORCE",
+      "dateOfMarriage": "2001-01-01",
+      "dateOfSeparation": "2010-01-01",
+      "locationOfSeparation": {
+        "city": "City2",
+        "state": "TX"
+      },
+      "locationOfMarriage": {
+        "city": "City1",
+        "state": "TX"
+      },
+      "spouseFullName": {
+        "first": "Spouse2First",
+        "last": "Spouse2Last",
+        "middle": "Spouse2Middle"
+      }
+    }
+  ],
+  "veteranHasAdditionalMarriages": false,
+  "spouseMarriages": [
+    {
+      "reasonForSeparation": "OTHER",
+      "separationExplanation": "Some other reason",
+      "dateOfMarriage": "1991-01-01",
+      "dateOfSeparation": "2001-01-01",
+      "locationOfSeparation": {
+        "city": "Some City",
+        "state": "MO"
+      },
+      "locationOfMarriage": {
+        "city": "Another City",
+        "state": "MO"
+      },
+      "spouseFullName": {
+        "first": "SpouseFirs",
+        "last": "SpouseLastName",
+        "middle": "SpouseMidd",
+        "suffix": "Jr."
+      }
+    },
+    {
+      "reasonForSeparation": "DIVORCE",
+      "marriedOutsideUs": true,
+      "dateOfMarriage": "2002-01-01",
+      "dateOfSeparation": "2012-01-01",
+      "locationOfSeparation": {
+        "city": "City2",
+         "state": "PA"
+      },
+      "locationOfMarriage": {
+        "city": "City1",
+        "otherCountry": "ALB"
+      },
+      "spouseFullName": {
+        "first": "Spouse2Fi",
+        "last": "Spouse2LastName",
+        "middle": "Spouse2Midd"
+      }
+    }
+  ],
+  "spouseHasAdditionalMarriages": true
 }

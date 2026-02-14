@@ -1,3 +1,6 @@
+/**
+ * E2E test for blocked issues on 995 form.
+ */
 import path from 'path';
 
 import testForm from '~/platform/testing/e2e/cypress/support/form-tester';

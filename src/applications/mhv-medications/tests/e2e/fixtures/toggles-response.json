@@ -27,11 +27,19 @@
         "value": false
       },
       {
+        "name": "mhv_medications_v2_status_mapping",
+        "value": false
+      },
+      {
         "name": "mhv_accelerated_delivery_enabled",
         "value": false
       },
       {
         "name": "mhv_accelerated_delivery_allergies_enabled",
+        "value": false
+      },
+      {
+        "name": "mhv_medications_management_improvements",
         "value": false
       }
     ]

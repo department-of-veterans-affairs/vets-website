@@ -7,13 +7,10 @@ import { Link } from 'react-router-dom-v5-compat';
 import {
   setReviewPageAlert,
   deleteExpenseDeleteDocument,
+  clearReviewPageAlert,
 } from '../../../redux/actions';
 import { selectIsExpenseDeleting } from '../../../redux/selectors';
-import {
-  EXPENSE_TYPES,
-  EXPENSE_TYPE_KEYS,
-  TRIP_TYPES,
-} from '../../../constants';
+import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import { formatDate } from '../../../util/dates';
 import { currency } from '../../../util/string-helpers';
 import ExpenseCardDetails from './ExpenseCardDetails';
@@ -23,7 +20,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
 
-  const { id: expenseId, expenseType, documentId, tripType } = expense;
+  const { id: expenseId, expenseType, documentId } = expense;
   const isDeleting = useSelector(state =>
     selectIsExpenseDeleting(state, expenseId),
   );
@@ -32,11 +29,6 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
   const header = isMileage
     ? 'Mileage expense'
     : `${formatDate(expense.dateIncurred)}, ${currency(expense.costRequested)}`;
-
-  // Find the label from TRIP_TYPES
-  const tripTypeLabel = Object.values(TRIP_TYPES).find(
-    option => option.value === tripType,
-  )?.label;
 
   const handleDeleteExpenseAndDocument = async () => {
     setShowDeleteModal(false);
@@ -52,6 +44,8 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
           expenseId,
         ),
       );
+      // Clear any existing alerts after successful deletion
+      dispatch(clearReviewPageAlert());
     } catch (error) {
       // Any error from deleting either the expense or document ends up here
       dispatch(
@@ -83,7 +77,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                   {
                     label: 'Which address did you depart from?',
                     value: (
-                      <>
+                      <span data-dd-privacy="mask">
                         {address.addressLine1}{' '}
                         {address.addressLine2 && (
                           <span>{address.addressLine2} </span>
@@ -92,12 +86,8 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                           <span>{address.addressLine3} </span>
                         )}
                         {address.city}, {address.stateCode} {address.zipCode}
-                      </>
+                      </span>
                     ),
-                  },
-                  {
-                    label: 'Was your drive round trip or one way?',
-                    value: tripTypeLabel,
                   },
                 ]}
               />
@@ -125,7 +115,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                       EXPENSE_TYPES[expenseType]?.route
                     }/${expenseId}`}
                   >
-                    EDIT
+                    Edit
                     <va-icon
                       active
                       icon="navigate_next"

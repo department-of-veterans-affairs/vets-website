@@ -1,34 +1,36 @@
 {
   "formData": {
-    "veteranFullName": {
-      "first": "Mitchell",
-      "middle": "George",
-      "last": "Jenkins"
-    },
-    "gender": "M",
-    "veteranDateOfBirth": "1956-07-10",
-    "veteranSocialSecurityNumber": "6789",
-    "veteranVAFileNumber": "2345",
-    "homePhone": "5558081234",
-    "email": "mitchell.jenkins.test@gmail.com",
-    "view:maritalStatus": {
-      "maritalStatus": "MARRIED"
-    },
-    "spouseFullName": {
-      "first": "Michelle",
-      "last": "Smith"
-    },
-    "spouseDateOfBirth": "1984-08-03",
-    "spouseSocialSecurityNumber": "451906574",
-    "maritalStatus": "Married",
-    "dateOfMarriage": "2020-10-15",
-    "cohabitedLastYear": true,
-    "view:reportDependents": true,
-    "view:skipDependentInfo": false,
-    "isMedicaidEligible": false,
-    "isEnrolledMedicarePartA": true,
-    "medicarePartAEffectiveDate": "2009-01-02",
-    "medicareClaimNumber": "7AD5WC9MW60"
+    "data": {
+      "attributes": {
+        "veteran": {
+          "firstName": "Mitchell",
+          "middleName": "George",
+          "lastName": "Jenkins",
+          "suffix": "",
+          "gender": "M",
+          "dateOfBirth": "1956-07-10",
+          "ssn": "6789",
+          "vaFileNumber": "2345",
+          "address": {
+            "addressLine1": "125 Main St.",
+            "addressLine2": "",
+            "addressLine3": "",
+            "city": "Fulton",
+            "stateCode": "NY",
+            "zipCode5": "97063",
+            "countryName": "United States"
+          },
+          "phone": {
+            "areaCode": "555",
+            "phoneNumber": "8081234"
+          },
+          "homePhone": "5558081234",
+          "emailAddressText": "mitchell.jenkins.test@gmail.com",
+          "mobilePhone": "5554044567",
+          "lastServiceBranch": "Air Force"
+        }
+      }
+    }
   },
   "metadata": {
     "version": 0,

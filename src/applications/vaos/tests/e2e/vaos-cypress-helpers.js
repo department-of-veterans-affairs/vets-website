@@ -343,6 +343,13 @@ export function mockSchedulingConfigurationApi({
               // Remove all falsey values from array
               .filter(Boolean);
 
+            // Create vaServices array for VPG feature support
+            const vaServices = services.map(service => ({
+              clinicalServiceId: service.id,
+              bookedAppointments: isDirect,
+              apptRequests: isRequest,
+            }));
+
             return {
               ...facility,
               id: facility.id,
@@ -351,6 +358,7 @@ export function mockSchedulingConfigurationApi({
                 ...facility.attributes,
                 facilityId: facility.id,
                 services,
+                vaServices,
               },
             };
           });

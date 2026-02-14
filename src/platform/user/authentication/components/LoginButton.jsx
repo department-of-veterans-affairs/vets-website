@@ -1,38 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
-import { SERVICE_PROVIDERS, TEST_APPS } from '../constants';
+import environment from 'platform/utilities/environment';
+import { SERVICE_PROVIDERS, OKTA_APPS } from '../constants';
 import { createOktaOAuthRequest } from '../../../utilities/oauth/utilities';
 
 export function loginHandler(loginType, isOAuth, oktaParams = {}) {
   const isOAuthAttempt = isOAuth && '-oauth';
   const { codeChallenge = '', clientId = '', state = '' } = oktaParams;
+  const isProduction = environment.isProduction() && !environment.isTest();
 
-  if (TEST_APPS.OKTA?.includes(clientId) && !environment.isProduction()) {
+  if (OKTA_APPS?.includes(clientId)) {
     const url = createOktaOAuthRequest({
       clientId,
       codeChallenge,
       state,
       loginType,
     });
-    recordEvent({
-      event: `login-attempted-${loginType}${isOAuthAttempt}__okta_test`,
-    });
+    if (isProduction) {
+      recordEvent({
+        event: `login-attempted-${loginType}${isOAuthAttempt}`,
+      });
+    }
     window.location = url;
     // short-circuit the function
     return;
   }
 
-  recordEvent({ event: `login-attempted-${loginType}${isOAuthAttempt}` });
+  if (isProduction) {
+    recordEvent({ event: `login-attempted-${loginType}${isOAuthAttempt}` });
+  }
   authUtilities.login({ policy: loginType });
 }
 
 export default function LoginButton({
   csp,
   onClick = loginHandler,
-  useOAuth = false,
+  useOAuth = true,
   ariaDescribedBy,
   actionLocation,
   queryParams = {},

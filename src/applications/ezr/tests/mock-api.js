@@ -22,7 +22,6 @@ const responses = {
         { name: 'ezrProdEnabled', value: true },
         { name: 'ezrSpouseConfirmationFlowEnabled', value: true },
         { name: 'ezrFormPrefillWithProvidersAndDependents', value: true },
-        { name: 'ezrDownloadPdfEnabled', value: true },
       ],
     },
   },

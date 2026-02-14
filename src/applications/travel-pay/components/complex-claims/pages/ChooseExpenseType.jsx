@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   VaRadio,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
-import { selectComplexClaim } from '../../../redux/selectors';
+import {
+  selectComplexClaim,
+  selectExpenseBackDestination,
+} from '../../../redux/selectors';
+import { setExpenseBackDestination } from '../../../redux/actions';
 
 const ChooseExpenseType = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { apptId, claimId } = useParams();
   const [selectedExpenseType, setSelectedExpenseType] = useState('');
   const [showError, setShowError] = useState(false);
@@ -19,9 +25,12 @@ const ChooseExpenseType = () => {
   // Get claim data
   const { data: claim } = useSelector(selectComplexClaim);
 
+  const backDestination = useSelector(selectExpenseBackDestination);
+
   const title = 'What type of expense do you want to add?';
 
   useSetPageTitle(title);
+  useSetFocus();
 
   // Check if claim already has a mileage expense
   const hasExistingMileageExpense = () => {
@@ -59,12 +68,18 @@ const ChooseExpenseType = () => {
     );
 
     if (selectedExpense) {
+      // Set back destination so expense page knows to return to choose-expense
+      dispatch(setExpenseBackDestination('choose-expense'));
       navigate(`/file-new-claim/${apptId}/${claimId}/${selectedExpense.route}`);
     }
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/${apptId}`, { state: { skipRedirect: true } });
+    if (backDestination === 'review') {
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else {
+      navigate(`/file-new-claim/${apptId}`, { state: { skipRedirect: true } });
+    }
   };
 
   const hintText = 'You can submit 1 mileage expense for this claim.';
@@ -84,6 +99,7 @@ const ChooseExpenseType = () => {
       <VaRadio
         label="Select an expense type"
         required
+        enableAnalytics
         class="vads-u-margin-top--2"
         error={showError || mileageError ? errorMessage : null}
         onVaValueChange={event => {
@@ -97,6 +113,7 @@ const ChooseExpenseType = () => {
             tile
             key={option.route}
             label={option.title}
+            name="choose-expense-type"
             value={option.route}
             description={
               option.name === EXPENSE_TYPES.Mileage.name ? hintText : ''
@@ -109,7 +126,6 @@ const ChooseExpenseType = () => {
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
-        disable-analytics
         onPrimaryClick={handleContinue}
         onSecondaryClick={handleBack}
       />

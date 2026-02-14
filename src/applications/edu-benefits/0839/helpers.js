@@ -185,43 +185,19 @@ export const additionalInstitutionDetailsArrayOptions = {
   },
 };
 
-export const createBannerMessage = (
-  institutionDetails,
-  isArrayItem,
-  // mainInstitution,
-) => {
-  const notYR = institutionDetails.yrEligible === false;
-  const notIHL = institutionDetails.ihlEligible === false;
-
+export const createBannerMessage = institutionDetails => {
   let message = '';
   const code = institutionDetails?.facilityCode;
-  const notFound = institutionDetails?.institutionName === 'not found';
   const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
   const thirdChar = code?.charAt(2).toUpperCase();
 
-  if (isArrayItem) {
-    const hasXInThirdPosition =
-      code?.length === 8 && !badFormat && thirdChar === 'X';
+  const hasXInThirdPosition =
+    code?.length === 8 && !badFormat && thirdChar === 'X';
 
-    if (hasXInThirdPosition) {
-      message =
-        "This facility code can't be accepted. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
-      return message;
-    }
-  }
-
-  if (notFound) {
-    return null;
-  }
-
-  if (notYR && !isArrayItem) {
+  if (hasXInThirdPosition) {
     message =
-      'This institution is unable to participate in the Yellow Ribbon Program. You can enter a main or branch campus facility code to continue.';
-  }
-
-  if (!notYR && notIHL) {
-    message =
-      'This institution is unable to participate in the Yellow Ribbon Program.';
+      "This facility code can't be accepted. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
+    return message;
   }
 
   return message || null;
@@ -283,10 +259,17 @@ const yellowRibbonCardTitleCase = str => {
   return result.join(' ');
 };
 
-const yellowRibbonProgramCardDescription = item => {
+export const yellowRibbonProgramCardDescription = item => {
   if (!item) return null;
   return (
     <div>
+      <p>
+        {`Max. number of students: ${
+          item?.maximumStudentsOption === 'specific'
+            ? item?.maximumStudents
+            : 'Unlimited'
+        }`}
+      </p>
       <p>{yellowRibbonCardTitleCase(item.degreeLevel)}</p>
       <p>{yellowRibbonCardTitleCase(item.collegeOrProfessionalSchool)}</p>
       <p>{CURRENCY_LABELS[item.schoolCurrency]}</p>
@@ -313,12 +296,9 @@ export const arrayBuilderOptions = {
     } Yellow Ribbon Program contributions`;
   },
   text: {
-    getItemName: item =>
-      `Max. number of students: ${
-        item?.maximumStudentsOption === 'specific'
-          ? item?.maximumStudents
-          : 'Unlimited'
-      }`,
+    getItemName: item => {
+      return item?.academicYear || item?.academicYearDisplay;
+    },
     cardDescription: item => yellowRibbonProgramCardDescription(item),
     summaryTitle: props => {
       const institutionDetails = props?.formData?.institutionDetails;
@@ -355,7 +335,6 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
 
   const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
   const notFound = currentItem?.institutionName === 'not found';
-  const ihlEligible = currentItem?.ihlEligible;
   const notYR = currentItem?.yrEligible === false;
   const thirdChar = code?.charAt(2).toUpperCase();
 
@@ -370,6 +349,7 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
       return;
     }
 
+    // TODO: move below 'not found' check after new response code is configured
     if (hasXInThirdPosition) {
       errors.addError(
         'Codes with an "X" in the third position are not eligible',
@@ -387,13 +367,6 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
     if (notYR) {
       errors.addError(
         "The institution isn't eligible for the Yellow Ribbon Program.",
-      );
-      return;
-    }
-
-    if (ihlEligible === false) {
-      errors.addError(
-        'This institution is not an IHL. Please see information below.',
       );
     }
   }

@@ -27,6 +27,8 @@ const formUploadForms = [
   '21-0304',
   '21-651',
   '21P-4185',
+  '21P-535',
+  '20-10208',
 ];
 const config = formConfig();
 
@@ -42,6 +44,15 @@ const routes = formUploadForms.map(formId => {
     },
     childRoutes: createRoutesWithSaveInProgress(config),
   };
+});
+
+routes.push({
+  path: '/',
+  onEnter: () => {
+    if (!window.Cypress) {
+      window.location.replace('/forms');
+    }
+  },
 });
 // or dynamic
 // {

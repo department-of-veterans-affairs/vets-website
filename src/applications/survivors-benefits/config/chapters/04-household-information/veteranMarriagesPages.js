@@ -11,11 +11,12 @@ import {
   fullNameSchema,
   selectUI,
   textUI,
-  textSchema,
   checkboxUI,
   checkboxSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from 'platform/utilities/data/get';
 import {
@@ -25,7 +26,8 @@ import {
   COUNTRY_VALUES,
   previousMarriageEndOptions,
 } from '../../../utils/labels';
-import { handleAlertMaxItems } from '../../../components/FormAlerts';
+import { handleVeteranMaxMarriagesAlert } from '../../../components/FormAlerts';
+import { customAddressSchema, customTextSchema } from '../../definitions';
 
 /**
  * Pages for Veteran's previous marriages (array-builder)
@@ -49,8 +51,7 @@ const options = {
   nounPlural: 'previous marriages',
   required: false,
   maxItems: 2,
-  isItemIncomplete: item =>
-    !item?.previousSpouseFullName || !item?.marriageDate,
+  isItemIncomplete: item => !item?.spouseFullName || !item?.dateOfMarriage,
   text: {
     cancelTitle: 'Cancel adding this previous marriage?',
     cancelAddTitle: 'Cancel adding this previous marriage?',
@@ -72,10 +73,9 @@ const options = {
     deleteNo: 'No, keep',
     deleteTitle: 'Delete this previous marriage?',
     deleteYes: 'Yes, delete',
-    alertMaxItems: handleAlertMaxItems,
+    alertMaxItems: handleVeteranMaxMarriagesAlert,
     getItemName: item => {
-      const { first, middle, last, suffix } =
-        get('previousSpouseFullName', item) || {};
+      const { first, middle, last, suffix } = get('spouseFullName', item) || {};
       const name = [first, middle, last, suffix].filter(Boolean).join(' ');
       return name || 'Previous marriage';
     },
@@ -113,11 +113,22 @@ const summaryPage = {
         hint: '',
       },
     ),
+    veteranHasAdditionalMarriages: {
+      ...yesNoUI({
+        title: 'Are there any other previous marriages to add for the Veteran?',
+      }),
+      'ui:required': formData => formData?.veteranMarriages?.length === 2,
+      'ui:options': {
+        hideIf: formData =>
+          !formData?.veteranMarriages || formData?.veteranMarriages?.length < 2,
+      },
+    },
   },
   schema: {
     type: 'object',
     properties: {
       'view:wasMarriedBefore': arrayBuilderYesNoSchema,
+      veteranHasAdditionalMarriages: yesNoSchema,
     },
     required: ['view:wasMarriedBefore'],
   },
@@ -128,14 +139,14 @@ const namePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       "Veteran's previous spouse's name",
     ),
-    previousSpouseFullName: fullNameUI(),
+    spouseFullName: fullNameUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      previousSpouseFullName: fullNameSchema,
+      spouseFullName: fullNameSchema,
     },
-    required: ['previousSpouseFullName'],
+    required: ['spouseFullName'],
   },
 };
 
@@ -144,46 +155,46 @@ const marriageDatePlacePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'When and where did they get married?',
     ),
-    marriageDate: currentOrPastDateUI({
+    dateOfMarriage: currentOrPastDateUI({
       title: 'Date of marriage',
       monthSelect: false,
       'ui:description':
         'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
       required: formData => !formData['view:marriageDate'],
     }),
-    marriedOutsideUS: checkboxUI({
+    marriedOutsideUs: checkboxUI({
       title: 'They got married outside the U.S.',
     }),
-    marriageLocation: {
+    locationOfMarriage: {
       city: textUI('City'),
       state: {
         ...selectUI('State', STATE_VALUES, STATE_NAMES),
         'ui:required': (formData, index) => {
           const item = formData?.veteranMarriages?.[index];
           const currentPageData = formData;
-          return !(item?.marriedOutsideUS || currentPageData?.marriedOutsideUS);
+          return !(item?.marriedOutsideUs || currentPageData?.marriedOutsideUs);
         },
         'ui:options': {
           hideIf: (formData, index) => {
             const item = formData?.veteranMarriages?.[index];
             const currentPageData = formData;
-            return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
+            return item?.marriedOutsideUs || currentPageData?.marriedOutsideUs;
           },
         },
       },
-      country: {
+      otherCountry: {
         ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
         'ui:required': (formData, index) => {
           const item = formData?.veteranMarriages?.[index];
           const currentPageData = formData;
-          return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
+          return item?.marriedOutsideUs || currentPageData?.marriedOutsideUs;
         },
         'ui:options': {
           hideIf: (formData, index) => {
             const item = formData?.veteranMarriages?.[index];
             const currentPageData = formData;
             return !(
-              item?.marriedOutsideUS || currentPageData?.marriedOutsideUS
+              item?.marriedOutsideUs || currentPageData?.marriedOutsideUs
             );
           },
           labels: COUNTRY_VALUES.reduce((acc, value, idx) => {
@@ -199,48 +210,32 @@ const marriageDatePlacePage = {
   },
   schema: {
     type: 'object',
-    required: ['marriageLocation', 'marriageDate'],
+    required: ['locationOfMarriage', 'dateOfMarriage'],
     properties: {
-      marriageDate: currentOrPastDateSchema,
-      marriedOutsideUS: checkboxSchema,
-      marriageLocation: {
-        type: 'object',
-        required: ['city'],
-        properties: {
-          city: { type: 'string' },
-          state: {
-            type: 'string',
-            enum: STATE_VALUES,
-            enumNames: STATE_NAMES,
-          },
-          country: {
-            type: 'string',
-            enum: COUNTRY_VALUES,
-            enumNames: COUNTRY_NAMES,
-          },
-        },
-      },
+      dateOfMarriage: currentOrPastDateSchema,
+      marriedOutsideUs: checkboxSchema,
+      locationOfMarriage: customAddressSchema,
     },
   },
 };
 
 const endedPage = {
   uiSchema: {
-    marriageEndedBy: radioUI({
+    reasonForSeparation: radioUI({
       title: 'How did the marriage end?',
       labels: previousMarriageEndOptions,
       labelHeaderLevel: 3,
     }),
-    marriageEndedOther: textUI({
+    separationExplanation: textUI({
       title: 'Tell us how the marriage ended',
-      expandUnder: 'marriageEndedBy',
+      expandUnder: 'reasonForSeparation',
       expandUnderCondition: field => field === 'OTHER',
       required: (formData, index) => {
         const item = formData?.veteranMarriages?.[index];
         const currentPageData = formData;
         return (
-          item?.marriageEndedBy === 'OTHER' ||
-          currentPageData?.marriageEndedBy === 'OTHER'
+          item?.reasonForSeparation === 'OTHER' ||
+          currentPageData?.reasonForSeparation === 'OTHER'
         );
       },
       errorMessages: { required: 'Please tell us how the marriage ended' },
@@ -249,10 +244,10 @@ const endedPage = {
   schema: {
     type: 'object',
     properties: {
-      marriageEndedBy: radioSchema(Object.keys(previousMarriageEndOptions)),
-      marriageEndedOther: textSchema,
+      reasonForSeparation: radioSchema(Object.keys(previousMarriageEndOptions)),
+      separationExplanation: customTextSchema,
     },
-    required: ['marriageEndedBy'],
+    required: ['reasonForSeparation'],
   },
 };
 
@@ -261,17 +256,17 @@ const marriageEndDateLocationPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'When and where did their marriage end?',
     ),
-    dateOfTermination: currentOrPastDateUI({
+    dateOfSeparation: currentOrPastDateUI({
       title: 'Date marriage ended',
       monthSelect: false,
       'ui:description':
         'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
-      required: formData => !formData['view:dateOfTermination'],
+      required: formData => !formData['view:dateOfSeparation'],
     }),
     marriageEndedOutsideUS: checkboxUI({
       title: 'Their marriage ended outside the U.S.',
     }),
-    marriageEndLocation: {
+    locationOfSeparation: {
       city: textUI('City'),
       state: {
         ...selectUI('State', STATE_VALUES, STATE_NAMES),
@@ -294,7 +289,7 @@ const marriageEndDateLocationPage = {
           },
         },
       },
-      country: {
+      otherCountry: {
         ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
         'ui:required': (formData, index) => {
           const item = formData?.veteranMarriages?.[index];
@@ -326,27 +321,11 @@ const marriageEndDateLocationPage = {
   },
   schema: {
     type: 'object',
-    required: ['marriageEndLocation', 'dateOfTermination'],
+    required: ['locationOfSeparation', 'dateOfSeparation'],
     properties: {
-      dateOfTermination: currentOrPastDateSchema,
+      dateOfSeparation: currentOrPastDateSchema,
       marriageEndedOutsideUS: checkboxSchema,
-      marriageEndLocation: {
-        type: 'object',
-        required: ['city'],
-        properties: {
-          city: { type: 'string' },
-          state: {
-            type: 'string',
-            enum: STATE_VALUES,
-            enumNames: STATE_NAMES,
-          },
-          country: {
-            type: 'string',
-            enum: COUNTRY_VALUES,
-            enumNames: COUNTRY_NAMES,
-          },
-        },
-      },
+      locationOfSeparation: customAddressSchema,
     },
   },
 };
@@ -358,7 +337,7 @@ export const veteranMarriagesPages = arrayBuilderPages(
       title: 'Veteran’s previous marriages',
       path: 'household/veteran-previous-marriages',
       depends: formData =>
-        formData.claimantRelationship === 'SPOUSE' &&
+        formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
         formData.hadPreviousMarriages === true,
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
@@ -368,7 +347,7 @@ export const veteranMarriagesPages = arrayBuilderPages(
         'Was the Veteran married to someone else before being married to you?',
       path: 'household/veteran-previous-marriages/add',
       depends: formData =>
-        formData.claimantRelationship === 'SPOUSE' &&
+        formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
         formData.hadPreviousMarriages === true,
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
@@ -377,7 +356,7 @@ export const veteranMarriagesPages = arrayBuilderPages(
       title: "Veteran's previous spouse's name",
       path: 'household/veteran-previous-marriages/:index/spouse-name',
       depends: formData =>
-        formData.claimantRelationship === 'SPOUSE' &&
+        formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
         formData.hadPreviousMarriages === true,
       uiSchema: namePage.uiSchema,
       schema: namePage.schema,
@@ -386,7 +365,7 @@ export const veteranMarriagesPages = arrayBuilderPages(
       title: 'When and where did they get married?',
       path: 'household/veteran-previous-marriages/:index/marriage-date-place',
       depends: formData =>
-        formData.claimantRelationship === 'SPOUSE' &&
+        formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
         formData.hadPreviousMarriages === true,
       uiSchema: marriageDatePlacePage.uiSchema,
       schema: marriageDatePlacePage.schema,
@@ -395,7 +374,7 @@ export const veteranMarriagesPages = arrayBuilderPages(
       title: 'How did the marriage end?',
       path: 'household/veteran-previous-marriages/:index/marriage-ended',
       depends: formData =>
-        formData.claimantRelationship === 'SPOUSE' &&
+        formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
         formData.hadPreviousMarriages === true,
       uiSchema: endedPage.uiSchema,
       schema: endedPage.schema,
@@ -405,7 +384,7 @@ export const veteranMarriagesPages = arrayBuilderPages(
       path:
         'household/veteran-previous-marriages/:index/marriage-end-date-location',
       depends: formData =>
-        formData.claimantRelationship === 'SPOUSE' &&
+        formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
         formData.hadPreviousMarriages === true,
       uiSchema: marriageEndDateLocationPage.uiSchema,
       schema: marriageEndDateLocationPage.schema,

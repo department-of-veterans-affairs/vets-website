@@ -1,48 +1,36 @@
 import React from 'react';
+import FileUploadDescription from './FileUploadDescription';
+import SubmittingClaimsAddtlInfo from './SubmittingClaimsAddtlInfo';
 
 const PharmacyClaimsDescription = (
   <>
     <p>
-      You’ll need to submit a copy of a document from the pharmacy with
-      information about the prescription medication.
+      You’ll need to submit a copy of a document from the pharmacy that includes
+      all of this information:
     </p>
     <p>
       <strong>Here’s what the document must include:</strong>
     </p>
     <ul>
       <li>
-        <strong>The pharmacy’s:</strong>
-        <ul style={{ listStyleType: 'disc' }}>
-          <li>Name</li>
-          <li>Address</li>
-          <li>Phone number</li>
-        </ul>
+        Beneficiary’s name, <strong>and</strong>
       </li>
       <li>
-        <strong>The medication’s:</strong>
-        <ul style={{ listStyleType: 'disc' }}>
-          <li>Name</li>
-          <li>Dosage</li>
-          <li>Strength</li>
-          <li>Quantity</li>
-        </ul>
+        Name, address, and phone number of the pharmacy, <strong>and</strong>
       </li>
       <li>
-        <strong>Cost</strong> of the medication.
+        Name, dosage, strength, quantity, and cost of the
+        medication&mdash;including the amount of your copay,{' '}
+        <strong>and</strong>
       </li>
       <li>
-        <strong>Copay amount.</strong>
+        11-digit National Drug Code (NDC) for each medication,{' '}
+        <strong>and</strong>
       </li>
       <li>
-        <strong>National Drug Code (NDC)</strong> for each medication. This is
-        an 11-digit number that’s different from the Rx number.
+        Date the pharmacy filled the prescription, <strong>and</strong>
       </li>
-      <li>
-        <strong>Date</strong> the pharmacy filled the prescription.
-      </li>
-      <li>
-        <strong>Name of the provider</strong> who wrote the prescription.
-      </li>
+      <li>Name of the provider who wrote the prescription</li>
     </ul>
     <p>
       <strong>Note:</strong> The papers attached to the medication usually
@@ -50,9 +38,12 @@ const PharmacyClaimsDescription = (
       with this information.
     </p>
     <p>
-      You can also submit any other documents you think may be relevant to this
+      You can also submit any other documents you think may be helpful for this
       claim.
     </p>
+
+    <FileUploadDescription />
+    <SubmittingClaimsAddtlInfo />
   </>
 );
 

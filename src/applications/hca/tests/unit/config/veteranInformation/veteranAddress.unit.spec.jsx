@@ -1,8 +1,12 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFields,
+  testNumberOfWebComponentFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca VeteranAddress config', () => {
   const {
@@ -11,9 +15,8 @@ describe('hca VeteranAddress config', () => {
     uiSchema,
   } = formConfig.chapters.veteranInformation.pages.veteranAddress;
 
-  // run test for correct number of fields on the page
-  const expectedNumberOfFields = 9;
-  testNumberOfFormFields(
+  const expectedNumberOfFields = 7;
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
@@ -21,8 +24,7 @@ describe('hca VeteranAddress config', () => {
     pageTitle,
   );
 
-  // run test for correct number of error messages on submit
-  const expectedNumberOfErrors = 5;
+  const expectedNumberOfErrors = 4;
   testNumberOfErrorsOnSubmit(
     formConfig,
     schema,
@@ -30,4 +32,94 @@ describe('hca VeteranAddress config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  const expectedNumberOfWebComponentFields = 1;
+  testNumberOfWebComponentFields(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfWebComponentFields,
+    pageTitle,
+  );
+
+  const expectedNumberOfErrorsForWebComponents = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfErrorsForWebComponents,
+    pageTitle,
+  );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        veteranAddress: {
+          type: 'object',
+          properties: {
+            street: {
+              type: 'string',
+            },
+            street2: {
+              type: 'string',
+            },
+            street3: {
+              type: 'string',
+            },
+            city: {
+              type: 'string',
+            },
+            state: {
+              type: 'string',
+            },
+            postalCode: {
+              type: 'string',
+            },
+          },
+        },
+        'view:doesMailingMatchHomeAddress': {
+          type: 'boolean',
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      veteranAddress: {
+        'ui:order': {},
+        street: {
+          'ui:title': {},
+          'ui:errorMessages': {},
+        },
+        street2: {
+          'ui:title': {},
+        },
+        street3: {
+          'ui:title': {},
+        },
+        city: {
+          'ui:title': {},
+          'ui:errorMessages': {},
+        },
+        state: {
+          'ui:title': {},
+          'ui:errorMessages': {},
+        },
+        postalCode: {
+          'ui:title': {},
+          'ui:errorMessages': {},
+          'ui:options': {},
+        },
+      },
+      'view:doesMailingMatchHomeAddress': {
+        'ui:title': {},
+        'ui:webComponentField': {},
+      },
+    },
+    expectedRequired: ['view:doesMailingMatchHomeAddress'],
+    pageName: pageTitle,
+  });
 });

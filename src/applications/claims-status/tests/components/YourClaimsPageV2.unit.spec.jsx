@@ -119,7 +119,7 @@ describe('<YourClaimsPageV2>', () => {
 
     expect($('va-alert', container)).to.exist;
     expect(container.textContent).to.include(
-      'VA.gov is having trouble loading claims and appeals information',
+      "We can't access some of your claims or appeals right now",
     );
   });
 
@@ -139,6 +139,24 @@ describe('<YourClaimsPageV2>', () => {
     props.list = [];
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClaimCardLoadingSkeleton').length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should render a loading skeleton even when list has data if any request is still loading', () => {
+    const props = cloneDeep(defaultProps);
+    // List has data but one request is still loading
+    props.claimsLoading = false;
+    props.appealsLoading = false;
+    props.stemClaimsLoading = true;
+    // props.list already has data from defaultProps
+    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
+    const expectComponentCount = (component, count) => {
+      expect(wrapper.find(component).length).to.equal(count);
+    };
+    // Should show loading skeleton, not the list
+    expectComponentCount('ClaimCardLoadingSkeleton', 1);
+    expectComponentCount('ClaimsListItem', 0);
+    expectComponentCount('AppealListItem', 0);
     wrapper.unmount();
   });
 
@@ -306,5 +324,108 @@ describe('<YourClaimsPageV2>', () => {
 
     const page = YourClaimsPageV2.getPageFromURL(testProps);
     expect(page).to.equal(1);
+  });
+
+  describe('rendering mixed appeals and claims', () => {
+    it('should render both AppealListItem and ClaimsListItem components', () => {
+      const testProps = {
+        ...defaultProps,
+        list: [
+          {
+            type: 'appeal',
+            id: 'test-appeal',
+            attributes: {
+              active: true,
+              updated: '2022-01-20',
+              status: { type: 'pending_soc' },
+            },
+          },
+          {
+            type: 'claim',
+            id: 'test-claim',
+            attributes: {
+              status: 'CLAIM_RECEIVED',
+              phaseChangeDate: '2022-01-18',
+            },
+          },
+        ],
+      };
+
+      const wrapper = shallow(<YourClaimsPageV2 {...testProps} />);
+
+      const appealItems = wrapper.find('AppealListItem');
+      const claimItems = wrapper.find('ClaimsListItem');
+
+      expect(appealItems.length).to.equal(1);
+      expect(claimItems.length).to.equal(1);
+      expect(appealItems.at(0).prop('appeal').id).to.equal('test-appeal');
+      expect(claimItems.at(0).prop('claim').id).to.equal('test-claim');
+
+      wrapper.unmount();
+    });
+
+    it('should render StemClaimListItem for STEM claims', () => {
+      const testProps = {
+        ...defaultProps,
+        list: [
+          {
+            type: 'education_benefits_claims',
+            id: 'test-stem-claim',
+            attributes: {
+              confirmationNumber: 'V-EBC-1234',
+              claimType: 'STEM',
+            },
+          },
+        ],
+      };
+
+      const wrapper = shallow(<YourClaimsPageV2 {...testProps} />);
+
+      const stemItems = wrapper.find('StemClaimListItem');
+      expect(stemItems.length).to.equal(1);
+      expect(stemItems.at(0).prop('claim').id).to.equal('test-stem-claim');
+
+      wrapper.unmount();
+    });
+
+    it('should render all types of items in a mixed list', () => {
+      const testProps = {
+        ...defaultProps,
+        list: [
+          {
+            type: 'higherLevelReview',
+            id: 'test-hlr',
+            attributes: {
+              active: true,
+              updated: '2022-01-20',
+              status: { type: 'on_docket' },
+            },
+          },
+          {
+            type: 'claim',
+            id: 'test-claim',
+            attributes: {
+              status: 'CLAIM_RECEIVED',
+              phaseChangeDate: '2022-01-18',
+            },
+          },
+          {
+            type: 'education_benefits_claims',
+            id: 'test-stem',
+            attributes: {
+              confirmationNumber: 'V-EBC-5678',
+            },
+          },
+        ],
+      };
+
+      const wrapper = shallow(<YourClaimsPageV2 {...testProps} />);
+
+      expect(wrapper.find('AppealListItem').length).to.equal(1);
+      expect(wrapper.find('ClaimsListItem').length).to.equal(1);
+      expect(wrapper.find('StemClaimListItem').length).to.equal(1);
+
+      wrapper.unmount();
+    });
   });
 });

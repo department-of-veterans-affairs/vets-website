@@ -1,25 +1,26 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsListPage from './pages/MedicationsListPage';
 import rxList from './fixtures/listOfPrescriptions.json';
+import oracleHealthRxList from './fixtures/oracle-health-prescriptions.json';
+import cernerUser from './fixtures/cerner-user.json';
 
 describe('Send Rx Renewal Message on List Page', () => {
-  it('displays renewal request link for Active prescription with 0 refills on list page', () => {
+  it('displays fallback message for Active prescription with 0 refills on list page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
     site.login();
     listPage.visitMedicationsListPageURL(rxList);
 
+    // Check for the active prescription with 0 refills message
+    // The page displays "You can't refill..." with a curly apostrophe (')
     cy.get('[data-testid="active-no-refill-left"]')
+      .first()
       .should('be.visible')
       .and(
         'contain',
-        'You have no refills left. If you need more, request a renewal.',
+        'Contact your VA provider if you need more of this medication.',
       );
-
-    cy.get('[data-testid="send-renewal-request-message-link"]')
-      .should('exist')
-      .and('be.visible');
 
     cy.injectAxe();
     cy.axeCheck('main');
@@ -29,8 +30,9 @@ describe('Send Rx Renewal Message on List Page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
-    site.login();
-    listPage.visitMedicationsListPageURL(rxList);
+    // Use Cerner user and Oracle Health prescriptions for renewal link
+    site.login(true, false, cernerUser);
+    listPage.visitMedicationsListPageURL(oracleHealthRxList);
 
     cy.get('[data-testid="send-renewal-request-message-link"]')
       .first()
@@ -86,7 +88,7 @@ describe('Send Rx Renewal Message on List Page', () => {
           .and('be.visible')
           .and(
             'contain',
-            'This prescription is too old to refill. If you need more, request a renewal.',
+            'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
           );
       }
     });
@@ -99,8 +101,9 @@ describe('Send Rx Renewal Message on List Page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
-    site.login();
-    listPage.visitMedicationsListPageURL(rxList);
+    // Use Cerner user and Oracle Health prescriptions for renewal link
+    site.login(true, false, cernerUser);
+    listPage.visitMedicationsListPageURL(oracleHealthRxList);
 
     cy.get('[data-testid="send-renewal-request-message-link"]')
       .first()
@@ -159,7 +162,7 @@ describe('Send Rx Renewal Message on List Page', () => {
 
         const discontinuedText = $discontinued.text();
         expect(discontinuedText).to.include(
-          'You can’t refill this prescription. If you need more, send a message to your care team.',
+          'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
         );
 
         cy.wrap($discontinued)

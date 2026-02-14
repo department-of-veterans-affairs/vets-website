@@ -42,6 +42,10 @@ class CareSummaryAndNotes {
     cy.get('[data-testid="notes-landing-page-link"]').click({
       waitForAnimations: true,
     });
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   checkInfoAlert = () => {
@@ -96,8 +100,10 @@ class CareSummaryAndNotes {
 
   selectCareSummaryOrNote = ({ index = 1 } = {}) => {
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > .vads-u-font-weight--bold > [data-testid="note-name"]`,
-    ).click({ waitForAnimations: true });
+      `ul.record-list-items.no-print > :nth-child(${index}) [data-testid="note-name"]`,
+    )
+      .first()
+      .click({ waitForAnimations: true });
   };
 
   loadVAPaginationNext = () => {
@@ -109,10 +115,10 @@ class CareSummaryAndNotes {
 
   checkDischargeListItem = ({ index = 1, title = 'Clinical Summary' } = {}) => {
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > :nth-child(5) > :nth-child(1)`,
+      `ul.record-list-items.no-print > :nth-child(${index}) [data-testid="record-list-item"]`,
     ).should('contain.text', 'Discharged');
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > .vads-u-font-weight--bold`,
+      `ul.record-list-items.no-print > :nth-child(${index}) .vads-u-font-weight--bold`,
     ).should('contain.text', title);
   };
 
@@ -121,10 +127,10 @@ class CareSummaryAndNotes {
     title = 'Inpatient Discharge Instructions - VA',
   } = {}) => {
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > :nth-child(5) > :nth-child(1)`,
+      `ul.record-list-items.no-print > :nth-child(${index}) [data-testid="record-list-item"]`,
     ).should('contain.text', 'Written by');
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > .vads-u-font-weight--bold`,
+      `ul.record-list-items.no-print > :nth-child(${index}) .vads-u-font-weight--bold`,
     ).should('contain.text', title);
   };
 

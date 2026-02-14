@@ -32,6 +32,12 @@ const fetchIntentToFile = async (
   params = `${params}&veteranLastName=${formData.veteranFullName.last}`;
   params = `${params}&veteranDateOfBirth=${formData.veteranDateOfBirth}`;
   params = `${params}&veteranSsn=${formData.veteranSsn}`;
+  if (benefitType === 'survivor') {
+    params = `${params}&claimantFirstName=${formData.claimantFullName.first}`;
+    params = `${params}&claimantLastName=${formData.claimantFullName.last}`;
+    params = `${params}&claimantDateOfBirth=${formData.claimantDateOfBirth}`;
+    params = `${params}&claimantSsn=${formData.claimantSsn}`;
+  }
   params = `${params}&benefitType=${benefitType}`;
   try {
     return await apiRequest(
@@ -40,14 +46,21 @@ const fetchIntentToFile = async (
       }/accredited_representative_portal/v0/intent_to_file${params}`,
     );
   } catch (error) {
+    const { status } = error?.errors?.[0] ?? {};
     if (
       error.errors &&
-      typeof error.errors[0] === 'string' &&
-      error.errors[0].match(/^not allowed/)
+      ((typeof error.errors[0] === 'string' &&
+        error.errors[0].match(/^not allowed/)) ||
+        (typeof error.errors[0] === 'object' && error.errors[0].code === '400'))
+      // handle no representation or cannot find ICN
     ) {
-      goPath(`${urlPrefix}permission-error`);
-    } else {
+      goPath(`${urlPrefix}intent-to-file-no-representation`);
+      // returns error if there is no ITF, 404 is the happy path
+    } else if (status === '404') {
       goNextPath();
+      // generic error catchall - unknown if itf exists
+    } else {
+      goPath(`${urlPrefix}intent-to-file-unknown`);
     }
     return null;
   }

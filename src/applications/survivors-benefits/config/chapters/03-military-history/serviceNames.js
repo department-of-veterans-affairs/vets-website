@@ -14,7 +14,7 @@ function checkIsItemIncomplete(item) {
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
-  arrayPath: 'otherServiceNames',
+  arrayPath: 'veteranPreviousNames',
   nounSingular: 'name',
   nounPlural: 'names',
   required: false,
@@ -22,8 +22,20 @@ export const options = {
   maxItems: 2,
   text: {
     summaryTitle: 'Review the Veteran’s other service names',
-    alertMaxItems:
-      'You have added the maximum number of allowed service names for this application. You may edit or delete a name or choose to continue on in the application.',
+    alertMaxItems: (
+      <div>
+        <p className="vads-u-margin-top--0">
+          You have added the maximum number of allowed service names for this
+          application. Additional service names can be added using VA Form
+          21-4138 and uploaded at the end of this application.
+        </p>
+        <va-link
+          href="https://www.va.gov/find-forms/about-form-21-4138/"
+          external
+          text="Get VA Form 21-4138 to download"
+        />
+      </div>
+    ),
     cancelAddTitle: 'Cancel adding this service name?',
     cancelEditTitle: 'Cancel editing this service name?',
     cancelAddDescription:

@@ -14,6 +14,7 @@ import PrivacyPolicy from '../containers/PrivacyPolicy';
 
 import {
   allProprietaryProfitConflictsArrayOptions,
+  CustomReviewTopContent,
   ProprietaryProfitAdditionalInfo,
   proprietaryProfitConflictsArrayOptions,
 } from '../helpers';
@@ -71,9 +72,11 @@ const formConfig = {
   },
   title: 'Conflicting interests certification for proprietary schools',
   subTitle: 'VA Form 22-1919',
+  CustomReviewTopContent,
   customText: {
     submitButtonText: 'Continue',
     appType: 'form',
+    reviewPageTitle: 'Review',
   },
   defaultDefinitions: {
     fullName,

@@ -1,8 +1,10 @@
 import React from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
 import { formatDateTime } from '../../../util/dates';
 import {
   selectAppointment,
@@ -46,6 +48,7 @@ const ConfirmationPage = () => {
     : [null, null];
 
   useSetPageTitle(pageHeader);
+  useSetFocus();
 
   return (
     <>
@@ -112,13 +115,17 @@ const ConfirmationPage = () => {
                 you can print it now.
               </p>
 
-              <va-button
+              <VaButton
                 text="Print this page for your records"
                 onClick={() => window.print()}
                 class="vads-u-margin-bottom--2"
                 uswds
               />
-              <ExpensesAccordion expenses={expenses} documents={documents} />
+              <ExpensesAccordion
+                expenses={expenses}
+                documents={documents}
+                headerLevel={2}
+              />
             </>
           )}
           <WhatHappensNextSection isError={!!submitError} />

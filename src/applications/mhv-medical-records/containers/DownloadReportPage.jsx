@@ -1,43 +1,45 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useMemo,
+  useRef,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  updatePageTitle,
-  generateSEIPdf,
-  SEI_DOMAINS,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { add, compareAsc } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   selectPatientFacilities,
   selectIsCernerPatient,
   selectIsCernerOnlyPatient,
 } from '~/platform/user/cerner-dsot/selectors';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import { selectHoldTimeMessagingUpdate } from '../util/selectors';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
+import { getLastSuccessfulUpdate, sendDataDogAction } from '../util/helpers';
 import {
-  getFailedDomainList,
-  getLastSuccessfulUpdate,
-  sendDataDogAction,
-} from '../util/helpers';
-import {
-  accessAlertTypes,
-  documentTypes,
   pageTitles,
   refreshExtractTypes,
   statsdFrontEndActions,
+  dataSourceTypes,
+  ohFacilityTransitionTable,
 } from '../util/constants';
+import {
+  createBeforeCutoverFacilityNames,
+  createAfterCutoverFacilityNames,
+} from '../util/facilityHelpers';
 import { genAndDownloadCCD, downloadCCDV2 } from '../actions/downloads';
 import { Actions } from '../util/actionTypes';
-import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
-import OHOnlyContent from './ccdContent/OHOnlyContent';
-import VistaOnlyContent from './ccdContent/VistaOnlyContent';
-import VistaAndOHContent from './ccdContent/VistaAndOHContent';
+import VistaOnlyContent from '../components/DownloadRecords/VistaOnlyContent';
+import VistaAndOHContent from '../components/DownloadRecords/VistaAndOHContent';
+import BlueButtonSection from '../components/DownloadRecords/BlueButtonSection';
+import IntroSection from '../components/DownloadRecords/IntroSection';
 import { postRecordDatadogAction } from '../api/MrApi';
-import OHOnlyIntroText from './ccdContent/OHOnlyIntroText';
-import VistaIntroText from './ccdContent/VistaIntroText';
-import VistaAndOHIntroText from './ccdContent/VistaAndOHIntroText';
+import { DownloadReportProvider } from '../context/DownloadReportContext';
 
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
@@ -57,14 +59,16 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     },
   } = useSelector(state => state);
 
-  const ccdExtendedFileTypeFlag = useSelector(
-    state => state.featureToggles?.mhv_medical_records_ccd_extended_file_types,
-  );
+  const { ccdExtendedFileTypeFlag, ccdOHFlagEnabled } = useSelector(state => ({
+    ccdExtendedFileTypeFlag:
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes
+      ],
+    ccdOHFlagEnabled:
+      state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdOH],
+  }));
+  const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
 
-  const [selfEnteredPdfLoading, setSelfEnteredPdfLoading] = useState(false);
-  const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);
-  const [failedSeiDomains, setFailedSeiDomains] = useState([]);
-  const [seiPdfGenerationError, setSeiPdfGenerationError] = useState(null);
   const [expandSelfEntered, setExpandSelfEntered] = useState(false);
 
   const activeAlert = useAlerts(dispatch);
@@ -91,21 +95,42 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       if (!ehrDataByVhaId) return [];
       const vistaFacilities = facilities.filter(f => !f.isCerner);
       return vistaFacilities
-        .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
-        .filter(name => name); // Filter out undefined/null names
+        .map(f => {
+          const name = getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId);
+          if (!name) return null;
+          return { id: f.facilityId, content: name };
+        })
+        .filter(item => item); // Filter out null items
     },
     [facilities, ehrDataByVhaId],
   );
 
-  const ohFacilityNames = useMemo(
-    () => {
-      if (!ehrDataByVhaId) return [];
-      const ohFacilities = facilities.filter(f => f.isCerner);
-      return ohFacilities
-        .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
-        .filter(name => name); // Filter out undefined/null names
-    },
-    [facilities, ehrDataByVhaId],
+  // Create facility name arrays with cutover date suffixes for transitioned OH facilities
+  // These will be used in CCD download sections to show records "before [date]" and "[date] - present"
+  const ohFacilities = useMemo(() => facilities.filter(f => f.isCerner), [
+    facilities,
+  ]);
+
+  const ohFacilityNamesBeforeCutover = useMemo(
+    () =>
+      createBeforeCutoverFacilityNames(
+        ohFacilities,
+        ehrDataByVhaId,
+        ohFacilityTransitionTable,
+        getVamcSystemNameFromVhaId,
+      ),
+    [ohFacilities, ehrDataByVhaId],
+  );
+
+  const ohFacilityNamesAfterCutover = useMemo(
+    () =>
+      createAfterCutoverFacilityNames(
+        ohFacilities,
+        ehrDataByVhaId,
+        ohFacilityTransitionTable,
+        getVamcSystemNameFromVhaId,
+      ),
+    [ohFacilities, ehrDataByVhaId],
   );
 
   // Checks if CCD retry is needed and returns a formatted timestamp or null.
@@ -147,6 +172,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       }
       return () => {
         dispatch({ type: Actions.Downloads.BB_CLEAR_ALERT });
+        dispatch({ type: Actions.Downloads.CCD_CLEAR_ALERT });
       };
     },
     [dispatch],
@@ -167,33 +193,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     [expandSelfEntered],
   );
 
-  const accessErrors = () => {
-    // CCD generation Error
-    if (CCDRetryTimestamp) {
-      return (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.CCD}
-          className="vads-u-margin-bottom--1"
-        />
-      );
-    }
-    // SEI Access Error: If all SEI domains failed
-    if (
-      failedSeiDomains.length === SEI_DOMAINS.length ||
-      seiPdfGenerationError
-    ) {
-      return (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.SEI}
-          className="vads-u-margin-bottom--1"
-        />
-      );
-    }
-    return null;
-  };
-
   const lastSuccessfulUpdate = useMemo(
     () => {
       return getLastSuccessfulUpdate(refreshStatus, [
@@ -205,137 +204,134 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     [refreshStatus],
   );
 
-  const handleDownloadCCD = (e, fileType) => {
-    e.preventDefault();
-    dispatch(
-      genAndDownloadCCD(
-        userProfile?.userFullName?.first || '',
-        userProfile?.userFullName?.last || '',
-        fileType,
-      ),
-    );
-    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
-    sendDataDogAction(`Download Continuity of Care Document ${fileType} link`);
+  const handleDownloadCCD = useCallback(
+    (e, fileType) => {
+      e.preventDefault();
+      dispatch(
+        genAndDownloadCCD(
+          userProfile?.userFullName?.first || '',
+          userProfile?.userFullName?.last || '',
+          fileType,
+        ),
+      );
+      postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
+      sendDataDogAction(
+        `Download Continuity of Care Document ${fileType} link`,
+      );
+    },
+    [
+      dispatch,
+      userProfile?.userFullName?.first,
+      userProfile?.userFullName?.last,
+    ],
+  );
+
+  const handleDownloadCCDV2 = useCallback(
+    (e, fileType) => {
+      e.preventDefault();
+      dispatch(
+        downloadCCDV2(
+          userProfile?.userFullName?.first || '',
+          userProfile?.userFullName?.last || '',
+          fileType,
+        ),
+      );
+      postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
+      sendDataDogAction(`Download CCD V2 ${fileType} link`);
+    },
+    [
+      dispatch,
+      userProfile?.userFullName?.first,
+      userProfile?.userFullName?.last,
+    ],
+  );
+
+  // Determine which data source type to use for rendering
+  // When ccdOHFlagEnabled is disabled, it defaults to displaying VistA-only content for all users
+  const getDataSourceType = () => {
+    if (!ccdOHFlagEnabled) return dataSourceTypes.VISTA_ONLY;
+    if (hasBothDataSources) return dataSourceTypes.BOTH;
+    if (hasOHOnly) return dataSourceTypes.OH_ONLY;
+    return dataSourceTypes.VISTA_ONLY;
   };
 
-  const handleDownloadCCDV2 = (e, fileType) => {
-    e.preventDefault();
-    dispatch(
-      downloadCCDV2(
-        userProfile?.userFullName?.first || '',
-        userProfile?.userFullName?.last || '',
-        fileType,
-      ),
-    );
-    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
-    sendDataDogAction(`Download CCD V2 ${fileType} link`);
+  const dataSourceType = getDataSourceType();
+
+  // Context value shared with all content components
+  const downloadReportContextValue = useMemo(
+    () => ({
+      // Feature flags
+      ccdExtendedFileTypeFlag,
+      // CCD state
+      generatingCCD,
+      ccdError,
+      ccdDownloadSuccess,
+      CCDRetryTimestamp,
+      // Handlers
+      handleDownloadCCD,
+      handleDownloadCCDV2,
+      // Alert state
+      activeAlert,
+      // Test utilities
+      runningUnitTest,
+      // Facility data
+      vistaFacilityNames,
+      ohFacilityNamesBeforeCutover,
+      ohFacilityNamesAfterCutover,
+      // Self-entered accordion state (only used by VistaOnlyContent)
+      expandSelfEntered,
+      selfEnteredAccordionRef,
+    }),
+    [
+      ccdExtendedFileTypeFlag,
+      generatingCCD,
+      ccdError,
+      ccdDownloadSuccess,
+      CCDRetryTimestamp,
+      handleDownloadCCD,
+      handleDownloadCCDV2,
+      activeAlert,
+      runningUnitTest,
+      vistaFacilityNames,
+      ohFacilityNamesBeforeCutover,
+      ohFacilityNamesAfterCutover,
+      expandSelfEntered,
+      selfEnteredAccordionRef,
+    ],
+  );
+
+  // Render the appropriate content component based on data source type
+  const renderContent = () => {
+    switch (dataSourceType) {
+      case dataSourceTypes.BOTH:
+        return <VistaAndOHContent />;
+      case dataSourceTypes.OH_ONLY:
+        return <VistaAndOHContent />;
+      default:
+        return <VistaOnlyContent />;
+    }
   };
 
-  const handleDownloadSelfEnteredPdf = e => {
-    e.preventDefault();
-    setSelfEnteredPdfLoading(true);
-    generateSEIPdf(userProfile, runningUnitTest)
-      .then(res => {
-        if (res.success) {
-          const { failedDomains } = res;
-          setFailedSeiDomains(failedDomains);
-          setSuccessfulSeiDownload(true);
-          setSelfEnteredPdfLoading(false);
-        } else {
-          setSeiPdfGenerationError(true);
-          setSelfEnteredPdfLoading(false);
-        }
-      })
-      .catch(err => {
-        setSeiPdfGenerationError(err);
-        setSelfEnteredPdfLoading(false);
-      });
-    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_SEI);
-    sendDataDogAction('Download self-entered health information PDF link');
-  };
-
-  if (hasBothDataSources) {
-    return (
+  return (
+    <DownloadReportProvider value={downloadReportContextValue}>
       <div>
-        <VistaAndOHIntroText
-          ohFacilityNames={ohFacilityNames}
-          vistaFacilityNames={vistaFacilityNames}
-        />
-        <VistaAndOHContent
-          vistaFacilityNames={vistaFacilityNames}
-          ohFacilityNames={ohFacilityNames}
-          handleDownloadCCDV2={handleDownloadCCDV2}
-          ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
-          failedSeiDomains={failedSeiDomains}
-          getFailedDomainList={getFailedDomainList}
+        <IntroSection
+          dataSourceType={dataSourceType}
           lastSuccessfulUpdate={lastSuccessfulUpdate}
-          generatingCCD={generatingCCD}
-          handleDownloadCCD={handleDownloadCCD}
-          handleDownloadSelfEnteredPdf={handleDownloadSelfEnteredPdf}
-          selfEnteredPdfLoading={selfEnteredPdfLoading}
-          successfulSeiDownload={successfulSeiDownload}
+          ohFacilityNamesAfterCutover={ohFacilityNamesAfterCutover}
+          ohFacilityNamesBeforeCutover={ohFacilityNamesBeforeCutover}
+          vistaFacilityNames={vistaFacilityNames}
+          showHoldTimeMessaging={holdTimeMessagingUpdate}
+        />
+        <BlueButtonSection
           activeAlert={activeAlert}
-          accessErrors={accessErrors}
-          ccdError={ccdError}
-          ccdDownloadSuccess={ccdDownloadSuccess}
-          CCDRetryTimestamp={CCDRetryTimestamp}
           failedBBDomains={failedBBDomains}
           successfulBBDownload={successfulBBDownload}
         />
+        {renderContent()}
         <NeedHelpSection />
       </div>
-    );
-  }
-
-  if (hasOHOnly) {
-    return (
-      <div>
-        <OHOnlyIntroText />
-        <OHOnlyContent
-          testIdSuffix="OH"
-          ddSuffix="OH"
-          generatingCCD={generatingCCD}
-          handleDownload={handleDownloadCCDV2}
-          ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
-          lastSuccessfulUpdate={lastSuccessfulUpdate}
-          accessErrors={accessErrors}
-          activeAlert={activeAlert}
-          successfulSeiDownload={successfulSeiDownload}
-          failedSeiDomains={failedSeiDomains}
-          ccdDownloadSuccess={ccdDownloadSuccess}
-          ccdError={ccdError}
-          CCDRetryTimestamp={CCDRetryTimestamp}
-        />
-
-        <NeedHelpSection />
-      </div>
-    );
-  }
-  return (
-    <div>
-      <VistaIntroText />
-      <VistaOnlyContent
-        ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
-        failedSeiDomains={failedSeiDomains}
-        getFailedDomainList={getFailedDomainList}
-        lastSuccessfulUpdate={lastSuccessfulUpdate}
-        generatingCCD={generatingCCD}
-        handleDownloadCCD={handleDownloadCCD}
-        expandSelfEntered={expandSelfEntered}
-        selfEnteredAccordionRef={selfEnteredAccordionRef}
-        selfEnteredPdfLoading={selfEnteredPdfLoading}
-        handleDownloadSelfEnteredPdf={handleDownloadSelfEnteredPdf}
-        successfulSeiDownload={successfulSeiDownload}
-        activeAlert={activeAlert}
-        accessErrors={accessErrors}
-        ccdError={ccdError}
-        ccdDownloadSuccess={ccdDownloadSuccess || false}
-        CCDRetryTimestamp={CCDRetryTimestamp}
-        failedBBDomains={failedBBDomains}
-        successfulBBDownload={successfulBBDownload || false}
-      />
-      <NeedHelpSection />
-    </div>
+    </DownloadReportProvider>
   );
 };
 

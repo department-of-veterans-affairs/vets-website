@@ -15,6 +15,8 @@ import {
   deleteExpense,
   deleteDocument,
   deleteExpenseDeleteDocument,
+  setExpenseBackDestination,
+  SET_EXPENSE_BACK_DESTINATION,
 } from '../../redux/actions';
 import { EXPENSE_TYPES } from '../../constants';
 import { stripTZOffset } from '../../util/dates';
@@ -1112,6 +1114,18 @@ describe('Redux - actions', () => {
       } catch (error) {
         expect(error.message).to.equal('Missing expense id');
       }
+    });
+  });
+
+  describe('setExpenseBackDestination', () => {
+    it('should create action with correct type and payload', () => {
+      const destination = 'some-destination';
+      const action = setExpenseBackDestination(destination);
+
+      expect(action).to.deep.equal({
+        type: SET_EXPENSE_BACK_DESTINATION,
+        payload: destination,
+      });
     });
   });
 });

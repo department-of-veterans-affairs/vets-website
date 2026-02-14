@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { shallowEqual } from 'recompose';
+import { useSelector, shallowEqual } from 'react-redux';
 import VideoLayoutAtlas from './VideoLayoutAtlas';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import VideoLayoutVA from './VideoLayoutVA';

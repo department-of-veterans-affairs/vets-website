@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { I18nextProvider } from 'react-i18next';
 import {
   DowntimeNotification,
   externalServices,
@@ -7,11 +8,16 @@ import {
 import PropTypes from 'prop-types';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import { fetchDebtLetters } from '../actions/debts';
-import { getStatements } from '../actions/copays';
+import {
+  getAllCopayStatements,
+  getCopaySummaryStatements,
+} from '../actions/copays';
+import i18nCombinedDebtPortal from '../../i18n';
 import {
   combinedPortalAccess,
   selectLoadingFeatureFlags,
   debtLettersShowLettersVBMS,
+  showVHAPaymentHistory,
 } from '../utils/helpers';
 
 const CombinedPortalApp = ({ children }) => {
@@ -37,14 +43,29 @@ const CombinedPortalApp = ({ children }) => {
   const { isPending, isPendingVBMS, isProfileUpdating } = debtLetters;
   const isDebtLoading = isPending || isPendingVBMS || isProfileUpdating;
 
+  const shouldUseLightHouseCopayData = showVHAPaymentHistory(
+    useSelector(state => state),
+  );
+
   useEffect(
     () => {
       if (!profileLoading && userLoggedIn) {
         fetchDebtLetters(dispatch, debtLettersActive);
-        getStatements(dispatch);
+
+        if (shouldUseLightHouseCopayData) {
+          getCopaySummaryStatements(dispatch);
+        } else {
+          getAllCopayStatements(dispatch);
+        }
       }
     },
-    [debtLettersActive, dispatch, profileLoading, userLoggedIn],
+    [
+      debtLettersActive,
+      dispatch,
+      profileLoading,
+      userLoggedIn,
+      shouldUseLightHouseCopayData,
+    ],
   );
 
   // Authentication!
@@ -102,4 +123,12 @@ CombinedPortalApp.propTypes = {
   children: PropTypes.object,
 };
 
-export default CombinedPortalApp;
+export const withI18n = Component => {
+  return props => (
+    <I18nextProvider i18n={i18nCombinedDebtPortal}>
+      <Component {...props} />
+    </I18nextProvider>
+  );
+};
+
+export default withI18n(CombinedPortalApp);

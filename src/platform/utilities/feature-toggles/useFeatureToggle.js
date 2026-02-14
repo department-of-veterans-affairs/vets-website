@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useDebugValue } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDebugValue, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { setData } from '../../forms-system/src/js/actions';
 import TOGGLE_NAMES from './featureFlagNames';
+
+export { TOGGLE_NAMES };
 
 export const toggleValuesSelector = state => state.featureToggles || {};
 

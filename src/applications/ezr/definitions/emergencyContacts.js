@@ -29,11 +29,11 @@ const {
  * Declare schema attributes for emergency contacts page
  * @returns {PageSchema}
  */
-export const emergencyContactsPage = options => ({
+export const emergencyContactsPage = () => ({
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: content['emergency-contact-title'],
-      nounSingular: options.nounSingular,
+      showEditExplanationText: false,
     }),
     fullName: fullNameUI(title => `Emergency contact's ${title}`, {
       first: {

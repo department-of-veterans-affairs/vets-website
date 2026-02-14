@@ -13,7 +13,7 @@ describe('Secure Messaging Inbox No Messages', () => {
       .should('have.property', 'statusCode', 200);
 
     cy.get(Locators.NO_MESS)
-      .should('have.text', Data.NO_MSG_IN_FOLDER)
+      .should('contain', Data.NO_MSG_IN_FOLDER)
       .should('be.visible');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

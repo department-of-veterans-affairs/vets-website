@@ -9,7 +9,6 @@ const healthServices = {
   All: 'All VA health services',
   PrimaryCare: 'Primary care',
   MentalHealth: 'Mental health care',
-  Covid19Vaccine: 'COVID-19 vaccine',
   Dental: 'Dental services',
   UrgentCare: 'Urgent care',
   EmergencyCare: 'Emergency care',
@@ -154,6 +153,8 @@ describe('Facility VA search', () => {
       meta: { pagination: { totalEntries: 0 } },
     }).as('searchFacilities');
 
+    cy.injectAxeThenAxeCheck();
+
     cy.get('#street-city-state-zip').type('27606');
     cy.get('#facility-type-dropdown')
       .shadow()
@@ -163,12 +164,13 @@ describe('Facility VA search', () => {
     cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
     cy.get('#facility-search').click({ waitForAnimations: true });
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(3000);
+    cy.wait('@searchFacilities');
 
-    cy.focused().contains(
+    cy.focused().should(
+      'contain.text',
       'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
     );
+
     cy.get('#other-tools').should('exist');
   });
 
@@ -224,6 +226,8 @@ describe('Facility VA search', () => {
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
     cy.visit('/find-locations');
+
+    cy.injectAxeThenAxeCheck();
 
     cy.get('#street-city-state-zip').type('27606{enter}');
     // Wait for Use My Location to be triggered (it should not be)
@@ -285,7 +289,7 @@ describe('Facility VA search', () => {
     cy.get('#facility-type-dropdown')
       .shadow()
       .find('select')
-      .select('VA health');
+      .select('VA health', { force: true });
     cy.get('#service-type-dropdown').select('Primary care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#facility-search').click({ waitForAnimations: true });

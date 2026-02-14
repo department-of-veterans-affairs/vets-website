@@ -94,13 +94,17 @@ const VaccineDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, details: generateVaccineItem(record) };
     const pdfName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
-    makePdf(
-      pdfName,
-      pdfData,
-      'medicalRecords',
-      'Medical Records - Vaccine details - PDF generation error',
-      runningUnitTest,
-    );
+    try {
+      await makePdf(
+        pdfName,
+        pdfData,
+        'medicalRecords',
+        'Medical Records - Vaccine details - PDF generation error',
+        runningUnitTest,
+      );
+    } catch {
+      // makePdf handles error logging to Datadog/Sentry
+    }
   };
 
   const generateVaccineTxt = async () => {
@@ -241,7 +245,7 @@ const VaccineDetails = props => {
       <div className="vads-u-margin-y--8">
         <va-loading-indicator
           message="Loading..."
-          setFocus
+          set-focus
           data-testid="loading-indicator"
         />
       </div>
