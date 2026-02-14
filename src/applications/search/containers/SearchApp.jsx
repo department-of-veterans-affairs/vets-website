@@ -299,11 +299,6 @@ const SearchApp = ({
           searchData={search}
           typeaheadUsed={typeAheadWasUsed}
         />
-        <hr
-          aria-hidden="true"
-          id="hr-search-bottom"
-          className="vads-u-margin-y--3"
-        />
         <div className="vads-u-display--flex vads-u-flex-wrap--wrap results-footer">
           {results &&
             results.length > 0 && (
@@ -315,7 +310,6 @@ const SearchApp = ({
                 maxPageListLength={7}
               />
             )}
-          <span className="powered-by">Powered by Search.gov</span>
         </div>
       </div>
     );
@@ -356,31 +350,31 @@ const SearchApp = ({
             {// Search API returned errors OR errors with user input before
             //  submitting AND the maintenance banner is NOT going to be displayed
             shouldShowErrorMessage && <Errors userInput={userInput} />}
-            <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-bottom--4">
-              <p className="vads-u-margin-top--0">
+            <div className="search-input-container vads-u-margin-bottom--2">
+              <p className="vads-u-margin-top--1 vads-u-margin-bottom--1">
                 Enter a keyword, phrase, or question
               </p>
-              <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
-                <VaSearchInput
-                  class="vads-u-width--full"
-                  disableAnalytics
-                  id="search-results-page-dropdown-input-field"
-                  data-e2e-id="search-results-page-dropdown-input-field"
-                  label="Enter a keyword, phrase, or question"
-                  onInput={handleInputChange}
-                  onSubmit={event => onInputSubmit(event)}
-                  value={userInput}
-                />
-              </div>
+              <VaSearchInput
+                big
+                class="vads-u-width--full"
+                disableAnalytics
+                id="search-results-page-dropdown-input-field"
+                data-e2e-id="search-results-page-dropdown-input-field"
+                label="Search VA.gov"
+                onInput={handleInputChange}
+                onSubmit={event => onInputSubmit(event)}
+                value={userInput}
+                uswds
+              />
             </div>
             {!shouldShowErrorMessage && renderResults()}
+            <div className="more-va-search-tools">
+              <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+                More VA search tools
+              </h2>
+              <MoreVASearchTools />
+            </div>
           </DowntimeNotification>
-        </div>
-        <div className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--0 usa-width-one-fourth columns">
-          <h2 className="highlight vads-u-font-size--h4">
-            More VA search tools
-          </h2>
-          <MoreVASearchTools />
         </div>
       </div>
     </div>

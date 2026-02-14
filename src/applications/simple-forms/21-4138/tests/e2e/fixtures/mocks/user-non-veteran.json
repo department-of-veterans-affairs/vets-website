@@ -1,0 +1,89 @@
+{
+  "data": {
+    "attributes": {
+      "profile": {
+        "sign_in": {
+          "service_name": "idme"
+        },
+        "email": "john.preparer@example.com",
+        "loa": { "current": 3 },
+        "first_name": "John",
+        "middle_name": "",
+        "last_name": "Preparer",
+        "gender": "F",
+        "birth_date": "1985-01-01",
+        "verified": true
+      },
+      "vet360_contact_information": {
+        "mailing_address": {
+          "address_line1": "123 Charlesgate Rd",
+          "address_line2": "Apt 2",
+          "address_line3": "Unit B",
+          "address_pou": "CORRESPONDENCE",
+          "address_type": "DOMESTIC",
+          "city": "Providence",
+          "state_code": "RI",
+          "zip_code": "02903",
+          "country_name": "United States",
+          "country_code_iso3": "USA"
+        },
+        "email": {
+          "id": 187136,
+          "email_address": "email@domain.com",
+          "updated_at": "2022-09-15T17:36:19.000+00:00",
+          "vet360_id": "223141"
+        },
+        "mobile_phone": {
+          "area_code": "415",
+          "phone_number": "3452394",
+          "country_code": "1",
+          "updated_at": "2022-09-15T17:36:19.000+00:00"
+        },
+        "home_phone": {
+          "area_code": "415",
+          "phone_number": "5552852",
+          "country_code": "1",
+          "updated_at": "2022-09-15T17:36:19.000+00:00"
+        }
+      },
+      "veteran_status": {
+        "status": "OK",
+        "is_veteran": false,
+        "served_in_military": false
+      },
+      "in_progress_forms": [],
+      "prefills_available": ["21-4138"],
+      "services": [
+        "facilities",
+        "hca",
+        "edu-benefits",
+        "evss-claims",
+        "form526",
+        "user-profile",
+        "health-records",
+        "rx",
+        "messaging"
+      ],
+      "va_profile": {
+        "status": "OK",
+        "birth_date": "19850101",
+        "family_name": "Preparer",
+        "gender": "M",
+        "given_names": ["John", ""],
+        "active_status": "active",
+        "facilities": [
+          {
+            "facility_id": "983",
+            "is_cerner": false
+          },
+          {
+            "facility_id": "984",
+            "is_cerner": false
+          }
+        ]
+      }
+    }
+  },
+  "meta": { "errors": null }
+}
+

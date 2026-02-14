@@ -23,27 +23,48 @@
     padding: 0;
 
     &.results-list {
+      margin-bottom: 0;
+
       li.result-item {
+        width: 100%;
+        max-width: none;
         .result-desc {
           color: $color-gray-dark;
+          width: 100%;
+          max-width: none;
         }
 
+        .result-url {
+          color: var(--vads-color-base-dark);
+        }
 
         p {
           margin: 0;
           word-wrap: break-word;
         }
       }
+
+      li.result-item:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .more-va-search-tools-list {
+    .more-va-search-tools-item {
+      margin-bottom: 1rem;
+    }
+
+    .more-va-search-tools-item:last-child {
+      margin-bottom: 0;
     }
   }
 
   .usa-alert {
     margin-bottom: 1.25rem;
 
-
     .usa-alert-body {
       padding-left: 0.625rem;
-
 
       .usa-alert-text {
         margin-top: 0.625rem;
@@ -51,39 +72,29 @@
     }
   }
 
-
   hr {
     border-bottom: none;
 
-
     &#hr-search-bottom {
-      margin-bottom: 0;
-
-
-      @include media($small-screen) {
-        margin-bottom: 0.9375rem;
-      }
+      margin-bottom: var(--vads-spacing-6);
     }
   }
-
 
   .results-footer {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.625rem;
-
+    margin-bottom: 0;
+    padding: 0;
 
     @include media($medium-screen) {
       flex-direction: row;
-      margin-bottom: 2.5rem;
+      margin-bottom: 0;
     }
-
 
     .powered-by {
       font-weight: bold;
       margin: 0.625rem 0 0;
-
 
       @include media($small-screen) {
         margin: 0.625rem 0 1.25rem;
@@ -95,14 +106,8 @@
     }
   }
 
-
-  .search-box {
-    flex-direction: column;
-
-
-    @media (min-width: $medium-screen) {
-      flex-direction: row;
-    }
+  .more-va-search-tools {
+    margin-top: calc(var(--vads-spacing-6));
   }
 
   .search-row {
@@ -114,6 +119,16 @@
 
     @media (min-width: $medium-screen) {
       flex-direction: row;
+    }
+  }
+
+  .search-input-container {
+    va-search-input {
+      width: 100%;
+    }
+
+    @include media($medium-screen) {
+      max-width: 768px;
     }
   }
 }

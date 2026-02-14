@@ -97,12 +97,9 @@ const Result = ({
 
   if (result?.title && result?.url) {
     return (
-      <li
-        key={result.url}
-        className="result-item vads-u-margin-top--1p5 vads-u-margin-bottom--4"
-      >
+      <li key={result.url} className="result-item vads-u-margin-bottom--4">
         <h4
-          className="vads-u-display--inline  vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
+          className="vads-u-display--block vads-u-width--full vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
           data-e2e-id="result-title"
         >
           <va-link
@@ -120,9 +117,6 @@ const Result = ({
             })}
           />
         </h4>
-        <p className="result-url vads-u-color--green vads-u-font-size--base">
-          {replaceWithStagingDomain(result.url)}
-        </p>
         <p
           className="result-desc"
           /* eslint-disable react/no-danger */
@@ -136,6 +130,9 @@ const Result = ({
           }}
           /* eslint-enable react/no-danger */
         />
+        <p className="result-url vads-u-color--gray vads-u-font-size--base">
+          {replaceWithStagingDomain(result.url)}
+        </p>
       </li>
     );
   }
