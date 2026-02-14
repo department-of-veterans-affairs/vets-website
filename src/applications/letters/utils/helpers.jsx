@@ -134,6 +134,8 @@ export const bslHelpInstructions = (
 // Map values returned by vets-api to display text.
 export const letterContent = {
   commissary: commissaryLetterContent,
+  foreign_medical_program:
+    'This letter confirms your enrollment in the Foreign Medical Program (FMP). Use it to prove to health care providers in foreign countries that VA will cover your medical care for service-connected conditions.',
   proof_of_service:
     'This card shows that you served honorably in the Armed Forces. This card might be useful as proof of status to receive discounts at certain stores or restaurants.',
   medicare_partd:
@@ -169,6 +171,15 @@ export const newLetterContent = {
       <p>
         You can use this letter to get a Retiree Military ID card to access
         these facilities at your local base.
+      </p>
+    </>
+  ),
+  foreign_medical_program: (
+    <>
+      <p>
+        This letter confirms your enrollment in the Foreign Medical Program
+        (FMP). Use it to prove to health care providers in foreign countries
+        that VA will cover your medical care for service-connected conditions.
       </p>
     </>
   ),

@@ -596,4 +596,51 @@ describe('<LetterList>', () => {
         .exist;
     });
   });
+
+  describe('Foreign Medical Program letter', () => {
+    it('hides foreign medical program letter when feature flag is disabled', () => {
+      const fmpLetterProps = {
+        ...defaultProps,
+        letters: [
+          ...defaultProps.letters,
+          {
+            name: 'Foreign Medical Program Enrollment Letter',
+            letterType: 'foreign_medical_program',
+          },
+        ],
+        fmpBenefitsAuthorizationLetter: false,
+      };
+      const { queryByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...fmpLetterProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(queryByText('Foreign Medical Program Enrollment Letter')).to.be
+        .null;
+    });
+
+    it('shows foreign medical program letter when feature flag is enabled', () => {
+      const fmpLetterProps = {
+        ...defaultProps,
+        letters: [
+          ...defaultProps.letters,
+          {
+            name: 'Foreign Medical Program Enrollment Letter',
+            letterType: 'foreign_medical_program',
+          },
+        ],
+        fmpBenefitsAuthorizationLetter: true,
+      };
+      const { getByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...fmpLetterProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(getByText('Foreign Medical Program Enrollment Letter')).to.exist;
+    });
+  });
 });
