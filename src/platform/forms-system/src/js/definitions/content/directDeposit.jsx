@@ -1,4 +1,5 @@
 import React from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 
 export const directDepositDescription = () => {
   return (
@@ -20,9 +21,9 @@ export const directDepositDescription = () => {
 };
 
 const gaBankInfoHelpText = () => {
-  window.dataLayer.push({
+  recordEvent({
     event: 'form-help-text-clicked',
-    'help-text-label': 'What if I don’t have a bank account?',
+    'help-text-label': 'What if I don't have a bank account?',
   });
 };
 

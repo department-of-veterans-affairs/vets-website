@@ -1,6 +1,8 @@
 // Relative imports.
 import '../monitoring/sentry';
 import '../monitoring/web-vitals';
+import { initializeZeta } from '../monitoring/zeta';
+import { identifyZetaUser, clearZetaIdentity } from '../monitoring/zeta/identity';
 import './component-library-analytics-setup';
 import './medallia-feedback-button';
 import './moment-setup';
@@ -28,6 +30,22 @@ import { addOverlayTriggers } from './legacy/menu';
  * @param {Store} commonStore The Redux store being used by this application
  */
 export default function startSitewideComponents(commonStore) {
+  // Initialize Zeta Global CDP.
+  initializeZeta();
+
+  // Subscribe to auth state changes for Zeta user identity.
+  let wasLoggedIn = false;
+  commonStore.subscribe(() => {
+    const state = commonStore.getState();
+    const isLoggedIn = state?.user?.login?.currentlyLoggedIn;
+    if (isLoggedIn && !wasLoggedIn) {
+      identifyZetaUser(state.user.profile);
+    } else if (!isLoggedIn && wasLoggedIn) {
+      clearZetaIdentity();
+    }
+    wasLoggedIn = isLoggedIn;
+  });
+
   // New navigation menu
   if (document.querySelector('#vetnav')) {
     require('./legacy/mega-menu');

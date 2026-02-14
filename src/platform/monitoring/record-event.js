@@ -1,46 +1,51 @@
 /**
- * Helper function for reporting events to Google Analytics. An alias for window.dataLayer.push.
+ * Records analytics events to the Zeta Global CDP.
+ *
+ * This is the central chokepoint for all analytics in the vets-website
+ * codebase. Previously pushed events to Google Tag Manager's dataLayer;
+ * now routes them through the Zeta bt('track') SDK.
+ *
  * @module platform/monitoring/record-event
- * @see https://developers.google.com/tag-manager/devguide
- * @param {object} data - The event data that will be sent to GA.
- * @param {function} data.eventCallback - The function that will trigger on event completion
+ * @see https://docs.zetaglobal.com/reference/track-event
+ * @param {object} data - The event data to send to Zeta.
+ * @param {string} data.event - The event name/type.
+ * @param {function} [data.eventCallback] - Optional callback fired after tracking.
  */
+import { zetaTrack } from './zeta/event-mapper';
 
 export default function recordEvent(data) {
   const { eventCallback } = data;
-  const pushEvent = () => {
-    return window.dataLayer && window.dataLayer.push(data);
-  };
 
-  // Handle eventCallback when window.google_tag_manager is undefined
-  // This ensures that the callback is called when GTM is not loaded
-  // This is needed for localhost, and for users utilizng an adblocker
-  if (typeof eventCallback === 'function' && !window.google_tag_manager) {
-    pushEvent();
+  zetaTrack(data);
+
+  // If an eventCallback was provided, fire it after tracking.
+  // This preserves the existing behavior where callbacks are used
+  // for navigation and other post-event flows.
+  if (typeof eventCallback === 'function') {
     return eventCallback();
   }
 
-  // If the data includes an eventCallback, ensure we always add an
-  // accompanying eventTimeout, this ensures the eventCallback is fired
-  // even if the event stalls
-  return pushEvent();
+  return undefined;
 }
 
 /**
- * Pushes an event to the Analytics dataLayer if the event doesn't already
- * exist there. If the event contains a `key` property whose value matches an
- * existing item in the dataLayer with the same key/value pair, the whole event
- * and all of its properties will be skipped.
- * @param {object} event this will get pushed to `dataLayer`.
- * @param {string} key the property in the event object to use when looking for
- *                     existing matches in the dataLayer
+ * Tracks an event only if it hasn't been recorded before in the current
+ * session. Uses an internal Set to deduplicate by a given key.
+ *
+ * @param {object} event - The event object to push.
+ * @param {string} key - The property in the event to use for deduplication.
  */
-export const recordEventOnce = (event, key) => {
-  const alreadyRecorded =
-    window.dataLayer &&
-    !!window.dataLayer.find(item => item[key] === event[key]);
+const recordedEvents = new Set();
 
-  if (!alreadyRecorded) {
-    recordEvent(event);
+export const recordEventOnce = (event, key) => {
+  const dedupeValue = event[key];
+  if (dedupeValue && recordedEvents.has(dedupeValue)) {
+    return;
   }
+
+  if (dedupeValue) {
+    recordedEvents.add(dedupeValue);
+  }
+
+  recordEvent(event);
 };

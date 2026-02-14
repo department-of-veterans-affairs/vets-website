@@ -246,6 +246,7 @@ function setupJSDom() {
   /* sets up `window` for testing */
   const scroll = { duration: 0, delay: 0, smooth: false };
   window.dataLayer = [];
+  window.bt = () => {};
   window.matchMedia = () => ({
     matches: false,
     addListener: f => f,

@@ -1,22 +1,18 @@
 import { expect } from 'chai';
-import { spy } from 'sinon';
+import sinon, { spy } from 'sinon';
 
 import createAnalyticsMiddleware from '../analytics-middleware';
 
-let oldPush;
-let oldDataLayer;
-
 describe('Analytics Middleware', () => {
+  let btStub;
+
   beforeEach(() => {
-    oldPush = global.window.push;
-    oldDataLayer = global.window.dataLayer;
-    global.window.push = spy();
-    global.window.dataLayer = [];
+    btStub = sinon.stub();
+    global.window.bt = btStub;
   });
 
   afterEach(() => {
-    global.window.push = oldPush;
-    global.window.dataLayer = oldDataLayer;
+    global.window.bt = () => {};
   });
 
   const eventList = [
@@ -40,26 +36,26 @@ describe('Analytics Middleware', () => {
     },
   ];
 
-  it('should capture the proper events', () => {
+  it('should capture the proper events via bt("track")', () => {
     const middleware = createAnalyticsMiddleware(eventList);
     middleware({})(() => {})({ type: 'test-string-event' });
-    expect(global.window.dataLayer).to.eql([
-      { event: 'first-string-event-name' },
-    ]);
+    expect(btStub.calledOnce).to.be.true;
+    expect(btStub.firstCall.args[0]).to.equal('track');
+    expect(btStub.firstCall.args[1]).to.equal('first-string-event-name');
   });
 
   it('should handle function events', () => {
     const middleware = createAnalyticsMiddleware(eventList);
-    // Tests that both store and action are passed to the event callback
     middleware({ basePayload: 'some ' })(() => {})({
       type: 'test-function-event',
       payload: 'stuff',
     });
+    expect(btStub.calledOnce).to.be.true;
+    expect(btStub.firstCall.args[1]).to.equal('some stuff');
+
     middleware({})(() => {})({ type: 'test-function-event' });
-    expect(global.window.dataLayer).to.eql([
-      { event: 'some stuff' },
-      { event: 'no-payload' },
-    ]);
+    expect(btStub.calledTwice).to.be.true;
+    expect(btStub.secondCall.args[1]).to.equal('no-payload');
   });
 
   it('should call the next middleware', () => {
