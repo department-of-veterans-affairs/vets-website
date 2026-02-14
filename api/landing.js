@@ -91,6 +91,43 @@ module.exports = (req, res) => {
       margin-top: 12px;
       font-weight: 600;
     }
+    .session-section {
+      margin-top: 32px;
+      padding: 24px;
+      background: #fff;
+      border: 1px solid #d6d7d9;
+      border-radius: 4px;
+    }
+    .session-section h2 { margin-bottom: 8px; }
+    .session-section p { color: #5b616b; font-size: 14px; line-height: 1.5; margin-bottom: 16px; }
+    .session-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 8px;
+    }
+    .session-btn-login {
+      background: #0071bb;
+      color: #fff;
+    }
+    .session-btn-login:hover { background: #205493; }
+    .session-btn-logout {
+      background: #e4e2e0;
+      color: #323a45;
+    }
+    .session-btn-logout:hover { background: #d6d7d9; }
+    .session-status {
+      display: inline-block;
+      margin-left: 12px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .session-status.active { color: #2e8540; }
+    .session-status.inactive { color: #cd2026; }
   </style>
 </head>
 <body>
@@ -115,7 +152,36 @@ module.exports = (req, res) => {
         <span class="tag">hca</span>
       </a>
     </div>
+    <div class="session-section">
+      <h2>Mock Session</h2>
+      <p>Toggle a mock logged-in session. After signing in, navigate to any app above — the mock API will return an authenticated LOA3 user.</p>
+      <button class="session-btn session-btn-login" onclick="mockSignIn()">Sign in as mock user</button>
+      <button class="session-btn session-btn-logout" onclick="mockSignOut()">Sign out</button>
+      <span id="session-status" class="session-status"></span>
+    </div>
   </div>
+  <script>
+    function updateStatus() {
+      var el = document.getElementById('session-status');
+      var hasSession = localStorage.getItem('hasSession');
+      if (hasSession) {
+        el.textContent = 'Signed in';
+        el.className = 'session-status active';
+      } else {
+        el.textContent = 'Signed out';
+        el.className = 'session-status inactive';
+      }
+    }
+    function mockSignIn() {
+      localStorage.setItem('hasSession', true);
+      updateStatus();
+    }
+    function mockSignOut() {
+      localStorage.removeItem('hasSession');
+      updateStatus();
+    }
+    updateStatus();
+  </script>
 </body>
 </html>`);
 };
