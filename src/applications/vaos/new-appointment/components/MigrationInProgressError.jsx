@@ -2,9 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import NewTabAnchor from '../../components/NewTabAnchor';
 
-export default function MigrationInProgressError({ endDate, facilities }) {
+export default function MigrationInProgressError({
+  endDate,
+  facilities,
+  isMixedRegistration = false,
+}) {
   return (
-    <va-alert status="error">
+    <va-alert status={isMixedRegistration ? 'warning' : 'error'}>
       <h2>
         You can’t schedule at{' '}
         {`${facilities.length === 1 ? facilities[0].name : 'some facilities'}`}{' '}
@@ -37,4 +41,5 @@ export default function MigrationInProgressError({ endDate, facilities }) {
 MigrationInProgressError.propTypes = {
   endDate: PropTypes.string,
   facilities: PropTypes.array,
+  isMixedRegistration: PropTypes.bool,
 };

@@ -1,16 +1,16 @@
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import { isEqual } from 'lodash';
 import { GA_PREFIX } from '../../utils/constants';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getPageTitle } from '../newAppointmentFlow';
 import {
   routeToNextAppointmentPage,
   startNewAppointmentFlow,
 } from '../redux/actions';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import MigrationInProgressError from './MigrationInProgressError';
 import MigrationWarning from './MigrationWarning';
 
@@ -28,8 +28,13 @@ function handleClick(history, dispatch) {
   };
 }
 
+/**
+ * Function to get the migration schedule for the current phase.
+ * @param {Array<Object>} schedules - Migration schedules.
+ * @param {Array<String>} disabledPhases - Phases to query migration array
+ * @returns {Object} A migration schedule or null if not found.
+ */
 function getMigrationSchedule(schedules, disabledPhases) {
-  // return schedules.map(s => disabledPhases.includes(s.phases.current));
   return (
     schedules?.find(s => {
       return disabledPhases.includes(s.phases.current);
@@ -37,13 +42,29 @@ function getMigrationSchedule(schedules, disabledPhases) {
   );
 }
 
+/**
+ * Function to get array of facility ids from a given migration schedule.
+ * @param {Object} migrationSchedule -  Migration schedule
+ * @returns {Array<String>} An array of sorted facility ids or null.
+ */
 function getMigrationScheduleFacilityIds(migrationSchedule) {
   if (migrationSchedule) {
-    return migrationSchedule.facilities.map(facility => facility.facilityId);
+    return migrationSchedule.facilities
+      .map(facility => facility.facilityId)
+      .sort();
   }
   return [];
 }
 
+/**
+ * Function to determine if user is exclusively registered at Oracle Health facilities.
+ * Exclusivity is determined by:
+ * - All patient registered facility ids are included in the migration schedule facility table
+ *
+ * @param {Object} migrationSchedule - Migration schedule.
+ * @param {Object} patientFacilities - Patient registered facilities.
+ * @returns {Boolean} true or false
+ */
 function checkExclusiveRegistration(migrationSchedule, patientFacilities) {
   const migratingFacilitiesIds = getMigrationScheduleFacilityIds(
     migrationSchedule,
@@ -53,10 +74,28 @@ function checkExclusiveRegistration(migrationSchedule, patientFacilities) {
     return facility.facilityId;
   });
 
-  return isEqual(migratingFacilitiesIds, patientFacilityIds);
+  if (isEqual(migratingFacilitiesIds, patientFacilityIds)) return true;
+
+  return patientFacilityIds
+    ?.map(patientFacilityId =>
+      migratingFacilitiesIds?.some(
+        migratingFacilitiesId => migratingFacilitiesId === patientFacilityId,
+      ),
+    )
+    .every(Boolean);
 }
 
+/**
+ * Function to determine if user is registered at some Oracle Health facilities.
+ *
+ * @param {Object} migrationSchedule - Migration schedule.
+ * @param {Object} patientFacilities - Patient registered facilities.
+ * @returns {Boolean} true or false
+ */
 function checkMixedRegistration(migrationSchedule, patientFacilities) {
+  if (checkExclusiveRegistration(migrationSchedule, patientFacilities))
+    return false;
+
   const migratingFacilitiesIds = getMigrationScheduleFacilityIds(
     migrationSchedule,
   );
@@ -66,7 +105,11 @@ function checkMixedRegistration(migrationSchedule, patientFacilities) {
   });
 
   return patientFacilityIds
-    ?.map(current => migratingFacilitiesIds?.some(id => id === current))
+    ?.map(patientFacilityId =>
+      migratingFacilitiesIds?.some(
+        migratingFacilitiesId => migratingFacilitiesId === patientFacilityId,
+      ),
+    )
     .some(val => val === true);
 }
 
@@ -104,15 +147,10 @@ export default function UrgentCareInformationPage() {
     migrationSchedule,
     patientFacilities,
   );
-
-  // Check if the user is registred at some of the migrating facilities.
-  let isMixedRegistration = false;
-  if (!isExclusiveRegistration) {
-    isMixedRegistration = checkMixedRegistration(
-      migrationSchedule,
-      patientFacilities,
-    );
-  }
+  const isMixedRegistration = checkMixedRegistration(
+    migrationSchedule,
+    patientFacilities,
+  );
 
   useEffect(
     () => {
@@ -131,16 +169,18 @@ export default function UrgentCareInformationPage() {
       {isInWarningPhase && (
         <MigrationWarning
           facilities={migrationSchedule.facilities}
-          startDate={migrationSchedule.phases[migrationSchedule.phases.current]}
+          startDate={migrationSchedule.phases.p0}
           endDate={migrationSchedule.phases.p7}
         />
       )}
-      {isInErrorPhase && (
-        <MigrationInProgressError
-          endDate={migrationSchedule.phases.p7}
-          facilities={migrationSchedule.facilities}
-        />
-      )}
+      {isInErrorPhase &&
+        (isExclusiveRegistration || isMixedRegistration) && (
+          <MigrationInProgressError
+            endDate={migrationSchedule.phases.p7}
+            facilities={migrationSchedule.facilities}
+            isMixedRegistration={isMixedRegistration}
+          />
+        )}
       <p>
         {' '}
         You can schedule or request non-urgent appointments for future dates.{' '}
