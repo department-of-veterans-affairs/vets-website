@@ -2,10 +2,13 @@ import _ from 'platform/utilities/data';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { validateDate } from 'platform/forms-system/src/js/validation';
 import {
-  selectUI,
+  addressNoMilitaryUI,
+  addressNoMilitarySchema,
+  currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
+  textUI,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
@@ -21,14 +24,13 @@ import { isCompletingModern4142 } from '../utils';
 
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 
-import { validateBooleanGroup, validateZIP } from '../validations';
+import { validateBooleanGroup } from '../validations';
 import PrivateMedicalProvidersConditions from '../components/confirmationFields/PrivateMedicalProvidersConditions';
 
 const { form4142 } = fullSchema.properties;
 
 const {
   providerFacilityName,
-  providerFacilityAddress,
 } = form4142.properties.providerFacility.items.properties;
 const { limitedConsent } = form4142.properties;
 
@@ -57,9 +59,9 @@ export const uiSchema = {
       hideTitle: true,
     },
     items: {
-      providerFacilityName: {
-        'ui:title': 'Name of private provider or hospital',
-      },
+      providerFacilityName: textUI({
+        title: 'Name of private provider or hospital',
+      }),
       treatmentLocation0781Related: {
         ...yesNoUI({
           title:
@@ -95,48 +97,45 @@ export const uiSchema = {
         'ui:confirmationField': PrivateMedicalProvidersConditions,
       },
       'ui:validations': [validateDate],
-      treatmentDateRange: dateRangeUI(
-        'When did your treatment start? (You can provide an estimated date)',
-        'When did your treatment end? (You can provide an estimated date)',
+      treatmentDateRange: currentOrPastDateRangeUI(
+        {
+          title: 'When did your treatment start?',
+          hint: 'You can provide an estimated date',
+        },
+        {
+          title: 'When did your treatment end?',
+          hint: 'You can provide an estimated date',
+        },
         'End of treatment must be after start of treatment',
       ),
-      providerFacilityAddress: {
-        'ui:title': 'Address of provider or hospital',
-        'ui:order': [
-          'country',
-          'street',
-          'street2',
-          'city',
-          'state',
-          'postalCode',
-        ],
-        country: selectUI('Country'),
-        street: {
-          'ui:title': 'Street address (20 characters maximum)',
-          'ui:autocomplete': 'off',
-        },
-        street2: {
-          'ui:title': 'Street address 2 (20 characters maximum)',
-          'ui:autocomplete': 'off',
-        },
-        city: {
-          'ui:title': 'City (30 characters maximum)',
-          'ui:autocomplete': 'off',
-        },
-        state: selectUI('State'),
-        postalCode: {
-          'ui:title': 'Postal code',
-          'ui:autocomplete': 'off',
-          'ui:validations': [validateZIP],
-          'ui:errorMessages': {
-            pattern:
-              'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
+      providerFacilityAddress: (() => {
+        const addressUiSchema = addressNoMilitaryUI({
+          omit: ['street3'],
+          labels: {
+            street: 'Street address (20 characters maximum)',
+            street2: 'Street address 2 (20 characters maximum)',
           },
-          'ui:options': {
-            widgetClassNames: 'usa-input-medium',
+        });
+        return {
+          ...addressUiSchema,
+          'ui:title': 'Address of provider or hospital',
+          city: {
+            ...addressUiSchema.city,
+            'ui:options': {
+              ...addressUiSchema.city['ui:options'],
+              replaceSchema: (formData, schema, _uiSchema, index, path) => {
+                const originalSchema = addressUiSchema.city[
+                  'ui:options'
+                ].replaceSchema(formData, schema, _uiSchema, index, path);
+                return {
+                  ...originalSchema,
+                  title: 'City (30 characters maximum)',
+                };
+              },
+            },
           },
-        },
-      },
+        };
+      })(),
     },
   },
 };
@@ -167,11 +166,30 @@ export const schema = {
             type: 'object',
             properties: {},
           },
-          treatmentDateRange: {
-            type: 'object',
-            $ref: '#/definitions/dateRangeAllRequired',
-          },
-          providerFacilityAddress,
+          treatmentDateRange: currentOrPastDateRangeSchema,
+          providerFacilityAddress: (() => {
+            const addressSchema = addressNoMilitarySchema({
+              omit: ['street3'],
+            });
+            return {
+              ...addressSchema,
+              properties: {
+                ...addressSchema.properties,
+                street: {
+                  type: 'string',
+                  maxLength: 20,
+                },
+                street2: {
+                  type: 'string',
+                  maxLength: 20,
+                },
+                city: {
+                  type: 'string',
+                  maxLength: 30,
+                },
+              },
+            };
+          })(),
         },
       },
     },
