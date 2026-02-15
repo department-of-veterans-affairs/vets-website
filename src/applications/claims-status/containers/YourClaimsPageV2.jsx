@@ -305,11 +305,11 @@ class YourClaimsPageV2 extends React.Component {
               <>
                 <h3>We might still be processing it</h3>
                 <p>
-                  If you recently submitted a claim or requested a Higher Level
-                  Review or Board appeal, we might still be processing it. Check
+                  If you recently submitted a claim or requested a Higher-Level
+                  Review or Board Appeal, we might still be processing it. Check
                   back for updates.
                 </p>
-                <h3>We combined your claims</h3>
+                <h3>We may have combined your claims</h3>
                 <p>
                   If you turn in a new claim while we're reviewing another one,
                   we may combine your claims. We'll add any new information to

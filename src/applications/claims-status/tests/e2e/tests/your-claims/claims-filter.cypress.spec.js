@@ -89,9 +89,9 @@ describe('Feature flag: cstClaimsListFilter', () => {
       cy.findByRole('heading', {
         name: 'We might still be processing it',
       }).should('not.exist');
-      cy.findByRole('heading', { name: 'We combined your claims' }).should(
-        'not.exist',
-      );
+      cy.findByRole('heading', {
+        name: 'We may have combined your claims',
+      }).should('not.exist');
 
       cy.axeCheck();
     });
@@ -218,7 +218,9 @@ describe('Feature flag: cstClaimsListFilter', () => {
 
       it('should display "What if" section with two subsections', () => {
         cy.findByRole('heading', { name: 'We might still be processing it' });
-        cy.findByRole('heading', { name: 'We combined your claims' });
+        cy.findByRole('heading', {
+          name: 'We may have combined your claims',
+        });
 
         cy.findByText(
           "If you turn in a new claim while we're reviewing another one, we may combine your claims. We'll add any new information to your existing claim. You may not see a separate entry for the new claim. You don't need to do anything.",
