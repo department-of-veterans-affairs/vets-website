@@ -26,7 +26,7 @@ import {
   getPhoneString,
 } from 'platform/forms-system/src/js/utilities/data/profile';
 import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isFieldEmpty } from 'platform/user/profile/vap-svc/util';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 
@@ -326,33 +326,58 @@ export const ContactInfoBase = ({
     ) : null;
   };
 
+  // return boolean flag if a required field is among the missing info fields
+  function hasMissingInfo(key) {
+    return missingInfo
+      .map(item => item.replace(' ', ''))
+      .some(item => item.startsWith(key.toLowerCase()));
+  }
+
+  // return an error status tag if a key is among missing info fields
+  function getStatusTag(key) {
+    return hasMissingInfo(key) ? (
+      <va-tag-status status="error" text="Missing" />
+    ) : null;
+  }
+
   // Extract contact section rendering
   const renderAddressSection = () => {
     if (!keys.address) return null;
     return (
       <React.Fragment key="mailing">
         <va-card
-          style={{ wordWrap: 'break-word' }}
+          style={{ wordWrap: 'break-word', maxWidth: '300px' }}
           class="vads-u-margin-bottom--3"
         >
+          {getStatusTag(FIELD_NAMES.MAILING_ADDRESS)}
           <Headers name="header-address" className={headerClassNames}>
-            {content.mailingAddress}
-            {requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS) &&
-              requiredLabel}
+            <span style={{ whiteSpace: 'nowrap' }}>
+              {content.mailingAddress}
+            </span>
+            <span style={{ whiteSpace: 'nowrap' }}>
+              {requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS) &&
+                requiredLabel}
+            </span>
           </Headers>
-          <AddressView data={dataWrap[keys.address]} />
+          {hasMissingInfo(FIELD_NAMES.MAILING_ADDRESS) ? (
+            'None provided'
+          ) : (
+            <AddressView data={dataWrap[keys.address]} />
+          )}
+
           {loggedIn && (
             <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
-              <VaLink
+              <VaLinkAction
                 href={`${baseEditPath}/edit-mailing-address`}
                 label={content.editMailingAddress}
+                type="secondary"
                 text={
                   isFieldEmpty(
                     dataWrap[keys.address],
                     FIELD_NAMES.MAILING_ADDRESS,
                   )
-                    ? content.add
-                    : content.edit
+                    ? `${content.add} mailing address`
+                    : `${content.edit} mailing address`
                 }
                 onClick={e => {
                   e.preventDefault();
@@ -379,28 +404,39 @@ export const ContactInfoBase = ({
     return (
       <React.Fragment key="home">
         <va-card
-          style={{ wordWrap: 'break-word' }}
+          style={{ wordWrap: 'break-word', maxWidth: '300px' }}
           class="vads-u-margin-bottom--3"
         >
+          {getStatusTag(FIELD_NAMES.HOME_PHONE)}
           <Headers
             name="header-home-phone"
             className={`${headerClassNames} vads-u-margin-top--0p5`}
           >
-            {content.homePhone}
-            {requiredKeys.includes(FIELD_NAMES.HOME_PHONE) && requiredLabel}
+            <span style={{ whiteSpace: 'nowrap' }}>{content.homePhone}</span>
+            <span style={{ whiteSpace: 'nowrap' }}>
+              {requiredKeys.includes(FIELD_NAMES.HOME_PHONE) && requiredLabel}
+            </span>
           </Headers>
-          <span className="dd-privacy-hidden" data-dd-action-name="home phone">
-            {renderTelephone(dataWrap[keys.homePhone])}
-          </span>
+          {hasMissingInfo(FIELD_NAMES.HOME_PHONE) ? (
+            'None provided'
+          ) : (
+            <span
+              className="dd-privacy-hidden"
+              data-dd-action-name="home phone"
+            >
+              {renderTelephone(dataWrap[keys.homePhone])}
+            </span>
+          )}
           {loggedIn && (
             <p className="vads-u-margin-top--0p5">
-              <VaLink
+              <VaLinkAction
                 href={`${baseEditPath}/edit-home-phone`}
                 label={content.editHomePhone}
+                type="secondary"
                 text={
                   getPhoneString(dataWrap[keys.homePhone])
-                    ? content.edit
-                    : content.add
+                    ? `${content.edit} home phone number`
+                    : `${content.add} home phone number`
                 }
                 onClick={e => {
                   e.preventDefault();
@@ -426,31 +462,37 @@ export const ContactInfoBase = ({
     return (
       <React.Fragment key="mobile">
         <va-card
-          style={{ wordWrap: 'break-word' }}
+          style={{ wordWrap: 'break-word', maxWidth: '300px' }}
           class="vads-u-margin-bottom--3"
         >
+          {getStatusTag(FIELD_NAMES.MOBILE_PHONE)}
           <Headers
             name="header-mobile-phone"
             className={`${headerClassNames} vads-u-margin-top--0p5`}
           >
-            {content.mobilePhone}
-            {requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE) && requiredLabel}
+            <span style={{ whiteSpace: 'nowrap' }}>{content.mobilePhone}</span>
+            <span style={{ whiteSpace: 'nowrap' }}>
+              {requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE) && requiredLabel}
+            </span>
           </Headers>
           <span
             className="dd-privacy-hidden"
             data-dd-action-name="mobile phone"
           >
-            {renderTelephone(dataWrap[keys.mobilePhone])}
+            {hasMissingInfo(FIELD_NAMES.MOBILE_PHONE)
+              ? 'None provided'
+              : renderTelephone(dataWrap[keys.mobilePhone])}
           </span>
           {loggedIn && (
             <p className="vads-u-margin-top--0p5">
-              <VaLink
+              <VaLinkAction
                 href={`${baseEditPath}/edit-mobile-phone`}
                 label={content.editMobilePhone}
+                type="secondary"
                 text={
                   getPhoneString(dataWrap[keys.mobilePhone])
-                    ? content.edit
-                    : content.add
+                    ? `${content.edit} mobile phone number`
+                    : `${content.add} mobile phone number`
                 }
                 onClick={e => {
                   e.preventDefault();
@@ -476,25 +518,31 @@ export const ContactInfoBase = ({
     return (
       <React.Fragment key="email">
         <va-card
-          style={{ wordWrap: 'break-word' }}
+          style={{ wordWrap: 'break-word', maxWidth: '300px' }}
           class="vads-u-margin-bottom--3"
         >
+          {getStatusTag(FIELD_NAMES.EMAIL)}
           <Headers name="header-email" className={headerClassNames}>
-            {content.email}
+            <span>{content.email}</span>
             {requiredKeys.includes(FIELD_NAMES.EMAIL) && requiredLabel}
           </Headers>
-          <span className="dd-privacy-hidden" data-dd-action-name="email">
-            {renderEmail(dataWrap[keys.email])}
-          </span>
+          {hasMissingInfo(FIELD_NAMES.EMAIL) ? (
+            'None provided'
+          ) : (
+            <span className="dd-privacy-hidden" data-dd-action-name="email">
+              {renderEmail(dataWrap[keys.email])}
+            </span>
+          )}
           {loggedIn && (
             <p className="vads-u-margin-top--0p5">
-              <VaLink
+              <VaLinkAction
                 href={`${baseEditPath}/edit-email-address`}
                 label={content.editEmail}
+                type="secondary"
                 text={
                   isFieldEmpty(dataWrap[keys.email], FIELD_NAMES.EMAIL)
-                    ? content.add
-                    : content.edit
+                    ? `${content.add} email address`
+                    : `${content.edit} email address`
                 }
                 onClick={e => {
                   e.preventDefault();
@@ -613,7 +661,7 @@ export const ContactInfoBase = ({
             onSubmit={handlers.onSubmit}
           >
             <div className="vads-l-row">
-              <div className="vads-l-col--12 medium-screen:vads-l-col--6">
+              <div className="vads-l-col--12 medium-screen:vads-l-col--8">
                 {contactSection}
               </div>
             </div>
