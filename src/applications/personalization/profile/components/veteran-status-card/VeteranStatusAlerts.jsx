@@ -134,3 +134,75 @@ export const SystemErrorAlert = () => {
     />
   );
 };
+
+/**
+ * Renders a dynamic alert body item based on its type
+ * @param {Object} item - The body item from the API response
+ * @param {number} index - The item index for key
+ */
+const renderBodyItem = (item, index) => {
+  switch (item.type) {
+    case 'text':
+      return (
+        <p key={index} className="vads-u-margin-y--1">
+          {item.value}
+        </p>
+      );
+    case 'phone':
+      return (
+        <p key={index} className="vads-u-margin-y--1">
+          <va-telephone contact={item.value} />
+          {item.tty && (
+            <>
+              {' '}
+              (<va-telephone contact="711" tty />)
+            </>
+          )}
+        </p>
+      );
+    case 'link':
+      return (
+        <p key={index} className="vads-u-margin-y--1">
+          <va-link href={item.url} text={item.value} />
+        </p>
+      );
+    default:
+      return null;
+  }
+};
+
+/**
+ * Dynamic alert component for veteran status alerts
+ * Renders alerts based on the new shared service API response structure
+ */
+export const DynamicVeteranStatusAlert = ({ attributes }) => {
+  const { header, body, alert_type: alertType } = attributes;
+
+  return (
+    <va-alert
+      class="vads-u-margin-bottom--4"
+      close-btn-aria-label="Close notification"
+      status={alertType || 'warning'}
+      visible
+    >
+      {header && <h2 slot="headline">{header}</h2>}
+      <div>{body?.map((item, index) => renderBodyItem(item, index))}</div>
+    </va-alert>
+  );
+};
+
+DynamicVeteranStatusAlert.propTypes = {
+  attributes: PropTypes.shape({
+    // eslint-disable-next-line camelcase -- API response uses snake_case
+    alert_type: PropTypes.oneOf(['error', 'warning', 'info', 'success']),
+    body: PropTypes.arrayOf(
+      PropTypes.shape({
+        type: PropTypes.oneOf(['text', 'phone', 'link']),
+        url: PropTypes.string,
+        value: PropTypes.string,
+        tty: PropTypes.bool,
+      }),
+    ),
+    header: PropTypes.string,
+  }),
+};
