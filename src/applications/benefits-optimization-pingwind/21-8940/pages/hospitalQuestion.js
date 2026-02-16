@@ -1,24 +1,17 @@
 import React from 'react';
 import {
-  inlineTitleUI,
+  titleUI,
   yesNoSchema,
   yesNoUI,
-  radioUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import { hospitalizationQuestionFields } from '../definitions/constants';
-
-const hospitalTypeOptions = [
-  { value: 'nonVa', label: 'Non-VA Hospital' },
-  { value: 'va', label: 'VA Hospital' },
-  { value: 'both', label: 'Both VA and Non-VA Hospital' },
-];
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     [hospitalizationQuestionFields.parentObject]: {
-      ...inlineTitleUI('Your Recent Medical Treatment '),
+      ...titleUI('Your Recent Medical Treatment '),
       [hospitalizationQuestionFields.hasBeenHospitalized]: yesNoUI({
         title: 'Have you been hospitalized in the past 12 months?',
         labels: {
@@ -26,32 +19,14 @@ export default {
           N: 'No, I have NOT been hospitalized in the past 12 months ',
         },
       }),
-      hospitalType: {
-        ...radioUI({
-          title: 'Where were you treated?',
-          options: hospitalTypeOptions,
-          errorMessages: {
-            required: 'Please select if this is a VA or Non-VA hospital',
-          },
-        }),
-        'ui:required': formData =>
-          formData?.[hospitalizationQuestionFields.parentObject]?.[
-            hospitalizationQuestionFields.hasBeenHospitalized
-          ] === true,
-        'ui:options': {
-          hideIf: formData =>
-            !formData?.[hospitalizationQuestionFields.parentObject]?.[
-              hospitalizationQuestionFields.hasBeenHospitalized
-            ],
-        },
-      },
       'view:nonVAAuthorizationInfo': {
         'ui:description': () => (
           <div>
             <p>
-              <strong>Important:</strong> Use these forms to authorize the
-              release of information to VA. Select the links to complete these
-              forms in the online portal.
+              <strong>Important:</strong> If you were treated by Non-VA
+              hospital, use these forms to authorize the release of information
+              to VA. Select the links to complete these forms in the online
+              portal.
             </p>
             <ul>
               <li>
@@ -74,32 +49,13 @@ export default {
           </div>
         ),
         'ui:options': {
-          expandUnder: 'hospitalType',
-          expandUnderCondition: val => val === 'nonVa' || val === 'both',
+          expandUnder: hospitalizationQuestionFields.hasBeenHospitalized,
+          expandUnderCondition: value => value === true || value === 'Y',
         },
       },
 
       'ui:options': {
         showFieldLabel: true,
-
-        updateSchema: (formData, schema, _uiSchema, _index, _path) => {
-          if (
-            formData &&
-            !formData[hospitalizationQuestionFields.hasBeenHospitalized]
-          ) {
-            return {
-              ...schema,
-              properties: {
-                ...schema.properties,
-                hospitalType: {
-                  ...schema.properties?.hospitalType,
-                  default: undefined,
-                },
-              },
-            };
-          }
-          return schema;
-        },
       },
     },
   },
@@ -111,11 +67,6 @@ export default {
         required: [hospitalizationQuestionFields.hasBeenHospitalized],
         properties: {
           [hospitalizationQuestionFields.hasBeenHospitalized]: yesNoSchema,
-          hospitalType: {
-            type: 'string',
-            enum: hospitalTypeOptions.map(o => o.value),
-            enumNames: hospitalTypeOptions.map(o => o.label),
-          },
           'view:nonVAAuthorizationInfo': {
             type: 'object',
             properties: {},

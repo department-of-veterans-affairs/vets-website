@@ -12,12 +12,12 @@ const moreAboutYourRelationshipToVeteranPage = {
       labelHeaderLevel: '3',
       labels: aboutRelationship,
       errorMessages: {
-        required: 'Please select your relationship to the Veteran',
+        required: 'Select your relationship to the Veteran',
       },
       required: () => true,
     }),
     relationshipNotListed: {
-      'ui:title': `Please describe your relationship to the Veteran`,
+      'ui:title': `Describe your relationship to the Veteran`,
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'moreAboutYourRelationshipToVeteran',
@@ -25,7 +25,7 @@ const moreAboutYourRelationshipToVeteranPage = {
         expandedContentFocus: true,
       },
       'ui:errorMessages': {
-        required: `Please enter your relationship to the Veteran`,
+        required: `Enter your relationship to the Veteran`,
       },
     },
     'ui:options': {

@@ -55,6 +55,7 @@ export const Paths = {
     SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
     SENT_SEARCH: '/my_health/v1/messaging/folders/-1/search*',
     PRESCRIPTIONS: '/my_health/v1/prescriptions/',
+    PRESCRIPTIONS_V2: '/my_health/v2/prescriptions/',
   },
 };
 
@@ -374,6 +375,10 @@ export const Alerts = {
   ERROR_LOADING_RECIPIENTS_HEADER:
     'We can’t load your care team list right now',
   SEND_MESSAGE_SUCCESS: `Message sent`,
+  MIGRATION_ALERT_H2:
+    'You can’t use messages to contact providers at some facilities right now',
+  MIGRATION_ALERT_BODY:
+    'You can’t send or receive new messages or reply to conversations with providers at',
 };
 
 export const Data = {

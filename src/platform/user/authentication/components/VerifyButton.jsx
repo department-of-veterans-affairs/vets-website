@@ -16,7 +16,10 @@ export const verifyHandler = ({
   useOAuth,
 }) => {
   const needsIal2Enforcement =
-    ial2Enforcement && policy === SERVICE_PROVIDERS.logingov.policy;
+    ial2Enforcement &&
+    [SERVICE_PROVIDERS.logingov.policy, SERVICE_PROVIDERS.idme.policy].includes(
+      policy,
+    );
 
   verify({
     policy,
@@ -36,9 +39,13 @@ export const verifyHandler = ({
  *
  * @returns The updated design of the ID.me identity-verification button
  */
-export const VerifyIdmeButton = ({ queryParams, useOAuth = false }) => {
+export const VerifyIdmeButton = ({ queryParams, useOAuth = true }) => {
   const { altImage, policy } = SERVICE_PROVIDERS.idme;
   const forceOAuth = useSelector(isAuthenticatedWithOAuth) || useOAuth;
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const ial2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityIdmeIal2Enforcement,
+  );
 
   return (
     <button
@@ -46,7 +53,7 @@ export const VerifyIdmeButton = ({ queryParams, useOAuth = false }) => {
       className="usa-button idme-verify-button"
       onClick={() =>
         verifyHandler({
-          ial2Enforcement: false,
+          ial2Enforcement,
           policy,
           useOAuth: forceOAuth,
           queryParams,
@@ -76,7 +83,7 @@ export const VerifyIdmeButton = ({ queryParams, useOAuth = false }) => {
  *
  * @returns The updated design of the Login.gov identity-verification button
  */
-export const VerifyLogingovButton = ({ queryParams, useOAuth = false }) => {
+export const VerifyLogingovButton = ({ queryParams, useOAuth = true }) => {
   const { image, policy } = SERVICE_PROVIDERS.logingov;
   const forceOAuth = useSelector(isAuthenticatedWithOAuth) || useOAuth;
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();

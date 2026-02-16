@@ -12,6 +12,7 @@ import {
   dateFormat,
   determineRefillLabel,
   displayProviderName,
+  getPrescriptionDetailUrl,
   getRefillHistory,
   getShowRefillHistory,
   hasCmopNdcNumber,
@@ -26,7 +27,6 @@ import {
   DISPENSE_STATUS,
 } from '../../util/constants';
 import TrackingInfo from '../shared/TrackingInfo';
-import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import SendRxRenewalMessage from '../shared/SendRxRenewalMessage';
 import MedicationDescription from '../shared/MedicationDescription';
@@ -249,7 +249,7 @@ const VaPrescription = prescription => {
                   <>Most recent prescription</>
                 )}
               </h2>
-              {prescription?.isRefillable ? (
+              {prescription?.isRefillable && (
                 <Link
                   className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
                   to="/refill"
@@ -260,8 +260,6 @@ const VaPrescription = prescription => {
                 >
                   {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
                 </Link>
-              ) : (
-                <FillRefillButton {...prescription} />
               )}
 
               {prescription && (
@@ -376,9 +374,7 @@ const VaPrescription = prescription => {
               {// Any of the Rx's NDC's will work here. They should all show the same information
               hasCmopNdcNumber(refillHistory) && (
                 <Link
-                  to={`/prescription/${
-                    prescription.prescriptionId
-                  }/documentation`}
+                  to={getPrescriptionDetailUrl(prescription, '/documentation')}
                   data-testid="va-prescription-documentation-link"
                   className="vads-u-display--inline-block vads-u-font-weight--bold"
                   data-dd-action-name={

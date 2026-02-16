@@ -3,11 +3,17 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
+import transform from './transform';
+import submitForm from './submitForm';
 import { organizationRepresentativesArrayOptions } from '../helpers';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PrivacyPolicy from '../components/PrivacyPolicy';
+import PreSubmitInfo from '../components/PreSubmitInfo';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import thirdPartyOrganizationRepresentativesSummary from '../pages/thirdPartyOrganizationRepresentativesSummary ';
 import thirdPartyOrganizationInformation from '../pages/thirdPartyOrganizationInformation';
 import thirdPartyOrganizationRepresentativesIntro from '../pages/thirdPartyOrganizationRepresentativesIntro';
@@ -16,12 +22,14 @@ import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import informationToDisclose from '../pages/informationToDisclose';
 import prefillTransform from './prefillTransform';
 
 import {
   thirdPartyPersonName,
   thirdPartyPersonAddress,
   discloseInformation,
+  lengthOfRelease,
   securitySetup,
   securitySetupPinPassword,
   securitySetupCustomQuestion,
@@ -38,9 +46,8 @@ const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
   trackingPrefix: 'edu-10278-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -57,18 +64,29 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer: prefillTransform,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    statementOfTruth: {
+      heading: 'Declaration of intent',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'claimantPersonalInformation.fullName',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your form.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  CustomReviewTopContent,
   customText: {
-    appType: 'application',
+    appType: 'form',
     continueAppButtonText: 'Continue your form',
     startNewAppButtonText: 'Start a new form',
     finishAppLaterMessage: 'Finish this form later',
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
+    reviewPageTitle: 'Review',
     submitButtonText: 'Continue',
   },
   defaultDefinitions: {
@@ -78,6 +96,7 @@ const formConfig = {
     dateRange,
     usaPhone,
   },
+  transformForSubmit: transform,
   chapters: {
     personalInformationChapter: {
       title: 'Your personal information',
@@ -203,6 +222,35 @@ const formConfig = {
             }),
           }),
         ),
+      },
+    },
+    informationToDiscloseChapter: {
+      title: 'Information to disclose',
+      pages: {
+        informationToDisclose: {
+          path: 'information-to-disclose',
+          title: 'Information to disclose',
+          uiSchema: informationToDisclose.uiSchema,
+          schema: informationToDisclose.schema,
+          onNavBack: ({ formData, goPath }) => {
+            if (formData?.discloseInformation?.authorize === 'organization') {
+              goPath('/organizations/representatives-summary');
+              return;
+            }
+            goPath('/third-party-person-details-1');
+          },
+        },
+      },
+    },
+    lengthOfReleaseChapter: {
+      title: 'Length of release',
+      pages: {
+        lengthOfRelease: {
+          path: 'length-of-release',
+          title: 'Length of release',
+          uiSchema: lengthOfRelease.uiSchema,
+          schema: lengthOfRelease.schema,
+        },
       },
     },
     securitySetupChapter: {

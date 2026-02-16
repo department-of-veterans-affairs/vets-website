@@ -120,6 +120,7 @@ export const disabilityConditionsWorkflow = arrayBuilderPages(
 
         return props.goPath(path);
       },
+      updateFormData: summaryPage.updateFormData,
     }),
 
     Condition: pageBuilder.itemPage({
@@ -136,6 +137,7 @@ export const disabilityConditionsWorkflow = arrayBuilderPages(
       },
       uiSchema: conditionPage.uiSchema,
       schema: conditionPage.schema,
+      updateFormData: conditionPage.updateFormData,
     }),
 
     ...remainingSharedPages(pageBuilder, helpers),

@@ -75,4 +75,7 @@ export const getAppData = state => ({
   showMeb54901990eTextUpdate: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMeb54901990eTextUpdate
   ],
+  mebBankInfoConfirmationField: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.mebBankInfoConfirmationField
+  ],
 });

@@ -6,7 +6,6 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 
 import { focusElement } from 'platform/utilities/ui/focus';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import useRecordPageview from '../../../hooks/useRecordPageview';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
 import {
@@ -37,7 +36,6 @@ const ReviewPage = () => {
   const title = 'Your unsubmitted expenses';
 
   useSetPageTitle(title);
-  useRecordPageview('complex-claims', title);
 
   useEffect(
     () => {
@@ -55,7 +53,7 @@ const ReviewPage = () => {
     [alertMessage],
   );
 
-  // Get total by expense type and return expenses alphabetically
+  // Get total by expense type and return expenses in EXPENSE_TYPES order
   const totalByExpenseType = Object.fromEntries(
     Object.entries(
       expenses.reduce((acc, expense) => {
@@ -64,7 +62,10 @@ const ReviewPage = () => {
           (acc[expenseType] || 0) + (expense.costRequested || 0);
         return acc;
       }, {}),
-    ).sort(([a], [b]) => a.localeCompare(b)),
+    ).sort(([a], [b]) => {
+      const order = Object.keys(EXPENSE_TYPES);
+      return order.indexOf(a) - order.indexOf(b);
+    }),
   );
 
   // Create a grouped version of expenses by expenseType
@@ -148,7 +149,7 @@ const ReviewPage = () => {
             groupAccordionItemsByType
             headerLevel={3}
           />
-          <div className="vads-u-margin-top--1">
+          <div className="vads-u-margin-top--3">
             <va-card data-testid="summary-box" background>
               <h2 className="vads-u-margin-top--1">Estimated reimbursement</h2>
               <ul>
