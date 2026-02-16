@@ -42,7 +42,7 @@ const MessagesSignature = () => {
 
   useEffect(
     () => {
-      document.title = `Messages signature | Veterans Affairs`;
+      document.title = `Messages Signature | Veterans Affairs`;
       // Mark component as mounted after first render so Prompt doesn't show on initial load
       hasMountedRef.current = true;
 

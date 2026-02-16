@@ -142,7 +142,7 @@ describe('<MessagesSignature /> in profile 2.0', () => {
   it('should render without crashing on root path', async () => {
     const { getByText } = setup({ hasUnsavedEdits: true });
     await waitFor(() => {
-      expect(document.title).to.equal('Messages signature | Veterans Affairs');
+      expect(document.title).to.equal('Messages Signature | Veterans Affairs');
       expect(getByText('Messages signature', { selector: 'h1' })).to.exist;
     });
   });
