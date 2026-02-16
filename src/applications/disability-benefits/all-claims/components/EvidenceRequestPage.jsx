@@ -9,7 +9,6 @@ import _ from 'platform/utilities/data';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from 'platform/utilities/scroll';
 import { checkValidations } from '../utils/submit';
-import { hasVAEvidence, hasPrivateEvidence } from '../utils';
 import {
   evidenceRequestAdditionalInfo,
   evidenceRequestQuestion,
@@ -49,8 +48,8 @@ export const EvidenceRequestPage = ({
 
   const hasEvidenceToRemove = () => {
     return (
-      (hasVAEvidence(data) && vaEvidence.length > 0) ||
-      (hasPrivateEvidence(data) && privateEvidenceUploads.length > 0) ||
+      vaEvidence.length > 0 ||
+      privateEvidenceUploads.length > 0 ||
       privateFacility.length > 0
     );
   };
@@ -77,33 +76,26 @@ export const EvidenceRequestPage = ({
   const handlers = {
     onChangeAndRemove: () => {
       const updatedFormData = { ...data };
+      const selectableEvidenceTypes = {
+        ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
+      };
 
-      if (hasVAEvidence(data)) {
-        updatedFormData.vaTreatmentFacilities = [];
-        updatedFormData['view:selectableEvidenceTypes'] = {
-          ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
-          'view:hasVaMedicalRecords': false,
-        };
+      if (vaEvidence.length > 0) {
+        delete updatedFormData.vaTreatmentFacilities;
+        selectableEvidenceTypes['view:hasVaMedicalRecords'] = false;
         setAlertType(prevState => [...prevState, 'va']);
       }
-      if (hasPrivateEvidence(data)) {
-        const hasPrivateUploads = privateEvidenceUploads.length > 0;
-        const hasPrivateFacilities = privateFacility.length > 0;
-        if (hasPrivateUploads) {
-          updatedFormData.privateMedicalRecordAttachments = [];
-          setAlertType(prevState => [...prevState, 'privateMedicalRecords']);
-        }
-        if (hasPrivateFacilities) {
-          updatedFormData.providerFacility = [];
-          setAlertType(prevState => [...prevState, 'privateFacility']);
-        }
-        if (hasPrivateUploads || hasPrivateFacilities) {
-          updatedFormData['view:selectableEvidenceTypes'] = {
-            ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
-            'view:hasPrivateMedicalRecords': false,
-          };
-        }
+      if (privateEvidenceUploads.length > 0) {
+        delete updatedFormData.privateMedicalRecordAttachments;
+        selectableEvidenceTypes['view:hasPrivateMedicalRecords'] = false;
+        setAlertType(prevState => [...prevState, 'privateMedicalRecords']);
       }
+      if (privateFacility.length > 0) {
+        delete updatedFormData.providerFacility;
+        selectableEvidenceTypes['view:hasPrivateMedicalRecords'] = false;
+        setAlertType(prevState => [...prevState, 'privateFacility']);
+      }
+      updatedFormData['view:selectableEvidenceTypes'] = selectableEvidenceTypes;
       setFormData(updatedFormData);
       setModalVisible(false);
       setAlertVisible(true);
@@ -132,22 +124,17 @@ export const EvidenceRequestPage = ({
         scrollToFirstError();
       } else if (hasMedicalRecords === false && hasEvidenceToRemove()) {
         setModalVisible(true);
-      } else if (hasMedicalRecords === false && hasVAEvidence(data)) {
+      } else if (hasMedicalRecords === false) {
         const updatedFormData = { ...data };
         updatedFormData['view:selectableEvidenceTypes'] = {
           ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
           'view:hasVaMedicalRecords': false,
-        };
-        setFormData(updatedFormData);
-        setAlertVisible(false);
-      } else if (hasMedicalRecords === false && hasPrivateEvidence(data)) {
-        const updatedFormData = { ...data };
-        updatedFormData['view:selectableEvidenceTypes'] = {
-          ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
           'view:hasPrivateMedicalRecords': false,
         };
+        updatedFormData.patient4142Acknowledgement = false;
         setFormData(updatedFormData);
         setAlertVisible(false);
+        goForward(updatedFormData);
       } else {
         setAlertVisible(false);
         goForward(data);
@@ -252,20 +239,18 @@ export const EvidenceRequestPage = ({
         primaryButtonText="Change and remove"
         secondaryButtonText="Cancel change"
       >
-        {hasVAEvidence(data) &&
-          vaEvidence.length > 0 && (
-            <>
-              {vaEvidenceContent}
-              {renderFacilityList(vaEvidence, 'treatmentCenterName')}
-            </>
-          )}
-        {hasPrivateEvidence(data) &&
-          privateEvidenceUploads.length > 0 && (
-            <>
-              {privateEvidenceContent}
-              {renderFileList(privateEvidenceUploads)}
-            </>
-          )}
+        {vaEvidence.length > 0 && (
+          <>
+            {vaEvidenceContent}
+            {renderFacilityList(vaEvidence, 'treatmentCenterName')}
+          </>
+        )}
+        {privateEvidenceUploads.length > 0 && (
+          <>
+            {privateEvidenceContent}
+            {renderFileList(privateEvidenceUploads)}
+          </>
+        )}
         {privateFacility.length > 0 && (
           <>
             {privateFacilityContent}
