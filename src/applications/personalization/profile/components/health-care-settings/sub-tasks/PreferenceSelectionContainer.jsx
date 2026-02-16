@@ -365,6 +365,7 @@ export const PreferenceSelectionContainer = ({
         setError(true);
         return;
       }
+      setError(false);
       setStep('confirm');
     },
     save: () => {
