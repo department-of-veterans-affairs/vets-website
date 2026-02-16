@@ -2,9 +2,12 @@ import { isWebComponent, querySelectorWithShadowRoot } from './webComponents';
 
 import environment from '../environment';
 
+const SHADOW_DELIMITER = '>>shadow>>';
+
 // .nav-header > h2 contains "Step {index} of {total}: {page title}"
+// For va-segmented-progress-bar, target h2 inside shadow root using custom >>shadow>> delimiter
 export const defaultFocusSelector =
-  '.nav-header > h2, va-segmented-progress-bar[heading-text][header-level="2"]';
+  '.nav-header > h2, va-segmented-progress-bar>>shadow>>h2';
 
 /**
  * @typedef FocusOptions
@@ -16,8 +19,7 @@ export const defaultFocusSelector =
  */
 /**
  * Focus on element
- * @param {String|Element} selectorOrElement - CSS selector or attached DOM
- *  element
+ * @param {String|Element} selectorOrElement - CSS selector or attached DOM element.
  * @param {FocusOptions} [options]
  * @param {Element} [root] - root element for querySelector; would allow focusing
  *  on elements inside of shadow dom
@@ -50,6 +52,23 @@ export function focusElement(selectorOrElement, options = {}, root) {
     }
   }
 
+  // Handle shadow DOM traversal using >>shadow>> delimiter
+  if (
+    typeof selectorOrElement === 'string' &&
+    selectorOrElement.includes(SHADOW_DELIMITER)
+  ) {
+    const [hostSelector, internalSelector] = selectorOrElement.split(
+      SHADOW_DELIMITER,
+    );
+    const host = (root || document).querySelector(hostSelector.trim());
+    if (host && isWebComponent(host)) {
+      querySelectorWithShadowRoot(internalSelector.trim(), host).then(
+        elWithShadowRoot => applyFocus(elWithShadowRoot),
+      );
+    }
+    return;
+  }
+
   if (isWebComponent(root) || isWebComponent(selectorOrElement, root)) {
     querySelectorWithShadowRoot(selectorOrElement, root).then(
       elWithShadowRoot => applyFocus(elWithShadowRoot), // async code
@@ -64,14 +83,13 @@ export function focusElement(selectorOrElement, options = {}, root) {
 }
 
 /**
- * Focus on first found element within the list; we're ignoreing DOM order, i.e.
- * using focusElement('h3, h2') will always focus on the h2 (higher on the page)
- * @param {String|Array} selectors - selectors in the desired order; if the
- *  first selector has no target, it'll move to the second, etc.
- * @param {Element} root - starting element of the querySelector; may be a
- *  shadowRoot
+ * Focus on first found element within the list
+ * @param {String|Array} selectors - selectors in priority order; tries each until one is found.
+ * @param {Element} root - starting element of the querySelector
+ * @returns {Boolean} true if an element was found and focused, false otherwise
  * @example focusByOrder('#main h3, .nav-header > h2');
  * @example focusByOrder(['#main h3', '.nav-header > h2']);
+ * @example focusByOrder('va-radio>>shadow>>h3, .nav-header > h2');
  */
 export function focusByOrder(selectors, root) {
   let list = selectors || '';
@@ -80,9 +98,17 @@ export function focusByOrder(selectors, root) {
   }
   if (Array.isArray(list)) {
     list.some(selector => {
-      const el = (root || document).querySelector((selector || '').trim());
-      if (el) {
-        focusElement(el, {}, root);
+      const trimmedSelector = (selector || '').trim();
+
+      // Handle shadow DOM traversal using >>shadow>> delimiter
+      if (trimmedSelector.includes(SHADOW_DELIMITER)) {
+        const [hostSelector] = trimmedSelector.split(SHADOW_DELIMITER);
+        if ((root || document).querySelector(hostSelector.trim())) {
+          focusElement(trimmedSelector, {}, root);
+          return true;
+        }
+      } else if ((root || document).querySelector(trimmedSelector)) {
+        focusElement(trimmedSelector, {}, root);
         return true;
       }
       return false;
