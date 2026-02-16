@@ -207,7 +207,6 @@ const SearchControls = props => {
 
         <div className="vads-u-margin-top--5 vads-u-margin-bottom--4">
           <va-button
-            className="representative-search-button"
             big
             onClick={e => {
               e.preventDefault();
