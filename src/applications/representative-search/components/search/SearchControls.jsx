@@ -156,7 +156,7 @@ const SearchControls = props => {
                 >
                   {geolocationInProgress ? (
                     <div className="finding-your-location-loading">
-                      <va-icon icon="autorenew" size={4} />
+                      <va-icon icon="autorenew" size={3} />
                       <span aria-live="assertive">
                         Finding your location...
                       </span>
@@ -168,7 +168,7 @@ const SearchControls = props => {
                       className="use-my-location-link"
                       aria-label="Use my location"
                     >
-                      <va-icon size={4} icon="near_me" aria-hidden="true" />
+                      <va-icon size={3} icon="near_me" aria-hidden="true" />
                       Use my location
                     </button>
                   )}
