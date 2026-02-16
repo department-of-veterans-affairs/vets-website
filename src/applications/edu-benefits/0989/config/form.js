@@ -9,6 +9,10 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import PresubmitInfo from '../components/PresubmitInfo';
+import submitForm from './submitForm';
+import transform from './transform';
+
 import schoolWasClosed from '../pages/schoolWasClosed';
 import oldSchoolNameAndAddress from '../pages/oldSchoolNameAndAddress';
 import eligibilityWarning from '../pages/eligibilityWarning';
@@ -28,6 +32,8 @@ import attestation from '../pages/attestation';
 
 import remarks from '../pages/remarks';
 
+import submissionInstructions from '../pages/submissionInstructions';
+
 import prefillTransform from './prefillTransform';
 
 export const SUBMIT_URL = `${
@@ -39,8 +45,8 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: SUBMIT_URL,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: submitForm,
+  transformForSubmit: transform,
   trackingPrefix: '0989-edu-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -65,10 +71,21 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for entitlement restoration.',
   },
+  customText: {
+    reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
+  },
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   useCustomScrollAndFocus: true,
+  preSubmitInfo: {
+    CustomComponent: PresubmitInfo,
+    required: true,
+    statementOfTruth: {
+      fullNamePath: 'applicantName',
+    },
+  },
   chapters: {
     personalInformationChapter: {
       title: 'Your personal information',
@@ -223,6 +240,18 @@ const formConfig = {
           title: 'Remarks',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Review',
+      hideOnReviewPage: true,
+      pages: {
+        submisionInstructions: {
+          path: 'submission-instructions',
+          title: 'Submission instructions',
+          uiSchema: submissionInstructions.uiSchema,
+          schema: submissionInstructions.schema,
         },
       },
     },
