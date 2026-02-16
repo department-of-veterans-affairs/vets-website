@@ -1,4 +1,30 @@
 /**
+ * Capitalizes the first letter of a string.
+ * @param {string} str - String to capitalize
+ * @returns {string} String with first letter capitalized, or empty string if falsy
+ */
+export const capitalizeFirst = (str = '') =>
+  str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+
+/**
+ * Combines all street properties within an address object into `streetCombined` string.
+ *
+ * @param {Object} [addr={}]
+ * @param {Object} [options={}]
+ * @param {boolean} [options.newLines=false]
+ * @returns {Object}
+ */
+export const concatStreets = (addr = {}, { newLines = false } = {}) => {
+  const separator = newLines ? '\n' : ' ';
+  const { street, street2, street3 } = addr;
+  const streetCombined = [street, street2, street3]
+    .map(value => String(value ?? '').trim())
+    .filter(Boolean)
+    .join(separator);
+  return { ...addr, streetCombined };
+};
+
+/**
  * Generates a full name string from a fullName object.
  *
  * @param {Object} name - The name components.
@@ -17,6 +43,13 @@ export const formatFullName = (name = {}, { includeMiddle = false } = {}) => {
   );
   return parts.join(' ');
 };
+
+/**
+ * Adds possessive apostrophe-s to a string.
+ * @param {string} str - String to make possessive
+ * @returns {string} String with 's appended, or original string if falsy
+ */
+export const makePossessive = (str = '') => (str ? `${str}’s` : str);
 
 /**
  * Replace placeholder(s) in a string with one or more values.

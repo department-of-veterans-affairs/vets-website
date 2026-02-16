@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 
 export default function ClaimCard({ title, children, label, subtitle }) {
   return (
-    <va-card class="claim-list-item">
+    <va-card class="claim-list-item" data-testid="claim-card">
       <h3 className="claim-list-item-header vads-u-margin-bottom--2">
         <div>
           {label && <span className="usa-label">{label}</span>}

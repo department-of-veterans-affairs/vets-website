@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FILE_SIZE_MAX, FILE_TYPES_ACCEPTED } from '../../constants';
+import { FILE_SIZE_MAX, FILE_TYPES_ACCEPTED } from '../../utils/constants';
 
 const FileUploadDescription = ({ allowMultiple = false } = {}) => {
   const typeList = new Intl.ListFormat('en', { type: 'disjunction' }).format(
