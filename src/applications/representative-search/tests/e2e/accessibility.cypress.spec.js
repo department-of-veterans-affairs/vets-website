@@ -41,11 +41,16 @@ describe('Accessibility', () => {
     cy.realPress('Tab');
 
     cy.get('va-text-input#street-city-state-zip')
+      .find('button')
+      .should('be.focused');
+
+    cy.realPress('Tab');
+
+    cy.get('va-text-input#street-city-state-zip')
       .find('input')
       .should('be.focused');
 
     cy.realPress('Tab');
-    cy.realPress('Tab'); // Skip "Use my location" for now
 
     cy.get('va-select[label="Search area"]')
       .find('select')
