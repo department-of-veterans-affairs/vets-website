@@ -80,6 +80,7 @@ export default function VAPServiceEditModalErrorMessage({
         status="error"
         visible
         data-testid="edit-error-alert"
+        tabindex="-1"
       >
         <div className="vads-u-display--flex vads-u-align-items--baseline">
           <span className="sr-only">Alert: </span>
