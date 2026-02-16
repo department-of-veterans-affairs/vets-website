@@ -126,7 +126,6 @@ const SearchControls = props => {
           <div className="geolocation-container">
             <div className="location-input">
               <va-text-input
-                style={{ order: 1 }}
                 error={(() => {
                   if (showEmptyError) {
                     return 'Please fill in a city, state, postal code or address.';
@@ -148,40 +147,33 @@ const SearchControls = props => {
                 value={locationInputString}
                 uswds
                 required
-              />
-            </div>
-
-            <div
-              className={classNames('use-my-location-button-container', {
-                'use-my-location-button-container-error':
-                  showEmptyError || showGeolocationError,
-              })}
-            >
-              {geolocationInProgress ? (
+              >
                 <div
-                  className="finding-your-location-loading"
-                  style={{ order: 2 }}
+                  className={classNames('use-my-location-button-container', {
+                    'use-my-location-button-container-error':
+                      showEmptyError || showGeolocationError,
+                  })}
                 >
-                  <va-icon
-                    size={4}
-                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                    className="use-my-location-icon"
-                    aria-hidden="true"
-                  />
-                  <span aria-live="assertive"> Finding your location...</span>
+                  {geolocationInProgress ? (
+                    <div className="finding-your-location-loading">
+                      <va-icon icon="autorenew" size={3} />
+                      <span aria-live="assertive">
+                        Finding your location...
+                      </span>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleGeolocationButtonClick}
+                      type="button"
+                      className="use-my-location-link"
+                      aria-label="Use my location"
+                    >
+                      <va-icon size={4} icon="near_me" aria-hidden="true" />
+                      Use my location
+                    </button>
+                  )}
                 </div>
-              ) : (
-                <button
-                  onClick={handleGeolocationButtonClick}
-                  type="button"
-                  className="use-my-location-link"
-                  aria-label="Use my location"
-                  style={{ order: 2 }}
-                >
-                  <va-icon size={4} icon="near_me" aria-hidden="true" />
-                  Use my location
-                </button>
-              )}
+              </va-text-input>
             </div>
           </div>
 
@@ -215,6 +207,7 @@ const SearchControls = props => {
 
         <div className="vads-u-margin-top--5 vads-u-margin-bottom--4">
           <va-button
+            className="representative-search-button"
             big
             onClick={e => {
               e.preventDefault();
