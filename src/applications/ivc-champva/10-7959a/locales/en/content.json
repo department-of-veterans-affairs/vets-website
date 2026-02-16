@@ -8,7 +8,7 @@
   "arraybuilder--button-delete-no": "No, keep",
   "arraybuilder--button-delete-yes": "Yes, delete",
   "beneficiary--address-change-label": "Has the beneficiary’s mailing address changed since their last CHAMPVA claim or benefits application submission?",
-  "beneficiary--address-change-hint": "Any updates you make here will only apply to your CHAMPVA benefits. We won’t update your address in your VA.gov profile.",
+  "beneficiary--address-change-hint": "Any updates made here will only apply to the beneficiary’s CHAMPVA benefits. We won’t update the beneficiary’s address in their VA.gov profile.",
   "beneficiary--basic-info-title": "Beneficiary’s information",
   "beneficiary--basic-info-desc": "Enter the name exactly as it’s listed on the beneficiary’s CHAMPVA identification card.",
   "beneficiary--contact-info-desc": "We’ll use this information to contact the beneficiary if we have any questions.",

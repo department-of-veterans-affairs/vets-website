@@ -4,7 +4,7 @@
   "applicant--address-label--military": "Address is on a U.S. military base outside of the United States.",
   "applicant--address-label--street3": "Apartment or unit number",
   "applicant--address-change-label": "Has the beneficiary’s mailing address changed since their last CHAMPVA form submission?",
-  "applicant--address-change-hint": "Any updates you make here will only apply to your CHAMPVA benefits. We won’t update your address in your VA.gov profile.",
+  "applicant--address-change-hint": "Any updates made here will only apply to the beneficiary’s CHAMPVA benefits. We won’t update the beneficiary’s address in their VA.gov profile.",
   "applicant--age-title": "%s age",
   "applicant--age-label": "Is the beneficiary 65 years old or older?",
   "applicant--age-hint": "Depending on your response, you may need to submit additional documents.",
