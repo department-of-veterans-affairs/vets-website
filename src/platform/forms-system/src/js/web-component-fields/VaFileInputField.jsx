@@ -238,6 +238,7 @@ const VaFileInputField = props => {
     <>
       <VaProgressUploadAnnounce uploading={!!percent} />
       <VaFileInput
+        data-dd-privacy="mask"
         {...mappedProps}
         error={_error}
         encrypted={encrypted}

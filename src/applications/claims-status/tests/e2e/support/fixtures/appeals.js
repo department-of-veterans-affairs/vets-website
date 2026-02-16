@@ -11,6 +11,7 @@
  * @param {string} overrides.description - Issue description
  * @param {number} overrides.issuesCount - Number of issues to generate
  * @param {string} overrides.statusType - Status type for the appeal
+ * @param {boolean} overrides.active - Whether the appeal is active (true = in progress, false = closed)
  * @param {Array} overrides.evidenceSubmissions - Evidence submissions array (use createEvidenceSubmission)
  * @returns {Object} Appeal object
  */
@@ -22,6 +23,7 @@ export const createAppeal = ({
   eventDate = '2025-01-01',
   lastEventDate = '2025-01-15',
   programArea = 'compensation',
+  active = true,
   aod = false,
   appealAction = null,
   location = 'aoj',
@@ -49,7 +51,7 @@ export const createAppeal = ({
       },
       events,
       programArea,
-      active: true,
+      active,
       location,
       aod,
       aoj: 'vba',
