@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import { expect } from 'chai';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import InProgressMedicationsProcessList from '../../../components/PrescriptionsInProgress/InProgressMedicationsProcessList';
@@ -109,10 +109,88 @@ describe('InProgressMedicationsProcessList Component', () => {
       ).to.exist;
     });
 
+    it('renders Prescription components for each submitted prescription', () => {
+      const submittedPrescriptions = [
+        {
+          prescriptionId: 1,
+          prescriptionName: 'Medication A',
+          status: 'submitted',
+          lastUpdated: '2025-01-10T10:00:00Z',
+        },
+        {
+          prescriptionId: 2,
+          prescriptionName: 'Medication B',
+          status: 'submitted',
+          lastUpdated: '2025-01-11T10:00:00Z',
+        },
+      ];
+      const screen = setup(submittedPrescriptions);
+      const submittedSection = within(
+        screen.getByTestId('submitted-prescriptions'),
+      );
+
+      const linkA = submittedSection.getByRole('link', {
+        name: 'Medication A',
+      });
+      expect(linkA).to.have.attribute('href', '/my-health/medications/1');
+
+      const linkB = submittedSection.getByRole('link', {
+        name: 'Medication B',
+      });
+      expect(linkB).to.have.attribute('href', '/my-health/medications/2');
+    });
+
     it('displays empty state text when no prescriptions are submitted', () => {
       const screen = setup([]);
       expect(screen.getByText(/You haven’t requested any medication refills/))
         .to.exist;
+    });
+
+    it('does not display the too early section when no tooEarly prescriptions exist', () => {
+      const screen = setup(mockPrescriptions);
+      expect(screen.queryByText(/Too early to refill/)).to.be.null;
+    });
+
+    it('renders submitted and too-early prescriptions in their parent containers', () => {
+      const mixedPrescriptions = [
+        {
+          prescriptionId: 1,
+          prescriptionName: 'Submitted Med',
+          status: 'submitted',
+          lastUpdated: '2025-01-10T10:00:00Z',
+        },
+        {
+          prescriptionId: 2,
+          prescriptionName: 'Too Early Med',
+          status: 'too-early',
+          lastUpdated: '2025-01-12T10:00:00Z',
+        },
+      ];
+      const screen = setup(mixedPrescriptions);
+
+      const submittedSection = within(
+        screen.getByTestId('submitted-prescriptions'),
+      );
+      const submittedLink = submittedSection.getByRole('link', {
+        name: 'Submitted Med',
+      });
+      expect(submittedLink).to.have.attribute(
+        'href',
+        '/my-health/medications/1',
+      );
+      expect(submittedSection.queryByRole('link', { name: 'Too Early Med' })).to
+        .to.be.null;
+
+      const tooEarlySection = within(screen.getByTestId('too-early-section'));
+      const tooEarlyLink = tooEarlySection.getByRole('link', {
+        name: 'Too Early Med',
+      });
+      expect(tooEarlyLink).to.have.attribute(
+        'href',
+        '/my-health/medications/2',
+      );
+      expect(tooEarlySection.queryByRole('link', { name: 'Submitted Med' })).to
+        .be.null;
     });
   });
 
