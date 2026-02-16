@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMessagingSignature } from 'platform/user/profile/actions';
 import { isVAPatient } from '~/platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { clearMostRecentlySavedField } from 'platform/user/exportsFile';
 import Headline from '../ProfileSectionHeadline';
 import { ProfileInfoSection } from '../ProfileInfoSection';
 import MessagingSignature from '../personal-information/MessagingSignature';
@@ -43,7 +42,7 @@ const MessagesSignature = () => {
 
   useEffect(
     () => {
-      document.title = `Messages Signature | Veterans Affairs`;
+      document.title = `Messages signature | Veterans Affairs`;
       // Mark component as mounted after first render so Prompt doesn't show on initial load
       hasMountedRef.current = true;
 
@@ -74,23 +73,6 @@ const MessagesSignature = () => {
       }
     },
     [messagingSignatureName, location.hash],
-  );
-
-  const pageHeader = 'Messages signature';
-
-  const clearSuccessAlert = useCallback(
-    () => dispatch(clearMostRecentlySavedField()),
-    [dispatch],
-  );
-  useEffect(
-    () => {
-      document.title = `${pageHeader} | Veterans Affairs`;
-
-      return () => {
-        clearSuccessAlert();
-      };
-    },
-    [clearSuccessAlert, pageHeader],
   );
 
   useEffect(
