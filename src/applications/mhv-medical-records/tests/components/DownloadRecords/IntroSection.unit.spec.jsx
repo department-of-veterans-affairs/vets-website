@@ -25,26 +25,45 @@ describe('IntroSection', () => {
 
   describe('OH-only', () => {
     it('renders OH-only intro when dataSourceType is ohOnly', () => {
-      const { getByRole, getByText } = render(
-        <IntroSection dataSourceType={dataSourceTypes.OH_ONLY} />,
+      const ohFacilityNamesBeforeCutover = [
+        'OH Facility (before January 1, 2022)',
+      ];
+      const ohFacilityNamesAfterCutover = [
+        'OH Facility (January 1, 2022 - present)',
+      ];
+      const { getByRole, getAllByText, getByText } = render(
+        <IntroSection
+          dataSourceType={dataSourceTypes.OH_ONLY}
+          ohFacilityNamesBeforeCutover={ohFacilityNamesBeforeCutover}
+          ohFacilityNamesAfterCutover={ohFacilityNamesAfterCutover}
+        />,
       );
 
       const heading = getByRole('heading', { level: 1 });
-      expect(heading.textContent).to.eq('Download your medical records report');
+      expect(heading.textContent).to.eq(
+        'Download your medical records reports',
+      );
 
       expect(getByText(/Continuity of Care Document/i)).to.exist;
-      expect(getByText(/summary of your VA medical records/i)).to.exist;
+      // Facility name appears in both before and after lists
+      expect(getAllByText(/OH Facility/i).length).to.be.greaterThan(0);
     });
   });
 
   describe('Both VistA and OH', () => {
     it('renders combined intro when dataSourceType is both', () => {
-      const ohFacilityNames = ['OH Facility'];
+      const ohFacilityNamesBeforeCutover = [
+        'OH Facility (before January 1, 2022)',
+      ];
+      const ohFacilityNamesAfterCutover = [
+        'OH Facility (January 1, 2022 - present)',
+      ];
       const vistaFacilityNames = ['VistA Facility'];
       const { getByRole, getByText } = render(
         <IntroSection
           dataSourceType={dataSourceTypes.BOTH}
-          ohFacilityNames={ohFacilityNames}
+          ohFacilityNamesBeforeCutover={ohFacilityNamesBeforeCutover}
+          ohFacilityNamesAfterCutover={ohFacilityNamesAfterCutover}
           vistaFacilityNames={vistaFacilityNames}
         />,
       );
@@ -60,33 +79,68 @@ describe('IntroSection', () => {
     });
 
     it('renders both facility lists', () => {
-      const ohFacilityNames = ['Oracle Health Site'];
+      const ohFacilityNamesBeforeCutover = [
+        'Oracle Health Site (before January 1, 2022)',
+      ];
+      const ohFacilityNamesAfterCutover = [
+        'Oracle Health Site (January 1, 2022 - present)',
+      ];
       const vistaFacilityNames = ['VistA Site'];
-      const { getByText } = render(
+      const { getAllByText, getByText } = render(
         <IntroSection
           dataSourceType="both"
-          ohFacilityNames={ohFacilityNames}
+          ohFacilityNamesBeforeCutover={ohFacilityNamesBeforeCutover}
+          ohFacilityNamesAfterCutover={ohFacilityNamesAfterCutover}
           vistaFacilityNames={vistaFacilityNames}
         />,
       );
 
-      expect(getByText(/Oracle Health Site/i)).to.exist;
+      // Oracle Health Site appears in both before and after lists
+      expect(getAllByText(/Oracle Health Site/i).length).to.be.greaterThan(0);
       expect(getByText(/VistA Site/i)).to.exist;
     });
 
     it('renders explanation about CCD for OH facilities', () => {
-      const ohFacilityNames = ['OH Facility'];
+      const ohFacilityNamesBeforeCutover = [
+        'OH Facility (before January 1, 2022)',
+      ];
+      const ohFacilityNamesAfterCutover = [
+        'OH Facility (January 1, 2022 - present)',
+      ];
       const vistaFacilityNames = ['VistA Facility'];
       const { getByText } = render(
         <IntroSection
           dataSourceType="both"
-          ohFacilityNames={ohFacilityNames}
+          ohFacilityNamesBeforeCutover={ohFacilityNamesBeforeCutover}
+          ohFacilityNamesAfterCutover={ohFacilityNamesAfterCutover}
           vistaFacilityNames={vistaFacilityNames}
         />,
       );
 
       // Should explain CCD is needed for OH facilities
       expect(getByText(/Continuity of Care Document/i)).to.exist;
+    });
+
+    it('renders facility names with cutover date suffixes', () => {
+      const ohFacilityNamesBeforeCutover = [
+        'VA Central Ohio health care (before April 30, 2022)',
+      ];
+      const ohFacilityNamesAfterCutover = [
+        'VA Central Ohio health care (April 30, 2022 - present)',
+      ];
+      const vistaFacilityNames = ['VA Western New York health care'];
+      const { getByText } = render(
+        <IntroSection
+          dataSourceType="both"
+          ohFacilityNamesBeforeCutover={ohFacilityNamesBeforeCutover}
+          ohFacilityNamesAfterCutover={ohFacilityNamesAfterCutover}
+          vistaFacilityNames={vistaFacilityNames}
+        />,
+      );
+
+      // Check that cutover date suffixes are rendered
+      expect(getByText(/before April 30, 2022/i)).to.exist;
+      expect(getByText(/April 30, 2022 - present/i)).to.exist;
     });
   });
 

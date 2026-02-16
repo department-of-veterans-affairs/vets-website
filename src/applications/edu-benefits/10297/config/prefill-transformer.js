@@ -1,30 +1,113 @@
 import _ from 'lodash';
-import { getPrefillIntlPhoneNumber, viewifyFields } from '../helpers';
+import {
+  getPrefillIntlPhoneNumber,
+  getSchemaCountryCode,
+  viewifyFields,
+} from '../helpers';
 
 export default function prefillTransformer(pages, formData, metadata, state) {
+  // Claimant data from MEB API (primary source)
+  const claimant = state.data?.formData?.data?.attributes?.claimant || {};
+  const claimantContactInfo = claimant?.contactInfo || {};
+
+  // User profile data (fallback source)
+  const {
+    dob,
+    email: profileEmail,
+    ssn: profileSsn,
+    userFullName,
+    vapContactInfo,
+  } = state.user.profile || {};
+
   const prefillContactInformation = data => {
     const { applicantFullName, email, ssn, mailingAddress, dateOfBirth } = data;
-    const {
-      dob,
-      email: emailAddress,
-      userFullName,
-      vapContactInfo,
-    } = state.user.profile;
 
-    const emailAddresses = email || emailAddress || undefined;
-    const mobilePhone = getPrefillIntlPhoneNumber(vapContactInfo?.mobilePhone);
-    const homePhone = getPrefillIntlPhoneNumber(vapContactInfo?.homePhone);
+    // Name: prefer claimant data, fallback to profile
+    let prefillName;
+    if (claimant.firstName && claimant.lastName) {
+      prefillName = {
+        first: claimant.firstName,
+        middle: claimant.middleName,
+        last: claimant.lastName,
+        suffix: claimant.suffix,
+      };
+    } else if (applicantFullName?.first || applicantFullName?.last) {
+      prefillName = applicantFullName;
+    } else if (userFullName?.first || userFullName?.last) {
+      prefillName = userFullName;
+    }
+
+    // Email: prefer claimant, fallback to profile
+    const emailAddress =
+      email ||
+      claimantContactInfo.emailAddress ||
+      vapContactInfo?.email?.emailAddress ||
+      profileEmail ||
+      undefined;
+
+    // Phone numbers: prefer claimant, fallback to vapContactInfo
+    let mobilePhone;
+    if (claimantContactInfo.mobilePhoneNumber) {
+      mobilePhone = {
+        callingCode: 1,
+        countryCode: 'US',
+        contact: claimantContactInfo.mobilePhoneNumber.replace(/\D/g, ''),
+      };
+    } else {
+      mobilePhone = getPrefillIntlPhoneNumber(vapContactInfo?.mobilePhone);
+    }
+
+    let homePhone;
+    if (claimantContactInfo.homePhoneNumber) {
+      homePhone = {
+        callingCode: 1,
+        countryCode: 'US',
+        contact: claimantContactInfo.homePhoneNumber.replace(/\D/g, ''),
+      };
+    } else {
+      homePhone = getPrefillIntlPhoneNumber(vapContactInfo?.homePhone);
+    }
+
+    // Date of birth: prefer claimant, fallback to profile
+    const prefillDob = dateOfBirth || claimant.dateOfBirth || dob;
+
+    // Mailing address: prefer claimant, fallback to vapContactInfo
+    let prefillMailingAddress = mailingAddress;
+    if (
+      claimantContactInfo.addressLine1 &&
+      claimantContactInfo.city &&
+      claimantContactInfo.countryCode
+    ) {
+      prefillMailingAddress = {
+        street: claimantContactInfo.addressLine1,
+        street2: claimantContactInfo.addressLine2 || undefined,
+        city: claimantContactInfo.city,
+        state: claimantContactInfo.stateCode,
+        postalCode: claimantContactInfo.zipCode || claimantContactInfo.zipcode,
+        country: getSchemaCountryCode(claimantContactInfo.countryCode),
+      };
+    } else if (vapContactInfo?.mailingAddress?.addressLine1) {
+      prefillMailingAddress = {
+        street: vapContactInfo.mailingAddress.addressLine1,
+        street2: vapContactInfo.mailingAddress.addressLine2 || undefined,
+        city: vapContactInfo.mailingAddress.city,
+        state: vapContactInfo.mailingAddress.stateCode,
+        postalCode: vapContactInfo.mailingAddress.zipCode,
+        country: vapContactInfo.mailingAddress.countryCodeIso3 || 'USA',
+      };
+    }
 
     const newData = _.omit(data, ['homePhone', 'mobilePhone', 'email', 'dob']);
     newData.contactInfo = {
       homePhone,
       mobilePhone,
-      emailAddress: emailAddresses,
+      emailAddress,
     };
-    newData.dateOfBirth = dateOfBirth || dob;
-    newData.applicantFullName = applicantFullName || userFullName;
-    newData.mailingAddress = mailingAddress;
-    newData.ssn = ssn;
+    newData.dateOfBirth = prefillDob;
+    newData.applicantFullName = prefillName;
+    newData.mailingAddress = prefillMailingAddress;
+    newData.ssn = ssn || profileSsn;
+    newData.claimantId = claimant.claimantId;
     return newData;
   };
 
@@ -77,5 +160,6 @@ export default function prefillTransformer(pages, formData, metadata, state) {
       ...finalFormData,
     },
     pages,
+    state,
   };
 }

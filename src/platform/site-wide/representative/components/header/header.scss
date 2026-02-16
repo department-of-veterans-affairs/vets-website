@@ -2,12 +2,6 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .header {
-  @media screen and (max-width: 428px) {
-    button.nav__btn--user {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-  }
   min-height: auto;
   -webkit-font-smoothing: antialiased;
 
@@ -66,12 +60,7 @@
 
       &.logged-in {
         @media screen and (max-width: 768px) {
-          transform: translateY(-6px);
           display: none;
-        }
-        @media screen and (max-width: 425px) {
-          padding-right: 0px;
-          margin-right: 0px;
         }
       }
     }
@@ -79,6 +68,10 @@
 }
 .user-nav {
   margin-left: auto;
+
+  &:has(.nav__profile-menu) {
+    position: relative;
+  }
 
   &__chevron {
     -webkit-transform: rotate(-90deg);
@@ -148,12 +141,6 @@
           }
         }
       }
-
-      &.vads-u-display--none {
-        ~ li {
-          border-top: none;
-        }
-      }
     }
 
     a {
@@ -175,11 +162,13 @@
 
   &__container {
     width: 100%;
-    flex-wrap: wrap;
     margin: 0 auto;
     max-width: 984px;
     align-items: center;
     flex-wrap: nowrap;
+    @media (max-width: $xsmall-screen) {
+      flex-wrap: wrap;
+    }
   }
 
   &__decorator {
@@ -213,17 +202,6 @@
 
     &.is--active {
       position: relative;
-
-      &:after {
-        content: "";
-        border-bottom: 4px solid;
-        border-color: var(--vads-color-primary);
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-      }
     }
 
     &.is--sign-in {
@@ -254,16 +232,7 @@
       padding: 10px 12px;
       margin-right: 0;
       max-width: 85px;
-
-      &::after {
-        content: "";
-        background-color: $vads-color-primary;
-        height: 16px;
-        width: 85px;
-        position: absolute;
-        bottom: -15px;
-        left: 0;
-      }
+      z-index: 2;
     }
     &:visited {
       color: $vads-color-white;
@@ -354,20 +323,52 @@
   }
 
   &__dropdown {
-    width: 174px;
-    padding: 0;
+    @media (min-width: $medium-screen) {
+      padding: 0;
+    }
 
     .nav__full-width & {
-      position: fixed;
+      position: absolute;
       left: 0;
       right: 0;
+      top: 106px;
       background-color: $vads-color-primary;
       color: $vads-color-white;
-      margin-top: 7px;
+      width: 100%;
+      z-index: 1;
+      @media (max-width: $xsmall-screen) {
+        top: 161px;
+      }
+
+      &::before {
+        content: "";
+        background-color: var(--vads-color-primary);
+        height: 16px;
+        width: 85px;
+        position: absolute;
+        top: -13px;
+        right: 16px;
+      }
     }
 
     .nav__user-menu & {
       right: 0;
+    }
+  }
+  &__profile-menu {
+    background: $vads-color-white;
+    box-shadow: 0px 4px 10px -4px $vads-color-base;
+    color: $vads-color-base;
+    padding: 0.5rem;
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+    top: 100%;
+
+    @media (min-width: $medium-screen) {
+      padding: 0 16px;
+      right: 0;
+      width: 180px;
     }
   }
 
@@ -381,8 +382,4 @@
       display: none !important;
     }
   }
-}
-.usa-icon {
-  width: 22px;
-  height: 22px;
 }

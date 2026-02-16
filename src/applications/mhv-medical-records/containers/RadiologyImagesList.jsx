@@ -127,11 +127,17 @@ const RadiologyImagesList = ({ isTesting, basePath = '/labs-and-tests' }) => {
     () => {
       if (radiologyDetails?.imageCount === 0) {
         returnToDetailsPage();
-      } else {
-        focusElement('h1');
+      } else if (
+        radiologyDetails &&
+        studyJob?.status === studyJobStatus.COMPLETE
+      ) {
+        // Defer focus to next frame to ensure h1 is in the DOM after React commits
+        requestAnimationFrame(() => {
+          focusElement(document.querySelector('h1'));
+        });
       }
     },
-    [radiologyDetails, returnToDetailsPage],
+    [radiologyDetails, studyJob, returnToDetailsPage],
   );
 
   const handleDicomDownload = () => {
@@ -240,7 +246,7 @@ const RadiologyImagesList = ({ isTesting, basePath = '/labs-and-tests' }) => {
           <TrackedSpinner
             id="radiology-image-page-spinner"
             message="Loading..."
-            setFocus
+            set-focus
             data-testid="loading-indicator"
           />
         </div>

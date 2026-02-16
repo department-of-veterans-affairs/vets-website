@@ -1,0 +1,14 @@
+{
+    "data": {
+        "id": "22",
+        "type": "persistent_attachment_va_form",
+        "attributes": {
+            "confirmationCode": "40803809-70c8-472d-999f-e241b57ec8dc",
+            "name": "cd7e07097c42c807e17929d8b7830114",
+            "size": 6193,
+            "warnings": [
+                "wrong_form"
+            ]
+        }
+    }
+}

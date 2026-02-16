@@ -209,19 +209,33 @@ export const fileInputMultipleUI = options => {
 
         const data = (
           <>
-            {formData.map((file, i) => (
-              <ul key={i}>
-                <li>
-                  <span className="vads-u-color--gray">name</span>: {file.name}
-                </li>
-                <li>
-                  <span className="vads-u-color--gray">size</span>: {file.size}B
-                </li>
-                <li>
-                  <span className="vads-u-color--gray">type</span>: {file.type}
-                </li>
-              </ul>
-            ))}
+            {formData.map((file, i) => {
+              const hasAdditionalData =
+                file.additionalData &&
+                Object.keys(file.additionalData).length > 0;
+              if (!hasAdditionalData) {
+                return <div key={i}>{file.name}</div>;
+              }
+              return (
+                <ul key={i}>
+                  <li>
+                    <span className="vads-u-color--gray">Name</span>:{' '}
+                    {file.name}
+                  </li>
+                  {Object.entries(file.additionalData).map(([key, value]) => (
+                    <li key={key}>
+                      <span className="vads-u-color--gray">
+                        {key
+                          .replace(/([A-Z])/g, ' $1')
+                          .replace(/^./, s => s.toUpperCase())
+                          .trim()}
+                      </span>
+                      : {value}
+                    </li>
+                  ))}
+                </ul>
+              );
+            })}
           </>
         );
         return { data };

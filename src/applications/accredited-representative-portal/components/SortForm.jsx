@@ -73,7 +73,6 @@ const SortForm = ({ options, defaults }) => {
       <VaSelect
         onVaSelect={handleChange}
         label="Sort by"
-        message-aria-describedby="Sort ordering"
         name="options"
         className="poa-request__select"
         value={sort ? `${sort}` : `${defaults.SORT_ORDER}`}

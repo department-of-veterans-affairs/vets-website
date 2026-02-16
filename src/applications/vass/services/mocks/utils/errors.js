@@ -24,6 +24,17 @@ const createUnauthorizedError = () => {
   };
 };
 
+const createInvalidTokenError = () => {
+  return {
+    errors: [
+      {
+        code: TOKEN_ERROR_CODES.INVALID_TOKEN,
+        detail: 'Token is invalid or already revoked',
+      },
+    ],
+  };
+};
+
 const createOTPInvalidError = (attemptsRemaining = 0) => {
   return {
     errors: [
@@ -131,4 +142,5 @@ module.exports = {
   createInvalidCredentialsError,
   createNotWithinCohortError,
   createAppointmentAlreadyBookedError,
+  createInvalidTokenError,
 };

@@ -32,24 +32,22 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
 
   const userName = profile ? (
     <span className="poa-request__user-name">
-      "You ({profile.firstName.toLowerCase()} {profile.lastName.toLowerCase()}
-      )"
+      {`"You (${profile.firstName.toLowerCase()} ${profile.lastName.toLowerCase()})"`}
     </span>
   ) : null;
   return (
-    <p className="poa-request__meta">
-      Showing{' '}
-      {totalCount > 0 && (
-        <span>
-          {initCount}-{pageSizeCount} of{' '}
-        </span>
-      )}
-      {totalCount} {searchStatus || ''} {resultType || ''}{' '}
-      {selectedIndividual === 'you' && 'for'}{' '}
-      {selectedIndividual === 'you' && userName} sorted by “
+    <p className="poa-request__meta" role="text">
+      {`Showing ${
+        totalCount > 0 ? `${initCount}-${pageSizeCount} of ` : ''
+      }${totalCount} ${searchStatus || ''} ${resultType || ''} ${
+        selectedIndividual === 'you' ? 'for ' : ''
+      }`}
+      {selectedIndividual === 'you' ? userName : ''}
+      {` sorted by `}“
       <strong>
-        {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (
-        {sortOrder})
+        {`${
+          searchStatus === 'processed' ? 'Processed' : 'Submitted'
+        } date (${sortOrder})`}
       </strong>
       ”
     </p>

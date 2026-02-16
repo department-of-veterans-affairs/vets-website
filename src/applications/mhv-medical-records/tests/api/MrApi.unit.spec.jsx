@@ -19,6 +19,7 @@ import allergy from '../fixtures/allergy.json';
 import vaccines from '../fixtures/vaccines.json';
 import vaccine from '../fixtures/vaccine.json';
 import radiologyListMhv from '../fixtures/radiologyRecordsMhv.json';
+import { radiologyRecordHash } from '../../util/radiologyUtil';
 import medications from '../fixtures/blueButton/medications.json';
 import appointments from '../fixtures/blueButton/appointments.json';
 import demographicInfo from '../fixtures/blueButton/demographics.json';
@@ -109,7 +110,10 @@ describe('Get radiology details from MHV api call', () => {
     const mockData = radiologyListMhv;
     mockApiRequest(mockData);
 
-    return getMhvRadiologyDetails('r12345-2a591974').then(res => {
+    const targetRecord = radiologyListMhv[1]; // Record with eventDate '2001-02-16T18:16:00Z'
+    const expectedHash = radiologyRecordHash(targetRecord);
+
+    return getMhvRadiologyDetails(`r12345-${expectedHash}`).then(res => {
       expect(res.phrDetails.eventDate).to.equal('2001-02-16T18:16:00Z');
       expect(res.cvixDetails).to.be.null;
     });

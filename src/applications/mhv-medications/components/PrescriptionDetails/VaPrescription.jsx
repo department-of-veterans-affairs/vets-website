@@ -12,6 +12,7 @@ import {
   dateFormat,
   determineRefillLabel,
   displayProviderName,
+  getPrescriptionDetailUrl,
   getRefillHistory,
   getShowRefillHistory,
   hasCmopNdcNumber,
@@ -373,9 +374,7 @@ const VaPrescription = prescription => {
               {// Any of the Rx's NDC's will work here. They should all show the same information
               hasCmopNdcNumber(refillHistory) && (
                 <Link
-                  to={`/prescription/${
-                    prescription.prescriptionId
-                  }/documentation`}
+                  to={getPrescriptionDetailUrl(prescription, '/documentation')}
                   data-testid="va-prescription-documentation-link"
                   className="vads-u-display--inline-block vads-u-font-weight--bold"
                   data-dd-action-name={

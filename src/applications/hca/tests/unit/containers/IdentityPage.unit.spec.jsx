@@ -79,8 +79,16 @@ describe('hca IdentityPage', () => {
     expect(buttons.submit).to.exist;
   });
 
-  it('should fire the routers `push` method with the correct path when the user is logged in', () => {
+  it('should fire the routers `push` method with the next valid page path when the user is logged in', () => {
     const { props, mockStore } = getData({ loggedIn: true });
+    const { router } = props;
+    subject({ props, mockStore });
+    expect(router.push.calledWith('/next')).to.be.true;
+  });
+
+  it('should redirect to root path when logged in and no next page is found', () => {
+    const { props, mockStore } = getData({ loggedIn: true });
+    props.route.pageList = [{ path: '/current-page' }];
     const { router } = props;
     subject({ props, mockStore });
     expect(router.push.calledWith('/')).to.be.true;

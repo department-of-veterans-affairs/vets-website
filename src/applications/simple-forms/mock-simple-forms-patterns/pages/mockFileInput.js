@@ -28,7 +28,11 @@ export default {
       fileSizesByFileType: {
         pdf: {
           maxFileSize: 1024 * 1024 * 50,
-          minFileSize: 1024,
+          minFileSize: 1,
+        },
+        txt: {
+          maxFileSize: 50,
+          minFileSize: 4,
         },
         default: {
           maxFileSize: 1024 * 10,

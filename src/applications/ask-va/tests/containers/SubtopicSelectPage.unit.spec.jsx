@@ -187,9 +187,7 @@ describe('<SubtopicSelect /> component', () => {
 
       await waitFor(() => {
         const radio = container.querySelector('va-radio');
-        expect(radio.getAttribute('error')).to.equal(
-          'Please select a subtopic',
-        );
+        expect(radio.getAttribute('error')).to.equal('Select a subtopic');
       });
     });
 

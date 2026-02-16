@@ -34,6 +34,10 @@ class Vaccines {
     cy.get('[data-testid="vaccines-landing-page-link"]').as('vaccines-link');
     cy.get('@vaccines-link').should('be.visible');
     cy.get('@vaccines-link').click();
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   clickVaccineDetailsLink = (vaccineIndex = 0) => {

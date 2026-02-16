@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
+import { getPrescriptionDetailUrl } from '../../util/helpers';
 
 const DelayedRefillAlert = props => {
   const { dataDogActionName, refillAlertList } = props;
@@ -46,7 +47,7 @@ const DelayedRefillAlert = props => {
                 data-dd-privacy="mask"
                 data-testid={`refill-alert-link-${rxId}`}
                 className="vads-u-font-weight--bold"
-                to={`/prescription/${rxId}`}
+                to={getPrescriptionDetailUrl(rx)}
                 data-dd-action-name={dataDogActionName}
               >
                 {rx.prescriptionName}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, useStore } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import {
   selectHydrated,
@@ -8,7 +8,7 @@ import {
   loadFormDataFromStorage,
 } from '../redux/slices/formSlice';
 import { findMissingField, findRouteForField } from '../utils/navigation';
-import { URLS } from '../utils/constants';
+import { FLOW_TYPES, URLS } from '../utils/constants';
 
 /**
  * HOC that ensures required form data fields are available.
@@ -20,6 +20,7 @@ import { URLS } from '../utils/constants';
  */
 const withFormData = (Component, requiredFields = []) => {
   return props => {
+    const store = useStore();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const hydrated = useSelector(selectHydrated);
@@ -56,20 +57,39 @@ const withFormData = (Component, requiredFields = []) => {
 
         if (!hasAllRequiredData) {
           // Find the route that sets the missing field
-          const redirectPath = findRouteForField(missingField);
+          let redirectPath = findRouteForField(missingField);
 
-          // If redirecting to root, clear form data
+          const searchParams = new URLSearchParams();
+          // If redirecting to root, clear form data and add current UUID to query params
           if (redirectPath === URLS.VERIFY) {
             dispatch(clearFormData());
+            const currentUUID = store.getState().vassForm.uuid;
+            if (currentUUID) {
+              searchParams.set('uuid', currentUUID);
+            }
+            if (store.getState().vassForm.flowType === FLOW_TYPES.CANCEL) {
+              searchParams.set('cancel', 'true');
+            }
           }
 
-          // TODO: redirect to the "Something went wrong" page or the root page with UUID query param
+          if (searchParams.size > 0) {
+            redirectPath = `${redirectPath}?${searchParams.toString()}`;
+          }
+
+          // Navigating to the Verify page without the uuid will show the user the Something went wrong page.
           navigate(redirectPath, {
             replace: true,
           });
         }
       },
-      [hasAllRequiredData, missingField, navigate, isHydrating, dispatch],
+      [
+        hasAllRequiredData,
+        missingField,
+        navigate,
+        isHydrating,
+        dispatch,
+        store,
+      ],
     );
 
     // Don't render content until hydration is complete and we have all required data

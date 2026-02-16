@@ -438,14 +438,14 @@ describe('Private evidence validation utilities', () => {
       validatePrivateFromDate(errors, {
         treatmentDateRange: { from: '-01-01' },
       });
-      expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to.be
+      expect(errors.addError.calledWith(sharedErrorMessages.invalidDate)).to.be
         .be.true;
     });
 
     it('should show an error for a missing from date', () => {
       const errors = { addError: sinon.spy() };
       validatePrivateFromDate(errors, { treatmentDateRange: { from: '' } });
-      expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to.be
+      expect(errors.addError.calledWith(sharedErrorMessages.invalidDate)).to.be
         .be.true;
     });
   });
@@ -462,14 +462,14 @@ describe('Private evidence validation utilities', () => {
     it('should show an error for an invalid to date', () => {
       const errors = { addError: sinon.spy() };
       validatePrivateToDate(errors, { treatmentDateRange: { to: '-01-01' } });
-      expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to.be
+      expect(errors.addError.calledWith(sharedErrorMessages.invalidDate)).to.be
         .be.true;
     });
 
     it('should show an error for a missing to date', () => {
       const errors = { addError: sinon.spy() };
       validatePrivateToDate(errors, { treatmentDateRange: { to: '' } });
-      expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to.be
+      expect(errors.addError.calledWith(sharedErrorMessages.invalidDate)).to.be
         .be.true;
     });
 

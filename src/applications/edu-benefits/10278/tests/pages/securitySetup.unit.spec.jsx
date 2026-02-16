@@ -3,6 +3,23 @@ import { expect } from 'chai';
 import { schema, uiSchema } from '../../pages/securitySetup';
 
 describe('10278 securitySetup page', () => {
+  describe('updateUiSchema', () => {
+    const { updateUiSchema } = uiSchema.securityQuestion['ui:options'];
+
+    it('uses fullData when formData is falsy', () => {
+      const fullData = {
+        discloseInformation: { authorize: 'organization' },
+        organizationName: 'Veterans Org',
+      };
+
+      const result = updateUiSchema(null, fullData);
+
+      expect(result.question['ui:title']).to.equal(
+        'Select a security option that Veterans Org can use to prove they have permission to access your VA information.',
+      );
+    });
+  });
+
   it('exports uiSchema with securityQuestion.radio field and error message', () => {
     expect(uiSchema).to.be.an('object');
     expect(uiSchema).to.have.nested.property('securityQuestion.question');

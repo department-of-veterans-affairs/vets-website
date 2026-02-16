@@ -175,7 +175,7 @@ describe('Previous marriages pages', () => {
       .false;
   });
 
-  it('toggles state/country visibility and requiredness based on marriedOutsideUS', () => {
+  it('toggles state/country visibility and requiredness based on marriedOutsideUs', () => {
     const itemUi = findItemUi(previousMarriageDateAndLocationPage);
     expect(itemUi, 'marriage date/location item UI not found').to.exist;
     const stateOptions = itemUi.locationOfMarriage.state['ui:options'];
@@ -184,13 +184,13 @@ describe('Previous marriages pages', () => {
     const countryRequired =
       itemUi.locationOfMarriage.otherCountry['ui:required'];
 
-    const itemBornOutside = { spouseMarriages: [{ marriedOutsideUS: true }] };
+    const itemBornOutside = { spouseMarriages: [{ marriedOutsideUs: true }] };
     expect(stateOptions.hideIf(itemBornOutside, 0)).to.be.true;
     expect(Boolean(stateRequired(itemBornOutside, 0))).to.be.false;
     expect(countryOptions.hideIf(itemBornOutside, 0)).to.be.false;
     expect(Boolean(countryRequired(itemBornOutside, 0))).to.be.true;
 
-    const topBornOutside = { marriedOutsideUS: true };
+    const topBornOutside = { marriedOutsideUs: true };
     expect(stateOptions.hideIf(topBornOutside, 0)).to.be.true;
     expect(Boolean(stateRequired(topBornOutside, 0))).to.be.false;
     expect(countryOptions.hideIf(topBornOutside, 0)).to.be.false;
@@ -320,7 +320,7 @@ describe('Previous marriages pages', () => {
       spouseFullName: { first: 'John', last: 'Doe' },
       dateOfMarriage: '2000-01-01',
       locationOfMarriage: { city: 'Somewhere', state: 'VA' },
-      marriedOutsideUS: false,
+      marriedOutsideUs: false,
       reasonForSeparation: 'DIVORCE',
     };
 
@@ -328,7 +328,7 @@ describe('Previous marriages pages', () => {
       spouseFullName: { first: '', last: 'Doe' },
       dateOfMarriage: '2000-01-01',
       locationOfMarriage: { city: 'Somewhere', state: 'VA' },
-      marriedOutsideUS: false,
+      marriedOutsideUs: false,
       reasonForSeparation: 'DIVORCE',
     };
 
@@ -336,23 +336,23 @@ describe('Previous marriages pages', () => {
       spouseFullName: { first: 'John', last: '' },
       dateOfMarriage: '2000-01-01',
       locationOfMarriage: { city: 'Somewhere', state: 'VA' },
-      marriedOutsideUS: false,
+      marriedOutsideUs: false,
       reasonForSeparation: 'DIVORCE',
     };
 
     const missingState = {
       spouseFullName: { first: 'John', last: 'Doe' },
       dateOfMarriage: '2000-01-01',
-      locationOfMarriage: { city: 'Somewhere' }, // missing state when marriedOutsideUS false
-      marriedOutsideUS: false,
+      locationOfMarriage: { city: 'Somewhere' }, // missing state when marriedOutsideUs false
+      marriedOutsideUs: false,
       reasonForSeparation: 'DIVORCE',
     };
 
     const missingCountry = {
       spouseFullName: { first: 'John', last: 'Doe' },
       dateOfMarriage: '2000-01-01',
-      locationOfMarriage: { city: 'Somewhere' }, // missing country when marriedOutsideUS true
-      marriedOutsideUS: true,
+      locationOfMarriage: { city: 'Somewhere' }, // missing country when marriedOutsideUs true
+      marriedOutsideUs: true,
       reasonForSeparation: 'DIVORCE',
     };
 
@@ -360,7 +360,7 @@ describe('Previous marriages pages', () => {
       spouseFullName: { first: 'John', last: 'Doe' },
       dateOfMarriage: '2000-01-01',
       locationOfMarriage: { city: 'Somewhere', state: 'VA' },
-      marriedOutsideUS: false,
+      marriedOutsideUs: false,
       reasonForSeparation: 'OTHER',
       reasonForSeparationreasonForSeparationExplanation: '',
     };

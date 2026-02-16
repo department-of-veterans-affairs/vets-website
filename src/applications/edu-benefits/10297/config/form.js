@@ -90,6 +90,7 @@ const formConfig = {
       // // body: PreSubmitInfo,
       messageAriaDescribedby: 'I have read and accept the privacy policy.',
       fullNamePath: 'applicantFullName',
+      useProfileFullName: true,
     },
   },
   transformForSubmit: transform,

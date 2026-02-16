@@ -95,7 +95,7 @@ jobs:
             name: dist-without-markdown
 
         - name: Install missing dependencies
-          run: apt-get update && apt-get install -y bzip2 curl
+          run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y bzip2 curl
 
         - name: Unpack artifact
           run: |

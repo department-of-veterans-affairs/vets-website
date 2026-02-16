@@ -20,6 +20,7 @@ describe('Secure Messaging Reply Axe Check', () => {
     PatientInterstitialPage.getContinueButton().click();
 
     PatientReplyPage.getMessageBodyField()
+      .should('not.be.disabled')
       .clear()
       .type('Test message body', {
         force: true,

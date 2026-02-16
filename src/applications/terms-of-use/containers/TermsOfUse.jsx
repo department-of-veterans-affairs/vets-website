@@ -45,7 +45,7 @@ export default function TermsOfUse() {
         });
       }
 
-      if (redirectUrl) {
+      if (redirectUrl && !redirectUrl.includes('/auth/login/callback')) {
         sessionStorage.setItem(
           AUTHN_SETTINGS.RETURN_URL,
           parseRedirectUrl(redirectUrl),

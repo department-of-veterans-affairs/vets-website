@@ -147,11 +147,11 @@ const getFirstTokenRoute = () => {
 /**
  * Find the route that sets a specific field
  * @param {string} fieldName - The field name to find a route for
- * @returns {string} - The path of the route that sets this field, or '/' as fallback
+ * @returns {string} - The path of the route that sets this field, or URLS.VERIFY as fallback
  */
 const findRouteForField = fieldName => {
   const route = routes.find(r => r.setsData?.includes(fieldName));
-  return route?.path || '/';
+  return route?.path || URLS.VERIFY;
 };
 /**
  * Find the first missing required field

@@ -78,10 +78,8 @@ export const STATUS_TYPE_CONFIG = {
   '11': {
     alertType: 'info',
     category: 'diaryCodes.statusTypes.11.category',
-    linksByView: {
-      summary: ['details'],
-      details: ['updateAddress'],
-    },
+    links: ['details'],
+    phoneSet: 'dmc',
   },
   '12': {
     alertType: 'warning',

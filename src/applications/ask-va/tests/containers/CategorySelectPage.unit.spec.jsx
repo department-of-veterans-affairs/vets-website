@@ -139,9 +139,8 @@ describe('<CategorySelect /> component', () => {
     userEvent.click(getByText('Continue'));
 
     await waitFor(() => {
-      expect(
-        container.querySelector('va-select[error="Please select a category"]'),
-      ).to.exist;
+      expect(container.querySelector('va-select[error="Select a category"]')).to
+        .exist;
     });
   });
 

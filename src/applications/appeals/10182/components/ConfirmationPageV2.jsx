@@ -1,13 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
+import { SubmissionAlert } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { scrollTo } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { selectProfile } from '~/platform/user/selectors';
-
 import { boardReviewConfirmationLabels } from '../content/boardReview';
 import { hearingTypeLabels } from '../content/hearingType';
 import {
@@ -16,7 +15,6 @@ import {
   needsHearingType,
   isDirectReview,
 } from '../utils/helpers';
-
 import {
   chapterHeaderClass,
   ConfirmationSummary,
@@ -26,13 +24,16 @@ import { ConfirmationAlert } from '../../shared/components/ConfirmationAlert';
 import { ConfirmationTitle } from '../../shared/components/ConfirmationTitle';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
-
 import { getReadableDate } from '../../shared/utils/dates';
 import { convertBoolResponseToYesNo } from '../../shared/utils/form-data-display';
 // import { NOD_PDF_DOWNLOAD_URL } from '../../shared/constants';
 
 export const ConfirmationPageV2 = () => {
   const alertRef = useRef(null);
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const myVADisplayEnabled = useToggleValue(
+    TOGGLE_NAMES.decisionReviewsMyVADisplay,
+  );
 
   const form = useSelector(state => state.form || {});
   const profile = useSelector(state => selectProfile(state));
@@ -52,6 +53,7 @@ export const ConfirmationPageV2 = () => {
   const submitDate = getReadableDate(
     submission?.timestamp || new Date().toISOString(),
   );
+
   // Fix this after Lighthouse sets up the download URL
   const downloadUrl = ''; // NOD_PDF_DOWNLOAD_URL;
 
@@ -62,13 +64,27 @@ export const ConfirmationPageV2 = () => {
   return (
     <>
       <ConfirmationTitle pageTitle="Request a Board Appeal" />
-      <ConfirmationAlert alertTitle="Your Board Appeal request submission is in progress">
-        <p>
-          You submitted the request on {submitDate}. It can take a few days for
-          the Board to receive your request. We’ll send you a confirmation
-          letter once we’ve processed your request.
-        </p>
-      </ConfirmationAlert>
+      {myVADisplayEnabled && (
+        <SubmissionAlert
+          title="Your Board Appeal request submission is in progress"
+          content={
+            <p>
+              You submitted the request on {submitDate}. It can take a few days
+              for the Board to receive your request. We’ll send you a
+              confirmation letter once we’ve processed your request.
+            </p>
+          }
+        />
+      )}
+      {!myVADisplayEnabled && (
+        <ConfirmationAlert alertTitle="Your Board Appeal request submission is in progress">
+          <p>
+            You submitted the request on {submitDate}. It can take a few days
+            for the Board to receive your request. We’ll send you a confirmation
+            letter once we’ve processed your request.
+          </p>
+        </ConfirmationAlert>
+      )}
 
       <ConfirmationSummary name="Board Appeal" downloadUrl={downloadUrl} />
 

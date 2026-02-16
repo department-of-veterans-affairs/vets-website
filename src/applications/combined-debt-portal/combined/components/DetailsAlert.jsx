@@ -18,6 +18,7 @@ const DetailsAlert = ({ type, data }) => {
     <va-alert
       class="vads-u-margin-bottom--1"
       disable-analytics="false"
+      data-testid={`details-alert-${transformedData.id}`}
       full-width="false"
       status={alertStatus}
       visible="true"

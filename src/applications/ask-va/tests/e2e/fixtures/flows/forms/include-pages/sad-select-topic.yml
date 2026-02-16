@@ -11,4 +11,4 @@ steps:
     target: call-to-action
   - action: exists
     target: error
-    value: Please select a topic
+    value: Select a topic

@@ -3,6 +3,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Actions } from '../../util/actionTypes';
 import {
   getPrescriptionById,
@@ -59,6 +60,72 @@ describe('prescription actions', () => {
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
         payload: mockResponse.data.attributes,
       });
+    });
+
+    it('should dispatch success action using v2 API when Cerner pilot is enabled', async () => {
+      const prescriptionId = '456';
+      const mockResponse = {
+        data: {
+          attributes: {
+            id: prescriptionId,
+            name: 'OH Prescription',
+            prescriptionName: 'OH Prescription',
+            prescriptionNumber: 'RX789',
+          },
+        },
+      };
+      mockApiRequest(mockResponse);
+
+      const store = mockStore({
+        featureToggles: {
+          loading: false,
+          [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: true,
+        },
+      });
+      await store.dispatch(getPrescriptionById(prescriptionId));
+
+      // Verify the v2 endpoint was called
+      const fetchUrl = global.fetch.firstCall.args[0];
+      expect(fetchUrl).to.include('/my_health/v2/prescriptions/456');
+
+      const actions = store.getActions();
+      expect(actions[0]).to.deep.equal({
+        type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
+      });
+      expect(actions[1]).to.deep.equal({
+        type: Actions.Prescriptions.IS_LOADING,
+      });
+      expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
+        payload: mockResponse.data.attributes,
+      });
+    });
+
+    it('should fall back to v1 API when feature toggles are still loading', async () => {
+      const prescriptionId = '789';
+      const mockResponse = {
+        data: {
+          attributes: {
+            id: prescriptionId,
+            name: 'Test Prescription',
+            prescriptionName: 'Test Prescription',
+            prescriptionNumber: 'RX111',
+          },
+        },
+      };
+      mockApiRequest(mockResponse);
+
+      const store = mockStore({
+        featureToggles: {
+          loading: true,
+          [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: true,
+        },
+      });
+      await store.dispatch(getPrescriptionById(prescriptionId));
+
+      // Verify the v1 endpoint was called despite toggle being true
+      const fetchUrl = global.fetch.firstCall.args[0];
+      expect(fetchUrl).to.include('/my_health/v1/prescriptions/789');
     });
 
     it('should dispatch error action when prescriptionId is not provided', async () => {

@@ -13,7 +13,7 @@ const stateOfPropertyPage = {
     stateOfProperty: selectUI({
       title: CHAPTER_3.STATE_OF_PROPERTY.QUESTION_1,
       errorMessages: {
-        required: 'Please select state of property',
+        required: 'Select state of property',
       },
     }),
   },

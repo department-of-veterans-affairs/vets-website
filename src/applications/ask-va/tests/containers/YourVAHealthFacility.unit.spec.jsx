@@ -258,7 +258,7 @@ describe('YourVAHealthFacilityPage', () => {
 
     userEvent.click(getByRole('button', { name: /continue/i }));
     await waitFor(() => {
-      expect(getByText(/please fill in a city or facility name/i)).to.exist;
+      expect(getByText(/fill in a city or facility name/i)).to.exist;
     });
   });
 

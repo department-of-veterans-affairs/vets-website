@@ -171,19 +171,57 @@ export const fileInputUI = options => {
     'ui:reviewField':
       reviewField ||
       (({ children }) => {
+        const file = children.props?.formData;
         return (
-          <div className="review-row">
-            <dt>{title}</dt>
-            <dd>{children.props?.formData?.name}</dd>
-          </div>
+          <>
+            <div className="review-row">
+              <dt>{title}</dt>
+              <dd>{file?.name}</dd>
+            </div>
+            {file?.additionalData &&
+              Object.entries(file.additionalData).map(([key, value]) => (
+                <div className="review-row" key={key}>
+                  <dt>
+                    {key
+                      .replace(/([A-Z])/g, ' $1')
+                      .replace(/^./, s => s.toUpperCase())
+                      .trim()}
+                  </dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+          </>
         );
       }),
     'ui:confirmationField':
       confirmationField ||
-      (({ formData }) => ({
-        data: formData?.name,
-        label: title,
-      })),
+      (({ formData }) => {
+        const hasAdditionalData =
+          formData?.additionalData &&
+          Object.keys(formData.additionalData).length > 0;
+        if (!hasAdditionalData) {
+          return { data: formData?.name, label: title };
+        }
+        const data = (
+          <ul>
+            <li>
+              <span className="vads-u-color--gray">Name</span>: {formData?.name}
+            </li>
+            {Object.entries(formData.additionalData).map(([key, value]) => (
+              <li key={key}>
+                <span className="vads-u-color--gray">
+                  {key
+                    .replace(/([A-Z])/g, ' $1')
+                    .replace(/^./, s => s.toUpperCase())
+                    .trim()}
+                </span>
+                : {value}
+              </li>
+            ))}
+          </ul>
+        );
+        return { data, label: title };
+      }),
     warnings: {
       'ui:options': {
         keepInPageOnReview: true,

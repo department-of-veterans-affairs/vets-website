@@ -7,7 +7,7 @@ import {
 import { applicantWording } from '../../../shared/utilities';
 import MarriageDateDescription from '../../components/FormDescriptions/MarriageDateDescription';
 import { blankSchema } from '../../definitions';
-import { validateMarriageAfterDob } from '../../helpers/validations';
+import { validateMarriageAfterDob } from '../../utils/validations';
 import content from '../../locales/en/content.json';
 
 const TITLE_TEXT = content['applicants--marriage-date-title'];

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   titleUI,
@@ -7,8 +8,28 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { serviceStatuses } from '../constants';
-import { DOCUMENT_TYPES, FILE_TYPES } from '../../status/constants';
+import { FILE_TYPES } from '../../status/constants';
 import { UploadDocumentsReview } from '../components/UploadDocumentsReview';
+
+export const DocumentTypeSelect = () => {
+  const formData = useSelector(state => state?.form?.data);
+  const requiredDocumentTypes = [];
+  if (
+    formData?.identity === serviceStatuses.ADSM &&
+    formData?.militaryHistory?.purpleHeartRecipient
+  ) {
+    requiredDocumentTypes.push('Purple Heart Certificate');
+  }
+  return (
+    <VaSelect required label="Document type" name="attachmentType">
+      {requiredDocumentTypes.map(type => (
+        <option key={type} value={type}>
+          {type}
+        </option>
+      ))}
+    </VaSelect>
+  );
+};
 
 const statementOfServiceInfo = (
   <va-accordion data-testid="statement-of-service-accordion">
@@ -35,9 +56,19 @@ const requiredDocumentMessages = {
       (DD214) showing character of service.
     </p>
   ),
-  [serviceStatuses.ADSM]: (
+  [serviceStatuses.ADSM]: formData => (
     <>
-      <p>You’ll need to upload a Statement of Service.</p>
+      {formData?.militaryHistory?.purpleHeartRecipient ? (
+        <>
+          <p>You’ll need to upload these documents:</p>
+          <ul>
+            <li>Statement of Service</li>
+            <li>A copy of your Purple Heart certificate</li>
+          </ul>
+        </>
+      ) : (
+        <p>You’ll need to upload a Statement of Service.</p>
+      )}
       {statementOfServiceInfo}
     </>
   ),
@@ -85,10 +116,10 @@ const requiredDocumentMessages = {
 };
 
 export const getUiSchema = () => ({
-  ...titleUI(
-    'Upload your documents',
-    ({ formData }) => requiredDocumentMessages[formData.identity] || null,
-  ),
+  ...titleUI('Upload your documents', ({ formData }) => {
+    const message = requiredDocumentMessages[formData.identity];
+    return typeof message === 'function' ? message(formData) : message || null;
+  }),
   files2: fileInputMultipleUI({
     title: 'Upload your documents',
     required: true,
@@ -104,24 +135,7 @@ export const getUiSchema = () => ({
       additionalInput: 'Choose a document type',
     },
     additionalInputRequired: true,
-    additionalInput: (error, data) => {
-      const { attachmentType } = data || {};
-      return (
-        <VaSelect
-          required
-          error={error}
-          value={attachmentType}
-          label="Document type"
-          name="attachmentType"
-        >
-          {DOCUMENT_TYPES.map(type => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </VaSelect>
-      );
-    },
+    additionalInput: () => <DocumentTypeSelect />,
     additionalInputUpdate: (instance, error, data) => {
       instance.setAttribute('error', error);
       if (data?.attachmentType) {

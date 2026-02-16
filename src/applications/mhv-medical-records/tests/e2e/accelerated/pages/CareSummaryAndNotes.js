@@ -42,6 +42,10 @@ class CareSummaryAndNotes {
     cy.get('[data-testid="notes-landing-page-link"]').click({
       waitForAnimations: true,
     });
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   checkInfoAlert = () => {

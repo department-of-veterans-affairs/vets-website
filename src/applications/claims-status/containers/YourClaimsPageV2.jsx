@@ -37,6 +37,7 @@ import {
   getVisibleRows,
   getPageRange,
   sortByLastUpdated,
+  isClosed,
 } from '../utils/appeals-v2-helpers';
 import { setPageFocus } from '../utils/page';
 import { groupClaimsByDocsNeeded, setDocumentTitle } from '../utils/helpers';
@@ -312,11 +313,7 @@ function mapStateToProps(state) {
     ...claimsV2Root.claims,
     ...stemClaims,
   ]
-    .filter(
-      claim =>
-        claim.attributes.status === 'COMPLETE' ||
-        claim.attributes.claimType === 'STEM',
-    )
+    .filter(isClosed)
     .sort(sortByLastUpdated);
 
   const inProgressClaims = [
@@ -324,11 +321,7 @@ function mapStateToProps(state) {
     ...claimsV2Root.claims,
     ...stemClaims,
   ]
-    .filter(
-      claim =>
-        claim.attributes.status !== 'COMPLETE' &&
-        claim.attributes.claimType !== 'STEM',
-    )
+    .filter(item => !isClosed(item))
     .sort(sortByLastUpdated);
 
   const sortedList = [...inProgressClaims, ...closedClaims];
