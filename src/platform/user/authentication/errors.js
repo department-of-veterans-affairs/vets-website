@@ -71,7 +71,7 @@ export const AUTH_ERRORS = {
     errorCode: '112',
     message: `We’re having trouble provisioning your My HealtheVet account right now.`,
   },
-  PII_MISMATCH: {
+  SSN_ATTRIBUTE_MISMATCH: {
     errorCode: '113',
     message: `Personal Information Mismatch`,
   },
