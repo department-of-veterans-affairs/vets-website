@@ -61,17 +61,17 @@ const Dropdown = ({
           />
         )}
       </button>
-      {isOpen && (
-        <div
-          className={`${dropdownClass}`}
-          id={icon}
-          data-testid={`${icon}-toggle-dropdown-${view}-list`}
-        >
-          <ul className="nav__user-list nav__dropdown">
-            <DropdownLinks closeDropdown={closeDropdown} category={category} />
-          </ul>
-        </div>
-      )}
+      <div
+        className={`${
+          !isOpen ? 'vads-u-display--none' : 'is--shown'
+        } ${dropdownClass}`}
+        id={icon}
+        data-testid={`${icon}-toggle-dropdown-${view}-list`}
+      >
+        <ul className="nav__user-list nav__dropdown">
+          <DropdownLinks closeDropdown={closeDropdown} category={category} />
+        </ul>
+      </div>
     </>
   );
 };

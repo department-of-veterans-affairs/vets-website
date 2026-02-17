@@ -252,7 +252,8 @@
           height: 22px;
         }
       }
-      &:hover {
+      &:hover,
+      &:active {
         background-color: transparent !important;
         border-radius: 0;
 
