@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import vaRadioFieldMapping from 'platform/forms-system/src/js/web-component-fields/vaRadioFieldMapping';
 import { toHash } from '../../../shared/utilities';
-import { formatFullName } from '../../helpers';
-import { VaRadio, VaRadioOption } from '../../imports';
+import { formatFullName } from '../../utils/helpers';
+import { VaRadio, VaRadioOption } from '../../utils/imports';
 import content from '../../locales/en/content.json';
 
 const MSG_NA = content['medicare--participant-default'];
