@@ -202,9 +202,8 @@ describe('Income and asset submit', () => {
       const parsed = JSON.parse(result);
 
       const expectedPrepared = SubmitModule.prepareFormData(form.data);
-      const expectedSerialized = SubmitModule.serializePreparedFormData(
-        expectedPrepared,
-      );
+      const expectedSerialized =
+        SubmitModule.serializePreparedFormData(expectedPrepared);
 
       expect(parsed.incomeAndAssetsClaim.form).to.equal(expectedSerialized);
     });

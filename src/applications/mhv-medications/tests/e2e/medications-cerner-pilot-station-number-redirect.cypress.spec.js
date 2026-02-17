@@ -35,9 +35,7 @@ describe('Medications Cerner Pilot station_number redirect', () => {
   it('redirects to medications list when visiting documentation page without station_number and Cerner pilot enabled', () => {
     // Visit documentation page without station_number query param
     cy.visit(
-      `${medicationsUrls.PRESCRIPTION_DETAILS}/${testPrescriptionId}${
-        medicationsUrls.subdirectories.DOCUMENTATION
-      }`,
+      `${medicationsUrls.PRESCRIPTION_DETAILS}/${testPrescriptionId}${medicationsUrls.subdirectories.DOCUMENTATION}`,
     );
 
     // Should redirect to medications list
@@ -81,9 +79,7 @@ describe('Medications Cerner Pilot station_number redirect', () => {
 
     // Visit details page WITH station_number query param
     cy.visit(
-      `${
-        medicationsUrls.PRESCRIPTION_DETAILS
-      }/${prescriptionId}?${STATION_NUMBER_PARAM}=${stationNumber}`,
+      `${medicationsUrls.PRESCRIPTION_DETAILS}/${prescriptionId}?${STATION_NUMBER_PARAM}=${stationNumber}`,
     );
 
     // Should stay on details page (not redirect)

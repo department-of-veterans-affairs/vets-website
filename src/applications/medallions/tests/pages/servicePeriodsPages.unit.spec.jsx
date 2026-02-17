@@ -243,17 +243,15 @@ describe('servicePeriodsPages', () => {
     });
 
     it('should return empty array for empty input', () => {
-      const { getOptions } = servicePeriodPage.uiSchema.serviceBranch[
-        'ui:options'
-      ];
+      const { getOptions } =
+        servicePeriodPage.uiSchema.serviceBranch['ui:options'];
       const result = getOptions('');
       expect(result).to.deep.equal([]);
     });
 
     it('should return exact key match for short uppercase input', () => {
-      const { getOptions } = servicePeriodPage.uiSchema.serviceBranch[
-        'ui:options'
-      ];
+      const { getOptions } =
+        servicePeriodPage.uiSchema.serviceBranch['ui:options'];
       const result = getOptions('AR');
       expect(result).to.have.length(1);
       expect(result[0].value).to.equal('AR');
@@ -261,26 +259,23 @@ describe('servicePeriodsPages', () => {
     });
 
     it('should return empty array for input shorter than 2 characters when no exact match', () => {
-      const { getOptions } = servicePeriodPage.uiSchema.serviceBranch[
-        'ui:options'
-      ];
+      const { getOptions } =
+        servicePeriodPage.uiSchema.serviceBranch['ui:options'];
       const result = getOptions('a');
       expect(result).to.deep.equal([]);
     });
 
     it('should return filtered results for longer input', () => {
-      const { getOptions } = servicePeriodPage.uiSchema.serviceBranch[
-        'ui:options'
-      ];
+      const { getOptions } =
+        servicePeriodPage.uiSchema.serviceBranch['ui:options'];
       const result = getOptions('army');
       expect(result.length).to.be.greaterThan(0);
       expect(result[0].label.toLowerCase()).to.include('army');
     });
 
     it('should limit results to 10 items', () => {
-      const { getOptions } = servicePeriodPage.uiSchema.serviceBranch[
-        'ui:options'
-      ];
+      const { getOptions } =
+        servicePeriodPage.uiSchema.serviceBranch['ui:options'];
       const result = getOptions('service');
       expect(result.length).to.be.at.most(10);
     });
@@ -294,45 +289,40 @@ describe('servicePeriodsPages', () => {
     });
 
     it('should hide field when service branch is not AG or NG (with index)', () => {
-      const { hideIf } = servicePeriodPage.uiSchema.nationalGuardState[
-        'ui:options'
-      ];
+      const { hideIf } =
+        servicePeriodPage.uiSchema.nationalGuardState['ui:options'];
       const formData = { serviceRecords: [{ serviceBranch: 'AR' }] };
       const result = hideIf(formData, 0);
       expect(result).to.be.true;
     });
 
     it('should show field when service branch is AG (with index)', () => {
-      const { hideIf } = servicePeriodPage.uiSchema.nationalGuardState[
-        'ui:options'
-      ];
+      const { hideIf } =
+        servicePeriodPage.uiSchema.nationalGuardState['ui:options'];
       const formData = { serviceRecords: [{ serviceBranch: 'AG' }] };
       const result = hideIf(formData, 0);
       expect(result).to.be.false;
     });
 
     it('should show field when service branch is NG (with index)', () => {
-      const { hideIf } = servicePeriodPage.uiSchema.nationalGuardState[
-        'ui:options'
-      ];
+      const { hideIf } =
+        servicePeriodPage.uiSchema.nationalGuardState['ui:options'];
       const formData = { serviceRecords: [{ serviceBranch: 'NG' }] };
       const result = hideIf(formData, 0);
       expect(result).to.be.false;
     });
 
     it('should hide field when service branch is not AG or NG (without index)', () => {
-      const { hideIf } = servicePeriodPage.uiSchema.nationalGuardState[
-        'ui:options'
-      ];
+      const { hideIf } =
+        servicePeriodPage.uiSchema.nationalGuardState['ui:options'];
       const formData = { serviceBranch: 'AR' };
       const result = hideIf(formData, null);
       expect(result).to.be.true;
     });
 
     it('should show field when service branch is AG (without index)', () => {
-      const { hideIf } = servicePeriodPage.uiSchema.nationalGuardState[
-        'ui:options'
-      ];
+      const { hideIf } =
+        servicePeriodPage.uiSchema.nationalGuardState['ui:options'];
       const formData = { serviceBranch: 'AG' };
       const result = hideIf(formData, null);
       expect(result).to.be.false;

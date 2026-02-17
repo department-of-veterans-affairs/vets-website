@@ -11,16 +11,13 @@ const InstitutionName = () => {
 
   const institutionName = formData?.institutionDetails?.institutionName;
 
-  useEffect(
-    () => {
-      const facilityCodeInput = document
-        .querySelector('va-text-input')
-        ?.shadowRoot?.querySelector('input');
-      if (!loader && institutionName && facilityCodeInput)
-        focusElement(facilityCodeInput);
-    },
-    [institutionName, loader],
-  );
+  useEffect(() => {
+    const facilityCodeInput = document
+      .querySelector('va-text-input')
+      ?.shadowRoot?.querySelector('input');
+    if (!loader && institutionName && facilityCodeInput)
+      focusElement(facilityCodeInput);
+  }, [institutionName, loader]);
 
   return (
     <div aria-live="polite">

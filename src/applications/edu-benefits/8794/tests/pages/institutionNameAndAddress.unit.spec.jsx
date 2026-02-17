@@ -11,10 +11,9 @@ import formConfig from '../../config/form';
 const mockStore = configureStore([]);
 
 describe('22-8894 – Institution Name & Address Page', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.institutionDetailsChapter.pages.institutionNameAndAddress;
+  const { schema, uiSchema } =
+    formConfig.chapters.institutionDetailsChapter.pages
+      .institutionNameAndAddress;
 
   const renderPage = (data = {}) =>
     render(

@@ -23,13 +23,8 @@ import PreSubmitInfo from '../containers/PreSubmitInfo';
 import IntroductionRouter from '../containers/IntroductionRouter';
 import { isRerouteEnabled } from '../helperFunctions/isRerouteEnabled';
 
-const {
-  preferredContactMethod,
-  date,
-  dateRange,
-  serviceBefore1977,
-  usaPhone,
-} = fullSchema1995.definitions;
+const { preferredContactMethod, date, dateRange, serviceBefore1977, usaPhone } =
+  fullSchema1995.definitions;
 
 const baseConfig = {
   rootUrl: manifest.rootUrl,

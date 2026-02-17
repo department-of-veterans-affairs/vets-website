@@ -30,31 +30,23 @@ const InterstitialPage = props => {
     error: recipientsError,
   } = useSelector(state => state.sm.recipients);
 
-  useEffect(
-    () => {
-      if (recipientsError || noAssociations) {
-        history.push(Paths.INBOX);
-      }
-    },
-    [recipientsError, noAssociations, history],
-  );
+  useEffect(() => {
+    if (recipientsError || noAssociations) {
+      history.push(Paths.INBOX);
+    }
+  }, [recipientsError, noAssociations, history]);
 
-  useEffect(
-    () => {
-      if (allRecipients?.length > 0 && recentRecipients === undefined) {
-        dispatch(getRecentRecipients(6));
-      }
-    },
-    [dispatch, recentRecipients, allRecipients],
-  );
+  useEffect(() => {
+    if (allRecipients?.length > 0 && recentRecipients === undefined) {
+      dispatch(getRecentRecipients(6));
+    }
+  }, [dispatch, recentRecipients, allRecipients]);
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
 
-  document.title = `Only Use Messages For Non-Urgent Needs${
-    PageTitles.DEFAULT_PAGE_TITLE_TAG
-  }`;
+  document.title = `Only Use Messages For Non-Urgent Needs${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
 
   // Determine the correct destination based on whether recent recipients exist
   // This is used for both the href attribute AND the programmatic navigation
@@ -88,47 +80,38 @@ const InterstitialPage = props => {
     ],
   );
 
-  const handleRedirect = useCallback(
-    () => {
-      dispatch(acceptInterstitial());
-      if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
-        history.push(Paths.RECENT_CARE_TEAMS);
-      }
-    },
-    [history, mhvSecureMessagingCuratedListFlow, type, dispatch],
-  );
+  const handleRedirect = useCallback(() => {
+    dispatch(acceptInterstitial());
+    if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
+      history.push(Paths.RECENT_CARE_TEAMS);
+    }
+  }, [history, mhvSecureMessagingCuratedListFlow, type, dispatch]);
 
-  useEffect(
-    () => {
-      const searchParams = new URLSearchParams(location.search);
-      const prescriptionId = searchParams.get('prescriptionId');
-      const redirectPath = searchParams.get('redirectPath');
-      if (prescriptionId) {
-        dispatch(getPrescriptionById(prescriptionId));
-        handleRedirect();
-      } else {
-        dispatch(clearPrescription());
-      }
-      if (redirectPath) {
-        dispatch(setRedirectPath(decodeURIComponent(redirectPath)));
-      }
-    },
-    [location.search, handleRedirect, dispatch],
-  );
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const prescriptionId = searchParams.get('prescriptionId');
+    const redirectPath = searchParams.get('redirectPath');
+    if (prescriptionId) {
+      dispatch(getPrescriptionById(prescriptionId));
+      handleRedirect();
+    } else {
+      dispatch(clearPrescription());
+    }
+    if (redirectPath) {
+      dispatch(setRedirectPath(decodeURIComponent(redirectPath)));
+    }
+  }, [location.search, handleRedirect, dispatch]);
 
-  const continueButtonText = useMemo(
-    () => {
-      switch (type) {
-        case 'reply':
-          return 'Continue to reply';
-        case 'draft':
-          return 'Continue to draft';
-        default:
-          return 'Continue to start message';
-      }
-    },
-    [type],
-  );
+  const continueButtonText = useMemo(() => {
+    switch (type) {
+      case 'reply':
+        return 'Continue to reply';
+      case 'draft':
+        return 'Continue to draft';
+      default:
+        return 'Continue to start message';
+    }
+  }, [type]);
 
   return (
     <div className="interstitial-page">

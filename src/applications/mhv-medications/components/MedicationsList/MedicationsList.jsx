@@ -32,9 +32,8 @@ const MedicationsList = props => {
     updateLoadingStatus,
     scrollLocation,
   } = props;
-  const sortOptionLowercase = rxListSortingOptions[
-    selectedSortOption
-  ]?.LABEL.toLowerCase();
+  const sortOptionLowercase =
+    rxListSortingOptions[selectedSortOption]?.LABEL.toLowerCase();
   const totalMedications = pagination.totalEntries;
   const prescriptionId = useSelector(selectPrescriptionId);
 
@@ -73,10 +72,9 @@ const MedicationsList = props => {
     const allMedsSelected = selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY;
     return (
       <>
-        {!isFullList &&
-          !allMedsSelected && (
-            <strong>{selectedFilterDisplay} medications</strong>
-          )}
+        {!isFullList && !allMedsSelected && (
+          <strong>{selectedFilterDisplay} medications</strong>
+        )}
         {`${
           !isFullList && !allMedsSelected ? '' : ' medications'
         }, ${sortOptionLowercase}`}
@@ -105,9 +103,7 @@ const MedicationsList = props => {
         } of ${totalMedications} ${filterAndSortAriaLabel()}`}
       >
         <span className="no-print">
-          {`Showing ${displayNums[0]} - ${
-            displayNums[1]
-          } of ${totalMedications} `}
+          {`Showing ${displayNums[0]} - ${displayNums[1]} of ${totalMedications} `}
           {filterAndSortContent()}
         </span>
         <span className="print-only">
@@ -125,17 +121,16 @@ const MedicationsList = props => {
         data-testid="medication-list"
       >
         {rxList?.length > 0 &&
-          rxList.map(
-            (rx, idx) =>
-              rx.prescriptionId === prescriptionId ? (
-                <li ref={scrollLocation} key={idx}>
-                  <MedicationsListCard rx={rx} />
-                </li>
-              ) : (
-                <li key={idx}>
-                  <MedicationsListCard rx={rx} />
-                </li>
-              ),
+          rxList.map((rx, idx) =>
+            rx.prescriptionId === prescriptionId ? (
+              <li ref={scrollLocation} key={idx}>
+                <MedicationsListCard rx={rx} />
+              </li>
+            ) : (
+              <li key={idx}>
+                <MedicationsListCard rx={rx} />
+              </li>
+            ),
           )}
       </ul>
       <VaPagination

@@ -8,10 +8,8 @@ import formConfig from '../../config/form';
 import { daysFromToday } from '../../utils/dates/formatting';
 // Failed on master: http://jenkins.vfs.va.gov/blue/organizations/jenkins/testing%2Fvets-website/detail/master/10203/tests
 describe.skip('Separation location', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.separationLocation;
+  const { schema, uiSchema } =
+    formConfig.chapters.veteranDetails.pages.separationLocation;
 
   it('should render', async () => {
     const form = mount(

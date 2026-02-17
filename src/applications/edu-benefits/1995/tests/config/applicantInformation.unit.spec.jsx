@@ -28,10 +28,8 @@ describe('Edu 1995 applicantInformation', () => {
   afterEach(() => {
     sandbox.restore();
   });
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.applicantInformation.pages.applicantInformation;
+  const { schema, uiSchema } =
+    formConfig.chapters.applicantInformation.pages.applicantInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

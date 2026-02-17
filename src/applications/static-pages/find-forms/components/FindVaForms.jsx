@@ -96,9 +96,8 @@ FindVaForms.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  showPdfWarningBanner: toggleValues(state)[
-    FEATURE_FLAG_NAMES.pdfWarningBanner
-  ],
+  showPdfWarningBanner:
+    toggleValues(state)[FEATURE_FLAG_NAMES.pdfWarningBanner],
 });
 
 export default connect(mapStateToProps)(FindVaForms);

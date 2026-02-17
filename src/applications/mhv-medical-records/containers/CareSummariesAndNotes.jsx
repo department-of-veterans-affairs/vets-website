@@ -91,12 +91,9 @@ const CareSummariesAndNotes = () => {
     reloadRecordsAction: reloadRecords,
   });
 
-  useEffect(
-    () => {
-      updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
+  }, [dispatch]);
 
   const isLoadingAcceleratedData =
     isAcceleratingCareNotes && listState === loadStates.FETCHING;

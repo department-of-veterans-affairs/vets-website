@@ -203,7 +203,10 @@ describe('getTimeFrame / getDisplayTimeFrame', () => {
 describe('extractContainedResource', () => {
   it('should extract the contained resource when provided a valid reference ID', () => {
     const resource = {
-      contained: [{ id: 'a1', type: 'TypeA' }, { id: 'b2', type: 'TypeB' }],
+      contained: [
+        { id: 'a1', type: 'TypeA' },
+        { id: 'b2', type: 'TypeB' },
+      ],
     };
 
     const result = extractContainedResource(resource, '#a1');
@@ -594,8 +597,9 @@ describe('getLastUpdatedText', () => {
     const testDate = new Date('2024-09-15T10:00:00Z');
 
     expect(result).to.equal(
-      `Last updated at ${testDate.getHours() % 12 ||
-        12}:00 a.m. on ${testDate.toLocaleDateString('en-US', {
+      `Last updated at ${
+        testDate.getHours() % 12 || 12
+      }:00 a.m. on ${testDate.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -1219,9 +1223,11 @@ describe('formatDateAndTimeWithGenericZone', () => {
 
   it('returns full date, time with “a.m.”/“p.m.” and generic zone for UTC', () => {
     const date = parseISO('2025-02-17T14:30:00Z');
-    const { date: fullDate, time, timeZone } = formatDateAndTimeWithGenericZone(
-      date,
-    );
+    const {
+      date: fullDate,
+      time,
+      timeZone,
+    } = formatDateAndTimeWithGenericZone(date);
 
     expect(fullDate).to.equal('February 17, 2025');
     expect(time).to.equal('2:30 p.m.');
@@ -1406,7 +1412,10 @@ describe('sortByDate', () => {
   });
 
   it('returns stable sort when both records have missing sortDate', () => {
-    const records = [{ id: 1, sortDate: null }, { id: 2, sortDate: undefined }];
+    const records = [
+      { id: 1, sortDate: null },
+      { id: 2, sortDate: undefined },
+    ];
     const sorted = sortByDate([...records]);
     // Both missing - should return 0 (stable)
     expect(sorted).to.have.lengthOf(2);

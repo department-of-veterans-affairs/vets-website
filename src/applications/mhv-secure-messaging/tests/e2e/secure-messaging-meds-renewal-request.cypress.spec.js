@@ -47,9 +47,7 @@ describe('SM Medications Renewal Request', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationById');
       SharedComponents.backBreadcrumb().should(
@@ -122,9 +120,7 @@ describe('SM Medications Renewal Request', () => {
         'recentRecipients',
       );
       cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@vamcUser');
       cy.wait('@recipients');
@@ -148,9 +144,7 @@ describe('SM Medications Renewal Request', () => {
 
       PatientComposePage.validateAddYourMedicationWarningBanner(false);
       PatientComposePage.validateRecipientTitle(
-        `VA Kansas City health care - ${
-          mockRecipients.data[1].attributes.name
-        }`,
+        `VA Kansas City health care - ${mockRecipients.data[1].attributes.name}`,
       );
 
       PatientComposePage.validateLockedCategoryDisplay();
@@ -202,9 +196,7 @@ describe('SM Medications Renewal Request', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationById');
       PatientComposePage.selectComboBoxRecipient(
@@ -340,9 +332,7 @@ describe('SM Medications Renewal Request', () => {
       );
 
       cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationById');
       SharedComponents.backBreadcrumb().should(
@@ -426,9 +416,7 @@ describe('SM Medications Renewal Request', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationByIdV2');
       PatientComposePage.selectComboBoxRecipient(
@@ -474,9 +462,7 @@ describe('SM Medications Renewal Request', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationByIdV2');
       PatientComposePage.selectComboBoxRecipient(
@@ -523,9 +509,7 @@ describe('SM Medications Renewal Request', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationById');
 
@@ -581,9 +565,7 @@ describe('SM Medications Renewal Request', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationById');
       PatientComposePage.validateAddYourMedicationWarningBanner(true);

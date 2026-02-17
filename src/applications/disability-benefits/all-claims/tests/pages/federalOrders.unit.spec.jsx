@@ -31,10 +31,8 @@ const leapDay = getMostRecentLeapYearDate();
 const separationDate = daysFromToday(90);
 
 describe('Federal orders info', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.federalOrders;
+  const { schema, uiSchema } =
+    formConfig.chapters.veteranDetails.pages.federalOrders;
 
   it('should render', () => {
     const form = mount(

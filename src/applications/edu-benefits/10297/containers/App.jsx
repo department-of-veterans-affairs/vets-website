@@ -37,45 +37,36 @@ function App({
     document.title = `${TITLE} | Veterans Affairs`;
   });
 
-  useEffect(
-    () => {
-      if (!userLoggedIn && location.pathname !== '/introduction') {
-        window.location.href = manifest.rootUrl;
-      }
-    },
-    [userLoggedIn, location],
-  );
+  useEffect(() => {
+    if (!userLoggedIn && location.pathname !== '/introduction') {
+      window.location.href = manifest.rootUrl;
+    }
+  }, [userLoggedIn, location]);
 
-  useEffect(
-    () => {
-      if (!user?.login?.currentlyLoggedIn) {
-        return;
-      }
-      if (!fetchedUserInfo) {
-        setFetchedUserInfo(true);
-        getPersonalInformation();
-      }
-    },
-    [fetchedUserInfo, getPersonalInformation, user?.login?.currentlyLoggedIn],
-  );
+  useEffect(() => {
+    if (!user?.login?.currentlyLoggedIn) {
+      return;
+    }
+    if (!fetchedUserInfo) {
+      setFetchedUserInfo(true);
+      getPersonalInformation();
+    }
+  }, [fetchedUserInfo, getPersonalInformation, user?.login?.currentlyLoggedIn]);
 
   // Merge claimant info into form data when it becomes available
   // This ensures prefill data is applied even on fresh form starts
-  useEffect(
-    () => {
-      if (!user?.login?.currentlyLoggedIn) {
-        return;
-      }
-      // Only merge if claimantId is missing in formData but available in claimantInfo
-      if (!formData?.claimantId && claimantInfo?.claimantId) {
-        setFormData({
-          ...formData,
-          ...claimantInfo,
-        });
-      }
-    },
-    [claimantInfo, formData, setFormData, user?.login?.currentlyLoggedIn],
-  );
+  useEffect(() => {
+    if (!user?.login?.currentlyLoggedIn) {
+      return;
+    }
+    // Only merge if claimantId is missing in formData but available in claimantInfo
+    if (!formData?.claimantId && claimantInfo?.claimantId) {
+      setFormData({
+        ...formData,
+        ...claimantInfo,
+      });
+    }
+  }, [claimantInfo, formData, setFormData, user?.login?.currentlyLoggedIn]);
 
   return (
     <div className="form-22-10297-container row">
@@ -119,7 +110,4 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

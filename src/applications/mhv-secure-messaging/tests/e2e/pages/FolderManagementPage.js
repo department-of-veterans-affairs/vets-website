@@ -23,17 +23,11 @@ class FolderManagementPage {
   };
 
   createFolderTextBox = () => {
-    return cy
-      .get('[name="folder-name"]')
-      .shadow()
-      .find('[name="folder-name"]');
+    return cy.get('[name="folder-name"]').shadow().find('[name="folder-name"]');
   };
 
   createFolderModalButton = () => {
-    return cy
-      .get('[text="Create"]')
-      .shadow()
-      .find('[type="button"]');
+    return cy.get('[text="Create"]').shadow().find('[type="button"]');
   };
 
   clickAndLoadCustomFolder = (
@@ -118,8 +112,9 @@ class FolderManagementPage {
   ) => {
     cy.intercept(
       'PATCH',
-      `${Paths.INTERCEPT.MESSAGE_THREADS +
-        mockResponse.data.attributes.threadId}/move?folder_id=${folderId}`,
+      `${
+        Paths.INTERCEPT.MESSAGE_THREADS + mockResponse.data.attributes.threadId
+      }/move?folder_id=${folderId}`,
       { statusCode: 204 },
     ).as('threadNoContent');
     cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID).within(() => {
@@ -138,9 +133,7 @@ class FolderManagementPage {
     );
     cy.intercept(
       `PATCH`,
-      `${Paths.SM_API_BASE}/threads/7176615/move?folder_id=${
-        createdFolderResponse.data.attributes.folderId
-      }`,
+      `${Paths.SM_API_BASE}/threads/7176615/move?folder_id=${createdFolderResponse.data.attributes.folderId}`,
       { statusCode: 204 },
     ).as(`threadNoContent`);
 
@@ -156,9 +149,7 @@ class FolderManagementPage {
   backToInbox = () => {
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_BASE}/folders/${
-        createdFolderResponse.data.attributes.folderId
-      }/threads*`,
+      `${Paths.SM_API_BASE}/folders/${createdFolderResponse.data.attributes.folderId}/threads*`,
       defaultMockThread,
     ).as(`updatedFolder`);
 

@@ -51,12 +51,9 @@ export const uploadSupportingDocuments = {
       ...fileInputMultipleUI({
         errorMessages: { required: 'Upload supporting documents' },
         name: 'form-upload-file-input-multiple',
-        fileUploadUrl: `${
-          environment.API_URL
-        }/simple_forms_api/v1/supporting_documents_upload`,
+        fileUploadUrl: `${environment.API_URL}/simple_forms_api/v1/supporting_documents_upload`,
         title: 'Upload supporting documents',
-        hint:
-          'You can upload .pdf, .jpeg, or .png files. Your file should be no larger than 25MB.',
+        hint: 'You can upload .pdf, .jpeg, or .png files. Your file should be no larger than 25MB.',
         formNumber,
         required: true,
         // Disallow uploads greater than 25 MB

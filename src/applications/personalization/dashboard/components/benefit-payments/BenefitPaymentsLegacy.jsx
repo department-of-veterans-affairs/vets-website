@@ -183,7 +183,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {},
-)(BenefitPaymentsLegacy);
+export default connect(mapStateToProps, {})(BenefitPaymentsLegacy);

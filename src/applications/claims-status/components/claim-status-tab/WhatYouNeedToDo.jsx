@@ -7,11 +7,8 @@ import FilesNeeded from '../claim-files-tab/FilesNeeded';
 import UploadType2ErrorAlert from '../UploadType2ErrorAlert';
 
 function WhatYouNeedToDo({ claim }) {
-  const {
-    evidenceWaiverSubmitted5103,
-    trackedItems,
-    evidenceSubmissions,
-  } = claim.attributes;
+  const { evidenceWaiverSubmitted5103, trackedItems, evidenceSubmissions } =
+    claim.attributes;
   const filesNeeded = trackedItems
     ? // When user indicates they will not be submitting more evidence by adding a standard or automated 5103 waiver,
       // we will remove the automated 5103 request from the filesNeeded array, preventing the alert from showing.

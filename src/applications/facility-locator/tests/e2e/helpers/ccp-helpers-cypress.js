@@ -414,15 +414,12 @@ function initApplicationMock(
       },
     },
     links: {
-      self:
-        'https://api.va.gov/facilities_api/v2/ccp?latitude=40.712749&longitude=-74.005994&page=1&per_page=15&radius=42',
+      self: 'https://api.va.gov/facilities_api/v2/ccp?latitude=40.712749&longitude=-74.005994&page=1&per_page=15&radius=42',
       first:
         'https://api.va.gov/facilities_api/v2/ccp?latitude=40.712749&longitude=-74.005994&page=1&per_page=15&radius=42',
       prev: null,
-      next:
-        'https://api.va.gov/facilities_api/v2/ccp?latitude=40.712749&longitude=-74.005994&page=2&per_page=15&radius=42',
-      last:
-        'https://api.va.gov/facilities_api/v2/ccp?latitude=40.712749&longitude=-74.005994&page=166&per_page=15&radius=42',
+      next: 'https://api.va.gov/facilities_api/v2/ccp?latitude=40.712749&longitude=-74.005994&page=2&per_page=15&radius=42',
+      last: 'https://api.va.gov/facilities_api/v2/ccp?latitude=40.712749&longitude=-74.005994&page=166&per_page=15&radius=42',
     },
   }).as('mockPharmacies');
 
@@ -438,14 +435,12 @@ function initApplicationMock(
       },
     },
     links: {
-      self:
-        'https://api.va.gov/facilities_api/v2/ccp?latitude=40.712749&longitude=-74.005994&page=1&per_page=10&radius=42',
+      self: 'https://api.va.gov/facilities_api/v2/ccp?latitude=40.712749&longitude=-74.005994&page=1&per_page=10&radius=42',
       first:
         'https://api.va.gov/facilities_api/v2/ccp?latitude=40.712749&longitude=-74.005994&page=1&per_page=10&radius=42',
       prev: null,
       next: null,
-      last:
-        'https://api.va.gov/facilities_api/v2/ccp?latitude=40.712749&longitude=-74.005994&page=1&per_page=10&radius=42',
+      last: 'https://api.va.gov/facilities_api/v2/ccp?latitude=40.712749&longitude=-74.005994&page=1&per_page=10&radius=42',
     },
   }).as('mockUrgentCare');
 

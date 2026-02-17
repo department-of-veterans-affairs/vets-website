@@ -61,10 +61,7 @@ describe('Medical Records View Lab and Tests', () => {
       .find('a')
       .should('have.attr', 'href');
 
-    cy.get('[data-testid="mr-breadcrumbs"]')
-      .find('a')
-      .contains('Back')
-      .click();
+    cy.get('[data-testid="mr-breadcrumbs"]').find('a').contains('Back').click();
 
     // Maintaining the same timeFrame across page clicks
     LabsAndTests.checkTimeFrameDisplayForYear({ year: '2023' });

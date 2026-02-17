@@ -238,10 +238,7 @@ describe('YellowRibbonSelector component', () => {
     select.prop('onVaSelect')({ target: { value: 'All' } });
     wrapper.update();
 
-    wrapper
-      .find('VaButton')
-      .getDOMNode()
-      .click();
+    wrapper.find('VaButton').getDOMNode().click();
     wrapper.update();
 
     const summary = wrapper.find('#results-summary');
@@ -258,10 +255,7 @@ describe('YellowRibbonSelector component', () => {
     // Simulate selecting "Masters"
     const select = wrapper.find('VaSelect');
     select.prop('onVaSelect')({ target: { value: 'Masters' } });
-    wrapper
-      .find('VaButton')
-      .getDOMNode()
-      .click();
+    wrapper.find('VaButton').getDOMNode().click();
     wrapper.update();
 
     const summary = wrapper.find('#results-summary');

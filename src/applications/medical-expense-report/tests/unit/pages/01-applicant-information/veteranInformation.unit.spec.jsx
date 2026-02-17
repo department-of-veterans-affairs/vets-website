@@ -10,11 +10,8 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../../config/form';
 
 describe('Veteran Information Page', () => {
-  const {
-    title,
-    schema,
-    uiSchema,
-  } = formConfig.chapters.applicantInformation.pages.veteranInformation;
+  const { title, schema, uiSchema } =
+    formConfig.chapters.applicantInformation.pages.veteranInformation;
   it('renders the veteran information fields as veteran', async () => {
     const form = render(
       <DefinitionTester

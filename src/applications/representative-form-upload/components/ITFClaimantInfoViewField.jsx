@@ -44,9 +44,8 @@ const ITFClaimantInfoViewField = props => {
     'Social Security number': veteranSsn ? mask(veteranSsn) : '',
     'Date of birth': formatDate(veteranDateOfBirth),
     'VA file number': vaFileNumber ? maskVaFileNumber(vaFileNumber) : '',
-    'Select the benefit you intend to file a claim for': formatBenefitType(
-      benefitType,
-    ),
+    'Select the benefit you intend to file a claim for':
+      formatBenefitType(benefitType),
   };
 
   const claimantDisplay = isDependentClaim
@@ -66,17 +65,16 @@ const ITFClaimantInfoViewField = props => {
         </h5>
         {defaultEditButton()}
         <dl className="review vads-u-margin-top--2 vads-u-width--full">
-          {Object.entries(claimantDisplay).map(
-            ([label, value]) =>
-              value ? (
-                <div
-                  key={label}
-                  className="review-row vads-u-display--flex vads-u-justify-content--space-between vads-u-padding-y--1 vads-u-width--full"
-                >
-                  <dt className="vads-u-font-weight--normal">{label}</dt>
-                  <dd className="vads-u-font-weight--bold">{value}</dd>
-                </div>
-              ) : null,
+          {Object.entries(claimantDisplay).map(([label, value]) =>
+            value ? (
+              <div
+                key={label}
+                className="review-row vads-u-display--flex vads-u-justify-content--space-between vads-u-padding-y--1 vads-u-width--full"
+              >
+                <dt className="vads-u-font-weight--normal">{label}</dt>
+                <dd className="vads-u-font-weight--bold">{value}</dd>
+              </div>
+            ) : null,
           )}
         </dl>
       </div>
@@ -87,17 +85,16 @@ const ITFClaimantInfoViewField = props => {
             Veteran identification information
           </h5>
           <dl className="review vads-u-margin-top--2 vads-u-width--full">
-            {Object.entries(veteranDisplay).map(
-              ([label, value]) =>
-                value ? (
-                  <div
-                    key={label}
-                    className="review-row vads-u-display--flex vads-u-justify-content--space-between vads-u-padding-y--1 vads-u-width--full"
-                  >
-                    <dt className="vads-u-font-weight--normal">{label}</dt>
-                    <dd className="vads-u-font-weight--bold">{value}</dd>
-                  </div>
-                ) : null,
+            {Object.entries(veteranDisplay).map(([label, value]) =>
+              value ? (
+                <div
+                  key={label}
+                  className="review-row vads-u-display--flex vads-u-justify-content--space-between vads-u-padding-y--1 vads-u-width--full"
+                >
+                  <dt className="vads-u-font-weight--normal">{label}</dt>
+                  <dd className="vads-u-font-weight--bold">{value}</dd>
+                </div>
+              ) : null,
             )}
           </dl>
         </div>

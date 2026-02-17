@@ -144,28 +144,32 @@ describe('Scheduling preferences contact method - select preferred contact metho
     {
       label: 'should allow selection of home phone',
       option: 'option-38',
-      editPageText: /Enter the home phone number you want to use for scheduling./,
+      editPageText:
+        /Enter the home phone number you want to use for scheduling./,
       expectedText: /Phone call: home phone/i,
       relatedFieldName: 'homePhone',
     },
     {
       label: 'should allow selection of mobile phone (call)',
       option: 'option-1',
-      editPageText: /Enter the mobile phone number you want to use for scheduling./,
+      editPageText:
+        /Enter the mobile phone number you want to use for scheduling./,
       expectedText: /Phone call: mobile phone/i,
       relatedFieldName: 'mobilePhone',
     },
     {
       label: 'should allow selection of mobile phone (text)',
       option: 'option-2',
-      editPageText: /Enter the mobile phone number you want to use for scheduling./,
+      editPageText:
+        /Enter the mobile phone number you want to use for scheduling./,
       expectedText: /Text message: mobile phone/i,
       relatedFieldName: 'mobilePhone',
     },
     {
       label: 'should allow selection of work phone',
       option: 'option-39',
-      editPageText: /Enter the work phone number you want to use for scheduling./,
+      editPageText:
+        /Enter the work phone number you want to use for scheduling./,
       expectedText: /Phone call: work phone/i,
       relatedFieldName: 'workPhone',
     },

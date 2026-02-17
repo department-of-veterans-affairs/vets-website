@@ -150,7 +150,8 @@ describe('MessageThreadHeader component', () => {
   });
 
   describe('MigratingFacilitiesAlerts visibility', () => {
-    const MIGRATION_ALERT_H2 = /You can.t use messages to contact providers at some facilities right now/i;
+    const MIGRATION_ALERT_H2 =
+      /You can.t use messages to contact providers at some facilities right now/i;
 
     const migrationSchedulesFixture = [
       {

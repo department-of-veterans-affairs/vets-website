@@ -148,7 +148,8 @@ const responses = {
         return '';
     }
   },
-  'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
+  'GET /v0/health_care_applications/enrollment_status':
+    createHealthCareStatusSuccess(),
   'GET /my_health/v1/messaging/folders': (_req, res) => {
     const messagesStatus = 'hasUnread'; // 'hasUnread', 'allRead', or 'failure'
     switch (messagesStatus) {

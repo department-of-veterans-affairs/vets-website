@@ -26,14 +26,11 @@ const formData = (child = {}, country = 'USA') => ({
 });
 
 describe('686 add child relationship type', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.addChild.pages.addChildRelationshipType;
+  const { schema, uiSchema } =
+    formConfig.chapters.addChild.pages.addChildRelationshipType;
 
-  const { updateSchema } = uiSchema.childrenToAdd.items.relationshipType[
-    'ui:options'
-  ];
+  const { updateSchema } =
+    uiSchema.childrenToAdd.items.relationshipType['ui:options'];
 
   it('should render', () => {
     const form = render(
@@ -143,9 +140,8 @@ describe('686 add child relationship type', () => {
   });
 
   context('biological child info visibility', () => {
-    const { hideIf } = uiSchema.childrenToAdd.items['view:biologicalChildInfo'][
-      'ui:options'
-    ];
+    const { hideIf } =
+      uiSchema.childrenToAdd.items['view:biologicalChildInfo']['ui:options'];
     it('should hide biological child info for US addresses & non-biological children', () => {
       expect(hideIf({}, 0, formData({ relationshipType: 'BIOLOGICAL' }, 'USA')))
         .to.be.true;
@@ -167,9 +163,8 @@ describe('686 add child relationship type', () => {
   });
 
   context('Stepchild info visibility', () => {
-    const { hideIf } = uiSchema.childrenToAdd.items['view:stepchildInfo'][
-      'ui:options'
-    ];
+    const { hideIf } =
+      uiSchema.childrenToAdd.items['view:stepchildInfo']['ui:options'];
     it('should hide stepchild info for non-stepchildren', () => {
       expect(hideIf({}, 0, formData({ relationshipType: 'BIOLOGICAL' }))).to.be
         .true;
@@ -183,9 +178,8 @@ describe('686 add child relationship type', () => {
   });
 
   context('Adopted child info visibility', () => {
-    const { hideIf } = uiSchema.childrenToAdd.items['view:adoptedChildInfo'][
-      'ui:options'
-    ];
+    const { hideIf } =
+      uiSchema.childrenToAdd.items['view:adoptedChildInfo']['ui:options'];
     it('should hide adopted child info for non-adopted children', () => {
       expect(hideIf({}, 0, formData({ relationshipType: 'BIOLOGICAL' }))).to.be
         .true;

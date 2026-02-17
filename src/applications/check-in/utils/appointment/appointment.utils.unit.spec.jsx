@@ -55,11 +55,8 @@ describe('check in', () => {
     MockDate.reset();
   });
 
-  const {
-    createAppointment,
-    createAppointments,
-    createUpcomingAppointment,
-  } = get;
+  const { createAppointment, createAppointments, createUpcomingAppointment } =
+    get;
 
   describe('appointment navigation utils', () => {
     describe('hasMoreAppointmentsToCheckInto', () => {

@@ -122,9 +122,7 @@ export const ConfirmationPage = ({ router, route }) => {
     >
       <PdfDownload
         trackingPrefix={route?.formConfig.trackingPrefix}
-        pdfUrl={`${
-          environment.API_URL
-        }/v0/education_benefits_claims/download_pdf/${submission.response?.id}`}
+        pdfUrl={`${environment.API_URL}/v0/education_benefits_claims/download_pdf/${submission.response?.id}`}
       />
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />

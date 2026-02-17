@@ -53,9 +53,8 @@ function makeUiSchema(locationId) {
               required: 'Please enter a date',
             },
             'ui:reviewField': reviewDateField,
-            'ui:confirmationField': makeDateConfirmationField(
-              startDateApproximate,
-            ),
+            'ui:confirmationField':
+              makeDateConfirmationField(startDateApproximate),
           },
           endDate: {
             ...currentOrPastMonthYearDateUI({
@@ -69,9 +68,8 @@ function makeUiSchema(locationId) {
               required: 'Please enter a date',
             },
             'ui:reviewField': reviewDateField,
-            'ui:confirmationField': makeDateConfirmationField(
-              endDateApproximate,
-            ),
+            'ui:confirmationField':
+              makeDateConfirmationField(endDateApproximate),
           },
           'ui:validations': [validateToxicExposureDates],
           'view:notSure': {

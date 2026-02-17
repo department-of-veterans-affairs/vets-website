@@ -28,10 +28,8 @@ const noSsnFormData = {
 };
 
 describe('686 current marriage information: Spouse personal information', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.addSpouse.pages.spouseNameInformation;
+  const { schema, uiSchema } =
+    formConfig.chapters.addSpouse.pages.spouseNameInformation;
 
   it('should render', () => {
     const { container } = render(
@@ -50,10 +48,8 @@ describe('686 current marriage information: Spouse personal information', () => 
 });
 
 describe('686 current marriage information: Spouse personal information no SSN', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.addSpouse.pages.spouseNameInformation;
+  const { schema, uiSchema } =
+    formConfig.chapters.addSpouse.pages.spouseNameInformation;
 
   it('should render', () => {
     const { container } = render(
@@ -75,10 +71,8 @@ describe('686 current marriage information: Spouse personal information no SSN',
 });
 
 describe('686 current marriage information: Spouse is a Veteran', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.addSpouse.pages.spouseNameInformationPartTwo;
+  const { schema, uiSchema } =
+    formConfig.chapters.addSpouse.pages.spouseNameInformationPartTwo;
 
   it('should render', () => {
     const { container } = render(
@@ -98,10 +92,8 @@ describe('686 current marriage information: Spouse is a Veteran', () => {
 });
 
 describe('686 current marriage information: Spouse military service information', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.addSpouse.pages.spouseNameInformationPartThree;
+  const { schema, uiSchema } =
+    formConfig.chapters.addSpouse.pages.spouseNameInformationPartThree;
 
   it('should render', () => {
     const { container } = render(

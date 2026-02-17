@@ -211,9 +211,8 @@ describe('ezr validation utils', () => {
         context('when valid data is provided', () => {
           context('when the start date is prior to the end date', () => {
             it('should not set an error message', () => {
-              const { errors, fieldData, startDateSpy, endDateSpy } = getData(
-                test,
-              );
+              const { errors, fieldData, startDateSpy, endDateSpy } =
+                getData(test);
 
               it('should not set error message', () => {
                 test.validatorFn(errors, fieldData);

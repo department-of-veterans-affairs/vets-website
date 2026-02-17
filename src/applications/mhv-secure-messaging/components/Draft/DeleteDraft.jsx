@@ -87,10 +87,10 @@ const DeleteDraft = props => {
     [blankReplyDraft, messageBody, draftBody],
   );
 
-  const editableDraft = useMemo(() => !!savedDraft && formPopulated === true, [
-    savedDraft,
-    formPopulated,
-  ]);
+  const editableDraft = useMemo(
+    () => !!savedDraft && formPopulated === true,
+    [savedDraft, formPopulated],
+  );
 
   const newMessageNavErr = useMemo(
     () => unsavedDraft && navigationError !== null,

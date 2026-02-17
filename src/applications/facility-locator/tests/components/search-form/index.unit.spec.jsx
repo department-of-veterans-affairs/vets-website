@@ -53,12 +53,7 @@ describe('SearchForm', () => {
     expect(modal.prop('modalTitle')).to.equal(
       `Your device's location sharing is off.`,
     );
-    expect(
-      modal
-        .dive()
-        .find('p')
-        .text(),
-    ).to.equal(
+    expect(modal.dive().find('p').text()).to.equal(
       'To use your location when searching for a VA facility, go to the settings on your device and update sharing permissions.',
     );
     wrapper.unmount();
@@ -72,12 +67,7 @@ describe('SearchForm', () => {
     const modal = wrapper.find('ForwardRef(VaModal)');
     expect(modal.prop('visible')).to.be.true;
     expect(modal.prop('modalTitle')).to.equal("We couldn't locate you");
-    expect(
-      modal
-        .dive()
-        .find('p')
-        .text(),
-    ).to.equal(
+    expect(modal.dive().find('p').text()).to.equal(
       'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.',
     );
     wrapper.unmount();

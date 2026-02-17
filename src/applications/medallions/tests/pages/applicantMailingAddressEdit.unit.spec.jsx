@@ -7,10 +7,8 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('Medallions applicantMailingAddressEdit', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.applicantInformation.pages.editMailingAddress;
+  const { schema, uiSchema } =
+    formConfig.chapters.applicantInformation.pages.editMailingAddress;
 
   const mockStore = configureStore([]);
   const store = mockStore({});

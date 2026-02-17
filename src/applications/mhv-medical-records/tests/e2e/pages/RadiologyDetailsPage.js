@@ -101,9 +101,7 @@ class RadiologyDetailsPage extends BaseDetailsPage {
   };
 
   verifyRadiologyImageCount = numImages => {
-    cy.get('div.image-div')
-      .find('img')
-      .should('have.length', numImages);
+    cy.get('div.image-div').find('img').should('have.length', numImages);
   };
 
   verifyPaginationVisible = () => {

@@ -12,17 +12,14 @@ export default function Notification({
   maskTitle = false,
 }) {
   const closeable = !!onClose;
-  useEffect(
-    () => {
-      if (typeof onSetFocus === 'function') {
-        // Delay ensures focus lands on alert, not competing elements
-        setTimeout(() => {
-          onSetFocus();
-        }, 150);
-      }
-    },
-    [title, body, onSetFocus],
-  );
+  useEffect(() => {
+    if (typeof onSetFocus === 'function') {
+      // Delay ensures focus lands on alert, not competing elements
+      setTimeout(() => {
+        onSetFocus();
+      }, 150);
+    }
+  }, [title, body, onSetFocus]);
 
   return (
     <VaAlert
@@ -38,10 +35,10 @@ export default function Notification({
       <h2
         slot="headline"
         className="vads-u-margin-top--0"
-        {...maskTitle && {
+        {...(maskTitle && {
           'data-dd-privacy': 'mask',
           'data-dd-action-name': 'notification title with filename',
-        }}
+        })}
       >
         {title}
       </h2>

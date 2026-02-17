@@ -99,8 +99,9 @@ export const convertNonVaMedication = med => {
     reasonForUse: med.reason || NA,
     status: med.dispStatus || NA,
     startDate: safeFormatDateLong(med.refillDate || med.orderedDate, NA),
-    documentedBy: `${med.providerLastName || NA}, ${med.providerFirstName ||
-      NA}`,
+    documentedBy: `${med.providerLastName || NA}, ${
+      med.providerFirstName || NA
+    }`,
     documentedAtFacility: med.facilityName || NA,
     providerNotes: med.remarks || NA,
   };
@@ -131,8 +132,9 @@ export const convertMedication = med => {
     refillsLeft: attributes.refillRemaining ?? UNKNOWN,
     prescriptionNumber: attributes.prescriptionNumber,
     prescribedOn: safeFormatDateLong(attributes.orderedDate, UNKNOWN),
-    prescribedBy: `${attributes.providerFirstName ||
-      ''} ${attributes.providerLastName || ''}`.trim(),
+    prescribedBy: `${attributes.providerFirstName || ''} ${
+      attributes.providerLastName || ''
+    }`.trim(),
     facility: attributes.facilityName,
     expirationDate: safeFormatDateLong(attributes.expirationDate),
     instructions: attributes.sig || 'No instructions available',

@@ -56,16 +56,14 @@ export const filterOptions = {
     label: 'Active',
     name: 'filter option',
     description: 'Active prescriptions and non-VA medications',
-    url:
-      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On Hold,Active: Parked,Active: Submitted',
+    url: '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On Hold,Active: Parked,Active: Submitted',
     showingContentDisplayName: ' active',
   },
   [RECENTLY_REQUESTED_FILTER_KEY]: {
     label: 'Recently requested',
     name: 'filter option',
     description: 'Refill requests in process or shipped in the last 15 days',
-    url:
-      '&filter[[disp_status][eq]]=Active: Refill in Process,Active: Submitted',
+    url: '&filter[[disp_status][eq]]=Active: Refill in Process,Active: Submitted',
     showingContentDisplayName: ' recently requested',
   },
   [RENEWAL_FILTER_KEY]: {
@@ -389,8 +387,7 @@ export const trackingConfig = {
   },
   ups: {
     label: 'UPS',
-    url:
-      'http://wwwapps.ups.com/WebTracking/processInputRequest?HTMLVersion=5.0&loc=en_US&Requester=UPSHome&tracknum=',
+    url: 'http://wwwapps.ups.com/WebTracking/processInputRequest?HTMLVersion=5.0&loc=en_US&Requester=UPSHome&tracknum=',
   },
   usps: {
     label: 'USPS',

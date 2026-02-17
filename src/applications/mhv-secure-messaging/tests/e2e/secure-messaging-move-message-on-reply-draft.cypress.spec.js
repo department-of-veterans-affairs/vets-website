@@ -9,9 +9,8 @@ import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import FolderManagementPage from './pages/FolderManagementPage';
 
 describe('SM DELETE REPLY DRAFT', () => {
-  const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
-    singleThreadResponse,
-  );
+  const updatedSingleThreadResponse =
+    GeneralFunctionsPage.updatedThreadDates(singleThreadResponse);
   const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
     {
       name: 'mhv_secure_messaging_custom_folders_redesign',

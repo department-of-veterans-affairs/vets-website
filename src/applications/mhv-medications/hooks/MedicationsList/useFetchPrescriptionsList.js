@@ -51,20 +51,16 @@ export const useFetchPrescriptionsList = () => {
     filterOption: currentFilterOptions[selectedFilterOption]?.url || '',
   });
 
-  useEffect(
-    () => {
-      setQueryParams(prev => ({
-        ...prev,
-        page: currentPage,
-      }));
-    },
-    [currentPage],
-  );
+  useEffect(() => {
+    setQueryParams(prev => ({
+      ...prev,
+      page: currentPage,
+    }));
+  }, [currentPage]);
 
   // Fetch prescriptions with RTK Query
-  const { data, error, isLoading, isFetching } = useGetPrescriptionsListQuery(
-    queryParams,
-  );
+  const { data, error, isLoading, isFetching } =
+    useGetPrescriptionsListQuery(queryParams);
 
   return {
     prescriptionsData: data,

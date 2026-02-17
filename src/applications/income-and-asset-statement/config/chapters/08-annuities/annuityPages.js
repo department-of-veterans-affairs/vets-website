@@ -63,24 +63,22 @@ export const options = {
               {formatCurrency(item.marketValueAtEstablishment)}
             </span>
           </li>
-          {item?.receivingIncomeFromAnnuity &&
-            item?.annualReceivedIncome && (
-              <li>
-                Annual income:{' '}
-                <span className="vads-u-font-weight--bold">
-                  {formatCurrency(item.annualReceivedIncome)}
-                </span>
-              </li>
-            )}
-          {item?.addedFundsAfterEstablishment &&
-            item?.addedFundsAmount && (
-              <li>
-                Money added:{' '}
-                <span className="vads-u-font-weight--bold">
-                  {formatCurrency(item.addedFundsAmount)}
-                </span>
-              </li>
-            )}
+          {item?.receivingIncomeFromAnnuity && item?.annualReceivedIncome && (
+            <li>
+              Annual income:{' '}
+              <span className="vads-u-font-weight--bold">
+                {formatCurrency(item.annualReceivedIncome)}
+              </span>
+            </li>
+          )}
+          {item?.addedFundsAfterEstablishment && item?.addedFundsAmount && (
+            <li>
+              Money added:{' '}
+              <span className="vads-u-font-weight--bold">
+                {formatCurrency(item.addedFundsAmount)}
+              </span>
+            </li>
+          )}
         </ul>
       ),
     reviewAddButtonText: props => `Add ${props.nounSingular}`,
@@ -153,8 +151,7 @@ const veteranSummaryPage = {
       options,
       {
         title: updatedTitleNoItems,
-        hint:
-          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+        hint: 'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
         labelHeaderLevel: '1',
         labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
@@ -213,8 +210,7 @@ const parentSummaryPage = {
       options,
       {
         title: updatedTitleNoItems,
-        hint:
-          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        hint: 'Your dependents include your spouse, including a same-sex and common-law partner.',
         labelHeaderLevel: '1',
         labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
@@ -234,8 +230,7 @@ const custodianSummaryPage = {
       options,
       {
         title: updatedTitleNoItems,
-        hint:
-          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        hint: 'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
         labelHeaderLevel: '1',
         labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,

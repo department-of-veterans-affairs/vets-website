@@ -149,18 +149,17 @@ class DocumentRequestPage extends React.Component {
       content = (
         <>
           {/* Show errors here when the feature flag is OFF. When the feature flag is ON, errors are shown in DefaultPage. */}
-          {!showDocumentUploadStatus &&
-            message && (
-              <div>
-                <Notification
-                  title={message.title}
-                  body={message.body}
-                  type={message.type}
-                  maskTitle={message.type === 'error'}
-                  onSetFocus={focusNotificationAlert}
-                />
-              </div>
-            )}
+          {!showDocumentUploadStatus && message && (
+            <div>
+              <Notification
+                title={message.title}
+                body={message.body}
+                type={message.type}
+                maskTitle={message.type === 'error'}
+                onSetFocus={focusNotificationAlert}
+              />
+            </div>
+          )}
           {TrackedItem.isAutomated5103Notice(trackedItem.displayName) ? (
             <Default5103EvidenceNotice item={trackedItem} />
           ) : (
@@ -223,10 +222,7 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(DocumentRequestPage),
+  connect(mapStateToProps, mapDispatchToProps)(DocumentRequestPage),
 );
 
 DocumentRequestPage.propTypes = {

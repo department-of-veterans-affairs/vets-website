@@ -97,10 +97,8 @@ export const getCardHeaders = (formId, formMeta, hasBenefit) => {
     isForm,
   );
 
-  const {
-    presentableFormId,
-    hasCustomPresentableFormId,
-  } = getPresentableFormId(formHeaderConfig, formId);
+  const { presentableFormId, hasCustomPresentableFormId } =
+    getPresentableFormId(formHeaderConfig, formId);
 
   const formattedFormTitle = getFormTitle(
     formHeaderConfig,
@@ -153,13 +151,8 @@ const ApplicationsInProgress = ({
   const transformedStatusForms = useMemo(
     () =>
       submittedForms.map(form => {
-        const {
-          formType,
-          createdAt,
-          updatedAt,
-          status,
-          ...rest
-        } = form.attributes;
+        const { formType, createdAt, updatedAt, status, ...rest } =
+          form.attributes;
         return {
           ...rest,
           status,

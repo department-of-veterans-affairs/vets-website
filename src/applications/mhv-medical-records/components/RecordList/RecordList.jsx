@@ -49,49 +49,40 @@ const RecordList = props => {
   }, []);
 
   // tracks url param
-  useEffect(
-    () => {
-      const historyParamVal = getParamValue(history.location.search, 'page');
+  useEffect(() => {
+    const historyParamVal = getParamValue(history.location.search, 'page');
 
-      const pageNum = Number(historyParamVal) || 1;
-      // Only update if it actually changed to avoid churn on the first click
-      if (pageNum !== currentPage) {
-        setCurrentRecords(paginatedRecords.current[pageNum - 1]);
-        setCurrentPage(pageNum);
-      } else {
-        // keep currentRecords in sync even if pageNum is same
-        setCurrentRecords(paginatedRecords.current[pageNum - 1]);
-      }
-    },
-    [currentPage, history.location.search],
-  );
+    const pageNum = Number(historyParamVal) || 1;
+    // Only update if it actually changed to avoid churn on the first click
+    if (pageNum !== currentPage) {
+      setCurrentRecords(paginatedRecords.current[pageNum - 1]);
+      setCurrentPage(pageNum);
+    } else {
+      // keep currentRecords in sync even if pageNum is same
+      setCurrentRecords(paginatedRecords.current[pageNum - 1]);
+    }
+  }, [currentPage, history.location.search]);
 
-  useEffect(
-    () => {
-      if (records?.length) {
-        paginatedRecords.current = chunk(records, perPage);
-        setCurrentRecords(paginatedRecords.current[currentPage - 1]);
-      }
-    },
-    [records, perPage, currentPage],
-  );
+  useEffect(() => {
+    if (records?.length) {
+      paginatedRecords.current = chunk(records, perPage);
+      setCurrentRecords(paginatedRecords.current[currentPage - 1]);
+    }
+  }, [records, perPage, currentPage]);
 
-  useEffect(
-    () => {
-      if (shouldFocusShowing.current && records?.length) {
-        focusElement(document.querySelector('#showingRecords'));
-        // calculate height of "showing records" and scrolls to it.
-        const showRecordsHeight = document
-          .querySelector('#showingRecords')
-          .getBoundingClientRect();
-        window.scrollTo({
-          top: showRecordsHeight.top + window.scrollY,
-          left: 0,
-        });
-      }
-    },
-    [currentPage, paramPage, records],
-  );
+  useEffect(() => {
+    if (shouldFocusShowing.current && records?.length) {
+      focusElement(document.querySelector('#showingRecords'));
+      // calculate height of "showing records" and scrolls to it.
+      const showRecordsHeight = document
+        .querySelector('#showingRecords')
+        .getBoundingClientRect();
+      window.scrollTo({
+        top: showRecordsHeight.top + window.scrollY,
+        left: 0,
+      });
+    }
+  }, [currentPage, paramPage, records]);
 
   return (
     <div className="record-list vads-l-row vads-u-flex-direction--column">

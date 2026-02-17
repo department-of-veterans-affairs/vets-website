@@ -166,9 +166,7 @@ describe('Facility VA search', () => {
 
     // Note - we're using mock data so the names don't match.
     cy.get('h1').contains('VetSuccess on Campus at Los Angeles City College');
-    cy.get('.p1')
-      .first()
-      .should('exist');
+    cy.get('.p1').first().should('exist');
     cy.get('.facility-phone-group').should('exist');
     cy.get('va-link')
       .eq(0)

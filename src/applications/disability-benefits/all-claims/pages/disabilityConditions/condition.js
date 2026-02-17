@@ -22,8 +22,7 @@ const conditionPage = {
     }),
     ratedDisability: radioUI({
       title: 'What condition would you like to add?',
-      hint:
-        "Choose one. You'll return to this screen later if you need to add more.",
+      hint: "Choose one. You'll return to this screen later if you need to add more.",
       updateSchema: (formData, _schema, uiSchema, index, _path, fullData) => {
         const remaining = getRemainingRatedDisabilities(fullData, index);
 

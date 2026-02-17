@@ -78,7 +78,4 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CustomPersonalInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(CustomPersonalInfo);

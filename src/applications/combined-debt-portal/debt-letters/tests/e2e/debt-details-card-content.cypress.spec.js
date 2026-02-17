@@ -49,9 +49,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
     cy.get('@alert-content')
       .find('h2')
       .contains('Pay your past due balance now to avoid fees and collection');
-    cy.get('@alert-content')
-      .findByTestId('link-resolve')
-      .should('exist');
+    cy.get('@alert-content').findByTestId('link-resolve').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -73,12 +71,8 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
       .findByTestId('link-details')
       .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');
-    cy.get('@alert-content')
-      .find('h2')
-      .contains(`Collection currently paused`);
-    cy.get('@alert-content')
-      .findByTestId('link-resolve')
-      .should('exist');
+    cy.get('@alert-content').find('h2').contains(`Collection currently paused`);
+    cy.get('@alert-content').findByTestId('link-resolve').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -94,9 +88,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
       .find('h2')
       .contains(`Call us to update your address on file`);
 
-    cy.get('@alert-content')
-      .find('va-telephone')
-      .should('have.length', 2);
+    cy.get('@alert-content').find('va-telephone').should('have.length', 2);
 
     cy.get('@alert-content')
       .find('va-telephone[international="false"]')

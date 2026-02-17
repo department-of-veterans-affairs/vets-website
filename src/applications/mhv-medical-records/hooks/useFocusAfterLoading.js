@@ -25,31 +25,25 @@ const useFocusAfterLoading = ({
   const urlParams = new URLSearchParams(location.search);
   const isPaginationDeepLink = urlParams.has('page');
 
-  useEffect(
-    () => {
-      // Reset the flag when loading starts again
-      if (isLoading || isLoadingAcceleratedData) {
-        hasFocused.current = false;
-      }
-    },
-    [isLoading, isLoadingAcceleratedData],
-  );
+  useEffect(() => {
+    // Reset the flag when loading starts again
+    if (isLoading || isLoadingAcceleratedData) {
+      hasFocused.current = false;
+    }
+  }, [isLoading, isLoadingAcceleratedData]);
 
-  useEffect(
-    () => {
-      // Skip focusing h1 on pagination deep-links - RecordList handles focus
-      if (isPaginationDeepLink) {
-        return;
-      }
+  useEffect(() => {
+    // Skip focusing h1 on pagination deep-links - RecordList handles focus
+    if (isPaginationDeepLink) {
+      return;
+    }
 
-      // Only focus h1 once when loading completes (h1 is in the DOM)
-      if (!isLoadingAcceleratedData && !isLoading && !hasFocused.current) {
-        hasFocused.current = true;
-        focusElement(document.querySelector('h1'));
-      }
-    },
-    [isLoadingAcceleratedData, isLoading, isPaginationDeepLink],
-  );
+    // Only focus h1 once when loading completes (h1 is in the DOM)
+    if (!isLoadingAcceleratedData && !isLoading && !hasFocused.current) {
+      hasFocused.current = true;
+      focusElement(document.querySelector('h1'));
+    }
+  }, [isLoadingAcceleratedData, isLoading, isPaginationDeepLink]);
 };
 
 export default useFocusAfterLoading;

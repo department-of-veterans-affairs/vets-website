@@ -175,8 +175,9 @@ export function getMarriageTitleWithCurrent(form = {}, index) {
  */
 export function getDependentChildTitle(item, description) {
   if (item.fullName) {
-    return `${item.fullName.first || ''} ${item.fullName.last ||
-      ''} ${description}`;
+    return `${item.fullName.first || ''} ${
+      item.fullName.last || ''
+    } ${description}`;
   }
   return description;
 }

@@ -17,7 +17,8 @@ describe('vaPrescription details container', () => {
     return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
       initialState: {
         featureToggles: {
-          [FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent]: ffEnabled,
+          [FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent]:
+            ffEnabled,
           [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: false,
           [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: false,
         },
@@ -440,7 +441,8 @@ describe('vaPrescription details container', () => {
           featureToggles: {
             [FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent]: true,
             [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
-            [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
+            [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]:
+              isV2StatusMapping,
           },
         },
         reducers: {},

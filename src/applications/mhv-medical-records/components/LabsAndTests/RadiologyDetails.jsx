@@ -52,11 +52,10 @@ const RadiologyDetails = props => {
 
   const user = useSelector(state => state.user.profile);
   const isRadiologyDomain = basePath === '/imaging-results';
-  const radiologyDetails = useSelector(
-    state =>
-      isRadiologyDomain
-        ? state.mr.radiology.radiologyDetails
-        : state.mr.labsAndTests.labsAndTestsDetails,
+  const radiologyDetails = useSelector(state =>
+    isRadiologyDomain
+      ? state.mr.radiology.radiologyDetails
+      : state.mr.labsAndTests.labsAndTestsDetails,
   );
   const {
     imageStatus: studyJobs,
@@ -65,10 +64,8 @@ const RadiologyDetails = props => {
     imageRequestApiFailed,
   } = useSelector(state => state.mr.images);
 
-  const [
-    imageProcessingAlertRendered,
-    setImageProcessingAlertRendered,
-  ] = useState(false);
+  const [imageProcessingAlertRendered, setImageProcessingAlertRendered] =
+    useState(false);
   const [isImageRequested, setIsImageRequested] = useState(false);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
@@ -79,50 +76,38 @@ const RadiologyDetails = props => {
 
   const activeAlert = useAlerts(dispatch);
 
-  useEffect(
-    () => {
-      dispatch(fetchImageRequestStatus());
-      dispatch(fetchBbmiNotificationStatus());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(fetchImageRequestStatus());
+    dispatch(fetchBbmiNotificationStatus());
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (studyJobs?.length) {
-        const jobsInProcess = studyJobs.filter(
-          job =>
-            job.status === studyJobStatus.NEW ||
-            job.status === studyJobStatus.QUEUED ||
-            job.status === studyJobStatus.PROCESSING,
-        );
-        if (jobsInProcess.length >= 3) {
-          dispatch(setStudyRequestLimitReached(true));
-        } else if (studyRequestLimitReached) {
-          dispatch(setStudyRequestLimitReached(false));
-        }
+  useEffect(() => {
+    if (studyJobs?.length) {
+      const jobsInProcess = studyJobs.filter(
+        job =>
+          job.status === studyJobStatus.NEW ||
+          job.status === studyJobStatus.QUEUED ||
+          job.status === studyJobStatus.PROCESSING,
+      );
+      if (jobsInProcess.length >= 3) {
+        dispatch(setStudyRequestLimitReached(true));
+      } else if (studyRequestLimitReached) {
+        dispatch(setStudyRequestLimitReached(false));
       }
-    },
-    [dispatch, studyJobs, studyRequestLimitReached],
-  );
+    }
+  }, [dispatch, studyJobs, studyRequestLimitReached]);
 
-  useEffect(
-    () => {
-      if (processingAlertHeadingRef.current) {
-        setImageProcessingAlertRendered(true);
-      }
-    },
-    [processingAlertHeadingRef.current],
-  );
+  useEffect(() => {
+    if (processingAlertHeadingRef.current) {
+      setImageProcessingAlertRendered(true);
+    }
+  }, [processingAlertHeadingRef.current]);
 
-  useEffect(
-    () => {
-      if (imageProcessingAlertRendered && isImageRequested) {
-        focusElement(processingAlertHeadingRef.current);
-      }
-    },
-    [imageProcessingAlertRendered, isImageRequested],
-  );
+  useEffect(() => {
+    if (imageProcessingAlertRendered && isImageRequested) {
+      focusElement(processingAlertHeadingRef.current);
+    }
+  }, [imageProcessingAlertRendered, isImageRequested]);
 
   const studyJob = useMemo(
     () =>
@@ -131,47 +116,34 @@ const RadiologyDetails = props => {
     [studyJobs, radiologyDetails.studyId],
   );
 
-  useEffect(
-    () => {
-      if (
-        imageRequestApiFailed ||
-        studyRequestLimitReached ||
-        studyJob?.status
-      ) {
-        setProcessingRequest(false);
-      }
-    },
-    [imageRequestApiFailed, studyJob, studyRequestLimitReached],
-  );
+  useEffect(() => {
+    if (imageRequestApiFailed || studyRequestLimitReached || studyJob?.status) {
+      setProcessingRequest(false);
+    }
+  }, [imageRequestApiFailed, studyJob, studyRequestLimitReached]);
 
-  useEffect(
-    () => {
-      let timeoutId;
-      if (
-        studyJob?.status === studyJobStatus.NEW ||
-        studyJob?.status === studyJobStatus.QUEUED ||
-        studyJob?.status === studyJobStatus.PROCESSING
-      ) {
-        setProcessingRequest(false);
+  useEffect(() => {
+    let timeoutId;
+    if (
+      studyJob?.status === studyJobStatus.NEW ||
+      studyJob?.status === studyJobStatus.QUEUED ||
+      studyJob?.status === studyJobStatus.PROCESSING
+    ) {
+      setProcessingRequest(false);
 
-        timeoutId = setTimeout(() => {
-          dispatch(fetchImageRequestStatus());
-          // Increase the polling interval by 5% on each iteration, capped at 30 seconds
-          setPollInterval(prevInterval => Math.min(prevInterval * 1.05, 30000));
-        }, pollInterval);
-      }
-      // Cleanup interval on component unmount or dependencies change
-      return () => clearTimeout(timeoutId);
-    },
-    [studyJob?.status, pollInterval, dispatch],
-  );
+      timeoutId = setTimeout(() => {
+        dispatch(fetchImageRequestStatus());
+        // Increase the polling interval by 5% on each iteration, capped at 30 seconds
+        setPollInterval(prevInterval => Math.min(prevInterval * 1.05, 30000));
+      }, pollInterval);
+    }
+    // Cleanup interval on component unmount or dependencies change
+    return () => clearTimeout(timeoutId);
+  }, [studyJob?.status, pollInterval, dispatch]);
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-    },
-    [record],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  }, [record]);
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,

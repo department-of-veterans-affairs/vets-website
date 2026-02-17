@@ -41,9 +41,7 @@ const fetchIntentToFile = async (
   params = `${params}&benefitType=${benefitType}`;
   try {
     return await apiRequest(
-      `${
-        environment.API_URL
-      }/accredited_representative_portal/v0/intent_to_file${params}`,
+      `${environment.API_URL}/accredited_representative_portal/v0/intent_to_file${params}`,
     );
   } catch (error) {
     const { status } = error?.errors?.[0] ?? {};

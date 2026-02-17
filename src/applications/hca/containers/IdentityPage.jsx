@@ -17,12 +17,8 @@ const IdentityPage = ({ location, route, router }) => {
   const [localData, setLocalData] = useState({});
   const dispatch = useDispatch();
 
-  const {
-    fetchAttempted,
-    isUserInMPI,
-    statusCode,
-    vesRecordFound,
-  } = useSelector(selectEnrollmentStatus);
+  const { fetchAttempted, isUserInMPI, statusCode, vesRecordFound } =
+    useSelector(selectEnrollmentStatus);
   const formData = useSelector(state => state.form.data);
   const loggedIn = useSelector(isLoggedIn);
 
@@ -33,37 +29,35 @@ const IdentityPage = ({ location, route, router }) => {
     },
     [dispatch],
   );
-  const showSignInModal = useCallback(() => dispatch(toggleLoginModal(true)), [
-    dispatch,
-  ]);
+  const showSignInModal = useCallback(
+    () => dispatch(toggleLoginModal(true)),
+    [dispatch],
+  );
   const goToNextPage = useCallback(
     () =>
       router.push(getNextPagePath(route.pageList, formData, location.pathname)),
     [formData, location.pathname, route.pageList, router],
   );
-  const triggerPrefill = useCallback(
-    () => {
-      const fullName = {
-        ...formData.veteranFullName,
-        first: localData.firstName,
-        middle: localData.middleName,
-        last: localData.lastName,
-        suffix: localData.suffix,
-      };
-      const dataToSet = {
-        ...formData,
+  const triggerPrefill = useCallback(() => {
+    const fullName = {
+      ...formData.veteranFullName,
+      first: localData.firstName,
+      middle: localData.middleName,
+      last: localData.lastName,
+      suffix: localData.suffix,
+    };
+    const dataToSet = {
+      ...formData,
+      veteranDateOfBirth: localData.dob,
+      'view:isUserInMvi': isUserInMPI,
+      'view:veteranInformation': {
+        veteranFullName: fullName,
         veteranDateOfBirth: localData.dob,
-        'view:isUserInMvi': isUserInMPI,
-        'view:veteranInformation': {
-          veteranFullName: fullName,
-          veteranDateOfBirth: localData.dob,
-          veteranSocialSecurityNumber: localData.ssn,
-        },
-      };
-      dispatch(setData(dataToSet));
-    },
-    [dispatch, formData, isUserInMPI, localData],
-  );
+        veteranSocialSecurityNumber: localData.ssn,
+      },
+    };
+    dispatch(setData(dataToSet));
+  }, [dispatch, formData, isUserInMPI, localData]);
 
   /**
    * reset enrollment status data when first loading the page if user is
@@ -87,18 +81,15 @@ const IdentityPage = ({ location, route, router }) => {
   );
 
   // trigger prefill and navigation if enrollment status criteria is met
-  useAfterRenderEffect(
-    () => {
-      if (fetchAttempted) {
-        const { noneOfTheAbove } = HCA_ENROLLMENT_STATUSES;
-        if (!vesRecordFound || statusCode === noneOfTheAbove) {
-          triggerPrefill();
-          goToNextPage();
-        }
+  useAfterRenderEffect(() => {
+    if (fetchAttempted) {
+      const { noneOfTheAbove } = HCA_ENROLLMENT_STATUSES;
+      if (!vesRecordFound || statusCode === noneOfTheAbove) {
+        triggerPrefill();
+        goToNextPage();
       }
-    },
-    [fetchAttempted],
-  );
+    }
+  }, [fetchAttempted]);
 
   return (
     <>

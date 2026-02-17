@@ -18,9 +18,7 @@ describe('Medical Records View Vitals', () => {
     VitalsListPage.verifyVitalOnListPage(
       0,
       'Blood pressure',
-      `${defaultVitals.entry[0].resource.component[0].valueQuantity.value}/${
-        defaultVitals.entry[0].resource.component[1].valueQuantity.value
-      }`,
+      `${defaultVitals.entry[0].resource.component[0].valueQuantity.value}/${defaultVitals.entry[0].resource.component[1].valueQuantity.value}`,
       formatDateMonthDayCommaYear(
         defaultVitals.entry[0].resource.effectiveDateTime,
       ),
@@ -38,9 +36,7 @@ describe('Medical Records View Vitals', () => {
     VitalsListPage.verifyVitalOnListPage(
       2,
       'Breathing rate',
-      `${
-        defaultVitals.entry[7].resource.valueQuantity.value
-      } breaths per minute`,
+      `${defaultVitals.entry[7].resource.valueQuantity.value} breaths per minute`,
       formatDateMonthDayCommaYear(
         defaultVitals.entry[7].resource.effectiveDateTime,
       ),
@@ -78,8 +74,9 @@ describe('Medical Records View Vitals', () => {
       'Height',
       `${Math.floor(
         defaultVitals.entry[3].resource.valueQuantity.value / 12,
-      )} feet, ${defaultVitals.entry[3].resource.valueQuantity.value %
-        12} inches`,
+      )} feet, ${
+        defaultVitals.entry[3].resource.valueQuantity.value % 12
+      } inches`,
       formatDateMonthDayCommaYear(
         defaultVitals.entry[3].resource.effectiveDateTime,
       ),

@@ -81,8 +81,7 @@ const summaryPage = {
     'view:isAddingIncomeSources': arrayBuilderYesNoUI(options, {
       title: 'Do you, your spouse, or your dependents receive income?',
       labelHeaderLevel: ' ',
-      hint:
-        'Your income is how much you earn. It includes your Social Security benefits, investment and retirement payments, and any income your spouse and dependents receive.',
+      hint: 'Your income is how much you earn. It includes your Social Security benefits, investment and retirement payments, and any income your spouse and dependents receive.',
     }),
   },
   schema: {
@@ -171,8 +170,7 @@ const incomePayerPage = {
     },
     payer: textUI({
       title: 'Who pays this income?',
-      hint:
-        'Enter the name of a government agency, a company, or another organization.',
+      hint: 'Enter the name of a government agency, a company, or another organization.',
     }),
     amount: currencyUI('What’s the monthly amount of income?'),
   },

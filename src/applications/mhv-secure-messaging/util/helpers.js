@@ -151,8 +151,10 @@ export const titleCase = str => {
     .join(' ');
 };
 
-export const httpRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi; // Accepts 'http'
-export const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/gi; // Accepts www and https
+export const httpRegex =
+  /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi; // Accepts 'http'
+export const urlRegex =
+  /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/gi; // Accepts www and https
 
 export const decodeHtmlEntities = str => {
   const parser = new DOMParser();
@@ -205,11 +207,10 @@ export const isMigrationPhaseBlockingReplies = ohMigrationPhase => {
 };
 
 export const getLastSentMessage = messages => {
-  return messages.find(
-    m =>
-      m.attributes !== undefined
-        ? m.attributes.sentDate !== null
-        : m.sentDate !== null,
+  return messages.find(m =>
+    m.attributes !== undefined
+      ? m.attributes.sentDate !== null
+      : m.sentDate !== null,
   );
 };
 
@@ -344,9 +345,7 @@ export const convertPathNameToTitleCase = str => {
 
 export const messageSignatureFormatter = singatureObj => {
   if (singatureObj?.includeSignature) {
-    return `\n\n\n${singatureObj.signatureName}\n${
-      singatureObj.signatureTitle
-    }`;
+    return `\n\n\n${singatureObj.signatureName}\n${singatureObj.signatureTitle}`;
   }
   return null;
 };

@@ -143,8 +143,7 @@ export const addSpouse = {
       spouseMarriageHistoryPartOne: pageBuilder.itemPage({
         title:
           'Information needed to add your spouse: Former spouse information',
-        path:
-          'current-spouse-marriage-history/:index/former-spouse-information',
+        path: 'current-spouse-marriage-history/:index/former-spouse-information',
         uiSchema: formerMarriagePersonalInfoPage.uiSchema,
         schema: formerMarriagePersonalInfoPage.schema,
         depends: formData =>
@@ -154,8 +153,7 @@ export const addSpouse = {
       spouseMarriageHistoryPartTwo: pageBuilder.itemPage({
         title:
           'Information needed to add your spouse: Reason former marriage ended',
-        path:
-          'current-spouse-marriage-history/:index/reason-former-marriage-ended',
+        path: 'current-spouse-marriage-history/:index/reason-former-marriage-ended',
         uiSchema: formerMarriageEndReasonPage.uiSchema,
         schema: formerMarriageEndReasonPage.schema,
         depends: formData =>
@@ -185,8 +183,7 @@ export const addSpouse = {
       spouseMarriageHistoryPartFive: pageBuilder.itemPage({
         title:
           'Information needed to add your spouse: Location where former marriage started',
-        path:
-          'current-spouse-marriage-history/:index/location-where-marriage-started',
+        path: 'current-spouse-marriage-history/:index/location-where-marriage-started',
         uiSchema: formerMarriageStartLocationPage.uiSchema,
         schema: formerMarriageStartLocationPage.schema,
         depends: formData =>
@@ -196,8 +193,7 @@ export const addSpouse = {
       spouseMarriageHistoryPartSix: pageBuilder.itemPage({
         title:
           'Information needed to add your spouse: Location where former marriage ended',
-        path:
-          'current-spouse-marriage-history/:index/location-where-marriage-ended',
+        path: 'current-spouse-marriage-history/:index/location-where-marriage-ended',
         uiSchema: formerMarriageEndLocationPage.uiSchema,
         schema: formerMarriageEndLocationPage.schema,
         depends: formData =>

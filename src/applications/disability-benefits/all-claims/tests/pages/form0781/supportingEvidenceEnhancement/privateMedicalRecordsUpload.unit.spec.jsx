@@ -174,9 +174,8 @@ describe('Private Medical Records Upload page', () => {
         },
       };
 
-      const isRequired = uiSchema.tempPrivateMedicalRecordAttachments[
-        'ui:required'
-      ](formData);
+      const isRequired =
+        uiSchema.tempPrivateMedicalRecordAttachments['ui:required'](formData);
       expect(isRequired).to.be.true;
     });
     // TODO: Remove and add new test with V3 File Input Component
@@ -187,9 +186,8 @@ describe('Private Medical Records Upload page', () => {
         },
       };
 
-      const isRequired = uiSchema.tempPrivateMedicalRecordAttachments[
-        'ui:required'
-      ](formData);
+      const isRequired =
+        uiSchema.tempPrivateMedicalRecordAttachments['ui:required'](formData);
       expect(isRequired).to.be.false;
     });
     // TODO: Remove and add new test with V3 File Input Component

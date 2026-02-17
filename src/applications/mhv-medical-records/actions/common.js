@@ -75,15 +75,13 @@ export const getListWithRetry = async (
   let isInitial = false;
   let recordCount = null;
   try {
-    const {
-      isInitial: isInitialFlag,
-      response,
-    } = await getListWithRetryRecursively(
-      dispatch,
-      getList,
-      retryInterval,
-      endTimeParam,
-    );
+    const { isInitial: isInitialFlag, response } =
+      await getListWithRetryRecursively(
+        dispatch,
+        getList,
+        retryInterval,
+        endTimeParam,
+      );
     isInitial = isInitialFlag;
 
     if (response?.id) {

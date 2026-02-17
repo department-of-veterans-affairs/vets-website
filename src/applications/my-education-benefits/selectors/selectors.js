@@ -40,42 +40,32 @@ export const getAppData = state => ({
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
   savedForms: state?.user?.profile?.savedForms,
   user: state.user || {},
-  showMeb1990EZMaintenanceAlert: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMeb1990EZMaintenanceAlert
-  ],
-  showMeb1990EZR6MaintenanceMessage: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMeb1990EZR6MaintenanceMessage
-  ],
-  showMebEnhancements06: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebEnhancements06
-  ],
-  showMebEnhancements08: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebEnhancements08
-  ],
-  showMebEnhancements09: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebEnhancements09
-  ],
-  mebKickerNotificationEnabled: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.mebKickerNotificationEnabled
-  ],
-  mebAutoPopulateRelinquishmentDate: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.mebAutoPopulateRelinquishmentDate
-  ],
-  dgiRudisillHideBenefitsSelectionStep: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.dgiRudisillHideBenefitsSelectionStep
-  ],
-  meb160630Automation: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.meb160630Automation
-  ],
-  mebDpoAddressOptionEnabled: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.mebDpoAddressOptionEnabled
-  ],
+  showMeb1990EZMaintenanceAlert:
+    !!toggleValues(state)[FEATURE_FLAG_NAMES.showMeb1990EZMaintenanceAlert],
+  showMeb1990EZR6MaintenanceMessage:
+    !!toggleValues(state)[FEATURE_FLAG_NAMES.showMeb1990EZR6MaintenanceMessage],
+  showMebEnhancements06:
+    !!toggleValues(state)[FEATURE_FLAG_NAMES.showMebEnhancements06],
+  showMebEnhancements08:
+    !!toggleValues(state)[FEATURE_FLAG_NAMES.showMebEnhancements08],
+  showMebEnhancements09:
+    !!toggleValues(state)[FEATURE_FLAG_NAMES.showMebEnhancements09],
+  mebKickerNotificationEnabled:
+    !!toggleValues(state)[FEATURE_FLAG_NAMES.mebKickerNotificationEnabled],
+  mebAutoPopulateRelinquishmentDate:
+    !!toggleValues(state)[FEATURE_FLAG_NAMES.mebAutoPopulateRelinquishmentDate],
+  dgiRudisillHideBenefitsSelectionStep:
+    !!toggleValues(state)[
+      FEATURE_FLAG_NAMES.dgiRudisillHideBenefitsSelectionStep
+    ],
+  meb160630Automation:
+    !!toggleValues(state)[FEATURE_FLAG_NAMES.meb160630Automation],
+  mebDpoAddressOptionEnabled:
+    !!toggleValues(state)[FEATURE_FLAG_NAMES.mebDpoAddressOptionEnabled],
   meb1995Reroute: !!toggleValues(state)[FEATURE_FLAG_NAMES.meb1995Reroute],
   // **NEW** flag for the v2 intro/process updates
-  showMeb54901990eTextUpdate: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMeb54901990eTextUpdate
-  ],
-  mebBankInfoConfirmationField: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.mebBankInfoConfirmationField
-  ],
+  showMeb54901990eTextUpdate:
+    !!toggleValues(state)[FEATURE_FLAG_NAMES.showMeb54901990eTextUpdate],
+  mebBankInfoConfirmationField:
+    !!toggleValues(state)[FEATURE_FLAG_NAMES.mebBankInfoConfirmationField],
 });

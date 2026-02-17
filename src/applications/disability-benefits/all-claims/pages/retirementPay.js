@@ -6,9 +6,8 @@ import { hasMilitaryRetiredPay } from '../validations';
 import { getBranches } from '../utils/serviceBranches';
 import ConfirmationRetirementPay from '../components/confirmationFields/ConfirmationRetirementPay';
 
-const {
-  militaryRetiredPayBranch: militaryRetiredPayBranchSchema,
-} = fullSchema.properties;
+const { militaryRetiredPayBranch: militaryRetiredPayBranchSchema } =
+  fullSchema.properties;
 
 const TITLE = 'Retirement pay'; // duplicated from top-level `config/form.js`
 const YES_NO_TITLE = 'Have you ever received military retirement pay?';

@@ -188,10 +188,8 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { doctorCareQuestion = {} } = data;
-            const {
-              hasReceivedDoctorCare,
-              doctorCareType,
-            } = doctorCareQuestion;
+            const { hasReceivedDoctorCare, doctorCareType } =
+              doctorCareQuestion;
             selectYesNoWebComponent(
               'doctorCareQuestion_hasReceivedDoctorCare',
               hasReceivedDoctorCare,
@@ -211,10 +209,8 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { hospitalizationQuestion = {} } = data;
-            const {
-              hasBeenHospitalized,
-              hospitalType,
-            } = hospitalizationQuestion;
+            const { hasBeenHospitalized, hospitalType } =
+              hospitalizationQuestion;
             selectYesNoWebComponent(
               'hospitalizationQuestion_hasBeenHospitalized',
               hasBeenHospitalized,

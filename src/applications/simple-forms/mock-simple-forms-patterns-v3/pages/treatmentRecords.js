@@ -42,17 +42,16 @@ const options = {
       return (
         <>
           <span>Treatment dates: {dateRange}</span>
-          {docs &&
-            docs.length && (
-              <>
-                <div>Supporting files:</div>
-                <ul>
-                  {docs.map(doc => (
-                    <li key={doc.name}>{doc.name}</li>
-                  ))}
-                </ul>
-              </>
-            )}
+          {docs && docs.length && (
+            <>
+              <div>Supporting files:</div>
+              <ul>
+                {docs.map(doc => (
+                  <li key={doc.name}>{doc.name}</li>
+                ))}
+              </ul>
+            </>
+          )}
         </>
       );
     },
@@ -64,9 +63,7 @@ const introPage = {
   uiSchema: {
     ...titleUI(
       `Treatment records`,
-      `In the next few questions, we’ll ask you about the treatm                                                                                                                                                                                                                                                                                                                                         nt records you’re requesting. You must add at least one treatment request. You may add up to ${
-        options.maxItems
-      }.`,
+      `In the next few questions, we’ll ask you about the treatm                                                                                                                                                                                                                                                                                                                                         nt records you’re requesting. You must add at least one treatment request. You may add up to ${options.maxItems}.`,
     ),
   },
   schema: {
@@ -102,11 +99,10 @@ const nameAndAddressPage = {
 /** @returns {PageSchema} */
 const conditionsTreatedPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.name
-          ? `Conditions treated at ${formData.name}`
-          : 'Conditions treated',
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
+      formData?.name
+        ? `Conditions treated at ${formData.name}`
+        : 'Conditions treated',
     ),
     conditionsTreated: textareaUI(
       'List the conditions the person received treatment for at this facility.',
@@ -172,11 +168,10 @@ const supportingDocuments = {
 /** @returns {PageSchema} */
 const treatmentDatesPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.name
-          ? `Treatment dates at ${formData.name}`
-          : 'Treatment dates',
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
+      formData?.name
+        ? `Treatment dates at ${formData.name}`
+        : 'Treatment dates',
     ),
     treatmentDates: currentOrPastDateRangeUI(
       'First treatment date (you can estimate)',

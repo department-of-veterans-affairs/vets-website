@@ -315,16 +315,14 @@ export function submit5103(id, trackedItemId, cstClaimPhasesEnabled = false) {
           dispatch(
             setNotification({
               title: 'We received your evidence waiver',
-              body:
-                'Thank you. We’ll move your claim to the next step as soon as possible.',
+              body: 'Thank you. We’ll move your claim to the next step as soon as possible.',
             }),
           );
         } else {
           dispatch(
             setNotification({
               title: 'Request received',
-              body:
-                'Thank you. We have your claim request and will make a decision.',
+              body: 'Thank you. We have your claim request and will make a decision.',
             }),
           );
         }
@@ -374,9 +372,7 @@ function buildUploadNotification(
   const isOnFilesPage = window.location.pathname.endsWith('/files');
   const statusLinkHref = isOnFilesPage
     ? `#${ANCHOR_LINKS.fileSubmissionsInProgress}`
-    : `/track-claims/your-claims/${claimId}/files#${
-        ANCHOR_LINKS.fileSubmissionsInProgress
-      }`;
+    : `/track-claims/your-claims/${claimId}/files#${ANCHOR_LINKS.fileSubmissionsInProgress}`;
 
   const timezoneNote =
     timezoneMitigationEnabled && showTimezoneDiscrepancyMessage(now) ? (
@@ -466,9 +462,7 @@ export function submitFiles(
         const { FineUploaderBasic } = require('fine-uploader/lib/core');
         const uploader = new FineUploaderBasic({
           request: {
-            endpoint: `${
-              environment.API_URL
-            }/v0/benefits_claims/${claimId}/benefits_documents`,
+            endpoint: `${environment.API_URL}/v0/benefits_claims/${claimId}/benefits_documents`,
             inputName: 'file',
             customHeaders: {
               'Source-App-Name': manifest.entryName,

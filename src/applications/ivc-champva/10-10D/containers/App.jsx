@@ -46,12 +46,9 @@ export default function App({ location, children }) {
   });
 
   // redirect to merged form
-  useLayoutEffect(
-    () => {
-      window.location.replace(getAppUrl('10-10d-extended'));
-    },
-    [isAppLoading],
-  );
+  useLayoutEffect(() => {
+    window.location.replace(getAppUrl('10-10d-extended'));
+  }, [isAppLoading]);
 
   // Add Datadog RUM to the app
   useBrowserMonitoring();

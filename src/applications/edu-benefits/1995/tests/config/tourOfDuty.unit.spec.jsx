@@ -101,10 +101,8 @@ describe('Edu 1995 tourOfDuty', () => {
   };
 
   describe('toursOfDutyIsActiveDutyTrue', () => {
-    const {
-      schema,
-      uiSchema,
-    } = formConfig.chapters.militaryService.pages.toursOfDutyIsActiveDutyTrue;
+    const { schema, uiSchema } =
+      formConfig.chapters.militaryService.pages.toursOfDutyIsActiveDutyTrue;
     const definitions = formConfig.defaultDefinitions;
 
     it('should render', () => {
@@ -126,10 +124,8 @@ describe('Edu 1995 tourOfDuty', () => {
   });
 
   describe('toursOfDutyIsActiveDutyFalse', () => {
-    const {
-      schema,
-      uiSchema,
-    } = formConfig.chapters.militaryService.pages.toursOfDutyIsActiveDutyFalse;
+    const { schema, uiSchema } =
+      formConfig.chapters.militaryService.pages.toursOfDutyIsActiveDutyFalse;
     const definitions = formConfig.defaultDefinitions;
 
     it('should render', () => {

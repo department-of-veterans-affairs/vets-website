@@ -3,9 +3,7 @@ import institutionWithFeedbackMock from '../data/institution-21376032-mock-data.
 /* eslint-disable cypress/unsafe-to-chain-command */
 
 const expectFocusOnResults = () => {
-  cy.get('#results-summary')
-    .should('exist')
-    .and('have.attr', 'tabindex', '-1');
+  cy.get('#results-summary').should('exist').and('have.attr', 'tabindex', '-1');
 };
 describe('Filter Student Feedback — keyboard-only accessibility', () => {
   beforeEach(() => {

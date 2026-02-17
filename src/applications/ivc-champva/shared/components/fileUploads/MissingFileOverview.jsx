@@ -138,11 +138,10 @@ export function checkFlags(pages, person, newListOfMissingFiles) {
 
     // Update with any conditionally shown uploads that weren't in last list
     const fm = personUpdated.missingUploads.flatMap(el => el.name);
-    newListOfMissingFiles.forEach(
-      el =>
-        !fm.includes(el.name)
-          ? missingUploads.push({ ...el, uploaded: false })
-          : null,
+    newListOfMissingFiles.forEach(el =>
+      !fm.includes(el.name)
+        ? missingUploads.push({ ...el, uploaded: false })
+        : null,
     );
     personUpdated.missingUploads = missingUploads; // Shallow
   }

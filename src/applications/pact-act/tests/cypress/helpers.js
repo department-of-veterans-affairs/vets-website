@@ -30,10 +30,7 @@ export const RESULTS_3_HEADER = 'paw-results-3';
 export const RESULTS_4_HEADER = 'paw-results-4';
 
 export const clickStart = () =>
-  cy
-    .findByTestId(START_LINK)
-    .should('be.visible')
-    .click();
+  cy.findByTestId(START_LINK).should('be.visible').click();
 
 export const verifyUrl = link => cy.url().should('contain', `${ROOT}/${link}`);
 
@@ -75,16 +72,10 @@ export const clickContinue = () =>
     .click();
 
 export const clickResultsContinue = () =>
-  cy
-    .findByTestId('paw-results-1-1-continue')
-    .should('be.visible')
-    .click();
+  cy.findByTestId('paw-results-1-1-continue').should('be.visible').click();
 
 export const clickResultsBack = () =>
-  cy
-    .findByTestId('paw-results-back')
-    .should('be.visible')
-    .click();
+  cy.findByTestId('paw-results-back').should('be.visible').click();
 
 export const verifyFormErrorNotShown = selector =>
   cy.findByTestId(selector).should('not.have.attr', 'error');

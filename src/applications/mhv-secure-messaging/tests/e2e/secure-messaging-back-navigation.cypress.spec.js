@@ -66,9 +66,7 @@ describe('SM back navigation', () => {
     );
 
     // Click the link to navigate to Sent folder
-    cy.findByTestId('review-sent-messages-link')
-      .should('be.visible')
-      .click();
+    cy.findByTestId('review-sent-messages-link').should('be.visible').click();
 
     // Verify navigation to Sent folder succeeded
     cy.location().should(loc => {

@@ -27,8 +27,7 @@ describe('find forms API methods', () => {
       const form = {
         attributes: {
           formName: '10-10169',
-          url:
-            'http://localhost:3001/vaforms/medical/pdf/10-10169%20Volunteer%20Consent%20Form.pdf',
+          url: 'http://localhost:3001/vaforms/medical/pdf/10-10169%20Volunteer%20Consent%20Form.pdf',
           validPdf: true,
         },
       };
@@ -48,8 +47,7 @@ describe('find forms API methods', () => {
       const form = {
         attributes: {
           formName: '10-10169',
-          url:
-            'http://localhost:3001/vaforms/medical/pdf/10-10169%20Volunteer%20Consent%20Form.pdf',
+          url: 'http://localhost:3001/vaforms/medical/pdf/10-10169%20Volunteer%20Consent%20Form.pdf',
           validPdf: false,
         },
       };
@@ -92,8 +90,7 @@ describe('find forms API methods', () => {
       const form = {
         attributes: {
           formName: '10-10169',
-          url:
-            'http://localhost:3001/vaforms/medical/pdf/10-10169%20Volunteer%20Consent%20Form.pdf',
+          url: 'http://localhost:3001/vaforms/medical/pdf/10-10169%20Volunteer%20Consent%20Form.pdf',
           validPdf: true,
         },
       };

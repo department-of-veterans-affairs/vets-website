@@ -21,9 +21,7 @@ describe('Medical Records Vitals Details Page', () => {
       dateFormatWithoutTimezone(
         defaultVitals.entry[0].resource.effectiveDateTime,
       ),
-      `${defaultVitals.entry[0].resource.component[0].valueQuantity.value}/${
-        defaultVitals.entry[0].resource.component[1].valueQuantity.value
-      }`,
+      `${defaultVitals.entry[0].resource.component[0].valueQuantity.value}/${defaultVitals.entry[0].resource.component[1].valueQuantity.value}`,
       defaultVitals.entry[0].resource.contained[0].name,
       'None recorded',
     );
@@ -33,9 +31,7 @@ describe('Medical Records Vitals Details Page', () => {
       dateFormatWithoutTimezone(
         defaultVitals.entry[10].resource.effectiveDateTime,
       ),
-      `${defaultVitals.entry[10].resource.component[0].valueQuantity.value}/${
-        defaultVitals.entry[10].resource.component[1].valueQuantity.value
-      }`,
+      `${defaultVitals.entry[10].resource.component[0].valueQuantity.value}/${defaultVitals.entry[10].resource.component[1].valueQuantity.value}`,
       defaultVitals.entry[10].resource.contained[0].name,
       'None recorded',
     );
@@ -45,9 +41,7 @@ describe('Medical Records Vitals Details Page', () => {
       dateFormatWithoutTimezone(
         defaultVitals.entry[20].resource.effectiveDateTime,
       ),
-      `${defaultVitals.entry[20].resource.component[0].valueQuantity.value}/${
-        defaultVitals.entry[20].resource.component[1].valueQuantity.value
-      }`,
+      `${defaultVitals.entry[20].resource.component[0].valueQuantity.value}/${defaultVitals.entry[20].resource.component[1].valueQuantity.value}`,
       defaultVitals.entry[20].resource.contained[0].name,
       'None recorded',
     );
@@ -57,9 +51,7 @@ describe('Medical Records Vitals Details Page', () => {
       dateFormatWithoutTimezone(
         defaultVitals.entry[30].resource.effectiveDateTime,
       ),
-      `${defaultVitals.entry[30].resource.component[0].valueQuantity.value}/${
-        defaultVitals.entry[30].resource.component[1].valueQuantity.value
-      }`,
+      `${defaultVitals.entry[30].resource.component[0].valueQuantity.value}/${defaultVitals.entry[30].resource.component[1].valueQuantity.value}`,
       defaultVitals.entry[30].resource.contained[0].name,
       'None recorded',
     );

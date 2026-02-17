@@ -34,13 +34,11 @@ const LastFilledInfo = rx => {
           )}
         </p>
       )}
-      {!nonVA &&
-        !showLastFilledDate &&
-        !isCernerPilot && (
-          <p data-testid="active-not-filled-rx" data-dd-privacy="mask">
-            Not filled yet
-          </p>
-        )}
+      {!nonVA && !showLastFilledDate && !isCernerPilot && (
+        <p data-testid="active-not-filled-rx" data-dd-privacy="mask">
+          Not filled yet
+        </p>
+      )}
     </>
   );
 };

@@ -56,7 +56,9 @@ const ProcessList = () => {
       </va-process-list-item>
       <va-process-list-item header="Types of expenses you may report">
         <ul className="vads-u-padding-top--1p5">
-          {exampleExpenses?.map(item => <li key={item.id}>{item.name}</li>)}
+          {exampleExpenses?.map(item => (
+            <li key={item.id}>{item.name}</li>
+          ))}
         </ul>
         <va-additional-info trigger="Additional documents we may ask for">
           <p>

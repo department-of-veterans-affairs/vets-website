@@ -49,16 +49,13 @@ const AdditionalInstitutionName = () => {
     return false;
   })();
 
-  useEffect(
-    () => {
-      const facilityCodeInput = document
-        .querySelector('va-text-input')
-        ?.shadowRoot?.querySelector('input');
-      if (!loader && institutionName && facilityCodeInput)
-        focusElement(facilityCodeInput);
-    },
-    [institutionName, loader],
-  );
+  useEffect(() => {
+    const facilityCodeInput = document
+      .querySelector('va-text-input')
+      ?.shadowRoot?.querySelector('input');
+    if (!loader && institutionName && facilityCodeInput)
+      focusElement(facilityCodeInput);
+  }, [institutionName, loader]);
 
   const shouldShowName =
     institutionName && !hasError && !shouldHideNameInList && !isDuplicate;
@@ -70,35 +67,32 @@ const AdditionalInstitutionName = () => {
     [dispatch, formData, index],
   );
 
-  useEffect(
-    () => {
-      if (index == null) {
-        return undefined;
-      }
+  useEffect(() => {
+    if (index == null) {
+      return undefined;
+    }
 
-      const input = document.querySelector(
-        'va-text-input[data-facility-field="additional-facility-code"]',
-      );
+    const input = document.querySelector(
+      'va-text-input[data-facility-field="additional-facility-code"]',
+    );
 
-      if (!input) {
-        return undefined;
-      }
+    if (!input) {
+      return undefined;
+    }
 
-      const handleEvent = event => {
-        const value = event?.detail?.value ?? event?.target?.value ?? '';
-        handleUpdateFacilityCodeInRedux(value);
-      };
+    const handleEvent = event => {
+      const value = event?.detail?.value ?? event?.target?.value ?? '';
+      handleUpdateFacilityCodeInRedux(value);
+    };
 
-      input.addEventListener('va-input', handleEvent);
-      input.addEventListener('input', handleEvent);
+    input.addEventListener('va-input', handleEvent);
+    input.addEventListener('input', handleEvent);
 
-      return () => {
-        input.removeEventListener('va-input', handleEvent);
-        input.removeEventListener('input', handleEvent);
-      };
-    },
-    [handleUpdateFacilityCodeInRedux, index],
-  );
+    return () => {
+      input.removeEventListener('va-input', handleEvent);
+      input.removeEventListener('input', handleEvent);
+    };
+  }, [handleUpdateFacilityCodeInRedux, index]);
 
   return (
     <div aria-live="polite">

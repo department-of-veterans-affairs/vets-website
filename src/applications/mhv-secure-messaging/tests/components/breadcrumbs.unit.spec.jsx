@@ -98,9 +98,7 @@ describe('Breadcrumbs', () => {
     });
 
     const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
-    const expectedHref = `${manifest.rootUrl}${
-      initialStateWithPreviousUrl.sm.breadcrumbs.previousUrl
-    }`;
+    const expectedHref = `${manifest.rootUrl}${initialStateWithPreviousUrl.sm.breadcrumbs.previousUrl}`;
     expect(breadcrumb).to.have.attribute('href', expectedHref);
     await waitFor(() => {
       assertBackBreadcrumbLabel(screen.container);

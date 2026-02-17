@@ -73,9 +73,7 @@ describe('CDP - Overpayments and copay bills (overview)', () => {
     });
 
     it('should navigate to Copay-list page - C18020', () => {
-      cy.findByTestId('balance-card-copay')
-        .findByTestId('card-link')
-        .click();
+      cy.findByTestId('balance-card-copay').findByTestId('card-link').click();
       cy.url().should('match', /\/copay-balances$/);
 
       cy.injectAxeThenAxeCheck();
@@ -109,9 +107,7 @@ describe('CDP - Overpayments and copay bills (overview)', () => {
     });
 
     it('should navigate to Debt-list page - C18022', () => {
-      cy.findByTestId('balance-card-debt')
-        .findByTestId('card-link')
-        .click();
+      cy.findByTestId('balance-card-debt').findByTestId('card-link').click();
       cy.url().should('match', /\/debt-balances$/);
 
       cy.injectAxeThenAxeCheck();
@@ -151,15 +147,11 @@ describe('CDP - Overpayments and copay bills (overview)', () => {
     });
 
     it('should navigate to Copay-list & Debt-list pages - C18024', () => {
-      cy.findByTestId('balance-card-copay')
-        .findByTestId('card-link')
-        .click();
+      cy.findByTestId('balance-card-copay').findByTestId('card-link').click();
       cy.url().should('match', /\/copay-balances$/);
 
       cy.go('back');
-      cy.findByTestId('balance-card-debt')
-        .findByTestId('card-link')
-        .click();
+      cy.findByTestId('balance-card-debt').findByTestId('card-link').click();
       cy.url().should('match', /\/debt-balances$/);
 
       cy.injectAxeThenAxeCheck();

@@ -23,10 +23,8 @@ const testContactInfo = () => {
   initialState.user.profile.vapContactInfo.email.emailAddress =
     'alongusername@gmail.com';
 
-  const {
-    residentialAddress,
-    mailingAddress,
-  } = initialState.user.profile.vapContactInfo;
+  const { residentialAddress, mailingAddress } =
+    initialState.user.profile.vapContactInfo;
 
   const view = renderWithProfileReducers(ui, { initialState });
 
@@ -34,9 +32,7 @@ const testContactInfo = () => {
     .exist;
   expect(
     view.getByText(
-      `${residentialAddress.city}, ${residentialAddress.stateCode} ${
-        residentialAddress.zipCode
-      }`,
+      `${residentialAddress.city}, ${residentialAddress.stateCode} ${residentialAddress.zipCode}`,
       { exact: false },
     ),
   ).to.exist;
@@ -45,9 +41,7 @@ const testContactInfo = () => {
     .exist;
   expect(
     view.getByText(
-      `${mailingAddress.city}, ${mailingAddress.stateCode} ${
-        mailingAddress.zipCode
-      }`,
+      `${mailingAddress.city}, ${mailingAddress.stateCode} ${mailingAddress.zipCode}`,
       { exact: false },
     ),
   ).to.exist;

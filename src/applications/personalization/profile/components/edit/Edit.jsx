@@ -119,52 +119,43 @@ export const Edit = () => {
     return path === PROFILE_PATHS.SCHEDULING_PREFERENCES;
   };
 
-  const editPageHeadingString = useMemo(
-    () => {
-      if (
-        isSubtaskSchedulingPreference(fieldInfo?.fieldName) ||
-        isReturningToSchedulingPreferences(returnPath)
-      ) {
-        return `Edit ${FIELD_SECTION_HEADERS?.[
-          fieldInfo.fieldName
-        ].toLowerCase()}`;
-      }
-      const addOrUpdate = isFieldEmpty(fieldData, fieldInfo?.fieldName)
-        ? 'Add'
-        : 'Update';
+  const editPageHeadingString = useMemo(() => {
+    if (
+      isSubtaskSchedulingPreference(fieldInfo?.fieldName) ||
+      isReturningToSchedulingPreferences(returnPath)
+    ) {
+      return `Edit ${FIELD_SECTION_HEADERS?.[
+        fieldInfo.fieldName
+      ].toLowerCase()}`;
+    }
+    const addOrUpdate = isFieldEmpty(fieldData, fieldInfo?.fieldName)
+      ? 'Add'
+      : 'Update';
 
-      return `${addOrUpdate} your ${fieldInfo?.title.toLowerCase()}`;
-    },
-    [fieldData, fieldInfo, returnPath],
-  );
+    return `${addOrUpdate} your ${fieldInfo?.title.toLowerCase()}`;
+  }, [fieldData, fieldInfo, returnPath]);
 
   const internationalPhonesToggleValue = useToggleValue(
     TOGGLE_NAMES.profileInternationalPhoneNumbers,
   );
 
-  useEffect(
-    () => {
-      document.title = `${editPageHeadingString} | Veterans Affairs`;
-    },
-    [editPageHeadingString],
-  );
+  useEffect(() => {
+    document.title = `${editPageHeadingString} | Veterans Affairs`;
+  }, [editPageHeadingString]);
 
-  useEffect(
-    () => {
-      // Set initial focus on the page heading for keyboard navigation
-      if (fieldInfo && !hasVAPServiceError) {
-        const headingElement = document.querySelector('h1');
-        if (headingElement) {
-          // Only call scrollIntoView if it exists (not in test environment)
-          if (headingElement.scrollIntoView) {
-            headingElement.scrollIntoView();
-          }
-          focusElement(headingElement);
+  useEffect(() => {
+    // Set initial focus on the page heading for keyboard navigation
+    if (fieldInfo && !hasVAPServiceError) {
+      const headingElement = document.querySelector('h1');
+      if (headingElement) {
+        // Only call scrollIntoView if it exists (not in test environment)
+        if (headingElement.scrollIntoView) {
+          headingElement.scrollIntoView();
         }
+        focusElement(headingElement);
       }
-    },
-    [fieldInfo, hasVAPServiceError],
-  );
+    }
+  }, [fieldInfo, hasVAPServiceError]);
 
   useEffect(() => {
     if (fieldInfo?.fieldName && !hasVAPServiceError) {
@@ -199,23 +190,20 @@ export const Edit = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(
-    () => {
-      // this is where we track the state of the beforeunload listener
-      // and add/remove it as needed when the form has unsaved edits
-      if (hasUnsavedEdits && !hasBeforeUnloadListener) {
-        window.addEventListener('beforeunload', beforeUnloadHandler);
-        setHasBeforeUnloadListener(true);
-        return;
-      }
+  useEffect(() => {
+    // this is where we track the state of the beforeunload listener
+    // and add/remove it as needed when the form has unsaved edits
+    if (hasUnsavedEdits && !hasBeforeUnloadListener) {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      setHasBeforeUnloadListener(true);
+      return;
+    }
 
-      if (!hasUnsavedEdits && hasBeforeUnloadListener) {
-        setHasBeforeUnloadListener(false);
-        clearBeforeUnloadListener();
-      }
-    },
-    [hasUnsavedEdits, hasBeforeUnloadListener],
-  );
+    if (!hasUnsavedEdits && hasBeforeUnloadListener) {
+      setHasBeforeUnloadListener(false);
+      clearBeforeUnloadListener();
+    }
+  }, [hasUnsavedEdits, hasBeforeUnloadListener]);
 
   const handlers = {
     cancel: () => {

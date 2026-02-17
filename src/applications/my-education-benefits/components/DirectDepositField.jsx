@@ -43,9 +43,8 @@ export default class DirectDepositField extends ReviewCardField {
       }
     }
 
-    const { viewComponent: ViewComponent, reviewTitle } = this.props.uiSchema[
-      'ui:options'
-    ];
+    const { viewComponent: ViewComponent, reviewTitle } =
+      this.props.uiSchema['ui:options'];
     const title = reviewTitle || this.getTitle();
 
     const headerClasses = [

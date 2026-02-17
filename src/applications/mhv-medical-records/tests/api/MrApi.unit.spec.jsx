@@ -271,9 +271,7 @@ describe('Get appointments api call', () => {
 
     const statusParams =
       '&statuses[]=booked&statuses[]=arrived&statuses[]=fulfilled&statuses[]=cancelled';
-    const expectedUrl = `${
-      environment.API_URL
-    }/vaos/v2/appointments?_include=facilities,clinics&start=${fromDate}&end=${toDate}${statusParams}`;
+    const expectedUrl = `${environment.API_URL}/vaos/v2/appointments?_include=facilities,clinics&start=${fromDate}&end=${toDate}${statusParams}`;
     expect(fetchStub.firstCall.args[0]).to.equal(expectedUrl);
     expect(result.data.length).to.equal(2);
 
@@ -382,9 +380,7 @@ describe('Accelerated OH API calls', () => {
       return getVitalsWithOHData(mockDate).then(res => {
         expect(res.mock).to.equal('data');
         // expect fetch to be called with the correct date
-        const expectedUrl = `${
-          environment.API_URL
-        }/my_health/v1/medical_records/vitals?use_oh_data_path=1`;
+        const expectedUrl = `${environment.API_URL}/my_health/v1/medical_records/vitals?use_oh_data_path=1`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });
@@ -400,9 +396,7 @@ describe('Accelerated OH API calls', () => {
       mockApiRequest(mockData);
       return getAcceleratedLabsAndTests().then(res => {
         expect(res.mock).to.equal('data');
-        const expectedUrl = `${
-          environment.API_URL
-        }/my_health/v2/medical_records/labs_and_tests?start_date=${fromDate}&end_date=${toDate}`;
+        const expectedUrl = `${environment.API_URL}/my_health/v2/medical_records/labs_and_tests?start_date=${fromDate}&end_date=${toDate}`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });
@@ -414,9 +408,7 @@ describe('Accelerated OH API calls', () => {
         endDate: '2023-01-31',
       }).then(res => {
         expect(res.mock).to.equal('data');
-        const expectedUrl = `${
-          environment.API_URL
-        }/my_health/v2/medical_records/labs_and_tests?start_date=2023-01-01&end_date=2023-01-31`;
+        const expectedUrl = `${environment.API_URL}/my_health/v2/medical_records/labs_and_tests?start_date=2023-01-01&end_date=2023-01-31`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });
@@ -428,9 +420,7 @@ describe('Accelerated OH API calls', () => {
       return getAcceleratedLabsAndTests({ startDate: '2023-02-01' }).then(
         res => {
           expect(res.mock).to.equal('data');
-          const expectedUrl = `${
-            environment.API_URL
-          }/my_health/v2/medical_records/labs_and_tests?start_date=${fromDate}&end_date=${toDate}`;
+          const expectedUrl = `${environment.API_URL}/my_health/v2/medical_records/labs_and_tests?start_date=${fromDate}&end_date=${toDate}`;
           expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
         },
       );
@@ -442,9 +432,7 @@ describe('Accelerated OH API calls', () => {
       mockApiRequest(mockData);
       return getAcceleratedLabsAndTests({ endDate: '2023-03-15' }).then(res => {
         expect(res.mock).to.equal('data');
-        const expectedUrl = `${
-          environment.API_URL
-        }/my_health/v2/medical_records/labs_and_tests?start_date=${fromDate}&end_date=${toDate}`;
+        const expectedUrl = `${environment.API_URL}/my_health/v2/medical_records/labs_and_tests?start_date=${fromDate}&end_date=${toDate}`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });
@@ -461,9 +449,7 @@ describe('Accelerated OH API calls', () => {
       mockApiRequest(mockData);
       return getAcceleratedNotes().then(res => {
         expect(res.mock).to.equal('data');
-        const expectedUrl = `${
-          environment.API_URL
-        }/my_health/v2/medical_records/clinical_notes?start_date=${fromDate}&end_date=${toDate}`;
+        const expectedUrl = `${environment.API_URL}/my_health/v2/medical_records/clinical_notes?start_date=${fromDate}&end_date=${toDate}`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });
@@ -475,9 +461,7 @@ describe('Accelerated OH API calls', () => {
         endDate: '2023-01-31',
       }).then(res => {
         expect(res.mock).to.equal('data');
-        const expectedUrl = `${
-          environment.API_URL
-        }/my_health/v2/medical_records/clinical_notes?start_date=2023-01-01&end_date=2023-01-31`;
+        const expectedUrl = `${environment.API_URL}/my_health/v2/medical_records/clinical_notes?start_date=2023-01-01&end_date=2023-01-31`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });
@@ -488,9 +472,7 @@ describe('Accelerated OH API calls', () => {
       mockApiRequest(mockData);
       return getAcceleratedNotes({ startDate: '2023-02-01' }).then(res => {
         expect(res.mock).to.equal('data');
-        const expectedUrl = `${
-          environment.API_URL
-        }/my_health/v2/medical_records/clinical_notes?start_date=${fromDate}&end_date=${toDate}`;
+        const expectedUrl = `${environment.API_URL}/my_health/v2/medical_records/clinical_notes?start_date=${fromDate}&end_date=${toDate}`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });
@@ -501,9 +483,7 @@ describe('Accelerated OH API calls', () => {
       mockApiRequest(mockData);
       return getAcceleratedNotes({ endDate: '2023-03-15' }).then(res => {
         expect(res.mock).to.equal('data');
-        const expectedUrl = `${
-          environment.API_URL
-        }/my_health/v2/medical_records/clinical_notes?start_date=${fromDate}&end_date=${toDate}`;
+        const expectedUrl = `${environment.API_URL}/my_health/v2/medical_records/clinical_notes?start_date=${fromDate}&end_date=${toDate}`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });

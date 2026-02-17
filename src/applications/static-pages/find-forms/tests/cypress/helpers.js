@@ -17,11 +17,7 @@ export const NO_RESULTS = '[data-e2e-id="ff-no-results"]';
 export const NO_RESULTS_DD214 = '[data-e2e-id="ff-no-results-dd214"]';
 
 export const goToNextPage = () =>
-  cy
-    .get('va-pagination')
-    .shadow()
-    .findByText(/Next/i)
-    .click();
+  cy.get('va-pagination').shadow().findByText(/Next/i).click();
 
 export const goToPrevPage = () =>
   cy
@@ -76,9 +72,7 @@ export const confirmErrorsDisplayed = () => {
     .should('have.class', 'usa-input-error-message');
 
   // Find the 'required' text for the error
-  cy.get(FINDFORM_REQUIRED)
-    .should('exist')
-    .should('contain', '(*Required)');
+  cy.get(FINDFORM_REQUIRED).should('exist').should('contain', '(*Required)');
 };
 
 export const validateSearchResult = (
@@ -90,9 +84,7 @@ export const validateSearchResult = (
   hasDetailPage,
   formToolText = null,
 ) => {
-  cy.get('li')
-    .eq(index)
-    .scrollIntoView();
+  cy.get('li').eq(index).scrollIntoView();
 
   if (hasDetailPage) {
     cy.get(`h3[aria-describedby="${formNumber}"] va-link`)
@@ -136,17 +128,10 @@ export const validateSearchResult = (
 };
 
 export const verifyElementExists = selector =>
-  cy
-    .get(selector)
-    .should('exist')
-    .and('be.visible');
+  cy.get(selector).should('exist').and('be.visible');
 
 export const verifyElementShouldContainText = (selector, text) =>
-  cy
-    .get(selector)
-    .should('exist')
-    .and('be.visible')
-    .and('contain.text', text);
+  cy.get(selector).should('exist').and('be.visible').and('contain.text', text);
 
 export const verifyTextInsideLink = (selector, text) =>
   cy

@@ -218,11 +218,10 @@ export function remapRecipientRelationshipsInArrays(formData) {
     if (key === 'files') return; // skip file uploads entirely
 
     if (Array.isArray(value) && value.length > 0) {
-      result[key] = value.map(
-        item =>
-          item && item.recipientRelationship
-            ? remapRecipientRelationshipFields(claimantType, item)
-            : item,
+      result[key] = value.map(item =>
+        item && item.recipientRelationship
+          ? remapRecipientRelationshipFields(claimantType, item)
+          : item,
       );
     }
   });

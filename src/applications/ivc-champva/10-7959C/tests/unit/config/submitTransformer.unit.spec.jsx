@@ -184,9 +184,7 @@ describe('10-7959C submit transformer', () => {
       const form = createForm(testData, true);
       const result = parseTransformed(form);
 
-      expect(result.applicants)
-        .to.be.an('array')
-        .with.lengthOf(1);
+      expect(result.applicants).to.be.an('array').with.lengthOf(1);
       expect(result.applicants[0].applicantName).to.deep.equal({
         first: 'Jane',
         last: 'Smith',
@@ -215,9 +213,7 @@ describe('10-7959C submit transformer', () => {
       const form = createForm(testData, true);
       const result = parseTransformed(form);
 
-      expect(result.applicants[0].medicare)
-        .to.be.an('array')
-        .with.lengthOf(1);
+      expect(result.applicants[0].medicare).to.be.an('array').with.lengthOf(1);
       expect(result.applicants[0].medicare[0].medicarePlanType).to.equal('c');
       expect(result.applicants[0].medicare[0].medicareNumber).to.equal(
         '1EG4TE5MK73',
@@ -407,9 +403,7 @@ describe('10-7959C submit transformer', () => {
 
       expect(result.formNumber).to.equal('10-7959C');
       expect(result.certifierRole).to.equal('other');
-      expect(result.applicants)
-        .to.be.an('array')
-        .with.lengthOf(1);
+      expect(result.applicants).to.be.an('array').with.lengthOf(1);
       expect(result.applicants[0]).to.have.property('applicantName');
       expect(result.applicants[0]).to.have.property('applicantSsn');
       expect(result.applicants[0]).to.have.property('applicantAddress');

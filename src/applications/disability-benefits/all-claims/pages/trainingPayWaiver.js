@@ -10,8 +10,7 @@ export const uiSchema = {
     yesNoReverse: true,
     classNames: 'vads-u-margin-top--0',
     labels: {
-      Y:
-        "I don't want to get VA compensation pay for the days I receive training pay.",
+      Y: "I don't want to get VA compensation pay for the days I receive training pay.",
       N: 'I want to get VA compensation pay instead of training pay.',
     },
     required: () => true,

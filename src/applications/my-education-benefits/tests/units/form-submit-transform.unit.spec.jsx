@@ -229,27 +229,24 @@ describe('form submit transform', () => {
       expect(createRelinquishedBenefit(null)).to.eql({});
     });
     it('should return null if no relinquishment AND Rudisill feature flag is true', () => {
-      mockSubmissionForm[
-        'view:benefitSelection'
-      ].benefitRelinquished = undefined;
+      mockSubmissionForm['view:benefitSelection'].benefitRelinquished =
+        undefined;
       mockSubmissionForm.dgiRudisillHideBenefitsSelectionStep = true;
       mockSubmissionForm.showMebEnhancements09 = true;
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
       expect(relinquishedBenefit.relinquishedBenefit).to.eql(null);
     });
     it('should return NotEligible if rudisill flag and showMebEnhancements09 are false', () => {
-      mockSubmissionForm[
-        'view:benefitSelection'
-      ].benefitRelinquished = undefined;
+      mockSubmissionForm['view:benefitSelection'].benefitRelinquished =
+        undefined;
       mockSubmissionForm.dgiRudisillHideBenefitsSelectionStep = false;
       mockSubmissionForm.showMebEnhancements09 = false;
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
       expect(relinquishedBenefit.relinquishedBenefit).to.eql('NotEligible');
     });
     it('should return NotEligible if no relinquishment AND showMebEnhancements09 AND showMebDgi42Features are true', () => {
-      mockSubmissionForm[
-        'view:benefitSelection'
-      ].benefitRelinquished = undefined;
+      mockSubmissionForm['view:benefitSelection'].benefitRelinquished =
+        undefined;
       mockSubmissionForm.showMebEnhancements09 = true;
       mockSubmissionForm.dgiRudisillHideBenefitsSelectionStep = false;
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
@@ -258,9 +255,8 @@ describe('form submit transform', () => {
   });
   describe('has a createAdditionalConsiderations method', () => {
     it('should return capitalized "YES" and "NO" for present questions', () => {
-      const additionalConsiderations = createAdditionalConsiderations(
-        mockSubmissionForm,
-      );
+      const additionalConsiderations =
+        createAdditionalConsiderations(mockSubmissionForm);
       expect(additionalConsiderations.activeDutyDodRepayLoan).to.eql('NO');
       expect(additionalConsiderations.seniorRotcScholarship).to.eql('YES');
       expect(additionalConsiderations.academyRotcScholarship).to.eql('YES');
@@ -269,9 +265,8 @@ describe('form submit transform', () => {
     });
     it('should return "NA" for additional consideration flag not present', () => {
       mockSubmissionForm.selectedReserveKicker = undefined;
-      const additionalConsiderations = createAdditionalConsiderations(
-        mockSubmissionForm,
-      );
+      const additionalConsiderations =
+        createAdditionalConsiderations(mockSubmissionForm);
       expect(additionalConsiderations.reserveKicker).to.eql('N/A');
     });
   });

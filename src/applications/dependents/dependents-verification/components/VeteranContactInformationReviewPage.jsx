@@ -52,28 +52,25 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
   }, []);
 
   // open accordion + focus
-  useEffect(
-    () => {
-      if (focusSection && !didFocusRef.current) {
-        didFocusRef.current = true;
-        dispatch(openReviewChapter('veteranContactInformation'));
+  useEffect(() => {
+    if (focusSection && !didFocusRef.current) {
+      didFocusRef.current = true;
+      dispatch(openReviewChapter('veteranContactInformation'));
 
-        setTimeout(() => {
-          const vaBtn = refsBySection[focusSection]?.current;
-          if (vaBtn?.shadowRoot) {
-            const realBtn = vaBtn.shadowRoot.querySelector('button');
-            if (realBtn) {
-              scrollTo(realBtn, { offset: -20 });
-              realBtn.focus();
-            }
+      setTimeout(() => {
+        const vaBtn = refsBySection[focusSection]?.current;
+        if (vaBtn?.shadowRoot) {
+          const realBtn = vaBtn.shadowRoot.querySelector('button');
+          if (realBtn) {
+            scrollTo(realBtn, { offset: -20 });
+            realBtn.focus();
           }
-        }, 300);
+        }
+      }, 300);
 
-        setFocusSection(null);
-      }
-    },
-    [focusSection, dispatch, refsBySection],
-  );
+      setFocusSection(null);
+    }
+  }, [focusSection, dispatch, refsBySection]);
 
   const goEditPath = (path, sectionKey) => {
     sessionStorage.setItem('onReviewPage', sectionKey);

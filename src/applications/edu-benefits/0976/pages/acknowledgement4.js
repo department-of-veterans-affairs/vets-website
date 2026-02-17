@@ -42,10 +42,8 @@ export default {
         ...yesNoUI({
           hideLabelText: true,
           labels: {
-            Y:
-              'Yes, the institution is capable of fulfilling its commitments for training.',
-            N:
-              'No, the institution is not capable of fulfilling its commitments for training.',
+            Y: 'Yes, the institution is capable of fulfilling its commitments for training.',
+            N: 'No, the institution is not capable of fulfilling its commitments for training.',
           },
           errorMessages: {
             required: 'You must make a selection.',

@@ -34,10 +34,8 @@ function ApplicantSuggestedAddressLoggedIn({
       setUserAddress(formDataUserAddress);
       setSelectedAddress(formDataUserAddress);
 
-      const {
-        fetchedSuggestedAddress,
-        fetchedShowSuggestions,
-      } = await fetchSuggestedAddress(formDataUserAddress);
+      const { fetchedSuggestedAddress, fetchedShowSuggestions } =
+        await fetchSuggestedAddress(formDataUserAddress);
 
       setSuggestedAddress(fetchedSuggestedAddress);
       setShowSuggestions(fetchedShowSuggestions);
@@ -48,18 +46,15 @@ function ApplicantSuggestedAddressLoggedIn({
   }, []);
 
   // Maintain Screen Reader Focus after isLoading returns and resolves
-  useEffect(
-    () => {
-      if (!isLoading) {
-        const progressBar = document.getElementById('nav-form-header');
-        if (progressBar) {
-          progressBar.setAttribute('tabindex', '-1');
-          progressBar.focus();
-        }
+  useEffect(() => {
+    if (!isLoading) {
+      const progressBar = document.getElementById('nav-form-header');
+      if (progressBar) {
+        progressBar.setAttribute('tabindex', '-1');
+        progressBar.focus();
       }
-    },
-    [isLoading],
-  );
+    }
+  }, [isLoading]);
 
   // Handle Address Selection Change
   const onChangeSelectedAddress = event => {

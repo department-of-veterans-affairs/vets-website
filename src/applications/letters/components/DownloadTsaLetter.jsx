@@ -16,71 +16,64 @@ export const DownloadTsaLetter = ({ documentId, documentVersion }) => {
   const [hasFetched, setHasFetched] = useState(false);
   const [letterData, setLetterData] = useState(null);
 
-  useEffect(
-    () => {
-      let hasFetchedLocal = false;
+  useEffect(() => {
+    let hasFetchedLocal = false;
 
-      const getTsaLetterData = () => {
-        return apiRequest(
-          DOWNLOAD_TSA_LETTER_ENDPOINT(documentId, documentVersion),
-        )
-          .then(response => {
-            response.blob().then(blob => {
-              window.URL = window.URL || window.webkitURL;
-              const downloadUrl = window.URL.createObjectURL(blob);
-              setLetterData(downloadUrl);
-              recordEvent({
-                event: 'api_call',
-                'api-name':
-                  'GET /v0/tsa_letter/:id/version/:version_id/download',
-                'api-status': 'successful',
-              });
-            });
-          })
-          .catch(() => {
-            setError(true);
+    const getTsaLetterData = () => {
+      return apiRequest(
+        DOWNLOAD_TSA_LETTER_ENDPOINT(documentId, documentVersion),
+      )
+        .then(response => {
+          response.blob().then(blob => {
+            window.URL = window.URL || window.webkitURL;
+            const downloadUrl = window.URL.createObjectURL(blob);
+            setLetterData(downloadUrl);
             recordEvent({
               event: 'api_call',
               'api-name': 'GET /v0/tsa_letter/:id/version/:version_id/download',
-              'api-status': 'error',
+              'api-status': 'successful',
             });
           });
-      };
+        })
+        .catch(() => {
+          setError(true);
+          recordEvent({
+            event: 'api_call',
+            'api-name': 'GET /v0/tsa_letter/:id/version/:version_id/download',
+            'api-status': 'error',
+          });
+        });
+    };
 
-      const checkOpenState = async () => {
-        const isOpen = ref.current?.hasAttribute('open');
-        if (isOpen && !hasFetchedLocal) {
-          hasFetchedLocal = true;
-          await getTsaLetterData();
-          setHasFetched(true);
-        }
-      };
+    const checkOpenState = async () => {
+      const isOpen = ref.current?.hasAttribute('open');
+      if (isOpen && !hasFetchedLocal) {
+        hasFetchedLocal = true;
+        await getTsaLetterData();
+        setHasFetched(true);
+      }
+    };
 
-      checkOpenState();
+    checkOpenState();
 
-      const observer = new MutationObserver(checkOpenState);
-      observer.observe(ref.current, {
-        attributes: true,
-        attributeFilter: ['open'],
-      });
+    const observer = new MutationObserver(checkOpenState);
+    observer.observe(ref.current, {
+      attributes: true,
+      attributeFilter: ['open'],
+    });
 
-      return () => {
-        observer.disconnect();
-      };
-    },
-    [documentId, documentVersion],
-  );
+    return () => {
+      observer.disconnect();
+    };
+  }, [documentId, documentVersion]);
 
-  useEffect(
-    () => {
-      return () => {
-        if (letterData) {
-          window.URL.revokeObjectURL(letterData);
-        }
-      };
-    },
-    [letterData],
-  );
+  useEffect(() => {
+    return () => {
+      if (letterData) {
+        window.URL.revokeObjectURL(letterData);
+      }
+    };
+  }, [letterData]);
 
   const loading = !hasFetched;
   const letterTitle = 'TSA PreCheck Application Fee Waiver Letter';

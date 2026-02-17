@@ -13,74 +13,70 @@ import {
 
 const MAX_DESCRIPTION_LENGTH = 186;
 
-const onSearchResultClick = ({
-  bestBet,
-  index,
-  query,
-  searchData,
-  title,
-  typeaheadUsed,
-  url,
-}) => async e => {
-  const { currentPage, recommendedResults, totalEntries } = searchData;
-  e.preventDefault();
+const onSearchResultClick =
+  ({ bestBet, index, query, searchData, title, typeaheadUsed, url }) =>
+  async e => {
+    const { currentPage, recommendedResults, totalEntries } = searchData;
+    e.preventDefault();
 
-  // clear the &t query param which is used to track typeahead searches
-  // removing this will better reflect how many typeahead searches result in at least one click
-  window.history.replaceState(
-    null,
-    document.title,
-    `${window.location.href.replace('&t=true', '')}`,
-  );
+    // clear the &t query param which is used to track typeahead searches
+    // removing this will better reflect how many typeahead searches result in at least one click
+    window.history.replaceState(
+      null,
+      document.title,
+      `${window.location.href.replace('&t=true', '')}`,
+    );
 
-  const bestBetPosition = index + 1;
-  const normalResultPosition = index + (recommendedResults?.length || 0) + 1;
-  const searchResultPosition = bestBet ? bestBetPosition : normalResultPosition;
+    const bestBetPosition = index + 1;
+    const normalResultPosition = index + (recommendedResults?.length || 0) + 1;
+    const searchResultPosition = bestBet
+      ? bestBetPosition
+      : normalResultPosition;
 
-  const encodedUrl = encodeURIComponent(url);
-  const userAgent = encodeURIComponent(navigator.userAgent);
-  const encodedQuery = encodeURIComponent(query);
-  const apiRequestOptions = {
-    method: 'POST',
-  };
-  const moduleCode = bestBet ? 'BOOS' : 'I14Y';
+    const encodedUrl = encodeURIComponent(url);
+    const userAgent = encodeURIComponent(navigator.userAgent);
+    const encodedQuery = encodeURIComponent(query);
+    const apiRequestOptions = {
+      method: 'POST',
+    };
+    const moduleCode = bestBet ? 'BOOS' : 'I14Y';
 
-  // By implementing in this fashion (i.e. a promise chain), code that follows is not blocked by this api request. Following the link at the end of the
-  // function should happen regardless of the result of this api request, and it can happen before this request resolves.
-  apiRequest(
-    `https://api.va.gov/v0/search_click_tracking?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}&module_code=${moduleCode}`,
-    apiRequestOptions,
-  ).catch(error => {
-    Sentry.captureException(error);
-    Sentry.captureMessage('search_click_tracking_error');
-  });
-
-  if (bestBet) {
-    recordEvent({
-      event: 'nav-searchresults',
-      'nav-path': `Recommended Results -> ${title}`,
+    // By implementing in this fashion (i.e. a promise chain), code that follows is not blocked by this api request. Following the link at the end of the
+    // function should happen regardless of the result of this api request, and it can happen before this request resolves.
+    apiRequest(
+      `https://api.va.gov/v0/search_click_tracking?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}&module_code=${moduleCode}`,
+      apiRequestOptions,
+    ).catch(error => {
+      Sentry.captureException(error);
+      Sentry.captureMessage('search_click_tracking_error');
     });
-  }
 
-  recordEvent({
-    event: 'onsite-search-results-click',
-    'search-page-path': document.location.pathname,
-    'search-query': redactPii(query),
-    'search-result-chosen-page-url': url,
-    'search-result-chosen-title': title,
-    'search-results-n-current-page': currentPage,
-    'search-results-position': searchResultPosition,
-    'search-results-total-count': totalEntries,
-    'search-results-total-pages': Math.ceil(totalEntries / 10),
-    'search-results-top-recommendation': bestBet,
-    'search-result-type': 'title',
-    'search-selection': 'All VA.gov',
-    'search-typeahead-used': typeaheadUsed,
-  });
+    if (bestBet) {
+      recordEvent({
+        event: 'nav-searchresults',
+        'nav-path': `Recommended Results -> ${title}`,
+      });
+    }
 
-  // relocate to clicked link page
-  window.location.href = url;
-};
+    recordEvent({
+      event: 'onsite-search-results-click',
+      'search-page-path': document.location.pathname,
+      'search-query': redactPii(query),
+      'search-result-chosen-page-url': url,
+      'search-result-chosen-title': title,
+      'search-results-n-current-page': currentPage,
+      'search-results-position': searchResultPosition,
+      'search-results-total-count': totalEntries,
+      'search-results-total-pages': Math.ceil(totalEntries / 10),
+      'search-results-top-recommendation': bestBet,
+      'search-result-type': 'title',
+      'search-selection': 'All VA.gov',
+      'search-typeahead-used': typeaheadUsed,
+    });
+
+    // relocate to clicked link page
+    window.location.href = url;
+  };
 
 const Result = ({
   index,

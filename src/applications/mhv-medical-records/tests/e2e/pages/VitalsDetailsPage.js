@@ -49,10 +49,7 @@ class VitalsDetailsPage extends BaseDetailsPage {
 
   clickBreadCrumbsLink = (breadcrumb = 0) => {
     // Click Back to "Vitals" Page
-    cy.get('[data-testid="mr-breadcrumbs"]')
-      .find('a')
-      .eq(breadcrumb)
-      .click();
+    cy.get('[data-testid="mr-breadcrumbs"]').find('a').eq(breadcrumb).click();
   };
 
   verifyVitalDate = VitalDate => {

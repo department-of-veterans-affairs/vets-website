@@ -8,10 +8,8 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('Medallions burialLocation', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.burialInformation.pages.burialLocation;
+  const { schema, uiSchema } =
+    formConfig.chapters.burialInformation.pages.burialLocation;
   const mockStore = configureStore([]);
   const store = mockStore({});
 

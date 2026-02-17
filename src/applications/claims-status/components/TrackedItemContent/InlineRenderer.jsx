@@ -55,8 +55,8 @@ export const InlineRenderer = ({ content }) => {
             text={content.text}
             href={content.href}
             data-testid={content.testId}
-            {...content.style === 'active' && { active: true }}
-            {...content.style === 'external' && { external: true }}
+            {...(content.style === 'active' && { active: true })}
+            {...(content.style === 'external' && { external: true })}
           />
         );
       case 'telephone':

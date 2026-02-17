@@ -13,11 +13,8 @@ import {
   PreviousNetIncome,
 } from '../components/FormDescriptions/IncomeDescriptions';
 
-const {
-  spouseGrossIncome,
-  spouseNetIncome,
-  spouseOtherIncome,
-} = ezrSchema.properties;
+const { spouseGrossIncome, spouseNetIncome, spouseOtherIncome } =
+  ezrSchema.properties;
 
 /**
  * Declare schema attributes for spouse income page

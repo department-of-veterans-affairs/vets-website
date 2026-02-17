@@ -59,19 +59,14 @@ export const typeAndSelectInCCPServiceTypeInput = value => {
   // value must be the exact term, not a portion of the text so
   // "General" may be what you type above, but it won't find "General Acute Care Hospital"
   // So you must type and find the same text
-  cy.findByText(value)
-    .eq(0)
-    .click();
+  cy.findByText(value).eq(0).click();
 };
 
 export const typeInCCPServiceTypeInput = value =>
   cy.get(CCP_SERVICE_TYPE_INPUT).type(value);
 
 export const clearInput = selector =>
-  cy
-    .get(selector)
-    .clear()
-    .should('be.empty');
+  cy.get(selector).clear().should('be.empty');
 
 export const FACILITY_TYPES = {
   HEALTH: 'VA health',
@@ -86,10 +81,7 @@ export const FACILITY_TYPES = {
 
 // using the va-select or VaSelect with a shadow and select an item
 export const findSelectInVaSelect = dropdownName =>
-  cy
-    .get(dropdownName)
-    .shadow()
-    .find('select');
+  cy.get(dropdownName).shadow().find('select');
 
 export const vaSelectSelect = (value, dropdownName) =>
   findSelectInVaSelect(dropdownName).select(value, { force: true });
@@ -104,15 +96,10 @@ export const submitSearchForm = () =>
   cy.get(SEARCH_BUTTON).click({ waitForAnimations: true });
 
 export const clickElement = selector =>
-  cy
-    .get(selector)
-    .should('be.visible')
-    .click({ waitForAnimations: true });
+  cy.get(selector).should('be.visible').click({ waitForAnimations: true });
 
 export const verifyMainNumber = number => {
-  cy.get(MAIN_PHONE)
-    .should('exist')
-    .and('contain.text', 'Main phone');
+  cy.get(MAIN_PHONE).should('exist').and('contain.text', 'Main phone');
 
   cy.get(`${MAIN_PHONE} va-telephone`)
     .eq(0)
@@ -149,10 +136,7 @@ export const verifyMentalHealthNumber = number => {
 };
 
 export const verifyTTYNumber = () =>
-  cy
-    .get(TTY_NUMBER)
-    .should('exist')
-    .and('be.visible');
+  cy.get(TTY_NUMBER).should('exist').and('be.visible');
 
 export const verifyListingContents = details => {
   cy.get('.i-pin-card-map')
@@ -161,11 +145,7 @@ export const verifyListingContents = details => {
     .should('have.text', details.pin);
 
   let facilityName = () =>
-    cy
-      .get('va-link')
-      .eq(details.index)
-      .shadow()
-      .find('a');
+    cy.get('va-link').eq(details.index).shadow().find('a');
 
   if (!details.website) {
     facilityName = () => cy.get('h3').eq(details.index);
@@ -200,17 +180,10 @@ export const verifyMobileListItem = (details, index) => {
     .within(() => verifyListingContents(details));
 };
 
-export const selectMobileMapTab = () =>
-  cy
-    .get(MOBILE_TAB_BUTTON)
-    .eq(1)
-    .click();
+export const selectMobileMapTab = () => cy.get(MOBILE_TAB_BUTTON).eq(1).click();
 
 export const selectMobileMapPin = index =>
-  cy
-    .get(`.pin-${index}`)
-    .scrollIntoView()
-    .click();
+  cy.get(`.pin-${index}`).scrollIntoView().click();
 
 export const verifyMobileMapItem = details => {
   cy.get(MOBILE_MAP_RESULT_CONTAINER)
@@ -225,39 +198,19 @@ export const awaitMapRender = () =>
   cy.wait(3000);
 
 export const verifyElementExists = selector =>
-  cy
-    .get(selector)
-    .should('exist')
-    .and('be.visible');
+  cy.get(selector).should('exist').and('be.visible');
 
 export const scrollToThenVerifyElementByText = text =>
-  cy
-    .findByText(text)
-    .eq(0)
-    .scrollIntoView()
-    .should('exist')
-    .and('be.visible');
+  cy.findByText(text).eq(0).scrollIntoView().should('exist').and('be.visible');
 
 export const verifyElementByText = text =>
-  cy
-    .findByText(text)
-    .eq(0)
-    .should('exist')
-    .and('be.visible');
+  cy.findByText(text).eq(0).should('exist').and('be.visible');
 
 export const verifyElementShouldContainText = (selector, text) =>
-  cy
-    .get(selector)
-    .should('exist')
-    .and('be.visible')
-    .and('contain.text', text);
+  cy.get(selector).should('exist').and('be.visible').and('contain.text', text);
 
 export const verifyElementShouldContainString = (selector, regex) =>
-  cy
-    .get(selector)
-    .should('exist')
-    .and('be.visible')
-    .contains(regex);
+  cy.get(selector).should('exist').and('be.visible').contains(regex);
 
 export const verifyElementDoesNotExist = selector =>
   cy.get(selector).should('not.exist');

@@ -15,23 +15,17 @@ export const goToNextPage = pagePath => {
 };
 
 export const startAsAuthUser = ({ waitForPrefill = true } = {}) => {
-  cy.get('[href="#start"]')
-    .first()
-    .click();
+  cy.get('[href="#start"]').first().click();
   cy.location('pathname').should('include', '/check-your-personal-information');
   if (waitForPrefill) cy.wait('@mockPrefill');
 };
 
 export const startAsGuestUser = () => {
-  cy.get('.schemaform-start-button')
-    .first()
-    .click();
+  cy.get('.schemaform-start-button').first().click();
   cy.location('pathname').should('include', '/id-form');
 };
 
 export const startAsInProgressUser = () => {
-  cy.get('[data-testid="continue-your-application"]')
-    .first()
-    .click();
+  cy.get('[data-testid="continue-your-application"]').first().click();
   cy.wait('@mockPrefill');
 };

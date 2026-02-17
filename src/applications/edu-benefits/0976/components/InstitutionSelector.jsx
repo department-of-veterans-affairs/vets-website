@@ -15,16 +15,13 @@ export default function InstitutionSelector({ dataPath }) {
     institutionDetails?.mailingAddress,
   ].every(Boolean);
 
-  useEffect(
-    () => {
-      // Re-focus
-      const facilityCodeInput = document
-        .querySelector('va-text-input')
-        ?.shadowRoot?.querySelector('input');
-      if (!loading) focusElement(facilityCodeInput);
-    },
-    [loading],
-  );
+  useEffect(() => {
+    // Re-focus
+    const facilityCodeInput = document
+      .querySelector('va-text-input')
+      ?.shadowRoot?.querySelector('input');
+    if (!loading) focusElement(facilityCodeInput);
+  }, [loading]);
 
   let content;
   if (loading) {

@@ -72,11 +72,9 @@ describe('Your claims', () => {
   });
 
   it('should display the card list additional info accordion', () => {
-    cy.get('va-additional-info')
-      .shadow()
-      .findByRole('button', {
-        name: 'Find out why we sometimes combine claims',
-      });
+    cy.get('va-additional-info').shadow().findByRole('button', {
+      name: 'Find out why we sometimes combine claims',
+    });
 
     cy.findByText(
       'If you turn in a new claim while we’re reviewing another one from you, we’ll add any new information to the original claim and close the new claim, with no action required from you.',

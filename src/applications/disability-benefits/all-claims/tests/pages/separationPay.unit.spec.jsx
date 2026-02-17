@@ -6,10 +6,8 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('Separation Pay', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.separationPay;
+  const { schema, uiSchema } =
+    formConfig.chapters.veteranDetails.pages.separationPay;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {

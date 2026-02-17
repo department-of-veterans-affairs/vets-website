@@ -8,10 +8,8 @@ import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.additionalInformation.pages.paymentInformation;
+const { schema, uiSchema } =
+  formConfig.chapters.additionalInformation.pages.paymentInformation;
 
 describe('526 -- paymentInformation', () => {
   it('should render with no prefill', () => {

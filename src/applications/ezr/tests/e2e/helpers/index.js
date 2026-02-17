@@ -115,9 +115,8 @@ export const fillDateWebComponentPattern = (fieldName, value) => {
 };
 
 export const fillGulfWarDateRange = () => {
-  const { gulfWarStartDate, gulfWarEndDate } = testData[
-    'view:gulfWarServiceDates'
-  ];
+  const { gulfWarStartDate, gulfWarEndDate } =
+    testData['view:gulfWarServiceDates'];
   const [startYear, startMonth] = gulfWarStartDate
     .split('-')
     .map(dateComponent => parseInt(dateComponent, 10).toString());
@@ -139,9 +138,8 @@ export const fillGulfWarDateRange = () => {
 };
 
 export const fillAgentOrangeDateRange = () => {
-  const { agentOrangeStartDate, agentOrangeEndDate } = testData[
-    'view:agentOrangeExposureDates'
-  ];
+  const { agentOrangeStartDate, agentOrangeEndDate } =
+    testData['view:agentOrangeExposureDates'];
   const [startYear, startMonth] = agentOrangeStartDate
     .split('-')
     .map(dateComponent => parseInt(dateComponent, 10).toString());

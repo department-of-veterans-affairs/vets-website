@@ -27,7 +27,8 @@ const getChannelsByItemId = (itemId, channelEntities) => {
 
 const NotificationItem = ({ channelIds, itemName, itemId }) => {
   const {
-    profileShowMhvNotificationSettingsEmailAppointmentReminders: aptReminderToggle,
+    profileShowMhvNotificationSettingsEmailAppointmentReminders:
+      aptReminderToggle,
     profileShowMhvNotificationSettingsEmailRxShipment: shipmentToggle,
   } = useNotificationSettingsUtils().toggles;
 
@@ -48,23 +49,20 @@ const NotificationItem = ({ channelIds, itemName, itemId }) => {
 
   // this is filtering all the channels that end with 1, which is the text channel
   // once the support for email is added, we'll need to remove this filter along with the feature toggle reliance
-  const filteredChannels = useMemo(
-    () => {
-      return channelIds.filter(channelId => {
-        // Do not include texting to international
-        if (
-          channelId.endsWith(NOTIFICATION_CHANNEL_IDS.TEXT) &&
-          mobilePhone?.isInternational
-        ) {
-          return false;
-        }
-        return emailNotificationsEnabled
-          ? channelId
-          : channelId.endsWith(NOTIFICATION_CHANNEL_IDS.TEXT);
-      });
-    },
-    [channelIds, emailNotificationsEnabled, mobilePhone],
-  );
+  const filteredChannels = useMemo(() => {
+    return channelIds.filter(channelId => {
+      // Do not include texting to international
+      if (
+        channelId.endsWith(NOTIFICATION_CHANNEL_IDS.TEXT) &&
+        mobilePhone?.isInternational
+      ) {
+        return false;
+      }
+      return emailNotificationsEnabled
+        ? channelId
+        : channelId.endsWith(NOTIFICATION_CHANNEL_IDS.TEXT);
+    });
+  }, [channelIds, emailNotificationsEnabled, mobilePhone]);
 
   const channelsByItemId = useSelector(state =>
     getChannelsByItemId(
@@ -91,22 +89,19 @@ const NotificationItem = ({ channelIds, itemName, itemId }) => {
   // used for reflecting some ui state on a whole item level
   // for checkboxes this is important for allowing checkboxes
   // to be disabled when there are pending updates
-  const itemStatusIndicators = useMemo(
-    () => {
-      return {
-        hasSomeSuccessUpdates: channelsByItemId.some(
-          channel => channel.ui.updateStatus === LOADING_STATES.loaded,
-        ),
-        hasSomeErrorUpdates: channelsByItemId.some(
-          channel => channel.ui.updateStatus === LOADING_STATES.error,
-        ),
-        hasSomePendingUpdates: channelsByItemId.some(
-          channel => channel.ui.updateStatus === LOADING_STATES.pending,
-        ),
-      };
-    },
-    [channelsByItemId],
-  );
+  const itemStatusIndicators = useMemo(() => {
+    return {
+      hasSomeSuccessUpdates: channelsByItemId.some(
+        channel => channel.ui.updateStatus === LOADING_STATES.loaded,
+      ),
+      hasSomeErrorUpdates: channelsByItemId.some(
+        channel => channel.ui.updateStatus === LOADING_STATES.error,
+      ),
+      hasSomePendingUpdates: channelsByItemId.some(
+        channel => channel.ui.updateStatus === LOADING_STATES.pending,
+      ),
+    };
+  }, [channelsByItemId]);
 
   // need to do this otherwise we will see Appointment Reminder and Shipment item title only without any checkbox
   const shouldBlock =

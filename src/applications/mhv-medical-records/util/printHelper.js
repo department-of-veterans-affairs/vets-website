@@ -80,17 +80,13 @@ export const txtPrinter = ({ record, user }) => {
           `${entry.testCode}`,
           `${txtLineDotted}`,
           `${OBSERVATION_DISPLAY_LABELS.VALUE}: ${entry.value.text}`,
-          `${OBSERVATION_DISPLAY_LABELS.REFERENCE_RANGE}: ${
-            entry.referenceRange
-          }`,
+          `${OBSERVATION_DISPLAY_LABELS.REFERENCE_RANGE}: ${entry.referenceRange}`,
           `${OBSERVATION_DISPLAY_LABELS.STATUS}: ${entry.status}`,
           entry.bodySite
             ? `${OBSERVATION_DISPLAY_LABELS.BODY_SITE}: ${entry.bodySite}`
             : `${OBSERVATION_DISPLAY_LABELS.BODY_SITE}: None Noted`,
           entry.sampleTested
-            ? `${OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED}: ${
-                entry.sampleTested
-              }`
+            ? `${OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED}: ${entry.sampleTested}`
             : `${OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED}: None Noted`,
           entry.comments
             ? `${OBSERVATION_DISPLAY_LABELS.COMMENTS}: ${entry.comments}`

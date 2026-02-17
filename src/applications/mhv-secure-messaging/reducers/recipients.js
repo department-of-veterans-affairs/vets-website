@@ -32,10 +32,8 @@ const initialState = {
 export const recipientsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.AllRecipients.GET_LIST: {
-      const {
-        associatedTriageGroups,
-        associatedBlockedTriageGroups,
-      } = action.response.meta;
+      const { associatedTriageGroups, associatedBlockedTriageGroups } =
+        action.response.meta;
       const noAssociations =
         associatedTriageGroups === 0 || action.response?.data?.length === 0;
       const allTriageGroupsBlocked =
@@ -64,8 +62,8 @@ export const recipientsReducer = (state = initialState, action) => {
               state.activeCareSystem?.vhaId === recipient.stationNumber),
         ),
 
-        vistaFacilities: findAllowedFacilities(recipients)
-          .allowedVistaFacilities,
+        vistaFacilities:
+          findAllowedFacilities(recipients).allowedVistaFacilities,
 
         vistaRecipients: recipients
           .filter(recipient => recipient.ohTriageGroup !== true)

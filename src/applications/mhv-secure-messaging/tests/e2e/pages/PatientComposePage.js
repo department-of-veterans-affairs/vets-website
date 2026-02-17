@@ -22,9 +22,7 @@ class PatientComposePage {
     cy.intercept('POST', `${Paths.SM_API_EXTENDED}*`, mockResponse).as(
       'message',
     );
-    cy.get(Locators.BUTTONS.SEND)
-      .contains('Send')
-      .click({ force: true });
+    cy.get(Locators.BUTTONS.SEND).contains('Send').click({ force: true });
     return cy
       .wait('@message')
       .its('request')
@@ -45,9 +43,7 @@ class PatientComposePage {
 
   sendMessageWithoutVerification = (mockResponse = mockDraftMessage) => {
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockResponse).as('message');
-    cy.get(Locators.BUTTONS.SEND)
-      .contains('Send')
-      .click({ force: true });
+    cy.get(Locators.BUTTONS.SEND).contains('Send').click({ force: true });
   };
 
   sendMessageByKeyboard = () => {
@@ -91,10 +87,7 @@ class PatientComposePage {
   };
 
   getComboBox = () => {
-    return cy
-      .get('va-combo-box')
-      .shadow()
-      .find(`#options`);
+    return cy.get('va-combo-box').shadow().find(`#options`);
   };
 
   getComboBoxDropdown = () => {
@@ -215,9 +208,7 @@ class PatientComposePage {
 
   clickOnSendMessageButton = (mockResponse = mockDraftMessage) => {
     cy.intercept('POST', Paths.INTERCEPT.MESSAGES, mockResponse).as('message');
-    cy.get(Locators.BUTTONS.SEND)
-      .contains('Send')
-      .click();
+    cy.get(Locators.BUTTONS.SEND).contains('Send').click();
   };
 
   keyboardNavToMessageBodyField = () => {
@@ -272,9 +263,7 @@ class PatientComposePage {
   saveDraft = draftMessage => {
     cy.intercept(
       'PUT',
-      `/my_health/v1/messaging/message_drafts/${
-        draftMessage.data.attributes.messageId
-      }`,
+      `/my_health/v1/messaging/message_drafts/${draftMessage.data.attributes.messageId}`,
       { ok: true },
     ).as('draft_message');
 
@@ -427,9 +416,7 @@ class PatientComposePage {
   };
 
   verifyExpectedPageOpened = menuOption => {
-    cy.get(Locators.HEADER_FOLDER)
-      .contains(menuOption)
-      .should('be.visible');
+    cy.get(Locators.HEADER_FOLDER).contains(menuOption).should('be.visible');
   };
 
   verifyComposePageValuesRetainedAfterContinueEditing = () => {
@@ -465,9 +452,7 @@ class PatientComposePage {
   clickTrashButton = () => {
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockMessageResponse.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockMessageResponse.data.attributes.messageId}`,
       mockMessageResponse,
     ).as('mockMessageResponse');
     cy.intercept(
@@ -485,9 +470,7 @@ class PatientComposePage {
   clickConfirmDeleteButton = mockResponse => {
     cy.intercept(
       'PATCH',
-      `${Paths.INTERCEPT.MESSAGE_THREADS}${
-        mockResponse.data.attributes.threadId
-      }/move?folder_id=-3`,
+      `${Paths.INTERCEPT.MESSAGE_THREADS}${mockResponse.data.attributes.threadId}/move?folder_id=-3`,
       {},
     ).as('deleteMessageWithAttachment');
     cy.get(Locators.ALERTS.DELETE_MESSAGE)
@@ -499,9 +482,7 @@ class PatientComposePage {
   };
 
   openAttachmentInfo = () => {
-    cy.get(`.attachments-section`)
-      .find(`.additional-info-title`)
-      .click();
+    cy.get(`.attachments-section`).find(`.additional-info-title`).click();
   };
 
   verifyDeleteDraftSuccessfulMessageText = () => {
@@ -660,9 +641,7 @@ class PatientComposePage {
 
   verifyRecipientsFieldAlert = text => {
     cy.get(Locators.ALERTS.COMBO_BOX).should(`have.text`, text);
-    cy.get(Locators.COMBO_BOX)
-      .find(`#options`)
-      .should('be.focused');
+    cy.get(Locators.COMBO_BOX).find(`#options`).should('be.focused');
   };
 
   deleteUnsavedDraft = () => {

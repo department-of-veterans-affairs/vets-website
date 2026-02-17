@@ -224,12 +224,8 @@ describe('owned asset list and loop pages', () => {
 
     describe('cardDescription function', () => {
       /* eslint-disable no-unused-vars */
-      const {
-        recipientRelationship,
-        recipientName,
-        assetType,
-        ...baseItem
-      } = testData.data.ownedAssets[0];
+      const { recipientRelationship, recipientName, assetType, ...baseItem } =
+        testData.data.ownedAssets[0];
       testOptionsTextCardDescription(options, baseItem, ownedAssetTypeLabels);
 
       ['FARM', 'BUSINESS'].forEach(at => {
@@ -251,12 +247,8 @@ describe('owned asset list and loop pages', () => {
     });
 
     describe('cardDescription function with zero values', () => {
-      const {
-        recipientRelationship,
-        recipientName,
-        assetType,
-        ...baseItem
-      } = testDataZeroes.data.ownedAssets[0];
+      const { recipientRelationship, recipientName, assetType, ...baseItem } =
+        testDataZeroes.data.ownedAssets[0];
       testOptionsTextCardDescription(options, baseItem, ownedAssetTypeLabels);
     });
 
@@ -339,10 +331,8 @@ describe('owned asset list and loop pages', () => {
       });
 
       describe('default updated summary page', () => {
-        const {
-          schema,
-          uiSchema,
-        } = ownedAssetPages.ownedAssetPagesVeteranSummary;
+        const { schema, uiSchema } =
+          ownedAssetPages.ownedAssetPagesVeteranSummary;
         const formData = { ...testData.data, claimantType: 'VETERAN' };
 
         it('should display when showUpdatedContent is true and claimantType is not SPOUSE/CHILD/CUSTODIAN/PARENT', () => {
@@ -369,10 +359,8 @@ describe('owned asset list and loop pages', () => {
       });
 
       describe('spouse summary page', () => {
-        const {
-          schema,
-          uiSchema,
-        } = ownedAssetPages.ownedAssetPagesSpouseSummary;
+        const { schema, uiSchema } =
+          ownedAssetPages.ownedAssetPagesSpouseSummary;
         const formData = { ...testData.data, claimantType: 'SPOUSE' };
 
         it('should display when showUpdatedContent is true and claimantType is SPOUSE', () => {
@@ -401,10 +389,8 @@ describe('owned asset list and loop pages', () => {
       });
 
       describe('child summary page', () => {
-        const {
-          schema,
-          uiSchema,
-        } = ownedAssetPages.ownedAssetPagesChildSummary;
+        const { schema, uiSchema } =
+          ownedAssetPages.ownedAssetPagesChildSummary;
         const formData = { ...testData.data, claimantType: 'CHILD' };
 
         it('should display when showUpdatedContent is true and claimantType is CHILD', () => {
@@ -424,9 +410,10 @@ describe('owned asset list and loop pages', () => {
         });
 
         it('should have correct option labels', () => {
-          const { labels } = uiSchema['view:isAddingOwnedAssets'][
-            'ui:options'
-          ].updateUiSchema()['ui:options'];
+          const { labels } =
+            uiSchema['view:isAddingOwnedAssets']['ui:options'].updateUiSchema()[
+              'ui:options'
+            ];
           expect(labels.Y).to.equal(
             'Yes, I have income from an owned asset to report',
           );
@@ -436,9 +423,10 @@ describe('owned asset list and loop pages', () => {
         });
 
         it('should have correct labelHeaderLevel configuration', () => {
-          const { labelHeaderLevel } = uiSchema['view:isAddingOwnedAssets'][
-            'ui:options'
-          ].updateUiSchema()['ui:options'];
+          const { labelHeaderLevel } =
+            uiSchema['view:isAddingOwnedAssets']['ui:options'].updateUiSchema()[
+              'ui:options'
+            ];
 
           expect(labelHeaderLevel).to.equal('2');
         });
@@ -454,10 +442,8 @@ describe('owned asset list and loop pages', () => {
       });
 
       describe('custodian summary page', () => {
-        const {
-          schema,
-          uiSchema,
-        } = ownedAssetPages.ownedAssetPagesCustodianSummary;
+        const { schema, uiSchema } =
+          ownedAssetPages.ownedAssetPagesCustodianSummary;
         const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
 
         it('should display when showUpdatedContent is true and claimantType is CUSTODIAN', () => {
@@ -486,10 +472,8 @@ describe('owned asset list and loop pages', () => {
       });
 
       describe('parent summary page', () => {
-        const {
-          schema,
-          uiSchema,
-        } = ownedAssetPages.ownedAssetPagesParentSummary;
+        const { schema, uiSchema } =
+          ownedAssetPages.ownedAssetPagesParentSummary;
         const formData = { ...testData.data, claimantType: 'PARENT' };
 
         it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
@@ -1190,9 +1174,8 @@ describe('owned asset list and loop pages', () => {
 
     describe('dependencies', () => {
       it('should display when view:addFormQuestion is false for FARM', () => {
-        const {
-          depends,
-        } = ownedAssetPages.ownedAssetDocumentMailingAddressPage;
+        const { depends } =
+          ownedAssetPages.ownedAssetDocumentMailingAddressPage;
         const formData = {
           ownedAssets: [
             {
@@ -1205,9 +1188,8 @@ describe('owned asset list and loop pages', () => {
       });
 
       it('should display when view:addFormQuestion is false for BUSINESS', () => {
-        const {
-          depends,
-        } = ownedAssetPages.ownedAssetDocumentMailingAddressPage;
+        const { depends } =
+          ownedAssetPages.ownedAssetDocumentMailingAddressPage;
         const formData = {
           ownedAssets: [
             {
@@ -1220,9 +1202,8 @@ describe('owned asset list and loop pages', () => {
       });
 
       it('should not display when view:addFormQuestion is true', () => {
-        const {
-          depends,
-        } = ownedAssetPages.ownedAssetDocumentMailingAddressPage;
+        const { depends } =
+          ownedAssetPages.ownedAssetDocumentMailingAddressPage;
         const formData = {
           ownedAssets: [
             {
@@ -1235,9 +1216,8 @@ describe('owned asset list and loop pages', () => {
       });
 
       it('should not display for non-FARM/BUSINESS asset types', () => {
-        const {
-          depends,
-        } = ownedAssetPages.ownedAssetDocumentMailingAddressPage;
+        const { depends } =
+          ownedAssetPages.ownedAssetDocumentMailingAddressPage;
         const formData = {
           ownedAssets: [
             {
@@ -1251,9 +1231,8 @@ describe('owned asset list and loop pages', () => {
 
       it('should not display when showUpdatedContent is false', () => {
         helpers.showUpdatedContent.returns(false);
-        const {
-          depends,
-        } = ownedAssetPages.ownedAssetDocumentMailingAddressPage;
+        const { depends } =
+          ownedAssetPages.ownedAssetDocumentMailingAddressPage;
         const formData = {
           ownedAssets: [
             {
@@ -1327,9 +1306,8 @@ describe('owned asset list and loop pages', () => {
         };
 
         it('should show additional form needed page', () => {
-          const {
-            depends,
-          } = ownedAssetPages.ownedAssetAdditionalFormNeededPage;
+          const { depends } =
+            ownedAssetPages.ownedAssetAdditionalFormNeededPage;
           expect(depends(baseFormData, 0)).to.be.true;
         });
 
@@ -1357,9 +1335,8 @@ describe('owned asset list and loop pages', () => {
             ],
           };
 
-          const {
-            depends,
-          } = ownedAssetPages.ownedAssetDocumentMailingAddressPage;
+          const { depends } =
+            ownedAssetPages.ownedAssetDocumentMailingAddressPage;
           expect(depends(formDataWithMailing, 0)).to.be.true;
         });
 

@@ -8,10 +8,9 @@ import {
 } from '../../definitions/constants';
 import formConfig from '../../config/form';
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.witnessPersonalInfoChapter.pages.witnessOtherRelationshipPage;
+const { schema, uiSchema } =
+  formConfig.chapters.witnessPersonalInfoChapter.pages
+    .witnessOtherRelationshipPage;
 const pageTitle = 'Witness other relationship';
 
 // Test data for when field should be visible (other relationship selected)

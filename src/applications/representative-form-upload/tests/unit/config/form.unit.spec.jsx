@@ -60,9 +60,9 @@ describe('Form Config - Core Branch Coverage', () => {
         config.chapters.veteranInformationChapter?.pages?.veteranInformationPage
           ?.depends
       ) {
-        const {
-          depends,
-        } = config.chapters.veteranInformationChapter.pages.veteranInformationPage;
+        const { depends } =
+          config.chapters.veteranInformationChapter.pages
+            .veteranInformationPage;
 
         depends({ isVeteran: 'yes' });
         depends({ isVeteran: 'no' });
@@ -75,9 +75,8 @@ describe('Form Config - Core Branch Coverage', () => {
         config.chapters.claimantInformationChapter?.pages?.claimantInformation
           ?.depends
       ) {
-        const {
-          depends,
-        } = config.chapters.claimantInformationChapter.pages.claimantInformation;
+        const { depends } =
+          config.chapters.claimantInformationChapter.pages.claimantInformation;
 
         depends({ isVeteran: 'yes' });
         depends({ isVeteran: 'no' });

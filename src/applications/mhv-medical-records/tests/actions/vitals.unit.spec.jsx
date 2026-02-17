@@ -43,7 +43,11 @@ describe('Get vitals action', () => {
     const mockData = vitals;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVitals(false, true, true)(dispatch).then(() => {
+    return getVitals(
+      false,
+      true,
+      true,
+    )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Vitals.UPDATE_LIST_STATE,
       );
@@ -73,7 +77,10 @@ describe('Get vital action', () => {
     const mockData = vital;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVitalDetails('3106', undefined)(dispatch).then(() => {
+    return getVitalDetails(
+      '3106',
+      undefined,
+    )(dispatch).then(() => {
       expect(dispatch.secondCall.args[0].type).to.equal(Actions.Vitals.GET);
     });
   });

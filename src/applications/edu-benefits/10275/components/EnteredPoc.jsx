@@ -16,12 +16,9 @@ const EnteredPoc = ({ value, onChange, options = [] }) => {
 
   // Keep a local selection to avoid flicker/deselect during intermediate renders
   const [selectedKey, setSelectedKey] = useState(currentKey);
-  useEffect(
-    () => {
-      setSelectedKey(currentKey);
-    },
-    [currentKey],
-  );
+  useEffect(() => {
+    setSelectedKey(currentKey);
+  }, [currentKey]);
 
   const handleChange = e => {
     const k = e?.detail?.value;

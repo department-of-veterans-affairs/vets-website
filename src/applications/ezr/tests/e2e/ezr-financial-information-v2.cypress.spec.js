@@ -123,9 +123,7 @@ describe('EZR V2 financial information flow', () => {
         advanceToVeteranAnnualIncomePage(true);
         fillFinancialInformation(true, data);
         // All three sets of financial information should be present on the review page
-        cy.get('va-card')
-          .find('h4')
-          .should('have.length', 3);
+        cy.get('va-card').find('h4').should('have.length', 3);
         cy.get('va-card')
           .find('h4')
           .first()
@@ -145,9 +143,7 @@ describe('EZR V2 financial information flow', () => {
         it('should successfully fill veteran annual income and deductible expenses, but not render the spouse annual income page', () => {
           advanceToVeteranAnnualIncomePage(false);
           fillFinancialInformation(false, data);
-          cy.get('va-card')
-            .find('h4')
-            .should('have.length', 2);
+          cy.get('va-card').find('h4').should('have.length', 2);
           cy.get('va-card')
             .find('h4')
             .first()

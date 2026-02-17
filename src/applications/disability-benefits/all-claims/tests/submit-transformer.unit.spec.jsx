@@ -69,7 +69,8 @@ describe('transform', () => {
 
         if (fileName.includes('bdd')) {
           rawData.data.serviceInformation.servicePeriods = servicePeriodsBDD;
-          transformedData.form526.serviceInformation.servicePeriods = servicePeriodsBDD;
+          transformedData.form526.serviceInformation.servicePeriods =
+            servicePeriodsBDD;
         }
         expect(JSON.parse(transform(formConfig, rawData))).to.deep.equal(
           transformedData,

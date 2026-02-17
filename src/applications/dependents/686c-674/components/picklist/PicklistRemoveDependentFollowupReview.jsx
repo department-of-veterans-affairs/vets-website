@@ -31,17 +31,14 @@ const PicklistRemoveDependentsFollowupReview = ({ data = {}, goToPath }) => {
   const updatedKey = sessionStorage.getItem(PICKLIST_EDIT_REVIEW_FLAG) || false;
   const [showUpdatedAlert, setShowUpdatedAlert] = useState(updatedKey);
 
-  useEffect(
-    () => {
-      if (updatedKey && updatedAlertRef.current) {
-        // Delay focus to wait out review page focus on the page title header
-        setTimeout(() => {
-          scrollAndFocus(updatedAlertRef.current);
-        }, 300);
-      }
-    },
-    [updatedKey, updatedAlertRef],
-  );
+  useEffect(() => {
+    if (updatedKey && updatedAlertRef.current) {
+      // Delay focus to wait out review page focus on the page title header
+      setTimeout(() => {
+        scrollAndFocus(updatedAlertRef.current);
+      }, 300);
+    }
+  }, [updatedKey, updatedAlertRef]);
 
   const handlers = {
     onEdit: event => {
@@ -79,29 +76,28 @@ const PicklistRemoveDependentsFollowupReview = ({ data = {}, goToPath }) => {
         const details = pageDetails[item.relationshipToVeteran](item);
         return (
           <div key={item.key} className="form-review-panel-page">
-            {showUpdatedAlert &&
-              item.key === updatedKey && (
-                <div className="vads-u-margin-bottom--1 vads-u-margin-right--0p5">
-                  <VaAlert
-                    ref={updatedAlertRef}
-                    slim
-                    closeable
-                    id="updated-dependent-alert"
-                    status="success"
-                    close-btn-aria-label="Close notification"
-                    onCloseEvent={handlers.onCloseAlert}
+            {showUpdatedAlert && item.key === updatedKey && (
+              <div className="vads-u-margin-bottom--1 vads-u-margin-right--0p5">
+                <VaAlert
+                  ref={updatedAlertRef}
+                  slim
+                  closeable
+                  id="updated-dependent-alert"
+                  status="success"
+                  close-btn-aria-label="Close notification"
+                  onCloseEvent={handlers.onCloseAlert}
+                >
+                  <div
+                    className="dd-privacy-mask"
+                    data-dd-action-name="Successfully updated alert"
                   >
-                    <div
-                      className="dd-privacy-mask"
-                      data-dd-action-name="Successfully updated alert"
-                    >
-                      {`${makeNamePossessive(
-                        dependentFullName,
-                      )} information has been updated`}
-                    </div>
-                  </VaAlert>
-                </div>
-              )}
+                    {`${makeNamePossessive(
+                      dependentFullName,
+                    )} information has been updated`}
+                  </div>
+                </VaAlert>
+              </div>
+            )}
             <div className="form-review-panel-page-header-row vads-u-margin-bottom--2">
               <h4
                 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0 dd-privacy-mask"

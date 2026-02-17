@@ -6,10 +6,8 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('Medallions cemeteryContactInfo', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.burialInformation.pages.cemeteryContactInfo;
+  const { schema, uiSchema } =
+    formConfig.chapters.burialInformation.pages.cemeteryContactInfo;
 
   it('should render the cemetery contact info inputs', () => {
     const form = mount(

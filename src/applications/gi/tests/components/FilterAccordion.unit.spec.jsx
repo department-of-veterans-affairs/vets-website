@@ -53,10 +53,7 @@ describe('<FilterAccordion>', () => {
       open: true,
       updateResults: updateResultsSpy,
     });
-    wrapper
-      .find('VaButton[text="Update Results"]')
-      .getDOMNode()
-      .click();
+    wrapper.find('VaButton[text="Update Results"]').getDOMNode().click();
     expect(updateResultsSpy.called).to.be.true;
   });
 
@@ -67,10 +64,7 @@ describe('<FilterAccordion>', () => {
       open: true,
       resetSearch: resetSearchSpy,
     });
-    wrapper
-      .find('VaButton[text="Reset search"]')
-      .getDOMNode()
-      .click();
+    wrapper.find('VaButton[text="Reset search"]').getDOMNode().click();
     expect(resetSearchSpy.called).to.be.true;
   });
 

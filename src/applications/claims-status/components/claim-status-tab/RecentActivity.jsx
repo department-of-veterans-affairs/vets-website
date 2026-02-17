@@ -116,10 +116,8 @@ export default function RecentActivity({ claim }) {
   };
 
   const generatePhaseItems = () => {
-    const {
-      currentPhaseBack,
-      previousPhases,
-    } = claim.attributes.claimPhaseDates;
+    const { currentPhaseBack, previousPhases } =
+      claim.attributes.claimPhaseDates;
     const claimPhases = [];
 
     const regex = /\d+/;
@@ -218,8 +216,9 @@ export default function RecentActivity({ claim }) {
           TrackedItem.renderDefaultThirdPartyMessage(item.oldDisplayName)
         )}
         <Link
-          aria-label={`About this notice for ${item.friendlyName ||
-            item.displayName}`}
+          aria-label={`About this notice for ${
+            item.friendlyName || item.displayName
+          }`}
           className="add-your-claims-link"
           to={`../needed-from-others/${item.id}`}
         >

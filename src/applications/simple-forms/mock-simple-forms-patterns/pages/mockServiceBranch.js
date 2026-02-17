@@ -10,8 +10,7 @@ export default {
     wcv3ServiceBranchCustom: serviceBranchUI({
       title: 'Service branches in the Coast Guard group',
       required: () => true,
-      hint:
-        'This component only includes service branches in the coast guard group',
+      hint: 'This component only includes service branches in the coast guard group',
       groups: ['coast guard'],
     }),
     wcv3ServiceBranchCustomBranches: serviceBranchUI({

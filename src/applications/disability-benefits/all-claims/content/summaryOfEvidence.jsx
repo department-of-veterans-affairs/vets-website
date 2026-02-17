@@ -120,42 +120,45 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
         {facility.providerFacilityName}
       </li>
     ));
-    privateEvidenceContent = formData.disability526SupportingEvidenceEnhancement ? (
-      <div className="vads-u-margin-top--2">
-        <strong>
-          We’ll request your private medical records on your behalf from these
-          medical centers:
-        </strong>
-        <ul>{privateEvidenceList}</ul>
-      </div>
-    ) : (
-      <div>
-        <p>We’ll get your non-VA treatment records from:</p>
-        <ul>{privateEvidenceList}</ul>
-      </div>
-    );
+    privateEvidenceContent =
+      formData.disability526SupportingEvidenceEnhancement ? (
+        <div className="vads-u-margin-top--2">
+          <strong>
+            We’ll request your private medical records on your behalf from these
+            medical centers:
+          </strong>
+          <ul>{privateEvidenceList}</ul>
+        </div>
+      ) : (
+        <div>
+          <p>We’ll get your non-VA treatment records from:</p>
+          <ul>{privateEvidenceList}</ul>
+        </div>
+      );
   }
 
   if (
     serviceTreatmentRecordsUploads.length &&
     serviceTreatmentRecordsSelected
   ) {
-    const serviceTreatmentRecordsUploadsList = serviceTreatmentRecordsUploads.map(
-      upload => <li key={upload.name}>{upload.name}</li>,
-    );
-    serviceTreatmentRecordsContent = formData.disability526SupportingEvidenceEnhancement ? (
-      <div className="vads-u-margin-top--2">
-        <strong>
-          We’ll submit these service treatment records you uploaded:
-        </strong>
-        <ul>{serviceTreatmentRecordsUploadsList}</ul>
-      </div>
-    ) : (
-      <div>
-        <p>We’ll submit the below service treatment records you uploaded:</p>
-        <ul>{serviceTreatmentRecordsUploadsList}</ul>
-      </div>
-    );
+    const serviceTreatmentRecordsUploadsList =
+      serviceTreatmentRecordsUploads.map(upload => (
+        <li key={upload.name}>{upload.name}</li>
+      ));
+    serviceTreatmentRecordsContent =
+      formData.disability526SupportingEvidenceEnhancement ? (
+        <div className="vads-u-margin-top--2">
+          <strong>
+            We’ll submit these service treatment records you uploaded:
+          </strong>
+          <ul>{serviceTreatmentRecordsUploadsList}</ul>
+        </div>
+      ) : (
+        <div>
+          <p>We’ll submit the below service treatment records you uploaded:</p>
+          <ul>{serviceTreatmentRecordsUploadsList}</ul>
+        </div>
+      );
   }
 
   if (layEvidenceUploads.length && additionalEvidenceSelected) {

@@ -409,7 +409,8 @@ describe('<FirstPartyRequestPage>', () => {
         },
         dictionaryEntry: getDictEntry('ASB - tell us where, when, how exposed'),
         expectedHeader: 'Request for evidence',
-        expectedSubheaderPattern: /Respond by .* for: asbestos exposure details/i,
+        expectedSubheaderPattern:
+          /Respond by .* for: asbestos exposure details/i,
         expectedDescriptionText:
           'To process your disability claim for asbestos exposure',
         showsAddFilesForm: true,
@@ -431,7 +432,8 @@ describe('<FirstPartyRequestPage>', () => {
           'ASB-tell us specific disability fm asbestos exposure',
         ),
         expectedHeader: 'Request for evidence',
-        expectedSubheaderPattern: /Respond by .* for: asbestos exposure information/i,
+        expectedSubheaderPattern:
+          /Respond by .* for: asbestos exposure information/i,
         expectedDescriptionText:
           'To process your disability claim for asbestos exposure, we need information about your asbestos-related disease or disability:',
         showsAddFilesForm: true,
@@ -493,7 +495,8 @@ describe('<FirstPartyRequestPage>', () => {
         },
         dictionaryEntry: null,
         expectedHeader: 'Request for evidence',
-        expectedSubheaderPattern: /Respond by .* for: Generic Request No Override/,
+        expectedSubheaderPattern:
+          /Respond by .* for: Generic Request No Override/,
         expectedDescriptionText:
           'we’re unable to provide more information about the request',
         expectedNextStepsTestId: 'next-steps-in-claim-letter',
@@ -680,14 +683,11 @@ describe('<FirstPartyRequestPage>', () => {
           nextSteps: mockApiNextSteps,
         };
 
-        const {
-          getByTestId,
-          queryByTestId,
-          getByText,
-        } = renderWithReduxAndRouter(
-          <FirstPartyRequestPage {...defaultProps} item={item} />,
-          { initialState },
-        );
+        const { getByTestId, queryByTestId, getByText } =
+          renderWithReduxAndRouter(
+            <FirstPartyRequestPage {...defaultProps} item={item} />,
+            { initialState },
+          );
 
         expect(getByTestId('api-next-steps')).to.exist;
         getByText('These are API-provided structured next steps.');

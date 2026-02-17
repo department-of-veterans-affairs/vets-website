@@ -64,7 +64,8 @@ describe('Medications Prescriptions container', () => {
       featureToggles: {
         [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
         [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
-        [FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements]: isMedicationsManagementImprovementsEnabled,
+        [FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements]:
+          isMedicationsManagementImprovementsEnabled,
         ...state.featureToggles,
       },
     };
@@ -615,9 +616,8 @@ describe('Medications Prescriptions container', () => {
         expect(processListItems).to.have.length(3);
 
         // Verify the process list container exists
-        const processList = refillProcessContainer.querySelector(
-          'va-process-list',
-        );
+        const processList =
+          refillProcessContainer.querySelector('va-process-list');
         expect(processList).to.exist;
       });
 

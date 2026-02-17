@@ -101,46 +101,40 @@ const ReviewDependents = ({
         </va-alert>
       )}
 
-      {!hasDependentError &&
-        isDependentsArray &&
-        dependents.length === 0 && (
-          <va-alert status="info">
-            <div>
-              We don’t have any dependents on file for your VA benefits.
-            </div>
-          </va-alert>
-        )}
+      {!hasDependentError && isDependentsArray && dependents.length === 0 && (
+        <va-alert status="info">
+          <div>We don’t have any dependents on file for your VA benefits.</div>
+        </va-alert>
+      )}
 
-      {!hasDependentError &&
-        hasDependents && (
-          <>
-            <p>
-              Remove a dependent from your VA benefits if these changes
-              occurred:
-            </p>
-            <ul>
-              <li>
-                You got divorced, <strong>or</strong>
-              </li>
-              <li>
-                Your child died, <strong>or</strong>
-              </li>
-              <li>
-                Your child (either a minor or a student) got married,{' '}
-                <strong>or</strong>
-              </li>
-              <li>Your parent died</li>
-            </ul>
-            <p>
-              Not reporting changes could lead to a benefit overpayment. You’d
-              have to repay that money.
-            </p>
+      {!hasDependentError && hasDependents && (
+        <>
+          <p>
+            Remove a dependent from your VA benefits if these changes occurred:
+          </p>
+          <ul>
+            <li>
+              You got divorced, <strong>or</strong>
+            </li>
+            <li>
+              Your child died, <strong>or</strong>
+            </li>
+            <li>
+              Your child (either a minor or a student) got married,{' '}
+              <strong>or</strong>
+            </li>
+            <li>Your parent died</li>
+          </ul>
+          <p>
+            Not reporting changes could lead to a benefit overpayment. You’d
+            have to repay that money.
+          </p>
 
-            {dependents.map(renderDependentCard)}
+          {dependents.map(renderDependentCard)}
 
-            <h4>Check if someone is missing on your VA benefits</h4>
-          </>
-        )}
+          <h4>Check if someone is missing on your VA benefits</h4>
+        </>
+      )}
 
       <p>Add a dependent to your VA benefits if these changes occurred:</p>
       <ul>

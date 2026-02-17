@@ -11,10 +11,9 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../../config/form';
 
 describe('evidenceChoiceAdditionalDocumentsPage', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.supportingEvidence.pages.evidenceChoiceAdditionalDocuments;
+  const { schema, uiSchema } =
+    formConfig.chapters.supportingEvidence.pages
+      .evidenceChoiceAdditionalDocuments;
 
   it('should require evidenceChoiceAdditionalDocuments field in schema', () => {
     expect(schema.required).to.deep.equal([

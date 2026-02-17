@@ -7,10 +7,8 @@ import {
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../../definitions/constants';
 import formConfig from '../../config/form';
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.claimantContactInfoChapter.pages.claimantContInfoPage;
+const { schema, uiSchema } =
+  formConfig.chapters.claimantContactInfoChapter.pages.claimantContInfoPage;
 const pageTitle = 'Claimant’s contact information';
 const mockData = {
   claimOwnership: CLAIM_OWNERSHIPS.SELF,

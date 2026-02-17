@@ -218,25 +218,24 @@ const LOA1Content = ({
         </Toggler.Enabled>
       </Toggler>
 
-      {showWelcomeToMyVaMessage &&
-        userIsNew && (
-          <VaModal
-            large
-            modalTitle="Welcome to My VA"
-            onCloseEvent={dismissWelcomeModal}
-            onPrimaryButtonClick={dismissWelcomeModal}
-            primaryButtonText="Continue"
-            visible={welcomeModalVisible}
-            data-testid="welcome-modal"
-          >
-            <p>
-              We’ll help you get started managing your benefits and information
-              online, as well as help you find resources and support. Once you
-              have applications or claims in process, you’ll be able to check
-              status here at My VA.
-            </p>
-          </VaModal>
-        )}
+      {showWelcomeToMyVaMessage && userIsNew && (
+        <VaModal
+          large
+          modalTitle="Welcome to My VA"
+          onCloseEvent={dismissWelcomeModal}
+          onPrimaryButtonClick={dismissWelcomeModal}
+          primaryButtonText="Continue"
+          visible={welcomeModalVisible}
+          data-testid="welcome-modal"
+        >
+          <p>
+            We’ll help you get started managing your benefits and information
+            online, as well as help you find resources and support. Once you
+            have applications or claims in process, you’ll be able to check
+            status here at My VA.
+          </p>
+        </VaModal>
+      )}
     </>
   );
 };
@@ -303,136 +302,100 @@ const Dashboard = ({
     localStorage.setItem('welcomeToMyVAModalIsDismissed', 'true');
   };
 
-  React.useEffect(
-    () => {
-      if (!dataLoadingDisabled && shouldLoadAppeals) {
-        getAppeals();
-      }
-    },
-    [dataLoadingDisabled, getAppeals, shouldLoadAppeals],
-  );
+  React.useEffect(() => {
+    if (!dataLoadingDisabled && shouldLoadAppeals) {
+      getAppeals();
+    }
+  }, [dataLoadingDisabled, getAppeals, shouldLoadAppeals]);
 
-  React.useEffect(
-    () => {
-      if (!dataLoadingDisabled && shouldLoadClaims) {
-        getClaims();
-      }
-    },
-    [dataLoadingDisabled, getClaims, shouldLoadClaims],
-  );
+  React.useEffect(() => {
+    if (!dataLoadingDisabled && shouldLoadClaims) {
+      getClaims();
+    }
+  }, [dataLoadingDisabled, getClaims, shouldLoadClaims]);
 
-  useEffect(
-    () => {
-      if (shouldGetESRStatus) {
-        getESREnrollmentStatus();
-      }
-    },
-    [shouldGetESRStatus, getESREnrollmentStatus],
-  );
+  useEffect(() => {
+    if (shouldGetESRStatus) {
+      getESREnrollmentStatus();
+    }
+  }, [shouldGetESRStatus, getESREnrollmentStatus]);
 
-  useEffect(
-    () => {
-      getFormStatuses();
-    },
-    [getFormStatuses],
-  );
+  useEffect(() => {
+    getFormStatuses();
+  }, [getFormStatuses]);
 
-  useEffect(
-    () => {
-      if (!dataLoadingDisabled && isVAPatient) {
-        fetchConfirmedFutureAppointments();
-      }
-    },
-    [dataLoadingDisabled, fetchConfirmedFutureAppointments, isVAPatient],
-  );
+  useEffect(() => {
+    if (!dataLoadingDisabled && isVAPatient) {
+      fetchConfirmedFutureAppointments();
+    }
+  }, [dataLoadingDisabled, fetchConfirmedFutureAppointments, isVAPatient]);
 
-  useEffect(
-    () => {
-      if (shouldFetchUnreadMessages && !dataLoadingDisabled && isVAPatient) {
-        fetchUnreadMessages();
-      }
-    },
-    [
-      shouldFetchUnreadMessages,
-      fetchUnreadMessages,
-      dataLoadingDisabled,
-      isVAPatient,
-    ],
-  );
+  useEffect(() => {
+    if (shouldFetchUnreadMessages && !dataLoadingDisabled && isVAPatient) {
+      fetchUnreadMessages();
+    }
+  }, [
+    shouldFetchUnreadMessages,
+    fetchUnreadMessages,
+    dataLoadingDisabled,
+    isVAPatient,
+  ]);
 
-  useEffect(
-    () => {
-      // use Drupal based Cerner facility data
-      connectDrupalSourceOfTruthCerner(dispatch);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    // use Drupal based Cerner facility data
+    connectDrupalSourceOfTruthCerner(dispatch);
+  }, [dispatch]);
 
   // focus on the name tag or the header when we are done loading
-  useEffect(
-    () => {
-      if (!showLoader) {
-        if (showNameTag) {
-          focusElement('#name-tag');
-        } else {
-          focusElement('#dashboard-title');
-        }
+  useEffect(() => {
+    if (!showLoader) {
+      if (showNameTag) {
+        focusElement('#name-tag');
+      } else {
+        focusElement('#dashboard-title');
       }
-    },
-    [showLoader, showNameTag],
-  );
+    }
+  }, [showLoader, showNameTag]);
 
   // fetch data when we determine they are LOA3
-  useEffect(
-    () => {
-      if (isLOA3) {
-        fetchFullName();
-        if (canAccessMilitaryHistory) {
-          fetchMilitaryInformation();
-        }
-        if (canAccessRatingInfo) {
-          fetchTotalDisabilityRating();
-        }
+  useEffect(() => {
+    if (isLOA3) {
+      fetchFullName();
+      if (canAccessMilitaryHistory) {
+        fetchMilitaryInformation();
       }
-    },
-    [
-      canAccessMilitaryHistory,
-      canAccessRatingInfo,
-      isLOA3,
-      fetchFullName,
-      fetchMilitaryInformation,
-      fetchTotalDisabilityRating,
-    ],
-  );
+      if (canAccessRatingInfo) {
+        fetchTotalDisabilityRating();
+      }
+    }
+  }, [
+    canAccessMilitaryHistory,
+    canAccessRatingInfo,
+    isLOA3,
+    fetchFullName,
+    fetchMilitaryInformation,
+    fetchTotalDisabilityRating,
+  ]);
 
   // fetch data when we determine they are LOA3
-  useEffect(
-    () => {
-      if (canAccessPaymentHistory) {
-        getPayments();
-      }
-    },
-    [canAccessPaymentHistory, getPayments],
-  );
+  useEffect(() => {
+    if (canAccessPaymentHistory) {
+      getPayments();
+    }
+  }, [canAccessPaymentHistory, getPayments]);
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showGenericDebtCard = useToggleValue(TOGGLE_NAMES.showGenericDebtCard);
 
-  useEffect(
-    () => {
-      if (!showGenericDebtCard) {
-        getDebts(true);
-      }
-    },
-    [getDebts, showGenericDebtCard],
-  );
+  useEffect(() => {
+    if (!showGenericDebtCard) {
+      getDebts(true);
+    }
+  }, [getDebts, showGenericDebtCard]);
 
-  useEffect(
-    () => {
-      getCopays();
-    },
-    [getCopays],
-  );
+  useEffect(() => {
+    getCopays();
+  }, [getCopays]);
 
   return (
     <RequiredLoginView
@@ -822,7 +785,4 @@ const mapDispatchToProps = {
   getCopays: fetchCopays,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

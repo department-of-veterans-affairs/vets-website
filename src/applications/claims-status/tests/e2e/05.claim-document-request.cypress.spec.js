@@ -50,9 +50,7 @@ const setupPageAndIntercepts = featureToggleEnabled => {
 // Helper function to upload file and select document type
 const uploadFileWithDocType = (fileName, fileIndex = 0, docType = 'L034') => {
   uploadFile(fileName, fileIndex);
-  getFileInputElement(fileIndex)
-    .find('va-select')
-    .should('be.visible');
+  getFileInputElement(fileIndex).find('va-select').should('be.visible');
   selectDocumentType(fileIndex, docType);
 };
 
@@ -190,9 +188,7 @@ describe('Document upload', () => {
           .should(
             'have.attr',
             'href',
-            `/track-claims/your-claims/189685/files#${
-              ANCHOR_LINKS.documentsFiled
-            }`,
+            `/track-claims/your-claims/189685/files#${ANCHOR_LINKS.documentsFiled}`,
           );
 
         cy.injectAxeThenAxeCheck();
@@ -298,9 +294,7 @@ describe('Document upload', () => {
           .should(
             'have.attr',
             'href',
-            `/track-claims/your-claims/189685/files#${
-              ANCHOR_LINKS.filesReceived
-            }`,
+            `/track-claims/your-claims/189685/files#${ANCHOR_LINKS.filesReceived}`,
           );
 
         cy.injectAxeThenAxeCheck();
@@ -348,9 +342,7 @@ describe('Document upload', () => {
                 .should(
                   'have.attr',
                   'href',
-                  `/track-claims/your-claims/189685/files#${
-                    ANCHOR_LINKS.fileSubmissionsInProgress
-                  }`,
+                  `/track-claims/your-claims/189685/files#${ANCHOR_LINKS.fileSubmissionsInProgress}`,
                 );
             });
           // Click the anchor link and verify it navigates to Files page and scrolls to the file submissions in progress section

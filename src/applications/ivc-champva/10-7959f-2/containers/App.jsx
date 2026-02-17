@@ -17,17 +17,14 @@ const App = ({ location, children }) => {
 
   const [routeChecked, setRouteChecked] = useState(false);
 
-  useLayoutEffect(
-    () => {
-      if (isAppLoading) return;
-      if (!isAppEnabled) {
-        window.location.replace('/health-care/foreign-medical-program');
-        return;
-      }
-      setRouteChecked(true);
-    },
-    [isAppLoading, isAppEnabled],
-  );
+  useLayoutEffect(() => {
+    if (isAppLoading) return;
+    if (!isAppEnabled) {
+      window.location.replace('/health-care/foreign-medical-program');
+      return;
+    }
+    setRouteChecked(true);
+  }, [isAppLoading, isAppEnabled]);
 
   return isAppLoading || !routeChecked ? (
     <va-loading-indicator

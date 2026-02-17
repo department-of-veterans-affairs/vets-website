@@ -87,9 +87,7 @@ const ConfirmationDisCondRatedDisabilities = ({ formData }) => {
           {dis.ratingPercentage != null ? (
             <>
               <div className="vads-u-margin-bottom--2">
-                {`Claiming an increase from current ${
-                  dis.ratingPercentage
-                }% rating`}
+                {`Claiming an increase from current ${dis.ratingPercentage}% rating`}
               </div>
             </>
           ) : (

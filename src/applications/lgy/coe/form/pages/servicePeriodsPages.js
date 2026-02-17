@@ -88,8 +88,7 @@ const itemPage = {
       { title: 'Service start date', removeDateHint: true },
       {
         title: 'Service end date',
-        hint:
-          "If you don't know the exact date or it hasn’t happened, enter your best guess",
+        hint: "If you don't know the exact date or it hasn’t happened, enter your best guess",
         removeDateHint: true,
       },
     ),

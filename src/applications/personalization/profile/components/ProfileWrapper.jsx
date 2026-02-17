@@ -78,14 +78,11 @@ const ProfileWrapper = ({
     profileHideHealthCareContacts,
   });
 
-  const layout = useMemo(
-    () => {
-      return getLayout({
-        currentPathname: location.pathname,
-      });
-    },
-    [location.pathname],
-  );
+  const layout = useMemo(() => {
+    return getLayout({
+      currentPathname: location.pathname,
+    });
+  }, [location.pathname]);
 
   const content = (
     <>
@@ -127,11 +124,13 @@ const ProfileWrapper = ({
           <div className="vads-l-grid-container vads-u-padding-x--0">
             <ProfileBreadcrumbs
               routes={routesForNav}
-              className={`medium-screen:vads-u-padding-left--2 vads-u-padding-left--1 ${isLOA3 &&
-                !profile2Enabled &&
-                'vads-u-margin-top--neg2'} ${isLOA3 &&
+              className={`medium-screen:vads-u-padding-left--2 vads-u-padding-left--1 ${
+                isLOA3 && !profile2Enabled && 'vads-u-margin-top--neg2'
+              } ${
+                isLOA3 &&
                 profile2Enabled &&
-                'vads-u-display--none medium-screen:vads-u-display--block'}`}
+                'vads-u-display--none medium-screen:vads-u-display--block'
+              }`}
             />
             <div className="vads-l-row">
               <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--3 vads-u-padding-left--2">
@@ -217,9 +216,8 @@ const mapStateToProps = (state, ownProps) => {
   const hero = state.vaProfile?.hero;
   const profileToggles = selectProfileToggles(state);
   const profile2Enabled = profileToggles?.profile2Enabled;
-  const isSchedulingPreferencesPilotEligible = isSchedulingPreferencesPilotEligibleSelector(
-    state,
-  );
+  const isSchedulingPreferencesPilotEligible =
+    isSchedulingPreferencesPilotEligibleSelector(state);
   return {
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,

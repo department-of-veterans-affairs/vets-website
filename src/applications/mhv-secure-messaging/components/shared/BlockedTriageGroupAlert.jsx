@@ -57,32 +57,26 @@ const BlockedTriageGroupAlert = ({
   );
 
   // Notify parent when alert should be shown
-  useEffect(
-    () => {
-      if (alertConfig?.shouldShow && setShowBlockedTriageGroupAlert) {
-        setShowBlockedTriageGroupAlert(true);
-      }
-    },
-    [alertConfig?.shouldShow, setShowBlockedTriageGroupAlert],
-  );
+  useEffect(() => {
+    if (alertConfig?.shouldShow && setShowBlockedTriageGroupAlert) {
+      setShowBlockedTriageGroupAlert(true);
+    }
+  }, [alertConfig?.shouldShow, setShowBlockedTriageGroupAlert]);
 
   // Track analytics (once per alert)
-  useEffect(
-    () => {
-      if (
-        alertConfig?.shouldShow &&
-        alertConfig?.title &&
-        !analyticsRef.current
-      ) {
-        const analyticsType = getAnalyticsAlertType(alertConfig.title);
-        datadogRum.addAction('Blocked triage group alert', {
-          type: analyticsType,
-        });
-        analyticsRef.current = true;
-      }
-    },
-    [alertConfig],
-  );
+  useEffect(() => {
+    if (
+      alertConfig?.shouldShow &&
+      alertConfig?.title &&
+      !analyticsRef.current
+    ) {
+      const analyticsType = getAnalyticsAlertType(alertConfig.title);
+      datadogRum.addAction('Blocked triage group alert', {
+        type: analyticsType,
+      });
+      analyticsRef.current = true;
+    }
+  }, [alertConfig]);
 
   // Don't render if no alert should be shown or title is missing
   if (!alertConfig?.shouldShow || !alertConfig?.title) {

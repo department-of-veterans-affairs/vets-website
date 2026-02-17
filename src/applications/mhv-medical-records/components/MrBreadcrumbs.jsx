@@ -21,91 +21,74 @@ const MrBreadcrumbs = () => {
     [history],
   );
 
-  const {
-    handleRouteChange: handleRouteChangeWithFocus,
-    handleClick,
-  } = useBreadcrumbFocus({ onRouteChange });
+  const { handleRouteChange: handleRouteChangeWithFocus, handleClick } =
+    useBreadcrumbFocus({ onRouteChange });
 
   const crumbsList = useSelector(state => state.mr.breadcrumbs.crumbsList);
   const pageNumber = useSelector(state => state.mr.pageTracker.pageNumber);
 
-  const [locationBasePath, locationChildPath] = useMemo(
-    () => {
-      const pathElements = location.pathname.split('/');
-      if (pathElements[0] === '') pathElements.shift();
-      return pathElements;
-    },
-    [location],
-  );
+  const [locationBasePath, locationChildPath] = useMemo(() => {
+    const pathElements = location.pathname.split('/');
+    if (pathElements[0] === '') pathElements.shift();
+    return pathElements;
+  }, [location]);
 
   const textContent = document.querySelector('h1')?.textContent;
   const searchIndex = new URLSearchParams(location.search);
   const page = searchIndex.get('page');
-  const {
-    labId,
-    vaccineId,
-    summaryId,
-    allergyId,
-    conditionId,
-    radiologyId,
-  } = useParams();
+  const { labId, vaccineId, summaryId, allergyId, conditionId, radiologyId } =
+    useParams();
 
   const urlTimeFrame = searchIndex.get('timeFrame');
 
-  useEffect(
-    () => {
-      if (page) dispatch(setPageNumber(+page));
-    },
-    [page, dispatch],
-  );
+  useEffect(() => {
+    if (page) dispatch(setPageNumber(+page));
+  }, [page, dispatch]);
 
-  useEffect(
-    () => {
-      const path = locationBasePath ? `/${locationBasePath}/` : '/';
-      const feature = Object.keys(Paths).find(_path => path === Paths[_path]);
+  useEffect(() => {
+    const path = locationBasePath ? `/${locationBasePath}/` : '/';
+    const feature = Object.keys(Paths).find(_path => path === Paths[_path]);
 
-      if (path === '/') {
-        dispatch(clearPageNumber());
-        dispatch(setBreadcrumbs([]));
-      } else if (locationChildPath && textContent) {
-        const detailCrumb = {
-          href: `${path}${locationChildPath}`,
-          label: textContent,
-          isRouterLink: true,
+    if (path === '/') {
+      dispatch(clearPageNumber());
+      dispatch(setBreadcrumbs([]));
+    } else if (locationChildPath && textContent) {
+      const detailCrumb = {
+        href: `${path}${locationChildPath}`,
+        label: textContent,
+        isRouterLink: true,
+      };
+      let backToPageNumCrumb;
+      if (pageNumber) {
+        backToPageNumCrumb = {
+          ...Breadcrumbs[feature],
+          href: `${removeTrailingSlash(
+            Breadcrumbs[feature].href,
+          )}?page=${pageNumber}`,
         };
-        let backToPageNumCrumb;
-        if (pageNumber) {
-          backToPageNumCrumb = {
-            ...Breadcrumbs[feature],
-            href: `${removeTrailingSlash(
-              Breadcrumbs[feature].href,
-            )}?page=${pageNumber}`,
-          };
-          dispatch(setBreadcrumbs([backToPageNumCrumb, detailCrumb]));
-        } else if (urlTimeFrame) {
-          const backToVitalsDateCrumb = {
-            ...Breadcrumbs[feature],
-            href: `${removeTrailingSlash(
-              Breadcrumbs[feature].href,
-            )}?timeFrame=${urlTimeFrame}`,
-          };
-          dispatch(setBreadcrumbs([backToVitalsDateCrumb, detailCrumb]));
-        } else {
-          dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
-        }
+        dispatch(setBreadcrumbs([backToPageNumCrumb, detailCrumb]));
+      } else if (urlTimeFrame) {
+        const backToVitalsDateCrumb = {
+          ...Breadcrumbs[feature],
+          href: `${removeTrailingSlash(
+            Breadcrumbs[feature].href,
+          )}?timeFrame=${urlTimeFrame}`,
+        };
+        dispatch(setBreadcrumbs([backToVitalsDateCrumb, detailCrumb]));
       } else {
-        dispatch(setBreadcrumbs([Breadcrumbs[feature]]));
+        dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
       }
-    },
-    [
-      dispatch,
-      locationBasePath,
-      locationChildPath,
-      textContent,
-      pageNumber,
-      urlTimeFrame,
-    ],
-  );
+    } else {
+      dispatch(setBreadcrumbs([Breadcrumbs[feature]]));
+    }
+  }, [
+    dispatch,
+    locationBasePath,
+    locationChildPath,
+    textContent,
+    pageNumber,
+    urlTimeFrame,
+  ]);
 
   const handleRouteChange = event => {
     handleRouteChangeWithFocus(event);
@@ -123,12 +106,14 @@ const MrBreadcrumbs = () => {
 
   if (
     location.pathname.includes(
-      `/${locationBasePath}/${labId ||
+      `/${locationBasePath}/${
+        labId ||
         vaccineId ||
         summaryId ||
         allergyId ||
         conditionId ||
-        radiologyId}`,
+        radiologyId
+      }`,
     )
   ) {
     const url = `${backToImagesBreadcrumb}${

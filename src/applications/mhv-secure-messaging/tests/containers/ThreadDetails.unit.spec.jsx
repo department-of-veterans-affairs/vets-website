@@ -780,9 +780,7 @@ describe('Thread Details container', () => {
       fireEvent.click(screen.getByTestId('send-button'));
       expect(screen.getByText('Message sent.'));
       const alert = document.querySelector('va-alert');
-      expect(alert)
-        .to.have.attribute('status')
-        .to.equal('success');
+      expect(alert).to.have.attribute('status').to.equal('success');
     });
   });
   it('with an active reply draft, displays draft section expanded by default', async () => {
@@ -890,9 +888,7 @@ describe('Thread Details container', () => {
       await screen.findByText('We’re sorry. Something went wrong on our end.'),
     ).to.exist;
     const alert = document.querySelector('va-alert');
-    expect(alert)
-      .to.have.attribute('status')
-      .to.equal('error');
+    expect(alert).to.have.attribute('status').to.equal('error');
 
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('send-button'));
@@ -936,9 +932,7 @@ describe('Thread Details container', () => {
       fireEvent.click(screen.getByTestId('send-button'));
       expect(screen.getByText('We’re sorry. Something went wrong on our end.'));
       const alert = document.querySelector('va-alert');
-      expect(alert)
-        .to.have.attribute('status')
-        .to.equal('error');
+      expect(alert).to.have.attribute('status').to.equal('error');
     });
   });
 

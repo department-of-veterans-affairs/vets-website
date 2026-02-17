@@ -102,18 +102,15 @@ const Prescriptions = () => {
   const deleteDraftSuccess = searchParams.get('draftDeleteSuccess');
 
   // Track when user returns from Rx Renewal SM flow
-  useEffect(
-    () => {
-      if (rxRenewalMessageSuccess) {
-        recordEvent({
-          event: 'api_call',
-          'api-name': 'Rx SM Renewal',
-          'api-status': 'successful',
-        });
-      }
-    },
-    [rxRenewalMessageSuccess],
-  );
+  useEffect(() => {
+    if (rxRenewalMessageSuccess) {
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'Rx SM Renewal',
+        'api-status': 'successful',
+      });
+    }
+  }, [rxRenewalMessageSuccess]);
 
   const {
     prescriptionsData,
@@ -125,19 +122,17 @@ const Prescriptions = () => {
   const { pagination, meta = {} } = prescriptionsData || {};
   const { filterCount } = meta;
 
-  const paginatedPrescriptionsList = useMemo(
-    () => {
-      if (prescriptionsData?.prescriptions) {
-        return prescriptionsData.prescriptions;
-      }
-      return undefined;
-    },
-    [prescriptionsData],
-  );
+  const paginatedPrescriptionsList = useMemo(() => {
+    if (prescriptionsData?.prescriptions) {
+      return prescriptionsData.prescriptions;
+    }
+    return undefined;
+  }, [prescriptionsData]);
 
-  const filteredList = useMemo(() => prescriptionsData?.prescriptions || [], [
-    prescriptionsData?.prescriptions,
-  ]);
+  const filteredList = useMemo(
+    () => prescriptionsData?.prescriptions || [],
+    [prescriptionsData?.prescriptions],
+  );
 
   const [loadingMessage, setLoadingMessage] = useState('');
   const scrollLocation = useRef();
@@ -250,15 +245,12 @@ const Prescriptions = () => {
   }, []);
 
   // Handle print trigger from hook
-  useEffect(
-    () => {
-      if (shouldPrint) {
-        printRxList();
-        clearPrintTrigger();
-      }
-    },
-    [shouldPrint, printRxList, clearPrintTrigger],
-  );
+  useEffect(() => {
+    if (shouldPrint) {
+      printRxList();
+      clearPrintTrigger();
+    }
+  }, [shouldPrint, printRxList, clearPrintTrigger]);
 
   const renderMedicationsContent = () => {
     // No medications exist

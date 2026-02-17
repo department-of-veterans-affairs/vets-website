@@ -41,11 +41,8 @@ const OverviewPage = () => {
   const bothError = billError && debtError;
 
   // feature toggle stuff for One VA Debt Letter flag
-  const {
-    useToggleValue,
-    useToggleLoadingValue,
-    TOGGLE_NAMES,
-  } = useFeatureToggle();
+  const { useToggleValue, useToggleLoadingValue, TOGGLE_NAMES } =
+    useFeatureToggle();
   // boolean value to represent if toggles are still loading or not
   const togglesLoading = useToggleLoadingValue();
   // value of specific toggle

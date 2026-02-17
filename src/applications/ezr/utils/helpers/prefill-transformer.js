@@ -31,11 +31,8 @@ export function sanitizeAddress(address) {
 }
 
 const transformInsuranceProviderData = provider => {
-  const {
-    insurancePolicyNumber,
-    insuranceGroupCode,
-    ...remainingData
-  } = provider;
+  const { insurancePolicyNumber, insuranceGroupCode, ...remainingData } =
+    provider;
 
   // If we have policy number or group code at the top level, move them to 'view:policyOrGroup'
   if (insurancePolicyNumber || insuranceGroupCode) {

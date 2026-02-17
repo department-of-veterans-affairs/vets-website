@@ -58,15 +58,12 @@ const Autocomplete = ({
     }, debounceDelay),
   ).current;
 
-  const closeList = useCallback(
-    () => {
-      debouncedSearch.cancel();
-      debouncedSetAriaLiveText.cancel();
-      setResults([]);
-      setActiveIndex(null);
-    },
-    [debouncedSearch, debouncedSetAriaLiveText],
-  );
+  const closeList = useCallback(() => {
+    debouncedSearch.cancel();
+    debouncedSetAriaLiveText.cancel();
+    setResults([]);
+    setActiveIndex(null);
+  }, [debouncedSearch, debouncedSetAriaLiveText]);
 
   const handleInputChange = useCallback(
     inputValue => {
@@ -170,24 +167,21 @@ const Autocomplete = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(
-    () => {
-      const handleClickOutside = event => {
-        if (
-          containerRef.current &&
-          !containerRef.current.contains(event.target)
-        ) {
-          closeList();
-        }
-      };
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        closeList();
+      }
+    };
 
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    },
-    [closeList],
-  );
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [closeList]);
 
   return (
     <div className="cc-autocomplete" ref={containerRef}>

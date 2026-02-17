@@ -23,7 +23,8 @@ const setup = () => {
   }));
 
   const mockUserNoEmail = { ...mockUser };
-  mockUserNoEmail.data.attributes.vet360ContactInformation.email.emailAddress = null;
+  mockUserNoEmail.data.attributes.vet360ContactInformation.email.emailAddress =
+    null;
   cy.login(mockUserNoEmail);
 
   mockGETEndpoints([

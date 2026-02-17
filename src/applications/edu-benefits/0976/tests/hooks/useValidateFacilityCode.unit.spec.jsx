@@ -79,12 +79,8 @@ describe('useFetchedData', () => {
     expect(setDataStub.callCount).to.eq(1);
     expect(apiRequestStub.callCount).to.eq(1);
 
-    const {
-      name,
-      type,
-      mailingAddress,
-      failedToLoad,
-    } = setDataStub.firstCall.args[0].primaryInstitutionDetails;
+    const { name, type, mailingAddress, failedToLoad } =
+      setDataStub.firstCall.args[0].primaryInstitutionDetails;
     expect(name).to.eq('ARIZONA WESTERN COLLEGE 1');
     expect(type).to.eq('PUBLIC');
     expect(mailingAddress.street).to.eq('PO BOX 929');

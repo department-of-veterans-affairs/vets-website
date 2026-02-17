@@ -18,9 +18,7 @@ class NotesListPage extends BaseListPage {
       '@status',
     ]);
     // Wait for page to load
-    cy.get('h1')
-      .should('be.visible')
-      .and('be.focused');
+    cy.get('h1').should('be.visible').and('be.focused');
   };
 
   verifyCareSummariesAndNotesPageTitle = () => {

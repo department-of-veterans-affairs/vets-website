@@ -330,9 +330,7 @@ describe('My VA Dashboard — Forms and applications', () => {
         .contains('Download your completed form (PDF)')
         .should('be.visible')
         .click();
-      cy.wait('@pdfEndpoint')
-        .its('response.statusCode')
-        .should('eq', 200);
+      cy.wait('@pdfEndpoint').its('response.statusCode').should('eq', 200);
       cy.get('@windowOpen').should(
         'have.been.calledWith',
         'https://example.com/form.pdf',
@@ -349,12 +347,8 @@ describe('My VA Dashboard — Forms and applications', () => {
         body: { error: 'bad request' },
       }).as('getPdfUrlError');
       cy.findAllByTestId('submitted-application').should('have.length', 4);
-      cy.get('button')
-        .contains('Download your completed form (PDF)')
-        .click();
-      cy.wait('@getPdfUrlError')
-        .its('response.statusCode')
-        .should('eq', 400);
+      cy.get('button').contains('Download your completed form (PDF)').click();
+      cy.wait('@getPdfUrlError').its('response.statusCode').should('eq', 400);
       cy.get('va-alert[status="error"]')
         .should('be.visible')
         .and('contain', "can't download");

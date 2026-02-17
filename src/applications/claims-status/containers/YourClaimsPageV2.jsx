@@ -169,12 +169,8 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   render() {
-    const {
-      appealsLoading,
-      claimsLoading,
-      list,
-      stemClaimsLoading,
-    } = this.props;
+    const { appealsLoading, claimsLoading, list, stemClaimsLoading } =
+      this.props;
 
     let content;
     let pageInfo;
@@ -301,9 +297,8 @@ function mapStateToProps(state) {
   const services = getBackendServices(state);
   const canAccessAppeals = services.includes(backendServices.APPEALS_STATUS);
   const canAccessClaims = services.includes(backendServices.LIGHTHOUSE);
-  const stemAutomatedDecision = toggleValues(state)[
-    FEATURE_FLAG_NAMES.stemAutomatedDecision
-  ];
+  const stemAutomatedDecision =
+    toggleValues(state)[FEATURE_FLAG_NAMES.stemAutomatedDecision];
 
   const stemClaims = stemAutomatedDecision ? claimsV2Root.stemClaims : [];
 
@@ -346,10 +341,7 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(YourClaimsPageV2),
+  connect(mapStateToProps, mapDispatchToProps)(YourClaimsPageV2),
 );
 
 export { YourClaimsPageV2 };

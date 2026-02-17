@@ -35,16 +35,11 @@ class Vaccines {
     cy.get('@vaccines-link').should('be.visible');
     cy.get('@vaccines-link').click();
     // Wait for page to load
-    cy.get('h1')
-      .should('be.visible')
-      .and('be.focused');
+    cy.get('h1').should('be.visible').and('be.focused');
   };
 
   clickVaccineDetailsLink = (vaccineIndex = 0) => {
-    cy.findAllByTestId('record-list-item')
-      .eq(vaccineIndex)
-      .find('a')
-      .click();
+    cy.findAllByTestId('record-list-item').eq(vaccineIndex).find('a').click();
   };
 
   // Vaccine details page verification methods

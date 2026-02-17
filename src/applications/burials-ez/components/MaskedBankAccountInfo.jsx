@@ -17,19 +17,16 @@ export default function MaskedBankAccountInfo(fieldProps) {
   const [isUserTyping, setIsUserTyping] = useState(false);
   const vaTextInput = useRef();
 
-  useEffect(
-    () => {
-      if (props.value) {
-        // Only mask if it's pre-filled data and user hasn't started typing
-        if (isPrefilled && !isUserTyping) {
-          setDisplayVal(maskBankInformation(props.value, 4));
-        } else {
-          setDisplayVal(props.value);
-        }
+  useEffect(() => {
+    if (props.value) {
+      // Only mask if it's pre-filled data and user hasn't started typing
+      if (isPrefilled && !isUserTyping) {
+        setDisplayVal(maskBankInformation(props.value, 4));
+      } else {
+        setDisplayVal(props.value);
       }
-    },
-    [props.value, isPrefilled, isUserTyping],
-  );
+    }
+  }, [props.value, isPrefilled, isUserTyping]);
 
   const handleChange = event => {
     const { value } = event.target;

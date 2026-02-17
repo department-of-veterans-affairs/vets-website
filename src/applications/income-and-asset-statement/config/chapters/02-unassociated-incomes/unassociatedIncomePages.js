@@ -168,8 +168,7 @@ const veteranSummaryPage = {
       options,
       {
         title: updatedTitleNoItems,
-        hint:
-          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+        hint: 'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
@@ -226,8 +225,7 @@ const parentSummaryPage = {
       options,
       {
         title: updatedTitleNoItems,
-        hint:
-          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        hint: 'Your dependents include your spouse, including a same-sex and common-law partner.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
@@ -246,8 +244,7 @@ const custodianSummaryPage = {
       options,
       {
         title: updatedTitleNoItems,
-        hint:
-          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        hint: 'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
@@ -477,8 +474,7 @@ const incomeTypePage = {
       showUpdatedContent()
         ? {
             title: `What's the gross monthly income from this financial account?`,
-            hint:
-              'Gross income is income before taxes and any other deductions.',
+            hint: 'Gross income is income before taxes and any other deductions.',
           }
         : 'Gross monthly income',
     ),

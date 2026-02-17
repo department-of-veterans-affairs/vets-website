@@ -31,8 +31,9 @@ const uiSchema = {
     ),
     fullName: fullNameNoSuffixUI(
       title =>
-        `${title.charAt(0).toUpperCase() +
-          title.slice(1)} of primary certifying official`,
+        `${
+          title.charAt(0).toUpperCase() + title.slice(1)
+        } of primary certifying official`,
     ),
     title: {
       ...textUI({

@@ -31,9 +31,7 @@ describe('Medical Records Vitals Details Page', () => {
       dateFormatWithoutTimezone(
         defaultVitals.entry[14].resource.effectiveDateTime,
       ),
-      `${
-        defaultVitals.entry[14].resource.valueQuantity.value
-      } beats per minute`,
+      `${defaultVitals.entry[14].resource.valueQuantity.value} beats per minute`,
       defaultVitals.entry[14].resource.contained[0].name,
       'None recorded',
     );
@@ -43,9 +41,7 @@ describe('Medical Records Vitals Details Page', () => {
       dateFormatWithoutTimezone(
         defaultVitals.entry[24].resource.effectiveDateTime,
       ),
-      `${
-        defaultVitals.entry[24].resource.valueQuantity.value
-      } beats per minute`,
+      `${defaultVitals.entry[24].resource.valueQuantity.value} beats per minute`,
       defaultVitals.entry[24].resource.contained[0].name,
       'None recorded',
     );
@@ -55,9 +51,7 @@ describe('Medical Records Vitals Details Page', () => {
       dateFormatWithoutTimezone(
         defaultVitals.entry[34].resource.effectiveDateTime,
       ),
-      `${
-        defaultVitals.entry[34].resource.valueQuantity.value
-      } beats per minute`,
+      `${defaultVitals.entry[34].resource.valueQuantity.value} beats per minute`,
       defaultVitals.entry[34].resource.contained[0].name,
       'None recorded',
     );

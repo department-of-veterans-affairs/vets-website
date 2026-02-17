@@ -54,9 +54,7 @@ class LabsAndTests {
       waitForAnimations: true,
     });
     // Wait for page to load
-    cy.get('h1')
-      .should('be.visible')
-      .and('be.focused');
+    cy.get('h1').should('be.visible').and('be.focused');
   };
 
   checkTimeFrameDisplay = ({ fromDate, toDate }) => {

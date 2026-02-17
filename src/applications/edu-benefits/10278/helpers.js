@@ -63,21 +63,19 @@ export const getThirdPartyName = formData => {
  * Attach to ONE checkbox key so forms-system has a concrete error path
  * (helps scrollToFirstError + consistent errorSchema shape).
  */
-export const buildValidateAtLeastOne = disclosureKeys => (
-  errors,
-  fieldData,
-) => {
-  const anyChecked = disclosureKeys.some(k => Boolean(fieldData?.[k]));
-  if (!anyChecked) {
-    const msg = 'You must provide an answer';
-    const anchorKey = disclosureKeys[0];
-    if (errors?.[anchorKey]?.addError) {
-      errors[anchorKey].addError(msg);
-    } else {
-      errors.addError(msg);
+export const buildValidateAtLeastOne =
+  disclosureKeys => (errors, fieldData) => {
+    const anyChecked = disclosureKeys.some(k => Boolean(fieldData?.[k]));
+    if (!anyChecked) {
+      const msg = 'You must provide an answer';
+      const anchorKey = disclosureKeys[0];
+      if (errors?.[anchorKey]?.addError) {
+        errors[anchorKey].addError(msg);
+      } else {
+        errors.addError(msg);
+      }
     }
-  }
-};
+  };
 
 /** If "other" is checked, require otherText */
 export const validateOtherText = (errors, fieldData) => {

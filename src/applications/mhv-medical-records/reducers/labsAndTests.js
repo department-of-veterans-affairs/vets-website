@@ -90,10 +90,8 @@ export const convertChemHemObservation = record => {
     let finalObservationValue = '';
     let standardRange = null;
     if (result.valueQuantity) {
-      const {
-        observationValue,
-        observationUnit,
-      } = getObservationValueWithUnits(result);
+      const { observationValue, observationUnit } =
+        getObservationValueWithUnits(result);
       finalObservationValue = `${observationValue} ${observationUnit}`;
       standardRange = isArrayAndHasItems(result.referenceRange)
         ? `${result.referenceRange[0]?.text} ${observationUnit}`.trim()

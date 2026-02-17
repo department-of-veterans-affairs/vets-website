@@ -29,10 +29,8 @@ const InsuranceSummary = props => {
     contentAfterButtons,
   } = props;
 
-  const {
-    providers = [],
-    [INSURANCE_VIEW_FIELDS.add]: addProvider = null,
-  } = data;
+  const { providers = [], [INSURANCE_VIEW_FIELDS.add]: addProvider = null } =
+    data;
   const mode = onReviewPage ? 'update' : 'edit';
 
   const { properties: providersSchema } = ezrSchema.properties.providers.items;

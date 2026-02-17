@@ -174,8 +174,8 @@ export default {
           };
 
           if (Array.isArray(schema?.items)) {
-            const updatedItems = schema.items.map(
-              (item, index) => (index === 0 ? updateItemSchema(item) : item),
+            const updatedItems = schema.items.map((item, index) =>
+              index === 0 ? updateItemSchema(item) : item,
             );
             const result = { items: updatedItems };
             if (

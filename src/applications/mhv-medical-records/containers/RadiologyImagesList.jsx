@@ -25,9 +25,7 @@ import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
 
 const RadiologyImagesList = ({ isTesting, basePath = '/labs-and-tests' }) => {
-  const apiImagingPath = `${
-    environment.API_URL
-  }/my_health/v1/medical_records/imaging`;
+  const apiImagingPath = `${environment.API_URL}/my_health/v1/medical_records/imaging`;
 
   const isRadiologyDomain = basePath === '/imaging-results';
   const history = useHistory();
@@ -37,14 +35,13 @@ const RadiologyImagesList = ({ isTesting, basePath = '/labs-and-tests' }) => {
 
   const { labId } = useParams();
 
-  const radiologyDetails = useSelector(
-    state =>
-      isRadiologyDomain
-        ? state.mr.radiology.radiologyDetails
-        : state.mr.labsAndTests.labsAndTestsDetails,
+  const radiologyDetails = useSelector(state =>
+    isRadiologyDomain
+      ? state.mr.radiology.radiologyDetails
+      : state.mr.labsAndTests.labsAndTestsDetails,
   );
-  const radiologyList = useSelector(
-    state => (isRadiologyDomain ? state.mr.radiology.radiologyList : null),
+  const radiologyList = useSelector(state =>
+    isRadiologyDomain ? state.mr.radiology.radiologyList : null,
   );
   const imageList = useSelector(state => state.mr.images.imageList);
   const studyJobs = useSelector(state => state.mr.images.imageStatus);
@@ -67,78 +64,66 @@ const RadiologyImagesList = ({ isTesting, basePath = '/labs-and-tests' }) => {
     [studyJobs, radiologyDetails?.studyId],
   );
 
-  useEffect(
-    () => {
-      dispatch(fetchImageRequestStatus()).then(() => {
-        setStudyJobsLoaded(true);
-      });
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(fetchImageRequestStatus()).then(() => {
+      setStudyJobsLoaded(true);
+    });
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (labId) {
-        if (isRadiologyDomain) {
-          dispatch(getRadiologyDetails(labId, radiologyList)).then(() => {
-            setRadiologyDetailsLoaded(true);
-          });
-        } else {
-          dispatch(getLabsAndTestsDetails(labId)).then(() => {
-            setRadiologyDetailsLoaded(true);
-          });
-        }
-      }
-      const title = isRadiologyDomain
-        ? pageTitles.RADIOLOGY_IMAGES_PAGE_TITLE
-        : pageTitles.LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE;
-      updatePageTitle(title);
-    },
-    [labId, dispatch, isRadiologyDomain, radiologyList],
-  );
-
-  useEffect(
-    () => {
-      // Make sure data has been loaded before possibly redirecting users based on missing data
-      if (isRadiologyDetailsLoaded && isStudyJobsLoaded && studyJobs) {
-        if (
-          studyJob?.studyIdUrn &&
-          studyJob?.status === studyJobStatus.COMPLETE
-        ) {
-          // Do not attempt to fetch the image list unless there is a completed study waiting in the backend.
-          dispatch(fetchImageList(studyJob.studyIdUrn));
-        } else {
-          returnToDetailsPage();
-        }
-      }
-    },
-    [
-      studyJobs,
-      studyJob,
-      isRadiologyDetailsLoaded,
-      isStudyJobsLoaded,
-      history,
-      dispatch,
-      returnToDetailsPage,
-    ],
-  );
-
-  useEffect(
-    () => {
-      if (radiologyDetails?.imageCount === 0) {
-        returnToDetailsPage();
-      } else if (
-        radiologyDetails &&
-        studyJob?.status === studyJobStatus.COMPLETE
-      ) {
-        // Defer focus to next frame to ensure h1 is in the DOM after React commits
-        requestAnimationFrame(() => {
-          focusElement(document.querySelector('h1'));
+  useEffect(() => {
+    if (labId) {
+      if (isRadiologyDomain) {
+        dispatch(getRadiologyDetails(labId, radiologyList)).then(() => {
+          setRadiologyDetailsLoaded(true);
+        });
+      } else {
+        dispatch(getLabsAndTestsDetails(labId)).then(() => {
+          setRadiologyDetailsLoaded(true);
         });
       }
-    },
-    [radiologyDetails, studyJob, returnToDetailsPage],
-  );
+    }
+    const title = isRadiologyDomain
+      ? pageTitles.RADIOLOGY_IMAGES_PAGE_TITLE
+      : pageTitles.LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE;
+    updatePageTitle(title);
+  }, [labId, dispatch, isRadiologyDomain, radiologyList]);
+
+  useEffect(() => {
+    // Make sure data has been loaded before possibly redirecting users based on missing data
+    if (isRadiologyDetailsLoaded && isStudyJobsLoaded && studyJobs) {
+      if (
+        studyJob?.studyIdUrn &&
+        studyJob?.status === studyJobStatus.COMPLETE
+      ) {
+        // Do not attempt to fetch the image list unless there is a completed study waiting in the backend.
+        dispatch(fetchImageList(studyJob.studyIdUrn));
+      } else {
+        returnToDetailsPage();
+      }
+    }
+  }, [
+    studyJobs,
+    studyJob,
+    isRadiologyDetailsLoaded,
+    isStudyJobsLoaded,
+    history,
+    dispatch,
+    returnToDetailsPage,
+  ]);
+
+  useEffect(() => {
+    if (radiologyDetails?.imageCount === 0) {
+      returnToDetailsPage();
+    } else if (
+      radiologyDetails &&
+      studyJob?.status === studyJobStatus.COMPLETE
+    ) {
+      // Defer focus to next frame to ensure h1 is in the DOM after React commits
+      requestAnimationFrame(() => {
+        focusElement(document.querySelector('h1'));
+      });
+    }
+  }, [radiologyDetails, studyJob, returnToDetailsPage]);
 
   const handleDicomDownload = () => {
     setDicomDownloadStarted(true);

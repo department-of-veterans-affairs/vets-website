@@ -17,13 +17,8 @@ const {
   emergencyContacts: { items: contact },
 } = ezrSchema.properties;
 
-const {
-  fullName,
-  primaryPhone,
-  relationship,
-  address,
-  contactType,
-} = contact.properties;
+const { fullName, primaryPhone, relationship, address, contactType } =
+  contact.properties;
 
 /**
  * Declare schema attributes for emergency contacts page

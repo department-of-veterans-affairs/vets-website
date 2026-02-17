@@ -59,15 +59,12 @@ export const IntroductionPageRedirect = ({ route, router }) => {
     updateSignInAlertCopy();
   }, []);
 
-  const handleStartQuestionnaire = useCallback(
-    () => {
-      const data = formData || {};
-      const startingPath = route.pageList[0]?.path;
-      const startPage = getNextPagePath(route.pageList, data, startingPath);
-      router.push(startPage);
-    },
-    [formData, route.pageList, router],
-  );
+  const handleStartQuestionnaire = useCallback(() => {
+    const data = formData || {};
+    const startingPath = route.pageList[0]?.path;
+    const startPage = getNextPagePath(route.pageList, data, startingPath);
+    router.push(startPage);
+  }, [formData, route.pageList, router]);
 
   const renderSaveInProgressIntro = useCallback(
     buttonOnly => (
@@ -88,14 +85,11 @@ export const IntroductionPageRedirect = ({ route, router }) => {
     ],
   );
 
-  useEffect(
-    () => {
-      if (rerouteFlag) {
-        dispatch(fetchClaimantInfo());
-      }
-    },
-    [dispatch, rerouteFlag],
-  );
+  useEffect(() => {
+    if (rerouteFlag) {
+      dispatch(fetchClaimantInfo());
+    }
+  }, [dispatch, rerouteFlag]);
 
   if (!rerouteFlag) {
     return null;

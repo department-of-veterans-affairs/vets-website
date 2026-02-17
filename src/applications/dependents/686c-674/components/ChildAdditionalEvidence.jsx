@@ -12,11 +12,8 @@ export const ChildAdditionalEvidence = () => {
     return state?.form?.data || {};
   });
 
-  const {
-    showBirthCertificate,
-    hasAdoptedChild,
-    hasDisabledChild,
-  } = childEvidence(formData);
+  const { showBirthCertificate, hasAdoptedChild, hasDisabledChild } =
+    childEvidence(formData);
 
   return (
     <div>

@@ -258,7 +258,8 @@ export default [
         transformedExpense.recipients = 'DEPENDENT';
       }
       if (transformedExpense.hoursPerWeek) {
-        transformedExpense.hoursPerWeek = transformedExpense.hoursPerWeek.toString();
+        transformedExpense.hoursPerWeek =
+          transformedExpense.hoursPerWeek.toString();
       }
       return transformedExpense;
     }

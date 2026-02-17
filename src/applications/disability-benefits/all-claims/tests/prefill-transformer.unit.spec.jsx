@@ -45,8 +45,11 @@ describe('526v2 prefill transformer', () => {
         ],
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
       expect(transformedData.ratedDisabilities)
         .to.be.an('array')
         .with.length(1);
@@ -66,8 +69,11 @@ describe('526v2 prefill transformer', () => {
         ],
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
       expect(transformedData['view:claimType']).to.deep.equal(
         noTransformData.formData['view:claimType'],
       );
@@ -77,8 +83,11 @@ describe('526v2 prefill transformer', () => {
       const { pages, metadata } = noTransformData;
       const formData = {};
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
       expect(transformedData).to.deep.equal({
         'view:claimType': noTransformData.formData['view:claimType'],
       });
@@ -95,8 +104,11 @@ describe('526v2 prefill transformer', () => {
         ],
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
       expect(transformedData.ratedDisabilities[0].name).to.equal(
         formData.disabilities[0].name,
       );
@@ -126,8 +138,11 @@ describe('526v2 prefill transformer', () => {
         },
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
 
       const { primaryPhone, emailAddress } = formData.veteran;
       expect(transformedData).to.deep.equal({
@@ -165,8 +180,11 @@ describe('526v2 prefill transformer', () => {
         },
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
 
       const { primaryPhone, emailAddress } = formData.veteran;
       expect(transformedData).to.deep.equal({
@@ -196,8 +214,11 @@ describe('526v2 prefill transformer', () => {
         },
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
 
       expect(transformedData).to.deep.equal({
         'view:claimType': noTransformData.formData['view:claimType'],
@@ -217,8 +238,11 @@ describe('526v2 prefill transformer', () => {
         },
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
 
       const { primaryPhone, emailAddress } = formData.veteran;
       expect(transformedData).to.deep.equal({
@@ -256,8 +280,11 @@ describe('526v2 prefill transformer', () => {
         },
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
 
       const { primaryPhone, emailAddress } = formData.veteran;
       expect(transformedData).to.deep.equal({
@@ -295,8 +322,11 @@ describe('526v2 prefill transformer', () => {
         },
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
 
       const { primaryPhone, emailAddress } = formData.veteran;
       expect(transformedData).to.deep.equal({
@@ -334,8 +364,11 @@ describe('526v2 prefill transformer', () => {
         },
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
 
       const { primaryPhone, emailAddress } = formData.veteran;
       expect(transformedData).to.deep.equal({
@@ -374,8 +407,11 @@ describe('526v2 prefill transformer', () => {
         },
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
 
       const { primaryPhone, emailAddress } = formData.veteran;
       expect(transformedData).to.deep.equal({
@@ -414,8 +450,11 @@ describe('526v2 prefill transformer', () => {
         },
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
 
       const { primaryPhone, emailAddress } = formData.veteran;
       expect(transformedData).to.deep.equal({
@@ -454,8 +493,11 @@ describe('526v2 prefill transformer', () => {
         },
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
 
       const { primaryPhone, emailAddress } = formData.veteran;
       expect(transformedData).to.deep.equal({
@@ -494,8 +536,11 @@ describe('526v2 prefill transformer', () => {
         },
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
 
       const { primaryPhone, emailAddress } = formData.veteran;
       expect(transformedData).to.deep.equal({
@@ -535,8 +580,11 @@ describe('526v2 prefill transformer', () => {
         },
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
 
       expect(transformedData.mailingAddress.addressLine1).to.equal(
         '123 Any Street',
@@ -567,8 +615,11 @@ describe('526v2 prefill transformer', () => {
         },
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
       const { servicePeriods, reservesNationalGuardService } = formData;
       expect(transformedData).to.deep.equal({
         'view:claimType': noTransformData.formData['view:claimType'],
@@ -590,8 +641,11 @@ describe('526v2 prefill transformer', () => {
         ],
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
       const { servicePeriods } = formData;
       expect(transformedData).to.deep.equal({
         'view:claimType': noTransformData.formData['view:claimType'],
@@ -616,11 +670,13 @@ describe('526v2 prefill transformer', () => {
         },
       });
 
-      const transformedData = prefillTransformer(pages, formData(), metadata)
-        .formData;
-      const { reservesNationalGuardService, servicePeriods } = formData(
-        'Army Reserves',
-      );
+      const transformedData = prefillTransformer(
+        pages,
+        formData(),
+        metadata,
+      ).formData;
+      const { reservesNationalGuardService, servicePeriods } =
+        formData('Army Reserves');
       expect(transformedData).to.deep.equal({
         'view:claimType': noTransformData.formData['view:claimType'],
         serviceInformation: {
@@ -641,8 +697,11 @@ describe('526v2 prefill transformer', () => {
         bankName: 'Bank Of Test',
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
       const {
         bankAccountType,
         bankAccountNumber,
@@ -668,8 +727,11 @@ describe('526v2 prefill transformer', () => {
         bankRoutingNumber: '234234234',
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
 
       expect(transformedData).to.deep.equal({
         'view:claimType': noTransformData.formData['view:claimType'],
@@ -684,8 +746,11 @@ describe('526v2 prefill transformer', () => {
         startedFormVersion: '2022',
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
       expect(transformedData.startedFormVersion).to.equal(
         formData.startedFormVersion,
       );
@@ -699,8 +764,11 @@ describe('526v2 prefill transformer', () => {
         syncModern0781Flow: true,
       };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
+      const transformedData = prefillTransformer(
+        pages,
+        formData,
+        metadata,
+      ).formData;
       expect(transformedData.syncModern0781Flow).to.equal(
         formData.syncModern0781Flow,
       );
@@ -724,9 +792,7 @@ describe('addNoneDisabilityActionType', () => {
   });
 
   it('should return an empty array when no input', () => {
-    expect(addNoneDisabilityActionType())
-      .to.be.an('array')
-      .that.has.length(0);
+    expect(addNoneDisabilityActionType()).to.be.an('array').that.has.length(0);
   });
 
   it('should set disabilityActionType to NONE for each rated disability', () => {

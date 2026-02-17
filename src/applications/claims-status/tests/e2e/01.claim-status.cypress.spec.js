@@ -16,10 +16,7 @@ describe('Claims status test', () => {
     trackClaimsPage.loadPage(claimsList, claimDetail);
 
     // Click into claim detail
-    cy.get('.claim-list-item:first-child va-link')
-      .shadow()
-      .find('a')
-      .click();
+    cy.get('.claim-list-item:first-child va-link').shadow().find('a').click();
 
     // Verify detail header uses displayTitle
     cy.get('.claim-title')
@@ -54,10 +51,7 @@ describe('Claims status test', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList, pensionClaimDetail);
 
-    cy.get('.claim-list-item:first-child va-link')
-      .shadow()
-      .find('a')
-      .click();
+    cy.get('.claim-list-item:first-child va-link').shadow().find('a').click();
 
     // Verify breadcrumb preserves "veterans pension" with correct casing
     cy.get('va-breadcrumbs').should('be.visible');

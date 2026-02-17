@@ -36,12 +36,9 @@ const MicroDetails = props => {
   const user = useSelector(state => state.user.profile);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-    },
-    [record],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  }, [record]);
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
@@ -85,10 +82,10 @@ Date: ${record.date}\n
 ${txtLine}\n\n
 Details about this test\n
 ${
-      record.name !== 'Microbiology' && record.labType
-        ? `Lab type: ${record.labType}\n`
-        : ''
-    }
+  record.name !== 'Microbiology' && record.labType
+    ? `Lab type: ${record.labType}\n`
+    : ''
+}
 Site or sample tested: ${record.sampleTested}\n
 Collection sample: ${record.sampleFrom}\n
 Ordered by: ${record.orderedBy}\n
@@ -127,15 +124,14 @@ ${record.results}`;
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
-            {record.name !== 'Microbiology' &&
-              record.labType && (
-                <LabelValue
-                  label="Lab type"
-                  value={record.labType}
-                  testId="microbio-lab-type"
-                  action-name="[lab and tests - microbio lab type]"
-                />
-              )}
+            {record.name !== 'Microbiology' && record.labType && (
+              <LabelValue
+                label="Lab type"
+                value={record.labType}
+                testId="microbio-lab-type"
+                action-name="[lab and tests - microbio lab type]"
+              />
+            )}
             <LabelValue
               label="Site or sample tested"
               value={record.sampleTested}

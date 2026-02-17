@@ -76,12 +76,9 @@ const Vitals = () => {
     reloadRecordsAction: reloadRecords,
   });
 
-  useEffect(
-    () => {
-      updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
+  }, [dispatch]);
 
   useFocusAfterLoading({
     isLoading: isLoading || listState !== loadStates.FETCHED,
@@ -99,21 +96,18 @@ const Vitals = () => {
     return Object.keys(vitalTypes).length;
   }, []);
 
-  useEffect(
-    () => {
-      if (vitals?.length) {
-        // create vital type cards based on the types of records present
-        const firstOfEach = [];
-        for (const [key, types] of Object.entries(vitalTypes)) {
-          const firstOfType = vitals.find(item => types.includes(item.type));
-          if (firstOfType) firstOfEach.push(firstOfType);
-          else firstOfEach.push({ type: key, noRecords: true });
-        }
-        setCards(firstOfEach);
+  useEffect(() => {
+    if (vitals?.length) {
+      // create vital type cards based on the types of records present
+      const firstOfEach = [];
+      for (const [key, types] of Object.entries(vitalTypes)) {
+        const firstOfType = vitals.find(item => types.includes(item.type));
+        if (firstOfType) firstOfEach.push(firstOfType);
+        else firstOfEach.push({ type: key, noRecords: true });
       }
-    },
-    [vitals],
-  );
+      setCards(firstOfEach);
+    }
+  }, [vitals]);
 
   return (
     <div id="vitals">
@@ -134,21 +128,20 @@ const Vitals = () => {
         listCurrentAsOf={vitalsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {!isCerner &&
-          !isAcceleratingVitals && (
-            <NewRecordsIndicator
-              refreshState={refresh}
-              extractType={refreshExtractTypes.VPR}
-              newRecordsFound={
-                Array.isArray(vitals) &&
-                Array.isArray(updatedRecordList) &&
-                vitals.length !== updatedRecordList.length
-              }
-              reloadFunction={() => {
-                dispatch(reloadRecords());
-              }}
-            />
-          )}
+        {!isCerner && !isAcceleratingVitals && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              Array.isArray(vitals) &&
+              Array.isArray(updatedRecordList) &&
+              vitals.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
         {(isLoadingAcceleratedData || isLoading) && (
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
@@ -159,25 +152,23 @@ const Vitals = () => {
             />
           </div>
         )}
-        {!isLoadingAcceleratedData &&
-          !isLoading &&
-          cards !== undefined && (
-            <>
-              {cards?.length ? (
-                <RecordList
-                  records={cards}
-                  type={recordType.VITALS}
-                  perPage={PER_PAGE}
-                  hidePagination
-                  domainOptions={{
-                    isAccelerating: isCerner,
-                  }}
-                />
-              ) : (
-                <NoRecordsMessage type={recordType.VITALS} />
-              )}
-            </>
-          )}
+        {!isLoadingAcceleratedData && !isLoading && cards !== undefined && (
+          <>
+            {cards?.length ? (
+              <RecordList
+                records={cards}
+                type={recordType.VITALS}
+                perPage={PER_PAGE}
+                hidePagination
+                domainOptions={{
+                  isAccelerating: isCerner,
+                }}
+              />
+            ) : (
+              <NoRecordsMessage type={recordType.VITALS} />
+            )}
+          </>
+        )}
       </RecordListSection>
     </div>
   );

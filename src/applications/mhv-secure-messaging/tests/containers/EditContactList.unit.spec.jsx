@@ -253,9 +253,8 @@ describe('Edit Contact List container', async () => {
         },
       },
     };
-    const { getAllByTestId, queryByTestId, container, unmount } = setup(
-      customState,
-    );
+    const { getAllByTestId, queryByTestId, container, unmount } =
+      setup(customState);
     const vistaRecipientsCount =
       customState.sm.recipients.vistaRecipients.length;
     await waitFor(() => {
@@ -284,9 +283,8 @@ describe('Edit Contact List container', async () => {
     const testFacility2TeamsTrue = await screen.findByTestId(
       'Test-Facility-2-teams',
     );
-    const checkboxesTrue = testFacility2TeamsTrue.querySelectorAll(
-      'va-checkbox',
-    );
+    const checkboxesTrue =
+      testFacility2TeamsTrue.querySelectorAll('va-checkbox');
 
     checkboxesTrue.forEach(team =>
       expect(team).to.have.attribute('checked', 'true'),
@@ -308,9 +306,8 @@ describe('Edit Contact List container', async () => {
     );
 
     await waitFor(() => {
-      const checkboxesFalse = testFacility2TeamsFalse.querySelectorAll(
-        'va-checkbox',
-      );
+      const checkboxesFalse =
+        testFacility2TeamsFalse.querySelectorAll('va-checkbox');
 
       checkboxesFalse.forEach(team =>
         expect(team).to.have.attribute('checked', 'false'),

@@ -68,10 +68,9 @@ function ViewDependentsList(props) {
         href={props.link}
         text={props.linkText}
       />
-      {manageDependentsToggle &&
-        props?.submittedDependents?.length > 0 && (
-          <RemoveDependentSuccessMessage />
-        )}
+      {manageDependentsToggle && props?.submittedDependents?.length > 0 && (
+        <RemoveDependentSuccessMessage />
+      )}
       {mainContent}
     </>
   );
@@ -81,10 +80,7 @@ const mapStateToProps = state => ({
   submittedDependents: state?.removeDependents?.submittedDependents,
 });
 
-export default connect(
-  mapStateToProps,
-  null,
-)(ViewDependentsList);
+export default connect(mapStateToProps, null)(ViewDependentsList);
 
 export { ViewDependentsList };
 ViewDependentsList.propTypes = {

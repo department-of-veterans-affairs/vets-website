@@ -6,10 +6,8 @@ import {
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../../config/form';
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.veteranIdInformationChapter.pages.contactInformation2;
+const { schema, uiSchema } =
+  formConfig.chapters.veteranIdInformationChapter.pages.contactInformation2;
 
 const pageTitle = 'contact information 2';
 

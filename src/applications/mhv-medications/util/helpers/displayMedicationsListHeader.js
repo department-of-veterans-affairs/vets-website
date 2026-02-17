@@ -40,36 +40,41 @@ export const displayMedicationsListHeader = (
       return `${filterOptions[ACTIVE_FILTER_KEY].label} medications`;
     }
     case RECENTLY_REQUESTED_FILTER_KEY: {
-      return `${
-        filterOptions[RECENTLY_REQUESTED_FILTER_KEY].label
-      } medications`;
+      return `${filterOptions[RECENTLY_REQUESTED_FILTER_KEY].label} medications`;
     }
     case IN_PROGRESS_FILTER_KEY: {
-      return `${filterOptions[IN_PROGRESS_FILTER_KEY]?.label ||
-        'In progress'} medications`;
+      return `${
+        filterOptions[IN_PROGRESS_FILTER_KEY]?.label || 'In progress'
+      } medications`;
     }
     case SHIPPED_FILTER_KEY: {
-      return `${filterOptions[SHIPPED_FILTER_KEY]?.label ||
-        'Shipped'} medications`;
+      return `${
+        filterOptions[SHIPPED_FILTER_KEY]?.label || 'Shipped'
+      } medications`;
     }
     case RENEWAL_FILTER_KEY: {
       return 'Medications that need renewal before refill';
     }
     case NON_ACTIVE_FILTER_KEY: {
-      return `${filterOptions[NON_ACTIVE_FILTER_KEY]?.label ||
-        'Non-active'} medications`;
+      return `${
+        filterOptions[NON_ACTIVE_FILTER_KEY]?.label || 'Non-active'
+      } medications`;
     }
     case INACTIVE_FILTER_KEY: {
-      return `${filterOptions[INACTIVE_FILTER_KEY]?.label ||
-        'Inactive'} medications`;
+      return `${
+        filterOptions[INACTIVE_FILTER_KEY]?.label || 'Inactive'
+      } medications`;
     }
     case TRANSFERRED_FILTER_KEY: {
-      return `${filterOptions[TRANSFERRED_FILTER_KEY]?.label ||
-        'Transferred'} medications`;
+      return `${
+        filterOptions[TRANSFERRED_FILTER_KEY]?.label || 'Transferred'
+      } medications`;
     }
     case STATUS_NOT_AVAILABLE_FILTER_KEY: {
-      return `${filterOptions[STATUS_NOT_AVAILABLE_FILTER_KEY]?.label ||
-        'Status not available'} medications`;
+      return `${
+        filterOptions[STATUS_NOT_AVAILABLE_FILTER_KEY]?.label ||
+        'Status not available'
+      } medications`;
     }
     default:
       throw new Error(`Unknown filter option: ${selectedFilterOption}`);

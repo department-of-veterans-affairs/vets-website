@@ -19,4 +19,5 @@ export const evidenceChoiceAdditionalDocumentsContent = (
 );
 
 // Backwards-compatible alias used by page imports.
-export const evidenceChoiceAdditionalDocuments = evidenceChoiceAdditionalDocumentsContent;
+export const evidenceChoiceAdditionalDocuments =
+  evidenceChoiceAdditionalDocumentsContent;

@@ -38,9 +38,7 @@ class SharedComponents {
 
       if (tagName === 'va-link') {
         // Web component: assert the text attribute contains "Back"
-        cy.wrap($el)
-          .invoke('attr', 'text')
-          .should('include', 'Back');
+        cy.wrap($el).invoke('attr', 'text').should('include', 'Back');
         return;
       }
 

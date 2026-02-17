@@ -102,9 +102,8 @@ const FileSubmissionsInProgress = ({ claim }) => {
             >
               {currentPageItems.map((item, itemIndex) => {
                 const statusBadgeText = item.uploadStatusDisplayValue;
-                const requestType = getTrackedItemDisplayNameFromEvidenceSubmission(
-                  item,
-                );
+                const requestType =
+                  getTrackedItemDisplayNameFromEvidenceSubmission(item);
                 const requestTypeText = requestType
                   ? `Submitted in response to request: ${requestType}`
                   : 'You submitted this file as additional evidence.';

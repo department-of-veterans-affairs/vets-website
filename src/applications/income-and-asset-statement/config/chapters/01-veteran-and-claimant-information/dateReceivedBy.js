@@ -13,8 +13,7 @@ export default {
       title: 'Which of these best describe your case?',
       labelHeaderLevel: '1',
       labels: {
-        Y:
-          'I’m submitting an initial application for VA Pension or Parents’ DIC benefits',
+        Y: 'I’m submitting an initial application for VA Pension or Parents’ DIC benefits',
         N: 'I’m already receiving VA Pension or Parents’ DIC benefits',
       },
     }),

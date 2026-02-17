@@ -68,14 +68,11 @@ const PrescriptionDetails = () => {
 
   // Redirect to medications list if v2 API is enabled but station_number is missing
   // This handles edge cases like old bookmarks or direct URL access without station_number
-  useEffect(
-    () => {
-      if (isCernerPilot && !stationNumber) {
-        navigate('/', { replace: true });
-      }
-    },
-    [isCernerPilot, stationNumber, navigate],
-  );
+  useEffect(() => {
+    if (isCernerPilot && !stationNumber) {
+      navigate('/', { replace: true });
+    }
+  }, [isCernerPilot, stationNumber, navigate]);
 
   const currentFilterOptions = getFilterOptions(
     isCernerPilot,
@@ -136,9 +133,10 @@ const PrescriptionDetails = () => {
 
   const prescriptionHeader =
     prescription?.prescriptionName || prescription?.orderableItem;
-  const refillHistory = useMemo(() => getRefillHistory(prescription), [
-    prescription,
-  ]);
+  const refillHistory = useMemo(
+    () => getRefillHistory(prescription),
+    [prescription],
+  );
 
   // Prefetch prescription documentation for faster loading when
   // going to the documentation page
@@ -148,41 +146,35 @@ const PrescriptionDetails = () => {
 
   const hasPrefetched = useRef(false);
 
-  useEffect(
-    () => {
-      if (
-        !isLoading &&
-        !hasPrefetched.current &&
-        hasCmopNdcNumber(refillHistory)
-      ) {
-        prefetchPrescriptionDocumentation({
-          id: prescriptionId,
-          stationNumber: stationNumber || prescription?.stationNumber,
-        });
-        hasPrefetched.current = true;
-      }
-    },
-    [
-      isLoading,
-      prescriptionId,
-      stationNumber,
-      prescription,
-      refillHistory,
-      prefetchPrescriptionDocumentation,
-    ],
-  );
+  useEffect(() => {
+    if (
+      !isLoading &&
+      !hasPrefetched.current &&
+      hasCmopNdcNumber(refillHistory)
+    ) {
+      prefetchPrescriptionDocumentation({
+        id: prescriptionId,
+        stationNumber: stationNumber || prescription?.stationNumber,
+      });
+      hasPrefetched.current = true;
+    }
+  }, [
+    isLoading,
+    prescriptionId,
+    stationNumber,
+    prescription,
+    refillHistory,
+    prefetchPrescriptionDocumentation,
+  ]);
 
-  useEffect(
-    () => {
-      if (prescription) {
-        focusElement(document.querySelector('h1'));
-        updatePageTitle('Medications details | Veterans Affairs');
-      } else {
-        window.scrollTo(0, 0);
-      }
-    },
-    [prescription],
-  );
+  useEffect(() => {
+    if (prescription) {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle('Medications details | Veterans Affairs');
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [prescription]);
 
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);

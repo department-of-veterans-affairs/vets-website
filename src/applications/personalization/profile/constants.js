@@ -230,12 +230,10 @@ export const NOTIFICATION_CHANNEL_LABELS = Object.freeze({
 });
 
 export const NOTIFICATION_CHANNEL_FIELD_DESCRIPTIONS = Object.freeze({
-  [`channel${RAW_IDS.HEALTH_APPOINTMENT_REMINDERS}-${
-    NOTIFICATION_CHANNEL_IDS.TEXT
-  }`]: "Text reminders can include facility and clinic details. We'll send you a text to opt in or out of including these details in your appointment reminders.",
-  [`channel${RAW_IDS.HEALTH_APPOINTMENT_REMINDERS}-${
-    NOTIFICATION_CHANNEL_IDS.EMAIL
-  }`]: 'Email reminders include facility and clinic details.',
+  [`channel${RAW_IDS.HEALTH_APPOINTMENT_REMINDERS}-${NOTIFICATION_CHANNEL_IDS.TEXT}`]:
+    "Text reminders can include facility and clinic details. We'll send you a text to opt in or out of including these details in your appointment reminders.",
+  [`channel${RAW_IDS.HEALTH_APPOINTMENT_REMINDERS}-${NOTIFICATION_CHANNEL_IDS.EMAIL}`]:
+    'Email reminders include facility and clinic details.',
 });
 
 /**

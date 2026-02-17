@@ -40,9 +40,7 @@ describe('Locator url and parameters builder', () => {
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/services/veteran/v0/vso_accredited_representatives` +
+      `${environment.API_URL}/services/veteran/v0/vso_accredited_representatives` +
         `?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10` +
         `&sort=distance_asc&type=veteran_service_officer&distance=100`,
     );
@@ -68,9 +66,7 @@ describe('Locator url and parameters builder', () => {
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives` +
+      `${environment.API_URL}/services/veteran/v0/other_accredited_representatives` +
         `?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10` +
         `&sort=distance_asc&type=claim_agents&distance=100`,
     );
@@ -96,9 +92,7 @@ describe('Locator url and parameters builder', () => {
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives` +
+      `${environment.API_URL}/services/veteran/v0/other_accredited_representatives` +
         `?address=43210&lat=40.17887&long=-99.27246&name=test&page=2&per_page=7` +
         `&sort=distance_asc&type=attorney&distance=100`,
     );
@@ -150,9 +144,7 @@ describe('Locator url and parameters builder', () => {
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives` +
+      `${environment.API_URL}/services/veteran/v0/other_accredited_representatives` +
         `?page=2&per_page=7&sort=distance_asc&type=veteran_service_officer&distance=100`,
     );
   });
@@ -174,9 +166,7 @@ describe('Locator url and parameters builder', () => {
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives` +
+      `${environment.API_URL}/services/veteran/v0/other_accredited_representatives` +
         `?address=1%20Test%20Parkway%20Apt%20%2320%2C%20Chicago%2C%20Illinois%2C%2060605` +
         `&lat=40.17887&long=-99.27246&name=Test%20%3F%26%3D%23%20Test&page=1&per_page=10` +
         `&sort=distance_asc&type=veteran_service_officer&distance=100`,

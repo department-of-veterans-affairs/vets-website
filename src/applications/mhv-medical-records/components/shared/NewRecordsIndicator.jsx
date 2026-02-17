@@ -19,26 +19,23 @@ const NewRecordsIndicator = ({
   /** Helper function to ensure `extractType` is treated as an array. */
   const normalizeExtractType = type => (Array.isArray(type) ? type : [type]);
 
-  const refreshPhase = useMemo(
-    () => {
-      if (refreshState.phase === refreshPhases.CALL_FAILED) {
-        return refreshPhases.CALL_FAILED;
-      }
-      return getStatusExtractListPhase(
-        refreshState.statusDate,
-        refreshState.status,
-        normalizeExtractType(extractType),
-        newRecordsFound,
-      );
-    },
-    [
-      extractType,
-      refreshState.status,
+  const refreshPhase = useMemo(() => {
+    if (refreshState.phase === refreshPhases.CALL_FAILED) {
+      return refreshPhases.CALL_FAILED;
+    }
+    return getStatusExtractListPhase(
       refreshState.statusDate,
-      refreshState.phase,
+      refreshState.status,
+      normalizeExtractType(extractType),
       newRecordsFound,
-    ],
-  );
+    );
+  }, [
+    extractType,
+    refreshState.status,
+    refreshState.statusDate,
+    refreshState.phase,
+    newRecordsFound,
+  ]);
 
   useEffect(
     /**
@@ -68,15 +65,12 @@ const NewRecordsIndicator = ({
     ],
   );
 
-  const lastSuccessfulUpdate = useMemo(
-    () => {
-      return getLastSuccessfulUpdate(
-        refreshState.status,
-        normalizeExtractType(extractType),
-      );
-    },
-    [refreshState.status, extractType],
-  );
+  const lastSuccessfulUpdate = useMemo(() => {
+    return getLastSuccessfulUpdate(
+      refreshState.status,
+      normalizeExtractType(extractType),
+    );
+  }, [refreshState.status, extractType]);
 
   const failedMsg = () => {
     return (
@@ -160,9 +154,7 @@ const NewRecordsIndicator = ({
         aria-live="polite"
         data-testid="new-records-last-updated"
       >
-        {`Last updated at ${lastSuccessfulUpdate.time} ${
-          lastSuccessfulUpdate.timeZone
-        } on ${lastSuccessfulUpdate.date}`}
+        {`Last updated at ${lastSuccessfulUpdate.time} ${lastSuccessfulUpdate.timeZone} on ${lastSuccessfulUpdate.date}`}
       </va-card>
     );
   };

@@ -47,10 +47,7 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
     });
 
     // Navigate into claim details
-    cy.get('.claim-list-item:first-child va-link')
-      .shadow()
-      .find('a')
-      .click();
+    cy.get('.claim-list-item:first-child va-link').shadow().find('a').click();
     cy.get('.claim-title').should('be.visible');
 
     // Navigate to files tab if requested

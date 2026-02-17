@@ -30,8 +30,9 @@ class PilotEnvPage {
 
     cy.intercept(
       'GET',
-      `${Paths.SM_API_BASE +
-        Paths.FOLDERS}?page=1&per_page=999&useCache=false&requires_oh_messages=1`,
+      `${
+        Paths.SM_API_BASE + Paths.FOLDERS
+      }?page=1&per_page=999&useCache=false&requires_oh_messages=1`,
       folders,
     ).as('inboxPilotFolderMetaData');
 
@@ -67,9 +68,7 @@ class PilotEnvPage {
   loadThread = (mockThreadResponse = mockMultiThreadResponse) => {
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${
-        mockPilotMessages.data[0].attributes.messageId
-      }/thread?full_body=true&requires_oh_messages=1`,
+      `${Paths.SM_API_EXTENDED}/${mockPilotMessages.data[0].attributes.messageId}/thread?full_body=true&requires_oh_messages=1`,
       mockThreadResponse,
     ).as('single-thread');
 
@@ -112,18 +111,10 @@ class PilotEnvPage {
   };
 
   verifyButtons = () => {
-    cy.get(Locators.BUTTONS.REPLY)
-      .should('be.visible')
-      .and(`contain`, `Reply`);
-    cy.get(Locators.BUTTONS.PRINT)
-      .should('be.visible')
-      .and(`contain`, `Print`);
-    cy.get(`#move-button`)
-      .should('be.visible')
-      .and(`contain`, `Move`);
-    cy.get(`#trash-button`)
-      .should('be.visible')
-      .and(`contain`, `Trash`);
+    cy.get(Locators.BUTTONS.REPLY).should('be.visible').and(`contain`, `Reply`);
+    cy.get(Locators.BUTTONS.PRINT).should('be.visible').and(`contain`, `Print`);
+    cy.get(`#move-button`).should('be.visible').and(`contain`, `Move`);
+    cy.get(`#trash-button`).should('be.visible').and(`contain`, `Trash`);
   };
 
   verifyThreadLength = thread => {
@@ -222,9 +213,7 @@ class PilotEnvPage {
   };
 
   selectCareSystem = (index = 0) => {
-    cy.get(Locators.CARE_SYSTEM)
-      .eq(index)
-      .click();
+    cy.get(Locators.CARE_SYSTEM).eq(index).click();
   };
 
   selectTriageGroup = (index = 0) => {

@@ -60,9 +60,11 @@ describe('separation page', () => {
     const types = Object.values(separationTypes);
     const labels = Object.values(separationTypeLabels);
     for (let i = 0; i < types.length; i++) {
-      const queryString = `va-radio-option[label='${labels[i]}'][value=${
-        types[i]
-      }]`.replace('+', '+\\');
+      const queryString =
+        `va-radio-option[label='${labels[i]}'][value=${types[i]}]`.replace(
+          '+',
+          '+\\',
+        );
       const radioOption = document.querySelector(queryString);
       expect(radioOption).to.exist;
     }
@@ -70,9 +72,8 @@ describe('separation page', () => {
 
   it('should updateUiSchema', () => {
     const data = { ...mockFormData, militaryServiceCurrentlyServing: true };
-    const result = separationConfig.uiSchema.separation[
-      'ui:options'
-    ].updateUiSchema(data);
+    const result =
+      separationConfig.uiSchema.separation['ui:options'].updateUiSchema(data);
 
     expect(result['ui:options'].hideOnReview).to.be.true;
   });

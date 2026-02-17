@@ -225,9 +225,7 @@ describe('Folder Thread List View container', () => {
     await waitFor(() => {
       const alert = document.querySelector('va-alert');
       const ariaLabel = document.querySelector('span');
-      expect(alert)
-        .to.have.attribute('status')
-        .to.equal('error');
+      expect(alert).to.have.attribute('status').to.equal('error');
       expect(screen.getByText(Alerts.Message.SERVER_ERROR_503)).to.exist;
       expect(ariaLabel.textContent).to.contain(`You are in Inbox.`);
       expect(alert).to.have.attribute(

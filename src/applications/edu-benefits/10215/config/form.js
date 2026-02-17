@@ -61,12 +61,10 @@ const { date } = commonDefinitions;
 export const submitFormLogic = (form, formConfig) => {
   if (environment.isDev() || environment.isLocalhost()) {
     const testDataShallowCopy = { ...testData };
-    testDataShallowCopy.data.institutionDetails.termStartDate = daysAgoYyyyMmDd(
-      14,
-    );
-    testDataShallowCopy.data.institutionDetails.dateOfCalculations = daysAgoYyyyMmDd(
-      10,
-    );
+    testDataShallowCopy.data.institutionDetails.termStartDate =
+      daysAgoYyyyMmDd(14);
+    testDataShallowCopy.data.institutionDetails.dateOfCalculations =
+      daysAgoYyyyMmDd(10);
     return Promise.resolve(testDataShallowCopy);
   }
   return submitForm(form, formConfig);

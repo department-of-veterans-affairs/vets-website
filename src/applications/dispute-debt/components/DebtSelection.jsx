@@ -37,17 +37,14 @@ const DebtSelection = ({ formContext }) => {
 
   const [selectionError, setSelectionError] = useState(null);
 
-  useEffect(
-    () => {
-      if (formContext.submitted && !selectedDebts?.length) {
-        setSelectionError('Choose at least one debt');
-        setFocus('va-checkbox-group');
-        return;
-      }
-      setSelectionError(null);
-    },
-    [dispatch, formContext.submitted, selectedDebts?.length],
-  );
+  useEffect(() => {
+    if (formContext.submitted && !selectedDebts?.length) {
+      setSelectionError('Choose at least one debt');
+      setFocus('va-checkbox-group');
+      return;
+    }
+    setSelectionError(null);
+  }, [dispatch, formContext.submitted, selectedDebts?.length]);
 
   const onGroupChange = ({ detail, target }) => {
     // adding new prop selectedDebtId to selectedDebts so it's easier to filter on uncheck

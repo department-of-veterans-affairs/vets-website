@@ -13,10 +13,8 @@ const mockStore = configureStore(middleware);
 describe('22-10297 Enter your full name page', () => {
   afterEach(cleanup);
 
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.identificationChapter.pages.applicantFullName;
+  const { schema, uiSchema } =
+    formConfig.chapters.identificationChapter.pages.applicantFullName;
 
   const initialState = {
     user: {

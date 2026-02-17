@@ -138,9 +138,8 @@ export const getTxtContent = (
   };
 
   // which sections actually have data
-  const nonEmptySections = sections.filter(
-    section =>
-      section.isArray ? section.data.length > 0 : Boolean(section.data),
+  const nonEmptySections = sections.filter(section =>
+    section.isArray ? section.data.length > 0 : Boolean(section.data),
   );
 
   // –– build emptySections: any truly empty array, PLUS any

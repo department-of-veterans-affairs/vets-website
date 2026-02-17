@@ -470,8 +470,7 @@ describe('convertVital function', () => {
           display: 'ADTP BURNETT',
           extension: [
             {
-              url:
-                'http://hl7.org/fhir/StructureDefinition/alternate-reference',
+              url: 'http://hl7.org/fhir/StructureDefinition/alternate-reference',
               valueReference: {
                 reference: '#Location-0',
               },

@@ -145,9 +145,6 @@ const mapDispatchToProps = {
   dispatchSetLastPage: setLastPage,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ClaimsStatusApp);
+export default connect(mapStateToProps, mapDispatchToProps)(ClaimsStatusApp);
 
 export { AppContent, ClaimsStatusApp };

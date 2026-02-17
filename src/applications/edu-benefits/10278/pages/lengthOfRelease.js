@@ -17,8 +17,7 @@ const uiSchema = {
       title: 'Select how long you want to release your personal information.',
       labels: {
         ongoing: 'Ongoing until you give us a written notice to terminate',
-        date:
-          'From the date you submit this form to the date you choose to terminate',
+        date: 'From the date you submit this form to the date you choose to terminate',
       },
       errorMessages: {
         required: 'You must provide an answer',

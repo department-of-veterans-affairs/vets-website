@@ -21,11 +21,10 @@ updatedFullNameSchema.properties.last.maxLength = 50;
 export default {
   updateFormData: setDefaultIsOver65,
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
-        formData?.claimantNotVeteran
-          ? 'Veteran’s information'
-          : 'Your identification information',
+    ...titleUI(({ formData }) =>
+      formData?.claimantNotVeteran
+        ? 'Veteran’s information'
+        : 'Your identification information',
     ),
     veteranFullName: {
       ...fullNameUI(),

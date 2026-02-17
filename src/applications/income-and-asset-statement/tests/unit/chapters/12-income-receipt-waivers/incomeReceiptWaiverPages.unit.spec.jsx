@@ -247,17 +247,19 @@ describe('income receipt waiver list and loop pages', () => {
       });
 
       it('should have correct option labels', () => {
-        const { labels } = uiSchema['view:isAddingIncomeReceiptWaivers'][
-          'ui:options'
-        ].updateUiSchema()['ui:options'];
+        const { labels } =
+          uiSchema['view:isAddingIncomeReceiptWaivers'][
+            'ui:options'
+          ].updateUiSchema()['ui:options'];
         expect(labels.Y).to.equal('Yes, I have waived income to report');
         expect(labels.N).to.equal('No, I don’t have waived income to report');
       });
 
       it('should have correct labelHeaderLevel configuration', () => {
-        const { labelHeaderLevel } = uiSchema[
-          'view:isAddingIncomeReceiptWaivers'
-        ]['ui:options'].updateUiSchema()['ui:options'];
+        const { labelHeaderLevel } =
+          uiSchema['view:isAddingIncomeReceiptWaivers'][
+            'ui:options'
+          ].updateUiSchema()['ui:options'];
 
         expect(labelHeaderLevel).to.equal('2');
       });

@@ -14,10 +14,8 @@ export default {
   },
   booster: {
     en: '/health-care/covid-19-vaccine/booster-shots-and-additional-doses',
-    es:
-      '/health-care/covid-19-vaccine-esp/booster-shots-and-additional-doses-esp',
-    tl:
-      '/health-care/covid-19-vaccine-tag/booster-shots-and-additional-doses-tag',
+    es: '/health-care/covid-19-vaccine-esp/booster-shots-and-additional-doses-esp',
+    tl: '/health-care/covid-19-vaccine-tag/booster-shots-and-additional-doses-tag',
   },
   vaccineRecord: {
     en: '/health-care/covid-19-vaccine/vaccine-record',
@@ -59,10 +57,8 @@ export default {
     es: '/health-care/after-you-apply-esp/',
   },
   compAssistanceForFamily: {
-    en:
-      '/family-and-caregiver-benefits/health-and-disability/comprehensive-assistance-for-family-caregivers/',
-    es:
-      '/family-and-caregiver-benefits/health-and-disability/comprehensive-assistance-for-family-caregivers-esp/',
+    en: '/family-and-caregiver-benefits/health-and-disability/comprehensive-assistance-for-family-caregivers/',
+    es: '/family-and-caregiver-benefits/health-and-disability/comprehensive-assistance-for-family-caregivers-esp/',
   },
   decisionReviewsSupplementalClaim: {
     en: '/decision-reviews/supplemental-claim/',
@@ -93,10 +89,8 @@ export default {
     es: '/resources/what-to-bring-to-create-your-online-sign-in-account-esp/',
   },
   survivorDependencyIndemnity: {
-    en:
-      '/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/',
-    es:
-      '/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation-esp/',
+    en: '/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/',
+    es: '/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation-esp/',
   },
   disasterHelp: {
     en: '/resources/disaster-help/',
@@ -115,10 +109,8 @@ export default {
     es: '/health-care/about-va-health-benefits/dental-care-esp/',
   },
   survivorsPension: {
-    en:
-      '/family-and-caregiver-benefits/survivor-compensation/survivors-pension/',
-    es:
-      '/family-and-caregiver-benefits/survivor-compensation/survivors-pension-esp/',
+    en: '/family-and-caregiver-benefits/survivor-compensation/survivors-pension/',
+    es: '/family-and-caregiver-benefits/survivor-compensation/survivors-pension-esp/',
   },
   vocationalRehabilitationHowToApply: {
     en: '/careers-employment/vocational-rehabilitation/how-to-apply/',

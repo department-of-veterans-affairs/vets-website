@@ -53,64 +53,52 @@ const AllergyDetails = props => {
   const [downloadStarted, setDownloadStarted] = useState(false);
   useTrackAction(statsdFrontEndActions.ALLERGIES_DETAILS);
 
-  const allergyData = useMemo(
-    () => {
-      if (!allergy) {
-        return null;
-      }
-      return {
-        ...allergy,
-        // Note: isOracleHealthData is true for both v2 unified data and v1 OH data
-        // The v2 endpoint combines Oracle Health and VistA records into a single format,
-        // and the backend doesn't provide a field to distinguish the source.
-        // Components use this flag to determine which template to render.
-        isOracleHealthData: isAcceleratingAllergies || isCerner,
-      };
-    },
-    [allergy, isAcceleratingAllergies, isCerner],
-  );
+  const allergyData = useMemo(() => {
+    if (!allergy) {
+      return null;
+    }
+    return {
+      ...allergy,
+      // Note: isOracleHealthData is true for both v2 unified data and v1 OH data
+      // The v2 endpoint combines Oracle Health and VistA records into a single format,
+      // and the backend doesn't provide a field to distinguish the source.
+      // Components use this flag to determine which template to render.
+      isOracleHealthData: isAcceleratingAllergies || isCerner,
+    };
+  }, [allergy, isAcceleratingAllergies, isCerner]);
 
-  useEffect(
-    () => {
-      if (allergyId && !isLoading) {
-        dispatch(
-          getAllergyDetails(
-            allergyId,
-            allergyList,
-            isAcceleratingAllergies,
-            isCerner,
-          ),
-        );
-      }
-      updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
-    },
-    [
-      allergyId,
-      allergyList,
-      dispatch,
-      isLoading,
-      isAcceleratingAllergies,
-      isCerner,
-    ],
-  );
+  useEffect(() => {
+    if (allergyId && !isLoading) {
+      dispatch(
+        getAllergyDetails(
+          allergyId,
+          allergyList,
+          isAcceleratingAllergies,
+          isCerner,
+        ),
+      );
+    }
+    updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
+  }, [
+    allergyId,
+    allergyList,
+    dispatch,
+    isLoading,
+    isAcceleratingAllergies,
+    isCerner,
+  ]);
 
-  useEffect(
-    () => {
-      if (allergyData) {
-        focusElement(document.querySelector('h1'));
-      }
-    },
-    [allergyData],
-  );
+  useEffect(() => {
+    if (allergyData) {
+      focusElement(document.querySelector('h1'));
+    }
+  }, [allergyData]);
 
-  useEffect(
-    () => {
-      return () => {
-        dispatch(clearAllergyDetails());
-      };
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    return () => {
+      dispatch(clearAllergyDetails());
+    };
+  }, [dispatch]);
 
   usePrintTitle(
     pageTitles.ALLERGIES_PAGE_TITLE,

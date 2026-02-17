@@ -88,9 +88,7 @@ const editPhoneNumber = (
   cy.get(`va-button[label="Edit ${numberName}"]`).click({ force: true });
 
   // Wait for the modal/form to fully render and be interactive
-  cy.get('va-telephone-input')
-    .should('exist')
-    .should('be.visible');
+  cy.get('va-telephone-input').should('exist').should('be.visible');
 
   // Update country picker
   // Country defaults to US, so only clear/fill if it's provided
@@ -117,9 +115,7 @@ const editPhoneNumber = (
     .find('input')
     .then($input => {
       // Clear using native methods
-      cy.wrap($input)
-        .invoke('val', '')
-        .trigger('change');
+      cy.wrap($input).invoke('val', '').trigger('change');
       cy.wrap($input).trigger('input');
     });
 
@@ -138,9 +134,7 @@ const editPhoneNumber = (
       .shadow()
       .find('input')
       .then($input => {
-        cy.wrap($input)
-          .invoke('val', '')
-          .trigger('change');
+        cy.wrap($input).invoke('val', '').trigger('change');
         cy.wrap($input).trigger('input');
       });
     if (extension) {

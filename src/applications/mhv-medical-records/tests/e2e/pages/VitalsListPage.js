@@ -20,9 +20,7 @@ class VitalsListPage extends BaseListPage {
       '@status',
     ]);
     // Wait for page to load
-    cy.get('h1')
-      .should('be.visible')
-      .and('be.focused');
+    cy.get('h1').should('be.visible').and('be.focused');
   };
 
   clickLinkByRecordListItem = vitalsHeading => {
@@ -46,24 +44,18 @@ class VitalsListPage extends BaseListPage {
   };
 
   verifyVitalOnListPage = (index, name, measurement, date) => {
-    cy.get('[data-testid="vital-li-display-name"]')
-      .eq(index)
-      .contains(name);
+    cy.get('[data-testid="vital-li-display-name"]').eq(index).contains(name);
     cy.get('[data-testid="vital-li-measurement"]')
       .eq(index)
       .contains(measurement);
-    cy.get('[data-testid="vital-li-date"]')
-      .eq(index)
-      .contains(date);
+    cy.get('[data-testid="vital-li-date"]').eq(index).contains(date);
     cy.get('[data-testid="vital-li-review-over-time"]')
       .eq(index)
       .contains(`Review your ${name} over time`, { matchCase: false });
   };
 
   clickVitalsListNextButton = () => {
-    cy.get('[aria-label="Next page"]')
-      .find('a')
-      .click();
+    cy.get('[aria-label="Next page"]').find('a').click();
   };
 
   loadVAPaginationNext = () => {

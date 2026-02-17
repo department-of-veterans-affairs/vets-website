@@ -19,14 +19,11 @@ export default function App({ location, children }) {
       '#dateHint {display: none}',
     );
   });
-  useEffect(
-    () => {
-      if (!userLoggedIn && location.pathname !== '/introduction') {
-        window.location.href = manifest.rootUrl;
-      }
-    },
-    [userLoggedIn, location],
-  );
+  useEffect(() => {
+    if (!userLoggedIn && location.pathname !== '/introduction') {
+      window.location.href = manifest.rootUrl;
+    }
+  }, [userLoggedIn, location]);
   return (
     <div className="form-22-8794-container row">
       <div className="desktop-lg:vads-u-padding-left--0 vads-u-padding-left--2">

@@ -38,28 +38,22 @@ export const CustomAlertPage = props => {
   const [continueClicked, setContinueClicked] = useState(false);
   const [srText, setSrText] = useState(null);
 
-  useEffect(
-    () => {
-      const focusSelector = document.querySelector("va-alert[status='error']");
-      if (focusSelector && continueClicked && !window.Cypress) {
-        scrollAndFocus(focusSelector);
-      }
-    },
-    [continueClicked],
-  );
+  useEffect(() => {
+    const focusSelector = document.querySelector("va-alert[status='error']");
+    if (focusSelector && continueClicked && !window.Cypress) {
+      scrollAndFocus(focusSelector);
+    }
+  }, [continueClicked]);
 
-  useEffect(
-    () => {
-      // after re-render, get the text of the new alert
-      const id = setTimeout(() => {
-        const alertText =
-          document.querySelector('div.form-panel va-alert')?.innerText || '';
-        setSrText(alertText);
-      }, 100);
-      return () => clearTimeout(id);
-    },
-    [props?.data?.uploadedFile?.name],
-  );
+  useEffect(() => {
+    // after re-render, get the text of the new alert
+    const id = setTimeout(() => {
+      const alertText =
+        document.querySelector('div.form-panel va-alert')?.innerText || '';
+      setSrText(alertText);
+    }, 100);
+    return () => clearTimeout(id);
+  }, [props?.data?.uploadedFile?.name]);
 
   return (
     <div className="form-panel">

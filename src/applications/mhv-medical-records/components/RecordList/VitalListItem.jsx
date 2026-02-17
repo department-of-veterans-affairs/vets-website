@@ -15,62 +15,49 @@ const VitalListItem = props => {
   const { isAccelerating } = options;
   const displayName = vitalTypeDisplayNames[record.type];
 
-  const ddLabelName = useMemo(
-    () => {
-      return displayName.includes('Blood oxygen level')
-        ? 'Blood Oxygen over time Link'
-        : `${displayName} over time Link`;
-    },
-    [displayName],
-  );
+  const ddLabelName = useMemo(() => {
+    return displayName.includes('Blood oxygen level')
+      ? 'Blood Oxygen over time Link'
+      : `${displayName} over time Link`;
+  }, [displayName]);
 
-  const updatedRecordType = useMemo(
-    () => {
-      const typeMap = {
-        PULSE: 'HEART-RATE',
-        RESPIRATION: 'BREATHING-RATE',
-        PULSE_OXIMETRY: 'BLOOD-OXYGEN-LEVEL',
-      };
-      return typeMap[record.type] || record.type;
-    },
-    [record.type],
-  );
+  const updatedRecordType = useMemo(() => {
+    const typeMap = {
+      PULSE: 'HEART-RATE',
+      RESPIRATION: 'BREATHING-RATE',
+      PULSE_OXIMETRY: 'BLOOD-OXYGEN-LEVEL',
+    };
+    return typeMap[record.type] || record.type;
+  }, [record.type]);
 
-  const dataTestIds = useMemo(
-    () => {
-      if (isAccelerating) {
-        // Use canonical kebab-case slugs for accelerated Cypress (legacySlugMap removed)
-        const baseSlug = kebabCase(updatedRecordType);
-        return {
-          displayName: `vital-${baseSlug}-display-name`,
-          noRecordMessage: `vital-${baseSlug}-no-record-message`,
-          measurement: `vital-${baseSlug}-measurement`,
-          date: `vital-${baseSlug}-date`,
-          dateTimestamp: `vital-${baseSlug}-date-timestamp`,
-          reviewLink: `vital-${baseSlug}-review-over-time`,
-        };
-      }
+  const dataTestIds = useMemo(() => {
+    if (isAccelerating) {
+      // Use canonical kebab-case slugs for accelerated Cypress (legacySlugMap removed)
+      const baseSlug = kebabCase(updatedRecordType);
       return {
-        displayName: 'vital-li-display-name',
-        noRecordMessage: 'vital-li-no-record-message',
-        measurement: 'vital-li-measurement',
-        date: 'vital-li-date',
-        dateTimestamp: 'vital-li-date-timestamp',
-        reviewLink: 'vital-li-review-over-time',
+        displayName: `vital-${baseSlug}-display-name`,
+        noRecordMessage: `vital-${baseSlug}-no-record-message`,
+        measurement: `vital-${baseSlug}-measurement`,
+        date: `vital-${baseSlug}-date`,
+        dateTimestamp: `vital-${baseSlug}-date-timestamp`,
+        reviewLink: `vital-${baseSlug}-review-over-time`,
       };
-    },
-    [updatedRecordType, isAccelerating],
-  );
+    }
+    return {
+      displayName: 'vital-li-display-name',
+      noRecordMessage: 'vital-li-no-record-message',
+      measurement: 'vital-li-measurement',
+      date: 'vital-li-date',
+      dateTimestamp: 'vital-li-date-timestamp',
+      reviewLink: 'vital-li-review-over-time',
+    };
+  }, [updatedRecordType, isAccelerating]);
 
   const url = `/vitals/${kebabCase(updatedRecordType)}-history`;
 
   const detailLinkText = `Review your ${
     displayName === 'Blood oxygen level (pulse oximetry)'
-      ? displayName
-          .toLowerCase()
-          .split(' ')
-          .slice(0, 3)
-          .join(' ')
+      ? displayName.toLowerCase().split(' ').slice(0, 3).join(' ')
       : displayName.toLowerCase()
   } over time`;
 

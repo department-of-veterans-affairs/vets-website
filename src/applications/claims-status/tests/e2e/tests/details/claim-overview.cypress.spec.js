@@ -128,9 +128,7 @@ describe('Claim overview', () => {
           .as('accordion-item');
 
         // Verify the header
-        cy.get('@accordion-item')
-          .shadow()
-          .findByText(step.header);
+        cy.get('@accordion-item').shadow().findByText(step.header);
 
         // Verify that the accordion is expanded only if it is the current step
         cy.get('@accordion-item')

@@ -12,10 +12,8 @@ import formConfig from '../../../../config/form';
 const defaultStore = createCommonStore();
 
 describe('Death Certificate Required', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.deathCertificateRequired;
+  const { schema, uiSchema } =
+    formConfig.chapters.additionalInformation.pages.deathCertificateRequired;
 
   it('should render', () => {
     const form = render(

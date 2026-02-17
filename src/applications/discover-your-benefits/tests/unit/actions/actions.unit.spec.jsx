@@ -1345,9 +1345,8 @@ describe('actions', () => {
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
-        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: formatData(
-          validLengthOfService,
-        ),
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
+          formatData(validLengthOfService),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
       };
       it(`should return true with discharge: ${discharge}`, () => {
@@ -1388,9 +1387,8 @@ describe('actions', () => {
       const formData = {
         [mappingTypes.GOALS]: formatData(invalidGoals),
         [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
-        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: formatData(
-          validLengthOfService,
-        ),
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
+          formatData(validLengthOfService),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
@@ -1401,9 +1399,8 @@ describe('actions', () => {
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
-        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: formatData(
-          validLengthOfService,
-        ),
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
+          formatData(validLengthOfService),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
@@ -1431,9 +1428,8 @@ describe('actions', () => {
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: false,
-        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: formatData(
-          validLengthOfService,
-        ),
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
+          formatData(validLengthOfService),
         [militaryBranchTypes.ARMY]: {
           [militaryBranchComponentTypes.ACTIVE_DUTY]: false,
           [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,

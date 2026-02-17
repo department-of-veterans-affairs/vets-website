@@ -12,11 +12,8 @@ import { replaceStrValues } from '../../../utils/helpers/general';
 import { LAST_YEAR } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
 
-const {
-  veteranGrossIncome,
-  veteranNetIncome,
-  veteranOtherIncome,
-} = ezrSchema.properties;
+const { veteranGrossIncome, veteranNetIncome, veteranOtherIncome } =
+  ezrSchema.properties;
 
 export default {
   uiSchema: {

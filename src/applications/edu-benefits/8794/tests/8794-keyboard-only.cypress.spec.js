@@ -6,7 +6,7 @@ import manifest from '../manifest.json';
 describe('22-8794 EDU Form', () => {
   const { designatingOfficial } = maximalData.data;
 
-  beforeEach(function() {
+  beforeEach(function () {
     if (Cypress.env('CI')) this.skip();
   });
 
@@ -182,10 +182,7 @@ describe('22-8794 EDU Form', () => {
     //   // Additional certifying officials page - Step 2
     cy.url().should(
       'include',
-      `${
-        formConfig.chapters.additionalOfficialChapter.pages
-          .additionalOfficialSummary.path
-      }/0`,
+      `${formConfig.chapters.additionalOfficialChapter.pages.additionalOfficialSummary.path}/0`,
     );
     cy.injectAxeThenAxeCheck();
     cy.focused().should(
@@ -224,10 +221,7 @@ describe('22-8794 EDU Form', () => {
     //   // Additional certifying officials page - Step 3
     cy.url().should(
       'include',
-      `${
-        formConfig.chapters.additionalOfficialChapter.pages
-          .additionalOfficialSummary.path
-      }-1/0`,
+      `${formConfig.chapters.additionalOfficialChapter.pages.additionalOfficialSummary.path}-1/0`,
     );
     cy.injectAxeThenAxeCheck();
     cy.focused().should('contain.text', 'Section 305 training');
@@ -256,10 +250,7 @@ describe('22-8794 EDU Form', () => {
     //   // Additional certifying officials page - Step 4
     cy.url().should(
       'include',
-      `${
-        formConfig.chapters.additionalOfficialChapter.pages
-          .additionalOfficialSummary.path
-      }-2/0`,
+      `${formConfig.chapters.additionalOfficialChapter.pages.additionalOfficialSummary.path}-2/0`,
     );
     cy.injectAxeThenAxeCheck();
     cy.focused().should('contain.text', 'VA benefit status');

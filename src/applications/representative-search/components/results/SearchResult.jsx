@@ -93,10 +93,7 @@ const SearchResult = ({
     (addressLine1 || '').trim(),
     (addressLine2 || '').trim(),
     (addressLine3 || '').trim(),
-    [city, stateCode]
-      .filter(Boolean)
-      .join(', ')
-      .trim(),
+    [city, stateCode].filter(Boolean).join(', ').trim(),
     (zipCode || '').trim(),
   ]
     .filter(Boolean)
@@ -162,19 +159,16 @@ const SearchResult = ({
     'aria-label': `${destinationAddress} (opens in a new tab)`,
   };
 
-  useEffect(
-    () => {
-      if (reportSubmissionStatus === 'SUCCESS') {
-        scrollTo(`#thank-you-alert-${representativeId}`);
-        focusElement(`#thank-you-alert-${representativeId}`);
-      } else if (reportSubmissionStatus === 'CANCELLED') {
-        scrollTo(`#report-button-${representativeId}`);
-        focusElement(`#report-button-${representativeId}`);
-      }
-      initializeRepresentativeReport();
-    },
-    [reportModalIsShowing],
-  );
+  useEffect(() => {
+    if (reportSubmissionStatus === 'SUCCESS') {
+      scrollTo(`#thank-you-alert-${representativeId}`);
+      focusElement(`#thank-you-alert-${representativeId}`);
+    } else if (reportSubmissionStatus === 'CANCELLED') {
+      scrollTo(`#report-button-${representativeId}`);
+      focusElement(`#report-button-${representativeId}`);
+    }
+    initializeRepresentativeReport();
+  }, [reportModalIsShowing]);
 
   return (
     <div className="report-outdated-information-modal">
@@ -238,7 +232,9 @@ const SearchResult = ({
                 disable-border
                 uswds
               >
-                {associatedOrgs?.map(org => <div key={org}>{org}</div>)}
+                {associatedOrgs?.map(org => (
+                  <div key={org}>{org}</div>
+                ))}
               </va-additional-info>
             </div>
           )}

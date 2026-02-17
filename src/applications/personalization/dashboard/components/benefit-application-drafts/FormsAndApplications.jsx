@@ -67,13 +67,8 @@ const FormsAndApplications = ({
     () =>
       submittedForms.map(form => {
         // Renaming updatedAt to lastUpdated, formType to form, and converting datetime to UNIX time
-        const {
-          formType,
-          createdAt,
-          updatedAt,
-          status,
-          ...rest
-        } = form.attributes;
+        const { formType, createdAt, updatedAt, status, ...rest } =
+          form.attributes;
         return {
           ...rest,
           status,
@@ -93,91 +88,85 @@ const FormsAndApplications = ({
     [transformedSavedForms, transformedSubmittedForms],
   );
 
-  const { inProgressCardList, completedCardList } = useMemo(
-    () => {
-      const cards = {
-        inProgressCardList: [],
-        completedCardList: [],
-      };
+  const { inProgressCardList, completedCardList } = useMemo(() => {
+    const cards = {
+      inProgressCardList: [],
+      completedCardList: [],
+    };
 
-      allForms.forEach(form => {
-        const formArrays = ['22-10275', '22-10278', '22-10297'];
+    allForms.forEach(form => {
+      const formArrays = ['22-10275', '22-10278', '22-10297'];
 
-        const formId = form.form;
-        const formStatus = form.status;
-        const { pdfSupport } = form;
-        // Determine form title: use benefit name for SiP forms,
-        // otherwise use "VA Form {formId}" for non-SiP forms
-        const formMeta = MY_VA_SIP_FORMS.find(e => e.id === formId);
-        const hasBenefit = !!formMeta?.benefit;
-        const isForm = formArrays.includes(formId);
-        // Temporary custom label for 21-4142 via 526 claim
-        // and for 686C-674-v2 so they can be user-friendly
-        let formIdLabel;
-        if (formId === 'form526_form4142') {
-          formIdLabel = '21-4142 submitted with VA Form 21-526EZ';
-        } else if (isForm) {
-          formIdLabel = formMeta?.title
-            ? `${formId} (${formMeta.title})`
-            : formId;
-        } else if (formId === 'form0995_form4142') {
-          formIdLabel = '21-4142 submitted with VA Form 20-0995';
+      const formId = form.form;
+      const formStatus = form.status;
+      const { pdfSupport } = form;
+      // Determine form title: use benefit name for SiP forms,
+      // otherwise use "VA Form {formId}" for non-SiP forms
+      const formMeta = MY_VA_SIP_FORMS.find(e => e.id === formId);
+      const hasBenefit = !!formMeta?.benefit;
+      const isForm = formArrays.includes(formId);
+      // Temporary custom label for 21-4142 via 526 claim
+      // and for 686C-674-v2 so they can be user-friendly
+      let formIdLabel;
+      if (formId === 'form526_form4142') {
+        formIdLabel = '21-4142 submitted with VA Form 21-526EZ';
+      } else if (isForm) {
+        formIdLabel = formMeta?.title
+          ? `${formId} (${formMeta.title})`
+          : formId;
+      } else if (formId === 'form0995_form4142') {
+        formIdLabel = '21-4142 submitted with VA Form 20-0995';
+      } else {
+        formIdLabel = form.form.replace(/-V2$/i, '');
+      }
+      const formTitle = hasBenefit
+        ? `application for ${formMeta.benefit}`
+        : `VA Form ${formIdLabel}`;
+      const presentableFormId = presentableFormIDs[formId] || '';
+      const { lastUpdated } = form || {};
+      const lastSavedDate = format(fromUnixTime(lastUpdated), 'MMMM d, yyyy');
+
+      if (Object.hasOwn(form, 'savedAt')) {
+        const { expiresAt } = form || {};
+        const expirationDate = format(fromUnixTime(expiresAt), 'MMMM d, yyyy');
+        const continueUrl = `${getFormLink(formId)}resume`;
+
+        cards.inProgressCardList.push({
+          continueUrl,
+          expirationDate,
+          formId,
+          formTitle: isForm ? formTitle : formatFormTitle(formTitle),
+          isForm,
+          lastSavedDate,
+          presentableFormId: hasBenefit ? presentableFormId : false,
+        });
+      } else if (formStatus) {
+        const { createdAt } = form || {};
+        const submittedDate = format(fromUnixTime(createdAt), 'MMMM d, yyyy');
+        const cardStatus = normalizeSubmissionStatus(formStatus);
+
+        const card = {
+          formId,
+          formTitle,
+          guid: form.id,
+          lastSavedDate,
+          pdfSupport,
+          presentableFormId: hasBenefit ? presentableFormId : false,
+          status: cardStatus,
+          submittedDate,
+        };
+
+        // "actionNeeded" is also an In Progress card
+        if (cardStatus === 'actionNeeded') {
+          cards.inProgressCardList.push(card);
         } else {
-          formIdLabel = form.form.replace(/-V2$/i, '');
+          cards.completedCardList.push(card);
         }
-        const formTitle = hasBenefit
-          ? `application for ${formMeta.benefit}`
-          : `VA Form ${formIdLabel}`;
-        const presentableFormId = presentableFormIDs[formId] || '';
-        const { lastUpdated } = form || {};
-        const lastSavedDate = format(fromUnixTime(lastUpdated), 'MMMM d, yyyy');
+      }
+    });
 
-        if (Object.hasOwn(form, 'savedAt')) {
-          const { expiresAt } = form || {};
-          const expirationDate = format(
-            fromUnixTime(expiresAt),
-            'MMMM d, yyyy',
-          );
-          const continueUrl = `${getFormLink(formId)}resume`;
-
-          cards.inProgressCardList.push({
-            continueUrl,
-            expirationDate,
-            formId,
-            formTitle: isForm ? formTitle : formatFormTitle(formTitle),
-            isForm,
-            lastSavedDate,
-            presentableFormId: hasBenefit ? presentableFormId : false,
-          });
-        } else if (formStatus) {
-          const { createdAt } = form || {};
-          const submittedDate = format(fromUnixTime(createdAt), 'MMMM d, yyyy');
-          const cardStatus = normalizeSubmissionStatus(formStatus);
-
-          const card = {
-            formId,
-            formTitle,
-            guid: form.id,
-            lastSavedDate,
-            pdfSupport,
-            presentableFormId: hasBenefit ? presentableFormId : false,
-            status: cardStatus,
-            submittedDate,
-          };
-
-          // "actionNeeded" is also an In Progress card
-          if (cardStatus === 'actionNeeded') {
-            cards.inProgressCardList.push(card);
-          } else {
-            cards.completedCardList.push(card);
-          }
-        }
-      });
-
-      return cards;
-    },
-    [allForms],
-  );
+    return cards;
+  }, [allForms]);
 
   return (
     <div

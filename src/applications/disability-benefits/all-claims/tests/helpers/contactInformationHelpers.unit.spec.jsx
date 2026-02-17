@@ -705,8 +705,7 @@ describe('contactInformationHelpers', () => {
       expect(
         hasInvalidPrefillData({
           addressLine1: '123 Main St',
-          city:
-            'A Very Long City Name That Exceeds The Thirty Character Maximum',
+          city: 'A Very Long City Name That Exceeds The Thirty Character Maximum',
         }),
       ).to.be.true;
     });

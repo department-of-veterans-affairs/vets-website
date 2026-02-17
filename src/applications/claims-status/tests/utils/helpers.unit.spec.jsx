@@ -812,10 +812,7 @@ describe('Disability benefits helpers: ', () => {
       it('returns a link to DDL for a BVA-decided appeal', () => {
         const contents = getStatusContents(appeal);
         const descText = shallow(contents.description);
-        const linkToDDL = descText
-          .find('Toggler')
-          .find('Enabled')
-          .find('Link');
+        const linkToDDL = descText.find('Toggler').find('Enabled').find('Link');
 
         expect(linkToDDL.length).to.equal(1);
         expect(linkToDDL.props().to).to.equal('/your-claim-letters');
@@ -837,10 +834,7 @@ describe('Disability benefits helpers: ', () => {
 
         const contents = getStatusContents(postDecisionAppeal);
         const descText = shallow(contents.description);
-        const linkToDDL = descText
-          .find('Toggler')
-          .find('Enabled')
-          .find('Link');
+        const linkToDDL = descText.find('Toggler').find('Enabled').find('Link');
 
         expect(linkToDDL.length).to.equal(1);
         expect(linkToDDL.props().to).to.equal('/your-claim-letters');
@@ -928,8 +922,7 @@ describe('Disability benefits helpers: ', () => {
 
     it('returns additional content when provided', () => {
       const decisionReviewContent = makeDecisionReviewContent({
-        prop:
-          'Once your representative has completed their review, your case will be ready to go to a Veterans Law Judge.',
+        prop: 'Once your representative has completed their review, your case will be ready to go to a Veterans Law Judge.',
       });
       const descText = shallow(decisionReviewContent);
       expect(descText.render().text()).to.equal(
@@ -2081,9 +2074,8 @@ describe('Disability benefits helpers: ', () => {
           trackedItemFriendlyName: 'Authorization to Disclose Information',
           trackedItemDisplayName: '21-4142/21-4142a',
         };
-        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
-          evidenceSubmission,
-        );
+        const result =
+          getTrackedItemDisplayNameFromEvidenceSubmission(evidenceSubmission);
 
         expect(result).to.equal('Authorization to Disclose Information');
       });
@@ -2093,9 +2085,8 @@ describe('Disability benefits helpers: ', () => {
           trackedItemId: 123,
           trackedItemDisplayName: '21-4142/21-4142a',
         };
-        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
-          evidenceSubmission,
-        );
+        const result =
+          getTrackedItemDisplayNameFromEvidenceSubmission(evidenceSubmission);
 
         expect(result).to.equal('21-4142/21-4142a');
       });
@@ -2104,9 +2095,8 @@ describe('Disability benefits helpers: ', () => {
         const evidenceSubmission = {
           trackedItemId: 123,
         };
-        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
-          evidenceSubmission,
-        );
+        const result =
+          getTrackedItemDisplayNameFromEvidenceSubmission(evidenceSubmission);
 
         expect(result).to.equal('unknown');
       });
@@ -2117,9 +2107,8 @@ describe('Disability benefits helpers: ', () => {
         const evidenceSubmission = {
           trackedItemFriendlyName: 'Authorization to Disclose Information',
         };
-        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
-          evidenceSubmission,
-        );
+        const result =
+          getTrackedItemDisplayNameFromEvidenceSubmission(evidenceSubmission);
 
         expect(result).to.equal(null);
       });

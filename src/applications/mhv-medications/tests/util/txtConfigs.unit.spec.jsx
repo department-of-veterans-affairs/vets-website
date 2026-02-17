@@ -14,9 +14,11 @@ import { DOWNLOAD_FORMAT } from '../../util/constants';
 describe('Prescriptions List Txt Config', () => {
   it('Should show all rxs with prescription name', () => {
     const txt = buildPrescriptionsTXT(prescriptions);
-    prescriptions.filter(rx => !!rx.prescriptionName).forEach(rx => {
-      expect(txt).to.include(rx.prescriptionName);
-    });
+    prescriptions
+      .filter(rx => !!rx.prescriptionName)
+      .forEach(rx => {
+        expect(txt).to.include(rx.prescriptionName);
+      });
   });
   it('Should show "Provider name not available" if provider name is not provided', () => {
     const firstPrescriptionWithoutProviderName = [
@@ -64,9 +66,11 @@ describe('Allergies List Config', () => {
   });
   it('should show all allergy names', () => {
     const txt = buildAllergiesTXT(allergies);
-    allergies.filter(allergy => !!allergy.name).forEach(allergy => {
-      expect(txt).to.include(allergy.name);
-    });
+    allergies
+      .filter(allergy => !!allergy.name)
+      .forEach(allergy => {
+        expect(txt).to.include(allergy.name);
+      });
   });
   it('should show try again message when allergies is falsy', () => {
     const txt = buildAllergiesTXT(null);

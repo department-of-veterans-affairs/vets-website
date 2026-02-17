@@ -56,8 +56,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms/10-10d-ext`,
   preSubmitInfo: {
     statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      body: 'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: _formData => 'certifierName',

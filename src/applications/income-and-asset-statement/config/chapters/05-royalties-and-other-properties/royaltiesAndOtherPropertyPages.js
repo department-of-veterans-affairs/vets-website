@@ -169,8 +169,7 @@ const veteranSummaryPage = {
       options,
       {
         title: updatedTitleNoItems,
-        hint:
-          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+        hint: 'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
@@ -225,8 +224,7 @@ const parentSummaryPage = {
       options,
       {
         title: updatedTitleNoItems,
-        hint:
-          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        hint: 'Your dependents include your spouse, including a same-sex and common-law partner.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
@@ -244,8 +242,7 @@ const custodianSummaryPage = {
       options,
       {
         title: updatedTitleNoItems,
-        hint:
-          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        hint: 'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
@@ -466,8 +463,7 @@ const generatedIncomeTypePage = {
     }),
     fairMarketValue: currencyUI({
       title: 'What’s the fair market value of this asset?',
-      hint:
-        'The market value is the dollar amount that an asset may be sold at.',
+      hint: 'The market value is the dollar amount that an asset may be sold at.',
     }),
     canBeSold: yesNoUI({
       title: 'Can the asset be sold?',

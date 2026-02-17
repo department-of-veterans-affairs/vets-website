@@ -30,9 +30,8 @@ export const getConfig = ({
 } = {}) => {
   const basePageHooks = {
     introduction: ({ afterHook }) => {
-      afterHook(
-        () =>
-          useAuth ? startAsInProgressUser() : startAsNewUser({ auth: useAuth }),
+      afterHook(() =>
+        useAuth ? startAsInProgressUser() : startAsNewUser({ auth: useAuth }),
       );
     },
     'review-and-submit': ({ afterHook }) => {

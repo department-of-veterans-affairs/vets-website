@@ -27,10 +27,8 @@ const wasRecentlySubmitted = refillSubmitDate => {
 };
 
 const RefillButton = rx => {
-  const [
-    refillPrescription,
-    { isLoading, isSuccess, isError },
-  ] = useRefillPrescriptionMutation();
+  const [refillPrescription, { isLoading, isSuccess, isError }] =
+    useRefillPrescriptionMutation();
 
   const { prescriptionId, isRefillable, refillSubmitDate } = rx;
 
@@ -51,28 +49,27 @@ const RefillButton = rx => {
           </va-alert>
         </div>
       )}
-      {isError &&
-        !isLoading && (
-          <div className="vads-u-padding-y--2">
-            <va-alert
-              status="error"
-              setFocus
-              id="refill-error-alert"
-              data-testid="error-alert"
-              aria-live="polite"
-              uswds
-            >
-              <p className="vads-u-margin-y--0" data-testid="error-message">
-                We couldn’t submit this refill request. Try again or call your
-                VA pharmacy
-                <CallPharmacyPhone
-                  cmopDivisionPhone={pharmacyPhone}
-                  page={pageType.LIST}
-                />
-              </p>
-            </va-alert>
-          </div>
-        )}
+      {isError && !isLoading && (
+        <div className="vads-u-padding-y--2">
+          <va-alert
+            status="error"
+            setFocus
+            id="refill-error-alert"
+            data-testid="error-alert"
+            aria-live="polite"
+            uswds
+          >
+            <p className="vads-u-margin-y--0" data-testid="error-message">
+              We couldn’t submit this refill request. Try again or call your VA
+              pharmacy
+              <CallPharmacyPhone
+                cmopDivisionPhone={pharmacyPhone}
+                page={pageType.LIST}
+              />
+            </p>
+          </va-alert>
+        </div>
+      )}
       {isLoading && (
         <va-loading-indicator
           message="Submitting your request..."

@@ -89,9 +89,7 @@ class GeneralFunctionsPage {
   };
 
   verifyPageHeader = text => {
-    cy.get(`h1`)
-      .should(`be.visible`)
-      .and(`include.text`, text);
+    cy.get(`h1`).should(`be.visible`).and(`include.text`, text);
   };
 
   verifyHeaderFocused = () => {
@@ -140,9 +138,7 @@ class GeneralFunctionsPage {
   };
 
   verifyLastBreadCrumb = value => {
-    cy.get(`.usa-breadcrumb__link`)
-      .last()
-      .should(`have.text`, value);
+    cy.get(`.usa-breadcrumb__link`).last().should(`have.text`, value);
   };
 
   verifyPageTitle = value => {

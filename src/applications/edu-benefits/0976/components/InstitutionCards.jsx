@@ -11,14 +11,8 @@ export const EmptyCard = () => {
 };
 
 export const DetailsCard = ({ details }) => {
-  const {
-    street,
-    street2,
-    street3,
-    city,
-    state,
-    postalCode,
-  } = details.mailingAddress;
+  const { street, street2, street3, city, state, postalCode } =
+    details.mailingAddress;
 
   return (
     <div>

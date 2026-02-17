@@ -37,9 +37,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
 
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageSubjectField().type(`TEST SUBJECT`);
-    PatientComposePage.getMessageBodyField()
-      .clear()
-      .type(`TEST BODY`);
+    PatientComposePage.getMessageBodyField().clear().type(`TEST BODY`);
 
     cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
 
@@ -170,9 +168,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
       .click();
 
     cy.findByTestId(`continue-button`).click();
-    PatientComposePage.getMessageBodyField()
-      .clear()
-      .type(draftMessage.body);
+    PatientComposePage.getMessageBodyField().clear().type(draftMessage.body);
     const saveDraftResponse = {
       ...newDraft.data,
       attributes: {
@@ -231,9 +227,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
       'not.be.visible',
     );
     cy.findByTestId(`continue-button`).click();
-    PatientComposePage.getMessageBodyField()
-      .clear()
-      .type(draftMessage.body);
+    PatientComposePage.getMessageBodyField().clear().type(draftMessage.body);
     const saveDraftResponse = {
       ...newDraft.data,
       // type: 'message_drafts',
@@ -258,9 +252,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     cy.get(
       'va-modal[modal-title="Do you want to save your changes to this draft?"]',
     ).should('exist');
-    cy.get(`[status="warning"]`)
-      .find(`va-button[text="Save changes"]`)
-      .click();
+    cy.get(`[status="warning"]`).find(`va-button[text="Save changes"]`).click();
 
     cy.findByTestId(Locators.BUTTONS.CL_GO_BACK).click();
 
@@ -275,9 +267,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
       force: true,
     });
 
-    cy.get(`[status="warning"]`)
-      .find(`va-button[text="Save changes"]`)
-      .click();
+    cy.get(`[status="warning"]`).find(`va-button[text="Save changes"]`).click();
 
     cy.get('[back=""]').click();
 
@@ -322,9 +312,7 @@ describe('dynamically updating healthcare system', () => {
 
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageSubjectField().type(`TEST SUBJECT`);
-    PatientComposePage.getMessageBodyField()
-      .clear()
-      .type(`TEST BODY`);
+    PatientComposePage.getMessageBodyField().clear().type(`TEST BODY`);
 
     // cy.findByText(`Select a different care team`).click();
     cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();

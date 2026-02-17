@@ -6,10 +6,8 @@ import {
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../../config/form';
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.afterDisabilityChapter.pages.afterDisabilityPage;
+const { schema, uiSchema } =
+  formConfig.chapters.afterDisabilityChapter.pages.afterDisabilityPage;
 
 const pageTitle = 'education and training after disability';
 

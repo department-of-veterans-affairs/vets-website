@@ -15,10 +15,7 @@ class ContactInformationPage {
       .find('va-button-pair')
       .shadow()
       .within(() => {
-        cy.get('va-button[secondary]')
-          .shadow()
-          .find('button')
-          .click();
+        cy.get('va-button[secondary]').shadow().find('button').click();
       });
   };
 

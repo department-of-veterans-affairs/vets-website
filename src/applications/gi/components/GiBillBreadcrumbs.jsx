@@ -88,16 +88,20 @@ const GiBillBreadcrumbs = () => {
 
   if (profileMatch || programsTypeMatch) {
     crumbs.push({
-      href: `/education/gi-bill-comparison-tool/institution/${profileMatch
-        ?.params?.facilityCode || programsTypeMatch?.params?.facilityCode}`,
+      href: `/education/gi-bill-comparison-tool/institution/${
+        profileMatch?.params?.facilityCode ||
+        programsTypeMatch?.params?.facilityCode
+      }`,
       label: institutionName,
     });
   }
 
   if (seProfileMatch || seProgramsTypeMatch) {
     crumbs.push({
-      href: `/education/gi-bill-comparison-tool/schools-and-employers/institution/${seProfileMatch
-        ?.params?.facilityCode || seProgramsTypeMatch?.params?.facilityCode}`,
+      href: `/education/gi-bill-comparison-tool/schools-and-employers/institution/${
+        seProfileMatch?.params?.facilityCode ||
+        seProgramsTypeMatch?.params?.facilityCode
+      }`,
       label: institutionName,
     });
   }
@@ -118,18 +122,14 @@ const GiBillBreadcrumbs = () => {
 
   if (programsTypeMatch && !seFilterFeedbackMatch) {
     crumbs.push({
-      href: `/institution/${programsTypeMatch.params.facilityCode}/${
-        programsTypeMatch.params.programType
-      }`,
+      href: `/institution/${programsTypeMatch.params.facilityCode}/${programsTypeMatch.params.programType}`,
       label: `${formatedProgramType} programs`,
     });
   }
 
   if (seProgramsTypeMatch && !seFilterFeedbackMatch) {
     crumbs.push({
-      href: `/schools-and-employers/institution/${
-        seProgramsTypeMatch.params.facilityCode
-      }/${seProgramsTypeMatch.params.programType}`,
+      href: `/schools-and-employers/institution/${seProgramsTypeMatch.params.facilityCode}/${seProgramsTypeMatch.params.programType}`,
       label: `${formatedProgramType} programs`,
     });
   }
@@ -140,34 +140,28 @@ const GiBillBreadcrumbs = () => {
 
   if (lcMatch) {
     crumbs.push({
-      href:
-        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses',
+      href: '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses',
       label: 'Licenses, certifications, and prep courses',
     });
   }
 
   if (lcResultsMatch) {
     crumbs.push({
-      href:
-        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results',
+      href: '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results',
       label: 'Search results',
     });
   }
 
   if (lcResultInfoMatch) {
     crumbs.push({
-      href: `/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/${
-        lcResultInfoMatch.params.type
-      }/${lcResultInfoMatch.params.id}/${lcResultInfoMatch.params.name}`,
+      href: `/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/${lcResultInfoMatch.params.type}/${lcResultInfoMatch.params.id}/${lcResultInfoMatch.params.name}`,
       label: lcResultInfoMatch.params.name,
     });
   }
 
   if (seFilterFeedbackMatch) {
     crumbs.push({
-      href: `/education/gi-bill-comparison-tool/schools-and-employers/institution/${
-        seFilterFeedbackMatch.params.facilityCode
-      }/filter-student-feedback`,
+      href: `/education/gi-bill-comparison-tool/schools-and-employers/institution/${seFilterFeedbackMatch.params.facilityCode}/filter-student-feedback`,
       label: 'Filter student feedback and complaints data',
     });
   }

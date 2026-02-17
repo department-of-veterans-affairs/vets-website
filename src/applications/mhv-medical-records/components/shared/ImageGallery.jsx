@@ -6,17 +6,15 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import TrackedSpinner from './TrackedSpinner';
 
 const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
-  const apiImagingPath = `${
-    environment.API_URL
-  }/my_health/v1/medical_records/imaging`;
+  const apiImagingPath = `${environment.API_URL}/my_health/v1/medical_records/imaging`;
 
   const [currentPage, setCurrentPage] = useState(1);
   const pageCount = Math.ceil(imageList.length / imagesPerPage);
 
-  const paginatedImages = useMemo(() => chunk(imageList, imagesPerPage), [
-    imageList,
-    imagesPerPage,
-  ]);
+  const paginatedImages = useMemo(
+    () => chunk(imageList, imagesPerPage),
+    [imageList, imagesPerPage],
+  );
 
   const onPageChange = page => {
     if (page > 0 && page <= pageCount) {
@@ -30,12 +28,10 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
         <>
           <div data-testid="showing-image-records">
             <span>
-              {`Showing ${
-                paginatedImages[currentPage - 1][0].index
-              } to ${paginatedImages[currentPage - 1][0].index +
-                (paginatedImages[currentPage - 1].length - 1)} of ${
-                imageList.length
-              } images`}
+              {`Showing ${paginatedImages[currentPage - 1][0].index} to ${
+                paginatedImages[currentPage - 1][0].index +
+                (paginatedImages[currentPage - 1].length - 1)
+              } of ${imageList.length} images`}
             </span>
           </div>
           <div className="vads-u-padding--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-l-grid-container vads-l-row vads-u-margin-bottom--2">
@@ -50,9 +46,7 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
                 </h2>
                 <div className="vads-u-padding-x--1 vads-u-padding-y--1 vads-u-background-color--black vads-u-margin-y--0p5">
                   <img
-                    src={`${apiImagingPath}/${studyId}/images/${
-                      image.seriesAndImage
-                    }`}
+                    src={`${apiImagingPath}/${studyId}/images/${image.seriesAndImage}`}
                     alt={`${image.index}, Details not provided`}
                   />
                 </div>

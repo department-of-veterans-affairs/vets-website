@@ -66,16 +66,15 @@ const VeteranContactInformationPage = ({
   const [submitted, setSubmitted] = useState(false);
 
   /* Mobile > Home > Work
-  * https://www.figma.com/design/bvj72inycD0iZkuCbjYTWL/Dependent-Verification-MVP?node-id=3283-112583&t=AQOdcM9NR0aEb8CC-4
-  * Can we add logic about what attributes we can show in this page?
-  * If there’s a mobile number available in the profile, show only this mobile number
-  * If there’s a mobile number and home number, show only mobile number
-  * If there’s home number and no mobile number, show home number
-  * If there’s no phone number but work number, show mobile number card with “none provided.” Should we use work number at all?
-  */
-  const profileMobilePhoneString = convertPhoneObjectToString(
-    profileMobilePhone,
-  );
+   * https://www.figma.com/design/bvj72inycD0iZkuCbjYTWL/Dependent-Verification-MVP?node-id=3283-112583&t=AQOdcM9NR0aEb8CC-4
+   * Can we add logic about what attributes we can show in this page?
+   * If there’s a mobile number available in the profile, show only this mobile number
+   * If there’s a mobile number and home number, show only mobile number
+   * If there’s home number and no mobile number, show home number
+   * If there’s no phone number but work number, show mobile number card with “none provided.” Should we use work number at all?
+   */
+  const profileMobilePhoneString =
+    convertPhoneObjectToString(profileMobilePhone);
   const profileHomePhoneString = convertPhoneObjectToString(profileHomePhone);
   const phoneSource =
     data['view:phoneSource'] ||
@@ -96,24 +95,21 @@ const VeteranContactInformationPage = ({
     });
   };
 
-  const checkErrors = useCallback(
-    () => {
-      // Show error alert if no email or mailing address
-      const missingEmail = !email;
-      setHasMissingEmail(missingEmail);
-      const missingAddress = !address?.street || !address?.city;
-      setHasMissingAddress(missingAddress);
-      if (missingEmail || missingAddress) {
-        setShowAlert(true);
-        return true;
-      }
-      setHasMissingEmail(null);
-      setHasMissingAddress(null);
-      setShowAlert(null);
-      return false;
-    },
-    [email, address],
-  );
+  const checkErrors = useCallback(() => {
+    // Show error alert if no email or mailing address
+    const missingEmail = !email;
+    setHasMissingEmail(missingEmail);
+    const missingAddress = !address?.street || !address?.city;
+    setHasMissingAddress(missingAddress);
+    if (missingEmail || missingAddress) {
+      setShowAlert(true);
+      return true;
+    }
+    setHasMissingEmail(null);
+    setHasMissingAddress(null);
+    setShowAlert(null);
+    return false;
+  }, [email, address]);
 
   useEffect(() => {
     let newAddress = {};
@@ -161,30 +157,25 @@ const VeteranContactInformationPage = ({
     [email, address, profileEmail, profileMailingAddress],
   );
 
-  useEffect(
-    () => {
-      if (name) {
-        if (updateAlertRef?.current && name && action === 'update') {
-          setTimeout(() => {
-            scrollAndFocus(updateAlertRef.current);
-            removeEditContactInformation();
-          });
-        } else if (action === 'cancel') {
-          setTimeout(() => {
-            const card = document.querySelector(
-              `va-card[data-field="${name}"]`,
-            );
-            if (card) {
-              scrollTo(card);
-              focusElement('a', {}, card.querySelector('va-link'));
-            }
-            removeEditContactInformation();
-          });
-        }
+  useEffect(() => {
+    if (name) {
+      if (updateAlertRef?.current && name && action === 'update') {
+        setTimeout(() => {
+          scrollAndFocus(updateAlertRef.current);
+          removeEditContactInformation();
+        });
+      } else if (action === 'cancel') {
+        setTimeout(() => {
+          const card = document.querySelector(`va-card[data-field="${name}"]`);
+          if (card) {
+            scrollTo(card);
+            focusElement('a', {}, card.querySelector('va-link'));
+          }
+          removeEditContactInformation();
+        });
       }
-    },
-    [updateAlertRef, name, action],
-  );
+    }
+  }, [updateAlertRef, name, action]);
 
   const handlers = {
     onSubmit: event => {
@@ -228,15 +219,14 @@ const VeteranContactInformationPage = ({
       <h3 className="vads-u-margin-y--2">
         Confirm the contact information we have on file for you
       </h3>
-      {name &&
-        action === 'update' && (
-          <va-alert ref={updateAlertRef} status="success" visible>
-            <h3 slot="headline">
-              {`We updated your ${contactInfoXref[name].label}`}
-            </h3>
-            <p>This update only applies to this application</p>
-          </va-alert>
-        )}
+      {name && action === 'update' && (
+        <va-alert ref={updateAlertRef} status="success" visible>
+          <h3 slot="headline">
+            {`We updated your ${contactInfoXref[name].label}`}
+          </h3>
+          <p>This update only applies to this application</p>
+        </va-alert>
+      )}
       {!submitted && showPrefillAlert ? (
         <va-alert status="warning" visible>
           We could not prefill this form with your {prefillMissingInfo} address.
@@ -292,9 +282,9 @@ const VeteranContactInformationPage = ({
                   className="dd-privacy-hidden"
                   data-dd-action-name="city, state and zip code"
                 >
-                  {`${address.city}, ${address.state ||
-                    address.province} ${address.postalCode ||
-                    address.internationalPostalCode}`}
+                  {`${address.city}, ${address.state || address.province} ${
+                    address.postalCode || address.internationalPostalCode
+                  }`}
                 </div>
                 {address.country === 'USA' ? null : (
                   <div>{address.country}</div>

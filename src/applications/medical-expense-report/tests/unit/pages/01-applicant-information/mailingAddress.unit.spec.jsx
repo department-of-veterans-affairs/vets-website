@@ -9,10 +9,8 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../../config/form';
 
 describe('Mailing Address Page', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.applicantInformation.pages.mailingAddress;
+  const { schema, uiSchema } =
+    formConfig.chapters.applicantInformation.pages.mailingAddress;
   it('renders the mailing address fields', async () => {
     const form = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,

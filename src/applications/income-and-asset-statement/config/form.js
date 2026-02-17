@@ -71,8 +71,7 @@ const formConfig = {
         label: 'Supporting forms for VA claims',
       },
       {
-        href:
-          '/supporting-forms-for-claims/submit-income-and-asset-statement-form-21p-0969',
+        href: '/supporting-forms-for-claims/submit-income-and-asset-statement-form-21p-0969',
         label: 'Submit a pension or DIC income and asset statement',
       },
     ],
@@ -84,8 +83,7 @@ const formConfig = {
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,
     statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      body: 'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: formData =>

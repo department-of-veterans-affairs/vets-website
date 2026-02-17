@@ -40,12 +40,9 @@ export const uploadPage = {
       ...fileInputUI({
         errorMessages: { required: `Upload a completed VA Form ${formNumber}` },
         name: 'form-upload-file-input',
-        fileUploadUrl: `${
-          environment.API_URL
-        }/simple_forms_api/v1/scanned_form_upload`,
+        fileUploadUrl: `${environment.API_URL}/simple_forms_api/v1/scanned_form_upload`,
         title,
-        hint:
-          'You can upload a .pdf, .jpeg, or .png file. Your file should be no larger than 25MB',
+        hint: 'You can upload a .pdf, .jpeg, or .png file. Your file should be no larger than 25MB',
         formNumber,
         required: () => true,
         // Disallow uploads greater than 25 MB

@@ -164,8 +164,11 @@ export const getFormNumber = pathname => {
 
 export const getFormContent = (pathname = null) => {
   const formNumber = getFormNumber(pathname);
-  const { subTitle = '', ombInfo = {}, pdfDownloadUrl = '' } =
-    formMappings[formNumber] || {};
+  const {
+    subTitle = '',
+    ombInfo = {},
+    pdfDownloadUrl = '',
+  } = formMappings[formNumber] || {};
 
   return {
     formNumber,

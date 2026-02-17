@@ -39,44 +39,28 @@ const ManageFolderButtons = props => {
     }
   }, []);
 
-  useEffect(
-    () => {
-      if (alertStatus) {
-        editFolderButtonRef.current?.focus();
-      }
-    },
-    [alertStatus],
-  );
+  useEffect(() => {
+    if (alertStatus) {
+      editFolderButtonRef.current?.focus();
+    }
+  }, [alertStatus]);
 
-  useEffect(
-    () => {
-      if (nameWarning.length)
-        focusElement(
-          folderNameInput.current.shadowRoot?.querySelector('input'),
-        );
-    },
-    [nameWarning],
-  );
+  useEffect(() => {
+    if (nameWarning.length)
+      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
+  }, [nameWarning]);
 
-  useEffect(
-    () => {
-      if (isEditExpanded && folder?.name) {
-        setFolderName(folder.name);
-      }
-    },
-    [isEditExpanded, folder?.name],
-  );
+  useEffect(() => {
+    if (isEditExpanded && folder?.name) {
+      setFolderName(folder.name);
+    }
+  }, [isEditExpanded, folder?.name]);
 
-  useEffect(
-    () => {
-      if (isEditExpanded && folderNameInput.current) {
-        focusElement(
-          folderNameInput.current.shadowRoot?.querySelector('input'),
-        );
-      }
-    },
-    [isEditExpanded],
-  );
+  useEffect(() => {
+    if (isEditExpanded && folderNameInput.current) {
+      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
+    }
+  }, [isEditExpanded]);
 
   const openDelModal = () => {
     if (alertStatus) dispatch(closeAlert());
@@ -120,30 +104,27 @@ const ManageFolderButtons = props => {
     datadogRum.addAction('Edit Folder Name Cancelled');
   }, []);
 
-  const confirmRenameFolder = useCallback(
-    async () => {
-      const folderMatch = folders.filter(
-        testFolder => testFolder.name === folderName,
+  const confirmRenameFolder = useCallback(async () => {
+    const folderMatch = folders.filter(
+      testFolder => testFolder.name === folderName,
+    );
+    await setNameWarning(''); // Clear any previous warnings, so that the warning state can be updated and refocuses back to input if on repeat Save clicks.
+    if (folderName === '' || folderName.match(/^[\s]+$/)) {
+      setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_REQUIRED);
+    } else if (folderMatch.length > 0) {
+      setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
+    } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
+      await dispatch(renameFolder(folder.folderId, folderName));
+      setIsEditExpanded(false);
+      setFolderName('');
+      setNameWarning('');
+      focusElement(editFolderButtonRef.current);
+    } else {
+      setNameWarning(
+        ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
       );
-      await setNameWarning(''); // Clear any previous warnings, so that the warning state can be updated and refocuses back to input if on repeat Save clicks.
-      if (folderName === '' || folderName.match(/^[\s]+$/)) {
-        setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_REQUIRED);
-      } else if (folderMatch.length > 0) {
-        setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
-      } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-        await dispatch(renameFolder(folder.folderId, folderName));
-        setIsEditExpanded(false);
-        setFolderName('');
-        setNameWarning('');
-        focusElement(editFolderButtonRef.current);
-      } else {
-        setNameWarning(
-          ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
-        );
-      }
-    },
-    [folders, folderName, folder.folderId, dispatch, ErrorMessages],
-  );
+    }
+  }, [folders, folderName, folder.folderId, dispatch, ErrorMessages]);
 
   return (
     <>

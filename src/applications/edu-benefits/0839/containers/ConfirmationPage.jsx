@@ -121,9 +121,7 @@ export const ConfirmationPage = ({ router, route }) => {
       submitDate={submitDate}
     >
       {confirmationChildContent(
-        `${environment.API_URL}/v0/education_benefits_claims/download_pdf/${
-          submission?.response?.id
-        }`,
+        `${environment.API_URL}/v0/education_benefits_claims/download_pdf/${submission?.response?.id}`,
         goBack,
       )}
     </ConfirmationView>

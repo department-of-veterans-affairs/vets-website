@@ -450,7 +450,7 @@ export function getDocTypeDescription(docType) {
 }
 
 export const isPopulatedClaim = ({ claimDate, claimType, contentions }) =>
-  !!claimType && (contentions && !!contentions.length) && !!claimDate;
+  !!claimType && contentions && !!contentions.length && !!claimDate;
 
 export function stripEscapedChars(text) {
   return text && text.replace(/\\(n|r|t)/gm, '');
@@ -1278,9 +1278,10 @@ export const generateClaimTitle = (claim, placement, tab) => {
   // Legacy client-side title generation (feature flag OFF)
   // This will default to 'disability compensation'
   const claimType = getClaimType(claim).toLowerCase();
-  const isRequestToAddOrRemoveDependent = addOrRemoveDependentClaimTypeCodes.includes(
-    claim?.attributes?.claimTypeCode,
-  );
+  const isRequestToAddOrRemoveDependent =
+    addOrRemoveDependentClaimTypeCodes.includes(
+      claim?.attributes?.claimTypeCode,
+    );
   // Determine which word should follow the tab name.
   // "Files for...", "Status of...", "Details of...", "Overview of..."
   const tabPrefix = `${tab} ${tab === 'Files' ? 'for' : 'of'}`;
@@ -1415,13 +1416,14 @@ export const getUploadErrorMessage = (
  * @param {Object} evidenceSubmission - Evidence submission object with trackedItemId
  * @returns {string|null} Tracked item friendly name, display name, 'unknown', or null if no trackedItemId
  */
-export const getTrackedItemDisplayNameFromEvidenceSubmission = evidenceSubmission => {
-  if (evidenceSubmission.trackedItemId) {
-    return (
-      evidenceSubmission.trackedItemFriendlyName ||
-      evidenceSubmission.trackedItemDisplayName ||
-      'unknown'
-    );
-  }
-  return null;
-};
+export const getTrackedItemDisplayNameFromEvidenceSubmission =
+  evidenceSubmission => {
+    if (evidenceSubmission.trackedItemId) {
+      return (
+        evidenceSubmission.trackedItemFriendlyName ||
+        evidenceSubmission.trackedItemDisplayName ||
+        'unknown'
+      );
+    }
+    return null;
+  };

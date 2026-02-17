@@ -24,8 +24,7 @@ export default {
     graduatedClass1Date: {
       ...currentOrPastDateUI({
         title: 'Date of graduating class',
-        hint:
-          'Include the date (month, day, year) of one of the two graduating classes.',
+        hint: 'Include the date (month, day, year) of one of the two graduating classes.',
         required: () => true,
         monthSelect: false,
         removeDateHint: true,
@@ -51,8 +50,7 @@ export default {
     graduatedClass2Date: {
       ...currentOrPastDateUI({
         title: 'Date of graduating class',
-        hint:
-          'Include the date (month, day, year) of one of the two graduating classes.',
+        hint: 'Include the date (month, day, year) of one of the two graduating classes.',
         required: () => true,
         monthSelect: false,
         removeDateHint: true,

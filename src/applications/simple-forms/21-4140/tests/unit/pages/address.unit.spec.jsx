@@ -4,10 +4,8 @@ import {
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../../config/form';
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.mailingInformationChapter.pages.address;
+const { schema, uiSchema } =
+  formConfig.chapters.mailingInformationChapter.pages.address;
 
 const pageTitle = 'address';
 

@@ -159,8 +159,10 @@ const ConfirmationPage = ({ route }) => {
               ) : null}
               {data.bankAccount.accountType ? (
                 <span data-dd-action-name="bank account type">
-                  {`${data.bankAccount.accountType.charAt(0).toUpperCase() +
-                    data.bankAccount.accountType.slice(1)} Account`}
+                  {`${
+                    data.bankAccount.accountType.charAt(0).toUpperCase() +
+                    data.bankAccount.accountType.slice(1)
+                  } Account`}
                 </span>
               ) : null}
             </p>

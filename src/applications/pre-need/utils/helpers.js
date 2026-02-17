@@ -446,9 +446,8 @@ export function transform(formConfig, form) {
               application.veteran.serviceName === undefined
                 ? application.claimant.name
                 : application.veteran.serviceName.first === undefined
-                  ? application.claimant.name
-                  : application.veteran.serviceName ||
-                    application.claimant.name,
+                ? application.claimant.name
+                : application.veteran.serviceName || application.claimant.name,
           },
         })
       : application;
@@ -473,9 +472,9 @@ export function transform(formConfig, form) {
           application.veteran.serviceName === undefined
             ? application.veteran.currentName
             : application.veteran.serviceName.first === undefined
-              ? application.veteran.currentName
-              : application.veteran.serviceName ||
-                application.veteran.currentName,
+            ? application.veteran.currentName
+            : application.veteran.serviceName ||
+              application.veteran.currentName,
       },
       applicant: {
         applicantEmail: application.claimant.email,
@@ -496,52 +495,52 @@ export function transform(formConfig, form) {
   return JSON.stringify({ application }, stringifyFormReplacer);
 
   /* Transformation for multiple applicants.
-     *
-     *  const matchClaimant = name => a => formatName(a.claimant.name) === name;
-     *
-     *  formCopy.applications = formCopy.applications.map(application => {
-     *    // Fill in veteran info that veterans didn't need to enter separately.
-     *    if (isVeteran(application)) {
-     *      return merge({}, application, {
-     *        veteran: {
-     *          address: application.claimant.address,
-     *          currentName: application.claimant.name,
-     *          dateOfBirth: application.claimant.dateOfBirth,
-     *          ssn: application.claimant.ssn,
-     *          isDeceased: 'no'
-     *        }
-     *      });
-     *    }
-     *
-     *    // Fill in veteran info in each application
-     *    // where the sponsor is another claimant.
-     *    const sponsorName = application['view:sponsor'];
-     *    if (sponsorName !== 'Other') {
-     *      const veteranApplication = form.applications.find(matchClaimant(sponsorName));
-     *      const veteran = set('isDeceased', 'no', veteranApplication.veteran);
-     *      return set('veteran', veteran, application);
-     *    }
-     *
-     *    return application;
-     *  });
-     *
-     *  // Fill in applicant info in each application
-     *  // if the applicant is another claimant.
-     *  const applicantName = form['view:preparer'];
-     *  if (applicantName !== 'Other') {
-     *    const applicantApplication = form.applications.find(matchClaimant(applicantName));
-     *    const { address, email, name, phoneNumber } = applicantApplication.claimant;
-     *    formCopy.applications = formCopy.applications.map(application => set('applicant',  {
-     *      applicantEmail: email,
-     *      applicantPhoneNumber: phoneNumber,
-     *      applicantRelationshipToClaimant: application.claimant.ssn === applicantApplication.claimant.ssn ? 'Self' : 'Authorized Agent/Rep',
-     *      completingReason: '',
-     *      mailingAddress: address,
-     *      name
-     *    }, application));
-     *  }
-     *
-     */
+   *
+   *  const matchClaimant = name => a => formatName(a.claimant.name) === name;
+   *
+   *  formCopy.applications = formCopy.applications.map(application => {
+   *    // Fill in veteran info that veterans didn't need to enter separately.
+   *    if (isVeteran(application)) {
+   *      return merge({}, application, {
+   *        veteran: {
+   *          address: application.claimant.address,
+   *          currentName: application.claimant.name,
+   *          dateOfBirth: application.claimant.dateOfBirth,
+   *          ssn: application.claimant.ssn,
+   *          isDeceased: 'no'
+   *        }
+   *      });
+   *    }
+   *
+   *    // Fill in veteran info in each application
+   *    // where the sponsor is another claimant.
+   *    const sponsorName = application['view:sponsor'];
+   *    if (sponsorName !== 'Other') {
+   *      const veteranApplication = form.applications.find(matchClaimant(sponsorName));
+   *      const veteran = set('isDeceased', 'no', veteranApplication.veteran);
+   *      return set('veteran', veteran, application);
+   *    }
+   *
+   *    return application;
+   *  });
+   *
+   *  // Fill in applicant info in each application
+   *  // if the applicant is another claimant.
+   *  const applicantName = form['view:preparer'];
+   *  if (applicantName !== 'Other') {
+   *    const applicantApplication = form.applications.find(matchClaimant(applicantName));
+   *    const { address, email, name, phoneNumber } = applicantApplication.claimant;
+   *    formCopy.applications = formCopy.applications.map(application => set('applicant',  {
+   *      applicantEmail: email,
+   *      applicantPhoneNumber: phoneNumber,
+   *      applicantRelationshipToClaimant: application.claimant.ssn === applicantApplication.claimant.ssn ? 'Self' : 'Authorized Agent/Rep',
+   *      completingReason: '',
+   *      mailingAddress: address,
+   *      name
+   *    }, application));
+   *  }
+   *
+   */
 }
 
 export const fullMaidenNameUI = merge({}, fullNameUI, {

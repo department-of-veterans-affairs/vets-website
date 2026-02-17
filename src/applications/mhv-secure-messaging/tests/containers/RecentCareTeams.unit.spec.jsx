@@ -270,7 +270,7 @@ describe('RecentCareTeams component', () => {
             data: {
               ehrDataByVhaId: {
                 // Use string key to match blockedFacilities string values
-                '553': { vamcSystemName: 'VA Detroit Healthcare System' },
+                553: { vamcSystemName: 'VA Detroit Healthcare System' },
               },
             },
           },

@@ -47,22 +47,16 @@ export const useBrowserMonitoring = () => {
     TOGGLE_NAMES.myVaBrowserMonitoring,
   );
 
-  useEffect(
-    () => {
-      if (isMonitoringEnabled) {
-        initializedByMyVA.current = initializeRealUserMonitoring();
-      }
+  useEffect(() => {
+    if (isMonitoringEnabled) {
+      initializedByMyVA.current = initializeRealUserMonitoring();
+    }
 
-      return () => {
-        if (
-          initializedByMyVA.current &&
-          window.DD_RUM?.getInitConfiguration()
-        ) {
-          datadogRum.stopSession();
-          delete window.DD_RUM;
-        }
-      };
-    },
-    [isMonitoringEnabled],
-  );
+    return () => {
+      if (initializedByMyVA.current && window.DD_RUM?.getInitConfiguration()) {
+        datadogRum.stopSession();
+        delete window.DD_RUM;
+      }
+    };
+  }, [isMonitoringEnabled]);
 };

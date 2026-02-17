@@ -8,7 +8,7 @@ describe('HCA-Keyboard-Only', () => {
   // NOTE: This test is skipped in CI due to a limitiation with Electron not allowing
   // `realPress` to be utilized
   // eslint-disable-next-line func-names
-  beforeEach(function() {
+  beforeEach(function () {
     if (Cypress.env('CI')) this.skip();
     setupForAuth();
   });
@@ -84,9 +84,8 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToContinueForm();
 
     // Gulf War service dates
-    const { gulfWarStartDate, gulfWarEndDate } = testData[
-      'view:gulfWarServiceDates'
-    ];
+    const { gulfWarStartDate, gulfWarEndDate } =
+      testData['view:gulfWarServiceDates'];
     selector = field => `root_view:gulfWarServiceDates_${field}`;
     cy.typeInDate(selector('gulfWarStartDate'), gulfWarStartDate);
     cy.typeInDate(selector('gulfWarEndDate'), gulfWarEndDate);
@@ -113,9 +112,8 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToContinueForm();
 
     // Other toxic exposure dates
-    const { toxicExposureStartDate, toxicExposureEndDate } = testData[
-      'view:toxicExposureDates'
-    ];
+    const { toxicExposureStartDate, toxicExposureEndDate } =
+      testData['view:toxicExposureDates'];
     selector = field => `root_view:toxicExposureDates_${field}`;
     cy.typeInDate(selector('toxicExposureStartDate'), toxicExposureStartDate);
     cy.typeInDate(selector('toxicExposureEndDate'), toxicExposureEndDate);
@@ -154,9 +152,8 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToContinueForm();
 
     // Spouse's contact info
-    const { spouseAddress, spousePhone } = testData[
-      'view:spouseContactInformation'
-    ];
+    const { spouseAddress, spousePhone } =
+      testData['view:spouseContactInformation'];
     cy.typeInAddress('root_spouseAddress', spouseAddress);
     cy.typeInIfDataExists('[name="root_spousePhone"]', spousePhone);
     cy.tabToContinueForm();
@@ -285,9 +282,8 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToContinueForm();
 
     // VA medical facility
-    const { vaMedicalFacility, 'view:facilityState': facilityState } = testData[
-      'view:preferredFacility'
-    ];
+    const { vaMedicalFacility, 'view:facilityState': facilityState } =
+      testData['view:preferredFacility'];
     cy.get('[name="root_view:preferredFacility_view:facilityState"]').should(
       'exist',
     );

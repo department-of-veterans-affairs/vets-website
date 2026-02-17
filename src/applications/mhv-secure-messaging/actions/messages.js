@@ -68,11 +68,10 @@ export const retrieveMessageThread = messageId => async dispatch => {
 
     const drafts = response.data
       .filter(m => m.attributes.draftDate !== null)
-      .sort(
-        (a, b) =>
-          moment(a.attributes.draftDate).isSameOrBefore(b.attributes.draftDate)
-            ? 1
-            : -1,
+      .sort((a, b) =>
+        moment(a.attributes.draftDate).isSameOrBefore(b.attributes.draftDate)
+          ? 1
+          : -1,
       );
     const messages = response.data.filter(m => m.attributes.sentDate !== null);
 
@@ -175,21 +174,126 @@ export const moveMessageThread = (threadId, folderId) => async dispatch => {
   }
 };
 
-export const sendMessage = (
-  message,
-  attachments,
-  ohTriageGroup = false,
-  isRxRenewal = false,
-) => async dispatch => {
-  const messageData =
-    typeof message === 'string' ? JSON.parse(message) : message;
-  const startTimeMs = Date.now();
-  try {
-    const response = await createMessage(message, attachments, ohTriageGroup);
+export const sendMessage =
+  (message, attachments, ohTriageGroup = false, isRxRenewal = false) =>
+  async dispatch => {
+    const messageData =
+      typeof message === 'string' ? JSON.parse(message) : message;
+    const startTimeMs = Date.now();
+    try {
+      const response = await createMessage(message, attachments, ohTriageGroup);
 
-    // do not show success alert for prescription renewal messages
-    // due to redirect to Medications page, where that success banner is displayed
-    if (!isRxRenewal) {
+      // do not show success alert for prescription renewal messages
+      // due to redirect to Medications page, where that success banner is displayed
+      if (!isRxRenewal) {
+        dispatch(
+          addAlert(
+            Constants.ALERT_TYPE_SUCCESS,
+            '',
+            Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+          ),
+        );
+      }
+
+      if (isRxRenewal) {
+        dataDogLogger({
+          message: 'Prescription Renewal Message Sent',
+          attributes: {
+            messageId: response.data?.attributes?.messageId,
+            recipientId: messageData?.recipient_id,
+            category: messageData?.category,
+            hasAttachments: attachments && attachments.length > 0,
+          },
+          status: 'info',
+        });
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'Rx SM Renewal',
+          'api-status': 'successful',
+          'api-latency-ms': Date.now() - startTimeMs,
+          'error-key': undefined,
+        });
+      }
+      dispatch(resetRecentRecipient());
+      dispatch(setThreadRefetchRequired(true));
+      dispatch(clearPrescription());
+    } catch (e) {
+      const errorCode = e.errors?.[0]?.code;
+      const errorDetail = e.errors?.[0]?.detail || e.message;
+
+      if (isRxRenewal) {
+        dataDogLogger({
+          message: 'Prescription Renewal Message Send Failed',
+          attributes: {
+            recipientId: messageData?.recipient_id,
+            category: messageData?.category,
+            errorCode,
+            errorDetail,
+            hasAttachments: attachments && attachments.length > 0,
+          },
+          status: 'error',
+          error: e,
+        });
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'Rx SM Renewal',
+          'api-status': 'fail',
+          'api-latency-ms': Date.now() - startTimeMs,
+          'error-key': errorCode,
+        });
+      }
+
+      if (
+        e.errors &&
+        (errorCode === Constants.Errors.Code.BLOCKED_USER ||
+          errorCode === Constants.Errors.Code.BLOCKED_USER2)
+      ) {
+        dispatch(
+          addAlert(
+            Constants.ALERT_TYPE_ERROR,
+            '',
+            Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
+          ),
+        );
+      } else if (
+        e.errors &&
+        errorCode === Constants.Errors.Code.ATTACHMENT_SCAN_FAIL
+      ) {
+        dispatch(
+          addAlert(
+            Constants.ALERT_TYPE_ERROR,
+            Constants.Alerts.Headers.HIDE_ALERT,
+            Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL,
+          ),
+        );
+      } else
+        dispatch(
+          addAlert(
+            Constants.ALERT_TYPE_ERROR,
+            '',
+            Constants.Alerts.Message.SEND_MESSAGE_ERROR,
+          ),
+        );
+      throw e;
+    }
+  };
+
+/** when sending a reply with an existing draft message, same draft message id is passed as a param query and in the body of the request
+ * @param {Long} replyToId - the id of the message being replied to. If replying with a saved draft, this is the id of the draft message
+ * @param {Object} message - contains "body" field. Add "draft_id" field if replying with a saved draft and pass messageId of the same draft message
+ */
+
+export const sendReply =
+  ({ replyToId, message, attachments, ohTriageGroup = false }) =>
+  async dispatch => {
+    try {
+      await createReplyToMessage(
+        replyToId,
+        message,
+        attachments,
+        ohTriageGroup,
+      );
+
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_SUCCESS,
@@ -197,152 +301,46 @@ export const sendMessage = (
           Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
         ),
       );
+      dispatch(resetRecentRecipient());
+      dispatch(setThreadRefetchRequired(true));
+    } catch (e) {
+      if (
+        e.errors &&
+        (e.errors[0].code === Constants.Errors.Code.BLOCKED_USER ||
+          e.errors[0].code === Constants.Errors.Code.BLOCKED_USER2)
+      ) {
+        dispatch(
+          addAlert(
+            Constants.ALERT_TYPE_ERROR,
+            '',
+            Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
+          ),
+        );
+      } else if (
+        e.errors &&
+        e.errors[0].code === Constants.Errors.Code.TG_NOT_ASSOCIATED
+      ) {
+        dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', e.errors[0].detail));
+      } else if (
+        e.errors &&
+        e.errors[0].code === Constants.Errors.Code.ATTACHMENT_SCAN_FAIL
+      ) {
+        dispatch(
+          addAlert(
+            Constants.ALERT_TYPE_ERROR,
+            Constants.Alerts.Headers.HIDE_ALERT,
+            Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL,
+          ),
+        );
+      } else {
+        dispatch(
+          addAlert(
+            Constants.ALERT_TYPE_ERROR,
+            '',
+            Constants.Alerts.Message.SEND_MESSAGE_ERROR,
+          ),
+        );
+      }
+      throw e;
     }
-
-    if (isRxRenewal) {
-      dataDogLogger({
-        message: 'Prescription Renewal Message Sent',
-        attributes: {
-          messageId: response.data?.attributes?.messageId,
-          recipientId: messageData?.recipient_id,
-          category: messageData?.category,
-          hasAttachments: attachments && attachments.length > 0,
-        },
-        status: 'info',
-      });
-      recordEvent({
-        event: 'api_call',
-        'api-name': 'Rx SM Renewal',
-        'api-status': 'successful',
-        'api-latency-ms': Date.now() - startTimeMs,
-        'error-key': undefined,
-      });
-    }
-    dispatch(resetRecentRecipient());
-    dispatch(setThreadRefetchRequired(true));
-    dispatch(clearPrescription());
-  } catch (e) {
-    const errorCode = e.errors?.[0]?.code;
-    const errorDetail = e.errors?.[0]?.detail || e.message;
-
-    if (isRxRenewal) {
-      dataDogLogger({
-        message: 'Prescription Renewal Message Send Failed',
-        attributes: {
-          recipientId: messageData?.recipient_id,
-          category: messageData?.category,
-          errorCode,
-          errorDetail,
-          hasAttachments: attachments && attachments.length > 0,
-        },
-        status: 'error',
-        error: e,
-      });
-      recordEvent({
-        event: 'api_call',
-        'api-name': 'Rx SM Renewal',
-        'api-status': 'fail',
-        'api-latency-ms': Date.now() - startTimeMs,
-        'error-key': errorCode,
-      });
-    }
-
-    if (
-      e.errors &&
-      (errorCode === Constants.Errors.Code.BLOCKED_USER ||
-        errorCode === Constants.Errors.Code.BLOCKED_USER2)
-    ) {
-      dispatch(
-        addAlert(
-          Constants.ALERT_TYPE_ERROR,
-          '',
-          Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
-        ),
-      );
-    } else if (
-      e.errors &&
-      errorCode === Constants.Errors.Code.ATTACHMENT_SCAN_FAIL
-    ) {
-      dispatch(
-        addAlert(
-          Constants.ALERT_TYPE_ERROR,
-          Constants.Alerts.Headers.HIDE_ALERT,
-          Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL,
-        ),
-      );
-    } else
-      dispatch(
-        addAlert(
-          Constants.ALERT_TYPE_ERROR,
-          '',
-          Constants.Alerts.Message.SEND_MESSAGE_ERROR,
-        ),
-      );
-    throw e;
-  }
-};
-
-/** when sending a reply with an existing draft message, same draft message id is passed as a param query and in the body of the request
- * @param {Long} replyToId - the id of the message being replied to. If replying with a saved draft, this is the id of the draft message
- * @param {Object} message - contains "body" field. Add "draft_id" field if replying with a saved draft and pass messageId of the same draft message
- */
-
-export const sendReply = ({
-  replyToId,
-  message,
-  attachments,
-  ohTriageGroup = false,
-}) => async dispatch => {
-  try {
-    await createReplyToMessage(replyToId, message, attachments, ohTriageGroup);
-
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_SUCCESS,
-        '',
-        Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
-      ),
-    );
-    dispatch(resetRecentRecipient());
-    dispatch(setThreadRefetchRequired(true));
-  } catch (e) {
-    if (
-      e.errors &&
-      (e.errors[0].code === Constants.Errors.Code.BLOCKED_USER ||
-        e.errors[0].code === Constants.Errors.Code.BLOCKED_USER2)
-    ) {
-      dispatch(
-        addAlert(
-          Constants.ALERT_TYPE_ERROR,
-          '',
-          Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
-        ),
-      );
-    } else if (
-      e.errors &&
-      e.errors[0].code === Constants.Errors.Code.TG_NOT_ASSOCIATED
-    ) {
-      dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', e.errors[0].detail));
-    } else if (
-      e.errors &&
-      e.errors[0].code === Constants.Errors.Code.ATTACHMENT_SCAN_FAIL
-    ) {
-      dispatch(
-        addAlert(
-          Constants.ALERT_TYPE_ERROR,
-          Constants.Alerts.Headers.HIDE_ALERT,
-          Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL,
-        ),
-      );
-    } else {
-      dispatch(
-        addAlert(
-          Constants.ALERT_TYPE_ERROR,
-          '',
-          Constants.Alerts.Message.SEND_MESSAGE_ERROR,
-        ),
-      );
-    }
-    throw e;
-  }
-};
+  };

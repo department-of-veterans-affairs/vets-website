@@ -12,10 +12,8 @@ import { daysFromToday } from '../../utils/dates/formatting';
 import formConfig from '../../config/form';
 
 describe('Reserve and National Guard Information', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.reservesNationalGuardService;
+  const { schema, uiSchema } =
+    formConfig.chapters.veteranDetails.pages.reservesNationalGuardService;
 
   it('should render', async () => {
     const form = mount(

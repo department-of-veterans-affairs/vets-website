@@ -20,8 +20,7 @@ export default {
       }),
       emailAddress: emailUI({
         title: 'Email',
-        hint:
-          "We'll use this email address to send you notifications in regards to your claim",
+        hint: "We'll use this email address to send you notifications in regards to your claim",
       }),
     },
   },

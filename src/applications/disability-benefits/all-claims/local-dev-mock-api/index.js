@@ -36,7 +36,8 @@ const responses = {
       },
     },
   },
-  'GET /v0/disability_compensation_form/ptsd_classifications': ptsdClassifications,
+  'GET /v0/disability_compensation_form/ptsd_classifications':
+    ptsdClassifications,
   'POST /v0/mvi_users/21-0966': {
     data: {
       attributes: {

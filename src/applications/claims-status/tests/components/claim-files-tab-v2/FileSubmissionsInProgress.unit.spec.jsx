@@ -106,17 +106,12 @@ describe('<FileSubmissionsInProgress>', () => {
     };
 
     it('should render cards for in progress items', () => {
-      const {
-        container,
-        getByText,
-        getAllByText,
-        queryByText,
-        getByTestId,
-      } = render(
-        <Provider store={store}>
-          <FileSubmissionsInProgress claim={claim} />
-        </Provider>,
-      );
+      const { container, getByText, getAllByText, queryByText, getByTestId } =
+        render(
+          <Provider store={store}>
+            <FileSubmissionsInProgress claim={claim} />
+          </Provider>,
+        );
 
       expect($('.file-submissions-in-progress-container', container)).to.exist;
       expect(getByText('File submissions in progress')).to.exist;

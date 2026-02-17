@@ -68,12 +68,9 @@ const ReplyDraftItem = props => {
     state => state.sm.recipients?.allRecipients,
   );
 
-  const isOhTriageGroup = useMemo(
-    () => {
-      return replyMessage?.isOhMessage;
-    },
-    [replyMessage],
-  );
+  const isOhTriageGroup = useMemo(() => {
+    return replyMessage?.isOhMessage;
+  }, [replyMessage]);
 
   const [category, setCategory] = useState(null);
   const [subject, setSubject] = useState('');
@@ -122,46 +119,34 @@ const ReplyDraftItem = props => {
 
   const replyToMessageId = draft?.messageId || replyMessage.messageId;
 
-  const formattededSignature = useMemo(
-    () => {
-      return messageSignatureFormatter(signature);
-    },
-    [signature],
-  );
+  const formattededSignature = useMemo(() => {
+    return messageSignatureFormatter(signature);
+  }, [signature]);
 
-  const refreshThreadHandler = useCallback(
-    () => {
-      dispatch(retrieveMessageThread(replyMessage.messageId));
-    },
-    [replyMessage, dispatch],
-  );
+  const refreshThreadHandler = useCallback(() => {
+    dispatch(retrieveMessageThread(replyMessage.messageId));
+  }, [replyMessage, dispatch]);
 
-  const checkMessageValidity = useCallback(
-    () => {
-      let messageValid = true;
-      if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-        setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
-        messageValid = false;
-      }
-      setMessageInvalid(!messageValid);
-      return { messageValid };
-    },
-    [messageBody],
-  );
+  const checkMessageValidity = useCallback(() => {
+    let messageValid = true;
+    if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+      setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
+      messageValid = false;
+    }
+    setMessageInvalid(!messageValid);
+    return { messageValid };
+  }, [messageBody]);
 
   const messageBodyHandler = e => {
     setMessageBody(e.target.value);
     if (e.target.value) setBodyError('');
   };
 
-  useEffect(
-    () => {
-      if (draft) {
-        setDraftId(draft.messageId);
-      }
-    },
-    [draft],
-  );
+  useEffect(() => {
+    if (draft) {
+      setDraftId(draft.messageId);
+    }
+  }, [draft]);
 
   // OnSave Reply Draft
   const saveDraftHandler = useCallback(
@@ -259,165 +244,153 @@ const ReplyDraftItem = props => {
   );
 
   // Navigation error effect
-  useEffect(
-    () => {
-      const draftBody = draft && draft.body;
-      const blankDraft = messageBody === '' && draftBody === undefined;
-      const savedEdits = messageBody === draftBody;
-      if (savedEdits || blankDraft) {
-        setNavigationError(null);
-      }
-      if (!savedEdits && blankDraft && attachments.length > 0) {
-        setNavigationError({
-          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-        });
-      }
-      if (
-        (!savedEdits && !blankDraft && attachments.length > 0) ||
-        (savedEdits && attachments.length > 0)
-      ) {
-        setNavigationError({
-          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-          p1: '',
-        });
-      }
-      if (!draft && !savedEdits && !blankDraft && attachments.length === 0) {
-        setNavigationError({
-          ...ErrorMessages.ComposeForm.CONT_SAVING_DRAFT,
-        });
-      }
-      if (draft && draftBody !== messageBody && attachments.length === 0) {
-        setNavigationError({
-          ...ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES,
-        });
-      }
-    },
-    [attachments.length, draft, messageBody, setNavigationError],
-  );
+  useEffect(() => {
+    const draftBody = draft && draft.body;
+    const blankDraft = messageBody === '' && draftBody === undefined;
+    const savedEdits = messageBody === draftBody;
+    if (savedEdits || blankDraft) {
+      setNavigationError(null);
+    }
+    if (!savedEdits && blankDraft && attachments.length > 0) {
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+      });
+    }
+    if (
+      (!savedEdits && !blankDraft && attachments.length > 0) ||
+      (savedEdits && attachments.length > 0)
+    ) {
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+        p1: '',
+      });
+    }
+    if (!draft && !savedEdits && !blankDraft && attachments.length === 0) {
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.CONT_SAVING_DRAFT,
+      });
+    }
+    if (draft && draftBody !== messageBody && attachments.length === 0) {
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES,
+      });
+    }
+  }, [attachments.length, draft, messageBody, setNavigationError]);
 
-  useEffect(
-    () => {
-      if (replyMessage && !draft) {
-        setSelectedRecipient(replyMessage.senderId);
-        setSubject(replyMessage.subject);
-        setMessageBody('');
-        setCategory(replyMessage.category);
-      }
-    },
-    [replyMessage, draft],
-  );
+  useEffect(() => {
+    if (replyMessage && !draft) {
+      setSelectedRecipient(replyMessage.senderId);
+      setSubject(replyMessage.subject);
+      setMessageBody('');
+      setCategory(replyMessage.category);
+    }
+  }, [replyMessage, draft]);
 
-  useEffect(
-    () => {
-      if (
-        editMode &&
-        debouncedMessageBody &&
-        isAutosave &&
-        !cannotReply &&
-        !isModalVisible
-      ) {
-        saveDraftHandler('auto');
-      }
-    },
-    [
-      cannotReply,
-      debouncedMessageBody,
-      editMode,
-      isAutosave,
-      isModalVisible,
-      saveDraftHandler,
-    ],
-  );
+  useEffect(() => {
+    if (
+      editMode &&
+      debouncedMessageBody &&
+      isAutosave &&
+      !cannotReply &&
+      !isModalVisible
+    ) {
+      saveDraftHandler('auto');
+    }
+  }, [
+    cannotReply,
+    debouncedMessageBody,
+    editMode,
+    isAutosave,
+    isModalVisible,
+    saveDraftHandler,
+  ]);
 
   // sending a reply message
-  useEffect(
-    () => {
-      if (sendMessageFlag && isSaving !== true) {
-        const messageData = {
-          category,
-          body: messageBody,
-          subject,
-        };
-        if (draft && replyToMessageId) {
-          messageData[`${'draft_id'}`] = replyToMessageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
-        }
-        messageData[`${'recipient_id'}`] = selectedRecipient;
-        messageData[`${'station_number'}`] = getStationNumberFromRecipientId(
-          selectedRecipient,
-          allRecipients,
-        );
-        setIsAutosave(false);
-
-        const decodedMessageData = {
-          ...messageData,
-          body: decodeHtmlEntities(messageData.body),
-          subject: decodeHtmlEntities(messageData.subject),
-        };
-
-        const sendData =
-          attachments.length > 0
-            ? (() => {
-                const formData = new FormData();
-                formData.append('message', JSON.stringify(decodedMessageData));
-                attachments.forEach(upload =>
-                  formData.append('uploads[]', upload),
-                );
-                return formData;
-              })()
-            : JSON.stringify(decodedMessageData);
-
-        setIsSending(true);
-        dispatch(
-          sendReply({
-            replyToId: replyToMessageId,
-            message: sendData,
-            attachments: attachments.length > 0,
-            ohTriageGroup: isOhTriageGroup,
-          }),
-        )
-          .then(() => {
-            setTimeout(() => {
-              if (draftsCount > 1) {
-                // send a call to get updated thread
-                dispatch(retrieveMessageThread(replyMessage.messageId)).then(
-                  setIsSending(false),
-                );
-              } else {
-                setIsSending(false);
-                navigateToFolderByFolderId(
-                  draft?.threadFolderId ? draft?.threadFolderId : folderId,
-                  history,
-                );
-              }
-            }, 1000);
-          })
-          .catch(() => {
-            setIsSending(false);
-            setSendMessageFlag(false);
-            setIsAutosave(true);
-          });
+  useEffect(() => {
+    if (sendMessageFlag && isSaving !== true) {
+      const messageData = {
+        category,
+        body: messageBody,
+        subject,
+      };
+      if (draft && replyToMessageId) {
+        messageData[`${'draft_id'}`] = replyToMessageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
       }
-    },
-    [
-      sendMessageFlag,
-      isSaving,
-      category,
-      messageBody,
-      subject,
-      draft,
-      replyToMessageId,
-      selectedRecipient,
-      attachments,
-      setIsSending,
-      dispatch,
-      draftsCount,
-      replyMessage.messageId,
-      allRecipients,
-      folderId,
-      history,
-      isOhTriageGroup,
-    ],
-  );
+      messageData[`${'recipient_id'}`] = selectedRecipient;
+      messageData[`${'station_number'}`] = getStationNumberFromRecipientId(
+        selectedRecipient,
+        allRecipients,
+      );
+      setIsAutosave(false);
+
+      const decodedMessageData = {
+        ...messageData,
+        body: decodeHtmlEntities(messageData.body),
+        subject: decodeHtmlEntities(messageData.subject),
+      };
+
+      const sendData =
+        attachments.length > 0
+          ? (() => {
+              const formData = new FormData();
+              formData.append('message', JSON.stringify(decodedMessageData));
+              attachments.forEach(upload =>
+                formData.append('uploads[]', upload),
+              );
+              return formData;
+            })()
+          : JSON.stringify(decodedMessageData);
+
+      setIsSending(true);
+      dispatch(
+        sendReply({
+          replyToId: replyToMessageId,
+          message: sendData,
+          attachments: attachments.length > 0,
+          ohTriageGroup: isOhTriageGroup,
+        }),
+      )
+        .then(() => {
+          setTimeout(() => {
+            if (draftsCount > 1) {
+              // send a call to get updated thread
+              dispatch(retrieveMessageThread(replyMessage.messageId)).then(
+                setIsSending(false),
+              );
+            } else {
+              setIsSending(false);
+              navigateToFolderByFolderId(
+                draft?.threadFolderId ? draft?.threadFolderId : folderId,
+                history,
+              );
+            }
+          }, 1000);
+        })
+        .catch(() => {
+          setIsSending(false);
+          setSendMessageFlag(false);
+          setIsAutosave(true);
+        });
+    }
+  }, [
+    sendMessageFlag,
+    isSaving,
+    category,
+    messageBody,
+    subject,
+    draft,
+    replyToMessageId,
+    selectedRecipient,
+    attachments,
+    setIsSending,
+    dispatch,
+    draftsCount,
+    replyMessage.messageId,
+    allRecipients,
+    folderId,
+    history,
+    isOhTriageGroup,
+  ]);
 
   const populateForm = () => {
     setSelectedRecipient(draft?.recipientId);
@@ -435,41 +408,32 @@ const ReplyDraftItem = props => {
     );
   };
 
-  useEffect(
-    () => {
-      if (messageInvalid) {
-        focusOnErrorField();
-      }
-    },
-    [messageInvalid],
-  );
+  useEffect(() => {
+    if (messageInvalid) {
+      focusOnErrorField();
+    }
+  }, [messageInvalid]);
 
-  useEffect(
-    () => {
-      if (draft && !formPopulated) {
-        populateForm();
-      }
-    },
-    [draft, formPopulated, populateForm],
-  );
+  useEffect(() => {
+    if (draft && !formPopulated) {
+      populateForm();
+    }
+  }, [draft, formPopulated, populateForm]);
 
-  useEffect(
-    () => {
-      if (editMode && focusToTextarea) {
-        setTimeout(() => {
-          focusElement(
-            cannotReply
-              ? composeFormActionButtonsRef.current?.querySelector(
-                  '#delete-draft-button',
-                )
-              : textareaRef.current,
-          );
-          setFocusToTextarea(false);
-        }, 300);
-      }
-    },
-    [cannotReply, editMode, focusToTextarea],
-  );
+  useEffect(() => {
+    if (editMode && focusToTextarea) {
+      setTimeout(() => {
+        focusElement(
+          cannotReply
+            ? composeFormActionButtonsRef.current?.querySelector(
+                '#delete-draft-button',
+              )
+            : textareaRef.current,
+        );
+        setFocusToTextarea(false);
+      }, 300);
+    }
+  }, [cannotReply, editMode, focusToTextarea]);
 
   return (
     <>
@@ -506,10 +470,12 @@ const ReplyDraftItem = props => {
           <span className="thread-list-draft reply-draft-label vads-u-padding-right--2">
             {`Draft ${draftSequence ? `${draftSequence} ` : ''}`}
           </span>
-          {`To: ${replyToName}\n(Team: ${draft?.suggestedNameDisplay ||
+          {`To: ${replyToName}\n(Team: ${
+            draft?.suggestedNameDisplay ||
             replyMessage?.suggestedNameDisplay ||
             draft?.triageGroupName ||
-            replyMessage.triageGroupName})`}
+            replyMessage.triageGroupName
+          })`}
           <br />
         </span>
         <HorizontalRule />
@@ -544,36 +510,35 @@ const ReplyDraftItem = props => {
           />
         )}
 
-        {!cannotReply &&
-          !showBlockedTriageGroupAlert && (
-            <section className="attachments-section vads-u-margin-top--2">
-              <AttachmentsList
-                attachments={attachments}
-                reply
-                setAttachments={setAttachments}
-                setNavigationError={setNavigationError}
-                editingEnabled
-                attachFileSuccess={attachFileSuccess}
-                setAttachFileSuccess={setAttachFileSuccess}
-                draftSequence={draftSequence}
-                attachmentScanError={attachmentScanError}
-                attachFileError={attachFileError}
-                setAttachFileError={setAttachFileError}
-                isOhTriageGroup={isOhTriageGroup}
-              />
+        {!cannotReply && !showBlockedTriageGroupAlert && (
+          <section className="attachments-section vads-u-margin-top--2">
+            <AttachmentsList
+              attachments={attachments}
+              reply
+              setAttachments={setAttachments}
+              setNavigationError={setNavigationError}
+              editingEnabled
+              attachFileSuccess={attachFileSuccess}
+              setAttachFileSuccess={setAttachFileSuccess}
+              draftSequence={draftSequence}
+              attachmentScanError={attachmentScanError}
+              attachFileError={attachFileError}
+              setAttachFileError={setAttachFileError}
+              isOhTriageGroup={isOhTriageGroup}
+            />
 
-              <FileInput
-                attachments={attachments}
-                setAttachments={setAttachments}
-                setAttachFileSuccess={setAttachFileSuccess}
-                draftSequence={draftSequence}
-                attachmentScanError={attachmentScanError}
-                attachFileError={attachFileError}
-                setAttachFileError={setAttachFileError}
-                isOhTriageGroup={isOhTriageGroup}
-              />
-            </section>
-          )}
+            <FileInput
+              attachments={attachments}
+              setAttachments={setAttachments}
+              setAttachFileSuccess={setAttachFileSuccess}
+              draftSequence={draftSequence}
+              attachmentScanError={attachmentScanError}
+              attachFileError={attachFileError}
+              setAttachFileError={setAttachFileError}
+              isOhTriageGroup={isOhTriageGroup}
+            />
+          </section>
+        )}
         <DraftSavedInfo messageId={draftId} drafts={drafts} />
 
         <div ref={composeFormActionButtonsRef}>

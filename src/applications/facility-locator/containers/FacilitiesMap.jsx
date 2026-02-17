@@ -452,9 +452,8 @@ const FacilitiesMap = props => {
     const { facilityType, serviceType } = currentQuery;
     const queryContext = currentQuery.context;
     const isEmergencyCareType = facilityType === LocationType.EMERGENCY_CARE;
-    const isCcpEmergencyCareTypes = EMERGENCY_CARE_SERVICES.includes(
-      serviceType,
-    );
+    const isCcpEmergencyCareTypes =
+      EMERGENCY_CARE_SERVICES.includes(serviceType);
 
     const paginationWrapper = () => {
       return (
@@ -543,17 +542,16 @@ const FacilitiesMap = props => {
             </div>
             {!isMobile && (
               <>
-                {isSmallDesktop &&
-                  useProgressiveDisclosure && (
-                    <div
-                      className="search-results-container vads-u-padding-x--0p5 vads-u-padding-top--0p5 columns"
-                      id="searchResultsContainer"
-                    >
-                      <div className="facility-search-results">
-                        {resultsList()}
-                      </div>
+                {isSmallDesktop && useProgressiveDisclosure && (
+                  <div
+                    className="search-results-container vads-u-padding-x--0p5 vads-u-padding-top--0p5 columns"
+                    id="searchResultsContainer"
+                  >
+                    <div className="facility-search-results">
+                      {resultsList()}
                     </div>
-                  )}
+                  </div>
+                )}
                 {((!isMobile && !useProgressiveDisclosure) ||
                   (isTablet && useProgressiveDisclosure)) && (
                   <>
@@ -597,27 +595,26 @@ const FacilitiesMap = props => {
               </>
             )}
           </ControlResultsHolder>
-          {isSmallDesktop &&
-            useProgressiveDisclosure && (
-              <div className="map-and-message-container">
-                <RenderMap
-                  currentQuery={currentQuery}
-                  handleSearchArea={handleSearchArea}
-                  isSearching={isSearching}
-                  mapboxGlContainer={mapboxGlContainer}
-                  map={map}
-                  mobile={false}
-                  mobileMapUpdateEnabled={mobileMapUpdateEnabled}
-                  results={results}
-                  searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
-                  selectMobileMapPin={props.selectMobileMapPin}
-                  shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
-                  smallDesktop
-                  zoomMessageDivID={zoomMessageDivID}
-                  ref={mapboxGlContainerRef}
-                />
-              </div>
-            )}
+          {isSmallDesktop && useProgressiveDisclosure && (
+            <div className="map-and-message-container">
+              <RenderMap
+                currentQuery={currentQuery}
+                handleSearchArea={handleSearchArea}
+                isSearching={isSearching}
+                mapboxGlContainer={mapboxGlContainer}
+                map={map}
+                mobile={false}
+                mobileMapUpdateEnabled={mobileMapUpdateEnabled}
+                results={results}
+                searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                selectMobileMapPin={props.selectMobileMapPin}
+                shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
+                smallDesktop
+                zoomMessageDivID={zoomMessageDivID}
+                ref={mapboxGlContainerRef}
+              />
+            </div>
+          )}
         </ControlsAndMapContainer>
         {isSmallDesktop && useProgressiveDisclosure && paginationWrapper()}
 
@@ -661,14 +658,13 @@ const FacilitiesMap = props => {
                         zoomMessageDivID={zoomMessageDivID}
                         ref={mapboxGlContainerRef}
                       />
-                      {currentQuery.searchStarted &&
-                        !results.length && (
-                          <NoResultsMessage
-                            resultRef={searchResultMessageRef}
-                            resultsFound={false}
-                            searchStarted
-                          />
-                        )}
+                      {currentQuery.searchStarted && !results.length && (
+                        <NoResultsMessage
+                          resultRef={searchResultMessageRef}
+                          resultsFound={false}
+                          searchStarted
+                        />
+                      )}
                       <MobileMapSearchResult
                         mobileMapPinSelected={mobileMapPinSelected}
                         query={currentQuery}
@@ -707,14 +703,13 @@ const FacilitiesMap = props => {
                     zoomMessageDivID={zoomMessageDivID}
                     ref={mapboxGlContainerRef}
                   />
-                  {currentQuery.searchStarted &&
-                    !results.length && (
-                      <NoResultsMessage
-                        resultRef={searchResultMessageRef}
-                        resultsFound={false}
-                        searchStarted
-                      />
-                    )}
+                  {currentQuery.searchStarted && !results.length && (
+                    <NoResultsMessage
+                      resultRef={searchResultMessageRef}
+                      resultsFound={false}
+                      searchStarted
+                    />
+                  )}
                 </TabPanel>
               </Tabs>
             )}
@@ -819,12 +814,9 @@ const FacilitiesMap = props => {
     [map, props.currentQuery.searchCoords],
   );
 
-  useEffect(
-    () => {
-      searchCurrentArea();
-    },
-    [props.currentQuery.searchArea],
-  );
+  useEffect(() => {
+    searchCurrentArea();
+  }, [props.currentQuery.searchArea]);
 
   useEffect(
     () => {
@@ -837,85 +829,64 @@ const FacilitiesMap = props => {
     [mapboxContainerRef, map],
   );
 
-  useEffect(
-    () => {
-      handleSearchOnQueryChange();
-    },
-    [props.currentQuery.id],
-  );
+  useEffect(() => {
+    handleSearchOnQueryChange();
+  }, [props.currentQuery.id]);
 
-  useEffect(
-    () => {
-      if (!map) return;
-      renderMarkers(props.results);
-    },
-    [props.results, map],
-  );
+  useEffect(() => {
+    if (!map) return;
+    renderMarkers(props.results);
+  }, [props.results, map]);
 
-  useEffect(
-    () => {
-      const { inProgress, searchStarted } = props.currentQuery;
+  useEffect(() => {
+    const { inProgress, searchStarted } = props.currentQuery;
 
-      if (searchResultTitleRef.current && !inProgress && searchStarted) {
-        setFocus(searchResultTitleRef.current);
+    if (searchResultTitleRef.current && !inProgress && searchStarted) {
+      setFocus(searchResultTitleRef.current);
+    }
+  }, [
+    searchResultTitleRef.current,
+    props.currentQuery.inProgress,
+    props.currentQuery.searchStarted,
+  ]);
+
+  useEffect(() => {
+    handleMapOnNoResultsFound();
+  }, [props.currentQuery.searchCoords, props.results]);
+
+  useEffect(() => {
+    if (searchResultMessageRef.current) {
+      setFocus(searchResultMessageRef.current);
+    }
+  }, [props.results, props.currentQuery.inProgress, props.searchError]);
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const { height, width } = entry.contentRect;
+        setTimeout(() => {
+          // to prevent the map from being resized multiple times
+          setVerticalSize(height);
+          setHorizontalSize(width);
+        }, 200);
       }
-    },
-    [
-      searchResultTitleRef.current,
-      props.currentQuery.inProgress,
-      props.currentQuery.searchStarted,
-    ],
-  );
+    });
 
-  useEffect(
-    () => {
-      handleMapOnNoResultsFound();
-    },
-    [props.currentQuery.searchCoords, props.results],
-  );
+    if (mapboxContainerRef.current && props.useProgressiveDisclosure) {
+      resizeObserver.observe(mapboxContainerRef.current);
+    } else {
+      resizeObserver.disconnect();
+    }
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [mapboxContainerRef, props.useProgressiveDisclosure]);
 
-  useEffect(
-    () => {
-      if (searchResultMessageRef.current) {
-        setFocus(searchResultMessageRef.current);
-      }
-    },
-    [props.results, props.currentQuery.inProgress, props.searchError],
-  );
-
-  useEffect(
-    () => {
-      const resizeObserver = new ResizeObserver(entries => {
-        for (const entry of entries) {
-          const { height, width } = entry.contentRect;
-          setTimeout(() => {
-            // to prevent the map from being resized multiple times
-            setVerticalSize(height);
-            setHorizontalSize(width);
-          }, 200);
-        }
-      });
-
-      if (mapboxContainerRef.current && props.useProgressiveDisclosure) {
-        resizeObserver.observe(mapboxContainerRef.current);
-      } else {
-        resizeObserver.disconnect();
-      }
-      return () => {
-        resizeObserver.disconnect();
-      };
-    },
-    [mapboxContainerRef, props.useProgressiveDisclosure],
-  );
-
-  useEffect(
-    () => {
-      if (map && !isMobile) {
-        map.resize();
-      }
-    },
-    [map, horizontalSize, verticalSize, isMobile],
-  );
+  useEffect(() => {
+    if (map && !isMobile) {
+      map.resize();
+    }
+  }, [map, horizontalSize, verticalSize, isMobile]);
 
   return (
     <>
@@ -965,7 +936,4 @@ const mapDispatchToProps = {
 
 FacilitiesMap.propTypes = FacilitiesMapTypes;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FacilitiesMap);
+export default connect(mapStateToProps, mapDispatchToProps)(FacilitiesMap);

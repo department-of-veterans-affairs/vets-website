@@ -28,40 +28,33 @@ function useListRefresh({
   dispatch,
   isLoading = false,
 }) {
-  const refreshIsCurrent = useMemo(
-    () => {
-      const extractTypeList = Array.isArray(extractType)
-        ? extractType
-        : [extractType];
-      return (
-        refreshStatus &&
-        extractTypeList.every(type => {
-          return refreshStatus.some(extStatus => {
-            const hasExplicitLoadError =
-              extStatus.upToDate &&
-              extStatus.loadStatus === 'ERROR' &&
-              !!extStatus.errorMessage;
-            return (
-              extStatus.extract === type &&
-              (extStatus.phase === refreshPhases.CURRENT ||
-                hasExplicitLoadError)
-            );
-          });
-        })
-      );
-    },
-    [refreshStatus, extractType],
-  );
+  const refreshIsCurrent = useMemo(() => {
+    const extractTypeList = Array.isArray(extractType)
+      ? extractType
+      : [extractType];
+    return (
+      refreshStatus &&
+      extractTypeList.every(type => {
+        return refreshStatus.some(extStatus => {
+          const hasExplicitLoadError =
+            extStatus.upToDate &&
+            extStatus.loadStatus === 'ERROR' &&
+            !!extStatus.errorMessage;
+          return (
+            extStatus.extract === type &&
+            (extStatus.phase === refreshPhases.CURRENT || hasExplicitLoadError)
+          );
+        });
+      })
+    );
+  }, [refreshStatus, extractType]);
 
-  const isDataStale = useMemo(
-    () => {
-      if (!listCurrentAsOf) return true;
-      const now = new Date();
-      const durationSinceLastRefresh = now - listCurrentAsOf;
-      return durationSinceLastRefresh > VALID_REFRESH_DURATION;
-    },
-    [listCurrentAsOf],
-  );
+  const isDataStale = useMemo(() => {
+    if (!listCurrentAsOf) return true;
+    const now = new Date();
+    const durationSinceLastRefresh = now - listCurrentAsOf;
+    return durationSinceLastRefresh > VALID_REFRESH_DURATION;
+  }, [listCurrentAsOf]);
 
   useEffect(
     /**

@@ -124,10 +124,8 @@ describe('0839 Helpers', () => {
       },
     };
     describe('additionalInstitutionsWithCodeArrayOptions', () => {
-      const {
-        isItemIncomplete,
-        text,
-      } = additionalInstitutionsWithCodeArrayOptions;
+      const { isItemIncomplete, text } =
+        additionalInstitutionsWithCodeArrayOptions;
 
       it('has the right completeness check', () => {
         expect(isItemIncomplete({ name: null, mailingAddress: null })).to.be
@@ -159,10 +157,8 @@ describe('0839 Helpers', () => {
       });
     });
     describe('additionalInstitutionsWithoutCodeArrayOptions', () => {
-      const {
-        isItemIncomplete,
-        text,
-      } = additionalInstitutionsWithoutCodeArrayOptions;
+      const { isItemIncomplete, text } =
+        additionalInstitutionsWithoutCodeArrayOptions;
 
       it('has the right completeness check', () => {
         expect(isItemIncomplete({ name: null, mailingAddress: null })).to.be

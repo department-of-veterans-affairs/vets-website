@@ -75,18 +75,14 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
     describe('BDD claims', () => {
       it('should allow dates between 90-180 days for BDD', () => {
         const errors = { addError: sinon.spy() };
-        const date120Days = moment()
-          .add(120, 'days')
-          .format('YYYY-MM-DD');
+        const date120Days = moment().add(120, 'days').format('YYYY-MM-DD');
         validateSeparationDateWithRules(errors, date120Days, { isBDD: true });
         expect(errors.addError.called).to.be.false;
       });
 
       it('should add error for dates more than 180 days for BDD', () => {
         const errors = { addError: sinon.spy() };
-        const date181Days = moment()
-          .add(181, 'days')
-          .format('YYYY-MM-DD');
+        const date181Days = moment().add(181, 'days').format('YYYY-MM-DD');
         validateSeparationDateWithRules(errors, date181Days, { isBDD: true });
         expect(errors.addError.called).to.be.true;
         expect(errors.addError.firstCall.args[0]).to.include(
@@ -98,9 +94,7 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
     describe('Non-BDD claims', () => {
       it('should add error for dates more than 180 days (non-BDD)', () => {
         const errors = { addError: sinon.spy() };
-        const date181Days = moment()
-          .add(181, 'days')
-          .format('YYYY-MM-DD');
+        const date181Days = moment().add(181, 'days').format('YYYY-MM-DD');
         validateSeparationDateWithRules(errors, date181Days);
         expect(errors.addError.called).to.be.true;
         expect(errors.addError.firstCall.args[0]).to.include(
@@ -110,9 +104,7 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
 
       it('should add error for future dates when not reserves', () => {
         const errors = { addError: sinon.spy() };
-        const date100Days = moment()
-          .add(100, 'days')
-          .format('YYYY-MM-DD');
+        const date100Days = moment().add(100, 'days').format('YYYY-MM-DD');
         validateSeparationDateWithRules(errors, date100Days, {
           isReserves: false,
         });
@@ -124,9 +116,7 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
 
       it('should allow future dates for reserves (non-BDD)', () => {
         const errors = { addError: sinon.spy() };
-        const date100Days = moment()
-          .add(100, 'days')
-          .format('YYYY-MM-DD');
+        const date100Days = moment().add(100, 'days').format('YYYY-MM-DD');
         validateSeparationDateWithRules(errors, date100Days, {
           isReserves: true,
         });
@@ -149,9 +139,7 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
 
     it('should add error for future activation date', () => {
       const errors = { addError: sinon.spy() };
-      const tomorrow = moment()
-        .add(1, 'day')
-        .format('YYYY-MM-DD');
+      const tomorrow = moment().add(1, 'day').format('YYYY-MM-DD');
       validateTitle10ActivationDate(errors, tomorrow, [], reservesList);
       expect(errors.addError.called).to.be.true;
       expect(errors.addError.firstCall.args[0]).to.include(
@@ -449,9 +437,7 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
     describe('future date validation', () => {
       it('should reject future dates', () => {
         const errors = { addError: sinon.spy() };
-        const futureDate = moment()
-          .add(1, 'day')
-          .format('YYYY-MM-DD');
+        const futureDate = moment().add(1, 'day').format('YYYY-MM-DD');
         validateApproximateDate(errors, futureDate);
         expect(errors.addError.called).to.be.true;
         expect(errors.addError.firstCall.args[0]).to.include(

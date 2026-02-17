@@ -164,42 +164,39 @@ export const CallToActionWidget = ({
   const [popup, setPopup] = useState(false);
   const mounted = useRef();
 
-  useEffect(
-    () => {
-      if (!mounted.current) {
-        if (!loadingToggled && propsIsLoggedIn && isHealthTool) {
-          propsFetchMHVAccount();
-        }
-        mounted.current = true;
-      } else if (
-        propsIsLoggedIn &&
-        !loadingToggled &&
-        isAccessible &&
-        redirect &&
-        !popup &&
-        goToTool(url)
-      ) {
-        setPopup(true);
+  useEffect(() => {
+    if (!mounted.current) {
+      if (!loadingToggled && propsIsLoggedIn && isHealthTool) {
+        propsFetchMHVAccount();
       }
-    },
-    [
-      appId,
-      authenticatedWithSSOe,
-      ctaWidget,
-      featureToggles,
-      propsFetchMHVAccount,
-      propsIsLoggedIn,
-      mhvAccount,
-      popup,
-      profile,
-      toolDetails,
-      redirect,
-      url,
-      isHealthTool,
-      isAccessible,
-      loadingToggled,
-    ],
-  );
+      mounted.current = true;
+    } else if (
+      propsIsLoggedIn &&
+      !loadingToggled &&
+      isAccessible &&
+      redirect &&
+      !popup &&
+      goToTool(url)
+    ) {
+      setPopup(true);
+    }
+  }, [
+    appId,
+    authenticatedWithSSOe,
+    ctaWidget,
+    featureToggles,
+    propsFetchMHVAccount,
+    propsIsLoggedIn,
+    mhvAccount,
+    popup,
+    profile,
+    toolDetails,
+    redirect,
+    url,
+    isHealthTool,
+    isAccessible,
+    loadingToggled,
+  ]);
 
   // Show spinner if loading.
   if (profile.loading || mhvAccount.loading || loadingToggled) {
@@ -465,7 +462,4 @@ const mapDispatchToProps = {
   toggleLoginModal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CallToActionWidget);
+export default connect(mapStateToProps, mapDispatchToProps)(CallToActionWidget);

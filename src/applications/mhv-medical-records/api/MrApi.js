@@ -76,10 +76,8 @@ export const getAcceleratedLabsAndTests = async ({
   startDate,
   endDate,
 } = {}) => {
-  const {
-    startDate: effectiveStart,
-    endDate: effectiveEnd,
-  } = resolveAcceleratedDateRange(startDate, endDate, DEFAULT_DATE_RANGE);
+  const { startDate: effectiveStart, endDate: effectiveEnd } =
+    resolveAcceleratedDateRange(startDate, endDate, DEFAULT_DATE_RANGE);
   // Build query params with API-required snake_case keys
   const params = new URLSearchParams();
   params.append('start_date', effectiveStart);
@@ -152,10 +150,8 @@ export const getMhvRadiologyDetails = async id => {
 };
 
 export const getAcceleratedNotes = async ({ startDate, endDate } = {}) => {
-  const {
-    startDate: effectiveStart,
-    endDate: effectiveEnd,
-  } = resolveAcceleratedDateRange(startDate, endDate, DEFAULT_DATE_RANGE);
+  const { startDate: effectiveStart, endDate: effectiveEnd } =
+    resolveAcceleratedDateRange(startDate, endDate, DEFAULT_DATE_RANGE);
   const params = new URLSearchParams();
   params.append('start_date', effectiveStart);
   params.append('end_date', effectiveEnd);

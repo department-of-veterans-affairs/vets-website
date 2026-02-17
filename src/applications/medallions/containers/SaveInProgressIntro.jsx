@@ -408,13 +408,12 @@ class SaveInProgressIntro extends React.Component {
         {!buttonOnly && alert}
         {buttonOnly && !login.currentlyLoggedIn && alert}
         {showFormControls && this.getFormControls(savedForm)}
-        {!showFormControls &&
-          devOnlyForceShowFormControls && (
-            <>
-              <div>dev only:</div>
-              <div>{this.getFormControls(savedForm)}</div>
-            </>
-          )}
+        {!showFormControls && devOnlyForceShowFormControls && (
+          <>
+            <div>dev only:</div>
+            <div>{this.getFormControls(savedForm)}</div>
+          </>
+        )}
         {!buttonOnly && this.props.afterButtonContent}
         <br />
       </div>

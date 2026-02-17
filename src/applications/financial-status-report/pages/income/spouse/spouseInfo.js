@@ -34,10 +34,8 @@ export const uiSchema = {
       required: () => true,
       tile: true,
       descriptions: {
-        Y:
-          'If you’re in a civil union or common law marriage that’s recognized by the state the union took place in, select Yes.',
-        N:
-          'If you are unmarried, married but separated, divorced, annulled, or widowed, select No.',
+        Y: 'If you’re in a civil union or common law marriage that’s recognized by the state the union took place in, select Yes.',
+        N: 'If you are unmarried, married but separated, divorced, annulled, or widowed, select No.',
       },
       errorMessages: {
         required: 'Please select your marital status.',

@@ -227,7 +227,4 @@ LetterList.propTypes = {
   tsaSafeTravelLetter: PropTypes.bool,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LetterList);
+export default connect(mapStateToProps, mapDispatchToProps)(LetterList);

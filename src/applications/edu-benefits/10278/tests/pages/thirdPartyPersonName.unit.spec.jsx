@@ -8,10 +8,8 @@ import configureStore from 'redux-mock-store';
 import formConfig from '../../config/form';
 
 describe('Authorizing official page', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.thirdPartyContactInformation.pages.thirdPartyPersonName;
+  const { schema, uiSchema } =
+    formConfig.chapters.thirdPartyContactInformation.pages.thirdPartyPersonName;
 
   const mockStore = configureStore();
 

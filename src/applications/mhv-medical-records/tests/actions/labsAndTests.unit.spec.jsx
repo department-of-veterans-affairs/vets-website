@@ -139,13 +139,15 @@ describe('getLabsAndTestsDetails', () => {
   it('should dispatch GET when accelerating with an "r" ID and no pre-loaded list', () => {
     mockApiRequest([{ id: 'r5678' }]);
     const dispatch = sinon.spy();
-    return getLabsAndTestsDetails('r5678', undefined, true)(dispatch).then(
-      () => {
-        expect(dispatch.firstCall.args[0].type).to.equal(
-          Actions.LabsAndTests.GET,
-        );
-      },
-    );
+    return getLabsAndTestsDetails(
+      'r5678',
+      undefined,
+      true,
+    )(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.LabsAndTests.GET,
+      );
+    });
   });
 });
 
@@ -166,13 +168,15 @@ describe('updateLabsAndTestDateRange', () => {
     const option = '6';
     const fromDate = '2025-05-13';
     const toDate = '2025-11-13';
-    return updateLabsAndTestDateRange(option, fromDate, toDate)(dispatch).then(
-      () => {
-        expect(dispatch.calledOnce).to.be.true;
-        const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(Actions.LabsAndTests.SET_DATE_RANGE);
-        expect(action.payload).to.deep.equal({ option, fromDate, toDate });
-      },
-    );
+    return updateLabsAndTestDateRange(
+      option,
+      fromDate,
+      toDate,
+    )(dispatch).then(() => {
+      expect(dispatch.calledOnce).to.be.true;
+      const action = dispatch.firstCall.args[0];
+      expect(action.type).to.equal(Actions.LabsAndTests.SET_DATE_RANGE);
+      expect(action.payload).to.deep.equal({ option, fromDate, toDate });
+    });
   });
 });

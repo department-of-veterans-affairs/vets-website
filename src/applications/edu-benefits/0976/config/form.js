@@ -59,9 +59,7 @@ import {
   officialsArrayOptions,
 } from '../helpers';
 
-export const SUBMIT_URL = `${
-  environment.API_URL
-}/v0/education_benefits_claims/0976`;
+export const SUBMIT_URL = `${environment.API_URL}/v0/education_benefits_claims/0976`;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,

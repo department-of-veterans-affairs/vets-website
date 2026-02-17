@@ -30,41 +30,32 @@ const Folders = () => {
   );
 
   // clear out alerts if user navigates away from this component
-  useEffect(
-    () => {
-      return () => {
-        if (location.pathname) {
-          dispatch(closeAlert());
-        }
-      };
-    },
-    [location.pathname, dispatch],
-  );
+  useEffect(() => {
+    return () => {
+      if (location.pathname) {
+        dispatch(closeAlert());
+      }
+    };
+  }, [location.pathname, dispatch]);
 
-  useEffect(
-    () => {
-      dispatch(getFolders());
-    },
-    [dispatch, location],
-  );
+  useEffect(() => {
+    dispatch(getFolders());
+  }, [dispatch, location]);
 
-  useEffect(
-    () => {
-      const alertVisible = alertList[alertList?.length - 1];
-      const alertSelector =
-        folders !== undefined && !alertVisible?.isActive
-          ? 'h1'
-          : alertVisible?.isActive && 'va-alert';
+  useEffect(() => {
+    const alertVisible = alertList[alertList?.length - 1];
+    const alertSelector =
+      folders !== undefined && !alertVisible?.isActive
+        ? 'h1'
+        : alertVisible?.isActive && 'va-alert';
 
-      const pageTitleTag = getPageTitle({
-        pathname: location.pathname,
-      });
+    const pageTitleTag = getPageTitle({
+      pathname: location.pathname,
+    });
 
-      focusElement(document.querySelector(alertSelector));
-      updatePageTitle(pageTitleTag);
-    },
-    [alertList, folders, location.pathname],
-  );
+    focusElement(document.querySelector(alertSelector));
+    updatePageTitle(pageTitleTag);
+  }, [alertList, folders, location.pathname]);
 
   const confirmFolderCreate = (folderName, onSuccess) => {
     dispatch(newFolder(folderName)).then(() => {

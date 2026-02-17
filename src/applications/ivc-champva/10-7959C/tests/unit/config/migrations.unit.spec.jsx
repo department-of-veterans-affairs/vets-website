@@ -18,8 +18,9 @@ const runMigration = (
 const upload = (side, overrides = {}) => ({
   name: `${side}.png`,
   confirmationCode: `${side}-confirmation-code`,
-  attachmentId: `${side.charAt(0).toUpperCase() +
-    side.slice(1)} of insurance card`,
+  attachmentId: `${
+    side.charAt(0).toUpperCase() + side.slice(1)
+  } of insurance card`,
   isEncrypted: false,
   ...overrides,
 });

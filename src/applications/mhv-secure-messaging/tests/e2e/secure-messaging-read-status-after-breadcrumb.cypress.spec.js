@@ -12,14 +12,13 @@ describe('SM Read Status - Breadcrumb Navigation', () => {
     // Simulate API response after message is read
     const threadsAfterRead = {
       ...threadsWithUnread,
-      data: threadsWithUnread.data.map(
-        (thread, index) =>
-          index === 0
-            ? {
-                ...thread,
-                attributes: { ...thread.attributes, unreadMessages: false },
-              }
-            : thread,
+      data: threadsWithUnread.data.map((thread, index) =>
+        index === 0
+          ? {
+              ...thread,
+              attributes: { ...thread.attributes, unreadMessages: false },
+            }
+          : thread,
       ),
     };
 
@@ -38,9 +37,7 @@ describe('SM Read Status - Breadcrumb Navigation', () => {
 
     // Verify first accordion is auto-expanded (triggers mark as read)
     cy.findByTestId(Locators.BUTTONS.THREAD_EXPAND).should('exist');
-    cy.get('va-accordion-item')
-      .first()
-      .should('have.attr', 'open');
+    cy.get('va-accordion-item').first().should('have.attr', 'open');
 
     // Wait for mark-as-read API call
     cy.wait('@first-message-in-thread');

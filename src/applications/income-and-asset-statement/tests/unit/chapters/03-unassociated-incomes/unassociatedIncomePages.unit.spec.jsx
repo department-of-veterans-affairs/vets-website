@@ -68,24 +68,16 @@ describe('unassociated income list and loop pages', () => {
 
   describe('text cardDescription function', () => {
     /* eslint-disable no-unused-vars */
-    const {
-      recipientRelationship,
-      recipientName,
-      payer,
-      ...baseItem
-    } = testData.data.unassociatedIncomes[0];
+    const { recipientRelationship, recipientName, payer, ...baseItem } =
+      testData.data.unassociatedIncomes[0];
     /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, incomeTypeLabels);
   });
 
   describe('text cardDescription function with zero values', () => {
     /* eslint-disable no-unused-vars */
-    const {
-      recipientRelationship,
-      recipientName,
-      payer,
-      ...baseItem
-    } = testData.data.unassociatedIncomes[0];
+    const { recipientRelationship, recipientName, payer, ...baseItem } =
+      testData.data.unassociatedIncomes[0];
     /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, incomeTypeLabels);
   });

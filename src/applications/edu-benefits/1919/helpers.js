@@ -81,8 +81,9 @@ export const proprietaryProfitConflictsArrayOptions = {
   maxItems: 3,
   text: {
     getItemName: item =>
-      `${item?.affiliatedIndividuals?.first || ''} ${item?.affiliatedIndividuals
-        ?.last || ''}`.trim(),
+      `${item?.affiliatedIndividuals?.first || ''} ${
+        item?.affiliatedIndividuals?.last || ''
+      }`.trim(),
     cardDescription: item => (
       <>
         {item?.affiliatedIndividuals?.title}

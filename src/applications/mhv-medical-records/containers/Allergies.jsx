@@ -98,12 +98,9 @@ const Allergies = props => {
     reloadRecordsAction: reloadRecords,
   });
 
-  useEffect(
-    () => {
-      updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
+  }, [dispatch]);
 
   const isLoadingAcceleratedData =
     isAcceleratingAllergies && listState === loadStates.FETCHING;
@@ -246,21 +243,20 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {!isCerner &&
-          !isAcceleratingAllergies && (
-            <NewRecordsIndicator
-              refreshState={refresh}
-              extractType={refreshExtractTypes.ALLERGY}
-              newRecordsFound={
-                Array.isArray(allergies) &&
-                Array.isArray(updatedRecordList) &&
-                allergies.length !== updatedRecordList.length
-              }
-              reloadFunction={() => {
-                dispatch(reloadRecords());
-              }}
-            />
-          )}
+        {!isCerner && !isAcceleratingAllergies && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.ALLERGY}
+            newRecordsFound={
+              Array.isArray(allergies) &&
+              Array.isArray(updatedRecordList) &&
+              allergies.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
         {(isLoadingAcceleratedData || isLoading) && (
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
@@ -271,33 +267,31 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
             />
           </div>
         )}
-        {!isLoadingAcceleratedData &&
-          !isLoading &&
-          allergies !== undefined && (
-            <>
-              {allergies?.length ? (
-                <>
-                  <RecordList
-                    records={allergies?.map(allergy => ({
-                      ...allergy,
-                      isOracleHealthData: isCerner,
-                    }))}
-                    type={recordType.ALLERGIES}
-                  />
-                  <DownloadingRecordsInfo description="Allergies" />
-                  <PrintDownload
-                    description="Allergies - List"
-                    list
-                    downloadPdf={generateAllergiesPdf}
-                    downloadTxt={generateAllergiesTxt}
-                  />
-                  <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
-                </>
-              ) : (
-                <NoRecordsMessage type={recordType.ALLERGIES} />
-              )}
-            </>
-          )}
+        {!isLoadingAcceleratedData && !isLoading && allergies !== undefined && (
+          <>
+            {allergies?.length ? (
+              <>
+                <RecordList
+                  records={allergies?.map(allergy => ({
+                    ...allergy,
+                    isOracleHealthData: isCerner,
+                  }))}
+                  type={recordType.ALLERGIES}
+                />
+                <DownloadingRecordsInfo description="Allergies" />
+                <PrintDownload
+                  description="Allergies - List"
+                  list
+                  downloadPdf={generateAllergiesPdf}
+                  downloadTxt={generateAllergiesTxt}
+                />
+                <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
+              </>
+            ) : (
+              <NoRecordsMessage type={recordType.ALLERGIES} />
+            )}
+          </>
+        )}
       </RecordListSection>
     </div>
   );

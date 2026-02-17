@@ -48,18 +48,26 @@ const responses = (userMock = USER_MOCKS.DEFAULT) => ({
   'GET /my_health/v1/medical_records/patient': patient.patient,
 
   // medical records self-entered data
-  'GET /my_health/v1/medical_records/self_entered/activity_journal': seiActivityJournal,
+  'GET /my_health/v1/medical_records/self_entered/activity_journal':
+    seiActivityJournal,
   'GET /my_health/v1/medical_records/self_entered/allergies': seiAllergies,
-  'GET /my_health/v1/medical_records/self_entered/family_history': seiFamilyHealthHistory,
+  'GET /my_health/v1/medical_records/self_entered/family_history':
+    seiFamilyHealthHistory,
   'GET /my_health/v1/medical_records/self_entered/food_journal': seiFoodJournal,
-  'GET /my_health/v1/medical_records/self_entered/providers': seiHealthcareProviders,
-  'GET /my_health/v1/medical_records/self_entered/health_insurance': seiHealthInsurance,
+  'GET /my_health/v1/medical_records/self_entered/providers':
+    seiHealthcareProviders,
+  'GET /my_health/v1/medical_records/self_entered/health_insurance':
+    seiHealthInsurance,
   'GET /my_health/v1/medical_records/self_entered/test_entries': seiLabs,
-  'GET /my_health/v1/medical_records/self_entered/medical_events': seiMedicalEvents,
+  'GET /my_health/v1/medical_records/self_entered/medical_events':
+    seiMedicalEvents,
   'GET /my_health/v1/medical_records/self_entered/medications': seiMedications,
-  'GET /my_health/v1/medical_records/self_entered/emergency_contacts': seiEmergencyContacts,
-  'GET /my_health/v1/medical_records/self_entered/military_history': seiMilitaryHealthHistory,
-  'GET /my_health/v1/medical_records/self_entered/treatment_facilities': seiTreatmentFacilities,
+  'GET /my_health/v1/medical_records/self_entered/emergency_contacts':
+    seiEmergencyContacts,
+  'GET /my_health/v1/medical_records/self_entered/military_history':
+    seiMilitaryHealthHistory,
+  'GET /my_health/v1/medical_records/self_entered/treatment_facilities':
+    seiTreatmentFacilities,
   'GET /my_health/v1/medical_records/self_entered/vaccines': seiVaccines,
   'GET /my_health/v1/medical_records/self_entered/vitals': seiVitals,
   'GET /my_health/v1/medical_records/self_entered': seiAllDomains,

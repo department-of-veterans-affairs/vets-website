@@ -69,8 +69,7 @@ const formConfig = {
   },
   preSubmitInfo: {
     statementOfTruth: {
-      body:
-        'I certify that the statements on this form are true and correct to the best of my knowledge and belief.',
+      body: 'I certify that the statements on this form are true and correct to the best of my knowledge and belief.',
       messageAriaDescribedby:
         'I certify that the statements on this form are true and correct to the best of my knowledge and belief.',
       fullNamePath: 'claimantFullName',

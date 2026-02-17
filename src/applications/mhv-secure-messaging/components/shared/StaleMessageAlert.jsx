@@ -19,9 +19,7 @@ const StaleMessageAlert = props => {
           </h2>
           {!isOhMessage ? (
             <p>
-              {`${Alerts.Message.STALE_REPLY_BODY.MAIN} ${
-                Alerts.Message.STALE_REPLY_BODY.VISTA
-              }`}
+              {`${Alerts.Message.STALE_REPLY_BODY.MAIN} ${Alerts.Message.STALE_REPLY_BODY.VISTA}`}
             </p>
           ) : (
             <>

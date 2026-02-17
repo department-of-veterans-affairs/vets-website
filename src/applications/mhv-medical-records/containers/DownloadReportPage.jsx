@@ -90,26 +90,24 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   );
 
   // Map facility IDs to facility names
-  const vistaFacilityNames = useMemo(
-    () => {
-      if (!ehrDataByVhaId) return [];
-      const vistaFacilities = facilities.filter(f => !f.isCerner);
-      return vistaFacilities
-        .map(f => {
-          const name = getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId);
-          if (!name) return null;
-          return { id: f.facilityId, content: name };
-        })
-        .filter(item => item); // Filter out null items
-    },
-    [facilities, ehrDataByVhaId],
-  );
+  const vistaFacilityNames = useMemo(() => {
+    if (!ehrDataByVhaId) return [];
+    const vistaFacilities = facilities.filter(f => !f.isCerner);
+    return vistaFacilities
+      .map(f => {
+        const name = getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId);
+        if (!name) return null;
+        return { id: f.facilityId, content: name };
+      })
+      .filter(item => item); // Filter out null items
+  }, [facilities, ehrDataByVhaId]);
 
   // Create facility name arrays with cutover date suffixes for transitioned OH facilities
   // These will be used in CCD download sections to show records "before [date]" and "[date] - present"
-  const ohFacilities = useMemo(() => facilities.filter(f => f.isCerner), [
-    facilities,
-  ]);
+  const ohFacilities = useMemo(
+    () => facilities.filter(f => f.isCerner),
+    [facilities],
+  );
 
   const ohFacilityNamesBeforeCutover = useMemo(
     () =>
@@ -159,50 +157,41 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   );
 
   // Initial page setup effect
-  useEffect(
-    () => {
-      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('sei') === 'true') {
-        // Expand and focus the self-entered accordion if ?sei=true query param is present
-        setExpandSelfEntered(true);
-      } else {
-        // Focus h1 and set page title
-        focusElement(document.querySelector('h1'));
-      }
-      return () => {
-        dispatch({ type: Actions.Downloads.BB_CLEAR_ALERT });
-        dispatch({ type: Actions.Downloads.CCD_CLEAR_ALERT });
-      };
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('sei') === 'true') {
+      // Expand and focus the self-entered accordion if ?sei=true query param is present
+      setExpandSelfEntered(true);
+    } else {
+      // Focus h1 and set page title
+      focusElement(document.querySelector('h1'));
+    }
+    return () => {
+      dispatch({ type: Actions.Downloads.BB_CLEAR_ALERT });
+      dispatch({ type: Actions.Downloads.CCD_CLEAR_ALERT });
+    };
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (expandSelfEntered) {
-        setTimeout(() => {
-          const accordion = selfEnteredAccordionRef.current;
-          const heading = accordion?.shadowRoot?.querySelector('h3');
-          if (heading) {
-            focusElement(heading);
-          }
-        }, 400);
-      }
-    },
-    [expandSelfEntered],
-  );
+  useEffect(() => {
+    if (expandSelfEntered) {
+      setTimeout(() => {
+        const accordion = selfEnteredAccordionRef.current;
+        const heading = accordion?.shadowRoot?.querySelector('h3');
+        if (heading) {
+          focusElement(heading);
+        }
+      }, 400);
+    }
+  }, [expandSelfEntered]);
 
-  const lastSuccessfulUpdate = useMemo(
-    () => {
-      return getLastSuccessfulUpdate(refreshStatus, [
-        refreshExtractTypes.ALLERGY,
-        refreshExtractTypes.CHEM_HEM,
-        refreshExtractTypes.VPR,
-      ]);
-    },
-    [refreshStatus],
-  );
+  const lastSuccessfulUpdate = useMemo(() => {
+    return getLastSuccessfulUpdate(refreshStatus, [
+      refreshExtractTypes.ALLERGY,
+      refreshExtractTypes.CHEM_HEM,
+      refreshExtractTypes.VPR,
+    ]);
+  }, [refreshStatus]);
 
   const handleDownloadCCD = useCallback(
     (e, fileType) => {

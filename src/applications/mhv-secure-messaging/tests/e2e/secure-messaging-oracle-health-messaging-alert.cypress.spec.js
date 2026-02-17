@@ -33,8 +33,7 @@ describe('Secure Messaging - Oracle Health Messaging Alert', () => {
               value: false,
             },
             {
-              name:
-                'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
+              name: 'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
               value: false,
             },
           ],
@@ -56,8 +55,7 @@ describe('Secure Messaging - Oracle Health Messaging Alert', () => {
               value: true,
             },
             {
-              name:
-                'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
+              name: 'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
               value: false,
             },
           ],
@@ -79,8 +77,7 @@ describe('Secure Messaging - Oracle Health Messaging Alert', () => {
               value: false,
             },
             {
-              name:
-                'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
+              name: 'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
               value: true,
             },
           ],
@@ -102,8 +99,7 @@ describe('Secure Messaging - Oracle Health Messaging Alert', () => {
               value: true,
             },
             {
-              name:
-                'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
+              name: 'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
               value: true,
             },
           ],
@@ -354,8 +350,7 @@ describe('Secure Messaging - Oracle Health Messaging Alert', () => {
               value: true,
             },
             {
-              name:
-                'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
+              name: 'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
               value: true,
             },
           ],
@@ -406,8 +401,7 @@ describe('Secure Messaging - Oracle Health Messaging Alert', () => {
               value: true,
             },
             {
-              name:
-                'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
+              name: 'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
               value: true,
             },
           ],

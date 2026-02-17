@@ -57,19 +57,20 @@ class DownloadReportsPage {
     });
   };
 
-  clickCcdDownloadXmlFileButtonWithoutDownloadIntercept = ccdGenerateResponse => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/medical_records/ccd/generate',
-      ccdGenerateResponse,
-    ).as('ccdGenerateResponse');
-    // Use shadow DOM to access the anchor inside the va-link web component
-    cy.get('[data-testid="generateCcdButtonXmlVistA"]')
-      .shadow()
-      .find('a')
-      .click({ force: true });
-    cy.wait('@ccdGenerateResponse');
-  };
+  clickCcdDownloadXmlFileButtonWithoutDownloadIntercept =
+    ccdGenerateResponse => {
+      cy.intercept(
+        'GET',
+        '/my_health/v1/medical_records/ccd/generate',
+        ccdGenerateResponse,
+      ).as('ccdGenerateResponse');
+      // Use shadow DOM to access the anchor inside the va-link web component
+      cy.get('[data-testid="generateCcdButtonXmlVistA"]')
+        .shadow()
+        .find('a')
+        .click({ force: true });
+      cy.wait('@ccdGenerateResponse');
+    };
 
   verifyCcdDownloadStartedAlert = () => {
     cy.get('[data-testid="alert-download-started"]')

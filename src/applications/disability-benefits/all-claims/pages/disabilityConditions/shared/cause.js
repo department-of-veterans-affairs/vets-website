@@ -6,8 +6,7 @@ import {
 import { createNewConditionName } from './utils';
 
 export const causeOptions = {
-  NEW:
-    'An injury, exposure, event, or onset of disease during my military service',
+  NEW: 'An injury, exposure, event, or onset of disease during my military service',
   SECONDARY: 'A service-connected disability I already have',
   WORSENED:
     'An existing condition I had before my service that worsened because of my service',

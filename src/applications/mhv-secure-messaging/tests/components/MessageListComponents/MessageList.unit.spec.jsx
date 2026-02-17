@@ -396,31 +396,29 @@ describe('Message List component', () => {
 
     cleanup();
 
-    const {
-      container,
-      getAllByTestId: getFilteredMessages,
-    } = renderWithStoreAndRouter(
-      <MessageList
-        messages={fiveMessages}
-        folder={inbox}
-        keyword="test"
-        sortOrder={threadSortingOptions.SENT_DATE_DESCENDING.value}
-        page={2}
-      />,
-      {
-        path: Paths.INBOX,
-        initialState: {
-          sm: {
-            folders: { folder: inbox },
-            messages: [],
-            search: {
-              page: 2,
+    const { container, getAllByTestId: getFilteredMessages } =
+      renderWithStoreAndRouter(
+        <MessageList
+          messages={fiveMessages}
+          folder={inbox}
+          keyword="test"
+          sortOrder={threadSortingOptions.SENT_DATE_DESCENDING.value}
+          page={2}
+        />,
+        {
+          path: Paths.INBOX,
+          initialState: {
+            sm: {
+              folders: { folder: inbox },
+              messages: [],
+              search: {
+                page: 2,
+              },
             },
           },
+          reducers,
         },
-        reducers,
-      },
-    );
+      );
 
     await waitFor(() => {
       const messagesRendered = getFilteredMessages('message-list-item');

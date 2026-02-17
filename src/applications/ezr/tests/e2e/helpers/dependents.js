@@ -9,9 +9,7 @@ import {
 import { handleOptionalServiceHistoryPage } from './handleOptionalServiceHistoryPage';
 
 export const advanceToDependents = testData => {
-  cy.get('[href="#start"]')
-    .first()
-    .click();
+  cy.get('[href="#start"]').first().click();
   cy.location('pathname').should(
     'include',
     '/veteran-information/personal-information',

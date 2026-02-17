@@ -176,8 +176,8 @@ const formConfig = {
         ...arrayBuilderPages(
           additionalInstitutionDetailsArrayOptions,
           pageBuilder => ({
-            additionalInstitutionDetailsSummaryWithdrawal: pageBuilder.summaryPage(
-              {
+            additionalInstitutionDetailsSummaryWithdrawal:
+              pageBuilder.summaryPage({
                 path: 'additional-institution-details-withdrawal',
                 title: 'Additional institution details',
                 uiSchema:
@@ -185,8 +185,7 @@ const formConfig = {
                 schema: additionalInstitutionDetailsSummaryWithdrawal.schema,
                 depends: formData =>
                   formData?.agreementType === 'withdrawFromYellowRibbonProgram',
-              },
-            ),
+              }),
             additionalInstitutionDetailsItemWithdrawal: pageBuilder.itemPage({
               path: 'additional-institution-details-withdrawal/:index',
               title:
@@ -243,8 +242,7 @@ const formConfig = {
           }),
           foreignContributionLimitsAndDegreeLevel: pageBuilder.itemPage({
             title: 'Contribution limits and degree level',
-            path:
-              'yellow-ribbon-program-request/:index/contribution-limits-foreign',
+            path: 'yellow-ribbon-program-request/:index/contribution-limits-foreign',
             uiSchema: foreignContributionLimitsAndDegreeLevel.uiSchema,
             schema: foreignContributionLimitsAndDegreeLevel.schema,
             depends: formData => {

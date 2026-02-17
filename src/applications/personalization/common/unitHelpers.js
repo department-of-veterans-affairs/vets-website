@@ -13,7 +13,8 @@ export const getVaLinkByText = (text, view) => {
 export const reduceActions = arg1 => arg2 => {
   const actions = isFunction(arg1) ? arg2 : arg1;
   const reducer = actions === arg1 ? arg2 : arg1;
-  return actions.reduce((acc, cur, i) => [...acc, reducer(acc[i], cur)], [
-    reducer(undefined, { type: '@@empty' }),
-  ]);
+  return actions.reduce(
+    (acc, cur, i) => [...acc, reducer(acc[i], cur)],
+    [reducer(undefined, { type: '@@empty' })],
+  );
 };

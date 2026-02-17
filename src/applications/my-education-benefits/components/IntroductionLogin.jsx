@@ -60,34 +60,33 @@ export function IntroductionLogin({
           </div>
         </va-alert>
       )}
-      {!isLoggedIn &&
-        user?.login?.hasCheckedKeepAlive && (
-          <>
-            <va-alert-sign-in
-              variant="signInRequired"
-              time-limit="60 days"
-              visible
-              heading-level={2}
-            >
-              <span slot="SignInButton">
-                <va-button
-                  text="Sign in or create an account"
-                  onClick={openLoginModal}
-                />
-              </span>
-            </va-alert-sign-in>
-            <p className="vads-u-margin-top--4">
-              <>
-                If you don't want to sign in, you can{' '}
-                <a href="https://www.va.gov/find-forms/about-form-22-1990/">
-                  apply using the paper form
-                </a>
-                . Please expect longer processing time for decisions when opting
-                for this method.
-              </>
-            </p>
-          </>
-        )}
+      {!isLoggedIn && user?.login?.hasCheckedKeepAlive && (
+        <>
+          <va-alert-sign-in
+            variant="signInRequired"
+            time-limit="60 days"
+            visible
+            heading-level={2}
+          >
+            <span slot="SignInButton">
+              <va-button
+                text="Sign in or create an account"
+                onClick={openLoginModal}
+              />
+            </span>
+          </va-alert-sign-in>
+          <p className="vads-u-margin-top--4">
+            <>
+              If you don't want to sign in, you can{' '}
+              <a href="https://www.va.gov/find-forms/about-form-22-1990/">
+                apply using the paper form
+              </a>
+              . Please expect longer processing time for decisions when opting
+              for this method.
+            </>
+          </p>
+        </>
+      )}
       {isLoggedIn &&
         isPersonalInfoFetchFailed === false &&
         shouldShowMaintenanceAlert === false &&
@@ -104,9 +103,9 @@ export function IntroductionLogin({
             user={user}
           />
         )}
-      {apiCallsComplete &&
-        isLoggedIn &&
-        isLOA3 === false && <VerifyAlert headingLevel={2} />}
+      {apiCallsComplete && isLoggedIn && isLOA3 === false && (
+        <VerifyAlert headingLevel={2} />
+      )}
     </>
   );
 }
@@ -134,7 +133,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   showHideLoginModal: toggleLoginModal,
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionLogin);
+export default connect(mapStateToProps, mapDispatchToProps)(IntroductionLogin);

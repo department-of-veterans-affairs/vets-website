@@ -14,12 +14,8 @@ import {
 } from '../content/paymentInformation';
 import ConfirmationPaymentInformation from '../components/confirmationFields/ConfirmationPaymentInformation';
 
-const {
-  bankAccountType,
-  bankAccountNumber,
-  bankRoutingNumber,
-  bankName,
-} = fullSchema.properties;
+const { bankAccountType, bankAccountNumber, bankRoutingNumber, bankName } =
+  fullSchema.properties;
 
 export const uiSchema = {
   'ui:objectViewField': PaymentViewObjectField,

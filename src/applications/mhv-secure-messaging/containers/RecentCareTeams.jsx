@@ -42,96 +42,65 @@ const RecentCareTeams = () => {
     error: recipientsError,
   } = recipients;
   const h1Ref = useRef(null);
-  const {
-    mhvSecureMessagingRecentRecipients,
-    featureTogglesLoading,
-  } = useFeatureToggles();
+  const { mhvSecureMessagingRecentRecipients, featureTogglesLoading } =
+    useFeatureToggles();
 
-  useEffect(
-    () => {
-      if (recipientsError || noAssociations) {
-        history.push(Paths.INBOX);
-      }
-    },
-    [recipientsError, noAssociations, history],
-  );
+  useEffect(() => {
+    if (recipientsError || noAssociations) {
+      history.push(Paths.INBOX);
+    }
+  }, [recipientsError, noAssociations, history]);
 
-  useEffect(
-    () => {
-      if (!featureTogglesLoading && !mhvSecureMessagingRecentRecipients) {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
-      }
-    },
-    [featureTogglesLoading, history, mhvSecureMessagingRecentRecipients],
-  );
+  useEffect(() => {
+    if (!featureTogglesLoading && !mhvSecureMessagingRecentRecipients) {
+      history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
+    }
+  }, [featureTogglesLoading, history, mhvSecureMessagingRecentRecipients]);
 
-  useEffect(
-    () => {
-      if (!acceptInterstitial) history.push(`${Paths.COMPOSE}`);
-    },
-    [acceptInterstitial, history],
-  );
+  useEffect(() => {
+    if (!acceptInterstitial) history.push(`${Paths.COMPOSE}`);
+  }, [acceptInterstitial, history]);
 
-  useEffect(
-    () => {
-      if (allRecipients?.length > 0 && recentRecipients === undefined) {
-        dispatch(getRecentRecipients(6));
-      }
-    },
-    [allRecipients, dispatch, recentRecipients],
-  );
+  useEffect(() => {
+    if (allRecipients?.length > 0 && recentRecipients === undefined) {
+      dispatch(getRecentRecipients(6));
+    }
+  }, [allRecipients, dispatch, recentRecipients]);
 
-  useEffect(
-    () => {
-      if (recentRecipients?.length > 0) {
-        datadogRum.addAction('Recent Care Teams loaded', {
-          recentCareTeamsCount: recentRecipients.length,
-        });
-      }
-    },
-    [recentRecipients],
-  );
+  useEffect(() => {
+    if (recentRecipients?.length > 0) {
+      datadogRum.addAction('Recent Care Teams loaded', {
+        recentCareTeamsCount: recentRecipients.length,
+      });
+    }
+  }, [recentRecipients]);
 
-  useEffect(
-    () => {
-      // If recentRecipients is null (fetched but none present), redirect
-      if (
-        recentRecipients?.length === 0 ||
-        recentRecipients?.error === 'error' ||
-        recentRecipients === null
-      ) {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
-      }
-    },
-    [recentRecipients, history],
-  );
+  useEffect(() => {
+    // If recentRecipients is null (fetched but none present), redirect
+    if (
+      recentRecipients?.length === 0 ||
+      recentRecipients?.error === 'error' ||
+      recentRecipients === null
+    ) {
+      history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
+    }
+  }, [recentRecipients, history]);
 
-  useEffect(
-    () => {
-      if (h1Ref.current && recentRecipients !== undefined) {
-        h1Ref.current.focus();
-      }
-    },
-    [recentRecipients],
-  );
+  useEffect(() => {
+    if (h1Ref.current && recentRecipients !== undefined) {
+      h1Ref.current.focus();
+    }
+  }, [recentRecipients]);
 
-  useEffect(
-    () => {
-      document.title = `Recently Messaged Care Teams - Start Message${
-        Constants.PageTitles.DEFAULT_PAGE_TITLE_TAG
-      }`;
-    },
-    [recentRecipients],
-  );
+  useEffect(() => {
+    document.title = `Recently Messaged Care Teams - Start Message${Constants.PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+  }, [recentRecipients]);
 
-  useEffect(
-    () => {
-      if (error) {
-        scrollToFirstError();
-      }
-    },
-    [error],
-  );
+  useEffect(() => {
+    if (error) {
+      scrollToFirstError();
+    }
+  }, [error]);
 
   const getDestinationPath = useCallback(
     (includeRootUrl = false) => {

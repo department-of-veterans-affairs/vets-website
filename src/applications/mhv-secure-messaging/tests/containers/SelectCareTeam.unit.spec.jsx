@@ -316,9 +316,7 @@ describe('SelectCareTeam', () => {
       fireEvent.click(continueButton);
 
       expect(screen.history.location.pathname).to.equal(
-        `${Paths.MESSAGE_THREAD}${
-          customState.sm.threadDetails.draftInProgress.messageId
-        }`,
+        `${Paths.MESSAGE_THREAD}${customState.sm.threadDetails.draftInProgress.messageId}`,
       );
     });
   });
@@ -1375,7 +1373,7 @@ describe('SelectCareTeam', () => {
               ehrDataByVhaId: {
                 ...initialState.drupalStaticData.vamcEhrData.data
                   .ehrDataByVhaId,
-                '553': {
+                553: {
                   vhaId: '553',
                   vamcSystemName: 'VA Detroit Healthcare System',
                   ehr: 'vista',
@@ -1512,12 +1510,12 @@ describe('SelectCareTeam', () => {
               ehrDataByVhaId: {
                 ...initialState.drupalStaticData.vamcEhrData.data
                   .ehrDataByVhaId,
-                '553': {
+                553: {
                   vhaId: '553',
                   vamcSystemName: 'VA Detroit Healthcare System',
                   ehr: 'vista',
                 },
-                '648': {
+                648: {
                   vhaId: '648',
                   vamcSystemName: 'VA Portland Healthcare System',
                   ehr: 'vista',
@@ -1570,17 +1568,17 @@ describe('SelectCareTeam', () => {
           vamcEhrData: {
             data: {
               ehrDataByVhaId: {
-                '662': {
+                662: {
                   vhaId: '662',
                   vamcSystemName: 'Test Facility 1',
                   ehr: 'vista',
                 },
-                '636': {
+                636: {
                   vhaId: '636',
                   vamcSystemName: 'Test Facility 2',
                   ehr: 'vista',
                 },
-                '587': {
+                587: {
                   vhaId: '587',
                   vamcSystemName: 'Blocked Facility',
                   ehr: 'vista',

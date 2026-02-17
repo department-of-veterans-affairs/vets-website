@@ -6,10 +6,8 @@ import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 describe('22-10272 Your Personal Information Step 2 - Page 2', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.personalInformationChapter.pages.payeeNumber;
+  const { schema, uiSchema } =
+    formConfig.chapters.personalInformationChapter.pages.payeeNumber;
 
   it('should render with a text input field', () => {
     const { container } = render(

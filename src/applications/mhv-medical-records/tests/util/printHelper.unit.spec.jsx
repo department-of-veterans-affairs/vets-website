@@ -77,8 +77,7 @@ describe('printHelper', () => {
         headerRight: 'Date of birth: January 1, 1980',
         headerBanner: [
           {
-            text:
-              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
+            text: 'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
           },
           {
             text: '988',

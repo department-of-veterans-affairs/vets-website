@@ -48,8 +48,8 @@ export default function transform(formConfig, form) {
     const clonedData = cloneDeep(formData);
     let yearRange;
 
-    clonedData.yellowRibbonProgramAgreementRequest = formData.yellowRibbonProgramRequest.map(
-      (request, idx) => {
+    clonedData.yellowRibbonProgramAgreementRequest =
+      formData.yellowRibbonProgramRequest.map((request, idx) => {
         if (idx === 0) {
           yearRange = request.academicYearDisplay
             ? request.academicYearDisplay.split('-')
@@ -90,8 +90,7 @@ export default function transform(formConfig, form) {
         delete request.collegeOrProfessionalSchool;
 
         return request;
-      },
-    );
+      });
 
     delete clonedData.yellowRibbonProgramRequest;
 

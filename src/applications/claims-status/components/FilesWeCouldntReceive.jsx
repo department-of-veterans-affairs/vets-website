@@ -27,20 +27,19 @@ const FilesWeCouldntReceive = () => {
 
   const dispatch = useDispatch();
 
-  const { data: failedFiles, loading, error } = useSelector(
-    state => state.disability.status.failedUploads,
-  );
+  const {
+    data: failedFiles,
+    loading,
+    error,
+  } = useSelector(state => state.disability.status.failedUploads);
 
   // Sort failed files by date (most recent first)
-  const sortedFailedFiles = useMemo(
-    () => {
-      if (!failedFiles) return [];
-      return [...failedFiles].sort((a, b) => {
-        return new Date(b.failedDate) - new Date(a.failedDate);
-      });
-    },
-    [failedFiles],
-  );
+  const sortedFailedFiles = useMemo(() => {
+    if (!failedFiles) return [];
+    return [...failedFiles].sort((a, b) => {
+      return new Date(b.failedDate) - new Date(a.failedDate);
+    });
+  }, [failedFiles]);
 
   const {
     currentPage,
@@ -59,24 +58,18 @@ const FilesWeCouldntReceive = () => {
     setDocumentTitle("Files we couldn't receive");
   }, []);
 
-  useEffect(
-    () => {
-      // Only fetch failed uploads if feature flag is enabled
-      if (isFailedUploadsEnabled) {
-        dispatch(fetchFailedUploads());
-      }
-    },
-    [dispatch, isFailedUploadsEnabled],
-  );
+  useEffect(() => {
+    // Only fetch failed uploads if feature flag is enabled
+    if (isFailedUploadsEnabled) {
+      dispatch(fetchFailedUploads());
+    }
+  }, [dispatch, isFailedUploadsEnabled]);
 
-  useEffect(
-    () => {
-      if (!loading) {
-        setPageFocus('h1');
-      }
-    },
-    [loading],
-  );
+  useEffect(() => {
+    if (!loading) {
+      setPageFocus('h1');
+    }
+  }, [loading]);
 
   // Redirect to claims list if feature flag is disabled
   if (!isFailedUploadsEnabled) {
@@ -153,9 +146,8 @@ const FilesWeCouldntReceive = () => {
                 role="list"
               >
                 {currentPageItems.map(file => {
-                  const requestType = getTrackedItemDisplayNameFromEvidenceSubmission(
-                    file,
-                  );
+                  const requestType =
+                    getTrackedItemDisplayNameFromEvidenceSubmission(file);
 
                   const requestTypeText = requestType
                     ? `Submitted in response to request: ${requestType}`
@@ -164,9 +156,7 @@ const FilesWeCouldntReceive = () => {
                   const link = {
                     href: `/track-claims/your-claims/${file.claimId}/status`,
                     text: 'Go to the claim associated with this file',
-                    label: `Go to the claim associated with this file: ${
-                      file.fileName
-                    }`,
+                    label: `Go to the claim associated with this file: ${file.fileName}`,
                   };
 
                   return (

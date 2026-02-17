@@ -64,10 +64,7 @@ describe('ProgramsList component', () => {
     const wrapper = mountComponent();
     const firstRender = wrapper.find('VaTextInput').exists();
     expect(firstRender).to.be.true;
-    wrapper
-      .find('VaButton.reset-search')
-      .getDOMNode()
-      .click();
+    wrapper.find('VaButton.reset-search').getDOMNode().click();
     wrapper.update();
     const secondRender = wrapper.find('VaTextInput').exists();
     expect(secondRender).to.be.true;
@@ -79,8 +76,8 @@ describe('ProgramsList component', () => {
     const itemsPerPage = 20;
 
     // Calculate the expected number of pages
-    const totalItems = store.getState().institutionPrograms.institutionPrograms
-      .length;
+    const totalItems =
+      store.getState().institutionPrograms.institutionPrograms.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     // Check if VaPagination is receiving the correct number of pages as a prop
@@ -159,11 +156,7 @@ describe('ProgramsList component', () => {
     wrapper.update();
 
     // Simulate form submission with native click
-    wrapper
-      .find('VaButton')
-      .at(0)
-      .getDOMNode()
-      .click();
+    wrapper.find('VaButton').at(0).getDOMNode().click();
     wrapper.update();
 
     // Filter the mock programs to find the ones that match the search query
@@ -230,10 +223,7 @@ describe('ProgramsList component', () => {
   });
   it('displays an error when the search input is empty and submitted', () => {
     const wrapper = mountComponent();
-    wrapper
-      .find('VaButton.search-btn')
-      .getDOMNode()
-      .click();
+    wrapper.find('VaButton.search-btn').getDOMNode().click();
     wrapper.update();
     const errorMessage = wrapper.find('VaTextInput').prop('error');
     expect(errorMessage).to.equal(
@@ -297,13 +287,7 @@ describe('ProgramsList component', () => {
 
     // Check  program type is displayed
     expect(wrapper.find('h1').exists()).to.be.true;
-    expect(
-      wrapper
-        .find('h1')
-        .at(0)
-        .text()
-        .toUpperCase(),
-    ).to.include('NCD');
+    expect(wrapper.find('h1').at(0).text().toUpperCase()).to.include('NCD');
 
     wrapper.unmount();
   });
@@ -345,10 +329,7 @@ describe('ProgramsList component', () => {
     textInputNode.dispatchEvent(new Event('input', { bubbles: true }));
     wrapper.update();
 
-    wrapper
-      .find('VaButton.search-btn')
-      .getDOMNode()
-      .click();
+    wrapper.find('VaButton.search-btn').getDOMNode().click();
     wrapper.update();
 
     setTimeout(() => {

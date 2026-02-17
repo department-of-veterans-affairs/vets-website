@@ -54,20 +54,21 @@ const getBodyText = ({ hasBusiness, hasFarm, hasTrust }) => {
  * @returns {JSX.Element[]} Array of rendered link elements.
  */
 const renderFormLinks = types => {
-  return types.filter(type => formLinks[type]).map(type => {
-    const { text, href } = formLinks[type];
-    return (
-      <p key={type}>
-        <va-link external text={text} href={href} />
-      </p>
-    );
-  });
+  return types
+    .filter(type => formLinks[type])
+    .map(type => {
+      const { text, href } = formLinks[type];
+      return (
+        <p key={type}>
+          <va-link external text={text} href={href} />
+        </p>
+      );
+    });
 };
 
 const SupplementaryFormsSection = ({ formData }) => {
-  const { alertAssets, hasFarm, hasBusiness } = getIncompleteOwnedAssets(
-    formData,
-  );
+  const { alertAssets, hasFarm, hasBusiness } =
+    getIncompleteOwnedAssets(formData);
   const hasTrust = hasIncompleteTrust(formData?.trusts);
 
   if (alertAssets.length === 0 && !hasTrust) return null;

@@ -123,12 +123,8 @@ describe('<FilesWeCouldntReceive>', () => {
   describe('Empty State', () => {
     it('should render empty state when no failed files exist (empty array)', () => {
       const store = createMockStore([]); // Empty array of failed files
-      const {
-        getByText,
-        getByTestId,
-        queryByText,
-        queryByTestId,
-      } = renderWithCustomStore(<FilesWeCouldntReceive />, store);
+      const { getByText, getByTestId, queryByText, queryByTestId } =
+        renderWithCustomStore(<FilesWeCouldntReceive />, store);
 
       expect(getByText('Files not received')).to.exist;
       expect(getByText('We\u2019ve received all files you submitted online.'))
@@ -144,12 +140,8 @@ describe('<FilesWeCouldntReceive>', () => {
 
     it('should render empty state when failed files is null', () => {
       const store = createMockStore(null); // null failed files
-      const {
-        getByText,
-        getByTestId,
-        queryByText,
-        queryByTestId,
-      } = renderWithCustomStore(<FilesWeCouldntReceive />, store);
+      const { getByText, getByTestId, queryByText, queryByTestId } =
+        renderWithCustomStore(<FilesWeCouldntReceive />, store);
 
       expect(getByText('Files not received')).to.exist;
       expect(getByText('We\u2019ve received all files you submitted online.'))
@@ -267,9 +259,7 @@ describe('<FilesWeCouldntReceive>', () => {
       ];
 
       vaLinks.forEach((link, index) => {
-        const expectedLabel = `Go to the claim associated with this file: ${
-          expectedFileOrder[index]
-        }`;
+        const expectedLabel = `Go to the claim associated with this file: ${expectedFileOrder[index]}`;
         expect(link).to.have.attribute('label', expectedLabel);
       });
     });
@@ -349,12 +339,8 @@ describe('<FilesWeCouldntReceive>', () => {
     it('should render error alert and hide all normal page content when API fails', () => {
       // Create store with API error: no data, feature flag enabled, error state
       const store = createMockStore(null, true, true);
-      const {
-        getByRole,
-        getByText,
-        queryByText,
-        container,
-      } = renderWithCustomStore(<FilesWeCouldntReceive />, store);
+      const { getByRole, getByText, queryByText, container } =
+        renderWithCustomStore(<FilesWeCouldntReceive />, store);
 
       // Verify error heading and alert are displayed
       expect(

@@ -77,9 +77,7 @@ export const getMeasurement = (record, type) => {
   ) {
     const feet = Math.floor(record.valueQuantity?.value / 12);
     const inches = record.valueQuantity?.value % 12;
-    return `${feet}${vitalUnitDisplayText.HEIGHT_FT}, ${inches}${
-      vitalUnitDisplayText.HEIGHT_IN
-    }`;
+    return `${feet}${vitalUnitDisplayText.HEIGHT_FT}, ${inches}${vitalUnitDisplayText.HEIGHT_IN}`;
   }
 
   if (record.valueQuantity) {

@@ -5,10 +5,8 @@ import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 describe('Summary of Evidence', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.supportingEvidence.pages.summaryOfEvidence;
+  const { schema, uiSchema } =
+    formConfig.chapters.supportingEvidence.pages.summaryOfEvidence;
 
   const vaTreatmentFacilities = [
     { treatmentCenterName: 'Sommerset' },
@@ -202,18 +200,12 @@ describe('Summary of Evidence', () => {
 
     const list = form.find('li');
     expect(list.length).to.equal(2);
-    expect(
-      list
-        .at(0)
-        .render()
-        .text(),
-    ).to.contain(privateMedicalRecordAttachments[0].name);
-    expect(
-      list
-        .at(1)
-        .render()
-        .text(),
-    ).to.contain(privateMedicalRecordAttachments[1].name);
+    expect(list.at(0).render().text()).to.contain(
+      privateMedicalRecordAttachments[0].name,
+    );
+    expect(list.at(1).render().text()).to.contain(
+      privateMedicalRecordAttachments[1].name,
+    );
     form.unmount();
   });
 
@@ -281,18 +273,8 @@ describe('Summary of Evidence', () => {
 
     const list = form.find('li');
     expect(list.length).to.equal(2);
-    expect(
-      list
-        .at(0)
-        .render()
-        .text(),
-    ).to.contain(additionalDocuments[0].name);
-    expect(
-      list
-        .at(1)
-        .render()
-        .text(),
-    ).to.contain(additionalDocuments[1].name);
+    expect(list.at(0).render().text()).to.contain(additionalDocuments[0].name);
+    expect(list.at(1).render().text()).to.contain(additionalDocuments[1].name);
     form.unmount();
   });
   it('should render service treatment records list when service treatment records submitted', () => {
@@ -313,18 +295,12 @@ describe('Summary of Evidence', () => {
 
     const list = form.find('li');
     expect(list.length).to.equal(2);
-    expect(
-      list
-        .at(0)
-        .render()
-        .text(),
-    ).to.contain(serviceTreatmentRecordsAttachments[0].name);
-    expect(
-      list
-        .at(1)
-        .render()
-        .text(),
-    ).to.contain(serviceTreatmentRecordsAttachments[1].name);
+    expect(list.at(0).render().text()).to.contain(
+      serviceTreatmentRecordsAttachments[0].name,
+    );
+    expect(list.at(1).render().text()).to.contain(
+      serviceTreatmentRecordsAttachments[1].name,
+    );
     form.unmount();
   });
   it('should render with updated title when the enhancment feature is on', () => {
@@ -441,18 +417,12 @@ describe('Summary of Evidence', () => {
 
     const list = form.find('li');
     expect(list.length).to.equal(2);
-    expect(
-      list
-        .at(0)
-        .render()
-        .text(),
-    ).to.contain(privateMedicalRecordAttachments[0].name);
-    expect(
-      list
-        .at(1)
-        .render()
-        .text(),
-    ).to.contain(privateMedicalRecordAttachments[1].name);
+    expect(list.at(0).render().text()).to.contain(
+      privateMedicalRecordAttachments[0].name,
+    );
+    expect(list.at(1).render().text()).to.contain(
+      privateMedicalRecordAttachments[1].name,
+    );
     expect(form.render().text()).to.contain(
       'We’ll submit these private medical records you uploaded:',
     );
@@ -500,18 +470,8 @@ describe('Summary of Evidence', () => {
 
     const list = form.find('li');
     expect(list.length).to.equal(2);
-    expect(
-      list
-        .at(0)
-        .render()
-        .text(),
-    ).to.contain(additionalDocuments[0].name);
-    expect(
-      list
-        .at(1)
-        .render()
-        .text(),
-    ).to.contain(additionalDocuments[1].name);
+    expect(list.at(0).render().text()).to.contain(additionalDocuments[0].name);
+    expect(list.at(1).render().text()).to.contain(additionalDocuments[1].name);
     expect(form.render().text()).to.contain(
       'We’ll submit these documents you uploaded as evidence supporting your claim:',
     );
@@ -536,18 +496,12 @@ describe('Summary of Evidence', () => {
 
     const list = form.find('li');
     expect(list.length).to.equal(2);
-    expect(
-      list
-        .at(0)
-        .render()
-        .text(),
-    ).to.contain(serviceTreatmentRecordsAttachments[0].name);
-    expect(
-      list
-        .at(1)
-        .render()
-        .text(),
-    ).to.contain(serviceTreatmentRecordsAttachments[1].name);
+    expect(list.at(0).render().text()).to.contain(
+      serviceTreatmentRecordsAttachments[0].name,
+    );
+    expect(list.at(1).render().text()).to.contain(
+      serviceTreatmentRecordsAttachments[1].name,
+    );
     expect(form.render().text()).to.contain(
       'We’ll submit these service treatment records you uploaded:',
     );

@@ -346,36 +346,36 @@ export const learnMoreAboutCertsLink = () => {
 };
 
 // FileField helper functions
-export const createOpenRemoveModal = (
-  setRemoveIndex,
-  setShowRemoveModal,
-) => index => {
-  setRemoveIndex(index);
-  setShowRemoveModal(true);
-};
+export const createOpenRemoveModal =
+  (setRemoveIndex, setShowRemoveModal) => index => {
+    setRemoveIndex(index);
+    setShowRemoveModal(true);
+  };
 
-export const createCloseRemoveModal = (
-  removeIndex,
-  setRemoveIndex,
-  setShowRemoveModal,
-  removeFile,
-  getFileListId,
-) => ({ remove = false } = {}) => {
-  const idx = removeIndex;
-  setRemoveIndex(null);
-  setShowRemoveModal(false);
-  if (remove) {
-    removeFile(idx);
-  } else {
-    setTimeout(() => {
-      focusElement(
-        'button, .delete-upload',
-        {},
-        $(`#${getFileListId(idx)} .delete-upload`)?.shadowRoot,
-      );
-    });
-  }
-};
+export const createCloseRemoveModal =
+  (
+    removeIndex,
+    setRemoveIndex,
+    setShowRemoveModal,
+    removeFile,
+    getFileListId,
+  ) =>
+  ({ remove = false } = {}) => {
+    const idx = removeIndex;
+    setRemoveIndex(null);
+    setShowRemoveModal(false);
+    if (remove) {
+      removeFile(idx);
+    } else {
+      setTimeout(() => {
+        focusElement(
+          'button, .delete-upload',
+          {},
+          $(`#${getFileListId(idx)} .delete-upload`)?.shadowRoot,
+        );
+      });
+    }
+  };
 
 export const createCancelUpload = (uploadRequest, removeFile) => index => {
   if (uploadRequest) {
@@ -418,8 +418,9 @@ export const formatSuggestedAddress = address => {
     if (state) displayAddress += `, ${state}`;
     if (zip) displayAddress += ` ${zip}`;
     if (country && country !== 'USA')
-      displayAddress += `, ${countries.find(c => c.value === country).label ||
-        country}`;
+      displayAddress += `, ${
+        countries.find(c => c.value === country).label || country
+      }`;
 
     return displayAddress.trim();
   }

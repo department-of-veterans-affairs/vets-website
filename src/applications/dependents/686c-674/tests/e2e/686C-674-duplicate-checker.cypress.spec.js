@@ -35,9 +35,7 @@ const testConfig = createTestConfig(
             .should('contain', 'more than once');
           cy.injectAxeThenAxeCheck();
 
-          cy.get(`va-link[label="Edit Penny Foster"]`)
-            .first()
-            .click();
+          cy.get(`va-link[label="Edit Penny Foster"]`).first().click();
 
           cy.fillVaTextInput('root_fullName_first', 'Mary');
           cy.get('va-button[continue]').click();

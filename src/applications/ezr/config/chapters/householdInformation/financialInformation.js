@@ -74,8 +74,7 @@ const FinancialInformationPages = arrayBuilderPages(options, pageBuilder => ({
   veteranAnnualIncome: pageBuilder.itemPage({
     title:
       content['household-financial-information-veteran-annual-income-title'],
-    path:
-      'household-information/financial-information/:index/veteran-annual-income',
+    path: 'household-information/financial-information/:index/veteran-annual-income',
     depends: includeHouseholdInformationWithV2Prefill,
     uiSchema: annualIncomePageSchemas.uiSchema,
     schema: annualIncomePageSchemas.schema,
@@ -83,16 +82,14 @@ const FinancialInformationPages = arrayBuilderPages(options, pageBuilder => ({
   spouseAnnualIncome: pageBuilder.itemPage({
     title:
       content['household-financial-information-spouse-annual-income-title'],
-    path:
-      'household-information/financial-information/:index/spouse-annual-income',
+    path: 'household-information/financial-information/:index/spouse-annual-income',
     depends: includeSpousalInformationWithV2Prefill,
     uiSchema: spouseAnnualIncomePageSchemas.uiSchema,
     schema: spouseAnnualIncomePageSchemas.schema,
   }),
   veteranDeductible: pageBuilder.itemPage({
     title: content['household-financial-information-deductible-expenses-title'],
-    path:
-      'household-information/financial-information/:index/deductible-expenses',
+    path: 'household-information/financial-information/:index/deductible-expenses',
     depends: includeHouseholdInformationWithV2Prefill,
     uiSchema: deductiblePageSchemas.uiSchema,
     schema: deductiblePageSchemas.schema,

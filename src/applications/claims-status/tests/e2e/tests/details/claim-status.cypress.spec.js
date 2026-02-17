@@ -176,12 +176,8 @@ describe('Claim status', () => {
             cy.get('va-alert[status="error"]').within(() => {
               cy.findAllByRole('listitem').as('listItems');
               cy.get('@listItems').should('have.length', 2);
-              cy.get('@listItems')
-                .eq(0)
-                .findByText('newer-file.pdf');
-              cy.get('@listItems')
-                .eq(1)
-                .findByText('older-file.pdf');
+              cy.get('@listItems').eq(0).findByText('newer-file.pdf');
+              cy.get('@listItems').eq(1).findByText('older-file.pdf');
             });
 
             cy.axeCheck();
@@ -415,9 +411,7 @@ describe('Claim status', () => {
         });
 
         cy.findByRole('heading', { name: 'Recent activity', level: 3 });
-        cy.get('va-pagination')
-          .shadow()
-          .findByText('Next');
+        cy.get('va-pagination').shadow().findByText('Next');
 
         cy.axeCheck();
       });

@@ -76,9 +76,10 @@ describe('Burials Form', () => {
       expect(result.container.textContent).to.eq('Veteran’s DD214');
     });
     it('should depend correctly for upload DD214', () => {
-      const result = formConfig.chapters.militaryHistory.pages.uploadDD214.depends(
-        { 'view:separationDocuments': true },
-      );
+      const result =
+        formConfig.chapters.militaryHistory.pages.uploadDD214.depends({
+          'view:separationDocuments': true,
+        });
       expect(result).to.eq(true);
     });
 
@@ -89,9 +90,10 @@ describe('Burials Form', () => {
       expect(result.container.textContent).to.eq('Service periods');
     });
     it('should depend correctly for service periods', () => {
-      const result = formConfig.chapters.militaryHistory.pages.servicePeriods.depends(
-        { 'view:separationDocuments': true },
-      );
+      const result =
+        formConfig.chapters.militaryHistory.pages.servicePeriods.depends({
+          'view:separationDocuments': true,
+        });
       expect(result).to.eq(false);
     });
 
@@ -103,9 +105,10 @@ describe('Burials Form', () => {
     });
 
     it('should depend correctly for previous names', () => {
-      const result = formConfig.chapters.militaryHistory.pages.previousNames.depends(
-        { 'view:servedUnderOtherNames': true },
-      );
+      const result =
+        formConfig.chapters.militaryHistory.pages.previousNames.depends({
+          'view:servedUnderOtherNames': true,
+        });
       expect(result).to.eq(true);
     });
   });
@@ -124,46 +127,50 @@ describe('Burials Form', () => {
       expect(result.container.textContent).to.eq('Burial allowance');
     });
     it('should depend correctly for burial allowance part one', () => {
-      const result = formConfig.chapters.benefitsSelection.pages.burialAllowancePartOne.depends(
-        { 'view:claimedBenefits': { burialAllowance: true } },
-      );
+      const result =
+        formConfig.chapters.benefitsSelection.pages.burialAllowancePartOne.depends(
+          { 'view:claimedBenefits': { burialAllowance: true } },
+        );
       expect(result).to.eq(true);
     });
 
     it('should hide state of true when burial allowance not selected', () => {
-      const result = formConfig.chapters.benefitsSelection.pages.burialAllowanceConfirmation.depends(
-        {
-          relationshipToVeteran: 'spouse',
-          'view:claimedBenefits': {
-            plotAllowance: true,
+      const result =
+        formConfig.chapters.benefitsSelection.pages.burialAllowanceConfirmation.depends(
+          {
+            relationshipToVeteran: 'spouse',
+            'view:claimedBenefits': {
+              plotAllowance: true,
+            },
+            burialAllowanceRequested: {
+              unclaimed: true,
+            },
           },
-          burialAllowanceRequested: {
-            unclaimed: true,
-          },
-        },
-      );
+        );
       expect(result).to.eq(undefined);
     });
 
     it('should show state of true when burial allowance not selected', () => {
-      const result = formConfig.chapters.benefitsSelection.pages.burialAllowanceConfirmation.depends(
-        {
-          relationshipToVeteran: 'funeralDirector',
-          'view:claimedBenefits': {
-            burialAllowance: true,
+      const result =
+        formConfig.chapters.benefitsSelection.pages.burialAllowanceConfirmation.depends(
+          {
+            relationshipToVeteran: 'funeralDirector',
+            'view:claimedBenefits': {
+              burialAllowance: true,
+            },
+            burialAllowanceRequested: {
+              unclaimed: true,
+            },
           },
-          burialAllowanceRequested: {
-            unclaimed: true,
-          },
-        },
-      );
+        );
       expect(result).to.eq(true);
     });
 
     it('should depend correctly for burial allowance part two', () => {
-      const result = formConfig.chapters.benefitsSelection.pages.burialAllowancePartTwo.depends(
-        { 'view:claimedBenefits': { burialAllowance: true } },
-      );
+      const result =
+        formConfig.chapters.benefitsSelection.pages.burialAllowancePartTwo.depends(
+          { 'view:claimedBenefits': { burialAllowance: true } },
+        );
       expect(result).to.eq(true);
     });
 
@@ -175,9 +182,10 @@ describe('Burials Form', () => {
     });
 
     it('should depend correctly for final resting place', () => {
-      const result = formConfig.chapters.benefitsSelection.pages.finalRestingPlace.depends(
-        { 'view:claimedBenefits': { plotAllowance: true } },
-      );
+      const result =
+        formConfig.chapters.benefitsSelection.pages.finalRestingPlace.depends({
+          'view:claimedBenefits': { plotAllowance: true },
+        });
       expect(result).to.eq(true);
     });
 
@@ -189,36 +197,36 @@ describe('Burials Form', () => {
     });
 
     it('should depend correctly for national or federal cemetery', () => {
-      const result = formConfig.chapters.benefitsSelection.pages.nationalOrFederalCemetery.depends(
-        { 'view:claimedBenefits': { plotAllowance: true } },
-      );
+      const result =
+        formConfig.chapters.benefitsSelection.pages.nationalOrFederalCemetery.depends(
+          { 'view:claimedBenefits': { plotAllowance: true } },
+        );
       expect(result).to.eq(true);
     });
 
     it('should depend correctly for cemetery location question', () => {
-      const result = formConfig.chapters.benefitsSelection.pages.cemeteryLocationQuestion.depends(
-        { 'view:claimedBenefits': { plotAllowance: true } },
-      );
+      const result =
+        formConfig.chapters.benefitsSelection.pages.cemeteryLocationQuestion.depends(
+          { 'view:claimedBenefits': { plotAllowance: true } },
+        );
       expect(result).to.eq(true);
     });
 
     it('should depend correctly for cemetery location', () => {
-      const result = formConfig.chapters.benefitsSelection.pages.cemeteryLocation.depends(
-        {
+      const result =
+        formConfig.chapters.benefitsSelection.pages.cemeteryLocation.depends({
           'view:claimedBenefits': { plotAllowance: true },
           cemetaryLocationQuestion: 'cemetery',
-        },
-      );
+        });
       expect(result).to.eq(true);
     });
 
     it('should depend correctly for tribal land location', () => {
-      const result = formConfig.chapters.benefitsSelection.pages.tribalLandLocation.depends(
-        {
+      const result =
+        formConfig.chapters.benefitsSelection.pages.tribalLandLocation.depends({
           'view:claimedBenefits': { plotAllowance: true },
           cemetaryLocationQuestion: 'tribalLand',
-        },
-      );
+        });
       expect(result).to.eq(true);
     });
 
@@ -230,16 +238,18 @@ describe('Burials Form', () => {
     });
 
     it('should depend correctly for plot allowance part one', () => {
-      const result = formConfig.chapters.benefitsSelection.pages.plotAllowancePartOne.depends(
-        { 'view:claimedBenefits': { plotAllowance: true } },
-      );
+      const result =
+        formConfig.chapters.benefitsSelection.pages.plotAllowancePartOne.depends(
+          { 'view:claimedBenefits': { plotAllowance: true } },
+        );
       expect(result).to.eq(true);
     });
 
     it('should depend correctly for plot allowance part two', () => {
-      const result = formConfig.chapters.benefitsSelection.pages.plotAllowancePartTwo.depends(
-        { 'view:claimedBenefits': { plotAllowance: true } },
-      );
+      const result =
+        formConfig.chapters.benefitsSelection.pages.plotAllowancePartTwo.depends(
+          { 'view:claimedBenefits': { plotAllowance: true } },
+        );
       expect(result).to.eq(true);
     });
 
@@ -251,9 +261,10 @@ describe('Burials Form', () => {
     });
 
     it('should depend correctly for transportation expenses', () => {
-      const result = formConfig.chapters.benefitsSelection.pages.transportationExpenses.depends(
-        { 'view:claimedBenefits': { transportation: true } },
-      );
+      const result =
+        formConfig.chapters.benefitsSelection.pages.transportationExpenses.depends(
+          { 'view:claimedBenefits': { transportation: true } },
+        );
       expect(result).to.eq(true);
     });
   });
@@ -274,9 +285,10 @@ describe('Burials Form', () => {
     });
 
     it('should depend correctly for transportation receipts', () => {
-      const result = formConfig.chapters.additionalInformation.pages.transportationReceipts.depends(
-        { transportationExpenses: true },
-      );
+      const result =
+        formConfig.chapters.additionalInformation.pages.transportationReceipts.depends(
+          { transportationExpenses: true },
+        );
       expect(result).to.eq(true);
     });
 

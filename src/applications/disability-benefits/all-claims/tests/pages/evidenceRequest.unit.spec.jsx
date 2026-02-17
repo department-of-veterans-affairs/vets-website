@@ -15,10 +15,8 @@ import {
 } from '../../pages/evidenceRequest';
 
 describe('evidenceRequest', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.supportingEvidence.pages.evidenceRequest;
+  const { schema, uiSchema } =
+    formConfig.chapters.supportingEvidence.pages.evidenceRequest;
 
   describe('page module (evidenceRequest.js)', () => {
     it('schema requires view:hasMedicalRecords', () => {

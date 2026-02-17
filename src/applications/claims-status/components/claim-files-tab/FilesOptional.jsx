@@ -37,8 +37,9 @@ function FilesOptional({ item }) {
       </p>
       <div className="call-to-action">
         <Link
-          aria-label={`About this notice for ${item.friendlyName ||
-            item.displayName}`}
+          aria-label={`About this notice for ${
+            item.friendlyName || item.displayName
+          }`}
           className="add-your-claims-link"
           to={`../needed-from-others/${item.id}`}
         >

@@ -8,10 +8,8 @@ import formConfig from '../../config/form';
 describe('22-10272 Licensing and Certification Details Step 3 - Page 2', () => {
   afterEach(cleanup);
 
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.licensingAndCertificationChapter.pages.organizationInfo;
+  const { schema, uiSchema } =
+    formConfig.chapters.licensingAndCertificationChapter.pages.organizationInfo;
 
   const renderPage = (
     formData = {

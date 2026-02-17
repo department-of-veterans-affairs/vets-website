@@ -90,9 +90,7 @@ const DebtDetails = () => {
             label: 'Overpayment balances',
           },
           {
-            href: `/manage-va-debt/summary/debt-balances/${
-              selectedDebt.compositeDebtId
-            }`,
+            href: `/manage-va-debt/summary/debt-balances/${selectedDebt.compositeDebtId}`,
             label: `${title}`,
           },
         ]}

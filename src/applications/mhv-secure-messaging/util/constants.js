@@ -78,15 +78,13 @@ export const ErrorMessages = {
     },
     UNABLE_TO_SAVE: {
       title: "We can't save this message yet",
-      p1:
-        "We need more information from you before we can save this draft. You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
+      p1: "We need more information from you before we can save this draft. You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
       cancelButtonText: 'Edit draft', // top button - close modal and remain on page
       confirmButtonText: 'Delete draft', // bottom button - delete draft and leave page
     },
     UNABLE_TO_SAVE_DRAFT_ATTACHMENT: {
       title: "We can't save attachments in a draft message",
-      p1:
-        "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
+      p1: "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
       cancelButtonText: 'Edit draft', // top button - close modal and remain on page
       confirmButtonText: 'Save draft without attachments', // bottom button - save draft and leave page
     },
@@ -168,8 +166,7 @@ export const Alerts = {
       MAIN: 'The last message in this conversation is more than 45 days old.',
       VISTA:
         "If you want to continue this conversation, you'll need to start a new message.",
-      OH:
-        'If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.',
+      OH: 'If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.',
       OH_CONTACT:
         'Or you can send a message to other care teams in your contact list.',
     },
@@ -354,8 +351,7 @@ export const MessageHintText = {
 
 export const acceptedFileTypes = {
   doc: 'application/msword',
-  docx:
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   gif: 'image/gif',
   jpg: 'image/jpeg',
   jpeg: 'image/jpeg',
@@ -372,8 +368,7 @@ export const acceptedFileTypes = {
 
 export const acceptedFileTypesExtended = {
   doc: 'application/msword',
-  docx:
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   gif: 'image/gif',
   jpg: 'image/jpeg',
   jpeg: 'image/jpeg',
@@ -387,11 +382,9 @@ export const acceptedFileTypesExtended = {
   tiff: 'image/tiff',
   tif: 'image/tiff', // common alias
   ppt: 'application/vnd.ms-powerpoint',
-  pptx:
-    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
   pps: 'application/vnd.ms-powerpoint',
-  ppsx:
-    'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+  ppsx: 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
   odt: 'application/vnd.oasis.opendocument.text',
   mp4: 'video/mp4',
   m4v: 'video/x-m4v',

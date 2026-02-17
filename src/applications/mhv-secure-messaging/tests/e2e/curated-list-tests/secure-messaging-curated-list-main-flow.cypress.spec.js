@@ -68,17 +68,13 @@ describe('SM CURATED LIST MAIN FLOW', () => {
 
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageSubjectField().type(`TEST SUBJECT`);
-    PatientComposePage.getMessageBodyField()
-      .clear()
-      .type(`TEST BODY`);
+    PatientComposePage.getMessageBodyField().clear().type(`TEST BODY`);
 
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockSentMessageResponse).as(
       'message',
     );
 
-    cy.get(Locators.BUTTONS.SEND)
-      .contains('Send')
-      .click({ force: true });
+    cy.get(Locators.BUTTONS.SEND).contains('Send').click({ force: true });
 
     cy.findByTestId(`alert-text`)
       .should(`be.visible`)

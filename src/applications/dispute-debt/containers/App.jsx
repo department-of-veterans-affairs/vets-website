@@ -26,14 +26,11 @@ export default function App({ children, location }) {
   const formData = useSelector(state => state.form?.data);
   useDocumentTitle(location, formData);
 
-  useEffect(
-    () => {
-      if (userLoggedIn && isVerified) {
-        fetchDebts(dispatch);
-      }
-    },
-    [dispatch, userLoggedIn, isVerified],
-  );
+  useEffect(() => {
+    if (userLoggedIn && isVerified) {
+      fetchDebts(dispatch);
+    }
+  }, [dispatch, userLoggedIn, isVerified]);
 
   // only need to show loading for debt pending if user is logged in
   if ((userLoggedIn && isDebtPending) || isLoadingFeatures) {

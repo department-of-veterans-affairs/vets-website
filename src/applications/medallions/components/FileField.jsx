@@ -203,25 +203,22 @@ const FileField = props => {
     [formData],
   );
 
-  useEffect(
-    () => {
-      // The File object is not preserved in the save-in-progress data
-      // We need to remove these entries; an empty `file` is included in the
-      // entry, but if API File Object still exists (within the same session), we
-      // can't use Object.keys() on it because it returns an empty array
-      const newData = files.filter(
-        // keep - file may not exist (already uploaded)
-        // keep - file may contain File object; ensure name isn't empty
-        // remove - file may be an empty object
-        data => !data.file || (data.file?.name || '') !== '',
-      );
-      if (newData.length !== files.length) {
-        onChange(newData);
-      }
-      setInitialized(true);
-    },
-    [files, onChange],
-  );
+  useEffect(() => {
+    // The File object is not preserved in the save-in-progress data
+    // We need to remove these entries; an empty `file` is included in the
+    // entry, but if API File Object still exists (within the same session), we
+    // can't use Object.keys() on it because it returns an empty array
+    const newData = files.filter(
+      // keep - file may not exist (already uploaded)
+      // keep - file may contain File object; ensure name isn't empty
+      // remove - file may be an empty object
+      data => !data.file || (data.file?.name || '') !== '',
+    );
+    if (newData.length !== files.length) {
+      onChange(newData);
+    }
+    setInitialized(true);
+  }, [files, onChange]);
 
   /**
    * Add file to list and upload
@@ -589,106 +586,103 @@ const FileField = props => {
                       />
                     </Tag>
                   )}
-                {!file.uploading &&
-                  hasVisibleError && (
-                    <span className="usa-input-error-message" role="alert">
-                      <span className="sr-only">Error</span> {errors[0]}
-                    </span>
-                  )}
-                {!formContext.reviewMode &&
-                  !isUploading && (
-                    <div className="vads-u-margin-top--2">
-                      {hasVisibleError && (
-                        <va-button
-                          name={`retry_upload_${index}`}
-                          class="retry-upload vads-u-width--auto vads-u-margin-right--2"
-                          onClick={getRetryFunction(
-                            allowRetry,
-                            index,
-                            file.file,
-                          )}
-                          label={
-                            allowRetry
-                              ? content.tryAgainLabel(file.name)
-                              : content.newFile
+                {!file.uploading && hasVisibleError && (
+                  <span className="usa-input-error-message" role="alert">
+                    <span className="sr-only">Error</span> {errors[0]}
+                  </span>
+                )}
+                {!formContext.reviewMode && !isUploading && (
+                  <div className="vads-u-margin-top--2">
+                    {hasVisibleError && (
+                      <va-button
+                        name={`retry_upload_${index}`}
+                        class="retry-upload vads-u-width--auto vads-u-margin-right--2"
+                        onClick={getRetryFunction(allowRetry, index, file.file)}
+                        label={
+                          allowRetry
+                            ? content.tryAgainLabel(file.name)
+                            : content.newFile
+                        }
+                        text={retryButtonText}
+                        uswds
+                      />
+                    )}
+                    {!showPasswordInput && (
+                      <va-button
+                        secondary
+                        class="delete-upload vads-u-width--auto"
+                        onClick={() => {
+                          if (hasVisibleError) {
+                            // Cancelling with error should not show the remove
+                            // file modal
+                            removeFile(index);
+                          } else {
+                            openRemoveModal(index);
                           }
-                          text={retryButtonText}
-                          uswds
-                        />
-                      )}
-                      {!showPasswordInput && (
-                        <va-button
-                          secondary
-                          class="delete-upload vads-u-width--auto"
-                          onClick={() => {
-                            if (hasVisibleError) {
-                              // Cancelling with error should not show the remove
-                              // file modal
-                              removeFile(index);
-                            } else {
-                              openRemoveModal(index);
-                            }
-                          }}
-                          label={content[
-                            hasVisibleError ? 'cancelLabel' : 'deleteLabel'
-                          ](file.name)}
-                          text={deleteButtonText}
-                          uswds
-                        />
-                      )}
-                    </div>
-                  )}
+                        }}
+                        label={content[
+                          hasVisibleError ? 'cancelLabel' : 'deleteLabel'
+                        ](file.name)}
+                        text={deleteButtonText}
+                        uswds
+                      />
+                    )}
+                  </div>
+                )}
               </li>
             );
           })}
         </ul>
       )}
-      {// Don't render an upload button on review & submit page while in
-      // review mode
-      showButtons && (
-        <>
-          {(maxItems === null || files.length < maxItems) &&
-            // Prevent additional upload if any upload has error state
-            checkUploadVisibility() &&
-            !files.some(
-              (file, index) =>
-                errorSchema?.[index]?.__errors?.length > 0 || file.errorMessage,
-            ) && (
-              // eslint-disable-next-line jsx-a11y/label-has-associated-control
-              <label
-                id={`${idSchema.$id}_add_label`}
-                htmlFor={idSchema.$id}
-                className="upload-button-label vads-u-display--inline-block"
-              >
-                <va-button
-                  id="upload-button"
-                  ref={fileButtonRef}
-                  secondary
-                  class="vads-u-padding-x--0 vads-u-padding-y--1"
-                  onClick={() => fileInputRef?.current?.click()}
-                  // label is the aria-label
-                  label={`${uploadText} ${titleString || ''}. ${
-                    content.ariaLabelAdditionalText
-                  }`}
-                  text={uploadText}
-                  uswds
-                />
-              </label>
-            )}
-          <input
-            type="file"
-            ref={fileInputRef}
-            accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
-            className="vads-u-display--none"
-            id={idSchema.$id}
-            name={idSchema.$id}
-            onChange={onAddFile}
-            onClick={() => {
-              fileInputRef.current.value = '';
-            }}
-          />
-        </>
-      )}
+      {
+        // Don't render an upload button on review & submit page while in
+        // review mode
+        showButtons && (
+          <>
+            {(maxItems === null || files.length < maxItems) &&
+              // Prevent additional upload if any upload has error state
+              checkUploadVisibility() &&
+              !files.some(
+                (file, index) =>
+                  errorSchema?.[index]?.__errors?.length > 0 ||
+                  file.errorMessage,
+              ) && (
+                // eslint-disable-next-line jsx-a11y/label-has-associated-control
+                <label
+                  id={`${idSchema.$id}_add_label`}
+                  htmlFor={idSchema.$id}
+                  className="upload-button-label vads-u-display--inline-block"
+                >
+                  <va-button
+                    id="upload-button"
+                    ref={fileButtonRef}
+                    secondary
+                    class="vads-u-padding-x--0 vads-u-padding-y--1"
+                    onClick={() => fileInputRef?.current?.click()}
+                    // label is the aria-label
+                    label={`${uploadText} ${titleString || ''}. ${
+                      content.ariaLabelAdditionalText
+                    }`}
+                    text={uploadText}
+                    uswds
+                  />
+                </label>
+              )}
+            <input
+              type="file"
+              ref={fileInputRef}
+              accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
+              className="vads-u-display--none"
+              id={idSchema.$id}
+              name={idSchema.$id}
+              onChange={onAddFile}
+              onClick={() => {
+                fileInputRef.current.value = '';
+              }}
+            />
+          </>
+        )
+      }
     </div>
   );
 };

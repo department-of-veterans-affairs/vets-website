@@ -84,18 +84,16 @@ describe('21P-601 relatives page configurations', () => {
     });
 
     it('has conditional message', () => {
-      const { hideIf } = relativesOverview.uiSchema['view:survivorsMessage'][
-        'ui:options'
-      ];
+      const { hideIf } =
+        relativesOverview.uiSchema['view:survivorsMessage']['ui:options'];
       expect(hideIf).to.be.a('function');
       expect(hideIf({ survivors: false })).to.be.true;
       expect(hideIf({ survivors: true })).to.be.false;
     });
 
     it('hides message when other options are selected', () => {
-      const { hideIf } = relativesOverview.uiSchema['view:survivorsMessage'][
-        'ui:options'
-      ];
+      const { hideIf } =
+        relativesOverview.uiSchema['view:survivorsMessage']['ui:options'];
       expect(hideIf({ survivors: false })).to.be.true;
       expect(hideIf({ survivors: undefined })).to.be.true;
     });

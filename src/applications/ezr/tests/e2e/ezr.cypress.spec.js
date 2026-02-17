@@ -29,9 +29,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[href="#start"]')
-            .first()
-            .click();
+          cy.get('[href="#start"]').first().click();
         });
       },
       'veteran-information/mailing-address': ({ afterHook }) => {

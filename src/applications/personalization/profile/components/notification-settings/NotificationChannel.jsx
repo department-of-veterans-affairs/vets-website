@@ -42,28 +42,22 @@ const NotificationChannel = props => {
     defaultSendIndicator,
   } = props;
 
-  const checked = React.useMemo(
-    () => {
-      if (isOptedIn === null) {
-        return defaultSendIndicator;
-      }
-      return !!isOptedIn;
-    },
-    [isOptedIn, defaultSendIndicator],
-  );
+  const checked = React.useMemo(() => {
+    if (isOptedIn === null) {
+      return defaultSendIndicator;
+    }
+    return !!isOptedIn;
+  }, [isOptedIn, defaultSendIndicator]);
 
   // when itemId = "item2", itemIdNumber will be 2
-  const itemIdNumber = React.useMemo(
-    () => {
-      if (itemId) {
-        const matches = itemId.match(/\d+/) || [];
-        const matchedNumber = matches[0];
-        return parseInt(matchedNumber, 10);
-      }
-      return null;
-    },
-    [itemId],
-  );
+  const itemIdNumber = React.useMemo(() => {
+    if (itemId) {
+      const matches = itemId.match(/\d+/) || [];
+      const matchedNumber = matches[0];
+      return parseInt(matchedNumber, 10);
+    }
+    return null;
+  }, [itemId]);
 
   const label = `Notify me by ${NOTIFICATION_CHANNEL_LABELS[channelType]}`;
   const description = NOTIFICATION_CHANNEL_FIELD_DESCRIPTIONS[channelId];
@@ -98,26 +92,22 @@ const NotificationChannel = props => {
     saveSetting(channelId, model.getApiCallObject());
   };
 
-  const apiStatusInfo = React.useMemo(
-    () => {
-      return {
-        warningMessage:
-          !permissionId && apiStatus === LOADING_STATES.idle
-            ? 'Select an option.'
-            : null,
-        loadingMessage:
-          apiStatus === LOADING_STATES.pending ? 'Saving...' : null,
-        errorMessage:
-          apiStatus === LOADING_STATES.error
-            ? 'We’re sorry. We had a problem saving your update. Try again.'
-            : null,
-        successMessage:
-          apiStatus === LOADING_STATES.loaded ? 'Update saved' : null,
-        isDisabled: apiStatus === LOADING_STATES.pending,
-      };
-    },
-    [apiStatus, permissionId],
-  );
+  const apiStatusInfo = React.useMemo(() => {
+    return {
+      warningMessage:
+        !permissionId && apiStatus === LOADING_STATES.idle
+          ? 'Select an option.'
+          : null,
+      loadingMessage: apiStatus === LOADING_STATES.pending ? 'Saving...' : null,
+      errorMessage:
+        apiStatus === LOADING_STATES.error
+          ? 'We’re sorry. We had a problem saving your update. Try again.'
+          : null,
+      successMessage:
+        apiStatus === LOADING_STATES.loaded ? 'Update saved' : null,
+      isDisabled: apiStatus === LOADING_STATES.pending,
+    };
+  }, [apiStatus, permissionId]);
 
   if (isMissingContactInfo) {
     return null;

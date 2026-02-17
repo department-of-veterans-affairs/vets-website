@@ -1,3 +1,1 @@
-export {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/contacts';
+export { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';

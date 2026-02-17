@@ -76,15 +76,12 @@ const RecipientsSelect = ({
   // Determine current signature requirement preference:
   //  - If a recipient is selected use its signatureRequired flag
   //  - Otherwise fall back to the prop (initial state coming from parent)
-  const effectiveSignatureRequired = useMemo(
-    () => {
-      if (selectedRecipient) {
-        return !!selectedRecipient.signatureRequired;
-      }
-      return !!isSignatureRequired;
-    },
-    [selectedRecipient, isSignatureRequired],
-  );
+  const effectiveSignatureRequired = useMemo(() => {
+    if (selectedRecipient) {
+      return !!selectedRecipient.signatureRequired;
+    }
+    return !!isSignatureRequired;
+  }, [selectedRecipient, isSignatureRequired]);
 
   const optGroupEnabled = useSelector(
     state =>
@@ -110,67 +107,57 @@ const RecipientsSelect = ({
     [setElectronicSignature],
   );
 
-  useEffect(
-    () => {
-      if (optGroupEnabled) {
-        setRecipientsListSorted(() => {
-          return recipientsList
-            .map(item => {
-              return {
-                id: item.id,
-                vamcSystemName: getVamcSystemNameFromVhaId(
-                  ehrDataByVhaId,
-                  item.stationNumber,
-                ),
-                ...item,
-              };
-            })
-            .sort((a, b) => {
-              const aName = a.suggestedNameDisplay || a.name;
-              const bName = b.suggestedNameDisplay || b.name;
-              // If both vamcSystemName are undefined, sort alphabetically by name
-              if (
-                a.vamcSystemName === undefined &&
-                b.vamcSystemName === undefined
-              ) {
-                return aName.localeCompare(bName);
-              }
-              // If only one vamcSystemName is undefined, sort it to the top
-              if (a.vamcSystemName === undefined) return -1;
-              if (b.vamcSystemName === undefined) return 1;
-              // If both vamcSystemName are defined, sort by vamcSystemName first, then by name
-              if (a.vamcSystemName !== b.vamcSystemName) {
-                return a.vamcSystemName.localeCompare(b.vamcSystemName);
-              }
+  useEffect(() => {
+    if (optGroupEnabled) {
+      setRecipientsListSorted(() => {
+        return recipientsList
+          .map(item => {
+            return {
+              id: item.id,
+              vamcSystemName: getVamcSystemNameFromVhaId(
+                ehrDataByVhaId,
+                item.stationNumber,
+              ),
+              ...item,
+            };
+          })
+          .sort((a, b) => {
+            const aName = a.suggestedNameDisplay || a.name;
+            const bName = b.suggestedNameDisplay || b.name;
+            // If both vamcSystemName are undefined, sort alphabetically by name
+            if (
+              a.vamcSystemName === undefined &&
+              b.vamcSystemName === undefined
+            ) {
               return aName.localeCompare(bName);
-            });
-        });
-      }
-    },
-    [ehrDataByVhaId, recipientsList, optGroupEnabled],
-  );
+            }
+            // If only one vamcSystemName is undefined, sort it to the top
+            if (a.vamcSystemName === undefined) return -1;
+            if (b.vamcSystemName === undefined) return 1;
+            // If both vamcSystemName are defined, sort by vamcSystemName first, then by name
+            if (a.vamcSystemName !== b.vamcSystemName) {
+              return a.vamcSystemName.localeCompare(b.vamcSystemName);
+            }
+            return aName.localeCompare(bName);
+          });
+      });
+    }
+  }, [ehrDataByVhaId, recipientsList, optGroupEnabled]);
 
-  useEffect(
-    () => {
-      if (isSignatureRequired === true) {
-        setAlertDisplayed(true);
-      }
-    },
-    [isSignatureRequired],
-  );
+  useEffect(() => {
+    if (isSignatureRequired === true) {
+      setAlertDisplayed(true);
+    }
+  }, [isSignatureRequired]);
 
-  useEffect(
-    () => {
-      if (defaultValue) {
-        const recipient =
-          recipientsList.find(r => +r.id === +defaultValue) || {};
-        comboBoxRef.current?.shadowRoot
-          ?.querySelector('input')
-          ?.setAttribute('value', recipient?.name);
-      }
-    },
-    [defaultValue, recipientsList],
-  );
+  useEffect(() => {
+    if (defaultValue) {
+      const recipient = recipientsList.find(r => +r.id === +defaultValue) || {};
+      comboBoxRef.current?.shadowRoot
+        ?.querySelector('input')
+        ?.setAttribute('value', recipient?.name);
+    }
+  }, [defaultValue, recipientsList]);
 
   const handleInput = e => {
     setComboBoxInputValue(e.target.shadowRoot.querySelector('input').value);
@@ -233,80 +220,74 @@ const RecipientsSelect = ({
     ],
   );
 
-  const optionsValues = useMemo(
-    () => {
-      if (!optGroupEnabled || !mhvSecureMessagingCuratedListFlow) {
-        return sortRecipients(recipientsList)?.map(item => (
-          <option key={item.id} value={item.id}>
-            {item.suggestedNameDisplay || item.name}
-          </option>
-        ));
-      }
+  const optionsValues = useMemo(() => {
+    if (!optGroupEnabled || !mhvSecureMessagingCuratedListFlow) {
+      return sortRecipients(recipientsList)?.map(item => (
+        <option key={item.id} value={item.id}>
+          {item.suggestedNameDisplay || item.name}
+        </option>
+      ));
+    }
 
-      let currentVamcSystemName = null;
-      const options = [];
-      let groupedOptions = [];
+    let currentVamcSystemName = null;
+    const options = [];
+    let groupedOptions = [];
 
-      // Insert Recent care teams group first (if available)
-      if (Array.isArray(recentRecipients) && recentRecipients.length > 0) {
+    // Insert Recent care teams group first (if available)
+    if (Array.isArray(recentRecipients) && recentRecipients.length > 0) {
+      options.push(
+        <optgroup key="recent-care-teams" label="Recent care teams">
+          {recentRecipients.map(r => (
+            <option key={r.triageTeamId} value={r.triageTeamId}>
+              {r.name}
+            </option>
+          ))}
+        </optgroup>,
+      );
+    }
+
+    recipientsListSorted.forEach(item => {
+      if (item.vamcSystemName === undefined) {
         options.push(
-          <optgroup key="recent-care-teams" label="Recent care teams">
-            {recentRecipients.map(r => (
-              <option key={r.triageTeamId} value={r.triageTeamId}>
-                {r.name}
-              </option>
-            ))}
-          </optgroup>,
-        );
-      }
-
-      recipientsListSorted.forEach(item => {
-        if (item.vamcSystemName === undefined) {
-          options.push(
-            <option key={item.id} value={item.id}>
-              {item.suggestedNameDisplay || item.name}
-            </option>,
-          );
-        } else if (item.vamcSystemName !== currentVamcSystemName) {
-          if (currentVamcSystemName !== null) {
-            options.push(
-              <optgroup
-                key={currentVamcSystemName}
-                label={currentVamcSystemName}
-              >
-                {groupedOptions}
-              </optgroup>,
-            );
-          }
-          currentVamcSystemName = item.vamcSystemName;
-          groupedOptions = [];
-        }
-        groupedOptions.push(
           <option key={item.id} value={item.id}>
             {item.suggestedNameDisplay || item.name}
           </option>,
         );
-      });
-
-      // Push the last group
-      if (currentVamcSystemName !== null) {
-        options.push(
-          <optgroup key={currentVamcSystemName} label={currentVamcSystemName}>
-            {groupedOptions}
-          </optgroup>,
-        );
+      } else if (item.vamcSystemName !== currentVamcSystemName) {
+        if (currentVamcSystemName !== null) {
+          options.push(
+            <optgroup key={currentVamcSystemName} label={currentVamcSystemName}>
+              {groupedOptions}
+            </optgroup>,
+          );
+        }
+        currentVamcSystemName = item.vamcSystemName;
+        groupedOptions = [];
       }
+      groupedOptions.push(
+        <option key={item.id} value={item.id}>
+          {item.suggestedNameDisplay || item.name}
+        </option>,
+      );
+    });
 
-      return options;
-    },
-    [
-      recipientsListSorted,
-      optGroupEnabled,
-      recipientsList,
-      recentRecipients,
-      mhvSecureMessagingCuratedListFlow,
-    ],
-  );
+    // Push the last group
+    if (currentVamcSystemName !== null) {
+      options.push(
+        <optgroup key={currentVamcSystemName} label={currentVamcSystemName}>
+          {groupedOptions}
+        </optgroup>,
+      );
+    }
+
+    return options;
+  }, [
+    recipientsListSorted,
+    optGroupEnabled,
+    recipientsList,
+    recentRecipients,
+    mhvSecureMessagingCuratedListFlow,
+  ]);
   return (
     <>
       {mhvSecureMessagingCuratedListFlow ? (
@@ -345,27 +326,26 @@ const RecipientsSelect = ({
         </VaSelect>
       )}
 
-      {!mhvSecureMessagingCuratedListFlow &&
-        alertDisplayed && (
-          <VaAlert
-            ref={alertRef}
-            class="vads-u-margin-y--2"
-            closeBtnAriaLabel="Close notification"
-            closeable
-            onCloseEvent={() => {
-              setAlertDisplayed(false);
-            }}
-            status="info"
-            visible
-            data-testid="signature-alert"
-          >
-            <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
-              {effectiveSignatureRequired
-                ? Prompts.Compose.SIGNATURE_REQUIRED
-                : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
-            </p>
-          </VaAlert>
-        )}
+      {!mhvSecureMessagingCuratedListFlow && alertDisplayed && (
+        <VaAlert
+          ref={alertRef}
+          class="vads-u-margin-y--2"
+          closeBtnAriaLabel="Close notification"
+          closeable
+          onCloseEvent={() => {
+            setAlertDisplayed(false);
+          }}
+          status="info"
+          visible
+          data-testid="signature-alert"
+        >
+          <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
+            {effectiveSignatureRequired
+              ? Prompts.Compose.SIGNATURE_REQUIRED
+              : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
+          </p>
+        </VaAlert>
+      )}
     </>
   );
 };

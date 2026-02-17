@@ -188,22 +188,21 @@ const InformationToDiscloseField = props => {
                 </div>
               ) : null}
 
-              {key === 'other' &&
-                otherChecked && (
-                  <div className="vads-u-margin-left--3 vads-u-margin-top--1">
-                    <VaTextInput
-                      id={idSchema?.otherText?.$id}
-                      label="Specify other information you’d like to disclose"
-                      required={otherChecked}
-                      charcount
-                      maxlength={OTHER_TEXT_MAX}
-                      value={formData?.otherText || ''}
-                      error={computedOtherError}
-                      onVaInput={e => setOtherExplanation(getValue(e))}
-                      onVaChange={e => setOtherExplanation(getValue(e))}
-                    />
-                  </div>
-                )}
+              {key === 'other' && otherChecked && (
+                <div className="vads-u-margin-left--3 vads-u-margin-top--1">
+                  <VaTextInput
+                    id={idSchema?.otherText?.$id}
+                    label="Specify other information you’d like to disclose"
+                    required={otherChecked}
+                    charcount
+                    maxlength={OTHER_TEXT_MAX}
+                    value={formData?.otherText || ''}
+                    error={computedOtherError}
+                    onVaInput={e => setOtherExplanation(getValue(e))}
+                    onVaChange={e => setOtherExplanation(getValue(e))}
+                  />
+                </div>
+              )}
             </div>
           );
         })}

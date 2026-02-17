@@ -93,15 +93,11 @@ describe('Preferred name field tests on the personal information page', () => {
       waitForAnimations: true,
     });
 
-    cy.get(nameEditInputField)
-      .clear()
-      .type(updatedName);
+    cy.get(nameEditInputField).clear().type(updatedName);
 
     cy.findAllByTestId('save-edit-button').click({ waitForAnimations: true });
 
-    cy.findByTestId('preferredName')
-      .contains(updatedName)
-      .should('exist');
+    cy.findByTestId('preferredName').contains(updatedName).should('exist');
 
     cy.findByTestId('update-success-alert').should('exist');
 
@@ -122,9 +118,7 @@ describe('Preferred name field tests on the personal information page', () => {
       waitForAnimations: true,
     });
 
-    cy.get(nameEditInputField)
-      .clear()
-      .type(updatedName);
+    cy.get(nameEditInputField).clear().type(updatedName);
 
     cy.findAllByTestId('save-edit-button').click({ waitForAnimations: true });
 

@@ -4,7 +4,7 @@ import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
 describe('22-0839 EDU Form', () => {
-  beforeEach(function() {
+  beforeEach(function () {
     if (Cypress.env('CI')) this.skip();
   });
 
@@ -310,10 +310,7 @@ describe('22-0839 EDU Form', () => {
     // Review page
     cy.url().should('include', 'review-and-submit');
     cy.injectAxeThenAxeCheck();
-    cy.get('#veteran-signature')
-      .shadow()
-      .get('#inputField')
-      .type('Jane Doe');
+    cy.get('#veteran-signature').shadow().get('#inputField').type('Jane Doe');
     cy.tabToElementAndPressSpace('va-checkbox');
     cy.tabToSubmitForm();
 

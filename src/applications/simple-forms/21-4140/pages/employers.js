@@ -98,8 +98,7 @@ const summaryPage = {
           Y: 'Yes, I have employment to report',
           N: "No, I don't have any employment to report",
         },
-        hint:
-          "If you have employment to report, you'll need to add at least one employer. You can add up to four.",
+        hint: "If you have employment to report, you'll need to add at least one employer. You can add up to four.",
         errorMessages: {
           required: 'Select if you have employment to report.',
         },
@@ -163,11 +162,10 @@ const employerNameAndAddressPage = {
 /** @returns {PageSchema} */
 const employmentDatesPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.employerName
-          ? `Dates you were employed at ${formData.employerName}`
-          : 'Employment dates',
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
+      formData?.employerName
+        ? `Dates you were employed at ${formData.employerName}`
+        : 'Employment dates',
     ),
     employmentDates: currentOrPastDateRangeUI(
       {
@@ -198,17 +196,15 @@ const employmentDatesPage = {
 /** @returns {PageSchema} */
 const employmentDetailsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.employerName
-          ? `Employment details for ${formData.employerName}`
-          : 'Employment details',
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
+      formData?.employerName
+        ? `Employment details for ${formData.employerName}`
+        : 'Employment details',
     ),
     typeOfWork: {
       ...textUI({
         title: 'Describe the kind of work you did',
-        hint:
-          'For example: cashier at a grocery store, part-time landscaper, or office assistant.',
+        hint: 'For example: cashier at a grocery store, part-time landscaper, or office assistant.',
         errorMessages: {
           required: 'Enter the kind of work you did',
         },

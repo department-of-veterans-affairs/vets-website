@@ -111,13 +111,10 @@ const AddressSelectionPage = props => {
   const fullOrItemData = fullData ?? data;
 
   // `pagePerItemIndex` is a string, we need to convert it to a number
-  const itemIndex = useMemo(
-    () => {
-      const n = Number(pagePerItemIndex);
-      return Number.isFinite(n) && n >= 0 ? n : null;
-    },
-    [pagePerItemIndex],
-  );
+  const itemIndex = useMemo(() => {
+    const n = Number(pagePerItemIndex);
+    return Number.isFinite(n) && n >= 0 ? n : null;
+  }, [pagePerItemIndex]);
   const isArrayMode = itemIndex !== null;
 
   // data can be the root dataset or from an array item
@@ -204,20 +201,17 @@ const AddressSelectionPage = props => {
     [addressOpts, currentValue],
   );
 
-  const pageTitle = useMemo(
-    () => {
-      const party = isArrayMode
-        ? applicantWording(localData)
-        : makePossessive(VETERAN_SINGULAR);
-      return titleUI(
-        <>
-          <span data-dd-privacy="hidden">{party}</span> {PAGE_TITLE}
-        </>,
-        PAGE_DESCRIPTION,
-      )['ui:title'];
-    },
-    [isArrayMode, localData],
-  );
+  const pageTitle = useMemo(() => {
+    const party = isArrayMode
+      ? applicantWording(localData)
+      : makePossessive(VETERAN_SINGULAR);
+    return titleUI(
+      <>
+        <span data-dd-privacy="hidden">{party}</span> {PAGE_TITLE}
+      </>,
+      PAGE_DESCRIPTION,
+    )['ui:title'];
+  }, [isArrayMode, localData]);
 
   const inputLabel = useMemo(
     () => getInputLabel({ role: data.certifierRole, isArrayMode, itemIndex }),

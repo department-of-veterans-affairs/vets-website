@@ -7,10 +7,8 @@ import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import formConfig from '../../config/form';
 
 describe('Secondary Upload Sources', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.disabilities.pages.secondaryUploadSources0;
+  const { schema, uiSchema } =
+    formConfig.chapters.disabilities.pages.secondaryUploadSources0;
 
   it('should render', async () => {
     const form = mount(

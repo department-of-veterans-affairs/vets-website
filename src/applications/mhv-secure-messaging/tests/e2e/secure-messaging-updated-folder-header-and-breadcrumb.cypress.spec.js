@@ -11,9 +11,8 @@ import SharedComponents from './pages/SharedComponents';
 
 describe('SM UPDATED PAGE HEADER, TITLE AND BREADCRUMB', () => {
   beforeEach(() => {
-    const updatedFeatureTogglesResponse = GeneralFunctionsPage.updateFeatureToggles(
-      [],
-    );
+    const updatedFeatureTogglesResponse =
+      GeneralFunctionsPage.updateFeatureToggles([]);
     SecureMessagingSite.login(updatedFeatureTogglesResponse);
     PatientInboxPage.loadInboxMessages();
   });

@@ -524,8 +524,8 @@ export const isTreatmentBeforeService = (
 };
 
 /*
-  * Helper Methods for Date Validation and Formatting in regards to inputs
-*/
+ * Helper Methods for Date Validation and Formatting in regards to inputs
+ */
 export const daysFromToday = days =>
   formatDate(add(new Date(), { days }), 'yyyy-MM-dd');
 

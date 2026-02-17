@@ -109,34 +109,30 @@ const RefillPrescriptions = () => {
     ],
   );
 
-  const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
-    false,
-  );
+  const [hasNoOptionSelectedError, setHasNoOptionSelectedError] =
+    useState(false);
   const [selectedRefillList, setSelectedRefillList] = useState([]);
   const [refillStatus, setRefillStatus] = useState(REFILL_STATUS.NOT_STARTED);
 
   // Compute the actual refill status based on RTK Query state to prevent race conditions
-  const refillRequestStatus = useMemo(
-    () => {
-      if (isRefilling) {
-        return REFILL_STATUS.IN_PROGRESS;
-      }
-      if (refillRequestSuccess && result?.data) {
-        return REFILL_STATUS.FINISHED;
-      }
-      if (bulkRefillError) {
-        return REFILL_STATUS.ERROR;
-      }
-      return refillStatus; // Fallback to manual status for initial state
-    },
-    [
-      isRefilling,
-      refillRequestSuccess,
-      result?.data,
-      bulkRefillError,
-      refillStatus,
-    ],
-  );
+  const refillRequestStatus = useMemo(() => {
+    if (isRefilling) {
+      return REFILL_STATUS.IN_PROGRESS;
+    }
+    if (refillRequestSuccess && result?.data) {
+      return REFILL_STATUS.FINISHED;
+    }
+    if (bulkRefillError) {
+      return REFILL_STATUS.ERROR;
+    }
+    return refillStatus; // Fallback to manual status for initial state
+  }, [
+    isRefilling,
+    refillRequestSuccess,
+    result?.data,
+    bulkRefillError,
+    refillStatus,
+  ]);
 
   // Handle API errors from RTK Query
   const prescriptionsApiError = refillableError || bulkRefillError;
@@ -160,9 +156,10 @@ const RefillPrescriptions = () => {
   // Use the original refillable prescriptions list without client-side filtering
   // This prevents duplicate refill attempts by relying on server-side data consistency
   // Cache invalidation in the API (invalidatesTags) will handle removing refilled prescriptions
-  const fullRefillList = useMemo(() => refillableData?.prescriptions || [], [
-    refillableData?.prescriptions,
-  ]);
+  const fullRefillList = useMemo(
+    () => refillableData?.prescriptions || [],
+    [refillableData?.prescriptions],
+  );
 
   // Hide the refillable list during cache refresh after successful refill to prevent duplicate attempts
   const hideList = isRefreshing;
@@ -251,24 +248,18 @@ const RefillPrescriptions = () => {
     }
   };
 
-  useEffect(
-    () => {
-      // Remove session data on component mount
-      sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
+  useEffect(() => {
+    // Remove session data on component mount
+    sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
 
-      updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
-    },
-    [selectedSortOption],
-  );
+    updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
+  }, [selectedSortOption]);
 
-  useEffect(
-    () => {
-      if (!isLoading && !isRefilling) {
-        focusElement(document.querySelector('h1'));
-      }
-    },
-    [isLoading, isRefilling],
-  );
+  useEffect(() => {
+    if (!isLoading && !isRefilling) {
+      focusElement(document.querySelector('h1'));
+    }
+  }, [isLoading, isRefilling]);
 
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);

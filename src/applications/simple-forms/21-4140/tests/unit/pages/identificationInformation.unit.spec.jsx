@@ -4,10 +4,9 @@ import {
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../../config/form';
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.identificationInformationChapter.pages.identificationInformation;
+const { schema, uiSchema } =
+  formConfig.chapters.identificationInformationChapter.pages
+    .identificationInformation;
 
 const pageTitle = 'identificationInformation';
 

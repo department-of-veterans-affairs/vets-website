@@ -23,22 +23,19 @@ const RefillNotification = ({
     dispatch(setFilterOpen(true));
   };
 
-  const notificationState = useMemo(
-    () => {
-      const isFinished = refillStatus === REFILL_STATUS.FINISHED;
-      const hasSuccessfulMeds = successfulMeds.length > 0;
-      const hasFailedMeds = failedMeds.length > 0;
+  const notificationState = useMemo(() => {
+    const isFinished = refillStatus === REFILL_STATUS.FINISHED;
+    const hasSuccessfulMeds = successfulMeds.length > 0;
+    const hasFailedMeds = failedMeds.length > 0;
 
-      return {
-        isNotSubmitted:
-          isFinished && !hasSuccessfulMeds && !hasFailedMeds && !isFetching,
-        isError: hasFailedMeds && !hasSuccessfulMeds,
-        isPartiallySubmitted: hasFailedMeds && hasSuccessfulMeds,
-        isSuccess: hasSuccessfulMeds,
-      };
-    },
-    [refillStatus, successfulMeds, failedMeds, isFetching],
-  );
+    return {
+      isNotSubmitted:
+        isFinished && !hasSuccessfulMeds && !hasFailedMeds && !isFetching,
+      isError: hasFailedMeds && !hasSuccessfulMeds,
+      isPartiallySubmitted: hasFailedMeds && hasSuccessfulMeds,
+      isSuccess: hasSuccessfulMeds,
+    };
+  }, [refillStatus, successfulMeds, failedMeds, isFetching]);
 
   return (
     <>
@@ -61,18 +58,17 @@ const RefillNotification = ({
         />
       )}
 
-      {refillStatus === REFILL_STATUS.FINISHED &&
-        isFetching && (
-          <div
-            className="cache-refresh-loading"
-            data-testid="cache-refresh-loading"
-          >
-            <VaLoadingIndicator
-              message={REFILL_LOADING_MESSAGES.UPDATING_REFILL_LIST}
-              set-focus={false}
-            />
-          </div>
-        )}
+      {refillStatus === REFILL_STATUS.FINISHED && isFetching && (
+        <div
+          className="cache-refresh-loading"
+          data-testid="cache-refresh-loading"
+        >
+          <VaLoadingIndicator
+            message={REFILL_LOADING_MESSAGES.UPDATING_REFILL_LIST}
+            set-focus={false}
+          />
+        </div>
+      )}
     </>
   );
 };

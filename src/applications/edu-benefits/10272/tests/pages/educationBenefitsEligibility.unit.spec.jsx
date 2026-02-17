@@ -6,10 +6,9 @@ import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 describe('22-10272 Your education benefits information Step 1 - Page 3', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.educationBenefitsChapter.pages.educationBenefitsEligibility;
+  const { schema, uiSchema } =
+    formConfig.chapters.educationBenefitsChapter.pages
+      .educationBenefitsEligibility;
 
   it('should render with a va-card message explaining eligibility', () => {
     const { container } = render(

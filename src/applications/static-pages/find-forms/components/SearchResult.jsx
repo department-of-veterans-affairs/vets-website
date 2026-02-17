@@ -157,11 +157,8 @@ const SearchResult = ({ form, formMetaInfo, setModalState }) => {
     recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
 
   const pdfDownloadHandler = async () => {
-    const {
-      formPdfIsValid,
-      formPdfUrlIsValid,
-      networkRequestError,
-    } = await checkFormValidity(form, 'Form Search Results');
+    const { formPdfIsValid, formPdfUrlIsValid, networkRequestError } =
+      await checkFormValidity(form, 'Form Search Results');
 
     if (formPdfIsValid && formPdfUrlIsValid && !networkRequestError) {
       setPdfError(false);

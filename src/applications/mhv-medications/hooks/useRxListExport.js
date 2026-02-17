@@ -50,10 +50,10 @@ const useRxListExport = ({
   const buildTxtData = useCallback(
     (rxList, allergiesList) => {
       return (
-        `${"\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.\n\n\n" +
-          'Medications\n\n'}${
-          user.first ? `${user.last}, ${user.first}` : user.last || ' '
-        }\n\n` +
+        `${
+          "\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.\n\n\n" +
+          'Medications\n\n'
+        }${user.first ? `${user.last}, ${user.first}` : user.last || ' '}\n\n` +
         `Date of birth: ${dateFormat(
           user.dob,
           DATETIME_FORMATS.longMonthDate,
@@ -158,12 +158,9 @@ const useRxListExport = ({
   });
 
   // Prefer export-list-specific error format if present; otherwise fall back to exportFlow's.
-  const effectiveErrorFormat = useMemo(
-    () => {
-      return exportListErrorFormat || exportFlow.errorFormat;
-    },
-    [exportListErrorFormat, exportFlow.errorFormat],
-  );
+  const effectiveErrorFormat = useMemo(() => {
+    return exportListErrorFormat || exportFlow.errorFormat;
+  }, [exportListErrorFormat, exportFlow.errorFormat]);
 
   return {
     onDownload: exportFlow.onDownload,

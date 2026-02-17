@@ -19,24 +19,18 @@ const EditPhone = ({
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef?.current);
-      }
-    },
-    [headerRef],
-  );
+  useEffect(() => {
+    if (headerRef?.current) {
+      focusElement(headerRef?.current);
+    }
+  }, [headerRef]);
 
   // Initialize phone from form data
-  useEffect(
-    () => {
-      if (data?.phoneNumber) {
-        setPhone(data.phoneNumber);
-      }
-    },
-    [data?.phoneNumber],
-  );
+  useEffect(() => {
+    if (data?.phoneNumber) {
+      setPhone(data.phoneNumber);
+    }
+  }, [data?.phoneNumber]);
 
   const validatePhone = value => {
     if (!value || value.trim() === '') {

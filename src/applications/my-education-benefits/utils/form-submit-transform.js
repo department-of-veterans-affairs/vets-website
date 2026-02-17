@@ -387,7 +387,7 @@ export function createRelinquishedBenefit(submissionForm) {
   }
   const benefitRelinquished =
     submissionForm[formFields.viewBenefitSelection][
-      (formFields?.benefitRelinquished)
+      formFields?.benefitRelinquished
     ];
   // if the dgiRudisillHideBenefitSelectionStep feature flag is ON return null as the relinquished benefit
   if (submissionForm?.dgiRudisillHideBenefitsSelectionStep) {
@@ -414,10 +414,8 @@ function setAdditionalConsideration(consideration) {
 }
 function getExclusionMessage(exclusionType, exclusionPeriods) {
   const messages = {
-    ROTC:
-      'Dept. of Defense data shows you were commissioned as the result of a Senior ROTC.',
-    LRP:
-      'Dept. of Defense data shows a period of active duty that the military considers as being used for purposes of repaying an Education Loan.',
+    ROTC: 'Dept. of Defense data shows you were commissioned as the result of a Senior ROTC.',
+    LRP: 'Dept. of Defense data shows a period of active duty that the military considers as being used for purposes of repaying an Education Loan.',
     Academy:
       'Dept. of Defense data shows you have graduated from a Military Service Academy',
   };

@@ -351,9 +351,7 @@ export function HouseholdInformation({ title, id, formData }) {
  * @returns {React.Element} - The rendered financial disclosure section
  */
 export function FinancialDisclosure({ title, id, formData }) {
-  const veteranName = `${formData?.veteranFullName?.first} ${
-    formData?.veteranFullName?.last
-  }'s`;
+  const veteranName = `${formData?.veteranFullName?.first} ${formData?.veteranFullName?.last}'s`;
   return (
     <>
       <h2

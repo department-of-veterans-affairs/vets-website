@@ -101,19 +101,17 @@ const subjectLabel = (formData, options = {}) => {
  * @param {Object} baseOptions - Base options to merge with user options
  * @returns {Function} Title UI function
  */
-const makeSubjectTitleUI = (baseOptions = {}) => (
-  title,
-  description = null,
-  options = {},
-) => {
-  const opts = mergeOpts({ ...baseOptions, ...options });
-  return titleUI({
-    title: ({ formData }) =>
-      fillTitleTemplate(title, subjectLabel(formData, opts), opts),
-    description,
-    classNames: opts.classNames,
-  });
-};
+const makeSubjectTitleUI =
+  (baseOptions = {}) =>
+  (title, description = null, options = {}) => {
+    const opts = mergeOpts({ ...baseOptions, ...options });
+    return titleUI({
+      title: ({ formData }) =>
+        fillTitleTemplate(title, subjectLabel(formData, opts), opts),
+      description,
+      classNames: opts.classNames,
+    });
+  };
 
 /**
  * Creates a dynamic health insurance page title with provider name.

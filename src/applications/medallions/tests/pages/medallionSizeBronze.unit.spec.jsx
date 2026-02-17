@@ -8,10 +8,8 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('Medallions medallionSizeBronze', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.typeOfRequest.pages.medallionSizeBronze;
+  const { schema, uiSchema } =
+    formConfig.chapters.typeOfRequest.pages.medallionSizeBronze;
 
   const mockStore = configureStore([]);
   const store = mockStore({});

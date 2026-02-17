@@ -78,8 +78,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   preSubmitInfo: {
     statementOfTruth: {
-      body:
-        'I confirm that I have completed this statement. The information is true and correct to the best of my knowledge and belief.',
+      body: 'I confirm that I have completed this statement. The information is true and correct to the best of my knowledge and belief.',
       messageAriaDescribedby:
         'I confirm that I have completed this statement. The information is true and correct to the best of my knowledge and belief.',
       fullNamePath: getFullNamePath,

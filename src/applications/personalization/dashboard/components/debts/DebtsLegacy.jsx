@@ -165,8 +165,9 @@ const BenefitPaymentsAndDebt = ({
                 >
                   <Toggler.Disabled>
                     <DashboardWidgetWrapper>
-                      {hasDebtError &&
-                        copaysCount > 0 && <PopularActionsForDebts />}
+                      {hasDebtError && copaysCount > 0 && (
+                        <PopularActionsForDebts />
+                      )}
                     </DashboardWidgetWrapper>
                   </Toggler.Disabled>
                 </Toggler>
@@ -194,12 +195,11 @@ const BenefitPaymentsAndDebt = ({
                 <GenericDebtCard />
               </DashboardWidgetWrapper>
             )}
-            {totalDebtsCount > 0 &&
-              !showGenericDebtCard && (
-                <DashboardWidgetWrapper>
-                  <DebtsCardLegacy debtsCount={totalDebtsCount} />
-                </DashboardWidgetWrapper>
-              )}
+            {totalDebtsCount > 0 && !showGenericDebtCard && (
+              <DashboardWidgetWrapper>
+                <DebtsCardLegacy debtsCount={totalDebtsCount} />
+              </DashboardWidgetWrapper>
+            )}
             {copaysCount > 0 && (
               <>
                 <DashboardWidgetWrapper>
@@ -210,8 +210,9 @@ const BenefitPaymentsAndDebt = ({
                 >
                   <Toggler.Disabled>
                     <DashboardWidgetWrapper>
-                      {!totalDebtsCount &&
-                        !hasDebtError && <PopularActionsForDebts />}
+                      {!totalDebtsCount && !hasDebtError && (
+                        <PopularActionsForDebts />
+                      )}
                     </DashboardWidgetWrapper>
                   </Toggler.Disabled>
                 </Toggler>

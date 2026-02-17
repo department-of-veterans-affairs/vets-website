@@ -16,26 +16,23 @@ const MedicareParticipantField = props => {
   const medicare = useSelector(state => state.form?.data?.medicare ?? []);
   const currentValue = childrenProps?.formData ?? mappedProps?.value;
 
-  const eligibleApplicants = useMemo(
-    () => {
-      if (!applicants.length) return [];
+  const eligibleApplicants = useMemo(() => {
+    if (!applicants.length) return [];
 
-      const selectedParticipants = new Set(
-        medicare.map(plan => plan?.medicareParticipant).filter(Boolean),
-      );
+    const selectedParticipants = new Set(
+      medicare.map(plan => plan?.medicareParticipant).filter(Boolean),
+    );
 
-      return applicants
-        .map(a => ({
-          value: toHash(a.applicantSsn),
-          label: formatFullName(a.applicantName),
-        }))
-        .filter(({ value }) => {
-          if (value === currentValue) return true;
-          return !selectedParticipants.has(value);
-        });
-    },
-    [applicants, currentValue, medicare],
-  );
+    return applicants
+      .map(a => ({
+        value: toHash(a.applicantSsn),
+        label: formatFullName(a.applicantName),
+      }))
+      .filter(({ value }) => {
+        if (value === currentValue) return true;
+        return !selectedParticipants.has(value);
+      });
+  }, [applicants, currentValue, medicare]);
 
   return (
     <VaRadio

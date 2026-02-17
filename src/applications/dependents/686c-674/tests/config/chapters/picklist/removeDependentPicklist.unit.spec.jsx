@@ -63,10 +63,8 @@ const removalSelectedFormData = {
 };
 
 describe('Remove Dependent Picklist options page', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.optionSelection.pages.removeDependentsPicklistOptions;
+  const { schema, uiSchema } =
+    formConfig.chapters.optionSelection.pages.removeDependentsPicklistOptions;
 
   it('should render', () => {
     const { container } = render(
@@ -85,11 +83,9 @@ describe('Remove Dependent Picklist options page', () => {
 });
 
 describe('Remove Dependent Picklist followup page', () => {
-  const {
-    schema,
-    uiSchema,
-    depends,
-  } = formConfig.chapters.removeDependentsPicklistFollowupPages.pages.removeDependentFollowup;
+  const { schema, uiSchema, depends } =
+    formConfig.chapters.removeDependentsPicklistFollowupPages.pages
+      .removeDependentFollowup;
 
   it('should render', () => {
     const { container } = render(

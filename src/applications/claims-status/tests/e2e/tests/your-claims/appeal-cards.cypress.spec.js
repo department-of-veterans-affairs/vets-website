@@ -56,8 +56,7 @@ describe('Appeal cards', () => {
       ]);
 
       cy.findByRole('heading', {
-        name:
-          'Supplemental claim for disability compensation Received on January 1, 2025',
+        name: 'Supplemental claim for disability compensation Received on January 1, 2025',
       });
 
       cy.findByText(/Issue on review/);
@@ -80,8 +79,7 @@ describe('Appeal cards', () => {
       ]);
 
       cy.findByRole('heading', {
-        name:
-          'Higher-level review for disability compensation Received on January 1, 2025',
+        name: 'Higher-level review for disability compensation Received on January 1, 2025',
       });
 
       cy.findByText(/Issue on review/);

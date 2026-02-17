@@ -327,7 +327,8 @@ describe('<ThirdPartyRequestPage>', () => {
         },
         dictionaryEntry: getDictEntry('Employer (21-4192)'),
         expectedHeader: 'Request for evidence outside VA',
-        expectedSubheaderPattern: /We made a request outside VA on .* for: Employer/,
+        expectedSubheaderPattern:
+          /We made a request outside VA on .* for: Employer/,
         expectedDescriptionText: 'we sent a letter to your last employer',
         showsAddFilesForm: true,
       },
@@ -363,7 +364,8 @@ describe('<ThirdPartyRequestPage>', () => {
         },
         dictionaryEntry: null,
         expectedHeader: 'Request for evidence outside VA',
-        expectedSubheaderPattern: /We made a request outside VA on .* for: Generic Third Party Request/,
+        expectedSubheaderPattern:
+          /We made a request outside VA on .* for: Generic Third Party Request/,
         expectedDescriptionText: null,
         showsAddFilesForm: true,
       },
@@ -380,7 +382,8 @@ describe('<ThirdPartyRequestPage>', () => {
         },
         dictionaryEntry: getDictEntry('PMR Pending'),
         expectedHeader: 'Request for evidence outside VA',
-        expectedSubheaderPattern: /We made a request outside VA on .* for: PMR Pending/,
+        expectedSubheaderPattern:
+          /We made a request outside VA on .* for: PMR Pending/,
         expectedDescriptionText:
           'we\u2019ve requested your non-VA medical records',
         showsAddFilesForm: true,
@@ -399,7 +402,8 @@ describe('<ThirdPartyRequestPage>', () => {
         },
         dictionaryEntry: null,
         expectedHeader: 'Request for evidence outside VA',
-        expectedSubheaderPattern: /We made a request outside VA on .* for: Generic Third Party Request/,
+        expectedSubheaderPattern:
+          /We made a request outside VA on .* for: Generic Third Party Request/,
         expectedDescriptionText: 'API-provided description for this request',
         showsAddFilesForm: true,
       },

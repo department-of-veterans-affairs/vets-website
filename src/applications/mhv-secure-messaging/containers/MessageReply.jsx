@@ -14,10 +14,8 @@ import useFeatureToggles from '../hooks/useFeatureToggles';
 const MessageReply = () => {
   const dispatch = useDispatch();
   const { replyId } = useParams();
-  const {
-    customFoldersRedesignEnabled,
-    largeAttachmentsEnabled,
-  } = useFeatureToggles();
+  const { customFoldersRedesignEnabled, largeAttachmentsEnabled } =
+    useFeatureToggles();
   const { drafts, error, messages, acceptInterstitial } = useSelector(
     state => state.sm.threadDetails,
   );
@@ -28,28 +26,19 @@ const MessageReply = () => {
 
   const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
 
-  useEffect(
-    () => {
-      if (isSending === true) {
-        scrollToTop();
-      }
-    },
-    [isSending],
-  );
+  useEffect(() => {
+    if (isSending === true) {
+      scrollToTop();
+    }
+  }, [isSending]);
 
-  useEffect(
-    () => {
-      dispatch(retrieveMessageThread(replyId));
-    },
-    [replyId, dispatch],
-  );
+  useEffect(() => {
+    dispatch(retrieveMessageThread(replyId));
+  }, [replyId, dispatch]);
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-    },
-    [acceptInterstitial, replyMessage],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  }, [acceptInterstitial, replyMessage]);
 
   const content = () => {
     if (replyMessage === undefined) {

@@ -129,11 +129,7 @@ describe('LicenseCertificationSearchForm', () => {
     keywordSearch.prop('onUpdateAutocompleteSearchTerm')('test-name');
 
     // Submit form
-    wrapper
-      .find('va-button')
-      .first()
-      .getDOMNode()
-      .click();
+    wrapper.find('va-button').first().getDOMNode().click();
 
     // Verify store actions
     const actions = store.getActions();
@@ -146,8 +142,8 @@ describe('LicenseCertificationSearchForm', () => {
     const dropdown = wrapper.find(Dropdown);
     dropdown.prop('onChange')({ target: { value: 'new-category' } });
     wrapper.update();
-    const expectedValue = updateCategoryDropdown('new-category').current
-      .optionValue;
+    const expectedValue =
+      updateCategoryDropdown('new-category').current.optionValue;
     expect(wrapper.find(Dropdown).prop('value')).to.equal(expectedValue);
     wrapper.unmount();
   });
@@ -177,17 +173,13 @@ describe('LicenseCertificationSearchForm', () => {
     expect(
       wrapper.find(LicenseCertificationKeywordSearch).prop('inputValue'),
     ).to.equal('test-name');
-    const expectedDropdownValue = updateCategoryDropdown('test-category')
-      .current.optionValue;
+    const expectedDropdownValue =
+      updateCategoryDropdown('test-category').current.optionValue;
     expect(wrapper.find(Dropdown).prop('value')).to.equal(
       expectedDropdownValue,
     );
 
-    wrapper
-      .find('va-button')
-      .at(1)
-      .getDOMNode()
-      .click();
+    wrapper.find('va-button').at(1).getDOMNode().click();
     wrapper.update();
 
     expect(
@@ -205,8 +197,8 @@ describe('LicenseCertificationSearchForm', () => {
 
     const wrapper = mountComponent(path);
     wrapper.update();
-    const expectedDropdownValue = updateCategoryDropdown(categoryParam).current
-      .optionValue;
+    const expectedDropdownValue =
+      updateCategoryDropdown(categoryParam).current.optionValue;
     expect(wrapper.find(Dropdown).prop('value')).to.equal(
       expectedDropdownValue,
     );

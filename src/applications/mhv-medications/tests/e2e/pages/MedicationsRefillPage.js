@@ -95,9 +95,7 @@ class MedicationsRefillPage {
     ).as('medicationsList');
     cy.intercept(
       'GET',
-      `${
-        this.basePath
-      }/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true`,
+      `${this.basePath}/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true`,
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
@@ -257,11 +255,12 @@ class MedicationsRefillPage {
     cy.get('[data-testid="refills-left"]').should('contain', refills);
   };
 
-  verifyActiveRxZeroRefillsNoDispenseDateIsRefillableOnRefillPage = checkBox => {
-    cy.get(`[data-testid="refill-prescription-checkbox-${checkBox}"]`).should(
-      'be.visible',
-    );
-  };
+  verifyActiveRxZeroRefillsNoDispenseDateIsRefillableOnRefillPage =
+    checkBox => {
+      cy.get(`[data-testid="refill-prescription-checkbox-${checkBox}"]`).should(
+        'be.visible',
+      );
+    };
 
   verifyNullDispenseDateForActiveParkedZeroRefills = (
     activeParkedRx = null,
@@ -300,9 +299,7 @@ class MedicationsRefillPage {
   ) => {
     const url = this.isV2()
       ? `${this.basePath}/prescriptions/refill`
-      : `${
-          this.basePath
-        }/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`;
+      : `${this.basePath}/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`;
     cy.intercept(this.getRefillMethod(), url, failedRequest).as(
       'failedRefillRequest',
     );
@@ -361,9 +358,7 @@ class MedicationsRefillPage {
   clickRequestRefillButtonforSuccessfulRequests = (prescriptionId, success) => {
     const url = this.isV2()
       ? `${this.basePath}/prescriptions/refill`
-      : `${
-          this.basePath
-        }/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`;
+      : `${this.basePath}/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`;
     cy.intercept(this.getRefillMethod(), url, success).as('refillSuccess');
     cy.get('[data-testid="request-refill-button"]').should('exist');
     cy.get('[data-testid="request-refill-button"]').click({
@@ -378,9 +373,7 @@ class MedicationsRefillPage {
   ) => {
     const url = this.isV2()
       ? `${this.basePath}/prescriptions/refill`
-      : `${
-          this.basePath
-        }/prescriptions/refill_prescriptions?ids[]=${prescriptionId1}&ids[]=${prescriptionId2}`;
+      : `${this.basePath}/prescriptions/refill_prescriptions?ids[]=${prescriptionId1}&ids[]=${prescriptionId2}`;
     cy.intercept(this.getRefillMethod(), url, partialsuccess);
     cy.get('[data-testid="request-refill-button"]').should('exist');
     cy.get('[data-testid="request-refill-button"]').click({
@@ -488,9 +481,7 @@ class MedicationsRefillPage {
     cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
     cy.intercept(
       'GET',
-      `${
-        this.basePath
-      }/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true`,
+      `${this.basePath}/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true`,
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);

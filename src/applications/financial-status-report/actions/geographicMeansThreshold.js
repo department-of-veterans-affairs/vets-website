@@ -69,9 +69,7 @@ const getDataUrl = (dependents, zipCode) => {
     return `https://staging-api.va.gov/income_limits/v1/limitsByZipCode/${zipCode}/${GMT_YEAR}/${dependents}`;
   }
 
-  return `${
-    environment.API_URL
-  }/income_limits/v1/limitsByZipCode/${zipCode}/${GMT_YEAR}/${dependents}`;
+  return `${environment.API_URL}/income_limits/v1/limitsByZipCode/${zipCode}/${GMT_YEAR}/${dependents}`;
 };
 
 /**

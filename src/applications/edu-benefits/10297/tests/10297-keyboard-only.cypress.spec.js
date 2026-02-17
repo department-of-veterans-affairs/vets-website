@@ -95,11 +95,8 @@ describe('10297 Keyboard Only Tests', () => {
     );
     cy.injectAxeThenAxeCheck();
     cy.realPress('Tab');
-    const [
-      releaseYear,
-      releaseMonth,
-      releaseDay,
-    ] = maximalData.data.dateReleasedFromActiveDuty.split('-');
+    const [releaseYear, releaseMonth, releaseDay] =
+      maximalData.data.dateReleasedFromActiveDuty.split('-');
     cy.get('input[name="root_dateReleasedFromActiveDutyMonth"]')
       .focus()
       .realType(releaseMonth);

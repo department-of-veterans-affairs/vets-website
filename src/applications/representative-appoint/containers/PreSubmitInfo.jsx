@@ -16,9 +16,8 @@ export const PreSubmitInfo = ({
 }) => {
   const hasSubmit = !!formSubmission.status;
   const isSubmitPending = formSubmission.status === 'submitPending';
-  const [termsAndConditionsChecked, setTermsAndConditionsChecked] = useState(
-    false,
-  );
+  const [termsAndConditionsChecked, setTermsAndConditionsChecked] =
+    useState(false);
   const [formReplacementChecked, setFormReplacementChecked] = useState(false);
   const [privacyPolicyChecked, setPrivacyPolicyChecked] = useState(false);
 
@@ -170,7 +169,4 @@ const mapStateToProps = ({ form }) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  null,
-)(PreSubmitInfo);
+export default connect(mapStateToProps, null)(PreSubmitInfo);

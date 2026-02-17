@@ -67,14 +67,11 @@ export default function AppealListItem({ appeal, name }) {
 
   // Memoize failed submissions to prevent UploadType2ErrorAlertSlim from receiving
   // a new array reference on every render, which would break its useEffect tracking
-  const failedSubmissionsWithinLast30Days = useMemo(
-    () => {
-      const evidenceSubmissions = appeal.attributes?.evidenceSubmissions || [];
+  const failedSubmissionsWithinLast30Days = useMemo(() => {
+    const evidenceSubmissions = appeal.attributes?.evidenceSubmissions || [];
 
-      return getFailedSubmissionsWithinLast30Days(evidenceSubmissions);
-    },
-    [appeal.attributes?.evidenceSubmissions],
-  );
+    return getFailedSubmissionsWithinLast30Days(evidenceSubmissions);
+  }, [appeal.attributes?.evidenceSubmissions]);
 
   appealTitle = capitalizeWord(appealTitle);
   updatedOn = formatDate(updatedEventDateString);

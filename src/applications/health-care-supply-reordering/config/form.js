@@ -134,9 +134,7 @@ const submit = form => {
       return reject(error);
     });
 
-  return apiRequest('/mdot/supplies', options)
-    .then(onSuccess)
-    .catch(onFailure);
+  return apiRequest('/mdot/supplies', options).then(onSuccess).catch(onFailure);
 };
 
 const downtime = {

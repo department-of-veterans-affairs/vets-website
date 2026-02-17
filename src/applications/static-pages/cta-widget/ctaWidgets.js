@@ -260,8 +260,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.VET_TEC]: {
     id: CTA_WIDGET_TYPES.VET_TEC,
     deriveToolUrlDetails: () => ({
-      url:
-        '/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994',
+      url: '/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994',
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,

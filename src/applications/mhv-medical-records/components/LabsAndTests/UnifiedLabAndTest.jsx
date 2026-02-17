@@ -34,12 +34,9 @@ import { pdfPrinter, txtPrinter } from '../../util/printHelper';
 const UnifiedLabsAndTests = props => {
   const { record, user, runningUnitTest = false } = props;
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-    },
-    [record],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  }, [record]);
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,

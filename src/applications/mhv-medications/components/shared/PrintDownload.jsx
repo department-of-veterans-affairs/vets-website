@@ -23,19 +23,16 @@ const PrintDownload = props => {
     menuOptionsClasses += ' menu-options-open';
   }
 
-  useEffect(
-    () => {
-      if (isError) {
-        focusElement(errorAlert.current);
-        return;
-      }
+  useEffect(() => {
+    if (isError) {
+      focusElement(errorAlert.current);
+      return;
+    }
 
-      if (isSuccess) {
-        focusElement(successAlert.current);
-      }
-    },
-    [isSuccess, isError],
-  );
+    if (isSuccess) {
+      focusElement(successAlert.current);
+    }
+  }, [isSuccess, isError]);
 
   const handleDownload = async format => {
     setMenuOpen(false); // ensure menu closes
@@ -120,28 +117,27 @@ const PrintDownload = props => {
           />
         </div>
       )}
-      {isSuccess &&
-        !isError && (
-          <div
-            className="vads-u-margin-y--3"
-            data-testid="download-success-banner"
+      {isSuccess && !isError && (
+        <div
+          className="vads-u-margin-y--3"
+          data-testid="download-success-banner"
+        >
+          <va-alert
+            role="alert"
+            status="success"
+            ref={successAlert}
+            background-only
+            uswds
           >
-            <va-alert
-              role="alert"
-              status="success"
-              ref={successAlert}
-              background-only
-              uswds
-            >
-              <h2 slot="headline">Download started</h2>
-              <p className="vads-u-margin--0">
-                Your file should download automatically. If it doesn’t, try
-                again. If you can’t find it, check your browser settings to find
-                where your browser saves downloaded files.
-              </p>
-            </va-alert>
-          </div>
-        )}
+            <h2 slot="headline">Download started</h2>
+            <p className="vads-u-margin--0">
+              Your file should download automatically. If it doesn’t, try again.
+              If you can’t find it, check your browser settings to find where
+              your browser saves downloaded files.
+            </p>
+          </va-alert>
+        </div>
+      )}
       {/* hack to generate va-alert and va-telephone web components in case there is no network at the time of download */}
       <va-alert visible="false" uswds>
         <va-telephone />

@@ -140,14 +140,13 @@ class PatientInboxPage {
     ).as('message');
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED +
-        inputMockMessage.attributes.messageId}/thread?full_body=true`,
+      `${
+        Paths.SM_API_EXTENDED + inputMockMessage.attributes.messageId
+      }/thread?full_body=true`,
       mockThread,
     ).as('full-thread');
     cy.tabToElement(
-      `a[href*="/my-health/secure-messages/message/${
-        inputMockMessage.attributes.messageId
-      }"]`,
+      `a[href*="/my-health/secure-messages/message/${inputMockMessage.attributes.messageId}"]`,
     );
     cy.realPress(['Enter']);
     cy.wait(Locators.INFO.MESSAGE);
@@ -169,25 +168,19 @@ class PatientInboxPage {
     );
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${
-        mockMessages.data[0].attributes.messageId
-      }/thread?full_body=true`,
+      `${Paths.SM_API_EXTENDED}/${mockMessages.data[0].attributes.messageId}/thread?full_body=true`,
       this.singleThread,
     ).as('full-thread');
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${
-        this.singleThread.data[0].attributes.messageId
-      }`,
+      `${Paths.SM_API_EXTENDED}/${this.singleThread.data[0].attributes.messageId}`,
       { data: this.singleThread.data[0] },
     ).as('first-message-in-thread');
 
     if (this.singleThread.data.length > 1) {
       cy.intercept(
         'GET',
-        `${Paths.SM_API_EXTENDED}/${
-          this.singleThread.data[1].attributes.messageId
-        }`,
+        `${Paths.SM_API_EXTENDED}/${this.singleThread.data[1].attributes.messageId}`,
         { data: this.singleThread.data[1] },
       ).as('second-message-in-thread');
     }
@@ -202,9 +195,8 @@ class PatientInboxPage {
   getNewMessage = () => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
-    mockMessages.data.at(
-      this.newMessageIndex,
-    ).attributes.sentDate = date.toISOString();
+    mockMessages.data.at(this.newMessageIndex).attributes.sentDate =
+      date.toISOString();
     return mockMessages.data.at(this.newMessageIndex);
   };
 
@@ -227,9 +219,8 @@ class PatientInboxPage {
   getExpired46DayOldMessage = () => {
     const date = new Date();
     date.setDate(date.getDate() - 46);
-    mockMessages.data.at(
-      this.newMessageIndex,
-    ).attributes.sentDate = date.toISOString();
+    mockMessages.data.at(this.newMessageIndex).attributes.sentDate =
+      date.toISOString();
     return mockMessages.data.at(this.newMessageIndex);
   };
 
@@ -244,9 +235,8 @@ class PatientInboxPage {
   loadPageForNoProvider = (mockRecipientsResponse, doAxeCheck = false) => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
-    mockMessages.data.at(
-      this.newMessageIndex,
-    ).attributes.sentDate = date.toISOString();
+    mockMessages.data.at(this.newMessageIndex).attributes.sentDate =
+      date.toISOString();
 
     cy.intercept(
       'GET',
@@ -494,9 +484,7 @@ class PatientInboxPage {
       .shadow()
       .find('select')
       .select(1, { force: true });
-    cy.get(Locators.BUTTONS.CATEGORY_RADIOBTN)
-      .first()
-      .click();
+    cy.get(Locators.BUTTONS.CATEGORY_RADIOBTN).first().click();
     cy.findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .find(`#inputField`)
       .type('testSubject', { force: true });

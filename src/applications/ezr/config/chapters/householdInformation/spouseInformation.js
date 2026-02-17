@@ -65,18 +65,16 @@ const spouseInformationIntroPageSchema = spouseInformationIntroPage;
  *
  * @returns {PageSchema}
  */
-const spouseInformationSummaryPageSchema = spouseInformationSummaryPage(
-  options,
-);
+const spouseInformationSummaryPageSchema =
+  spouseInformationSummaryPage(options);
 
 /**
  * Schemas for spouse personal information page.
  *
  * @returns {PageSchema}
  */
-const spousePersonalInformationPageSchema = spousePersonalInformationPage(
-  options,
-);
+const spousePersonalInformationPageSchema =
+  spousePersonalInformationPage(options);
 
 /**
  * Schemas for spouse additional information page.
@@ -116,16 +114,14 @@ const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
   }),
   spousePersonalInformationPage: pageBuilder.itemPage({
     title: content['household-spouse-information-title'],
-    path:
-      'household-information/spouse-information/:index/personal-information',
+    path: 'household-information/spouse-information/:index/personal-information',
     uiSchema: spousePersonalInformationPageSchema.uiSchema,
     schema: spousePersonalInformationPageSchema.schema,
     depends: includeSpousalInformationV2,
   }),
   spouseAdditionalInformationPage: pageBuilder.itemPage({
     title: content['household-spouse-addtl-info-title'],
-    path:
-      'household-information/spouse-information/:index/additional-information',
+    path: 'household-information/spouse-information/:index/additional-information',
     uiSchema: spouseAdditionalInformationPageSchema.uiSchema,
     schema: spouseAdditionalInformationPageSchema.schema,
     depends: includeSpousalInformationV2,

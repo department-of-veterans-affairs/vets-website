@@ -37,14 +37,11 @@ function Default5103EvidenceNotice({
     setUpPage();
   }, []);
 
-  useEffect(
-    () => {
-      if (!loadingDecisionRequest && decisionRequested) {
-        goToFilesPage();
-      }
-    },
-    [loadingDecisionRequest, decisionRequested],
-  );
+  useEffect(() => {
+    if (!loadingDecisionRequest && decisionRequested) {
+      goToFilesPage();
+    }
+  }, [loadingDecisionRequest, decisionRequested]);
 
   const submit = () => {
     if (addedEvidence) {
@@ -172,10 +169,7 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(Default5103EvidenceNotice),
+  connect(mapStateToProps, mapDispatchToProps)(Default5103EvidenceNotice),
 );
 
 Default5103EvidenceNotice.propTypes = {

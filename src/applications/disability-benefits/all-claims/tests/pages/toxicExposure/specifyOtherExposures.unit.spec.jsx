@@ -41,10 +41,8 @@ const formData = {
 };
 
 describe('Specify Other Exposures', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.disabilities.pages.specifyOtherExposures;
+  const { schema, uiSchema } =
+    formConfig.chapters.disabilities.pages.specifyOtherExposures;
 
   it('should render', () => {
     const { container, getByText } = render(
@@ -79,18 +77,16 @@ describe('Specify Other Exposures', () => {
 
   describe('reviewTitle', () => {
     it('returns only the user-entered description when on confirmation', () => {
-      const {
-        reviewTitle,
-      } = formConfig.chapters.disabilities.pages.specifyOtherExposures;
+      const { reviewTitle } =
+        formConfig.chapters.disabilities.pages.specifyOtherExposures;
       expect(reviewTitle({ formData, onReviewPage: false })).to.equal(
         'Test Substance',
       );
     });
 
     it('returns full "Hazard # of #: description" when on review page', () => {
-      const {
-        reviewTitle,
-      } = formConfig.chapters.disabilities.pages.specifyOtherExposures;
+      const { reviewTitle } =
+        formConfig.chapters.disabilities.pages.specifyOtherExposures;
       expect(reviewTitle({ formData })).to.equal(
         'Hazard 3 of 3: Test Substance',
       );

@@ -187,9 +187,7 @@ describe('Intent to file submission', () => {
         '/representative/representative-form-upload/submit-va-form-21-0966',
       );
 
-      cy.get('a[href="#start"]')
-        .contains('Start the submission')
-        .click();
+      cy.get('a[href="#start"]').contains('Start the submission').click();
 
       cy.window().then(win => {
         const flag = win.sessionStorage.getItem('formIncompleteARP');
@@ -221,9 +219,7 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
         );
 
-        cy.get('a[href="#start"]')
-          .contains('Start the submission')
-          .click();
+        cy.get('a[href="#start"]').contains('Start the submission').click();
 
         cy.injectAxe();
         cy.axeCheck();
@@ -282,9 +278,7 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
         );
 
-        cy.get('a[href="#start"]')
-          .contains('Start the submission')
-          .click();
+        cy.get('a[href="#start"]').contains('Start the submission').click();
 
         cy.injectAxe();
         cy.axeCheck();
@@ -360,9 +354,7 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
         );
 
-        cy.get('a[href="#start"]')
-          .contains('Start the submission')
-          .click();
+        cy.get('a[href="#start"]').contains('Start the submission').click();
 
         cy.injectAxe();
         cy.axeCheck();
@@ -428,9 +420,7 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
         );
 
-        cy.get('a[href="#start"]')
-          .contains('Start the submission')
-          .click();
+        cy.get('a[href="#start"]').contains('Start the submission').click();
 
         cy.injectAxe();
         cy.axeCheck();
@@ -490,9 +480,7 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
         );
 
-        cy.get('a[href="#start"]')
-          .contains('Start the submission')
-          .click();
+        cy.get('a[href="#start"]').contains('Start the submission').click();
 
         cy.injectAxe();
         cy.axeCheck();
@@ -551,9 +539,7 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
         );
 
-        cy.get('a[href="#start"]')
-          .contains('Start the submission')
-          .click();
+        cy.get('a[href="#start"]').contains('Start the submission').click();
 
         cy.injectAxe();
         cy.axeCheck();
@@ -612,9 +598,7 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
         );
 
-        cy.get('a[href="#start"]')
-          .contains('Start the submission')
-          .click();
+        cy.get('a[href="#start"]').contains('Start the submission').click();
 
         cy.injectAxe();
         cy.axeCheck();

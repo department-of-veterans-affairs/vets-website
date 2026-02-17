@@ -104,7 +104,10 @@ describe('combined debt portal helpers', () => {
     it('should use calculateTotalBills when showVHAPaymentHistory is false', () => {
       const shouldShowVHAPaymentHistory = false;
       const mcp = {
-        statements: [{ id: '1', pHAmtDue: 50 }, { id: '2', pHAmtDue: 100 }],
+        statements: [
+          { id: '1', pHAmtDue: 50 },
+          { id: '2', pHAmtDue: 100 },
+        ],
       };
 
       const totalBills = shouldShowVHAPaymentHistory

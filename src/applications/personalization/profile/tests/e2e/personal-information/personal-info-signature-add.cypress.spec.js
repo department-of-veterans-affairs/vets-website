@@ -40,17 +40,17 @@ describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
 
   it(`verify user can add and save signature`, () => {
     cy.get(Locators.SIGNATURE.EDIT_BTN).click();
-    cy.get(Locators.SIGNATURE.NAME_FIELD)
-      .should(`be.focused`)
-      .type('Name');
+    cy.get(Locators.SIGNATURE.NAME_FIELD).should(`be.focused`).type('Name');
     cy.get(Locators.SIGNATURE.TITLE_FIELD).type('TestTitle');
 
     PersonalInformationPage.saveSignature();
 
     cy.get(Locators.SIGNATURE.GENERAL).should(
       `contain.text`,
-      `${mockSignature.data.attributes.signatureName +
-        mockSignature.data.attributes.signatureTitle}`,
+      `${
+        mockSignature.data.attributes.signatureName +
+        mockSignature.data.attributes.signatureTitle
+      }`,
     );
 
     cy.get(Locators.SIGNATURE.ALERTS.SUCCESS)

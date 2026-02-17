@@ -32,8 +32,7 @@ export default {
       },
       [veteranFields.email]: emailToSendNotificationsUI({
         title: 'Email address',
-        hint:
-          'We’ll use this email address to confirm when we receive your form',
+        hint: 'We’ll use this email address to confirm when we receive your form',
       }),
       electronicCorrespondence: {
         'ui:title':

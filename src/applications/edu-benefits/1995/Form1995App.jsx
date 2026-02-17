@@ -46,45 +46,39 @@ function Form1995Entry({
   const isLoadingToggles = useToggleLoadingValue();
 
   // Store Rudisill flag in sessionStorage for helpers.jsx usage
-  useEffect(
-    () => {
-      if (rudisillFlag !== undefined) {
-        sessionStorage.setItem('isRudisill1995', JSON.stringify(rudisillFlag));
-      }
-    },
-    [rudisillFlag],
-  );
+  useEffect(() => {
+    if (rudisillFlag !== undefined) {
+      sessionStorage.setItem('isRudisill1995', JSON.stringify(rudisillFlag));
+    }
+  }, [rudisillFlag]);
 
-  useEffect(
-    () => {
-      if (rerouteFlag === undefined || !formData) {
-        return;
-      }
+  useEffect(() => {
+    if (rerouteFlag === undefined || !formData) {
+      return;
+    }
 
-      if (!rerouteFlag) {
-        if (formData.isMeb1995Reroute) {
-          const nextFormData = { ...formData };
-          delete nextFormData.isMeb1995Reroute;
-          delete nextFormData.currentBenefitType;
-          setFormData(nextFormData);
-        }
-        return;
+    if (!rerouteFlag) {
+      if (formData.isMeb1995Reroute) {
+        const nextFormData = { ...formData };
+        delete nextFormData.isMeb1995Reroute;
+        delete nextFormData.currentBenefitType;
+        setFormData(nextFormData);
       }
+      return;
+    }
 
-      // Only update if the values have actually changed
-      if (
-        formData.isMeb1995Reroute !== rerouteFlag ||
-        formData.currentBenefitType !== claimantCurrentBenefit
-      ) {
-        setFormData({
-          ...formData,
-          isMeb1995Reroute: rerouteFlag,
-          currentBenefitType: claimantCurrentBenefit,
-        });
-      }
-    },
-    [claimantCurrentBenefit, formData, rerouteFlag, setFormData],
-  );
+    // Only update if the values have actually changed
+    if (
+      formData.isMeb1995Reroute !== rerouteFlag ||
+      formData.currentBenefitType !== claimantCurrentBenefit
+    ) {
+      setFormData({
+        ...formData,
+        isMeb1995Reroute: rerouteFlag,
+        currentBenefitType: claimantCurrentBenefit,
+      });
+    }
+  }, [claimantCurrentBenefit, formData, rerouteFlag, setFormData]);
 
   if (isLoadingToggles || rerouteFlag === undefined) {
     return (
@@ -144,7 +138,4 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Form1995Entry);
+export default connect(mapStateToProps, mapDispatchToProps)(Form1995Entry);

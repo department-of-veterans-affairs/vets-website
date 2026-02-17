@@ -17,13 +17,8 @@ const {
   nextOfKins: { items: contact },
 } = ezrSchema.properties;
 
-const {
-  fullName,
-  primaryPhone,
-  relationship,
-  contactType,
-  address,
-} = contact.properties;
+const { fullName, primaryPhone, relationship, contactType, address } =
+  contact.properties;
 
 /**
  * Declare schema attributes for next of kins page

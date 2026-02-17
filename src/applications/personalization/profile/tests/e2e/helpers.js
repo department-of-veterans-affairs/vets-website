@@ -17,9 +17,7 @@ export function subNavOnlyContainsAccountSecurity({
 } = {}) {
   if (mobile) {
     if (profile2Enabled) {
-      cy.get('va-sidenav')
-        .filter(':visible')
-        .click();
+      cy.get('va-sidenav').filter(':visible').click();
     } else {
       cy.findByRole('button', { name: /profile menu/i }).click();
     }

@@ -6,10 +6,8 @@ import {
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../config/form';
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.serviceBranch.pages.serviceBranch;
+const { schema, uiSchema } =
+  formConfig.chapters.serviceBranch.pages.serviceBranch;
 
 const pageTitle = 'mock service branch inputs';
 

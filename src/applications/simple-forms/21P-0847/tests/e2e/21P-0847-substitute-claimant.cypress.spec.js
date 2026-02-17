@@ -29,9 +29,7 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           // User is logged in, so we can start the form directly
-          cy.findAllByText(/start/i, { selector: 'a' })
-            .first()
-            .click();
+          cy.findAllByText(/start/i, { selector: 'a' }).first().click();
         });
       },
       [pagePaths.preparerPersonalInfo]: ({ afterHook }) => {

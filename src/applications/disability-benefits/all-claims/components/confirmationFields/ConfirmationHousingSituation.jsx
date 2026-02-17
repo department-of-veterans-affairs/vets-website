@@ -42,7 +42,7 @@ const ConfirmationHousingSituation = ({ formData }) => {
                 Please describe your current living situation:
               </div>
               {HOMELESS_HOUSING_LABELS[
-                (formData['view:isHomeless']?.homelessHousingSituation)
+                formData['view:isHomeless']?.homelessHousingSituation
               ] || ''}
             </li>
             {formData['view:isHomeless']?.homelessHousingSituation ===
@@ -68,7 +68,7 @@ const ConfirmationHousingSituation = ({ formData }) => {
                 Please describe your housing situation:
               </div>
               {AT_RISK_HOUSING_LABELS[
-                (formData['view:isAtRisk']?.atRiskHousingSituation)
+                formData['view:isAtRisk']?.atRiskHousingSituation
               ] || ''}
             </li>
             {formData['view:isAtRisk']?.atRiskHousingSituation === 'other' && (

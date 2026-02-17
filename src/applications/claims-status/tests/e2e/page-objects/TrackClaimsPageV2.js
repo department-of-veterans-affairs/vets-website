@@ -254,10 +254,7 @@ class TrackClaimsPageV2 {
   }
 
   clickShowMoreFilesReceived() {
-    cy.get('[data-testid="show-more-button"]')
-      .shadow()
-      .find('button')
-      .click();
+    cy.get('[data-testid="show-more-button"]').shadow().find('button').click();
   }
 
   verifyShowMoreFilesReceivedButtonText(text) {
@@ -483,10 +480,7 @@ class TrackClaimsPageV2 {
 
   submitFilesShowsError() {
     // Click submit without selecting any files to trigger validation error
-    cy.get(`va-button[text="${SUBMIT_TEXT}"]`)
-      .shadow()
-      .find('button')
-      .click();
+    cy.get(`va-button[text="${SUBMIT_TEXT}"]`).shadow().find('button').click();
 
     // Check for error message in va-file-input-multiple
     cy.get('va-file-input-multiple')
@@ -666,9 +660,7 @@ class TrackClaimsPageV2 {
   }
 
   verifyPrimaryAlert() {
-    cy.get('va-alert.primary-alert')
-      .first()
-      .should('be.visible');
+    cy.get('va-alert.primary-alert').first().should('be.visible');
     cy.get('va-alert.primary-alert')
       .first()
       .find('va-link-action[text="About this request"]')
@@ -711,13 +703,9 @@ class TrackClaimsPageV2 {
       : '/track-claims/your-claims/189685/needed-from-you/13';
     cy.get(testId).should('be.visible');
     if (isStandard || is5103Update) {
-      cy.get(testId)
-        .find('h4')
-        .should('contain', 'Review evidence list');
+      cy.get(testId).find('h4').should('contain', 'Review evidence list');
     } else {
-      cy.get(testId)
-        .find('h4')
-        .should('contain', 'Request for evidence');
+      cy.get(testId).find('h4').should('contain', 'Request for evidence');
     }
     cy.get(testId)
       .find('va-link-action[text="About this request"]')
@@ -729,9 +717,7 @@ class TrackClaimsPageV2 {
         'contain',
         'We sent you a “List of evidence we may need (5103 notice)” letter. This letter lets you know if submitting additional evidence will help decide your claim.',
       );
-    cy.get(testId)
-      .find('a')
-      .click();
+    cy.get(testId).find('a').click();
     cy.url().should('contain', url);
   }
 
@@ -808,9 +794,7 @@ class TrackClaimsPageV2 {
   }
 
   verifyClosedClaimSecondaryAlert() {
-    cy.get('va-alert[status="info"]')
-      .first()
-      .should('be.visible');
+    cy.get('va-alert[status="info"]').first().should('be.visible');
     cy.get('va-alert[status="info"]')
       .first()
       .shadow()
@@ -825,9 +809,7 @@ class TrackClaimsPageV2 {
   }
 
   verifySecondaryAlert() {
-    cy.get('va-alert[status="info"]')
-      .first()
-      .should('be.visible');
+    cy.get('va-alert[status="info"]').first().should('be.visible');
     cy.get('va-alert[status="info"]')
       .first()
       .shadow()
@@ -913,9 +895,7 @@ class TrackClaimsPageV2 {
   verifyOverviewShowPastUpdates() {
     cy.get('#tabOverview').click();
     cy.url().should('contain', '/your-claims/189685/overview');
-    cy.get('.process-step.list-three')
-      .find('button')
-      .click();
+    cy.get('.process-step.list-three').find('button').click();
     cy.get('#older-updates-3').should('be.visible');
   }
 
@@ -946,9 +926,7 @@ class TrackClaimsPageV2 {
       .find('a')
       .click();
     cy.url().should('contain', '/needed-from-you/');
-    cy.get('#default-page')
-      .should('be.visible')
-      .as('friendlyMessage');
+    cy.get('#default-page').should('be.visible').as('friendlyMessage');
     cy.assertChildText('@friendlyMessage', 'h1', 'Submit Buddy Statement(s)');
     cy.assertChildText('@friendlyMessage', 'h2', 'What we need from you');
     cy.assertChildText('@friendlyMessage', 'h2', 'Next steps');
@@ -966,9 +944,7 @@ class TrackClaimsPageV2 {
       .find('a.add-your-claims-link:first-of-type')
       .click();
     cy.url().should('contain', '/needed-from-others/');
-    cy.get('#default-page')
-      .should('be.visible')
-      .as('friendlyMessage');
+    cy.get('#default-page').should('be.visible').as('friendlyMessage');
     cy.assertChildText('@friendlyMessage', 'h1', 'Need form 21-4142');
     cy.assertChildText(
       '@friendlyMessage',

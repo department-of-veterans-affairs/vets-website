@@ -69,7 +69,7 @@ const generateData = (type, formData) => {
         'Relationship to the deceased Veterans': formData?.relationship?.type
           ?.other
           ? formData?.relationship?.other
-          : relationshipType[(formData?.relationship?.type)],
+          : relationshipType[formData?.relationship?.type],
       };
     case 'deceased-veteran-information':
       return {
@@ -94,13 +94,12 @@ const generateData = (type, formData) => {
           'Date of death': formData?.deathDate
             ? convertDateFormat(formData?.deathDate)
             : '',
-          'Date of burial (includes cremation or interment)': formData?.burialDate
-            ? convertDateFormat(formData?.burialDate)
-            : '',
+          'Date of burial (includes cremation or interment)':
+            formData?.burialDate ? convertDateFormat(formData?.burialDate) : '',
           'Where did the Veteran’s death occur?': formData?.locationOfDeath
             ?.other
             ? formData?.locationOfDeath?.other
-            : locationOfDeath[(formData?.locationOfDeath?.location)],
+            : locationOfDeath[formData?.locationOfDeath?.location],
         },
       };
     case 'military-history':
@@ -118,16 +117,14 @@ const generateData = (type, formData) => {
           'Burial allowance': formData['view:claimedBenefits']?.burialAllowance
             ? 'Selected'
             : 'Not selected',
-          'Plot or interment allowance (Check this box if you incurred expensed for the plot to bury the Veteran’s remains.)': formData[
-            'view:claimedBenefits'
-          ]?.plotAllowance
-            ? 'Selected'
-            : 'Not selected',
-          'Transportation expenses (Transportation of the Veteran’s remains from the place of death to the final resting place)': formData[
-            'view:claimedBenefits'
-          ]?.transportation
-            ? formatCurrency(formData['view:claimedBenefits']?.amountIncurred)
-            : 'None',
+          'Plot or interment allowance (Check this box if you incurred expensed for the plot to bury the Veteran’s remains.)':
+            formData['view:claimedBenefits']?.plotAllowance
+              ? 'Selected'
+              : 'Not selected',
+          'Transportation expenses (Transportation of the Veteran’s remains from the place of death to the final resting place)':
+            formData['view:claimedBenefits']?.transportation
+              ? formatCurrency(formData['view:claimedBenefits']?.amountIncurred)
+              : 'None',
         },
         'Burial allowance': {
           'Type of burial allowance':
@@ -141,15 +138,14 @@ const generateData = (type, formData) => {
             : 'No',
         },
         'Plot or interment allowance': {
-          'Place of burial or location of deceased Veteran’s remains': formData?.placeOfRemains
-            ? formData?.placeOfRemains
-            : '',
-          'Was the Veteran buried in a state Veterans cemetary?': formData?.stateCemetary
-            ? 'Yes'
-            : 'No',
-          'Did a federal/state government or the Veteran’s employer contribute to the burial? (Not including employer life insurance)': formData?.govtContributions
-            ? formatCurrency(formData?.amountGovtContribution)
-            : 'No',
+          'Place of burial or location of deceased Veteran’s remains':
+            formData?.placeOfRemains ? formData?.placeOfRemains : '',
+          'Was the Veteran buried in a state Veterans cemetary?':
+            formData?.stateCemetary ? 'Yes' : 'No',
+          'Did a federal/state government or the Veteran’s employer contribute to the burial? (Not including employer life insurance)':
+            formData?.govtContributions
+              ? formatCurrency(formData?.amountGovtContribution)
+              : 'No',
         },
       };
     case 'additional-information':

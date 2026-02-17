@@ -84,10 +84,7 @@ class CCServiceTypeAhead extends Component {
     }
     const specialtyName = this.getSpecialtyName(specialty);
     if (input.length >= 2 && specialtyName) {
-      return specialtyName
-        .trim()
-        .toLowerCase()
-        .includes(input.toLowerCase());
+      return specialtyName.trim().toLowerCase().includes(input.toLowerCase());
     }
     return false;
   };
@@ -284,7 +281,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatch,
-)(CCServiceTypeAhead);
+export default connect(mapStateToProps, mapDispatch)(CCServiceTypeAhead);

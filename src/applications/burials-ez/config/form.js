@@ -211,8 +211,7 @@ const formConfig = {
         },
         homeHospiceCareAfterDischarge: {
           ...pageAndReviewTitle('Home hospice care after discharge'),
-          path:
-            'veteran-information/location-of-death/hme-hospice-care-after-discharge',
+          path: 'veteran-information/location-of-death/hme-hospice-care-after-discharge',
           depends: showHomeHospiceCareAfterDischargePage,
           uiSchema: homeHospiceCareAfterDischarge.uiSchema,
           schema: homeHospiceCareAfterDischarge.schema,

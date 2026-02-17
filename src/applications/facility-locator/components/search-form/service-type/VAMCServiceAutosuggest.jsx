@@ -56,46 +56,40 @@ const VAMCServiceAutosuggest = ({
     }
   };
 
-  useEffect(
-    () => {
-      if (selector?.data) {
-        getServices();
-      }
+  useEffect(() => {
+    if (selector?.data) {
+      getServices();
+    }
 
-      // Handles edge cases where the form might be re-rendered between
-      // viewpoints or for any other reason and the autosuggest input is lost
-      if (!inputValue && vamcServiceDisplay) {
-        setInputValue(vamcServiceDisplay);
-      }
-    },
-    [selector],
-  );
+    // Handles edge cases where the form might be re-rendered between
+    // viewpoints or for any other reason and the autosuggest input is lost
+    if (!inputValue && vamcServiceDisplay) {
+      setInputValue(vamcServiceDisplay);
+    }
+  }, [selector]);
 
   // If the user has not typed a service at all, or types something that does not
   // match any of the services, we'll search for "All VA health services" when the
   // search button is clicked. This just prefills the input with that text so it won't
   // be a confusing experience for the user.
   // The searchInitiated variable is only used for this purpose so we reset it at the bottom
-  useEffect(
-    () => {
-      if (searchInitiated) {
-        const selectedValueFromDropdown = options?.filter(
-          service => service.toDisplay === inputValue,
-        )?.[0];
+  useEffect(() => {
+    if (searchInitiated) {
+      const selectedValueFromDropdown = options?.filter(
+        service => service.toDisplay === inputValue,
+      )?.[0];
 
-        const typedValueHasNoMatch =
-          inputValue?.length &&
-          inputValue !== selectedValueFromDropdown?.toDisplay;
+      const typedValueHasNoMatch =
+        inputValue?.length &&
+        inputValue !== selectedValueFromDropdown?.toDisplay;
 
-        if (typedValueHasNoMatch || !inputValue) {
-          setInputValue('All VA health services');
-        }
+      if (typedValueHasNoMatch || !inputValue) {
+        setInputValue('All VA health services');
       }
+    }
 
-      setSearchInitiated(false);
-    },
-    [options, searchInitiated],
-  );
+    setSearchInitiated(false);
+  }, [options, searchInitiated]);
 
   const handleClearClick = () => {
     onChange({ serviceType: null, vamcServiceDisplay: null });
@@ -145,31 +139,28 @@ const VAMCServiceAutosuggest = ({
     }
   };
 
-  useEffect(
-    () => {
-      if (!isMobile) return undefined;
-      const servicesTypeInput = document.getElementById('vamc-services');
-      if (!servicesTypeInput) return undefined;
+  useEffect(() => {
+    if (!isMobile) return undefined;
+    const servicesTypeInput = document.getElementById('vamc-services');
+    if (!servicesTypeInput) return undefined;
 
-      const handleFocus = () => {
-        const servicesTypeContainer = document.getElementById(
-          'vamc-services-autosuggest-container',
-        );
-        if (!servicesTypeContainer) return;
+    const handleFocus = () => {
+      const servicesTypeContainer = document.getElementById(
+        'vamc-services-autosuggest-container',
+      );
+      if (!servicesTypeContainer) return;
 
-        setTimeout(() => {
-          servicesTypeContainer.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-          });
-        }, 300);
-      };
+      setTimeout(() => {
+        servicesTypeContainer.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }, 300);
+    };
 
-      servicesTypeInput.addEventListener('focus', handleFocus);
-      return () => servicesTypeInput.removeEventListener('focus', handleFocus);
-    },
-    [isMobile],
-  );
+    servicesTypeInput.addEventListener('focus', handleFocus);
+    return () => servicesTypeInput.removeEventListener('focus', handleFocus);
+  }, [isMobile]);
   return (
     <Autosuggest
       downshiftInputProps={{

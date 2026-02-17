@@ -39,7 +39,7 @@ const options = {
     },
     cardDescription: item => {
       const relationship =
-        relationshipOptions[(item?.relationship)] || item?.relationship || '';
+        relationshipOptions[item?.relationship] || item?.relationship || '';
       const dob = item?.dateOfBirth ? ` • Born: ${item.dateOfBirth}` : '';
       return `${relationship}${dob}`;
     },

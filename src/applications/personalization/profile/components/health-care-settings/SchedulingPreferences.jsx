@@ -31,55 +31,43 @@ const SchedulingPreferences = () => {
   );
   const openEditModal = useCallback(() => dispatch(openModal()), [dispatch]);
 
-  useEffect(
-    () => {
-      document.title = `Scheduling Preferences | Veterans Affairs`;
-      // Mark component as mounted after first render so Prompt doesn't show on initial load
-      hasMountedRef.current = true;
+  useEffect(() => {
+    document.title = `Scheduling Preferences | Veterans Affairs`;
+    // Mark component as mounted after first render so Prompt doesn't show on initial load
+    hasMountedRef.current = true;
 
-      return () => {
-        clearSuccessAlert();
-      };
-    },
-    [clearSuccessAlert],
-  );
+    return () => {
+      clearSuccessAlert();
+    };
+  }, [clearSuccessAlert]);
 
-  useEffect(
-    () => {
-      if (location.hash) {
-        // Set focus on the page heading
-        const focusTarget = document.querySelector(location.hash);
-        if (focusTarget) {
-          focusElement(focusTarget);
-          return;
-        }
-      }
-      focusElement('[data-focus-target]');
-    },
-    [location],
-  );
-
-  useEffect(
-    () => {
-      // Show alert when navigating away with unsaved edits
-      if (hasUnsavedEdits) {
-        window.onbeforeunload = () => true;
+  useEffect(() => {
+    if (location.hash) {
+      // Set focus on the page heading
+      const focusTarget = document.querySelector(location.hash);
+      if (focusTarget) {
+        focusElement(focusTarget);
         return;
       }
+    }
+    focusElement('[data-focus-target]');
+  }, [location]);
 
-      window.onbeforeunload = undefined;
-    },
-    [hasUnsavedEdits],
-  );
+  useEffect(() => {
+    // Show alert when navigating away with unsaved edits
+    if (hasUnsavedEdits) {
+      window.onbeforeunload = () => true;
+      return;
+    }
 
-  useEffect(
-    () => {
-      return () => {
-        openEditModal(null);
-      };
-    },
-    [openEditModal],
-  );
+    window.onbeforeunload = undefined;
+  }, [hasUnsavedEdits]);
+
+  useEffect(() => {
+    return () => {
+      openEditModal(null);
+    };
+  }, [openEditModal]);
 
   return (
     <>

@@ -81,12 +81,8 @@ describe('CG <FacilitySearch>', () => {
 
       await runSearch({ container, query });
       await waitFor(() => {
-        const {
-          ariaLiveStatus,
-          vaLoadingIndicator,
-          vaSearchInput,
-          vaRadio,
-        } = selectors();
+        const { ariaLiveStatus, vaLoadingIndicator, vaSearchInput, vaRadio } =
+          selectors();
         expect(vaRadio).to.exist;
         expect(vaLoadingIndicator).to.not.exist;
         expect(ariaLiveStatus.textContent).to.eq('');
@@ -272,11 +268,11 @@ describe('CG <FacilitySearch>', () => {
     });
   });
 
-  /* 
+  /*
    * NOTE: There is an existing bug with the va-search-input component triggers two submit requests.
    * We need to handle the fact that this does exist, but also don't let the test break if it gets
    * fixed.
-   * 
+   *
    * https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/3117
    */
   context('when the `Load more` button is clicked', () => {
@@ -375,7 +371,8 @@ describe('CG <FacilitySearch>', () => {
   context('when a facility is selected from the list', () => {
     it('should call dispatch action with facility object that offers support services', async () => {
       const { container, selectors } = subject();
-      const facilitiesResponse = mockFetchChildFacilityWithCaregiverSupportResponse;
+      const facilitiesResponse =
+        mockFetchChildFacilityWithCaregiverSupportResponse;
       const [selectedFacility] = facilitiesResponse.facilities;
 
       facilitiesStub.resolves(facilitiesResponse);
@@ -401,10 +398,8 @@ describe('CG <FacilitySearch>', () => {
 
     it('should call dispatch action with facility object whose parent is loaded & offers support services', async () => {
       const { container, selectors } = subject();
-      const [
-        selectedFacility,
-        parentFacility,
-      ] = mockFetchFacilitiesResponse.facilities;
+      const [selectedFacility, parentFacility] =
+        mockFetchFacilitiesResponse.facilities;
 
       await runSearch({ container, query });
       await waitFor(() => {

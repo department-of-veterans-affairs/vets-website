@@ -13,8 +13,7 @@ export default {
       ...textareaUI({
         title:
           'Since you selected “update information” on the previous page, you’ll need to list at least one reason for your application',
-        hint:
-          'This may include issues such as change of address, banking information, etc.',
+        hint: 'This may include issues such as change of address, banking information, etc.',
         charcount: true,
         validations: [validateWhiteSpace],
       }),

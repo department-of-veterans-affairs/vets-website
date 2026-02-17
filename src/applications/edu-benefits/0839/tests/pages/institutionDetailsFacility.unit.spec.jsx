@@ -84,9 +84,8 @@ describe('institutionDetailsFacility page', () => {
     form.unmount();
   });
   it('does not hide additional instructions link when not withdrawal', () => {
-    const { hideIf } = uiSchema.institutionDetails[
-      'view:additionalInstructions'
-    ]['ui:options'];
+    const { hideIf } =
+      uiSchema.institutionDetails['view:additionalInstructions']['ui:options'];
 
     expect(hideIf({ agreementType: 'addToYellowRibbonProgram' })).to.equal(
       false,
@@ -95,9 +94,8 @@ describe('institutionDetailsFacility page', () => {
   });
 
   it('hides additional instructions link when agreementType is withdrawal', () => {
-    const { hideIf } = uiSchema.institutionDetails[
-      'view:additionalInstructions'
-    ]['ui:options'];
+    const { hideIf } =
+      uiSchema.institutionDetails['view:additionalInstructions']['ui:options'];
 
     expect(
       hideIf({ agreementType: 'withdrawFromYellowRibbonProgram' }),

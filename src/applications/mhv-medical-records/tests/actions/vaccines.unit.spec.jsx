@@ -41,7 +41,10 @@ describe('Get vaccine action', () => {
     const mockData = vaccine;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVaccineDetails('3106', undefined)(dispatch).then(() => {
+    return getVaccineDetails(
+      '3106',
+      undefined,
+    )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vaccines.GET);
     });
   });
@@ -81,7 +84,10 @@ describe('Get vaccines list with acceleration', () => {
     const mockData = vaccines;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVaccinesList(false, true)(dispatch).then(() => {
+    return getVaccinesList(
+      false,
+      true,
+    )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Vaccines.UPDATE_LIST_STATE,
       );
@@ -98,7 +104,10 @@ describe('Get vaccines list with acceleration', () => {
     const mockData = vaccines;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVaccinesList(false, false)(dispatch).then(() => {
+    return getVaccinesList(
+      false,
+      false,
+    )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Vaccines.UPDATE_LIST_STATE,
       );
@@ -117,7 +126,11 @@ describe('Get vaccine details with acceleration', () => {
     const mockData = vaccine;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVaccineDetails('3106', undefined, true)(dispatch).then(() => {
+    return getVaccineDetails(
+      '3106',
+      undefined,
+      true,
+    )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Vaccines.GET_UNIFIED_VACCINE,
       );
@@ -128,7 +141,11 @@ describe('Get vaccine details with acceleration', () => {
     const mockData = vaccine;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVaccineDetails('3106', undefined, false)(dispatch).then(() => {
+    return getVaccineDetails(
+      '3106',
+      undefined,
+      false,
+    )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vaccines.GET);
     });
   });
@@ -137,7 +154,10 @@ describe('Get vaccine details with acceleration', () => {
     const mockData = vaccine;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVaccineDetails('3106', undefined)(dispatch).then(() => {
+    return getVaccineDetails(
+      '3106',
+      undefined,
+    )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vaccines.GET);
     });
   });

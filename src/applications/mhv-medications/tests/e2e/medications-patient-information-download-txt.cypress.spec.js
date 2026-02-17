@@ -28,9 +28,7 @@ describe('Medications Details Page Medication Information txt download', () => {
       Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
     );
     site.verifyDownloadedFile({
-      prefixString: `medication-information-${
-        rxTrackingDetails.data.attributes.prescriptionName
-      }-Safari-Mhvtp`,
+      prefixString: `medication-information-${rxTrackingDetails.data.attributes.prescriptionName}-Safari-Mhvtp`,
       searchText: rxTrackingDetails.data.attributes.prescriptionName,
       format: DownloadFormat.TXT,
     });

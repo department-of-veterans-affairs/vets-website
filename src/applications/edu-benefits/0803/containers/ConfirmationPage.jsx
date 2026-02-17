@@ -90,13 +90,10 @@ export const ConfirmationPage = props => {
     }
   };
 
-  useEffect(
-    () => {
-      setClaimIdInLocalStage(submission);
-      setClaimId(getClaimIdFromLocalStage());
-    },
-    [submission],
-  );
+  useEffect(() => {
+    setClaimIdInLocalStage(submission);
+    setClaimId(getClaimIdFromLocalStage());
+  }, [submission]);
 
   return (
     <ConfirmationView
@@ -112,9 +109,7 @@ export const ConfirmationPage = props => {
         To submit your form, follow these steps
       </h2>
       <ConfirmationProcessList
-        pdfUrl={`${
-          environment.API_URL
-        }/v0/education_benefits_claims/download_pdf/${claimId}`}
+        pdfUrl={`${environment.API_URL}/v0/education_benefits_claims/download_pdf/${claimId}`}
         trackingPrefix={route?.formConfig?.trackingPrefix}
       />
       <va-alert status="warning" visible={!form.data.hasPreviouslyApplied}>
