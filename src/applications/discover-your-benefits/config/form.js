@@ -48,10 +48,11 @@ export const formConfig = {
   submit: submitHandler,
   trackingPrefix: 'discover-your-benefits-',
   introduction: IntroductionPage,
-  // Remove this after testing.
-  confirmation: !environment.isProduction()
-    ? ConfirmationPage
-    : ConfirmationPageCopy,
+  // Remove this after testing. The 'environment.isTest()' check is necessary because E2E tests run in a production environment.
+  confirmation:
+    !environment.isProduction() || environment.isTest()
+      ? ConfirmationPage
+      : ConfirmationPageCopy,
   v3SegmentedProgressBar: true,
   stepLabels: 'Goals;Service;Separation;Discharge;Disability;Review',
   formId: 'T-QSTNR',
