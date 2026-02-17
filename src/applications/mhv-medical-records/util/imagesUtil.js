@@ -6,6 +6,34 @@ import {
 } from './radiologyUtil';
 import { labTypes, EMPTY_FIELD } from './constants';
 
+/**
+ * Convert an SCDF (v2) imaging study record into the frontend shape used by
+ * the labs-and-tests list and the radiology detail views.
+ *
+ * The SCDF response is JSONAPI-serialized with camelCase attribute keys.
+ * Many clinical fields (reason, orderedBy, clinicalHistory, etc.) are not
+ * yet available from the SCDF ImagingStudy FHIR resource — those will show
+ * EMPTY_FIELD until the backend is enriched.
+ *
+ * @param {Object} record - A single JSONAPI resource from the imaging studies response
+ * @returns {Object} Frontend-shaped imaging study record
+ */
+export const convertScdfImagingStudy = record => {
+  const attrs = record.attributes || record;
+  return {
+    id: `${record.id}`,
+    name: attrs.description || EMPTY_FIELD,
+    date: attrs.date
+      ? formatDateInLocalTimezone(attrs.date, true)
+      : EMPTY_FIELD,
+    rawDate: attrs.date || null,
+    results: attrs.notes?.length ? attrs.notes.join('\n') : EMPTY_FIELD,
+    studyId: attrs.identifier || record.id,
+    series: attrs.series || [],
+    status: attrs.status || null,
+  };
+};
+
 export const buildRadiologyResults = record => {
   const reportText = record?.reportText || '\n';
   const impressionText = record?.impressionText || '\n';

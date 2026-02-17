@@ -24,6 +24,7 @@ import {
 import {
   convertMhvRadiologyRecord,
   convertCvixRadiologyRecord,
+  convertScdfImagingStudy,
   mergeRadiologyLists,
   mergeRadiologyDetails,
 } from '../util/imagesUtil';
@@ -49,6 +50,10 @@ const initialState = {
    * @type {Array}
    */
   updatedList: undefined,
+  /**
+   * The list of imaging studies retrieved from SCDF
+   */
+  scdfImagingStudies: undefined,
   /**
    * The lab or test result currently being displayed to the user
    */
@@ -578,6 +583,13 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         dateRange: action.payload,
+      };
+    }
+    case Actions.LabsAndTests.GET_IMAGING_STUDIES: {
+      const data = Array.isArray(action.response) ? action.response : [];
+      return {
+        ...state,
+        scdfImagingStudies: data.map(convertScdfImagingStudy),
       };
     }
     default:
