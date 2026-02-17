@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { isEqual } from 'lodash';
+import classNames from 'classnames';
 import { GA_PREFIX } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getPageTitle } from '../newAppointmentFlow';
@@ -182,21 +183,28 @@ export default function UrgentCareInformationPage() {
             isMixedRegistration={isMixedRegistration}
           />
         )}
-      <p>
-        {' '}
-        You can schedule or request non-urgent appointments for future dates.{' '}
-      </p>
       {((!isInErrorPhase && !isInWarningPhase) ||
         (isInErrorPhase && isMixedRegistration)) && (
-        <a
-          className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--3"
-          href="/"
-          onClick={handleClick(history, dispatch)}
-        >
-          Start scheduling an appointment
-        </a>
+        <>
+          <p>
+            {' '}
+            You can schedule or request non-urgent appointments for future
+            dates.{' '}
+          </p>
+          <a
+            className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--3"
+            href="/"
+            onClick={handleClick(history, dispatch)}
+          >
+            Start scheduling an appointment
+          </a>
+        </>
       )}
-      <h2 className="vads-u-font-size--h3 vads-u-margin--0">
+      <h2
+        className={classNames('vads-u-font-size--h3', 'vads-u-margin--0', {
+          'vads-u-margin-top--4': isInErrorPhase,
+        })}
+      >
         If you need help sooner, use one of these urgent communications options:
       </h2>
       <ul>
