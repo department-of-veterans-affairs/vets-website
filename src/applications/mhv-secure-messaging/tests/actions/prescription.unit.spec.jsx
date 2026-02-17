@@ -97,9 +97,13 @@ describe('prescription actions', () => {
         type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
       });
       expect(actions[1]).to.deep.equal({
-        type: Actions.Prescriptions.IS_LOADING,
+        type: Actions.Prescriptions.SET_PRESCRIPTION_ID,
+        payload: prescriptionId,
       });
       expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.IS_LOADING,
+      });
+      expect(actions[3]).to.deep.equal({
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
         payload: mockResponse.data.attributes,
       });

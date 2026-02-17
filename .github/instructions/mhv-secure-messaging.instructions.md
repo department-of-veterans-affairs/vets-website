@@ -155,11 +155,14 @@ applyTo: "src/applications/mhv-secure-messaging/**"
 - **Send API**: `api/SmApi.js` — `createRenewalMessage()` → `POST /my_health/v1/messaging/messages/renewal`
   - `prescription_id` sent as a **top-level field** in the message payload (not embedded in body)
   - `sendMessage` action routes to `createRenewalMessage` when 4th arg `isRxRenewal` is `true`
+  - 5th arg `suppressSuccessAlert` controls whether the success alert is dispatched — `true` suppresses it, `false` shows it
+  - ComposeForm passes `!!(isRxRenewalDraft && redirectPath)` as the 5th arg, so the alert is only suppressed when both a renewal AND a redirect path are present
   - vets-api Faraday camelcase middleware transforms `prescription_id` → `prescriptionId` for upstream MHV API
 - Category locked to "Medications" via `LockedCategoryDisplay` component
 - Body auto-populated via `buildRxRenewalMessageBody(prescription)` from `util/helpers.js`
 - Errors: 404 → allow manual entry; non-VA meds → warning; log to Datadog
-- After send: redirect to `redirectPath` with `?rxRenewalMessageSuccess=true`
+- After send with `redirectPath`: redirect to `redirectPath` with `?rxRenewalMessageSuccess=true` (success alert suppressed — the destination page shows its own confirmation)
+- After send without `redirectPath`: standard success alert is displayed (no redirect)
 - **Note**: `prescriptionId` is NOT saved in drafts — it remains in Redux state from the initial navigation URL param
 
 ## MHV Platform Integration

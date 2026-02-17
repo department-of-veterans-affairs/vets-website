@@ -2407,9 +2407,10 @@ describe('Compose form component', () => {
         expect(sendMessageStub.called).to.be.true;
       });
       const sendMessageCall = sendMessageStub.getCall(0);
-      expect(sendMessageCall.args).to.have.lengthOf(4);
-      // Args: [sendData, hasAttachments, ohTriageGroup, isRxRenewal]
+      expect(sendMessageCall.args).to.have.lengthOf(5);
+      // Args: [sendData, hasAttachments, ohTriageGroup, isRxRenewal, suppressSuccessAlert]
       expect(sendMessageCall.args[3]).to.equal(true); // isRxRenewal should be true
+      expect(sendMessageCall.args[4]).to.equal(true); // suppressSuccessAlert should be true (has redirectPath)
 
       // Restore original location
       global.window.location = originalLocation;
@@ -2632,9 +2633,10 @@ describe('Compose form component', () => {
       // Verify that sendMessage was called with isRxRenewal=false (4th argument)
       expect(sendMessageStub.called).to.be.true;
       const sendMessageCall = sendMessageStub.getCall(0);
-      expect(sendMessageCall.args).to.have.lengthOf(4);
-      // Args: [sendData, hasAttachments, ohTriageGroup, isRxRenewal]
+      expect(sendMessageCall.args).to.have.lengthOf(5);
+      // Args: [sendData, hasAttachments, ohTriageGroup, isRxRenewal, suppressSuccessAlert]
       expect(sendMessageCall.args[3]).to.equal(false); // isRxRenewal should be false
+      expect(sendMessageCall.args[4]).to.equal(false); // suppressSuccessAlert should be false (no renewal)
 
       // Verify normal navigation occurred
       await waitFor(() => {

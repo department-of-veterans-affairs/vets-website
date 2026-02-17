@@ -183,7 +183,7 @@ const rxPrescriptionId =
 | Action | Purpose |
 |---|---|
 | `retrieveMessageThread(messageId)` | Fetch thread with full details |
-| `sendMessage(message, attachments, ohTriageGroup, isRxRenewal)` | Send new message (when `isRxRenewal` is true, routes to `createRenewalMessage` API) |
+| `sendMessage(message, attachments, ohTriageGroup, isRxRenewal, suppressSuccessAlert)` | Send new message (when `isRxRenewal` is true, routes to `createRenewalMessage` API; when `suppressSuccessAlert` is true, skips the success alert dispatch) |
 | `sendReply({ replyToId, message, attachments })` | Send reply |
 | `saveDraft(messageData, type, id)` | Save/update draft (type: 'manual' or 'auto') |
 | `deleteDraft(messageId)` | Delete draft permanently |

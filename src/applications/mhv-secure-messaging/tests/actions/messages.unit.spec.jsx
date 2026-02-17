@@ -388,7 +388,7 @@ describe('messages actions', () => {
       });
   });
 
-  it('should NOT dispatch success alert on sendMessage when isRxRenewal is true', async () => {
+  it('should NOT dispatch success alert on sendMessage when suppressSuccessAlert is true', async () => {
     const store = mockStore();
     mockApiRequest(messageResponse);
     await store
@@ -403,6 +403,7 @@ describe('messages actions', () => {
           true,
           false,
           true, // isRxRenewal = true
+          true, // suppressSuccessAlert = true
         ),
       )
       .then(() => {
@@ -423,6 +424,42 @@ describe('messages actions', () => {
         // Verify other actions are still dispatched
         expect(actions).to.deep.include({
           type: Actions.AllRecipients.RESET_RECENT,
+        });
+      });
+  });
+
+  it('should dispatch success alert on renewal sendMessage when suppressSuccessAlert is false', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+    await store
+      .dispatch(
+        sendMessage(
+          {
+            category: 'MEDICATIONS',
+            body: 'Test body',
+            subject: 'Renewal Needed',
+            recipientId: '2710520',
+          },
+          false,
+          false,
+          true, // isRxRenewal = true
+          false, // suppressSuccessAlert = false (no redirectPath)
+        ),
+      )
+      .then(() => {
+        const actions = store.getActions();
+        // Verify success alert IS dispatched for renewal without redirect
+        expect(actions).to.deep.include({
+          type: Actions.Alerts.ADD_ALERT,
+          payload: {
+            alertType: 'success',
+            header: '',
+            content: Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+            className: undefined,
+            link: undefined,
+            title: undefined,
+            response: undefined,
+          },
         });
       });
   });
