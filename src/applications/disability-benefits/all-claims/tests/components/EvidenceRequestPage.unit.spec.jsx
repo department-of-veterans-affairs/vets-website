@@ -47,6 +47,7 @@ describe('EvidenceRequestPage', () => {
     );
     expect(container.querySelector('va-radio-option[label="Yes"]')).to.exist;
     expect(container.querySelector('va-radio-option[label="No"]')).to.exist;
+    expect(container.querySelector('va-additional-info')).to.exist;
   });
   it('should display the VA treatment centers in modal when the user choose No but provided VA treatment centers and clicks continue', async () => {
     const data = {
@@ -479,5 +480,12 @@ describe('EvidenceRequestPage', () => {
     const updateButton = container.querySelector('button.usa-button-primary');
     expect(updateButton).to.exist;
     expect(updateButton.textContent).to.equal('Update page');
+  });
+
+  it('should not render additional info on review page', () => {
+    const { container } = render(page({ onReviewPage: true }));
+
+    const additionalInfo = container.querySelector('va-additional-info');
+    expect(additionalInfo).to.not.exist;
   });
 });

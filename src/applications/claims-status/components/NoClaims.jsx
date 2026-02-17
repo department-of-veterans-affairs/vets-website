@@ -1,6 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function NoClaims() {
+export default function NoClaims({ recordType }) {
+  if (recordType) {
+    return <p>We don't have any {recordType} for you in our system</p>;
+  }
+
   return (
     <div className="usa-alert usa-alert-info claims-alert background-color-only claims-alert-status">
       <h3 className="claims-alert-header usa-alert-heading">
@@ -10,3 +15,7 @@ export default function NoClaims() {
     </div>
   );
 }
+
+NoClaims.propTypes = {
+  recordType: PropTypes.string,
+};
