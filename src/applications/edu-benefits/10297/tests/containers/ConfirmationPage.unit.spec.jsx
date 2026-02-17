@@ -40,7 +40,6 @@ describe('<ConfirmationPage />', () => {
       },
       timestamp: new Date(2025, 7, 1),
     });
-
     const successAlert = container.querySelector('va-alert');
 
     expect(successAlert).to.have.attribute('status', 'success');
