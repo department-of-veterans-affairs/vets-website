@@ -898,6 +898,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       type: undefined, // type is raw testCode value
       comments: undefined,
       source: undefined,
+      facilityTimezone: undefined,
       result: null,
       base: {
         ...record,
@@ -930,11 +931,71 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       type: undefined, // type is raw testCode value
       comments: undefined,
       source: undefined,
+      facilityTimezone: undefined,
       result: null,
       base: {
         ...record,
       },
     });
+  });
+
+  it('should display facility timezone when facilityTimezone is present', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T12:42:00-05:00',
+        display: 'Test Name',
+        facilityTimezone: 'America/New_York',
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is present, formatDateTimeInUserTimezone uses it
+    // to display the time in facility timezone with abbreviation
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
+    expect(result.facilityTimezone).to.equal('America/New_York');
+  });
+
+  it('should fall back to browser timezone when facilityTimezone is null', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T17:42:00+00:00',
+        display: 'Test Name',
+        facilityTimezone: null,
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is null, falls back to user's browser timezone
+    // with timezone abbreviation displayed
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
+    expect(result.facilityTimezone).to.be.null;
+  });
+
+  it('should fall back to browser timezone when facilityTimezone is undefined', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T17:42:00Z',
+        display: 'Test Name',
+        // facilityTimezone not present (undefined)
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is undefined, falls back to user's browser timezone
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
+    expect(result.facilityTimezone).to.be.undefined;
   });
 
   it('should use testCodeDisplay from API when available', () => {
