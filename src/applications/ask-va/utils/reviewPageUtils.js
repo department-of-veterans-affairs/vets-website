@@ -1,7 +1,7 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { formatDate } from '../config/helpers';
 import submitTransformer from '../config/submit-transformer';
-import { URL, envUrl, mockTestingFlagForAPI } from '../constants';
+import { URL, envApiUrl, mockTestingFlagForAPI } from '../constants';
 import { mockSubmitResponse } from './mockData';
 import { askVAAttachmentStorage } from './StorageAdapter';
 
@@ -191,7 +191,7 @@ export const handleFormSubmission = async ({
       });
     const transformedData = submitTransformer(formData, files);
 
-    const url = `${envUrl}${
+    const url = `${envApiUrl}${
       (isLoggedIn && isUserLOA3) || transformedData.requireSignIn
         ? URL.AUTH_INQUIRIES
         : URL.INQUIRIES

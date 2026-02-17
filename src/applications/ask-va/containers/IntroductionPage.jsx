@@ -30,7 +30,7 @@ import {
   getVAStatusFromCRM,
   getVAStatusIconAndMessage,
 } from '../config/helpers';
-import { envUrl, mockTestingFlagForAPI } from '../constants';
+import { envApiUrl, mockTestingFlagForAPI } from '../constants';
 import { mockInquiryStatusResponse } from '../utils/mockData';
 import Inbox from './Inbox';
 
@@ -122,7 +122,7 @@ const IntroductionPage = props => {
   };
 
   const handleSearchByReferenceNumber = async () => {
-    const url = `${envUrl}/ask_va_api/v0/inquiries/${searchReferenceNumber}/status`;
+    const url = `${envApiUrl}/ask_va_api/v0/inquiries/${searchReferenceNumber}/status`;
     await getApiData(url);
     const headingElement = document.querySelector(
       '[data-testid="status-message"] h3, [data-testid="error-message"] p:first-child',

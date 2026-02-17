@@ -1,7 +1,7 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import React, { useEffect, useState } from 'react';
 import { ServerErrorAlert } from '../config/helpers';
-import { URL, envUrl, mockTestingFlagForAPI } from '../constants';
+import { URL, envApiUrl, mockTestingFlagForAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
 import { categorizeByLOA } from '../utils/inbox';
 import InboxLayout from '../components/inbox/InboxLayout';
@@ -28,7 +28,7 @@ export default function Inbox() {
       if (mockTestingFlagForAPI && !window.Cypress) {
         saveInState(mockInquiries.data);
       } else {
-        apiRequest(`${envUrl}${URL.GET_INQUIRIES}`)
+        apiRequest(`${envApiUrl}${URL.GET_INQUIRIES}`)
           .then(res => saveInState(res.data))
           .catch(() => {
             setIsLoading(false);

@@ -12,11 +12,11 @@ import {
 import { server } from 'platform/testing/unit/mocha-setup';
 import React from 'react';
 
-import { envUrl } from '../../constants';
+import { envApiUrl } from '../../constants';
 import Inbox from '../../containers/Inbox';
 
 describe('<Inbox />', () => {
-  const apiRequestWithUrl = `${envUrl}/ask_va_api/v0/inquiries`;
+  const apiRequestWithUrl = `${envApiUrl}/ask_va_api/v0/inquiries`;
 
   describe('when the api server succeeds', () => {
     beforeEach(() => {

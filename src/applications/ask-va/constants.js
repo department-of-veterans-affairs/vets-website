@@ -1,7 +1,7 @@
 // import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-export const envUrl = environment.API_URL;
+export const envApiUrl = environment.API_URL;
 
 export const baseURL = '/ask_va_api/v0';
 
@@ -18,7 +18,7 @@ export const baseURL = '/ask_va_api/v0';
 // const isMockApiEnabled = useToggleValue(toggleName);
 // const isLoadingFeatureFlags = useToggleLoadingValue(toggleName);
 
-// const isLocalhost = envUrl === 'http://localhost:3000';
+// const isLocalhost = envApiUrl === 'http://localhost:3000';
 // const isToggleEnabled = !isLoadingFeatureFlags && isMockApiEnabled;
 // const isProduction = environment.isProduction();
 
@@ -26,7 +26,8 @@ export const baseURL = '/ask_va_api/v0';
 //   (isToggleEnabled || isLocalhost) && !isProduction;
 
 export const mockTestingFlagForAPI =
-  envUrl === 'http://localhost:3000' || envUrl === 'http://127.0.0.1:3000'; // enable this flag when testing locally for API calls
+  envApiUrl === 'http://localhost:3000' ||
+  envApiUrl === 'http://127.0.0.1:3000'; // enable this flag when testing locally for API calls
 
 // Overridable for testing
 export const getMockTestingFlagForAPI = () => mockTestingFlagForAPI;
@@ -67,7 +68,7 @@ export const getApiUrl = (url, params) => {
       apiUrl = apiUrl.replace(`%${key}%`, params[key]);
     });
   }
-  return envUrl + apiUrl;
+  return envApiUrl + apiUrl;
 };
 
 export const branchesOfService = [

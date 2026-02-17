@@ -359,9 +359,9 @@ describe('Review Page Utils', () => {
     beforeEach(() => {
       sandbox = sinon.createSandbox();
       originalMockFlag = constants.mockTestingFlagForAPI;
-      originalEnvUrl = constants.envUrl;
+      originalEnvUrl = constants.envApiUrl;
 
-      Object.defineProperty(constants, 'envUrl', {
+      Object.defineProperty(constants, 'envApiUrl', {
         value: 'http://localhost:3000',
         configurable: true,
         writable: true,
@@ -383,7 +383,7 @@ describe('Review Page Utils', () => {
         writable: true,
       });
 
-      Object.defineProperty(constants, 'envUrl', {
+      Object.defineProperty(constants, 'envApiUrl', {
         value: originalEnvUrl,
         configurable: true,
         writable: true,

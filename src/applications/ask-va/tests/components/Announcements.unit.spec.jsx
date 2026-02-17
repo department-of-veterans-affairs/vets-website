@@ -403,7 +403,7 @@ describe('<Announcements />', () => {
     expect(elements.length).to.be.greaterThan(0);
     expect(apiRequestStub.called).to.be.true;
     expect(apiRequestStub.firstCall.args[0]).to.equal(
-      `${constants.envUrl}${constants.URL.ANNOUNCEMENTS}`,
+      `${constants.envApiUrl}${constants.URL.ANNOUNCEMENTS}`,
     );
   });
 });

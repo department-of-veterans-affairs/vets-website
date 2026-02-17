@@ -2,7 +2,7 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { formatDateTimeForAnnouncements } from '../config/helpers';
-import { URL, envUrl, mockTestingFlagForAPI } from '../constants';
+import { URL, envApiUrl, mockTestingFlagForAPI } from '../constants';
 import { mockAnnouncementsResponse } from '../utils/mockData';
 
 const Announcements = () => {
@@ -56,7 +56,7 @@ const Announcements = () => {
 
   useEffect(
     () => {
-      getApiData(`${envUrl}${URL.ANNOUNCEMENTS}`);
+      getApiData(`${envApiUrl}${URL.ANNOUNCEMENTS}`);
     },
     [getApiData],
   );
