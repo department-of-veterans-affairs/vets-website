@@ -369,9 +369,9 @@ export const ContactInfoBase = ({
     const cardContent = missingHomePhone ? (
       'None provided'
     ) : (
-      <span className="dd-privacy-hidden" data-dd-action-name="home phone">
+      <div className="dd-privacy-hidden" data-dd-action-name="home phone">
         {renderTelephone(dataWrap[keys.homePhone])}
-      </span>
+      </div>
     );
     return (
       <ContactInfoCard
@@ -403,9 +403,9 @@ export const ContactInfoBase = ({
     const cardContent = missingMobilePhone ? (
       'None provided'
     ) : (
-      <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
+      <div className="dd-privacy-hidden" data-dd-action-name="mobile phone">
         {renderTelephone(dataWrap[keys.mobilePhone])}
-      </span>
+      </div>
     );
 
     return (
@@ -440,9 +440,9 @@ export const ContactInfoBase = ({
     const cardContent = missingEmail ? (
       'None provided'
     ) : (
-      <span className="dd-privacy-hidden" data-dd-action-name="email">
+      <div className="dd-privacy-hidden" data-dd-action-name="email">
         {renderEmail(dataWrap[keys.email])}
-      </span>
+      </div>
     );
 
     return (
