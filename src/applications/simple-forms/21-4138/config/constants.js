@@ -14,8 +14,8 @@ export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
 );
 
 PrimaryActionLink.propTypes = {
-  href: PropTypes.string,
   children: PropTypes.node.isRequired,
+  href: PropTypes.string,
   onClick: PropTypes.func,
 };
 
