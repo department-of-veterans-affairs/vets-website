@@ -43,6 +43,12 @@ export default {
         if (value === '') return null;
         return { documentStatus: e.detail.value };
       },
+      additionalInputLabels: {
+        documentStatus: {
+          public: 'Public',
+          private: 'Private',
+        },
+      },
     }),
   },
   schema: {

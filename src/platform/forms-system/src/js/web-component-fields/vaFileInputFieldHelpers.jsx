@@ -318,6 +318,23 @@ export function simulateUploadMultiple(
 }
 
 const UPLOADING_MESSAGE = 'Uploading file';
+
+export function resolveAdditionalDataLabels(data, labels, target) {
+  if (!data) return undefined;
+
+  const resolved = {};
+  Object.entries(data).forEach(([key, value]) => {
+    if (labels?.[key]?.[value]) {
+      resolved[key] = labels[key][value];
+    } else {
+      const option = target?.querySelector(`option[value="${value}"]`);
+      if (option) resolved[key] = option.textContent.trim();
+    }
+  });
+
+  return Object.keys(resolved).length > 0 ? resolved : undefined;
+}
+
 const UPLOADING_DONE_MESSAGE = 'File uploaded';
 export function VaProgressUploadAnnounce({ uploading }) {
   const [sRMessage, setSRMessage] = useState('');

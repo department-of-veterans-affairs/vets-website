@@ -417,6 +417,9 @@ yourDocument: fileInputUI({
     if (value === '') return {};
     return { documentStatus: e.detail.value };
   },
+  additionalInputLabels: {
+    documentStatus: { public: 'Public', private: 'Private' },
+  },
 }) + fileInputSchema(),
 
 // A multiple file upload
@@ -489,6 +492,9 @@ financialHardshipDocuments: fileInputMultipleUI({
     const { value } = e.detail;
     if (value === '') return null;
     return { documentStatus: e.detail.value };
+  },
+  additionalInputLabels: {
+    documentStatus: { public: 'Public', private: 'Private' },
   },
 }) + fileInputMultipleSchema(),
 

@@ -50,7 +50,10 @@ import {
  *   },
  *   handleAdditionalInput: (e) => {    // handle optional additional input
  *     return { documentStatus: e.detail.value }
- *   }
+ *   },
+ *   additionalInputLabels: {            // explicit labels for review page
+ *     documentStatus: { public: 'Public', private: 'Private' },
+ *   },
  * })
  * ```
  *
@@ -92,6 +95,7 @@ import {
  * @param {boolean} [options.additionalInputRequired] - is additional information required
  * @param {((error:any, data:any) => React.ReactNode) } [options.additionalInput] - renders the additional information
  * @param {(e: CustomEvent) => {[key: string]: any}} [options.handleAdditionalInput] - function to handle event payload from additional info
+ * @param {Record<string, Record<string, string>>} [options.additionalInputLabels] - explicit value-to-label mapping for additional input fields on the review page, e.g. `{ documentStatus: { public: 'Public', private: 'Private' } }`. Falls back to DOM querying if not provided.
  * @param {string} [options.fileUploadUrl] - url to which file will be uploaded
  * @param {string} [options.formNumber] - the form's number
  * @param {boolean} [options.skipUpload] - skip attempt to upload in dev when there is no backend
@@ -187,7 +191,7 @@ export const fileInputUI = options => {
                       .replace(/^./, s => s.toUpperCase())
                       .trim()}
                   </dt>
-                  <dd>{value}</dd>
+                  <dd>{file.additionalDataLabels?.[key] || value}</dd>
                 </div>
               ))}
           </>
@@ -215,7 +219,7 @@ export const fileInputUI = options => {
                     .replace(/^./, s => s.toUpperCase())
                     .trim()}
                 </span>
-                : {value}
+                : {formData.additionalDataLabels?.[key] || value}
               </li>
             ))}
           </ul>
@@ -266,6 +270,10 @@ export const fileInputSchema = (options = {}) => {
         },
       },
       additionalData: {
+        type: 'object',
+        properties: {},
+      },
+      additionalDataLabels: {
         type: 'object',
         properties: {},
       },

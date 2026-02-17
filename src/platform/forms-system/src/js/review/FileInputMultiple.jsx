@@ -41,7 +41,7 @@ const ReviewField = data => {
             Object.entries(file.additionalData).map(([key, value]) => (
               <div className="review-row" key={key}>
                 <dt>{formatLabel(key)}</dt>
-                <dd>{value}</dd>
+                <dd>{file.additionalDataLabels?.[key] || value}</dd>
               </div>
             ))}
           {index < files.length - 1 && (

@@ -45,6 +45,7 @@ const vaFileInputFieldMapping = props => {
     additionalInput: uiOptions.additionalInput
       ? uiOptions.additionalInput
       : null,
+    additionalInputLabels: uiOptions.additionalInputLabels,
     handleAdditionalInput: uiOptions.handleAdditionalInput,
     uploadedFiles,
   };

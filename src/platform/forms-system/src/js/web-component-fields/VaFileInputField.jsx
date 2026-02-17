@@ -10,6 +10,7 @@ import {
   DEBOUNCE_WAIT,
   simulateUploadSingle,
   VaProgressUploadAnnounce,
+  resolveAdditionalDataLabels,
 } from './vaFileInputFieldHelpers';
 import passwordErrorState from '../utilities/file/passwordErrorState';
 
@@ -213,10 +214,18 @@ const VaFileInputField = props => {
   const handleAdditionalInput = e => {
     if (mappedProps.handleAdditionalInput) {
       const payload = mappedProps.handleAdditionalInput(e);
+
+      const additionalDataLabels = resolveAdditionalDataLabels(
+        payload,
+        mappedProps.additionalInputLabels,
+        e.target,
+      );
+
       childrenProps.onChange({
         _id,
         ...childrenProps.formData,
         additionalData: payload,
+        ...(additionalDataLabels && { additionalDataLabels }),
       });
     }
   };
