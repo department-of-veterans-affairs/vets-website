@@ -354,6 +354,7 @@ const SelectCareTeam = () => {
     },
     [draftInProgress.careSystemVhaId, allowedRecipients],
   );
+  // alert('Care teams list effect ran', careTeamsList);
 
   // if there is only one care system, set it as the draftInProgress care system
   // this is to prevent the user from having to select a care system
