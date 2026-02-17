@@ -65,7 +65,7 @@ jobs:
             if [ -n "$YARN_LOCK_DIFF" ]; then
               # For yarn.lock, we need to check if changes are only in approved package sections
               # Get all added/removed lines that don't contain approved packages
-              NON_APPROVED_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'node-sass' | grep -v 'sass' | grep -v 'patch-package' | grep -v 'jsdom' | grep -v 'husky' | grep -v 'msw' | grep -v 'cheerio' || echo "")
+              NON_APPROVED_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'node-sass' | grep -v 'sass' | grep -v 'patch-package' | grep -v 'jsdom' | grep -v 'husky' | grep -v 'msw' | grep -v 'cheerio' || grep -v 'form-data' ||echo "")
 
               # Also check for package entry headers that might not contain the name on the same line
               # In yarn.lock, package entries start with "package-name@version:"
