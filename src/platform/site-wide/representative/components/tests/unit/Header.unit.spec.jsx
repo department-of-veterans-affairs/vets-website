@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import Header from '~/platform/site-wide/representative/components/header/Header';
+import Header from '../../header/Header';
 
 const profile = {
   firstName: 'HECTOR',
