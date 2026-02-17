@@ -49,16 +49,8 @@ export const replaceNumberWithWord = (_, word, number) => {
  * @param {string} index - index of error (as a string, so it is concerted)
  * @returns {string} Predefined error message
  */
-export const getErrorMessage = (message, index = '') => {
-  if (typeof message === 'function') {
-    return message(Number(index));
-  }
-  // Ensure we only return string values, not objects
-  if (typeof message === 'string') {
-    return message;
-  }
-  return '';
-};
+export const getErrorMessage = (message, index = '') =>
+  typeof message === 'function' ? message(Number(index)) : message || '';
 
 // Regexp & replace string/function to reformat hard-coded error messages
 const messageFormatting = [

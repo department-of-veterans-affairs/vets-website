@@ -30,6 +30,8 @@ export default {
   homelessOrAtRisk:
     'Are you homeless or at risk of becoming homeless? (select one of the answers)',
   isVaEmployee: 'Are you a VA employee? (select yes or no)',
+  supportingEvidenceNoneCheckbox:
+    'Supporting evidence selection (resolve the conflict between "none" and other selections)',
   'toxicExposure.gulfWar1990Details.afghanistan.startDate':
     'Service start date for Afghanistan',
   'toxicExposure.gulfWar1990Details.afghanistan.endDate':
