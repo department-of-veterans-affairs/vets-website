@@ -100,8 +100,8 @@ export const renderFileList = files => {
   const displayList = showAll ? files : files.slice(0, maxDisplayedItems);
   return (
     <ul>
-      {displayList.slice(0, maxDisplayedItems).map((file, index) => (
-        <li key={index}>{file.name}</li>
+      {displayList.map((file, index) => (
+        <li key={index}>{file.name || file.fileName}</li>
       ))}
 
       {!showAll && (

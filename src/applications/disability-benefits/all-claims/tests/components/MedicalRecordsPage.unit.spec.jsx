@@ -119,6 +119,35 @@ describe('MedicalRecordsPage', () => {
     });
   });
 
+  it('should display the private treatment centers and private medical records in modal when the user unclick private medical records but provided treatment centers and private medical records previously and clicks continue', async () => {
+    const data = {
+      'view:selectableEvidenceTypes': {
+        'view:hasVaMedicalRecords': true,
+        'view:hasPrivateMedicalRecords': false,
+      },
+      providerFacility: [
+        { providerFacilityName: 'Private Clinic 1' },
+        { providerFacilityName: 'Private Clinic 2' },
+      ],
+      privateMedicalRecordAttachments: [
+        { name: 'record1.pdf' },
+        { name: 'record2.pdf' },
+      ],
+    };
+
+    const { container } = render(page({ data }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+      expect(modal.textContent).to.include('Private Clinic 1');
+      expect(modal.textContent).to.include('Private Clinic 2');
+      expect(modal.textContent).to.include('record1.pdf');
+      expect(modal.textContent).to.include('record2.pdf');
+    });
+  });
+
   it('should limit displayed facilities to maxDisplayedItems', async () => {
     const data = {
       'view:selectableEvidenceTypes': {

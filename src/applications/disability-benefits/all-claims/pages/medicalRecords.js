@@ -2,6 +2,7 @@ import get from 'platform/utilities/data/get';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import { validateMedicalRecordsAtLeastOne } from '../validations';
 import { standardTitle } from '../content/form0781';
+import { medicalRecordQuestion } from '../content/evidenceRequest';
 
 /**
  * Preserve hasOtherEvidence value when this page updates.
@@ -28,8 +29,7 @@ export const updateFormData = (oldFormData, formData) => {
 export const uiSchema = {
   'ui:title': standardTitle('Types of medical records'),
   'view:selectableEvidenceTypes': {
-    'ui:title':
-      'What types of medical records would you like us to access on your behalf?',
+    'ui:title': { medicalRecordQuestion },
     'ui:webComponentField': VaCheckboxGroupField,
     'ui:options': {
       showFieldLabel: true,
