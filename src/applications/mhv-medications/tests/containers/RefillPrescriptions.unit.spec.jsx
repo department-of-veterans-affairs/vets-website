@@ -921,7 +921,6 @@ describe('Refill Prescriptions Component', () => {
     let mutationResult = { isLoading: false, error: null };
 
     const bulkRefillStub = sinon.stub().callsFake(() => {
-
       currentPrescriptions = refillablePrescriptions.filter(
         rx => rx.prescriptionId !== 22377956,
       );
@@ -949,7 +948,7 @@ describe('Refill Prescriptions Component', () => {
 
     stubAllergiesApi({ sandbox });
     const screen = setup();
-    
+
     const checkbox = await waitFor(() =>
       screen.getByTestId('refill-prescription-checkbox-0'),
     );
