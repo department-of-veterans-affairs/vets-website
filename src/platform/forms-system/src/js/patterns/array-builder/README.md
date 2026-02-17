@@ -424,6 +424,233 @@ const options = {
 };
 ```
 
+#### Complex example: nested array one-level deep (max depth supported)
+
+Note the use of the new `pageBuilder.internalLoopPage` that includes the nested
+array builder options _as part of_ the settings
+
+```js
+import React from 'react';
+import {
+  addressNoMilitarySchema,
+  addressNoMilitaryUI,
+  arrayBuilderItemFirstPageTitleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
+  arrayBuilderYesNoSchema,
+  arrayBuilderYesNoUI,
+  titleUI,
+  textUI,
+  textSchema,
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+
+/** @type {ArrayBuilderOptions} */
+const options = {
+  arrayPath: 'treatmentRecords',
+  nounSingular: 'treatment record',
+  nounPlural: 'treatment records',
+  required: true,
+  isItemIncomplete: item =>
+    !item?.name ||
+    !item.address ||
+    !item.conditionsTreated?.length,
+  maxItems: 5,
+  text: {
+    getItemName: item => item?.name,
+    cardDescription: item => {
+      const conditions = item?.conditionsTreated
+        ?.filter(condition => (condition.name || '').trim())
+        .map(condition => condition.name)
+        .join(', ');
+      return (
+        <>
+          {conditions?.length > 0 && (
+            <div>Conditions treated: {conditions}</div>
+          )}
+        </>
+      );
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+const introPage = {
+  uiSchema: {
+    ...titleUI(
+      `Treatment records`,
+      `In the next few questions, we’ll ask you about the treatment records you’re requesting. You must add at least one treatment request. You may add up to ${
+        options.maxItems
+      }.`,
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
+
+/** @returns {PageSchema} */
+const nameAndAddressPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Name and address of treatment facility',
+      nounSingular: options.nounSingular,
+    }),
+    name: textUI('Name of private provider or hospital'),
+    address: addressNoMilitaryUI({
+      omit: ['street3'],
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      name: textSchema,
+      address: addressNoMilitarySchema({
+        omit: ['street3'],
+      }),
+    },
+    required: ['name', 'address'],
+  },
+};
+
+/** @returns {PageSchema} */
+const conditionsTreatedPage = {
+  uiSchema: {
+    conditionsTreated: {
+      ...arrayBuilderItemSubsequentPageTitleUI(
+        ({ formData }) =>
+          formData?.name
+            ? `Conditions treated at ${formData.name}`
+            : 'Conditions treated',
+      ),
+      'ui:description':
+        'List the conditions the person received treatment for at this facility.',
+      items: {
+        name: {
+          ...textUI(
+            'List a condition the person received treatment for at this facility.',
+          ),
+        },
+        releaseInfo: yesNoUI(
+          'Can we release information about this condition?',
+        ),
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      conditionsTreated: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: textSchema.type,
+            },
+            releaseInfo: yesNoSchema,
+          },
+          required: ['name', 'releaseInfo'],
+        },
+      },
+    },
+    required: ['conditionsTreated'],
+  },
+};
+
+/**
+ * This page is skipped on the first loop for required flow
+ * Cards are populated on this page above the uiSchema if items are present.
+ * This page only applies to the outer (root) list loop
+ * @returns {PageSchema}
+ */
+const summaryPage = {
+  uiSchema: {
+    'view:hasTreatmentRecords': arrayBuilderYesNoUI(options),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:hasTreatmentRecords': arrayBuilderYesNoSchema,
+    },
+    required: ['view:hasTreatmentRecords'],
+  },
+};
+
+export const treatmentRecordsPages = arrayBuilderPages(
+  options,
+  pageBuilder => ({
+    /** ********************************
+     * Outer (root) array list loop pages
+     ** ******************************** */
+    treatmentRecords: pageBuilder.introPage({
+      title: 'Treatment records',
+      path: 'treatment-records',
+      uiSchema: introPage.uiSchema,
+      schema: introPage.schema,
+    }),
+    treatmentRecordsSummary: pageBuilder.summaryPage({
+      title: 'Review your treatment records',
+      path: 'treatment-records-summary',
+      uiSchema: summaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    treatmentRecordNameAndAddressPage: pageBuilder.itemPage({
+      title: 'Name and address of treatment facility',
+      path: 'treatment-records/:index/name-and-address',
+      uiSchema: nameAndAddressPage.uiSchema,
+      schema: nameAndAddressPage.schema,
+    }),
+
+    /** ********************************
+     * The conditions treated page is an example of a nested array page, where
+     * we start with an outer array of treatment records, and an inner (nested)
+     * array of conditions treated for each treatment record. This page allows
+     * the user to add multiple conditions treated for each treatment record.
+     ********************************* */
+    treatmentRecordConditionsTreatedPage: pageBuilder.internalLoopPage({
+      title: 'Treated condition',
+      path: 'treatment-records/:index/conditions-treated',
+
+      // Nested options similar to ArrayBuilderOptions
+      nestedArrayOptions: {
+        // Include the parent arrayPath and nested arrayPath here. This method
+        // only allows a nesting depth of one level. We're not using arrayPath
+        // here because the outer arrayPath interferes with the inner option
+        arrayPathKeys: ['treatmentRecords', 'conditionsTreated'],
+
+        nounSingular: 'treated condition',
+        nounPlural: 'treated conditions',
+        required: () => true,
+
+        // If true, the default yes/no radio is replaced with a link
+        useLinkInsteadOfYesNo: false,
+
+        // itemName: 'treated condition',
+        isItemIncomplete: item =>
+          !item?.name || typeof item?.releaseInfo !== 'boolean',
+
+        maxItems: 3,
+
+        text: {
+          getItemName: item => item?.name,
+          // Added to override cardDescription from treatmentRecords options
+          cardDescription: item =>
+            typeof item.releaseInfo === 'boolean' &&
+            `${
+              item?.releaseInfo ? 'Authorized' : 'Not authorized'
+            } to release information`,
+        },
+      },
+      uiSchema: conditionsTreatedPage.uiSchema,
+      schema: conditionsTreatedPage.schema,
+    }),
+  }),
+);
+```
+
 #### Complex example: separate summary & internal page comparisons
 
 ```js
