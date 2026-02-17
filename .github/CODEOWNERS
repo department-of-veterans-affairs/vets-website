@@ -158,6 +158,7 @@ src/applications/hca @department-of-veterans-affairs/health-apps-frontend @depar
 src/applications/ezr @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/hca-performance-warning @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/ezr-submission-options @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/ivc-champva @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/ivc-champva @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Healthcare Experience

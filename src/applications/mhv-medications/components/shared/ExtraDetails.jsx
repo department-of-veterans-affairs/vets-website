@@ -22,6 +22,7 @@ import { pageType } from '../../util/dataDogConstants';
 import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
+  selectOracleHealthCutoverFlag,
 } from '../../util/selectors';
 
 const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
@@ -33,6 +34,7 @@ const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
   const isOracleHealth = isOracleHealthPrescription(rx, cernerFacilityIds);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const isOracleHealthCutover = useSelector(selectOracleHealthCutoverFlag);
   const useV2Status = isCernerPilot && isV2StatusMapping;
 
   const refillButton = page === pageType.LIST ? <RefillButton {...rx} /> : null;
@@ -153,6 +155,15 @@ const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
         );
 
       case dispStatusObjV2.transferred:
+        if (isOracleHealthCutover) {
+          return (
+            <p className="vads-u-margin-y--0" data-testid="transferred">
+              This is a previous record of your medication. If you need a
+              refill, find the current medication in your medication list. If
+              you don’t have a current one, contact your provider.
+            </p>
+          );
+        }
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="transferred">
@@ -306,6 +317,15 @@ const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
         );
 
       case dispStatusObj.transferred:
+        if (isOracleHealthCutover) {
+          return (
+            <p className="vads-u-margin-y--0" data-testid="transferred">
+              This is a previous record of your medication. If you need a
+              refill, find the current medication in your medication list. If
+              you don’t have a current one, contact your provider.
+            </p>
+          );
+        }
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="transferred">
