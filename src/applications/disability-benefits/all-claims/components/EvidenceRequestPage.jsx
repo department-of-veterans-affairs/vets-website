@@ -9,16 +9,21 @@ import _ from 'platform/utilities/data';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from 'platform/utilities/scroll';
 import { checkValidations } from '../utils/submit';
-import { hasVAEvidence, hasPrivateEvidence } from '../utils';
+import {
+  getVaEvidence,
+  getPrivateFacilities,
+  getPrivateEvidenceUploads,
+} from '../utils';
 import {
   evidenceRequestAdditionalInfo,
   evidenceRequestQuestion,
   privateEvidenceContent,
   vaEvidenceContent,
   privateFacilityContent,
-  alertMessageForCentersAndFiles,
-  alertMessageForCenters,
-  alertMessageForFiles,
+  alertMessage,
+  renderFacilityList,
+  renderFileList,
+  missingSelectionErrorMessageEvidenceRequestPage,
 } from '../content/evidenceRequest';
 
 export const EvidenceRequestPage = ({
@@ -32,16 +37,7 @@ export const EvidenceRequestPage = ({
   updatePage,
 }) => {
   const selectionField = 'view:hasMedicalRecords';
-  const missingSelectionErrorMessage = 'You must provide a response';
-  const maxDisplayedItems = 3;
   const hasMedicalRecords = _.get('view:hasMedicalRecords', data, null);
-  const vaEvidence = _.get('vaTreatmentFacilities', data, []);
-  const privateFacility = _.get('providerFacility', data, []);
-  const privateEvidenceUploads = _.get(
-    'privateMedicalRecordAttachments',
-    data,
-    [],
-  );
   const [hasError, setHasError] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
@@ -49,15 +45,15 @@ export const EvidenceRequestPage = ({
 
   const hasEvidenceToRemove = () => {
     return (
-      (hasVAEvidence(data) && vaEvidence.length > 0) ||
-      (hasPrivateEvidence(data) && privateEvidenceUploads.length > 0) ||
-      privateFacility.length > 0
+      getVaEvidence(data).length > 0 ||
+      getPrivateEvidenceUploads(data).length > 0 ||
+      getPrivateFacilities(data).length > 0
     );
   };
   const missingSelection = (error, _fieldData, formData) => {
     const value = formData?.[selectionField];
     if (value !== true && value !== false) {
-      error.addError?.(missingSelectionErrorMessage);
+      error.addError?.(missingSelectionErrorMessageEvidenceRequestPage);
     }
   };
 
@@ -77,33 +73,26 @@ export const EvidenceRequestPage = ({
   const handlers = {
     onChangeAndRemove: () => {
       const updatedFormData = { ...data };
+      const selectableEvidenceTypes = {
+        ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
+      };
 
-      if (hasVAEvidence(data)) {
-        updatedFormData.vaTreatmentFacilities = [];
-        updatedFormData['view:selectableEvidenceTypes'] = {
-          ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
-          'view:hasVaMedicalRecords': false,
-        };
+      if (getVaEvidence(data).length > 0) {
+        delete updatedFormData.vaTreatmentFacilities;
+        selectableEvidenceTypes['view:hasVaMedicalRecords'] = false;
         setAlertType(prevState => [...prevState, 'va']);
       }
-      if (hasPrivateEvidence(data)) {
-        const hasPrivateUploads = privateEvidenceUploads.length > 0;
-        const hasPrivateFacilities = privateFacility.length > 0;
-        if (hasPrivateUploads) {
-          updatedFormData.privateMedicalRecordAttachments = [];
-          setAlertType(prevState => [...prevState, 'privateMedicalRecords']);
-        }
-        if (hasPrivateFacilities) {
-          updatedFormData.providerFacility = [];
-          setAlertType(prevState => [...prevState, 'privateFacility']);
-        }
-        if (hasPrivateUploads || hasPrivateFacilities) {
-          updatedFormData['view:selectableEvidenceTypes'] = {
-            ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
-            'view:hasPrivateMedicalRecords': false,
-          };
-        }
+      if (getPrivateEvidenceUploads(data).length > 0) {
+        delete updatedFormData.privateMedicalRecordAttachments;
+        selectableEvidenceTypes['view:hasPrivateMedicalRecords'] = false;
+        setAlertType(prevState => [...prevState, 'privateMedicalRecords']);
       }
+      if (getPrivateFacilities(data).length > 0) {
+        delete updatedFormData.providerFacility;
+        selectableEvidenceTypes['view:hasPrivateMedicalRecords'] = false;
+        setAlertType(prevState => [...prevState, 'privateFacility']);
+      }
+      updatedFormData['view:selectableEvidenceTypes'] = selectableEvidenceTypes;
       setFormData(updatedFormData);
       setModalVisible(false);
       setAlertVisible(true);
@@ -132,22 +121,17 @@ export const EvidenceRequestPage = ({
         scrollToFirstError();
       } else if (hasMedicalRecords === false && hasEvidenceToRemove()) {
         setModalVisible(true);
-      } else if (hasMedicalRecords === false && hasVAEvidence(data)) {
+      } else if (hasMedicalRecords === false) {
         const updatedFormData = { ...data };
         updatedFormData['view:selectableEvidenceTypes'] = {
           ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
           'view:hasVaMedicalRecords': false,
-        };
-        setFormData(updatedFormData);
-        setAlertVisible(false);
-      } else if (hasMedicalRecords === false && hasPrivateEvidence(data)) {
-        const updatedFormData = { ...data };
-        updatedFormData['view:selectableEvidenceTypes'] = {
-          ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
           'view:hasPrivateMedicalRecords': false,
         };
+        updatedFormData.patient4142Acknowledgement = false;
         setFormData(updatedFormData);
         setAlertVisible(false);
+        goForward(updatedFormData);
       } else {
         setAlertVisible(false);
         goForward(data);
@@ -166,63 +150,6 @@ export const EvidenceRequestPage = ({
     },
   };
 
-  const alertMessage = () => {
-    if (
-      alertType.includes('privateMedicalRecords') &&
-      (alertType.includes('va') || alertType.includes('privateFacility'))
-    ) {
-      return alertMessageForCentersAndFiles;
-    }
-    if (
-      (alertType.includes('va') || alertType.includes('privateFacility')) &&
-      !alertType.includes('privateMedicalRecords')
-    ) {
-      return alertMessageForCenters;
-    }
-    if (
-      alertType.includes('privateMedicalRecords') &&
-      !alertType.includes('va') &&
-      !alertType.includes('privateFacility')
-    ) {
-      return alertMessageForFiles;
-    }
-    return '';
-  };
-  const renderFacilityList = (facilities, nameKey) => {
-    const showAll = facilities.length <= maxDisplayedItems + 1;
-    const displayList = showAll
-      ? facilities
-      : facilities.slice(0, maxDisplayedItems);
-    return (
-      <ul>
-        {displayList.map((facility, index) => (
-          <li key={index}>
-            {facility[nameKey] || 'Name of medical center wasn’t added'}
-          </li>
-        ))}
-        {!showAll && (
-          <li>{facilities.length - maxDisplayedItems} other medical centers</li>
-        )}
-      </ul>
-    );
-  };
-
-  const renderFileList = files => {
-    const showAll = files.length <= maxDisplayedItems + 1;
-    const displayList = showAll ? files : files.slice(0, maxDisplayedItems);
-    return (
-      <ul>
-        {displayList.slice(0, maxDisplayedItems).map((file, index) => (
-          <li key={index}>{file.name}</li>
-        ))}
-
-        {!showAll && (
-          <li>{files.length - maxDisplayedItems} other medical records</li>
-        )}
-      </ul>
-    );
-  };
-
   return (
     <>
       <h3>Medical records that support your disability claim</h3>
@@ -238,7 +165,7 @@ export const EvidenceRequestPage = ({
           uswds
           tabIndex="-1"
         >
-          <p className="vads-u-margin-y--0">{alertMessage()}</p>
+          <p className="vads-u-margin-y--0">{alertMessage(alertType)}</p>
         </VaAlert>
       </div>
       <VaModal
@@ -252,24 +179,25 @@ export const EvidenceRequestPage = ({
         primaryButtonText="Change and remove"
         secondaryButtonText="Cancel change"
       >
-        {hasVAEvidence(data) &&
-          vaEvidence.length > 0 && (
-            <>
-              {vaEvidenceContent}
-              {renderFacilityList(vaEvidence, 'treatmentCenterName')}
-            </>
-          )}
-        {hasPrivateEvidence(data) &&
-          privateEvidenceUploads.length > 0 && (
-            <>
-              {privateEvidenceContent}
-              {renderFileList(privateEvidenceUploads)}
-            </>
-          )}
-        {privateFacility.length > 0 && (
+        {getVaEvidence(data).length > 0 && (
+          <>
+            {vaEvidenceContent}
+            {renderFacilityList(getVaEvidence(data), 'treatmentCenterName')}
+          </>
+        )}
+        {getPrivateEvidenceUploads.length > 0 && (
+          <>
+            {privateEvidenceContent}
+            {renderFileList(getPrivateEvidenceUploads(data), 'fileName')}
+          </>
+        )}
+        {getPrivateFacilities(data).length > 0 && (
           <>
             {privateFacilityContent}
-            {renderFacilityList(privateFacility, 'providerFacilityName')}
+            {renderFacilityList(
+              getPrivateFacilities(data),
+              'providerFacilityName',
+            )}
           </>
         )}
       </VaModal>
