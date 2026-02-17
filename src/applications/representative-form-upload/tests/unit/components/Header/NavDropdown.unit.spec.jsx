@@ -30,11 +30,11 @@ describe('NavDropdown', () => {
 
   it('does not display dropdown content by default', () => {
     const { queryByTestId } = subject();
-    expect(
-      queryByTestId(
-        `${defaultProps.icon}-toggle-dropdown-${defaultProps.view}-list`,
-      ),
-    ).to.be.null;
+    const dropdown = queryByTestId(
+      `${defaultProps.icon}-toggle-dropdown-${defaultProps.view}-list`,
+    );
+    expect(dropdown).to.not.be.null;
+    expect(dropdown.classList.contains('vads-u-display--none')).to.be.true;
   });
 
   it('hides dropdown content after clicking twice', () => {
@@ -45,11 +45,10 @@ describe('NavDropdown', () => {
 
     fireEvent.click(toggleButton); // Open
     fireEvent.click(toggleButton); // Close
-
-    expect(
-      queryByTestId(
-        `${defaultProps.icon}-toggle-dropdown-${defaultProps.view}-list`,
-      ),
-    ).to.be.null;
+    const dropdown = queryByTestId(
+      `${defaultProps.icon}-toggle-dropdown-${defaultProps.view}-list`,
+    );
+    expect(dropdown).to.not.be.null;
+    expect(dropdown.classList.contains('vads-u-display--none')).to.be.true;
   });
 });
