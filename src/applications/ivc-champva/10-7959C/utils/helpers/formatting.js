@@ -31,7 +31,7 @@ export const formatFullName = (name = {}, { includeMiddle = false } = {}) => {
  * @param {string} str - String to make possessive
  * @returns {string} String with 's appended, or original string if falsy
  */
-export const makePossessive = (str = '') => (str ? `${str}\u2019s` : str);
+export const makePossessive = (str = '') => (str ? `${str}’s` : str);
 
 /**
  * Replace placeholder(s) in a string with one or more values.
