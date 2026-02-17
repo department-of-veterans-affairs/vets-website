@@ -97,23 +97,45 @@ export function focusByOrder(selectors, root) {
     list = selectors.split(',');
   }
   if (Array.isArray(list)) {
-    list.some(selector => {
-      const trimmedSelector = (selector || '').trim();
+    list = list.flatMap(
+      selector =>
+        typeof selector === 'string' ? selector.split(',') : selector,
+    );
 
-      // Handle shadow DOM traversal using >>shadow>> delimiter
+    return list.some(selector => {
+      const trimmedSelector = (selector || '').trim();
+      if (!trimmedSelector) {
+        return false;
+      }
+
+      // Handle selectors in the shadow root
       if (trimmedSelector.includes(SHADOW_DELIMITER)) {
-        const [hostSelector] = trimmedSelector.split(SHADOW_DELIMITER);
-        if ((root || document).querySelector(hostSelector.trim())) {
-          focusElement(trimmedSelector, {}, root);
-          return true;
+        const [hostSelector, internalSelector] = trimmedSelector.split(
+          SHADOW_DELIMITER,
+        );
+        const host = (root || document).querySelector(hostSelector.trim());
+        if (host && host.shadowRoot) {
+          const shadowEl = host.shadowRoot.querySelector(
+            internalSelector.trim(),
+          );
+          if (shadowEl) {
+            focusElement(shadowEl);
+            return true;
+          }
         }
-      } else if ((root || document).querySelector(trimmedSelector)) {
-        focusElement(trimmedSelector, {}, root);
+        return false;
+      }
+
+      // Handle regular selectors
+      const el = (root || document).querySelector(trimmedSelector);
+      if (el) {
+        focusElement(el);
         return true;
       }
       return false;
     });
   }
+  return false;
 }
 
 const noAsyncFocusWhenCypressRunningInCiOrLocally =
@@ -174,7 +196,7 @@ export function waitForRenderThenFocus(
 
         // Don't set default focus if something is already focused
         if (document.activeElement === document.body) {
-          focusElement(defaultFocusSelector); // fallback to breadcrumbs
+          focusByOrder(defaultFocusSelector); // fallback to breadcrumbs
         }
       }
       count += 1;
