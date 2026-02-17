@@ -51,6 +51,7 @@ import manifest from '@bio-aquia/21-2680-house-bound-status-secondary/manifest.j
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status-secondary/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status-secondary/containers/confirmation-page';
 import { GetHelp } from '@bio-aquia/21-2680-house-bound-status-secondary/components';
+import PreSubmitInfo from '@bio-aquia/21-2680-house-bound-status-secondary/components/pre-submit-info';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -72,8 +73,8 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_21_2680_S,
   saveInProgress: {
     // messages: {
-    //   inProgress: 'Your House Bound Status (Medical Professional) application (21-2680-S) is in progress.',
-    //   expired: 'Your saved House Bound Status (Medical Professional) application (21-2680-S) has expired. If you want to apply for House Bound Status (Medical Professional), please start a new application.',
+    //   inProgress: 'Your House Bound Status (Medical Professional) application (21-2680) is in progress.',
+    //   expired: 'Your saved House Bound Status (Medical Professional) application (21-2680) has expired. If you want to apply for House Bound Status (Medical Professional), please start a new application.',
     //   saved: 'Your House Bound Status (Medical Professional) application has been saved.',
     // },
   },
@@ -230,6 +231,7 @@ const formConfig = {
       },
     },
   },
+  preSubmitInfo: PreSubmitInfo,
   footerContent,
 };
 
