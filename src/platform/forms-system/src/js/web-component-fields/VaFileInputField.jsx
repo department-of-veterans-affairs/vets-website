@@ -257,7 +257,7 @@ const VaFileInputField = props => {
               // clone element so we can attach listeners
               mappedProps.additionalInput(
                 additionalInputError,
-                childrenProps.formData.additionalData,
+                childrenProps.formData.additionalData || {},
                 uiOptions.additionalInputLabels,
               ),
               {
