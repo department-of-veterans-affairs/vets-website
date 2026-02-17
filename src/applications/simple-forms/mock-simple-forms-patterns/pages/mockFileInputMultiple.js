@@ -21,8 +21,25 @@ export default {
         environment.API_URL
       }/simple_forms_api/v1/supporting_documents_upload`,
       skipUpload: false,
-      maxFileSize: 1024 * 1024 * 100, // 100MB
-      minFileSize: 1024, // 1KB
+      // uncomment to apply one max file size limit to all file types; fileSizesByFileType takes precedence if both provided
+      // maxFileSize: 1024 * 1024 * 100, // 100MB
+      // uncomment to apply one min file size limit to all file types; fileSizesByFileType takes precedence if both provided
+      // minFileSize: 1024, // 1KB
+      // comment out if you want the same file size limits to apply to all file types
+      fileSizesByFileType: {
+        pdf: {
+          maxFileSize: 1024 * 1024 * 50,
+          minFileSize: 1,
+        },
+        txt: {
+          maxFileSize: 50,
+          minFileSize: 4,
+        },
+        default: {
+          maxFileSize: 1024 * 10,
+          minFileSize: 1,
+        },
+      },
       errorMessages: {
         additionalInput: 'Choose a document status',
       },

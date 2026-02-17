@@ -74,6 +74,8 @@ import IncorrectForm from '../containers/IncorrectForm';
 // TODO: Will be added after mvp release
 // import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
 import { transform } from './submit-transformer';
+import { onFormLoaded } from '../utils/onFormLoaded';
+// import prefillTransformer from './prefill-transformer';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -84,6 +86,7 @@ const formConfig = {
   trackingPrefix: 'survivors-534ez',
   v3SegmentedProgressBar: true,
   prefillEnabled: true,
+  // prefillTransformer,
   dev: {
     disableWindowUnloadInCI: true,
     showNavLinks: true,
@@ -102,6 +105,7 @@ const formConfig = {
     },
   },
   version: 0,
+  onFormLoaded,
   formSavedPage: FormSavedPage,
   defaultDefinitions,
   savedFormMessages: {
@@ -295,7 +299,7 @@ const formConfig = {
           title: 'Marriage to Veteran Details',
           depends: formData =>
             formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-            !formData.marriedAtDeath,
+            !formData.marriedToVeteranAtTimeOfDeath,
           uiSchema: marriageToVeteranEnd.uiSchema,
           schema: marriageToVeteranEnd.schema,
         },
@@ -412,14 +416,16 @@ const formConfig = {
         dependentsAddress: {
           path: 'household/dependents-address',
           title: 'Dependent’s mailing address',
-          depends: formData => formData?.dependentsResidence === true,
+          depends: formData =>
+            formData?.childrenLiveTogetherButNotWithSpouse === true,
           uiSchema: dependentsAddress.uiSchema,
           schema: dependentsAddress.schema,
         },
         dependentsName: {
           path: 'household/dependents-custodian',
           title: 'Dependent’s custodian',
-          depends: formData => formData?.dependentsResidence === true,
+          depends: formData =>
+            formData?.childrenLiveTogetherButNotWithSpouse === true,
           uiSchema: dependentsCustodian.uiSchema,
           schema: dependentsCustodian.schema,
         },

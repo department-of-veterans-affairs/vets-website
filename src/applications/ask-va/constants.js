@@ -25,7 +25,8 @@ export const baseURL = '/ask_va_api/v0';
 // export const mockTestingFlagforAPI =
 //   (isToggleEnabled || isLocalhost) && !isProduction;
 
-export const mockTestingFlagforAPI = envUrl === 'http://localhost:3000'; // enable this flag when testing locally for API calls
+export const mockTestingFlagforAPI =
+  envUrl === 'http://localhost:3000' || envUrl === 'http://127.0.0.1:3000'; // enable this flag when testing locally for API calls
 
 // Overridable for testing
 export const getMockTestingFlagforAPI = () => mockTestingFlagforAPI;
@@ -412,7 +413,7 @@ export const CHAPTER_3 = {
   THEIR_RELATIONSHIP_TO_VET: {
     TITLE: 'What is their relationship to the Veteran?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Please describe their relationship to the Veteran',
+    QUESTION_1: 'Describe their relationship to the Veteran',
   },
   ABOUT_THE_VET: {
     TITLE: 'Tell us about the Veteran',
@@ -495,7 +496,7 @@ export const CHAPTER_3 = {
     },
     QUESTION_2: {
       QUESTION: 'How should we contact you?',
-      ERROR: 'Please select your contact preference',
+      ERROR: 'Select your contact preference',
     },
   },
   YOUR_COUNTRY: {
@@ -558,7 +559,7 @@ export const CHAPTER_3 = {
     TITLE: 'School state or residency state',
     PAGE_DESCRIPTION: 'School or state of residency',
     QUESTION_1:
-      "Please provide your school state. If you don't have a school state, you can provide your residency state instead.",
+      "Provide your school state. If you don't have a school state, you can provide your residency state instead.",
   },
   VETERAN_LOCATION_OF_RESIDENCE: {
     TITLE: `Veteran's location of residence`,
@@ -594,31 +595,31 @@ export const CHAPTER_3 = {
   YOUR_VRE_INFORMATION: {
     TITLE:
       'Have you ever applied for Veteran Readiness and Employment benefits and services?',
-    ERROR: "Please select if you've applied for services.",
+    ERROR: "Select if you've applied for services.",
   },
   YOUR_VRE_COUNSELOR: {
     TITLE: 'Veteran Readiness and Employment counselor',
     DESCRIPTION: 'Name of your counselor:',
-    ERROR: 'Please enter the name of your counselor',
+    ERROR: 'Enter the name of your counselor',
   },
   THEIR_VRE_INFORMATION: {
     TITLE:
       'Have they ever applied for Veteran Readiness and Employment benefits and services?',
-    ERROR: "Please select if they've applied for services.",
+    ERROR: "Select if they've applied for services.",
   },
   THEIR_VRE_COUNSELOR: {
     TITLE: 'Veteran Readiness and Employment counselor',
     DESCRIPTION: 'Name of their counselor:',
-    ERROR: 'Please enter the name of their counselor',
+    ERROR: 'Enter the name of their counselor',
   },
   BRANCH_OF_SERVICE: {
     TITLE: 'Your branch of service',
     DESCRIPTION: 'Select your branch of service',
-    ERROR: 'Please select your branch of service',
+    ERROR: 'Select your branch of service',
   },
   VETERANS_BRANCH_OF_SERVICE: {
     TITLE: 'Branch of service',
-    ERROR: "Please select the Veteran's branch of service",
+    ERROR: "Select the Veteran's branch of service",
   },
 };
 

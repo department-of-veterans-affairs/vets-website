@@ -8,6 +8,7 @@ import {
   getSelectedCount,
   herbicidePageTitle,
   notSureDatesDetails,
+  reviewDateField,
   showCheckboxLoopDetailsPage,
   startDateApproximate,
   teSubtitle,
@@ -17,6 +18,7 @@ import { validateToxicExposureDates } from '../../utils/validations';
 import { validateApproximateMonthYearDate } from '../../utils/dates';
 import {
   ForceFieldBlur,
+  makeDateConfirmationField,
   monthYearDateSchemaWithFullDateSupport,
 } from './utils';
 
@@ -50,6 +52,10 @@ function makeUiSchema(locationId) {
               pattern: 'Please enter a valid date',
               required: 'Please enter a date',
             },
+            'ui:reviewField': reviewDateField,
+            'ui:confirmationField': makeDateConfirmationField(
+              startDateApproximate,
+            ),
           },
           endDate: {
             ...currentOrPastMonthYearDateUI({
@@ -62,6 +68,10 @@ function makeUiSchema(locationId) {
               pattern: 'Please enter a valid date',
               required: 'Please enter a date',
             },
+            'ui:reviewField': reviewDateField,
+            'ui:confirmationField': makeDateConfirmationField(
+              endDateApproximate,
+            ),
           },
           'ui:validations': [validateToxicExposureDates],
           'view:notSure': {
@@ -79,6 +89,9 @@ function makeUiSchema(locationId) {
     },
     _forceFieldBlur: {
       'ui:field': ForceFieldBlur,
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
   };
 }

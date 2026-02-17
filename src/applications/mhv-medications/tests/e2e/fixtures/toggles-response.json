@@ -37,6 +37,10 @@
       {
         "name": "mhv_accelerated_delivery_allergies_enabled",
         "value": false
+      },
+      {
+        "name": "mhv_medications_management_improvements",
+        "value": false
       }
     ]
   }

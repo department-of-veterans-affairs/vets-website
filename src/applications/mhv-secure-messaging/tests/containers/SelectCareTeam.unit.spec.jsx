@@ -1315,4 +1315,503 @@ describe('SelectCareTeam', () => {
       expect(event).to.be.undefined;
     });
   });
+
+  describe('Blocked Triage Group Alert', () => {
+    it('should render BlockedTriageGroupAlert with ALERT style when allTriageGroupsBlocked is true', () => {
+      const allBlockedState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allTriageGroupsBlocked: true,
+            blockedFacilities: [],
+            blockedRecipients: [],
+            associatedBlockedTriageGroupsQty: 3,
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: allBlockedState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Should render the h1
+      expect(screen.container.querySelector('h1')).to.exist;
+
+      // Should render the BlockedTriageGroupAlert as va-alert-expandable (ALERT style)
+      const alert = screen.container.querySelector('va-alert-expandable');
+      expect(alert).to.exist;
+      expect(alert.getAttribute('status')).to.equal('warning');
+      expect(alert.getAttribute('trigger')).to.include(
+        "can't send messages to your care teams",
+      );
+
+      // Should NOT render the care system selection (va-radio or va-select)
+      const radioGroup = screen.container.querySelector('va-radio');
+      expect(radioGroup).to.not.exist;
+      const selectDropdown = screen.container.querySelector('va-select');
+      expect(selectDropdown).to.not.exist;
+
+      // Should NOT render the care team combobox
+      const combobox = screen.container.querySelector(
+        '[data-testid="compose-recipient-combobox"]',
+      );
+      expect(combobox).to.not.exist;
+    });
+
+    it('should render BlockedTriageGroupAlert with INFO style when single facility is blocked', () => {
+      const singleFacilityBlockedState = {
+        ...initialState,
+        drupalStaticData: {
+          vamcEhrData: {
+            data: {
+              ehrDataByVhaId: {
+                ...initialState.drupalStaticData.vamcEhrData.data
+                  .ehrDataByVhaId,
+                '553': {
+                  vhaId: '553',
+                  vamcSystemName: 'VA Detroit Healthcare System',
+                  ehr: 'vista',
+                },
+              },
+            },
+          },
+        },
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allTriageGroupsBlocked: false,
+            blockedFacilities: ['553'],
+            blockedRecipients: [],
+            associatedBlockedTriageGroupsQty: 1,
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: singleFacilityBlockedState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Should render the h1
+      expect(screen.container.querySelector('h1')).to.exist;
+
+      // Should render the BlockedTriageGroupAlert as va-alert (INFO style)
+      const alert = screen.container.querySelector('va-alert');
+      expect(alert).to.exist;
+      expect(alert.getAttribute('status')).to.equal('info');
+
+      // Should still render the care system selection
+      const radioGroup = screen.container.querySelector('va-radio');
+      expect(radioGroup).to.exist;
+    });
+
+    it('should render BlockedTriageGroupAlert with INFO style when individual teams are blocked', () => {
+      const blockedTeamsState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allTriageGroupsBlocked: false,
+            blockedFacilities: [],
+            blockedRecipients: [
+              {
+                id: 12345,
+                name: 'Blocked Team 1',
+                stationNumber: '662',
+              },
+            ],
+            associatedBlockedTriageGroupsQty: 1,
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: blockedTeamsState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Should render the h1
+      expect(screen.container.querySelector('h1')).to.exist;
+
+      // Should render the BlockedTriageGroupAlert as va-alert (INFO style)
+      const alert = screen.container.querySelector('va-alert');
+      expect(alert).to.exist;
+      expect(alert.getAttribute('status')).to.equal('info');
+
+      // Should still render the care system selection
+      const radioGroup = screen.container.querySelector('va-radio');
+      expect(radioGroup).to.exist;
+    });
+
+    it('should NOT render BlockedTriageGroupAlert when no blocked facilities or teams', () => {
+      const noBlockedState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allTriageGroupsBlocked: false,
+            blockedFacilities: [],
+            blockedRecipients: [],
+            associatedBlockedTriageGroupsQty: 0,
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: noBlockedState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Should render the h1
+      expect(screen.container.querySelector('h1')).to.exist;
+
+      // Should NOT render any va-alert (BlockedTriageGroupAlert)
+      // Note: EmergencyNote renders a va-alert-expandable, so we check for va-alert specifically
+      const alert = screen.container.querySelector(
+        'va-alert[data-testid="blocked-triage-group-alert"]',
+      );
+      expect(alert).to.not.exist;
+
+      // Should render the care system selection normally
+      const radioGroup = screen.container.querySelector('va-radio');
+      expect(radioGroup).to.exist;
+    });
+
+    it('should NOT render BlockedTriageGroupAlert when multiple facilities are blocked but not all', () => {
+      const multipleBlockedState = {
+        ...initialState,
+        drupalStaticData: {
+          vamcEhrData: {
+            data: {
+              ehrDataByVhaId: {
+                ...initialState.drupalStaticData.vamcEhrData.data
+                  .ehrDataByVhaId,
+                '553': {
+                  vhaId: '553',
+                  vamcSystemName: 'VA Detroit Healthcare System',
+                  ehr: 'vista',
+                },
+                '648': {
+                  vhaId: '648',
+                  vamcSystemName: 'VA Portland Healthcare System',
+                  ehr: 'vista',
+                },
+              },
+            },
+          },
+        },
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allTriageGroupsBlocked: false,
+            blockedFacilities: ['553', '648'],
+            blockedRecipients: [],
+            associatedBlockedTriageGroupsQty: 2,
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: multipleBlockedState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Should render the h1
+      expect(screen.container.querySelector('h1')).to.exist;
+
+      // Should NOT render BlockedTriageGroupAlert when multiple (not single) facilities blocked
+      // Based on the condition: blockedFacilities?.length === 1 && !allTriageGroupsBlocked
+      const alert = screen.container.querySelector(
+        'va-alert[data-testid="blocked-triage-group-alert"]',
+      );
+      expect(alert).to.not.exist;
+
+      // Should render the care system selection normally
+      const radioGroup = screen.container.querySelector('va-radio');
+      expect(radioGroup).to.exist;
+    });
+
+    it('should filter blocked facilities from care system radio options', () => {
+      const stateWithBlockedFacility = {
+        ...initialState,
+        drupalStaticData: {
+          vamcEhrData: {
+            data: {
+              ehrDataByVhaId: {
+                '662': {
+                  vhaId: '662',
+                  vamcSystemName: 'Test Facility 1',
+                  ehr: 'vista',
+                },
+                '636': {
+                  vhaId: '636',
+                  vamcSystemName: 'Test Facility 2',
+                  ehr: 'vista',
+                },
+                '587': {
+                  vhaId: '587',
+                  vamcSystemName: 'Blocked Facility',
+                  ehr: 'vista',
+                },
+              },
+            },
+          },
+        },
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allFacilities: ['662', '636', '587'],
+            blockedFacilities: ['587'],
+            blockedRecipients: [],
+            associatedBlockedTriageGroupsQty: 1,
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithBlockedFacility,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Should render radio options
+      const radioGroup = screen.container.querySelector('va-radio');
+      expect(radioGroup).to.exist;
+
+      // Should NOT include the blocked facility in radio options
+      const radioOptions = screen.container.querySelectorAll('va-radio-option');
+      const optionLabels = Array.from(radioOptions).map(option =>
+        option.getAttribute('label'),
+      );
+
+      expect(optionLabels).to.include('Test Facility 1');
+      expect(optionLabels).to.include('Test Facility 2');
+      expect(optionLabels).to.not.include('Blocked Facility');
+    });
+  });
+
+  describe('Care team selection validation', () => {
+    it('should display error and focus input when continue is clicked without selecting a care team', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait for component to fully render
+      await waitFor(() => {
+        expect(screen.getByTestId('continue-button')).to.exist;
+      });
+
+      // Click continue without selecting a care team
+      const continueButton = screen.getByTestId('continue-button');
+      fireEvent.click(continueButton);
+
+      // Wait for error to be set
+      await waitFor(() => {
+        const combobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        expect(combobox).to.exist;
+        expect(combobox).to.have.attribute('error', 'Select a care team');
+      });
+    });
+
+    it('should set error message accessible to screen readers', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('continue-button')).to.exist;
+      });
+
+      // Click continue without selection
+      const continueButton = screen.getByTestId('continue-button');
+      fireEvent.click(continueButton);
+
+      // Verify error attribute is set for screen reader accessibility
+      await waitFor(() => {
+        const combobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        expect(combobox).to.exist;
+
+        // Verify error attribute exists (required for screen reader announcement)
+        const errorAttr = combobox.getAttribute('error');
+        expect(errorAttr).to.equal('Select a care team');
+
+        // The VaComboBox web component handles ARIA associations internally
+        // when the error prop is set, making the error accessible to screen readers
+      });
+    });
+
+    it('should clear error when a care team is selected', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('continue-button')).to.exist;
+      });
+
+      // First, trigger the error
+      const continueButton = screen.getByTestId('continue-button');
+      fireEvent.click(continueButton);
+
+      await waitFor(() => {
+        const combobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        expect(combobox).to.have.attribute('error', 'Select a care team');
+      });
+
+      // Now select a care team by dispatching the change event
+      const combobox = screen.container.querySelector(
+        '[data-testid="compose-recipient-combobox"]',
+      );
+
+      // Simulate selecting the first recipient
+      const firstRecipient = initialState.sm.recipients.allowedRecipients[0];
+      const changeEvent = new CustomEvent('vaSelect', {
+        detail: { value: firstRecipient.id.toString() },
+      });
+      combobox.dispatchEvent(changeEvent);
+
+      // Wait for error to clear
+      await waitFor(() => {
+        const updatedCombobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        const errorAttr = updatedCombobox.getAttribute('error');
+        expect(errorAttr).to.equal('');
+      });
+    });
+
+    it('should not navigate when validation fails', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      const { history } = screen;
+      const initialPath = history.location.pathname;
+
+      await waitFor(() => {
+        expect(screen.getByTestId('continue-button')).to.exist;
+      });
+
+      // Click continue without selecting a care team
+      const continueButton = screen.getByTestId('continue-button');
+      fireEvent.click(continueButton);
+
+      await waitFor(() => {
+        const combobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        expect(combobox).to.have.attribute('error', 'Select a care team');
+      });
+
+      // Verify navigation did not occur by checking path hasn't changed
+      expect(history.location.pathname).to.equal(initialPath);
+    });
+  });
 });

@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isNil } from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export default function transform(formConfig, form) {
@@ -230,10 +230,14 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
-  const statementTransform = formData => {
+  const statementAndAuthTransform = formData => {
     const clonedData = cloneDeep(formData);
-
     delete clonedData.statementOfTruthCertified;
+
+    if (isNil(clonedData.isAuthenticated)) {
+      clonedData.isAuthenticated =
+        JSON.parse(localStorage.getItem('hasSession')) ?? false;
+    }
 
     return clonedData;
   };
@@ -263,7 +267,7 @@ export default function transform(formConfig, form) {
     yellowRibbonProgramRequestTransform,
     institutionDetailsTransform,
     pointOfContactTransform,
-    statementTransform,
+    statementAndAuthTransform,
     dateTransform,
     usFormTransform, // this must appear last
   ].reduce((formData, transformer) => {

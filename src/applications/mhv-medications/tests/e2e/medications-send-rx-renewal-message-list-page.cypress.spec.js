@@ -12,11 +12,14 @@ describe('Send Rx Renewal Message on List Page', () => {
     site.login();
     listPage.visitMedicationsListPageURL(rxList);
 
+    // Check for the active prescription with 0 refills message
+    // The page displays "You can't refill..." with a curly apostrophe (')
     cy.get('[data-testid="active-no-refill-left"]')
+      .first()
       .should('be.visible')
       .and(
         'contain',
-        'You can’t refill this prescription. If you need more, send a secure message to your care team',
+        'Contact your VA provider if you need more of this medication.',
       );
 
     cy.injectAxe();
@@ -39,7 +42,7 @@ describe('Send Rx Renewal Message on List Page', () => {
     cy.axeCheck('main');
   });
 
-  it('displays fallback content for refill in process prescriptions when showRenewalLink is false', () => {
+  it('displays fallback content for refill in process prescriptions when renewalLinkShownAbove is false', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
@@ -54,7 +57,7 @@ describe('Send Rx Renewal Message on List Page', () => {
     cy.axeCheck('main');
   });
 
-  it('displays fallback content for submitted prescriptions when showRenewalLink is false', () => {
+  it('displays fallback content for submitted prescriptions when renewalLinkShownAbove is false', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 

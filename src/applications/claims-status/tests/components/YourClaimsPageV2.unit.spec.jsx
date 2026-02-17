@@ -45,6 +45,7 @@ describe('<YourClaimsPageV2>', () => {
     claimsLoading: false,
     appealsLoading: false,
     stemClaimsLoading: false,
+    cstClaimsListFilterEnabled: false,
     loading: false,
     appealsAvailable: claimsAvailability.AVAILABLE,
     claimsAvailable: claimsAvailability.AVAILABLE,
@@ -324,5 +325,147 @@ describe('<YourClaimsPageV2>', () => {
 
     const page = YourClaimsPageV2.getPageFromURL(testProps);
     expect(page).to.equal(1);
+  });
+
+  describe('when cstClaimsListFilterEnabled is true', () => {
+    const filterProps = {
+      ...defaultProps,
+      cstClaimsListFilterEnabled: true,
+    };
+
+    it('should render ClaimsFilter instead of combined claims additional info', () => {
+      const wrapper = shallow(<YourClaimsPageV2 {...filterProps} />);
+      expect(wrapper.find('ClaimsFilter').length).to.equal(1);
+      expect(wrapper.find('#claims-combined').length).to.equal(0);
+      wrapper.unmount();
+    });
+
+    it('should render NoClaims with recordType when list is empty', () => {
+      const props = {
+        ...filterProps,
+        list: [],
+      };
+      const wrapper = shallow(<YourClaimsPageV2 {...props} />);
+      const noClaims = wrapper.find('NoClaims');
+      expect(noClaims.length).to.equal(1);
+      expect(noClaims.prop('recordType')).to.equal('records');
+      wrapper.unmount();
+    });
+
+    it('should render pagination with filter label format', () => {
+      const props = {
+        ...filterProps,
+        list: new Array(12).fill(defaultProps.list[0]),
+      };
+      const { container } = renderWithRouter(
+        <Provider store={mockStore}>
+          <YourClaimsPageV2 {...props} />
+        </Provider>,
+      );
+      expect(container.textContent).to.include('Showing 1-10 of 12 records');
+    });
+  });
+
+  describe('rendering mixed appeals and claims', () => {
+    it('should render both AppealListItem and ClaimsListItem components', () => {
+      const testProps = {
+        ...defaultProps,
+        list: [
+          {
+            type: 'appeal',
+            id: 'test-appeal',
+            attributes: {
+              active: true,
+              updated: '2022-01-20',
+              status: { type: 'pending_soc' },
+            },
+          },
+          {
+            type: 'claim',
+            id: 'test-claim',
+            attributes: {
+              status: 'CLAIM_RECEIVED',
+              phaseChangeDate: '2022-01-18',
+            },
+          },
+        ],
+      };
+
+      const wrapper = shallow(<YourClaimsPageV2 {...testProps} />);
+
+      const appealItems = wrapper.find('AppealListItem');
+      const claimItems = wrapper.find('ClaimsListItem');
+
+      expect(appealItems.length).to.equal(1);
+      expect(claimItems.length).to.equal(1);
+      expect(appealItems.at(0).prop('appeal').id).to.equal('test-appeal');
+      expect(claimItems.at(0).prop('claim').id).to.equal('test-claim');
+
+      wrapper.unmount();
+    });
+
+    it('should render StemClaimListItem for STEM claims', () => {
+      const testProps = {
+        ...defaultProps,
+        list: [
+          {
+            type: 'education_benefits_claims',
+            id: 'test-stem-claim',
+            attributes: {
+              confirmationNumber: 'V-EBC-1234',
+              claimType: 'STEM',
+            },
+          },
+        ],
+      };
+
+      const wrapper = shallow(<YourClaimsPageV2 {...testProps} />);
+
+      const stemItems = wrapper.find('StemClaimListItem');
+      expect(stemItems.length).to.equal(1);
+      expect(stemItems.at(0).prop('claim').id).to.equal('test-stem-claim');
+
+      wrapper.unmount();
+    });
+
+    it('should render all types of items in a mixed list', () => {
+      const testProps = {
+        ...defaultProps,
+        list: [
+          {
+            type: 'higherLevelReview',
+            id: 'test-hlr',
+            attributes: {
+              active: true,
+              updated: '2022-01-20',
+              status: { type: 'on_docket' },
+            },
+          },
+          {
+            type: 'claim',
+            id: 'test-claim',
+            attributes: {
+              status: 'CLAIM_RECEIVED',
+              phaseChangeDate: '2022-01-18',
+            },
+          },
+          {
+            type: 'education_benefits_claims',
+            id: 'test-stem',
+            attributes: {
+              confirmationNumber: 'V-EBC-5678',
+            },
+          },
+        ],
+      };
+
+      const wrapper = shallow(<YourClaimsPageV2 {...testProps} />);
+
+      expect(wrapper.find('AppealListItem').length).to.equal(1);
+      expect(wrapper.find('ClaimsListItem').length).to.equal(1);
+      expect(wrapper.find('StemClaimListItem').length).to.equal(1);
+
+      wrapper.unmount();
+    });
   });
 });

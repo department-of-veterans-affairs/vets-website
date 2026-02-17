@@ -1,17 +1,16 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setPreSubmit } from 'platform/forms-system/src/js/actions';
 import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   fullNameReducer,
   statementOfTruthFullName,
 } from '~/platform/forms/components/review/PreSubmitSection';
-import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
 
-function PresubmitInfo({
+export default function PresubmitInfo({
   formData,
   showError,
-  setPreSubmit,
   user,
   onSectionComplete,
 }) {
@@ -20,6 +19,7 @@ function PresubmitInfo({
   const [inputError, setInputError] = useState(null);
   const [checkboxError, setCheckboxError] = useState(null);
   const [sectionComplete, setSectionComplete] = useState(false);
+  const dispatch = useDispatch();
   const expectedFullName = statementOfTruthFullName(
     formData,
     {
@@ -31,16 +31,16 @@ function PresubmitInfo({
   // event handlers
   const handleCheckboxChange = useCallback(
     event => {
-      setPreSubmit('statementOfTruthCertified', event.detail.checked);
+      dispatch(setPreSubmit('statementOfTruthCertified', event.detail.checked));
     },
-    [setPreSubmit],
+    [dispatch],
   );
 
   const handleInputChange = useCallback(
     event => {
-      setPreSubmit('statementOfTruthSignature', event.detail.value);
+      dispatch(setPreSubmit('statementOfTruthSignature', event.detail.value));
     },
-    [setPreSubmit],
+    [dispatch],
   );
 
   const handleInputBlur = useCallback(() => setSignatureBlurred(true), [
@@ -57,7 +57,7 @@ function PresubmitInfo({
         fullNameReducer(expectedFullName);
       setInputError(
         (showError || signatureBlurred) && !namesMatch
-          ? `Please enter your name exactly as it appears on your application: ${expectedFullName}`
+          ? `Enter your name exactly as it appears on your form: ${expectedFullName}`
           : null,
       );
 
@@ -112,7 +112,6 @@ function PresubmitInfo({
 
 PresubmitInfo.propTypes = {
   formData: PropTypes.object.isRequired,
-  setPreSubmit: PropTypes.func.isRequired,
   onSectionComplete: PropTypes.func.isRequired,
   preSubmitInfo: PropTypes.shape({
     error: PropTypes.string,
@@ -133,12 +132,3 @@ PresubmitInfo.propTypes = {
     }),
   }),
 };
-
-const mapDispatchToProps = {
-  setPreSubmit: setPreSubmitAction,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(PresubmitInfo);

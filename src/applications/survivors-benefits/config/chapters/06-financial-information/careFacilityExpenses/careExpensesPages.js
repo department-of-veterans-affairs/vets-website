@@ -7,7 +7,6 @@ import {
   radioSchema,
   checkboxSchema,
   textUI,
-  textSchema,
   numberUI,
   numberSchema,
   arrayBuilderItemFirstPageTitleUI,
@@ -18,6 +17,7 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { customTextSchema } from '../../../definitions';
 import {
   careRecipientLabels,
   careTypeLabels,
@@ -233,8 +233,8 @@ const recipientPage = {
     type: 'object',
     properties: {
       recipient: radioSchema(Object.keys(careRecipientLabels)),
-      recipientName: textSchema,
-      provider: textSchema,
+      recipientName: customTextSchema,
+      provider: customTextSchema,
     },
     required: ['recipient', 'provider'],
   },
@@ -274,10 +274,14 @@ const costPage = {
       title: 'How often are the payments?',
       labels: careFrequencyLabels,
     }),
-    paymentAmount: currencyUI('How much is each payment?'),
+    paymentAmount: currencyUI({
+      title: 'How much is each payment?',
+      max: 999999999,
+    }),
     ratePerHour: {
       ...currencyUI({
         title: 'What is the provider’s rate per hour?',
+        max: 999999999,
         hideIf: (formData, index, fullData) => {
           const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
           const careExpense = careExpenses?.[index];

@@ -19,6 +19,10 @@ class VitalsListPage extends BaseListPage {
       '@maintenanceWindow',
       '@status',
     ]);
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   clickLinkByRecordListItem = vitalsHeading => {
@@ -35,6 +39,10 @@ class VitalsListPage extends BaseListPage {
     // Wait for the detail page to load after navigation
     cy.get('[data-testid="vital-date"]', { timeout: 10000 }).should('exist');
     cy.get('[data-testid="vital-result"]').should('exist');
+    // Wait for detail page to load - check for print menu as indicator
+    cy.get('[data-testid="print-download-menu"]', { timeout: 10000 }).should(
+      'be.visible',
+    );
   };
 
   verifyVitalOnListPage = (index, name, measurement, date) => {

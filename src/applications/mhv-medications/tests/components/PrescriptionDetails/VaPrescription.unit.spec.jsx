@@ -575,4 +575,65 @@ describe('vaPrescription details container', () => {
       expect(statusElement).to.exist;
     });
   });
+
+  describe('Renewal action link on detail page for Oracle Health prescriptions', () => {
+    const setupOracleHealth = (rx = newRx) => {
+      return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
+        initialState: {
+          featureToggles: {
+            [FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent]: true,
+            [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: false,
+            [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: false,
+            [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequest]: true,
+          },
+          drupalStaticData: {
+            vamcEhrData: {
+              data: {
+                cernerFacilities: [
+                  { vhaId: '668', vamcFacilityName: 'Spokane VA' },
+                ],
+              },
+            },
+          },
+        },
+        reducers: {},
+        initialEntries: ['/prescriptions/1234567891'],
+      });
+    };
+
+    it('displays renewal action link for OH prescription with sourceEhr=OH and isRenewable=true', () => {
+      const ohRx = {
+        ...newRx,
+        sourceEhr: 'OH',
+        stationNumber: '668',
+        isRenewable: true,
+      };
+      const screen = setupOracleHealth(ohRx);
+      expect(screen.getByTestId('send-renewal-request-message-action-link')).to
+        .exist;
+    });
+
+    it('does not display renewal action link for non-OH prescription', () => {
+      const vistaRx = {
+        ...newRx,
+        stationNumber: '989',
+        isRenewable: true,
+      };
+      const screen = setupOracleHealth(vistaRx);
+      expect(screen.queryByTestId('send-renewal-request-message-action-link'))
+        .to.not.exist;
+    });
+
+    it('does not display renewal action link when isRenewable is false', () => {
+      const ohNonRenewable = {
+        ...newRx,
+        sourceEhr: 'OH',
+        stationNumber: '668',
+        isRenewable: false,
+      };
+      const screen = setupOracleHealth(ohNonRenewable);
+      expect(screen.queryByTestId('send-renewal-request-message-action-link'))
+        .to.not.exist;
+    });
+  });
 });
