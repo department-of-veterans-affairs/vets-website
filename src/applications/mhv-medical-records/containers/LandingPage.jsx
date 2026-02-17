@@ -18,6 +18,7 @@ import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { selectImagesDomainFlag } from '../util/selectors';
 import { createSession, postCreateAAL } from '../api/MrApi';
 import { sendDataDogAction } from '../util/helpers';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 
 const LAB_TEST_RESULTS_LABEL = 'Go to your lab and test results';
 const IMAGING_RESULTS_LABEL = 'Go to your medical imaging results';
@@ -126,9 +127,11 @@ const LandingPage = () => {
 
       {isLoading && (
         <section>
-          <va-loading-indicator
+          <TrackedSpinner
+            id="mr-landing-page-loading-indicator"
             message="Loading your medical records..."
             set-focus
+            data-testid="mr-landing-page-loading-indicator"
           />
         </section>
       )}
