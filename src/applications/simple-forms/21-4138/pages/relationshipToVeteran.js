@@ -9,7 +9,7 @@ import {
 const RELATIONSHIP_OPTIONS = {
   servedWith: 'I served with the Veteran',
   familyFriend: "I'm the Veteran’s family member or friend",
-  coworkerSupervisor: "I’m the Veteran’s coworker or supervisor",
+  coworkerSupervisor: 'I’m the Veteran’s coworker or supervisor',
   notListed: 'We have a relationship not listed here',
 };
 
@@ -17,11 +17,11 @@ const RELATIONSHIP_OPTIONS = {
 export const relationshipToVeteranPage = {
   uiSchema: {
     ...titleUI({
-      title: "What’s your relationship to the Veteran?",
+      title: 'What’s your relationship to the Veteran?',
       headerLevel: 1,
     }),
     relationshipToVeteran: radioUI({
-      title: "What’s your relationship to the Veteran?",
+      title: 'What’s your relationship to the Veteran?',
       labels: RELATIONSHIP_OPTIONS,
       errorMessages: {
         required: 'Select your relationship to the Veteran',
@@ -49,4 +49,3 @@ export const relationshipToVeteranPage = {
     },
   },
 };
-

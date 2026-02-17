@@ -24,8 +24,7 @@ export const isUserVeteran = formData =>
   formData?.['view:userIsVeteran'] === true;
 
 export const isClaimantVeteran = formData =>
-  formData?.claimantType === 'self' ||
-  formData?.claimantType === 'veteranSelf';
+  formData?.claimantType === 'self' || formData?.claimantType === 'veteranSelf';
 
 export const isNonVeteranClaimant = formData =>
   [

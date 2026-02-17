@@ -28,4 +28,3 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     metadata,
   };
 }
-

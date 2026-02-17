@@ -16,4 +16,3 @@ const responses = {
 
 module.exports = responses;
 /* eslint-enable camelcase */
-

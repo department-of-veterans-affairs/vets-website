@@ -25,4 +25,3 @@ export const veteranContactInformationPage = {
     required: ['veteranPhone', 'veteranEmailAddress'],
   },
 };
-

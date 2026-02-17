@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -11,6 +12,12 @@ export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
     </div>
   </div>
 );
+
+PrimaryActionLink.propTypes = {
+  href: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func,
+};
 
 const PrimaryActionLinkWithOnClick = ({ href = '/' }) => {
   const { livingSituation, otherReasons, otherHousingRisks } = useSelector(
@@ -34,6 +41,10 @@ const PrimaryActionLinkWithOnClick = ({ href = '/' }) => {
       Start your request
     </PrimaryActionLink>
   );
+};
+
+PrimaryActionLinkWithOnClick.propTypes = {
+  href: PropTypes.string,
 };
 
 export const TITLE = 'Submit a statement to support a claim';
