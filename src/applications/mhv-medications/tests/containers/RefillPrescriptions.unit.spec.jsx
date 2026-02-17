@@ -913,4 +913,56 @@ describe('Refill Prescriptions Component', () => {
       expect(errorTitle).to.not.exist;
     });
   });
+
+  it('shows success notification after refill even when cache invalidation removes the prescription', async () => {
+    sandbox.restore();
+
+    let currentPrescriptions = refillablePrescriptions;
+    let mutationResult = { isLoading: false, error: null };
+
+    const bulkRefillStub = sinon.stub().callsFake(() => {
+
+      currentPrescriptions = refillablePrescriptions.filter(
+        rx => rx.prescriptionId !== 22377956,
+      );
+      mutationResult = {
+        isLoading: false,
+        error: null,
+        isSuccess: true,
+        data: { successfulIds: [22377956], failedIds: [] },
+      };
+      return { unwrap: () => Promise.resolve(mutationResult.data) };
+    });
+
+    sandbox
+      .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+      .callsFake(() => ({
+        data: { prescriptions: currentPrescriptions, meta: {} },
+        error: false,
+        isLoading: false,
+        isFetching: false,
+      }));
+
+    sandbox
+      .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+      .callsFake(() => [bulkRefillStub, mutationResult]);
+
+    stubAllergiesApi({ sandbox });
+    const screen = setup();
+    
+    const checkbox = await waitFor(() =>
+      screen.getByTestId('refill-prescription-checkbox-0'),
+    );
+    checkbox.__events.vaChange({ detail: { checked: true } });
+    const refillButton = screen.getByTestId('request-refill-button');
+    fireEvent.click(refillButton);
+
+    await waitFor(() => {
+      const successTitle = screen.queryByTestId('success-refill-title');
+      const errorTitle = screen.queryByTestId('error-refill-title');
+
+      expect(successTitle).to.exist;
+      expect(errorTitle).to.not.exist;
+    });
+  });
 });
