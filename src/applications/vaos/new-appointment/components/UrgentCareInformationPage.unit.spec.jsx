@@ -129,6 +129,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
         initialState,
       });
       screen.getByText(/From March 1, 2026 at 12:00AM ET/i);
+      screen.getByText(/During this time, you can still call this facility/);
       screen.getByRole('link', {
         name: /Find a VA health facility Link opens in a new tab/i,
       });
@@ -150,7 +151,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
                   },
                 ],
                 phases: {
-                  current: 'p2',
+                  current: null,
                   p0: 'March 1, 2026 at 12:00AM ET',
                   p1: 'March 15, 2026 at 12:00AM ET',
                   p2: 'April 1, 2026 at 12:00AM ET',
@@ -165,8 +166,8 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
                 migrationDate: '2026-03-01',
                 facilities: [
                   {
-                    id: '565',
-                    name: 'One More VA Medical Center',
+                    facilityId: '983',
+                    name: 'Test VA Medical Center 1',
                   },
                 ],
                 phases: {
@@ -192,18 +193,24 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       });
 
       // Assert
-      screen.getByRole('heading', {
-        name: /You can.t schedule at Test VA Medical Center 1 right now/i,
-      });
-      screen.getByText(/Scheduling online is unavailable until/i);
-      screen.getByRole('link', {
-        name: /Find a VA health facility Link opens in a new tab/i,
-      });
+      expect(
+        screen.getByRole('heading', {
+          name: /You can.t schedule at Test VA Medical Center 1 right now/i,
+        }),
+      ).to.be.ok;
+      expect(screen.getByText(/Scheduling online is unavailable until/i)).to.be
+        .ok;
+      expect(screen.getByText(/You.ll need to call to schedule/)).to.be.ok;
+      expect(
+        screen.getByRole('link', {
+          name: /Find a VA health facility Link opens in a new tab/i,
+        }),
+      ).to.be.ok;
     });
   });
 
   describe('When user is registered at multiple transitioning facilities only', () => {
-    it('should display migration warning alert - a', async () => {
+    it('should display migration warning alert', async () => {
       // Arrange
       const initialState = {
         user: {
@@ -270,91 +277,19 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       // Assert
       expect(screen.getByText(/From March 1, 2026 at 12:00AM ET/i)).to.be.ok;
       expect(
-        screen.getByRole('link', {
-          name: /Find a VA health facility Link opens in a new tab/i,
-        }),
+        screen.getByText(
+          /During this time, you can still call these facilities/,
+        ),
       ).to.be.ok;
-      expect(
-        screen.queryByRole('link', { name: /Start scheduling an appointment/ }),
-      ).not.to.exist;
-    });
-    it('should display migration warning alert - b', async () => {
-      // Arrange
-      const initialState = {
-        user: {
-          profile: {
-            facilities: [
-              { facilityId: '983', isCerner: true },
-              { facilityId: '984', isCerner: true },
-            ],
-            migrationSchedules: [
-              {
-                migrationDate: '2026-05-01',
-                facilities: [
-                  {
-                    facilityId: '983',
-                    name: 'Test VA Medical Center 1',
-                  },
-                  {
-                    facilityId: '984',
-                    name: 'Test VA Medical Center 2',
-                  },
-                  {
-                    facilityId: '984GC',
-                    name: 'Test VA Medical Center 3',
-                  },
-                ],
-                phases: {
-                  current: 'p1',
-                  p0: 'March 1, 2026 at 12:00AM ET',
-                  p1: 'March 15, 2026 at 12:00AM ET',
-                  p2: 'April 1, 2026 at 12:00AM ET',
-                  p3: 'April 24, 2026 at 12:00AM ET',
-                  p4: 'April 27, 2026 at 12:00AM ET',
-                  p5: 'May 1, 2026 at 12:00AM ET', // Migration start
-                  p6: 'May 3, 2026 at 12:00AM ET',
-                  p7: 'May 8, 2026 at 12:00AM ET', // Migration end
-                },
-              },
-              {
-                migrationDate: '2026-03-01',
-                facilities: [
-                  {
-                    id: '565',
-                    name: 'One More VA Medical Center',
-                  },
-                ],
-                phases: {
-                  current: 'p5',
-                  p0: 'January 1, 2026 at 12:00AM ET',
-                  p1: 'January 15, 2026 at 12:00AM ET',
-                  p2: 'February 1, 2026 at 12:00AM ET',
-                  p3: 'February 24, 2026 at 12:00AM ET',
-                  p4: 'February 27, 2026 at 12:00AM ET',
-                  p5: 'March 1, 2026 at 12:00AM ET',
-                  p6: 'March 3, 2026 at 12:00AM ET',
-                  p7: 'March 8, 2026 at 12:00AM ET',
-                },
-              },
-            ],
-          },
-        },
-      };
-
-      // Act
-      const screen = renderWithStoreAndRouter(<UrgentCareInformationPage />, {
-        initialState,
-      });
-
-      // Assert
-      expect(screen.getByText(/From March 1, 2026 at 12:00AM ET/i)).to.be.ok;
       expect(
         screen.getByRole('link', {
           name: /Find a VA health facility Link opens in a new tab/i,
         }),
       ).to.be.ok;
       expect(
-        screen.queryByRole('link', { name: /Start scheduling an appointment/ }),
+        screen.queryByRole('link', {
+          name: /Start scheduling an appointment/,
+        }),
       ).not.to.exist;
     });
 
@@ -384,7 +319,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
                   },
                 ],
                 phases: {
-                  current: 'p2',
+                  current: null,
                   p0: 'March 1, 2026 at 12:00AM ET',
                   p1: 'March 15, 2026 at 12:00AM ET',
                   p2: 'April 1, 2026 at 12:00AM ET',
@@ -399,8 +334,12 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
                 migrationDate: '2026-03-01',
                 facilities: [
                   {
-                    id: '565',
-                    name: 'One More VA Medical Center',
+                    facilityId: '983',
+                    name: 'Test VA Medical Center 1',
+                  },
+                  {
+                    facilityId: '984',
+                    name: 'Test VA Medical Center 2',
                   },
                 ],
                 phases: {
@@ -440,6 +379,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       expect(
         screen.queryByRole('link', { name: /Start scheduling an appointment/ }),
       ).not.to.exist;
+      expect(screen.getByText(/You.ll need to call to schedule/)).to.be.ok;
       expect(
         screen.getByRole('link', {
           name: /Find a VA health facility Link opens in a new tab/i,
@@ -449,8 +389,6 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
   });
 
   describe('When user is registered at mixed transitioning/non-transitioning facilities', () => {
-    it('should display migration warning alert', async () => {});
-
     it('should display migration warning alert with scheduling link', async () => {
       // Arrange
       const initialState = {
@@ -524,6 +462,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       expect(
         screen.queryByRole('link', { name: /Start scheduling an appointment/ }),
       ).to.exist;
+      expect(screen.getByText(/You.ll need to call to schedule/)).to.be.ok;
       expect(
         screen.getByRole('link', {
           name: /Find a VA health facility Link opens in a new tab/i,

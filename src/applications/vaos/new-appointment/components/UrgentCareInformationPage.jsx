@@ -50,7 +50,7 @@ function getMigrationSchedule(schedules, disabledPhases) {
 function getMigrationScheduleFacilityIds(migrationSchedule) {
   if (migrationSchedule) {
     return migrationSchedule.facilities
-      .map(facility => facility.facilityId)
+      .map(facility => facility.id || facility.facilityId)
       .sort();
   }
   return [];
@@ -166,13 +166,14 @@ export default function UrgentCareInformationPage() {
   return (
     <div>
       <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
-      {isInWarningPhase && (
-        <MigrationWarning
-          facilities={migrationSchedule.facilities}
-          startDate={migrationSchedule.phases.p0}
-          endDate={migrationSchedule.phases.p7}
-        />
-      )}
+      {isInWarningPhase &&
+        (isExclusiveRegistration || isMixedRegistration) && (
+          <MigrationWarning
+            facilities={migrationSchedule.facilities}
+            startDate={migrationSchedule.phases.p0}
+            endDate={migrationSchedule.phases.p7}
+          />
+        )}
       {isInErrorPhase &&
         (isExclusiveRegistration || isMixedRegistration) && (
           <MigrationInProgressError

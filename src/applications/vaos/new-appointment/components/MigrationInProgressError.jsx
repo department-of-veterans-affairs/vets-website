@@ -11,13 +11,17 @@ export default function MigrationInProgressError({
     <va-alert status={isMixedRegistration ? 'warning' : 'error'}>
       <h2>
         You can’t schedule at{' '}
-        {`${facilities.length === 1 ? facilities[0].name : 'some facilities'}`}{' '}
+        {`${
+          facilities.length === 1
+            ? facilities[0].name || facilities[0].facilityName
+            : 'some facilities'
+        }`}{' '}
         right now
       </h2>
       {facilities.length === 1 && (
         <p>
           Scheduling online is unavailable until {endDate} at{' '}
-          {facilities[0].name}
+          {facilities[0].name || facilities[0].facilityName}
         </p>
       )}
       {facilities.length > 1 && (
@@ -25,16 +29,15 @@ export default function MigrationInProgressError({
           <p>Scheduling online is unavailable until {endDate} at:</p>
           <ul>
             {facilities.map((facility, index) => (
-              <li key={index}>{facility.name}</li>
+              <li key={index}>{facility.name || facility.facilityName}</li>
             ))}
           </ul>
         </>
-      )}{' '}
-      <p>
-        <NewTabAnchor href="/find-locations">
-          Find a VA health facility
-        </NewTabAnchor>
-      </p>
+      )}
+      <p className="vads-u-margin--0">You'll need to call to schedule.</p>
+      <NewTabAnchor href="/find-locations">
+        Find a VA health facility
+      </NewTabAnchor>
     </va-alert>
   );
 }
