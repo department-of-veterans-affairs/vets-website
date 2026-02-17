@@ -6,6 +6,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import {
   VaRadio,
   VaRadioOption,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
@@ -248,8 +249,8 @@ const RecentCareTeams = () => {
           })}
         <VaRadioOption label="A different care team" tile value={OTHER_VALUE} />
       </VaRadio>
-      <va-button
-        class="vads-u-width--full small-screen:vads-u-width--auto"
+      <VaButton
+        className="vads-u-width--full small-screen:vads-u-width--auto"
         continue
         onClick={handleContinue}
         text="Continue"

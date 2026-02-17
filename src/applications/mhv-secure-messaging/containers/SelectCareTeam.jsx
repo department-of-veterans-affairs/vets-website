@@ -591,7 +591,7 @@ const SelectCareTeam = () => {
             class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
             data-testid="continue-button"
             data-dd-action-name="Continue button on Select care team page"
-            onClick={e => handlers.onContinue(e)}
+            onClick={handlers.onContinue}
             text={null}
           />
         </div>
