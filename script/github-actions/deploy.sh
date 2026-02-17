@@ -99,6 +99,9 @@ if echo "$build_file_type" | grep -q "gzip compressed data" ; then
 elif echo "$build_file_type" | grep -q "bzip2 compressed data" ; then
     say "INFO: Detected bzip compressed data, using -j"
     compress="-j"
+elif echo "$build_file_type" | grep -q "Zstandard compressed data" ; then
+    say "INFO: Detected zstd compression, using --zstd"
+    compress="--zstd"
 fi
 
 # Unzip source into build directory

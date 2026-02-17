@@ -186,13 +186,13 @@ jobs:
           EOF
 
       - name: Compress and archive build
-        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+        run: tar -C build/${{ matrix.buildtype }} --zstd -cf ${{ matrix.buildtype }}.tar.zst .
 
       - name: Upload build artifact
         uses: ./.github/workflows/upload-artifact
         with:
-          name: ${{ matrix.buildtype }}.tar.bz2
-          path: ${{ matrix.buildtype }}.tar.bz2
+          name: ${{ matrix.buildtype }}.tar.zst
+          path: ${{ matrix.buildtype }}.tar.zst
           retention-days: 1
 
   determine-cd-eligibility:
@@ -882,17 +882,17 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/download-artifact
         with:
-          name: vagovprod.tar.bz2
+          name: vagovprod.tar.zst
 
       - name: Install missing dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y bzip2 curl
+        run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y zstd curl
 
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: |
           mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+          tar -C build/vagovprod --zstd -xf vagovprod.tar.zst
 
       - name: Install dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -1024,15 +1024,15 @@ jobs:
       - name: Download production build artifact
         uses: ./.github/workflows/download-artifact
         with:
-          name: vagovprod.tar.bz2
+          name: vagovprod.tar.zst
 
       - name: Install missing dependencies
-        run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y bzip2 curl
+        run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y zstd curl
 
       - name: Unpack build
         run: |
           mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+          tar -C build/vagovprod --zstd -xf vagovprod.tar.zst
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -1906,14 +1906,14 @@ jobs:
       - name: Download build artifact
         uses: ./.github/workflows/download-artifact
         with:
-          name: ${{ matrix.buildtype }}.tar.bz2
+          name: ${{ matrix.buildtype }}.tar.zst
 
       - name: Extract build artifact
         if: env.IS_SINGLE_APP_BUILD == 'true'
         run: |
           mkdir -p build/${{ matrix.buildtype }}
-          tar -C build/${{ matrix.buildtype }} -xjvf ${{ matrix.buildtype }}.tar.bz2
-          rm ${{ matrix.buildtype }}.tar.bz2
+          tar -C build/${{ matrix.buildtype }} --zstd -xvf ${{ matrix.buildtype }}.tar.zst
+          rm ${{ matrix.buildtype }}.tar.zst
 
       - name: Remove global assets from build
         if: env.IS_SINGLE_APP_BUILD == 'true'
@@ -1933,7 +1933,7 @@ jobs:
 
       - name: Compress and archive single/grouped app build
         if: env.IS_SINGLE_APP_BUILD == 'true'
-        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+        run: tar -C build/${{ matrix.buildtype }} --zstd -cf ${{ matrix.buildtype }}.tar.zst .
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -1943,7 +1943,7 @@ jobs:
 
       - name: Upload build
         run: |
-          aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
+          aws s3 cp ${{ matrix.buildtype }}.tar.zst s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.zst --acl public-read --region us-gov-west-1
           aws s3 cp BUILD_ARTIFACT.txt s3://vetsgov-website-builds-s3-upload-test/build-artifacts/$GITHUB_SHA.txt --acl public-read --region us-gov-west-1
 
   set-deploy-environments:
@@ -2023,7 +2023,7 @@ jobs:
             ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
           fi
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.zst
           DEST: s3://${{ matrix.bucket }}
           ASSET_DEST: s3://${{ matrix.asset_bucket }}
 
