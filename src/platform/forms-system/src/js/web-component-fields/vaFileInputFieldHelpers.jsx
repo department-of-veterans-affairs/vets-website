@@ -14,6 +14,22 @@ import {
 const MAX_FILE_SIZE_MB = 25;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
+// Validates that `additionalInputLabels` values are objects mapping
+// e.g. { fieldName: { value: 'Label' } }
+export function validateAdditionalInputLabels(callerName, labels) {
+  if (!labels) return;
+  const invalidKeys = Object.entries(labels)
+    .filter(([, v]) => typeof v !== 'object' || v === null)
+    .map(([k]) => k);
+  if (invalidKeys.length > 0) {
+    throw new Error(
+      `${callerName} "additionalInputLabels" values must be objects mapping values to labels, ` +
+        `e.g. { fieldName: { value: 'Label' } }. ` +
+        `Invalid keys: ${invalidKeys.join(', ')}`,
+    );
+  }
+}
+
 const createPayloadDefault = (file, formId, password = null) => {
   const payload = new FormData();
   payload.set('form_id', formId);
@@ -318,23 +334,6 @@ export function simulateUploadMultiple(
 }
 
 const UPLOADING_MESSAGE = 'Uploading file';
-
-export function resolveAdditionalDataLabels(data, labels, target) {
-  if (!data) return undefined;
-
-  const resolved = {};
-  Object.entries(data).forEach(([key, value]) => {
-    if (labels?.[key]?.[value]) {
-      resolved[key] = labels[key][value];
-    } else {
-      const option = target?.querySelector(`option[value="${value}"]`);
-      if (option) resolved[key] = option.textContent.trim();
-    }
-  });
-
-  return Object.keys(resolved).length > 0 ? resolved : undefined;
-}
-
 const UPLOADING_DONE_MESSAGE = 'File uploaded';
 export function VaProgressUploadAnnounce({ uploading }) {
   const [sRMessage, setSRMessage] = useState('');

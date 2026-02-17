@@ -398,7 +398,10 @@ yourDocument: fileInputUI({
   createPayload: () => {}, // custom function to generate payload when uploading file
   parseResponse: () => {}, // custom function to handle response after uploading file
   additionalInputRequired: true,
-  additionalInput: (error, data) => {
+  additionalInputLabels: {
+    documentStatus: { public: 'Public', private: 'Private' },
+  },
+  additionalInput: (error, data, labels) => {
     const { documentStatus } = data;
     return (
       <VaSelect
@@ -407,8 +410,9 @@ yourDocument: fileInputUI({
         value={documentStatus}
         label="Document status"
       >
-        <option value="public">Public</option>
-        <option value="private">Private</option>
+        {Object.entries(labels.documentStatus).map(([value, label]) => (
+          <option key={value} value={value}>{label}</option>
+        ))}
       </VaSelect>
     );
   },
@@ -416,9 +420,6 @@ yourDocument: fileInputUI({
     const { value } = e.detail;
     if (value === '') return {};
     return { documentStatus: e.detail.value };
-  },
-  additionalInputLabels: {
-    documentStatus: { public: 'Public', private: 'Private' },
   },
 }) + fileInputSchema(),
 
@@ -474,11 +475,15 @@ financialHardshipDocuments: fileInputMultipleUI({
     additionalInput: 'Choose a document status',
   },
   additionalInputRequired: true,
-  additionalInput: () => {
+  additionalInputLabels: {
+    documentStatus: { public: 'Public', private: 'Private' },
+  },
+  additionalInput: (error, data, labels) => {
     return (
       <VaSelect required label="Document status">
-        <option value="public">Public</option>
-        <option value="private">Private</option>
+        {Object.entries(labels.documentStatus).map(([value, label]) => (
+          <option key={value} value={value}>{label}</option>
+        ))}
       </VaSelect>
     );
   },
@@ -492,9 +497,6 @@ financialHardshipDocuments: fileInputMultipleUI({
     const { value } = e.detail;
     if (value === '') return null;
     return { documentStatus: e.detail.value };
-  },
-  additionalInputLabels: {
-    documentStatus: { public: 'Public', private: 'Private' },
   },
 }) + fileInputMultipleSchema(),
 

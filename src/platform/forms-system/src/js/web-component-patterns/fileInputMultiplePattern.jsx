@@ -1,6 +1,7 @@
 import React from 'react';
 import { isEmpty } from 'lodash';
 import { VaFileInputMultiple } from '../web-component-fields';
+import { validateAdditionalInputLabels } from '../web-component-fields/vaFileInputFieldHelpers';
 import navigationState from '../utilities/navigation/navigationState';
 import { errorManager } from '../utilities/file/passwordErrorState';
 import { MISSING_FILE, filePresenceValidation } from '../validation';
@@ -30,7 +31,10 @@ import ReviewField from '../review/FileInputMultiple';
  *   disallowEncryptedPdfs: true, // set to true to prohibit upload of encrypted pdfs
  *   formNumber: '20-10206', // required for upload
  *   additionalInputRequired: true, // user must supply additional input
- *   additionalInput: (error, data) => {
+ *   additionalInputLabels: {
+ *     documentStatus: { public: 'Public', private: 'Private' },
+ *   },
+ *   additionalInput: (error, data, labels) => {
  *     const { documentStatus } = data;
  *     return (
  *       <VaSelect
@@ -39,8 +43,9 @@ import ReviewField from '../review/FileInputMultiple';
  *         value={documentStatus}
  *         label="Document status"
  *       >
- *         <option value="public">Public</option>
- *         <option value="private">Private</option>
+ *         {Object.entries(labels.documentStatus).map(([value, label]) => (
+ *           <option key={value} value={value}>{label}</option>
+ *         ))}
  *       </VaSelect>
  *     );
  *   },
@@ -52,9 +57,6 @@ import ReviewField from '../review/FileInputMultiple';
  *   },
  *   handleAdditionalInput: (e) => {    // handle optional additional input
  *     return { documentStatus: e.detail.value }
- *   },
- *   additionalInputLabels: {            // explicit labels for review page
- *     documentStatus: { public: 'Public', private: 'Private' },
  *   },
  * })
  * ```
@@ -95,7 +97,7 @@ import ReviewField from '../review/FileInputMultiple';
  * @param {number} [options.maxFileSize] - maximum allowed file size in bytes
  * @param {number} [options.minFileSize] - minimum allowed file size in bytes
  * @param {boolean} [options.additionalInputRequired] - is additional information required
- * @param {((error:any, data:any) => React.ReactNode) } [options.additionalInput] - renders the additional information
+ * @param {((error:any, data:any, labels?:Record<string, Record<string, string>>) => React.ReactNode) } [options.additionalInput] - renders the additional information. Receives `additionalInputLabels` as an optional 3rd argument.
  * @param {(instance: any, error: any, data: any) => void} [options.additionalInputUpdate] - function to update additional input instance
  * @param {(e: CustomEvent) => {[key: string]: any}} [options.handleAdditionalInput] - function to handle event payload from additional info
  * @param {Record<string, Record<string, string>>} [options.additionalInputLabels] - explicit value-to-label mapping for additional input fields on the review page, e.g. `{ documentStatus: { public: 'Public', private: 'Private' } }`. Falls back to DOM querying if not provided.
@@ -124,6 +126,11 @@ export const fileInputMultipleUI = options => {
       the schema as well.`,
     );
   }
+
+  validateAdditionalInputLabels(
+    'fileInputMultipleUI',
+    uiOptions.additionalInputLabels,
+  );
 
   return {
     'ui:title': title,
@@ -234,7 +241,8 @@ export const fileInputMultipleUI = options => {
                           .replace(/^./, s => s.toUpperCase())
                           .trim()}
                       </span>
-                      : {file.additionalDataLabels?.[key] || value}
+                      :{' '}
+                      {uiOptions.additionalInputLabels?.[key]?.[value] || value}
                     </li>
                   ))}
                 </ul>
@@ -280,10 +288,6 @@ export const fileInputMultipleSchema = (options = {}) => {
           },
         },
         additionalData: {
-          type: 'object',
-          properties: {},
-        },
-        additionalDataLabels: {
           type: 'object',
           properties: {},
         },

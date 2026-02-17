@@ -15,7 +15,6 @@ import {
   getFileError,
   simulateUploadMultiple,
   VaProgressUploadAnnounce,
-  resolveAdditionalDataLabels,
 } from './vaFileInputFieldHelpers';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 
@@ -340,17 +339,9 @@ const VaFileInputMultipleField = props => {
     if (mappedProps.handleAdditionalInput) {
       const payload = mappedProps.handleAdditionalInput(e);
       const updatedFormData = [...(childrenProps.formData || [])];
-
-      const additionalDataLabels = resolveAdditionalDataLabels(
-        payload,
-        mappedProps.additionalInputLabels,
-        e.target,
-      );
-
       updatedFormData[index] = {
         ...updatedFormData[index],
         additionalData: payload,
-        ...(additionalDataLabels && { additionalDataLabels }),
       };
 
       childrenProps.onChange(updatedFormData);
@@ -403,7 +394,11 @@ const VaFileInputMultipleField = props => {
       >
         {mappedProps.additionalInput && (
           <div className="additional-input-container">
-            {mappedProps.additionalInput()}
+            {mappedProps.additionalInput(
+              undefined,
+              undefined,
+              uiOptions.additionalInputLabels,
+            )}
           </div>
         )}
       </VaFileInputMultiple>

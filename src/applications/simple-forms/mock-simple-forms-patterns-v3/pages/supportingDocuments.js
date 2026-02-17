@@ -24,11 +24,20 @@ export default {
         additionalInput: 'Choose a document status',
       },
       additionalInputRequired: true,
-      additionalInput: () => {
+      additionalInputLabels: {
+        documentStatus: {
+          public: 'Public',
+          private: 'Private',
+        },
+      },
+      additionalInput: (error, data, labels) => {
         return (
           <VaSelect required label="Document status">
-            <option value="public">Public</option>
-            <option value="private">Private</option>
+            {Object.entries(labels.documentStatus).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
           </VaSelect>
         );
       },
@@ -42,12 +51,6 @@ export default {
         const { value } = e.detail;
         if (value === '') return null;
         return { documentStatus: e.detail.value };
-      },
-      additionalInputLabels: {
-        documentStatus: {
-          public: 'Public',
-          private: 'Private',
-        },
       },
     }),
   },

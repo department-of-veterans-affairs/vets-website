@@ -9,6 +9,8 @@ const formatLabel = key =>
 const ReviewField = data => {
   const { formData: files = [] } = data.children.props;
   const title = data.uiSchema?.['ui:title'];
+  const additionalInputLabels =
+    data.uiSchema?.['ui:options']?.additionalInputLabels;
   if (files.length === 0) {
     return (
       <div className="review-row">
@@ -41,7 +43,7 @@ const ReviewField = data => {
             Object.entries(file.additionalData).map(([key, value]) => (
               <div className="review-row" key={key}>
                 <dt>{formatLabel(key)}</dt>
-                <dd>{file.additionalDataLabels?.[key] || value}</dd>
+                <dd>{additionalInputLabels?.[key]?.[value] || value}</dd>
               </div>
             ))}
           {index < files.length - 1 && (
