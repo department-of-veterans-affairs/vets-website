@@ -117,7 +117,7 @@ describe('22-10278 <IntroductionPage>', () => {
       expect(signInButton).to.exist;
       expect(signInButton).to.have.attribute(
         'text',
-        'Sign in or create an account',
+        'Sign in to start your form',
       );
     });
 
