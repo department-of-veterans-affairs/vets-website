@@ -22,6 +22,7 @@ export const dispStatusObjV2 = {
   inactive: 'Inactive',
   transferred: 'Transferred',
   nonVA: ACTIVE_NON_VA,
+  expired: 'Expired',
 };
 
 export const dispStatusForRefillsLeft = [

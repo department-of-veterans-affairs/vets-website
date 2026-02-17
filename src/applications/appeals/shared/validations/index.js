@@ -25,12 +25,13 @@ export const checkValidations = (
   data = {},
   fullData = {},
   index,
+  appAbbr = null,
 ) => {
   const errors = { errorMessages: [] };
   errors.addError = message => errors.errorMessages.push(message);
   /* errors, fieldData, formData, schema, uiSchema, index, appStateData */
   validations.map(validation =>
-    validation(errors, data, fullData, null, null, index, fullData),
+    validation(errors, data, fullData, null, null, index, fullData, appAbbr),
   );
   return errors.errorMessages;
 };

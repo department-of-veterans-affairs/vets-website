@@ -9,7 +9,7 @@
     "build-analyze-app": "node ./script/build-analyze-app.js",
     "build:codespaces": "./.devcontainer/codespaces-create.sh",
     "build:production": "NODE_ENV=production yarn build --buildtype=vagovprod",
-    "build:webpack": "NODE_OPTIONS=--max-old-space-size=20480 webpack --config config/webpack.config.js",
+    "build:webpack": "NODE_OPTIONS='--max-old-space-size=20480 --openssl-legacy-provider' webpack --config config/webpack.config.js",
     "build:webpack:prod": "NODE_ENV=production yarn build:webpack --env buildtype=vagovprod",
     "build:webpack:staging": "yarn build:webpack --env buildtype=vagovstaging",
     "build:webpack:dev": "yarn build:webpack --env buildtype=vagovdev",
@@ -26,7 +26,7 @@
     "cy:test:gha": "node script/run-cypress-tests-gha.js",
     "cy:testrail-run": "cypress run --config-file config/cypress-testrail.config.js --reporter-options host=https://dsvavsp.testrail.io/,username=$TR_USER,password=$TR_API_KEY,projectId=$TR_PROJECTID,suiteId=$TR_SUITEID,runName=$TR_RUN_NAME,includeAllInTestRun=$TR_INCLUDE_ALL,groupId=$TR_GROUPID,filter=$TR_FILTER",
     "daily-product-scan": "node script/github-actions/daily-product-scan/index.js",
-    "debug:webpack:prod": "NODE_ENV=production NODE_OPTIONS=--max-old-space-size=4096 node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js --env.buildtype vagovprod",
+    "debug:webpack:prod": "NODE_ENV=production NODE_OPTIONS='--max-old-space-size=4096 --openssl-legacy-provider' node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js --env.buildtype vagovprod",
     "generate-app-list": "node script/github-actions/generate-app-list.js",
     "generate-form-docs": "node ./script/generate-form-docs.js",
     "generate-manifest-catalog": "node ./script/generate-manifest-catalog.js",
@@ -78,7 +78,8 @@
     "url": "https://github.com/department-of-veterans-affairs/vets-website/issues"
   },
   "lint-staged": {
-    "*.(js|jsx)": "eslint --fix -c ./.eslintrc.changed.js"
+    "*.(js|jsx)": "eslint --fix -c ./.eslintrc.changed.js",
+    "*.{css,sass,scss}": "stylelint --fix"
   },
   "nyc": {
     "sourceMap": false,
@@ -256,7 +257,7 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": ">=14.15.0 <16",
+    "node": ">=22.0.0 <23",
     "yarn": "1.19.1"
   },
   "private": true,
@@ -264,14 +265,13 @@
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-logs": "^5.8.0",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "54.5.2",
+    "@department-of-veterans-affairs/component-library": "54.6.2",
     "@department-of-veterans-affairs/css-library": "^0.29.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
     "@mapbox/mapbox-sdk": "~0.13.2",
     "@reduxjs/toolkit": "^1.9.5",
-    "blob-polyfill": "^5.0.20210201",
     "botframework-webchat": "4.17.0",
     "cacheable-request": "^4.0.1",
     "camelcase-keys-recursive": "^1.0.0",
@@ -341,7 +341,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#0af4632f7fbae51a4faa3d9f96dfb51f36a93618",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#038e4d11922a89cfb2cfbb74108b9c9b0284ee78",
     "web-vitals": "^4.2.4"
   },
   "resolutions": {
@@ -363,6 +363,7 @@
     "**/normalize-url": "^6.0.1",
     "**/qs": "^6.0.4",
     "**/axios": "^0.21.1",
+    "**/cheerio": "1.0.0-rc.12",
     "**/elliptic": "^6.5.4",
     "**/minimatch": "^3.0.2",
     "**/netmask": "^2.0.1",

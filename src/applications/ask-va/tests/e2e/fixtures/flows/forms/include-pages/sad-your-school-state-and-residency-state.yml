@@ -11,4 +11,4 @@ steps:
     target: call-to-action
   - action: exists
     target: errorInput
-    value: Please select school state or residency state
+    value: Select school state or residency state

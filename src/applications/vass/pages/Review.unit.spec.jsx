@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from 'platform/testing/unit/react-testing-library-helpers';
@@ -13,29 +14,31 @@ import {
 import Review from './Review';
 import { getDefaultRenderOptions, LocationDisplay } from '../utils/test-utils';
 import { URLS } from '../utils/constants';
+import * as authUtils from '../utils/auth';
 import {
   createAppointmentSaveFailedError,
   createServiceError,
 } from '../services/mocks/utils/errors';
+import { createAppointmentResponse } from '../services/mocks/utils/responses';
 
 const defaultFormState = {
   hydrated: true,
-  selectedDate: '2025-01-15T10:00:00.000Z',
-  selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
+  selectedSlot: {
+    dtStartUtc: '2025-01-15T10:00:00.000Z',
+    dtEndUtc: '2025-01-15T11:00:00.000Z',
+  },
+  selectedTopics: [{ topicId: '1', topicName: 'Education Benefits' }],
   uuid: 'c0ffee-1234-beef-5678',
-  lastname: 'Smith',
+  lastName: 'Smith',
   dob: '1935-04-07',
   obfuscatedEmail: 's****@email.com',
 };
 
 const appointmentId = 'appt-123456';
 
-// TODO: Add mock appointment success response to fixtures
-const mockAppointmentSuccessResponse = {
-  data: {
-    appointmentId,
-  },
-};
+const mockAppointmentSuccessResponse = createAppointmentResponse({
+  appointmentId,
+});
 
 const defaultRenderOptions = getDefaultRenderOptions(defaultFormState);
 
@@ -43,11 +46,17 @@ const renderComponent = () =>
   renderWithStoreAndRouterV6(<Review />, defaultRenderOptions);
 
 describe('VASS Component: Review', () => {
+  let getVassTokenStub;
+
   beforeEach(() => {
+    getVassTokenStub = sinon
+      .stub(authUtils, 'getVassToken')
+      .returns('mock-token');
     mockFetch();
   });
 
   afterEach(() => {
+    getVassTokenStub.restore();
     resetFetch();
   });
 
@@ -72,10 +81,7 @@ describe('VASS Component: Review', () => {
   it('should display single topic correctly', () => {
     const { getByTestId } = renderWithStoreAndRouterV6(
       <Review />,
-      getDefaultRenderOptions({
-        ...defaultFormState,
-        selectedTopics: [{ topicId: '1', topicName: 'Education Benefits' }],
-      }),
+      getDefaultRenderOptions(defaultFormState),
     );
 
     expect(getByTestId('topic-description').textContent).to.equal(

@@ -11,7 +11,7 @@ export default {
     'ui:description': 'Tell us more about your last position',
     leftDueToDisability: yesNoUI({
       title:
-        'Did you leave your last job or self-employment because of your disability?',
+        'Did you leave your last job or self-employment because of your disability? If yes, please explain in the remarks at the end.',
       errorMessages: {
         required:
           'Select a response to tell us if your disability is the reason you left your last job',

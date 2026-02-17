@@ -15,12 +15,6 @@ import {
 import { APPOINTMENT_STATUS, TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import RequestedAppointmentsPage from './RequestedAppointmentsPage';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
-
 describe('VAOS Component: RequestedAppointmentsPage', () => {
   beforeEach(() => {
     mockFetch();
@@ -50,7 +44,6 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
       reducers,
     });
     // Then it should display the requested appointments
@@ -82,7 +75,6 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     });
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
       reducers,
     });
 
@@ -117,7 +109,6 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
       reducers,
     });
 
@@ -153,7 +144,6 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
       reducers,
     });
 
@@ -183,7 +173,6 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
       reducers,
     });
 
@@ -218,7 +207,6 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
       reducers,
     });
 
@@ -248,7 +236,6 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
       reducers,
     });
 
@@ -279,7 +266,6 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     });
 
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
       reducers,
     });
 

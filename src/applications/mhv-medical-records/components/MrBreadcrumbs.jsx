@@ -41,7 +41,14 @@ const MrBreadcrumbs = () => {
   const textContent = document.querySelector('h1')?.textContent;
   const searchIndex = new URLSearchParams(location.search);
   const page = searchIndex.get('page');
-  const { labId, vaccineId, summaryId, allergyId, conditionId } = useParams();
+  const {
+    labId,
+    vaccineId,
+    summaryId,
+    allergyId,
+    conditionId,
+    radiologyId,
+  } = useParams();
 
   const urlTimeFrame = searchIndex.get('timeFrame');
 
@@ -120,7 +127,8 @@ const MrBreadcrumbs = () => {
         vaccineId ||
         summaryId ||
         allergyId ||
-        conditionId}`,
+        conditionId ||
+        radiologyId}`,
     )
   ) {
     const url = `${backToImagesBreadcrumb}${
@@ -136,7 +144,7 @@ const MrBreadcrumbs = () => {
         label="Breadcrumb"
         data-testid="mr-breadcrumbs"
       >
-        <span className="breadcrumb-angle vads-u-padding-right--0p5">
+        <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
         <Link
@@ -158,7 +166,7 @@ const MrBreadcrumbs = () => {
         label="Breadcrumb"
         data-testid="mr-breadcrumbs"
       >
-        <span className="breadcrumb-angle vads-u-padding-right--0p5">
+        <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
         <Link

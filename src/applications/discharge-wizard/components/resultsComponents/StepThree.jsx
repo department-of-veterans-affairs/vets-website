@@ -6,6 +6,7 @@ import { BCNR, BCMR, DRB, AFDRB } from '../../constants';
 import {
   determineBoardName,
   determineBoardObj,
+  determineFormData,
   determineVenueAddress,
   isPreviousApplicationYear,
 } from '../../helpers';
@@ -49,14 +50,21 @@ const StepThree = ({ formResponses }) => {
       ? 'Submit your completed application form and all supporting documents online or by mail'
       : 'Mail your completed form and all supporting materials';
 
+  const { num: formNumber } = determineFormData(formResponses);
+
+  const applicationTitle =
+    formNumber === 149
+      ? 'Application for Correction of Military Record (DD 149)'
+      : 'Application for the Review of Discharge From the Armed Forces of the United States (DOD Form 293)';
+
   return (
     <va-process-list-item header={headerText} level="2">
       {formResponses.SERVICE_BRANCH === RESPONSES.AIR_FORCE ||
       formResponses.SERVICE_BRANCH === RESPONSES.SPACE_FORCE ? (
         <p>
-          Based on your answers, you need to complete an Application for
-          Correction of Military Record (DD 149). You can download this form
-          from the Air Force Review Boards Agency Website and Portal.
+          Based on your answers, you need to complete an {applicationTitle}. You
+          can download this form from the Air Force Review Boards Agency Website
+          and Portal.
         </p>
       ) : (
         ''

@@ -13,13 +13,25 @@ import InstitutionSelector from '../components/InstitutionSelector';
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const facilityCode = (fieldData || '').trim();
 
+  // check for bad formatting
   const badFormat = facilityCode && !/^[a-zA-Z0-9]{8}$/.test(facilityCode);
-
   const { failedToLoad } = formData;
-
   if (badFormat || (!badFormat && failedToLoad)) {
     errors.addError(
       'Enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+    );
+    return;
+  }
+
+  // check for duplicates
+  const allCodes = [
+    formData.primaryInstitutionDetails?.facilityCode,
+    ...(formData.additionalInstitutions || []).map(inst => inst.facilityCode),
+  ];
+  const isDuplicate = allCodes.filter(item => item === facilityCode).length > 1;
+  if (isDuplicate) {
+    errors.addError(
+      'You have already added this facility code to this form. Enter a new facility code, or cancel adding this additional location.',
     );
   }
 };
@@ -36,6 +48,7 @@ export default {
           required:
             'Enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
         },
+        useAllFormData: true,
       }),
       'ui:validations': [facilityCodeUIValidation],
     },

@@ -30,13 +30,14 @@ const RefillNotification = ({
       const hasFailedMeds = failedMeds.length > 0;
 
       return {
-        isNotSubmitted: isFinished && !hasSuccessfulMeds && !hasFailedMeds,
+        isNotSubmitted:
+          isFinished && !hasSuccessfulMeds && !hasFailedMeds && !isFetching,
         isError: hasFailedMeds && !hasSuccessfulMeds,
         isPartiallySubmitted: hasFailedMeds && hasSuccessfulMeds,
         isSuccess: hasSuccessfulMeds,
       };
     },
-    [refillStatus, successfulMeds, failedMeds],
+    [refillStatus, successfulMeds, failedMeds, isFetching],
   );
 
   return (
