@@ -101,8 +101,10 @@ const EnterOTP = () => {
     }
 
     if (cancellationFlow) {
-      // TODO: handle cancellation flow
-      navigate(`${URLS.CANCEL_APPOINTMENT}/abcdef123456`, { replace: true });
+      const { appointmentId } = availabilityCheck.data;
+      navigate(`${URLS.CANCEL_APPOINTMENT}/${appointmentId}`, {
+        replace: true,
+      });
     } else {
       navigate(URLS.DATE_TIME, { replace: true });
     }
