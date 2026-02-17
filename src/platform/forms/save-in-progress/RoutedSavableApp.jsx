@@ -93,27 +93,36 @@ class RoutedSavableApp extends React.Component {
     }
 
     const status = newProps.loadedStatus;
-    if (
-      status === LOAD_STATUSES.success &&
-      newProps.currentLocation &&
-      newProps.currentLocation.pathname.endsWith('resume')
-    ) {
-      newProps.router.replace(newProps.returnUrl);
-    } else if (status === LOAD_STATUSES.success) {
-      if (newProps.formConfig.onFormLoaded) {
+    if (status === LOAD_STATUSES.success) {
+      // Redirect-time normalization: allow form to rewrite returnUrl (e.g. array-builder item page → summary) so resume lands on a stable page
+      const returnUrlToUse =
+        typeof newProps.formConfig?.normalizeReturnUrl === 'function'
+          ? newProps.formConfig.normalizeReturnUrl(newProps.returnUrl)
+          : newProps.returnUrl;
+      const propsWithNormalizedReturnUrl = {
+        ...newProps,
+        returnUrl: returnUrlToUse,
+      };
+
+      if (
+        newProps.currentLocation &&
+        newProps.currentLocation.pathname.endsWith('resume')
+      ) {
+        newProps.router.replace(returnUrlToUse);
+      } else if (newProps.formConfig.onFormLoaded) {
         // The onFormLoaded callback should handle navigating to the start of the form
-        newProps.formConfig.onFormLoaded(newProps);
+        newProps.formConfig.onFormLoaded(propsWithNormalizedReturnUrl);
       } else {
         // Check that returnUrl is an active page. If not, return to first page
         // after intro page
         const isValidReturnUrl = checkValidPagePath(
           newProps.routes[newProps.routes.length - 1].pageList,
           newProps.formData,
-          newProps.returnUrl,
+          returnUrlToUse,
         );
         newProps.router.push(
           isValidReturnUrl
-            ? newProps.returnUrl
+            ? returnUrlToUse
             : this.getFirstNonIntroPagePath(newProps),
         );
       }
@@ -366,6 +375,7 @@ RoutedSavableApp.propTypes = {
       ignorePageUnloadAlertOnUrls: PropTypes.arrayOf(PropTypes.string),
     }),
     disableSave: PropTypes.bool,
+    normalizeReturnUrl: PropTypes.func,
     urlPrefix: PropTypes.string,
   }),
   loadedStatus: PropTypes.string,

@@ -346,6 +346,118 @@ describe('Schemaform <RoutedSavableApp>', () => {
     expect(setFetchFormStatus.calledWith(LOAD_STATUSES.notAttempted)).to.be
       .true;
   });
+
+  describe('normalizeReturnUrl', () => {
+    it('uses raw returnUrl when normalizeReturnUrl is not set', () => {
+      const formConfig = { title: 'Testing' };
+      const currentLocation = { pathname: '/test-path', search: '' };
+      const returnUrl = '/test-path';
+      const routes = [{ path: '/' }, { pageList: [{ path: returnUrl }] }];
+      const router = { push: sinon.spy(), replace: sinon.spy() };
+      const setFetchFormStatus = sinon.spy();
+
+      const { rerender } = render(
+        <RoutedSavableApp
+          location={location}
+          formConfig={formConfig}
+          routes={routes}
+          router={router}
+          currentLocation={currentLocation}
+          loadedStatus={LOAD_STATUSES.pending}
+          updateLogInUrl={() => {}}
+          setFetchFormStatus={setFetchFormStatus}
+          formData={{}}
+          savedStatus="notAttempted"
+          FormApp={MockFormApp}
+        >
+          <div className="child" />
+        </RoutedSavableApp>,
+      );
+
+      rerender(
+        <RoutedSavableApp
+          location={location}
+          formConfig={formConfig}
+          routes={routes}
+          router={router}
+          currentLocation={currentLocation}
+          loadedStatus={LOAD_STATUSES.success}
+          returnUrl={returnUrl}
+          updateLogInUrl={() => {}}
+          setFetchFormStatus={setFetchFormStatus}
+          formData={{}}
+          savedStatus="notAttempted"
+          FormApp={MockFormApp}
+        >
+          <div className="child" />
+        </RoutedSavableApp>,
+      );
+
+      expect(router.push.calledWith(returnUrl)).to.be.true;
+    });
+
+    it('uses normalized URL when normalizeReturnUrl is a function', () => {
+      const rawReturnUrl = '/conditions/1/new-condition-date';
+      const normalizedReturnUrl = '/conditions/summary';
+      const formConfig = {
+        title: 'Testing',
+        normalizeReturnUrl: url =>
+          url?.includes('new-condition-date') ? normalizedReturnUrl : url,
+      };
+      const currentLocation = { pathname: '/test-path', search: '' };
+      const routes = [
+        { path: '/' },
+        {
+          pageList: [
+            { path: currentLocation.pathname },
+            { path: normalizedReturnUrl },
+          ],
+        },
+      ];
+      const router = { push: sinon.spy(), replace: sinon.spy() };
+      const setFetchFormStatus = sinon.spy();
+
+      const { rerender } = render(
+        <RoutedSavableApp
+          location={location}
+          formConfig={formConfig}
+          routes={routes}
+          router={router}
+          currentLocation={currentLocation}
+          loadedStatus={LOAD_STATUSES.pending}
+          updateLogInUrl={() => {}}
+          setFetchFormStatus={setFetchFormStatus}
+          formData={{}}
+          savedStatus="notAttempted"
+          FormApp={MockFormApp}
+        >
+          <div className="child" />
+        </RoutedSavableApp>,
+      );
+
+      rerender(
+        <RoutedSavableApp
+          location={location}
+          formConfig={formConfig}
+          routes={routes}
+          router={router}
+          currentLocation={currentLocation}
+          loadedStatus={LOAD_STATUSES.success}
+          returnUrl={rawReturnUrl}
+          updateLogInUrl={() => {}}
+          setFetchFormStatus={setFetchFormStatus}
+          formData={{}}
+          savedStatus="notAttempted"
+          FormApp={MockFormApp}
+        >
+          <div className="child" />
+        </RoutedSavableApp>,
+      );
+
+      expect(router.push.calledWith(normalizedReturnUrl)).to.be.true;
+    });
+  });
+
   it('should route to error when failed', () => {
     const formConfig = {
       title: 'Testing',
