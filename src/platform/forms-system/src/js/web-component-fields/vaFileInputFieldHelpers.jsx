@@ -164,7 +164,7 @@ function getFileSizeError(type, size, tooBig) {
  */
 function checkFileSizeByFileType(
   file,
-  fileSizesByFileType,
+  fileSizesByFileType = {},
   maxFileSize,
   minFileSize,
 ) {
