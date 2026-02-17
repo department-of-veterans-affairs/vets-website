@@ -145,8 +145,20 @@ export const getUiSchema = () => ({
     hint:
       'You can upload a .jpg, .pdf, or a .png file. Be sure that your file size is 99MB or less for a PDF and 50MB or less for a .jpg or .png',
     disallowEncryptedPdfs: true,
-    maxFileSize: 103809024, // 99MB in bytes
-    minFileSize: 1024,
+    fileSizesByFileType: {
+      pdf: {
+        maxFileSize: 103809024, // 99MB in bytes
+        minFileSize: 1024, // 1KB
+      },
+      jpg: {
+        maxFileSize: 52428800, // 50MB in bytes
+        minFileSize: 1024, // 1KB
+      },
+      png: {
+        maxFileSize: 52428800, // 50MB in bytes
+        minFileSize: 1024, // 1KB
+      },
+    },
     fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
     formNumber: '26-1880',
     errorMessages: {
