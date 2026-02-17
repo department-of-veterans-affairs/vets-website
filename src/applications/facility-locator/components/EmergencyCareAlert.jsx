@@ -16,7 +16,7 @@ function EmergencyCareAlert({ shouldShow = false }) {
     >
       <strong>Note:</strong> If you think your life or health is in danger, call{' '}
       <va-telephone contact="911" /> or go to the nearest emergency department
-      right away.
+      right away!
     </va-alert>
   );
 }
