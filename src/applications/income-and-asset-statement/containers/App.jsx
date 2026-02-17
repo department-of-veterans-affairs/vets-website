@@ -63,32 +63,38 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
     sessionReplaySampleRate: 100,
   });
 
-  useEffect(() => {
-    if (!isLoadingFeatures) {
-      window.sessionStorage.setItem(
-        'showUpdatedContent',
-        !!incomeAndAssetsContentUpdates,
-      );
-    }
-  }, [isLoadingFeatures, incomeAndAssetsContentUpdates]);
+  useEffect(
+    () => {
+      if (!isLoadingFeatures) {
+        window.sessionStorage.setItem(
+          'showUpdatedContent',
+          !!incomeAndAssetsContentUpdates,
+        );
+      }
+    },
+    [isLoadingFeatures, incomeAndAssetsContentUpdates],
+  );
 
-  useEffect(() => {
-    // Use assetsChecked flag to prevent infinite loop
-    if (!assetsChecked && location.pathname === '/review-and-submit') {
-      const assetTypes = getAssetTypes(assets);
-      setAssetsChecked(true);
-      if (
-        assets.length > 0 &&
-        assetTypes.length > 0 &&
-        shouldShowDeclinedAlert(assets)
-      ) {
-        openReviewChapter('ownedAssets');
+  useEffect(
+    () => {
+      // Use assetsChecked flag to prevent infinite loop
+      if (!assetsChecked && location.pathname === '/review-and-submit') {
+        const assetTypes = getAssetTypes(assets);
+        setAssetsChecked(true);
+        if (
+          assets.length > 0 &&
+          assetTypes.length > 0 &&
+          shouldShowDeclinedAlert(assets)
+        ) {
+          openReviewChapter('ownedAssets');
+        }
+        if (hasIncompleteTrust(trusts)) {
+          openReviewChapter('trusts');
+        }
       }
-      if (hasIncompleteTrust(trusts)) {
-        openReviewChapter('trusts');
-      }
-    }
-  }, [assetsChecked, location.pathname, assets, trusts, openReviewChapter]);
+    },
+    [assetsChecked, location.pathname, assets, trusts, openReviewChapter],
+  );
 
   if (isLoadingFeatures) {
     return <va-loading-indicator message="Loading application..." />;
@@ -132,4 +138,7 @@ App.propTypes = {
   openReviewChapter: PropTypes.func,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

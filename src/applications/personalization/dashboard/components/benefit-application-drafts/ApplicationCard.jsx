@@ -80,11 +80,14 @@ const SavePdfDownload = ({
   const [error, setError] = useState('');
   const [showDownloadingButton, setShowDownloadingButton] = useState(false);
 
-  useEffect(() => {
-    if (!showLoadingIndicator) {
-      setTimeout(() => setShowDownloadingButton(false), 3000);
-    }
-  }, [showLoadingIndicator]);
+  useEffect(
+    () => {
+      if (!showLoadingIndicator) {
+        setTimeout(() => setShowDownloadingButton(false), 3000);
+      }
+    },
+    [showLoadingIndicator],
+  );
 
   const handleDownloadButtonClick = async () => {
     setError(null);
@@ -322,4 +325,7 @@ const mapDispatchToProps = {
   getPdfDownloadUrl: fetchFormPdfUrl,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationCard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ApplicationCard);

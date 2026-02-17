@@ -21,7 +21,7 @@ describe('Form 10-10EZR Keyboard Only', () => {
   // NOTE: This test is skipped in CI due to a limitation with Electron not allowing
   // `realPress` to be utilized
   // eslint-disable-next-line func-names
-  beforeEach(function () {
+  beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
 
     disableConfirmationOnLocal();
@@ -148,8 +148,9 @@ describe('Form 10-10EZR Keyboard Only', () => {
       cy.tabToContinueForm();
 
       // Gulf War service dates
-      const { gulfWarStartDate, gulfWarEndDate } =
-        data['view:gulfWarServiceDates'];
+      const { gulfWarStartDate, gulfWarEndDate } = data[
+        'view:gulfWarServiceDates'
+      ];
 
       let [year, month] = gulfWarStartDate
         .split('-')
@@ -207,8 +208,9 @@ describe('Form 10-10EZR Keyboard Only', () => {
       cy.tabToContinueForm();
 
       // Other toxic exposure dates
-      const { toxicExposureStartDate, toxicExposureEndDate } =
-        data['view:toxicExposureDates'];
+      const { toxicExposureStartDate, toxicExposureEndDate } = data[
+        'view:toxicExposureDates'
+      ];
       [year, month] = toxicExposureStartDate
         .split('-')
         .map(num => parseInt(num, 10).toString());
@@ -261,8 +263,9 @@ describe('Form 10-10EZR Keyboard Only', () => {
       cy.tabToContinueForm();
 
       // Spouse's contact info
-      const { spouseAddress, spousePhone } =
-        data['view:spouseContactInformation'];
+      const { spouseAddress, spousePhone } = data[
+        'view:spouseContactInformation'
+      ];
       fillAddressWithKeyboard('spouseAddress', spouseAddress);
       cy.typeInIfDataExists('[name="root_spousePhone"]', spousePhone);
       cy.tabToContinueForm();
@@ -429,7 +432,7 @@ describe("Form 10-10EZR Keyboard Only, with the 'ezrFormPrefillWithProvidersAndD
   // NOTE: This test is skipped in CI due to a limitation with Electron not allowing
   // `realPress` to be utilized
   // eslint-disable-next-line func-names
-  beforeEach(function () {
+  beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
 
     disableConfirmationOnLocal();

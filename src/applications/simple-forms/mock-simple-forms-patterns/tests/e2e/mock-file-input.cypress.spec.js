@@ -34,7 +34,10 @@ function testFileUpload(func) {
       .should('exist')
       .and('contain', file.name);
 
-    cy.get('va-file-input').find('va-select').should('exist').and('be.visible');
+    cy.get('va-file-input')
+      .find('va-select')
+      .should('exist')
+      .and('be.visible');
   });
 }
 
@@ -129,7 +132,9 @@ function testAdditionalInfo() {
     });
 
   // error should be gone
-  cy.get('va-file-input').find('va-select').should('not.have.attr', 'error');
+  cy.get('va-file-input')
+    .find('va-select')
+    .should('not.have.attr', 'error');
 
   deleteFile();
 }
@@ -178,7 +183,9 @@ function testFileSizeLimits() {
 function testEncryptedPdf() {
   cy.wrap(makeEncryptedPDF()).then(file => {
     cy.fillVaFileInput(SELECTOR, {}, file);
-    cy.get('va-file-input').find('label').should('contain', 'File password');
+    cy.get('va-file-input')
+      .find('label')
+      .should('contain', 'File password');
 
     cy.findByText(/continue/i, { selector: 'button' }).click();
 
@@ -201,7 +208,9 @@ function testEncryptedPdf() {
       $el[0].dispatchEvent(event);
     });
 
-    cy.get('va-file-input').find('va-text-input').should('not.exist');
+    cy.get('va-file-input')
+      .find('va-text-input')
+      .should('not.exist');
   });
   deleteFile();
 }
@@ -282,7 +291,9 @@ const testConfig = createTestConfig(
                   'placeholder.png',
                 );
               });
-            cy.get('@fileInputSection').find('va-button').click();
+            cy.get('@fileInputSection')
+              .find('va-button')
+              .click();
 
             deleteFile();
             testFileUpload(makeMinimalJPG);

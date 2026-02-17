@@ -11,7 +11,8 @@ export default {
       {
         title: 'Does your institution have additional locations?',
         labelHeaderLevel: 'p',
-        hint: 'Additional locations are officially associated with your academic institution.',
+        hint:
+          'Additional locations are officially associated with your academic institution.',
         labels: {
           Y: 'Yes, I have additional locations to add',
           N: 'No, I don’t have additional locations to add',

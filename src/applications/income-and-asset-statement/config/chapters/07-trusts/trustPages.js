@@ -83,7 +83,7 @@ export const options = {
           <li>
             Type:{' '}
             <span className="vads-u-font-weight--bold">
-              {trustTypeLabels[item?.trustType]}
+              {trustTypeLabels[(item?.trustType)]}
             </span>
           </li>
           <li>
@@ -224,7 +224,8 @@ const veteranSummaryPage = {
       options,
       {
         title: updatedTitleNoItems,
-        hint: 'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
         labelHeaderLevel: '1',
         labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
@@ -283,7 +284,8 @@ const parentSummaryPage = {
       options,
       {
         title: updatedTitleNoItems,
-        hint: 'Your dependents include your spouse, including a same-sex and common-law partner.',
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
         labelHeaderLevel: '1',
         labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,
@@ -303,7 +305,8 @@ const custodianSummaryPage = {
       options,
       {
         title: updatedTitleNoItems,
-        hint: 'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
         labelHeaderLevel: '1',
         labelHeaderLevelStyle: '2',
         labels: yesNoOptionLabels,

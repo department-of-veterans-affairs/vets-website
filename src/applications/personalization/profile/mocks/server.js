@@ -137,8 +137,9 @@ const responses = {
     );
   },
   'GET /v0/user': (_req, res) => {
-    const [shouldReturnUser, updatedUserResponse] =
-      handleUserUpdate(requestHistory);
+    const [shouldReturnUser, updatedUserResponse] = handleUserUpdate(
+      requestHistory,
+    );
     if (shouldReturnUser) {
       return res.json(updatedUserResponse);
     }

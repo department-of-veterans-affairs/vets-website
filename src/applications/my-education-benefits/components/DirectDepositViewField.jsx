@@ -24,9 +24,12 @@ export default function DirectDepositViewField({
   ].join(' ');
 
   // Ensure errors are re-validated when this component loads
-  useEffect(() => {
-    formContext.onError();
-  }, [formContext]);
+  useEffect(
+    () => {
+      formContext.onError();
+    },
+    [formContext],
+  );
 
   return (
     <>

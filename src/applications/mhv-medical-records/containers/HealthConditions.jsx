@@ -68,9 +68,12 @@ const HealthConditions = () => {
     reloadRecordsAction: reloadRecords,
   });
 
-  useEffect(() => {
-    updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
-  }, [dispatch]);
+  useEffect(
+    () => {
+      updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const isLoadingAcceleratedData =
     isAcceleratingConditions && listState === loadStates.FETCHING;

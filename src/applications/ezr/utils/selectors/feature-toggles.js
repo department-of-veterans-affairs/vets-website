@@ -5,11 +5,13 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 const selectFeatureToggles = createSelector(
   state => ({
     isLoadingFeatureFlags: state?.featureToggles?.loading,
-    isBrowserMonitoringEnabled:
-      toggleValues(state)[FEATURE_FLAG_NAMES.ezrBrowserMonitoringEnabled],
+    isBrowserMonitoringEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.ezrBrowserMonitoringEnabled
+    ],
     isUploadEnabled: toggleValues(state)[FEATURE_FLAG_NAMES.ezrUploadEnabled],
-    isEmergencyContactsEnabled:
-      toggleValues(state)[FEATURE_FLAG_NAMES.ezrEmergencyContactsEnabled],
+    isEmergencyContactsEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.ezrEmergencyContactsEnabled
+    ],
   }),
   toggles => toggles,
 );

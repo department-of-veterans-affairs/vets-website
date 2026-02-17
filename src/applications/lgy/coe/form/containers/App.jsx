@@ -29,8 +29,11 @@ function App({
   setFormData,
 }) {
   const TOGGLE_KEY = 'coeFormRebuildCveteam';
-  const { TOGGLE_NAMES, useToggleValue, useToggleLoadingValue } =
-    useFeatureToggle();
+  const {
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
   const coeRebuildEnabled = useToggleValue(TOGGLE_NAMES[TOGGLE_KEY]);
   const isLoadingFeatureFlags = useToggleLoadingValue();
 
@@ -50,15 +53,18 @@ function App({
     [isLoadingFeatureFlags, coeRebuildEnabled, formData[TOGGLE_KEY]],
   );
 
-  useEffect(() => {
-    if (showCoe) {
-      if (typeof getCoeMock === 'function' && !environment.isProduction()) {
-        getCoeMock(!canApply);
-      } else {
-        getCoe(!canApply);
+  useEffect(
+    () => {
+      if (showCoe) {
+        if (typeof getCoeMock === 'function' && !environment.isProduction()) {
+          getCoeMock(!canApply);
+        } else {
+          getCoe(!canApply);
+        }
       }
-    }
-  }, [showCoe, getCoe, getCoeMock, canApply]);
+    },
+    [showCoe, getCoe, getCoeMock, canApply],
+  );
 
   if (isLoading) {
     return <va-loading-indicator message="Loading application..." />;
@@ -108,6 +114,9 @@ App.propTypes = {
   showCoe: PropTypes.bool,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
 
 export { App };

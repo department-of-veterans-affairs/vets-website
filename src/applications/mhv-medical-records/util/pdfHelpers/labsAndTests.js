@@ -26,15 +26,13 @@ export const generateGenericContent = record => {
 
   const details = {
     header: 'Details about this test',
-    items: itemKeys
-      .filter(key => record[key])
-      .map(key => {
-        return {
-          title: LABS_AND_TESTS_DISPLAY_DISPLAY_MAP[key],
-          value: key === 'testCode' ? record.testCodeDisplay : record[key],
-          inline: true,
-        };
-      }),
+    items: itemKeys.filter(key => record[key]).map(key => {
+      return {
+        title: LABS_AND_TESTS_DISPLAY_DISPLAY_MAP[key],
+        value: key === 'testCode' ? record.testCodeDisplay : record[key],
+        inline: true,
+      };
+    }),
   };
 
   const rv = {
@@ -72,15 +70,13 @@ export const generateGenericContent = record => {
             value: item.value?.text,
             inline: true,
           },
-          ...observationKeys
-            .filter(key => item[key])
-            .map(key => {
-              return {
-                title: OBSERVATION_DISPLAY_DISPLAY_MAP[key],
-                value: item[key],
-                inline: true,
-              };
-            }),
+          ...observationKeys.filter(key => item[key]).map(key => {
+            return {
+              title: OBSERVATION_DISPLAY_DISPLAY_MAP[key],
+              value: item[key],
+              inline: true,
+            };
+          }),
         ],
       })),
     };

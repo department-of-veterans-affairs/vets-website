@@ -6,8 +6,10 @@ import {
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../../config/form';
 
-const { schema, uiSchema } =
-  formConfig.chapters.employmentHistoryChapter.pages.employmentHistory;
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.employmentHistoryChapter.pages.employmentHistory;
 
 const pageTitle = 'employment history';
 

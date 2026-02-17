@@ -17,7 +17,8 @@ const Breadcrumbs = () => {
         'Disclose personal information to a third party for education benefits',
     },
     {
-      href: '/education/disclose-information-to-third-party/authorize-disclosure-form-22-10278',
+      href:
+        '/education/disclose-information-to-third-party/authorize-disclosure-form-22-10278',
       label:
         'Authorize VA to disclose personal information to a third party for education benefits',
     },

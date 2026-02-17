@@ -31,43 +31,55 @@ const SchedulingPreferences = () => {
   );
   const openEditModal = useCallback(() => dispatch(openModal()), [dispatch]);
 
-  useEffect(() => {
-    document.title = `Scheduling Preferences | Veterans Affairs`;
-    // Mark component as mounted after first render so Prompt doesn't show on initial load
-    hasMountedRef.current = true;
+  useEffect(
+    () => {
+      document.title = `Scheduling Preferences | Veterans Affairs`;
+      // Mark component as mounted after first render so Prompt doesn't show on initial load
+      hasMountedRef.current = true;
 
-    return () => {
-      clearSuccessAlert();
-    };
-  }, [clearSuccessAlert]);
+      return () => {
+        clearSuccessAlert();
+      };
+    },
+    [clearSuccessAlert],
+  );
 
-  useEffect(() => {
-    if (location.hash) {
-      // Set focus on the page heading
-      const focusTarget = document.querySelector(location.hash);
-      if (focusTarget) {
-        focusElement(focusTarget);
+  useEffect(
+    () => {
+      if (location.hash) {
+        // Set focus on the page heading
+        const focusTarget = document.querySelector(location.hash);
+        if (focusTarget) {
+          focusElement(focusTarget);
+          return;
+        }
+      }
+      focusElement('[data-focus-target]');
+    },
+    [location],
+  );
+
+  useEffect(
+    () => {
+      // Show alert when navigating away with unsaved edits
+      if (hasUnsavedEdits) {
+        window.onbeforeunload = () => true;
         return;
       }
-    }
-    focusElement('[data-focus-target]');
-  }, [location]);
 
-  useEffect(() => {
-    // Show alert when navigating away with unsaved edits
-    if (hasUnsavedEdits) {
-      window.onbeforeunload = () => true;
-      return;
-    }
+      window.onbeforeunload = undefined;
+    },
+    [hasUnsavedEdits],
+  );
 
-    window.onbeforeunload = undefined;
-  }, [hasUnsavedEdits]);
-
-  useEffect(() => {
-    return () => {
-      openEditModal(null);
-    };
-  }, [openEditModal]);
+  useEffect(
+    () => {
+      return () => {
+        openEditModal(null);
+      };
+    },
+    [openEditModal],
+  );
 
   return (
     <>

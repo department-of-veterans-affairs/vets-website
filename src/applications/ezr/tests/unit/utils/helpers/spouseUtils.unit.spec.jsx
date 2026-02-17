@@ -56,7 +56,8 @@ describe('spouseUtils', () => {
               item: makeItem({ provideSupportLastYear: false }),
             },
             {
-              desc: 'provideSupportLastYear undefined when cohabiting -> not required',
+              desc:
+                'provideSupportLastYear undefined when cohabiting -> not required',
               item: makeItem({
                 cohabitedLastYear: true,
                 provideSupportLastYear: undefined,
@@ -105,7 +106,8 @@ describe('spouseUtils', () => {
               item: makeItem({ sameAddress: undefined }),
             },
             {
-              desc: 'provideSupportLastYear undefined when not cohabiting -> required',
+              desc:
+                'provideSupportLastYear undefined when not cohabiting -> required',
               item: makeItem({
                 cohabitedLastYear: false,
                 provideSupportLastYear: undefined,

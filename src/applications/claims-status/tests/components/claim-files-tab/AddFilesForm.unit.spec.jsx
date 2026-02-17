@@ -184,7 +184,9 @@ describe('<AddFilesForm>', () => {
       const vaLink = $('va-link', container);
       expect(vaLink).to.exist;
       expect(vaLink.getAttribute('href')).to.equal(
-        `/track-claims/your-claims/${claimId}/files#${ANCHOR_LINKS.otherWaysToSendDocuments}`,
+        `/track-claims/your-claims/${claimId}/files#${
+          ANCHOR_LINKS.otherWaysToSendDocuments
+        }`,
       );
       expect(vaLink.getAttribute('text')).to.equal(SEND_YOUR_DOCUMENTS_TEXT);
     });

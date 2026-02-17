@@ -55,81 +55,90 @@ const PersonalInformationSection = ({ dob }) => {
   const messagingSignatureName = messagingSignature?.signatureName;
   const hasMessagingSignatureError = messagingSignature?.error !== undefined;
 
-  useEffect(() => {
-    if (isMessagingServiceEnabled && messagingSignature == null)
-      dispatch(getMessagingSignature());
-  }, [dispatch, isMessagingServiceEnabled, messagingSignature]);
+  useEffect(
+    () => {
+      if (isMessagingServiceEnabled && messagingSignature == null)
+        dispatch(getMessagingSignature());
+    },
+    [dispatch, isMessagingServiceEnabled, messagingSignature],
+  );
 
-  useEffect(() => {
-    const fieldName = `#${FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE]}`;
-    if (messagingSignatureName !== null && location.hash === fieldName) {
-      const targetElement = document.querySelector(fieldName);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-        focusElement(targetElement.querySelector('h2'));
+  useEffect(
+    () => {
+      const fieldName = `#${FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE]}`;
+      if (messagingSignatureName !== null && location.hash === fieldName) {
+        const targetElement = document.querySelector(fieldName);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+          focusElement(targetElement.querySelector('h2'));
+        }
       }
-    }
-  }, [messagingSignatureName, location.hash]);
+    },
+    [messagingSignatureName, location.hash],
+  );
 
-  const updatedCardFields = useMemo(() => {
-    const cardFields = [
-      {
-        title: 'Legal name',
-        description: <LegalNameDescription />,
-        value: <LegalName />,
-      },
-      { title: 'Date of birth', value: renderDOB(dob) },
-      {
-        title: 'Preferred name',
-        description:
-          "Share this information if you'd like us to use a first name that's different from your legal name when you come in to VA.",
-        id: FIELD_IDS[FIELD_NAMES.PREFERRED_NAME],
-        value: (
-          <ProfileInformationFieldController
-            fieldName={FIELD_NAMES.PREFERRED_NAME}
-            isDeleteDisabled
-          />
-        ),
-      },
-      {
-        title: 'Disability rating',
-        value: <DisabilityRating />,
-      },
-    ];
-
-    if (
-      isMessagingServiceEnabled &&
-      (!isProfile2Enabled || !isHealthCareSettingsEnabled)
-    ) {
-      const signaturePresent =
-        !!messagingSignature?.signatureName?.trim() &&
-        !!messagingSignature?.signatureTitle?.trim();
-      return [
-        ...cardFields,
+  const updatedCardFields = useMemo(
+    () => {
+      const cardFields = [
         {
-          title: FIELD_TITLES[FIELD_NAMES.MESSAGING_SIGNATURE],
+          title: 'Legal name',
+          description: <LegalNameDescription />,
+          value: <LegalName />,
+        },
+        { title: 'Date of birth', value: renderDOB(dob) },
+        {
+          title: 'Preferred name',
           description:
-            'You can add a signature and signature title to be automatically added to all outgoing secure messages.',
-          id: FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE],
+            "Share this information if you'd like us to use a first name that's different from your legal name when you come in to VA.",
+          id: FIELD_IDS[FIELD_NAMES.PREFERRED_NAME],
           value: (
-            <MessagingSignature
-              hasError={hasMessagingSignatureError}
-              fieldName={FIELD_NAMES.MESSAGING_SIGNATURE}
-              signaturePresent={signaturePresent}
+            <ProfileInformationFieldController
+              fieldName={FIELD_NAMES.PREFERRED_NAME}
+              isDeleteDisabled
             />
           ),
         },
+        {
+          title: 'Disability rating',
+          value: <DisabilityRating />,
+        },
       ];
-    }
-    return cardFields;
-  }, [
-    dob,
-    hasMessagingSignatureError,
-    isMessagingServiceEnabled,
-    isProfile2Enabled,
-    isHealthCareSettingsEnabled,
-    messagingSignature,
-  ]);
+
+      if (
+        isMessagingServiceEnabled &&
+        (!isProfile2Enabled || !isHealthCareSettingsEnabled)
+      ) {
+        const signaturePresent =
+          !!messagingSignature?.signatureName?.trim() &&
+          !!messagingSignature?.signatureTitle?.trim();
+        return [
+          ...cardFields,
+          {
+            title: FIELD_TITLES[FIELD_NAMES.MESSAGING_SIGNATURE],
+            description:
+              'You can add a signature and signature title to be automatically added to all outgoing secure messages.',
+            id: FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE],
+            value: (
+              <MessagingSignature
+                hasError={hasMessagingSignatureError}
+                fieldName={FIELD_NAMES.MESSAGING_SIGNATURE}
+                signaturePresent={signaturePresent}
+              />
+            ),
+          },
+        ];
+      }
+      return cardFields;
+    },
+    [
+      dob,
+      hasMessagingSignatureError,
+      isMessagingServiceEnabled,
+      isProfile2Enabled,
+      isHealthCareSettingsEnabled,
+      messagingSignature,
+    ],
+  );
 
   return (
     <div className="vads-u-margin-bottom--6">

@@ -44,7 +44,9 @@ class LabsAndTestsListPage extends BaseListPage {
       '@featureToggles',
     ]);
     // Wait for page to load
-    cy.get('h1').should('be.visible').and('be.focused');
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   clickLabsAndTestsDetailsLink = (_LabsAndTestsItemIndex = 0, entry) => {
@@ -54,10 +56,18 @@ class LabsAndTestsListPage extends BaseListPage {
       entry.resource,
     );
     // Find the link by href using entry id for reliability
-    const expectedHref = `/my-health/medical-records/labs-and-tests/${entry.resource.id}`;
-    cy.get(`a[href="${expectedHref}"]`).first().scrollIntoView();
-    cy.get(`a[href="${expectedHref}"]`).first().should('be.visible');
-    cy.get(`a[href="${expectedHref}"]`).first().click();
+    const expectedHref = `/my-health/medical-records/labs-and-tests/${
+      entry.resource.id
+    }`;
+    cy.get(`a[href="${expectedHref}"]`)
+      .first()
+      .scrollIntoView();
+    cy.get(`a[href="${expectedHref}"]`)
+      .first()
+      .should('be.visible');
+    cy.get(`a[href="${expectedHref}"]`)
+      .first()
+      .click();
     // Wait for detail page to load - check for print menu as indicator
     cy.get('[data-testid="print-download-menu"]', { timeout: 10000 }).should(
       'be.visible',
@@ -95,7 +105,9 @@ class LabsAndTestsListPage extends BaseListPage {
 
   verifyImagesReadyAlert = (alertText = 'Images ready') => {
     cy.get('[data-testid="alert-images-ready"]').should('be.visible');
-    cy.get('[data-testid="alert-images-ready"]').find('h3').contains(alertText);
+    cy.get('[data-testid="alert-images-ready"]')
+      .find('h3')
+      .contains(alertText);
   };
 
   clickViewImages = (studyId, viewImagesResponse) => {

@@ -20,12 +20,12 @@ describe('BlockedTriageGroupAlert component', () => {
       vamcEhrData: {
         data: {
           ehrDataByVhaId: {
-            662: {
+            '662': {
               facilityId: '662',
               vamcSystemName: 'Test Facility 1',
               isCerner: false,
             },
-            636: {
+            '636': {
               facilityId: '636',
               vamcSystemName: 'Test Facility 2',
               isCerner: false,
@@ -307,7 +307,7 @@ describe('BlockedTriageGroupAlert component', () => {
         vamcEhrData: {
           data: {
             ehrDataByVhaId: {
-              662: {
+              '662': {
                 facilityId: '662',
                 vamcSystemName: 'Test Facility 1',
                 isCerner: false,

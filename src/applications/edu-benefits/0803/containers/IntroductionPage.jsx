@@ -35,9 +35,12 @@ export const IntroductionPage = props => {
     focusElement('h1');
   }, []);
 
-  const showSignInModal = useCallback(() => {
-    toggleLoginModal(true, 'ask-va', true);
-  }, [toggleLoginModal]);
+  const showSignInModal = useCallback(
+    () => {
+      toggleLoginModal(true, 'ask-va', true);
+    },
+    [toggleLoginModal],
+  );
 
   return (
     <article className="schemaform-intro">
@@ -121,4 +124,7 @@ const mapDispatchToProps = dispatch => ({
   toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroductionPage);

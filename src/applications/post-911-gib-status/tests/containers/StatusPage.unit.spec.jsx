@@ -74,7 +74,10 @@ describe('<StatusPage>', () => {
       </Provider>,
     );
 
-    const printButton = tree.find('#print-button').at(0).getDOMNode();
+    const printButton = tree
+      .find('#print-button')
+      .at(0)
+      .getDOMNode();
     printButton.click();
     expect(mockRouter.push.calledOnce).to.be.true;
     expect(mockRouter.push.calledWithExactly('/print')).to.be.true;

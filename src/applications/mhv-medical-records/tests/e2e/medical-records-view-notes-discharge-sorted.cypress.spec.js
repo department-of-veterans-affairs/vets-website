@@ -35,7 +35,9 @@ describe('Medical Records Care Summary Page', () => {
     // Verify Discharge Summary discharged By
     NotesDetailsPage.verifyDischargeSummaryDischargedBy(
       // notes.entry[0].resource.contained[0].name[0].text,
-      `${notes.entry[1].resource.contained[0].name[0].given[0]} ${notes.entry[1].resource.contained[0].name[0].family}`,
+      `${notes.entry[1].resource.contained[0].name[0].given[0]} ${
+        notes.entry[1].resource.contained[0].name[0].family
+      }`,
     );
 
     // Verify Discharge Summary Note
@@ -70,7 +72,9 @@ describe('Medical Records Care Summary Page', () => {
     // Verify Discharge Summary discharged By
     NotesDetailsPage.verifyDischargeSummaryDischargedBy(
       // notes.entry[2].resource.contained[0].name[0].text,
-      `${notes.entry[2].resource.contained[0].name[0].given[0]} ${notes.entry[2].resource.contained[0].name[0].family}`,
+      `${notes.entry[2].resource.contained[0].name[0].given[0]} ${
+        notes.entry[2].resource.contained[0].name[0].family
+      }`,
     );
     // Verify Discharge Summary Note
     NotesDetailsPage.verifyDischargeSummaryNote(
@@ -103,7 +107,9 @@ describe('Medical Records Care Summary Page', () => {
     // Verify Discharge Summary discharged By
     NotesDetailsPage.verifyDischargeSummaryDischargedBy(
       // notes.entry[4].resource.contained[0].name[0].text,
-      `${notes.entry[4].resource.contained[0].name[0].given[0]} ${notes.entry[4].resource.contained[0].name[0].family}`,
+      `${notes.entry[4].resource.contained[0].name[0].given[0]} ${
+        notes.entry[4].resource.contained[0].name[0].family
+      }`,
     );
 
     // Verify Discharge Summary Note

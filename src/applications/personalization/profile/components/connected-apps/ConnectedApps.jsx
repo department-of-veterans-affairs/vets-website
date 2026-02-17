@@ -25,18 +25,24 @@ export const ConnectedApps = ({
 }) => {
   const prevLoadingRef = useRef();
 
-  useEffect(() => {
-    focusElement('[data-focus-target]');
-    document.title = `Connected Apps | Veterans Affairs`;
-    dispatchLoadConnectedApps();
-  }, [dispatchLoadConnectedApps]);
-
-  useEffect(() => {
-    if (prevLoadingRef.current && !loading) {
+  useEffect(
+    () => {
       focusElement('[data-focus-target]');
-    }
-    prevLoadingRef.current = loading;
-  }, [loading]);
+      document.title = `Connected Apps | Veterans Affairs`;
+      dispatchLoadConnectedApps();
+    },
+    [dispatchLoadConnectedApps],
+  );
+
+  useEffect(
+    () => {
+      if (prevLoadingRef.current && !loading) {
+        focusElement('[data-focus-target]');
+      }
+      prevLoadingRef.current = loading;
+    },
+    [loading],
+  );
 
   const confirmDelete = appId => {
     dispatchDeleteConnectedApp(appId);
@@ -254,4 +260,7 @@ ConnectedApps.propTypes = {
   loading: PropTypes.bool,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConnectedApps);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConnectedApps);

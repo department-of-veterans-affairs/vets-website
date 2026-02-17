@@ -6,7 +6,7 @@ import formConfig, { SUBMIT_URL } from '../../config/form';
 import manifest from '../../manifest.json';
 
 describe('22-0803 keyboard only specs', () => {
-  beforeEach(function () {
+  beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
 
     cy.login(user);

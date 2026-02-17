@@ -47,7 +47,12 @@ describe('helpers', () => {
   it('should return correct explanation for active duty', () => {
     const wrapper = shallow(benefitEndDateExplanation('activeDuty'));
     expect(wrapper.find('h3').text()).to.equal('Benefit end date');
-    expect(wrapper.find('div').at(1).text()).to.equal(
+    expect(
+      wrapper
+        .find('div')
+        .at(1)
+        .text(),
+    ).to.equal(
       'Since you’re on active duty, your benefits don’t yet have an expiration date.',
     );
     wrapper.unmount();
@@ -60,9 +65,12 @@ describe('helpers', () => {
       benefitEndDateExplanation('remainingEntitlement', invalidDate),
     );
     expect(wrapper.find('h3').text()).to.equal('Benefit end date');
-    expect(wrapper.find('div').at(1).text()).to.equal(
-      'There’s no time limit to use these education benefits.',
-    );
+    expect(
+      wrapper
+        .find('div')
+        .at(1)
+        .text(),
+    ).to.equal('There’s no time limit to use these education benefits.');
     wrapper.unmount();
   });
 

@@ -110,11 +110,11 @@ describe('blockedTriageGroupUtils', () => {
 
   describe('getBlockedFacilityNames', () => {
     const mockEhrData = {
-      662: {
+      '662': {
         facilityId: '662',
         vamcSystemName: 'Test Facility 1',
       },
-      636: {
+      '636': {
         facilityId: '636',
         vamcSystemName: 'Test Facility 2',
       },

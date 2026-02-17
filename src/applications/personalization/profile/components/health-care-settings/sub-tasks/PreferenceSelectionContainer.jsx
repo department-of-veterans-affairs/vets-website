@@ -129,158 +129,193 @@ export const PreferenceSelectionContainer = ({
     isEqual,
   );
 
-  useEffect(() => {
-    // Initialize local pageData from redux fieldData only when redux has meaningful values
-    // or when pageData has an empty value and redux later supplies values. This avoids
-    // overwriting the field with an empty array when the component mounts before redux
-    // finishes populating the scheduling preferences (which happens when visiting the
-    // page directly).
-    const hasPageValue =
-      pageData &&
-      pageData.data &&
-      Object.prototype.hasOwnProperty.call(pageData.data, fieldName);
+  useEffect(
+    () => {
+      // Initialize local pageData from redux fieldData only when redux has meaningful values
+      // or when pageData has an empty value and redux later supplies values. This avoids
+      // overwriting the field with an empty array when the component mounts before redux
+      // finishes populating the scheduling preferences (which happens when visiting the
+      // page directly).
+      const hasPageValue =
+        pageData &&
+        pageData.data &&
+        Object.prototype.hasOwnProperty.call(pageData.data, fieldName);
 
-    const pageValues = hasPageValue ? pageData.data[fieldName] : undefined;
-    const pageHasValues = Array.isArray(pageValues) && pageValues.length > 0;
-    const reduxHasValues = Array.isArray(fieldData) && fieldData.length > 0;
+      const pageValues = hasPageValue ? pageData.data[fieldName] : undefined;
+      const pageHasValues = Array.isArray(pageValues) && pageValues.length > 0;
+      const reduxHasValues = Array.isArray(fieldData) && fieldData.length > 0;
 
-    // Only initialize from redux when redux provides values and the page doesn't already have values.
-    if (reduxHasValues && !pageHasValues) {
-      const quickExit =
-        fieldData.length === 1 && fieldData[0] === noPreferenceValue;
-      setPageData({ data: { [fieldName]: fieldData }, quickExit });
-    }
-  }, [fieldData, fieldName, noPreferenceValue, pageData]);
+      // Only initialize from redux when redux provides values and the page doesn't already have values.
+      if (reduxHasValues && !pageHasValues) {
+        const quickExit =
+          fieldData.length === 1 && fieldData[0] === noPreferenceValue;
+        setPageData({ data: { [fieldName]: fieldData }, quickExit });
+      }
+    },
+    [fieldData, fieldName, noPreferenceValue, pageData],
+  );
 
-  const editPageHeadingString = useMemo(() => {
-    return `Edit ${FIELD_SECTION_HEADERS?.[fieldInfo.fieldName].toLowerCase()}`;
-  }, [fieldInfo]);
+  const editPageHeadingString = useMemo(
+    () => {
+      return `Edit ${FIELD_SECTION_HEADERS?.[
+        fieldInfo.fieldName
+      ].toLowerCase()}`;
+    },
+    [fieldInfo],
+  );
 
-  const pageSection = useMemo(() => {
-    return FIELD_SECTION_HEADERS?.[fieldInfo.fieldName];
-  }, [fieldInfo]);
+  const pageSection = useMemo(
+    () => {
+      return FIELD_SECTION_HEADERS?.[fieldInfo.fieldName];
+    },
+    [fieldInfo],
+  );
 
   const internationalPhonesToggleValue = useToggleValue(
     TOGGLE_NAMES.profileInternationalPhoneNumbers,
   );
 
-  useEffect(() => {
-    document.title = `${editPageHeadingString} | Veterans Affairs`;
-  }, [editPageHeadingString]);
+  useEffect(
+    () => {
+      document.title = `${editPageHeadingString} | Veterans Affairs`;
+    },
+    [editPageHeadingString],
+  );
 
-  useEffect(() => {
-    const hasChanges =
-      pageData.data[fieldName] && !isEqual(pageData.data[fieldName], fieldData);
-    setHasLocalUnsavedEdits(hasChanges);
-  }, [pageData, fieldData, fieldName]);
+  useEffect(
+    () => {
+      const hasChanges =
+        pageData.data[fieldName] &&
+        !isEqual(pageData.data[fieldName], fieldData);
+      setHasLocalUnsavedEdits(hasChanges);
+    },
+    [pageData, fieldData, fieldName],
+  );
 
-  useEffect(() => {
-    // Set initial focus on the page heading for keyboard navigation
-    if (fieldInfo && !hasVAPServiceError) {
-      const headingElement = document.querySelector('h1');
-      if (headingElement) {
-        // Only call scrollIntoView if it exists (not in test environment)
-        if (headingElement.scrollIntoView) {
-          headingElement.scrollIntoView();
+  useEffect(
+    () => {
+      // Set initial focus on the page heading for keyboard navigation
+      if (fieldInfo && !hasVAPServiceError) {
+        const headingElement = document.querySelector('h1');
+        if (headingElement) {
+          // Only call scrollIntoView if it exists (not in test environment)
+          if (headingElement.scrollIntoView) {
+            headingElement.scrollIntoView();
+          }
+          focusElement(headingElement);
         }
-        focusElement(headingElement);
       }
-    }
-  }, [fieldInfo, hasVAPServiceError]);
+    },
+    [fieldInfo, hasVAPServiceError],
+  );
 
-  useEffect(() => {
-    if (fieldInfo?.fieldName && !hasVAPServiceError) {
-      const { uiSchema, formSchema } = getProfileInfoFieldAttributes(
-        fieldInfo.fieldName,
-        { allowInternationalPhones: internationalPhonesToggleValue },
-      );
-
-      const initialFormData = getInitialFormValues({
-        fieldName: fieldInfo.fieldName,
-        data: fieldData,
-        modalData: null,
-      });
-
-      // update modal state with initial form data for the field being edited
-      // this needs to be done before the form data is updated
-      // so that initialFormFields are looked up correctly
-      dispatch(openModal(fieldInfo.fieldName, initialFormData));
-
-      // update form state with initial form data for the field being edited, so that
-      // the form is pre-populated with the current value for the field
-      // and changes to the form are tracked
-      dispatch(
-        updateFormFieldWithSchema(
+  useEffect(
+    () => {
+      if (fieldInfo?.fieldName && !hasVAPServiceError) {
+        const { uiSchema, formSchema } = getProfileInfoFieldAttributes(
           fieldInfo.fieldName,
-          initialFormData,
-          formSchema,
-          uiSchema,
-        ),
-      );
-    }
-  }, [
-    fieldInfo?.fieldName,
-    hasVAPServiceError,
-    internationalPhonesToggleValue,
-    dispatch,
-    fieldData,
-  ]);
+          { allowInternationalPhones: internationalPhonesToggleValue },
+        );
 
-  useEffect(() => {
-    // Close out the modal on mount because clicking back
-    // from a sub task causes weird on page behaviors
-    dispatch(openModal(null));
-  }, [dispatch]);
+        const initialFormData = getInitialFormValues({
+          fieldName: fieldInfo.fieldName,
+          data: fieldData,
+          modalData: null,
+        });
 
-  useEffect(() => {
-    // this is where we track the state of the beforeunload listener
-    // and add/remove it as needed when the form has unsaved edits
-    if (hasAnyUnsavedEdits && !hasBeforeUnloadListener) {
-      window.addEventListener('beforeunload', beforeUnloadHandler);
-      historyUnblock.current = history.block(() => {
-        if (hasAnyUnsavedEdits) {
-          setShowConfirmCancelModal(true);
-          return false;
-        }
-        return true;
-      });
-      setHasBeforeUnloadListener(true);
-      return;
-    }
+        // update modal state with initial form data for the field being edited
+        // this needs to be done before the form data is updated
+        // so that initialFormFields are looked up correctly
+        dispatch(openModal(fieldInfo.fieldName, initialFormData));
 
-    if (!hasAnyUnsavedEdits && hasBeforeUnloadListener) {
-      setHasBeforeUnloadListener(false);
-      clearBeforeUnloadListener();
-      if (historyUnblock.current) {
-        historyUnblock.current();
-        historyUnblock.current = null;
+        // update form state with initial form data for the field being edited, so that
+        // the form is pre-populated with the current value for the field
+        // and changes to the form are tracked
+        dispatch(
+          updateFormFieldWithSchema(
+            fieldInfo.fieldName,
+            initialFormData,
+            formSchema,
+            uiSchema,
+          ),
+        );
       }
-    }
-  }, [hasAnyUnsavedEdits, hasBeforeUnloadListener, history]);
+    },
+    [
+      fieldInfo?.fieldName,
+      hasVAPServiceError,
+      internationalPhonesToggleValue,
+      dispatch,
+      fieldData,
+    ],
+  );
 
-  const savePreference = useCallback(() => {
-    const { apiRoute, convertCleanDataToPayload } =
-      getProfileInfoFieldAttributes(fieldName);
-    const payload = convertCleanDataToPayload(
-      {
-        [fieldName]: pageData.data[fieldName],
-      },
-      fieldName,
-    );
+  useEffect(
+    () => {
+      // Close out the modal on mount because clicking back
+      // from a sub task causes weird on page behaviors
+      dispatch(openModal(null));
+    },
+    [dispatch],
+  );
 
-    dispatch(openModal(null));
-    dispatch(
-      createSchedulingPreferencesUpdate({
-        route: apiRoute,
-        method: 'POST',
+  useEffect(
+    () => {
+      // this is where we track the state of the beforeunload listener
+      // and add/remove it as needed when the form has unsaved edits
+      if (hasAnyUnsavedEdits && !hasBeforeUnloadListener) {
+        window.addEventListener('beforeunload', beforeUnloadHandler);
+        historyUnblock.current = history.block(() => {
+          if (hasAnyUnsavedEdits) {
+            setShowConfirmCancelModal(true);
+            return false;
+          }
+          return true;
+        });
+        setHasBeforeUnloadListener(true);
+        return;
+      }
+
+      if (!hasAnyUnsavedEdits && hasBeforeUnloadListener) {
+        setHasBeforeUnloadListener(false);
+        clearBeforeUnloadListener();
+        if (historyUnblock.current) {
+          historyUnblock.current();
+          historyUnblock.current = null;
+        }
+      }
+    },
+    [hasAnyUnsavedEdits, hasBeforeUnloadListener, history],
+  );
+
+  const savePreference = useCallback(
+    () => {
+      const {
+        apiRoute,
+        convertCleanDataToPayload,
+      } = getProfileInfoFieldAttributes(fieldName);
+      const payload = convertCleanDataToPayload(
+        {
+          [fieldName]: pageData.data[fieldName],
+        },
         fieldName,
-        payload,
-        analyticsSectionName: 'scheduling-preferences-contact-method',
-        value: pageData.data,
-      }),
-    );
-    clearBeforeUnloadListener();
-  }, [dispatch, fieldName, pageData.data]);
+      );
+
+      dispatch(openModal(null));
+      dispatch(
+        createSchedulingPreferencesUpdate({
+          route: apiRoute,
+          method: 'POST',
+          fieldName,
+          payload,
+          analyticsSectionName: 'scheduling-preferences-contact-method',
+          value: pageData.data,
+        }),
+      );
+      clearBeforeUnloadListener();
+    },
+    [dispatch, fieldName, pageData.data],
+  );
 
   const optionsMap = schedulingPreferenceOptions(fieldName);
   const options = Object.entries(optionsMap).map(([value, label]) => ({
@@ -454,4 +489,7 @@ const mapDispatchToProps = {
   createSchedulingPreferencesUpdate,
 };
 
-export default connect(null, mapDispatchToProps)(PreferenceSelectionContainer);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(PreferenceSelectionContainer);

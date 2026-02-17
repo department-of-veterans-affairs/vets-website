@@ -35,9 +35,11 @@ describe('SM MESSAGE BODY SPECIAL CHARACTERS', () => {
     PatientComposePage.getMessageSubjectField().type(`test subject`, {
       force: true,
     });
-    PatientComposePage.getMessageBodyField().clear().type(expectedBody, {
-      force: true,
-    });
+    PatientComposePage.getMessageBodyField()
+      .clear()
+      .type(expectedBody, {
+        force: true,
+      });
     const draftResponse = { ...newDraft };
     draftResponse.data.attributes.body = responseBody;
     PatientComposePage.saveNewDraft('OTHER', 'test subject');

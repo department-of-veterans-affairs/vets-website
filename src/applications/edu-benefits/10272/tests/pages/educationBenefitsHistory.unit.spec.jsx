@@ -6,8 +6,10 @@ import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 describe('22-10272 Your education benefits information Step 1 - Page 2', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.educationBenefitsChapter.pages.educationBenefitsHistory;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.educationBenefitsChapter.pages.educationBenefitsHistory;
 
   it('should render with a textarea', () => {
     const { container } = render(

@@ -14,17 +14,22 @@ const ITF500Error = ({ location, route, router }) => {
     formData.isVeteran === 'yes'
       ? '/submit-va-form-21-0966/veteran-information'
       : '/submit-va-form-21-0966/claimant-information';
-  const goBack = useCallback(
-    () => router.push(prevUrl),
-    [formData, location.pathname, route.pageList, router],
-  );
+  const goBack = useCallback(() => router.push(prevUrl), [
+    formData,
+    location.pathname,
+    route.pageList,
+    router,
+  ]);
 
-  useEffect(() => {
-    if (alertRef?.current) {
-      scrollTo(alertRef.current);
-      focusElement('h2', {}, alertRef.current);
-    }
-  }, [alertRef]);
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo(alertRef.current);
+        focusElement('h2', {}, alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   const benefitCopy = ITFType => {
     switch (ITFType) {

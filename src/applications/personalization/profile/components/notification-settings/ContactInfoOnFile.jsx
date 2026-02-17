@@ -67,7 +67,9 @@ const ContactInfoOnFile = ({
                 contact={
                   isInternationalMobile
                     ? mobilePhoneNumber.phoneNumber
-                    : `${mobilePhoneNumber.areaCode}${mobilePhoneNumber.phoneNumber}`
+                    : `${mobilePhoneNumber.areaCode}${
+                        mobilePhoneNumber.phoneNumber
+                      }`
                 }
                 country-code={
                   isInternationalMobile ? mobilePhoneNumber.countryCode : null

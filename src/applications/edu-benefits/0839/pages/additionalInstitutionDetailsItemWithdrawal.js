@@ -46,8 +46,8 @@ const uiSchema = {
       classNames: 'vads-u-margin-top--2',
       hideLabelText: true,
       updateSchema: (formData, currentSchema, _uiSchema, index) => {
-        const isForeign =
-          !!formData?.additionalInstitutionDetails?.[index]?.isForeignCountry;
+        const isForeign = !!formData?.additionalInstitutionDetails?.[index]
+          ?.isForeignCountry;
 
         if (!isForeign) {
           // Leave schema exactly as-is for domestic cases

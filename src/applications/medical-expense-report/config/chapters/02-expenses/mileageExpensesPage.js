@@ -57,8 +57,7 @@ function checkIsItemIncomplete(item) {
     !item?.travelDate ||
     !item?.travelMilesTraveled ||
     (item?.travelReimbursed !== false &&
-      item.travelReimbursed === true &&
-      !item?.travelReimbursementAmount)
+      (item.travelReimbursed === true && !item?.travelReimbursementAmount))
   );
 }
 
@@ -71,7 +70,7 @@ export const options = {
   isItemIncomplete: item => checkIsItemIncomplete(item),
   maxItems: 12,
   text: {
-    getItemName: item => travelLocationLabels[item?.travelLocation] || '',
+    getItemName: item => travelLocationLabels[(item?.travelLocation)] || '',
     cardDescription: item => transformDate(item?.travelDate) || '',
     cancelAddTitle: `Cancel adding this ${nounSingular}?`,
     cancelEditTitle: `Cancel editing this ${nounSingular}?`,

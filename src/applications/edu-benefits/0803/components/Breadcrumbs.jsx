@@ -22,7 +22,8 @@ const Breadcrumbs = () => {
       label: 'How to use your GI bill benefits',
     },
     {
-      href: '/education/about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/',
+      href:
+        '/education/about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/',
       label: 'Licensing and certification test prep courses',
     },
     {

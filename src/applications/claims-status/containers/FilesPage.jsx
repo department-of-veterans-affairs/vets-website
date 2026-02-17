@@ -87,8 +87,9 @@ class FilesPage extends React.Component {
   getFailedSubmissionsMemoized(evidenceSubmissions) {
     if (this._cachedEvidenceSubmissions !== evidenceSubmissions) {
       this._cachedEvidenceSubmissions = evidenceSubmissions;
-      this._cachedFailedSubmissions =
-        getFailedSubmissionsWithinLast30Days(evidenceSubmissions);
+      this._cachedFailedSubmissions = getFailedSubmissionsWithinLast30Days(
+        evidenceSubmissions,
+      );
     }
 
     return this._cachedFailedSubmissions;
@@ -114,8 +115,9 @@ class FilesPage extends React.Component {
     const documentsTurnedIn = trackedItems.filter(
       item => !item.status.startsWith(NEED_ITEMS_STATUS),
     );
-    const failedSubmissionsWithinLast30Days =
-      this.getFailedSubmissionsMemoized(evidenceSubmissions);
+    const failedSubmissionsWithinLast30Days = this.getFailedSubmissionsMemoized(
+      evidenceSubmissions,
+    );
 
     documentsTurnedIn.push(...supportingDocuments);
     documentsTurnedIn.sort((a, b) => {
@@ -219,7 +221,10 @@ FilesPage.propTypes = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(FilesPage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FilesPage),
 );
 
 export { FilesPage };

@@ -66,7 +66,9 @@ describe('SECURE MESSAGING AAL', () => {
 
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-      cy.get(Locators.ALERTS.CERNER_ALERT).find('va-link-action').click();
+      cy.get(Locators.ALERTS.CERNER_ALERT)
+        .find('va-link-action')
+        .click();
 
       cy.get('@submitLaunchMessagingAal.all').then(interceptions => {
         const latestInterception = interceptions[interceptions.length - 1];
@@ -97,7 +99,9 @@ describe('SECURE MESSAGING AAL', () => {
 
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-      cy.get(Locators.ALERTS.CERNER_ALERT).find('va-link-action').click();
+      cy.get(Locators.ALERTS.CERNER_ALERT)
+        .find('va-link-action')
+        .click();
 
       cy.get('@submitLaunchMessagingAal.all').should('have.length', 0);
     });

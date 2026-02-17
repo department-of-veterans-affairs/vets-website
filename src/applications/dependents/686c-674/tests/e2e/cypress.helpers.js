@@ -216,7 +216,10 @@ export const fillSelectWebComponent = (fieldName, value) => {
 };
 
 export const signAndSubmit = () => {
-  cy.get('va-text-input').shadow().find('input').type('John Doe');
+  cy.get('va-text-input')
+    .shadow()
+    .find('input')
+    .type('John Doe');
   cy.get('va-checkbox')
     .shadow()
     .find('input[type="checkbox"]')

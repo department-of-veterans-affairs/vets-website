@@ -223,7 +223,9 @@ describe('NationalExamsList', () => {
     const testExam = mockExams[0];
     const expectedExamName = formatNationalExamName(testExam.name);
     const expectedEncodedName = encodeURIComponent(expectedExamName);
-    const expectedPath = `/national-exams/${testExam.enrichedId}?examName=${expectedEncodedName}`;
+    const expectedPath = `/national-exams/${
+      testExam.enrichedId
+    }?examName=${expectedEncodedName}`;
 
     const wrapper = mount(
       <Provider store={store}>
@@ -233,7 +235,10 @@ describe('NationalExamsList', () => {
       </Provider>,
     );
 
-    const firstExamLink = wrapper.find('va-card').find('va-link').at(0);
+    const firstExamLink = wrapper
+      .find('va-card')
+      .find('va-link')
+      .at(0);
     firstExamLink.getDOMNode().click();
     const memoryRouter = wrapper.find(MemoryRouter).instance();
     expect(

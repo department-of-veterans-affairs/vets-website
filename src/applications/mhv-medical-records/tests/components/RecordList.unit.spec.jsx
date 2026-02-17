@@ -19,7 +19,8 @@ const vaccines = [
   },
   {
     id: '956',
-    name: 'COVID-19 (MODERNA), MRNA, LNP-S, PF, 100 MCG/0.5ML DOSE OR 50 MCG/0.25ML DOSE',
+    name:
+      'COVID-19 (MODERNA), MRNA, LNP-S, PF, 100 MCG/0.5ML DOSE OR 50 MCG/0.25ML DOSE',
     date: 'August 8, 2022',
     location: 'None recorded',
     manufacturer: 'None recorded',

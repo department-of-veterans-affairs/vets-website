@@ -8,8 +8,10 @@ import formConfig from '../../config/form';
 import { testBranches } from '../../utils/serviceBranches';
 
 describe('Retirement Pay', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.veteranDetails.pages.retirementPay;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.veteranDetails.pages.retirementPay;
 
   it('should render two radio options by default', () => {
     const form = mount(

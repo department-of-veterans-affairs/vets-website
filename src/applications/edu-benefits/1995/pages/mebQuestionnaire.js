@@ -50,13 +50,15 @@ const getFormInfo = benefitType => {
   const form5490 = {
     header:
       "Dependents' Application for VA Education Benefits (VA Form 22-5490)",
-    link: '/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490',
+    link:
+      '/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490',
     linkText: 'Apply for education benefits (VA Form 22-5490)',
     formName: 'VA Form 22-5490',
   };
   const form1990e = {
     header: 'Application for VA Education Benefits (VA Form 22-1990e)',
-    link: '/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e',
+    link:
+      '/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e',
     linkText: 'Apply for education benefits (VA Form 22-1990e)',
     formName: 'VA Form 22-1990e',
   };
@@ -116,9 +118,10 @@ const ResultDescription = ({
         </h2>
       )}
       <p>{body}</p>
-      {linkHref && linkText && (
-        <va-link-action type="primary" href={linkHref} text={linkText} />
-      )}
+      {linkHref &&
+        linkText && (
+          <va-link-action type="primary" href={linkHref} text={linkText} />
+        )}
       <div className="usa-alert background-color-only">
         <h4 className="vads-u-margin-top--0">Your answers:</h4>
         <ul className="vads-u-list-style--none vads-u-padding-left--0">
@@ -381,7 +384,9 @@ const ResultPage = ({ data: formData, setFormData }) => {
         formData?.mebSameBenefitSelection || formData?.currentBenefitType,
       );
       const formInfo = getFormInfo(benefitType);
-      const body = `Based on your answers, use ${formInfo.formName} to apply to the same benefit again to get an updated COE.`;
+      const body = `Based on your answers, use ${
+        formInfo.formName
+      } to apply to the same benefit again to get an updated COE.`;
       const answers = [
         'You are looking to apply to the same benefit again to get an updated Certificate of Eligibility (COE)',
         `Your most recently used benefit is ${formInfo.benefit}`,
@@ -401,7 +406,9 @@ const ResultPage = ({ data: formData, setFormData }) => {
     }
     case 'switch-benefit': {
       const formInfo = getFormInfo(formData?.mebBenefitSelection);
-      const body = `Based on your answers, use ${formInfo.formName} to switch your existing education benefit at the start of your next enrollment period.`;
+      const body = `Based on your answers, use ${
+        formInfo.formName
+      } to switch your existing education benefit at the start of your next enrollment period.`;
       const answers = [
         'You are looking to apply to switch your existing education benefit and get a new Certificate of Eligibility (COE)',
         `You want to change your current benefit to the ${formInfo.benefit}`,

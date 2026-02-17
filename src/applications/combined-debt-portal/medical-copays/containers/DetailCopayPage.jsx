@@ -44,60 +44,69 @@ const DetailCopayPage = ({ match }) => {
     ? copayDetail
     : allStatements?.find(({ id }) => id === selectedId);
 
-  const copayAttributes = useMemo(() => {
-    if (!selectedCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
+  const copayAttributes = useMemo(
+    () => {
+      if (!selectedCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
 
-    /* eslint-disable no-nested-ternary */
-    return shouldShowVHAPaymentHistory
-      ? {
-          TITLE: `Copay bill for ${selectedCopay?.attributes.facility.name}`,
-          INVOICE_DATE: selectedCopay?.attributes?.invoiceDate,
-          IS_CURRENT_DATE: verifyCurrentBalance(
-            selectedCopay?.attributes.invoiceDate,
-          ),
-          ACCOUNT_NUMBER: selectedCopay?.attributes.accountNumber,
-          CHARGES: selectedCopay?.attributes?.lineItems ?? [],
-        }
-      : {
-          TITLE: `Copay bill for ${selectedCopay?.station.facilityName}`,
-          INVOICE_DATE: selectedCopay?.pSStatementDateOutput,
-          IS_CURRENT_DATE: verifyCurrentBalance(
-            selectedCopay?.pSStatementDateOutput,
-          ),
-          ACCOUNT_NUMBER:
-            selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber,
-          CHARGES:
-            selectedCopay?.details?.filter(
-              charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
-            ) ?? [],
-        };
-    /* eslint-disable no-nested-ternary */
-  }, [selectedCopay?.id, shouldShowVHAPaymentHistory]);
+      /* eslint-disable no-nested-ternary */
+      return shouldShowVHAPaymentHistory
+        ? {
+            TITLE: `Copay bill for ${selectedCopay?.attributes.facility.name}`,
+            INVOICE_DATE: selectedCopay?.attributes?.invoiceDate,
+            IS_CURRENT_DATE: verifyCurrentBalance(
+              selectedCopay?.attributes.invoiceDate,
+            ),
+            ACCOUNT_NUMBER: selectedCopay?.attributes.accountNumber,
+            CHARGES: selectedCopay?.attributes?.lineItems ?? [],
+          }
+        : {
+            TITLE: `Copay bill for ${selectedCopay?.station.facilityName}`,
+            INVOICE_DATE: selectedCopay?.pSStatementDateOutput,
+            IS_CURRENT_DATE: verifyCurrentBalance(
+              selectedCopay?.pSStatementDateOutput,
+            ),
+            ACCOUNT_NUMBER:
+              selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber,
+            CHARGES:
+              selectedCopay?.details?.filter(
+                charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
+              ) ?? [],
+          };
+      /* eslint-disable no-nested-ternary */
+    },
+    [selectedCopay?.id, shouldShowVHAPaymentHistory],
+  );
 
   // Handle alert separately
-  useEffect(() => {
-    if (!selectedCopay?.id) return;
-    setAlert(copayAttributes.IS_CURRENT_DATE ? 'status' : 'past-due-balance');
-  }, [selectedCopay?.id, copayAttributes]);
+  useEffect(
+    () => {
+      if (!selectedCopay?.id) return;
+      setAlert(copayAttributes.IS_CURRENT_DATE ? 'status' : 'past-due-balance');
+    },
+    [selectedCopay?.id, copayAttributes],
+  );
 
-  useEffect(() => {
-    if (!isAnyElementFocused()) setPageFocus();
+  useEffect(
+    () => {
+      if (!isAnyElementFocused()) setPageFocus();
 
-    if (
-      !copayDetail?.id &&
-      copayDetail.id !== selectedId &&
-      !isCopayDetailLoading &&
-      shouldShowVHAPaymentHistory
-    ) {
-      dispatch(getCopayDetailStatement(`${selectedId}`));
-    }
-  }, [
-    selectedId,
-    dispatch,
-    copayDetail?.id,
-    isCopayDetailLoading,
-    shouldShowVHAPaymentHistory,
-  ]);
+      if (
+        !copayDetail?.id &&
+        copayDetail.id !== selectedId &&
+        !isCopayDetailLoading &&
+        shouldShowVHAPaymentHistory
+      ) {
+        dispatch(getCopayDetailStatement(`${selectedId}`));
+      }
+    },
+    [
+      selectedId,
+      dispatch,
+      copayDetail?.id,
+      isCopayDetailLoading,
+      shouldShowVHAPaymentHistory,
+    ],
+  );
 
   // get veteran name
   const userFullName = useSelector(({ user }) => user.profile.userFullName);

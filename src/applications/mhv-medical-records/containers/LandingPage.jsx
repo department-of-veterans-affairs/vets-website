@@ -68,19 +68,25 @@ const LandingPage = () => {
     };
   });
 
-  useEffect(() => {
-    setTimeout(() => {
-      const heading = headingRef.current;
-      focusElement(heading);
-    }, 400);
-  }, [headingRef]);
+  useEffect(
+    () => {
+      setTimeout(() => {
+        const heading = headingRef.current;
+        focusElement(heading);
+      }, 400);
+    },
+    [headingRef],
+  );
 
-  useEffect(() => {
-    // Create the user's MHV session when they arrive at the MR landing page
-    createSession();
+  useEffect(
+    () => {
+      // Create the user's MHV session when they arrive at the MR landing page
+      createSession();
 
-    updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
-  }, [dispatch]);
+      updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const sendAalViewList = activityType => {
     postCreateAAL({

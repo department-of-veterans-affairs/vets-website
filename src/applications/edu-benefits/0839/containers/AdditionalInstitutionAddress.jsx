@@ -28,8 +28,15 @@ const AdditionalInstitutionAddress = () => {
   const notYR = details.yrEligible === false;
   const showWarningBanner = notYR;
 
-  const { street, street2, street3, city, state, postalCode, country } =
-    institutionAddress;
+  const {
+    street,
+    street2,
+    street3,
+    city,
+    state,
+    postalCode,
+    country,
+  } = institutionAddress;
 
   const hasAddress = [
     street,

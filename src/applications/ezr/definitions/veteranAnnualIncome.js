@@ -13,8 +13,11 @@ import {
   PreviousNetIncome,
 } from '../components/FormDescriptions/IncomeDescriptions';
 
-const { veteranGrossIncome, veteranNetIncome, veteranOtherIncome } =
-  ezrSchema.properties;
+const {
+  veteranGrossIncome,
+  veteranNetIncome,
+  veteranOtherIncome,
+} = ezrSchema.properties;
 
 /**
  * Declare schema attributes for veteran income page

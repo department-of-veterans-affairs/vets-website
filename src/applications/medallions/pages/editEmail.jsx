@@ -19,18 +19,24 @@ const EditEmail = ({
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    if (headerRef?.current) {
-      focusElement(headerRef?.current);
-    }
-  }, [headerRef]);
+  useEffect(
+    () => {
+      if (headerRef?.current) {
+        focusElement(headerRef?.current);
+      }
+    },
+    [headerRef],
+  );
 
   // Initialize email from form data
-  useEffect(() => {
-    if (data?.email) {
-      setEmail(data.email);
-    }
-  }, [data?.email]);
+  useEffect(
+    () => {
+      if (data?.email) {
+        setEmail(data.email);
+      }
+    },
+    [data?.email],
+  );
 
   const validateEmail = value => {
     if (!value || value.trim() === '') {

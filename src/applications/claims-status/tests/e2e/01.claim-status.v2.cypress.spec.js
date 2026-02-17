@@ -298,14 +298,13 @@ describe('Upload Type 2 Error Alert on Status Tab', () => {
             ...claimDetailsOpenWithFailedSubmissions.data,
             attributes: {
               ...claimDetailsOpenWithFailedSubmissions.data.attributes,
-              evidenceSubmissions:
-                claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
-                  .slice(0, 2)
-                  .map(submission => ({
-                    ...submission,
-                    failedDate: fiveDaysAgo,
-                    acknowledgementDate: tomorrow,
-                  })),
+              evidenceSubmissions: claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
+                .slice(0, 2)
+                .map(submission => ({
+                  ...submission,
+                  failedDate: fiveDaysAgo,
+                  acknowledgementDate: tomorrow,
+                })),
             },
           },
         };
@@ -337,14 +336,13 @@ describe('Upload Type 2 Error Alert on Status Tab', () => {
             ...claimDetailsOpenWithFailedSubmissions.data,
             attributes: {
               ...claimDetailsOpenWithFailedSubmissions.data.attributes,
-              evidenceSubmissions:
-                claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
-                  .slice(0, 2)
-                  .map((submission, index) => ({
-                    ...submission,
-                    failedDate: index === 0 ? tenDaysAgo : fiveDaysAgo,
-                    acknowledgementDate: tomorrow,
-                  })),
+              evidenceSubmissions: claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
+                .slice(0, 2)
+                .map((submission, index) => ({
+                  ...submission,
+                  failedDate: index === 0 ? tenDaysAgo : fiveDaysAgo,
+                  acknowledgementDate: tomorrow,
+                })),
             },
           },
         };
@@ -377,14 +375,13 @@ describe('Upload Type 2 Error Alert on Status Tab', () => {
             ...claimDetailsOpenWithFailedSubmissions.data,
             attributes: {
               ...claimDetailsOpenWithFailedSubmissions.data.attributes,
-              evidenceSubmissions:
-                claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
-                  .slice(0, 2)
-                  .map(submission => ({
-                    ...submission,
-                    failedDate: fiveDaysAgo,
-                    acknowledgementDate: tomorrow,
-                  })),
+              evidenceSubmissions: claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
+                .slice(0, 2)
+                .map(submission => ({
+                  ...submission,
+                  failedDate: fiveDaysAgo,
+                  acknowledgementDate: tomorrow,
+                })),
             },
           },
         };

@@ -87,7 +87,9 @@ describe('SM Migration Phase - MigratingFacilitiesAlerts Display', () => {
       PatientMessageDetailsPage.loadSingleThread(updatedThread);
 
       // Verify MigratingFacilitiesAlerts h2 is NOT displayed
-      cy.get('h2').contains(Alerts.MIGRATION_ALERT_H2).should('not.exist');
+      cy.get('h2')
+        .contains(Alerts.MIGRATION_ALERT_H2)
+        .should('not.exist');
 
       // Verify Reply button is visible (normal thread)
       cy.get(Locators.BUTTONS.REPLY).should('exist');

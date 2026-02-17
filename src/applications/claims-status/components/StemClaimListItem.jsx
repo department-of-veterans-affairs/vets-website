@@ -12,12 +12,8 @@ import UploadType2ErrorAlertSlim from './UploadType2ErrorAlertSlim';
 const formatDate = buildDateFormatter();
 
 export default function StemClaimListItem({ claim }) {
-  const {
-    automatedDenial,
-    deniedAt,
-    submittedAt,
-    evidenceSubmissions = [],
-  } = claim.attributes || {};
+  const { automatedDenial, deniedAt, submittedAt, evidenceSubmissions = [] } =
+    claim.attributes || {};
 
   // Memoize failed submissions to prevent UploadType2ErrorAlertSlim from receiving
   // a new array reference on every render, which would break its useEffect tracking

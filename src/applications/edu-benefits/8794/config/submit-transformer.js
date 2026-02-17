@@ -13,8 +13,9 @@ export function transform(formConfig, form) {
         clonedData.designatingOfficial.phoneNumber,
       );
     } else {
-      clonedData.designatingOfficial.internationalPhoneNumber =
-        getTransformIntlPhoneNumber(clonedData.designatingOfficial.phoneNumber);
+      clonedData.designatingOfficial.internationalPhoneNumber = getTransformIntlPhoneNumber(
+        clonedData.designatingOfficial.phoneNumber,
+      );
       delete clonedData.designatingOfficial.phoneNumber;
     }
 
@@ -28,15 +29,13 @@ export function transform(formConfig, form) {
     delete clonedData.primaryOfficialDetails.phoneType;
 
     if (clonedData.primaryOfficialDetails.phoneNumber?.countryCode === 'US') {
-      clonedData.primaryOfficialDetails.phoneNumber =
-        getTransformIntlPhoneNumber(
-          clonedData.primaryOfficialDetails.phoneNumber,
-        );
+      clonedData.primaryOfficialDetails.phoneNumber = getTransformIntlPhoneNumber(
+        clonedData.primaryOfficialDetails.phoneNumber,
+      );
     } else {
-      clonedData.primaryOfficialDetails.internationalPhoneNumber =
-        getTransformIntlPhoneNumber(
-          clonedData.primaryOfficialDetails.phoneNumber,
-        );
+      clonedData.primaryOfficialDetails.internationalPhoneNumber = getTransformIntlPhoneNumber(
+        clonedData.primaryOfficialDetails.phoneNumber,
+      );
       delete clonedData.primaryOfficialDetails.phoneNumber;
     }
 

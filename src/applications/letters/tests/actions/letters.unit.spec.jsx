@@ -142,7 +142,9 @@ describe('getLettersList', () => {
   };
 
   Object.keys(lettersErrors).forEach(code => {
-    it(`dispatches ${lettersErrors[code]} when GET fails with ${code}`, done => {
+    it(`dispatches ${
+      lettersErrors[code]
+    } when GET fails with ${code}`, done => {
       setFetchJSONFailure(global.fetch.onCall(0), {
         errors: [{ status: `${code}` }],
         code,

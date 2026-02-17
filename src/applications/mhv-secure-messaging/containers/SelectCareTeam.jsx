@@ -74,49 +74,64 @@ const SelectCareTeam = () => {
 
   const h1Ref = useRef(null);
 
-  useEffect(() => {
-    if (recipientsError || noAssociations) {
-      history.push(Paths.INBOX);
-    }
-  }, [recipientsError, noAssociations, history]);
+  useEffect(
+    () => {
+      if (recipientsError || noAssociations) {
+        history.push(Paths.INBOX);
+      }
+    },
+    [recipientsError, noAssociations, history],
+  );
 
-  useEffect(() => {
-    if (!acceptInterstitial && !validDraft) {
-      history.push(Paths.COMPOSE);
-    }
-  }, [acceptInterstitial, validDraft, history]);
+  useEffect(
+    () => {
+      if (!acceptInterstitial && !validDraft) {
+        history.push(Paths.COMPOSE);
+      }
+    },
+    [acceptInterstitial, validDraft, history],
+  );
 
   // On initial load, always clear the active care system
   // This ensures that if the user navigates back to this page, they will see
   // all care teams without being filtered by the active care system
   // If they have an active care team, we set that as the selected care team
-  useEffect(() => {
-    if (draftInProgress?.recipientId) {
-      setSelectedCareTeamId(draftInProgress.recipientId);
-    }
-  }, [draftInProgress.recipientId]);
+  useEffect(
+    () => {
+      if (draftInProgress?.recipientId) {
+        setSelectedCareTeamId(draftInProgress.recipientId);
+      }
+    },
+    [draftInProgress.recipientId],
+  );
 
-  useEffect(() => {
-    if (
-      !draftInProgress?.messageId &&
-      !!draftInProgress?.recipientId &&
-      draftInProgress?.navigationError?.title ===
-        ErrorMessages.ComposeForm.UNABLE_TO_SAVE.title &&
-      draftIsClean(draftInProgress)
-    ) {
-      dispatch(
-        updateDraftInProgress({
-          navigationError: null,
-        }),
-      );
-    }
-  }, [draftInProgress, dispatch]);
+  useEffect(
+    () => {
+      if (
+        !draftInProgress?.messageId &&
+        !!draftInProgress?.recipientId &&
+        draftInProgress?.navigationError?.title ===
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE.title &&
+        draftIsClean(draftInProgress)
+      ) {
+        dispatch(
+          updateDraftInProgress({
+            navigationError: null,
+          }),
+        );
+      }
+    },
+    [draftInProgress, dispatch],
+  );
 
-  useEffect(() => {
-    if (careTeamError) {
-      scrollToFirstError();
-    }
-  }, [careTeamError]);
+  useEffect(
+    () => {
+      if (careTeamError) {
+        scrollToFirstError();
+      }
+    },
+    [careTeamError],
+  );
 
   const careTeamHandler = useCallback(
     recipient => {
@@ -185,9 +200,14 @@ const SelectCareTeam = () => {
     }
   }, []);
 
-  useEffect(() => {
-    document.title = `Select Care Team - Start Message${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
-  }, [allowedRecipients]);
+  useEffect(
+    () => {
+      document.title = `Select Care Team - Start Message${
+        PageTitles.DEFAULT_PAGE_TITLE_TAG
+      }`;
+    },
+    [allowedRecipients],
+  );
 
   // Send DataDog RUM action on component unmount with the count of care system switches
   // Should call addAction even if the count is zero
@@ -266,99 +286,114 @@ const SelectCareTeam = () => {
     [draftInProgress, dispatch, ehrDataByVhaId],
   );
 
-  useEffect(() => {
-    const hasVistaFacility = vistaFacilities?.length > 0;
-    setShowContactListLink(hasVistaFacility);
-  }, [vistaFacilities]);
+  useEffect(
+    () => {
+      const hasVistaFacility = vistaFacilities?.length > 0;
+      setShowContactListLink(hasVistaFacility);
+    },
+    [vistaFacilities],
+  );
 
   // Track when VA Health Systems are displayed
-  useEffect(() => {
-    if (allFacilities?.length > 1) {
-      recordEvent({
-        event: 'api_call',
-        'api-name': 'SM VA Health Systems Displayed',
-        'api-status': 'successful',
-        'health-systems-count': allFacilities.length,
-        version:
-          allFacilities.length < MAX_RADIO_OPTIONS ? 'radio' : 'dropdown',
-      });
-    } else if (allFacilities?.length === 0) {
-      recordEvent({
-        event: 'api_call',
-        'api-name': 'SM VA Health Systems Displayed',
-        'api-status': 'fail',
-        'health-systems-count': 0,
-        'error-key': 'no-health-systems',
-      });
-    }
-  }, [allFacilities]);
+  useEffect(
+    () => {
+      if (allFacilities?.length > 1) {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'SM VA Health Systems Displayed',
+          'api-status': 'successful',
+          'health-systems-count': allFacilities.length,
+          version:
+            allFacilities.length < MAX_RADIO_OPTIONS ? 'radio' : 'dropdown',
+        });
+      } else if (allFacilities?.length === 0) {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'SM VA Health Systems Displayed',
+          'api-status': 'fail',
+          'health-systems-count': 0,
+          'error-key': 'no-health-systems',
+        });
+      }
+    },
+    [allFacilities],
+  );
 
   // Track when user types in the care team search box (debounced)
-  useEffect(() => {
-    if (careTeamComboInputValue?.length > 0) {
-      const debounceTimer = setTimeout(() => {
-        recordEvent({
-          event: 'int-text-input-search',
-          'text-input-label': 'Select a care team',
-        });
-      }, 500);
-      return () => clearTimeout(debounceTimer);
-    }
-    return undefined;
-  }, [careTeamComboInputValue]);
+  useEffect(
+    () => {
+      if (careTeamComboInputValue?.length > 0) {
+        const debounceTimer = setTimeout(() => {
+          recordEvent({
+            event: 'int-text-input-search',
+            'text-input-label': 'Select a care team',
+          });
+        }, 500);
+        return () => clearTimeout(debounceTimer);
+      }
+      return undefined;
+    },
+    [careTeamComboInputValue],
+  );
 
   // updates the available teams in the Care Team combo box
   // if a care system is selected, filter for only that care system
   // if no care system is selected, show all allowed teams
-  useEffect(() => {
-    if (draftInProgress?.careSystemVhaId) {
-      setCareTeamsList(
-        allowedRecipients?.filter(
-          recipient =>
-            recipient.stationNumber === draftInProgress.careSystemVhaId,
-        ) || allowedRecipients,
-      );
-    } else {
-      setCareTeamsList(allowedRecipients);
-    }
-  }, [draftInProgress.careSystemVhaId, allowedRecipients]);
+  useEffect(
+    () => {
+      if (draftInProgress?.careSystemVhaId) {
+        setCareTeamsList(
+          allowedRecipients?.filter(
+            recipient =>
+              recipient.stationNumber === draftInProgress.careSystemVhaId,
+          ) || allowedRecipients,
+        );
+      } else {
+        setCareTeamsList(allowedRecipients);
+      }
+    },
+    [draftInProgress.careSystemVhaId, allowedRecipients],
+  );
 
   // if there is only one care system, set it as the draftInProgress care system
   // this is to prevent the user from having to select a care system
-  useEffect(() => {
-    if (
-      allFacilities.length === 1 &&
-      allFacilities[0] &&
-      (!draftInProgress.careSystemVhaId ||
-        draftInProgress.careSystemVhaId !== allFacilities[0])
-    ) {
-      const careSystem = ehrDataByVhaId[allFacilities[0]] || null;
-      dispatch(
-        updateDraftInProgress({
-          careSystemVhaId: careSystem?.vhaId,
-          careSystemName: careSystem?.vamcSystemName,
-        }),
-      );
-    }
-  }, [
-    draftInProgress.careSystemVhaId,
-    allFacilities,
-    dispatch,
-    ehrDataByVhaId,
-  ]);
+  useEffect(
+    () => {
+      if (
+        allFacilities.length === 1 &&
+        allFacilities[0] &&
+        (!draftInProgress.careSystemVhaId ||
+          draftInProgress.careSystemVhaId !== allFacilities[0])
+      ) {
+        const careSystem = ehrDataByVhaId[allFacilities[0]] || null;
+        dispatch(
+          updateDraftInProgress({
+            careSystemVhaId: careSystem?.vhaId,
+            careSystemName: careSystem?.vamcSystemName,
+          }),
+        );
+      }
+    },
+    [draftInProgress.careSystemVhaId, allFacilities, dispatch, ehrDataByVhaId],
+  );
 
-  const checkValidity = useCallback(() => {
-    let selectionsValid = true;
-    if (!selectedCareTeamId || !draftInProgress.recipientId) {
-      setCareTeamError('Select a care team');
-      selectionsValid = false;
-    }
-    return selectionsValid;
-  }, [draftInProgress.recipientId, selectedCareTeamId]);
+  const checkValidity = useCallback(
+    () => {
+      let selectionsValid = true;
+      if (!selectedCareTeamId || !draftInProgress.recipientId) {
+        setCareTeamError('Select a care team');
+        selectionsValid = false;
+      }
+      return selectionsValid;
+    },
+    [draftInProgress.recipientId, selectedCareTeamId],
+  );
 
   const getDestinationPath = useCallback(
     (includeRootUrl = false) => {
-      const inProgressPath = `${Paths.MESSAGE_THREAD}${draftInProgress.messageId}`;
+      const inProgressPath = `${Paths.MESSAGE_THREAD}${
+        draftInProgress.messageId
+      }`;
       const startPath = `${Paths.COMPOSE}${Paths.START_MESSAGE}`;
       const path = draftInProgress.messageId ? inProgressPath : startPath;
       return includeRootUrl ? `${manifest.rootUrl}${path}` : path;
@@ -366,11 +401,14 @@ const SelectCareTeam = () => {
     [draftInProgress],
   );
 
-  const getDestinationLabel = useCallback(() => {
-    return draftInProgress.messageId
-      ? 'Continue to draft'
-      : 'Continue to start message';
-  }, [draftInProgress]);
+  const getDestinationLabel = useCallback(
+    () => {
+      return draftInProgress.messageId
+        ? 'Continue to draft'
+        : 'Continue to start message';
+    },
+    [draftInProgress],
+  );
 
   const handlers = {
     onContinue: event => {
@@ -397,28 +435,36 @@ const SelectCareTeam = () => {
     },
   };
 
-  const careSystemsOptionsValues = useMemo(() => {
-    const careSystemsSorted = allFacilities
-      .filter(careSystem => !blockedFacilities?.includes(careSystem))
-      .map(careSystem => {
-        return ehrDataByVhaId[careSystem];
-      })
-      .sort((a, b) => {
-        const aName = a?.vamcSystemName;
-        const bName = b?.vamcSystemName;
+  const careSystemsOptionsValues = useMemo(
+    () => {
+      const careSystemsSorted = allFacilities
+        .filter(careSystem => !blockedFacilities?.includes(careSystem))
+        .map(careSystem => {
+          return ehrDataByVhaId[careSystem];
+        })
+        .sort((a, b) => {
+          const aName = a?.vamcSystemName;
+          const bName = b?.vamcSystemName;
 
-        return aName.localeCompare(bName);
-      });
-    return careSystemsSorted.map(item => (
-      <option key={item?.vhaId} value={item?.vhaId}>
-        {item?.vamcSystemName}
-      </option>
-    ));
-  }, [allFacilities, blockedFacilities, ehrDataByVhaId]);
+          return aName.localeCompare(bName);
+        });
+      return careSystemsSorted.map(item => (
+        <option key={item?.vhaId} value={item?.vhaId}>
+          {item?.vamcSystemName}
+        </option>
+      ));
+    },
+    [allFacilities, blockedFacilities, ehrDataByVhaId],
+  );
 
-  const saveDraftHandler = useCallback(() => {
-    dispatch(saveDraft(draftInProgress, 'manual', draftInProgress?.messageId));
-  }, [dispatch, draftInProgress]);
+  const saveDraftHandler = useCallback(
+    () => {
+      dispatch(
+        saveDraft(draftInProgress, 'manual', draftInProgress?.messageId),
+      );
+    },
+    [dispatch, draftInProgress],
+  );
 
   const renderCareSystems = () => {
     const allowedFacilities = allFacilities?.filter(
@@ -528,19 +574,21 @@ const SelectCareTeam = () => {
         {renderCareSystems()}
 
         <div className="vads-u-margin-top--3">
-          {careTeamsList && !noAssociations && !allTriageGroupsBlocked && (
-            <RecipientsSelect
-              key={recipientsSelectKey}
-              recipientsList={careTeamsList}
-              onValueChange={careTeamHandler}
-              error={careTeamError}
-              defaultValue={+selectedCareTeamId}
-              isSignatureRequired={isSignatureRequired}
-              setComboBoxInputValue={setCareTeamComboInputValue}
-              comboBoxInputValue={careTeamComboInputValue}
-              setIsSignatureRequired={setIsSignatureRequired}
-            />
-          )}
+          {careTeamsList &&
+            !noAssociations &&
+            !allTriageGroupsBlocked && (
+              <RecipientsSelect
+                key={recipientsSelectKey}
+                recipientsList={careTeamsList}
+                onValueChange={careTeamHandler}
+                error={careTeamError}
+                defaultValue={+selectedCareTeamId}
+                isSignatureRequired={isSignatureRequired}
+                setComboBoxInputValue={setCareTeamComboInputValue}
+                comboBoxInputValue={careTeamComboInputValue}
+                setIsSignatureRequired={setIsSignatureRequired}
+              />
+            )}
         </div>
         <div className="vads-u-margin-top--2">
           <p className="vads-u-margin-bottom--1">

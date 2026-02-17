@@ -308,7 +308,8 @@ export const deceasedDependentIncomePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Dependent’s income'),
     deceasedDependentIncome: radioUI({
       title: 'Did this dependent have an income in the last 365 days?',
-      hint: 'Answer this question only if you are removing this dependent from your pension.',
+      hint:
+        'Answer this question only if you are removing this dependent from your pension.',
       labels: {
         Y: 'Yes',
         N: 'No',

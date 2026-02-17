@@ -40,47 +40,62 @@ const MessagesSignature = () => {
   );
   const openEditModal = useCallback(() => dispatch(openModal()), [dispatch]);
 
-  useEffect(() => {
-    document.title = `Messages Signature | Veterans Affairs`;
-    // Mark component as mounted after first render so Prompt doesn't show on initial load
-    hasMountedRef.current = true;
+  useEffect(
+    () => {
+      document.title = `Messages Signature | Veterans Affairs`;
+      // Mark component as mounted after first render so Prompt doesn't show on initial load
+      hasMountedRef.current = true;
 
-    return () => {
-      clearSuccessAlert();
-    };
-  }, [clearSuccessAlert]);
+      return () => {
+        clearSuccessAlert();
+      };
+    },
+    [clearSuccessAlert],
+  );
 
-  useEffect(() => {
-    if (isMessagingServiceEnabled && messagingSignature == null)
-      dispatch(getMessagingSignature());
-  }, [dispatch, isMessagingServiceEnabled, messagingSignature]);
+  useEffect(
+    () => {
+      if (isMessagingServiceEnabled && messagingSignature == null)
+        dispatch(getMessagingSignature());
+    },
+    [dispatch, isMessagingServiceEnabled, messagingSignature],
+  );
 
-  useEffect(() => {
-    const fieldName = `#${FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE]}`;
-    if (messagingSignatureName !== null && location.hash === fieldName) {
-      const targetElement = document.querySelector(fieldName);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-        focusElement(targetElement.querySelector('h2'));
+  useEffect(
+    () => {
+      const fieldName = `#${FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE]}`;
+      if (messagingSignatureName !== null && location.hash === fieldName) {
+        const targetElement = document.querySelector(fieldName);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+          focusElement(targetElement.querySelector('h2'));
+        }
       }
-    }
-  }, [messagingSignatureName, location.hash]);
+    },
+    [messagingSignatureName, location.hash],
+  );
 
-  useEffect(() => {
-    // Show alert when navigating away
-    if (hasUnsavedEdits) {
-      window.onbeforeunload = () => true;
-      return;
-    }
+  useEffect(
+    () => {
+      // Show alert when navigating away
+      if (hasUnsavedEdits) {
+        window.onbeforeunload = () => true;
+        return;
+      }
 
-    window.onbeforeunload = undefined;
-  }, [hasUnsavedEdits]);
+      window.onbeforeunload = undefined;
+    },
+    [hasUnsavedEdits],
+  );
 
-  useEffect(() => {
-    return () => {
-      openEditModal(null);
-    };
-  }, [openEditModal]);
+  useEffect(
+    () => {
+      return () => {
+        openEditModal(null);
+      };
+    },
+    [openEditModal],
+  );
 
   const signaturePresent =
     !!messagingSignature?.signatureName?.trim() &&

@@ -23,7 +23,8 @@ export default {
         ) {
           return {
             'ui:options': {
-              hint: 'We’ll use this email address to send you notifications about your form submission',
+              hint:
+                'We’ll use this email address to send you notifications about your form submission',
             },
           };
         }

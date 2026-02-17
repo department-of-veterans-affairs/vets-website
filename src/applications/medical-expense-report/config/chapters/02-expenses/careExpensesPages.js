@@ -254,7 +254,8 @@ const datePage = {
     careDate: currentOrPastDateRangeUI(
       {
         title: 'Care start date',
-        hint: 'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
+        hint:
+          'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
         removeDateHint: true,
         monthSelect: false,
       },
@@ -303,7 +304,8 @@ const costPage = {
     weeklyHours: {
       ...numberUI({
         title: 'How many hours per week does the care provider work?',
-        hint: 'Enter the number of full hours only. Round down any extra minutes to the lowest hour.',
+        hint:
+          'Enter the number of full hours only. Round down any extra minutes to the lowest hour.',
         hideIf: (formData, index, fullData) =>
           hideIfInHomeCare(formData, index, fullData),
         max: 999,

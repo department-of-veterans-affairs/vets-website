@@ -11,12 +11,14 @@ import {
 import formConfig from '../../../../config/form';
 
 describe('evidenceChoiceIntroPage', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.supportingEvidence.pages.evidenceChoiceIntro;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.supportingEvidence.pages.evidenceChoiceIntro;
   //   TODO update the variable name once evidence-choice-upload page is created
-  const { depends: tempEvidenceChoiceAdditionalDocuments } =
-    formConfig.chapters.supportingEvidence.pages
-      .evidenceChoiceAdditionalDocuments;
+  const {
+    depends: tempEvidenceChoiceAdditionalDocuments,
+  } = formConfig.chapters.supportingEvidence.pages.evidenceChoiceAdditionalDocuments;
   const summaryOfEvidencePage =
     formConfig.chapters.supportingEvidence.pages.summaryOfEvidence;
   it('should render', () => {

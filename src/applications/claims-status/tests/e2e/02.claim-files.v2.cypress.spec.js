@@ -276,14 +276,13 @@ describe('Upload Type 2 Error Alert', () => {
             ...claimDetailsOpenWithFailedSubmissions.data,
             attributes: {
               ...claimDetailsOpenWithFailedSubmissions.data.attributes,
-              evidenceSubmissions:
-                claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
-                  .slice(0, 2)
-                  .map(submission => ({
-                    ...submission,
-                    failedDate: fiveDaysAgo,
-                    acknowledgementDate: tomorrow,
-                  })),
+              evidenceSubmissions: claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
+                .slice(0, 2)
+                .map(submission => ({
+                  ...submission,
+                  failedDate: fiveDaysAgo,
+                  acknowledgementDate: tomorrow,
+                })),
             },
           },
         };
@@ -315,14 +314,13 @@ describe('Upload Type 2 Error Alert', () => {
             ...claimDetailsOpenWithFailedSubmissions.data,
             attributes: {
               ...claimDetailsOpenWithFailedSubmissions.data.attributes,
-              evidenceSubmissions:
-                claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
-                  .slice(0, 2)
-                  .map((submission, index) => ({
-                    ...submission,
-                    failedDate: index === 0 ? fiveDaysAgo : twoDaysAgo,
-                    acknowledgementDate: tomorrow,
-                  })),
+              evidenceSubmissions: claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
+                .slice(0, 2)
+                .map((submission, index) => ({
+                  ...submission,
+                  failedDate: index === 0 ? fiveDaysAgo : twoDaysAgo,
+                  acknowledgementDate: tomorrow,
+                })),
             },
           },
         };
@@ -699,7 +697,9 @@ describe('Type 1 Unknown Upload Errors', () => {
 
   const uploadFileAndSubmit = () => {
     uploadFile('test-document.txt');
-    getFileInputElement(0).find('va-select').should('be.visible');
+    getFileInputElement(0)
+      .find('va-select')
+      .should('be.visible');
     selectDocumentType(0, 'L034');
     clickSubmitButton(SUBMIT_TEXT);
     cy.wait('@uploadRequest');
@@ -738,7 +738,9 @@ describe('Type 1 Unknown Upload Errors', () => {
     }).as('uploadRequest');
 
     uploadFile('test-document.txt');
-    getFileInputElement(0).find('va-select').should('be.visible');
+    getFileInputElement(0)
+      .find('va-select')
+      .should('be.visible');
     selectDocumentType(0, 'L034');
 
     clickSubmitButton(SUBMIT_TEXT);
@@ -777,7 +779,9 @@ describe('Type 1 Unknown Upload Errors', () => {
     }).as('uploadRequest');
 
     uploadFile('test-document.txt');
-    getFileInputElement(0).find('va-select').should('be.visible');
+    getFileInputElement(0)
+      .find('va-select')
+      .should('be.visible');
     selectDocumentType(0, 'L034');
 
     clickSubmitButton(SUBMIT_TEXT);
@@ -805,7 +809,9 @@ describe('Type 1 Unknown Upload Errors', () => {
 
     verifyType1UnknownAlert();
 
-    cy.get('.claims-alert').find('va-link-action').click();
+    cy.get('.claims-alert')
+      .find('va-link-action')
+      .click();
 
     cy.url().should('include', '/files');
     cy.get('#other-ways-to-send').should('be.visible');

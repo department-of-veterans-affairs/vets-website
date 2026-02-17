@@ -30,13 +30,16 @@ export const ConfirmationPageViewITF = ({
       ? `${address.city}, ${address.state} ${address.postalCode}`
       : null;
 
-  useEffect(() => {
-    if (alertRef?.current) {
-      scrollTo('topScrollElement');
-      // delay focus for Safari
-      waitForRenderThenFocus('h2', alertRef.current);
-    }
-  }, [alertRef]);
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo('topScrollElement');
+        // delay focus for Safari
+        waitForRenderThenFocus('h2', alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   return (
     <div>

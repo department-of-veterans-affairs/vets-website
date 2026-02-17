@@ -51,12 +51,14 @@ export const STATE_VALUES = FORM_PROFILE_STATES.map(state => state.value);
 export const MILITARY_STATE_VALUES = ['AA', 'AE', 'AP'];
 
 export const DISABILITY_CAUSE_LABELS = {
-  NEW: 'My condition was caused by an injury or exposure during my military service.',
+  NEW:
+    'My condition was caused by an injury or exposure during my military service.',
   SECONDARY:
     'My condition was caused by another service-connected disability I already have. (For example, I have a limp that caused lower-back problems.)',
   WORSENED:
     'My condition existed before I served in the military, but it got worse because of my military service.',
-  VA: 'My condition was caused by an injury or event that happened when I was receiving VA care.',
+  VA:
+    'My condition was caused by an injury or event that happened when I was receiving VA care.',
 };
 export const MILITARY_STATE_LABELS = [
   'Armed Forces Americas (AA)',
@@ -436,7 +438,8 @@ export const HERBICIDE_LOCATIONS = Object.freeze({
   koreandemilitarizedzone: 'In or near the Korean demilitarized zone',
   johnston: 'Johnston Atoll or on a ship that called at Johnston Atoll',
   laos: 'Laos',
-  c123: 'Somewhere you had contact with C-123 airplanes while serving in the Air Force or the Air Force Reserves',
+  c123:
+    'Somewhere you had contact with C-123 airplanes while serving in the Air Force or the Air Force Reserves',
   thailand: 'A U.S. or Royal Thai military base in Thailand',
   vietnam: 'Vietnam or the waters in or off of Vietnam',
   none: 'None of these locations',
@@ -457,7 +460,8 @@ export const ADDITIONAL_EXPOSURES = Object.freeze({
 
 export const TRAUMATIC_EVENT_TYPES = Object.freeze({
   combat: 'Traumatic events related to combat',
-  mst: 'Traumatic events related to sexual assault or harassment (also known as military sexual trauma or MST)',
+  mst:
+    'Traumatic events related to sexual assault or harassment (also known as military sexual trauma or MST)',
   nonMst: 'Traumatic events related to other personal interactions',
   other: 'Other traumatic events',
 });
@@ -489,7 +493,8 @@ export const NO_REPORT_TYPE = Object.freeze({
 export const OFFICIAL_REPORT_TYPES_HINTS = Object.freeze({
   military: 'Select any military incident reports filed for this event.',
   other: 'Select any other types of reports filed for this event.',
-  none: 'Select this option if you didn’t have any reports filed, don’t know about any official reports, or prefer not to include them.',
+  none:
+    'Select this option if you didn’t have any reports filed, don’t know about any official reports, or prefer not to include them.',
 });
 
 export const POLICE_REPORT_LOCATION_FIELDS = [
@@ -540,10 +545,12 @@ export const TREATMENT_RECEIVED_SUBTITLES = Object.freeze({
 });
 
 export const TREATMENT_RECEIVED_HINTS = Object.freeze({
-  va: 'Select any VA or military medical provider types where you received treatment for traumatic events.',
+  va:
+    'Select any VA or military medical provider types where you received treatment for traumatic events.',
   nonVa:
     'Select any Non-VA provider types where you received treatment for traumatic events.',
-  none: 'Select this option if you didn’t seek treatment for traumatic events with any provider, or prefer not to report them.',
+  none:
+    'Select this option if you didn’t seek treatment for traumatic events with any provider, or prefer not to report them.',
 });
 
 export const TREATMENT_RECEIVED_VA = Object.freeze({
@@ -593,12 +600,14 @@ export const ALL_BEHAVIOR_CHANGE_DESCRIPTIONS = {
 };
 
 export const BEHAVIOR_LIST_HINTS = Object.freeze({
-  work: 'Select any work related behavioral changes you experienced after your traumatic events.',
+  work:
+    'Select any work related behavioral changes you experienced after your traumatic events.',
   health:
     'Select any health related behavioral changes you experienced after your traumatic events.',
   other:
     'Select any other types of behavioral changes you experienced after your traumatic events.',
-  none: 'Select this option if you didn’t experience any behavioral changes after your traumatic events, or prefer not to report them.',
+  none:
+    'Select this option if you didn’t experience any behavioral changes after your traumatic events, or prefer not to report them.',
 });
 
 export const SUPPORTING_EVIDENCE_SUBTITLES = Object.freeze({
@@ -642,7 +651,8 @@ export const SUPPORTING_EVIDENCE_HINTS = Object.freeze({
   other:
     'Select to include other supporting documents about your traumatic events.',
   unlisted: 'Other supporting documents not listed here:',
-  none: 'Select this option if you don’t have any supporting documents to include, or prefer not to include them.',
+  none:
+    'Select this option if you don’t have any supporting documents to include, or prefer not to include them.',
 });
 
 export const ARRAY_PATH = 'newDisabilities';

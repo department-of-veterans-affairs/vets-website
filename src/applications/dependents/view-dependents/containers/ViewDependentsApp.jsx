@@ -53,18 +53,16 @@ const ViewDependentsApp = ({
   const dependentsModuleEnabled = useToggleValue(
     TOGGLE_NAMES.dependentsModuleEnabled,
   );
-  useEffect(() => {
-    if (isLoggedIn) {
-      fetchAllDependents(dependentsModuleEnabled);
-      fetchRatingInfo();
-    }
-    document.title = `${titleCase(PAGE_TITLE)}${TITLE_SUFFIX}`;
-  }, [
-    fetchAllDependents,
-    fetchRatingInfo,
-    isLoggedIn,
-    dependentsModuleEnabled,
-  ]);
+  useEffect(
+    () => {
+      if (isLoggedIn) {
+        fetchAllDependents(dependentsModuleEnabled);
+        fetchRatingInfo();
+      }
+      document.title = `${titleCase(PAGE_TITLE)}${TITLE_SUFFIX}`;
+    },
+    [fetchAllDependents, fetchRatingInfo, isLoggedIn, dependentsModuleEnabled],
+  );
 
   // Add Datadog monitoring to the application
   useBrowserMonitoring({
@@ -135,10 +133,12 @@ const mapStateToProps = state => ({
     state.featureToggles?.loading,
   error: state.allDependents.error || state.ratingValue.error,
   isLoggedIn: state.user?.login?.currentlyLoggedIn,
-  manageDependentsToggle:
-    toggleValues(state)[FEATURE_FLAG_NAMES.manageDependents],
-  dependentsVerificationFormToggle:
-    toggleValues(state)[FEATURE_FLAG_NAMES.vaDependentsVerification],
+  manageDependentsToggle: toggleValues(state)[
+    FEATURE_FLAG_NAMES.manageDependents
+  ],
+  dependentsVerificationFormToggle: toggleValues(state)[
+    FEATURE_FLAG_NAMES.vaDependentsVerification
+  ],
   onAwardDependents: state.allDependents.onAwardDependents,
   hasMinimumRating: state.ratingValue.hasMinimumRating,
   notOnAwardDependents: state.allDependents.notOnAwardDependents,
@@ -150,7 +150,10 @@ const mapDispatchToProps = {
   fetchRatingInfo: fetchRatingInfoAction,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewDependentsApp);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ViewDependentsApp);
 
 ViewDependentsApp.propTypes = {
   fetchAllDependents: PropTypes.func.isRequired,

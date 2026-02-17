@@ -12,10 +12,13 @@ export const useStatusContent = (type, data, view) => {
       type === 'debt' ? transformDebtData(data) : transformCopayData(data),
     [type, data],
   );
-  const content = useMemo(() => {
-    const getContentFn =
-      view === 'summary' ? getSummaryCardContent : getDetailsAlertContent;
-    return getContentFn(transformedData);
-  }, [transformedData, view]);
+  const content = useMemo(
+    () => {
+      const getContentFn =
+        view === 'summary' ? getSummaryCardContent : getDetailsAlertContent;
+      return getContentFn(transformedData);
+    },
+    [transformedData, view],
+  );
   return { transformedData, ...content };
 };

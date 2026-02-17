@@ -20,10 +20,14 @@ export const SELECTORS = {
 
 export const verifyRecommendationsLink = (text, href) => {
   cy.get(
-    `${SELECTORS.TOP_RECOMMENDATIONS} ${SELECTORS.SEARCH_RESULTS_TITLE} va-link[text="${text}"]`,
+    `${SELECTORS.TOP_RECOMMENDATIONS} ${
+      SELECTORS.SEARCH_RESULTS_TITLE
+    } va-link[text="${text}"]`,
   ).should('be.visible');
   cy.get(
-    `${SELECTORS.TOP_RECOMMENDATIONS} ${SELECTORS.SEARCH_RESULTS_TITLE} va-link[href*="${href}"]`,
+    `${SELECTORS.TOP_RECOMMENDATIONS} ${
+      SELECTORS.SEARCH_RESULTS_TITLE
+    } va-link[href*="${href}"]`,
   ).should('be.visible');
 };
 

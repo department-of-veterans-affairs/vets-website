@@ -156,8 +156,9 @@ describe('addStudentsOptions', () => {
 
     it('should return true when school name exceeds character limit', () => {
       const errors = { addError: sinon.spy() };
-      const { uiSchema } =
-        formConfig.chapters.report674.pages.addStudentsPartTen;
+      const {
+        uiSchema,
+      } = formConfig.chapters.report674.pages.addStudentsPartTen;
       const validateSchoolName =
         uiSchema.studentInformation.items.schoolInformation.name[
           'ui:validations'
@@ -173,8 +174,9 @@ describe('addStudentsOptions', () => {
 
     it('should return false when school name is within limits', () => {
       const errors = { addError: sinon.spy() };
-      const { uiSchema } =
-        formConfig.chapters.report674.pages.addStudentsPartTen;
+      const {
+        uiSchema,
+      } = formConfig.chapters.report674.pages.addStudentsPartTen;
       const validateSchoolName =
         uiSchema.studentInformation.items.schoolInformation.name[
           'ui:validations'
@@ -228,8 +230,10 @@ describe('addStudentsOptions', () => {
 // Array pages
 
 describe('674 Add students: Intro page ', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsIntro;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsIntro;
 
   it('should render', () => {
     const { container } = render(
@@ -249,8 +253,10 @@ describe('674 Add students: Intro page ', () => {
 });
 
 describe('674 Add students: Summary page ', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsSummary;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsSummary;
 
   it('should render', () => {
     const { container } = render(
@@ -270,8 +276,10 @@ describe('674 Add students: Summary page ', () => {
 });
 
 describe('674 Add students: Student info page ', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartOne;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartOne;
 
   it('should render', () => {
     const { container } = render(
@@ -293,8 +301,10 @@ describe('674 Add students: Student info page ', () => {
 });
 
 describe('674 Add students: Student info page no SSN', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartOne;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartOne;
 
   it('should render', () => {
     const { container } = render(
@@ -318,8 +328,10 @@ describe('674 Add students: Student info page no SSN', () => {
 });
 
 describe('674 Add students: Student relationship ', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartThree;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartThree;
 
   it('should render', () => {
     const { container } = render(
@@ -341,8 +353,10 @@ describe('674 Add students: Student relationship ', () => {
 });
 
 describe('674 Add students: Student income', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartFour;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartFour;
 
   it('should render', () => {
     const { container } = render(
@@ -364,8 +378,10 @@ describe('674 Add students: Student income', () => {
 });
 
 describe('674 Add students: Student address ', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartFive;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartFive;
 
   it('should render', () => {
     const { container } = render(
@@ -423,8 +439,10 @@ describe('674 Add students: Student address ', () => {
 });
 
 describe('674 Add students: Student was married ', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartSix;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartSix;
 
   it('should render', () => {
     const { container } = render(
@@ -446,8 +464,10 @@ describe('674 Add students: Student was married ', () => {
 });
 
 describe('674 Add students: Student marriage date ', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartSeven;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartSeven;
 
   it('should render', () => {
     const { container } = render(
@@ -468,8 +488,10 @@ describe('674 Add students: Student marriage date ', () => {
 });
 
 describe('674 Add students: Student education benefits ', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartEight;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartEight;
 
   it('should render', () => {
     const { container } = render(
@@ -492,8 +514,10 @@ describe('674 Add students: Student education benefits ', () => {
 });
 
 describe('674 Add students: Student education benefits payment start date ', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartNine;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartNine;
 
   it('should render', () => {
     const { container } = render(
@@ -514,8 +538,10 @@ describe('674 Add students: Student education benefits payment start date ', () 
 });
 
 describe('674 Add students: Program name ', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartTen;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartTen;
 
   it('should render', () => {
     const { container } = render(
@@ -536,8 +562,10 @@ describe('674 Add students: Program name ', () => {
 });
 
 describe('674 Add students: Student attended continuously ', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartEleven;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartEleven;
 
   it('should render', () => {
     const { container } = render(
@@ -559,8 +587,10 @@ describe('674 Add students: Student attended continuously ', () => {
 });
 
 describe('674 Add students: Date student stopped attending ', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartTwelve;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartTwelve;
 
   it('should render', () => {
     const { container } = render(
@@ -581,8 +611,10 @@ describe('674 Add students: Date student stopped attending ', () => {
 });
 
 describe('674 Add students: School is accredited', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartThirteen;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartThirteen;
 
   it('should render', () => {
     const { container } = render(
@@ -605,8 +637,10 @@ describe('674 Add students: School is accredited', () => {
 });
 
 describe('674 Add students: Term dates', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartFourteen;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartFourteen;
 
   it('should render', () => {
     const { container } = render(
@@ -627,8 +661,10 @@ describe('674 Add students: Term dates', () => {
 });
 
 describe('674 Add students: Did student attend last term?', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartFifteen;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartFifteen;
 
   it('should render', () => {
     const { container } = render(
@@ -650,8 +686,10 @@ describe('674 Add students: Did student attend last term?', () => {
 });
 
 describe('674 Add students: Previous term dates', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartSixteen;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartSixteen;
 
   it('should render', () => {
     const { container } = render(
@@ -672,8 +710,10 @@ describe('674 Add students: Previous term dates', () => {
 });
 
 describe('674 Add students: Veteran claims pension', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartSeventeen;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartSeventeen;
 
   it('should render', () => {
     const { container } = render(
@@ -695,8 +735,10 @@ describe('674 Add students: Veteran claims pension', () => {
 });
 
 describe('674 Add students: Current term student income', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartEighteen;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartEighteen;
 
   it('should render', () => {
     const { container } = render(
@@ -717,8 +759,10 @@ describe('674 Add students: Current term student income', () => {
 });
 
 describe('674 Add students: Student income next year', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartNineteen;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartNineteen;
 
   it('should render', () => {
     const { container } = render(
@@ -739,8 +783,10 @@ describe('674 Add students: Student income next year', () => {
 });
 
 describe('674 Add students: Student assets', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartTwenty;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartTwenty;
 
   it('should render', () => {
     const { container } = render(
@@ -762,8 +808,10 @@ describe('674 Add students: Student assets', () => {
 });
 
 describe('674 Add students: Student remarks', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.report674.pages.addStudentsPartTwentyOne;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartTwentyOne;
   it('should render', () => {
     const { container } = render(
       <Provider store={defaultStore}>

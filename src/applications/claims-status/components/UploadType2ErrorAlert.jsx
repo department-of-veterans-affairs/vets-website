@@ -12,11 +12,14 @@ const HEADING = 'We need you to submit files by mail or in person';
 function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
   // Record Type 2 failure event every time component mounts with failed submissions
   // Only fires on status page
-  useEffect(() => {
-    if (failedSubmissions && failedSubmissions.length > 0 && isStatusPage) {
-      recordType2FailureEvent({ count: 1 });
-    }
-  }, [failedSubmissions, isStatusPage]);
+  useEffect(
+    () => {
+      if (failedSubmissions && failedSubmissions.length > 0 && isStatusPage) {
+        recordType2FailureEvent({ count: 1 });
+      }
+    },
+    [failedSubmissions, isStatusPage],
+  );
 
   // Don't render anything if there are no failed submissions
   if (!failedSubmissions || failedSubmissions.length === 0) {
@@ -48,8 +51,9 @@ function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
       <strong>All files we couldn’t process:</strong>
       <ul>
         {sortedSubmissions.slice(0, itemsToShow).map(submission => {
-          const requestType =
-            getTrackedItemDisplayNameFromEvidenceSubmission(submission);
+          const requestType = getTrackedItemDisplayNameFromEvidenceSubmission(
+            submission,
+          );
 
           return (
             <li key={submission.id}>

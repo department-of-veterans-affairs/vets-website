@@ -50,24 +50,35 @@ const VaccineDetails = props => {
 
   useTrackAction(statsdFrontEndActions.VACCINES_DETAILS);
 
-  useEffect(() => {
-    if (vaccineId && !isLoading) {
-      dispatch(getVaccineDetails(vaccineId, vaccines, isAcceleratingVaccines));
-    }
-  }, [vaccineId, vaccines, dispatch, isAcceleratingVaccines, isLoading]);
+  useEffect(
+    () => {
+      if (vaccineId && !isLoading) {
+        dispatch(
+          getVaccineDetails(vaccineId, vaccines, isAcceleratingVaccines),
+        );
+      }
+    },
+    [vaccineId, vaccines, dispatch, isAcceleratingVaccines, isLoading],
+  );
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearVaccineDetails());
-    };
-  }, [dispatch]);
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearVaccineDetails());
+      };
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    if (record) {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.VACCINE_DETAILS_PAGE_TITLE);
-    }
-  }, [dispatch, record]);
+  useEffect(
+    () => {
+      if (record) {
+        focusElement(document.querySelector('h1'));
+        updatePageTitle(pageTitles.VACCINE_DETAILS_PAGE_TITLE);
+      }
+    },
+    [dispatch, record],
+  );
 
   usePrintTitle(
     pageTitles.VACCINES_PAGE_TITLE,

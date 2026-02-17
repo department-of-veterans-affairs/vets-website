@@ -53,7 +53,7 @@ export const insuranceOptions = {
     cardDescription: item =>
       item?.type === 'other'
         ? `${item?.otherType}`
-        : `${INSURANCE_TYPE_LABELS[item?.type]}`,
+        : `${INSURANCE_TYPE_LABELS[(item?.type)]}`,
     cancelAddTitle: () => content['health-insurance--cancel-add-title'],
     cancelAddDescription: () =>
       content['health-insurance--cancel-add-description'],

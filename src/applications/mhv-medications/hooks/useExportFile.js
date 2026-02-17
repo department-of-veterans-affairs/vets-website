@@ -41,40 +41,52 @@ const useExportFile = ({
     });
   }, []);
 
-  const isLoading = useMemo(() => {
-    return (
-      status.status === PDF_TXT_GENERATE_STATUS.InProgress &&
-      !allergiesError &&
-      !error &&
-      !generationError
-    );
-  }, [status.status, allergiesError, error, generationError]);
+  const isLoading = useMemo(
+    () => {
+      return (
+        status.status === PDF_TXT_GENERATE_STATUS.InProgress &&
+        !allergiesError &&
+        !error &&
+        !generationError
+      );
+    },
+    [status.status, allergiesError, error, generationError],
+  );
 
-  const isSuccess = useMemo(() => {
-    return status.status === PDF_TXT_GENERATE_STATUS.Success;
-  }, [status.status]);
+  const isSuccess = useMemo(
+    () => {
+      return status.status === PDF_TXT_GENERATE_STATUS.Success;
+    },
+    [status.status],
+  );
 
-  const hasError = useMemo(() => {
-    // If we're in progress and allergies errored, show error UI.
-    // Additional errors and generation errors also show error UI.
-    return (
-      (status.status === PDF_TXT_GENERATE_STATUS.InProgress &&
-        allergiesError) ||
-      error ||
-      generationError
-    );
-  }, [status.status, allergiesError, error, generationError]);
+  const hasError = useMemo(
+    () => {
+      // If we're in progress and allergies errored, show error UI.
+      // Additional errors and generation errors also show error UI.
+      return (
+        (status.status === PDF_TXT_GENERATE_STATUS.InProgress &&
+          allergiesError) ||
+        error ||
+        generationError
+      );
+    },
+    [status.status, allergiesError, error, generationError],
+  );
 
   // prefer explicit errorFormat if set; otherwise, if allergies fail during InProgress,
   // use status.format so the UI can show the correct "download PDF/TXT/print" error.
-  const effectiveErrorFormat = useMemo(() => {
-    return (
-      errorFormat ||
-      (status.status === PDF_TXT_GENERATE_STATUS.InProgress && allergiesError
-        ? status.format
-        : undefined)
-    );
-  }, [errorFormat, status.status, status.format, allergiesError]);
+  const effectiveErrorFormat = useMemo(
+    () => {
+      return (
+        errorFormat ||
+        (status.status === PDF_TXT_GENERATE_STATUS.InProgress && allergiesError
+          ? status.format
+          : undefined)
+      );
+    },
+    [errorFormat, status.status, status.format, allergiesError],
+  );
 
   const finalizeSuccess = useCallback(() => {
     setStatus(prev => ({
@@ -118,61 +130,64 @@ const useExportFile = ({
     [prepare, handleGenerationError],
   );
 
-  useEffect(() => {
-    const isInProgress = status.status === PDF_TXT_GENERATE_STATUS.InProgress;
-    if (!isInProgress) return;
+  useEffect(
+    () => {
+      const isInProgress = status.status === PDF_TXT_GENERATE_STATUS.InProgress;
+      if (!isInProgress) return;
 
-    const { format } = status;
+      const { format } = status;
 
-    // If print requested and allergies errored, stay InProgress so the UI shows error.
-    if (format === PRINT_FORMAT.PRINT) {
-      if (allergiesError) return;
+      // If print requested and allergies errored, stay InProgress so the UI shows error.
+      if (format === PRINT_FORMAT.PRINT) {
+        if (allergiesError) return;
 
-      // Wait for data to be ready before triggering print
-      if (!isReady) return;
+        // Wait for data to be ready before triggering print
+        if (!isReady) return;
 
-      if (onBeforePrint) onBeforePrint();
-      setShouldPrint(true);
+        if (onBeforePrint) onBeforePrint();
+        setShouldPrint(true);
 
-      // Reset status (print isn't "generated" like files are).
-      setStatus({
-        status: PDF_TXT_GENERATE_STATUS.NotStarted,
-        format: undefined,
-      });
-      return;
-    }
-
-    const allergiesReady = !!allergies && !allergiesError;
-    if (!isReady || !allergiesReady) {
-      return;
-    }
-
-    const runGeneration = async () => {
-      try {
-        if (format === DOWNLOAD_FORMAT.PDF) {
-          await onGeneratePdf?.();
-          finalizeSuccess();
-        } else if (format === DOWNLOAD_FORMAT.TXT) {
-          await onGenerateTxt?.();
-          finalizeSuccess();
-        }
-      } catch (err) {
-        handleGenerationError(err);
+        // Reset status (print isn't "generated" like files are).
+        setStatus({
+          status: PDF_TXT_GENERATE_STATUS.NotStarted,
+          format: undefined,
+        });
+        return;
       }
-    };
 
-    runGeneration();
-  }, [
-    status,
-    allergies,
-    allergiesError,
-    isReady,
-    onGeneratePdf,
-    onGenerateTxt,
-    onBeforePrint,
-    finalizeSuccess,
-    handleGenerationError,
-  ]);
+      const allergiesReady = !!allergies && !allergiesError;
+      if (!isReady || !allergiesReady) {
+        return;
+      }
+
+      const runGeneration = async () => {
+        try {
+          if (format === DOWNLOAD_FORMAT.PDF) {
+            await onGeneratePdf?.();
+            finalizeSuccess();
+          } else if (format === DOWNLOAD_FORMAT.TXT) {
+            await onGenerateTxt?.();
+            finalizeSuccess();
+          }
+        } catch (err) {
+          handleGenerationError(err);
+        }
+      };
+
+      runGeneration();
+    },
+    [
+      status,
+      allergies,
+      allergiesError,
+      isReady,
+      onGeneratePdf,
+      onGenerateTxt,
+      onBeforePrint,
+      finalizeSuccess,
+      handleGenerationError,
+    ],
+  );
 
   const clearPrintTrigger = useCallback(() => setShouldPrint(false), []);
 

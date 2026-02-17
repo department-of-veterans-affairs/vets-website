@@ -8,8 +8,10 @@ import { noSSNTitle } from '../../pages/sponsorInfomartion';
 const definitions = formConfig.defaultDefinitions;
 
 describe('Edu 1995 sponsorInformation', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.sponsorInformation.pages.sponsorInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -37,8 +39,10 @@ describe('noSSNTitle', () => {
 });
 
 describe('VA File Number Conditional Display', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.sponsorInformation.pages.sponsorInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
 
   it('should not display the VA file number input field when noSSN is false', () => {
     const form = ReactTestUtils.renderIntoDocument(

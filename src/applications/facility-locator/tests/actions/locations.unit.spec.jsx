@@ -25,10 +25,7 @@ describe('actions: locations', () => {
 
   describe('fetchLocations', () => {
     let dispatch;
-    const mockBounds = [
-      [0, 0],
-      [1, 1],
-    ];
+    const mockBounds = [[0, 0], [1, 1]];
     const mockCenter = [0.5, 0.5];
     const mockRadius = 50;
 

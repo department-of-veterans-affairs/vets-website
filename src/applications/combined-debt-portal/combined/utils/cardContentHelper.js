@@ -92,8 +92,13 @@ export const getSummaryCardContent = data => {
 export const getDetailsAlertContent = data => {
   const { amount, diaryCode } = data;
   const linkView = 'details';
-  const { statusType, alertStatus, endDateText, linkIds, config } =
-    getCommonContent(data, linkView);
+  const {
+    statusType,
+    alertStatus,
+    endDateText,
+    linkIds,
+    config,
+  } = getCommonContent(data, linkView);
 
   const phoneSetId = config?.phoneSet;
   const phoneSet = phoneSetId ? PHONE_REGISTRY[phoneSetId] : null;

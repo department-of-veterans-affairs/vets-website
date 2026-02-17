@@ -91,73 +91,83 @@ const AlertBackgroundBox = props => {
     threadViewPage,
     replyViewPage,
     contactListPage,
-  } = useMemo(() => {
-    return {
-      startNewMessagePage: /new-message|draft/.test(location.pathname),
-      foldersViewPage: /folders\/\d+/.test(location.pathname),
-      threadViewPage: /thread\/\d+/.test(location.pathname),
-      replyViewPage: /reply\/\d+/.test(location.pathname),
-      contactListPage: /contact-list/.test(location.pathname),
-    };
-  }, [location.pathname]);
+  } = useMemo(
+    () => {
+      return {
+        startNewMessagePage: /new-message|draft/.test(location.pathname),
+        foldersViewPage: /folders\/\d+/.test(location.pathname),
+        threadViewPage: /thread\/\d+/.test(location.pathname),
+        replyViewPage: /reply\/\d+/.test(location.pathname),
+        contactListPage: /contact-list/.test(location.pathname),
+      };
+    },
+    [location.pathname],
+  );
 
-  useEffect(() => {
-    const lastPathName = formatPathName(location.pathname, 'Messages');
+  useEffect(
+    () => {
+      const lastPathName = formatPathName(location.pathname, 'Messages');
 
-    if (alertList?.length) {
-      if (foldersViewPage && !folder?.name) return;
-      if (
-        (threadViewPage || replyViewPage) &&
-        (threadMessages === undefined || threadMessages?.length < 1)
-      )
-        return;
+      if (alertList?.length) {
+        if (foldersViewPage && !folder?.name) return;
+        if (
+          (threadViewPage || replyViewPage) &&
+          (threadMessages === undefined || threadMessages?.length < 1)
+        )
+          return;
 
-      const filteredSortedAlerts = alertList
-        .filter(alert => alert?.isActive)
-        .sort((a, b) => {
-          // Sort chronologically descending.
-          return b.datestamp - a.datestamp;
-        });
+        const filteredSortedAlerts = alertList
+          .filter(alert => alert?.isActive)
+          .sort((a, b) => {
+            // Sort chronologically descending.
+            return b.datestamp - a.datestamp;
+          });
 
-      let categoryText = '';
+        let categoryText = '';
 
-      if (threadViewPage || replyViewPage) {
-        categoryText =
-          threadMessages[0]?.category === 'OTHER'
-            ? Categories.OTHER
-            : threadMessages[0]?.category;
+        if (threadViewPage || replyViewPage) {
+          categoryText =
+            threadMessages[0]?.category === 'OTHER'
+              ? Categories.OTHER
+              : threadMessages[0]?.category;
+        }
+
+        if (lastPathName === 'Folders') {
+          setAlertAriaLabel('You are in the my folders page.');
+        } else if (foldersViewPage) {
+          setAlertAriaLabel(`You are in ${folder?.name}.`);
+        } else if (threadViewPage) {
+          setAlertAriaLabel(
+            `You are in ${categoryText}: ${
+              threadMessages[0]?.subject
+            } message thread.`,
+          );
+        } else if (replyViewPage) {
+          setAlertAriaLabel(
+            `You are in ${categoryText}: ${
+              threadMessages[0]?.subject
+            } message reply.`,
+          );
+        } else {
+          setAlertAriaLabel(`You are in ${lastPathName}.`);
+        }
+
+        // The activeAlert is the most recent alert marked as active.
+        setActiveAlert(filteredSortedAlerts[0] || null);
+        if (filteredSortedAlerts[0]) setShowAlertBackgroundBox(true);
       }
-
-      if (lastPathName === 'Folders') {
-        setAlertAriaLabel('You are in the my folders page.');
-      } else if (foldersViewPage) {
-        setAlertAriaLabel(`You are in ${folder?.name}.`);
-      } else if (threadViewPage) {
-        setAlertAriaLabel(
-          `You are in ${categoryText}: ${threadMessages[0]?.subject} message thread.`,
-        );
-      } else if (replyViewPage) {
-        setAlertAriaLabel(
-          `You are in ${categoryText}: ${threadMessages[0]?.subject} message reply.`,
-        );
-      } else {
-        setAlertAriaLabel(`You are in ${lastPathName}.`);
-      }
-
-      // The activeAlert is the most recent alert marked as active.
-      setActiveAlert(filteredSortedAlerts[0] || null);
-      if (filteredSortedAlerts[0]) setShowAlertBackgroundBox(true);
-    }
-  }, [
-    alertList,
-    folder,
-    foldersViewPage,
-    location.pathname,
-    replyViewPage,
-    setShowAlertBackgroundBox,
-    threadMessages,
-    threadViewPage,
-  ]);
+    },
+    [
+      alertList,
+      folder,
+      foldersViewPage,
+      location.pathname,
+      replyViewPage,
+      setShowAlertBackgroundBox,
+      threadMessages,
+      threadViewPage,
+    ],
+  );
 
   const handleShowIcon = () => {
     if (props.noIcon) {
@@ -172,30 +182,33 @@ const AlertBackgroundBox = props => {
   };
 
   // sets custom server error messages for the landing page and folder view pages
-  useEffect(() => {
-    const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
-    const isErrorAlert = activeAlert?.alertType === 'error';
-    let content = activeAlert?.content;
+  useEffect(
+    () => {
+      const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
+      const isErrorAlert = activeAlert?.alertType === 'error';
+      let content = activeAlert?.content;
 
-    if (
-      !startNewMessagePage &&
-      !foldersViewPage &&
-      !threadViewPage &&
-      !contactListPage &&
-      (isServiceOutage || isErrorAlert)
-    ) {
-      content = SERVER_ERROR_503;
-    }
-    setAlertContent(content);
-  }, [
-    SERVER_ERROR_503,
-    SERVICE_OUTAGE,
-    activeAlert,
-    contactListPage,
-    foldersViewPage,
-    startNewMessagePage,
-    threadViewPage,
-  ]);
+      if (
+        !startNewMessagePage &&
+        !foldersViewPage &&
+        !threadViewPage &&
+        !contactListPage &&
+        (isServiceOutage || isErrorAlert)
+      ) {
+        content = SERVER_ERROR_503;
+      }
+      setAlertContent(content);
+    },
+    [
+      SERVER_ERROR_503,
+      SERVICE_OUTAGE,
+      activeAlert,
+      contactListPage,
+      foldersViewPage,
+      startNewMessagePage,
+      threadViewPage,
+    ],
+  );
 
   useInterval(() => {
     const shouldRetrieveFolders =
@@ -208,15 +221,18 @@ const AlertBackgroundBox = props => {
     }
   }, 60000); // 1 minute
 
-  const handleAlertFocus = useCallback(() => {
-    setTimeout(() => {
-      focusElement(
-        props.focus
-          ? alertRef.current.shadowRoot.querySelector('button')
-          : alertRef.current,
-      );
-    }, 500);
-  }, [props.focus]);
+  const handleAlertFocus = useCallback(
+    () => {
+      setTimeout(() => {
+        focusElement(
+          props.focus
+            ? alertRef.current.shadowRoot.querySelector('button')
+            : alertRef.current,
+        );
+      }, 500);
+    },
+    [props.focus],
+  );
 
   return (
     activeAlert &&

@@ -9,9 +9,10 @@ import formConfig from '../../config/form';
 import { DISCLOSURE_KEYS } from '../../helpers';
 
 describe('22-10278 information to disclose page', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.informationToDiscloseChapter.pages
-      .informationToDisclose;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.informationToDiscloseChapter.pages.informationToDisclose;
 
   const mockStore = configureStore();
 

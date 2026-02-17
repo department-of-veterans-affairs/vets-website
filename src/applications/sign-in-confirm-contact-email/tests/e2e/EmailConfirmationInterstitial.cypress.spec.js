@@ -151,11 +151,13 @@ describe('Email Confirmation Interstitial', () => {
     cy.findByTestId('sign-in--confirm-email-button').click();
 
     // Wait for API call and polling
-    cy.wait('@confirmEmail').its('request.body').should('deep.include', {
-      id: 123,
-      // eslint-disable-next-line camelcase
-      email_address: 'test@example.com',
-    });
+    cy.wait('@confirmEmail')
+      .its('request.body')
+      .should('deep.include', {
+        id: 123,
+        // eslint-disable-next-line camelcase
+        email_address: 'test@example.com',
+      });
     cy.wait('@pollStatus');
 
     // Verify success message

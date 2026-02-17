@@ -94,13 +94,13 @@ describe('facilityHelpers', () => {
   describe('createBeforeCutoverFacilityNames', () => {
     const mockGetNameFn = (ehrData, facilityId) => ehrData[facilityId]?.name;
     const mockEhrData = {
-      757: { name: 'VA Central Ohio health care' },
-      668: { name: 'VA Spokane health care' },
-      999: { name: 'VA Unknown health care' },
+      '757': { name: 'VA Central Ohio health care' },
+      '668': { name: 'VA Spokane health care' },
+      '999': { name: 'VA Unknown health care' },
     };
     const mockTransitionTable = {
-      757: { cutoverDate: '2022-04-30' },
-      668: { cutoverDate: '2020-10-24' },
+      '757': { cutoverDate: '2022-04-30' },
+      '668': { cutoverDate: '2020-10-24' },
     };
 
     it('should return empty array when ehrDataByVhaId is null', () => {
@@ -219,7 +219,7 @@ describe('facilityHelpers', () => {
       const futureDateStr = futureDate.toISOString().split('T')[0];
 
       const futureTransitionTable = {
-        757: { cutoverDate: futureDateStr },
+        '757': { cutoverDate: futureDateStr },
       };
       const ohFacilities = [{ facilityId: '757' }];
       const result = createBeforeCutoverFacilityNames(
@@ -241,13 +241,13 @@ describe('facilityHelpers', () => {
   describe('createAfterCutoverFacilityNames', () => {
     const mockGetNameFn = (ehrData, facilityId) => ehrData[facilityId]?.name;
     const mockEhrData = {
-      757: { name: 'VA Central Ohio health care' },
-      668: { name: 'VA Spokane health care' },
-      999: { name: 'VA Unknown health care' },
+      '757': { name: 'VA Central Ohio health care' },
+      '668': { name: 'VA Spokane health care' },
+      '999': { name: 'VA Unknown health care' },
     };
     const mockTransitionTable = {
-      757: { cutoverDate: '2022-04-30' },
-      668: { cutoverDate: '2020-10-24' },
+      '757': { cutoverDate: '2022-04-30' },
+      '668': { cutoverDate: '2020-10-24' },
     };
 
     it('should return empty array when ehrDataByVhaId is null', () => {
@@ -366,7 +366,7 @@ describe('facilityHelpers', () => {
       const futureDateStr = futureDate.toISOString().split('T')[0];
 
       const futureTransitionTable = {
-        757: { cutoverDate: futureDateStr },
+        '757': { cutoverDate: futureDateStr },
       };
       const ohFacilities = [{ facilityId: '757' }];
       const result = createAfterCutoverFacilityNames(

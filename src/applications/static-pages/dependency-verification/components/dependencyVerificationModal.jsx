@@ -25,7 +25,7 @@ const DependencyVerificationModal = props => {
   };
 
   const observe = () => {
-    const callback = function () {
+    const callback = function() {
       if (!nodeToWatch.classList.contains('modal-open')) {
         openModal();
       }
@@ -69,10 +69,13 @@ const DependencyVerificationModal = props => {
     }
   };
 
-  useEffect(() => {
-    checkForOtherModals();
-    fireIfClearIfNotObserve();
-  }, [otherModal]);
+  useEffect(
+    () => {
+      checkForOtherModals();
+      fireIfClearIfNotObserve();
+    },
+    [otherModal],
+  );
 
   return props?.data?.getDependencyVerificationStatus === CALLSTATUS.success ? (
     <>

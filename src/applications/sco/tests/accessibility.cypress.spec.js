@@ -18,7 +18,11 @@ describe('Accessibility', () => {
     cy.injectAxe();
     cy.axeCheck();
     // First focusable element in react app
-    cy.get('va-breadcrumbs').shadow().find('nav li > a').first().focus();
+    cy.get('va-breadcrumbs')
+      .shadow()
+      .find('nav li > a')
+      .first()
+      .focus();
     cy.focused().should('contain.text', 'VA.gov home');
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Resources for schools');

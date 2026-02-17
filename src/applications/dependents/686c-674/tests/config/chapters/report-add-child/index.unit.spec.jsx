@@ -167,10 +167,12 @@ describe('Add Child Chapter', () => {
         childrenToAdd: [{ doesChildLiveWithYou: false }],
       };
 
-      const { depends: dependsPartOne } =
-        chapter.pages.addChildChildAddressPartOne;
-      const { depends: dependsPartTwo } =
-        chapter.pages.addChildChildAddressPartTwo;
+      const {
+        depends: dependsPartOne,
+      } = chapter.pages.addChildChildAddressPartOne;
+      const {
+        depends: dependsPartTwo,
+      } = chapter.pages.addChildChildAddressPartTwo;
 
       expect(dependsPartOne(formData, 0)).to.be.true;
       expect(dependsPartTwo(formData, 0)).to.be.true;
@@ -182,10 +184,12 @@ describe('Add Child Chapter', () => {
         childrenToAdd: [{ doesChildLiveWithYou: true }],
       };
 
-      const { depends: dependsPartOne } =
-        chapter.pages.addChildChildAddressPartOne;
-      const { depends: dependsPartTwo } =
-        chapter.pages.addChildChildAddressPartTwo;
+      const {
+        depends: dependsPartOne,
+      } = chapter.pages.addChildChildAddressPartOne;
+      const {
+        depends: dependsPartTwo,
+      } = chapter.pages.addChildChildAddressPartTwo;
 
       expect(dependsPartOne(formData, 0)).to.be.false;
       expect(dependsPartTwo(formData, 0)).to.be.false;

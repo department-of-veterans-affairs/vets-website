@@ -51,16 +51,17 @@ const ClaimantInfoViewField = props => {
         </h4>
         {defaultEditButton()}
         <dl className="review vads-u-margin-top--2 vads-u-width--full">
-          {Object.entries(claimantDisplay).map(([label, value]) =>
-            value ? (
-              <div
-                key={label}
-                className="review-row vads-u-display--flex vads-u-justify-content--space-between vads-u-padding-y--1 vads-u-width--full"
-              >
-                <dt className="vads-u-font-weight--normal">{label}</dt>
-                <dd className="vads-u-font-weight--bold">{value}</dd>
-              </div>
-            ) : null,
+          {Object.entries(claimantDisplay).map(
+            ([label, value]) =>
+              value ? (
+                <div
+                  key={label}
+                  className="review-row vads-u-display--flex vads-u-justify-content--space-between vads-u-padding-y--1 vads-u-width--full"
+                >
+                  <dt className="vads-u-font-weight--normal">{label}</dt>
+                  <dd className="vads-u-font-weight--bold">{value}</dd>
+                </div>
+              ) : null,
           )}
         </dl>
       </div>
@@ -71,16 +72,17 @@ const ClaimantInfoViewField = props => {
             Veteran identification information
           </h4>
           <dl className="review vads-u-margin-top--2 vads-u-width--full">
-            {Object.entries(veteranDisplay).map(([label, value]) =>
-              value ? (
-                <div
-                  key={label}
-                  className="review-row vads-u-display--flex vads-u-justify-content--space-between vads-u-padding-y--1 vads-u-width--full"
-                >
-                  <dt className="vads-u-font-weight--normal">{label}</dt>
-                  <dd className="vads-u-font-weight--bold">{value}</dd>
-                </div>
-              ) : null,
+            {Object.entries(veteranDisplay).map(
+              ([label, value]) =>
+                value ? (
+                  <div
+                    key={label}
+                    className="review-row vads-u-display--flex vads-u-justify-content--space-between vads-u-padding-y--1 vads-u-width--full"
+                  >
+                    <dt className="vads-u-font-weight--normal">{label}</dt>
+                    <dd className="vads-u-font-weight--bold">{value}</dd>
+                  </div>
+                ) : null,
             )}
           </dl>
         </div>

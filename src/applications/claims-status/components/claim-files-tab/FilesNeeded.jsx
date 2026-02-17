@@ -63,10 +63,11 @@ export default function FilesNeeded({ claimId, item, previousPage = null }) {
       <span className="alert-description">{getItemDescription()}</span>
       <div className="link-action-container">
         <VaLinkAction
-          aria-label={`About this request for ${
-            item.friendlyName || item.displayName
+          aria-label={`About this request for ${item.friendlyName ||
+            item.displayName}`}
+          href={`/track-claims/your-claims/${claimId}/needed-from-you/${
+            item.id
           }`}
-          href={`/track-claims/your-claims/${claimId}/needed-from-you/${item.id}`}
           onClick={e => {
             // Prevent full page reload, use React Router instead
             e.preventDefault();

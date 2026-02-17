@@ -14,12 +14,12 @@ export const sortOptions = {
 };
 
 export const searchAreaOptions = {
-  5: '5 miles',
-  10: '10 miles',
-  25: '25 miles',
-  50: '50 miles',
-  100: '100 miles',
-  200: '200 miles',
+  '5': '5 miles',
+  '10': '10 miles',
+  '25': '25 miles',
+  '50': '50 miles',
+  '100': '100 miles',
+  '200': '200 miles',
   'Show all': 'Show all',
 };
 

@@ -36,15 +36,20 @@ const RxBreadcrumbs = () => {
     onRouteChange,
   });
 
-  useEffect(() => {
-    setBreadcrumbs(createBreadcrumbs(location, currentPage));
-  }, [location, currentPage]);
+  useEffect(
+    () => {
+      setBreadcrumbs(createBreadcrumbs(location, currentPage));
+    },
+    [location, currentPage],
+  );
 
   let content = null;
 
   // Build the back URL with station_number if present (required for v2 API)
   const detailsBackUrl = stationNumber
-    ? `${medicationsUrls.PRESCRIPTION_DETAILS}/${prescriptionId}?${STATION_NUMBER_PARAM}=${stationNumber}`
+    ? `${
+        medicationsUrls.PRESCRIPTION_DETAILS
+      }/${prescriptionId}?${STATION_NUMBER_PARAM}=${stationNumber}`
     : `${medicationsUrls.PRESCRIPTION_DETAILS}/${prescriptionId}`;
 
   if (

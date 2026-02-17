@@ -1,5 +1,7 @@
 export const fillSharedAddressAndContinue = () => {
-  cy.get('va-radio-option').eq(1).click();
+  cy.get('va-radio-option')
+    .eq(1)
+    .click();
   cy.clickFormContinue();
 };
 

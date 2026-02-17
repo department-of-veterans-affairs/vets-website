@@ -38,20 +38,23 @@ const ApplicantMailingAddressLoggedIn = ({
     }
   }, []);
 
-  useEffect(() => {
-    if (editState) {
-      const [lastEdited, returnState] = editState.split(',');
-      if (returnState === 'updated' || returnState === 'form-only') {
-        setTimeout(() => {
-          const target = `#updated-${lastEdited}`;
-          scrollTo('topContentElement');
-          focusElement(target);
-        }, 100);
+  useEffect(
+    () => {
+      if (editState) {
+        const [lastEdited, returnState] = editState.split(',');
+        if (returnState === 'updated' || returnState === 'form-only') {
+          setTimeout(() => {
+            const target = `#updated-${lastEdited}`;
+            scrollTo('topContentElement');
+            focusElement(target);
+          }, 100);
+        }
+        // Clear the return state after showing the alert
+        clearReturnState();
       }
-      // Clear the return state after showing the alert
-      clearReturnState();
-    }
-  }, [editState]);
+    },
+    [editState],
+  );
 
   const showSuccessAlert = (id, text) => {
     if (!editState) return null;

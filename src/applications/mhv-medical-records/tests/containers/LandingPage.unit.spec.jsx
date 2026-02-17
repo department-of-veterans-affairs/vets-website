@@ -460,7 +460,7 @@ describe('Landing Page', () => {
           vamcEhrData: {
             data: {
               ehrDataByVhaId: {
-                516: {
+                '516': {
                   vhaId: '516',
                   vamcFacilityName:
                     'C.W. Bill Young Department of Veterans Affairs Medical Center',

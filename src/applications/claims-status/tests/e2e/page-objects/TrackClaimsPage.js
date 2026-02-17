@@ -283,7 +283,9 @@ class TrackClaimsPage {
     cy.get('.submit-files-button')
       .click()
       .then(() => {
-        cy.get('va-file-input').shadow().find('#file-input-error-alert');
+        cy.get('va-file-input')
+          .shadow()
+          .find('#file-input-error-alert');
         cy.injectAxeThenAxeCheck();
       });
     cy.get('va-file-input')
@@ -386,7 +388,10 @@ class TrackClaimsPage {
       .shadow()
       .find('input[type="checkbox"]')
       .check({ force: true });
-    cy.get('va-button.submit-files-button').shadow().find('button').click();
+    cy.get('va-button.submit-files-button')
+      .shadow()
+      .find('button')
+      .click();
     cy.wait('@documents');
     cy.get('va-alert h2').should('contain', 'We have your evidence');
   }

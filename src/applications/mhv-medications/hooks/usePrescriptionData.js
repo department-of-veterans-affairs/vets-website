@@ -19,8 +19,10 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
   const stationNumber = searchParams.get(STATION_NUMBER_PARAM);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
 
-  const [cachedPrescriptionAvailable, setCachedPrescriptionAvailable] =
-    useState(true);
+  const [
+    cachedPrescriptionAvailable,
+    setCachedPrescriptionAvailable,
+  ] = useState(true);
   const [prescription, setPrescription] = useState(null);
   const [prescriptionApiError, setPrescriptionApiError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -58,47 +60,52 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
   };
 
   // Fetch individual prescription when needed
-  const {
-    data,
-    error,
-    isLoading: queryLoading,
-  } = getPrescriptionById.useQuery(prescriptionByIdParams, {
-    skip: cachedPrescriptionAvailable || shouldSkipDueToMissingStationNumber,
-  });
+  const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
+    prescriptionByIdParams,
+    {
+      skip: cachedPrescriptionAvailable || shouldSkipDueToMissingStationNumber,
+    },
+  );
 
   // Handle prescription data from either source
-  useEffect(() => {
-    if (cachedPrescriptionAvailable && cachedPrescription?.prescriptionId) {
-      setPrescription(cachedPrescription);
-      setIsLoading(false);
-    } else if (!queryLoading) {
-      if (error) {
-        setCachedPrescriptionAvailable(false);
-        setPrescriptionApiError(error);
+  useEffect(
+    () => {
+      if (cachedPrescriptionAvailable && cachedPrescription?.prescriptionId) {
+        setPrescription(cachedPrescription);
         setIsLoading(false);
-      } else if (data) {
-        setPrescription(data);
-        setIsLoading(false);
+      } else if (!queryLoading) {
+        if (error) {
+          setCachedPrescriptionAvailable(false);
+          setPrescriptionApiError(error);
+          setIsLoading(false);
+        } else if (data) {
+          setPrescription(data);
+          setIsLoading(false);
+        }
       }
-    }
-  }, [
-    cachedPrescription,
-    data,
-    error,
-    queryLoading,
-    cachedPrescriptionAvailable,
-  ]);
+    },
+    [
+      cachedPrescription,
+      data,
+      error,
+      queryLoading,
+      cachedPrescriptionAvailable,
+    ],
+  );
 
   // Determine when to fetch individual prescription
-  useEffect(() => {
-    if (
-      cachedPrescriptionAvailable &&
-      !cachedPrescription?.prescriptionId &&
-      !queryLoading
-    ) {
-      setCachedPrescriptionAvailable(false);
-    }
-  }, [cachedPrescription, queryLoading, cachedPrescriptionAvailable]);
+  useEffect(
+    () => {
+      if (
+        cachedPrescriptionAvailable &&
+        !cachedPrescription?.prescriptionId &&
+        !queryLoading
+      ) {
+        setCachedPrescriptionAvailable(false);
+      }
+    },
+    [cachedPrescription, queryLoading, cachedPrescriptionAvailable],
+  );
 
   return {
     prescription,

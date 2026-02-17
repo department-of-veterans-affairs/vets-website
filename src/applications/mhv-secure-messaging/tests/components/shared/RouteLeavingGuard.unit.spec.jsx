@@ -189,7 +189,10 @@ describe('RouteLeavingGuard component', () => {
       const screen = setup({}, { saveError, savedDraft: true });
 
       const confirmButton = screen.container.querySelector(
-        `va-button[text="${ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.confirmButtonText}"]`,
+        `va-button[text="${
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+            .confirmButtonText
+        }"]`,
       );
       fireEvent.click(confirmButton);
 
@@ -228,7 +231,9 @@ describe('RouteLeavingGuard component', () => {
       );
 
       const cancelButton = screen.container.querySelector(
-        `va-button[text="${ErrorMessages.ComposeForm.CONT_SAVING_DRAFT.cancelButtonText}"]`,
+        `va-button[text="${
+          ErrorMessages.ComposeForm.CONT_SAVING_DRAFT.cancelButtonText
+        }"]`,
       );
       fireEvent.click(cancelButton);
 
@@ -246,7 +251,9 @@ describe('RouteLeavingGuard component', () => {
       );
 
       const cancelButton = screen.container.querySelector(
-        `va-button[text="${ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES.cancelButtonText}"]`,
+        `va-button[text="${
+          ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES.cancelButtonText
+        }"]`,
       );
       fireEvent.click(cancelButton);
 
@@ -362,7 +369,10 @@ describe('RouteLeavingGuard component', () => {
       const screen = setup({}, { saveError, savedDraft: true });
 
       const confirmButton = screen.container.querySelector(
-        `va-button[text="${ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.confirmButtonText}"]`,
+        `va-button[text="${
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+            .confirmButtonText
+        }"]`,
       );
       expect(confirmButton.getAttribute('data-dd-action-name')).to.equal(
         "Save draft without attachments button - Can't save with attachments modal",
@@ -397,7 +407,10 @@ describe('RouteLeavingGuard component', () => {
       const screen = setup({}, { saveError, savedDraft: true });
 
       const cancelButton = screen.container.querySelector(
-        `va-button[text="${ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.cancelButtonText}"]`,
+        `va-button[text="${
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+            .cancelButtonText
+        }"]`,
       );
       expect(cancelButton.getAttribute('data-dd-action-name')).to.equal(
         "Edit draft button - Can't save with attachments modal",

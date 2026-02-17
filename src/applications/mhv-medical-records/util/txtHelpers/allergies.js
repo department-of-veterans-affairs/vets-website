@@ -10,20 +10,20 @@ allergies and reactions (including any reactions to vaccines), download your all
 Showing ${records?.length} records from newest to oldest
 
 ${(records ?? [])
-  .map(
-    record => `
+    .map(
+      record => `
 ${record.name}
 ${txtLineDotted}
 Date entered: ${record.date}
 Signs and symptoms: ${(record.reaction ?? [])
-      .map(reaction => `${reaction}`)
-      .join(', ')}
+        .map(reaction => `${reaction}`)
+        .join(', ')}
 Type of allergy: ${record.type}
 Location: ${record.location}
 Observed or historical: ${record.observedOrReported}
 Provider notes: ${record.notes}
 `,
-  )
-  .join('')}
+    )
+    .join('')}
 `;
 };

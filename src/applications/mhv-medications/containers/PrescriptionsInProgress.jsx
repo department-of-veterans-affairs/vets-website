@@ -8,8 +8,11 @@ import useFetchPrescriptionsInProgress from '../hooks/PrescriptionsInProgress/us
 import { pageType } from '../util/dataDogConstants';
 
 const PrescriptionsInProgress = () => {
-  const { prescriptions, prescriptionsApiError, isLoading } =
-    useFetchPrescriptionsInProgress();
+  const {
+    prescriptions,
+    prescriptionsApiError,
+    isLoading,
+  } = useFetchPrescriptionsInProgress();
 
   const renderContent = () => {
     if (isLoading) {

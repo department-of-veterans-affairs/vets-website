@@ -25,8 +25,9 @@ const getTrackedItemText = item => {
 const generateDocsFiled = docsFiled => {
   return docsFiled.flatMap(document => {
     if (document.id && document.status) {
-      const requestTypeDisplayName =
-        TrackedItem.getTrackedItemDisplayFromSupportingDocument(document);
+      const requestTypeDisplayName = TrackedItem.getTrackedItemDisplayFromSupportingDocument(
+        document,
+      );
       const requestTypeText =
         document.status === 'NO_LONGER_REQUIRED'
           ? `We received this file for a closed evidence request: ${requestTypeDisplayName}`

@@ -93,40 +93,43 @@ export const formatFormTitle = (title = '') =>
     .replace(/\bva\b/gi, 'VA')
     .replace(/ez/gi, 'EZ');
 
-export const recordDashboardClick =
-  (product, actionType = 'view-link') =>
-  () => {
-    recordEvent({
-      event: 'dashboard-navigation',
-      'dashboard-action': actionType,
-      'dashboard-product': product,
-    });
-  };
+export const recordDashboardClick = (
+  product,
+  actionType = 'view-link',
+) => () => {
+  recordEvent({
+    event: 'dashboard-navigation',
+    'dashboard-action': actionType,
+    'dashboard-product': product,
+  });
+};
 
-export const renderWidgetDowntimeNotification =
-  (appName, sectionTitle) => (downtime, children) => {
-    if (downtime.status === 'down') {
-      const startTime = parseISO(downtime.startTime);
-      const endTime = parseISO(downtime.endTime);
-      return (
-        <div>
-          <h2>{sectionTitle}</h2>
-          <va-alert status="warning" isVisible>
-            <h4 className="usa-alert-heading">
-              {appName} is down for maintenance
-            </h4>
-            <div>
-              We’re making some updates to our {appName.toLowerCase()} tool.
-              We’re sorry it’s not working right now and hope to be finished by{' '}
-              {format(startTime, 'MMMM do')}, {format(endTime, 'p')}. Please
-              check back soon.
-            </div>
-          </va-alert>
-        </div>
-      );
-    }
-    return children;
-  };
+export const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
+  downtime,
+  children,
+) => {
+  if (downtime.status === 'down') {
+    const startTime = parseISO(downtime.startTime);
+    const endTime = parseISO(downtime.endTime);
+    return (
+      <div>
+        <h2>{sectionTitle}</h2>
+        <va-alert status="warning" isVisible>
+          <h4 className="usa-alert-heading">
+            {appName} is down for maintenance
+          </h4>
+          <div>
+            We’re making some updates to our {appName.toLowerCase()} tool. We’re
+            sorry it’s not working right now and hope to be finished by{' '}
+            {format(startTime, 'MMMM do')}, {format(endTime, 'p')}. Please check
+            back soon.
+          </div>
+        </va-alert>
+      </div>
+    );
+  }
+  return children;
+};
 
 // sort by parsing the date string into a date object
 export const sortStatementsByDate = statements => {

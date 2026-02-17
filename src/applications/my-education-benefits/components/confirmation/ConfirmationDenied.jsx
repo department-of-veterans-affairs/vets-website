@@ -14,13 +14,16 @@ const ConfirmationDenied = ({
   userEmail,
   userFirstName,
 }) => {
-  useEffect(() => {
-    sendConfirmation({
-      claimStatus: 'DENIED',
-      email: userEmail,
-      firstName: userFirstName,
-    });
-  }, [sendConfirmation, userEmail, userFirstName]);
+  useEffect(
+    () => {
+      sendConfirmation({
+        claimStatus: 'DENIED',
+        email: userEmail,
+        firstName: userFirstName,
+      });
+    },
+    [sendConfirmation, userEmail, userFirstName],
+  );
 
   if (confirmationLoading) {
     return <LoadingIndicator message="Sending confirmation email..." />;

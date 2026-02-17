@@ -76,341 +76,364 @@ export const App = ({
     };
   }, []);
 
-  useEffect(() => {
-    if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
-      return;
-    }
-
-    // Only fetch personal and contact info once a benefit is chosen
-    if (formData?.chosenBenefit) {
-      // Fetch personal and contact info if not already fetched, or if the benefit has changed
-      if (
-        !fetchedPersonalInfo ||
-        !fetchedContactInfo ||
-        formData?.chosenBenefit !== previousChosenBenefit.current
-      ) {
-        setFetchedPersonalInfo(true);
-        setFetchedContactInfo(true);
-        getPersonalInfo(formData?.chosenBenefit); // Fetch based on chosen benefit
-
-        // Update previousChosenBenefit to the current chosenBenefit
-        previousChosenBenefit.current = formData?.chosenBenefit;
+  useEffect(
+    () => {
+      if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
+        return;
       }
 
-      // If claimantId is missing in formData, update it with claimantInfo
-      if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
+      // Only fetch personal and contact info once a benefit is chosen
+      if (formData?.chosenBenefit) {
+        // Fetch personal and contact info if not already fetched, or if the benefit has changed
+        if (
+          !fetchedPersonalInfo ||
+          !fetchedContactInfo ||
+          formData?.chosenBenefit !== previousChosenBenefit.current
+        ) {
+          setFetchedPersonalInfo(true);
+          setFetchedContactInfo(true);
+          getPersonalInfo(formData?.chosenBenefit); // Fetch based on chosen benefit
+
+          // Update previousChosenBenefit to the current chosenBenefit
+          previousChosenBenefit.current = formData?.chosenBenefit;
+        }
+
+        // If claimantId is missing in formData, update it with claimantInfo
+        if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
+          setFormData({
+            ...formData,
+            ...claimantInfo,
+          });
+        }
+      }
+      // If claimantId is missing and claimantInfo is available, update formData
+      else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
           ...claimantInfo,
         });
       }
-    }
-    // If claimantId is missing and claimantInfo is available, update formData
-    else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
-      setFormData({
-        ...formData,
-        ...claimantInfo,
+    },
+    [
+      claimantInfo,
+      featureTogglesLoaded,
+      fetchedContactInfo,
+      fetchedPersonalInfo,
+      formData,
+      getPersonalInfo,
+      isLOA3,
+      isLoggedIn,
+      setFormData,
+      formData?.chosenBenefit,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
+        return;
+      }
+
+      const { toursOfDuty } = formData;
+      const updatedToursOfDuty = toursOfDuty?.map(tour => {
+        const tourToCheck = tour;
+        if (
+          (tourToCheck?.dateRange?.to && new Date(tourToCheck?.dateRange?.to)) >
+            new Date() ||
+          tourToCheck?.dateRange?.to === '' ||
+          tourToCheck?.dateRange?.to === null ||
+          tourToCheck.dateRange.to === 'Invalid date'
+        ) {
+          tourToCheck.serviceCharacter = 'Not Applicable';
+          tourToCheck.separationReason = 'Not Applicable';
+        }
+        return tourToCheck;
       });
-    }
-  }, [
-    claimantInfo,
-    featureTogglesLoaded,
-    fetchedContactInfo,
-    fetchedPersonalInfo,
-    formData,
-    getPersonalInfo,
-    isLOA3,
-    isLoggedIn,
-    setFormData,
-    formData?.chosenBenefit,
-  ]);
 
-  useEffect(() => {
-    if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
-      return;
-    }
+      if (!duplicateArrays(updatedToursOfDuty, toursOfDuty)) {
+        setFormData({
+          ...formData,
+          toursOfDuty: updatedToursOfDuty,
+        });
+      }
+    },
+    [
+      featureTogglesLoaded,
+      firstName,
+      formData,
+      isLOA3,
+      isLoggedIn,
+      setFormData,
+    ],
+  );
 
-    const { toursOfDuty } = formData;
-    const updatedToursOfDuty = toursOfDuty?.map(tour => {
-      const tourToCheck = tour;
+  useEffect(
+    () => {
+      if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
+        return;
+      }
+
+      // Update eligibleForActiveDutyKicker in formData
       if (
-        (tourToCheck?.dateRange?.to && new Date(tourToCheck?.dateRange?.to)) >
-          new Date() ||
-        tourToCheck?.dateRange?.to === '' ||
-        tourToCheck?.dateRange?.to === null ||
-        tourToCheck.dateRange.to === 'Invalid date'
+        eligibleForActiveDutyKicker !== formData.eligibleForActiveDutyKicker
       ) {
-        tourToCheck.serviceCharacter = 'Not Applicable';
-        tourToCheck.separationReason = 'Not Applicable';
+        setFormData({
+          ...formData,
+          eligibleForActiveDutyKicker,
+        });
       }
-      return tourToCheck;
-    });
 
-    if (!duplicateArrays(updatedToursOfDuty, toursOfDuty)) {
-      setFormData({
-        ...formData,
-        toursOfDuty: updatedToursOfDuty,
-      });
-    }
-  }, [
-    featureTogglesLoaded,
-    firstName,
-    formData,
-    isLOA3,
-    isLoggedIn,
-    setFormData,
-  ]);
+      // Update eligibleForReserveKicker in formData
+      if (eligibleForReserveKicker !== formData.eligibleForReserveKicker) {
+        setFormData({
+          ...formData,
+          eligibleForReserveKicker,
+        });
+      }
+    },
+    [
+      eligibleForActiveDutyKicker,
+      eligibleForReserveKicker,
+      formData,
+      isLoggedIn,
+      featureTogglesLoaded,
+      isLOA3,
+      setFormData,
+    ],
+  );
 
-  useEffect(() => {
-    if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
-      return;
-    }
+  useEffect(
+    () => {
+      if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
+        return;
+      }
 
-    // Update eligibleForActiveDutyKicker in formData
-    if (eligibleForActiveDutyKicker !== formData.eligibleForActiveDutyKicker) {
-      setFormData({
-        ...formData,
-        eligibleForActiveDutyKicker,
-      });
-    }
+      // Skip fetching exclusion periods if mebKickerNotificationEnabled is true
+      if (mebKickerNotificationEnabled) {
+        return;
+      }
 
-    // Update eligibleForReserveKicker in formData
-    if (eligibleForReserveKicker !== formData.eligibleForReserveKicker) {
-      setFormData({
-        ...formData,
-        eligibleForReserveKicker,
-      });
-    }
-  }, [
-    eligibleForActiveDutyKicker,
-    eligibleForReserveKicker,
-    formData,
-    isLoggedIn,
-    featureTogglesLoaded,
-    isLOA3,
-    setFormData,
-  ]);
+      // The firstName check ensures that exclusion periods only get called after we have obtained claimant info
+      // We need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
+      if (firstName && !fetchedExclusionPeriods && formData?.chosenBenefit) {
+        const chosenBenefit = formData?.chosenBenefit || 'Chapter33';
 
-  useEffect(() => {
-    if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
-      return;
-    }
+        setFetchedExclusionPeriods(true);
+        getExclusionPeriods(chosenBenefit);
+      }
 
-    // Skip fetching exclusion periods if mebKickerNotificationEnabled is true
-    if (mebKickerNotificationEnabled) {
-      return;
-    }
+      if (
+        firstName &&
+        !fetchedExclusionPeriods &&
+        formData?.chosenBenefit &&
+        formData?.chosenBenefit !== previousChosenBenefit.current
+      ) {
+        const chosenBenefit = formData?.chosenBenefit || 'Chapter33';
 
-    // The firstName check ensures that exclusion periods only get called after we have obtained claimant info
-    // We need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
-    if (firstName && !fetchedExclusionPeriods && formData?.chosenBenefit) {
-      const chosenBenefit = formData?.chosenBenefit || 'Chapter33';
+        previousChosenBenefit.current = formData?.chosenBenefit;
+        setFetchedExclusionPeriods(true);
+        getExclusionPeriods(chosenBenefit);
+      }
 
-      setFetchedExclusionPeriods(true);
-      getExclusionPeriods(chosenBenefit);
-    }
+      if (exclusionPeriods && !formData.exclusionPeriods) {
+        const updatedFormData = {
+          ...formData,
+          exclusionPeriods, // Update form data with fetched exclusion periods
+        };
+        setFormData(updatedFormData);
+      }
+    },
+    [
+      fetchedExclusionPeriods,
+      firstName,
+      getExclusionPeriods,
+      exclusionPeriods,
+      formData,
+      setFormData,
+      isLoggedIn,
+      featureTogglesLoaded,
+      isLOA3,
+      mebKickerNotificationEnabled,
+    ],
+  );
 
-    if (
-      firstName &&
-      !fetchedExclusionPeriods &&
-      formData?.chosenBenefit &&
-      formData?.chosenBenefit !== previousChosenBenefit.current
-    ) {
-      const chosenBenefit = formData?.chosenBenefit || 'Chapter33';
+  useEffect(
+    () => {
+      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
+        setFormData({
+          ...formData,
+          mebDpoAddressOptionEnabled,
+        });
+      }
+      if (
+        mebKickerNotificationEnabled !== formData.mebKickerNotificationEnabled
+      ) {
+        setFormData({
+          ...formData,
+          mebKickerNotificationEnabled,
+        });
+      }
 
-      previousChosenBenefit.current = formData?.chosenBenefit;
-      setFetchedExclusionPeriods(true);
-      getExclusionPeriods(chosenBenefit);
-    }
+      if (
+        showMeb1990EZMaintenanceAlert !== formData.showMeb1990EZMaintenanceAlert
+      ) {
+        setFormData({
+          ...formData,
+          showMeb1990EZMaintenanceAlert,
+        });
+      }
+      if (
+        showMeb1990EZR6MaintenanceMessage !==
+        formData.showMeb1990EZR6MaintenanceMessage
+      ) {
+        setFormData({
+          ...formData,
+          showMeb1990EZR6MaintenanceMessage,
+        });
+      }
 
-    if (exclusionPeriods && !formData.exclusionPeriods) {
-      const updatedFormData = {
-        ...formData,
-        exclusionPeriods, // Update form data with fetched exclusion periods
-      };
-      setFormData(updatedFormData);
-    }
-  }, [
-    fetchedExclusionPeriods,
-    firstName,
-    getExclusionPeriods,
-    exclusionPeriods,
-    formData,
-    setFormData,
-    isLoggedIn,
-    featureTogglesLoaded,
-    isLOA3,
-    mebKickerNotificationEnabled,
-  ]);
+      if (
+        formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
+        formData?.email?.email &&
+        !formData?.duplicateEmail &&
+        !formData?.duplicatePhone &&
+        formData?.showMebEnhancements08
+      ) {
+        getDuplicateContactInfo(
+          [{ value: formData?.email?.email, dupe: '' }],
+          [
+            {
+              value: formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
+              dupe: '',
+            },
+          ],
+        );
+      }
 
-  useEffect(() => {
-    if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
-      setFormData({
-        ...formData,
-        mebDpoAddressOptionEnabled,
-      });
-    }
-    if (
-      mebKickerNotificationEnabled !== formData.mebKickerNotificationEnabled
-    ) {
-      setFormData({
-        ...formData,
-        mebKickerNotificationEnabled,
-      });
-    }
+      if (
+        duplicateEmail?.length > 0 &&
+        duplicateEmail !== formData?.duplicateEmail
+      ) {
+        setFormData({
+          ...formData,
+          duplicateEmail,
+        });
+      }
 
-    if (
-      showMeb1990EZMaintenanceAlert !== formData.showMeb1990EZMaintenanceAlert
-    ) {
-      setFormData({
-        ...formData,
-        showMeb1990EZMaintenanceAlert,
-      });
-    }
-    if (
-      showMeb1990EZR6MaintenanceMessage !==
-      formData.showMeb1990EZR6MaintenanceMessage
-    ) {
-      setFormData({
-        ...formData,
-        showMeb1990EZR6MaintenanceMessage,
-      });
-    }
+      if (
+        duplicatePhone?.length > 0 &&
+        duplicatePhone !== formData?.duplicatePhone
+      ) {
+        setFormData({
+          ...formData,
+          duplicatePhone,
+        });
+      }
 
-    if (
-      formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
-      formData?.email?.email &&
-      !formData?.duplicateEmail &&
-      !formData?.duplicatePhone &&
-      formData?.showMebEnhancements08
-    ) {
-      getDuplicateContactInfo(
-        [{ value: formData?.email?.email, dupe: '' }],
-        [
-          {
-            value: formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
-            dupe: '',
+      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
+        setFormData({
+          ...formData,
+          showMebEnhancements06,
+        });
+      }
+
+      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
+        setFormData({
+          ...formData,
+          showMebEnhancements08,
+        });
+      }
+
+      if (meb160630Automation !== formData?.meb160630Automation) {
+        setFormData({
+          ...formData,
+          meb160630Automation,
+        });
+      }
+
+      if (meb1995Reroute !== formData?.meb1995Reroute) {
+        setFormData({
+          ...formData,
+          meb1995Reroute,
+        });
+      }
+
+      if (showMebEnhancements09 !== formData.showMebEnhancements09) {
+        setFormData({
+          ...formData,
+          showMebEnhancements09,
+        });
+      }
+
+      if (
+        mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
+      ) {
+        setFormData({
+          ...formData,
+          mebBankInfoConfirmationField,
+        });
+      }
+
+      if (isLOA3 !== formData.isLOA3) {
+        setFormData({
+          ...formData,
+          isLOA3,
+        });
+      }
+    },
+    [
+      formData,
+      isLOA3,
+      setFormData,
+      showMeb1990EZMaintenanceAlert,
+      showMeb1990EZR6MaintenanceMessage,
+      showMebEnhancements06,
+      showMebEnhancements08,
+      showMebEnhancements09,
+      getDuplicateContactInfo,
+      duplicateEmail,
+      duplicatePhone,
+      meb160630Automation,
+      meb1995Reroute,
+      mebDpoAddressOptionEnabled,
+      mebKickerNotificationEnabled,
+      mebBankInfoConfirmationField,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (email && email !== formData?.email?.email) {
+        setFormData({
+          ...formData,
+          email: {
+            ...formData?.email,
+            email,
           },
-        ],
-      );
-    }
-
-    if (
-      duplicateEmail?.length > 0 &&
-      duplicateEmail !== formData?.duplicateEmail
-    ) {
-      setFormData({
-        ...formData,
-        duplicateEmail,
-      });
-    }
-
-    if (
-      duplicatePhone?.length > 0 &&
-      duplicatePhone !== formData?.duplicatePhone
-    ) {
-      setFormData({
-        ...formData,
-        duplicatePhone,
-      });
-    }
-
-    if (showMebEnhancements06 !== formData.showMebEnhancements06) {
-      setFormData({
-        ...formData,
-        showMebEnhancements06,
-      });
-    }
-
-    if (showMebEnhancements08 !== formData.showMebEnhancements08) {
-      setFormData({
-        ...formData,
-        showMebEnhancements08,
-      });
-    }
-
-    if (meb160630Automation !== formData?.meb160630Automation) {
-      setFormData({
-        ...formData,
-        meb160630Automation,
-      });
-    }
-
-    if (meb1995Reroute !== formData?.meb1995Reroute) {
-      setFormData({
-        ...formData,
-        meb1995Reroute,
-      });
-    }
-
-    if (showMebEnhancements09 !== formData.showMebEnhancements09) {
-      setFormData({
-        ...formData,
-        showMebEnhancements09,
-      });
-    }
-
-    if (
-      mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
-    ) {
-      setFormData({
-        ...formData,
-        mebBankInfoConfirmationField,
-      });
-    }
-
-    if (isLOA3 !== formData.isLOA3) {
-      setFormData({
-        ...formData,
-        isLOA3,
-      });
-    }
-  }, [
-    formData,
-    isLOA3,
-    setFormData,
-    showMeb1990EZMaintenanceAlert,
-    showMeb1990EZR6MaintenanceMessage,
-    showMebEnhancements06,
-    showMebEnhancements08,
-    showMebEnhancements09,
-    getDuplicateContactInfo,
-    duplicateEmail,
-    duplicatePhone,
-    meb160630Automation,
-    meb1995Reroute,
-    mebDpoAddressOptionEnabled,
-    mebKickerNotificationEnabled,
-    mebBankInfoConfirmationField,
-  ]);
-
-  useEffect(() => {
-    if (email && email !== formData?.email?.email) {
-      setFormData({
-        ...formData,
-        email: {
-          ...formData?.email,
-          email,
-        },
-      });
-    }
-  }, [email, formData, setFormData]);
-
-  useEffect(() => {
-    const fetchAndUpdateDirectDepositInfo = async () => {
-      if (isLoggedIn && isLOA3 && !fetchedDirectDeposit) {
-        await getDirectDeposit();
-        setFetchedDirectDeposit(true);
+        });
       }
-    };
-    fetchAndUpdateDirectDepositInfo();
-  }, [
-    isLoggedIn,
-    isLOA3,
-    fetchedDirectDeposit,
-    getDirectDeposit,
-    setFetchedDirectDeposit,
-  ]);
+    },
+    [email, formData, setFormData],
+  );
+
+  useEffect(
+    () => {
+      const fetchAndUpdateDirectDepositInfo = async () => {
+        if (isLoggedIn && isLOA3 && !fetchedDirectDeposit) {
+          await getDirectDeposit();
+          setFetchedDirectDeposit(true);
+        }
+      };
+      fetchAndUpdateDirectDepositInfo();
+    },
+    [
+      isLoggedIn,
+      isLOA3,
+      fetchedDirectDeposit,
+      getDirectDeposit,
+      setFetchedDirectDeposit,
+    ],
+  );
 
   return (
     <>
@@ -503,4 +526,7 @@ const mapDispatchToProps = {
   getDuplicateContactInfo: fetchDuplicateContactInfo,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

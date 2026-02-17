@@ -150,8 +150,8 @@ export function transform(formConfig, form) {
       return formData;
     }
 
-    const newDisabilitiesWithRequiredDescriptions =
-      formData.newDisabilities.map(disability => {
+    const newDisabilitiesWithRequiredDescriptions = formData.newDisabilities.map(
+      disability => {
         const disabilityDescription = {};
 
         switch (disability.cause) {
@@ -177,7 +177,8 @@ export function transform(formConfig, form) {
         }
 
         return { ...disability, ...disabilityDescription };
-      });
+      },
+    );
 
     return _.set(
       'newDisabilities',

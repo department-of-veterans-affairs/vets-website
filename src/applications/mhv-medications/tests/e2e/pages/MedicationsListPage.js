@@ -152,14 +152,13 @@ class MedicationsListPage {
       });
   };
 
-  verifyZeroAllergiesOnNetworkResponseForUserWithNoAllergies =
-    totalAllergies => {
-      cy.get('@allergies')
-        .its('response')
-        .then(res => {
-          expect(res.body.total).to.eq(totalAllergies);
-        });
-    };
+  verifyZeroAllergiesOnNetworkResponseForUserWithNoAllergies = totalAllergies => {
+    cy.get('@allergies')
+      .its('response')
+      .then(res => {
+        expect(res.body.total).to.eq(totalAllergies);
+      });
+  };
 
   clickPrintThisPageOfTheListButtonOnListPage = () => {
     cy.get('[data-testid="download-print-button"]').should('exist');
@@ -397,7 +396,9 @@ class MedicationsListPage {
   clickRefillButton = () => {
     cy.intercept(
       'PATCH',
-      `/my_health/v1/prescriptions/${prescription.data.attributes.prescriptionId}/refill`,
+      `/my_health/v1/prescriptions/${
+        prescription.data.attributes.prescriptionId
+      }/refill`,
       prescription,
     );
     cy.get(
@@ -669,7 +670,9 @@ class MedicationsListPage {
       .its('response')
       .then(res => {
         expect(res.body.data[14].attributes).to.include({
-          expirationDate: `${expiredPrescription.data.attributes.expirationDate}`,
+          expirationDate: `${
+            expiredPrescription.data.attributes.expirationDate
+          }`,
         });
       });
   };
@@ -884,7 +887,9 @@ class MedicationsListPage {
   };
 
   clickBackToTopButtonOnListPage = () => {
-    cy.get('[data-testid="rx-back-to-top"]').should('exist').and('be.visible');
+    cy.get('[data-testid="rx-back-to-top"]')
+      .should('exist')
+      .and('be.visible');
     cy.get('[data-testid="rx-back-to-top"]', { includeShadowDom: true })
       .find('[class ="text"]')
       .click({ force: true });
@@ -1111,7 +1116,9 @@ class MedicationsListPage {
   };
 
   verifyRenewalModalIsOpen = () => {
-    cy.get('va-modal').should('exist').and('have.attr', 'visible', 'true');
+    cy.get('va-modal')
+      .should('exist')
+      .and('have.attr', 'visible', 'true');
 
     cy.get('va-modal')
       .shadow()
@@ -1124,11 +1131,18 @@ class MedicationsListPage {
   };
 
   closeRenewalModalWithBackButton = () => {
-    cy.get('va-modal').shadow().find('button').contains('Back').click();
+    cy.get('va-modal')
+      .shadow()
+      .find('button')
+      .contains('Back')
+      .click();
   };
 
   closeRenewalModalWithCloseButton = () => {
-    cy.get('va-modal').shadow().find('button[aria-label="Close"]').click();
+    cy.get('va-modal')
+      .shadow()
+      .find('button[aria-label="Close"]')
+      .click();
   };
 
   verifyRenewalModalContent = () => {
@@ -1151,7 +1165,9 @@ class MedicationsListPage {
 
   // Request Refill Button on Card methods
   verifyRequestRefillButtonExistsOnCard = () => {
-    cy.get('[data-testid="refill-request-button"]').first().should('exist');
+    cy.get('[data-testid="refill-request-button"]')
+      .first()
+      .should('exist');
   };
 
   verifyRequestRefillButtonNotExistsOnCard = () => {
@@ -1167,7 +1183,9 @@ class MedicationsListPage {
   };
 
   clickRequestRefillButtonOnFirstCard = () => {
-    cy.get('[data-testid="refill-request-button"]').first().click();
+    cy.get('[data-testid="refill-request-button"]')
+      .first()
+      .click();
   };
 
   verifyRequestRefillButtonHasAriaDescribedBy = () => {

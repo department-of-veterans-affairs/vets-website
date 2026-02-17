@@ -20,7 +20,9 @@ const form21686C = (pathname = null) => {
   return {
     rootUrl: manifest.rootUrl,
     urlPrefix: `/submit-va-form-${formNumber.toLowerCase()}/`,
-    submitUrl: `${environment.API_URL}/accredited_representative_portal/v0/submit_representative_form`,
+    submitUrl: `${
+      environment.API_URL
+    }/accredited_representative_portal/v0/submit_representative_form`,
     dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
     disableSave: true,
     trackingPrefix,

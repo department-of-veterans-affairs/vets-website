@@ -31,20 +31,26 @@ const useNewestAlertFocus = visibleAlerts => {
 
   // Calculate newest alert synchronously during render (not in useEffect)
   // This ensures newestAlert is available immediately for ref assignment
-  const newestAlert = useMemo(() => {
-    const prevAlerts = prevAlertsRef.current;
-    return visibleAlerts.find(alert => !prevAlerts.has(alert)) || null;
-  }, [visibleAlerts]);
+  const newestAlert = useMemo(
+    () => {
+      const prevAlerts = prevAlertsRef.current;
+      return visibleAlerts.find(alert => !prevAlerts.has(alert)) || null;
+    },
+    [visibleAlerts],
+  );
 
   // Update previous alerts AFTER render via effect
-  useEffect(() => {
-    // Reset focus flag when newest alert changes
-    if (newestAlert) {
-      hasFocusedRef.current = false;
-    }
-    // Update previous alerts for next comparison
-    prevAlertsRef.current = new Set(visibleAlerts);
-  }, [visibleAlerts, newestAlert]);
+  useEffect(
+    () => {
+      // Reset focus flag when newest alert changes
+      if (newestAlert) {
+        hasFocusedRef.current = false;
+      }
+      // Update previous alerts for next comparison
+      prevAlertsRef.current = new Set(visibleAlerts);
+    },
+    [visibleAlerts, newestAlert],
+  );
 
   // Cleanup timeout on unmount to prevent focusing detached nodes
   useEffect(() => {

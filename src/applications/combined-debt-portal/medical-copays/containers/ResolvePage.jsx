@@ -43,44 +43,47 @@ const ResolvePage = ({ match }) => {
     : allStatements?.find(({ id }) => id === selectedId);
   const TITLE = `Resolve your copay bill`;
 
-  const copayAttributes = useMemo(() => {
-    if (!selectedCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
+  const copayAttributes = useMemo(
+    () => {
+      if (!selectedCopay?.id) return DEFAULT_COPAY_ATTRIBUTES;
 
-    /* eslint-disable no-nested-ternary */
-    return shouldShowVHAPaymentHistory
-      ? {
-          TITLE: `Copay bill for ${selectedCopay?.attributes.facility.name}`,
-          FACILITY_NAME:
-            selectedCopay.attributes.facility.name ||
-            getMedicalCenterNameByID(selectedCopay.attributes.facility.name),
-          INVOICE_DATE: selectedCopay?.attributes?.invoiceDate,
-          IS_CURRENT_DATE: verifyCurrentBalance(
-            selectedCopay?.attributes.invoiceDate,
-          ),
-          AMOUNT_DUE: `${selectedCopay?.attributes.principalBalance}`,
-          ACCOUNT_NUMBER: selectedCopay?.attributes.accountNumber,
-          CHARGES: selectedCopay?.attributes?.lineItems ?? [],
-        }
-      : {
-          TITLE: `Copay bill for ${selectedCopay?.station.facilityName}`,
-          FACILITY_NAME:
-            selectedCopay.station.facilityName ||
-            getMedicalCenterNameByID(selectedCopay.station.facilityNum),
-          INVOICE_DATE: selectedCopay?.pSStatementDateOutput,
-          IS_CURRENT_DATE: verifyCurrentBalance(
-            selectedCopay?.pSStatementDateOutput,
-          ),
-          AMOUNT_DUE:
-            selectedCopay?.pHAmtDueOutput?.replace(/&nbsp;/g, '') || '',
-          ACCOUNT_NUMBER:
-            selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber,
-          CHARGES:
-            selectedCopay?.details?.filter(
-              charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
-            ) ?? [],
-        };
-    /* eslint-disable no-nested-ternary */
-  }, [selectedCopay?.id, shouldShowVHAPaymentHistory]);
+      /* eslint-disable no-nested-ternary */
+      return shouldShowVHAPaymentHistory
+        ? {
+            TITLE: `Copay bill for ${selectedCopay?.attributes.facility.name}`,
+            FACILITY_NAME:
+              selectedCopay.attributes.facility.name ||
+              getMedicalCenterNameByID(selectedCopay.attributes.facility.name),
+            INVOICE_DATE: selectedCopay?.attributes?.invoiceDate,
+            IS_CURRENT_DATE: verifyCurrentBalance(
+              selectedCopay?.attributes.invoiceDate,
+            ),
+            AMOUNT_DUE: `${selectedCopay?.attributes.principalBalance}`,
+            ACCOUNT_NUMBER: selectedCopay?.attributes.accountNumber,
+            CHARGES: selectedCopay?.attributes?.lineItems ?? [],
+          }
+        : {
+            TITLE: `Copay bill for ${selectedCopay?.station.facilityName}`,
+            FACILITY_NAME:
+              selectedCopay.station.facilityName ||
+              getMedicalCenterNameByID(selectedCopay.station.facilityNum),
+            INVOICE_DATE: selectedCopay?.pSStatementDateOutput,
+            IS_CURRENT_DATE: verifyCurrentBalance(
+              selectedCopay?.pSStatementDateOutput,
+            ),
+            AMOUNT_DUE:
+              selectedCopay?.pHAmtDueOutput?.replace(/&nbsp;/g, '') || '',
+            ACCOUNT_NUMBER:
+              selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber,
+            CHARGES:
+              selectedCopay?.details?.filter(
+                charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
+              ) ?? [],
+          };
+      /* eslint-disable no-nested-ternary */
+    },
+    [selectedCopay?.id, shouldShowVHAPaymentHistory],
+  );
 
   // get veteran name
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
@@ -90,25 +93,28 @@ const ResolvePage = ({ match }) => {
 
   useHeaderPageTitle(TITLE);
 
-  useEffect(() => {
-    if (!isAnyElementFocused()) setPageFocus();
+  useEffect(
+    () => {
+      if (!isAnyElementFocused()) setPageFocus();
 
-    const shouldFetch =
-      shouldShowVHAPaymentHistory &&
-      selectedId &&
-      !isCopayDetailLoading &&
-      copayDetail?.id !== selectedId;
+      const shouldFetch =
+        shouldShowVHAPaymentHistory &&
+        selectedId &&
+        !isCopayDetailLoading &&
+        copayDetail?.id !== selectedId;
 
-    if (shouldFetch) {
-      dispatch(getCopayDetailStatement(`${selectedId}`));
-    }
-  }, [
-    selectedId,
-    dispatch,
-    copayDetail?.id,
-    isCopayDetailLoading,
-    shouldShowVHAPaymentHistory,
-  ]);
+      if (shouldFetch) {
+        dispatch(getCopayDetailStatement(`${selectedId}`));
+      }
+    },
+    [
+      selectedId,
+      dispatch,
+      copayDetail?.id,
+      isCopayDetailLoading,
+      shouldShowVHAPaymentHistory,
+    ],
+  );
 
   if (isCopayDetailLoading) {
     return <VaLoadingIndicator message="Loading features..." />;

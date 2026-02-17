@@ -56,7 +56,10 @@ describe('Claim letters', () => {
         cy.findAllByRole('listitem').should('have.length', 10);
       });
 
-      cy.get('va-pagination').shadow().findByText('Next').click();
+      cy.get('va-pagination')
+        .shadow()
+        .findByText('Next')
+        .click();
 
       cy.get('#claim-letter-list').within(() => {
         cy.findAllByRole('listitem').should('have.length', 5);
@@ -122,9 +125,13 @@ describe('Claim letters', () => {
     });
 
     it('should download file when link is clicked', () => {
-      cy.get('va-link').first().click();
+      cy.get('va-link')
+        .first()
+        .click();
 
-      cy.wait('@downloadFile').its('response.statusCode').should('eq', 200);
+      cy.wait('@downloadFile')
+        .its('response.statusCode')
+        .should('eq', 200);
 
       cy.readFile(`${Cypress.config('downloadsFolder')}/${filename}`).should(
         'contain',
@@ -137,7 +144,9 @@ describe('Claim letters', () => {
     it('should download file with keyboard navigation', () => {
       cy.tabToElement('va-link').realPress('Enter');
 
-      cy.wait('@downloadFile').its('response.statusCode').should('eq', 200);
+      cy.wait('@downloadFile')
+        .its('response.statusCode')
+        .should('eq', 200);
 
       cy.readFile(`${Cypress.config('downloadsFolder')}/${filename}`).should(
         'contain',

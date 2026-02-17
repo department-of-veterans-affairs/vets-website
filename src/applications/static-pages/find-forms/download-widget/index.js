@@ -64,8 +64,11 @@ const onDownloadLinkClick = async (event, reduxStore) => {
 
   if (form?.attributes) {
     const { formName, url } = form.attributes;
-    const { formPdfIsValid, formPdfUrlIsValid, networkRequestError } =
-      await checkFormValidity(form, 'Form Detail');
+    const {
+      formPdfIsValid,
+      formPdfUrlIsValid,
+      networkRequestError,
+    } = await checkFormValidity(form, 'Form Detail');
 
     const pdfDownloadButton = document.getElementById(link.id);
     let pdfDownloadParent = null;

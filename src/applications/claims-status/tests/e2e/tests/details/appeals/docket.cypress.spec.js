@@ -221,7 +221,8 @@ describe('Docket', () => {
       });
 
       cy.findByRole('heading', {
-        name: 'If I switch to a different appeal option, will I lose my place in line?',
+        name:
+          'If I switch to a different appeal option, will I lose my place in line?',
         level: 3,
       });
 
@@ -258,7 +259,8 @@ describe('Docket', () => {
       // AOD content should show instead of default content with ETA
       cy.findByText(/Your appeal is Advanced on the Docket/);
       cy.findByRole('heading', {
-        name: 'If I switch to a different appeal option, will I lose my place in line?',
+        name:
+          'If I switch to a different appeal option, will I lose my place in line?',
         level: 3,
       }).should('not.exist');
 

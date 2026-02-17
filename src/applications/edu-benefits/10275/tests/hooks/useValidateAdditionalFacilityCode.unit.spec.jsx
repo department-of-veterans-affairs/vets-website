@@ -11,8 +11,11 @@ import { useValidateAdditionalFacilityCode } from '../../hooks/useValidateAdditi
 const mockStore = configureStore([]);
 
 const TestHook = ({ formData, index }) => {
-  const { loader, institutionName, institutionAddress } =
-    useValidateAdditionalFacilityCode(formData, index);
+  const {
+    loader,
+    institutionName,
+    institutionAddress,
+  } = useValidateAdditionalFacilityCode(formData, index);
   return (
     <div>
       <div data-testid="loader">{loader ? 'loading' : 'idle'}</div>

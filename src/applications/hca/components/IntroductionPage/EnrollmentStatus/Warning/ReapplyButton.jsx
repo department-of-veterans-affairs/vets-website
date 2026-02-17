@@ -18,10 +18,9 @@ const APPLY_STATUSES = new Set([
 const ReapplyButton = ({ route: { formConfig, pageList } }) => {
   const statusCode = useSelector(state => state.hcaEnrollmentStatus.statusCode);
 
-  const hasApplyStatus = useMemo(
-    () => APPLY_STATUSES.has(statusCode),
-    [statusCode],
-  );
+  const hasApplyStatus = useMemo(() => APPLY_STATUSES.has(statusCode), [
+    statusCode,
+  ]);
 
   const sipProps = useMemo(
     () => ({

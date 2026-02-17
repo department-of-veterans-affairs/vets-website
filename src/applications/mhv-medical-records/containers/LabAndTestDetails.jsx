@@ -45,36 +45,42 @@ const LabAndTestDetails = () => {
   const { isAcceleratingLabsAndTests, isLoading } = useAcceleratedData();
   useTrackAction(statsdFrontEndActions.LABS_AND_TESTS_DETAILS);
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearLabsAndTestDetails());
-    };
-  }, [dispatch]);
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearLabsAndTestDetails());
+      };
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    if (labId && !isLoading && !labAndTestDetails?.notFound) {
-      dispatch(
-        getLabsAndTestsDetails(
-          labId,
-          labAndTestList,
-          isAcceleratingLabsAndTests,
-        ),
-      );
-    }
-    if (labAndTestDetails?.notFound) {
-      history.push('/labs-and-tests');
-    }
-    updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE);
-  }, [
-    labId,
-    labAndTestList,
-    dispatch,
-    isAcceleratingLabsAndTests,
-    isLoading,
-    labAndTestDetails?.id,
-    labAndTestDetails?.notFound,
-    history,
-  ]);
+  useEffect(
+    () => {
+      if (labId && !isLoading && !labAndTestDetails?.notFound) {
+        dispatch(
+          getLabsAndTestsDetails(
+            labId,
+            labAndTestList,
+            isAcceleratingLabsAndTests,
+          ),
+        );
+      }
+      if (labAndTestDetails?.notFound) {
+        history.push('/labs-and-tests');
+      }
+      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE);
+    },
+    [
+      labId,
+      labAndTestList,
+      dispatch,
+      isAcceleratingLabsAndTests,
+      isLoading,
+      labAndTestDetails?.id,
+      labAndTestDetails?.notFound,
+      history,
+    ],
+  );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 

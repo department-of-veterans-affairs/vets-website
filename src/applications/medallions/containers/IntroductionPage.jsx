@@ -104,7 +104,9 @@ export const IntroductionPage = props => {
   }, []);
 
   const onSignInButtonClick = () => {
-    const redirectLocation = `${formConfig.rootUrl}${formConfig.urlPrefix}introduction?next=loginModal&oauth=true`;
+    const redirectLocation = `${formConfig.rootUrl}${
+      formConfig.urlPrefix
+    }introduction?next=loginModal&oauth=true`;
 
     window.location = redirectLocation;
   };

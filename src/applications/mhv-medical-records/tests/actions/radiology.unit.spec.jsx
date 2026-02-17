@@ -111,15 +111,13 @@ describe('updateRadiologyDateRange', () => {
     const option = '6';
     const fromDate = '2025-05-13';
     const toDate = '2025-11-13';
-    return updateRadiologyDateRange(
-      option,
-      fromDate,
-      toDate,
-    )(dispatch).then(() => {
-      expect(dispatch.calledOnce).to.be.true;
-      const action = dispatch.firstCall.args[0];
-      expect(action.type).to.equal(Actions.Radiology.SET_DATE_RANGE);
-      expect(action.payload).to.deep.equal({ option, fromDate, toDate });
-    });
+    return updateRadiologyDateRange(option, fromDate, toDate)(dispatch).then(
+      () => {
+        expect(dispatch.calledOnce).to.be.true;
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(Actions.Radiology.SET_DATE_RANGE);
+        expect(action.payload).to.deep.equal({ option, fromDate, toDate });
+      },
+    );
   });
 });

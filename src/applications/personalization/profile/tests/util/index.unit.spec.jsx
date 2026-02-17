@@ -37,10 +37,9 @@ describe('profile utils', () => {
     const invalidRoutingNumberDataObject = createEventDataObjectWithError(
       'direct.deposit.routing.number.invalid',
     );
-    const paymentRestrictionIndicatorsDataObject =
-      createEventDataObjectWithError(
-        'direct.deposit.restriction.indicators.present',
-      );
+    const paymentRestrictionIndicatorsDataObject = createEventDataObjectWithError(
+      'direct.deposit.restriction.indicators.present',
+    );
     it('returns the correct data when passed nothing', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject();
       expect(eventDataObject).to.deep.equal(defaultDataObject);

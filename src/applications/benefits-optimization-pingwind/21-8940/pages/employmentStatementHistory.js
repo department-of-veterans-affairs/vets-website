@@ -57,7 +57,8 @@ const summaryPage = {
     [employmentAppliedFields.hasTriedEmployment]: arrayBuilderYesNoUI(options, {
       title:
         'Have you tried to obtain employment since you became too disabled to work?',
-      hint: 'If you have tried to get a job since you became too disabled to work, you’ll need to add at least one employment application record. You can add up to three.',
+      hint:
+        'If you have tried to get a job since you became too disabled to work, you’ll need to add at least one employment application record. You can add up to three.',
       errorMessages: {
         required:
           'Please select "Yes" if you have at least one employment application record to add.',

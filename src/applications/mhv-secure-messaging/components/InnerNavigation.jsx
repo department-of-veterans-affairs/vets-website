@@ -8,9 +8,12 @@ const InnerNavigation = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const handleLinkClick = useCallback(() => {
-    dispatch(clearFolder());
-  }, [dispatch]);
+  const handleLinkClick = useCallback(
+    () => {
+      dispatch(clearFolder());
+    },
+    [dispatch],
+  );
 
   const handleActiveLinksStyle = path => {
     let isInnerActive = false;

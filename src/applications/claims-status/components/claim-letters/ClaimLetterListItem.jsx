@@ -36,7 +36,9 @@ const downloadHandler = docType => {
   recordEvent({
     event: 'claim-letters-download',
     'gtm.element.textContent': 'Download Claim Letter (PDF)',
-    'gtm.elementUrl': `${environment.API_URL}/v0/claim_letters/[${docType}]:id.pdf`,
+    'gtm.elementUrl': `${
+      environment.API_URL
+    }/v0/claim_letters/[${docType}]:id.pdf`,
     'letter-type': docTypeToGAEventName[docType],
   });
 };

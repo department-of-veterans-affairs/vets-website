@@ -24,11 +24,14 @@ export const IntroductionPage = props => {
     focusElement('h1');
   }, []);
 
-  useEffect(() => {
-    if (formData.userLoggedIn !== userLoggedIn) {
-      dispatch(setData({ ...formData, userLoggedIn }));
-    }
-  }, [userLoggedIn, formData, dispatch]);
+  useEffect(
+    () => {
+      if (formData.userLoggedIn !== userLoggedIn) {
+        dispatch(setData({ ...formData, userLoggedIn }));
+      }
+    },
+    [userLoggedIn, formData, dispatch],
+  );
 
   return (
     <article className="schemaform-intro">

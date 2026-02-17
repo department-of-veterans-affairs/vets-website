@@ -29,7 +29,10 @@ const healthServices = {
 
 Cypress.Commands.add('verifyOptions', () => {
   // Va facilities have services available
-  cy.get('#facility-type-dropdown').shadow().find('select').select('VA health');
+  cy.get('#facility-type-dropdown')
+    .shadow()
+    .find('select')
+    .select('VA health');
   cy.get('.service-type-dropdown-tablet')
     .find('select')
     .should('not.have.attr', 'disabled');
@@ -205,7 +208,9 @@ describe('Facility VA search', () => {
 
     // Note - we're using mock data so the names don't match.
     cy.get('h1').contains('Austin VA Clinic');
-    cy.get('.p1').first().should('exist');
+    cy.get('.p1')
+      .first()
+      .should('exist');
     cy.get('.facility-phone-group').should('exist');
     cy.get('va-link')
       .eq(1)

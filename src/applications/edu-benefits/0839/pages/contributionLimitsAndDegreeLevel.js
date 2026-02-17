@@ -52,7 +52,8 @@ const uiSchema = {
   maximumStudents: {
     ...numberUI({
       title: 'Enter the maximum number of students',
-      hint: 'Enter the total number of students eligible for this contribution. Maximum limit is 99,998.',
+      hint:
+        'Enter the total number of students eligible for this contribution. Maximum limit is 99,998.',
       max: 99998,
       errorMessages: {
         required: 'Enter the maximum number of students',

@@ -49,48 +49,49 @@ const testConfig = createTestConfig(
         });
       },
 
-      'current-spouse-marriage-history/:index/location-where-marriage-started':
-        ({ afterHook }) => {
-          afterHook(() => {
-            cy.get('@testData').then(data => {
-              if (data.currentMarriageInformation?.outsideUsa) {
-                cy.get('va-checkbox[name="root_startLocation_outsideUsa"]')
-                  .shadow()
-                  .find('input[type="checkbox"]')
-                  .check({ force: true });
-              }
+      'current-spouse-marriage-history/:index/location-where-marriage-started': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            if (data.currentMarriageInformation?.outsideUsa) {
+              cy.get('va-checkbox[name="root_startLocation_outsideUsa"]')
+                .shadow()
+                .find('input[type="checkbox"]')
+                .check({ force: true });
+            }
 
-              const location = data.currentMarriageInformation?.location;
+            const location = data.currentMarriageInformation?.location;
 
-              if (location?.city) {
-                fillStandardTextInput(
-                  'startLocation_location_city',
-                  location.city,
-                );
-              }
+            if (location?.city) {
+              fillStandardTextInput(
+                'startLocation_location_city',
+                location.city,
+              );
+            }
 
-              if (location?.state) {
-                fillSelectWebComponent(
-                  'startLocation_location_state',
-                  location.state,
-                );
-              }
+            if (location?.state) {
+              fillSelectWebComponent(
+                'startLocation_location_state',
+                location.state,
+              );
+            }
 
-              if (location?.country) {
-                cy.get(
-                  'va-select[name="root_startLocation_location_country"]',
-                ).should('be.visible');
-                fillSelectWebComponent(
-                  'startLocation_location_country',
-                  location.country,
-                );
-              }
+            if (location?.country) {
+              cy.get(
+                'va-select[name="root_startLocation_location_country"]',
+              ).should('be.visible');
+              fillSelectWebComponent(
+                'startLocation_location_country',
+                location.country,
+              );
+            }
 
-              cy.injectAxeThenAxeCheck();
-              cy.clickFormContinue();
-            });
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
           });
-        },
+        });
+      },
 
       'current-marriage-information/date-of-marriage': ({ afterHook }) => {
         afterHook(() => {
@@ -513,22 +514,23 @@ const testConfig = createTestConfig(
         });
       },
 
-      '686-stepchild-no-longer-part-of-household/:index/date-child-left-household':
-        ({ afterHook }) => {
-          afterHook(() => {
-            cy.get('@testData').then(data => {
-              const stepchild = data.stepChildren?.[0];
-              if (stepchild.dateStepchildLeftHousehold) {
-                fillDateWebComponentPattern(
-                  'dateStepchildLeftHousehold',
-                  stepchild.dateStepchildLeftHousehold,
-                );
-              }
-              cy.injectAxeThenAxeCheck();
-              cy.clickFormContinue();
-            });
+      '686-stepchild-no-longer-part-of-household/:index/date-child-left-household': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const stepchild = data.stepChildren?.[0];
+            if (stepchild.dateStepchildLeftHousehold) {
+              fillDateWebComponentPattern(
+                'dateStepchildLeftHousehold',
+                stepchild.dateStepchildLeftHousehold,
+              );
+            }
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
           });
-        },
+        });
+      },
 
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {

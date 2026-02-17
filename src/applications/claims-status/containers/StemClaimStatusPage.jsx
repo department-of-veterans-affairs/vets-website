@@ -33,8 +33,11 @@ class StemClaimStatusPage extends React.Component {
         />
       );
     } else if (claimAvailable(claim)) {
-      const { deniedAt, isEnrolledStem, isPursuingTeachingCert } =
-        claim.attributes;
+      const {
+        deniedAt,
+        isEnrolledStem,
+        isPursuingTeachingCert,
+      } = claim.attributes;
 
       content = (
         <StemDeniedDetails
@@ -97,7 +100,10 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(StemClaimStatusPage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(StemClaimStatusPage),
 );
 
 StemClaimStatusPage.propTypes = {

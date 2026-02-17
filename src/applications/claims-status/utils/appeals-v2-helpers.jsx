@@ -1436,7 +1436,8 @@ export function getNextEvents(appeal) {
             description: makeDecisionReviewContent({
               isAma: appeal.type === APPEAL_TYPES.appeal,
               aoj: appeal.attributes.aoj,
-              prop: 'Once the 90 day time period for submitting new evidence is closed, your case will be ready to go to a Veterans Law Judge. Before it’s reviewed by a judge, some Veterans Service Organizations will ask for time to make additional arguments in support of your case.',
+              prop:
+                'Once the 90 day time period for submitting new evidence is closed, your case will be ready to go to a Veterans Law Judge. Before it’s reviewed by a judge, some Veterans Service Organizations will ask for time to make additional arguments in support of your case.',
             }),
           },
         ],
@@ -1451,7 +1452,8 @@ export function getNextEvents(appeal) {
             description: makeDecisionReviewContent({
               isAma: appeal.type === APPEAL_TYPES.appeal,
               aoj: appeal.attributes.aoj,
-              prop: 'Once your representative has completed their review, your case will be ready to go to a Veterans Law Judge.',
+              prop:
+                'Once your representative has completed their review, your case will be ready to go to a Veterans Law Judge.',
             }),
           },
         ],

@@ -19,8 +19,10 @@ const formData = {
 };
 
 describe('686 add child additional information part two', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.addChild.pages.addChildAdditionalInformationPartTwo;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.addChild.pages.addChildAdditionalInformationPartTwo;
 
   it('should render', () => {
     const form = render(
@@ -41,8 +43,9 @@ describe('686 add child additional information part two', () => {
   });
 
   describe('updateSchema functionality', () => {
-    const { updateSchema } =
-      uiSchema.childrenToAdd.items.incomeInLastYear['ui:options'];
+    const { updateSchema } = uiSchema.childrenToAdd.items.incomeInLastYear[
+      'ui:options'
+    ];
     const baseSchema =
       schema.properties.childrenToAdd.items.properties.incomeInLastYear;
 
@@ -79,8 +82,9 @@ describe('686 add child additional information part two', () => {
   });
 
   describe('updateUiSchema functionality', () => {
-    const { updateUiSchema } =
-      uiSchema.childrenToAdd.items.incomeInLastYear['ui:options'];
+    const { updateUiSchema } = uiSchema.childrenToAdd.items.incomeInLastYear[
+      'ui:options'
+    ];
 
     it('should remove hint when vaDependentsNetWorthAndPension is true', () => {
       const testData = {

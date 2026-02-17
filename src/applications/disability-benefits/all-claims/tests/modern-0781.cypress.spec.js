@@ -27,14 +27,20 @@ function goNextState() {
 const optionalEventPages = {
   'mental-health-form-0781/events-summary': ({ afterHook }) => {
     afterHook(() => {
-      cy.get('button.usa-button').contains('Add an event').should('exist');
+      cy.get('button.usa-button')
+        .contains('Add an event')
+        .should('exist');
       goNextState();
 
       if (nextState === 'START') {
         cy.get('va-card').should('have.length', 0);
-        cy.get('button.usa-button').contains('Add an event').click();
+        cy.get('button.usa-button')
+          .contains('Add an event')
+          .click();
       } else if (nextState === 'FINISH') {
-        cy.get('button.usa-button').contains('Add an event').should('exist');
+        cy.get('button.usa-button')
+          .contains('Add an event')
+          .should('exist');
 
         cy.get('va-card').should('have.length', 1);
 

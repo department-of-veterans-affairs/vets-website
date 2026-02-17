@@ -28,48 +28,54 @@ export const useFocusManagement = ({
   const isFirstLoad = useRef(true);
 
   // Focus h1 or scroll to previous location on load
-  useEffect(() => {
-    if (!isLoading) {
-      if (
-        isReturningFromDetailsPage &&
-        scrollLocation?.current?.scrollIntoView
-      ) {
-        scrollLocation?.current?.scrollIntoView();
-      } else if (!showingFocusedAlert) {
-        // Focus the h1 element on initial load, unless an alert that manages its own focus is showing.
-        focusElement(document.querySelector('h1'));
+  useEffect(
+    () => {
+      if (!isLoading) {
+        if (
+          isReturningFromDetailsPage &&
+          scrollLocation?.current?.scrollIntoView
+        ) {
+          scrollLocation?.current?.scrollIntoView();
+        } else if (!showingFocusedAlert) {
+          // Focus the h1 element on initial load, unless an alert that manages its own focus is showing.
+          focusElement(document.querySelector('h1'));
+        }
       }
-    }
-  }, [
-    showingFocusedAlert,
-    isLoading,
-    isReturningFromDetailsPage,
-    scrollLocation,
-  ]);
+    },
+    [
+      showingFocusedAlert,
+      isLoading,
+      isReturningFromDetailsPage,
+      scrollLocation,
+    ],
+  );
 
   // Focus "no matches" message or scroll to results after filter/sort
-  useEffect(() => {
-    if (isLoading) {
-      return;
-    }
-
-    if (noFilterMatches) {
-      focusElement(document.getElementById('no-matches-msg'));
-      return;
-    }
-
-    if (isFirstLoad.current) {
-      isFirstLoad.current = false;
-    } else {
-      const showingRx = document.getElementById('showingRx');
-      if (showingRx) {
-        focusElement(showingRx);
-        showingRx.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'nearest',
-        });
+  useEffect(
+    () => {
+      if (isLoading) {
+        return;
       }
-    }
-  }, [filteredList, isLoading, noFilterMatches]);
+
+      if (noFilterMatches) {
+        focusElement(document.getElementById('no-matches-msg'));
+        return;
+      }
+
+      if (isFirstLoad.current) {
+        isFirstLoad.current = false;
+      } else {
+        const showingRx = document.getElementById('showingRx');
+        if (showingRx) {
+          focusElement(showingRx);
+          showingRx.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest',
+          });
+        }
+      }
+    },
+    [filteredList, isLoading, noFilterMatches],
+  );
 };

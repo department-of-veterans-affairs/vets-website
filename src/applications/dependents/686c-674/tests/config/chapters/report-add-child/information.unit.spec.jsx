@@ -32,8 +32,10 @@ const noSsnFormData = {
 };
 
 describe('686 add child information', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.addChild.pages.addChildInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.addChild.pages.addChildInformation;
 
   it('should render', () => {
     const form = render(
@@ -54,8 +56,10 @@ describe('686 add child information', () => {
   });
 });
 describe('686 add child information with no SSN', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.addChild.pages.addChildInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.addChild.pages.addChildInformation;
 
   it('should render', () => {
     const form = render(

@@ -50,11 +50,15 @@ describe('Global search', () => {
 
       cy.get(s.ERROR_ALERT_BOX).should('not.exist');
 
-      cy.get(s.PAGINATION).should('exist').scrollIntoView();
+      cy.get(s.PAGINATION)
+        .should('exist')
+        .scrollIntoView();
 
       cy.get(s.PAGINATION).within(() => {
         cy.get('nav li').should('have.length', 3); // includes Next link
-        cy.get('nav li').eq(1).click();
+        cy.get('nav li')
+          .eq(1)
+          .click();
       });
     });
 
@@ -189,7 +193,9 @@ describe('Global search', () => {
         'https://benefits.va.gov/benefits/',
       );
 
-      cy.get(s.SEARCH_INPUT).focus().clear();
+      cy.get(s.SEARCH_INPUT)
+        .focus()
+        .clear();
       cy.get(s.SEARCH_INPUT).type('military');
       cy.get(s.SEARCH_BUTTON).click();
 

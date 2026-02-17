@@ -83,10 +83,10 @@ const LabsAndTests = () => {
     [showImagesDomain],
   );
 
-  const labsAndTests = useMemo(
-    () => filterOutRadiology(labsAndTestsRaw),
-    [filterOutRadiology, labsAndTestsRaw],
-  );
+  const labsAndTests = useMemo(() => filterOutRadiology(labsAndTestsRaw), [
+    filterOutRadiology,
+    labsAndTestsRaw,
+  ]);
 
   // Also filter updatedRecordList so NewRecordsIndicator comparison is accurate
   const filteredUpdatedList = useMemo(
@@ -112,9 +112,12 @@ const LabsAndTests = () => {
   );
   useTrackAction(statsdFrontEndActions.LABS_AND_TESTS_LIST);
 
-  useEffect(() => {
-    dispatch(fetchImageRequestStatus());
-  }, [dispatch]);
+  useEffect(
+    () => {
+      dispatch(fetchImageRequestStatus());
+    },
+    [dispatch],
+  );
 
   const { isLoading, isAcceleratingLabsAndTests } = useAcceleratedData();
 
@@ -153,9 +156,12 @@ const LabsAndTests = () => {
     reloadRecordsAction: reloadRecords,
   });
 
-  useEffect(() => {
-    updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
-  }, [dispatch]);
+  useEffect(
+    () => {
+      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   useFocusAfterLoading({
     isLoading: isLoading || listState !== loadStates.FETCHED,

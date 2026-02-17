@@ -45,7 +45,8 @@ describe('526 utils shared page', () => {
     const out = utils.createRatedDisabilityDescriptions(fullData);
     expect(out).to.deep.equal({
       Knee: 'Current rating: 20%',
-      Back: "Current rating: 50% (You're already at the maximum for this rated disability.)",
+      Back:
+        "Current rating: 50% (You're already at the maximum for this rated disability.)",
     });
   });
 

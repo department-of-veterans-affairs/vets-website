@@ -89,7 +89,9 @@ class MedicationsDetailsPage {
   clickMedicationHistoryAndDetailsLink = prescriptionDetails => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions/${prescriptionDetails.data.attributes.prescriptionId}`,
+      `/my_health/v1/prescriptions/${
+        prescriptionDetails.data.attributes.prescriptionId
+      }`,
       prescriptionDetails,
     ).as('prescription_details');
     cy.get('a[data-testid="medications-history-details-link"]')
@@ -100,7 +102,9 @@ class MedicationsDetailsPage {
   clickMedicationDetailsLink = (prescriptionDetails, cardNumber) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions/${prescriptionDetails.data.attributes.prescriptionId}`,
+      `/my_health/v1/prescriptions/${
+        prescriptionDetails.data.attributes.prescriptionId
+      }`,
       prescriptionDetails,
     ).as('prescriptionDetails');
     cy.get(
@@ -317,7 +321,9 @@ class MedicationsDetailsPage {
   };
 
   verifyFirstRefillHeaderTextOnDetailsPage = () => {
-    cy.get('[data-testid="rx-refill"]').first().should('contain', 'Refill');
+    cy.get('[data-testid="rx-refill"]')
+      .first()
+      .should('contain', 'Refill');
   };
 
   verifyFillDateFieldOnDetailsPage = () => {
@@ -675,7 +681,9 @@ class MedicationsDetailsPage {
   };
 
   verifyQuantityNotAvailableOnDetailsPage = text => {
-    cy.get('[data-testid="rx-quantity"]').first().should('have.text', text);
+    cy.get('[data-testid="rx-quantity"]')
+      .first()
+      .should('have.text', text);
   };
 
   verifyPrescribedOnDateNoAvailableOnDetailsPage = text => {
@@ -802,22 +810,23 @@ class MedicationsDetailsPage {
 
     return {
       ...data,
-      data: data.data.map(item =>
-        item.attributes.prescriptionName === prescriptionName
-          ? {
-              ...item,
-              attributes: {
-                ...item.attributes,
-                tracking: true,
-                trackingList: [
-                  {
-                    ...item.attributes.trackingList[0],
-                    completeDateTime: formattedDate,
-                  },
-                ],
-              },
-            }
-          : item,
+      data: data.data.map(
+        item =>
+          item.attributes.prescriptionName === prescriptionName
+            ? {
+                ...item,
+                attributes: {
+                  ...item.attributes,
+                  tracking: true,
+                  trackingList: [
+                    {
+                      ...item.attributes.trackingList[0],
+                      completeDateTime: formattedDate,
+                    },
+                  ],
+                },
+              }
+            : item,
       ),
     };
   }
@@ -839,39 +848,39 @@ class MedicationsDetailsPage {
 
     return {
       ...data,
-      data: data.data.map(item =>
-        item.attributes.prescriptionName === prescriptionName
-          ? {
-              ...item,
-              attributes: {
-                ...item.attributes,
-                refillDate:
-                  item.attributes.refillDate != null
-                    ? refillDate.toISOString()
-                    : null,
-                tracking: true, // Ensure tracking is enabled
-                trackingList: item.attributes.trackingList?.length
-                  ? [
-                      {
-                        ...item.attributes.trackingList[0],
-                        completeDateTime: completeDate.toISOString(), // Fixed completeDateTime
-                      },
-                    ]
-                  : [],
-              },
-            }
-          : item,
+      data: data.data.map(
+        item =>
+          item.attributes.prescriptionName === prescriptionName
+            ? {
+                ...item,
+                attributes: {
+                  ...item.attributes,
+                  refillDate:
+                    item.attributes.refillDate != null
+                      ? refillDate.toISOString()
+                      : null,
+                  tracking: true, // Ensure tracking is enabled
+                  trackingList: item.attributes.trackingList?.length
+                    ? [
+                        {
+                          ...item.attributes.trackingList[0],
+                          completeDateTime: completeDate.toISOString(), // Fixed completeDateTime
+                        },
+                      ]
+                    : [],
+                },
+              }
+            : item,
       ),
     };
   };
 
-  verifyRxNumberNotVisibleOnPendingMedicationsDetailsPage =
-    PrescriptionNumber => {
-      cy.get('[data-testid="va-prescription-container"]').should(
-        'not.contain',
-        PrescriptionNumber,
-      );
-    };
+  verifyRxNumberNotVisibleOnPendingMedicationsDetailsPage = PrescriptionNumber => {
+    cy.get('[data-testid="va-prescription-container"]').should(
+      'not.contain',
+      PrescriptionNumber,
+    );
+  };
 
   verifyRefillHistorySectionNotVisibleForPendingPrescriptions = () => {
     cy.get('[data-testid="refill-History"]').should('not.exist');

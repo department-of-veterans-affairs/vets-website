@@ -346,7 +346,7 @@ describe('showBehaviorListPage', () => {
 
 describe('showBehaviorDescriptionPages', () => {
   /* All 14 behavior pages are similarly setup to show dynamically, this tests a few combinations.
-   */
+  */
   describe('when a user has selected "reassignment"', () => {
     it('should return true', () => {
       const formData = {

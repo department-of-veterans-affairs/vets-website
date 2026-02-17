@@ -667,9 +667,8 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
         },
         ...prescription.groupedMedications.map(previousPrescription => {
           return {
-            header: `Prescription number: ${
-              previousPrescription.prescriptionNumber || 'Not available'
-            }`,
+            header: `Prescription number: ${previousPrescription.prescriptionNumber ||
+              'Not available'}`,
             indent: 32,
             items: [
               {

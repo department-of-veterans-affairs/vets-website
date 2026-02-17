@@ -50,11 +50,14 @@ const PrescriptionDetailsDocumentation = () => {
 
   // Redirect to medications list if v2 API is enabled but station_number is missing
   // This handles edge cases like old bookmarks or direct URL access without station_number
-  useEffect(() => {
-    if (isCernerPilot && !stationNumber) {
-      navigate('/', { replace: true });
-    }
-  }, [isCernerPilot, stationNumber, navigate]);
+  useEffect(
+    () => {
+      if (isCernerPilot && !stationNumber) {
+        navigate('/', { replace: true });
+      }
+    },
+    [isCernerPilot, stationNumber, navigate],
+  );
 
   const { dob, userName } = useSelector(state => ({
     userName: state.user.profile.userFullName,
@@ -97,10 +100,8 @@ const PrescriptionDetailsDocumentation = () => {
   const buildMedicationInformationTxt = useCallback(
     information => {
       return (
-        `${
-          "\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.\n\n\n" +
-          `Information: ${prescription.prescriptionName}\n`
-        }${
+        `${"\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.\n\n\n" +
+          `Information: ${prescription.prescriptionName}\n`}${
           userName.first
             ? `${userName.last}, ${userName.first}`
             : userName.last || ' '
@@ -138,7 +139,8 @@ const PrescriptionDetailsDocumentation = () => {
           subject: 'Medication Information',
           headerBanner: [
             {
-              text: 'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
+              text:
+                'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
             },
             {
               text: '988',
@@ -183,17 +185,20 @@ const PrescriptionDetailsDocumentation = () => {
 
   const printPage = () => window.print();
 
-  useEffect(() => {
-    if (
-      !isLoadingDoc &&
-      !hasDocApiError &&
-      !isLoadingRx &&
-      contentRef.current
-    ) {
-      contentRef.current.innerHTML = htmlContent || '';
-    }
-    focusElement(document.querySelector('h1'));
-  }, [isLoadingDoc, isLoadingRx, hasDocApiError, htmlContent]);
+  useEffect(
+    () => {
+      if (
+        !isLoadingDoc &&
+        !hasDocApiError &&
+        !isLoadingRx &&
+        contentRef.current
+      ) {
+        contentRef.current.innerHTML = htmlContent || '';
+      }
+      focusElement(document.querySelector('h1'));
+    },
+    [isLoadingDoc, isLoadingRx, hasDocApiError, htmlContent],
+  );
 
   if (hasDocApiError || prescriptionApiError) {
     return (

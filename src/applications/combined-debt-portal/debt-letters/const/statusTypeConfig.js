@@ -1,11 +1,11 @@
 export const STATUS_TYPE_CONFIG = {
-  1: {
+  '1': {
     alertType: 'info',
     category: 'diaryCodes.statusTypes.1.category',
     links: ['details'],
     phoneSet: 'dmc',
   },
-  2: {
+  '2': {
     alertType: 'warning',
     category: 'diaryCodes.statusTypes.2.category',
     linksByView: {
@@ -13,7 +13,7 @@ export const STATUS_TYPE_CONFIG = {
       details: ['resolve'],
     },
   },
-  3: {
+  '3': {
     alertType: 'info',
     category: 'diaryCodes.statusTypes.3.category',
     linksByView: {
@@ -22,7 +22,7 @@ export const STATUS_TYPE_CONFIG = {
     },
     phoneSet: 'dmc',
   },
-  4: {
+  '4': {
     alertType: 'info',
     category: 'diaryCodes.statusTypes.4.category',
     linksByView: {
@@ -31,7 +31,7 @@ export const STATUS_TYPE_CONFIG = {
     },
     phoneSet: 'dmc',
   },
-  5: {
+  '5': {
     alertType: 'info',
     category: 'diaryCodes.statusTypes.5.category',
     linksByView: {
@@ -39,7 +39,7 @@ export const STATUS_TYPE_CONFIG = {
       details: ['makePayment'],
     },
   },
-  6: {
+  '6': {
     alertType: 'info',
     category: 'diaryCodes.statusTypes.6.category',
     linksByView: {
@@ -47,7 +47,7 @@ export const STATUS_TYPE_CONFIG = {
       details: ['makePayment'],
     },
   },
-  7: {
+  '7': {
     alertType: 'info',
     category: 'diaryCodes.statusTypes.7.category',
     linksByView: {
@@ -55,7 +55,7 @@ export const STATUS_TYPE_CONFIG = {
       details: ['makePayment'],
     },
   },
-  8: {
+  '8': {
     alertType: 'warning',
     category: 'diaryCodes.statusTypes.8.category',
     linksByView: {
@@ -63,25 +63,25 @@ export const STATUS_TYPE_CONFIG = {
       details: ['resolve'],
     },
   },
-  9: {
+  '9': {
     alertType: 'warning',
     category: 'diaryCodes.statusTypes.9.category',
     links: ['details'],
     phoneSet: 'treasury',
   },
-  10: {
+  '10': {
     alertType: 'info',
     category: 'diaryCodes.statusTypes.10.category',
     links: ['details'],
     phoneSet: 'dmc',
   },
-  11: {
+  '11': {
     alertType: 'info',
     category: 'diaryCodes.statusTypes.11.category',
     links: ['details'],
     phoneSet: 'dmc',
   },
-  12: {
+  '12': {
     alertType: 'warning',
     category: 'diaryCodes.statusTypes.12.category',
     linksByView: {

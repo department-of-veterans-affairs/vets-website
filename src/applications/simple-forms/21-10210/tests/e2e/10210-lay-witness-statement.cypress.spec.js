@@ -39,7 +39,9 @@ const testConfig = createTestConfig(
               data.witnessFullName,
             );
             selectCheckboxGroupWebComponent(data.witnessRelationshipToClaimant);
-            cy.findByText('Continue').first().click();
+            cy.findByText('Continue')
+              .first()
+              .click();
           });
         });
       },
@@ -79,7 +81,9 @@ const testConfig = createTestConfig(
               data.witnessFullName,
             );
             selectCheckboxGroupWebComponent(data.witnessRelationshipToClaimant);
-            cy.findByText('Continue').first().click();
+            cy.findByText('Continue')
+              .first()
+              .click();
           });
         });
       },

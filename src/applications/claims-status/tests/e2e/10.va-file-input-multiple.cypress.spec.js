@@ -20,9 +20,12 @@ describe('VA File Input Multiple', () => {
   };
 
   const clickSubmitButton = () => {
-    cy.get(`va-button[text="${SUBMIT_TEXT}"]`).shadow().find('button').click({
-      waitForAnimations: true,
-    });
+    cy.get(`va-button[text="${SUBMIT_TEXT}"]`)
+      .shadow()
+      .find('button')
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   const verifySubmissionBlocked = () => {
@@ -100,7 +103,9 @@ describe('VA File Input Multiple', () => {
   // Helper function for encrypted file workflow: upload + wait for password input
   const setupEncryptedFile = (fileName, fileIndex = 0) => {
     uploadEncryptedPDF(fileName, fileIndex);
-    getFileInput(fileIndex).find('va-text-input').should('be.visible');
+    getFileInput(fileIndex)
+      .find('va-text-input')
+      .should('be.visible');
   };
 
   const clickDeleteButton = (fileIndex = 0, expectedFileName) => {
@@ -370,7 +375,9 @@ describe('VA File Input Multiple', () => {
       uploadFile('regular-document.pdf');
 
       // Verify no password input appears
-      getFileInput(0).find('va-text-input').should('not.exist');
+      getFileInput(0)
+        .find('va-text-input')
+        .should('not.exist');
 
       cy.axeCheck();
     });
@@ -479,7 +486,9 @@ describe('VA File Input Multiple', () => {
 
       // Verify the new file is shown and no password input appears
       getFileInput(0).should('contain.text', 'regular-document.txt');
-      getFileInput(0).find('va-text-input').should('not.exist');
+      getFileInput(0)
+        .find('va-text-input')
+        .should('not.exist');
 
       cy.axeCheck();
     });
@@ -525,7 +534,9 @@ describe('VA File Input Multiple', () => {
 
       // Verify the file was actually replaced and password input is gone
       getFileInput(0).should('contain.text', 'regular-document.txt');
-      getFileInput(0).find('va-text-input').should('not.exist');
+      getFileInput(0)
+        .find('va-text-input')
+        .should('not.exist');
 
       clickSubmitButton();
       cy.wait('@documentsSubmission');
@@ -589,14 +600,18 @@ describe('VA File Input Multiple', () => {
       setupComponentTest();
 
       // Initially, no select should be visible
-      getFileInput(0).find('va-select').should('not.exist');
+      getFileInput(0)
+        .find('va-select')
+        .should('not.exist');
 
       // Upload a file
       uploadFile('test-document.pdf');
 
       // Verify document type select appears with correct label
       // Based on the markup, the select appears as a child appended to va-file-input
-      getFileInputElement(0).find('va-select').should('be.visible');
+      getFileInputElement(0)
+        .find('va-select')
+        .should('be.visible');
 
       // Verify select has the correct label and options
       getFileInputElement(0)
@@ -615,7 +630,9 @@ describe('VA File Input Multiple', () => {
       uploadFile('test-document.txt');
 
       // Wait for file processing to complete by checking that document type selector appears
-      getFileInputElement(0).find('va-select').should('be.visible'); // This indicates file processing is done
+      getFileInputElement(0)
+        .find('va-select')
+        .should('be.visible'); // This indicates file processing is done
 
       // Submit without selecting document type
       clickSubmitButton();
@@ -639,7 +656,9 @@ describe('VA File Input Multiple', () => {
       uploadFile('test-document.txt');
 
       // Wait for file processing to complete by checking that document type selector appears
-      getFileInputElement(0).find('va-select').should('be.visible'); // This indicates file processing is done
+      getFileInputElement(0)
+        .find('va-select')
+        .should('be.visible'); // This indicates file processing is done
 
       // Submit without selecting document type to trigger error
       clickSubmitButton();
@@ -665,7 +684,9 @@ describe('VA File Input Multiple', () => {
       uploadFile('test-document.txt');
 
       // Wait for document type selector to appear
-      getFileInputElement(0).find('va-select').should('be.visible');
+      getFileInputElement(0)
+        .find('va-select')
+        .should('be.visible');
 
       // Submit without selecting document type to trigger error
       clickSubmitButton();
@@ -994,7 +1015,10 @@ describe('VA File Input Multiple', () => {
       cy.get('va-modal').should('be.visible');
 
       // Click the X close button (aria-label contains "Close")
-      cy.get('va-modal').shadow().find('button[aria-label*="Close"]').click();
+      cy.get('va-modal')
+        .shadow()
+        .find('button[aria-label*="Close"]')
+        .click();
 
       // Verify modal is closed
       cy.get('va-modal').should('not.be.visible');
@@ -1089,7 +1113,9 @@ describe('VA File Input Multiple', () => {
         .shadow()
         .find('select')
         .should('have.value', expectedData[0].docType);
-      getFileInput(0).find('va-text-input').should('not.exist'); // No password field
+      getFileInput(0)
+        .find('va-text-input')
+        .should('not.exist'); // No password field
 
       // File 1: new-encrypted.pdf, L029, has password 'middle-password'
       getFileInput(1).should('contain.text', expectedData[1].filename);
@@ -1098,7 +1124,9 @@ describe('VA File Input Multiple', () => {
         .shadow()
         .find('select')
         .should('have.value', expectedData[1].docType);
-      getFileInput(1).find('va-text-input').should('exist'); // Password field exists
+      getFileInput(1)
+        .find('va-text-input')
+        .should('exist'); // Password field exists
       getFileInput(1)
         .find('va-text-input')
         .shadow()
@@ -1112,7 +1140,9 @@ describe('VA File Input Multiple', () => {
         .shadow()
         .find('select')
         .should('have.value', expectedData[2].docType);
-      getFileInput(2).find('va-text-input').should('not.exist'); // No password field
+      getFileInput(2)
+        .find('va-text-input')
+        .should('not.exist'); // No password field
 
       // Step 5: Capture API submissions and verify they match UI exactly
       const submittedData = [];
@@ -1179,7 +1209,9 @@ describe('VA File Input Multiple', () => {
         .shadow()
         .find('select')
         .should('have.value', expectedRemainingData[0].docType);
-      getFileInput(0).find('va-text-input').should('not.exist'); // No password field
+      getFileInput(0)
+        .find('va-text-input')
+        .should('not.exist'); // No password field
 
       // File 1: medical-records.txt, L070, no password
       getFileInput(1).should('contain.text', expectedRemainingData[1].filename);
@@ -1188,7 +1220,9 @@ describe('VA File Input Multiple', () => {
         .shadow()
         .find('select')
         .should('have.value', expectedRemainingData[1].docType);
-      getFileInput(1).find('va-text-input').should('not.exist'); // No password field
+      getFileInput(1)
+        .find('va-text-input')
+        .should('not.exist'); // No password field
 
       // Step 5: Capture API submissions and verify they match UI exactly
       const submittedData = [];

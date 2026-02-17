@@ -21,8 +21,9 @@ export const setFocus = (selector, tabIndexInclude = true) => {
 };
 
 export const clearLocationMarkers = () => {
-  const locationMarkers =
-    window.document.getElementsByClassName('mapboxgl-marker');
+  const locationMarkers = window.document.getElementsByClassName(
+    'mapboxgl-marker',
+  );
 
   Array.from(locationMarkers).forEach(marker =>
     marker.parentNode.removeChild(marker),
@@ -43,7 +44,7 @@ export const buildMarker = (
     markerElement.textContent = attrs.letter;
     markerElement.className = `i-pin-card-map pin-${attrs.letter}`;
 
-    markerElement.addEventListener('click', function () {
+    markerElement.addEventListener('click', function() {
       if (facilityLocatorMobileMapUpdate) {
         const activePin = document.getElementById('active-pin');
 

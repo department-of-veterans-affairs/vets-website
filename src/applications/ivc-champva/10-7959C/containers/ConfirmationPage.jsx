@@ -25,10 +25,11 @@ const ConfirmationPage = () => {
     () => timestamp && format(new Date(timestamp), 'MMMM d, yyyy'),
     [timestamp],
   );
-  const viewProps = useMemo(
-    () => ({ beneficiary, signee, submitDate }),
-    [beneficiary, signee, submitDate],
-  );
+  const viewProps = useMemo(() => ({ beneficiary, signee, submitDate }), [
+    beneficiary,
+    signee,
+    submitDate,
+  ]);
 
   return (
     <div className="confirmation-page vads-u-margin-bottom--2p5">

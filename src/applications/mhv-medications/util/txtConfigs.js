@@ -116,9 +116,9 @@ export const buildNonVAPrescriptionTXT = (
       )}`,
       `Documented by: ${
         prescription.providerLastName
-          ? `${prescription.providerLastName}, ${
-              prescription.providerFirstName || ''
-            }`
+          ? `${
+              prescription.providerLastName
+            }, ${prescription.providerFirstName || ''}`
           : 'Provider name not available'
       }`,
       fieldLine('Documented at this facility', prescription.facilityName),
@@ -147,7 +147,9 @@ export const buildPrescriptionsTXT = (
       'Date not available',
     );
 
-    return `Most recent prescription associated with this medication: ${newest.prescriptionNumber}, last filled on ${filledDate}`;
+    return `Most recent prescription associated with this medication: ${
+      newest.prescriptionNumber
+    }, last filled on ${filledDate}`;
   };
   const header = `${newLine()}${SEPARATOR}${newLine(3)}`;
 
@@ -322,9 +324,8 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}${newLine()}`
     const previousRxs = prescription.groupedMedications
       .map(previousRx => {
         return joinBlocks(
-          `Prescription number: ${
-            previousRx.prescriptionNumber || 'Not available'
-          }`,
+          `Prescription number: ${previousRx.prescriptionNumber ||
+            'Not available'}`,
           `Last filled: ${dateFormat(
             previousRx.sortedDispensedDate,
             DATETIME_FORMATS.longMonthDate,

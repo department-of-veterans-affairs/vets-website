@@ -11,8 +11,7 @@ describe('hca SpouseAdditionalInformation config', () => {
     title: pageTitle,
     schema,
     uiSchema,
-  } = formConfig.chapters.householdInformation.pages
-    .SpouseAdditionalInformation;
+  } = formConfig.chapters.householdInformation.pages.SpouseAdditionalInformation;
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 2;

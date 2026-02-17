@@ -126,7 +126,8 @@ export const LIVING_SITUATIONS = Object.freeze({
 export const OTHER_REASONS = Object.freeze({
   FINANCIAL_HARDSHIP:
     'I’m experiencing extreme financial hardship (such as loss of your job or sudden decrease in income).',
-  ALS: 'I have ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
+  ALS:
+    'I have ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
   TERMINAL_ILLNESS: 'I have a terminal illness.',
   VSI_SI:
     'I have a status from the Defense Department of Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI).',

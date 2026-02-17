@@ -163,10 +163,8 @@ describe('prefillTransformer', () => {
   describe('Scenario: phone numbers are missing', () => {
     it('handles undefined phone fields gracefully', () => {
       const noPhones = JSON.parse(JSON.stringify(claimantInfo));
-      noPhones.data.formData.data.attributes.claimant.contactInfo.mobilePhoneNumber =
-        undefined;
-      noPhones.data.formData.data.attributes.claimant.contactInfo.homePhoneNumber =
-        undefined;
+      noPhones.data.formData.data.attributes.claimant.contactInfo.mobilePhoneNumber = undefined;
+      noPhones.data.formData.data.attributes.claimant.contactInfo.homePhoneNumber = undefined;
 
       const mergedState = {
         featureToggles: { loading: false },

@@ -32,7 +32,9 @@ describe('Medical Records Care Summary Page', () => {
     // Verify Discharge Summary discharged By
     NotesDetailsPage.verifyDischargeSummaryDischargedBy(
       // notes.entry[1].resource.contained[0].name[0].text,
-      `${notes.entry[1].resource.contained[0].name[0].given[0]} ${notes.entry[1].resource.contained[0].name[0].family}`,
+      `${notes.entry[1].resource.contained[0].name[0].given[0]} ${
+        notes.entry[1].resource.contained[0].name[0].family
+      }`,
     );
     // Verify Discharge Summary Note
     NotesDetailsPage.verifyDischargeSummaryNote(

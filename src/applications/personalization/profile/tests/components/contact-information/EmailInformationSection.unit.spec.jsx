@@ -52,8 +52,9 @@ describe('EmailInformationSection', () => {
       reducers: { vapService },
     });
 
-    const baseEmailUsername =
-      baseState.user.profile.vapContactInfo.email.emailAddress.split('@')[0];
+    const baseEmailUsername = baseState.user.profile.vapContactInfo.email.emailAddress.split(
+      '@',
+    )[0];
 
     expect(view.getByTestId('email')).to.exist;
     expect(view.getByTestId('email')).to.contain.text(baseEmailUsername);

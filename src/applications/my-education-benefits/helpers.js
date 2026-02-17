@@ -414,7 +414,8 @@ export const formPages = {
         'Do you qualify for an active duty kicker, sometimes called a College Fund?',
       additionalInfo: {
         trigger: 'What is an active duty kicker?',
-        info: 'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+        info:
+          'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
       },
     },
     reserveKicker: {
@@ -424,7 +425,8 @@ export const formPages = {
         'Do you qualify for a reserve kicker, sometimes called a College Fund?',
       additionalInfo: {
         trigger: 'What is a reserve kicker?',
-        info: 'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
+        info:
+          'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
       },
     },
     sixHundredDollarBuyUp: {

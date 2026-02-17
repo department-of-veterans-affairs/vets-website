@@ -12,7 +12,9 @@ class AllergiesListPage extends BaseListPage {
     // cy.findByTestId('allergies-landing-page-link').click();
     cy.wait('@allergiesList');
     // Wait for page to load
-    cy.get('h1').should('be.visible').and('be.focused');
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   loadVAPaginationNextAllergies = () => {

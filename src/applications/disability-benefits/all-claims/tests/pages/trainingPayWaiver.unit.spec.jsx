@@ -7,8 +7,10 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 describe('trainingPayWaiver', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.additionalInformation.pages.trainingPayWaiver;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.additionalInformation.pages.trainingPayWaiver;
   const { defaultDefinitions } = formConfig;
 
   it('should render with va-radio component', () => {

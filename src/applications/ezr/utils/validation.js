@@ -18,8 +18,7 @@ import { replaceStrValues } from './helpers/general';
  * @param {String} - fieldData - the value from the text input field
  */
 export function validateCurrency(errors, fieldData) {
-  const CURRENCY_FORMAT_REGEX =
-    /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
+  const CURRENCY_FORMAT_REGEX = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
   if (!CURRENCY_FORMAT_REGEX.test(fieldData)) {
     errors.addError(content['validation-currency-format']);
   }

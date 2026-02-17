@@ -261,22 +261,23 @@ const testConfig = createTestConfig(
         });
       },
 
-      '686-stepchild-no-longer-part-of-household/:index/date-child-left-household':
-        ({ afterHook }) => {
-          afterHook(() => {
-            cy.get('@testData').then(data => {
-              const stepchild = data.stepChildren?.[0];
-              if (stepchild.dateStepchildLeftHousehold) {
-                fillDateWebComponentPattern(
-                  'dateStepchildLeftHousehold',
-                  stepchild.dateStepchildLeftHousehold,
-                );
-              }
-              cy.injectAxeThenAxeCheck();
-              cy.clickFormContinue();
-            });
+      '686-stepchild-no-longer-part-of-household/:index/date-child-left-household': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const stepchild = data.stepChildren?.[0];
+            if (stepchild.dateStepchildLeftHousehold) {
+              fillDateWebComponentPattern(
+                'dateStepchildLeftHousehold',
+                stepchild.dateStepchildLeftHousehold,
+              );
+            }
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
           });
-        },
+        });
+      },
 
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {

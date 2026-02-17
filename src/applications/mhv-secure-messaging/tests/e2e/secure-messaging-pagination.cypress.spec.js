@@ -142,12 +142,11 @@ describe('Secure Messaging Reply', () => {
       initialThreadLength,
     );
 
-    const filterResultResponse =
-      PatientFilterPage.createCategoryFilterMockResponse(
-        filteredThreadLength,
-        'Appointment',
-        mockMessagesPageOne,
-      );
+    const filterResultResponse = PatientFilterPage.createCategoryFilterMockResponse(
+      filteredThreadLength,
+      'Appointment',
+      mockMessagesPageOne,
+    );
 
     PatientFilterPage.openAdditionalFilter();
     PatientFilterPage.selectAdvancedSearchCategory('Appointment');

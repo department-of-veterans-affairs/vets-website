@@ -34,10 +34,10 @@ export const RouteLeavingGuard = ({
   );
   const navigationError = draftInProgress?.navigationError;
   const saveError = draftInProgress?.saveError;
-  const when = useMemo(
-    () => !!navigationError || !!saveError,
-    [navigationError, saveError],
-  );
+  const when = useMemo(() => !!navigationError || !!saveError, [
+    navigationError,
+    saveError,
+  ]);
   const navigationErrorModalVisible =
     draftInProgress?.navigationErrorModalVisible;
 
@@ -84,11 +84,14 @@ export const RouteLeavingGuard = ({
     [setIsModalVisible],
   );
 
-  const closeModal = useCallback(() => {
-    setIsModalVisible(false);
-    updateModalVisible(false);
-    setSavedDraft(false);
-  }, [setIsModalVisible, setSavedDraft]);
+  const closeModal = useCallback(
+    () => {
+      setIsModalVisible(false);
+      updateModalVisible(false);
+      setSavedDraft(false);
+    },
+    [setIsModalVisible, setSavedDraft],
+  );
 
   const handleBlockedNavigation = useCallback(
     nextLocation => {
@@ -166,33 +169,42 @@ export const RouteLeavingGuard = ({
     }
   };
 
-  useEffect(() => {
-    if (confirmedNavigation && lastLocation?.pathname) {
-      if (!persistDraftPaths.includes(lastLocation?.pathname)) {
-        dispatch(clearDraftInProgress());
+  useEffect(
+    () => {
+      if (confirmedNavigation && lastLocation?.pathname) {
+        if (!persistDraftPaths.includes(lastLocation?.pathname)) {
+          dispatch(clearDraftInProgress());
+        }
+        navigate(lastLocation.pathname);
+        updateConfirmedNavigation(false);
       }
-      navigate(lastLocation.pathname);
-      updateConfirmedNavigation(false);
-    }
-  }, [
-    confirmedNavigation,
-    dispatch,
-    lastLocation?.pathname,
-    navigate,
-    persistDraftPaths,
-  ]);
+    },
+    [
+      confirmedNavigation,
+      dispatch,
+      lastLocation?.pathname,
+      navigate,
+      persistDraftPaths,
+    ],
+  );
 
-  useEffect(() => {
-    if (savedDraft && !!saveError) {
-      updateModalVisible(true);
-    }
-  }, [saveError, savedDraft]);
+  useEffect(
+    () => {
+      if (savedDraft && !!saveError) {
+        updateModalVisible(true);
+      }
+    },
+    [saveError, savedDraft],
+  );
 
-  useEffect(() => {
-    if (!when && !!navigationErrorModalVisible) {
-      closeModal();
-    }
-  }, [when, navigationErrorModalVisible, closeModal]);
+  useEffect(
+    () => {
+      if (!when && !!navigationErrorModalVisible) {
+        closeModal();
+      }
+    },
+    [when, navigationErrorModalVisible, closeModal],
+  );
 
   useBeforeUnloadGuard(when);
   return (

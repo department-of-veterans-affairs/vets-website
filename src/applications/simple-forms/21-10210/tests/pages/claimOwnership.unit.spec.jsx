@@ -7,8 +7,10 @@ import {
 import { CLAIM_OWNERSHIPS } from '../../definitions/constants';
 import formConfig from '../../config/form';
 
-const { schema, uiSchema } =
-  formConfig.chapters.statementInfoChapter.pages.claimOwnershipPage;
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.statementInfoChapter.pages.claimOwnershipPage;
 const pageTitle = 'Claim ownership';
 
 // Test that the v3 radio field renders with correct number of options

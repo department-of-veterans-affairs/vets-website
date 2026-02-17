@@ -47,23 +47,26 @@ const CombinedPortalApp = ({ children }) => {
     useSelector(state => state),
   );
 
-  useEffect(() => {
-    if (!profileLoading && userLoggedIn) {
-      fetchDebtLetters(dispatch, debtLettersActive);
+  useEffect(
+    () => {
+      if (!profileLoading && userLoggedIn) {
+        fetchDebtLetters(dispatch, debtLettersActive);
 
-      if (shouldUseLightHouseCopayData) {
-        getCopaySummaryStatements(dispatch);
-      } else {
-        getAllCopayStatements(dispatch);
+        if (shouldUseLightHouseCopayData) {
+          getCopaySummaryStatements(dispatch);
+        } else {
+          getAllCopayStatements(dispatch);
+        }
       }
-    }
-  }, [
-    debtLettersActive,
-    dispatch,
-    profileLoading,
-    userLoggedIn,
-    shouldUseLightHouseCopayData,
-  ]);
+    },
+    [
+      debtLettersActive,
+      dispatch,
+      profileLoading,
+      userLoggedIn,
+      shouldUseLightHouseCopayData,
+    ],
+  );
 
   // Authentication!
   if (!profileLoading && !userLoggedIn) {

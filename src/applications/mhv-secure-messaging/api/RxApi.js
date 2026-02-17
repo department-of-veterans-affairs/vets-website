@@ -9,7 +9,9 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/e
  */
 export const getPrescriptionById = (prescriptionId, isCernerPilot = false) => {
   const version = isCernerPilot ? 'v2' : 'v1';
-  const path = `${environment.API_URL}/my_health/${version}/prescriptions/${prescriptionId}`;
+  const path = `${
+    environment.API_URL
+  }/my_health/${version}/prescriptions/${prescriptionId}`;
   return apiRequest(path, {
     headers: {
       'Content-Type': 'application/json',

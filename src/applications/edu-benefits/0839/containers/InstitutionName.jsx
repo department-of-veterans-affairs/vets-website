@@ -19,13 +19,16 @@ const InstitutionName = () => {
   const notYR = details.yrEligible === false;
   const hasError = badFormat || notFound || notYR;
 
-  useEffect(() => {
-    const facilityCodeInput = document
-      .querySelector('va-text-input')
-      ?.shadowRoot?.querySelector('input');
-    if (!loader && institutionName && facilityCodeInput)
-      focusElement(facilityCodeInput);
-  }, [institutionName, loader]);
+  useEffect(
+    () => {
+      const facilityCodeInput = document
+        .querySelector('va-text-input')
+        ?.shadowRoot?.querySelector('input');
+      if (!loader && institutionName && facilityCodeInput)
+        focusElement(facilityCodeInput);
+    },
+    [institutionName, loader],
+  );
 
   const shouldShowName = institutionName && !hasError;
 

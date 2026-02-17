@@ -43,12 +43,15 @@ function ViewDependentsListItem(props) {
     submittedDependents,
   } = props;
 
-  useEffect(() => {
-    if (openRef.current) {
-      scrollTo(openRef.current);
-      focusElement(openRef.current);
-    }
-  }, [open]);
+  useEffect(
+    () => {
+      if (openRef.current) {
+        scrollTo(openRef.current);
+        focusElement(openRef.current);
+      }
+    },
+    [open],
+  );
 
   const handleClick = () => {
     setOpen(prevState => !prevState);
@@ -161,7 +164,10 @@ const mapStateToProps = state => ({
   submittedDependents: state?.removeDependents?.submittedDependents || [],
 });
 
-export default connect(mapStateToProps, null)(ViewDependentsListItem);
+export default connect(
+  mapStateToProps,
+  null,
+)(ViewDependentsListItem);
 
 export { ViewDependentsListItem };
 

@@ -23,9 +23,8 @@ describe('Medical Records Vitals Details Page', () => {
       ),
       `${Math.floor(
         defaultVitals.entry[3].resource.valueQuantity.value / 12,
-      )} feet, ${
-        defaultVitals.entry[3].resource.valueQuantity.value % 12
-      } inches`,
+      )} feet, ${defaultVitals.entry[3].resource.valueQuantity.value %
+        12} inches`,
       defaultVitals.entry[3].resource.contained[0].name,
       'None recorded',
     );
@@ -37,9 +36,8 @@ describe('Medical Records Vitals Details Page', () => {
       ),
       `${Math.floor(
         defaultVitals.entry[13].resource.valueQuantity.value / 12,
-      )} feet, ${
-        defaultVitals.entry[13].resource.valueQuantity.value % 12
-      } inches`,
+      )} feet, ${defaultVitals.entry[13].resource.valueQuantity.value %
+        12} inches`,
       defaultVitals.entry[13].resource.contained[0].name,
       'None recorded',
     );
@@ -51,9 +49,8 @@ describe('Medical Records Vitals Details Page', () => {
       ),
       `${Math.floor(
         defaultVitals.entry[23].resource.valueQuantity.value / 12,
-      )} feet, ${
-        defaultVitals.entry[23].resource.valueQuantity.value % 12
-      } inches`,
+      )} feet, ${defaultVitals.entry[23].resource.valueQuantity.value %
+        12} inches`,
       defaultVitals.entry[23].resource.contained[0].name,
       'None recorded',
     );
@@ -65,9 +62,8 @@ describe('Medical Records Vitals Details Page', () => {
       ),
       `${Math.floor(
         defaultVitals.entry[33].resource.valueQuantity.value / 12,
-      )} feet, ${
-        defaultVitals.entry[33].resource.valueQuantity.value % 12
-      } inches`,
+      )} feet, ${defaultVitals.entry[33].resource.valueQuantity.value %
+        12} inches`,
       defaultVitals.entry[33].resource.contained[0].name,
       'None recorded',
     );

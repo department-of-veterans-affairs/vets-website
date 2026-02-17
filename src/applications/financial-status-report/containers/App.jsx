@@ -76,40 +76,46 @@ const App = ({
   const { email = {}, mobilePhone = {}, mailingAddress = {} } = contactData;
 
   // Contact information data
-  useEffect(() => {
-    if (isLoggedIn) {
-      const { personalData = {} } = formData || {};
-      const { veteranContactInformation = {} } = personalData;
+  useEffect(
+    () => {
+      if (isLoggedIn) {
+        const { personalData = {} } = formData || {};
+        const { veteranContactInformation = {} } = personalData;
 
-      if (
-        email?.emailAddress !== veteranContactInformation.email ||
-        mobilePhone?.updatedAt !==
-          veteranContactInformation.mobilePhone?.updatedAt ||
-        mailingAddress?.updatedAt !==
-          veteranContactInformation.address?.updatedAt
-      ) {
-        setFormData({
-          ...formData,
-          personalData: {
-            ...personalData,
-            veteranContactInformation: {
-              email: email?.emailAddress,
-              mobilePhone,
-              address: mailingAddress,
+        if (
+          email?.emailAddress !== veteranContactInformation.email ||
+          mobilePhone?.updatedAt !==
+            veteranContactInformation.mobilePhone?.updatedAt ||
+          mailingAddress?.updatedAt !==
+            veteranContactInformation.address?.updatedAt
+        ) {
+          setFormData({
+            ...formData,
+            personalData: {
+              ...personalData,
+              veteranContactInformation: {
+                email: email?.emailAddress,
+                mobilePhone,
+                address: mailingAddress,
+              },
             },
-          },
-        });
+          });
+        }
       }
-    }
-  }, [email, formData, isLoggedIn, mobilePhone, mailingAddress, setFormData]);
+    },
+    [email, formData, isLoggedIn, mobilePhone, mailingAddress, setFormData],
+  );
 
-  useEffect(() => {
-    getFormStatus();
-    if (isLoggedIn && isVerified) {
-      getDebts();
-      getCopays();
-    }
-  }, [getFormStatus, isLoggedIn, isVerified]);
+  useEffect(
+    () => {
+      getFormStatus();
+      if (isLoggedIn && isVerified) {
+        getDebts();
+        getCopays();
+      }
+    },
+    [getFormStatus, isLoggedIn, isVerified],
+  );
 
   useEffect(
     () => {
@@ -196,4 +202,7 @@ const mapDispatchToProps = dispatch => ({
   setFormData: data => dispatch(setData(data)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

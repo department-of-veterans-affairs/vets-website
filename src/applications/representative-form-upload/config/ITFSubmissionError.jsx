@@ -9,12 +9,15 @@ const ITFSubmissionError = () => {
   const alertRef = useRef(null);
   const submissionData = useSelector(state => state.form.submission);
 
-  useEffect(() => {
-    if (alertRef?.current) {
-      scrollTo(alertRef.current);
-      focusElement('h3', {}, alertRef.current);
-    }
-  }, [alertRef]);
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo(alertRef.current);
+        focusElement('h3', {}, alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   if (
     submissionData.errorMessage === 'vets_server_error: Service Unavailable'

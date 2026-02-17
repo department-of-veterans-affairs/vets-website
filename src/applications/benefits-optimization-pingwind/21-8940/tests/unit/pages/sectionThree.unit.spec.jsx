@@ -5,8 +5,10 @@ import {
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../../config/form';
 
-const { schema, uiSchema } =
-  formConfig.chapters.sectionThreeChapter.pages.sectionThree;
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.sectionThreeChapter.pages.sectionThree;
 const pageTitle = 'employment statement';
 
 // Dates render through a custom field that does not register as a web component in the shared helpers

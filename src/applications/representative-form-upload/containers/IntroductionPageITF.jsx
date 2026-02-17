@@ -17,22 +17,25 @@ const IntroductionPageITF = ({ route, router }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
   const { subTitle } = getFormContent();
-  const startBtn = useMemo(() => {
-    const startForm = () => {
-      sessionStorage.setItem('formIncompleteARP', 'true');
-      recordEvent({ event: `${formNumber}-start-form` });
-      return router.push(`${ITF_PATH}/claimant-background`);
-    };
-    return (
-      <VaLinkAction
-        href="#start"
-        class=" representative-form__start"
-        text="Start the submission"
-        onClick={startForm}
-        type="primary"
-      />
-    );
-  }, [route.pageList, router, formNumber]);
+  const startBtn = useMemo(
+    () => {
+      const startForm = () => {
+        sessionStorage.setItem('formIncompleteARP', 'true');
+        recordEvent({ event: `${formNumber}-start-form` });
+        return router.push(`${ITF_PATH}/claimant-background`);
+      };
+      return (
+        <VaLinkAction
+          href="#start"
+          class=" representative-form__start"
+          text="Start the submission"
+          onClick={startForm}
+          type="primary"
+        />
+      );
+    },
+    [route.pageList, router, formNumber],
+  );
   useEffect(() => {
     focusElement('h1');
   }, []);

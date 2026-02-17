@@ -60,15 +60,18 @@ const NotificationSettings = ({
 
   const { showEmail, useAvailableGroups } = useNotificationSettingsUtils();
 
-  const requiredContactInfoOnFile = useMemo(() => {
-    // Target domestic numbers here to follow the original required contact info flow
-    // The addition of international numbers has a separate flow of modals and alerts
-    const domesticMobilePhone =
-      mobilePhoneNumber && !mobilePhoneNumber.isInternational;
-    return showEmail
-      ? !!(emailAddress || domesticMobilePhone)
-      : !!(mobilePhoneNumber && domesticMobilePhone);
-  }, [emailAddress, mobilePhoneNumber, showEmail]);
+  const requiredContactInfoOnFile = useMemo(
+    () => {
+      // Target domestic numbers here to follow the original required contact info flow
+      // The addition of international numbers has a separate flow of modals and alerts
+      const domesticMobilePhone =
+        mobilePhoneNumber && !mobilePhoneNumber.isInternational;
+      return showEmail
+        ? !!(emailAddress || domesticMobilePhone)
+        : !!(mobilePhoneNumber && domesticMobilePhone);
+    },
+    [emailAddress, mobilePhoneNumber, showEmail],
+  );
 
   const showMissingContactInfoAlert = useMemo(
     () =>
@@ -78,44 +81,56 @@ const NotificationSettings = ({
     [requiredContactInfoOnFile, shouldShowAPIError, shouldShowLoadingIndicator],
   );
 
-  const shouldFetchNotificationSettings = useMemo(() => {
-    return !showMissingContactInfoAlert && !shouldShowAPIError;
-  }, [showMissingContactInfoAlert, shouldShowAPIError]);
+  const shouldFetchNotificationSettings = useMemo(
+    () => {
+      return !showMissingContactInfoAlert && !shouldShowAPIError;
+    },
+    [showMissingContactInfoAlert, shouldShowAPIError],
+  );
 
-  useEffect(() => {
-    // issue: 48011
-    // used via passed state from contact info - mobile update alert link
-    if (location.state?.scrollToTop) {
-      scrollToTop();
-    }
+  useEffect(
+    () => {
+      // issue: 48011
+      // used via passed state from contact info - mobile update alert link
+      if (location.state?.scrollToTop) {
+        scrollToTop();
+      }
 
-    focusElement('[data-focus-target]');
-    document.title = `Notification Settings | Veterans Affairs`;
-  }, [location.state?.scrollToTop]);
+      focusElement('[data-focus-target]');
+      document.title = `Notification Settings | Veterans Affairs`;
+    },
+    [location.state?.scrollToTop],
+  );
 
-  useEffect(() => {
-    if (shouldFetchNotificationSettings) {
-      fetchNotificationSettings({
-        facilities,
-      });
-    }
-  }, [fetchNotificationSettings, shouldFetchNotificationSettings]);
+  useEffect(
+    () => {
+      if (shouldFetchNotificationSettings) {
+        fetchNotificationSettings({
+          facilities,
+        });
+      }
+    },
+    [fetchNotificationSettings, shouldFetchNotificationSettings],
+  );
 
   const availableGroups = useAvailableGroups();
 
-  const shouldShowNotificationGroups = useMemo(() => {
-    return (
-      !shouldShowAPIError &&
-      !showMissingContactInfoAlert &&
-      !shouldShowLoadingIndicator &&
-      availableGroups.length > 0
-    );
-  }, [
-    shouldShowAPIError,
-    showMissingContactInfoAlert,
-    shouldShowLoadingIndicator,
-    availableGroups,
-  ]);
+  const shouldShowNotificationGroups = useMemo(
+    () => {
+      return (
+        !shouldShowAPIError &&
+        !showMissingContactInfoAlert &&
+        !shouldShowLoadingIndicator &&
+        availableGroups.length > 0
+      );
+    },
+    [
+      shouldShowAPIError,
+      showMissingContactInfoAlert,
+      shouldShowLoadingIndicator,
+      availableGroups,
+    ],
+  );
 
   const isInternationalMobile =
     mobilePhoneNumber &&
@@ -144,83 +159,84 @@ const NotificationSettings = ({
           />
         )}
         {shouldShowAPIError && <LoadFail />}
-        {!shouldShowLoadingIndicator && !shouldShowAPIError && (
-          <>
-            {showMissingContactInfoAlert && (
-              <MissingContactInfoAlert
-                missingMobilePhone={
-                  mobilePhoneNumber || !mobilePhoneNumber?.isInternational
-                }
-                missingEmailAddress={!emailAddress}
-                showEmailNotificationSettings={showEmail}
-              />
-            )}
-            {shouldShowNotificationGroups && (
-              <>
-                <FieldHasBeenUpdatedAlert />
-                <ContactInfoOnFile
-                  emailAddress={emailAddress}
-                  mobilePhoneNumber={mobilePhoneNumber}
+        {!shouldShowLoadingIndicator &&
+          !shouldShowAPIError && (
+            <>
+              {showMissingContactInfoAlert && (
+                <MissingContactInfoAlert
+                  missingMobilePhone={
+                    mobilePhoneNumber || !mobilePhoneNumber?.isInternational
+                  }
+                  missingEmailAddress={!emailAddress}
                   showEmailNotificationSettings={showEmail}
                 />
-                {isInternationalMobile && (
-                  <va-alert-expandable
-                    status="info"
-                    trigger="You won't receive text notifications"
+              )}
+              {shouldShowNotificationGroups && (
+                <>
+                  <FieldHasBeenUpdatedAlert />
+                  <ContactInfoOnFile
+                    emailAddress={emailAddress}
+                    mobilePhoneNumber={mobilePhoneNumber}
+                    showEmailNotificationSettings={showEmail}
+                  />
+                  {isInternationalMobile && (
+                    <va-alert-expandable
+                      status="info"
+                      trigger="You won't receive text notifications"
+                      class="vads-u-margin-top--3"
+                      data-testid="international-mobile-number-info-alert"
+                    >
+                      <p className="vads-u-padding-bottom--2">
+                        We can’t send text notifications to international phone
+                        numbers. Add a U.S. mobile phone number if you want to
+                        receive these text notifications:
+                      </p>
+                      <ul className="vads-u-padding-bottom--2">
+                        <li>Health appointment reminders</li>
+                        <li>Prescription shipping notifications</li>
+                        <li>Appeal status updates</li>
+                        <li>Appeal hearing reminders</li>
+                        <li>Disability and pension deposit notifications</li>
+                      </ul>
+                      <p>
+                        <va-link
+                          href={updateMobileNumberHref}
+                          text="Update your mobile phone number"
+                        />
+                      </p>
+                    </va-alert-expandable>
+                  )}
+                  <MissingContactInfoExpandable
+                    showEmailNotificationSettings={showEmail}
+                  />
+                  <va-additional-info
+                    data-testid="data-encryption-notice"
+                    trigger="By setting up notifications, you agree to receive unsecure emails and texts"
                     class="vads-u-margin-top--3"
-                    data-testid="international-mobile-number-info-alert"
                   >
-                    <p className="vads-u-padding-bottom--2">
-                      We can’t send text notifications to international phone
-                      numbers. Add a U.S. mobile phone number if you want to
-                      receive these text notifications:
-                    </p>
-                    <ul className="vads-u-padding-bottom--2">
-                      <li>Health appointment reminders</li>
-                      <li>Prescription shipping notifications</li>
-                      <li>Appeal status updates</li>
-                      <li>Appeal hearing reminders</li>
-                      <li>Disability and pension deposit notifications</li>
-                    </ul>
                     <p>
+                      Data encryption is a way of making data hard to read by
+                      people other than the intended recipient. SMS text
+                      messaging and email aren’t encrypted. This means they’re
+                      not secure. Other people could read your appointment
+                      information if they get access to the messages when sent,
+                      received, or on your phone or computer.
+                    </p>
+                    <p className="vads-u-padding-top--2">
                       <va-link
-                        href={updateMobileNumberHref}
-                        text="Update your mobile phone number"
+                        href="/privacy-policy/digital-notifications-terms-and-conditions/"
+                        text="Read more about privacy and security for digital notifications"
                       />
                     </p>
-                  </va-alert-expandable>
-                )}
-                <MissingContactInfoExpandable
-                  showEmailNotificationSettings={showEmail}
-                />
-                <va-additional-info
-                  data-testid="data-encryption-notice"
-                  trigger="By setting up notifications, you agree to receive unsecure emails and texts"
-                  class="vads-u-margin-top--3"
-                >
-                  <p>
-                    Data encryption is a way of making data hard to read by
-                    people other than the intended recipient. SMS text messaging
-                    and email aren’t encrypted. This means they’re not secure.
-                    Other people could read your appointment information if they
-                    get access to the messages when sent, received, or on your
-                    phone or computer.
-                  </p>
-                  <p className="vads-u-padding-top--2">
-                    <va-link
-                      href="/privacy-policy/digital-notifications-terms-and-conditions/"
-                      text="Read more about privacy and security for digital notifications"
-                    />
-                  </p>
-                </va-additional-info>
-                <hr aria-hidden="true" />
-                {availableGroups.map(({ id }) => (
-                  <NotificationGroup groupId={id} key={id} />
-                ))}
-              </>
-            )}
-          </>
-        )}
+                  </va-additional-info>
+                  <hr aria-hidden="true" />
+                  {availableGroups.map(({ id }) => (
+                    <NotificationGroup groupId={id} key={id} />
+                  ))}
+                </>
+              )}
+            </>
+          )}
       </DowntimeNotification>
     </>
   );

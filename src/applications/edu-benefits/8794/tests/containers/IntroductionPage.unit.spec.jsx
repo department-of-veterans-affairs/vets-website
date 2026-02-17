@@ -194,7 +194,10 @@ describe('22-8794 <IntroductionPage> (RTL, store pattern like example)', () => {
     if (!found) {
       const all = Array.from(container.querySelectorAll('*'));
       found = all.find(el =>
-        (el.textContent || '').replace(/\s+/g, ' ').trim().includes(needle),
+        (el.textContent || '')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .includes(needle),
       );
     }
 
@@ -252,8 +255,11 @@ describe('22-8794 <IntroductionPage> OMB modal wiring (refactored helpers)', () 
 
   // Build outer shadowRoot with or without the modal
   const attachOuterShadow = (omb, { includeModal = true } = {}) => {
-    const { vaButtonSecondary, realButton, focusSpy } =
-      addSecondaryButtonShadow();
+    const {
+      vaButtonSecondary,
+      realButton,
+      focusSpy,
+    } = addSecondaryButtonShadow();
 
     let modalEl = null;
     let modalShadowRoot = null;
@@ -343,8 +349,9 @@ describe('22-8794 <IntroductionPage> OMB modal wiring (refactored helpers)', () 
 
     clickHostAndExpectObserver(omb);
 
-    const { closeBtn, closeAddSpy, closeRemoveSpy } =
-      appendCloseButton(modalShadowRoot);
+    const { closeBtn, closeAddSpy, closeRemoveSpy } = appendCloseButton(
+      modalShadowRoot,
+    );
     fireChildMutation();
     expect(closeAddSpy.calledWith('click')).to.be.true;
 

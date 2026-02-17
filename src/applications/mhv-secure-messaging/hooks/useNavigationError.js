@@ -153,9 +153,12 @@ const useNavigationError = ({
   );
 
   // Only trigger side effect when the calculated error type changes
-  useEffect(() => {
-    setUnsavedNavigationError(navigationErrorType);
-  }, [navigationErrorType, setUnsavedNavigationError]);
+  useEffect(
+    () => {
+      setUnsavedNavigationError(navigationErrorType);
+    },
+    [navigationErrorType, setUnsavedNavigationError],
+  );
 };
 
 export default useNavigationError;

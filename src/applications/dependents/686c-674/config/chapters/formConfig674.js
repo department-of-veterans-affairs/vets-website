@@ -122,7 +122,8 @@ export default {
       }),
       addStudentsPartNine: pageBuilder.itemPage({
         title: 'Add one or more students between ages 18 and 23',
-        path: 'report-674/add-students/:index/student-education-benefits/start-date',
+        path:
+          'report-674/add-students/:index/student-education-benefits/start-date',
         uiSchema: studentEducationBenefitsStartDatePage.uiSchema,
         schema: studentEducationBenefitsStartDatePage.schema,
         depends: (formData, index) =>

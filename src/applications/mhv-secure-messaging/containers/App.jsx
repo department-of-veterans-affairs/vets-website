@@ -31,12 +31,18 @@ const App = () => {
   useTrackPreviousUrl();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const { featureTogglesLoading, isDowntimeBypassEnabled, mhvMockSessionFlag } =
-    featureToggles();
+  const {
+    featureTogglesLoading,
+    isDowntimeBypassEnabled,
+    mhvMockSessionFlag,
+  } = featureToggles();
 
-  useEffect(() => {
-    if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
-  }, [mhvMockSessionFlag]);
+  useEffect(
+    () => {
+      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+    },
+    [mhvMockSessionFlag],
+  );
 
   const scheduledDownTimeIsReady = useSelector(
     state => state.scheduledDowntime?.isReady,
@@ -46,24 +52,30 @@ const App = () => {
     state => state.scheduledDowntime?.serviceMap || [],
   );
 
-  const mhvSMDown = useMemo(() => {
-    if (Object.keys(scheduledDowntimes).length > 0) {
-      return (
-        scheduledDowntimes &&
-        ((scheduledDowntimes[externalServices.mhvSm] &&
-          scheduledDowntimes[externalServices.mhvSm].status) ||
-          (scheduledDowntimes[externalServices.mhvPlatform] &&
-            scheduledDowntimes[externalServices.mhvPlatform].status))
-      );
-    }
-    return 'downtime status: ok';
-  }, [scheduledDowntimes]);
+  const mhvSMDown = useMemo(
+    () => {
+      if (Object.keys(scheduledDowntimes).length > 0) {
+        return (
+          scheduledDowntimes &&
+          ((scheduledDowntimes[externalServices.mhvSm] &&
+            scheduledDowntimes[externalServices.mhvSm].status) ||
+            (scheduledDowntimes[externalServices.mhvPlatform] &&
+              scheduledDowntimes[externalServices.mhvPlatform].status))
+        );
+      }
+      return 'downtime status: ok';
+    },
+    [scheduledDowntimes],
+  );
 
-  useEffect(() => {
-    if (!scheduledDownTimeIsReady) {
-      dispatch(getScheduledDowntime());
-    }
-  }, [dispatch, scheduledDownTimeIsReady]);
+  useEffect(
+    () => {
+      if (!scheduledDownTimeIsReady) {
+        dispatch(getScheduledDowntime());
+      }
+    },
+    [dispatch, scheduledDownTimeIsReady],
+  );
 
   const datadogRumConfig = {
     applicationId: '02c72297-5059-4ed8-8472-874276f4a9b2',
@@ -96,9 +108,12 @@ const App = () => {
     });
   }, []);
 
-  useEffect(() => {
-    setDatadogRumUser({ id: user?.profile?.accountUuid });
-  }, [user]);
+  useEffect(
+    () => {
+      setDatadogRumUser({ id: user?.profile?.accountUuid });
+    },
+    [user],
+  );
 
   if (featureTogglesLoading) {
     return (

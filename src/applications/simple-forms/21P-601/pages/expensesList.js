@@ -117,7 +117,8 @@ const expensePaidByPage = {
     }),
     paidBy: textUI({
       title: 'Who paid this expense?',
-      hint: 'For example: the estate or another family member. Leave blank if you paid.',
+      hint:
+        'For example: the estate or another family member. Leave blank if you paid.',
     }),
   },
   schema: {

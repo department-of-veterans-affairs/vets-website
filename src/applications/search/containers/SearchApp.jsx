@@ -47,8 +47,9 @@ const SearchApp = ({
   const typeaheadUsed = router?.location?.query?.t === 'true' || false;
 
   const [userInput, setUserInput] = useState(userInputFromURL);
-  const [currentResultsQuery, setCurrentResultsQuery] =
-    useState(userInputFromURL);
+  const [currentResultsQuery, setCurrentResultsQuery] = useState(
+    userInputFromURL,
+  );
   const [page, setPage] = useState(pageFromURL);
   const [typeAheadWasUsed, setTypeAheadWasUsed] = useState(typeaheadUsed);
   const [formWasSubmitted, setFormWasSubmitted] = useState(false);
@@ -134,8 +135,9 @@ const SearchApp = ({
         initialUserInput,
       );
     } else {
-      compiledAnalyticsData =
-        compileAnalyticsDataFromInPageSearch(initialUserInput);
+      compiledAnalyticsData = compileAnalyticsDataFromInPageSearch(
+        initialUserInput,
+      );
     }
 
     if (initialUserInput && isSearchTermValid(initialUserInput)) {
@@ -155,11 +157,14 @@ const SearchApp = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (searchesPerformed) {
-      focusElement(`.${SCREENREADER_FOCUS_CLASSNAME}`);
-    }
-  }, [searchIsLoading, searchesPerformed]);
+  useEffect(
+    () => {
+      if (searchesPerformed) {
+        focusElement(`.${SCREENREADER_FOCUS_CLASSNAME}`);
+      }
+    },
+    [searchIsLoading, searchesPerformed],
+  );
 
   const updateURL = options => {
     router.push({
@@ -194,8 +199,9 @@ const SearchApp = ({
 
       updateURL({ query: userInput, page: nextPage });
 
-      const compiledAnalyticsData =
-        compileAnalyticsDataFromInPageSearch(userInput);
+      const compiledAnalyticsData = compileAnalyticsDataFromInPageSearch(
+        userInput,
+      );
 
       // Fetch new results
       fetchSearchResults(
@@ -229,8 +235,9 @@ const SearchApp = ({
       return;
     }
 
-    const compiledAnalyticsData =
-      compileAnalyticsDataFromInPageSearch(userInput);
+    const compiledAnalyticsData = compileAnalyticsDataFromInPageSearch(
+      userInput,
+    );
 
     if (isSearchTermValid(userInput)) {
       fetchSearchResults(
@@ -298,15 +305,16 @@ const SearchApp = ({
           className="vads-u-margin-y--3"
         />
         <div className="vads-u-display--flex vads-u-flex-wrap--wrap results-footer">
-          {results && results.length > 0 && (
-            <VaPagination
-              class="vads-u-border-top--0"
-              onPageSelect={e => handleSearch(e.detail.page)}
-              page={currentPage}
-              pages={totalPages}
-              maxPageListLength={7}
-            />
-          )}
+          {results &&
+            results.length > 0 && (
+              <VaPagination
+                class="vads-u-border-top--0"
+                onPageSelect={e => handleSearch(e.detail.page)}
+                page={currentPage}
+                pages={totalPages}
+                maxPageListLength={7}
+              />
+            )}
           <span className="powered-by">Powered by Search.gov</span>
         </div>
       </div>
@@ -340,20 +348,14 @@ const SearchApp = ({
             appTitle="Search App"
             dependencies={[externalServices.search]}
           >
-            {
-              // Search API is either within the maintenance window AND has returned
-              //  no results OR the search_gov_maintenance Flipper has been enabled
-              shouldShowMaintenanceBanner && (
-                <SearchMaintenance
-                  unexpectedMaintenance={searchGovMaintenance}
-                />
-              )
-            }
-            {
-              // Search API returned errors OR errors with user input before
-              //  submitting AND the maintenance banner is NOT going to be displayed
-              shouldShowErrorMessage && <Errors userInput={userInput} />
-            }
+            {// Search API is either within the maintenance window AND has returned
+            //  no results OR the search_gov_maintenance Flipper has been enabled
+            shouldShowMaintenanceBanner && (
+              <SearchMaintenance unexpectedMaintenance={searchGovMaintenance} />
+            )}
+            {// Search API returned errors OR errors with user input before
+            //  submitting AND the maintenance banner is NOT going to be displayed
+            shouldShowErrorMessage && <Errors userInput={userInput} />}
             <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-bottom--4">
               <p className="vads-u-margin-top--0">
                 Enter a keyword, phrase, or question
@@ -387,8 +389,9 @@ const SearchApp = ({
 
 const mapStateToProps = state => ({
   search: state.search,
-  searchGovMaintenance:
-    toggleValues(state)[FEATURE_FLAG_NAMES.searchGovMaintenance],
+  searchGovMaintenance: toggleValues(state)[
+    FEATURE_FLAG_NAMES.searchGovMaintenance
+  ],
 });
 
 const mapDispatchToProps = {
@@ -423,7 +426,10 @@ SearchApp.propTypes = {
 };
 
 const SearchAppContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SearchApp),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SearchApp),
 );
 
 export default SearchAppContainer;

@@ -147,8 +147,10 @@ describe('hca `prefillTransformer` utility', () => {
 
     it('should return correct form data when profile data omits veteranDateOfBirth entirely', () => {
       /* eslint-disable no-unused-vars */
-      const { veteranDateOfBirth, ...prefillDataWithoutDateOfBirth } =
-        defaultPrefillData;
+      const {
+        veteranDateOfBirth,
+        ...prefillDataWithoutDateOfBirth
+      } = defaultPrefillData;
       /* eslint-enable no-unused-vars */
 
       const prefillData = getData({

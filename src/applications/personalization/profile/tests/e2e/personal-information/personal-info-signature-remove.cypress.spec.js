@@ -58,7 +58,9 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
 
     // close modal by cross btn
     cy.get(Locators.SIGNATURE.REMOVE_BTN).click();
-    cy.get(Locators.SIGNATURE.ALERTS.CROSS_BTN).first().click();
+    cy.get(Locators.SIGNATURE.ALERTS.CROSS_BTN)
+      .first()
+      .click();
 
     cy.get(Locators.SIGNATURE.REMOVE_BTN)
       .shadow()

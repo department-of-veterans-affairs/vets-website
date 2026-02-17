@@ -138,8 +138,11 @@ function App({
     sessionSampleRate: 100,
   });
 
-  const { useFormFeatureToggleSync, useToggleValue, TOGGLE_NAMES } =
-    useFeatureToggle();
+  const {
+    useFormFeatureToggleSync,
+    useToggleValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
   useFormFeatureToggleSync([
     'vaDependentsNetWorthAndPension',
     'vaDependentsDuplicateModals',
@@ -240,4 +243,7 @@ App.propTypes = {
   vaFileNumber: PropTypes.object,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

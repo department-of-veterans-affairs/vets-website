@@ -45,9 +45,11 @@ export const verifyTitleBreadcrumbsHeading = ({
  * Verifies the "Need help?" section.
  */
 export const verifyNeedHelp = () => {
-  cy.get('va-need-help').shadow().findByRole('heading', {
-    name: 'Need help?',
-  });
+  cy.get('va-need-help')
+    .shadow()
+    .findByRole('heading', {
+      name: 'Need help?',
+    });
 
   cy.get('va-need-help').within(() => {
     cy.contains('Call the VA benefits hotline at').should('be.visible');

@@ -288,10 +288,7 @@ describe('Interstitial page', () => {
       ...initialState(true),
       sm: {
         recipients: {
-          allRecipients: [
-            { id: 1, name: 'Team 1' },
-            { id: 2, name: 'Team 2' },
-          ],
+          allRecipients: [{ id: 1, name: 'Team 1' }, { id: 2, name: 'Team 2' }],
           recentRecipients: [{ id: 1, name: 'Team 1' }],
         },
       },

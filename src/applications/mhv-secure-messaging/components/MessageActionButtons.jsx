@@ -30,27 +30,24 @@ const MessageActionButtons = props => {
 
   return (
     <div
-      className={`vads-u-display--flex vads-u-flex-direction--column tablet:vads-u-flex-direction--row ${
-        customFoldersRedesignEnabled &&
-        'vads-u-margin-top--3 mobile-lg:vads-u-margin-top--4'
-      }`}
+      className={`vads-u-display--flex vads-u-flex-direction--column tablet:vads-u-flex-direction--row ${customFoldersRedesignEnabled &&
+        'vads-u-margin-top--3 mobile-lg:vads-u-margin-top--4'}`}
     >
-      {!hideReplyButton && !customFoldersRedesignEnabled && (
-        <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto">
-          <ReplyButton key="replyButton" visible />
-        </div>
-      )}
+      {!hideReplyButton &&
+        !customFoldersRedesignEnabled && (
+          <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto">
+            <ReplyButton key="replyButton" visible />
+          </div>
+        )}
 
       <div
         className={`vads-u-display--flex
           vads-u-flex--1
           vads-u-flex-direction--column
           mobile-lg:vads-u-flex-direction--row
-          ${
-            !customFoldersRedesignEnabled &&
+          ${!customFoldersRedesignEnabled &&
             !hideReplyButton &&
-            'tablet:vads-u-margin-left--1'
-          }`}
+            'tablet:vads-u-margin-left--1'}`}
       >
         <PrintBtn
           key="print"

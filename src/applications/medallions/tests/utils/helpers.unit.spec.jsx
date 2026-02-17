@@ -74,10 +74,12 @@ describe('medallions/utils/helpers', () => {
 
     beforeEach(() => {
       focusElementStub = sinon.stub(window, 'focusElement');
-      $$Stub = sinon.stub(window, '$$').returns([
-        { textContent: 'file1', focus: sinon.spy() },
-        { textContent: 'file2', focus: sinon.spy() },
-      ]);
+      $$Stub = sinon
+        .stub(window, '$$')
+        .returns([
+          { textContent: 'file1', focus: sinon.spy() },
+          { textContent: 'file2', focus: sinon.spy() },
+        ]);
     });
 
     afterEach(() => {

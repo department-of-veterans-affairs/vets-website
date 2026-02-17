@@ -133,7 +133,8 @@ export const sponsorStatusDetails = {
     sponsorDOD: dateOfDeathUI('When did the Veteran die?'),
     sponsorDeathConditions: yesNoUI({
       title: 'Did the Veteran die during active military service?',
-      hint: 'Depending on your response, you may need to submit additional documents.',
+      hint:
+        'Depending on your response, you may need to submit additional documents.',
       labels: {
         yes: 'Yes',
         no: 'No',

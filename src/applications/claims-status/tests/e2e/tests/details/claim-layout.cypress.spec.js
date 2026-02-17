@@ -85,7 +85,9 @@ describe('Claim layout', () => {
     cy.findByText('Hearing Loss');
     cy.findByText('Sleep Apnea').should('not.exist');
 
-    cy.get('va-button').contains('Show full list').click();
+    cy.get('va-button')
+      .contains('Show full list')
+      .click();
 
     cy.findByText('Sleep Apnea');
     cy.findByText('Tinnitus');

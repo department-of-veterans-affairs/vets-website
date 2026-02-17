@@ -359,8 +359,11 @@ describe('<WhatWeAreDoing>', () => {
   context('cstClaimPhases feature flag enabled', () => {
     context('claim is a disability compensation claim', () => {
       it('should render a WhatWereDoing section when claim phase 1', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          compensationClaimPhase1.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase1.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole } = renderWithRouter(
           <Provider store={getStore()}>
@@ -379,8 +382,11 @@ describe('<WhatWeAreDoing>', () => {
         expect(getByRole('link')).to.have.text('Learn more about this step');
       });
       it('should render a WhatWereDoing section when claim phase 2', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          compensationClaimPhase2.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase2.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole } = renderWithRouter(
           <Provider store={getStore()}>
@@ -399,8 +405,11 @@ describe('<WhatWeAreDoing>', () => {
         expect(getByRole('link')).to.have.text('Learn more about this step');
       });
       it('should render a WhatWereDoing section when claim phase 3', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          compensationClaimPhase3.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase3.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole } = renderWithRouter(
           <Provider store={getStore()}>
@@ -419,8 +428,11 @@ describe('<WhatWeAreDoing>', () => {
         expect(getByRole('link')).to.have.text('Learn more about this step');
       });
       it('should render a WhatWereDoing section when claim phase 4', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          compensationClaimPhase4.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase4.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole } = renderWithRouter(
           <Provider store={getStore()}>
@@ -439,8 +451,11 @@ describe('<WhatWeAreDoing>', () => {
         expect(getByRole('link')).to.have.text('Learn more about this step');
       });
       it('should render a WhatWereDoing section when claim phase 5', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          compensationClaimPhase5.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase5.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole } = renderWithRouter(
           <Provider store={getStore()}>
@@ -459,8 +474,11 @@ describe('<WhatWeAreDoing>', () => {
         expect(getByRole('link')).to.have.text('Learn more about this step');
       });
       it('should render a WhatWereDoing section when claim phase 6', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          compensationClaimPhase6.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase6.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole } = renderWithRouter(
           <Provider store={getStore()}>
@@ -479,8 +497,11 @@ describe('<WhatWeAreDoing>', () => {
         expect(getByRole('link')).to.have.text('Learn more about this step');
       });
       it('should render a WhatWereDoing section when claim phase 7', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          compensationClaimPhase7.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase7.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole } = renderWithRouter(
           <Provider store={getStore()}>
@@ -502,8 +523,11 @@ describe('<WhatWeAreDoing>', () => {
 
     context('claim is not a disability compensation claim', () => {
       it('should render a WhatWereDoing section when claim phase 1', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase1.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase1.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -525,8 +549,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 2', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase2.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase2.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -548,8 +575,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 3', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase3.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase3.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -571,8 +601,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 4', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase4.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase4.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -594,8 +627,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 5', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase5.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase5.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -617,8 +653,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 6', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase6.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase6.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -640,8 +679,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 7', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase7.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase7.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -668,8 +710,11 @@ describe('<WhatWeAreDoing>', () => {
   context('cstClaimPhases feature flag disabled', () => {
     context('claim is a disability compensation claim', () => {
       it('should render a WhatWereDoing section when claim phase 1', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          compensationClaimPhase1.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase1.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -691,8 +736,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 2', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          compensationClaimPhase2.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase2.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -714,8 +762,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 3', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          compensationClaimPhase3.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase3.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -737,8 +788,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 4', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          compensationClaimPhase4.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase4.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -760,8 +814,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 5', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          compensationClaimPhase5.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase5.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -783,8 +840,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 6', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          compensationClaimPhase6.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase6.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -806,8 +866,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 7', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          compensationClaimPhase7.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase7.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -832,8 +895,11 @@ describe('<WhatWeAreDoing>', () => {
 
     context('claim is not a disability compensation claim', () => {
       it('should render a WhatWereDoing section when claim phase 1', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase1.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase1.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -855,8 +921,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 2', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase2.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase2.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -878,8 +947,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 3', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase3.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase3.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -901,8 +973,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 4', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase4.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase4.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -924,8 +999,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 5', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase5.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase5.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -947,8 +1025,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 6', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase6.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase6.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -970,8 +1051,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when claim phase 7', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase7.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase7.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { getByText, getByRole, queryByText } = renderWithRouter(
           <Provider store={getStore(false)}>
@@ -993,8 +1077,11 @@ describe('<WhatWeAreDoing>', () => {
         );
       });
       it('should render a WhatWereDoing section when current phase back is set to true', () => {
-        const { status, claimPhaseDates, claimTypeCode } =
-          dependencyClaimPhase3.attributes;
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase3.attributes;
         const claimPhaseType = claimPhaseDates.latestPhaseType;
         const { currentPhaseBack } = claimPhaseDates;
         const { getByText } = renderWithRouter(

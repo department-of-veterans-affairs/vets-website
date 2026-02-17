@@ -160,7 +160,9 @@ const formConfig = {
   },
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
-  submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit_all_claim`,
+  submitUrl: `${
+    environment.API_URL
+  }/v0/disability_compensation_form/submit_all_claim`,
   submit: submitFormFor('disability-526EZ'),
   trackingPrefix: 'disability-526EZ-',
   downtime: {
@@ -272,7 +274,8 @@ const formConfig = {
         },
         reservesNationalGuardService: {
           title: 'Reserve and National Guard service',
-          path: 'review-veteran-details/military-service-history/reserves-national-guard',
+          path:
+            'review-veteran-details/military-service-history/reserves-national-guard',
           depends: formData =>
             hasGuardOrReservePeriod(formData.serviceInformation),
           uiSchema: reservesNationalGuardService.uiSchema,
@@ -280,7 +283,8 @@ const formConfig = {
         },
         federalOrders: {
           title: 'Federal orders',
-          path: 'review-veteran-details/military-service-history/federal-orders',
+          path:
+            'review-veteran-details/military-service-history/federal-orders',
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
@@ -664,7 +668,8 @@ const formConfig = {
         privateMedicalRecordsUpload: {
           title: 'Upload non-VA treatment records',
           // TODO: REPLACE this path with 'supporting-evidence/private-medical-records-upload' once we deprecate the old upload page
-          path: 'supporting-evidence/private-medical-records-upload-enhancement',
+          path:
+            'supporting-evidence/private-medical-records-upload-enhancement',
           // TODO: Remove the `disability526SupportingEvidenceEnhancement` check once the feature is live to all users
           depends: formData =>
             formData.disability526SupportingEvidenceEnhancement &&

@@ -24,7 +24,9 @@ describe('handle multiple drafts in one thread', () => {
     cy.get(Locators.HEADERS.DRAFTS_HEADER).should('have.text', 'Draft replies');
 
     // Verify accordion is expanded by default (button removed, auto-expand behavior)
-    cy.get(Locators.REPLY_FORM).find('h2').should('be.visible');
+    cy.get(Locators.REPLY_FORM)
+      .find('h2')
+      .should('be.visible');
 
     cy.get(Locators.REPLY_FORM)
       .find('h3[slot="headline"]')

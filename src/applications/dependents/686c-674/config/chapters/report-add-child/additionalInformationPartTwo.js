@@ -10,7 +10,8 @@ export const additionalInformationPartTwo = {
     ...titleUI('Child’s income'),
     incomeInLastYear: radioUI({
       title: 'Has this child received income in the last 365 days?',
-      hint: 'Answer this question only if you are adding this dependent to your pension.',
+      hint:
+        'Answer this question only if you are adding this dependent to your pension.',
       labels: {
         Y: 'Yes',
         N: 'No',

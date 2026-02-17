@@ -11,8 +11,12 @@ import { sortOptions } from '../../config';
 export const SearchResultsHeader = props => {
   const { searchResults, pagination, query } = props;
   const { inProgress } = query;
-  const { context, representativeType, sortType, searchArea } =
-    query.committedSearchQuery;
+  const {
+    context,
+    representativeType,
+    sortType,
+    searchArea,
+  } = query.committedSearchQuery;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
   const reportFeatureEnabled = useToggleValue(

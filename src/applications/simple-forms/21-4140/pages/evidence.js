@@ -81,10 +81,13 @@ export default {
       title: 'Upload your supporting evidence',
       required: false,
       accept: '.pdf,.jpeg,.jpg,.png',
-      hint: 'You can upload a .pdf, .jpeg, or .png file. Your files must not be larger than 25MB',
+      hint:
+        'You can upload a .pdf, .jpeg, or .png file. Your files must not be larger than 25MB',
       disallowEncryptedPdfs: true,
       maxFileSize: 26214400, // 25MB in bytes
-      fileUploadUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+      fileUploadUrl: `${
+        environment.API_URL
+      }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
       formNumber: '21-4140',
       errorMessages: {
         required: 'Please select a file to upload',

@@ -9,8 +9,11 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../../config/form';
 
 describe('Claimant Information Page', () => {
-  const { schema, uiSchema, title } =
-    formConfig.chapters.applicantInformation.pages.claimantInformation;
+  const {
+    schema,
+    uiSchema,
+    title,
+  } = formConfig.chapters.applicantInformation.pages.claimantInformation;
   it('renders the claimant relationship options', async () => {
     const form = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,

@@ -341,21 +341,27 @@ const WorkflowChoicePage = props => {
   const [showAlert, setShowAlert] = useState(false);
   const [shouldGoForward, setShouldGoForward] = useState(false);
 
-  useEffect(() => {
-    if (showAlert) {
-      scrollTo('success-alert');
-    }
-  }, [showAlert]);
+  useEffect(
+    () => {
+      if (showAlert) {
+        scrollTo('success-alert');
+      }
+    },
+    [showAlert],
+  );
 
-  useEffect(() => {
-    if (
-      shouldGoForward &&
-      data?.mentalHealthWorkflowChoice === selectedMentalHealthWorkflowChoice
-    ) {
-      setShouldGoForward(false);
-      goForward(data);
-    }
-  }, [data, goForward, selectedMentalHealthWorkflowChoice, shouldGoForward]);
+  useEffect(
+    () => {
+      if (
+        shouldGoForward &&
+        data?.mentalHealthWorkflowChoice === selectedMentalHealthWorkflowChoice
+      ) {
+        setShouldGoForward(false);
+        goForward(data);
+      }
+    },
+    [data, goForward, selectedMentalHealthWorkflowChoice, shouldGoForward],
+  );
 
   const missingSelectionErrorMessage =
     'A response is needed for this question.';
@@ -381,41 +387,45 @@ const WorkflowChoicePage = props => {
 
   const selectedChoice = selectedMentalHealthWorkflowChoice ?? null;
 
-  const { primaryText, secondaryText, modalContent, alertContent, modalTitle } =
-    (() => {
-      switch (selectedChoice) {
-        case form0781WorkflowChoices.SUBMIT_PAPER_FORM:
-          return {
-            primaryText: confirmationDataUpload.yes,
-            secondaryText: confirmationDataUpload.no,
-            modalContent: modalDescriptionUpload,
-            alertContent: alertDescriptionUpload,
-            modalTitle: modalTitleUpload,
-          };
-        case form0781WorkflowChoices.OPT_OUT_OF_FORM0781:
-          return {
-            primaryText: confirmationDataOptOut.yes,
-            secondaryText: confirmationDataOptOut.no,
-            modalContent: modalDescriptionSkip,
-            alertContent: alertDescriptionSkip,
-            modalTitle: modalTitleSkip,
-          };
-        default:
-          return {
-            primaryText: confirmationCompleteOnline.yes,
-            secondaryText: confirmationCompleteOnline.no,
-            modalContent: data.form781Upload && modalDescriptionOnline(data),
-            alertContent: alertDescriptionOnline,
-            modalTitle: modalTitleOnline,
-          };
-      }
-    })();
+  const {
+    primaryText,
+    secondaryText,
+    modalContent,
+    alertContent,
+    modalTitle,
+  } = (() => {
+    switch (selectedChoice) {
+      case form0781WorkflowChoices.SUBMIT_PAPER_FORM:
+        return {
+          primaryText: confirmationDataUpload.yes,
+          secondaryText: confirmationDataUpload.no,
+          modalContent: modalDescriptionUpload,
+          alertContent: alertDescriptionUpload,
+          modalTitle: modalTitleUpload,
+        };
+      case form0781WorkflowChoices.OPT_OUT_OF_FORM0781:
+        return {
+          primaryText: confirmationDataOptOut.yes,
+          secondaryText: confirmationDataOptOut.no,
+          modalContent: modalDescriptionSkip,
+          alertContent: alertDescriptionSkip,
+          modalTitle: modalTitleSkip,
+        };
+      default:
+        return {
+          primaryText: confirmationCompleteOnline.yes,
+          secondaryText: confirmationCompleteOnline.no,
+          modalContent: data.form781Upload && modalDescriptionOnline(data),
+          alertContent: alertDescriptionOnline,
+          modalTitle: modalTitleOnline,
+        };
+    }
+  })();
 
   const setPreviousData = () => {
     const formData = {
       ...data,
-      'view:previousMentalHealthWorkflowChoice':
-        selectedMentalHealthWorkflowChoice,
+      'view:previousMentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
       mentalHealthWorkflowChoice: selectedMentalHealthWorkflowChoice,
     };
     setPreviousWorkflowChoice(selectedMentalHealthWorkflowChoice);
@@ -461,8 +471,7 @@ const WorkflowChoicePage = props => {
         setShowAlert(false);
         const formData = {
           ...data,
-          'view:previousMentalHealthWorkflowChoice':
-            selectedMentalHealthWorkflowChoice,
+          'view:previousMentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
           mentalHealthWorkflowChoice: selectedMentalHealthWorkflowChoice,
         };
         setPreviousWorkflowChoice(selectedMentalHealthWorkflowChoice);

@@ -116,8 +116,7 @@ export default function prefillTransformer(pages, formData, metadata, state) {
         newData.serviceInformation.servicePeriods = servicePeriods;
       }
       if (reservesNationalGuardService) {
-        newData.serviceInformation.reservesNationalGuardService =
-          reservesNationalGuardService;
+        newData.serviceInformation.reservesNationalGuardService = reservesNationalGuardService;
       }
     }
     // backend is prefilling with older branch names
@@ -130,8 +129,12 @@ export default function prefillTransformer(pages, formData, metadata, state) {
       data,
     );
 
-    const { bankAccountType, bankAccountNumber, bankRoutingNumber, bankName } =
-      data;
+    const {
+      bankAccountType,
+      bankAccountNumber,
+      bankRoutingNumber,
+      bankName,
+    } = data;
 
     if (bankAccountType && bankAccountNumber && bankRoutingNumber && bankName) {
       newData['view:originalBankAccount'] = viewifyFields({
@@ -175,8 +178,7 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     const { disabilityCompNewConditionsWorkflow } = data;
 
     if (disabilityCompNewConditionsWorkflow) {
-      newData.disabilityCompNewConditionsWorkflow =
-        disabilityCompNewConditionsWorkflow;
+      newData.disabilityCompNewConditionsWorkflow = disabilityCompNewConditionsWorkflow;
     }
 
     return newData;

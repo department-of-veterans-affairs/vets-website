@@ -11,7 +11,8 @@ describe('<Edit>', () => {
     const view = renderWithStoreAndRouter(<Edit />, {
       initialState: {},
       reducers: { vapService },
-      path: '/profile/edit?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications',
+      path:
+        '/profile/edit?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications',
     });
 
     // Assuming fieldData is empty, heading should start with 'Add' and be focused
@@ -26,7 +27,8 @@ describe('<Edit>', () => {
     const view = renderWithStoreAndRouter(<Edit />, {
       initialState: {},
       reducers: { vapService },
-      path: '/profile/edit?fieldName=someFakeField&returnPath=%2Fprofile%2Fnotifications',
+      path:
+        '/profile/edit?fieldName=someFakeField&returnPath=%2Fprofile%2Fnotifications',
     });
 
     expect(await view.findByText(/Edit your profile information/i)).to.exist;
@@ -66,7 +68,8 @@ describe('<Edit>', () => {
     const viewWithData = renderWithStoreAndRouter(<Edit />, {
       initialState: initialStateWithData,
       reducers: { vapService },
-      path: '/profile/edit?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications',
+      path:
+        '/profile/edit?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications',
     });
 
     // Assuming fieldData is not empty, heading should start with 'Update' and be focused
@@ -81,7 +84,8 @@ describe('<Edit>', () => {
     const { getByRole, findByText } = renderWithStoreAndRouter(<Edit />, {
       initialState: {},
       reducers: { vapService },
-      path: '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpersonal-information',
+      path:
+        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpersonal-information',
     });
 
     expect(getByRole('navigation')).to.exist;
@@ -92,7 +96,8 @@ describe('<Edit>', () => {
     const { getByText } = renderWithStoreAndRouter(<Edit />, {
       initialState: {},
       reducers: { vapService },
-      path: '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpersonal-information',
+      path:
+        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpersonal-information',
     });
 
     expect(getByText('PERSONAL INFORMATION', { exact: true })).to.exist;
@@ -102,7 +107,8 @@ describe('<Edit>', () => {
     renderWithStoreAndRouter(<Edit />, {
       initialState: {},
       reducers: { vapService },
-      path: '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpaperless-delivery',
+      path:
+        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpaperless-delivery',
     });
 
     await waitFor(() => {
@@ -126,7 +132,8 @@ describe('<Edit>', () => {
         },
       },
       reducers: { vapService },
-      path: '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpaperless-delivery',
+      path:
+        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpaperless-delivery',
     });
 
     await waitFor(() => {

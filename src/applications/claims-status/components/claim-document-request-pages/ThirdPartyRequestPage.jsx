@@ -20,8 +20,11 @@ export default function ThirdPartyRequestPage({
   const isDBQ = TrackedItem.getIsDBQ(item);
   const noActionNeeded = TrackedItem.getNoActionNeeded(item);
 
-  const { longDescriptionContent, longDescriptionTestId, nextStepsContent } =
-    resolveSharedContent(item);
+  const {
+    longDescriptionContent,
+    longDescriptionTestId,
+    nextStepsContent,
+  } = resolveSharedContent(item);
 
   const getDisplayName = () => {
     if (isDBQ) {

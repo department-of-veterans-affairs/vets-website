@@ -53,10 +53,8 @@ describe('PERSONAL INFORMATION EDIT SIGNATURE', () => {
 
     cy.get(Locators.SIGNATURE.GENERAL).should(
       `contain.text`,
-      `${
-        updatedSignatureResponse.data.attributes.signatureName +
-        updatedSignatureResponse.data.attributes.signatureTitle
-      }`,
+      `${updatedSignatureResponse.data.attributes.signatureName +
+        updatedSignatureResponse.data.attributes.signatureTitle}`,
     );
 
     cy.get(Locators.SIGNATURE.ALERTS.SUCCESS)

@@ -43,45 +43,47 @@ export default function PresubmitInfo({
     [dispatch],
   );
 
-  const handleInputBlur = useCallback(
-    () => setSignatureBlurred(true),
-    [setSignatureBlurred],
-  );
+  const handleInputBlur = useCallback(() => setSignatureBlurred(true), [
+    setSignatureBlurred,
+  ]);
 
   // effects: need to update formData and errors based on what the user
   // has typed and if they've checked the checkbox
-  useEffect(() => {
-    // check for name-matching error
-    const namesMatch =
-      fullNameReducer(formData.statementOfTruthSignature) ===
-      fullNameReducer(expectedFullName);
-    setInputError(
-      (showError || signatureBlurred) && !namesMatch
-        ? `Enter your name exactly as it appears on your form: ${expectedFullName}`
-        : null,
-    );
+  useEffect(
+    () => {
+      // check for name-matching error
+      const namesMatch =
+        fullNameReducer(formData.statementOfTruthSignature) ===
+        fullNameReducer(expectedFullName);
+      setInputError(
+        (showError || signatureBlurred) && !namesMatch
+          ? `Enter your name exactly as it appears on your form: ${expectedFullName}`
+          : null,
+      );
 
-    // check for checkbox error
-    setCheckboxError(
-      showError && !formData.statementOfTruthCertified
-        ? 'You must certify by checking the box'
-        : null,
-    );
+      // check for checkbox error
+      setCheckboxError(
+        showError && !formData.statementOfTruthCertified
+          ? 'You must certify by checking the box'
+          : null,
+      );
 
-    const isComplete = namesMatch && formData.statementOfTruthCertified;
-    if (sectionComplete !== isComplete) {
-      setSectionComplete(isComplete);
-      onSectionComplete(isComplete);
-    }
-  }, [
-    formData.statementOfTruthSignature,
-    formData.statementOfTruthCertified,
-    showError,
-    signatureBlurred,
-    onSectionComplete,
-    expectedFullName,
-    sectionComplete,
-  ]);
+      const isComplete = namesMatch && formData.statementOfTruthCertified;
+      if (sectionComplete !== isComplete) {
+        setSectionComplete(isComplete);
+        onSectionComplete(isComplete);
+      }
+    },
+    [
+      formData.statementOfTruthSignature,
+      formData.statementOfTruthCertified,
+      showError,
+      signatureBlurred,
+      onSectionComplete,
+      expectedFullName,
+      sectionComplete,
+    ],
+  );
 
   return (
     <VaStatementOfTruth

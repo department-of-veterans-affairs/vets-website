@@ -19,15 +19,18 @@ const IdentityPage = ({ location, route, router }) => {
       router.push(getNextPagePath(route.pageList, formData, location.pathname)),
     [formData, location.pathname, route.pageList, router],
   );
-  const triggerPrefill = useCallback(() => {
-    const dataToSet = {
-      ...formData,
-      emailAddress: localData.email,
-      primaryPhone: localData.phone,
-      'view:recipientName': localData.fullName,
-    };
-    dispatch(setData(dataToSet));
-  }, [dispatch, formData, localData]);
+  const triggerPrefill = useCallback(
+    () => {
+      const dataToSet = {
+        ...formData,
+        emailAddress: localData.email,
+        primaryPhone: localData.phone,
+        'view:recipientName': localData.fullName,
+      };
+      dispatch(setData(dataToSet));
+    },
+    [dispatch, formData, localData],
+  );
 
   const onSubmit = () => {
     triggerPrefill();

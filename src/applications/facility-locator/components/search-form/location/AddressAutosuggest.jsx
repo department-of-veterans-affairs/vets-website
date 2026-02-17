@@ -30,15 +30,18 @@ function AddressAutosuggest({
 
   const errorID = 'street-city-state-zip-error';
 
-  const inputClearClick = useCallback(() => {
-    onClearClick(); // clears searchString in redux
-    onChange({ searchString: '' });
-    setInputValue('');
-    // setting to null causes the the searchString to be used, because of a useEffect below
-    // so we set it to a non-existent object
-    setSelectedItem(null);
-    setOptions([]);
-  }, [onClearClick, onChange]);
+  const inputClearClick = useCallback(
+    () => {
+      onClearClick(); // clears searchString in redux
+      onChange({ searchString: '' });
+      setInputValue('');
+      // setting to null causes the the searchString to be used, because of a useEffect below
+      // so we set it to a non-existent object
+      setSelectedItem(null);
+      setOptions([]);
+    },
+    [onClearClick, onChange],
+  );
 
   const handleOnSelect = item => {
     // This selects the WHOLE item not just the text to display giving you access to all it's data
@@ -92,10 +95,9 @@ function AddressAutosuggest({
     [searchString, onChange],
   );
 
-  const debouncedUpdateSearch = useMemo(
-    () => vaDebounce(500, updateSearch),
-    [updateSearch],
-  );
+  const debouncedUpdateSearch = useMemo(() => vaDebounce(500, updateSearch), [
+    updateSearch,
+  ]);
 
   const onBlur = () => {
     const value = inputValue?.trimStart() || '';
@@ -134,36 +136,45 @@ function AddressAutosuggest({
     }
   };
 
-  useEffect(() => {
-    // If the location is changed, and there is no value in searchString or inputValue then show the error
-    setShowAddressError(
-      locationChanged &&
-        !geolocationInProgress &&
-        !searchString?.length &&
-        !inputValue, // not null but empty string (null on start)
-    );
-  }, [
-    locationChanged,
-    geolocationInProgress,
-    searchString,
-    inputValue,
-    isTouched,
-  ]);
+  useEffect(
+    () => {
+      // If the location is changed, and there is no value in searchString or inputValue then show the error
+      setShowAddressError(
+        locationChanged &&
+          !geolocationInProgress &&
+          !searchString?.length &&
+          !inputValue, // not null but empty string (null on start)
+      );
+    },
+    [
+      locationChanged,
+      geolocationInProgress,
+      searchString,
+      inputValue,
+      isTouched,
+    ],
+  );
 
-  useEffect(() => {
-    if (searchString && !geolocationInProgress) {
-      setInputValue(searchString);
-    }
-  }, [searchString, geolocationInProgress]);
+  useEffect(
+    () => {
+      if (searchString && !geolocationInProgress) {
+        setInputValue(searchString);
+      }
+    },
+    [searchString, geolocationInProgress],
+  );
 
-  useEffect(() => {
-    // Focus the error message when it appears so screen readers announce it
-    if (showAddressError) {
-      addAriaErrorId();
-    } else {
-      removeAriaErrorId();
-    }
-  }, [showAddressError]);
+  useEffect(
+    () => {
+      // Focus the error message when it appears so screen readers announce it
+      if (showAddressError) {
+        addAriaErrorId();
+      } else {
+        removeAriaErrorId();
+      }
+    },
+    [showAddressError],
+  );
 
   return (
     <Autosuggest

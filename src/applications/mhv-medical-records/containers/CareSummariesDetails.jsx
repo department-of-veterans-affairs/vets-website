@@ -40,34 +40,40 @@ const CareSummariesDetails = () => {
 
   useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_DETAILS);
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearCareSummariesDetails());
-    };
-  }, [dispatch]);
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearCareSummariesDetails());
+      };
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    if (summaryId && !careSummary?.notFound) {
-      dispatch(
-        getCareSummaryAndNotesDetails(
-          summaryId,
-          careSummariesList,
-          isAcceleratingCareNotes,
-        ),
-      );
-    }
-    if (careSummary?.notFound || !careSummariesList) {
-      history.push('/summaries-and-notes/');
-    }
-    updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE);
-  }, [
-    summaryId,
-    careSummariesList,
-    dispatch,
-    isAcceleratingCareNotes,
-    history,
-    careSummary,
-  ]);
+  useEffect(
+    () => {
+      if (summaryId && !careSummary?.notFound) {
+        dispatch(
+          getCareSummaryAndNotesDetails(
+            summaryId,
+            careSummariesList,
+            isAcceleratingCareNotes,
+          ),
+        );
+      }
+      if (careSummary?.notFound || !careSummariesList) {
+        history.push('/summaries-and-notes/');
+      }
+      updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE);
+    },
+    [
+      summaryId,
+      careSummariesList,
+      dispatch,
+      isAcceleratingCareNotes,
+      history,
+      careSummary,
+    ],
+  );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 

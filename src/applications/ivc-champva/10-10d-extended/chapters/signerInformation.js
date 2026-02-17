@@ -239,7 +239,8 @@ export const certifierRelationshipSchema = {
     certifierRelationship: {
       relationshipToVeteran: checkboxGroupUI({
         title: 'Which of these best describes you?',
-        hint: 'If you’re applying for multiple applicants, select all that apply.',
+        hint:
+          'If you’re applying for multiple applicants, select all that apply.',
         required: () => true,
         labels: {
           spouse: 'I’m an applicant’s spouse',

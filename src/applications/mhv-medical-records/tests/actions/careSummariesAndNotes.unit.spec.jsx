@@ -33,10 +33,7 @@ describe('Get care summaries and notes list action', () => {
     const mockData = notes;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getCareSummariesAndNotesList(
-      false,
-      true,
-    )(dispatch).then(() => {
+    return getCareSummariesAndNotesList(false, true)(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
       );
@@ -61,10 +58,9 @@ describe('Get care summaries and notes details action', () => {
     const mockData = note;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getCareSummaryAndNotesDetails(
-      'ex-MHV-note-1',
-      undefined,
-    )(dispatch).then(() => {
+    return getCareSummaryAndNotesDetails('ex-MHV-note-1', undefined)(
+      dispatch,
+    ).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.CareSummariesAndNotes.GET,
       );
@@ -107,11 +103,7 @@ describe('Update notes date range action', () => {
     const option = '6';
     const fromDate = '2025-05-13';
     const toDate = '2025-11-13';
-    return updateNotesDateRange(
-      option,
-      fromDate,
-      toDate,
-    )(dispatch).then(() => {
+    return updateNotesDateRange(option, fromDate, toDate)(dispatch).then(() => {
       expect(dispatch.calledOnce).to.be.true;
       const action = dispatch.firstCall.args[0];
       expect(action.type).to.equal(

@@ -89,7 +89,9 @@ const validateHistory = debts => {
     history?.forEach(h => {
       if (!h.date) {
         errors.push(
-          `Missing date; letterCode: ${h?.letterCode}; deductionCode: ${debt?.deductionCode}; diaryCode: ${debt?.diaryCode}`,
+          `Missing date; letterCode: ${h?.letterCode}; deductionCode: ${
+            debt?.deductionCode
+          }; diaryCode: ${debt?.diaryCode}`,
         );
       }
     });

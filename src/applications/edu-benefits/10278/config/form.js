@@ -201,15 +201,16 @@ const formConfig = {
               depends: formData =>
                 formData?.discloseInformation?.authorize === 'organization',
             }),
-            thirdPartyOrganizationRepresentativesSummary:
-              pageBuilder.summaryPage({
+            thirdPartyOrganizationRepresentativesSummary: pageBuilder.summaryPage(
+              {
                 title: 'Review representatives',
                 path: 'organizations/representatives-summary',
                 uiSchema: thirdPartyOrganizationRepresentativesSummary.uiSchema,
                 schema: thirdPartyOrganizationRepresentativesSummary.schema,
                 depends: formData =>
                   formData?.discloseInformation?.authorize === 'organization',
-              }),
+              },
+            ),
             thirdPartyOrganizationRepresentativeName: pageBuilder.itemPage({
               title: 'Name of organization’s representatives',
               path: 'organizations/representatives/:index',

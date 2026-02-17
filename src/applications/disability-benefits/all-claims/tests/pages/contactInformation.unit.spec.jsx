@@ -673,7 +673,12 @@ describe('Disability benefits 526EZ contact information', () => {
         );
 
         // country
-        expect(form.find('VaSelect').at(0).prop('inert')).to.be.true;
+        expect(
+          form
+            .find('VaSelect')
+            .at(0)
+            .prop('inert'),
+        ).to.be.true;
         form.unmount();
       });
 

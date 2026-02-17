@@ -103,11 +103,13 @@ class MedicalRecordsSite {
             value: false,
           },
           {
-            name: 'mhv_medical_records_support_backend_pagination_care_summary_note',
+            name:
+              'mhv_medical_records_support_backend_pagination_care_summary_note',
             value: false,
           },
           {
-            name: 'mhv_medical_records_support_backend_pagination_health_condition',
+            name:
+              'mhv_medical_records_support_backend_pagination_health_condition',
             value: false,
           },
           {

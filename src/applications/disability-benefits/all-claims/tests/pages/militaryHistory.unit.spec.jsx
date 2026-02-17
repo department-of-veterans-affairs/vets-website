@@ -19,8 +19,10 @@ import {
 } from '../../utils/serviceBranches';
 
 describe('Military history', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.veteranDetails.pages.militaryHistory;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.veteranDetails.pages.militaryHistory;
 
   const appStateData = {
     dob: '1990-01-01',
@@ -266,9 +268,12 @@ describe('Military history', () => {
 
     form.find('.va-growable-add-btn').simulate('click');
 
-    expect(form.find('.va-growable-background').first().text()).to.contain(
-      'Army',
-    );
+    expect(
+      form
+        .find('.va-growable-background')
+        .first()
+        .text(),
+    ).to.contain('Army');
     form.unmount();
   });
 

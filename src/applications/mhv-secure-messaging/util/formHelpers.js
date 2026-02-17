@@ -16,8 +16,9 @@ export const focusOnErrorField = () => {
         .querySelector('va-radio-option')
         ?.querySelector('input');
     } else if (firstErrorElement.shadowRoot) {
-      firstError =
-        firstErrorElement.shadowRoot.querySelector('input, textarea');
+      firstError = firstErrorElement.shadowRoot.querySelector(
+        'input, textarea',
+      );
       if (!firstError) {
         // Fall back to select if no input or textarea is found
         firstError = firstErrorElement.shadowRoot.querySelector('select');

@@ -56,14 +56,16 @@ const createEncryptedFilesList = async files => {
 // Shadow DOM extraction utilities
 const extractPasswordsFromShadowDOM = (fileInputRef, files, encrypted) => {
   const updatedFiles = [...files];
-  const vaFileInputElements =
-    fileInputRef.current?.shadowRoot?.querySelectorAll('va-file-input');
+  const vaFileInputElements = fileInputRef.current?.shadowRoot?.querySelectorAll(
+    'va-file-input',
+  );
 
   if (vaFileInputElements) {
     vaFileInputElements.forEach((vaFileInput, index) => {
       if (encrypted[index]) {
-        const vaTextInput =
-          vaFileInput.shadowRoot?.querySelector('va-text-input');
+        const vaTextInput = vaFileInput.shadowRoot?.querySelector(
+          'va-text-input',
+        );
         const passwordInput = vaTextInput?.shadowRoot?.querySelector('input');
         if (passwordInput && updatedFiles[index]) {
           updatedFiles[index] = {
@@ -244,22 +246,25 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
     : `/track-claims/your-claims/${claimId}/files${otherWaysAnchor}`;
 
   // Track document type changes and clear errors immediately
-  useEffect(() => {
-    // Poll for document type changes to clear errors immediately
-    const interval = setInterval(() => {
-      const currentDocTypes = extractDocumentTypesFromShadowDOM(fileInputRef);
+  useEffect(
+    () => {
+      // Poll for document type changes to clear errors immediately
+      const interval = setInterval(() => {
+        const currentDocTypes = extractDocumentTypesFromShadowDOM(fileInputRef);
 
-      setErrors(prevErrors =>
-        clearSpecificErrors(
-          prevErrors,
-          DOC_TYPE_ERROR,
-          index => currentDocTypes[index]?.trim() !== '',
-        ),
-      );
-    }, 150);
+        setErrors(prevErrors =>
+          clearSpecificErrors(
+            prevErrors,
+            DOC_TYPE_ERROR,
+            index => currentDocTypes[index]?.trim() !== '',
+          ),
+        );
+      }, 150);
 
-    return () => clearInterval(interval);
-  }, [files]);
+      return () => clearInterval(interval);
+    },
+    [files],
+  );
 
   const handleFileChange = async event => {
     const { action, state } = event.detail;

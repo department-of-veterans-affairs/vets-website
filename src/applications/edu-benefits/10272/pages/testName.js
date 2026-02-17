@@ -12,7 +12,8 @@ const uiSchema = {
   testName: textUI({
     title:
       "What's the name of the licensing or certification test this course helps you prepare for?",
-    hint: 'Type the full name of the test. Your prep course must prepare you for this test to be eligible for reimbursement.',
+    hint:
+      'Type the full name of the test. Your prep course must prepare you for this test to be eligible for reimbursement.',
     errorMessages: {
       required: 'Enter a test name',
     },

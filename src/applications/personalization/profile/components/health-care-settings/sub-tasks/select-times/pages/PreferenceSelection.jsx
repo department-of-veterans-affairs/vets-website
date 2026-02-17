@@ -57,40 +57,43 @@ const PreferenceSelection = ({
     [setPageData, fieldName],
   );
 
-  useEffect(() => {
-    // Prefer explicit edits in pageData when the field is present there.
-    // Otherwise fall back to redux `data` prop passed from the container.
-    const hasPageValue =
-      pageData &&
-      pageData.data &&
-      Object.prototype.hasOwnProperty.call(pageData.data, fieldName);
-    const source = hasPageValue ? pageData.data : data || {};
-    const values = (source && source[fieldName]) || source || [];
+  useEffect(
+    () => {
+      // Prefer explicit edits in pageData when the field is present there.
+      // Otherwise fall back to redux `data` prop passed from the container.
+      const hasPageValue =
+        pageData &&
+        pageData.data &&
+        Object.prototype.hasOwnProperty.call(pageData.data, fieldName);
+      const source = hasPageValue ? pageData.data : data || {};
+      const values = (source && source[fieldName]) || source || [];
 
-    // Normalize values to an array
-    const vals = Array.isArray(values) ? values : [values];
+      // Normalize values to an array
+      const vals = Array.isArray(values) ? values : [values];
 
-    // No value -> none selected
-    if (!vals || vals.length === 0) {
-      setFieldData('');
-      return;
-    }
+      // No value -> none selected
+      if (!vals || vals.length === 0) {
+        setFieldData('');
+        return;
+      }
 
-    // Single value equals noPreferenceValue -> select noPreference
-    if (vals.length === 1 && vals[0] === noPreferenceValue) {
-      setFieldData(noPreferenceValue);
-      return;
-    }
+      // Single value equals noPreferenceValue -> select noPreference
+      if (vals.length === 1 && vals[0] === noPreferenceValue) {
+        setFieldData(noPreferenceValue);
+        return;
+      }
 
-    // Any values (one or more) that don't include noPreferenceValue -> select continue
-    if (vals.length >= 1 && !vals.includes(noPreferenceValue)) {
-      setFieldData('continue');
-      return;
-    }
+      // Any values (one or more) that don't include noPreferenceValue -> select continue
+      if (vals.length >= 1 && !vals.includes(noPreferenceValue)) {
+        setFieldData('continue');
+        return;
+      }
 
-    // Fallback
-    setFieldData(vals[0] || '');
-  }, [pageData, fieldName, noPreferenceValue, data]);
+      // Fallback
+      setFieldData(vals[0] || '');
+    },
+    [pageData, fieldName, noPreferenceValue, data],
+  );
 
   const content = {
     errorMessage: errorMessages.noPreferenceSelected,

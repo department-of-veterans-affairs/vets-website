@@ -375,15 +375,13 @@ describe('Actions', () => {
     let oldDataLayer;
     let dispatchSpy;
 
-    const createGetState =
-      (uploader = null) =>
-      () => ({
-        disability: {
-          status: {
-            uploads: { uploader },
-          },
+    const createGetState = (uploader = null) => () => ({
+      disability: {
+        status: {
+          uploads: { uploader },
         },
-      });
+      },
+    });
 
     beforeEach(() => {
       oldDataLayer = global.window.dataLayer;

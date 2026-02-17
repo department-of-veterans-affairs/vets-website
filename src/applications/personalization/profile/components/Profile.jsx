@@ -168,10 +168,10 @@ class Profile extends Component {
   mainContent = () => {
     let routes = getRoutes({
       profile2Enabled: this.props.shouldShowProfile2,
-      profileHealthCareSettingsPage:
-        this.props.shouldShowHealthCareSettingsPage,
-      profileHideHealthCareContacts:
-        this.props.shouldHideHealthCareContactsPage,
+      profileHealthCareSettingsPage: this.props
+        .shouldShowHealthCareSettingsPage,
+      profileHideHealthCareContacts: this.props
+        .shouldHideHealthCareContactsPage,
     });
 
     // feature toggled route
@@ -316,8 +316,9 @@ const mapStateToProps = state => {
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
-  const isSchedulingPreferencesPilotEligible =
-    isSchedulingPreferencesPilotEligibleSelector(state);
+  const isSchedulingPreferencesPilotEligible = isSchedulingPreferencesPilotEligibleSelector(
+    state,
+  );
   const shouldShowAccreditedRepTab =
     profileToggles?.representativeStatusEnableV2Features;
   const shouldShowProfile2 = profileToggles?.profile2Enabled;
@@ -389,8 +390,9 @@ const mapStateToProps = state => {
     shouldShowHealthCareSettingsPage,
     shouldFetchSchedulingPreferences,
     shouldFetchTotalDisabilityRating,
-    isDowntimeWarningDismissed:
-      state.scheduledDowntime?.dismissedDowntimeWarnings?.includes('profile'),
+    isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
+      'profile',
+    ),
     isBlocked,
     isSchedulingPreferencesPilotEligible,
     togglesLoaded,

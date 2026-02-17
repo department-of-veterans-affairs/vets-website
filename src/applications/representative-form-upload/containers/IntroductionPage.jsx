@@ -25,23 +25,26 @@ const IntroductionPage = ({ route, router }) => {
     window.location = SIGN_IN_URL;
   };
 
-  const startBtn = useMemo(() => {
-    const startForm = () => {
-      sessionStorage.setItem('formIncompleteARP', 'true');
-      recordEvent({ event: `${formNumber}-start-form` });
-      return router.push(route.pageList[1].path);
-    };
-    return (
-      <VaLinkAction
-        href="#start"
-        label="Start form upload and submission"
-        class=" representative-form__start"
-        text="Start form upload and submission"
-        onClick={startForm}
-        type="primary"
-      />
-    );
-  }, [route.pageList, router]);
+  const startBtn = useMemo(
+    () => {
+      const startForm = () => {
+        sessionStorage.setItem('formIncompleteARP', 'true');
+        recordEvent({ event: `${formNumber}-start-form` });
+        return router.push(route.pageList[1].path);
+      };
+      return (
+        <VaLinkAction
+          href="#start"
+          label="Start form upload and submission"
+          class=" representative-form__start"
+          text="Start form upload and submission"
+          onClick={startForm}
+          type="primary"
+        />
+      );
+    },
+    [route.pageList, router],
+  );
   useEffect(() => {
     focusElement('h1');
   }, []);

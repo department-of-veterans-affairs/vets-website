@@ -6,7 +6,9 @@ class PatientReplyPage {
   clickReplyButton = mockResponse => {
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${mockResponse.data[0].attributes.messageId}/thread*`,
+      `${Paths.INTERCEPT.MESSAGES}/${
+        mockResponse.data[0].attributes.messageId
+      }/thread*`,
       mockResponse,
     ).as(`getMessageRequest`);
     cy.get(Locators.BUTTONS.REPLY).click();
@@ -16,7 +18,9 @@ class PatientReplyPage {
   clickSendReplyMessageButton = mockReplyMessage => {
     cy.intercept(
       'POST',
-      `${Paths.INTERCEPT.MESSAGES}/${mockReplyMessage.data.attributes.messageId}/reply`,
+      `${Paths.INTERCEPT.MESSAGES}/${
+        mockReplyMessage.data.attributes.messageId
+      }/reply`,
       mockReplyMessage,
     ).as('replyMessage');
     cy.get(Locators.BUTTONS.SEND).click();
@@ -27,7 +31,9 @@ class PatientReplyPage {
     replyMessage.data.attributes.body = updatedBodyText;
     cy.intercept(
       'POST',
-      `/my_health/v1/messaging/message_drafts/${mockSingleMessage.data.attributes.messageId}/replydraft`,
+      `/my_health/v1/messaging/message_drafts/${
+        mockSingleMessage.data.attributes.messageId
+      }/replydraft`,
       replyMessage,
     ).as('replyDraftMessage');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
@@ -67,7 +73,9 @@ class PatientReplyPage {
     );
     cy.intercept(
       'POST',
-      `${Paths.INTERCEPT.MESSAGES}/${mockMessage.data.attributes.messageId}/reply`,
+      `${Paths.INTERCEPT.MESSAGES}/${
+        mockMessage.data.attributes.messageId
+      }/reply`,
       mockMessage,
     ).as('replyDraftMessage');
 

@@ -57,9 +57,15 @@ class ChemHemDetailsPage extends BaseDetailsPage {
     if (Cypress.browser.isHeadless) {
       cy.log('browser is headless');
       const downloadsFolder = Cypress.config('downloadsFolder');
-      const txtPath1 = `${downloadsFolder}/VA-labs-and-tests-details-${userFirstName}-${userLastName}-${this.downloadTime1sec}.txt`;
-      const txtPath2 = `${downloadsFolder}/VA-labs-and-tests-details-${userFirstName}-${userLastName}-${this.downloadTime2sec}.txt`;
-      const txtPath3 = `${downloadsFolder}/VA-labs-and-tests-details-${userFirstName}-${userLastName}-${this.downloadTime3sec}.txt`;
+      const txtPath1 = `${downloadsFolder}/VA-labs-and-tests-details-${userFirstName}-${userLastName}-${
+        this.downloadTime1sec
+      }.txt`;
+      const txtPath2 = `${downloadsFolder}/VA-labs-and-tests-details-${userFirstName}-${userLastName}-${
+        this.downloadTime2sec
+      }.txt`;
+      const txtPath3 = `${downloadsFolder}/VA-labs-and-tests-details-${userFirstName}-${userLastName}-${
+        this.downloadTime3sec
+      }.txt`;
       this.internalReadFileMaybe(txtPath1, searchText);
       this.internalReadFileMaybe(txtPath2, searchText);
       this.internalReadFileMaybe(txtPath3, searchText);

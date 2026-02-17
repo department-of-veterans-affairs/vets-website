@@ -121,7 +121,10 @@ describe('Profile Breadcrumbs', () => {
         }),
       ).as('featureToggles');
       cy.visit(path);
-      cy.get('va-breadcrumbs').shadow().findByText(name).should('exist');
+      cy.get('va-breadcrumbs')
+        .shadow()
+        .findByText(name)
+        .should('exist');
 
       cy.url().should('eq', `${Cypress.config('baseUrl')}${path}`);
       cy.injectAxeThenAxeCheck();

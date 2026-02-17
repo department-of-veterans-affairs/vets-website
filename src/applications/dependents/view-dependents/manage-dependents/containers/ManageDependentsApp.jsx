@@ -92,16 +92,18 @@ const ManageDependents = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (dependentsState?.[stateKey]) {
-      setSchema(dependentsState[stateKey].formSchema);
-      setUiSchema(dependentsState[stateKey].uiSchema);
-    }
-  }, [dependentsState, stateKey]);
+  useEffect(
+    () => {
+      if (dependentsState?.[stateKey]) {
+        setSchema(dependentsState[stateKey].formSchema);
+        setUiSchema(dependentsState[stateKey].uiSchema);
+      }
+    },
+    [dependentsState, stateKey],
+  );
 
-  const fullName = `${userInfo.fullName?.firstName || ''} ${
-    userInfo.fullName?.lastName || ''
-  }`;
+  const fullName = `${userInfo.fullName?.firstName || ''} ${userInfo.fullName
+    ?.lastName || ''}`;
   const isLoading = schema
     ? dependentsState[stateKey].status === LOADING_STATUS.pending
     : false;
@@ -161,7 +163,10 @@ const mapDispatchToProps = {
   ...actions,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageDependents);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ManageDependents);
 export { ManageDependents };
 
 ManageDependents.propTypes = {

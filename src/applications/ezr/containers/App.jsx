@@ -69,10 +69,8 @@ const App = props => {
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:householdEnabled': !!canSubmitFinancialInfo,
           'view:isEmergencyContactsEnabled': !!isEmergencyContactsEnabled,
-          'view:isProvidersAndDependentsPrefillEnabled':
-            !!isProvidersAndDependentsPrefillEnabled,
-          'view:isSpouseConfirmationFlowEnabled':
-            !!isSpouseConfirmationFlowEnabled,
+          'view:isProvidersAndDependentsPrefillEnabled': !!isProvidersAndDependentsPrefillEnabled,
+          'view:isSpouseConfirmationFlowEnabled': !!isSpouseConfirmationFlowEnabled,
           'view:ezrServiceHistoryEnabled': !!ezrServiceHistoryEnabled,
         };
 
@@ -145,4 +143,7 @@ const mapDispatchToProps = {
   fetchEnrollmentStatus: fetchEnrollmentStatusAction,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

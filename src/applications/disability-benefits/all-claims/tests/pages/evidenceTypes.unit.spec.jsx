@@ -13,8 +13,10 @@ import formConfig from '../../config/form';
 import { updateFormData } from '../../pages/evidenceTypes';
 
 describe('evidenceTypes', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.supportingEvidence.pages.evidenceTypes;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.supportingEvidence.pages.evidenceTypes;
 
   it('should render', () => {
     const { container } = render(

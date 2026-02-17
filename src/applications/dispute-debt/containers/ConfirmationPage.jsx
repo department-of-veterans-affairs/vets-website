@@ -14,9 +14,12 @@ import NeedHelp from '../components/NeedHelp';
 export const ConfirmationPage = ({ route }) => {
   const { formConfig } = route;
 
-  useEffect(() => {
-    setDocumentTitle('Confirmation Page - Dispute Debt');
-  }, [formConfig.title]);
+  useEffect(
+    () => {
+      setDocumentTitle('Confirmation Page - Dispute Debt');
+    },
+    [formConfig.title],
+  );
 
   const form = useSelector(state => state.form || {});
   const userEmail = useSelector(state => state.user.profile.email || '');

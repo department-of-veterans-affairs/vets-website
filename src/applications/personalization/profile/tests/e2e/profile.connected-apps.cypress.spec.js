@@ -50,7 +50,12 @@ function disconnectApps(mobile = false, error = false) {
     force: true,
   });
   // Click in disconnect in the confirmation modal
-  cy.get('va-modal').should('exist').shadow().find('va-button').first().click();
+  cy.get('va-modal')
+    .should('exist')
+    .shadow()
+    .find('va-button')
+    .first()
+    .click();
 }
 function checkForSuccess() {
   cy.wait('@connectedAppDelete1');
@@ -67,7 +72,12 @@ function checkForSuccess() {
   });
 
   // Click in disconnect in the confirmation modal
-  cy.get('va-modal').should('exist').shadow().find('va-button').first().click();
+  cy.get('va-modal')
+    .should('exist')
+    .shadow()
+    .find('va-button')
+    .first()
+    .click();
   cy.wait('@connectedAppDelete2');
 
   // Check for the presence of 2 disconnect success alerts

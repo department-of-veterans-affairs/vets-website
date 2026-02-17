@@ -25,7 +25,9 @@ const form210966 = (pathname = null) => {
     formId: '21-0966',
     rootUrl: manifest.rootUrl,
     urlPrefix: `/submit-va-form-${formNumber}/`,
-    submitUrl: `${environment.API_URL}/accredited_representative_portal/v0/intent_to_file`,
+    submitUrl: `${
+      environment.API_URL
+    }/accredited_representative_portal/v0/intent_to_file`,
     dev: {
       collapsibleNavLinks: true,
       showNavLinks: !window.Cypress,

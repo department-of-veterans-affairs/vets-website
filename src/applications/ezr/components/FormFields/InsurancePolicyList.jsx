@@ -67,24 +67,30 @@ const InsurancePolicyList = ({
   };
 
   // call onDelete and close modal when policy list updates on modal confirmation
-  useAfterRenderEffect(() => {
-    onDelete(providers);
-    setModal(DEFAULT_STATE.modal);
-    setTimeout(() => {
-      focusElement('#root__title');
-    }, 5);
-  }, [providers]);
+  useAfterRenderEffect(
+    () => {
+      onDelete(providers);
+      setModal(DEFAULT_STATE.modal);
+      setTimeout(() => {
+        focusElement('#root__title');
+      }, 5);
+    },
+    [providers],
+  );
 
   // apply focus to specific list item when coming back from edit flow
-  useEffect(() => {
-    if (listItemsRef.current.length) {
-      const elRef = listItemsRef.current.find(item => scrollId === item?.id);
-      if (elRef) {
-        focusElement(elRef);
-        window.sessionStorage.removeItem(SESSION_ITEMS.insurance);
+  useEffect(
+    () => {
+      if (listItemsRef.current.length) {
+        const elRef = listItemsRef.current.find(item => scrollId === item?.id);
+        if (elRef) {
+          focusElement(elRef);
+          window.sessionStorage.removeItem(SESSION_ITEMS.insurance);
+        }
       }
-    }
-  }, [scrollId, listItemsRef]);
+    },
+    [scrollId, listItemsRef],
+  );
 
   // create policy list items
   const listItems = providers.map((item, index) => {

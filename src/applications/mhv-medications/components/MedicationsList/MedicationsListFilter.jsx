@@ -35,8 +35,9 @@ const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
     isCernerPilot,
     isV2StatusMapping,
   );
-  const [selectedFilterOption, setSelectedFilterOption] =
-    useState(filterOption);
+  const [selectedFilterOption, setSelectedFilterOption] = useState(
+    filterOption,
+  );
 
   const mapFilterCountToFilterLabels = label => {
     switch (label) {
@@ -78,12 +79,15 @@ const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
     }
   };
 
-  useEffect(() => {
-    if (filterOpenByDefault) {
-      ref.current.setAttribute('open', true);
-      dispatch(setFilterOpen(false));
-    }
-  }, [filterOpenByDefault, dispatch, ref]);
+  useEffect(
+    () => {
+      if (filterOpenByDefault) {
+        ref.current.setAttribute('open', true);
+        dispatch(setFilterOpen(false));
+      }
+    },
+    [filterOpenByDefault, dispatch, ref],
+  );
 
   const handleFilterOptionChange = ({ detail }) => {
     setSelectedFilterOption(detail.value);

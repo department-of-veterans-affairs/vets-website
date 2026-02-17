@@ -8,37 +8,41 @@ const CrisisLineConnectButton = props => {
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [crisisModalOpened, setCrisisModalOpened] = useState(false);
 
-  useEffect(() => {
-    const onCrisisModalClose = () => {
-      setCrisisModalOpened(false);
-      focusElement(lastFocusableElement);
-    };
+  useEffect(
+    () => {
+      const onCrisisModalClose = () => {
+        setCrisisModalOpened(false);
+        focusElement(lastFocusableElement);
+      };
 
-    const onEscapeKeyPress = e => {
-      if (e.keyCode === 27) {
-        onCrisisModalClose();
-      }
-    };
-    const modalCloseButton =
-      document.getElementsByClassName('va-modal-close')[0];
+      const onEscapeKeyPress = e => {
+        if (e.keyCode === 27) {
+          onCrisisModalClose();
+        }
+      };
+      const modalCloseButton = document.getElementsByClassName(
+        'va-modal-close',
+      )[0];
 
-    if (crisisModalOpened && modalCloseButton) {
-      modalCloseButton.addEventListener('click', onCrisisModalClose);
-      window.addEventListener('keydown', onEscapeKeyPress);
-    }
-    return () => {
-      // NODE 22 FIX: Add null check before calling removeEventListener.
-      // When crisisModalOpened is false, the modal isn't in the DOM yet,
-      // so modalCloseButton will be undefined. The cleanup function captures
-      // this undefined value in its closure, causing a TypeError when React
-      // runs the cleanup before the next effect. This is a real bug that
-      // can occur in production browsers too, not just a test environment issue.
-      if (modalCloseButton) {
-        modalCloseButton.removeEventListener('click', onCrisisModalClose);
+      if (crisisModalOpened && modalCloseButton) {
+        modalCloseButton.addEventListener('click', onCrisisModalClose);
+        window.addEventListener('keydown', onEscapeKeyPress);
       }
-      window.removeEventListener('keydown', onEscapeKeyPress);
-    };
-  }, [lastFocusableElement, crisisModalOpened]);
+      return () => {
+        // NODE 22 FIX: Add null check before calling removeEventListener.
+        // When crisisModalOpened is false, the modal isn't in the DOM yet,
+        // so modalCloseButton will be undefined. The cleanup function captures
+        // this undefined value in its closure, causing a TypeError when React
+        // runs the cleanup before the next effect. This is a real bug that
+        // can occur in production browsers too, not just a test environment issue.
+        if (modalCloseButton) {
+          modalCloseButton.removeEventListener('click', onCrisisModalClose);
+        }
+        window.removeEventListener('keydown', onEscapeKeyPress);
+      };
+    },
+    [lastFocusableElement, crisisModalOpened],
+  );
 
   return (
     <va-button

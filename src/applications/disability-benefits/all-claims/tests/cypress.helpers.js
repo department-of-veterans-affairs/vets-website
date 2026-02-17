@@ -291,8 +291,12 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
       .contains(/veteran details/i)
       .should('exist');
     // Veteran name, DOB, and gender come from mockUser, not mockPrefill
-    const { firstName, middleName, lastName, suffix } =
-      mockUser.data.attributes.profile;
+    const {
+      firstName,
+      middleName,
+      lastName,
+      suffix,
+    } = mockUser.data.attributes.profile;
     cy.contains(
       [firstName, middleName, lastName, suffix].filter(Boolean).join(' '),
     ).should('exist');
@@ -471,7 +475,9 @@ Cypress.Commands.add('verifyToxicExposure', data => {
 
         Object.keys(herbicide).forEach(location => {
           if (herbicide[location] === true) {
-            cy.get('h4').contains(new RegExp(location, 'i')).should('exist');
+            cy.get('h4')
+              .contains(new RegExp(location, 'i'))
+              .should('exist');
           }
         });
       }
@@ -486,7 +492,9 @@ Cypress.Commands.add('verifyToxicExposure', data => {
 
         Object.keys(otherExposures).forEach(exposure => {
           if (otherExposures[exposure] === true) {
-            cy.get('h4').contains(new RegExp(exposure, 'i')).should('exist');
+            cy.get('h4')
+              .contains(new RegExp(exposure, 'i'))
+              .should('exist');
           }
         });
       }
@@ -691,7 +699,9 @@ export const pageHooks = (cy, testOptions) => ({
       .click();
 
     // click edit for address section
-    cy.get('button').contains(/edit/i).click();
+    cy.get('button')
+      .contains(/edit/i)
+      .click();
     // look for the data address street line to confirm pre-fill loaded
     cy.get('@testData').then(data => {
       const { city, state, addressLine1 } = data.mailingAddress;
@@ -814,7 +824,9 @@ export const pageHooks = (cy, testOptions) => ({
 
         // select the option based on loop index and then check that the value matches
         if (index === 0) {
-          cy.get(option).first().click();
+          cy.get(option)
+            .first()
+            .click();
 
           cy.get(autocomplete)
             .shadow()
@@ -825,7 +837,9 @@ export const pageHooks = (cy, testOptions) => ({
             .eq(1)
             .invoke('text')
             .then(selectedOption => {
-              cy.get(option).eq(1).click();
+              cy.get(option)
+                .eq(1)
+                .click();
 
               cy.get(autocomplete)
                 .shadow()
@@ -1272,7 +1286,9 @@ export const pageHooks = (cy, testOptions) => ({
         cy.get('input[name="root_treatmentDateRange1_to1Year"]').type(
           `${newProviderFacility.treatmentDateRange.toYear}`,
         );
-        cy.findByText('Update', { selector: 'button' }).should('exist').click();
+        cy.findByText('Update', { selector: 'button' })
+          .should('exist')
+          .click();
         cy.get('div[name="providerFacility-1"]')
           .should('be.visible')
           .within(() => {

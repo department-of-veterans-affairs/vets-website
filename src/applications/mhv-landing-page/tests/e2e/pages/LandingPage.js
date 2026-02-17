@@ -73,7 +73,10 @@ class LandingPage {
 
   clickSkipAddingEmail = () => {
     cy.findByTestId('mhv-alert--add-contact-email').within(() => {
-      cy.get('va-button[secondary]').shadow().find('button').click();
+      cy.get('va-button[secondary]')
+        .shadow()
+        .find('button')
+        .click();
     });
   };
 

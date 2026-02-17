@@ -49,7 +49,9 @@ describe('Medications Details Page - Cerner Pilot Enabled - Not Filled Yet Hidde
     // Intercept v2 prescription details endpoint
     cy.intercept(
       'GET',
-      `/my_health/v2/prescriptions/${pendingRxDetails.data.attributes.prescriptionId}`,
+      `/my_health/v2/prescriptions/${
+        pendingRxDetails.data.attributes.prescriptionId
+      }`,
       pendingRxDetails,
     ).as('v2PrescriptionDetails');
     cy.visit(medicationsUrls.MEDICATIONS_URL);

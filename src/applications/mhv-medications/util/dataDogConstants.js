@@ -17,9 +17,15 @@ export const pageType = {
 export const dataDogActionNames = {
   medicationsListPage: {
     REFILL_BUTTON: `Refill Button - ${pageType.LIST}`,
-    MEDICATION_NAME_LINK_IN_CARD: `Medication Name Link In Card - ${pageType.LIST}`,
-    PRINT_ALL_MEDICATIONS_OPTION: `Print All Medications Option - ${pageType.LIST}`,
-    SHOW_MEDICATIONS_IN_ORDER_SELECT: `Show Medications In This Order - ${pageType.LIST}`,
+    MEDICATION_NAME_LINK_IN_CARD: `Medication Name Link In Card - ${
+      pageType.LIST
+    }`,
+    PRINT_ALL_MEDICATIONS_OPTION: `Print All Medications Option - ${
+      pageType.LIST
+    }`,
+    SHOW_MEDICATIONS_IN_ORDER_SELECT: `Show Medications In This Order - ${
+      pageType.LIST
+    }`,
     SORT_MEDICATIONS_BUTTON: `Sort Medications Button - ${pageType.LIST}`,
     [ALL_MEDICATIONS_FILTER_KEY]: 'All medications filter',
     [ACTIVE_FILTER_KEY]: 'Active filter',
@@ -35,11 +41,19 @@ export const dataDogActionNames = {
     GO_TO_USE_MEDICATIONS_LINK: `Go to use medications link - ${pageType.LIST}`,
     STOP_SHOWING_IPE_FILTERING_HINT: `In production education for filtering - Stop showing this hint`,
     REFILL_ALERT_LINK: `Med Link in Delay Alert - ${pageType.LIST}`,
-    GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${pageType.LIST}`,
-    GO_TO_ALLERGIES_AND_REACTIONS_LINK: `Go to allergies and reactions link - ${pageType.LIST}`,
-    LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK: `Learn more about managing medications online link - ${pageType.LIST}`,
+    GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
+      pageType.LIST
+    }`,
+    GO_TO_ALLERGIES_AND_REACTIONS_LINK: `Go to allergies and reactions link - ${
+      pageType.LIST
+    }`,
+    LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK: `Learn more about managing medications online link - ${
+      pageType.LIST
+    }`,
     START_A_NEW_MESSAGE_LINK: `Start a new message link - ${pageType.LIST}`,
-    GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${pageType.LIST}`,
+    GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${
+      pageType.LIST
+    }`,
   },
   detailsPage: {
     COMPOSE_A_MESSAGE_LINK: `Compose A Message Link - ${pageType.DETAILS}`,
@@ -50,20 +64,38 @@ export const dataDogActionNames = {
     STATUS_INFO_DROPDOWN: `Status info dropdown - ${pageType.DETAILS}`,
   },
   refillPage: {
-    GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK: `Go To Your Medications List Action Link - ${pageType.REFILL}`,
-    GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK_RENEW: `Go To Your Medications List Action Link - ${pageType.REFILL} - Renew Section`,
-    LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK: `Learn How To Renew Prescriptions Action Link - ${pageType.REFILL} - Renew Section`,
+    GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK: `Go To Your Medications List Action Link - ${
+      pageType.REFILL
+    }`,
+    GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK_RENEW: `Go To Your Medications List Action Link - ${
+      pageType.REFILL
+    } - Renew Section`,
+    LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK: `Learn How To Renew Prescriptions Action Link - ${
+      pageType.REFILL
+    } - Renew Section`,
     SELECT_ALL_CHECKBOXES: `Select All Checkbox - ${pageType.REFILL}`,
-    SELECT_SINGLE_MEDICATION_CHECKBOX: `Select Single Medication Checkbox - ${pageType.REFILL}`,
+    SELECT_SINGLE_MEDICATION_CHECKBOX: `Select Single Medication Checkbox - ${
+      pageType.REFILL
+    }`,
     REQUEST_REFILLS_BUTTON: `Request Refills Button - ${pageType.REFILL}`,
     COMPOSE_A_MESSAGE_LINK: `Compose A Message Link - ${pageType.REFILL}`,
-    GO_TO_USE_MEDICATIONS_LINK: `Go to use medications link - ${pageType.REFILL}`,
+    GO_TO_USE_MEDICATIONS_LINK: `Go to use medications link - ${
+      pageType.REFILL
+    }`,
     REFILL_ALERT_LINK: `Med Link in Delay Alert - ${pageType.REFILL}`,
-    GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${pageType.REFILL}`,
-    GO_TO_ALLERGIES_AND_REACTIONS_LINK: `Go to allergies and reactions link - ${pageType.REFILL}`,
-    LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK: `Learn more about managing medications online link - ${pageType.REFILL}`,
+    GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
+      pageType.REFILL
+    }`,
+    GO_TO_ALLERGIES_AND_REACTIONS_LINK: `Go to allergies and reactions link - ${
+      pageType.REFILL
+    }`,
+    LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK: `Learn more about managing medications online link - ${
+      pageType.REFILL
+    }`,
     START_A_NEW_MESSAGE_LINK: `Start a new message link - ${pageType.REFILL}`,
-    GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${pageType.REFILL}`,
+    GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${
+      pageType.REFILL
+    }`,
   },
   shared: {
     DOWNLOAD_A_PDF_OF_THIS: 'Download A PDF Of This ',

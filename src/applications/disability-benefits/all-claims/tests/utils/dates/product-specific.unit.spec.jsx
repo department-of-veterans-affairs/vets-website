@@ -29,7 +29,9 @@ describe('Disability benefits 526EZ -- Product-specific date utilities', () => {
       it('should add error for future date', () => {
         const errors = { addError: sinon.spy() };
         // Use a date that's definitely in the future
-        const futureDate = moment().add(1, 'year').format('YYYY-MM-DD');
+        const futureDate = moment()
+          .add(1, 'year')
+          .format('YYYY-MM-DD');
         productSpecificDates.ptsd.validateIncidentDate(errors, futureDate);
         expect(errors.addError.called).to.be.true;
         expect(errors.addError.firstCall.args[0]).to.include(
@@ -252,7 +254,9 @@ describe('Disability benefits 526EZ -- Product-specific date utilities', () => {
 
       it('should add error for future date', () => {
         const errors = { addError: sinon.spy() };
-        const futureDate = moment().add(1, 'day').format('YYYY-MM-DD');
+        const futureDate = moment()
+          .add(1, 'day')
+          .format('YYYY-MM-DD');
         productSpecificDates.unemployability.validateDisabilityDate(
           errors,
           futureDate,
@@ -291,7 +295,9 @@ describe('Disability benefits 526EZ -- Product-specific date utilities', () => {
     describe('calculateUnemploymentDuration', () => {
       it('should calculate months of unemployment', () => {
         // Test with dates relative to today
-        const oneYearAgo = moment().subtract(1, 'year').format('YYYY-MM-DD');
+        const oneYearAgo = moment()
+          .subtract(1, 'year')
+          .format('YYYY-MM-DD');
         const sixMonthsAgo = moment()
           .subtract(6, 'months')
           .format('YYYY-MM-DD');
@@ -336,7 +342,9 @@ describe('Disability benefits 526EZ -- Product-specific date utilities', () => {
 
       it('should add error for future admission date', () => {
         const errors = { addError: sinon.spy() };
-        const futureDate = moment().add(1, 'day').format('YYYY-MM-DD');
+        const futureDate = moment()
+          .add(1, 'day')
+          .format('YYYY-MM-DD');
         productSpecificDates.hospitalization.validateHospitalizationDates(
           errors,
           {
@@ -445,7 +453,9 @@ describe('Disability benefits 526EZ -- Product-specific date utilities', () => {
         const threeYearsAgo = moment()
           .subtract(3, 'years')
           .format('YYYY-MM-DD');
-        const fourYearsAgo = moment().subtract(4, 'years').format('YYYY-MM-DD');
+        const fourYearsAgo = moment()
+          .subtract(4, 'years')
+          .format('YYYY-MM-DD');
 
         expect(
           productSpecificDates.evidence.isEvidenceDateAcceptable(threeYearsAgo),
@@ -456,8 +466,12 @@ describe('Disability benefits 526EZ -- Product-specific date utilities', () => {
       });
 
       it('should reject evidence older than 5 years', () => {
-        const sixYearsAgo = moment().subtract(6, 'years').format('YYYY-MM-DD');
-        const tenYearsAgo = moment().subtract(10, 'years').format('YYYY-MM-DD');
+        const sixYearsAgo = moment()
+          .subtract(6, 'years')
+          .format('YYYY-MM-DD');
+        const tenYearsAgo = moment()
+          .subtract(10, 'years')
+          .format('YYYY-MM-DD');
 
         expect(
           productSpecificDates.evidence.isEvidenceDateAcceptable(sixYearsAgo),
@@ -468,8 +482,12 @@ describe('Disability benefits 526EZ -- Product-specific date utilities', () => {
       });
 
       it('should accept custom max years', () => {
-        const twoYearsAgo = moment().subtract(2, 'years').format('YYYY-MM-DD');
-        const fourYearsAgo = moment().subtract(4, 'years').format('YYYY-MM-DD');
+        const twoYearsAgo = moment()
+          .subtract(2, 'years')
+          .format('YYYY-MM-DD');
+        const fourYearsAgo = moment()
+          .subtract(4, 'years')
+          .format('YYYY-MM-DD');
 
         expect(
           productSpecificDates.evidence.isEvidenceDateAcceptable(

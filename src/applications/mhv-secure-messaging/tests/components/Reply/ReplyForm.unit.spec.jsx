@@ -454,8 +454,7 @@ describe('Reply form component', () => {
       },
     });
 
-    const MIGRATION_ALERT_H2 =
-      /You can.t use messages to contact providers at some facilities right now/i;
+    const MIGRATION_ALERT_H2 = /You can.t use messages to contact providers at some facilities right now/i;
 
     it('renders MigratingFacilitiesAlerts component when ohMigrationPhase is p3', async () => {
       const customState = createMigrationState('p3');

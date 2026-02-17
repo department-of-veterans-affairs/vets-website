@@ -53,8 +53,12 @@ const AlertSection = ({
   showSeiAlerts = true,
   successfulSeiDownload = false,
 }) => {
-  const { activeAlert, ccdDownloadSuccess, ccdError, CCDRetryTimestamp } =
-    useDownloadReport();
+  const {
+    activeAlert,
+    ccdDownloadSuccess,
+    ccdError,
+    CCDRetryTimestamp,
+  } = useDownloadReport();
 
   // SEI Access Error: If all SEI domains failed or PDF generation error
   const allSeiDomainsFailed =
@@ -77,23 +81,26 @@ const AlertSection = ({
     (failedSeiDomains?.length ?? 0) !== SEI_DOMAINS.length;
 
   // Build array of visible alert keys for the focus hook
-  const visibleAlerts = useMemo(() => {
-    const alerts = [];
-    if (showCcdSuccess) alerts.push(ALERT_TYPES.CCD_SUCCESS);
-    if (showCcdRetryError) alerts.push(ALERT_TYPES.CCD_RETRY_ERROR);
-    if (showSeiAccessError) alerts.push(ALERT_TYPES.SEI_ACCESS_ERROR);
-    if (showCcdActionError) alerts.push(ALERT_TYPES.CCD_ACTION_ERROR);
-    if (showSeiActionError) alerts.push(ALERT_TYPES.SEI_ACTION_ERROR);
-    if (showSeiSuccess) alerts.push(ALERT_TYPES.SEI_SUCCESS);
-    return alerts;
-  }, [
-    showCcdSuccess,
-    showCcdRetryError,
-    showSeiAccessError,
-    showCcdActionError,
-    showSeiActionError,
-    showSeiSuccess,
-  ]);
+  const visibleAlerts = useMemo(
+    () => {
+      const alerts = [];
+      if (showCcdSuccess) alerts.push(ALERT_TYPES.CCD_SUCCESS);
+      if (showCcdRetryError) alerts.push(ALERT_TYPES.CCD_RETRY_ERROR);
+      if (showSeiAccessError) alerts.push(ALERT_TYPES.SEI_ACCESS_ERROR);
+      if (showCcdActionError) alerts.push(ALERT_TYPES.CCD_ACTION_ERROR);
+      if (showSeiActionError) alerts.push(ALERT_TYPES.SEI_ACTION_ERROR);
+      if (showSeiSuccess) alerts.push(ALERT_TYPES.SEI_SUCCESS);
+      return alerts;
+    },
+    [
+      showCcdSuccess,
+      showCcdRetryError,
+      showSeiAccessError,
+      showCcdActionError,
+      showSeiActionError,
+      showSeiSuccess,
+    ],
+  );
 
   // Custom hook handles focus on newest alert
   const { newestAlert, focusRef } = useNewestAlertFocus(visibleAlerts);

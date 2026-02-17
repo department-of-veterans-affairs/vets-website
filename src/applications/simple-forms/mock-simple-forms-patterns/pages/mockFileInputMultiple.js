@@ -17,7 +17,9 @@ export default {
       headerSize: '3',
       formNumber: '31-4159',
       // disallowEncryptedPdfs: true,
-      fileUploadUrl: `${environment.API_URL}/simple_forms_api/v1/supporting_documents_upload`,
+      fileUploadUrl: `${
+        environment.API_URL
+      }/simple_forms_api/v1/supporting_documents_upload`,
       skipUpload: false,
       // uncomment to apply one max file size limit to all file types; fileSizesByFileType takes precedence if both provided
       // maxFileSize: 1024 * 1024 * 100, // 100MB

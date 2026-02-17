@@ -32,18 +32,24 @@ const RadiologyDetailsPage = () => {
 
   useTrackAction(statsdFrontEndActions.IMAGING_RESULTS_DETAILS);
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearRadiologyDetails());
-    };
-  }, [dispatch]);
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearRadiologyDetails());
+      };
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    if (radiologyId) {
-      dispatch(getRadiologyDetails(radiologyId, radiologyList));
-    }
-    updatePageTitle(pageTitles.RADIOLOGY_DETAILS_PAGE_TITLE);
-  }, [radiologyId, radiologyList, dispatch]);
+  useEffect(
+    () => {
+      if (radiologyId) {
+        dispatch(getRadiologyDetails(radiologyId, radiologyList));
+      }
+      updatePageTitle(pageTitles.RADIOLOGY_DETAILS_PAGE_TITLE);
+    },
+    [radiologyId, radiologyList, dispatch],
+  );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 

@@ -168,11 +168,12 @@ function DocumentsFiled({ claim }) {
                             {`Received on ${formatDate(doc.uploadDate)}`}
                           </p>
                         )}
-                        {doc.uploadDate === null && item.date !== null && (
-                          <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--1">
-                            {`Received on ${formatDate(item.date)}`}
-                          </p>
-                        )}
+                        {doc.uploadDate === null &&
+                          item.date !== null && (
+                            <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--1">
+                              {`Received on ${formatDate(item.date)}`}
+                            </p>
+                          )}
                       </div>
                     ))
                   )}

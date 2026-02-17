@@ -102,5 +102,8 @@ export function setupDuplicateErrorMock() {
  * @param {string} buttonText - The text of the button to click
  */
 export function clickSubmitButton(buttonText) {
-  cy.get(`va-button[text="${buttonText}"]`).shadow().find('button').click();
+  cy.get(`va-button[text="${buttonText}"]`)
+    .shadow()
+    .find('button')
+    .click();
 }

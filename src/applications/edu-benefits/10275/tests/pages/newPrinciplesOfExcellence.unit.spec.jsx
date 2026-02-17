@@ -8,9 +8,10 @@ import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
 
-const { schema, uiSchema } =
-  formConfig.chapters.associatedOfficialsChapter.pages
-    .principlesOfExcellenceNew;
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.associatedOfficialsChapter.pages.principlesOfExcellenceNew;
 
 const mockStore = configureStore();
 

@@ -24,7 +24,9 @@ const testConfig = createTestConfig(
                 .last()
                 .click({ force: true });
             } else {
-              cy.get('.schemaform-start-button').first().click();
+              cy.get('.schemaform-start-button')
+                .first()
+                .click();
             }
           });
         });

@@ -160,9 +160,8 @@ const BenefitPaymentsAndDebt = ({
                     >
                       <Toggler.Disabled>
                         <DashboardWidgetWrapper>
-                          {!totalDebtsCount && !hasDebtError && (
-                            <PopularActionsForDebts />
-                          )}
+                          {!totalDebtsCount &&
+                            !hasDebtError && <PopularActionsForDebts />}
                         </DashboardWidgetWrapper>
                       </Toggler.Disabled>
                     </Toggler>

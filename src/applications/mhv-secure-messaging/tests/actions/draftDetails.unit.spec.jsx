@@ -14,8 +14,13 @@ import { Alerts } from '../../util/constants';
 describe('draftDetails actions', () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
-  const { body, subject, category, recipientId, messageId } =
-    saveDraftResponse.data.attributes;
+  const {
+    body,
+    subject,
+    category,
+    recipientId,
+    messageId,
+  } = saveDraftResponse.data.attributes;
   const requestMessageData = { body, subject, category, recipientId };
 
   /* --- sendSaveDraft action --- */

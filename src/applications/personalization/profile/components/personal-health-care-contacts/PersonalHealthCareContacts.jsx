@@ -23,10 +23,11 @@ const PersonalHealthCareContacts = ({
   const vaPatient = useSelector(isVAPatient);
   const { data, loading, error } = useSelector(selectProfileContacts);
 
-  useEffect(
-    () => vaPatient && dispatch(fetchProfileContacts()),
-    [dispatch, fetchProfileContacts, vaPatient],
-  );
+  useEffect(() => vaPatient && dispatch(fetchProfileContacts()), [
+    dispatch,
+    fetchProfileContacts,
+    vaPatient,
+  ]);
 
   useEffect(() => {
     document.title = PAGE_TITLE;

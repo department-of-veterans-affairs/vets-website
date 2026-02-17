@@ -53,25 +53,28 @@ function ViewDependentsHeader(props) {
     scrollToTop();
   }, []);
 
-  useEffect(() => {
-    let state = showAlert && !warningHidden ? 'visible' : 'hidden';
-    let reason = '';
-    if (warningHidden) {
-      // Alert may start hidden
-      state = 'already hidden';
-      reason = 'user previously closed alert';
-    } else if (!hasAwardDependents) {
-      state = 'hidden because no active dependents';
-      reason = 'no active dependents';
-    } else if (!hasMinimumRating) {
-      state = 'hidden because disability rating below 30%';
-      reason = 'disability rating below 30%';
-    }
-    dataDogLogger({
-      message: `View dependents 0538 warning alert ${state}`,
-      attributes: { state, reason },
-    });
-  }, [showAlert, warningHidden, hasAwardDependents, hasMinimumRating]);
+  useEffect(
+    () => {
+      let state = showAlert && !warningHidden ? 'visible' : 'hidden';
+      let reason = '';
+      if (warningHidden) {
+        // Alert may start hidden
+        state = 'already hidden';
+        reason = 'user previously closed alert';
+      } else if (!hasAwardDependents) {
+        state = 'hidden because no active dependents';
+        reason = 'no active dependents';
+      } else if (!hasMinimumRating) {
+        state = 'hidden because disability rating below 30%';
+        reason = 'disability rating below 30%';
+      }
+      dataDogLogger({
+        message: `View dependents 0538 warning alert ${state}`,
+        attributes: { state, reason },
+      });
+    },
+    [showAlert, warningHidden, hasAwardDependents, hasMinimumRating],
+  );
 
   /**
    * Handler function for close of the alert
@@ -159,38 +162,41 @@ function ViewDependentsHeader(props) {
           update or verify your dependents every year.
         </p>
 
-        {showAlert && !warningHidden && (
-          <VaAlert
-            id="update-warning-alert"
-            status="warning"
-            closeable
-            visible
-            onCloseEvent={handleWarningClose}
-            close-btn-aria-label="Close notification"
-          >
-            <>
-              <h2 className="vads-u-font-size--h3" slot="headline">
-                Avoid disability benefits overpayments by keeping your
-                dependents up to date
-              </h2>
-              <p className="vads-u-font-size--base">
-                Report any changes to your dependents to make sure you receive
-                the correct VA disability benefit amount. We recommend verifying
-                your dependent information <strong>once a year</strong>.
-              </p>
-              <p>
-                If you receive an overpayment, you'll have to repay that money.
-              </p>
-              <p>
-                <va-link-action
-                  text="Verify your VA disability benefits dependents"
-                  href={dependentsVerificationUrl}
-                  onClick={jumpToForm0538}
-                />
-              </p>
-            </>
-          </VaAlert>
-        )}
+        {showAlert &&
+          !warningHidden && (
+            <VaAlert
+              id="update-warning-alert"
+              status="warning"
+              closeable
+              visible
+              onCloseEvent={handleWarningClose}
+              close-btn-aria-label="Close notification"
+            >
+              <>
+                <h2 className="vads-u-font-size--h3" slot="headline">
+                  Avoid disability benefits overpayments by keeping your
+                  dependents up to date
+                </h2>
+                <p className="vads-u-font-size--base">
+                  Report any changes to your dependents to make sure you receive
+                  the correct VA disability benefit amount. We recommend
+                  verifying your dependent information{' '}
+                  <strong>once a year</strong>.
+                </p>
+                <p>
+                  If you receive an overpayment, you'll have to repay that
+                  money.
+                </p>
+                <p>
+                  <va-link-action
+                    text="Verify your VA disability benefits dependents"
+                    href={dependentsVerificationUrl}
+                    onClick={jumpToForm0538}
+                  />
+                </p>
+              </>
+            </VaAlert>
+          )}
       </div>
     </div>
   );

@@ -5,8 +5,10 @@ import {
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../../config/form';
 
-const { schema, uiSchema } =
-  formConfig.chapters.sectionThreeChapter.pages.peakEarnings;
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.sectionThreeChapter.pages.peakEarnings;
 const pageTitle = 'peak earnings';
 
 // All three peak earnings inputs render web components

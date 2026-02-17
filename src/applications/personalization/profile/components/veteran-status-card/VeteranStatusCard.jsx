@@ -24,12 +24,13 @@ const VeteranStatusCard = ({
         <div className="veteran-status-card-row">
           <h3>DoD ID Number</h3>
           <p>{edipi}</p>
-          {totalDisabilityRating != null && totalDisabilityRating >= 0 && (
-            <>
-              <h3>VA disability rating</h3>
-              <p>{`${totalDisabilityRating}%`}</p>
-            </>
-          )}
+          {totalDisabilityRating != null &&
+            totalDisabilityRating >= 0 && (
+              <>
+                <h3>VA disability rating</h3>
+                <p>{`${totalDisabilityRating}%`}</p>
+              </>
+            )}
         </div>
         <small className="vads-u-font-size--sm">
           This card doesn’t entitle you to any VA benefits.

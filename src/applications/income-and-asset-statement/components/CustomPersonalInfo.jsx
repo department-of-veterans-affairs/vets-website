@@ -17,18 +17,22 @@ const CustomPersonalInfo = props => {
   const profile = useSelector(selectProfile);
   const { userFullName } = profile || {};
 
-  useEffect(() => {
-    if (
-      formData?.claimantType === 'VETERAN' &&
-      userFullName &&
-      JSON.stringify(formData?.veteranFullName) !== JSON.stringify(userFullName)
-    ) {
-      setFormData({
-        ...formData,
-        veteranFullName: userFullName,
-      });
-    }
-  }, [formData, setFormData, userFullName]);
+  useEffect(
+    () => {
+      if (
+        formData?.claimantType === 'VETERAN' &&
+        userFullName &&
+        JSON.stringify(formData?.veteranFullName) !==
+          JSON.stringify(userFullName)
+      ) {
+        setFormData({
+          ...formData,
+          veteranFullName: userFullName,
+        });
+      }
+    },
+    [formData, setFormData, userFullName],
+  );
 
   return (
     <PersonalInformation
@@ -79,4 +83,7 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomPersonalInfo);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CustomPersonalInfo);

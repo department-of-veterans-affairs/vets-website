@@ -12,13 +12,17 @@ class PatientMessageDetailsPage {
     const singleMessageResponse = { data: singleThreadResponse.data[0] };
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_EXTENDED}/${multiThreadsResponse.data[0].attributes.messageId}/thread*`,
+      `${Paths.SM_API_EXTENDED}/${
+        multiThreadsResponse.data[0].attributes.messageId
+      }/thread*`,
       singleThreadResponse,
     ).as(`threadResponse`);
 
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_EXTENDED}/${singleThreadResponse.data[0].attributes.messageId}`,
+      `${Paths.SM_API_EXTENDED}/${
+        singleThreadResponse.data[0].attributes.messageId
+      }`,
       singleMessageResponse,
     ).as(`threadFirstMessageResponse`);
 
@@ -31,11 +35,15 @@ class PatientMessageDetailsPage {
   loadReplyMessageThread = (singleThreadResponse = threadResponse) => {
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_EXTENDED}/${singleThreadResponse.data[0].attributes.messageId}/thread*`,
+      `${Paths.SM_API_EXTENDED}/${
+        singleThreadResponse.data[0].attributes.messageId
+      }/thread*`,
       singleThreadResponse,
     ).as(`threadResponse`);
 
-    cy.get(Locators.BUTTONS.REPLY).should('be.visible').click({ force: true });
+    cy.get(Locators.BUTTONS.REPLY)
+      .should('be.visible')
+      .click({ force: true });
   };
 
   expandAllThreadMessages = () => {
@@ -124,7 +132,9 @@ class PatientMessageDetailsPage {
       .should('be.visible');
     cy.get(Locators.BUTTONS.DELETE_RADIOBTN).should('be.visible');
     cy.get(Locators.BUTTONS.TEST2).should('be.visible');
-    cy.get(Locators.BUTTONS.TESTAGAIN).should('be.visible').click();
+    cy.get(Locators.BUTTONS.TESTAGAIN)
+      .should('be.visible')
+      .click();
     cy.get(Locators.BUTTONS.NEW_FOLDER_RADIOBTN).should('be.visible');
     cy.get(Locators.ALERTS.MOVE_MODAL)
       .find('va-button[text="Confirm"]')
@@ -135,7 +145,9 @@ class PatientMessageDetailsPage {
   loadReplyPage = mockMessageDetails => {
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${mockMessageDetails.data.attributes.messageId}`,
+      `${Paths.INTERCEPT.MESSAGES}/${
+        mockMessageDetails.data.attributes.messageId
+      }`,
       mockMessageDetails,
     ).as('reply-message');
     cy.get('[data-testid=reply-button-text]').click();
@@ -168,7 +180,9 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'contain',
-        `From: ${messageDetails.data.attributes.senderName} (${messageDetails.data.attributes.triageGroupName})`,
+        `From: ${messageDetails.data.attributes.senderName} (${
+          messageDetails.data.attributes.triageGroupName
+        })`,
       );
   };
 
@@ -178,14 +192,24 @@ class PatientMessageDetailsPage {
     attachmentIndex = 0,
   ) => {
     cy.get(
-      `[data-testid="expand-message-button-${messageThread.data[messageIndex].id}"]`,
+      `[data-testid="expand-message-button-${
+        messageThread.data[messageIndex].id
+      }"]`,
     )
       .find(
-        `[data-testid="has-attachment-${messageThread.data[messageIndex].attributes.attachments[attachmentIndex].id}"]`,
+        `[data-testid="has-attachment-${
+          messageThread.data[messageIndex].attributes.attachments[
+            attachmentIndex
+          ].id
+        }"]`,
       )
       .should(
         'have.text',
-        `${messageThread.data[messageIndex].attributes.attachments[attachmentIndex].name}`,
+        `${
+          messageThread.data[messageIndex].attributes.attachments[
+            attachmentIndex
+          ].name
+        }`,
       );
   };
 
@@ -245,7 +269,9 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `Draft To: ${messageDetails.data.attributes.senderName}\n(Team: ${messageDetails.data.attributes.triageGroupName})`,
+        `Draft To: ${messageDetails.data.attributes.senderName}\n(Team: ${
+          messageDetails.data.attributes.triageGroupName
+        })`,
       );
   };
 
@@ -296,7 +322,9 @@ class PatientMessageDetailsPage {
   verifySingleButtonByKeyboard = text => {
     cy.tabToElement(`#${text}-button`);
     cy.get(`#${text}-button`).then(el => {
-      cy.wrap(el).invoke('text').should('match', new RegExp(text, 'i'));
+      cy.wrap(el)
+        .invoke('text')
+        .should('match', new RegExp(text, 'i'));
       cy.wrap(el).should('be.focused');
     });
   };
@@ -315,13 +343,19 @@ class PatientMessageDetailsPage {
 
     cy.get(Locators.BUTTONS.THREAD_EXPAND_MESSAGES).each(el => {
       cy.tabToElement(el);
-      cy.wrap(el).should('be.visible').and('have.focus');
+      cy.wrap(el)
+        .should('be.visible')
+        .and('have.focus');
       cy.realPress(`Enter`);
-      cy.wrap(el).find(Locators.MESSAGE_THREAD_META).should('be.visible');
+      cy.wrap(el)
+        .find(Locators.MESSAGE_THREAD_META)
+        .should('be.visible');
       // line below was added because focus jump out to header from fist message after pressing the Enter btn
       cy.tabToElement(el);
       cy.realPress(`Enter`);
-      cy.wrap(el).find(Locators.MESSAGE_THREAD_META).should('not.be.visible');
+      cy.wrap(el)
+        .find(Locators.MESSAGE_THREAD_META)
+        .should('not.be.visible');
     });
   };
 
@@ -358,7 +392,9 @@ class PatientMessageDetailsPage {
     if (messageDetails.data.at(messageIndex).attributes.hasAttachments) {
       cy.log('message has attachment... checking for image');
       cy.get(
-        `[data-testid="expand-message-button-${messageDetails.data[messageIndex].attributes.messageId}"]`,
+        `[data-testid="expand-message-button-${
+          messageDetails.data[messageIndex].attributes.messageId
+        }"]`,
       )
         .find(Locators.ICONS.ATTCH_ICON)
         .should('be.visible');
@@ -380,7 +416,9 @@ class PatientMessageDetailsPage {
     cy.findByTestId(Locators.BUTTONS.THREAD_EXPAND)
       .find(`va-accordion-item`)
       .each(el => {
-        cy.wrap(el).invoke(`prop`, 'open').should(`eq`, value);
+        cy.wrap(el)
+          .invoke(`prop`, 'open')
+          .should(`eq`, value);
       });
   };
 }

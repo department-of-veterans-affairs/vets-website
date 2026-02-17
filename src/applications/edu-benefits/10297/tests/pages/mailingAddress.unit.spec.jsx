@@ -9,8 +9,10 @@ import formConfig from '../../config/form';
 describe('22-10297 Mailing address page', () => {
   afterEach(cleanup);
 
-  const { schema, uiSchema } =
-    formConfig.chapters.identificationChapter.pages.mailingAddress;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.identificationChapter.pages.mailingAddress;
 
   const renderPage = (data = {}) =>
     render(

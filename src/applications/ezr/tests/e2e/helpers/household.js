@@ -3,7 +3,9 @@ import { goToNextPage, selectYesNoWebComponent } from '.';
 import { handleOptionalServiceHistoryPage } from './handleOptionalServiceHistoryPage';
 
 export const advanceToHouseholdSection = () => {
-  cy.get('[href="#start"]').first().click();
+  cy.get('[href="#start"]')
+    .first()
+    .click();
   cy.location('pathname').should(
     'include',
     '/veteran-information/personal-information',

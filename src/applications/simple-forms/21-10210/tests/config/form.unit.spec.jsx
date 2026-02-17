@@ -22,8 +22,11 @@ const getProps = () => {
 describe('form config options', () => {
   it('should scroll and show text correctly', async () => {
     const { mockStore } = getProps();
-    const { schema, uiSchema, scrollAndFocusTarget } =
-      formConfig.chapters.statementInfoChapter.pages.claimOwnershipPage;
+    const {
+      schema,
+      uiSchema,
+      scrollAndFocusTarget,
+    } = formConfig.chapters.statementInfoChapter.pages.claimOwnershipPage;
 
     const { container } = render(
       <Provider store={mockStore}>

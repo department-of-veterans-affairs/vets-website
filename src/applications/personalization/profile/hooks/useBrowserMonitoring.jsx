@@ -45,19 +45,22 @@ export const useBrowserMonitoring = () => {
     TOGGLE_NAMES.profileBrowserMonitoring,
   );
 
-  useEffect(() => {
-    if (isMonitoringEnabled) {
-      initializedByProfile.current = initializeBrowserMonitoring();
-    }
-
-    return () => {
-      if (
-        initializedByProfile.current &&
-        window.DD_RUM?.getInitConfiguration()
-      ) {
-        datadogRum.stopSession();
-        delete window.DD_RUM;
+  useEffect(
+    () => {
+      if (isMonitoringEnabled) {
+        initializedByProfile.current = initializeBrowserMonitoring();
       }
-    };
-  }, [isMonitoringEnabled]);
+
+      return () => {
+        if (
+          initializedByProfile.current &&
+          window.DD_RUM?.getInitConfiguration()
+        ) {
+          datadogRum.stopSession();
+          delete window.DD_RUM;
+        }
+      };
+    },
+    [isMonitoringEnabled],
+  );
 };

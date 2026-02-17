@@ -45,10 +45,10 @@ export default function ClaimFormSideNav({
    * Rebuilds when save-in-progress loads or when navigating between pages
    * @type {import('../utils/buildMajorStepsFromConfig').MajorStep[]}
    */
-  const landingPages = useMemo(
-    () => buildMajorSteps(formData, pathname),
-    [formData, pathname],
-  );
+  const landingPages = useMemo(() => buildMajorSteps(formData, pathname), [
+    formData,
+    pathname,
+  ]);
 
   /**
    * Track the highest chapter index the user has reached
@@ -78,23 +78,26 @@ export default function ClaimFormSideNav({
   /**
    * Close mobile accordion when navigating between pages
    */
-  useEffect(() => {
-    if (sidenavRef.current) {
-      const accordionItem = sidenavRef.current.shadowRoot?.querySelector(
-        'va-accordion > va-accordion-item',
-      );
+  useEffect(
+    () => {
+      if (sidenavRef.current) {
+        const accordionItem = sidenavRef.current.shadowRoot?.querySelector(
+          'va-accordion > va-accordion-item',
+        );
 
-      if (accordionItem) {
-        // Save current scroll position before closing accordion
-        const { scrollY } = window;
+        if (accordionItem) {
+          // Save current scroll position before closing accordion
+          const { scrollY } = window;
 
-        accordionItem.removeAttribute('open');
+          accordionItem.removeAttribute('open');
 
-        // Restore scroll position to prevent accordion close from scrolling
-        window.scrollTo(0, scrollY);
+          // Restore scroll position to prevent accordion close from scrolling
+          window.scrollTo(0, scrollY);
+        }
       }
-    }
-  }, [pathname]);
+    },
+    [pathname],
+  );
 
   /**
    * Handle navigation item click

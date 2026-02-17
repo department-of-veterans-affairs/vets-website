@@ -98,7 +98,10 @@ class ValidateVeteran {
   };
 
   getLastNameInput = () => {
-    return cy.get('[label="Your last name"]').shadow().find('input');
+    return cy
+      .get('[label="Your last name"]')
+      .shadow()
+      .find('input');
   };
 
   getMonthInput = () => {
@@ -184,7 +187,9 @@ class ValidateVeteran {
   };
 
   getDobError = () => {
-    cy.get('[label="Date of birth"]').shadow().find('#error-message');
+    cy.get('[label="Date of birth"]')
+      .shadow()
+      .find('#error-message');
   };
 
   validateErrorAlert = () => {

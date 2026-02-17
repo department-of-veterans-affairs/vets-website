@@ -64,17 +64,20 @@ export function Type2FailureAnalyticsProvider({ children }) {
    * - React 18 concurrent rendering can delay sequential mounts
    * - Provides buffer for slower devices/networks
    */
-  const scheduleFire = useCallback(() => {
-    // Clear any existing timer
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
-    // Schedule new fire
-    timerRef.current = setTimeout(() => {
-      fireEvent();
-      timerRef.current = null;
-    }, DEBOUNCE_MS);
-  }, [fireEvent]);
+  const scheduleFire = useCallback(
+    () => {
+      // Clear any existing timer
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+      // Schedule new fire
+      timerRef.current = setTimeout(() => {
+        fireEvent();
+        timerRef.current = null;
+      }, DEBOUNCE_MS);
+    },
+    [fireEvent],
+  );
 
   /**
    * Registers an alert. Idempotent - registering same key twice has no effect.
@@ -170,17 +173,20 @@ Type2FailureAnalyticsProvider.propTypes = {
 export function useSlimAlertRegistration({ alertKey, hasFailures }) {
   const context = useContext(Type2FailureAnalyticsContext);
 
-  useEffect(() => {
-    // If no context, we're not inside the provider - fail silently
-    // This allows the component to work in isolation (tests, storybook, etc.)
-    if (!context || !hasFailures) {
-      return undefined;
-    }
-    // Register on mount
-    context.registerAlert(alertKey);
-    // Unregister on unmount
-    return () => {
-      context.unregisterAlert(alertKey);
-    };
-  }, [context, alertKey, hasFailures]);
+  useEffect(
+    () => {
+      // If no context, we're not inside the provider - fail silently
+      // This allows the component to work in isolation (tests, storybook, etc.)
+      if (!context || !hasFailures) {
+        return undefined;
+      }
+      // Register on mount
+      context.registerAlert(alertKey);
+      // Unregister on unmount
+      return () => {
+        context.unregisterAlert(alertKey);
+      };
+    },
+    [context, alertKey, hasFailures],
+  );
 }

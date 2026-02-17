@@ -29,11 +29,15 @@ class BaseListPage {
 
   clickDownloadPDFFile = () => {
     // should display a download pdf file button "Download list as a pdf file"
-    cy.get('[data-testid="printButton-1"]').should('be.visible').click();
+    cy.get('[data-testid="printButton-1"]')
+      .should('be.visible')
+      .click();
   };
 
   clickDownloadTxtFile = () => {
-    cy.get('[data-testid="printButton-2"]').should('be.visible').click();
+    cy.get('[data-testid="printButton-2"]')
+      .should('be.visible')
+      .click();
   };
 }
 export default BaseListPage;

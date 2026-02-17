@@ -7,8 +7,10 @@ import {
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../../config/form';
 
-const { schema, uiSchema } =
-  formConfig.chapters.unemploymentChapter.pages.unemployed;
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.unemploymentChapter.pages.unemployed;
 
 const pageTitle = 'unemployed';
 

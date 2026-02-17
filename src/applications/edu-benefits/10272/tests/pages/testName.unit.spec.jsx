@@ -6,8 +6,10 @@ import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 describe('22-10272 Licensing and Certification Details Step 3 - Page 1', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.licensingAndCertificationChapter.pages.testName;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.licensingAndCertificationChapter.pages.testName;
 
   it('should render with a text input field', () => {
     const { container } = render(

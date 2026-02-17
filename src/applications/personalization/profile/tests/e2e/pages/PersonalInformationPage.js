@@ -115,10 +115,8 @@ class PersonalInformationPage {
       .and('have.text', 'Remove');
     cy.get(`[data-testid="messagingSignature"]`).should(
       `contain.text`,
-      `${
-        mockSignature.data.attributes.signatureName +
-        mockSignature.data.attributes.signatureTitle
-      }`,
+      `${mockSignature.data.attributes.signatureName +
+        mockSignature.data.attributes.signatureTitle}`,
     );
   };
 

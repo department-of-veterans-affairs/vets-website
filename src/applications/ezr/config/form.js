@@ -104,8 +104,10 @@ import postSept11Service from './chapters/militaryService/postSept11Service';
 import postSept11ServiceDates from './chapters/militaryService/postSept11ServiceDates';
 
 // declare shared paths for custom form page navigation
-const { insurance: INSURANCE_PATHS, dependents: DEPENDENT_PATHS } =
-  SHARED_PATHS;
+const {
+  insurance: INSURANCE_PATHS,
+  dependents: DEPENDENT_PATHS,
+} = SHARED_PATHS;
 
 // declare schema definitions
 const { date } = ezrSchema.definitions;

@@ -63,9 +63,10 @@ function ViewDependentsList(props) {
     <>
       <h2 className="view-deps-header">{props.header}</h2>
       <p>{props.subHeader}</p>
-      {manageDependentsToggle && props?.submittedDependents?.length > 0 && (
-        <RemoveDependentSuccessMessage />
-      )}
+      {manageDependentsToggle &&
+        props?.submittedDependents?.length > 0 && (
+          <RemoveDependentSuccessMessage />
+        )}
       {mainContent}
       {showPersonalInformationNote && (
         <div className="vads-u-margin-bottom--4" data-testid="default-note">
@@ -94,7 +95,10 @@ const mapStateToProps = state => ({
   submittedDependents: state?.removeDependents?.submittedDependents,
 });
 
-export default connect(mapStateToProps, null)(ViewDependentsList);
+export default connect(
+  mapStateToProps,
+  null,
+)(ViewDependentsList);
 
 export { ViewDependentsList };
 ViewDependentsList.propTypes = {

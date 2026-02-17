@@ -51,19 +51,25 @@ export default function LicenseCertificationSearchForm() {
     return null;
   }, []);
 
-  useEffect(() => {
-    return dispatch(filterLcResults(name, dropdown.current.optionValue));
-  }, [name, dropdown.current.optionValue]);
+  useEffect(
+    () => {
+      return dispatch(filterLcResults(name, dropdown.current.optionValue));
+    },
+    [name, dropdown.current.optionValue],
+  );
 
-  useEffect(() => {
-    if (shouldFocusDropdown) {
-      const selectElement = document.getElementById(dropdown.label);
-      if (selectElement) {
-        focusElement(selectElement, 0);
+  useEffect(
+    () => {
+      if (shouldFocusDropdown) {
+        const selectElement = document.getElementById(dropdown.label);
+        if (selectElement) {
+          focusElement(selectElement, 0);
+        }
+        setShouldFocusDropdown(false);
       }
-      setShouldFocusDropdown(false);
-    }
-  }, [shouldFocusDropdown, dropdown.label]);
+    },
+    [shouldFocusDropdown, dropdown.label],
+  );
 
   // If available, use url query params to assign initial values ONLY on mount
   useEffect(() => {
@@ -124,40 +130,41 @@ export default function LicenseCertificationSearchForm() {
     <>
       {error && <LicesnseCertificationServiceError />}
       {fetchingLc && <va-loading-indicator message="Loading..." />}
-      {!fetchingLc && hasFetchedOnce && (
-        <form>
-          <Dropdown
-            disabled={false}
-            label="Category type"
-            visible
-            name={dropdown.label}
-            options={dropdown.options}
-            value={dropdown.current.optionValue}
-            onChange={handleChange}
-            alt={dropdown.alt}
-            selectClassName="dropdown-filter"
-            required={dropdown.label === 'category'}
-          />
-          <div>
-            <LicenseCertificationKeywordSearch
-              inputValue={name}
-              suggestions={suggestions}
-              onSelection={onSelection}
-              handleClearInput={() => updateAutocompleteSearchTerm('')}
-              onUpdateAutocompleteSearchTerm={updateAutocompleteSearchTerm}
+      {!fetchingLc &&
+        hasFetchedOnce && (
+          <form>
+            <Dropdown
+              disabled={false}
+              label="Category type"
+              visible
+              name={dropdown.label}
+              options={dropdown.options}
+              value={dropdown.current.optionValue}
+              onChange={handleChange}
+              alt={dropdown.alt}
+              selectClassName="dropdown-filter"
+              required={dropdown.label === 'category'}
             />
-          </div>
+            <div>
+              <LicenseCertificationKeywordSearch
+                inputValue={name}
+                suggestions={suggestions}
+                onSelection={onSelection}
+                handleClearInput={() => updateAutocompleteSearchTerm('')}
+                onUpdateAutocompleteSearchTerm={updateAutocompleteSearchTerm}
+              />
+            </div>
 
-          <div className="button-wrapper row">
-            <VaButton
-              className="va-button"
-              text="Submit"
-              onClick={() => handleSearch(dropdown.current.optionValue, name)}
-            />
-            <VaButton text="Reset search" secondary onClick={handleReset} />
-          </div>
-        </form>
-      )}
+            <div className="button-wrapper row">
+              <VaButton
+                className="va-button"
+                text="Submit"
+                onClick={() => handleSearch(dropdown.current.optionValue, name)}
+              />
+              <VaButton text="Reset search" secondary onClick={handleReset} />
+            </div>
+          </form>
+        )}
     </>
   );
 }

@@ -177,9 +177,9 @@ describe('<CallToActionWidget>', () => {
     expect(vaAlertSignIn.getAttribute('variant')).to.eql('signInRequired');
 
     const authReturnUrl = sessionStorage.getItem('authReturnUrl');
-    const derivedUrl =
-      ctaWidgetsLookup[CTA_WIDGET_TYPES.DIRECT_DEPOSIT].deriveToolUrlDetails()
-        ?.url;
+    const derivedUrl = ctaWidgetsLookup[
+      CTA_WIDGET_TYPES.DIRECT_DEPOSIT
+    ].deriveToolUrlDetails()?.url;
     expect(authReturnUrl.includes(derivedUrl)).to.be.true;
     sessionStorage.clear();
   });
@@ -1047,8 +1047,9 @@ describe('<CallToActionWidget>', () => {
 
       it('should toggle the login modal correctly when openLoginModal and openForcedLoginModal are called', () => {
         const toggleStub = sinon.stub();
-        const { openLoginModal, openForcedLoginModal } =
-          toggleModalWrapper(toggleStub);
+        const { openLoginModal, openForcedLoginModal } = toggleModalWrapper(
+          toggleStub,
+        );
 
         expect(openLoginModal).to.be.a('function');
         expect(openForcedLoginModal).to.be.a('function');

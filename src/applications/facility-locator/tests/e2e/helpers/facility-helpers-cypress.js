@@ -216,176 +216,211 @@ const resultsData = {
             {
               name: 'Advice nurse',
               serviceId: 'adviceNurse',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/adviceNurse',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/adviceNurse',
             },
             {
               name: 'Anesthesia',
               serviceId: 'anesthesia',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/anesthesia',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/anesthesia',
             },
             {
               name: 'Audiology',
               serviceId: 'audiology',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/audiology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/audiology',
             },
             {
               name: 'Cardiology',
               serviceId: 'cardiology',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/cardiology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/cardiology',
             },
             {
               name: 'CaregiverSupport',
               serviceId: 'caregiverSupport',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/caregiverSupport',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/caregiverSupport',
             },
 
             {
               name: 'Dental/oral surgery',
               serviceId: 'dental',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/dental',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/dental',
             },
             {
               name: 'Dermatology',
               serviceId: 'dermatology',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/dermatology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/dermatology',
             },
             {
               name: 'Emergency care',
               serviceId: 'emergencyCare',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/emergencyCare',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/emergencyCare',
             },
             {
               name: 'Gastroenterology',
               serviceId: 'gastroenterology',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/gastroenterology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/gastroenterology',
             },
             {
               name: 'Geriatrics',
               serviceId: 'geriatrics',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/geriatrics',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/geriatrics',
             },
             {
               name: 'Gynecology',
               serviceId: 'gynecology',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/gynecology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/gynecology',
             },
             {
               name: 'Hematology/oncology',
               serviceId: 'hematology',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/hematology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/hematology',
             },
             {
               name: 'Homeless Veteran care',
               serviceId: 'homeless',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/homeless',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/homeless',
             },
             {
               name: 'Palliative and hospice care',
               serviceId: 'hospice',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/hospice',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/hospice',
             },
             {
               name: 'HospitalMedicine',
               serviceId: 'hospitalMedicine',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/hospitalMedicine',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/hospitalMedicine',
             },
             {
               name: 'Laboratory and pathology',
               serviceId: 'laboratory',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/laboratory',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/laboratory',
             },
             {
               name: 'Mental health care',
               serviceId: 'mentalHealth',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/mentalHealth',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/mentalHealth',
             },
             {
               name: 'Nutrition, food, and dietary care',
               serviceId: 'nutrition',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/nutrition',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/nutrition',
             },
             {
               name: 'Ophthalmology',
               serviceId: 'ophthalmology',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/ophthalmology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/ophthalmology',
             },
             {
               name: 'Optometry',
               serviceId: 'optometry',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/optometry',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/optometry',
             },
             {
               name: 'Orthopedics',
               serviceId: 'orthopedics',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/orthopedics',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/orthopedics',
             },
             {
               name: 'Patient advocates',
               serviceId: 'patientAdvocates',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/patientAdvocates',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/patientAdvocates',
             },
             {
               name: 'Pharmacy',
               serviceId: 'pharmacy',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/pharmacy',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/pharmacy',
             },
             {
               name: 'Physical medicine and rehabilitation',
               serviceId: 'physicalMedicine',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/physicalMedicine',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/physicalMedicine',
             },
             {
               name: 'Podiatry',
               serviceId: 'podiatry',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/podiatry',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/podiatry',
             },
             {
               name: 'Primary care',
               serviceId: 'primaryCare',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/primaryCare',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/primaryCare',
             },
             {
               name: 'Psychology',
               serviceId: 'psychology',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/psychology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/psychology',
             },
             {
               name: 'Rehabilitation and extended care',
               serviceId: 'rehabilitation',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/rehabilitation',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/rehabilitation',
             },
             {
               name: 'Suicide prevention',
               serviceId: 'suicidePrevention',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/suicidePrevention',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/suicidePrevention',
             },
             {
               name: 'Surgery',
               serviceId: 'surgery',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/surgery',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/surgery',
             },
             {
               name: 'Returning service member care',
               serviceId: 'transitionCounseling',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/transitionCounseling',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/transitionCounseling',
             },
             {
               name: 'Transplant surgery',
               serviceId: 'transplantSurgery',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/transplantSurgery',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/transplantSurgery',
             },
             {
               name: 'Urology',
               serviceId: 'urology',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/urology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/urology',
             },
             {
               name: 'Women Veteran care',
               serviceId: 'womensHealth',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/womensHealth',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/womensHealth',
             },
           ],
-          link: 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services',
+          link:
+            'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services',
           lastUpdated: '2025-02-19',
         },
       },
@@ -442,36 +477,43 @@ const resultsData = {
             {
               name: 'ApplyingForBenefits',
               serviceId: 'applyingForBenefits',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/applyingForBenefits',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/applyingForBenefits',
             },
             {
               name: 'EducationAndCareerCounseling',
               serviceId: 'educationAndCareerCounseling',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/educationAndCareerCounseling',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/educationAndCareerCounseling',
             },
             {
               name: 'EducationClaimAssistance',
               serviceId: 'educationClaimAssistance',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/educationClaimAssistance',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/educationClaimAssistance',
             },
             {
               name: 'VocationalRehabilitationAndEmploymentAssistance',
               serviceId: 'vocationalRehabilitationAndEmploymentAssistance',
-              link: 'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/vocationalRehabilitationAndEmploymentAssistance',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/vocationalRehabilitationAndEmploymentAssistance',
             },
           ],
-          link: 'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services',
+          link:
+            'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services',
         },
       },
     },
   ],
   links: {
-    self: 'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1',
+    self:
+      'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1',
     first:
       'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20',
     prev: null,
     next: null,
-    last: 'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20',
+    last:
+      'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20',
   },
   meta: {
     pagination: {

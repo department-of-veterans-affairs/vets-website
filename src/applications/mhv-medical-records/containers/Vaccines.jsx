@@ -99,9 +99,12 @@ const Vaccines = props => {
     reloadRecordsAction: reloadRecords,
   });
 
-  useEffect(() => {
-    updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
-  }, [dispatch]);
+  useEffect(
+    () => {
+      updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   useFocusAfterLoading({
     isLoading: isLoading || listState !== loadStates.FETCHED,
@@ -244,32 +247,34 @@ const Vaccines = props => {
             />
           </div>
         )}
-        {!isLoadingAcceleratedData && !isLoading && vaccines !== undefined && (
-          <>
-            {vaccines?.length ? (
-              <>
-                <RecordList
-                  records={vaccines?.map(vaccine => ({
-                    ...vaccine,
-                    isOracleHealthData: isAcceleratingVaccines,
-                  }))}
-                  type={recordType.VACCINES}
-                />
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
+          vaccines !== undefined && (
+            <>
+              {vaccines?.length ? (
+                <>
+                  <RecordList
+                    records={vaccines?.map(vaccine => ({
+                      ...vaccine,
+                      isOracleHealthData: isAcceleratingVaccines,
+                    }))}
+                    type={recordType.VACCINES}
+                  />
 
-                <DownloadingRecordsInfo description="Vaccines" />
-                <PrintDownload
-                  description="Vaccines - List"
-                  list
-                  downloadPdf={generateVaccinesPdf}
-                  downloadTxt={generateVaccinesTxt}
-                />
-                <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
-              </>
-            ) : (
-              <NoRecordsMessage type={recordType.VACCINES} />
-            )}
-          </>
-        )}
+                  <DownloadingRecordsInfo description="Vaccines" />
+                  <PrintDownload
+                    description="Vaccines - List"
+                    list
+                    downloadPdf={generateVaccinesPdf}
+                    downloadTxt={generateVaccinesTxt}
+                  />
+                  <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
+                </>
+              ) : (
+                <NoRecordsMessage type={recordType.VACCINES} />
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );

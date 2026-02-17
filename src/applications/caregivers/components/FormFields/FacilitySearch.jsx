@@ -46,20 +46,19 @@ const FacilitySearch = props => {
   const plannedClinic = formData?.['view:plannedClinic'];
   const [showFacilityInfoAlert, setShowFacilityInfoAlert] = useState(true);
 
-  const goToReviewPath = useCallback(() => {
-    const hasSupportServices =
-      plannedClinic?.veteranSelected?.id ===
-      plannedClinic?.caregiverSupport?.id;
-    goToPath(
-      hasSupportServices
-        ? REVIEW_PATHS.reviewAndSubmit
-        : REVIEW_PATHS.confirmFacility,
-    );
-  }, [
-    plannedClinic?.veteranSelected,
-    plannedClinic?.caregiverSupport,
-    goToPath,
-  ]);
+  const goToReviewPath = useCallback(
+    () => {
+      const hasSupportServices =
+        plannedClinic?.veteranSelected?.id ===
+        plannedClinic?.caregiverSupport?.id;
+      goToPath(
+        hasSupportServices
+          ? REVIEW_PATHS.reviewAndSubmit
+          : REVIEW_PATHS.confirmFacility,
+      );
+    },
+    [plannedClinic?.veteranSelected, plannedClinic?.caregiverSupport, goToPath],
+  );
 
   const onGoBack = useCallback(
     () =>
@@ -67,12 +66,51 @@ const FacilitySearch = props => {
     [formData, goBack, goToPath, isReviewMode],
   );
 
-  const onGoForward = useCallback(() => {
-    const caregiverSupportFacilityId = plannedClinic?.caregiverSupport?.id;
+  const onGoForward = useCallback(
+    () => {
+      const caregiverSupportFacilityId = plannedClinic?.caregiverSupport?.id;
 
-    // ensure no errors are present before navigating, to include:
-    // lack of search query & lack of selected record after search
-    if (!caregiverSupportFacilityId) {
+      // ensure no errors are present before navigating, to include:
+      // lack of search query & lack of selected record after search
+      if (!caregiverSupportFacilityId) {
+        if (!query.trim()) {
+          return setLocalState(prev => ({
+            ...prev,
+            searchError: content['validation-facilities--search-required'],
+          }));
+        }
+
+        if (hasFacilities) {
+          return setLocalState(prev => ({
+            ...prev,
+            listError: content['validation-facilities--default-required'],
+          }));
+        }
+
+        return setLocalState(prev => ({
+          ...prev,
+          searchError: content['validation-facilities--submit-search-required'],
+        }));
+      }
+
+      // proceed with navigating forward based on review mode
+      return isReviewMode ? goToReviewPath() : goForward(formData);
+    },
+    [
+      formData,
+      goForward,
+      goToReviewPath,
+      hasFacilities,
+      isReviewMode,
+      query,
+      plannedClinic?.caregiverSupport,
+    ],
+  );
+
+  const handleChange = useCallback(e => setQuery(e.target.value), []);
+
+  const handleSearch = useCallback(
+    async () => {
       if (!query.trim()) {
         return setLocalState(prev => ({
           ...prev,
@@ -80,89 +118,56 @@ const FacilitySearch = props => {
         }));
       }
 
-      if (hasFacilities) {
+      // reset state for new search
+      setLocalState(prev => ({
+        ...prev,
+        loading: true,
+        facilities: [],
+        listError: null,
+        searchError: null,
+      }));
+
+      // fetch & set mapbox coordinates for facilities query
+      const mboxResponse = await fetchMapBoxGeocoding(query);
+      if (mboxResponse.errorMessage) {
         return setLocalState(prev => ({
           ...prev,
-          listError: content['validation-facilities--default-required'],
+          searchError: mboxResponse.errorMessage,
+          loading: false,
         }));
       }
 
-      return setLocalState(prev => ({
+      const [longitude, latitude] = mboxResponse.center;
+      setLocalState(prev => ({
         ...prev,
-        searchError: content['validation-facilities--submit-search-required'],
+        coordinates: { long: longitude, lat: latitude },
       }));
-    }
 
-    // proceed with navigating forward based on review mode
-    return isReviewMode ? goToReviewPath() : goForward(formData);
-  }, [
-    formData,
-    goForward,
-    goToReviewPath,
-    hasFacilities,
-    isReviewMode,
-    query,
-    plannedClinic?.caregiverSupport,
-  ]);
+      // fetch & set facility list
+      const fetchResponse = await fetchFacilities({
+        long: longitude,
+        lat: latitude,
+        page: 1,
+      });
+      if (fetchResponse.errorMessage) {
+        return setLocalState(prev => ({
+          ...prev,
+          searchError: fetchResponse.errorMessage,
+          loading: false,
+        }));
+      }
 
-  const handleChange = useCallback(e => setQuery(e.target.value), []);
-
-  const handleSearch = useCallback(async () => {
-    if (!query.trim()) {
-      return setLocalState(prev => ({
+      setSubmittedQuery(query);
+      setLocalState(prev => ({
         ...prev,
-        searchError: content['validation-facilities--search-required'],
-      }));
-    }
-
-    // reset state for new search
-    setLocalState(prev => ({
-      ...prev,
-      loading: true,
-      facilities: [],
-      listError: null,
-      searchError: null,
-    }));
-
-    // fetch & set mapbox coordinates for facilities query
-    const mboxResponse = await fetchMapBoxGeocoding(query);
-    if (mboxResponse.errorMessage) {
-      return setLocalState(prev => ({
-        ...prev,
-        searchError: mboxResponse.errorMessage,
         loading: false,
+        facilities: fetchResponse.facilities,
+        pagination: fetchResponse.meta.pagination,
       }));
-    }
-
-    const [longitude, latitude] = mboxResponse.center;
-    setLocalState(prev => ({
-      ...prev,
-      coordinates: { long: longitude, lat: latitude },
-    }));
-
-    // fetch & set facility list
-    const fetchResponse = await fetchFacilities({
-      long: longitude,
-      lat: latitude,
-      page: 1,
-    });
-    if (fetchResponse.errorMessage) {
-      return setLocalState(prev => ({
-        ...prev,
-        searchError: fetchResponse.errorMessage,
-        loading: false,
-      }));
-    }
-
-    setSubmittedQuery(query);
-    setLocalState(prev => ({
-      ...prev,
-      loading: false,
-      facilities: fetchResponse.facilities,
-      pagination: fetchResponse.meta.pagination,
-    }));
-    return focusElement('#caregiver_facility_results');
-  }, [query]);
+      return focusElement('#caregiver_facility_results');
+    },
+    [query],
+  );
 
   const handleShowMore = useCallback(
     async e => {
@@ -250,24 +255,27 @@ const FacilitySearch = props => {
     [localState.facilities],
   );
 
-  const ariaLiveMessage = useMemo(() => {
-    if (localState.additionalFacilitiesCount === 0) return '';
+  const ariaLiveMessage = useMemo(
+    () => {
+      if (localState.additionalFacilitiesCount === 0) return '';
 
-    const addtlFacilitiesLoadedText =
-      localState.additionalFacilitiesCount === 1
-        ? content['facilities-aria-live-message-single']
-        : replaceStrValues(
-            content['facilities-aria-live-message-multiple'],
-            localState.additionalFacilitiesCount,
-          );
+      const addtlFacilitiesLoadedText =
+        localState.additionalFacilitiesCount === 1
+          ? content['facilities-aria-live-message-single']
+          : replaceStrValues(
+              content['facilities-aria-live-message-multiple'],
+              localState.additionalFacilitiesCount,
+            );
 
-    const totalFacilitiesLoadedText = replaceStrValues(
-      content['facilities-aria-live-message-total'],
-      localState.facilities?.length,
-    );
+      const totalFacilitiesLoadedText = replaceStrValues(
+        content['facilities-aria-live-message-total'],
+        localState.facilities?.length,
+      );
 
-    return `${addtlFacilitiesLoadedText} ${totalFacilitiesLoadedText}`;
-  }, [localState.additionalFacilitiesCount, localState.facilities]);
+      return `${addtlFacilitiesLoadedText} ${totalFacilitiesLoadedText}`;
+    },
+    [localState.additionalFacilitiesCount, localState.facilities],
+  );
 
   const facilityListProps = useMemo(
     () => ({
@@ -321,39 +329,42 @@ const FacilitySearch = props => {
     [],
   );
 
-  const searchResults = useMemo(() => {
-    if (localState.loading) return loader;
+  const searchResults = useMemo(
+    () => {
+      if (localState.loading) return loader;
 
-    return hasFacilities ? (
-      <>
-        <FacilityList {...facilityListProps} />
-        <div
-          aria-live="polite"
-          role="status"
-          className="vads-u-visibility--screen-reader"
-        >
-          {ariaLiveMessage}
-        </div>
-        {localState.loadingMore && loader}
-        {hasMoreFacilities && (
-          <va-button
-            text={content['form-facilities-load-more-button']}
-            onClick={handleShowMore}
-            secondary
-          />
-        )}
-      </>
-    ) : null;
-  }, [
-    ariaLiveMessage,
-    facilityListProps,
-    handleShowMore,
-    hasFacilities,
-    hasMoreFacilities,
-    loader,
-    localState.loading,
-    localState.loadingMore,
-  ]);
+      return hasFacilities ? (
+        <>
+          <FacilityList {...facilityListProps} />
+          <div
+            aria-live="polite"
+            role="status"
+            className="vads-u-visibility--screen-reader"
+          >
+            {ariaLiveMessage}
+          </div>
+          {localState.loadingMore && loader}
+          {hasMoreFacilities && (
+            <va-button
+              text={content['form-facilities-load-more-button']}
+              onClick={handleShowMore}
+              secondary
+            />
+          )}
+        </>
+      ) : null;
+    },
+    [
+      ariaLiveMessage,
+      facilityListProps,
+      handleShowMore,
+      hasFacilities,
+      hasMoreFacilities,
+      loader,
+      localState.loading,
+      localState.loadingMore,
+    ],
+  );
 
   const searchError = useMemo(
     () => (
@@ -368,9 +379,12 @@ const FacilitySearch = props => {
     [localState.searchError],
   );
 
-  const shouldDisplayFacilityAlert = useMemo(() => {
-    return plannedClinic?.veteranSelected && showFacilityInfoAlert;
-  }, [plannedClinic?.veteranSelected, showFacilityInfoAlert]);
+  const shouldDisplayFacilityAlert = useMemo(
+    () => {
+      return plannedClinic?.veteranSelected && showFacilityInfoAlert;
+    },
+    [plannedClinic?.veteranSelected, showFacilityInfoAlert],
+  );
 
   return (
     <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
@@ -395,10 +409,8 @@ const FacilitySearch = props => {
             <strong>Search</strong> to find a VA medical center or clinic.
           </p>
           <div
-            className={`${
-              localState.searchError &&
-              'caregiver-facilities-search-input-error'
-            }`}
+            className={`${localState.searchError &&
+              'caregiver-facilities-search-input-error'}`}
           >
             <p
               className="vads-u-margin-top--0 vads-u-margin-bottom--1"
@@ -412,7 +424,9 @@ const FacilitySearch = props => {
             {localState.searchError && searchError}
             <VaSearchInputAdapter
               ref={vaSearchInputRef}
-              label={`${content['form-facilities-search-label']} ${content['validation-required-label']}`}
+              label={`${content['form-facilities-search-label']} ${
+                content['validation-required-label']
+              }`}
               value={query}
               onInput={handleChange}
               onSubmit={handleSearch}

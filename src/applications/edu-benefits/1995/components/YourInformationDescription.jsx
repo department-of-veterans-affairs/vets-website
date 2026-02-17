@@ -29,7 +29,8 @@ const BENEFIT_TYPE_LABELS = {
   // Legacy mappings (for backward compatibility)
   transferOfEntitlement:
     'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
-  TOE: 'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
+  TOE:
+    'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
   fryScholarship: 'Fry Scholarship (Chapter 33)',
   FRY: 'Fry Scholarship (Chapter 33)',
 };

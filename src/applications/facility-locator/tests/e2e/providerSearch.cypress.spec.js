@@ -123,7 +123,9 @@ for (const featureSet of featureSetsToTest) {
       h.typeInCityStateInput('Austin, TX{esc}');
       h.vaSelectSelect(h.FACILITY_TYPES.URGENT, h.FACILITY_TYPE_DROPDOWN);
 
-      cy.get(serviceDropdown).find('select').select(NON_VA_URGENT_CARE);
+      cy.get(serviceDropdown)
+        .find('select')
+        .select(NON_VA_URGENT_CARE);
 
       h.submitSearchForm();
 

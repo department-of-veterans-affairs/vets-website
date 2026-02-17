@@ -73,23 +73,24 @@ const ConfirmationDisCondNewDisabilities = ({ formData }) => {
                 </>
               )}
 
-              {cause === 'SECONDARY' && causedByDisability && (
-                <>
-                  <div className="vads-u-color--gray">Caused by</div>
-                  <div className="vads-u-margin-bottom--2">
-                    {causedByDisability}
-                  </div>
+              {cause === 'SECONDARY' &&
+                causedByDisability && (
+                  <>
+                    <div className="vads-u-color--gray">Caused by</div>
+                    <div className="vads-u-margin-bottom--2">
+                      {causedByDisability}
+                    </div>
 
-                  {causedByDisabilityDescription && (
-                    <>
-                      <div className="vads-u-color--gray">Description</div>
-                      <div className="vads-u-margin-bottom--2">
-                        {causedByDisabilityDescription}
-                      </div>
-                    </>
-                  )}
-                </>
-              )}
+                    {causedByDisabilityDescription && (
+                      <>
+                        <div className="vads-u-color--gray">Description</div>
+                        <div className="vads-u-margin-bottom--2">
+                          {causedByDisabilityDescription}
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
 
               {cause === 'WORSENED' &&
                 (worsenedDescription || worsenedEffects) && (

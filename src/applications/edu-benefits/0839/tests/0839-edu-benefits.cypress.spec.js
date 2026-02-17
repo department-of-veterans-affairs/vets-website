@@ -13,7 +13,9 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.get('.schemaform-start-button').first().click();
+          cy.get('.schemaform-start-button')
+            .first()
+            .click();
         });
       },
       'yellow-ribbon-program-request/0': ({ afterHook }) => {

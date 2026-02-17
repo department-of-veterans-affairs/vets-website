@@ -58,18 +58,21 @@ export default function PensionEntry({ location, children }) {
     sessionReplaySampleRate: 100,
   });
 
-  useEffect(() => {
-    if (!isLoadingFeatures) {
-      window.sessionStorage.setItem(
-        'showMultiplePageResponse',
-        pensionMultiplePageResponse,
-      );
-      window.sessionStorage.setItem(
-        'showPdfFormAlignment',
-        pensionPdfFormAlignment,
-      );
-    }
-  }, [isLoadingFeatures, pensionMultiplePageResponse, pensionPdfFormAlignment]);
+  useEffect(
+    () => {
+      if (!isLoadingFeatures) {
+        window.sessionStorage.setItem(
+          'showMultiplePageResponse',
+          pensionMultiplePageResponse,
+        );
+        window.sessionStorage.setItem(
+          'showPdfFormAlignment',
+          pensionPdfFormAlignment,
+        );
+      }
+    },
+    [isLoadingFeatures, pensionMultiplePageResponse, pensionPdfFormAlignment],
+  );
 
   if (isLoadingFeatures !== false || redirectToHowToPage) {
     return <va-loading-indicator message="Loading application..." />;

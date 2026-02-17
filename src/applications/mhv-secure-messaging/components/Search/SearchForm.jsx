@@ -45,17 +45,23 @@ const SearchForm = props => {
   const filterInputRef = useRef();
   const filterFormTitleRef = useRef();
 
-  useEffect(() => {
-    if (dateRange !== 'any' || category) {
-      setCustomFilter(true);
-    } else {
-      setCustomFilter(false);
-    }
-  }, [dateRange, category, customFilter]);
+  useEffect(
+    () => {
+      if (dateRange !== 'any' || category) {
+        setCustomFilter(true);
+      } else {
+        setCustomFilter(false);
+      }
+    },
+    [dateRange, category, customFilter],
+  );
 
-  useEffect(() => {
-    if (resultsCount > 0) focusElement(resultsCountRef.current);
-  }, [resultsCount]);
+  useEffect(
+    () => {
+      if (resultsCount > 0) focusElement(resultsCountRef.current);
+    },
+    [resultsCount],
+  );
 
   const getRelativeDate = range => {
     const today = new Date();
@@ -223,36 +229,48 @@ const SearchForm = props => {
     );
   };
 
-  const isCustom = useMemo(
-    () => isCustomFolder(folder.folderId),
+  const isCustom = useMemo(() => isCustomFolder(folder.folderId), [
+    folder.folderId,
+  ]);
+
+  const ddTitle = useMemo(
+    () => {
+      return `${isCustom ? 'Custom Folder' : `${folder.name}`}`;
+    },
+    [folder.name, isCustom],
+  );
+  const ddPrivacy = useMemo(() => `${isCustom ? 'mask' : 'allow'}`, [isCustom]);
+
+  const filterLabelHeading = useMemo(
+    () => {
+      if (isCustom) {
+        return `Filter messages in ${folder.name}`;
+      }
+      return `Filter messages in ${
+        folder.name === 'Deleted' ? 'trash' : folder.name.toLowerCase()
+      }`;
+    },
+    [folder.name, isCustom],
+  );
+
+  const filterLabelBody = useMemo(
+    () => {
+      return folder.folderId === DefaultFolders.DRAFTS.id
+        ? filterDescription.noMsgId
+        : filterDescription.withMsgId;
+    },
     [folder.folderId],
   );
 
-  const ddTitle = useMemo(() => {
-    return `${isCustom ? 'Custom Folder' : `${folder.name}`}`;
-  }, [folder.name, isCustom]);
-  const ddPrivacy = useMemo(() => `${isCustom ? 'mask' : 'allow'}`, [isCustom]);
-
-  const filterLabelHeading = useMemo(() => {
-    if (isCustom) {
-      return `Filter messages in ${folder.name}`;
-    }
-    return `Filter messages in ${
-      folder.name === 'Deleted' ? 'trash' : folder.name.toLowerCase()
-    }`;
-  }, [folder.name, isCustom]);
-
-  const filterLabelBody = useMemo(() => {
-    return folder.folderId === DefaultFolders.DRAFTS.id
-      ? filterDescription.noMsgId
-      : filterDescription.withMsgId;
-  }, [folder.folderId]);
-
-  const getAriaDescribedBy = useMemo(() => {
-    if (filterStatus === FilterStatus.CLEARED) return 'filter-clear-success';
-    if (filterStatus === FilterStatus.APPLIED) return 'filter-applied-success';
-    return 'filter-default';
-  }, [filterStatus]);
+  const getAriaDescribedBy = useMemo(
+    () => {
+      if (filterStatus === FilterStatus.CLEARED) return 'filter-clear-success';
+      if (filterStatus === FilterStatus.APPLIED)
+        return 'filter-applied-success';
+      return 'filter-default';
+    },
+    [filterStatus],
+  );
 
   return (
     <>

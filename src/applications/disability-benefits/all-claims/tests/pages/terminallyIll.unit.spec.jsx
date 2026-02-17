@@ -8,8 +8,10 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import formConfig from '../../config/form';
 
 describe('Terminally Ill', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.veteranDetails.pages.terminallyIll;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.veteranDetails.pages.terminallyIll;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render the terminally ill question with Yes/No options', () => {

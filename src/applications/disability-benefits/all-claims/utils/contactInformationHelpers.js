@@ -25,8 +25,8 @@ export const getCountryOptions = () => {
 
   // Extract values and names, ensuring USA stays as "USA"
   const COUNTRY_VALUES = filteredCountries.map(country => country.value);
-  const COUNTRY_NAMES = filteredCountries.map(country =>
-    country.label === 'United States' ? 'USA' : country.label,
+  const COUNTRY_NAMES = filteredCountries.map(
+    country => (country.label === 'United States' ? 'USA' : country.label),
   );
 
   return { COUNTRY_VALUES, COUNTRY_NAMES };

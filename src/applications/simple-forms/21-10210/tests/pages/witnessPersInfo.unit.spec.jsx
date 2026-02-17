@@ -11,8 +11,10 @@ import {
 import formConfig from '../../config/form';
 
 // Test for Flow 2: Veteran claimant (uiSchemaA)
-const { schema: schemaA, uiSchema: uiSchemaA } =
-  formConfig.chapters.witnessPersonalInfoChapter.pages.witnessPersInfoPageA;
+const {
+  schema: schemaA,
+  uiSchema: uiSchemaA,
+} = formConfig.chapters.witnessPersonalInfoChapter.pages.witnessPersInfoPageA;
 const pageTitleA = 'Witness personal information (Veteran claimant)';
 
 // Test data for when all fields are filled correctly
@@ -29,8 +31,10 @@ const mockDataWithVeteranRelationship = {
 };
 
 // Test for Flow 4: Non-veteran claimant (uiSchemaB)
-const { schema: schemaB, uiSchema: uiSchemaB } =
-  formConfig.chapters.witnessPersonalInfoChapter.pages.witnessPersInfoPageB;
+const {
+  schema: schemaB,
+  uiSchema: uiSchemaB,
+} = formConfig.chapters.witnessPersonalInfoChapter.pages.witnessPersInfoPageB;
 const pageTitleB = 'Witness personal information (Non-veteran claimant)';
 
 // Test data for non-veteran claimant flow

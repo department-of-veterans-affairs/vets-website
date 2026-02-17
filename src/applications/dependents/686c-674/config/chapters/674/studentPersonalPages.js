@@ -16,7 +16,8 @@ export const studentIncomePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student\u2019s income'),
     studentIncome: radioUI({
       title: 'Did this student have an income in the last 365 days?',
-      hint: 'Answer this question only if you are adding this dependent to your pension.',
+      hint:
+        'Answer this question only if you are adding this dependent to your pension.',
       labels: {
         Y: 'Yes',
         N: 'No',

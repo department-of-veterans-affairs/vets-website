@@ -47,15 +47,14 @@ describe('Type 2 Failure Analytics', () => {
                 ...claim,
                 attributes: {
                   ...claim.attributes,
-                  evidenceSubmissions:
-                    claimDetail.data.attributes.evidenceSubmissions
-                      .slice(0, 1)
-                      .map(submission => ({
-                        ...submission,
-                        failedDate: twoDaysAgo,
-                        acknowledgementDate: tomorrow,
-                        createdAt: twoDaysAgo,
-                      })),
+                  evidenceSubmissions: claimDetail.data.attributes.evidenceSubmissions
+                    .slice(0, 1)
+                    .map(submission => ({
+                      ...submission,
+                      failedDate: twoDaysAgo,
+                      acknowledgementDate: tomorrow,
+                      createdAt: twoDaysAgo,
+                    })),
                 },
               };
             }
@@ -68,15 +67,14 @@ describe('Type 2 Failure Analytics', () => {
             ...claimDetail.data,
             attributes: {
               ...claimDetail.data.attributes,
-              evidenceSubmissions:
-                claimDetail.data.attributes.evidenceSubmissions.map(
-                  submission => ({
-                    ...submission,
-                    failedDate: twoDaysAgo,
-                    acknowledgementDate: tomorrow,
-                    createdAt: twoDaysAgo,
-                  }),
-                ),
+              evidenceSubmissions: claimDetail.data.attributes.evidenceSubmissions.map(
+                submission => ({
+                  ...submission,
+                  failedDate: twoDaysAgo,
+                  acknowledgementDate: tomorrow,
+                  createdAt: twoDaysAgo,
+                }),
+              ),
             },
           },
         };
@@ -120,15 +118,14 @@ describe('Type 2 Failure Analytics', () => {
             ...claimDetail.data,
             attributes: {
               ...claimDetail.data.attributes,
-              evidenceSubmissions:
-                claimDetail.data.attributes.evidenceSubmissions.map(
-                  submission => ({
-                    ...submission,
-                    failedDate: twoDaysAgo,
-                    acknowledgementDate: tomorrow,
-                    createdAt: twoDaysAgo,
-                  }),
-                ),
+              evidenceSubmissions: claimDetail.data.attributes.evidenceSubmissions.map(
+                submission => ({
+                  ...submission,
+                  failedDate: twoDaysAgo,
+                  acknowledgementDate: tomorrow,
+                  createdAt: twoDaysAgo,
+                }),
+              ),
             },
           },
         };
@@ -178,15 +175,14 @@ describe('Type 2 Failure Analytics', () => {
             ...claimDetail.data,
             attributes: {
               ...claimDetail.data.attributes,
-              evidenceSubmissions:
-                claimDetail.data.attributes.evidenceSubmissions.map(
-                  submission => ({
-                    ...submission,
-                    failedDate: twoDaysAgo,
-                    acknowledgementDate: tomorrow,
-                    createdAt: twoDaysAgo,
-                  }),
-                ),
+              evidenceSubmissions: claimDetail.data.attributes.evidenceSubmissions.map(
+                submission => ({
+                  ...submission,
+                  failedDate: twoDaysAgo,
+                  acknowledgementDate: tomorrow,
+                  createdAt: twoDaysAgo,
+                }),
+              ),
             },
           },
         };

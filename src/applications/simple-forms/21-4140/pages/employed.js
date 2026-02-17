@@ -31,8 +31,10 @@ export default {
             return;
           }
 
-          const { employmentCertification, employmentAccuracyCertification } =
-            fieldData;
+          const {
+            employmentCertification,
+            employmentAccuracyCertification,
+          } = fieldData;
 
           if (!employmentCertification || !employmentAccuracyCertification) {
             errors.addError('You must check both certifications to continue');

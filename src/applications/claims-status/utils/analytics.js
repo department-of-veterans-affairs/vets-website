@@ -71,7 +71,9 @@ export const generateDocInstanceId = () => {
     return crypto.randomUUID();
   }
   // Fallback for older browsers that don't support crypto.randomUUID
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
+  return `${Date.now()}-${Math.random()
+    .toString(36)
+    .slice(2, 11)}`;
 };
 
 /**

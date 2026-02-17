@@ -26,7 +26,9 @@ import submitForm from './submitForm';
 import transform from './transform';
 import prefillTransform from './prefillTransform';
 
-export const SUBMIT_URL = `${environment.API_URL}/v0/education_benefits_claims/0803`;
+export const SUBMIT_URL = `${
+  environment.API_URL
+}/v0/education_benefits_claims/0803`;
 
 /** @type {FormConfig} */
 const formConfig = {

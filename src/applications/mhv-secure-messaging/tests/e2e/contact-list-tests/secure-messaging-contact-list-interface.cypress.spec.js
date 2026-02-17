@@ -165,22 +165,25 @@ describe('SM CONTACT LIST', () => {
   });
 
   it(`verify contact list wit plain TG names`, () => {
-    const updatedMockRecipientsResponse =
-      GeneralFunctionsPage.updateTGSuggestedName(
-        mockRecipients,
-        'TG | Type | Name',
-      );
+    const updatedMockRecipientsResponse = GeneralFunctionsPage.updateTGSuggestedName(
+      mockRecipients,
+      'TG | Type | Name',
+    );
 
     SecureMessagingSite.login();
     ContactListPage.loadContactList(updatedMockRecipientsResponse);
 
     cy.get(
-      `[data-testid="contact-list-select-team-${updatedMockRecipientsResponse.data[0].attributes.triageTeamId}"]`,
+      `[data-testid="contact-list-select-team-${
+        updatedMockRecipientsResponse.data[0].attributes.triageTeamId
+      }"]`,
     )
       .find(`[part="label"]`, { includeShadowDom: true })
       .should(
         `have.text`,
-        `${updatedMockRecipientsResponse.data[0].attributes.suggestedNameDisplay}`,
+        `${
+          updatedMockRecipientsResponse.data[0].attributes.suggestedNameDisplay
+        }`,
       );
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

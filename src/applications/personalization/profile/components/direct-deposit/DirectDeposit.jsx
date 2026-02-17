@@ -97,8 +97,11 @@ export const DirectDeposit = () => {
 
   useDirectDepositEffects({ ...directDepositHookResult, cardHeadingId });
 
-  const { TOGGLE_NAMES, useToggleValue, useToggleLoadingValue } =
-    useFeatureToggle();
+  const {
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
 
   const hideDirectDeposit = useToggleValue(
     TOGGLE_NAMES.profileHideDirectDeposit,

@@ -3,7 +3,7 @@ import formConfig, { SUBMIT_URL } from '../../config/form';
 import manifest from '../../manifest.json';
 
 describe('22-0976 keyboard only specs', () => {
-  beforeEach(function () {
+  beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
 
     cy.intercept('POST', SUBMIT_URL, mockSubmit);

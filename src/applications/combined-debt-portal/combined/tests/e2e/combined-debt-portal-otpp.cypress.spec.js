@@ -55,7 +55,9 @@ describe('CDP - One Thing Per Page', () => {
       it('should show new links on balance cards', () => {
         copayResponses.detail(id);
 
-        cy.findByTestId('balance-card-copay').findByTestId('card-link').click();
+        cy.findByTestId('balance-card-copay')
+          .findByTestId('card-link')
+          .click();
 
         // Legacy link should not be present
         cy.findByTestId(`balance-card-${id}`)
@@ -90,9 +92,14 @@ describe('CDP - One Thing Per Page', () => {
       });
 
       it('should navigate to resolve page and show content', () => {
-        cy.findByTestId('balance-card-copay').findByTestId('card-link').click();
+        cy.findByTestId('balance-card-copay')
+          .findByTestId('card-link')
+          .click();
 
-        cy.get(`[data-testid="resolve-link-${id}"]`).shadow().find('a').click();
+        cy.get(`[data-testid="resolve-link-${id}"]`)
+          .shadow()
+          .find('a')
+          .click();
 
         cy.location('pathname').should(
           'match',
@@ -103,12 +110,17 @@ describe('CDP - One Thing Per Page', () => {
       });
 
       it('renders resolve page content after navigation', () => {
-        cy.findByTestId('balance-card-copay').findByTestId('card-link').click();
+        cy.findByTestId('balance-card-copay')
+          .findByTestId('card-link')
+          .click();
 
         // Re-stub the detail API right before clicking the resolve link
         copayResponses.detail(id);
 
-        cy.get(`[data-testid="resolve-link-${id}"]`).shadow().find('a').click();
+        cy.get(`[data-testid="resolve-link-${id}"]`)
+          .shadow()
+          .find('a')
+          .click();
 
         cy.url().should('match', new RegExp(`/copay-balances/${id}/resolve$`));
 
@@ -123,7 +135,9 @@ describe('CDP - One Thing Per Page', () => {
       });
 
       it('should show new version of balances page', () => {
-        cy.findByTestId('balance-card-copay').findByTestId('card-link').click();
+        cy.findByTestId('balance-card-copay')
+          .findByTestId('card-link')
+          .click();
 
         cy.get('va-on-this-page').should('not.exist');
         cy.findByTestId('how-to-pay').should('not.exist');
@@ -164,7 +178,9 @@ describe('CDP - One Thing Per Page', () => {
         cy.wait(['@features2', '@copays2', '@debts2']);
 
         // Bills select from summary page
-        cy.findByTestId('balance-card-copay').findByTestId('card-link').click();
+        cy.findByTestId('balance-card-copay')
+          .findByTestId('card-link')
+          .click();
 
         // Specific copay selection
         cy.findByTestId(`balance-card-${id}`)
@@ -197,7 +213,9 @@ describe('CDP - One Thing Per Page', () => {
 
     context('debt pages', () => {
       it('should show new links on balance cards', () => {
-        cy.findByTestId('balance-card-debt').findByTestId('card-link').click();
+        cy.findByTestId('balance-card-debt')
+          .findByTestId('card-link')
+          .click();
 
         // check legacy link is not present
         cy.findByTestId('debt-details-button').should('not.exist');
@@ -228,7 +246,9 @@ describe('CDP - One Thing Per Page', () => {
       });
 
       it('should navigate to resolve page and show content', () => {
-        cy.findByTestId('balance-card-debt').findByTestId('card-link').click();
+        cy.findByTestId('balance-card-debt')
+          .findByTestId('card-link')
+          .click();
 
         cy.get('[data-testid^="summary-card"]')
           .findByTestId('link-resolve')
@@ -248,7 +268,9 @@ describe('CDP - One Thing Per Page', () => {
       });
 
       it('should show new version of details page', () => {
-        cy.findByTestId('balance-card-debt').findByTestId('card-link').click();
+        cy.findByTestId('balance-card-debt')
+          .findByTestId('card-link')
+          .click();
 
         cy.get('[data-testid^="summary-card"]')
           .findByTestId('link-details')

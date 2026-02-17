@@ -8,7 +8,9 @@ import {
 import { handleOptionalServiceHistoryPage } from './handleOptionalServiceHistoryPage';
 
 export const advanceToInsurancePolicies = testData => {
-  cy.get('[href="#start"]').first().click();
+  cy.get('[href="#start"]')
+    .first()
+    .click();
   cy.location('pathname').should(
     'include',
     '/veteran-information/personal-information',
@@ -80,8 +82,11 @@ export const advanceToInsurancePolicies = testData => {
 };
 
 export const fillInsuranceInformation = policy => {
-  const { insuranceName, insurancePolicyHolderName, insurancePolicyNumber } =
-    policy;
+  const {
+    insuranceName,
+    insurancePolicyHolderName,
+    insurancePolicyNumber,
+  } = policy;
 
   fillTextWebComponent('insuranceName', insuranceName);
   fillTextWebComponent('insurancePolicyHolderName', insurancePolicyHolderName);

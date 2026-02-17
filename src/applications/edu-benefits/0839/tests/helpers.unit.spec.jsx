@@ -339,10 +339,9 @@ describe('0839 Helpers', () => {
           },
         };
 
-        const node =
-          additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
-            props,
-          );
+        const node = additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
+          props,
+        );
         const html = renderToStaticMarkup(node);
 
         expect(html).to.include('You can add more locations to this agreement');
@@ -361,10 +360,9 @@ describe('0839 Helpers', () => {
           },
         };
 
-        const node =
-          additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
-            props,
-          );
+        const node = additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
+          props,
+        );
         const html = renderToStaticMarkup(node);
 
         expect(html).to.include(
@@ -379,10 +377,9 @@ describe('0839 Helpers', () => {
       });
 
       it('defaults to ADD copy when agreementType is missing', () => {
-        const node =
-          additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
-            { formData: {} },
-          );
+        const node = additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
+          { formData: {} },
+        );
         const html = renderToStaticMarkup(node);
 
         expect(html).to.include('You can add more locations to this agreement');

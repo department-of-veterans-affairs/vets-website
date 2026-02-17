@@ -19,7 +19,12 @@ const PersonalInformation = ({ formData }) => {
 
   // Get SSN from formData or profile, then extract last 4 digits
   const ssn = formData.ssn || profileSsn;
-  const ssnLastFour = ssn ? ssn.toString().replace(/[^\d]/g, '').slice(-4) : '';
+  const ssnLastFour = ssn
+    ? ssn
+        .toString()
+        .replace(/[^\d]/g, '')
+        .slice(-4)
+    : '';
   const birthDate = dateOfBirth || dob;
   const dobDateObj = parseDateToDateObj(birthDate || null, FORMAT_YMD_DATE_FNS);
 
@@ -76,7 +81,9 @@ const PersonalInformation = ({ formData }) => {
       <p className="vads-u-margin-bottom--4">
         <va-link
           external
-          href={`${environment.BASE_URL}/resources/how-to-change-your-legal-name-on-file-with-va/`}
+          href={`${
+            environment.BASE_URL
+          }/resources/how-to-change-your-legal-name-on-file-with-va/`}
           text="Find more detailed instructions for how to change your legal name"
         />
       </p>

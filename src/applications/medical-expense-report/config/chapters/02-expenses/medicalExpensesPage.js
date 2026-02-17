@@ -26,7 +26,7 @@ const nounPlural = 'medical expenses';
 
 function ItemDescription(item) {
   const paymentDate = transformDate(item?.paymentDate);
-  const frequency = careFrequencyLabels[item?.paymentFrequency];
+  const frequency = careFrequencyLabels[(item?.paymentFrequency)];
   if (!paymentDate && !frequency) return null;
   return (
     <div>

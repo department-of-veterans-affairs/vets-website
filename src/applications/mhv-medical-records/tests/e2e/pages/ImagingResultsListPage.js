@@ -36,7 +36,9 @@ class ImagingResultsListPage extends BaseListPage {
       '@featureToggles',
     ]);
     // Wait for page to load
-    cy.get('h1').should('be.visible').and('be.focused');
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   clickRadiologyDetailsLink = (heading, index = 0) => {
@@ -68,7 +70,9 @@ class ImagingResultsListPage extends BaseListPage {
 
   verifyImagesReadyAlert = (alertText = 'Images ready') => {
     cy.get('[data-testid="alert-images-ready"]').should('be.visible');
-    cy.get('[data-testid="alert-images-ready"]').find('h3').contains(alertText);
+    cy.get('[data-testid="alert-images-ready"]')
+      .find('h3')
+      .contains(alertText);
   };
 
   clickViewImages = (studyId, viewImagesResponse) => {

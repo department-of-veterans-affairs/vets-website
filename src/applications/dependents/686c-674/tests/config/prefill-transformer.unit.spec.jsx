@@ -29,12 +29,12 @@ const defaultDependents = [
 ];
 
 const processedDependents = {
-  702023332: {
+  '702023332': {
     key: 'jane-3332',
     age: 35,
     labeledAge: '35 years old',
   },
-  793473479: {
+  '793473479': {
     key: 'mike-3479',
     age: 18,
     labeledAge: '18 years old',
@@ -104,18 +104,14 @@ const buildData = ({
       hasError: false,
       hasDependents:
         dependents.filter(d => d.awardIndicator === 'Y').length > 0,
-      awarded: dependents
-        .filter(d => d.awardIndicator === 'Y')
-        .map(d => ({
-          ...d,
-          ...processedDependents[d.ssn],
-        })),
-      notAwarded: dependents
-        .filter(d => d.awardIndicator !== 'Y')
-        .map(d => ({
-          ...d,
-          ...processedDependents[d.ssn],
-        })),
+      awarded: dependents.filter(d => d.awardIndicator === 'Y').map(d => ({
+        ...d,
+        ...processedDependents[d.ssn],
+      })),
+      notAwarded: dependents.filter(d => d.awardIndicator !== 'Y').map(d => ({
+        ...d,
+        ...processedDependents[d.ssn],
+      })),
     },
   },
 });
@@ -178,11 +174,8 @@ describe('686c-674 v2 prefill transformer', () => {
         vaFileLastFour: '7654',
         isInReceiptOfPension: 1,
       });
-      const transformedData = prefillTransformer(
-        pages,
-        data.prefill,
-        metadata,
-      ).formData;
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
 
       expect(transformedData).to.deep.equal(data.result);
     });
@@ -196,11 +189,8 @@ describe('686c-674 v2 prefill transformer', () => {
         vaFileLastFour: '7654',
         city: 'APO',
       });
-      const transformedData = prefillTransformer(
-        pages,
-        data.prefill,
-        metadata,
-      ).formData;
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
 
       expect(transformedData).to.deep.equal(data.result);
     });
@@ -215,11 +205,8 @@ describe('686c-674 v2 prefill transformer', () => {
         city: 'APO',
         netWorthLimit: '200,000',
       });
-      const transformedData = prefillTransformer(
-        pages,
-        data.prefill,
-        metadata,
-      ).formData;
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
 
       expect(transformedData).to.deep.equal(data.result);
     });
@@ -230,11 +217,8 @@ describe('686c-674 v2 prefill transformer', () => {
         vaFileLastFour: '7654',
         city: 'APO',
       });
-      const transformedData = prefillTransformer(
-        pages,
-        data.prefill,
-        metadata,
-      ).formData;
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
 
       expect(transformedData).to.deep.equal(data.result);
       expect(transformedData.netWorthLimit).to.equal(NETWORTH_VALUE);
@@ -245,11 +229,8 @@ describe('686c-674 v2 prefill transformer', () => {
     it('should default to -1 when not provided', () => {
       const { pages, metadata } = noTransformData;
       const data = buildData({});
-      const transformedData = prefillTransformer(
-        pages,
-        data.prefill,
-        metadata,
-      ).formData;
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
 
       expect(transformedData.veteranInformation.isInReceiptOfPension).to.equal(
         -1,
@@ -261,11 +242,8 @@ describe('686c-674 v2 prefill transformer', () => {
       const data = buildData({
         isInReceiptOfPension: 0,
       });
-      const transformedData = prefillTransformer(
-        pages,
-        data.prefill,
-        metadata,
-      ).formData;
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
 
       expect(transformedData.veteranInformation.isInReceiptOfPension).to.equal(
         0,
@@ -277,11 +255,8 @@ describe('686c-674 v2 prefill transformer', () => {
       const data = buildData({
         isInReceiptOfPension: 1,
       });
-      const transformedData = prefillTransformer(
-        pages,
-        data.prefill,
-        metadata,
-      ).formData;
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
 
       expect(transformedData.veteranInformation.isInReceiptOfPension).to.equal(
         1,
@@ -352,11 +327,8 @@ describe('686c-674 v2 prefill transformer', () => {
         vaFileLastFour: '7654',
       });
 
-      const transformedData = prefillTransformer(
-        pages,
-        data.prefill,
-        metadata,
-      ).formData;
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
 
       // Verify prefill transformation is applied (addressLine1 -> street, etc.)
       expect(

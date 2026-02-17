@@ -12,7 +12,10 @@ export const checkAxeAndClickContinueButton = () => {
  * Check an html element for visibility and content
  */
 export const checkVisibleElementContent = (element, content) => {
-  cy.get(element).should('exist').and('be.visible').contains(content);
+  cy.get(element)
+    .should('exist')
+    .and('be.visible')
+    .contains(content);
 };
 /**
  * Check the content on the intro page for anonymous users.
@@ -45,7 +48,9 @@ export const startApplicationWithoutLogin = () => {
   cy.injectAxeThenAxeCheck();
   checkContentAnonymousIntroPageContent();
 
-  cy.get('va-alert-sign-in').get('a[class="schemaform-start-button"]').click();
+  cy.get('va-alert-sign-in')
+    .get('a[class="schemaform-start-button"]')
+    .click();
 };
 
 /**
@@ -122,16 +127,15 @@ export const checkContentAnonymousReportingPeriod = () => {
 /**
  * Check the content on the Medical Expenses Recipient and Provider Name page
  */
-export const checkContentAnonymousMedicalExpensesRecipientAndProviderName =
-  () => {
-    checkVisibleElementContent(
-      'h1',
-      'Submit medical expenses to support a pension or DIC claim',
-    );
-    checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
-    checkVisibleElementContent('legend', 'Medical recipient');
-    checkVisibleElementContent('va-radio', 'Who’s the expense for?');
-  };
+export const checkContentAnonymousMedicalExpensesRecipientAndProviderName = () => {
+  checkVisibleElementContent(
+    'h1',
+    'Submit medical expenses to support a pension or DIC claim',
+  );
+  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
+  checkVisibleElementContent('legend', 'Medical recipient');
+  checkVisibleElementContent('va-radio', 'Who’s the expense for?');
+};
 
 /**
  * Check the content on the Medical Expenses Reason page
@@ -332,8 +336,12 @@ export const fillInMilBaseAddressFromFixture = () => {
     'have.value',
     'USA',
   );
-  cy.get('va-radio').shadow().contains('Military post office');
-  cy.get('va-radio').shadow().contains('Overseas "state" abbreviation');
+  cy.get('va-radio')
+    .shadow()
+    .contains('Military post office');
+  cy.get('va-radio')
+    .shadow()
+    .contains('Overseas "state" abbreviation');
   cy.get('input[name="root_claimantAddress_city"][value="APO"]').click();
   cy.get('input[name="root_claimantAddress_state"][value="AE"]').click();
 
@@ -463,7 +471,9 @@ export const fillInCareExpensesFromFixture = () => {
   checkAxeAndClickContinueButton();
   cy.findByRole('heading', {
     level: 3,
-    name: `Cost of care for ${fixtureData.data.attributes.veteran_care_provider_1.providerName}`,
+    name: `Cost of care for ${
+      fixtureData.data.attributes.veteran_care_provider_1.providerName
+    }`,
   }).should('exist');
   cy.fillVaTextInput(
     'root_monthlyAmount',
@@ -503,7 +513,9 @@ export const fillInCareExpensesFromFixture = () => {
   checkAxeAndClickContinueButton();
   cy.findByRole('heading', {
     level: 3,
-    name: `Cost of care for ${fixtureData.data.attributes.veteran_care_provider_2.providerName}`,
+    name: `Cost of care for ${
+      fixtureData.data.attributes.veteran_care_provider_2.providerName
+    }`,
   }).should('exist');
   cy.fillVaTextInput(
     'root_monthlyAmount',
@@ -692,7 +704,9 @@ export const fillInStatementOfTruthFromFixture = () => {
     .get('input[type="checkbox"]')
     .check();
 
-  const fullName = `${fixtureData.data.attributes.profile.first_name} ${fixtureData.data.attributes.profile.middle_name} ${fixtureData.data.attributes.profile.last_name}`;
+  const fullName = `${fixtureData.data.attributes.profile.first_name} ${
+    fixtureData.data.attributes.profile.middle_name
+  } ${fixtureData.data.attributes.profile.last_name}`;
   cy.get('va-statement-of-truth')
     .shadow()
     .get('#veteran-signature')

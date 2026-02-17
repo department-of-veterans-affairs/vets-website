@@ -17,7 +17,9 @@ const checkOpt = {
 };
 
 Cypress.Commands.add('checkStorage', (key, expectedValue) => {
-  cy.window().its(`window.sessionStorage.${key}`).should('eq', expectedValue);
+  cy.window()
+    .its(`window.sessionStorage.${key}`)
+    .should('eq', expectedValue);
 });
 
 Cypress.Commands.add(

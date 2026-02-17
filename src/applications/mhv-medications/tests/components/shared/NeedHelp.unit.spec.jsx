@@ -14,8 +14,7 @@ describe('Need Help shared component', () => {
   ) => {
     const initialState = {
       featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements]:
-          isMedicationsManagementImprovementsEnabled,
+        [FEATURE_FLAG_NAMES.mhvMedicationsManagementImprovements]: isMedicationsManagementImprovementsEnabled,
       },
     };
 

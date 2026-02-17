@@ -298,24 +298,27 @@ export const validateMedicalRecordsAtLeastOne = (
  * disabilities are selected.
  * @param {string} disabilityList - The type of list, 'rated' or 'new'
  */
-export const oneDisabilityRequired =
-  disabilityList => (errors, state, formData) => {
-    const ratedDisabilities = _.get('ratedDisabilities', formData, []);
-    const newDisabilities = _.get('newDisabilities', formData, []);
+export const oneDisabilityRequired = disabilityList => (
+  errors,
+  state,
+  formData,
+) => {
+  const ratedDisabilities = _.get('ratedDisabilities', formData, []);
+  const newDisabilities = _.get('newDisabilities', formData, []);
 
-    const hasNewDisabilitiesSelected = some(
-      [...newDisabilities, ...ratedDisabilities],
-      disability => disability.unemployabilityDisability,
-    );
+  const hasNewDisabilitiesSelected = some(
+    [...newDisabilities, ...ratedDisabilities],
+    disability => disability.unemployabilityDisability,
+  );
 
-    if (!hasNewDisabilitiesSelected) {
-      const errMsg =
-        disabilityList === 'new' && ratedDisabilities.length
-          ? ''
-          : 'Please select at least one disability from the lists below.';
-      errors.addError(errMsg);
-    }
-  };
+  if (!hasNewDisabilitiesSelected) {
+    const errMsg =
+      disabilityList === 'new' && ratedDisabilities.length
+        ? ''
+        : 'Please select at least one disability from the lists below.';
+    errors.addError(errMsg);
+  }
+};
 
 export const isInFuture = (err, fieldData) => {
   const fieldDate = new Date(fieldData);

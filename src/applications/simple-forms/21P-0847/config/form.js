@@ -36,7 +36,8 @@ const formConfig = {
   confirmation: ConfirmationPage,
   preSubmitInfo: {
     statementOfTruth: {
-      body: 'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: 'preparerName',

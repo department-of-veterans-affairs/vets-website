@@ -27,7 +27,9 @@ describe('Medical Records View Labs And Tests', () => {
     );
     ChemHemDetailsPage.verifySampleTested(record.contained[0].type.text);
     ChemHemDetailsPage.verifyOrderedBy(
-      `${record.contained[1].name[0].given[0]} ${record.contained[1].name[0].given[1]} ${record.contained[1].name[0].family}`,
+      `${record.contained[1].name[0].given[0]} ${
+        record.contained[1].name[0].given[1]
+      } ${record.contained[1].name[0].family}`,
     );
     ChemHemDetailsPage.verifyLabCollectingLocation(record.contained[3].name);
     // There might be a new line in this provider notes example.  we need to check later

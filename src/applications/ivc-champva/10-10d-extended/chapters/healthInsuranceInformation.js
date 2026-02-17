@@ -200,7 +200,8 @@ const prescriptionCoverage = {
     ...healthInsurancePageTitleUI('%s prescription coverage'),
     eob: yesNoUI({
       title: 'Does the applicant(s) health insurance cover prescriptions?',
-      hint: 'You may find this information on the front of the health insurance card. You can also contact the phone number listed on the back of the card.',
+      hint:
+        'You may find this information on the front of the health insurance card. You can also contact the phone number listed on the back of the card.',
     }),
   },
   schema: {

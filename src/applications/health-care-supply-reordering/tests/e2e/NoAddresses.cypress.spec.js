@@ -146,7 +146,10 @@ describe(`${appName} -- Veteran w/o address`, () => {
     // select supplies
     cy.injectAxeThenAxeCheck();
     // cy.selectVaCheckbox('#1', true);
-    cy.get('#1').shadow().find('input').click({ force: true });
+    cy.get('#1')
+      .shadow()
+      .find('input')
+      .click({ force: true });
     cy.findByText(/^Continue$/).click();
 
     cy.findByText(/^Submit order$/).click();

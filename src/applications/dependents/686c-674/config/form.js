@@ -70,7 +70,8 @@ export const formConfig = {
   confirmation: ConfirmationPage,
   preSubmitInfo: {
     statementOfTruth: {
-      body: 'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      body:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate has been represented correctly.',
       useProfileFullName: true,

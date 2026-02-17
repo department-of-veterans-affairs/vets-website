@@ -7,22 +7,20 @@ describe('Profile utils', () => {
     describe('getSchedulingPreferenceInitialFormValues', () => {
       it('returns data value when data is provided', () => {
         const data = { [FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING]: 'yes' };
-        const result =
-          schedulingPreferencesUtils.getSchedulingPreferenceInitialFormValues(
-            FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING,
-            data,
-          );
+        const result = schedulingPreferencesUtils.getSchedulingPreferenceInitialFormValues(
+          FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING,
+          data,
+        );
         expect(result).to.deep.equal({
           needsHelpSchedulingAppointments: 'yes',
         });
       });
 
       it('returns empty string when no data is provided', () => {
-        const result =
-          schedulingPreferencesUtils.getSchedulingPreferenceInitialFormValues(
-            FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING,
-            null,
-          );
+        const result = schedulingPreferencesUtils.getSchedulingPreferenceInitialFormValues(
+          FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING,
+          null,
+        );
         expect(result).to.deep.equal({ needsHelpSchedulingAppointments: '' });
       });
     });
@@ -46,10 +44,9 @@ describe('Profile utils', () => {
 
     describe('schedulingPreferencesFormSchema', () => {
       it('returns radio form schema for inline scheduling preference fields', () => {
-        const result =
-          schedulingPreferencesUtils.schedulingPreferencesFormSchema(
-            FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING,
-          );
+        const result = schedulingPreferencesUtils.schedulingPreferencesFormSchema(
+          FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING,
+        );
         expect(result).to.have.property('type', 'object');
         expect(result).to.have.property('properties');
         expect(result.properties).to.have.property(
@@ -80,8 +77,9 @@ describe('Profile utils', () => {
           ['Friday', ['morning', 'afternoon']],
         ];
 
-        const result =
-          schedulingPreferencesUtils.sortDaysAndTimes(unsortedDaysAndTimes);
+        const result = schedulingPreferencesUtils.sortDaysAndTimes(
+          unsortedDaysAndTimes,
+        );
         expect(result).to.deep.equal(sortedDaysAndTimes);
       });
     });

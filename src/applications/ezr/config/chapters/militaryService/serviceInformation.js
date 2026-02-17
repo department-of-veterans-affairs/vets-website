@@ -11,8 +11,12 @@ import { validateServiceDates } from '../../../utils/validation';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
-const { dischargeType, lastDischargeDate, lastEntryDate, lastServiceBranch } =
-  FULL_SCHEMA.properties;
+const {
+  dischargeType,
+  lastDischargeDate,
+  lastEntryDate,
+  lastServiceBranch,
+} = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

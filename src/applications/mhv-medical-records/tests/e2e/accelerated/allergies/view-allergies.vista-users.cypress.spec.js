@@ -60,7 +60,10 @@ describe('Medical Records View Allergies for VistA Users (Path 3)', () => {
 
     cy.get('body').then($body => {
       if ($body.find('[data-testid="record-list-item"]').length > 0) {
-        cy.get('[data-testid="record-list-item"]').first().find('a').click();
+        cy.get('[data-testid="record-list-item"]')
+          .first()
+          .find('a')
+          .click();
 
         // Wait for detail page to load
         cy.get('h1').should('be.visible');

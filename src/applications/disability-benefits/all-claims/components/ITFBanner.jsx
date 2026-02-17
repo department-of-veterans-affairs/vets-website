@@ -102,4 +102,7 @@ const mapDispatchToProps = {
   dismissITFMessage: dismissITFMessageAction,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ITFBanner);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ITFBanner);

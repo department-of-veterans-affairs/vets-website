@@ -149,4 +149,7 @@ const mapDispatchToProps = {
   getLetterPdf,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DownloadLetterLink);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DownloadLetterLink);

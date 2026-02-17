@@ -217,8 +217,7 @@ const SearchPage = props => {
             'filter',
             representativeInputString,
           );
-          previousRepresentativeInputString.current =
-            currentRepresentativeInputString;
+          previousRepresentativeInputString.current = currentRepresentativeInputString;
         }
       };
     };
@@ -265,48 +264,66 @@ const SearchPage = props => {
   };
 
   // Trigger request on query update following search
-  useEffect(() => {
-    if (isSearching && !props.errors.isErrorGeocode) {
-      handleSearchOnQueryChange();
-    }
-  }, [props.currentQuery.committedSearchQuery.id]);
+  useEffect(
+    () => {
+      if (isSearching && !props.errors.isErrorGeocode) {
+        handleSearchOnQueryChange();
+      }
+    },
+    [props.currentQuery.committedSearchQuery.id],
+  );
 
   // Trigger request on sort update
-  useEffect(() => {
-    if (props.currentQuery.searchCounter > 0) {
-      handleSearchOnQueryChange();
-    }
-  }, [props.currentQuery.committedSearchQuery.sortType]);
+  useEffect(
+    () => {
+      if (props.currentQuery.searchCounter > 0) {
+        handleSearchOnQueryChange();
+      }
+    },
+    [props.currentQuery.committedSearchQuery.sortType],
+  );
 
   // Trigger request on page update
-  useEffect(() => {
-    if (props.currentQuery.searchCounter > 0) {
-      handleSearchOnQueryChange();
-    }
-  }, [props.currentQuery.committedSearchQuery.page]);
+  useEffect(
+    () => {
+      if (props.currentQuery.searchCounter > 0) {
+        handleSearchOnQueryChange();
+      }
+    },
+    [props.currentQuery.committedSearchQuery.page],
+  );
 
-  useEffect(() => {
-    if (isSearching && props.errors.isErrorGeocode) {
-      setIsSearching(false);
-    }
-  }, [props.errors.isErrorGeocode]);
+  useEffect(
+    () => {
+      if (isSearching && props.errors.isErrorGeocode) {
+        setIsSearching(false);
+      }
+    },
+    [props.errors.isErrorGeocode],
+  );
 
   // search complete
-  useEffect(() => {
-    if (props.currentQuery.searchCounter > 0) {
-      setIsSearching(false);
-      setIsLoading(false);
-      setIsDisplayingResults(true);
-    }
-  }, [props.currentQuery.searchCounter]);
+  useEffect(
+    () => {
+      if (props.currentQuery.searchCounter > 0) {
+        setIsSearching(false);
+        setIsLoading(false);
+        setIsDisplayingResults(true);
+      }
+    },
+    [props.currentQuery.searchCounter],
+  );
 
   // jump to results
-  useEffect(() => {
-    if (isDisplayingResults) {
-      window.scrollTo(0, 600);
-      focusElement('#search-results-subheader');
-    }
-  }, [isDisplayingResults]);
+  useEffect(
+    () => {
+      if (isDisplayingResults) {
+        window.scrollTo(0, 600);
+        focusElement('#search-results-subheader');
+      }
+    },
+    [isDisplayingResults],
+  );
 
   // search from query params on page load
   useEffect(() => {
@@ -463,19 +480,20 @@ const SearchPage = props => {
         </VaModal>
 
         <div id="search-results-title" ref={searchResultTitleRef}>
-          {isDisplayingResults && !isErrorFetchRepresentatives && (
-            <>
-              <SearchResultsHeader
-                searchResults={props.searchResults}
-                query={currentQuery}
-                updateSearchQuery={props.updateSearchQuery}
-                commitSearchQuery={props.commitSearchQuery}
-                pagination={props.pagination}
-              />{' '}
-              {resultsList()}
-              {paginationWrapper()}
-            </>
-          )}
+          {isDisplayingResults &&
+            !isErrorFetchRepresentatives && (
+              <>
+                <SearchResultsHeader
+                  searchResults={props.searchResults}
+                  query={currentQuery}
+                  updateSearchQuery={props.updateSearchQuery}
+                  commitSearchQuery={props.commitSearchQuery}
+                  pagination={props.pagination}
+                />{' '}
+                {resultsList()}
+                {paginationWrapper()}
+              </>
+            )}
         </div>
       </div>
     );
@@ -595,4 +613,7 @@ const mapDispatchToProps = {
   clearError,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchPage);

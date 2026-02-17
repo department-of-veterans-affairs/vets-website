@@ -41,11 +41,14 @@ const RadiologySingleImage = ({ basePath = '/labs-and-tests' }) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (labId) {
-      dispatch(getLabsAndTestsDetails(labId));
-    }
-  }, [labId, dispatch]);
+  useEffect(
+    () => {
+      if (labId) {
+        dispatch(getLabsAndTestsDetails(labId));
+      }
+    },
+    [labId, dispatch],
+  );
 
   const content = () => {
     if (labAndTestDetails) {
@@ -91,7 +94,9 @@ const RadiologySingleImage = ({ basePath = '/labs-and-tests' }) => {
                       ? `/my-health/medical-records${basePath}/${
                           labAndTestDetails.id
                         }/images/${Number(imageId) - 1}`
-                      : `/my-health/medical-records${basePath}/${labAndTestDetails.id}/images/${labAndTestDetails.images.length}`
+                      : `/my-health/medical-records${basePath}/${
+                          labAndTestDetails.id
+                        }/images/${labAndTestDetails.images.length}`
                   }
                 >
                   <span aria-hidden="true">
@@ -109,7 +114,9 @@ const RadiologySingleImage = ({ basePath = '/labs-and-tests' }) => {
                       ? `/my-health/medical-records${basePath}/${
                           labAndTestDetails.id
                         }/images/${Number(imageId) + 1}`
-                      : `/my-health/medical-records${basePath}/${labAndTestDetails.id}/images/1`
+                      : `/my-health/medical-records${basePath}/${
+                          labAndTestDetails.id
+                        }/images/1`
                   }
                 >
                   Next

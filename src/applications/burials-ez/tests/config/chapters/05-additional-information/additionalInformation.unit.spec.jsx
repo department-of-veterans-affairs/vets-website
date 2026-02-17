@@ -12,8 +12,10 @@ import formConfig from '../../../../config/form';
 const defaultStore = createCommonStore();
 
 describe('Additional evidence', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.additionalInformation.pages.additionalEvidence;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.additionalInformation.pages.additionalEvidence;
 
   it('should render', () => {
     const form = render(

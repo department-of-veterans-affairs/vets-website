@@ -108,12 +108,9 @@ describe('search actions', () => {
 
       apiRequestStub.resolves(response);
 
-      await fetchSearchResults(
-        query,
-        null,
-        undefined,
-        clearGADataStub,
-      )(dispatch);
+      await fetchSearchResults(query, null, undefined, clearGADataStub)(
+        dispatch,
+      );
 
       expect(redactPiiStub.called).to.be.false;
       expect(recordEventStub.called).to.be.false;

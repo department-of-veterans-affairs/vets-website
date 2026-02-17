@@ -168,7 +168,8 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   preSubmitInfo: {
     statementOfTruth: {
-      body: 'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: _formData => 'certifierName',
@@ -308,7 +309,8 @@ const formConfig = {
             certifierRelationship: {
               relationshipToVeteran: checkboxGroupUI({
                 title: 'Which of these best describes you?',
-                hint: 'If you’re applying on behalf of multiple applicants, you can select all applicable options',
+                hint:
+                  'If you’re applying on behalf of multiple applicants, you can select all applicable options',
                 required: () => true,
                 labels: {
                   spouse: 'I’m an applicant’s spouse',
@@ -475,8 +477,10 @@ const formConfig = {
               title: 'Did the sponsor die during active military service?',
               hint: ADDITIONAL_FILES_HINT,
               labels: {
-                yes: 'Yes, the sponsor passed away during active military service',
-                no: 'No, the sponsor did not pass away during active military service',
+                yes:
+                  'Yes, the sponsor passed away during active military service',
+                no:
+                  'No, the sponsor did not pass away during active military service',
               },
             }),
           },

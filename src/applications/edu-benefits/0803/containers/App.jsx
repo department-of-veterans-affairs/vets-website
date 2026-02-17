@@ -17,15 +17,18 @@ export default function App({ location, children }) {
     document.title = `${formConfig.title} | Veterans Affairs`;
   }, []);
 
-  useEffect(() => {
-    if (
-      !userLoggedIn &&
-      !profileLoading &&
-      location.pathname !== '/introduction'
-    ) {
-      window.location.href = manifest.rootUrl;
-    }
-  }, [userLoggedIn, profileLoading, location]);
+  useEffect(
+    () => {
+      if (
+        !userLoggedIn &&
+        !profileLoading &&
+        location.pathname !== '/introduction'
+      ) {
+        window.location.href = manifest.rootUrl;
+      }
+    },
+    [userLoggedIn, profileLoading, location],
+  );
 
   return (
     <div className="form-22-0803-container row">

@@ -6,8 +6,10 @@ import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 describe('Designating official page', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.designatingOfficialChapter.pages.designatingOfficial;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.designatingOfficialChapter.pages.designatingOfficial;
 
   it('Renders the page with the correct number of inputs', async () => {
     const { container, getByRole } = render(

@@ -53,10 +53,10 @@ const DocumentCard = ({
       <h4
         className="filename-title vads-u-font-size--h4 vads-u-margin-y--0"
         style={{ overflowWrap: 'break-word' }}
-        {...(hasRealFileName && {
+        {...hasRealFileName && {
           'data-dd-privacy': 'mask',
           'data-dd-action-name': 'document filename',
-        })}
+        }}
         ref={headingRef}
         tabIndex="-1"
       >

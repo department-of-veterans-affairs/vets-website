@@ -5,8 +5,10 @@ import {
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../../definitions/constants';
 import formConfig from '../../config/form';
 
-const { schema, uiSchema } =
-  formConfig.chapters.statementChapterB.pages.statementPageB;
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.statementChapterB.pages.statementPageB;
 const pageTitle = 'Your statement';
 const mockData = {
   claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,

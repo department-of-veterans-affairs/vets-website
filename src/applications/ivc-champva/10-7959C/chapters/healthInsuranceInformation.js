@@ -140,7 +140,8 @@ export function applicantInsurancePrescriptionSchema(isPrimary) {
       ),
       [keyname]: yesNoUI({
         title: 'Does the beneficiary’s health insurance cover prescriptions?',
-        hint: 'You may find this information on the front of the health insurance card. You can also contact the phone number listed on the back of the card.',
+        hint:
+          'You may find this information on the front of the health insurance card. You can also contact the phone number listed on the back of the card.',
       }),
     },
     schema: {
@@ -166,7 +167,8 @@ export function applicantInsuranceEobSchema(isPrimary) {
       [keyname]: yesNoUI({
         title:
           'Does the beneficiary’s health insurance have an explanation of benefits (EOB) for prescriptions?',
-        hint: 'If you’re not sure, you can call the phone number listed on the back of the health insurance card.',
+        hint:
+          'If you’re not sure, you can call the phone number listed on the back of the health insurance card.',
       }),
     },
     schema: {

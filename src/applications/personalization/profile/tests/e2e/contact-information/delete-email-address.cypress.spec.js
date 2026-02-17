@@ -28,7 +28,9 @@ const setup = () => {
 
 const removeEmailAddress = () => {
   // Click remove button for contact email
-  cy.get('[data-field-name="email"]').find('va-button[text="Remove"]').click();
+  cy.get('[data-field-name="email"]')
+    .find('va-button[text="Remove"]')
+    .click();
 
   // Confirm modal appears with focus
   cy.get('va-modal').should('be.focused');

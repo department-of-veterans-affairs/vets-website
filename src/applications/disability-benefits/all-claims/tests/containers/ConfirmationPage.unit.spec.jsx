@@ -71,8 +71,8 @@ describe('ConfirmationPage', () => {
     const store = mockStore(
       getData({
         featureToggles: {
-          [Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview]:
-            showCopyofSubmission,
+          [Toggler.TOGGLE_NAMES
+            .disability526ShowConfirmationReview]: showCopyofSubmission,
         },
       }),
     );

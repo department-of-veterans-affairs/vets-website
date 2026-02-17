@@ -6,8 +6,13 @@ import { useStatusContent } from '../hooks/useStatusContent';
 import { commonPropTypes } from './common/prop-types/CommonPropTypes';
 
 const SummaryCard = ({ type, data }) => {
-  const { transformedData, messageKey, messageValues, alertStatus, linkIds } =
-    useStatusContent(type, data, 'summary');
+  const {
+    transformedData,
+    messageKey,
+    messageValues,
+    alertStatus,
+    linkIds,
+  } = useStatusContent(type, data, 'summary');
 
   return (
     <div className="vads-u-margin-y--2">

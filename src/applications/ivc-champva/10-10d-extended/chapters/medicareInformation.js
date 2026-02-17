@@ -49,7 +49,8 @@ import content from '../locales/en/content.json';
 // declare static content constants
 const MEDICARE_TYPE_LABELS = {
   ab: 'Original Medicare Parts A and B (Hospital and Medical Insurance)',
-  c: 'Medicare Part C, also known as Medicare Advantage (includes previous enrollment in Part A and B)',
+  c:
+    'Medicare Part C, also known as Medicare Advantage (includes previous enrollment in Part A and B)',
   a: 'Medicare Part A only (Hospital Insurance)',
   b: 'Medicare Part B only (Medical Insurance)',
 };
@@ -191,7 +192,8 @@ const medicarePartAPartBEffectiveDatesPage = {
       }),
       medicarePartAEffectiveDate: futureDateUI({
         title: 'Effective date',
-        hint: 'This will be on the front of the Medicare card near “Coverage starts.”',
+        hint:
+          'This will be on the front of the Medicare card near “Coverage starts.”',
         classNames: 'vads-u-margin-top--neg1p5',
       }),
     },
@@ -203,7 +205,8 @@ const medicarePartAPartBEffectiveDatesPage = {
       }),
       medicarePartBEffectiveDate: futureDateUI({
         title: 'Effective date',
-        hint: 'This will be on the front of the Medicare card near “Coverage starts.”',
+        hint:
+          'This will be on the front of the Medicare card near “Coverage starts.”',
         classNames: 'vads-u-margin-top--neg1p5',
       }),
     },
@@ -244,7 +247,8 @@ const medicarePartAEffectiveDatePage = {
       }),
       medicarePartAEffectiveDate: futureDateUI({
         title: 'Effective date',
-        hint: 'You may find the effective date on the front of the Medicare card near “Coverage starts” or “Effective date.”',
+        hint:
+          'You may find the effective date on the front of the Medicare card near “Coverage starts” or “Effective date.”',
         classNames: 'vads-u-margin-top--neg1p5',
       }),
     },
@@ -274,7 +278,8 @@ const medicarePartBEffectiveDatePage = {
       }),
       medicarePartBEffectiveDate: futureDateUI({
         title: 'Effective date',
-        hint: 'This will be on the front of the Medicare card near “Coverage starts.”',
+        hint:
+          'This will be on the front of the Medicare card near “Coverage starts.”',
         classNames: 'vads-u-margin-top--neg1p5',
       }),
     },
@@ -380,7 +385,8 @@ const medicarePartCCarrierEffectiveDatePage = {
     }),
     medicarePartCEffectiveDate: futureDateUI({
       title: 'Medicare Part C effective date',
-      hint: 'This information is on the front of the Medicare card near “Effective date” or “Issue date.” If it’s not there, it may be on the plan’s online portal or enrollment documents.',
+      hint:
+        'This information is on the front of the Medicare card near “Effective date” or “Issue date.” If it’s not there, it may be on the plan’s online portal or enrollment documents.',
     }),
   },
   schema: {

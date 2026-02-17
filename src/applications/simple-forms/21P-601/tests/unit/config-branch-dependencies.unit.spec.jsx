@@ -103,8 +103,11 @@ describe('21P-601 form configuration branch dependencies', () => {
 
     describe('expense pages from array builder', () => {
       // These don't have explicit depends in the form config but are spread from expensesPages
-      const { expensesSummary, expenseDetailsPage, expensePaidByPage } =
-        expensesAndDebtsChapter.pages;
+      const {
+        expensesSummary,
+        expenseDetailsPage,
+        expensePaidByPage,
+      } = expensesAndDebtsChapter.pages;
 
       it('should include expense array builder pages', () => {
         expect(expensesSummary).to.exist;
@@ -124,8 +127,10 @@ describe('21P-601 form configuration branch dependencies', () => {
     });
 
     describe('otherDebts array builder pages', () => {
-      const { otherDebtsSummary, debtDetailsPage } =
-        expensesAndDebtsChapter.pages;
+      const {
+        otherDebtsSummary,
+        debtDetailsPage,
+      } = expensesAndDebtsChapter.pages;
 
       it('should include other debts array builder pages', () => {
         expect(otherDebtsSummary).to.exist;
@@ -200,8 +205,10 @@ describe('21P-601 form configuration branch dependencies', () => {
   });
 
   describe('edge cases and null checks', () => {
-    const { survivingRelativesChapter, expensesAndDebtsChapter } =
-      formConfig.chapters;
+    const {
+      survivingRelativesChapter,
+      expensesAndDebtsChapter,
+    } = formConfig.chapters;
 
     it('should handle empty formData object', () => {
       const formData = {};

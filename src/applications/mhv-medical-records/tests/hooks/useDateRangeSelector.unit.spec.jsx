@@ -32,11 +32,14 @@ function TestComponent({
   });
 
   // Expose the handler to the test
-  React.useEffect(() => {
-    if (onHandleSelect) {
-      onHandleSelect(handleDateRangeSelect);
-    }
-  }, [handleDateRangeSelect, onHandleSelect]);
+  React.useEffect(
+    () => {
+      if (onHandleSelect) {
+        onHandleSelect(handleDateRangeSelect);
+      }
+    },
+    [handleDateRangeSelect, onHandleSelect],
+  );
 
   return <div data-testid="test-component" />;
 }

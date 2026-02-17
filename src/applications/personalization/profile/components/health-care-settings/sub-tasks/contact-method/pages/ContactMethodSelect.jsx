@@ -53,11 +53,14 @@ const ContactMethodSelect = ({ error, options, fieldName, setPageData }) => {
     [setPageData, fieldName],
   );
 
-  useEffect(() => {
-    if (data) {
-      updatePageData(data);
-    }
-  }, [data, updatePageData]);
+  useEffect(
+    () => {
+      if (data) {
+        updatePageData(data);
+      }
+    },
+    [data, updatePageData],
+  );
 
   const content = {
     errorMessage: errorMessages.noPreferenceSelected,

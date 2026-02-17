@@ -24,7 +24,9 @@ describe(`SM ATTACHMENT WITH VIRUS TESTS`, () => {
         statusCode: 400,
         body: { errors: [{ code: 'SM172' }] },
       }).as('failed');
-      cy.get(Locators.BUTTONS.SEND).contains('Send').click({ force: true });
+      cy.get(Locators.BUTTONS.SEND)
+        .contains('Send')
+        .click({ force: true });
     });
 
     it('verify alert exist and attach button disappears', () => {
@@ -68,7 +70,9 @@ describe(`SM ATTACHMENT WITH VIRUS TESTS`, () => {
         statusCode: 400,
         body: { errors: [{ code: 'SM172' }] },
       }).as('failed');
-      cy.get(Locators.BUTTONS.SEND).contains('Send').click({ force: true });
+      cy.get(Locators.BUTTONS.SEND)
+        .contains('Send')
+        .click({ force: true });
     });
 
     it('verify alert exist and attach button disappears', () => {

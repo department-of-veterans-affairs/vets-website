@@ -12,17 +12,27 @@ const CreateFolderInline = ({ folders, onConfirm, onFolderCreated }) => {
   const [nameWarning, setNameWarning] = useState('');
   const folderNameInput = useRef();
 
-  useEffect(() => {
-    if (isExpanded && folderNameInput.current) {
-      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
-    }
-  }, [isExpanded]);
+  useEffect(
+    () => {
+      if (isExpanded && folderNameInput.current) {
+        focusElement(
+          folderNameInput.current.shadowRoot?.querySelector('input'),
+        );
+      }
+    },
+    [isExpanded],
+  );
 
-  useEffect(() => {
-    if (nameWarning.length && folderNameInput.current) {
-      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
-    }
-  }, [nameWarning]);
+  useEffect(
+    () => {
+      if (nameWarning.length && folderNameInput.current) {
+        focusElement(
+          folderNameInput.current.shadowRoot?.querySelector('input'),
+        );
+      }
+    },
+    [nameWarning],
+  );
 
   const handleCancel = useCallback(() => {
     setFolderName('');
@@ -31,24 +41,27 @@ const CreateFolderInline = ({ folders, onConfirm, onFolderCreated }) => {
     datadogRum.addAction('Create New Folder Inline Cancelled');
   }, []);
 
-  const handleCreate = useCallback(() => {
-    const folderMatch = folders.filter(folder => folder.name === folderName);
+  const handleCreate = useCallback(
+    () => {
+      const folderMatch = folders.filter(folder => folder.name === folderName);
 
-    if (folderName === '' || folderName.match(/^[\s]+$/)) {
-      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK);
-    } else if (folderMatch.length > 0) {
-      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_EXSISTING_NAME);
-    } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-      onConfirm(folderName, () => {
-        setFolderName('');
-        setNameWarning('');
-        setIsExpanded(false);
-        if (onFolderCreated) onFolderCreated(folderName);
-      });
-    } else {
-      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_CHAR_TYPE);
-    }
-  }, [folders, folderName, onConfirm, onFolderCreated]);
+      if (folderName === '' || folderName.match(/^[\s]+$/)) {
+        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK);
+      } else if (folderMatch.length > 0) {
+        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_EXSISTING_NAME);
+      } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
+        onConfirm(folderName, () => {
+          setFolderName('');
+          setNameWarning('');
+          setIsExpanded(false);
+          if (onFolderCreated) onFolderCreated(folderName);
+        });
+      } else {
+        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_CHAR_TYPE);
+      }
+    },
+    [folders, folderName, onConfirm, onFolderCreated],
+  );
 
   const handleExpand = () => {
     setIsExpanded(true);

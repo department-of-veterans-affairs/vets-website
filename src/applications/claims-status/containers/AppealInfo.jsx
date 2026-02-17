@@ -96,8 +96,12 @@ export class AppealInfo extends React.Component {
   };
 
   render() {
-    const { appeal, fullName, appealsLoading, appealsAvailability } =
-      this.props;
+    const {
+      appeal,
+      fullName,
+      appealsLoading,
+      appealsAvailability,
+    } = this.props;
     let appealContent;
     let claimHeading;
 
@@ -199,8 +203,10 @@ AppealInfo.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const { appealsLoading, v2Availability: appealsAvailability } =
-    state.disability.status.claimsV2;
+  const {
+    appealsLoading,
+    v2Availability: appealsAvailability,
+  } = state.disability.status.claimsV2;
   return {
     appeal: isolateAppeal(state, ownProps.params.id),
     appealsLoading,
@@ -212,5 +218,8 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = { getAppealsV2: getAppealsV2Action };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(AppealInfo),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AppealInfo),
 );

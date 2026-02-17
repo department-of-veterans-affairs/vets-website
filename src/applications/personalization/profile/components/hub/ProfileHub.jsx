@@ -84,8 +84,9 @@ ProfileHub.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isSchedulingPreferencesPilotEligible:
-    isSchedulingPreferencesPilotEligibleSelector(state),
+  isSchedulingPreferencesPilotEligible: isSchedulingPreferencesPilotEligibleSelector(
+    state,
+  ),
 });
 
 export default connect(mapStateToProps)(ProfileHub);

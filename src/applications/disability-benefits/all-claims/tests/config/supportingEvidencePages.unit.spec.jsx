@@ -31,8 +31,11 @@ const createLegacyFlowFormData = (overrides = {}) => ({
 });
 
 describe('Supporting Evidence Pages - Conditional Rendering', () => {
-  const { evidenceTypes, evidenceRequest, medicalRecords } =
-    formConfig.chapters.supportingEvidence.pages;
+  const {
+    evidenceTypes,
+    evidenceRequest,
+    medicalRecords,
+  } = formConfig.chapters.supportingEvidence.pages;
 
   describe('evidenceTypes depends', () => {
     it('should return true for non-BDD legacy flow', () => {

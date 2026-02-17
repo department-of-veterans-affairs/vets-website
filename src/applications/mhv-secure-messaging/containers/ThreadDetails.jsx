@@ -38,12 +38,20 @@ const ThreadDetails = props => {
 
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const recipients = useSelector(state => state.sm.recipients);
-  const { cannotReply, drafts, messages, threadFolderId, replyDisabled } =
-    useSelector(state => state.sm.threadDetails);
+  const {
+    cannotReply,
+    drafts,
+    messages,
+    threadFolderId,
+    replyDisabled,
+  } = useSelector(state => state.sm.threadDetails);
 
-  const threadCantReply = useMemo(() => {
-    return useCanReplyField ? replyDisabled || cannotReply : cannotReply;
-  }, [useCanReplyField, cannotReply, replyDisabled]);
+  const threadCantReply = useMemo(
+    () => {
+      return useCanReplyField ? replyDisabled || cannotReply : cannotReply;
+    },
+    [useCanReplyField, cannotReply, replyDisabled],
+  );
 
   const { folder } = useSelector(state => state.sm.folders);
 
@@ -57,53 +65,71 @@ const ThreadDetails = props => {
   const header = useRef();
 
   // necessary to update breadcrumb when there is no active folder in redux store, which happens when user lands on the threadDetails view from the url instead of the parent folder.
-  useEffect(() => {
-    dispatch(getFolders());
-  }, [dispatch]);
+  useEffect(
+    () => {
+      dispatch(getFolders());
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    if (isSending === true) {
-      scrollToTop();
-    }
-  }, [isSending]);
+  useEffect(
+    () => {
+      if (isSending === true) {
+        scrollToTop();
+      }
+    },
+    [isSending],
+  );
 
-  useEffect(() => {
-    if (!folder && drafts?.length > 0) {
-      dispatch(retrieveFolder(threadFolderId));
-    }
-  }, [drafts, dispatch, folder, threadFolderId]);
+  useEffect(
+    () => {
+      if (!folder && drafts?.length > 0) {
+        dispatch(retrieveFolder(threadFolderId));
+      }
+    },
+    [drafts, dispatch, folder, threadFolderId],
+  );
 
-  const handleRedirectToFolder = useCallback(() => {
-    navigateToFolderByFolderId(folder?.folderId || 0, history);
-  }, [folder, history]);
+  const handleRedirectToFolder = useCallback(
+    () => {
+      navigateToFolderByFolderId(folder?.folderId || 0, history);
+    },
+    [folder, history],
+  );
 
-  useEffect(() => {
-    if (messageId) {
-      dispatch(retrieveMessageThread(messageId))
-        .then(() => {
-          setIsLoaded(true);
-        })
-        .catch(() => {
-          handleRedirectToFolder();
-        });
-    }
-    return () => {
-      dispatch(closeAlert());
-    };
-  }, [dispatch, messageId, location.pathname, handleRedirectToFolder]);
+  useEffect(
+    () => {
+      if (messageId) {
+        dispatch(retrieveMessageThread(messageId))
+          .then(() => {
+            setIsLoaded(true);
+          })
+          .catch(() => {
+            handleRedirectToFolder();
+          });
+      }
+      return () => {
+        dispatch(closeAlert());
+      };
+    },
+    [dispatch, messageId, location.pathname, handleRedirectToFolder],
+  );
 
-  useEffect(() => {
-    if (!isCreateNewModalVisible) {
-      const alertVisible = alertList[alertList?.length - 1];
-      const alertSelector =
-        folder !== undefined && !alertVisible?.isActive
-          ? 'h1'
-          : alertVisible?.isActive && 'va-alert';
-      setTimeout(() => {
-        focusElement(document.querySelector(alertSelector));
-      }, 300);
-    }
-  }, [alertList, folder, isCreateNewModalVisible, header]);
+  useEffect(
+    () => {
+      if (!isCreateNewModalVisible) {
+        const alertVisible = alertList[alertList?.length - 1];
+        const alertSelector =
+          folder !== undefined && !alertVisible?.isActive
+            ? 'h1'
+            : alertVisible?.isActive && 'va-alert';
+        setTimeout(() => {
+          focusElement(document.querySelector(alertSelector));
+        }, 300);
+      }
+    },
+    [alertList, folder, isCreateNewModalVisible, header],
+  );
 
   useEffect(() => {
     if (header.current) {

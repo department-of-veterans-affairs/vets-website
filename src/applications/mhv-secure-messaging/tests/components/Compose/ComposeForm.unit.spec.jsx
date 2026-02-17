@@ -1197,7 +1197,9 @@ describe('Compose form component', () => {
     ).id;
     selectVaSelect(screen.container, tgRecipient);
 
-    const checkboxSelector = `va-checkbox[label="${ElectronicSignatureBox.CHECKBOX_LABEL}"]`;
+    const checkboxSelector = `va-checkbox[label="${
+      ElectronicSignatureBox.CHECKBOX_LABEL
+    }"]`;
 
     await waitFor(() => {
       const sendButton = screen.getByTestId('send-button');
@@ -1818,8 +1820,9 @@ describe('Compose form component', () => {
       threadDetailsActions,
       'updateDraftInProgress',
     );
-    const oracleHealthDraftRecipient =
-      noBlockedRecipients.mockAllRecipients.find(r => r.ohTriageGroup).id;
+    const oracleHealthDraftRecipient = noBlockedRecipients.mockAllRecipients.find(
+      r => r.ohTriageGroup,
+    ).id;
     const customDraftMessage = {
       ...draftMessage,
       body: 'Hello',
@@ -2028,8 +2031,9 @@ describe('Compose form component', () => {
 
       // Loading indicator should disappear
       await waitFor(() => {
-        const updatedLoadingIndicator =
-          screen.queryByTestId('loading-indicator');
+        const updatedLoadingIndicator = screen.queryByTestId(
+          'loading-indicator',
+        );
         expect(updatedLoadingIndicator).to.be.null;
       });
     });
@@ -2596,8 +2600,8 @@ describe('Compose form component', () => {
       const redirectPath = '/my-health/medications';
 
       // Create a spy on React.createElement to intercept ComposeFormActionButtons props
-      const ComposeFormActionButtons =
-        require('../../../components/ComposeForm/ComposeFormActionButtons').default;
+      const ComposeFormActionButtons = require('../../../components/ComposeForm/ComposeFormActionButtons')
+        .default;
       const createElementSpy = sandbox.spy(React, 'createElement');
 
       const customState = {
@@ -2633,8 +2637,8 @@ describe('Compose form component', () => {
 
     it('should pass undefined redirectPath to ComposeFormActionButtons when prescription.redirectPath does not exist', () => {
       // Create a spy on React.createElement to intercept ComposeFormActionButtons props
-      const ComposeFormActionButtons =
-        require('../../../components/ComposeForm/ComposeFormActionButtons').default;
+      const ComposeFormActionButtons = require('../../../components/ComposeForm/ComposeFormActionButtons')
+        .default;
       const createElementSpy = sandbox.spy(React, 'createElement');
 
       const customState = {

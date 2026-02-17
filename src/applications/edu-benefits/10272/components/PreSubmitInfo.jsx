@@ -53,7 +53,9 @@ export function PreSubmitInfo({
         heading={statementOfTruth.heading}
         inputLabel={statementOfTruth.textInputLabel || 'Your full name'}
         inputValue={formData?.statementOfTruthSignature}
-        inputMessageAriaDescribedby={`${statementOfTruth.heading}: ${statementOfTruth.messageAriaDescribedby}`}
+        inputMessageAriaDescribedby={`${statementOfTruth.heading}: ${
+          statementOfTruth.messageAriaDescribedby
+        }`}
         inputError={
           showSignatureError
             ? `${SIGNATURE_MISMATCH_MESSAGE}: ${expectedFullName}`
@@ -103,4 +105,7 @@ const mapDispatchToProps = {
   setPreSubmit: setPreSubmitAction,
 };
 
-export default connect(null, mapDispatchToProps)(PreSubmitInfo);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(PreSubmitInfo);

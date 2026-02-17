@@ -90,9 +90,8 @@ export const extractAuthor = record => {
 
 export const extractLocation = record => {
   if (isArrayAndHasItems(record?.context?.related)) {
-    const reference = record.context?.related?.find(
-      item => item.reference,
-    )?.reference;
+    const reference = record.context?.related?.find(item => item.reference)
+      ?.reference;
     if (reference) {
       const resource = extractContainedResource(record, reference);
       return resource?.name ?? null;
@@ -123,7 +122,10 @@ export const getDateSigned = record => {
 export const getAttending = noteSummary => {
   if (typeof noteSummary !== 'string') return null;
   return (
-    noteSummary?.split('ATTENDING:')?.[1]?.split('\n')?.[0]?.trim() || null
+    noteSummary
+      ?.split('ATTENDING:')?.[1]
+      ?.split('\n')?.[0]
+      ?.trim() || null
   );
 };
 
@@ -135,7 +137,10 @@ export const getDateFromBody = (noteSummary, label) => {
   if (typeof noteSummary !== 'string' || typeof label !== 'string') return null;
   if (noteSummary.length === 0 || label.length === 0) return null;
   const dateStr =
-    noteSummary?.split(label)?.[1]?.split('\n')?.[0]?.trim() || null;
+    noteSummary
+      ?.split(label)?.[1]
+      ?.split('\n')?.[0]
+      ?.trim() || null;
   const date = dateStr ? new Date(dateStr) : null;
   return isValidDate(date) ? date : null;
 };

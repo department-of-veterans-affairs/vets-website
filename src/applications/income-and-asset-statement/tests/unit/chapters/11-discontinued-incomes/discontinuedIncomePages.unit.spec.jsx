@@ -225,19 +225,17 @@ describe('discontinued income list and loop pages', () => {
       });
 
       it('should have correct option labels', () => {
-        const { labels } =
-          uiSchema['view:isAddingDiscontinuedIncomes'][
-            'ui:options'
-          ].updateUiSchema()['ui:options'];
+        const { labels } = uiSchema['view:isAddingDiscontinuedIncomes'][
+          'ui:options'
+        ].updateUiSchema()['ui:options'];
         expect(labels.Y).to.equal('Yes, I have income to report');
         expect(labels.N).to.equal('No, I don’t have income to report');
       });
 
       it('should have correct labelHeaderLevel configuration', () => {
-        const { labelHeaderLevel } =
-          uiSchema['view:isAddingDiscontinuedIncomes'][
-            'ui:options'
-          ].updateUiSchema()['ui:options'];
+        const { labelHeaderLevel } = uiSchema[
+          'view:isAddingDiscontinuedIncomes'
+        ]['ui:options'].updateUiSchema()['ui:options'];
 
         expect(labelHeaderLevel).to.equal('2');
       });

@@ -110,9 +110,13 @@ const testConfig = createTestConfig(
             .as('checklist')
             .should('have.length', 5);
 
-          cy.get('@checklist').eq(0).check({ force: true });
+          cy.get('@checklist')
+            .eq(0)
+            .check({ force: true });
 
-          cy.get('@checklist').eq(1).check({ force: true });
+          cy.get('@checklist')
+            .eq(1)
+            .check({ force: true });
 
           cy.clickFormContinue();
         });

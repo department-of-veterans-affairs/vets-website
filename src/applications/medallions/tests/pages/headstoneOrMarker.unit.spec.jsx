@@ -8,8 +8,10 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('Medallions headstoneOrMarker', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.burialInformation.pages.headstoneOrMarker;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.burialInformation.pages.headstoneOrMarker;
   const mockStore = configureStore([]);
   const store = mockStore({});
 

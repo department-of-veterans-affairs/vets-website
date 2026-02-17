@@ -9,15 +9,19 @@ import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientComposePage from './pages/PatientComposePage';
 
 describe('SM ATTACHMENT WITH VIRUS ON REPLY', () => {
-  const updatedSingleThreadResponse =
-    GeneralFunctionsPage.updatedThreadDates(singleThreadResponse);
+  const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
+    singleThreadResponse,
+  );
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
     PatientInterstitialPage.getContinueButton().click();
-    PatientReplyPage.getMessageBodyField().focus().clear().type(`Test body`);
+    PatientReplyPage.getMessageBodyField()
+      .focus()
+      .clear()
+      .type(`Test body`);
   });
 
   describe('Verify single attachment with virus alert on reply', () => {
@@ -25,13 +29,17 @@ describe('SM ATTACHMENT WITH VIRUS ON REPLY', () => {
       PatientComposePage.attachMessageFromFile(Data.SAMPLE_IMG);
       cy.intercept(
         'POST',
-        `${Paths.SM_API_EXTENDED}/${updatedSingleThreadResponse.data[0].attributes.messageId}/reply`,
+        `${Paths.SM_API_EXTENDED}/${
+          updatedSingleThreadResponse.data[0].attributes.messageId
+        }/reply`,
         {
           statusCode: 400,
           body: { errors: [{ code: 'SM172' }] },
         },
       ).as('failed');
-      cy.get(Locators.BUTTONS.SEND).contains('Send').click({ force: true });
+      cy.get(Locators.BUTTONS.SEND)
+        .contains('Send')
+        .click({ force: true });
     });
 
     it('verify alert exist and attach button disappears', () => {
@@ -75,13 +83,17 @@ describe('SM ATTACHMENT WITH VIRUS ON REPLY', () => {
       PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
       cy.intercept(
         'POST',
-        `${Paths.SM_API_EXTENDED}/${updatedSingleThreadResponse.data[0].attributes.messageId}/reply`,
+        `${Paths.SM_API_EXTENDED}/${
+          updatedSingleThreadResponse.data[0].attributes.messageId
+        }/reply`,
         {
           statusCode: 400,
           body: { errors: [{ code: 'SM172' }] },
         },
       ).as('failed');
-      cy.get(Locators.BUTTONS.SEND).contains('Send').click({ force: true });
+      cy.get(Locators.BUTTONS.SEND)
+        .contains('Send')
+        .click({ force: true });
     });
 
     it('verify alert exist and attach button disappears', () => {

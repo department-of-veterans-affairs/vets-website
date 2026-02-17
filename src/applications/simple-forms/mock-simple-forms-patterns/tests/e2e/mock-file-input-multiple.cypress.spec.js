@@ -351,7 +351,9 @@ const testConfig = createTestConfig(
                   'placeholder.jpg',
                 );
               });
-            cy.get('@fileInputMultipleSection').find('va-button').click();
+            cy.get('@fileInputMultipleSection')
+              .find('va-button')
+              .click();
 
             deleteFile();
             testFileUpload([makeMinimalTxtFile()]);

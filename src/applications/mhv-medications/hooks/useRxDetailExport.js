@@ -39,20 +39,23 @@ const useRxDetailExport = ({
   const prescriptionHeader =
     prescription?.prescriptionName || prescription?.orderableItem;
 
-  const prescriptionPdfList = useMemo(() => {
-    if (!prescription) return [];
-    return isNonVaPrescription
-      ? buildNonVAPrescriptionPDFList(
-          prescription,
-          isCernerPilot,
-          isV2StatusMapping,
-        )
-      : buildVAPrescriptionPDFList(
-          prescription,
-          isCernerPilot,
-          isV2StatusMapping,
-        );
-  }, [prescription, isNonVaPrescription, isCernerPilot, isV2StatusMapping]);
+  const prescriptionPdfList = useMemo(
+    () => {
+      if (!prescription) return [];
+      return isNonVaPrescription
+        ? buildNonVAPrescriptionPDFList(
+            prescription,
+            isCernerPilot,
+            isV2StatusMapping,
+          )
+        : buildVAPrescriptionPDFList(
+            prescription,
+            isCernerPilot,
+            isV2StatusMapping,
+          );
+    },
+    [prescription, isNonVaPrescription, isCernerPilot, isV2StatusMapping],
+  );
 
   const buildPdfData = useCallback(
     allergiesPdfList => {
@@ -60,7 +63,8 @@ const useRxDetailExport = ({
         subject: `Single Medication Record - ${prescription?.prescriptionName}`,
         headerBanner: [
           {
-            text: "If you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ",
+            text:
+              "If you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ",
           },
           {
             text: '988',
@@ -101,7 +105,9 @@ const useRxDetailExport = ({
                       'This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
                   },
                   {
-                    value: `Showing ${allergiesPdfList.length} records from newest to oldest`,
+                    value: `Showing ${
+                      allergiesPdfList.length
+                    } records from newest to oldest`,
                   },
                 ],
               }),
@@ -129,11 +135,11 @@ const useRxDetailExport = ({
   const buildTxtData = useCallback(
     allergiesList => {
       return (
-        `${
-          "\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.\n\n\n" +
+        `${"\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.\n\n\n" +
           'Medication details\n\n' +
-          'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.\n\n'
-        }${user.first ? `${user.last}, ${user.first}` : user.last || ' '}\n\n` +
+          'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.\n\n'}${
+          user.first ? `${user.last}, ${user.first}` : user.last || ' '
+        }\n\n` +
         `Date of birth: ${dateFormat(
           user.dob,
           DATETIME_FORMATS.longMonthDate,
@@ -184,12 +190,15 @@ const useRxDetailExport = ({
   });
 
   // Trigger actual browser print when requested
-  useEffect(() => {
-    if (exportFlow.shouldPrint) {
-      window.print();
-      exportFlow.clearPrintTrigger();
-    }
-  }, [exportFlow.shouldPrint, exportFlow]);
+  useEffect(
+    () => {
+      if (exportFlow.shouldPrint) {
+        window.print();
+        exportFlow.clearPrintTrigger();
+      }
+    },
+    [exportFlow.shouldPrint, exportFlow],
+  );
 
   return {
     onDownload: exportFlow.onDownload,

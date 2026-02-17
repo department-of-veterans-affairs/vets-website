@@ -216,7 +216,9 @@ export const generateDeleteDescription = (props, getItemName) => {
   const itemName = getItemName(props.itemData, props.index, props.formData);
   return itemName
     ? `This will delete ${itemName} from your list of ${props.nounPlural}.`
-    : `This will delete this ${props.nounSingular} from your list of ${props.nounPlural}.`;
+    : `This will delete this ${props.nounSingular} from your list of ${
+        props.nounPlural
+      }.`;
 };
 
 /**

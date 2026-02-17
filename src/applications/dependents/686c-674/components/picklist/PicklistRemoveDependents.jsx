@@ -72,8 +72,8 @@ const RemoveDependentsPicklist = ({
     onChange: event => {
       const isChecked = event.detail.checked;
       const key = event.target.getAttribute('data-key');
-      const newList = picklistChoices.map(item =>
-        item.key === key ? { ...item, selected: isChecked } : item,
+      const newList = picklistChoices.map(
+        item => (item.key === key ? { ...item, selected: isChecked } : item),
       );
 
       setFormData({ ...data, [PICKLIST_DATA]: newList });

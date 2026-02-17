@@ -83,7 +83,8 @@ export default {
                 form,
               ) === 'OTHER',
             'ui:options': {
-              hint: 'You can enter common law, proxy (someone else represented you or your spouse at your marriage ceremony), tribal ceremony, or another way.',
+              hint:
+                'You can enter common law, proxy (someone else represented you or your spouse at your marriage ceremony), tribal ceremony, or another way.',
               expandUnder: 'marriageType',
               expandUnderCondition: 'OTHER',
             },

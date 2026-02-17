@@ -12,23 +12,29 @@ const config = formConfig();
 const App = ({ location, children }) => {
   const { formNumber } = getFormContent();
 
-  useEffect(() => {
-    document.title = `Upload form ${formNumber} | Veterans Affairs`;
-  }, [formNumber]);
+  useEffect(
+    () => {
+      document.title = `Upload form ${formNumber} | Veterans Affairs`;
+    },
+    [formNumber],
+  );
 
-  useEffect(() => {
-    const minimalHeader = document.querySelector(
-      '#header-minimal va-header-minimal',
-    );
-    // dynamically update the title / subheader per form
-    if (minimalHeader) {
-      minimalHeader.setAttribute('header', `Upload VA Form ${formNumber}`);
-      minimalHeader.setAttribute(
-        'subheader',
-        formMappings[formNumber].subTitle,
+  useEffect(
+    () => {
+      const minimalHeader = document.querySelector(
+        '#header-minimal va-header-minimal',
       );
-    }
-  }, [formNumber]);
+      // dynamically update the title / subheader per form
+      if (minimalHeader) {
+        minimalHeader.setAttribute('header', `Upload VA Form ${formNumber}`);
+        minimalHeader.setAttribute(
+          'subheader',
+          formMappings[formNumber].subTitle,
+        );
+      }
+    },
+    [formNumber],
+  );
 
   return (
     <RoutedSavableApp formConfig={config} currentLocation={location}>

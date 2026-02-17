@@ -124,7 +124,8 @@ export const getUiSchema = () => ({
     title: 'Upload your documents',
     required: true,
     accept: FILE_TYPES.map(type => `.${type}`).join(','),
-    hint: 'You can upload a .jpg, .pdf, or a .png file. Be sure that your file size is 99MB or less for a PDF and 50MB or less for a .jpg or .png',
+    hint:
+      'You can upload a .jpg, .pdf, or a .png file. Be sure that your file size is 99MB or less for a PDF and 50MB or less for a .jpg or .png',
     disallowEncryptedPdfs: true,
     maxFileSize: 103809024, // 99MB in bytes
     minFileSize: 1024,

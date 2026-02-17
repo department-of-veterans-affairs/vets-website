@@ -21,7 +21,10 @@ class ContactListPage {
   };
 
   checkBoxByName = name => {
-    return cy.get(`[label="${name}"]`).shadow().find(`input`);
+    return cy
+      .get(`[label="${name}"]`)
+      .shadow()
+      .find(`input`);
   };
 
   accordionByHeader = name => {
@@ -53,11 +56,13 @@ class ContactListPage {
   };
 
   selectAllCheckBox = () => {
-    cy.get(Locators.CHECKBOX.CL_ALL).find(`#checkbox-element`).click({
-      waitForAnimations: true,
-      force: true,
-      multiple: true,
-    });
+    cy.get(Locators.CHECKBOX.CL_ALL)
+      .find(`#checkbox-element`)
+      .click({
+        waitForAnimations: true,
+        force: true,
+        multiple: true,
+      });
   };
 
   selectCheckBox = name => {
@@ -65,7 +70,9 @@ class ContactListPage {
   };
 
   selectFirstCheckBox = name => {
-    this.checkBoxByName(name).first().click({ force: true });
+    this.checkBoxByName(name)
+      .first()
+      .click({ force: true });
   };
 
   validateCheckBoxDoesNotExist = name => {
@@ -161,7 +168,9 @@ class ContactListPage {
         .and(`have.text`, Alerts.CONTACT_LIST.EMPTY);
     });
 
-    cy.get(Locators.CHECKBOX.CL_ALL).first().should('have.focus');
+    cy.get(Locators.CHECKBOX.CL_ALL)
+      .first()
+      .should('have.focus');
 
     this.verifyAllCheckboxes(false);
   };

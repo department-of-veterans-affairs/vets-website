@@ -33,29 +33,32 @@ const ProfileMobileSubNav = ({
   // When the menu is open trap keyboard focus in the menu itself so keyboard
   // users can't tab their way out of the menu and onto the main page behind the
   // menu. When the menu closes, revert those changes.
-  useEffect(() => {
-    const closeOnEscape = e => {
-      if (isEscape(e)) {
-        e.preventDefault();
-        // close menu and set focus to the trigger button
-        setIsMenuOpen(false);
-        setFocusTriggerButton(true);
+  useEffect(
+    () => {
+      const closeOnEscape = e => {
+        if (isEscape(e)) {
+          e.preventDefault();
+          // close menu and set focus to the trigger button
+          setIsMenuOpen(false);
+          setFocusTriggerButton(true);
+        }
+      };
+      if (isMenuOpen) {
+        document.addEventListener('keydown', closeOnEscape);
+        closeMenuButton.current.focus();
+      } else {
+        document.removeEventListener('keydown', closeOnEscape);
+        // Only set the focus on the menu trigger button if the call to the
+        // `closeSideNav` action creator passed in the `focusTriggerButton`
+        // argument
+        if (focusTriggerButton) {
+          openMenuButton.current.focus();
+          setFocusTriggerButton(false);
+        }
       }
-    };
-    if (isMenuOpen) {
-      document.addEventListener('keydown', closeOnEscape);
-      closeMenuButton.current.focus();
-    } else {
-      document.removeEventListener('keydown', closeOnEscape);
-      // Only set the focus on the menu trigger button if the call to the
-      // `closeSideNav` action creator passed in the `focusTriggerButton`
-      // argument
-      if (focusTriggerButton) {
-        openMenuButton.current.focus();
-        setFocusTriggerButton(false);
-      }
-    }
-  }, [isMenuOpen, focusTriggerButton]);
+    },
+    [isMenuOpen, focusTriggerButton],
+  );
 
   return (
     <div className="mobile-nav">

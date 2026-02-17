@@ -61,9 +61,12 @@ const Radiology = () => {
 
   useTrackAction(statsdFrontEndActions.IMAGING_RESULTS_LIST);
 
-  useEffect(() => {
-    dispatch(fetchImageRequestStatus());
-  }, [dispatch]);
+  useEffect(
+    () => {
+      dispatch(fetchImageRequestStatus());
+    },
+    [dispatch],
+  );
 
   const dispatchAction = useMemo(() => {
     return isCurrent => {
@@ -88,9 +91,12 @@ const Radiology = () => {
     reloadRecordsAction: reloadRadiologyRecords,
   });
 
-  useEffect(() => {
-    updatePageTitle(pageTitles.RADIOLOGY_PAGE_TITLE);
-  }, [dispatch]);
+  useEffect(
+    () => {
+      updatePageTitle(pageTitles.RADIOLOGY_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const isLoading = listState !== loadStates.FETCHED;
 
@@ -140,55 +146,56 @@ const Radiology = () => {
             />
           </div>
         )}
-        {!isLoading && radiologyList !== undefined && (
-          <>
-            {radiologyList?.length ? (
-              <>
-                {radRecordsWithImagesReady?.length > 0 &&
-                  studyJobs?.length > 0 && (
-                    <VaAlert
-                      status="success"
-                      visible
-                      class="vads-u-margin-y--3 no-print"
-                      role="alert"
-                      data-testid="alert-images-ready"
-                    >
-                      <h3
-                        slot="headline"
-                        className="vads-u-font-size--lg no-print"
+        {!isLoading &&
+          radiologyList !== undefined && (
+            <>
+              {radiologyList?.length ? (
+                <>
+                  {radRecordsWithImagesReady?.length > 0 &&
+                    studyJobs?.length > 0 && (
+                      <VaAlert
+                        status="success"
+                        visible
+                        class="vads-u-margin-y--3 no-print"
+                        role="alert"
+                        data-testid="alert-images-ready"
                       >
-                        Images ready
-                      </h3>
-                      <JobCompleteAlert
-                        records={radRecordsWithImagesReady}
-                        studyJobs={studyJobs}
-                        basePath="/imaging-results"
-                      />
-                    </VaAlert>
-                  )}
+                        <h3
+                          slot="headline"
+                          className="vads-u-font-size--lg no-print"
+                        >
+                          Images ready
+                        </h3>
+                        <JobCompleteAlert
+                          records={radRecordsWithImagesReady}
+                          studyJobs={studyJobs}
+                          basePath="/imaging-results"
+                        />
+                      </VaAlert>
+                    )}
 
-                <RecordList
-                  type={recordType.RADIOLOGY}
-                  records={radiologyList}
-                />
-              </>
-            ) : (
-              <div className="vads-u-margin-y--8">
-                <va-alert
-                  close-btn-aria-label="Close notification"
-                  status="info"
-                  visible
-                >
-                  <h2 slot="headline">No radiology records</h2>
-                  <p className="vads-u-margin-bottom--0">
-                    You don’t have any radiology records in your VA medical
-                    records.
-                  </p>
-                </va-alert>
-              </div>
-            )}
-          </>
-        )}
+                  <RecordList
+                    type={recordType.RADIOLOGY}
+                    records={radiologyList}
+                  />
+                </>
+              ) : (
+                <div className="vads-u-margin-y--8">
+                  <va-alert
+                    close-btn-aria-label="Close notification"
+                    status="info"
+                    visible
+                  >
+                    <h2 slot="headline">No radiology records</h2>
+                    <p className="vads-u-margin-bottom--0">
+                      You don’t have any radiology records in your VA medical
+                      records.
+                    </p>
+                  </va-alert>
+                </div>
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );

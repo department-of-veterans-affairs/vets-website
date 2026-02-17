@@ -144,25 +144,31 @@ export const Form526Entry = ({
     scrollToTop();
   };
 
-  useEffect(() => {
-    if (wizardStatus === WIZARD_STATUS_COMPLETE && isIntroPage(location)) {
-      setPageFocus('h1');
-      // save feature flag for 8940/4192
-      sessionStorage.setItem(SHOW_8940_4192, showSubforms);
-    }
-    // Set user account & application id in Sentry so we can access their form
-    // data for any thrown errors
-    if (inProgressFormId) {
-      Sentry.setTag('account_uuid', profile.accountUuid);
-      Sentry.setTag('in_progress_form_id', inProgressFormId);
-    }
-  }, [inProgressFormId, location, profile, showSubforms, wizardStatus]);
+  useEffect(
+    () => {
+      if (wizardStatus === WIZARD_STATUS_COMPLETE && isIntroPage(location)) {
+        setPageFocus('h1');
+        // save feature flag for 8940/4192
+        sessionStorage.setItem(SHOW_8940_4192, showSubforms);
+      }
+      // Set user account & application id in Sentry so we can access their form
+      // data for any thrown errors
+      if (inProgressFormId) {
+        Sentry.setTag('account_uuid', profile.accountUuid);
+        Sentry.setTag('in_progress_form_id', inProgressFormId);
+      }
+    },
+    [inProgressFormId, location, profile, showSubforms, wizardStatus],
+  );
 
-  useEffect(() => {
-    if (loggedIn && !getBranches().length) {
-      fetchBranches();
-    }
-  }, [loggedIn]);
+  useEffect(
+    () => {
+      if (loggedIn && !getBranches().length) {
+        fetchBranches();
+      }
+    },
+    [loggedIn],
+  );
 
   const {
     useFormFeatureToggleSync,
@@ -427,4 +433,7 @@ const mapDispatchToProps = dispatch => ({
   setFormData: data => dispatch(setData(data)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form526Entry);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Form526Entry);

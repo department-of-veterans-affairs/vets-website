@@ -31,7 +31,10 @@ describe('Confirmation Page', () => {
   });
 
   it('allows user to sort by category', () => {
-    cy.get('va-select').shadow().find('select').select('Type of benefit (A-Z)');
+    cy.get('va-select')
+      .shadow()
+      .find('select')
+      .select('Type of benefit (A-Z)');
 
     cy.get('#filter-text').should('exist');
 

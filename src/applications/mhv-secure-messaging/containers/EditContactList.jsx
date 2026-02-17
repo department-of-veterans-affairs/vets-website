@@ -37,8 +37,10 @@ const EditContactList = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [triageTeamCount, setTriageTeamCount] = useState({});
   const [showAlertBackgroundBox, setShowAlertBackgroundBox] = useState(false);
-  const [showBlockedTriageGroupAlert, setShowBlockedTriageGroupAlert] =
-    useState(false);
+  const [
+    showBlockedTriageGroupAlert,
+    setShowBlockedTriageGroupAlert,
+  ] = useState(false);
 
   const navigationError = ErrorMessages.ContactList.SAVE_AND_EXIT;
 
@@ -49,8 +51,12 @@ const EditContactList = () => {
   );
 
   const recipients = useSelector(state => state.sm.recipients);
-  const { vistaFacilities, blockedFacilities, vistaRecipients, error } =
-    recipients;
+  const {
+    vistaFacilities,
+    blockedFacilities,
+    vistaRecipients,
+    error,
+  } = recipients;
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
@@ -82,29 +88,33 @@ const EditContactList = () => {
   };
 
   const updatePreferredTeam = (triageTeamId, selected, stationNumber) => {
-    const updatedTriageTeams = allTriageTeams.map(team =>
-      team.triageTeamId === triageTeamId ||
-      (selected !== null && team.stationNumber === stationNumber)
-        ? {
-            ...team,
-            preferredTeam:
-              (selected || !team.preferredTeam) && selected !== false,
-          }
-        : team,
+    const updatedTriageTeams = allTriageTeams.map(
+      team =>
+        team.triageTeamId === triageTeamId ||
+        (selected !== null && team.stationNumber === stationNumber)
+          ? {
+              ...team,
+              preferredTeam:
+                (selected || !team.preferredTeam) && selected !== false,
+            }
+          : team,
     );
     setAllTriageTeams(updatedTriageTeams);
     setTriageTeamCount(setStationCount(updatedTriageTeams));
   };
 
-  const navigateBack = useCallback(() => {
-    if (previousUrl === Paths.COMPOSE && activeDraftId) {
-      history.push(`${Paths.MESSAGE_THREAD}${activeDraftId}/`);
-    } else if (previousUrl) {
-      history.push(previousUrl);
-    } else {
-      history.push(Paths.INBOX);
-    }
-  }, [history, previousUrl]);
+  const navigateBack = useCallback(
+    () => {
+      if (previousUrl === Paths.COMPOSE && activeDraftId) {
+        history.push(`${Paths.MESSAGE_THREAD}${activeDraftId}/`);
+      } else if (previousUrl) {
+        history.push(previousUrl);
+      } else {
+        history.push(Paths.INBOX);
+      }
+    },
+    [history, previousUrl],
+  );
 
   const handleSave = async e => {
     e.preventDefault();
@@ -126,38 +136,52 @@ const EditContactList = () => {
     navigateBack();
   };
 
-  useEffect(() => {
-    return () => {
-      if (location.pathname) {
-        dispatch(closeAlert());
-      }
-    };
-  }, [location.pathname, dispatch]);
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
 
-  useEffect(() => {
-    setAllTriageTeams(vistaRecipients);
-    setTriageTeamCount(setStationCount(vistaRecipients));
-  }, [vistaRecipients]);
+  useEffect(
+    () => {
+      setAllTriageTeams(vistaRecipients);
+      setTriageTeamCount(setStationCount(vistaRecipients));
+    },
+    [vistaRecipients],
+  );
 
   useEffect(() => {
     updatePageTitle(
-      `Messages: ${ParentComponent.CONTACT_LIST} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`,
+      `Messages: ${ParentComponent.CONTACT_LIST} ${
+        PageTitles.DEFAULT_PAGE_TITLE_TAG
+      }`,
     );
     focusElement(document.querySelector('h1'));
   }, []);
 
-  useEffect(() => {
-    if (isContactListChanged) {
-      dispatch(closeAlert());
-    }
-    setIsNavigationBlocked(isContactListChanged);
-  }, [dispatch, isContactListChanged]);
+  useEffect(
+    () => {
+      if (isContactListChanged) {
+        dispatch(closeAlert());
+      }
+      setIsNavigationBlocked(isContactListChanged);
+    },
+    [dispatch, isContactListChanged],
+  );
 
-  useEffect(() => {
-    if (isMinimumSelected) {
-      setCheckboxError('');
-    }
-  }, [isMinimumSelected]);
+  useEffect(
+    () => {
+      if (isMinimumSelected) {
+        setCheckboxError('');
+      }
+    },
+    [isMinimumSelected],
+  );
 
   const GoBackButton = () => {
     if (!allTriageTeams) {
@@ -191,14 +215,14 @@ const EditContactList = () => {
         setShowAlertBackgroundBox={setShowAlertBackgroundBox}
       />
 
-      {showBlockedTriageGroupAlert && showAlertBackgroundBox && (
-        <hr className="vads-u-margin-y--2" data-testid="contact-list-hr" />
-      )}
+      {showBlockedTriageGroupAlert &&
+        showAlertBackgroundBox && (
+          <hr className="vads-u-margin-y--2" data-testid="contact-list-hr" />
+        )}
 
       <div
-        className={`${
-          vistaFacilities?.length > 1 && 'vads-u-margin-bottom--2'
-        }`}
+        className={`${vistaFacilities?.length > 1 &&
+          'vads-u-margin-bottom--2'}`}
       >
         <BlockedTriageGroupAlert
           alertStyle={BlockedTriageAlertStyles.ALERT}
@@ -266,9 +290,8 @@ const EditContactList = () => {
                     <va-accordion-item
                       bordered
                       class="vads-u-margin-bottom--3"
-                      header={`${
-                        facilityName || `VA Medical Center - ${stationNumber}`
-                      }`}
+                      header={`${facilityName ||
+                        `VA Medical Center - ${stationNumber}`}`}
                       subheader={`${triageTeamCount[stationNumber] || 0} team${
                         triageTeamCount[stationNumber] !== 1 ? 's' : ''
                       } selected`}

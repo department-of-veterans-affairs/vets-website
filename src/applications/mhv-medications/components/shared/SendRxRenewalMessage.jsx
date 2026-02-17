@@ -18,7 +18,9 @@ const SendRxRenewalMessage = ({
   const redirectPath = encodeURIComponent(
     '/my-health/medications?page=1&rxRenewalMessageSuccess=true',
   );
-  const secureMessagesUrl = `/my-health/secure-messages/new-message?prescriptionId=${rx.prescriptionId}&redirectPath=${redirectPath}`;
+  const secureMessagesUrl = `/my-health/secure-messages/new-message?prescriptionId=${
+    rx.prescriptionId
+  }&redirectPath=${redirectPath}`;
   const [showRenewalModal, setShowRenewalModal] = useState(false);
 
   const isExpiredLessThan120Days =

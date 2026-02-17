@@ -291,7 +291,8 @@ const custodianSummaryPage = {
       options,
       {
         title: genericTitle,
-        hint: 'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
@@ -307,7 +308,8 @@ const parentSummaryPage = {
       options,
       {
         title: genericTitle,
-        hint: 'Your dependents include your spouse, including a same-sex and common-law partner.',
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
@@ -327,8 +329,9 @@ const nonVeteranIncomeRecipientPage = {
       title: 'Who receives the income?',
       labels: relationshipLabels,
     }),
-    otherRecipientRelationshipType:
-      otherRecipientRelationshipTypeUI('ownedAssets'),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'ownedAssets',
+    ),
     'ui:options': {
       ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
@@ -355,8 +358,9 @@ const veteranIncomeRecipientPage = {
       labels: relationshipLabels,
       descriptions: relationshipLabelDescriptions,
     }),
-    otherRecipientRelationshipType:
-      otherRecipientRelationshipTypeUI('ownedAssets'),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'ownedAssets',
+    ),
     'ui:options': {
       ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
@@ -383,8 +387,9 @@ const spouseIncomeRecipientPage = {
       labels: spouseRelationshipLabels,
       descriptions: spouseRelationshipLabelDescriptions,
     }),
-    otherRecipientRelationshipType:
-      otherRecipientRelationshipTypeUI('ownedAssets'),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'ownedAssets',
+    ),
     'ui:options': {
       ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
@@ -413,8 +418,9 @@ const custodianIncomeRecipientPage = {
         descriptions: custodianRelationshipLabelDescriptions,
       }),
     },
-    otherRecipientRelationshipType:
-      otherRecipientRelationshipTypeUI('ownedAssets'),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'ownedAssets',
+    ),
     'ui:options': {
       ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
@@ -445,8 +451,9 @@ const parentIncomeRecipientPage = {
         descriptions: parentRelationshipLabelDescriptions,
       }),
     },
-    otherRecipientRelationshipType:
-      otherRecipientRelationshipTypeUI('ownedAssets'),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'ownedAssets',
+    ),
     'ui:options': {
       ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
@@ -495,7 +502,8 @@ const ownedAssetTypePage = {
       showUpdatedContent()
         ? {
             title: 'What’s the gross monthly income generated from this asset?',
-            hint: 'Gross income is income before taxes and any other deductions.',
+            hint:
+              'Gross income is income before taxes and any other deductions.',
           }
         : 'Gross monthly income',
     ),
@@ -503,7 +511,8 @@ const ownedAssetTypePage = {
       showUpdatedContent()
         ? {
             title: 'What is the value of your share of the asset?',
-            hint: 'If you’re the sole owner, enter the full value. If you own part of it, enter the value of the share you own.',
+            hint:
+              'If you’re the sole owner, enter the full value. If you own part of it, enter the value of the share you own.',
           }
         : 'Value of your portion of the property',
     ),

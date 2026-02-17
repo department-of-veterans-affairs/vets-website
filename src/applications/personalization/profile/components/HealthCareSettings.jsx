@@ -54,8 +54,9 @@ HealthCareSettings.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isSchedulingPreferencesPilotEligible:
-    selectIsSchedulingPreferencesPilotEligible(state),
+  isSchedulingPreferencesPilotEligible: selectIsSchedulingPreferencesPilotEligible(
+    state,
+  ),
 });
 
 export default connect(mapStateToProps)(HealthCareSettings);

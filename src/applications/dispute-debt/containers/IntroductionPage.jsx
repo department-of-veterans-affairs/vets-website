@@ -19,8 +19,11 @@ export const IntroductionPage = props => {
     downtime,
   } = formConfig;
 
-  const { useToggleValue, useToggleLoadingValue, TOGGLE_NAMES } =
-    useFeatureToggle();
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
   const disputeDebtActive = useToggleValue(TOGGLE_NAMES.disputeDebt);
   const isLoadingFeatures = useToggleLoadingValue();
 

@@ -36,7 +36,10 @@ describe(manifest.appName, () => {
     cy.get('#signin-signup-modal').should('be.visible');
     cy.axeCheck();
 
-    cy.get('#signin-signup-modal').shadow().find('.va-modal-close').click();
+    cy.get('#signin-signup-modal')
+      .shadow()
+      .find('.va-modal-close')
+      .click();
     cy.get('#signin-signup-modal').should('not.exist');
   });
 });

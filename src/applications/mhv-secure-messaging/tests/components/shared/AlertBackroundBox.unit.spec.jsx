@@ -69,7 +69,9 @@ describe('Alert Backround Box component', () => {
 
     await waitFor(() => {
       const alert = document.querySelector('va-alert');
-      expect(alert).to.have.attribute('status').to.equal('success');
+      expect(alert)
+        .to.have.attribute('status')
+        .to.equal('success');
       expect(alert).to.have.attribute(
         'close-btn-aria-label',
         'Close notification',
@@ -106,7 +108,9 @@ describe('Alert Backround Box component', () => {
 
     await waitFor(() => {
       const alert = document.querySelector('va-alert');
-      expect(alert).to.have.attribute('status').to.equal('success');
+      expect(alert)
+        .to.have.attribute('status')
+        .to.equal('success');
       expect(alert).to.have.attribute(
         'close-btn-aria-label',
         'Close notification',
@@ -145,14 +149,18 @@ describe('Alert Backround Box component', () => {
       renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
         initialState,
         reducers: reducer,
-        path: `${Paths.MESSAGE_THREAD}${customState.sm.threadDetails.messages[0].messageId}/`,
+        path: `${Paths.MESSAGE_THREAD}${
+          customState.sm.threadDetails.messages[0].messageId
+        }/`,
       });
 
     const screen = setup(customState);
 
     await waitFor(() => {
       const alert = document.querySelector('va-alert');
-      expect(alert).to.have.attribute('status').to.equal('success');
+      expect(alert)
+        .to.have.attribute('status')
+        .to.equal('success');
       expect(alert).to.have.attribute(
         'close-btn-aria-label',
         'Close notification',
@@ -195,14 +203,18 @@ describe('Alert Backround Box component', () => {
       renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
         initialState,
         reducers: reducer,
-        path: `${Paths.REPLY}${customState.sm.threadDetails.messages[0].messageId}/`,
+        path: `${Paths.REPLY}${
+          customState.sm.threadDetails.messages[0].messageId
+        }/`,
       });
 
     const screen = setup(customState);
 
     await waitFor(() => {
       const alert = document.querySelector('va-alert');
-      expect(alert).to.have.attribute('status').to.equal('success');
+      expect(alert)
+        .to.have.attribute('status')
+        .to.equal('success');
       expect(alert).to.have.attribute(
         'close-btn-aria-label',
         'Close notification',

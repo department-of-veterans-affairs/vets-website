@@ -14,8 +14,10 @@ import {
 } from '../../constants';
 
 describe('Homeless or At Risk Info', () => {
-  const { schema, uiSchema } =
-    formConfig.chapters.veteranDetails.pages.homelessOrAtRisk;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.veteranDetails.pages.homelessOrAtRisk;
 
   it('should render', async () => {
     const form = mount(

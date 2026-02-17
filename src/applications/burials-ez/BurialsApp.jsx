@@ -43,14 +43,17 @@ export default function BurialsApp({ location, children }) {
     sessionReplaySampleRate: 100,
   });
 
-  useEffect(() => {
-    if (!isLoadingFeatures) {
-      window.sessionStorage.setItem(
-        'showPdfFormAlignment',
-        burialPdfFormAlignment,
-      );
-    }
-  }, [isLoadingFeatures, burialPdfFormAlignment]);
+  useEffect(
+    () => {
+      if (!isLoadingFeatures) {
+        window.sessionStorage.setItem(
+          'showPdfFormAlignment',
+          burialPdfFormAlignment,
+        );
+      }
+    },
+    [isLoadingFeatures, burialPdfFormAlignment],
+  );
 
   if (isLoadingFeatures) {
     return <va-loading-indicator message="Loading application..." />;

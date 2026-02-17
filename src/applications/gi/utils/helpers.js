@@ -280,10 +280,10 @@ export const schoolSize = enrollment => {
 export function isURL(str) {
   const pattern = new RegExp(
     '^(https?:\\/\\/)?' + // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
       '(\\#[-a-z\\d_]*)?$',
     'i',
   ); // fragment locator
@@ -316,8 +316,8 @@ export const isSmallScreen = (maxWidth = 480) => {
 };
 
 export const scrollToFocusedElement = () => {
-  const compareDrawerHeight =
-    document.getElementById('compare-drawer')?.clientHeight;
+  const compareDrawerHeight = document.getElementById('compare-drawer')
+    ?.clientHeight;
   const activeElementBounding = document.activeElement.getBoundingClientRect();
 
   if (
@@ -687,9 +687,8 @@ export const formatResultCount = (results, currentPage, itemsPerPage) => {
     }`;
   }
 
-  return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
-    currentPage * itemsPerPage
-  }`;
+  return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
+    itemsPerPage}`;
 };
 
 export const mappedStates = Object.entries(ADDRESS_DATA.states)

@@ -165,53 +165,62 @@ export const SearchForm = props => {
   };
 
   // Sync draft state when Redux searchString updates from geolocation
-  useEffect(() => {
-    if (currentQuery.searchString !== prevSearchStringRef.current) {
-      prevSearchStringRef.current = currentQuery.searchString;
-      setDraftFormState(prev => ({
-        ...prev,
-        searchString: currentQuery.searchString || '',
-      }));
-    }
-  }, [currentQuery.searchString]);
+  useEffect(
+    () => {
+      if (currentQuery.searchString !== prevSearchStringRef.current) {
+        prevSearchStringRef.current = currentQuery.searchString;
+        setDraftFormState(prev => ({
+          ...prev,
+          searchString: currentQuery.searchString || '',
+        }));
+      }
+    },
+    [currentQuery.searchString],
+  );
 
   // Sync draft state when VAMC autosuggest updates Redux serviceType/vamcServiceDisplay
-  useEffect(() => {
-    if (
-      currentQuery.serviceType !== prevServiceTypeRef.current ||
-      currentQuery.vamcServiceDisplay !== prevVamcServiceDisplayRef.current
-    ) {
-      prevServiceTypeRef.current = currentQuery.serviceType;
-      prevVamcServiceDisplayRef.current = currentQuery.vamcServiceDisplay;
-      setDraftFormState(prev => ({
-        ...prev,
-        serviceType: currentQuery.serviceType || null,
-        vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
-      }));
-    }
-  }, [currentQuery.serviceType, currentQuery.vamcServiceDisplay]);
+  useEffect(
+    () => {
+      if (
+        currentQuery.serviceType !== prevServiceTypeRef.current ||
+        currentQuery.vamcServiceDisplay !== prevVamcServiceDisplayRef.current
+      ) {
+        prevServiceTypeRef.current = currentQuery.serviceType;
+        prevVamcServiceDisplayRef.current = currentQuery.vamcServiceDisplay;
+        setDraftFormState(prev => ({
+          ...prev,
+          serviceType: currentQuery.serviceType || null,
+          vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
+        }));
+      }
+    },
+    [currentQuery.serviceType, currentQuery.vamcServiceDisplay],
+  );
 
   // Sync all fields on URL parameter changes (browser back/forward)
-  useEffect(() => {
-    if (
-      props.location?.search &&
-      props.location?.search !== prevLocationSearchRef.current
-    ) {
-      prevLocationSearchRef.current = props.location?.search;
-      setDraftFormState({
-        facilityType: currentQuery.facilityType || null,
-        serviceType: currentQuery.serviceType || null,
-        searchString: currentQuery.searchString || '',
-        vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
-      });
-    }
-  }, [
-    props.location?.search,
-    currentQuery.facilityType,
-    currentQuery.serviceType,
-    currentQuery.searchString,
-    currentQuery.vamcServiceDisplay,
-  ]);
+  useEffect(
+    () => {
+      if (
+        props.location?.search &&
+        props.location?.search !== prevLocationSearchRef.current
+      ) {
+        prevLocationSearchRef.current = props.location?.search;
+        setDraftFormState({
+          facilityType: currentQuery.facilityType || null,
+          serviceType: currentQuery.serviceType || null,
+          searchString: currentQuery.searchString || '',
+          vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
+        });
+      }
+    },
+    [
+      props.location?.search,
+      currentQuery.facilityType,
+      currentQuery.serviceType,
+      currentQuery.searchString,
+      currentQuery.vamcServiceDisplay,
+    ],
+  );
 
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
@@ -232,41 +241,47 @@ export const SearchForm = props => {
   };
 
   // Set focus in the location field when manual geocoding completes
-  useEffect(() => {
-    if (
-      currentQuery.geolocationInProgress === false &&
-      locationInputFieldRef.current
-    ) {
-      setFocus(locationInputFieldRef.current, false);
-    }
-  }, [currentQuery.geolocationInProgress]);
+  useEffect(
+    () => {
+      if (
+        currentQuery.geolocationInProgress === false &&
+        locationInputFieldRef.current
+      ) {
+        setFocus(locationInputFieldRef.current, false);
+      }
+    },
+    [currentQuery.geolocationInProgress],
+  );
 
   // Track geocode errors
-  useEffect(() => {
-    if (currentQuery?.geocodeError) {
-      switch (currentQuery.geocodeError) {
-        case 0:
-          break;
-        case 1:
-          recordEvent({
-            event: 'fl-get-geolocation-permission-error',
-            'error-key': '1_PERMISSION_DENIED',
-          });
-          break;
-        case 2:
-          recordEvent({
-            event: 'fl-get-geolocation-other-error',
-            'error-key': '2_POSITION_UNAVAILABLE',
-          });
-          break;
-        default:
-          recordEvent({
-            event: 'fl-get-geolocation-other-error',
-            'error-key': '3_TIMEOUT',
-          });
+  useEffect(
+    () => {
+      if (currentQuery?.geocodeError) {
+        switch (currentQuery.geocodeError) {
+          case 0:
+            break;
+          case 1:
+            recordEvent({
+              event: 'fl-get-geolocation-permission-error',
+              'error-key': '1_PERMISSION_DENIED',
+            });
+            break;
+          case 2:
+            recordEvent({
+              event: 'fl-get-geolocation-other-error',
+              'error-key': '2_POSITION_UNAVAILABLE',
+            });
+            break;
+          default:
+            recordEvent({
+              event: 'fl-get-geolocation-other-error',
+              'error-key': '3_TIMEOUT',
+            });
+        }
       }
-    }
-  }, [currentQuery.geocodeError]);
+    },
+    [currentQuery.geocodeError],
+  );
 
   const facilityAndServiceTypeInputs = (
     <>
@@ -364,4 +379,7 @@ const mapDispatchToProps = {
 
 SearchForm.propTypes = SearchFormTypes;
 
-export default connect(null, mapDispatchToProps)(SearchForm);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SearchForm);

@@ -6,8 +6,10 @@ import {
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../../config/form';
 
-const { schema, uiSchema } =
-  formConfig.chapters.sectionTwoP1Chapter.pages.doctorInformationPage;
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.sectionTwoP1Chapter.pages.doctorInformationPage;
 const pageTitle = 'doctor information';
 
 const expectedNumberOfFields = 1;

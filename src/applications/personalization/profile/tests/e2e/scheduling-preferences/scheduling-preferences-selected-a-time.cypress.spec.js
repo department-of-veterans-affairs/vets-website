@@ -350,7 +350,10 @@ describe('Scheduling preferences time selection', () => {
       selectPreferredOption('option-17');
 
       // Attempt to navigate away
-      cy.get('va-link[back]').shadow().find('a').click();
+      cy.get('va-link[back]')
+        .shadow()
+        .find('a')
+        .click();
 
       // Confirm that the confirm cancel modal is shown
       cy.findByTestId('edit-confirm-cancel-modal').should('exist');
@@ -380,7 +383,10 @@ describe('Scheduling preferences time selection', () => {
       clickEdit();
 
       // Attempt to navigate away
-      cy.get('va-link[back]').shadow().find('a').click();
+      cy.get('va-link[back]')
+        .shadow()
+        .find('a')
+        .click();
 
       // Confirm that the confirm cancel modal is shown
       cy.findByTestId('edit-confirm-cancel-modal').should('not.exist');

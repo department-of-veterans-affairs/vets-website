@@ -25,7 +25,9 @@ class Vitals {
     cy.get('@vitals-link').should('be.visible');
     cy.get('@vitals-link').click();
     // Wait for page to load
-    cy.get('h1').should('be.visible').and('be.focused');
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   viewNextPage = () => {

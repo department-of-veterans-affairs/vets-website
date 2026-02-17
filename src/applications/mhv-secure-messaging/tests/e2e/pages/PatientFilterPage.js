@@ -96,7 +96,9 @@ class PatientFilterSortPage {
   };
 
   verifyNoMatchFilterFocusAndText = () => {
-    cy.get(Locators.FIELDS.SEARCH_MESSAGE).last().should('be.focus');
+    cy.get(Locators.FIELDS.SEARCH_MESSAGE)
+      .last()
+      .should('be.focus');
     cy.get(Locators.FIELDS.SEARCH_MESSAGE_HEADING)
       .should('be.visible')
       .and('have.text', Assertions.NO_MATCHES_SEARCH);
@@ -104,7 +106,9 @@ class PatientFilterSortPage {
       .find(`ul li`)
       .each(el => {
         cy.wrap(el).should(`be.visible`);
-        cy.wrap(el).invoke(`text`).should(`not.be.empty`);
+        cy.wrap(el)
+          .invoke(`text`)
+          .should(`not.be.empty`);
       });
   };
 
@@ -170,10 +174,9 @@ class PatientFilterSortPage {
         newItem.type = 'messages';
         newItem.attributes = {
           ...newItem.attributes,
-          sentDate:
-            GeneralFunctionsPage.getRandomDateWithinLastNumberOfMonths(
-              numberOfMonths,
-            ),
+          sentDate: GeneralFunctionsPage.getRandomDateWithinLastNumberOfMonths(
+            numberOfMonths,
+          ),
           readReceipt: null,
         };
         return newItem;
@@ -305,11 +308,17 @@ class PatientFilterSortPage {
   };
 
   getRequiredFieldError = selector => {
-    return cy.get(selector).find(`#error-message`).should(`be.visible`);
+    return cy
+      .get(selector)
+      .find(`#error-message`)
+      .should(`be.visible`);
   };
 
   verifyNoFieldErrors = selector => {
-    return cy.get(selector).find(`#error-message`).should(`not.exist`);
+    return cy
+      .get(selector)
+      .find(`#error-message`)
+      .should(`not.exist`);
   };
 
   // retrieveMessages = function (folderID) {
@@ -322,7 +331,9 @@ class PatientFilterSortPage {
   // }
 
   inputFilterDataByKeyboard = text => {
-    cy.tabToElement('#inputField').first().type(`${text}`, { force: true });
+    cy.tabToElement('#inputField')
+      .first()
+      .type(`${text}`, { force: true });
   };
 
   submitFilterByKeyboard = mockFilterResponse => {
@@ -339,7 +350,9 @@ class PatientFilterSortPage {
     // next line required to start tab navigation from the header of the page
     cy.get(Locators.FOLDERS.FOLDER_HEADER).click();
     cy.contains('Clear filters').then(el => {
-      cy.tabToElement(el).first().click();
+      cy.tabToElement(el)
+        .first()
+        .click();
     });
   };
 

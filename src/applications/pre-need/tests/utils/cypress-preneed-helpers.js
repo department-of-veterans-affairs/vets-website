@@ -54,7 +54,9 @@ function visitIntro() {
   );
   cy.get('.schemaform-title', { timeout: Timeouts.slow }).should('be.visible');
   cy.injectAxeThenAxeCheck();
-  cy.get('.schemaform-start-button').first().click();
+  cy.get('.schemaform-start-button')
+    .first()
+    .click();
   cy.url().should('not.contain', '/introduction');
 }
 
@@ -242,9 +244,11 @@ function fillPreparerInfo(preparer) {
 
 // Submit Form
 function submitForm() {
-  cy.get('[name="privacyAgreementAccepted"]').find('[type="checkbox"]').check({
-    force: true,
-  });
+  cy.get('[name="privacyAgreementAccepted"]')
+    .find('[type="checkbox"]')
+    .check({
+      force: true,
+    });
 
   cy.axeCheck();
   cy.get('.form-progress-buttons .usa-button-primary').click();

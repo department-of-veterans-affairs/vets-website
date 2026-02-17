@@ -183,9 +183,10 @@ const PreSubmitInfo = ({
         heading="Certification statement"
         inputLabel={statementOfTruth.textInputLabel || 'Your full name'}
         inputValue={formData.statementOfTruthSignature}
-        inputMessageAriaDescribedby={`${
-          statementOfTruth.heading || 'Certification statement'
-        }: ${statementOfTruth.messageAriaDescribedby}`}
+        inputMessageAriaDescribedby={`${statementOfTruth.heading ||
+          'Certification statement'}: ${
+          statementOfTruth.messageAriaDescribedby
+        }`}
         inputError={
           (showError || statementOfTruthSignatureBlurred) &&
           fullNameReducer(formData.statementOfTruthSignature) !==
@@ -260,4 +261,7 @@ const mapDispatchToProps = {
   setPreSubmit: setPreSubmitAction,
 };
 
-export default connect(null, mapDispatchToProps)(PreSubmitInfo);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(PreSubmitInfo);

@@ -58,8 +58,9 @@ export const serializeClaim = claim => {
 
   const { supportingDocuments = [], trackedItems = [] } = claim.attributes;
 
-  const associatedDocuments =
-    getDocsAssociatedWithTrackedItems(supportingDocuments);
+  const associatedDocuments = getDocsAssociatedWithTrackedItems(
+    supportingDocuments,
+  );
 
   const associatedTrackedItems = associateDocsWithTrackedItems(
     trackedItems,

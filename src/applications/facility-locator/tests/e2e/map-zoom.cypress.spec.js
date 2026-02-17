@@ -42,20 +42,8 @@ Cypress.Commands.add('verifySearchArea', () => {
 
   // Move from area
   cy.get('.mapboxgl-canvas').swipe(
-    [
-      [310, 300],
-      [310, 320],
-      [310, 340],
-      [310, 360],
-      [310, 380],
-    ],
-    [
-      [50, 300],
-      [50, 320],
-      [50, 340],
-      [50, 360],
-      [50, 380],
-    ],
+    [[310, 300], [310, 320], [310, 340], [310, 360], [310, 380]],
+    [[50, 300], [50, 320], [50, 340], [50, 360], [50, 380]],
   );
   cy.get('#mapbox-gl-container').click({ waitForAnimations: true });
 
@@ -75,7 +63,10 @@ it('handles map zooming correctly', () => {
   cy.visit('/find-locations');
 
   cy.get('#street-city-state-zip').type('Austin, TX');
-  cy.get('#facility-type-dropdown').shadow().find('select').select('VA health');
+  cy.get('#facility-type-dropdown')
+    .shadow()
+    .find('select')
+    .select('VA health');
   cy.get('#facility-search')
     .click({ force: true })
     .then(() => {

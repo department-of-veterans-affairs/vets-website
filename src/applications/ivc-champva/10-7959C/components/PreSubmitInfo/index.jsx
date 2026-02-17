@@ -68,29 +68,35 @@ const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
     [isRep, nameMatchesValue, signature],
   );
 
-  const inputError = useMemo(() => {
-    if (hasSubmittedForm) return null;
-    if (hasValidInputValue) return null;
+  const inputError = useMemo(
+    () => {
+      if (hasSubmittedForm) return null;
+      if (hasValidInputValue) return null;
 
-    const shouldShow = showError || dirty;
-    if (!shouldShow) return null;
+      const shouldShow = showError || dirty;
+      if (!shouldShow) return null;
 
-    return isRep
-      ? ERR_MSG_INPUT_OTHER
-      : replaceStrValues(ERR_MSG_INPUT_APPLICANT, applicantName);
-  }, [
-    applicantName,
-    dirty,
-    hasSubmittedForm,
-    hasValidInputValue,
-    isRep,
-    showError,
-  ]);
+      return isRep
+        ? ERR_MSG_INPUT_OTHER
+        : replaceStrValues(ERR_MSG_INPUT_APPLICANT, applicantName);
+    },
+    [
+      applicantName,
+      dirty,
+      hasSubmittedForm,
+      hasValidInputValue,
+      isRep,
+      showError,
+    ],
+  );
 
-  const checkboxError = useMemo(() => {
-    if (hasSubmittedForm) return null;
-    return !checked && showError ? ERR_MSG_CHECKBOX : null;
-  }, [hasSubmittedForm, checked, showError]);
+  const checkboxError = useMemo(
+    () => {
+      if (hasSubmittedForm) return null;
+      return !checked && showError ? ERR_MSG_CHECKBOX : null;
+    },
+    [hasSubmittedForm, checked, showError],
+  );
 
   const statementText = useMemo(
     () =>
@@ -104,15 +110,21 @@ const PreSubmitInfo = ({ formData, showError, onSectionComplete }) => {
 
   useEffect(() => setSignature(formData.signature ?? ''), [formData.signature]);
 
-  useEffect(() => {
-    onCompleteRef.current = onSectionComplete;
-  }, [onSectionComplete]);
+  useEffect(
+    () => {
+      onCompleteRef.current = onSectionComplete;
+    },
+    [onSectionComplete],
+  );
 
-  useEffect(() => {
-    if (prevCompleteRef.current === isComplete) return;
-    prevCompleteRef.current = isComplete;
-    onCompleteRef.current(isComplete);
-  }, [isComplete]);
+  useEffect(
+    () => {
+      if (prevCompleteRef.current === isComplete) return;
+      prevCompleteRef.current = isComplete;
+      onCompleteRef.current(isComplete);
+    },
+    [isComplete],
+  );
 
   useEffect(() => {
     return () => onCompleteRef.current(false);

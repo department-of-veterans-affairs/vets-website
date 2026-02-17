@@ -139,9 +139,8 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
 
   // helper functions to get debt and copay labels and descriptions
   const getDebtLabel = debt =>
-    `${currency(debt?.currentAr)} ${
-      deductionCodes[debt.deductionCode] || debt.benefitType
-    }`;
+    `${currency(debt?.currentAr)} ${deductionCodes[debt.deductionCode] ||
+      debt.benefitType}`;
 
   const getDebtDescription = debt => {
     // most recent debt history entry
@@ -155,10 +154,8 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
   };
 
   const getCopayLabel = copay =>
-    `${currency(copay?.pHAmtDue)} copay bill for ${
-      copay.station.facilityName ||
-      getMedicalCenterNameByID(copay.station.facilitYNum)
-    }`;
+    `${currency(copay?.pHAmtDue)} copay bill for ${copay.station.facilityName ||
+      getMedicalCenterNameByID(copay.station.facilitYNum)}`;
 
   const getCopayDescription = copay =>
     `Pay or request help by ${endDate(copay.pSStatementDateOutput, 30)}`;
