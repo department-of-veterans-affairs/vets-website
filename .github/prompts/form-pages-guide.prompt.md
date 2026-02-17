@@ -478,7 +478,7 @@ financialHardshipDocuments: fileInputMultipleUI({
   additionalInputLabels: {
     documentStatus: { public: 'Public', private: 'Private' },
   },
-  additionalInput: (error, data, labels) => {
+  additionalInput: ({ labels }) => {
     return (
       <VaSelect required label="Document status">
         {Object.entries(labels.documentStatus).map(([value, label]) => (

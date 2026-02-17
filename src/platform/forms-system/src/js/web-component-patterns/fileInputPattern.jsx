@@ -95,7 +95,7 @@ import {
  * @param {number} [options.maxFileSize] - maximum allowed file size in bytes
  * @param {number} [options.minFileSize] - minimum allowed file size in bytes
  * @param {boolean} [options.additionalInputRequired] - is additional information required
- * @param {((error:any, data:any, labels?:Record<string, Record<string, string>>) => React.ReactNode) } [options.additionalInput] - renders the additional information. Receives `additionalInputLabels` as an optional 3rd argument.
+ * @param {(error: any, data: any, labels?: Record<string, Record<string, string>>) => React.ReactNode} [options.additionalInput] - renders the additional information. Receives `additionalInputLabels` as an optional 3rd argument.
  * @param {(e: CustomEvent) => {[key: string]: any}} [options.handleAdditionalInput] - function to handle event payload from additional info
  * @param {Record<string, Record<string, string>>} [options.additionalInputLabels] - explicit value-to-label mapping for additional input fields on the review page, e.g. `{ documentStatus: { public: 'Public', private: 'Private' } }`. Falls back to DOM querying if not provided.
  * @param {string} [options.fileUploadUrl] - url to which file will be uploaded

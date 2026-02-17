@@ -394,11 +394,11 @@ const VaFileInputMultipleField = props => {
       >
         {mappedProps.additionalInput && (
           <div className="additional-input-container">
-            {mappedProps.additionalInput(
-              undefined,
-              undefined,
-              uiOptions.additionalInputLabels,
-            )}
+            {uiOptions.additionalInputLabels
+              ? mappedProps.additionalInput({
+                  labels: uiOptions.additionalInputLabels,
+                })
+              : mappedProps.additionalInput()}
           </div>
         )}
       </VaFileInputMultiple>

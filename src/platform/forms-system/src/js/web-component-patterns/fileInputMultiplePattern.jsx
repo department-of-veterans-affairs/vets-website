@@ -34,15 +34,9 @@ import ReviewField from '../review/FileInputMultiple';
  *   additionalInputLabels: {
  *     documentStatus: { public: 'Public', private: 'Private' },
  *   },
- *   additionalInput: (error, data, labels) => {
- *     const { documentStatus } = data;
+ *   additionalInput: ({ labels }) => {
  *     return (
- *       <VaSelect
- *         required
- *         error={error}
- *         value={documentStatus}
- *         label="Document status"
- *       >
+ *       <VaSelect required label="Document status">
  *         {Object.entries(labels.documentStatus).map(([value, label]) => (
  *           <option key={value} value={value}>{label}</option>
  *         ))}
@@ -97,7 +91,7 @@ import ReviewField from '../review/FileInputMultiple';
  * @param {number} [options.maxFileSize] - maximum allowed file size in bytes
  * @param {number} [options.minFileSize] - minimum allowed file size in bytes
  * @param {boolean} [options.additionalInputRequired] - is additional information required
- * @param {((error:any, data:any, labels?:Record<string, Record<string, string>>) => React.ReactNode) } [options.additionalInput] - renders the additional information. Receives `additionalInputLabels` as an optional 3rd argument.
+ * @param {(options: { labels?: Record<string, Record<string, string>> }) => React.ReactNode} [options.additionalInput] - renders the additional information template. Receives an object with `labels` from `additionalInputLabels`.
  * @param {(instance: any, error: any, data: any) => void} [options.additionalInputUpdate] - function to update additional input instance
  * @param {(e: CustomEvent) => {[key: string]: any}} [options.handleAdditionalInput] - function to handle event payload from additional info
  * @param {Record<string, Record<string, string>>} [options.additionalInputLabels] - explicit value-to-label mapping for additional input fields on the review page, e.g. `{ documentStatus: { public: 'Public', private: 'Private' } }`. Falls back to DOM querying if not provided.
