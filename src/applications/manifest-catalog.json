@@ -568,12 +568,6 @@
       "rootUrl": "/my-va"
     },
     {
-      "directoryPath": "src/applications/personalization/notification-center",
-      "appName": "Notification Center",
-      "entryName": "notification-center",
-      "rootUrl": "/notification-center"
-    },
-    {
       "directoryPath": "src/applications/personalization/profile",
       "appName": "VA Profile",
       "entryName": "profile",
@@ -584,12 +578,6 @@
       "appName": "Welcome VA Setup Review Information Form",
       "entryName": "welcome-va-setup-review-information",
       "rootUrl": "/my-va/welcome-va-setup"
-    },
-    {
-      "directoryPath": "src/applications/personalization/view-representative",
-      "appName": "View your representative",
-      "entryName": "view-representative",
-      "rootUrl": "/view-change-representative/view"
     },
     {
       "directoryPath": "src/applications/post-911-gib-status",

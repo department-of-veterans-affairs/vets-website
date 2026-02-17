@@ -1,8 +1,10 @@
 import React from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { isSchedulingPreferencesPilotEligible as isSchedulingPreferencesPilotEligibleSelector } from 'platform/user/selectors';
+import { hasBadAddress as hasBadAddressSelector } from '@@vap-svc/selectors';
+import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAlert';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 import Tier2PageContent from '../Tier2PageContent';
 import { ProfileHubItem } from './ProfileHubItem';
@@ -18,8 +20,12 @@ const ProfileHub = ({ isSchedulingPreferencesPilotEligible }) => {
     hideHealthCareContacts,
     isSchedulingPreferencesPilotEligible,
   });
+  const hasBadAddress = useSelector(hasBadAddressSelector);
   return (
     <Tier2PageContent pageHeader="Profile">
+      {hasBadAddress && (
+        <BadAddressAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 vads-l-col--12" />
+      )}
       <NameTag />
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.PERSONAL_INFORMATION}
