@@ -378,6 +378,7 @@ const VaFileInputMultipleField = props => {
         uploading={percentsUploaded.some(percent => !!percent)}
       />
       <VaFileInputMultiple
+        data-dd-privacy="mask"
         {...mappedProps}
         error={mappedProps.error}
         ref={componentRef}
