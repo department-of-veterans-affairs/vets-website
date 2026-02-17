@@ -12,16 +12,14 @@ import {
 import { server } from 'platform/testing/unit/mocha-setup';
 import React from 'react';
 
-import { envApiUrl } from '../../constants';
 import Inbox from '../../containers/Inbox';
+import { ENDPOINTS } from '../../utils/api';
 
 describe('<Inbox />', () => {
-  const apiRequestWithUrl = `${envApiUrl}/ask_va_api/v0/inquiries`;
-
   describe('when the api server succeeds', () => {
     beforeEach(() => {
       server.use(
-        createGetHandler(`${apiRequestWithUrl}`, () => {
+        createGetHandler(ENDPOINTS.inquiries, () => {
           return jsonResponse(
             {
               data: [
@@ -94,7 +92,7 @@ describe('<Inbox />', () => {
 
     it('should transform inquiries data correctly', async () => {
       server.use(
-        createGetHandler(`${apiRequestWithUrl}`, () => {
+        createGetHandler(ENDPOINTS.inquiries, () => {
           return jsonResponse(
             {
               data: [
@@ -173,7 +171,7 @@ describe('<Inbox />', () => {
 
     it('should update filter summary when filters applied', async () => {
       server.use(
-        createGetHandler(`${apiRequestWithUrl}`, () => {
+        createGetHandler(ENDPOINTS.inquiries, () => {
           return jsonResponse(
             {
               data: [
@@ -297,7 +295,7 @@ describe('<Inbox />', () => {
   describe('when the api server fails', () => {
     beforeEach(() => {
       server.use(
-        createGetHandler(`${apiRequestWithUrl}`, () => {
+        createGetHandler(ENDPOINTS.inquiries, () => {
           return jsonResponse({}, { status: 500 });
         }),
       );
@@ -317,7 +315,7 @@ describe('<Inbox />', () => {
   describe('pagination functionality', () => {
     beforeEach(() => {
       server.use(
-        createGetHandler(`${apiRequestWithUrl}`, () => {
+        createGetHandler(ENDPOINTS.inquiries, () => {
           return jsonResponse(
             {
               data: Array.from({ length: 6 }, (_, i) => ({
@@ -440,7 +438,7 @@ describe('<Inbox />', () => {
   describe('loading state', () => {
     it('should show loading indicator and then content', async () => {
       server.use(
-        createGetHandler(`${apiRequestWithUrl}`, () => {
+        createGetHandler(ENDPOINTS.inquiries, () => {
           return jsonResponse(
             {
               data: [
@@ -487,7 +485,7 @@ describe('<Inbox />', () => {
   describe('empty state', () => {
     beforeEach(() => {
       server.use(
-        createGetHandler(`${apiRequestWithUrl}`, () => {
+        createGetHandler(ENDPOINTS.inquiries, () => {
           return jsonResponse(
             {
               data: [], // Return empty data array
@@ -530,7 +528,7 @@ describe('<Inbox />', () => {
   describe('business and personal view', () => {
     beforeEach(() => {
       server.use(
-        createGetHandler(`${apiRequestWithUrl}`, () => {
+        createGetHandler(ENDPOINTS.inquiries, () => {
           return jsonResponse(
             {
               data: [

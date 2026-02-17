@@ -1,9 +1,10 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { formatDate } from '../config/helpers';
 import submitTransformer from '../config/submit-transformer';
-import { URL, envApiUrl, mockTestingFlagForAPI } from '../constants';
+import { mockTestingFlagForAPI } from '../constants';
 import { mockSubmitResponse } from './mockData';
 import { askVAAttachmentStorage } from './StorageAdapter';
+import { ENDPOINTS } from './api';
 
 export const getYesOrNoFromBool = answer => (answer ? 'Yes' : 'No');
 
@@ -191,11 +192,10 @@ export const handleFormSubmission = async ({
       });
     const transformedData = submitTransformer(formData, files);
 
-    const url = `${envApiUrl}${
-      (isLoggedIn && isUserLOA3) || transformedData.requireSignIn
-        ? URL.AUTH_INQUIRIES
-        : URL.INQUIRIES
-    }`;
+    const needsAuth =
+      (isLoggedIn && isUserLOA3) || transformedData.requireSignIn;
+
+    const url = needsAuth ? ENDPOINTS.inquiriesAuth : ENDPOINTS.inquiries;
 
     return await submitFormData({
       url,

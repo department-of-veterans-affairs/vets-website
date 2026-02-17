@@ -1,10 +1,10 @@
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import React, { useEffect, useState } from 'react';
 import { ServerErrorAlert } from '../config/helpers';
-import { URL, envApiUrl, mockTestingFlagForAPI } from '../constants';
+import { mockTestingFlagForAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
 import { categorizeByLOA } from '../utils/inbox';
 import InboxLayout from '../components/inbox/InboxLayout';
+import { getAllInquiries } from '../utils/api';
 
 export default function Inbox() {
   const [hasError, setHasError] = useState(false);
@@ -28,7 +28,7 @@ export default function Inbox() {
       if (mockTestingFlagForAPI && !window.Cypress) {
         saveInState(mockInquiries.data);
       } else {
-        apiRequest(`${envApiUrl}${URL.GET_INQUIRIES}`)
+        getAllInquiries()
           .then(res => saveInState(res.data))
           .catch(() => {
             setIsLoading(false);

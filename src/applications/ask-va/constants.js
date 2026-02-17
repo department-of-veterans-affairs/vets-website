@@ -49,9 +49,6 @@ export const URL = {
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
-  GET_INQUIRIES: `${baseURL}/inquiries`,
-  INQUIRIES: `${baseURL}/inquiries`,
-  AUTH_INQUIRIES: `${baseURL}/inquiries/auth`,
   DOWNLOAD_ATTACHMENT: `${baseURL}/download_attachment?id=`,
 };
 
