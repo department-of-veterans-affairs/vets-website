@@ -27,15 +27,15 @@ export const DocumentTypeSelect = () => {
       'Creditable number of years',
       'Retirement Points Statement',
     );
-  }
-  else if (formData?.identity === serviceStatuses.DNANA) {
+  } else if (
+    formData?.identity === serviceStatuses.DNANA ||
+    formData?.identity === serviceStatuses.DRNA
+  ) {
     requiredDocumentTypes.push(
-      'Separation and Report of Service', 'Retirement Points Accounting', 'Proof of character of service', 'Department of Defense Discharge Certificate'
-    );
-  }
-  else if (formData?.identity === serviceStatuses.DRNA) {
-    requiredDocumentTypes.push(
-      'Separation and Report of Service', 'Retirement Points Accounting', 'Proof of character of service', 'Department of Defense Discharge Certificate'
+      'Separation and Report of Service',
+      'Retirement Points Accounting',
+      'Proof of character of service',
+      'Department of Defense Discharge Certificate',
     );
   }
   return (
