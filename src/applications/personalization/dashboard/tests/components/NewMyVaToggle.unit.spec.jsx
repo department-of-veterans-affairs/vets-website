@@ -4,6 +4,8 @@ import { fireEvent, render } from '@testing-library/react';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import sinon from 'sinon';
+import * as featureToggles from 'platform/utilities/feature-toggles';
 import NewMyVaToggle from '../../components/NewMyVaToggle';
 
 const LOCAL_STORAGE_KEY = 'myVaLayoutVersion';
@@ -11,8 +13,19 @@ const LOCAL_STORAGE_KEY = 'myVaLayoutVersion';
 const mockStore = configureStore([thunk]);
 
 describe('NewMyVaToggle', () => {
+  let sandbox;
+  let updateFeatureToggleValueStub;
+
   beforeEach(() => {
     localStorage.clear();
+    sandbox = sinon.createSandbox();
+    updateFeatureToggleValueStub = sandbox
+      .stub(featureToggles, 'updateFeatureToggleValue')
+      .returns(() => {});
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   it('renders with default selection (old) when localStorage is empty', async () => {
@@ -93,5 +106,51 @@ describe('NewMyVaToggle', () => {
       'label',
       'Select a My VA version',
     );
+  });
+
+  it('dispatches updateFeatureToggleValue when storeVersion matches selected (new)', () => {
+    const store = mockStore({
+      myVaPreferences: {
+        layout: {
+          version: 'new',
+        },
+      },
+    });
+    localStorage.setItem(LOCAL_STORAGE_KEY, 'new');
+
+    render(
+      <Provider store={store}>
+        <NewMyVaToggle />
+      </Provider>,
+    );
+
+    expect(
+      updateFeatureToggleValueStub.calledWith({
+        [featureToggles.TOGGLE_NAMES.myVaAuthExpRedesignEnabled]: true,
+      }),
+    ).to.be.true;
+  });
+
+  it('dispatches updateFeatureToggleValue when storeVersion matches selected (old)', () => {
+    const store = mockStore({
+      myVaPreferences: {
+        layout: {
+          version: 'old',
+        },
+      },
+    });
+    localStorage.setItem(LOCAL_STORAGE_KEY, 'old');
+
+    render(
+      <Provider store={store}>
+        <NewMyVaToggle />
+      </Provider>,
+    );
+
+    expect(
+      updateFeatureToggleValueStub.calledWith({
+        [featureToggles.TOGGLE_NAMES.myVaAuthExpRedesignEnabled]: false,
+      }),
+    ).to.be.true;
   });
 });

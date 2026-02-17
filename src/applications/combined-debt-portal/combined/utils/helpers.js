@@ -8,7 +8,6 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { head } from 'lodash';
-import i18nCombinedDebtPortal from '../../i18n';
 
 export const APP_TYPES = Object.freeze({
   DEBT: 'DEBT',
@@ -302,12 +301,6 @@ export const healthResourceCenterPhoneContent = () => {
     </>
   );
 };
-
-export const tCdp = i18nCombinedDebtPortal.getFixedT(
-  null,
-  null,
-  'combined-debt-portal',
-);
 
 export const getSortedDate = (
   data,

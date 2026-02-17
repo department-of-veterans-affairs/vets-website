@@ -36,7 +36,7 @@ describe('ApplicationInterruptedAlert', () => {
     const headline = container.querySelector('va-alert h3[slot="headline"]');
     expect(headline).to.exist;
     expect(headline.textContent).to.match(
-      /sorry, your vr&e chapter 31 benefits have been interrupted/i,
+      /your vr&e chapter 31 benefits have been interrupted/i,
     );
   });
 

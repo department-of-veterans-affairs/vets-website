@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 /**
  * Reusable component that displays the CCD description text.
- * Used in VistaOnlyContent, OHOnlyContent, and VistaAndOHContent.
+ * Used in VistaOnlyContent and VistaAndOHContent.
  *
  * @param {boolean} showXmlFormatText - Whether to show the XML format description
  */
