@@ -16,27 +16,27 @@ describe(`${appName} -- minimal test`, () => {
     cy.injectAxeThenAxeCheck();
     heading = {
       level: 1,
-      name: /^Medical supplies$/,
+      name: /Medical supplies$/,
     };
     cy.findByRole('navigation', { name: 'My HealtheVet' }).should.exist;
     cy.findByRole('heading', heading).should('have.focus');
-    cy.findByText(/^Start a new order$/).click();
+    cy.findByText(/Start a new order$/).click();
 
     // choose supplies
     cy.injectAxeThenAxeCheck();
     cy.findByRole('navigation', { name: 'My HealtheVet' }).should('not.exist');
     cy.selectVaCheckbox('root_chosenSupplies_6584', true);
-    cy.findByText(/^Continue$/).click();
+    cy.findByText(/Continue$/).click();
 
     // contact information
     cy.injectAxeThenAxeCheck();
     cy.findByRole('navigation', { name: 'My HealtheVet' }).should('not.exist');
-    cy.findByText(/^Continue$/).click();
+    cy.findByText(/Continue$/).click();
 
     // review
     cy.injectAxeThenAxeCheck();
     cy.findByRole('navigation', { name: 'My HealtheVet' }).should('not.exist');
-    cy.findByText(/^Submit$/).click();
+    cy.findByText(/Submit$/).click();
 
     // confirmation
     cy.injectAxeThenAxeCheck();
