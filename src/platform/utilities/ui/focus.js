@@ -86,7 +86,6 @@ export function focusElement(selectorOrElement, options = {}, root) {
  * Focus on first found element within the list
  * @param {String|Array} selectors - selectors in priority order; tries each until one is found.
  * @param {Element} root - starting element of the querySelector
- * @returns {Boolean} true if an element was found and focused, false otherwise
  * @example focusByOrder('#main h3, .nav-header > h2');
  * @example focusByOrder(['#main h3', '.nav-header > h2']);
  * @example focusByOrder('va-radio>>shadow>>h3, .nav-header > h2');
@@ -102,7 +101,7 @@ export function focusByOrder(selectors, root) {
         typeof selector === 'string' ? selector.split(',') : selector,
     );
 
-    return list.some(selector => {
+    list.some(selector => {
       const trimmedSelector = (selector || '').trim();
       if (!trimmedSelector) {
         return false;
@@ -129,13 +128,12 @@ export function focusByOrder(selectors, root) {
       // Handle regular selectors
       const el = (root || document).querySelector(trimmedSelector);
       if (el) {
-        focusElement(el);
+        focusElement(el, {}, root);
         return true;
       }
       return false;
     });
   }
-  return false;
 }
 
 const noAsyncFocusWhenCypressRunningInCiOrLocally =
@@ -196,7 +194,7 @@ export function waitForRenderThenFocus(
 
         // Don't set default focus if something is already focused
         if (document.activeElement === document.body) {
-          focusByOrder(defaultFocusSelector); // fallback to breadcrumbs
+          focusElement(defaultFocusSelector); // fallback to breadcrumbs
         }
       }
       count += 1;
