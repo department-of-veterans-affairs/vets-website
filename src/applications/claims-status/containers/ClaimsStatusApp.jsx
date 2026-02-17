@@ -83,6 +83,14 @@ function ClaimsStatusApp({
     version: '1.0.0',
     sessionReplaySampleRate:
       environment.vspEnvironment() === 'staging' ? 100 : 50,
+    // Prevent PII (file names) from being sent to Datadog in click event metadata
+    beforeSend: event => {
+      if (event.action?.type === 'click') {
+        // eslint-disable-next-line no-param-reassign
+        event.action.target.name = 'Clicked item';
+      }
+      return true;
+    },
   });
 
   return (

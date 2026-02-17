@@ -155,7 +155,7 @@ export default function ClaimFormSideNav({
             onClick={e => handleClick(e, page)}
           />
         ) : (
-          <p className={DISABLED_STYLE} key={page.key}>
+          <p role="listitem" className={DISABLED_STYLE} key={page.key}>
             {label}
           </p>
         );

@@ -21,7 +21,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
 import { sponsorAddressCleanValidation } from '../../shared/validations';
-import { validateSponsorSsn } from '../helpers/validations';
+import { validateSponsorSsn } from '../utils/validations';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';

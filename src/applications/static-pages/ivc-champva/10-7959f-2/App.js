@@ -1,19 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
-// eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
-import manifest from '../../../ivc-champva/10-7959f-2/manifest.json';
-// eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
-import {
-  FMP_ADDRESS,
-  FMP_CANADA_ADDRESS,
-  FMP_FAX_NUMBER,
-  FMP_CANADA_FAX_NUMBER,
-} from '../../../ivc-champva/shared/constants';
+const FMP_FAX_NUMBER = '3033317803';
+const FMP_CANADA_FAX_NUMBER = '6139910305';
+const APP_URL = getAppUrl('fmp-cover-sheet');
 
 const introText = (
   <p>
@@ -25,7 +19,7 @@ const introText = (
 
 const downloadLink = (
   <va-link
-    href="https://www.va.gov/find-forms/about-form-10-7959f-2/"
+    href="/find-forms/about-form-10-7959f-2/"
     text="Get VA Form 10-7959f-2 to download"
   />
 );
@@ -46,14 +40,30 @@ const mailOption = (
       address (for care in any country except for Canada):
     </p>
 
-    {FMP_ADDRESS}
+    <address className="va-address-block">
+      VHA Office of Integrated Veteran Care
+      <br role="presentation" />
+      Foreign Medical Program (FMP)
+      <br role="presentation" />
+      PO Box 200
+      <br role="presentation" />
+      Spring City, PA 19475
+    </address>
 
     <p>
       If you got care in Canada, mail your completed VA Form 10-7959f-2 and
       supporting documents to this address:
     </p>
 
-    {FMP_CANADA_ADDRESS}
+    <address className="va-address-block">
+      Foreign Countries Operations (FCO)
+      <br role="presentation" />
+      2323 Riverside Drive, 2nd Floor
+      <br role="presentation" />
+      Ottawa, Ontario
+      <br role="presentation" />
+      Canada, K1A 0P5
+    </address>
   </>
 );
 
@@ -83,9 +93,13 @@ const App = ({ formEnabled }) => {
 
         <h3>Option 1: Online</h3>
         <p>You can file a claim online now.</p>
-        <a className="vads-c-action-link--blue" href={manifest?.rootUrl}>
-          File an FMP claim online
-        </a>
+        <p>
+          <va-link-action
+            href={APP_URL}
+            text="File an FMP claim online"
+            type="secondary"
+          />
+        </p>
 
         <h3>Option 2: By email</h3>
         {introText}
