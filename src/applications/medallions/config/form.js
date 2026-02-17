@@ -33,6 +33,8 @@ import cemeteryContactInfo from '../pages/cemeteryContactInfo';
 import applicantMailingAddressEdit from '../pages/applicantMailingAddressEdit';
 import ApplicantMailingAddressLoggedIn from '../pages/applicantMailingAddressLoggedIn';
 import ApplicantSuggestedAddressLoggedIn from '../pages/applicantSuggestedAddressLoggedIn';
+import ApplicantSuggestedAddressNotLoggedIn from '../pages/applicantSuggestedAddressNotLoggedIn';
+import ApplicantSuggestedAddressNotLoggedIn2 from '../pages/applicantSuggestedAddressNotLoggedIn2';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 import typeOfRequest from '../pages/typeOfRequest';
@@ -208,7 +210,21 @@ const formConfig = {
               formData.relationToVetRadio,
             ) && !isUserSignedIn(formData),
         },
-        // Address Validation pt1 will go here
+        applicantSuggestedAddressNotLoggedIn: {
+          title: 'Select your mailing address',
+          path: 'applicant-suggested-address-not-logged-in',
+          depends: formData =>
+            ['familyMember', 'personalRep', 'other'].includes(
+              formData.relationToVetRadio,
+            ) && !isUserSignedIn(formData),
+          CustomPage: ApplicantSuggestedAddressNotLoggedIn,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
         applicantMailingAddressLoggedIn: {
           title: 'Your mailing address',
           path: 'applicant-mailing-address-logged-in',
@@ -253,7 +269,21 @@ const formConfig = {
               formData.relationToVetRadio,
             ),
         },
-        // Address Validation pt2 will go here
+        applicantSuggestedAddressNotLoggedIn2: {
+          title: "Select your organization's mailing address",
+          path: 'applicant-suggested-address-not-logged-in-2',
+          depends: formData =>
+            ['repOfVSO', 'repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ) && !isUserSignedIn(formData),
+          CustomPage: ApplicantSuggestedAddressNotLoggedIn2,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
       },
     },
     veteranInformation: {
