@@ -31,7 +31,7 @@ const RecordListSection = ({
           id="initial-fhir-load-spinner"
           class="hydrated initial-fhir-load"
           message="We're loading your records for the first time. This can take up to 2 minutes."
-          setFocus
+          set-focus
           data-testid="initial-fhir-loading-indicator"
         />
       </div>
@@ -45,7 +45,7 @@ const RecordListSection = ({
       <TrackedSpinner
         id={`${recordTypeKeyNames[recordType]}-list-spinner`}
         message="We’re loading your records. This could take up to a minute."
-        setFocus
+        set-focus
         data-testid="loading-indicator"
       />
     </div>

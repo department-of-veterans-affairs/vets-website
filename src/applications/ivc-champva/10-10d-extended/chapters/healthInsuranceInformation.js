@@ -15,12 +15,12 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { validFieldCharsOnly } from '../../shared/validations';
+import { replaceStrValues } from '../utils/helpers';
 import {
-  replaceStrValues,
   validateHealthInsurancePlan,
   validateOHIDates,
-} from '../helpers';
-import { healthInsurancePageTitleUI } from '../helpers/titles';
+} from '../utils/validations';
+import { healthInsurancePageTitleUI } from '../utils/titles';
 import { attachmentUI, singleAttachmentSchema } from '../definitions';
 import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
 import HealthInsuranceSummaryCard from '../components/FormDescriptions/HealthInsuranceSummaryCard';
@@ -181,9 +181,7 @@ const providerInformation = {
 
 const employer = {
   uiSchema: {
-    ...healthInsurancePageTitleUI('Type of insurance for', null, {
-      position: 'suffix',
-    }),
+    ...healthInsurancePageTitleUI('Type of insurance for %s'),
     throughEmployer: yesNoUI({
       title: 'Is this insurance through the applicant(s) employer?',
     }),
@@ -199,7 +197,7 @@ const employer = {
 
 const prescriptionCoverage = {
   uiSchema: {
-    ...healthInsurancePageTitleUI('prescription coverage'),
+    ...healthInsurancePageTitleUI('%s prescription coverage'),
     eob: yesNoUI({
       title: 'Does the applicant(s) health insurance cover prescriptions?',
       hint:
