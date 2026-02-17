@@ -24,6 +24,8 @@ const HTMLStatementPage = ({ match }) => {
   const combinedPortalData = useSelector(state => state.combinedPortal);
   const statements = combinedPortalData.mcp.statements ?? [];
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
+
+  // TODO: Refactor selectedCopay to selectedStatement and update all references in the codebase
   const [selectedCopay] = statements.filter(({ id }) => id === selectedId);
 
   // using statementDateOutput since it has delimiters ('/') unlike pSStatementDate

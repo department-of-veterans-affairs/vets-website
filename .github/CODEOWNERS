@@ -158,6 +158,7 @@ src/applications/hca @department-of-veterans-affairs/health-apps-frontend @depar
 src/applications/ezr @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/hca-performance-warning @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/ezr-submission-options @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/ivc-champva @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/ivc-champva @department-of-veterans-affairs/health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Healthcare Experience
@@ -222,7 +223,7 @@ src/applications/health-care-supply-reordering @department-of-veterans-affairs/v
 src/applications/avs @department-of-veterans-affairs/after-visit-summary @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/mhv-signin-cta @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/mhv @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
-.github/instructions/mhv-secure-messaging.instructions.md @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
+.github/instructions/mhv-secure-messaging.*.instructions.md @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 .github/instructions/mhv-medical-records.instructions.md @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Profile

@@ -149,6 +149,8 @@ import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import getPreSubmitInfo from '../content/preSubmitInfo';
 import ConfirmationAncillaryFormsWizard from '../components/confirmationFields/ConfirmationAncillaryFormsWizard';
+import { EvidenceRequestPage } from '../components/EvidenceRequestPage';
+import { MedicalRecordsPage } from '../components/MedicalRecordsPage';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -627,6 +629,8 @@ const formConfig = {
           path: 'supporting-evidence/evidence-request',
           depends: formData =>
             !isBDD(formData) && isEvidenceEnhancement(formData),
+          CustomPage: EvidenceRequestPage,
+          CustomPageReview: null,
           uiSchema: evidenceRequest.uiSchema,
           schema: evidenceRequest.schema,
         },
@@ -638,6 +642,8 @@ const formConfig = {
             isEvidenceEnhancement(formData) &&
             hasMedicalRecords(formData),
           updateFormData: medicalRecords.updateFormData,
+          CustomPage: MedicalRecordsPage,
+          CustomPageReview: null,
           uiSchema: medicalRecords.uiSchema,
           schema: medicalRecords.schema,
         },

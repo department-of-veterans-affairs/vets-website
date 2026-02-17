@@ -3,8 +3,10 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
+import transform from './transform';
+import submitForm from './submitForm';
 import { organizationRepresentativesArrayOptions } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -27,6 +29,7 @@ import {
   thirdPartyPersonName,
   thirdPartyPersonAddress,
   discloseInformation,
+  lengthOfRelease,
   securitySetup,
   securitySetupPinPassword,
   securitySetupCustomQuestion,
@@ -43,9 +46,8 @@ const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
   trackingPrefix: 'edu-10278-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -85,7 +87,7 @@ const formConfig = {
     finishAppLaterMessage: 'Finish this form later',
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
     reviewPageTitle: 'Review',
-    submitButtonText: 'Continue',
+    submitButtonText: 'Submit',
   },
   defaultDefinitions: {
     fullName,
@@ -94,6 +96,7 @@ const formConfig = {
     dateRange,
     usaPhone,
   },
+  transformForSubmit: transform,
   chapters: {
     personalInformationChapter: {
       title: 'Your personal information',
@@ -236,6 +239,17 @@ const formConfig = {
             }
             goPath('/third-party-person-details-1');
           },
+        },
+      },
+    },
+    lengthOfReleaseChapter: {
+      title: 'Length of release',
+      pages: {
+        lengthOfRelease: {
+          path: 'length-of-release',
+          title: 'Length of release',
+          uiSchema: lengthOfRelease.uiSchema,
+          schema: lengthOfRelease.schema,
         },
       },
     },
