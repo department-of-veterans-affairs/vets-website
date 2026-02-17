@@ -25,7 +25,7 @@ import {
   selectOracleHealthCutoverFlag,
 } from '../../util/selectors';
 
-const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
+const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
   const { dispStatus, refillRemaining } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const cernerFacilityIds = useSelector(selectCernerFacilityIds);
@@ -70,7 +70,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
           >
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
               isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
@@ -116,7 +116,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
               </p>
               <SendRxRenewalMessage
                 rx={rx}
-                showFallBackContent={showRenewalLink}
+                suppressRenewalLink={renewalLinkShownAbove}
                 isOracleHealth={isOracleHealth}
               />
             </div>
@@ -130,7 +130,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
           <div>
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
               isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
@@ -148,8 +148,8 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="expired">
-              You can’t refill this prescripition. Contact your VA provider if
-              you need more of this medicaton.
+              You can’t refill this prescription. Contact your VA provider if
+              you need more of this medication.
             </p>
           </div>
         );
@@ -219,7 +219,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
           >
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
               isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
@@ -258,7 +258,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
           >
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
               isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
@@ -292,7 +292,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
           <div>
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
               isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
@@ -374,7 +374,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
               </p>
               <SendRxRenewalMessage
                 rx={rx}
-                showFallBackContent={showRenewalLink}
+                suppressRenewalLink={renewalLinkShownAbove}
                 isOracleHealth={isOracleHealth}
               />
             </div>
@@ -432,7 +432,7 @@ ExtraDetails.propTypes = {
   refillDate: PropTypes.string,
   refillRemaining: PropTypes.number,
   refillSubmitDate: PropTypes.string,
-  showRenewalLink: PropTypes.bool,
+  renewalLinkShownAbove: PropTypes.bool,
 };
 
 export default ExtraDetails;
