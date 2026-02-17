@@ -584,7 +584,7 @@ module.exports = async (env = {}) => {
     baseConfig.plugins.push(
       new StylelintPlugin({
         configFile: '.stylelintrc.json',
-        exclude: ['node_modules', 'build', 'coverage', '.cache'],
+        exclude: ['node_modules', 'build', 'coverage', '.cache', '.direnv'],
         fix: true,
       }),
     );
