@@ -1,4 +1,4 @@
-export const ACTION_TYPE_MAP = {
+export const DEBT_LETTER_CODE_TYPE = {
   '811': 'compromise offer',
   '821': 'dispute',
   '822': 'dispute',

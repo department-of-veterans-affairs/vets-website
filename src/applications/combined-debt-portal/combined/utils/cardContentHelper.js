@@ -5,7 +5,7 @@ import { PHONE_REGISTRY } from '../../debt-letters/const/phoneRegistry';
 import { endDate } from '../../debt-letters/utils/helpers';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { currency } from '../../debt-letters/utils/page';
-import { ACTION_TYPE_MAP } from '../../debt-letters/const/actionTypeMap';
+import { DEBT_LETTER_CODE_TYPE } from '../../debt-letters/const/debtLetterCodeType';
 
 /**
  * Transforms debt data to a standardized formats
@@ -103,7 +103,7 @@ export const getDetailsAlertContent = data => {
   const phoneSetId = config?.phoneSet;
   const phoneSet = phoneSetId ? PHONE_REGISTRY[phoneSetId] : null;
 
-  const actionType = ACTION_TYPE_MAP[diaryCode];
+  const codeType = DEBT_LETTER_CODE_TYPE[diaryCode];
 
   const headerKey = `diaryCodes.statusTypes.${statusType}.details.header`;
   const headerValues = { endDateText };
@@ -112,7 +112,7 @@ export const getDetailsAlertContent = data => {
   const bodyValues = {
     endDateText,
     amountDue: amount,
-    type: actionType,
+    type: codeType,
   };
 
   return {
