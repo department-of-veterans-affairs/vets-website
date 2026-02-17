@@ -38,12 +38,12 @@ export default class PageObject {
   }
 
   /**
-   * Assert the error alert is displayed or not
+   * Assert the wrapper error alert is displayed or not
    * @param {Object} props - Options
    * @param {boolean} props.exist - Whether the alert should exist
    * @returns {PageObject}
    */
-  assertErrorAlert({ exist = true } = {}) {
+  assertWrapperErrorAlert({ exist = true } = {}) {
     this.assertElement('error-alert', { exist });
     return this;
   }

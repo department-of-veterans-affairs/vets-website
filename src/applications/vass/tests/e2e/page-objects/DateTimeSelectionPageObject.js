@@ -1,4 +1,4 @@
-import PageObject from './Page-Object';
+import PageObject from './PageObject';
 
 export class DateTimeSelectionPageObject extends PageObject {
   /**
@@ -13,7 +13,7 @@ export class DateTimeSelectionPageObject extends PageObject {
     });
 
     // Assert no error states on initial load
-    this.assertErrorAlert({ exist: false });
+    this.assertWrapperErrorAlert({ exist: false });
 
     this.assertElement('date-time-selection', { exist: true });
     this.assertElement('content', { exist: true });

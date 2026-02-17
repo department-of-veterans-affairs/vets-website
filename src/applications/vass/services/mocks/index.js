@@ -2,7 +2,6 @@
 const delay = require('mocker-api/lib/delay');
 const { generateSlots, createMockJwt } = require('../../utils/mock-helpers');
 const { decodeJwt } = require('../../utils/jwt-utils');
-const { createAppointmentData } = require('../../utils/appointments');
 const {
   createOTPInvalidError,
   createOTPAccountLockedError,
@@ -73,13 +72,30 @@ const lowAuthVerificationTimeout = 15 * 60 * 1000; // 15 minutes
 const otpUseCounts = new Map(); // uuid -> count
 const maxOtpUseCount = 5;
 
-const mockAppointments = [
-  createAppointmentData({ appointmentId: 'abcdef123456' }),
-  createAppointmentData({ appointmentId: 'existing-appointment-id' }),
-];
-
 // Track active tokens for revocation
 const activeTokens = new Map(); // jti -> uuid
+
+/**
+ * Extracts the token, uuid, and token payload from the request headers.
+ * Returns null if the token or uuid is not found. Also sends a 401 error
+ * response if the token or uuid is not found and exits the function.
+ *
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ * @returns {Object} The token, uuid, and token payload
+ * @returns {null} If the token or uuid is not found
+ */
+const extractAuthFromRequest = (req, res) => {
+  const { headers } = req;
+  const [, token] = headers.authorization?.split(' ') || [];
+  const tokenPayload = decodeJwt(token);
+  const uuid = tokenPayload?.payload?.sub;
+  if (!token || !uuid) {
+    res.status(401).json(createUnauthorizedError());
+    return null;
+  }
+  return { token, uuid, tokenPayload };
+};
 
 const responses = {
   'POST /vass/v0/request-otp': (req, res) => {
@@ -183,13 +199,9 @@ const responses = {
     return res.json(createRevokeTokenResponse());
   },
   'POST /vass/v0/appointment': (req, res) => {
-    const { headers } = req;
-    const [, token] = headers.authorization?.split(' ') || [];
-    const tokenPayload = decodeJwt(token);
-
-    const uuid = tokenPayload?.payload?.sub;
-    if (!token || !uuid) {
-      return res.status(401).json(createUnauthorizedError());
+    const auth = extractAuthFromRequest(req, res);
+    if (!auth) {
+      return undefined;
     }
 
     return res.json(
@@ -197,48 +209,13 @@ const responses = {
     );
   },
   'GET /vass/v0/appointment/:appointmentId': (req, res) => {
-    const { headers } = req;
-    const [, token] = headers.authorization?.split(' ') || [];
-    const tokenPayload = decodeJwt(token);
-
-    const uuid = tokenPayload?.payload?.sub;
-    if (!token || !uuid) {
-      return res.status(401).json(createUnauthorizedError());
+    const auth = extractAuthFromRequest(req, res);
+    if (!auth) {
+      return undefined;
     }
 
     const { appointmentId } = req.params;
-    const mockAppointment = mockAppointments.find(
-      appointment => appointment.appointmentId === appointmentId,
-    );
 
-    if (mockAppointment) {
-      const {
-        startUTC,
-        endUTC,
-        agentId,
-        agentNickname,
-        appointmentStatusCode,
-        appointmentStatus,
-        cohortStartUtc,
-        cohortEndUtc,
-      } = mockAppointment;
-
-      return res.json(
-        createAppointmentDetailsResponse({
-          appointmentId: mockAppointment.appointmentId,
-          startUTC,
-          endUTC,
-          agentId,
-          agentNickname,
-          appointmentStatusCode,
-          appointmentStatus,
-          cohortStartUtc,
-          cohortEndUtc,
-        }),
-      );
-    }
-
-    // Return default response if appointment not found in mock data
     return res.json(
       createAppointmentDetailsResponse({
         appointmentId,
@@ -246,26 +223,20 @@ const responses = {
     );
   },
   'GET /vass/v0/topics': (req, res) => {
-    const { headers } = req;
-    const [, token] = headers.authorization?.split(' ') || [];
-    const tokenPayload = decodeJwt(token);
-
-    const uuid = tokenPayload?.payload?.sub;
-    if (!token || !uuid) {
-      return res.status(401).json(createUnauthorizedError());
+    const auth = extractAuthFromRequest(req, res);
+    if (!auth) {
+      return undefined;
     }
 
     return res.json(createTopicsResponseWithDefaultTopics());
   },
   'GET /vass/v0/appointment-availability': (req, res) => {
-    const { headers } = req;
-    const [, token] = headers.authorization?.split(' ') || [];
-    const tokenPayload = decodeJwt(token);
-
-    const uuid = tokenPayload?.payload?.sub;
-    if (!token || !uuid) {
-      return res.status(401).json(createUnauthorizedError());
+    const auth = extractAuthFromRequest(req, res);
+    if (!auth) {
+      return undefined;
     }
+
+    const { uuid } = auth;
 
     if (uuid === 'not-within-cohort') {
       return res.status(401).json(createNotWithinCohortError());
@@ -287,14 +258,11 @@ const responses = {
     );
   },
   'POST /vass/v0/appointment/:appointmentId/cancel': (req, res) => {
-    const { headers } = req;
-    const [, token] = headers.authorization?.split(' ') || [];
-    const tokenPayload = decodeJwt(token);
-
-    const uuid = tokenPayload?.payload?.sub;
-    if (!token || !uuid) {
-      return res.status(401).json(createUnauthorizedError());
+    const auth = extractAuthFromRequest(req, res);
+    if (!auth) {
+      return undefined;
     }
+
     const { appointmentId } = req.params;
     return res.json(createCancelAppointmentResponse({ appointmentId }));
   },

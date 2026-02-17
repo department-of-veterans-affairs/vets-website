@@ -1,4 +1,4 @@
-import PageObject from './Page-Object';
+import PageObject from './PageObject';
 
 export class EnterOTPPageObject extends PageObject {
   /**
@@ -17,7 +17,7 @@ export class EnterOTPPageObject extends PageObject {
     });
 
     // Assert no error states on initial load
-    this.assertErrorAlert({ exist: false });
+    this.assertWrapperErrorAlert({ exist: false });
 
     this.assertElement('otp-input', { exist: true });
     this.assertElement('continue-button', { exist: true });

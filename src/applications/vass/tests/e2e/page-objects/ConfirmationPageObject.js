@@ -1,4 +1,4 @@
-import PageObject from './Page-Object';
+import PageObject from './PageObject';
 import { VASS_PHONE_NUMBER } from '../../../utils/constants';
 
 export class ConfirmationPageObject extends PageObject {
@@ -18,7 +18,7 @@ export class ConfirmationPageObject extends PageObject {
     });
 
     // Assert no error states on initial load
-    this.assertErrorAlert({ exist: false });
+    this.assertWrapperErrorAlert({ exist: false });
 
     // Confirmation page structure
     this.assertElement('confirmation-page');

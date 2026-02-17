@@ -1,4 +1,4 @@
-import PageObject from './Page-Object';
+import PageObject from './PageObject';
 
 export class TopicSelectionPageObject extends PageObject {
   /**
@@ -14,14 +14,14 @@ export class TopicSelectionPageObject extends PageObject {
     });
 
     // Assert no error states on initial load
-    this.assertErrorAlert({ exist: false });
+    this.assertWrapperErrorAlert({ exist: false });
 
     this.assertElement('button-pair', { exist: true });
 
     this.assertCheckboxGroupLabel();
     this.assertButtonPair();
     this.assertTopicCount(numberOfTopics);
-    this.assertErrorAlert({ exist: false });
+    this.assertWrapperErrorAlert({ exist: false });
 
     // Assert need help footer
     this.assertNeedHelpFooter();

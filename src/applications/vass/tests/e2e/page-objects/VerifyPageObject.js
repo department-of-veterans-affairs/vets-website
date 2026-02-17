@@ -1,4 +1,4 @@
-import PageObject from './Page-Object';
+import PageObject from './PageObject';
 
 export class VerifyPageObject extends PageObject {
   /**

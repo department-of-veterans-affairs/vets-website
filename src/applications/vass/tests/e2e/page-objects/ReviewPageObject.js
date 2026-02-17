@@ -1,4 +1,4 @@
-import PageObject from './Page-Object';
+import PageObject from './PageObject';
 
 export class ReviewPageObject extends PageObject {
   /**
@@ -13,7 +13,7 @@ export class ReviewPageObject extends PageObject {
     });
 
     // Assert no error states on initial load
-    this.assertErrorAlert({ exist: false });
+    this.assertWrapperErrorAlert({ exist: false });
 
     this.assertElement('review-page', { exist: true });
     this.assertConfirmButton();

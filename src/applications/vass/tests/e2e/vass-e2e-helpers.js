@@ -43,34 +43,6 @@ export function patchCookiesForCI() {
 }
 
 /**
- * Function to add custom Cypress commands.
- *
- * @export
- */
-export function vassSetup() {
-  Cypress.Commands.add('axeCheckBestPractice', (context = 'main') => {
-    cy.axeCheck(context, {
-      runOnly: {
-        type: 'tag',
-        values: [
-          'section508',
-          'wcag2a',
-          'wcag2aa',
-          'wcag21a',
-          'wcag21aa',
-          'best-practice',
-        ],
-      },
-      rules: {
-        'aria-allowed-role': {
-          enabled: false,
-        },
-      },
-    });
-  });
-}
-
-/**
  * Function to mock the 'POST' request-otp endpoint.
  *
  * @example POST '/vass/v0/request-otp'
