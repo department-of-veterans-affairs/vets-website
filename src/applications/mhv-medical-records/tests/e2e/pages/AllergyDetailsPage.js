@@ -20,6 +20,10 @@ class AllergyDetailsPage extends BaseDetailsPage {
       allergyDetails,
     ).as('allergyDetails');
     cy.contains(allergyTitle, { includeShadowDom: false }).click();
+    // Wait for detail page to load - check for print menu as indicator
+    cy.get('[data-testid="print-download-menu"]', { timeout: 10000 }).should(
+      'be.visible',
+    );
   };
 
   verifyAllergyDetailReaction = reaction => {
