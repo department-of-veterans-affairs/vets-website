@@ -8,7 +8,7 @@ import { selectSecureMessagingMedicationsRenewalRequestFlag } from '../../util/s
 const SendRxRenewalMessage = ({
   rx,
   fallbackContent = null,
-  showFallBackContent = false,
+  suppressRenewalLink = false,
   isActionLink = false,
   isOracleHealth = false,
 }) => {
@@ -35,7 +35,7 @@ const SendRxRenewalMessage = ({
   if (
     !canSendRenewalRequest ||
     !showSecureMessagingRenewalRequest ||
-    showFallBackContent
+    suppressRenewalLink
   ) {
     return fallbackContent || null;
   }
@@ -87,7 +87,7 @@ SendRxRenewalMessage.propTypes = {
     prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     isRenewable: PropTypes.bool,
   }),
-  showFallBackContent: PropTypes.bool,
+  suppressRenewalLink: PropTypes.bool,
 };
 
 const RenderLinkVariation = ({
