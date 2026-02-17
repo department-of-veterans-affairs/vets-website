@@ -11,6 +11,13 @@ import { serviceStatuses, entitlementRestorationOptions } from '../constants';
 import { FILE_TYPES } from '../../status/constants';
 import { UploadDocumentsReview } from '../components/UploadDocumentsReview';
 
+const hasOneTimeRestoration = formData =>
+  formData?.relevantPriorLoans?.some(
+    loan =>
+      loan?.entitlementRestoration ===
+      entitlementRestorationOptions.ONE_TIME_RESTORATION,
+  );
+
 export const DocumentTypeSelect = () => {
   const formData = useSelector(state => state?.form?.data);
   const requiredDocumentTypes = [];
@@ -39,11 +46,8 @@ export const DocumentTypeSelect = () => {
     );
   }
 
-  const hasOneTimeRestoration = formData?.relevantPriorLoans?.some(
-    loan => loan?.entitlementRestoration === entitlementRestorationOptions.ONE_TIME_RESTORATION,
-  );
-
-  hasOneTimeRestoration && requiredDocumentTypes.push('Loan evidence');
+  hasOneTimeRestoration(formData) &&
+    requiredDocumentTypes.push('Loan evidence');
 
   return (
     <VaSelect required label="Document type" name="attachmentType">
@@ -56,23 +60,50 @@ export const DocumentTypeSelect = () => {
   );
 };
 
-const statementOfServiceInfo = (
-  <va-accordion data-testid="statement-of-service-accordion">
-    <va-accordion-item>
-      <h3 slot="headline">Statement of service</h3>
-      <p>
-        The statement of service can be signed by, or by direction of, the
-        adjutant, personnel officer, or commander of your unit or higher
-        headquarters. The statement may be in any format; usually a standard or
-        bulleted memo is sufficient. It should identify you by name and social
-        security number and provide: (1) your date of entry on your current
-        active-duty period and (2) the duration of any time lost (or a statement
-        noting there has been no time lost). Generally, this should be on
-        military letterhead.
-      </p>
-    </va-accordion-item>
-  </va-accordion>
-);
+const getAccordions = (formData, hasOneTimeRestoration) => {
+  const showStatementOfService = [
+    serviceStatuses.VETERAN,
+    serviceStatuses.ADSM,
+    serviceStatuses.NADNA,
+  ].includes(formData?.identity);
+
+  if (!showStatementOfService && !hasOneTimeRestoration) {
+    return null;
+  }
+
+  return (
+    <va-accordion data-testid="document-upload-accordion">
+      {showStatementOfService && (
+        <va-accordion-item open>
+          <h3 slot="headline">Statement of service</h3>
+          <p>
+            The statement of service can be signed by, or by direction of, the
+            adjutant, personnel officer, or commander of your unit or higher
+            headquarters. The statement may be in any format; usually a standard
+            or bulleted memo is sufficient. It should identify you by name and
+            social security number and provide: (1) your date of entry on your
+            current active-duty period and (2) the duration of any time lost (or
+            a statement noting there has been no time lost). Generally, this
+            should be on military letterhead.
+          </p>
+        </va-accordion-item>
+      )}
+      {hasOneTimeRestoration && (
+        <va-accordion-item open>
+          <h3 slot="headline">Type of evidence of a VA loan paid in full</h3>
+          <p>
+            Evidence can be in the form of a paid-in-full statement from the
+            former lender, a satisfaction of mortgage from the clerk of court in
+            the county where the home is located, or a copy of the HUD-1 or
+            Closing Disclosure settlement statement completed in connection with
+            a sale of the home or refinance of the prior loan. Many counties
+            post public documents like the satisfaction of mortgage online.
+          </p>
+        </va-accordion-item>
+      )}
+    </va-accordion>
+  );
+};
 
 const requiredDocumentMessages = {
   [serviceStatuses.VETERAN]: (
@@ -94,12 +125,11 @@ const requiredDocumentMessages = {
       ) : (
         <p>You’ll need to upload a Statement of Service.</p>
       )}
-      {statementOfServiceInfo}
     </>
   ),
   [serviceStatuses.NADNA]: (
     <>
-      <p>You’ll need to upload these documents:</p>
+      <p>You'll need to upload these documents:</p>
       <ul>
         <li>Statement of Service</li>
         <li>
@@ -107,12 +137,11 @@ const requiredDocumentMessages = {
           Points Statement or equivalent
         </li>
       </ul>
-      {statementOfServiceInfo}
     </>
   ),
   [serviceStatuses.DNANA]: (
     <>
-      <p>You’ll need to upload these documents:</p>
+      <p>You'll need to upload these documents:</p>
       <ul>
         <li>
           Separation and Report of Service (NGB Form 22) for each period of
@@ -128,7 +157,7 @@ const requiredDocumentMessages = {
   ),
   [serviceStatuses.DRNA]: (
     <>
-      <p>You’ll need to upload these documents:</p>
+      <p>You'll need to upload these documents:</p>
       <ul>
         <li>Retirement Point Accounting</li>
         <li>
@@ -142,7 +171,12 @@ const requiredDocumentMessages = {
 
 export const getUiSchema = () => ({
   ...titleUI('Upload your documents', ({ formData }) => {
-    const message = requiredDocumentMessages[formData.identity];
+    const message = (
+      <>
+      {requiredDocumentMessages[formData.identity]}
+      {getAccordions(formData, hasOneTimeRestoration(formData))}
+    </>
+    );
     return typeof message === 'function' ? message(formData) : message || null;
   }),
   files2: fileInputMultipleUI({
