@@ -276,9 +276,7 @@ describe('formConfig', () => {
             });
 
             it('should display the page', () => {
-              expect(
-                claimStatusToolPageNonVeteran.depends(formData),
-              ).to.be.true;
+              expect(claimStatusToolPageNonVeteran.depends(formData)).to.be.true;
             });
           });
         });
