@@ -128,6 +128,7 @@ export default function ClaimFormSideNav({
         icon-name="description"
         id="default-sidenav"
         mobileHeader="Select a step"
+        navAriaLabel="Form navigation menu"
         ref={sidenavRef}
       >
         {landingPages.map((page, index) => {
