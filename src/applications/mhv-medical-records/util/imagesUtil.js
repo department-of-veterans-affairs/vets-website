@@ -34,6 +34,59 @@ export const convertScdfImagingStudy = record => {
   };
 };
 
+/**
+ * Maximum allowed difference (in milliseconds) between a lab record's date
+ * and an imaging study's date for them to be considered the same study.
+ */
+const IMAGING_MATCH_TOLERANCE_MS = 10 * 60 * 1000; // 10 minutes
+
+/**
+ * Merge SCDF imaging study metadata into a labs-and-tests list by matching
+ * records whose dates fall within a tolerance window.
+ *
+ * For each imaging study, find the first unmatched lab record whose sortDate
+ * is within IMAGING_MATCH_TOLERANCE_MS of the imaging study's rawDate.
+ * When matched, copy `imagingStudyId` and `imagingStudyStatus` onto the
+ * lab record.
+ *
+ * @param {Array} labsList  - Converted labs-and-tests records (each has `sortDate`)
+ * @param {Array} imagingStudies - Converted SCDF imaging studies (each has `rawDate`)
+ * @returns {Array} A new array of lab records with imaging fields merged where matched
+ */
+export const mergeImagingStudiesIntoLabs = (
+  labsList = [],
+  imagingStudies = [],
+) => {
+  if (!imagingStudies.length) return labsList;
+
+  // Track which imaging studies have already been matched so each is used at most once
+  const matchedImagingIds = new Set();
+
+  return labsList.map(lab => {
+    if (!lab.sortDate) return lab;
+    const labTime = new Date(lab.sortDate).getTime();
+    if (Number.isNaN(labTime)) return lab;
+
+    const match = imagingStudies.find(study => {
+      if (matchedImagingIds.has(study.id)) return false;
+      if (!study.rawDate) return false;
+      const studyTime = new Date(study.rawDate).getTime();
+      if (Number.isNaN(studyTime)) return false;
+      return Math.abs(labTime - studyTime) <= IMAGING_MATCH_TOLERANCE_MS;
+    });
+
+    if (match) {
+      matchedImagingIds.add(match.id);
+      return {
+        ...lab,
+        imagingStudyId: match.id,
+        imagingStudyStatus: match.status,
+      };
+    }
+    return lab;
+  });
+};
+
 export const buildRadiologyResults = record => {
   const reportText = record?.reportText || '\n';
   const impressionText = record?.impressionText || '\n';

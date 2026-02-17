@@ -25,6 +25,7 @@ import {
   convertMhvRadiologyRecord,
   convertCvixRadiologyRecord,
   convertScdfImagingStudy,
+  mergeImagingStudiesIntoLabs,
   mergeRadiologyLists,
   mergeRadiologyDetails,
 } from '../util/imagesUtil';
@@ -590,6 +591,17 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         scdfImagingStudies: data.map(convertScdfImagingStudy),
+      };
+    }
+    case Actions.LabsAndTests.MERGE_IMAGING_STUDIES: {
+      const { labsAndTestsList, scdfImagingStudies } = state;
+      if (!labsAndTestsList || !scdfImagingStudies) return state;
+      return {
+        ...state,
+        labsAndTestsList: mergeImagingStudiesIntoLabs(
+          labsAndTestsList,
+          scdfImagingStudies,
+        ),
       };
     }
     default:

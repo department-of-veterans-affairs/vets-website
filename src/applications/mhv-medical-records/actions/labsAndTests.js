@@ -129,6 +129,15 @@ export const getLabsAndTestsDetails = (
   }
 };
 
+/**
+ * Merge SCDF imaging study data into the current labs-and-tests list.
+ * Should be dispatched after both the labs list and the imaging studies
+ * list have been fetched.
+ */
+export const mergeImagingStudies = () => async dispatch => {
+  dispatch({ type: Actions.LabsAndTests.MERGE_IMAGING_STUDIES });
+};
+
 export const clearLabsAndTestDetails = () => async dispatch => {
   dispatch({ type: Actions.LabsAndTests.CLEAR_DETAIL });
 };
