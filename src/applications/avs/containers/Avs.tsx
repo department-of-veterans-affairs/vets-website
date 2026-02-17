@@ -42,7 +42,7 @@ const generateAppointmentHeader = (avs: AvsData): string => {
   return `Your appointment on ${appointmentDate}`;
 };
 
-const Avs: React.FC<AvsProps & StateToProps> = ({ id, isLoggedIn }) => {
+const Avs: React.FC<AvsProps & StateToProps> = ({ isLoggedIn }) => {
   useDatadogRum();
 
   const user = useSelector(selectUser) as Record<string, unknown>;
