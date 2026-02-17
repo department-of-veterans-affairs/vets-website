@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from 'platform/testing/unit/react-testing-library-helpers';
@@ -13,10 +14,12 @@ import {
 import Review from './Review';
 import { getDefaultRenderOptions, LocationDisplay } from '../utils/test-utils';
 import { URLS } from '../utils/constants';
+import * as authUtils from '../utils/auth';
 import {
   createAppointmentSaveFailedError,
   createServiceError,
 } from '../services/mocks/utils/errors';
+import { createAppointmentResponse } from '../services/mocks/utils/responses';
 
 const defaultFormState = {
   hydrated: true,
@@ -33,12 +36,9 @@ const defaultFormState = {
 
 const appointmentId = 'appt-123456';
 
-// TODO: Add mock appointment success response to fixtures
-const mockAppointmentSuccessResponse = {
-  data: {
-    appointmentId,
-  },
-};
+const mockAppointmentSuccessResponse = createAppointmentResponse({
+  appointmentId,
+});
 
 const defaultRenderOptions = getDefaultRenderOptions(defaultFormState);
 
@@ -46,11 +46,17 @@ const renderComponent = () =>
   renderWithStoreAndRouterV6(<Review />, defaultRenderOptions);
 
 describe('VASS Component: Review', () => {
+  let getVassTokenStub;
+
   beforeEach(() => {
+    getVassTokenStub = sinon
+      .stub(authUtils, 'getVassToken')
+      .returns('mock-token');
     mockFetch();
   });
 
   afterEach(() => {
+    getVassTokenStub.restore();
     resetFetch();
   });
 

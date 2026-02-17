@@ -1666,4 +1666,192 @@ describe('SelectCareTeam', () => {
       expect(optionLabels).to.not.include('Blocked Facility');
     });
   });
+
+  describe('Care team selection validation', () => {
+    it('should display error and focus input when continue is clicked without selecting a care team', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait for component to fully render
+      await waitFor(() => {
+        expect(screen.getByTestId('continue-button')).to.exist;
+      });
+
+      // Click continue without selecting a care team
+      const continueButton = screen.getByTestId('continue-button');
+      fireEvent.click(continueButton);
+
+      // Wait for error to be set
+      await waitFor(() => {
+        const combobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        expect(combobox).to.exist;
+        expect(combobox).to.have.attribute('error', 'Select a care team');
+      });
+    });
+
+    it('should set error message accessible to screen readers', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('continue-button')).to.exist;
+      });
+
+      // Click continue without selection
+      const continueButton = screen.getByTestId('continue-button');
+      fireEvent.click(continueButton);
+
+      // Verify error attribute is set for screen reader accessibility
+      await waitFor(() => {
+        const combobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        expect(combobox).to.exist;
+
+        // Verify error attribute exists (required for screen reader announcement)
+        const errorAttr = combobox.getAttribute('error');
+        expect(errorAttr).to.equal('Select a care team');
+
+        // The VaComboBox web component handles ARIA associations internally
+        // when the error prop is set, making the error accessible to screen readers
+      });
+    });
+
+    it('should clear error when a care team is selected', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('continue-button')).to.exist;
+      });
+
+      // First, trigger the error
+      const continueButton = screen.getByTestId('continue-button');
+      fireEvent.click(continueButton);
+
+      await waitFor(() => {
+        const combobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        expect(combobox).to.have.attribute('error', 'Select a care team');
+      });
+
+      // Now select a care team by dispatching the change event
+      const combobox = screen.container.querySelector(
+        '[data-testid="compose-recipient-combobox"]',
+      );
+
+      // Simulate selecting the first recipient
+      const firstRecipient = initialState.sm.recipients.allowedRecipients[0];
+      const changeEvent = new CustomEvent('vaSelect', {
+        detail: { value: firstRecipient.id.toString() },
+      });
+      combobox.dispatchEvent(changeEvent);
+
+      // Wait for error to clear
+      await waitFor(() => {
+        const updatedCombobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        const errorAttr = updatedCombobox.getAttribute('error');
+        expect(errorAttr).to.equal('');
+      });
+    });
+
+    it('should not navigate when validation fails', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      const { history } = screen;
+      const initialPath = history.location.pathname;
+
+      await waitFor(() => {
+        expect(screen.getByTestId('continue-button')).to.exist;
+      });
+
+      // Click continue without selecting a care team
+      const continueButton = screen.getByTestId('continue-button');
+      fireEvent.click(continueButton);
+
+      await waitFor(() => {
+        const combobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        expect(combobox).to.have.attribute('error', 'Select a care team');
+      });
+
+      // Verify navigation did not occur by checking path hasn't changed
+      expect(history.location.pathname).to.equal(initialPath);
+    });
+  });
 });

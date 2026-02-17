@@ -853,6 +853,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
         sampleTested: 'Blood',
         bodySite: 'Arm',
         testCode: '12345',
+        testCodeDisplay: '12345',
         comments: 'No issues',
         source: 'oracle-health',
         encodedData: 'VGhpcyBpcyBhIHRlc3Q=',
@@ -868,7 +869,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     expect(result.sampleTested).to.equal('Blood');
     expect(result.bodySite).to.equal('Arm');
     expect(result.testCode).to.equal('12345');
-    expect(result.type).to.equal('12345');
+    expect(result.type).to.equal('12345'); // type is raw testCode value
     expect(result.comments).to.equal('No issues');
     expect(result.source).to.equal('oracle-health');
     expect(result.result).to.equal('This is a test');
@@ -893,9 +894,11 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       sortDate: undefined,
       bodySite: undefined,
       testCode: undefined,
-      type: undefined,
+      testCodeDisplay: undefined,
+      type: undefined, // type is raw testCode value
       comments: undefined,
       source: undefined,
+      facilityTimezone: undefined,
       result: null,
       base: {
         ...record,
@@ -924,14 +927,134 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       sortDate: 'invalid-date',
       bodySite: undefined,
       testCode: undefined,
-      type: undefined,
+      testCodeDisplay: undefined,
+      type: undefined, // type is raw testCode value
       comments: undefined,
       source: undefined,
+      facilityTimezone: undefined,
       result: null,
       base: {
         ...record,
       },
     });
+  });
+
+  it('should display facility timezone when facilityTimezone is present', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T12:42:00-05:00',
+        display: 'Test Name',
+        facilityTimezone: 'America/New_York',
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is present, formatDateTimeInUserTimezone uses it
+    // to display the time in facility timezone with abbreviation
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
+    expect(result.facilityTimezone).to.equal('America/New_York');
+  });
+
+  it('should fall back to browser timezone when facilityTimezone is null', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T17:42:00+00:00',
+        display: 'Test Name',
+        facilityTimezone: null,
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is null, falls back to user's browser timezone
+    // with timezone abbreviation displayed
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
+    expect(result.facilityTimezone).to.be.null;
+  });
+
+  it('should fall back to browser timezone when facilityTimezone is undefined', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T17:42:00Z',
+        display: 'Test Name',
+        // facilityTimezone not present (undefined)
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is undefined, falls back to user's browser timezone
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
+    expect(result.facilityTimezone).to.be.undefined;
+  });
+
+  it('should use testCodeDisplay from API when available', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        testCode: 'CH',
+        testCodeDisplay: 'Chemistry and hematology',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+    expect(result.testCode).to.equal('CH');
+    expect(result.testCodeDisplay).to.equal('Chemistry and hematology');
+    expect(result.type).to.equal('CH'); // type is raw testCode value
+  });
+
+  it('should use testCodeDisplay from API for SP', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        testCode: 'SP',
+        testCodeDisplay: 'Surgical Pathology',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+    expect(result.testCode).to.equal('SP');
+    expect(result.testCodeDisplay).to.equal('Surgical Pathology');
+    expect(result.type).to.equal('SP'); // type is raw testCode value
+  });
+
+  it('should use testCodeDisplay from API for MI', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        testCode: 'MI',
+        testCodeDisplay: 'Microbiology',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+    expect(result.testCode).to.equal('MI');
+    expect(result.testCodeDisplay).to.equal('Microbiology');
+    expect(result.type).to.equal('MI'); // type is raw testCode value
+  });
+
+  it('should fall back to raw testCode when testCodeDisplay is not provided', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        testCode: 'UNKNOWN_CODE',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+    expect(result.testCode).to.equal('UNKNOWN_CODE'); // falls back to raw testCode
+    expect(result.testCodeDisplay).to.equal('UNKNOWN_CODE'); // falls back to raw testCode
+    expect(result.type).to.equal('UNKNOWN_CODE'); // type is raw testCode value
   });
 });
 
@@ -949,6 +1072,7 @@ describe('labsAndTestsReducer - unified labs and tests', () => {
           sampleTested: 'Blood',
           bodySite: 'Arm',
           testCode: '12345',
+          testCodeDisplay: '12345',
           comments: 'No issues',
           encodedData: 'VGhpcyBpcyBhIHRlc3Q=',
         },
@@ -973,7 +1097,8 @@ describe('labsAndTestsReducer - unified labs and tests', () => {
     expect(testRecord.sampleTested).to.equal('Blood');
     expect(testRecord.bodySite).to.equal('Arm');
     expect(testRecord.testCode).to.equal('12345');
-    expect(testRecord.type).to.equal('12345');
+    expect(testRecord.testCodeDisplay).to.equal('12345');
+    expect(testRecord.type).to.equal('12345'); // type is raw testCode value
     expect(testRecord.comments).to.equal('No issues');
     expect(testRecord.result).to.equal('This is a test');
   });

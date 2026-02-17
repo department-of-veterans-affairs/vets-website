@@ -19,14 +19,16 @@ import {
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import { toHash, getAgeInYears } from '../../shared/utilities';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
-import { medicarePageTitleUI } from '../helpers/titles';
+import { medicarePageTitleUI } from '../utils/titles';
 import {
   generateParticipantName,
   getEligibleApplicantsWithoutMedicare,
   replaceStrValues,
+} from '../utils/helpers';
+import {
   validateMedicarePartDDates,
   validateMedicarePlan,
-} from '../helpers';
+} from '../utils/validations';
 import {
   futureDateUI,
   futureDateSchema,
