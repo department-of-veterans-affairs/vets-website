@@ -348,6 +348,15 @@ module.exports = async (env = {}) => {
             loader: require.resolve('./rspack-brfs-loader.js'),
           },
         },
+        // Alias fs to pdfkit's virtual-fs only for pdfkit and fontkit modules
+        {
+          test: /[/\\](pdfkit|fontkit)[/\\]/,
+          resolve: {
+            alias: {
+              fs: 'pdfkit/js/virtual-fs.js',
+            },
+          },
+        },
       ],
       noParse: [/mapbox\/vendor\/promise.js$/],
     },
@@ -355,11 +364,11 @@ module.exports = async (env = {}) => {
       modules: [path.resolve(__dirname, '../src'), 'node_modules'],
       alias: {
         ...babelAliases,
-        fs: 'pdfkit/js/virtual-fs.js',
         'iconv-lite': false,
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts'],
       fallback: {
+        fs: false,
         querystring: require.resolve('querystring-es3'),
         assert: require.resolve('assert/'),
         buffer: require.resolve('buffer/'),
