@@ -4,7 +4,7 @@
 set -e
 yarn install --ignore-scripts --production=false
 yarn postinstall
-npm run build -- --buildtype=localhost --api="${API_URL}" --host="${WEB_HOST}" --port="${WEB_PORT}"
+yarn build:rspack --env buildtype=localhost --env api="${API_URL}" --env host="${WEB_HOST}" --env port="${WEB_PORT}"
 
 # Build content-build and serve site
 cd ../content-build
