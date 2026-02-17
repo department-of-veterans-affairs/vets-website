@@ -1,4 +1,3 @@
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { format } from 'date-fns';
 import * as Sentry from '@sentry/browser';
 import { datadogRum } from '@datadog/browser-rum';
@@ -72,12 +71,7 @@ export const updatePageTitle = newTitle => {
  * (or footer on mobile) to connect to the Crisis Line)
  */
 export const openCrisisModal = () => {
-  const modal = document.querySelector('#modal-crisisline');
-  modal.setAttribute(
-    'class',
-    `${modal.getAttribute('class')} va-overlay--open`,
-  );
-  focusElement(document.querySelector('a[href="tel:988"]'));
+  document.dispatchEvent(new CustomEvent('vaCrisisLineModalOpen'));
 };
 
 /**

@@ -1,5 +1,4 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { reportGeneratedBy } from './constants';
 
 /**
@@ -64,10 +63,5 @@ export const updatePageTitle = newTitle => {
  * (or footer on mobile) to connect to the crisis line)
  */
 export const openCrisisModal = () => {
-  const modal = document.querySelector('#modal-crisisline');
-  modal.setAttribute(
-    'class',
-    `${modal.getAttribute('class')} va-overlay--open`,
-  );
-  focusElement(document.querySelector('a[href="tel:988"]'));
+  document.dispatchEvent(new CustomEvent('vaCrisisLineModalOpen'));
 };

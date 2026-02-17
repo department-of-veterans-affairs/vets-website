@@ -91,7 +91,9 @@ describe('global footer', () => {
       footerAccordion()
         .scrollIntoView()
         .within(() => {
-          h.verifyElement('#footer-crisis-line');
+          const crisisLineModal = () =>
+            cy.get('va-crisis-line-modal[mode="trigger"]');
+          h.verifyElement(crisisLineModal);
 
           const footerSections = [
             { title: 'Contact us', column: 4 },

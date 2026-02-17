@@ -30,9 +30,15 @@ export default function DesktopLinks({ links, visible }) {
         <ul className="va-footer-links">
           <li>
             <button
-              onClick={() => recordEvent({ event: FOOTER_EVENTS.CRISIS_LINE })}
+              onClick={() => {
+                recordEvent({ event: FOOTER_EVENTS.CRISIS_LINE });
+                document.dispatchEvent(
+                  new CustomEvent('vaCrisisLineModalOpen'),
+                );
+              }}
               className="va-button-link va-overlay-trigger"
               data-show="#modal-crisisline"
+              id="footer-crisis-line"
             >
               Veterans Crisis Line
             </button>

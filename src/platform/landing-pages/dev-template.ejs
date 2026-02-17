@@ -128,15 +128,7 @@
               </div>
             </div>
           </div>
-          <div class="va-crisis-line-container">
-            <button onclick="recordEvent({ event: 'nav-crisis-header' })" data-show="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
-              <div class="va-crisis-line-inner">
-                <span class="va-crisis-line-icon" aria-hidden="true"></span>
-                <span class="va-crisis-line-text" onClick="recordEvent({ event: 'nav-jumplink-click' });">Talk to the <strong>Veterans Crisis Line</strong> now</span>
-                <img class="va-crisis-line-arrow" src="/img/arrow-right-white.svg" aria-hidden="true"/>
-              </div>
-            </button>
-          </div>
+          <va-crisis-line-modal></va-crisis-line-modal>
         </div>
         <!-- End USA website banner -->
 

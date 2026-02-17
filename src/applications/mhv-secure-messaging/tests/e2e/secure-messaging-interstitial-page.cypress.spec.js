@@ -33,7 +33,7 @@ describe('SM INTERSTITIAL PAGE', () => {
 
     cy.get(Locators.ALERTS.VA_CRISIS_LINE).click();
     PatientInterstitialPage.getCrisisLineModal()
-      .find(`h3`)
+      .find(`h2`)
       .should(`include.text`, `We’re here anytime, day or night – 24/7`);
     PatientInterstitialPage.getCrisisLineModalLink()
       .eq(0)

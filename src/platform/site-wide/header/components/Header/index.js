@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { VaCrisisLineModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import LogoRow from '../LogoRow';
 import Menu from '../../containers/Menu';
 import OfficialGovtWebsite from '../OfficialGovtWebsite';
-import VeteranCrisisLine from '../VeteranCrisisLine';
-import addFocusBehaviorToCrisisLineModal from '../../../accessible-VCL-modal';
-import { addOverlayTriggers } from '../../../legacy/menu';
 
 export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    addFocusBehaviorToCrisisLineModal();
-    addOverlayTriggers();
-  }, []);
-
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
       <OfficialGovtWebsite />
-      <VeteranCrisisLine id="header-crisis-line" />
+      <VaCrisisLineModal mode="trigger" />
       <nav className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
         <LogoRow
           isMenuOpen={isMenuOpen}
