@@ -193,6 +193,7 @@ export const arrayOptions = {
     },
   },
   enforceYesNoOnSummary: true,
+  canDeleteItem: ({ itemData, isReview }) => !isReview && !itemData?.isLocked,
 };
 
 export const hasSideOfBody = (formData, index) => {
