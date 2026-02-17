@@ -16,6 +16,7 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationPageCopy from '../containers/ConfirmationPageRemoveAfterTesting';
 
 // pages
 import goals from '../pages/goals';
@@ -47,7 +48,11 @@ export const formConfig = {
   submit: submitHandler,
   trackingPrefix: 'discover-your-benefits-',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  // Need to insert a feature flag here
+  confirmation:
+    !environment.isProduction() || environment.isTest()
+      ? ConfirmationPage
+      : ConfirmationPageCopy,
   v3SegmentedProgressBar: true,
   stepLabels: 'Goals;Service;Separation;Discharge;Disability;Review',
   formId: 'T-QSTNR',
