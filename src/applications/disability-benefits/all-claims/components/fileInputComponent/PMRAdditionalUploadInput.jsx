@@ -8,14 +8,21 @@ import {
 export const additionalInput = ({
   attachmentTypes = PMR_ATTACHMENTS_TYPES,
   label = ADDITIONAL_ATTACHMENT_LABEL,
-} = {}) => (
-  <>
-    <VaSelect required name="docType" label={label}>
+} = {}) => (error, data) => {
+  const { whatTypeOfDocumentIsThis } = data || {};
+  return (
+    <VaSelect
+      required
+      error={error}
+      value={whatTypeOfDocumentIsThis}
+      name="docType"
+      label={label}
+    >
       {attachmentTypes.map(attachmentType => (
         <option key={attachmentType.value} value={attachmentType.value}>
           {attachmentType.label}
         </option>
       ))}
     </VaSelect>
-  </>
-);
+  );
+};

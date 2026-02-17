@@ -31,7 +31,6 @@ export const uiSchema = {
       skipUpload: false,
       fileUploadUrl: UPLOAD_URL,
       formNumber: '21-526EZ',
-      // will work once 'main' has been merged in with latest changes for fileSizesByFileType
       fileSizesByFileType: {
         pdf: {
           maxFileSize: 1024 * 1024 * 100,
@@ -50,7 +49,7 @@ export const uiSchema = {
       createPayload,
       parseResponse,
       additionalInputRequired: true,
-      additionalInput,
+      additionalInput: additionalInput(),
       handleAdditionalInput,
       additionalInputUpdate,
     }),
