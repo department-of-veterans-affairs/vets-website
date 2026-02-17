@@ -67,14 +67,12 @@ const fetchIntentToFile = async (
       // handle no representation or cannot find ICN
     ) {
       goPath(`${urlPrefix}intent-to-file-no-representation`);
-      // goNextPath();
       // returns error if there is no ITF, 404 is the happy path
     } else if (status === '404') {
       goNextPath();
       // generic error catchall - unknown if itf exists
     } else {
       goPath(`${urlPrefix}intent-to-file-unknown`);
-      // goNextPath();
     }
     return null;
   }

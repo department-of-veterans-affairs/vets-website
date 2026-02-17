@@ -157,9 +157,6 @@ const form210966 = (pathname = null) => {
             },
             schema: itfClaimantInformationPage.schema,
             scrollAndFocusTarget,
-            // we want req'd fields prefilled for LOCAL testing/previewing
-            // one single initialData prop here will suffice for entire form
-            initialData: getITFMockData(true),
           },
         },
       },

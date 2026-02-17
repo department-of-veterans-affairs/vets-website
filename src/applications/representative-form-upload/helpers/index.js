@@ -109,11 +109,13 @@ export const getMockData = (dependent = false) => {
   return dependent ? mockData : claimantMockData;
 };
 
-export const getITFMockData = (dependent = false) => {
+// TODO: Consolidate into single getMockData when all ARP
+// forms share new subpage/fieldset structure
+export const getITFMockData = () => {
   if (!environment.isLocalhost() || window.Cypress) {
     return undefined;
   }
-  return dependent ? mockITFData : claimantMockData;
+  return mockITFData;
 };
 
 export const formattedPhoneNumber = phoneNumber => {
