@@ -42,6 +42,7 @@ import {
 } from '../../../redux/selectors';
 import {
   DATE_VALIDATION_TYPE,
+  VALIDATION_ERROR_MESSAGES,
   validateRequestedAmount,
   validateReceiptDate,
   validateDescription,
@@ -295,6 +296,17 @@ const ExpensePage = () => {
 
     // Skip validation for partial dates, but still save them to formState
     if (isDateField && !isCompleteDate && value !== '') {
+      // If there's an existing error, replace it with incomplete date error
+      // This provides immediate feedback when user breaks a valid date
+      setExtraFieldErrors(prevErrors => {
+        const nextErrors = { ...prevErrors };
+        if (prevErrors[name]) {
+          nextErrors[name] = VALIDATION_ERROR_MESSAGES.INCOMPLETE_DATE;
+        } else {
+          delete nextErrors[name];
+        }
+        return nextErrors;
+      });
       return;
     }
 

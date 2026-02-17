@@ -18,6 +18,14 @@ export const DATE_VALIDATION_TYPE = Object.freeze({
 });
 
 /**
+ * Common validation error messages used across expense forms.
+ * Centralized to ensure consistency and ease of maintenance.
+ */
+export const VALIDATION_ERROR_MESSAGES = Object.freeze({
+  INCOMPLETE_DATE: 'Please provide a complete date',
+});
+
+/**
  * Helper to determine which fields to validate.
  *
  * If fieldName is provided, only that field is validated.
@@ -212,9 +220,13 @@ export const validateReceiptDate = (dateInput, type) => {
   const parts = [month, day, year];
   const isAllEmpty = parts.every(p => !p);
   const isComplete = parts.every(p => Number.isInteger(p));
+  const hasAnyValue = parts.some(p => p);
 
   if (type === DATE_VALIDATION_TYPE.SUBMIT && isAllEmpty) {
     error = 'Enter the date on your receipt';
+  } else if (hasAnyValue && !isComplete) {
+    // Incomplete date: some fields filled but not all
+    error = VALIDATION_ERROR_MESSAGES.INCOMPLETE_DATE;
   } else if (isComplete) {
     error = getFutureDateError({ year, month, day });
   }
