@@ -80,6 +80,12 @@ export const HOMELESSNESS_TYPES = {
   notHomeless: 'no',
 };
 
+export const HOMELESSNESS_LABELS = {
+  no: 'No',
+  homeless: "I'm currently homeless.",
+  atRisk: "I'm at risk of becoming homeless.",
+};
+
 export const HOMELESS_HOUSING_LABELS = {
   shelter: 'I’m living in a homeless shelter.',
   notShelter:
@@ -113,6 +119,8 @@ export const SERVICE_CONNECTION_TYPES = {
 };
 
 export const DATA_PATHS = {
+  hasMedicalRecords: 'view:hasMedicalRecords',
+  hasEvidence: 'view:hasEvidence',
   hasVAEvidence: 'view:selectableEvidenceTypes.view:hasVaMedicalRecords',
   hasPrivateEvidence:
     'view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
@@ -660,6 +668,12 @@ export const SEPARATION_PAY_DATE_TITLE =
   'Please tell us the year you received a payment';
 export const SEPARATION_PAY_DATE_ERROR = 'Please provide a valid year';
 export const SEPARATION_PAY_SECTION_TITLE = 'Separation or Severance Pay';
+
+// Traumatic Events Medical Record Opt-In
+export const TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_TITLE =
+  'Do you give us permission to add an indicator about claim or appeal events to your VA medical record?';
+export const TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_SECTION_TITLE =
+  'Option to add indicator of certain upcoming claim and appeal events to your VA medical record';
 
 // General
 export const YES = 'Yes';

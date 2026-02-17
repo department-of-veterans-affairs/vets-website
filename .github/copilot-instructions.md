@@ -3,6 +3,7 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 
 ## General Instructions
 - vets-website uses yarn, Javascript, React, RJSF, Redux, React router, platform/forms-system, platform/forms, and the va.gov design system.
+- When installing dependencies, always use `yarn install-safe` instead of `yarn install`.
 - Uses Webpack for bundling application assets.
 - Use prettier conventions with 2 spaces for indentation, single quotes, and trailing commas.
 - When using React, prefer web components such as va-button, va-text-input, or VaButton, VaTextInput, instead of HTML elements.
@@ -11,12 +12,12 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - For E2E tests, use Cypress.
 - Prefer functional components and hooks for new components.
 - Files should end with a newline.
-- Use ’ instead of ' for apostrophes in text content.
+- The codebase uses curly apostrophes (') in user-facing text content. Always write straight apostrophes (') instead - eslint will auto-fix them to curly apostrophes. Run `yarn lint:js:changed:fix` after making changes.
 - Use `yarn lint:js:working:fix` to fix formatting issues.
 - All code should conform to WCAG 2.2 AA and Section 508 accessibility guidelines.
 
 ## Development Commands
-- Use `yarn install` to fetch dependencies (run when package.json changes)
+- Use `yarn install-safe` to fetch dependencies (run when package.json changes)
 - Use `yarn build` to build all applications
 - Use `yarn build --entry=app1,app2` to build specific applications
 - Use `yarn watch` to run the webpack dev server with hot reloading
@@ -72,12 +73,3 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 ## Forms
 - For understanding valid uiSchema and schema web component patterns, reference `src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json`.
 - For understanding a form's name, directory path, entryName and rootUrl, reference `src/applications/manifest-catalog.json`.
-
-## 📚 Additional Resources
-
-### Path-Specific Instructions
-**Path-specific custom instructions automatically apply when working on specific modules:**
-
-- **[instructions/my-health-messaging.instructions.md](./instructions/mhv-secure-messaging.instructions.md)** - Automatically applies to `src/applications/mhv-secure-messaging/` - Secure Messaging specific patterns, models, and API client usage
-
-These path-specific instructions are automatically loaded by GitHub Copilot when you work on files matching their `applyTo` patterns. You can create additional path-specific instruction files in `.github/instructions/` for other modules or features.

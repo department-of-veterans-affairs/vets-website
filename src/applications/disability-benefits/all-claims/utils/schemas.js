@@ -29,8 +29,8 @@ import {
 
 import {
   capitalizeEachWord,
-  disabilityIsSelected,
   isClaimingIncrease,
+  isNewConditionOption,
   isPlaceholderRated,
   pathWithIndex,
   sippableId,
@@ -64,8 +64,24 @@ export const makeSchemaForNewDisabilities = createSelector(
 
   (newDisabilities = []) => {
     const raw = newDisabilities
-      .map(d => (typeof d?.condition === 'string' ? d.condition.trim() : ''))
-      .filter(s => s.length > 0 && !isPlaceholderRated(s));
+      .map(d => {
+        const condition =
+          typeof d?.condition === 'string' ? d.condition.trim() : '';
+
+        if (!condition || isPlaceholderRated(condition)) {
+          return '';
+        }
+
+        const side =
+          typeof d?.sideOfBody === 'string' ? d.sideOfBody.trim() : '';
+
+        if (side) {
+          return `${condition}, ${side.toLowerCase()}`;
+        }
+
+        return condition;
+      })
+      .filter(s => s.length > 0);
 
     const normalized = raw.map(pretty);
     const unique = [...new Set(normalized)];
@@ -88,12 +104,49 @@ export const makeSchemaForNewDisabilities = createSelector(
  */
 export const makeSchemaForRatedDisabilities = createSelector(
   formData => (isClaimingIncrease(formData) ? formData.ratedDisabilities : []),
-  (ratedDisabilities = []) => ({
-    properties: ratedDisabilities
-      .filter(disabilityIsSelected)
+  formData =>
+    Array.isArray(formData?.newDisabilities) ? formData.newDisabilities : [],
+
+  (ratedDisabilities = [], newDisabilities = []) => {
+    // rated disabilities from the current workflow (view:selected)
+    const fromRatedDisabilities = ratedDisabilities
+      .filter(disability => disability?.['view:selected'])
       .map(disability => disability.name)
-      .reduce(createCheckboxSchema, {}),
-  }),
+      .filter(name => typeof name === 'string' && name.trim().length > 0);
+
+    const fromNewDisabilities = newDisabilities
+      .map(d => {
+        const ratedDisability =
+          typeof d?.ratedDisability === 'string'
+            ? d.ratedDisability.trim()
+            : null;
+
+        if (!ratedDisability) return null;
+        if (isNewConditionOption(ratedDisability)) return null;
+
+        return ratedDisability;
+      })
+      .filter(Boolean);
+
+    const dedupedByNormalizedName = new Map();
+
+    [...fromRatedDisabilities, ...fromNewDisabilities].forEach(name => {
+      const normalizedKey = name.toLowerCase();
+
+      if (!dedupedByNormalizedName.has(normalizedKey)) {
+        dedupedByNormalizedName.set(normalizedKey, name);
+      }
+    });
+
+    const uniqueRatedDisabilities = [...dedupedByNormalizedName.values()];
+
+    const properties = uniqueRatedDisabilities.reduce(
+      (schema, disabilityName) => createCheckboxSchema(schema, disabilityName),
+      {},
+    );
+
+    return { properties };
+  },
 );
 
 /**

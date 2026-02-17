@@ -8,7 +8,7 @@ describe('Claims status test', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList, claimDetails);
     trackClaimsPage.verifyInProgressClaim(false);
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('Displays server-generated titles in breadcrumb and detail header', () => {
@@ -16,7 +16,10 @@ describe('Claims status test', () => {
     trackClaimsPage.loadPage(claimsList, claimDetail);
 
     // Click into claim detail
-    cy.get('.claim-list-item:first-child a.active-va-link').click();
+    cy.get('.claim-list-item:first-child va-link')
+      .shadow()
+      .find('a')
+      .click();
 
     // Verify detail header uses displayTitle
     cy.get('.claim-title')
@@ -30,7 +33,7 @@ describe('Claims status test', () => {
       'Status of your compensation claim',
     );
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('Preserves correct casing in breadcrumb composition', () => {
@@ -51,7 +54,10 @@ describe('Claims status test', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList, pensionClaimDetail);
 
-    cy.get('.claim-list-item:first-child a.active-va-link').click();
+    cy.get('.claim-list-item:first-child va-link')
+      .shadow()
+      .find('a')
+      .click();
 
     // Verify breadcrumb preserves "veterans pension" with correct casing
     cy.get('va-breadcrumbs').should('be.visible');
@@ -59,6 +65,6 @@ describe('Claims status test', () => {
       .should('contain', 'Status of your veterans pension claim')
       .should('contain', 'veterans pension'); // Lowercase 'v' is intentional
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });

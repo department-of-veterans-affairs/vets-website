@@ -72,11 +72,6 @@ const Avs: React.FC<AvsProps & StateToProps> = ({ id, isLoggedIn }) => {
     return loadingIndicator;
   }
 
-  if (!id) {
-    window.location.replace('/my-health/medical-records/summaries-and-notes/');
-    return null;
-  }
-
   return (
     <RequiredLoginView
       user={user}

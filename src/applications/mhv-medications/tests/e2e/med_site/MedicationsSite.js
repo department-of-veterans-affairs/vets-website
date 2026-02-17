@@ -1,19 +1,25 @@
-import { addSeconds, format } from 'date-fns';
+import { addSeconds } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import mockUser from '../fixtures/user.json';
 import mockVamcEhr from '../fixtures/vamc-ehr.json';
 import mockUnauthenticatedUser from '../fixtures/non-rx-user.json';
 import mockToggles from '../fixtures/toggles-response.json';
+import mockTogglesAccelerated from '../fixtures/toggles-accelerated-delivery.json';
 import cernerUser from '../fixtures/cerner-user.json';
 import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
-import { Paths } from '../utils/constants';
+import { Paths, DownloadFormat } from '../utils/constants';
 import prescriptions from '../fixtures/prescriptions.json';
 import exportList from '../fixtures/exportList.json';
 import { DATETIME_FORMATS, medicationsUrls } from '../../../util/constants';
 import listOfprescriptions from '../fixtures/listOfPrescriptions.json';
 
 class MedicationsSite {
-  login = (isMedicationsUser = true, user = mockUser) => {
-    this.mockFeatureToggles();
+  login = (
+    isMedicationsUser = true,
+    isAcceleratingAllergies = false,
+    user = mockUser,
+  ) => {
+    this.mockFeatureToggles(isAcceleratingAllergies);
     this.mockVamcEhr();
 
     if (isMedicationsUser) {
@@ -161,58 +167,78 @@ class MedicationsSite {
     });
   };
 
-  verifyDownloadedPdfFile = (_prefixString, _searchText) => {
+  verifyDownloadedFile = ({
+    prefixString = 'VA-medications-list-Safari-Mhvtp',
+    searchText = 'Date',
+    format = DownloadFormat.PDF,
+  } = {}) => {
     if (Cypress.browser.isHeadless) {
       cy.log('browser is headless');
-
       const now = Date.now();
-
-      const downloadTime1sec = format(
-        addSeconds(now, 1),
-        DATETIME_FORMATS.filename,
-      );
-
-      const downloadTime2sec = format(
-        addSeconds(now, 2),
-        DATETIME_FORMATS.filename,
-      );
-
-      const downloadTime3sec = format(
-        addSeconds(now, 3),
-        DATETIME_FORMATS.filename,
-      );
-
       const downloadsFolder = Cypress.config('downloadsFolder');
+      const timeZone = 'America/New_York';
 
-      const txtPath1 = `${downloadsFolder}/${_prefixString}-${downloadTime1sec}.pdf`;
-      const txtPath2 = `${downloadsFolder}/${_prefixString}-${downloadTime2sec}.pdf`;
-      const txtPath3 = `${downloadsFolder}/${_prefixString}-${downloadTime3sec}.pdf`;
+      const timestamps = [0, 1, 2, 3].map(sec =>
+        formatInTimeZone(
+          addSeconds(now, sec),
+          timeZone,
+          DATETIME_FORMATS.filename,
+        ).replace(/\./g, ''),
+      );
 
-      this.internalReadFileMaybe(txtPath1, _searchText);
-      this.internalReadFileMaybe(txtPath2, _searchText);
-      this.internalReadFileMaybe(txtPath3, _searchText);
+      // Browsers automatically replace invalid filename characters (like /) with _ when saving
+      const sanitizedPrefix = prefixString.replace(/\//g, '_');
+      const filePaths = timestamps.map(
+        timestamp =>
+          `${downloadsFolder}/${sanitizedPrefix}-${timestamp}.${format}`,
+      );
+
+      const results = [];
+      const checkFile = index => {
+        if (index >= filePaths.length || results.length > 0) {
+          return; // Stop if we've checked all files or found one
+        }
+
+        const filePath = filePaths[index];
+        cy.task('log', `attempting to find file = ${filePath}`);
+        cy.task('readFileMaybe', filePath).then(content => {
+          if (content !== null) {
+            results.push({ filePath, content });
+          } else {
+            checkFile(index + 1); // Only check next if not found
+          }
+        });
+      };
+      checkFile(0);
+
+      cy.then(() => {
+        expect(
+          results,
+          `Expected one of these files to exist:\n${filePaths.join('\n')}`,
+        ).to.have.lengthOf.at.least(1);
+
+        // Only check content for TXT files since PDFs are binary
+        if (DownloadFormat.TXT === format) {
+          const foundWithText = results.some(r =>
+            r.content.includes(searchText),
+          );
+          expect(
+            foundWithText,
+            `Expected file to contain "${searchText}"`,
+          ).to.equal(true);
+        }
+      });
     } else {
       cy.log('browser is not headless');
     }
   };
 
-  internalReadFileMaybe = (fileName, searchText) => {
-    cy.task('log', `attempting to find file = ${fileName}`);
-    cy.task('readFileMaybe', fileName).then(textOrNull => {
-      const taskFileName = fileName;
-      if (textOrNull != null) {
-        cy.task('log', `found the text in ${taskFileName}`);
-        cy.readFile(fileName).should('contain', `${searchText}`);
-      } else {
-        cy.task('log', `found the file ${taskFileName} but did not find text`);
-      }
-    });
-  };
-
-  mockFeatureToggles = () => {
-    cy.intercept('GET', '/v0/feature_toggles?*', mockToggles).as(
-      'featureToggles',
-    );
+  mockFeatureToggles = (isAcceleratingAllergies = false) => {
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles?*',
+      isAcceleratingAllergies ? mockTogglesAccelerated : mockToggles,
+    ).as('featureToggles');
   };
 
   mockVamcEhr = () => {

@@ -45,7 +45,7 @@ export default function TermsOfUse() {
         });
       }
 
-      if (redirectUrl) {
+      if (redirectUrl && !redirectUrl.includes('/auth/login/callback')) {
         sessionStorage.setItem(
           AUTHN_SETTINGS.RETURN_URL,
           parseRedirectUrl(redirectUrl),
@@ -253,7 +253,7 @@ export default function TermsOfUse() {
           )}
           <p>
             To manage your benefits and care online again, you’ll need to sign
-            in with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
+            in with an <strong>ID.me</strong> or <strong>Login.gov</strong>{' '}
             account and accept these terms. If you don’t have one of these
             accounts, you’ll need to create one.
           </p>

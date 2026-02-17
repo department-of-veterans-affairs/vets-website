@@ -1,7 +1,4 @@
-/**
- * @module constants
- * @description Constants for VA Form 21-2680 - Examination for Housebound Status or Aid & Attendance
- */
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 /**
  * Main title for the form application
@@ -69,5 +66,6 @@ export const DISTANCE_OPTIONS = {
  * @constant {Object}
  */
 export const API_ENDPOINTS = {
-  downloadPdf: '/form212680/download_pdf',
+  downloadPdf: `${environment.API_URL}/v0/form212680/download_pdf/`,
+  submitForm: `${environment.API_URL}/v0/form212680`,
 };

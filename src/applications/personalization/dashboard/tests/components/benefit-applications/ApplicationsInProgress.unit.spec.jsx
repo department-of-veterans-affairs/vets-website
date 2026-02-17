@@ -22,7 +22,7 @@ const yearFromNow = oneYearFromNow();
 
 const savedForms = [
   {
-    form: '686C-674',
+    form: '686C-674-V2',
     metadata: {
       version: 1,
       returnUrl: '/net-worth',
@@ -169,6 +169,14 @@ describe('ApplicationsInProgress component', () => {
       view.getByText('Application for disability compensation', {
         exact: false,
       }),
+    ).to.exist;
+    expect(
+      view.getByText(
+        'Application for adding or removing dependents on VA benefits',
+        {
+          exact: false,
+        },
+      ),
     ).to.exist;
     expect(
       view.getByText('Application for health care benefits', {

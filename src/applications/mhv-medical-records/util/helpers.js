@@ -1,8 +1,6 @@
-import moment from 'moment-timezone';
 import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { formatBirthDate } from '@department-of-veterans-affairs/mhv/exports';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
@@ -17,7 +15,6 @@ import {
   startOfYear,
   endOfYear,
   parseISO,
-  isValid,
 } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import {
@@ -31,74 +28,36 @@ import {
   MONTH_BASED_OPTIONS,
 } from './constants';
 
+// Re-export from dateHelpers for backwards compatibility
+export {
+  dateFormatWithoutTimezone,
+  formatDateTimeInUserTimezone,
+} from './dateHelpers';
+
 /**
  * @param {*} timestamp
- * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
- * @returns {String} formatted timestamp
+ * @param {*} format defaults to 'MMMM d, yyyy, h:mm a zzz', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
+ * @returns {String} formatted timestamp or null if invalid
  */
 export const dateFormat = (timestamp, format = null) => {
-  const timeZone = moment.tz.guess();
-  return moment
-    .tz(timestamp, timeZone)
-    .format(format || 'MMMM D, YYYY, h:mm a z');
+  if (!timestamp) return null;
+  const dateObj = new Date(timestamp);
+  if (Number.isNaN(dateObj.getTime())) return null;
+  try {
+    const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
+    return formatInTimeZone(
+      dateObj,
+      timeZone,
+      format || 'MMMM d, yyyy, h:mm a zzz',
+    );
+  } catch {
+    return null;
+  }
 };
 
 export const dateFormatWithoutTime = str => {
   return str.replace(/,? \d{1,2}:\d{2} (a\.m\.|p\.m\.)$/, '');
 };
-
-/**
- * Format a FHIR dateTime string as a "local datetime" string, by stripping off the time zone
- * information and formatting what's left. FHIR allows only:
- *   - YYYY
- *   - YYYY-MM
- *   - YYYY-MM-DD
- *   - YYYY-MM-DDThh:mm:ss(.sss)(Z|±HH:MM)
- *
- * See: https://hl7.org/fhir/R4/datatypes.html#dateTime
- *
- * @param {String} datetime FHIR dateTime string, e.g. 2017-08-02T09:50:57-04:00, 2000-08-09
- * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', ONLY applied to full dateTime strings
- * @returns {String} a formatted datetime, e.g. August 2, 2017, 9:50 a.m., or null for bad inputs
- */
-export function dateFormatWithoutTimezone(
-  isoString,
-  fmt = 'MMMM d, yyyy, h:mm a',
-) {
-  if (!isoString || typeof isoString !== 'string') return null;
-
-  // 1) Year-only: YYYY
-  if (/^\d{4}$/.test(isoString)) {
-    return isoString;
-  }
-
-  // 2) Year+month: YYYY-MM
-  if (/^\d{4}-(0[1-9]|1[0-2])$/.test(isoString)) {
-    const d = parseISO(`${isoString}-01`);
-    if (!isValid(d)) return null;
-    return dateFnsFormat(d, 'MMMM yyyy');
-  }
-
-  // 3) Full date: YYYY-MM-DD
-  if (/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(isoString)) {
-    const d = parseISO(isoString);
-    if (!isValid(d)) return null;
-    return dateFnsFormat(d, 'MMMM d, yyyy');
-  }
-
-  // 4) Date-time (must include seconds + TZ): strip off exactly “Z” or “+HH:MM”
-  const stripped = isoString.replace(/(Z|[+-]\d{2}:\d{2})$/, '');
-
-  // 5) Handle leap-second (“:60” -> “:59”)
-  const fixedLeap = stripped.replace(/:60(\.\d+)?$/, ':59$1');
-
-  const dt = parseISO(fixedLeap);
-  if (!isValid(dt)) return null;
-
-  return dateFnsFormat(dt, fmt)
-    .replace(/\bAM\b/g, 'a.m.')
-    .replace(/\bPM\b/g, 'p.m.');
-}
 
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
@@ -116,9 +75,15 @@ export const nameFormat = ({ first, middle, last, suffix }) => {
  * @returns { formattedDate: string, formattedTime: string } formatted datestamp, formatted timestamp
  */
 export const formatDateTime = datetimeString => {
+  // Guard against null, undefined, empty string, or falsy values
+  // Without this check, new Date(null) returns epoch date (1970-01-01)
+  if (!datetimeString) {
+    return { formattedDate: null, formattedTime: null };
+  }
+
   const dateTime = new Date(datetimeString);
   if (Number.isNaN(dateTime.getTime())) {
-    return { formattedDate: '', formattedTime: '' };
+    return { formattedDate: null, formattedTime: null };
   }
   const formattedDate = dateFnsFormat(dateTime, 'MMMM d, yyyy');
   const formattedTime = dateFnsFormat(dateTime, 'h:mm a');
@@ -139,21 +104,6 @@ export const formatDateTime = datetimeString => {
  */
 export const itemListWrapper = items =>
   Array.isArray(items) && items.length > 1 ? 'div' : undefined;
-
-/**
- * @param {Object} record
- * @returns {Array of Strings} array of reactions
- */
-export const getReactions = record => {
-  const reactions = [];
-  if (!record || !record.reaction) return reactions;
-  record.reaction.forEach(reaction => {
-    reaction.manifestation.forEach(manifestation => {
-      reactions.push(manifestation.text);
-    });
-  });
-  return reactions;
-};
 
 /**
  * @param {Any} obj
@@ -391,11 +341,17 @@ export const formatDate = str => {
  * Returns a date formatted into three parts -- a date portion, a time portion, and a time zone.
  *
  * @param {Date | string} date
+ * @returns {{ date: string, time: string, timeZone: string } | null} Returns null if the date is invalid.
  */
 export const formatDateAndTime = rawDate => {
   let date = rawDate;
   if (typeof rawDate === 'string') {
     date = new Date(rawDate);
+  }
+
+  // Validate the date before formatting to prevent RangeError in formatToParts
+  if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+    return null;
   }
 
   const hours = date.getHours();
@@ -635,9 +591,15 @@ export const getLastSuccessfulUpdate = (
     matchingDates?.length &&
     matchingDates.length === extractTypeList.length
   ) {
-    const minDate = new Date(
-      Math.min(...matchingDates.map(date => date.getTime())),
-    );
+    // Filter out any invalid dates
+    const timestamps = matchingDates
+      .map(date => date.getTime())
+      .filter(t => !Number.isNaN(t));
+    if (timestamps.length === 0) {
+      return null;
+    }
+    // Get the earliest date (minimum timestamp)
+    const minDate = new Date(Math.min(...timestamps));
     return formatDateAndTime(minDate);
   }
   return null;
@@ -954,30 +916,38 @@ export const getFailedDomainList = (failed, displayMap) => {
 };
 
 /**
- * Compares the dob formatted by two different methods and, if they are unequal, throws an error
- * indicating which date is earlier.
- * @param {string} userDob - The user's date of birth from the redux store
+ * Check if this ID is a radiology ID. In the frontend, we preface these IDs with an "r" to
+ * distinguish them from IDs we get from FHIR sources (e.g. PHR, SCDF).
+ * @param {*} id the lab ID
+ * @returns {boolean} true if the ID is a radiology ID, false otherwise
  */
-export const errorForUnequalBirthDates = (
-  userDob,
-  deps = { formatDateLong, formatBirthDate },
-) => {
-  const d1 = new Date(deps.formatDateLong(userDob));
-  const d2 = new Date(deps.formatBirthDate(userDob));
+export const isRadiologyId = id => id && id.charAt(0).toLowerCase() === 'r';
 
-  if (Number.isNaN(d1.getTime()))
-    throw new Error('Invalid birth date via formatDateLong');
-  if (Number.isNaN(d2.getTime()))
-    throw new Error('Invalid birth date via formatBirthDate');
+/**
+ * Sort an array of records by their sortDate property in descending order (newest first).
+ * Records with missing or invalid sortDate values are pushed to the end of the array.
+ *
+ * @param {Array} array - Array of objects with sortDate property (ISO date strings)
+ * @returns {Array} - Sorted array (mutates original)
+ */
+export const sortByDate = array => {
+  return array.sort((a, b) => {
+    // Check for missing sortDate values first
+    if (!a.sortDate && !b.sortDate) return 0;
+    if (!a.sortDate) return 1; // Push nulls to the end
+    if (!b.sortDate) return -1; // Keep non-nulls at the front
 
-  if (d1.getTime() < d2.getTime()) {
-    throw new Error(`formatDateLong is earlier than formatBirthDate`);
-  }
-  if (d1.getTime() > d2.getTime()) {
-    throw new Error(`formatBirthDate is earlier than formatDateLong`);
-  }
-};
+    const dateA = parseISO(a.sortDate);
+    const dateB = parseISO(b.sortDate);
+    const timeA = dateA.getTime();
+    const timeB = dateB.getTime();
 
-export const asyncErrorForUnequalBirthDates = async userDob => {
-  errorForUnequalBirthDates(userDob);
+    // Handle invalid dates (treat like missing)
+    if (Number.isNaN(timeA) && Number.isNaN(timeB)) return 0;
+    if (Number.isNaN(timeA)) return 1;
+    if (Number.isNaN(timeB)) return -1;
+
+    // Newest first
+    return timeB - timeA;
+  });
 };

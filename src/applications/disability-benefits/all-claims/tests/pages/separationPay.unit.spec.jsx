@@ -105,8 +105,8 @@ describe('Separation Pay', () => {
 
     expect(form.find('VaRadio').length).to.equal(1);
     expect(form.find('va-radio-option').length).to.equal(2); // Yes/No options
-    expect(form.find('input').length).to.equal(1); // year input
-    expect(form.find('select').length).to.equal(1); // service branch
+    expect(form.find('va-text-input').length).to.equal(1); // year input
+    expect(form.find('va-select').length).to.equal(1); // service branch
     form.unmount();
   });
 });

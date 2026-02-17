@@ -27,7 +27,7 @@ class DownloadReportsPage {
   };
 
   verifyCcdDownloadXmlFileButton = () => {
-    cy.get('[data-testid="generateCcdButtonXml"]').should('be.visible');
+    cy.get('[data-testid="generateCcdButtonXmlVistA"]').should('be.visible');
   };
 
   clickCcdDownloadXmlFileButton = (
@@ -47,7 +47,11 @@ class DownloadReportsPage {
         },
         body: xmlBody,
       }).as('getXml');
-      cy.get('[data-testid="generateCcdButtonXml"]').click();
+      // Use shadow DOM to access the anchor inside the va-link web component
+      cy.get('[data-testid="generateCcdButtonXmlVistA"]')
+        .shadow()
+        .find('a')
+        .click({ force: true });
       cy.wait('@ccdGenerateResponse');
       cy.wait('@getXml');
     });
@@ -59,7 +63,11 @@ class DownloadReportsPage {
       '/my_health/v1/medical_records/ccd/generate',
       ccdGenerateResponse,
     ).as('ccdGenerateResponse');
-    cy.get('[data-testid="generateCcdButtonXml"]').click();
+    // Use shadow DOM to access the anchor inside the va-link web component
+    cy.get('[data-testid="generateCcdButtonXmlVistA"]')
+      .shadow()
+      .find('a')
+      .click({ force: true });
     cy.wait('@ccdGenerateResponse');
   };
 
@@ -170,7 +178,7 @@ class DownloadReportsPage {
   verifyDualAccordionVisible = () => {
     // Verify both VistA and OH download sections exist by checking for their download buttons
     // Using .should('exist') instead of .should('be.visible') because web components can have 0x0 dimensions
-    cy.get('[data-testid="generateCcdButtonXmlVista"]', {
+    cy.get('[data-testid="generateCcdButtonXmlVistA"]', {
       timeout: 15000,
     }).should('exist');
     cy.get('[data-testid="generateCcdButtonXmlOH"]', {
@@ -179,20 +187,20 @@ class DownloadReportsPage {
 
     // Verify facility-specific headings are present for dual CCD (hybrid users only)
     // These are bold <p> tags, not semantic headings
-    cy.contains('p', 'CCD: medical records from', { timeout: 10000 }).should(
-      'exist',
-    );
+    cy.contains('p', 'Download your CCD for these facilities', {
+      timeout: 10000,
+    }).should('exist');
   };
 
   verifyVistaDownloadLinksVisible = () => {
     // Using .should('exist') instead of .should('be.visible') because web components can have 0x0 dimensions
-    cy.get('[data-testid="generateCcdButtonXmlVista"]', {
+    cy.get('[data-testid="generateCcdButtonXmlVistA"]', {
       timeout: 15000,
     }).should('exist');
-    cy.get('[data-testid="generateCcdButtonPdfVista"]', {
+    cy.get('[data-testid="generateCcdButtonPdfVistA"]', {
       timeout: 15000,
     }).should('exist');
-    cy.get('[data-testid="generateCcdButtonHtmlVista"]', {
+    cy.get('[data-testid="generateCcdButtonHtmlVistA"]', {
       timeout: 15000,
     }).should('exist');
   };
@@ -208,6 +216,72 @@ class DownloadReportsPage {
     cy.get('[data-testid="generateCcdButtonHtmlOH"]', {
       timeout: 15000,
     }).should('exist');
+  };
+
+  clickCcdDownloadXmlButtonVista = pathToFixture => {
+    cy.fixture(pathToFixture, 'utf8').then(xmlBody => {
+      cy.intercept('GET', '/my_health/v1/medical_records/ccd/generate', {
+        statusCode: 200,
+        body: { status: 'OK' },
+      }).as('ccdGenerateResponse');
+      cy.intercept('GET', '/my_health/v1/medical_records/ccd/d**', {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/xml' },
+        body: xmlBody,
+      }).as('downloadCcdVistaXml');
+
+      cy.get('[data-testid="generateCcdButtonXmlVistA"]', { timeout: 15000 })
+        .shadow()
+        .find('a')
+        .click({ force: true });
+
+      cy.wait('@ccdGenerateResponse', { timeout: 15000 });
+      cy.wait('@downloadCcdVistaXml', { timeout: 15000 });
+    });
+  };
+
+  clickCcdDownloadPdfButtonVista = () => {
+    const pdfMock = '%PDF-1.4\n%mock pdf content\n%%EOF';
+
+    cy.intercept('GET', '/my_health/v1/medical_records/ccd/generate', {
+      statusCode: 200,
+      body: { status: 'OK' },
+    }).as('ccdGenerateResponse');
+    cy.intercept('GET', '/my_health/v1/medical_records/ccd/d**.pdf', {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/pdf' },
+      body: pdfMock,
+    }).as('downloadCcdVistaPdf');
+
+    cy.get('[data-testid="generateCcdButtonPdfVistA"]', { timeout: 15000 })
+      .shadow()
+      .find('a')
+      .click({ force: true });
+
+    cy.wait('@ccdGenerateResponse', { timeout: 15000 });
+    cy.wait('@downloadCcdVistaPdf', { timeout: 15000 });
+  };
+
+  clickCcdDownloadHtmlButtonVista = pathToFixture => {
+    cy.fixture(pathToFixture, 'utf8').then(htmlBody => {
+      cy.intercept('GET', '/my_health/v1/medical_records/ccd/generate', {
+        statusCode: 200,
+        body: { status: 'OK' },
+      }).as('ccdGenerateResponse');
+      cy.intercept('GET', '/my_health/v1/medical_records/ccd/d**.html', {
+        statusCode: 200,
+        headers: { 'Content-Type': 'text/html' },
+        body: htmlBody,
+      }).as('downloadCcdVistaHtml');
+
+      cy.get('[data-testid="generateCcdButtonHtmlVistA"]', { timeout: 15000 })
+        .shadow()
+        .find('a')
+        .click({ force: true });
+
+      cy.wait('@ccdGenerateResponse', { timeout: 15000 });
+      cy.wait('@downloadCcdVistaHtml', { timeout: 15000 });
+    });
   };
 }
 export default new DownloadReportsPage();

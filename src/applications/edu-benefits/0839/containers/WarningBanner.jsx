@@ -10,8 +10,6 @@ export default function WarningBanner({ uiSchema }) {
 
   const index = isArrayItem ? getArrayIndexFromPathName() : null;
 
-  const mainInstitution = formData?.institutionDetails;
-
   const details = isArrayItem
     ? formData?.[dataPath]?.[index] || {}
     : formData?.[dataPath] || {};
@@ -19,7 +17,7 @@ export default function WarningBanner({ uiSchema }) {
   const code = details?.facilityCode;
   const isLoading = details?.isLoading;
 
-  const message = createBannerMessage(details, isArrayItem, mainInstitution);
+  const message = createBannerMessage(details);
 
   if (message && code?.length === 8 && !isLoading) {
     return (

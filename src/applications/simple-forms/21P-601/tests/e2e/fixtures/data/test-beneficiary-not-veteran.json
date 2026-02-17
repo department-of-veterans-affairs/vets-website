@@ -31,12 +31,7 @@
   "claimantEmail": "manderson@email.com",
   "relationshipToDeceased": "executor",
   "wantsToWaiveSubstitution": false,
-  "survivors": {
-    "hasSpouse": false,
-    "hasChildren": true,
-    "hasParents": false,
-    "hasNone": false
-  },
+  "survivors": true,
   "claimingReimbursement": false,
   "survivingRelatives": [
     {

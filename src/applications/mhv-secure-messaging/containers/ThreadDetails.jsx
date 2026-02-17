@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
@@ -22,8 +28,9 @@ const ThreadDetails = props => {
   const {
     customFoldersRedesignEnabled,
     largeAttachmentsEnabled,
+    useCanReplyField,
   } = useFeatureToggles();
-  const { threadId } = useParams();
+  const { threadId: messageId } = useParams();
   const { testing } = props;
   const dispatch = useDispatch();
   const location = useLocation();
@@ -31,15 +38,28 @@ const ThreadDetails = props => {
 
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const recipients = useSelector(state => state.sm.recipients);
-  const { cannotReply, drafts, messages, threadFolderId } = useSelector(
-    state => state.sm.threadDetails,
+  const {
+    cannotReply,
+    drafts,
+    messages,
+    threadFolderId,
+    replyDisabled,
+  } = useSelector(state => state.sm.threadDetails);
+
+  const threadCantReply = useMemo(
+    () => {
+      return useCanReplyField ? replyDisabled || cannotReply : cannotReply;
+    },
+    [useCanReplyField, cannotReply, replyDisabled],
   );
+
   const { folder } = useSelector(state => state.sm.folders);
 
   const message = messages?.length && messages[0];
+  const threadId = message?.threadId;
   const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
   const [isSending, setIsSending] = useState(false);
 
   const header = useRef();
@@ -70,22 +90,29 @@ const ThreadDetails = props => {
     [drafts, dispatch, folder, threadFolderId],
   );
 
+  const handleRedirectToFolder = useCallback(
+    () => {
+      navigateToFolderByFolderId(folder?.folderId || 0, history);
+    },
+    [folder, history],
+  );
+
   useEffect(
     () => {
-      if (threadId) {
-        dispatch(retrieveMessageThread(threadId))
+      if (messageId) {
+        dispatch(retrieveMessageThread(messageId))
           .then(() => {
             setIsLoaded(true);
           })
           .catch(() => {
-            navigateToFolderByFolderId(folder?.folderId || 0, history);
+            handleRedirectToFolder();
           });
       }
       return () => {
         dispatch(closeAlert());
       };
     },
-    [dispatch, threadId, location.pathname],
+    [dispatch, messageId, location.pathname, handleRedirectToFolder],
   );
 
   useEffect(
@@ -136,7 +163,7 @@ const ThreadDetails = props => {
             style={{ display: isSending && 'none' }}
           >
             <ReplyForm
-              cannotReply={cannotReply}
+              cannotReply={threadCantReply}
               drafts={drafts || []}
               header={header}
               messages={messages}
@@ -158,7 +185,7 @@ const ThreadDetails = props => {
               <MessageActionButtons
                 threadId={threadId}
                 message={messages[0]}
-                cannotReply={cannotReply}
+                hideReplyButton={threadCantReply}
                 isCreateNewModalVisible={isCreateNewModalVisible}
                 setIsCreateNewModalVisible={setIsCreateNewModalVisible}
               />
@@ -184,7 +211,7 @@ const ThreadDetails = props => {
         <>
           <MessageThreadHeader
             message={messages[0]}
-            cannotReply={cannotReply}
+            cannotReply={threadCantReply}
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
             recipients={recipients}
@@ -198,7 +225,7 @@ const ThreadDetails = props => {
             <MessageActionButtons
               threadId={threadId}
               message={messages[0]}
-              cannotReply={cannotReply}
+              hideReplyButton={threadCantReply}
               isCreateNewModalVisible={isCreateNewModalVisible}
               setIsCreateNewModalVisible={setIsCreateNewModalVisible}
             />

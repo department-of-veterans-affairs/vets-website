@@ -74,7 +74,7 @@ describe('Care Expenses Pages', () => {
   it('should render only frequency and payment amount if not in home care attendant', () => {
     const { careCostPage } = careExpensesPages;
     const formData = {
-      typeOfCare: 'NURSING_HOME',
+      careType: 'NURSING_HOME',
     };
     const form = render(
       <DefinitionTester
@@ -119,7 +119,7 @@ describe('Care Expenses Pages', () => {
   it('should render all fields if in home care attendant', () => {
     const { careCostPage } = careExpensesPages;
     const formData = {
-      typeOfCare: 'IN_HOME_CARE_ATTENDANT',
+      careType: 'IN_HOME_CARE_ATTENDANT',
     };
     const form = render(
       <DefinitionTester
@@ -165,14 +165,14 @@ describe('Care Expenses Pages', () => {
   it('should check if isItemIncomplete', () => {
     const { isItemIncomplete } = options;
     const completeItem = {
-      careDate: { from: '2020-01-01', to: '2020-01-31' },
+      careDateRange: { from: '2020-01-01', to: '2020-01-31' },
       provider: 'John Doe',
-      typeOfCare: 'NURSING_HOME',
+      careType: 'NURSING_HOME',
       paymentAmount: 100,
       recipient: 'SURVIVING_SPOUSE',
     };
     const incompleteItem = {
-      careDate: { to: '2020-01-01' },
+      careDateRange: { to: '2020-01-01' },
     };
 
     expect(isItemIncomplete(completeItem)).to.be.false;
@@ -191,10 +191,10 @@ describe('Care Expenses Pages', () => {
   it('should show the correct cardDescription output', () => {
     const { text } = options;
     const completeItem = {
-      careDate: { from: '2020-01-01', to: '2020-01-31' },
+      careDateRange: { from: '2020-01-01', to: '2020-01-31' },
     };
     const partialItem = {
-      careDate: { from: '2020-01-01' },
+      careDateRange: { from: '2020-01-01' },
     };
     const incompleteItem = {};
 

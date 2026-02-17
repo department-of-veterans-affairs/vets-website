@@ -43,6 +43,7 @@ export default class MockAppointmentResponse {
     past = false,
     pending = false,
     status = 'booked',
+    ...additionalProps
   } = {}) {
     const requestedPeriods = [];
     let timestamp = new Date();
@@ -109,6 +110,8 @@ export default class MockAppointmentResponse {
           success: true,
         },
       },
+      // Merge any additional properties passed to the constructor (e.g., avsPdf, avsError, travelPayClaim override)
+      ...additionalProps,
     };
   }
 
@@ -1159,11 +1162,6 @@ export default class MockAppointmentResponse {
       text,
     };
 
-    return this;
-  }
-
-  setReasonForAppointment(value) {
-    this.attributes.reasonForAppointment = value;
     return this;
   }
 

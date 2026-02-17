@@ -87,24 +87,26 @@ describe('picklist helpers', () => {
   });
 
   describe('SelectCountry', () => {
-    it('should render', () => {
+    it('should render select with all countries except USA', () => {
       const { container } = render(
         <SelectCountry
           name="country"
           label="Country"
           onChange={() => {}}
-          value="US"
+          value="ATG"
         />,
       );
       const select = $('va-select', container);
       expect(select).to.exist;
       expect(select.getAttribute('name')).to.equal('country');
       expect(select.getAttribute('label')).to.equal('Country');
-      expect(select.getAttribute('value')).to.equal('US');
+      expect(select.getAttribute('value')).to.equal('ATG');
       expect(select.getAttribute('required')).to.equal('true');
       const options = $$('option', select);
       // There are 249 options (countries + empty option)
       expect(options.length > 200).to.be.true;
+      // USA shouldn't be included
+      expect(options.some(option => option.value === 'USA')).to.be.false;
     });
   });
 

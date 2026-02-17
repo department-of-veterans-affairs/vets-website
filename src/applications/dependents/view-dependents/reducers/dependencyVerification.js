@@ -21,6 +21,25 @@ const initialState = {
   verifiableDependents: null,
 };
 
+/**
+ * @typedef {object} VerifyDependentsState
+ * @property {string} getDependencyVerificationStatus - status of get dependency
+ * verification API call
+ * @property {string|null} updateDiariesStatus - status of update diaries API
+ * call
+ * @property {object|null} error - error object
+ * @property {Array|null} verifiableDependents - list of verifiable dependents
+ *
+ * @typedef {object} VerifyDependentsAction
+ * @property {string} type - action type
+ * @property {object} response - API response object
+ * @property {object} error - error object
+ *
+ * verifyDependents
+ * @param {VerifyDependentsState} state - redux state
+ * @param {VerifyDependentsAction} action - redux action
+ * @returns {VerifyDependentsState} - updated redux state
+ */
 function verifyDependents(state = initialState, action) {
   switch (action.type) {
     case DEPENDENCY_VERIFICATION_CALL_SUCCESS:

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 
 import {
   validateCurrency,
@@ -8,6 +8,8 @@ import {
   validateAgentOrangeExposureDates,
   validateExposureDates,
   validatePolicyNumberGroupCode,
+  validateMarriageDate,
+  validateServiceDates,
 } from '../../../utils/validation';
 
 describe('ezr validation utils', () => {
@@ -31,6 +33,32 @@ describe('ezr validation utils', () => {
         };
         validateDependentDate(errors, '2010-01-01', {
           dateOfBirth: '2011-01-01',
+        });
+        expect(errors.addError.called).to.be.true;
+      });
+    });
+  });
+
+  context('when `validateMarriageDate` executes', () => {
+    context('when form data is valid', () => {
+      it('should not set error message', () => {
+        const errors = {
+          addError: sinon.spy(),
+        };
+        validateMarriageDate(errors, '2010-01-01', {
+          spouseDateOfBirth: '2009-12-31',
+        });
+        expect(errors.addError.called).to.be.false;
+      });
+    });
+
+    context('when birth date is after marriage date', () => {
+      it('should set error message', () => {
+        const errors = {
+          addError: sinon.spy(),
+        };
+        validateMarriageDate(errors, '2010-01-01', {
+          spouseDateOfBirth: '2011-01-01',
         });
         expect(errors.addError.called).to.be.true;
       });
@@ -296,4 +324,56 @@ describe('ezr validation utils', () => {
       });
     },
   );
+});
+
+describe('ezr `validateServiceDates` form validation', () => {
+  const dischargeDateSpy = sinon.spy();
+  const entryDateSpy = sinon.spy();
+  const getData = ({
+    dischargeDate = '2016-01-01',
+    entryDate = '2011-01-01',
+    birthdate = '1980-01-01',
+  }) => ({
+    errors: {
+      lastDischargeDate: { addError: dischargeDateSpy },
+      lastEntryDate: { addError: entryDateSpy },
+    },
+    fieldData: {
+      lastDischargeDate: dischargeDate,
+      lastEntryDate: entryDate,
+    },
+    formData: {
+      veteranDateOfBirth: birthdate,
+    },
+  });
+
+  afterEach(() => {
+    dischargeDateSpy.resetHistory();
+    entryDateSpy.resetHistory();
+  });
+
+  it('should not set error message when form data is valid', () => {
+    const { errors, fieldData, formData } = getData({});
+    validateServiceDates(errors, fieldData, formData);
+    expect(dischargeDateSpy.called).to.be.false;
+    expect(entryDateSpy.called).to.be.false;
+  });
+
+  it('should set error message when discharge date is before entry date', () => {
+    const { errors, fieldData, formData } = getData({
+      dischargeDate: '2010-01-01',
+    });
+    validateServiceDates(errors, fieldData, formData);
+    expect(dischargeDateSpy.called).to.be.true;
+  });
+
+  it('should set error message when entry date is less than 15 years after birthdate', () => {
+    const { errors, fieldData, formData } = getData({
+      dischargeDate: '2010-03-01',
+      entryDate: '2000-01-01',
+      birthdate: '1990-01-01',
+    });
+    validateServiceDates(errors, fieldData, formData);
+    expect(entryDateSpy.called).to.be.true;
+  });
 });

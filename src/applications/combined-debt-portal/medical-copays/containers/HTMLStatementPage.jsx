@@ -3,35 +3,29 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-
-import { setPageFocus } from '../../combined/utils/helpers';
+import {
+  setPageFocus,
+  showVHAPaymentHistory,
+} from '../../combined/utils/helpers';
 import Modals from '../../combined/components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
-import StatementCharges from '../components/StatementCharges';
 import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
-import DisputeCharges from '../components/DisputeCharges';
-import HowToPay from '../components/HowToPay';
-import BalanceQuestions from '../components/BalanceQuestions';
-import FinancialHelp from '../components/FinancialHelp';
 import NeedHelpCopay from '../components/NeedHelpCopay';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const HTMLStatementPage = ({ match }) => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showVHAPaymentHistory = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
-  );
-  const showCDPOneThingPerPage = useToggleValue(
-    TOGGLE_NAMES.showCDPOneThingPerPage,
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
   );
 
   const selectedId = match.params.id;
   const combinedPortalData = useSelector(state => state.combinedPortal);
   const statements = combinedPortalData.mcp.statements ?? [];
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
+
+  // TODO: Refactor selectedCopay to selectedStatement and update all references in the codebase
   const [selectedCopay] = statements.filter(({ id }) => id === selectedId);
 
   // using statementDateOutput since it has delimiters ('/') unlike pSStatementDate
@@ -97,69 +91,31 @@ const HTMLStatementPage = ({ match }) => {
         <p className="va-introtext" data-testid="facility-name">
           {`${selectedCopay?.station.facilityName}`}
         </p>
-        {showCDPOneThingPerPage ? (
-          <>
-            <AccountSummary
-              acctNum={acctNum}
-              currentBalance={selectedCopay.pHNewBalance}
-              newCharges={selectedCopay.pHTotCharges}
-              paymentsReceived={selectedCopay.pHTotCredits}
-              previousBalance={selectedCopay.pHPrevBal}
-              showOneThingPerPage={showCDPOneThingPerPage}
-              statementDate={statementDate}
-            />
-            {showVHAPaymentHistory ? (
-              <StatementTable
-                charges={charges}
-                formatCurrency={formatCurrency}
-                selectedCopay={selectedCopay}
-              />
-            ) : null}
-            <DownloadStatement
-              key={selectedId}
-              statementId={selectedId}
-              statementDate={selectedCopay.pSStatementDate}
-              fullName={fullName}
-            />
-            <StatementAddresses
-              data-testid="statement-addresses"
-              copay={selectedCopay}
-            />
-          </>
-        ) : (
-          <>
-            <va-on-this-page />
-            <AccountSummary
-              currentBalance={selectedCopay.pHNewBalance}
-              newCharges={selectedCopay.pHTotCharges}
-              paymentsReceived={selectedCopay.pHTotCredits}
-              previousBalance={selectedCopay.pHPrevBal}
-              statementDate={statementDate}
-              acctNum={acctNum}
-            />
-            <StatementCharges
-              data-testid="statement-charges"
-              copay={selectedCopay}
-              showOneThingPerPage={showCDPOneThingPerPage}
-            />
-            <div className="vads-u-margin-top--3">
-              <DownloadStatement
-                key={selectedId}
-                statementId={selectedId}
-                statementDate={selectedCopay.pSStatementDate}
-                fullName={fullName}
-              />
-            </div>
-            <StatementAddresses
-              data-testid="statement-addresses"
-              copay={selectedCopay}
-            />
-            <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
-            <FinancialHelp />
-            <DisputeCharges />
-            <BalanceQuestions />
-          </>
+        <AccountSummary
+          acctNum={acctNum}
+          currentBalance={selectedCopay.pHNewBalance}
+          newCharges={selectedCopay.pHTotCharges}
+          paymentsReceived={selectedCopay.pHTotCredits}
+          previousBalance={selectedCopay.pHPrevBal}
+          statementDate={statementDate}
+        />
+        {shouldShowVHAPaymentHistory && (
+          <StatementTable
+            charges={charges}
+            formatCurrency={formatCurrency}
+            selectedCopay={selectedCopay}
+          />
         )}
+        <DownloadStatement
+          key={selectedId}
+          statementId={selectedId}
+          statementDate={selectedCopay.pSStatementDate}
+          fullName={fullName}
+        />
+        <StatementAddresses
+          data-testid="statement-addresses"
+          copay={selectedCopay}
+        />
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />
         </Modals>

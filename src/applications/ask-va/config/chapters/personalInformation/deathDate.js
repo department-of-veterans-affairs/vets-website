@@ -1,10 +1,12 @@
 import React from 'react';
-import { validateCurrentOrPastMemorableDate } from 'platform/forms-system/src/js/validation.js';
+
+import { validateCurrentOrPastMemorableDate } from 'platform/forms-system/src/js/validation';
 import {
   titleUI,
   dateOfDeathUI,
   dateOfDeathSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
 import { CHAPTER_3 } from '../../../constants';
 
 const deathDatePage = {
@@ -14,8 +16,9 @@ const deathDatePage = {
       ...dateOfDeathUI(CHAPTER_3.DEATH_DATE.TITLE),
       'ui:validations': [validateCurrentOrPastMemorableDate],
       'ui:errorMessages': {
-        required: 'Please enter the date of death',
+        required: 'Enter the date of death',
       },
+      /* eslint-disable react/prop-types */
       'ui:reviewField': ({ children }) => (
         <div className="review-row">
           <dt>{CHAPTER_3.DEATH_DATE.TITLE}</dt>
@@ -34,6 +37,7 @@ const deathDatePage = {
           </dd>
         </div>
       ),
+      /* eslint-enable react/prop-types */
     },
   },
 

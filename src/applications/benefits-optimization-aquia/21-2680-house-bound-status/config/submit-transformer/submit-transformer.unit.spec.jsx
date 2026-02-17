@@ -6,6 +6,11 @@
 import { expect } from 'chai';
 import { submitTransformer } from './submit-transformer';
 
+function transformAndParse(mockFormConfig, formData) {
+  const result = JSON.parse(submitTransformer(mockFormConfig, formData));
+  return JSON.parse(result.form);
+}
+
 describe('Submit Transformer', () => {
   const mockFormConfig = {};
 
@@ -44,12 +49,12 @@ describe('Submit Transformer', () => {
         },
         statementOfTruthSignature: 'Anakin Skywalker',
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form).to.have.property('veteranInformation');
-      expect(result.form).to.have.property('claimantInformation');
-      expect(result.form).to.have.property('benefitInformation');
-      expect(result.form).to.have.property('additionalInformation');
-      expect(result.form).to.have.property('veteranSignature');
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result).to.have.property('veteranInformation');
+      expect(result).to.have.property('claimantInformation');
+      expect(result).to.have.property('benefitInformation');
+      expect(result).to.have.property('additionalInformation');
+      expect(result).to.have.property('veteranSignature');
     });
   });
 
@@ -67,8 +72,8 @@ describe('Submit Transformer', () => {
           veteranVaFileNumber: '987654321',
         },
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.veteranInformation).to.deep.equal({
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.veteranInformation).to.deep.equal({
         fullName: {
           first: 'Anakin',
           middle: 'L',
@@ -91,8 +96,8 @@ describe('Submit Transformer', () => {
           veteranSsn: '123456789',
         },
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.veteranInformation.fullName.middle).to.equal('');
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.veteranInformation.fullName.middle).to.equal('');
     });
   });
 
@@ -126,18 +131,16 @@ describe('Submit Transformer', () => {
           claimantEmail: 'anakin@jedi.org',
         },
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.claimantInformation.fullName).to.deep.equal({
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.claimantInformation.fullName).to.deep.equal({
         first: 'Anakin',
         middle: 'L',
         last: 'Skywalker',
       });
-      expect(result.form.claimantInformation.dateOfBirth).to.equal(
-        '1980-01-01',
-      );
-      expect(result.form.claimantInformation.ssn).to.equal('123456789');
-      expect(result.form.claimantInformation.relationship).to.equal('self');
-      expect(result.form.claimantInformation.address.street).to.equal(
+      expect(result.claimantInformation.dateOfBirth).to.equal('1980-01-01');
+      expect(result.claimantInformation.ssn).to.equal('123456789');
+      expect(result.claimantInformation.relationship).to.equal('self');
+      expect(result.claimantInformation.address.street).to.equal(
         '123 Tatooine Ave',
       );
     });
@@ -153,9 +156,9 @@ describe('Submit Transformer', () => {
           relationship: 'veteran',
         },
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.veteranInformation.ssn).to.equal('123456789');
-      expect(result.form.claimantInformation.ssn).to.equal('123456789');
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.veteranInformation.ssn).to.equal('123456789');
+      expect(result.claimantInformation.ssn).to.equal('123456789');
     });
 
     it('should strip formatting from phone number', () => {
@@ -164,12 +167,33 @@ describe('Submit Transformer', () => {
           relationship: 'veteran',
         },
         claimantContact: {
-          claimantPhoneNumber: '(555) 123-4567',
+          claimantPhoneNumber: {
+            callingCode: 1,
+            contact: '(555) 123-4567',
+            countryCode: 'US',
+          },
         },
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.claimantInformation.phoneNumber).to.equal(
-        '5551234567',
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.claimantInformation.phoneNumber).to.equal('5551234567');
+    });
+
+    it('should allow international phone numbers', () => {
+      const formData = {
+        claimantRelationship: {
+          relationship: 'veteran',
+        },
+        claimantContact: {
+          claimantPhoneNumber: {
+            callingCode: 880,
+            contact: '212345678',
+            countryCode: 'BD',
+          },
+        },
+      };
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.claimantInformation.internationalPhoneNumber).to.equal(
+        '+880212345678',
       );
     });
   });
@@ -206,28 +230,28 @@ describe('Submit Transformer', () => {
           },
         },
         claimantContact: {
-          claimantPhoneNumber: '5559876543',
+          claimantPhoneNumber: {
+            callingCode: 1,
+            contact: '5559876543',
+            countryCode: 'US',
+          },
           claimantEmail: 'padme@naboo.org',
         },
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.claimantInformation.fullName).to.deep.equal({
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.claimantInformation.fullName).to.deep.equal({
         first: 'Padmé',
         middle: 'A',
         last: 'Amidala',
       });
-      expect(result.form.claimantInformation.dateOfBirth).to.equal(
-        '1982-05-15',
-      );
-      expect(result.form.claimantInformation.ssn).to.equal('987654321');
-      expect(result.form.claimantInformation.relationship).to.equal('spouse');
-      expect(result.form.claimantInformation.address.street).to.equal(
+      expect(result.claimantInformation.dateOfBirth).to.equal('1982-05-15');
+      expect(result.claimantInformation.ssn).to.equal('987654321');
+      expect(result.claimantInformation.relationship).to.equal('spouse');
+      expect(result.claimantInformation.address.street).to.equal(
         '456 Naboo St',
       );
-      expect(result.form.claimantInformation.phoneNumber).to.equal(
-        '5559876543',
-      );
-      expect(result.form.claimantInformation.email).to.equal('padme@naboo.org');
+      expect(result.claimantInformation.phoneNumber).to.equal('5559876543');
+      expect(result.claimantInformation.email).to.equal('padme@naboo.org');
     });
   });
 
@@ -238,8 +262,8 @@ describe('Submit Transformer', () => {
           benefitType: 'SMC',
         },
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.benefitInformation.benefitSelection).to.equal('smc');
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.benefitInformation.benefitSelection).to.equal('smc');
     });
 
     it('should map SMP to lowercase smp', () => {
@@ -248,8 +272,8 @@ describe('Submit Transformer', () => {
           benefitType: 'SMP',
         },
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.benefitInformation.benefitSelection).to.equal('smp');
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.benefitInformation.benefitSelection).to.equal('smp');
     });
   });
 
@@ -260,17 +284,15 @@ describe('Submit Transformer', () => {
           isCurrentlyHospitalized: false,
         },
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.additionalInformation.currentlyHospitalized).to.equal(
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.additionalInformation.currentlyHospitalized).to.equal(
         false,
       );
-      expect(result.form.additionalInformation).to.not.have.property(
+      expect(result.additionalInformation).to.not.have.property(
         'admissionDate',
       );
-      expect(result.form.additionalInformation).to.not.have.property(
-        'hospitalName',
-      );
-      expect(result.form.additionalInformation).to.not.have.property(
+      expect(result.additionalInformation).to.not.have.property('hospitalName');
+      expect(result.additionalInformation).to.not.have.property(
         'hospitalAddress',
       );
     });
@@ -297,17 +319,13 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.additionalInformation.currentlyHospitalized).to.equal(
-        true,
-      );
-      expect(result.form.additionalInformation.admissionDate).to.equal(
-        '2024-01-15',
-      );
-      expect(result.form.additionalInformation.hospitalName).to.equal(
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.additionalInformation.currentlyHospitalized).to.equal(true);
+      expect(result.additionalInformation.admissionDate).to.equal('2024-01-15');
+      expect(result.additionalInformation.hospitalName).to.equal(
         'VA Medical Center',
       );
-      expect(result.form.additionalInformation.hospitalAddress).to.deep.equal({
+      expect(result.additionalInformation.hospitalAddress).to.deep.equal({
         street: '789 Hospital Rd',
         street2: 'Building A',
         city: 'Coruscant',
@@ -323,11 +341,9 @@ describe('Submit Transformer', () => {
       const formData = {
         statementOfTruthSignature: 'Anakin L Skywalker',
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.veteranSignature.signature).to.equal(
-        'Anakin L Skywalker',
-      );
-      expect(result.form.veteranSignature.date).to.match(/^\d{4}-\d{2}-\d{2}$/);
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.veteranSignature.signature).to.equal('Anakin L Skywalker');
+      expect(result.veteranSignature.date).to.match(/^\d{4}-\d{2}-\d{2}$/);
     });
   });
 
@@ -340,7 +356,7 @@ describe('Submit Transformer', () => {
           'view:someOtherField': 'also removed',
         },
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
+      const result = transformAndParse(mockFormConfig, formData);
       const resultString = JSON.stringify(result);
       expect(resultString).to.not.include('view:');
     });
@@ -353,10 +369,10 @@ describe('Submit Transformer', () => {
           veteranFullName: { first: 'Anakin' },
         },
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.veteranInformation.fullName.middle).to.equal('');
-      expect(result.form.veteranInformation.ssn).to.equal('');
-      expect(result.form.veteranInformation.vaFileNumber).to.be.undefined;
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.veteranInformation.fullName.middle).to.equal('');
+      expect(result.veteranInformation.ssn).to.equal('');
+      expect(result.veteranInformation.vaFileNumber).to.be.undefined;
     });
   });
 
@@ -375,8 +391,8 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.claimantInformation.address.country).to.equal('US');
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.claimantInformation.address.country).to.equal('US');
     });
 
     it('should preserve USA country code', () => {
@@ -394,8 +410,8 @@ describe('Submit Transformer', () => {
           },
         },
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.claimantInformation.address.country).to.equal('USA');
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.claimantInformation.address.country).to.equal('USA');
     });
   });
 
@@ -449,10 +465,10 @@ describe('Submit Transformer', () => {
         },
         statementOfTruthSignature: 'Anakin L Skywalker',
       };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
+      const result = transformAndParse(mockFormConfig, formData);
 
       // Verify all sections exist
-      expect(result.form).to.have.all.keys([
+      expect(result).to.have.all.keys([
         'veteranInformation',
         'claimantInformation',
         'benefitInformation',
@@ -461,28 +477,24 @@ describe('Submit Transformer', () => {
       ]);
 
       // Verify veteran information
-      expect(result.form.veteranInformation.fullName.first).to.equal('Anakin');
-      expect(result.form.veteranInformation.ssn).to.equal('123456789');
+      expect(result.veteranInformation.fullName.first).to.equal('Anakin');
+      expect(result.veteranInformation.ssn).to.equal('123456789');
 
       // Verify claimant information (should use veteran data)
-      expect(result.form.claimantInformation.fullName.first).to.equal('Anakin');
-      expect(result.form.claimantInformation.relationship).to.equal('self');
+      expect(result.claimantInformation.fullName.first).to.equal('Anakin');
+      expect(result.claimantInformation.relationship).to.equal('self');
 
       // Verify benefit information
-      expect(result.form.benefitInformation.benefitSelection).to.equal('smc');
+      expect(result.benefitInformation.benefitSelection).to.equal('smc');
 
       // Verify additional information
-      expect(result.form.additionalInformation.currentlyHospitalized).to.equal(
-        true,
-      );
-      expect(result.form.additionalInformation.hospitalName).to.equal(
+      expect(result.additionalInformation.currentlyHospitalized).to.equal(true);
+      expect(result.additionalInformation.hospitalName).to.equal(
         'VA Medical Center',
       );
 
       // Verify signature
-      expect(result.form.veteranSignature.signature).to.equal(
-        'Anakin L Skywalker',
-      );
+      expect(result.veteranSignature.signature).to.equal('Anakin L Skywalker');
     });
   });
 });

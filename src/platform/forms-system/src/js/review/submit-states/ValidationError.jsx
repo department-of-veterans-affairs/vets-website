@@ -23,7 +23,7 @@ function ValidationError(props) {
     formConfig?.formOptions?.useWebComponentForNavigation;
 
   const alert = formConfig.showReviewErrors ? (
-    <ErrorLinks appType={appType} testId={testId} />
+    <ErrorLinks appType={appType} testId={testId} formConfig={formConfig} />
   ) : (
     <ErrorMessage
       active

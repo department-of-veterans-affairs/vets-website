@@ -16,9 +16,8 @@ const InstitutionName = () => {
   const badFormat =
     facilityCode.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(facilityCode);
   const notFound = institutionName === 'not found';
-  const notIHL = details.ihlEligible === false;
   const notYR = details.yrEligible === false;
-  const hasError = badFormat || notFound || notYR || notIHL;
+  const hasError = badFormat || notFound || notYR;
 
   useEffect(
     () => {

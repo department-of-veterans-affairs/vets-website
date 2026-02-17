@@ -40,9 +40,6 @@ export const getAppData = state => ({
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
   savedForms: state?.user?.profile?.savedForms,
   user: state.user || {},
-  showDgiDirectDeposit1990EZ: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showDgiDirectDeposit1990EZ
-  ],
   showMeb1990EZMaintenanceAlert: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMeb1990EZMaintenanceAlert
   ],
@@ -73,8 +70,12 @@ export const getAppData = state => ({
   mebDpoAddressOptionEnabled: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebDpoAddressOptionEnabled
   ],
+  meb1995Reroute: !!toggleValues(state)[FEATURE_FLAG_NAMES.meb1995Reroute],
   // **NEW** flag for the v2 intro/process updates
   showMeb54901990eTextUpdate: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMeb54901990eTextUpdate
+  ],
+  mebBankInfoConfirmationField: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.mebBankInfoConfirmationField
   ],
 });

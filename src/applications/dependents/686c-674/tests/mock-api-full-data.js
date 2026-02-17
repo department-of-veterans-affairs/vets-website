@@ -11,7 +11,7 @@ const mockUser = require('./e2e/user.json');
 const mockVaFileNumber = require('./e2e/fixtures/va-file-number.json');
 const mockMaxData = require('./e2e/fixtures/removal-only-v3.json');
 
-const returnUrl = '/review-and-submit';
+const returnUrl = '/options-selection';
 
 const createDate = (yearsAgo = 0, monthsAgo = 0, formatDate = 'MM/dd/yyyy') =>
   dateFns.format(
@@ -50,6 +50,7 @@ const mockSipPut = {
         savedAt: 1593500000000,
         lastUpdated: 1593500000000,
         expiresAt: 99999999999,
+        inProgressFormId: 1234,
       },
     },
   },
@@ -66,7 +67,8 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(45),
           ssn: '3332',
-          relationshipToVeteran: 'Spouse',
+          relationshipToVeteran: 'Spouse', // prefill
+          relationship: 'Spouse', // API
           awardIndicator: 'Y',
         },
         {
@@ -74,7 +76,8 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(46),
           ssn: '3331',
-          relationshipToVeteran: 'Spouse',
+          relationshipToVeteran: 'Spouse', // prefill
+          relationship: 'Spouse', // API
           awardIndicator: 'Y',
         },
 
@@ -83,47 +86,44 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(17),
           ssn: '3479',
-          relationshipToVeteran: 'Child',
+          relationshipToVeteran: 'Child', // prefill
+          relationship: 'Child', // API
           awardIndicator: 'Y',
         },
         {
-          firstName: 'CLUMSY', // Death
+          firstName: 'FRANK', // Death
           lastName: 'FOSTER',
           dateOfBirth: createDate(33),
           ssn: '3236',
-          relationshipToVeteran: 'Child',
+          relationshipToVeteran: 'Child', // prefill
+          relationship: 'Child', // API
           awardIndicator: 'Y',
         },
         {
-          firstName: 'JOE', // Left school & no permanent disability
+          firstName: 'JOE', // Left school
           lastName: 'FOSTER',
           dateOfBirth: createDate(19),
           ssn: '3468',
-          relationshipToVeteran: 'Child',
+          relationshipToVeteran: 'Child', // prefill
+          relationship: 'Child', // API
           awardIndicator: 'Y',
         },
         {
-          firstName: 'MIKE', // Left school & has permanent disability
-          lastName: 'FOSTER',
-          dateOfBirth: createDate(20),
-          ssn: '3499',
-          relationshipToVeteran: 'Child',
-          awardIndicator: 'Y',
-        },
-        {
-          firstName: 'STACY', // Left household & < 50% financial support
+          firstName: 'STACY', // Stepchild left household & < 50% financial support
           lastName: 'FOSTER',
           dateOfBirth: createDate(0, 4),
           ssn: '3233',
-          relationshipToVeteran: 'Child', // Stepchild
+          relationshipToVeteran: 'Child', // prefill (Stepchild)
+          relationship: 'Child', // API
           awardIndicator: 'Y',
         },
         {
-          firstName: 'JENNIFER', // Left household & >= 50% financial support
+          firstName: 'JENNIFER', // Stepchild left household & >= 50% financial support
           lastName: 'FOSTER',
           dateOfBirth: createDate(4),
           ssn: '3311',
-          relationshipToVeteran: 'Child', // Stepchild
+          relationshipToVeteran: 'Child', // prefill (Stepchild)
+          relationship: 'Child', // API
           awardIndicator: 'Y',
         },
         {
@@ -131,7 +131,8 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(11),
           ssn: '3145',
-          relationshipToVeteran: 'Child',
+          relationshipToVeteran: 'Child', // prefill
+          relationship: 'Child', // API
           awardIndicator: 'Y',
         },
 
@@ -140,7 +141,8 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(89),
           ssn: '0104',
-          relationshipToVeteran: 'Parent',
+          relationshipToVeteran: 'Parent', // prefill
+          relationship: 'Parent', // API
           awardIndicator: 'Y',
         },
         {
@@ -148,8 +150,18 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(85),
           ssn: '0155',
-          relationshipToVeteran: 'Parent',
+          relationshipToVeteran: 'Parent', // prefill
+          relationship: 'Parent', // API
           awardIndicator: 'Y',
+        },
+        {
+          firstName: 'EXTRA', // No award
+          lastName: 'FOSTER',
+          dateOfBirth: createDate(10),
+          ssn: '3189',
+          relationshipToVeteran: 'Child', // prefill
+          relationship: 'Child', // API
+          awardIndicator: 'N',
         },
       ],
     },
@@ -157,7 +169,7 @@ const mockDependents = {
 };
 
 /**
- * @returns mock user data with inProgressForms
+ * @returns {Object} mock user data with inProgressForms
  */
 const userData = () => {
   const twoMonthsAgo = dateFns.getUnixTime(
@@ -196,20 +208,37 @@ const userData = () => {
   };
 };
 
+const mockRatingInfo = {
+  data: {
+    id: '',
+    type: 'lighthouse_rating_info',
+    attributes: {
+      userPercentOfDisability: 70,
+      sourceSystem: 'Lighthouse',
+    },
+  },
+};
+
 const responses = {
   'GET /v0/user': userData(),
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
       features: [
-        { name: 'vaDependentsV2', value: true },
-        { name: 'va_dependents_v2', value: true },
         { name: 'vaDependentsV3', value: true },
         { name: 'va_dependents_v3', value: true },
         { name: 'vaDependentsNetWorthAndPension', value: true },
         { name: 'va_dependents_net_worth_and_pension', value: true },
         { name: 'vaDependentsDuplicateModals', value: true },
         { name: 'va_dependents_duplicate_modals', value: true },
+        { name: 'manage_dependents', value: true },
+        { name: 'manageDependents', value: true },
+        { name: 'vaDependentsVerification', value: true },
+        { name: 'va_dependents_verification', value: true },
+        { name: 'vaDependentsBrowserMonitoringEnabled', value: true },
+        { name: 'va_dependents_browser_monitoring_enabled', value: true },
+        { name: 'va_dependents_no_ssn', value: true },
+        { name: 'vaDependentsNoSsn', value: true },
       ],
     },
   },
@@ -220,6 +249,7 @@ const responses = {
   'GET /v0/profile/valid_va_file_number': mockVaFileNumber,
   'GET /v0/in_progress_forms/686C-674-V2': mockSipGet,
   'PUT /v0/in_progress_forms/686C-674-V2': mockSipPut,
+  'GET /v0/disability_compensation_form/rating_info': mockRatingInfo,
 
   'GET /v0/dependents_applications/show': mockDependents,
 

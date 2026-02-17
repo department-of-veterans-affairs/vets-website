@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SubmittingClaimsAddtlInfo = (
+const SubmittingClaimsAddtlInfo = () => (
   <va-additional-info
     trigger="Other helpful information about submitting claims"
     class="vads-u-margin-bottom--4"

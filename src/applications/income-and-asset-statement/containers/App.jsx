@@ -1,17 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import environment from 'platform/utilities/environment';
 import { openReviewChapter as openReviewChapterAction } from 'platform/forms-system/src/js/actions';
 
+import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { NoFormPage } from '../components/NoFormPage';
 import { getAssetTypes } from '../components/FormAlerts/SupplementaryFormsAlert';
+import { hasIncompleteTrust, shouldShowDeclinedAlert } from '../helpers';
 
+/**
+ * Income and Asset Statement Application
+ * @typedef {object} IncomeAndAssetStatementAppProps
+ * @property {object} location - current location object
+ * @property {node} children - child components
+ * @property {boolean} isLoggedIn - user login status
+ * @property {function} openReviewChapter - action to open a chapter on review & submit page
+ *
+ * @param {IncomeAndAssetStatementAppProps} props - Component props
+ * @returns {React.Component} - Income and Asset Statement Application
+ */
 function App({ location, children, isLoggedIn, openReviewChapter }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const incomeAndAssetsFormEnabled = useToggleValue(
@@ -26,6 +38,8 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
     state => state?.featureToggles?.loading ?? false,
   );
   const assets = useSelector(state => state?.form?.data?.ownedAssets || []);
+  const trusts = useSelector(state => state?.form?.data?.trusts || []);
+  const [assetsChecked, setAssetsChecked] = useState(false);
 
   const content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -37,17 +51,16 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
   useBrowserMonitoring({
     loggedIn: isLoggedIn,
     toggleName: 'incomeAndAssetsBrowserMonitoringEnabled',
+
     applicationId: '58e7ffff-9710-46f0-bf72-bf1f7b0f1ba4',
     clientToken: 'puba95e30e73b0bae094ea212fca3870ef3',
-    // `site` refers to the Datadog site parameter of your organization
-    // see https://docs.datadoghq.com/getting_started/site/
     service: 'benefits-income-and-assets',
     version: '1.0.0',
-    // record 100% of staging sessions, but only 20% of production
-    sessionReplaySampleRate:
-      environment.vspEnvironment() === 'staging' ? 100 : 20,
+
+    // record 100% of staging & production sessions; adjust the dashboard
+    // retention filters to manage volume & cost
     sessionSampleRate: 100,
-    defaultPrivacyLevel: 'mask-user-input',
+    sessionReplaySampleRate: 100,
   });
 
   useEffect(
@@ -64,15 +77,23 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
 
   useEffect(
     () => {
-      if (location.pathname === '/review-and-submit') {
+      // Use assetsChecked flag to prevent infinite loop
+      if (!assetsChecked && location.pathname === '/review-and-submit') {
         const assetTypes = getAssetTypes(assets);
-        if (assets.length > 0 && assetTypes.length > 0) {
-          // auto-open "Property and business" accordion on review & submit page
+        setAssetsChecked(true);
+        if (
+          assets.length > 0 &&
+          assetTypes.length > 0 &&
+          shouldShowDeclinedAlert(assets)
+        ) {
           openReviewChapter('ownedAssets');
+        }
+        if (hasIncompleteTrust(trusts)) {
+          openReviewChapter('trusts');
         }
       }
     },
-    [location, assets, openReviewChapter],
+    [assetsChecked, location.pathname, assets, trusts, openReviewChapter],
   );
 
   if (isLoadingFeatures) {
@@ -81,6 +102,19 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
 
   if (!incomeAndAssetsFormEnabled) {
     return <NoFormPage />;
+  }
+
+  // If on intro page, return content
+  if (location.pathname === '/introduction') {
+    return content;
+  }
+
+  // If a user is not logged in redirect them to the introduction page
+  if (!isLoggedIn) {
+    document.location.replace(manifest.rootUrl);
+    return (
+      <va-loading-indicator message="Redirecting to introduction page..." />
+    );
   }
 
   return content;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { formatMDY } from '../../utils/helpers';
+import { formatDateLong } from 'platform/utilities/date';
 
 export default function StudentFeedbackCardGrid({
   pageCards,
@@ -55,10 +55,10 @@ export default function StudentFeedbackCardGrid({
                   <ul className="vads-u-margin--0 vads-u-padding--0 vads-u-list-style--none">
                     <li className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1">
                       <span className="vads-u-font-weight--bold">
-                        Complaint year:
+                        Complaint date:
                       </span>
                       <span className="vads-u-font-weight--bold">
-                        {formatMDY(card.closed)}
+                        {formatDateLong(card.closed)}
                       </span>
                     </li>
                     <li className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1">

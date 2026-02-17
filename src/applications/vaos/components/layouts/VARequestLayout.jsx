@@ -1,9 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { shallowEqual } from 'recompose';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { getRealFacilityId } from '../../utils/appointment';
 import { selectRequestedAppointmentData } from '../../appointment-list/redux/selectors';
@@ -40,7 +39,7 @@ export default function VARequestLayout({ data: appointment }) {
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
   const preferredModality = appointment?.preferredModality;
-  const { reasonForAppointment, patientComments } = appointment || {};
+  const { patientComments } = appointment || {};
 
   let heading = 'We have received your request';
   if (isPendingAppointment && !showConfirmMsg)
@@ -137,11 +136,7 @@ export default function VARequestLayout({ data: appointment }) {
           {facilityPhone && <FacilityPhone contact={facilityPhone} icon />}
           {!facilityPhone && <>Not available</>}
         </Section>
-        <Details
-          reason={reasonForAppointment}
-          otherDetails={patientComments}
-          request
-        />
+        <Details otherDetails={patientComments} request />
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>
           <br />

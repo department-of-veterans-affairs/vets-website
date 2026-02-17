@@ -37,15 +37,16 @@ export const App = ({
   setFormData,
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
-  showDgiDirectDeposit1990EZ,
   showMebEnhancements06,
   showMebEnhancements08,
   showMebEnhancements09,
   mebKickerNotificationEnabled,
+  mebBankInfoConfirmationField,
   email,
   duplicateEmail,
   duplicatePhone,
   meb160630Automation,
+  meb1995Reroute,
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -350,6 +351,13 @@ export const App = ({
         });
       }
 
+      if (meb1995Reroute !== formData?.meb1995Reroute) {
+        setFormData({
+          ...formData,
+          meb1995Reroute,
+        });
+      }
+
       if (showMebEnhancements09 !== formData.showMebEnhancements09) {
         setFormData({
           ...formData,
@@ -357,10 +365,12 @@ export const App = ({
         });
       }
 
-      if (showDgiDirectDeposit1990EZ !== formData.showDgiDirectDeposit1990EZ) {
+      if (
+        mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
+      ) {
         setFormData({
           ...formData,
-          showDgiDirectDeposit1990EZ,
+          mebBankInfoConfirmationField,
         });
       }
 
@@ -375,7 +385,6 @@ export const App = ({
       formData,
       isLOA3,
       setFormData,
-      showDgiDirectDeposit1990EZ,
       showMeb1990EZMaintenanceAlert,
       showMeb1990EZR6MaintenanceMessage,
       showMebEnhancements06,
@@ -385,8 +394,10 @@ export const App = ({
       duplicateEmail,
       duplicatePhone,
       meb160630Automation,
+      meb1995Reroute,
       mebDpoAddressOptionEnabled,
       mebKickerNotificationEnabled,
+      mebBankInfoConfirmationField,
     ],
   );
 
@@ -476,11 +487,12 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   meb160630Automation: PropTypes.bool,
+  meb1995Reroute: PropTypes.bool,
+  mebBankInfoConfirmationField: PropTypes.bool,
   mebDpoAddressOptionEnabled: PropTypes.bool,
   mebKickerNotificationEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
-  showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,

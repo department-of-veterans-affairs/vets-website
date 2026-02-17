@@ -262,4 +262,35 @@ describe('Introduction page', () => {
 
     expect($('va-link-action[text="Start a mileage-only claim"]')).to.not.exist;
   });
+
+  it('should hide entry point if appointment is community care (isCC)', () => {
+    MockDate.set('2025-01-05');
+    renderWithStoreAndRouter(<IntroductionPage {...props} />, {
+      initialState: {
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+        travelPay: {
+          appointment: {
+            isLoading: true,
+            error: null,
+            data: {
+              ...mockAppt,
+              isPast: true,
+              daysSinceAppt: 6,
+              isOutOfBounds: false,
+              isCC: true,
+            },
+          },
+        },
+      },
+      reducers: reducer,
+    });
+
+    expect($('va-link-action[text="Start a mileage-only claim"]')).to.not.exist;
+  });
 });

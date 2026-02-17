@@ -1,26 +1,40 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import { focusElement } from 'platform/utilities/ui';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-const IntroductionPage = props => {
-  const { route } = props;
-  const { formConfig, pageList } = route;
+const OMB_RES_BURDEN = 10;
+const OMB_NUM = '2900-0219';
+const OMB_EXP_DATE = '12/31/2027';
 
-  useEffect(
-    () => {
-      focusElement('.va-nav-breadcrumbs-list');
-    },
-    [props],
+const IntroductionPage = ({ route }) => {
+  const { formConfig, pageList } = route;
+  const { customText, formId, prefillEnabled, savedFormMessages } = formConfig;
+
+  const sipIntroProps = useMemo(
+    () => ({
+      unauthStartText: 'Sign in to start your form',
+      messages: savedFormMessages,
+      formConfig: { customText },
+      headingLevel: 2,
+      prefillEnabled,
+      pageList,
+      formId,
+    }),
+    [customText, formId, pageList, prefillEnabled, savedFormMessages],
   );
 
-  return (
-    <article className="schemaform-intro">
-      <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
+  useEffect(() => focusElement('.schemaform-intro h1'), []);
 
-      <p>
+  return (
+    <div className="schemaform-intro">
+      <FormTitle
+        title="Submit other health insurance"
+        subTitle="CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)"
+      />
+
+      <p className="va-introtext">
         Use this form if you’re applying for Civilian Health and Medical Program
         of the Department of Veterans Affairs (CHAMPVA) benefits and have other
         non-VA health insurance. You can also use this form to report changes in
@@ -29,19 +43,18 @@ const IntroductionPage = props => {
       </p>
 
       <h2>What to know before you fill out this form</h2>
-
       <p>
         If you’re applying for CHAMPVA benefits for the first time, here’s what
         you’ll need to provide:
       </p>
       <ul>
         <li>
-          <b>Personal information.</b> This includes your phone number and
-          address.
+          <strong>Personal information.</strong> This includes your phone number
+          and address.
         </li>
         <li>
-          <b>Insurance information.</b> This includes any non-VA health
-          insurance companies that cover you. And you may need to upload
+          <strong>Insurance information.</strong> This includes any non-VA
+          health insurance companies that cover you. You may need to upload
           supporting documents, like copies of your Medicare cards, other health
           insurance cards, schedule of benefits and co-payment documents. Be
           sure to include any secondary or supplemental insurance such as
@@ -50,46 +63,36 @@ const IntroductionPage = props => {
       </ul>
 
       <p>
-        <b>If you’re already receiving CHAMPVA benefits,</b> you can provide
-        updated personal information, like your phone number and address.
-        <br />
-        <br />
-        And you can also provide your updated non-VA health insurance
-        information and copies of your Medicare or other health insurance cards.
+        <strong>If you’re already receiving CHAMPVA benefits,</strong> you can
+        provide updated personal information, like your phone number and
+        address.
       </p>
-      <SaveInProgressIntro
-        formId={formConfig.formId}
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        unauthStartText="Sign in to start your form"
-        formConfig={{
-          customText: {
-            appType: 'form',
-            continueAppButtonText: 'Continue your form',
-            startNewAppButtonText: 'Start a new form',
-          },
-        }}
-      />
+      <p>
+        You can also provide your updated non-VA health insurance information
+        and copies of your Medicare or other health insurance cards.
+      </p>
+      <div className="vads-u-margin-y--4">
+        <SaveInProgressIntro {...sipIntroProps} />
+      </div>
       <va-omb-info
-        res-burden={10}
-        omb-number="2900-0219"
-        exp-date="12/31/2027"
+        res-burden={OMB_RES_BURDEN}
+        omb-number={OMB_NUM}
+        exp-date={OMB_EXP_DATE}
       />
-    </article>
+    </div>
   );
 };
 
 IntroductionPage.propTypes = {
-  isLoggedIn: PropTypes.bool,
-  route: PropTypes.object,
+  route: PropTypes.shape({
+    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    formConfig: PropTypes.shape({
+      customText: PropTypes.object.isRequired,
+      formId: PropTypes.string.isRequired,
+      prefillEnabled: PropTypes.bool.isRequired,
+      savedFormMessages: PropTypes.object.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    isLoggedIn: state.user.login.currentlyLoggedIn,
-  };
-};
-
-export default connect(mapStateToProps)(IntroductionPage);
+export default IntroductionPage;

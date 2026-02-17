@@ -5,11 +5,12 @@
  */
 
 import {
-  firstNameLastNameNoSuffixUI,
-  firstNameLastNameNoSuffixSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { isValidNameLength } from '../../shared/utils/validators/validators';
 
 /**
  * Format title function for veteran's full name fields
@@ -18,9 +19,54 @@ import {
  * @returns {string} The formatted title
  */
 const formatVeteranNameTitle = title => {
-  if (title === 'first name') return "Veteran's first or given name";
-  if (title === 'last name') return "Veteran's last or family name";
+  if (title === 'first or given name') return "Veteran's first or given name";
+  if (title === 'last or family name') return "Veteran's last or family name";
+  if (title === 'middle name') return "Veteran's middle initial";
   return title; // Keep defaults for middle name and suffix
+};
+
+const customVeteranNameSchema = {
+  ...fullNameNoSuffixSchema,
+  properties: {
+    ...fullNameNoSuffixSchema.properties,
+    middle: {
+      type: 'string',
+      maxLength: 1,
+    },
+  },
+};
+
+const customVeteranNameUISchema = formatTitle => {
+  const baseSchema = fullNameNoSuffixUI(formatTitle);
+  return {
+    ...baseSchema,
+    first: {
+      ...baseSchema.first,
+      'ui:validations': [
+        ...baseSchema.first['ui:validations'],
+        (errors = {}, _fieldData, formData) => {
+          isValidNameLength(
+            errors,
+            formData?.veteranInformation?.veteranFullName?.first,
+            12,
+          );
+        },
+      ],
+    },
+    last: {
+      ...baseSchema.last,
+      'ui:validations': [
+        ...baseSchema.last['ui:validations'],
+        (errors = {}, _fieldData, formData) => {
+          isValidNameLength(
+            errors,
+            formData?.veteranInformation?.veteranFullName?.last,
+            18,
+          );
+        },
+      ],
+    },
+  };
 };
 
 /**
@@ -30,7 +76,7 @@ const formatVeteranNameTitle = title => {
 export const veteranInformationUiSchema = {
   'ui:title': 'Who is the Veteran you are providing information for?',
   veteranInformation: {
-    veteranFullName: firstNameLastNameNoSuffixUI(formatVeteranNameTitle),
+    veteranFullName: customVeteranNameUISchema(formatVeteranNameTitle),
     dateOfBirth: dateOfBirthUI({
       title: "Veteran's date of birth",
       errorMessages: {
@@ -52,7 +98,7 @@ export const veteranInformationSchema = {
       type: 'object',
       required: ['veteranFullName', 'dateOfBirth'],
       properties: {
-        veteranFullName: firstNameLastNameNoSuffixSchema,
+        veteranFullName: customVeteranNameSchema,
         dateOfBirth: dateOfBirthSchema,
       },
     },

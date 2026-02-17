@@ -2,7 +2,6 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import debounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
 import {
@@ -15,6 +14,7 @@ import {
   DEBOUNCE_WAIT,
   getFileError,
   simulateUploadMultiple,
+  VaProgressUploadAnnounce,
 } from './vaFileInputFieldHelpers';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 
@@ -28,14 +28,13 @@ const VaFileInputMultipleField = props => {
   const [percentsUploaded, setPercentsUploaded] = useState([]);
   const [initPoll, setInitPoll] = useState(true);
   const dispatch = useDispatch();
+  const mappedProps = vaFileInputFieldMapping(props);
   const { percentUploaded, handleUpload } = useFileUpload(
-    uiOptions.fileUploadUrl,
-    uiOptions.accept,
-    uiOptions.formNumber,
+    uiOptions,
+    mappedProps.accept,
     dispatch,
   );
   const componentRef = useRef(null);
-  const mappedProps = vaFileInputFieldMapping(props);
 
   // if prefill, initialize values
   useEffect(() => {
@@ -198,7 +197,7 @@ const VaFileInputMultipleField = props => {
     assignFileUploadToStore(uploadedFile, index);
   };
 
-  const handleFileAdded = async (file, index, mockFormData) => {
+  const handleFileAdded = async (file, index) => {
     const { fileError, encryptedCheck } = await getFileError(
       file,
       uiOptions,
@@ -228,12 +227,6 @@ const VaFileInputMultipleField = props => {
 
     // keep track of potential missisng password errors
     errorManager.addPasswordInstance(index, encryptedCheck);
-
-    // cypress test / skip the network call and its callbacks
-    if (environment.isTest() && !environment.isUnitTest()) {
-      childrenProps.onChange([mockFormData]);
-      return;
-    }
 
     // mock form has no back-end but we want to add files and simulate progress of upload
     if (uiOptions.skipUpload && !encryptedCheck) {
@@ -296,11 +289,11 @@ const VaFileInputMultipleField = props => {
 
   const handleChange = e => {
     const { detail } = e;
-    const { action, state, file, index, mockFormData } = detail;
+    const { action, state, file, index } = detail;
     switch (action) {
       case 'FILE_ADDED': {
         errorManager.setInternalFileInputErrors(index, false);
-        handleFileAdded(file, index, mockFormData);
+        handleFileAdded(file, index);
         setCurrentIndex(index);
         break;
       }
@@ -380,28 +373,32 @@ const VaFileInputMultipleField = props => {
     .map((error, i) => (error ? null : i))
     .filter(i => i !== null);
   return (
-    <VaFileInputMultiple
-      {...mappedProps}
-      error={mappedProps.error}
-      ref={componentRef}
-      encrypted={encrypted}
-      onVaMultipleChange={handleChange}
-      onVaFileInputError={handleInternalFileInputError}
-      errors={errors}
-      resetVisualState={resetVisualState}
-      percentUploaded={percentsUploaded}
-      passwordErrors={passwordErrors}
-      onVaSelect={handleAdditionalInput}
-      maxFileSize={uiOptions.maxFileSize}
-      minFileSize={uiOptions.minFileSize}
-      slotFieldIndexes={slotFieldIndexes}
-    >
-      {mappedProps.additionalInput && (
-        <div className="additional-input-container">
-          {mappedProps.additionalInput()}
-        </div>
-      )}
-    </VaFileInputMultiple>
+    <>
+      <VaProgressUploadAnnounce
+        uploading={percentsUploaded.some(percent => !!percent)}
+      />
+      <VaFileInputMultiple
+        data-dd-privacy="mask"
+        {...mappedProps}
+        error={mappedProps.error}
+        ref={componentRef}
+        encrypted={encrypted}
+        onVaMultipleChange={handleChange}
+        onVaFileInputError={handleInternalFileInputError}
+        errors={errors}
+        resetVisualState={resetVisualState}
+        percentUploaded={percentsUploaded}
+        passwordErrors={passwordErrors}
+        onVaSelect={handleAdditionalInput}
+        slotFieldIndexes={slotFieldIndexes}
+      >
+        {mappedProps.additionalInput && (
+          <div className="additional-input-container">
+            {mappedProps.additionalInput()}
+          </div>
+        )}
+      </VaFileInputMultiple>
+    </>
   );
 };
 

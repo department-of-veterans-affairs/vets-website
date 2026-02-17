@@ -3,17 +3,19 @@ import {
   currentOrPastDateUI,
   fullNameSchema,
   fullNameUI,
-  ssnUI,
-  ssnSchema,
   titleUI,
-  vaFileNumberUI,
-  vaFileNumberSchema,
+  ssnOrVaFileNumberSchema,
+  ssnOrVaFileNumberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   VaTextInputField,
   VaSelectField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import { setDefaultIsOver65 } from './helpers';
+
+const updatedFullNameSchema = fullNameSchema;
+updatedFullNameSchema.properties.first.maxLength = 40;
+updatedFullNameSchema.properties.last.maxLength = 50;
 
 /** @type {PageSchema} */
 export default {
@@ -28,11 +30,11 @@ export default {
     veteranFullName: {
       ...fullNameUI(),
       first: {
-        'ui:title': 'First name',
+        'ui:title': 'First or given name',
         'ui:webComponentField': VaTextInputField,
         'ui:required': formData => formData.claimantNotVeteran === true,
         'ui:errorMessages': {
-          required: 'Please enter a first name',
+          required: 'Enter a first or given name',
         },
         'ui:options': {
           hideIf: formData => formData.claimantNotVeteran === false,
@@ -46,11 +48,11 @@ export default {
         },
       },
       last: {
-        'ui:title': 'Last name',
+        'ui:title': 'Last or family name',
         'ui:webComponentField': VaTextInputField,
         'ui:required': formData => formData.claimantNotVeteran === true,
         'ui:errorMessages': {
-          required: 'Please enter a last name',
+          required: 'Enter a last or family name',
         },
         'ui:options': {
           hideIf: formData => formData.claimantNotVeteran === false,
@@ -64,14 +66,7 @@ export default {
         },
       },
     },
-    veteranSocialSecurityNumber: ssnUI(),
-    vaFileNumber: {
-      ...vaFileNumberUI('VA file number'),
-      'ui:options': {
-        hint:
-          'You must enter either a VA file number or Social Security number.',
-      },
-    },
+    veteranSocialSecurityNumber: ssnOrVaFileNumberUI(),
     veteranDateOfBirth: currentOrPastDateUI({
       title: 'Date of birth',
       monthSelect: false,
@@ -85,9 +80,8 @@ export default {
         type: 'object',
         properties: {},
       },
-      veteranFullName: { ...fullNameSchema, required: [] },
-      veteranSocialSecurityNumber: ssnSchema,
-      vaFileNumber: vaFileNumberSchema,
+      veteranFullName: { ...updatedFullNameSchema, required: [] },
+      veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },
   },

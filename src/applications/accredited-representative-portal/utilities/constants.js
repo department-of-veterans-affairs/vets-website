@@ -3,13 +3,12 @@ import {
   AUTH_PARAMS as USIP_QUERY_PARAMS,
   EXTERNAL_APPS as USIP_APPLICATIONS,
 } from 'platform/user/authentication/constants';
-
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
-
 import {
   API_SIGN_IN_SERVICE_URL as SIS_API_URL,
   OAUTH_KEYS as SIS_QUERY_PARAM_KEYS,
 } from '~/platform/utilities/oauth/constants';
+import { HOME_LABEL } from './poaRequests';
 
 const ARP_SIGN_IN_URL = '/representative/sign-in';
 const USIP_BASE_URL = environment.BASE_URL;
@@ -19,7 +18,6 @@ export const getSignInUrl = ({ returnUrl } = {}) => {
   const url = new URL(signInPath, USIP_BASE_URL);
   url.searchParams.set(USIP_QUERY_PARAMS.application, USIP_APPLICATIONS.ARP);
   url.searchParams.set(USIP_QUERY_PARAMS.OAuth, true);
-  url.searchParams.set(USIP_QUERY_PARAMS.to, '/representative/dashboard');
   if (returnUrl) {
     url.searchParams.set(USIP_QUERY_PARAMS.to, returnUrl);
   }
@@ -38,40 +36,74 @@ export const SIGN_OUT_URL = (() => {
 
 export const SEARCH_PARAMS = {
   STATUS: 'status',
-  SORTBY: 'sortBy',
-  SORTORDER: 'sortOrder',
-  SIZE: 'pageSize',
-  NUMBER: 'pageNumber',
+  SORT: 'sort',
+  SIZE: 'perPage',
+  NUMBER: 'page',
+  SELECTED_INDIVIDUAL: 'show',
+};
+export const SORT_BY = {
+  CREATED: 'created_at',
+  RESOLVED: 'resolved_at',
+  OLDEST: 'oldest',
+  NEWEST: 'newest',
 };
 
-export const NAV_MOBILE_DROPDOWN = [
-  {
-    LABEL: 'Dashboard',
-    URL: '/dashboard',
-    TEST_ID: 'user-nav-profile-link',
-  },
-];
+export const STATUSES = {
+  PENDING: 'pending',
+  PROCESSED: 'processed',
+};
 
-export const NAV_MENU_DROPDOWN = [
+export const PROCESSED_SORT_DEFAULTS = {
+  SORT: 'newest',
+  // default is 20 per page
+  SIZE: '20',
+  // default is page 1
+  NUMBER: '1',
+  SELECTED_INDIVIDUAL: 'all',
+};
+
+export const PENDING_SORT_DEFAULTS = {
+  SORT: 'newest',
+  // default is 20 per page
+  SIZE: '20',
+  // default is page 1
+  NUMBER: '1',
+  SELECTED_INDIVIDUAL: 'all',
+};
+
+export const SUBMISSION_DEFAULTS = {
+  STATUS: null,
+  SORT: 'newest',
+  // default is 20 per page
+  SIZE: '20',
+  // default is page 1
+  NUMBER: '1',
+};
+
+export const SORT_OPTIONS = {
+  DESC_OPTION: 'Submitted date (newest)',
+  ASC_OPTION: 'Submitted date (oldest)',
+};
+
+export const SORT_DEFAULTS = {
+  SORT_BY: 'created_at',
+  SORT_ORDER: 'desc',
+  // default is 20 per page
+  SIZE: 20,
+  // default is page 1
+  NUMBER: 1,
+  SELECTED_INDIVIDUAL: 'all',
+};
+
+export const DETAILS_BC_LABEL = 'details breadcrumb';
+export const SUBMISSIONS_BC_LABEL = 'submissions breadcrumb';
+export const submissionsBC = [
   {
-    LABEL: 'Find Claimant',
-    URL: '/find-claimant',
-    ICON: 'search',
-    TEST_ID: 'user-nav-claimant-search-link',
+    href: '/representative',
+    label: HOME_LABEL,
   },
   {
-    LABEL: 'Representation Requests',
-    URL: '/representation-requests',
-    TEST_ID: 'user-nav-representation-requests-link',
-  },
-  {
-    LABEL: 'Submissions',
-    URL: '/submissions',
-    TEST_ID: 'submissions-link',
-  },
-  {
-    LABEL: 'Help',
-    URL: '/get-help',
-    TEST_ID: 'user-nav-help-link',
+    href: window.location.href,
+    label: 'Submissions',
   },
 ];

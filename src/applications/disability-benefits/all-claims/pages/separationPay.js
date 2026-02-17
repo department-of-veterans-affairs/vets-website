@@ -1,6 +1,9 @@
-import set from 'platform/utilities/data/set';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  selectUI,
+  textUI,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { isValidYear } from '../validations';
 import {
   SEPARATION_PAY_TITLE,
@@ -29,24 +32,22 @@ export const uiSchema = {
       'ui:title': SEPARATION_PAY_SECTION_TITLE,
       'ui:description': separationPayDetailsDescription,
     },
-    separationPayDate: {
-      'ui:title': SEPARATION_PAY_DATE_TITLE,
-      'ui:validations': [isValidYear],
-      'ui:errorMessages': { pattern: SEPARATION_PAY_DATE_ERROR },
-      'ui:options': { widgetClassNames: 'year-input' },
-    },
-    separationPayBranch: {
-      'ui:title': SEPARATION_PAY_BRANCH_TITLE,
-      'ui:options': {
-        updateSchema: (_formData, schema) => {
-          if (!schema.enum?.length) {
-            const options = getBranches();
-            return set('enum', options, schema);
-          }
-          return schema;
-        },
+    separationPayDate: textUI({
+      title: SEPARATION_PAY_DATE_TITLE,
+      width: 'xs',
+      validations: [isValidYear],
+      errorMessages: { pattern: SEPARATION_PAY_DATE_ERROR },
+    }),
+    separationPayBranch: selectUI({
+      title: SEPARATION_PAY_BRANCH_TITLE,
+      updateSchema: (_formData, schema) => {
+        if (!schema.enum?.length) {
+          const options = getBranches();
+          return { ...schema, enum: options };
+        }
+        return schema;
       },
-    },
+    }),
   },
   'ui:confirmationField': ConfirmationSeparationPay,
 };

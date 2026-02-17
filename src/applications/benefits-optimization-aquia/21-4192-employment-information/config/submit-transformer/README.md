@@ -52,7 +52,7 @@ The transformer maps frontend form data to the API schema defined in:
 // Frontend (spread across multiple sections)
 {
   employerInformation: { employerName, employerAddress },
-  employmentDates: { beginningDate, endingDate, currentlyEmployed },
+  employmentDates: { beginningDate, endingDate },
   employmentEarningsHours: { typeOfWork, amountEarned, timeLost, dailyHours, weeklyHours },
   employmentConcessions: { concessions },
   employmentTermination: { terminationReason, dateLastWorked },
@@ -163,9 +163,9 @@ The transformer maps frontend form data to the API schema defined in:
 ## Conditional Logic
 
 ### Currently Employed
-If `employmentDates.currentlyEmployed === true`:
-- `endingDateOfEmployment` is set to `null`
-- Termination information may not be collected
+If no ending date is provided:
+- `endingDateOfEmployment` is omitted from the payload (or set to `null`)
+- Termination information pages are not shown
 
 ### Lump Sum Payment
 If `employmentLastPayment.lumpSumPayment === 'no'`:

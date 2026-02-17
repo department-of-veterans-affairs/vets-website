@@ -1,0 +1,54 @@
+{
+  "data": {
+    "view:hasMedicare": true,
+    "medicare": [
+      {
+        "medicareParticipant": "28e7f1064a74",
+        "medicarePlanType": "ab",
+        "medicareNumber": "1EG4TE5MK73",
+        "view:medicarePartAEffectiveDate": {
+          "medicarePartAEffectiveDate": "2023-01-15"
+        },
+        "view:medicarePartBEffectiveDate": {
+          "medicarePartBEffectiveDate": "2023-01-15"
+        },
+        "medicarePartAPartBFrontCard": [
+          {
+            "attachmentId": "Front of Medicare Parts A or B card",
+            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
+            "name": "sample.png",
+            "isEncrypted": false
+          }
+        ],
+        "medicarePartAPartBBackCard": [
+          {
+            "attachmentId": "Back of Medicare Parts A or B card",
+            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
+            "name": "sample.png",
+            "isEncrypted": false
+          }
+        ],
+        "hasMedicarePartD": true,
+        "medicarePartDEffectiveDate": "2023-02-01",
+        "medicarePartDFrontCard": [
+          {
+            "attachmentId": "Front of Medicare Part D card",
+            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
+            "name": "sample.png",
+            "isEncrypted": false
+          }
+        ],
+        "medicarePartDBackCard": [
+          {
+            "attachmentId": "Back of Medicare Part D card",
+            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
+            "name": "sample.png",
+            "isEncrypted": false
+          }
+        ]
+      }
+    ],
+    "view:hasHealthInsurance": false,
+    "statementOfTruthSignature": "Certifier Jones"
+  }
+}

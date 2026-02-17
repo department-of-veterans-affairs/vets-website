@@ -1,5 +1,6 @@
 import React from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 
 const ReviewSectionContent = ({
   title,
@@ -19,10 +20,12 @@ const ReviewSectionContent = ({
     >
       <div className="form-review-panel-page vads-u-margin-bottom--0">
         <form className="rjsf">
-          <div className="form-review-panel-page-header-row">
-            <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin-bottom--2">
-              {title}
-            </h4>
+          <div className="form-review-panel-page-header-row vads-u-margin-bottom--2">
+            {!!title && (
+              <h5 className="form-review-panel-page-header vads-u-font-size--h5">
+                {title}
+              </h5>
+            )}
             <div className="vads-u-justify-content--flex-end">
               <VaButton
                 text="Edit"
@@ -47,3 +50,10 @@ const ReviewSectionContent = ({
 };
 
 export default ReviewSectionContent;
+
+ReviewSectionContent.propTypes = {
+  editSection: PropTypes.func.isRequired,
+  items: PropTypes.array.isRequired,
+  keys: PropTypes.array.isRequired,
+  title: PropTypes.string,
+};

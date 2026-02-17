@@ -132,16 +132,21 @@ const MessageList = props => {
     [sortOrder],
   );
 
-  // run once on component mount to set initial message and page data
   useEffect(
     () => {
       if (messages?.length) {
         paginatedMessages.current = paginateData(sortMessages(messages));
 
-        setCurrentMessages(paginatedMessages.current[page - 1]);
+        const maxPage = paginatedMessages.current.length;
+        if (page > maxPage) {
+          dispatch(setSearchPage(1));
+          setCurrentMessages(paginatedMessages.current[0]);
+        } else {
+          setCurrentMessages(paginatedMessages.current[page - 1]);
+        }
       }
     },
-    [page, messages, paginateData, sortMessages],
+    [page, messages, paginateData, sortMessages, dispatch],
   );
 
   // update pagination values on...page change

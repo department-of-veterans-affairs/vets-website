@@ -1,14 +1,29 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, cleanup, act } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import {
+  mockApiRequest,
+  mockMultipleApiRequests,
+  resetFetch,
+} from 'platform/testing/unit/helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import IntentToFile from '../IntentToFile';
 import { activeItf, nonActiveItf, mockItfData } from './helpers';
 
 describe('IntentToFile', () => {
+  beforeEach(() => {
+    // Ensure clean state before each test
+    resetFetch();
+    sessionStorage.clear();
+  });
+
+  afterEach(() => {
+    cleanup();
+    resetFetch();
+    sessionStorage.clear();
+  });
   const getData = ({
     baseUrl = '/path-to-app',
     itfType = 'compensation',
@@ -54,6 +69,23 @@ describe('IntentToFile', () => {
       </div>,
     );
 
+  // Helper for tests that need async fetch to complete before assertions
+  const renderPageAsync = async ({ props, mockStore } = {}) => {
+    let result;
+    await act(async () => {
+      result = render(
+        <div id="test">
+          <Provider store={mockStore}>
+            <IntentToFile {...props} />
+          </Provider>
+        </div>,
+      );
+      // Give the fetch time to complete and state to update
+      await new Promise(r => setTimeout(r, 100));
+    });
+    return result;
+  };
+
   it('should render searching for ITF loading indicator', async () => {
     mockApiRequest({});
     const { container } = renderPage(getData());
@@ -68,7 +100,7 @@ describe('IntentToFile', () => {
 
   it('should render ITF found alert', async () => {
     mockApiRequest(mockItfData(activeItf));
-    const { container } = renderPage(getData());
+    const { container } = await renderPageAsync(getData());
 
     await waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
@@ -79,8 +111,12 @@ describe('IntentToFile', () => {
   });
 
   it('should render ITF created alert', async () => {
-    mockApiRequest(mockItfData(nonActiveItf));
-    const { container } = renderPage(getData());
+    // First call: fetch ITF returns non-active, Second call: create ITF succeeds
+    mockMultipleApiRequests([
+      { response: mockItfData(nonActiveItf), shouldResolve: true },
+      { response: mockItfData(activeItf), shouldResolve: true },
+    ]);
+    const { container } = await renderPageAsync(getData());
 
     await waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
@@ -91,8 +127,12 @@ describe('IntentToFile', () => {
   });
 
   it('should render ITF failed alert', async () => {
-    mockApiRequest(mockItfData(), false);
-    const { container } = renderPage(getData());
+    // First call: fetch ITF fails, Second call: create ITF also fails
+    mockMultipleApiRequests([
+      { response: mockItfData(), shouldResolve: false },
+      { response: mockItfData(), shouldResolve: false },
+    ]);
+    const { container } = await renderPageAsync(getData());
 
     await waitFor(() => {
       expect($('va-alert[status="warning"]', container).textContent).to.include(
@@ -134,7 +174,7 @@ describe('IntentToFile', () => {
   it('should render full ITF page with navigation buttons and restore page when navigation is clicked', async () => {
     mockApiRequest(mockItfData(activeItf));
     const { props, mockStore } = getData();
-    const { container } = await render(
+    const { container } = render(
       <Provider store={mockStore}>
         <IntentToFile {...props}>
           <div id="test">
@@ -145,11 +185,16 @@ describe('IntentToFile', () => {
       </Provider>,
     );
 
+    // Wait for ITF wrapper to appear
     await waitFor(() => {
       expect($('.itf-wrapper', container)).to.exist;
       expect($('#test', container)).to.not.exist;
-      $('va-button', container).click();
-    }).then(() => {
+    });
+
+    // Click the button and wait for the page to be restored
+    $('va-button', container).click();
+
+    await waitFor(() => {
       expect($('.itf-wrapper', container)).to.not.exist;
       expect($('#test', container)).to.exist;
     });
@@ -158,11 +203,17 @@ describe('IntentToFile', () => {
   it('should not autofocus success alert when disableAutoFocus is true and ITF exists', async () => {
     mockApiRequest(mockItfData(activeItf));
     const { props, mockStore } = getData();
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntentToFile {...props} disableAutoFocus />
-      </Provider>,
-    );
+    let container;
+
+    await act(async () => {
+      const result = render(
+        <Provider store={mockStore}>
+          <IntentToFile {...props} disableAutoFocus />
+        </Provider>,
+      );
+      container = result.container;
+      await new Promise(r => setTimeout(r, 100));
+    });
 
     await waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
@@ -173,13 +224,23 @@ describe('IntentToFile', () => {
   });
 
   it('should not autofocus ITF created alert when disableAutoFocus is true and new ITF is created', async () => {
-    mockApiRequest(mockItfData(nonActiveItf));
+    // First call: fetch ITF returns non-active, Second call: create ITF succeeds
+    mockMultipleApiRequests([
+      { response: mockItfData(nonActiveItf), shouldResolve: true },
+      { response: mockItfData(activeItf), shouldResolve: true },
+    ]);
     const { props, mockStore } = getData();
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntentToFile {...props} disableAutoFocus />
-      </Provider>,
-    );
+    let container;
+
+    await act(async () => {
+      const result = render(
+        <Provider store={mockStore}>
+          <IntentToFile {...props} disableAutoFocus />
+        </Provider>,
+      );
+      container = result.container;
+      await new Promise(r => setTimeout(r, 100));
+    });
 
     await waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
@@ -189,12 +250,27 @@ describe('IntentToFile', () => {
     });
   });
 
-  it('should not autofocus ITF failed alert when disableAutoFocus is true and ITF lookup fails', () => {
-    mockApiRequest(mockItfData(), false);
-    const { container } = renderPage(getData());
+  it('should not autofocus ITF failed alert when disableAutoFocus is true and ITF lookup fails', async () => {
+    // First call: fetch ITF fails, Second call: create ITF also fails
+    mockMultipleApiRequests([
+      { response: mockItfData(), shouldResolve: false },
+      { response: mockItfData(), shouldResolve: false },
+    ]);
+    const { props, mockStore } = getData();
+    let container;
 
-    waitFor(() => {
-      expect($('va-alert[status="success"]', container).textContent).to.include(
+    await act(async () => {
+      const result = render(
+        <Provider store={mockStore}>
+          <IntentToFile {...props} disableAutoFocus />
+        </Provider>,
+      );
+      container = result.container;
+      await new Promise(r => setTimeout(r, 100));
+    });
+
+    await waitFor(() => {
+      expect($('va-alert[status="warning"]', container).textContent).to.include(
         'We’re sorry. We can’t find a record of your intent to file',
       );
       expect(document.activeElement?.tagName).to.not.equal('VA-ALERT');

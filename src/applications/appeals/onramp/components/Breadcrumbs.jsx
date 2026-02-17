@@ -17,7 +17,7 @@ export const defaultBreadcrumbs = [
   },
   {
     href: '/decision-reviews',
-    label: 'Decision Reviews',
+    label: 'Decision reviews and appeals',
   },
   {
     href: manifest.rootUrl,

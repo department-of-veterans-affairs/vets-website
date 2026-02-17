@@ -51,9 +51,19 @@ describe('526 utils shared page', () => {
   });
 
   it('recognizes isNewCondition / isRatedDisability values of the form', () => {
-    expect(utils.isNewCondition({ ratedDisability: NEW_CONDITION_OPTION })).to
-      .be.true;
-    expect(utils.isRatedDisability({ ratedDisability: 'Knee' })).to.be.true;
+    const formData = {
+      [ARRAY_PATH]: [
+        {
+          ratedDisability: NEW_CONDITION_OPTION,
+        },
+        {
+          ratedDisability: 'Knee',
+        },
+      ],
+    };
+
+    expect(utils.isNewCondition(formData, 0)).to.be.true;
+    expect(utils.isRatedDisability(formData, 1)).to.be.true;
   });
 
   it('recognizes isNewCondition / isRatedDisability values with array items', () => {
@@ -132,6 +142,7 @@ describe('526 utils shared page', () => {
         condition: 'Knee',
         cause: 'NEW',
         primaryDescription: 'Pain',
+        ratedDisability: NEW_CONDITION_OPTION,
       }),
     ).to.be.false;
 
@@ -149,6 +160,7 @@ describe('526 utils shared page', () => {
         cause: 'SECONDARY',
         causedByDisability: { Back: true },
         causedByDisabilityDescription: 'Because …',
+        ratedDisability: NEW_CONDITION_OPTION,
       }),
     ).to.be.false;
 
@@ -165,6 +177,7 @@ describe('526 utils shared page', () => {
         cause: 'WORSENED',
         worsenedDescription: 'x',
         worsenedEffects: 'y',
+        ratedDisability: NEW_CONDITION_OPTION,
       }),
     ).to.be.false;
 
@@ -181,6 +194,7 @@ describe('526 utils shared page', () => {
         cause: 'VA',
         vaMistreatmentDescription: 'x',
         vaMistreatmentLocation: 'Clinic',
+        ratedDisability: NEW_CONDITION_OPTION,
       }),
     ).to.be.false;
   });

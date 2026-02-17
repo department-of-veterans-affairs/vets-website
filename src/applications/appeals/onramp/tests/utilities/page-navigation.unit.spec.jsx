@@ -5,7 +5,7 @@ import { ALL_QUESTIONS, ALL_RESULTS, ROUTES } from '../../constants';
 import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
 import { RESULTS_NAME_MAP } from '../../constants/results-data-map';
 
-const { HLR, INIT, NO, SC, YES } = RESPONSES;
+const { CFI, HLR, INIT, NO, SC, YES } = RESPONSES;
 const { RESULTS_2_H_2B_1 } = RESULTS_NAME_MAP;
 
 const {
@@ -194,6 +194,30 @@ describe('page navigation utilities', () => {
         Q_1_3_CLAIM_CONTESTED: NO,
         Q_2_0_CLAIM_TYPE: SC,
         Q_2_IS_1_SERVICE_CONNECTED: NO,
+        Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
+      };
+
+      navigateForward(
+        ALL_QUESTIONS,
+        ALL_RESULTS,
+        Q_2_IS_1A_LAW_POLICY_CHANGE,
+        formResponses,
+        router,
+        updateResultsPageSpy,
+      );
+
+      expect(router.push.firstCall.calledWith(ROUTES.Q_2_IS_1B_NEW_EVIDENCE)).to
+        .be.true;
+    });
+
+    it('should navigate to the route for Q_2_IS_1B_NEW_EVIDENCE for the correct form responses (path #3)', () => {
+      const formResponses = {
+        Q_1_1_CLAIM_DECISION: YES,
+        Q_1_2_CLAIM_DECISION: YES,
+        Q_1_3_CLAIM_CONTESTED: NO,
+        Q_2_0_CLAIM_TYPE: CFI,
+        Q_2_IS_1_SERVICE_CONNECTED: YES,
+        Q_2_IS_2_CONDITION_WORSENED: NO,
         Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
       };
 

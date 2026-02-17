@@ -9,7 +9,10 @@ import IntroductionPage from '../../containers/IntroductionPage';
 const baseProps = {
   route: {
     path: 'introduction',
-    pageList: [],
+    pageList: [
+      { path: '/introduction', title: 'Introduction' },
+      { path: '/first-page', title: 'First Page' },
+    ],
     formConfig,
   },
   userLoggedIn: false,
@@ -61,7 +64,7 @@ const mockStore = {
 const renderWithStore = (ui, store = mockStore) =>
   render(<Provider store={store}>{ui}</Provider>);
 
-describe('22-10215 <IntroductionPage> (RTL, store pattern like example)', () => {
+describe('22-8794 <IntroductionPage> (RTL, store pattern like example)', () => {
   it('renders without crashing', () => {
     const { container } = renderWithStore(<IntroductionPage {...baseProps} />);
     expect(container).to.exist;
@@ -115,7 +118,7 @@ describe('22-10215 <IntroductionPage> (RTL, store pattern like example)', () => 
     );
   });
 
-  // Logged OUT → shows sign-in alert (no SIP CTA text visible)
+  // Logged OUT → shows sign-in alert with no "start without signing in" link
   it('renders "Start the form" section with sign-in alert when logged out', () => {
     const { getByRole, container } = renderWithStore(
       <IntroductionPage {...baseProps} />,
@@ -139,13 +142,12 @@ describe('22-10215 <IntroductionPage> (RTL, store pattern like example)', () => 
     );
     expect(signInButton).to.exist;
 
-    // “Start your form without signing in” link text is split; normalize
+    // Because hideUnauthedStartLink is true when logged out, there should be
+    // NO "Start your form without signing in" link
     const startWithoutLink = container.querySelector(
       'a.schemaform-start-button',
     );
-    expect(startWithoutLink).to.exist;
-    const normalized = startWithoutLink.textContent.replace(/\s+/g, ' ').trim();
-    expect(normalized).to.equal('Start your form without signing in');
+    expect(startWithoutLink).to.not.exist;
   });
 
   // Logged IN → SIP renders start CTA (not the sign-in alert)
@@ -181,7 +183,7 @@ describe('22-10215 <IntroductionPage> (RTL, store pattern like example)', () => 
     // Be flexible about how SIP renders the CTA:
     // - It may be a <va-button text="...">
     // - Or a native <button> / <a> with visible text
-    const needle = 'Start your 85/15 calculations report';
+    const needle = 'Start your Designation of certifying official(s)';
 
     // 1) try <va-button text="...">
     let found =
@@ -208,7 +210,7 @@ describe('22-10215 <IntroductionPage> (RTL, store pattern like example)', () => 
   });
 });
 
-describe('22-10215 <IntroductionPage> OMB modal wiring (refactored helpers)', () => {
+describe('22-8794 <IntroductionPage> OMB modal wiring (refactored helpers)', () => {
   let MutationObserverBackup;
   let lastObserverInstance;
 

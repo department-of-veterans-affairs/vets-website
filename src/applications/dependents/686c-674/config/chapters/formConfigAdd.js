@@ -36,11 +36,7 @@ import {
 
 import { TASK_KEYS } from '../constants';
 import { isChapterFieldRequired } from '../helpers';
-import {
-  showPensionRelatedQuestions,
-  isAddingDependents,
-  noV3Picklist,
-} from '../utilities';
+import { showPensionRelatedQuestions, isAddingDependents } from '../utilities';
 
 export const addSpouse = {
   title: 'Add your spouse',
@@ -126,7 +122,6 @@ export const addSpouse = {
     },
     currentMarriageInformationPartFour: {
       depends: formData =>
-        noV3Picklist(formData) &&
         isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
         isAddingDependents(formData),
       title: 'How did you get married?',

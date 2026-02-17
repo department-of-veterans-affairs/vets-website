@@ -31,8 +31,8 @@ export default {
       required: true,
     }),
     activeServiceDateRange: currentOrPastDateRangeUI(
-      'Date initially entered active duty',
-      'Final release date from active duty',
+      { title: 'Date initially entered active duty', dataDogHidden: true },
+      { title: 'Final release date from active duty', dataDogHidden: true },
       'Date initially entered active duty must be before final date released from active duty',
     ),
     serviceNumber: serviceNumberUI('Military Service number if you have one'),

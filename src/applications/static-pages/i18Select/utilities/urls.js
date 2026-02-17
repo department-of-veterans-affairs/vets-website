@@ -132,4 +132,12 @@ export default {
     en: '/careers-employment/vocational-rehabilitation/eligibility/',
     es: '/careers-employment/vocational-rehabilitation/eligibility-esp/',
   },
+  afterYourReview: {
+    en: '/decision-reviews/after-you-request-review/',
+    es: '/decision-reviews/after-you-request-review-esp/',
+  },
+  howToRequestCOE: {
+    en: '/housing-assistance/home-loans/how-to-request-coe/',
+    es: '/housing-assistance/home-loans/how-to-request-coe-esp/',
+  },
 };

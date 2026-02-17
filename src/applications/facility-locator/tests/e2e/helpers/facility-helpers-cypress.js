@@ -243,12 +243,7 @@ const resultsData = {
               link:
                 'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/caregiverSupport',
             },
-            {
-              name: 'COVID-19 vaccines',
-              serviceId: 'covid19Vaccine',
-              link:
-                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/covid19Vaccine',
-            },
+
             {
               name: 'Dental/oral surgery',
               serviceId: 'dental',

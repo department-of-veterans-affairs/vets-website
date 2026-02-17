@@ -1,6 +1,9 @@
-import moment from 'moment';
 import defaultVaccines from '../fixtures/vaccines/vaccines.json';
 import BaseDetailsPage from './BaseDetailsPage';
+import {
+  formatDateMonthDayCommaYear,
+  formatDateYear,
+} from '../../../util/dateHelpers';
 
 class VaccinesDetailsPage extends BaseDetailsPage {
   verifyVaccineName = (VaccinesDetails = defaultVaccines.entry[0]) => {
@@ -11,15 +14,13 @@ class VaccinesDetailsPage extends BaseDetailsPage {
 
   verifyVaccineDate = (VaccinesDetails = defaultVaccines.entry[0]) => {
     cy.get('[data-testid="header-time"]').contains(
-      moment(VaccinesDetails.resource.occurrenceDateTime).format(
-        'MMMM D, YYYY',
-      ),
+      formatDateMonthDayCommaYear(VaccinesDetails.resource.occurrenceDateTime),
     );
   };
 
   verifyVaccineDateYearOnly = (VaccinesDetails = defaultVaccines.entry[0]) => {
     cy.get('[data-testid="header-time"]').contains(
-      moment(VaccinesDetails.resource.occurrenceDateTime).format('YYYY'),
+      formatDateYear(VaccinesDetails.resource.occurrenceDateTime),
     );
   };
 

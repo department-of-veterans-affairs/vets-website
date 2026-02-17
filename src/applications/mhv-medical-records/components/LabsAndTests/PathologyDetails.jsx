@@ -58,13 +58,17 @@ const PathologyDetails = props => {
       ...generatePathologyContent(record),
     };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(
-      pdfName,
-      pdfData,
-      'medicalRecords',
-      'Medical Records - Pathology details - PDF generation error',
-      runningUnitTest,
-    );
+    try {
+      await makePdf(
+        pdfName,
+        pdfData,
+        'medicalRecords',
+        'Medical Records - Pathology details - PDF generation error',
+        runningUnitTest,
+      );
+    } catch {
+      // makePdf handles error logging to Datadog/Sentry
+    }
   };
 
   const generatePathologyTxt = async () => {

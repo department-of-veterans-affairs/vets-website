@@ -1,0 +1,111 @@
+{
+  "data": {
+    "id": "167328",
+    "type": "appointment",
+    "attributes": {
+      "id": "167328",
+      "identifier": [
+        {
+          "system": "Appointment/",
+          "value": "4139383339353234"
+        }
+      ],
+      "kind": "clinic",
+      "status": "booked",
+      "serviceType": "audiology",
+      "serviceTypes": [
+        {
+          "coding": [
+            {
+              "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+              "code": "audiology"
+            }
+          ]
+        }
+      ],
+      "serviceCategory": [
+        {
+          "coding": [
+            {
+              "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+              "code": "COMPENSATION & PENSION",
+              "display": "COMPENSATION & PENSION"
+            }
+          ],
+          "text": "COMPENSATION & PENSION"
+        }
+      ],
+      "patientIcn": "1013120826V646496",
+      "locationId": "983GC",
+      "localStartTime": "2025-02-20T16:30:00.000-08:00",
+      "clinic": "945",
+      "start": "2025-02-20T16:30:00Z",
+      "end": "2025-02-20T17:00:00Z",
+      "created": "2024-03-17T00:00:00Z",
+      "cancellable": false,
+      "extension": {
+        "ccLocation": {
+          "address": {}
+        },
+        "vistaStatus": ["NO ACTION TAKEN"]
+      },
+      "serviceName": "FTC C&P AUDIO BEV",
+      "physicalLocation": "FORT COLLINS AUDIO",
+      "friendlyName": "C&P BEV AUDIO FTC",
+      "location": {
+        "id": "983GC",
+        "type": "appointments",
+        "attributes": {
+          "id": "983GC",
+          "vistaSite": "983",
+          "vastParent": "983",
+          "type": "va_facilities",
+          "name": "Fort Collins VA Clinic",
+          "classification": "Multi-Specialty CBOC",
+          "timezone": {
+            "timeZoneId": "Asia/Manila"
+          },
+          "lat": 40.553875,
+          "long": -105.08795,
+          "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
+          "phone": {
+            "main": "970-224-1550"
+          },
+          "physicalAddress": {
+            "line": ["2509 Research Boulevard"],
+            "city": "Fort Collins",
+            "state": "CO",
+            "postalCode": "80526-8108"
+          },
+          "healthService": [
+            "Audiology",
+            "EmergencyCare",
+            "MentalHealthCare",
+            "PrimaryCare",
+            "SpecialtyCare"
+          ]
+        }
+      },
+      "modality": "vaInPerson",
+      "pending": false,
+      "past": true,
+      "future": false,
+      "travelPayClaim": {
+        "metadata": {
+          "status": 200,
+          "success": true,
+          "message": "Data retrieved successfully"
+        },
+        "claim": {
+          "id": "bd427107-91ac-4a4a-94ae-177df5aa32dc",
+          "claimNumber": "8c661fg8-7a96-5b7a-a64b-583e6dg96c32",
+          "claimStatus": "Saved",
+          "appointmentDateTime": "2025-02-20T16:30:00Z",
+          "facilityName": "Fort Collins VA Clinic",
+          "createdOn": "2025-03-24T22:22:52.549Z",
+          "modifiedOn": "2025-03-26T22:22:52.549Z"
+        }
+      }
+    }
+  }
+}

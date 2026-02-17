@@ -25,6 +25,9 @@ import {
   GET_ENHANCED_LETTERS_DOWNLOADING,
   GET_ENHANCED_LETTERS_SUCCESS,
   GET_ENHANCED_LETTERS_FAILURE,
+  GET_TSA_LETTER_ELIGIBILITY_ERROR,
+  GET_TSA_LETTER_ELIGIBILITY_LOADING,
+  GET_TSA_LETTER_ELIGIBILITY_SUCCESS,
 } from '../utils/constants';
 
 export const initialState = {
@@ -40,6 +43,7 @@ export const initialState = {
   benefitInfo: {},
   enhancedLetters: [],
   enhancedLetterStatus: {},
+  tsaLetterEligibility: {},
 };
 
 function letters(state = initialState, action) {
@@ -181,6 +185,35 @@ function letters(state = initialState, action) {
         enhancedLetterStatus: {
           ...state.enhancedLetterStatus,
           [action.letterType]: DOWNLOAD_STATUSES.failure,
+        },
+      };
+    }
+    case GET_TSA_LETTER_ELIGIBILITY_ERROR: {
+      return {
+        ...state,
+        tsaLetterEligibility: {
+          error: true,
+          loading: false,
+        },
+      };
+    }
+    case GET_TSA_LETTER_ELIGIBILITY_LOADING: {
+      return {
+        ...state,
+        tsaLetterEligibility: {
+          error: false,
+          loading: true,
+        },
+      };
+    }
+    case GET_TSA_LETTER_ELIGIBILITY_SUCCESS: {
+      return {
+        ...state,
+        tsaLetterEligibility: {
+          documentId: action.data?.attributes?.documentId,
+          documentVersion: action.data?.attributes?.documentVersion,
+          error: false,
+          loading: false,
         },
       };
     }

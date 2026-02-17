@@ -3,12 +3,15 @@ import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import * as reactRedux from 'react-redux';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import MedicationsListFilter from '../../../components/MedicationsList/MedicationsListFilter';
 import reducer from '../../../reducers';
 import {
   ACTIVE_FILTER_KEY,
   ALL_MEDICATIONS_FILTER_KEY,
+  IN_PROGRESS_FILTER_KEY,
   filterOptions,
+  filterOptionsV2,
 } from '../../../util/constants';
 
 let sandbox;
@@ -20,6 +23,11 @@ describe('Medications List Filter component', () => {
     recentlyRequested: 43,
     renewal: 29,
     nonActive: 403,
+    inactive: 403, // V2 version of nonActive
+    inProgress: 25,
+    shipped: 12,
+    transferred: 8,
+    statusNotAvailable: 5,
   };
 
   let dispatchSpy;
@@ -38,14 +46,27 @@ describe('Medications List Filter component', () => {
     initialState = {},
     updateFilter,
     filterCount = filterCountObj,
+    isCernerPilot = false,
+    isV2StatusMapping = false,
+    isLoading = false,
   ) => {
+    const state = {
+      ...initialState,
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
+        [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
+        ...initialState.featureToggles,
+      },
+    };
+
     return renderWithStoreAndRouterV6(
       <MedicationsListFilter
         filterCount={filterCount}
         updateFilter={updateFilter}
+        isLoading={isLoading}
       />,
       {
-        initialState,
+        initialState: state,
         reducers: reducer,
       },
     );
@@ -113,5 +134,201 @@ describe('Medications List Filter component', () => {
 
     // Verify updateFilter prop was called
     expect(updateFilter.calledWith(ALL_MEDICATIONS_FILTER_KEY)).to.be.true;
+  });
+
+  // Shared test data
+  const FLAG_COMBINATIONS = [
+    {
+      cernerPilot: false,
+      v2StatusMapping: false,
+      useV2: false,
+      desc: 'both flags disabled',
+    },
+    {
+      cernerPilot: true,
+      v2StatusMapping: false,
+      useV2: false,
+      desc: 'only cernerPilot enabled',
+    },
+    {
+      cernerPilot: false,
+      v2StatusMapping: true,
+      useV2: false,
+      desc: 'only v2StatusMapping enabled',
+    },
+    {
+      cernerPilot: true,
+      v2StatusMapping: true,
+      useV2: true,
+      desc: 'both flags enabled',
+    },
+  ];
+
+  describe('filter options based on flag combinations', () => {
+    FLAG_COMBINATIONS.forEach(
+      ({ cernerPilot, v2StatusMapping, useV2, desc }) => {
+        describe(`when ${desc}`, () => {
+          it('shows correct filter options', () => {
+            const screen = setup(
+              {},
+              () => {},
+              filterCountObj,
+              cernerPilot,
+              v2StatusMapping,
+              false, // isLoading
+            );
+
+            // V2-only options
+            if (useV2) {
+              expect(screen.getByTestId('filter-option-IN_PROGRESS')).to.exist;
+              expect(screen.getByTestId('filter-option-SHIPPED')).to.exist;
+              expect(screen.getByTestId('filter-option-TRANSFERRED')).to.exist;
+              expect(screen.getByTestId('filter-option-INACTIVE')).to.exist;
+              expect(screen.getByTestId('filter-option-STATUS_NOT_AVAILABLE'))
+                .to.exist;
+              expect(screen.queryByTestId('filter-option-RECENTLY_REQUESTED'))
+                .to.not.exist;
+              expect(screen.queryByTestId('filter-option-NON_ACTIVE')).to.not
+                .exist;
+            } else {
+              expect(screen.getByTestId('filter-option-RECENTLY_REQUESTED')).to
+                .exist;
+              expect(screen.queryByTestId('filter-option-IN_PROGRESS')).to.not
+                .exist;
+              expect(screen.queryByTestId('filter-option-SHIPPED')).to.not
+                .exist;
+            }
+
+            // Common options
+            expect(screen.getByTestId('filter-option-ACTIVE')).to.exist;
+          });
+
+          if (useV2) {
+            it('shows correct V2 filter descriptions', () => {
+              const screen = setup(
+                {},
+                () => {},
+                filterCountObj,
+                cernerPilot,
+                v2StatusMapping,
+                false, // isLoading
+              );
+              const inProgressOption = screen.getByTestId(
+                'filter-option-IN_PROGRESS',
+              );
+              expect(inProgressOption).to.have.attribute(
+                'description',
+                filterOptionsV2[IN_PROGRESS_FILTER_KEY].description,
+              );
+            });
+          }
+        });
+      },
+    );
+  });
+
+  describe('Filter count mapping', () => {
+    it('uses V1 filter count keys when BOTH CernerPilot and V2StatusMapping flags disabled', () => {
+      const v1FilterCount = {
+        allMedications: 100,
+        active: 20,
+        recentlyRequested: 15,
+        renewal: 10,
+        nonActive: 55,
+      };
+      const screen = setup({}, () => {}, v1FilterCount, false, false, false);
+      expect(screen.getByTestId('filter-option-RECENTLY_REQUESTED')).to.exist;
+      expect(screen.getByTestId('filter-option-NON_ACTIVE')).to.exist;
+    });
+
+    it('uses V2 filter count keys when BOTH CernerPilot and V2StatusMapping flags enabled', () => {
+      const v2FilterCount = {
+        allMedications: 100,
+        active: 20,
+        inProgress: 15,
+        shipped: 10,
+        inactive: 45,
+        transferred: 5,
+        statusNotAvailable: 5,
+      };
+      const screen = setup({}, () => {}, v2FilterCount, true, true, false);
+      expect(screen.getByTestId('filter-option-IN_PROGRESS')).to.exist;
+      expect(screen.getByTestId('filter-option-SHIPPED')).to.exist;
+      expect(screen.getByTestId('filter-option-INACTIVE')).to.exist;
+    });
+  });
+
+  describe('Button loading states', () => {
+    it('shows loading state on apply button when isLoading is true', () => {
+      const updateFilter = sandbox.spy();
+      const screen = setup(
+        { rx: { preferences: { filterOption: ACTIVE_FILTER_KEY } } },
+        updateFilter,
+        filterCountObj,
+        false,
+        false,
+        true, // isLoading = true
+      );
+
+      const applyButton = screen.getByTestId('filter-button');
+      const resetButton = screen.getByTestId('filter-reset-button');
+
+      expect(applyButton).to.have.attribute('loading', 'true');
+      expect(resetButton).to.not.have.attribute('loading');
+    });
+
+    it('never shows loading state when isLoading is false', () => {
+      const updateFilter = sandbox.spy();
+      const screen = setup(
+        { rx: { preferences: { filterOption: ACTIVE_FILTER_KEY } } },
+        updateFilter,
+        filterCountObj,
+        false,
+        false,
+        false, // isLoading = false
+      );
+
+      const applyButton = screen.getByTestId('filter-button');
+      const resetButton = screen.getByTestId('filter-reset-button');
+
+      expect(applyButton).to.have.attribute('loading', 'false');
+      expect(resetButton).to.not.have.attribute('loading');
+    });
+
+    it('calls updateFilter with selected filter when apply button is clicked', () => {
+      const updateFilter = sandbox.spy();
+      const screen = setup(
+        { rx: { preferences: { filterOption: ACTIVE_FILTER_KEY } } },
+        updateFilter,
+        filterCountObj,
+        false,
+        false,
+        false,
+      );
+
+      const applyButton = screen.getByTestId('filter-button');
+      applyButton.click();
+
+      expect(updateFilter.calledOnce).to.be.true;
+      expect(updateFilter.calledWith(ACTIVE_FILTER_KEY)).to.be.true;
+    });
+
+    it('calls updateFilter with ALL_MEDICATIONS_FILTER_KEY when reset button is clicked', () => {
+      const updateFilter = sandbox.spy();
+      const screen = setup(
+        { rx: { preferences: { filterOption: ACTIVE_FILTER_KEY } } },
+        updateFilter,
+        filterCountObj,
+        false,
+        false,
+        false,
+      );
+
+      const resetButton = screen.getByTestId('filter-reset-button');
+      resetButton.click();
+
+      expect(updateFilter.calledOnce).to.be.true;
+      expect(updateFilter.calledWith(ALL_MEDICATIONS_FILTER_KEY)).to.be.true;
+    });
   });
 });

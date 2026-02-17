@@ -11,16 +11,13 @@ import {
   sortStatementsByDate,
   ALERT_TYPES,
   APP_TYPES,
+  showVHAPaymentHistory,
 } from '../../combined/utils/helpers';
 import Balances from '../components/Balances';
-import BalanceQuestions from '../components/BalanceQuestions';
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
-import DisputeCharges from '../components/DisputeCharges';
-import HowToPay from '../components/HowToPay';
-import FinancialHelp from '../components/FinancialHelp';
 import NeedHelpCopay from '../components/NeedHelpCopay';
-import MCPAlerts from '../../combined/components/MCPAlerts';
+import CopayAlertContainer from '../components/CopayAlertContainer';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const renderAlert = (alertType, debts) => {
@@ -81,19 +78,12 @@ const OverviewPage = () => {
   );
 
   // feature toggle stuff for VHA payment history MVP
-  const {
-    useToggleValue,
-    useToggleLoadingValue,
-    TOGGLE_NAMES,
-  } = useFeatureToggle();
+  const { useToggleLoadingValue } = useFeatureToggle();
   // boolean value to represent if toggles are still loading or not
   const togglesLoading = useToggleLoadingValue();
   // value of specific toggle
-  const showVHAPaymentHistory = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
-  );
-  const showOneThingPerPage = useToggleValue(
-    TOGGLE_NAMES.showCDPOneThingPerPage,
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
   );
 
   const {
@@ -105,8 +95,12 @@ const OverviewPage = () => {
   const debtLoading = isDebtPending || isProfileUpdating;
   const { statements, error: mcpError, pending: mcpLoading } = mcp;
   const statementsEmpty = statements?.length === 0;
-  const sortedStatements = sortStatementsByDate(statements ?? []);
-  const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
+  const sortedStatements = shouldShowVHAPaymentHistory
+    ? mcp.statements.data ?? []
+    : sortStatementsByDate(statements || []);
+  const statementsByUniqueFacility = shouldShowVHAPaymentHistory
+    ? uniqBy(mcp.statements.data, 'facilityId')
+    : uniqBy(sortedStatements, 'pSFacilityNum');
   const title = 'Copay balances';
   useHeaderPageTitle(title);
 
@@ -118,7 +112,7 @@ const OverviewPage = () => {
   const ITEM_TYPE = 'copays';
 
   function paginate(array, pageSize, pageNumber) {
-    return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+    return array?.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
   }
 
   function getPaginationText(
@@ -127,9 +121,9 @@ const OverviewPage = () => {
     totalItems,
     label = ITEM_TYPE,
   ) {
-    // Ensure numbers are valid
-    if (totalItems === 0) {
-      return `Showing 0 ${label}`;
+    // Only display pagination text when there are more than MAX_ROWS total items
+    if (totalItems <= MAX_ROWS) {
+      return '';
     }
 
     const startItemIndex = (currentPage - 1) * pageSize + 1;
@@ -177,7 +171,7 @@ const OverviewPage = () => {
   const isNotEnrolledInHealthCare = mcpError?.status === '403';
   const renderContent = () => {
     if (isNotEnrolledInHealthCare) {
-      return <MCPAlerts type="no-health-care" />;
+      return <CopayAlertContainer type="no-health-care" />;
     }
     if (mcpError) {
       return renderAlert(
@@ -189,11 +183,11 @@ const OverviewPage = () => {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
 
-    return showOneThingPerPage || showVHAPaymentHistory ? (
+    return (
       <article className="vads-u-padding-x--0 vads-u-padding-bottom--0">
         <Balances
           statements={currentData}
-          showVHAPaymentHistory={showVHAPaymentHistory}
+          showVHAPaymentHistory={shouldShowVHAPaymentHistory}
           paginationText={getPaginationText(
             currentPage,
             MAX_ROWS,
@@ -204,26 +198,6 @@ const OverviewPage = () => {
         {renderVaPagination()}
         {renderOtherVA(debts?.length, debtError)}
         <NeedHelpCopay />
-      </article>
-    ) : (
-      <article className="vads-u-padding-x--0">
-        <va-on-this-page />
-        <Balances
-          statements={currentData}
-          showVHAPaymentHistory={showVHAPaymentHistory}
-          paginationText={getPaginationText(
-            currentPage,
-            MAX_ROWS,
-            statementsByUniqueFacility.length,
-            ITEM_TYPE,
-          )}
-        />
-        {renderVaPagination()}
-        {renderOtherVA(debts?.length, debtError)}
-        <HowToPay isOverview />
-        <FinancialHelp />
-        <DisputeCharges />
-        <BalanceQuestions />
       </article>
     );
   };

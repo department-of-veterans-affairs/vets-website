@@ -4,9 +4,13 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 
-import { deleteExpense, deleteDocument } from '../../../redux/actions';
+import {
+  setReviewPageAlert,
+  deleteExpenseDeleteDocument,
+  clearReviewPageAlert,
+} from '../../../redux/actions';
 import { selectIsExpenseDeleting } from '../../../redux/selectors';
-import { EXPENSE_TYPES, TRIP_TYPES } from '../../../constants';
+import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import { formatDate } from '../../../util/dates';
 import { currency } from '../../../util/string-helpers';
 import ExpenseCardDetails from './ExpenseCardDetails';
@@ -20,21 +24,37 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
   const isDeleting = useSelector(state =>
     selectIsExpenseDeleting(state, expenseId),
   );
+  const isMileage = expenseType === EXPENSE_TYPE_KEYS.MILEAGE;
 
-  const header =
-    expense.expenseType === 'Mileage'
-      ? 'Mileage expense'
-      : `${formatDate(expense.dateIncurred)}, ${currency(
-          expense.costRequested,
-        )}`;
+  const header = isMileage
+    ? 'Mileage expense'
+    : `${formatDate(expense.dateIncurred)}, ${currency(expense.costRequested)}`;
 
   const handleDeleteExpenseAndDocument = async () => {
     setShowDeleteModal(false);
-    dispatch(
-      deleteExpense(claimId, EXPENSE_TYPES[expenseType]?.apiRoute, expenseId),
-    );
-    if (documentId !== '') {
-      dispatch(deleteDocument(claimId, documentId));
+
+    try {
+      // This action deletes the expense first, then the document.
+      // If any step fails, it throws an error and nothing else runs.
+      await dispatch(
+        deleteExpenseDeleteDocument(
+          claimId,
+          documentId,
+          EXPENSE_TYPES[expenseType]?.apiRoute,
+          expenseId,
+        ),
+      );
+      // Clear any existing alerts after successful deletion
+      dispatch(clearReviewPageAlert());
+    } catch (error) {
+      // Any error from deleting either the expense or document ends up here
+      dispatch(
+        setReviewPageAlert({
+          title: `We couldn't delete this expense right now`,
+          description: `We're sorry. We can't delete this expense. Try again later.`,
+          type: 'error',
+        }),
+      );
     }
   };
 
@@ -44,20 +64,20 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
         className="expense-card"
         data-testid={`expense-card-${expense.id}`}
       >
-        <h3 className="vads-u-margin-top--1">{header}</h3>
+        <h4 className="vads-u-margin-top--1">{header}</h4>
         {isDeleting ? (
           <div className="vads-u-text-align--center vads-u-margin--5">
             <va-loading-indicator message="Deleting..." set-focus={false} />
           </div>
         ) : (
           <>
-            {expenseType === 'Mileage' && (
+            {isMileage && (
               <ExpenseCardDetails
                 items={[
                   {
                     label: 'Which address did you depart from?',
                     value: (
-                      <>
+                      <span data-dd-privacy="mask">
                         {address.addressLine1}{' '}
                         {address.addressLine2 && (
                           <span>{address.addressLine2} </span>
@@ -66,17 +86,13 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                           <span>{address.addressLine3} </span>
                         )}
                         {address.city}, {address.stateCode} {address.zipCode}
-                      </>
+                      </span>
                     ),
-                  },
-                  {
-                    label: 'Was your trip round trip or one way?',
-                    value: TRIP_TYPES.ROUND_TRIP.label,
                   },
                 ]}
               />
             )}
-            {expenseType !== 'Mileage' && (
+            {!isMileage && (
               <ExpenseCardDetails
                 items={[
                   {
@@ -99,7 +115,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                       EXPENSE_TYPES[expenseType]?.route
                     }/${expenseId}`}
                   >
-                    EDIT
+                    Edit
                     <va-icon
                       active
                       icon="navigate_next"

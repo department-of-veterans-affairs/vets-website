@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { useSelector } from 'react-redux';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { fireEvent, waitFor } from '@testing-library/react';
 
@@ -39,7 +40,6 @@ describe('Travel Pay – ReviewPage', () => {
         expenseType: 'Parking',
         tripType: 'OneWay',
         costRequested: 50.0,
-        documentId: '9c63737a-f29e-f011-b4cc-001dd806c742',
       },
     ],
     documents: [
@@ -48,6 +48,7 @@ describe('Travel Pay – ReviewPage', () => {
         filename: 'test.pdf',
         mimetype: 'application/pdf',
         createdon: '2025-10-01T18:14:37Z',
+        expenseId: 'expense2', // Doc is associated with expense
       },
     ],
   };
@@ -64,6 +65,11 @@ describe('Travel Pay – ReviewPage', () => {
         data: {
           [claimId]: defaultClaim,
         },
+      },
+      reviewPageAlert: {
+        title: 'Test Alert',
+        description: 'This is a test alert',
+        type: 'info',
       },
       complexClaim: {
         claim: {
@@ -119,6 +125,7 @@ describe('Travel Pay – ReviewPage', () => {
       getByRole,
       container,
       queryAllByTestId,
+      getByText,
     } = renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
@@ -180,6 +187,34 @@ describe('Travel Pay – ReviewPage', () => {
 
     // SummaryBox should render
     expect(getByTestId('summary-box')).to.exist;
+
+    // SummaryBox description text about deductible
+    expect(
+      getByText((content, element) => {
+        return (
+          element.tagName.toLowerCase() === 'p' &&
+          element.textContent.includes(
+            'Before we can pay you back for expenses, you must pay a deductible. The current deductible is',
+          ) &&
+          element.textContent.includes('$3') &&
+          element.textContent.includes('one-way or') &&
+          element.textContent.includes('$6') &&
+          element.textContent.includes('round-trip for each appointment') &&
+          element.textContent.includes('You’ll pay no more than') &&
+          element.textContent.includes('$18') &&
+          element.textContent.includes('total each month')
+        );
+      }),
+    ).to.exist;
+
+    // SummaryBox Va link
+    const link = container.querySelector(
+      `va-link[href="/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"]`,
+    );
+    expect(link).to.exist;
+    expect(link.getAttribute('text')).to.eq(
+      'Learn more about deductibles for VA travel claims',
+    );
   });
 
   it('calls signAgreement when Sign Agreement button is clicked', () => {
@@ -274,7 +309,7 @@ describe('Travel Pay – ReviewPage', () => {
     expect(expenseCards.length).to.equal(defaultClaim.expenses.length);
   });
 
-  it('renders "No expenses have been added." when there are no expenses', () => {
+  it('renders correctly when there are no expenses', () => {
     // Override the Redux state to have no expenses
     const emptyState = {
       ...getData(),
@@ -290,7 +325,7 @@ describe('Travel Pay – ReviewPage', () => {
       },
     };
 
-    const { getByText } = renderWithStoreAndRouter(
+    const { getByText, container } = renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/file-new-claim/12345/67890/review']}>
         <ReviewPage />
       </MemoryRouter>,
@@ -301,10 +336,21 @@ describe('Travel Pay – ReviewPage', () => {
     );
 
     // The "no expenses" message should be visible
-    expect(getByText('No expenses have been added.')).to.exist;
+    expect(
+      getByText(
+        `You haven’t added any expenses. Add at least 1 expense to submit your claim.`,
+      ),
+    ).to.exist;
 
     // The "Add more expenses" button should still exist
     expect(document.querySelector('#add-expense-button')).to.exist;
+
+    // Help section
+    expect(getByText('Need help?')).to.exist;
+
+    // No expense accordion items
+    const accordionItems = container.querySelectorAll('va-accordion-item');
+    expect(accordionItems.length).to.equal(0);
   });
 
   it('calls addMoreExpenses when Add More Expenses button is clicked', () => {
@@ -415,5 +461,48 @@ describe('Travel Pay – ReviewPage', () => {
     // No individual <li> should exist because totals are 0
     const expenseTotals = container.querySelectorAll('ul li');
     expect(expenseTotals.length).to.equal(0);
+  });
+
+  it('dispatches setExpenseBackDestination with "review" when add expense button is clicked', async () => {
+    // Component to verify Redux state
+    const BackDestinationDisplay = () => {
+      const expenseBackDestination = useSelector(
+        state => state.travelPay.complexClaim.expenseBackDestination,
+      );
+      return (
+        <div data-testid="expense-back-destination">
+          {expenseBackDestination || 'none'}
+        </div>
+      );
+    };
+
+    const { container, getByTestId } = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+        </Routes>
+        <BackDestinationDisplay />
+      </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
+
+    const addButton = container.querySelector('#add-expense-button');
+    expect(addButton).to.exist;
+
+    fireEvent.click(addButton);
+
+    await waitFor(() => {
+      expect(getByTestId('expense-back-destination').textContent).to.equal(
+        'review',
+      );
+    });
   });
 });

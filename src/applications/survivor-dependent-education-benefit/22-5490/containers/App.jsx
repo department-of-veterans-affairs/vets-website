@@ -7,6 +7,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import merge from 'lodash/merge';
 
 import {
+  fetchDirectDeposit,
   fetchDuplicateContactInfo,
   fetchPersonalInformation,
 } from '../actions';
@@ -19,14 +20,19 @@ function App({
   duplicateEmail,
   duplicatePhone,
   formData,
+  getDirectDeposit,
   getDuplicateContactInfo,
   getPersonalInformation,
+  isLOA3,
   location,
   mebDpoAddressOptionEnabled,
+  mebBankInfoConfirmationField,
+  meb1995InstructionPageUpdateV3,
   setFormData,
   user,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
+  const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
   useEffect(
     () => {
@@ -57,6 +63,25 @@ function App({
 
   useEffect(
     () => {
+      const fetchAndUpdateDirectDepositInfo = async () => {
+        const isLoggedIn = user?.login?.currentlyLoggedIn;
+        if (isLoggedIn && isLOA3 && !fetchedDirectDeposit) {
+          await getDirectDeposit();
+          setFetchedDirectDeposit(true);
+        }
+      };
+      fetchAndUpdateDirectDepositInfo();
+    },
+    [
+      user?.login?.currentlyLoggedIn,
+      isLOA3,
+      fetchedDirectDeposit,
+      getDirectDeposit,
+    ],
+  );
+
+  useEffect(
+    () => {
       if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
         setFormData({
           ...formData,
@@ -65,6 +90,35 @@ function App({
       }
     },
     [mebDpoAddressOptionEnabled, formData, setFormData],
+  );
+
+  useEffect(
+    () => {
+      if (
+        meb1995InstructionPageUpdateV3 !==
+        formData.meb1995InstructionPageUpdateV3
+      ) {
+        setFormData({
+          ...formData,
+          meb1995InstructionPageUpdateV3,
+        });
+      }
+
+      if (
+        mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
+      ) {
+        setFormData({
+          ...formData,
+          mebBankInfoConfirmationField,
+        });
+      }
+    },
+    [
+      meb1995InstructionPageUpdateV3,
+      mebBankInfoConfirmationField,
+      formData,
+      setFormData,
+    ],
   );
 
   useEffect(
@@ -149,9 +203,13 @@ App.propTypes = {
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
   formData: PropTypes.object,
+  getDirectDeposit: PropTypes.func,
   getDuplicateContactInfo: PropTypes.func,
   getPersonalInformation: PropTypes.func,
+  isLOA3: PropTypes.bool,
   location: PropTypes.object,
+  meb1995InstructionPageUpdateV3: PropTypes.bool,
+  mebBankInfoConfirmationField: PropTypes.bool,
   mebDpoAddressOptionEnabled: PropTypes.bool,
   setFormData: PropTypes.func,
   user: PropTypes.object,
@@ -173,6 +231,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
+  getDirectDeposit: fetchDirectDeposit,
   getPersonalInformation: fetchPersonalInformation,
   getDuplicateContactInfo: fetchDuplicateContactInfo,
   setFormData: setData,

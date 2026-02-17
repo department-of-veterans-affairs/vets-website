@@ -1,4 +1,5 @@
 import recordEvent from 'platform/monitoring/record-event';
+import { dataDogLogger } from 'platform/monitoring/Datadog';
 import { Actions } from '../util/actionTypes';
 import {
   createDraft,
@@ -12,6 +13,7 @@ import * as Constants from '../util/constants';
 import { decodeHtmlEntities, sendDatadogError } from '../util/helpers';
 import { resetRecentRecipient } from './recipients';
 import { setThreadRefetchRequired } from './threads';
+import { clearPrescription } from './prescription';
 
 const sendSaveDraft = async (messageData, id) => {
   try {
@@ -42,7 +44,13 @@ const sendReplyDraft = async (replyToId, messageData, id) => {
  * @param {String} type manual/auto
  * @returns
  */
-export const saveDraft = (messageData, type, id) => async dispatch => {
+export const saveDraft = (messageData, type, id) => async (
+  dispatch,
+  getState,
+) => {
+  const state = getState();
+  const redirectPath = state.sm?.prescription?.redirectPath;
+
   recordEvent({
     // For Google Analytics
     event: 'secure-messaging-save-draft-type',
@@ -72,6 +80,16 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
         },
       },
     });
+    if (redirectPath) {
+      dataDogLogger({
+        message: 'Prescription Renewal Draft Created',
+        attributes: {
+          recipientId: messageData?.recipientId,
+          category: messageData?.category,
+        },
+        status: 'info',
+      });
+    }
     dispatch(resetRecentRecipient());
     dispatch(setThreadRefetchRequired(true));
   }
@@ -81,6 +99,23 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
       type: Actions.Draft.SAVE_FAILED,
       response: error,
     });
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        error?.title || Constants.Alerts.Message.GET_MESSAGE_ERROR,
+      ),
+    );
+    if (redirectPath) {
+      dataDogLogger({
+        message: 'Prescription Renewal Draft Error',
+        attributes: {
+          recipientId: messageData?.recipientId,
+          category: messageData?.category,
+        },
+        status: 'error',
+      });
+    }
   }
   if (response.ok) {
     dispatch({
@@ -91,6 +126,16 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
         ...messageData,
       },
     });
+    if (redirectPath) {
+      dataDogLogger({
+        message: 'Prescription Renewal Draft Updated',
+        attributes: {
+          recipientId: messageData?.recipientId,
+          category: messageData?.category,
+        },
+        status: 'info',
+      });
+    }
   }
 };
 
@@ -174,6 +219,7 @@ export const deleteDraft = messageId => async dispatch => {
       ),
     );
     dispatch(setThreadRefetchRequired(true));
+    dispatch(clearPrescription());
   } catch (e) {
     sendDatadogError(e, 'action_draftDetails_deleteDraft');
     dispatch(

@@ -7,7 +7,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
   beforeEach(() => {
     cy.clock(new Date(2024, 5, 25), ['Date']);
     cy.intercept('/data/cms/vamc-ehr.json', {});
-    ApiInitializer.initializeFeatureToggle.withAllFeatures();
+    ApiInitializer.initializeFeatureToggle.withSmocOnly();
     ApiInitializer.initializeClaims.happyPath();
   });
 
@@ -25,8 +25,13 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         facilityName: 'Test VA Medical Center',
         createdOn: '2024-03-02T09:00:00.000Z',
         modifiedOn: '2024-03-02T09:00:00.000Z',
+        appointment: { appointmentDateTime: '2024-03-01T09:00:00.000Z' },
         // Missing: documents, totalCostRequested, reimbursementAmount
       });
+
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-03-01T09:00:00.000Z',
+      );
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/minimal-claim-456`);
@@ -60,8 +65,13 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 12.0,
         createdOn: '2024-04-02T13:30:00.000Z',
         modifiedOn: '2024-04-02T13:30:00.000Z',
+        appointment: { appointmentDateTime: '2024-04-01T13:30:00.000Z' },
         documents: [], // Empty array
       });
+
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-04-01T13:30:00.000Z',
+      );
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/no-docs-claim-789`);
@@ -83,8 +93,13 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-05-02T16:45:00.000Z',
         modifiedOn: '2024-05-02T16:45:00.000Z',
+        appointment: { appointmentDateTime: '2024-05-01T16:45:00.000Z' },
         documents: null, // Null value
       });
+
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-05-01T16:45:00.000Z',
+      );
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/null-docs-claim-101`);
@@ -106,8 +121,13 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 47.0,
         createdOn: '2024-06-02T11:00:00.000Z',
         modifiedOn: '2024-06-02T11:00:00.000Z',
+        appointment: { appointmentDateTime: '2024-06-01T11:00:00.000Z' },
         documents: [],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-06-01T11:00:00.000Z',
+      );
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/long-names-claim-202`);
@@ -133,6 +153,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 32.0,
         createdOn: '2024-07-02T08:15:00.000Z',
         modifiedOn: '2024-07-02T08:15:00.000Z',
+        appointment: { appointmentDateTime: '2024-07-01T08:15:00.000Z' },
         documents: [
           {
             documentId: 'special-char-doc-1',
@@ -146,6 +167,10 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
           },
         ],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-07-01T08:15:00.000Z',
+      );
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/special-chars-claim-303`);
@@ -169,8 +194,13 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-08-02T12:30:00.000Z',
         modifiedOn: '2024-08-05T09:45:00.000Z',
+        appointment: { appointmentDateTime: '2024-08-01T12:30:00.000Z' },
         documents: [],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-08-01T12:30:00.000Z',
+      );
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/on-hold-claim-404`);
@@ -192,9 +222,12 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-09-02T15:00:00.000Z',
         modifiedOn: '2024-09-10T11:20:00.000Z',
+        appointment: { appointmentDateTime: '2024-09-01T15:00:00.000Z' },
         documents: [],
       });
-
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-09-01T15:00:00.000Z',
+      );
       cy.login(user);
       cy.visit(`${rootUrl}/claims/appealed-claim-505`);
 
@@ -215,8 +248,13 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 45.0,
         createdOn: '2024-10-02T10:45:00.000Z',
         modifiedOn: '2024-10-08T14:30:00.000Z',
+        appointment: { appointmentDateTime: '2024-10-01T10:45:00.000Z' },
         documents: [],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-10-01T10:45:00.000Z',
+      );
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/partial-payment-claim-606`);
@@ -245,6 +283,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-11-02T13:15:00.000Z',
         modifiedOn: '2024-11-05T16:20:00.000Z',
+        appointment: { appointmentDateTime: '2024-11-01T13:15:00.000Z' },
         documents: [
           {
             documentId: 'rejection-doc-1',
@@ -258,6 +297,10 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
           },
         ],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-11-01T13:15:00.000Z',
+      );
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/rejection-letter-claim-707`);
@@ -283,6 +326,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-12-02T09:30:00.000Z',
         modifiedOn: '2024-12-07T12:45:00.000Z',
+        appointment: { appointmentDateTime: '2024-12-01T09:30:00.000Z' },
         documents: [
           {
             documentId: 'decision-doc',
@@ -311,6 +355,10 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
           },
         ],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-12-01T09:30:00.000Z',
+      );
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/mixed-docs-claim-808`);
@@ -345,8 +393,13 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 17.0,
         createdOn: '2024-01-01T23:59:59.999Z', // End of day UTC
         modifiedOn: '2024-01-02T12:00:00.000Z', // Noon UTC
+        appointment: { appointmentDateTime: '2024-01-01T00:00:00.000Z' },
         documents: [],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-01-01T00:00:00.000Z',
+      );
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/date-test-claim-909`);

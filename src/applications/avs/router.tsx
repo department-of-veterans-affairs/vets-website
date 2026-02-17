@@ -1,5 +1,9 @@
 import React from 'react';
-import { createBrowserRouter, useParams } from 'react-router-dom-v5-compat';
+import {
+  createBrowserRouter,
+  useParams,
+  Navigate,
+} from 'react-router-dom-v5-compat';
 import { authenticatedLoader } from '@department-of-veterans-affairs/platform-startup/exports';
 import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 
@@ -25,10 +29,18 @@ const ErrorBoundaryWrapper: React.FC = () => {
   );
 };
 
+const RedirectToSummariesAndNotes = () => {
+  return (
+    <ErrorBoundary>
+      <Navigate to="/my-health/medical-records/summaries-and-notes/" replace />
+    </ErrorBoundary>
+  );
+};
+
 const routes = [
   {
     path: '/my-health/medical-records/summaries-and-notes/visit-summary/',
-    element: <ErrorBoundaryWrapper />,
+    element: <RedirectToSummariesAndNotes />,
   },
   {
     path: '/my-health/medical-records/summaries-and-notes/visit-summary/:id',

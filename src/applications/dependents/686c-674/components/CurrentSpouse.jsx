@@ -11,6 +11,25 @@ import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
 import { modalContent } from '../config/chapters/report-add-a-spouse/spouse-information/spouseInformation';
 import { showDupeModalIfEnabled } from '../config/utilities';
 
+/**
+ * @typedef {object} CurrentSpouseInformationProps
+ * @property {string} name - form name
+ * @property {string} title - form title
+ * @property {object} data - form data
+ * @property {Function} goBack - function to go back a page
+ * @property {Function} goForward - function to go forward a page
+ * @property {Function} goToPath - function to go to a specific path
+ * @property {Function} setFormData - function to set form data
+ * @property {React.ReactNode} contentBeforeButtons - content to render before buttons
+ * @property {React.ReactNode} contentAfterButtons - content to render after buttons
+ * @property {object} schema - form schema
+ * @property {object} uiSchema - form UI schema
+ * @property {Function} updatePage - function to update the page (for review)
+ * @property {boolean} onReviewPage - whether the form is on the review page
+ *
+ * @param {CurrentSpouseInformationProps} props - current spouse props
+ * @returns {React.ReactElement} - CurrentSpouseInformation component
+ */
 const CurrentSpouseInformation = ({
   name,
   title,
@@ -119,7 +138,7 @@ const CurrentSpouseInformation = ({
           <va-button
             onClick={updatePage}
             text="Update page"
-            label="Update your spouse's personal information"
+            label="Update your spouse’s personal information"
             full-width="true"
           />
         ) : (

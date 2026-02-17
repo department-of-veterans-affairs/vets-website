@@ -1,14 +1,20 @@
 import React from 'react';
 import {
+  numberUI,
   textUI,
   radioUI,
   currencyUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { validateWhiteSpace } from 'platform/forms/validations';
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
-import DegreeLevelDescription from '../components/DegreeLevelDescription';
 
 const uiSchema = {
-  'ui:title': () => <YellowRibbonProgramTitle text="Provide your" />,
+  'ui:title': () => (
+    <YellowRibbonProgramTitle
+      eligibilityChapter={false}
+      text="Provide your Yellow Ribbon Program contributions"
+    />
+  ),
   'ui:description': () => (
     <>
       <p>
@@ -26,53 +32,51 @@ const uiSchema = {
       </p>
     </>
   ),
-  maximumStudentsOption: {
-    ...radioUI({
-      title: 'Maximum number of students',
-      options: [
-        { value: 'unlimited', label: 'Unlimited number of students' },
-        { value: 'specific', label: 'Enter the maximum number of students' },
-      ],
-      errorMessages: {
-        required: 'Select a maximum number of students option',
-      },
-    }),
+  maximumStudentsOption: radioUI({
+    title: 'Maximum number of students',
+    errorMessages: {
+      required: 'Select a maximum number of students option',
+    },
+    descriptions: {
+      unlimited:
+        'Values equal to or greater than 99,999 are treated as unlimited by the system',
+    },
+    labels: {
+      unlimited: 'Unlimited number of students',
+      specific: 'Enter a specific number of students',
+    },
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 container',
     },
-  },
-
+  }),
   maximumStudents: {
-    ...textUI({
+    ...numberUI({
       title: 'Enter the maximum number of students',
-      description:
-        'Enter the total number of students eligible for this contribution. Values over 99,999 are treated as unlimited by the system.',
+      hint:
+        'Enter the total number of students eligible for this contribution. Maximum limit is 99,998.',
+      max: 99998,
       errorMessages: {
         required: 'Enter the maximum number of students',
         pattern: 'Enter a whole number',
       },
+      expandUnder: 'maximumStudentsOption',
+      expandUnderCondition: 'specific',
     }),
     'ui:required': (formData, index) => {
       const currentItem =
         formData?.yellowRibbonProgramRequest?.[index] || formData;
       return currentItem?.maximumStudentsOption === 'specific';
     },
-    'ui:options': {
-      inputType: 'number',
-      classNames:
-        'vads-u-margin-bottom--2 contribution-degree-school container',
-      expandUnder: 'maximumStudentsOption',
-      expandUnderCondition: 'specific',
-    },
   },
-
   degreeLevel: {
     ...textUI({
       title: 'Degree level',
-      description: <DegreeLevelDescription />,
+      description:
+        'Provide a degree level such as undergraduate, graduate, doctoral, or all. If you’d like to specify a school, you can do so in the "College or professional school" field below.',
       errorMessages: {
         required: 'Please enter a degree level',
       },
+      validations: [validateWhiteSpace],
     }),
     'ui:options': {
       classNames:
@@ -84,45 +88,41 @@ const uiSchema = {
       title: 'College or professional school',
       description:
         'Do not list specific degree programs (such as Master of Business Administration, Juris Doctorate, Bachelor of Science in Nursing).',
-      errorMessages: {
-        required: 'Enter the college or professional school name',
-      },
+      validations: [validateWhiteSpace],
     }),
     'ui:options': {
       classNames:
         'vads-u-margin-bottom--2 contribution-degree-school container',
     },
   },
-  maximumContributionAmount: {
-    ...radioUI({
-      title: 'Maximum contribution amount',
-      options: [
-        {
-          value: 'unlimited',
-          label:
-            "Pay remaining tuition that Post-9/11 GI Bill doesn't cover (unlimited)",
-        },
-        {
-          value: 'specific',
-          label: 'Enter a maximum annual contribution amount',
-        },
-      ],
-      errorMessages: {
-        required: 'Select a maximum contribution amount option',
-      },
-    }),
+  maximumContributionAmount: radioUI({
+    title: 'Maximum contribution amount',
+    descriptions: {
+      unlimited:
+        'Values equal to or greater than 99,999 are treated as unlimited by the system',
+    },
+    labels: {
+      unlimited:
+        'Pay remaining mandatory tuition and fees not covered by Post-9/11 GI Bill (unlimited)',
+      specific: 'Enter a maximum annual contribution amount',
+    },
+    errorMessages: {
+      required: 'Select a maximum contribution amount option',
+    },
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 container',
     },
-  },
+  }),
   specificContributionAmount: {
     ...currencyUI({
-      title: 'Maximum contribution amount',
+      title:
+        'Enter the maximum annual contribution amount for this degree level or professional school. ',
       description:
-        'Enter the total annual amount per student, not per term or credit hour. Amounts over $99,999 are treated as unlimited by the system.',
+        'Enter the total annual amount per student, not per term or credit hour. Maximum limit is 99,998.99.',
       errorMessages: {
         required: 'Enter the maximum annual contribution amount',
       },
+      max: 99998.99,
     }),
     'ui:required': (formData, index) => {
       const currentItem =
@@ -130,7 +130,8 @@ const uiSchema = {
       return currentItem?.maximumContributionAmount === 'specific';
     },
     'ui:options': {
-      classNames: 'vads-u-margin-bottom--2 container',
+      classNames:
+        'vads-u-margin-bottom--2 contribution-degree-school container',
       expandUnder: 'maximumContributionAmount',
       expandUnderCondition: 'specific',
     },
@@ -143,10 +144,6 @@ const schema = {
     maximumStudentsOption: {
       type: 'string',
       enum: ['unlimited', 'specific'],
-      enumNames: [
-        'Unlimited number of students',
-        'Enter a specific number of students',
-      ],
     },
     maximumStudents: {
       type: 'string',
@@ -161,40 +158,16 @@ const schema = {
     maximumContributionAmount: {
       type: 'string',
       enum: ['unlimited', 'specific'],
-      enumNames: [
-        "Pay remaining tuition that Post-9/11 GI Bill doesn't cover (unlimited)",
-        'Enter a maximum annual contribution amount',
-      ],
     },
     specificContributionAmount: {
       type: 'string',
-      pattern: '^\\d*(\\.\\d{1,2})?$',
+      pattern: '^\\d+(\\.\\d{1,2})?$',
     },
   },
   required: [
     'degreeLevel',
     'maximumContributionAmount',
-    'collegeOrProfessionalSchool',
     'maximumStudentsOption',
-    'specificContributionAmount',
-  ],
-  definitions: {},
-  anyOf: [
-    {
-      properties: {
-        maximumContributionAmount: {
-          const: 'unlimited',
-        },
-      },
-    },
-    {
-      properties: {
-        maximumContributionAmount: {
-          const: 'specific',
-        },
-      },
-      required: ['specificContributionAmount'],
-    },
   ],
 };
 

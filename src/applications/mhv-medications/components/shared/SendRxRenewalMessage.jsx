@@ -8,8 +8,9 @@ import { selectSecureMessagingMedicationsRenewalRequestFlag } from '../../util/s
 const SendRxRenewalMessage = ({
   rx,
   fallbackContent = null,
-  alwaysShowFallBackContent = false,
+  showFallBackContent = false,
   isActionLink = false,
+  isOracleHealth = false,
 }) => {
   const showSecureMessagingRenewalRequest = useSelector(
     selectSecureMessagingMedicationsRenewalRequestFlag,
@@ -22,29 +23,19 @@ const SendRxRenewalMessage = ({
   }&redirectPath=${redirectPath}`;
   const [showRenewalModal, setShowRenewalModal] = useState(false);
 
-  // Determine if the prescription is eligible for a renewal request
-  const isActiveNoRefills =
-    rx.dispStatus === 'Active' && rx.refillRemaining === 0;
-  const isActiveNoRefillsRefillInProcess =
-    rx.dispStatus === 'Active: Refill in Process' && rx.refillRemaining === 0;
-  const isActiveNoRefillsSubmitted =
-    rx.dispStatus === 'Active: Submitted' && rx.refillRemaining === 0;
   const isExpiredLessThan120Days =
-    rx.dispStatus === 'Expired' &&
+    (rx.dispStatus === 'Expired' || rx.dispStatus === 'Inactive') &&
     rx.expirationDate &&
     new Date(rx.expirationDate) >
       new Date(Date.now() - 120 * 24 * 60 * 60 * 1000);
+  const { isRenewable } = rx;
 
-  const canSendRenewalRequest =
-    isActiveNoRefills ||
-    isActiveNoRefillsRefillInProcess ||
-    isActiveNoRefillsSubmitted ||
-    isExpiredLessThan120Days;
+  const canSendRenewalRequest = isOracleHealth && isRenewable;
 
   if (
     !canSendRenewalRequest ||
     !showSecureMessagingRenewalRequest ||
-    alwaysShowFallBackContent
+    showFallBackContent
   ) {
     return fallbackContent || null;
   }
@@ -71,8 +62,8 @@ const SendRxRenewalMessage = ({
         uswds
       >
         <p className="vads-u-margin-bottom--2">
-          You’ll need to select your provider and send them a message requesting
-          a prescription renewal.
+          You’ll need to select your provider and send the prescription renewal
+          request. We’ll pre-fill your prescription details in the message.
         </p>
         <p className="vads-u-margin-bottom--2">
           If you need a medication immediately, call your VA pharmacy’s
@@ -85,15 +76,18 @@ const SendRxRenewalMessage = ({
 };
 
 SendRxRenewalMessage.propTypes = {
-  alwaysShowFallBackContent: PropTypes.bool,
   fallbackContent: PropTypes.node,
   isActionLink: PropTypes.bool,
+  isActiveNoRefills: PropTypes.bool,
+  isOracleHealth: PropTypes.bool,
   rx: PropTypes.shape({
     refillRemaining: PropTypes.number,
     dispStatus: PropTypes.string,
     expirationDate: PropTypes.string,
     prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    isRenewable: PropTypes.bool,
   }),
+  showFallBackContent: PropTypes.bool,
 };
 
 const RenderLinkVariation = ({
@@ -134,6 +128,7 @@ const RenderLinkVariation = ({
 
 RenderLinkVariation.propTypes = {
   isActionLink: PropTypes.bool,
+  isActiveNoRefills: PropTypes.bool,
   isExpired: PropTypes.bool,
   setShowRenewalModal: PropTypes.func,
 };

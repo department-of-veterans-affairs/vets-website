@@ -13,15 +13,12 @@ const SubmissionInstructions = () => {
         submission.
       </p>
       <p>
-        <strong>If your institution has a facility code:</strong> You will need
-        to visit the Education File Upload Portal, and upload your saved VA Form
-        22-8794.
+        <strong>If your institution has a VA facility code:</strong> You will
+        need to visit the Education File Upload Portal, and upload your saved VA
+        Form 22-8794.
       </p>
       <p>
-        <strong>
-          If your institution doesn’t have a VA facility code or if you are
-          submitting the form because your institution has changed ownership:
-        </strong>{' '}
+        <strong>If your institution doesn’t have a VA facility code:</strong>{' '}
         You will need to email your saved VA Form 22-8794 to your State
         Approving Agency (SAA).
       </p>

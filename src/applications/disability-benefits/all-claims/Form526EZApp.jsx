@@ -12,10 +12,15 @@ import {
   WIZARD_STATUS_RESTARTING,
 } from '@department-of-veterans-affairs/platform-site-wide/wizard';
 import { isLoggedIn } from 'platform/user/selectors';
+import { setData } from 'platform/forms-system/src/js/actions';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import {
+  LOAD_STATUSES,
+  SAVE_STATUSES,
+} from 'platform/forms/save-in-progress/actions';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
@@ -50,6 +55,8 @@ import {
   MissingId,
   MissingServices,
 } from './containers/MissingServices';
+import ClaimFormSideNav from './components/ClaimFormSideNav';
+import ClaimFormSideNavErrorBoundary from './components/ClaimFormSideNavErrorBoundary';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -91,13 +98,16 @@ export const isIntroPage = ({ pathname = '' } = {}) =>
 
 export const Form526Entry = ({
   children,
+  form,
   inProgressFormId,
   isBDDForm,
+  itf,
   location,
   loggedIn,
   mvi,
   router,
   savedForms,
+  setFormData,
   showSubforms,
   showWizard,
   user,
@@ -106,8 +116,9 @@ export const Form526Entry = ({
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
 
   const hasSavedForm = savedForms.some(
-    form =>
-      form.form === formConfig.formId && !isExpired(form.metaData?.expiresAt),
+    savedForm =>
+      savedForm.form === formConfig.formId &&
+      !isExpired(savedForm.metaData?.expiresAt),
   );
 
   const title = `${getPageTitle(isBDDForm)}${
@@ -159,12 +170,27 @@ export const Form526Entry = ({
     [loggedIn],
   );
 
-  const { useFormFeatureToggleSync } = useFeatureToggle();
+  const {
+    useFormFeatureToggleSync,
+    useToggleLoadingValue,
+    useToggleValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
   useFormFeatureToggleSync([
     'disability526Enable2024Form4142',
     'disability526ToxicExposureOptOutDataPurge',
+    'disability526SupportingEvidenceEnhancement',
     'disabilityCompNewConditionsWorkflow',
+    'disability526ExtraBDDPagesEnabled',
   ]);
+
+  // including this helper to showLoading when feature toggles are loading
+  const togglesLoading = useToggleLoadingValue();
+
+  // We don't really need this feature toggle in formData since it's only used here
+  const sideNavFeatureEnabled = useToggleValue(
+    TOGGLE_NAMES.disability526SidenavEnabled,
+  );
 
   useBrowserMonitoring({
     loggedIn: true,
@@ -204,7 +230,9 @@ export const Form526Entry = ({
   // page content to render, then the wizard to render if this flag is true, so
   // we show a loading indicator until the feature flags are available. This
   // can be removed once the feature flag is removed
-  if (typeof showWizard === 'undefined') {
+  // Including togglesLoading which I think is the intended functionality here we can keep even
+  //  after the showWizard is deprecated since it's probably best practice
+  if (typeof showWizard === 'undefined' || togglesLoading) {
     return wrapWithBreadcrumb(title, showLoading());
   }
 
@@ -273,6 +301,74 @@ export const Form526Entry = ({
     }
   }
 
+  // SideNav MVP functionality
+  if (sideNavFeatureEnabled) {
+    const hideNavPaths = [
+      '/confirmation',
+      '/form-saved',
+      '/introduction',
+      '/start',
+    ];
+
+    const pathname = location?.pathname?.replace(/\/+$/, '') || '';
+    const loadedStatus = form?.loadedStatus;
+    const savedStatus = form?.savedStatus;
+    const isFormDataLoaded =
+      loadedStatus === LOAD_STATUSES.success ||
+      loadedStatus === LOAD_STATUSES.notAttempted;
+    const isFormSaving = savedStatus === SAVE_STATUSES.pending;
+
+    const shouldHideNav =
+      hideNavPaths.some(p => pathname.endsWith(p)) ||
+      !itf?.messageDismissed ||
+      !isFormDataLoaded ||
+      isFormSaving;
+    const contentHiddenSideNavClass = shouldHideNav
+      ? ``
+      : ` medium-screen:vads-grid-col-9`;
+
+    return wrapWithBreadcrumb(
+      title,
+      <article
+        className="vads-grid-container"
+        id="form-526"
+        data-location={`${location?.pathname?.slice(1)}`}
+      >
+        <div className="vads-grid-row vads-u-margin-x--neg2p5">
+          {shouldHideNav ? null : (
+            <div className="vads-u-padding-x--2p5 vads-u-padding-bottom--3 vads-grid-col-12 medium-screen:vads-grid-col-3">
+              <ClaimFormSideNavErrorBoundary
+                pathname={pathname}
+                formData={form?.data}
+              >
+                <ClaimFormSideNav
+                  enableAnalytics
+                  formData={form?.data}
+                  pathname={pathname}
+                  router={router}
+                  setFormData={setFormData}
+                />
+              </ClaimFormSideNavErrorBoundary>
+            </div>
+          )}
+          <div
+            className={`vads-u-padding-x--2p5 vads-grid-col-12${contentHiddenSideNavClass}`}
+          >
+            <RequiredLoginView
+              serviceRequired={serviceRequired}
+              user={user}
+              verify
+            >
+              <ITFWrapper location={location} title={title}>
+                {content}
+              </ITFWrapper>
+            </RequiredLoginView>
+          </div>
+        </div>
+      </article>,
+    );
+  }
+
   return wrapWithBreadcrumb(
     title,
     <article id="form-526" data-location={`${location?.pathname?.slice(1)}`}>
@@ -288,9 +384,17 @@ export const Form526Entry = ({
 Form526Entry.propTypes = {
   accountUuid: PropTypes.string,
   children: PropTypes.any,
+  form: PropTypes.shape({
+    data: PropTypes.object,
+    loadedStatus: PropTypes.string,
+    savedStatus: PropTypes.string,
+  }),
   inProgressFormId: PropTypes.number,
   isBDDForm: PropTypes.bool,
   isStartingOver: PropTypes.bool,
+  itf: PropTypes.shape({
+    messageDismissed: PropTypes.bool,
+  }),
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
@@ -302,6 +406,7 @@ Form526Entry.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
+  setFormData: PropTypes.func,
   showSubforms: PropTypes.bool,
   showWizard: PropTypes.bool,
   user: PropTypes.shape({
@@ -311,9 +416,11 @@ Form526Entry.propTypes = {
 
 const mapStateToProps = state => ({
   accountUuid: state?.user?.profile?.accountUuid,
+  form: state?.form,
   inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   isBDDForm: isBDD(state?.form?.data),
   isStartingOver: state.form?.isStartingOver,
+  itf: state.itf,
   loggedIn: isLoggedIn(state),
   mvi: state.mvi,
   savedForms: state?.user?.profile?.savedForms || [],
@@ -322,4 +429,11 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps)(Form526Entry);
+const mapDispatchToProps = dispatch => ({
+  setFormData: data => dispatch(setData(data)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Form526Entry);

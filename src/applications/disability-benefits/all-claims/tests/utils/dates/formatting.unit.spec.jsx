@@ -1,16 +1,6 @@
-/**
- * TODO: tech-debt(you-dont-need-momentjs): Waiting for Node upgrade to support Temporal API
- * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110024
- */
-/* eslint-disable you-dont-need-momentjs/no-import-moment */
-/* eslint-disable you-dont-need-momentjs/no-moment-constructor */
-/* eslint-disable you-dont-need-momentjs/add */
-/* eslint-disable you-dont-need-momentjs/subtract */
-/* eslint-disable you-dont-need-momentjs/format */
-
 import { expect } from 'chai';
 import sinon from 'sinon';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 import {
   formatDate,
@@ -20,7 +10,6 @@ import {
   formatDateLong,
   isValidFullDate,
   isValidYear,
-  isValidPartialDate,
   validateAge,
   validateSeparationDate,
   validateServicePeriod,
@@ -36,8 +25,11 @@ import {
   isYearMonth,
   findEarliestServiceDate,
   isTreatmentBeforeService,
+  daysFromToday,
   MIN_VALID_YEAR,
   MAX_VALID_YEAR,
+  DATE_FORMAT_SHORT,
+  DATE_TEMPLATE,
 } from '../../../utils/dates/formatting';
 
 describe('Disability benefits 526EZ -- Date formatting utilities', () => {
@@ -48,8 +40,10 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     });
 
     it('should format dates with custom format', () => {
-      expect(formatDate('2023-01-15', 'MM/DD/YYYY')).to.equal('01/15/2023');
-      expect(formatDate('2023-01-15', 'YYYY-MM-DD')).to.equal('2023-01-15');
+      expect(formatDate('2023-01-15', DATE_FORMAT_SHORT)).to.equal(
+        '01/15/2023',
+      );
+      expect(formatDate('2023-01-15', DATE_TEMPLATE)).to.equal('2023-01-15');
     });
 
     it('should return Unknown for invalid dates', () => {
@@ -69,7 +63,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
 
     it('should format with custom format', () => {
       const range = { from: '2023-01-01', to: '2023-12-31' };
-      expect(formatDateRange(range, 'MM/DD/YYYY')).to.equal(
+      expect(formatDateRange(range, DATE_FORMAT_SHORT)).to.equal(
         '01/01/2023 to 12/31/2023',
       );
     });
@@ -91,9 +85,19 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
   });
 
   describe('formatMonthYearDate', () => {
-    it('should format valid dates as month and year', () => {
-      expect(formatMonthYearDate('2023-01-15')).to.equal('January 2023');
-      expect(formatMonthYearDate('2023-12-31')).to.equal('December 2023');
+    it('should format month/year format (YYYY-MM)', () => {
+      expect(formatMonthYearDate('2023-01')).to.equal('January 2023');
+      expect(formatMonthYearDate('2023-12')).to.equal('December 2023');
+    });
+
+    it('should format year-only format (YYYY-XX)', () => {
+      expect(formatMonthYearDate('2023-XX')).to.equal('2023');
+      expect(formatMonthYearDate('2000-XX')).to.equal('2000');
+    });
+
+    it('should handle full date format (YYYY-MM-DD) for backward compatibility', () => {
+      expect(formatMonthYearDate('2000-05-15')).to.equal('May 2000');
+      expect(formatMonthYearDate('2020-12-31')).to.equal('December 2020');
     });
 
     it('should return empty string for invalid dates', () => {
@@ -185,28 +189,8 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     });
   });
 
-  describe('isValidPartialDate', () => {
-    it('should validate year-only format', () => {
-      expect(isValidPartialDate('2023')).to.be.true;
-      expect(isValidPartialDate(MIN_VALID_YEAR.toString())).to.be.true;
-    });
-
-    it('should validate year-month format', () => {
-      expect(isValidPartialDate('2023-01')).to.be.true;
-      expect(isValidPartialDate('2023-12')).to.be.true;
-    });
-
-    it('should reject invalid formats', () => {
-      expect(isValidPartialDate('23')).to.be.false;
-      expect(isValidPartialDate('2023-13')).to.be.false;
-      expect(isValidPartialDate('invalid')).to.be.false;
-    });
-
-    it('should handle null/undefined', () => {
-      expect(isValidPartialDate(null)).to.be.false;
-      expect(isValidPartialDate('')).to.be.false;
-    });
-  });
+  // isValidPartialDate function has been removed - partial date validation
+  // is now handled by validateApproximateDate in validations.js
 
   describe('validateAge', () => {
     it('should add error if date is before 13th birthday', () => {
@@ -305,9 +289,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
   describe('isLessThan180DaysInFuture', () => {
     it('should add error for past dates', () => {
       const errors = { addError: sinon.spy() };
-      const yesterday = moment()
-        .subtract(1, 'day')
-        .format('YYYY-MM-DD');
+      const yesterday = daysFromToday(-1);
       isLessThan180DaysInFuture(errors, yesterday);
       expect(errors.addError.called).to.be.true;
       expect(errors.addError.firstCall.args[0]).to.include('future separation');
@@ -315,9 +297,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
 
     it('should add error for dates more than 180 days in future', () => {
       const errors = { addError: sinon.spy() };
-      const futureDate = moment()
-        .add(181, 'days')
-        .format('YYYY-MM-DD');
+      const futureDate = daysFromToday(181);
       isLessThan180DaysInFuture(errors, futureDate);
       expect(errors.addError.called).to.be.true;
       expect(errors.addError.firstCall.args[0]).to.include(
@@ -327,9 +307,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
 
     it('should not add error for valid future dates', () => {
       const errors = { addError: sinon.spy() };
-      const futureDate = moment()
-        .add(90, 'days')
-        .format('YYYY-MM-DD');
+      const futureDate = daysFromToday(90);
       isLessThan180DaysInFuture(errors, futureDate);
       expect(errors.addError.called).to.be.false;
     });
@@ -398,13 +376,13 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     it('should parse valid date strings', () => {
       const parsed = parseDate('2023-01-15');
       expect(parsed).to.not.be.null;
-      expect(parsed.format('YYYY-MM-DD')).to.equal('2023-01-15');
+      expect(format(parsed, DATE_TEMPLATE)).to.equal('2023-01-15');
     });
 
     it('should parse with format', () => {
-      const parsed = parseDate('01/15/2023', 'MM/DD/YYYY');
+      const parsed = parseDate('01/15/2023', DATE_FORMAT_SHORT);
       expect(parsed).to.not.be.null;
-      expect(parsed.format('YYYY-MM-DD')).to.equal('2023-01-15');
+      expect(format(parsed, DATE_TEMPLATE)).to.equal('2023-01-15');
     });
 
     it('should return null for invalid dates', () => {
@@ -417,7 +395,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     it('should parse dates with YYYY-MM-DD template', () => {
       const parsed = parseDateWithTemplate('2023-01-15');
       expect(parsed).to.not.be.null;
-      expect(parsed.format('YYYY-MM-DD')).to.equal('2023-01-15');
+      expect(format(parsed, DATE_TEMPLATE)).to.equal('2023-01-15');
     });
 
     it('should return null for invalid format', () => {
@@ -427,15 +405,9 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
 
   describe('isBddClaimValid', () => {
     it('should return true for dates 90-180 days in future', () => {
-      const date90Days = moment()
-        .add(90, 'days')
-        .format('YYYY-MM-DD');
-      const date180Days = moment()
-        .add(180, 'days')
-        .format('YYYY-MM-DD');
-      const date120Days = moment()
-        .add(120, 'days')
-        .format('YYYY-MM-DD');
+      const date90Days = daysFromToday(90);
+      const date180Days = daysFromToday(180);
+      const date120Days = daysFromToday(120);
 
       expect(isBddClaimValid(date90Days)).to.be.true;
       expect(isBddClaimValid(date180Days)).to.be.true;
@@ -443,15 +415,9 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     });
 
     it('should return false for dates outside 90-180 day range', () => {
-      const date89Days = moment()
-        .add(89, 'days')
-        .format('YYYY-MM-DD');
-      const date181Days = moment()
-        .add(181, 'days')
-        .format('YYYY-MM-DD');
-      const pastDate = moment()
-        .subtract(1, 'days')
-        .format('YYYY-MM-DD');
+      const date89Days = daysFromToday(89);
+      const date181Days = daysFromToday(181);
+      const pastDate = daysFromToday(-1);
 
       expect(isBddClaimValid(date89Days)).to.be.false;
       expect(isBddClaimValid(date181Days)).to.be.false;
@@ -466,25 +432,19 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
 
   describe('getBddSeparationDateError', () => {
     it('should return error for dates less than 90 days', () => {
-      const date89Days = moment()
-        .add(89, 'days')
-        .format('YYYY-MM-DD');
+      const date89Days = daysFromToday(89);
       const error = getBddSeparationDateError(date89Days);
       expect(error).to.include('at least 90 days');
     });
 
     it('should return error for dates more than 180 days', () => {
-      const date181Days = moment()
-        .add(181, 'days')
-        .format('YYYY-MM-DD');
+      const date181Days = daysFromToday(181);
       const error = getBddSeparationDateError(date181Days);
       expect(error).to.include('no more than 180 days');
     });
 
     it('should return null for valid dates', () => {
-      const date120Days = moment()
-        .add(120, 'days')
-        .format('YYYY-MM-DD');
+      const date120Days = daysFromToday(120);
       expect(getBddSeparationDateError(date120Days)).to.be.null;
     });
 
@@ -542,7 +502,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
         { serviceBranch: 'Marines', dateRange: { from: '2007-01-01' } },
       ];
       const earliest = findEarliestServiceDate(servicePeriods);
-      expect(earliest.format('YYYY-MM-DD')).to.equal('2003-01-01');
+      expect(format(earliest, DATE_TEMPLATE)).to.equal('2003-01-01');
     });
 
     it('should filter out invalid periods', () => {
@@ -553,7 +513,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
         { serviceBranch: 'Navy' }, // No dateRange
       ];
       const earliest = findEarliestServiceDate(servicePeriods);
-      expect(earliest.format('YYYY-MM-DD')).to.equal('2005-01-01');
+      expect(format(earliest, DATE_TEMPLATE)).to.equal('2005-01-01');
     });
 
     it('should handle empty or invalid input', () => {
@@ -564,8 +524,8 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
   });
 
   describe('isTreatmentBeforeService', () => {
-    const treatmentDate = moment('2020-01-01');
-    const serviceDate = moment('2021-01-01');
+    const treatmentDate = new Date('2020-01-01');
+    const serviceDate = new Date('2021-01-01');
 
     it('should check year-only comparisons', () => {
       expect(isTreatmentBeforeService(treatmentDate, serviceDate, '2020-XX-XX'))

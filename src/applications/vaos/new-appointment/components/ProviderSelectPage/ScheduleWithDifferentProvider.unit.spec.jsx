@@ -10,15 +10,13 @@ import {
 
 const defaultState = {
   featureToggles: {
-    vaOnlineSchedulingOhDirectSchedule: true,
-    vaOnlineSchedulingOhRequest: true,
+    vaOnlineSchedulingUseVpg: true,
   },
 };
 
 describe('ScheduleWithDifferentProvider', () => {
   it('should display both options when user is eligible', () => {
     const store = createTestStore(defaultState);
-    const eligibility = { request: true, requestReasons: [] };
     const selectedFacility = {
       id: '692',
       name: 'White City VA Medical Center',
@@ -26,16 +24,17 @@ describe('ScheduleWithDifferentProvider', () => {
 
     const screen = renderWithStoreAndRouter(
       <ScheduleWithDifferentProvider
-        eligibility={eligibility}
+        isEligibleForRequest
+        overRequestLimit={false}
         selectedFacility={selectedFacility}
       />,
       { store },
     );
 
-    expect(screen.getByText(/Option 1: Call the facility/i)).to.exist;
+    expect(screen.getByText(/Option 2: Call the facility/i)).to.exist;
     expect(
       screen.getByText(
-        /Option 2: Request your preferred date and time online/i,
+        /Option 1: Request your preferred date and time online/i,
       ),
     ).to.exist;
 
@@ -43,12 +42,8 @@ describe('ScheduleWithDifferentProvider', () => {
     expect(screen.getByTestId('request-appointment-link')).to.exist;
   });
 
-  /* Commenting out for now to unblock OH request test in staging
   it('should only display Call and ask to schedule with provider option when over request limit', () => {
     const store = createTestStore(defaultState);
-    const eligibility = {
-      requestReasons: ['overRequestLimit'],
-    };
     const selectedFacility = {
       id: '692',
       name: 'White City VA Medical Center',
@@ -56,23 +51,71 @@ describe('ScheduleWithDifferentProvider', () => {
 
     const screen = renderWithStoreAndRouter(
       <ScheduleWithDifferentProvider
-        eligibility={eligibility}
+        isEligibleForRequest
+        overRequestLimit
         selectedFacility={selectedFacility}
       />,
       { store },
     );
 
-    expect(screen.getByText(/Call and ask to schedule with that provider/i)).to
-      .exist;
-    expect(screen.queryByText(/Option 1: Call the facility/i)).to.not.exist;
+    // Info section below h1 now has all the text about contacting the facility when over request limit
+    // Options to request not available since not eligible due to over limit
+    expect(screen.queryByText(/Option 2: Call the facility/i)).to.not.exist;
     expect(
       screen.queryByText(
-        /Option 2: Request your preferred date and time online/i,
+        /Option 1: Request your preferred date and time online/i,
       ),
     ).to.not.exist;
     expect(screen.queryByText(/Request an appointment/i)).to.not.exist;
   });
-  */
+
+  it('should only display call option under provider list when requestEligibilityError is true', () => {
+    const store = createTestStore(defaultState);
+    const selectedFacility = {
+      id: '692',
+      name: 'White City VA Medical Center',
+      telecom: [
+        {
+          system: 'phone',
+          value: '541-123-4567',
+        },
+      ],
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ScheduleWithDifferentProvider
+        isEligibleForRequest
+        selectedFacility={selectedFacility}
+        requestEligibilityError
+      />,
+      { store },
+    );
+
+    // Should display the title
+    expect(
+      screen.getByText('If you want to schedule with a different provider'),
+    ).to.exist;
+
+    // Should display call to schedule text with facility phone
+    expect(
+      screen.getByText(
+        /Call the facility and ask to schedule with that provider:/i,
+      ),
+    ).to.exist;
+
+    const phoneEl = screen.getByTestId('facility-telephone');
+    expect(phoneEl).to.exist;
+    expect(phoneEl.getAttribute('contact')).to.equal('541-123-4567');
+
+    // Should NOT display the online request options
+    expect(screen.queryByText(/Option 2: Call the facility/i)).to.not.exist;
+    expect(
+      screen.queryByText(
+        /Option 1: Request your preferred date and time online/i,
+      ),
+    ).to.not.exist;
+    expect(screen.queryByTestId('request-appointment-link')).to.not.exist;
+  });
 
   // currently using both facility configurations and eligibility endpoints as source of truth for request eligibility
   // TODO: once we switch to using only eligibility endpoint, we can remove this test
@@ -91,7 +134,7 @@ describe('ScheduleWithDifferentProvider', () => {
 
     const screen = renderWithStoreAndRouter(
       <ScheduleWithDifferentProvider
-        eligibility={eligibility}
+        isEligibleForRequest
         selectedFacility={selectedFacility}
       />,
       { store },
@@ -99,10 +142,10 @@ describe('ScheduleWithDifferentProvider', () => {
 
     expect(screen.getByText(/Call and ask to schedule with that provider/i)).to
       .exist;
-    expect(screen.queryByText(/Option 1: Call the facility/i)).to.not.exist;
+    expect(screen.queryByText(/Option 2: Call the facility/i)).to.not.exist;
     expect(
       screen.queryByText(
-        /Option 2: Request your preferred date and time online/i,
+        /Option 1: Request your preferred date and time online/i,
       ),
     ).to.not.exist;
     expect(screen.queryByText(/Request an appointment/i)).to.not.exist;
@@ -111,7 +154,6 @@ describe('ScheduleWithDifferentProvider', () => {
 
   it('should render correct facility phone number', () => {
     const store = createTestStore(defaultState);
-    const eligibility = { requestReasons: [] };
     const selectedFacility = {
       id: '692',
       name: 'White City VA Medical Center',
@@ -125,7 +167,8 @@ describe('ScheduleWithDifferentProvider', () => {
 
     const screen = renderWithStoreAndRouter(
       <ScheduleWithDifferentProvider
-        eligibility={eligibility}
+        isEligibleForRequest
+        overRequestLimit={false}
         selectedFacility={selectedFacility}
       />,
       { store },
@@ -140,7 +183,6 @@ describe('ScheduleWithDifferentProvider', () => {
   });
   it('should route to request appointment URL when link clicked', async () => {
     const store = createTestStore(defaultState);
-    const eligibility = { request: true, requestReasons: [] };
     const selectedFacility = {
       id: '692',
       name: 'White City VA Medical Center',
@@ -151,9 +193,8 @@ describe('ScheduleWithDifferentProvider', () => {
 
     const screen = renderWithStoreAndRouter(
       <ScheduleWithDifferentProvider
-        eligibility={eligibility}
+        isEligibleForRequest
         selectedFacility={selectedFacility}
-        pageKey="providerSelection"
       />,
       { store },
     );
@@ -172,5 +213,42 @@ describe('ScheduleWithDifferentProvider', () => {
     }
 
     dispatchSpy.restore();
+  });
+
+  it('should not display call option with facility phone when requestEligibilityError is true and hasProviders is false', () => {
+    const store = createTestStore(defaultState);
+    const selectedFacility = {
+      id: '692',
+      name: 'White City VA Medical Center',
+      telecom: [
+        {
+          system: 'phone',
+          value: '541-987-6543',
+        },
+      ],
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ScheduleWithDifferentProvider
+        isEligibleForRequest
+        overRequestLimit={false}
+        selectedFacility={selectedFacility}
+        hasProviders={false}
+        requestEligibilityError
+      />,
+      { store },
+    );
+
+    // Should not display the title for scheduling with a different provider
+    expect(
+      screen.queryByText(/If you want to schedule with a different provider/i),
+    ).to.not.exist;
+
+    // Should not display instruction to call the facility
+    expect(
+      screen.queryByText(
+        /Call the facility and ask to schedule with that provider:/i,
+      ),
+    ).to.not.exist;
   });
 });

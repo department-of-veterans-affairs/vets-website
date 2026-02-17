@@ -27,6 +27,13 @@ describe('Get vaccines action', () => {
       );
     });
   });
+
+  it('should dispatch an add alert action on error and not throw', async () => {
+    mockApiRequest(vaccines, false);
+    const dispatch = sinon.spy();
+    await getVaccinesList()(dispatch);
+    expect(typeof dispatch.secondCall.args[0]).to.equal('function');
+  });
 });
 
 describe('Get vaccine action', () => {
@@ -37,6 +44,13 @@ describe('Get vaccine action', () => {
     return getVaccineDetails('3106', undefined)(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vaccines.GET);
     });
+  });
+
+  it('should dispatch an add alert action on error and not throw', async () => {
+    mockApiRequest(vaccine, false);
+    const dispatch = sinon.spy();
+    await getVaccineDetails('3106', undefined)(dispatch);
+    expect(typeof dispatch.firstCall.args[0]).to.equal('function');
   });
 });
 
@@ -67,7 +81,7 @@ describe('Get vaccines list with acceleration', () => {
     const mockData = vaccines;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVaccinesList(false, undefined, false, true)(dispatch).then(() => {
+    return getVaccinesList(false, true)(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Vaccines.UPDATE_LIST_STATE,
       );
@@ -84,19 +98,17 @@ describe('Get vaccines list with acceleration', () => {
     const mockData = vaccines;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVaccinesList(false, undefined, false, false)(dispatch).then(
-      () => {
-        expect(dispatch.firstCall.args[0].type).to.equal(
-          Actions.Vaccines.UPDATE_LIST_STATE,
-        );
-        expect(dispatch.secondCall.args[0].type).to.equal(
-          Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
-        );
-        expect(dispatch.thirdCall.args[0].type).to.equal(
-          Actions.Vaccines.GET_LIST,
-        );
-      },
-    );
+    return getVaccinesList(false, false)(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.Vaccines.UPDATE_LIST_STATE,
+      );
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
+      );
+      expect(dispatch.thirdCall.args[0].type).to.equal(
+        Actions.Vaccines.GET_LIST,
+      );
+    });
   });
 });
 

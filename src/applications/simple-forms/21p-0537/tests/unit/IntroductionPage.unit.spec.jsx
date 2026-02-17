@@ -67,7 +67,7 @@ const mockStore = (loggedIn = true, dispatchSpy = sinon.spy()) => ({
       loadedData: {
         metadata: {},
       },
-      data: {},
+      data: { isLoggedIn: false },
     },
     scheduledDowntime: {
       globalDowntime: null,
@@ -148,7 +148,7 @@ describe('21P-0537 IntroductionPage', () => {
     expect(ombInfo).to.exist;
     expect(ombInfo).to.have.attr('res-burden', '5');
     expect(ombInfo).to.have.attr('omb-number', '2900-0495');
-    expect(ombInfo).to.have.attr('exp-date', '8/31/2025');
+    expect(ombInfo).to.have.attr('exp-date', '12/31/2028');
   });
 
   it('renders SaveInProgressIntro component', () => {

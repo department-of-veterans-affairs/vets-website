@@ -10,6 +10,7 @@ import {
 import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
 import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
 import { transform } from '@bio-aquia/21p-530a-interment-allowance/config/submit-transform/transform';
+import { customSubmit } from '@bio-aquia/shared/utils';
 
 import { ConfirmationPage } from '@bio-aquia/21p-530a-interment-allowance/components/confirmation-page';
 import { IntroductionPage } from '@bio-aquia/21p-530a-interment-allowance/components/introduction-page';
@@ -21,7 +22,6 @@ import {
   burialBenefitsRecipientPage,
   burialOrganizationMailingAddressPage,
   organizationNamePage,
-  relationshipToVeteranPage,
   veteranBirthInformationPage,
   veteranBurialInformationPage,
   veteranPersonalInformationPage,
@@ -38,6 +38,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/form21p530a`,
   transformForSubmit: transform,
+  submit: customSubmit,
   trackingPrefix: TRACKING_PREFIX,
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
@@ -74,13 +75,6 @@ const formConfig = {
     organizationInformationChapter: {
       title: "Your organization's information",
       pages: {
-        relationshipToVeteran: {
-          path: 'relationship-to-veteran',
-          title: 'Relationship to the Veteran',
-          uiSchema: relationshipToVeteranPage.uiSchema,
-          schema: relationshipToVeteranPage.schema,
-          pagePerItemIndex: 0,
-        },
         organizationInformation: {
           path: 'organization-information',
           title: "Your organization's information",
@@ -89,7 +83,7 @@ const formConfig = {
         },
         burialBenefitsRecipient: {
           path: 'burial-benefits-recipient',
-          title: 'Burial benefits recipient',
+          title: 'VA interment allowance benefits recipient',
           uiSchema: burialBenefitsRecipientPage.uiSchema,
           schema: burialBenefitsRecipientPage.schema,
         },
@@ -124,7 +118,7 @@ const formConfig = {
         },
         veteranBurialInformation: {
           path: 'veteran-burial-information',
-          title: 'Burial information',
+          title: 'Interment information',
           uiSchema: veteranBurialInformationPage.uiSchema,
           schema: veteranBurialInformationPage.schema,
         },

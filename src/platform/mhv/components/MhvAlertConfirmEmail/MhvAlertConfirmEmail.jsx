@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   dismissAlertViaCookie,
@@ -10,13 +9,14 @@ import {
   showAlert,
 } from './selectors';
 import {
-  AlertSystemResponseConfirmError,
   AlertSystemResponseConfirmSuccess,
   AlertSystemResponseSkipSuccess,
 } from './AlertSystemResponse';
 import AlertAddContactEmail from './AlertAddContactEmail';
 import AlertConfirmContactEmail from './AlertConfirmContactEmail';
+import AlertConfirmAddContactEmailError from './AlertConfirmAddContactEmailError';
 import { recordAlertLoadEvent } from './recordAlertLoadEvent';
+import useConfirmEmailTransaction from '../../hooks/useConfirmEmailTransaction';
 
 /**
  * `<MhvAlertConfirmEmail />` component
@@ -33,9 +33,18 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const emailAddress = useSelector(selectContactEmailAddress);
   const emailAddressId = useSelector(selectContactEmailAddressId);
 
-  const [confirmSuccess, setConfirmSuccess] = useState(false);
-  const [confirmError, setConfirmError] = useState(false);
   const [skipSuccess, setSkipSuccess] = useState(false);
+
+  const {
+    confirmEmail,
+    isLoading,
+    isSuccess: confirmSuccess,
+    isError: confirmError,
+  } = useConfirmEmailTransaction({
+    emailAddressId,
+    emailAddress,
+    onSuccess: () => dismissAlertViaCookie(),
+  });
 
   useEffect(
     () => {
@@ -50,27 +59,6 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
     [confirmSuccess, confirmError, skipSuccess],
   );
 
-  const putConfirmationDate = (confirmationDate = new Date().toISOString()) =>
-    apiRequest('/profile/email_addresses', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        id: emailAddressId,
-        // eslint-disable-next-line camelcase
-        confirmation_date: confirmationDate,
-        // eslint-disable-next-line camelcase
-        email_address: emailAddress,
-      }),
-    })
-      .then(() => {
-        setConfirmError(false);
-        setConfirmSuccess(true);
-      })
-      .then(() => dismissAlertViaCookie())
-      .catch(() => setConfirmError(true));
   const onSkipClick = () => {
     setSkipSuccess(true);
     dismissAlertViaCookie();
@@ -87,18 +75,22 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
         />
       )}
       {confirmError && (
-        <AlertSystemResponseConfirmError
-          recordEvent={recordEvent}
-          tabIndex={-1}
-        />
-      )}
-      {!confirmSuccess && (
-        <AlertConfirmContactEmail
+        <AlertConfirmAddContactEmailError
           emailAddress={emailAddress}
-          onConfirmClick={putConfirmationDate}
+          isConfirming={isLoading}
+          onConfirmClick={confirmEmail}
           recordEvent={recordEvent}
         />
       )}
+      {!confirmSuccess &&
+        !confirmError && (
+          <AlertConfirmContactEmail
+            emailAddress={emailAddress}
+            isConfirming={isLoading}
+            onConfirmClick={confirmEmail}
+            recordEvent={recordEvent}
+          />
+        )}
     </>
   ) : (
     <>

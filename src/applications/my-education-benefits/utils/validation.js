@@ -62,7 +62,7 @@ export const validateEffectiveDate = (errors, dateString) => {
 };
 
 const isValidAccountNumber = accountNumber => {
-  return /^[a-z0-9*]+$/.test(accountNumber);
+  return /^[a-z0-9]+$/.test(accountNumber);
 };
 
 export const validateBankAccountNumber = (
@@ -142,4 +142,54 @@ export const duplicateArrays = (array1, array2) => {
     }
   }
   return true;
+};
+
+export const validateMilitaryBaseConsistency = (
+  errors,
+  mailingAddressData,
+  _formData,
+) => {
+  const livesOnMilitaryBase = mailingAddressData?.livesOnMilitaryBase;
+  const address = mailingAddressData?.address;
+
+  if (!address) return;
+
+  const { city, state, country } = address;
+  const militaryCities = ['APO', 'FPO', 'DPO'];
+  const militaryStates = ['AE', 'AA', 'AP'];
+  const hasMilitaryCity = militaryCities.includes(city);
+  const hasMilitaryState = militaryStates.includes(state);
+  const hasMilitaryAddress = hasMilitaryCity || hasMilitaryState;
+
+  if (!livesOnMilitaryBase && hasMilitaryAddress) {
+    if (hasMilitaryCity) {
+      errors.address.city.addError(
+        "Military addresses require the 'I live on a United States military base outside of the Country' checkbox to be selected.",
+      );
+    }
+    if (hasMilitaryState) {
+      errors.address.state.addError(
+        "Military addresses require the 'I live on a United States military base outside of the Country' checkbox to be selected.",
+      );
+    }
+  }
+
+  if (livesOnMilitaryBase && !hasMilitaryAddress) {
+    if (city && !hasMilitaryCity) {
+      errors.address.city.addError(
+        'When living on a military base, city must be APO, FPO, or DPO.',
+      );
+    }
+    if (state && !hasMilitaryState) {
+      errors.address.state.addError(
+        'When living on a military base, state must be AE, AA, or AP.',
+      );
+    }
+  }
+
+  if (livesOnMilitaryBase && country && country !== 'USA') {
+    errors.address.country.addError(
+      'Military bases must use United States as the country.',
+    );
+  }
 };

@@ -36,6 +36,9 @@ jobs:
   lighthouse:
     needs: get-registries
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     strategy:
       fail-fast: false
       max-parallel: 8
@@ -56,12 +59,11 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Configure AWS credentials (1)
+      - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -71,22 +73,6 @@ jobs:
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
-
-      - name: Get role from Parameter Store
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
       - name: Audit URLs using Lighthouse on ${{ matrix.registry }}
         id: lighthouse-checks
@@ -125,7 +111,7 @@ jobs:
 
       # TODO: Potentially use install composite
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        run: yarn install --frozen-lockfile --prefer-offline --production=false --ignore-scripts
         env:
           YARN_CACHE_FOLDER: .cache/yarn
         working-directory: qa-standards-dashboard-data
@@ -146,6 +132,9 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     needs: [lighthouse]
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -155,5 +144,4 @@ jobs:
         with:
           payload: '{"attachments": [{"color": "#07711E","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload-test/lighthouse/homepage.html|View the results>"}}]}]}'
           channel_id: ${{ env.CHANNEL_ID }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role: ${{ vars.AWS_ASSUME_ROLE }}

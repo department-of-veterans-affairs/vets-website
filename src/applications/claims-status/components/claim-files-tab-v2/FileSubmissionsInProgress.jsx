@@ -1,18 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  VaCard,
   VaButton,
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { buildDateFormatter } from '../../utils/helpers';
+import { getTrackedItemDisplayNameFromEvidenceSubmission } from '../../utils/helpers';
+import DocumentCard from '../DocumentCard';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
 import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 import { ANCHOR_LINKS } from '../../constants';
 import { setPageFocus } from '../../utils/page';
-
-const formatDate = buildDateFormatter();
 
 const generateInProgressDocs = evidenceSubmissions => {
   return (evidenceSubmissions || [])
@@ -104,51 +102,27 @@ const FileSubmissionsInProgress = ({ claim }) => {
             >
               {currentPageItems.map((item, itemIndex) => {
                 const statusBadgeText = item.uploadStatusDisplayValue;
-                const requestTypeText = item.trackedItemDisplayName
-                  ? `Request type: ${item.trackedItemDisplayName}`
+                const requestType = getTrackedItemDisplayNameFromEvidenceSubmission(
+                  item,
+                );
+                const requestTypeText = requestType
+                  ? `Submitted in response to request: ${requestType}`
                   : 'You submitted this file as additional evidence.';
 
                 return (
                   <li key={item.id || itemIndex}>
-                    <VaCard
-                      className="vads-u-margin-y--3"
-                      data-testid={`file-in-progress-card-${itemIndex}`}
-                    >
-                      {statusBadgeText && (
-                        <div className="file-status-badge vads-u-margin-bottom--2">
-                          <span className="vads-u-visibility--screen-reader">
-                            Status
-                          </span>
-                          <span className="usa-label vads-u-padding-x--1">
-                            {statusBadgeText}
-                          </span>
-                        </div>
-                      )}
-                      <h4
-                        className="filename-title vads-u-margin-top--0 vads-u-margin-bottom--2"
-                        data-dd-privacy="mask"
-                        data-dd-action-name="document filename"
-                        ref={el => {
-                          headingRefs.current[itemIndex] = el;
-                        }}
-                        tabIndex="-1"
-                      >
-                        {item.fileName || 'File name unknown'}
-                      </h4>
-                      <div className="vads-u-margin-bottom--2">
-                        {item.documentType && (
-                          <p className="vads-u-margin-y--0">
-                            {`Document type: ${item.documentType}`}
-                          </p>
-                        )}
-                        <p className="vads-u-margin-y--0">{requestTypeText}</p>
-                      </div>
-                      {item.createdAt && (
-                        <p className="file-submitted-date vads-u-margin-y--0">
-                          {`Submitted on ${formatDate(item.createdAt)}`}
-                        </p>
-                      )}
-                    </VaCard>
+                    <DocumentCard
+                      variant="in-progress"
+                      index={itemIndex}
+                      statusBadgeText={statusBadgeText}
+                      headingRef={el => {
+                        headingRefs.current[itemIndex] = el;
+                      }}
+                      fileName={item.fileName}
+                      documentType={item.documentType}
+                      requestTypeText={requestTypeText}
+                      date={item.createdAt}
+                    />
                   </li>
                 );
               })}

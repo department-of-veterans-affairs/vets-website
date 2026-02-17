@@ -15,11 +15,8 @@ import {
   resetUploads,
   clearAdditionalEvidenceNotification,
 } from '../../actions';
-import {
-  getFilesNeeded,
-  getFilesOptional,
-  isClaimOpen,
-} from '../../utils/helpers';
+import { isClaimOpen } from '../../utils/helpers';
+import * as TrackedItem from '../../utils/trackedItemContent';
 import withRouter from '../../utils/withRouter';
 
 const filesPath = `../files`;
@@ -27,7 +24,6 @@ const filesPath = `../files`;
 class AdditionalEvidencePage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    this.scrollToSection();
   }
 
   // eslint-disable-next-line camelcase
@@ -40,9 +36,6 @@ class AdditionalEvidencePage extends React.Component {
   componentDidUpdate(prevProps) {
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
-    }
-    if (this.props.location.hash !== prevProps.location.hash) {
-      this.scrollToSection();
     }
   }
 
@@ -61,12 +54,6 @@ class AdditionalEvidencePage extends React.Component {
       this.props.timezoneMitigationEnabled,
     );
   }
-
-  scrollToSection = () => {
-    if (this.props.location.hash === '#add-files') {
-      setPageFocus('h3#add-files');
-    }
-  };
 
   goToFilesPage() {
     this.props.getClaim(this.props.claim.id);
@@ -100,6 +87,7 @@ class AdditionalEvidencePage extends React.Component {
                 title={message.title}
                 body={message.body}
                 type={message.type}
+                maskTitle={message.type === 'error'}
                 onSetFocus={focusNotificationAlert}
               />
             </>
@@ -112,7 +100,7 @@ class AdditionalEvidencePage extends React.Component {
               {filesNeeded.map(item => (
                 <FilesNeeded
                   key={item.id}
-                  id={claim.id}
+                  claimId={claim.id}
                   item={item}
                   evidenceWaiverSubmitted5103={
                     claim.attributes.evidenceWaiverSubmitted5103
@@ -163,8 +151,8 @@ function mapStateToProps(state) {
     uploadError: claimsState.uploads.uploadError,
     uploadComplete: claimsState.uploads.uploadComplete,
     message: claimsState.notifications.additionalEvidenceMessage,
-    filesNeeded: getFilesNeeded(trackedItems),
-    filesOptional: getFilesOptional(trackedItems),
+    filesNeeded: TrackedItem.getFilesNeeded(trackedItems),
+    filesOptional: TrackedItem.getFilesOptional(trackedItems),
     showDocumentUploadStatus:
       state.featureToggles?.cst_show_document_upload_status || false,
     timezoneMitigationEnabled:

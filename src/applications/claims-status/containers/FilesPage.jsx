@@ -17,17 +17,29 @@ import withRouter from '../utils/withRouter';
 
 import {
   claimAvailable,
-  getFailedSubmissionsWithinLast30Days,
   isClaimOpen,
   setPageFocus,
   setTabDocumentTitle,
+  getFailedSubmissionsWithinLast30Days,
 } from '../utils/helpers';
-import { setUpPage, isTab } from '../utils/page';
+import {
+  setUpPage,
+  isTab,
+  setPageFocus as scrollToElement,
+} from '../utils/page';
+import { ANCHOR_LINKS } from '../constants';
 
 // CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 
 class FilesPage extends React.Component {
+  // Instance-level memoization for failed submissions to prevent UploadType2ErrorAlert
+  // from receiving a new array reference on every render, which would break its useEffect tracking
+  // (Class components can't use useMemo hook, so we implement manual memoization)
+  _cachedEvidenceSubmissions = null;
+
+  _cachedFailedSubmissions = null;
+
   componentDidMount() {
     const { claim, location } = this.props;
     // Only set the document title at mount-time if the claim is already available.
@@ -38,11 +50,16 @@ class FilesPage extends React.Component {
         const { lastPage, loading } = this.props;
         setPageFocus(lastPage, loading);
       });
+    } else if (location?.hash) {
+      // Handle hash navigation on mount (for direct navigation with hash)
+      setTimeout(() => {
+        this.scrollToSection();
+      }, 100);
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { claim, lastPage, loading } = this.props;
+    const { claim, lastPage, loading, location } = this.props;
 
     if (!loading && prevProps.loading && !isTab(lastPage)) {
       setUpPage(false);
@@ -53,10 +70,29 @@ class FilesPage extends React.Component {
     if (loading !== prevProps.loading) {
       setTabDocumentTitle(claim, 'Files');
     }
+
+    // Scroll to hash anchor after content has loaded (from external navigation)
+    if (!loading && prevProps.loading && location?.hash) {
+      // Add small delay to ensure DOM is fully rendered
+      setTimeout(() => {
+        this.scrollToSection();
+      }, 100);
+    }
   }
 
   componentWillUnmount() {
     this.props.clearNotification();
+  }
+
+  getFailedSubmissionsMemoized(evidenceSubmissions) {
+    if (this._cachedEvidenceSubmissions !== evidenceSubmissions) {
+      this._cachedEvidenceSubmissions = evidenceSubmissions;
+      this._cachedFailedSubmissions = getFailedSubmissionsWithinLast30Days(
+        evidenceSubmissions,
+      );
+    }
+
+    return this._cachedFailedSubmissions;
   }
 
   getPageContent() {
@@ -79,7 +115,7 @@ class FilesPage extends React.Component {
     const documentsTurnedIn = trackedItems.filter(
       item => !item.status.startsWith(NEED_ITEMS_STATUS),
     );
-    const failedSubmissionsWithinLast30Days = getFailedSubmissionsWithinLast30Days(
+    const failedSubmissionsWithinLast30Days = this.getFailedSubmissionsMemoized(
       evidenceSubmissions,
     );
 
@@ -96,6 +132,7 @@ class FilesPage extends React.Component {
           <Toggler.Enabled>
             <UploadType2ErrorAlert
               failedSubmissions={failedSubmissionsWithinLast30Days}
+              isStatusPage={false}
             />
             <AdditionalEvidencePage additionalEvidenceTitle="Upload additional evidence" />
             <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
@@ -116,6 +153,22 @@ class FilesPage extends React.Component {
       </div>
     );
   }
+
+  scrollToSection = () => {
+    const { location } = this.props;
+    const validHashes = [
+      `#${ANCHOR_LINKS.fileSubmissionsInProgress}`,
+      `#${ANCHOR_LINKS.filesWeCouldntReceive}`,
+      `#${ANCHOR_LINKS.otherWaysToSendDocuments}`,
+      `#${ANCHOR_LINKS.documentsFiled}`,
+      `#${ANCHOR_LINKS.filesReceived}`,
+      `#${ANCHOR_LINKS.addFiles}`,
+    ];
+
+    if (validHashes.includes(location.hash)) {
+      scrollToElement(location.hash);
+    }
+  };
 
   render() {
     const { claim, loading, message } = this.props;

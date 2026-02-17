@@ -22,6 +22,10 @@ import { navigateForward } from '../utilities/page-navigation';
 export const QUESTION_STANDARD_ERROR = `Choose yes or no`;
 export const QUESTION_DECISION_TYPE_ERROR = `Choose the type of decision`;
 
+export const QUESTION_STANDARD_LABEL = 'Select one';
+export const QUESTION_DECISION_TYPE_LABEL =
+  'Select the type of claim or appeal that we previously sent you a decision on.';
+
 /**
  * Produces a set of 2-3 radio options
  * @param {string} shortName - Question short name (SNAKE_CASE)
@@ -111,6 +115,11 @@ const RadioQuestion = ({
       ? QUESTION_DECISION_TYPE_ERROR
       : QUESTION_STANDARD_ERROR;
 
+  const radioLabel =
+    shortName === SHORT_NAME_MAP.Q_2_0_CLAIM_TYPE
+      ? QUESTION_DECISION_TYPE_LABEL
+      : QUESTION_STANDARD_LABEL;
+
   return (
     <>
       <VaRadio
@@ -121,7 +130,7 @@ const RadioQuestion = ({
         form-heading-level={1}
         hint={hintText || null}
         id="onramp-radio"
-        label="Select one"
+        label={radioLabel}
         onVaValueChange={e => onValueChange(e.detail.value)}
         required
         use-forms-pattern="single"

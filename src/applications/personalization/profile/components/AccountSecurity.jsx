@@ -8,13 +8,13 @@ const AccountSecurity = () => {
     <Tier2PageContent pageHeader="Account security">
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS}
-        content="3rd-party apps that have access to your VA.gov profile"
+        content="Manage third-party apps that have access to your VA.gov profile."
         href={PROFILE_PATHS.CONNECTED_APPLICATIONS}
         reactLink
       />
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.SIGNIN_INFORMATION}
-        content="Sign-in and account information"
+        content="Manage your sign-in information and complete account setup."
         href={PROFILE_PATHS.SIGNIN_INFORMATION}
         reactLink
       />

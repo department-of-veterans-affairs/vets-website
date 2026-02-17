@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
@@ -88,11 +88,19 @@ describe('Edit Contact List container', async () => {
     expect(facilityGroups.length).to.equal(1);
 
     await waitFor(() => {
-      expect(
-        screen.getByText(
-          'Select and save the care teams you want to send messages to. You must select at least one care team.',
-        ),
-      ).to.exist;
+      const instructionParagraph = screen.getByText((_, el) => {
+        const normalizedText = el.textContent.replace(/\s+/g, ' ').trim();
+        return (
+          el.tagName === 'P' &&
+          normalizedText.includes(
+            'Select and save the care teams you want to send messages to. You must select at least 1 care team.',
+          ) &&
+          normalizedText.includes(
+            'Note: You can only edit care teams from some facilities.',
+          )
+        );
+      });
+      expect(instructionParagraph).to.exist;
 
       const selectAllTeams = screen.getAllByTestId(/select-all-/);
       expect(selectAllTeams[0]).to.have.attribute(
@@ -111,11 +119,20 @@ describe('Edit Contact List container', async () => {
     expect(facilityGroups.length).to.equal(2);
 
     await waitFor(() => {
-      expect(
-        screen.getByText(
-          'Select and save the care teams you want to send messages to. You must select at least one care team from one of your facilities.',
-        ),
-      ).to.exist;
+      const instructionParagraph = screen.getByText((_, el) => {
+        const normalizedText = el.textContent.replace(/\s+/g, ' ').trim();
+        return (
+          el.tagName === 'P' &&
+          normalizedText.includes(
+            'Select and save the care teams you want to send messages to. You must select at least 1 care team from 1 of your facilities.',
+          ) &&
+          normalizedText.includes(
+            'Note: You can only edit care teams from some facilities.',
+          )
+        );
+      });
+      expect(instructionParagraph).to.exist;
+
       const selectAllTeams = screen.getAllByTestId(/select-all-/);
       expect(selectAllTeams[0]).to.have.attribute(
         'label',
@@ -352,6 +369,39 @@ describe('Edit Contact List container', async () => {
     screen.unmount();
   });
 
+  it('displays loading indicator when save is in progress', async () => {
+    const screen = setup();
+
+    const checkbox = await screen.findByTestId(
+      'contact-list-select-team-1013155',
+    );
+
+    checkVaCheckbox(checkbox, false);
+
+    expect(checkbox).to.have.attribute('checked', 'false');
+
+    // Initially, loading indicator should not be present
+    expect(screen.queryByTestId('contact-list-saving-indicator')).to.be.null;
+
+    const saveButton = screen.getByTestId('contact-list-save');
+    mockApiRequest(200, true);
+    fireEvent.click(saveButton);
+
+    // Loading indicator should appear during save
+    await waitFor(() => {
+      const loadingIndicator = screen.getByTestId(
+        'contact-list-saving-indicator',
+      );
+      expect(loadingIndicator).to.exist;
+      expect(loadingIndicator).to.have.attribute(
+        'message',
+        'Saving your contact list...',
+      );
+    });
+
+    screen.unmount();
+  });
+
   it('displays error state on first checkbox when "save" is clicked if zero teams are checked', async () => {
     const screen = setup(initialState);
 
@@ -385,44 +435,77 @@ describe('Edit Contact List container', async () => {
   });
 
   it('adds eventListener if path is /contact-list', async () => {
-    const screen = setup();
-
+    // Create spy BEFORE setup to capture all addEventListener calls across Node versions
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+
+    const screen = setup();
 
     const checkbox = await screen.findByTestId(
       'contact-list-select-team-1013155',
     );
 
-    checkVaCheckbox(checkbox, false);
+    // Count beforeunload listeners after initial render (varies by Node version)
+    const initialBeforeunloadCount = addEventListenerSpy
+      .getCalls()
+      .filter(call => call.args[0] === 'beforeunload').length;
 
-    await waitFor(() => {
-      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    // Click checkbox to trigger a contact list change - wrap in act to ensure state updates flush
+    await act(async () => {
+      checkVaCheckbox(checkbox, false);
     });
+
+    // Verify a NEW beforeunload listener was added after the change
+    await waitFor(() => {
+      const newBeforeunloadCount = addEventListenerSpy
+        .getCalls()
+        .filter(call => call.args[0] === 'beforeunload').length;
+      expect(newBeforeunloadCount).to.be.above(initialBeforeunloadCount);
+    });
+
+    addEventListenerSpy.restore();
   });
 
   it('removes eventListener if contact list changes are reverted', async () => {
-    const screen = setup();
-
+    // Create spies BEFORE setup to capture all calls across Node versions
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
     const removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+
+    const screen = setup();
 
     const checkbox = await screen.findByTestId(
       'contact-list-select-team-1013155',
     );
 
-    checkVaCheckbox(checkbox, false);
+    // Count beforeunload listeners after initial render
+    const initialBeforeunloadCount = addEventListenerSpy
+      .getCalls()
+      .filter(call => call.args[0] === 'beforeunload').length;
 
-    await waitFor(() => {
-      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    // Click checkbox to trigger a contact list change - wrap in act to ensure state updates flush
+    await act(async () => {
+      checkVaCheckbox(checkbox, false);
     });
 
-    checkVaCheckbox(checkbox, true);
+    // Verify a NEW beforeunload listener was added
+    await waitFor(() => {
+      const newBeforeunloadCount = addEventListenerSpy
+        .getCalls()
+        .filter(call => call.args[0] === 'beforeunload').length;
+      expect(newBeforeunloadCount).to.be.above(initialBeforeunloadCount);
+    });
 
+    // Click checkbox again to revert the change - wrap in act to ensure state updates flush
+    await act(async () => {
+      checkVaCheckbox(checkbox, true);
+    });
+
+    // Verify beforeunload listener was removed
     await waitFor(() => {
       expect(removeEventListenerSpy.calledWith('beforeunload')).to.be.true;
     });
+
+    addEventListenerSpy.restore();
+    removeEventListenerSpy.restore();
   });
 
   it('error alert displayed if "save" clicked and an error is returned', async () => {
@@ -454,14 +537,22 @@ describe('Edit Contact List container', async () => {
     mockApiRequest({ ...errorResponse, status: 403 }, false);
     fireEvent.click(saveButton);
 
+    // NODE 22 FIX: Split assertions into separate waitFor calls. In Node 22,
+    // the alert component may render before its text content is populated.
+    // First wait for the alert to appear with error status, then wait for the text.
+    // This doesn't change test behavior - we're still verifying the same things,
+    // just in a more resilient order that handles async rendering differences.
     await waitFor(() => {
       const alert = document.querySelector('va-alert');
+      expect(alert).to.exist;
       expect(alert.getAttribute('status')).to.equal('error');
-      expect(
-        screen.getByText(
-          "We're sorry. We couldn't save your changes. Try saving again.",
-        ),
-      ).to.exist;
+    });
+
+    await waitFor(() => {
+      const alertText = screen.getByTestId('alert-text');
+      expect(alertText.textContent).to.include(
+        "We're sorry. We couldn't save your changes. Try saving again.",
+      );
     });
 
     screen.unmount();

@@ -1,8 +1,7 @@
 /* eslint-disable no-shadow */
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
-  selectFeatureOHDirectSchedule,
-  selectFeatureOHRequest,
+  selectFeatureUseVpg,
   selectFeaturePCMHI,
   selectFeatureSubstanceUseDisorder,
   selectRegisteredCernerFacilityIds,
@@ -24,6 +23,7 @@ import {
   TYPE_OF_CARE_IDS,
   TYPES_OF_CARE,
   OH_ENABLED_TYPES_OF_CARE,
+  APPOINTMENT_SYSTEM,
 } from '../utils/constants';
 import {
   getSiteIdFromFacilityId,
@@ -37,6 +37,7 @@ import {
   startRequestAppointmentFlow,
   updateFacilityType,
   checkCommunityCareEligibility,
+  updateFacilityEhr,
 } from './redux/actions';
 import { startNewVaccineFlow } from '../appointment-list/redux/actions';
 
@@ -86,32 +87,14 @@ async function vaFacilityNext(state, dispatch) {
   const location = getChosenFacilityInfo(state);
   const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
   const isCerner = isCernerLocation(location?.id, cernerSiteIds);
-  const featureOHDirectSchedule = selectFeatureOHDirectSchedule(state);
-  const featureOHRequest = selectFeatureOHRequest(state);
+  const featureUseVpg = selectFeatureUseVpg(state);
+
   const typeOfCareEnabled = OH_ENABLED_TYPES_OF_CARE.includes(
     getTypeOfCare(state.newAppointment.data)?.idV2,
   );
 
-  if (isCerner) {
-    if (featureOHDirectSchedule && featureOHRequest && typeOfCareEnabled) {
-      // Fetch eligibility if we haven't already
-      if (!eligibility) {
-        const siteId = getSiteIdFromFacilityId(location.id);
-
-        eligibility = await dispatch(
-          checkEligibility({
-            location,
-            siteId,
-            showModal: false,
-            isCerner: true,
-          }),
-        );
-      }
-
-      return 'selectProvider';
-    }
-    return 'scheduleCerner';
-  }
+  const ehr = isCerner ? APPOINTMENT_SYSTEM.cerner : APPOINTMENT_SYSTEM.vista;
+  dispatch(updateFacilityEhr(ehr));
 
   // Fetch eligibility if we haven't already
   if (!eligibility) {
@@ -122,20 +105,36 @@ async function vaFacilityNext(state, dispatch) {
         location,
         siteId,
         showModal: true,
-        isCerner: false,
+        isCerner,
       }),
     );
   }
 
+  if (isCerner) {
+    if (
+      featureUseVpg &&
+      typeOfCareEnabled &&
+      (eligibility.direct || eligibility.request)
+    ) {
+      return 'selectProvider';
+    }
+    if (!featureUseVpg || !typeOfCareEnabled) {
+      return 'scheduleCerner';
+    }
+  }
+
   if (eligibility.direct) {
-    dispatch(startDirectScheduleFlow());
+    dispatch(startDirectScheduleFlow({ ehr }));
     return 'clinicChoice';
   }
 
   if (eligibility.request) {
-    dispatch(startRequestAppointmentFlow());
+    dispatch(startRequestAppointmentFlow({ ehr }));
     return 'requestDateTime';
   }
+
+  // Display Cerner error page when feature flag is on per conversation with UI team.
+  // if (featureRemoveFacilityConfigCheck) return 'scheduleCerner';
 
   dispatch(showEligibilityModal());
   return VA_FACILITY_V2_KEY;
@@ -153,6 +152,7 @@ async function vaFacilityNext(state, dispatch) {
 export default function getNewAppointmentFlow(state) {
   const flowType = getFlowType(state);
   const isSingleVaFacility = selectSingleSupportedVALocation(state);
+  const ehr = getNewAppointment(state)?.ehr;
 
   const flow = {
     requestDateTime: {
@@ -180,7 +180,7 @@ export default function getNewAppointmentFlow(state) {
       url: 'audiology-care',
       label: 'Choose the type of audiology care you need',
       next(state, dispatch) {
-        dispatch(startRequestAppointmentFlow(true));
+        dispatch(startRequestAppointmentFlow({ ehr: APPOINTMENT_SYSTEM.hsrm }));
         return 'ccRequestDateTime';
       },
     },
@@ -208,12 +208,12 @@ export default function getNewAppointmentFlow(state) {
       label: 'Which VA clinic would you like to go to?',
       next(state, dispatch) {
         if (getFormData(state).clinicId === 'NONE') {
-          dispatch(startRequestAppointmentFlow());
+          dispatch(startRequestAppointmentFlow({ ehr }));
           return 'requestDateTime';
         }
 
         // fetch appointment slots
-        dispatch(startDirectScheduleFlow());
+        dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
         return 'preferredDate';
       },
     },
@@ -267,7 +267,8 @@ export default function getNewAppointmentFlow(state) {
       label: 'What date and time do you want for this appointment?',
       next: 'reasonForAppointment',
       requestAppointment(state, dispatch) {
-        dispatch(startRequestAppointmentFlow());
+        const ehrValue = getNewAppointment(state)?.ehr;
+        dispatch(startRequestAppointmentFlow({ ehr: ehrValue }));
         return 'requestDateTime';
       },
     },
@@ -276,7 +277,8 @@ export default function getNewAppointmentFlow(state) {
       label: 'Which provider do you want to schedule with?',
       next: 'preferredDate',
       requestAppointment(state, dispatch) {
-        dispatch(startRequestAppointmentFlow());
+        const ehrValue = getNewAppointment(state)?.ehr;
+        dispatch(startRequestAppointmentFlow({ ehr: ehrValue }));
         return 'requestDateTime';
       },
     },
@@ -314,7 +316,9 @@ export default function getNewAppointmentFlow(state) {
           if (isEligible && isPodiatry(state)) {
             // If CC enabled systems and toc is podiatry, skip typeOfFacility
             dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE.id));
-            dispatch(startRequestAppointmentFlow(true));
+            dispatch(
+              startRequestAppointmentFlow({ ehr: APPOINTMENT_SYSTEM.hsrm }),
+            );
             return 'ccRequestDateTime';
           }
           if (isEligible) {
@@ -359,7 +363,9 @@ export default function getNewAppointmentFlow(state) {
         }
 
         if (isCCFacility(state)) {
-          dispatch(startRequestAppointmentFlow(true));
+          dispatch(
+            startRequestAppointmentFlow({ ehr: APPOINTMENT_SYSTEM.hsrm }),
+          );
           return 'ccRequestDateTime';
         }
 

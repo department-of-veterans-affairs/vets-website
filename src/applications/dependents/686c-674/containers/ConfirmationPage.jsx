@@ -2,13 +2,19 @@ import React, { useLayoutEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import GetFormHelp from '../components/GetFormHelp';
 
 import manifest from '../manifest.json';
 
+/**
+ * Confirmation page content
+ * @returns {React.ReactElement} Confirmation page content
+ */
 export default function ConfirmationPage() {
   const form = useSelector(state => state?.form);
   const alertRef = useRef(null);
@@ -33,7 +39,7 @@ export default function ConfirmationPage() {
 
   return (
     <>
-      <va-alert ref={alertRef} status="success" class="vads-u-margin-bottom--4">
+      <va-alert ref={alertRef} status="success">
         <h2 className="vads-u-font-size--h3">
           Form submission started on {dateSubmitted}
         </h2>
@@ -47,25 +53,50 @@ export default function ConfirmationPage() {
           text="Check the status of your form on My VA"
         />
       </va-alert>
-      <va-summary-box>
-        <h3 slot="headline">Your submission information</h3>
-        <p>
-          <strong>Your name</strong>
-        </p>
-        <p className="dd-privacy-hidden" data-dd-action-name="Veteran's name">
-          {veteranFirstName} {veteranLastName}
-        </p>
-        <p>
-          <strong>Date submitted</strong>
-        </p>
-        <p data-testid="dateSubmitted">{dateSubmitted}</p>
-        <va-button
-          text="Print this page for your records"
-          onClick={() => {
-            window.print();
-          }}
-        />
-      </va-summary-box>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.dependentsEnableFormViewerMFE}>
+        <Toggler.Enabled>
+          <section>
+            <h2 className="vads-u-margin-top--3 vads-u-margin-bottom--2">
+              Save a copy of your form
+            </h2>
+            <span>
+              You can open, download, or print a copy of your submitted form
+              now.
+            </span>
+            <div className="vads-u-margin-top--1p5">
+              <va-link-action
+                text="Download or print the information you submitted (opens in a new tab)"
+                type="secondary"
+                class="form-renderer"
+              />
+            </div>
+          </section>
+        </Toggler.Enabled>
+        <Toggler.Disabled>
+          <va-summary-box class="vads-u-margin-top--4">
+            <h3 slot="headline">Your submission information</h3>
+            <p>
+              <strong>Your name</strong>
+            </p>
+            <p
+              className="dd-privacy-hidden"
+              data-dd-action-name="Veteran's name"
+            >
+              {veteranFirstName} {veteranLastName}
+            </p>
+            <p>
+              <strong>Date submitted</strong>
+            </p>
+            <p data-testid="dateSubmitted">{dateSubmitted}</p>
+            <va-button
+              text="Print this page for your records"
+              onClick={() => {
+                window.print();
+              }}
+            />
+          </va-summary-box>
+        </Toggler.Disabled>
+      </Toggler>
       <section>
         <h2>What to expect</h2>
         <va-process-list>
@@ -148,8 +179,9 @@ export default function ConfirmationPage() {
       <section>
         <h2>How to contact us if you have questions</h2>
         <p>
-          Call us at <va-telephone international contact="8008271000" /> (
-          <va-telephone tty contact="711" />
+          Call us at{' '}
+          <va-telephone international contact={CONTACTS.VA_BENEFITS} /> (
+          <va-telephone tty contact={CONTACTS['711']} />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
         <p>

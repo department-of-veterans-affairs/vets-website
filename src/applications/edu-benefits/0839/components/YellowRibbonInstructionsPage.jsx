@@ -104,9 +104,8 @@ const YellowRibbonInstructionsPage = () => {
         <div className="vads-u-border--1 vads-u-border-color--primary ">
           <ul>
             <li>
-              Maximum number of students: Enter the maximum number of eligible
-              students. If your institution will offer contributions to an
-              unlimited number of qualifying students, enter "unlimited."
+              Maximum number of students: Enter the maximum number or unlimited
+              number of students your school will support.
             </li>
             <li>
               Degree level: Indicate the applicable degree level (undergraduate,
@@ -124,9 +123,11 @@ const YellowRibbonInstructionsPage = () => {
             </li>
             <li>
               Maximum contribution amount: Enter the maximum annual contribution
-              amount per eligible student. Do not enter an amount per term or
-              credit hour. If your institution will cover 50% of unmet
-              established charges, select "unlimited."
+              amount per student, or the amount to pay toward remaining tuition
+              that the Post-9/11 GI Bill doesn’t cover (unlimited). Enter the
+              total amount your school plans to contribute each year, not by
+              term or credit hour. If the amount entered is over $99,999, the
+              system will treat it as an unlimited contribution.
             </li>
           </ul>
         </div>
@@ -156,14 +157,18 @@ const YellowRibbonInstructionsPage = () => {
             <li>
               Currency used by school’s billing system: Specify the currency
               used for student billing. You may use the currency’s official name
-              or its ISO 4217 code. Example: European Euro or EUR
+              or its ISO 4217 code.
+              <br />
+              Example: European Euro or EUR
             </li>
             <li>
               Maximum contribution amount: Enter the maximum annual contribution
-              amount per eligible student in your school’s billing currency.
-              <br /> Do not enter an amount by term or credit hour. If your
-              institution will cover 50% of unmet tuition and fees, select
-              "unlimited."
+              amount per student, or the amount to pay toward remaining tuition
+              that the Post-9/11 GI Bill doesn’t cover (unlimited). Enter the
+              total amount your school plans to contribute each year in your
+              institution’s official billing currency, not by term or credit
+              hour. If the amount entered is over $99,999 USD, the system will
+              treat it as an unlimited contribution.
             </li>
           </ul>
         </div>
@@ -218,7 +223,7 @@ const YellowRibbonInstructionsPage = () => {
           <va-link
             external
             text="Education File Upload Portal"
-            href="https://www.my.va.gov/EducationFileUpload/s/"
+            href="https://www.my.va.gov/EducationFileUploads/s/"
           />
           . Make sure the version you upload includes all required information
           and the authorized official’s signature.

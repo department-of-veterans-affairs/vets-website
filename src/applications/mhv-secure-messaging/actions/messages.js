@@ -1,4 +1,6 @@
 import moment from 'moment-timezone';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { dataDogLogger } from 'platform/monitoring/Datadog';
 import { Actions } from '../util/actionTypes';
 import {
   getMessage,
@@ -14,21 +16,24 @@ import {
   getLastSentMessage,
   isOlderThan,
   decodeHtmlEntities,
+  isMigrationPhaseBlockingReplies,
 } from '../util/helpers';
 import { resetRecentRecipient } from './recipients';
 import { setThreadRefetchRequired } from './threads';
+import { clearPrescription } from './prescription';
 
 export const clearThread = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_THREAD });
 };
 
 /**
- * Call to mark message as read.
- * @param {Long} messageId
- * @returns
+ * Call to mark message as read and trigger thread list refetch.
+ * @param {Long} messageId - The ID of the message to mark as read
+ * @returns {Promise<void>}
  *
- * Still need to use getMessage (single message) call to mark unread accordions
- * as read and to handle expanded messages.
+ * Uses getMessage (single message) call to mark the message as read,
+ * then sets refetchRequired to trigger a fresh fetch of the thread list
+ * when navigating back to inbox.
  */
 export const markMessageAsReadInThread = messageId => async dispatch => {
   const response = await getMessage(messageId);
@@ -39,6 +44,9 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
       type: Actions.Thread.GET_MESSAGE_IN_THREAD,
       response,
     });
+    // Trigger refetch of thread list to get updated read status from API
+    // This ensures the inbox shows the correct read status when navigating back
+    dispatch(setThreadRefetchRequired(true));
   }
 };
 
@@ -80,14 +88,22 @@ export const retrieveMessageThread = messageId => async dispatch => {
         ?.attributes.folderId.toString() ||
       response.data[0].attributes.folderId;
 
-    const { isOhMessage } = response.data[0].attributes;
+    const replyDisabled = response.data.some(
+      m => m.attributes.replyDisabled === true,
+    );
+
+    const { isOhMessage, ohMigrationPhase } = response.data[0].attributes;
 
     dispatch({
       type: Actions.Thread.GET_THREAD,
       payload: {
         replyToName,
         threadFolderId,
-        cannotReply: isOlderThan(lastSentDate, 45),
+        isStale: isOlderThan(lastSentDate, 45),
+        replyDisabled,
+        cannotReply:
+          isOlderThan(lastSentDate, 45) ||
+          isMigrationPhaseBlockingReplies(ohMigrationPhase),
         replyToMessageId: response.data[0].attributes.messageId,
         drafts: drafts.map(m => ({
           ...m.attributes,
@@ -100,6 +116,7 @@ export const retrieveMessageThread = messageId => async dispatch => {
           messageBody: decodeHtmlEntities(m.attributes.body),
         })),
         isOhMessage,
+        ohMigrationPhase,
       },
     });
   } catch (e) {
@@ -162,12 +179,17 @@ export const sendMessage = (
   message,
   attachments,
   ohTriageGroup = false,
-  suppressAlert = false,
+  isRxRenewal = false,
 ) => async dispatch => {
+  const messageData =
+    typeof message === 'string' ? JSON.parse(message) : message;
+  const startTimeMs = Date.now();
   try {
-    await createMessage(message, attachments, ohTriageGroup);
+    const response = await createMessage(message, attachments, ohTriageGroup);
 
-    if (!suppressAlert) {
+    // do not show success alert for prescription renewal messages
+    // due to redirect to Medications page, where that success banner is displayed
+    if (!isRxRenewal) {
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_SUCCESS,
@@ -176,13 +198,59 @@ export const sendMessage = (
         ),
       );
     }
+
+    if (isRxRenewal) {
+      dataDogLogger({
+        message: 'Prescription Renewal Message Sent',
+        attributes: {
+          messageId: response.data?.attributes?.messageId,
+          recipientId: messageData?.recipient_id,
+          category: messageData?.category,
+          hasAttachments: attachments && attachments.length > 0,
+        },
+        status: 'info',
+      });
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'Rx SM Renewal',
+        'api-status': 'successful',
+        'api-latency-ms': Date.now() - startTimeMs,
+        'error-key': undefined,
+      });
+    }
     dispatch(resetRecentRecipient());
     dispatch(setThreadRefetchRequired(true));
+    dispatch(clearPrescription());
   } catch (e) {
+    const errorCode = e.errors?.[0]?.code;
+    const errorDetail = e.errors?.[0]?.detail || e.message;
+
+    if (isRxRenewal) {
+      dataDogLogger({
+        message: 'Prescription Renewal Message Send Failed',
+        attributes: {
+          recipientId: messageData?.recipient_id,
+          category: messageData?.category,
+          errorCode,
+          errorDetail,
+          hasAttachments: attachments && attachments.length > 0,
+        },
+        status: 'error',
+        error: e,
+      });
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'Rx SM Renewal',
+        'api-status': 'fail',
+        'api-latency-ms': Date.now() - startTimeMs,
+        'error-key': errorCode,
+      });
+    }
+
     if (
       e.errors &&
-      (e.errors[0].code === Constants.Errors.Code.BLOCKED_USER ||
-        e.errors[0].code === Constants.Errors.Code.BLOCKED_USER2)
+      (errorCode === Constants.Errors.Code.BLOCKED_USER ||
+        errorCode === Constants.Errors.Code.BLOCKED_USER2)
     ) {
       dispatch(
         addAlert(
@@ -193,7 +261,7 @@ export const sendMessage = (
       );
     } else if (
       e.errors &&
-      e.errors[0].code === Constants.Errors.Code.ATTACHMENT_SCAN_FAIL
+      errorCode === Constants.Errors.Code.ATTACHMENT_SCAN_FAIL
     ) {
       dispatch(
         addAlert(

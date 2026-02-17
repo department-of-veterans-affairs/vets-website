@@ -7,7 +7,6 @@ const ComposeFormActionButtons = props => {
     onSend,
     onSaveDraft,
     formPopulated,
-    setDeleteButtonClicked,
     cannotReply,
     draftBody,
     draftId,
@@ -79,7 +78,6 @@ const ComposeFormActionButtons = props => {
         refreshThreadCallback={refreshThreadCallback}
         setNavigationError={setNavigationError}
         setUnsavedNavigationError={setUnsavedNavigationError}
-        setDeleteButtonClicked={setDeleteButtonClicked}
         cannotReply={cannotReply}
         messageBody={messageBody}
         draftSequence={draftSequence}
@@ -106,7 +104,6 @@ ComposeFormActionButtons.propTypes = {
   refreshThreadCallback: PropTypes.func,
   savedComposeDraft: PropTypes.bool,
   savedForm: PropTypes.bool,
-  setDeleteButtonClicked: PropTypes.func,
   setHideDraft: PropTypes.func,
   setIsEditing: PropTypes.func,
   setIsModalVisible: PropTypes.func,

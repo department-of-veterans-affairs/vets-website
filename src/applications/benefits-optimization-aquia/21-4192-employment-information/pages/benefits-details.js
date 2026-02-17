@@ -11,7 +11,9 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { getVeteranName } from './helpers';
+import { MemorableDateUI } from '../components/memorable-date-ui';
 
 /**
  * Generate title for start receiving date field
@@ -75,9 +77,10 @@ export const benefitsDetailsUiSchema = {
         required: 'First payment date is required',
       },
     }),
-    stopReceivingDate: currentOrPastDateUI({
+    stopReceivingDate: MemorableDateUI({
       title: 'Stop receiving date', // Default title, will be updated by updateUiSchema
-      hint: 'Leave blank if still receiving benefits',
+      hint: 'Enter an approximate date if the exact date is unknown.',
+      required: false,
     }),
   },
   'ui:options': {
@@ -134,7 +137,7 @@ export const benefitsDetailsSchema = {
         grossMonthlyAmount: currencySchema,
         startReceivingDate: currentOrPastDateSchema,
         firstPaymentDate: currentOrPastDateSchema,
-        stopReceivingDate: currentOrPastDateSchema,
+        stopReceivingDate: commonDefinitions.date,
       },
     },
   },

@@ -46,21 +46,19 @@ export const goalTypeLabels = Object.freeze({
 });
 
 export const timeServedLabels = Object.freeze({
-  UP_TO_3_MONTHS: '0 to 3 months',
-  UP_TO_6_MONTHS: '4 to 6 months',
-  UP_TO_1_YEAR: '7 months to 1 year',
-  UP_TO_2_YEARS: '1 to 2 years',
-  UP_TO_3_YEARS: '2 to 3 years',
-  OVER_3_YEARS: '3+ years',
+  LESS_THAN_4_MONTHS: 'Less than 4 months',
+  FOUR_MONTHS_TO_3_YEARS: '4 months to less than 3 years',
+  THREE_YEARS_TO_10_YEARS: '3 years to less than 10 years',
+  TEN_YEARS_TO_20_YEARS: '10 years to less than 20 years',
+  OVER_20_YEARS: '20 or more years',
 });
 
 export const timeServedTypes = Object.freeze({
-  UP_TO_3_MONTHS: 'UP_TO_3_MONTHS',
-  UP_TO_6_MONTHS: 'UP_TO_6_MONTHS',
-  UP_TO_1_YEAR: 'UP_TO_1_YEAR',
-  UP_TO_2_YEARS: 'UP_TO_2_YEARS',
-  UP_TO_3_YEARS: 'UP_TO_3_YEARS',
-  OVER_3_YEARS: 'OVER_3_YEARS',
+  LESS_THAN_4_MONTHS: 'LESS_THAN_4_MONTHS',
+  FOUR_MONTHS_TO_3_YEARS: 'FOUR_MONTHS_TO_3_YEARS',
+  THREE_YEARS_TO_10_YEARS: 'THREE_YEARS_TO_10_YEARS',
+  TEN_YEARS_TO_20_YEARS: 'TEN_YEARS_TO_20_YEARS',
+  OVER_20_YEARS: 'OVER_20_YEARS',
 });
 
 export const militaryBranchTypes = Object.freeze({
@@ -396,7 +394,7 @@ export const BENEFITS_LIST = [
   },
   {
     name: 'VetSuccess on Campus (VSOC)',
-    category: categories.EMPLOYMENT,
+    category: categories.EDUCATION,
     id: 'VSC',
     description:
       "If you're a Veteran or service member transitioning from military to college life, VSOC counselors can help you with vocational testing, career counseling, or getting faster access to certain VA benefits while you’re attending college.",
@@ -472,11 +470,10 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [
-        timeServedTypes.UP_TO_6_MONTHS,
-        timeServedTypes.UP_TO_1_YEAR,
-        timeServedTypes.UP_TO_2_YEARS,
-        timeServedTypes.UP_TO_3_YEARS,
-        timeServedTypes.OVER_3_YEARS,
+        timeServedTypes.FOUR_MONTHS_TO_3_YEARS,
+        timeServedTypes.THREE_YEARS_TO_10_YEARS,
+        timeServedTypes.TEN_YEARS_TO_20_YEARS,
+        timeServedTypes.OVER_20_YEARS,
       ],
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
       // NATIOAL_GUARD_SERVICE and RESERVE_SERVICE are also valid. See note on "Educational and career counseling (Chapter 36)".
@@ -681,11 +678,10 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [
-        timeServedTypes.UP_TO_6_MONTHS,
-        timeServedTypes.UP_TO_1_YEAR,
-        timeServedTypes.UP_TO_2_YEARS,
-        timeServedTypes.UP_TO_3_YEARS,
-        timeServedTypes.OVER_3_YEARS,
+        timeServedTypes.FOUR_MONTHS_TO_3_YEARS,
+        timeServedTypes.THREE_YEARS_TO_10_YEARS,
+        timeServedTypes.TEN_YEARS_TO_20_YEARS,
+        timeServedTypes.OVER_20_YEARS,
       ],
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
       // NATIOAL_GUARD_SERVICE and RESERVE_SERVICE are also valid. See note on "Educational and career counseling (Chapter 36)".
@@ -693,11 +689,10 @@ export const BENEFITS_LIST = [
         militaryBranchComponentTypes.ACTIVE_DUTY,
       ],
       [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: [
-        timeServedTypes.UP_TO_6_MONTHS,
-        timeServedTypes.UP_TO_1_YEAR,
-        timeServedTypes.UP_TO_2_YEARS,
-        timeServedTypes.UP_TO_3_YEARS,
-        timeServedTypes.OVER_3_YEARS,
+        timeServedTypes.FOUR_MONTHS_TO_3_YEARS,
+        timeServedTypes.THREE_YEARS_TO_10_YEARS,
+        timeServedTypes.TEN_YEARS_TO_20_YEARS,
+        timeServedTypes.OVER_20_YEARS,
       ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -919,35 +914,35 @@ export const BENEFITS_LIST = [
     learnMoreURL: URLS.SVB_LEARN,
     applyNowURL: '',
   },
-  {
-    name: 'Employment Navigator & Partnership Program',
-    category: categories.EMPLOYMENT,
-    id: 'ENPP',
-    description:
-      'If you’re leaving active service soon or recently discharged, you and your spouse can get one-on-one career assistance through ENPP. An Employment Navigator can help you find and secure a meaningful post-separation career. Select the learn more link for a list of locations where this program is available.',
-    isTimeSensitive: true,
-    mappings: {
-      [mappingTypes.GOALS]: [
-        goalTypes.RETIREMENT,
-        goalTypes.CAREER,
-        goalTypes.UNDERSTAND,
-        goalTypes.PLAN,
-      ],
-      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
-      [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: [anyType.ANY],
-      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
-      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
-      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
-      [mappingTypes.SEPARATION]: [
-        separationTypes.UP_TO_3_MONTHS,
-        separationTypes.UP_TO_6_MONTHS,
-        separationTypes.UP_TO_1_YEAR,
-      ],
-      [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
-      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-    },
-    learnMoreURL: URLS.ENPP_LEARN,
-    applyNowURL: '',
-  },
+  // {
+  //   name: 'Employment Navigator & Partnership Program',
+  //   category: categories.EMPLOYMENT,
+  //   id: 'ENPP',
+  //   description:
+  //     "If you're leaving active service soon or recently discharged, you and your spouse can get one-on-one career assistance through ENPP. An Employment Navigator can help you find and secure a meaningful post-separation career. Select the learn more link for a list of locations where this program is available.",
+  //   isTimeSensitive: true,
+  //   mappings: {
+  //     [mappingTypes.GOALS]: [
+  //       goalTypes.RETIREMENT,
+  //       goalTypes.CAREER,
+  //       goalTypes.UNDERSTAND,
+  //       goalTypes.PLAN,
+  //     ],
+  //     [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+  //     [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
+  //     [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: [anyType.ANY],
+  //     [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+  //     [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+  //     [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+  //     [mappingTypes.SEPARATION]: [
+  //       separationTypes.UP_TO_3_MONTHS,
+  //       separationTypes.UP_TO_6_MONTHS,
+  //       separationTypes.UP_TO_1_YEAR,
+  //     ],
+  //     [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
+  //     [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+  //   },
+  //   learnMoreURL: URLS.ENPP_LEARN,
+  //   applyNowURL: '',
+  // },
 ];

@@ -11,6 +11,10 @@ const Title = ({ title = '' }) => (
   </legend>
 );
 
+Title.propTypes = {
+  title: PropTypes.string,
+};
+
 const PrefillAlertAndTitle = ({ loggedIn, title }) => {
   return loggedIn ? (
     <>

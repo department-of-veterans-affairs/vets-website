@@ -1,4 +1,5 @@
-import { getTrackedItemDate } from '../utils/helpers';
+import { scrubDescription } from '../utils/helpers';
+import * as TrackedItem from '../utils/trackedItemContent';
 
 // NOTE: In the long term it will make sense to move some of this logic into
 //       the backend, but doing it here for now makes it easier to modify in
@@ -48,7 +49,8 @@ const transformUnassociatedDocs = docs =>
 const transformAssociatedTrackedItems = items =>
   items.map(item => ({
     ...item,
-    date: getTrackedItemDate(item),
+    description: scrubDescription(item.description),
+    date: TrackedItem.getTrackedItemDate(item),
   }));
 
 export const serializeClaim = claim => {

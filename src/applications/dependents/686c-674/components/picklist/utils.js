@@ -6,6 +6,12 @@ import { PICKLIST_DATA, PICKLIST_PATHS } from '../../config/constants';
 
 export const labels = {
   Spouse: {
+    /**
+     * @type {object}
+     * @param {string} fullName - Full name of the dependent
+     * @param {boolean} [isEditing] - Is in edit mode
+     * @returns {React.ReactElement} Title element
+     */
     removalReasonTitle: (fullName, isEditing) => (
       <span>
         {isEditing ? 'Edit reason' : 'Reason'} for removing{' '}
@@ -23,6 +29,12 @@ export const labels = {
     spouseDied: 'They died',
   },
   Parent: {
+    /**
+     * @type {object}
+     * @param {string} fullName - Full name of the dependent
+     * @param {boolean} [isEditing] - Is in edit mode
+     * @returns {React.ReactElement} Title element
+     */
     removalReasonTitle: (fullName, isEditing) => (
       <span>
         {isEditing ? 'Edit reason' : 'Reason'} for removing{' '}
@@ -38,6 +50,12 @@ export const labels = {
     parentDied: 'They died',
   },
   Child: {
+    /**
+     * @type {object}
+     * @param {string} fullName - Full name of the dependent
+     * @param {boolean} [isEditing] - Is in edit mode
+     * @returns {React.ReactElement} Title element
+     */
     isStepChildTitle: (fullName, age, isEditing) =>
       `${
         isEditing ? 'Edit is' : 'Is'
@@ -46,6 +64,12 @@ export const labels = {
     isStepChildYes: 'Yes',
     isStepChildNo: 'No',
 
+    /**
+     * @type {object}
+     * @param {string} fullName - Full name of the dependent
+     * @param {boolean} [isEditing] - Is in edit mode
+     * @returns {React.ReactElement} Title element
+     */
     removalReasonTitle: (fullName, isEditing) => (
       <span>
         {isEditing ? 'Edit reason' : 'Reason'} for removing{' '}
@@ -65,14 +89,33 @@ export const labels = {
   },
 };
 
+/**
+ * Returns a formatted location string for the dependent's end location
+ * @param {ItemData} item - dependent item data
+ * @returns {string} - formatted location string
+ */
 export const location = item =>
   `${item.endCity}, ${
-    item.endOutsideUS
+    item.endOutsideUs
       ? `${item.endProvince ? `${item.endProvince}, ` : ''}${item.endCountry}`
       : `${item.endState}`
   }`;
 
+/**
+ * @typedef PageReviewDetails - Page details for review page
+ * @type {object} PageReviewDetails
+ * @property {React.ReactElement|string} label - field label (key)
+ * @property {string} value - field value (value)
+ * @property {string} [action] - action name for Datadog RUM tracking
+ * @property {boolean} [hideLabel] - whether to hide the label
+ * @property {boolean} [hideValue] - whether to hide the value
+ */
 export const pageDetails = {
+  /**
+   * Prepare review page details for a spouse dependent
+   * @param {ItemData} item - dependent item data
+   * @returns {PageReviewDetails[]} - Array of page review details
+   */
   Spouse: item => {
     const reason = {
       label: `Reason for removing ${item.fullName.first}`,
@@ -123,6 +166,11 @@ export const pageDetails = {
     }
   },
 
+  /**
+   * Prepare review page details for a parent dependent
+   * @param {ItemData} item - dependent item data
+   * @returns {PageReviewDetails[]} - Array of page review details
+   */
   Parent: item => {
     const reason = {
       label: `Reason for removing ${item.fullName.first}`,
@@ -164,6 +212,11 @@ export const pageDetails = {
     }
   },
 
+  /**
+   * Prepare review page details for a child dependent
+   * @param {ItemData} item - dependent item data
+   * @returns {PageReviewDetails[]} - Array of page review details
+   */
   Child: item => {
     const isStepchild = {
       label: `Is ${item.fullName.first} your stepchild?`,
@@ -192,24 +245,9 @@ export const pageDetails = {
           isStepchild,
           reason,
           {
-            label: 'Does this child have a permanent disability?',
-            value: item.childHasPermanentDisability === 'Y' ? 'Yes' : 'No',
+            label: 'Date child stopped attending school',
+            value: getFormatedDate(item.endDate),
           },
-          item.childHasPermanentDisability === 'Y'
-            ? {
-                // We can't leave a DT blank
-                label: (
-                  <div className="sr-only">
-                    This child is still an eligible dependent
-                  </div>
-                ),
-                action: 'This child is still an eligible dependent',
-                value: `${item.fullName.first} will remain on your benefits`,
-              }
-            : {
-                label: 'Date child stopped attending school',
-                value: getFormatedDate(item.endDate),
-              },
         ];
       case 'stepchildNotMember':
         return [
@@ -223,19 +261,35 @@ export const pageDetails = {
           },
           item.stepchildFinancialSupport === 'Y'
             ? {
-                // We can't leave a DT blank
-                label: (
-                  <div className="sr-only">
-                    This child still qualifies as your dependent
-                  </div>
-                ),
-                action: 'This child still qualifies as your dependent',
-                value: `${item.fullName.first} will remain on your benefits`,
+                label: 'Child’s current address',
+                value: `${[
+                  item.address?.street,
+                  item.address?.street2,
+                  item.address?.street3,
+                  item.address?.city,
+                  item.address?.state,
+                  item.address?.country === 'USA' ? '' : item.address?.country,
+                ]
+                  .filter(Boolean)
+                  .join(', ')} ${item.address?.postalCode || ''}`,
               }
-            : {
-                label: 'When did this child stop living with you?',
-                value: getFormatedDate(item.endDate),
-              },
+            : null,
+          item.stepchildFinancialSupport === 'Y'
+            ? {
+                label: 'Child lives with',
+                value: [
+                  item.whoDoesTheStepchildLiveWith.first,
+                  item.whoDoesTheStepchildLiveWith.middle || '',
+                  item.whoDoesTheStepchildLiveWith.last,
+                ]
+                  .filter(Boolean)
+                  .join(' '),
+              }
+            : null,
+          {
+            label: 'When did this child stop living with you?',
+            value: getFormatedDate(item.endDate),
+          },
         ];
       case 'childAdopted':
         return [
@@ -271,6 +325,16 @@ export const pageDetails = {
   },
 };
 
+/**
+ * Determine if an exit link should be displayed on the exit page, or should
+ * the Veteran see the continue button to navigate to the next dependent
+ * @typedef {object} ShowExitLinkParams
+ * @property {object} data - form data
+ * @property {number} index - current dependent index
+ *
+ * @param {ShowExitLinkParams} props - Show exit link props
+ * @returns {boolean} - whether to show the exit link or continue button
+ */
 export const showExitLink = ({ data = {}, index = 0 } = {}) => {
   const selected = data[PICKLIST_DATA]?.filter(item => item.selected) || [];
   const list = data[PICKLIST_PATHS] || [];
@@ -282,6 +346,12 @@ export const showExitLink = ({ data = {}, index = 0 } = {}) => {
   );
 };
 
+/**
+ * Get past date error message
+ * @param {string} date - date string in YYYY-MM-DD format
+ * @param {string} [missingErrorMessage] - error message for missing date
+ * @returns {string|null} - error message or null if no error
+ */
 export const getPastDateError = (
   date,
   missingErrorMessage = 'Enter a date',

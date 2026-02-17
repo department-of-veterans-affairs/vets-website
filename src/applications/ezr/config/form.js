@@ -35,9 +35,8 @@ import {
   canVeteranProvideCombatOperationsResponse,
   canVeteranProvideAgentOrangeResponse,
   includeHouseholdInformationWithV1Prefill,
-  includeHouseholdInformationWithV2Prefill,
   includeSpousalInformationWithV1Prefill,
-  includeSpousalInformationWithV2Prefill,
+  doesVeteranWantToUpdateServiceInfo,
 } from '../utils/helpers/form-config';
 import { prefillTransformer } from '../utils/helpers/prefill-transformer';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
@@ -78,6 +77,9 @@ import spousalInformationPages from './chapters/householdInformation/spouseInfor
 import MaritalStatusPage from '../components/FormPages/MaritalStatusPage';
 
 // chapter 3 Military Service
+import serviceInformation from './chapters/militaryService/serviceInformation';
+import additionalInformation from './chapters/militaryService/additionalInformation';
+import reviewServiceInformation from './chapters/militaryService/reviewServiceInformation';
 import toxicExposure from './chapters/militaryService/toxicExposure';
 import radiationCleanup from './chapters/militaryService/radiationCleanup';
 import gulfWarService from './chapters/militaryService/gulfWarService';
@@ -257,6 +259,27 @@ const formConfig = {
     militaryService: {
       title: 'Military service',
       pages: {
+        reviewServiceInformation: {
+          path: 'military-service/review-service-information',
+          title: 'Review your last military service',
+          uiSchema: reviewServiceInformation.uiSchema,
+          schema: reviewServiceInformation.schema,
+          depends: formData => formData['view:ezrServiceHistoryEnabled'],
+        },
+        serviceInformation: {
+          path: 'military-service/service-period',
+          title: 'Service periods',
+          uiSchema: serviceInformation.uiSchema,
+          schema: serviceInformation.schema,
+          depends: doesVeteranWantToUpdateServiceInfo,
+        },
+        additionalInformation: {
+          path: 'military-service/additional-information',
+          title: 'Service history',
+          uiSchema: additionalInformation.uiSchema,
+          schema: additionalInformation.schema,
+          depends: doesVeteranWantToUpdateServiceInfo,
+        },
         toxicExposure: {
           path: 'military-service/toxic-exposure',
           title: 'Toxic exposure',
@@ -420,15 +443,8 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
-        financialInformationIntroduction: {
-          ...FinancialInformationPages.financialInformationIntroduction,
-          depends: includeHouseholdInformationWithV2Prefill,
-        },
-        financialInformationSummary: {
-          ...FinancialInformationPages.financialInformationSummary,
-          depends: includeHouseholdInformationWithV2Prefill,
-        },
-        veteranAnnualIncome: {
+        ...FinancialInformationPages,
+        veteranAnnualIncomeV1: {
           path: 'household-information/veteran-annual-income',
           title: 'Your annual income',
           initialData: {},
@@ -436,11 +452,7 @@ const formConfig = {
           uiSchema: veteranAnnualIncome.uiSchema,
           schema: veteranAnnualIncome.schema,
         },
-        veteranAnnualIncomeV2: {
-          ...FinancialInformationPages.veteranAnnualIncome,
-          depends: includeHouseholdInformationWithV2Prefill,
-        },
-        spouseAnnualIncome: {
+        spouseAnnualIncomeV1: {
           path: 'household-information/spouse-annual-income',
           title: 'Spouse\u2019s annual income',
           initialData: {},
@@ -448,21 +460,13 @@ const formConfig = {
           uiSchema: spouseAnnualIncome.uiSchema,
           schema: spouseAnnualIncome.schema,
         },
-        spouseAnnualIncomeV2: {
-          ...FinancialInformationPages.spouseAnnualIncome,
-          depends: includeSpousalInformationWithV2Prefill,
-        },
-        deductibleExpenses: {
+        deductibleExpensesV1: {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
           initialData: {},
           depends: includeHouseholdInformationWithV1Prefill,
           uiSchema: deductibleExpenses.uiSchema,
           schema: deductibleExpenses.schema,
-        },
-        deductibleExpensesV2: {
-          ...FinancialInformationPages.veteranDeductible,
-          depends: includeHouseholdInformationWithV2Prefill,
         },
       },
     },

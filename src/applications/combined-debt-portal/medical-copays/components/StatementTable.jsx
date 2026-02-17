@@ -1,24 +1,33 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { formatDate, setPageFocus } from '../../combined/utils/helpers';
+import {
+  formatDate,
+  formatISODateToMMDDYYYY,
+  setPageFocus,
+  showVHAPaymentHistory,
+} from '../../combined/utils/helpers';
 
 const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
+  );
   const columns = ['Date', 'Description', 'Billing Reference', 'Amount'];
 
   const MAX_ROWS = 10;
 
-  function paginate(array, pageSize, pageNumber) {
-    return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
-  }
+  const paginate = (array, pageSize, pageNumber) => {
+    return array?.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+  };
 
-  function getPaginationText(
+  const getPaginationText = (
     currentPage,
     pageSize,
     totalItems,
     label = 'charges',
-  ) {
-    // Ensure numbers are valid
+  ) => {
     if (totalItems === 0) {
       return `Showing 0 ${label}`;
     }
@@ -27,35 +36,53 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
     const end = Math.min(currentPage * pageSize, totalItems);
 
     return `Showing ${start}-${end} of ${totalItems} ${label}`;
-  }
+  };
+
+  const normalizedCharges = shouldShowVHAPaymentHistory
+    ? charges.map(item => ({
+        date: item.datePosted,
+        description: item.description,
+        reference: item.billingReference,
+        amount: item.priceComponents?.[0]?.amount ?? 0,
+        provider: item.providerName,
+        details: [],
+      }))
+    : charges.map(charge => ({
+        date: charge.pDDatePostedOutput,
+        description: charge.pDTransDescOutput,
+        reference: charge.pDRefNo,
+        amount: charge.pDTransAmt,
+        provider: charge.provider,
+        details: charge.details ?? [],
+      }));
 
   const [currentData, setCurrentData] = useState(
-    paginate(charges, MAX_ROWS, 1),
+    paginate(normalizedCharges, MAX_ROWS, 1),
   );
   const [currentPage, setCurrentPage] = useState(1);
 
   function onPageChange(page) {
-    setCurrentData(paginate(charges, MAX_ROWS, page));
+    setCurrentData(paginate(normalizedCharges, MAX_ROWS, page));
     setCurrentPage(page);
     setPageFocus(`va-table`);
   }
 
-  const numPages = Math.ceil(charges.length / MAX_ROWS);
+  const numPages = Math.ceil(normalizedCharges?.length / MAX_ROWS);
+
+  const paginationText = getPaginationText(
+    currentPage,
+    MAX_ROWS,
+    normalizedCharges?.length,
+    'charges',
+  );
 
   const getStatementDateRange = () => {
-    const pageText = getPaginationText(
-      currentPage,
-      MAX_ROWS,
-      charges.length,
-      'charges',
-    );
-
     if (
       !selectedCopay?.statementStartDate ||
       !selectedCopay?.statementEndDate
     ) {
-      if (charges.length > MAX_ROWS) {
-        return `This statement shows your current charges. ${pageText}.`;
+      if (normalizedCharges?.length > MAX_ROWS) {
+        return `This statement shows your current charges. ${paginationText}.`;
       }
       return 'This statement shows your current charges.';
     }
@@ -63,18 +90,21 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
     const startDate = formatDate(selectedCopay.statementStartDate);
     const endDate = formatDate(selectedCopay.statementEndDate);
 
-    if (charges.length > MAX_ROWS) {
-      return `This statement shows charges you received between ${startDate} and ${endDate}. ${pageText}.`;
+    if (normalizedCharges?.length > MAX_ROWS) {
+      return `This statement shows charges you received between ${startDate} and ${endDate}. ${paginationText}.`;
     }
     return `This statement shows charges you received between ${startDate} and ${endDate}.`;
   };
   const renderDescription = charge => (
     <div>
       <div>
-        <strong>{charge.pDTransDescOutput.replace(/&nbsp;/g, ' ')}</strong>
+        <strong>{charge.description?.replace(/&nbsp;/g, ' ')}</strong>
       </div>
       {charge.provider && (
-        <div className="vads-u-color--gray-medium vads-u-font-size--sm">
+        <div
+          className="vads-u-color--gray-medium vads-u-font-size--sm"
+          data-testid="provider-info"
+        >
           Provider: {charge.provider}
         </div>
       )}
@@ -105,19 +135,29 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
   );
 
   const getDate = charge => {
-    if (charge.pDDatePostedOutput) return charge.pDDatePostedOutput;
-    if (charge.pDTransDesc?.toLowerCase().includes('interest/adm')) {
+    if (shouldShowVHAPaymentHistory) {
+      return formatISODateToMMDDYYYY(charge.date);
+    }
+
+    if (charge.date) {
+      return formatDate(charge.date);
+    }
+
+    if (charge.description?.toLowerCase().includes('interest/adm')) {
       return selectedCopay?.pSStatementDateOutput;
     }
-    return 'Empty';
+
+    return '—';
   };
 
   const getReference = charge => {
-    if (charge.pDRefNo) return charge.pDRefNo;
-    if (charge.pDTransDesc?.toLowerCase().includes('interest/adm')) {
+    if (charge.reference) return charge.reference;
+
+    if (charge.description?.toLowerCase().includes('interest/adm')) {
       return selectedCopay?.pSStatementVal;
     }
-    return 'Empty';
+
+    return '—';
   };
 
   return (
@@ -133,6 +173,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
       <div key={`table-wrapper-${currentPage}`}>
         <va-table
           table-title={getStatementDateRange()}
+          table-title-summary={paginationText}
           scrollable={false}
           table-type="bordered"
           full-width
@@ -145,19 +186,29 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
           </va-table-row>
 
           {currentData
-            ?.filter(charge => !charge.pDTransDescOutput.startsWith('&nbsp;'))
+            .filter(
+              charge =>
+                typeof charge.description === 'string' &&
+                !charge.description.startsWith('&nbsp;'),
+            )
             .map((charge, index) => (
               <va-table-row key={`${charge.pDRefNo || index}`}>
-                <span>{getDate(charge)}</span>
-                <span>{renderDescription(charge)}</span>
-                <span>{getReference(charge)}</span>
-                <span>{formatCurrency(charge.pDTransAmt)}</span>
+                <span data-testId="statement-date">{getDate(charge)}</span>
+                <span data-testId="statement-description">
+                  {renderDescription(charge)}
+                </span>
+                <span data-testId="statement-reference">
+                  {getReference(charge)}
+                </span>
+                <span data-testId="statement-transaction-amount">
+                  {formatCurrency(charge.amount)}
+                </span>
               </va-table-row>
             ))}
         </va-table>
       </div>
 
-      {charges.length > MAX_ROWS ? (
+      {normalizedCharges.length > MAX_ROWS ? (
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
           page={currentPage}

@@ -27,6 +27,7 @@ import {
   otherRecipientRelationshipTypeUI,
   requireExpandedArrayField,
   sharedRecipientRelationshipBase,
+  shouldShowDeclinedAlert,
   showUpdatedContent,
   sharedYesNoOptionsBase,
   updatedIsRecipientInfoIncomplete,
@@ -81,20 +82,7 @@ export const options = {
         return <SupplementaryFormsAlert formData={form.formData} />;
       }
 
-      const shouldShowDeclinedAlert = form?.formData?.ownedAssets?.some(
-        item => {
-          const isFarmOrBusiness =
-            item?.assetType === 'FARM' || item?.assetType === 'BUSINESS';
-          const declinedUpload = item?.['view:addFormQuestion'] === false;
-          const saidYesButEmptyArray =
-            item?.['view:addFormQuestion'] === true &&
-            (!item?.uploadedDocuments || !item.uploadedDocuments.name);
-
-          return isFarmOrBusiness && (declinedUpload || saidYesButEmptyArray);
-        },
-      );
-
-      if (shouldShowDeclinedAlert) {
+      if (shouldShowDeclinedAlert(form?.formData?.ownedAssets)) {
         return <SupplementaryFormsAlertUpdated formData={form.formData} />;
       }
 
@@ -122,17 +110,23 @@ export const options = {
       )}`;
     },
     cardDescription: item => {
+      if (!item) {
+        return undefined;
+      }
+
       const mvpContent = [
         <li key="income">
           Gross monthly income:{' '}
           <span className="vads-u-font-weight--bold">
-            {formatCurrency(item.grossMonthlyIncome)}
+            {isDefined(item?.grossMonthlyIncome) &&
+              formatCurrency(item.grossMonthlyIncome)}
           </span>
         </li>,
         <li key="value">
           Owned portion value:{' '}
           <span className="vads-u-font-weight--bold">
-            {formatCurrency(item.ownedPortionValue)}
+            {isDefined(item?.grossMonthlyIncome) &&
+              formatCurrency(item.ownedPortionValue)}
           </span>
         </li>,
       ];
@@ -143,11 +137,9 @@ export const options = {
           <li key="upload">
             Form uploaded:{' '}
             <span className="vads-u-font-weight--bold">
-              {item?.['view:addFormQuestion'] === true &&
-              isDefined(item?.uploadedDocuments) &&
-              item.uploadedDocuments.name
-                ? item.uploadedDocuments.name
-                : 'No'}
+              {(item?.['view:addFormQuestion'] === true &&
+                item?.uploadedDocuments?.name) ||
+                'No'}
             </span>
           </li>
         ) : null;
@@ -163,12 +155,7 @@ export const options = {
         )
       );
     },
-    reviewAddButtonText: props => {
-      if (showUpdatedContent()) {
-        return 'Add more property or business assets';
-      }
-      return `Add another ${props.nounSingular}`;
-    },
+    reviewAddButtonText: 'Add property or business assets',
     alertItemUpdated: 'Your owned asset information has been updated',
     alertItemDeleted: 'Your owned asset information has been deleted',
     cancelAddTitle: 'Cancel adding this owned asset',
@@ -606,6 +593,10 @@ const ownedAssetDocumentUpload = {
 
           if (!fieldData || !fieldData.name) {
             errors.addError('Upload a supporting document');
+          }
+
+          if (fieldData.errorMessage) {
+            errors.addError(fieldData.errorMessage);
           }
         },
       ],

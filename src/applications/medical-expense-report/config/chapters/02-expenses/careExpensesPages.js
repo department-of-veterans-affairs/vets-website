@@ -3,10 +3,8 @@ import {
   currencyUI,
   currencySchema,
   radioUI,
-  checkboxUI,
   radioSchema,
   numberSchema,
-  checkboxSchema,
   numberUI,
   textUI,
   textSchema,
@@ -26,6 +24,9 @@ import {
   requiredIfInHomeCare,
   getCostPageTitle,
 } from './helpers';
+
+const nounSingular = 'care expense';
+const nounPlural = 'care expenses';
 
 function introDescription() {
   return (
@@ -103,10 +104,10 @@ function checkIsItemIncomplete(item) {
   return (
     !item?.typeOfCare ||
     !item?.recipient ||
-    ((item.recipient === 'DEPENDENT' || item.recipient === 'OTHER') &&
-      !item?.recipientName) ||
+    ((item.recipient === 'CHILD' || item.recipient === 'OTHER') &&
+      !item?.fullNameRecipient) ||
     !item?.provider ||
-    !item?.careDateRange?.from ||
+    !item?.careDate?.from ||
     !item?.monthlyAmount ||
     (item?.typeOfCare === 'IN_HOME_CARE_ATTENDANT' &&
       (!item?.hourlyRate || !item?.weeklyHours))
@@ -116,15 +117,24 @@ function checkIsItemIncomplete(item) {
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'careExpenses',
-  nounSingular: 'care expense',
-  nounPlural: 'care expenses',
+  nounSingular,
+  nounPlural,
   required: false,
   isItemIncomplete: item => checkIsItemIncomplete(item),
   maxItems: 8,
   text: {
-    getItemName: item =>
-      careTypeLabels[(item?.typeOfCare)] || 'New care expense',
-    cardDescription: item => transformDate(item?.careDateRange?.from) || '',
+    getItemName: item => item?.provider || 'Provider',
+    cardDescription: item => {
+      const fromDate = transformDate(item?.careDate?.from);
+      const toDate = transformDate(item?.careDate?.to);
+      if (fromDate && toDate) {
+        return `${fromDate} - ${toDate}`;
+      }
+      if (fromDate) {
+        return `${fromDate}`;
+      }
+      return '';
+    },
     cancelAddTitle: 'Cancel adding this care expense?',
     cancelEditTitle: 'Cancel editing this care expense?',
     cancelAddDescription:
@@ -133,6 +143,10 @@ export const options = {
     cancelAddNo: 'No, continue adding',
     cancelEditYes: 'Yes, cancel editing',
     cancelEditNo: 'No, continue editing',
+    deleteDescription: `This will delete the information from your list of ${nounPlural}. You’ll return to a page where you can add a new ${nounSingular}.`,
+    deleteNo: 'No, keep',
+    deleteTitle: `Delete this ${nounSingular}?`,
+    deleteYes: 'Yes, delete',
   },
 };
 
@@ -208,16 +222,16 @@ const recipientPage = {
       title: 'Who’s the expense for?',
       labels: recipientTypeLabels,
     }),
-    recipientName: textUI({
+    fullNameRecipient: textUI({
       title: 'Full name of the person who received care',
       expandUnder: 'recipient',
-      expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
+      expandUnderCondition: field => field === 'CHILD' || field === 'OTHER',
       required: (formData, index, fullData) => {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we can't rely on fullData for testing
         const careExpenses = formData.careExpenses ?? fullData.careExpenses;
         const careExpense = careExpenses?.[index];
-        return ['DEPENDENT', 'OTHER'].includes(careExpense?.recipient);
+        return ['CHILD', 'OTHER'].includes(careExpense?.recipient);
       },
     }),
   },
@@ -225,7 +239,7 @@ const recipientPage = {
     type: 'object',
     properties: {
       recipient: radioSchema(Object.keys(recipientTypeLabels)),
-      recipientName: textSchema,
+      fullNameRecipient: textSchema,
     },
     required: ['recipient'],
   },
@@ -237,27 +251,30 @@ const datePage = {
       'Care provider’s name and dates of care',
     ),
     provider: textUI('What’s the name of the care provider?'),
-    careDateRange: currentOrPastDateRangeUI(
+    careDate: currentOrPastDateRangeUI(
       {
         title: 'Care start date',
+        hint:
+          'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
+        removeDateHint: true,
         monthSelect: false,
       },
       {
         title: 'Care end date',
+        hint: 'Leave blank if care is ongoing.',
+        removeDateHint: true,
         monthSelect: false,
       },
     ),
-    noEndDate: checkboxUI('No end date'),
   },
   schema: {
     type: 'object',
     properties: {
       provider: textSchema,
-      careDateRange: {
+      careDate: {
         ...currentOrPastDateRangeSchema,
         required: ['from'],
       },
-      noEndDate: checkboxSchema,
     },
     required: ['typeOfCare', 'provider'],
   },
@@ -270,12 +287,16 @@ const costPage = {
       const provider = formData?.provider ?? '';
       return provider ? `Cost of care for ${provider}` : 'Cost of care';
     }),
-    monthlyAmount: currencyUI('What’s the monthly cost of this care?'),
+    monthlyAmount: currencyUI({
+      title: 'What’s the monthly cost of this care?',
+      max: 999999.99,
+    }),
     hourlyRate: {
       ...currencyUI({
         title: 'What is the care provider’s hourly rate?',
         hideIf: (formData, index, fullData) =>
           hideIfInHomeCare(formData, index, fullData),
+        max: 999,
       }),
       'ui:required': (formData, index, fullData) =>
         requiredIfInHomeCare(formData, index, fullData),
@@ -283,8 +304,11 @@ const costPage = {
     weeklyHours: {
       ...numberUI({
         title: 'How many hours per week does the care provider work?',
+        hint:
+          'Enter the number of full hours only. Round down any extra minutes to the lowest hour.',
         hideIf: (formData, index, fullData) =>
           hideIfInHomeCare(formData, index, fullData),
+        max: 999,
       }),
       'ui:required': (formData, index, fullData) =>
         requiredIfInHomeCare(formData, index, fullData),

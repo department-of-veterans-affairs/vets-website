@@ -81,7 +81,7 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
  * @param {{
  *   arrayPath: ArrayBuilderOptions['arrayPath'],
  *   getFirstItemPagePath: (formData, index, context) => string,
- *   getText: import('./arrayBuilderText').ArrayBuilderGetText,
+ *   getText: ArrayBuilderGetText,
  *   hasItemsKey: string,
  *   hideMaxItemsAlert: boolean,
  *   getIntroPath: (formData) => string,
@@ -95,6 +95,9 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
  *   titleHeaderLevel: string,
  *   useLinkInsteadOfYesNo: ArrayBuilderOptions['useLinkInsteadOfYesNo'],
  *   useButtonInsteadOfYesNo: ArrayBuilderOptions['useButtonInsteadOfYesNo'],
+ *   canAddItem: ArrayBuilderOptions['canAddItem'],
+ *   canEditItem: ArrayBuilderOptions['canEditItem'],
+ *   canDeleteItem: ArrayBuilderOptions['canDeleteItem'],
  *   duplicateChecks: ArrayBuilderOptions['duplicateChecks'],
  * }} arrayBuilderOptions
  * @returns {CustomPageType}
@@ -116,6 +119,9 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     titleHeaderLevel,
     useLinkInsteadOfYesNo,
     useButtonInsteadOfYesNo,
+    canEditItem,
+    canDeleteItem,
+    canAddItem,
     duplicateChecks = {},
   } = arrayBuilderOptions;
 
@@ -127,12 +133,12 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
   function CustomPage(props) {
     const {
       index: updateItemIndex,
-      nounSingular: updatedNounSingular,
+      arrayPathSlug: updatedArrayPathSlug,
     } = getUpdatedItemFromPath();
     const arrayData = get(arrayPath, props.data);
+    const arrayPathSlug = slugifyText(arrayPath);
     const updatedItemData =
-      updatedNounSingular === nounSingular.toLowerCase() &&
-      updateItemIndex != null
+      updatedArrayPathSlug === arrayPathSlug && updateItemIndex != null
         ? arrayData?.[updateItemIndex]
         : null;
 
@@ -162,6 +168,9 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       duplicateChecks,
       fullData: props.fullData,
     });
+
+    const getTitleSelector = () =>
+      `[data-title-for-noun-singular="${nounSingular}"][data-array-path="${arrayPath}"]`;
 
     const setDataFromRef = data => {
       const dataToSet = { ...(dataRef.current || {}), ...data };
@@ -215,11 +224,11 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     useEffect(
       () => {
-        if (updatedNounSingular === nounSingular.toLowerCase()) {
+        if (updatedArrayPathSlug === arrayPathSlug) {
           setShowUpdatedAlert(() => updateItemIndex != null);
         }
       },
-      [updatedNounSingular, updateItemIndex, nounSingular],
+      [updatedArrayPathSlug, updateItemIndex, arrayPathSlug],
     );
 
     useEffect(
@@ -328,11 +337,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     function onDismissUpdatedAlert() {
       setShowUpdatedAlert(false);
       requestAnimationFrame(() => {
-        focusElement(
-          document.querySelector(
-            `[data-title-for-noun-singular="${nounSingular}"]`,
-          ),
-        );
+        focusElement(document.querySelector(getTitleSelector()));
       });
     }
 
@@ -341,11 +346,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       setRemovedItemText('');
       setRemovedItemIndex(null);
       requestAnimationFrame(() => {
-        focusElement(
-          document.querySelector(
-            `[data-title-for-noun-singular="${nounSingular}"]`,
-          ),
-        );
+        focusElement(document.querySelector(getTitleSelector()));
       });
     }
 
@@ -389,6 +390,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         <Heading
           className={classNames(baseClasses, headingStyle)}
           data-title-for-noun-singular={nounSingular}
+          data-array-path={arrayPath}
         >
           {text}
         </Heading>
@@ -518,10 +520,18 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         isReview={isReviewPage}
         titleHeaderLevel={headingLevel}
         fullData={props.fullData}
+        canEditItem={canEditItem}
+        canDeleteItem={canDeleteItem}
         duplicateChecks={duplicateChecks}
         duplicateCheckResult={duplicateCheckResult}
       />
     );
+
+    // Calculate hideAdd based on maxItems and canAddItem
+    const canAddItemCheck =
+      typeof canAddItem !== 'function' ||
+      canAddItem({ arrayData, fullData: props.data, isReview: isReviewPage });
+    const hideAdd = isMaxItemsReached || !canAddItemCheck;
 
     if (isReviewPage) {
       return (
@@ -534,7 +544,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           Alerts={Alerts}
           Cards={Cards}
           Title={Title}
-          hideAdd={isMaxItemsReached}
+          hideAdd={hideAdd}
         />
       );
     }
@@ -614,8 +624,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     newUiSchema['ui:title'] = UITitle;
     newUiSchema['ui:description'] = UIDescription;
-
-    const hideAdd = maxItems && arrayData?.length >= maxItems;
 
     if (schema?.properties?.[hasItemsKey]) {
       if (

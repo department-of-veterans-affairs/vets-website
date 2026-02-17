@@ -2,7 +2,6 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { PURPOSE_TEXT_V2 } from '../../../../utils/constants';
 import getNewAppointmentFlow from '../../../newAppointmentFlow';
 
 function handleClick(history, home, reasonForAppointment) {
@@ -21,7 +20,7 @@ function handleClick(history, home, reasonForAppointment) {
 }
 
 export default function ReasonForAppointmentSection({ data }) {
-  const { reasonForAppointment, reasonAdditionalInfo } = data;
+  const { reasonAdditionalInfo } = data;
   const history = useHistory();
   const { home, reasonForAppointment: reason } = useSelector(
     getNewAppointmentFlow,
@@ -33,22 +32,9 @@ export default function ReasonForAppointmentSection({ data }) {
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
             <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-              Details to share with your provider
+              Reason for appointment
             </h2>
-            {reasonForAppointment && (
-              <>
-                <span data-dd-privacy="mask">
-                  {
-                    PURPOSE_TEXT_V2.find(
-                      purpose => purpose.id === reasonForAppointment,
-                    )?.short
-                  }
-                </span>
-                <br />
-              </>
-            )}
-            {!reasonForAppointment &&
-              !reasonAdditionalInfo && <span>No details shared</span>}
+            {!reasonAdditionalInfo && <span>No details shared</span>}
             <span
               className="vaos-u-word-break--break-word"
               data-dd-privacy="mask"
@@ -59,7 +45,7 @@ export default function ReasonForAppointmentSection({ data }) {
           <div>
             <va-link
               href={reason.url}
-              label="Edit details you’d like to share with your provider"
+              label="Edit reason for appointment"
               text="Edit"
               data-testid="edit-new-appointment"
               onClick={handleClick(history, home, reason)}

@@ -6,7 +6,6 @@ import {
   DATETIME_FORMATS,
   FIELD_NONE_NOTED,
   medStatusDisplayTypes,
-  pdfStatusDefinitions,
   RX_SOURCE,
   DISPENSE_STATUS,
 } from '../../util/constants';
@@ -21,10 +20,20 @@ import {
   prescriptionMedAndRenewalStatus,
 } from '../../util/helpers';
 import MedicationDescription from '../shared/MedicationDescription';
-import { selectPendingMedsFlag } from '../../util/selectors';
+import {
+  selectCernerPilotFlag,
+  selectPendingMedsFlag,
+  selectV2StatusMappingFlag,
+} from '../../util/selectors';
+import {
+  getStatusDefinitions,
+  getPdfStatusDefinitionKey,
+} from '../../util/helpers/getRxStatus';
 
 const PrescriptionPrintOnly = props => {
   const { rx, refillHistory, isDetailsRx } = props;
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const latestTrackingStatus = rx?.trackingList?.[0];
@@ -37,6 +46,14 @@ const PrescriptionPrintOnly = props => {
     rx?.dispStatus === DISPENSE_STATUS.RENEW;
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);
+  const statusDefinitions = getStatusDefinitions(
+    isCernerPilot,
+    isV2StatusMapping,
+  );
+  const statusDefinitionKey = getPdfStatusDefinitionKey(
+    rx.dispStatus,
+    rx.refillStatus,
+  );
 
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
@@ -44,10 +61,12 @@ const PrescriptionPrintOnly = props => {
         <strong>Instructions:</strong>
         {pres.sig || 'Instructions not available'}
       </p>
-      <p>
-        <strong>Reason for use:</strong>
-        {pres.indicationForUse || 'Reason for use not available'}
-      </p>
+      {!isCernerPilot && (
+        <p>
+          <strong>Reason for use:</strong>
+          {pres.indicationForUse || 'Reason for use not available'}
+        </p>
+      )}
       <p className="no-break">
         <strong>Status:</strong> {rxStatus}
       </p>
@@ -112,36 +131,42 @@ const PrescriptionPrintOnly = props => {
               : 'About your prescription'}
           </DetailsHeaderElement>
           <div className="print-only-rx-details-container">
-            {!pendingMed && !pendingRenewal ? (
-              <p>
-                <strong>Last filled on:</strong>{' '}
-                {rx?.sortedDispensedDate
-                  ? dateFormat(
-                      rx.sortedDispensedDate,
-                      DATETIME_FORMATS.longMonthDate,
-                    )
-                  : 'Not filled yet'}
-              </p>
-            ) : null}
+            {!pendingMed &&
+              !pendingRenewal &&
+              (rx?.sortedDispensedDate || !isCernerPilot) && (
+                <p>
+                  <strong>Last filled on:</strong>{' '}
+                  {rx?.sortedDispensedDate
+                    ? dateFormat(
+                        rx.sortedDispensedDate,
+                        DATETIME_FORMATS.longMonthDate,
+                      )
+                    : 'Not filled yet'}
+                </p>
+              )}
             {!pendingMed &&
               !pendingRenewal && (
                 <>
                   <p>
                     <strong>Prescription number:</strong>{' '}
-                    {rx.prescriptionNumber}
+                    {rx.prescriptionNumber || 'Not available'}
                   </p>
                 </>
               )}
             <p>
               <strong>Status: </strong>
-              {prescriptionMedAndRenewalStatus(rx, medStatusDisplayTypes.PRINT)}
+              {prescriptionMedAndRenewalStatus(
+                rx,
+                medStatusDisplayTypes.PRINT,
+                isCernerPilot,
+              )}
             </p>
             {!pendingMed &&
               !pendingRenewal &&
-              pdfStatusDefinitions[rx.refillStatus] &&
-              pdfStatusDefinitions[rx.refillStatus].length > 1 && (
+              statusDefinitions[statusDefinitionKey] &&
+              statusDefinitions[statusDefinitionKey].length > 1 && (
                 <div className="vads-u-margin-y--0p5 no-break vads-u-margin-right--5">
-                  {pdfStatusDefinitions[rx.refillStatus]
+                  {statusDefinitions[statusDefinitionKey]
                     .slice(1) // skip the first line (already displayed)
                     .map((def, i) => {
                       if (Array.isArray(def.value)) {
@@ -184,24 +209,33 @@ const PrescriptionPrintOnly = props => {
               <strong>Facility:</strong>{' '}
               {rx.facilityName || 'VA facility name not available'}
             </p>
-            <p>
-              <strong>Pharmacy phone number:</strong>{' '}
-              {pharmacyPhone ? (
-                <>
-                  <va-telephone contact={pharmacyPhone} not-clickable /> (
-                  <va-telephone tty contact="711" not-clickable />)
-                </>
-              ) : (
-                FIELD_NONE_NOTED
-              )}
-            </p>
+            {isCernerPilot ? (
+              <p>
+                <strong>Pharmacy contact information:</strong> Check your
+                prescription label or contact your VA facility.
+              </p>
+            ) : (
+              <p>
+                <strong>Pharmacy phone number:</strong>{' '}
+                {pharmacyPhone ? (
+                  <>
+                    <va-telephone contact={pharmacyPhone} not-clickable /> (
+                    <va-telephone tty contact="711" not-clickable />)
+                  </>
+                ) : (
+                  FIELD_NONE_NOTED
+                )}
+              </p>
+            )}
             <p>
               <strong>Instructions:</strong> {validateField(rx.sig)}
             </p>
-            <p>
-              <strong>Reason for use:</strong>{' '}
-              {validateField(rx.indicationForUse)}
-            </p>
+            {!isCernerPilot && (
+              <p>
+                <strong>Reason for use:</strong>{' '}
+                {validateField(rx.indicationForUse)}
+              </p>
+            )}
             <p>
               <strong>Quantity:</strong> {validateField(rx.quantity)}
             </p>
@@ -227,65 +261,68 @@ const PrescriptionPrintOnly = props => {
                 </p>
               )}
           </div>
-          {showRefillHistory && (
-            <div className="print-only-refill-container vads-u-margin-left--2">
-              <h4>Refill history</h4>
-              <p className="vads-u-margin-y--1p5">
-                {`Showing ${refillHistory.length} fill${
-                  refillHistory.length > 1 ? 's, from newest to oldest' : ''
-                }`}
-              </p>
-              <div className="print-only-rx-details-container">
-                {refillHistory.map((entry, i) => {
-                  const index = refillHistory.length - i - 1;
-                  const { shape, color, backImprint, frontImprint } = entry;
-                  const isPartialFill =
-                    entry.prescriptionSource === RX_SOURCE.PARTIAL_FILL;
-                  const refillLabel = determineRefillLabel(
-                    isPartialFill,
-                    refillHistory,
-                    i,
-                  );
-                  return (
-                    <div key={index} className="vads-u-margin-bottom--2">
-                      <h5 className="vads-u-margin-top--1">
-                        {`${refillLabel}: ${dateFormat(entry.dispensedDate)}`}
-                      </h5>
-                      {isPartialFill && (
-                        <>
-                          <p>This fill has a smaller quantity on purpose.</p>
-                          <p>
-                            <strong>Quantity:</strong> {entry.quantity}
-                          </p>
-                        </>
-                      )}
-                      {i === 0 &&
-                        !isPartialFill && (
-                          <p>
-                            <strong>Shipped on:</strong>{' '}
-                            {dateFormat(latestTrackingStatus?.completeDateTime)}
-                          </p>
+          {showRefillHistory &&
+            !isCernerPilot && (
+              <div className="print-only-refill-container vads-u-margin-left--2">
+                <h4>Refill history</h4>
+                <p className="vads-u-margin-y--1p5">
+                  {`Showing ${refillHistory.length} fill${
+                    refillHistory.length > 1 ? 's, from newest to oldest' : ''
+                  }`}
+                </p>
+                <div className="print-only-rx-details-container">
+                  {refillHistory.map((entry, i) => {
+                    const index = refillHistory.length - i - 1;
+                    const { shape, color, backImprint, frontImprint } = entry;
+                    const isPartialFill =
+                      entry.prescriptionSource === RX_SOURCE.PARTIAL_FILL;
+                    const refillLabel = determineRefillLabel(
+                      isPartialFill,
+                      refillHistory,
+                      i,
+                    );
+                    return (
+                      <div key={index} className="vads-u-margin-bottom--2">
+                        <h5 className="vads-u-margin-top--1">
+                          {`${refillLabel}: ${dateFormat(entry.dispensedDate)}`}
+                        </h5>
+                        {isPartialFill && (
+                          <>
+                            <p>This fill has a smaller quantity on purpose.</p>
+                            <p>
+                              <strong>Quantity:</strong> {entry.quantity}
+                            </p>
+                          </>
                         )}
-                      {!isPartialFill && (
-                        <>
-                          <p className="vads-u-margin--0">
-                            <strong>Medication description: </strong>
-                          </p>
-                          <MedicationDescription
-                            shape={shape}
-                            color={color}
-                            frontImprint={frontImprint}
-                            backImprint={backImprint}
-                            pharmacyPhone={pharmacyPhone}
-                          />
-                        </>
-                      )}
-                    </div>
-                  );
-                })}
+                        {i === 0 &&
+                          !isPartialFill && (
+                            <p>
+                              <strong>Shipped on:</strong>{' '}
+                              {dateFormat(
+                                latestTrackingStatus?.completeDateTime,
+                              )}
+                            </p>
+                          )}
+                        {!isPartialFill && (
+                          <>
+                            <p className="vads-u-margin--0">
+                              <strong>Medication description: </strong>
+                            </p>
+                            <MedicationDescription
+                              shape={shape}
+                              color={color}
+                              frontImprint={frontImprint}
+                              backImprint={backImprint}
+                              pharmacyPhone={pharmacyPhone}
+                            />
+                          </>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          )}
+            )}
           {isDetailsRx &&
             rx.groupedMedications?.length > 0 && (
               <>
@@ -306,17 +343,20 @@ const PrescriptionPrintOnly = props => {
                           className="vads-u-margin-bottom--2"
                         >
                           <h4>
-                            {`Prescription number: ${entry.prescriptionNumber}`}
+                            {`Prescription number: ${entry.prescriptionNumber ||
+                              'Not available'}`}
                           </h4>
-                          <p>
-                            <strong>Last filled:</strong>{' '}
-                            {entry.sortedDispensedDate
-                              ? dateFormat(
-                                  entry.sortedDispensedDate,
-                                  DATETIME_FORMATS.longMonthDate,
-                                )
-                              : 'Not filled yet'}
-                          </p>
+                          {(entry.sortedDispensedDate || !isCernerPilot) && (
+                            <p>
+                              <strong>Last filled:</strong>{' '}
+                              {entry.sortedDispensedDate
+                                ? dateFormat(
+                                    entry.sortedDispensedDate,
+                                    DATETIME_FORMATS.longMonthDate,
+                                  )
+                                : 'Not filled yet'}
+                            </p>
+                          )}
                           <p>
                             <strong>Quantity:</strong>{' '}
                             {validateField(entry.quantity)}

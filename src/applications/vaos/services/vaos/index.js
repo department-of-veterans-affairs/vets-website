@@ -170,7 +170,8 @@ export function getAvailableV2Slots({
   const paramsObj = {
     // eslint-disable-next-line camelcase
     clinical_service: clinicId ? null : typeOfCare,
-    provider,
+    // eslint-disable-next-line camelcase
+    provider_id: provider,
     start: startDate.toISOString(),
     end: endDate.toISOString(),
   };

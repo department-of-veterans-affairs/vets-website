@@ -415,14 +415,21 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   });
 
   it('should render expired message if signed in with an expired form', () => {
+    // Mock time to ensure consistent test behavior
+    const now = new Date('2025-01-15T12:00:00Z');
+    const nowUnix = Math.floor(now.getTime() / 1000);
+    const clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
+
     const user = {
       profile: {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: {
-              lastUpdated: 3000,
-              expiresAt: Math.floor(Date.now() / 1000),
+              // Last updated 60 days ago
+              lastUpdated: nowUnix - 60 * 86400,
+              // Expired 1 day ago
+              expiresAt: nowUnix - 86400,
             },
           },
         ],
@@ -454,6 +461,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
     tree.unmount();
+    clock.restore();
   });
 
   it('should render downtime notification', () => {
@@ -833,5 +841,235 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     tree.unmount();
+  });
+
+  describe('getStartPage', () => {
+    it('should skip pages with depends conditions that are not met', () => {
+      // Create a pageList with conditional pages similar to HCA
+      const pageListWithDepends = [
+        {
+          path: '/introduction',
+          pageKey: 'introduction',
+        },
+        {
+          path: '/id-form',
+          pageKey: 'id-form',
+          depends: formData => !formData.isLoggedIn, // Only for logged-out users
+        },
+        {
+          path: '/personal-information',
+          pageKey: 'personal-information',
+        },
+        {
+          path: '/review',
+          pageKey: 'review',
+        },
+      ];
+
+      const user = {
+        profile: {
+          savedForms: [],
+          prefillsAvailable: [], // No prefill, forces use of getStartPage
+        },
+        login: {
+          currentlyLoggedIn: true,
+        },
+      };
+
+      // Form data indicating user is logged in
+      const formData = {
+        isLoggedIn: true,
+      };
+
+      const wrapper = shallow(
+        <SaveInProgressIntro
+          pageList={pageListWithDepends}
+          formId="test-form"
+          user={user}
+          formData={formData}
+          fetchInProgressForm={fetchInProgressForm}
+          removeInProgressForm={removeInProgressForm}
+          toggleLoginModal={toggleLoginModal}
+          formConfig={formConfig}
+        />,
+      );
+
+      const instance = wrapper.instance();
+      const startPage = instance.getStartPage();
+
+      // Should skip /id-form (which has depends: !isLoggedIn) and return /personal-information
+      expect(startPage).to.equal('/personal-information');
+
+      wrapper.unmount();
+    });
+
+    it('should include pages with depends conditions that are met', () => {
+      const pageListWithDepends = [
+        {
+          path: '/introduction',
+          pageKey: 'introduction',
+        },
+        {
+          path: '/id-form',
+          pageKey: 'id-form',
+          depends: formData => !formData.isLoggedIn, // Only for logged-out users
+        },
+        {
+          path: '/personal-information',
+          pageKey: 'personal-information',
+        },
+      ];
+
+      const user = {
+        profile: {
+          savedForms: [],
+          prefillsAvailable: [],
+        },
+        login: {
+          currentlyLoggedIn: true, // Keep user logged in for component rendering
+        },
+      };
+
+      // Form data indicating user is NOT logged in
+      // This tests the depends condition evaluation, not the login state
+      const formData = {
+        isLoggedIn: false,
+      };
+
+      const wrapper = shallow(
+        <SaveInProgressIntro
+          pageList={pageListWithDepends}
+          formId="test-form"
+          user={user}
+          formData={formData}
+          fetchInProgressForm={fetchInProgressForm}
+          removeInProgressForm={removeInProgressForm}
+          toggleLoginModal={toggleLoginModal}
+          formConfig={formConfig}
+        />,
+      );
+
+      const instance = wrapper.instance();
+      const startPage = instance.getStartPage();
+
+      // Should include /id-form since depends condition is met (!isLoggedIn is true)
+      expect(startPage).to.equal('/id-form');
+
+      wrapper.unmount();
+    });
+
+    it('should use pathname parameter when provided', () => {
+      const pageListWithDepends = [
+        {
+          path: '/introduction',
+          pageKey: 'introduction',
+        },
+        {
+          path: '/step-1',
+          pageKey: 'step-1',
+          depends: () => false, // Always skip
+        },
+        {
+          path: '/step-2',
+          pageKey: 'step-2',
+        },
+        {
+          path: '/step-3',
+          pageKey: 'step-3',
+        },
+      ];
+
+      const user = {
+        profile: {
+          savedForms: [],
+          prefillsAvailable: [],
+        },
+        login: {
+          currentlyLoggedIn: true,
+        },
+      };
+
+      // Provide a custom pathname to start from step-2
+      const wrapper = shallow(
+        <SaveInProgressIntro
+          pageList={pageListWithDepends}
+          pathname="/step-2"
+          formId="test-form"
+          user={user}
+          formData={{}}
+          fetchInProgressForm={fetchInProgressForm}
+          removeInProgressForm={removeInProgressForm}
+          toggleLoginModal={toggleLoginModal}
+          formConfig={formConfig}
+        />,
+      );
+
+      const instance = wrapper.instance();
+      const startPage = instance.getStartPage();
+
+      // Should start from provided pathname (/step-2) and return next page (/step-3)
+      expect(startPage).to.equal('/step-3');
+
+      wrapper.unmount();
+    });
+
+    it('should handle multiple consecutive conditional pages', () => {
+      const pageListWithMultipleDepends = [
+        {
+          path: '/introduction',
+          pageKey: 'introduction',
+        },
+        {
+          path: '/conditional-1',
+          pageKey: 'conditional-1',
+          depends: () => false, // Skip
+        },
+        {
+          path: '/conditional-2',
+          pageKey: 'conditional-2',
+          depends: () => false, // Skip
+        },
+        {
+          path: '/conditional-3',
+          pageKey: 'conditional-3',
+          depends: () => false, // Skip
+        },
+        {
+          path: '/first-valid-page',
+          pageKey: 'first-valid-page',
+        },
+      ];
+
+      const user = {
+        profile: {
+          savedForms: [],
+          prefillsAvailable: [],
+        },
+        login: {
+          currentlyLoggedIn: true,
+        },
+      };
+
+      const wrapper = shallow(
+        <SaveInProgressIntro
+          pageList={pageListWithMultipleDepends}
+          formId="test-form"
+          user={user}
+          formData={{}}
+          fetchInProgressForm={fetchInProgressForm}
+          removeInProgressForm={removeInProgressForm}
+          toggleLoginModal={toggleLoginModal}
+          formConfig={formConfig}
+        />,
+      );
+
+      const instance = wrapper.instance();
+      const startPage = instance.getStartPage();
+
+      // Should skip all three conditional pages and return /first-valid-page
+      expect(startPage).to.equal('/first-valid-page');
+
+      wrapper.unmount();
+    });
   });
 });

@@ -1,6 +1,5 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions";
-@import "../../../../platform/forms/sass/m-schemaform";
 @import "./shared";
 @import "./profile-subnav";
 @import "./profile-mobile-subnav";
@@ -8,10 +7,12 @@
 @import "./personal-contact-information";
 @import "./notification-radio-buttons";
 @import "./hub-cards";
-@import "../components/direct-deposit/vye/sass/change-of-address-wrapper";
-@import "../components/direct-deposit/vye/sass/change-of-direct-deposit-wrapper";
 @import "./proof-of-veteran-status-card";
 @import "./paperless-delivery";
+
+va-modal {
+  box-sizing: border-box;
+}
 
 [tabindex="-1"]:focus {
   outline: 0;

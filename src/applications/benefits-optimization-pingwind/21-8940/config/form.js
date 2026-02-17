@@ -1,13 +1,12 @@
-import React from 'react';
 import environment from 'platform/utilities/environment';
 
 import footerContent from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import {
   checkValidPagePath,
   getNextPagePath,
 } from 'platform/forms-system/src/js/routing';
-import { inlineTitleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -39,6 +38,7 @@ import employmentStatementHistory from '../pages/employmentStatementHistory';
 import sectionFour from '../pages/sectionFour';
 import additionalRemarks from '../pages/additionalRemarks';
 import sectionSix from '../pages/sectionSix';
+import supportingDocuments from '../pages/supportingDocuments';
 
 import doctorCareQuestion from '../pages/doctorCareQuestion';
 import hospitalQuestion from '../pages/hospitalQuestion';
@@ -47,9 +47,6 @@ import {
   doctorCareQuestionFields,
   hospitalizationQuestionFields,
 } from '../definitions/constants';
-
-import ImportantInformation from '../containers/ImportantInformation';
-import WhatYouNeed from '../containers/WhatYouNeed';
 
 const handleFormLoaded = props => {
   const {
@@ -69,219 +66,6 @@ const handleFormLoaded = props => {
       : fallbackPath;
 
   router.push(safeReturnUrl);
-};
-
-/** @returns {PageSchema} */
-const sectionOneBannerPage = {
-  path: 'section-1-banner',
-  title: 'Section 1 - Veteran ID and Information',
-  uiSchema: {
-    ...inlineTitleUI('Section I - Veteran ID and Information'),
-    'ui:description': (
-      <div className="vads-u-margin-top--8">
-        <div
-          style={{
-            backgroundColor: '#e7f4f7',
-            border: '1px solid #b3d4fc',
-            borderRadius: '5px',
-            padding: '16px',
-            margin: '16px 0',
-          }}
-        >
-          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
-          <ul style={{ marginBottom: 0, color: '#1b4480' }}>
-            <li>Your name and identification numbers</li>
-            <li>Your contact information (address, email, phone number)</li>
-            <li>Takes about 5–7 minutes</li>
-          </ul>
-        </div>
-      </div>
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {},
-  },
-};
-
-/** @returns {PageSchema} */
-const sectionTwoBannerPage = {
-  path: 'section-2-banner',
-  title: 'Disability And Medical Treatment',
-  uiSchema: {
-    'ui:title': (
-      <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
-        Disability And Medical Treatment
-      </h3>
-    ),
-    'ui:description': (
-      <div>
-        <p>
-          We need some information about your service-connected disabilities and
-          recent medical care.
-        </p>
-        <div
-          style={{
-            backgroundColor: '#e7f4f7',
-            border: '1px solid #b3d4fc',
-            borderRadius: '5px',
-            padding: '16px',
-            margin: '16px 0',
-          }}
-        >
-          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
-          <ul style={{ marginBottom: 0, color: '#1b4480' }}>
-            <li>Which disabilities prevent you from working</li>
-            <li>Doctors and hospitals you’ve visited in the past 12 months</li>
-            <li>Treatment dates and provider information</li>
-            <li>Takes about 7-10 minutes</li>
-          </ul>
-        </div>
-      </div>
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {},
-  },
-};
-
-/** @returns {PageSchema} */
-const sectionThreeBannerPage = {
-  path: 'section-3-banner',
-  title: 'Section 3 - Employment Statement',
-  uiSchema: {
-    ...inlineTitleUI('Section III - Employment'),
-    'ui:description': (
-      <div className="vads-u-margin-top--8">
-        <p>Your work history and how your disabilities affect employment.</p>
-        <div
-          style={{
-            backgroundColor: '#e7f4f7',
-            border: '1px solid #b3d4fc',
-            borderRadius: '5px',
-            padding: '16px',
-            margin: '16px 0',
-          }}
-        >
-          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
-          <ul style={{ marginBottom: 0, color: '#1b4480' }}>
-            <li>When your disability began affecting your work</li>
-            <li>Employment details for the past 5 years</li>
-            <li>Your highest earnings and current income</li>
-            <li>Whether you’ve tried to find work since becoming disabled</li>
-            <li>Takes about 20-25 minutes (longest section)</li>
-          </ul>
-        </div>
-      </div>
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {},
-  },
-};
-
-/** @returns {PageSchema} */
-const sectionFourBannerPage = {
-  path: 'section-4-banner',
-  title: 'Section 4 - Schooling and Other Training',
-  uiSchema: {
-    ...inlineTitleUI('Section IV - Schooling and Other Training'),
-    'ui:description': (
-      <div className="vads-u-margin-top--8">
-        <p>We’ll start by confirming your identity and how to reach you.</p>
-        <div
-          style={{
-            backgroundColor: '#e7f4f7',
-            border: '1px solid #b3d4fc',
-            borderRadius: '5px',
-            padding: '16px',
-            margin: '16px 0',
-          }}
-        >
-          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
-          <ul style={{ marginBottom: 0, color: '#1b4480' }}>
-            <li>Highest level of education completed</li>
-            <li>Training before and after becoming too disabled to work</li>
-            <li>Takes about 3-5 minutes</li>
-          </ul>
-        </div>
-      </div>
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {},
-  },
-};
-
-const sectionFiveBannerPage = {
-  path: 'section-5-banner',
-  title: 'Section 5 - Remarks',
-  uiSchema: {
-    ...inlineTitleUI('Section V - Remarks'),
-    'ui:description': (
-      <div className="vads-u-margin-top--8">
-        <p>Add any additional information we should know.</p>
-        <div
-          style={{
-            backgroundColor: '#e7f4f7',
-            border: '1px solid #b3d4fc',
-            borderRadius: '5px',
-            padding: '16px',
-            margin: '16px 0',
-          }}
-        >
-          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
-          <ul style={{ marginBottom: 0, color: '#1b4480' }}>
-            <li>Space for any additional details about your situation</li>
-            <li>Upload any supporting documentation</li>
-            <li>This section is optional</li>
-          </ul>
-        </div>
-      </div>
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {},
-  },
-};
-
-const sectionSixBannerPage = {
-  path: 'section-6-banner',
-  title: 'Section 6 - Authorization, Certification, and Signature',
-  uiSchema: {
-    ...inlineTitleUI(
-      'Section VI - Authorization, Certification, and Signature',
-    ),
-    'ui:description': (
-      <div className="vads-u-margin-top--8">
-        <p>We’ll start by confirming your identity and how to reach you.</p>
-        <div
-          style={{
-            backgroundColor: '#e7f4f7',
-            border: '1px solid #b3d4fc',
-            borderRadius: '5px',
-            padding: '16px',
-            margin: '16px 0',
-          }}
-        >
-          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
-          <ul style={{ marginBottom: 0, color: '#1b4480' }}>
-            <li>Review all your information</li>
-            <li>Electronically sign and submit</li>
-            <li>Takes about 2-5 minutes</li>
-          </ul>
-        </div>
-      </div>
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {},
-  },
 };
 
 /** @type {FormConfig} */
@@ -337,24 +121,30 @@ const formConfig = {
   customText: {
     appType: 'veteran application',
   },
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      { href: '/', label: 'VA.gov home' },
+      { href: '/disability', label: 'Disability' },
+      {
+        href: '/disability/eligibility',
+        label: 'Eligibility',
+      },
+      {
+        href: '/disability/eligibility/special-claims',
+        label: 'Special claims',
+      },
+      {
+        href: '/disability/eligibility/special-claims/unemployability',
+        label: 'Unemployability',
+      },
+    ],
+  }),
 
   additionalRoutes: [
     {
       path: 'confirmation-question',
       pageKey: 'confirmationQuestion',
       component: ConfirmationQuestion,
-      depends: () => true,
-    },
-    {
-      path: 'important-information',
-      pageKey: 'important-information',
-      component: ImportantInformation,
-      depends: () => true,
-    },
-    {
-      path: 'what-you-need',
-      pageKey: 'what-you-need',
-      component: WhatYouNeed,
       depends: () => true,
     },
   ],
@@ -369,7 +159,6 @@ const formConfig = {
     veteranIdInformationChapter: {
       title: 'Veteran ID and Information',
       pages: {
-        sectionOneBannerPage,
         personalInformation1: {
           path: 'personal-information-1',
           title: 'Personal Information',
@@ -393,7 +182,6 @@ const formConfig = {
     sectionTwoP1Chapter: {
       title: 'Disability and Medical Information',
       pages: {
-        sectionTwoBannerPage,
         sectionTwoP1: {
           path: 'disability-and-medical-information',
           title: 'Disability and Medical Information',
@@ -437,7 +225,6 @@ const formConfig = {
     sectionThreeChapter: {
       title: 'Employment Statement',
       pages: {
-        sectionThreeBannerPage,
         sectionThree: {
           path: 'employment-statement',
           title: 'Employment Statement',
@@ -489,7 +276,6 @@ const formConfig = {
     sectionFourChapter: {
       title: 'Education and Training Information',
       pages: {
-        sectionFourBannerPage,
         sectionFour: {
           path: 'education-and-training',
           title: 'Education and Training Information',
@@ -500,22 +286,22 @@ const formConfig = {
     },
 
     beforeDisabilityChapter: {
-      title: 'Education and Training Information',
+      title: 'Education and Training Information Before Disability',
       pages: {
         beforeDisabilityPage: {
           path: 'education-and-training-before-disability',
-          title: 'Education and Training Information',
+          title: 'Education and Training Information Before Disability',
           uiSchema: BeforeDisability.uiSchema,
           schema: BeforeDisability.schema,
         },
       },
     },
     afterDisabilityChapter: {
-      title: 'Education and Training Information',
+      title: 'Education and Training Information After Disability',
       pages: {
         afterDisabilityPage: {
           path: 'education-and-training-after-disability',
-          title: 'Education and Training Information',
+          title: 'Education and Training Information After Disability',
           uiSchema: AfterDisability.uiSchema,
           schema: AfterDisability.schema,
         },
@@ -525,22 +311,27 @@ const formConfig = {
     sectionFiveChapter: {
       title: 'Remarks',
       pages: {
-        sectionFiveBannerPage,
         additionalRemarks: {
           path: 'additional-remarks',
           title: 'Additional Remarks',
           uiSchema: additionalRemarks.uiSchema,
           schema: additionalRemarks.schema,
         },
+        supportingDocuments: {
+          path: 'supporting-documents',
+          title: 'Upload Supporting Documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
+        },
       },
     },
     sectionSixChapter: {
-      title: 'Authorization and Certification',
+      title: 'Authorization and Certification Statements, Legal information',
       pages: {
-        sectionSixBannerPage,
         sectionSix: {
           path: 'authorization-and-certification',
-          title: 'Authorization and Certification',
+          title:
+            'Authorization and Certification Statements, Legal information',
           uiSchema: sectionSix.uiSchema,
           schema: sectionSix.schema,
         },

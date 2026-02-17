@@ -1,6 +1,7 @@
 @import "modules/m-overrides";
 
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/override-function";
+// Note: override-function is imported via formation-overrides/variables using @use
+// Do not import it separately to avoid dart-sass variable conflicts
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 

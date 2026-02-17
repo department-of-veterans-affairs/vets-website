@@ -1,15 +1,13 @@
 import {
   titleUI,
-  checkboxGroupUI,
-  checkboxGroupSchema,
-  currentOrPastDateDigitsUI,
   currentOrPastDateSchema,
-  currentOrPastDateUI,
+  currentOrPastDateRangeUI,
   textUI,
-  textSchema,
+  selectUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { servicesOptions } from '../../../utils/labels';
+import { customTextSchema } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
@@ -17,36 +15,48 @@ export default {
   path: 'veteran/service-period',
   uiSchema: {
     ...titleUI('Service period'),
-    branchOfService: checkboxGroupUI({
-      title: 'Branch of service',
-      required: true,
-      labels: servicesOptions,
-    }),
-    dateInitiallyEnteredActiveDuty: currentOrPastDateDigitsUI({
-      title: 'Date initially entered active duty',
-    }),
-    finalReleaseDateFromActiveDuty: currentOrPastDateUI({
-      title: 'Final release date from active duty',
-      monthSelect: false,
-    }),
-    cityStateOrForeignCountry: textUI({
+    serviceBranch: {
+      ...selectUI({
+        title: 'Branch of service',
+        options: servicesOptions,
+      }),
+      'ui:errorMessages': {
+        required: 'Select a branch',
+      },
+    },
+    activeServiceDateRange: currentOrPastDateRangeUI(
+      {
+        title: 'Date initially entered active duty',
+        monthSelect: false,
+      },
+      {
+        title: 'Final release date from active duty',
+        monthSelect: false,
+      },
+    ),
+    placeOfSeparation: textUI({
       title: 'Place of Veteran’s last separation',
       hint: 'City, state, or foreign country',
     }),
   },
   schema: {
     type: 'object',
-    required: [
-      'branchOfService',
-      'dateInitiallyEnteredActiveDuty',
-      'finalReleaseDateFromActiveDuty',
-      'cityStateOrForeignCountry',
-    ],
+    required: ['serviceBranch', 'activeServiceDateRange', 'placeOfSeparation'],
     properties: {
-      branchOfService: checkboxGroupSchema(Object.keys(servicesOptions)),
-      dateInitiallyEnteredActiveDuty: currentOrPastDateSchema,
-      finalReleaseDateFromActiveDuty: currentOrPastDateSchema,
-      cityStateOrForeignCountry: textSchema,
+      serviceBranch: {
+        type: 'string',
+        enum: servicesOptions.map(option => option.value),
+        enumNames: servicesOptions.map(option => option.label),
+      },
+      activeServiceDateRange: {
+        type: 'object',
+        required: ['from', 'to'],
+        properties: {
+          from: currentOrPastDateSchema,
+          to: currentOrPastDateSchema,
+        },
+      },
+      placeOfSeparation: customTextSchema,
     },
   },
 };

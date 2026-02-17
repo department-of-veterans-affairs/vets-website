@@ -24,18 +24,12 @@ import {
   mockFacilityApi,
 } from '../../../tests/mocks/mockApis';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
-
 describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
   let store;
 
   const defaultState = {
-    ...initialState,
     newAppointment: {
+      ehr: 'vista',
       pages: {},
       data: {
         facilityType: FACILITY_TYPES.VAMC.id,
@@ -103,7 +97,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
       serviceType: 'primaryCare',
       reasonCode: {
         text:
-          'station id: 983|preferred modality: VIDEO|phone number: 1234567890|email: joeblow@gmail.com|preferred dates:05/25/2020 AM,05/26/2020 PM|reason code:ROUTINEVISIT|comments:I need an appt',
+          'station id: 983|preferred modality: VIDEO|phone number: 1234567890|email: joeblow@gmail.com|preferred dates:05/25/2020 AM,05/26/2020 PM|comments:I need an appt',
       },
       requestedPeriods: [
         {
@@ -152,7 +146,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
       serviceType: 'primaryCare',
       reasonCode: {
         text:
-          'station id: 983|preferred modality: VIDEO|phone number: 1234567890|email: joeblow@gmail.com|preferred dates:05/25/2020 AM,05/26/2020 PM|reason code:OTHER_REASON|comments:I need an appt',
+          'station id: 983|preferred modality: VIDEO|phone number: 1234567890|email: joeblow@gmail.com|preferred dates:05/25/2020 AM,05/26/2020 PM|comments:I need an appt',
       },
       requestedPeriods: [
         {
@@ -196,10 +190,9 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     });
 
     expect(window.dataLayer[1]).to.deep.equal({
-      event: 'vaos-request-submission-successful',
+      event: 'vaos-request-vista-submission-successful',
       flow: 'va-request',
       'health-TypeOfCare': 'Primary care',
-      'health-ReasonForAppointment': 'routine-follow-up',
       'vaos-preferred-combination': 'afternoon-evening-morning',
       'vaos-number-of-days-from-preference': '1-1-null',
     });
@@ -229,23 +222,15 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     await screen.findByText('We can’t submit your request right now');
 
     expect(screen.baseElement).contain.text(
-      'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
+      'We’re sorry. There’s a problem with appointments. Refresh this page or try again later.',
     );
     expect(screen.baseElement).contain.text(
-      'If you need to schedule now, call your VA facility.',
+      'If you need to schedule now, call your facility.',
     );
 
-    expect(
-      screen.getByRole('heading', {
-        level: 3,
-        name: /Cheyenne VA Medical Center/i,
-      }),
-    );
+    expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
 
     const alert = document.querySelector('va-alert');
-    expect(within(alert).getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
-    expect(alert).to.contain.text('Cheyenne, WyomingWY');
-    expect(within(alert).getByText(/82001-5356/)).to.be.ok;
     expect(within(alert).getByTestId('facility-telephone')).to.be.ok;
 
     expect(screen.history.push.called).to.be.false;
@@ -253,10 +238,9 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
       expect(document.activeElement).to.be(alert);
     });
     expect(window.dataLayer[1]).to.deep.include({
-      event: 'vaos-request-submission-failed',
+      event: 'vaos-request-vista-submission-failed',
       flow: 'va-request',
       'health-TypeOfCare': 'Primary care',
-      'health-ReasonForAppointment': 'routine-follow-up',
       'vaos-preferred-combination': 'afternoon-evening-morning',
     });
   });

@@ -25,6 +25,10 @@ import {
   GET_ENHANCED_LETTERS_DOWNLOADING,
   GET_ENHANCED_LETTERS_SUCCESS,
   GET_ENHANCED_LETTERS_FAILURE,
+  GET_TSA_LETTER_ELIGIBILITY_ENDPOINT,
+  GET_TSA_LETTER_ELIGIBILITY_ERROR,
+  GET_TSA_LETTER_ELIGIBILITY_LOADING,
+  GET_TSA_LETTER_ELIGIBILITY_SUCCESS,
 } from '../utils/constants';
 
 // eslint-disable-next-line -- LH_MIGRATION
@@ -332,4 +336,34 @@ export const getSingleLetterPDFLinkAction = (
       getState,
     );
   };
+};
+
+export const getTsaLetterEligibility = () => dispatch => {
+  dispatch({
+    type: GET_TSA_LETTER_ELIGIBILITY_LOADING,
+  });
+  return apiRequest(GET_TSA_LETTER_ELIGIBILITY_ENDPOINT)
+    .then(response => {
+      const hasTSALetter = response.data !== null;
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'GET /v0/tsa_letter',
+        'api-status': 'successful',
+        'has-letter': hasTSALetter,
+      });
+      return dispatch({
+        type: GET_TSA_LETTER_ELIGIBILITY_SUCCESS,
+        data: response.data,
+      });
+    })
+    .catch(() => {
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'GET /v0/tsa_letter',
+        'api-status': 'error',
+      });
+      return dispatch({
+        type: GET_TSA_LETTER_ELIGIBILITY_ERROR,
+      });
+    });
 };

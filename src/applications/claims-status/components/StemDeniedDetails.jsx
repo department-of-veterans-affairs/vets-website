@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 const StemDeniedDetails = ({
   deniedAt,
@@ -121,56 +120,52 @@ const StemDeniedDetails = ({
           If you have new or previously unprovided evidence to prove your
           eligibility for this scholarship, you can file a Supplemental Claim by
           completing VA Form 20-0995.{' '}
-          <a
+          <VaLink
+            external
             href="https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf"
             aria-label="Download VA Form 20 - 0 9 9 5. Opens in new browser tab."
             target="_blank"
-            rel="noopener noreferrer"
-          >
-            Download VA Form 20-0995
-          </a>
+            text="Download VA Form 20-0995"
+          />
           .
         </li>
         <li className="stem-ad-list-item">
           If you don’t have new evidence but would like a more senior reviewer
           to look at your case, you can request a Higher-Level Review by
           completing VA Form 20-0996.{' '}
-          <a
+          <VaLink
+            external
             href="https://www.vba.va.gov/pubs/forms/VBA-20-0996-ARE.pdf"
             aria-label="Download VA Form 20 - 0 9 9 6. Opens in new browser tab."
             target="_blank"
-            rel="noopener noreferrer"
-          >
-            Download VA Form 20-0996
-          </a>
+            text="Download VA Form 20-0996"
+          />
           .
         </li>
         <li className="stem-ad-list-item">
           If you filed a Supplemental Claim or Higher-Level Review and don’t
           agree with the decision, you can appeal to a Veterans Law Judge by
           completing VA Form 10182.{' '}
-          <a
+          <VaLink
+            external
             href="https://www.va.gov/vaforms/va/pdf/VA10182.pdf"
             aria-label="Download VA Form 1 0 1 8 2. Opens in new browser tab."
             target="_blank"
-            rel="noopener noreferrer"
-          >
-            Download VA Form 10182
-          </a>
+            text="Download VA Form 10182"
+          />
           .
         </li>
       </ul>
       <p>
         For more information about these options, please read "Your Right to
         Seek Review of Our Decision" (VA Form 20-0998).{' '}
-        <a
+        <VaLink
+          external
           href="https://www.vba.va.gov/pubs/forms/VBA-20-0998-ARE.pdf"
           aria-label="Download Your Right to Seek Review of Our Decision VA Form 20 - 0 9 9 8. Opens in new browser tab"
           target="_blank"
-          rel="noopener noreferrer"
-        >
-          Download VA Form 20-0998
-        </a>
+          text="Download VA Form 20-0998"
+        />
         .
       </p>
       <p>
@@ -178,18 +173,19 @@ const StemDeniedDetails = ({
         to request any of these forms.
       </p>
       <p>
-        <a href="https://www.va.gov/decision-reviews">
-          Learn more about the decision review process.
-        </a>{' '}
+        <VaLink
+          href="https://www.va.gov/decision-reviews"
+          text="Learn more about the decision review process."
+        />{' '}
         If you would like to review the evidence we used in our decision, please
         contact us. You may be able to review some evidence by signing in to
-        your <a href="https://www.va.gov/">VA.gov</a> account.
+        your <VaLink href="https://www.va.gov/" text="VA.gov" /> account.
       </p>
       <div className="vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1px vads-u-padding-bottom--2p5 vads-u-margin-top--3 vads-u-margin-bottom--5">
         <h3 className="vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-top--2 vads-u-padding-bottom--0p5 vads-u-margin--0">
           More resources about VA benefits
         </h3>
-        <a
+        <VaLink
           data-testid="edith-north-rodgers-stem-link"
           href="https://www.va.gov/education/other-va-education-benefits/stem-scholarship/"
           onClick={() => {
@@ -199,26 +195,24 @@ const StemDeniedDetails = ({
             );
           }}
           className="vads-u-margin-top--3 vads-u-margin-bottom--1 vads-u-display--inline-block va-nav-linkslist-title vads-u-font-size--h4 vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--none"
-        >
-          Edith Nourse Rogers STEM Scholarship
-        </a>
+          text="Edith Nourse Rogers STEM Scholarship"
+        />
         <p className="vads-u-margin--0 vads-u-color--base">
           Learn more about eligibility and how to apply for this scholarship.
         </p>
-        <a
+        <VaLink
           data-testid="find-va-form-link"
           href="https://www.va.gov/vaforms"
           onClick={() => {
             recordResourceLinkClick('Find a VA Form', 'Search for a VA form.');
           }}
           className="vads-u-margin-top--3 vads-u-margin-bottom--1 vads-u-display--inline-block va-nav-linkslist-title vads-u-font-size--h4 vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--none"
-        >
-          Find a VA Form
-        </a>
+          text="Find a VA Form"
+        />
         <p className="vads-u-margin--0 vads-u-color--base">
           Search for a VA form.
         </p>
-        <a
+        <VaLink
           data-testid="gi-bill-comp-tool-link"
           href="https://www.va.gov/education/gi-bill-comparison-tool"
           onClick={() => {
@@ -228,9 +222,8 @@ const StemDeniedDetails = ({
             );
           }}
           className="vads-u-margin-top--3 vads-u-margin-bottom--1 vads-u-display--inline-block va-nav-linkslist-title vads-u-font-size--h4 vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--none"
-        >
-          GI Bill® Comparison Tool
-        </a>
+          text="GI Bill® Comparison Tool"
+        />
         <p className="vads-u-margin--0 vads-u-color--base">
           Get information on a school’s value and affordability; and compare
           estimated benefits by school.

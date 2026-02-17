@@ -3,7 +3,6 @@
     "./config/babel-register.js",
     "core-js/stable",
     "regenerator-runtime/runtime",
-    "blob-polyfill",
     "isomorphic-fetch",
     "mocha-snapshots",
     "src/platform/testing/unit/mocha-setup.js",
@@ -12,5 +11,6 @@
   ],
   "reporter": "progress",
   "timeout": 10000,
-  "slow": 0
+  "slow": 0,
+  "exit": true
 }

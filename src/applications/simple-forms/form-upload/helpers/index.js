@@ -129,6 +129,19 @@ export const formMappings = {
     subTitle: 'Report of Income from Property or Business',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-4185-ARE.pdf',
   },
+
+  '21P-535': {
+    subTitle:
+      'Application for Dependency and Indemnity Compensation by Parent(s) (Including Accrued Benefits and Death Compensation when Applicable)',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-535-ARE.pdf',
+    showSupportingDocuments: true,
+  },
+
+  '20-10208': {
+    subTitle: 'Document/Evidence Submission',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-20-10208-ARE.pdf',
+    showSupportingDocuments: true,
+  },
 };
 
 const extractFormSlug = path => {
@@ -232,6 +245,7 @@ export const getAlert = (props, continueClicked) => {
       getPdfDownloadUrl(formNumber),
       onCloseAlert,
       warnings,
+      props?.data?.uploadedFile?.name || '',
     );
   }
 
@@ -243,5 +257,5 @@ export const getAlert = (props, continueClicked) => {
     return MUST_MATCH_ALERT(props?.name, onCloseAlert, props?.data);
   }
 
-  return FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
+  return FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert, props?.formNumber);
 };

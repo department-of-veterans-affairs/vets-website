@@ -1,27 +1,47 @@
 {
-    "data": {
-        "type": "feature_toggles",
-        "features": [
-            {
-                "name": "mhv_medications_display_documentation_content",
-                "value": true
-            },
-            {
-                "name": "mhv_medications_display_pending_meds",
-                "value": true
-            },
-            {
-                "name": "mhv_medications_partial_fill_content",
-                "value": true
-            },
-            {
-                "name": "mhv_medications_dont_increment_ipe_count",
-                "value": true
-            },
-            {
-                "name": "mhv_secure_messaging_medications_renewal_request",
-                "value": true
-            }
-        ]
-    }
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "mhv_medications_display_documentation_content",
+        "value": true
+      },
+      {
+        "name": "mhv_medications_display_pending_meds",
+        "value": true
+      },
+      {
+        "name": "mhv_medications_partial_fill_content",
+        "value": true
+      },
+      {
+        "name": "mhv_medications_dont_increment_ipe_count",
+        "value": true
+      },
+      {
+        "name": "mhv_secure_messaging_medications_renewal_request",
+        "value": true
+      },
+      {
+        "name": "mhv_medications_cerner_pilot",
+        "value": false
+      },
+      {
+        "name": "mhv_medications_v2_status_mapping",
+        "value": false
+      },
+      {
+        "name": "mhv_accelerated_delivery_enabled",
+        "value": false
+      },
+      {
+        "name": "mhv_accelerated_delivery_allergies_enabled",
+        "value": false
+      },
+      {
+        "name": "mhv_medications_management_improvements",
+        "value": false
+      }
+    ]
+  }
 }

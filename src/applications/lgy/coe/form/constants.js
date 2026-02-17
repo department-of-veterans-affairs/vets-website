@@ -60,3 +60,25 @@ export const LOAN_INTENT_SCHEMA = {
   enum: intents.map(intent => intent.value),
   enumNames: intents.map(intent => intent.label),
 };
+
+export const serviceStatuses = {
+  VETERAN: 'VETERAN', // Veteran or previously activated National Guard or Reserves
+  ADSM: 'ADSM', // Active Duty Service Member
+  NADNA: 'NADNA', // Current National Guard or Reserves, never activated
+  DNANA: 'DNANA', // Discharged from National Guard, never activated
+  DRNA: 'DRNA', // Discharged from Reserves, never activated
+};
+
+export const certificateUseOptions = {
+  ENTITLEMENT_INQUIRY_ONLY: 'ENTITLEMENT_INQUIRY_ONLY',
+  HOME_PURCHASE: 'HOME_PURCHASE',
+  CASH_OUT_REFINANCE: 'CASH_OUT_REFINANCE',
+  INTEREST_RATE_REDUCTION_REFINANCE: 'INTEREST_RATE_REDUCTION_REFINANCE',
+};
+
+export const entitlementRestorationOptions = {
+  ENTITLEMENT_INQUIRY_ONLY: 'ENTITLEMENT_INQUIRY_ONLY',
+  CASH_OUT_REFINANCE: 'CASH_OUT_REFINANCE',
+  INTEREST_RATE_REDUCTION_REFINANCE: 'INTEREST_RATE_REDUCTION_REFINANCE',
+  ONE_TIME_RESTORATION: 'ONE_TIME_RESTORATION',
+};

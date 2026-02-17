@@ -1,5 +1,6 @@
 import { INSURANCE_VIEW_FIELDS } from '../../../utils/constants';
 import { goToNextPage, selectYesNoWebComponent } from '.';
+import { handleOptionalServiceHistoryPage } from './handleOptionalServiceHistoryPage';
 
 export const advanceToHouseholdSection = () => {
   cy.get('[href="#start"]')
@@ -23,9 +24,11 @@ export const advanceToHouseholdSection = () => {
   selectYesNoWebComponent('view:hasNextOfKin', false);
 };
 
-export const advanceFromHouseholdToReview = () => {
-  goToNextPage('/military-service/toxic-exposure');
-  cy.get('[name="root_hasTeraResponse"]').check('N');
+export const advanceFromHouseholdToReview = ({ featureFlags = {} }) => {
+  handleOptionalServiceHistoryPage({
+    historyEnabled: featureFlags.ezrServiceHistoryEnabled,
+  });
+
   goToNextPage('/insurance-information/medicaid-eligibility');
   selectYesNoWebComponent('view:isMedicaidEligible_isMedicaidEligible', false);
 
@@ -56,8 +59,8 @@ export const fillSpousePersonalInformation = (spouseData = {}) => {
   cy.fillVaTextInput('root_spouseFullName_last', lastName);
   cy.fillVaTextInput('root_spouseSocialSecurityNumber', ssn);
 
-  cy.fillVaMemorableDate('root_spouseDateOfBirth', dateOfBirth, true);
-  cy.fillVaMemorableDate('root_dateOfMarriage', dateOfMarriage, true);
+  cy.fillVaMemorableDate('root_spouseDateOfBirth', dateOfBirth);
+  cy.fillVaMemorableDate('root_dateOfMarriage', dateOfMarriage);
 };
 
 // Helper function to fill spouse contact information.

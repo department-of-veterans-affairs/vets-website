@@ -1,8 +1,12 @@
 import React from 'react';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import MainContentSubDiv from '../../HubRail/shared/mainContentSubDiv';
 import LiSpanAndVaLinkAndPTag from '../../HubRail/shared/liSpanAndVaLinkAndPTag';
 
 const ProgramApprovalInformation = () => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const form10275Toggle = useToggleValue(TOGGLE_NAMES.form10275Release);
+
   return (
     <MainContentSubDiv
       id="program-approval-information"
@@ -10,45 +14,32 @@ const ProgramApprovalInformation = () => {
     >
       <li>
         <va-link
-          href="https://inquiry.vba.va.gov/weamspub/buildSearchInstitutionCriteria.do"
-          text="WEAMS Institution Search"
+          href="https://www.va.gov/education/gi-bill-comparison-tool/schools-and-employers"
+          text="GI Bill® Comparison Tool"
         />
         <p className="vads-u-margin-top--0">
-          Use the Web Enabled Approval Management System (WEAMS) to identify
-          educational institutions offering programs approved for Veterans
-          training.{' '}
-          <va-link
-            href="https://www.va.gov/education/gi-bill-comparison-tool/schools-and-employers"
-            text="Access this information using the GI Bill® Comparison Tool"
-          />
+          Use the GI Bill® Comparison Tool to identify educational institutions
+          offering programs approved for Veterans’ training.
         </p>
       </li>
       <li>
         <va-link
-          href="https://inquiry.vba.va.gov/weamspub/buildSearchCountryLCCriteria.do"
-          text="Licenses, certifications, and prep courses"
+          href="https://www.va.gov/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses"
+          text="Licensing & certification tests and test preparatory courses"
         />
         <p className="vads-u-margin-top--0">
-          Search WEAMS for approved licensing, certification and related
-          preparatory courses.{' '}
-          <va-link
-            href="https://www.va.gov/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses"
-            text="Access this information using the GI Bill® Comparison Tool"
-          />
+          Search GI Bill® Comparison Tool for approved licensing & certification
+          tests, and related test preparatory courses.
         </p>
       </li>
       <li>
         <va-link
-          href="https://inquiry.vba.va.gov/weamspub/buildSearchNE.do"
-          text="National exams"
+          href="https://www.va.gov/education/gi-bill-comparison-tool/national-exams"
+          text="National Exams"
         />
         <p className="vads-u-margin-top--0">
-          Search WEAMS to identify approved National Exams such as ACT, CLEP,
-          MCAT, and more.{' '}
-          <va-link
-            href="https://www.va.gov/education/gi-bill-comparison-tool/national-exams"
-            text="Access this information using the GI Bill® Comparison Tool"
-          />
+          Search GI Bill® Comparison Tool to identify approved National Exams
+          such as ACT, CLEP, MCAT, and more.
         </p>
       </li>
       <LiSpanAndVaLinkAndPTag
@@ -67,10 +58,33 @@ const ProgramApprovalInformation = () => {
         pText="Discover the process and criteria for VA approval of on-the-job training and apprenticeship (OJT/APP) programs."
       />
       <LiSpanAndVaLinkAndPTag
-        href="https://www.va.gov/education/choosing-a-school/principles-of-excellence/"
-        hrefText="Principles of Excellence"
-        pText="Understand the guidelines required by schools receiving federal funding through the GI Bill."
+        href="https://benefits.va.gov/gibill/valor.asp"
+        hrefText="VALOR ACT Approvals"
+        pText="Discover essential information and answers to common questions about the Veterans Apprenticeship and Labor Opportunity Reform (VALOR) Act program."
       />
+      {form10275Toggle ? (
+        <li>
+          <va-link
+            href="https://benefits.va.gov/gibill/principles-of-excellence.asp"
+            text="Principles of Excellence"
+          />
+          <p className="vads-u-margin-top--0">
+            Understand the guidelines required by schools receiving federal
+            funding through the GI Bill.{' '}
+            <va-link
+              data-testid="form-10275-link"
+              href="https://www.va.gov/school-administrators/commit-principles-of-excellence-form-22-10275"
+              text="Commit to the Principles of Excellence for educational institutions"
+            />
+          </p>
+        </li>
+      ) : (
+        <LiSpanAndVaLinkAndPTag
+          href="https://benefits.va.gov/gibill/principles-of-excellence.asp"
+          hrefText="Principles of Excellence"
+          pText="Understand the guidelines required by schools receiving federal funding through the GI Bill."
+        />
+      )}
       <LiSpanAndVaLinkAndPTag
         href="https://www.benefits.va.gov/gibill/yellow_ribbon/yellow_ribbon_info_schools.asp"
         hrefText="Yellow Ribbon Program"

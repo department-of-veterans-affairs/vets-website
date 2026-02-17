@@ -18,6 +18,6 @@ describe('Medications Download PDF on Medications List Page', () => {
       Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
     );
     listPage.verifyFocusOnDownloadAlertSuccessBanner();
-    site.verifyDownloadedPdfFile('VA-medications-list-Safari-Mhvtp', '');
+    site.verifyDownloadedFile();
   });
 });

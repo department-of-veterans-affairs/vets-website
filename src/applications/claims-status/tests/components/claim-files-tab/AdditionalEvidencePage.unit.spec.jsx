@@ -180,20 +180,6 @@ describe('<AdditionalEvidencePage>', () => {
       expect(clearAdditionalEvidenceNotification.called).to.be.false;
     });
 
-    it('should focus on header when location has equals #add-files', () => {
-      const location = { hash: '#add-files' };
-
-      renderInReduxProvider(
-        <AdditionalEvidencePage
-          {...fileFormProps}
-          claim={claim}
-          location={location}
-        />,
-        { initialState },
-      );
-      expect(document.activeElement.id).to.equal('add-files');
-    });
-
     it('should reset uploads on mount', () => {
       const resetUploads = sinon.spy();
       const mainDiv = document.createElement('div');

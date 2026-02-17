@@ -13,7 +13,6 @@
       "veteranAddress": {
         "street": "2000 Resistance Base",
         "street2": "CC",
-        "street3": "Level 3",
         "city": "Alderaan City",
         "state": "NY",
         "country": "USA",
@@ -38,7 +37,6 @@
       "claimantAddress": {
         "street": "1 Royal Palace Avenue",
         "street2": "SW",
-        "street3": "",
         "city": "Alderaan City",
         "state": "NY",
         "country": "USA",
@@ -46,8 +44,14 @@
       }
     },
     "claimantContact": {
-      "claimantPhoneNumber": "2125551935",
-      "claimantMobilePhone": "2125551956",
+      "claimantPhoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "(212) 555-1935",
+        "IsValid": true,
+        "Error": null,
+        "Touched": true
+      },
       "claimantEmail": "bail.organa@alderaan.gov"
     },
     "benefitType": {
@@ -64,7 +68,6 @@
       "facilityAddress": {
         "street": "500 Medical District",
         "street2": "ED",
-        "street3": "",
         "city": "Albany",
         "state": "NY",
         "country": "USA",

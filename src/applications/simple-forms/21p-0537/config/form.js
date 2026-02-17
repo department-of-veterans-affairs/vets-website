@@ -8,6 +8,8 @@ import { PersonalInformation } from 'platform/forms-system/src/js/components/Per
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import IdentityPage from '../containers/IdentityPage';
+
 import getHelp from '../../shared/components/GetFormHelp';
 import transformForSubmit from './submit-transformer';
 import prefillTransformer from './prefill-transformer';
@@ -45,7 +47,7 @@ const formConfig = {
   trackingPrefix: '21p-0537-dic-marital-status-',
   useCustomScrollAndFocus: true,
   v3SegmentedProgressBar: true,
-  hideUnauthedStartLink: true,
+  hideUnauthedStartLink: false,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -56,6 +58,17 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
+  additionalRoutes: [
+    {
+      path: 'id-form',
+      component: IdentityPage,
+      pageKey: 'id-form',
+      depends: formData => !formData.isLoggedIn,
+    },
+  ],
   savedFormMessages: {
     notFound: 'Please start over to complete the marital status questionnaire.',
     noAuth: 'Please sign in again to continue your application.',
@@ -74,8 +87,7 @@ const formConfig = {
       body: statementOfTruthBody,
       messageAriaDescribedby:
         'I certify that the information provided is true and correct to the best of my knowledge.',
-      fullNamePath: 'recipientName',
-      useProfileFullName: true,
+      fullNamePath: 'view:recipientName',
     },
   },
   title: 'Verify your marital status for DIC benefits',
@@ -96,6 +108,7 @@ const formConfig = {
           CustomPageReview: null,
           hideOnReview: true,
           scrollAndFocusTarget,
+          depends: formData => formData.isLoggedIn,
           schema: {
             type: 'object',
             properties: {}, // Must be present even if empty
@@ -193,7 +206,10 @@ const formConfig = {
     },
   },
   downtime: {
-    dependencies: [externalServices.lighthouseBenefitsIntake],
+    dependencies: [
+      externalServices.lighthouseBenefitsIntake,
+      externalServices.form21p0537,
+    ],
   },
   getHelp,
 };

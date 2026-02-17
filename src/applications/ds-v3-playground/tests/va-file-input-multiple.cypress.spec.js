@@ -272,9 +272,7 @@ endobj
         .find('va-file-input')
         .first()
         .shadow()
-        .find(
-          'input[aria-label="Select files to upload. Drag a file here or choose from folder"]',
-        )
+        .find('input[type="file"]')
         .selectFile(
           {
             contents: Cypress.Buffer.from(initialFileContent),
@@ -301,11 +299,8 @@ endobj
       cy.get('va-file-input-multiple')
         .shadow()
         .find('va-file-input')
-        .first()
         .shadow()
-        .find(
-          'input[aria-label="Select files to upload. Drag a file here or choose from folder"]',
-        )
+        .find('input[type="file"]')
         .selectFile(
           {
             contents: Cypress.Buffer.from(initialFileContent),
@@ -332,9 +327,7 @@ endobj
         .find('va-file-input')
         .first()
         .shadow()
-        .find(
-          'input[aria-label="Select files to upload. Drag a file here or choose from folder"]',
-        )
+        .find('input[type="file"]')
         .selectFile(
           {
             contents: Cypress.Buffer.from(updatedFileContent),
@@ -388,11 +381,8 @@ endobj
       cy.get('va-file-input-multiple')
         .shadow()
         .find('va-file-input')
-        .first()
         .shadow()
-        .find(
-          'input[aria-label="Select files to upload. Drag a file here or choose from folder"]',
-        )
+        .find('input[type="file"]')
         .selectFile(
           {
             contents: Cypress.Buffer.from(encryptedFileContent),

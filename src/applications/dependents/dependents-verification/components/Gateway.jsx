@@ -11,6 +11,16 @@ import { fetchDependents } from '../../shared/actions';
 import manifest from '../manifest.json';
 import { getRootParentUrl } from '../../shared/utils';
 
+/**
+ * Gateway Component fetches dependents and displays appropriate messaging
+ * @typedef {object} GatewayProps
+ * @property {object} route - form route information
+ * @property {boolean} top - whether to render different information depending
+ * on the part of the page
+ *
+ * @param {GatewayProps} props - Component props
+ * @returns {React.Component} - Gateway component
+ */
 const Gateway = ({ route, top = false }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
@@ -32,16 +42,18 @@ const Gateway = ({ route, top = false }) => {
       if (userLoggedIn) {
         if (!userIdVerified) {
           setApiState('not-verified');
+          return;
         }
         // Gateway is rendered on the intro page twice, so check `top` to
         // prevent duplicate fetch calls
-        if (top && !isFetching && userIdVerified) {
+        if (top && !isFetching) {
           setIsFetching(true);
-          // If the user is logged in but not verified, we might want to show a
-          // verification alert or redirect them to a verification page.
-          // This is a placeholder for any additional logic needed.
           dispatch(fetchDependents());
-        } else if (dependents.error) {
+        }
+
+        // Check dependents state separately from fetch trigger to ensure
+        // state updates are processed regardless of isFetching value
+        if (dependents.error) {
           setApiState('error');
         } else if (!dependents.loading && dependents?.data) {
           if (dependents.data.length > 0) {

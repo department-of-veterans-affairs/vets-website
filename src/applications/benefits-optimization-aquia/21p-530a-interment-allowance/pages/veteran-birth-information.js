@@ -24,12 +24,11 @@ export const veteranBirthInformationPage = {
     properties: {
       veteranInformation: {
         type: 'object',
-        required: ['dateOfBirth', 'placeOfBirth'],
+        required: ['dateOfBirth'],
         properties: {
           dateOfBirth: currentOrPastDateSchema,
           placeOfBirth: {
             type: 'object',
-            required: ['city', 'state'],
             properties: {
               city: textSchema,
               state: {

@@ -72,6 +72,8 @@ describe(`${appName} -- Status Page`, () => {
       '/my-health/travel-pay/claims/498d60a7-fe33-4ea8-80a6-80a27d9fc212',
     );
 
+    cy.wait('@details');
+
     cy.get('span[data-testid="claim-details-claim-number"]').should(
       'include.text',
       'Claim number: TC0000000000001',

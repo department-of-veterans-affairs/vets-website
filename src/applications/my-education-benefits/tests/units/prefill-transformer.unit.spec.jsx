@@ -12,11 +12,10 @@ import {
 
 describe('prefillTransformer', () => {
   describe('Scenario: Basic claimant data (no VAP)', () => {
-    it('transforms claimantId and contact method with mebKickerNotificationEnabled=OFF', () => {
+    it('transforms claimantId correctly and sets kicker fields to undefined when not eligible', () => {
       const state = {
         featureToggles: {
           loading: false,
-          mebKickerNotificationEnabled: false,
         },
         data: {
           bankInformation: {},
@@ -39,28 +38,7 @@ describe('prefillTransformer', () => {
         .undefined;
     });
 
-    it('transforms claimantId with mebKickerNotificationEnabled=ON, but no eligibility => undefined', () => {
-      const state = {
-        featureToggles: {
-          loading: false,
-          mebKickerNotificationEnabled: true,
-        },
-        data: {
-          bankInformation: {},
-          formData: claimantInfo.data.formData,
-        },
-        user: { profile: {} },
-      };
-
-      const transformed = prefillTransformer({}, {}, {}, state);
-
-      expect(transformed?.formData?.[formFields.activeDutyKicker]).to.be
-        .undefined;
-      expect(transformed?.formData?.[formFields.selectedReserveKicker]).to.be
-        .undefined;
-    });
-
-    it('mebKickerNotificationEnabled=ON with claimant eligible for BOTH active & reserve => "Yes"', () => {
+    it('sets both kicker fields to "Yes" when claimant is eligible for both active duty and reserve kickers', () => {
       const claimantCopy = JSON.parse(JSON.stringify(claimantInfo));
       claimantCopy.data.formData.data.attributes.claimant.eligibleForActiveDutyKicker = true;
       claimantCopy.data.formData.data.attributes.claimant.eligibleForReserveKicker = true;
@@ -68,7 +46,6 @@ describe('prefillTransformer', () => {
       const state = {
         featureToggles: {
           loading: false,
-          mebKickerNotificationEnabled: true,
         },
         data: {
           bankInformation: {},
@@ -87,14 +64,13 @@ describe('prefillTransformer', () => {
       );
     });
 
-    it('mebKickerNotificationEnabled=ON with only Reserve kicker => "Yes" for reserve, undefined for active', () => {
+    it('sets only reserve kicker to "Yes" when claimant is eligible for reserve kicker only', () => {
       const claimantCopy = JSON.parse(JSON.stringify(claimantInfo));
       claimantCopy.data.formData.data.attributes.claimant.eligibleForReserveKicker = true;
 
       const state = {
         featureToggles: {
           loading: false,
-          mebKickerNotificationEnabled: true,
         },
         data: {
           bankInformation: {},
@@ -346,6 +322,281 @@ describe('prefillTransformer', () => {
       expect(addressObject?.street).to.eql('123 Fake St.');
       expect(addressObject?.city).to.eql('Fakeville');
       expect(addressObject?.state).to.eql('FA');
+    });
+  });
+
+  describe('Scenario: Bank account confirmation fields prefill', () => {
+    it('correctly pre-fills routingNumberConfirmation field from bankInformation', () => {
+      const state = {
+        featureToggles: { loading: false },
+        data: {
+          formData: claimantInfo.data.formData,
+          bankInformation: {
+            accountType: 'Checking',
+            accountNumber: '12345678',
+            routingNumber: '123456789',
+          },
+        },
+        user: { profile: {} },
+      };
+
+      const result = prefillTransformer({}, {}, {}, state);
+
+      expect(
+        result.formData?.[formFields.viewDirectDeposit]?.[
+          formFields.bankAccount
+        ]?.routingNumberConfirmation,
+      ).to.equal('123456789');
+    });
+
+    it('correctly pre-fills accountNumberConfirmation field from bankInformation', () => {
+      const state = {
+        featureToggles: { loading: false },
+        data: {
+          formData: claimantInfo.data.formData,
+          bankInformation: {
+            accountType: 'Savings',
+            accountNumber: '98765432101',
+            routingNumber: '987654321',
+          },
+        },
+        user: { profile: {} },
+      };
+
+      const result = prefillTransformer({}, {}, {}, state);
+
+      expect(
+        result.formData?.[formFields.viewDirectDeposit]?.[
+          formFields.bankAccount
+        ]?.accountNumberConfirmation,
+      ).to.equal('98765432101');
+    });
+
+    it('handles missing bankInformation gracefully', () => {
+      const state = {
+        featureToggles: { loading: false },
+        data: {
+          formData: claimantInfo.data.formData,
+          bankInformation: {},
+        },
+        user: { profile: {} },
+      };
+
+      const result = prefillTransformer({}, {}, {}, state);
+
+      expect(
+        result.formData?.[formFields.viewDirectDeposit]?.[
+          formFields.bankAccount
+        ]?.routingNumberConfirmation,
+      ).to.be.undefined;
+      expect(
+        result.formData?.[formFields.viewDirectDeposit]?.[
+          formFields.bankAccount
+        ]?.accountNumberConfirmation,
+      ).to.be.undefined;
+    });
+  });
+
+  describe('Scenario: Military base address prefill logic', () => {
+    it('sets livesOnMilitaryBase to true when addressType is MILITARY_OVERSEAS', () => {
+      const militaryOverseasState = {
+        featureToggles: { loading: false },
+        data: {
+          formData: claimantInfo.data.formData,
+          bankInformation: {},
+        },
+        user: {
+          profile: {
+            vapContactInfo: {
+              mailingAddress: {
+                addressLine1: '123 Base Rd',
+                city: 'APO',
+                stateCode: 'AE',
+                zipCode: '12345',
+                countryCodeIso3: 'USA',
+                addressType: 'MILITARY_OVERSEAS',
+              },
+            },
+          },
+        },
+      };
+
+      const result = prefillTransformer({}, {}, {}, militaryOverseasState);
+
+      expect(
+        result.formData?.[formFields.viewMailingAddress]?.[
+          formFields.livesOnMilitaryBase
+        ],
+      ).to.be.true;
+    });
+
+    it('sets livesOnMilitaryBase to true when city is APO/FPO/DPO', () => {
+      const militaryCities = ['APO', 'FPO', 'DPO'];
+
+      militaryCities.forEach(city => {
+        const militaryCityState = {
+          featureToggles: { loading: false },
+          data: {
+            formData: claimantInfo.data.formData,
+            bankInformation: {},
+          },
+          user: {
+            profile: {
+              vapContactInfo: {
+                mailingAddress: {
+                  addressLine1: '123 Base Rd',
+                  city,
+                  stateCode: 'NY', // civilian state
+                  zipCode: '12345',
+                  countryCodeIso3: 'USA',
+                  addressType: 'DOMESTIC',
+                },
+              },
+            },
+          },
+        };
+
+        const result = prefillTransformer({}, {}, {}, militaryCityState);
+
+        expect(
+          result.formData?.[formFields.viewMailingAddress]?.[
+            formFields.livesOnMilitaryBase
+          ],
+        ).to.be.true;
+      });
+    });
+
+    it('sets livesOnMilitaryBase to true when state is AE/AA/AP', () => {
+      const militaryStates = ['AE', 'AA', 'AP'];
+
+      militaryStates.forEach(state => {
+        const militaryStateState = {
+          featureToggles: { loading: false },
+          data: {
+            formData: claimantInfo.data.formData,
+            bankInformation: {},
+          },
+          user: {
+            profile: {
+              vapContactInfo: {
+                mailingAddress: {
+                  addressLine1: '123 Base Rd',
+                  city: 'Austin', // civilian city
+                  stateCode: state,
+                  zipCode: '12345',
+                  countryCodeIso3: 'USA',
+                  addressType: 'DOMESTIC',
+                },
+              },
+            },
+          },
+        };
+
+        const result = prefillTransformer({}, {}, {}, militaryStateState);
+
+        expect(
+          result.formData?.[formFields.viewMailingAddress]?.[
+            formFields.livesOnMilitaryBase
+          ],
+        ).to.be.true;
+      });
+    });
+
+    it('sets livesOnMilitaryBase to false for civilian addresses', () => {
+      const civilianAddressState = {
+        featureToggles: { loading: false },
+        data: {
+          formData: claimantInfo.data.formData,
+          bankInformation: {},
+        },
+        user: {
+          profile: {
+            vapContactInfo: {
+              mailingAddress: {
+                addressLine1: '123 Main St',
+                city: 'Austin',
+                stateCode: 'TX',
+                zipCode: '78701',
+                countryCodeIso3: 'USA',
+                addressType: 'DOMESTIC',
+              },
+            },
+          },
+        },
+      };
+
+      const result = prefillTransformer({}, {}, {}, civilianAddressState);
+
+      expect(
+        result.formData?.[formFields.viewMailingAddress]?.[
+          formFields.livesOnMilitaryBase
+        ],
+      ).to.be.false;
+    });
+
+    it('handles missing address data gracefully', () => {
+      const noAddressState = {
+        featureToggles: { loading: false },
+        data: {
+          formData: claimantInfo.data.formData,
+          bankInformation: {},
+        },
+        user: {
+          profile: {
+            vapContactInfo: {
+              mailingAddress: {
+                addressLine1: '123 Main St',
+                city: null,
+                stateCode: undefined,
+                zipCode: '78701',
+                countryCodeIso3: 'USA',
+                addressType: 'DOMESTIC',
+              },
+            },
+          },
+        },
+      };
+
+      const result = prefillTransformer({}, {}, {}, noAddressState);
+
+      expect(
+        result.formData?.[formFields.viewMailingAddress]?.[
+          formFields.livesOnMilitaryBase
+        ],
+      ).to.be.false;
+    });
+
+    it('detects military address from fallback claimant address when VAP is missing', () => {
+      const claimantCopy = JSON.parse(JSON.stringify(claimantInfo));
+      claimantCopy.data.formData.data.attributes.claimant.contactInfo = {
+        addressLine1: '123 Military Base',
+        city: 'APO',
+        stateCode: 'AE',
+        zipCode: '12345',
+        countryCodeIso3: 'USA',
+        addressType: 'DOMESTIC',
+      };
+
+      const militaryFallbackState = {
+        featureToggles: { loading: false },
+        data: {
+          formData: claimantCopy.data.formData,
+          bankInformation: {},
+        },
+        user: {
+          profile: {
+            vapContactInfo: {}, // No VAP mailing address
+          },
+        },
+      };
+
+      const result = prefillTransformer({}, {}, {}, militaryFallbackState);
+
+      expect(
+        result.formData?.[formFields.viewMailingAddress]?.[
+          formFields.livesOnMilitaryBase
+        ],
+      ).to.be.true;
     });
   });
 });

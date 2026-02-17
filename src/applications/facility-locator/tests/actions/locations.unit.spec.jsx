@@ -98,6 +98,7 @@ describe('actions: locations', () => {
                 nextPage: null,
                 prevPage: null,
                 totalPages: 1,
+                totalEntries: 2,
               },
             },
             links: {},
@@ -176,6 +177,7 @@ describe('actions: locations', () => {
               nextPage: null,
               prevPage: null,
               totalPages: 1,
+              totalEntries: 2,
             },
           },
           links: {},
@@ -310,6 +312,120 @@ describe('actions: locations', () => {
           error: ['API Error'],
         }),
       ).to.be.true;
+    });
+
+    it('should correct totalEntries when API returns inconsistent pagination for single page', async () => {
+      const mockData = {
+        meta: {
+          pagination: {
+            currentPage: 1,
+            totalPages: 1, // Single page
+            totalEntries: 10, // Claims 10 results
+            nextPage: null,
+            prevPage: null,
+          },
+        },
+        data: [
+          {
+            attributes: { lat: 0.5, long: 0.5 },
+            distance: 0,
+          },
+          {
+            attributes: { lat: 0.6, long: 0.6 },
+            distance: 1,
+          },
+          {
+            attributes: { lat: 0.7, long: 0.7 },
+            distance: 2,
+          },
+          // Only 3 actual results
+        ],
+      };
+
+      LocatorApi.searchWithBounds
+        .withArgs(
+          null,
+          mockBounds,
+          LocationType.HEALTH,
+          'PrimaryCare',
+          1,
+          mockCenter,
+          mockRadius,
+        )
+        .resolves(mockData);
+
+      await fetchLocations(
+        null,
+        mockBounds,
+        LocationType.HEALTH,
+        'PrimaryCare',
+        1,
+        dispatch,
+        mockCenter,
+        mockRadius,
+      );
+
+      const dispatchedPayload = dispatch.getCall(0).args[0].payload;
+
+      // Should correct totalEntries from 10 to 3 to match actual data
+      expect(dispatchedPayload.meta.pagination.totalEntries).to.equal(3);
+      expect(dispatchedPayload.data.length).to.equal(3);
+    });
+
+    it('should NOT correct totalEntries for multi-page results', async () => {
+      const mockData = {
+        meta: {
+          pagination: {
+            currentPage: 1,
+            totalPages: 5, // Multiple pages
+            totalEntries: 50, // Claims 50 total results
+            nextPage: 2,
+            prevPage: null,
+          },
+        },
+        data: [
+          { attributes: { lat: 0.5, long: 0.5 }, distance: 0 },
+          { attributes: { lat: 0.6, long: 0.6 }, distance: 1 },
+          { attributes: { lat: 0.7, long: 0.7 }, distance: 2 },
+          { attributes: { lat: 0.8, long: 0.8 }, distance: 3 },
+          { attributes: { lat: 0.9, long: 0.9 }, distance: 4 },
+          { attributes: { lat: 1.0, long: 1.0 }, distance: 5 },
+          { attributes: { lat: 1.1, long: 1.1 }, distance: 6 },
+          { attributes: { lat: 1.2, long: 1.2 }, distance: 7 },
+          { attributes: { lat: 1.3, long: 1.3 }, distance: 8 },
+          { attributes: { lat: 1.4, long: 1.4 }, distance: 9 },
+          // 10 results on this page
+        ],
+      };
+
+      LocatorApi.searchWithBounds
+        .withArgs(
+          null,
+          mockBounds,
+          LocationType.HEALTH,
+          'PrimaryCare',
+          1,
+          mockCenter,
+          mockRadius,
+        )
+        .resolves(mockData);
+
+      await fetchLocations(
+        null,
+        mockBounds,
+        LocationType.HEALTH,
+        'PrimaryCare',
+        1,
+        dispatch,
+        mockCenter,
+        mockRadius,
+      );
+
+      const dispatchedPayload = dispatch.getCall(0).args[0].payload;
+
+      // Should NOT modify totalEntries for multi-page results
+      expect(dispatchedPayload.meta.pagination.totalEntries).to.equal(50);
+      expect(dispatchedPayload.data.length).to.equal(10);
     });
   });
 

@@ -44,7 +44,7 @@ describe('Date Format function', () => {
         null,
         'America/New_York',
       ),
-    ).to.equal('2-24-2025_33911AM');
+    ).to.equal('2-24-2025_33911am');
   });
 
   it('should handle timeZone conversion', () => {
@@ -56,7 +56,7 @@ describe('Date Format function', () => {
         null,
         'America/Chicago',
       ),
-    ).to.equal('2-25-2025_13911AM');
+    ).to.equal('2-25-2025_13911am');
   });
 
   it('should prefix the formatted date with "dateWithMessage" if provided', () => {

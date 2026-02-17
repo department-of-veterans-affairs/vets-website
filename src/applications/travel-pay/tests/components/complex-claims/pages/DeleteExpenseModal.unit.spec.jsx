@@ -4,10 +4,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import DeleteExpenseModal from '../../../../components/complex-claims/pages/DeleteExpenseModal';
+import { EXPENSE_TYPE_KEYS } from '../../../../constants';
 
 describe('DeleteExpenseModal', () => {
   const defaultProps = {
-    expenseCardTitle: 'Mileage Expense',
+    expenseCardTitle: 'Parking',
     expenseType: 'Mileage',
     visible: true,
     onCloseEvent: sinon.spy(),
@@ -16,39 +17,51 @@ describe('DeleteExpenseModal', () => {
   };
 
   it('renders the modal with correct title and body text', () => {
-    const { getByText, container } = render(
-      <DeleteExpenseModal {...defaultProps} />,
-    );
+    const { container } = render(<DeleteExpenseModal {...defaultProps} />);
 
-    // Check modal props
+    // Check modal visibility
     expect($('va-modal[visible="true"]', container)).to.exist;
-    expect($('va-modal[modal-title="Delete your mileage expense?"]', container))
-      .to.exist;
-    expect(
-      $('va-modal[primary-button-text="Yes, delete this expense"]', container),
-    ).to.exist;
-    expect(
-      $('va-modal[secondary-button-text="No, keep this expense"]', container),
-    ).to.exist;
 
-    // Check description
-    expect(
-      getByText(
-        'This will delete your mileage expense from your list of expenses.',
-      ),
-    ).to.exist;
+    // Check modal title
+    expect($('va-modal[modal-title="Delete this expense?"]', container)).to
+      .exist;
+
+    // Check primary and secondary buttons
+    expect($('va-modal[primary-button-text="Delete"]', container)).to.exist;
+    expect($('va-modal[secondary-button-text="Keep expense"]', container)).to
+      .exist;
+
+    // Check description content
+    const description = container.querySelector('p');
+    expect(description).to.exist;
+    if (defaultProps.expenseType === EXPENSE_TYPE_KEYS.MILEAGE) {
+      const strong = description.querySelector('strong');
+      expect(strong).to.exist;
+      expect(strong.textContent).to.equal('Mileage');
+      expect(description.textContent).to.include('This will delete your');
+      expect(description.textContent).to.include('expense.');
+    }
   });
 
-  it('calls onPrimaryButtonClick when Yes button is clicked', async () => {
-    const onPrimary = sinon.spy();
+  it('renders bold expenseCardTitle for non-Mileage expenses', () => {
+    const props = { ...defaultProps, expenseType: 'Parking' };
+    const { container } = render(<DeleteExpenseModal {...props} />);
 
+    const description = container.querySelector('p');
+    expect(description).to.exist;
+
+    const strong = description.querySelector('strong');
+    expect(strong).to.exist;
+    expect(strong.textContent).to.equal('Parking');
+    expect(description.textContent).to.include('parking expense');
+  });
+
+  it('calls onPrimaryButtonClick when Delete button is clicked', async () => {
+    const onPrimary = sinon.spy();
     const { container } = render(
       <DeleteExpenseModal {...defaultProps} onPrimaryButtonClick={onPrimary} />,
     );
 
-    expect(
-      $('va-modal[primary-button-text="Yes, delete this expense"]', container),
-    ).to.exist;
     $('va-modal', container).__events.primaryButtonClick();
 
     await waitFor(() => {
@@ -56,9 +69,8 @@ describe('DeleteExpenseModal', () => {
     });
   });
 
-  it('calls onSecondaryButtonClick when No button is clicked', async () => {
+  it('calls onSecondaryButtonClick when Keep expense button is clicked', async () => {
     const onSecondary = sinon.spy();
-
     const { container } = render(
       <DeleteExpenseModal
         {...defaultProps}
@@ -66,9 +78,6 @@ describe('DeleteExpenseModal', () => {
       />,
     );
 
-    expect(
-      $('va-modal[secondary-button-text="No, keep this expense"]', container),
-    ).to.exist;
     $('va-modal', container).__events.secondaryButtonClick();
 
     await waitFor(() => {
@@ -78,12 +87,10 @@ describe('DeleteExpenseModal', () => {
 
   it('calls onCloseEvent when modal is closed', () => {
     const onClose = sinon.spy();
-
     const { container } = render(
       <DeleteExpenseModal {...defaultProps} onCloseEvent={onClose} />,
     );
 
-    // Simulate close event manually since VaModal doesn’t have a native close button in the DOM
     const modal = container.querySelector('va-modal');
     modal.dispatchEvent(new CustomEvent('closeEvent'));
 
@@ -91,10 +98,11 @@ describe('DeleteExpenseModal', () => {
   });
 
   it('does not render content when visible is false', () => {
-    const { queryByText } = render(
+    const { queryByTestId } = render(
       <DeleteExpenseModal {...defaultProps} visible={false} />,
     );
 
-    expect(queryByText('Delete your mileage expense?')).to.not.exist;
+    const modal = queryByTestId('delete-expense-modal');
+    expect(modal.getAttribute('visible')).to.equal('false');
   });
 });

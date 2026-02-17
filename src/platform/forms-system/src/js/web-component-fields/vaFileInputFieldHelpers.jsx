@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 import { uploadFile as _uploadFile } from 'platform/forms-system/src/js/actions';
 import {
@@ -14,13 +14,18 @@ import {
 const MAX_FILE_SIZE_MB = 25;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
-const createPayload = (file, formId, password = null) => {
+const createPayloadDefault = (file, formId, password = null) => {
   const payload = new FormData();
   payload.set('form_id', formId);
   payload.append('file', file);
   if (password) payload.append('password', password);
   return payload;
 };
+
+const parseResponseDefault = ({ data }, file) => ({
+  ...data?.attributes,
+  file,
+});
 
 export const uploadFile = (
   fileUploadUrl,
@@ -30,13 +35,15 @@ export const uploadFile = (
   onProgress,
   accept = '.pdf,.jpeg,.png',
   password,
+  createPayload,
+  parseResponse,
 ) => {
   const uiOptions = {
     fileUploadUrl,
     fileTypes: accept.split(','),
     maxSize: MAX_FILE_SIZE_BYTES,
-    createPayload,
-    parseResponse: ({ data }, file) => ({ ...data?.attributes, file }),
+    createPayload: createPayload || createPayloadDefault,
+    parseResponse: parseResponse || parseResponseDefault,
   };
 
   return dispatch => {
@@ -71,7 +78,11 @@ export const getFileSize = num => {
 export const allKeysAreEmpty = (obj = {}) =>
   Object.keys(obj).every(key => !obj[key] || isEmpty(obj[key]));
 
-export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
+export const useFileUpload = (
+  { fileUploadUrl, formNumber, createPayload, parseResponse },
+  accept,
+  dispatch,
+) => {
   const [isUploading, setIsUploading] = useState(false);
   const [percentUploaded, setPercentUploaded] = useState(null);
 
@@ -98,6 +109,8 @@ export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
         onFileUploading,
         accept,
         password,
+        createPayload,
+        parseResponse,
       ),
     );
   };
@@ -106,15 +119,83 @@ export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
 };
 
 /**
+ * Converts the size of a file from bytes to a more human-readable format for
+ * rendering the file size label. This function calculates the file size in
+ * appropriate units (B, KB, MB, GB, TB) based on the size provided. It uses
+ * logarithmic scaling to determine the unit, then formats the size to one
+ * decimal place for units KB and above.
+ *
+ * @param {number} filesSize - The size of the file in bytes
+ * @returns {string} - The formatted file size with appropriate unit
+ */
+export function formatFileSize(filesSize) {
+  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+  if (filesSize === 0) return '0 B';
+
+  const unitIndex = Math.floor(Math.log(filesSize) / Math.log(1024));
+  if (unitIndex === 0) return `${filesSize} ${units[unitIndex]}`;
+
+  const sizeInUnit = filesSize / 1024 ** unitIndex;
+  const formattedSize = sizeInUnit.toFixed(unitIndex < 2 ? 0 : 1);
+  return `${formattedSize}\xa0${units[unitIndex]}`;
+}
+
+/** Return an error message if a file is too big or too small
+ * @param {string | undefined} type - the type of the uploaded file or undefined if a limit for that type was not provided
+ * @param {number} size - the size of the file
+ * @param {boolean} tooBig - was the error because the file was too big - false means it was due to file being too small
+ * @returns {string} - The error message
+ */
+function getFileSizeError(type, size, tooBig) {
+  const description = type ? `${type} files` : 'Files';
+  const comparison = tooBig ? 'less than' : 'at least';
+  return `We can't upload your file because it's too ${
+    tooBig ? 'big' : 'small'
+  }. ${description} must be ${comparison} ${formatFileSize(size)}.`;
+}
+
+/** @typedef {maxFileSize: number, minFileSize: number} FileSizeLimits */
+/** @typedef {Record<string, FileSizeLimits>} FileSizeMap */
+
+/**
+ * @param {File} file - uploaded file
+ * @param {FileSizeMap} fileSizesByFileType - map of file types to max/min file sizes
+ * @returns {string | null}
+ */
+function checkFileSizeByFileType(
+  file,
+  fileSizesByFileType = {},
+  maxFileSize,
+  minFileSize,
+) {
+  const { type, size } = file;
+  const _type = type.includes('text') ? 'txt' : type.split('/')[1];
+  const limits = fileSizesByFileType[_type] || fileSizesByFileType.default;
+  const { minFileSize: _minFileSize, maxFileSize: _maxFileSize } = limits || {};
+
+  // file size limits from fileSizesByFileType take precedence if the user also provides maxFileSize / minFileSize in uiOptions
+  const maxLimit = _maxFileSize || maxFileSize;
+  const minLimit = _minFileSize || minFileSize;
+  let error = null;
+  if (maxLimit && size > maxLimit) {
+    error = getFileSizeError(!!limits && _type, maxLimit, true);
+  }
+  if (minLimit && size < minLimit) {
+    error = getFileSizeError(!!limits && _type, minLimit, false);
+  }
+  return error;
+}
+
+/**
  *
  * @param {File} file the file to upload
  * @param { boolean } disallowEncryptedPdfs flag to prevent encrypted pdfs
  * @param { Object[] } files array of previously uploaded files
- * @returns {string | null} the error if one present else null
+ * @returns {Promise<string | null>} the error if one present else null
  */
 export async function getFileError(
   file,
-  { disallowEncryptedPdfs },
+  { disallowEncryptedPdfs, fileSizesByFileType, maxFileSize, minFileSize },
   files = [],
 ) {
   let fileError = null;
@@ -127,7 +208,15 @@ export async function getFileError(
     }
   }
 
-  // don't do more checks if there is a duplicate file
+  // always check file size; we don't rely on component file size validation
+  fileError = checkFileSizeByFileType(
+    file,
+    fileSizesByFileType,
+    maxFileSize,
+    minFileSize,
+  );
+
+  // don't do more checks if there is a duplicate file or file size error
   if (!fileError) {
     const checks = await standardFileChecks(file);
     encryptedCheck = !!checks.checkIsEncryptedPdf;
@@ -226,4 +315,31 @@ export function simulateUploadMultiple(
     }
     per += Math.random() * PERCENT_MAX_STEP;
   }, INTERVAL);
+}
+
+const UPLOADING_MESSAGE = 'Uploading file';
+const UPLOADING_DONE_MESSAGE = 'File uploaded';
+export function VaProgressUploadAnnounce({ uploading }) {
+  const [sRMessage, setSRMessage] = useState('');
+  useEffect(
+    () => {
+      if (uploading) {
+        setSRMessage(UPLOADING_MESSAGE);
+      } else if (!uploading && sRMessage) {
+        setSRMessage(UPLOADING_DONE_MESSAGE);
+      }
+    },
+    [uploading],
+  );
+
+  return (
+    <span
+      aria-atomic="true"
+      role="alert"
+      aria-live="polite"
+      className="sr-only"
+    >
+      {sRMessage}
+    </span>
+  );
 }

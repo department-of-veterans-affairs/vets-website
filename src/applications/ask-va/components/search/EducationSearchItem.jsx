@@ -1,9 +1,12 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import {
   VaPagination,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState, useEffect, useRef } from 'react';
-import { connect } from 'react-redux';
+
 import { focusElement } from 'platform/utilities/ui';
 
 const EducationSearchItem = ({
@@ -13,8 +16,9 @@ const EducationSearchItem = ({
   onChange,
   searchInput,
   dataError,
+  defaultValue,
 }) => {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(defaultValue);
 
   const onPageChange = async page => {
     await getData(`${pageURL}&page=${page}&per_page=10`);
@@ -122,5 +126,32 @@ function mapStateToProps(state) {
     searchInput: state.askVA.searchLocationInput,
   };
 }
+
+EducationSearchItem.propTypes = {
+  dataError: PropTypes.shape({
+    hasError: PropTypes.bool,
+    errorMessage: PropTypes.string,
+  }),
+  defaultValue: PropTypes.string,
+  facilityData: PropTypes.shape({
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        attributes: PropTypes.shape({
+          facilityCode: PropTypes.string,
+          name: PropTypes.string,
+          physicalState: PropTypes.string,
+          physicalZip: PropTypes.string,
+        }),
+      }),
+    ),
+    meta: PropTypes.shape({ count: PropTypes.number }),
+    links: PropTypes.shape({ self: PropTypes.string }),
+  }),
+  getData: PropTypes.func,
+  pageURL: PropTypes.string,
+  searchInput: PropTypes.string,
+  onChange: PropTypes.func,
+};
 
 export default connect(mapStateToProps)(EducationSearchItem);

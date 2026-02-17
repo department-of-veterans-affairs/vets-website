@@ -47,6 +47,19 @@ const HomePage = ({
 
   return (
     <>
+      <va-alert
+        class="vads-u-margin-top--1 vads-u-margin-bottom--3"
+        close-btn-aria-label="Close notification"
+        status="info"
+        visible
+      >
+        <h2 slot="headline">
+          We’ve updated this tool to check 2026 income limits
+        </h2>
+        <p className="vads-u-margin-bottom--0">
+          You can check your income limits for 2026 now.
+        </p>
+      </va-alert>
       <h1>Income limits and your VA health care</h1>
       <p>
         Answer 2 questions to find out how your income may affect your VA health

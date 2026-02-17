@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca Agent Orange Exposure config', () => {
   const {
@@ -12,8 +14,8 @@ describe('hca Agent Orange Exposure config', () => {
   } = formConfig.chapters.militaryService.pages.agentOrangeExposure;
 
   // run test for correct number of fields on the page
-  const expectedNumberOfFields = 2;
-  testNumberOfFormFields(
+  const expectedNumberOfFields = 1;
+  testNumberOfWebComponentFields(
     formConfig,
     schema,
     uiSchema,
@@ -23,11 +25,35 @@ describe('hca Agent Orange Exposure config', () => {
 
   // run test for correct number of error messages on submit
   const expectedNumberOfErrors = 0;
-  testNumberOfErrorsOnSubmit(
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        exposedToAgentOrange: {
+          type: 'boolean',
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      exposedToAgentOrange: {
+        'ui:title': {},
+        'ui:description': {},
+        'ui:webComponentField': {},
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });

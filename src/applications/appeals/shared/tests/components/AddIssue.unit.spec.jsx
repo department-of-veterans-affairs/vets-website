@@ -20,8 +20,6 @@ import {
   MAX_YEARS_PAST,
 } from '../../constants';
 import errorMessages from '../../content/errorMessages';
-
-import { maxNameLength } from '../../../995/validations/issues';
 import { validateDate } from '../../../995/validations/date';
 
 describe('<AddIssue>', () => {
@@ -36,13 +34,13 @@ describe('<AddIssue>', () => {
     },
   ];
   const setup = ({
+    appAbbr = 'SC',
     index = null,
     setFormData = () => {},
     goToPath = () => {},
     data = {},
     onReviewPage = false,
-    description = null,
-    validations = { maxNameLength, validateDate },
+    validations = { validateDate },
   } = {}) => {
     if (index !== null) {
       window.sessionStorage.setItem(LAST_ISSUE, index);
@@ -52,6 +50,7 @@ describe('<AddIssue>', () => {
     return (
       <div>
         <AddIssue
+          appAbbr={appAbbr}
           setFormData={setFormData}
           data={data}
           goToPath={goToPath}
@@ -59,7 +58,6 @@ describe('<AddIssue>', () => {
           testingIndex={index}
           appStateData={data}
           validations={validations}
-          description={description}
         />
       </div>
     );
@@ -81,11 +79,12 @@ describe('<AddIssue>', () => {
     expect($('va-text-input', container)).to.exist;
     expect($('va-memorable-date', container)).to.exist;
   });
-  it('should render description', () => {
-    const page = setup({ description: <span id="test-span" /> });
+
+  it('should render SC description', () => {
+    const page = setup();
     const { container } = render(page);
     expect($('h3', container)).to.exist;
-    expect($('#test-span', container)).to.exist;
+    expect($('[data-testid="sc-description"]', container)).to.exist;
   });
 
   it('should submit when valid', () => {
@@ -168,10 +167,10 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const date = $('va-memorable-date', container);
-    expect(date.error).to.eq(errorMessages.decisions.pastDate);
-    expect(date.invalidMonth).to.be.false;
-    expect(date.invalidDay).to.be.false;
-    expect(date.invalidYear).to.be.true;
+
+    expect(date.error).to.match(
+      /This decision date isn't available to add yet\. You can enter it after [A-Za-z]+\.? \d+, \d{4}, \d{1,2}:\d{2} [ap]\.m\. [A-Z]{3}\./,
+    );
   });
   it('should show an error when the issue date is > 1 year in the future', () => {
     const decisionDate = parseDateWithOffset({ months: 13 });
@@ -187,10 +186,9 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const date = $('va-memorable-date', container);
-    expect(date.error).to.contain(errorMessages.decisions.pastDate);
-    expect(date.invalidMonth).to.be.false;
-    expect(date.invalidDay).to.be.false;
-    expect(date.invalidYear).to.be.true;
+    expect(date.error).to.match(
+      /This decision date isn't available to add yet\. You can enter it after [A-Za-z]+\.? \d+, \d{4}, \d{1,2}:\d{2} [ap]\.m\. [A-Z]{3}\./,
+    );
   });
   it('should show an error when the issue date is > 100 years in the past', () => {
     const decisionDate = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });

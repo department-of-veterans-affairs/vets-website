@@ -1,0 +1,156 @@
+{
+  "form526": {
+    "standardClaim": true,
+    "isVaEmployee": true,
+    "isTerminallyIll": false,
+    "homelessOrAtRisk": "homeless",
+    "homelessHousingSituation": "other",
+    "otherHomelessHousing": "Under a bridge",
+    "needToLeaveHousing": true,
+    "homelessnessContact": {
+      "name": "John Doe",
+      "phoneNumber": "1231231234"
+    },
+    "bankAccountType": "Checking",
+    "bankAccountNumber": "1233",
+    "bankRoutingNumber": "123123123",
+    "bankName": "Bigbank Co.",
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "forwardingAddress": {
+      "country": "USA",
+      "addressLine1": "321 Secondary",
+      "city": "Smallcity",
+      "state": "NY",
+      "zipCode": "54321",
+      "effectiveDate": {
+        "from": "2099-12-01",
+        "to": "2100-01-01"
+      }
+    },
+    "hasSeparationPay": false,
+    "hasTrainingPay": false,
+    "vaTreatmentFacilities": [
+      {
+        "treatmentCenterName": "VA Medical Center",
+        "treatmentDateRange": {
+          "from": "2018-06-XX"
+        },
+        "treatmentCenterAddress": {
+          "country": "USA",
+          "city": "Washington",
+          "state": "DC"
+        },
+        "treatedDisabilityNames": [
+          "Hearing Loss"
+        ]
+      }
+    ],
+    "toxicExposure": {
+      "conditions": {
+        "asthma": true,
+        "hearingloss": true
+      },
+      "gulfWar1990": {
+        "iraq": true,
+        "kuwait": true
+      },
+      "gulfWar1990Details": {
+        "iraq": {
+          "startDate": "1991-01-15",
+          "endDate": "1991-03-31"
+        },
+        "kuwait": {
+          "startDate": "1991-02-01",
+          "endDate": "1991-04-15"
+        }
+      },
+      "herbicide": {
+        "vietnam": true
+      },
+      "herbicideDetails": {
+        "vietnam": {
+          "startDate": "1968-05-01",
+          "endDate": "1969-12-31"
+        }
+      },
+      "otherExposures": {
+        "asbestos": true,
+        "radiation": true
+      },
+      "otherExposuresDetails": {
+        "asbestos": {
+          "startDate": "2000-01-01",
+          "endDate": "2000-12-31"
+        },
+        "radiation": {
+          "startDate": "2001-01-01",
+          "endDate": "2001-06-30"
+        }
+      }
+    },
+    "serviceInformation": {
+      "servicePeriods": [
+        {
+          "serviceBranch": "Army",
+          "dateRange": {
+            "from": "1967-01-01",
+            "to": "2004-01-01"
+          }
+        }
+      ]
+    },
+    "newPrimaryDisabilities": [
+      {
+        "condition": "Hearing Loss",
+        "cause": "NEW",
+        "primaryDescription": "Hearing loss due to loud noises during service"
+      },
+      {
+        "condition": "Asthma",
+        "cause": "NEW",
+        "primaryDescription": "Asthma caused by toxic exposure during service"
+      }
+    ],
+    "form4142": {
+      "completed2024Form": false,
+      "providerFacility": [
+        {
+          "providerFacilityName": "Test Medical Center",
+          "providerFacilityAddress": {
+            "street": "123 Medical Dr",
+            "city": "Medical City",
+            "state": "VA",
+            "postalCode": "12345",
+            "country": "USA"
+          },
+          "treatedDisabilityNames": [
+            "Hearing Loss"
+          ],
+          "treatmentDateRange": [
+            {
+              "from": "2020-01-01",
+              "to": "2023-12-31"
+            }
+          ]
+        }
+      ]
+    },
+    "attachments": [
+      {
+        "name": "test-document.pdf",
+        "confirmationCode": "552067b2-9c5d-4bd8-bcd8-bc621b51a145",
+        "attachmentId": "L015"
+      }
+    ]
+  }
+}

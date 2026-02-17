@@ -49,20 +49,6 @@
     }
   }
 }
-.yellow-ribbon-title {
-  color: lab(0% 0 0) !important;
-  width: fit-content;
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-}
-legend.yellow-ribbon-title {
-  width: 43.6rem !important;
-  @media (max-width: $small-screen) {
-    width: 100%;
-    padding-inline: var(--vads-spacing-1);
-  }
-}
 .yellow-program-list {
   ul {
     width: 100%;
@@ -139,4 +125,8 @@ label[id="root_unlimitedIndividuals-label"] {
    @media (max-width: $small-screen) {
     width: 20.125rem;
   }
+}
+
+.custom-classname {
+  display: block !important;
 }

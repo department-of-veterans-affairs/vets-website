@@ -1,0 +1,14 @@
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+.form-22-0803-container
+  .progress-box.progress-box-schemaform
+  form
+  va-memorable-date {
+  white-space: nowrap;
+
+  @media (max-width: $small-screen) {
+    white-space: normal;
+  }
+}

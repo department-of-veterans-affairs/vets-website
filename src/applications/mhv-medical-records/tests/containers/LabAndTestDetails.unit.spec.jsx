@@ -1,8 +1,10 @@
 import { expect } from 'chai';
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
 import { waitFor } from '@testing-library/dom';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import reducer from '../../reducers';
 import user from '../fixtures/user.json';
 import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
@@ -165,6 +167,69 @@ describe('LabAndTestDetails radiology', () => {
         selector: 'h1',
       }),
     ).to.exist;
+  });
+});
+
+describe('Accelerated LabAndTestDetails', () => {
+  const buildInitialState = () => ({
+    user: {
+      ...user,
+      profile: {
+        ...user.profile,
+        facilities: [
+          {
+            facilityId: '983',
+            isCerner: true,
+          },
+        ],
+      },
+    },
+    mr: {
+      labsAndTests: {
+        labsAndTestsDetails: convertLabsAndTestsRecord(radiologyMhv),
+        labsAndTestsList: [],
+      },
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+        data: {
+          cernerFacilities: [{ vhaId: '983' }],
+        },
+      },
+    },
+    featureToggles: {
+      loading: false,
+      [FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryEnabled]: true,
+      [FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryLabsAndTestsEnabled]: true,
+    },
+  });
+
+  const renderDetailsWithPath = path =>
+    renderWithStoreAndRouter(
+      <Switch>
+        <Route path="/labs-and-tests/:labId">
+          <LabAndTestDetails />
+        </Route>
+      </Switch>,
+      {
+        initialState: buildInitialState(),
+        reducers: reducer,
+        path,
+      },
+    );
+
+  it('renders the <RadiologyDetails /> component when labId starts with r', () => {
+    const screen = renderDetailsWithPath('/labs-and-tests/r12345');
+    expect(screen.getByText('Imaging provider', { exact: true })).to.exist;
+  });
+
+  it('does NOT render <RadiologyDetails /> when labId does not start with r', () => {
+    const screen = renderDetailsWithPath('/labs-and-tests/12345');
+    const imagingProvider = screen.queryByText('Imaging provider', {
+      exact: true,
+    });
+    expect(imagingProvider).to.equal(null);
   });
 });
 

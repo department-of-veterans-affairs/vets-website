@@ -36,7 +36,7 @@ describe('CDP - Overpayments and copay bills (overview)', () => {
     it('should display No-copays-or-debts alert - C17928', () => {
       cy.get('h2').should(
         'contain',
-        'You don’t have any current VA debt or copay bills',
+        'You don’t have any outstanding overpayments or copay bills',
       );
 
       cy.findByTestId('balance-card-copay').should('not.exist');
@@ -99,7 +99,7 @@ describe('CDP - Overpayments and copay bills (overview)', () => {
         .within(() => {
           cy.findByTestId('card-amount')
             .invoke('text')
-            .should('contain', '3,305.40');
+            .should('contain', '4,655.40');
         });
 
       cy.findByTestId('balance-card-copay').should('not.exist');
@@ -141,7 +141,7 @@ describe('CDP - Overpayments and copay bills (overview)', () => {
         .within(() => {
           cy.findByTestId('card-amount')
             .invoke('text')
-            .should('contain', '3,305.40');
+            .should('contain', '4,655.40');
         });
 
       cy.findByTestId('balance-card-zero-copay').should('not.exist');
@@ -175,7 +175,7 @@ describe('CDP - Overpayments and copay bills (overview)', () => {
       cy.wait(['@features', '@copaysNE', '@debtsNE']);
 
       cy.findByTestId('overview-page-title').should('exist');
-      cy.findByTestId('no-healthcare-alert').should('exist');
+      cy.findByTestId('copay-no-health-care-alert').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });

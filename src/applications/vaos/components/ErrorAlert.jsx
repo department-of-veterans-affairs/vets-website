@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import InfoAlert from './InfoAlert';
 import { selectAppointmentTravelClaim } from '../appointment-list/redux/selectors';
+import useAmbAvs from './AppointmentCard/hooks/useAmbAvs';
+import { selectFeatureAddOhAvs } from '../redux/selectors';
 
 const ErrorAlert = ({ appointment }) => {
-  const avsLink = appointment.avsPath;
-  const avsError = avsLink?.includes('Error');
+  const featureAddOHAvs = useSelector(state => selectFeatureAddOhAvs(state));
+
+  const { hasRetrievalErrors } = useAmbAvs(appointment, featureAddOHAvs);
+  const hasAvsError = Boolean(appointment.avsError) || hasRetrievalErrors;
   const claimData = selectAppointmentTravelClaim(appointment);
   if (!claimData) return null;
 
@@ -25,7 +30,7 @@ const ErrorAlert = ({ appointment }) => {
     </>
   );
 
-  if (!claimData.metadata.success && avsError) {
+  if (!claimData.metadata.success && hasAvsError) {
     return (
       <InfoAlert
         status="error"
@@ -37,7 +42,7 @@ const ErrorAlert = ({ appointment }) => {
         </p>
         <ul>
           <li>File a claim for travel reimbursement</li>
-          <li>Get your after-visit summary</li>
+          <li>Get your after-visit summaries</li>
         </ul>
         <p>Try refreshing this page. Or check back later.</p>
         {btsssMessage}
@@ -61,7 +66,7 @@ const ErrorAlert = ({ appointment }) => {
     );
   }
 
-  if (avsError) {
+  if (hasAvsError) {
     return (
       <InfoAlert
         status="error"
@@ -69,7 +74,7 @@ const ErrorAlert = ({ appointment }) => {
       >
         <p data-testid="avs-error-content">
           We’re sorry. There’s a problem with our system. We can’t access
-          after-visit summary for this appointment right now.
+          after-visit summaries for this appointment right now.
         </p>
         <p>Try refreshing this page. Or check back later.</p>
       </InfoAlert>

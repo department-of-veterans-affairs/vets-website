@@ -19,7 +19,7 @@
       }
     },
     "claimantQuestion": {
-      "patientType": "spouseOrParent"
+      "patientType": "parent"
     },
     "claimantPersonalInfo": {
       "claimantFullName": {

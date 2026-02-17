@@ -10,10 +10,12 @@ import PicklistRemoveDependentFollowup from '../../components/picklist/PicklistR
 import PicklistRemoveDependentsReview from '../../components/picklist/PicklistRemoveDependentsReview';
 import PicklistRemoveDependentFollowupReview from '../../components/picklist/PicklistRemoveDependentFollowupReview';
 
+const MANAGE_DEPENDENTS_PATH = 'options-selection/remove-active-dependents';
+
 // Remove dependents picklist page in optionSelection chapter
 export const removeDependentsPicklistOptions = {
   title: 'Manage dependents',
-  path: 'options-selection/remove-active-dependents',
+  path: MANAGE_DEPENDENTS_PATH,
   uiSchema: {},
   schema: { type: 'object', properties: {} },
   CustomPage: PicklistRemoveDependents,
@@ -38,7 +40,10 @@ export const removeDependentsPicklistFollowupPages = {
       depends: formData =>
         showV3Picklist(formData) &&
         hasAwardedDependents(formData) &&
-        hasSelectedPicklistItems(formData),
+        hasSelectedPicklistItems(formData) &&
+        isRemovingDependents(formData),
+      // Force save-in-progress to return to the main picklist page
+      returnUrl: `/${MANAGE_DEPENDENTS_PATH}`,
     },
   },
 };

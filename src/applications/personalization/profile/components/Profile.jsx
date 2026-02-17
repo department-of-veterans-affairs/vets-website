@@ -16,6 +16,7 @@ import {
 } from '@@profile/selectors';
 
 import { fetchPersonalInformation as fetchPersonalInformationAction } from '~/platform/user/profile/vap-svc/actions/personalInformation';
+import { fetchSchedulingPreferences as fetchSchedulingPreferencesAction } from '~/platform/user/profile/vap-svc/actions/schedulingPreferences';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import DowntimeNotification, {
   externalServices,
@@ -38,16 +39,17 @@ import {
   isLOA1 as isLOA1Selector,
   isLOA3 as isLOA3Selector,
   isInMPI as isInMVISelector,
+  isSchedulingPreferencesPilotEligible as isSchedulingPreferencesPilotEligibleSelector,
   isLoggedIn,
 } from '~/platform/user/selectors';
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 
 import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
-
 import ProfileWrapper from './ProfileWrapper';
 import { canAccess } from '../../common/selectors';
 import { fetchDirectDeposit as fetchDirectDepositAction } from '../actions/directDeposit';
@@ -59,19 +61,26 @@ class Profile extends Component {
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
+      fetchSchedulingPreferences,
       fetchTotalDisabilityRating,
       isLOA3,
       isInMVI,
       shouldFetchDirectDeposit,
       shouldFetchTotalDisabilityRating,
+      shouldFetchSchedulingPreferences,
       connectDrupalSourceOfTruthCerner,
       togglesLoaded,
     } = this.props;
     connectDrupalSourceOfTruthCerner();
+
     if (isLOA3 && isInMVI) {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
+    }
+
+    if (togglesLoaded && shouldFetchSchedulingPreferences) {
+      fetchSchedulingPreferences();
     }
 
     if (togglesLoaded && shouldFetchDirectDeposit) {
@@ -89,9 +98,11 @@ class Profile extends Component {
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
+      fetchSchedulingPreferences,
       fetchTotalDisabilityRating,
       isLOA3,
       shouldFetchDirectDeposit,
+      shouldFetchSchedulingPreferences,
       shouldFetchTotalDisabilityRating,
       isInMVI,
       togglesLoaded,
@@ -116,6 +127,17 @@ class Profile extends Component {
         !prevProps.shouldFetchDirectDeposit)
     ) {
       fetchDirectDeposit();
+    }
+
+    if (
+      (togglesLoaded &&
+        !prevProps.togglesLoaded &&
+        shouldFetchSchedulingPreferences) ||
+      (togglesLoaded &&
+        shouldFetchSchedulingPreferences &&
+        !prevProps.shouldFetchSchedulingPreferences)
+    ) {
+      fetchSchedulingPreferences();
     }
   }
 
@@ -148,6 +170,8 @@ class Profile extends Component {
       profile2Enabled: this.props.shouldShowProfile2,
       profileHealthCareSettingsPage: this.props
         .shouldShowHealthCareSettingsPage,
+      profileHideHealthCareContacts: this.props
+        .shouldHideHealthCareContactsPage,
     });
 
     // feature toggled route
@@ -155,6 +179,10 @@ class Profile extends Component {
       routes = routes.filter(
         item => item.name !== 'Accredited representative or VSO',
       );
+    }
+
+    if (!this.props.isSchedulingPreferencesPilotEligible) {
+      routes = routes.filter(item => !item.requiresSchedulingPreferencesPilot);
     }
 
     return (
@@ -248,21 +276,25 @@ Profile.propTypes = {
   fetchFullName: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
+  fetchSchedulingPreferences: PropTypes.func.isRequired,
   fetchTotalDisabilityRating: PropTypes.func.isRequired,
   initializeDowntimeWarnings: PropTypes.func.isRequired,
   isBlocked: PropTypes.bool.isRequired,
   isDowntimeWarningDismissed: PropTypes.bool.isRequired,
   isInMVI: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
+  isSchedulingPreferencesPilotEligible: PropTypes.bool.isRequired,
   profileToggles: PropTypes.object.isRequired,
   shouldFetchDirectDeposit: PropTypes.bool.isRequired,
+  shouldFetchSchedulingPreferences: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
-  shouldShowAccreditedRepTab: PropTypes.bool.isRequired,
-  shouldShowHealthCareSettingsPage: PropTypes.bool.isRequired,
-  shouldShowProfile2: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
+  shouldHideHealthCareContactsPage: PropTypes.bool,
+  shouldShowAccreditedRepTab: PropTypes.bool,
+  shouldShowHealthCareSettingsPage: PropTypes.bool,
+  shouldShowProfile2: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
@@ -284,15 +316,23 @@ const mapStateToProps = state => {
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
+  const isSchedulingPreferencesPilotEligible = isSchedulingPreferencesPilotEligibleSelector(
+    state,
+  );
   const shouldShowAccreditedRepTab =
     profileToggles?.representativeStatusEnableV2Features;
   const shouldShowProfile2 = profileToggles?.profile2Enabled;
   const shouldShowHealthCareSettingsPage =
     profileToggles?.profileHealthCareSettingsPage;
+  const shouldHideHealthCareContactsPage =
+    profileToggles?.profileHideHealthCareContacts;
   const shouldFetchDirectDeposit =
     isEligibleForDD &&
     isLighthouseAvailable &&
     !profileToggles?.profileHideDirectDeposit;
+
+  const shouldFetchSchedulingPreferences =
+    isSchedulingPreferencesPilotEligible || false;
 
   // block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);
@@ -344,14 +384,17 @@ const mapStateToProps = state => {
     isInMVI,
     isLOA3,
     shouldFetchDirectDeposit,
+    shouldHideHealthCareContactsPage,
     shouldShowAccreditedRepTab,
     shouldShowProfile2,
     shouldShowHealthCareSettingsPage,
+    shouldFetchSchedulingPreferences,
     shouldFetchTotalDisabilityRating,
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),
     isBlocked,
+    isSchedulingPreferencesPilotEligible,
     togglesLoaded,
     profileToggles,
   };
@@ -361,6 +404,7 @@ const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
+  fetchSchedulingPreferences: fetchSchedulingPreferencesAction,
   fetchDirectDeposit: fetchDirectDepositAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
   initializeDowntimeWarnings,
@@ -369,9 +413,14 @@ const mapDispatchToProps = {
     dispatchConnectDrupalSourceOfTruthCerner,
 };
 
+const ProfileWithMonitoring = props => {
+  useBrowserMonitoring();
+  return <Profile {...props} />;
+};
+
 export { Profile as ProfileUnconnected, mapStateToProps };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Profile);
+)(ProfileWithMonitoring);

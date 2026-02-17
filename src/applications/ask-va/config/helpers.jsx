@@ -1,8 +1,8 @@
+import React from 'react';
 import { format, isValid, parse } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { enUS } from 'date-fns/locale';
-import React from 'react';
-import { clockIcon, folderIcon, starIcon, successIcon } from '../utils/helpers';
+import PropTypes from 'prop-types';
 
 import {
   branchOfServiceRuleforCategories,
@@ -25,6 +25,7 @@ import {
   TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
 } from '../constants';
+import { clockIcon, folderIcon, starIcon, successIcon } from '../utils/helpers';
 
 export const ServerErrorAlert = () => (
   <>
@@ -35,8 +36,8 @@ export const ServerErrorAlert = () => (
       We’re sorry. Something went wrong on our end
     </h2>
     <p className="vads-u-font-size--base">
-      Please refresh this page or check back later. You can also sign out of
-      VA.gov and try signing back into this page.
+      Refresh this page or check back later. You can also sign out of VA.gov and
+      try signing back into this page.
     </p>
   </>
 );
@@ -703,13 +704,13 @@ export const getDescriptiveTextFromCRM = status => {
     case 'in progress':
       return 'Your inquiry is currently being reviewed by an agent.';
     case 'solved':
-      return 'Your inquiry has been closed. If you have additional questions please open a new inquiry.';
+      return 'Your inquiry has been closed. If you have additional questions, open a new inquiry.';
     case 'reopened':
       return 'Your reply to this inquiry has been received, and the inquiry is currently being reviewed by an agent.';
     case 'closed':
       return 'Closed.';
     case 'reference number not found':
-      return "No Results found. We could not locate an inquiry that matches your ID. Please check the number and re-enter. If you receive this message again, you can submit a new inquiry with your original question. Include your old inquiry number for reference and we'll work to get your question fully answered.";
+      return "No Results found. We could not locate an inquiry that matches your ID. Check the number and re-enter. If you receive this message again, you can submit a new inquiry with your original question. Include your old inquiry number for reference and we'll work to get your question fully answered.";
     default:
       return 'error';
   }
@@ -795,6 +796,12 @@ export const DownloadLink = ({ fileUrl, fileName, fileSize }) => {
       {`${fileName}${fileSizeText}`}
     </a>
   );
+};
+
+DownloadLink.propTypes = {
+  fileName: PropTypes.string.isRequired,
+  fileUrl: PropTypes.string.isRequired,
+  fileSize: PropTypes.number,
 };
 
 export const isEducationNonVRE = formData =>

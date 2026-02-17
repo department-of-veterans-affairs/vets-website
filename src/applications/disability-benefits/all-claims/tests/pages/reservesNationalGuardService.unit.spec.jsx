@@ -8,7 +8,7 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { mount } from 'enzyme';
 import { waitFor } from '@testing-library/dom';
-import { daysFromToday } from '../utils/dates/dateHelper';
+import { daysFromToday } from '../../utils/dates/formatting';
 import formConfig from '../../config/form';
 
 describe('Reserve and National Guard Information', () => {

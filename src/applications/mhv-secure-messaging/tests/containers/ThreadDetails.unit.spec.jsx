@@ -256,7 +256,7 @@ describe('Thread Details container', () => {
 
     expect(
       document.querySelector('va-alert-expandable').getAttribute('trigger'),
-    ).to.equal('Only use messages for non-urgent needs');
+    ).to.equal('How to get help sooner for urgent needs');
 
     expect(
       screen.getByText(
@@ -285,6 +285,7 @@ describe('Thread Details container', () => {
           triageTeams: recipients,
         },
         threadDetails: {
+          isStale: isOlderThan(getLastSentMessage(messages).sentDate, 45),
           cannotReply: isOlderThan(getLastSentMessage(messages).sentDate, 45),
           drafts: [
             {
@@ -354,6 +355,8 @@ describe('Thread Details container', () => {
           triageTeams: recipients,
         },
         threadDetails: {
+          isStale: isOlderThan(getLastSentMessage(messages).sentDate, 45),
+          replyDisabled: false,
           cannotReply: isOlderThan(getLastSentMessage(messages).sentDate, 45),
           drafts: [
             {
@@ -404,15 +407,287 @@ describe('Thread Details container', () => {
     expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
       '2 messages in this conversation',
     );
-    expect(screen.getByText('Find your VA health facility', { selector: 'a' }))
-      .to.exist;
-    expect(screen.getByText(Alerts.Message.CANNOT_REPLY_BODY.OH)).to.exist;
+    const findFacilityLink = screen.container.querySelector(
+      'va-link[data-dd-action-name="cannot-reply-find-facility"]',
+    );
+    expect(findFacilityLink).to.exist;
+    expect(screen.getByText(Alerts.Message.STALE_REPLY_BODY.OH)).to.exist;
     expect(
       screen.getByTestId(`message-body-${olderMessage.messageId}`).textContent,
     ).to.contain(olderMessage.body);
     expect(screen.queryByTestId('send-button')).to.be.null;
     expect(screen.queryByTestId('save-draft-button')).to.be.null;
     expect(screen.getByTestId('delete-draft-button')).to.exist;
+  });
+
+  it('with reply draft where message is stale but cannotReply is true (useCanReplyField enabled)', async () => {
+    stubUseFeatureToggles({
+      useCanReplyField: true,
+    });
+
+    const { category, subject } = replyDraftThread.threadDetails.messages[0];
+
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        triageTeams: {
+          triageTeams: recipients,
+        },
+        threadDetails: {
+          isStale: isOlderThan(getLastSentMessage(messages).sentDate, 45),
+          replyDisabled: true,
+          cannotReply: true,
+          drafts: [
+            {
+              ...replyDraftMessage,
+              draftDate: new Date(),
+            },
+          ],
+          messages: [
+            {
+              ...replyMessage,
+              isOhMessage: true,
+              sentDate: subDays(new Date(), 46).toISOString(),
+            },
+            olderMessage,
+          ],
+          isLoading: false,
+          replyToName: replyMessage.senderName,
+          threadFolderId: '0',
+          replyToMessageId: replyMessage.messageId,
+        },
+      },
+    };
+
+    const screen = setup(state);
+
+    expect(
+      await screen.findByText(`Messages: ${category} - ${subject}`, {
+        exact: false,
+      }),
+    ).to.exist;
+
+    expect(document.querySelector('va-textarea')).to.not.exist;
+
+    // Even though the message is stale, since replyDisabled is true, the stale alert is overridden
+    expect(screen.queryByTestId('expired-alert-message')).to.be.null;
+    expect(screen.queryByTestId('cannot-reply-alert-message')).to.exist;
+  });
+
+  it('with reply draft where message is not stale but cannotReply is true (useCanReplyField enabled)', async () => {
+    // Enable the useCanReplyField feature toggle
+    stubUseFeatureToggles({
+      useCanReplyField: true,
+    });
+
+    const { category, subject } = replyDraftThread.threadDetails.messages[0];
+
+    // Message is LESS than 45 days old
+    const draftMessageHistoryUpdated = [
+      {
+        ...replyMessage,
+        sentDate: subDays(new Date(), 10).toISOString(), // 10 days old (less than 45)
+      },
+      olderMessage,
+    ];
+
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        triageTeams: {
+          triageTeams: recipients,
+        },
+        threadDetails: {
+          // isStale should be false since message is less than 45 days old
+          isStale: false,
+          // cannotReply is true from API (provider disabled replies)
+          cannotReply: true,
+          replyDisabled: true,
+          drafts: [
+            {
+              ...replyDraftMessage,
+              draftDate: new Date(),
+            },
+          ],
+          messages: [...draftMessageHistoryUpdated],
+          isLoading: false,
+          replyToName: replyMessage.senderName,
+          threadFolderId: '0',
+          replyToMessageId: replyMessage.messageId,
+        },
+        recipients: {
+          allRecipients: noBlockedRecipients.mockAllRecipients,
+          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            noBlockedRecipients.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            noBlockedRecipients.associatedBlockedTriageGroupsQty,
+          noAssociations: noBlockedRecipients.noAssociations,
+          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+        },
+      },
+    };
+
+    const screen = setup(state);
+
+    expect(
+      await screen.findByText(`Messages: ${category} - ${subject}`, {
+        exact: false,
+      }),
+    ).to.exist;
+
+    expect(document.querySelector('va-textarea')).to.not.exist;
+
+    // Since the message is less than 45 days old, the stale alert should NOT be shown
+    // but the cannot reply alert should be shown
+    expect(screen.queryByTestId('expired-alert-message')).to.be.null;
+    expect(screen.queryByTestId('cannot-reply-alert-message')).to.exist;
+
+    // Since cannotReply is true, the reply button is missing
+    expect(screen.queryByText('Reply')).to.not.exist;
+  });
+
+  it('with reply draft where message is not stale but replyDisabled is true (useCanReplyField disabled)', async () => {
+    // Enable the useCanReplyField feature toggle
+    stubUseFeatureToggles({
+      useCanReplyField: false,
+    });
+
+    const { category, subject } = replyDraftThread.threadDetails.messages[0];
+
+    // Message is LESS than 45 days old
+    const draftMessageHistoryUpdated = [
+      {
+        ...replyMessage,
+        sentDate: subDays(new Date(), 10).toISOString(), // 10 days old (less than 45)
+      },
+      olderMessage,
+    ];
+
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        triageTeams: {
+          triageTeams: recipients,
+        },
+        threadDetails: {
+          isStale: false,
+          replyDisabled: true,
+          cannotReply: false,
+          drafts: [
+            {
+              ...replyDraftMessage,
+              draftDate: new Date(),
+            },
+          ],
+          messages: [...draftMessageHistoryUpdated],
+          isLoading: false,
+          replyToName: replyMessage.senderName,
+          threadFolderId: '0',
+          replyToMessageId: replyMessage.messageId,
+        },
+        recipients: {
+          allRecipients: noBlockedRecipients.mockAllRecipients,
+          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            noBlockedRecipients.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            noBlockedRecipients.associatedBlockedTriageGroupsQty,
+          noAssociations: noBlockedRecipients.noAssociations,
+          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+        },
+      },
+    };
+
+    const screen = setup(state);
+
+    expect(
+      await screen.findByText(`Messages: ${category} - ${subject}`, {
+        exact: false,
+      }),
+    ).to.exist;
+
+    expect(document.querySelector('va-textarea')).to.exist;
+    expect(document.querySelector('section.old-reply-message-body')).to.be.null;
+
+    expect(screen.queryByTestId('send-button')).to.exist;
+    expect(screen.queryByTestId('save-draft-button')).to.exist;
+    // Delete draft button should still exist
+    expect(screen.getByTestId('delete-draft-button')).to.exist;
+
+    // Even though cannotReply is true, since useCanReplyField is disabled, the reply button should still show
+    expect(screen.queryByTestId('expired-alert-message')).to.be.null;
+    expect(screen.getByText('Reply')).to.exist;
+  });
+
+  it('displays BlockedTriageGroupAlert if recipient is blocked even when stale and replyDisabled', async () => {
+    stubUseFeatureToggles({
+      useCanReplyField: true,
+    });
+
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        threadDetails: {
+          ...threadDetails,
+          isStale: true,
+          cannotReply: true,
+          replyDisabled: true,
+        },
+        recipients: {
+          allRecipients: oneBlockedRecipient.mockAllRecipients,
+          allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
+          blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            oneBlockedRecipient.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            oneBlockedRecipient.associatedBlockedTriageGroupsQty,
+          noAssociations: oneBlockedRecipient.noAssociations,
+          allTriageGroupsBlocked: oneBlockedRecipient.allTriageGroupsBlocked,
+        },
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: [
+              {
+                facilityId: '662',
+                isCerner: false,
+              },
+              {
+                facilityId: '636',
+                isCerner: false,
+              },
+            ],
+          },
+        },
+      },
+    };
+
+    const screen = setup(state);
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+    );
+
+    // BlockedTriageGroupAlert trumps stale and cannot reply alerts
+    expect(screen.queryByTestId('expired-alert-message')).to.be.null;
+    expect(screen.queryByTestId('cannot-reply-alert-message')).to.be.null;
   });
 
   it.skip('with a reply draft message on a replied to message is LESS than 45 days', async () => {
@@ -510,7 +785,7 @@ describe('Thread Details container', () => {
         .to.equal('success');
     });
   });
-  it('with an active reply draft, focuses on draft section when clicking Edit reply draft button', async () => {
+  it('with an active reply draft, displays draft section expanded by default', async () => {
     const draftMessageHistoryUpdated = [
       {
         ...replyMessage,
@@ -556,16 +831,14 @@ describe('Thread Details container', () => {
     };
     const screen = setup(state);
 
-    const editDraftReplyButton = screen.getByTestId('edit-draft-button-body');
-    expect(editDraftReplyButton).to.exist;
+    // Verify draft section is visible with the updated header text
     const draftReplyHeader = screen.getByTestId('draft-reply-header');
     expect(draftReplyHeader).to.exist;
-    await waitFor(() => {
-      fireEvent.click(editDraftReplyButton);
-      expect(document.activeElement).to.equal(
-        screen.getByTestId('draft-reply-header'),
-      );
-    });
+    expect(draftReplyHeader.textContent).to.equal('Draft reply');
+
+    // Verify the accordion item is open (expanded by default)
+    const accordionItem = document.querySelector('va-accordion-item');
+    expect(accordionItem).to.have.attribute('open');
   });
 
   it.skip('responds to sending a reply draft with attachments', async () => {

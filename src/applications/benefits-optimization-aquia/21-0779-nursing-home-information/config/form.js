@@ -10,6 +10,7 @@ import { ConfirmationPage } from '@bio-aquia/21-0779-nursing-home-information/co
 import { IntroductionPage } from '@bio-aquia/21-0779-nursing-home-information/containers/introduction-page';
 import manifest from '@bio-aquia/21-0779-nursing-home-information/manifest.json';
 import { transform } from '@bio-aquia/21-0779-nursing-home-information/config/transform';
+import { customSubmit } from '@bio-aquia/shared/utils';
 import { GetHelp } from '@bio-aquia/21-0779-nursing-home-information/components/get-help';
 import { preSubmitSignatureConfig } from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-signature';
 import {
@@ -42,6 +43,7 @@ import {
   monthlyCostsUiSchema,
   monthlyCostsSchema,
 } from '@bio-aquia/21-0779-nursing-home-information/pages';
+import { isPatientSpouseOrParentOrChild } from '../utils';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -49,6 +51,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/form210779`,
   transformForSubmit: transform,
+  submit: customSubmit,
   trackingPrefix: '21-0779-nursing-home-information-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
@@ -113,16 +116,14 @@ const formConfig = {
           title: 'Claimant personal information',
           uiSchema: claimantPersonalInfoUiSchema,
           schema: claimantPersonalInfoSchema,
-          depends: formData =>
-            formData?.claimantQuestion?.patientType === 'spouseOrParent',
+          depends: isPatientSpouseOrParentOrChild,
         },
         claimantIdentificationInfo: {
           path: 'claimant-identification-info',
           title: 'Claimant identification',
           uiSchema: claimantIdentificationInfoUiSchema,
           schema: claimantIdentificationInfoSchema,
-          depends: formData =>
-            formData?.claimantQuestion?.patientType === 'spouseOrParent',
+          depends: isPatientSpouseOrParentOrChild,
         },
         veteranPersonalInfo: {
           path: 'veteran-personal-info',

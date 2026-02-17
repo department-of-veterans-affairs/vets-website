@@ -1,5 +1,6 @@
 import constants from 'vets-json-schema/dist/constants.json';
 import ADDRESS_DATA from 'platform/forms/address/data';
+import * as SCHEDULING_PREFERENCES from './schedulingPreferencesConstants';
 
 export const DEFAULT_ERROR_MESSAGE = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Try again later.`;
 
@@ -28,7 +29,7 @@ export const ADDRESS_TYPES_ALTERNATE = Object.freeze({
 
 export const ADDRESS_POU = {
   CORRESPONDENCE: 'CORRESPONDENCE',
-  RESIDENCE: 'RESIDENCE/CHOICE',
+  RESIDENCE: 'RESIDENCE',
 };
 
 export const MILITARY_BASE_DATA = 'view:livesOnMilitaryBase';
@@ -80,6 +81,7 @@ export const PERSONAL_INFO_FIELD_NAMES = {
 
 export const FIELD_NAMES = {
   ...PERSONAL_INFO_FIELD_NAMES,
+  ...SCHEDULING_PREFERENCES.FIELD_NAMES,
   HOME_PHONE: 'homePhone',
   MOBILE_PHONE: 'mobilePhone',
   WORK_PHONE: 'workPhone',
@@ -89,6 +91,7 @@ export const FIELD_NAMES = {
 };
 
 export const FIELD_TITLES = Object.freeze({
+  ...SCHEDULING_PREFERENCES.FIELD_TITLES,
   [FIELD_NAMES.PREFERRED_NAME]: 'Preferred name',
   [FIELD_NAMES.PRONOUNS]: 'Pronouns',
   [FIELD_NAMES.GENDER_IDENTITY]: 'Gender identity',
@@ -108,10 +111,14 @@ export const FIELD_TITLE_DESCRIPTIONS = {
   [FIELD_NAMES.MAILING_ADDRESS]:
     'We send your VA letters, bills, and prescriptions to this address.',
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'This is where you currently live.',
+  [FIELD_NAMES.HOME_PHONE]: 'We use this phone number to contact you.',
+  [FIELD_NAMES.MOBILE_PHONE]: 'We use this phone number to contact you.',
+  [FIELD_NAMES.WORK_PHONE]: 'We use this phone number to contact you.',
 };
 
 // These are intended to be used as values for HTML element id attributes
 export const FIELD_IDS = {
+  ...SCHEDULING_PREFERENCES.FIELD_IDS,
   [FIELD_NAMES.PREFERRED_NAME]: 'preferred-name',
   [FIELD_NAMES.PRONOUNS]: 'pronouns',
   [FIELD_NAMES.GENDER_IDENTITY]: 'gender-identity',
@@ -126,6 +133,31 @@ export const FIELD_IDS = {
   phoneNumbers: 'phone-numbers',
 };
 
+export const FIELD_SECTION_HEADERS = {
+  ...SCHEDULING_PREFERENCES.FIELD_SECTION_HEADERS,
+  // These section headers are used on /profile/edit when returning to scheduling preferences
+  [FIELD_NAMES.MAILING_ADDRESS]:
+    SCHEDULING_PREFERENCES.FIELD_SECTION_HEADERS[
+      FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+    ],
+  [FIELD_NAMES.HOME_PHONE]:
+    SCHEDULING_PREFERENCES.FIELD_SECTION_HEADERS[
+      FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+    ],
+  [FIELD_NAMES.MOBILE_PHONE]:
+    SCHEDULING_PREFERENCES.FIELD_SECTION_HEADERS[
+      FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+    ],
+  [FIELD_NAMES.WORK_PHONE]:
+    SCHEDULING_PREFERENCES.FIELD_SECTION_HEADERS[
+      FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+    ],
+  [FIELD_NAMES.EMAIL]:
+    SCHEDULING_PREFERENCES.FIELD_SECTION_HEADERS[
+      FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+    ],
+};
+
 export const PHONE_TYPE = {
   [FIELD_NAMES.MOBILE_PHONE]: 'MOBILE',
   [FIELD_NAMES.WORK_PHONE]: 'WORK',
@@ -133,6 +165,7 @@ export const PHONE_TYPE = {
 };
 
 export const ANALYTICS_FIELD_MAP = {
+  ...SCHEDULING_PREFERENCES.ANALYTICS_FIELD_MAP,
   INIT_VAP_SERVICE_ID: 'initialize-vet360-id',
   primaryTelephone: 'primary-telephone',
   alternateTelephone: 'alternative-telephone',
@@ -152,6 +185,7 @@ export const ANALYTICS_FIELD_MAP = {
 };
 
 export const API_ROUTES = {
+  ...SCHEDULING_PREFERENCES.API_ROUTES,
   INIT_VAP_SERVICE_ID: '/profile/initialize_vet360_id',
   TELEPHONES: '/profile/telephones',
   EMAILS: '/profile/email_addresses',

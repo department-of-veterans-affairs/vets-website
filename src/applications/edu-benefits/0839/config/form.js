@@ -10,7 +10,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PrivacyPolicy from '../components/PrivacyPolicy';
 import SubmissionInstructions from '../components/SubmissionInstructions';
-
 import {
   authorizedOfficial,
   agreementType,
@@ -18,6 +17,8 @@ import {
   institutionDetailsFacility,
   additionalInstitutionDetailsSummary,
   additionalInstitutionDetailsItem,
+  additionalInstitutionDetailsItemWithdrawal,
+  additionalInstitutionDetailsSummaryWithdrawal,
   yellowRibbonProgramRequest,
   eligibleIndividualsSupported,
   yellowRibbonProgramRequestSummary,
@@ -30,6 +31,7 @@ import {
   additionalInstitutionDetailsArrayOptions,
   showAdditionalPointsOfContact,
   arrayBuilderOptions,
+  CustomReviewTopContent,
 } from '../helpers';
 
 /** @type {FormConfig} */
@@ -66,6 +68,7 @@ const formConfig = {
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  CustomReviewTopContent,
   defaultDefinitions: {},
   customText: {
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
@@ -73,7 +76,10 @@ const formConfig = {
     continueAppButtonText: 'Continue your form',
     finishAppLaterMessage: 'Finish this form later',
     startNewAppButtonText: 'Start a new form',
+    reviewPageTitle: 'Review form',
+    submitButtonText: 'Continue',
   },
+  useCustomScrollAndFocus: true,
   transformForSubmit: transform,
   chapters: {
     personalInformationChapter: {
@@ -102,6 +108,7 @@ const formConfig = {
               goPath('acknowledgements');
             }
           },
+          updateFormData: agreementType.updateFormData,
         },
       },
     },
@@ -114,6 +121,8 @@ const formConfig = {
           uiSchema: acknowledgements.uiSchema,
           schema: acknowledgements.schema,
           pageClass: 'acknowledgements-page',
+          depends: formData =>
+            formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
         },
       },
     },
@@ -138,6 +147,7 @@ const formConfig = {
     additionalInstitutionDetailsChapter: {
       title: 'Additional locations',
       pages: {
+        // ADD FLOW
         ...arrayBuilderPages(
           additionalInstitutionDetailsArrayOptions,
           pageBuilder => ({
@@ -146,6 +156,8 @@ const formConfig = {
               title: 'Additional institution details',
               uiSchema: additionalInstitutionDetailsSummary.uiSchema,
               schema: additionalInstitutionDetailsSummary.schema,
+              depends: formData =>
+                formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
             }),
             additionalInstitutionDetailsItem: pageBuilder.itemPage({
               path: 'additional-institution-details/:index',
@@ -154,11 +166,42 @@ const formConfig = {
               showPagePerItem: true,
               uiSchema: additionalInstitutionDetailsItem.uiSchema,
               schema: additionalInstitutionDetailsItem.schema,
+              depends: formData =>
+                formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
+            }),
+          }),
+        ),
+
+        // WITHDRAW FLOW
+        ...arrayBuilderPages(
+          additionalInstitutionDetailsArrayOptions,
+          pageBuilder => ({
+            additionalInstitutionDetailsSummaryWithdrawal: pageBuilder.summaryPage(
+              {
+                path: 'additional-institution-details-withdrawal',
+                title: 'Additional institution details',
+                uiSchema:
+                  additionalInstitutionDetailsSummaryWithdrawal.uiSchema,
+                schema: additionalInstitutionDetailsSummaryWithdrawal.schema,
+                depends: formData =>
+                  formData?.agreementType === 'withdrawFromYellowRibbonProgram',
+              },
+            ),
+            additionalInstitutionDetailsItemWithdrawal: pageBuilder.itemPage({
+              path: 'additional-institution-details-withdrawal/:index',
+              title:
+                "Enter the VA facility code for the additional location you'd like to withdraw",
+              showPagePerItem: true,
+              uiSchema: additionalInstitutionDetailsItemWithdrawal.uiSchema,
+              schema: additionalInstitutionDetailsItemWithdrawal.schema,
+              depends: formData =>
+                formData?.agreementType === 'withdrawFromYellowRibbonProgram',
             }),
           }),
         ),
       },
     },
+
     yellowRibbonProgramRequestChapter: {
       title: 'Yellow Ribbon Program contributions',
       pages: {
@@ -168,25 +211,34 @@ const formConfig = {
             path: 'yellow-ribbon-program-request',
             uiSchema: yellowRibbonProgramRequest.uiSchema,
             schema: yellowRibbonProgramRequest.schema,
+            depends: formData =>
+              formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
           }),
           yellowRibbonProgramRequestSummary: pageBuilder.summaryPage({
             title: 'Yellow Ribbon Program contributions',
             path: 'yellow-ribbon-program-request/summary',
             uiSchema: yellowRibbonProgramRequestSummary.uiSchema,
             schema: yellowRibbonProgramRequestSummary.schema,
+            depends: formData =>
+              formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
           }),
           yellowRibbonProgramContribution: pageBuilder.itemPage({
             title: 'Add a Yellow Ribbon Program contribution',
             path: 'yellow-ribbon-program-request/:index',
             uiSchema: eligibleIndividualsSupported.uiSchema,
             schema: eligibleIndividualsSupported.schema,
+            depends: (formData, index) =>
+              formData?.agreementType !== 'withdrawFromYellowRibbonProgram' &&
+              index < 1,
           }),
           contributionLimitsAndDegreeLevel: pageBuilder.itemPage({
             title: 'Contribution limits and degree level',
             path: 'yellow-ribbon-program-request/:index/contribution-limits',
             uiSchema: contributionLimitsAndDegreeLevel.uiSchema,
             schema: contributionLimitsAndDegreeLevel.schema,
-            depends: formData => !!formData?.institutionDetails?.isUsaSchool,
+            depends: formData =>
+              formData?.agreementType !== 'withdrawFromYellowRibbonProgram' &&
+              !!formData?.institutionDetails?.isUsaSchool,
             pageClass: 'ypr-no-expander-border',
           }),
           foreignContributionLimitsAndDegreeLevel: pageBuilder.itemPage({
@@ -196,7 +248,10 @@ const formConfig = {
             uiSchema: foreignContributionLimitsAndDegreeLevel.uiSchema,
             schema: foreignContributionLimitsAndDegreeLevel.schema,
             depends: formData => {
-              return formData?.institutionDetails?.isUsaSchool === false;
+              return (
+                formData?.agreementType !== 'withdrawFromYellowRibbonProgram' &&
+                formData?.institutionDetails?.isUsaSchool === false
+              );
             },
             pageClass: 'ypr-no-expander-border',
           }),
@@ -211,13 +266,17 @@ const formConfig = {
           title: 'Points of contact',
           uiSchema: pointsOfContanct.uiSchema,
           schema: pointsOfContanct.schema,
+          depends: formData =>
+            formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
         },
         additionalPointsOfContact: {
           path: 'additional-points-of-contact',
           title: 'additional points of contact',
           uiSchema: additionalPointsOfContact.uiSchema,
           schema: additionalPointsOfContact.schema,
-          depends: formData => showAdditionalPointsOfContact(formData),
+          depends: formData =>
+            formData?.agreementType !== 'withdrawFromYellowRibbonProgram' &&
+            showAdditionalPointsOfContact(formData),
         },
       },
     },

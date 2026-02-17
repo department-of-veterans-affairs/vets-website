@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import HTMLStatementList from '../components/HTMLStatementList';
+import PreviousStatements from '../components/PreviousStatements';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import Modals from '../../combined/components/Modals';
-import Alert from '../../combined/components/MCPAlerts';
+import CopayAlertContainer from '../components/CopayAlertContainer';
 import {
   formatDate,
   verifyCurrentBalance,
@@ -85,9 +85,9 @@ const DetailPage = ({ match }) => {
           </time>
           . Payments after this date will not be reflected here.
         </p>
-        <Alert type={alert} copay={selectedCopay} />
+        <CopayAlertContainer type={alert} copay={selectedCopay} />{' '}
         <va-on-this-page class="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0" />
-        <HTMLStatementList selectedId={selectedId} />
+        <PreviousStatements selectedId={selectedId} />
         <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
         <FinancialHelp />
         <DisputeCharges />

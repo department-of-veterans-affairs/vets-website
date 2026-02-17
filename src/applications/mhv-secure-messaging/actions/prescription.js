@@ -1,21 +1,38 @@
-import { datadogRum } from '@datadog/browser-rum';
+import { dataDogLogger } from 'platform/monitoring/Datadog';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Actions } from '../util/actionTypes';
 import { getPrescriptionById as apiGetPrescriptionById } from '../api/RxApi';
 
-export const getPrescriptionById = prescriptionId => async dispatch => {
+export const getPrescriptionById = prescriptionId => async (
+  dispatch,
+  getState,
+) => {
   dispatch({ type: Actions.Prescriptions.CLEAR_PRESCRIPTION });
   try {
     dispatch({ type: Actions.Prescriptions.IS_LOADING });
     if (!prescriptionId || prescriptionId === 'undefined') {
       throw new Error('Prescription ID is required');
     }
-    const response = await apiGetPrescriptionById(prescriptionId);
+    const { featureToggles } = getState();
+    const isCernerPilot =
+      !featureToggles?.loading &&
+      featureToggles?.[FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot] === true;
+    const response = await apiGetPrescriptionById(
+      prescriptionId,
+      isCernerPilot,
+    );
     if (response?.errors) {
       const error = new Error(
         response.errors[0]?.title || 'API returned errors',
       );
       error.errors = response.errors; // Preserve the original errors array
       throw error;
+    }
+    if (
+      !response.data?.attributes?.prescriptionName ||
+      !response.data?.attributes?.prescriptionNumber
+    ) {
+      throw new Error('Non-VA medication');
     }
     dispatch({
       type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
@@ -29,13 +46,17 @@ export const getPrescriptionById = prescriptionId => async dispatch => {
         : error.title || error.detail || error.message || error;
 
     // Log error to Datadog with context
-    const errorMessage = `Error fetching medication data for Secure Messaging Rx renewal request: ${errorPayload}`;
-    datadogRum.addError(new Error(errorMessage), {
-      source: 'prescription_action',
-      prescriptionId,
-      originalError: errorPayload,
-      errorStatus: error?.status,
-      context: 'Secure Messaging - Medication Renewal Request',
+    dataDogLogger({
+      message: `Error fetching medication data for Secure Messaging Rx renewal request: ${errorPayload}`,
+      attributes: {
+        source: 'prescription_action',
+        prescriptionId,
+        originalError: errorPayload,
+        errorStatus: error?.status,
+        context: 'Secure Messaging - Medication Renewal Request',
+      },
+      status: 'error',
+      error: e,
     });
 
     dispatch({

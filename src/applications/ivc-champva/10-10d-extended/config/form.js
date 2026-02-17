@@ -20,7 +20,6 @@ import {
   certifierRelationshipSchema,
 } from '../chapters/signerInformation';
 
-// import mockData from '../tests/e2e/fixtures/data/maximal-test.json';
 import transformForSubmit from './submitTransformer';
 
 import {
@@ -47,11 +46,12 @@ import AddressSelectionPage, {
 } from '../components/FormPages/AddressSelectionPage';
 import AddressSelectionReviewPage from '../components/FormReview/AddressSelectionReviewPage';
 
+// import mockData from '../tests/e2e/fixtures/data/representative.json';
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  showReviewErrors: true,
   transformForSubmit,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms/10-10d-ext`,
   preSubmitInfo: {

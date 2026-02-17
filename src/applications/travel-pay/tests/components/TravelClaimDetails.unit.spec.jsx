@@ -27,6 +27,8 @@ describe('TravelClaimDetails', () => {
     loadingDetails = false,
     detailsError = null,
     detailsData = {},
+    appointmentLoading = false,
+    appointmentData = null,
   } = {}) => ({
     featureToggles: {
       loading: featureTogglesAreLoading,
@@ -41,6 +43,10 @@ describe('TravelClaimDetails', () => {
         isLoading: loadingDetails,
         error: detailsError,
         data: detailsData,
+      },
+      appointment: {
+        isLoading: appointmentLoading,
+        data: appointmentData,
       },
     },
     scheduledDowntime: {
@@ -72,16 +78,10 @@ describe('TravelClaimDetails', () => {
       reducers: reducer,
     });
 
-    expect(
-      screen.getByText(
-        /If you’re eligible for reimbursement, we’ll deposit your reimbursement in your bank account./i,
-      ),
-    );
-    expect(
-      screen.getByText(
-        /Even if you already set up direct deposit for your VA benefits, you’ll need to set up another direct deposit for VA travel pay reimbursements./i,
-      ),
-    );
+    expect(screen.getByText(/set up another direct deposit for VA travel pay/i))
+      .to.exist;
+    expect(screen.getByText(/deposit your funds in your bank account/i)).to
+      .exist;
   });
 
   it('redirects to the root path when claim statuses feature flag is false', () => {

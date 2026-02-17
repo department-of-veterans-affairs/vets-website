@@ -73,7 +73,7 @@ const DicAccordion = () => (
 
         <p>
           <va-link
-            href="https://www.va.gov/disability/eligibility/"
+            href="https://www.va.gov/disability/eligibility/special-claims/1151-claims-title-38/"
             external
             text="Learn more about Title 38 U.S.C. 1151 claims"
           />
@@ -94,7 +94,7 @@ const DicAccordion = () => (
 
         <p>
           <va-link
-            href="https://www.va.gov/resources/pact-act/"
+            href="https://www.va.gov/resources/the-pact-act-and-your-va-benefits/"
             external
             text="Learn more about the PACT Act and your VA benefits"
           />
@@ -109,16 +109,16 @@ export default {
   uiSchema: {
     ...titleUI('DIC benefits', Description),
     'ui:description': DicAccordion,
-    dicType: radioUI({
+    benefit: radioUI({
       title: CHAPTER_5.dicBenefits,
       labels: dicOptions,
     }),
   },
   schema: {
     type: 'object',
-    required: ['dicType'],
+    required: ['benefit'],
     properties: {
-      dicType: radioSchema(Object.keys(dicOptions)),
+      benefit: radioSchema(Object.keys(dicOptions)),
     },
   },
 };

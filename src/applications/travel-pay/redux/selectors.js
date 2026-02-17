@@ -27,6 +27,12 @@ export const selectExpenseCreationLoadingState = state =>
 export const selectExpenseUpdateLoadingState = state =>
   state.travelPay.complexClaim.expenses.update?.isLoading || false;
 
+export const selectExpenseFetchLoadingState = state =>
+  state.travelPay.complexClaim.expenses.fetch?.isLoading || false;
+
+export const selectDocumentDeleteLoadingState = state =>
+  state.travelPay.complexClaim.documentDelete?.isLoading || false;
+
 export const selectIsExpenseDeleting = (state, expenseId) => {
   const isDeleteLoading =
     state.travelPay.complexClaim.expenses.delete?.isLoading || false;
@@ -53,3 +59,11 @@ export const selectComplexClaimSubmissionState = state =>
 
 export const selectComplexClaimFetchLoadingState = state =>
   state.travelPay.complexClaim.claim.fetch?.isLoading || false;
+
+export const selectHasUnsavedExpenseChanges = state =>
+  state.travelPay.complexClaim.expenses.hasUnsavedChanges || false;
+
+export const selectReviewPageAlert = state => state.travelPay.reviewPageAlert;
+
+export const selectExpenseBackDestination = state =>
+  state.travelPay.complexClaim.expenseBackDestination;

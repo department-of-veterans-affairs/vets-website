@@ -9,6 +9,9 @@ jobs:
     name: Testing Reports Prep
     runs-on: ubuntu-latest
     continue-on-error: true
+    permissions:
+      id-token: write
+      contents: read
     outputs:
       app_list: ${{ env.APPLICATION_LIST }}
     steps:
@@ -32,9 +35,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -55,6 +57,9 @@ jobs:
   fetch-unit-tests-allow-list:
     name: Fetch Unit Test Stability Allow List
     runs-on: ubuntu-16-cores-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -62,9 +67,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -252,6 +256,9 @@ jobs:
   update-unit-test-allow-list:
     name: Update Unit Test Stability Allow List
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     needs: [unit-tests-stress-test, fetch-unit-tests-allow-list]
     if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure') }}
     continue-on-error: true
@@ -264,9 +271,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -280,24 +286,9 @@ jobs:
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
       - name: Download Unit Test results
         uses: ./.github/workflows/download-artifact

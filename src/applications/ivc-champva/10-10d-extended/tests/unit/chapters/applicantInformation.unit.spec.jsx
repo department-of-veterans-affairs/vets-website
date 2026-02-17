@@ -7,7 +7,6 @@ import {
   applicantPages,
   applicantOptions,
 } from '../../../chapters/applicantInformation';
-import { generateParticipantName } from '../../../chapters/medicareInformation';
 
 const mockStore = state => createStore(() => state);
 const minimalStore = mockStore({
@@ -255,42 +254,6 @@ describe('applicantPages depends functions', () => {
       const res = applicantPages.page18g.depends(fd, 0);
       expect(res).to.be.false;
     });
-  });
-});
-
-describe('generateParticipantName', () => {
-  it('should return name of matching participant if SSN hash matches', () => {
-    expect(
-      generateParticipantName({
-        medicareParticipant: '274d8b67cb72', // result derived from `toHash(123123123)`
-        'view:applicantObjects': [
-          {
-            applicantSsn: '123123123',
-            applicantName: { first: 'App1', last: 'Jones' },
-          },
-          {
-            applicantSsn: '234234234',
-            applicantName: { first: 'App2', last: 'Jones' },
-          },
-        ],
-      }),
-    ).to.eq('App1 Jones’s');
-  });
-  it('should return `Applicant` if no participant SSN hash matches', () => {
-    expect(
-      generateParticipantName({
-        medicareParticipant: '000000000000',
-        'view:applicantObjects': [
-          {
-            applicantSsn: '123123123',
-            applicantName: { first: 'App1', last: 'Jones' },
-          },
-        ],
-      }),
-    ).to.eq('Applicant');
-  });
-  it('should return `No participant` if no participant selected', () => {
-    expect(generateParticipantName(undefined)).to.eq('No participant');
   });
 });
 

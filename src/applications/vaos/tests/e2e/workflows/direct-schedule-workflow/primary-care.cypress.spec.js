@@ -132,7 +132,6 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();
 
@@ -201,7 +200,6 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();
 
@@ -263,7 +261,9 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ClinicChoicePageObject.assertUrl()
             .assertSingleClinic()
-            .selectClinic({ selection: /Yes. make my appointment here/i })
+            .selectClinic({
+              selection: /Yes. make my appointment at Clinic 1/i,
+            })
             .clickNextButton();
 
           PreferredDatePageObject.assertUrl()
@@ -279,7 +279,6 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .assertHeading({ name: /What’s the reason for this appointment?/i })
-            .selectReasonForAppointment()
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();
 
@@ -467,7 +466,6 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();
 
@@ -531,7 +529,6 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();
 
@@ -691,7 +688,6 @@ describe('VAOS direct schedule flow - Primary care', () => {
           .clickNextButton();
 
         ReasonForAppointmentPageObject.assertUrl()
-          .selectReasonForAppointment()
           .typeAdditionalText({ content: 'This is a test' })
           .clickNextButton();
 
