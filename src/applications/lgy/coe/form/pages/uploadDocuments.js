@@ -7,7 +7,7 @@ import {
   fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { serviceStatuses } from '../constants';
+import { serviceStatuses, entitlementRestorationOptions } from '../constants';
 import { FILE_TYPES } from '../../status/constants';
 import { UploadDocumentsReview } from '../components/UploadDocumentsReview';
 
@@ -38,6 +38,13 @@ export const DocumentTypeSelect = () => {
       'Department of Defense Discharge Certificate',
     );
   }
+
+  const hasOneTimeRestoration = formData?.relevantPriorLoans?.some(
+    loan => loan?.entitlementRestoration === entitlementRestorationOptions.ONE_TIME_RESTORATION,
+  );
+
+  hasOneTimeRestoration && requiredDocumentTypes.push('Loan evidence');
+
   return (
     <VaSelect required label="Document type" name="attachmentType">
       {requiredDocumentTypes.map(type => (
