@@ -3,6 +3,7 @@ import {
   concatObservationInterpretations,
   formatDate,
   dateFormatWithoutTimezone,
+  formatDateTimeInUserTimezone,
   extractContainedByRecourceType,
   extractContainedResource,
   getObservationValueWithUnits,
@@ -10,7 +11,6 @@ import {
   decodeBase64Report,
   formatNameFirstToLast,
   buildInitialDateRange,
-  formatDateTime,
   sortByDate,
 } from '../util/helpers';
 import {
@@ -411,12 +411,17 @@ export const convertLabsAndTestsRecord = record => {
 };
 
 export const convertUnifiedLabsAndTestRecord = record => {
-  const { formattedDate, formattedTime } = formatDateTime(
-    record.attributes.dateCompleted,
-  );
-  const date = formattedDate
-    ? `${formattedDate}, ${formattedTime}`
-    : EMPTY_FIELD;
+  // Always show timezone abbreviation for clarity (per UX feedback).
+  // If facilityTimezone is available, display in facility timezone.
+  // Otherwise, fall back to user's browser timezone.
+  const { facilityTimezone, dateCompleted } = record.attributes;
+  const date =
+    formatDateTimeInUserTimezone(
+      dateCompleted,
+      undefined,
+      facilityTimezone || undefined,
+    ) || EMPTY_FIELD;
+
   return {
     id: record.id,
     date,
@@ -432,10 +437,11 @@ export const convertUnifiedLabsAndTestRecord = record => {
     type: record.attributes.testCode,
     comments: record.attributes.comments,
     source: record.attributes.source,
+    facilityTimezone,
     result: record.attributes.encodedData
       ? decodeBase64Report(record.attributes.encodedData)
       : null,
-    sortDate: record.attributes.dateCompleted,
+    sortDate: dateCompleted,
     base: {
       ...record,
     },
