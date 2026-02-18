@@ -72,6 +72,9 @@ function getEntryManifests(entry) {
     if (entryNames.indexOf('static-pages') === -1) {
       entryNames.push('static-pages');
     }
+    if (entryNames.indexOf('static-pages-essentials') === -1) {
+      entryNames.push('static-pages-essentials');
+    }
     entryManifests = allManifests.filter(manifest =>
       entryNames.includes(manifest.entryName),
     );

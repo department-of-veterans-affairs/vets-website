@@ -1,0 +1,6 @@
+{
+  "appName": "Static pages widgets",
+  "entryFile": "./static-pages-widgets-entry.js",
+  "entryName": "static-pages-widgets",
+  "dependOn": ["static-pages-essentials"]
+}

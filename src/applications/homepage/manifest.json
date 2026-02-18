@@ -1,0 +1,6 @@
+{
+  "appName": "Homepage",
+  "entryFile": "./homepage-entry.js",
+  "entryName": "homepage",
+  "dependOn": ["static-pages-essentials"]
+}

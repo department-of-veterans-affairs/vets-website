@@ -77,7 +77,7 @@ import {
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
 import createHomepageHeroRandomizer from './homepage-veteran-banner';
-import createHomepageSearch from './homepage/createHomepageSearch';
+import createHomepageSearch from '../homepage/createHomepageSearch';
 import create1095BDownloadCTA from './download-1095b';
 
 import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
@@ -196,6 +196,10 @@ createFindVaFormsPDFDownloadHelper(
   store,
   widgetTypes.FIND_VA_FORMS_DOWNLOAD_MODAL,
 );
+
+// TODO: This one is needed for the content-build version of the homepage. We
+// can delete it after we know we're never going to revert to the content-build
+// version of the homepage.
 createHomepageEmailSignup(store, widgetTypes.HOMEPAGE_EMAIL_SIGNUP);
 createPost911GiBillStatusWidget(
   store,
@@ -243,7 +247,12 @@ createHCAPerformanceWarning(store, widgetTypes.HCA_PERFORMANCE_WARNING);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 // Second instance is for another widget type on the same page
 createManageVADebtCTA(store, widgetTypes.DISPUTE_DEBT_LINK);
+
+// TODO: `createHomepageHeroRandomizer` is not used anymore on either the
+// content-build or next-build version of the homepage and can definitely be
+// deleted after we launch the next-build version of the homepage.
 createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
+
 createHomepageSearch(store, widgetTypes.HOMEPAGE_SEARCH);
 create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
 createEnrollmentVerificationLoginWidget(
@@ -287,6 +296,9 @@ create21P534ezAccess(store, widgetTypes.SURVIVORS_BENEFITS);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {
+  // TODO: `createMyVALoginWidget` is not used anymore on either the
+  // content-build or next-build version of the homepage and can definitely be
+  // deleted after we launch the next-build version of the homepage.
   createMyVALoginWidget(store);
 }
 
