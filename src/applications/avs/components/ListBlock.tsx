@@ -28,7 +28,7 @@ const ListBlock: React.FC<ListBlockProps> = ({
 
   if (!listItems.length) return null;
 
-  const listElements = items.map((item: unknown, idx: number) => {
+  const listElements = listItems.map((item: unknown, idx: number) => {
     const typedItem = item as ListItem;
     const key =
       typeof typedItem === 'object' && typedItem !== null

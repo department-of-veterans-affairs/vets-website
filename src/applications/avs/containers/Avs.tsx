@@ -23,18 +23,10 @@ import YourHealthInformation from '../components/YourHealthInformation';
 import YourTreatmentPlan from '../components/YourTreatmentPlan';
 import AvsErrorElement from '../components/AvsErrorElement';
 
-import type { AvsProps, AvsData } from '../types';
+import type { AvsProps, AvsData, RootState } from '../types';
 
 interface StateToProps {
   isLoggedIn: boolean;
-}
-
-interface RootState {
-  user: {
-    login: {
-      currentlyLoggedIn: boolean;
-    };
-  };
 }
 
 const generateAppointmentHeader = (avs: AvsData): string => {

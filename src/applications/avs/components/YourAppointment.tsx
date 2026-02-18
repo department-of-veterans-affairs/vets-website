@@ -104,13 +104,11 @@ const YourAppointment: React.FC<YourAppointmentProps> = ({ avs }) => {
         itemName="diagnosis"
         keyName="code"
       />
-      <ItemsBlock
+      <ItemsBlock<VitalSign>
         heading="Vitals as of this appointment"
-        items={avs.vitals as unknown as Record<string, unknown>[]}
+        items={avs.vitals}
         itemType="vitals"
-        renderItem={(item: Record<string, unknown>) =>
-          renderVitalSign(item as unknown as VitalSign)
-        }
+        renderItem={renderVitalSign}
         showSeparators
       />
       <ListBlock
@@ -120,14 +118,12 @@ const YourAppointment: React.FC<YourAppointmentProps> = ({ avs }) => {
         itemType="procedure-list"
         keyName="code"
       />
-      <ItemsBlock
+      <ItemsBlock<ClinicMedication>
         heading="Medications ordered for administration in clinic"
         intro={clinicMedsIntro(avs)}
         itemType="clinic-medications"
-        items={avs.clinicMedications as unknown as Record<string, unknown>[]}
-        renderItem={(item: Record<string, unknown>) =>
-          renderClinicMedication(item as unknown as ClinicMedication)
-        }
+        items={avs.clinicMedications}
+        renderItem={renderClinicMedication}
         showSeparators
       />
     </div>
