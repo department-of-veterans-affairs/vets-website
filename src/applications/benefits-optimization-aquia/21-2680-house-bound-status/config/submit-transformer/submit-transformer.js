@@ -216,33 +216,11 @@ function buildVeteranSignature(cleanedData) {
 }
 
 /**
- * Transforms form data from frontend structure to backend schema
- *
- * Frontend uses flat structure with separate page objects:
- * - veteranInformation, veteranSsn, veteranAddress
- * - claimantRelationship, claimantInformation, claimantSsn, claimantAddress, claimantContact
- * - benefitType
- * - hospitalizationStatus, hospitalizationDate, hospitalizationFacility
- *
- * Backend expects nested structure:
- * - veteranInformation: { fullName, ssn, vaFileNumber, dateOfBirth }
- * - claimantInformation: { fullName, dateOfBirth, ssn, relationship, address, phoneNumber, email }
- * - benefitInformation: { benefitSelection }
- * - additionalInformation: { currentlyHospitalized, admissionDate, hospitalName, hospitalAddress }
- * - veteranSignature: { signature, date }
- *
- * @param {Object} _formConfig - The form configuration object (unused)
- * @param {Object} form - The form state object from Redux
- * @returns {string} JSON string of the transformed form data wrapped in { form: {...} }
+ * Builds the form data payload (Sections I-V) for the backend
+ * @param {Object} cleanedData - Cleaned form data
+ * @returns {Object} Backend-compliant form data object
  */
-export function submitTransformer(_formConfig, form) {
-  // Extract the actual form data from the form state object
-  // The platform passes { data: {...}, formId: ..., submission: ... }
-  // We need just the data portion
-  const formData = form?.data || form;
-  const cleanedData = filterViewFields(formData);
-
-  // Build each section using helper functions
+function buildFormData(cleanedData) {
   const veteranInformation = buildVeteranInformation(cleanedData);
   const claimantInformation = buildClaimantInformation(
     cleanedData,
@@ -252,16 +230,51 @@ export function submitTransformer(_formConfig, form) {
   const additionalInformation = buildAdditionalInformation(cleanedData);
   const veteranSignature = buildVeteranSignature(cleanedData);
 
-  // Assemble final backend-compliant structure
-  const backendData = {
+  return {
     veteranInformation,
     claimantInformation,
     benefitInformation,
     additionalInformation,
     veteranSignature,
   };
-  // Return the data as a JSON string wrapped in an object with a 'form' key
-  // The backend expects the entire payload to be a stringified JSON object,
-  // we do this because we don't want the form data modified by the inflection header
-  return JSON.stringify({ form: JSON.stringify(backendData) });
+}
+
+/**
+ * Transforms form data from frontend structure to backend schema
+ *
+ * Frontend uses flat structure with separate page objects:
+ * - veteranInformation, veteranSsn, veteranAddress
+ * - claimantRelationship, claimantInformation, claimantSsn, claimantAddress, claimantContact
+ * - benefitType
+ * - hospitalizationStatus, hospitalizationDate, hospitalizationFacility
+ * - examinerNotification (multi-party: medical professional email)
+ *
+ * Backend (multi-party) expects:
+ * - multi_party_form.form_type: '21-2680'
+ * - multi_party_form.secondary_email: examiner email
+ * - multi_party_form.form: stringified form data (Sections I-V)
+ *
+ * @param {Object} _formConfig - The form configuration object (unused)
+ * @param {Object} form - The form state object from Redux
+ * @returns {string} JSON string of the transformed payload
+ */
+export function submitTransformer(_formConfig, form) {
+  const formData = form?.data || form;
+  const cleanedData = filterViewFields(formData);
+
+  const backendData = buildFormData(cleanedData);
+  const secondaryEmail =
+    cleanedData.examinerNotification?.examinerEmail || null;
+
+  const MULTI_PARTY_FORM = 'multi_party_form';
+  const FORM_TYPE = 'form_type';
+  const SECONDARY_EMAIL = 'secondary_email';
+
+  return JSON.stringify({
+    [MULTI_PARTY_FORM]: {
+      [FORM_TYPE]: '21-2680',
+      [SECONDARY_EMAIL]: secondaryEmail,
+      form: JSON.stringify(backendData),
+    },
+  });
 }
