@@ -68,4 +68,11 @@ export const DISTANCE_OPTIONS = {
 export const API_ENDPOINTS = {
   downloadPdf: `${environment.API_URL}/v0/form212680/download_pdf/`,
   submitForm: `${environment.API_URL}/v0/form212680`,
+  multiPartyPrimaryCreate: `${
+    environment.API_URL
+  }/v0/multi_party_forms/primary`,
+  multiPartyPrimaryShow: id =>
+    `${environment.API_URL}/v0/multi_party_forms/primary/${id}`,
+  multiPartySecondaryStart: id =>
+    `${environment.API_URL}/v0/multi_party_forms/secondary/${id}/start`,
 };
