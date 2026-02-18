@@ -52,8 +52,10 @@ describe('cardContentHelper', () => {
       const result = getSummaryCardContent(data);
 
       expect(result.alertStatus).to.equal('warning');
-      expect(result.message).to.include('Pay your past due balance');
-      expect(result.message).to.include('$1,000.00');
+      expect(result.messageKey).to.equal(
+        'diaryCodes.statusTypes.8.summary.body',
+      );
+      expect(result.messageValues).to.have.property('amountDue', '$1,000.00');
       expect(result.linkIds).to.include.members(['details', 'resolve']);
     });
 
@@ -79,8 +81,12 @@ describe('cardContentHelper', () => {
       const result = getDetailsAlertContent(data);
 
       expect(result.alertStatus).to.equal('warning');
-      expect(result.headerText).to.include('Pay your past due balance');
-      expect(result.bodyText).to.include('$1,000.00');
+      expect(result.headerKey).to.equal(
+        'diaryCodes.statusTypes.8.details.header',
+      );
+      expect(result.headerValues).to.have.property('endDateText');
+      expect(result.bodyKey).to.equal('diaryCodes.statusTypes.8.details.body');
+      expect(result.bodyValues).to.have.property('amountDue', '$1,000.00');
       expect(result.linkIds).to.include('resolve');
       expect(result.phoneSet).to.be.null;
     });
