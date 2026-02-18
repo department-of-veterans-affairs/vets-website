@@ -127,6 +127,41 @@ When VaRadio label contains both a heading and descriptive text, separate them u
 />
 ```
 
+## Stale Closure with Web Component Inputs
+
+**When to use:** Any `useCallback` that reads state derived from VA web component `onInput` events.
+
+VA web components fire `onInput` asynchronously from React's perspective. If a `useCallback` captures state variables set by `onInput`, those values may be stale — React may not have re-rendered yet when the callback executes.
+
+**Pattern:** Read the current value from the DOM element (via ref) or a sync ref, not from React state:
+```jsx
+const folderNameRef = useRef('');
+const folderNameInput = useRef();
+
+// onInput handler keeps ref in sync
+onInput={(e) => {
+  folderNameRef.current = e.target.value;
+  setFolderName(e.target.value);
+}}
+
+// useCallback reads from DOM/ref instead of state
+const confirmAction = useCallback(async () => {
+  const currentName =
+    folderNameInput.current?.value ?? folderNameRef.current;
+  // ... use currentName, not folderName state
+}, [/* omit folderName — read from ref instead */]);
+```
+
+**Anti-pattern:**
+```jsx
+// ❌ BROKEN: await on setState (returns void) creates a microtask boundary
+// that splits React batches, and folderName may be stale in the closure
+await setNameWarning('');
+if (folderName === '') { ... } // folderName is stale!
+```
+
+**Why:** `setState` returns `void` — `await` on it creates a pointless microtask boundary that can split React batch updates. Meanwhile, the `folderName` captured by `useCallback` reflects the value at the time of the last render, not the latest `onInput`. Reading from the DOM element or a sync ref guarantees the current value.
+
 ## Form Validation
 
 ### Compose Form Validation

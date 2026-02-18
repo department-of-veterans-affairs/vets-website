@@ -5,6 +5,7 @@ import { prescriptionReducer } from '../../reducers/prescription';
 describe('prescription reducer', () => {
   const initialState = {
     renewalPrescription: undefined,
+    prescriptionId: undefined,
     redirectPath: undefined,
     error: undefined,
     isLoading: false,
@@ -55,9 +56,25 @@ describe('prescription reducer', () => {
     );
   });
 
+  it('should handle SET_PRESCRIPTION_ID action', () => {
+    const payload = '24654491';
+    const action = {
+      type: Actions.Prescriptions.SET_PRESCRIPTION_ID,
+      payload,
+    };
+    const expectedState = {
+      ...initialState,
+      prescriptionId: payload,
+    };
+    expect(prescriptionReducer(initialState, action)).to.deep.equal(
+      expectedState,
+    );
+  });
+
   it('should handle CLEAR_PRESCRIPTION action', () => {
     const stateWithData = {
       renewalPrescription: { id: '123' },
+      prescriptionId: '24654491',
       redirectPath: '/some/path',
       error: 'some error',
       isLoading: true,

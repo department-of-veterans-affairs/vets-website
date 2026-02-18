@@ -8,6 +8,10 @@ export const getPrescriptionById = prescriptionId => async (
   getState,
 ) => {
   dispatch({ type: Actions.Prescriptions.CLEAR_PRESCRIPTION });
+  dispatch({
+    type: Actions.Prescriptions.SET_PRESCRIPTION_ID,
+    payload: prescriptionId,
+  });
   try {
     dispatch({ type: Actions.Prescriptions.IS_LOADING });
     if (!prescriptionId || prescriptionId === 'undefined') {

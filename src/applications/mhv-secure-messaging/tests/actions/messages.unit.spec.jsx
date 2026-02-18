@@ -388,7 +388,7 @@ describe('messages actions', () => {
       });
   });
 
-  it('should NOT dispatch success alert on sendMessage when isRxRenewal is true', async () => {
+  it('should NOT dispatch success alert on sendMessage when suppressSuccessAlert is true', async () => {
     const store = mockStore();
     mockApiRequest(messageResponse);
     await store
@@ -403,6 +403,7 @@ describe('messages actions', () => {
           true,
           false,
           true, // isRxRenewal = true
+          true, // suppressSuccessAlert = true
         ),
       )
       .then(() => {
@@ -423,6 +424,42 @@ describe('messages actions', () => {
         // Verify other actions are still dispatched
         expect(actions).to.deep.include({
           type: Actions.AllRecipients.RESET_RECENT,
+        });
+      });
+  });
+
+  it('should dispatch success alert on renewal sendMessage when suppressSuccessAlert is false', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+    await store
+      .dispatch(
+        sendMessage(
+          {
+            category: 'MEDICATIONS',
+            body: 'Test body',
+            subject: 'Renewal Needed',
+            recipientId: '2710520',
+          },
+          false,
+          false,
+          true, // isRxRenewal = true
+          false, // suppressSuccessAlert = false (no redirectPath)
+        ),
+      )
+      .then(() => {
+        const actions = store.getActions();
+        // Verify success alert IS dispatched for renewal without redirect
+        expect(actions).to.deep.include({
+          type: Actions.Alerts.ADD_ALERT,
+          payload: {
+            alertType: 'success',
+            header: '',
+            content: Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+            className: undefined,
+            link: undefined,
+            title: undefined,
+            response: undefined,
+          },
         });
       });
   });
@@ -477,6 +514,54 @@ describe('messages actions', () => {
           type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
         });
       });
+  });
+
+  it('should call renewal endpoint when isRxRenewal is true', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+    const messageData = {
+      category: 'MEDICATIONS',
+      body: 'Test body',
+      subject: 'Renewal Needed',
+    };
+    messageData[`${'recipient_id'}`] = '2710520';
+    messageData[`${'prescription_id'}`] = '24654491';
+
+    await store.dispatch(
+      sendMessage(
+        JSON.stringify(messageData),
+        false,
+        false,
+        true, // isRxRenewal = true
+      ),
+    );
+
+    const fetchUrl = global.fetch.firstCall.args[0];
+    expect(fetchUrl).to.include('/messaging/messages/renewal');
+  });
+
+  it('should call standard endpoint when isRxRenewal is false', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+    const messageData = {
+      category: 'EDUCATION',
+      body: 'Test body',
+      subject: 'Test subject',
+    };
+    messageData[`${'recipient_id'}`] = '2710520';
+
+    await store.dispatch(
+      sendMessage(
+        JSON.stringify(messageData),
+        false,
+        false,
+        false, // isRxRenewal = false
+      ),
+    );
+
+    const fetchUrl = global.fetch.firstCall.args[0];
+    expect(fetchUrl).to.include('/messaging/messages');
+    expect(fetchUrl).to.not.include('/messaging/messages/renewal');
   });
 
   it('should log prescription renewal message when isRxRenewal is true', async () => {

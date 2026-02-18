@@ -2356,7 +2356,7 @@ describe('Compose form component', () => {
       });
     });
 
-    it('calls sendMessage with suppressAlert=true when redirectPath exists', async () => {
+    it('calls sendMessage with isRxRenewal=true when renewalPrescription exists', async () => {
       // Mock the sendMessage action to return a resolved promise
       const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
       sendMessageStub.returns(() => Promise.resolve());
@@ -2402,20 +2402,185 @@ describe('Compose form component', () => {
       // Wait for the component's sendMessage to complete
       await new Promise(resolve => setTimeout(resolve, 1200));
 
-      // Verify that sendMessage was called with suppressAlert=true (4th argument)
+      // Verify that sendMessage was called with isRxRenewal=true (4th argument)
       await waitFor(() => {
         expect(sendMessageStub.called).to.be.true;
       });
       const sendMessageCall = sendMessageStub.getCall(0);
-      expect(sendMessageCall.args).to.have.lengthOf(4);
-      // Args: [sendData, hasAttachments, ohTriageGroup, suppressAlert]
-      expect(sendMessageCall.args[3]).to.equal(true); // suppressAlert should be true
+      expect(sendMessageCall.args).to.have.lengthOf(5);
+      // Args: [sendData, hasAttachments, ohTriageGroup, isRxRenewal, suppressSuccessAlert]
+      expect(sendMessageCall.args[3]).to.equal(true); // isRxRenewal should be true
+      expect(sendMessageCall.args[4]).to.equal(true); // suppressSuccessAlert should be true (has redirectPath)
 
       // Restore original location
       global.window.location = originalLocation;
     });
 
-    it('calls sendMessage with suppressAlert=false when redirectPath does not exist', async () => {
+    it('includes prescription_id in sendMessage payload when renewalPrescription exists', async () => {
+      const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
+      sendMessageStub.returns(() => Promise.resolve());
+
+      const originalLocation = global.window.location;
+      global.window.location = {};
+      global.window.location.replace = sandbox.spy();
+
+      const customDraftMessage = {
+        ...draftMessage,
+        recipientId: 1013155,
+        recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+        triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          prescription: {
+            renewalPrescription: { prescriptionId: 24654491 },
+            redirectPath: '/medications/refill',
+            error: undefined,
+            isLoading: false,
+          },
+          threadDetails: {
+            ...draftState.sm.threadDetails,
+            drafts: [customDraftMessage],
+          },
+        },
+      };
+
+      const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+        draft: customDraftMessage,
+        recipients: customState.sm.recipients,
+        categories,
+        pageTitle: 'Start your message',
+      });
+
+      fireEvent.click(screen.getByTestId('send-button'));
+
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      await waitFor(() => {
+        expect(sendMessageStub.called).to.be.true;
+      });
+
+      const sendData = sendMessageStub.getCall(0).args[0];
+      const parsed = JSON.parse(sendData);
+      expect(parsed.prescription_id).to.equal('24654491');
+
+      global.window.location = originalLocation;
+    });
+
+    it('includes prescription_id from raw prescriptionId when prescription fetch returns 404', async () => {
+      const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
+      sendMessageStub.returns(() => Promise.resolve());
+
+      const originalLocation = global.window.location;
+      global.window.location = {};
+      global.window.location.replace = sandbox.spy();
+
+      const customDraftMessage = {
+        ...draftMessage,
+        recipientId: 1013155,
+        recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+        triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          prescription: {
+            renewalPrescription: undefined,
+            prescriptionId: '24654491',
+            redirectPath: '/medications/refill',
+            error: 'Record not found',
+            isLoading: false,
+          },
+          threadDetails: {
+            ...draftState.sm.threadDetails,
+            drafts: [customDraftMessage],
+          },
+        },
+      };
+
+      const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+        draft: customDraftMessage,
+        recipients: customState.sm.recipients,
+        categories,
+        pageTitle: 'Start your message',
+      });
+
+      fireEvent.click(screen.getByTestId('send-button'));
+
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      await waitFor(() => {
+        expect(sendMessageStub.called).to.be.true;
+      });
+
+      const sendData = sendMessageStub.getCall(0).args[0];
+      const parsed = JSON.parse(sendData);
+      // Falls back to raw prescriptionId from Redux state (stored from URL param)
+      expect(parsed.prescription_id).to.equal('24654491');
+
+      global.window.location = originalLocation;
+    });
+
+    it('does not include prescription_id when renewalPrescription is absent', async () => {
+      const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
+      sendMessageStub.returns(() => Promise.resolve());
+
+      sandbox.stub(helperUtils, 'navigateToFolderByFolderId');
+
+      const customDraftMessage = {
+        ...draftMessage,
+        recipientId: 1013155,
+        recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+        triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          prescription: {
+            renewalPrescription: undefined,
+            redirectPath: undefined,
+            error: undefined,
+            isLoading: false,
+          },
+          threadDetails: {
+            ...draftState.sm.threadDetails,
+            drafts: [customDraftMessage],
+          },
+        },
+      };
+
+      const { getByTestId } = setup(
+        customState,
+        `/thread/${customDraftMessage.id}`,
+        {
+          draft: customDraftMessage,
+          recipients: customState.sm.recipients,
+          categories,
+          pageTitle: 'Start your message',
+        },
+      );
+
+      fireEvent.click(getByTestId('send-button'));
+
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      await waitFor(() => {
+        expect(sendMessageStub.called).to.be.true;
+      });
+
+      const sendData = sendMessageStub.getCall(0).args[0];
+      const parsed = JSON.parse(sendData);
+      expect(parsed.prescription_id).to.be.undefined;
+    });
+
+    it('calls sendMessage with isRxRenewal=false when renewalPrescription is absent', async () => {
       // Mock the sendMessage action to return a resolved promise
       const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
       sendMessageStub.returns(() => Promise.resolve());
@@ -2465,12 +2630,13 @@ describe('Compose form component', () => {
       // Wait for the component's sendMessage to complete
       await new Promise(resolve => setTimeout(resolve, 1200));
 
-      // Verify that sendMessage was called with suppressAlert=false (4th argument)
+      // Verify that sendMessage was called with isRxRenewal=false (4th argument)
       expect(sendMessageStub.called).to.be.true;
       const sendMessageCall = sendMessageStub.getCall(0);
-      expect(sendMessageCall.args).to.have.lengthOf(4);
-      // Args: [sendData, hasAttachments, ohTriageGroup, suppressAlert]
-      expect(sendMessageCall.args[3]).to.equal(false); // suppressAlert should be false
+      expect(sendMessageCall.args).to.have.lengthOf(5);
+      // Args: [sendData, hasAttachments, ohTriageGroup, isRxRenewal, suppressSuccessAlert]
+      expect(sendMessageCall.args[3]).to.equal(false); // isRxRenewal should be false
+      expect(sendMessageCall.args[4]).to.equal(false); // suppressSuccessAlert should be false (no renewal)
 
       // Verify normal navigation occurred
       await waitFor(() => {

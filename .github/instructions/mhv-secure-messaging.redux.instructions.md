@@ -59,6 +59,7 @@ state.sm = {
   },
   prescription: {
     renewalPrescription: null,
+    prescriptionId: null,
     redirectPath: null,
     error: null,
     isLoading: false,
@@ -147,12 +148,42 @@ export const myAction = (param) => async dispatch => {
 };
 ```
 
+## URL Param Fallback Pattern
+
+When an async action fetches data based on a URL parameter and the component needs the raw param even if the fetch fails (e.g., 404), store the raw value in Redux **before** the API call:
+
+```javascript
+export const getPrescriptionById = prescriptionId => async dispatch => {
+  dispatch({ type: Actions.Prescriptions.CLEAR_PRESCRIPTION });
+  // Store raw ID immediately — survives 404/error
+  dispatch({
+    type: Actions.Prescriptions.SET_PRESCRIPTION_ID,
+    payload: prescriptionId,
+  });
+  try {
+    dispatch({ type: Actions.Prescriptions.IS_LOADING });
+    const response = await apiGetPrescriptionById(prescriptionId);
+    // ... handle success
+  } catch (e) {
+    // Error handler — prescriptionId is still in state
+  }
+};
+```
+
+In the component, use nullish coalescing to fall back to the raw value:
+```javascript
+const rxPrescriptionId =
+  renewalPrescription?.prescriptionId ?? rawPrescriptionId;
+```
+
+**Why:** `CLEAR_PRESCRIPTION` resets state to `initialState`. `SET_PRESCRIPTION_ID` runs immediately after, writing the raw URL param. If the API returns 404, `renewalPrescription` stays `undefined` but `prescriptionId` is preserved. This is how `ComposeForm.send()` ensures `prescription_id` is always included in the renewal payload, even when the prescription data fetch fails.
+
 ## Common Actions
 
 | Action | Purpose |
 |---|---|
 | `retrieveMessageThread(messageId)` | Fetch thread with full details |
-| `sendMessage(message, attachments, ohTriageGroup)` | Send new message |
+| `sendMessage(message, attachments, ohTriageGroup, isRxRenewal, suppressSuccessAlert)` | Send new message (when `isRxRenewal` is true, routes to `createRenewalMessage` API; when `suppressSuccessAlert` is true, skips the success alert dispatch) |
 | `sendReply({ replyToId, message, attachments })` | Send reply |
 | `saveDraft(messageData, type, id)` | Save/update draft (type: 'manual' or 'auto') |
 | `deleteDraft(messageId)` | Delete draft permanently |

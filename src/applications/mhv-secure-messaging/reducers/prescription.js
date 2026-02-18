@@ -7,6 +7,12 @@ const initialState = {
    */
   renewalPrescription: undefined,
   /**
+   * Raw prescription ID from the URL query param, stored before the API call.
+   * Used as a fallback when renewalPrescription is unavailable (e.g., 404).
+   * @type {string}
+   */
+  prescriptionId: undefined,
+  /**
    * Relative path to redirect user after sending a message
    * @type {string}
    */
@@ -37,6 +43,11 @@ export const prescriptionReducer = (state = initialState, action) => {
     case Actions.Prescriptions.CLEAR_PRESCRIPTION:
       return {
         ...initialState,
+      };
+    case Actions.Prescriptions.SET_PRESCRIPTION_ID:
+      return {
+        ...state,
+        prescriptionId: action.payload,
       };
     case Actions.Prescriptions.SET_REDIRECT_PATH:
       return {

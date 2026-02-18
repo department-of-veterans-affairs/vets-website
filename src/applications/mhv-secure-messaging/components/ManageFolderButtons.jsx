@@ -27,6 +27,7 @@ const ManageFolderButtons = props => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [isEditExpanded, setIsEditExpanded] = useState(false);
   const [folderName, setFolderName] = useState('');
+  const folderNameRef = useRef('');
   const folderNameInput = useRef();
   const editFolderButtonRef = useRef(null);
   const removeButton = useRef(null);
@@ -61,6 +62,7 @@ const ManageFolderButtons = props => {
   useEffect(
     () => {
       if (isEditExpanded && folder?.name) {
+        folderNameRef.current = folder.name;
         setFolderName(folder.name);
       }
     },
@@ -102,6 +104,7 @@ const ManageFolderButtons = props => {
 
   const openEditForm = () => {
     if (alertStatus) dispatch(closeAlert());
+    folderNameRef.current = folder.name;
     setFolderName(folder.name);
     setIsEditExpanded(true);
     recordEvent({
@@ -113,6 +116,7 @@ const ManageFolderButtons = props => {
   };
 
   const cancelEdit = useCallback(() => {
+    folderNameRef.current = '';
     setFolderName('');
     setNameWarning('');
     setIsEditExpanded(false);
@@ -122,27 +126,31 @@ const ManageFolderButtons = props => {
 
   const confirmRenameFolder = useCallback(
     async () => {
+      const currentName =
+        folderNameInput.current?.value ?? folderNameRef.current;
       const folderMatch = folders.filter(
-        testFolder => testFolder.name === folderName,
+        testFolder => testFolder.name === currentName,
       );
-      await setNameWarning(''); // Clear any previous warnings, so that the warning state can be updated and refocuses back to input if on repeat Save clicks.
-      if (folderName === '' || folderName.match(/^[\s]+$/)) {
-        setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_REQUIRED);
+      let warning = '';
+      if (currentName === '' || currentName.match(/^[\s]+$/)) {
+        warning = ErrorMessages.ManageFolders.FOLDER_NAME_REQUIRED;
       } else if (folderMatch.length > 0) {
-        setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
-      } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-        await dispatch(renameFolder(folder.folderId, folderName));
+        warning = ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS;
+      } else if (currentName.match(/^[0-9a-zA-Z\s]+$/)) {
+        await dispatch(renameFolder(folder.folderId, currentName));
         setIsEditExpanded(false);
+        folderNameRef.current = '';
         setFolderName('');
         setNameWarning('');
         focusElement(editFolderButtonRef.current);
+        return;
       } else {
-        setNameWarning(
-          ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
-        );
+        warning = ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS;
       }
+      setNameWarning(warning);
+      focusElement(folderNameInput.current?.shadowRoot?.querySelector('input'));
     },
-    [folders, folderName, folder.folderId, dispatch, ErrorMessages],
+    [folders, folder.folderId, dispatch, ErrorMessages],
   );
 
   return (
@@ -179,6 +187,7 @@ const ManageFolderButtons = props => {
                   className="input"
                   error={nameWarning}
                   onInput={e => {
+                    folderNameRef.current = e.target.value;
                     setFolderName(e.target.value);
                     setNameWarning(
                       e.target.value
