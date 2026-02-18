@@ -21,7 +21,8 @@ import { validateZIP } from '../validations';
 import {
   shouldAutoDetectMilitary,
   shouldShowZipCode,
-  createAddressLineValidator,
+  createAddressValidator,
+  hasInvalidPrefillData,
   updateCountrySchema,
   updateStateSchema,
   isStateRequired,
@@ -39,6 +40,14 @@ const defaultAddressUI = {
       street3: 'addressLine3',
       postalCode: 'zipCode',
       isMilitary: 'view:livesOnMilitaryBase',
+    },
+    // Pass validations through addressUI's built-in support
+    // This integrates properly with the platform's validation lifecycle
+    validations: {
+      street: [createAddressValidator('addressLine1')],
+      street2: [createAddressValidator('addressLine2')],
+      street3: [createAddressValidator('addressLine3')],
+      city: [createAddressValidator('city')],
     },
   }),
 };
@@ -96,6 +105,12 @@ export const uiSchema = {
       viewComponent: AddressViewField,
       classNames:
         'vads-web-component-pattern vads-web-component-pattern-address',
+      // Force edit mode when prefilled/saved address data is invalid.
+      // Uses normalized validation (trim + collapse spaces) so extra spaces
+      // don't falsely trigger edit mode, but genuinely invalid data does.
+      // Checks both maxLength and pattern against normalized values.
+      // This runs in ReviewCardField's constructor on mount.
+      startInEdit: hasInvalidPrefillData,
     },
     // Override country field to display 'USA' instead of 'United States'
     country: {
@@ -138,17 +153,37 @@ export const uiSchema = {
         hideIf: formData => !shouldShowZipCode(formData),
       },
     },
+    // Keep explicit field definitions for review card display
+    // Validations are handled via addressUI's validations option
+    // Note: Only define fields we actually need to customize (addressLine1, city)
+    // Do NOT add addressLine2/3 here - it breaks the platform's updateSchema for military labels
     addressLine1: {
       ...defaultAddressUI.addressLine1,
-      'ui:validations': [createAddressLineValidator(20, 'Address line 1')],
+      'ui:options': {
+        ...defaultAddressUI.addressLine1['ui:options'],
+        charcount: true,
+      },
     },
     addressLine2: {
       ...defaultAddressUI.addressLine2,
-      'ui:validations': [createAddressLineValidator(20, 'Address line 2')],
+      'ui:options': {
+        ...defaultAddressUI.addressLine2['ui:options'],
+        charcount: true,
+      },
     },
     addressLine3: {
       ...defaultAddressUI.addressLine3,
-      'ui:validations': [createAddressLineValidator(20, 'Address line 3')],
+      'ui:options': {
+        ...defaultAddressUI.addressLine3['ui:options'],
+        charcount: true,
+      },
+    },
+    city: {
+      ...defaultAddressUI.city,
+      'ui:options': {
+        ...defaultAddressUI.city['ui:options'],
+        charcount: true,
+      },
     },
   },
   'view:contactInfoDescription': {
@@ -161,6 +196,19 @@ export const schema = {
   properties: {
     phoneAndEmail,
     mailingAddress: addressSchema({
+      // Apply 526EZ-specific maxLength limits at the JSON schema level so that
+      // RJSF's built-in validation catches length violations reliably on every
+      // render cycle. The platform's profileAddress schema uses maxLength: 100,
+      // but the 526EZ backend requires 20/30. This is defense-in-depth alongside
+      // the custom createAddressValidator (which validates normalized values).
+      // NOTE: Do NOT add `pattern` here — it bypasses normalization and shows
+      // raw regex error messages (see PR #42005 regression).
+      extend: {
+        street: { maxLength: 20 },
+        street2: { maxLength: 20 },
+        street3: { maxLength: 20 },
+        city: { maxLength: 30 },
+      },
       keys: {
         street: 'addressLine1',
         street2: 'addressLine2',

@@ -3,12 +3,27 @@ import { apiRequest } from 'platform/utilities/api';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { setObfuscatedEmail, setLowAuthFormData } from '../slices/formSlice';
 import { setVassToken, getVassToken } from '../../utils/auth';
+import { createInvalidTokenError } from '../../services/mocks/utils/errors';
 
 const api = async (url, options, ...rest) => {
   return apiRequest(`${environment.API_URL}${url}`, options, ...rest);
 };
 
-// TODO if token is not found reject the requets
+/**
+ * Gets the VASS token from the cookie and returns it if it exists.
+ * @returns {Object} An object with the token and error if it exists.
+ */
+const getTokenOrError = () => {
+  const token = getVassToken();
+  if (!token) {
+    return {
+      token: null,
+      error: createInvalidTokenError().errors[0],
+    };
+  }
+  return { token, error: null };
+};
+
 export const vassApi = createApi({
   reducerPath: 'vassApi',
   baseQuery: () => ({ data: null }),
@@ -32,7 +47,6 @@ export const vassApi = createApi({
           dispatch(setObfuscatedEmail(response.data.email));
           return response;
         } catch ({ errors }) {
-          // captureError(error, false, 'post referral appointment');
           return {
             error: {
               code: errors?.[0]?.code,
@@ -59,7 +73,6 @@ export const vassApi = createApi({
             }),
           });
         } catch ({ errors }) {
-          // captureError(error, false, 'post referral appointment');
           return {
             error: errors?.[0],
           };
@@ -78,8 +91,11 @@ export const vassApi = createApi({
     }),
     postAppointment: builder.mutation({
       async queryFn({ topics, dtStartUtc, dtEndUtc }) {
+        const { token, error: tokenError } = getTokenOrError();
+        if (tokenError) {
+          return { error: tokenError };
+        }
         try {
-          const token = getVassToken();
           return await api('/vass/v0/appointment', {
             method: 'POST',
             headers: {
@@ -93,8 +109,6 @@ export const vassApi = createApi({
             }),
           });
         } catch ({ errors }) {
-          // captureError(error, false, 'post appointment');
-          // TODO: do something with error
           return {
             error: {
               code: errors?.[0]?.code,
@@ -106,8 +120,11 @@ export const vassApi = createApi({
     }),
     getAppointment: builder.query({
       async queryFn({ appointmentId }) {
+        const { token, error: tokenError } = getTokenOrError();
+        if (tokenError) {
+          return { error: tokenError };
+        }
         try {
-          const token = getVassToken();
           return await api(`/vass/v0/appointment/${appointmentId}`, {
             method: 'GET',
             headers: {
@@ -116,8 +133,6 @@ export const vassApi = createApi({
             },
           });
         } catch ({ errors }) {
-          // captureError(error, false, 'get appointment');
-          // TODO: do something with error
           return {
             error: {
               code: errors?.[0]?.code,
@@ -129,8 +144,11 @@ export const vassApi = createApi({
     }),
     getTopics: builder.query({
       async queryFn() {
+        const { token, error: tokenError } = getTokenOrError();
+        if (tokenError) {
+          return { error: tokenError };
+        }
         try {
-          const token = getVassToken();
           return await api('/vass/v0/topics', {
             method: 'GET',
             headers: {
@@ -139,8 +157,6 @@ export const vassApi = createApi({
             },
           });
         } catch ({ errors }) {
-          // captureError(error, false, 'get topics');
-          // TODO: do something with error
           return {
             error: {
               code: errors?.[0]?.code,
@@ -152,8 +168,11 @@ export const vassApi = createApi({
     }),
     getAppointmentAvailability: builder.query({
       async queryFn() {
+        const { token, error: tokenError } = getTokenOrError();
+        if (tokenError) {
+          return { error: tokenError };
+        }
         try {
-          const token = getVassToken();
           return await api('/vass/v0/appointment-availability', {
             method: 'GET',
             headers: {
@@ -162,12 +181,11 @@ export const vassApi = createApi({
             },
           });
         } catch ({ errors }) {
-          // captureError(error, false, 'get appointment availability');
-          // TODO: do something with error
           return {
             error: {
               code: errors?.[0]?.code,
               detail: errors?.[0]?.detail,
+              appointment: errors?.[0]?.appointment,
             },
           };
         }
@@ -175,8 +193,11 @@ export const vassApi = createApi({
     }),
     cancelAppointment: builder.mutation({
       async queryFn({ appointmentId }) {
+        const { token, error: tokenError } = getTokenOrError();
+        if (tokenError) {
+          return { error: tokenError };
+        }
         try {
-          const token = getVassToken();
           return await api(`/vass/v0/appointment/${appointmentId}/cancel`, {
             method: 'POST',
             headers: {
@@ -185,8 +206,6 @@ export const vassApi = createApi({
             },
           });
         } catch ({ errors }) {
-          // captureError(error, false, 'cancel appointment');
-          // TODO: do something with error
           return {
             error: {
               code: errors?.[0]?.code,
@@ -206,5 +225,6 @@ export const {
   useGetAppointmentQuery,
   useGetTopicsQuery,
   useGetAppointmentAvailabilityQuery,
+  useLazyGetAppointmentAvailabilityQuery,
   useCancelAppointmentMutation,
 } = vassApi;

@@ -74,7 +74,6 @@
     "date-fns": "*",
     "moment": "*",
     "fast-levenshtein": "*",
-    "recompose": "*",
     "axe-core": "*",
     "enzyme": "*",
     "chai": "*",

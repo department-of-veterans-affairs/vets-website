@@ -271,6 +271,13 @@ export const hasOtherEvidence = formData =>
 export const hasPrivateEvidence = formData =>
   _.get(DATA_PATHS.hasPrivateEvidence, formData, false);
 
+export const getVaEvidence = formData =>
+  _.get('vaTreatmentFacilities', formData, []);
+export const getPrivateFacilities = formData =>
+  _.get('providerFacility', formData, []);
+export const getPrivateEvidenceUploads = formData =>
+  _.get('privateMedicalRecordAttachments', formData, []);
+
 export const hasMedicalRecords = formData => {
   if (isEvidenceEnhancement(formData)) {
     // Enhancement flow: check new field name, with fallback to legacy data for transition compatibility
@@ -1109,6 +1116,5 @@ export const onFormLoaded = props => {
  * @param {object} formData
  * @returns {boolean} true if hasEvidenceChoice is present, false otherwise
  */
-export const hasEvidenceChoice = formData => {
-  return formData?.['view:hasEvidenceChoice'] === true;
-};
+export const hasEvidenceChoice = formData =>
+  formData?.['view:hasEvidenceChoice'] === true;

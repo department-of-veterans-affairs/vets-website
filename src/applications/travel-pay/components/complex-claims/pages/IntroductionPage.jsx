@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
 
 import {
   BTSSS_PORTAL_URL,
@@ -22,6 +22,7 @@ import {
 } from '../../../redux/selectors';
 import { stripTZOffset } from '../../../util/dates';
 import { ComplexClaimsHelpSection } from '../../HelpText';
+import OutOfBoundsAppointmentAlert from '../../alerts/OutOfBoundsAppointmentAlert';
 
 const IntroductionPage = () => {
   const navigate = useNavigate();
@@ -87,6 +88,11 @@ const IntroductionPage = () => {
       {shouldShowRedirect && <ComplexClaimRedirect />}
       <div data-testid="introduction-page">
         <h1>{title}</h1>
+        {appointment?.isOutOfBounds && (
+          <div className="vads-u-margin-top--4 vads-u-margin-bottom--3">
+            <OutOfBoundsAppointmentAlert />
+          </div>
+        )}
         <div className="vads-u-margin-left--2">
           <va-process-list>
             <va-process-list-item
@@ -153,6 +159,11 @@ const IntroductionPage = () => {
                 <strong>Note:</strong> We’ll save your added expenses if you
                 need to leave and come back. You can review your in-progress
                 claims in your travel reimbursement page.
+              </p>
+              <p>
+                <Link to="/claims/">
+                  Go to your travel reimbursement claims page
+                </Link>
               </p>
               {appointment &&
                 !appointment.isCC && (

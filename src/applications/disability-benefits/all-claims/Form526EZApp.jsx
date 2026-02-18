@@ -17,6 +17,10 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import {
+  LOAD_STATUSES,
+  SAVE_STATUSES,
+} from 'platform/forms/save-in-progress/actions';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
@@ -364,8 +368,18 @@ export const Form526Entry = ({
     ];
 
     const pathname = location?.pathname?.replace(/\/+$/, '') || '';
+    const loadedStatus = form?.loadedStatus;
+    const savedStatus = form?.savedStatus;
+    const isFormDataLoaded =
+      loadedStatus === LOAD_STATUSES.success ||
+      loadedStatus === LOAD_STATUSES.notAttempted;
+    const isFormSaving = savedStatus === SAVE_STATUSES.pending;
+
     const shouldHideNav =
-      hideNavPaths.some(p => pathname.endsWith(p)) || !itf?.messageDismissed;
+      hideNavPaths.some(p => pathname.endsWith(p)) ||
+      !itf?.messageDismissed ||
+      !isFormDataLoaded ||
+      isFormSaving;
     const contentHiddenSideNavClass = shouldHideNav
       ? ``
       : ` medium-screen:vads-grid-col-9`;
@@ -429,6 +443,8 @@ Form526Entry.propTypes = {
   children: PropTypes.any,
   form: PropTypes.shape({
     data: PropTypes.object,
+    loadedStatus: PropTypes.string,
+    savedStatus: PropTypes.string,
   }),
   inProgressFormId: PropTypes.number,
   isBDDForm: PropTypes.bool,
