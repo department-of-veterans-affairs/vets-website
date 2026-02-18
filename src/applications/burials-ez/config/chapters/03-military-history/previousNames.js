@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import {
   fullNameUI,
   textUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
-import { generateTitle } from '../../../utils/helpers';
 
 const { previousNames } = fullSchemaBurials.properties;
 
@@ -38,7 +38,7 @@ PreviousNamesView.propTypes = {
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Veteran’s previous name'),
+    ...titleUI('Veteran’s previous name'),
     'ui:options': { pageClass: 'previous-names-view' },
     previousNames: {
       'ui:options': {

@@ -65,7 +65,6 @@ const summaryPage = {
       options,
       {
         title: 'Was the Veteran ever a prisoner of war?',
-        labelHeaderLevel: ' ',
         hint: null,
       },
       {

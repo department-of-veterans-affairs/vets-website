@@ -4,17 +4,17 @@ import {
   currentOrPastDateRangeSchema,
   selectUI,
   selectSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { serviceBranchLabels } from '../../../utils/labels';
-import { generateTitle } from '../../../utils/helpers';
 
 const { placeOfSeparation } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Military service information'),
+    ...titleUI('Military service information'),
     'ui:description':
       'Start by adding the Veteran’s most recent period of active service.',
     serviceBranch: selectUI({

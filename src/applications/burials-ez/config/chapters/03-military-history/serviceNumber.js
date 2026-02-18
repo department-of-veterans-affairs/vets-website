@@ -1,11 +1,12 @@
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { ssnOrServiceNumberSchema } from 'platform/forms-system/src/js/web-component-patterns/ssnPattern';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import NoHintReviewField from '../../../components/NoHintReviewField';
-import { generateTitle, generateHelpText } from '../../../utils/helpers';
+import { generateHelpText } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Service number'),
+    ...titleUI('Service number'),
     militaryServiceNumber: {
       'ui:title': 'Military Service number',
       'ui:description': generateHelpText(
