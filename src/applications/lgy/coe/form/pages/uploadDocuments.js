@@ -18,8 +18,6 @@ const containsOneTimeRestoration = formData =>
       entitlementRestorationOptions.ONE_TIME_RESTORATION,
   );
 
-//const containsOneTimeRestoration = formData => true;
-
 export const DocumentTypeSelect = () => {
   const formData = useSelector(state => state?.form?.data);
   const requiredDocumentTypes = [];
