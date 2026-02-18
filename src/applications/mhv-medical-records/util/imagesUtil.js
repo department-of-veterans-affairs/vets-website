@@ -10,11 +10,6 @@ import { labTypes, EMPTY_FIELD } from './constants';
  * Convert an SCDF (v2) imaging study record into the frontend shape used by
  * the labs-and-tests list and the radiology detail views.
  *
- * The SCDF response is JSONAPI-serialized with camelCase attribute keys.
- * Many clinical fields (reason, orderedBy, clinicalHistory, etc.) are not
- * yet available from the SCDF ImagingStudy FHIR resource — those will show
- * EMPTY_FIELD until the backend is enriched.
- *
  * @param {Object} record - A single JSONAPI resource from the imaging studies response
  * @returns {Object} Frontend-shaped imaging study record
  */
