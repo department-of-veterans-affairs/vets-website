@@ -119,13 +119,14 @@ export class VerifyPageObject extends PageObject {
    * @returns {VerifyPageObject}
    */
   enterDateOfBirth(dateString) {
-    const [year, month, day] = dateString.split('-').map(
-      dateComponent =>
-        // eslint-disable-next-line no-restricted-globals
-        isFinite(dateComponent)
-          ? parseInt(dateComponent, 10).toString()
-          : dateComponent,
-    );
+    const [year, month, day] = dateString
+      .split('-')
+      .map(
+        dateComponent =>
+          Number.isFinite(dateComponent)
+            ? parseInt(dateComponent, 10).toString()
+            : dateComponent,
+      );
 
     const getSelectors = type =>
       `va-text-input.input-${type}, va-text-input.usa-form-group--${type}-input`;
