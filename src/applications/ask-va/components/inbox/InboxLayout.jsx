@@ -175,7 +175,7 @@ export default function InboxLayout({ inquiries, categoryOptions }) {
             slim
           >
             <p className="vads-u-margin-y--0">
-              You haven’t submitted a question yet.
+              You haven't submitted a question yet.
             </p>
           </va-alert>
         </div>
