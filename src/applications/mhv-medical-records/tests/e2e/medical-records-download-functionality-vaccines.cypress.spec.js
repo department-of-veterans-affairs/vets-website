@@ -1,26 +1,35 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
-import VaccinesListPage from './pages/VaccinesListPage';
+import Vaccines from './accelerated/pages/Vaccines';
 import VaccineDetailsPage from './pages/VaccineDetailsPage';
-import defaultVaccines from './fixtures/vaccines/vaccines.json';
+import oracleHealthUser from './accelerated/fixtures/user/oracle-health.json';
+import vaccinesData from './accelerated/fixtures/vaccines/sample-lighthouse.json';
+import vaccineDetailData from './accelerated/fixtures/vaccines/vaccine-detail.json';
 import { currentDateAddSecondsForFileDownload } from '../../util/dateHelpers';
 
 describe('Medical Records Labs and Tests List Page', () => {
   const site = new MedicalRecordsSite();
+  const vaccineId = vaccineDetailData.data.id;
 
   beforeEach(() => {
-    site.login();
-    // cy.visit('my-health/medical-records/');
+    site.login(oracleHealthUser, false);
+    site.mockFeatureToggles();
   });
 
   it('Vaccine Details page Toggle Menu button Print or download ', () => {
-    VaccinesListPage.goToVaccines(defaultVaccines);
-    VaccinesListPage.clickVaccinesDetailsLink(0);
+    // Set up intercepts for both list and detail views
+    Vaccines.setIntercepts({ vaccinesData });
+    Vaccines.setDetailIntercepts({ vaccineDetailData, vaccineId });
+
+    site.loadPage();
+    Vaccines.goToVaccinesPage();
+    Vaccines.clickVaccineDetailsLink(0);
+
     // should display a toggle menu button
-    VaccineDetailsPage.verifyPrintOrDownload();
-    VaccineDetailsPage.clickPrintOrDownload();
+    Vaccines.verifyPrintOrDownload();
+    Vaccines.clickPrintOrDownload();
 
     // should display print button for a Details "Print this Details"
-    VaccineDetailsPage.verifyPrintButton();
+    Vaccines.verifyPrintButton();
 
     // should display a download pdf file button "Download PDF of this page"
     VaccineDetailsPage.verifyDownloadPDF();
@@ -29,7 +38,6 @@ describe('Medical Records Labs and Tests List Page', () => {
     VaccineDetailsPage.verifyDownloadTextFile();
 
     VaccineDetailsPage.clickDownloadPDFFile();
-    // cy.readFile(`${Cypress.config('downloadsFolder')}/Pathology_report.pdf`);
     site.verifyDownloadedPdfFile(
       'VA-labs-and-tests-Details-Mhvtp',
       currentDateAddSecondsForFileDownload(1),
