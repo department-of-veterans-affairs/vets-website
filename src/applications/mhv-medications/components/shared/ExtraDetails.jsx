@@ -22,7 +22,7 @@ import { pageType } from '../../util/dataDogConstants';
 import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
-  selectOracleHealthCutoverFlag,
+  selectMhvMedicationsOracleHealthCutoverFlag,
 } from '../../util/selectors';
 
 const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
@@ -34,7 +34,7 @@ const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
   const isOracleHealth = isOracleHealthPrescription(rx, cernerFacilityIds);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
-  const isOracleHealthCutover = useSelector(selectOracleHealthCutoverFlag);
+  const isOracleHealthCutover = useSelector(selectMhvMedicationsOracleHealthCutoverFlag);
   const useV2Status = isCernerPilot && isV2StatusMapping;
 
   const refillButton = page === pageType.LIST ? <RefillButton {...rx} /> : null;
