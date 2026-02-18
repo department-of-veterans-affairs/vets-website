@@ -11,12 +11,14 @@ import { serviceStatuses, entitlementRestorationOptions } from '../constants';
 import { FILE_TYPES } from '../../status/constants';
 import { UploadDocumentsReview } from '../components/UploadDocumentsReview';
 
-const hasOneTimeRestoration = formData =>
+const containsOneTimeRestoration = formData =>
   formData?.relevantPriorLoans?.some(
     loan =>
       loan?.entitlementRestoration ===
       entitlementRestorationOptions.ONE_TIME_RESTORATION,
   );
+
+//const containsOneTimeRestoration = formData => true;
 
 export const DocumentTypeSelect = () => {
   const formData = useSelector(state => state?.form?.data);
@@ -46,7 +48,7 @@ export const DocumentTypeSelect = () => {
     );
   }
 
-  hasOneTimeRestoration(formData) &&
+  containsOneTimeRestoration(formData) &&
     requiredDocumentTypes.push('Loan evidence');
 
   return (
@@ -105,79 +107,110 @@ const getAccordions = (formData, hasOneTimeRestoration) => {
   );
 };
 
-const requiredDocumentMessages = {
-  [serviceStatuses.VETERAN]: (
-    <p>
-      You’ll need to upload a copy of your discharge or separation papers
-      (DD214) showing character of service.
-    </p>
-  ),
-  [serviceStatuses.ADSM]: formData => (
-    <>
-      {formData?.militaryHistory?.purpleHeartRecipient ? (
-        <>
-          <p>You’ll need to upload these documents:</p>
-          <ul>
-            <li>Statement of Service</li>
-            <li>A copy of your Purple Heart certificate</li>
-          </ul>
-        </>
-      ) : (
-        <p>You’ll need to upload a Statement of Service.</p>
-      )}
-    </>
-  ),
-  [serviceStatuses.NADNA]: (
-    <>
-      <p>You'll need to upload these documents:</p>
-      <ul>
-        <li>Statement of Service</li>
-        <li>
-          Creditable number of years served <strong>or</strong> Retirement
-          Points Statement or equivalent
-        </li>
-      </ul>
-    </>
-  ),
-  [serviceStatuses.DNANA]: (
-    <>
-      <p>You'll need to upload these documents:</p>
-      <ul>
-        <li>
-          Separation and Report of Service (NGB Form 22) for each period of
-          National Guard service
-        </li>
-        <li>Retirement Points Accounting (NGB Form 23)</li>
-        <li>
-          Proof of character of service such as a DD214 <strong>or</strong>{' '}
-          Department of Defense Discharge Certificate
-        </li>
-      </ul>
-    </>
-  ),
-  [serviceStatuses.DRNA]: (
-    <>
-      <p>You'll need to upload these documents:</p>
-      <ul>
-        <li>Retirement Point Accounting</li>
-        <li>
-          Proof of honorable service for at least six years such as a DD214 or
-          Department of Defense Discharge Certificate
-        </li>
-      </ul>
-    </>
-  ),
+const getRequiredDocumentMessage = (formData, hasOneTimeRestoration) => {
+  const requiredDocumentMessages = {
+    [serviceStatuses.VETERAN]: (
+
+      <>
+        {hasOneTimeRestoration ? (
+          <>
+            <p>You’ll need to upload these documents:</p>
+            <ul>
+              <li>A copy of your discharge or separation papers (DD214) showing character of service</li>
+              <li>Evidence of a VA loan was paid in full (if applicable)</li>
+            </ul>
+          </>
+        ) : (
+          <p>
+            You’ll need to upload a copy of your discharge or separation papers
+            (DD214) showing character of service.
+          </p>
+        )}
+      </>
+    ),
+    [serviceStatuses.ADSM]: (
+      <>
+        {formData?.militaryHistory?.purpleHeartRecipient || hasOneTimeRestoration ? (
+          <>
+            <p>You’ll need to upload these documents:</p>
+            <ul>
+              <li>Statement of Service</li>
+              {formData?.militaryHistory?.purpleHeartRecipient && (
+                <li>A copy of your Purple Heart certificate</li>
+              )}
+              {hasOneTimeRestoration && (
+                <li>Evidence of a VA loan was paid in full (if applicable)</li>
+              )}
+            </ul>
+          </>
+        ) : (
+          <p>You’ll need to upload a Statement of Service.</p>
+        )}
+      </>
+    ),
+    [serviceStatuses.NADNA]: (
+      <>
+        <p>You'll need to upload these documents:</p>
+        <ul>
+          <li>Statement of Service</li>
+          <li>
+            Creditable number of years served <strong>or</strong> Retirement
+            Points Statement or equivalent
+          </li>
+          {hasOneTimeRestoration && (
+            <li>Evidence of a VA loan was paid in full (if applicable)</li>
+          )}
+        </ul>
+      </>
+    ),
+    [serviceStatuses.DNANA]: (
+      <>
+        <p>You'll need to upload these documents:</p>
+        <ul>
+          <li>
+            Separation and Report of Service (NGB Form 22) for each period of
+            National Guard service
+          </li>
+          <li>Retirement Points Accounting (NGB Form 23)</li>
+          <li>
+            Proof of character of service such as a DD214 <strong>or</strong>{' '}
+            Department of Defense Discharge Certificate
+          </li>
+          {hasOneTimeRestoration && (
+            <li>Evidence of a VA loan was paid in full (if applicable)</li>
+          )}
+        </ul>
+      </>
+    ),
+    [serviceStatuses.DRNA]: (
+      <>
+        <p>You'll need to upload these documents:</p>
+        <ul>
+          <li>Retirement Point Accounting</li>
+          <li>
+            Proof of honorable service for at least six years such as a DD214 or
+            Department of Defense Discharge Certificate
+          </li>
+          {hasOneTimeRestoration && (
+            <li>Evidence of a VA loan was paid in full (if applicable)</li>
+          )}
+        </ul>
+      </>
+    ),
+  };
+
+  return requiredDocumentMessages[formData.identity]
 };
 
 export const getUiSchema = () => ({
   ...titleUI('Upload your documents', ({ formData }) => {
-    const message = (
+    const hasOneTimeRestoration = containsOneTimeRestoration(formData);
+    return (
       <>
-      {requiredDocumentMessages[formData.identity]}
-      {getAccordions(formData, hasOneTimeRestoration(formData))}
-    </>
+        {getRequiredDocumentMessage(formData, hasOneTimeRestoration)}
+        {getAccordions(formData, hasOneTimeRestoration)}
+      </>
     );
-    return typeof message === 'function' ? message(formData) : message || null;
   }),
   files2: fileInputMultipleUI({
     title: 'Upload your documents',
