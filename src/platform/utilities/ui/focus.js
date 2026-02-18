@@ -194,7 +194,7 @@ export function waitForRenderThenFocus(
 
         // Don't set default focus if something is already focused
         if (document.activeElement === document.body) {
-          focusElement(defaultFocusSelector); // fallback to breadcrumbs
+          focusByOrder(defaultFocusSelector); // fallback to breadcrumbs
         }
       }
       count += 1;
