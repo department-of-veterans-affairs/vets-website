@@ -8,7 +8,10 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from 'platform/user/selectors';
 import { submitCh31CaseMilestones } from '../actions/ch31-case-milestones';
-import { MILESTONE_COMPLETION_TYPES } from '../constants';
+import {
+  CH31_CASE_MILESTONES_RESET_STATE,
+  MILESTONE_COMPLETION_TYPES,
+} from '../constants';
 
 const ORIENTATION_TYPE = {
   WATCH_VIDEO: 'Watch the VA Orientation Video online',
@@ -23,6 +26,7 @@ export default function SelectPreferenceView() {
   const [attestationChecked, setAttestationChecked] = useState(false);
   const [checkboxError, setCheckboxError] = useState(false);
   const user = useSelector(selectUser);
+
   const ch31CaseMilestonesState = useSelector(
     state => state?.ch31CaseMilestones,
   );
@@ -45,6 +49,23 @@ export default function SelectPreferenceView() {
     );
   };
 
+  const errorAlert = (
+    <va-alert class="vads-u-margin-bottom--1" status="error" visible slim>
+      <p className="vads-u-margin-y--0">
+        We’re sorry. Something went wrong on our end while submitting your
+        preference. Please try again later.
+      </p>
+    </va-alert>
+  );
+
+  const submitBtn = (
+    <VaButton
+      loading={ch31CaseMilestonesState?.loading}
+      onClick={submitAttestation}
+      text="Submit"
+    />
+  );
+
   return (
     <>
       <p>
@@ -61,6 +82,7 @@ export default function SelectPreferenceView() {
           setOrientationTypeRadioValue(e.detail.value);
           setCheckboxError(false);
           setAttestationChecked(false);
+          dispatch({ type: CH31_CASE_MILESTONES_RESET_STATE });
         }}
       >
         <VaRadioOption
@@ -91,13 +113,11 @@ export default function SelectPreferenceView() {
               onVaChange={e => {
                 setAttestationChecked(e.target.checked);
                 setCheckboxError(false);
+                dispatch({ type: CH31_CASE_MILESTONES_RESET_STATE });
               }}
             />
-            <VaButton
-              loading={ch31CaseMilestonesState?.loading}
-              onClick={submitAttestation}
-              text="Submit"
-            />
+            {ch31CaseMilestonesState?.error && errorAlert}
+            {submitBtn}
           </div>
         )}
         <VaRadioOption
@@ -108,11 +128,8 @@ export default function SelectPreferenceView() {
         {orientationTypeRadioValue ===
           ORIENTATION_TYPE.COMPLETE_DURING_MEETING && (
           <div className="vads-u-margin-left--4">
-            <VaButton
-              loading={ch31CaseMilestonesState?.loading}
-              onClick={submitAttestation}
-              text="Submit"
-            />
+            {ch31CaseMilestonesState?.error && errorAlert}
+            {submitBtn}
           </div>
         )}
       </VaRadio>

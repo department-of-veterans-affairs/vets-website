@@ -7,6 +7,7 @@ import {
   VaRadioOption,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useSelector } from 'react-redux';
 import HubCardList from './HubCardList';
 import SelectPreferenceView from './SelectPreferenceView';
 
@@ -20,14 +21,20 @@ const INITIAL_EVALUATION_MEETING_TYPE = {
 
 const CaseProgressDescription = ({ step, showHubCards = false }) => {
   const navigate = useNavigate();
+
   const [
     initialEvaluationMeetingType,
     setInitialEvaluationMeetingType,
   ] = useState();
+
   const [
     initialEvaluationMeetingTypeSubmitted,
     setInitialEvaluationMeetingTypeSubmitted,
   ] = useState(false);
+
+  const ch31CaseMilestonesState = useSelector(
+    state => state?.ch31CaseMilestones,
+  );
 
   const submitInitialEvaluationMeetingType = () => {
     setInitialEvaluationMeetingTypeSubmitted(true);
@@ -85,54 +92,69 @@ const CaseProgressDescription = ({ step, showHubCards = false }) => {
     case 3: {
       return (
         <>
-          <p>
-            Your application for VR&E Chapter 31 benefits has been processed and
-            your basic eligibility has been determined. Your next step is to
-            watch the Orientation Video and confirm its completion, which can be
-            found below. If you prefer, you can complete your orientation during
-            your Initial Evaluation Counselor Meeting. Once you make your
-            selection and submit your choice, you will receive an email
-            confirming that you are ready to schedule your Initial Evaluation
-            with your counselor.
-          </p>
-          <va-card background class="vads-u-padding-top--0">
-            <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
-              Reading Material
-            </h2>
-            <ul className="va-nav-linkslist-list vads-u-margin-bottom--2">
-              <li>
-                <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-                  <va-link
-                    href="https://www.va.gov/careers-employment/vocational-rehabilitation"
-                    text="Program Overview"
-                  />
-                </h3>
-                <p className="va-nav-linkslist-description">
-                  Read about how Veteran Readiness and Employment (Chapter 31)
-                  can help you explore employment options and address education
-                  or training needs.
-                </p>
-              </li>
-              <li>
-                <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-                  <va-link
-                    href="https://www.va.gov/careers-employment/vocational-rehabilitation/programs"
-                    text="VR&E Support-and-Services Tracks"
-                  />
-                </h3>
-                <p className="va-nav-linkslist-description">
-                  We offer 5 support-and-services tracks to help you get
-                  education or training, find and keep a job, and live as
-                  independently as possible. Explore the different tracks and
-                  take charge of your future.
-                </p>
-              </li>
-            </ul>
-            <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
-              Orientation Completion
-            </h2>
-            <SelectPreferenceView />
-          </va-card>
+          {ch31CaseMilestonesState?.data && !ch31CaseMilestonesState?.error ? (
+            <>
+              <p>
+                Your application for VR&E Chapter 31 benefits has been processed
+                and your basic eligibility has been determined. A Case Manager
+                will be assigned to your case and will assist you through your
+                rehabilitation process.
+              </p>
+            </>
+          ) : (
+            <>
+              <p>
+                Your application for VR&E Chapter 31 benefits has been processed
+                and your basic eligibility has been determined. Your next step
+                is to watch the Orientation Video and confirm its completion,
+                which can be found below. If you prefer, you can complete your
+                orientation during your Initial Evaluation Counselor Meeting.
+                Once you make your selection and submit your choice, you will
+                receive an email confirming that you are ready to schedule your
+                Initial Evaluation with your counselor.
+              </p>
+              <va-card background class="vads-u-padding-top--0">
+                <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
+                  Reading Material
+                </h2>
+                <ul className="va-nav-linkslist-list vads-u-margin-bottom--2">
+                  <li>
+                    <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
+                      <va-link
+                        href="https://www.va.gov/careers-employment/vocational-rehabilitation"
+                        text="Program Overview"
+                        external
+                      />
+                    </h3>
+                    <p className="va-nav-linkslist-description">
+                      Read about how Veteran Readiness and Employment (Chapter
+                      31) can help you explore employment options and address
+                      education or training needs.
+                    </p>
+                  </li>
+                  <li>
+                    <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
+                      <va-link
+                        href="https://www.va.gov/careers-employment/vocational-rehabilitation/programs"
+                        text="VR&E Support-and-Services Tracks"
+                        external
+                      />
+                    </h3>
+                    <p className="va-nav-linkslist-description">
+                      We offer 5 support-and-services tracks to help you get
+                      education or training, find and keep a job, and live as
+                      independently as possible. Explore the different tracks
+                      and take charge of your future.
+                    </p>
+                  </li>
+                </ul>
+                <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
+                  Orientation Completion
+                </h2>
+                <SelectPreferenceView />
+              </va-card>
+            </>
+          )}
           {hubCards}
         </>
       );

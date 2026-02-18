@@ -4,7 +4,7 @@ const responses = {
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Uncomment to test error status
-    // return res.status(500);
+    // return res.status(500).send('An internal error occurred.');
 
     return res.status(200).json({
       data: {
