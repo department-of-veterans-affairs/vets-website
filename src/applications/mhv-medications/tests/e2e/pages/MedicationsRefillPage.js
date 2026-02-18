@@ -269,8 +269,8 @@ class MedicationsRefillPage {
     activeParkedRx = null,
   ) => {
     cy.get('@refillList')
-      .its('response.body.data.9.attributes.dispensedDate')
-      .should('equal', activeParkedRx);
+      .its('response.body.data.9.attributes')
+      .should('have.property', 'dispensedDate', activeParkedRx);
   };
 
   verifyRefillRemainingForActiveParkedRxZeroRefills = (
