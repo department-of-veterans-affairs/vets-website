@@ -884,10 +884,6 @@ jobs:
         with:
           name: vagovprod.tar.zst
 
-      - name: Install missing dependencies
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y zstd curl
-
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: |
@@ -938,7 +934,7 @@ jobs:
           echo "Waiting for server to be ready..."
           ready=false
           for i in $(seq 1 30); do
-            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+            if wget -q --spider http://127.0.0.1:3001 2>/dev/null; then
               echo "Server is ready!"
               ready=true
               break
@@ -1026,9 +1022,6 @@ jobs:
         with:
           name: vagovprod.tar.zst
 
-      - name: Install missing dependencies
-        run: rm -f /etc/apt/sources.list.d/google-chrome.list && apt-get update && apt-get install -y zstd curl
-
       - name: Unpack build
         run: |
           mkdir -p build/vagovprod
@@ -1068,7 +1061,7 @@ jobs:
           echo "Waiting for server to be ready..."
           ready=false
           for i in $(seq 1 30); do
-            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+            if wget -q --spider http://127.0.0.1:3001 2>/dev/null; then
               echo "Server is ready!"
               ready=true
               break
@@ -1908,6 +1901,9 @@ jobs:
         with:
           name: ${{ matrix.buildtype }}.tar.zst
 
+      - name: Install pbzip2
+        run: sudo apt-get update && sudo apt-get install -y pbzip2
+
       - name: Extract build artifact
         if: env.IS_SINGLE_APP_BUILD == 'true'
         run: |
@@ -1931,9 +1927,17 @@ jobs:
           REF=${{ github.sha }}
           EOF
 
-      - name: Compress and archive single/grouped app build
+      - name: Recompress single/grouped app build as bzip2
         if: env.IS_SINGLE_APP_BUILD == 'true'
-        run: tar -C build/${{ matrix.buildtype }} --zstd -cf ${{ matrix.buildtype }}.tar.zst .
+        run: tar -C build/${{ matrix.buildtype }} -I pbzip2 -cf ${{ matrix.buildtype }}.tar.bz2 .
+
+      - name: Recompress full build as bzip2
+        if: env.IS_SINGLE_APP_BUILD != 'true'
+        run: |
+          mkdir -p build/${{ matrix.buildtype }}
+          tar -C build/${{ matrix.buildtype }} --zstd -xf ${{ matrix.buildtype }}.tar.zst
+          tar -C build/${{ matrix.buildtype }} -I pbzip2 -cf ${{ matrix.buildtype }}.tar.bz2 .
+          rm ${{ matrix.buildtype }}.tar.zst
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -1943,7 +1947,7 @@ jobs:
 
       - name: Upload build
         run: |
-          aws s3 cp ${{ matrix.buildtype }}.tar.zst s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.zst --acl public-read --region us-gov-west-1
+          aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
           aws s3 cp BUILD_ARTIFACT.txt s3://vetsgov-website-builds-s3-upload-test/build-artifacts/$GITHUB_SHA.txt --acl public-read --region us-gov-west-1
 
   set-deploy-environments:
@@ -2023,7 +2027,7 @@ jobs:
             ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
           fi
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.zst
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
           DEST: s3://${{ matrix.bucket }}
           ASSET_DEST: s3://${{ matrix.asset_bucket }}
 
