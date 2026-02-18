@@ -1,7 +1,7 @@
 import React from 'react';
 import { AUTH_ERRORS, AUTH_LEVEL } from 'platform/user/authentication/errors';
 import ContactCenterInformation from 'platform/user/authentication/components/ContactCenterInformation';
-import StatusPage from 'platform/user/authentication/components/StatusPage';
+import StatusPage from './StatusPage';
 
 export default function RenderErrorContainer({
   code = AUTH_ERRORS.DEFAULT.errorCode,
