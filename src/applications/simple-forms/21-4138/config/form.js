@@ -3,7 +3,10 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import footerContent from '~/platform/forms/components/FormFooter';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
-import { profilePersonalInfoPage } from 'platform/forms-system/src/js/patterns/prefill/PersonalInformation';
+import {
+  profilePersonalInfoPage,
+  profileContactInfoPages,
+} from 'platform/forms-system/src/js/patterns/prefill';
 import manifest from '../manifest.json';
 import transform from './submit-transformer';
 import getHelp from '../../shared/components/GetFormHelp';
