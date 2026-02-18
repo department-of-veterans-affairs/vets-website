@@ -256,7 +256,7 @@ const SearchResult = ({
                 </div>
               </WithIcon>
             )}
-            {phone && (
+            {contact && (
               <WithIcon iconName="phone" addTopMargin>
                 <va-telephone
                   contact={contact}
