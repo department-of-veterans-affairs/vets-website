@@ -12,7 +12,7 @@ const defaultServiceHistory = {
   'view:hasPrefillServiceHistory': true,
 };
 
-export const fillServicePeriod = (historyData = {}) => {
+export const fillServicePeriod = (servicePeriodData = {}) => {
   /* Default data for service history fields, can be overridden by passing in an object with any of the following properties:
   - lastServiceBranch
   - lastEntryDate
@@ -21,7 +21,7 @@ export const fillServicePeriod = (historyData = {}) => {
   */
   const fillHistory = {
     ...defaultServiceHistory,
-    ...historyData,
+    ...servicePeriodData,
   };
   selectDropdownWebComponent(
     'lastServiceBranch',
