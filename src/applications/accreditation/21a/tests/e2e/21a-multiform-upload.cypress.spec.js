@@ -1,5 +1,6 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 import 'cypress-axe';
+import { makeMinimalPDF } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import { setFeatureToggles } from './intercepts/feature-toggles';
 import inProgressFormsResponse from './fixtures/mocks/in-progress-forms-response.json';
 
@@ -160,10 +161,13 @@ describe('21A — resume to Conviction (yes/no)', () => {
       },
     );
 
-    cy.fillVaFileInputMultiple(
-      'root_convictionDetailsDocuments',
-      uploadImgDetails(convictionSupportingDocument1),
-    );
+    cy.then(() => makeMinimalPDF()).then(pdfFile => {
+      cy.fillVaFileInputMultiple(
+        'root_convictionDetailsDocuments',
+        uploadImgDetails(convictionSupportingDocument1),
+        [pdfFile],
+      );
+    });
 
     cy.injectAxe();
     cy.axeCheck();
