@@ -1,26 +1,21 @@
 #!/usr/bin/env node
-
-/**
- * Bundle Size Comparison Script
- *
- * Compares generated entry file sizes between two build output directories.
- * Flags files that differ by more than the configured threshold.
- *
- * Usage:
- *   node script/compare-bundle-sizes.js <old-build-dir> <new-build-dir> [--threshold <percent>]
- *
- * Example:
- *   node script/compare-bundle-sizes.js build/localhost build/localhost-new --threshold 10
- */
-
-/* eslint-disable no-console, no-continue */
+/* eslint-disable no-console */
 
 const fs = require('fs');
 const path = require('path');
 
-// ---------------------------------------------------------------------------
-// Utilities
-// ---------------------------------------------------------------------------
+/**
+ * Script to compare bundle sizes between two build output directories.
+ *
+ * Collects sizes for generated entry files present in both builds,
+ * computes the difference, and outputs comparison data to CSV.
+ *
+ * Usage:
+ *   node script/compare-bundle-sizes.js <old-build-dir> <new-build-dir>
+ *
+ * Example:
+ *   node script/compare-bundle-sizes.js build/localhost build/localhost-new
+ */
 
 function getManifestEntryNames() {
   const manifestPath = path.join(
@@ -53,36 +48,15 @@ function getFileListing(dir) {
     .sort();
 }
 
-function formatBytes(n) {
-  return n.toLocaleString('en-US');
-}
-
-function formatPct(pct) {
-  const sign = pct >= 0 ? '+' : '';
-  return `${sign}${pct.toFixed(1)}%`;
-}
-
-// ---------------------------------------------------------------------------
-// Comparison
-// ---------------------------------------------------------------------------
-
-function compareBundleSizes(oldDir, newDir, threshold, entryNames) {
+function collectComparisonData(oldDir, newDir, entryNames) {
   const oldGenDir = path.join(oldDir, 'generated');
   const newGenDir = path.join(newDir, 'generated');
 
   const oldExists = fs.existsSync(oldGenDir);
   const newExists = fs.existsSync(newGenDir);
 
-  if (!oldExists && !newExists) {
-    return { skipped: true, reason: 'No generated/ directory in either build' };
-  }
   if (!oldExists || !newExists) {
-    return {
-      skipped: false,
-      error: `generated/ directory ${
-        oldExists ? 'missing from new' : 'missing from old'
-      } build`,
-    };
+    return null;
   }
 
   const allOldFiles = getFileListing(oldGenDir);
@@ -94,7 +68,7 @@ function compareBundleSizes(oldDir, newDir, threshold, entryNames) {
   );
 
   const commonFiles = oldFiles.filter(f => newFilesSet.has(f));
-  const flagged = [];
+  const comparisons = [];
 
   for (const relPath of commonFiles) {
     if (relPath.endsWith('.map')) continue;
@@ -102,101 +76,141 @@ function compareBundleSizes(oldDir, newDir, threshold, entryNames) {
     const oldSize = fs.statSync(path.join(oldGenDir, relPath)).size;
     const newSize = fs.statSync(path.join(newGenDir, relPath)).size;
 
-    if (oldSize === 0 && newSize === 0) continue;
-
     const pctChange =
-      oldSize === 0 ? 100 : ((newSize - oldSize) / oldSize) * 100;
+      oldSize === 0 ? (newSize === 0 ? 0 : 100) : ((newSize - oldSize) / oldSize) * 100;
 
-    if (Math.abs(pctChange) > threshold) {
-      flagged.push({ relPath, oldSize, newSize, pctChange });
-    }
+    comparisons.push({
+      filename: relPath,
+      oldSize,
+      newSize,
+      sizeDiff: newSize - oldSize,
+      pctChange,
+    });
   }
 
-  flagged.sort((a, b) => Math.abs(b.pctChange) - Math.abs(a.pctChange));
+  comparisons.sort((a, b) => Math.abs(b.pctChange) - Math.abs(a.pctChange));
 
-  return { skipped: false, commonFiles, flagged };
+  return comparisons;
 }
 
-// ---------------------------------------------------------------------------
-// CLI
-// ---------------------------------------------------------------------------
+function formatBytes(n) {
+  return n.toLocaleString('en-US');
+}
 
-function parseArgs(argv) {
-  const args = argv.slice(2);
-  const positional = [];
-  let threshold = 5;
+function pad(str, width) {
+  return String(str).padEnd(width);
+}
 
-  for (let i = 0; i < args.length; i++) {
-    if (args[i] === '--threshold') {
-      const val = parseFloat(args[++i]);
-      if (Number.isNaN(val) || val < 0) {
-        console.error('Error: --threshold must be a non-negative number');
-        process.exit(1);
-      }
-      threshold = val;
-    } else if (args[i].startsWith('-')) {
-      console.error(`Unknown flag: ${args[i]}`);
-      process.exit(1);
-    } else {
-      positional.push(args[i]);
-    }
+function generateMarkdownTable(comparisons) {
+  const rows = comparisons.map(row => {
+    const escapedName = row.filename.replace(/\|/g, '&#124;');
+    const pctStr =
+      row.pctChange >= 0 ? `+${row.pctChange.toFixed(1)}%` : `${row.pctChange.toFixed(1)}%`;
+    const diffStr =
+      row.sizeDiff >= 0 ? `+${formatBytes(row.sizeDiff)}` : formatBytes(row.sizeDiff);
+    return {
+      filename: escapedName,
+      oldSize: formatBytes(row.oldSize),
+      newSize: formatBytes(row.newSize),
+      diff: diffStr,
+      pct: pctStr,
+    };
+  });
+
+  const colWidths = {
+    filename: Math.max(8, ...rows.map(r => r.filename.length)),
+    oldSize: Math.max(8, ...rows.map(r => r.oldSize.length)),
+    newSize: Math.max(8, ...rows.map(r => r.newSize.length)),
+    diff: Math.max(4, ...rows.map(r => r.diff.length)),
+    pct: Math.max(8, ...rows.map(r => r.pct.length)),
+  };
+
+  const sep = w => '-'.repeat(w + 2);
+  const header = [
+    `| ${pad('Filename', colWidths.filename)} | ${pad('Old Size', colWidths.oldSize)} | ${pad('New Size', colWidths.newSize)} | ${pad('Diff', colWidths.diff)} | ${pad('% Change', colWidths.pct)} |`,
+    `|${sep(colWidths.filename)}|${sep(colWidths.oldSize)}|${sep(colWidths.newSize)}|${sep(colWidths.diff)}|${sep(colWidths.pct)}|`,
+  ];
+
+  const body = rows.map(
+    r =>
+      `| ${pad(r.filename, colWidths.filename)} | ${pad(r.oldSize, colWidths.oldSize)} | ${pad(r.newSize, colWidths.newSize)} | ${pad(r.diff, colWidths.diff)} | ${pad(r.pct, colWidths.pct)} |`,
+  );
+
+  return [...header, ...body].join('\n');
+}
+
+function generateCSV(comparisons) {
+  const lines = ['Filename,Old Size (bytes),New Size (bytes),Size Diff,% Change'];
+
+  for (const row of comparisons) {
+    const escapedName = row.filename.includes(',')
+      ? `"${row.filename.replace(/"/g, '""')}"`
+      : row.filename;
+    const pctStr =
+      row.pctChange >= 0 ? `+${row.pctChange.toFixed(1)}` : row.pctChange.toFixed(1);
+    lines.push(
+      `${escapedName},${row.oldSize},${row.newSize},${row.sizeDiff},${pctStr}%`,
+    );
   }
 
-  if (positional.length !== 2) {
+  return lines.join('\n');
+}
+
+function main() {
+  const oldDir = process.argv[2];
+  const newDir = process.argv[3];
+
+  if (!oldDir || !newDir) {
     console.error(
-      'Usage: node script/compare-bundle-sizes.js <old-build-dir> <new-build-dir> [--threshold <percent>]',
+      'Usage: node script/compare-bundle-sizes.js <old-build-dir> <new-build-dir>',
     );
     process.exit(1);
   }
 
-  return { oldDir: positional[0], newDir: positional[1], threshold };
-}
+  const oldDirResolved = path.resolve(process.cwd(), oldDir);
+  const newDirResolved = path.resolve(process.cwd(), newDir);
 
-function main() {
-  const { oldDir, newDir, threshold } = parseArgs(process.argv);
-
-  for (const [label, dir] of [['Old', oldDir], ['New', newDir]]) {
+  for (const [label, dir] of [
+    ['Old', oldDirResolved],
+    ['New', newDirResolved],
+  ]) {
     if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) {
       console.error(`Error: ${label} build directory does not exist: ${dir}`);
       process.exit(1);
     }
   }
 
-  console.log(`Comparing bundle sizes (threshold: ${threshold}%):`);
-  console.log(`  Old: ${path.resolve(oldDir)}`);
-  console.log(`  New: ${path.resolve(newDir)}`);
+  console.log(`Comparing bundle sizes:`);
+  console.log(`  Old: ${oldDirResolved}`);
+  console.log(`  New: ${newDirResolved}`);
 
   const entryNames = getManifestEntryNames();
-  const result = compareBundleSizes(oldDir, newDir, threshold, entryNames);
+  const comparisons = collectComparisonData(
+    oldDirResolved,
+    newDirResolved,
+    entryNames,
+  );
 
-  if (result.skipped) {
-    console.log(`\n${result.reason} — skipped`);
-    process.exit(0);
-  }
-
-  if (result.error) {
-    console.error(`\nError: ${result.error}`);
+  if (comparisons === null) {
+    console.error('Error: generated/ directory missing from one or both builds');
     process.exit(1);
   }
 
-  const { commonFiles, flagged } = result;
-
-  if (flagged.length === 0) {
-    console.log(
-      `\n${commonFiles.length} common generated entry files within threshold`,
-    );
+  if (comparisons.length === 0) {
+    console.log('\nNo common entry files to compare.');
     process.exit(0);
   }
 
-  console.log(`\n${flagged.length} file(s) over threshold:`);
-  const maxName = Math.max(...flagged.map(f => f.relPath.length));
-  for (const { relPath, oldSize, newSize, pctChange } of flagged) {
-    const namePad = relPath.padEnd(maxName);
-    console.log(
-      `  ${namePad}  ${formatBytes(oldSize)} -> ${formatBytes(newSize)}  (${formatPct(pctChange)})`,
-    );
-  }
-  process.exit(1);
+  console.log('\nBundle Size Comparison:');
+  console.log(generateMarkdownTable(comparisons));
+
+  const csv = generateCSV(comparisons);
+  const outputFile = path.join(process.cwd(), 'bundle-size-comparison.csv');
+  fs.writeFileSync(outputFile, csv, 'utf8');
+  console.log(`\nCSV saved to: ${outputFile}`);
+  console.log(`Total compared: ${comparisons.length}`);
 }
 
-main();
+if (require.main === module) {
+  main();
+}
