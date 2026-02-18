@@ -490,6 +490,18 @@
       "rootUrl": "/my-messages"
     },
     {
+      "directoryPath": "src/applications/mhv-demo-mode",
+      "appName": "MHV Demo Mode",
+      "entryName": "mhv-demo-mode",
+      "rootUrl": "/mhv-demo-mode"
+    },
+    {
+      "directoryPath": "src/applications/mhv-demo-mode/demo-apps/mhv-landing-page",
+      "appName": "My HealtheVet on VA.gov",
+      "entryName": "mhv-landing-page",
+      "rootUrl": "/my-health"
+    },
+    {
       "directoryPath": "src/applications/mhv-landing-page",
       "appName": "My HealtheVet on VA.gov",
       "entryName": "mhv-landing-page",

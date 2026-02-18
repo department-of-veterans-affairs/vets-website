@@ -1,0 +1,7 @@
+{
+  "appName": "My HealtheVet on VA.gov",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "mhv-landing-page",
+  "rootUrl": "/my-health",
+  "productId": "4d8b0801-dd86-4728-9609-9d794c923e03"
+}
