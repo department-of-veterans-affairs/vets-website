@@ -365,6 +365,11 @@ module.exports = async (env = {}) => {
       alias: {
         ...babelAliases,
         'iconv-lite': false,
+        // Force root css-library (patched 0.29.1) so claims-status doesn't use nested 0.8.8 copy missing _override-function.scss
+        '@department-of-veterans-affairs/css-library': path.resolve(
+          __dirname,
+          '../node_modules/@department-of-veterans-affairs/css-library',
+        ),
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts'],
       fallback: {
