@@ -138,7 +138,7 @@ jobs:
           env_variable_name: MAPBOX_TOKEN
 
       - name: Build
-        run: NODE_ENV=production yarn build:rspack --env buildtype=vagovprod --env scaffold --stats normal
+        run: NODE_ENV=production yarn build:rspack --env buildtype=vagovprod --env scaffold
         timeout-minutes: 30
 
       - name: Generate build details
