@@ -2,8 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { parse } from 'date-fns';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore - No type definitions available for this module
+// @ts-expect-error - No type definitions available for this module
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';

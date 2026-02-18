@@ -1,6 +1,4 @@
 import { useEffect } from 'react';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore - Datadog types may not be available
 import { datadogRum } from '@datadog/browser-rum';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
@@ -58,8 +56,7 @@ const initializeDatadogRum = (): void => {
     if (!datadogRumConfig.env) {
       datadogRumConfig.env = environment.vspEnvironment() as string;
     }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore - Datadog RUM configuration may have compatibility issues
+    // @ts-expect-error - beforeSend callback uses simplified event type
     datadogRum.init(datadogRumConfig);
     datadogRum.startSessionReplayRecording();
   }
