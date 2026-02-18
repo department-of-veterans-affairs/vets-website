@@ -49,6 +49,8 @@ import {
   hospitalizationDateSchema,
   hospitalizationFacilityUiSchema,
   hospitalizationFacilitySchema,
+  examinerEmailUiSchema,
+  examinerEmailSchema,
 } from '@bio-aquia/21-2680-house-bound-status/pages';
 
 import { isClaimantVeteran } from '@bio-aquia/21-2680-house-bound-status/utils/relationship-helpers';
@@ -343,6 +345,19 @@ const formConfig = {
           schema: hospitalizationFacilitySchema,
           depends: formData =>
             formData?.hospitalizationStatus?.isCurrentlyHospitalized === true,
+        },
+      },
+    },
+
+    // Step 5 of 5: Medical professional notification
+    examinerNotificationChapter: {
+      title: 'Medical professional',
+      pages: {
+        examinerEmail: {
+          path: 'examiner-email',
+          title: 'Medical professional information',
+          uiSchema: examinerEmailUiSchema,
+          schema: examinerEmailSchema,
         },
       },
     },

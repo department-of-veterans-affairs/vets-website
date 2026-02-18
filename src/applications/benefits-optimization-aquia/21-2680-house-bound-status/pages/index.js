@@ -58,3 +58,6 @@ export {
   hospitalizationFacilityUiSchema,
   hospitalizationFacilitySchema,
 } from './hospitalization-facility';
+
+// Examiner Notification Chapter
+export { examinerEmailUiSchema, examinerEmailSchema } from './examiner-email';
