@@ -121,7 +121,7 @@ describe('Agencies Or Courts Pages', () => {
   });
 
   context('arrayBuilderOptions', () => {
-    it('should have the correct arrayPath, nouns, and maxItems properties', () => {
+    it('should have the correct arrayPath, nouns, reviewAddButton text, yesNoBlankReviewQuestion text and maxItems properties', () => {
       expect(arrayBuilderOptions.arrayPath).to.equal('agenciesOrCourts');
       expect(arrayBuilderOptions.nounSingular).to.equal(
         'state or Federal agency or court',
@@ -130,6 +130,12 @@ describe('Agencies Or Courts Pages', () => {
         'state or Federal agencies or courts',
       );
       expect(arrayBuilderOptions.required).to.be.false;
+      expect(arrayBuilderOptions.text.reviewAddButtonText()).to.equal(
+        'Add an agency or court',
+      );
+      expect(arrayBuilderOptions.text.yesNoBlankReviewQuestion()).to.equal(
+        'Are you currently admitted to practice before any state or Federal agency or any Federal court?',
+      );
     });
 
     it('should return the correct card title from getItemName', () => {

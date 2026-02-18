@@ -52,8 +52,6 @@ export const setupCypress = (returnUrl = '') => {
     data: {
       type: 'feature_toggles',
       features: [
-        { name: 'vaDependentsV2', value: true },
-        { name: 'va_dependents_v2', value: true },
         { name: 'vaDependentsNetWorthAndPension', value: true },
         { name: 'va_dependents_net_worth_and_pension', value: true },
         { name: 'vaDependentsDuplicateModals', value: true },
@@ -226,5 +224,6 @@ export const signAndSubmit = () => {
     .shadow()
     .find('input[type="checkbox"]')
     .check({ force: true });
+  cy.injectAxeThenAxeCheck();
   cy.clickFormContinue();
 };

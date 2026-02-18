@@ -12,6 +12,7 @@ import {
 } from '../../actions/conditions';
 import { getCondition as apiGetCondition } from '../../api/MrApi';
 import * as Helpers from '../../util/helpers';
+import error404 from '../fixtures/404.json';
 
 describe('Get conditions action', () => {
   it('should dispatch a get list action (default behavior isAccelerating is false/undefined )', () => {
@@ -60,6 +61,12 @@ describe('Get condition action', () => {
       expect(dispatch.calledOnce).to.be.true;
     });
   });
+
+  it('should dispatch an add alert action on error and not throw', async () => {
+    mockApiRequest(error404, false);
+    await getConditionDetails('123', [])(dispatch);
+    expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+  });
 });
 
 describe('Clear condition details action', () => {
@@ -86,6 +93,15 @@ describe('getConditionsList - isAccelerating feature', () => {
         Actions.Conditions.UPDATE_LIST_STATE,
       );
       expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Conditions.GET_UNIFIED_LIST,
+      );
+    });
+  });
+
+  it("should Not Call Actions.Conditions.GET_UNIFIED_LIST when there's an error", () => {
+    mockApiRequest(error404, false);
+    return getConditionsList(false, true)(dispatch).then(() => {
+      expect(dispatch.secondCall.args[0].type).to.not.equal(
         Actions.Conditions.GET_UNIFIED_LIST,
       );
     });

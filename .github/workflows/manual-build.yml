@@ -1,0 +1,70 @@
+name: Manual Build and Archive
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: SHA to base the tag off of
+        required: false
+        default: "0"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  BUILD_ENV: vagovprod
+  COMMIT_SHA: ${{ github.event.inputs.commit_sha }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-16-cores-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          ref: ${{ env.COMMIT_SHA }}
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Build
+        run: yarn build --verbose --buildtype=${{ env.BUILD_ENV }}
+        timeout-minutes: 30
+
+      - name: Generate build details
+        run: |
+          cat > build/${{ env.BUILD_ENV }}/BUILD.txt << EOF
+          BUILDTYPE=${{ env.BUILD_ENV }}
+          NODE_ENV=production
+          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          CHANGE_TARGET=null
+          RUN_ID=${{ github.run_id }}
+          RUN_NUMBER=${{ github.run_number }}
+          REF=${{ env.COMMIT_SHA }}
+          BUILDTIME=$(date +%s)
+          EOF
+
+      - name: Compress and archive build
+        run: tar -C build/${{ env.BUILD_ENV }} -cjf ${{ env.BUILD_ENV }}.tar.bz2 .
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
+
+      - name: Upload build
+        run: aws s3 cp ${{ env.BUILD_ENV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ env.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2 --acl public-read --region us-gov-west-1

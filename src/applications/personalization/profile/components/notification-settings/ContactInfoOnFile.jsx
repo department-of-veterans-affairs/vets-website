@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
 import { FIELD_NAMES, USA } from '@@vap-svc/constants';
 
@@ -34,21 +33,22 @@ const ContactInfoOnFile = ({
         {showEmailNotificationSettings ? (
           <li className="vads-u-margin-y--0p5">
             <strong>Email address: </strong>
-            {emailAddress && `${emailAddress} `}
-            <Link
+            {emailAddress}
+            <br />
+            <va-link
               data-testid="email-address-on-file"
-              to={generateContactInfoLink({
+              href={generateContactInfoLink({
                 fieldName: FIELD_NAMES.EMAIL,
                 returnPath: encodeURIComponent(
                   PROFILE_PATHS.NOTIFICATION_SETTINGS,
                 ),
               })}
-              className="vads-u-display--block medium-screen:vads-u-display--inline vads-u-margin-bottom--1p5 medium-screen:vads-u-margin-bottom--0 medium-screen:vads-u-margin-left--1"
-            >
-              {emailAddress
-                ? 'Update your email address'
-                : 'Add your email address to your profile'}
-            </Link>
+              text={
+                emailAddress
+                  ? 'Update your email address'
+                  : 'Add your email address to your profile'
+              }
+            />
           </li>
         ) : null}
 
@@ -78,9 +78,9 @@ const ContactInfoOnFile = ({
               />
             </span>
           )}
+          <br />
           <va-link
             href={updateMobileNumberHref}
-            class="vads-u-display--block medium-screen:vads-u-display--inline medium-screen:vads-u-margin-left--1"
             aria-label="mobile number"
             text={
               mobilePhoneNumber

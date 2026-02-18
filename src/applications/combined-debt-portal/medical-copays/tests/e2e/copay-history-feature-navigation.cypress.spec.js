@@ -13,7 +13,7 @@ import {
 } from '../../../combined/tests/e2e/helpers/cdp-helpers';
 
 describe('CDP - Copay navigation and content w/ vha_show_payment_history enabled', () => {
-  const id = 'f4385298-08a6-42f8-a86f-50e97033fb85';
+  const id = '4-1abZUKu7xIvIw6';
 
   beforeEach(() => {
     cy.login(mockUser);
@@ -26,7 +26,7 @@ describe('CDP - Copay navigation and content w/ vha_show_payment_history enabled
       'features',
     );
     debtResponses.good('debts');
-    copayResponses.good('copays');
+    copayResponses.goodv1('copays');
     cy.visit('/manage-va-debt/summary/copay-balances');
 
     // Page load
@@ -39,10 +39,8 @@ describe('CDP - Copay navigation and content w/ vha_show_payment_history enabled
   it('displays copay balances', () => {
     cy.findByTestId('summary-page-title').should('exist');
     cy.findByTestId(`balance-card-${id}`).should('exist');
-    cy.findByTestId(`amount-${id}`).contains('$15.00');
-    cy.findByTestId(`facility-city-${id}`).contains(
-      'Ralph H. Johnson Department of Veterans Affairs Medical Center',
-    );
+    cy.findByTestId(`amount-${id}`).contains('$0.00');
+    cy.findByTestId(`facility-city-${id}`).contains('TEST VAMC - LYONS');
     cy.injectAxeThenAxeCheck();
   });
 

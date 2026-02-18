@@ -8,8 +8,6 @@ export const FINDFORM_REQUIRED = '[data-e2e-id="find-form-required"]';
 export const FINDFORM_ERROR_MSG = '[data-e2e-id="find-form-error-message"]';
 export const SEARCH_RESULT_TITLE = '[data-e2e-id="result-title"]';
 export const SORT_SELECT_WIDGET = 'va-select[name="findFormsSortBySelect"]';
-export const ADOBE_LINK = '[data-e2e-id="adobe-link"]';
-export const MODAL_DOWNLOAD_LINK = '[data-e2e-id="modal-download-link"]';
 export const MODAL_CLOSE_BUTTON = '.va-modal-close';
 export const MODAL = 'va-modal';
 export const FORM_DETAIL_HEADER = '[data-testid="va_form--downloadable-pdf"]';
@@ -32,7 +30,7 @@ export const goToPrevPage = () =>
 
 export const typeSearchTerm = (term = '') =>
   cy
-    .get(FINDFORM_INPUT_ROOT)
+    .get(FINDFORM_INPUT_ROOT, { timeout: 10000 })
     .shadow()
     .find(FINDFORM_INPUT)
     .should('exist')
@@ -44,7 +42,7 @@ export const typeSearchTerm = (term = '') =>
 
 export const clickSearch = () =>
   cy
-    .get(FINDFORM_INPUT_ROOT)
+    .get(FINDFORM_INPUT_ROOT, { timeout: 10000 })
     .shadow()
     .find(FINDFORM_SEARCH)
     .should('exist')
@@ -53,7 +51,7 @@ export const clickSearch = () =>
 
 export const focusSearchButton = () =>
   cy
-    .get(FINDFORM_INPUT_ROOT)
+    .get(FINDFORM_INPUT_ROOT, { timeout: 10000 })
     .shadow()
     .find(FINDFORM_SEARCH)
     .should('exist')
@@ -159,3 +157,20 @@ export const verifyTextInsideLink = (selector, text) =>
 
 export const verifyElementDoesNotExist = selector =>
   cy.get(selector).should('not.exist');
+
+export const waitForPageToLoad = () => {
+  // Wait for the main app container to be present
+  cy.get(APP, { timeout: 15000 }).should('exist');
+
+  // Wait for the search input to be present and ready
+  cy.get(FINDFORM_INPUT_ROOT, { timeout: 15000 })
+    .should('exist')
+    .and('be.visible');
+
+  // Wait for the shadow DOM to be ready
+  cy.get(FINDFORM_INPUT_ROOT)
+    .shadow()
+    .find(FINDFORM_INPUT, { timeout: 10000 })
+    .should('exist')
+    .and('be.visible');
+};

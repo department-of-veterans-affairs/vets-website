@@ -29,7 +29,10 @@ import {
   hasMPIConnectionError,
   isNotInMPI,
   selectAvailableServices,
+  selectProfile,
 } from '~/platform/user/selectors';
+import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
+import { VA_FORM_IDS } from '~/platform/forms/constants';
 import {
   RequiredLoginView,
   RequiredLoginLoader,
@@ -55,11 +58,12 @@ import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '
 import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
 import BenefitPaymentsLegacy from './benefit-payments/BenefitPaymentsLegacy';
-import Debts from './debts/Debts';
+import DebtsLegacy from './debts/DebtsLegacy';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../../common/selectors';
@@ -92,8 +96,16 @@ const DashboardHeader = ({
   return (
     <div>
       {displayOnboardingInformation && (
-        <VaAlert status="info" visible className="vads-u-margin-top--4">
-          <h2> Welcome to VA, {user.profile.userFullName.first}</h2>
+        <VaAlert
+          status="info"
+          visible
+          className="vads-u-margin-top--4"
+          data-testid="onboarding-beta-alert"
+        >
+          <h2 className="dd-privacy-mask">
+            {' '}
+            Welcome to VA, {user.profile.userFullName.first}
+          </h2>
           <p>
             We understand that transitioning out of the military can be a
             daunting experience, which is why we offer a range of resources to
@@ -132,6 +144,7 @@ const DashboardHeader = ({
         href="/profile"
         text="Go to your profile"
         className="vads-u-margin-top--2"
+        testId="my-va-to-profile-link"
         onClick={() => {
           recordEvent({
             event: 'dashboard-navigation',
@@ -140,7 +153,13 @@ const DashboardHeader = ({
           });
         }}
       />
-      {showConfirmEmail && <MhvAlertConfirmEmail />}
+      {showConfirmEmail && (
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 dd-privacy-mask">
+            <MhvAlertConfirmEmail />
+          </div>
+        </div>
+      )}
       {isLOA3 && <ContactInfoNeeded />}
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
@@ -261,7 +280,6 @@ const Dashboard = ({
   showNotifications,
   isVAPatient,
   user,
-  dataLoadingDisabled,
   getAppeals,
   shouldLoadAppeals,
   getClaims,
@@ -280,6 +298,8 @@ const Dashboard = ({
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
   const dispatch = useDispatch();
 
+  useBrowserMonitoring();
+
   const [welcomeModalVisible, setWelcomeModalVisible] = useState(
     !localStorage.getItem('welcomeToMyVAModalIsDismissed'),
   );
@@ -288,22 +308,22 @@ const Dashboard = ({
     localStorage.setItem('welcomeToMyVAModalIsDismissed', 'true');
   };
 
-  React.useEffect(
+  useEffect(
     () => {
-      if (!dataLoadingDisabled && shouldLoadAppeals) {
+      if (shouldLoadAppeals) {
         getAppeals();
       }
     },
-    [dataLoadingDisabled, getAppeals, shouldLoadAppeals],
+    [getAppeals, shouldLoadAppeals],
   );
 
-  React.useEffect(
+  useEffect(
     () => {
-      if (!dataLoadingDisabled && shouldLoadClaims) {
+      if (shouldLoadClaims) {
         getClaims();
       }
     },
-    [dataLoadingDisabled, getClaims, shouldLoadClaims],
+    [getClaims, shouldLoadClaims],
   );
 
   useEffect(
@@ -324,25 +344,20 @@ const Dashboard = ({
 
   useEffect(
     () => {
-      if (!dataLoadingDisabled && isVAPatient) {
+      if (isVAPatient) {
         fetchConfirmedFutureAppointments();
       }
     },
-    [dataLoadingDisabled, fetchConfirmedFutureAppointments, isVAPatient],
+    [fetchConfirmedFutureAppointments, isVAPatient],
   );
 
   useEffect(
     () => {
-      if (shouldFetchUnreadMessages && !dataLoadingDisabled && isVAPatient) {
+      if (shouldFetchUnreadMessages && isVAPatient) {
         fetchUnreadMessages();
       }
     },
-    [
-      shouldFetchUnreadMessages,
-      fetchUnreadMessages,
-      dataLoadingDisabled,
-      isVAPatient,
-    ],
+    [shouldFetchUnreadMessages, fetchUnreadMessages, isVAPatient],
   );
 
   useEffect(
@@ -405,11 +420,12 @@ const Dashboard = ({
 
   useEffect(
     () => {
-      if (!showGenericDebtCard) {
+      // Wait for the toggles to load to determine whether to fetch debts
+      if (!showLoader && !showGenericDebtCard) {
         getDebts(true);
       }
     },
-    [getDebts, showGenericDebtCard],
+    [showLoader, getDebts, showGenericDebtCard],
   );
 
   useEffect(
@@ -459,7 +475,7 @@ const Dashboard = ({
                 isLOA3={isLOA3}
                 showConfirmEmail={props.showConfirmEmail}
                 showNotifications={showNotifications}
-                user={props.user}
+                user={user}
               />
 
               <Toggler
@@ -516,7 +532,7 @@ const Dashboard = ({
                 >
                   <Toggler.Disabled>
                     <HealthCare isVAPatient={isVAPatient} />
-                    <Debts />
+                    <DebtsLegacy />
                     <BenefitPaymentsLegacy
                       payments={payments}
                       showNotifications={showNotifications}
@@ -697,12 +713,23 @@ const mapStateToProps = state => {
   const { debtsCount } = state.allDebts;
   const copays = state.allDebts.copays || [];
 
+  const hasHCAInProgress =
+    selectProfile(state)
+      .savedForms?.filter(filterOutExpiredForms)
+      .some(savedForm => savedForm.form === VA_FORM_IDS.FORM_10_10EZ) ?? false;
+
+  const isPatient = isVAPatientSelector(state);
+
+  const shouldGetESRStatus =
+    !hasHCAInProgress && !isPatient && isLOA3Selector(state);
+
   return {
     appealsData: claimsState.appeals,
     claimsData: claimsState.claims,
     debts,
     debtsCount,
     copays,
+    shouldGetESRStatus,
     shouldLoadAppeals: isAppealsAvailableSelector(state) && canAccessAppeals,
     shouldLoadClaims: isClaimsAvailableSelector(state),
     canAccessMilitaryHistory,
@@ -730,28 +757,42 @@ const mapStateToProps = state => {
 };
 
 Dashboard.propTypes = {
+  getAppeals: PropTypes.func.isRequired,
+  getClaims: PropTypes.func.isRequired,
+  getESREnrollmentStatus: PropTypes.func.isRequired,
+  getFormStatuses: PropTypes.func.isRequired,
+  hasAPIError: PropTypes.bool.isRequired,
+  shouldLoadAppeals: PropTypes.bool.isRequired,
+  shouldLoadClaims: PropTypes.bool.isRequired,
   canAccessMilitaryHistory: PropTypes.bool,
   canAccessPaymentHistory: PropTypes.bool,
   canAccessRatingInfo: PropTypes.bool,
+  dataLoadingDisabled: PropTypes.bool,
+  fetchConfirmedFutureAppointments: PropTypes.func,
   fetchFullName: PropTypes.func,
   fetchMilitaryInformation: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
+  fetchUnreadMessages: PropTypes.func,
+  getCopays: PropTypes.func,
+  getDebts: PropTypes.func,
   getPayments: PropTypes.func,
   isLOA1: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isVAPatient: PropTypes.bool,
   payments: PropTypes.arrayOf(
     PropTypes.shape({
+      accountNumber: PropTypes.string.isRequired,
+      bankName: PropTypes.string.isRequired,
       payCheckAmount: PropTypes.string.isRequired,
       payCheckDt: PropTypes.string.isRequired,
       payCheckId: PropTypes.string.isRequired,
       payCheckReturnFiche: PropTypes.string.isRequired,
       payCheckType: PropTypes.string.isRequired,
       paymentMethod: PropTypes.string.isRequired,
-      bankName: PropTypes.string.isRequired,
-      accountNumber: PropTypes.string.isRequired,
     }),
   ),
+  shouldFetchUnreadMessages: PropTypes.bool,
+  shouldGetESRStatus: PropTypes.bool,
   showClaimsAndAppeals: PropTypes.bool,
   showConfirmEmail: PropTypes.bool,
   showHealthCare: PropTypes.bool,
@@ -761,19 +802,10 @@ Dashboard.propTypes = {
   showNotInMPIError: PropTypes.bool,
   showNotifications: PropTypes.bool,
   showValidateIdentityAlert: PropTypes.bool,
+  submittedError: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
   totalDisabilityRatingError: PropTypes.bool,
   user: PropTypes.object,
-  getAppeals: PropTypes.func.isRequired,
-  getClaims: PropTypes.func.isRequired,
-  getFormStatuses: PropTypes.func.isRequired,
-  getESREnrollmentStatus: PropTypes.func.isRequired,
-  hasAPIError: PropTypes.bool.isRequired,
-  shouldLoadAppeals: PropTypes.bool.isRequired,
-  shouldLoadClaims: PropTypes.bool.isRequired,
-  dataLoadingDisabled: PropTypes.bool,
-  shouldGetESRStatus: PropTypes.bool,
-  submittedError: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

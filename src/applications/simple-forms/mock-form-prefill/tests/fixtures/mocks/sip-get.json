@@ -1,0 +1,40 @@
+{
+  "formData": {
+    "data": {
+      "attributes": {
+        "veteran": {
+          "firstName": "Mitchell",
+          "middleName": "George",
+          "lastName": "Jenkins",
+          "suffix": "",
+          "gender": "M",
+          "dateOfBirth": "1956-07-10",
+          "ssn": "6789",
+          "vaFileNumber": "2345",
+          "address": {
+            "addressLine1": "125 Main St.",
+            "addressLine2": "",
+            "addressLine3": "",
+            "city": "Fulton",
+            "stateCode": "NY",
+            "zipCode5": "97063",
+            "countryName": "United States"
+          },
+          "phone": {
+            "areaCode": "555",
+            "phoneNumber": "8081234"
+          },
+          "homePhone": "5558081234",
+          "emailAddressText": "mitchell.jenkins.test@gmail.com",
+          "mobilePhone": "5554044567",
+          "lastServiceBranch": "Air Force"
+        }
+      }
+    }
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/veteran-details"
+  }
+}

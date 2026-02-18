@@ -28,6 +28,8 @@ function AddressAutosuggest({
   const [isTouched, setIsTouched] = useState(false);
   const [isGeocoding, setIsGeocoding] = useState(false);
 
+  const errorID = 'street-city-state-zip-error';
+
   const inputClearClick = useCallback(
     () => {
       onClearClick(); // clears searchString in redux
@@ -99,9 +101,12 @@ function AddressAutosuggest({
 
   const onBlur = () => {
     const value = inputValue?.trimStart() || '';
-    onChange({ searchString: ' ' });
-    onChange({ searchString: value });
+
     // not expected to search when user leaves the field
+    if (value !== '') {
+      onChange({ searchString: ' ' });
+      onChange({ searchString: value });
+    }
   };
 
   const handleInputChange = e => {
@@ -115,6 +120,20 @@ function AddressAutosuggest({
     }
 
     debouncedUpdateSearch(value);
+  };
+
+  // add aria-describedby if error occurs
+  const addAriaErrorId = () => {
+    const addressInput = document.getElementById('street-city-state-zip');
+    addressInput?.setAttribute('aria-describedby', `${errorID}`);
+  };
+
+  // remove aria-describedby if error resolved
+  const removeAriaErrorId = () => {
+    const addressInput = document.getElementById('street-city-state-zip');
+    if (addressInput?.hasAttribute('aria-describedby')) {
+      addressInput.removeAttribute('aria-describedby');
+    }
   };
 
   useEffect(
@@ -145,20 +164,30 @@ function AddressAutosuggest({
     [searchString, geolocationInProgress],
   );
 
+  useEffect(
+    () => {
+      // Focus the error message when it appears so screen readers announce it
+      if (showAddressError) {
+        addAriaErrorId();
+      } else {
+        removeAriaErrorId();
+      }
+    },
+    [showAddressError],
+  );
+
   return (
     <Autosuggest
       inputValue={inputValue || ''}
       onInputValueChange={handleInputChange}
       selectedItem={selectedItem || null}
       handleOnSelect={handleOnSelect}
-      /* eslint-disable prettier/prettier */
-      label={(
+      label={
         <>
           <span id="city-state-zip-text">Zip code or city, state</span>{' '}
           <span className="form-required-span">(*Required)</span>
         </>
-      )}
-      /* eslint-enable prettier/prettier */
+      }
       options={options}
       downshiftInputProps={{
         // none are required
@@ -174,12 +203,15 @@ function AddressAutosuggest({
         },
       }}
       onClearClick={inputClearClick}
-      inputError={<AddressInputError showError={showAddressError || false} />}
+      /* eslint-disable prettier/prettier */
+
+      inputError={<AddressInputError showError={showAddressError || false} errorId={errorID} />}
+      /* eslint-enable prettier/prettier */
+
       showError={showAddressError}
       inputId="street-city-state-zip"
       inputRef={inputRef}
-      /* eslint-disable prettier/prettier */
-      labelSibling={(
+      labelSibling={
         <UseMyLocation
           onClick={geolocateUser}
           geolocationInProgress={currentQuery.geolocationInProgress}
@@ -188,7 +220,7 @@ function AddressAutosuggest({
           isTablet={isTablet}
           isMobile={isMobile}
         />
-      )}
+      }
       keepDataOnBlur
       showDownCaret={false}
       shouldShowNoResults

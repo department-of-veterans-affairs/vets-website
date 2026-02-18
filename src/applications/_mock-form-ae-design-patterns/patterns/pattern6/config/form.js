@@ -2,7 +2,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
 import IntroductionPage from 'applications/_mock-form-ae-design-patterns/patterns/pattern6/components/IntroductionPage';
 import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
-import { arrayBuilderPages } from 'applications/_mock-form-ae-design-patterns/patterns/pattern6/array-builder/arrayBuilder';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 
 import currentMaritalStatus from '../pages/currentMaritalStatus';
 import currentMaritalStatusSimple from '../pages/currentMaritalStatusSimple';

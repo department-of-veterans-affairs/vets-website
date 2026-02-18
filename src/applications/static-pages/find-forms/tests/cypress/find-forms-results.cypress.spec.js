@@ -6,6 +6,10 @@ describe('find forms search results', () => {
   it('should properly display search results', () => {
     cy.intercept('GET', '/v0/forms?query=health', stub).as('getFindAForm');
     cy.visit('/find-forms/');
+
+    // Wait for page to fully load before proceeding
+    h.waitForPageToLoad();
+
     cy.injectAxeThenAxeCheck();
 
     h.typeSearchTerm('health');
@@ -66,6 +70,10 @@ describe('find forms search results', () => {
       'getFindAForm',
     );
     cy.visit('/find-forms/?q=invalid');
+
+    // Wait for page to fully load before proceeding
+    h.waitForPageToLoad();
+
     cy.injectAxeThenAxeCheck();
     cy.wait('@getFindAForm');
 
@@ -82,6 +90,10 @@ describe('find forms search results', () => {
       'getFindAForm',
     );
     cy.visit('/find-forms/?q=dd214');
+
+    // Wait for page to fully load before proceeding
+    h.waitForPageToLoad();
+
     cy.injectAxeThenAxeCheck();
     cy.wait('@getFindAForm');
 
@@ -102,8 +114,12 @@ describe('find forms search results', () => {
     );
 
     cy.visit('/find-forms/?q=health');
+
+    // Wait for page to fully load before proceeding
+    h.waitForPageToLoad();
+
     cy.injectAxeThenAxeCheck();
-    cy.get('button[data-testid^="pdf-link"]')
+    cy.get('button[data-testid^="pdf-link"]', { timeout: 15000 })
       .eq(0)
       .click({ force: true });
 
@@ -112,16 +128,16 @@ describe('find forms search results', () => {
     modal()
       .scrollIntoView()
       .within(() => {
-        cy.get(h.ADOBE_LINK)
-          .should('contain.text', 'Get Acrobat Reader for free from Adobe')
-          .should('have.attr', 'href')
-          .and('include', 'https://get.adobe.com/reader/');
+        cy.get('va-link[external]')
+          .should('have.attr', 'text', 'Get Acrobat Reader for free from Adobe')
+          .should('have.attr', 'href', 'https://get.adobe.com/reader/');
 
-        cy.get(h.MODAL_DOWNLOAD_LINK)
-          .should('contain.text', 'Download VA Form 10-252')
-          .should('have.attr', 'href')
-          .and(
-            'include',
+        cy.get('va-link[download]')
+          .should('have.attr', 'filetype', 'PDF')
+          .should('have.attr', 'text', 'Download VA Form 10-252')
+          .should(
+            'have.attr',
+            'href',
             'https://www.va.gov/vaforms/medical/pdf/10-252%20Authorization%20To%20Release%20Protected%20Health%20Information%20To%20State%20Local%20Public%20Authorities.pdf',
           );
 

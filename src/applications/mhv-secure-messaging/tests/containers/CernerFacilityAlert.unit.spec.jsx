@@ -15,7 +15,8 @@ import {
   userProfileFacilities,
 } from '../fixtures/cerner-facility-mock-data.json';
 
-describe('Cerner Facility Alert', () => {
+// This is being deprecated in favor of a shared CernerFacilitiesAlert component
+describe.skip('Cerner Facility Alert', () => {
   const initialStateMock = {
     sm: {
       messageDetails: { message: messageResponse },
@@ -108,7 +109,7 @@ describe('Cerner Facility Alert', () => {
       facilities: userProfileFacilities.filter(f => f.facilityId === '668'),
     });
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
-    const link = screen.getByText('Go to My VA Health');
+    const link = screen.getByTestId('cerner-facility-action-link');
     expect(link).to.exist;
     fetchStub.resetHistory();
     fireEvent.click(link);
@@ -129,7 +130,7 @@ describe('Cerner Facility Alert', () => {
       facilities: userProfileFacilities.filter(f => f.facilityId === '668'),
     });
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
-    const link = screen.getByText('Go to My VA Health');
+    const link = screen.getByTestId('cerner-facility-action-link');
     expect(link).to.exist;
     fetchStub.resetHistory();
     fireEvent.click(link);

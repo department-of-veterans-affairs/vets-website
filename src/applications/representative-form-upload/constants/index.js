@@ -31,14 +31,14 @@ export const NAV_MOBILE_DROPDOWN = [
 export const NAV_MENU_DROPDOWN = [
   {
     LABEL: 'Find Claimant',
-    URL: '/claimant-search',
+    URL: '/find-claimant',
     ICON: 'search',
     TEST_ID: 'user-nav-claimant-search-link',
   },
   {
     LABEL: 'Representation Requests',
-    URL: '/poa-requests',
-    TEST_ID: 'user-nav-poa-requests-link',
+    URL: '/representation-requests',
+    TEST_ID: 'user-nav-representation-requests-link',
   },
   {
     LABEL: 'Submissions',
@@ -47,7 +47,9 @@ export const NAV_MENU_DROPDOWN = [
   },
   {
     LABEL: 'Help',
-    URL: '/get-help',
+    URL: '/help',
     TEST_ID: 'user-nav-help-link',
   },
 ];
+
+export const ITF_PATH = '/submit-va-form-21-0966';

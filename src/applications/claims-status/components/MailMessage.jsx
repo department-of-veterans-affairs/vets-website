@@ -1,4 +1,5 @@
 import React from 'react';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const mailMessage = (
   <>
@@ -11,13 +12,12 @@ const mailMessage = (
       <li>Make copies of the documents.</li>
       <li>Make sure you write your name and claim number on every page.</li>
       <li>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
+        <VaLink
+          external
           href="http://www.benefits.va.gov/COMPENSATION/mailingaddresses.asp"
-        >
-          Mail them to the VA Claims Intake Center (opens in a new tab).
-        </a>
+          text="Mail them to the VA Claims Intake Center"
+        />
+        .
       </li>
     </ol>
   </>

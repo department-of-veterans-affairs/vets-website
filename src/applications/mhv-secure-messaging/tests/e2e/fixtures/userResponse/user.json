@@ -17,6 +17,7 @@
         "id-card",
         "identity-proofed",
         "messaging",
+        "rx",
         "vet360",
         "evss_common_client",
         "claim_increase",
@@ -53,10 +54,7 @@
         "birthDate": "20011028",
         "familyName": "Wazowski",
         "gender": "M",
-        "givenNames": [
-          "Michael",
-          ""
-        ],
+        "givenNames": ["Michael", ""],
         "isCernerPatient": false,
         "facilities": [
           {
@@ -65,7 +63,13 @@
           }
         ],
         "vaPatient": true,
-        "mhvAccountState": "NONE"
+        "mhvAccountState": "MULTIPLE",
+        "ohMigrationInfo": {
+          "userAtPretransitionedOhFacility": false,
+          "userFacilityReadyForInfoAlert": false,
+          "userFacilityMigratingToOh": false,
+          "migrationSchedules": []
+        }
       },
       "veteranStatus": {
         "status": "OK",

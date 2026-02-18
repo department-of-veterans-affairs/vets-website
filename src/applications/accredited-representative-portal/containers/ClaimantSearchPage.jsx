@@ -14,8 +14,8 @@ import {
   SEARCH_BC_LABEL,
   findClaimantBC,
   requestsContainStatus,
-  addStyleToShadowDomOnPages,
 } from '../utilities/poaRequests';
+import { addStyleToShadowDomOnPages } from '../utilities/helpers';
 import POARequestCard from '../components/POARequestCard';
 
 const lastFour = ssn => {
@@ -67,7 +67,7 @@ const SearchResults = ({ claimant, searchData }) => {
   if (!claimant) {
     return (
       <>
-        <p data-testid="poa-requests-table-fetcher-no-poa-requests">
+        <p data-testid="representation-requests-table-fetcher-no-poa-requests">
           No result found for <strong>"{searchData.first_name}"</strong>
           {', '}
           <strong>"{searchData.last_name}"</strong>
@@ -100,7 +100,7 @@ const SearchResults = ({ claimant, searchData }) => {
   return (
     <>
       <p
-        data-testid="poa-requests-table-fetcher-poa-requests"
+        data-testid="representation-requests-table-fetcher-poa-requests"
         className="claimant-search-showing-results"
       >
         Showing result for <strong>"{searchData.first_name}"</strong>
@@ -147,7 +147,7 @@ const SearchResults = ({ claimant, searchData }) => {
           </h3>
           <div className="poa-status-cta">{poaStatusCta(claimant)}</div>
           <ul
-            data-testid="poa-requests-card"
+            data-testid="representation-requests-card"
             className="poa-request__list poa-request__list--search"
             sort-column={1}
           >
@@ -234,7 +234,7 @@ const ClaimantSearchPage = title => {
           setLastSearchData({ ...searchData });
           setSearchPerformed(true);
           setLoading(false);
-          focusElement('div.poa-requests-page-table-container');
+          focusElement('div.representation-requests-page-table-container');
         });
     }
     return null;
@@ -271,7 +271,7 @@ const ClaimantSearchPage = title => {
 
   const searchResult = () =>
     searchPerformed ? (
-      <div className="poa-requests-page-table-container">
+      <div className="representation-requests-page-table-container">
         <div
           className={searchStatus}
           id={`tabpanel-${searchStatus}`}
@@ -293,7 +293,7 @@ const ClaimantSearchPage = title => {
         homeVeteransAffairs={false}
       />
       <h1
-        data-testid="poa-requests-heading"
+        data-testid="representation-requests-heading"
         className="poa-request__search-header"
       >
         Find claimant

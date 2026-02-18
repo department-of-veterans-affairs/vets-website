@@ -1,12 +1,16 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isNil } from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export default function transform(formConfig, form) {
   // Remove statement of truth field
-  const statementTransform = formData => {
+  const statementAndAuthTransform = formData => {
     const clonedData = cloneDeep(formData);
-
     delete clonedData.statementOfTruthCertified;
+
+    if (isNil(clonedData.isAuthenticated)) {
+      clonedData.isAuthenticated =
+        JSON.parse(localStorage.getItem('hasSession')) ?? false;
+    }
 
     return clonedData;
   };
@@ -87,6 +91,28 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
+  const allProprietaryProfitConflictsTransform = formData => {
+    const clonedData = cloneDeep(formData);
+
+    if (clonedData.allProprietaryProfitConflicts.length > 0) {
+      clonedData.allProprietaryProfitConflicts.map(conflict => {
+        // eslint-disable-next-line no-param-reassign
+        conflict.enrollmentPeriod = {
+          from: conflict?.enrollmentPeriodStart,
+          to: conflict?.enrollmentPeriodEnd,
+        };
+        // eslint-disable-next-line no-param-reassign
+        delete conflict.enrollmentPeriodStart;
+        // eslint-disable-next-line no-param-reassign
+        delete conflict.enrollmentPeriodEnd;
+
+        return conflict;
+      });
+    }
+
+    return clonedData;
+  };
+
   // Removes view fields and stringifies the form data
   const viewTransform = formData =>
     transformForSubmit(
@@ -96,12 +122,13 @@ export default function transform(formConfig, form) {
     );
 
   const transformedData = [
-    statementTransform,
+    statementAndAuthTransform,
     certifyingOfficialTransform,
     institutionTransform,
     conflictsTranform,
     dateTransform,
     proprietaryProfitConflictsTransform,
+    allProprietaryProfitConflictsTransform,
     viewTransform, // this must appear last
   ].reduce((formData, transformer) => transformer(formData), form.data);
 

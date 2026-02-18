@@ -8,7 +8,32 @@ import {
   validateTEConditions,
 } from '../../content/toxicExposure';
 import { formTitle, makeConditionsUI } from '../../utils';
-import ToxicExposureConditions from '../../components/ConfirmationFields/ToxicExposureConditions';
+import ToxicExposureConditions from '../../components/confirmationFields/ToxicExposureConditions';
+
+const getCleanTEConditionsSchema = (...args) => {
+  const schema = makeTEConditionsSchema(...args);
+
+  if (schema?.properties) {
+    const slug = s =>
+      String(s || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '');
+    const out = {};
+
+    for (const [key, def] of Object.entries(schema.properties)) {
+      const keySlug = slug(key);
+      const titleSlug = slug(def?.title);
+      if (keySlug === 'rateddisability' || titleSlug === 'rateddisability')
+        // eslint-disable-next-line no-continue
+        continue;
+      out[key] = def;
+    }
+
+    schema.properties = out;
+  }
+
+  return schema;
+};
 
 export const uiSchema = {
   'ui:title': formTitle(conditionsPageTitle),
@@ -16,7 +41,7 @@ export const uiSchema = {
     conditions: makeConditionsUI({
       title: conditionsQuestion,
       description: conditionsDescription,
-      replaceSchema: makeTEConditionsSchema,
+      replaceSchema: getCleanTEConditionsSchema,
       updateUiSchema: makeTEConditionsUISchema,
     }),
   },

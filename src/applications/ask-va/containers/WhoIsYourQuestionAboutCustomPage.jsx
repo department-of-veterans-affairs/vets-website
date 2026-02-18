@@ -26,7 +26,7 @@ const WhoIsYourQuestionAboutCustomPage = props => {
       goForward(data);
     }
     focusElement('va-radio');
-    return setValidationError('Please select who your question is about');
+    return setValidationError('Select who your question is about');
   };
 
   const handleChange = event => {
@@ -39,6 +39,20 @@ const WhoIsYourQuestionAboutCustomPage = props => {
         (selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
           selectedValue === whoIsYourQuestionAboutLabels.SOMEONE_ELSE) &&
         !isLOA3,
+      requireSignInLogic: formData.requireSignInLogic
+        ? {
+            ...formData.requireSignInLogic,
+            personQuestionIsAbout:
+              selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
+              selectedValue === whoIsYourQuestionAboutLabels.SOMEONE_ELSE,
+          }
+        : {
+            category: false,
+            topic: false,
+            personQuestionIsAbout:
+              selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
+              selectedValue === whoIsYourQuestionAboutLabels.SOMEONE_ELSE,
+          },
     });
   };
 
@@ -79,6 +93,7 @@ const WhoIsYourQuestionAboutCustomPage = props => {
 WhoIsYourQuestionAboutCustomPage.propTypes = {
   formData: PropTypes.shape({
     whoIsYourQuestionAbout: PropTypes.string,
+    requireSignInLogic: PropTypes.object,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

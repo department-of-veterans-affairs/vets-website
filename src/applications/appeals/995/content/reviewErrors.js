@@ -15,7 +15,7 @@ const reviewErrors = {
         err?.startsWith('locations[') ||
         err?.startsWith('providerFacility[')
       ) {
-        return { chapterKey: 'evidence', pageKey: 'evidenceSummary' };
+        return { chapterKey: 'evidence', pageKey: 'summary' };
       }
       if (err.includes(PRIMARY_PHONE)) {
         return {

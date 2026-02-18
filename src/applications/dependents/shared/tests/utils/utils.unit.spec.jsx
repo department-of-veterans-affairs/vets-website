@@ -1,15 +1,13 @@
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { format, sub } from 'date-fns';
 
 import sinon from 'sinon';
 import {
   getFullName,
-  getFormatedDate,
+  makeNamePossessive,
   maskID,
   isEmptyObject,
   getRootParentUrl,
-  calculateAge,
   hideDependentsWarning,
   getIsDependentsWarningHidden,
 } from '../../utils';
@@ -51,6 +49,17 @@ describe('getFullName', () => {
     };
     const fullName = getFullName(name);
     expect(fullName).to.equal('John A. Doe, Jr.');
+  });
+});
+
+describe('makeNamePossessive', () => {
+  it('should add an apostrophe + s to names not ending with an s', () => {
+    expect(makeNamePossessive('Fred')).to.equal('Fred’s');
+    expect(makeNamePossessive('ALEX')).to.equal('ALEX’s');
+  });
+  it('should only add an apostrophe to names ending with an s', () => {
+    expect(makeNamePossessive('JESS')).to.equal('JESS’');
+    expect(makeNamePossessive('Chris')).to.equal('Chris’');
   });
 });
 
@@ -114,146 +123,6 @@ describe('getRootParentUrl', () => {
     ).to.equal('/manage-dependents');
   });
 });
-
-describe('getFormatedDate', () => {
-  it('should return empty string for undefined date', () => {
-    const formattedDate = getFormatedDate();
-    expect(formattedDate).to.equal('Unknown date');
-  });
-
-  it('should return empty string for invalid date', () => {
-    const formattedDate = getFormatedDate('Summer 2000');
-    expect(formattedDate).to.equal('Summer 2000');
-  });
-
-  it('should return formatted date for valid date', () => {
-    const formattedDate = getFormatedDate('2020-01-01');
-    expect(formattedDate).to.equal('January 1, 2020');
-  });
-  it('should return formatted date for valid Date object', () => {
-    const formattedDate = getFormatedDate('12/05/2022', 'MM/dd/yyyy', 'PPPP');
-    expect(formattedDate).to.equal('Monday, December 5th, 2022');
-  });
-});
-
-describe('calculateAge', () => {
-  it('should return 0 age and empty strings if dob is not provided', () => {
-    const result = calculateAge();
-    expect(result).to.deep.equal({
-      age: 0,
-      dobStr: '',
-      labeledAge: '',
-    });
-  });
-
-  it('should return 0 age and empty strings if dob is invalid', () => {
-    const result = calculateAge('');
-    expect(result).to.deep.equal({
-      age: 0,
-      dobStr: '',
-      labeledAge: '',
-    });
-  });
-
-  it('should return 0 age and correct dobStr for future dates', () => {
-    const testDate = sub(new Date(), {
-      months: -1,
-    });
-    const result = calculateAge(format(testDate, 'MM/dd/yyyy'));
-    expect(result).to.deep.equal({
-      age: 0,
-      dobStr: format(testDate, 'MMMM d, yyyy'),
-      labeledAge: 'Date in the future',
-    });
-  });
-
-  it('should correctly calculate age an 18 year old', () => {
-    const testDate = sub(new Date(), {
-      years: 18,
-      months: 1,
-    });
-    const result = calculateAge(format(testDate, 'MM/dd/yyyy'));
-    expect(result).to.deep.equal({
-      age: 18,
-      dobStr: format(testDate, 'MMMM d, yyyy'),
-      labeledAge: '18 years old',
-    });
-  });
-
-  it('should correctly calculate age for a 1 year old', () => {
-    const testDate = sub(new Date(), {
-      years: 1,
-      days: 3,
-    });
-    const result = calculateAge(format(testDate, 'MM/dd/yyyy'));
-    expect(result).to.deep.equal({
-      age: 1,
-      dobStr: format(testDate, 'MMMM d, yyyy'),
-      labeledAge: '1 year old',
-    });
-  });
-
-  it('should correctly calculate age for a 4 month old', () => {
-    const testDate = sub(new Date(), {
-      months: 4,
-      days: 3,
-    });
-    const result = calculateAge(format(testDate, 'MM/dd/yyyy'));
-    expect(result).to.deep.equal({
-      age: 0,
-      dobStr: format(testDate, 'MMMM d, yyyy'),
-      labeledAge: '4 months old',
-    });
-  });
-
-  it('should correctly calculate age for a 1 month old', () => {
-    const testDate = sub(new Date(), {
-      months: 1,
-      days: 1,
-    });
-    const result = calculateAge(format(testDate, 'MM/dd/yyyy'));
-    expect(result).to.deep.equal({
-      age: 0,
-      dobStr: format(testDate, 'MMMM d, yyyy'),
-      labeledAge: '1 month old',
-    });
-  });
-
-  it('should correctly calculate age for a 10 day old', () => {
-    const testDate = sub(new Date(), {
-      days: 10,
-    });
-    const result = calculateAge(format(testDate, 'MM/dd/yyyy'));
-    expect(result).to.deep.equal({
-      age: 0,
-      dobStr: format(testDate, 'MMMM d, yyyy'),
-      labeledAge: '10 days old',
-    });
-  });
-
-  it('should correctly calculate age for a 1 day old', () => {
-    const testDate = sub(new Date(), {
-      days: 1,
-    });
-    const result = calculateAge(format(testDate, 'MM/dd/yyyy'));
-    expect(result).to.deep.equal({
-      age: 0,
-      dobStr: format(testDate, 'MMMM d, yyyy'),
-      labeledAge: '1 day old',
-    });
-  });
-
-  it('should correctly calculate age for a baby born today', () => {
-    const testDate = new Date();
-    const result = calculateAge(format(testDate, 'MM/dd/yyyy'));
-    expect(result).to.deep.equal({
-      age: 0,
-      dobStr: format(testDate, 'MMMM d, yyyy'),
-      labeledAge: 'Newborn',
-    });
-  });
-});
-
 describe('getIsDependentsWarningHidden', () => {
   beforeEach(() => {
     // Clear localStorage before each test
@@ -271,11 +140,22 @@ describe('getIsDependentsWarningHidden', () => {
   });
 
   it('should return true when a valid date is stored', () => {
-    const testDate = '2023-12-01T10:00:00.000Z';
+    const testDate = new Date().toISOString();
     localStorage.setItem('viewDependentsWarningClosedAt', testDate);
 
     const result = getIsDependentsWarningHidden();
     expect(result).to.be.true;
+  });
+
+  it('should return false and clear the stored date when a date is > 6 months old', () => {
+    const testDate = '2025-06-01T10:00:00.000Z';
+    localStorage.setItem('viewDependentsWarningClosedAt', testDate);
+
+    const result = getIsDependentsWarningHidden();
+    expect(result).to.be.false;
+
+    const storedValue = localStorage.getItem('viewDependentsWarningClosedAt');
+    expect(storedValue).to.be.null;
   });
 
   it('should return false when an invalid date string is stored', () => {
@@ -299,7 +179,6 @@ describe('getIsDependentsWarningHidden', () => {
     expect(result).to.be.false;
   });
 });
-
 describe('hideDependentsWarning', () => {
   let clock;
 

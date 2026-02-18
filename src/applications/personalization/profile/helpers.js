@@ -84,3 +84,8 @@ export const transformServiceHistoryEntryIntoTableRow = entry => {
 
 export const getContactEditLinkURL = fieldName =>
   `${PROFILE_PATHS.EDIT}?fieldName=${fieldName}`;
+
+export const handleRouteChange = (event, history) => {
+  event.preventDefault();
+  history.push(event.target.href);
+};

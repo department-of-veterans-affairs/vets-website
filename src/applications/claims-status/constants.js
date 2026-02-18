@@ -2,6 +2,21 @@ import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { MAX_FILE_SIZE_MB, MAX_PDF_SIZE_MB } from './utils/validations';
 
+/**
+ * Service registry for unavailable service alerts.
+ * Add new services here to support them in ServiceUnavailableAlert.
+ */
+export const SERVICE_REGISTRY = {
+  claims: {
+    singular: 'claim',
+    plural: 'claims',
+  },
+  appeals: {
+    singular: 'appeal',
+    plural: 'appeals',
+  },
+};
+
 export const ITEMS_PER_PAGE = 10;
 
 // Date Formats
@@ -198,7 +213,6 @@ export const VALIDATION_ERROR = 'Please select a file first';
 export const PASSWORD_ERROR = 'Please provide a password to decrypt this file';
 export const DOC_TYPE_ERROR = 'Please provide a document type';
 export const SUBMIT_TEXT = 'Submit documents for review';
-export const SUBMIT_FILES_FOR_REVIEW_TEXT = 'Submit files for review';
 export const SEND_YOUR_DOCUMENTS_TEXT = 'Send your documents another way';
 
 // Contact and submission information constants
@@ -218,8 +232,12 @@ export const CONTACT_INFO = {
 };
 
 export const ANCHOR_LINKS = {
+  addFiles: 'add-files',
+  documentsFiled: 'documents-filed', // anchor link to old documents filed section
   otherWaysToSendDocuments: 'other-ways-to-send',
   fileSubmissionsInProgress: 'file-submissions-in-progress',
+  filesReceived: 'files-received',
+  filesWeCouldntReceive: 'files-we-couldnt-receive',
 };
 
 export const LINKS = {

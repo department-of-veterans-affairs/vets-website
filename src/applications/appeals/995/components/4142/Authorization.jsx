@@ -11,8 +11,8 @@ import {
   waitForRenderThenFocus,
 } from 'platform/utilities/ui/focus';
 import recordEvent from 'platform/monitoring/record-event';
-import AuthorizationAlert from './AuthorizationAlert';
-import { title4142 } from '../../content/title';
+import AuthorizationAlert, { alertTitle } from './AuthorizationAlert';
+import { auth4142Title } from '../../content/evidence/form4142';
 import { AUTHORIZATION_LABEL } from '../../constants';
 import { customPageProps995 } from '../../../shared/props';
 import { PrivacyActStatementContent } from './PrivacyActStatementContent';
@@ -82,8 +82,7 @@ const Authorization = ({
         recordEvent({
           event: 'visible-alert-box',
           'alert-box-type': 'warning',
-          'alert-box-heading':
-            'Authorize your providers to release your records or upload them yourself',
+          'alert-box-heading': alertTitle,
           'error-key': 'not_authorizing_records_release',
           'alert-box-full-width': false,
           'alert-box-background-only': false,
@@ -168,13 +167,13 @@ const Authorization = ({
             onAnchorClick={handlers.onAnchorClick}
           />
         )}
-        <h3>{title4142}</h3>
+        <h3>{auth4142Title}</h3>
         <p>
-          Only provide this authorization if you want The Department of Veterans
-          Affairs (VA) to obtain non-VA medical records on your behalf. If
-          you’ve already provided these records or intend to get them yourself,
-          there’s no need to fill out this authorization. Doing so will lengthen
-          your claim processing time.
+          Only provide this authorization if you want us to obtain your medical
+          records from private health care providers on your behalf. If you
+          already provided these records or plan to get them yourself, you don’t
+          need to fill out this authorization. Doing so will lengthen your claim
+          processing time.
         </p>
         <va-accordion>
           <va-accordion-item
@@ -494,7 +493,11 @@ const Authorization = ({
 
         <div className="vads-u-margin-top--5">
           {contentBeforeButtons}
-          <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
+          <FormNavButtons
+            goBack={goBack}
+            goForward={handlers.onGoForward}
+            useWebComponents
+          />
           {contentAfterButtons}
         </div>
       </form>

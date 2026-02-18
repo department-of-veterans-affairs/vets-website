@@ -98,7 +98,11 @@ const SpouseEmploymentQuestion = props => {
         </VaRadio>
       </fieldset>
       {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} goForward={goForward} />
+      <FormNavButtons
+        goBack={goBack}
+        goForward={goForward}
+        useWebComponents={props.formOptions?.useWebComponentForNavigation}
+      />
       {contentAfterButtons}
     </form>
   );

@@ -44,6 +44,7 @@ const generateFeatureToggles = (toggles = {}, defaultValue = false) => {
       toggleMap[serverName].value = toggles[name];
     } else {
       customToggles.push(getFlag(name, toggles[name]));
+      customToggles.push({ name, value: toggles[name] });
     }
   });
 

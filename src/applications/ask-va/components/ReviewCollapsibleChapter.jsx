@@ -36,13 +36,6 @@ class ReviewCollapsibleChapter extends React.Component {
     this.id = uniqueId();
   }
 
-  showSaveCancelButtons(editing) {
-    if (this.props.showButtons) {
-      return !editing;
-    }
-    return true;
-  }
-
   handleEdit(key, editing, index = null) {
     this.props.onEdit(key, editing, index);
     this.scrollToPage(key);
@@ -218,7 +211,7 @@ class ReviewCollapsibleChapter extends React.Component {
           formContext={formContext}
           editModeOnReviewPage={page.editModeOnReviewPage}
         >
-          {this.showSaveCancelButtons(editing) ? (
+          {this.showUpdateButton(editing) ? (
             <div />
           ) : (
             <div className="vads-u-display--flex vads-u-max-width--100">
@@ -404,6 +397,13 @@ class ReviewCollapsibleChapter extends React.Component {
     scrollTo(`${key}ScrollElement`, getScrollOptions({ offset: scrollOffset }));
   };
 
+  showUpdateButton(editing) {
+    if (this.props.showButtons) {
+      return !editing;
+    }
+    return true;
+  }
+
   render() {
     let pageContent = null;
     pageContent = this.getChapterContent(this.props);
@@ -432,6 +432,10 @@ ReviewCollapsibleChapter.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
+  setData: PropTypes.func,
+  showButtons: PropTypes.bool,
+  uploadFile: PropTypes.func,
+  onBlur: PropTypes.func,
 };
 
 export default withRouter(

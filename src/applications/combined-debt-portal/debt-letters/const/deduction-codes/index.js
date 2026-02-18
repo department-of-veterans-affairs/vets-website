@@ -5,30 +5,30 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 // https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/benefits-memorials-2/engineering/front-end/architecture/static-codes.md
 // let's try and keep these values updated there so it's easier for stakeholders to check them
 export const deductionCodes = Object.freeze({
-  '11': 'Post-9/11 GI Bill debt for books and supplies',
-  '12': 'Post-9/11 GI Bill debt for books and supplies',
-  '13': 'Post-9/11 GI Bill debt for books and supplies',
-  '14': 'Post-9/11 GI Bill debt for books and supplies',
-  '15': 'Post-9/11 GI Bill debt for books and supplies',
-  '16': 'Post-9/11 GI Bill debt for housing',
-  '17': 'Post-9/11 GI Bill debt for housing',
-  '18': 'Post-9/11 GI Bill debt for housing',
-  '19': 'Post-9/11 GI Bill debt for housing',
-  '20': 'Post-9/11 GI Bill debt for housing',
-  '27': 'Post-9/11 GI Bill debt for books and supplies',
-  '28': 'Post-9/11 GI Bill debt for books and supplies',
-  '30': 'Disability compensation and pension debt',
-  '41': 'Chapter 34 education debt',
-  '44': 'Chapter 35 education debt',
-  '48': 'Post-9/11 GI Bill debt for housing',
-  '49': 'Post-9/11 GI Bill debt for housing',
-  '50': 'Post-9/11 GI Bill debt for housing',
-  '51': 'Post-9/11 GI Bill debt for housing',
-  '71': 'Post-9/11 GI Bill debt for books and supplies',
-  '72': 'Post-9/11 GI Bill debt for housing',
+  '11': 'Post-9/11 GI Bill overpayment for books and supplies',
+  '12': 'Post-9/11 GI Bill overpayment for books and supplies',
+  '13': 'Post-9/11 GI Bill overpayment for books and supplies',
+  '14': 'Post-9/11 GI Bill overpayment for books and supplies',
+  '15': 'Post-9/11 GI Bill overpayment for books and supplies',
+  '16': 'Post-9/11 GI Bill overpayment for housing',
+  '17': 'Post-9/11 GI Bill overpayment for housing',
+  '18': 'Post-9/11 GI Bill overpayment for housing',
+  '19': 'Post-9/11 GI Bill overpayment for housing',
+  '20': 'Post-9/11 GI Bill overpayment for housing',
+  '27': 'Post-9/11 GI Bill overpayment for books and supplies',
+  '28': 'Post-9/11 GI Bill overpayment for books and supplies',
+  '30': 'Disability compensation and pension overpayment',
+  '41': 'Chapter 34 education overpayment',
+  '44': 'Chapter 35 education overpayment',
+  '48': 'Post-9/11 GI Bill overpayment for housing',
+  '49': 'Post-9/11 GI Bill overpayment for housing',
+  '50': 'Post-9/11 GI Bill overpayment for housing',
+  '51': 'Post-9/11 GI Bill overpayment for housing',
+  '71': 'Post-9/11 GI Bill overpayment for books and supplies',
+  '72': 'Post-9/11 GI Bill overpayment for housing',
   '73': 'Education Ch 33-Ch1606/Ch30 Kickers',
-  '74': 'Post-9/11 GI Bill debt for tuition',
-  '75': 'Post-9/11 GI Bill debt for tuition (school liable)',
+  '74': 'Post-9/11 GI Bill overpayment for tuition',
+  '75': 'Post-9/11 GI Bill overpayment for tuition (school liable)',
   '76': 'Education Ch 33-Ch1606/Ch30 Kickers',
   '77': 'Education Ch 33-Ch1606/Ch30 Kickers',
   '78': 'Education Ch 33-Ch1606/Ch30 Kickers',
@@ -37,7 +37,7 @@ export const deductionCodes = Object.freeze({
 
 const ContactInfo = () => (
   <p className="vads-u-margin-bottom--0">
-    If you have questions about your VA debt, call us at{' '}
+    If you have questions about your VA overpayment, call us at{' '}
     <va-telephone contact={CONTACTS.DMC} /> (
     <va-telephone contact="711" tty="true" />
     ). If you’re outside the U.S., call{' '}

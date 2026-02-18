@@ -16,6 +16,7 @@ import {
   scrollAndFocus,
   customScrollAndFocus,
 } from './scroll';
+import { watchErrorUpdates } from './error-scaffolding';
 import { SCROLL_ELEMENT_SUFFIX } from '../constants';
 
 /**
@@ -35,6 +36,7 @@ export {
   scrollToFirstError,
   scrollAndFocus,
   customScrollAndFocus,
+  watchErrorUpdates,
   SCROLL_ELEMENT_SUFFIX,
 };
 

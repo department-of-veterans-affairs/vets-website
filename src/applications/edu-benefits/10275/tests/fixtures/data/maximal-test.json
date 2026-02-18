@@ -1,0 +1,133 @@
+{
+  "data": {
+    "principle1": true,
+    "principle2": true,
+    "principle3": true,
+    "principle4": true,
+    "principle5": true,
+    "principle6": true,
+    "principle7": true,
+    "principle8": true,
+    "view:additionalLocationsMissingInformation": {},
+    "view:introduction": {},
+    "addMoreLocations": false,
+    "authorizedOfficial": {
+      "fullName": {
+        "first": "Jane",
+        "middle": "Middle",
+        "last": "Doe"
+      },
+      "title": "Administrator",
+      "phoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "1 (231) 231-222"
+      },
+      "email": "janedoe@gmail.com",
+      "view:isPOC": true,
+      "view:isSCO": true
+    },
+    "newCommitment": {
+      "schoolCertifyingOfficial": {
+        "fullName": {
+          "first": "School",
+          "middle": "Certifying",
+          "last": "Official"
+        },
+        "title": "Administrator",
+        "phoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "1231231234"
+      },
+        "email": "janedoe@gmail.com",
+        "view:isPOC": true,
+        "view:isSCO": true
+      },
+      "principlesOfExcellencePointOfContact": {
+        "fullName": {
+          "first": "Point",
+          "middle": "of",
+          "last": "Contact"
+        },
+        "title": "PoC",
+        "phoneNumber": {
+          "callingCode": 1,
+          "countryCode": "US",
+          "contact": "1231231235"
+        },
+        "email": "point.contact@test.com",
+        "view:isSCO": false
+      }
+    },
+    "institutionDetails": {
+      "facilityCode": "35047621",
+      "institutionName": "GOVERNOR DUMMER ACADEMY",
+      "institutionAddress": {
+        "street": "1 ELM STREET",
+        "street2": "",
+        "street3": "",
+        "city": "BYFIELD",
+        "state": "MA",
+        "postalCode": "01922",
+        "country": "USA"
+      },
+      "poeEligible": true
+    },
+    "agreementType": "newCommitment",
+    "additionalLocations": [
+      {
+        "pointOfContact": {
+          "key": "authorizedOfficial",
+          "fullName": {
+            "first": "Jane",
+            "middle": "Middle",
+            "last": "Doe"
+          },
+          "title": "Administrator",
+          "email": "janedoe@gmail.com",
+          "phone": "1235232341"
+        },
+        "view:additionalInstructions": {},
+        "facilityCode": "31879132",
+        "institutionName": "NEW YORK INSTITUTE OF TECHNOLOGY-NYC",
+        "institutionAddress": {
+          "country": "USA",
+          "street": "1855 BROADWAY",
+          "street2": "",
+          "street3": "",
+          "city": "NEW YORK",
+          "state": "NY",
+          "postalCode": "10023"
+        },
+        "poeEligible": false,
+        "isLoading": false
+      },
+      {
+        "pointOfContact": {
+          "key": "none"
+        },
+        "fullName": {
+          "first": "Jane",
+          "middle": "Middle",
+          "last": "Doe"
+        },
+        "email": "janedoe@gmail.com",
+        "view:additionalInstructions": {},
+        "facilityCode": "11903130",
+        "institutionName": "NEW YORK INSTITUTE OF TECHNOLOGY-NYC",
+        "institutionAddress": {
+          "country": "",
+          "street": "",
+          "street2": "",
+          "street3": "",
+          "city": "",
+          "state": "",
+          "postalCode": ""
+        },
+        "poeEligible": false,
+        "isLoading": false
+      }
+    ]
+  }
+}

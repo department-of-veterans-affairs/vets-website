@@ -12,7 +12,7 @@ export function setFocus(selector) {
 export function setPageFocus(selector = 'h1') {
   const el = document.querySelector(selector);
   if (el) {
-    scrollAndFocus(el);
+    scrollAndFocus(el, { behavior: 'instant' });
   } else {
     setFocus('#main h1');
   }
@@ -20,9 +20,11 @@ export function setPageFocus(selector = 'h1') {
 
 export function setUpPage(scroll = true, focusSelector = 'h1') {
   if (!scroll) {
-    scrollToTop();
+    scrollToTop({ behavior: 'instant' });
   }
-  scrollAndFocus(document.querySelector(focusSelector));
+  scrollAndFocus(document.querySelector(focusSelector), {
+    behavior: 'instant',
+  });
 }
 
 export function isTab(url) {
@@ -38,13 +40,12 @@ export function isTab(url) {
 export const focusNotificationAlert = () => {
   const alert = document.querySelector('.claims-alert');
   if (alert) {
-    setFocus(alert);
-    setTimeout(() => {
-      if (document.activeElement !== alert) {
-        setTimeout(() => {
-          setFocus(alert);
-        }, 150);
-      }
-    }, 0);
+    // Focus headline to preserve SHIFT+TAB navigation to alert's interactive elements
+    const headline = alert.querySelector('h2');
+    if (headline) {
+      setFocus(headline);
+    } else {
+      setFocus(alert);
+    }
   }
 };

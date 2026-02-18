@@ -1,0 +1,65 @@
+{
+  "data": {
+    "nursingOfficialInformation": {
+      "fullName": {
+        "first": "Mon",
+        "last": "Mothma"
+      },
+      "jobTitle": "Chief Administrator",
+      "phoneNumber": "2025551977"
+    },
+    "nursingHomeDetails": {
+      "nursingHomeName": "Rebel Alliance Veterans Home",
+      "nursingHomeAddress": {
+        "street": "77 Yavin Base Road",
+        "city": "Phoenix",
+        "state": "AZ",
+        "country": "USA",
+        "postalCode": "85001"
+      }
+    },
+    "claimantQuestion": {
+      "patientType": "parent"
+    },
+    "claimantPersonalInfo": {
+      "claimantFullName": {
+        "first": "Padmé",
+        "last": "Amidala"
+      },
+      "claimantDateOfBirth": "1955-05-04"
+    },
+    "claimantIdentificationInfo": {
+      "vaFileNumber": "77654321"
+    },
+    "veteranPersonalInfo": {
+      "fullName": {
+        "first": "Anakin",
+        "last": "Skywalker"
+      },
+      "dateOfBirth": "1951-05-25"
+    },
+    "veteranIdentificationInfo": {
+      "vaFileNumber": "66123456"
+    },
+    "certificationLevelOfCare": {
+      "levelOfCare": "skilled"
+    },
+    "admissionDate": {
+      "admissionDate": "2023-05-04"
+    },
+    "medicaidFacility": {
+      "isMedicaidApprovedFacility": false
+    },
+    "medicaidApplication": {
+      "hasAppliedForMedicaid": false
+    },
+    "medicaidStatus": {
+      "currentlyCoveredByMedicaid": false
+    },
+    "monthlyCosts": {
+      "monthlyOutOfPocket": 4500
+    },
+    "signature": "Mon Mothma",
+    "certificationChecked": true
+  }
+}

@@ -1,17 +1,30 @@
-export const generateAllergiesIntro = (records, lastUpdated) => {
+export const generateAllergiesIntro = (
+  records,
+  lastUpdated,
+  hasMedsByMailFacility = false,
+) => {
+  // Conditional subtitle based on Meds by Mail facility
+  const additionalInfo = hasMedsByMailFacility
+    ? `This list includes all allergies, reactions, and side effects in your VA medical records. ` +
+      `If you use Meds by Mail: We may not have your allergy records in our My HealtheVet tools. ` +
+      `But the Meds by Mail servicing center keeps a record of your allergies and reactions to medications. ` +
+      `If you have a new allergy or reaction, tell your provider. Or you can call us at 866-229-7389 or ` +
+      `888-385-0235 (TTY:711) and ask us to update your records. We're here Monday through Friday, 8:00 a.m. to 7:30 p.m. ET.`
+    : 'This list includes all allergies, reactions, and side effects in your VA medical records.';
+
   return {
     title: 'Allergies and reactions',
     subject: 'VA Medical Record',
     subtitles: [
-      'This list includes all allergies, reactions, and side effects in your VA medical records. If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
+      additionalInfo,
       lastUpdated,
-      `Showing ${records.length} records from newest to oldest`,
+      `Showing ${records?.length} records from newest to oldest`,
     ],
   };
 };
 
 export const generateAllergyItem = record => {
-  const multipleReactions = record.reaction.length > 1;
+  const multipleReactions = record.reaction?.length > 1;
 
   if (record.isOracleHealthData) {
     return {

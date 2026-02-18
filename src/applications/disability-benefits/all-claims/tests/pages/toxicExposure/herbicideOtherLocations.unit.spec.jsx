@@ -49,10 +49,8 @@ describe('Herbicide Other Locations', () => {
     ).to.equal(`Location 3 of 3: Test Location 1`);
     getByText(dateRangeDescriptionWithLocation);
 
-    expect($(`va-memorable-date[label="${startDateApproximate}"]`, container))
-      .to.exist;
-    expect($(`va-memorable-date[label="${endDateApproximate}"]`, container)).to
-      .exist;
+    expect($(`va-date[label="${startDateApproximate}"]`, container)).to.exist;
+    expect($(`va-date[label="${endDateApproximate}"]`, container)).to.exist;
 
     expect($(`va-checkbox[label="${notSureDatesDetails}"]`, container)).to
       .exist;
@@ -64,7 +62,27 @@ describe('Herbicide Other Locations', () => {
     );
   });
 
-  it('should submit without dates', () => {
+  describe('reviewTitle', () => {
+    it('returns only the user-entered description when on confirmation', () => {
+      const {
+        reviewTitle,
+      } = formConfig.chapters.disabilities.pages.herbicideOtherLocations;
+      expect(reviewTitle({ formData, onReviewPage: false })).to.equal(
+        'Test Location 1',
+      );
+    });
+
+    it('returns full "Location # of #: description" when on review page', () => {
+      const {
+        reviewTitle,
+      } = formConfig.chapters.disabilities.pages.herbicideOtherLocations;
+      expect(reviewTitle({ formData })).to.equal(
+        'Location 3 of 3: Test Location 1',
+      );
+    });
+  });
+
+  it('should submit without dates (dates are optional)', () => {
     pageSubmitTest(
       formConfig.chapters.disabilities.pages.herbicideOtherLocations,
       formData,
@@ -74,8 +92,8 @@ describe('Herbicide Other Locations', () => {
 
   it('should submit with both dates', () => {
     const data = JSON.parse(JSON.stringify(formData));
-    data.toxicExposure.otherHerbicideLocations.startDate = '2021-12-22';
-    data.toxicExposure.otherHerbicideLocations.endDate = '2023-01-09';
+    data.toxicExposure.otherHerbicideLocations.startDate = '2021-12';
+    data.toxicExposure.otherHerbicideLocations.endDate = '2023-01';
 
     pageSubmitTest(
       formConfig.chapters.disabilities.pages.herbicideOtherLocations,
@@ -84,16 +102,79 @@ describe('Herbicide Other Locations', () => {
     );
   });
 
+  /*
+   * Edge case validations for toxic exposure dates (month/year format).
+   * Supports year-only (YYYY-XX) or month/year (YYYY-MM).
+   * Full dates (YYYY-MM-DD) are accepted for backward compatibility.
+   */
   describe('date validation', () => {
-    it('should accept past date for startDate', () => {
+    it('should not submit with incomplete start date (missing year)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = 'XXXX-05';
+      data.toxicExposure.otherHerbicideLocations.endDate = '1976-06';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete end date (missing year)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = '1975-04';
+      data.toxicExposure.otherHerbicideLocations.endDate = 'XXXX-06';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit when end date is before start date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = '1976-04';
+      data.toxicExposure.otherHerbicideLocations.endDate = '1975-06';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        false,
+      );
+    });
+
+    it('should submit with only start date (dates are optional)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = '1975-04';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        true,
+      );
+    });
+
+    it('should submit with only end date (dates are optional)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.endDate = '1976-06';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        true,
+      );
+    });
+
+    it('should submit with current month/year for startDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherHerbicideLocations.startDate = format(
-        subYears(new Date(), 5),
-        'yyyy-MM-dd',
+        subYears(new Date(), 1),
+        'yyyy-MM',
       );
       data.toxicExposure.otherHerbicideLocations.endDate = format(
-        subYears(new Date(), 1),
-        'yyyy-MM-dd',
+        new Date(),
+        'yyyy-MM',
       );
 
       pageSubmitTest(
@@ -103,15 +184,33 @@ describe('Herbicide Other Locations', () => {
       );
     });
 
-    it('should reject future date for startDate', () => {
+    it('should accept past month/year for startDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherHerbicideLocations.startDate = format(
-        addYears(new Date(), 1),
-        'yyyy-MM-dd',
+        subYears(new Date(), 5),
+        'yyyy-MM',
       );
       data.toxicExposure.otherHerbicideLocations.endDate = format(
         subYears(new Date(), 1),
-        'yyyy-MM-dd',
+        'yyyy-MM',
+      );
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        true,
+      );
+    });
+
+    it('should reject future month/year for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = format(
+        addYears(new Date(), 1),
+        'yyyy-MM',
+      );
+      data.toxicExposure.otherHerbicideLocations.endDate = format(
+        subYears(new Date(), 1),
+        'yyyy-MM',
       );
 
       pageSubmitTest(
@@ -121,12 +220,12 @@ describe('Herbicide Other Locations', () => {
       );
     });
 
-    it('should reject date before 1900 for startDate', () => {
+    it('should reject year before 1900 for startDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.otherHerbicideLocations.startDate = '1899-12-31';
+      data.toxicExposure.otherHerbicideLocations.startDate = '1899-12';
       data.toxicExposure.otherHerbicideLocations.endDate = format(
         subYears(new Date(), 1),
-        'yyyy-MM-dd',
+        'yyyy-MM',
       );
 
       pageSubmitTest(
@@ -141,7 +240,7 @@ describe('Herbicide Other Locations', () => {
       data.toxicExposure.otherHerbicideLocations.startDate = 'invalid-date';
       data.toxicExposure.otherHerbicideLocations.endDate = format(
         subYears(new Date(), 1),
-        'yyyy-MM-dd',
+        'yyyy-MM',
       );
 
       pageSubmitTest(
@@ -151,15 +250,15 @@ describe('Herbicide Other Locations', () => {
       );
     });
 
-    it('should accept current date for endDate', () => {
+    it('should accept current month/year for endDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherHerbicideLocations.startDate = format(
         subYears(new Date(), 2),
-        'yyyy-MM-dd',
+        'yyyy-MM',
       );
       data.toxicExposure.otherHerbicideLocations.endDate = format(
         new Date(),
-        'yyyy-MM-dd',
+        'yyyy-MM',
       );
 
       pageSubmitTest(
@@ -169,15 +268,15 @@ describe('Herbicide Other Locations', () => {
       );
     });
 
-    it('should accept past date for endDate', () => {
+    it('should accept past month/year for endDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherHerbicideLocations.startDate = format(
         subYears(new Date(), 5),
-        'yyyy-MM-dd',
+        'yyyy-MM',
       );
       data.toxicExposure.otherHerbicideLocations.endDate = format(
         subYears(new Date(), 1),
-        'yyyy-MM-dd',
+        'yyyy-MM',
       );
 
       pageSubmitTest(
@@ -187,15 +286,15 @@ describe('Herbicide Other Locations', () => {
       );
     });
 
-    it('should reject future date for endDate', () => {
+    it('should reject future month/year for endDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherHerbicideLocations.startDate = format(
         subYears(new Date(), 2),
-        'yyyy-MM-dd',
+        'yyyy-MM',
       );
       data.toxicExposure.otherHerbicideLocations.endDate = format(
         addYears(new Date(), 1),
-        'yyyy-MM-dd',
+        'yyyy-MM',
       );
 
       pageSubmitTest(
@@ -205,13 +304,13 @@ describe('Herbicide Other Locations', () => {
       );
     });
 
-    it('should reject date before 1900 for endDate', () => {
+    it('should reject year before 1900 for endDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherHerbicideLocations.startDate = format(
         subYears(new Date(), 2),
-        'yyyy-MM-dd',
+        'yyyy-MM',
       );
-      data.toxicExposure.otherHerbicideLocations.endDate = '1899-12-31';
+      data.toxicExposure.otherHerbicideLocations.endDate = '1899-12';
 
       pageSubmitTest(
         formConfig.chapters.disabilities.pages.herbicideOtherLocations,
@@ -224,7 +323,7 @@ describe('Herbicide Other Locations', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherHerbicideLocations.startDate = format(
         subYears(new Date(), 2),
-        'yyyy-MM-dd',
+        'yyyy-MM',
       );
       data.toxicExposure.otherHerbicideLocations.endDate = 'invalid-date';
 
@@ -235,15 +334,15 @@ describe('Herbicide Other Locations', () => {
       );
     });
 
-    it('should accept valid date range (to after from)', () => {
+    it('should accept valid date range (end after start)', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherHerbicideLocations.startDate = format(
         subYears(new Date(), 2),
-        'yyyy-MM-dd',
+        'yyyy-MM',
       );
       data.toxicExposure.otherHerbicideLocations.endDate = format(
         subYears(new Date(), 1),
-        'yyyy-MM-dd',
+        'yyyy-MM',
       );
 
       pageSubmitTest(
@@ -253,28 +352,35 @@ describe('Herbicide Other Locations', () => {
       );
     });
 
-    it('should reject non-leap year February 29', () => {
+    it('should submit with both dates and not sure', () => {
       const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.otherHerbicideLocations.startDate = '2021-02-29';
-      data.toxicExposure.otherHerbicideLocations.endDate = format(
-        subYears(new Date(), 1),
-        'yyyy-MM-dd',
-      );
+      data.toxicExposure.otherHerbicideLocations.startDate = '1975-04';
+      data.toxicExposure.otherHerbicideLocations.endDate = '1976-06';
+      data.toxicExposure.otherHerbicideLocations['view:notSure'] = true;
 
       pageSubmitTest(
         formConfig.chapters.disabilities.pages.herbicideOtherLocations,
         data,
-        false,
+        true,
       );
     });
 
-    it('should accept leap year February 29', () => {
+    it('should accept year-only format (YYYY-XX)', () => {
       const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.otherHerbicideLocations.startDate = '2020-02-29';
-      data.toxicExposure.otherHerbicideLocations.endDate = format(
-        subYears(new Date(), 1),
-        'yyyy-MM-dd',
+      data.toxicExposure.otherHerbicideLocations.startDate = '1975-XX';
+      data.toxicExposure.otherHerbicideLocations.endDate = '1976-XX';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        true,
       );
+    });
+
+    it('should accept full date format (YYYY-MM-DD) for backward compatibility', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = '2021-12-22';
+      data.toxicExposure.otherHerbicideLocations.endDate = '2023-01-09';
 
       pageSubmitTest(
         formConfig.chapters.disabilities.pages.herbicideOtherLocations,

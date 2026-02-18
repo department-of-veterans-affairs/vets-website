@@ -67,7 +67,7 @@ const mockStore = (loggedIn = true, dispatchSpy = sinon.spy()) => ({
       loadedData: {
         metadata: {},
       },
-      data: {},
+      data: { isLoggedIn: false },
     },
     scheduledDowntime: {
       globalDowntime: null,
@@ -111,7 +111,7 @@ describe('21P-601 IntroductionPage', () => {
       </Provider>,
     );
 
-    getByText(/Apply for accrued benefits for a deceased beneficiary/i);
+    getByText(/Apply for accrued benefits online/i);
   });
 
   it('renders the form subtitle', () => {
@@ -122,7 +122,7 @@ describe('21P-601 IntroductionPage', () => {
     );
 
     getByText(
-      /Application for Accrued Amounts Due a Deceased Beneficiary \(VA Form 21P-601\)/i,
+      /Primarily for anyone applying for accrued benefits only, to include executors or administrators of VA beneficiaries’ estates \(VA Form 21P-601\)/i,
     );
   });
 
@@ -133,8 +133,8 @@ describe('21P-601 IntroductionPage', () => {
       </Provider>,
     );
 
-    getByText(/What are accrued benefits\?/i);
-    getByText(/Accrued benefits are VA benefits that were due/i);
+    getByText(/What to know before you fill out this application/i);
+    getByText(/Who should use this form/i);
   });
 
   it('renders alert about already filed for survivor benefits', () => {
@@ -144,21 +144,19 @@ describe('21P-601 IntroductionPage', () => {
       </Provider>,
     );
 
-    getByText(/Already filed for survivor benefits\?/i);
-    getByText(/Do NOT complete this form if you have already applied/i);
+    getByText(/If you already submitted an application for VA DIC/i);
   });
 
   it('renders who can use this form section', () => {
-    const { getByText } = render(
+    const { container } = render(
       <Provider store={mockStore()}>
         <IntroductionPage {...props} />
       </Provider>,
     );
 
-    getByText(/Who can use this form\?/i);
-    getByText(/The surviving spouse of a deceased veteran or beneficiary/i);
-    getByText(/A child of a deceased veteran or beneficiary/i);
-    getByText(/A dependent parent of a deceased veteran/i);
+    expect(container.textContent).to.include('Who should use this form');
+    expect(container.textContent).to.include('executor or administrator');
+    expect(container.textContent).to.include('surviving spouse');
   });
 
   it('renders time limit warning alert', () => {
@@ -168,9 +166,9 @@ describe('21P-601 IntroductionPage', () => {
       </Provider>,
     );
 
-    getByText(/Time limit to apply/i);
-    getByText(/You must file this application within/i);
-    getByText(/one year/i);
+    getByText(/Time limits to apply/i);
+    getByText(/You must apply for accrued benefits within/i);
+    getByText(/1 year/i);
   });
 
   it('renders what you will need section', () => {
@@ -180,7 +178,9 @@ describe('21P-601 IntroductionPage', () => {
       </Provider>,
     );
 
-    expect(container.textContent).to.include('Date of death');
+    expect(container.textContent).to.include('What you');
+    expect(container.textContent).to.include('need to apply');
+    expect(container.textContent).to.include('date of death');
   });
 
   it('renders OMB info with correct values', () => {
@@ -193,8 +193,8 @@ describe('21P-601 IntroductionPage', () => {
     const ombInfo = container.querySelector('va-omb-info');
     expect(ombInfo).to.exist;
     expect(ombInfo).to.have.attr('res-burden', '30');
-    expect(ombInfo).to.have.attr('omb-number', '2900-0016');
-    expect(ombInfo).to.have.attr('exp-date', '8/31/2026');
+    expect(ombInfo).to.have.attr('omb-number', '2900-0216');
+    expect(ombInfo).to.have.attr('exp-date', '9/30/2028');
   });
 
   it('displays non-veteran messaging', () => {
@@ -214,6 +214,6 @@ describe('21P-601 IntroductionPage', () => {
       </Provider>,
     );
 
-    expect(container.textContent).to.include('Start the application');
+    expect(container.textContent).to.include('Apply for accrued benefits');
   });
 });

@@ -4,6 +4,7 @@ import { Switch } from 'react-router-dom';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   DowntimeNotification,
   externalServices,
@@ -16,6 +17,7 @@ import {
   MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
+import { initializeBrowserLogging } from 'platform/monitoring/Datadog';
 import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import ScrollToTop from '../components/shared/ScrollToTop';
@@ -80,8 +82,10 @@ const App = () => {
     clientToken: 'pub1325dfe255119729611410e2f47f4f99',
     site: 'ddog-gov.com',
     service: 'va.gov-mhv-secure-messaging',
-    sessionSampleRate: 50, // controls the percentage of overall sessions being tracked
-    sessionReplaySampleRate: 50, // is applied after the overall sample rate, and controls the percentage of sessions tracked as Browser RUM & Session Replay
+    // controls the percentage of overall sessions being tracked
+    sessionSampleRate: environment.isStaging() ? 100 : 50,
+    // is applied after the overall sample rate, and controls the percentage of sessions tracked as Browser RUM & Session Replay
+    sessionReplaySampleRate: environment.isStaging() ? 100 : 50,
     trackInteractions: true,
     trackFrustrations: true,
     trackUserInteractions: true,
@@ -91,6 +95,19 @@ const App = () => {
   };
 
   useDatadogRum(datadogRumConfig);
+
+  // Initialize Datadog Logs for dataDogLogger
+  useEffect(() => {
+    initializeBrowserLogging({
+      clientToken: 'pub1325dfe255119729611410e2f47f4f99',
+      site: 'ddog-gov.com',
+      service: 'va.gov-mhv-secure-messaging',
+      forwardErrorsToLogs: true,
+      forwardConsoleLogs: ['error'],
+      sessionSampleRate: 100,
+    });
+  }, []);
+
   useEffect(
     () => {
       setDatadogRumUser({ id: user?.profile?.accountUuid });

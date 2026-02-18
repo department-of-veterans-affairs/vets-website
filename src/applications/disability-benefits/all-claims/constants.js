@@ -49,6 +49,17 @@ export const STATE_LABELS = FORM_PROFILE_STATES.map(state => state.label);
 export const STATE_VALUES = FORM_PROFILE_STATES.map(state => state.value);
 
 export const MILITARY_STATE_VALUES = ['AA', 'AE', 'AP'];
+
+export const DISABILITY_CAUSE_LABELS = {
+  NEW:
+    'My condition was caused by an injury or exposure during my military service.',
+  SECONDARY:
+    'My condition was caused by another service-connected disability I already have. (For example, I have a limp that caused lower-back problems.)',
+  WORSENED:
+    'My condition existed before I served in the military, but it got worse because of my military service.',
+  VA:
+    'My condition was caused by an injury or event that happened when I was receiving VA care.',
+};
 export const MILITARY_STATE_LABELS = [
   'Armed Forces Americas (AA)',
   'Armed Forces Europe (AE)',
@@ -67,6 +78,26 @@ export const HOMELESSNESS_TYPES = {
   atRisk: 'atRisk',
   homeless: 'homeless',
   notHomeless: 'no',
+};
+
+export const HOMELESSNESS_LABELS = {
+  no: 'No',
+  homeless: "I'm currently homeless.",
+  atRisk: "I'm at risk of becoming homeless.",
+};
+
+export const HOMELESS_HOUSING_LABELS = {
+  shelter: 'I’m living in a homeless shelter.',
+  notShelter:
+    'I’m living somewhere other than a shelter. (For example, I’m living in a car or a tent.)',
+  anotherPerson: 'I’m living with another person.',
+  other: 'Other',
+};
+
+export const AT_RISK_HOUSING_LABELS = {
+  losingHousing: 'I’m losing my housing in 30 days.',
+  leavingShelter: 'I’m leaving a publicly funded homeless shelter soon.',
+  other: 'Other',
 };
 
 export const AT_RISK_HOUSING_TYPES = {
@@ -88,6 +119,8 @@ export const SERVICE_CONNECTION_TYPES = {
 };
 
 export const DATA_PATHS = {
+  hasMedicalRecords: 'view:hasMedicalRecords',
+  hasEvidence: 'view:hasEvidence',
   hasVAEvidence: 'view:selectableEvidenceTypes.view:hasVaMedicalRecords',
   hasPrivateEvidence:
     'view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
@@ -95,6 +128,13 @@ export const DATA_PATHS = {
     'view:uploadPrivateRecordsQualifier.view:hasPrivateRecordsToUpload',
   hasAdditionalDocuments: 'view:selectableEvidenceTypes.view:hasOtherEvidence',
 };
+
+export const DATA_DOG_APP_NAME = 'Benefits Disability';
+export const DATA_DOG_ID = 'c7eb541a-30d2-4a00-aba0-04965e8a2668';
+export const DATA_DOG_TOKEN = 'pub300747eeaef98ae4eb9c8d66f3c747c1';
+export const DATA_DOG_SERVICE = 'benefits-disability';
+export const DATA_DOG_VERSION = '1.0.0';
+export const DATA_DOG_TOGGLE = 'disability526BrowserMonitoringEnabled';
 
 export const DISABILITY_526_V2_ROOT_URL =
   '/disability/file-disability-claim-form-21-526ez';
@@ -618,3 +658,23 @@ export const SUPPORTING_EVIDENCE_HINTS = Object.freeze({
 export const ARRAY_PATH = 'newDisabilities';
 export const NEW_CONDITION_OPTION = "A condition I haven't claimed before";
 export const CONDITION_NOT_LISTED_OPTION = 'My condition is not listed';
+
+// Separation Pay
+export const SEPARATION_PAY_TITLE =
+  'Did you receive separation pay or disability severance pay?';
+export const SEPARATION_PAY_BRANCH_TITLE =
+  'Please choose the branch of service that gave you separation or severance pay';
+export const SEPARATION_PAY_DATE_TITLE =
+  'Please tell us the year you received a payment';
+export const SEPARATION_PAY_DATE_ERROR = 'Please provide a valid year';
+export const SEPARATION_PAY_SECTION_TITLE = 'Separation or Severance Pay';
+
+// Traumatic Events Medical Record Opt-In
+export const TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_TITLE =
+  'Do you give us permission to add an indicator about claim or appeal events to your VA medical record?';
+export const TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_SECTION_TITLE =
+  'Option to add indicator of certain upcoming claim and appeal events to your VA medical record';
+
+// General
+export const YES = 'Yes';
+export const NO = 'No';

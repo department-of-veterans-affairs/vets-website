@@ -1,9 +1,21 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import { render, within } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import DocumentsFiled from '../../../components/claim-files-tab/DocumentsFiled';
+
+// Redux store with feature toggle enabled
+const store = createStore(() => ({
+  featureToggles: {
+    // eslint-disable-next-line camelcase
+    cst_timezone_discrepancy_mitigation: true,
+  },
+}));
 
 describe('<DocumentsFiled>', () => {
   context(
@@ -19,11 +31,13 @@ describe('<DocumentsFiled>', () => {
 
       it('should render DocumentsFiled section with message', () => {
         const { container, getByText } = render(
-          <DocumentsFiled claim={claim} />,
+          <Provider store={store}>
+            <DocumentsFiled claim={claim} />
+          </Provider>,
         );
-        const text = 'You haven’t turned in any documents to the VA.';
         expect($('.documents-filed-container', container)).to.exist;
-        expect(getByText(text)).to.exist;
+        expect(getByText(/You haven.t turned in any documents to the VA/)).to
+          .exist;
       });
     },
   );
@@ -49,7 +63,9 @@ describe('<DocumentsFiled>', () => {
 
       it('should render, show pending review and the received date is the item date', () => {
         const { container, getByText, queryByText } = render(
-          <DocumentsFiled claim={claim} />,
+          <Provider store={store}>
+            <DocumentsFiled claim={claim} />
+          </Provider>,
         );
         expect($('.documents-filed-container', container)).to.exist;
         expect(getByText('File name unknown')).to.exist;
@@ -90,7 +106,9 @@ describe('<DocumentsFiled>', () => {
 
       it('should render, show pending review and the received date is the item date', () => {
         const { container, getByText } = render(
-          <DocumentsFiled claim={claim} />,
+          <Provider store={store}>
+            <DocumentsFiled claim={claim} />
+          </Provider>,
         );
         expect($('.documents-filed-container', container)).to.exist;
         expect(getByText('file.pdf')).to.exist;
@@ -131,7 +149,9 @@ describe('<DocumentsFiled>', () => {
 
       it('should render, show pending review and the received date is the upload date', () => {
         const { container, getByText } = render(
-          <DocumentsFiled claim={claim} />,
+          <Provider store={store}>
+            <DocumentsFiled claim={claim} />
+          </Provider>,
         );
         expect($('.documents-filed-container', container)).to.exist;
         expect(getByText('file.pdf')).to.exist;
@@ -173,7 +193,9 @@ describe('<DocumentsFiled>', () => {
 
       it('should render, show pending review and the received date is the upload date', () => {
         const { container, getByText } = render(
-          <DocumentsFiled claim={claim} />,
+          <Provider store={store}>
+            <DocumentsFiled claim={claim} />
+          </Provider>,
         );
         expect($('.documents-filed-container', container)).to.exist;
         expect(getByText('file.pdf')).to.exist;
@@ -215,7 +237,9 @@ describe('<DocumentsFiled>', () => {
 
       it('should render, show pending review and the received date is the upload date', () => {
         const { container, getByText } = render(
-          <DocumentsFiled claim={claim} />,
+          <Provider store={store}>
+            <DocumentsFiled claim={claim} />
+          </Provider>,
         );
         expect($('.documents-filed-container', container)).to.exist;
         expect(getByText('file.pdf')).to.exist;
@@ -257,7 +281,9 @@ describe('<DocumentsFiled>', () => {
 
       it('should render, show pending review and the received date is the upload date', () => {
         const { container, getByText } = render(
-          <DocumentsFiled claim={claim} />,
+          <Provider store={store}>
+            <DocumentsFiled claim={claim} />
+          </Provider>,
         );
         expect($('.documents-filed-container', container)).to.exist;
         expect(getByText('file.pdf')).to.exist;
@@ -298,7 +324,9 @@ describe('<DocumentsFiled>', () => {
 
       it('should render, show pending review and the received date is the upload date', () => {
         const { container, getByText, queryByText } = render(
-          <DocumentsFiled claim={claim} />,
+          <Provider store={store}>
+            <DocumentsFiled claim={claim} />
+          </Provider>,
         );
         expect($('.documents-filed-container', container)).to.exist;
         expect(getByText('file.pdf')).to.exist;
@@ -346,7 +374,9 @@ describe('<DocumentsFiled>', () => {
 
       it('should render a DocumentsFiled section with multiple items in a request', () => {
         const { container, getByText, getAllByText } = render(
-          <DocumentsFiled claim={claim} />,
+          <Provider store={store}>
+            <DocumentsFiled claim={claim} />
+          </Provider>,
         );
         expect($('.documents-filed-container', container)).to.exist;
         expect(getByText('file1.pdf')).to.exist;
@@ -427,7 +457,9 @@ describe('<DocumentsFiled>', () => {
 
     it('should render a DocumentsFiled section with multiple items in a request', () => {
       const { container, getByText, getAllByText, getByRole } = render(
-        <DocumentsFiled claim={claim} />,
+        <Provider store={store}>
+          <DocumentsFiled claim={claim} />
+        </Provider>,
       );
       expect($('.documents-filed-container', container)).to.exist;
 
@@ -465,10 +497,131 @@ describe('<DocumentsFiled>', () => {
     });
 
     it('should mask filenames from Datadog (no PII)', () => {
-      const { container } = render(<DocumentsFiled claim={claim} />);
+      const { container } = render(
+        <Provider store={store}>
+          <DocumentsFiled claim={claim} />
+        </Provider>,
+      );
       expect(
         $('.filename-title', container).getAttribute('data-dd-privacy'),
       ).to.equal('mask');
+    });
+  });
+
+  context('Timezone-aware message display', () => {
+    let timezoneStub;
+
+    beforeEach(() => {
+      // Stub CST timezone (-360 = UTC-6) for all tests by default
+      // Individual tests can override by restoring and re-stubbing
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(-360);
+    });
+
+    afterEach(() => {
+      if (timezoneStub) {
+        timezoneStub.restore();
+        timezoneStub = null;
+      }
+    });
+
+    const claim = {
+      type: 'claim',
+      attributes: {
+        trackedItems: [],
+        supportingDocuments: [],
+      },
+    };
+
+    it('should display timezone message below Documents filed heading', () => {
+      const { getByText } = render(
+        <Provider store={store}>
+          <DocumentsFiled claim={claim} />
+        </Provider>,
+      );
+
+      getByText('Documents filed');
+      expect(getByText(/Files uploaded (after|before).*will show (with|as)/)).to
+        .exist;
+    });
+
+    it('should include time and timezone in message', () => {
+      const { getByText } = render(
+        <Provider store={store}>
+          <DocumentsFiled claim={claim} />
+        </Provider>,
+      );
+
+      const messageParagraph = getByText(
+        /Files uploaded (after|before).*will show (with|as)/,
+      );
+      expect(messageParagraph.textContent).to.match(
+        /\d{1,2}:\d{2}\s+(a|p)\.m\./,
+      );
+    });
+
+    it('should NOT display message when in UTC timezone', () => {
+      // Restore beforeEach stub and re-stub with UTC timezone (0)
+      timezoneStub.restore();
+      timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
+
+      const { queryByText } = render(
+        <Provider store={store}>
+          <DocumentsFiled claim={claim} />
+        </Provider>,
+      );
+
+      expect(queryByText('Documents filed')).to.exist;
+      expect(queryByText(/Files uploaded/)).to.not.exist;
+    });
+
+    it('should not render message paragraph element when timezone offset is 0', () => {
+      // Restore beforeEach stub and re-stub with UTC timezone (0)
+      timezoneStub.restore();
+      timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
+
+      const { container } = render(
+        <Provider store={store}>
+          <DocumentsFiled claim={claim} />
+        </Provider>,
+      );
+
+      const activityContainer = container.querySelector(
+        '.documents-filed-container',
+      );
+      const paragraphs = activityContainer.querySelectorAll('p');
+
+      paragraphs.forEach(p => {
+        expect(p.textContent).to.not.include('Files uploaded');
+      });
+    });
+
+    it('should conditionally render message based on timezone offset', () => {
+      const { container, rerender } = render(
+        <Provider store={store}>
+          <DocumentsFiled claim={claim} />
+        </Provider>,
+      );
+
+      let messageParagraph = container.querySelector(
+        '.vads-u-color--gray-medium',
+      );
+      expect(messageParagraph).to.exist;
+
+      // Restore beforeEach stub and re-stub with UTC timezone (0)
+      timezoneStub.restore();
+      timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
+
+      rerender(
+        <Provider store={store}>
+          <DocumentsFiled claim={claim} />
+        </Provider>,
+      );
+      messageParagraph = container.querySelector('.vads-u-color--gray-medium');
+      expect(messageParagraph?.textContent || '').to.not.include(
+        'Files uploaded',
+      );
     });
   });
 });

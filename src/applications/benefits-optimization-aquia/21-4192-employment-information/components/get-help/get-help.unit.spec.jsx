@@ -6,7 +6,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { render } from '@testing-library/react';
-import GetHelp from './get-help';
+import { GetHelp } from './get-help';
 
 describe('GetHelp Component', () => {
   describe('Component Rendering', () => {
@@ -48,40 +48,6 @@ describe('GetHelp Component', () => {
       const ttyPhone = container.querySelector('va-telephone[contact="711"]');
       expect(ttyPhone).to.exist;
       expect(ttyPhone.hasAttribute('tty')).to.be.true;
-    });
-  });
-
-  describe('Feedback Button', () => {
-    it('should render feedback button', () => {
-      const { container } = render(<GetHelp />);
-      const feedbackButton = container.querySelector(
-        'va-button[text="Feedback"]',
-      );
-      expect(feedbackButton).to.exist;
-    });
-
-    it('should have secondary styling', () => {
-      const { container } = render(<GetHelp />);
-      const feedbackButton = container.querySelector(
-        'va-button[text="Feedback"]',
-      );
-      expect(feedbackButton.hasAttribute('secondary')).to.be.true;
-    });
-
-    it('should have uswds attribute', () => {
-      const { container } = render(<GetHelp />);
-      const feedbackButton = container.querySelector(
-        'va-button[text="Feedback"]',
-      );
-      expect(feedbackButton.hasAttribute('uswds')).to.be.true;
-    });
-
-    it('should be right-aligned', () => {
-      const { container } = render(<GetHelp />);
-      const buttonContainer = container.querySelector(
-        '.vads-u-text-align--right',
-      );
-      expect(buttonContainer).to.exist;
     });
   });
 

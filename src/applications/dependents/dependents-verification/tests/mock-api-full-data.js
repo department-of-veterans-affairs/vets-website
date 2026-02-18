@@ -125,7 +125,6 @@ const responses = {
         { name: 'dependents_management', value: true },
         { name: 'dependentsManagement', value: true },
         { name: 'dependency_verification', value: true },
-        { name: 'dependencyVerification', value: true },
       ],
     },
   },

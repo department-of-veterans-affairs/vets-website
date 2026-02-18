@@ -1,0 +1,78 @@
+{
+  "data": {
+    "veteranInformation": {
+      "veteranFullName": {
+        "first": "Leia",
+        "middle": "O",
+        "last": "Solo"
+      },
+      "veteranSsn": "456789123",
+      "veteranDob": "1956-10-21"
+    },
+    "veteranAddress": {
+      "veteranAddress": {
+        "street": "2000 Resistance Base",
+        "street2": "CC",
+        "city": "Alderaan City",
+        "state": "NY",
+        "country": "USA",
+        "postalCode": "10001"
+      }
+    },
+    "claimantRelationship": {
+      "relationship": "parent"
+    },
+    "claimantInformation": {
+      "claimantFullName": {
+        "first": "Bail",
+        "middle": "P",
+        "last": "Organa"
+      },
+      "claimantDob": "1935-11-30"
+    },
+    "claimantSsn": {
+      "claimantSsn": "321654987"
+    },
+    "claimantAddress": {
+      "claimantAddress": {
+        "street": "1 Royal Palace Avenue",
+        "street2": "SW",
+        "city": "Alderaan City",
+        "state": "NY",
+        "country": "USA",
+        "postalCode": "10002"
+      }
+    },
+    "claimantContact": {
+      "claimantPhoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "(212) 555-1935",
+        "IsValid": true,
+        "Error": null,
+        "Touched": true
+      },
+      "claimantEmail": "bail.organa@alderaan.gov"
+    },
+    "benefitType": {
+      "benefitType": "SMP"
+    },
+    "hospitalizationStatus": {
+      "isCurrentlyHospitalized": true
+    },
+    "hospitalizationDate": {
+      "admissionDate": "2024-03-15"
+    },
+    "hospitalizationFacility": {
+      "facilityName": "Alderaan General Hospital",
+      "facilityAddress": {
+        "street": "500 Medical District",
+        "street2": "ED",
+        "city": "Albany",
+        "state": "NY",
+        "country": "USA",
+        "postalCode": "12201"
+      }
+    }
+  }
+}

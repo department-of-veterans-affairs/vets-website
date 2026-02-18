@@ -31,7 +31,7 @@ export const fillTextWebComponent = (fieldName, value) => {
     cy.get(`va-text-input[name="root_${fieldName}"]`)
       .shadow()
       .find('input')
-      .type(value);
+      .type(value, { force: true });
   }
 };
 
@@ -246,3 +246,9 @@ export const clearDeductibleExpenses = () => {
     '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses"',
   ).clear();
 };
+
+export const normalizeFeatureFlags = features =>
+  features.reduce((acc, { name, value }) => {
+    acc[name] = value;
+    return acc;
+  }, {});

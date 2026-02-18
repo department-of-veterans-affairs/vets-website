@@ -30,7 +30,8 @@ describe('10-7959a ConfirmationPage', () => {
       </Provider>,
     );
     const getPrintBtn = () => container.querySelector('va-button');
-    const getSubmissionDate = () => container.querySelector('.submission-date');
+    const getSubmissionDate = () =>
+      container.querySelector('[data-dd-action-name="Submission date"]');
     return { getPrintBtn, getSubmissionDate };
   };
 

@@ -1,0 +1,76 @@
+{
+  "confirmationQuestion": true,
+  "veteran": {
+    "fullName": { "first": "John", "middle": "Q", "last": "Doe" },
+    "dateOfBirth": "1980-01-01",
+    "ssn": "111223333",
+    "address": {
+      "street": "123 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "postalCode": "62701",
+      "country": "USA"
+    },
+    "homePhone": "5551234567",
+    "email": "john.doe@example.com"
+  },
+  "employersHistory": [
+    {
+      "employerName": "Springfield Foundry",
+      "employerAddress": {
+        "street": "456 Industrial Rd",
+        "city": "Springfield",
+        "state": "IL",
+        "postalCode": "62702",
+        "country": "USA"
+      },
+      "typeOfWork": "Machinist",
+      "hoursPerWeek": 40,
+      "startDate": "2018-01-01",
+      "endDate": "2020-12-31",
+      "timeLost": 12,
+      "earnings": 3200
+    }
+  ],
+  "sectionTwoP1": {
+    "disabilityDescription": [
+      { "disability": "Lower back pain" }
+    ]
+  },
+  "doctorCareQuestion": { "hasReceivedDoctorCare": false },
+  "hospitalizationQuestion": { "hasBeenHospitalized": false },
+  "sectionThree": {
+    "disabilityDate": "2020-01-01",
+    "lastWorkedDate": "2021-06-01",
+    "disabledWorkDate": "2021-06-15"
+  },
+  "peakEarnings": {
+    "maxYearlyEarnings": 55000,
+    "yearEarned": 2019,
+    "occupation": "Technician"
+  },
+  "employmentHistory": { "hasTriedEmployment": false },
+  "currentMilitaryService": {
+    "currentlyServing": false,
+    "activeDutyOrders": false
+  },
+  "currentIncome": {
+    "totalIncome": 24000,
+    "monthlyIncome": 2000
+  },
+  "leavingLastPosition": {
+    "leftDueToDisability": true,
+    "receivesDisabilityRetirement": false,
+    "receivesWorkersCompensation": false
+  },
+  "sectionFour": {
+    "educationLevel": "highSchool",
+    "highSchool": "12"
+  },
+  "beforeDisability": { "otherBeforeEducation": false },
+  "afterDisability": { "otherAfterEducation": false },
+  "sectionSix": {
+    "signatureOfClaimant": "John Q Doe",
+    "dateSigned": "2024-01-01"
+  }
+}

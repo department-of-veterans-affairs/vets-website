@@ -14,8 +14,8 @@ import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/a
  * going with this approach locally so our form looks consistent.
  * @param {{
  *   arrayPath: string,
- *   summaryRoute: string,
- *   introRoute?: string,
+ *   getSummaryPath: () => string,
+ *   getIntroPath: () => string,
  *   required: (formData) => boolean,
  *   reviewRoute: string,
  *   getText: import('platform/forms-system/src/js/patterns/array-builder/arrayBuilderText').ArrayBuilderGetText,
@@ -29,16 +29,17 @@ export default function CustomArrayBuilderButtonPair(props) {
   */
   const {
     arrayPath,
-    summaryRoute,
-    introRoute,
+    getSummaryPath,
+    getIntroPath,
     reviewRoute,
     getText,
     required,
   } = props;
+  const introRoute = getIntroPath();
+  const summaryRoute = getSummaryPath();
   const searchParams = getArrayUrlSearchParams();
   const isEdit = !!searchParams.get('edit');
   const isAdd = !!searchParams.get('add');
-
   const NavButtons = props.NavButtons || FormNavButtons;
 
   // This ref allows us to listen for the "Continue" VaButton's onclick, which
@@ -113,9 +114,9 @@ export default function CustomArrayBuilderButtonPair(props) {
 
 CustomArrayBuilderButtonPair.propTypes = {
   arrayPath: PropTypes.string.isRequired,
-  summaryRoute: PropTypes.string.isRequired,
+  getSummaryPath: PropTypes.func,
+  getIntroPath: PropTypes.func,
   required: PropTypes.func.isRequired,
-  introRoute: PropTypes.string,
   reviewRoute: PropTypes.string.isRequired,
   getText: PropTypes.func.isRequired,
   contentAfterButtons: PropTypes.node,

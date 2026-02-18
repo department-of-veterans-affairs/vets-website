@@ -381,14 +381,27 @@ yourDocument: fileInputUI({
   hint: 'Upload a file that is less than 5MB',
   headerSize: '3',
   formNumber: '31-4159',
-  maxFileSize: 1024 * 1024 * 5,
-  minFileSize: 1,
+  fileSizesByFileType: { // specify file size limits by file type
+    pdf: {
+      maxFileSize: 1024 * 1024 * 50,
+      minFileSize: 1024
+    },
+    default: {
+      maxFileSize: 1024 * 3,
+      minFileSize: 1
+    }
+  },
   disallowEncryptedPdfs: true,
   errorMessages: {
     additionalInput: 'Choose a document status',
   },
+  createPayload: () => {}, // custom function to generate payload when uploading file
+  parseResponse: () => {}, // custom function to handle response after uploading file
   additionalInputRequired: true,
-  additionalInput: (error, data) => {
+  additionalInputLabels: {
+    documentStatus: { public: 'Public', private: 'Private' },
+  },
+  additionalInput: (error, data, labels) => {
     const { documentStatus } = data;
     return (
       <VaSelect
@@ -397,8 +410,9 @@ yourDocument: fileInputUI({
         value={documentStatus}
         label="Document status"
       >
-        <option value="public">Public</option>
-        <option value="private">Private</option>
+        {Object.entries(labels.documentStatus).map(([value, label]) => (
+          <option key={value} value={value}>{label}</option>
+        ))}
       </VaSelect>
     );
   },
@@ -447,17 +461,29 @@ financialHardshipDocuments: fileInputMultipleUI({
   headerSize: '3',
   formNumber: '31-4159',
   // disallowEncryptedPdfs: true,
-  maxFileSize: 1024 * 1024 * 5,
-  minFileSize: 1,
+  fileSizesByFileType: { // specify file size limits by file type
+    pdf: {
+      maxFileSize: 1024 * 1024 * 50,
+      minFileSize: 1024
+    },
+    default: {
+      maxFileSize: 1024 * 3,
+      minFileSize: 1
+    }
+  },
   errorMessages: {
     additionalInput: 'Choose a document status',
   },
   additionalInputRequired: true,
-  additionalInput: () => {
+  additionalInputLabels: {
+    documentStatus: { public: 'Public', private: 'Private' },
+  },
+  additionalInput: ({ labels }) => {
     return (
       <VaSelect required label="Document status">
-        <option value="public">Public</option>
-        <option value="private">Private</option>
+        {Object.entries(labels.documentStatus).map(([value, label]) => (
+          <option key={value} value={value}>{label}</option>
+        ))}
       </VaSelect>
     );
   },
@@ -751,7 +777,7 @@ const employerOptions = {
   nounPlural: 'employers',
   required: true,
   maxItems: 5,
-  isItemIncomplete: (item, index, arrayData) => {
+  isItemIncomplete: (item, fullData) => {
     // Complex validation logic
     if (!item?.name || !item?.address) return true;
     if (item.type === 'contract' && !item?.contractDetails) return true;
@@ -1002,6 +1028,10 @@ Need selection field?
 ├─ Dropdown selection? → selectUI + selectSchema
 ├─ Single checkbox? → checkboxUI + checkboxSchema
 ├─ Multiple checkboxes? → checkboxGroupUI + checkboxGroupSchema
+├─ Service branch selection?
+│  ├─ All service branches? → serviceBranchUI() + serviceBranchSchema()
+│  ├─ Specific groups only? → serviceBranchUI({ groups: ['army', 'navy'] }) + serviceBranchSchema(['army', 'navy'])
+│  └─ Specific branches across groups? → serviceBranchUI({ branches: ['AF', 'SF', 'PHS'] }) + serviceBranchSchema(['AF', 'SF', 'PHS'])
 └─ Relationship to veteran?
    ├─ All relationships? → relationshipToVeteranUI + relationshipToVeteranSchema
    └─ Just spouse/child? → relationshipToVeteranSpouseOrChildUI + relationshipToVeteranSpouseOrChildSchema
@@ -1030,6 +1060,7 @@ import {
   selectUI, selectSchema,                     // Dropdown selections
   radioUI, radioSchema,                       // Radio button groups
   checkboxGroupUI, checkboxGroupSchema,       // Multiple checkboxes
+  serviceBranchUI, serviceBranchSchema,       // Service branch selection
   // Array builder specific patterns:
   arrayBuilderYesNoUI, arrayBuilderYesNoSchema,
   arrayBuilderItemFirstPageTitleUI,
@@ -1617,11 +1648,51 @@ export default {
 };
 ```
 
-### Example 21-35: Array Builder Variations
+### Example 21: Service Branch Selection
+**When you see:** "Select your service branch" / "Branch of service"
+**Use:** `serviceBranchUI` + `serviceBranchSchema`
+```javascript
+export default {
+  uiSchema: {
+    ...titleUI('Military service'),
+    // All service branches
+    serviceBranchDefault: serviceBranchUI(),
+    // disable optgroups
+    serviceBranchNoOptGroups: serviceBranchUI({
+      optGroups: false
+    }),
+    // Or with specific branches only
+    serviceBranchGroupSubset: serviceBranchUI({
+      title: 'Select your service branch',
+      hint: 'Choose the branch you served in',
+      required: true,
+      groups: ['army', 'navy', 'air force'],
+    }),
+    serviceBranchWithBranchSubset: serviceBranchUI({
+      title: 'Select a service branch',
+      hint: 'Choose your branch',
+      required: true,
+      branches: ['AF', 'SF', 'ARMY', 'PHS']
+    })
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      serviceBranchDefault: serviceBranchSchema(),
+      serviceBranchNoOptGroups: serviceBranchSchema(),
+      serviceBranchSubset: serviceBranchSchema({ groups: ['army', 'navy', 'air force'] }),
+      serviceBranchWithBranchSubset: serviceBranchSchema({ branches:['AF', 'SF', 'ARMY', 'PHS'] })
+    },
+    required: ['serviceBranch'],
+  },
+};
+```
+
+### Example 22-36: Array Builder Variations
 
 **📖 For complete array builder examples, see:** `README.md` (src/platform/forms-system/src/js/patterns/array-builder/README.md)
 
-**Example 21: Optional Dependents (Link Instead of Yes/No)**
+**Example 22: Optional Dependents (Link Instead of Yes/No)**
 ```javascript
 // Array with useLinkInsteadOfYesNo: true
 const options = {
@@ -1639,7 +1710,7 @@ const options = {
 };
 ```
 
-**Example 22: Required Employment History**
+**Example 23: Required Employment History**
 ```javascript
 // Array with required: true (must add at least one)
 const options = {
@@ -1652,7 +1723,7 @@ const options = {
 };
 ```
 
-**Example 23: Button Instead of Link**
+**Example 24: Button Instead of Link**
 ```javascript
 // Array with button instead of yes/no or link
 const options = {
@@ -1670,7 +1741,7 @@ const options = {
 };
 ```
 
-**Example 24: Complex Multi-Page Items**
+**Example 25: Complex Multi-Page Items**
 ```javascript
 // When each item needs multiple pages (name, address, dates, etc.)
 const options = {
@@ -1694,7 +1765,7 @@ export const employersPages = arrayBuilderPages(options, pageBuilder => ({
 }));
 ```
 
-**Example 25-35: Form Config Integration Examples**
+**Example 26-36: Form Config Integration Examples**
 ```javascript
 // config/form.js integration patterns
 const formConfig = {
@@ -1959,6 +2030,7 @@ yarn cy:open
 | Date of birth | `dateOfBirthUI()` + `dateOfBirthSchema` | Has built-in validation |
 | Phone number | `phoneUI('Phone')` + `phoneSchema` | US phone numbers |
 | Address | `addressUI()` + `addressSchema()` | Includes military checkbox |
+| Service branch selection | `serviceBranchUI()` + `serviceBranchSchema()` | Military service branches |
 | Currency/money | `currencyUI('Amount')` + `currencySchema` | Auto-formats currency |
 | SSN or VA file | `ssnOrVaFileNumberUI()` + `ssnOrVaFileNumberSchema` | Either/or validation |
 | Text input | `textUI('Label')` + `textSchema` | Basic text field |

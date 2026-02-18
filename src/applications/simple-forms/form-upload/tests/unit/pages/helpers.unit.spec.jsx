@@ -4,9 +4,9 @@ import { render, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../config/form';
-import { CustomTopContent } from '../../../pages/helpers';
+import { CustomTopContent, CustomAlertPage } from '../../../pages/helpers';
 
-const TEST_URL = 'https://dev.va.gov/form-upload/21-0779/test-page';
+const TEST_URL = 'https://dev.va.gov/forms/upload/21-0779/test-page';
 const config = formConfig(TEST_URL);
 
 const mockStore = {
@@ -80,11 +80,43 @@ describe('CustomTopContent', () => {
     // TODO: Swap this commented bit back in when the static page works.
     // expect(breadcrumbs).to.have.attr(
     //   'breadcrumb-list',
-    //   '[{"href":"/","label":"VA.gov home"},{"href":"/find-forms","label":"Find a VA form"},{"href":"/find-forms/upload","label":"Upload VA forms"},{"href":"/find-forms/upload/21-0779/introduction","label":"Upload form 21-0779"}]',
+    //   '[{"href":"/","label":"VA.gov home"},{"href":"/find-forms","label":"Find a VA form"},{"href":"/forms/upload","label":"Upload VA forms"},{"href":"/forms/upload/21-0779/introduction","label":"Upload form 21-0779"}]',
     // );
     expect(breadcrumbs).to.have.attr(
       'breadcrumb-list',
-      '[{"href":"/","label":"VA.gov home"},{"href":"/find-forms","label":"Find a VA form"},{"href":"/find-forms/upload/21-0779/introduction","label":"Upload form 21-0779"}]',
+      '[{"href":"/","label":"VA.gov home"},{"href":"/forms","label":"Find a VA form"},{"href":"/forms/upload/21-0779/introduction","label":"Upload VA Form 21-0779"}]',
     );
+  });
+});
+
+describe('CustomAlertPage', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  const mockProps = {
+    name: 'uploadPage',
+    contentBeforeButtons: <div>Before Buttons</div>,
+    contentAfterButtons: <div>After Buttons</div>,
+    goBack: () => {},
+    onContinue: () => {},
+  };
+
+  const subject = (props = mockProps) =>
+    render(
+      <Provider store={mockStore}>
+        <CustomAlertPage {...props} />
+      </Provider>,
+    );
+
+  it('renders successfully', () => {
+    const { container } = subject();
+    expect(container).to.exist;
+  });
+
+  it('renders content before and after buttons', () => {
+    const { container } = subject();
+    expect(container.textContent).to.include('Before Buttons');
+    expect(container.textContent).to.include('After Buttons');
   });
 });

@@ -20,6 +20,7 @@ import {
   generateDeleteDescription,
   isDefined,
   surrenderValueRequired,
+  sharedYesNoOptionsBase,
   showUpdatedContent,
   requireExpandedArrayField,
 } from '../../../helpers';
@@ -43,6 +44,7 @@ export const options = {
     typeof item.receivingIncomeFromAnnuity !== 'boolean' ||
     typeof item.canBeLiquidated !== 'boolean', // include all required fields here
   text: {
+    summaryTitle: 'Review annuities',
     getItemName: item =>
       isDefined(item?.establishedDate) &&
       `Annuity established on ${formatDateLong(item.establishedDate)}`,
@@ -56,14 +58,32 @@ export const options = {
             </span>
           </li>
           <li>
-            Market value when established:{' '}
+            Fair market value when created:{' '}
             <span className="vads-u-font-weight--bold">
               {formatCurrency(item.marketValueAtEstablishment)}
             </span>
           </li>
+          {item?.receivingIncomeFromAnnuity &&
+            item?.annualReceivedIncome && (
+              <li>
+                Annual income:{' '}
+                <span className="vads-u-font-weight--bold">
+                  {formatCurrency(item.annualReceivedIncome)}
+                </span>
+              </li>
+            )}
+          {item?.addedFundsAfterEstablishment &&
+            item?.addedFundsAmount && (
+              <li>
+                Money added:{' '}
+                <span className="vads-u-font-weight--bold">
+                  {formatCurrency(item.addedFundsAmount)}
+                </span>
+              </li>
+            )}
         </ul>
       ),
-    reviewAddButtonText: 'Add another annuity',
+    reviewAddButtonText: props => `Add ${props.nounSingular}`,
     alertItemUpdated: 'Your annuity information has been updated',
     alertItemDeleted: 'Your annuity information has been deleted',
     cancelAddTitle: 'Cancel adding this annuity',
@@ -81,6 +101,19 @@ export const options = {
   },
 };
 
+// We support multiple summary pages (one per claimant type).
+// These constants centralize shared text so each summary page stays consistent.
+// Important: only one summary page should ever be displayed at a time.
+
+// Shared summary page text
+const updatedTitleNoItems = 'Do you or your dependents have an annuity?';
+const updatedTitleWithItems = 'Do you have another annuity to report?';
+const summaryPageTitle = 'Annuities summary';
+const yesNoOptionLabels = {
+  Y: 'Yes, I have an annuity to report',
+  N: 'No, I don’t have an annuity to report',
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -91,9 +124,7 @@ const summaryPage = {
     'view:isAddingAnnuities': arrayBuilderYesNoUI(
       options,
       {
-        title: showUpdatedContent()
-          ? 'Do you or your dependents have an annuity?'
-          : 'Have you or your dependents established an annuity?',
+        title: 'Have you or your dependents established an annuity?',
         hint: 'If yes, you’ll need to report at least one annuity',
         labels: {
           Y: 'Yes',
@@ -101,13 +132,8 @@ const summaryPage = {
         },
       },
       {
-        title: showUpdatedContent()
-          ? 'Do you have another annuity to report?'
-          : 'Do you have more annuities to report?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
       },
     ),
   },
@@ -121,15 +147,117 @@ const summaryPage = {
 };
 
 /** @returns {PageSchema} */
+const veteranSummaryPage = {
+  uiSchema: {
+    'view:isAddingAnnuities': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const spouseSummaryPage = {
+  uiSchema: {
+    'view:isAddingAnnuities': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint: 'Your dependents include children who you financially support. ',
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const childSummaryPage = {
+  uiSchema: {
+    'view:isAddingAnnuities': arrayBuilderYesNoUI(
+      options,
+      {
+        title: 'Do you have an annuity?',
+        hint: null,
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const parentSummaryPage = {
+  uiSchema: {
+    'view:isAddingAnnuities': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const custodianSummaryPage = {
+  uiSchema: {
+    'view:isAddingAnnuities': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        labelHeaderLevel: '1',
+        labelHeaderLevelStyle: '2',
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
 const informationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Annuity establishment',
+      title: 'Annuity creation',
       nounSingular: options.nounSingular,
     }),
-    establishedDate: currentOrPastDateUI('When was the annuity established?'),
+    establishedDate: currentOrPastDateUI('When was the annuity created?'),
     marketValueAtEstablishment: currencyUI(
-      'What was the market value of the asset at the time of purchase?',
+      'What was the fair market value of the asset when the annuity was purchased?',
     ),
   },
   schema: {
@@ -147,11 +275,12 @@ const revocablePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Type of annuity'),
     revocable: yesNoUI({
-      title: 'Is the annuity revocable or irrevocable?',
+      title: 'What type of annuity is it?',
       labels: {
         Y: 'Revocable',
         N: 'Irrevocable',
       },
+      ...sharedYesNoOptionsBase,
     }),
   },
   schema: {
@@ -167,14 +296,13 @@ const revocablePage = {
 const incomePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Income from annuity'),
-    receivingIncomeFromAnnuity: showUpdatedContent()
-      ? yesNoUI('Does this annuity generate income?')
-      : yesNoUI('Do you receive income from the annuity?'),
+    receivingIncomeFromAnnuity: yesNoUI({
+      title: 'Do you receive income from this annuity?',
+      ...sharedYesNoOptionsBase,
+    }),
     annualReceivedIncome: {
       ...currencyUI({
-        title: showUpdatedContent()
-          ? 'How much income does this annuity generate yearly?'
-          : 'How much is the annual amount received?',
+        title: 'How much annual income do you receive from this annuity?',
         expandUnder: 'receivingIncomeFromAnnuity',
         expandUnderCondition: true,
       }),
@@ -198,10 +326,13 @@ const incomePage = {
 const liquidationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Annuity liquidation'),
-    canBeLiquidated: yesNoUI('Can the annuity be liquidated?'),
+    canBeLiquidated: yesNoUI({
+      title: 'Can this annuity be liquidated?',
+      ...sharedYesNoOptionsBase,
+    }),
     surrenderValue: {
       ...currencyUI({
-        title: 'What is the surrender value?',
+        title: 'What’s the surrender value?',
         expandUnder: 'canBeLiquidated',
         expandUnderCondition: true,
       }),
@@ -224,14 +355,12 @@ const liquidationPage = {
 /** @returns {PageSchema} */
 const hasAddedFundsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Funds added to annuity'),
-    addedFundsAfterEstablishment: showUpdatedContent()
-      ? yesNoUI(
-          'Was money added to this annuity this year or in the last 3 years?',
-        )
-      : yesNoUI(
-          'Have you added funds to the annuity in the current or prior three years?',
-        ),
+    ...arrayBuilderItemSubsequentPageTitleUI('Money added to annuity'),
+    addedFundsAfterEstablishment: yesNoUI({
+      title:
+        'Was money added to this annuity this year or in the last 3 years?',
+      ...sharedYesNoOptionsBase,
+    }),
   },
   schema: {
     type: 'object',
@@ -246,12 +375,8 @@ const hasAddedFundsPage = {
 const addedFundsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Amount added to annuity'),
-    addedFundsDate: showUpdatedContent()
-      ? currentOrPastDateUI('When was money added?')
-      : currentOrPastDateUI('When did you add funds?'),
-    addedFundsAmount: showUpdatedContent()
-      ? currencyUI('How much was added?')
-      : currencyUI('How much did you add?'),
+    addedFundsDate: currentOrPastDateUI('When was money added?'),
+    addedFundsAmount: currencyUI('How much was added?'),
   },
   schema: {
     type: 'object',
@@ -264,12 +389,54 @@ const addedFundsPage = {
 };
 
 export const annuityPages = arrayBuilderPages(options, pageBuilder => ({
+  annuityPagesVeteranSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'annuities-summary-veteran',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'VETERAN',
+    uiSchema: veteranSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  annuityPagesSpouseSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'annuities-summary-spouse',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'SPOUSE',
+    uiSchema: spouseSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  annuityPagesChildSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'annuities-summary-child',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'CHILD',
+    uiSchema: childSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  annuityPagesCustodianSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'annuities-summary-custodian',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+    uiSchema: custodianSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  annuityPagesParentSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'annuities-summary-parent',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'PARENT',
+    uiSchema: parentSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
   annuityPagesSummary: pageBuilder.summaryPage({
     ContentBeforeButtons: showUpdatedContent()
       ? customDependentDescription
       : null,
     title: 'Annuities summary',
     path: 'annuities-summary',
+    depends: () => !showUpdatedContent(),
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),

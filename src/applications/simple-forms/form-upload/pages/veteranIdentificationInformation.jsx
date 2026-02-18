@@ -1,39 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberUI,
+  ssnOrVaFileNumberNoHintSchema,
+  ssnOrVaFileNumberNoHintUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { MUST_MATCH_ALERT } from '../config/constants';
-import { onCloseAlert } from '../helpers';
 import { CustomAlertPage } from './helpers';
+import { getAlert } from '../helpers';
 
 /** @type {PageSchema} */
 export const veteranIdentificationInformationPage = {
   uiSchema: {
     ...titleUI(
       'Veteran identification information',
-      'You must enter either a Social Security number or a VA File number.',
+      <>
+        <div>
+          You must enter either a Social Security number or a VA file number.
+        </div>
+        <div className="vads-u-margin-top--3">
+          {getAlert({ name: 'veteranIdentificationInformationPage' }, false)}
+        </div>
+      </>,
     ),
-    idNumber: ssnOrVaFileNumberUI(),
+    idNumber: ssnOrVaFileNumberNoHintUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      idNumber: ssnOrVaFileNumberSchema,
+      idNumber: ssnOrVaFileNumberNoHintSchema,
     },
   },
 };
 
 /** @type {CustomPageType} */
 export function VeteranIdentificationInformationPage(props) {
-  const alert = MUST_MATCH_ALERT(
-    'veteran-identification',
-    onCloseAlert,
-    props.data,
-  );
-  return <CustomAlertPage {...props} alert={alert} />;
+  return <CustomAlertPage {...props} />;
 }
 
 VeteranIdentificationInformationPage.propTypes = {

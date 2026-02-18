@@ -1,0 +1,112 @@
+{
+  "formData": {
+    "lastServiceBranch": "air force",
+    "lastEntryDate": "1999-01-01",
+    "lastDischargeDate": "2002-02-02",
+    "dischargeType": "honorable",
+    "view:addInsurancePolicy": false,
+    "view:skipInsuranceInfo": true,
+    "hasTeraResponse": false,
+    "veteranFullName": {
+      "first": "Eric",
+      "middle": "Victor",
+      "last": "Bishop",
+      "suffix": "Sr."
+    },
+    "veteranSocialSecurityNumber": "796169727",
+    "gender": "M",
+    "veteranDateOfBirth": "1963-07-05",
+    "homePhone": "3034441122",
+    "veteranAddress": {
+      "street": "4049 S Dale Mabry Hwy",
+      "city": "Tampa",
+      "state": "FL",
+      "country": "USA",
+      "postalCode": "33611"
+    },
+    "email": "foo@example.com",
+    "isMedicaidEligible": false,
+    "isEnrolledMedicarePartA": true,
+    "medicarePartAEffectiveDate": "1999-10-16",
+    "medicareClaimNumber": "873462432",
+    "spouseFullName": {
+      "first": "Mary",
+      "last": "Bishop"
+    },
+    "providers": [
+      {
+        "insuranceName": "Big Insurance Co",
+        "insurancePolicyHolderName": "Jim Doe",
+        "insurancePolicyNumber": "2342344",
+        "insuranceGroupCode": "1234567890"
+      },
+      {
+        "insuranceName": "Small Insurance Co",
+        "insurancePolicyHolderName": "Jim Doe",
+        "insurancePolicyNumber": "4343532",
+        "insuranceGroupCode": "12365356"
+      }
+    ],
+    "maritalStatus": "Married",
+    "view:maritalStatus": {
+      "maritalStatus": "Married"
+    },
+    "spouseSocialSecurityNumber": "666834638",
+    "spouseDateOfBirth": "1971-09-11",
+    "dateOfMarriage": "1995-02-22",
+    "cohabitedLastYear": true,
+    "view:hasSpouseInformationToAdd": false,
+    "sameAddress": true,
+    "nonPrefill": {
+      "previousFinancialInfo": {
+        "veteranFinancialInfo": {
+          "otherIncome": "3453.1",
+          "grossIncome": "55644.04",
+          "netIncome": "6785.68",
+          "deductibleFuneralExpenses": "879.01",
+          "deductibleMedicalExpenses": "3454.76",
+          "deductibleEducationExpenses": "5654.87",
+          "incomeYear": "2023"
+        },
+        "spouseFinancialInfo": {
+          "otherIncome": "567.05",
+          "grossIncome": "36565.95",
+          "netIncome": "655.8",
+          "incomeYear": "2023"
+        }
+      }
+    },
+    "view:deductibleMedicalExpenses": {
+      "deductibleMedicalExpenses": 234
+    },
+    "view:deductibleFuneralExpenses": {
+      "deductibleFuneralExpenses": 11
+    },
+    "view:deductibleEducationExpenses": {
+      "deductibleEducationExpenses": 0
+    },
+    "view:veteranGrossIncome": {
+      "veteranGrossIncome": 3242434
+    },
+    "view:veteranNetIncome": {
+      "veteranNetIncome": 23424
+    },
+    "view:veteranOtherIncome": {
+      "veteranOtherIncome": 23424
+    },
+    "view:spouseGrossIncome": {
+      "spouseGrossIncome": 23424
+    },
+    "view:spouseNetIncome": {
+      "spouseNetIncome": 23424
+    },
+    "view:spouseOtherIncome": {
+      "spouseOtherIncome": 23424
+    }
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/veteran-information/personal-information"
+  }
+}

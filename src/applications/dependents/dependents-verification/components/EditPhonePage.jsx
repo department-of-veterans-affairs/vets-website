@@ -6,6 +6,20 @@ import EditPageButtons from './EditPageButtons';
 
 import { saveEditContactInformation } from '../util/contact-info';
 
+/**
+ * Edit Phone Page Component
+ * @typedef {object} EditPhonePageProps
+ * @property {object} schema - form schema
+ * @property {object} uiSchema - form uiSchema
+ * @property {object} data - form data
+ * @property {function} goToPath - function to go to specific path
+ * @property {function} setFormData - function to set form data
+ * @property {node} contentBeforeButtons - content to render before buttons
+ * @property {node} contentAfterButtons - content to render after buttons
+ *
+ * @param {EditPhonePageProps} props - Component props
+ * @returns {React.Component} - Edit phone page
+ */
 const EditPhonePage = ({
   schema,
   uiSchema,

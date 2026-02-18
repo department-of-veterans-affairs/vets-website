@@ -1,5 +1,5 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import { AXE_CONTEXT, Locators, Paths, Data } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Paths, Data, Alerts } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PilotEnvPage from '../pages/PilotEnvPage';
 import mockSentThreads from '../fixtures/sentResponse/sent-messages-response.json';
@@ -24,6 +24,13 @@ describe('SM CURATED LIST MAIN FLOW', () => {
 
     PilotEnvPage.verifySelectCareTeamPageInterface();
 
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify page title', () => {
+    GeneralFunctionsPage.verifyPageTitle(
+      'Select Care Team - Start Message | Veterans Affairs',
+    );
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
@@ -75,7 +82,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
 
     cy.findByTestId(`alert-text`)
       .should(`be.visible`)
-      .and(`contain.text`, Data.MESSAGE_SENT);
+      .and(`contain.text`, Alerts.SEND_MESSAGE_SUCCESS);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

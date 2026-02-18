@@ -30,7 +30,7 @@ const stubbedRepresentativeData = {
 const getState = ({ isLOA3 = 1 } = {}) => ({
   user: {
     profile: {
-      signIn: { serviceName: CSP_IDS.DS_LOGON },
+      signIn: { serviceName: CSP_IDS.ID_ME },
       loa: { current: isLOA3 },
     },
   },
@@ -63,7 +63,7 @@ describe('AccreditedRepresentative', () => {
         },
       );
       expect($('h1', container).textContent).to.eq(
-        'Accredited Representative or VSO',
+        'Accredited representative or VSO',
       );
       const loadingIndicator = $('va-loading-indicator', container);
       expect(loadingIndicator).to.exist;
@@ -99,7 +99,7 @@ describe('AccreditedRepresentative', () => {
         },
       );
       expect($('h1', container).textContent).to.eq(
-        'Accredited Representative or VSO',
+        'Accredited representative or VSO',
       );
       const vaCard = $('va-card', container);
       expect(vaCard).to.exist;
@@ -133,7 +133,7 @@ describe('AccreditedRepresentative', () => {
         },
       );
       expect($('h1', container).textContent).to.eq(
-        'Accredited Representative or VSO',
+        'Accredited representative or VSO',
       );
       getByTestId('no-rep');
       getByText('You don’t have an accredited representative.');
@@ -166,7 +166,7 @@ describe('AccreditedRepresentative', () => {
         },
       );
       expect($('h1', container).textContent).to.eq(
-        'Accredited Representative or VSO',
+        'Accredited representative or VSO',
       );
       getByTestId('no-rep');
       getByText('You don’t have an accredited representative.');
@@ -201,7 +201,7 @@ describe('AccreditedRepresentative', () => {
           },
         );
         expect($('h1', container).textContent).to.eq(
-          'Accredited Representative or VSO',
+          'Accredited representative or VSO',
         );
         getByTestId('unknown-rep');
         getByText('We can’t check if you have an accredited representative.');

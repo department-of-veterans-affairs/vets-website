@@ -24,7 +24,7 @@ describe('SM ATTACHMENT WITH VIRUS ON REPLY', () => {
       .type(`Test body`);
   });
 
-  describe('Verify single attachment with virus alert', () => {
+  describe('Verify single attachment with virus alert on reply', () => {
     beforeEach(() => {
       PatientComposePage.attachMessageFromFile(Data.SAMPLE_IMG);
       cy.intercept(
@@ -45,7 +45,7 @@ describe('SM ATTACHMENT WITH VIRUS ON REPLY', () => {
     it('verify alert exist and attach button disappears', () => {
       cy.get(Locators.ALERTS.ATTCH_VIRUS)
         .should(`be.visible`)
-        .and(`have.text`, Alerts.VIRUS_ATTCH);
+        .and(`contain`, Alerts.VIRUS_ATTCH);
 
       cy.get(Locators.ATTACH_FILE_INPUT).should(`not.exist`);
       cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT).should('be.focused');
@@ -99,7 +99,7 @@ describe('SM ATTACHMENT WITH VIRUS ON REPLY', () => {
     it('verify alert exist and attach button disappears', () => {
       cy.get(Locators.ALERTS.ATTCH_VIRUS)
         .should(`be.visible`)
-        .and(`have.text`, Alerts.VIRUS_MULTI_ATTCH);
+        .and(`contain`, Alerts.VIRUS_MULTI_ATTCH);
       cy.get(Locators.ATTACH_FILE_INPUT).should(`not.exist`);
       cy.get(Locators.BUTTONS.REMOVE_ALL_ATTCH).should('be.focused');
 

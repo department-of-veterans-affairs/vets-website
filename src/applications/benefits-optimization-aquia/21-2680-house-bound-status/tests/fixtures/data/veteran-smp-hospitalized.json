@@ -1,0 +1,57 @@
+{
+  "data": {
+    "veteranInformation": {
+      "veteranFullName": {
+        "first": "Han",
+        "middle": "S",
+        "last": "Solo"
+      },
+      "veteranSsn": "321654987",
+      "veteranDob": "1942-07-13"
+    },
+    "veteranAddress": {
+      "veteranAddress": {
+        "street": "1313 Millennium Falcon Way",
+        "street2": "Dock",
+        "city": "Mos Eisley",
+        "state": "AZ",
+        "country": "USA",
+        "postalCode": "85326"
+      }
+    },
+    "claimantRelationship": {
+      "relationship": "veteran"
+    },
+    "claimantContact": {
+      "claimantPhoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "(520) 555-1313",
+        "IsValid": true,
+        "Error": null,
+        "Touched": true
+      },
+      "claimantEmail": "hsolo@smuggler.net"
+    },
+    "benefitType": {
+      "benefitType": "SMP"
+    },
+    "hospitalizationStatus": {
+      "isCurrentlyHospitalized": true
+    },
+    "hospitalizationDate": {
+      "admissionDate": "2024-05-04"
+    },
+    "hospitalizationFacility": {
+      "facilityName": "Tatooine Regional Medical",
+      "facilityAddress": {
+        "street": "9000 Spaceport Boulevard",
+        "street2": "ICU",
+        "city": "Mos Eisley",
+        "state": "AZ",
+        "country": "USA",
+        "postalCode": "85326"
+      }
+    }
+  }
+}

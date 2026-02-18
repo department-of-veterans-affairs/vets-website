@@ -48,8 +48,6 @@ export const selectRegisteredCernerFacilities = state => {
 
 export const selectFeatureApplication = state =>
   toggleValues(state).vaOnlineScheduling;
-export const selectFeatureCancel = state =>
-  toggleValues(state).vaOnlineSchedulingCancel;
 export const selectFeatureRequests = state =>
   toggleValues(state).vaOnlineSchedulingRequests;
 export const selectFeatureCommunityCare = state =>
@@ -73,16 +71,13 @@ export const selectFeatureCCDirectScheduling = state =>
 export const selectFeatureCCDirectSchedulingChiropractic = state =>
   toggleValues(state).vaOnlineSchedulingCCDirectSchedulingChiropractic;
 
+export const selectFeatureCommunityCareCancellations = state =>
+  toggleValues(state).vaOnlineSchedulingCommunityCareCancellations;
+
 export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
 
 export const selectFeatureRecentLocationsFilter = state =>
   toggleValues(state).vaOnlineSchedulingRecentLocationsFilter;
-
-export const selectFeatureOHDirectSchedule = state =>
-  toggleValues(state).vaOnlineSchedulingOhDirectSchedule;
-
-export const selectFeatureOHRequest = state =>
-  toggleValues(state).vaOnlineSchedulingOhRequest;
 
 export const selectFeatureRemovePodiatry = state =>
   toggleValues(state).vaOnlineSchedulingRemovePodiatry;
@@ -117,6 +112,9 @@ export const selectFeatureMentalHealthHistoryFiltering = state =>
 export const selectFeatureSubstanceUseDisorder = state =>
   toggleValues(state).vaOnlineSchedulingAddSubstanceUseDisorder;
 
+export const selectFeaturePCMHI = state =>
+  toggleValues(state).vaOnlineSchedulingAddPrimaryCareMentalHealthInitiative;
+
 export const selectFeatureListViewClinicInfo = state =>
   toggleValues(state).vaOnlineSchedulingListViewClinicInfo;
 
@@ -131,3 +129,6 @@ export const selectFeatureRemoveFacilityConfigCheck = state =>
 
 export const selectFeatureUseBrowserTimezone = state =>
   toggleValues(state).vaOnlineSchedulingUseBrowserTimezone;
+
+export const selectFeatureUseVpg = state =>
+  toggleValues(state).vaOnlineSchedulingUseVpg;

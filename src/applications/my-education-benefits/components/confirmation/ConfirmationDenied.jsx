@@ -50,18 +50,17 @@ const ConfirmationDenied = ({
         <p>
           Your denial letter, which explains why you are ineligible, is now
           available. A physical copy will also be mailed to your mailing
-          address.{' '}
+          address.
         </p>
-        <a
-          type="button"
-          className="usa-button meb-print"
-          href={LETTER_URL}
+        <va-link
           download
-        >
-          Download your letter
-        </a>
+          href={LETTER_URL}
+          filetype="PDF"
+          text="Download your denial letter"
+          class="vads-u-padding-bottom--2"
+        />
+        .
       </va-alert>
-
       <va-summary-box class="vads-u-margin-y--3">
         <h3
           slot="headline"
@@ -99,8 +98,7 @@ const ConfirmationDenied = ({
             Confirmation for your records
           </h4>
           <p className="vads-u-margin--0">
-            You can print this confirmation page for your records. You can also
-            download your completed application as a PDF.
+            You can print this confirmation page for your records.
           </p>
         </div>
 
@@ -111,32 +109,17 @@ const ConfirmationDenied = ({
             onClick={printPage}
           />
         </div>
-
-        <div>
-          <va-icon
-            aria-hidden="true"
-            role="presentation"
-            icon="file_download"
-            size={3}
-            className="vads-u-margin-right--1"
-          />
-          <a
-            href={encodeURI(LETTER_URL)}
-            download
-            className="vads-u-font-weight--bold"
-          >
-            Download your completed application (PDF)
-          </a>
-        </div>
       </va-summary-box>
-
       <h2>What happens next?</h2>
       <ul>
         <li>
-          Download a copy of your{' '}
-          <a href={LETTER_URL} download>
-            Denial Letter
-          </a>
+          <va-link
+            href={LETTER_URL}
+            download
+            filetype="PDF"
+            text="Download a copy of your denial letter for your records"
+          />
+          .
         </li>
         <li>
           We will review your eligibility for other VA education benefit
@@ -147,13 +130,22 @@ const ConfirmationDenied = ({
           benefits.
         </li>
         <li>There is no further action required by you at this time.</li>
+        <li>
+          <va-link
+            href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
+            external
+            filetype="PDF"
+            text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series"
+          />
+          .
+        </li>
       </ul>
-
-      <a className="vads-c-action-link--green" href="/my-va/">
-        Go to your My VA dashboard
-      </a>
-
-      <FormFooter />
+      <va-link
+        class="vads-c-action-link--green"
+        href="/my-va/"
+        text="Go to your My VA dashboard"
+      />
+      .<FormFooter />
     </div>
   );
 };

@@ -6,14 +6,10 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
-import {
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
-} from '@department-of-veterans-affairs/mhv/exports';
-import CernerAlert from '../../../components/CernerAlert';
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 import WarningNotification from '../../../components/WarningNotification';
 import { selectPendingAppointments } from '../../../redux/selectors';
-import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import { APPOINTMENT_STATUS, GA_PREFIX } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedAppointmentsPage';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
@@ -62,7 +58,6 @@ export default function AppointmentsPage() {
   useEffect(
     () => {
       dispatch(setFormCurrentPage('appointments'));
-      logUniqueUserMetricsEvents(EVENT_REGISTRY.APPOINTMENTS_ACCESSED);
     },
     [location, dispatch],
   );
@@ -138,7 +133,17 @@ export default function AppointmentsPage() {
       >
         {pageTitle}
       </h1>
-      <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
+      {pageTitle === 'Appointments' && (
+        <CernerFacilityAlert
+          healthTool="APPOINTMENTS"
+          className="vaos-hide-for-print vads-u-margin-bottom--3"
+          onLinkClick={() => {
+            window.recordEvent({
+              event: `${GA_PREFIX}-cerner-redirect-appointments-landing-page`,
+            });
+          }}
+        />
+      )}
       {/* {featureBookingExclusion && (
         <CernerTransitionAlert
           className="vads-u-margin-bottom--3"
@@ -161,6 +166,7 @@ export default function AppointmentsPage() {
       {isInPilotUserStations && (
         <div
           className={classNames(
+            'vaos-hide-for-print',
             'vads-u-padding-y--3',
             'vads-u-margin-bottom--3',
             'vads-u-margin-top--1',

@@ -1,10 +1,10 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import * as redux from 'react-redux';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import scheduledDowntime from '~/platform/monitoring/DowntimeNotification/reducer';
 import contacts from '@@profile/tests/fixtures/contacts.json';
 import reducers from '@@profile/reducers';
 import PersonalHealthCareContacts from './PersonalHealthCareContacts';
@@ -30,12 +30,19 @@ const stateFn = ({
       vaPatient,
     },
   },
+  scheduledDowntime: {
+    globalDowntime: null,
+    isReady: true,
+    isPending: false,
+    serviceMap: { get() {} },
+    dismissedDowntimeWarnings: [],
+  },
 });
 
 const setup = ({ initialState = stateFn() } = {}) =>
   renderInReduxProvider(<PersonalHealthCareContacts {...props} />, {
     initialState,
-    reducers,
+    reducers: { ...reducers, scheduledDowntime },
   });
 
 describe('PersonalHealthCareContacts component', () => {
@@ -57,7 +64,7 @@ describe('PersonalHealthCareContacts component', () => {
   it('renders', async () => {
     const { getByRole } = setup();
     await waitFor(() => {
-      getByRole('heading', { name: 'Personal health care contacts', level: 1 });
+      getByRole('heading', { name: 'Health care contacts', level: 1 });
       getByRole('heading', { name: 'Emergency contacts', level: 2 });
       getByRole('heading', { name: 'Next of kin contacts', level: 2 });
     });

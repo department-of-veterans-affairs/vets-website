@@ -2,9 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
 import sinon from 'sinon';
-import { renderWithRouter } from '../utils';
-
 import * as recordEventModule from '~/platform/monitoring/record-event';
+import { renderWithRouter } from '../utils';
 
 import StemDeniedDetails from '../../components/StemDeniedDetails';
 
@@ -52,12 +51,17 @@ describe('<StemDeniedDetails>', () => {
 
   it('when click EdithNorthRodgersStemLink, should call record event', () => {
     const recordEventStub = sinon.stub(recordEventModule, 'default');
-    const { getByText, getByTestId } = renderWithRouter(
-      <StemDeniedDetails {...props} />,
-    );
-    getByText('Edith Nourse Rogers STEM Scholarship');
+    const { getByTestId } = renderWithRouter(<StemDeniedDetails {...props} />);
+
     const EdithNorthRodgersStemLink = getByTestId(
       'edith-north-rodgers-stem-link',
+    );
+    expect(EdithNorthRodgersStemLink).to.exist;
+    expect(EdithNorthRodgersStemLink.getAttribute('href')).to.equal(
+      'https://www.va.gov/education/other-va-education-benefits/stem-scholarship/',
+    );
+    expect(EdithNorthRodgersStemLink.getAttribute('text')).to.equal(
+      'Edith Nourse Rogers STEM Scholarship',
     );
 
     fireEvent.click(EdithNorthRodgersStemLink);
@@ -77,12 +81,14 @@ describe('<StemDeniedDetails>', () => {
 
   it('when click FindVAFormLink, should call record event', () => {
     const recordEventStub = sinon.stub(recordEventModule, 'default');
-    const { getByText, getByTestId } = renderWithRouter(
-      <StemDeniedDetails {...props} />,
-    );
-    getByText('Find a VA Form');
-    const FindVAFormLink = getByTestId('find-va-form-link');
+    const { getByTestId } = renderWithRouter(<StemDeniedDetails {...props} />);
 
+    const FindVAFormLink = getByTestId('find-va-form-link');
+    expect(FindVAFormLink).to.exist;
+    expect(FindVAFormLink.getAttribute('href')).to.equal(
+      'https://www.va.gov/vaforms',
+    );
+    expect(FindVAFormLink.getAttribute('text')).to.equal('Find a VA Form');
     fireEvent.click(FindVAFormLink);
 
     const header = 'Find a VA Form';
@@ -99,11 +105,16 @@ describe('<StemDeniedDetails>', () => {
 
   it('when click GIBillCompToolLink, should call record event', () => {
     const recordEventStub = sinon.stub(recordEventModule, 'default');
-    const { getByText, getByTestId } = renderWithRouter(
-      <StemDeniedDetails {...props} />,
-    );
-    getByText('Find a VA Form');
+    const { getByTestId } = renderWithRouter(<StemDeniedDetails {...props} />);
+
     const GIBillCompToolLink = getByTestId('gi-bill-comp-tool-link');
+    expect(GIBillCompToolLink).to.exist;
+    expect(GIBillCompToolLink.getAttribute('href')).to.equal(
+      'https://www.va.gov/education/gi-bill-comparison-tool',
+    );
+    expect(GIBillCompToolLink.getAttribute('text')).to.equal(
+      'GI Bill® Comparison Tool',
+    );
 
     fireEvent.click(GIBillCompToolLink);
 

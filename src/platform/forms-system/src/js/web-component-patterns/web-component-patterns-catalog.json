@@ -2,7 +2,7 @@
   "title": "VA.gov Web Component Form Field Patterns Catalog (RJSF)",
   "description": "Catalog of all acceptable web component uiSchema and schema patterns for form fields in VA.gov applications. These patterns are used in pairs to define form field behavior and validation in RJSF (React JSON Schema Form) implementations using the VA design system web components.",
   "importPath": "platform/forms-system/src/js/web-component-patterns",
-  "totalPatterns": 52,
+  "totalPatterns": 53,
   "patterns": [
     {
       "category": "Address",
@@ -11,16 +11,16 @@
       "uiSchemaDescription": "uiSchema for address - Same as addressUI, but without the military checkbox. Includes fields for country, street, street2, street3, city, state, postal code. Fields may be omitted.",
       "schema": "addressNoMilitarySchema",
       "schemaType": "function",
-      "schemaDescription": "Schema for addressNoMilitaryUI. Fields may be omitted."
+      "schemaDescription": "Schema for addressNoMilitaryUI. Fields may be omitted, remapped, or extended."
     },
     {
       "category": "Address",
       "uiSchema": "addressUI",
       "uiSchemaType": "function",
-      "uiSchemaDescription": "uiSchema for address - includes checkbox for military base, and fields for country, street, street2, street3, city, state, postal code. Fields may be omitted.",
+      "uiSchemaDescription": "uiSchema for address - includes checkbox for military base, and fields for country, street, street2, street3, city, state, postal code. Fields may be omitted or mapped to alternative key names.",
       "schema": "addressSchema",
       "schemaType": "function",
-      "schemaDescription": "Schema for addressUI. Fields may be omitted."
+      "schemaDescription": "Schema for addressUI. Fields may be omitted, remapped, or extended."
     },
     {
       "category": "AddressDeprecated",
@@ -363,6 +363,15 @@
       "schema": "selectSchema",
       "schemaType": "function",
       "schemaDescription": "schema for selectUI"
+    },
+    {
+      "category": "ServiceBranch",
+      "uiSchema": "serviceBranchUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "uiSchema for service branch field",
+      "schema": "serviceBranchSchema",
+      "schemaType": "function",
+      "schemaDescription": null
     },
     {
       "category": "Ssn",

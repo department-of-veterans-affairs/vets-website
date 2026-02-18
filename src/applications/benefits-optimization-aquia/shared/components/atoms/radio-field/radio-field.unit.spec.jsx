@@ -72,9 +72,9 @@ describe('RadioField', () => {
       const { container } = render(<RadioField {...props} />);
       const radioOptions = container.querySelectorAll('va-radio-option');
 
-      expect(radioOptions[0]).to.have.attribute('checked', 'false');
+      expect(radioOptions[0].hasAttribute('checked')).to.be.false;
       expect(radioOptions[1]).to.have.attribute('checked', 'true');
-      expect(radioOptions[2]).to.have.attribute('checked', 'false');
+      expect(radioOptions[2].hasAttribute('checked')).to.be.false;
     });
 
     it('shows no selection when value is empty', () => {
@@ -83,7 +83,7 @@ describe('RadioField', () => {
       const radioOptions = container.querySelectorAll('va-radio-option');
 
       radioOptions.forEach(option => {
-        expect(option).to.have.attribute('checked', 'false');
+        expect(option.hasAttribute('checked')).to.be.false;
       });
     });
 
@@ -301,7 +301,7 @@ describe('RadioField', () => {
       const radioOptions = container.querySelectorAll('va-radio-option');
 
       radioOptions.forEach(option => {
-        expect(option).to.have.attribute('checked', 'false');
+        expect(option.hasAttribute('checked')).to.be.false;
       });
     });
 
@@ -311,7 +311,7 @@ describe('RadioField', () => {
       const radioOptions = container.querySelectorAll('va-radio-option');
 
       radioOptions.forEach(option => {
-        expect(option).to.have.attribute('checked', 'false');
+        expect(option.hasAttribute('checked')).to.be.false;
       });
     });
 
@@ -371,7 +371,7 @@ describe('RadioField', () => {
       const radioOptions = container.querySelectorAll('va-radio-option');
 
       radioOptions.forEach(option => {
-        expect(option).to.have.attribute('checked', 'false');
+        expect(option.hasAttribute('checked')).to.be.false;
       });
     });
 
@@ -391,7 +391,7 @@ describe('RadioField', () => {
       // Both options with duplicate values should be checked
       expect(radioOptions[0]).to.have.attribute('checked', 'true');
       expect(radioOptions[1]).to.have.attribute('checked', 'true');
-      expect(radioOptions[2]).to.have.attribute('checked', 'false');
+      expect(radioOptions[2].hasAttribute('checked')).to.be.false;
     });
   });
 
@@ -448,7 +448,7 @@ describe('RadioField', () => {
       const radioOptions = container.querySelectorAll('va-radio-option');
 
       expect(radioOptions[0]).to.have.attribute('checked', 'true');
-      expect(radioOptions[1]).to.have.attribute('checked', 'false');
+      expect(radioOptions[1].hasAttribute('checked')).to.be.false;
     });
   });
 
@@ -496,6 +496,222 @@ describe('RadioField', () => {
       onChange('testRadio', 'option1');
 
       expect(onChange.calledOnce).to.be.true;
+    });
+  });
+
+  describe('checked attribute behavior', () => {
+    it('does not set checked attribute when value is undefined', () => {
+      const props = { ...defaultProps, value: undefined };
+      const { container } = render(<RadioField {...props} />);
+      const radioOptions = container.querySelectorAll('va-radio-option');
+
+      // None of the options should have a checked attribute when value is undefined
+      radioOptions.forEach(option => {
+        expect(option.hasAttribute('checked')).to.be.false;
+      });
+    });
+
+    it('does not set checked attribute when value is null', () => {
+      const props = { ...defaultProps, value: null };
+      const { container } = render(<RadioField {...props} />);
+      const radioOptions = container.querySelectorAll('va-radio-option');
+
+      // None of the options should have a checked attribute when value is null
+      radioOptions.forEach(option => {
+        expect(option.hasAttribute('checked')).to.be.false;
+      });
+    });
+
+    it('only sets checked attribute on the matching option', () => {
+      const props = { ...defaultProps, value: 'option2' };
+      const { container } = render(<RadioField {...props} />);
+      const radioOptions = container.querySelectorAll('va-radio-option');
+
+      // First option (option1) should not have checked attribute
+      expect(radioOptions[0].hasAttribute('checked')).to.be.false;
+
+      // Second option (option2) should have checked=true
+      expect(radioOptions[1].hasAttribute('checked')).to.be.true;
+      expect(radioOptions[1].getAttribute('checked')).to.equal('true');
+
+      // Third option (option3) should not have checked attribute
+      expect(radioOptions[2].hasAttribute('checked')).to.be.false;
+    });
+
+    it('updates checked attribute when value prop changes', () => {
+      const props = { ...defaultProps, value: 'option1' };
+      const { container, rerender } = render(<RadioField {...props} />);
+
+      // Initially option1 should be checked
+      let radioOptions = container.querySelectorAll('va-radio-option');
+      expect(radioOptions[0].hasAttribute('checked')).to.be.true;
+      expect(radioOptions[1].hasAttribute('checked')).to.be.false;
+      expect(radioOptions[2].hasAttribute('checked')).to.be.false;
+
+      // Change value to option3
+      rerender(<RadioField {...props} value="option3" />);
+      radioOptions = container.querySelectorAll('va-radio-option');
+      expect(radioOptions[0].hasAttribute('checked')).to.be.false;
+      expect(radioOptions[1].hasAttribute('checked')).to.be.false;
+      expect(radioOptions[2].hasAttribute('checked')).to.be.true;
+
+      // Change value to undefined (deselect)
+      rerender(<RadioField {...props} value={undefined} />);
+      radioOptions = container.querySelectorAll('va-radio-option');
+      expect(radioOptions[0].hasAttribute('checked')).to.be.false;
+      expect(radioOptions[1].hasAttribute('checked')).to.be.false;
+      expect(radioOptions[2].hasAttribute('checked')).to.be.false;
+    });
+
+    it('passes correct value to parent VaRadio component', () => {
+      const props = { ...defaultProps, value: 'option2' };
+      const { container } = render(<RadioField {...props} />);
+      const radioGroup = container.querySelector('va-radio');
+
+      expect(radioGroup.getAttribute('value')).to.equal('option2');
+    });
+
+    it('passes null to parent VaRadio when value is undefined', () => {
+      const props = { ...defaultProps, value: undefined };
+      const { container } = render(<RadioField {...props} />);
+      const radioGroup = container.querySelector('va-radio');
+
+      // When value is null, React doesn't set the attribute
+      const valueAttr = radioGroup.getAttribute('value');
+      expect(valueAttr === null || valueAttr === 'null').to.be.true;
+    });
+  });
+
+  describe('tile variant', () => {
+    it('renders tile style when tile prop is true', () => {
+      const props = { ...defaultProps, tile: true };
+      const { container } = render(<RadioField {...props} />);
+      const radioGroup = container.querySelector('va-radio');
+      expect(radioGroup).to.have.attribute('tile', 'true');
+    });
+
+    it('does not show any option as checked when value is undefined with tiles', () => {
+      const props = {
+        ...defaultProps,
+        tile: true,
+        value: undefined,
+        options: [
+          {
+            value: 'smc',
+            label: 'Special Monthly Compensation (SMC)',
+            description: 'SMC description',
+          },
+          {
+            value: 'smp',
+            label: 'Special Monthly Pension (SMP)',
+            description: 'SMP description',
+          },
+        ],
+      };
+      const { container } = render(<RadioField {...props} />);
+      const radioOptions = container.querySelectorAll('va-radio-option');
+
+      // When value is undefined, checked attribute should not be present on any option
+      radioOptions.forEach(option => {
+        expect(option.hasAttribute('checked')).to.be.false;
+      });
+
+      // Parent VaRadio should have null value (or no value attribute)
+      const radioGroup = container.querySelector('va-radio');
+      const valueAttr = radioGroup.getAttribute('value');
+      expect(valueAttr === null || valueAttr === 'null').to.be.true;
+    });
+
+    it('shows correct option as checked when value is selected with tiles', () => {
+      const props = {
+        ...defaultProps,
+        tile: true,
+        value: 'smc',
+        options: [
+          {
+            value: 'smc',
+            label: 'Special Monthly Compensation (SMC)',
+            description: 'SMC description',
+          },
+          {
+            value: 'smp',
+            label: 'Special Monthly Pension (SMP)',
+            description: 'SMP description',
+          },
+        ],
+      };
+      const { container } = render(<RadioField {...props} />);
+      const radioOptions = container.querySelectorAll('va-radio-option');
+
+      // Only the selected option should have checked attribute set to true
+      expect(radioOptions[0].hasAttribute('checked')).to.be.true;
+      expect(radioOptions[0].getAttribute('checked')).to.equal('true');
+
+      // Unselected option should not have checked attribute
+      expect(radioOptions[1].hasAttribute('checked')).to.be.false;
+
+      // Parent VaRadio should have the selected value
+      const radioGroup = container.querySelector('va-radio');
+      expect(radioGroup.getAttribute('value')).to.equal('smc');
+    });
+
+    it('retains selection when value changes', () => {
+      const props = {
+        ...defaultProps,
+        tile: true,
+        value: 'smc',
+        options: [
+          {
+            value: 'smc',
+            label: 'Special Monthly Compensation (SMC)',
+            description: 'SMC description',
+          },
+          {
+            value: 'smp',
+            label: 'Special Monthly Pension (SMP)',
+            description: 'SMP description',
+          },
+        ],
+      };
+      const { container, rerender } = render(<RadioField {...props} />);
+
+      // Initial selection
+      let radioOptions = container.querySelectorAll('va-radio-option');
+      expect(radioOptions[0].hasAttribute('checked')).to.be.true;
+      expect(radioOptions[1].hasAttribute('checked')).to.be.false;
+
+      // Change selection
+      rerender(<RadioField {...props} value="smp" />);
+      radioOptions = container.querySelectorAll('va-radio-option');
+      expect(radioOptions[0].hasAttribute('checked')).to.be.false;
+      expect(radioOptions[1].hasAttribute('checked')).to.be.true;
+    });
+
+    it('handles navigation back with retained value', () => {
+      const props = {
+        ...defaultProps,
+        tile: true,
+        value: 'spouse',
+        options: [
+          { value: 'veteran', label: 'Veteran' },
+          { value: 'spouse', label: 'Spouse' },
+          { value: 'child', label: 'Child' },
+        ],
+      };
+      const { container } = render(<RadioField {...props} />);
+      const radioOptions = container.querySelectorAll('va-radio-option');
+
+      // Spouse should be checked
+      expect(radioOptions[1].hasAttribute('checked')).to.be.true;
+      expect(radioOptions[1].getAttribute('checked')).to.equal('true');
+
+      // Others should not have checked attribute
+      expect(radioOptions[0].hasAttribute('checked')).to.be.false;
+      expect(radioOptions[2].hasAttribute('checked')).to.be.false;
+
+      // Parent should have the value
+      const radioGroup = container.querySelector('va-radio');
+      expect(radioGroup.getAttribute('value')).to.equal('spouse');
     });
   });
 

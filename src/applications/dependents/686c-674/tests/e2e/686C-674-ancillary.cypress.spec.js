@@ -1,7 +1,6 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockVaFileNumber from './fixtures/va-file-number.json';
@@ -33,10 +32,6 @@ const testConfig = createTestConfig(
         data: {
           type: 'feature_toggles',
           features: [
-            {
-              name: 'vaDependentsV2',
-              value: true,
-            },
             {
               name: 'vaDependentsNetWorthAndPension',
               value: false,
@@ -72,6 +67,7 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
+          cy.injectAxeThenAxeCheck();
           cy.clickStartForm();
         });
       },
@@ -113,6 +109,7 @@ const testConfig = createTestConfig(
               );
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -147,6 +144,7 @@ const testConfig = createTestConfig(
               );
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -161,6 +159,7 @@ const testConfig = createTestConfig(
             if (marriage?.startDate) {
               fillDateWebComponentPattern('startDate', marriage.startDate);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -175,6 +174,7 @@ const testConfig = createTestConfig(
             if (marriage?.endDate) {
               fillDateWebComponentPattern('endDate', marriage.endDate);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -189,6 +189,7 @@ const testConfig = createTestConfig(
             if (child?.dateMarried) {
               fillDateWebComponentPattern('dateMarried', child.dateMarried);
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -206,6 +207,7 @@ const testConfig = createTestConfig(
                 child.dateChildLeftSchool,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -237,6 +239,7 @@ const testConfig = createTestConfig(
               fillStandardTextInput('address_postalCode', address.postalCode);
             }
 
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -252,6 +255,7 @@ const testConfig = createTestConfig(
                 death.dependentDeathDate,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
@@ -269,6 +273,7 @@ const testConfig = createTestConfig(
                 stepchild.dateStepchildLeftHousehold,
               );
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });

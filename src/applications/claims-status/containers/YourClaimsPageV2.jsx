@@ -16,13 +16,11 @@ import {
 } from '../actions';
 
 import AppealListItem from '../components/appeals-v2/AppealListItem';
-import AppealsUnavailable from '../components/AppealsUnavailable';
 import ClaimCardLoadingSkeleton from '../components/ClaimCard/ClaimCardLoadingSkeleton';
 import NeedHelp from '../components/NeedHelp';
-import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
+import ServiceUnavailableAlert from '../components/ServiceUnavailableAlert';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsListItem from '../components/ClaimsListItem';
-import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import FeaturesWarning from '../components/FeaturesWarning';
 import NoClaims from '../components/NoClaims';
 import StemClaimListItem from '../components/StemClaimListItem';
@@ -39,18 +37,25 @@ import {
   getVisibleRows,
   getPageRange,
   sortByLastUpdated,
+  isClosed,
 } from '../utils/appeals-v2-helpers';
 import { setPageFocus } from '../utils/page';
 import { groupClaimsByDocsNeeded, setDocumentTitle } from '../utils/helpers';
+import ClaimsFilter from '../components/ClaimsFilter';
 import ClaimLetterSection from '../components/claim-letters/ClaimLetterSection';
+import { Type2FailureAnalyticsProvider } from '../contexts/Type2FailureAnalyticsContext';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
 
     this.state = {
       page: YourClaimsPageV2.getPageFromURL(props),
+      claimsFilter: props.cstClaimsListFilterEnabled
+        ? sessionStorage.getItem('claimsFilter') || 'all'
+        : 'all',
     };
   }
 
@@ -107,8 +112,26 @@ class YourClaimsPageV2 extends React.Component {
     const newURL = `${this.props.location.pathname}?page=${event.detail.page}`;
     this.props.navigate(newURL);
     this.setState({ page: event.detail.page });
-    // Move focus to "Showing X through Y of Z events..." for screenreaders
+    // Move focus to pagination info for screenreaders
     setPageFocus('#pagination-info');
+  }
+
+  handleFilterChange(filter) {
+    sessionStorage.setItem('claimsFilter', filter);
+    // Navigate to page 1 when filter changes (removes ?page=X from URL)
+    this.props.navigate(this.props.location.pathname);
+    this.setState({ claimsFilter: filter, page: 1 });
+  }
+
+  getFilteredList() {
+    const { list, cstClaimsListFilterEnabled } = this.props;
+    const { claimsFilter } = this.state;
+
+    if (!cstClaimsListFilterEnabled || claimsFilter === 'all') return list;
+
+    return list.filter(
+      item => (claimsFilter === 'closed' ? isClosed(item) : !isClosed(item)),
+    );
   }
 
   renderListItem(claim) {
@@ -141,24 +164,28 @@ class YourClaimsPageV2 extends React.Component {
       return null;
     }
 
-    if (
-      canAccessAppeals &&
-      canAccessClaims &&
-      claimsAvailable !== claimsAvailability.AVAILABLE &&
-      appealsAvailable !== appealsAvailability.AVAILABLE
-    ) {
-      return <ClaimsAppealsUnavailable />;
-    }
+    // Determine which services are unavailable
+    // Service keys must match SERVICE_REGISTRY in constants.js
+    const unavailableServices = [];
 
     if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {
-      return <ClaimsUnavailable headerLevel={3} />;
+      unavailableServices.push('claims');
     }
 
     if (
       canAccessAppeals &&
       appealsAvailable !== appealsAvailability.AVAILABLE
     ) {
-      return <AppealsUnavailable />;
+      unavailableServices.push('appeals');
+    }
+
+    if (unavailableServices.length > 0) {
+      return (
+        <ServiceUnavailableAlert
+          services={unavailableServices}
+          headerLevel={3}
+        />
+      );
     }
 
     return null;
@@ -168,43 +195,49 @@ class YourClaimsPageV2 extends React.Component {
     const {
       appealsLoading,
       claimsLoading,
-      list,
+      cstClaimsListFilterEnabled,
       stemClaimsLoading,
     } = this.props;
+
+    const filteredList = this.getFilteredList();
 
     let content;
     let pageInfo;
     const allRequestsLoaded =
       !claimsLoading && !appealsLoading && !stemClaimsLoading;
-    const allRequestsLoading =
-      claimsLoading && appealsLoading && stemClaimsLoading;
-    const atLeastOneRequestLoading =
-      claimsLoading || appealsLoading || stemClaimsLoading;
-    const emptyList = !(list && list.length);
-    if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
+    const emptyFilteredList = !(filteredList && filteredList.length);
+    const { claimsFilter } = this.state;
+    const filterLabel =
+      claimsFilter === 'all' ? 'records' : `${claimsFilter} records`;
+
+    // Wait for all requests to complete before rendering results
+    // This prevents multiple re-renders as each request completes
+    if (!allRequestsLoaded) {
       content = <ClaimCardLoadingSkeleton />;
-    } else if (!emptyList) {
-      const listLen = list.length;
+    } else if (!emptyFilteredList) {
+      const listLen = filteredList.length;
       const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
       const shouldPaginate = numPages > 1;
 
-      const pageItems = getVisibleRows(list, this.state.page);
+      const pageItems = getVisibleRows(filteredList, this.state.page);
 
-      if (shouldPaginate) {
+      if (cstClaimsListFilterEnabled || shouldPaginate) {
         const range = getPageRange(this.state.page, listLen);
         const { end, start } = range;
 
-        const txt = `Showing ${start} \u2012 ${end} of ${listLen} events`;
+        const txt = cstClaimsListFilterEnabled
+          ? `Showing ${start}-${end} of ${listLen} ${filterLabel}`
+          : `Showing ${start} \u2012 ${end} of ${listLen} events`;
 
         pageInfo = <p id="pagination-info">{txt}</p>;
       }
 
       content = (
-        <>
+        <Type2FailureAnalyticsProvider key={this.state.page}>
           {pageInfo}
           <div className="claim-list">
             {pageItems.map(claim => this.renderListItem(claim))}
-            <ClaimCardLoadingSkeleton isLoading={atLeastOneRequestLoading} />
+            <ClaimCardLoadingSkeleton isLoading={false} />
             {shouldPaginate && (
               <VaPagination
                 page={this.state.page}
@@ -213,10 +246,14 @@ class YourClaimsPageV2 extends React.Component {
               />
             )}
           </div>
-        </>
+        </Type2FailureAnalyticsProvider>
       );
-    } else if (allRequestsLoaded) {
-      content = <NoClaims />;
+    } else {
+      content = cstClaimsListFilterEnabled ? (
+        <NoClaims recordType={filterLabel} />
+      ) : (
+        <NoClaims />
+      );
     }
 
     return (
@@ -236,29 +273,57 @@ class YourClaimsPageV2 extends React.Component {
               Your claims, decision reviews, or appeals
             </h2>
             <div>{this.renderErrorMessages()}</div>
-            <div className="additional-info-loading-container">
-              <va-additional-info
-                id="claims-combined"
-                class="claims-combined"
-                trigger="Find out why we sometimes combine claims."
-              >
-                <div>
-                  If you turn in a new claim while we’re reviewing another one
-                  from you, we’ll add any new information to the original claim
-                  and close the new claim, with no action required from you.
-                </div>
-              </va-additional-info>
-            </div>
+            {cstClaimsListFilterEnabled ? (
+              <div className="claims-filter-container vads-u-margin-y--2">
+                <ClaimsFilter
+                  selected={this.state.claimsFilter}
+                  onFilterChange={this.handleFilterChange}
+                />
+              </div>
+            ) : (
+              <div className="additional-info-loading-container">
+                <va-additional-info
+                  id="claims-combined"
+                  class="claims-combined"
+                  trigger="Find out why we sometimes combine claims"
+                >
+                  <div>
+                    If you turn in a new claim while we're reviewing another one
+                    from you, we'll add any new information to the original
+                    claim and close the new claim, with no action required from
+                    you.
+                  </div>
+                </va-additional-info>
+              </div>
+            )}
             {content}
             <ClaimLetterSection />
             <h2 id="what-if-i-dont-see-my-appeal">
               What if I can't find my claim, decision review, or appeal?
             </h2>
-            <p>
-              If you recently submitted a claim or requested a Higher Level
-              Review or Board appeal, we might still be processing it. Check
-              back for updates.
-            </p>
+            {cstClaimsListFilterEnabled ? (
+              <>
+                <h3>We might still be processing it</h3>
+                <p>
+                  If you recently submitted a claim or requested a Higher-Level
+                  Review or Board Appeal, we might still be processing it. Check
+                  back for updates.
+                </p>
+                <h3>We may have combined your claims</h3>
+                <p>
+                  If you turn in a new claim while we're reviewing another one,
+                  we may combine your claims. We'll add any new information to
+                  your existing claim. You may not see a separate entry for the
+                  new claim. You don't need to do anything.
+                </p>
+              </>
+            ) : (
+              <p>
+                If you recently submitted a claim or requested a Higher Level
+                Review or Board appeal, we might still be processing it. Check
+                back for updates.
+              </p>
+            )}
             <TravelClaimsSection />
             <FeaturesWarning />
             <NeedHelp />
@@ -276,6 +341,7 @@ YourClaimsPageV2.propTypes = {
   canAccessClaims: PropTypes.bool,
   claimsAvailable: PropTypes.string,
   claimsLoading: PropTypes.bool,
+  cstClaimsListFilterEnabled: PropTypes.bool,
   fullName: PropTypes.shape({}),
   getAppealsV2: PropTypes.func,
   getClaims: PropTypes.func,
@@ -303,6 +369,10 @@ function mapStateToProps(state) {
     FEATURE_FLAG_NAMES.stemAutomatedDecision
   ];
 
+  const cstClaimsListFilterEnabled = toggleValues(state)[
+    FEATURE_FLAG_NAMES.cstClaimsListFilter
+  ];
+
   const stemClaims = stemAutomatedDecision ? claimsV2Root.stemClaims : [];
 
   // TO-DO: Implement with reselect to save cycles
@@ -311,11 +381,7 @@ function mapStateToProps(state) {
     ...claimsV2Root.claims,
     ...stemClaims,
   ]
-    .filter(
-      claim =>
-        claim.attributes.status === 'COMPLETE' ||
-        claim.attributes.claimType === 'STEM',
-    )
+    .filter(isClosed)
     .sort(sortByLastUpdated);
 
   const inProgressClaims = [
@@ -323,11 +389,7 @@ function mapStateToProps(state) {
     ...claimsV2Root.claims,
     ...stemClaims,
   ]
-    .filter(
-      claim =>
-        claim.attributes.status !== 'COMPLETE' &&
-        claim.attributes.claimType !== 'STEM',
-    )
+    .filter(item => !isClosed(item))
     .sort(sortByLastUpdated);
 
   const sortedList = [...inProgressClaims, ...closedClaims];
@@ -339,6 +401,7 @@ function mapStateToProps(state) {
     canAccessClaims,
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
+    cstClaimsListFilterEnabled,
     fullName: state.user.profile.userFullName,
     list: groupClaimsByDocsNeeded(sortedList),
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,

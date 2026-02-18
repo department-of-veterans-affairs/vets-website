@@ -1,0 +1,56 @@
+{
+  "data": {
+    "veteranInformation": {
+      "veteranFullName": {
+        "first": "Ahsoka",
+        "last": "Tano"
+      },
+      "dateOfBirth": "2004-05-04"
+    },
+    "veteranContactInformation": {
+      "ssn": "501234567",
+      "vaFileNumber": "50123456"
+    },
+    "employerInformation": {
+      "employerName": "Fulcrum Intelligence Network",
+      "employerAddress": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "Rebel Alliance HQ Sector 7",
+        "city": "Phoenix",
+        "state": "AZ",
+        "postalCode": "85001"
+      }
+    },
+    "employmentDates": {
+      "beginningDate": "2020-01-15"
+    },
+    "employmentEarningsHours": {
+      "typeOfWork": "Intelligence operative and field agent for covert operations supporting resistance activities and strategic planning missions",
+      "amountEarned": 5500,
+      "timeLost": "Minimal time lost due to excellent physical conditioning and Force-enhanced recovery abilities",
+      "dailyHours": "14",
+      "weeklyHours": "85"
+    },
+    "employmentConcessions": {
+      "concessions": "Flexible deployment schedule to accommodate special missions. Employer provides advanced equipment and permits remote field operations with autonomous decision-making authority."
+    },
+    "dutyStatus": {
+      "reserveOrGuardStatus": false
+    },
+    "benefitsInformation": {
+      "benefitEntitlement": true
+    },
+    "benefitsDetails": {
+      "benefitType": "Resistance network medical coverage and equipment allowance for field operatives with hazardous duty classification",
+      "grossMonthlyAmount": 2500,
+      "startReceivingDate": "2020-02-01",
+      "firstPaymentDate": "2020-02-15"
+    },
+    "remarks": {
+      "remarks": "Currently employed veteran with ongoing service to intelligence operations. Has middle name. Demonstrates currently employed scenario where no employment ending date is provided. Receives current ongoing benefits with no stop date. Not in Reserve/Guard status. Tests signature validation disabled with different name."
+    },
+    "statementOfTruthSignature": "Different Test Name",
+    "statementOfTruthCertified": true
+  }
+}

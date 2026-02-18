@@ -93,7 +93,7 @@ export const InformalConferenceContact = ({
   ) : (
     <>
       {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} submitToContinue />
+      <FormNavButtons goBack={goBack} submitToContinue useWebComponents />
       {contentAfterButtons}
     </>
   );

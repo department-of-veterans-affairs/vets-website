@@ -7,7 +7,7 @@ import {
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
-import { dispatchDetails } from '../util/helpers';
+import { dispatchDetails, sendDatadogError } from '../util/helpers';
 import { getListWithRetry } from './common';
 
 export const getConditionsList = (
@@ -33,7 +33,7 @@ export const getConditionsList = (
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    sendDatadogError(error, 'actions_conditions_getConditionsList');
   }
 };
 
@@ -61,7 +61,7 @@ export const getConditionDetails = (
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    sendDatadogError(error, 'actions_conditions_getConditionDetails');
   }
 };
 

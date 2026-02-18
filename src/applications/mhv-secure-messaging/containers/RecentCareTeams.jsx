@@ -1,20 +1,27 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { datadogRum } from '@datadog/browser-rum';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { scrollToFirstError } from 'platform/utilities/scroll';
 import EmergencyNote from '../components/EmergencyNote';
+import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import * as Constants from '../util/constants';
+import { BlockedTriageAlertStyles, ParentComponent } from '../util/constants';
 import { getRecentRecipients } from '../actions/recipients';
-import { focusOnErrorField } from '../util/formHelpers';
 import { updateDraftInProgress } from '../actions/threadDetails';
 import useFeatureToggles from '../hooks/useFeatureToggles';
+import manifest from '../manifest.json';
 
-const RADIO_BUTTON_SET_LABEL = `Select a team from those you've sent messages to in the past 6 months. Or select "A different care team" to find another team.`;
+const RECENT_RECIPIENTS_LABEL = 'Select a team you want to message';
+const RECENT_RECIPIENTS_HINT = `This list only includes teams that you've sent messages to in the last 6 months. If you want to contact another team, select "A different care team."`;
+
 const OTHER_VALUE = 'other';
 const { Paths } = Constants;
 
@@ -26,12 +33,28 @@ const RecentCareTeams = () => {
   const [error, setError] = useState(null);
   const { recipients, threadDetails } = useSelector(state => state.sm);
   const { acceptInterstitial } = threadDetails;
-  const { recentRecipients, allRecipients } = recipients;
+  const {
+    recentRecipients,
+    allRecipients,
+    noAssociations,
+    allTriageGroupsBlocked,
+    blockedFacilities,
+    error: recipientsError,
+  } = recipients;
   const h1Ref = useRef(null);
   const {
     mhvSecureMessagingRecentRecipients,
     featureTogglesLoading,
   } = useFeatureToggles();
+
+  useEffect(
+    () => {
+      if (recipientsError || noAssociations) {
+        history.push(Paths.INBOX);
+      }
+    },
+    [recipientsError, noAssociations, history],
+  );
 
   useEffect(
     () => {
@@ -51,11 +74,22 @@ const RecentCareTeams = () => {
 
   useEffect(
     () => {
-      if (allRecipients?.length > 0) {
+      if (allRecipients?.length > 0 && recentRecipients === undefined) {
         dispatch(getRecentRecipients(6));
       }
     },
-    [allRecipients, dispatch],
+    [allRecipients, dispatch, recentRecipients],
+  );
+
+  useEffect(
+    () => {
+      if (recentRecipients?.length > 0) {
+        datadogRum.addAction('Recent Care Teams loaded', {
+          recentCareTeamsCount: recentRecipients.length,
+        });
+      }
+    },
+    [recentRecipients],
   );
 
   useEffect(
@@ -63,7 +97,7 @@ const RecentCareTeams = () => {
       // If recentRecipients is null (fetched but none present), redirect
       if (
         recentRecipients?.length === 0 ||
-        recentRecipients === 'error' ||
+        recentRecipients?.error === 'error' ||
         recentRecipients === null
       ) {
         history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
@@ -81,24 +115,50 @@ const RecentCareTeams = () => {
     [recentRecipients],
   );
 
-  const handleContinue = useCallback(
+  useEffect(
     () => {
+      document.title = `Recently Messaged Care Teams - Start Message${
+        Constants.PageTitles.DEFAULT_PAGE_TITLE_TAG
+      }`;
+    },
+    [recentRecipients],
+  );
+
+  useEffect(
+    () => {
+      if (error) {
+        scrollToFirstError();
+      }
+    },
+    [error],
+  );
+
+  const getDestinationPath = useCallback(
+    (includeRootUrl = false) => {
+      const selectCareTeamPath = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
+      const startPath = `${Paths.COMPOSE}${Paths.START_MESSAGE}`;
+      let path;
+      if (selectedCareTeam === OTHER_VALUE) {
+        path = selectCareTeamPath;
+      } else {
+        path = startPath;
+      }
+      return includeRootUrl ? `${manifest.rootUrl}${path}` : path;
+    },
+    [selectedCareTeam],
+  );
+
+  const handleContinue = useCallback(
+    event => {
+      event?.preventDefault();
       if (!selectedCareTeam) {
         setError('Select a care team');
-        focusOnErrorField();
         return;
       }
       setError(null); // Clear error on valid submit
-      if (selectedCareTeam === OTHER_VALUE) {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
-        return;
-      }
-      // TODO: CURATED LIST handle pushing selected recipient value to reducer
-      // For now, just redirect to compose message
-      // This is a placeholder for the actual logic to dispatch value to activeDraft redux state
-      history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}`);
+      history.push(getDestinationPath());
     },
-    [history, selectedCareTeam],
+    [history, selectedCareTeam, getDestinationPath],
   );
 
   const handleRadioChange = useCallback(
@@ -111,31 +171,74 @@ const RecentCareTeams = () => {
       dispatch(
         updateDraftInProgress({
           recipientId: recipient?.triageTeamId,
-          careSystemName: recipient?.healthCareSystemName,
+          careSystemName:
+            recipient?.healthCareSystemName ||
+            getVamcSystemNameFromVhaId(
+              ehrDataByVhaId,
+              recipient?.stationNumber,
+            ),
           recipientName: recipient?.name,
           careSystemVhaId: recipient?.stationNumber,
           ohTriageGroup: recipient?.ohTriageGroup,
+          stationNumber: recipient?.stationNumber,
         }),
       );
       setError(null); // Clear error on selection
+      recordEvent({
+        event: 'int-select-box-option-click',
+        'select-label': RECENT_RECIPIENTS_LABEL,
+        'select-selectLabel':
+          value === OTHER_VALUE ? OTHER_VALUE : 'recent care team',
+        'select-required': true,
+      });
+      datadogRum.addAction('Recent Care Team Selected', {
+        selectLabel: RECENT_RECIPIENTS_LABEL,
+        selectValue: value === OTHER_VALUE ? OTHER_VALUE : 'recent care team',
+        required: true,
+      });
     },
-    [recentRecipients, dispatch],
+    [recentRecipients, dispatch, ehrDataByVhaId],
   );
 
   if (recentRecipients === undefined) {
     return <va-loading-indicator message="Loading..." />;
   }
 
+  if (allTriageGroupsBlocked) {
+    return (
+      <>
+        <h1 className="vads-u-margin-bottom--3" tabIndex="-1" ref={h1Ref}>
+          Care teams you recently sent messages to
+        </h1>
+        <BlockedTriageGroupAlert
+          alertStyle={BlockedTriageAlertStyles.ALERT}
+          parentComponent={ParentComponent.FOLDER_HEADER}
+        />
+      </>
+    );
+  }
+
+  const showSingleFacilityBlockedAlert =
+    blockedFacilities?.length === 1 && !allTriageGroupsBlocked;
+
   return (
     <>
       <h1 className="vads-u-margin-bottom--3" tabIndex="-1" ref={h1Ref}>
-        Recent care teams
+        Care teams you recently sent messages to
       </h1>
+      {showSingleFacilityBlockedAlert && (
+        <BlockedTriageGroupAlert
+          alertStyle={BlockedTriageAlertStyles.INFO}
+          parentComponent={ParentComponent.FOLDER_HEADER}
+        />
+      )}
       <EmergencyNote dropDownFlag />
       <VaRadio
         class="vads-u-margin-bottom--3"
         error={error}
-        label={RADIO_BUTTON_SET_LABEL}
+        label={RECENT_RECIPIENTS_LABEL}
+        hint={RECENT_RECIPIENTS_HINT}
+        label-header-level="2"
         required
         onVaValueChange={handleRadioChange}
         data-testid="recent-care-teams-radio-group"
@@ -157,17 +260,20 @@ const RecentCareTeams = () => {
                 value={recipient.triageTeamId}
                 description={healthCareSystemName}
                 data-dd-privacy="mask"
+                data-dd-action-name="Recent Care Teams radio option"
               />
             );
           })}
         <VaRadioOption label="A different care team" tile value={OTHER_VALUE} />
       </VaRadio>
-      <va-button
-        class="vads-u-width--full small-screen:vads-u-width--auto"
-        continue
-        onClick={handleContinue}
-        text="Continue"
+
+      <va-link-action
+        href={getDestinationPath(true)}
+        text="Continue to start message"
         data-testid="recent-care-teams-continue-button"
+        onClick={handleContinue}
+        class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
+        type="primary"
       />
     </>
   );

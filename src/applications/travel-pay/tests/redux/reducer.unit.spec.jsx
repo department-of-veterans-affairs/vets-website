@@ -14,6 +14,10 @@ import {
   SUBMIT_CLAIM_STARTED,
   SUBMIT_CLAIM_SUCCESS,
   SUBMIT_CLAIM_FAILURE,
+  DELETE_DOCUMENT_STARTED,
+  DELETE_DOCUMENT_SUCCESS,
+  DELETE_DOCUMENT_FAILURE,
+  SET_EXPENSE_BACK_DESTINATION,
 } from '../../redux/actions';
 
 const { travelPay: reducer } = travelPayReducer;
@@ -216,6 +220,128 @@ describe('Redux - reducer', () => {
       claimSubmission: {
         error: { status: 400, message: 'there was a problem' },
         isSubmitting: false,
+      },
+    });
+  });
+
+  describe('DELETE_DOCUMENT actions', () => {
+    const stateWithComplexClaim = {
+      ...defaultState,
+      complexClaim: {
+        claim: {
+          creation: { isLoading: false, error: null },
+          submission: { id: '', isSubmitting: false, error: null, data: null },
+          fetch: { isLoading: false, error: null },
+          data: null,
+        },
+        expenses: {
+          creation: { isLoading: false, error: null },
+          update: { id: '', isLoading: false, error: null },
+          delete: { id: '', isLoading: false, error: null },
+          data: [],
+        },
+        documentDelete: {
+          id: '',
+          isLoading: false,
+          error: null,
+        },
+      },
+    };
+
+    it('should update state for DELETE_DOCUMENT_STARTED action', () => {
+      expect(
+        reducer(stateWithComplexClaim, {
+          type: DELETE_DOCUMENT_STARTED,
+          documentId: 'doc123',
+        }),
+      ).to.deep.equal({
+        ...stateWithComplexClaim,
+        complexClaim: {
+          ...stateWithComplexClaim.complexClaim,
+          documentDelete: {
+            id: 'doc123',
+            isLoading: true,
+            error: null,
+          },
+        },
+      });
+    });
+
+    it('should update state for DELETE_DOCUMENT_SUCCESS action', () => {
+      const loadingState = {
+        ...stateWithComplexClaim,
+        complexClaim: {
+          ...stateWithComplexClaim.complexClaim,
+          documentDelete: {
+            id: 'doc123',
+            isLoading: true,
+            error: null,
+          },
+        },
+      };
+
+      expect(
+        reducer(loadingState, {
+          type: DELETE_DOCUMENT_SUCCESS,
+          documentId: 'doc123',
+        }),
+      ).to.deep.equal({
+        ...loadingState,
+        complexClaim: {
+          ...loadingState.complexClaim,
+          documentDelete: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+        },
+      });
+    });
+
+    it('should update state for DELETE_DOCUMENT_FAILURE action', () => {
+      const loadingState = {
+        ...stateWithComplexClaim,
+        complexClaim: {
+          ...stateWithComplexClaim.complexClaim,
+          documentDelete: {
+            id: 'doc123',
+            isLoading: true,
+            error: null,
+          },
+        },
+      };
+
+      expect(
+        reducer(loadingState, {
+          type: DELETE_DOCUMENT_FAILURE,
+          documentId: 'doc123',
+          error: { status: 500, message: 'Delete failed' },
+        }),
+      ).to.deep.equal({
+        ...loadingState,
+        complexClaim: {
+          ...loadingState.complexClaim,
+          documentDelete: {
+            id: 'doc123',
+            isLoading: false,
+            error: { status: 500, message: 'Delete failed' },
+          },
+        },
+      });
+    });
+  });
+
+  it('should update state as expected for SET_EXPENSE_BACK_DESTINATION action', () => {
+    expect(
+      reducer(defaultState, {
+        type: SET_EXPENSE_BACK_DESTINATION,
+        payload: 'some-arbitrary-value',
+      }),
+    ).to.deep.equal({
+      ...defaultState,
+      complexClaim: {
+        ...defaultState.complexClaim,
+        expenseBackDestination: 'some-arbitrary-value',
       },
     });
   });

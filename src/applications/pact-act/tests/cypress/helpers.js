@@ -87,23 +87,15 @@ export const clickResultsBack = () =>
     .click();
 
 export const verifyFormErrorNotShown = selector =>
-  cy
-    .findByTestId(selector)
-    .get('span[role="alert"]')
-    .should('have.text', '');
+  cy.findByTestId(selector).should('not.have.attr', 'error');
 
 export const verifyFormErrorDoesNotExist = selector =>
-  cy
-    .findByTestId(selector)
-    .get('span[role="alert"]')
-    .should('not.exist');
+  cy.findByTestId(selector).should('not.have.attr', 'error');
 
-export const checkFormAlertText = (selector, expectedValue) =>
-  cy
-    .findByTestId(selector)
-    .get('span[role="alert"]')
-    .should('be.visible')
-    .should('have.text', expectedValue);
+export const checkFormAlertText = (selector, expectedValue) => {
+  const errorText = expectedValue.replace(/^Error ?/, '');
+  return cy.findByTestId(selector).should('have.attr', 'error', errorText);
+};
 
 export const verifyText = (selector, expectedValue) =>
   cy

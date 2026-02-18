@@ -12,89 +12,101 @@ const OMB_NUMBER = '2900-0161';
 const OMB_EXP_DATE = '10/31/2026';
 
 const exampleExpenses = [
-  { id: 1, name: 'Hospital expenses' },
-  { id: 2, name: 'Doctor’s office fees' },
-  { id: 3, name: 'Dental fees' },
-  { id: 4, name: 'Nursing home costs' },
-  { id: 5, name: 'Hearing aid costs' },
-  { id: 6, name: 'Home health service expenses' },
-  { id: 7, name: 'Prescription/non-prescription drug costs' },
-  {
-    id: 8,
-    name:
-      'Expenses related to transportation to a hospital, doctor or other medical facility',
-  },
-  { id: 9, name: 'Vision care costs' },
-  { id: 10, name: 'Medical insurance premiums' },
-  { id: 11, name: 'Monthly Medicare deduction' },
+  { id: 1, name: 'Hospital and office visits' },
+  { id: 2, name: 'Nursing homes and home health services' },
+  { id: 3, name: 'Medical supplies' },
+  { id: 4, name: 'Prescription and over-the-counter drugs' },
+  { id: 5, name: 'Medical insurance premiums and Medicare deductions' },
+  { id: 6, name: 'Mileage and transportation for medical purposes' },
 ];
 
 const ProcessList = () => {
   return (
     <va-process-list>
-      <va-process-list-item header="Check that your expenses qualify">
-        <h4 className="vads-u-padding-top--1p5">
-          Here are some examples of expenses you may include:
-        </h4>
-        <ul>
+      <va-process-list-item header="What to know before you fill out this form">
+        {/* <ul>
           {exampleExpenses.map(item => (
             <li key={item.id}>{item.name}</li>
           ))}
+        </ul> */}
+        <ul className="vads-u-padding-top--1p5">
+          <li>
+            You can report expenses that you’ve paid for yourself or for a
+            dependent family member living in your household, such as a spouse,
+            child, grandchild, or parent.
+          </li>
+          <li>
+            Don’t report expenses that were already reimbursed or will be
+            reimbursed.
+          </li>
+          <li>
+            You don’t need to provide receipts for your expenses. But you should
+            keep your receipts for your own records.
+          </li>
         </ul>
+        <va-additional-info trigger="Why you should keep your receipts">
+          <p>
+            We recommend keeping all receipts or other documentation of payments
+            for at least 3 years after receiving a decision on your medical
+            expense claim. If we need to verify your expenses later and these
+            records aren’t available, your benefits may be retroactively reduced
+            or discontinued.
+          </p>
+        </va-additional-info>
       </va-process-list-item>
-      <va-process-list-item header="Gather your information">
-        <h4 className="vads-u-padding-top--1p5">
-          Here’s what you’ll need to apply:
-        </h4>
-        <ul>
-          <li>Veteran Social Security number or VA file number</li>
-        </ul>
-        <h4>You’ll also need this medical expense information:</h4>
-        <ul>
-          <li>The date of each of each expense</li>
-          <li>The amount you paid for each expense</li>
-          <li>The name of the provider</li>
+      <va-process-list-item header="Types of expenses you may report">
+        <ul className="vads-u-padding-top--1p5">
+          {exampleExpenses?.map(item => <li key={item.id}>{item.name}</li>)}
         </ul>
         <va-additional-info trigger="Additional documents we may ask for">
           <p>
-            Based on your answers, you may need to submit other documents with
-            your application. These documents may include VA forms or evidence
-            for answers to specific questions.
+            If you’re reporting in-home care, nursing home, or other care
+            facility expenses, you may need to submit proof for these expenses
+            with your form.
           </p>
           <p>
-            If you are claiming in-home care, nursing home, or other care
-            facility expenses, you may need to submit proof for these claimed
-            expenses and other documents with your application. You only need to
-            submit proof for these three expense types. For all other types, you
-            only need to fill out the relevant fields in the form.
-          </p>
-          <p>
-            In addition, if you are claiming any of these expense types, you may
-            need to attach one or more of these VA forms that have been signed
-            by a provider:
+            You may also need to submit 1 or more of these VA forms signed by a
+            provider:
           </p>
           <ul>
             <li>
-              Residential Care, Adult Daycare, or a Similar Facility worksheet
+              Worksheet for a Residential Care, Adult Daycare, or Similar
+              Facility from VA Form 21P-8416
+              <span className="vads-u-display--block">
+                <va-link
+                  href="https://www.va.gov/find-forms/about-form-21p-8416/"
+                  text="Get VA Form 21P-8416 to download"
+                />
+              </span>
             </li>
-            <li>In-Home Attendant Expenses worksheet</li>
+            <li>
+              Worksheet for In-Home Attendant from VA Form 21P-8416
+              <span className="vads-u-display--block">
+                <va-link
+                  href="https://www.va.gov/find-forms/about-form-21p-8416/"
+                  text="Get VA Form 21P-8416 to download"
+                />
+              </span>
+            </li>
             <li>
               Request for Nursing Home Information in Connection with Claim for
-              Aid and Attendance (
-              <va-link
-                href="https://www.va.gov/find-forms/about-form-21-0779/"
-                text="VA Form 21-20779"
-              />
-              )
+              Aid and Attendance (VA Form 21-0779)
+              <span className="vads-u-display--block">
+                <va-link
+                  href="https://www.va.gov/find-forms/about-form-21-0779/"
+                  text="Get VA Form 21-0779 to download"
+                />
+              </span>
             </li>
             <li>
               Examination for Housebound Status or Permanent Need for Regular
-              Aid and Attendance form (
-              <va-link
-                href="https://www.va.gov/find-forms/about-form-21-2680/"
-                text="VA Form 21-2680"
-              />
-              )
+              Aid and Attendance form (VA Form 21-2680)
+              <span className="vads-u-display--block">
+                <va-link
+                  href="https://www.va.gov/find-forms/about-form-21-2680/"
+                  text="Get VA Form 21-2680 to download"
+                />
+              </span>
             </li>
           </ul>
         </va-additional-info>
@@ -139,10 +151,9 @@ export const IntroductionPage = props => {
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
       <p className="va-introtext">
-        Use our online tool to report medical or dental expenses that you have
-        paid for yourself or for a family member living in your household. These
-        must be expenses you weren’t reimbursed for and don’t expect to be
-        reimbursed for.
+        Use this form to report medical or dental expenses. These expenses are
+        deducted from your reported income to determine if you should receive a
+        higher benefit rate.
       </p>
       <h2 className="vad-u-margin-top--0">
         Follow these steps to get started:
@@ -156,7 +167,7 @@ export const IntroductionPage = props => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start your 21P-8416"
+          startText="Report your medical expenses"
           devOnly={{
             forceShowFormControls: true,
           }}

@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
-import { trackingConfig } from '../../util/constants';
+import {
+  DATETIME_FORMATS,
+  trackingConfig,
+  DISPENSE_STATUS,
+} from '../../util/constants';
 import { pageType } from '../../util/dataDogConstants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 
@@ -32,7 +36,7 @@ const ProcessList = ({ stepGuideProps }) => {
   const getCompletedDateOrDefaultMessage = date => {
     return dateFormat(
       date,
-      'MMMM D, YYYY',
+      DATETIME_FORMATS.longMonthDate,
       'Date completed not available',
       'Completed on ',
     );
@@ -50,13 +54,13 @@ const ProcessList = ({ stepGuideProps }) => {
 
     return (
       processSteps ||
-      dispStatus === 'Active' ||
-      dispStatus === 'Active: Submitted' ||
-      dispStatus === 'Active: Refill in Process' ||
-      (dispStatus === 'Active' &&
+      dispStatus === DISPENSE_STATUS.ACTIVE ||
+      dispStatus === DISPENSE_STATUS.ACTIVE_SUBMITTED ||
+      dispStatus === DISPENSE_STATUS.ACTIVE_REFILL_IN_PROCESS ||
+      (dispStatus === DISPENSE_STATUS.ACTIVE &&
         hasTrackingList &&
         trackingList[0]?.completeDateTime) ||
-      (dispStatus === 'Active: Submitted' && hasTrackingList)
+      (dispStatus === DISPENSE_STATUS.ACTIVE_SUBMITTED && hasTrackingList)
     );
   };
 
@@ -79,7 +83,7 @@ const ProcessList = ({ stepGuideProps }) => {
 
   const renderProcessList = () => {
     let status;
-    if (dispStatus === 'Active' && completeDateTime) {
+    if (dispStatus === DISPENSE_STATUS.ACTIVE && completeDateTime) {
       status = 'Shipped';
     } else {
       status = dispStatus;
@@ -308,7 +312,7 @@ const ProcessList = ({ stepGuideProps }) => {
         <section>
           {!isRefillRunningLate && (
             <>
-              <div className="no-print vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-lighter" />
+              <div className="no-print vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4" />
               <h2
                 className="vads-u-margin-top--0 vads-u-margin-bottom--3"
                 data-testid="progress-list-header"

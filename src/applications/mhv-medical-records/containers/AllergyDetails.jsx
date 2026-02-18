@@ -46,7 +46,7 @@ const AllergyDetails = props => {
   const allergyList = useSelector(state => state.mr.allergies.allergiesList);
   const user = useSelector(state => state.user.profile);
 
-  const { isLoading, isCerner } = useAcceleratedData();
+  const { isLoading, isCerner, isAcceleratingAllergies } = useAcceleratedData();
 
   const { allergyId } = useParams();
   const activeAlert = useAlerts(dispatch);
@@ -60,19 +60,47 @@ const AllergyDetails = props => {
       }
       return {
         ...allergy,
-        isOracleHealthData: isCerner,
+        // Note: isOracleHealthData is true for both v2 unified data and v1 OH data
+        // The v2 endpoint combines Oracle Health and VistA records into a single format,
+        // and the backend doesn't provide a field to distinguish the source.
+        // Components use this flag to determine which template to render.
+        isOracleHealthData: isAcceleratingAllergies || isCerner,
       };
     },
-    [allergy, isCerner],
+    [allergy, isAcceleratingAllergies, isCerner],
   );
 
   useEffect(
     () => {
       if (allergyId && !isLoading) {
-        dispatch(getAllergyDetails(allergyId, allergyList, isCerner));
+        dispatch(
+          getAllergyDetails(
+            allergyId,
+            allergyList,
+            isAcceleratingAllergies,
+            isCerner,
+          ),
+        );
+      }
+      updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
+    },
+    [
+      allergyId,
+      allergyList,
+      dispatch,
+      isLoading,
+      isAcceleratingAllergies,
+      isCerner,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (allergyData) {
+        focusElement(document.querySelector('h1'));
       }
     },
-    [allergyId, allergyList, dispatch, isLoading, isCerner],
+    [allergyData],
   );
 
   useEffect(
@@ -82,16 +110,6 @@ const AllergyDetails = props => {
       };
     },
     [dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (allergyData) {
-        focusElement(document.querySelector('h1'));
-        updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
-      }
-    },
-    [dispatch, allergyData],
   );
 
   usePrintTitle(
@@ -108,13 +126,17 @@ const AllergyDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, details: generateAllergyItem(allergyData) };
     const pdfName = `VA-allergies-details-${getNameDateAndTime(user)}`;
-    makePdf(
-      pdfName,
-      pdfData,
-      'medicalRecords',
-      'Medical Records - Allergy details - PDF generation error',
-      runningUnitTest,
-    );
+    try {
+      await makePdf(
+        pdfName,
+        pdfData,
+        'medicalRecords',
+        'Medical Records - Allergy details - PDF generation error',
+        runningUnitTest,
+      );
+    } catch {
+      // makePdf handles error logging to Datadog/Sentry
+    }
   };
 
   const generateAllergyTextContent = () => {
@@ -157,18 +179,18 @@ Provider notes: ${allergyData.notes} \n`;
     generateTextFile(content, fileName);
   };
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
+  if (accessAlert) {
+    return (
+      <AccessTroubleAlertBox
+        alertType={accessAlertTypes.ALLERGY}
+        className="vads-u-margin-bottom--9"
+      />
+    );
+  }
+
   const content = () => {
-    if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
-      return (
-        <>
-          <h1 className="vads-u-margin-bottom--0p5">Allergy:</h1>
-          <AccessTroubleAlertBox
-            alertType={accessAlertTypes.ALLERGY}
-            className="vads-u-margin-bottom--9"
-          />
-        </>
-      );
-    }
     if (allergyData) {
       return (
         <>
@@ -188,12 +210,6 @@ Provider notes: ${allergyData.notes} \n`;
             />
 
             {downloadStarted && <DownloadSuccessAlert />}
-            <PrintDownload
-              description="Allergies Detail"
-              downloadPdf={generateAllergyPdf}
-              downloadTxt={generateAllergyTxt}
-            />
-            <DownloadingRecordsInfo description="Allergy Detail" />
 
             <div
               className="max-80 vads-u-margin-top--4"
@@ -243,6 +259,17 @@ Provider notes: ${allergyData.notes} \n`;
                 actionName="[allergy provider notes]"
               />
             </div>
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            <DownloadingRecordsInfo description="Allergy Detail" />
+            <PrintDownload
+              description="Allergies Detail"
+              downloadPdf={generateAllergyPdf}
+              downloadTxt={generateAllergyTxt}
+            />
+            <br />
+            <br />
+            <br />
+            <div className="vads-u-margin-bottom--300 vads-u-border-top--1px vads-u-border-color--white" />
           </HeaderSection>
         </>
       );
@@ -251,7 +278,7 @@ Provider notes: ${allergyData.notes} \n`;
       <div className="vads-u-margin-y--8">
         <va-loading-indicator
           message="Loading..."
-          setFocus
+          set-focus
           data-testid="loading-indicator"
         />
       </div>

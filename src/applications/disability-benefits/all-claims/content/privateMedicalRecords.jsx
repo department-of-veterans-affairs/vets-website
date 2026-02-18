@@ -71,6 +71,13 @@ export const recordsConfirmAlertBanner = () => {
 export const patientAcknowledgmentTitle = (
   <h3 className="vads-u-margin-top--0">Authorize us to get your records</h3>
 );
+
+export const privateRecordsChoiceHelpTitle = (
+  <h4 className="vads-u-margin-top--0">
+    What else to know about these options
+  </h4>
+);
+
 export const patientAcknowledgmentError = (
   <p>
     You must select “I acknowledge and authorize this release of information”

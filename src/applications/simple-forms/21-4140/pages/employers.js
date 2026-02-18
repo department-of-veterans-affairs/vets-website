@@ -23,32 +23,67 @@ export const options = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',
-  required: false,
-  isItemIncomplete: item => !item?.employerName || !item?.employmentDates?.from,
+  required: true,
+  isItemIncomplete: item =>
+    !item?.employerName ||
+    !item?.employerAddress ||
+    !item?.employmentDates?.from ||
+    !item?.typeOfWork ||
+    !item?.hoursPerWeek ||
+    !item?.lostTimeFromIllness ||
+    !item?.highestGrossIncomePerMonth,
   maxItems: 4,
   text: {
     getItemName: (item, index) => item?.employerName || `Employer ${index + 1}`,
     cardDescription: itemData => {
-      if (itemData?.employmentDates?.from && itemData?.employmentDates?.to) {
-        try {
-          const startDate = formatDateLong(itemData.employmentDates?.from);
-          const endDate = formatDateLong(itemData.employmentDates?.to);
-          return `${startDate} to ${endDate}`;
-        } catch (error) {
-          // Fallback to raw dates if formatting fails
-          return `${itemData.employmentDates?.from} to ${
-            itemData.employmentDates?.to
-          }`;
-        }
+      const fromDate = itemData?.employmentDates?.from;
+      const toDate = itemData?.employmentDates?.to;
+
+      if (!fromDate && !toDate) {
+        return '';
       }
-      return '';
+
+      const formatSafely = dateValue => {
+        if (!dateValue) return '';
+        try {
+          return formatDateLong(dateValue);
+        } catch (error) {
+          return dateValue;
+        }
+      };
+
+      if (fromDate && toDate) {
+        return `${formatSafely(fromDate)} to ${formatSafely(toDate)}`;
+      }
+
+      if (fromDate) {
+        return `${formatSafely(fromDate)} to present`;
+      }
+
+      return formatSafely(toDate);
     },
     summaryDescription: () => 'You can add up to 4 employers.',
   },
 };
 
 /**
- * Cards are populated on this page above the uiSchema if items are present
+ *
+ * @returns {PageSchema}
+ */
+const employersIntroPage = {
+  uiSchema: {
+    'ui:title': 'Employment Information',
+    'ui:description':
+      'Next we’ll gather details about your current or recent employment. Please provide information about any employers or self-employment in the past 12 months.',
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
+
+/**
+ *
  *
  * @returns {PageSchema}
  */
@@ -63,7 +98,8 @@ const summaryPage = {
           Y: 'Yes, I have employment to report',
           N: "No, I don't have any employment to report",
         },
-        hint: 'You’ll need to add at least 1 employer. You can add up to 4.',
+        hint:
+          "If you have employment to report, you'll need to add at least one employer. You can add up to four.",
         errorMessages: {
           required: 'Select if you have employment to report.',
         },
@@ -97,13 +133,19 @@ const employerNameAndAddressPage = {
         title: 'Employer name',
         hint: 'If self-employed, enter "Self"',
         errorMessages: {
-          required: 'Enter name of employer',
+          required: "Enter the employer's name",
         },
         charcount: true,
       }),
     },
     employerAddress: addressUI({
       omit: ['street2', 'street3', 'isMilitary'],
+      errorMessages: {
+        country: "Select the employer's country.",
+        street: "Enter the employer's street address",
+        city: "Enter the employer's city",
+        postalCode: "Enter the employer's postal code",
+      },
     }),
   },
   schema: {
@@ -136,9 +178,7 @@ const employmentDatesPage = {
       },
       {
         title: 'Employment end date',
-        errorMessages: {
-          required: 'Enter end date of employment',
-        },
+        hint: 'Leave blank if you still work here.',
       },
       'End date must be after start date',
     ),
@@ -146,7 +186,10 @@ const employmentDatesPage = {
   schema: {
     type: 'object',
     properties: {
-      employmentDates: currentOrPastDateRangeSchema,
+      employmentDates: {
+        ...currentOrPastDateRangeSchema,
+        required: ['from'],
+      },
     },
     required: ['employmentDates'],
   },
@@ -165,7 +208,7 @@ const employmentDetailsPage = {
       ...textUI({
         title: 'Describe the kind of work you did',
         hint:
-          'For example: cashier at a grocery store, part-time landscaper, or office assistant',
+          'For example: cashier at a grocery store, part-time landscaper, or office assistant.',
         errorMessages: {
           required: 'Enter the kind of work you did',
         },
@@ -175,8 +218,10 @@ const employmentDetailsPage = {
     hoursPerWeek: {
       ...numberUI({
         title: 'Hours per week',
+        max: 168,
         errorMessages: {
           required: 'Enter hours per week',
+          max: 'Hours per week cannot exceed 168 hours',
         },
       }),
     },
@@ -216,6 +261,14 @@ const employmentDetailsPage = {
 };
 
 export const employersPages = arrayBuilderPages(options, pageBuilder => ({
+  employersIntro: pageBuilder.introPage({
+    title: 'Employment Information',
+    path: 'employers-intro',
+    uiSchema: employersIntroPage.uiSchema,
+    schema: employersIntroPage.schema,
+
+    CustomPageReview: null,
+  }),
   employersSummary: pageBuilder.summaryPage({
     title:
       'Were you employed or self-employed at any time in the past 12 months?',

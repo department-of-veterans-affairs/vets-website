@@ -1,11 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
+import { scrollToError } from './helpers';
+import { labels } from './utils';
+import propTypes from './types';
 
 import { calculateAge } from '../../../shared/utils';
 
@@ -23,35 +24,35 @@ const getChildRemovalOptions = (isStepchild, age, _firstName) => {
   if (age >= 18) {
     options.push({
       value: 'childNotInSchool',
-      label: 'They’re no longer enrolled in school',
+      label: labels.Child.childNotInSchool,
     });
   }
 
   if (isStepchild) {
     options.push({
       value: 'stepchildNotMember',
-      label: 'They no longer live with you',
+      label: labels.Child.stepchildNotMember,
     });
   }
 
   // Child got adopted (all ages, both child and stepchild)
   options.push({
     value: 'childAdopted',
-    label: 'They were adopted by another family',
+    label: labels.Child.childAdopted,
   });
 
   // Child got married (ages 15+)
   if (age >= 15) {
     options.push({
       value: 'childMarried',
-      label: 'They got married',
+      label: labels.Child.childMarried,
     });
   }
 
   // Child died (all ages, both child and stepchild)
   options.push({
     value: 'childDied',
-    label: 'They died',
+    label: labels.Child.childDied,
   });
 
   return options;
@@ -59,12 +60,36 @@ const getChildRemovalOptions = (isStepchild, age, _firstName) => {
 
 const childReasonToRemove = {
   handlers: {
-    goForward: (/* { itemData, index, fullData } */) => 'DONE',
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
+    goForward: ({ itemData /* , index, fullData */ }) => {
+      switch (itemData.removalReason) {
+        case 'childMarried':
+          return 'child-marriage';
+        case 'childDied':
+          return 'child-death';
+        case 'stepchildNotMember':
+          return 'stepchild-financial-support';
+        case 'childNotInSchool':
+          return 'child-left-school';
+        case 'childAdopted':
+          return 'child-adopted-exit';
+        default:
+          return 'DONE';
+      }
+    },
 
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.removalReason) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
@@ -72,31 +97,17 @@ const childReasonToRemove = {
   },
 
   /**
-   * Dependent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} isStepchild Whether the child is a stepchild ('Y' or 'N')
-   * @property {string} removalReason Dependent's removal reason
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
    */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} returnToMainPage Function to return to the main remove
-   * dependents page
-   * @returns React component
-   */
-  Component: ({ itemData, fullName, formSubmitted, firstName, handlers }) => {
+  Component: ({
+    itemData,
+    fullName,
+    formSubmitted,
+    firstName,
+    handlers,
+    isEditing,
+  }) => {
     const onChange = event => {
       const { value } = event.detail;
       // Pass updated itemData to handler.onChange
@@ -113,16 +124,19 @@ const childReasonToRemove = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Reason for removing {fullName}
+          {labels.Child.removalReasonTitle(fullName, isEditing)}
         </h3>
         <VaRadio
           class="vads-u-margin-bottom--2"
           error={
-            formSubmitted && !itemData.removalReason ? 'Select an option' : null
+            formSubmitted && !itemData.removalReason
+              ? labels.Child.removalReasonError
+              : null
           }
-          label="Why do you need to remove this dependent?"
-          hint="If more than one applies, select what happened first."
+          label={labels.Child.removalReason}
+          hint={labels.Child.removalReasonHint}
           onVaValueChange={onChange}
+          enable-analytics
           required
         >
           {removalOptions.map(option => (
@@ -156,34 +170,12 @@ const childReasonToRemove = {
             </ul>
           </va-additional-info>
         )}
-        {/* <CancelButton */}
-        {/*  dependentType={itemData.relationshipToVeteran?.toLowerCase()} */}
-        {/*  removePath="options-selection/remove-active-dependents" */}
-        {/* /> */}
       </>
     );
   },
 };
 
-childReasonToRemove.propTypes = {
-  Component: PropTypes.func,
-};
-
-childReasonToRemove.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    dateOfBirth: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-    isStepchild: PropTypes.string,
-    removalReason: PropTypes.string,
-  }),
-  returnToMainPage: PropTypes.func,
-};
+childReasonToRemove.propTypes = propTypes.Page;
+childReasonToRemove.Component.propTypes = propTypes.Component;
 
 export default childReasonToRemove;

@@ -1,14 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 
+import { selectAppointment } from '../redux/selectors';
 import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
-import { STATUSES, FORM_100998_LINK } from '../constants';
+import { STATUSES, FORM_100998_LINK, BTSSS_PORTAL_URL } from '../constants';
 import { toPascalCase, currency } from '../util/string-helpers';
+import {
+  hasUnassociatedDocuments,
+  isClaimIncompleteOrSaved,
+} from '../util/complex-claims-helper';
 import DocumentDownload from './DocumentDownload';
 import DecisionReason from './DecisionReason';
+import OutOfBoundsAppointmentAlert from './alerts/OutOfBoundsAppointmentAlert';
 
 const title = 'Your travel reimbursement claim';
 
@@ -24,14 +32,21 @@ export default function ClaimDetailsContent({
   reimbursementAmount,
   documents,
   decisionLetterReason,
+  isOutOfBounds,
+  claimSource,
 }) {
   useSetPageTitle('Travel Reimbursement Claim Details');
+  const appointment = useSelector(selectAppointment);
+  const appointmentId = appointment?.data?.id;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,
   );
   const claimsMgmtDecisionReasonToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagementDecisionReason,
+  );
+  const complexClaimsToggle = useToggleValue(
+    TOGGLE_NAMES.travelPayEnableComplexClaims,
   );
 
   const [appointmentDate, appointmentTime] = formatDateTime(
@@ -43,6 +58,22 @@ export default function ClaimDetailsContent({
 
   const showDecisionReason =
     decisionLetterReason && claimsMgmtDecisionReasonToggle;
+
+  // Claim requires BTSSS if:
+  // 1) Started in BTSSS OR
+  // 2) Has unassociated docs OR
+  // 3) Has a problem getting the appointment ID from getAppointmentDataByDateTime
+  const requiresBTSSS =
+    claimSource !== 'VaGov' ||
+    hasUnassociatedDocuments(documents) ||
+    !appointmentId;
+
+  // Condition for showing any claim action link (BTSSS or VA.gov)
+  const shouldShowClaimAction =
+    complexClaimsToggle && isClaimIncompleteOrSaved(claimStatus);
+
+  // Show BTSSS note & redirect link if the saved/incomplete claim requires BTSSS
+  const shouldShowBTSSSContent = shouldShowClaimAction && requiresBTSSS;
 
   const getDocLinkList = list =>
     list.map(({ filename, text, documentId }) => (
@@ -89,23 +120,42 @@ export default function ClaimDetailsContent({
       <h1>
         {title} for {appointmentDate}
       </h1>
+      {complexClaimsToggle &&
+        isOutOfBounds && (
+          <div className="vads-u-margin-y--4">
+            <OutOfBoundsAppointmentAlert />
+          </div>
+        )}
       <span
         className="vads-u-font-size--h2 vads-u-font-weight--bold"
         data-testid="claim-details-claim-number"
       >
-        Claim number: {claimNumber}
+        Claim number: <span data-dd-privacy="mask">{claimNumber}</span>
       </span>
 
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
       {claimsMgmtToggle && (
         <>
           {STATUSES[toPascalCase(claimStatus)] ? (
-            <p
-              className="vads-u-margin-top--2"
-              data-testid="status-definition-text"
-            >
-              {STATUSES[toPascalCase(claimStatus)].definition}
-            </p>
+            <>
+              <p
+                className="vads-u-margin-top--2"
+                data-testid="status-definition-text"
+              >
+                {complexClaimsToggle
+                  ? STATUSES[toPascalCase(claimStatus)].alternativeDefinition ||
+                    STATUSES[toPascalCase(claimStatus)].definition
+                  : STATUSES[toPascalCase(claimStatus)].definition}
+              </p>
+              {shouldShowBTSSSContent && (
+                <p className="vads-u-margin-top--2">
+                  <span className="vads-u-font-weight--bold">Note:</span> We
+                  can't file your travel reimbursement claim here right now. But
+                  you can still file your claim in the Beneficiary Travel Self
+                  Service System (BTSSS).
+                </p>
+              )}
+            </>
           ) : (
             <p className="vads-u-margin-top--2">
               If you need help understanding your claim, call the BTSSS call
@@ -125,6 +175,29 @@ export default function ClaimDetailsContent({
             getDocLinkList(documentCategories.clerk)}
         </>
       )}
+      {shouldShowBTSSSContent && (
+        <va-link
+          text="Complete and file your claim in BTSSS"
+          label="Complete and file your claim in the Beneficiary Travel Self Service System"
+          href={BTSSS_PORTAL_URL}
+          external
+        />
+      )}
+      {shouldShowClaimAction &&
+        !requiresBTSSS && (
+          <va-link-action
+            text="Complete and file your claim"
+            // Specifically NOT a client-side route to ensure
+            // redirect logic is evaluated upon entry into complex claims using ComplexClaimRedirect.jsx
+            href={`/my-health/travel-pay/file-new-claim/${appointmentId}`}
+            onClick={() => {
+              sessionStorage.setItem(
+                TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
+                TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.ENTRY_TYPES.CLAIM,
+              );
+            }}
+          />
+        )}
       <h2 className="vads-u-font-size--h3">Claim information</h2>
       {claimsMgmtToggle && (
         <>
@@ -170,10 +243,11 @@ export default function ClaimDetailsContent({
         </>
       )}
       <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-        Claim submission timeline
+        Claim timeline
       </p>
       <p className="vads-u-margin-y--0">
-        Submitted on {createDate} at {createTime}
+        {complexClaimsToggle ? 'Created' : 'Submitted'} on {createDate} at{' '}
+        {createTime}
       </p>
       <p className="vads-u-margin-y--0">
         Updated on {updateDate} at {updateTime}
@@ -182,7 +256,7 @@ export default function ClaimDetailsContent({
         Appointment information
       </p>
       <p className="vads-u-margin-y--0">
-        {appointmentDate} at {appointmentTime} appointment
+        {appointmentDate} at {appointmentTime}
       </p>
       <p className="vads-u-margin-top--0">{facilityName}</p>
       {claimsMgmtToggle && (
@@ -190,7 +264,7 @@ export default function ClaimDetailsContent({
           {documentCategories.user.length > 0 && (
             <>
               <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-                Documents you submitted
+                Documents added to this claim
               </p>
               {getDocLinkList(documentCategories.user)}
             </>
@@ -260,8 +334,10 @@ ClaimDetailsContent.propTypes = {
   createdOn: PropTypes.string.isRequired,
   facilityName: PropTypes.string.isRequired,
   modifiedOn: PropTypes.string.isRequired,
+  claimSource: PropTypes.string,
   decisionLetterReason: PropTypes.string,
   documents: PropTypes.array,
+  isOutOfBounds: PropTypes.bool,
   reimbursementAmount: PropTypes.number,
   totalCostRequested: PropTypes.number,
 };

@@ -14,13 +14,14 @@ export const IntroductionProcessList = () => {
               <strong>or</strong>
             </li>
             <li>
-              You received a Purple Heart on or after September 11, 2001, and{' '}
-              were honorably discharged; <strong>or</strong>
+              You received a Purple Heart on or after September 11, 2001, and
+              were honorably discharged after any amount of service;{' '}
+              <strong>or</strong>
             </li>
             <li>
-              You served at least 30 continuous days on or after September 11,{' '}
-              2001, and were honorably discharged with a service-connected{' '}
-              disability.
+              You served for at least 30 continuous days (all at once, without a
+              break in service) on or after September 11, 2001, and were
+              honorably discharged with a service-connected disability
             </li>
           </ul>
         </va-additional-info>
@@ -34,10 +35,10 @@ export const IntroductionProcessList = () => {
               You were honorably discharged; <strong>and</strong>
             </li>
             <li>
-              You have a high school diploma, GED, or 12 hours of college{' '}
+              You have a high school diploma, GED, or 12 hours of college
               credit; <strong>and</strong>
             </li>
-            <li>You meet other requirements.</li>
+            <li>You meet other requirements</li>
           </ul>
         </va-additional-info>
 
@@ -56,7 +57,7 @@ export const IntroductionProcessList = () => {
               You’re an officer in the Selected Reserve who agreed to serve 6
               years beyond your initial service obligation; <strong>and</strong>
             </li>
-            <li>You meet other requirements.</li>
+            <li>You meet other requirements</li>
           </ul>
         </va-additional-info>
       </va-process-list-item>
@@ -90,7 +91,7 @@ export const IntroductionProcessList = () => {
             <strong>Note:</strong> In some cases, we may need more time to make
             a decision. If you don’t get an automatic decision right after you
             apply, you’ll receive a decision letter in the mail in about 30
-            days. We’ll contact you if we need more information.
+            days. And we’ll contact you if we need more information.
           </p>
         </va-additional-info>
       </va-process-list-item>

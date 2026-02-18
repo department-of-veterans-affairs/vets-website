@@ -1,7 +1,0 @@
-steps:
-  - action: click
-    target: link
-    value:  Previous
-  - action: exists
-    target: paragraph
-    value: Showing 1-4 of 10 results for "All" statuses and "All" categories in Personal

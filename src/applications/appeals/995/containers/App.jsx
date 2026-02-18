@@ -6,9 +6,10 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
-import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
-import { isLoggedIn } from '~/platform/user/selectors';
-import { setData } from '~/platform/forms-system/src/js/actions';
+import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { isLoggedIn } from 'platform/user/selectors';
+import { setData } from 'platform/forms-system/src/js/actions';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 import formConfig from '../config/form';
 import {
@@ -46,6 +47,18 @@ export const App = ({
   accountUuid,
   inProgressFormId,
 }) => {
+  // ------- REMOVE when new design toggle is removed
+  const TOGGLE_KEY = 'decisionReviewsScRedesign';
+  const { useFormFeatureToggleSync } = useFeatureToggle();
+
+  useFormFeatureToggleSync([
+    {
+      toggleName: TOGGLE_KEY,
+      formKey: 'scRedesign',
+    },
+  ]);
+  // ------- END REMOVE
+
   const { pathname } = location || {};
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
@@ -152,7 +165,6 @@ export const App = ({
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring({
     loggedIn,
-    formId: 'sc', // becomes "scBrowserMonitoringEnabled" feature flag
     version: '1.0.0',
     // record 100% of staging sessions, but only 10% of production
     sessionReplaySampleRate:
@@ -180,7 +192,7 @@ App.propTypes = {
     issues: PropTypes.array,
     legacyCount: PropTypes.number,
   }),
-  formData: data995,
+  formData: PropTypes.shape(data995),
   inProgressFormId: PropTypes.number,
   legacyCount: PropTypes.number,
   location: PropTypes.shape({

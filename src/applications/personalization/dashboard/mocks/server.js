@@ -18,7 +18,11 @@ const {
 } = require('./debts');
 const { createClaimsSuccess, createClaimsFailure } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
-const { createApplications } = require('./benefit-applications');
+const {
+  createApplications,
+  createApplicationsEmpty,
+  createApplicationsFailure,
+} = require('./benefit-applications');
 const { allFoldersWithUnreadMessages, allFolders } = require('./messaging');
 const {
   user81Copays,
@@ -35,6 +39,7 @@ const {
   createDisabilityRatingEmpty,
   createDisabilityRatingZero,
 } = require('./disability-rating');
+const vamcEhr = require('../tests/fixtures/vamc-ehr.json');
 
 /* eslint-disable camelcase */
 const responses = {
@@ -47,6 +52,7 @@ const responses = {
       myVaFormPdfLink: true,
       veteranOnboardingShowWelcomeMessageToNewUsers: true,
       myVaAuthExpRedesignAvailableToOptIn: true,
+      mhvEmailConfirmation: true,
     },
     true,
   ),
@@ -57,6 +63,8 @@ const responses = {
         return res.status(200).json(user.simpleUser); // This is an LOA3 user
       case 'loa3NoHealth':
         return res.status(200).json(user.loa3NoHealthUser); // This is an LOA3 user
+      case 'loa3With1010ez':
+        return res.status(200).json(user.loa3With1010ez); // This is an LOA3 user with in-progress/saved 10-10EZ
       case 'loa3NoEmail':
         return res.status(200).json(user.loa3UserWithNoEmail); // This is an LOA3 user with no email
       case 'loa1':
@@ -86,7 +94,7 @@ const responses = {
     const paymentHistoryStatus = 'success';
     switch (paymentHistoryStatus) {
       case 'success':
-        return res.status(200).json(createSuccessPayment(false));
+        return res.status(200).json(createSuccessPayment(true));
       case 'empty':
         return res.status(200).json(createEmptyPayment());
       case 'failure':
@@ -156,8 +164,19 @@ const responses = {
         return res.status(200).json('');
     }
   },
-  'GET /v0/my_va/submission_statuses': createApplications(),
-  // 'GET /v0/my_va/submission_statuses': { data: [] },
+  'GET /v0/my_va/submission_statuses': (_req, res) => {
+    const applicationsStatus = 'success';
+    switch (applicationsStatus) {
+      case 'success':
+        return res.status(200).json(createApplications());
+      case 'empty':
+        return res.status(200).json(createApplicationsEmpty());
+      case 'failure':
+        return res.status(400).json(createApplicationsFailure());
+      default:
+        return '';
+    }
+  },
   'POST /v0/my_va/submission_pdf_urls': (_req, res) => {
     // return res.status(500).json({
     //   error: 'bad request',
@@ -182,14 +201,17 @@ const responses = {
     },
   },
   'GET /v0/debts': (req, res) => {
-    if (req.query?.countOnly) {
-      return res.status(200).json(createDebtsCountOnlySuccess());
-    }
     const debtStatus = 'success';
     switch (debtStatus) {
       case 'success':
+        if (req.query?.countOnly) {
+          return res.status(200).json(createDebtsCountOnlySuccess());
+        }
         return res.status(200).json(createDebtsSuccess());
       case 'empty':
+        if (req.query?.countOnly) {
+          return res.status(200).json(createDebtsCountOnlySuccess(0));
+        }
         return res.status(200).json(createNoDebtsSuccess());
       case 'failure':
         return res.status(500).json(createDebtsFailure());
@@ -242,6 +264,7 @@ const responses = {
         return '';
     }
   },
+  'GET /data/cms/vamc-ehr.json': vamcEhr,
 };
 
 // here we can run anything that needs to happen before the mock server starts up

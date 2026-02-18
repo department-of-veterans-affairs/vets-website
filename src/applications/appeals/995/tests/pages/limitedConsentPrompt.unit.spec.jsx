@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
-import { LIMITED_CONSENT_RESPONSE } from '../../constants';
+import { HAS_PRIVATE_LIMITATION } from '../../constants';
 import * as helpers from '../../../shared/utils/helpers';
 
 describe('Supplemental Claims Limited Consent Prompt Page', () => {
@@ -35,7 +35,7 @@ describe('Supplemental Claims Limited Consent Prompt Page', () => {
   });
 
   it('should call updateUiSchema and updateSchema', () => {
-    const options = uiSchema[LIMITED_CONSENT_RESPONSE]['ui:options'];
+    const options = uiSchema[HAS_PRIVATE_LIMITATION]['ui:options'];
     const isOnReviewPageStub = sinon
       .stub(helpers, 'isOnReviewPage')
       .returns(true);

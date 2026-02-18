@@ -169,26 +169,55 @@ describe('<OverviewPage>', () => {
         // eslint-disable-next-line camelcase
         cst_claim_phases: cstClaimPhasesEnabled,
       },
+      disability: {
+        status: {
+          notifications: {
+            message: null,
+            additionalEvidenceMessage: null,
+            type1UnknownErrors: null,
+          },
+        },
+      },
     }));
 
-  it('should render null when claim empty', () => {
+  it('should render error heading and ServiceUnavailableAlert when claim empty', () => {
     const { container, getByText } = renderWithRouter(
       <Provider store={getStore()}>
         <OverviewPage {...props} />
       </Provider>,
     );
     expect($('.overview-container', container)).to.not.exist;
-    getByText('Claim status is unavailable');
+    getByText('We encountered a problem');
+
+    const alertHeading = $('va-alert h2', container);
+    expect(alertHeading.textContent).to.equal(
+      "We can't access your claim right now",
+    );
+
+    const alertBody = $('va-alert p', container);
+    expect(alertBody.textContent).to.include(
+      "We're sorry. There's a problem with our system.",
+    );
   });
 
-  it('should render null when claim is null', () => {
+  it('should render error heading and ServiceUnavailableAlert when claim is null', () => {
     const { container, getByText } = renderWithRouter(
       <Provider store={getStore()}>
         <OverviewPage {...props} claim={null} />
       </Provider>,
     );
     expect($('.overview-container', container)).to.not.exist;
-    getByText('Claim status is unavailable');
+    getByText('We encountered a problem');
+
+    const alertHeading = $('va-alert h2', container);
+    expect(alertHeading.textContent).to.equal(
+      "We can't access your claim right now",
+    );
+
+    const alertBody = $('va-alert p', container);
+    expect(alertBody.textContent).to.include(
+      "We're sorry. There's a problem with our system.",
+    );
   });
 
   context('cstClaimPhases feature flag enabled', () => {

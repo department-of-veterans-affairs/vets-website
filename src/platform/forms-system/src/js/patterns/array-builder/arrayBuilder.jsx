@@ -1,5 +1,6 @@
 import React from 'react';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import environment from 'platform/utilities/environment';
 import {
   createArrayBuilderItemAddPath,
   onNavForwardKeepUrlParams,
@@ -13,6 +14,7 @@ import {
   arrayBuilderDependsContextWrapper,
   arrayBuilderContextObject,
   maxItemsFn,
+  getDependsPath,
 } from './helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
@@ -65,6 +67,40 @@ function throwMissingYesNoValidation() {
   throw new Error(
     "arrayBuilderPages `pageBuilder.summaryPage()` must include a `uiSchema` that is using `arrayBuilderYesNoUI` pattern instead of `yesNoUI` pattern, or a similar pattern including `yesNoUI` with `'ui:validations'`",
   );
+}
+
+function throwMultiplePagesRequireDepends(pageType) {
+  throw new Error(
+    `arrayBuilderPages: Only one \`pageBuilder.${pageType}\` is allowed. If you need multiple ${
+      pageType === 'introPage' ? 'intro' : 'summary'
+    } pages that display conditionally, all ${
+      pageType === 'introPage' ? 'intro' : 'summary'
+    } pages must use \`depends\` to make them mutually exclusive.`,
+  );
+}
+
+function throwDuplicatePath(path) {
+  throw new Error(
+    `arrayBuilderPages: Duplicate path found. Each page must have a unique path. Duplicate path: ${path}`,
+  );
+}
+
+function throwIntroPageMustBeFirst() {
+  throw new Error(
+    "arrayBuilderPages `pageBuilder.introPage` must be defined first, before other arrayBuilder pages. Intro page should be used for 'required' flow, and should contain only text",
+  );
+}
+
+function throwSummaryPageMustComeBeforeItemPages() {
+  throw new Error(
+    'arrayBuilderPages `pageBuilder.summaryPage` must come before item pages',
+  );
+}
+
+function validateMultiplePages(totalCount, totalCountDepends, pageType) {
+  if (totalCount > 1 && totalCountDepends !== totalCount) {
+    throwMultiplePagesRequireDepends(pageType);
+  }
 }
 
 function safeDependsItem(depends) {
@@ -179,41 +215,60 @@ export function getPageAfterPageKey(pageList, pageKey) {
 export function validatePages(orderedPageTypes) {
   const pageTypes = {
     summaryCount: 0,
+    summaryPagesWithDepends: 0,
+    introCount: 0,
+    introPagesWithDepends: 0,
   };
+  const pathSet = new Set();
 
-  for (const pageType of orderedPageTypes) {
-    if (pageType === 'intro') {
-      if (pageTypes.intro || pageTypes.item) {
-        throw new Error(
-          "arrayBuilderPages `pageBuilder.introPage` must be first and defined only once. Intro page should be used for 'required' flow, and should contain only text",
-        );
+  for (const pageTypeObj of orderedPageTypes) {
+    const { type: pageType, hasDepends, path } = pageTypeObj;
+
+    if (path) {
+      if (pathSet.has(path)) {
+        throwDuplicatePath(path);
       }
-      pageTypes.intro = true;
+      pathSet.add(path);
+    }
+
+    if (pageType === 'intro') {
+      pageTypes.introCount += 1;
+
+      if (hasDepends) {
+        pageTypes.introPagesWithDepends += 1;
+      } else if (pageTypes.item || pageTypes.summaryCount) {
+        throwIntroPageMustBeFirst();
+      }
     } else if (pageType === 'summary') {
       pageTypes.summaryCount += 1;
 
+      if (hasDepends) {
+        pageTypes.summaryPagesWithDepends += 1;
+      }
+
       if (pageTypes.item) {
-        throw new Error(
-          'arrayBuilderPages `pageBuilder.summaryPage` must come before item pages',
-        );
+        throwSummaryPageMustComeBeforeItemPages();
       }
     } else if (pageType === 'item') {
       pageTypes.item = true;
     }
   }
 
+  validateMultiplePages(
+    pageTypes.introCount,
+    pageTypes.introPagesWithDepends,
+    'introPage',
+  );
+
+  validateMultiplePages(
+    pageTypes.summaryCount,
+    pageTypes.summaryPagesWithDepends,
+    'summaryPage',
+  );
+
   if (pageTypes.summaryCount < 1) {
     throw new Error(
       'arrayBuilderPages must include a summary page with `pageBuilder.summaryPage`',
-    );
-  }
-
-  // Allow multiple summaries — assume they are mutually exclusive via `depends`
-  // But optionally warn in console if more than one exists
-  if (pageTypes.summaryCount > 1) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      `[arrayBuilderPages] More than one summaryPage defined. Ensure they are gated by \`depends\` so only one is ever shown`,
     );
   }
 
@@ -278,12 +333,20 @@ export function assignGetItemName(options) {
  * @returns {FormConfigPages}
  */
 export function arrayBuilderPages(options, pageBuilderCallback) {
-  let introPath;
-  let summaryPath;
   let hasItemsKey;
   const itemPages = [];
+  const introPages = [];
+  const summaryPages = [];
   const orderedPageTypes = [];
   const missingInformationKey = `view:${options?.arrayPath}MissingInformation`;
+
+  const getIntroPath = formData => {
+    return getDependsPath(introPages, formData);
+  };
+
+  const getSummaryPath = formData => {
+    return getDependsPath(summaryPages, formData);
+  };
 
   if (
     !options ||
@@ -314,6 +377,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     required: userRequired,
     useLinkInsteadOfYesNo = false,
     useButtonInsteadOfYesNo = false,
+    canEditItem,
+    canDeleteItem,
+    canAddItem,
     duplicateChecks = {},
   } = options;
   const hasMaxItemsFn = typeof maxItems === 'function';
@@ -335,13 +401,17 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
    */
   const pageBuilderVerifyAndSetup = {
     introPage: pageConfig => {
-      introPath = pageConfig.path;
-      validatePath(introPath);
-      orderedPageTypes.push('intro');
+      introPages.push({ ...pageConfig, hasDepends: !!pageConfig.depends });
+      validatePath(pageConfig?.path);
+      orderedPageTypes.push({
+        type: 'intro',
+        hasDepends: !!pageConfig.depends,
+        path: pageConfig.path,
+      });
       return pageConfig;
     },
     summaryPage: pageConfig => {
-      summaryPath = pageConfig.path;
+      summaryPages.push({ ...pageConfig, hasDepends: !!pageConfig.depends });
       if (usesYesNo) {
         try {
           hasItemsKey = determineYesNoField(pageConfig.uiSchema);
@@ -361,8 +431,12 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         useLinkInsteadOfYesNo,
         useButtonInsteadOfYesNo,
       );
-      validatePath(summaryPath);
-      orderedPageTypes.push('summary');
+      validatePath(pageConfig?.path);
+      orderedPageTypes.push({
+        type: 'summary',
+        hasDepends: !!pageConfig.depends,
+        path: pageConfig.path,
+      });
       return pageConfig;
     },
     itemPage: pageConfig => {
@@ -371,7 +445,11 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       }
       validatePath(pageConfig?.path);
       itemPages.push({ ...pageConfig, duplicateChecks });
-      orderedPageTypes.push('item');
+      orderedPageTypes.push({
+        type: 'item',
+        hasDepends: !!pageConfig.depends,
+        path: pageConfig.path,
+      });
       return pageConfig;
     },
   };
@@ -386,7 +464,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     typeof userRequired === 'function' ? userRequired : () => userRequired;
 
   const getActiveItemPages = (formData, index, context = null) => {
-    return itemPages.filter(page => {
+    const activePages = itemPages.filter(page => {
       try {
         if (page.depends) {
           return safeDependsItem(page.depends)(formData, index, context);
@@ -396,6 +474,21 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         return false;
       }
     });
+
+    if (activePages.length === 0 && !environment.isProduction()) {
+      const contextInfo = context
+        ? ` Context: ${JSON.stringify(context)}.`
+        : '';
+      throw new Error(
+        `Array Builder Error: All item pages were filtered out for arrayPath "${arrayPath}" at index ${index}.${contextInfo} ` +
+          `This means all of your itemPage depends functions returned false for this item. ` +
+          `At least one itemPage must be available for every item in the array. ` +
+          `Check your depends conditions to ensure at least one itemPage depends always returns true, ` +
+          `or remove the depends condition from at least one itemPage to make it always available.`,
+      );
+    }
+
+    return activePages;
   };
 
   const getFirstItemPagePath = (formData, index, context = null) => {
@@ -411,7 +504,14 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   const pageBuilder = pageBuilderVerifyAndSetup;
 
   /** @type {FormConfigPage['onNavForward']} */
-  const navForwardFinishedItem = ({ goPath, urlParams, pathname, index }) => {
+  const navForwardFinishedItem = ({
+    formData,
+    goPath,
+    urlParams,
+    pathname,
+    index,
+  }) => {
+    const summaryPath = getSummaryPath(formData);
     let path = summaryPath;
     if (urlParams?.edit || (urlParams?.add && urlParams?.review)) {
       const foundIndex = getArrayIndexFromPathName(pathname);
@@ -419,7 +519,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       path = createArrayBuilderUpdatedPath({
         basePath,
         index: foundIndex == null ? index : foundIndex,
-        nounSingular,
+        arrayPath,
       });
     }
     goPath(path);
@@ -460,8 +560,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   /** @type {FormConfigPage['onNavBack']} */
   const navBackFirstItem = onNavBackRemoveAddingItem({
     arrayPath,
-    introRoute: introPath,
-    summaryRoute: summaryPath,
+    getIntroPath,
+    getSummaryPath,
     reviewRoute: reviewPath,
   });
 
@@ -497,7 +597,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       });
       goPath(path);
     } else {
-      path = summaryPath;
+      path = getSummaryPath(formData);
       if (urlParams?.review) {
         path = `${path}?review=true`;
       }
@@ -541,7 +641,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       hasItemsKey,
       getFirstItemPagePath,
       getText,
-      introPath,
+      getIntroPath,
+      getSummaryPath,
       isItemIncomplete,
       maxItems,
       missingInformationKey,
@@ -551,6 +652,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       required,
       useLinkInsteadOfYesNo,
       useButtonInsteadOfYesNo,
+      canEditItem,
+      canDeleteItem,
+      canAddItem,
       isReviewPage: false,
       duplicateChecks,
     };
@@ -612,8 +716,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
 
     const itemPageProps = {
       arrayPath,
-      introRoute: introPath,
-      summaryRoute: summaryPath,
+      getIntroPath,
+      getSummaryPath,
       reviewRoute: reviewPath,
       required,
       getText,

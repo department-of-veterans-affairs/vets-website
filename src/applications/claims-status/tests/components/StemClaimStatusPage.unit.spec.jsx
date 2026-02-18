@@ -22,33 +22,41 @@ const props = {
 
 describe('<StemClaimStatusPage>', () => {
   it('should render null when claim empty', () => {
-    const { getByText, queryByText } = renderWithRouter(
+    const { getByText, queryByText, container } = renderWithRouter(
       <Provider store={store}>
         <StemClaimStatusPage {...props} />
       </Provider>,
     );
     expect(
       queryByText(
-        'You didn’t meet the following criteria for the Rogers STEM Scholarship:',
+        "You didn't meet the following criteria for the Rogers STEM Scholarship:",
       ),
     ).to.not.exist;
     expect(document.title).to.equal(documentTitle);
-    getByText('Claim status is unavailable');
+    getByText('We encountered a problem');
+    expect($('va-alert', container)).to.exist;
+    expect(container.textContent).to.include(
+      "We can't access your claim right now",
+    );
   });
 
   it('should render null when claim is null', () => {
-    const { getByText, queryByText } = renderWithRouter(
+    const { getByText, queryByText, container } = renderWithRouter(
       <Provider store={store}>
         <StemClaimStatusPage {...props} claim={null} />
       </Provider>,
     );
     expect(
       queryByText(
-        'You didn’t meet the following criteria for the Rogers STEM Scholarship:',
+        "You didn't meet the following criteria for the Rogers STEM Scholarship:",
       ),
     ).to.not.exist;
     expect(document.title).to.equal(documentTitle);
-    getByText('Claim status is unavailable');
+    getByText('We encountered a problem');
+    expect($('va-alert', container)).to.exist;
+    expect(container.textContent).to.include(
+      "We can't access your claim right now",
+    );
   });
 
   it('should render empty content when loading', () => {

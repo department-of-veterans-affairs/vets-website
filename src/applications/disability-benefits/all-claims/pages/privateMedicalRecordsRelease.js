@@ -22,6 +22,7 @@ import { isCompletingModern4142 } from '../utils';
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 
 import { validateBooleanGroup, validateZIP } from '../validations';
+import PrivateMedicalProvidersConditions from '../components/confirmationFields/PrivateMedicalProvidersConditions';
 
 const { form4142 } = fullSchema.properties;
 
@@ -91,6 +92,7 @@ export const uiSchema = {
           required: 'Please select at least one condition',
         },
         'ui:required': formData => isCompletingModern4142(formData),
+        'ui:confirmationField': PrivateMedicalProvidersConditions,
       },
       'ui:validations': [validateDate],
       treatmentDateRange: dateRangeUI(
@@ -110,15 +112,15 @@ export const uiSchema = {
         ],
         country: selectUI('Country'),
         street: {
-          'ui:title': 'Street',
+          'ui:title': 'Street address (20 characters maximum)',
           'ui:autocomplete': 'off',
         },
         street2: {
-          'ui:title': 'Street 2',
+          'ui:title': 'Street address 2 (20 characters maximum)',
           'ui:autocomplete': 'off',
         },
         city: {
-          'ui:title': 'City',
+          'ui:title': 'City (30 characters maximum)',
           'ui:autocomplete': 'off',
         },
         state: selectUI('State'),

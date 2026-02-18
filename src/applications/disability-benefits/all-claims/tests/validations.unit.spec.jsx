@@ -11,6 +11,7 @@ import {
   isYearOnly,
   isYearMonth,
 } from '../utils/dates';
+import { DATE_TEMPLATE } from '../utils/dates/formatting';
 
 import {
   isValidYear,
@@ -19,6 +20,8 @@ import {
   oneDisabilityRequired,
   validateDisabilityName,
   validateBooleanGroup,
+  validateIfHasEvidence,
+  validateMedicalRecordsAtLeastOne,
   validateAge,
   validateSeparationDate,
   isInFuture,
@@ -32,11 +35,16 @@ import {
   limitNewDisabilities,
   requireSeparationLocation,
 } from '../validations';
+import {
+  validateToxicExposureGulfWar1990Dates,
+  validateToxicExposureGulfWar2001Dates,
+  validateToxicExposureDates,
+} from '../utils/validations';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';
 import { capitalizeEachWord } from '../utils';
 
-const formatDate = date => format(date, 'yyyy-MM-dd');
+const formatDate = date => format(date, DATE_TEMPLATE);
 const daysFromToday = days => formatDate(add(new Date(), { days }));
 
 describe('526 All Claims validations', () => {
@@ -792,6 +800,267 @@ describe('526 All Claims validations', () => {
     });
   });
 
+  describe('validateIfHasEvidence', () => {
+    const createTestFixtures = () => ({
+      errors: { addError: sinon.spy() },
+      wrappedValidator: sinon.spy(),
+      fieldData: {},
+      schema: {},
+      messages: {},
+    });
+
+    const callValidateIfHasEvidence = (formData, fixtures) => {
+      validateIfHasEvidence(
+        fixtures.errors,
+        fixtures.fieldData,
+        formData,
+        fixtures.schema,
+        fixtures.messages,
+        { wrappedValidator: fixtures.wrappedValidator },
+        0,
+      );
+      return fixtures;
+    };
+
+    it('should call wrappedValidator in enhancement flow when view:hasMedicalRecords is true', () => {
+      const fixtures = createTestFixtures();
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasMedicalRecords': true,
+      };
+
+      callValidateIfHasEvidence(formData, fixtures);
+
+      expect(fixtures.wrappedValidator.calledOnce).to.be.true;
+      expect(
+        fixtures.wrappedValidator.calledWith(
+          fixtures.errors,
+          fixtures.fieldData,
+          formData,
+          fixtures.schema,
+          fixtures.messages,
+          0,
+        ),
+      ).to.be.true;
+    });
+
+    it('should not call wrappedValidator in enhancement flow when view:hasMedicalRecords is false', () => {
+      const fixtures = createTestFixtures();
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasMedicalRecords': false,
+      };
+
+      callValidateIfHasEvidence(formData, fixtures);
+
+      expect(fixtures.wrappedValidator.called).to.be.false;
+    });
+
+    it('should call wrappedValidator in legacy flow when view:hasEvidence is true', () => {
+      const fixtures = createTestFixtures();
+      const formData = {
+        'view:hasEvidence': true,
+      };
+
+      callValidateIfHasEvidence(formData, fixtures);
+
+      expect(fixtures.wrappedValidator.calledOnce).to.be.true;
+      expect(
+        fixtures.wrappedValidator.calledWith(
+          fixtures.errors,
+          fixtures.fieldData,
+          formData,
+          fixtures.schema,
+          fixtures.messages,
+          0,
+        ),
+      ).to.be.true;
+    });
+
+    it('should not call wrappedValidator in legacy flow when view:hasEvidence is false', () => {
+      const fixtures = createTestFixtures();
+      const formData = {
+        'view:hasEvidence': false,
+      };
+
+      callValidateIfHasEvidence(formData, fixtures);
+
+      expect(fixtures.wrappedValidator.called).to.be.false;
+    });
+
+    it('should call wrappedValidator in enhancement flow when view:hasMedicalRecords is undefined (defaults to true)', () => {
+      const fixtures = createTestFixtures();
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+      };
+
+      callValidateIfHasEvidence(formData, fixtures);
+
+      expect(fixtures.wrappedValidator.calledOnce).to.be.true;
+    });
+
+    it('should call wrappedValidator in legacy flow when view:hasEvidence is undefined (defaults to true)', () => {
+      const fixtures = createTestFixtures();
+      const formData = {};
+
+      callValidateIfHasEvidence(formData, fixtures);
+
+      expect(fixtures.wrappedValidator.calledOnce).to.be.true;
+    });
+  });
+
+  describe('validateMedicalRecordsAtLeastOne', () => {
+    const callValidator = (
+      formData,
+      fieldData = formData?.['view:selectableEvidenceTypes'] ?? {},
+    ) => {
+      const errors = { addError: sinon.spy() };
+      const schema = {};
+      const messages = {
+        atLeastOne: 'Please select at least one type of supporting evidence',
+      };
+      validateMedicalRecordsAtLeastOne(
+        errors,
+        fieldData,
+        formData,
+        schema,
+        messages,
+      );
+      return errors;
+    };
+
+    it('adds error when view:hasEvidence true, view:hasOtherEvidence true, but neither VA nor private selected', () => {
+      const formData = {
+        'view:hasEvidence': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.calledOnce).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Please select at least one type of supporting evidence',
+      );
+    });
+
+    it('does not add error when view:hasEvidence true and at least one of VA or private is selected', () => {
+      const formData = {
+        'view:hasEvidence': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': true,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('does not add error when only private medical records selected', () => {
+      const formData = {
+        'view:hasEvidence': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': true,
+          'view:hasOtherEvidence': false,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('does not add error when view:hasEvidence false (validation skipped)', () => {
+      const formData = {
+        'view:hasEvidence': false,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('adds error when view:hasEvidence undefined (defaults to true) and neither VA nor private selected', () => {
+      const formData = {
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.calledOnce).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Please select at least one type of supporting evidence',
+      );
+    });
+
+    it('adds error when view:hasMedicalRecords true, view:hasOtherEvidence true, but neither VA nor private selected (enhancement)', () => {
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasMedicalRecords': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.calledOnce).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Please select at least one type of supporting evidence',
+      );
+    });
+
+    it('does not add error when view:hasMedicalRecords true and at least one of VA or private is selected (enhancement)', () => {
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasMedicalRecords': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': true,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('does not add error when view:hasMedicalRecords false (validation skipped) (enhancement)', () => {
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasMedicalRecords': false,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('adds error when view:hasMedicalRecords undefined (defaults to true) and neither VA nor private selected (enhancement)', () => {
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.calledOnce).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Please select at least one type of supporting evidence',
+      );
+    });
+  });
+
   describe('validateAge', () => {
     const _ = null;
     it('should not allow age <= 13 years at start of service', () => {
@@ -985,7 +1254,7 @@ describe('526 All Claims validations', () => {
     it('adds an error when entered date is in the past', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
+      const yesterday = format(subDays(new Date(), 1), DATE_TEMPLATE);
 
       isInFuture(errors, yesterday);
       expect(addError.calledOnce).to.be.true;
@@ -995,7 +1264,7 @@ describe('526 All Claims validations', () => {
     it('adds an error when entered date is today', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      const today = format(new Date(), 'yyyy-MM-dd');
+      const today = format(new Date(), DATE_TEMPLATE);
 
       isInFuture(errors, today);
 
@@ -1007,7 +1276,7 @@ describe('526 All Claims validations', () => {
       const addError = sinon.spy();
       const errors = { addError };
       // Use 2 days in the future to avoid time-of-day issues
-      const tomorrow = format(addDays(new Date(), 2), 'yyyy-MM-dd');
+      const tomorrow = format(addDays(new Date(), 2), DATE_TEMPLATE);
 
       isInFuture(errors, tomorrow);
       expect(addError.callCount).to.equal(0);
@@ -1381,7 +1650,7 @@ describe('526 All Claims validations', () => {
   });
 
   describe('requireSeparationLocation', () => {
-    const getDays = days => format(addDays(new Date(), days), 'yyyy-MM-dd');
+    const getDays = days => format(addDays(new Date(), days), DATE_TEMPLATE);
     const getFormData = (activeDate, reserveDate) => ({
       serviceInformation: {
         servicePeriods: [{ dateRange: { to: activeDate } }],
@@ -1634,7 +1903,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2000-01-14');
       });
 
       it('should return the single service date when only one period exists', () => {
@@ -1643,7 +1912,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2005-06-15');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2005-06-15');
       });
 
       it('should filter out service periods with empty serviceBranch', () => {
@@ -1653,7 +1922,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2000-01-14');
       });
 
       it('should filter out service periods with missing serviceBranch', () => {
@@ -1663,7 +1932,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2000-01-14');
       });
 
       it('should filter out service periods with null serviceBranch', () => {
@@ -1673,7 +1942,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2000-01-14');
       });
 
       it('should filter out service periods with undefined dateRange', () => {
@@ -1683,7 +1952,436 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2003-03-12');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2003-03-12');
+      });
+    });
+  });
+
+  describe('toxic exposure date validations', () => {
+    describe('validateToxicExposureGulfWar1990Dates', () => {
+      it('should not add error for valid date range (month/year format)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1990-09',
+          endDate: '1991-03',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error for valid date range (year-only format)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1990-XX',
+          endDate: '1991-XX',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should add error when end date is before start date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1991-09',
+          endDate: '1990-08',
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error when end date month/year is before start date month/year', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1990-09',
+          endDate: '1990-08',
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error for future start date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        const currentYear = new Date().getFullYear();
+        const futureYear = currentYear + 1;
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: `${futureYear}-01`,
+          endDate: `${futureYear}-02`,
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error for future end date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        const currentYear = new Date().getFullYear();
+        const futureYear = currentYear + 1;
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1990-09',
+          endDate: `${futureYear}-01`,
+        });
+        expect(errors.endDate.addError.called).to.be.true;
+      });
+
+      it('should add error when end date is before August 1990', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1988-09',
+          endDate: '1989-09',
+        });
+        expect(errors.endDate.addError.called).to.be.true;
+      });
+
+      it('should not add error when end date is August 1990 (accepted due to month/year granularity)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1988-09',
+          endDate: '1990-08',
+        });
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when end date is year-only 1990', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1988-09',
+          endDate: '1990-XX',
+        });
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when end date is September 1990', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1988-09',
+          endDate: '1990-09',
+        });
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when only start date is provided', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1990-09',
+          endDate: null,
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when only end date is provided', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: null,
+          endDate: '1990-09',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should accept full date format (YYYY-MM-DD) for backward compatibility', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1990-09-15',
+          endDate: '1991-03-20',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+    });
+
+    describe('validateToxicExposureGulfWar2001Dates', () => {
+      it('should not add error for valid date range (month/year format)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2001-10',
+          endDate: '2002-03',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error for valid date range (year-only format)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2001-XX',
+          endDate: '2002-XX',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should add error when end date is before start date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2002-10',
+          endDate: '2001-09',
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error when end date month/year is before start date month/year', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2001-10',
+          endDate: '2001-09',
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error for future start date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        const currentYear = new Date().getFullYear();
+        const futureYear = currentYear + 1;
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: `${futureYear}-01`,
+          endDate: `${futureYear}-02`,
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error for future end date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        const currentYear = new Date().getFullYear();
+        const futureYear = currentYear + 1;
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2001-10',
+          endDate: `${futureYear}-01`,
+        });
+        expect(errors.endDate.addError.called).to.be.true;
+      });
+
+      it('should add error when end date is before September 2001', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2000-10',
+          endDate: '2001-08',
+        });
+        expect(errors.endDate.addError.called).to.be.true;
+      });
+
+      it('should not add error when end date is September 2001 (accepted due to month/year granularity)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2000-10',
+          endDate: '2001-09',
+        });
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when end date is year-only 2001', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2000-10',
+          endDate: '2001-XX',
+        });
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when end date is October 2001', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2000-10',
+          endDate: '2001-10',
+        });
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should accept full date format (YYYY-MM-DD) for backward compatibility', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2001-10-15',
+          endDate: '2002-03-20',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+    });
+
+    describe('validateToxicExposureDates', () => {
+      it('should not add error for valid date range (month/year format)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureDates(errors, {
+          startDate: '1995-06',
+          endDate: '1997-08',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error for valid date range (year-only format)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureDates(errors, {
+          startDate: '1995-XX',
+          endDate: '1997-XX',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should add error when end date is before start date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureDates(errors, {
+          startDate: '1997-06',
+          endDate: '1995-08',
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error when end date month/year is before start date month/year', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureDates(errors, {
+          startDate: '1995-08',
+          endDate: '1995-06',
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error for future start date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        const currentYear = new Date().getFullYear();
+        const futureYear = currentYear + 1;
+        validateToxicExposureDates(errors, {
+          startDate: `${futureYear}-01`,
+          endDate: `${futureYear}-02`,
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error for future end date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        const currentYear = new Date().getFullYear();
+        const futureYear = currentYear + 1;
+        validateToxicExposureDates(errors, {
+          startDate: '1995-06',
+          endDate: `${futureYear}-01`,
+        });
+        expect(errors.endDate.addError.called).to.be.true;
+      });
+
+      it('should not add error when only start date is provided', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureDates(errors, {
+          startDate: '1995-06',
+          endDate: null,
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when only end date is provided', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureDates(errors, {
+          startDate: null,
+          endDate: '1997-08',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should accept full date format (YYYY-MM-DD) for backward compatibility', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureDates(errors, {
+          startDate: '1995-06-15',
+          endDate: '1997-08-20',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
       });
     });
   });

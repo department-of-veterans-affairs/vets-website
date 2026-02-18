@@ -15,7 +15,7 @@
         "value": true
       },
       {
-        "name": "ezrDownloadPdfEnabled",
+        "name": "ezrServiceHistoryEnabled",
         "value": true
       }
     ]

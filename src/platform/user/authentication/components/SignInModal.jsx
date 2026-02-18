@@ -3,11 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import recordEvent from 'platform/monitoring/record-event';
-import { signInServiceEnabled } from '../selectors';
 import LoginContainer from './LoginContainer';
 
 export default function SignInModal() {
-  const useSiS = useSelector(signInServiceEnabled);
   const dispatch = useDispatch();
   const onClose = () => {
     dispatch(toggleLoginModal(false));
@@ -17,15 +15,14 @@ export default function SignInModal() {
 
   useEffect(
     () => {
-      const isOAuthEvent = useSiS ? '-oauth' : '';
       if (!prevVisible && visible) {
-        recordEvent({ event: `login-modal-opened${isOAuthEvent}` });
+        recordEvent({ event: 'login-modal-opened-oauth' });
       } else if (prevVisible && !visible) {
-        recordEvent({ event: `login-modal-closed${isOAuthEvent}` });
+        recordEvent({ event: 'login-modal-closed-oauth' });
       }
       setPrevVisible(visible);
     },
-    [visible, useSiS, prevVisible],
+    [visible, prevVisible],
   );
 
   return visible ? (
@@ -34,6 +31,7 @@ export default function SignInModal() {
       visible={visible}
       onCloseEvent={onClose}
       id="signin-signup-modal"
+      label="sign-in"
     >
       <LoginContainer />
     </VaModal>

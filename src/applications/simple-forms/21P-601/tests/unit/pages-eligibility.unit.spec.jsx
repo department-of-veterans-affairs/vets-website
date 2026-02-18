@@ -21,18 +21,6 @@ describe('21P-601 eligibility page configurations', () => {
     it('requires hasAlreadyFiled', () => {
       expect(hasAlreadyFiled.schema.required).to.include('hasAlreadyFiled');
     });
-
-    it('has conditional alert', () => {
-      expect(hasAlreadyFiled.uiSchema).to.have.property(
-        'view:alreadyFiledAlert',
-      );
-      const { hideIf } = hasAlreadyFiled.uiSchema['view:alreadyFiledAlert'][
-        'ui:options'
-      ];
-      expect(hideIf).to.be.a('function');
-      expect(hideIf({ hasAlreadyFiled: true })).to.be.false;
-      expect(hideIf({ hasAlreadyFiled: false })).to.be.true;
-    });
   });
 
   describe('hasUnpaidCreditors', () => {
@@ -51,15 +39,6 @@ describe('21P-601 eligibility page configurations', () => {
       expect(hasUnpaidCreditors.schema.required).to.include(
         'hasUnpaidCreditors',
       );
-    });
-
-    it('has conditional alert', () => {
-      const { hideIf } = hasUnpaidCreditors.uiSchema['view:creditorsAlert'][
-        'ui:options'
-      ];
-      expect(hideIf).to.be.a('function');
-      expect(hideIf({ hasUnpaidCreditors: true })).to.be.false;
-      expect(hideIf({ hasUnpaidCreditors: false })).to.be.true;
     });
   });
 

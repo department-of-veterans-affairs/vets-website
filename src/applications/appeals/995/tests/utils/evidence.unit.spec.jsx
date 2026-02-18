@@ -1,15 +1,12 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import {
-  getVAEvidence,
-  getPrivateEvidence,
-  getOtherEvidence,
   getIndex,
+  getProviderDetailsTitle,
+  getProviderModalDeleteTitle,
   evidenceNeedsUpdating,
   removeNonSelectedIssuesFromEvidence,
-  onFormLoaded,
 } from '../../utils/evidence';
-import { EVIDENCE_VA, EVIDENCE_PRIVATE, EVIDENCE_OTHER } from '../../constants';
+import { HAS_VA_EVIDENCE, HAS_PRIVATE_EVIDENCE } from '../../constants';
 import { SELECTED } from '../../../shared/constants';
 
 describe('getIndex', () => {
@@ -40,70 +37,6 @@ describe('getIndex', () => {
   });
 });
 
-describe('getVAEvidence', () => {
-  it('should return expected value', () => {
-    expect(
-      getVAEvidence({ [EVIDENCE_VA]: undefined, locations: [{}] }),
-    ).to.deep.equal([]);
-
-    expect(
-      getVAEvidence({ [EVIDENCE_VA]: true, locations: [{}] }),
-    ).to.deep.equal([{}]);
-
-    expect(getVAEvidence({ [EVIDENCE_VA]: true, locations: [] })).to.deep.equal(
-      [],
-    );
-
-    expect(
-      getVAEvidence({ [EVIDENCE_VA]: false, locations: [{}] }),
-    ).to.deep.equal([]);
-
-    expect(
-      getVAEvidence({ [EVIDENCE_VA]: true, locations: [{ test: 'test' }] }),
-    ).to.deep.equal([{ test: 'test' }]);
-  });
-});
-
-describe('getPrivateEvidence', () => {
-  it('should return expected value', () => {
-    expect(
-      getPrivateEvidence({
-        [EVIDENCE_PRIVATE]: undefined,
-        providerFacility: [{}],
-      }),
-    ).to.deep.equal([]);
-    expect(
-      getPrivateEvidence({ [EVIDENCE_PRIVATE]: true, providerFacility: [{}] }),
-    ).to.deep.equal([{}]);
-    expect(
-      getPrivateEvidence({ [EVIDENCE_PRIVATE]: true, providerFacility: [] }),
-    ).to.deep.equal([]);
-    expect(
-      getPrivateEvidence({ [EVIDENCE_PRIVATE]: false, providerFacility: [{}] }),
-    ).to.deep.equal([]);
-  });
-});
-
-describe('getOtherEvidence', () => {
-  it('should return expected value', () => {
-    expect(
-      getOtherEvidence({
-        [EVIDENCE_OTHER]: undefined,
-        additionalDocuments: [{}],
-      }),
-    ).to.deep.equal([]);
-    expect(
-      getOtherEvidence({ [EVIDENCE_OTHER]: true, additionalDocuments: [{}] }),
-    ).to.deep.equal([{}]);
-    expect(
-      getOtherEvidence({ [EVIDENCE_OTHER]: true, additionalDocuments: [] }),
-    ).to.deep.equal([]);
-    expect(
-      getOtherEvidence({ [EVIDENCE_OTHER]: false, additionalDocuments: [{}] }),
-    ).to.deep.equal([]);
-  });
-});
-
 describe('evidenceNeedsUpdating', () => {
   const getEvidence = ({
     hasVa = true,
@@ -113,8 +46,8 @@ describe('evidenceNeedsUpdating', () => {
     providerFacility = [{ issues: ['abc', 'def'] }],
   } = {}) => {
     return {
-      [EVIDENCE_VA]: hasVa,
-      [EVIDENCE_PRIVATE]: hasPrivate,
+      [HAS_VA_EVIDENCE]: hasVa,
+      [HAS_PRIVATE_EVIDENCE]: hasPrivate,
       contestedIssues: [
         {
           attributes: { ratingIssueSubjectText: 'def' },
@@ -144,8 +77,8 @@ describe('evidenceNeedsUpdating', () => {
   });
 
   it('should return false if provider facility evidence undefined', () => {
-    expect(evidenceNeedsUpdating({ [EVIDENCE_VA]: true, locations: [{}] })).to
-      .be.false;
+    expect(evidenceNeedsUpdating({ [HAS_VA_EVIDENCE]: true, locations: [{}] }))
+      .to.be.false;
   });
 
   it('should return false if no updates needed', () => {
@@ -174,7 +107,7 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
       { issue: 'test 2', [SELECTED]: true },
       { issue: 'test 4', [SELECTED]: false },
     ],
-    [EVIDENCE_VA]: true,
+    [HAS_VA_EVIDENCE]: true,
     locations: [
       {
         foo: true,
@@ -187,7 +120,7 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
         issues: ['test 1', 'test 2', addLocation].filter(Boolean),
       },
     ],
-    [EVIDENCE_PRIVATE]: true,
+    [HAS_PRIVATE_EVIDENCE]: true,
     providerFacility: [
       {
         foo: false,
@@ -234,13 +167,136 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
   });
 });
 
-describe('onFormLoaded', () => {
-  it('should direct to the correct returnUrl', () => {
-    const routerSpy = {
-      push: sinon.spy(),
-    };
+describe('getProviderDetailsTitle', () => {
+  describe('va content', () => {
+    describe('add mode', () => {
+      it('should show correct title with spelled out index', () => {
+        expect(getProviderDetailsTitle('add', 1, 'va')).to.contain(
+          'What VA or military treatment location should we request records from?',
+        );
 
-    onFormLoaded({ returnUrl: '/housing-risk', router: routerSpy });
-    expect(routerSpy.push.firstCall.args[0]).to.eq('/housing-risk');
+        expect(getProviderDetailsTitle('add', 3, 'va')).to.contain(
+          'What third VA or military treatment location should we request records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 20, 'va')).to.contain(
+          'What 20th VA or military treatment location should we request records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 31, 'va')).to.contain(
+          'What 31st VA or military treatment location should we request records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 63, 'va')).to.contain(
+          'What 63rd VA or military treatment location should we request records from?',
+        );
+      });
+    });
+
+    describe('edit mode', () => {
+      it('should the correct title with spelled out index', () => {
+        expect(getProviderDetailsTitle('edit', 1, 'va')).to.contain(
+          'Edit the first VA or military treatment location',
+        );
+
+        expect(getProviderDetailsTitle('edit', 3, 'va')).to.contain(
+          'Edit the third VA or military treatment location',
+        );
+
+        expect(getProviderDetailsTitle('edit', 20, 'va')).to.contain(
+          'Edit the 20th VA or military treatment location',
+        );
+
+        expect(getProviderDetailsTitle('edit', 31, 'va')).to.contain(
+          'Edit the 31st VA or military treatment location',
+        );
+
+        expect(getProviderDetailsTitle('edit', 63, 'va')).to.contain(
+          'Edit the 63rd VA or military treatment location',
+        );
+      });
+    });
+  });
+
+  describe('non-va content', () => {
+    describe('add mode', () => {
+      it('should show correct title with spelled out index', () => {
+        expect(getProviderDetailsTitle('add', 1, 'nonVa')).to.contain(
+          'What location should we request your private provider or VA Vet Center records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 3, 'nonVa')).to.contain(
+          'What third location should we request your private provider or VA Vet Center records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 20, 'nonVa')).to.contain(
+          'What 20th location should we request your private provider or VA Vet Center records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 31, 'nonVa')).to.contain(
+          'What 31st location should we request your private provider or VA Vet Center records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 63, 'nonVa')).to.contain(
+          'What 63rd location should we request your private provider or VA Vet Center records from?',
+        );
+      });
+    });
+
+    describe('edit mode', () => {
+      it('should the correct title with spelled out index', () => {
+        expect(getProviderDetailsTitle('edit', 1, 'nonVa')).to.contain(
+          'Edit the first provider where you received treatment',
+        );
+
+        expect(getProviderDetailsTitle('edit', 3, 'nonVa')).to.contain(
+          'Edit the third provider where you received treatment',
+        );
+
+        expect(getProviderDetailsTitle('edit', 20, 'nonVa')).to.contain(
+          'Edit the 20th provider where you received treatment',
+        );
+
+        expect(getProviderDetailsTitle('edit', 31, 'nonVa')).to.contain(
+          'Edit the 31st provider where you received treatment',
+        );
+
+        expect(getProviderDetailsTitle('edit', 63, 'nonVa')).to.contain(
+          'Edit the 63rd provider where you received treatment',
+        );
+      });
+    });
+  });
+});
+
+describe('getProviderModalDeleteTitle', () => {
+  it('should show the modal title with the correct provider or facility name', () => {
+    expect(getProviderModalDeleteTitle('South Texas VA Facility')).to.contain(
+      'Do you want to keep South Texas VA Facility?',
+    );
+
+    expect(getProviderModalDeleteTitle(`General Burns' Hospital`)).to.contain(
+      `Do you want to keep General Burns' Hospital?`,
+    );
+
+    expect(getProviderModalDeleteTitle('N.E. Baptist Hospital')).to.contain(
+      'Do you want to keep N.E. Baptist Hospital?',
+    );
+
+    expect(getProviderModalDeleteTitle('')).to.contain(
+      'Do you want to keep this location?',
+    );
+
+    expect(getProviderModalDeleteTitle(null)).to.contain(
+      'Do you want to keep this location?',
+    );
+
+    expect(getProviderModalDeleteTitle(undefined)).to.contain(
+      'Do you want to keep this location?',
+    );
+
+    expect(getProviderModalDeleteTitle({})).to.contain(
+      'Do you want to keep this location?',
+    );
   });
 });

@@ -5,12 +5,14 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import reducer from '../../../reducers';
 
 import UnifiedLabsAndTests from '../../../components/LabsAndTests/UnifiedLabAndTest';
+import { uhdRecordSource, loincCodes } from '../../../util/constants';
 
 describe('UnifiedLabsAndTests Component', () => {
   const mockRecord = {
     name: 'Test Name',
     date: '2025-04-21',
     testCode: '12345',
+    testCodeDisplay: '12345',
     sampleTested: 'Blood',
     bodySite: 'Arm',
     orderedBy: 'Dr. Smith',
@@ -62,6 +64,36 @@ describe('UnifiedLabsAndTests Component', () => {
     expect(screen.getByTestId('lab-and-test-results')).to.have.text('Positive');
   });
 
+  it('does not render the Results field when observations are present', () => {
+    const screen = renderWithStoreAndRouter(
+      <UnifiedLabsAndTests
+        record={{
+          ...mockRecord,
+          observations: [
+            {
+              testCode: 'CHLORIDE',
+              referenceRange: '98 - 107',
+              status: 'final',
+              comments: '',
+              value: {
+                text: '2 meq/L',
+                type: 'Quantity',
+              },
+            },
+          ],
+        }}
+        runningUnitTest
+        user={mockUser}
+      />,
+      {
+        initialState,
+        reducers: reducer,
+      },
+    );
+    // Results field should not be present when observations exist
+    expect(screen.queryByTestId('lab-and-test-results')).to.be.null;
+  });
+
   it('renders the component with observations', () => {
     const screen = renderWithStoreAndRouter(
       <UnifiedLabsAndTests
@@ -99,5 +131,74 @@ describe('UnifiedLabsAndTests Component', () => {
       },
     );
     expect(screen.getByTestId('test-observations')).to.exist;
+  });
+
+  describe('link to My VA Health', () => {
+    it('renders when source is Oracle Health and testCode is UHD radiology', () => {
+      const screen = renderWithStoreAndRouter(
+        <UnifiedLabsAndTests
+          record={{
+            ...mockRecord,
+            source: uhdRecordSource.ORACLE_HEALTH,
+            testCode: loincCodes.UHD_RADIOLOGY,
+          }}
+          runningUnitTest
+          user={mockUser}
+        />,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+      expect(screen.getByTestId('radiology-oracle-health-link')).to.exist;
+    });
+
+    it('does not render when only source matches', () => {
+      // Only source matches
+      const screen = renderWithStoreAndRouter(
+        <UnifiedLabsAndTests
+          record={{
+            ...mockRecord,
+            source: uhdRecordSource.ORACLE_HEALTH,
+            testCode: 'NOT_RADIOLOGY',
+          }}
+          runningUnitTest
+          user={mockUser}
+        />,
+        { initialState, reducers: reducer },
+      );
+      // Ensure link is absent when testCode does not match
+      expect(screen.queryByTestId('radiology-oracle-health-link')).to.be.null;
+    });
+
+    it('does not render when only testCode matches', () => {
+      // Only testCode matches
+      const screen = renderWithStoreAndRouter(
+        <UnifiedLabsAndTests
+          record={{
+            ...mockRecord,
+            source: 'NON_OH_SOURCE',
+            testCode: loincCodes.UHD_RADIOLOGY,
+          }}
+          runningUnitTest
+          user={mockUser}
+        />,
+        { initialState, reducers: reducer },
+      );
+      // Ensure link is absent when source does not match
+      expect(screen.queryByTestId('radiology-oracle-health-link')).to.be.null;
+    });
+
+    it('does not render when no conditions are met', () => {
+      const screen = renderWithStoreAndRouter(
+        <UnifiedLabsAndTests
+          record={{ ...mockRecord }}
+          runningUnitTest
+          user={mockUser}
+        />,
+        { initialState, reducers: reducer },
+      );
+      expect(screen.queryByTestId('radiology-oracle-health-link')).to.be.null;
+    });
   });
 });

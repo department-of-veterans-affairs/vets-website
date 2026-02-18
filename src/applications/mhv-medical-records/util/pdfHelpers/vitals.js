@@ -7,7 +7,7 @@ export const generateVitalsIntro = (records, lastUpdated) => {
     subtitles: [
       'Vitals are basic health numbers your providers check at your appointments.',
       lastUpdated,
-      `Showing ${records.length} records from newest to oldest`,
+      `Showing ${records?.length} records from newest to oldest`,
     ],
   };
 };
@@ -48,7 +48,7 @@ export const generateVitalsContent = records => ({
     header: records[0].name,
     headerType: 'H3',
     headerIndent: 30,
-    preface: `Showing ${records.length} records, from newest to oldest`,
+    preface: `Showing ${records?.length} records, from newest to oldest`,
     prefaceIndent: 30,
     sectionSeparators: false,
     items: records.map(record => ({

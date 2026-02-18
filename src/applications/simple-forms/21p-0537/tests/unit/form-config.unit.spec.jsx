@@ -204,14 +204,9 @@ describe('21P-0537 form config conditional dependencies', () => {
       expect(formConfig.useCustomScrollAndFocus).to.be.true;
     });
 
-    it('should have useProfileFullName in statementOfTruth', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth.useProfileFullName).to.be
-        .true;
-    });
-
     it('should have correct fullNamePath in statementOfTruth', () => {
       expect(formConfig.preSubmitInfo.statementOfTruth.fullNamePath).to.include(
-        'recipientName',
+        'view:recipientName',
       );
     });
   });

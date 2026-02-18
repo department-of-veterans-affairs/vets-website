@@ -1,15 +1,19 @@
-import React from 'react';
 import {
   titleUI,
   fullNameUI,
   fullNameSchema,
-  selectUI,
-  selectSchema,
+  radioUI,
+  radioSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   addressUI,
   addressSchema,
+  arrayBuilderItemFirstPageTitleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
+  arrayBuilderYesNoSchema,
+  arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 
 const relationshipOptions = {
   spouse: 'Spouse',
@@ -17,75 +21,110 @@ const relationshipOptions = {
   parent: 'Parent',
 };
 
-export default {
-  uiSchema: {
-    ...titleUI('List all surviving relatives'),
-    'ui:description':
-      'Provide information for each surviving relative. Each person must be listed separately.',
-    survivingRelatives: {
-      'ui:title': 'Surviving relatives',
-      'ui:options': {
-        itemName: 'Relative',
-        viewField: ({ formData }) => {
-          const name = formData.fullName
-            ? `${formData.fullName.first || ''} ${formData.fullName.middle ||
-                ''} ${formData.fullName.last || ''}`.trim()
-            : 'Unknown';
-          const relationship =
-            relationshipOptions[formData.relationship] ||
-            formData.relationship ||
-            'Unknown';
-          return (
-            <div>
-              <strong>{name}</strong>
-              <br />
-              {relationship}
-              {formData.dateOfBirth && ` • Born: ${formData.dateOfBirth}`}
-            </div>
-          );
-        },
-        keepInPageOnReview: true,
-        confirmRemove: true,
-        useDlWrap: true,
-        customTitle: ' ', // prevent <dl> around the schemaform-field-container (fixes a11y dl error)
-        showSave: true,
-        updateSchema: (formData, schema) => {
-          // Only require if they have relatives
-          if (formData.hasNone === true) {
-            return {
-              ...schema,
-              minItems: 0,
-            };
-          }
-          return schema;
-        },
-      },
-      items: {
-        fullName: fullNameUI(),
-        relationship: selectUI('Relationship to deceased'),
-        dateOfBirth: currentOrPastDateUI('Date of birth'),
-        address: addressUI(),
-      },
+/** @type {ArrayBuilderOptions} */
+const options = {
+  arrayPath: 'survivingRelatives',
+  nounSingular: 'relative',
+  nounPlural: 'relatives',
+  required: false,
+  isItemIncomplete: item => !item?.fullName || !item?.relationship,
+  maxItems: 4,
+  text: {
+    getItemName: item => {
+      const name = item?.fullName;
+      if (!name) return 'Unknown relative';
+      return `${name.first || ''} ${name.middle || ''} ${name.last || ''}`
+        .trim()
+        .replace(/\s+/g, ' ');
     },
+    cardDescription: item => {
+      const relationship =
+        relationshipOptions[(item?.relationship)] || item?.relationship || '';
+      const dob = item?.dateOfBirth ? ` • Born: ${item.dateOfBirth}` : '';
+      return `${relationship}${dob}`;
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+const summaryPage = {
+  uiSchema: {
+    ...titleUI('Surviving relatives'),
+    'view:hasRelatives': arrayBuilderYesNoUI(options),
   },
   schema: {
     type: 'object',
     properties: {
-      survivingRelatives: {
-        type: 'array',
-        minItems: 1,
-        maxItems: 10,
-        items: {
-          type: 'object',
-          required: ['fullName', 'relationship'],
-          properties: {
-            fullName: fullNameSchema,
-            relationship: selectSchema(Object.keys(relationshipOptions)),
-            dateOfBirth: currentOrPastDateSchema,
-            address: addressSchema(),
-          },
-        },
-      },
+      'view:hasRelatives': arrayBuilderYesNoSchema,
+    },
+    required: ['view:hasRelatives'],
+  },
+};
+
+/** @returns {PageSchema} */
+const relativeNamePage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Surviving relative information',
+      nounSingular: options.nounSingular,
+    }),
+    fullName: fullNameUI(),
+    relationship: radioUI({
+      title: 'Relationship to deceased',
+      labels: relationshipOptions,
+    }),
+    dateOfBirth: currentOrPastDateUI('Date of birth'),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      fullName: fullNameSchema,
+      relationship: radioSchema(Object.keys(relationshipOptions)),
+      dateOfBirth: currentOrPastDateSchema,
+    },
+    required: ['fullName', 'relationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const relativeAddressPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
+      const name = formData?.fullName;
+      if (!name) return "Relative's address";
+      const fullName = `${name.first || ''} ${name.last || ''}`.trim();
+      return fullName ? `${fullName}'s address` : `Relative's address`;
+    }),
+    address: addressUI(),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      address: addressSchema(),
     },
   },
 };
+
+export const relativesPages = arrayBuilderPages(options, pageBuilder => ({
+  relativesSummary: pageBuilder.summaryPage({
+    title: 'Surviving relatives',
+    path: 'relatives-information',
+    uiSchema: summaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  relativeNamePage: pageBuilder.itemPage({
+    title: 'Surviving relative information',
+    path: 'relatives-information/:index/details',
+    uiSchema: relativeNamePage.uiSchema,
+    schema: relativeNamePage.schema,
+  }),
+  relativeAddressPage: pageBuilder.itemPage({
+    title: "Relative's address",
+    path: 'relatives-information/:index/address',
+    uiSchema: relativeAddressPage.uiSchema,
+    schema: relativeAddressPage.schema,
+  }),
+}));
+
+// Export for testing
+export const relativesOptions = options;

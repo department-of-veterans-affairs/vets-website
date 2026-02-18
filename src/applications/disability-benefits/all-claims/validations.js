@@ -1,5 +1,7 @@
 import _ from 'platform/utilities/data';
 import some from 'lodash/some';
+import { validateBooleanGroup as platformValidateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import { isValid, isBefore, isAfter, add, startOfToday } from 'date-fns';
 
 import {
   parseDate,
@@ -18,9 +20,11 @@ import {
   claimingRated,
   showSeparationLocation,
   sippableId,
+  isEvidenceEnhancement,
 } from './utils';
 
 import {
+  DATA_PATHS,
   MILITARY_CITIES,
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
@@ -132,7 +136,9 @@ export function validateMilitaryState(
       .trim()
       .toUpperCase(),
   );
-  const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
+  const isMilitaryState = MILITARY_STATE_VALUES.includes(
+    state.trim().toUpperCase(),
+  );
   if (isMilitaryCity && !isMilitaryState) {
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
@@ -161,7 +167,9 @@ export function validateMilitaryTreatmentCity(
       `vaTreatmentFacilities[${index}].treatmentCenterAddress.state`,
       formData,
       '',
-    ),
+    )
+      .trim()
+      .toUpperCase(),
   );
   const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
   if (isMilitaryState && !isMilitaryCity) {
@@ -198,11 +206,25 @@ export function validateMilitaryTreatmentState(
       .trim()
       .toUpperCase(),
   );
-  const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
+  const isMilitaryState = MILITARY_STATE_VALUES.includes(
+    state.trim().toUpperCase(),
+  );
   if (isMilitaryCity && !isMilitaryState) {
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
 }
+
+/**
+ * Whether the user has indicated they have evidence (gate for evidence-type validations).
+ * In enhancement flow uses view:hasMedicalRecords; in legacy flow uses view:hasEvidence.
+ *
+ * @param {Object} formData - Full formData
+ * @returns {boolean}
+ */
+const getHasEvidence = formData =>
+  isEvidenceEnhancement(formData)
+    ? _.get('view:hasMedicalRecords', formData, true)
+    : _.get('view:hasEvidence', formData, true);
 
 /**
  * Validate that at least one type of evidence is selected. Adds error message
@@ -226,9 +248,48 @@ export const validateIfHasEvidence = (
   index,
 ) => {
   const { wrappedValidator } = options;
-  if (_.get('view:hasEvidence', formData, true)) {
+  if (getHasEvidence(formData)) {
     wrappedValidator(errors, fieldData, formData, schema, messages, index);
   }
+};
+
+/** Paths for VA and private medical records; used to build subset for validation */
+const MEDICAL_RECORD_PATHS = [
+  DATA_PATHS.hasVAEvidence,
+  DATA_PATHS.hasPrivateEvidence,
+];
+
+/**
+ * Validates that at least one of VA or private medical records is selected on the
+ * medical-records page. Ignores view:hasOtherEvidence so legacy data with only
+ * "other evidence" checked does not bypass the requirement.
+ *
+ * @param {Object} errors - Errors object from rjsf
+ * @param {Object} fieldData - view:selectableEvidenceTypes
+ * @param {Object} formData - Full formData
+ * @param {Object} schema - Schema for the field
+ * @param {Object} messages - Error messages (e.g. atLeastOne)
+ */
+export const validateMedicalRecordsAtLeastOne = (
+  errors,
+  fieldData,
+  formData,
+  schema,
+  messages,
+) => {
+  if (!getHasEvidence(formData)) return;
+
+  const medicalOnly = MEDICAL_RECORD_PATHS.reduce(
+    (acc, path) => ({ ...acc, [path.split('.').pop()]: _.get(path, formData) }),
+    {},
+  );
+  platformValidateBooleanGroup(
+    errors,
+    medicalOnly,
+    formData,
+    schema,
+    messages || {},
+  );
 };
 
 // Need the Lambda to pass the disability list type, so only 1 disability list has the error message.
@@ -274,13 +335,16 @@ export const isInFuture = (err, fieldData) => {
  */
 export const isLessThan180DaysInFuture = (errors, fieldData) => {
   const enteredDate = parseDate(fieldData);
-  if (enteredDate && enteredDate.isValid()) {
+  if (enteredDate && isValid(enteredDate)) {
     const today = parseDate(new Date().toISOString().split('T')[0]);
-    const in180Days = today.clone().add(180, 'days');
+    const in180Days = add(today, { days: 180 });
 
-    if (enteredDate.isBefore(today)) {
+    if (isBefore(enteredDate, today)) {
       errors.addError('Enter a future separation date');
-    } else if (enteredDate.isSameOrAfter(in180Days)) {
+    } else if (
+      isAfter(enteredDate, in180Days) ||
+      enteredDate.getTime() === in180Days.getTime()
+    ) {
       errors.addError(
         'Enter a separation date less than 180 days in the future',
       );
@@ -304,10 +368,10 @@ export const title10BeforeRad = (errors, pageData) => {
 
   if (
     rad &&
-    rad.isValid() &&
+    isValid(rad) &&
     activation &&
-    activation.isValid() &&
-    rad.isBefore(activation) &&
+    isValid(activation) &&
+    isBefore(rad, activation) &&
     errors?.reservesNationalGuardService?.title10Activation
       ?.anticipatedSeparationDate?.addError
   ) {
@@ -591,12 +655,12 @@ export const validateAge = (
   const start = parseDate(dateString);
 
   // Bail if either date is missing/invalid
-  if (!dob || !dob.isValid?.() || !start || !start.isValid?.()) {
+  if (!dob || !isValid(dob) || !start || !isValid(start)) {
     return;
   }
 
-  const minStart = dob.clone().add(13, 'years');
-  if (start.isSameOrBefore(minStart)) {
+  const minStart = add(dob, { years: 13 });
+  if (isBefore(start, minStart) || start.getTime() === minStart.getTime()) {
     errors.addError('Your start date must be after your 13th birthday');
   }
 };
@@ -632,15 +696,15 @@ export const validateSeparationDate = (
   const separationDate = parseDate(dateString);
 
   // Check if date is invalid
-  if (!separationDate || !separationDate.isValid()) {
+  if (!separationDate || !isValid(separationDate)) {
     errors.addError(
       `The separation date provided (${dateString}) is not a real date.`,
     );
     return;
   }
 
-  // Get today as a moment object by parsing the current date
-  const today = parseDate(new Date().toISOString().split('T')[0]);
+  // Get today as a Date object normalized to start of day to avoid time precision issues
+  const today = startOfToday();
 
   // If a reservist is activated, they are considered to be active duty.
   // Inactive or active reserves may have a future separation date.
@@ -648,7 +712,7 @@ export const validateSeparationDate = (
   const isReserves = reservesList.some(match => branch.includes(match));
 
   // Check if date is more than 180 days in the future (applies to both BDD and non-BDD)
-  if (separationDate.isAfter(today.clone().add(180, 'days'))) {
+  if (isAfter(separationDate, add(today, { days: 180 }))) {
     if (isBDD) {
       errors.addError(
         'Your separation date must be before 180 days from today',
@@ -661,7 +725,7 @@ export const validateSeparationDate = (
   } else if (
     !isBDD &&
     !isReserves &&
-    separationDate.isAfter(today.clone().add(90, 'days'))
+    isAfter(separationDate, add(today, { days: 90 }))
   ) {
     // For non-BDD active duty claims, separation date must not be more than 90 days in the future
     errors.addError('Your separation date must be in the past');
@@ -702,8 +766,8 @@ export const validateTitle10StartDate = (
       return b > a ? -1 : 1;
     });
   const activationDate = parseDate(dateString);
-  const today = parseDate(new Date().toISOString().split('T')[0]);
-  if (activationDate && activationDate.isAfter(today)) {
+  const today = startOfToday();
+  if (activationDate && isAfter(activationDate, today)) {
     errors.addError('Enter an activation date in the past');
   } else if (!startTimes[0] || dateString < startTimes[0]) {
     errors.addError(

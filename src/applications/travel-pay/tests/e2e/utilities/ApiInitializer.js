@@ -25,6 +25,20 @@ class ApiInitializer {
         },
       }).as('featureToggles');
     },
+    withSmocOnly: () => {
+      cy.intercept('GET', API_PATHS.FEATURE_TOGGLES, {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            { name: 'travel_pay_power_switch', value: true },
+            { name: 'travel_pay_view_claim_details', value: true },
+            { name: 'travel_pay_submit_mileage_expense', value: true },
+            { name: 'travel_pay_claims_management', value: true },
+            { name: 'travel_pay_enable_complex_claims', value: false },
+          ],
+        },
+      }).as('featureToggles');
+    },
   };
 
   initializeClaims = {
@@ -74,6 +88,29 @@ class ApiInitializer {
         fixture:
           'applications/travel-pay/tests/fixtures/travel-claim-details-v1.json',
       }).as('details');
+      // Intercept appointment by date endpoint with matching appointment
+      // This appointment's localStartTime matches the appointmentDateTime in travel-claim-details-v1.json
+      cy.intercept('GET', '/vaos/v2/appointments?*', {
+        data: [
+          {
+            id: '167322',
+            type: 'appointment',
+            attributes: {
+              kind: 'clinic',
+              id: '167322',
+              localStartTime: '2024-01-01T16:45:34.465Z',
+              serviceName: 'COVID VACCINE CLIN1',
+              location: {
+                id: '983',
+                attributes: {
+                  name: 'Cheyenne VA Medical Center',
+                  timezone: { timeZoneId: 'America/Denver' },
+                },
+              },
+            },
+          },
+        ],
+      }).as('appointmentsByDate');
     },
     errorPath: () => {
       cy.intercept('GET', API_PATHS.CLAIM_DETAILS, {
@@ -140,6 +177,31 @@ class ApiInitializer {
           ],
         },
       }).as('appointmentError');
+    },
+    byDateTime: (appointmentDate = '2024-01-01T16:45:34.465Z') => {
+      // Intercept the appointments list endpoint for getAppointmentDataByDateTime
+      // Returns minimal appointment data to satisfy TravelClaimDetailsContent
+      cy.intercept('GET', '/vaos/v2/appointments?*', {
+        data: [
+          {
+            id: '167322',
+            type: 'appointment',
+            attributes: {
+              kind: 'clinic',
+              id: '167322',
+              localStartTime: appointmentDate,
+              serviceName: 'Test Service',
+              location: {
+                id: '983',
+                attributes: {
+                  name: 'Test VA Medical Center',
+                  timezone: { timeZoneId: 'America/Denver' },
+                },
+              },
+            },
+          },
+        ],
+      }).as('appointmentsByDate');
     },
   };
 

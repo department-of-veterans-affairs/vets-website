@@ -16,6 +16,31 @@ import { getPatientEligibility, getPatientRelationships } from '../vaos';
 import { getLongTermAppointmentHistoryV2 } from '../appointment';
 import { transformPatientRelationships } from './transformers';
 
+/**
+ * Checks if a type of care is exempted from requiring past appointment history
+ * for scheduling
+ * @param {string} typeOfCareId The type of care ID to check
+ * @param {boolean} [featurePastVisitMHFilter=false] whether to use past visits as a filter for scheduling MH appointments
+ * @returns {boolean} true if the type of care is exempted from past appointment history requirement
+ */
+export function typeOfCareRequiresPastHistory(
+  typeOfCareId,
+  featurePastVisitMHFilter = false,
+) {
+  const {
+    MENTAL_HEALTH_SERVICES_ID,
+    PRIMARY_CARE,
+    MENTAL_HEALTH_SUBSTANCE_USE_ID,
+  } = TYPE_OF_CARE_IDS;
+  const exempted = new Set([PRIMARY_CARE, MENTAL_HEALTH_SUBSTANCE_USE_ID]);
+
+  if (!featurePastVisitMHFilter) {
+    exempted.add(MENTAL_HEALTH_SERVICES_ID);
+  }
+
+  return !exempted.has(typeOfCareId);
+}
+
 function createErrorHandler(errorKey) {
   return data => {
     captureError(data, true);
@@ -132,7 +157,7 @@ async function fetchPatientEligibility({ typeOfCare, location, type = null }) {
  * @param {TypeOfCare} params.typeOfCare Type of care object for which to check patient relationships
  * @param {string} params.facilityId of facility to check for relationships
  * @param {Date} params.hasAvailabilityBefore A date object for determining how long into the future to look for appointment availability
- * @returns {Array<PatientProviderRelationship>} Returns an array of PatientProviderRelationship objects
+ * @returns {Promise<Array<PatientProviderRelationship>>} Returns an array of PatientProviderRelationship objects
  */
 
 export async function fetchPatientRelationships(
@@ -147,7 +172,10 @@ export async function fetchPatientRelationships(
       hasAvailabilityBefore,
     });
 
-    return transformPatientRelationships(data || []);
+    return {
+      patientProviderRelationships: transformPatientRelationships(data),
+      backendServiceFailures: data.meta?.failures,
+    };
   } catch (e) {
     return null;
   }
@@ -157,7 +185,7 @@ function locationSupportsDirectScheduling(location, typeOfCare) {
   return (
     // this check is included due to old two step facilities page
     location.legacyVAR.directSchedulingSupported ||
-    location.legacyVAR.settings?.[typeOfCare.id]?.direct.enabled
+    location.legacyVAR.settings?.[typeOfCare.id]?.direct?.enabled
   );
 }
 
@@ -165,32 +193,43 @@ function locationSupportsRequests(location, typeOfCare) {
   return (
     // this check is included due to old two step facilities page
     location.legacyVAR.requestSupported ||
-    location.legacyVAR.settings?.[typeOfCare.id]?.request.enabled
+    location.legacyVAR.settings?.[typeOfCare.id]?.request?.enabled
   );
 }
 
+/**
+ * Has maching clinics that support direct scheduling and match past appointments if required
+ * @param {HealthCareService[]} clinics
+ * @param {Object[]} pastAppointments -- from getLongTermAppointmentHistoryV2 - no return type
+ * @param {boolean} [requiresPastHistory=true]
+ * @returns {boolean}
+ */
 function hasMatchingClinics(
   clinics,
   pastAppointments,
-  removeFacilityConfigCheck = false,
+  requiresPastHistory = true,
 ) {
-  return clinics?.some(
-    clinic =>
-      !!pastAppointments.find(appt => {
-        const clinicIds = clinic.id.split('_');
-        if (appt.version === 2) {
-          return (
-            clinic.stationId === appt.location.stationId &&
-            clinicIds[1] === appt.location.clinicId &&
-            (removeFacilityConfigCheck ||
-              clinic.patientDirectScheduling === true)
-          );
+  return clinics?.some(clinic => {
+    const [facilityId, clinicId] = clinic.id.split('_');
+    const acceptsDirect = clinic.patientDirectScheduling === true;
+
+    return !!pastAppointments.find(appt => {
+      const matchesClinic =
+        appt.version === 2
+          ? clinic.stationId === appt.location?.stationId &&
+            clinicId === appt.location?.clinicId
+          : clinicId === appt.clinicId && facilityId === appt.facilityId;
+      if (appt.version === 2) {
+        if (requiresPastHistory) {
+          return matchesClinic && acceptsDirect;
         }
-        return (
-          clinicIds[0] === appt.facilityId && clinicIds[1] === appt.clinicId
-        );
-      }),
-  );
+        return acceptsDirect;
+      }
+      // v1 appointments fallback, despite the fact that clinics response now should be updated
+      // and have the possibility to match acceptsDirect for whichever type of appt is returned
+      return matchesClinic;
+    });
+  });
 }
 
 /*
@@ -289,50 +328,51 @@ export async function fetchFlowEligibilityAndClinics({
       removeFacilityConfigCheck) &&
     directSchedulingEnabled;
 
-  const typeOfCareRequiresPastHistory =
-    typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-    (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
-      featurePastVisitMHFilter);
-
-  const apiCalls = {
-    patientEligibility: fetchPatientEligibility({
-      typeOfCare,
-      location,
-      type: !directSchedulingAvailable ? 'request' : null,
-    }),
-  };
+  const typeOfCareRequiresCheck = typeOfCareRequiresPastHistory(
+    typeOfCare.id,
+    featurePastVisitMHFilter,
+  );
 
   // When removeFacilityConfigCheck is removed, directTypeOfCareSettings should be removed and not used
   // location contains legacyVAR that contains patientHistoryRequired
   const directTypeOfCareSettings =
     location.legacyVAR.settings?.[typeOfCare.id]?.direct;
 
-  // We don't want to make unnecessary api calls if DS is turned off and we are using the configuration call
-  if (directSchedulingAvailable && !isCerner) {
-    apiCalls.clinics = getAvailableHealthcareServices({
+  // First, fetch patient eligibility to determine if we should make additional API calls
+  const patientEligibility = await fetchPatientEligibility({
+    typeOfCare,
+    location,
+    type: !directSchedulingAvailable ? 'request' : null,
+  });
+
+  // Only fetch clinics and past appointments if:
+  // 1. Direct scheduling is available based on configuration
+  // 2. Not a Cerner site
+  // 3. The API says the patient is eligible for direct scheduling (when removeFacilityConfigCheck is true)
+  const shouldFetchClinics =
+    directSchedulingAvailable &&
+    !isCerner &&
+    (!removeFacilityConfigCheck || patientEligibility.direct?.eligible);
+
+  const additionalApiCalls = {};
+  if (shouldFetchClinics) {
+    additionalApiCalls.clinics = getAvailableHealthcareServices({
       facilityId: location.id,
       typeOfCare,
     }).catch(createErrorHandler('direct-available-clinics-error'));
 
-    if (keepFacilityConfigCheck) {
-      // Primary care and mental health is exempt from past appt history requirement
-      const isDirectAppointmentHistoryRequired =
-        typeOfCareRequiresPastHistory &&
-        directTypeOfCareSettings.patientHistoryRequired === true;
-
-      if (isDirectAppointmentHistoryRequired) {
-        apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
-          featureUseBrowserTimezone,
-        ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
-      }
-    }
+    additionalApiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
+      featureUseBrowserTimezone,
+    ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
   }
 
-  // This waits for all the api calls we're running in parallel to finish
-  // It does not have a try/catch because all errors in the calls are caught
-  // and resolved, so that we can still provide users a path forward if enough
-  // checks succeeded
-  const results = await promiseAllFromObject(apiCalls);
+  // Wait for additional API calls to finish
+  const additionalResults = await promiseAllFromObject(additionalApiCalls);
+
+  const results = {
+    patientEligibility,
+    ...additionalResults,
+  };
 
   const eligibility = {
     direct: directSchedulingEnabled,
@@ -342,17 +382,6 @@ export async function fetchFlowEligibilityAndClinics({
     request: true,
     requestReasons: [],
   };
-
-  // Call not added above if removeFacilityConfigCheck is true, but requires resolved eligibility status to determine if needed
-  if (
-    typeOfCareRequiresPastHistory &&
-    removeFacilityConfigCheck &&
-    results.patientEligibility.direct?.eligible
-  ) {
-    results.pastAppointments = await getLongTermAppointmentHistoryV2().catch(
-      createErrorHandler('direct-no-matching-past-clinics-error'),
-    );
-  }
 
   // When removeFacilityConfigCheck is removed, remove first condition in first if and remove
   // removeFacilityConfigCheck from 2nd condition in first if condition
@@ -370,6 +399,8 @@ export async function fetchFlowEligibilityAndClinics({
     eligibility.request = false;
     eligibility.requestReasons.push(ELIGIBILITY_REASONS.error);
   } else {
+    // When removeFacilityConfigCheck is true, use the API eligible field as the source of truth
+    // but still check for specific reasons to provide better error messages
     if (!results.patientEligibility.request.hasRequiredAppointmentHistory) {
       eligibility.request = false;
       eligibility.requestReasons.push(ELIGIBILITY_REASONS.noRecentVisit);
@@ -382,6 +413,13 @@ export async function fetchFlowEligibilityAndClinics({
       eligibility.request = false;
       eligibility.requestReasons.push(ELIGIBILITY_REASONS.overRequestLimit);
       recordEligibilityFailure('request-exceeded-outstanding-requests');
+    }
+
+    // If the API returned eligible: false but we didn't find a specific reason,
+    // still mark as ineligible with a generic reason
+    if (!results.patientEligibility.request?.eligible && eligibility.request) {
+      eligibility.request = false;
+      eligibility.requestReasons.push(ELIGIBILITY_REASONS.notSupported);
     }
   }
 
@@ -429,20 +467,31 @@ export async function fetchFlowEligibilityAndClinics({
         location?.id,
       );
     }
-    // When removeFacilityConfigCheck is removed, remove the entire condition inside the parens (2nd set of nested parens) with
-    // keepFacilityConfigCheck because we no longer will no longer be doing determination off the server (eligibility endpoint)
+    // When removeFacilityConfigCheck is removed, replace the requiresMatchingClinics with
+    // typeOfCareRequiresCheck since that will be the only relevant condition.
+    const requiresMatchingClinics =
+      (removeFacilityConfigCheck && typeOfCareRequiresCheck) ||
+      (keepFacilityConfigCheck &&
+        directTypeOfCareSettings.patientHistoryRequired);
     if (
       !isCerner &&
-      typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-      (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
-        featurePastVisitMHFilter) &&
-      (keepFacilityConfigCheck &&
-        directTypeOfCareSettings.patientHistoryRequired &&
-        !hasMatchingClinics(results.clinics, results.pastAppointments))
+      requiresMatchingClinics &&
+      !hasMatchingClinics(
+        results.clinics,
+        results.pastAppointments,
+        typeOfCareRequiresCheck,
+      )
     ) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);
       recordEligibilityFailure('direct-no-matching-past-clinics');
+    }
+
+    // If the API returned eligible: false but we didn't find a specific reason,
+    // still mark as ineligible with a generic reason
+    if (!results.patientEligibility.direct?.eligible && eligibility.direct) {
+      eligibility.direct = false;
+      eligibility.directReasons.push(ELIGIBILITY_REASONS.notSupported);
     }
   }
 

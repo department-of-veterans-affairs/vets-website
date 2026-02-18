@@ -49,6 +49,16 @@ const useAcceleratedData = () => {
         FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryLabsAndTestsEnabled
       ],
   );
+
+  const isAcceleratingMedicationsEnabled = useSelector(
+    state => state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot],
+  );
+
+  const isAcceleratingSecureMessagingEnabled = useSelector(
+    state =>
+      state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
+  );
+
   useEffect(
     () => {
       // TECH DEBT: Do not trigger the connection when running unit tests because
@@ -107,10 +117,31 @@ const useAcceleratedData = () => {
 
   const isAcceleratingLabsAndTests = useMemo(
     () => {
-      return isAcceleratedDeliveryEnabled && isAcceleratingLabsAndTestsEnabled;
+      return (
+        isAcceleratedDeliveryEnabled &&
+        isAcceleratingLabsAndTestsEnabled &&
+        isCerner
+      );
     },
-    [isAcceleratedDeliveryEnabled, isAcceleratingLabsAndTestsEnabled],
+    [isAcceleratedDeliveryEnabled, isAcceleratingLabsAndTestsEnabled, isCerner],
   );
+
+  const isAcceleratingMedications = useMemo(
+    () => {
+      return isAcceleratedDeliveryEnabled && isAcceleratingMedicationsEnabled;
+    },
+    [isAcceleratedDeliveryEnabled, isAcceleratingMedicationsEnabled],
+  );
+
+  const isAcceleratingSecureMessaging = useMemo(
+    () => {
+      return (
+        isAcceleratedDeliveryEnabled && isAcceleratingSecureMessagingEnabled
+      );
+    },
+    [isAcceleratedDeliveryEnabled, isAcceleratingSecureMessagingEnabled],
+  );
+
   const isAccelerating = useMemo(
     () =>
       isAcceleratedDeliveryEnabled ||
@@ -119,7 +150,9 @@ const useAcceleratedData = () => {
       isAcceleratingConditions ||
       isAcceleratingVitals ||
       isAcceleratingVaccines ||
-      isAcceleratingLabsAndTests,
+      isAcceleratingLabsAndTests ||
+      isAcceleratingMedications ||
+      isAcceleratingSecureMessaging,
     [
       isAcceleratedDeliveryEnabled,
       isAcceleratingAllergies,
@@ -128,6 +161,8 @@ const useAcceleratedData = () => {
       isAcceleratingVitals,
       isAcceleratingVaccines,
       isAcceleratingLabsAndTests,
+      isAcceleratingMedications,
+      isAcceleratingSecureMessaging,
     ],
   );
 
@@ -141,6 +176,8 @@ const useAcceleratedData = () => {
     isAcceleratingVitals,
     isAcceleratingVaccines,
     isAcceleratingLabsAndTests,
+    isAcceleratingMedications,
+    isAcceleratingSecureMessaging,
   };
 };
 

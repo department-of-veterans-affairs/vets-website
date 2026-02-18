@@ -8,8 +8,8 @@ import React from 'react';
 export const GetHelp = () => (
   <div className="help-footer-box">
     <p>
-      If you have trouble using this online form, call our MyVA411 main
-      information line at <va-telephone contact="8006982411" /> (
+      <strong>If you have trouble using this online form</strong>, call our
+      MyVA411 main information line at <va-telephone contact="8006982411" /> (
       <va-telephone contact="711" tty />
       ). We’re here 24/7.
     </p>

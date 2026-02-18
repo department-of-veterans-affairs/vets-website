@@ -62,6 +62,47 @@ class LandingPage {
       );
     });
   };
+
+  clickAddEmail = () => {
+    cy.findByTestId('mhv-alert--add-contact-email')
+      .find('va-link-action')
+      .shadow()
+      .find('a')
+      .click();
+  };
+
+  clickSkipAddingEmail = () => {
+    cy.findByTestId('mhv-alert--add-contact-email').within(() => {
+      cy.get('va-button[secondary]')
+        .shadow()
+        .find('button')
+        .click();
+    });
+  };
+
+  clickConfirmEmail = () => {
+    cy.findByTestId('mhv-alert--confirm-email-button').click();
+  };
+
+  clickErrorConfirmEmail = () => {
+    cy.findByTestId('mhv-alert--confirm-email-button').click();
+  };
+
+  clickErrorEditEmailLink = () => {
+    cy.findByTestId('mhv-alert--confirm-error')
+      .find('va-link[href="/profile/contact-information#email-address"]')
+      .shadow()
+      .find('a')
+      .click();
+  };
+
+  clickEditEmailLink = () => {
+    cy.findByTestId('mhv-alert--confirm-contact-email')
+      .find('va-link[href="/profile/contact-information#email-address"]')
+      .shadow()
+      .find('a')
+      .click();
+  };
 }
 
 export default new LandingPage();

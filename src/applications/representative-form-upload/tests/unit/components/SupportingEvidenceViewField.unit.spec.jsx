@@ -3,7 +3,8 @@ import { render, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import SupportingEvidenceViewField from '../../../components/SupportingEvidenceViewField';
 
-const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/review-and-submit';
+const TEST_URL =
+  'https://dev.va.gov/representative/representative-form-upload/submit-va-form-21-686c/review-and-submit';
 
 describe('SupportingEvidenceViewField', () => {
   const defaultEditButton = () => <va-button text="edit" />;

@@ -70,11 +70,13 @@ class TrackClaimsPage {
     );
     cy.get('.claim-list-item-header')
       .first()
-      .should('contain', `Claim for disability compensation`);
+      .should('contain', `Claim for compensation`);
     cy.get('.card-status')
       .first()
       .should('contain', `Moved to this step on October 31, 2016`);
-    cy.get('.claim-list-item:first-child a.active-va-link')
+    cy.get('.claim-list-item:first-child va-link')
+      .shadow()
+      .find('a')
       .click()
       .then(() => {
         cy.url().should('contain', '/your-claims/189685/status');
@@ -82,7 +84,9 @@ class TrackClaimsPage {
   }
 
   verifyReadyClaim() {
-    cy.get('.claim-list-item:first-child a.active-va-link')
+    cy.get('.claim-list-item:first-child va-link')
+      .shadow()
+      .find('a')
       .click()
       .then(() => {
         cy.get('body').should('be.visible');
@@ -102,7 +106,9 @@ class TrackClaimsPage {
   }
 
   verifyInProgressClaim(inProgress = true) {
-    cy.get('.claim-list-item:first-child a.active-va-link')
+    cy.get('.claim-list-item:first-child va-link')
+      .shadow()
+      .find('a')
       .click()
       .then(() => {
         cy.get('body').should('be.visible');
@@ -329,7 +335,7 @@ class TrackClaimsPage {
 
   verifyDocRequestfor5103Notice() {
     cy.get('#default-5103-notice-page').should('be.visible');
-    cy.get('a.active-va-link').should(
+    cy.get('va-link').should(
       'contain',
       'Find this letter in your claim letters',
     );

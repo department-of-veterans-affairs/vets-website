@@ -1,12 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   renderMHVDowntime,
   updatePageTitle,
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
@@ -15,16 +13,15 @@ import {
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 
-import {
-  CernerAlertContent,
-  downtimeNotificationParams,
-  pageTitles,
-} from '../util/constants';
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
+import { downtimeNotificationParams, pageTitles } from '../util/constants';
+import { selectImagesDomainFlag } from '../util/selectors';
 import { createSession, postCreateAAL } from '../api/MrApi';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import { sendDataDogAction } from '../util/helpers';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 
 const LAB_TEST_RESULTS_LABEL = 'Go to your lab and test results';
+const IMAGING_RESULTS_LABEL = 'Go to your medical imaging results';
 export const CARE_SUMMARIES_AND_NOTES_LABEL =
   'Go to your care summaries and notes';
 export const VACCINES_LABEL = 'Go to your vaccines';
@@ -46,6 +43,7 @@ const LandingPage = () => {
 
   const { isLoading } = useAcceleratedData();
   const history = useHistory();
+  const showImagesDomain = useSelector(selectImagesDomainFlag);
 
   const accordionRef = useRef(null);
 
@@ -86,9 +84,6 @@ const LandingPage = () => {
       createSession();
 
       updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
-
-      // Log unique user metrics for medical records access
-      logUniqueUserMetricsEvents(EVENT_REGISTRY.MEDICAL_RECORDS_ACCESSED);
     },
     [dispatch],
   );
@@ -128,13 +123,15 @@ const LandingPage = () => {
         </p>
       </section>
 
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.MR_LANDING_PAGE} />
+      <CernerFacilityAlert healthTool="MEDICAL_RECORDS" />
 
       {isLoading && (
         <section>
-          <va-loading-indicator
+          <TrackedSpinner
+            id="mr-landing-page-loading-indicator"
             message="Loading your medical records..."
             set-focus
+            data-testid="mr-landing-page-loading-indicator"
           />
         </section>
       )}
@@ -146,8 +143,7 @@ const LandingPage = () => {
               Lab and test results
             </h2>
             <p className="vads-u-margin-bottom--2">
-              Get results of your VA medical tests. This includes blood tests,
-              X-rays, and other imaging tests.
+              Get results of your VA medical tests, including blood tests.
             </p>
             <va-link-action
               type="secondary"
@@ -159,12 +155,32 @@ const LandingPage = () => {
                 history.push('/labs-and-tests');
                 sendAalViewList('Lab and test results');
                 sendDataDogAction(LAB_TEST_RESULTS_LABEL);
-                logUniqueUserMetricsEvents(
-                  EVENT_REGISTRY.MEDICAL_RECORDS_LABS_ACCESSED,
-                );
               }}
             />
           </section>
+          {showImagesDomain && (
+            <section>
+              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                Medical imaging results
+              </h2>
+              <p className="vads-u-margin-bottom--2">
+                Get results of your VA imaging tests, including X-rays, MRIs,
+                and CT scans.
+              </p>
+              <va-link-action
+                type="secondary"
+                href="/my-health/medical-records/imaging-results"
+                data-testid="radiology-landing-page-link"
+                text={IMAGING_RESULTS_LABEL}
+                onClick={event => {
+                  event.preventDefault();
+                  history.push('/imaging-results');
+                  sendAalViewList('Radiology');
+                  sendDataDogAction(IMAGING_RESULTS_LABEL);
+                }}
+              />
+            </section>
+          )}
           <section>
             <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
               Care summaries and notes
@@ -185,9 +201,6 @@ const LandingPage = () => {
                   history.push('/summaries-and-notes');
                   sendAalViewList('Care Summaries and Notes');
                   sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
-                  logUniqueUserMetricsEvents(
-                    EVENT_REGISTRY.MEDICAL_RECORDS_NOTES_ACCESSED,
-                  );
                 }}
               />
             </>
@@ -210,9 +223,6 @@ const LandingPage = () => {
                 history.push('/vaccines');
                 sendAalViewList('Vaccines');
                 sendDataDogAction(VACCINES_LABEL);
-                logUniqueUserMetricsEvents(
-                  EVENT_REGISTRY.MEDICAL_RECORDS_VACCINES_ACCESSED,
-                );
               }}
             />
           </section>
@@ -235,9 +245,6 @@ const LandingPage = () => {
                 history.push('/allergies');
                 sendAalViewList('Allergy and Reactions');
                 sendDataDogAction(ALLERGIES_AND_REACTIONS_LABEL);
-                logUniqueUserMetricsEvents(
-                  EVENT_REGISTRY.MEDICAL_RECORDS_ALLERGIES_ACCESSED,
-                );
               }}
             />
           </section>
@@ -259,9 +266,6 @@ const LandingPage = () => {
                 history.push('/conditions');
                 sendAalViewList('Health Conditions');
                 sendDataDogAction(HEALTH_CONDITIONS_LABEL);
-                logUniqueUserMetricsEvents(
-                  EVENT_REGISTRY.MEDICAL_RECORDS_CONDITIONS_ACCESSED,
-                );
               }}
             />
           </section>
@@ -289,9 +293,6 @@ const LandingPage = () => {
                 history.push('/vitals');
                 sendAalViewList('Vitals');
                 sendDataDogAction(VITALS_LABEL);
-                logUniqueUserMetricsEvents(
-                  EVENT_REGISTRY.MEDICAL_RECORDS_VITALS_ACCESSED,
-                );
               }}
             />
           </section>
@@ -328,8 +329,9 @@ const LandingPage = () => {
             <p className="vads-u-margin-bottom--2">
               Some of your medical records may not be available on VA.gov right
               now. If you need to access your records and can’t find them here,
-              you can submit a request by mail, by fax, or in person at your VA
-              health facility.
+              you can submit a medical records request. You can submit your
+              request by secure message, by mail, by fax, or in person at your
+              VA health facility.
             </p>
             <va-link-action
               type="secondary"

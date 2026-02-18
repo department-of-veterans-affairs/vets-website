@@ -31,8 +31,8 @@ describe('Form Configuration', () => {
       expect(formConfig.v3SegmentedProgressBar).to.be.true;
     });
 
-    it('should have prefill enabled', () => {
-      expect(formConfig.prefillEnabled).to.be.true;
+    it('should have prefill disabled', () => {
+      expect(formConfig.prefillEnabled).to.be.false;
     });
   });
 
@@ -101,13 +101,32 @@ describe('Form Configuration', () => {
     });
   });
 
+  describe('Veteran Information Pages', () => {
+    it('should have veteranIdentification page', () => {
+      expect(
+        formConfig.chapters.veteranInformationChapter.pages
+          .veteranIdentification,
+      ).to.exist;
+    });
+
+    it('should have veteranBirthInformation page', () => {
+      expect(
+        formConfig.chapters.veteranInformationChapter.pages
+          .veteranBirthInformation,
+      ).to.exist;
+    });
+
+    it('should have veteranBurialInformation page', () => {
+      expect(
+        formConfig.chapters.veteranInformationChapter.pages
+          .veteranBurialInformation,
+      ).to.exist;
+    });
+  });
+
   describe('Submit Configuration', () => {
     it('should have submit URL', () => {
       expect(formConfig.submitUrl).to.be.a('string');
-    });
-
-    it('should have submit function', () => {
-      expect(formConfig.submit).to.be.a('function');
     });
 
     it('should have tracking prefix', () => {

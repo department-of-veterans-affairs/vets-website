@@ -14,6 +14,23 @@ const RemoveDependentSuccessMessage = () => (
     more information or documents, we’ll contact you by mail.
   </p>
 );
+
+/**
+ * @typedef ViewDependentsListProps
+ * @property {String} header
+ * @property {Boolean} isAward
+ * @property {Boolean} loading
+ * @property {Boolean} manageDependentsToggle
+ * @property {Boolean} showPersonalInformationNote
+ * @property {Object} subHeader
+ * @property {Array} submittedDependents
+ */
+/**
+ * View Dependents list
+ * List of dependent cards
+ * @param {ViewDependentsListProps} props - Component props
+ * @returns {JSX.Element} Dependent cards
+ */
 function ViewDependentsList(props) {
   let mainContent;
   let showPersonalInformationNote = false;
@@ -90,7 +107,7 @@ ViewDependentsList.propTypes = {
   isAward: PropTypes.bool,
   loading: PropTypes.bool,
   manageDependentsToggle: PropTypes.bool,
+  showPersonalInformationNote: PropTypes.bool,
   subHeader: PropTypes.object,
   submittedDependents: PropTypes.array,
-  showPersonalInformationNote: PropTypes.bool,
 };

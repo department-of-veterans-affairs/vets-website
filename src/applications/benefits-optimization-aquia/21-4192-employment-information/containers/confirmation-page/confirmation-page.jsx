@@ -6,7 +6,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { format, parseISO } from 'date-fns';
+import { formatDateLong } from 'platform/utilities/date';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { transformForSubmit } from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import DownloadFormPDF from './download-form-pdf';
 
 /**
  * Confirmation page component for VA Form 21-4192
@@ -18,138 +22,98 @@ import { format, parseISO } from 'date-fns';
  * @param {Object} props.route.formConfig - Form configuration object
  * @returns {React.ReactElement} Confirmation page view
  */
-export const ConfirmationPage = () => {
+export const ConfirmationPage = ({ route }) => {
   const form = useSelector(state => state.form || {});
   const submission = form?.submission || {};
-  const submitDate = submission?.timestamp;
-  const confirmationNumber =
-    submission?.response?.confirmationNumber ||
-    '0dc34cd0-1aa1-1111-11a111a1a11a';
-  const data = form?.data || {};
+  const { formConfig } = route || {};
+  const transformedData = transformForSubmit(formConfig, form);
 
-  // Format the submission date with error handling
-  let formattedDate;
-  let alertDate;
-
-  try {
-    if (submitDate) {
-      const parsedDate =
-        typeof submitDate === 'string'
-          ? parseISO(submitDate)
-          : new Date(submitDate);
-      formattedDate = format(parsedDate, 'MMM. dd, yyyy h:mm a zzz');
-      alertDate = format(parsedDate, 'MMMM dd, yyyy');
-    } else {
-      const now = new Date();
-      formattedDate = format(now, 'MMM. dd, yyyy h:mm a zzz');
-      alertDate = format(now, 'MMMM dd, yyyy');
-    }
-  } catch (error) {
-    // Fallback to current date if date parsing fails
-    const now = new Date();
-    formattedDate = format(now, 'MMM. dd, yyyy h:mm a zzz');
-    alertDate = format(now, 'MMMM dd, yyyy');
-  }
-
-  // Get organization name or veteran name
-  const submitterName = data?.veteranInformation?.fullName
-    ? `${data.veteranInformation.fullName.first || ''} ${data.veteranInformation
-        .fullName.last || ''}`.trim()
-    : '[Organization title]';
+  const submitDate = submission?.timestamp || '';
+  const formattedSubmitDate = submitDate ? formatDateLong(submitDate) : '';
+  const confirmationNumber = submission?.response?.confirmationNumber || '';
+  const ConfirmationHowToContact = () => (
+    <>
+      <p>
+        For assistance or to ask questions about your claim status please call
+        the Veterans Benefits Administration National Call Center at{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone tty="true" contact={CONTACTS[711]} />) We’re here Monday
+        through Friday, 8:00 a.m. to 9:00 p.m. ET.
+      </p>
+      <p>
+        Or you can ask us a question online through Ask VA. Select the category
+        and topic for the VA benefit this form is related to.
+      </p>
+      <p>
+        <va-link
+          href="https://ask.va.gov/"
+          text="Contact us online through Ask VA"
+        />
+      </p>
+    </>
+  );
 
   return (
-    <>
-      <va-alert status="success" uswds>
-        <h2 slot="headline">
-          You’ve submitted your application for a burial allowance on{' '}
-          {alertDate}
-        </h2>
-        <p className="vads-u-margin-y--0">
-          After we receive your application, we’ll review your information and
-          send you a letter with more information about your claim.
-        </p>
-      </va-alert>
-
-      <div className="usa-alert usa-alert-info background-color-only vads-u-margin-top--3 vads-u-padding--3">
-        <h2 className="vads-u-margin-top--0">Your submission information</h2>
-
-        <h3 className="vads-u-font-size--h4">Who submitted this form</h3>
-        <p>{submitterName}</p>
-
-        <h3 className="vads-u-font-size--h4">Confirmation number</h3>
-        <p>{confirmationNumber}</p>
-
-        <h3 className="vads-u-font-size--h4">Date submitted</h3>
-        <p>{formattedDate}</p>
-
-        <h3 className="vads-u-font-size--h4">Deceased Veteran</h3>
+    <ConfirmationView
+      formConfig={route?.formConfig}
+      submitDate={submitDate}
+      confirmationNumber={confirmationNumber}
+      pdfUrl={submission.response?.pdfUrl}
+      devOnly={{
+        showButtons: true,
+      }}
+    >
+      {/* actions={<p />} removes the link to myVA */}
+      <ConfirmationView.SubmissionAlert
+        title={`You’ve provided information in connection a with a Veteran’s claim for disability benefits${
+          formattedSubmitDate ? ` on ${formattedSubmitDate}.` : '.'
+        }`}
+        content={null}
+        actions={<p />}
+      />
+      <div className="confirmation-save-pdf-download-section">
+        <h2>Save a copy of your form</h2>
         <p>
-          {data?.veteranInformation?.fullName
-            ? `${data.veteranInformation.fullName.first || ''} ${data
-                .veteranInformation.fullName.last || ''}`.trim()
-            : 'James Smith'}
+          If you’d like a PDF copy of your completed form, you can download it.{' '}
         </p>
-
-        <h3 className="vads-u-font-size--h4">Your application was sent to</h3>
-        <p className="vads-u-margin-bottom--0">
-          Department of Veterans Affairs Pension Claims Intake Center
-          <br />
-          P.O. Box 5365
-          <br />
-          Janesville, WI 53547-5365
-        </p>
-
-        <h3 className="vads-u-font-size--h4 vads-u-margin-top--3">
-          Confirmation for your records
-        </h3>
-        <p>You can print this confirmation page for your records</p>
-
-        <va-button text="Print this page" onClick={() => window.print()} />
+        <DownloadFormPDF formData={transformedData} />
       </div>
-
-      <h2 className="vads-u-margin-top--4">
-        How to submit supporting documents
-      </h2>
-      <p>
-        If you still need to submit additional supporting documents, you can
-        submit them by mail.
-      </p>
-      <p>
-        Write the Veteran’s Social Security number or VA file number (if it’s
-        different than their Social Security number) on the first page of the
-        documents.
-      </p>
-      <p>Mail any supporting documents to this address:</p>
-
-      <div className="vads-u-border-left--5px vads-u-border-color--primary vads-u-padding-left--2 vads-u-margin-y--2">
-        <p className="vads-u-margin-y--0">
-          Department of Veterans Affairs
-          <br />
-          Pension Claims Intake Center
-          <br />
-          PO Box 5365
-          <br />
-          Janesville, WI 53547-5365
+      <ConfirmationView.ChapterSectionCollection />
+      <ConfirmationView.PrintThisPage />
+      <ConfirmationView.WhatsNextProcessList
+        item1Header="We’ll review your form"
+        item1Content="If we need more information after reviewing your form, we’ll contact you."
+        item1Actions={<p />}
+        item2Header="We’ll send the Veteran a decision on their claim"
+        item2Content="We’ll use the information you provided in our decision."
+      />
+      <div>
+        <h2>How to submit supporting documents</h2>
+        <p>
+          If you still need to submit additional supporting documents, you can
+          submit them by mail.
+        </p>
+        <p>
+          Write the Veteran’s Social Security number or VA file number (if it’s
+          different than their Social Security number) on the first page of the
+          documents.
+        </p>
+        <p>Mail any supporting documents to this address: </p>
+        <p className="va-address-block">
+          Department of Veterans Affairs <br />
+          Evidence Intake Center <br />
+          P.O. Box 4444 <br />
+          Janesville, WI 53547-4444 <br />
+        </p>
+        <p>
+          <strong>Note:</strong> Mail us copies of your documents only. Don’t
+          send us your original documents. We can’t return them.
         </p>
       </div>
-
-      <p>
-        <strong>Note:</strong> Mail us copies of your documents only. Don’t send
-        us your original documents. We can’t return them.
-      </p>
-
-      <h2 className="vads-u-margin-top--4">What are my next steps?</h2>
-      <p>
-        We’ll review your claim. If we have more questions or need more
-        information, we’ll contact you by phone, email, or mail. Then we’ll send
-        you a letter with our decision.
-      </p>
-
-      <h2 className="vads-u-margin-top--4">
-        How can I check the status of my claim?
-      </h2>
-      <p>[TBD]</p>
-    </>
+      <ConfirmationView.HowToContact content={ConfirmationHowToContact()} />
+      <ConfirmationView.GoBackLink />
+      <ConfirmationView.NeedHelp />
+    </ConfirmationView>
   );
 };
 
@@ -166,5 +130,3 @@ ConfirmationPage.propTypes = {
     formConfig: PropTypes.object,
   }),
 };
-
-export default ConfirmationPage;

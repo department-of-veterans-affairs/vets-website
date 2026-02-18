@@ -1,4 +1,3 @@
-// platform imports
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -9,8 +8,10 @@ import manifest from '../manifest.json';
 import content from '../locales/en/content.json';
 import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../utils/constants';
 import {
-  includeSpousalInformation,
+  includeSpousalInformationV1,
   includeHouseholdInformation,
+  includeHouseholdInformationV1,
+  includeHouseholdInformationV2,
   isMissingVeteranDob,
   isMissingVeteranGender,
   hasDifferentHomeAddress,
@@ -23,8 +24,8 @@ import {
   includeOtherExposureDetails,
   isEmergencyContactsEnabled,
   showFinancialStatusAlert,
-  spouseDidNotCohabitateWithVeteran,
-  spouseAddressDoesNotMatchVeterans,
+  spouseDidNotCohabitateWithVeteranV1,
+  spouseAddressDoesNotMatchVeteransV1,
   includeDependentInformation,
   includeInsuranceInformation,
   collectMedicareInformation,
@@ -34,9 +35,8 @@ import {
   canVeteranProvideCombatOperationsResponse,
   canVeteranProvideAgentOrangeResponse,
   includeHouseholdInformationWithV1Prefill,
-  includeHouseholdInformationWithV2Prefill,
   includeSpousalInformationWithV1Prefill,
-  includeSpousalInformationWithV2Prefill,
+  doesVeteranWantToUpdateServiceInfo,
 } from '../utils/helpers/form-config';
 import { prefillTransformer } from '../utils/helpers/prefill-transformer';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
@@ -73,8 +73,13 @@ import veteranAnnualIncome from './chapters/householdInformation/veteranAnnualIn
 import spouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
 import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 import FinancialInformationPages from './chapters/householdInformation/financialInformation';
+import spousalInformationPages from './chapters/householdInformation/spouseInformation';
+import MaritalStatusPage from '../components/FormPages/MaritalStatusPage';
 
 // chapter 3 Military Service
+import serviceInformation from './chapters/militaryService/serviceInformation';
+import additionalInformation from './chapters/militaryService/additionalInformation';
+import reviewServiceInformation from './chapters/militaryService/reviewServiceInformation';
 import toxicExposure from './chapters/militaryService/toxicExposure';
 import radiationCleanup from './chapters/militaryService/radiationCleanup';
 import gulfWarService from './chapters/militaryService/gulfWarService';
@@ -254,6 +259,27 @@ const formConfig = {
     militaryService: {
       title: 'Military service',
       pages: {
+        reviewServiceInformation: {
+          path: 'military-service/review-service-information',
+          title: 'Review your last military service',
+          uiSchema: reviewServiceInformation.uiSchema,
+          schema: reviewServiceInformation.schema,
+          depends: formData => formData['view:ezrServiceHistoryEnabled'],
+        },
+        serviceInformation: {
+          path: 'military-service/service-period',
+          title: 'Service periods',
+          uiSchema: serviceInformation.uiSchema,
+          schema: serviceInformation.schema,
+          depends: doesVeteranWantToUpdateServiceInfo,
+        },
+        additionalInformation: {
+          path: 'military-service/additional-information',
+          title: 'Service history',
+          uiSchema: additionalInformation.uiSchema,
+          schema: additionalInformation.schema,
+          depends: doesVeteranWantToUpdateServiceInfo,
+        },
         toxicExposure: {
           path: 'military-service/toxic-exposure',
           title: 'Toxic exposure',
@@ -353,15 +379,26 @@ const formConfig = {
           path: 'household-information/marital-status',
           title: 'Marital status',
           initialData: {},
-          depends: includeHouseholdInformation,
+          depends: includeHouseholdInformationV1,
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
         },
+        maritalStatusInformation: {
+          path: 'household-information/marital-status-information',
+          title: 'Marital status',
+          initialData: {},
+          depends: includeHouseholdInformationV2,
+          CustomPage: MaritalStatusPage,
+          CustomPageReview: null,
+          uiSchema: maritalStatus.uiSchema,
+          schema: maritalStatus.schema,
+        },
+        ...spousalInformationPages,
         spousePersonalInformation: {
           path: 'household-information/spouse-personal-information',
           title: 'Spouse\u2019s personal information',
           initialData: {},
-          depends: includeSpousalInformation,
+          depends: includeSpousalInformationV1,
           uiSchema: spousePersonalInformation.uiSchema,
           schema: spousePersonalInformation.schema,
         },
@@ -369,14 +406,14 @@ const formConfig = {
           path: 'household-information/spouse-additional-information',
           title: 'Spouse\u2019s additional information',
           initialData: {},
-          depends: includeSpousalInformation,
+          depends: includeSpousalInformationV1,
           uiSchema: spouseAdditionalInformation.uiSchema,
           schema: spouseAdditionalInformation.schema,
         },
         spouseFinancialSupport: {
           path: 'household-information/spouse-financial-support',
           title: 'Spouse\u2019s financial support',
-          depends: spouseDidNotCohabitateWithVeteran,
+          depends: spouseDidNotCohabitateWithVeteranV1,
           uiSchema: spouseFinancialSupport.uiSchema,
           schema: spouseFinancialSupport.schema,
         },
@@ -384,7 +421,7 @@ const formConfig = {
           path: 'household-information/spouse-contact-information',
           title: 'Spouse\u2019s address and phone number',
           initialData: {},
-          depends: spouseAddressDoesNotMatchVeterans,
+          depends: spouseAddressDoesNotMatchVeteransV1,
           uiSchema: spouseContactInformation.uiSchema,
           schema: spouseContactInformation.schema,
         },
@@ -406,15 +443,8 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
-        financialInformationIntroduction: {
-          ...FinancialInformationPages.financialInformationIntroduction,
-          depends: includeHouseholdInformationWithV2Prefill,
-        },
-        financialInformationSummary: {
-          ...FinancialInformationPages.financialInformationSummary,
-          depends: includeHouseholdInformationWithV2Prefill,
-        },
-        veteranAnnualIncome: {
+        ...FinancialInformationPages,
+        veteranAnnualIncomeV1: {
           path: 'household-information/veteran-annual-income',
           title: 'Your annual income',
           initialData: {},
@@ -422,11 +452,7 @@ const formConfig = {
           uiSchema: veteranAnnualIncome.uiSchema,
           schema: veteranAnnualIncome.schema,
         },
-        veteranAnnualIncomeV2: {
-          ...FinancialInformationPages.veteranAnnualIncome,
-          depends: includeHouseholdInformationWithV2Prefill,
-        },
-        spouseAnnualIncome: {
+        spouseAnnualIncomeV1: {
           path: 'household-information/spouse-annual-income',
           title: 'Spouse\u2019s annual income',
           initialData: {},
@@ -434,21 +460,13 @@ const formConfig = {
           uiSchema: spouseAnnualIncome.uiSchema,
           schema: spouseAnnualIncome.schema,
         },
-        spouseAnnualIncomeV2: {
-          ...FinancialInformationPages.spouseAnnualIncome,
-          depends: includeSpousalInformationWithV2Prefill,
-        },
-        deductibleExpenses: {
+        deductibleExpensesV1: {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
           initialData: {},
           depends: includeHouseholdInformationWithV1Prefill,
           uiSchema: deductibleExpenses.uiSchema,
           schema: deductibleExpenses.schema,
-        },
-        deductibleExpensesV2: {
-          ...FinancialInformationPages.veteranDeductible,
-          depends: includeHouseholdInformationWithV2Prefill,
         },
       },
     },

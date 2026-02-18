@@ -24,6 +24,9 @@ export const Hub = () => {
     TOGGLE_NAMES.profileShowPaperlessDelivery,
   );
 
+  const showHealthCareContacts =
+    useToggleValue(TOGGLE_NAMES.profileHideHealthCareContacts) === false;
+
   const { label, link } = useSignInServiceProvider();
   const hasBadAddress = useSelector(hasBadAddressSelector);
 
@@ -66,16 +69,18 @@ export const Hub = () => {
           />
         </HubCard>
 
-        <HubCard
-          heading={PROFILE_PATH_NAMES.CONTACTS}
-          content="Medical emergency contact and next of kin contact information"
-        >
-          <ProfileLink
-            className="small-screen--line-break-at-32-characters"
-            text="Review your personal health care contacts"
-            href={PROFILE_PATHS.CONTACTS}
-          />
-        </HubCard>
+        {showHealthCareContacts && (
+          <HubCard
+            heading={PROFILE_PATH_NAMES.CONTACTS}
+            content="Medical emergency contact and next of kin contact information"
+          >
+            <ProfileLink
+              className="small-screen--line-break-at-32-characters"
+              text="Review your personal health care contacts"
+              href={PROFILE_PATHS.CONTACTS}
+            />
+          </HubCard>
+        )}
 
         <HubCard
           heading={PROFILE_PATH_NAMES.MILITARY_INFORMATION}

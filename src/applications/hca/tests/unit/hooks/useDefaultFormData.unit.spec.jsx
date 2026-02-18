@@ -55,7 +55,6 @@ describe('hca `useDefaultFormData` hook', () => {
       veteranFullName: { first: 'John', last: 'Smith' },
       'view:isLoggedIn': false,
       'view:isRegOnlyEnabled': false,
-      'view:isInsuranceV2Enabled': false,
       'view:totalDisabilityRating': 0,
     };
 
@@ -75,7 +74,6 @@ describe('hca `useDefaultFormData` hook', () => {
       veteranFullName: { first: 'John', last: 'Smith' },
       'view:isLoggedIn': true,
       'view:isRegOnlyEnabled': false,
-      'view:isInsuranceV2Enabled': false,
       'view:totalDisabilityRating': 0,
       'view:veteranInformation': {
         veteranDateOfBirth: '12/14/1986',

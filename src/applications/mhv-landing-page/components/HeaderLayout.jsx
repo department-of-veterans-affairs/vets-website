@@ -1,12 +1,10 @@
 import React from 'react';
-import { datadogRum } from '@datadog/browser-rum';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { MhvAlertConfirmEmail } from '@department-of-veterans-affairs/mhv/exports';
-import recordEvent from '~/platform/monitoring/record-event';
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 import WelcomeContainer from '../containers/WelcomeContainer';
-import { myVAHealthPortalLink } from '../utilities/data';
 
 const learnMoreLink = {
   text: 'Learn more about My HealtheVet on VA.gov',
@@ -18,7 +16,10 @@ const ledeContent = `Welcome. You can now manage your health care
   here on VA.gov. Here, you’ll find new, improved versions of your trusted
   health tools and more features.`;
 
-const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
+const HeaderLayout = ({
+  showWelcomeMessage = false,
+  showCernerInfoAlert = false,
+}) => (
   <>
     <div
       className={classnames(
@@ -43,34 +44,19 @@ const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
             {ledeContent}
           </p>
         </div>
-        {isCerner && (
-          <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6 vads-u-margin-y--2">
-            Does your facility use the My VA Health portal?
-            <br />
-            <a
-              onClick={() => {
-                datadogRum.addAction('Click on My VA Health portal link');
-                recordEvent({
-                  event: 'nav-link-click',
-                  action: 'click',
-                  'link-label': 'Go to the My VA Health portal',
-                  'link-destination': myVAHealthPortalLink,
-                  'link-origin': window.location.href,
-                });
-              }}
-              className="vads-u-font-family--serif medium-screen:vads-u-font-size--lg"
-              data-testid="mhv-go-back-1"
-              href={myVAHealthPortalLink}
-            >
-              Go to the My VA Health portal
-            </a>
-          </p>
+
+        <CernerFacilityAlert
+          healthTool="MHV_LANDING_PAGE"
+          forceHidePretransitionedAlert
+          forceHideTransitionAlert
+        />
+        {showCernerInfoAlert && (
+          <div>
+            <p className="vads-u-margin-y--2">
+              Want to learn more about what’s new? <VaLink {...learnMoreLink} />
+            </p>
+          </div>
         )}
-        <div>
-          <p className="vads-u-margin-y--2">
-            Want to learn more about what’s new? <VaLink {...learnMoreLink} />
-          </p>
-        </div>
       </div>
       <div
         className={classnames(
@@ -103,8 +89,7 @@ const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
 );
 
 HeaderLayout.propTypes = {
-  isCerner: PropTypes.bool,
-  showMhvGoBack: PropTypes.bool,
+  showCernerInfoAlert: PropTypes.bool,
   showWelcomeMessage: PropTypes.bool,
 };
 

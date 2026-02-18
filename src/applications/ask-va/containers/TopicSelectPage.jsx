@@ -35,7 +35,7 @@ const TopicSelectPage = props => {
       goForward(formData);
     }
     focusElement('va-radio');
-    return setValidationError('Please select a topic');
+    return setValidationError('Select a topic');
   };
 
   const handleChange = event => {
@@ -49,6 +49,10 @@ const TopicSelectPage = props => {
         selectTopic: '',
         topicId: null,
         topicRequiresSignIn: false,
+        requireSignInLogic: {
+          ...formData.requireSignInLogic,
+          topic: false,
+        },
       });
       return;
     }
@@ -68,6 +72,16 @@ const TopicSelectPage = props => {
       topicId: selected.id,
       topicRequiresSignIn:
         selected.attributes.requiresAuthentication && !isLOA3,
+      requireSignInLogic: formData.requireSignInLogic
+        ? {
+            ...formData.requireSignInLogic,
+            topic: selected.attributes.requiresAuthentication,
+          }
+        : {
+            category: false,
+            topic: selected.attributes.requiresAuthentication,
+            personQuestionIsAbout: false,
+          },
     });
   };
 

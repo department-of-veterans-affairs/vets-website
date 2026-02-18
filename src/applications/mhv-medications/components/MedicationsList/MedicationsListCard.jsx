@@ -1,16 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
-import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
-import { dataDogActionNames } from '../../util/dataDogConstants';
+import {
+  dateFormat,
+  getPrescriptionDetailUrl,
+  getRxStatus,
+  rxSourceIsNonVA,
+} from '../../util/helpers';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
+
+import {
+  selectCernerPilotFlag,
+  selectV2StatusMappingFlag,
+} from '../../util/selectors';
+import {
+  DATETIME_FORMATS,
+  RX_SOURCE,
+  DISPENSE_STATUS,
+  dispStatusObjV2,
+} from '../../util/constants';
 
 const MedicationsListCard = ({ rx }) => {
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const useV2StatusMapping = isCernerPilot && isV2StatusMapping;
+  const isPendingDispense =
+    rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE;
+
   const pendingMed =
-    rx.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+    isPendingDispense &&
+    (useV2StatusMapping
+      ? rx?.dispStatus === dispStatusObjV2.inprogress &&
+        rx?.refillStatus?.toLowerCase() === 'neworder'
+      : rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER);
   const pendingRenewal =
-    rx.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+    isPendingDispense &&
+    (useV2StatusMapping
+      ? rx?.dispStatus === dispStatusObjV2.inprogress &&
+        rx?.refillStatus?.toLowerCase() === 'renew'
+      : rx?.dispStatus === DISPENSE_STATUS.RENEW);
   const latestTrackingStatus = rx?.trackingList?.[0];
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);
@@ -46,6 +77,17 @@ const MedicationsListCard = ({ rx }) => {
     }
     return (
       <>
+        {rx &&
+          rx.isRefillable &&
+          rx.refillRemaining >= 0 && (
+            <p
+              data-testid="rx-refill-remaining"
+              data-dd-privacy="mask"
+              id={`refill-remaining-${rx.prescriptionId}`}
+            >
+              Refills remaining: {rx.refillRemaining}
+            </p>
+          )}
         {rx && <LastFilledInfo {...rx} />}
         {latestTrackingStatus && (
           <p
@@ -62,7 +104,7 @@ const MedicationsListCard = ({ rx }) => {
               Shipped on{' '}
               {dateFormat(
                 latestTrackingStatus.completeDateTime,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
               )}
             </span>
           </p>
@@ -77,41 +119,27 @@ const MedicationsListCard = ({ rx }) => {
             {rxStatus}
           </p>
         )}
-        {rx && <ExtraDetails {...rx} />}
+        {rx && <ExtraDetails {...rx} page={pageType.LIST} />}
       </>
     );
   };
 
   return (
-    <div
-      className={`no-print rx-card-container ${
-        pendingMed || pendingRenewal
-          ? 'vads-u-background-color--gray-lightest'
-          : 'vads-u-background-color--white'
-      } vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--base-dark no-break`}
+    <va-card
+      class={`no-print rx-card-container ${
+        pendingMed || pendingRenewal ? 'pending-med-or-renewal' : ''
+      } vads-u-margin-y--2 no-break`}
     >
-      <div
-        className="rx-card-details vads-u-padding--2"
-        data-testid="rx-card-info"
-      >
+      <div className="rx-card-details" data-testid="rx-card-info">
         <Link
           id={`card-header-${rx.prescriptionId}`}
-          aria-describedby={
-            pendingMed || pendingRenewal
-              ? `prescription-number-${rx.prescriptionId} pending-med-content-${
-                  rx.prescriptionId
-                }`
-              : `status-${rx.prescriptionId} status-description-${
-                  rx.prescriptionId
-                } fill-or-refill-button-${rx.prescriptionId}`
-          }
           data-dd-privacy="mask"
           data-dd-action-name={
             dataDogActionNames.medicationsListPage.MEDICATION_NAME_LINK_IN_CARD
           }
           data-testid="medications-history-details-link"
           className="vads-u-font-weight--bold"
-          to={`prescription/${rx.prescriptionId}`}
+          to={getPrescriptionDetailUrl(rx)}
         >
           <span data-dd-privacy="mask">
             {rx?.prescriptionName || rx?.orderableItem}
@@ -127,12 +155,14 @@ const MedicationsListCard = ({ rx }) => {
               id={`prescription-number-${rx.prescriptionId}`}
             >
               Prescription number:{' '}
-              <span data-dd-privacy="mask">{rx.prescriptionNumber}</span>
+              <span data-dd-privacy="mask">
+                {rx.prescriptionNumber || 'Not available'}
+              </span>
             </p>
           )}
         {cardBodyContent()}
       </div>
-    </div>
+    </va-card>
   );
 };
 

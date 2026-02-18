@@ -1,13 +1,9 @@
 /**
- * @module utils/index
- * @description Barrel export file for utility functions
- * This file will be populated with utility function exports as they are created
+ * @module utils
+ * @description Central exports for all utility functions
+ * VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid and Attendance
  */
 
-/**
- * @example
- * // Future utility exports will follow this pattern:
- * export { formatDate } from './date-helpers';
- * export { validateSSN } from './validation-helpers';
- * export { transformFormData } from './data-transformers';
- */
+export * from './name-helpers';
+export * from './relationship-helpers';
+export * from './dynamic-title-helpers';

@@ -3,11 +3,11 @@ import {
   getVAEvidence,
   getOtherEvidence,
   getPrivateEvidence,
-} from '../evidence';
+} from '../form-data-retrieval';
 import { getFacilityType } from './facilities';
 import '../../../shared/definitions';
-import { fixDateFormat } from '../../../shared/utils/replace';
-import { LIMITED_CONSENT_RESPONSE } from '../../constants';
+import { fixDateFormat } from '../../../shared/utils/dates';
+import { HAS_PRIVATE_LIMITATION } from '../../constants';
 
 /**
  * @typedef VALocation
@@ -209,7 +209,7 @@ export const getForm4142 = formData => {
   }
 
   const { limitedConsent, privacyAgreementAccepted = true } = formData;
-  const limitedConsentResponse = formData?.[LIMITED_CONSENT_RESPONSE]
+  const limitedConsentResponse = formData?.[HAS_PRIVATE_LIMITATION]
     ? limitedConsent
     : '';
 

@@ -6,7 +6,7 @@ describe('Submit Mileage Only Claims', () => {
   beforeEach(() => {
     cy.intercept('/data/cms/vamc-ehr.json', {});
     ApiInitializer.initializeMaintenanceWindow.current();
-    ApiInitializer.initializeFeatureToggle.withAllFeatures();
+    ApiInitializer.initializeFeatureToggle.withSmocOnly();
     ApiInitializer.initializeClaims.errorPath();
     ApiInitializer.initializeClaimDetails.errorPath();
     ApiInitializer.initializeAppointment.errorPath();

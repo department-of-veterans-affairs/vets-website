@@ -1,7 +1,6 @@
 import React from 'react';
-import moment from 'moment';
 import { capitalize, isPlainObject } from 'lodash';
-import { isAfter, parse } from 'date-fns';
+import { isAfter, parse, format, parseISO } from 'date-fns';
 import { VA_FORM_IDS, MY_VA_SIP_FORMS } from '~/platform/forms/constants';
 import { getFormLink } from '~/platform/forms/helpers';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -23,6 +22,8 @@ export const presentableFormIDs = idArray.reduce((prefixedIDs, formID) => {
     prefixedIDs[formID] = `FORM 10-10EZ`; // eslint-disable-line no-param-reassign
   } else if (formID === VA_FORM_IDS.FORM_21P_530EZ) {
     prefixedIDs[formID] = `FORM 21P-530EZ`; // eslint-disable-line no-param-reassign
+  } else if (formID === '686C-674-V2') {
+    prefixedIDs[formID] = `FORM 686C-674`; // eslint-disable-line no-param-reassign
   } else if (formID.includes('-UPLOAD')) {
     prefixedIDs[formID] = `FORM ${formID.replace('-UPLOAD', '')}`; // eslint-disable-line no-param-reassign
   } else {
@@ -35,17 +36,7 @@ export const isSIPEnabledForm = savedForm => {
   const formNumber = savedForm.form;
   const foundForm = MY_VA_SIP_FORMS.find(form => form.id === formNumber);
 
-  if (!foundForm?.title || !getFormLink(formNumber)) {
-    return false;
-  }
-
-  if (!foundForm) {
-    throw new Error(
-      `Could not find form ${formNumber} in list of sipEnabledForms`,
-    );
-  }
-
-  return true;
+  return !(!foundForm?.title || !getFormLink(formNumber));
 };
 
 // This function is intended to be used as an Array.filter callback
@@ -108,8 +99,8 @@ export const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
   children,
 ) => {
   if (downtime.status === 'down') {
-    const startTime = moment(downtime.startTime);
-    const endTime = moment(downtime.endTime);
+    const startTime = parseISO(downtime.startTime);
+    const endTime = parseISO(downtime.endTime);
     return (
       <div>
         <h2>{sectionTitle}</h2>
@@ -120,7 +111,7 @@ export const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
           <div>
             We’re making some updates to our {appName.toLowerCase()} tool. We’re
             sorry it’s not working right now and hope to be finished by{' '}
-            {startTime.format('MMMM Do')}, {endTime.format('LT')}. Please check
+            {format(startTime, 'MMMM do')}, {format(endTime, 'p')}. Please check
             back soon.
           </div>
         </va-alert>

@@ -1,6 +1,13 @@
 import React from 'react';
-import { isBefore, isAfter, isEqual, parseISO } from 'date-fns';
+import {
+  isBefore,
+  isAfter,
+  isEqual,
+  parseISO,
+  differenceInDays,
+} from 'date-fns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
 export const isSameOrBefore = (date1, date2) => {
   return isBefore(date1, date2) || isEqual(date1, date2);
@@ -53,6 +60,21 @@ export const DependentSeriouslyDisabledDescription = (
         mental disability before they turned 18 years old. A seriously disabled
         child can’t support or care for themselves.
       </span>
+    </va-additional-info>
+  </div>
+);
+
+export const seriouslyDisabledDescription = (
+  <div className="vads-u-padding-y--1">
+    <va-additional-info
+      trigger="What we consider a seriously disabled adult child"
+      class="vads-u-margin-bottom--4"
+    >
+      <p>
+        A child is seriously disabled if they developed a permanent physical or
+        mental disability before they turned 18 years old. A seriously disabled
+        child can’t support or care for themselves.
+      </p>
     </va-additional-info>
   </div>
 );
@@ -128,3 +150,64 @@ export const showMultiplePageResponse = () =>
 
 // export const showMedicalEvidenceClarification = () =>
 //   window.sessionStorage.getItem('showPensionEvidenceClarification') === 'true';
+
+/**
+ * Injects custom CSS into shadow DOMs of specific elements at specific URLs
+ * within an application. Convenience helper for the problem of custom styles
+ * in apps' .sass files not applying to elements with shadow DOMs.
+ *
+ * So for instance, if you wanted to hide the 'For example: January 19 2000'
+ * hint text that cannot be overridden normally:
+ * ```
+ * addStyleToShadowDomOnPages(
+ *   [''],
+ *   ['va-memorable-date'],
+ *   '#dateHint {display: none}'
+ * )
+ * ```
+ *
+ * @param {Array} urlArray Array of page URLs where these styles should be applied - to target all URLs, use value: ['']
+ * @param {Array} targetElements Array of HTML elements we want to inject styles into, e.g.: ['va-select', 'va-radio']
+ * @param {String} style String of CSS to inject into the specified elements on the specified pages
+ */
+export async function addStyleToShadowDomOnPages(
+  urlArray,
+  targetElements,
+  style,
+) {
+  // If we're on one of the desired pages (per URL array), inject CSS
+  // into the specified target elements' shadow DOMs:
+  if (urlArray.some(u => window.location.href.includes(u)))
+    targetElements.map(async e => {
+      try {
+        document.querySelectorAll(e).forEach(async item => {
+          const el = await waitForShadowRoot(item);
+          if (el?.shadowRoot) {
+            const sheet = new CSSStyleSheet();
+            sheet.replaceSync(style);
+            el.shadowRoot.adoptedStyleSheets.push(sheet);
+          }
+        });
+      } catch (err) {
+        // Fail silently (styles just won't be applied)
+      }
+    });
+}
+
+// helper to handle both boolean and string "yes" values coming from different
+// test fixtures or UX components
+export const isYes = val =>
+  val === true ||
+  (typeof val === 'string' && val.toLowerCase().startsWith('y'));
+
+/**
+ * Calculates the duration in days between two dates
+ *
+ * @export
+ * @param {string} startDate - The start date in ISO format (YYYY-MM-DD)
+ * @param {string} endDate - The end date in ISO format (YYYY-MM-DD)
+ * @return {number} The duration in days between the two dates
+ */
+export const durationInDays = (startDate, endDate) => {
+  return differenceInDays(new Date(endDate), new Date(startDate));
+};

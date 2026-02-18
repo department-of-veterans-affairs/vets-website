@@ -1,4 +1,3 @@
-import moment from 'moment-timezone';
 import MedicationsSite from './med_site/MedicationsSite';
 import rxList from './fixtures/listOfPrescriptions.json';
 import MedicationsListPage from './pages/MedicationsListPage';
@@ -19,10 +18,6 @@ describe('Medications Download PDF on Medications List Page', () => {
       Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
     );
     listPage.verifyFocusOnDownloadAlertSuccessBanner();
-    site.verifyDownloadedPdfFile(
-      'VA-medications-list-Safari-Mhvtp',
-      moment(),
-      '',
-    );
+    site.verifyDownloadedFile();
   });
 });

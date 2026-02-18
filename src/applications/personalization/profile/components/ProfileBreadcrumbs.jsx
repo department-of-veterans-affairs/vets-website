@@ -12,8 +12,9 @@ import {
   PROFILE_PATHS,
   PROFILE_BREADCRUMB_BASE,
 } from '../constants';
+import { routeHasParent } from '../routesForNav';
 
-export const ProfileBreadcrumbs = ({ className }) => {
+export const ProfileBreadcrumbs = ({ className, routes }) => {
   const location = useLocation();
   const history = useHistory();
 
@@ -31,7 +32,27 @@ export const ProfileBreadcrumbs = ({ className }) => {
       }
 
       try {
-        const routeInfo = getRouteInfoFromPath(path, PROFILE_PATHS_WITH_NAMES);
+        const routeInfo = getRouteInfoFromPath(path, routes);
+        const hasParent = routeHasParent(routeInfo, routes);
+        if (hasParent) {
+          // if the route has a parent, we want to show the parent route in the breadcrumbs
+          const parentRouteInfo = routes.find(
+            route => route.name === routeInfo.subnavParent,
+          );
+          return [
+            ...PROFILE_BREADCRUMB_BASE,
+            {
+              href: parentRouteInfo.path,
+              label: parentRouteInfo.name,
+              isRouterLink: true,
+            },
+            {
+              href: path,
+              label: routeInfo.name,
+              isRouterLink: true,
+            },
+          ];
+        }
 
         return [
           ...PROFILE_BREADCRUMB_BASE,
@@ -74,4 +95,5 @@ export const ProfileBreadcrumbs = ({ className }) => {
 
 ProfileBreadcrumbs.propTypes = {
   className: PropTypes.string,
+  routes: PropTypes.array,
 };

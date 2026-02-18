@@ -1,68 +1,68 @@
-import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import {
-  whatAreAssets,
   netWorthTitle,
+  netWorthDescription,
 } from '../../../../config/chapters/household-income/helpers';
+import { uiSchema } from '../../../../config/chapters/household-income/householdIncome';
 import { NETWORTH_VALUE } from '../../../../config/constants';
 
 describe('household income helpers', () => {
-  describe('whatAreAssets', () => {
-    it('should render the assets accordion with correct structure', () => {
-      const { container } = render(whatAreAssets);
+  describe('netWorthDescription', () => {
+    it('should return new pension flow description when feature flag is true', () => {
+      const result = netWorthDescription(true);
 
-      const accordion = container.querySelector('va-accordion');
-      expect(accordion).to.not.be.null;
-      expect(accordion.getAttribute('open-single')).to.equal('true');
-    });
-
-    it('should render the accordion item with correct attributes', () => {
-      const { container } = render(whatAreAssets);
-
-      const accordionItem = container.querySelector('va-accordion-item');
-      expect(accordionItem).to.not.be.null;
-      expect(accordionItem.getAttribute('id')).to.equal(
-        'what-we-count-as-assets',
+      expect(result).to.equal(
+        'Because you currently receive VA pension benefits, we need to know your net worth. Your net worth includes your assets, your annual income, and the assets and income of your dependents (including your spouse if you are married).',
       );
-      expect(accordionItem.getAttribute('header')).to.equal(
-        'What we count as assets',
+    });
+
+    it('should return current production description when feature flag is false', () => {
+      const result = netWorthDescription(false);
+
+      expect(result).to.equal(
+        "If you currently receive VA pension benefits, we need to know your net worth. Your net worth includes your assets and your annual income. If you're married, include the value of your spouse's assets and annual income too.",
       );
-      expect(accordionItem.getAttribute('bordered')).to.equal('true');
-      expect(accordionItem.getAttribute('level')).to.equal('4');
     });
 
-    it('should contain the correct content about assets', () => {
-      const { container } = render(whatAreAssets);
+    it('should return current production description when feature flag is undefined', () => {
+      const result = netWorthDescription();
 
-      const content = container.textContent;
-      expect(content).to.include('Assets include the fair market value');
-      expect(content).to.include('Investments (like stocks and bonds)');
-      expect(content).to.include('Furniture');
-      expect(content).to.include('Boats');
+      expect(result).to.equal(
+        "If you currently receive VA pension benefits, we need to know your net worth. Your net worth includes your assets and your annual income. If you're married, include the value of your spouse's assets and annual income too.",
+      );
     });
 
-    it('should contain the correct content about excluded items', () => {
-      const { container } = render(whatAreAssets);
+    it('should handle null feature flag value', () => {
+      const result = netWorthDescription(null);
 
-      const content = container.textContent;
-      expect(content).to.include('include the value of these items:');
-      expect(content).to.include('Your primary residence');
-      expect(content).to.include('Your car');
-      expect(content).to.include('Basic home items like appliances');
+      expect(result).to.equal(
+        "If you currently receive VA pension benefits, we need to know your net worth. Your net worth includes your assets and your annual income. If you're married, include the value of your spouse's assets and annual income too.",
+      );
     });
 
-    it('should have two unordered lists', () => {
-      const { container } = render(whatAreAssets);
+    it('should handle 0 feature flag value as falsy', () => {
+      const result = netWorthDescription(0);
 
-      const lists = container.querySelectorAll('ul');
-      expect(lists).to.have.lengthOf(2);
+      expect(result).to.equal(
+        "If you currently receive VA pension benefits, we need to know your net worth. Your net worth includes your assets and your annual income. If you're married, include the value of your spouse's assets and annual income too.",
+      );
     });
 
-    it('should have the correct number of list items', () => {
-      const { container } = render(whatAreAssets);
+    it('should handle empty string feature flag value as falsy', () => {
+      const result = netWorthDescription('');
 
-      const listItems = container.querySelectorAll('li');
-      expect(listItems).to.have.lengthOf(6); // 3 in first list + 3 in second list
+      expect(result).to.equal(
+        "If you currently receive VA pension benefits, we need to know your net worth. Your net worth includes your assets and your annual income. If you're married, include the value of your spouse's assets and annual income too.",
+      );
+    });
+
+    it('should handle truthy non-boolean values', () => {
+      const result = netWorthDescription('true');
+
+      expect(result).to.equal(
+        'Because you currently receive VA pension benefits, we need to know your net worth. Your net worth includes your assets, your annual income, and the assets and income of your dependents (including your spouse if you are married).',
+      );
     });
   });
 
@@ -71,7 +71,7 @@ describe('household income helpers', () => {
       const result = netWorthTitle({ featureFlag: false });
 
       expect(result).to.equal(
-        `Did your household have a net worth less than $${NETWORTH_VALUE} in the last tax year?`,
+        `Did your household have a net worth greater than $${NETWORTH_VALUE} in the last tax year?`,
       );
     });
 
@@ -79,7 +79,7 @@ describe('household income helpers', () => {
       const result = netWorthTitle({});
 
       expect(result).to.equal(
-        `Did your household have a net worth less than $${NETWORTH_VALUE} in the last tax year?`,
+        `Did your household have a net worth greater than $${NETWORTH_VALUE} in the last tax year?`,
       );
     });
 
@@ -172,6 +172,35 @@ describe('household income helpers', () => {
       expect(result).to.equal(
         'Did your household have a net worth less than $100 in the last tax year?',
       );
+    });
+  });
+
+  describe('uiSchema ui:description', () => {
+    it('should correctly extract formData from props and show pension text when feature flag is true', () => {
+      const descriptionFn = uiSchema['ui:description'];
+      // Platform forms system passes props object with formData property
+      const props = {
+        formData: { vaDependentsNetWorthAndPension: true },
+        formContext: {},
+      };
+
+      const { container } = render(descriptionFn(props));
+      const text = container.textContent;
+
+      expect(text).to.include('Because you currently receive VA pension');
+    });
+
+    it('should correctly extract formData from props and show default text when feature flag is false', () => {
+      const descriptionFn = uiSchema['ui:description'];
+      const props = {
+        formData: { vaDependentsNetWorthAndPension: false },
+        formContext: {},
+      };
+
+      const { container } = render(descriptionFn(props));
+      const text = container.textContent;
+
+      expect(text).to.include('If you currently receive VA pension');
     });
   });
 });

@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { useHistory } from 'react-router-dom';
+
 import {
   updatePageTitle,
   useAcceleratedData,
@@ -10,12 +11,14 @@ import RecordList from '../components/RecordList/RecordList';
 import {
   getCareSummariesAndNotesList,
   reloadRecords,
+  updateNotesDateRange,
 } from '../actions/careSummariesAndNotes';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
+import useDateRangeSelector from '../hooks/useDateRangeSelector';
 import {
   ALERT_TYPE_ERROR,
-  CernerAlertContent,
+  DEFAULT_DATE_RANGE,
   accessAlertTypes,
   pageTitles,
   recordType,
@@ -24,15 +27,20 @@ import {
   statsdFrontEndActions,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
+import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import RecordListSection from '../components/shared/RecordListSection';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import DateRangeSelector from '../components/shared/DateRangeSelector';
+import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
+import { getTimeFrame, getDisplayTimeFrame } from '../util/helpers';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const updatedRecordList = useSelector(
     state => state.mr.careSummariesAndNotes.updatedList,
   );
@@ -45,19 +53,24 @@ const CareSummariesAndNotes = () => {
   const listState = useSelector(
     state => state.mr.careSummariesAndNotes.listState,
   );
+
+  const dateRange = useSelector(
+    state => state.mr.careSummariesAndNotes.dateRange,
+  );
+
   const refresh = useSelector(state => state.mr.refresh);
   const activeAlert = useAlerts(dispatch);
   useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_LIST);
 
-  const { isAcceleratingCareNotes } = useAcceleratedData();
+  const { isLoading, isAcceleratingCareNotes } = useAcceleratedData();
 
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getCareSummariesAndNotesList(isCurrent, isAcceleratingCareNotes);
-      };
-    },
-    [isAcceleratingCareNotes],
+  const dispatchAction = useCallback(
+    isCurrent =>
+      getCareSummariesAndNotesList(isCurrent, isAcceleratingCareNotes, {
+        startDate: dateRange.fromDate,
+        endDate: dateRange.toDate,
+      }),
+    [isAcceleratingCareNotes, dateRange],
   );
 
   useListRefresh({
@@ -67,6 +80,7 @@ const CareSummariesAndNotes = () => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
@@ -79,7 +93,6 @@ const CareSummariesAndNotes = () => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
     },
     [dispatch],
@@ -88,19 +101,39 @@ const CareSummariesAndNotes = () => {
   const isLoadingAcceleratedData =
     isAcceleratingCareNotes && listState === loadStates.FETCHING;
 
+  useFocusAfterLoading({
+    isLoading: isLoading || listState !== loadStates.FETCHED,
+    isLoadingAcceleratedData,
+  });
+
+  // Handle date range selection from DateRangeSelector component
+  const handleDateRangeSelect = useDateRangeSelector({
+    updateDateRangeAction: updateNotesDateRange,
+    updateListStateActionType: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
+    dataDogLabel: 'Notes date option',
+    history,
+  });
+
   return (
     <div id="care-summaries-and-notes">
       <h1 data-testid="care-summaries-and-notes" className="page-title">
         Care summaries and notes
       </h1>
 
+      {isAcceleratingCareNotes && (
+        <div>
+          <DateRangeSelector
+            onDateRangeSelect={handleDateRangeSelect}
+            selectedDate={dateRange?.option || DEFAULT_DATE_RANGE}
+            isLoading={isLoadingAcceleratedData}
+          />
+          <AdditionalReportsInfo domainName="care summaries and notes" />
+        </div>
+      )}
+
       {!isAcceleratingCareNotes && (
         <p>This list doesn’t include care summaries from before 2013.</p>
       )}
-
-      <AcceleratedCernerFacilityAlert
-        {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES}
-      />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -124,29 +157,43 @@ const CareSummariesAndNotes = () => {
             }}
           />
         )}
-        {isLoadingAcceleratedData && (
-          <>
-            <div className="vads-u-margin-y--8">
-              <va-loading-indicator
-                message="We’re loading your records."
-                setFocus
-                data-testid="loading-indicator"
-              />
-            </div>
-          </>
+        {(isLoadingAcceleratedData || isLoading) && (
+          <div className="vads-u-margin-y--8">
+            <TrackedSpinner
+              id="notes-page-spinner"
+              message="We’re loading your records."
+              set-focus
+              data-testid="loading-indicator"
+            />
+          </div>
         )}
-        {!isLoadingAcceleratedData && careSummariesAndNotes?.length ? (
-          <RecordList
-            records={careSummariesAndNotes}
-            domainOptions={{
-              isAcceleratingCareNotes,
-            }}
-            type="care summaries and notes"
-            hideRecordsLabel
-          />
-        ) : (
-          <NoRecordsMessage type={recordType.CARE_SUMMARIES_AND_NOTES} />
-        )}
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
+          careSummariesAndNotes !== undefined && (
+            <>
+              {careSummariesAndNotes?.length ? (
+                <RecordList
+                  records={careSummariesAndNotes}
+                  domainOptions={{
+                    isAccelerating: isAcceleratingCareNotes,
+                    timeFrame: getTimeFrame(dateRange),
+                    displayTimeFrame: getDisplayTimeFrame(dateRange),
+                  }}
+                  type="care summaries and notes"
+                  hideRecordsLabel
+                />
+              ) : (
+                <NoRecordsMessage
+                  type={recordType.CARE_SUMMARIES_AND_NOTES}
+                  timeFrame={
+                    isAcceleratingCareNotes
+                      ? getDisplayTimeFrame(dateRange)
+                      : ''
+                  }
+                />
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );

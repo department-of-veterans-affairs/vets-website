@@ -37,7 +37,7 @@ describe('YellowRibbonProgramDescription', () => {
     };
 
     const { container } = renderWithProvider(
-      <YellowRibbonProgramTitle />,
+      <YellowRibbonProgramTitle text="Tell us about your Yellow Ribbon Program contributions" />,
       initialState,
     );
     expect($('.yellow-ribbon-title', container)).to.include.text(
@@ -60,7 +60,7 @@ describe('YellowRibbonProgramDescription', () => {
     };
 
     const { container } = renderWithProvider(
-      <YellowRibbonProgramTitle />,
+      <YellowRibbonProgramTitle text="Tell us about your Yellow Ribbon Program contributions" />,
       initialState,
     );
     expect($('.yellow-ribbon-title', container)).to.not.include.text(

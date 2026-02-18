@@ -12,7 +12,14 @@ import {
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { selectIsBlocked } from '../selectors';
 
-const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
+const ProfileSubNav = ({
+  isInMVI,
+  isLOA3,
+  routes,
+  clickHandler = null,
+  className,
+  isSchedulingPreferencesPilotEligible,
+}) => {
   const mobileNavRef = useRef();
   const history = useHistory();
   const { pathname } = useLocation();
@@ -26,6 +33,13 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
   const filteredRoutes = routes.filter(route => {
     // loa3 check and isBlocked check
     if (route.requiresLOA3 && (!isLOA3 || isBlocked)) {
+      return false;
+    }
+    // scheduling preferences pilot check
+    if (
+      route.requiresSchedulingPreferencesPilot &&
+      !isSchedulingPreferencesPilotEligible
+    ) {
       return false;
     }
 
@@ -64,6 +78,7 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
         icon-background-color="vads-color-primary"
         icon-name="account_circle"
         ref={mobileNavRef}
+        className={className}
       >
         {filteredRoutes.map(route => {
           if (route.subnavParent) {
@@ -139,7 +154,9 @@ ProfileSubNav.propTypes = {
     }),
   ).isRequired,
   // Optional handler to fire when a nav item is clicked
+  className: PropTypes.string,
   clickHandler: PropTypes.func,
+  isSchedulingPreferencesPilotEligible: PropTypes.bool,
 };
 
 export default ProfileSubNav;

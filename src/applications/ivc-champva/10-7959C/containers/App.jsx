@@ -1,41 +1,19 @@
-import React, { useEffect } from 'react';
-
+import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
+import environment from 'platform/utilities/environment';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  DowntimeNotification,
-  externalServices,
-} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { Toggler } from 'platform/utilities/feature-toggles';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
+import { useDefaultFormData } from '../hooks/useDefaultFormData';
 import formConfig from '../config/form';
-import WIP from '../../shared/components/WIP';
-import { addStyleToShadowDomOnPages } from '../../shared/utilities';
 
-const breadcrumbList = [
-  { href: '/', label: 'Home' },
-  {
-    href: `/family-and-caregiver-benefits`,
-    label: `Family and caregiver benefits`,
-  },
-  {
-    href: `/family-and-caregiver-benefits/health-and-disability/`,
-    label: `Health and disability benefits for family and caregivers`,
-  },
-  {
-    href: `/family-and-caregiver-benefits/health-and-disability/champva`,
-    label: `CHAMPVA benefits`,
-  },
-  {
-    href: `#content`,
-    label: formConfig.title,
-  },
-];
+const App = ({ location, children }) => {
+  const isAppLoading = useSelector(
+    state => state.featureToggles?.loading || state.user?.profile?.loading,
+  );
 
-export default function App({ location, children }) {
-  // Add Datadog RUM to the app
+  useDefaultFormData();
   useBrowserMonitoring({
     loggedIn: undefined,
     toggleName: 'form107959cBrowserMonitoringEnabled',
@@ -57,52 +35,31 @@ export default function App({ location, children }) {
     },
   });
 
-  document.title = `${formConfig.title} | Veterans Affairs`;
-  useEffect(() => {
-    // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
-    // (can't be overridden by passing 'hint' to uiOptions):
-    addStyleToShadowDomOnPages(
-      [''],
-      ['va-memorable-date'],
-      '#dateHint {display: none}',
-    );
-    breadcrumbList.slice(-1).label = document.querySelector('h1');
-  });
-
-  return (
-    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.form107959c}>
-        <Toggler.Enabled>
-          <VaBreadcrumbs wrapping breadcrumbList={breadcrumbList} />
-          <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-            <DowntimeNotification
-              appTitle={`CHAMPVA Form ${formConfig.formId}`}
-              dependencies={[
-                externalServices.pega,
-                externalServices.form107959c,
-              ]}
-            >
-              {children}
-            </DowntimeNotification>
-          </RoutedSavableApp>
-        </Toggler.Enabled>
-        <Toggler.Disabled>
-          <br />
-          <WIP
-            content={{
-              description:
-                'We’re rolling out the CHAMPVA Other Health Insurance Certification form (VA Form 10-7959c) in stages. It’s not quite ready yet. Please check back again soon.',
-              redirectLink: '/',
-              redirectText: 'Return to VA home page',
-            }}
-          />
-        </Toggler.Disabled>
-      </Toggler>
-    </div>
+  return isAppLoading ? (
+    <va-loading-indicator
+      message="Loading application..."
+      class="vads-u-margin-y--4"
+      set-focus
+    />
+  ) : (
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      <DowntimeNotification
+        appTitle={`CHAMPVA Form ${formConfig.formId}`}
+        dependencies={formConfig.downtime.dependencies}
+      >
+        {children}
+      </DowntimeNotification>
+    </RoutedSavableApp>
   );
-}
+};
 
 App.propTypes = {
-  children: PropTypes.object,
-  location: PropTypes.object,
+  children: PropTypes.node,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+    href: PropTypes.string,
+  }),
 };
+
+export default App;

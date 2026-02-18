@@ -1,27 +1,20 @@
 import {
   titleUI,
   descriptionUI,
-  titleSchema,
   radioUI,
   radioSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
-import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
-import { nameWording, privWrapper } from '../../shared/utilities';
 import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
-import { blankSchema } from './sponsorInformation';
 import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
 import { LLM_RESPONSE } from '../components/llmUploadResponse';
-import SubmittingClaimsAddtlInfo from '../components/FormDescriptions/SubmittingClaimsAddtlInfo';
 import MedicalEobDescription from '../components/FormDescriptions/MedicalEobDescription';
 import PharmacyClaimsDescription from '../components/FormDescriptions/PharmacyClaimsDescription';
 import MedicalClaimsDescription from '../components/FormDescriptions/MedicalClaimsDescription';
-
-const addtlInfoNotes = {
-  'view:notes': { ...descriptionUI(SubmittingClaimsAddtlInfo) },
-};
+import { blankSchema, fileUploadSchema } from '../definitions';
+import content from '../locales/en/content.json';
 
 export const claimTypeSchema = {
   uiSchema: {
@@ -38,7 +31,6 @@ export const claimTypeSchema = {
     type: 'object',
     required: ['claimType'],
     properties: {
-      titleSchema,
       claimType: radioSchema(['medical', 'pharmacy']),
     },
   },
@@ -46,30 +38,16 @@ export const claimTypeSchema = {
 
 export const claimWorkSchema = {
   uiSchema: {
-    ...titleUI('Claim relationship to work'),
+    ...titleUI(content['claim--work-title']),
     claimIsWorkRelated: yesNoUI({
-      type: 'radio',
-      title: 'Is this a claim for a work-related injury or condition?',
-      updateUiSchema: formData => {
-        return {
-          'ui:options': {
-            classNames: ['dd-privacy-hidden'],
-            hint: `Depending on your answer, we may contact ${nameWording(
-              formData,
-              true,
-              false,
-              true,
-            )} workers’ compensation insurance provider to determine if they paid any amount for this care.`,
-          },
-        };
-      },
+      title: content['claim--work-label'],
+      hint: content['claim--work-hint'],
     }),
   },
   schema: {
     type: 'object',
     required: ['claimIsWorkRelated'],
     properties: {
-      titleSchema,
       claimIsWorkRelated: yesNoSchema,
     },
   },
@@ -77,31 +55,16 @@ export const claimWorkSchema = {
 
 export const claimAutoSchema = {
   uiSchema: {
-    ...titleUI('Claim relationship to a car accident'),
+    ...titleUI(content['claim--auto-title']),
     claimIsAutoRelated: yesNoUI({
-      type: 'radio',
-      title:
-        'Is this a claim for an injury or condition caused by car accident?',
-      updateUiSchema: formData => {
-        return {
-          'ui:options': {
-            classNames: ['dd-privacy-hidden'],
-            hint: `Depending on your answer, we may contact ${nameWording(
-              formData,
-              true,
-              false,
-              true,
-            )} car insurance provider to determine if they paid any amount for this care.`,
-          },
-        };
-      },
+      title: content['claim--auto-label'],
+      hint: content['claim--auto-hint'],
     }),
   },
   schema: {
     type: 'object',
     required: ['claimIsAutoRelated'],
     properties: {
-      titleSchema,
       claimIsAutoRelated: yesNoSchema,
     },
   },
@@ -111,13 +74,11 @@ export const medicalClaimUploadSchema = {
   CustomPage: FileFieldCustomSimple,
   CustomPageReview: null,
   uiSchema: {
-    ...titleUI('Upload supporting documents'),
+    ...titleUI(content['claim--medical-title']),
     ...descriptionUI(MedicalClaimsDescription),
-    ...fileUploadBlurb,
-    ...addtlInfoNotes,
     ...LLM_UPLOAD_WARNING,
     medicalUpload: fileUploadUI({
-      label: 'Upload itemized billing statement',
+      label: content['claim--medical-title'],
       attachmentName: true,
       attachmentId: 'medical invoice', // hard-set for LLM verification
     }),
@@ -127,23 +88,8 @@ export const medicalClaimUploadSchema = {
     type: 'object',
     required: ['medicalUpload'],
     properties: {
-      titleSchema,
-      'view:fileUploadBlurb': blankSchema,
-      'view:notes': blankSchema,
-      // schema for LLM message
       'view:fileClaim': blankSchema,
-      medicalUpload: {
-        type: 'array',
-        minItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      medicalUpload: fileUploadSchema,
       'view:uploadAlert': blankSchema,
     },
   },
@@ -157,18 +103,14 @@ export const eobUploadSchema = isPrimary => {
     uiSchema: {
       ...titleUI(({ formData }) => {
         // If `isPrimary`, show first health insurance co. name. Else, show 2nd.
-        return privWrapper(
-          `Upload explanation of benefits for this claim from ${
-            formData?.policies?.[isPrimary ? 0 : 1]?.name
-          }`,
-        );
+        return `${content['claim--eob-title']} ${
+          formData?.policies?.[isPrimary ? 0 : 1]?.name
+        }`;
       }),
       ...descriptionUI(MedicalEobDescription),
-      ...fileUploadBlurb,
-      ...addtlInfoNotes,
       ...LLM_UPLOAD_WARNING,
       [keyName]: fileUploadUI({
-        label: 'Upload explanation of benefits',
+        label: content['claim--eob-label'],
         attachmentName: true,
         attachmentId: 'EOB', // hard-set for LLM verification
       }),
@@ -178,23 +120,8 @@ export const eobUploadSchema = isPrimary => {
       type: 'object',
       required: [keyName],
       properties: {
-        titleSchema,
-        'view:fileUploadBlurb': blankSchema,
-        'view:notes': blankSchema,
-        // schema for LLM message
         'view:fileClaim': blankSchema,
-        [keyName]: {
-          type: 'array',
-          minItems: 1,
-          items: {
-            type: 'object',
-            properties: {
-              name: {
-                type: 'string',
-              },
-            },
-          },
-        },
+        [keyName]: fileUploadSchema,
         'view:uploadAlert': blankSchema,
       },
     },
@@ -205,13 +132,11 @@ export const pharmacyClaimUploadSchema = {
   CustomPage: FileFieldCustomSimple,
   CustomPageReview: null,
   uiSchema: {
-    ...titleUI('Upload supporting document for prescription medication claim'),
+    ...titleUI(content['claim--prescription-title']),
     ...descriptionUI(PharmacyClaimsDescription),
-    ...fileUploadBlurb,
-    ...addtlInfoNotes,
     ...LLM_UPLOAD_WARNING,
     pharmacyUpload: fileUploadUI({
-      label: 'Upload supporting document',
+      label: content['claim--prescription-label'],
       attachmentName: true,
       attachmentId: 'pharmacy invoice', // hard-set for LLM verification
     }),
@@ -221,23 +146,8 @@ export const pharmacyClaimUploadSchema = {
     type: 'object',
     required: ['pharmacyUpload'],
     properties: {
-      titleSchema,
-      'view:fileUploadBlurb': blankSchema,
-      'view:notes': blankSchema,
-      // schema for LLM message
       'view:fileClaim': blankSchema,
-      pharmacyUpload: {
-        type: 'array',
-        minItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      pharmacyUpload: fileUploadSchema,
       'view:uploadAlert': blankSchema,
     },
   },

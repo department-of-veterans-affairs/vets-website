@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -6,6 +6,8 @@ import {
   MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { useHistory } from 'react-router-dom';
+import { useBreadcrumbFocus } from 'platform/mhv/hooks/useBreadcrumbFocus';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -17,10 +19,10 @@ import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
 import Alerts from '../containers/Alerts';
 import {
-  isCerner,
   isLOA3,
   isVAPatient,
   personalizationEnabled,
+  selectProfile,
 } from '../selectors';
 import manifest from '../manifest.json';
 
@@ -29,8 +31,24 @@ const LandingPage = ({ data = {} }) => {
   const userVerified = useSelector(isLOA3);
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
+
+  const history = useHistory();
+
+  const onRouteChange = useCallback(
+    ({ detail }) => {
+      const href = detail?.href;
+      if (href) history.push(href);
+    },
+    [history],
+  );
+
+  const { handleRouteChange, handleClick } = useBreadcrumbFocus({
+    onRouteChange,
+  });
+
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const userHasCernerFacility = useSelector(isCerner);
+  const profile = useSelector(selectProfile);
+  const { userFacilityReadyForInfoAlert = false } = profile;
 
   return (
     <>
@@ -46,6 +64,8 @@ const LandingPage = ({ data = {} }) => {
               { label: 'VA.gov home', href: '/' },
               { label: 'My HealtheVet', href: manifest.rootUrl },
             ]}
+            onRouteChange={handleRouteChange}
+            onClick={handleClick}
           />
           <DowntimeNotification
             appTitle={manifest.appName}
@@ -54,7 +74,7 @@ const LandingPage = ({ data = {} }) => {
           />
           <HeaderLayout
             showWelcomeMessage={showWelcomeMessage}
-            isCerner={userHasCernerFacility}
+            showCernerInfoAlert={userFacilityReadyForInfoAlert}
           />
           <Alerts />
           {userRegistered && <CardLayout data={cards} />}

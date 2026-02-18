@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
 import {
@@ -13,10 +14,11 @@ import { setFocus, focusNotificationAlert } from '../utils/page';
 import AddingDetails from './AddingDetails';
 import NeedHelp from './NeedHelp';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
-import ClaimsUnavailable from './ClaimsUnavailable';
+import ServiceUnavailableAlert from './ServiceUnavailableAlert';
 import ClaimContentionList from './ClaimContentionList';
 import Notification from './Notification';
 import TabNav from './TabNav';
+import Type1UnknownUploadError from './Type1UnknownUploadError';
 
 const focusHeader = () => {
   setFocus('.claim-contentions-header');
@@ -24,6 +26,14 @@ const focusHeader = () => {
 
 export default function ClaimDetailLayout(props) {
   const { claim, clearNotification, currentTab, loading, message } = props;
+
+  // Get type1UnknownErrors from Redux (only if feature flag is enabled)
+  const showDocumentUploadStatus = useSelector(
+    state => state.featureToggles?.cst_show_document_upload_status || false,
+  );
+  const type1UnknownErrors = useSelector(
+    state => state.disability.status.notifications.type1UnknownErrors,
+  );
 
   const tabs = ['Status', 'Files', 'Details', 'Overview'];
 
@@ -66,21 +76,43 @@ export default function ClaimDetailLayout(props) {
           </span>
         </h1>
 
-        {message && (
-          <div className="vads-u-margin-top--5">
-            <Notification
-              title={message.title}
-              body={message.body}
-              type={message.type}
-              onClose={() => {
-                focusElement('.claim-title');
-                clearNotification();
-              }}
-              onSetFocus={focusNotificationAlert}
-            />
-          </div>
-        )}
+        {message &&
+          !(
+            showDocumentUploadStatus &&
+            type1UnknownErrors &&
+            type1UnknownErrors.length > 0
+          ) && (
+            <div className="vads-u-margin-top--5">
+              <Notification
+                title={message.title}
+                body={message.body}
+                type={message.type}
+                maskTitle={message.type === 'error'}
+                onClose={() => {
+                  focusElement('.claim-title');
+                  clearNotification();
+                }}
+                onSetFocus={focusNotificationAlert}
+              />
+            </div>
+          )}
 
+        {showDocumentUploadStatus &&
+          type1UnknownErrors &&
+          type1UnknownErrors.length > 0 &&
+          (currentTab === 'Files' || currentTab === 'Status') && (
+            <div className="vads-u-margin-top--5">
+              <Notification
+                title="We need you to submit files by mail or in person"
+                body={
+                  <Type1UnknownUploadError errorFiles={type1UnknownErrors} />
+                }
+                role="alert"
+                type="error"
+                onSetFocus={focusNotificationAlert}
+              />
+            </div>
+          )}
         <div className="claim-contentions">
           <h2 className="claim-contentions-header vads-u-font-size--h3">
             What you’ve claimed
@@ -122,7 +154,11 @@ export default function ClaimDetailLayout(props) {
     bodyContent = (
       <>
         <h1>We encountered a problem</h1>
-        <ClaimsUnavailable headerLevel={2} />
+        <ServiceUnavailableAlert
+          headerLevel={2}
+          services={['claims']}
+          useSingular
+        />
       </>
     );
   }

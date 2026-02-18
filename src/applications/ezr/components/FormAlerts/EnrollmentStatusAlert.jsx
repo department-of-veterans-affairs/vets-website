@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import content from '../../locales/en/content.json';
-import { APP_URLS } from '../../utils/constants';
+import { APP_URLS } from '../../utils/appUrls';
 import ServerErrorAlert from './ServerErrorAlert';
 
 const EnrollmentStatusAlert = ({ showError }) => {

@@ -8,13 +8,11 @@ import {
   dateFormatWithoutTime,
   formatDate,
   sendDataDogAction,
-  getMonthFromSelectedDate,
 } from '../../util/helpers';
 
 const VitalListItem = props => {
   const { record, options = {} } = props;
-  // TODO: Should this be decoupled from isCerner as well?
-  const { isAccelerating, timeFrame } = options;
+  const { isAccelerating } = options;
   const displayName = vitalTypeDisplayNames[record.type];
 
   const ddLabelName = useMemo(
@@ -64,9 +62,17 @@ const VitalListItem = props => {
     [updatedRecordType, isAccelerating],
   );
 
-  const url = `/vitals/${kebabCase(updatedRecordType)}-history${
-    isAccelerating ? `?timeFrame=${timeFrame}` : ''
-  }`;
+  const url = `/vitals/${kebabCase(updatedRecordType)}-history`;
+
+  const detailLinkText = `Review your ${
+    displayName === 'Blood oxygen level (pulse oximetry)'
+      ? displayName
+          .toLowerCase()
+          .split(' ')
+          .slice(0, 3)
+          .join(' ')
+      : displayName.toLowerCase()
+  } over time`;
 
   return (
     <va-card
@@ -85,11 +91,7 @@ const VitalListItem = props => {
           className="vads-u-margin--0"
           data-testid={dataTestIds.noRecordMessage}
         >
-          {`There are no ${displayName.toLowerCase()} results ${
-            isAccelerating
-              ? `from the current time frame.`
-              : 'in your VA medical records.'
-          }`}
+          {`There are no ${displayName.toLowerCase()} results in your VA medical records.`}
         </p>
       )}
 
@@ -116,6 +118,7 @@ const VitalListItem = props => {
           >
             <span className="vads-u-font-weight--bold">Date: </span>
             <span data-testid={dataTestIds.dateTimestamp}>
+              {/* TODO: This seems wonky, since both effectiveDateTime and date are mapped to the same value */}
               {isAccelerating
                 ? formatDate(record.effectiveDateTime)
                 : dateFormatWithoutTime(record.date)}
@@ -130,19 +133,7 @@ const VitalListItem = props => {
               sendDataDogAction(ddLabelName);
             }}
           >
-            <strong>
-              Review your{' '}
-              {displayName === 'Blood oxygen level (pulse oximetry)'
-                ? displayName
-                    .toLowerCase()
-                    .split(' ')
-                    .slice(0, 3)
-                    .join(' ')
-                : displayName.toLowerCase()}{' '}
-              {isAccelerating && timeFrame
-                ? `for ${getMonthFromSelectedDate({ date: timeFrame })}`
-                : 'over time'}
-            </strong>
+            <strong>{detailLinkText}</strong>
             <span aria-hidden="true">
               <va-icon icon="navigate_next" size={1} />
             </span>

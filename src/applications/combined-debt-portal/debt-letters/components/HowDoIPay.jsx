@@ -2,17 +2,67 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { deductionCodes } from '../const/deduction-codes';
+import CopyButton from '../../combined/components/CopyButton';
 
 export const getDeductionDescription = code => {
   const description = deductionCodes[code];
   if (!description) {
     return '';
   }
-  return `– ${description}`;
+  return `${description}`;
 };
+
+const DebtDetailRow = ({ label, value, displayValue, copyable }) => (
+  <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1">
+    <div className="debt-copy-row">
+      <span>{label}</span>
+      {copyable && (
+        <CopyButton value={value} className="vads-u-flex-shrink--0" />
+      )}
+    </div>
+    <div>
+      <strong>{displayValue}</strong>
+    </div>
+  </li>
+);
 
 const HowDoIPay = ({ userData }) => {
   const { deductionCode } = userData;
+
+  const debtDetails = [
+    {
+      label: 'Current balance',
+      value: userData.currentAr,
+      displayValue: `$${userData.currentAr}`,
+      copyable: true,
+    },
+    {
+      label: userData.receivableId ? 'Receivable ID' : 'File Number',
+      value: userData.receivableId || userData.fileNumber,
+      displayValue: userData.receivableId || userData.fileNumber,
+      copyable: true,
+    },
+    {
+      label: 'Payee Number',
+      value: userData.payeeNumber,
+      displayValue: userData.payeeNumber,
+      copyable: true,
+    },
+    {
+      label: 'Person Entitled',
+      value: userData.personEntitled,
+      displayValue: userData.personEntitled,
+      copyable: true,
+    },
+    {
+      label: 'Deduction Code',
+      value: userData.deductionCode,
+      displayValue: `${userData.deductionCode} – ${getDeductionDescription(
+        deductionCode,
+      )}`,
+      copyable: false,
+    },
+  ];
 
   return (
     <section>
@@ -20,7 +70,7 @@ const HowDoIPay = ({ userData }) => {
         id="howDoIPay"
         className="vads-u-margin-top--4 vads-u-margin-bottom-2"
       >
-        How to pay your VA debt
+        How to make a payment
       </h2>
 
       <h3>Pay online</h3>
@@ -29,31 +79,19 @@ const HowDoIPay = ({ userData }) => {
         on the secure pay.va.gov website.
       </p>
       <p>
-        You’ll need to provide the following details to pay this debt online:
+        <strong>
+          You will need the following details to pay this debt online:
+        </strong>
       </p>
       {userData ? (
-        <ul>
-          <li>
-            <strong>
-              {userData.receivableId ? 'Receivable ID' : 'File Number'}:{' '}
-            </strong>
-            {userData.receivableId || userData.fileNumber}
-          </li>
-          <li>
-            <strong>Payee Number: </strong>
-            {userData.payeeNumber}
-          </li>
-          <li>
-            <strong>Person Entitled: </strong>
-            {userData.personEntitled}
-          </li>
-          <li>
-            <strong>Deduction Code: </strong>
-            {userData.deductionCode} {getDeductionDescription(deductionCode)}
-          </li>
+        <ul className="vads-u-padding-left--0">
+          {debtDetails.map(detail => (
+            <DebtDetailRow key={detail.label} {...detail} />
+          ))}
         </ul>
       ) : (
-        <ul>
+        <ul className="vads-u-padding-left--0">
+          <li>Current balance</li>
           <li>File Number</li>
           <li>Payee Number</li>
           <li>Person Entitled</li>
@@ -145,10 +183,11 @@ const HowDoIPay = ({ userData }) => {
 HowDoIPay.propTypes = {
   showDebtLetterDownload: PropTypes.bool,
   userData: PropTypes.shape({
+    currentAr: PropTypes.string,
+    deductionCode: PropTypes.string,
     fileNumber: PropTypes.string,
     payeeNumber: PropTypes.string,
     personEntitled: PropTypes.string,
-    deductionCode: PropTypes.string,
     receivableId: PropTypes.string,
   }),
 };

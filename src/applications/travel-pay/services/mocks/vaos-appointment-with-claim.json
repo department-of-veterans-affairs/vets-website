@@ -41,7 +41,7 @@
       "clinic": "945",
       "start": "2025-01-20T16:30:00Z",
       "end": "2025-01-20T17:00:00Z",
-      "created": "2024-03-17T00:00:00Z",
+      "created": "2025-01-17T00:00:00Z",
       "cancellable": false,
       "extension": {
         "ccLocation": {
@@ -86,6 +86,10 @@
           ]
         }
       },
+      "modality": "vaInPerson",
+      "pending": false,
+      "past": true,
+      "future": false,
       "travelPayClaim": {
         "metadata": {
           "status": 200,
@@ -96,10 +100,10 @@
           "id": "16cbc3d0-56de-4d86-abf3-ed0f6908ee53",
           "claimNumber": "5b550fe7-6985-4a69-953a-472d5cf85921",
           "claimStatus": "In process",
-          "appointmentDateTime": "2023-02-23T22:22:52.549Z",
-          "facilityName": "Tomah VA Medical Center",
-          "createdOn": "2023-02-24T22:22:52.549Z",
-          "modifiedOn": "2023-02-26T22:22:52.549Z"
+          "appointmentDateTime": "2025-01-20T16:30:00Z",
+          "facilityName": "Fort Collins VA Clinic",
+          "createdOn": "2025-02-24T22:22:52.549Z",
+          "modifiedOn": "2025-02-26T22:22:52.549Z"
         }
       }
     }

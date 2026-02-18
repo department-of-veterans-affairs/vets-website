@@ -5,7 +5,10 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { Toggler } from '~/platform/utilities/feature-toggles';
-import ConfirmationPage from '../../containers/ConfirmationPage';
+import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
+import ConfirmationPage, {
+  getNewConditionsNames,
+} from '../../containers/ConfirmationPage';
 import { submissionStatuses } from '../../constants';
 import { bddConfirmationHeadline } from '../../content/bddConfirmationAlert';
 import formConfig from '../../config/form';
@@ -119,7 +122,6 @@ describe('ConfirmationPage', () => {
     getByText('November 7, 2024');
     getByText('Conditions claimed');
     getByText('Something Something');
-    getByText('Unknown Condition');
 
     if (claimId) {
       getByText('Claim ID number');
@@ -137,21 +139,37 @@ describe('ConfirmationPage', () => {
     getByText('Need help?');
 
     // links
-    expect(container.querySelectorAll('va-link')).to.have.lengthOf(5);
-    const link = container.querySelectorAll('va-link')[1];
-    expect(link.getAttribute('download')).to.exist;
-    expect(link.getAttribute('filetype')).to.equal('PDF');
-    expect(link.getAttribute('href')).to.equal(
-      'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
+    expect(container.querySelectorAll('va-link')).to.have.lengthOf(6);
+    // Find the 21-686c PDF link by its attributes rather than index
+    const pdfLink = Array.from(container.querySelectorAll('va-link')).find(
+      linkElement =>
+        linkElement.getAttribute('href') ===
+        'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
     );
-    expect(link.getAttribute('pages')).to.equal('15');
-    expect(link.getAttribute('text')).to.equal(
+    expect(pdfLink).to.exist;
+    expect(pdfLink.getAttribute('download')).to.exist;
+    expect(pdfLink.getAttribute('filetype')).to.equal('PDF');
+    expect(pdfLink.getAttribute('pages')).to.equal('15');
+    expect(pdfLink.getAttribute('text')).to.equal(
       'Download VA Form 21-686c (opens in new tab)',
+    );
+
+    // Verify "Learn more about the VA process" link exists
+    const vaProcessLink = Array.from(
+      container.querySelectorAll('va-link'),
+    ).find(
+      linkElement =>
+        linkElement.getAttribute('text') ===
+        'Learn more about the VA process after you file your claim',
+    );
+    expect(vaProcessLink).to.exist;
+    expect(vaProcessLink.getAttribute('href')).to.equal(
+      'https://www.va.gov/disability/after-you-file-claim/',
     );
   };
 
   it('should render confirmation page when submission succeeded with claim id', () => {
-    verifyConfirmationPage('12345678', false, submissionStatuses.succeeded);
+    verifyConfirmationPage(12345678, false, submissionStatuses.succeeded);
   });
 
   it('should render confirmation page when submission succeeded with no claim id', () => {
@@ -159,7 +177,7 @@ describe('ConfirmationPage', () => {
   });
 
   it('should render success with BDD SHA alert when submission succeeded with claim id for BDD', () => {
-    verifyConfirmationPage('12345678', true, submissionStatuses.succeeded);
+    verifyConfirmationPage(12345678, true, submissionStatuses.succeeded);
   });
 
   it('should render success when form submitted successfully but submission status has api failure', () => {
@@ -173,10 +191,98 @@ describe('ConfirmationPage', () => {
 
   it('should render confirmation review section accordion when toggle is on', () => {
     verifyConfirmationPage(
-      '12345678',
+      12345678,
       false,
       submissionStatuses.succeeded,
       true, // disability526ShowConfirmationReview toggle
     );
+  });
+
+  describe('Error Boundary Tests', () => {
+    let consoleErrorStub;
+    let sinon;
+
+    beforeEach(() => {
+      sinon = require('sinon');
+      consoleErrorStub = sinon.stub(console, 'error');
+    });
+
+    afterEach(() => {
+      consoleErrorStub.restore();
+    });
+
+    it('should catch errors in ChapterSectionCollection and display the rest of the page', () => {
+      // Stub ChapterSectionCollection to throw an error during render
+      const chapterStub = sinon.stub(
+        ConfirmationView,
+        'ChapterSectionCollection',
+      );
+      chapterStub.throws(new Error('ChapterSectionCollection error'));
+
+      try {
+        const store = mockStore(
+          getData({
+            featureToggles: {
+              [Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview]: true,
+            },
+          }),
+        );
+
+        const { container, getByText, queryByText } = render(
+          <Provider store={store}>
+            <ConfirmationPage
+              {...defaultProps}
+              submissionStatus={submissionStatuses.succeeded}
+            />
+          </Provider>,
+        );
+
+        // ChapterSectionCollection accordion does not render (error boundary caught it)
+        expect(queryByText('Information you submitted on this form')).to.not
+          .exist;
+
+        // No error UI shown to user (silent degradation via error boundary)
+        const errorAlerts = container.querySelectorAll(
+          'va-alert[status="error"]',
+        );
+        expect(errorAlerts.length).to.equal(0);
+
+        // The rest of the confirmation page content is still visible
+        expect(getByText('Disability Compensation Claim')).to.exist;
+        expect(getByText('For Hector Lee Brooks Sr.')).to.exist;
+        expect(getByText('Date submitted')).to.exist;
+        expect(getByText('November 7, 2024')).to.exist;
+        expect(getByText('Print this confirmation page')).to.exist;
+        expect(getByText('What to expect')).to.exist;
+      } finally {
+        chapterStub.restore();
+      }
+    });
+  });
+});
+
+describe('getNewConditionsNames', () => {
+  it('keeps strings and capitalizes them', () => {
+    expect(
+      getNewConditionsNames(['low back pain', '  knee PAIN  ']),
+    ).to.deep.equal(['Low Back Pain', 'Knee Pain']);
+  });
+
+  it('ignores blanks/invalids and dedupes', () => {
+    expect(
+      getNewConditionsNames([
+        'tinnitus',
+        ' ',
+        null,
+        undefined,
+        'Tinnitus',
+        'sleep apnea',
+      ]),
+    ).to.deep.equal(['Tinnitus', 'Sleep Apnea']);
+  });
+
+  it('returns empty list for empty/invalid inputs', () => {
+    expect(getNewConditionsNames([])).to.deep.equal([]);
+    expect(getNewConditionsNames()).to.deep.equal([]);
   });
 });

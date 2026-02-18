@@ -399,7 +399,9 @@ describe('arrayBuilderPages required parameters and props tests', () => {
         pageB: pageBuilder.itemPage(validPageB),
       }));
     } catch (e) {
-      expect(e.message).to.include('must be first and defined only once');
+      expect(e.message).to.include(
+        'must be defined first, before other arrayBuilder pages',
+      );
     }
   });
 
@@ -417,21 +419,186 @@ describe('arrayBuilderPages required parameters and props tests', () => {
     }
   });
 
-  it('should log a warning if more than one summary page exists', () => {
-    const warnSpy = sinon.spy(console, 'warn');
-    arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
-      summaryPageA: pageBuilder.summaryPage(validSummaryPage),
-      summaryPageB: pageBuilder.summaryPage(validSummaryPage),
-      introPage: pageBuilder.introPage(validIntroPage),
-      pageA: pageBuilder.itemPage(validPageA),
-      pageB: pageBuilder.itemPage(validPageB),
-    }));
-    expect(warnSpy.calledOnce).to.be.true;
-    expect(warnSpy.args[0][0]).to.include(
-      '[arrayBuilderPages] More than one summaryPage defined. Ensure they are gated by `depends` so only one is ever shown',
-    );
+  it('should throw an error if more than one summary page exists without depends', () => {
+    try {
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
+        introPage: pageBuilder.introPage(validIntroPage),
+        summaryPageA: pageBuilder.summaryPage({
+          ...validSummaryPage,
+          path: 'employers-summary-a',
+        }),
+        summaryPageB: pageBuilder.summaryPage({
+          ...validSummaryPage,
+          path: 'employers-summary-b',
+        }),
+        pageA: pageBuilder.itemPage(validPageA),
+        pageB: pageBuilder.itemPage(validPageB),
+      }));
+      expect(true).to.be.false;
+    } catch (e) {
+      expect(e.message).to.include(
+        'Only one `pageBuilder.summaryPage` is allowed',
+      );
+      expect(e.message).to.include(
+        'must use `depends` to make them mutually exclusive',
+      );
+    }
+  });
 
-    warnSpy.restore();
+  it('should allow a single summary page to use depends', () => {
+    try {
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
+        introPage: pageBuilder.introPage(validIntroPage),
+        summaryPage: pageBuilder.summaryPage({
+          ...validSummaryPage,
+          depends: () => true,
+        }),
+        pageA: pageBuilder.itemPage(validPageA),
+        pageB: pageBuilder.itemPage(validPageB),
+      }));
+    } catch (e) {
+      expect(e.message).to.eq('Did not expect error');
+    }
+  });
+
+  it('should allow multiple summary pages if all have depends', () => {
+    try {
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
+        introPage: pageBuilder.introPage(validIntroPage),
+        summaryPageA: pageBuilder.summaryPage({
+          ...validSummaryPage,
+          path: 'employers-summary-a',
+          depends: formData => formData.employmentType === 'civilian',
+        }),
+        summaryPageB: pageBuilder.summaryPage({
+          ...validSummaryPage,
+          path: 'employers-summary-b',
+          depends: formData => formData.employmentType === 'military',
+        }),
+        pageA: pageBuilder.itemPage(validPageA),
+        pageB: pageBuilder.itemPage(validPageB),
+      }));
+    } catch (e) {
+      expect(e.message).to.eq('Did not expect error');
+    }
+  });
+
+  it('should throw an error if multiple summary pages have depends on some but not all', () => {
+    try {
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
+        introPage: pageBuilder.introPage(validIntroPage),
+        summaryPageA: pageBuilder.summaryPage({
+          ...validSummaryPage,
+          path: 'employers-summary-a',
+          depends: formData => formData.employmentType === 'civilian',
+        }),
+        summaryPageB: pageBuilder.summaryPage({
+          ...validSummaryPage,
+          path: 'employers-summary-b',
+        }),
+        pageA: pageBuilder.itemPage(validPageA),
+        pageB: pageBuilder.itemPage(validPageB),
+      }));
+      expect(true).to.be.false;
+    } catch (e) {
+      expect(e.message).to.include(
+        'Only one `pageBuilder.summaryPage` is allowed',
+      );
+      expect(e.message).to.include(
+        'must use `depends` to make them mutually exclusive',
+      );
+    }
+  });
+
+  it('should allow a single intro page to use depends', () => {
+    try {
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
+        introPage: pageBuilder.introPage({
+          ...validIntroPage,
+          depends: () => true,
+        }),
+        summaryPage: pageBuilder.summaryPage(validSummaryPage),
+        pageA: pageBuilder.itemPage(validPageA),
+        pageB: pageBuilder.itemPage(validPageB),
+      }));
+    } catch (e) {
+      expect(e.message).to.eq('Did not expect error');
+    }
+  });
+
+  it('should throw an error if multiple intro pages exist without depends', () => {
+    try {
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
+        introPageA: pageBuilder.introPage({
+          ...validIntroPage,
+          path: 'employers-intro-a',
+        }),
+        introPageB: pageBuilder.introPage({
+          ...validIntroPage,
+          path: 'employers-intro-b',
+        }),
+        summaryPage: pageBuilder.summaryPage(validSummaryPage),
+        pageA: pageBuilder.itemPage(validPageA),
+        pageB: pageBuilder.itemPage(validPageB),
+      }));
+      expect(true).to.be.false;
+    } catch (e) {
+      expect(e.message).to.include(
+        'Only one `pageBuilder.introPage` is allowed',
+      );
+      expect(e.message).to.include(
+        'must use `depends` to make them mutually exclusive',
+      );
+    }
+  });
+
+  it('should allow multiple intro pages if all have depends', () => {
+    try {
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
+        introPageA: pageBuilder.introPage({
+          ...validIntroPage,
+          path: 'employers-intro-a',
+          depends: formData => formData.employmentType === 'civilian',
+        }),
+        introPageB: pageBuilder.introPage({
+          ...validIntroPage,
+          path: 'employers-intro-b',
+          depends: formData => formData.employmentType === 'military',
+        }),
+        summaryPage: pageBuilder.summaryPage(validSummaryPage),
+        pageA: pageBuilder.itemPage(validPageA),
+        pageB: pageBuilder.itemPage(validPageB),
+      }));
+    } catch (e) {
+      expect(e.message).to.eq('Did not expect error');
+    }
+  });
+
+  it('should throw an error if multiple intro pages have depends on some but not all', () => {
+    try {
+      arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
+        introPageA: pageBuilder.introPage({
+          ...validIntroPage,
+          path: 'employers-intro-a',
+          depends: formData => formData.employmentType === 'civilian',
+        }),
+        introPageB: pageBuilder.introPage({
+          ...validIntroPage,
+          path: 'employers-intro-b',
+        }),
+        summaryPage: pageBuilder.summaryPage(validSummaryPage),
+        pageA: pageBuilder.itemPage(validPageA),
+        pageB: pageBuilder.itemPage(validPageB),
+      }));
+      expect(true).to.be.false;
+    } catch (e) {
+      expect(e.message).to.include(
+        'Only one `pageBuilder.introPage` is allowed',
+      );
+      expect(e.message).to.include(
+        'must use `depends` to make them mutually exclusive',
+      );
+    }
   });
 
   it('should throw error if required is not passed', () => {
@@ -548,14 +715,14 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       urlParams: { edit: true },
       pathname: '/employers/pageB/0',
     });
-    expect(goPath.args[1][0]).to.eql('employers-summary?updated=employer-0');
+    expect(goPath.args[1][0]).to.eql('employers-summary?updated=employers-0');
 
     pageB.onNavForward({
       goPath,
       urlParams: { edit: true, review: true },
       pathname: '/employers/pageB/0',
     });
-    expect(goPath.args[2][0]).to.eql('review-and-submit?updated=employer-0');
+    expect(goPath.args[2][0]).to.eql('review-and-submit?updated=employers-0');
   });
 });
 
@@ -940,7 +1107,7 @@ describe('depends navigations', () => {
       },
       pageBDepends: (formData, index) => formData?.employers?.[index].showB,
       expectFn: 'goPath',
-      expectValue: 'employers-summary?updated=employer-0',
+      expectValue: 'employers-summary?updated=employers-0',
       arrayData: [
         {
           showB: false,
@@ -962,7 +1129,7 @@ describe('depends navigations', () => {
       },
       pageBDepends: (formData, index) => formData?.employers?.[index].showB,
       expectFn: 'goPath',
-      expectValue: 'review-and-submit?updated=employer-0',
+      expectValue: 'review-and-submit?updated=employers-0',
       arrayData: [
         {
           showB: false,
@@ -984,7 +1151,7 @@ describe('depends navigations', () => {
       },
       pageBDepends: (formData, index) => formData?.employers?.[index].showB,
       expectFn: 'goPath',
-      expectValue: 'review-and-submit?updated=employer-0',
+      expectValue: 'review-and-submit?updated=employers-0',
       arrayData: [
         {
           showB: false,

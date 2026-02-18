@@ -58,13 +58,17 @@ const PathologyDetails = props => {
       ...generatePathologyContent(record),
     };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(
-      pdfName,
-      pdfData,
-      'medicalRecords',
-      'Medical Records - Pathology details - PDF generation error',
-      runningUnitTest,
-    );
+    try {
+      await makePdf(
+        pdfName,
+        pdfData,
+        'medicalRecords',
+        'Medical Records - Pathology details - PDF generation error',
+        runningUnitTest,
+      );
+    } catch {
+      // makePdf handles error logging to Datadog/Sentry
+    }
   };
 
   const generatePathologyTxt = async () => {
@@ -112,12 +116,6 @@ ${record.results} \n`;
         />
 
         {downloadStarted && <DownloadSuccessAlert />}
-        <PrintDownload
-          description="L&TR Detail"
-          downloadPdf={generatePathologyPdf}
-          downloadTxt={generatePathologyTxt}
-        />
-        <DownloadingRecordsInfo description="L&TR Detail" />
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
@@ -154,6 +152,14 @@ ${record.results} \n`;
             </p>
           </HeaderSection>
         </div>
+        <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+        <DownloadingRecordsInfo description="L&TR Detail" />
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={generatePathologyPdf}
+          downloadTxt={generatePathologyTxt}
+        />
+        <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
       </HeaderSection>
     </div>
   );

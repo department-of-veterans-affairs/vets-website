@@ -13,7 +13,7 @@ describe('Medications Refill History Shipped On Latest Refill', () => {
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
     const cardNumber = 16;
-    const shippedDate = 'Sun, 24 Sept 2023 04:39:11 EDT';
+    const shippedDate = 'Sun, 24 Sep 2023 04:39:11 EDT';
     site.login();
     listPage.visitMedicationsListPageURL(rxList);
     cy.injectAxe();

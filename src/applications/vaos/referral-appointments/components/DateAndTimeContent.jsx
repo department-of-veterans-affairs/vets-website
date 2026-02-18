@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import CalendarWidget from '../../components/calendar/CalendarWidget';
+import CalendarWidget from 'platform/shared/calendar/CalendarWidget';
 import { setSelectedSlotStartTime } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
@@ -162,11 +162,12 @@ export const DateAndTimeContent = props => {
           data-testid="no-slots-alert"
           class="vads-u-margin-top--3"
         >
-          <h2 slot="headline">
-            We’re sorry. We couldn’t find any open time slots.
-          </h2>
-          <p>Please call this provider to schedule an appointment</p>
-          <va-telephone contact={currentReferral.provider.telephone} />
+          <h2 slot="headline">We couldn’t find any open time slots.</h2>
+          <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
+            Call this provider or your facility’s community care office to
+            schedule an appointment.
+          </p>
+          <FindCommunityCareOfficeLink />
         </va-alert>
       );
     }

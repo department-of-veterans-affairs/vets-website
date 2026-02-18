@@ -27,11 +27,13 @@ describe('Personal health care contacts', () => {
         '/v0/feature_toggles*',
         generateFeatureToggles({
           profile2Enabled: true,
+          profileHealthCareSettingsPage: true,
+          profileHideHealthCareContacts: false,
         }),
       );
       cy.intercept('GET', '/v0/profile/contacts', contacts);
       cy.login(loa3User72);
-      cy.visit(PROFILE_PATHS.CONTACTS);
+      cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
       cy.get('va-sidenav-item[href="/profile/contacts"').should('exist');
       cy.injectAxeThenAxeCheck();
     });
@@ -39,7 +41,11 @@ describe('Personal health care contacts', () => {
 
   describe('when feature profile2Enabled is false', () => {
     beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({ profileHideHealthCareContacts: false }),
+      );
     });
 
     it('links from the hub page', () => {

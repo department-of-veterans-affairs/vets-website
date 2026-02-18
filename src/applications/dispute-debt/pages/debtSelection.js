@@ -1,6 +1,6 @@
 import React from 'react';
 import DebtSelection from '../components/DebtSelection';
-import ConfirmationDisputeInformation from '../components/confirmation/ConfirmationDisputeInformation';
+import ConfirmationDisputeInformation from '../components/confirmationFields/ConfirmationDisputeInformation';
 
 const debtSelection = {
   uiSchema: {

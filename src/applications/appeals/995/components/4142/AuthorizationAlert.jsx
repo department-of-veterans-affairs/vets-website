@@ -3,32 +3,33 @@ import PropTypes from 'prop-types';
 import { EVIDENCE_PRIVATE_PROMPT_URL } from '../../constants';
 import BasicLink from '../../../shared/components/web-component-wrappers/BasicLink';
 
+export const alertTitle =
+  'We need your authorization to request your medical records';
+
 const AuthorizationAlert = ({ hasError, onAnchorClick }) => (
   <va-alert status="error" visible={hasError} role="alert">
-    <h3 slot="headline">
-      Authorize your providers to release your records or upload them yourself
-    </h3>
+    <h3 slot="headline">{alertTitle}</h3>
     <p className="vads-u-margin-bottom--0">
-      If you want us to request your non-VA medical records from your provider,
-      you must authorize the release by checking the box labeled "I acknowledge
-      and authorize this release of information."
+      If you want us to request your medical records from a private (non-VA)
+      provider, you need to authorize their release.
     </p>
     <va-link
-      class="vads-u-display--block vads-u-margin-top--2"
+      class="vads-u-display--block"
       href="#privacy-agreement"
       onClick={onAnchorClick}
       id="checkbox-anchor"
       text="Check the box to authorize"
     />
     <p className="vads-u-margin-bottom--0">
-      <strong>Or</strong>, go back a page and select ‘No’ where we ask if you
-      want us to get your non-VA medical records. You’ll be able to upload
-      non-VA records later in the form or by mail.
+      <strong>If you don’t want us to request your medical records</strong> from
+      any private providers, you can go back to change your selection. You can
+      still upload your medical records later in the form or submit them by
+      mail.
     </p>
     <BasicLink
-      className="vads-u-display--block vads-u-margin-top--2"
+      className="vads-u-display--block"
       path={`/${EVIDENCE_PRIVATE_PROMPT_URL}`}
-      text="Go back to select ‘No’"
+      text="Go back to change your selection"
     />
   </va-alert>
 );

@@ -10,13 +10,20 @@ services:
       API_URL: ${API_URL:-http://localhost:3000}
       WEB_HOST: ${WEB_HOST:-localhost}
       WEB_PORT: ${WEB_PORT:-3002}
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
     expose:
       - 3002
     image: vets-website:${IMAGE_TAG:-latest}
     ports:
       - 3001:3002
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3002']
+      interval: 10s
+      timeout: 5s
+      retries: 120
     restart: unless-stopped
     volumes:
       - .:/application
       - ../vagov-content:/vagov-content
       - ../content-build:/content-build
+      - /etc/ssl/cacerts:/etc/ssl/cacerts

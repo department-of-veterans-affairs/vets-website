@@ -1,4 +1,5 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "./copy-button";
 
 .no-wrap {
   white-space: nowrap;
@@ -29,7 +30,7 @@
 .icon-color--warning {
   color: var(--vads-color-orange);
 }
-.icon-color--info {
+.icon-color--info, .icon-color--phone {
   color: var(--vads-color-primary);
 }
 .icon-color--success {
@@ -49,4 +50,45 @@
   vertical-align: baseline;
   position: relative;
   top: 3px;
+}
+
+.debt-copy-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @media (min-width: $small-screen) {
+      width: 270px;
+    }
+}
+
+.account-parts-container {
+  display: grid;
+  width: 100%;
+  row-gap: .95rem;
+  margin-top: 0.15rem;
+
+  @media (min-width: $small-screen) {
+    grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  }
+}
+
+.account-part-row {
+  display: flex;
+  justify-content: space-between;
+
+  .info-header {
+    font-size: 1rem;
+  }
+
+  button {
+    margin-left: -6px !important;
+  }
+
+  .copy-error {
+    margin-left: -2px;
+  }
+
+  @media (min-width: $small-screen) {
+    display: block;
+  }
 }

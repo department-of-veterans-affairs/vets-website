@@ -8,7 +8,7 @@
         "email": "john.doe@example.com",
         "loa": { "current": 3 },
         "first_name": "John",
-        "middle_name": "",
+        "middle_name": "Q",
         "last_name": "Doe",
         "gender": "M",
         "birth_date": "1985-01-01",
@@ -39,6 +39,8 @@
         "gender": "M",
         "given_names": ["John", ""],
         "active_status": "active",
+        "ssn" : "123-44-6789",
+        "vaFileNumber" : "123456789",
         "facilities": [
           {
             "facility_id": "983",
@@ -49,6 +51,57 @@
             "is_cerner": false
           }
         ]
+      },
+      "veteran_address" : {
+        "country" : "USA",
+        "street" : "101 Main St",
+        "street2" : "Apartment 2B",
+        "city" : "Anytown",
+        "state" : "OH",
+        "zip" : "01234",
+        "nonUsZip" : "09309",
+        "phone" : "(333) 555-1212"
+      },
+      "veteran_care_provider_1" : {
+        "providerName" : "Mr One Provider",
+        "fromDate" : "1981-05-03",
+        "toDate" : "1985-06-01",
+        "expenseAmmount" : "1000"
+      },
+      "veteran_care_provider_2" : {
+        "providerName" : "Mr Two Provider",
+        "fromDate" : "1985-06-03",
+        "toDate" : "2001-06-01",
+        "expenseAmmount" : "2000",
+        "careProviderHoulyRate" : "20",
+        "careProviderHoursPerWeek" : "30"
+      },
+      "veteran_med_provider_1" : {
+        "providerName" : "Med Provider",
+        "medPurpose" : "x-Rays",
+        "medPaymentDate" : "2020-05-25",
+        "medPaymentAmount" : "100"
+      },
+      "veteran_med_provider_2" : {
+        "providerName" : "Med TWO Provider",
+        "medPurpose" : "echoCardiogram",
+        "medPaymentDate" : "2024-09-26",
+        "medPatient" : "Tommy the Kid",
+        "medPaymentAmount" : "200"
+      },
+      "veteran_milage_1" : {
+        "travelDestination" : "HOSPITAL",
+        "milesTraveled" : "10",
+        "dateTraveled" : "2025-04-01",
+        "reimbursementAmount" : "100"
+      },
+      "veteran_milage_2" : {
+        "travelDestination" : "OTHER",
+        "otherTraveler" : "Terry Traveler",
+        "travelLocationOther" : "chiropractor",
+        "milesTraveled" : "20",
+        "dateTraveled" : "2025-05-05",
+        "reimbursementAmount" : "200"
       }
     }
   },

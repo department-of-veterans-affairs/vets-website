@@ -29,14 +29,9 @@
   },
   "claimantPhone": "7035551234",
   "claimantEmail": "robert.johnson@email.com",
-  "relationshipToDeceased": "spouse",
+  "relationshipToDeceased": "executor",
   "wantsToWaiveSubstitution": false,
-  "survivors": {
-    "hasSpouse": false,
-    "hasChildren": true,
-    "hasParents": false,
-    "hasNone": false
-  },
+  "survivors": true,
   "survivingRelatives": [
     {
       "fullName": {
@@ -72,7 +67,7 @@
     }
   ],
   "claimingReimbursement": false,
-  "remarks": "Filing for accrued benefits as the surviving spouse. The deceased had a pending claim for increased disability compensation at the time of death.",
+  "remarks": "Filing for accrued benefits as the executor of the beneficiary's estate. The deceased had a pending claim for increased disability compensation at the time of death.",
   "veteranIdentification": {
     "ssn": "123123123",
     "vaFileNumber": "12345678"

@@ -20,8 +20,7 @@ const contestableIssues = {
     },
     contestedIssues: {
       'ui:title': ' ',
-      'ui:field': 'StringField',
-      'ui:widget': ContestableIssuesWidget,
+      'ui:field': ContestableIssuesWidget,
       'ui:required': formData => !hasSomeSelected(formData),
       'ui:options': {
         forceDivWrapper: true,

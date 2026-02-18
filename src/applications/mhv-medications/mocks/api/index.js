@@ -14,7 +14,17 @@ const prescriptions = require('./mhv-api/prescriptions/index');
 // const prescriptionsFixture = require('../../tests/e2e/fixtures/prescriptions.json');
 const refillablePrescriptionsFixture = require('../../tests/e2e/fixtures/list-refillable-prescriptions.json');
 const allergies = require('../../../../platform/mhv/api/mocks/medical-records/allergies');
+const acceleratedAllergies = require('../../../../platform/mhv/api/mocks/medical-records/allergies/accelerated');
+const ohAllergies = require('../../../../platform/mhv/api/mocks/medical-records/allergies/full-example');
 const tooltips = require('./tooltips/index');
+
+// Set ORACLE_HEALTH=true to run as a Cerner/Oracle Health user with renewal enabled.
+// Usage: ORACLE_HEALTH=true yarn mock-api --responses src/applications/mhv-medications/mocks/api/index.js
+const oracleHealthMode = process.env.ORACLE_HEALTH === 'true';
+if (oracleHealthMode) {
+  // eslint-disable-next-line no-console
+  console.log('\n\x1b[36m[mock-api] Oracle Health mode enabled\x1b[0m\n');
+}
 
 const delaySingleResponse = (cb, delayInMs = 1000) => {
   setTimeout(() => {
@@ -25,10 +35,18 @@ const delaySingleResponse = (cb, delayInMs = 1000) => {
 const responses = {
   ...commonResponses,
   'GET /v0/user': (_req, res) => {
-    delaySingleResponse(() => res.json(user.defaultUser), 750);
+    const mockUser = oracleHealthMode ? user.cernerUser : user.defaultUser;
+    delaySingleResponse(() => res.json(mockUser), 750);
   },
   'GET /v0/feature_toggles': (_req, res) => {
-    const toggles = featureToggles.generateFeatureToggles({});
+    const toggles = featureToggles.generateFeatureToggles(
+      oracleHealthMode
+        ? {
+            mhvSecureMessagingMedicationsRenewalRequest: true,
+            mhvMedicationsCernerPilot: true,
+          }
+        : {},
+    );
 
     delaySingleResponse(() => res.json(toggles), 500);
   },
@@ -39,15 +57,51 @@ const responses = {
   // MHV Messaging - folders endpoint powers the red dot on mhv-landing-page
   'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,
   // MHV Medications endpoints below
-  'GET /my_health/v1/medical_records/allergies': allergies.all,
+  'GET /my_health/v1/medical_records/allergies': (req, res) => {
+    const { use_oh_data_path } = req.query;
+    if (use_oh_data_path === '1') {
+      return res.json(ohAllergies.all);
+    }
+    return res.json(allergies.all);
+  },
+  'GET /my_health/v2/medical_records/allergies': acceleratedAllergies.all,
   'GET /my_health/v1/prescriptions': (_req, res) => {
     delaySingleResponse(
-      () => res.json(prescriptions.generateMockPrescriptions(_req)),
+      () =>
+        res.json(
+          prescriptions.generateMockPrescriptions(
+            _req,
+            20,
+            false,
+            oracleHealthMode,
+          ),
+        ),
+      2250,
+    );
+  },
+  'GET /my_health/v2/prescriptions': (_req, res) => {
+    delaySingleResponse(
+      () =>
+        res.json(
+          prescriptions.generateMockPrescriptions(
+            _req,
+            20,
+            true,
+            oracleHealthMode,
+          ),
+        ),
       2250,
     );
   },
   // 'GET /my_health/v1/prescriptions': prescriptionsFixture,
   'GET /my_health/v1/prescriptions/list_refillable_prescriptions': (
+    _req,
+    res,
+  ) => {
+    delaySingleResponse(() => res.json(refillablePrescriptionsFixture), 2250);
+  },
+  // Includes both v1 and v2 endpoints for refillable prescriptions
+  'GET /my_health/v2/prescriptions/list_refillable_prescriptions': (
     _req,
     res,
   ) => {
@@ -63,6 +117,95 @@ const responses = {
       successfulIds,
       failedIds,
     });
+  },
+  'PATCH /my_health/v1/prescriptions/:id/refill': (req, res) => {
+    const { id } = req.params;
+    // Odd ids succeed, even ids fail
+    if (id % 2 === 0) {
+      return delaySingleResponse(
+        () =>
+          res.status(500).json({
+            errors: [
+              {
+                status: '500',
+                title: 'Failed to refill prescription',
+                detail:
+                  'An error occurred while processing your refill request.',
+              },
+            ],
+          }),
+        1500,
+      );
+    }
+    return delaySingleResponse(
+      () =>
+        res.status(200).json({
+          data: {
+            id,
+            type: 'prescriptions',
+            attributes: {
+              prescriptionId: id,
+              refillStatus: 'submitted',
+            },
+          },
+        }),
+      1500,
+    );
+  },
+  'POST /my_health/v2/prescriptions/:id/refill': (req, res) => {
+    const { id } = req.params;
+    // Odd ids succeed, even ids fail
+    if (id % 2 === 0) {
+      return delaySingleResponse(
+        () =>
+          res.status(500).json({
+            errors: [
+              {
+                status: '500',
+                title: 'Failed to refill prescription',
+                detail:
+                  'An error occurred while processing your refill request.',
+              },
+            ],
+          }),
+        1500,
+      );
+    }
+    return delaySingleResponse(
+      () =>
+        res.status(200).json({
+          data: {
+            id,
+            type: 'prescriptions',
+            attributes: {
+              prescriptionId: id,
+              refillStatus: 'submitted',
+            },
+          },
+        }),
+      1500,
+    );
+  },
+  // Includes both v1 and v2 endpoints for refill prescriptions
+  'POST /my_health/v2/prescriptions/refill': (req, res) => {
+    // Get requested IDs from query params.
+    const ids = req.body;
+    // Emulate a successful refill for the first ID and failed refill for subsequent IDs
+    const successfulIds = ids[0] ? [ids[0]] : [];
+    const failedIds = ids[1] ? ids.slice(1) : [];
+    // delay response to emulate network latency
+    delaySingleResponse(
+      () =>
+        res.status(200).json({
+          data: {
+            attributes: {
+              prescriptionList: successfulIds,
+              failedPrescriptionList: failedIds,
+            },
+          },
+        }),
+      3000,
+    );
   },
   /**
   'GET /my_health/v1/medical_records/allergies': (req, res) => {
@@ -109,10 +252,46 @@ const responses = {
   // },
   'GET /my_health/v1/prescriptions/:id': (req, res) => {
     const { id } = req.params;
+    const isOhRx = oracleHealthMode && id === '99900001';
     const data = {
-      data: prescriptions.mockPrescription(id, {
-        cmopNdcNumber: '00093721410',
-      }),
+      data: isOhRx
+        ? prescriptions.mockOracleHealthPrescription(id)
+        : prescriptions.mockPrescription(id, {
+            cmopNdcNumber: '00093721410',
+          }),
+      meta: {
+        sort: {
+          dispStatus: 'DESC',
+          dispensedDate: 'DESC',
+          prescriptionName: 'DESC',
+        },
+        pagination: {
+          currentPage: 1,
+          perPage: 10,
+          totalPages: 1,
+          totalEntries: 1,
+        },
+        updatedAt: 'Wed, 28 Feb 2024 09:58:42 EST',
+        failedStationList: 'string',
+      },
+    };
+    delaySingleResponse(() => res.json(data), 2250);
+  },
+  // Includes both v1 and v2 endpoints for prescriptions
+  'GET /my_health/v2/prescriptions/:id': (req, res) => {
+    const { id } = req.params;
+    const ohIdMatch =
+      oracleHealthMode && (id === '99900001' || id === 'oh-99900001');
+    const data = {
+      data: ohIdMatch
+        ? prescriptions.mockOracleHealthPrescription(id, true)
+        : prescriptions.mockPrescription(
+            id,
+            {
+              cmopNdcNumber: '00093721410',
+            },
+            true,
+          ),
       meta: {
         sort: {
           dispStatus: 'DESC',

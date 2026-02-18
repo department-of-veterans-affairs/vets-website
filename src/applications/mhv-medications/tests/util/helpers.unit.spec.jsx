@@ -6,18 +6,15 @@ import {
   dispStatusObj,
 } from '../../util/constants';
 import {
-  dateFormat,
   extractContainedResource,
   generateMedicationsPDF,
   getImageUri,
-  getReactions,
   processList,
   validateField,
   validateIfAvailable,
   createNoDescriptionText,
   createVAPharmacyText,
   fromToNumbs,
-  pharmacyPhoneNumber,
   sanitizeKramesHtmlStr,
   hasCmopNdcNumber,
   getRefillHistory,
@@ -25,17 +22,6 @@ import {
   displayProviderName,
   isRefillTakingLongerThanExpected,
 } from '../../util/helpers';
-
-describe('Date Format function', () => {
-  it("should return 'None noted' when no values are passed", () => {
-    expect(dateFormat()).to.equal(FIELD_NONE_NOTED);
-  });
-  it('should return a formatted date', () => {
-    expect(dateFormat('2023-10-26T20:18:00.000Z', 'MMMM D, YYYY')).to.equal(
-      'October 26, 2023',
-    );
-  });
-});
 
 describe('Generate PDF function', () => {
   it('should throw an error', () => {
@@ -246,14 +232,6 @@ describe('processList function', () => {
   });
 });
 
-describe('getReactions', () => {
-  it('returns an empty array if the record passed has no reactions property', () => {
-    const record = {};
-    const reactions = getReactions(record);
-    expect(reactions.length).to.eq(0);
-  });
-});
-
 describe('extractContainedResource', () => {
   it('should extract the contained resource when provided a valid reference ID', () => {
     const resource = {
@@ -336,74 +314,6 @@ describe('fromToNumbs', () => {
     const numbers = fromToNumbs(1, 2, [1, 2], 2);
     expect(numbers[0]).to.eq(1);
     expect(numbers[1]).to.eq(2);
-  });
-});
-
-describe('pharmacyPhoneNumber function', () => {
-  const rx = {
-    cmopDivisionPhone: '4436366919',
-    dialCmopDivisionPhone: '1786366871',
-    rxRfRecords: [
-      {
-        cmopDivisionPhone: null,
-        dialCmopDivisionPhone: '',
-      },
-      {
-        cmopDivisionPhone: '(465)895-6578',
-        dialCmopDivisionPhone: '5436386958',
-      },
-    ],
-  };
-  it('should return a phone number when object passed has a phone for the cmopDivisionPhone field', () => {
-    expect(pharmacyPhoneNumber(rx)).to.equal('4436366919');
-  });
-  it('should return a phone number when object passed has a phone for the dialCmopDivisionPhone field', () => {
-    const newRxNoCmop = { ...rx, cmopDivisionPhone: null };
-    expect(pharmacyPhoneNumber(newRxNoCmop)).to.equal('1786366871');
-  });
-  it('should return a phone number when object passed only has a phone for the cmopDivisionPhone field inside of the rxRfRecords array', () => {
-    const newRxNoDialCmop = {
-      ...rx,
-      cmopDivisionPhone: null,
-      dialCmopDivisionPhone: null,
-    };
-    expect(pharmacyPhoneNumber(newRxNoDialCmop)).to.equal('(465)895-6578');
-  });
-  it('should return a phone number when object passed only has a phone for the dialCmopDivisionPhone field inside of the rxRfRecords array', () => {
-    const newRxNoCmopInRxRfRecord = {
-      ...rx,
-      cmopDivisionPhone: null,
-      dialCmopDivisionPhone: null,
-      rxRfRecords: [
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: '',
-        },
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: '5436386958',
-        },
-      ],
-    };
-    expect(pharmacyPhoneNumber(newRxNoCmopInRxRfRecord)).to.equal('5436386958');
-  });
-  it('should return null when object passed has no phone numbers for all the cmopDivisionPhone, dialCmopDivisionPhone fields', () => {
-    const newRxNoCmopInRxRfRecord = {
-      ...rx,
-      cmopDivisionPhone: null,
-      dialCmopDivisionPhone: null,
-      rxRfRecords: [
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: '',
-        },
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: null,
-        },
-      ],
-    };
-    expect(pharmacyPhoneNumber(newRxNoCmopInRxRfRecord)).to.equal(null);
   });
 });
 
@@ -570,6 +480,7 @@ describe('getRefillHistory function', () => {
       frontImprint: 'front123',
       prescriptionId: '123456',
       prescriptionName: 'Test Medication',
+      prescriptionSource: 'RX',
       shape: 'round',
     };
 
@@ -648,74 +559,6 @@ describe('getRefillHistory function', () => {
 
     const result = getRefillHistory(prescription);
     expect(result.length).to.equal(0);
-  });
-});
-
-describe('pharmacyPhoneNumber function', () => {
-  const rx = {
-    cmopDivisionPhone: '4436366919',
-    dialCmopDivisionPhone: '1786366871',
-    rxRfRecords: [
-      {
-        cmopDivisionPhone: null,
-        dialCmopDivisionPhone: '',
-      },
-      {
-        cmopDivisionPhone: '(465)895-6578',
-        dialCmopDivisionPhone: '5436386958',
-      },
-    ],
-  };
-  it('should return a phone number when object passed has a phone for the cmopDivisionPhone field', () => {
-    expect(pharmacyPhoneNumber(rx)).to.equal('4436366919');
-  });
-  it('should return a phone number when object passed has a phone for the dialCmopDivisionPhone field', () => {
-    const newRxNoCmop = { ...rx, cmopDivisionPhone: null };
-    expect(pharmacyPhoneNumber(newRxNoCmop)).to.equal('1786366871');
-  });
-  it('should return a phone number when object passed only has a phone for the cmopDivisionPhone field inside of the rxRfRecords array', () => {
-    const newRxNoDialCmop = {
-      ...rx,
-      cmopDivisionPhone: null,
-      dialCmopDivisionPhone: null,
-    };
-    expect(pharmacyPhoneNumber(newRxNoDialCmop)).to.equal('(465)895-6578');
-  });
-  it('should return a phone number when object passed only has a phone for the dialCmopDivisionPhone field inside of the rxRfRecords array', () => {
-    const newRxNoCmopInRxRfRecord = {
-      ...rx,
-      cmopDivisionPhone: null,
-      dialCmopDivisionPhone: null,
-      rxRfRecords: [
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: '',
-        },
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: '5436386958',
-        },
-      ],
-    };
-    expect(pharmacyPhoneNumber(newRxNoCmopInRxRfRecord)).to.equal('5436386958');
-  });
-  it('should return null when object passed has no phone numbers for all the cmopDivisionPhone, dialCmopDivisionPhone fields', () => {
-    const newRxNoCmopInRxRfRecord = {
-      ...rx,
-      cmopDivisionPhone: null,
-      dialCmopDivisionPhone: null,
-      rxRfRecords: [
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: '',
-        },
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: null,
-        },
-      ],
-    };
-    expect(pharmacyPhoneNumber(newRxNoCmopInRxRfRecord)).to.equal(null);
   });
 });
 

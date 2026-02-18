@@ -106,13 +106,17 @@ const ConditionDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, ...generateConditionContent(record) };
     const pdfName = `VA-conditions-details-${getNameDateAndTime(user)}`;
-    makePdf(
-      pdfName,
-      pdfData,
-      'medicalRecords',
-      'Medical Records - Condition details - PDF generation error',
-      runningUnitTest,
-    );
+    try {
+      await makePdf(
+        pdfName,
+        pdfData,
+        'medicalRecords',
+        'Medical Records - Condition details - PDF generation error',
+        runningUnitTest,
+      );
+    } catch {
+      // makePdf handles error logging to Datadog/Sentry
+    }
   };
 
   const generateConditionTxt = async () => {
@@ -168,12 +172,7 @@ Provider Notes: ${processList(record.comments)}\n`;
             />
 
             {downloadStarted && <DownloadSuccessAlert />}
-            <PrintDownload
-              description="Health Conditions Detail"
-              downloadPdf={generateConditionDetailsPdf}
-              downloadTxt={generateConditionTxt}
-            />
-            <DownloadingRecordsInfo description="Health Conditions Detail" />
+
             <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
 
             <div className="max-80">
@@ -211,6 +210,14 @@ Provider Notes: ${processList(record.comments)}\n`;
                 </LabelValue>
               )}
             </div>
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            <DownloadingRecordsInfo description="Health Conditions Detail" />
+            <PrintDownload
+              description="Health Conditions Detail"
+              downloadPdf={generateConditionDetailsPdf}
+              downloadTxt={generateConditionTxt}
+            />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px" />
           </HeaderSection>
         </>
       );
@@ -220,7 +227,7 @@ Provider Notes: ${processList(record.comments)}\n`;
       <div className="vads-u-margin-y--8">
         <va-loading-indicator
           message="Loading..."
-          setFocus
+          set-focus
           data-testid="loading-indicator"
         />
       </div>

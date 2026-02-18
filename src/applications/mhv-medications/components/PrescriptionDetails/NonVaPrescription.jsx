@@ -1,22 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import {
   validateField,
   dateFormat,
   displayProviderName,
 } from '../../util/helpers';
+import { selectCernerPilotFlag } from '../../util/selectors';
 import ExtraDetails from '../shared/ExtraDetails';
-import { dataDogActionNames } from '../../util/dataDogConstants';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import { ACTIVE_NON_VA } from '../../util/constants';
 
 const NonVaPrescription = prescription => {
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+
   const content = () => {
     return (
       <div className="medication-details-div vads-u-margin-bottom--3">
         <h2 className="vads-u-margin-bottom--2 no-print vads-u-margin-top--neg2">
           About this medication or supply
         </h2>
-        {prescription && <ExtraDetails {...prescription} />}
+        {prescription && (
+          <ExtraDetails
+            {...prescription}
+            page={pageType.DETAILS}
+            renewalLinkShownAbove
+          />
+        )}
         <section>
           <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Status
@@ -67,14 +77,16 @@ const NonVaPrescription = prescription => {
             {prescription.sig || 'Instructions not available'}
           </p>
         </section>
-        <section>
-          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
-            Reason for use
-          </h3>
-          <p data-testid="rx-reason-for-use">
-            {prescription.indicationForUse || 'Reason for use not available'}
-          </p>
-        </section>
+        {!isCernerPilot && (
+          <section>
+            <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
+              Reason for use
+            </h3>
+            <p data-testid="rx-reason-for-use">
+              {prescription.indicationForUse || 'Reason for use not available'}
+            </p>
+          </section>
+        )}
         <section>
           <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             When you started taking this medication

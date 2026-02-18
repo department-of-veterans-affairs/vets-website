@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { isReactComponent } from '~/platform/utilities/ui';
+import constants from 'vets-json-schema/dist/constants.json';
 import {
   createPageListByChapter,
   getActiveChapters,
@@ -17,6 +18,12 @@ let arrayMap = {};
 let nextClass = '';
 let reviewEntryKeys = {};
 
+// Create country code to name mapping
+const COUNTRY_CODE_TO_NAME = constants.countries.reduce((acc, country) => {
+  acc[country.value] = country.label;
+  return acc;
+}, {});
+
 function resetDefaults() {
   arrayMap = {};
   nextClass = '';
@@ -24,7 +31,7 @@ function resetDefaults() {
 }
 
 export const getChapterTitle = (chapterFormConfig, formData, formConfig) => {
-  const onReviewPage = true;
+  const onReviewPage = false;
 
   let chapterTitle = chapterFormConfig.reviewTitle || chapterFormConfig.title;
 
@@ -72,8 +79,11 @@ export const reviewEntry = (description, key, uiSchema, label, data) => {
   if (!data) return null;
 
   const keyString = generateReviewEntryKey(key, label, data);
-
-  const className = nextClass;
+  const className = classNames(
+    nextClass,
+    'vads-u-line-height--6',
+    'vads-u-padding-bottom--1',
+  );
   nextClass = '';
 
   // for multiple lines of data under one label
@@ -129,6 +139,10 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
     refinedData = uiSchema['ui:options'].labels[refinedData ? 'Y' : 'N'];
   } else if (uiSchema['ui:options']?.labels?.[refinedData]) {
     refinedData = uiSchema['ui:options'].labels[refinedData];
+  } else if (key === 'country' && COUNTRY_CODE_TO_NAME[refinedData]) {
+    // Handle country codes - show full names, but keep 'USA' as 'USA'
+    refinedData =
+      refinedData === 'USA' ? 'USA' : COUNTRY_CODE_TO_NAME[refinedData];
   } else if (
     uiSchema['ui:webComponentField']?.identifier === 'VaCheckboxGroupField'
   ) {
@@ -226,7 +240,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
 
 export const getPageTitle = (pageFormConfig, formData, formConfig) => {
   // Check for review title first, fallback to page title
-  const onReviewPage = true;
+  const onReviewPage = false;
   let pageTitle = pageFormConfig.reviewTitle || pageFormConfig.title;
 
   if (typeof pageTitle === 'function') {

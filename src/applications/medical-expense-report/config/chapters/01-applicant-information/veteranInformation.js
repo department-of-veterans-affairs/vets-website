@@ -3,45 +3,19 @@ import {
   currentOrPastDateUI,
   fullNameSchema,
   fullNameUI,
-  ssnUI,
-  ssnSchema,
   titleUI,
-  vaFileNumberUI,
-  vaFileNumberSchema,
+  ssnOrVaFileNumberSchema,
+  ssnOrVaFileNumberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   VaTextInputField,
   VaSelectField,
 } from 'platform/forms-system/src/js/web-component-fields';
-import { parse, isValid, startOfDay, subYears } from 'date-fns';
-import { isSameOrAfter } from '../../../utils/helpers';
+import { setDefaultIsOver65 } from './helpers';
 
-export function isOver65(formData, currentDate) {
-  const today = currentDate || new Date();
-  const veteranDateOfBirth = parse(
-    formData.veteranDateOfBirth,
-    'yyyy-MM-dd',
-    new Date(),
-  );
-
-  if (!isValid(veteranDateOfBirth)) return undefined;
-
-  return isSameOrAfter(
-    startOfDay(subYears(today, 65)),
-    startOfDay(veteranDateOfBirth),
-  );
-}
-
-export function setDefaultIsOver65(oldData, newData, currentDate) {
-  if (oldData.veteranDateOfBirth !== newData.veteranDateOfBirth) {
-    const today = currentDate || new Date();
-    return {
-      ...newData,
-      isOver65: isOver65(newData, today),
-    };
-  }
-  return newData;
-}
+const updatedFullNameSchema = fullNameSchema;
+updatedFullNameSchema.properties.first.maxLength = 40;
+updatedFullNameSchema.properties.last.maxLength = 50;
 
 /** @type {PageSchema} */
 export default {
@@ -50,17 +24,17 @@ export default {
     ...titleUI(
       ({ formData }) =>
         formData?.claimantNotVeteran
-          ? 'Veteran information'
-          : 'Your information',
+          ? 'Veteran’s information'
+          : 'Your identification information',
     ),
     veteranFullName: {
       ...fullNameUI(),
       first: {
-        'ui:title': 'First name',
+        'ui:title': 'First or given name',
         'ui:webComponentField': VaTextInputField,
         'ui:required': formData => formData.claimantNotVeteran === true,
         'ui:errorMessages': {
-          required: 'Please enter a first name',
+          required: 'Enter a first or given name',
         },
         'ui:options': {
           hideIf: formData => formData.claimantNotVeteran === false,
@@ -74,11 +48,11 @@ export default {
         },
       },
       last: {
-        'ui:title': 'Last name',
+        'ui:title': 'Last or family name',
         'ui:webComponentField': VaTextInputField,
         'ui:required': formData => formData.claimantNotVeteran === true,
         'ui:errorMessages': {
-          required: 'Please enter a last name',
+          required: 'Enter a last or family name',
         },
         'ui:options': {
           hideIf: formData => formData.claimantNotVeteran === false,
@@ -92,13 +66,7 @@ export default {
         },
       },
     },
-    veteranSocialSecurityNumber: ssnUI(),
-    vaFileNumber: {
-      ...vaFileNumberUI('VA file number'),
-      'ui:options': {
-        hint: 'Enter your VA file number if it doesn’t match your SSN',
-      },
-    },
+    veteranSocialSecurityNumber: ssnOrVaFileNumberUI(),
     veteranDateOfBirth: currentOrPastDateUI({
       title: 'Date of birth',
       monthSelect: false,
@@ -112,9 +80,8 @@ export default {
         type: 'object',
         properties: {},
       },
-      veteranFullName: { ...fullNameSchema, required: [] },
-      veteranSocialSecurityNumber: ssnSchema,
-      vaFileNumber: vaFileNumberSchema,
+      veteranFullName: { ...updatedFullNameSchema, required: [] },
+      veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },
   },

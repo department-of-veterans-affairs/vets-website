@@ -1,28 +1,32 @@
-import { parseISO, format } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatObservationInterpretations,
   formatDate,
   dateFormatWithoutTimezone,
-  formatDateInLocalTimezone,
+  formatDateTimeInUserTimezone,
   extractContainedByRecourceType,
   extractContainedResource,
   getObservationValueWithUnits,
   isArrayAndHasItems,
   decodeBase64Report,
   formatNameFirstToLast,
+  buildInitialDateRange,
+  sortByDate,
 } from '../util/helpers';
-import {
-  areDatesEqualToMinute,
-  parseRadiologyReport,
-} from '../util/radiologyUtil';
 import {
   loincCodes,
   fhirResourceTypes,
   labTypes,
   EMPTY_FIELD,
   loadStates,
+  DEFAULT_DATE_RANGE,
 } from '../util/constants';
+import {
+  convertMhvRadiologyRecord,
+  convertCvixRadiologyRecord,
+  mergeRadiologyLists,
+  mergeRadiologyDetails,
+} from '../util/imagesUtil';
 
 const initialState = {
   /**
@@ -49,6 +53,10 @@ const initialState = {
    * The lab or test result currently being displayed to the user
    */
   labsAndTestsDetails: undefined,
+  /**
+   * The selected date range for displaying labs and tests
+   * */
+  dateRange: buildInitialDateRange(DEFAULT_DATE_RANGE),
 };
 
 export const extractLabLocation = (performer, record) => {
@@ -250,7 +258,11 @@ export const convertMicrobiologyRecord = record => {
  * @returns the appropriate frontend object for display
  */
 export const convertPathologyRecord = record => {
-  const { code } = record.code.coding?.[0];
+  // Guard against null/undefined records to prevent TypeErrors
+  if (!record) return null;
+
+  // Safely access the first coding entry's code value
+  const codeValue = record?.code?.coding?.[0]?.code;
 
   // Define mapping for new LOINC codes to names
   const loincCodeMapping = {
@@ -260,22 +272,25 @@ export const convertPathologyRecord = record => {
     [loincCodes.CYTOPATHOLOGY]: 'Cytology',
   };
 
-  // Determine pathology type based on LOINC code
+  // Determine pathology type based on LOINC code (fallback to generic Pathology)
   let pathologyType;
-
-  if (code === loincCodes.PATHOLOGY) {
-    pathologyType = record.code.text;
+  if (codeValue === loincCodes.PATHOLOGY) {
+    // Prefer record.code.text when available; fallback to mapping value
+    pathologyType =
+      record?.code?.text || loincCodeMapping[loincCodes.PATHOLOGY];
   } else if (
-    code === loincCodes.SURGICAL_PATHOLOGY ||
-    code === loincCodes.ELECTRON_MICROSCOPY ||
-    code === loincCodes.CYTOPATHOLOGY
+    codeValue === loincCodes.SURGICAL_PATHOLOGY ||
+    codeValue === loincCodes.ELECTRON_MICROSCOPY ||
+    codeValue === loincCodes.CYTOPATHOLOGY
   ) {
-    pathologyType = loincCodeMapping[code];
+    pathologyType = loincCodeMapping[codeValue];
   } else {
     pathologyType = 'Pathology'; // fallback
   }
+
   const specimen = extractSpecimen(record);
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
+
   return {
     id: record.id,
     name: pathologyType,
@@ -291,9 +306,9 @@ export const convertPathologyRecord = record => {
     sampleTested: specimen?.collection?.bodySite?.text || EMPTY_FIELD,
     labLocation,
     collectingLocation: labLocation,
-    results:
-      record.presentedForm?.map(form => decodeBase64Report(form.data)) ||
-      EMPTY_FIELD,
+    results: Array.isArray(record.presentedForm)
+      ? record.presentedForm.map(form => decodeBase64Report(form.data))
+      : EMPTY_FIELD,
     sortDate: record.effectiveDateTime,
     labComments: record.labComments || EMPTY_FIELD,
   };
@@ -331,107 +346,6 @@ export const convertPathologyRecord = record => {
 //     ),
 //   };
 // };
-
-export const buildRadiologyResults = record => {
-  const reportText = record?.reportText || '\n';
-  const impressionText = record?.impressionText || '\n';
-  return `Report:\n${reportText
-    .replace(/\r\n|\r/g, '\n')
-    .replace(/^/gm, '  ')}  
-Impression:\n${impressionText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '  ')}`;
-};
-
-export const convertMhvRadiologyRecord = record => {
-  const orderedBy = formatNameFirstToLast(record.requestingProvider);
-  const imagingProvider = formatNameFirstToLast(record.radiologist);
-  return {
-    id: `r${record.id}-${record.hash}`,
-    name: record.procedureName,
-    type: labTypes.RADIOLOGY,
-    reason: record.reasonForStudy || EMPTY_FIELD,
-    orderedBy: orderedBy || EMPTY_FIELD,
-    clinicalHistory: record?.clinicalHistory?.trim() || EMPTY_FIELD,
-    imagingLocation: record.performingLocation,
-    date: record.eventDate
-      ? formatDateInLocalTimezone(record.eventDate, true)
-      : EMPTY_FIELD,
-    sortDate: record.eventDate,
-    imagingProvider: imagingProvider || EMPTY_FIELD,
-    results: buildRadiologyResults(record),
-  };
-};
-
-export const convertCvixRadiologyRecord = record => {
-  const parsedReport = parseRadiologyReport(record.reportText);
-  return {
-    id: `r${record.id}-${record.hash}`,
-    name: record.procedureName,
-    type: labTypes.CVIX_RADIOLOGY,
-    reason: parsedReport['Reason for Study'] || EMPTY_FIELD,
-    orderedBy: parsedReport['Req Phys'] || EMPTY_FIELD,
-    clinicalHistory: parsedReport['Clinical History'] || EMPTY_FIELD,
-    imagingLocation: record.facilityInfo?.name || EMPTY_FIELD,
-    date: record.performedDatePrecise
-      ? formatDateInLocalTimezone(record.performedDatePrecise, true)
-      : EMPTY_FIELD,
-    sortDate: record.performedDatePrecise
-      ? `${new Date(record.performedDatePrecise).toISOString().split('.')[0]}Z`
-      : EMPTY_FIELD,
-    imagingProvider: EMPTY_FIELD,
-    results: buildRadiologyResults({
-      reportText: parsedReport.Report,
-      impressionText: parsedReport.Impression,
-    }),
-    studyId: record.studyIdUrn,
-    imageCount: record.imageCount,
-  };
-};
-
-const mergeRadiologyRecords = (phrRecord, cvixRecord) => {
-  if (phrRecord && cvixRecord) {
-    return {
-      ...phrRecord,
-      studyId: cvixRecord.studyId,
-      imageCount: cvixRecord.imageCount,
-    };
-  }
-  return phrRecord || cvixRecord || null;
-};
-
-/**
- * Create a union of the radiology reports from PHR and CVIX. This function will merge
- * duplicates between the two lists.
- *
- * @param {Array} phrRadiologyTestsList - List of PHR radiology records.
- * @param {Array} cvixRadiologyTestsList - List of CVIX radiology records.
- * @returns {Array} - The merged list of radiology records.
- */
-export const mergeRadiologyLists = (
-  phrRadiologyTestsList,
-  cvixRadiologyTestsList,
-) => {
-  const mergedArray = [];
-  const matchedCvixIds = new Set();
-
-  for (const phrRecord of phrRadiologyTestsList) {
-    let matchingCvix = null;
-    for (const cvixRecord of cvixRadiologyTestsList) {
-      if (areDatesEqualToMinute(phrRecord.sortDate, cvixRecord.sortDate)) {
-        matchingCvix = cvixRecord;
-        matchedCvixIds.add(matchingCvix.id);
-        break;
-      }
-    }
-    if (matchingCvix) {
-      mergedArray.push(mergeRadiologyRecords(phrRecord, matchingCvix));
-    } else {
-      mergedArray.push(phrRecord);
-    }
-  }
-  return mergedArray.concat(
-    cvixRadiologyTestsList.filter(record => !matchedCvixIds.has(record.id)),
-  );
-};
 
 /**
  * @param {Object} record - A FHIR DiagnosticReport or DocumentReference object
@@ -487,6 +401,8 @@ const labsAndTestsConverterMap = {
  * @returns the appropriate frontend object for display
  */
 export const convertLabsAndTestsRecord = record => {
+  // Null/undefined guard to prevent TypeErrors when upstream arrays contain nulls
+  if (!record) return null;
   const type = getRecordType(record);
   const convertRecord = labsAndTestsConverterMap[type];
   return convertRecord
@@ -494,22 +410,18 @@ export const convertLabsAndTestsRecord = record => {
     : { ...record, type: labTypes.OTHER };
 };
 
-export function formatDateTime(datetimeString) {
-  const dateTime = new Date(datetimeString);
-  if (Number.isNaN(dateTime.getTime())) {
-    return { formattedDate: '', formattedTime: '' };
-  }
-  const formattedDate = format(dateTime, 'MMMM d, yyyy');
-  const formattedTime = format(dateTime, 'h:mm a');
-
-  return { formattedDate, formattedTime };
-}
-
 export const convertUnifiedLabsAndTestRecord = record => {
-  const { formattedDate, formattedTime } = formatDateTime(
-    record.attributes.dateCompleted,
-  );
-  const date = formattedDate ? `${formattedDate}, ${formattedTime}` : '';
+  // Always show timezone abbreviation for clarity (per UX feedback).
+  // If facilityTimezone is available, display in facility timezone.
+  // Otherwise, fall back to user's browser timezone.
+  const { facilityTimezone, dateCompleted } = record.attributes;
+  const date =
+    formatDateTimeInUserTimezone(
+      dateCompleted,
+      undefined,
+      facilityTimezone || undefined,
+    ) || EMPTY_FIELD;
+
   return {
     id: record.id,
     date,
@@ -520,44 +432,32 @@ export const convertUnifiedLabsAndTestRecord = record => {
     sampleTested: record.attributes.sampleTested,
     bodySite: record.attributes.bodySite,
     testCode: record.attributes.testCode,
+    testCodeDisplay:
+      record.attributes.testCodeDisplay || record.attributes.testCode,
     type: record.attributes.testCode,
     comments: record.attributes.comments,
+    source: record.attributes.source,
+    facilityTimezone,
     result: record.attributes.encodedData
       ? decodeBase64Report(record.attributes.encodedData)
       : null,
+    sortDate: dateCompleted,
     base: {
       ...record,
     },
   };
 };
 
-function sortByDate(array) {
-  return array.sort((a, b) => {
-    const dateA = parseISO(a.sortDate);
-    const dateB = parseISO(b.sortDate);
-    if (!a.sortDate) return 1; // Push nulls to the end
-    if (!b.sortDate) return -1; // Keep non-nulls at the front
-    return dateB - dateA;
-  });
-}
-
 export const labsAndTestsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.LabsAndTests.GET: {
       if ('phrDetails' in action.response) {
         // Special case to handle radiology.
-        const { phrDetails, cvixDetails } = action.response;
-        const convertedPhr = phrDetails
-          ? convertMhvRadiologyRecord(phrDetails)
-          : null;
-        const convertedCvix = cvixDetails
-          ? convertCvixRadiologyRecord(cvixDetails)
-          : null;
         return {
           ...state,
-          labsAndTestsDetails: mergeRadiologyRecords(
-            convertedPhr,
-            convertedCvix,
+          labsAndTestsDetails: mergeRadiologyDetails(
+            action.response.phrDetails,
+            action.response.cvixDetails,
           ),
         };
       }
@@ -581,34 +481,55 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       };
     }
     case Actions.LabsAndTests.GET_UNIFIED_LIST: {
-      const data = action.labsAndTestsResponse;
+      // Coerce unified response to array before map/sort to avoid TypeErrors
+      const data = Array.isArray(action.labsAndTestsResponse)
+        ? action.labsAndTestsResponse
+        : [];
+      const labsAndTestsList = data.map(record =>
+        convertUnifiedLabsAndTestRecord(record),
+      );
+
+      // We will temporarily merge CVIX records w/ SCDF records while we wait for images to
+      // be available in SCDF radiology records.
+      const cvixData = Array.isArray(action.cvixRadiologyResponse)
+        ? action.cvixRadiologyResponse
+        : [];
+      const cvixList =
+        cvixData?.map(cvixRecord => {
+          const record = convertCvixRadiologyRecord(cvixRecord);
+          return {
+            ...record,
+            // For unified data, we are currently NOT hashing the CVIX radiology records, so
+            // remove 'undefined' hash from CVIX records
+            id: record.id.replace(/-undefined$/, ''),
+          };
+        }) || [];
+      const mergedList = [...labsAndTestsList, ...cvixList];
+
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        labsAndTestsList: data
-          .map(record => convertUnifiedLabsAndTestRecord(record))
-          .sort((a, b) => {
-            if (!a.base?.attributes?.dateCompleted) return 1; // Push nulls to the end
-            if (!b.base?.attributes?.dateCompleted) return -1; // Keep non-nulls at the front
-            const dateA = parseISO(a.base.attributes.dateCompleted);
-            const dateB = parseISO(b.base.attributes.dateCompleted);
-            return dateB - dateA;
-          }),
+        labsAndTestsList: sortByDate(mergedList),
       };
     }
     case Actions.LabsAndTests.GET_LIST: {
       const oldList = state.labsAndTestsList;
-      const labsAndTestsList =
-        action.labsAndTestsResponse.entry
-          ?.map(record => convertLabsAndTestsRecord(record.resource))
-          .filter(record => record.type !== labTypes.OTHER) || [];
-      const radiologyTestsList = (action.radiologyResponse || []).map(
-        convertLabsAndTestsRecord,
-      );
-      const cvixRadiologyTestsList = (action.cvixRadiologyResponse || []).map(
-        convertLabsAndTestsRecord,
-      );
+      const toArray = v => (Array.isArray(v) ? v : []);
+      // Coerce all sources to arrays before processing
+      const entry = toArray(action.labsAndTestsResponse?.entry);
+      const labsAndTestsList = entry
+        .map(record => convertLabsAndTestsRecord(record.resource))
+        .filter(record => record && record.type !== labTypes.OTHER);
+      // Filter out nulls BEFORE mapping to avoid calling converter with null
+      const radiologyTestsList = toArray(action.radiologyResponse)
+        .filter(Boolean)
+        .map(convertLabsAndTestsRecord)
+        .filter(Boolean);
+      const cvixRadiologyTestsList = toArray(action.cvixRadiologyResponse)
+        .filter(Boolean)
+        .map(convertLabsAndTestsRecord)
+        .filter(Boolean);
       const mergedRadiologyList = mergeRadiologyLists(
         radiologyTestsList,
         cvixRadiologyTestsList,
@@ -651,6 +572,12 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         listState: action.payload,
+      };
+    }
+    case Actions.LabsAndTests.SET_DATE_RANGE: {
+      return {
+        ...state,
+        dateRange: action.payload,
       };
     }
     default:

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { format, isValid } from 'date-fns';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
@@ -74,6 +75,11 @@ export const ConfirmationPage = props => {
     form.data.agreementType === 'newCommitment'
       ? 'new commitment'
       : 'withdrawal of commitment';
+
+  useEffect(() => {
+    const focusedEl = document.querySelector('va-alert');
+    scrollAndFocus(focusedEl);
+  }, []);
 
   return (
     <ConfirmationView

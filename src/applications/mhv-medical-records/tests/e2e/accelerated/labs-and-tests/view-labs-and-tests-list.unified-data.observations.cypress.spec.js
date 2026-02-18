@@ -1,3 +1,4 @@
+import { format, subMonths } from 'date-fns';
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import LabsAndTests from '../pages/LabsAndTests';
 import oracleHealthUser from '../fixtures/user/oracle-health.json';
@@ -31,18 +32,19 @@ describe('Medical Records View Lab and Tests', () => {
     LabsAndTests.goToLabAndTestPage();
 
     const today = mockDate;
-    const timeFrame = `${today.getFullYear()}-${(today.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}`;
-    LabsAndTests.checkUrl({ timeFrame });
+    const fromDisplay = format(subMonths(today, 3), 'MMMM d, yyyy');
+    const toDisplay = format(today, 'MMMM d, yyyy');
+    LabsAndTests.checkTimeFrameDisplay({
+      fromDate: fromDisplay,
+      toDate: toDisplay,
+    });
 
     cy.injectAxeThenAxeCheck();
 
     const CARDS_PER_PAGE = 3;
-    cy.get(':nth-child(4) > [data-testid="record-list-item"]').should(
-      'have.length',
-      CARDS_PER_PAGE,
-    );
+    cy.get(
+      'ul.record-list-items.no-print [data-testid="record-list-item"]',
+    ).should('have.length', CARDS_PER_PAGE);
     cy.get("[data-testid='filter-display-message']").should('be.visible');
     cy.get("[data-testid='filter-display-message']").should('not.be.empty');
     // go to a specific lab

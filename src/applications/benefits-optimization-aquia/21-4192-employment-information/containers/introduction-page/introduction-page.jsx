@@ -5,11 +5,9 @@
 
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import {
@@ -17,16 +15,15 @@ import {
   TITLE,
 } from '@bio-aquia/21-4192-employment-information/constants';
 
+const OMB_RES_BURDEN = 15;
+const OMB_NUMBER = '2900-0065';
+const OMB_EXP_DATE = '08/31/2027';
+
 /**
  * Introduction page component for VA Form 21-4192
  * @returns {React.ReactElement} Introduction page component
  */
-export const IntroductionPage = ({ route }) => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
-  const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
-
+export const IntroductionPage = ({ router }) => {
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
@@ -35,118 +32,85 @@ export const IntroductionPage = ({ route }) => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
+
       <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-        Follow these steps to apply for a burial allowance
+        Follow these steps to provide information about an employee
       </h2>
 
       <va-process-list>
-        <va-process-list-item header="Check your eligibility">
-          <p>
-            Make sure you meet our eligibility requirements before you apply.{' '}
-            <a href="/burials-memorials/veterans-burial-allowance/">
-              Find out if you’re eligible for a Veterans burial allowance and
-              transportation benefits
-            </a>
-            .
-          </p>
-        </va-process-list-item>
-
         <va-process-list-item header="Gather your information">
-          <p>You’ll need this information about the deceased Veteran:</p>
+          <p>
+            <strong>
+              You’ll need this information about the Veteran’s employer:
+            </strong>
+          </p>
           <ul>
-            <li>Social Security number or VA file number</li>
-            <li>Date and place of birth</li>
-            <li>Date of death</li>
-            <li>Military service history</li>
-            <li>Date of burial</li>
-            <li>Final resting place</li>
+            <li>The business name of the employer</li>
+            <li>The address</li>
           </ul>
           <p>
-            And we’ll ask for your organization’s information. This includes
-            your organization’s cemetery name, location, mailing address, and
-            contact information.
+            <strong>
+              You’ll need this information about the Veteran seeking benefits:
+            </strong>
           </p>
-          <p>You may also need to provide copies of these documents:</p>
           <ul>
+            <li>Their name</li>
+            <li>Their date of birth</li>
+            <li>Their social security number</li>
             <li>
-              The Veteran’s death certificate including the cause of death
+              When they started working and, if applicable, when they stopped
+              working
             </li>
+            <li>The type of work they did</li>
+            <li>Whether any concessions were made due to age or disability</li>
             <li>
-              An itemized receipt for transportation costs (only if you paid
-              transportation costs for the Veteran’s remains)
+              Whether they received any entitlements or benefits while employed
             </li>
+            <li>Details about the last payment made to them</li>
+            <li>Their National Guard or Reserve status</li>
           </ul>
+        </va-process-list-item>
+
+        <va-process-list-item header="Fill out and sign the form">
           <p>
-            We also recommend providing a copy of the Veteran’s DD214 or other
-            separation documents including all their service periods.
-          </p>
-          <p>
-            If you don’t have their DD214 or other separation documents, you can
-            request these documents now.{' '}
-            <a href="/records/get-military-service-records/">
-              Learn more about requesting military service records
-            </a>
-            .
-          </p>
-          <h4>What if I need help with my application?</h4>
-          <p>
-            An accredited representative, like a Veterans Service Organization
-            (VSO), can help you fill out your application.{' '}
-            <a href="/disability/get-help-filing-claim/">
-              Learn more about getting help from an accredited representative
-            </a>
-            .
+            We’ll take you through each step of the process. It should take
+            about 15 minutes to complete this form.
           </p>
         </va-process-list-item>
 
-        <va-process-list-item header="Apply">
+        <va-process-list-item header="Submit the form">
           <p>
-            We’ll take you through each step of the process. This application
-            should take about 30 minutes.
-          </p>
-        </va-process-list-item>
-
-        <va-process-list-item header="After you apply">
-          <p>
-            We’ll contact you by mail if we need more information. Once we
-            process your application, we’ll mail you a letter with our decision.
+            After you submit the form, you’ll receive a confirmation message.
+            You can print this for your records.
           </p>
         </va-process-list-item>
       </va-process-list>
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the state and tribal organization burial allowance benefits application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
-      )}
-      <va-omb-info
-        res-burden="15"
-        omb-number="2900-0065"
-        exp-date="08/31/2027"
+
+      <VaLinkAction
+        href="/veteran-information"
+        data-testid="start-employment-info-link"
+        onClick={e => {
+          e.preventDefault();
+          router.push('/veteran-information');
+        }}
+        text="Submit employment information in connection with claim for Individual Unemployability"
       />
+      <div className="vads-u-margin-top--4">
+        <va-omb-info
+          res-burden={OMB_RES_BURDEN}
+          omb-number={OMB_NUMBER}
+          exp-date={OMB_EXP_DATE}
+        />
+      </div>
     </article>
   );
 };
 
 IntroductionPage.propTypes = {
-  route: PropTypes.shape({
-    formConfig: PropTypes.shape({
-      prefillEnabled: PropTypes.bool.isRequired,
-      savedFormMessages: PropTypes.object.isRequired,
-    }).isRequired,
-    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
   location: PropTypes.shape({
     basename: PropTypes.string,
   }),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
-
-export default IntroductionPage;

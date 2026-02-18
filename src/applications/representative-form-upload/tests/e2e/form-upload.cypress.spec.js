@@ -75,7 +75,9 @@ describe('Representative Form Upload', () => {
     });
 
     it('sets sessionStorage flag when "Start form upload and submission" is clicked', () => {
-      cy.visit('/representative/representative-form-upload/21-686c');
+      cy.visit(
+        '/representative/representative-form-upload/submit-va-form-21-686c',
+      );
 
       cy.get('a[href="#start"]')
         .contains('Start form upload and submission')
@@ -90,10 +92,12 @@ describe('Representative Form Upload', () => {
     });
 
     it('allows veteran claimant submission', () => {
-      cy.visit('/representative/representative-form-upload/21-686c');
+      cy.visit(
+        '/representative/representative-form-upload/submit-va-form-21-686c',
+      );
       cy.location('pathname').should(
         'eq',
-        '/representative/representative-form-upload/21-686c/introduction',
+        '/representative/representative-form-upload/submit-va-form-21-686c/introduction',
       );
       cy.injectAxe();
       cy.axeCheck();
@@ -102,10 +106,12 @@ describe('Representative Form Upload', () => {
     ['21-686c'].forEach(formId => {
       describe(`form ${formId}`, () => {
         it('allows veteran claimant submission', () => {
-          cy.visit(`/representative/representative-form-upload/${formId}`);
+          cy.visit(
+            `/representative/representative-form-upload/submit-va-form-${formId}`,
+          );
           cy.location('pathname').should(
             'eq',
-            `/representative/representative-form-upload/${formId}/introduction`,
+            `/representative/representative-form-upload/submit-va-form-${formId}/introduction`,
           );
 
           cy.injectAxe();
@@ -117,14 +123,14 @@ describe('Representative Form Upload', () => {
 
           cy.location('pathname').should(
             'eq',
-            `/representative/representative-form-upload/${formId}/is-veteran`,
+            `/representative/representative-form-upload/submit-va-form-${formId}/is-veteran`,
           );
 
           cy.findByLabelText(/^The claimant is the Veteran$/).click();
           cy.findByRole('button', { name: /^Continue$/ }).click();
           cy.location('pathname').should(
             'eq',
-            `/representative/representative-form-upload/${formId}/veteran-information`,
+            `/representative/representative-form-upload/submit-va-form-${formId}/veteran-information`,
           );
 
           cy.axeCheck();
@@ -151,7 +157,7 @@ describe('Representative Form Upload', () => {
 
           cy.location('pathname').should(
             'eq',
-            `/representative/representative-form-upload/${formId}/upload`,
+            `/representative/representative-form-upload/submit-va-form-${formId}/upload-files`,
           );
 
           cy.fillVaFileInput('root_uploadedFile', uploadImgDetails);
@@ -162,24 +168,26 @@ describe('Representative Form Upload', () => {
           cy.findByRole('button', { name: /^Continue$/ }).click();
           cy.location('pathname').should(
             'eq',
-            `/representative/representative-form-upload/${formId}/review-and-submit`,
+            `/representative/representative-form-upload/submit-va-form-${formId}/review-and-submit`,
           );
 
           cy.clickFormContinue();
           cy.axeCheck();
           cy.location('pathname').should(
             'eq',
-            `/representative/representative-form-upload/${formId}/confirmation`,
+            `/representative/representative-form-upload/submit-va-form-${formId}/confirmation`,
           );
         });
 
         it('allows veteran claimant submission with supporting evidence', () => {
-          cy.visit(`/representative/representative-form-upload/${formId}`);
+          cy.visit(
+            `/representative/representative-form-upload/submit-va-form-${formId}`,
+          );
           cy.injectAxe();
           cy.axeCheck();
           cy.location('pathname').should(
             'eq',
-            `/representative/representative-form-upload/${formId}/introduction`,
+            `/representative/representative-form-upload/submit-va-form-${formId}/introduction`,
           );
 
           cy.get('a[href="#start"]')
@@ -188,7 +196,7 @@ describe('Representative Form Upload', () => {
 
           cy.location('pathname').should(
             'eq',
-            `/representative/representative-form-upload/${formId}/is-veteran`,
+            `/representative/representative-form-upload/submit-va-form-${formId}/is-veteran`,
           );
 
           cy.findByLabelText(/^The claimant is the Veteran$/).click();
@@ -197,7 +205,7 @@ describe('Representative Form Upload', () => {
 
           cy.location('pathname').should(
             'eq',
-            `/representative/representative-form-upload/${formId}/veteran-information`,
+            `/representative/representative-form-upload/submit-va-form-${formId}/veteran-information`,
           );
 
           fillTextWebComponent(
@@ -222,7 +230,7 @@ describe('Representative Form Upload', () => {
 
           cy.location('pathname').should(
             'eq',
-            `/representative/representative-form-upload/${formId}/upload`,
+            `/representative/representative-form-upload/submit-va-form-${formId}/upload-files`,
           );
 
           cy.fillVaFileInput('root_uploadedFile', uploadImgDetails);
@@ -230,18 +238,19 @@ describe('Representative Form Upload', () => {
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(1000);
 
-          cy.get('input#root_supportingDocuments').selectFile(uploadImgPath, {
-            force: true,
-          });
+          cy.fillVaFileInputMultiple(
+            'root_supportingDocuments',
+            uploadImgDetails,
+          );
 
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(1000);
           cy.axeCheck();
 
-          cy.findByRole('button', { name: /^Continue$/ }).click();
+          cy.clickFormContinue();
           cy.location('pathname').should(
             'eq',
-            `/representative/representative-form-upload/${formId}/review-and-submit`,
+            `/representative/representative-form-upload/submit-va-form-${formId}/review-and-submit`,
           );
 
           cy.clickFormContinue();
@@ -251,12 +260,14 @@ describe('Representative Form Upload', () => {
     });
 
     it('allows non-veteran claimant submission', () => {
-      cy.visit(`/representative/representative-form-upload/21-686c/`);
+      cy.visit(
+        `/representative/representative-form-upload/submit-va-form-21-686c/`,
+      );
       cy.injectAxe();
       cy.axeCheck();
       cy.location('pathname').should(
         'eq',
-        '/representative/representative-form-upload/21-686c/introduction',
+        '/representative/representative-form-upload/submit-va-form-21-686c/introduction',
       );
 
       cy.get('a[href="#start"]')
@@ -265,7 +276,7 @@ describe('Representative Form Upload', () => {
 
       cy.location('pathname').should(
         'eq',
-        '/representative/representative-form-upload/21-686c/is-veteran',
+        '/representative/representative-form-upload/submit-va-form-21-686c/is-veteran',
       );
 
       cy.findByLabelText(
@@ -275,7 +286,7 @@ describe('Representative Form Upload', () => {
       cy.axeCheck();
       cy.location('pathname').should(
         'eq',
-        '/representative/representative-form-upload/21-686c/claimant-information',
+        '/representative/representative-form-upload/submit-va-form-21-686c/claimant-information',
       );
 
       fillTextWebComponent(
@@ -299,7 +310,7 @@ describe('Representative Form Upload', () => {
 
       cy.location('pathname').should(
         'eq',
-        '/representative/representative-form-upload/21-686c/upload',
+        '/representative/representative-form-upload/submit-va-form-21-686c/upload-files',
       );
 
       cy.fillVaFileInput('root_uploadedFile', uploadImgDetails);
@@ -310,14 +321,14 @@ describe('Representative Form Upload', () => {
       cy.findByRole('button', { name: /^Continue$/ }).click();
       cy.location('pathname').should(
         'eq',
-        '/representative/representative-form-upload/21-686c/review-and-submit',
+        '/representative/representative-form-upload/submit-va-form-21-686c/review-and-submit',
       );
 
       cy.clickFormContinue();
       cy.axeCheck();
       cy.location('pathname').should(
         'eq',
-        '/representative/representative-form-upload/21-686c/confirmation',
+        '/representative/representative-form-upload/submit-va-form-21-686c/confirmation',
       );
     });
   });
@@ -349,7 +360,9 @@ describe('Representative Form Upload', () => {
     });
 
     it('shows the appropriate error message', () => {
-      cy.visit(`/representative/representative-form-upload/21-686c`);
+      cy.visit(
+        `/representative/representative-form-upload/submit-va-form-21-686c`,
+      );
 
       cy.injectAxe();
       cy.axeCheck();
@@ -360,14 +373,14 @@ describe('Representative Form Upload', () => {
 
       cy.location('pathname').should(
         'eq',
-        `/representative/representative-form-upload/21-686c/is-veteran`,
+        `/representative/representative-form-upload/submit-va-form-21-686c/is-veteran`,
       );
 
       cy.findByLabelText(/^The claimant is the Veteran$/).click();
       cy.findByRole('button', { name: /^Continue$/ }).click();
       cy.location('pathname').should(
         'eq',
-        `/representative/representative-form-upload/21-686c/veteran-information`,
+        `/representative/representative-form-upload/submit-va-form-21-686c/veteran-information`,
       );
 
       cy.axeCheck();
@@ -386,7 +399,7 @@ describe('Representative Form Upload', () => {
 
       cy.location('pathname').should(
         'eq',
-        `/representative/representative-form-upload/21-686c/upload`,
+        `/representative/representative-form-upload/submit-va-form-21-686c/upload-files`,
       );
 
       cy.fillVaFileInput('root_uploadedFile', uploadImgDetails);
@@ -397,13 +410,13 @@ describe('Representative Form Upload', () => {
       cy.findByRole('button', { name: /^Continue$/ }).click();
       cy.location('pathname').should(
         'eq',
-        `/representative/representative-form-upload/21-686c/review-and-submit`,
+        `/representative/representative-form-upload/submit-va-form-21-686c/review-and-submit`,
       );
 
       cy.clickFormContinue();
       cy.location('pathname').should(
         'eq',
-        `/representative/representative-form-upload/21-686c/review-and-submit`,
+        `/representative/representative-form-upload/submit-va-form-21-686c/review-and-submit`,
       );
       cy.get('#submission-error').contains(
         'The form couldn’t be submitted because of high system traffic',
@@ -418,7 +431,9 @@ describe('Representative Form Upload', () => {
         isAppEnabled: true,
         isInPilot: true,
       });
-      cy.visit('/representative/representative-form-upload/21-686c/');
+      cy.visit(
+        '/representative/representative-form-upload/submit-va-form-21-686c/',
+      );
       cy.injectAxe();
       cy.axeCheck();
       cy.location('pathname').should('eq', '/sign-in/');

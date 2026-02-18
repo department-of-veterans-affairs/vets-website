@@ -28,7 +28,8 @@
         "givenNames": ["Wesley", "Watson"],
         "facilities": [{ "facilityId": "983", "isCerner": false }],
         "vaPatient": true,
-        "mhvAccountState": "OK"
+        "mhvAccountState": "OK",
+        "schedulingPreferencesPilotEligible": true
       },
       "veteranStatus": {
         "status": "OK",
@@ -74,7 +75,7 @@
           "stateCode": "NE",
           "transactionId": "054c5396-9900-4bb5-ad73-4f06eb7452b5",
           "updatedAt": "2020-07-09T16:18:43.000+00:00",
-          "validationKey": null,
+          "overrideValidationKey": null,
           "vet360Id": "1273780",
           "zipCode": "05050",
           "zipCodeSuffix": null
@@ -103,7 +104,7 @@
           "stateCode": "MD",
           "transactionId": "7139aa82-fd06-45ea-a217-9654869924bd",
           "updatedAt": "2020-07-10T20:10:46.000+00:00",
-          "validationKey": null,
+          "overrideValidationKey": null,
           "vet360Id": "1273780",
           "zipCode": "20603",
           "zipCodeSuffix": null

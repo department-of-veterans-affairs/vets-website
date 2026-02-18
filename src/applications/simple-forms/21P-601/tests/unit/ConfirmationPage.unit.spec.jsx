@@ -1,120 +1,183 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { render, cleanup } from '@testing-library/react';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import { expect } from 'chai';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
+import formConfig from '../../config/form';
 
 describe('21P-601 ConfirmationPage', () => {
+  const middleware = [thunk];
+  const mockStore = configureStore(middleware);
+
+  const baseStore = {
+    form: {
+      formId: '21P-601 ',
+      submission: {
+        response: {
+          confirmationNumber: 'ABC123',
+        },
+        timestamp: '2024-03-15T10:30:00Z',
+      },
+      data: {
+        hasRemarried: false,
+      },
+    },
+  };
+
+  const route = {
+    formConfig,
+  };
+
   afterEach(() => {
     cleanup();
   });
 
   describe('basic rendering', () => {
-    it('should render successfully', () => {
-      const { container } = render(<ConfirmationPage />);
-      expect(container).to.exist;
-    });
-
-    it('should render success alert with correct status', () => {
-      const { container } = render(<ConfirmationPage />);
+    it('should render success alert with correct heading', () => {
+      const { container } = render(
+        <Provider store={mockStore(baseStore)}>
+          <ConfirmationPage route={route} />
+        </Provider>,
+      );
 
       const alert = container.querySelector('va-alert');
-      expect(alert).to.exist;
       expect(alert).to.have.attr('status', 'success');
       expect(alert).to.have.attr('uswds');
     });
 
-    it('should display correct heading in alert', () => {
-      const { container } = render(<ConfirmationPage />);
+    it('should display confirmation information', () => {
+      const { container } = render(
+        <Provider store={mockStore(baseStore)}>
+          <ConfirmationPage route={route} />
+        </Provider>,
+      );
 
-      const alert = container.querySelector('va-alert');
-      expect(alert.textContent).to.include("We've received your form");
-    });
-
-    it('should display thank you message', () => {
-      const { getByText } = render(<ConfirmationPage />);
-
-      getByText(/Thank you for submitting 21P-601/i);
-    });
-
-    it('should have confirmation-page class', () => {
-      const { container } = render(<ConfirmationPage />);
-
-      const confirmationDiv = container.querySelector('.confirmation-page');
-      expect(confirmationDiv).to.exist;
+      const text = container.textContent;
+      expect(text).to.include('Form submission started');
     });
   });
 
-  describe('content verification', () => {
-    it('should include form number in thank you message', () => {
-      const { container } = render(<ConfirmationPage />);
+  describe('submission handling', () => {
+    it('should render successfully with valid submission', () => {
+      const { container } = render(
+        <Provider store={mockStore(baseStore)}>
+          <ConfirmationPage route={route} />
+        </Provider>,
+      );
+      expect(container).to.exist;
+    });
+  });
 
-      expect(container.textContent).to.include('21P-601');
+  describe('confirmation number display', () => {
+    it('should display confirmation number when available', () => {
+      const { container } = render(
+        <Provider store={mockStore(baseStore)}>
+          <ConfirmationPage route={route} />
+        </Provider>,
+      );
+
+      expect(container.textContent).to.include('ABC123');
     });
 
-    it('should render alert before thank you message', () => {
-      const { container } = render(<ConfirmationPage />);
+    it('should hide confirmation number section when not available', () => {
+      const store = {
+        form: {
+          ...baseStore.form,
+          submission: {
+            timestamp: '2024-03-15T10:30:00Z',
+            response: {},
+          },
+        },
+      };
 
-      const alert = container.querySelector('va-alert');
-      const paragraph = container.querySelector('p');
+      const { container } = render(
+        <Provider store={mockStore(store)}>
+          <ConfirmationPage route={route} />
+        </Provider>,
+      );
 
-      // Alert should come before paragraph in DOM
-      expect(alert).to.exist;
-      expect(paragraph).to.exist;
-      expect(alert.compareDocumentPosition(paragraph)).to.equal(
-        Node.DOCUMENT_POSITION_FOLLOWING,
+      expect(container.textContent).to.not.include('ABC123');
+    });
+
+    it('should hide confirmation number section when submission is undefined', () => {
+      const store = {
+        form: {
+          ...baseStore.form,
+          submission: undefined,
+        },
+      };
+
+      const { container } = render(
+        <Provider store={mockStore(store)}>
+          <ConfirmationPage route={route} />
+        </Provider>,
+      );
+
+      expect(container.textContent).to.not.include('ABC123');
+    });
+  });
+
+  describe('print functionality', () => {
+    it('should render print button', () => {
+      const { container } = render(
+        <Provider store={mockStore(baseStore)}>
+          <ConfirmationPage route={route} />
+        </Provider>,
+      );
+
+      const printButton = container.querySelector('va-button');
+      expect(printButton).to.have.attr(
+        'text',
+        'Print this page for your records',
       );
     });
+  });
 
-    it('should have h2 heading in alert slot', () => {
-      const { container } = render(<ConfirmationPage />);
+  describe('error handling', () => {
+    it('should handle undefined form gracefully or throw PropTypes warning', () => {
+      const store = {
+        form: undefined,
+      };
 
-      const heading = container.querySelector('h2[slot="headline"]');
-      expect(heading).to.exist;
-      expect(heading.textContent).to.equal("We've received your form");
+      // The component uses optional chaining and may not throw
+      // depending on PropTypes being in development or production mode
+      try {
+        const { container } = render(
+          <Provider store={mockStore(store)}>
+            <ConfirmationPage route={route} />
+          </Provider>,
+        );
+        // If it renders, verify it doesn't crash
+        expect(container).to.exist;
+      } catch (error) {
+        // If it throws due to PropTypes in dev mode, that's also acceptable
+        expect(error).to.exist;
+      }
     });
   });
 
-  describe('accessibility', () => {
-    it('should use semantic HTML structure', () => {
-      const { container } = render(<ConfirmationPage />);
+  describe('contact information', () => {
+    it('should display How to contact us section', () => {
+      const { getByText } = render(
+        <Provider store={mockStore(baseStore)}>
+          <ConfirmationPage route={route} />
+        </Provider>,
+      );
 
-      const alert = container.querySelector('va-alert');
-      const heading = container.querySelector('h2');
-
-      expect(alert).to.exist;
-      expect(heading).to.exist;
+      getByText(/How to contact us if you have questions/i);
     });
 
-    it('should have proper heading hierarchy', () => {
-      const { container } = render(<ConfirmationPage />);
+    it('should display Need help section', () => {
+      const { getByText } = render(
+        <Provider store={mockStore(baseStore)}>
+          <ConfirmationPage route={route} />
+        </Provider>,
+      );
 
-      const h2 = container.querySelector('h2');
-      expect(h2).to.exist;
-      expect(h2.textContent).to.equal("We've received your form");
-    });
-  });
-
-  describe('component structure', () => {
-    it('should render with minimal props', () => {
-      // Component doesn't require any props
-      const { container } = render(<ConfirmationPage />);
-      expect(container).to.exist;
-      expect(container.querySelector('.confirmation-page')).to.exist;
-    });
-
-    it('should contain exactly one alert element', () => {
-      const { container } = render(<ConfirmationPage />);
-
-      const alerts = container.querySelectorAll('va-alert');
-      expect(alerts.length).to.equal(1);
-    });
-
-    it('should contain exactly one paragraph element', () => {
-      const { container } = render(<ConfirmationPage />);
-
-      const paragraphs = container.querySelectorAll('p');
-      expect(paragraphs.length).to.equal(1);
+      getByText(/Need help\?/i);
     });
   });
 });

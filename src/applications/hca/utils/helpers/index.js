@@ -5,4 +5,3 @@ export * from './file-attachments';
 export * from './form-config';
 export * from './general';
 export * from './household';
-export * from './insurance';

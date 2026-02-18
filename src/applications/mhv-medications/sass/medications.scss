@@ -97,7 +97,6 @@
   }
   .rx-card-container{
     max-width: 500px;
-    padding-bottom: 5px;
     color: var(--vads-color-base-darker);
     .rx-card-details{
       margin-left: 5px;
@@ -124,6 +123,9 @@
         display: flex;
       }
     }
+  }
+  .rx-card-container.pending-med-or-renewal {
+    background-color: var(--vads-color-base-lightest);
   }
   .rx-landing-page-footer {
     max-width: 500px;
@@ -255,7 +257,9 @@
   }
 }
 
-.rx-fill-refill-button {
+.rx-refill-button {
+  width: 100%;
+
   va-loading-indicator {
     display: flex;
     justify-content: left;
@@ -368,4 +372,8 @@ va-checkbox {
 }
 .tracking-info-med-list {
   list-style-type: disc;
+}
+
+.medications-list-style--none {
+  list-style: none;
 }

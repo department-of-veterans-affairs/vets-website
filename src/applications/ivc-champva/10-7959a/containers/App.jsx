@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import {
-  DowntimeNotification,
-  externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
@@ -32,13 +29,6 @@ const BROWSER_MONITORING_PROPS = {
   },
 };
 
-const DOWNTIME_APP_TITLE = `CHAMPVA Form ${formConfig.formId}`;
-
-const DOWNTIME_DEPENDENCIES = [
-  externalServices.pega,
-  externalServices.form107959a,
-];
-
 const App = ({ location, children }) => {
   const isAppLoading = useSelector(
     state => state.featureToggles?.loading || state.user?.profile?.loading,
@@ -56,8 +46,8 @@ const App = ({ location, children }) => {
   ) : (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       <DowntimeNotification
-        appTitle={DOWNTIME_APP_TITLE}
-        dependencies={DOWNTIME_DEPENDENCIES}
+        appTitle={`CHAMPVA Form ${formConfig.formId}`}
+        dependencies={formConfig.downtime.dependencies}
       >
         {children}
       </DowntimeNotification>

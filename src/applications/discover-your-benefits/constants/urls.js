@@ -41,4 +41,6 @@ export const URLS = Object.freeze({
   DCU_LEARN: 'https://www.va.gov/discharge-upgrade-instructions/',
   SVB_LEARN:
     'https://discover.va.gov/external-resources/?_resource_type=state-veterans-affairs-office',
+  ENPP_LEARN:
+    'https://www.dol.gov/agencies/vets/programs/tap/employment-navigator-partnership',
 });

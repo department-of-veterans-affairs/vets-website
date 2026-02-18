@@ -1,0 +1,169 @@
+{
+  "data": {
+    "veteran": {
+      "fullName": {
+        "first": "Avery",
+        "middle": "J",
+        "last": "Veteran",
+        "suffix": "Sr."
+      },
+      "dateOfBirth": "1974-02-15",
+      "ssn": "123456789",
+      "vaFileNumber": "987654321",
+      "veteranServiceNumber": "V123456",
+      "address": {
+        "street": "123 Patriot Way",
+        "street2": "Unit 4",
+        "city": "Springfield",
+        "state": "VA",
+        "postalCode": "22150",
+        "country": "USA"
+      },
+      "homePhone": "5551234567",
+      "email": "avery.veteran@example.com"
+    },
+    "contactInformation1": {
+      "veteran": {
+        "address": {
+          "street": "123 Patriot Way",
+          "street2": "Unit 4",
+          "city": "Springfield",
+          "state": "VA",
+          "postalCode": "22150",
+          "country": "USA"
+        }
+      }
+    },
+    "contactInformation2": {
+      "veteran": {
+        "homePhone": "5551234567",
+        "email": "avery.veteran@example.com"
+      }
+    },
+    "preparerIdentification": {
+      "relationshipToVeteran": "Fiduciary",
+      "preparerFullName": {
+        "first": "Morgan",
+        "middle": "L",
+        "last": "Advocate",
+        "suffix": "Jr."
+      },
+      "preparerTitle": "Accredited Agent",
+      "preparerOrganization": "Veteran Support Services",
+      "courtAppointmentInfo": "Appointed by Fairfax County Court on 2021-03-15",
+      "view:preparerHasSameAddressAsVeteran": false,
+      "preparerAddress": {
+        "street": "456 Support Ln",
+        "street2": "Suite 200",
+        "city": "Arlington",
+        "state": "VA",
+        "postalCode": "22201",
+        "country": "USA"
+      }
+    },
+    "sectionTwoP1": {
+      "disabilityDescription": [
+        {
+          "disability": "Chronic lumbar strain with radiculopathy and PTSD symptoms that prevent sustained employment."
+        }
+      ]
+    },
+    "doctorCareQuestion": {
+      "hasReceivedDoctorCare": true,
+      "doctorCareType": "va"
+    },
+    "hospitalizationQuestion": {
+      "hasBeenHospitalized": true,
+      "hospitalType": "both",
+      "view:treatmentAtNonVA": false
+    },
+    "doctors": [
+      {
+        "doctorName": "Dr. Emily Carter",
+        "doctorAddress": {
+          "street": "789 Health St",
+          "city": "Alexandria",
+          "state": "VA",
+          "postalCode": "22314",
+          "country": "USA"
+        },
+        "treatmentDates": [
+          {
+            "startDate": "2023-01-15",
+            "endDate": "2023-03-01"
+          },
+          {
+            "startDate": "2024-02-10"
+          }
+        ]
+      },
+      {
+        "doctorName": "Dr. William Nguyen",
+        "doctorAddress": {
+          "street": "101 Care Blvd",
+          "city": "Falls Church",
+          "state": "VA",
+          "postalCode": "22042",
+          "country": "USA"
+        },
+        "treatmentDates": [
+          {
+            "startDate": "2022-11-15",
+            "endDate": "2023-02-20"
+          }
+        ]
+      }
+    ],
+    "hospitals": [
+      {
+        "hospitalName": "Sunrise Medical Center",
+        "hospitalAddress": {
+          "street": "202 Recovery Rd",
+          "city": "Richmond",
+          "state": "VA",
+          "postalCode": "23219",
+          "country": "USA"
+        },
+        "connectedDisabilities": [
+          "Chronic lumbar strain",
+          "PTSD"
+        ],
+        "treatmentDates": [
+          {
+            "startDate": "2023-05-05",
+            "endDate": "2023-05-10"
+          }
+        ]
+      }
+    ],
+    "sectionThree": {
+      "disabilityDate": "2022-05-01",
+      "lastWorkedDate": "2022-08-12",
+      "disabledWorkDate": "2022-08-13",
+      "maxYearlyEarnings": 68000,
+      "yearEarned": 2019,
+      "occupation": "Electrical technician"
+    },
+    "employersHistory": [
+      {
+        "employerName": "Capital Metro Services",
+        "employerAddress": {
+          "street": "55 Transit Way",
+          "city": "Washington",
+          "state": "DC",
+          "postalCode": "20001",
+          "country": "USA"
+        },
+        "typeOfWork": "Electrical technician",
+        "hoursPerWeek": 40,
+        "startDate": "2018-04-01",
+        "endDate": "2022-08-12",
+        "timeLost": 18,
+        "earnings": 54000
+      }
+    ],
+    "additionalRemarks": "Veteran experiences increased pain with prolonged standing and lifting. Requires frequent medical appointments and therapy sessions.",
+    "signatureOfClaimant": "Avery J Veteran",
+    "dateSigned": "2024-09-30"
+  }
+}

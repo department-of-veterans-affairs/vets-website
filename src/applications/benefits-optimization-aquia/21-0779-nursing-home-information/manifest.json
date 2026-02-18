@@ -2,6 +2,11 @@
   "appName": "21-0779 Nursing Home Information",
   "entryFile": "./app-entry.jsx",
   "entryName": "21-0779-nursing-home-information",
-  "rootUrl": "/21-0779-nursing-home-information",
-  "productId": "0383a035-c37c-4875-ad1d-5f85c59025fe"
+  "rootUrl": "/supporting-forms-for-claims/submit-nursing-home-information-form-21-0779",
+  "productId": "0383a035-c37c-4875-ad1d-5f85c59025fe",
+  "template": {
+    "vagovprod": false,
+    "layout": "page-react.html",
+    "includeBreadcrumbs": true
+  }
 }

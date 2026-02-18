@@ -1,67 +1,101 @@
-import React from 'react';
 import {
   titleUI,
   textUI,
   textSchema,
   currencyUI,
   currencySchema,
+  arrayBuilderItemFirstPageTitleUI,
+  arrayBuilderYesNoSchema,
+  arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 
-export default {
-  uiSchema: {
-    ...titleUI('Other debts the deceased owed'),
-    'ui:description':
-      'List any other debts the deceased owed at the time of death (not related to medical care or burial).',
-    otherDebts: {
-      'ui:title': 'Other debts',
-      'ui:options': {
-        itemName: 'Debt',
-        viewField: ({ formData }) => {
-          const type = formData.debtType || 'Unknown';
-          const amount = formData.debtAmount
-            ? `$${parseFloat(formData.debtAmount).toFixed(2)}`
-            : '$0.00';
-          return (
-            <div>
-              <strong>{type}</strong>
-              <br />
-              Amount: {amount}
-            </div>
-          );
-        },
-        keepInPageOnReview: true,
-        confirmRemove: true,
-        useDlWrap: true,
-        showSave: true,
-      },
-      items: {
-        debtType: textUI({
-          title: 'Type of debt',
-          hint: 'For example: credit card, personal loan, car loan',
-        }),
-        debtAmount: currencyUI({
-          title: 'Amount owed',
-          required: () => true,
-        }),
-      },
+/** @type {ArrayBuilderOptions} */
+const options = {
+  arrayPath: 'otherDebts',
+  nounSingular: 'debt',
+  nounPlural: 'debts',
+  required: false,
+  isItemIncomplete: item => !item?.debtType || !item?.debtAmount,
+  maxItems: 4,
+  text: {
+    getItemName: item => item?.debtType || 'Unknown debt',
+    cardDescription: item => {
+      return item?.debtAmount
+        ? `Amount: $${parseFloat(item.debtAmount).toFixed(2)}`
+        : 'Amount: $0.00';
     },
+  },
+};
+
+const yesNoOptions = {
+  hint: `You can add up to ${options.maxItems}`,
+};
+
+/**
+ * Cards are populated on this page above the uiSchema if items are present
+ *
+ * @returns {PageSchema}
+ */
+const summaryPage = {
+  uiSchema: {
+    ...titleUI("Beneficiary's other debts"),
+    'view:hasOtherDebts': arrayBuilderYesNoUI(options, yesNoOptions),
   },
   schema: {
     type: 'object',
     properties: {
-      otherDebts: {
-        type: 'array',
-        minItems: 1,
-        maxItems: 4,
-        items: {
-          type: 'object',
-          required: ['debtType', 'debtAmount'],
-          properties: {
-            debtType: textSchema,
-            debtAmount: currencySchema,
-          },
-        },
-      },
+      'view:hasOtherDebts': arrayBuilderYesNoSchema,
     },
+    required: ['view:hasOtherDebts'],
   },
 };
+
+/** @returns {PageSchema} */
+const debtDetailsPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Debt details',
+      nounSingular: options.nounSingular,
+    }),
+    debtType: textUI({
+      title: 'Type of debt',
+      hint: 'For example: credit card, personal loan, car loan',
+    }),
+    debtAmount: currencyUI({
+      title: 'Amount owed',
+      required: () => true,
+    }),
+    creditorName: textUI({
+      title: 'Creditor name',
+      hint: 'Name of the person or institution the debt is owed to',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      debtType: textSchema,
+      debtAmount: currencySchema,
+      creditorName: textSchema,
+    },
+    required: ['debtType', 'debtAmount'],
+  },
+};
+
+export const otherDebtsPages = arrayBuilderPages(options, pageBuilder => ({
+  otherDebtsSummary: pageBuilder.summaryPage({
+    title: 'Beneficiary’s other debts',
+    path: 'other-debts-list',
+    uiSchema: summaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  debtDetailsPage: pageBuilder.itemPage({
+    title: 'Debt details',
+    path: 'other-debts-list/:index/details',
+    uiSchema: debtDetailsPage.uiSchema,
+    schema: debtDetailsPage.schema,
+  }),
+}));
+
+// Export for testing
+export const otherDebtsOptions = options;

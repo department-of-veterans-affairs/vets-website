@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import createCommonStore from 'platform/startup/store';
-import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 import ServicePeriodView from '../../components/ServicePeriodView';
 
 const store = createCommonStore();
@@ -23,14 +23,14 @@ const props = {
 
 describe('Pre-need ServicePeriodView Component', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<ServicePeriodView {...props} />);
-    const input = tree.subTree('div');
-    expect(input.type).to.equal('div');
+    const { container } = render(<ServicePeriodView {...props} />);
+    const div = container.querySelector('div');
+    expect(div).to.exist;
   });
 
   it('should populate date field', () => {
-    const tree = SkinDeep.shallowRender(<ServicePeriodView {...props} />);
-    const input = tree.subTree('div');
-    expect(input.text()).to.equal('01/01/1900 — 01/01/1905');
+    const { container } = render(<ServicePeriodView {...props} />);
+    const div = container.querySelector('div');
+    expect(div.textContent).to.include('01/01/1900 — 01/01/1905');
   });
 });

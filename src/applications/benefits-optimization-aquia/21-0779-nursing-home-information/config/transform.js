@@ -1,4 +1,9 @@
-import * as Sentry from '@sentry/browser';
+/**
+ * Strips all non-digit characters from a phone number
+ * @param {string} phone - Phone number that may contain dashes, spaces, or other characters
+ * @returns {string} Phone number with only digits
+ */
+const stripNonDigits = phone => phone?.replace(/\D/g, '');
 
 export const transform = (formConfig, form) => {
   const {
@@ -9,77 +14,84 @@ export const transform = (formConfig, form) => {
     claimantIdentificationInfo,
     nursingHomeDetails,
     certificationLevelOfCare,
-    admissionDateInfo,
+    admissionDate,
     medicaidFacility,
     medicaidApplication,
     medicaidStatus,
-    medicaidStartDateInfo,
+    medicaidStartDate,
     monthlyCosts,
     nursingOfficialInformation,
+    signature,
   } = form?.data;
 
   const { nursingHomeName, nursingHomeAddress } = nursingHomeDetails || {};
-  const nursingOfficialName = `${nursingOfficialInformation?.firstName?.trim() ||
-    ''} ${nursingOfficialInformation?.lastName?.trim() || ''}`.trim();
+  const nursingOfficialName = `${nursingOfficialInformation?.fullName?.first?.trim() ||
+    ''} ${nursingOfficialInformation?.fullName?.last?.trim() || ''}`.trim();
 
-  // No claimant info if veteran is the patient
+  // Claimant info - when veteran is the patient, use veteran's info
   const claimantIsVeteran = claimantQuestion?.patientType === 'veteran';
   const claimantInformation = claimantIsVeteran
-    ? null
+    ? {
+        fullName: veteranPersonalInfo?.fullName,
+        dateOfBirth: veteranPersonalInfo?.dateOfBirth,
+        veteranId: {
+          ssn: veteranIdentificationInfo?.ssn,
+          vaFileNumber: veteranIdentificationInfo?.vaFileNumber,
+        },
+      }
     : {
-        ...claimantPersonalInfo?.claimantFullName,
+        fullName: claimantPersonalInfo?.claimantFullName,
         dateOfBirth: claimantPersonalInfo?.claimantDateOfBirth,
         veteranId: {
-          ssn: claimantIdentificationInfo?.claimantSsn,
-          vaFileNumber: claimantIdentificationInfo?.claimantVaFileNumber,
+          ssn: claimantIdentificationInfo?.ssn,
+          vaFileNumber: claimantIdentificationInfo?.vaFileNumber,
         },
       };
 
-  try {
-    const submissionObj = {
-      veteranInformation: {
-        ...veteranPersonalInfo?.fullName,
-        dateOfBirth: veteranPersonalInfo?.dateOfBirth,
-        veteranId: {
-          ...veteranIdentificationInfo,
-        },
+  const submissionData = {
+    veteranInformation: {
+      fullName: veteranPersonalInfo?.fullName,
+      dateOfBirth: veteranPersonalInfo?.dateOfBirth,
+      veteranId: {
+        ssn: veteranIdentificationInfo?.ssn,
+        vaFileNumber: veteranIdentificationInfo?.vaFileNumber,
       },
-      claimantInformation,
-      nursingHomeInformation: {
-        nursingHomeName,
-        nursingHomeAddress: {
-          street: nursingHomeAddress?.street,
-          street2: nursingHomeAddress?.street2,
-          city: nursingHomeAddress?.city,
-          state: nursingHomeAddress?.state,
-          country: nursingHomeAddress?.country,
-          postalCode: nursingHomeAddress?.postalCode,
-        },
+    },
+    claimantInformation,
+    nursingHomeInformation: {
+      nursingHomeName,
+      nursingHomeAddress: {
+        street: nursingHomeAddress?.street,
+        street2: nursingHomeAddress?.street2,
+        city: nursingHomeAddress?.city,
+        state: nursingHomeAddress?.state,
+        country: nursingHomeAddress?.country,
+        postalCode: nursingHomeAddress?.postalCode,
       },
-      generalInformation: {
-        admissionDate: admissionDateInfo?.admissionDate,
-        medicaidFacility: medicaidFacility?.isMedicaidApproved === 'yes',
-        medicaidApplication:
-          medicaidApplication?.hasAppliedForMedicaid === 'yes',
-        patientMedicaidCovered:
-          medicaidStatus?.currentlyCoveredByMedicaid === 'yes',
-        medicaidStartDate: medicaidStartDateInfo?.medicaidStartDate,
-        monthlyCosts: monthlyCosts?.monthlyOutOfPocket,
-        // TODO sort out level of care enum/boolean
-        certificationLevelOfCare:
-          certificationLevelOfCare?.levelOfCare === 'skilled',
-        nursingOfficialName,
-        nursingOfficialTitle: nursingOfficialInformation?.jobTitle,
-        nursingOfficialPhoneNumber: nursingOfficialInformation?.phoneNumber,
-      },
-    };
+    },
+    generalInformation: {
+      admissionDate: admissionDate?.admissionDate,
+      medicaidFacility: medicaidFacility?.isMedicaidApprovedFacility === true,
+      medicaidApplication: medicaidApplication?.hasAppliedForMedicaid === true,
+      patientMedicaidCovered:
+        medicaidStatus?.currentlyCoveredByMedicaid === true,
+      medicaidStartDate: medicaidStartDate?.medicaidStartDate,
+      monthlyCosts: monthlyCosts?.monthlyOutOfPocket
+        ? String(monthlyCosts.monthlyOutOfPocket)
+        : undefined,
+      certificationLevelOfCare: certificationLevelOfCare?.levelOfCare,
+      nursingOfficialName,
+      nursingOfficialTitle: nursingOfficialInformation?.jobTitle,
+      nursingOfficialPhoneNumber: stripNonDigits(
+        nursingOfficialInformation?.phoneNumber,
+      ),
+      signature,
+      signatureDate: new Date().toISOString().split('T')[0],
+    },
+  };
 
-    return JSON.stringify(submissionObj);
-  } catch (error) {
-    Sentry.withScope(scope => {
-      scope.setExtra('error', error);
-      Sentry.captureMessage(`Transform Failed: ${error}`);
-    });
-    return 'Transform failed, see sentry for details';
-  }
+  // Return the data as a JSON string wrapped in an object with a 'form' key
+  // The backend expects the entire payload to be a stringified JSON object,
+  // we do this because we don't want the form data modified by the inflection header
+  return JSON.stringify({ form: JSON.stringify(submissionData) });
 };

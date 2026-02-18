@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import formConfig from '../../../config/form';
 import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/pageTests.spec';
 
-import mockData from '../../e2e/fixtures/data/test-data.json';
+import mockData from '../../e2e/fixtures/data/medical-claim.json';
 import { insuranceOptions } from '../../../chapters/healthInsuranceInformation';
 import NotEnrolledPage from '../../../components/FormPages/NotEnrolledPage';
 
@@ -402,25 +402,6 @@ describe('dependent page logic', () => {
     });
 
     expect(depCount > 0).to.be.true;
-  });
-});
-
-// Call the title fn for any page that has a computed title
-describe('title text logic', () => {
-  it('should be called', () => {
-    let titleCount = 0;
-
-    Object.keys(formConfig.chapters).forEach(ch => {
-      Object.keys(formConfig.chapters[`${ch}`].pages).forEach(pg => {
-        const { title } = formConfig.chapters[`${ch}`].pages[`${pg}`];
-        if (typeof title === 'function') {
-          title({ formData: {} });
-          titleCount += 1;
-        }
-      });
-    });
-
-    expect(titleCount > 0).to.be.true;
   });
 });
 

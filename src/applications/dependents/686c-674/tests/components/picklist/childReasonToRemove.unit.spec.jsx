@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import childReasonToRemove from '../../../components/picklist/childReasonToRemove';
+import { labels } from '../../../components/picklist/utils';
 
 import { createDoB } from '../../test-helpers';
 
@@ -48,12 +49,10 @@ describe('childReasonToRemove', () => {
     const heading = $('h3', container);
 
     expect(heading).to.exist;
-    expect(heading.textContent).to.include('Reason for removing PENNY FOSTER');
+    expect(heading.textContent).to.include('PENNY FOSTER');
     expect(radio).to.exist;
     expect(radio.getAttribute('required')).to.equal('true');
-    expect(radio.getAttribute('label')).to.equal(
-      'Why do you need to remove this dependent?',
-    );
+    expect(radio.getAttribute('label')).to.equal(labels.Child.removalReason);
     expect(radio.getAttribute('hint')).to.equal(
       'If more than one applies, select what happened first.',
     );
@@ -68,7 +67,7 @@ describe('childReasonToRemove', () => {
 
     await waitFor(() => {
       expect($('va-radio', container).getAttribute('error')).to.equal(
-        'Select an option',
+        labels.Child.removalReasonError,
       );
     });
   });
@@ -212,25 +211,67 @@ describe('childReasonToRemove', () => {
   });
 
   describe('universal options', () => {
-    it('should always show adoption and death options', () => {
+    it('should always show ~adoption and~ death options', () => {
       const { container } = renderComponent();
 
       const radioOptions = container.querySelectorAll('va-radio-option');
-      const adoptionOption = Array.from(radioOptions).find(
-        option => option.getAttribute('value') === 'childAdopted',
-      );
+      // const adoptionOption = Array.from(radioOptions).find(
+      //   option => option.getAttribute('value') === 'childAdopted',
+      // );
       const deathOption = Array.from(radioOptions).find(
         option => option.getAttribute('value') === 'childDied',
       );
 
-      expect(adoptionOption).to.exist;
+      // expect(adoptionOption).to.exist;
       expect(deathOption).to.exist;
     });
   });
 
   context('childReasonToRemove handlers', () => {
-    it('should return "DONE" on goForward', () => {
-      expect(childReasonToRemove.handlers.goForward()).to.equal('DONE');
+    it('should return "DONE" by default on goForward', () => {
+      expect(childReasonToRemove.handlers.goForward({ itemData: {} })).to.equal(
+        'DONE',
+      );
+    });
+
+    it('should return "child-marriage" on goForward', () => {
+      expect(
+        childReasonToRemove.handlers.goForward({
+          itemData: { removalReason: 'childMarried' },
+        }),
+      ).to.equal('child-marriage');
+    });
+
+    it('should return "child-death" on goForward', () => {
+      expect(
+        childReasonToRemove.handlers.goForward({
+          itemData: { removalReason: 'childDied' },
+        }),
+      ).to.equal('child-death');
+    });
+
+    it('should return "stepchild-financial-support" on goForward', () => {
+      expect(
+        childReasonToRemove.handlers.goForward({
+          itemData: { removalReason: 'stepchildNotMember' },
+        }),
+      ).to.equal('stepchild-financial-support');
+    });
+
+    it('should return "child-left-school" on goForward', () => {
+      expect(
+        childReasonToRemove.handlers.goForward({
+          itemData: { removalReason: 'childNotInSchool' },
+        }),
+      ).to.equal('child-left-school');
+    });
+
+    it('should return "child-adopted" on goForward', () => {
+      expect(
+        childReasonToRemove.handlers.goForward({
+          itemData: { removalReason: 'childAdopted' },
+        }),
+      ).to.equal('child-adopted-exit');
     });
 
     it('should call goForward when removal reason is set on submit', () => {

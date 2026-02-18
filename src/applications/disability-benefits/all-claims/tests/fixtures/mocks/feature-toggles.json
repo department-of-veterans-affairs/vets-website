@@ -31,11 +31,11 @@
         "value": false
       },
       {
-        "name": "disability_526_toxic_exposure_opt_out_data_purge_by_user",
+        "name": "disability_compensation_new_conditions_workflow",
         "value": false
       },
       {
-        "name": "disability_compensation_new_conditions_workflow",
+        "name": "disability_526_supporting_evidence_enhancement",
         "value": false
       }
     ]

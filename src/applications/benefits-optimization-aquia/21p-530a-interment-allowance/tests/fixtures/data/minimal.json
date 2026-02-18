@@ -1,0 +1,44 @@
+{
+  "view:previousNamesMissingInformation": {},
+  "view:completedPreviousNames": false,
+  "view:periodsMissingInformation": {},
+  "view:completedServicePeriods": false,
+  "veteranInformation": {
+    "dateOfDeath": "2005-05-19",
+    "dateOfBirth": "1920-05-04",
+    "ssn": "800121234",
+    "fullName": {
+      "first": "Sheev",
+      "last": "Palpatine"
+    }
+  },
+  "burialInformation": {
+    "dateOfBurial": "2005-05-25",
+    "placeOfBurial": {
+      "stateCemeteryOrTribalCemeteryName": "Coruscant Memorial Cemetery",
+      "cemeteryLocation": {
+        "city": "Santa Fe",
+        "state": "New Mexico"
+      }
+    },
+    "recipientOrganization": {
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "100 Senate Plaza",
+        "city": "Santa Fe",
+        "state": "NM",
+        "postalCode": "87501"
+      },
+      "name": "Imperial Memorial Services",
+      "phoneNumber": "5055551977"
+    },
+    "nameOfStateCemeteryOrTribalOrganization": "New Mexico State Veterans Cemetery"
+  },
+  "titleSchema": {},
+  "certification": {
+    "signature": "Imperial Memorial Services",
+    "titleOfStateOrTribalOfficial": "New Mexico State Veterans Cemetery"
+  },
+  "AGREED": true
+}

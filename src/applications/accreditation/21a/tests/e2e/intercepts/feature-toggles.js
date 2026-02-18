@@ -11,10 +11,6 @@ export const setFeatureToggles = toggles => {
           name: 'accredited_representative_portal_form_21a',
           value: toggles.isForm21Enabled,
         },
-        {
-          name: 'accredited_representative_portal_pilot',
-          value: toggles.isInPilot,
-        },
       ],
     },
   });

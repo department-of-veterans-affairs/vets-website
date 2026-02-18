@@ -28,6 +28,7 @@ class MockReferralAppointmentDetailsResponse {
     organizationName = 'Meridian Health',
     status = 'booked',
   } = {}) {
+    // TODO update success response
     const baseAttributes = {
       id: appointmentId,
       status,
@@ -36,21 +37,37 @@ class MockReferralAppointmentDetailsResponse {
       ).toISOString(), // 30 days in future
       isLatest: true,
       lastRetrieved: new Date().toISOString(),
+      referralId: '123abc',
+      past: false,
     };
 
     // Only include modality and provider when status is 'booked'
     const bookedAttributes =
       status === 'booked'
         ? {
-            modality: 'In Person',
+            modality: 'communityCareEps',
             provider: {
               id: 'test-provider-id',
+              name: 'Dr. Smith @ Acme Cardiology - Anywhere, USA',
+              practice: 'Acme Cardiology',
+              phone: '555-555-0001',
               location: {
-                name: 'FHA South Melbourne Medical Complex',
-                address: organizationName,
-                latitude: 28.08061,
-                longitude: -80.60322,
+                name: organizationName,
+                address:
+                  '7500 CENTRAL AVE, STE 108, PHILADELPHIA, PA 19111-2430',
+                latitude: 40.06999282694126,
+                longitude: -75.08769957031448,
                 timezone: 'America/New_York',
+              },
+            },
+            location: {
+              id: 'test-location-id',
+              type: 'appointments',
+              attributes: {
+                name: organizationName,
+                timezone: {
+                  timeZoneId: 'America/New_York',
+                },
               },
             },
           }

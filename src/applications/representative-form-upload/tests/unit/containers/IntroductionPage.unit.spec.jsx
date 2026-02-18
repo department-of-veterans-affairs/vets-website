@@ -9,7 +9,8 @@ import formConfig from '../../../config/form';
 import IntroductionPage from '../../../containers/IntroductionPage';
 import { getFormContent } from '../../../helpers';
 
-const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/introduction';
+const TEST_URL =
+  'https://dev.va.gov/representative/representative-form-upload/submit-va-form-21-686c/introduction';
 const config = formConfig;
 
 const props = {
@@ -144,7 +145,7 @@ describe('IntroductionPage', () => {
 
   it('sets sessionStorage flag when start form link is clicked', () => {
     const routerSpy = { push: sinon.spy() };
-    const setItemSpy = sinon.spy(Storage.prototype, 'setItem');
+    const originalValue = sessionStorage.getItem('formIncompleteARP');
 
     const { container } = render(
       <Provider store={mockStore(true)}>
@@ -155,13 +156,20 @@ describe('IntroductionPage', () => {
     const link = container.querySelector('va-link-action');
     expect(link).to.exist;
 
+    // Trigger the click event - handler is attached via syncEvent from React bindings
     link.dispatchEvent(
       new MouseEvent('click', { bubbles: true, cancelable: true }),
     );
 
-    expect(setItemSpy.calledWith('formIncompleteARP', 'true')).to.be.true;
+    // Check actual sessionStorage value was set (not using spy due to jsdom 20 compatibility)
+    expect(sessionStorage.getItem('formIncompleteARP')).to.equal('true');
     expect(routerSpy.push.calledOnce).to.be.true;
 
-    setItemSpy.restore();
+    // Restore original sessionStorage state
+    if (originalValue === null) {
+      sessionStorage.removeItem('formIncompleteARP');
+    } else {
+      sessionStorage.setItem('formIncompleteARP', originalValue);
+    }
   });
 });

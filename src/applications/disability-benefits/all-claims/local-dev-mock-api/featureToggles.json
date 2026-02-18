@@ -39,10 +39,6 @@
         "value": false
       },
       {
-        "name": "disability_526_toxic_exposure_opt_out_data_purge_by_user",
-        "value": false
-      },
-      {
         "name": "form526_use_lighthouse_api",
         "value": false
       },
@@ -97,6 +93,10 @@
       {
         "name": "sync_modern_0781_flow",
         "value": true
+      },
+      {
+        "name": "disability_526_supporting_evidence_enhancement",
+        "value": false
       }
     ]
   }

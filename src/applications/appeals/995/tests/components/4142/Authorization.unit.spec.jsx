@@ -28,7 +28,7 @@ describe('<Authorization>', () => {
       target: { checked: false },
     });
 
-    fireEvent.click($('button.usa-button-primary', container));
+    fireEvent.click($('va-button[continue]', container));
     fireEvent.submit($('form', container)); // testing prevent default on form
 
     // testing onAnchorClick callback - scrolls to & focus on alert
@@ -63,7 +63,7 @@ describe('<Authorization>', () => {
       />,
     );
 
-    fireEvent.click($('button.usa-button-primary', container));
+    fireEvent.click($('va-button[continue]', container));
 
     await waitFor(() => {
       expect(goSpy.called).to.be.true;
@@ -79,7 +79,7 @@ describe('<Authorization>', () => {
       <Authorization goForward={goSpy} data={data} />,
     );
 
-    fireEvent.click($('button.usa-button-primary', container));
+    fireEvent.click($('va-button[continue]', container));
     expect(goSpy.called).to.be.true;
   });
 
@@ -119,7 +119,7 @@ describe('<Authorization>', () => {
       expect(alert).to.not.exist;
 
       // Click Continue button - this SHOULD trigger error
-      fireEvent.click($('button.usa-button-primary', container));
+      fireEvent.click($('va-button[continue]', container));
 
       const errorAlert = $('va-alert[visible="true"]', container);
       expect(errorAlert).to.exist;
@@ -137,7 +137,7 @@ describe('<Authorization>', () => {
         />,
       );
 
-      fireEvent.click($('button.usa-button-primary', container));
+      fireEvent.click($('va-button[continue]', container));
 
       expect($('va-alert[visible="true"]', container)).to.exist;
 

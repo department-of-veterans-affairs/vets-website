@@ -19,7 +19,11 @@ class PatientFilterSortPage {
   };
 
   openAdditionalFilter = () => {
-    cy.findByText('Show filters', { selector: 'h3' }).click();
+    cy.get('[data-testid="accordion-item-filter"]').click();
+  };
+
+  closeAdditionalFilter = () => {
+    cy.get('[data-testid="accordion-item-filter"]').click();
   };
 
   // This method will access the input field and enters the text that will be used for search.
@@ -270,25 +274,25 @@ class PatientFilterSortPage {
   selectStartMonth = month => {
     cy.get(Locators.BLOCKS.FILTER_START_DATE)
       .find(`[name="discharge-dateMonth"]`)
-      .select(month);
+      .select(month, { force: true });
   };
 
   selectEndMonth = month => {
     cy.get(Locators.BLOCKS.FILTER_END_DATE)
       .find(`[name="discharge-dateMonth"]`)
-      .select(month);
+      .select(month, { force: true });
   };
 
   selectStartDay = day => {
     cy.get(Locators.BLOCKS.FILTER_START_DATE)
       .find(`[name="discharge-dateDay"]`)
-      .select(day);
+      .select(day, { force: true });
   };
 
   selectEndDay = day => {
     cy.get(Locators.BLOCKS.FILTER_END_DATE)
       .find(`[name="discharge-dateDay"]`)
-      .select(day);
+      .select(day, { force: true });
   };
 
   getStartYear = year => {
@@ -308,6 +312,13 @@ class PatientFilterSortPage {
       .get(selector)
       .find(`#error-message`)
       .should(`be.visible`);
+  };
+
+  verifyNoFieldErrors = selector => {
+    return cy
+      .get(selector)
+      .find(`#error-message`)
+      .should(`not.exist`);
   };
 
   // retrieveMessages = function (folderID) {

@@ -9,6 +9,16 @@ import {
   FETCH_PERSONAL_INFORMATION_FAILED,
 } from '@@vap-svc/actions/personalInformation';
 import {
+  UPDATE_SCHEDULING_PREFERENCES_FIELD,
+  FETCH_SCHEDULING_PREFERENCES,
+  FETCH_SCHEDULING_PREFERENCES_FAILED,
+  FETCH_SCHEDULING_PREFERENCES_SUCCESS,
+} from '@@vap-svc/actions/schedulingPreferences';
+import {
+  convertSchedulingPreferenceToReduxFormat,
+  convertSchedulingPreferencesToReduxFormat,
+} from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
+import {
   FETCH_HERO_SUCCESS,
   FETCH_HERO_FAILED,
   FETCH_MILITARY_INFORMATION_SUCCESS,
@@ -55,6 +65,45 @@ function vaProfile(state = initialState, action) {
       }
 
       return set(`personalInformation.${action.fieldName}`, fieldValue, state);
+    }
+
+    case FETCH_SCHEDULING_PREFERENCES:
+      return set(
+        'schedulingPreferences',
+        { error: false, loading: true },
+        state,
+      );
+
+    case FETCH_SCHEDULING_PREFERENCES_SUCCESS:
+      return set(
+        'schedulingPreferences',
+        {
+          ...convertSchedulingPreferencesToReduxFormat(
+            action.schedulingPreferences,
+          ),
+          loading: false,
+        },
+        state,
+      );
+    case FETCH_SCHEDULING_PREFERENCES_FAILED:
+      return set(
+        'schedulingPreferences',
+        {
+          error: true,
+          loading: false,
+        },
+        state,
+      );
+
+    case UPDATE_SCHEDULING_PREFERENCES_FIELD: {
+      return set(
+        `schedulingPreferences.${action.fieldName}`,
+        convertSchedulingPreferenceToReduxFormat(
+          action.value[action.fieldName],
+          action.fieldName,
+        ),
+        state,
+      );
     }
 
     case FETCH_MILITARY_INFORMATION_SUCCESS:

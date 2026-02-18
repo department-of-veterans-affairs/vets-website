@@ -11,10 +11,7 @@ import {
   shouldShowStudentIncomeQuestions,
 } from './api';
 import {
-  validateName,
   customFormReplacer,
-  buildSubmissionData,
-  customTransformForSubmit,
   parseDateToDateObj,
   spouseEvidence,
   childEvidence,
@@ -23,10 +20,12 @@ import {
   isRemovingDependents,
   showV3Picklist,
   noV3Picklist,
+  showOptionsSelection,
   hasAwardedDependents,
   isVisiblePicklistPage,
   hasSelectedPicklistItems,
-} from './data';
+} from './formHelpers';
+import { buildSubmissionData, customTransformForSubmit } from './submission';
 
 export {
   // api
@@ -41,7 +40,6 @@ export {
   show674IncomeQuestions,
   shouldShowStudentIncomeQuestions,
   // data
-  validateName,
   customFormReplacer,
   buildSubmissionData,
   customTransformForSubmit,
@@ -53,6 +51,7 @@ export {
   isRemovingDependents,
   showV3Picklist,
   noV3Picklist,
+  showOptionsSelection,
   hasAwardedDependents,
   isVisiblePicklistPage,
   hasSelectedPicklistItems,

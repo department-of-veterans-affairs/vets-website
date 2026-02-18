@@ -1,0 +1,63 @@
+{
+  "data": {
+    "certifierRole": "sponsor",
+    "certifierName": {
+      "first": "Certifier",
+      "last": "Jones"
+    },
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Certifier St",
+      "city": "Certifier",
+      "state": "MD",
+      "postalCode": "12312"
+    },
+    "certifierPhone": "1231231234",
+    "certifierEmail": "certifier@email.gov",
+    "sponsorDob": "1958-01-01",
+    "sponsorSsn": "123123123",
+    "view:hasApplicants": true,
+    "applicants": [
+      {
+        "applicantName": {
+          "first": "Johnny",
+          "last": "Alvin"
+        },
+        "applicantDob": "2003-01-04",
+        "applicantSsn": "345345345",
+        "view:sharesAddressWith": "na",
+        "applicantAddress": {
+          "street": "456 Circle St",
+          "city": "Applicant",
+          "country": "USA",
+          "state": "IN",
+          "postalCode": "56790"
+        },
+        "applicantPhone": "5555551234",
+        "applicantGender": "male",
+        "applicantRelationshipToSponsor": "child",
+        "applicantRelationshipOrigin": "step",
+        "applicantBirthCertOrSocialSecCard": [
+          {
+            "attachmentId": "Birth certificate",
+            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
+            "name": "sample.png",
+            "isEncrypted": false
+          }
+        ],
+        "applicantStepMarriageCert": [
+          {
+            "attachmentId": "Marriage certificate",
+            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
+            "name": "sample.png",
+            "isEncrypted": false
+          }
+        ],
+        "applicantDependentStatus": "over18HelplessChild"
+      }
+    ],
+    "view:hasMedicare": false,
+    "view:hasHealthInsurance": false,
+    "statementOfTruthSignature": "Certifier Jones"
+  }
+}

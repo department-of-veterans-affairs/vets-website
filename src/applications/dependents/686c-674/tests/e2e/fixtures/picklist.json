@@ -21,13 +21,7 @@
   "view:completedHouseholdChild": false,
   "view:completedStudent": false,
   "view:completedVeteranFormerMarriage": false,
-  "view:removeDependentOptions": {
-    "reportDivorce": true,
-    "reportDeath": true,
-    "reportStepchildNotInHousehold": true,
-    "reportMarriageOfChildUnder18": true,
-    "reportChild18OrOlderIsNotAttendingSchool": true
-  },
+  "view:removeDependentOptions": {},
   "view:addDependentOptions": {
     "addSpouse": true,
     "addChild": true,
@@ -47,26 +41,6 @@
     }
   ],
   "householdIncome": false,
-  "reportDivorce": {
-    "spouseIncome": "N",
-    "date": "2019-03-02",
-    "divorceLocation": {
-      "outsideUsa": true,
-      "location": {
-        "city": "Fakesville",
-        "state": "FM",
-        "country": "BGD"
-      }
-    },
-    "reasonMarriageEnded": "Other",
-    "explanationOfOther": "Other",
-    "fullName": {
-      "first": "John",
-      "last": "Doe"
-    },
-    "birthDate": "1991-03-19",
-    "view:cancelDivorce": {}
-  },
   "view:completedAddChild": false,
   "view:completedSpouseFormerMarriage": false,
   "currentMarriageInformation": {
@@ -220,6 +194,7 @@
       },
       "biologicalParentSsn": "333444554",
       "biologicalParentDob": "2014-09-19",
+      "relationshipType": "STEPCHILD",
       "relationshipToChild": {
         "adopted": true,
         "stepchild": true
@@ -249,11 +224,11 @@
     "addChild": true,
     "report674": true,
     "addDisabledChild": true,
-    "reportDivorce": true,
-    "reportDeath": true,
-    "reportStepchildNotInHousehold": true,
-    "reportMarriageOfChildUnder18": true,
-    "reportChild18OrOlderIsNotAttendingSchool": true
+    "reportDivorce": false,
+    "reportDeath": false,
+    "reportStepchildNotInHousehold": false,
+    "reportMarriageOfChildUnder18": false,
+    "reportChild18OrOlderIsNotAttendingSchool": false
   },
   "veteranInformation": {
     "fullName": {
@@ -359,78 +334,24 @@
       }
     }
   ],
-  "stepChildren": [
-    {
-      "dateStepchildLeftHousehold": "2000-02-02",
-      "whoDoesTheStepchildLiveWith": {
-        "first": "John",
-        "last": "Doe"
-      },
-      "address": {
-        "view:militaryBaseDescription": {},
-        "country": "USA",
-        "street": "123 Fake St.",
-        "city": "Las Vegas",
-        "state": "NV",
-        "postalCode": "12345"
-      },
-      "livingExpensesPaid": "More than half",
-      "supportingStepchild": true,
-      "fullName": {
-        "first": "John",
-        "last": "Doe"
-      },
-      "ssn": "333445555",
-      "birthDate": "2012-02-19"
-    }
-  ],
-  "deaths": [
-    {
-      "dependentDeathLocation": {
-        "outsideUsa": false,
-        "location": {
-          "city": "Fakesville",
-          "state": "CO"
-        }
-      },
-      "deceasedDependentIncome": "N",
-      "dependentDeathDate": "1991-05-19",
-      "dependentType": "SPOUSE",
-      "fullName": {
-        "first": "John",
-        "last": "Doe"
-      },
-      "ssn": "333445555",
-      "birthDate": "1991-06-19"
-    }
-  ],
-  "childMarriage": [
-    {
-      "dependentIncome": "N",
-      "dateMarried": "1991-01-19",
-      "fullName": {
-        "first": "John",
-        "last": "Doe"
-      },
-      "ssn": "333445555",
-      "birthDate": "1991-02-19"
-    }
-  ],
-  "childStoppedAttendingSchool": [
-    {
-      "dependentIncome": "N",
-      "dateChildLeftSchool": "1991-03-19",
-      "fullName": {
-        "first": "John",
-        "last": "Doe"
-      },
-      "ssn": "333445555",
-      "birthDate": "1991-01-19"
-    }
-  ],
-  "statementOfTruthSignature": "Pauline E Foster",
+  "statementOfTruthSignature": "John Doe",
   "statementOfTruthCertified": true,
   "view:removeDependentPickList": [
+    {
+      "fullName": {
+        "first": "JOE",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "2006-08-08",
+      "ssn": "793473468",
+      "relationshipToVeteran": "Child",
+      "awardIndicator": "Y",
+      "key": "joe-3468",
+      "selected": true,
+      "isStepchild": "N",
+      "removalReason": "childNotInSchool",
+      "endDate": "2025-06-05"
+    },
     {
       "fullName": {
         "first": "PENNY",
@@ -442,7 +363,14 @@
       "awardIndicator": "Y",
       "key": "penny-3479",
       "selected": true,
-      "isStepchild": "N"
+      "isStepchild": "N",
+      "removalReason": "childMarried",
+      "endDate": "2025-06-05",
+      "endOutsideUs": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
     },
     {
       "fullName": {
@@ -455,7 +383,14 @@
       "awardIndicator": "Y",
       "key": "stacy-3232",
       "selected": true,
-      "isStepchild": "N"
+      "isStepchild": "N",
+      "removalReason": "childDied",
+      "endDate": "2025-06-05",
+      "endOutsideUs": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
     },
     {
       "fullName": {
@@ -469,34 +404,34 @@
       "key": "spousy-3332",
       "selected": true,
       "removalReason": "marriageEnded",
-      "marriageEndType": "divorce",
-      "marriageEndDate": "2020-01-01",
-      "marriageEndOutsideUS": false,
-      "marriageEndCity": "Test",
-      "marriageEndProvince": "Prov",
-      "marriageEndCountry": "AGO",
-      "marriageEndState": "AK"
+      "endType": "annulmentOrVoid",
+      "endAnnulmentOrVoidDescription": "Test description",
+      "endDate": "2020-01-01",
+      "endOutsideUs": true,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
     },
     {
       "fullName": {
-        "first": "PREVIOUS",
+        "first": "SUMMER",
         "last": "FOSTER"
       },
       "dateOfBirth": "1981-05-03",
       "ssn": "702023331",
       "relationshipToVeteran": "Spouse",
       "awardIndicator": "Y",
-      "key": "previous-3331",
+      "key": "summer-3331",
       "selected": true,
-      "removalReason": "death",
-      "marriageEndType": "divorce",
-      "marriageEndDate": "2020-01-01",
-      "marriageEndDeathDate": "2000-01-01",
-      "marriageEndOutsideUS": false,
-      "marriageEndCity": "Test",
-      "marriageEndProvince": "Prov",
-      "marriageEndCountry": "AGO",
-      "marriageEndState": "AK"
+      "removalReason": "spouseDied",
+      "endType": "divorce",
+      "endDate": "2020-01-01",
+      "endOutsideUs": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
     },
     {
       "fullName": {
@@ -509,7 +444,32 @@
       "awardIndicator": "Y",
       "key": "peter-0104",
       "selected": true,
-      "removalReason": "parentOther"
+      "removalReason": "parentOther",
+      "endDate": "2020-01-01",
+      "endOutsideUs": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    },
+    {
+      "fullName": {
+        "first": "MARY",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "1940-03-01",
+      "ssn": "997010155",
+      "relationshipToVeteran": "Parent",
+      "awardIndicator": "Y",
+      "key": "mary-0155",
+      "selected": true,
+      "removalReason": "parentDied",
+      "endDate": "2020-01-01",
+      "endOutsideUs": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
     }
   ]
 }

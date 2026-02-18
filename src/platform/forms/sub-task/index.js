@@ -149,7 +149,16 @@ export const SubTask = props => {
 
   const continueButton =
     getDestinationPage(currentPage.next) !== null ? (
-      <va-button continue onClick={() => pageCheck('next')}>
+      <va-button
+        continue
+        onClick={() => {
+          pageCheck('next');
+
+          if (currentPage.onContinue) {
+            currentPage.onContinue(formData);
+          }
+        }}
+      >
         Continue
       </va-button>
     ) : null;
@@ -209,6 +218,7 @@ SubTask.propTypes = {
   setFormData: PropTypes.func.isRequired,
   focusOnAlertRole: PropTypes.bool,
   formData: PropTypes.shape({}),
+  onContinue: PropTypes.func,
 };
 
 export default withRouter(

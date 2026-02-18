@@ -13,8 +13,8 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_10_7959F_1: '10-7959F-1',
   FORM_10_7959F_2: '10-7959F-2',
   FORM_10182: '10182',
-  FORM_1330M: '1330M',
-  FORM_1330M2: '1330M2',
+  FORM_1330M: '40-1330M',
+  FORM_1330M2: '40-1330M2',
   FORM_1919: '22-1919',
   FORM_20_0995: '20-0995',
   FORM_20_0996: '20-0996',
@@ -33,7 +33,6 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_4192_UPLOAD: '21-4192-UPLOAD',
   FORM_21_509_UPLOAD: '21-509-UPLOAD',
   FORM_21_526EZ: '21-526EZ',
-  FORM_21_686C: '686C-674',
   FORM_21_686C_UPLOAD: '21-686C-UPLOAD',
   FORM_21_686CV2: '686C-674-V2',
   FORM_21_8940_UPLOAD: '21-8940-UPLOAD',
@@ -82,6 +81,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_MOCK_MINIMAL_HEADER: 'FORM-MOCK-MINIMAL-HEADER',
   FORM_MOCK_PATTERNS_V3: 'FORM_MOCK_PATTERNS_V3',
   FORM_MOCK_SF_PATTERNS: 'FORM_MOCK_SF_PATTERNS',
+  FORM_MOCK_PREFILL: 'FORM-MOCK-PREFILL',
   FORM_MOCK: '00-1234',
   FORM_T_QSTNR: 'T-QSTNR',
   FORM_VA_2346A: 'MDOT',
@@ -102,6 +102,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_0304_UPLOAD: '21-0304-UPLOAD',
   FORM_21_651_UPLOAD: '21-651-UPLOAD',
   FORM_21P_4185_UPLOAD: '21P-4185-UPLOAD',
+  FORM_21P_535_UPLOAD: '21P-535-UPLOAD',
   FORM_22_10297: '22-10297',
   FORM_22_0839: '22-0839',
   FORM_22_10275: '22-10275',
@@ -115,6 +116,11 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_8416: '21P-8416',
   FORM_21P_534EZ: '21P-534EZ',
   FORM_21P_601: '21P-601',
+  FORM_22_10278: '22-10278',
+  FORM_22_0976: '22-0976',
+  FORM_22_10272: '22-10272',
+  FORM_22_0803: '22-0803',
+  FORM_20_10208_UPLOAD: '20-10208-UPLOAD',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -174,7 +180,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21_22A]: `${tryGetAppUrl('appoint-a-representative')}/`,
     [VA_FORM_IDS.FORM_21_4142]: `${tryGetAppUrl('21-4142-medical-release')}/`,
     [VA_FORM_IDS.FORM_21_526EZ]: `${tryGetAppUrl('526EZ-all-claims')}/`,
-    [VA_FORM_IDS.FORM_21_686C]: `${tryGetAppUrl('686C-674')}/`,
+    [VA_FORM_IDS.FORM_21_686CV2]: `${tryGetAppUrl('686C-674-v2')}/`,
     [VA_FORM_IDS.FORM_21P_0847]: `${tryGetAppUrl(
       '21P-0847-substitute-claimant',
     )}/`,
@@ -299,8 +305,16 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21P_4185_UPLOAD]: `${tryGetAppUrl(
       'form-upload-flow',
     )}/21P-4185/introduction/`,
+    [VA_FORM_IDS.FORM_20_10208_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/20-10208/introduction/`,
     [VA_FORM_IDS.FORM_21P_534EZ]: `${tryGetAppUrl('survivors-benefits')}/`,
     [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
+    [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('22-10278')}/`,
+    [VA_FORM_IDS.FORM_22_0976]: `${tryGetAppUrl('22-0976')}/`,
+    [VA_FORM_IDS.FORM_22_0803]: `${tryGetAppUrl('0803-edu-benefits')}/`,
+    [VA_FORM_IDS.FORM_MOCK_PREFILL]: `${tryGetAppUrl('mock-form-prefill')}/`,
+    [VA_FORM_IDS.FORM_22_10272]: `${tryGetAppUrl('22-10272')}/`,
   };
 };
 
@@ -432,6 +446,13 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'form-21-0779-upload-',
   },
   {
+    id: VA_FORM_IDS.FORM_20_10208_UPLOAD,
+    benefit: 'form 20-10208 upload',
+    title: 'form 20-10208 upload',
+    description: 'uploaded file for form 20-10208',
+    trackingPrefix: 'form-20-10208-upload-',
+  },
+  {
     id: VA_FORM_IDS.FORM_21P_4185_UPLOAD,
     benefit: 'Report of Income from Property or Business',
     title: 'form 21P-4185 upload',
@@ -521,6 +542,15 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'form-21-2680-upload-',
   },
   {
+    id: VA_FORM_IDS.FORM_21P_535_UPLOAD,
+    benefit:
+      'Dependency and Indemnity Compensation by Parent(s) (Including Accrued Benefits and Death Compensation When Applicable)',
+    title: 'form 21P-535',
+    description:
+      'Dependency and Indemnity Compensation by Parent(s) (Including Accrued Benefits and Death Compensation When Applicable)',
+    trackingPrefix: 'form-21P-535-upload-',
+  },
+  {
     id: VA_FORM_IDS.FORM_21_0845,
     benefit: 'authorization for personal information to third party',
     title: 'authorization for personal information to third party (21-0845)',
@@ -600,11 +630,12 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'disability-526EZ-',
   },
   {
-    id: VA_FORM_IDS.FORM_21_686C,
-    benefit: 'dependent status',
-    title: 'dependent status (686C-674)',
-    description: 'dependent status application (686C-674)',
-    trackingPrefix: '686-',
+    id: VA_FORM_IDS.FORM_21_686CV2,
+    benefit: 'adding or removing dependents on VA benefits',
+    title: 'adding or removing dependents on VA benefits',
+    description:
+      'adding or removing dependents on VA benefits (21-686C and 21-674)',
+    trackingPrefix: 'disability-21-686c-',
   },
   {
     id: VA_FORM_IDS.FORM_21_8940_UPLOAD,
@@ -834,7 +865,7 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_22_10297,
-    title: 'Apply for VET TEC 2.0 (high-tech program) (22-10297)',
+    title: 'Apply for VET TEC 2.0 (high-tech program)',
     description:
       'Application for High Technology Veterans Education, Training, and Skills (VA Form 22-10297)',
     trackingPrefix: 'edu-10297-',
@@ -851,10 +882,8 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_22_10275,
-    benefit:
-      'Commit to the Principles of Excellence for educational institutions',
     title:
-      'Commit to the Principles of Excellence for educational institutions (22-10275)',
+      'Commit to the Principles of Excellence for educational institutions',
     description:
       'Principles of Excellence for educational institutions (VA Form 22-10275)',
     trackingPrefix: 'edu-10275-',
@@ -941,6 +970,46 @@ export const MY_VA_SIP_FORMS = [
     description:
       'Application for Accrued Amounts Due a Deceased Beneficiary (21P-601)',
     trackingPrefix: '21p-601-accrued-benefits-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_10278,
+    title:
+      'Authorize VA to Disclose Personal Information to a Third Party for Education Benefits',
+    description:
+      'Authorize VA to Disclose Personal Information to a Third Party for Education Benefits (VA Form 22-10278)',
+    trackingPrefix: 'edu-10278-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_0976,
+    benefit: 'Approval of a Program in a Foreign Country',
+    title: 'Program Apporval in a Foreign Country (VA Form 22-0976)',
+    description: 'Approval of a Program in a Foreign Country (VA Form 22-0976)',
+    trackingPrefix: 'edu-0976-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_0803,
+    benefit: 'education benefits',
+    title:
+      '22-0803 Request for reimbursement of licensing or certification test fees',
+    description: 'education benefits',
+    trackingPrefix: 'edu-0803-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_MOCK_PREFILL,
+    benefit: 'Mock prefill testing',
+    title: 'Mock Form with Prefill',
+    description: 'Mock prefill testing',
+    trackingPrefix: 'mock-prefill-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_10272,
+    benefit:
+      '22-10272 Application for Reimbursement of Licensing or Certification Test and Preparation Course Fees',
+    title:
+      '22-10272 Application for reimbursement of preparatory (prep) course for licensing or certification test',
+    description:
+      '22-10272 Application for Reimbursement of Licensing or Certification Test and Preparation Course Fees',
+    trackingPrefix: '10272-edu-benefits',
   },
 ];
 

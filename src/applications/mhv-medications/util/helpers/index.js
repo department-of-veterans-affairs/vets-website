@@ -2,7 +2,6 @@ export { convertHtmlForDownload } from './convertHtmlForDownload';
 export { convertPrescription } from './convertPrescription';
 export { createBreadcrumbs } from './createBreadcrumbs';
 export { createNoDescriptionText } from './createNoDescriptionText';
-export { createOriginalFillRecord } from './getRefillHistory';
 export { createVAPharmacyText } from './createVAPharmacyText';
 export { dateFormat } from './dateFormat';
 export { determineRefillLabel } from './determinRefillLabel';
@@ -15,23 +14,25 @@ export {
 } from './filterRecentlyRequestedForAlerts';
 export { fromToNumbs } from './fromToNumbs';
 export { generateMedicationsPDF } from './generateMedicationsPDF';
+export { generateRxDetailFilename } from './generateRxDetailFilename';
 export { generateTextFile } from './generateTextFile';
+export { generateTimestampForFilename } from './generateTimestampForFilename';
 export { getErrorTypeFromFormat } from './getErrorTypeFromFormat';
 export { getImageUri } from './getImageUri';
 export { getMostRecentRxRefill } from './getMostRecentRxRefill';
-export { getReactions } from './getReactions';
 export { getRefillHistory } from './getRefillHistory';
 export { getRxStatus } from './getRxStatus';
 export { getShowRefillHistory } from './getShowRefillHistory';
 export { hasCmopNdcNumber } from './hasCmopNdcNumber';
 export { isArrayAndHasItems } from './isArrayAndHasItems';
+export { isOracleHealthPrescription } from './isOracleHealthPrescription';
 export {
   isRefillTakingLongerThanExpected,
 } from './isRefillTakingLongerThanExpected';
-export { pharmacyPhoneNumber } from './pharmacyPhoneNumber';
 export {
   prescriptionMedAndRenewalStatus,
 } from './prescriptionMedAndRenewalStatus';
+export { getPrescriptionDetailUrl } from './getPrescriptionDetailUrl';
 export { processList } from './processList';
 export { rxSourceIsNonVA } from './rxSourceIsNonVA';
 export { sanitizeKramesHtmlStr } from './sanitizeKramesHtmlStr';

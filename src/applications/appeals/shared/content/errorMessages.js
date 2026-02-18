@@ -16,18 +16,19 @@ const errorMessages = {
 
   decisions: {
     blankDate: 'You must enter a decision date',
-    pastDate: 'You must add a decision date that’s in the past',
+    dateUnavailable: availableDate =>
+      `This decision date isn't available to add yet. You can enter it after ${availableDate}.`,
     recentDate:
       'You must add an issue with a decision date that’s less than a year old',
     newerDate:
       'You must add an issue with a decision date that’s less than 100 years old',
   },
 
-  country: 'You must choose a country',
-  street: 'You must enter a street address',
-  city: 'You must enter a city name',
-  state: 'You must choose a state',
-  postal: 'You must enter a postal code',
+  country: 'Choose a country',
+  street: 'Enter a street address',
+  city: 'Enter a city name',
+  state: 'Choose a state',
+  postal: 'Enter a postal code',
   zip: 'You must enter a valid 5- or 9-digit postal code (dashes allowed)',
 };
 

@@ -65,7 +65,9 @@ describe('UserNav', () => {
     );
     fireEvent.click(getByTestId('menu-toggle-dropdown-mobile'));
     expect(getByTestId('menu-toggle-dropdown-mobile-list')).to.exist;
-    const poaRequestsLink = getByTestId('user-nav-poa-requests-link');
+    const poaRequestsLink = getByTestId(
+      'user-nav-representation-requests-link',
+    );
     expect(poaRequestsLink).to.exist;
   });
 });

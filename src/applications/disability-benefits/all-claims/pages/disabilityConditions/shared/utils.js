@@ -40,16 +40,23 @@ export const createRatedDisabilityDescriptions = fullData => {
 const isNewConditionOption = ratedDisability =>
   ratedDisability === NEW_CONDITION_OPTION;
 
-export const isNewCondition = (formData, index) => {
-  if (formData?.[ARRAY_PATH]) {
-    const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
-    return !ratedDisability || isNewConditionOption(ratedDisability);
+export const isNewCondition = (formData = {}, index) => {
+  const list = Array.isArray(formData?.[ARRAY_PATH])
+    ? formData[ARRAY_PATH]
+    : [];
+
+  const idx = Number(index);
+  const item = list[idx];
+
+  if (!item) return true;
+
+  const rd = item.ratedDisability;
+
+  if (rd && rd !== NEW_CONDITION_OPTION) {
+    return false;
   }
 
-  return (
-    !formData?.ratedDisability ||
-    isNewConditionOption(formData?.ratedDisability)
-  );
+  return true;
 };
 
 export const isRatedDisability = (formData, index) => {
@@ -65,9 +72,10 @@ export const isRatedDisability = (formData, index) => {
 };
 
 export const getSelectedRatedDisabilities = (fullData, currentIndex) =>
-  fullData?.[ARRAY_PATH]?.reduce((acc, item, idx) => {
-    if (idx !== currentIndex && isRatedDisability(item))
-      acc.push(item?.ratedDisability);
+  fullData?.[ARRAY_PATH]?.reduce((acc, _item, idx) => {
+    if (idx !== currentIndex && isRatedDisability(fullData, idx)) {
+      acc.push(fullData?.[ARRAY_PATH]?.[idx]?.ratedDisability);
+    }
     return acc;
   }, []) || [];
 
@@ -108,8 +116,8 @@ export const createNewConditionName = (item = {}, capFirstLetter = false) => {
   return newCondition;
 };
 
-const getItemName = item =>
-  isNewCondition(item)
+const getItemName = (item, index, formData) =>
+  isNewCondition(formData, index)
     ? createNewConditionName(item, true)
     : item?.ratedDisability;
 
@@ -123,8 +131,8 @@ const causeFollowUpChecks = {
   VA: item => !item?.vaMistreatmentDescription || !item?.vaMistreatmentLocation,
 };
 
-export const isItemIncomplete = item => {
-  if (isNewCondition(item)) {
+export const isItemIncomplete = (item, index, formData) => {
+  if (isNewCondition(formData, index)) {
     return (
       !item?.condition || !item?.cause || causeFollowUpChecks[item.cause](item)
     );
@@ -134,7 +142,7 @@ export const isItemIncomplete = item => {
 };
 
 const cardDescription = (item, _index, formData) =>
-  isNewCondition(item)
+  isNewCondition(formData, _index)
     ? NewConditionCardDescription(item, formData)
     : RatedDisabilityCardDescription(item, formData);
 
@@ -149,32 +157,33 @@ export const arrayOptions = {
   text: {
     getItemName,
     cardDescription,
-    alertItemUpdated: ({ itemData, nounSingular }) => {
-      const name = getItemName(itemData);
+    alertItemUpdated: ({ itemData, nounSingular, index, formData }) => {
+      const name = getItemName(itemData, index, formData);
       return name
         ? `"${name}’s" information has been updated`
         : `"${nounSingular}" information has been updated`;
     },
-    cancelAddTitle: ({ itemData, nounSingular }) => {
-      const name = getItemName(itemData);
+    cancelAddTitle: ({ itemData, nounSingular, index, formData }) => {
+      const name = getItemName(itemData, index, formData);
       return name
         ? `Cancel adding "${name}"`
         : `Cancel adding this "${nounSingular}"?`;
     },
-    cancelEditTitle: ({ itemData, nounSingular }) => {
-      const name = getItemName(itemData);
+    cancelEditTitle: ({ itemData, nounSingular, index, formData }) => {
+      const name = getItemName(itemData, index, formData);
       return name
         ? `Cancel editing "${name}"`
         : `Cancel editing this "${nounSingular}"?`;
     },
-    deleteTitle: ({ itemData, nounSingular }) => {
-      const name = getItemName(itemData);
+    deleteTitle: ({ itemData, nounSingular, index, formData }) => {
+      const name = getItemName(itemData, index, formData);
       return name
         ? `Delete "${name}’s" information?`
         : `Delete this "${nounSingular}"?`;
     },
   },
   enforceYesNoOnSummary: true,
+  canDeleteItem: ({ itemData, isReview }) => !isReview && !itemData?.isLocked,
 };
 
 export const hasSideOfBody = (formData, index) => {
@@ -277,6 +286,11 @@ export const backfillCauseForIncreaseRows = formData => {
   for (const row of list) {
     if (row && row.ratedDisability && !row.condition && !row.cause) {
       row.cause = 'WORSENED'; // add just enough to satisfy validator
+      row.condition = 'Rated Disability';
+      row.worsenedDescription = 'Rated Disability Increase';
+      row.worsenedEffects = 'Rated Disability Increase';
     }
   }
 };
+
+export const isPlaceholderRated = v => v === 'Rated Disability';

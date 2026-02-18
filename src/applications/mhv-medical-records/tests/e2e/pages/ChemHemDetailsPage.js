@@ -1,5 +1,5 @@
-import moment from 'moment-timezone';
 import BaseDetailsPage from './BaseDetailsPage';
+import { formatDateForDownload } from '../../../util/dateHelpers';
 
 class ChemHemDetailsPage extends BaseDetailsPage {
   downloadTime1sec = '';
@@ -50,15 +50,9 @@ class ChemHemDetailsPage extends BaseDetailsPage {
     searchText = 'Date',
   ) => {
     // should display a download text file button "Download list as a text file"
-    this.downloadTime1sec = moment()
-      .add(1, 'seconds')
-      .format('M-D-YYYY_hhmmssa');
-    this.downloadTime2sec = moment()
-      .add(2, 'seconds')
-      .format('M-D-YYYY_hhmmssa');
-    this.downloadTime3sec = moment()
-      .add(3, 'seconds')
-      .format('M-D-YYYY_hhmmssa');
+    this.downloadTime1sec = formatDateForDownload(1);
+    this.downloadTime2sec = formatDateForDownload(2);
+    this.downloadTime3sec = formatDateForDownload(3);
 
     if (Cypress.browser.isHeadless) {
       cy.log('browser is headless');

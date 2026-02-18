@@ -9,10 +9,12 @@ export const APP_TYPE_DEFAULT = 'application';
 export const APP_ACTION_DEFAULT = 'applying';
 export const REVIEW_APP_DEFAULT_MESSAGE = 'Review application';
 export const FILE_UPLOAD_NETWORK_ERROR_MESSAGE =
-  'We\u2019re sorry. We had a connection problem. Please try again.';
+  'We couldn’t upload your file due to a connection problem. Try again in a few moments.';
 
 export const accountTitleLabels = {
   CHECKING: 'Checking Account',
   SAVINGS: 'Savings Account',
   NOBANK: 'No Bank Account',
 };
+
+export const REVIEW_AND_SUBMIT = 'Review and submit';

@@ -5,10 +5,13 @@ on:
   schedule:
     - cron: '0 13 * * 1-5'
 
-jobs: 
+jobs:
   generate-report:
     name: Generate and upload report
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -27,28 +30,11 @@ jobs:
       - name: Generate report
         run: yarn check-app-imports
 
-      - name: Configure AWS credentials (1)
+      - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
-
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Upload report to S3
         run: aws s3 cp tmp/cross-app-imports.json s3://vetsgov-website-builds-s3-upload-test/cross-app-imports/cross-app-imports.json --acl public-read --region us-gov-west-1

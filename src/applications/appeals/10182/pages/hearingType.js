@@ -28,20 +28,6 @@ const hearingType = {
       }),
       'ui:reviewField': HearingTypeReviewField,
     },
-
-    // hearingTypePreference: {
-    //   'ui:title': hearingTypeTitle,
-    //   'ui:reviewField': HearingTypeReviewField,
-    //   'ui:widget': 'radio',
-    //   'ui:required': needsHearingType,
-    //   'ui:options': {
-    //     labels: hearingTypeContent,
-    //     enableAnalytics: true,
-    //   },
-    //   'ui:errorMessages': {
-    //     required: missingHearingTypeErrorMessage,
-    //   },
-    // },
   },
 
   schema: {

@@ -87,12 +87,13 @@ export async function getLocation({ facilityId }) {
  * @async
  * @param {Object} params
  * @param {Array<string>} params.siteIds The vista site ids of the facilities we want to fetch
+ * @param {boolean} params.useVpg Whether to use VPG-specific scheduling configuration
  * @returns {Array<FacilitySettings>} An array of facility settings
  */
-export async function getLocationSettings({ siteIds }) {
+export async function getLocationSettings({ siteIds, useVpg }) {
   try {
     const settings = await getSchedulingConfigurations(siteIds);
-    return transformSettingsV2(settings);
+    return transformSettingsV2(settings, useVpg);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -118,6 +119,7 @@ export async function getLocationsByTypeOfCareAndSiteIds({
   siteIds,
   sortByRecentLocations = false,
   removeFacilityConfigCheck = false,
+  useVpg = false,
 }) {
   try {
     let locations = [];
@@ -131,7 +133,7 @@ export async function getLocationsByTypeOfCareAndSiteIds({
 
     if (!removeFacilityConfigCheck) {
       const uniqueIds = locations.map(location => location.id);
-      settings = await getLocationSettings({ siteIds: uniqueIds });
+      settings = await getLocationSettings({ siteIds: uniqueIds, useVpg });
     }
 
     locations = locations?.map(location =>
@@ -140,7 +142,6 @@ export async function getLocationsByTypeOfCareAndSiteIds({
         settings,
       }),
     );
-
     if (sortByRecentLocations) {
       return locations;
     }
@@ -333,10 +334,15 @@ export function isTypeOfCareSupported(
   cernerSiteIds = [],
   removeFacilityConfigCheck = false,
 ) {
+  const setting = location.legacyVAR.settings[typeOfCareId];
   return (
     removeFacilityConfigCheck ||
-    (location.legacyVAR.settings[typeOfCareId]?.direct.enabled ||
-      location.legacyVAR.settings[typeOfCareId]?.request.enabled) ||
+    // Check old format (direct.enabled / request.enabled)
+    setting?.direct?.enabled ||
+    setting?.request?.enabled ||
+    // Check VPG format (bookedAppointments / apptRequests)
+    setting?.bookedAppointments ||
+    setting?.apptRequests ||
     isCernerLocation(location.id, cernerSiteIds)
   );
 }

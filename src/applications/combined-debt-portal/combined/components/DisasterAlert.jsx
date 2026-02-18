@@ -7,6 +7,7 @@ const GenericDisasterAlert = () => {
       trigger="Need help with VA debt after a natural disaster?"
       status="info"
       uswds
+      class="vads-u-margin-bottom--4"
     >
       <ul>
         <li>

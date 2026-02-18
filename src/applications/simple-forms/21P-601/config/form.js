@@ -1,11 +1,14 @@
+import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'platform/forms-system/src/js/patterns/array-builder';
+import { PersonalInformation } from 'platform/forms-system/src/js/components/PersonalInformation/PersonalInformation';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import transformForSubmit from './submit-transformer';
 import prefillTransformer from './prefill-transformer';
-import { pageFocusScroll } from '../helpers';
 import {
   hasAlreadyFiled,
   hasUnpaidCreditors,
@@ -15,17 +18,22 @@ import {
   beneficiaryIsVeteran,
   beneficiaryFullName,
   beneficiaryDateOfDeath,
-  claimantIdentification,
-  claimantContact,
-  claimantRelationship,
+  claimantNameAndDob,
+  claimantSSN,
+  claimantMailingAddress,
+  claimantPhoneAndEmail,
+  claimantRelationshipToDeceased,
+  waiverOfSubstitution,
   relativesOverview,
-  relativesDetails,
+  relativesPages,
   expensesClaim,
-  expensesList,
+  expensesPages,
   otherDebts,
-  otherDebtsList,
+  otherDebtsPages,
   remarks,
+  supportingDocuments,
 } from '../pages';
+import { personalInfoConfig } from '../helpers/personalInformationConfig';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -35,7 +43,7 @@ const formConfig = {
   trackingPrefix: '21p-601-accrued-benefits-',
   useCustomScrollAndFocus: true,
   v3SegmentedProgressBar: true,
-  hideUnauthedStartLink: true,
+  hideUnauthedStartLink: false,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -46,10 +54,18 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   savedFormMessages: {
-    notFound:
-      'Please start over to apply for Application for Accrued Amounts Due a Deceased Beneficiary.',
+    notFound: 'Please start over to apply for accrued benefits online.',
     noAuth: 'Please sign in again to continue your application.',
+  },
+  downtime: {
+    dependencies: [
+      externalServices.lighthouseBenefitsIntake,
+      externalServices.form21p601,
+    ],
   },
   preSubmitInfo: {
     statementOfTruth: {
@@ -60,7 +76,12 @@ const formConfig = {
       fullNamePath: 'claimantFullName',
     },
   },
-  title: 'Application for Accrued Amounts Due a Deceased Beneficiary',
+  title: 'Apply for accrued benefits online',
+  subTitle:
+    'Primarily for anyone applying for accrued benefits only, to include executors or administrators of VA beneficiaries’ estates (VA Form 21P-601)',
+  customText: {
+    appType: 'form',
+  },
   defaultDefinitions: {},
   footerContent,
   chapters: {
@@ -72,189 +93,199 @@ const formConfig = {
           title: 'Previous applications',
           uiSchema: hasAlreadyFiled.uiSchema,
           schema: hasAlreadyFiled.schema,
+          scrollAndFocusTarget: 'h3',
         },
         hasUnpaidCreditors: {
           path: 'unpaid-creditors',
           title: 'Creditor information',
-          depends: formData => formData.hasAlreadyFiled === false,
+          depends: formData => formData?.hasAlreadyFiled === false,
           uiSchema: hasUnpaidCreditors.uiSchema,
           schema: hasUnpaidCreditors.schema,
+          scrollAndFocusTarget: 'h3',
         },
         eligibilitySummary: {
           path: 'eligibility-summary',
           title: 'Eligibility results',
           depends: formData =>
-            formData.hasAlreadyFiled === true ||
-            formData.hasUnpaidCreditors === true,
+            formData?.hasAlreadyFiled === true ||
+            formData?.hasUnpaidCreditors === true,
           uiSchema: eligibilitySummary.uiSchema,
           schema: eligibilitySummary.schema,
-          // This page should be the end - no continue button
-          hideNavButtons: true,
-          customNavButtons: () => null,
+          scrollAndFocusTarget: 'h3',
+        },
+        personalInformation: {
+          path: 'personal-information',
+          title: 'Personal info',
+          depends: formData => formData.isLoggedIn,
+          CustomPage: props => (
+            <PersonalInformation {...props} config={personalInfoConfig()} />
+          ),
+          CustomPageReview: null,
+          hideOnReview: true,
+          scrollAndFocusTarget,
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+          uiSchema: {},
         },
       },
     },
     veteranInformationChapter: {
       title: 'Veteran information',
-      depends: formData =>
-        formData.hasAlreadyFiled === false &&
-        formData.hasUnpaidCreditors === false,
       pages: {
         veteranFullName: {
           path: 'veteran-name',
           title: "Veteran's name",
           uiSchema: veteranFullName.uiSchema,
           schema: veteranFullName.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget: 'h3',
         },
         veteranIdentifiers: {
           path: 'veteran-identifiers',
           title: "Veteran's identification numbers",
           uiSchema: veteranIdentifiers.uiSchema,
           schema: veteranIdentifiers.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },
     deceasedBeneficiaryChapter: {
-      title: 'Information about the deceased',
-      depends: formData =>
-        formData.hasAlreadyFiled === false &&
-        formData.hasUnpaidCreditors === false,
+      title: 'Beneficiary information',
       pages: {
         beneficiaryIsVeteran: {
           path: 'beneficiary-is-veteran',
           title: 'Is the beneficiary the veteran?',
           uiSchema: beneficiaryIsVeteran.uiSchema,
           schema: beneficiaryIsVeteran.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget: 'h3',
         },
         beneficiaryFullName: {
           path: 'beneficiary-name',
           title: "Deceased beneficiary's name",
-          depends: formData => formData.beneficiaryIsVeteran === false,
+          depends: formData => formData?.beneficiaryIsVeteran === false,
           uiSchema: beneficiaryFullName.uiSchema,
           schema: beneficiaryFullName.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget: 'h3',
         },
         beneficiaryDateOfDeath: {
           path: 'beneficiary-date-of-death',
           title: 'Date of death',
           uiSchema: beneficiaryDateOfDeath.uiSchema,
           schema: beneficiaryDateOfDeath.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },
     yourInformationChapter: {
       title: 'Your information',
-      depends: formData =>
-        formData.hasAlreadyFiled === false &&
-        formData.hasUnpaidCreditors === false,
       pages: {
-        claimantIdentification: {
-          path: 'your-personal-information',
-          title: 'Your personal information',
-          uiSchema: claimantIdentification.uiSchema,
-          schema: claimantIdentification.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+        claimantNameAndDob: {
+          path: 'your-name-and-date-of-birth',
+          title: 'Your name and date of birth',
+          uiSchema: claimantNameAndDob.uiSchema,
+          schema: claimantNameAndDob.schema,
+          scrollAndFocusTarget,
         },
-        claimantContact: {
-          path: 'your-contact-information',
-          title: 'Your contact information',
-          uiSchema: claimantContact.uiSchema,
-          schema: claimantContact.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+        claimantSSN: {
+          path: 'your-ssn',
+          title: 'Your identification information',
+          uiSchema: claimantSSN.uiSchema,
+          schema: claimantSSN.schema,
+          scrollAndFocusTarget,
         },
-        claimantRelationship: {
+        claimantMailingAddress: {
+          path: 'your-mailing-address',
+          title: 'Mailing address',
+          uiSchema: claimantMailingAddress.uiSchema,
+          schema: claimantMailingAddress.schema,
+          scrollAndFocusTarget,
+        },
+        claimantPhoneAndEmail: {
+          path: 'your-phone-and-email',
+          title: 'Your phone and email address',
+          uiSchema: claimantPhoneAndEmail.uiSchema,
+          schema: claimantPhoneAndEmail.schema,
+          scrollAndFocusTarget,
+        },
+        claimantRelationshipToDeceased: {
           path: 'your-relationship',
-          title: 'Your relationship to the deceased',
-          uiSchema: claimantRelationship.uiSchema,
-          schema: claimantRelationship.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          title: 'Your relationship to the beneficiary',
+          uiSchema: claimantRelationshipToDeceased.uiSchema,
+          schema: claimantRelationshipToDeceased.schema,
+          scrollAndFocusTarget,
+        },
+        waiverOfSubstitution: {
+          path: 'waiver-of-substitution',
+          title: 'Waiver of substitution',
+          uiSchema: waiverOfSubstitution.uiSchema,
+          schema: waiverOfSubstitution.schema,
+          scrollAndFocusTarget,
         },
       },
     },
     survivingRelativesChapter: {
       title: 'Surviving relatives',
-      depends: formData =>
-        formData.hasAlreadyFiled === false &&
-        formData.hasUnpaidCreditors === false,
       pages: {
         relativesOverview: {
           path: 'surviving-relatives',
           title: 'Surviving relatives',
           uiSchema: relativesOverview.uiSchema,
           schema: relativesOverview.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
-        relativesDetails: {
-          path: 'relatives-information',
-          title: 'Information about surviving relatives',
-          uiSchema: relativesDetails.uiSchema,
-          schema: relativesDetails.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
-          depends: formData =>
-            formData.survivors.hasNone !== true &&
-            (formData.survivors.hasSpouse === true ||
-              formData.survivors.hasChildren === true ||
-              formData.survivors.hasParents === true),
+        relativesSummary: {
+          ...relativesPages.relativesSummary,
+          depends: formData => formData?.survivors === true,
+        },
+        relativeNamePage: {
+          ...relativesPages.relativeNamePage,
+          depends: formData => formData?.survivors === true,
+        },
+        relativeAddressPage: {
+          ...relativesPages.relativeAddressPage,
+          depends: formData => formData?.survivors === true,
         },
       },
     },
     expensesAndDebtsChapter: {
       title: 'Expenses and debts',
-      depends: formData =>
-        formData.hasAlreadyFiled === false &&
-        formData.hasUnpaidCreditors === false,
       pages: {
         expensesClaim: {
           path: 'reimbursement-claim',
           title: 'Reimbursement claim',
           uiSchema: expensesClaim.uiSchema,
           schema: expensesClaim.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
-        expensesList: {
-          path: 'expenses-list',
-          title: 'List of expenses',
-          depends: formData => formData.claimingReimbursement === true,
-          uiSchema: expensesList.uiSchema,
-          schema: expensesList.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
-        },
+        ...expensesPages,
         otherDebts: {
           path: 'other-debts',
           title: 'Other debts',
-          depends: formData => formData.claimingReimbursement === true,
+          depends: formData => formData?.claimingReimbursement === true,
           uiSchema: otherDebts.uiSchema,
           schema: otherDebts.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
-        otherDebtsList: {
-          path: 'other-debts-list',
-          title: 'List of other debts',
-          depends: formData =>
-            formData.claimingReimbursement === true &&
-            formData.hasOtherDebts === true,
-          uiSchema: otherDebtsList.uiSchema,
-          schema: otherDebtsList.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
-        },
+        ...otherDebtsPages,
       },
     },
     additionalInfoChapter: {
       title: 'Additional remarks',
-      depends: formData =>
-        formData.hasAlreadyFiled === false &&
-        formData.hasUnpaidCreditors === false,
       pages: {
+        supportingDocuments: {
+          title: 'Supporting documents',
+          path: 'supporting-documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
+          scrollAndFocusTarget: 'h3',
+        },
         remarks: {
           path: 'additional-info/remarks',
-          title: 'Additional remarks (optional)',
+          title: 'Additional remarks',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },

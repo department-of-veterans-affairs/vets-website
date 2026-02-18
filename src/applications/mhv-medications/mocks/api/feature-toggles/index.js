@@ -3,11 +3,17 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvLandingPagePersonalization = true,
     mhvMedicationsDisplayDocumentationContent = true,
     mhvMedicationsDisplayPendingMeds = true,
-    mhvMedicationsDisplayRefillProgress = true,
-    mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent = true,
     mhvMedicationsDontIncrementIpeCount = true,
+    mhvAcceleratedDeliveryEnabled = true,
+    mhvAcceleratedDeliveryAllergiesEnabled = true,
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
+    mhvSecureMessagingMedicationsRenewalRequest = false,
+    mhvMedicationsCernerPilot = false,
+    mhvMedicationsV2StatusMapping = false,
+    mhvMedicationsEnableKramesHtmlSanitization = true,
+    mhvMedicationsManagementImprovements = false,
+    mhvMedicationsOracleHealthCutover = false,
   } = toggles;
 
   return {
@@ -27,14 +33,6 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicationsDisplayPendingMeds,
         },
         {
-          name: 'mhv_medications_display_refill_progress',
-          value: mhvMedicationsDisplayRefillProgress,
-        },
-        {
-          name: 'mhv_medications_show_ipe_content',
-          value: mhvMedicationsShowIpeContent,
-        },
-        {
           name: 'mhv_medications_partial_fill_content',
           value: mhvMedicationsPartialFillContent,
         },
@@ -43,8 +41,40 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicationsDontIncrementIpeCount,
         },
         {
+          name: 'mhv_accelerated_delivery_enabled',
+          value: mhvAcceleratedDeliveryEnabled,
+        },
+        {
+          name: 'mhv_accelerated_delivery_allergies_enabled',
+          value: mhvAcceleratedDeliveryAllergiesEnabled,
+        },
+        {
           name: 'mhv_medications_display_new_cerner_facility_alert',
           value: mhvMedicationsDisplayNewCernerFacilityAlert,
+        },
+        {
+          name: 'mhv_secure_messaging_medications_renewal_request',
+          value: mhvSecureMessagingMedicationsRenewalRequest,
+        },
+        {
+          name: 'mhv_medications_cerner_pilot',
+          value: mhvMedicationsCernerPilot,
+        },
+        {
+          name: 'mhv_medications_v2_status_mapping',
+          value: mhvMedicationsV2StatusMapping,
+        },
+        {
+          name: 'mhv_medications_enable_krames_html_sanitization',
+          value: mhvMedicationsEnableKramesHtmlSanitization,
+        },
+        {
+          name: 'mhv_medications_management_improvements',
+          value: mhvMedicationsManagementImprovements,
+        },
+        {
+          name: 'mhv_medications_oracle_health_cutover',
+          value: mhvMedicationsOracleHealthCutover,
         },
       ],
     },

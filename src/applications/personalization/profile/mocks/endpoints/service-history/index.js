@@ -56,6 +56,10 @@ const generateServiceHistory = ({
 };
 
 const airForce = generateServiceHistory({ branchOfService: 'Air Force' });
+const army = generateServiceHistory({ branchOfService: 'Army' });
+const coastGuard = generateServiceHistory({ branchOfService: 'Coast Guard' });
+const marineCorps = generateServiceHistory({ branchOfService: 'Marine Corps' });
+const navy = generateServiceHistory({ branchOfService: 'Navy' });
 const spaceForce = generateServiceHistory({ branchOfService: 'Space Force' });
 const dishonorableDischarge = generateServiceHistory({
   branchOfService: 'Air Force',
@@ -111,6 +115,10 @@ module.exports = {
   noServiceFound,
   error,
   airForce,
+  army,
+  coastGuard,
+  marineCorps,
+  navy,
   spaceForce,
   dishonorableDischarge,
   unknownDischarge,

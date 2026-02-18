@@ -1,7 +1,19 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useMemo } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import { useFormSection } from '@bio-aquia/shared/hooks';
+import { FINISH_APP_LATER_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
+import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
+import { saveAndRedirectToReturnUrl } from 'platform/forms/save-in-progress/actions';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { BUTTON_TEXT, CSS_CLASSES, DEFAULTS } from './constants';
+import {
+  PageTemplateCorePropTypes,
+  PageTemplateWithSaveInProgressPropTypes,
+  formSectionInternalPropTypes,
+} from './prop-types';
+import StableSaveStatus from './stable-save-status';
 
 /**
  * Internal component that uses the form section hook.
@@ -26,7 +38,7 @@ const PageTemplateWithHook = ({
   updatePage,
 }) => {
   const formSectionProps = useFormSection({
-    sectionName: sectionName || 'default',
+    sectionName: sectionName || DEFAULTS.SECTION_NAME,
     schema: schema || { parse: value => value },
     data,
     setFormData,
@@ -54,24 +66,7 @@ const PageTemplateWithHook = ({
   );
 };
 
-PageTemplateWithHook.propTypes = {
-  data: PropTypes.object.isRequired,
-  goForward: PropTypes.func.isRequired,
-  setFormData: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  className: PropTypes.string,
-  dataProcessor: PropTypes.func,
-  defaultData: PropTypes.object,
-  goBack: PropTypes.func,
-  hideNavigation: PropTypes.bool,
-  navigationProps: PropTypes.object,
-  onReviewPage: PropTypes.bool,
-  schema: PropTypes.object,
-  sectionName: PropTypes.string,
-  subtitle: PropTypes.string,
-  title: PropTypes.string,
-  updatePage: PropTypes.func,
-};
+PageTemplateWithHook.propTypes = PageTemplateCorePropTypes;
 
 /**
  * Base template component that handles rendering.
@@ -127,56 +122,51 @@ const PageTemplateBase = ({
     });
   };
 
-  const wrapperClasses = ['form-panel', className].filter(Boolean).join(' ');
+  const wrapperClasses = [CSS_CLASSES.FORM_PANEL, className]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <div className={wrapperClasses}>
-      <form noValidate>
-        <fieldset className="vads-u-margin-y--2">
-          {title && (
-            <legend id="root__title">
-              <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-font-family--serif vads-u-font-size--h4">
-                {title}
-              </h3>
-            </legend>
-          )}
+    <>
+      <div className={wrapperClasses}>
+        <form noValidate>
+          <fieldset className={CSS_CLASSES.FIELDSET}>
+            {title && (
+              <legend id="root__title">
+                <h3
+                  className={`${CSS_CLASSES.HEADING_DARK} ${
+                    CSS_CLASSES.HEADING_NO_TOP_MARGIN
+                  } ${CSS_CLASSES.HEADING_SERIF} ${CSS_CLASSES.HEADING_SIZE}`}
+                >
+                  {title}
+                </h3>
+              </legend>
+            )}
 
-          {subtitle && (
-            <div className="vads-u-margin-bottom--2">
-              <p className="vads-u-margin--0">{subtitle}</p>
-            </div>
-          )}
-
-          {renderChildren()}
-        </fieldset>
-
-        {!hideNavigation && (
-          <div className="vads-u-margin-y--2 vads-u-display--flex vads-u-justify-content--space-between">
-            {onReviewPage ? (
-              // Review page mode - show Save button (right-aligned)
-              <div style={{ marginLeft: 'auto' }}>
-                <va-button
-                  onClick={e => {
-                    e.preventDefault();
-                    formSectionProps.handleContinue(() => {
-                      if (updatePage) {
-                        updatePage();
-                      }
-                    });
-                  }}
-                  text="Save"
-                  {...navigationProps?.updateButtonProps || {}}
-                />
+            {subtitle && (
+              <div className={CSS_CLASSES.MARGIN_BOTTOM_2}>
+                <p className={CSS_CLASSES.MARGIN_0}>{subtitle}</p>
               </div>
-            ) : (
-              // Normal page mode - show Back/Continue buttons
-              <>
+            )}
+
+            {renderChildren()}
+          </fieldset>
+
+          {!hideNavigation &&
+            !onReviewPage && (
+              <div
+                className={`${CSS_CLASSES.MARGIN_TOP_2} ${
+                  CSS_CLASSES.MARGIN_BOTTOM_2
+                } ${CSS_CLASSES.DISPLAY_FLEX} ${
+                  CSS_CLASSES.JUSTIFY_SPACE_BETWEEN
+                }`}
+              >
                 <div>
                   {goBack && (
                     <va-button
                       secondary
                       onClick={goBack}
-                      text="Back"
+                      text={navigationProps?.backButtonText || BUTTON_TEXT.BACK}
                       {...navigationProps?.backButtonProps || {}}
                     />
                   )}
@@ -187,39 +177,56 @@ const PageTemplateBase = ({
                       e.preventDefault();
                       formSectionProps.handleContinue(goForward);
                     }}
-                    text="Continue"
+                    text={BUTTON_TEXT.CONTINUE}
                     {...navigationProps?.continueButtonProps || {}}
                   />
                 </div>
-              </>
+              </div>
             )}
+        </form>
+      </div>
+
+      {!hideNavigation &&
+        onReviewPage && (
+          <div
+            className={`${CSS_CLASSES.MARGIN_TOP_2} ${
+              CSS_CLASSES.MARGIN_BOTTOM_2
+            } ${CSS_CLASSES.DISPLAY_FLEX} ${CSS_CLASSES.JUSTIFY_FLEX_END}`}
+          >
+            <va-button
+              onClick={e => {
+                e.preventDefault();
+                formSectionProps.handleContinue(() => {
+                  if (updatePage) {
+                    updatePage();
+                  }
+                });
+              }}
+              text={BUTTON_TEXT.SAVE}
+              {...navigationProps?.updateButtonProps || {}}
+            />
           </div>
         )}
-      </form>
-    </div>
+    </>
   );
 };
 
 PageTemplateBase.propTypes = {
-  formSectionProps: PropTypes.object.isRequired,
-  goForward: PropTypes.func.isRequired,
-  shouldUseHook: PropTypes.bool.isRequired,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  className: PropTypes.string,
-  goBack: PropTypes.func,
-  hideNavigation: PropTypes.bool,
-  navigationProps: PropTypes.object,
-  onReviewPage: PropTypes.bool,
-  subtitle: PropTypes.string,
-  title: PropTypes.string,
-  updatePage: PropTypes.func,
+  formSectionProps: formSectionInternalPropTypes,
+  goForward: PageTemplateCorePropTypes.goForward,
+  shouldUseHook: PageTemplateCorePropTypes.useFormSectionHook,
+  ...PageTemplateCorePropTypes,
 };
 
 /**
- * Generic form page template.
+ * Core form page template component (without save-in-progress UI or Redux).
  * Wraps any form content with consistent layout and navigation.
  * Provides form section logic without imposing business requirements.
  * Styled to match VA.gov form patterns.
+ *
+ * Use this in tests or when you need a PageTemplate without save-in-progress features.
+ * For production use, import PageTemplate (the default export) which includes
+ * save-in-progress UI automatically.
  *
  * @component
  * @param {Object} props - Component props
@@ -242,7 +249,7 @@ PageTemplateBase.propTypes = {
  * @param {Function} [props.updatePage] - Function to call when Update button is clicked (for review page)
  * @returns {JSX.Element} Form page with navigation
  */
-export const PageTemplate = ({
+export const PageTemplateCore = ({
   data,
   setFormData,
   goForward,
@@ -331,22 +338,151 @@ export const PageTemplate = ({
   );
 };
 
-PageTemplate.propTypes = {
-  data: PropTypes.object.isRequired,
-  goForward: PropTypes.func.isRequired,
-  setFormData: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  className: PropTypes.string,
-  dataProcessor: PropTypes.func,
-  defaultData: PropTypes.object,
-  goBack: PropTypes.func,
-  hideNavigation: PropTypes.bool,
-  navigationProps: PropTypes.object,
-  onReviewPage: PropTypes.bool,
-  schema: PropTypes.object,
-  sectionName: PropTypes.string,
-  subtitle: PropTypes.string,
-  title: PropTypes.string,
-  updatePage: PropTypes.func,
-  useFormSectionHook: PropTypes.bool,
+PageTemplateCore.propTypes = PageTemplateCorePropTypes;
+
+/**
+ * PageTemplate with integrated save-in-progress UI.
+ * This is the main component to use for all form pages.
+ *
+ * Automatically includes:
+ * - Save-in-progress success/error alerts
+ * - "Finish this application later" link
+ * - All core PageTemplate functionality
+ *
+ * The save-in-progress UI automatically shows/hides based on user authentication
+ * and form configuration. Auto-save functionality is handled by the platform's
+ * RoutedSavableApp - this component only provides the UI elements.
+ *
+ * @component
+ * @param {Object} props - All PageTemplate props plus Redux-provided props
+ * @returns {JSX.Element} Form page with save-in-progress UI
+ */
+const PageTemplateComponent = ({
+  user,
+  form,
+  formConfig,
+  route,
+  location,
+  showLoginModal,
+  saveAndRedirectToReturnUrlAction,
+  toggleLoginModalAction,
+  data,
+  setFormData,
+  ...pageTemplateProps
+}) => {
+  const finishAppLaterMessage =
+    formConfig?.customText?.finishAppLaterMessage ||
+    FINISH_APP_LATER_DEFAULT_MESSAGE;
+
+  // Extract stable values from props
+  const isLoggedIn = user?.login?.currentlyLoggedIn;
+  const pathname = location?.pathname;
+
+  // NOTE: Auto-save is handled by the platform's RoutedSavableApp
+  // We only provide the SaveStatus alert and SaveFormLink here
+
+  // Memoize SaveFormLink - only re-render when necessary
+  const saveFormLinkElement = useMemo(
+    () => (
+      <SaveFormLink
+        locationPathname={pathname}
+        form={form}
+        formConfig={formConfig}
+        route={route}
+        user={user}
+        showLoginModal={showLoginModal}
+        saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrlAction}
+        toggleLoginModal={toggleLoginModalAction}
+      >
+        {finishAppLaterMessage}
+      </SaveFormLink>
+    ),
+    [
+      pathname,
+      form,
+      formConfig,
+      route,
+      user,
+      showLoginModal,
+      saveAndRedirectToReturnUrlAction,
+      toggleLoginModalAction,
+      finishAppLaterMessage,
+    ],
+  );
+
+  return (
+    <>
+      {/* Save success/error alert - shows at top of page */}
+      <StableSaveStatus
+        isLoggedIn={isLoggedIn}
+        showLoginModal={showLoginModal}
+        toggleLoginModal={toggleLoginModalAction}
+        form={form}
+        formConfig={formConfig}
+      />
+
+      {/* Main page content */}
+      <PageTemplateCore
+        data={data}
+        setFormData={setFormData}
+        {...pageTemplateProps}
+      />
+
+      {/* Finish this application later link - shows after navigation buttons */}
+      {saveFormLinkElement}
+    </>
+  );
 };
+
+PageTemplateComponent.propTypes = PageTemplateWithSaveInProgressPropTypes;
+
+/**
+ * Map Redux state to component props
+ * @param {Object} state - Redux state
+ * @returns {Object} Props mapped from Redux state
+ */
+const mapStateToProps = state => ({
+  form: state.form,
+  user: state.user,
+  showLoginModal: state.navigation?.showLoginModal,
+});
+
+const mapDispatchToProps = {
+  saveAndRedirectToReturnUrlAction: saveAndRedirectToReturnUrl,
+  toggleLoginModalAction: toggleLoginModal,
+};
+
+/**
+ * PageTemplate with save-in-progress features (Redux-connected version).
+ * Use this in production code when you want automatic save-in-progress UI.
+ *
+ * @example
+ * <PageTemplateWithSaveInProgress
+ *   data={data}
+ *   setFormData={setFormData}
+ *   goForward={goForward}
+ *   goBack={goBack}
+ *   formConfig={formConfig}
+ *   schema={schema}
+ *   sectionName="mySection"
+ * >
+ *   {children}
+ * </PageTemplateWithSaveInProgress>
+ */
+export const PageTemplateWithSaveInProgress = withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(PageTemplateComponent),
+);
+
+/**
+ * PageTemplate - Core version without save-in-progress.
+ * This is the main export for backward compatibility with existing tests.
+ *
+ * For production code that needs save-in-progress features,
+ * use PageTemplateWithSaveInProgress instead.
+ */
+export const PageTemplate = PageTemplateCore;
+
+export default PageTemplate;

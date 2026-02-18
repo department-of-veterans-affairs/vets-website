@@ -1,16 +1,17 @@
 import React from 'react';
 import { PrivacyActStatementContent } from '../components/4142/PrivacyActStatementContent';
-import {
-  titleFormDetails,
-  subTitle995,
-  title4142Omb,
-  subTitle4142Omb,
-} from './title';
+import { FORM_ID, FORM_IDS_4142 } from '../constants';
+import { titleFormDetails } from './title';
 
 const OmbInfo = () => (
   <>
-    <p>{subTitle995}</p>
-    <va-omb-info res-burden="15" omb-number="2900-0886" exp-date="5/31/2027">
+    <p>{FORM_ID}</p>
+    <va-omb-info
+      res-burden="15"
+      omb-number="2900-0886"
+      exp-date="5/31/2027"
+      modal-click-to-close
+    >
       <p>
         <strong>Respondent Burden:</strong> We need this information to
         determine entitlement to benefits (38 U.S.C. 501). Title 38, United
@@ -62,9 +63,17 @@ const OmbInfo = () => (
     </va-omb-info>
 
     <h2 className="vads-u-margin-y--2">{titleFormDetails}</h2>
-    <h3>{title4142Omb}</h3>
-    <p>{subTitle4142Omb}</p>
-    <va-omb-info res-burden="10" omb-number="2900-0858" exp-date="7/31/2024">
+    <h3>
+      Authorization to disclose information to the Department of Veteran Affairs
+      (VA)
+    </h3>
+    <p>{FORM_IDS_4142}</p>
+    <va-omb-info
+      res-burden="10"
+      omb-number="2900-0858"
+      exp-date="7/31/2024"
+      modal-click-to-close
+    >
       <PrivacyActStatementContent />
     </va-omb-info>
   </>

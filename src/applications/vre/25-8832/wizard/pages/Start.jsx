@@ -3,6 +3,7 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 
 import recordEvent from 'platform/monitoring/record-event';
 import { pageNames } from './pageList';
+import { RELATIONSHIP_STORAGE_KEY } from '../../constants';
 
 const options = [
   {
@@ -37,13 +38,16 @@ const StartPage = ({ setPageState, state = {} }) => {
     switch (value) {
       case 'isVeteran':
       case 'isServiceMember':
+        sessionStorage.setItem(RELATIONSHIP_STORAGE_KEY, 'not-dependent');
         setPageState({ selected: value }, 'VREBenefits');
         break;
       case 'VAEducationBenefits':
+        sessionStorage.setItem(RELATIONSHIP_STORAGE_KEY, 'dependent');
         setPageState({ selected: value }, value);
         break;
       case 'ineligibleNotice':
       default:
+        sessionStorage.removeItem(RELATIONSHIP_STORAGE_KEY);
         setPageState({ selected: value }, 'ineligibleNotice');
     }
   };

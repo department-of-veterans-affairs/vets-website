@@ -42,7 +42,7 @@ describe('Notice5103', () => {
       expect($('h3', container).textContent).to.eq(content.header);
       expect($('va-checkbox', container)).to.exist;
       expect($('va-additional-info', container)).to.exist;
-      expect($('button.usa-button-primary', container)).to.exist;
+      expect($('va-button[continue]', container)).to.exist;
     });
 
     it('should not submit page when unchecked', () => {
@@ -60,7 +60,7 @@ describe('Notice5103', () => {
         detail: { checked: false },
       });
 
-      fireEvent.click($('button.usa-button-primary', container));
+      fireEvent.click($('va-button[continue]', container));
       expect(goSpy.called).to.be.false;
     });
 
@@ -89,7 +89,7 @@ describe('Notice5103', () => {
         />,
       );
 
-      fireEvent.click($('button.usa-button-primary', container));
+      fireEvent.click($('va-button[continue]', container));
       expect(goSpy.called).to.be.true;
     });
   });

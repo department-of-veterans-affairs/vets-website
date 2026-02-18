@@ -1,0 +1,11 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "form_2680_enabled",
+        "value": true
+      }
+    ]
+  }
+}

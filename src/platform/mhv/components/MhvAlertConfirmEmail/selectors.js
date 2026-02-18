@@ -18,6 +18,9 @@ const selectContactEmailUpdatedAt = state =>
 export const selectContactEmailAddress = state =>
   selectVAPContactInfo(state)?.email?.emailAddress;
 
+export const selectContactEmailAddressId = state =>
+  selectVAPContactInfo(state)?.email?.id;
+
 export const DATE_THRESHOLD = '2025-03-01T12:00:00.000+00:00';
 
 export const showAlert = state =>

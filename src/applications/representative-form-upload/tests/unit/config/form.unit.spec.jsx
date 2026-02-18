@@ -1,53 +1,50 @@
 import { expect } from 'chai';
-import formConfig, { isLocalhost } from '../../../config/form';
+import formConfig from '../../../config/form';
+
+const pathnamePrefix =
+  '/representative/representative-form-upload/submit-va-form-';
+const validPathname = `${pathnamePrefix}21-0966`;
 
 describe('Form Config - Core Branch Coverage', () => {
-  describe('isLocalhost function coverage', () => {
-    it('executes isLocalhost function', () => {
-      const result = isLocalhost();
-      expect(typeof result).to.equal('boolean');
-    });
-  });
-
   describe('pathname parameter coverage', () => {
     it('calls formConfig with no parameters (default null)', () => {
       const config = formConfig();
-      expect(config).to.be.an('object');
+      expect(config).to.be.null;
     });
 
     it('calls formConfig with explicit pathname', () => {
-      const config = formConfig('/test-path');
+      const config = formConfig(validPathname);
       expect(config).to.be.an('object');
     });
 
     it('calls formConfig with undefined', () => {
-      const config = formConfig(undefined);
-      expect(config).to.be.an('object');
+      const config = formConfig();
+      expect(config).to.be.null;
     });
 
     it('calls formConfig with null', () => {
       const config = formConfig(null);
-      expect(config).to.be.an('object');
+      expect(config).to.be.null;
     });
 
     it('calls formConfig with empty string', () => {
       const config = formConfig('');
-      expect(config).to.be.an('object');
+      expect(config).to.be.null;
     });
   });
 
   describe('formNumber conditional execution', () => {
     it('executes formConfig to trigger conditional logic', () => {
-      const config = formConfig();
+      const config = formConfig(validPathname);
       expect(config).to.be.an('object');
       expect(config).to.have.property('chapters');
     });
 
     it('executes formConfig with different pathnames to potentially trigger different conditions', () => {
-      const pathnames = [null, '21-526EZ', '21-686c'];
+      const pathnames = ['21-0966', '21-526ez', '21-686c'];
 
       pathnames.forEach(pathname => {
-        const config = formConfig(pathname);
+        const config = formConfig(`${pathnamePrefix}${pathname}`);
         expect(config).to.be.an('object');
         expect(config).to.have.property('formId');
         expect(config).to.have.property('chapters');
@@ -57,7 +54,7 @@ describe('Form Config - Core Branch Coverage', () => {
 
   describe('depends function execution', () => {
     it('executes depends functions when they exist', () => {
-      const config = formConfig();
+      const config = formConfig(validPathname);
 
       if (
         config.chapters.veteranInformationChapter?.pages?.veteranInformationPage
@@ -96,7 +93,7 @@ describe('Form Config - Core Branch Coverage', () => {
       const testCases = [{ pathname: '21-526EZ' }, { pathname: '21-686c' }];
 
       testCases.forEach(({ pathname }) => {
-        const config = formConfig(pathname);
+        const config = formConfig(`${pathnamePrefix}${pathname}`);
 
         expect(config).to.be.an('object');
         expect(config).to.have.property('chapters');
@@ -111,7 +108,7 @@ describe('Form Config - Core Branch Coverage', () => {
       const originalWindow = global.window;
 
       try {
-        const config = formConfig();
+        const config = formConfig(validPathname);
 
         const veteranPage =
           config.chapters?.veteranInformationChapter?.pages
@@ -134,7 +131,7 @@ describe('Form Config - Core Branch Coverage', () => {
 
   describe('basic functionality validation', () => {
     it('returns valid configuration object', () => {
-      const config = formConfig();
+      const config = formConfig(validPathname);
 
       expect(config).to.be.an('object');
       expect(config.chapters).to.be.an('object');
@@ -148,7 +145,7 @@ describe('Form Config - Core Branch Coverage', () => {
     });
 
     it('has required functions', () => {
-      const config = formConfig();
+      const config = formConfig(validPathname);
 
       expect(config).to.have.property('introduction');
       expect(config).to.have.property('confirmation');

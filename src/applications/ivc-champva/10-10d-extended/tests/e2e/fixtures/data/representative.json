@@ -1,0 +1,50 @@
+{
+  "data": {
+    "certifierRole": "other",
+    "certifierName": {
+      "first": "Certifier",
+      "last": "Jones"
+    },
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Certifier St",
+      "city": "Certifier",
+      "state": "MD",
+      "postalCode": "12312"
+    },
+    "certifierPhone": "1231231234",
+    "certifierEmail": "certifier@email.gov",
+    "certifierRelationship": {
+      "relationshipToVeteran": {
+        "spouse": true
+      }
+    },
+    "sponsorName": {
+      "first": "Joe",
+      "last": "Johnson"
+    },
+    "sponsorDob": "1958-01-01",
+    "sponsorSsn": "123123123",
+    "sponsorIsDeceased": false,
+    "sponsorPhone": "5552223333",
+    "view:hasApplicants": true,
+    "applicants": [
+      {
+        "applicantName": {
+          "first": "Johnny",
+          "last": "Alvin"
+        },
+        "applicantDob": "2003-01-04",
+        "applicantSsn": "345345345",
+        "applicantPhone": "5555551234",
+        "applicantGender": "male",
+        "applicantRelationshipToSponsor": "child",
+        "applicantRelationshipOrigin": "blood",
+        "applicantDependentStatus": "over18HelplessChild"
+      }
+    ],
+    "view:hasHealthInsurance": false,
+    "view:hasMedicare": false,
+    "statementOfTruthSignature": "Certifier Jones"
+  }
+}

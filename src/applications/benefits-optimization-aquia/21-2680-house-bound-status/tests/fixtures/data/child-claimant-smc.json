@@ -1,0 +1,64 @@
+{
+  "data": {
+    "veteranInformation": {
+      "veteranFullName": {
+        "first": "Lando",
+        "middle": "",
+        "last": "Calrissian"
+      },
+      "veteranSsn": "159753486",
+      "veteranDob": "1937-04-06"
+    },
+    "veteranAddress": {
+      "veteranAddress": {
+        "street": "Cloud City Administration",
+        "street2": "BQ",
+        "city": "Denver",
+        "state": "CO",
+        "country": "USA",
+        "postalCode": "80202"
+      }
+    },
+    "claimantRelationship": {
+      "relationship": "child"
+    },
+    "claimantInformation": {
+      "claimantFullName": {
+        "first": "Lando",
+        "middle": "J",
+        "last": "Calrissian"
+      },
+      "claimantDob": "1965-08-10"
+    },
+    "claimantSsn": {
+      "claimantSsn": "753951486"
+    },
+    "claimantAddress": {
+      "claimantAddress": {
+        "street": "Bespin Mining Colony",
+        "street2": "Res",
+        "city": "Cloud City",
+        "state": "CO",
+        "country": "USA",
+        "postalCode": "80203"
+      }
+    },
+    "claimantContact": {
+      "claimantPhoneNumber": {
+        "callingCode": 880,
+        "countryCode": "BD",
+        "contact": "212345678",
+        "IsValid": true,
+        "Error": null,
+        "Touched": true
+      },
+      "claimantEmail": "lando.jr@cloudcity.com"
+    },
+    "benefitType": {
+      "benefitType": "SMC"
+    },
+    "hospitalizationStatus": {
+      "isCurrentlyHospitalized": false
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { FormNavButtons, SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import { getAlert, getFormNumber, onClickContinue } from '../helpers';
@@ -11,7 +12,7 @@ export const emptyObjectSchema = {
 
 const formNumber = getFormNumber();
 export const form686cBcList = [
-  { href: '/representative', label: 'VA.gov/representative home' },
+  { href: '/representative', label: 'Accredited representative portal home' },
   { href: '/representative/submissions', label: 'Submissions' },
   {
     href: `/representative/representative-form-upload/${formNumber}/introduction`,
@@ -51,12 +52,22 @@ export const claimantTitleAndDescription = {
   },
 };
 
+export const ITFClaimantTitleAndDescription = {
+  'view:claimantTitle': {
+    ...titleUI('Claimant information'),
+  },
+};
+
 export const supportingEvidenceTitleAndDescription = {
   'view:supportingEvidenceTitle': {
-    'ui:title': 'Upload supporting evidence',
+    'ui:title': Object.freeze(<h3>Upload supporting evidence</h3>),
   },
   'view:supportingEvidenceDescription': {
-    'ui:description': 'Select supporting documents to upload.',
+    'ui:description': Object.freeze(
+      <p className="vads-u-margin--0">
+        Select supporting documents to upload.
+      </p>,
+    ),
   },
 };
 
@@ -72,6 +83,33 @@ export const veteranTitleAndDescription = {
         processing delays.
       </div>,
     ),
+  },
+};
+export const ITFVetBenefits = Object.freeze({
+  SURVIVOR: {
+    title:
+      'Survivors pension and/or dependency and indemnity compensation (DIC)',
+    description:
+      'Select this option if you intend to file a DIC claim (VA Form 21P-534 or VA Form 21P-534EZ)',
+  },
+});
+
+export const ITFBenefitTypes = Object.freeze({
+  labels: {
+    compensation: 'Disability Compensation',
+    pension: 'Pension',
+  },
+  descriptions: {
+    compensation:
+      'Select this option if you intend to file for disability compensation (VA Form 21-526EZ)',
+    pension:
+      'Select this option if you intend to file a pension claim (VA Form 21P-527EZ)',
+  },
+});
+
+export const ITFVeteranTitleAndDescription = {
+  'view:veteranTitle': {
+    ...titleUI('Veteran identification information'),
   },
 };
 

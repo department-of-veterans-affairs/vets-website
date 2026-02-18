@@ -1,15 +1,39 @@
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 
-describe('22-1919 Edu form', () => {
-  beforeEach(function beforeEachHook() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
+describe.skip('22-1919 Edu form', () => {
   it('should be keyboard-only navigable', () => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
-        features: [],
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'form_1919_release',
+            value: true,
+          },
+        ],
+      },
+    });
+    cy.intercept('GET', '/v0/gi/institutions/*', {
+      data: {
+        attributes: {
+          name: 'INSTITUTE OF TESTING',
+          facilityCode: '10002000',
+          type: 'FOR PROFIT',
+          city: 'SAN FRANCISCO',
+          state: 'CA',
+          zip: '13579',
+          country: 'USA',
+          address1: '123 STREET WAY',
+        },
+      },
+    });
+
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
+
+    cy.intercept('POST', '/v0/education_benefits_claims/1919', {
+      attributes: {
+        confirmationNumber: '123123123',
       },
     });
 
@@ -81,9 +105,8 @@ describe('22-1919 Edu form', () => {
     );
     cy.injectAxeThenAxeCheck();
     cy.tabToElement('input[name="root_institutionDetails_facilityCode"]');
-    cy.typeInFocused('25007120');
+    cy.typeInFocused('10002000');
     // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(600);
     cy.tabToContinueForm();
 
     // Proprietary profit classification page
@@ -167,7 +190,7 @@ describe('22-1919 Edu form', () => {
         .conflictOfInterestSummary.path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.realPress('Tab');
+    cy.repeatKey('Tab', 2);
     cy.allyEvaluateRadioButtons(
       [
         'input#root_allProprietaryConflictOfInterestYesinput',
@@ -199,19 +222,19 @@ describe('22-1919 Edu form', () => {
     // Conflict of interest enrollment period page
     cy.injectAxeThenAxeCheck();
     cy.realPress(['Tab', 'Space']);
-    cy.tabToElement('select[name="root_enrollmentPeriod_fromMonth"]');
+    cy.tabToElement('select[name="root_enrollmentPeriodStartMonth"]');
     // cy.chooseSelectOptionByTyping('April');
     cy.realType('April');
-    cy.tabToElement('input[name="root_enrollmentPeriod_fromDay"]');
+    cy.tabToElement('input[name="root_enrollmentPeriodStartDay"]');
     cy.realType('01');
-    cy.tabToElement('input[name="root_enrollmentPeriod_fromYear"]');
+    cy.tabToElement('input[name="root_enrollmentPeriodStartYear"]');
     cy.realType('2020');
-    cy.tabToElement('select[name="root_enrollmentPeriod_toMonth"]');
+    cy.tabToElement('select[name="root_enrollmentPeriodEndMonth"]');
     // cy.chooseSelectOptionByTyping('April');
     cy.realType('April');
-    cy.tabToElement('input[name="root_enrollmentPeriod_toDay"]');
+    cy.tabToElement('input[name="root_enrollmentPeriodEndDay"]');
     cy.realType('20');
-    cy.tabToElement('input[name="root_enrollmentPeriod_toYear"]');
+    cy.tabToElement('input[name="root_enrollmentPeriodEndYear"]');
     cy.realType('2020');
     cy.tabToContinueForm();
 

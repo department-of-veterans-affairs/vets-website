@@ -1,67 +1,64 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
-
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 
+// Components
+import AddIssue from '../../shared/components/AddIssue';
+import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
+import ConfirmationPage from '../containers/ConfirmationPage';
+import IntroductionPage from '../containers/IntroductionPage';
+
+// Pages
+import addIssue from '../../shared/pages/addIssue';
+import appealingVhaDenial from '../pages/appealingVhaDenial';
+import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
+import boardReview from '../pages/boardReview';
+import contactInfo from '../pages/contactInfo';
+import contestableIssues from '../pages/contestableIssues';
+import evidenceIntro from '../pages/evidenceIntro';
+import evidenceUpload from '../pages/evidenceUpload';
+import extensionReason from '../pages/extensionReason';
+import extensionRequest from '../pages/extensionRequest';
+import filingDeadlines from '../pages/filingDeadlines';
+import hearingType from '../pages/hearingType';
+import homeless from '../pages/homeless';
+import issueSummary from '../pages/issueSummary';
+import veteranInfo from '../pages/veteranInfo';
+
+// Content
+import {
+  customText,
+  saveInProgress,
+  savedFormMessages,
+} from '../content/saveInProgress';
+import submissionError from '../../shared/content/submissionError';
+import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
+import GetFormHelp from '../../shared/content/GetFormHelp';
+import reviewErrors from '../../shared/content/reviewErrors';
+
+// Utils
+import manifest from '../manifest.json';
 import migrations from '../migrations';
 import prefillTransformer from './prefill-transformer';
 import { transform } from './submit-transformer';
 import submitForm from './submitForm';
-
 import { SUBMIT_URL } from '../constants/apis';
-
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-import AddContestableIssue from '../components/AddContestableIssue';
-
 import {
   canUploadEvidence,
   wantsToUploadEvidence,
   needsHearingType,
   showExtensionReason,
 } from '../utils/helpers';
-
-// Pages
-import veteranInfo from '../pages/veteranInfo';
-import homeless from '../pages/homeless';
-import contactInfo from '../pages/contactInfo';
-import contestableIssues from '../pages/contestableIssues';
-import addIssue from '../pages/addIssue';
-import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
-import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
-import extensionRequest from '../pages/extensionRequest';
-import extensionReason from '../pages/extensionReason';
-import appealingVhaDenial from '../pages/appealingVhaDenial';
-import filingDeadlines from '../pages/filingDeadlines';
-import issueSummary from '../pages/issueSummary';
-import boardReview from '../pages/boardReview';
-import hearingType from '../pages/hearingType';
-import evidenceIntro from '../pages/evidenceIntro';
-import evidenceUpload from '../pages/evidenceUpload';
-
-import {
-  customText,
-  saveInProgress,
-  savedFormMessages,
-} from '../content/saveInProgress';
-
-import submissionError from '../../shared/content/submissionError';
-import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
-import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
-import GetFormHelp from '../../shared/content/GetFormHelp';
-import reviewErrors from '../../shared/content/reviewErrors';
+import { CONTESTABLE_ISSUES_PATH, MAX_LENGTH } from '../../shared/constants';
 import {
   focusRadioH3,
   focusH3,
   focusOnAlert,
   focusIssue,
 } from '../../shared/utils/focus';
-
 // import initialData from '../tests/initialData';
-
-import manifest from '../manifest.json';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -112,6 +109,7 @@ const formConfig = {
 
   formOptions: {
     focusOnAlertRole: true,
+    useWebComponentForNavigation: true,
   },
 
   chapters: {
@@ -135,7 +133,7 @@ const formConfig = {
         ...contactInfo,
       },
     },
-    conditions: {
+    issues: {
       title: 'Issues for review',
       pages: {
         filingDeadlines: {
@@ -176,11 +174,13 @@ const formConfig = {
           title: 'Add issues for review',
           path: 'add-issue',
           depends: () => false, // accessed from contestableIssues page
-          // showPagePerItem: true,
-          // arrayPath: 'additionalIssues',
-          CustomPage: AddContestableIssue,
-          uiSchema: addIssue.uiSchema,
-          schema: addIssue.schema,
+          CustomPage: props =>
+            AddIssue({
+              ...props,
+              appAbbr: 'NOD',
+            }),
+          uiSchema: addIssue(MAX_LENGTH.NOD_ISSUE_NAME).uiSchema,
+          schema: addIssue(MAX_LENGTH.NOD_ISSUE_NAME).schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         areaOfDisagreementFollowUp: {

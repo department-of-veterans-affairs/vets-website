@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 
-const ConfirmationScreenView = ({ applicantName, signerName, submitDate }) => {
-  useEffect(() => focusElement('.success-message'), []);
+const ConfirmationScreenView = ({ beneficiary, signee, submitDate }) => {
+  useEffect(() => focusElement('h2', {}, 'va-alert'), []);
 
   return (
     <>
       <div className="success-message vads-u-margin-bottom--4">
         <va-alert status="success">
-          <h2 slot="headline" className="vads-u-margin--0">
+          <h2 slot="headline" className="vads-u-font-size--h3">
             You’ve submitted your CHAMPVA claim form
           </h2>
         </va-alert>
@@ -18,27 +18,21 @@ const ConfirmationScreenView = ({ applicantName, signerName, submitDate }) => {
       <va-summary-box class="vads-u-margin-bottom--4">
         <h3 slot="headline">Your submission information</h3>
 
-        <h4>Applicant’s name</h4>
-        <p
-          className="applicant-fullname dd-privacy-mask"
-          data-dd-action-name="Applicant name"
-        >
-          {applicantName}
+        <h4>Beneficiary’s name</h4>
+        <p className="dd-privacy-mask" data-dd-action-name="Beneficiary">
+          {beneficiary}
         </p>
 
         <h4>Who submitted this form</h4>
-        <p
-          className="signer-fullname dd-privacy-mask"
-          data-dd-action-name="Signer name"
-        >
-          {signerName}
+        <p className="dd-privacy-mask" data-dd-action-name="Signee">
+          {signee}
         </p>
 
         {submitDate && (
           <>
             <h4>Date submitted</h4>
             <p
-              className="submission-date dd-privacy-mask"
+              className="dd-privacy-mask"
               data-dd-action-name="Submission date"
             >
               {submitDate}
@@ -58,8 +52,8 @@ const ConfirmationScreenView = ({ applicantName, signerName, submitDate }) => {
 };
 
 ConfirmationScreenView.propTypes = {
-  applicantName: PropTypes.string,
-  signerName: PropTypes.string,
+  beneficiary: PropTypes.string,
+  signee: PropTypes.string,
   submitDate: PropTypes.string,
 };
 

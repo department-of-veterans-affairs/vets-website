@@ -50,6 +50,7 @@ const transformForSubmit = (formConfig, form) => {
       current_ar: debt.currentAr,
       benefit_type: debt.benefitType,
       dispute_reason: debt.disputeReason,
+      rcvbl_id: debt.rcvblId,
       /* eslint-enable camelcase */
     })),
   };

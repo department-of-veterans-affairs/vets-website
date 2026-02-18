@@ -12,6 +12,7 @@ import { selectCurrentPage } from './redux/selectors';
 import { getReferralSlotKey } from './utils/referrals';
 import { titleCase } from '../utils/formatters';
 import FindCommunityCareOfficeLink from './components/FindCCFacilityLink';
+import { getIsInPilotReferralStation } from './utils/pilot';
 
 export default function ScheduleReferral(props) {
   const { attributes: currentReferral } = props.currentReferral;
@@ -20,6 +21,8 @@ export default function ScheduleReferral(props) {
   const currentPage = useSelector(selectCurrentPage);
   const dispatch = useDispatch();
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
+
+  const stationIdValid = getIsInPilotReferralStation(currentReferral);
   useEffect(
     () => {
       dispatch(setFormCurrentPage('scheduleReferral'));
@@ -39,10 +42,16 @@ export default function ScheduleReferral(props) {
       routeToNextReferralPage(history, currentPage, currentReferral.uuid);
     };
   };
+
+  const canScheduleAppointment =
+    currentReferral.provider?.npi &&
+    !currentReferral.hasAppointments &&
+    stationIdValid;
+
   return (
     <ReferralLayout hasEyebrow heading={`Referral for ${categoryOfCare}`}>
       <div>
-        {!currentReferral.provider?.name && (
+        {!canScheduleAppointment && (
           <va-alert
             status="warning"
             data-testid="referral-alert"
@@ -77,7 +86,7 @@ export default function ScheduleReferral(props) {
             text="Find your VA health facility"
           />
         </va-additional-info>
-        {currentReferral.provider?.name && (
+        {canScheduleAppointment && (
           <va-link-action
             className="vads-u-margin-top--1"
             href={`/my-health/appointments/schedule-referral?id=${

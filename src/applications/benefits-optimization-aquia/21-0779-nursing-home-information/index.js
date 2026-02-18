@@ -1,30 +1,24 @@
 /**
  * @module index
  * @description Main barrel export file for VA Form 21-0779 application
- * Provides centralized exports for all major components and configurations
  */
 
-/** @exports Constants - Application-wide constants */
-export { TITLE, SUBTITLE } from './constants';
-
-/** @exports Containers - React container components */
-export { App, IntroductionPage, ConfirmationPage } from './containers';
-
-/** @exports Pages - Form page configurations */
 export {
-  identificationInformation,
-  mailingAddress,
-  nameAndDateOfBirth,
-  phoneAndEmailAddress,
-  nursingHomeDetails,
-  nursingCareInformation,
-} from './pages';
-
-/** @exports Config - Form configuration object */
-export { formConfig } from './config';
-
-/** @exports Routes - React Router configuration */
-export { default as routes } from './routes';
-
-/** @exports Reducers - Redux reducer configuration */
-export { default as reducer } from './reducers';
+  TITLE,
+  SUBTITLE,
+} from '@bio-aquia/21-0779-nursing-home-information/constants';
+export { formConfig } from '@bio-aquia/21-0779-nursing-home-information/config';
+export {
+  default as routes,
+} from '@bio-aquia/21-0779-nursing-home-information/routes';
+export {
+  default as reducer,
+} from '@bio-aquia/21-0779-nursing-home-information/reducers';
+export {
+  App,
+  IntroductionPage,
+  ConfirmationPage,
+} from '@bio-aquia/21-0779-nursing-home-information/containers';
+export {
+  GetHelp,
+} from '@bio-aquia/21-0779-nursing-home-information/components';

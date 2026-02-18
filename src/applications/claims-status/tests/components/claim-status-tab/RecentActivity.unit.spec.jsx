@@ -1,6 +1,7 @@
 import React from 'react';
 import { within } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -8,11 +9,16 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import RecentActivity from '../../../components/claim-status-tab/RecentActivity';
 import { renderWithRouter } from '../../utils';
 
-const getStore = (cstClaimPhasesEnabled = false) =>
+const getStore = (
+  cstClaimPhasesEnabled = false,
+  cstTimezoneDiscrepancyMitigation = true,
+) =>
   createStore(() => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
       cst_claim_phases: cstClaimPhasesEnabled,
+      // eslint-disable-next-line camelcase
+      cst_timezone_discrepancy_mitigation: cstTimezoneDiscrepancyMitigation,
     },
   }));
 
@@ -1389,4 +1395,360 @@ describe('<RecentActivity>', () => {
       });
     },
   );
+
+  context('Timezone-aware message display', () => {
+    let timezoneStub;
+
+    beforeEach(() => {
+      // Stub CST timezone (-360 = UTC-6) for all tests by default
+      // Individual tests can override by restoring and re-stubbing
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(-360);
+    });
+
+    afterEach(() => {
+      if (timezoneStub) {
+        timezoneStub.restore();
+        timezoneStub = null;
+      }
+    });
+
+    it('should display timezone message below Recent activity heading', () => {
+      // Enable timezone discrepancy feature toggle
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false, true)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      getByText('Recent activity');
+      expect(getByText(/Files uploaded (after|before).*will show (with|as)/)).to
+        .exist;
+    });
+
+    it('should include time and timezone in message', () => {
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false, true)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      const messageParagraph = getByText(
+        /Files uploaded (after|before).*will show (with|as)/,
+      );
+      expect(messageParagraph.textContent).to.match(
+        /\d{1,2}:\d{2}\s+(a|p)\.m\./,
+      );
+    });
+
+    it('should NOT display message when in UTC timezone (offset = 0)', () => {
+      // Restore beforeEach stub and re-stub with UTC timezone (0)
+      timezoneStub.restore();
+      timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
+
+      const { queryByText } = renderWithRouter(
+        <Provider store={getStore(false, true)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      // Heading should exist
+      expect(queryByText('Recent activity')).to.exist;
+
+      // Message should NOT exist when timezone offset is 0 (UTC)
+      expect(queryByText(/Files uploaded/)).to.not.exist;
+    });
+
+    it('should NOT display message when feature toggle is disabled', () => {
+      // Disable timezone discrepancy feature toggle
+      const { queryByText } = renderWithRouter(
+        <Provider store={getStore(false, false)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      // Heading should exist
+      expect(queryByText('Recent activity')).to.exist;
+
+      // Message should NOT exist when toggle is disabled
+      expect(queryByText(/Files uploaded/)).to.not.exist;
+      expect(queryByText(/will show as received/)).to.not.exist;
+    });
+
+    it('should not render message paragraph element when toggle is disabled', () => {
+      const { container } = renderWithRouter(
+        <Provider store={getStore(false, false)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      const heading = container.querySelector('h3');
+      expect(heading).to.exist;
+      expect(heading.textContent).to.equal('Recent activity');
+
+      // Find all paragraphs in recent-activity-container
+      const activityContainer = container.querySelector(
+        '.recent-activity-container',
+      );
+      const paragraphs = activityContainer.querySelectorAll('p');
+
+      // No paragraph should contain timezone message when toggle disabled
+      paragraphs.forEach(p => {
+        expect(p.textContent).to.not.include('Files uploaded');
+      });
+    });
+
+    it('should conditionally render message based on feature toggle', () => {
+      // Test with toggle ENABLED (should render)
+      const { container, rerender } = renderWithRouter(
+        <Provider store={getStore(false, true)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      let messageParagraph = container.querySelector(
+        '.vads-u-color--gray-medium',
+      );
+      expect(messageParagraph).to.exist;
+      expect(messageParagraph.textContent).to.include('Files uploaded');
+
+      // Re-render with toggle DISABLED
+      rerender(
+        <Provider store={getStore(false, false)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      // Message paragraph should not exist when toggle is disabled
+      messageParagraph = container.querySelector('.vads-u-color--gray-medium');
+      expect(messageParagraph?.textContent || '').to.not.include(
+        'Files uploaded',
+      );
+    });
+  });
+
+  context('isDBQ boolean property fallback pattern', () => {
+    it('should use API value when provided (true)', () => {
+      const claimWithApiIsDBQTrue = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'Non-DBQ Request', // Doesn't include 'dbq'
+              friendlyName: 'Test Request',
+              isDBQ: true, // API value is true
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithApiIsDBQTrue} />
+        </Provider>,
+      );
+
+      // Should show DBQ message because API value is true
+      getByText('We made a request: “test Request.”');
+    });
+
+    it('should fall back to displayName check when API value is false', () => {
+      const claimWithApiIsDBQFalse = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'DBQ AUDIO Hearing Loss', // Contains 'dbq'
+              friendlyName: 'DBQ Test',
+              isDBQ: false, // API says false, but displayName contains 'dbq'
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithApiIsDBQFalse} />
+        </Provider>,
+      );
+
+      // Should show DBQ message because displayName contains 'dbq'
+      getByText(`We made a request: “dBQ Test.”`);
+    });
+
+    it('should fallback to evidenceDictionary when API value not provided', () => {
+      const claimWithDictIsDBQ = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'DBQ AUDIO Hearing Loss and Tinnitus', // In dictionary with isDBQ: true
+              friendlyName: 'Hearing Test',
+              // No isDBQ property from API
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithDictIsDBQ} />
+        </Provider>,
+      );
+
+      // Should use dictionary value (true)
+      getByText('We made a request: “hearing Test.”');
+    });
+
+    it('should fallback to displayName check when neither API nor dictionary has value', () => {
+      const claimWithDbqInName = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'Some DBQ Related Request', // Contains 'dbq' but not in dictionary
+              friendlyName: 'DBQ Request',
+              // No isDBQ property from API or dictionary
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithDbqInName} />
+        </Provider>,
+      );
+
+      // Should detect 'dbq' in displayName
+      getByText('We made a request: “dBQ Request.”');
+    });
+
+    it('should default to false when all fallbacks fail', () => {
+      const claimWithNoDBQ = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'Medical Records Request', // Not in dictionary, no 'dbq'
+              friendlyName: 'Medical Records',
+              // No isDBQ property from API
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithNoDBQ} />
+        </Provider>,
+      );
+
+      // Should default to false (outside VA request)
+      getByText('We made a request outside the VA: “medical Records.”');
+    });
+
+    it('should return false when API value is false and displayName does not contain dbq', () => {
+      const claimWithApiFalseNoDbqName = {
+        attributes: {
+          claimDate: '2024-05-02',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-05-22',
+            currentPhaseBack: false,
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2024-05-10',
+              phase2CompleteDate: '2024-05-22',
+            },
+          },
+          claimTypeCode: '110LCMP7IDES',
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2024-05-12',
+              status: 'NEEDED_FROM_OTHERS',
+              displayName: 'Medical Records Request', // No 'dbq' in name
+              friendlyName: 'Medical Records',
+              isDBQ: false, // API explicitly says false
+            },
+          ],
+        },
+      };
+
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <RecentActivity claim={claimWithApiFalseNoDbqName} />
+        </Provider>,
+      );
+
+      // Should show non-DBQ content (outside VA request)
+      getByText('We made a request outside the VA: “medical Records.”');
+    });
+  });
 });

@@ -8,10 +8,22 @@ export const useValidateFacilityCode = formData => {
   const [institutionData, setInstitutionData] = useState(null);
   const dispatch = useDispatch();
 
+  const facilityCode = formData?.institutionDetails?.facilityCode;
+
   useEffect(
     () => {
       const fetchInstitutionInfo = async () => {
         setLoader(true);
+
+        dispatch(
+          setData({
+            ...formData,
+            institutionDetails: {
+              ...formData.institutionDetails,
+              isLoading: true,
+            },
+          }),
+        );
         try {
           const response = await apiRequest(
             `/gi/institutions/${formData?.institutionDetails.facilityCode}`,
@@ -23,6 +35,8 @@ export const useValidateFacilityCode = formData => {
             },
           );
           const attrs = response.data.attributes;
+          const isForeignCountry =
+            response.data?.attributes?.type?.toLowerCase() === 'foreign';
           const firstDigit = formData.institutionDetails.facilityCode.charAt(0);
           const secondDigit = formData.institutionDetails.facilityCode.charAt(
             1,
@@ -31,10 +45,6 @@ export const useValidateFacilityCode = formData => {
             ['1', '2', '3'].includes(firstDigit) &&
             ['1', '2', '3', '4'].includes(secondDigit);
 
-          const programTypes = Array.isArray(attrs.programTypes)
-            ? attrs.programTypes
-            : [];
-          const ihlEligible = programTypes.includes('IHL');
           const institutionAddress = {
             street: attrs.address1 || '',
             street2: attrs.address2 || '',
@@ -47,6 +57,7 @@ export const useValidateFacilityCode = formData => {
 
           setInstitutionData(response?.data);
           setLoader(false);
+
           dispatch(
             setData({
               ...formData,
@@ -54,10 +65,11 @@ export const useValidateFacilityCode = formData => {
                 ...formData.institutionDetails,
                 institutionName: response?.data?.attributes?.name,
                 institutionAddress,
-                ihlEligible,
                 yrEligible,
+                isLoading: false,
                 isUsaSchool:
                   response?.data?.attributes?.physicalCountry === 'USA',
+                isForeignCountry,
               },
             }),
           );
@@ -71,17 +83,17 @@ export const useValidateFacilityCode = formData => {
                 ...formData.institutionDetails,
                 institutionName: 'not found',
                 institutionAddress: {},
-                ihlEligible: null,
+                isLoading: false,
               },
             }),
           );
         }
       };
-      if (formData?.institutionDetails?.facilityCode?.length === 8) {
+      if (facilityCode?.length === 8) {
         fetchInstitutionInfo();
       }
     },
-    [formData?.institutionDetails?.facilityCode],
+    [facilityCode],
   );
   const attrs = institutionData?.attributes || {};
   const institutionAddress = {

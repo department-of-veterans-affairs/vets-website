@@ -9,7 +9,7 @@ function EligibilitySummary({ formData }) {
   if (formData.hasAlreadyFiled === true) {
     reason = "You've already filed for survivor benefits";
     explanation =
-      "Your accrued benefits claim is already included in your VA Form 21P-534EZ or 21P-535 application. You don't need to file this form separately.";
+      "Your accrued benefits claim is already included in your application for survivors benefits. You don't need to fill out this form separately.";
   } else if (formData.hasUnpaidCreditors === true) {
     reason = 'You have unpaid creditors';
     explanation =
@@ -22,33 +22,43 @@ function EligibilitySummary({ formData }) {
     formData.hasUnpaidCreditors === false
   ) {
     return (
-      <va-alert status="error" uswds>
-        <h3 slot="headline">Something went wrong</h3>
-        <p>
-          There was an error with the eligibility check. Please return to the
-          start of the form and try again.
-        </p>
-      </va-alert>
+      <>
+        <h3>Eligibility results</h3>
+        <va-alert status="error" role="alert" uswds>
+          <h3 slot="headline">Something went wrong</h3>
+          <p>
+            There was an error with the eligibility check. Please return to the
+            start of the form and try again.
+          </p>
+        </va-alert>
+      </>
     );
   }
 
   return (
     <>
-      <va-alert status="error" uswds>
-        <h3 slot="headline">You can't submit this form online</h3>
-        <p>
-          <strong>{reason}</strong>
-        </p>
-        <p>{explanation}</p>
-      </va-alert>
-
+      <h3>Eligibility results</h3>
       <div className="vads-u-margin-top--3">
-        <h3>What you can do</h3>
+        <va-card background icon-name="" role="alert">
+          <div>
+            <h4 className="vads-u-margin-top--1">
+              Based on your responses, you may not be eligible to submit this
+              form online.
+            </h4>
+            <p>
+              <strong>Your response:</strong>
+            </p>
+            <p>{reason}</p>
+            <p>{explanation}</p>
+          </div>
+        </va-card>
+
+        <h4>What you can do</h4>
 
         {formData.hasAlreadyFiled === true ? (
           <p>
-            Check the status of your existing survivor benefits claim. You don't
-            need to take any additional action for accrued benefits.
+            Check the status of your existing survivors benefits claim. You
+            don't need to take any additional action for accrued benefits.
           </p>
         ) : (
           <>
@@ -65,15 +75,18 @@ function EligibilitySummary({ formData }) {
               <li>Mail the completed form to your VA regional office</li>
             </ol>
 
-            <va-button
-              className=""
-              text="Download VA Form 21P-601 (PDF)"
+            <va-link
+              external
               href="https://www.va.gov/find-forms/about-form-21p-601/"
-              target="_blank"
               rel="noopener noreferrer"
+              text="Download VA Form 21P-601 (PDF)"
             />
+            <br />
+            <br />
           </>
         )}
+
+        <va-link-action href="/" text="Exit application" type="primary" />
       </div>
     </>
   );

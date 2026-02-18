@@ -36,4 +36,8 @@ templates.disputeDebt = () => {
   return require('./dispute_debt');
 };
 
+templates.disputeDebtVeteranFacing = () => {
+  return require('./dispute_debt_veteran_facing');
+};
+
 export { templates };

@@ -12,7 +12,7 @@ const vamcUser = {
 };
 
 const SUBMISSIONS_PAGE =
-  '/representative/submissions?sortOrder=desc&sortBy=created_at&pageSize=20&pageNumber=1';
+  '/representative/submissions?sort=newest&pageSize=20&pageNumber=1';
 
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '**/accredited_representative_portal/v0/user', {
@@ -99,13 +99,63 @@ describe('Accredited Representative Portal', () => {
         'contain',
         'Processing error',
       );
+      cy.get('ul.submissions__list li:nth-of-type(5)').should(
+        'contain',
+        'Karlsson, Rachel',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(5)').should(
+        'contain',
+        'Processing error',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(6)').should(
+        'contain',
+        'Ryan, Logan',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(6)').should(
+        'contain',
+        'VA Form 21-0966 packet',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(6)').should(
+        'contain',
+        'Expires in 365 days',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(7)').should(
+        'contain',
+        'Andrews, David',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(7)').should(
+        'contain',
+        'VA Form 21-0966 packet',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(7)').should(
+        'contain',
+        'Expires in 60 days',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(7)')
+        .find('va-icon')
+        .should('exist');
+      cy.get('ul.submissions__list li:nth-of-type(8)').should(
+        'contain',
+        'Dobson, Aaron',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(8)').should(
+        'contain',
+        'VA Form 21-0966 packet',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(8)').should(
+        'contain',
+        'Expires in 70 days',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(8)')
+        .find('va-icon')
+        .should('not.exist');
     });
 
     it('Allows the user to visit 686c form from Submissions', () => {
       cy.injectAxeThenAxeCheck();
       cy.get(
-        "va-link-action[href='/representative/representative-form-upload/21-686c']",
-      ).click();
+        "va-link-action[href='/representative/representative-form-upload/submit-va-form-21-686c']",
+      ).click({ force: true });
     });
 
     context('526ez feature flag is off', () => {
@@ -133,8 +183,8 @@ describe('Accredited Representative Portal', () => {
     it('Allows the user to visit 526ez form from Submissions', () => {
       cy.injectAxeThenAxeCheck();
       cy.get(
-        "va-link-action[href='/representative/representative-form-upload/21-526EZ']",
-      ).click();
+        "va-link-action[href='/representative/representative-form-upload/submit-va-form-21-526EZ']",
+      ).click({ force: true });
     });
   });
 });

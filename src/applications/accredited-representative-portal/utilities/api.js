@@ -4,19 +4,25 @@ import { fetchAndUpdateSessionExpiration } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 import manifest from '../manifest.json';
-import { getSignInUrl } from './constants';
-import { SORT_DEFAULTS } from './submissions';
+import { getSignInUrl, SORT_DEFAULTS } from './constants';
+import { paramUpdate } from './helpers';
 
 // Set app name for request headers
 window.appName = manifest.entryName;
 
 const API_VERSION = 'accredited_representative_portal/v0';
-
+const doNotRedirectUrl = [
+  manifest.rootUrl,
+  `${manifest.rootUrl}/`,
+  `${manifest.rootUrl}/help`,
+  `${manifest.rootUrl}/sign-in`,
+  `${manifest.rootUrl}/auth/login/callback`,
+];
 // 403 redirect handler
 const redirectToUnauthorizedAndReturn = () => {
   const inAppPath = window.location.pathname.startsWith(manifest.rootUrl);
   if (inAppPath) {
-    window.location.replace(`${manifest.rootUrl}/dashboard?unauthorized=1`);
+    window.location.replace(`${manifest.rootUrl}/dashboard?unauthorized`);
     // Keep loaders pending until navigation completes to avoid UI flash
     return new Promise(() => {});
   }
@@ -76,12 +82,7 @@ const wrapApiRequest = fn => {
         // Don't redirect to login for our app's root / landing page experience.
         // People are allowed to be unauthenticated there.
         // TODO: probably need a more sound & principled solution here.
-        ![
-          manifest.rootUrl,
-          `${manifest.rootUrl}/`,
-          `${manifest.rootUrl}/sign-in`,
-          `${manifest.rootUrl}/auth/login/callback`,
-        ].includes(window.location.pathname)
+        !doNotRedirectUrl.includes(window.location.pathname)
       ) {
         window.location = getSignInUrl({
           returnUrl: window.location.href,
@@ -122,7 +123,12 @@ const wrapApiRequest = fn => {
     }
   };
 };
-
+const paginationDefaults = `page[size]=${SORT_DEFAULTS.SIZE}&page[number]=${
+  SORT_DEFAULTS.NUMBER
+}`;
+const sortDefaults = `&sort[by]=${SORT_DEFAULTS.SORT_BY}&sort[order]=${
+  SORT_DEFAULTS.SORT_ORDER
+}`;
 const api = {
   // Lightweight authorization check used by Dashboard loader
   checkAuthorized: wrapApiRequest(() => {
@@ -130,30 +136,29 @@ const api = {
   }),
   getPOARequests: wrapApiRequest(query => {
     const status = query.status ? `status=${query.status}` : '';
-    const size = query.size ? `&page[size]=${query.size}` : '';
-    const number = query.number ? `&page[number]=${query.number}` : '';
-    const sort = query.sort
-      ? `&sort[by]=${query.sortBy}&sort[order]=${query.sort}`
-      : '';
+    const pagination = query.size
+      ? `&page[size]=${query.size}&page[number]=${query.number}`
+      : paginationDefaults;
+    const sortParam = paramUpdate(query.sort, query.status);
+    const sort = sortParam
+      ? `&sort[by]=${sortParam.sortBy}&sort[order]=${sortParam.order}`
+      : sortDefaults;
+    const showAllRequests = query.selectedIndividual === 'you';
     const selectedIndividual = query.selectedIndividual
-      ? `&as_selected_individual=${query.selectedIndividual}`
-      : '';
-    const params = `${status + size + number + sort + selectedIndividual}`;
+      ? `&as_selected_individual=${showAllRequests}`
+      : `&as_selected_individual=${SORT_DEFAULTS.SELECTED_INDIVIDUAL}`;
+    const params = `${status + pagination + sort + selectedIndividual}`;
     return [`/power_of_attorney_requests${params ? '?' : ''}${params}`];
   }),
   getSubmissions: wrapApiRequest(query => {
-    const size = query.size
-      ? `page[size]=${query.size}`
-      : `page[size]=${SORT_DEFAULTS.SIZE}`;
-    const number = query.number
-      ? `&page[number]=${query.number}`
-      : `&page[number]=${SORT_DEFAULTS.NUMBER}`;
-    const sort = query.sort
-      ? `&sort[by]=${query.sortBy}&sort[order]=${query.sort}`
-      : `&sort[by]=${SORT_DEFAULTS.SORT_BY}&sort[order]=${
-          SORT_DEFAULTS.SORT_ORDER
-        }`;
-    return [`/claim_submissions?${size}${number}${sort}`];
+    const pagination = query.size
+      ? `&page[size]=${query.size}&page[number]=${query.number}`
+      : paginationDefaults;
+    const subParam = paramUpdate(query.sort);
+    const sort = subParam
+      ? `&sort[by]=${subParam.sortBy}&sort[order]=${subParam.order}`
+      : sortDefaults;
+    return [`/claim_submissions?${pagination}${sort}`];
   }),
   claimantSearch: wrapApiRequest(data => {
     return [

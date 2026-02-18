@@ -6,22 +6,20 @@ export const facilityTypeTitle =
   'Select all the types of facilities or providers that treated you';
 
 export const facilityTypeTextLabel =
-  'Specify any other types of facility or provider';
+  'Enter any other types of facility or providers that treated you';
 
 export const facilityTypeChoices = {
-  vamc: 'A VA medical center (also called a VAMC)',
-  cboc: 'A community-based outpatient clinic (also called a CBOC)',
-  mtf:
-    'A Department of Defense military treatment facility (also called an MTF)',
-  ccp: 'A community care provider that VA paid for',
+  vamc: 'VA medical center (also called a VAMC)',
+  cboc: 'Community-based outpatient clinic (also called a CBOC)',
+  mtf: 'Department of Defense military treatment facility (also called an MTF)',
+  ccp: 'Community care provider paid for by VA',
   vetCenter: {
-    title: 'A VA Vet center',
-    description: 'Vet Centers are community-based counseling centers.',
+    title: 'VA Vet Center',
+    description: 'VA Vet Centers are community-based counseling centers.',
   },
   nonVa: {
-    title: 'A non-VA healthcare provider',
-    description:
-      'This includes providers who aren’t community care providers, and who don’t work at a military treatment facility.',
+    title: 'Private healthcare provider',
+    description: `This includes providers who aren't community care providers and who don't work at a military treatment facility or VA. For example, a doctor you saw through the Veterans Choice Program.`,
   },
 };
 
@@ -37,7 +35,7 @@ export const facilityTypeSubmissionChoices = {
 };
 
 export const facilityTypeError =
-  'You must select or specify at least one facility type';
+  'Select or enter at least 1 facility or provider type';
 
 export const facilityTypeList = formData => {
   const selected = Object.entries(formData || {}).filter(

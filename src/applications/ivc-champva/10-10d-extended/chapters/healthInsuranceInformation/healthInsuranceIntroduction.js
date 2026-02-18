@@ -8,7 +8,7 @@ import content from '../../locales/en/content.json';
 
 export default {
   uiSchema: {
-    ...titleUI(content['health-insurance--intro-title']),
+    ...titleUI(content['ohi--section-title']),
     ...descriptionUI(OtherHealthInsuranceDescription),
   },
   schema: blankSchema,

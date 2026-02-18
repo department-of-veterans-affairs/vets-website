@@ -38,8 +38,8 @@
         "encounter": {
           "reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Encounter/4-1abONcOSZ9W4SB"
         },
-        "effectiveDateTime": "2013-03-26T06:10:16Z",
-        "issued": "2013-03-26T06:10:16Z",
+        "effectiveDateTime": "2024-03-26T06:10:16Z",
+        "issued": "2024-03-26T06:10:16Z",
         "performer": [
           {
             "reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Practitioner/4-Nn79MfQbW4eP",

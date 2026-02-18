@@ -64,7 +64,7 @@ export const PaperlessDelivery = () => {
         dependencies={[externalServices.VAPRO_NOTIFICATION_SETTINGS]}
       >
         {isLoading && (
-          <VaLoadingIndicator message="We’re loading your information." />
+          <VaLoadingIndicator message="We're loading your information." />
         )}
         {hasAPIError && <ApiErrorAlert />}
         {showContent && (

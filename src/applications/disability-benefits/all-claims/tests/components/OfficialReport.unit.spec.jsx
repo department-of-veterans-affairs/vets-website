@@ -52,7 +52,7 @@ const mockRedux = ({
 
 const defaultProps = {
   arrayBuilder: {
-    summaryRoute: 'mental-health-form-0781/events-summary',
+    getSummaryPath: () => 'mental-health-form-0781/events-summary',
     reviewRoute: 'review-and-submit',
     arrayPath: 'events',
     required: () => true,

@@ -1,3 +1,5 @@
+import manifest from '../manifest.json';
+
 /** time to wait (in ms) after the user stops typing before initiating draft auto-save */
 export const draftAutoSaveTimeout = 10000;
 
@@ -21,6 +23,7 @@ export const Paths = {
   SELECT_CARE_TEAM: 'select-care-team/',
   START_MESSAGE: 'start-message/',
   CARE_TEAM_HELP: '/new-message/care-team-help/',
+  ROOT_URL: manifest.rootUrl,
 };
 
 export const DefaultFolders = {
@@ -159,7 +162,9 @@ export const Alerts = {
   Message: {
     BLOCKED_MESSAGE_ERROR:
       'You are blocked from sending messages to this recipient.',
-    CANNOT_REPLY_BODY: {
+    CANNOT_REPLY_BODY:
+      'If you need to contact your care team, start a new message.',
+    STALE_REPLY_BODY: {
       MAIN: 'The last message in this conversation is more than 45 days old.',
       VISTA:
         "If you want to continue this conversation, you'll need to start a new message.",
@@ -168,7 +173,8 @@ export const Alerts = {
       OH_CONTACT:
         'Or you can send a message to other care teams in your contact list.',
     },
-    CANNOT_REPLY_INFO_HEADER: 'This conversation is too old for new replies',
+    CANNOT_REPLY_INFO_HEADER: "You can't reply to this message",
+    STALE_REPLY_INFO_HEADER: 'This conversation is too old for new replies',
     GET_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     DELETE_MESSAGE_SUCCESS:
       'Message conversation was successfully moved to Trash.',
@@ -187,7 +193,7 @@ export const Alerts = {
     DELETE_DRAFT_SUCCESS: 'Draft was successfully deleted.',
     DELETE_DRAFT_ERROR:
       'Draft could not be deleted. Try again later. If this problem persists, contact the help desk.',
-    SEND_MESSAGE_SUCCESS: 'Message Sent.',
+    SEND_MESSAGE_SUCCESS: 'Message sent',
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     SERVER_ERROR_503:
       'We’re sorry. We couldn’t load this page. Try again later.',
@@ -217,7 +223,7 @@ export const Alerts = {
       'Folder could not be removed. Try again later. If this problem persists, contact the help desk.',
     DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER: 'Empty this folder',
     DELETE_FOLDER_ERROR_NOT_EMPTY_BODY: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
-    RENAME_FOLDER_SUCCESS: 'Folder was successfully renamed.',
+    RENAME_FOLDER_SUCCESS: 'Folder renamed',
     RENAME_FOLDER_ERROR:
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
     FOLDER_NAME_TAKEN:
@@ -266,11 +272,8 @@ export const Prompts = {
       'Messages in the trash folder won’t be permanently deleted.',
   },
   Draft: {
-    DELETE_DRAFT_CONFIRM: 'Are you sure you want to delete this draft?',
-    DELETE_DRAFT_CONFIRM_NOTE:
-      "Drafts are permanently deleted and this action can't be undone. Deleting a draft won't affect other messages in this conversation.",
-    DELETE_NEW_DRAFT_TITLE: 'Delete this draft?',
-    DELETE_NEW_DRAFT_CONTENT: `If you delete a draft, you can't get it back.`,
+    DELETE_DRAFT_CONFIRM_HEADER: 'Delete this draft?',
+    DELETE_DRAFT_CONFIRM_CONTENT: `If you delete a draft, you can’t get it back. But deleting it won’t affect other messages in this conversation.`,
   },
 };
 
@@ -337,6 +340,16 @@ export const Categories = {
   TEST_RESULTS: 'Test',
   TEST_RESULT: 'Test',
   EDUCATION: 'Education',
+};
+
+export const SelectCareTeamPage = {
+  CANT_FIND_CARE_TEAM_NOTE: `If you can’t find the care team you want to select, update your contact list to add it here.`,
+  CANT_FIND_CARE_TEAM_LINK: `Learn what to do if you can’t find your care team`,
+};
+
+export const MessageHintText = {
+  RX_RENEWAL_ERROR: 'Include as many of these medication details as possible.',
+  RX_RENEWAL_SUCCESS: 'Review the medication details we added to your message.',
 };
 
 export const acceptedFileTypes = {
@@ -475,8 +488,11 @@ export const PageTitles = {
   CONVERSATION_TITLE_TAG: 'Conversation | Veterans Affairs',
   EDIT_DRAFT_PAGE_TITLE_TAG:
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
-  CARE_TEAM_HELP_TITLE_TAG:
-    'Can’t find your care team? - Messages | Veterans Affairs',
+  CARE_TEAM_HELP_TITLE_TAG: 'Care Team Help - Start Message | Veterans Affairs',
+};
+
+export const PageHeaders = {
+  RECENT_RECIPIENTS: 'Care teams you recently sent messages to',
 };
 
 export const Recipients = {
@@ -497,6 +513,16 @@ export const RecipientStatus = {
   ALLOWED: 'Allowed',
   NOT_ASSOCIATED: 'Not Associated',
 };
+
+/**
+ * OH (Oracle Health) migration phases that block message replies.
+ * During facility migration from VistA to Oracle Health, replies are blocked
+ * during certain phases (T-6 through T+2).
+ * - p3: T-6 to T-3
+ * - p4: T-3 to T-1
+ * - p5: T to T+2
+ */
+export const OhMigrationPhasesBlockingReplies = ['p3', 'p4', 'p5'];
 
 export const BlockedTriageAlertStyles = {
   INFO: 'info',
@@ -532,14 +558,12 @@ export const FormLabels = {
   SUBJECT: 'Subject',
 };
 
-export const downtimeNotificationParams = {
-  appTitle: 'this messaging tool',
+export const RxRenewalText = {
+  LOCKED_CATEGORY_DISPLAY: 'Medication',
 };
 
-export const CernerTransitioningFacilities = {
-  NORTH_CHICAGO: {
-    facilityId: '556',
-  },
+export const downtimeNotificationParams = {
+  appTitle: 'this messaging tool',
 };
 
 export const filterDescription = {

@@ -2,7 +2,6 @@ import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import RadiologyDetailsPage from './pages/RadiologyDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import sessionStatus from './fixtures/session-status.json';
-import MedicalRecordsLandingPage from './pages/MedicalRecordsLandingPage';
 // import labsAndTests from '../fixtures/labsAndTests.json';
 // import radiologyRecordsMhv from '../fixtures/radiologyRecordsMhv.json';
 
@@ -20,7 +19,6 @@ describe('Medical Records Understanding Your Results Detail Page', () => {
       body: sessionStatus, // status response copied from staging
     }).as('status');
     // cy.visit('my-health/medical-records/labs-and-tests');
-    MedicalRecordsLandingPage.uumIntercept();
     LabsAndTestsListPage.goToLabsAndTests();
   });
 

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { getStemClaims } from '../actions';
 import StemAskVAQuestions from '../components/StemAskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import ClaimsUnavailable from '../components/ClaimsUnavailable';
+import ServiceUnavailableAlert from '../components/ServiceUnavailableAlert';
 import StemDeniedDetails from '../components/StemDeniedDetails';
 import { setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
@@ -50,7 +50,11 @@ class StemClaimStatusPage extends React.Component {
       content = (
         <>
           <h1>We encountered a problem</h1>
-          <ClaimsUnavailable headerLevel={2} />
+          <ServiceUnavailableAlert
+            headerLevel={2}
+            services={['claims']}
+            useSingular
+          />
         </>
       );
     }

@@ -40,7 +40,7 @@ describe('<InformalConferenceContact>', () => {
     const { container } = setup();
     expect($$('va-radio-option', container).length).to.eq(2);
     expect($$('va-additional-info', container).length).to.eq(1);
-    expect($$('button', container).length).to.eq(2);
+    expect($$('va-button', container).length).to.eq(2);
   });
 
   it('should show error and not submit page with no selections', () => {

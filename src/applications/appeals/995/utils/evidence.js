@@ -4,18 +4,8 @@ import {
   FORMAT_YMD_DATE_FNS,
 } from '../../shared/constants';
 import { parseDate } from '../../shared/utils/dates';
-import {
-  hasOtherEvidence,
-  hasPrivateEvidence,
-  hasVAEvidence,
-} from './form-data-retrieval';
-
-export const getVAEvidence = formData =>
-  (hasVAEvidence(formData) && formData?.locations) || [];
-export const getPrivateEvidence = formData =>
-  (hasPrivateEvidence(formData) && formData?.providerFacility) || [];
-export const getOtherEvidence = formData =>
-  (hasOtherEvidence(formData) && formData?.additionalDocuments) || [];
+import { getPrivateEvidence, getVAEvidence } from './form-data-retrieval';
+import numberToWords from './number-to-words';
 
 export const hasErrors = errors =>
   Object.values(errors).filter(err => (Array.isArray(err) ? err.length : err))
@@ -72,20 +62,66 @@ export const removeNonSelectedIssuesFromEvidence = data => {
   };
 };
 
-/**
- * Redirect to the user's last saved URL if it exists
- * @param {String} returnUrl - URL of last saved page
- * @param {Object} router - React router
- */
-export const onFormLoaded = props => {
-  const { returnUrl, router } = props;
-
-  if (returnUrl) {
-    router?.push(returnUrl);
-  }
-};
-
 export const formatDate = (date = '', format = FORMAT_COMPACT_DATE_FNS) =>
   // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
   // const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
   parseDate(date, format, FORMAT_YMD_DATE_FNS) || '';
+
+const getContent = (type, numberToWord, addOrEdit) => {
+  const content = {
+    va: {
+      add: `What${numberToWord} VA or military treatment location should we request records from?`,
+      edit: `Edit the${numberToWord} VA or military treatment location`,
+    },
+    nonVa: {
+      add: `What${numberToWord} location should we request your private provider or VA Vet Center records from?`,
+      edit: `Edit the${numberToWord} provider where you received treatment`,
+    },
+  };
+
+  return content?.[type]?.[addOrEdit] || '';
+};
+
+/**
+ * Used to create the titles for the VA and non-VA evidence
+ * entry (details) pages. When adding details, the initial provider
+ * is not numbered, but subsequent providers are (e.g. "What second location...?")
+ * When editing details, all providers are numbered.
+ * Full examples:
+ *
+ * VA provider - add first provider details: "What VA or military treatment location should we request records from?"
+ * VA provider - add second provider details: "What second VA or military... (cont'd from above)?"
+ * VA provider - edit first provider details: "Edit the first VA or military treatment location"
+ * VA provider - edit second provider details: "Edit the second VA or military... (cont'd from above)"
+ * @param {string} addOrEdit - "add" or "edit" depending on mode
+ * @param {number} index - index of provider being added or edited
+ * @param {string} providerType - either "va" or "nonVa" to indicate which type of content we need
+ * @returns
+ */
+export const getProviderDetailsTitle = (addOrEdit, index, providerType) => {
+  // Add a space before the "first," "20th" etc.
+  // to account for when it is blank (below) so we don't
+  // have extra spaces in the sentence
+  let numberToWord = ` ${numberToWords(index)}`;
+
+  if (addOrEdit === 'add' && index === 1) {
+    numberToWord = '';
+  }
+
+  return getContent(providerType, numberToWord, addOrEdit);
+};
+
+/**
+ * Used to create the modal title when deleting a provider entry
+ * If locationAndName is provided, it is included in the title.
+ * Otherwise, a generic title is returned.
+ * @param {string} locationAndName - name of provider location
+ * @returns {string} - modal title
+ */
+export const getProviderModalDeleteTitle = locationAndName => {
+  if (typeof locationAndName === 'string' && locationAndName) {
+    return `Do you want to keep ${locationAndName}?`;
+  }
+
+  return `Do you want to keep this location?`;
+};

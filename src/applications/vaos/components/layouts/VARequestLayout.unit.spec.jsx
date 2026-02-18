@@ -90,6 +90,8 @@ describe('VAOS Component: VARequestLayout', () => {
         },
       );
       // Assert
+      const h1el = screen.queryByText(/Request for appointment/i);
+      expect(h1el).to.be.visible;
       expect(
         screen.getByRole('heading', {
           level: 1,
@@ -144,11 +146,10 @@ describe('VAOS Component: VARequestLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you.d like to share with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
-      expect(screen.getByText(/Reason: This is a test/i));
-      expect(screen.getByText(/Other details: Additional information:colon/i));
+      expect(screen.getByText(/Additional information:colon/i));
 
       expect(
         screen.getByRole('heading', {
@@ -176,7 +177,7 @@ describe('VAOS Component: VARequestLayout', () => {
       expect(
         screen.queryByRole('heading', {
           level: 2,
-          name: /After visit summary/i,
+          name: /After-visit summary/i,
         }),
       ).to.be.null;
 
@@ -275,11 +276,10 @@ describe('VAOS Component: VARequestLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you.d like to share with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
-      expect(screen.getByText(/Reason: This is a test/i));
-      expect(screen.getByText(/Other details: Additional information:colon/i));
+      expect(screen.getByText(/Additional information:colon/i));
 
       expect(
         screen.getByRole('heading', {
@@ -406,11 +406,10 @@ describe('VAOS Component: VARequestLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you.d like to share with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
-      expect(screen.getByText(/Reason: This is a test/i));
-      expect(screen.getByText(/Other details: Additional information:colon/i));
+      expect(screen.getByText(/Additional information:colon/i));
 
       expect(
         screen.getByRole('heading', {

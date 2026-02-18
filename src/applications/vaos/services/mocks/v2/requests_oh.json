@@ -1,0 +1,406 @@
+{
+  "data": [
+    {
+      "id": "CERN6ad3afd5a",
+      "type": "appointments",
+      "attributes": {
+        "id": "CERN6ad3afd5a",
+        "identifier": [
+          {
+            "system": "urn:va.gov:cfa:cerner:appointment",
+            "value": "Appointment/129240402"
+          }
+        ],
+        "kind": "telehealth",
+        "status": "cancelled",
+        "serviceType": "primaryCare",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "primaryCare"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "REGULAR",
+                "display": "REGULAR"
+              }
+            ],
+            "text": "REGULAR"
+          }
+        ],
+        "reasonCode": {
+          "text": "station id: 983|preferred modality: VIDEO|phone number: 7036753607|email: marcy.nadedau@va.gov|preferred dates:03/26/2025 AM,03/12/2025 AM|reason code:ROUTINEVISIT|comments:Test"
+        },
+        "patientIcn": "1013124304V115761",
+        "locationId": "692",
+        "start": "2025-07-06T00:00:00Z",
+        "minutesDuration": 0,
+        "created": "2025-07-04T20:38:00Z",
+        "requestedPeriods": [
+          {
+            "start": "2025-07-06T00:00:00Z",
+            "end": "2025-07-06T00:00:00Z"
+          }
+        ],
+        "cancelationReason": {
+          "coding": [
+            {
+              "system": "http://www.va.gov/Terminology/VistADefinedTerms/409.853",
+              "code": "pat",
+              "display": "The appointment was cancelled by the patient"
+            }
+          ]
+        },
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          }
+        },
+        "localStartTime": "2025-07-05T18:00:00.000-06:00",
+        "station": "692",
+        "ien": "24175",
+        "isCerner": true,
+        "contact": {
+          "telecom": [
+            {
+              "type": "phone",
+              "value": "7036753607"
+            },
+            {
+              "type": "email",
+              "value": "marcy.nadedau@va.gov"
+            }
+          ]
+        },
+        "preferredDates": [
+          "Wednesday, March 26, 2025 in the morning",
+          "Wednesday, March 12, 2025 in the morning"
+        ],
+        "preferredModality": "Video",
+        "location": {
+          "id": "692",
+          "type": "appointments",
+          "attributes": {
+            "id": "692",
+            "facilitiesApiId": "vha_692",
+            "vistaSite": "692",
+            "vastParent": "692",
+            "type": "va_health_facility",
+            "name": "White City VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Los_Angeles"
+            },
+            "lat": 42.43995,
+            "long": -122.836296,
+            "website": "https://www.va.gov/southern-oregon-health-care/locations/white-city-va-medical-center/",
+            "phone": {
+              "main": "541-826-2111",
+              "fax": "541-830-7570",
+              "pharmacy": "541-826-2111",
+              "afterHours": "541-826-2111",
+              "patientAdvocate": "541-826-2111 x7504",
+              "mentalHealthClinic": "541-830-7440",
+              "enrollmentCoordinator": "541-826-2111 x3742"
+            },
+            "hoursOfOperation": [
+              {
+                "daysOfWeek": "sun",
+                "openingTime": "Closed",
+                "closingTime": "Closed"
+              },
+              {
+                "daysOfWeek": "mon",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "tue",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "wed",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "thu",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "fri",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "sat",
+                "openingTime": "Closed",
+                "closingTime": "Closed"
+              }
+            ],
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["8495 Crater Lake Highway", null, null],
+              "city": "White City",
+              "state": "OR",
+              "postalCode": "97503-3011"
+            },
+            "mobile": false,
+            "healthService": [
+              "CaregiverSupport",
+              "Covid19Vaccine",
+              "Dental",
+              "EmploymentPrograms",
+              "Homeless",
+              "Laboratory",
+              "Lgbtq",
+              "MentalHealth",
+              "MilitarySexualTrauma",
+              "MinorityCare",
+              "Nutrition",
+              "Optometry",
+              "Pharmacy",
+              "PhysicalMedicine",
+              "Podiatry",
+              "PrimaryCare",
+              "Prosthetics",
+              "Psychiatry",
+              "Psychology",
+              "RecreationTherapy",
+              "Rehabilitation",
+              "SocialWork",
+              "SuicidePrevention",
+              "Telehealth",
+              "TransitionCounseling",
+              "Vision",
+              "WholeHealth",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            },
+            "visn": "20",
+            "ehrSystem": "Oracle"
+          }
+        },
+        "type": "REQUEST",
+        "modality": "vaVideoCareAtHome",
+        "past": false,
+        "future": true,
+        "pending": true
+      }
+    },
+    {
+      "id": "CERN6ad3afd5ae44183889a1b65b5d89b5fac19356efc99408c47ff548c3ffb6",
+      "type": "appointments",
+      "attributes": {
+        "id": "CERN6ad3afd5ae44183889a1b65b5d89b5fac19356efc99408c47ff548c3ffb6",
+        "identifier": [
+          {
+            "system": "urn:va.gov:cfa:cerner:appointment",
+            "value": "Appointment/129240402"
+          }
+        ],
+        "kind": "telehealth",
+        "status": "proposed",
+        "serviceType": "primaryCare",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "primaryCare"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "REGULAR",
+                "display": "REGULAR"
+              }
+            ],
+            "text": "REGULAR"
+          }
+        ],
+        "reasonCode": {
+          "text": "station id: 983|preferred modality: VIDEO|phone number: 7036753607|email: marcy.nadedau@va.gov|preferred dates:03/26/2025 AM,03/12/2025 AM|reason code:ROUTINEVISIT|comments:Test"
+        },
+        "patientIcn": "1013124304V115761",
+        "locationId": "692",
+        "start": "2025-07-06T00:00:00Z",
+        "minutesDuration": 0,
+        "created": "2025-07-04T20:38:00Z",
+        "requestedPeriods": [
+          {
+            "start": "2025-07-06T00:00:00Z",
+            "end": "2025-07-06T00:00:00Z"
+          }
+        ],
+        "cancelationReason": {
+          "coding": [
+            {
+              "system": "http://www.va.gov/Terminology/VistADefinedTerms/409.853",
+              "code": "pat",
+              "display": "The appointment was cancelled by the patient"
+            }
+          ]
+        },
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          }
+        },
+        "localStartTime": "2025-07-05T18:00:00.000-06:00",
+        "station": "692",
+        "ien": "24175",
+        "isCerner": true,
+        "contact": {
+          "telecom": [
+            {
+              "type": "phone",
+              "value": "7036753607"
+            },
+            {
+              "type": "email",
+              "value": "marcy.nadedau@va.gov"
+            }
+          ]
+        },
+        "preferredDates": [
+          "Wednesday, March 26, 2025 in the morning",
+          "Wednesday, March 12, 2025 in the morning"
+        ],
+        "preferredModality": "Video",
+        "location": {
+          "id": "692",
+          "type": "appointments",
+          "attributes": {
+            "id": "692",
+            "facilitiesApiId": "vha_692",
+            "vistaSite": "692",
+            "vastParent": "692",
+            "type": "va_health_facility",
+            "name": "White City VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Los_Angeles"
+            },
+            "lat": 42.43995,
+            "long": -122.836296,
+            "website": "https://www.va.gov/southern-oregon-health-care/locations/white-city-va-medical-center/",
+            "phone": {
+              "main": "541-826-2111",
+              "fax": "541-830-7570",
+              "pharmacy": "541-826-2111",
+              "afterHours": "541-826-2111",
+              "patientAdvocate": "541-826-2111 x7504",
+              "mentalHealthClinic": "541-830-7440",
+              "enrollmentCoordinator": "541-826-2111 x3742"
+            },
+            "hoursOfOperation": [
+              {
+                "daysOfWeek": "sun",
+                "openingTime": "Closed",
+                "closingTime": "Closed"
+              },
+              {
+                "daysOfWeek": "mon",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "tue",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "wed",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "thu",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "fri",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "sat",
+                "openingTime": "Closed",
+                "closingTime": "Closed"
+              }
+            ],
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["8495 Crater Lake Highway", null, null],
+              "city": "White City",
+              "state": "OR",
+              "postalCode": "97503-3011"
+            },
+            "mobile": false,
+            "healthService": [
+              "CaregiverSupport",
+              "Covid19Vaccine",
+              "Dental",
+              "EmploymentPrograms",
+              "Homeless",
+              "Laboratory",
+              "Lgbtq",
+              "MentalHealth",
+              "MilitarySexualTrauma",
+              "MinorityCare",
+              "Nutrition",
+              "Optometry",
+              "Pharmacy",
+              "PhysicalMedicine",
+              "Podiatry",
+              "PrimaryCare",
+              "Prosthetics",
+              "Psychiatry",
+              "Psychology",
+              "RecreationTherapy",
+              "Rehabilitation",
+              "SocialWork",
+              "SuicidePrevention",
+              "Telehealth",
+              "TransitionCounseling",
+              "Vision",
+              "WholeHealth",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            },
+            "visn": "20",
+            "ehrSystem": "Oracle"
+          }
+        },
+        "type": "REQUEST",
+        "modality": "vaVideoCareAtHome",
+        "past": false,
+        "future": true,
+        "pending": true
+      }
+    }
+  ]
+}

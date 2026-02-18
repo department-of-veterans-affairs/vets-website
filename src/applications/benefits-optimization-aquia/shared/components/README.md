@@ -1,6 +1,7 @@
 # Components
 
-Reusable form components built with VA Design System web components. These components are generic and can be shared across multiple forms.
+Reusable form components built with VA Design System web components. These
+components are generic and can be shared across multiple forms.
 
 ## Structure
 
@@ -15,11 +16,6 @@ components/
 │   └── [component-name]/
 │       ├── [component-name].jsx
 │       ├── [component-name].unit.spec.jsx
-│       └── index.js
-├── pages/                # Page components
-│   └── base-form-page/
-│       ├── base-form-page.jsx
-│       ├── base-form-page.unit.spec.jsx
 │       └── index.js
 ├── templates/            # Page-level templates for consistent layout
 │   └── page-template/
@@ -57,19 +53,18 @@ Field-level components that integrate VA web components with form validation. Ea
 
 - `checkbox-field/` - Single checkbox with validation
 - `checkbox-group-field/` - Multiple checkboxes with group validation
+- `currency-field/` - Currency input with formatting
 - `date-field/` - Date input with formatting validation
 - `file-upload-field/` - File upload with size and type validation
-- `text-input-field/` - Text input with advanced validation
-- `input-message-field/` - Input with additional message display
-- `label-field/` - Standalone label component
 - `memorable-date-field/` - Month/Day/Year date inputs
+- `number-field/` - Numeric input with validation
 - `phone-field/` - Phone number input with formatting
 - `privacy-agreement-field/` - Privacy agreement and certification
-- `progress-bar-field/` - Form progress indicator
 - `radio-field/` - Radio button group
 - `select-field/` - Dropdown selection
 - `signature-field/` - Digital signature capture
 - `ssn-field/` - Social Security Number input with masking
+- `text-input-field/` - Text input with advanced validation
 - `textarea-field/` - Multi-line text input with character count
 
 ### Review Components

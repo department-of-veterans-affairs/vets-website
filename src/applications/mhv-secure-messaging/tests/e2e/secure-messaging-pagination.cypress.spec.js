@@ -4,6 +4,7 @@ import mockMessagesPageTwo from './fixtures/messages-response-page-2.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
+import PatientFilterPage from './pages/PatientFilterPage';
 
 describe('Secure Messaging Reply', () => {
   beforeEach(() => {
@@ -113,5 +114,54 @@ describe('Secure Messaging Reply', () => {
     cy.get('.usa-pagination__item').each(el => {
       cy.get(el).should('be.visible');
     });
+  });
+
+  it('verify correct number of messages rendered after filtering reduces page count', () => {
+    const initialThreadLength = 28;
+    const filteredThreadLength = 5;
+
+    mockMessagesPageOne.data.forEach(item => {
+      const currentItem = item;
+      currentItem.attributes.threadPageSize = initialThreadLength;
+    });
+    mockMessagesPageTwo.data.forEach(item => {
+      const currentItem = item;
+      currentItem.attributes.threadPageSize = initialThreadLength;
+    });
+
+    PatientInboxPage.loadInboxMessages(mockMessagesPageOne);
+    cy.get('va-pagination').should('be.visible');
+
+    SecureMessagingSite.clickAndLoadVAPaginationNextMessagesButton(
+      2,
+      mockMessagesPageTwo,
+    );
+    SecureMessagingSite.verifyPaginationMessagesDisplayedText(
+      11,
+      20,
+      initialThreadLength,
+    );
+
+    const filterResultResponse = PatientFilterPage.createCategoryFilterMockResponse(
+      filteredThreadLength,
+      'Appointment',
+      mockMessagesPageOne,
+    );
+
+    PatientFilterPage.openAdditionalFilter();
+    PatientFilterPage.selectAdvancedSearchCategory('Appointment');
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
+
+    cy.get('va-pagination').should('not.exist');
+    PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
+
+    cy.findByText(content => {
+      return content.includes(
+        `Showing 1 to ${filteredThreadLength} of ${filteredThreadLength}`,
+      );
+    });
+    cy.findByText('End of search results');
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

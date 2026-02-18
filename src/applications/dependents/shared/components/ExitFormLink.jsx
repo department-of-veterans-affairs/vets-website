@@ -18,8 +18,10 @@ const ExitForm = ({
   text = 'Exit application',
   exitCallback,
   location = window.location,
+  useButton = false,
 }) => {
-  const exitFormHandler = async () => {
+  const exitFormHandler = async event => {
+    event.preventDefault();
     if (formId) {
       await deleteInProgressForm(formId);
     }
@@ -27,7 +29,16 @@ const ExitForm = ({
     location.assign(href);
   };
 
-  return (
+  return useButton ? (
+    <va-button
+      onClick={exitFormHandler}
+      class="exit-form"
+      text={text}
+      continue
+      full-width
+      submit="prevent"
+    />
+  ) : (
     <div>
       <va-link-action
         onClick={exitFormHandler}
@@ -48,6 +59,7 @@ ExitForm.propTypes = {
     assign: PropTypes.func,
   }),
   text: PropTypes.string,
+  useButton: PropTypes.bool,
 };
 
 export default ExitForm;

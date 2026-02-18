@@ -2,7 +2,8 @@
 
 ## Overview
 
-The schema system provides reusable Zod validation schemas organized by domain and complexity level.
+The schema system provides reusable Zod validation schemas organized by domain
+and complexity level.
 
 ## Schema Categories
 
@@ -125,10 +126,21 @@ schemas/
 The schema system currently includes:
 
 - **address/** - US, international, and military address validation
+  - Single source of truth for state/territory lists
+  - Consolidated validation logic for better maintainability
 - **contact/** - Phone and email validation patterns
 - **name/** - First, middle, last name, and suffix validation
+  - Streamlined suffix validation with single refine
 - **personal-info/** - SSN, DOB, VA file number validation
 - **regex-patterns/** - Shared validation patterns and messages
+
+### Recent Improvements
+
+**Consolidation Efforts (2025):**
+
+- Merged duplicate US state lists in `address.js` - single source of truth
+- Consolidated suffix validation in `name.js` - removed redundant refinements
+- Improved maintainability with centralized constants
 
 ### Directory Organization
 

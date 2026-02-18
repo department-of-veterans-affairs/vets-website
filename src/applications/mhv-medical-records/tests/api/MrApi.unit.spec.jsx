@@ -1,9 +1,12 @@
 import fs from 'fs';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import Sinon from 'sinon';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { edipiNotFound } from '@department-of-veterans-affairs/mhv/exports';
+import { buildInitialDateRange } from '../../util/helpers';
+import { DEFAULT_DATE_RANGE } from '../../util/constants';
 import labsAndTests from '../fixtures/labsAndTests.json';
 import pathology from '../fixtures/pathology.json';
 import notes from '../fixtures/notes.json';
@@ -16,6 +19,7 @@ import allergy from '../fixtures/allergy.json';
 import vaccines from '../fixtures/vaccines.json';
 import vaccine from '../fixtures/vaccine.json';
 import radiologyListMhv from '../fixtures/radiologyRecordsMhv.json';
+import { radiologyRecordHash } from '../../util/radiologyUtil';
 import medications from '../fixtures/blueButton/medications.json';
 import appointments from '../fixtures/blueButton/appointments.json';
 import demographicInfo from '../fixtures/blueButton/demographics.json';
@@ -106,7 +110,10 @@ describe('Get radiology details from MHV api call', () => {
     const mockData = radiologyListMhv;
     mockApiRequest(mockData);
 
-    return getMhvRadiologyDetails('r12345-2a591974').then(res => {
+    const targetRecord = radiologyListMhv[1]; // Record with eventDate '2001-02-16T18:16:00Z'
+    const expectedHash = radiologyRecordHash(targetRecord);
+
+    return getMhvRadiologyDetails(`r12345-${expectedHash}`).then(res => {
       expect(res.phrDetails.eventDate).to.equal('2001-02-16T18:16:00Z');
       expect(res.cvixDetails).to.be.null;
     });
@@ -119,17 +126,6 @@ describe('Get notes api call', () => {
     mockApiRequest(mockData);
 
     return getNotes(true).then(res => {
-      expect(res.entry.length).to.equal(6);
-    });
-  });
-});
-
-describe('Get accelerated notes api call', () => {
-  it('should make an api call to get all accelerated notes', () => {
-    const mockData = notes;
-    mockApiRequest(mockData);
-
-    return getAcceleratedNotes().then(res => {
       expect(res.entry.length).to.equal(6);
     });
   });
@@ -358,21 +354,22 @@ describe('Accelerated OH API calls', () => {
   // Creating tests that ensure that the getAPI methods return a promise as expected
   describe('getAcceleratedAllergies', () => {
     it('should make an api call to get all allergies', () => {
-      const mockData = { mock: 'data' };
+      const mockData = { data: [{ id: '123', type: 'allergy' }] };
       mockApiRequest(mockData);
 
       return getAcceleratedAllergies().then(res => {
-        expect(res.mock).to.equal('data');
+        expect(res.data.length).to.equal(1);
+        expect(res.data[0].id).to.equal('123');
       });
     });
   });
   describe('getAcceleratedAllergy', () => {
     it('should make an api call to get a single allergy', () => {
-      const mockData = { mock: 'data' };
+      const mockData = { data: { id: '123', type: 'allergy' } };
       mockApiRequest(mockData);
 
       return getAcceleratedAllergy('123').then(res => {
-        expect(res.mock).to.equal('data');
+        expect(res.data.id).to.equal('123');
       });
     });
   });
@@ -387,37 +384,131 @@ describe('Accelerated OH API calls', () => {
         // expect fetch to be called with the correct date
         const expectedUrl = `${
           environment.API_URL
-        }/my_health/v1/medical_records/vitals?use_oh_data_path=1&from=${mockDate}&to=${mockDate}`;
+        }/my_health/v1/medical_records/vitals?use_oh_data_path=1`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });
   });
   describe('getAcceleratedLabsAndTests', () => {
-    it('should make an api call to get all labs and tests', () => {
+    afterEach(() => {
+      MockDate.reset();
+    });
+    it('falls back to default 3-month range when no dates provided', () => {
+      MockDate.set(new Date('2024-07-25'));
+      const { fromDate, toDate } = buildInitialDateRange(DEFAULT_DATE_RANGE);
       const mockData = { mock: 'data' };
       mockApiRequest(mockData);
-
       return getAcceleratedLabsAndTests().then(res => {
         expect(res.mock).to.equal('data');
+        const expectedUrl = `${
+          environment.API_URL
+        }/my_health/v2/medical_records/labs_and_tests?start_date=${fromDate}&end_date=${toDate}`;
+        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });
-    it('should make an api call to get all labs and tests with a date', () => {
+    it('uses provided start & end dates when both supplied', () => {
       const mockData = { mock: 'data' };
       mockApiRequest(mockData);
-
       return getAcceleratedLabsAndTests({
         startDate: '2023-01-01',
         endDate: '2023-01-31',
       }).then(res => {
         expect(res.mock).to.equal('data');
-        // expect fetch to be called with the correct date
         const expectedUrl = `${
           environment.API_URL
         }/my_health/v2/medical_records/labs_and_tests?start_date=2023-01-01&end_date=2023-01-31`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });
+    it('falls back when only startDate provided (ignores single date)', () => {
+      MockDate.set(new Date('2024-07-25'));
+      const { fromDate, toDate } = buildInitialDateRange(DEFAULT_DATE_RANGE);
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+      return getAcceleratedLabsAndTests({ startDate: '2023-02-01' }).then(
+        res => {
+          expect(res.mock).to.equal('data');
+          const expectedUrl = `${
+            environment.API_URL
+          }/my_health/v2/medical_records/labs_and_tests?start_date=${fromDate}&end_date=${toDate}`;
+          expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
+        },
+      );
+    });
+    it('falls back when only endDate provided (ignores single date)', () => {
+      MockDate.set(new Date('2024-07-25'));
+      const { fromDate, toDate } = buildInitialDateRange(DEFAULT_DATE_RANGE);
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+      return getAcceleratedLabsAndTests({ endDate: '2023-03-15' }).then(res => {
+        expect(res.mock).to.equal('data');
+        const expectedUrl = `${
+          environment.API_URL
+        }/my_health/v2/medical_records/labs_and_tests?start_date=${fromDate}&end_date=${toDate}`;
+        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
+      });
+    });
   });
+
+  describe('getAcceleratedNotes api call', () => {
+    afterEach(() => {
+      MockDate.reset();
+    });
+    it('falls back to default 3-month range when no dates provided', () => {
+      MockDate.set(new Date('2024-07-25'));
+      const { fromDate, toDate } = buildInitialDateRange(DEFAULT_DATE_RANGE);
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+      return getAcceleratedNotes().then(res => {
+        expect(res.mock).to.equal('data');
+        const expectedUrl = `${
+          environment.API_URL
+        }/my_health/v2/medical_records/clinical_notes?start_date=${fromDate}&end_date=${toDate}`;
+        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
+      });
+    });
+    it('uses provided start & end dates when both supplied', () => {
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+      return getAcceleratedNotes({
+        startDate: '2023-01-01',
+        endDate: '2023-01-31',
+      }).then(res => {
+        expect(res.mock).to.equal('data');
+        const expectedUrl = `${
+          environment.API_URL
+        }/my_health/v2/medical_records/clinical_notes?start_date=2023-01-01&end_date=2023-01-31`;
+        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
+      });
+    });
+    it('falls back when only startDate provided (ignores single date)', () => {
+      MockDate.set(new Date('2024-07-25'));
+      const { fromDate, toDate } = buildInitialDateRange(DEFAULT_DATE_RANGE);
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+      return getAcceleratedNotes({ startDate: '2023-02-01' }).then(res => {
+        expect(res.mock).to.equal('data');
+        const expectedUrl = `${
+          environment.API_URL
+        }/my_health/v2/medical_records/clinical_notes?start_date=${fromDate}&end_date=${toDate}`;
+        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
+      });
+    });
+    it('falls back when only endDate provided (ignores single date)', () => {
+      MockDate.set(new Date('2024-07-25'));
+      const { fromDate, toDate } = buildInitialDateRange(DEFAULT_DATE_RANGE);
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+      return getAcceleratedNotes({ endDate: '2023-03-15' }).then(res => {
+        expect(res.mock).to.equal('data');
+        const expectedUrl = `${
+          environment.API_URL
+        }/my_health/v2/medical_records/clinical_notes?start_date=${fromDate}&end_date=${toDate}`;
+        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
+      });
+    });
+  });
+
   describe('getAcceleratedImmunizations', () => {
     it('should make an api call to get all immunizations', () => {
       const mockData = { mock: 'data' };

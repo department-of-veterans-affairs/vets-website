@@ -34,4 +34,19 @@ describe('Medical Records download page', () => {
     cy.injectAxe();
     cy.axeCheck('main');
   });
+
+  it('VistA only user sees V2 extended format accordion', () => {
+    site.mockFeatureToggles({
+      isCcdExtendedFileTypesEnabled: true,
+    });
+
+    DownloadReportsPage.goToReportsPage();
+    DownloadReportsPage.clickCcdAccordionItem();
+
+    cy.get('[data-testid="generateCcdButtonXmlVistA"]').should('be.visible');
+    cy.get('[data-testid="generateCcdButtonPdfVistA"]').should('be.visible');
+    cy.get('[data-testid="generateCcdButtonHtmlVistA"]').should('be.visible');
+
+    cy.injectAxeThenAxeCheck();
+  });
 });

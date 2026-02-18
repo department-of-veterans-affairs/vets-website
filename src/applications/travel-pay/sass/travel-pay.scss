@@ -7,6 +7,90 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "../../../platform/mhv/secondary-nav/sass/mhv-sec-nav";
 
+// Complex claim review page styles for the buttons and links
+.currency-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.currency-symbol {
+  position: absolute;
+  left: 12px;
+  top: 80%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.currency-input-field::part(input) {
+  padding-left: 28px !important;
+}
+
+@media (max-width: 600px) {
+  .currency-symbol {
+    transform: translateY(-40%);
+  }
+  .currency-input-field::part(input) {
+    padding-left: 24px;
+  }
+}
+
+.expense-card-details {
+  p {
+    margin-block: 8px !important;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+.review-button-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  va-button-icon {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .review-edit-button {
+    padding-block: 8px;
+    line-height: 25px;
+    align-items: center;
+    font-weight: bold;
+
+    .active-va-link {
+      align-items: middle;
+      height: 25px;
+      width: 75px;
+      display: inline-block;
+      text-align: center;
+    }
+  }
+}
+
+.complex-claim-help-section {
+  padding-bottom: 16px;
+
+  .complex-claim-help-heading {
+    border-bottom: 3px solid var(--vads-color-primary);
+    padding-bottom: 9px;
+    font-size: 1.35em;
+    line-height: 1.2;
+    font-weight: bold;
+  }
+}
+
+.expense-card {
+  border: 1px solid var(--vads-color-gray-medium);
+}
+
+@media (max-width: $small-screen) {
+  .travel-pay-complex-expense-cancel-btn {
+    margin: 4px;
+    width: 100%;
+  }
+}
+
 .btsss-claims-sort-and-filter-container {
   min-width: fit-content;
   max-width: 35rem;
@@ -82,6 +166,17 @@ h2#pagination-info {
   }
 }
 
+// Ensure document download links wrap long filenames
+[data-testid="user-submitted-documents"] {
+  word-break: break-word;
+  overflow-wrap: break-word;
+
+  va-link {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
 .travel-pay-download-loading-icon {
   animation: spin 1.5s linear infinite;
   margin: 0 0.2rem 0 0;
@@ -91,5 +186,47 @@ h2#pagination-info {
 @media (prefers-reduced-motion) {
   .travel-pay-download-loading-icon {
     animation: none;
+  }
+}
+
+// Custom button pair implementation for travel pay - exact copy of usa-button-group
+.travel-pay-button-group {
+  margin-bottom: 0;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding-left: 0;
+
+  .travel-pay-button-group__item {
+    margin: 0.25rem !important;
+
+    va-button {
+      height: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      width: 100%;
+
+      &::part(button) {
+        width: 100%;
+      }
+    }
+
+    @media all and (min-width: 30em) {
+      margin-top: 0;
+      margin-bottom: 0;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  @media all and (min-width: 30em) {
+    flex-wrap: nowrap;
+    align-items: stretch;
+    flex-direction: row;
+    margin: 0 -0.25rem;
   }
 }

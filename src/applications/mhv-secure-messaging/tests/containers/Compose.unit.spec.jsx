@@ -3,6 +3,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { expect } from 'chai';
 import { waitFor, fireEvent } from '@testing-library/react';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
 import allTriageGroupsBlocked from '../fixtures/json-triage-mocks/triage-teams-all-blocked-mock.json';
 import triageTeams from '../fixtures/recipients.json';
@@ -78,7 +79,7 @@ describe('Compose container', () => {
     expect(headingText).to.exist;
   });
 
-  it('displays compose fields if path is /new-message', async () => {
+  it('displays compose fields after clicking through interstitial page', async () => {
     const state = {
       sm: {
         triageTeams: { triageTeams },
@@ -96,6 +97,9 @@ describe('Compose container', () => {
             includeSignature: true,
           },
         },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: false,
       },
     };
 
@@ -135,7 +139,13 @@ describe('Compose container', () => {
   });
 
   it('does not display recipients with preferredTeam:false attribute', async () => {
-    const screen = setup({});
+    const state = {
+      ...initialState,
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: false,
+      },
+    };
+    const screen = setup({ state });
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('continue-button'));
     });
@@ -160,7 +170,13 @@ describe('Compose container', () => {
   });
 
   it('responds to sending a message with attachment', async () => {
-    const screen = setup({});
+    const state = {
+      ...initialState,
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: false,
+      },
+    };
+    const screen = setup({ state });
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('continue-button'));
     });
@@ -221,10 +237,10 @@ describe('Compose container', () => {
     expect(alert).to.have.attribute('visible', 'true');
     expect(alert.textContent).to.contain(alertTitle.ALL_TEAMS_BLOCKED);
     expect(alert.textContent).to.contain(alertMessage.ALL_TEAMS_BLOCKED);
-    const findLocationsLink = screen.getByText('Find your VA health facility');
-    expect(findLocationsLink)
-      .to.have.attribute('href')
-      .to.contain('/find-locations');
+    const findLocationsLink = screen.container.querySelector(
+      'va-link-action[href*="/find-locations"]',
+    );
+    expect(findLocationsLink).to.exist;
   });
 
   it('displays no associations alert on deadend compose page', async () => {
@@ -259,16 +275,19 @@ describe('Compose container', () => {
     expect(alert).to.have.attribute('visible', 'true');
     expect(alert.textContent).to.contain(alertTitle.NO_ASSOCIATIONS);
     expect(alert.textContent).to.contain(alertMessage.NO_ASSOCIATIONS);
-    const findLocationsLink = screen.getByText('Find your VA health facility');
-    expect(findLocationsLink)
-      .to.have.attribute('href')
-      .to.contain('/find-locations');
+    const findLocationsLink = screen.container.querySelector(
+      'va-link-action[href*="/find-locations"]',
+    );
+    expect(findLocationsLink).to.exist;
   });
 
   it('displays AlertBackgroundBox component if there are any errors', async () => {
     const customState = {
       sm: {
         ...initialState.sm,
+        threadDetails: {
+          acceptInterstitial: false,
+        },
         alerts: {
           alertVisible: true,
           alertFocusOut: false,
@@ -278,10 +297,13 @@ describe('Compose container', () => {
               isActive: true,
               alertType: 'error',
               header: 'Error',
-              content: 'We’re sorry. Something went wrong on our end.',
+              content: "We're sorry. Something went wrong on our end.",
             },
           ],
         },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: false,
       },
     };
 
@@ -296,6 +318,171 @@ describe('Compose container', () => {
       const alert = container.querySelector('va-alert');
       expect(alert).to.exist;
     });
-    expect(getByText('We’re sorry. Something went wrong on our end.')).to.exist;
+
+    await waitFor(() => {
+      expect(getByText("We're sorry. Something went wrong on our end.")).to
+        .exist;
+    });
+  });
+
+  describe('with curated list flow feature flag enabled', () => {
+    it('displays interstitial page with start message link', async () => {
+      const state = {
+        sm: {
+          triageTeams: { triageTeams },
+          categories: { categories },
+          recipients: {
+            associatedTriageGroupsQty:
+              noBlockedRecipients.associatedTriageGroupsQty,
+            noAssociations: false,
+            allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+          },
+          threadDetails: {
+            drafts: [],
+            acceptInterstitial: false,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = setup({ state });
+      // findByTestId automatically waits for the element to appear
+      const startMessageLink = await screen.findByTestId('start-message-link');
+      expect(startMessageLink).to.exist;
+      expect(startMessageLink).to.have.attribute(
+        'text',
+        'Continue to start message',
+      );
+    });
+
+    it('navigates to recent care teams page when clicking start message link', async () => {
+      const state = {
+        sm: {
+          triageTeams: { triageTeams },
+          categories: { categories },
+          recipients: {
+            associatedTriageGroupsQty:
+              noBlockedRecipients.associatedTriageGroupsQty,
+            noAssociations: false,
+            allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+            allRecipients: noBlockedRecipients.mockAllowedRecipients,
+            recentRecipients: [noBlockedRecipients.mockAllowedRecipients[0]],
+          },
+          threadDetails: {
+            drafts: [],
+            acceptInterstitial: false,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const { findByTestId, history } = setup({ state });
+
+      const startMessageLink = await findByTestId('start-message-link');
+
+      fireEvent.click(startMessageLink);
+
+      await waitFor(() => {
+        expect(history.location.pathname).to.equal(Paths.RECENT_CARE_TEAMS);
+      });
+    });
+
+    it('displays selected recipient title instead of dropdown after interstitial', async () => {
+      const state = {
+        sm: {
+          triageTeams: { triageTeams },
+          categories: { categories },
+          recipients: {
+            associatedTriageGroupsQty:
+              noBlockedRecipients.associatedTriageGroupsQty,
+            noAssociations: false,
+            allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+          },
+          preferences: {
+            signature: {
+              signatureName: 'TEST',
+              signatureTitle: 'TITLE',
+              includeSignature: true,
+            },
+          },
+          threadDetails: {
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = setup({ state });
+
+      // Should show recipient title instead of dropdown
+      await waitFor(() => {
+        const recipientTitle = screen.getByTestId('compose-recipient-title');
+        expect(recipientTitle).to.exist;
+      });
+
+      // Should not show the old recipient select dropdown
+      const recipientSelect = screen.queryByTestId('compose-recipient-select');
+      expect(recipientSelect).to.not.exist;
+
+      // Should show link to select different care team
+      const selectDifferentTeamLink = screen.getByText(
+        'Select a different care team',
+      );
+      expect(selectDifferentTeamLink).to.exist;
+    });
+
+    it('displays compose form fields with new flow after accepting interstitial', async () => {
+      const state = {
+        sm: {
+          triageTeams: { triageTeams },
+          categories: { categories },
+          recipients: {
+            associatedTriageGroupsQty:
+              noBlockedRecipients.associatedTriageGroupsQty,
+            noAssociations: false,
+            allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+          },
+          preferences: {
+            signature: {
+              signatureName: 'TEST',
+              signatureTitle: 'TITLE',
+              includeSignature: true,
+            },
+          },
+          threadDetails: {
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = setup({ state });
+
+      await waitFor(() => {
+        const categoryDropdown = screen.getByTestId(
+          'compose-message-categories',
+        );
+        expect(categoryDropdown).to.exist;
+      });
+
+      const subject = await waitFor(() => {
+        return screen.getByTestId('message-subject-field');
+      });
+      const body = await waitFor(() => {
+        return screen.getByTestId('message-body-field');
+      });
+
+      expect(subject).to.exist;
+      expect(body).to.exist;
+      expect(screen.getByTestId('edit-signature-link')).to.exist;
+    });
   });
 });

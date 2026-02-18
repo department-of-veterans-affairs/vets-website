@@ -1,9 +1,0 @@
-{
-  "results": [
-      {
-          "event_name": "mhv_rx_accessed",
-          "status": "exists",
-          "new_event": false
-      }
-  ]
-}

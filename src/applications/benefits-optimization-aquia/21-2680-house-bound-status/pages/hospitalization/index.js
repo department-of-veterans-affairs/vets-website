@@ -1,1 +1,0 @@
-export { HospitalizationPage } from './hospitalization';

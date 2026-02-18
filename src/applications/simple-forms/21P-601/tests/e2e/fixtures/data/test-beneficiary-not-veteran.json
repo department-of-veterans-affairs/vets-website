@@ -21,6 +21,7 @@
   "claimantDateOfBirth": "1975-11-30",
   "claimantAddress": {
     "street": "321 Oak Street",
+    "street2": "Suite 2",
     "city": "Chesapeake",
     "state": "VA",
     "country": "USA",
@@ -28,14 +29,9 @@
   },
   "claimantPhone": "7575558888",
   "claimantEmail": "manderson@email.com",
-  "relationshipToDeceased": "child",
+  "relationshipToDeceased": "executor",
   "wantsToWaiveSubstitution": false,
-  "survivors": {
-    "hasSpouse": false,
-    "hasChildren": true,
-    "hasParents": false,
-    "hasNone": false
-  },
+  "survivors": true,
   "claimingReimbursement": false,
   "survivingRelatives": [
     {

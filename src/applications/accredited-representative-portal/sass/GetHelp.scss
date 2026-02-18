@@ -1,10 +1,14 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 .help {
-  padding-bottom: 0px !important;
-  a.content-link {
-    display: unset;
-  }
+  padding: 0px !important;
 
+  a.content-link {
+    overflow-wrap: break-word;
+    display: inline;
+    @media screen and (min-width: $large-screen) {
+      display: unset;
+    }
+  }
   h1 {
     max-width: 627px;
     margin-bottom: 8px;
@@ -25,6 +29,7 @@
 
   p {
     margin-top: 0px;
+    max-width: unset;
   }
   .subtext {
     font-family: var(--font-serif);
@@ -58,12 +63,6 @@
   @media screen and (min-width: 1202px) {
     .mobile-view-divider {
       display: none;
-    }
-  }
-
-  @media screen and (min-width: $medium-screen) {
-    .contact-us {
-      padding-right: 24px;
     }
   }
 }

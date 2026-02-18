@@ -6,7 +6,7 @@ const PayeeInformationCard = ({
   title,
   applicantName,
   showAdditionalInformation,
-  applicantChapter = '',
+  applicantChapter = [],
   applicantClaimNumber = '',
   loading,
 }) => {
@@ -14,7 +14,8 @@ const PayeeInformationCard = ({
     A: 'Montgomery GI Bill (MGIB) – Selective Reserve (Chapter 1606)',
     B: 'Montgomery GI Bill (MGIB) – Active Duty (Chapter 30)',
     E: 'Reservist Educational Assistance Program (REAP) – (Chapter 1607)',
-    D: "Survivors' and Dependents' Educational Assistance (DEA) - (Chapter 35)",
+    CH35:
+      "Survivors' and Dependents' Educational Assistance (DEA) - (Chapter 35)",
     CH1606: 'Montgomery GI Bill (MGIB) – Selective Reserve (Chapter 1606)',
     CH30: 'Montgomery GI Bill (MGIB) – Active Duty (Chapter 30)',
     CH1607: 'Reservist Educational Assistance Program (REAP) – (Chapter 1607)',
@@ -65,7 +66,15 @@ const PayeeInformationCard = ({
               message="Loading applicant chapter..."
             />
           ) : (
-            <p>{chapters[applicantChapter.toUpperCase()]}</p>
+            <ul>
+              {applicantChapter.map((ch, index) => {
+                const chapterKey = ch?.benefitType?.toUpperCase();
+                const chapterName = chapters[chapterKey] || '';
+                const isValidChapter = ch.benefitType in chapters;
+                if (!isValidChapter) return null;
+                return <li key={index}>{chapterName}</li>;
+              })}
+            </ul>
           )}
         </div>
       )}
@@ -74,7 +83,7 @@ const PayeeInformationCard = ({
   );
 };
 PayeeInformationCard.propTypes = {
-  applicantChapter: PropTypes.string,
+  applicantChapter: PropTypes.array,
   applicantClaimNumber: PropTypes.string,
   applicantName: PropTypes.string,
   loading: PropTypes.bool,

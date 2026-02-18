@@ -31,6 +31,7 @@ import {
 } from '../../tests/mocks/mockApis';
 import { DATE_FORMATS, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import SelectDate1Page from './SelectDate1Page';
+import { mockToday } from '../../tests/mocks/constants';
 
 const initialState = {
   featureToggles: {
@@ -53,6 +54,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
   beforeEach(() => {
     mockFetch();
+    MockDate.set(mockToday);
   });
 
   it('should not submit form with validation error', async () => {
@@ -62,7 +64,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
       clinics,
     });
 
-    const preferredDate = new Date();
+    const preferredDate = new Date(mockToday);
 
     mockAppointmentSlotApi({
       facilityId: '983',
@@ -103,7 +105,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   });
 
   it('should display error message if slots call fails', async () => {
-    const preferredDate = new Date();
+    const preferredDate = new Date(mockToday);
     mockEligibilityFetches({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
@@ -156,9 +158,13 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     });
 
     // Slot dates are in UTC
-    const slot308Date = new Date(setDay(new Date(), 9).setHours(15, 0, 0));
-    const slot309Date = new Date(setDay(new Date(), 11).setHours(19, 0, 0));
-    const preferredDate = new Date();
+    const slot308Date = new Date(
+      setDay(new Date(mockToday), 9).setHours(15, 0, 0),
+    );
+    const slot309Date = new Date(
+      setDay(new Date(mockToday), 11).setHours(19, 0, 0),
+    );
+    const preferredDate = new Date(mockToday);
 
     mockAppointmentSlotApi({
       facilityId: '983',
@@ -295,7 +301,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
       clinics,
     });
 
-    const preferredDate = new Date();
+    const preferredDate = new Date(mockToday);
     mockAppointmentSlotApi({
       facilityId: '983',
       clinicId: '308',
@@ -329,7 +335,7 @@ describe('When preferred date is immediate care', () => {
   describe('And current date is last day of the month and end of day', () => {
     beforeEach(() => {
       mockFetch();
-      MockDate.set(lastDayOfMonth(new Date()));
+      MockDate.set(lastDayOfMonth(new Date(mockToday)));
     });
 
     afterEach(() => {
@@ -344,6 +350,8 @@ describe('When preferred date is immediate care', () => {
         ],
       });
 
+      // Use the mocked current date (last day of month) instead of mockToday
+      // mock date is set in the beforeEach
       const preferredDate = new Date();
 
       // NOTE: Available slot dates must be after tommorow. So in this case, timezone

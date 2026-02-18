@@ -1,10 +1,8 @@
-import React from 'react';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
   radioUI,
-  arrayBuilderItemFirstPageTitleUI,
+  descriptionUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -15,19 +13,21 @@ import {
   currentOrPastDateSchema,
   yesNoUI,
   yesNoSchema,
-  textareaUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
-import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { validFieldCharsOnly } from '../../shared/validations';
-import { validateOHIDates } from '../helpers/validations';
-import { toHash, nameWording, fmtDate } from '../../shared/utilities';
-
+import { replaceStrValues } from '../utils/helpers';
 import {
-  selectHealthcareParticipantsPage,
-  SelectHealthcareParticipantsPage,
-} from './SelectHealthcareParticipantsPage';
+  validateHealthInsurancePlan,
+  validateOHIDates,
+} from '../utils/validations';
+import { healthInsurancePageTitleUI } from '../utils/titles';
+import { attachmentUI, singleAttachmentSchema } from '../definitions';
+import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
+import HealthInsuranceSummaryCard from '../components/FormDescriptions/HealthInsuranceSummaryCard';
+import addtlComments from './healthInsuranceInformation/addtlComments';
+import participants from './healthInsuranceInformation/participants';
+import planTypes from './healthInsuranceInformation/planTypes';
+import content from '../locales/en/content.json';
 
 const MEDIGAP = {
   A: 'Medigap Plan A',
@@ -42,109 +42,75 @@ const MEDIGAP = {
   N: 'Medigap Plan N',
 };
 
-const INSURANCE_TYPE_LABELS = {
-  hmo: 'Health Maintenance Organization (HMO) program',
-  ppo: 'Preferred Provider Organization (PPO) program',
-  medicaid: 'Medicaid or a State Assistance program',
-  rxDiscount: 'Prescription Discount program',
-  medigap: 'Medigap policy',
-  other:
-    'Other (specialty, limited coverage, or exclusively CHAMPVA supplemental) insurance',
-};
-
-export function generateParticipantNames(item) {
-  if (item) {
-    const healthcareParticipants = item.healthcareParticipants || {};
-    const applicantObjects = item['view:applicantObjects'] || [];
-    const matches = applicantObjects.filter(app =>
-      Object.keys(healthcareParticipants)
-        .filter(e => healthcareParticipants[e] === true)
-        .includes(toHash(app.applicantSSN)),
-    );
-    const names = matches?.map(n => nameWording(n, false, false, false));
-    return names.length > 0 ? names.join(', ') : 'No members specified';
-  }
-  return 'No participants';
-}
-
-/**
- * Options for the yes/no text on summary page:
- */
 const yesNoOptions = {
-  title:
-    'Do you have any other health insurance to report for one or more applicants?',
+  title: content['health-insurance--yes-no-title'],
+  hint: null,
   labelHeaderLevel: '2',
-  labelHeaderLevelStyle: '5',
-  hint:
-    'If so, you must report this information for us to process your application.',
+  labelHeaderLevelStyle: '4',
 };
 const yesNoOptionsMore = {
-  title: 'Do you have any other health insurance to report?',
-  hint:
-    'If so, you must report this information for us to process your application.',
+  title: content['health-insurance--yes-no-more-title'],
+  hint: content['health-insurance--yes-no-hint'],
+  labelHeaderLevel: '2',
+  labelHeaderLevelStyle: '4',
 };
+
 export const healthInsuranceOptions = {
   arrayPath: 'healthInsurance',
   nounSingular: 'plan',
   nounPlural: 'plans',
   required: false,
-  isItemIncomplete: item =>
-    !(item.provider && item.insuranceType && item.effectiveDate),
+  isItemIncomplete: validateHealthInsurancePlan,
+  maxItems: 2,
   text: {
     getItemName: item => item?.provider,
-    cardDescription: item => (
-      <ul className="no-bullets">
-        <li>
-          <b>Type:</b> {INSURANCE_TYPE_LABELS[(item?.insuranceType)]}
-        </li>
-        <li>
-          <b>Dates:</b>{' '}
-          {item?.effectiveDate ? fmtDate(item?.effectiveDate) : 'present'}
-          {' - '}
-          {item?.expirationDate ? fmtDate(item?.expirationDate) : 'present'}
-        </li>
-        <li>
-          <b>Policy members:</b> {generateParticipantNames(item)}
-        </li>
-      </ul>
-    ),
-  },
-};
-
-const healthInsuranceIntroPage = {
-  uiSchema: {
-    ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Private or employer-sponsored insurance plan',
-      nounSingular: healthInsuranceOptions.nounSingular,
-    }),
-    insuranceType: {
-      ...radioUI({
-        labels: INSURANCE_TYPE_LABELS,
-        title: `Which type of insurance plan or program are the applicant(s) enrolled in?`,
-        hint: 'This information is on the front of the health insurance card.',
-        description: (
-          <p>
-            <b> Note:</b> You can add more insurance plans later in the
-            application.
-          </p>
-        ),
-        required: () => true,
-      }),
+    cardDescription: HealthInsuranceSummaryCard,
+    cancelAddTitle: () => content['health-insurance--cancel-add-title'],
+    cancelAddDescription: () =>
+      content['health-insurance--cancel-add-description'],
+    cancelAddNo: () => content['arraybuilder--button-cancel-no'],
+    cancelAddYes: () => content['arraybuilder--button-cancel-yes'],
+    cancelEditTitle: props => {
+      const itemName = props.getItemName(
+        props.itemData,
+        props.index,
+        props.formData,
+      );
+      return itemName
+        ? replaceStrValues(
+            content['health-insurance--cancel-edit-item-title'],
+            itemName,
+          )
+        : replaceStrValues(
+            content['health-insurance--cancel-edit-noun-title'],
+            props.nounSingular,
+          );
     },
-  },
-  schema: {
-    type: 'object',
-    required: ['insuranceType'],
-    properties: {
-      insuranceType: radioSchema([
-        'hmo',
-        'ppo',
-        'medicaid',
-        'rxDiscount',
-        'other',
-        'medigap',
-      ]),
+    cancelEditDescription: () =>
+      content['health-insurance--cancel-edit-description'],
+    cancelEditNo: () => content['arraybuilder--button-delete-no'],
+    cancelEditYes: () => content['arraybuilder--button-cancel-yes'],
+    deleteDescription: props => {
+      const itemName = props.getItemName(
+        props.itemData,
+        props.index,
+        props.formData,
+      );
+      return itemName
+        ? replaceStrValues(
+            content['health-insurance--delete-item-description'],
+            itemName,
+          )
+        : replaceStrValues(
+            content['health-insurance--delete-noun-description'],
+            props.nounSingular,
+          );
     },
+    deleteNo: () => content['arraybuilder--button-delete-no'],
+    deleteYes: () => content['arraybuilder--button-delete-yes'],
+    summaryTitle: () => content['health-insurance--summary-title'],
+    summaryTitleWithoutItems: () =>
+      content['health-insurance--summary-title-no-items'],
   },
 };
 
@@ -170,8 +136,7 @@ const medigapInformation = {
     ...arrayBuilderItemSubsequentPageTitleUI('Medigap information'),
     medigapPlan: {
       ...radioUI({
-        title: 'Select the Medigap policy the applicants are enrolled in',
-        required: () => true,
+        title: 'Select the Medigap policy the applicant(s) are enrolled in',
         labels: MEDIGAP,
       }),
     },
@@ -191,7 +156,7 @@ const providerInformation = {
     provider: textUI('Name of insurance provider'),
     effectiveDate: currentOrPastDateUI({
       title: 'Insurance start date',
-      hint: 'This information is on the insurance policy declarations pages.',
+      hint: 'This information is on the insurance policy declarations page.',
     }),
     expirationDate: currentOrPastDateUI({
       title: 'Insurance termination date',
@@ -216,12 +181,9 @@ const providerInformation = {
 
 const employer = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Type of insurance for ${formData?.provider}`,
-    ),
+    ...healthInsurancePageTitleUI('Type of insurance for %s'),
     throughEmployer: yesNoUI({
       title: 'Is this insurance through the applicant(s) employer?',
-      required: () => true,
     }),
   },
   schema: {
@@ -235,13 +197,11 @@ const employer = {
 
 const prescriptionCoverage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `${formData?.provider} prescription coverage`,
-    ),
+    ...healthInsurancePageTitleUI('%s prescription coverage'),
     eob: yesNoUI({
       title: 'Does the applicant(s) health insurance cover prescriptions?',
       hint:
-        'You may find this information on the front of your health insurance card. You can also contact the phone number listed on the back of the card.',
+        'You may find this information on the front of the health insurance card. You can also contact the phone number listed on the back of the card.',
     }),
   },
   schema: {
@@ -253,43 +213,18 @@ const prescriptionCoverage = {
   },
 };
 
-const additionalComments = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `${formData?.provider} health insurance additional comments`,
-    ),
-    additionalComments: textareaUI({
-      title:
-        'Do you have any additional comments about the applicant(s) health insurance?',
-      charcount: true,
-    }),
-    'ui:validations': [
-      (errors, formData) =>
-        validFieldCharsOnly(errors, null, formData, 'additionalComments'),
-    ],
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      additionalComments: { type: 'string', maxLength: 200 },
-    },
-  },
-};
-
 const healthInsuranceCardUploadPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Upload ${formData?.provider} health insurance card`,
+    ...healthInsurancePageTitleUI(
+      'Upload %s health insurance card',
       'You’ll need to submit a copy of the front and back of this health insurance card.',
     ),
-    ...fileUploadBlurb,
-    insuranceCardFront: fileUploadUI({
+    ...descriptionUI(FileUploadDescription),
+    insuranceCardFront: attachmentUI({
       label: 'Upload front of the health insurance card',
       attachmentId: 'Front of health insurance card',
-      'ui:hint': 'Upload front and back as separate files.',
     }),
-    insuranceCardBack: fileUploadUI({
+    insuranceCardBack: attachmentUI({
       label: 'Upload back of the health insurance card',
       attachmentId: 'Back of health insurance card',
     }),
@@ -298,31 +233,8 @@ const healthInsuranceCardUploadPage = {
     type: 'object',
     required: ['insuranceCardFront', 'insuranceCardBack'],
     properties: {
-      'view:fileUploadBlurb': blankSchema,
-      insuranceCardFront: {
-        type: 'array',
-        maxItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
-      insuranceCardBack: {
-        type: 'array',
-        maxItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      insuranceCardFront: singleAttachmentSchema,
+      insuranceCardBack: singleAttachmentSchema,
     },
   },
 };
@@ -339,7 +251,7 @@ export const healthInsurancePages = arrayBuilderPages(
     healthInsuranceType: pageBuilder.itemPage({
       path: 'health-insurance-plan-type/:index',
       title: 'Plan type',
-      ...healthInsuranceIntroPage,
+      ...planTypes,
     }),
     medigapType: pageBuilder.itemPage({
       path: 'health-insurance-medigap-information/:index',
@@ -366,24 +278,16 @@ export const healthInsurancePages = arrayBuilderPages(
     comments: pageBuilder.itemPage({
       path: 'health-insurance-additional-comments/:index',
       title: 'Type of insurance',
-      ...additionalComments,
+      ...addtlComments,
     }),
     participants: pageBuilder.itemPage({
       path: 'health-insurance-participants/:index',
       title: 'Select healthcare participants',
-      ...selectHealthcareParticipantsPage,
-      CustomPage: props =>
-        SelectHealthcareParticipantsPage({
-          ...props,
-          // resolve prop warning that the index is a string rather than a number:
-          pagePerItemIndex: +props.pagePerItemIndex,
-        }),
-      CustomPageReview: () => <></>,
+      ...participants,
     }),
     insuranceCard: pageBuilder.itemPage({
       path: 'health-insurance-card/:index',
       title: 'Upload health insurance card',
-      CustomPage: FileFieldCustom,
       ...healthInsuranceCardUploadPage,
     }),
   }),

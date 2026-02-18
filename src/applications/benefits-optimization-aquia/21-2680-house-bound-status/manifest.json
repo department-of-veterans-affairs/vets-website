@@ -2,6 +2,11 @@
   "appName": "21-2680 House Bound Status",
   "entryFile": "./app-entry.jsx",
   "entryName": "21-2680-house-bound-status",
-  "rootUrl": "/21-2680-house-bound-status",
-  "productId": "803cc23f-a627-4ea7-a3ea-0f5595d0dfd3"
+  "rootUrl": "/pension/aid-attendance-housebound/apply-form-21-2680",
+  "productId": "803cc23f-a627-4ea7-a3ea-0f5595d0dfd3",
+  "template": {
+    "vagovprod": false,
+    "layout": "page-react.html",
+    "includeBreadcrumbs": true
+  }
 }

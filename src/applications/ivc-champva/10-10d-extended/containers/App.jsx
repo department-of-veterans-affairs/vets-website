@@ -1,64 +1,65 @@
-import React, { useLayoutEffect, useMemo, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import {
-  DowntimeNotification,
-  externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+import { shallowEqual, useSelector } from 'react-redux';
+import environment from 'platform/utilities/environment';
+import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
+import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { getAppUrl } from 'platform/utilities/registry-helpers';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import { isExpired } from '../../shared/utilities';
 import formConfig from '../config/form';
+import content from '../locales/en/content.json';
+
+const EXCLUDED_DOMAINS = [
+  'resource.digital.voice.va.gov',
+  'browser-intake-ddog-gov.com',
+  'google-analytics.com',
+  'eauth.va.gov',
+  'api.va.gov',
+];
+
+const BROWSER_MONITORING_PROPS = {
+  toggleName: 'form1010dBrowserMonitoringEnabled',
+  applicationId: 'cca24a05-9ea0-49ea-aaa9-0d1e04a17ba0',
+  clientToken: 'puba5e0866f8008f60a6bc8b09ae555dd92',
+  site: 'ddog-gov.com',
+  service: '10-10d',
+  version: '1.0.0',
+  env: environment.vspEnvironment(),
+  sessionSampleRate: 100,
+  sessionReplaySampleRate: 100,
+  trackUserInteractions: true,
+  trackFrustrations: true,
+  trackResources: true,
+  trackLongTasks: true,
+  defaultPrivacyLevel: 'mask-user-input',
+  beforeSend: ({ action, type, resource }) => {
+    // eslint-disable-next-line no-param-reassign
+    if (action?.type === 'click') action.target.name = 'Form item';
+    return !(
+      type === 'resource' &&
+      EXCLUDED_DOMAINS.some(domain => resource.url.includes(domain))
+    );
+  },
+};
 
 const App = ({ location, children }) => {
-  const {
-    isLoadingFeatureFlags,
-    isLoadingProfile,
-    isMergedFormEnabled,
-    savedForms,
-  } = useSelector(state => ({
-    isLoadingFeatureFlags: state?.featureToggles?.loading,
-    isMergedFormEnabled: state.featureToggles.form1010dExtended,
-    isLoadingProfile: state.user?.profile?.loading,
-    savedForms: state.user?.profile?.savedForms ?? [],
-  }));
-  const isAppLoading = useMemo(
-    () => isLoadingFeatureFlags || isLoadingProfile,
-    [isLoadingFeatureFlags, isLoadingProfile],
+  const isAppLoading = useSelector(
+    state => state.featureToggles?.loading || state.user?.profile?.loading,
+    shallowEqual,
   );
 
-  const [routeChecked, setRouteChecked] = useState(false);
+  useBrowserMonitoring(BROWSER_MONITORING_PROPS);
 
-  // redirect to standalone form if feature is disabled or if user has in-progress standalone form
-  useLayoutEffect(
-    () => {
-      if (isAppLoading) return;
-      const hasSavedForm = savedForms.some(
-        ({ form, metaData }) =>
-          form === VA_FORM_IDS.FORM_10_10D && !isExpired(metaData?.expiresAt),
-      );
-      if (!isMergedFormEnabled || hasSavedForm) {
-        window.location.replace(getAppUrl('10-10D'));
-        return;
-      }
-      setRouteChecked(true);
-    },
-    [isAppLoading, isMergedFormEnabled, savedForms],
-  );
-
-  const showLoadingIndicator = isAppLoading || !routeChecked;
-  return showLoadingIndicator ? (
+  return isAppLoading ? (
     <va-loading-indicator
-      message="Loading application..."
+      message={content['form-loading-text']}
       class="vads-u-margin-y--4"
       set-focus
     />
   ) : (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       <DowntimeNotification
-        appTitle={`CHAMPVA Form ${formConfig.formId}`}
-        dependencies={[externalServices.pega]}
+        appTitle={formConfig.subTitle}
+        dependencies={formConfig.downtime.dependencies}
       >
         {children}
       </DowntimeNotification>
@@ -68,7 +69,11 @@ const App = ({ location, children }) => {
 
 App.propTypes = {
   children: PropTypes.node,
-  location: PropTypes.object,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+    href: PropTypes.string,
+  }),
 };
 
 export default App;

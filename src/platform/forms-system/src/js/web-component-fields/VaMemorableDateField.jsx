@@ -14,16 +14,21 @@ export default function VaMemorableDateField(props) {
   } = useVaDateCommon(props);
 
   const customYearErrorMessage = props.uiOptions?.customYearErrorMessage;
+  const removeDateHint = props.uiOptions?.removeDateHint;
 
   return (
     <VaMemorableDate
       {...mappedProps}
+      externalValidation
       monthSelect={props.uiOptions?.monthSelect ?? true}
       onDateChange={onDateChange}
       onDateBlur={onDateBlur}
       value={formattedValue}
       {...customYearErrorMessage && {
         customYearErrorMessage,
+      }}
+      {...removeDateHint && {
+        removeDateHint,
       }}
     />
   );

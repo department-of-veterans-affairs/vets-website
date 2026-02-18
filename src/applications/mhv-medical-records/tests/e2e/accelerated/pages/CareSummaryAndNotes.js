@@ -1,5 +1,4 @@
 import sessionStatus from '../fixtures/session/default.json';
-import MedicalRecordsLandingPage from '../../pages/MedicalRecordsLandingPage';
 
 class CareSummaryAndNotes {
   setIntercepts = ({ careSummaryAndNotesData }) => {
@@ -32,7 +31,6 @@ class CareSummaryAndNotes {
         req.reply(careSummaryAndNotesData);
       },
     ).as('clinical_notes-list');
-    MedicalRecordsLandingPage.uumIntercept();
   };
 
   checkLandingPageLinks = () => {
@@ -44,12 +42,68 @@ class CareSummaryAndNotes {
     cy.get('[data-testid="notes-landing-page-link"]').click({
       waitForAnimations: true,
     });
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
+  };
+
+  checkInfoAlert = () => {
+    // Alert removed from Care Summaries page — assert it does not render
+    cy.get('body')
+      .find('[data-testid="cerner-facilities-info-alert"]')
+      .should('not.exist');
+  };
+
+  checkTimeFrameDisplay = ({ fromDate, toDate }) => {
+    const expectedText = `${fromDate} to ${toDate}`;
+
+    // Assert the bold range text matches the expected year span
+    cy.get('[data-testid="filter-display-message"]')
+      .should('be.visible')
+      .should('have.text', expectedText);
+  };
+
+  checkNoRecordsTimeFrameDisplay = ({ fromDate, toDate }) => {
+    const expectedText = `${fromDate} to ${toDate}`;
+
+    // Try the filter display first; if absent fall back to no-records message containing the range
+    cy.get('body').then($body => {
+      if ($body.find('[data-testid="filter-display-message"]').length) {
+        cy.get('[data-testid="filter-display-message"]').should(
+          'have.text',
+          expectedText,
+        );
+      } else {
+        // Empty state: ensure no-records message includes the expected range substring
+        cy.get('[data-testid="no-records-message"]').should(
+          'contain.text',
+          expectedText,
+        );
+      }
+    });
+  };
+
+  checkTimeFrameDisplayForYear = ({ year }) => {
+    const fromDateText = `January 1, ${year}`;
+    const toDateText = `December 31, ${year}`;
+
+    this.checkTimeFrameDisplay({
+      fromDate: fromDateText,
+      toDate: toDateText,
+    });
+  };
+
+  selectDateRange = ({ option }) => {
+    cy.get('select[name="dateRangeSelector"]').select(option);
   };
 
   selectCareSummaryOrNote = ({ index = 1 } = {}) => {
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > .vads-u-font-weight--bold > [data-testid="note-name"]`,
-    ).click({ waitForAnimations: true });
+      `ul.record-list-items.no-print > :nth-child(${index}) [data-testid="note-name"]`,
+    )
+      .first()
+      .click({ waitForAnimations: true });
   };
 
   loadVAPaginationNext = () => {
@@ -61,10 +115,10 @@ class CareSummaryAndNotes {
 
   checkDischargeListItem = ({ index = 1, title = 'Clinical Summary' } = {}) => {
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > :nth-child(5) > :nth-child(1)`,
+      `ul.record-list-items.no-print > :nth-child(${index}) [data-testid="record-list-item"]`,
     ).should('contain.text', 'Discharged');
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > .vads-u-font-weight--bold`,
+      `ul.record-list-items.no-print > :nth-child(${index}) .vads-u-font-weight--bold`,
     ).should('contain.text', title);
   };
 
@@ -73,10 +127,10 @@ class CareSummaryAndNotes {
     title = 'Inpatient Discharge Instructions - VA',
   } = {}) => {
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > :nth-child(5) > :nth-child(1)`,
+      `ul.record-list-items.no-print > :nth-child(${index}) [data-testid="record-list-item"]`,
     ).should('contain.text', 'Written by');
     cy.get(
-      `:nth-child(4) > :nth-child(${index}) > .vads-u-font-weight--bold`,
+      `ul.record-list-items.no-print > :nth-child(${index}) .vads-u-font-weight--bold`,
     ).should('contain.text', title);
   };
 

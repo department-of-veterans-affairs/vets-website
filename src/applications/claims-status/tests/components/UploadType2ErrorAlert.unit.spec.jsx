@@ -1,9 +1,24 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import UploadType2ErrorAlert from '../../components/UploadType2ErrorAlert';
+import * as analytics from '../../utils/analytics';
 
 describe('<UploadType2ErrorAlert>', () => {
+  let recordType2FailureEventStub;
+
+  beforeEach(() => {
+    recordType2FailureEventStub = sinon.stub(
+      analytics,
+      'recordType2FailureEvent',
+    );
+  });
+
+  afterEach(() => {
+    recordType2FailureEventStub.restore();
+  });
+
   const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
   const yesterday = new Date(
     Date.now() - 1 * 24 * 60 * 60 * 1000,
@@ -26,18 +41,77 @@ describe('<UploadType2ErrorAlert>', () => {
 
   it('should render null when there are no failed submissions', () => {
     const { container } = render(
-      <UploadType2ErrorAlert failedSubmissions={[]} />,
+      <UploadType2ErrorAlert failedSubmissions={[]} isStatusPage />,
     );
 
     expect(container.querySelector('va-alert')).to.not.exist;
+    expect(recordType2FailureEventStub.called).to.be.false;
   });
 
   it('should render null when failed submissions array is undefined', () => {
     const { container } = render(
-      <UploadType2ErrorAlert failedSubmissions={undefined} />,
+      <UploadType2ErrorAlert failedSubmissions={undefined} isStatusPage />,
     );
 
     expect(container.querySelector('va-alert')).to.not.exist;
+    expect(recordType2FailureEventStub.called).to.be.false;
+  });
+
+  context('Google Analytics', () => {
+    it('should record Type 2 failure analytics event when component renders with failed submissions on status tab', () => {
+      const failedSubmissions = [
+        createFailedSubmission({ id: 1, fileName: 'test1.pdf' }),
+        createFailedSubmission({ id: 2, fileName: 'test2.pdf' }),
+        createFailedSubmission({ id: 3, fileName: 'test3.pdf' }),
+      ];
+
+      render(
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage
+        />,
+      );
+
+      expect(recordType2FailureEventStub.calledOnce).to.be.true;
+      expect(recordType2FailureEventStub.calledWith({ count: 1 })).to.be.true;
+    });
+
+    it('should NOT record analytics event when isStatusPage is false (files tab)', () => {
+      const failedSubmissions = [
+        createFailedSubmission({ id: 1, fileName: 'test1.pdf' }),
+      ];
+
+      render(
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage={false}
+        />,
+      );
+
+      expect(recordType2FailureEventStub.called).to.be.false;
+    });
+
+    it('should not record analytics event multiple times for same submissions', () => {
+      const failedSubmissions = [createFailedSubmission()];
+
+      const { rerender } = render(
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage
+        />,
+      );
+
+      expect(recordType2FailureEventStub.calledOnce).to.be.true;
+      // Rerender with same data
+      rerender(
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage
+        />,
+      );
+      // Should still only be called once
+      expect(recordType2FailureEventStub.calledOnce).to.be.true;
+    });
   });
 
   context(
@@ -59,7 +133,10 @@ describe('<UploadType2ErrorAlert>', () => {
         ];
 
         const { container } = render(
-          <UploadType2ErrorAlert failedSubmissions={failedSubmissions} />,
+          <UploadType2ErrorAlert
+            failedSubmissions={failedSubmissions}
+            isStatusPage
+          />,
         );
         const alert = container.querySelector('va-alert');
 
@@ -101,7 +178,10 @@ describe('<UploadType2ErrorAlert>', () => {
         ];
 
         const { container, getByText, queryByText } = render(
-          <UploadType2ErrorAlert failedSubmissions={failedSubmissions} />,
+          <UploadType2ErrorAlert
+            failedSubmissions={failedSubmissions}
+            isStatusPage
+          />,
         );
         const alert = container.querySelector('va-alert');
 
@@ -128,7 +208,10 @@ describe('<UploadType2ErrorAlert>', () => {
       ];
 
       const { getByText } = render(
-        <UploadType2ErrorAlert failedSubmissions={failedSubmissions} />,
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage
+        />,
       );
 
       getByText('Request type: Medical records');
@@ -153,18 +236,48 @@ describe('<UploadType2ErrorAlert>', () => {
     const failedSubmissions = [createFailedSubmission()];
 
     const { container } = render(
-      <UploadType2ErrorAlert failedSubmissions={failedSubmissions} />,
+      <UploadType2ErrorAlert
+        failedSubmissions={failedSubmissions}
+        isStatusPage
+      />,
     );
     const link = container.querySelector('va-link-action');
 
     expect(link).to.exist;
-    expect(link).to.have.attr(
-      'href',
-      '/track-claims/your-claims/files-we-couldnt-receive',
-    );
+    expect(link).to.have.attr('href', '../files-we-couldnt-receive');
     expect(link).to.have.attr(
       'text',
       "Review files we couldn't process and learn other ways to send your documents",
     );
+  });
+
+  context('heading level based on page context', () => {
+    it('should render h4 heading when isStatusPage is true', () => {
+      const failedSubmissions = [createFailedSubmission()];
+
+      const { container } = render(
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage
+        />,
+      );
+
+      expect(container.querySelector('h4')).to.exist;
+      expect(container.querySelector('h3')).to.not.exist;
+    });
+
+    it('should render h3 heading when isStatusPage is false', () => {
+      const failedSubmissions = [createFailedSubmission()];
+
+      const { container } = render(
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage={false}
+        />,
+      );
+
+      expect(container.querySelector('h3')).to.exist;
+      expect(container.querySelector('h4')).to.not.exist;
+    });
   });
 });

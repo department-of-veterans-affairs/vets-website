@@ -223,7 +223,18 @@ describe('Schemaform review: <ValidationError />', () => {
       const onBack = sinon.spy();
       const onSubmit = sinon.spy();
 
-      const form = createForm();
+      const form = createForm({
+        formErrors: {
+          errors: [
+            {
+              name: 'test',
+              message: 'Test error',
+              chapterKey: 'Test',
+            },
+          ],
+          rawErrors: [],
+        },
+      });
       const formConfig = getFormConfig();
       formConfig.showReviewErrors = true;
 
@@ -231,7 +242,9 @@ describe('Schemaform review: <ValidationError />', () => {
         formConfig: form,
       });
 
-      const store = createStore();
+      const store = createStore({
+        form,
+      });
       store.injectReducer('form', formReducer);
 
       const tree = render(
@@ -396,7 +409,18 @@ describe('Schemaform review: <ValidationError />', () => {
       const onBack = sinon.spy();
       const onSubmit = sinon.spy();
 
-      const form = createForm();
+      const form = createForm({
+        formErrors: {
+          errors: [
+            {
+              name: 'test',
+              message: 'Test error',
+              chapterKey: 'Test',
+            },
+          ],
+          rawErrors: [],
+        },
+      });
       const formConfig = getFormConfig(useWebComponents);
       formConfig.showReviewErrors = true;
 
@@ -404,7 +428,9 @@ describe('Schemaform review: <ValidationError />', () => {
         formConfig: form,
       });
 
-      const store = createStore();
+      const store = createStore({
+        form,
+      });
       store.injectReducer('form', formReducer);
 
       const tree = render(
@@ -421,6 +447,62 @@ describe('Schemaform review: <ValidationError />', () => {
       );
       expect(tree.getByText(/missing some information/)).to.exist;
       expect(tree.getByText(/information before you can submit/)).to.exist;
+      tree.unmount();
+    });
+
+    it('passes formConfig prop to ErrorLinks component', () => {
+      const onBack = sinon.spy();
+      const onSubmit = sinon.spy();
+
+      const form = createForm({
+        formErrors: {
+          errors: [
+            {
+              name: 'test',
+              message: 'Test error',
+              chapterKey: 'Test',
+            },
+          ],
+          rawErrors: [],
+        },
+      });
+      const formConfig = getFormConfig(useWebComponents);
+      formConfig.showReviewErrors = true;
+      formConfig.urlPrefix = '/test/';
+      formConfig.chapters = {
+        testChapter: {
+          pages: {
+            testPage: {
+              path: 'test-page',
+            },
+          },
+        },
+      };
+
+      const formReducer = createformReducer({
+        formConfig: form,
+      });
+
+      const store = createStore({
+        form,
+      });
+      store.injectReducer('form', formReducer);
+
+      const tree = render(
+        <Provider store={store}>
+          <ValidationError
+            appType="test"
+            buttonText="test"
+            formConfig={formConfig}
+            onBack={onBack}
+            onSubmit={onSubmit}
+            testId="12345"
+          />
+        </Provider>,
+      );
+
+      // Verify ErrorLinks is rendered (which means formConfig was passed)
+      expect(tree.getByText(/missing some information/)).to.exist;
       tree.unmount();
     });
   });

@@ -36,7 +36,8 @@ export const recipientsReducer = (state = initialState, action) => {
         associatedTriageGroups,
         associatedBlockedTriageGroups,
       } = action.response.meta;
-      const noAssociations = associatedTriageGroups === 0;
+      const noAssociations =
+        associatedTriageGroups === 0 || action.response?.data?.length === 0;
       const allTriageGroupsBlocked =
         !noAssociations &&
         associatedTriageGroups === associatedBlockedTriageGroups;
@@ -126,7 +127,7 @@ export const recipientsReducer = (state = initialState, action) => {
     case Actions.AllRecipients.GET_RECENT_ERROR:
       return {
         ...state,
-        recentRecipients: 'error',
+        recentRecipients: { error: 'error' },
       };
     default:
       return state;

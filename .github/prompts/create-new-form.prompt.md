@@ -26,14 +26,14 @@ Before generating the command, gather the following information:
 - **ombNumber**: OMB control number if applicable (default: none)
 - **expirationDate**: Form expiration date in MM/DD/YYYY format (default: future date)
 - **usesVetsJsonSchema**: Whether form uses vets-json-schema (default: false)
-- **usesMinimalHeader**: Whether to use minimal header layout (default: false)
+- **usesMinimalHeader**: Whether to use minimal header layout (default: true)
 - **templateType**: Form template type (valid values: "WITH_1_PAGE", "WITH_4_PAGES") (default: "WITH_1_PAGE")
 
 ## Command Generation
 
 ### Basic Command Structure
 ```bash
-yo @department-of-veterans-affairs/vets-website \
+yarn new:app \
   --force \
   --appName="[APP_NAME]" \
   --folderName="[FOLDER_NAME]" \
@@ -57,7 +57,7 @@ yo @department-of-veterans-affairs/vets-website \
 
 #### Example 1: Burial Benefits Form
 ```bash
-yo @department-of-veterans-affairs/vets-website \
+yarn new:app \
   --force \
   --appName="Burial Allowance Application" \
   --folderName="burial-allowance" \
@@ -73,13 +73,13 @@ yo @department-of-veterans-affairs/vets-website \
   --expirationDate="12/31/2026" \
   --benefitDescription="burial benefits" \
   --usesVetsJsonSchema=false \
-  --usesMinimalHeader=false \
+  --usesMinimalHeader=true \
   --templateType="WITH_1_PAGE"
 ```
 
 #### Example 2: Simple Form with Minimal Configuration
 ```bash
-yo @department-of-veterans-affairs/vets-website \
+yarn new:app \
   --force \
   --appName="Address Change Request" \
   --folderName="address-change" \
@@ -95,7 +95,7 @@ yo @department-of-veterans-affairs/vets-website \
 
 #### Example 3: Complex Multi-Chapter Form
 ```bash
-yo @department-of-veterans-affairs/vets-website \
+yarn new:app \
   --force \
   --appName="Education Benefits Application" \
   --folderName="education-benefits-1990" \

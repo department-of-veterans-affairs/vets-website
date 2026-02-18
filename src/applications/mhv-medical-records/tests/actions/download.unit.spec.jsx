@@ -9,6 +9,7 @@ import {
   updateReportRecordType,
   updateReportDateRange,
   genAndDownloadCCD,
+  downloadCCDV2,
 } from '../../actions/downloads';
 import { Actions } from '../../util/actionTypes';
 
@@ -34,11 +35,11 @@ describe('Download Actions', () => {
       const lastName = 'last';
       mockApiRequest([{ status: 'ERROR', dateGenerated: 'date' }]);
       await genAndDownloadCCD(firstName, lastName)(dispatch);
-      expect(dispatch.callCount).to.be.equal(2);
-      expect(dispatch.secondCall.args[0].type).to.equal(
+      expect(dispatch.callCount).to.be.equal(3);
+      expect(dispatch.thirdCall.args[0].type).to.equal(
         Actions.Downloads.CCD_GENERATION_ERROR,
       );
-      expect(dispatch.secondCall.args[0].response).to.equal('date');
+      expect(dispatch.thirdCall.args[0].response).to.equal('date');
     });
 
     it('should dispatch a download on successful API calls', async () => {
@@ -53,7 +54,7 @@ describe('Download Actions', () => {
       const downLoadRequest = {
         shouldResolve: true,
         response: {
-          ok: true, // optional, but nice to have
+          ok: true,
           blob: sinon
             .stub()
             .resolves(new Blob(['<ClinicalDocument/>'], { type: '' })),
@@ -61,7 +62,7 @@ describe('Download Actions', () => {
       };
       mockMultipleApiRequests([completeRequest, downLoadRequest]);
       await genAndDownloadCCD(firstName, lastName)(dispatch);
-      expect(dispatch.callCount).to.be.equal(2);
+      expect(dispatch.callCount).to.be.equal(3);
       expect(dispatch.calledWith({ type: Actions.Downloads.GENERATE_CCD })).to
         .be.true;
     });
@@ -121,6 +122,118 @@ describe('Download Actions', () => {
       expect(dispatch.firstCall.args[0].response).to.deep.equal({
         sample: 'test',
       });
+    });
+  });
+
+  describe('downloadCCDV2', () => {
+    let clickToRestore = null;
+
+    beforeEach(() => {
+      clickToRestore = HTMLAnchorElement.prototype.click;
+      HTMLAnchorElement.prototype.click = sinon.spy();
+      window.URL = {
+        createObjectURL: sinon.stub().returns('test-url'),
+        revokeObjectURL: sinon.spy(),
+      };
+    });
+
+    afterEach(() => {
+      HTMLAnchorElement.prototype.click = clickToRestore;
+      delete window.URL;
+    });
+
+    it('dispatches correct actions on successful download', async () => {
+      const dispatch = sinon.spy();
+      const firstName = 'John';
+      const lastName = 'Doe';
+
+      const mockBlob = new Blob(['mock xml data'], {
+        type: 'application/xml',
+      });
+      const mockResponse = {
+        blob: sinon.stub().resolves(mockBlob),
+      };
+      mockApiRequest(mockResponse);
+
+      await downloadCCDV2(firstName, lastName, 'xml')(dispatch);
+
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Downloads.GENERATE_CCD,
+      );
+
+      expect(dispatch.thirdCall.args[0].type).to.equal(
+        Actions.Downloads.DOWNLOAD_CCD,
+      );
+
+      expect(HTMLAnchorElement.prototype.click.called).to.be.true;
+    });
+
+    it('includes "OH" in filename', async () => {
+      const dispatch = sinon.spy();
+
+      const mockBlob = new Blob(['mock'], { type: 'application/pdf' });
+      const mockResponse = {
+        blob: sinon.stub().resolves(mockBlob),
+      };
+      mockApiRequest(mockResponse);
+
+      const createElementStub = sinon.stub(document, 'createElement');
+      const mockAnchor = {
+        href: '',
+        download: '',
+        click: sinon.spy(),
+        remove: sinon.spy(),
+      };
+      createElementStub.withArgs('a').returns(mockAnchor);
+
+      await downloadCCDV2('Jane', 'Smith', 'pdf')(dispatch);
+
+      expect(mockAnchor.download).to.include('OH');
+      expect(mockAnchor.download).to.include('Jane');
+      expect(mockAnchor.download).to.include('Smith');
+      expect(mockAnchor.download).to.include('.pdf');
+
+      createElementStub.restore();
+    });
+
+    it('handles 404 errors with user-friendly alert', async () => {
+      const dispatch = sinon.spy();
+
+      const error404 = new Error('Not found');
+      error404.status = 404;
+      const mockResponse = {
+        blob: sinon.stub().rejects(error404),
+      };
+      mockApiRequest(mockResponse);
+
+      await downloadCCDV2('John', 'Doe', 'xml')(dispatch);
+
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Downloads.GENERATE_CCD,
+      );
+
+      expect(dispatch.thirdCall.args[0].type).to.equal(
+        Actions.Downloads.CANCEL_CCD,
+      );
+
+      expect(dispatch.callCount).to.be.at.least(4);
+    });
+
+    it('dispatches CANCEL_CCD on generic errors', async () => {
+      const dispatch = sinon.spy();
+
+      const mockResponse = {
+        blob: sinon.stub().rejects(new Error('Network error')),
+      };
+      mockApiRequest(mockResponse);
+
+      await downloadCCDV2('John', 'Doe', 'html')(dispatch);
+
+      expect(
+        dispatch
+          .getCalls()
+          .some(call => call.args[0].type === Actions.Downloads.CANCEL_CCD),
+      ).to.be.true;
     });
   });
 });

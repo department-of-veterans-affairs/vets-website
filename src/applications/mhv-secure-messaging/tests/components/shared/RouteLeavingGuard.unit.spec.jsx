@@ -3,6 +3,9 @@ import { fireEvent, waitFor, act } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import { expect } from 'chai';
+import { commonReducer } from 'platform/startup/store';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import RouteLeavingGuard from '../../../components/shared/RouteLeavingGuard';
 import { ErrorMessages } from '../../../util/constants';
 import reducer from '../../../reducers';
@@ -12,9 +15,15 @@ import * as threadDetailsActions from '../../../actions/threadDetails';
 
 describe('RouteLeavingGuard component', () => {
   let saveDraftHandlerSpy;
+  let sinonSandbox;
 
   beforeEach(() => {
-    saveDraftHandlerSpy = sinon.spy();
+    sinonSandbox = sinon.createSandbox();
+    saveDraftHandlerSpy = sinonSandbox.spy();
+  });
+
+  afterEach(() => {
+    sinonSandbox.restore();
   });
 
   const getInitialState = (draftInProgress = {}) => ({
@@ -28,7 +37,7 @@ describe('RouteLeavingGuard component', () => {
     },
   });
 
-  const setup = (props = {}, state = {}, path = '/compose') => {
+  const setup = (props = {}, state = {}, path = '/compose', store = null) => {
     return renderWithStoreAndRouter(
       <>
         <Navigation />
@@ -42,6 +51,7 @@ describe('RouteLeavingGuard component', () => {
         initialState: getInitialState(state),
         reducers: reducer,
         path,
+        store,
       },
     );
   };
@@ -83,6 +93,51 @@ describe('RouteLeavingGuard component', () => {
       expect(modal.getAttribute('modal-title')).to.equal('Unsaved changes');
       expect(screen.getByText('You have unsaved changes.')).to.exist;
       expect(screen.getByText('Do you want to continue?')).to.exist;
+    });
+
+    it('removes modal when navigationError is removed', async () => {
+      const state = getInitialState({
+        navigationError,
+        navigationErrorModalVisible: true,
+      });
+      const testStore = createStore(
+        combineReducers({ ...commonReducer, ...reducer }),
+        state,
+        applyMiddleware(thunk),
+      );
+
+      const screen = setup(
+        {},
+        { navigationError, navigationErrorModalVisible: true },
+        '/compose',
+        testStore,
+      );
+
+      const modalWithError = screen.getByTestId('navigation-warning-modal');
+      expect(modalWithError.getAttribute('visible')).to.equal('false');
+      act(() => {
+        screen.history.push('/inbox');
+      });
+      await waitFor(() => {
+        expect(modalWithError.getAttribute('visible')).to.equal('true');
+      });
+
+      // NODE 22 FIX: Wrap Redux dispatch in act() to ensure React processes
+      // the state update synchronously before we check the DOM.
+      // In Node 22, the event loop timing differs, causing the waitFor to
+      // check the DOM before React has re-rendered with the new state.
+      // This doesn't change test behavior - it just ensures proper React update flushing.
+      await act(async () => {
+        testStore.dispatch({
+          type: 'SM_UPDATE_DRAFT_IN_PROGRESS',
+          payload: { navigationError: null, saveError: null },
+        });
+      });
+
+      await waitFor(() => {
+        const modalSansError = screen.queryByTestId('navigation-warning-modal');
+        expect(modalSansError.getAttribute('visible')).to.equal('false');
+      });
     });
 
     it('handles confirm navigation click without save', async () => {
@@ -141,7 +196,7 @@ describe('RouteLeavingGuard component', () => {
       );
       fireEvent.click(confirmButton);
 
-      expect(saveDraftHandlerSpy.calledWith('auto')).to.be.true;
+      expect(saveDraftHandlerSpy.calledWith('manual-confirmed')).to.be.true;
     });
 
     it('does not call saveDraftHandler when confirm button does not contain "Save"', async () => {
@@ -299,7 +354,7 @@ describe('RouteLeavingGuard component', () => {
     });
 
     it('renders without crashing when saveDraftHandler is provided', () => {
-      const customHandler = sinon.spy();
+      const customHandler = sinonSandbox.spy();
       const screen = setup({ saveDraftHandler: customHandler });
       expect(screen.container).to.exist;
     });
@@ -911,7 +966,7 @@ describe('RouteLeavingGuard component', () => {
     });
 
     it('clears draft when last path is not on the list ', async () => {
-      const clearDraftInProgressSpy = sinon.spy(
+      const clearDraftInProgressSpy = sinonSandbox.spy(
         threadDetailsActions,
         'clearDraftInProgress',
       );
@@ -949,7 +1004,7 @@ describe('RouteLeavingGuard component', () => {
     });
 
     it('does not clear draft when last path is on the list ', async () => {
-      const clearDraftInProgressSpy = sinon.spy(
+      const clearDraftInProgressSpy = sinonSandbox.spy(
         threadDetailsActions,
         'clearDraftInProgress',
       );

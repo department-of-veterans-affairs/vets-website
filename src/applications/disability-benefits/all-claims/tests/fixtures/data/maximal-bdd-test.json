@@ -1,5 +1,6 @@
 {
   "data": {
+    "disability526ExtraBDDPagesEnabled": true,
     "view:isBddData": true,
     "view:claimType": {
       "view:claimingIncrease": true,

@@ -1,10 +1,7 @@
 /**
- * @module tests/fixtures/mocks/index
- * @description Barrel export file for mock data
+ * @module tests/fixtures/mocks
+ * @description Mock data for testing
  */
 
-/** @exports {Object} User mock data */
+export { default as featureToggles } from './feature-toggles.json';
 export { default as user } from './user.json';
-
-/** @exports {Object} Local mock responses */
-export { default as localMockResponses } from './local-mock-responses';

@@ -1,10 +1,9 @@
-import moment from 'moment-timezone';
 import MedicationsSite from './med_site/MedicationsSite';
 import rxList from './fixtures/listOfPrescriptions.json';
 import MedicationsListPage from './pages/MedicationsListPage';
 import mockPrescriptionDetails from './fixtures/prescription-details.json';
 import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
-import { Data } from './utils/constants';
+import { Data, DownloadFormat } from './utils/constants';
 
 describe('Medications Download PDF no alert after navigating away from Med List Page', () => {
   const site = new MedicationsSite();
@@ -23,11 +22,7 @@ describe('Medications Download PDF no alert after navigating away from Med List 
       Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
     );
 
-    site.verifyDownloadedPdfFile(
-      'VA-medications-list-Safari-Mhvtp',
-      moment(),
-      '',
-    );
+    site.verifyDownloadedFile();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     listPage.verifyDownloadSuccessMessageBannerNotVisibleAfterReload();
     cy.injectAxe();
@@ -36,12 +31,11 @@ describe('Medications Download PDF no alert after navigating away from Med List 
 
   it('visits download txt no alert after navigating away from list page', () => {
     listPage.clickDownloadListAsTxtButtonOnListPage();
-    // listPage.verifyLoadingSpinnerForDownloadOnListPage();
     listPage.verifyFocusOnDownloadAlertSuccessBanner();
     listPage.verifyDownloadCompleteSuccessMessageBanner(
       Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
     );
-    listPage.verifyDownloadTextFileHeadless('Safari', 'Mhvtp', 'Mhvtp, Safari');
+    site.verifyDownloadedFile({ format: DownloadFormat.TXT });
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     listPage.verifyDownloadSuccessMessageBannerNotVisibleAfterReload();
     cy.injectAxe();

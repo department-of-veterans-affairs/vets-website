@@ -26,38 +26,48 @@ import DisabilityRatingCard from './DisabilityRatingCard';
 
 const NoClaimsOrAppealsText = () => {
   return (
-    <p
-      className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
-      data-testid="no-outstanding-claims-or-appeals-text"
-    >
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
-        <Toggler.Disabled>
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+      <Toggler.Disabled>
+        <p
+          className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
+          data-testid="no-outstanding-claims-or-appeals-text"
+        >
           You have no claims or appeals to show.
-        </Toggler.Disabled>
-        <Toggler.Enabled>
+        </p>
+      </Toggler.Disabled>
+      <Toggler.Enabled>
+        <p
+          className="vads-u-margin-bottom--1 vads-u-margin-top--neg1"
+          data-testid="no-outstanding-claims-or-appeals-text"
+        >
           You don’t have any open claims or appeals.
-        </Toggler.Enabled>
-      </Toggler>
-    </p>
+        </p>
+      </Toggler.Enabled>
+    </Toggler>
   );
 };
 
-const ClaimsAndAppealsError = () => {
+const ClaimsAndAppealsError = ({ hasAppealsError, hasClaimsError }) => {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
 
   const useRedesignContent = useToggleValue(
     TOGGLE_NAMES.myVaAuthExpRedesignEnabled,
   );
 
+  let errorType = 'claims or appeals';
+  if (hasAppealsError && !hasClaimsError) {
+    errorType = 'appeals';
+  } else if (hasClaimsError && !hasAppealsError) {
+    errorType = 'claims';
+  } else if (hasAppealsError && hasClaimsError) {
+    errorType = 'claims and appeals';
+  }
+
   const content = useRedesignContent ? (
-    <h3
-      slot="headline"
-      className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans vads-u-line-height--6 vads-u-margin-bottom--0"
-      data-testId="benefit-application-error-redesign"
-    >
-      We can’t show your claims or appeals information right now. Refresh this
-      page or try again later.
-    </h3>
+    <span data-testId="benefit-application-error-redesign">
+      We can’t show some of your {errorType} right now. Refresh this page or try
+      again later.
+    </span>
   ) : (
     <>
       <h3
@@ -65,11 +75,11 @@ const ClaimsAndAppealsError = () => {
         className="vads-u-margin-top--0"
         data-testId="benefit-application-error-original"
       >
-        We can’t access your claims or appeals information
+        We can’t access your {errorType} information
       </h3>
       <p className="vads-u-margin-bottom--0">
-        We’re sorry. Something went wrong on our end. If you have any claims and
-        appeals, you won’t be able to access your claims and appeals information
+        We’re sorry. Something went wrong on our end. If you have any{' '}
+        {errorType}, you won’t be able to access your {errorType} information
         right now. Please refresh or try again later.
       </p>
     </>
@@ -87,6 +97,11 @@ const ClaimsAndAppealsError = () => {
       <va-alert status={status}>{content}</va-alert>
     </div>
   );
+};
+
+ClaimsAndAppealsError.propTypes = {
+  hasAppealsError: PropTypes.bool,
+  hasClaimsError: PropTypes.bool,
 };
 
 const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
@@ -149,6 +164,8 @@ const ClaimsAndAppeals = ({
   appealsData,
   claimsData,
   hasAPIError,
+  hasAppealsError,
+  hasClaimsError,
   isLOA1,
   shouldShowLoadingIndicator,
 }) => {
@@ -178,51 +195,56 @@ const ClaimsAndAppeals = ({
       <h2>Claims and appeals</h2>
       <div className="vads-l-row">
         <DashboardWidgetWrapper>
-          {hasAPIError && <ClaimsAndAppealsError />}
-          {!hasAPIError && (
-            <>
+          {hasAPIError && (
+            <ClaimsAndAppealsError
+              hasAppealsError={hasAppealsError}
+              hasClaimsError={hasClaimsError}
+            />
+          )}
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+            <Toggler.Disabled>
+              {(() => {
+                if (isLOA1) {
+                  return null;
+                }
+                if (highlightedClaimOrAppeal) {
+                  return (
+                    <HighlightedClaimAppeal
+                      claimOrAppeal={highlightedClaimOrAppeal}
+                    />
+                  );
+                }
+                if (!hasAPIError) {
+                  return <NoClaimsOrAppealsText />;
+                }
+                return null;
+              })()}
+            </Toggler.Disabled>
+            <Toggler.Enabled>
               {highlightedClaimOrAppeal && !isLOA1 ? (
                 <HighlightedClaimAppeal
                   claimOrAppeal={highlightedClaimOrAppeal}
                 />
               ) : (
-                <Toggler
-                  toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
-                >
-                  <Toggler.Disabled>
-                    {!isLOA1 && <NoClaimsOrAppealsText />}
-                    <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
-                  </Toggler.Disabled>
-                  <Toggler.Enabled>
-                    <NoClaimsOrAppealsText />
-                  </Toggler.Enabled>
-                </Toggler>
+                !hasAPIError && <NoClaimsOrAppealsText />
               )}
-            </>
-          )}
+            </Toggler.Enabled>
+          </Toggler>
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+            <Toggler.Disabled>
+              <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
+            </Toggler.Disabled>
+          </Toggler>
         </DashboardWidgetWrapper>
-        {highlightedClaimOrAppeal &&
-          !hasAPIError &&
-          !isLOA1 && (
-            <DashboardWidgetWrapper>
-              <Toggler
-                toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
-              >
-                <Toggler.Disabled>
-                  <PopularActionsForClaimsAndAppeals />
-                </Toggler.Disabled>
-              </Toggler>
-            </DashboardWidgetWrapper>
-          )}
       </div>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Enabled>
-          <p className="vads-u-margin-top--0">
+          <div>
             <va-link
               href="/track-claims/your-claims"
               text="Check claims and appeals"
             />
-          </p>
+          </div>
           {!isLOA1 && (
             <DashboardWidgetWrapper>
               <DisabilityRatingCard />
@@ -242,6 +264,8 @@ ClaimsAndAppeals.propTypes = {
   userFullName: PropTypes.object.isRequired,
   appealsData: PropTypes.arrayOf(PropTypes.object),
   claimsData: PropTypes.arrayOf(PropTypes.object),
+  hasAppealsError: PropTypes.bool,
+  hasClaimsError: PropTypes.bool,
   isLOA1: PropTypes.bool,
 };
 
@@ -282,6 +306,8 @@ const mapStateToProps = state => {
     appealsData: claimsState.appeals,
     claimsData: claimsState.claims,
     hasAPIError,
+    hasAppealsError,
+    hasClaimsError,
     shouldLoadAppeals: isAppealsAvailableSelector(state) && canAccessAppeals,
     shouldLoadClaims: isClaimsAvailableSelector(state),
     // as soon as we realize there is an error getting either claims or appeals

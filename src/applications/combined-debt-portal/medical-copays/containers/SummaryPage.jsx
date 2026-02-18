@@ -1,23 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { uniqBy } from 'lodash';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaBreadcrumbs,
+  VaPagination,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import {
   setPageFocus,
   sortStatementsByDate,
   ALERT_TYPES,
   APP_TYPES,
+  showVHAPaymentHistory,
 } from '../../combined/utils/helpers';
 import Balances from '../components/Balances';
-import BalanceQuestions from '../components/BalanceQuestions';
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
-import DisputeCharges from '../components/DisputeCharges';
-import HowToPay from '../components/HowToPay';
-import FinancialHelp from '../components/FinancialHelp';
 import NeedHelpCopay from '../components/NeedHelpCopay';
-import MCPAlerts from '../../combined/components/MCPAlerts';
+import CopayAlertContainer from '../components/CopayAlertContainer';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const renderAlert = (alertType, debts) => {
@@ -59,7 +59,7 @@ const renderOtherVA = (debtLength, debtError) => {
   if (debtError) {
     return (
       <>
-        <h2>Your other VA debts</h2>
+        <h2>Overpayment balances</h2>
         <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
           <h3 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
@@ -78,19 +78,12 @@ const OverviewPage = () => {
   );
 
   // feature toggle stuff for VHA payment history MVP
-  const {
-    useToggleValue,
-    useToggleLoadingValue,
-    TOGGLE_NAMES,
-  } = useFeatureToggle();
+  const { useToggleLoadingValue } = useFeatureToggle();
   // boolean value to represent if toggles are still loading or not
   const togglesLoading = useToggleLoadingValue();
   // value of specific toggle
-  const showVHAPaymentHistory = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
-  );
-  const showOneThingPerPage = useToggleValue(
-    TOGGLE_NAMES.showCDPOneThingPerPage,
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
   );
 
   const {
@@ -102,14 +95,67 @@ const OverviewPage = () => {
   const debtLoading = isDebtPending || isProfileUpdating;
   const { statements, error: mcpError, pending: mcpLoading } = mcp;
   const statementsEmpty = statements?.length === 0;
-  const sortedStatements = sortStatementsByDate(statements ?? []);
-  const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
+  const sortedStatements = shouldShowVHAPaymentHistory
+    ? mcp.statements.data ?? []
+    : sortStatementsByDate(statements || []);
+  const statementsByUniqueFacility = shouldShowVHAPaymentHistory
+    ? uniqBy(mcp.statements.data, 'facilityId')
+    : uniqBy(sortedStatements, 'pSFacilityNum');
   const title = 'Copay balances';
   useHeaderPageTitle(title);
 
   useEffect(() => {
     setPageFocus('h1');
   }, []);
+
+  const MAX_ROWS = 10;
+  const ITEM_TYPE = 'copays';
+
+  function paginate(array, pageSize, pageNumber) {
+    return array?.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+  }
+
+  function getPaginationText(
+    currentPage,
+    pageSize,
+    totalItems,
+    label = ITEM_TYPE,
+  ) {
+    // Only display pagination text when there are more than MAX_ROWS total items
+    if (totalItems <= MAX_ROWS) {
+      return '';
+    }
+
+    const startItemIndex = (currentPage - 1) * pageSize + 1;
+    const endItemIndex = Math.min(currentPage * pageSize, totalItems);
+
+    return `Showing ${startItemIndex}-${endItemIndex} of ${totalItems} ${label}`;
+  }
+
+  const [currentData, setCurrentData] = useState(
+    paginate(statementsByUniqueFacility, MAX_ROWS, 1),
+  );
+  const [currentPage, setCurrentPage] = useState(1);
+
+  function onPageChange(page) {
+    setCurrentData(paginate(statementsByUniqueFacility, MAX_ROWS, page));
+    setCurrentPage(page);
+  }
+
+  const numPages = Math.ceil(statementsByUniqueFacility.length / MAX_ROWS);
+
+  const renderVaPagination = () => {
+    if (statementsByUniqueFacility.length > MAX_ROWS) {
+      return (
+        <VaPagination
+          onPageSelect={e => onPageChange(e.detail.page)}
+          page={currentPage}
+          pages={numPages}
+        />
+      );
+    }
+    return null;
+  };
 
   if (debtLoading || mcpLoading || togglesLoading) {
     return (
@@ -125,7 +171,7 @@ const OverviewPage = () => {
   const isNotEnrolledInHealthCare = mcpError?.status === '403';
   const renderContent = () => {
     if (isNotEnrolledInHealthCare) {
-      return <MCPAlerts type="no-health-care" />;
+      return <CopayAlertContainer type="no-health-care" />;
     }
     if (mcpError) {
       return renderAlert(
@@ -137,27 +183,21 @@ const OverviewPage = () => {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
 
-    return showOneThingPerPage || showVHAPaymentHistory ? (
+    return (
       <article className="vads-u-padding-x--0 vads-u-padding-bottom--0">
         <Balances
-          statements={statementsByUniqueFacility}
-          showVHAPaymentHistory={showVHAPaymentHistory}
+          statements={currentData}
+          showVHAPaymentHistory={shouldShowVHAPaymentHistory}
+          paginationText={getPaginationText(
+            currentPage,
+            MAX_ROWS,
+            statementsByUniqueFacility.length,
+            ITEM_TYPE,
+          )}
         />
+        {renderVaPagination()}
         {renderOtherVA(debts?.length, debtError)}
         <NeedHelpCopay />
-      </article>
-    ) : (
-      <article className="vads-u-padding-x--0">
-        <va-on-this-page />
-        <Balances
-          statements={statementsByUniqueFacility}
-          showVHAPaymentHistory={showVHAPaymentHistory}
-        />
-        {renderOtherVA(debts?.length, debtError)}
-        <HowToPay isOverview />
-        <FinancialHelp />
-        <DisputeCharges />
-        <BalanceQuestions />
       </article>
     );
   };
@@ -172,7 +212,7 @@ const OverviewPage = () => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
           {
             href: '/manage-va-debt/summary/copay-balances',

@@ -91,6 +91,7 @@ const baseUserResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: {
           status: 'OK',
@@ -314,6 +315,7 @@ const baseUserResponses = {
           ],
           vaPatient: true,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: true,
         },
         veteranStatus: {
           status: 'OK',
@@ -460,7 +462,7 @@ const baseUserResponses = {
       errors: null,
     },
   },
-  mvhUser: {
+  mhvUser: {
     data: {
       id: '',
       type: 'users_scaffolds',
@@ -503,6 +505,9 @@ const baseUserResponses = {
             accountType: 'N/A',
           },
           authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+          claims: {
+            coe: true,
+          },
         },
         vaProfile: {
           status: 'OK',
@@ -524,8 +529,9 @@ const baseUserResponses = {
               isCerner: false,
             },
           ],
-          vaPatient: false,
-          mhvAccountState: 'NONE',
+          vaPatient: true,
+          mhvAccountState: 'REGISTERED',
+          schedulingPreferencesPilotEligible: true,
         },
         veteranStatus: {
           status: 'OK',
@@ -737,6 +743,7 @@ const baseUserResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: {
           status: 'OK',
@@ -948,6 +955,7 @@ const baseUserResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: 'NOT_AUTHORIZED',
         inProgressForms: [],
@@ -1142,6 +1150,7 @@ const baseUserResponses = {
           facilities: [],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: 'NOT_AUTHORIZED',
         inProgressForms: [],
@@ -1349,6 +1358,7 @@ const baseUserResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: {
           status: 'OK',
@@ -1563,6 +1573,7 @@ const mockErrorResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: {
           status: 'OK',
@@ -1688,6 +1699,183 @@ const loa3UserWithIntlMobilePhoneAndNoEmail = set(
   null,
 );
 
+// LOA3 user without VA Profile service - for testing InitializeVAPServiceID UNINITIALIZED state
+const loa3UserNoVaProfile = {
+  data: {
+    id: '',
+    type: 'users_scaffolds',
+    attributes: {
+      services: [
+        'facilities',
+        'hca',
+        'edu-benefits',
+        'form-save-in-progress',
+        'form-prefill',
+        'evss-claims',
+        'form526',
+        'user-profile',
+        'appeals-status',
+        'id-card',
+        'identity-proofed',
+        'vet360',
+        // Notice: 'vet360' service is MISSING - this is the key difference
+      ],
+      account: {
+        accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
+      },
+      profile: {
+        email: 'vets.gov.user+noprofile@gmail.com',
+        firstName: 'JOHNNY',
+        middleName: 'A',
+        lastName: 'DOE',
+        birthDate: '1980-01-01',
+        gender: 'M',
+        zip: '12345',
+        lastSignedIn: '2024-01-01T12:00:00.000Z',
+        loa: {
+          current: 3,
+          highest: 3,
+        },
+        multifactor: true,
+        verified: true,
+        signIn: {
+          serviceName: 'idme',
+          accountType: 'N/A',
+        },
+        authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+        claims: {
+          ch33BankAccounts: false,
+          communicationPreferences: false, // No VA Profile access
+          connectedApps: true,
+          militaryHistory: true,
+          paymentHistory: true,
+          personalInformation: false, // No VA Profile access
+          ratingInfo: true,
+          appeals: true,
+          medicalCopays: true,
+        },
+        // Empty vapContactInfo since no VA Profile service
+        vapContactInfo: {},
+      },
+      vaProfile: {
+        status: 'NOT_AUTHORIZED', // Indicates no VA Profile access
+        facilities: [
+          {
+            facilityId: '983',
+            isCerner: false,
+          },
+        ],
+        vaPatient: true,
+        mhvAccountState: 'REGISTERED',
+        schedulingPreferencesPilotEligible: false,
+      },
+      veteranStatus: {
+        status: 'OK',
+        isVeteran: true,
+        servedInMilitary: true,
+      },
+      inProgressForms: [],
+      prefillsAvailable: [],
+      vet360ContactInformation: {}, // Empty - no VA Profile access
+      session: {
+        ssoe: true,
+        transactionid: 'test-transaction-id-no-profile',
+      },
+    },
+  },
+  meta: {
+    errors: null,
+  },
+};
+
+// LOA3 user with VA Profile service available but needs initialization - for testing InitializeVAPServiceID initialization flow
+const loa3UserNeedsVapInit = {
+  data: {
+    id: '',
+    type: 'users_scaffolds',
+    attributes: {
+      services: [
+        'facilities',
+        'hca',
+        'edu-benefits',
+        'form-save-in-progress',
+        'form-prefill',
+        'evss-claims',
+        'form526',
+        'user-profile',
+        'appeals-status',
+        'id-card',
+        'identity-proofed',
+        'vet360', // VA Profile service IS available - this triggers initialization
+      ],
+      account: {
+        accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
+      },
+      profile: {
+        email: 'vets.gov.user+needsinit@gmail.com',
+        firstName: 'Jane Init',
+        middleName: 'B',
+        lastName: 'VAP',
+        birthDate: '1985-05-15',
+        gender: 'F',
+        zip: '20500',
+        lastSignedIn: '2024-10-20T17:57:00.000Z',
+        loa: {
+          current: 3,
+          highest: 3,
+        },
+        multifactor: true,
+        verified: true,
+        signIn: {
+          serviceName: 'idme',
+          accountType: 'N/A',
+        },
+        authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+        claims: {
+          ch33BankAccounts: false,
+          communicationPreferences: true, // VA Profile access available
+          connectedApps: true,
+          militaryHistory: true,
+          paymentHistory: true,
+          personalInformation: true, // VA Profile access available
+          ratingInfo: true,
+          appeals: true,
+          medicalCopays: true,
+        },
+        // Empty vapContactInfo initially - will be populated after initialization
+        vapContactInfo: {},
+      },
+      vaProfile: {
+        status: 'OK', // Service is available
+        facilities: [
+          {
+            facilityId: '983',
+            isCerner: false,
+          },
+        ],
+        vaPatient: true,
+        mhvAccountState: 'REGISTERED',
+        schedulingPreferencesPilotEligible: false,
+      },
+      veteranStatus: {
+        status: 'OK',
+        isVeteran: true,
+        servedInMilitary: true,
+      },
+      inProgressForms: [],
+      prefillsAvailable: [],
+      vet360ContactInformation: {}, // Empty initially - will be populated after initialization
+      session: {
+        ssoe: true,
+        transactionid: 'test-transaction-id-needs-init',
+      },
+    },
+  },
+  meta: {
+    errors: null,
+  },
+};
+
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
@@ -1710,6 +1898,8 @@ const responses = {
   loa3UserWithoutLighthouseServiceAvailable,
   loa3UserWithInternationalMobilePhoneNumber,
   loa3UserWithIntlMobilePhoneAndNoEmail,
+  loa3UserNoVaProfile,
+  loa3UserNeedsVapInit,
 };
 
 // handler that can be used to customize the user data returned

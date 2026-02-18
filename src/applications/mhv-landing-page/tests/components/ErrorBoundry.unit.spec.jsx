@@ -58,4 +58,77 @@ describe('ErrorBoundary component', () => {
 
     expect(await screen.findByText(/Child content/)).to.exist;
   });
+
+  context('with no children', () => {
+    it('should render error message when children is null', async () => {
+      const { container, queryByTestId } = render(
+        <ErrorBoundary>{null}</ErrorBoundary>,
+      );
+
+      // Wait for the alert to be rendered
+      await waitFor(() => {
+        expect(queryByTestId('mhv-alert--mhv-registration')).to.exist;
+      });
+
+      // Verify error message is displayed (check for key phrase, not entire content)
+      expect(container.textContent).to.include('problem with our system');
+    });
+
+    it('should render error message when children is undefined', async () => {
+      const { container, queryByTestId } = render(
+        <ErrorBoundary>{undefined}</ErrorBoundary>,
+      );
+
+      // Wait for the alert to be rendered
+      await waitFor(() => {
+        expect(queryByTestId('mhv-alert--mhv-registration')).to.exist;
+      });
+
+      // Verify error message is displayed (check for key phrase, not entire content)
+      expect(container.textContent).to.include('problem with our system');
+    });
+  });
+
+  context('error state persistence', () => {
+    it('should persist error state after error is caught', async () => {
+      const ComponentWithError = () => {
+        throw new Error('Something bad');
+      };
+      const ComponentWithoutError = () => {
+        return <>Child content</>;
+      };
+
+      const { rerender, container, queryByTestId, queryByText } = render(
+        <ErrorBoundary>
+          <ComponentWithError />
+        </ErrorBoundary>,
+      );
+
+      // Wait for error message to appear
+      await waitFor(() => {
+        expect(queryByTestId('mhv-alert--mhv-registration')).to.exist;
+      });
+      // Verify error message is displayed (check for key phrase, not entire content)
+      expect(container.textContent).to.include('problem with our system');
+
+      // Try to re-render with a component that doesn't throw
+      // Note: Error boundaries persist error state, so even with new children,
+      // the error state should remain
+      rerender(
+        <ErrorBoundary>
+          <ComponentWithoutError />
+        </ErrorBoundary>,
+      );
+
+      // Error state should persist - error message should still be shown
+      await waitFor(() => {
+        expect(queryByTestId('mhv-alert--mhv-registration')).to.exist;
+      });
+      // Verify error message is still displayed (check for key phrase, not entire content)
+      expect(container.textContent).to.include('problem with our system');
+
+      // Children should not be rendered
+      expect(queryByText(/Child content/)).to.not.exist;
+    });
+  });
 });

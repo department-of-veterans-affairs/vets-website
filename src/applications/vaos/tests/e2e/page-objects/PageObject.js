@@ -53,6 +53,10 @@ export default class PageObject {
     return this.assertAlert({ text, exist, status: 'error' });
   }
 
+  assertErrorModal({ text, exist = true }) {
+    return this.assertModal({ text, exist, status: 'error' });
+  }
+
   assertValidationError(error) {
     cy.get(`span[role="alert"]`).as('alert');
     cy.get('@alert')
@@ -229,14 +233,28 @@ export default class PageObject {
     return this;
   }
 
-  clickLink(name) {
-    cy.findByRole('link', { name }).click({ waitForAnimations: true });
+  clickLink({ name, useShadowDOM = false }) {
+    if (useShadowDOM) {
+      cy.get('va-link')
+        .as('link')
+        .shadow();
+      cy.get('@link')
+        .contains(name)
+        .click();
+    } else {
+      cy.findByRole('link', { name }).click({ waitForAnimations: true });
+    }
 
     return this;
   }
 
   clickNextButton(label = 'Continue') {
     return this.clickButton({ label });
+  }
+
+  scheduleAppointment(text = 'Start scheduling an appointment') {
+    cy.findByText(text).click({ waitForAnimations: true });
+    return this;
   }
 
   selectRadioButton(label) {

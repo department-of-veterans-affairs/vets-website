@@ -1,45 +1,42 @@
 import React from 'react';
 import {
+  titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
-    hasAlreadyFiled: yesNoUI('Have you already filed for survivor benefits?'),
-    'ui:description': (
-      <>
-        <p>
-          Have you already submitted VA Form 21P-534EZ (Application for DIC,
-          Death Pension, and/or Accrued Benefits) or VA Form 21P-535
-          (Application for Dependency and Indemnity Compensation by Parent(s))?
-        </p>
-      </>
-    ),
-    'view:alreadyFiledAlert': {
-      'ui:description': (
-        <va-alert status="warning" uswds>
-          <h3 slot="headline">You don't need this form</h3>
+    ...titleUI('Previous applications'),
+    hasAlreadyFiled: yesNoUI({
+      title: 'Have you filled out either of these applications?',
+      description: (
+        <>
           <p>
-            Your accrued benefits claim is already included in your survivor
-            benefits application. You don't need to file this form separately.
+            If you've filled out either of these applications, you don't need to
+            fill out this form:
           </p>
-        </va-alert>
+          <ul>
+            <li>
+              Application for DIC, Survivors Pension, and/or Accrued Benefits
+              (VA Form 534EZ)
+            </li>
+            <li>
+              Application for Dependency and Indemnity Compensation by Parent(s)
+              (VA Form 21P-535)
+            </li>
+          </ul>
+        </>
       ),
-      'ui:options': {
-        hideIf: formData => formData.hasAlreadyFiled !== true,
-      },
-    },
+      messageAriaDescribedby:
+        "If you've filled out either of these applications, you don't need to fill out this form: Application for DIC, Survivors Pension, and/or Accrued Benefits (VA Form 534EZ), Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21P-535)",
+    }),
   },
   schema: {
     type: 'object',
     required: ['hasAlreadyFiled'],
     properties: {
       hasAlreadyFiled: yesNoSchema,
-      'view:alreadyFiledAlert': {
-        type: 'object',
-        properties: {},
-      },
     },
   },
 };

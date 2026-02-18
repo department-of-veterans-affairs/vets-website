@@ -18,6 +18,8 @@ export default {
   internationalPhone:
     formChapters.internationalPhone.pages.internationalPhone.path,
   fileInput: formChapters.fileInput.pages.fileInput.path,
+  fileInputMultiple:
+    formChapters.fileInputMultiple.pages.fileInputMultiple.path,
   arraySinglePage: formChapters.arraySinglePage.pages.arraySinglePage.path,
   arrayMultiPageAggregate:
     formChapters.arrayMultiPageAggregate.pages.multiPageStart.path,
@@ -25,20 +27,36 @@ export default {
     formChapters.arrayMultiPageAggregate.pages.multiPageItem.path,
   arrayMultiPageBuilderFlow:
     formChapters.arrayMultiPageBuilder.pages.multiPageBuilderChooseFlow.path,
+  // YesNo Question variation A (default for most tests)
   arrayMultiPageBuilderIntro:
-    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderIntro.path,
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderIntroA.path,
   arrayMultiPageBuilderSummary:
-    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderSummary.path,
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderSummaryA.path,
+  // YesNo Question variation B
+  arrayMultiPageBuilderIntroB:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderIntroB.path,
+  arrayMultiPageBuilderSummaryB:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderSummaryB.path,
+  // Add Button variations
   arrayMultiPageBuilderSummaryAddButton:
-    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderSummaryAddButton
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderSummaryAAddButton
       .path,
+  arrayMultiPageBuilderSummaryBAddButton:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderSummaryBAddButton
+      .path,
+  // Add Link variations
   arrayMultiPageBuilderSummaryAddLink:
-    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderSummaryAddLink
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderSummaryAAddLink
       .path,
+  arrayMultiPageBuilderSummaryBAddLink:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderSummaryBAddLink
+      .path,
+  // Item pages (shared across all variations)
   arrayMultiPageBuilderStepOne:
     formChapters.arrayMultiPageBuilder.pages.multiPageBuilderStepOne.path,
   arrayMultiPageBuilderStepTwo:
     formChapters.arrayMultiPageBuilder.pages.multiPageBuilderStepTwo.path,
   multiPageBuilderOptional:
     formChapters.arrayMultiPageBuilder.pages.multiPageBuilderOptional.path,
+  serviceBranch: formChapters.serviceBranch.pages.serviceBranch.path,
 };

@@ -25,3 +25,9 @@ export { createVAComponentProps } from './component-props';
 
 /** Validation debugging utilities */
 export { debugValidation } from './debug-utils';
+
+/** Validation functions (platform + custom validators) */
+export * from '@bio-aquia/shared/utils/validators';
+
+/** Form submission utilities */
+export { customSubmit } from '@bio-aquia/shared/utils/submit';

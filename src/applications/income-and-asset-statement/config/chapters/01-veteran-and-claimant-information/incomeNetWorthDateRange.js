@@ -8,8 +8,8 @@ import {
 export const Description = (
   <>
     <p>
-      Enter the date range that your income and asset statement will report. You
-      don’t need to have exact dates.
+      What date range does this income and asset information apply to? You don’t
+      need to have exact dates.
     </p>
     <p className="vads-u-margin-bottom--0">
       <strong>Note:</strong> If you need to report information for multiple date

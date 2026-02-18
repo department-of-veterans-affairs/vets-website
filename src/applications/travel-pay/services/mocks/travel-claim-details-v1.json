@@ -35,15 +35,6 @@
       "description": "mileage-expense",
       "costRequested": 10.0,
       "costSubmitted": 10.0
-    },
-    {
-      "id": "4da85f64-5717-4562-b3fc-2c963f66afa6",
-      "expenseType": "Mileage",
-      "name": "",
-      "dateIncurred": "2024-01-01T16:45:34.465Z",
-      "description": "mileage-expense",
-      "costRequested": 10.0,
-      "costSubmitted": 10.0
     }
   ],
   "decisionLetterReason": "You are a Service Connected Veteran with a rating of less than 30%, with income above the established low-income threshold or not on file to determine if a low-income status exists, and your medical appointment was not coded as treating your service connected condition(s).  Authority 38 CFR 70.10 (a)(2),(5) The appointment(s) associated with your date of travel does not qualify for payment.  For payment, an appointment must be in relation to care or services that you are eligible for, must be authorized in advance for a non-VA care appointment; and it must be completed unless due to actions other than yourself. Authority 38 CFR 70.4 (1)-(2)",

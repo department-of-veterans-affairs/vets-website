@@ -24,7 +24,6 @@ import InfoAlert from '../shared/InfoAlert';
 import {
   processList,
   generateTextFile,
-  asyncErrorForUnequalBirthDates,
   itemListWrapper,
 } from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
@@ -57,11 +56,6 @@ const ChemHemDetails = props => {
   );
 
   const generateChemHemPdf = async () => {
-    // Test to see if formatDateLong and formatBirthDate return the same value for the user's
-    // date of birth. If not, throw an error that will get picked up by Datadog that indicates
-    // which date is earlier.
-    asyncErrorForUnequalBirthDates(user.dob);
-
     setDownloadStarted(true);
     const { title, subject, subtitles } = generateLabsIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject);
@@ -71,13 +65,17 @@ const ChemHemDetails = props => {
       ...generateChemHemContent(record),
     };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(
-      pdfName,
-      pdfData,
-      'medicalRecords',
-      'Medical Records - Chem/Hem details - PDF generation error',
-      runningUnitTest,
-    );
+    try {
+      await makePdf(
+        pdfName,
+        pdfData,
+        'medicalRecords',
+        'Medical Records - Chem/Hem details - PDF generation error',
+        runningUnitTest,
+      );
+    } catch {
+      // makePdf handles error logging to Datadog/Sentry
+    }
   };
 
   const generateChemHemTxt = async () => {
@@ -135,12 +133,6 @@ Lab comments: ${entry.labComments}\n`,
         />
 
         {downloadStarted && <DownloadSuccessAlert />}
-        <PrintDownload
-          description="L&TR Detail"
-          downloadPdf={generateChemHemPdf}
-          downloadTxt={generateChemHemTxt}
-        />
-        <DownloadingRecordsInfo description="L&TR Detail" />
 
         {/*                   TEST DETAILS                          */}
         <div className="test-details-container max-80">
@@ -198,6 +190,14 @@ Lab comments: ${entry.labComments}\n`,
             <ChemHemResults results={record.results} />
           </HeaderSection>
         </div>
+        <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+        <DownloadingRecordsInfo description="L&TR Detail" />
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={generateChemHemPdf}
+          downloadTxt={generateChemHemTxt}
+        />
+        <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
       </HeaderSection>
     </div>
   );

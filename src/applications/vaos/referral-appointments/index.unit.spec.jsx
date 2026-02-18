@@ -14,7 +14,6 @@ import * as vaosApi from '../redux/api/vaosApi';
 
 const initialStateVAOSService = {
   featureToggles: {
-    vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingCCDirectScheduling: true,
   },
 };
@@ -84,6 +83,16 @@ describe('ReferralAppointments', () => {
       expect(screen.getByText('We’re sorry. We’ve run into a problem.')).to
         .exist;
     });
+
+    // Check the back link
+    expect(screen.getByTestId('back-link')).to.have.attribute(
+      'text',
+      'Back to appointments',
+    );
+    expect(screen.getByTestId('referral-layout-heading')).to.have.text(
+      'Something went wrong on our end',
+    );
+    expect(screen.getByTestId('referral-community-care-office')).to.exist;
   });
 
   it('should render ScheduleReferral for the base path', async () => {
@@ -132,7 +141,7 @@ describe('ReferralAppointments', () => {
 
     const screen = renderWithStoreAndRouter(<ReferralAppointments />, {
       initialState,
-      path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+      path: '/date-time?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
     });
 
     await waitFor(() => {

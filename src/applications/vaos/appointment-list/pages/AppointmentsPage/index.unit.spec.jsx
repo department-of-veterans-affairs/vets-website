@@ -10,7 +10,6 @@ import { addDays, format, subDays, subMonths } from 'date-fns';
 import MockDate from 'mockdate';
 import React from 'react';
 import sinon from 'sinon';
-import * as uniqueUserMetrics from '~/platform/mhv/unique_user_metrics';
 import AppointmentsPage from '.';
 import { createReferralById } from '../../../referral-appointments/utils/referrals';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
@@ -24,7 +23,6 @@ import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingRequests: true,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: false,
@@ -32,17 +30,12 @@ const initialState = {
 };
 
 describe('VAOS Page: AppointmentsPage', () => {
-  let logUniqueUserMetricsEventsStub;
   let sandbox;
 
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
     sandbox = sinon.createSandbox();
-    logUniqueUserMetricsEventsStub = sandbox.stub(
-      uniqueUserMetrics,
-      'logUniqueUserMetricsEvents',
-    );
 
     mockAppointmentsApi({
       start: subDays(new Date(), 30),
@@ -95,21 +88,6 @@ describe('VAOS Page: AppointmentsPage', () => {
     },
   };
 
-  it('should log appointments accessed event when component mounts', async () => {
-    const store = createTestStore(initialState);
-    renderWithStoreAndRouter(<AppointmentsPage />, {
-      store,
-    });
-
-    await waitFor(() => {
-      expect(
-        logUniqueUserMetricsEventsStub.calledWith(
-          uniqueUserMetrics.EVENT_REGISTRY.APPOINTMENTS_ACCESSED,
-        ),
-      ).to.be.true;
-    });
-  });
-
   it('should render warning message', async () => {
     setFetchJSONResponse(
       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
@@ -149,9 +127,11 @@ describe('VAOS Page: AppointmentsPage', () => {
       },
     });
 
-    expect(screen.getByText(/Start scheduling/)).to.be.ok;
+    expect(screen.getByText(/Start scheduling an appointment/)).to.be.ok;
     userEvent.click(
-      await screen.findByRole('link', { name: /Start scheduling/i }),
+      await screen.findByRole('link', {
+        name: /Start scheduling an appointment/i,
+      }),
     );
 
     await waitFor(() =>
@@ -192,7 +172,9 @@ describe('VAOS Page: AppointmentsPage', () => {
     ).not.to.exist;
 
     // and scheduling link should be displayed
-    expect(screen.getByRole('link', { name: 'Start scheduling' })).to.be.ok;
+    expect(
+      screen.getByRole('link', { name: 'Start scheduling an appointment' }),
+    ).to.be.ok;
 
     // and appointment list navigation should be displayed
     expect(screen.getByRole('navigation', { name: 'Appointment list' })).to.be

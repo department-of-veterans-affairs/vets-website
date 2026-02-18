@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -28,7 +29,6 @@ import {
   veteranIdentificationInformationPage,
 } from '../pages/veteranIdentificationInformation';
 import { phoneNumberAndEmailPage } from '../pages/phoneNumberAndEmail';
-import { CustomTopContent } from '../pages/helpers';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/veteran.json';
@@ -39,6 +39,7 @@ export function isLocalhost() {
 
 const mockData = testData.data;
 
+/** @returns {FormConfig} */
 const formConfig = (pathname = null) => {
   const { title, subTitle, formNumber } = getFormContent(pathname);
   const formId = `${formNumber.toUpperCase()}-UPLOAD`;
@@ -51,9 +52,13 @@ const formConfig = (pathname = null) => {
     dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
     trackingPrefix,
     confirmation: ConfirmationPage,
-    CustomTopContent,
     CustomReviewTopContent,
-    customText: { appType: 'form' },
+    dynamicPaths: true,
+    ...minimalHeaderFormConfigOptions(),
+    customText: {
+      appType: 'form',
+      reviewPageFormTitle: `Review and submit VA Form ${formNumber}`,
+    },
     hideReviewChapters: true,
     introduction: IntroductionPage,
     formId,
@@ -72,7 +77,7 @@ const formConfig = (pathname = null) => {
     v3SegmentedProgressBar: { useDiv: false },
     chapters: {
       personalInformationChapter: {
-        title: 'Veteran information',
+        title: 'Veteran’s information',
         pages: {
           nameAndZipCodePage: {
             path: 'name-and-zip-code',
@@ -108,7 +113,8 @@ const formConfig = (pathname = null) => {
         },
       },
       uploadChapter: {
-        title: 'Upload',
+        title: 'Upload form',
+        reviewTitle: 'Uploaded form',
         pages: {
           uploadPage: {
             path: 'upload',
@@ -122,15 +128,14 @@ const formConfig = (pathname = null) => {
       },
       uploadSupportingDocuments: {
         title: 'Upload supporting documents',
+        reviewTitle: 'Uploaded supporting documents',
         pages: {
           showSupportingDocuments: {
             path: 'supporting-documents',
             title: 'Supporting documents',
             uiSchema: showSupportingDocuments.uiSchema,
             schema: showSupportingDocuments.schema,
-            depends: () =>
-              formMappings[formNumber]?.showSupportingDocuments &&
-              !environment.isProduction(),
+            depends: () => formMappings[formNumber]?.showSupportingDocuments,
             scrollAndFocusTarget,
           },
           uploadSupportingDocuments: {

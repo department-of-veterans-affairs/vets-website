@@ -380,7 +380,12 @@ describe.skip('526EZ keyboard only navigation', () => {
     cy.tabToElement('[type="radio"]');
     cy.findOption('Y');
     cy.realPress('Space');
-    cy.typeInIfDataExists('.year-input', '2019');
+    cy.get(
+      'va-text-input[name="root_view:separationPayDetails_separationPayDate"]',
+    )
+      .shadow()
+      .find('input')
+      .type('2019');
     cy.tabToElement(
       '[name="root_view:separationPayDetails_separationPayBranch"]',
     );

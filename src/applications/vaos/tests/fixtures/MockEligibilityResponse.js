@@ -1,4 +1,5 @@
 import { INELIGIBILITY_CODES_VAOS } from '../../utils/constants';
+
 /**
  * Mock eligibility response.
  *
@@ -24,7 +25,6 @@ export default class MockEligibilityResponse {
    * @param {Object} arguments - Arguments used to determine what type of mock eligibility response object to create.
    * @param {String} [arguments.facilityId=983] - Facility id. Default: 983
    * @param {String} [arguments.typeOfCareId=primaryCare] - Type of care id. Default: 'primaryCare'
-   * @param {Boolean} [arguments.isEligible=true]  - Flag to determine eligibility or not. Default: true
    * @param {String} [arguments.type] - Appointment scheduling type: 'direct' or 'request'.
    * @param {String} [arguments.ineligibilityReason] - Ineligibility reason.
    * @memberof MockEligibilityResponse
@@ -32,7 +32,6 @@ export default class MockEligibilityResponse {
   constructor({
     facilityId = '983',
     typeOfCareId: clinicalServiceId = 'primaryCare',
-    isEligible = true,
     type,
     ineligibilityReason,
   }) {
@@ -40,7 +39,7 @@ export default class MockEligibilityResponse {
     this.type = 'MockEligibilityResponse';
     this.attributes = {
       clinicalServiceId,
-      eligible: isEligible,
+      eligible: !ineligibilityReason,
       ineligibilityReasons: ineligibilityReason
         ? [
             {
@@ -134,6 +133,54 @@ export default class MockEligibilityResponse {
         type === 'direct'
           ? MockEligibilityResponse.DIRECT_DISABLED
           : MockEligibilityResponse.REQUEST_DISABLED,
+    });
+  }
+
+  /**
+   * Method to create a direct scheduling eligibility response.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments
+   * @param {string} [arguments.facilityId=983] - Facility id. Default: 983
+   * @param {string} [arguments.ineligibilityReason] - Ineligibility reason.
+   * @param {string} [arguments.typeOfCareId] - Type of care id. Default: 'primaryCare'
+   * @returns Instance of MockEligibilityResponse
+   * @memberof MockEligibilityResponse
+   */
+  static createEligibilityDirectResponse({
+    facilityId,
+    ineligibilityReason,
+    typeOfCareId,
+  } = {}) {
+    return new MockEligibilityResponse({
+      facilityId,
+      ineligibilityReason,
+      type: 'direct',
+      typeOfCareId,
+    });
+  }
+
+  /**
+   * Method to create a request scheduling eligibility response.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments
+   * @param {string} [arguments.facilityId=983] - Facility id. Default: 983
+   * @param {string} [arguments.ineligibilityReason] - Ineligibility reason.
+   * @param {string} [arguments.typeOfCareId] - Type of care id. Default: 'primaryCare'
+   * @returns Instance of MockEligibilityResponse
+   * @memberof MockEligibilityResponse
+   */
+  static createEligibilityRequestResponse({
+    facilityId,
+    ineligibilityReason,
+    typeOfCareId,
+  } = {}) {
+    return new MockEligibilityResponse({
+      facilityId,
+      ineligibilityReason,
+      type: 'request',
+      typeOfCareId,
     });
   }
 

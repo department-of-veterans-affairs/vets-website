@@ -27,12 +27,10 @@ import { TextInputField } from '../../atoms';
  * @param {Function} props.onChange - Change handler (fieldPath, value) => void
  * @param {Object} [props.errors={}] - Validation errors object
  * @param {boolean} [props.required=false] - Whether first and last name are required
- * @param {string} [props.legend='Your full name'] - Fieldset legend text
- * @param {string} [props.label] - Alternative label text (overrides legend if provided)
  * @param {boolean} [props.showSuffix=true] - Whether to show suffix field
  * @param {boolean} [props.forceShowError=false] - Force display of validation errors
  * @param {string} [props.fieldPrefix] - Prefix for the field name (e.g., 'claimant' for 'claimantFullName')
- * @returns {JSX.Element} Full name fieldset with individual name fields
+ * @returns {JSX.Element} Individual name input fields
  *
  * @example
  * ```jsx
@@ -41,7 +39,7 @@ import { TextInputField } from '../../atoms';
  *   onChange={handleFieldChange}
  *   errors={errors.fullName}
  *   required={true}
- *   legend="Veteran's full name"
+ *   fieldPrefix="veteran"
  * />
  * ```
  */
@@ -50,8 +48,6 @@ export const FullnameField = ({
   onChange,
   errors = {},
   required = false,
-  legend = 'Your full name',
-  label,
   showSuffix = true,
   forceShowError = false,
   fieldPrefix,
@@ -79,11 +75,7 @@ export const FullnameField = ({
   };
 
   return (
-    <fieldset className="vads-u-margin-bottom--2">
-      <legend className="vads-u-font-weight--bold vads-u-margin-bottom--1">
-        {label || legend}
-      </legend>
-
+    <>
       <TextInputField
         name="fullName.first"
         label="First name"
@@ -128,7 +120,7 @@ export const FullnameField = ({
           forceShowError={forceShowError}
         />
       )}
-    </fieldset>
+    </>
   );
 };
 
@@ -142,8 +134,6 @@ FullnameField.propTypes = {
   }),
   fieldPrefix: PropTypes.string,
   forceShowError: PropTypes.bool,
-  label: PropTypes.string,
-  legend: PropTypes.string,
   required: PropTypes.bool,
   showSuffix: PropTypes.bool,
   value: PropTypes.shape({

@@ -11,7 +11,6 @@ import {
   getPdfDownloadUrl,
   scrollAndFocusTarget,
   onCloseAlert,
-  getMockData,
   formattedPhoneNumber,
   onClickContinue,
   getAlert,
@@ -30,7 +29,7 @@ describe('Helpers', () => {
       // global.window.location.href = 'http://localhost/representative/representative-form-upload/21-686c/upload';
       // expect(getFormNumber()).to.eq('21-686c');
       const pathname =
-        '/representative/representative-form-upload/21-686c/upload';
+        '/representative/representative-form-upload/submit-va-form-21-686c/upload-files';
       expect(getFormNumber(pathname)).to.eq('21-686c');
     });
 
@@ -51,7 +50,7 @@ describe('Helpers', () => {
   describe('getFormContent', () => {
     it('returns appropriate content when the form number is mapped', () => {
       const pathname =
-        '/representative/representative-form-upload/21-686c/upload';
+        '/representative/representative-form-upload/submit-va-form-21-686c/upload-files';
       expect(getFormContent(pathname)).to.include({ title: 'VA Form 21-686c' });
     });
   });
@@ -104,7 +103,7 @@ describe('Helpers', () => {
 
     it('calls scrollTo', () => {
       scrollAndFocusTarget();
-      expect(scrollToSpy.calledWith('topScrollElement')).to.be.true;
+      expect(scrollToSpy.calledWith('va-segmented-progress-bar')).to.be.true;
     });
 
     afterEach(() => {
@@ -133,20 +132,6 @@ describe('Helpers', () => {
       onCloseAlert(e);
 
       expect(e.target.visible).to.eq(false);
-    });
-  });
-
-  describe('getMockData', () => {
-    const mockData = {
-      mock: 'data',
-    };
-
-    it('returns the mockData', () => {
-      expect(getMockData(mockData, () => true)).to.eq(mockData);
-    });
-
-    it('returns undefined', () => {
-      expect(getMockData(mockData, () => false)).to.eq(undefined);
     });
   });
 

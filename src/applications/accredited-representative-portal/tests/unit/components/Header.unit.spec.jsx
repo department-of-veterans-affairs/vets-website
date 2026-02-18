@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import Header from '../../../components/Header';
-import DropdownContainer from '../../../components/Header/DropdownContainer';
+import Header from '~/platform/site-wide/representative/components/header/Header';
+import DropdownContainer from '~/platform/site-wide/representative/components/header/DropdownContainer';
 import { renderTestComponent, renderTestApp } from '../helpers';
 
 const profile = {
@@ -74,7 +74,9 @@ describe('Header', () => {
     );
     fireEvent.click(getByTestId('menu-toggle-dropdown-mobile'));
     expect(getByTestId('menu-toggle-dropdown-mobile-list')).to.exist;
-    const poaRequestsLink = getByTestId('user-nav-poa-requests-link');
+    const poaRequestsLink = getByTestId(
+      'user-nav-representation-requests-link',
+    );
     expect(poaRequestsLink).to.exist;
   });
 });

@@ -1,0 +1,86 @@
+{
+  "remarks": "Veteran served with distinction in the Clone Wars. Multiple commendations for leadership during the Battle of Geonosis and the Siege of Mandalore. Notable for exceptional tactical command of the 501st Legion.",
+  "view:previousNamesMissingInformation": {},
+  "view:completedPreviousNames": false,
+  "view:periodsMissingInformation": {},
+  "view:completedServicePeriods": false,
+  "veteranInformation": {
+    "dateOfDeath": "2019-12-20",
+    "dateOfBirth": "1941-03-01",
+    "placeOfBirth": {
+      "city": "Tatooine Settlement",
+      "state": "Arizona"
+    },
+    "ssn": "796121234",
+    "vaServiceNumber": "A12345678",
+    "vaFileNumber": "987654321",
+    "fullName": {
+      "first": "Anakin",
+      "middle": "S",
+      "last": "Skywalker"
+    }
+  },
+  "burialInformation": {
+    "dateOfBurial": "2019-12-27",
+    "placeOfBurial": {
+      "stateCemeteryOrTribalCemeteryName": "Endor Tribal Veterans Memorial",
+      "cemeteryLocation": {
+        "city": "Flagstaff",
+        "state": "Arizona"
+      }
+    },
+    "recipientOrganization": {
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "1138 Rebel Alliance Drive",
+        "street2": "Rm 42",
+        "city": "Phoenix",
+        "state": "AZ",
+        "postalCode": "85001"
+      },
+      "name": "Rebel Alliance Veterans Foundation",
+      "phoneNumber": "6025551977"
+    },
+    "nameOfStateCemeteryOrTribalOrganization": "Ewok Tribal Nation"
+  },
+  "titleSchema": {},
+  "periods": [
+    {
+      "placeEnteredService": "Tatooine Recruitment Center",
+      "placeLeftService": "Death Star II",
+      "rankAtSeparation": "General",
+      "dateEnteredService": "1977-05-25",
+      "dateLeftService": "1983-05-25",
+      "serviceBranch": "AF"
+    },
+    {
+      "placeEnteredService": "Coruscant Command",
+      "placeLeftService": "Mustafar Base",
+      "rankAtSeparation": "Supreme Commander",
+      "dateEnteredService": "1999-05-19",
+      "dateLeftService": "2005-05-19",
+      "serviceBranch": "SF"
+    }
+  ],
+  "previousNames": [
+    {
+      "previousName": {
+        "first": "Darth",
+        "middle": "V",
+        "last": "Vader"
+      }
+    },
+    {
+      "previousName": {
+        "first": "Anakin",
+        "last": "Walker"
+      }
+    }
+  ],
+  "certification": {
+    "signature": "Rebel Alliance Veterans Foundation",
+    "titleOfStateOrTribalOfficial": "Ewok Tribal Nation"
+  },
+  "AGREED": true
+}

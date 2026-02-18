@@ -1,8 +1,8 @@
-import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import NotesDetailsPage from './pages/NotesDetailsPage';
 import NotesListPage from './pages/NotesListPage';
 import notes from './fixtures/notes/notes-discharge-summaries.json';
+import { formatDateMonthDayCommaYear } from '../../util/dateHelpers';
 
 describe('Medical Records Care Summary Page', () => {
   const site = new MedicalRecordsSite();
@@ -21,9 +21,7 @@ describe('Medical Records Care Summary Page', () => {
     );
 
     NotesDetailsPage.verifyDischargeSummaryHeadingDate(
-      moment(notes.entry[0].resource.context.period.start).format(
-        'MMMM D, YYYY',
-      ),
+      formatDateMonthDayCommaYear(notes.entry[0].resource.context.period.start),
     );
 
     // Verify Discharge Summary Note Location
@@ -60,7 +58,7 @@ describe('Medical Records Care Summary Page', () => {
     );
 
     NotesDetailsPage.verifyDischargeSummaryHeadingDate(
-      moment(notes.entry[2].resource.context.period.end).format('MMMM D, YYYY'),
+      formatDateMonthDayCommaYear(notes.entry[2].resource.context.period.end),
     );
 
     // Verify Discharge Summary Note Location
@@ -95,7 +93,7 @@ describe('Medical Records Care Summary Page', () => {
     );
 
     NotesDetailsPage.verifyDischargeSummaryHeadingDate(
-      moment(notes.entry[4].resource.date).format('MMMM D, YYYY'),
+      formatDateMonthDayCommaYear(notes.entry[4].resource.date),
     );
 
     // Verify Discharge Summary Note Location

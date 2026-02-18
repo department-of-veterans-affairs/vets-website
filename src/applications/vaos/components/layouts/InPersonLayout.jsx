@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { shallowEqual } from 'recompose';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -45,6 +44,7 @@ export default function InPersonLayout({ data: appointment }) {
     status,
     timezone,
     typeOfCareName,
+    isCerner,
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
@@ -52,7 +52,7 @@ export default function InPersonLayout({ data: appointment }) {
 
   if (!appointment) return null;
 
-  const { reasonForAppointment, patientComments } = appointment || {};
+  const { patientComments } = appointment || {};
   const facilityId = locationId;
 
   let heading = 'In-person appointment';
@@ -157,7 +157,7 @@ export default function InPersonLayout({ data: appointment }) {
           facilityPhone={facilityPhone}
         />
       </Where>
-      <Details reason={reasonForAppointment} otherDetails={patientComments} />
+      <Details otherDetails={patientComments} isCerner={isCerner} />
       {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (

@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { cleanup, render, fireEvent, waitFor } from '@testing-library/react';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderItemFirstPageTitleUI } from 'platform/forms-system/src/js/web-component-patterns/arrayBuilderPatterns';
 import ArrayBuilderItemPage from '../ArrayBuilderItemPage';
@@ -52,8 +52,24 @@ const mockRedux = ({
 describe('ArrayBuilderFirstItemPage', () => {
   let getArrayUrlSearchParamsStub;
   let getIndexStub;
+  let originalLocation;
+
+  beforeEach(() => {
+    // Save the original window.location href so we can restore it
+    originalLocation = window.location.href;
+  });
 
   function stubUrlParams(str) {
+    // Create a proper URL from the current location and the new search params
+    const url = new URL(originalLocation);
+    url.search = str;
+
+    // Replace window.location with a new URL-based object
+    // JSDOM allows replacing window.location when properly deleted first
+    delete window.location;
+    window.location = new URL(url.toString());
+
+    // Also stub the helper function for code paths that use it directly
     getArrayUrlSearchParamsStub = sinon
       .stub(helpers, 'getArrayUrlSearchParams')
       .returns(new URLSearchParams(str));
@@ -66,6 +82,13 @@ describe('ArrayBuilderFirstItemPage', () => {
   }
 
   afterEach(() => {
+    // Clean up React Testing Library renders to prevent test pollution
+    cleanup();
+    // Restore window.location
+    if (originalLocation) {
+      delete window.location;
+      window.location = new URL(originalLocation);
+    }
     if (getArrayUrlSearchParamsStub) {
       getArrayUrlSearchParamsStub.restore();
       getArrayUrlSearchParamsStub = null;
@@ -128,8 +151,8 @@ describe('ArrayBuilderFirstItemPage', () => {
 
     const CustomPage = ArrayBuilderItemPage({
       arrayPath: 'employers',
-      summaryRoute: '/summary',
-      introRoute: '/intro',
+      getSummaryPath: () => '/summary',
+      getIntroPath: () => '/intro',
       reviewRoute: '/review',
       getText,
       required,
@@ -206,7 +229,7 @@ describe('ArrayBuilderFirstItemPage', () => {
       .exist;
   });
 
-  it('should display correctly with edit query parameter', () => {
+  it('should display correctly with edit query parameter', async () => {
     const { getText, container, queryByText } = setupArrayBuilderItemPage({
       title: 'Name and address of employer',
       index: 0,
@@ -214,12 +237,15 @@ describe('ArrayBuilderFirstItemPage', () => {
       arrayData: [{ name: 'Test' }],
     });
 
-    expect(queryByText('Edit name and address of employer')).to.exist;
+    // Wait for the useEffect to run and update the schema
+    await waitFor(() => {
+      expect(queryByText('Edit name and address of employer')).to.exist;
+    });
     expect(container.querySelector('va-button[text="cancelEditButtonText"]')).to
       .exist;
   });
 
-  it('should display correctly with edit query parameter is not lowercased', () => {
+  it('should display correctly with edit query parameter is not lowercased', async () => {
     const { getText, container, queryByText } = setupArrayBuilderItemPage({
       title: 'John Doe employer information',
       lowerCase: false,
@@ -228,12 +254,14 @@ describe('ArrayBuilderFirstItemPage', () => {
       arrayData: [{ name: 'Test' }],
     });
 
-    expect(queryByText('Edit John Doe employer information')).to.exist;
+    await waitFor(() => {
+      expect(queryByText('Edit John Doe employer information')).to.exist;
+    });
     expect(container.querySelector('va-button[text="cancelEditButtonText"]')).to
       .exist;
   });
 
-  it('should display correctly when hasMultipleItemPages is true', () => {
+  it('should display correctly when hasMultipleItemPages is true', async () => {
     const { container, queryByText } = setupArrayBuilderItemPage({
       title: 'Multiple page employer',
       index: 0,
@@ -242,16 +270,18 @@ describe('ArrayBuilderFirstItemPage', () => {
       hasMultipleItemPages: true,
     });
 
-    expect(
-      queryByText(
-        'We’ll take you through each of the sections of this employer for you to review and edit',
-      ),
-    ).to.exist;
+    await waitFor(() => {
+      expect(
+        queryByText(
+          'We’ll take you through each of the sections of this employer for you to review and edit',
+        ),
+      ).to.exist;
+    });
     expect(container.querySelector('va-button[text="cancelEditButtonText"]')).to
       .exist;
   });
 
-  it('should display correctly when hasMultipleItemPages is false', () => {
+  it('should display correctly when hasMultipleItemPages is false', async () => {
     const { container, queryByText } = setupArrayBuilderItemPage({
       title: 'Single page employer',
       index: 0,
@@ -260,13 +290,15 @@ describe('ArrayBuilderFirstItemPage', () => {
       hasMultipleItemPages: false,
     });
 
+    await waitFor(() => {
+      expect(container.querySelector('va-button[text="cancelEditButtonText"]'))
+        .to.exist;
+    });
     expect(
       queryByText(
         'We’ll take you through each of the sections of this employer for you to review and edit',
       ),
     ).to.not.exist;
-    expect(container.querySelector('va-button[text="cancelEditButtonText"]')).to
-      .exist;
   });
 
   it('should navigate away if not edit or add', () => {

@@ -37,6 +37,7 @@ import {
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
+import serviceBranch from '../pages/mockServiceBranch';
 
 const initialData = {
   chapterSelect: {
@@ -54,6 +55,7 @@ const initialData = {
     radio: true,
     select: true,
     textInput: true,
+    serviceBranch: true,
   },
 };
 
@@ -360,11 +362,25 @@ const formConfig = {
           initialData: {
             arrayBuilderPatternFlowType: 'required',
             arrayBuilderPatternInteractionType: 'yesNoQuestion',
+            arrayBuilderItemPages: 'complex',
+            arrayBuilderSummaryIntroVariation: 'A',
           },
         },
         ...arrayBuilderPagesYesNoQuestion,
         ...arrayBuilderPagesAddButton,
         ...arrayBuilderPagesAddLink,
+      },
+    },
+    serviceBranch: {
+      title: 'Branch of Service Pattern',
+      pages: {
+        serviceBranch: {
+          title: 'Service Branch Pattern',
+          path: 'service-branch',
+          uiSchema: serviceBranch.uiSchema,
+          schema: serviceBranch.schema,
+          depends: includeChapter('serviceBranch'),
+        },
       },
     },
   },

@@ -81,3 +81,30 @@
 .va-memorable-date-field::part(legend) {
   width: 100vw;
 }
+.personal-information-container {
+  width: 642px;
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}
+.data-card {
+  width: 416px;
+   @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}
+.hide-navigation-buttons {
+  .form-progress-buttons,
+  .schemaform-buttons {
+    display: none;
+  }
+}
+.hide-save-in-progress-box {
+  .schemaform-sip-save-link {
+    display: none;
+  }
+}
+.hide-save-in-progress-title,
+.hide-alert-box {
+  display: none;
+}

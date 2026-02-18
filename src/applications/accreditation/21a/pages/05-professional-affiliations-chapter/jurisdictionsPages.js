@@ -14,6 +14,8 @@ import {
 import { jurisdictionOptions } from '../../constants/jurisdictions';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
+import content from '../../locales/en/content.json';
+
 /** @type {ArrayBuilderOptions} */
 export const arrayBuilderOptions = {
   arrayPath: 'jurisdictions',
@@ -26,6 +28,8 @@ export const arrayBuilderOptions = {
     !item?.admissionDate ||
     !item?.membershipOrRegistrationNumber,
   text: {
+    yesNoBlankReviewQuestion: () => content['jurisdiction-question'],
+    reviewAddButtonText: () => content['jurisdiction-add-button-text'],
     getItemName: item =>
       item?.jurisdiction === 'Other'
         ? item?.otherJurisdiction

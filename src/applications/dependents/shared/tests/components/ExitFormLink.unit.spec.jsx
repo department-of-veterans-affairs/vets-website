@@ -6,9 +6,9 @@ import sinon from 'sinon-v20';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import * as utils from '../../utils/api';
-import ExitFormLink from '../../components/ExitFormLink';
+import ExitForm from '../../components/ExitFormLink';
 
-describe('ExitFormLink', () => {
+describe('ExitForm', () => {
   let sandbox;
 
   beforeEach(() => {
@@ -21,15 +21,24 @@ describe('ExitFormLink', () => {
     }
   });
 
-  it('should render the exit form with correct title and subtitle', () => {
-    const { container } = render(
-      <ExitFormLink text="exit test" href="/test" />,
-    );
+  it('should render an exit form action link with correct text', () => {
+    const { container } = render(<ExitForm text="exit test" href="/test" />);
 
     const linkAction = $('va-link-action', container);
     expect(linkAction).to.exist;
     expect(linkAction.getAttribute('text')).to.eq('exit test');
     expect(linkAction.getAttribute('href')).to.eq('/test');
+  });
+
+  it('should render an exit form button with correct title and subtitle', () => {
+    const { container } = render(
+      <ExitForm text="exit test" href="/test" useButton />,
+    );
+
+    const button = $('va-button[continue]', container);
+    expect(button).to.exist;
+    expect(button.getAttribute('text')).to.eq('exit test');
+    expect(button.getAttribute('submit')).to.eq('prevent');
   });
 
   it('should delete the in-progress form & redirect', async () => {
@@ -38,14 +47,15 @@ describe('ExitFormLink', () => {
       .resolves();
     const assignSpy = sinon.spy();
     const { container } = render(
-      <ExitFormLink
+      <ExitForm
         formId="test123"
         location={{ assign: assignSpy }}
         href="/test"
+        useButton
       />,
     );
 
-    fireEvent.click($('.exit-form', container));
+    fireEvent.click($('va-button.exit-form', container));
 
     await waitFor(() => {
       expect(deleteInProgressFormStub.calledWith('test123')).to.be.true;
@@ -53,16 +63,16 @@ describe('ExitFormLink', () => {
     });
   });
 
-  it('should only redirect when no formId is present', async () => {
+  it('should only redirect (not delete in progress form) when no formId is present', async () => {
     const deleteInProgressFormStub = sandbox
       .stub(utils, 'deleteInProgressForm')
       .resolves();
     const assignSpy = sinon.spy();
     const { container } = render(
-      <ExitFormLink location={{ assign: assignSpy }} href="/test" />,
+      <ExitForm location={{ assign: assignSpy }} href="/test" />,
     );
 
-    fireEvent.click($('.exit-form', container));
+    fireEvent.click($('va-link-action.exit-form', container));
 
     await waitFor(() => {
       expect(assignSpy.calledWith('/test')).to.be.true;

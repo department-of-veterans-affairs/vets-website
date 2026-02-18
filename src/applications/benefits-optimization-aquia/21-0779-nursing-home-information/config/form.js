@@ -6,70 +6,44 @@ import {
   SUBTITLE,
   TITLE,
 } from '@bio-aquia/21-0779-nursing-home-information/constants';
-import ConfirmationPage from '@bio-aquia/21-0779-nursing-home-information/containers/confirmation-page';
-import IntroductionPage from '@bio-aquia/21-0779-nursing-home-information/containers/introduction-page';
+import { ConfirmationPage } from '@bio-aquia/21-0779-nursing-home-information/containers/confirmation-page';
+import { IntroductionPage } from '@bio-aquia/21-0779-nursing-home-information/containers/introduction-page';
 import manifest from '@bio-aquia/21-0779-nursing-home-information/manifest.json';
 import { transform } from '@bio-aquia/21-0779-nursing-home-information/config/transform';
+import { customSubmit } from '@bio-aquia/shared/utils';
+import { GetHelp } from '@bio-aquia/21-0779-nursing-home-information/components/get-help';
+import { preSubmitSignatureConfig } from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-signature';
 import {
-  createPageValidator,
-  createValidationErrorHandler,
-} from '@bio-aquia/shared/utils';
-import prefillTransformer from '@bio-aquia/21-0779-nursing-home-information/config/prefill-transformer';
-import GetHelpFooter from '@bio-aquia/21-0779-nursing-home-information/components/get-help';
-import PreSubmitInfo from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-info';
-import {
-  CertificationLevelOfCarePage,
-  ClaimantQuestionPage,
-  ClaimantPersonalInfoPage,
-  ClaimantIdentificationInfoPage,
-  NursingHomeDetailsPage,
-  VeteranPersonalInfoPage,
-  VeteranIdentificationInfoPage,
-  NursingOfficialInformationPage,
-  AdmissionDatePage,
-  MedicaidFacilityPage,
-  MedicaidApplicationPage,
-  MedicaidStatusPage,
-  MedicaidStartDatePage,
-  MonthlyCostsPage,
-} from '@bio-aquia/21-0779-nursing-home-information/pages';
-import {
-  AdmissionDateReview,
-  CertificationLevelOfCareReview,
-  ClaimantIdentificationInfoReview,
-  ClaimantPersonalInfoReview,
-  ClaimantQuestionReview,
-  MedicaidApplicationReview,
-  MedicaidFacilityReview,
-  MedicaidStartDateReview,
-  MedicaidStatusReview,
-  MonthlyCostsReview,
-  NursingHomeDetailsReview,
-  NursingOfficialInformationReview,
-  VeteranIdentificationInfoReview,
-  VeteranPersonalInfoReview,
-} from '@bio-aquia/21-0779-nursing-home-information/reviews';
-import {
-  certificationLevelOfCareSchema,
-  claimantQuestionSchema,
-  claimantPersonalInfoSchema,
-  claimantIdentificationInfoSchema,
-  nursingHomeDetailsSchema,
-  veteranPersonalInfoSchema,
-  veteranIdentificationInfoSchema,
+  nursingOfficialInformationUiSchema,
   nursingOfficialInformationSchema,
-  admissionDateInfoSchema,
+  nursingHomeDetailsUiSchema,
+  nursingHomeDetailsSchema,
+  claimantQuestionUiSchema,
+  claimantQuestionSchema,
+  claimantPersonalInfoUiSchema,
+  claimantPersonalInfoSchema,
+  claimantIdentificationInfoUiSchema,
+  claimantIdentificationInfoSchema,
+  veteranPersonalInfoUiSchema,
+  veteranPersonalInfoSchema,
+  veteranIdentificationInfoUiSchema,
+  veteranIdentificationInfoSchema,
+  certificationLevelOfCareUiSchema,
+  certificationLevelOfCareSchema,
+  admissionDateUiSchema,
+  admissionDateSchema,
+  medicaidFacilityUiSchema,
   medicaidFacilitySchema,
+  medicaidApplicationUiSchema,
   medicaidApplicationSchema,
-  currentMedicaidStatusSchema,
-  medicaidStartDateInfoSchema,
+  medicaidStatusUiSchema,
+  medicaidStatusSchema,
+  medicaidStartDateUiSchema,
+  medicaidStartDateSchema,
+  monthlyCostsUiSchema,
   monthlyCostsSchema,
-} from '../schemas';
-
-const defaultSchema = {
-  type: 'object',
-  properties: {},
-};
+} from '@bio-aquia/21-0779-nursing-home-information/pages';
+import { isPatientSpouseOrParentOrChild } from '../utils';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -77,13 +51,14 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/form210779`,
   transformForSubmit: transform,
+  submit: customSubmit,
   trackingPrefix: '21-0779-nursing-home-information-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   footerContent,
-  getHelp: GetHelpFooter,
-  preSubmitInfo: PreSubmitInfo,
+  getHelp: GetHelp,
+  preSubmitInfo: preSubmitSignatureConfig,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -99,12 +74,8 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
-  prefillTransformer,
-  savedFormMessages: {
-    notFound: 'Please start over to submit your nursing home information.',
-    noAuth: 'Please sign in again to continue your request.',
-  },
+  prefillEnabled: false,
+  savedFormMessages: {},
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
@@ -115,15 +86,8 @@ const formConfig = {
         nursingOfficialInformation: {
           path: 'nursing-official-information',
           title: 'Nursing home official personal information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: NursingOfficialInformationPage,
-          CustomPageReview: NursingOfficialInformationReview,
-          verifyItemValues: values =>
-            createPageValidator(nursingOfficialInformationSchema)(values),
-          onErrorChange: createValidationErrorHandler(
-            'nursingOfficialInformation',
-          ),
+          uiSchema: nursingOfficialInformationUiSchema,
+          schema: nursingOfficialInformationSchema,
         },
       },
     },
@@ -133,13 +97,8 @@ const formConfig = {
         nursingHomeDetails: {
           path: 'nursing-home-details',
           title: 'Nursing home facility details',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: NursingHomeDetailsPage,
-          CustomPageReview: NursingHomeDetailsReview,
-          verifyItemValues: values =>
-            createPageValidator(nursingHomeDetailsSchema)(values),
-          onErrorChange: createValidationErrorHandler('nursingHomeDetails'),
+          uiSchema: nursingHomeDetailsUiSchema,
+          schema: nursingHomeDetailsSchema,
         },
       },
     },
@@ -149,65 +108,34 @@ const formConfig = {
         claimantQuestion: {
           path: 'claimant-question',
           title: 'Patient information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: ClaimantQuestionPage,
-          CustomPageReview: ClaimantQuestionReview,
-          verifyItemValues: values =>
-            createPageValidator(claimantQuestionSchema)(values),
-          onErrorChange: createValidationErrorHandler('claimantQuestion'),
+          uiSchema: claimantQuestionUiSchema,
+          schema: claimantQuestionSchema,
         },
         claimantPersonalInfo: {
           path: 'claimant-personal-info',
           title: 'Claimant personal information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: ClaimantPersonalInfoPage,
-          CustomPageReview: ClaimantPersonalInfoReview,
-          depends: formData =>
-            formData?.claimantQuestion?.patientType === 'spouseOrParent',
-          verifyItemValues: values =>
-            createPageValidator(claimantPersonalInfoSchema)(values),
-          onErrorChange: createValidationErrorHandler('claimantPersonalInfo'),
+          uiSchema: claimantPersonalInfoUiSchema,
+          schema: claimantPersonalInfoSchema,
+          depends: isPatientSpouseOrParentOrChild,
         },
         claimantIdentificationInfo: {
           path: 'claimant-identification-info',
           title: 'Claimant identification',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: ClaimantIdentificationInfoPage,
-          CustomPageReview: ClaimantIdentificationInfoReview,
-          depends: formData =>
-            formData?.claimantQuestion?.patientType === 'spouseOrParent',
-          verifyItemValues: values =>
-            createPageValidator(claimantIdentificationInfoSchema)(values),
-          onErrorChange: createValidationErrorHandler(
-            'claimantIdentificationInfo',
-          ),
+          uiSchema: claimantIdentificationInfoUiSchema,
+          schema: claimantIdentificationInfoSchema,
+          depends: isPatientSpouseOrParentOrChild,
         },
         veteranPersonalInfo: {
           path: 'veteran-personal-info',
           title: 'Veteran personal information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: VeteranPersonalInfoPage,
-          CustomPageReview: VeteranPersonalInfoReview,
-          verifyItemValues: values =>
-            createPageValidator(veteranPersonalInfoSchema)(values),
-          onErrorChange: createValidationErrorHandler('veteranPersonalInfo'),
+          uiSchema: veteranPersonalInfoUiSchema,
+          schema: veteranPersonalInfoSchema,
         },
         veteranIdentificationInfo: {
           path: 'veteran-identification-info',
           title: 'Veteran identification',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: VeteranIdentificationInfoPage,
-          CustomPageReview: VeteranIdentificationInfoReview,
-          verifyItemValues: values =>
-            createPageValidator(veteranIdentificationInfoSchema)(values),
-          onErrorChange: createValidationErrorHandler(
-            'veteranIdentificationInfo',
-          ),
+          uiSchema: veteranIdentificationInfoUiSchema,
+          schema: veteranIdentificationInfoSchema,
         },
       },
     },
@@ -217,26 +145,14 @@ const formConfig = {
         certificationLevelOfCare: {
           path: 'certification-level-of-care',
           title: 'Level of care certification',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: CertificationLevelOfCarePage,
-          CustomPageReview: CertificationLevelOfCareReview,
-          verifyItemValues: values =>
-            createPageValidator(certificationLevelOfCareSchema)(values),
-          onErrorChange: createValidationErrorHandler(
-            'certificationLevelOfCare',
-          ),
+          uiSchema: certificationLevelOfCareUiSchema,
+          schema: certificationLevelOfCareSchema,
         },
         admissionDate: {
           path: 'admission-date',
           title: 'Date of admission',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: AdmissionDatePage,
-          CustomPageReview: AdmissionDateReview,
-          verifyItemValues: values =>
-            createPageValidator(admissionDateInfoSchema)(values),
-          onErrorChange: createValidationErrorHandler('admissionDateInfo'),
+          uiSchema: admissionDateUiSchema,
+          schema: admissionDateSchema,
         },
       },
     },
@@ -246,48 +162,28 @@ const formConfig = {
         medicaidFacility: {
           path: 'medicaid-facility',
           title: 'Medicaid facility status',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: MedicaidFacilityPage,
-          CustomPageReview: MedicaidFacilityReview,
-          verifyItemValues: values =>
-            createPageValidator(medicaidFacilitySchema)(values),
-          onErrorChange: createValidationErrorHandler('medicaidFacility'),
+          uiSchema: medicaidFacilityUiSchema,
+          schema: medicaidFacilitySchema,
         },
         medicaidApplication: {
           path: 'medicaid-application',
           title: 'Medicaid application status',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: MedicaidApplicationPage,
-          CustomPageReview: MedicaidApplicationReview,
-          verifyItemValues: values =>
-            createPageValidator(medicaidApplicationSchema)(values),
-          onErrorChange: createValidationErrorHandler('medicaidApplication'),
+          uiSchema: medicaidApplicationUiSchema,
+          schema: medicaidApplicationSchema,
         },
         medicaidStatus: {
           path: 'medicaid-status',
           title: 'Medicaid status',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: MedicaidStatusPage,
-          CustomPageReview: MedicaidStatusReview,
-          verifyItemValues: values =>
-            createPageValidator(currentMedicaidStatusSchema)(values),
-          onErrorChange: createValidationErrorHandler('medicaidStatus'),
+          uiSchema: medicaidStatusUiSchema,
+          schema: medicaidStatusSchema,
         },
         medicaidStartDate: {
           path: 'medicaid-start-date',
           title: 'Medicaid start date',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: MedicaidStartDatePage,
-          CustomPageReview: MedicaidStartDateReview,
+          uiSchema: medicaidStartDateUiSchema,
+          schema: medicaidStartDateSchema,
           depends: formData =>
-            formData?.medicaidStatus?.currentlyCoveredByMedicaid === 'yes',
-          verifyItemValues: values =>
-            createPageValidator(medicaidStartDateInfoSchema)(values),
-          onErrorChange: createValidationErrorHandler('medicaidStartDateInfo'),
+            formData?.medicaidStatus?.currentlyCoveredByMedicaid === true,
         },
       },
     },
@@ -297,13 +193,8 @@ const formConfig = {
         monthlyCosts: {
           path: 'monthly-costs',
           title: 'Monthly costs',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: MonthlyCostsPage,
-          CustomPageReview: MonthlyCostsReview,
-          verifyItemValues: values =>
-            createPageValidator(monthlyCostsSchema)(values),
-          onErrorChange: createValidationErrorHandler('monthlyCosts'),
+          uiSchema: monthlyCostsUiSchema,
+          schema: monthlyCostsSchema,
         },
       },
     },
@@ -311,3 +202,4 @@ const formConfig = {
 };
 
 export default formConfig;
+export { formConfig };

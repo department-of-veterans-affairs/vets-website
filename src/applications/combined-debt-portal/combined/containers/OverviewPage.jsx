@@ -4,22 +4,27 @@ import {
   VaBreadcrumbs,
   VaLinkAction,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
-import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
 import {
-  calculateTotalDebts,
+  ALERT_TYPES,
+  setPageFocus,
+  healthResourceCenterPhoneContent,
+  dmcPhoneContent,
+  showVHAPaymentHistory,
+} from '../utils/helpers';
+import {
   calculateTotalBills,
+  calculateTotalDebts,
 } from '../utils/balance-helpers';
 import { GenericDisasterAlert } from '../components/DisasterAlert';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 
 const OverviewPage = () => {
-  const title = 'Your VA debt and bills';
+  const title = 'Overpayments and copay bills';
   useHeaderPageTitle(title);
 
   useEffect(() => {
@@ -35,14 +40,6 @@ const OverviewPage = () => {
   const debtError = debtLetters.errors?.length > 0;
   const bothError = billError && debtError;
 
-  // get totals
-  const { debts } = debtLetters;
-  const totalDebts = calculateTotalDebts(debts);
-  const bills = mcp.statements;
-  const totalBills = calculateTotalBills(bills);
-  const bothZero =
-    totalDebts === 0 && totalBills === 0 && !billError && !debtError;
-
   // feature toggle stuff for One VA Debt Letter flag
   const {
     useToggleValue,
@@ -55,6 +52,18 @@ const OverviewPage = () => {
   const showOneVADebtLetterLink = useToggleValue(
     TOGGLE_NAMES.showOneVADebtLetter,
   );
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
+  );
+
+  // get totals
+  const { debts } = debtLetters;
+  const totalDebts = calculateTotalDebts(debts);
+  const totalBills = shouldShowVHAPaymentHistory
+    ? mcp.statements.meta.total
+    : calculateTotalBills(mcp.statements);
+  const bothZero =
+    totalDebts === 0 && totalBills === 0 && !billError && !debtError;
 
   // give features a chance to fully load before we conditionally render
   if (togglesLoading) {
@@ -72,7 +81,7 @@ const OverviewPage = () => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
         ]}
         label="Breadcrumb"
@@ -81,9 +90,10 @@ const OverviewPage = () => {
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="overview-page-title">{title}</h1>
         <p className="va-introtext">
-          Check the details of debt from VA education, disability compensation,
-          pension programs, or VA health care and prescription charges. Find out
-          how to make payments or request financial help.
+          Check the details of benefit overpayments from VA education,
+          disability compensation, and pension programs. And review VA health
+          care and prescription copay charges. Find out how to make payments or
+          request financial help.
         </p>
         <GenericDisasterAlert />
         {bothError || bothZero ? (
@@ -92,7 +102,6 @@ const OverviewPage = () => {
           />
         ) : (
           <>
-            <h2>Debt and bill overview</h2>
             <Balances />
             {showOneVADebtLetterLink && !debtError && !billError ? (
               <VaLinkAction
@@ -102,21 +111,35 @@ const OverviewPage = () => {
                 type="secondary"
               />
             ) : null}
-            <h2>What to do if you have questions about your debt and bills</h2>
-            <h3>Questions about benefit debt</h3>
-            <p>
-              Call the Debt Management Center (DMC) at{' '}
-              <va-telephone contact={CONTACTS.DMC} /> (
-              <va-telephone tty contact="711" />
-              ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-            </p>
-            <h3>Questions about medical copayment bills</h3>
-            <p>
-              Call the VA Health Resource Center at{' '}
-              <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
-              <va-telephone tty contact="711" />
-              ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-            </p>
+
+            <va-need-help id="needHelp" class="vads-u-margin-top--4">
+              <div slot="content">
+                <p>
+                  <strong>Questions about overpayments</strong>
+                </p>
+                <p>
+                  Contact us online through{' '}
+                  <va-link
+                    text="AskVA"
+                    href="/contact-us/ask-va/introduction"
+                  />{' '}
+                  or call the Debt Management Center (DMC) at{' '}
+                  {dmcPhoneContent()}
+                </p>
+                <p>
+                  <strong>Questions about copay bills</strong>
+                </p>
+                <p>
+                  Contact us online through{' '}
+                  <va-link
+                    text="AskVA"
+                    href="/contact-us/ask-va/introduction"
+                  />{' '}
+                  or call the VA Health Resource Center at{' '}
+                  {healthResourceCenterPhoneContent()}
+                </p>
+              </div>
+            </va-need-help>
           </>
         )}
       </div>

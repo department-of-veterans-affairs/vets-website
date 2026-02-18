@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { MhvPageNotFoundContent } from 'platform/mhv/components/MhvPageNotFound';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
@@ -40,6 +40,7 @@ const { Paths } = Constants;
 const draftInProgressSafePaths = [
   `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
   `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+  `${Paths.COMPOSE}${Paths.RECENT_CARE_TEAMS}`,
   new RegExp(`^${Paths.MESSAGE_THREAD}[^/]+/?$`),
   Paths.COMPOSE,
   Paths.CONTACT_LIST,
@@ -48,7 +49,6 @@ const draftInProgressSafePaths = [
 const AuthorizedRoutes = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { draftInProgress } = useSelector(state => state.sm.threadDetails);
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
 
   useEffect(
@@ -59,11 +59,11 @@ const AuthorizedRoutes = () => {
             ? path.test(location.pathname)
             : location.pathname.startsWith(path),
       );
-      if (!isDraftSafe && draftInProgress?.recipientId) {
+      if (!isDraftSafe) {
         dispatch(clearDraftInProgress());
       }
     },
-    [location.pathname, draftInProgress?.recipientId, dispatch],
+    [location.pathname, dispatch],
   );
 
   if (location.pathname === `/`) {

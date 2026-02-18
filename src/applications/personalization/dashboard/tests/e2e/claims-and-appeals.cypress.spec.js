@@ -6,10 +6,9 @@ import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import appeals404 from '@@profile/tests/fixtures/appeals-404.json';
 import error500 from '@@profile/tests/fixtures/500.json';
+import manifest from '~/applications/personalization/dashboard/manifest.json';
 import vamcErc from '../fixtures/vamc-ehr.json';
 import { paymentsSuccessEmpty } from '../fixtures/test-payments-response';
-
-import manifest from '~/applications/personalization/dashboard/manifest.json';
 
 describe('The My VA Dashboard Claims and Appeals section', () => {
   beforeEach(() => {
@@ -68,7 +67,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         });
       });
 
-      it('should show an error in the Claims and Appeals section', () => {
+      it('should show an error in the Claims and Appeals section but still show popular action links', () => {
         cy.visit(manifest.rootUrl);
 
         // should show a loading indicator
@@ -86,9 +85,27 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
 
         // make sure that the Claims and Appeals section is shown
         cy.findByTestId('dashboard-section-claims-and-appeals').should('exist');
+        // Check for error message - should exist when API fails
+        cy.get(
+          '[data-testid="dashboard-section-claims-and-appeals-error"]',
+        ).should('exist');
+        // Verify error content exists (be flexible about exact wording)
+        cy.get('[data-testid="dashboard-section-claims-and-appeals-error"]')
+          .should('be.visible')
+          .and('contain.text', 'access');
+
+        // popular action links should still be visible even during API errors
+        cy.findByRole('link', {
+          name: /learn how to file a claim/i,
+        }).should('be.visible');
+        cy.findByRole('link', {
+          name: /manage all claims and appeals/i,
+        }).should('be.visible');
+
+        // highlighted claim should still show since claims API is working
         cy.findByRole('heading', {
-          name: /We can’t access your claims or appeals/i,
-        }).should('exist');
+          name: /dependency claim received/i,
+        }).should('be.visible');
 
         // make the a11y check
         cy.injectAxe();
@@ -96,6 +113,116 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
       });
     },
   );
+  context('when both claims and appeals APIs return 500 errors', () => {
+    beforeEach(() => {
+      cy.intercept('/v0/benefits_claims', {
+        statusCode: 500,
+        body: error500,
+      });
+      cy.intercept('/v0/appeals', {
+        statusCode: 500,
+        body: error500,
+      });
+    });
+
+    it('should show an error but still show popular action links', () => {
+      cy.visit(manifest.rootUrl);
+
+      // should show a loading indicator
+      cy.get('va-loading-indicator')
+        .should('exist')
+        .then($container => {
+          cy.wrap($container)
+            .shadow()
+            .findByRole('progressbar')
+            .should('contain', /loading your information/i);
+        });
+
+      // and then the loading indicator should be removed
+      cy.get('va-loading-indicator').should('not.exist');
+
+      // make sure that the Claims and Appeals section is shown
+      cy.findByTestId('dashboard-section-claims-and-appeals').should('exist');
+      // Check for error message - should exist when APIs fail
+      cy.get(
+        '[data-testid="dashboard-section-claims-and-appeals-error"]',
+      ).should('exist');
+      // Verify error content exists (be flexible about exact wording)
+      cy.get('[data-testid="dashboard-section-claims-and-appeals-error"]')
+        .should('be.visible')
+        .and('contain.text', 'access');
+
+      // popular action links should still be visible even during API errors
+      cy.findByRole('link', {
+        name: /learn how to file a claim/i,
+      }).should('be.visible');
+      cy.findByRole('link', {
+        name: /manage all claims and appeals/i,
+      }).should('be.visible');
+
+      // no highlighted claim or appeal should show when both APIs are down
+      cy.findByRole('heading', { name: /updated on/i }).should('not.exist');
+      cy.findByRole('heading', { name: /claim received/i }).should('not.exist');
+
+      // make the a11y check
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+  });
+
+  context(
+    'when there is a 500 from the claims API but appeals API is working',
+    () => {
+      beforeEach(() => {
+        cy.intercept('/v0/benefits_claims', {
+          statusCode: 500,
+          body: error500,
+        }).as('claimsError');
+        cy.intercept('/v0/appeals', appealsSuccess(1)).as('appealsSuccess');
+      });
+
+      it('should show an error but still show popular action links and highlighted appeal', () => {
+        cy.visit(manifest.rootUrl);
+
+        // should show a loading indicator
+        cy.get('va-loading-indicator')
+          .should('exist')
+          .then($container => {
+            cy.wrap($container)
+              .shadow()
+              .findByRole('progressbar')
+              .should('contain', /loading your information/i);
+          });
+
+        // and then the loading indicator should be removed
+        cy.get('va-loading-indicator').should('not.exist');
+
+        // make sure that the Claims and Appeals section is shown
+        cy.findByTestId('dashboard-section-claims-and-appeals').should('exist');
+
+        // Should show error message when any API fails
+        cy.get(
+          '[data-testid="dashboard-section-claims-and-appeals-error"]',
+        ).should('exist');
+
+        // popular action links should still be visible even during API errors
+        cy.findByRole('link', {
+          name: /learn how to file a claim/i,
+        }).should('be.visible');
+        cy.findByRole('link', {
+          name: /manage all claims and appeals/i,
+        }).should('be.visible');
+
+        // highlighted appeal should still show since appeals API is working
+        cy.findByRole('heading', { name: /updated on/i }).should('be.visible');
+
+        // make the a11y check
+        cy.injectAxe();
+        cy.axeCheck();
+      });
+    },
+  );
+
   context(
     'when there is a 404 from the appeals API and all claims closed over 60 days ago',
     () => {

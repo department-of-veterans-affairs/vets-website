@@ -8,32 +8,23 @@ import {
   createPutHandler,
   createPostHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import { handleTokenRequest, emailNeedsConfirmation } from '../helpers';
 
 import AuthApp from '../containers/AuthApp';
 
 describe('AuthApp', () => {
-  const server = setupServer();
+  // Global server is managed by mocha-setup.js (listen/close)
   const mockStore = {
     dispatch: sinon.spy(),
     subscribe: sinon.spy(),
     getState: () => ({}),
   };
 
-  before(() => {
-    server.listen();
-  });
-
   afterEach(() => {
     localStorage.clear();
     sessionStorage.clear();
-    server.resetHandlers();
-  });
-
-  after(() => {
-    server.close();
   });
 
   it('should display an error page', () => {
@@ -333,55 +324,6 @@ describe('AuthApp', () => {
     });
   });
 
-  it('should redirect to /sign-in-changes-reminder interstitial page', async () => {
-    const originalLocation = window.location;
-    if (!Location.prototype.replace) {
-      window.location = { replace: sinon.spy() };
-    } else {
-      window.location.replace = sinon.spy();
-    }
-
-    const store = {
-      dispatch: sinon.spy(),
-      subscribe: sinon.spy(),
-      getState: () => ({
-        featureToggles: {
-          dslogonInterstitialRedirect: true,
-        },
-      }),
-    };
-    sessionStorage.setItem('authReturnUrl', 'https://dev.va.gov/my-va');
-    server.use(
-      createGetHandler('https://dev-api.va.gov/v0/user', () => {
-        return jsonResponse(
-          {
-            data: {
-              attributes: {
-                profile: {
-                  signIn: { serviceName: 'dslogon', ssoe: true },
-                },
-              },
-            },
-          },
-          { status: 200 },
-        );
-      }),
-    );
-
-    render(
-      <Provider store={store}>
-        <AuthApp location={{ query: { auth: 'success', type: 'dslogon' } }} />
-      </Provider>,
-    );
-
-    await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
-    expect(window.location.replace.calledWith('/sign-in-changes-reminder')).to
-      .be.true;
-
-    window.location = originalLocation;
-    sessionStorage.clear();
-  });
-
   it('should redirect to /sign-in-confirm-contact-email interstitial page', async () => {
     const originalLocation = window.location;
     if (!Location.prototype.replace) {
@@ -421,7 +363,7 @@ describe('AuthApp', () => {
                 },
                 vet360ContactInformation: {
                   email: {
-                    updatedAt: '2018-04-21T20:09:50Z',
+                    confirmationDate: '2018-04-21T20:09:50Z',
                   },
                 },
               },
@@ -443,19 +385,149 @@ describe('AuthApp', () => {
     window.location = originalLocation;
     sessionStorage.clear();
   });
+
+  it('should redirect to /sign-in-health-portal interstitial page', async () => {
+    const originalLocation = window.location;
+    if (!Location.prototype.replace) {
+      window.location = { replace: sinon.spy() };
+    } else {
+      window.location.replace = sinon.spy();
+    }
+
+    const store = {
+      dispatch: sinon.spy(),
+      subscribe: sinon.spy(),
+      getState: () => ({
+        featureToggles: {
+          portalNoticeInterstitialEnabled: true,
+        },
+      }),
+    };
+    sessionStorage.setItem(
+      'authReturnUrl',
+      'https://staging-patientportal.myhealth.va.gov',
+    );
+    server.use(
+      createGetHandler('https://dev-api.va.gov/v0/user', () => {
+        return jsonResponse(
+          {
+            data: {
+              attributes: {
+                profile: {
+                  signIn: { serviceName: 'idme', ssoe: true },
+                  verified: true,
+                },
+                vaProfile: {
+                  vaPatient: true,
+                  facilities: [
+                    {
+                      facilityId: '757',
+                      isCerner: true,
+                    },
+                  ],
+                },
+              },
+            },
+          },
+          { status: 200 },
+        );
+      }),
+      createPutHandler(
+        'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
+        () => {
+          return jsonResponse({
+            provisioned: true,
+          });
+        },
+      ),
+    );
+
+    render(
+      <Provider store={store}>
+        <AuthApp location={{ query: { auth: 'success', type: 'idme' } }} />
+      </Provider>,
+    );
+    await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
+    expect(window.location.replace.calledWith('/sign-in-health-portal')).to.be
+      .true;
+    window.location = originalLocation;
+    sessionStorage.clear();
+  });
+
+  it('should redirect to /my-health', async () => {
+    const originalLocation = window.location;
+    if (!Location.prototype.replace) {
+      window.location = { replace: sinon.spy() };
+    } else {
+      window.location.replace = sinon.spy();
+    }
+
+    const store = {
+      dispatch: sinon.spy(),
+      subscribe: sinon.spy(),
+      getState: () => ({
+        featureToggles: {
+          portalNoticeInterstitialEnabled: true,
+        },
+      }),
+    };
+    sessionStorage.setItem(
+      'authReturnUrl',
+      'https://staging-patientportal.myhealth.va.gov',
+    );
+    server.use(
+      createGetHandler('https://dev-api.va.gov/v0/user', () => {
+        return jsonResponse(
+          {
+            data: {
+              attributes: {
+                profile: {
+                  signIn: { serviceName: 'idme', ssoe: true },
+                  verified: true,
+                },
+                vaProfile: {
+                  vaPatient: true,
+                  facilities: [
+                    {
+                      facilityId: '100',
+                      isCerner: true,
+                    },
+                  ],
+                },
+              },
+            },
+          },
+          { status: 200 },
+        );
+      }),
+      createPutHandler(
+        'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
+        () => {
+          return jsonResponse({
+            provisioned: true,
+          });
+        },
+      ),
+    );
+
+    render(
+      <Provider store={store}>
+        <AuthApp location={{ query: { auth: 'success', type: 'idme' } }} />
+      </Provider>,
+    );
+    await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
+    expect(window.location.replace.calledWith('/my-health')).to.be.true;
+    window.location = originalLocation;
+    sessionStorage.clear();
+  });
 });
 
 describe('handleTokenRequest', () => {
-  const server = setupServer();
-
-  before(() => server.listen());
+  // Global server is managed by mocha-setup.js (listen/close)
 
   afterEach(() => {
-    server.resetHandlers();
     localStorage.clear();
   });
-
-  after(() => server.close());
 
   it('should call generateOAuthError when no `state` localStorage', async () => {
     const handleTokenSpy = sinon.spy();
@@ -521,27 +593,308 @@ describe('handleTokenRequest', () => {
 });
 
 describe('emailNeedsConfirmation', () => {
-  it('should return false when conditions are met', () => {
+  const baseAttributes = {
+    profile: { verified: true },
+    vaProfile: { vaPatient: true, facilities: [{ facilityId: '123' }] },
+    vet360ContactInformation: {
+      email: {
+        emailAddress: 'test@example.com',
+      },
+    },
+  };
+
+  it('should return false when feature flag is disabled', () => {
     expect(
       emailNeedsConfirmation({
         isEmailInterstitialEnabled: false,
+        loginType: 'idme',
+        userAttributes: baseAttributes,
+      }),
+    ).to.be.false;
+  });
+
+  it('should return false when profile is missing', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: { profile: null, vaProfile: {} },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return false when vaProfile is missing', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: { profile: {}, vaProfile: null },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return false when user is not verified', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
         userAttributes: {
-          profile: { verified: true },
-          vaProfile: { vaPatient: true },
+          ...baseAttributes,
+          profile: { verified: false },
         },
       }),
     ).to.be.false;
+  });
+
+  it('should return false when user is not a VA patient', () => {
     expect(
       emailNeedsConfirmation({
         isEmailInterstitialEnabled: true,
-        userAttributes: { profile: {} },
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vaProfile: { vaPatient: false, facilities: [] },
+        },
       }),
     ).to.be.false;
+  });
+
+  it('should return false when user has no facilities', () => {
     expect(
       emailNeedsConfirmation({
         isEmailInterstitialEnabled: true,
-        userAttributes: { profile: {} },
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vaProfile: { vaPatient: true, facilities: [] },
+        },
       }),
     ).to.be.false;
+  });
+
+  it('should return false when loginType is not idme or logingov', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'mhv',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: null,
+              updatedAt: null,
+            },
+          },
+        },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return true when email address is missing', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: null,
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
+
+  it('should return true when both confirmationDate and updatedAt are missing', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'logingov',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: null,
+              updatedAt: null,
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
+
+  it('should return true when both confirmationDate and updatedAt are before March 1, 2025', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: '2024-12-01T00:00:00Z',
+              updatedAt: '2024-12-15T00:00:00Z',
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
+
+  it('should return false when confirmationDate is old but updatedAt is recent', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: '2024-01-01T00:00:00Z',
+              updatedAt: '2025-03-15T00:00:00Z',
+            },
+          },
+        },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return false when confirmationDate is null but updatedAt is recent', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'logingov',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: null,
+              updatedAt: '2025-04-01T00:00:00Z',
+            },
+          },
+        },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return false when both confirmationDate and updatedAt are recent', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: '2025-03-15T00:00:00Z',
+              updatedAt: '2025-03-20T00:00:00Z',
+            },
+          },
+        },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return true when confirmationDate is old and updatedAt is null', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: '2024-01-01T00:00:00Z',
+              updatedAt: null,
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
+
+  it('should return true when confirmationDate is undefined and updatedAt is undefined', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: undefined,
+              updatedAt: undefined,
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
+
+  it('should return true when confirmationDate is undefined and updatedAt is old', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'logingov',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: undefined,
+              updatedAt: '2024-01-01T00:00:00Z',
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
+
+  it('should return false when confirmationDate is undefined but updatedAt is recent', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: undefined,
+              updatedAt: '2025-04-01T00:00:00Z',
+            },
+          },
+        },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return true when confirmationDate is empty string and updatedAt is empty string', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'logingov',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: '',
+              updatedAt: '',
+            },
+          },
+        },
+      }),
+    ).to.be.true;
   });
 });

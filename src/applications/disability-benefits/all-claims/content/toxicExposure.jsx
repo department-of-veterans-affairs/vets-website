@@ -3,7 +3,7 @@ import {
   capitalizeEachWord,
   formSubtitle,
   formTitle,
-  isClaimingNew,
+  isPlaceholderRated,
   makeConditionsSchema,
   sippableId,
   validateConditions,
@@ -122,20 +122,43 @@ export function teSubtitle(
 
 /* ---------- utils ---------- */
 /**
- * Checks if the toxic exposure pages should be displayed using the following criteria
- *  1. the claim has a claim type of new
- *  2. claiming at least one new disability
+ * Checks if a disability is a real toxic exposure candidate.
+ * A disability is a candidate if it has a valid condition string,
+ * is not a placeholder rated disability, and has cause 'NEW' or 'SECONDARY'.
  *
- * @returns true if all criteria are met, false otherwise
+ * @param {object} d - disability object
+ * @returns {boolean} true if the disability is a valid TE candidate
  */
-const hasSchemaNewDisabilities = formData =>
-  Array.isArray(formData?.newDisabilities) &&
-  formData.newDisabilities.some(d => d?.condition && d?.cause);
+const isRealTECandidate = d =>
+  d &&
+  typeof d.condition === 'string' &&
+  !isPlaceholderRated(d.condition) &&
+  (d.cause === 'NEW' || d.cause === 'SECONDARY');
 
-export function showToxicExposurePages(formData) {
-  // Only show TE when there is at least one *schema-shaped* NEW/SECONDARY/WORSENED/VA row
-  return isClaimingNew(formData) && hasSchemaNewDisabilities(formData);
-}
+/**
+ * Checks if the form data contains at least one real new disability
+ * that is a toxic exposure candidate.
+ *
+ * @param {object} formData - full form data
+ * @returns {boolean} true if there is at least one real new disability
+ */
+const hasRealNewDisabilities = formData =>
+  Array.isArray(formData?.newDisabilities) &&
+  formData.newDisabilities.some(isRealTECandidate);
+
+/**
+ * Checks if the toxic exposure pages should be displayed.
+ * Shows when there is at least one real new or secondary condition.
+ * This logic works for both legacy and new conditions workflows.
+ *
+ * @param {object} formData - full form data
+ * @returns {boolean} true if toxic exposure pages should show
+ */
+export const showToxicExposurePages = formData => {
+  // Show when there is at least one real (non-placeholder) new or secondary condition
+  // This approach works across both workflows without relying on view:claimType
+  return hasRealNewDisabilities(formData);
+};
 
 /**
  * Checks if
@@ -340,6 +363,53 @@ export function getSelectedCount(
 }
 
 /**
+ * Full page subtitle for herbicide "other" location: "Location # of #: description"
+ */
+export function getHerbicideOtherLocationsSubtitle(formData) {
+  return teSubtitle(
+    getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+    getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+    getOtherFieldDescription(formData, 'otherHerbicideLocations'),
+  );
+}
+
+/**
+ * Full page subtitle for specify other exposures: "Hazard # of #: description"
+ */
+export function getSpecifyOtherExposuresSubtitle(formData) {
+  return teSubtitle(
+    getSelectedCount('otherExposures', formData, 'specifyOtherExposures'),
+    getSelectedCount('otherExposures', formData, 'specifyOtherExposures'),
+    getOtherFieldDescription(formData, 'specifyOtherExposures'),
+    'Hazard',
+  );
+}
+
+/**
+ * Review/confirmation title for herbicide "other" location.
+ * Confirmation: description only. Review page: full "Location # of #: description".
+ */
+export function getHerbicideOtherLocationsReviewTitle(context) {
+  const formData = context?.formData ?? context;
+  if (context?.onReviewPage === false) {
+    return getOtherFieldDescription(formData, 'otherHerbicideLocations');
+  }
+  return getHerbicideOtherLocationsSubtitle(formData);
+}
+
+/**
+ * Review/confirmation title for specify other exposures.
+ * Confirmation: description only. Review page: full "Hazard # of #: description".
+ */
+export function getSpecifyOtherExposuresReviewTitle(context) {
+  const formData = context?.formData ?? context;
+  if (context?.onReviewPage === false) {
+    return getOtherFieldDescription(formData, 'specifyOtherExposures');
+  }
+  return getSpecifyOtherExposuresSubtitle(formData);
+}
+
+/**
  * Validates selected items (e.g. gulfWar1990Locations, gulfWar2001Locations, etc.).
  * If the 'none' checkbox is selected along with another item, adds an error.
  *
@@ -491,3 +561,21 @@ export function detailsPageBegin(title, subTitle, type = 'locations') {
     </legend>
   );
 }
+
+/**
+ * Review field component for toxic exposure date fields
+ * Handles year-only dates (YYYY-XX) and month/year dates (YYYY-MM) correctly
+ * @param {Object} props - Review field props
+ * @param {Object} props.children - Children object containing formData and uiSchema
+ * @returns {JSX.Element} Review field row
+ */
+export const reviewDateField = ({ children }) => {
+  const { formData, uiSchema: fieldUiSchema } = children.props;
+  const formattedDate = formatMonthYearDate(formData);
+  return (
+    <div className="review-row">
+      <dt>{fieldUiSchema['ui:title']}</dt>
+      <dd>{formattedDate}</dd>
+    </div>
+  );
+};

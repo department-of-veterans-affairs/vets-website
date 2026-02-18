@@ -9,7 +9,20 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import ClaimDetailLayout from '../../components/ClaimDetailLayout';
 import { renderWithRouter } from '../utils';
 
-const getStore = () => createStore(() => ({}));
+const getStore = (featureToggles = {}, notifications = {}) =>
+  createStore(() => ({
+    featureToggles,
+    disability: {
+      status: {
+        notifications: {
+          message: null,
+          additionalEvidenceMessage: null,
+          type1UnknownErrors: null,
+          ...notifications,
+        },
+      },
+    },
+  }));
 describe('<ClaimDetailLayout>', () => {
   it('should render loading indicator', () => {
     const { container } = renderWithRouter(
@@ -29,8 +42,12 @@ describe('<ClaimDetailLayout>', () => {
         <ClaimDetailLayout claim={claim} />
       </Provider>,
     );
-    expect(container.getByRole('heading', { level: 2 })).to.contain.text(
-      'Claim status is unavailable',
+    expect(container.getByRole('heading', { level: 1 })).to.contain.text(
+      'We encountered a problem',
+    );
+    expect($('va-alert', container.container)).to.exist;
+    expect(container.container.textContent).to.include(
+      "We can't access your claim right now",
     );
   });
 
@@ -171,10 +188,11 @@ describe('<ClaimDetailLayout>', () => {
       </Provider>,
     );
 
-    const selector = container.querySelector('va-alert');
-    expect(selector).to.exist;
+    const alert = container.querySelector('va-alert');
+    expect(alert).to.exist;
+    const headline = alert.querySelector('h2');
     await waitFor(() => {
-      expect(document.activeElement).to.equal(selector);
+      expect(document.activeElement).to.equal(headline);
     });
   });
 
@@ -234,6 +252,82 @@ describe('<ClaimDetailLayout>', () => {
           isRouterLink: true,
         },
       ]);
+    });
+  });
+
+  describe('Type 1 Unknown Error Alert', () => {
+    const FEATURE_FLAG_KEY = 'cst_show_document_upload_status';
+    const mockClaim = {
+      attributes: {
+        claimType: 'Compensation',
+        claimDate: '2023-11-23',
+        contentions: [{ name: 'Condition 1' }],
+      },
+    };
+
+    const mockType1UnknownErrors = [
+      { fileName: 'test-document.pdf', docType: 'Medical records' },
+    ];
+
+    it('should not render Type 1 Unknown error alert when feature flag is disabled', () => {
+      const { container } = renderWithRouter(
+        <Provider store={getStore({ [FEATURE_FLAG_KEY]: false })}>
+          <ClaimDetailLayout currentTab="Files" claim={mockClaim} />
+        </Provider>,
+      );
+
+      expect($('.claims-alert', container)).to.not.exist;
+    });
+
+    it('should render Type 1 Unknown error alert when feature flag is enabled and errors exist', () => {
+      const { container: filesContainer } = renderWithRouter(
+        <Provider
+          store={getStore(
+            { [FEATURE_FLAG_KEY]: true },
+            { type1UnknownErrors: mockType1UnknownErrors },
+          )}
+        >
+          <ClaimDetailLayout currentTab="Files" claim={mockClaim} />
+        </Provider>,
+      );
+
+      const { container: statusContainer } = renderWithRouter(
+        <Provider
+          store={getStore(
+            { [FEATURE_FLAG_KEY]: true },
+            { type1UnknownErrors: mockType1UnknownErrors },
+          )}
+        >
+          <ClaimDetailLayout currentTab="Status" claim={mockClaim} />
+        </Provider>,
+      );
+
+      // Should show on Files tab
+      expect($('.claims-alert', filesContainer)).to.exist;
+      expect(filesContainer.textContent).to.include(
+        'We need you to submit files by mail or in person',
+      );
+
+      // Should show on Status tab
+      expect($('.claims-alert', statusContainer)).to.exist;
+      expect(statusContainer.textContent).to.include(
+        'We need you to submit files by mail or in person',
+      );
+    });
+
+    it('should not render Type 1 Unknown error alert on Overview tab', () => {
+      const { container } = renderWithRouter(
+        <Provider
+          store={getStore(
+            { [FEATURE_FLAG_KEY]: true },
+            { type1UnknownErrors: mockType1UnknownErrors },
+          )}
+        >
+          <ClaimDetailLayout currentTab="Overview" claim={mockClaim} />
+        </Provider>,
+      );
+
+      expect($('.claims-alert', container)).to.not.exist;
     });
   });
 });

@@ -3,20 +3,15 @@ import useFormState from '../../../hooks/useFormState';
 import { getClinicId } from '../../../services/healthcare-service';
 import { getSiteIdFromFacilityId } from '../../../services/location';
 
-import {
-  selectFeatureMentalHealthHistoryFiltering,
-  selectFeatureRemoveFacilityConfigCheck,
-} from '../../../redux/selectors';
-import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
+import { selectFeatureMentalHealthHistoryFiltering } from '../../../redux/selectors';
 import {
   getClinicsForChosenFacility,
   getFormData,
   getTypeOfCare,
-  selectChosenFacilityInfo,
-  selectEligibility,
   selectPastAppointments,
 } from '../../redux/selectors';
 import AppointmentsRadioWidget from '../AppointmentsRadioWidget';
+import { typeOfCareRequiresPastHistory } from '../../../services/patient';
 
 const initialSchema = {
   type: 'object',
@@ -29,18 +24,12 @@ const initialSchema = {
   },
 };
 
-export default function useClinicFormState(pageTitle) {
+export default function useClinicFormState(pageTitle, singleClinicTitlePrefix) {
   const initialData = useSelector(getFormData);
-  const location = useSelector(selectChosenFacilityInfo);
-
-  const eligibility = useSelector(selectEligibility);
   const selectedTypeOfCare = getTypeOfCare(initialData);
 
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
-  const removeFacilityConfigCheck = useSelector(
-    selectFeatureRemoveFacilityConfigCheck,
-  );
 
   // Retrieves flipper state for mental health history filtering
   const featurePastVisitMHFilter = useSelector(
@@ -54,16 +43,12 @@ export default function useClinicFormState(pageTitle) {
   );
 
   // Past appointment history check
-  // primary care and mental health are exempt
+  // primary care and mental health (with flipper) and SUD are exempt
   // NOTE: Same check is in ../services/patient/index.js:fetchFlowEligibilityAndClinics
-  const isCheckTypeOfCare =
-    (selectedTypeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
-      featurePastVisitMHFilter) &&
-    selectedTypeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-    (!removeFacilityConfigCheck
-      ? location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
-          ?.patientHistoryRequired === true
-      : eligibility.direct);
+  const isCheckTypeOfCare = typeOfCareRequiresPastHistory(
+    selectedTypeOfCare.id,
+    featurePastVisitMHFilter,
+  );
 
   if (isCheckTypeOfCare) {
     const pastAppointmentDateMap = new Map();
@@ -100,7 +85,7 @@ export default function useClinicFormState(pageTitle) {
     },
   };
 
-  const formState = useFormState({
+  return useFormState({
     initialSchema() {
       let newSchema = initialSchema;
 
@@ -111,12 +96,12 @@ export default function useClinicFormState(pageTitle) {
           properties: {
             clinicId: {
               type: 'string',
-              title: `Would you like to make an appointment at ${
+              title: `${singleClinicTitlePrefix} ${
                 clinic.serviceName
-              }?`,
+              }. Do you you want to schedule your appointment at this clinic?`,
               enum: [clinic.id, 'NONE'],
               enumNames: [
-                'Yes, make my appointment here',
+                `Yes, make my appointment at ${clinic.serviceName}`,
                 'No, I need a different clinic',
               ],
             },
@@ -143,11 +128,4 @@ export default function useClinicFormState(pageTitle) {
     uiSchema,
     initialData,
   });
-
-  return {
-    ...formState,
-    firstMatchingClinic: clinics?.find(
-      clinic => clinic.id === formState.schema?.properties.clinicId.enum[0],
-    ),
-  };
 }

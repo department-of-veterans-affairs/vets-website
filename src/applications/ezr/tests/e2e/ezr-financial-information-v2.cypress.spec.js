@@ -1,6 +1,6 @@
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user.json';
-import mockPrefill from './fixtures/mocks/mock-prefill-with-non-prefill-data.json';
+import mockPrefill from './fixtures/mocks/mock-prefill-with-v2-prefill-data.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
 import { goToNextPage } from './helpers';
 import {
@@ -15,11 +15,16 @@ import {
   fillSpousalIncome,
   fillDeductibleExpenses,
 } from './utils/fillers';
+import { handleOptionalServiceHistoryPage } from './helpers/handleOptionalServiceHistoryPage';
 
 // Add the feature toggle for the providers and dependents prefill
 featureToggles.data.features.push({
-  name: 'ezrProvidersAndDependentsPrefillEnabled',
+  name: 'ezrFormPrefillWithProvidersAndDependents',
   value: true,
+});
+featureToggles.data.features.push({
+  name: 'ezrSpouseConfirmationFlowEnabled',
+  value: false,
 });
 
 const { data } = maxTestData;
@@ -41,7 +46,7 @@ function advanceToFinancialIntroductionPage(hasSpouse) {
   goToNextPage('/household-information/dependents');
   cy.selectRadio('root_view:reportDependents', 'N');
   cy.injectAxeThenAxeCheck();
-  goToNextPage('/household-information/financial-information-introduction');
+  goToNextPage('/household-information/financial-information-overview');
   cy.injectAxeThenAxeCheck();
   goToNextPage('/household-information/financial-information');
   cy.injectAxeThenAxeCheck();
@@ -63,8 +68,9 @@ function setUserDataAndAdvanceToHouseholdSection(user, prefillData) {
   cy.visit(manifest.rootUrl);
   cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
   advanceToHouseholdSection();
-  goToNextPage('/military-service/toxic-exposure');
-  cy.get('[name="root_hasTeraResponse"]').check('N');
+  handleOptionalServiceHistoryPage({
+    historyEnabled: data['view:ezrServiceHistoryEnabled'],
+  });
   cy.injectAxeThenAxeCheck();
 }
 

@@ -5,4 +5,7 @@
  * - Returns true if the prescription source is 'NV' (Non-VA), indicating it's a non-VA prescription.
  * - Returns false otherwise.
  */
-export const rxSourceIsNonVA = rx => rx?.prescriptionSource === 'NV';
+import { RX_SOURCE } from '../constants';
+
+export const rxSourceIsNonVA = rx =>
+  rx?.prescriptionSource === RX_SOURCE.NON_VA;

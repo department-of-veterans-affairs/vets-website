@@ -31,6 +31,27 @@ export const NewConditionDescription = () => (
   </>
 );
 
+export const capitalizeFirstLetter = string =>
+  string?.charAt(0).toUpperCase() + string?.slice(1);
+
+export const createNewConditionName = (item = {}, capFirstLetter = false) => {
+  const newConditionName = item.condition;
+  const checkNewConditionName =
+    typeof newConditionName === 'string' && newConditionName.trim()
+      ? newConditionName.trim()
+      : 'condition';
+
+  const newCondition = capFirstLetter
+    ? capitalizeFirstLetter(checkNewConditionName)
+    : checkNewConditionName;
+
+  if (item?.sideOfBody) {
+    return `${newCondition}, ${item.sideOfBody.toLowerCase()}`;
+  }
+
+  return newCondition;
+};
+
 export const createCauseFollowUpDescriptions = (item, fullData = {}) => {
   if (!item?.cause) return '';
 
@@ -45,7 +66,13 @@ export const createCauseFollowUpDescriptions = (item, fullData = {}) => {
       if (!target) return '';
 
       const newNames = (fullData?.newDisabilities ?? [])
-        .map(it => norm(it?.condition ?? it?.newCondition ?? it?.name))
+        .map(it =>
+          norm(
+            it?.condition
+              ? createNewConditionName(it, true)
+              : it?.newCondition ?? it?.name,
+          ),
+        )
         .filter(Boolean);
 
       const ratedNames = (fullData?.ratedDisabilities ?? [])
@@ -56,7 +83,7 @@ export const createCauseFollowUpDescriptions = (item, fullData = {}) => {
 
       return found
         ? `caused by ${item.causedByDisability.trim()}`
-        : `${item.causedByDisability.trim()} has been removed — please edit to change the cause`;
+        : `${item.causedByDisability.trim()} has been removed — please edit to change the cause or delete the condition`;
     }
 
     case 'WORSENED':

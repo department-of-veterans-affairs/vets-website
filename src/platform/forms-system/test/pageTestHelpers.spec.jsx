@@ -8,7 +8,7 @@ import navigationState from 'platform/forms-system/src/js/utilities/navigation/n
 const expectedFieldTypes = 'input, select, textarea';
 
 const expectedFieldTypesWebComponents =
-  'va-text-input, va-file-input, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date, va-telephone-input';
+  'va-text-input, va-file-input, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date, va-telephone-input, va-combo-box';
 
 const wrapperWebComponents = 'va-checkbox-group, va-memorable-date';
 
@@ -87,7 +87,16 @@ export const testNumberOfErrorsOnSubmit = (
       await new Promise(resolve => setTimeout(resolve, 0));
 
       await waitFor(() => {
-        const errors = queryAllByRole('alert');
+        const alerts = queryAllByRole('alert');
+
+        // Filter out screen reader announcements (sr-only with aria-live="polite")
+        const errors = alerts.filter(
+          alert =>
+            !(
+              alert.classList.contains('sr-only') &&
+              alert.getAttribute('aria-live') === 'polite'
+            ),
+        );
         expect(errors).to.have.lengthOf(expectedNumberOfErrors);
       });
     });

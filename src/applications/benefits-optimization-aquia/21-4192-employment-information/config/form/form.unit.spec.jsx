@@ -12,19 +12,21 @@ describe('Form Configuration', () => {
       expect(formConfig).to.be.an('object');
     });
 
-    it('should have form ID', () => {
+    it('should have correct form ID', () => {
       expect(formConfig.formId).to.exist;
       expect(formConfig.formId).to.equal('21-4192');
     });
 
     it('should have title', () => {
       expect(formConfig.title).to.exist;
+      expect(formConfig.title).to.be.a('string');
       expect(formConfig.title).to.include('Employment Information');
     });
 
     it('should have subtitle', () => {
       expect(formConfig.subTitle).to.exist;
       expect(formConfig.subTitle).to.include('21-4192');
+      expect(formConfig.subTitle).to.include('Employment Information');
     });
 
     it('should have rootUrl', () => {
@@ -33,33 +35,34 @@ describe('Form Configuration', () => {
     });
 
     it('should have submitUrl', () => {
-      expect(formConfig.submitUrl).to.equal('/v0/form21_4192');
+      expect(formConfig.submitUrl).to.exist;
+      expect(formConfig.submitUrl).to.include('/v0/form214192');
     });
   });
 
-  describe('Form Pages and Chapters', () => {
+  describe('Form Chapters and Pages', () => {
     it('should have chapters object', () => {
       expect(formConfig.chapters).to.be.an('object');
     });
 
     it('should have veteranInformationChapter', () => {
       expect(formConfig.chapters.veteranInformationChapter).to.exist;
-      expect(formConfig.chapters.veteranInformationChapter.title).to.equal(
-        'Veteran Information',
+      expect(formConfig.chapters.veteranInformationChapter.title).to.include(
+        'Veteran',
       );
     });
 
     it('should have employerInformationChapter', () => {
       expect(formConfig.chapters.employerInformationChapter).to.exist;
-      expect(formConfig.chapters.employerInformationChapter.title).to.equal(
-        'Employers Information',
+      expect(formConfig.chapters.employerInformationChapter.title).to.include(
+        'Employer',
       );
     });
 
     it('should have employmentInformationChapter', () => {
       expect(formConfig.chapters.employmentInformationChapter).to.exist;
-      expect(formConfig.chapters.employmentInformationChapter.title).to.equal(
-        'Employment Information',
+      expect(formConfig.chapters.employmentInformationChapter.title).to.include(
+        'Employment',
       );
     });
 
@@ -72,8 +75,8 @@ describe('Form Configuration', () => {
 
     it('should have benefitsInformationChapter', () => {
       expect(formConfig.chapters.benefitsInformationChapter).to.exist;
-      expect(formConfig.chapters.benefitsInformationChapter.title).to.equal(
-        'Benefits Information',
+      expect(formConfig.chapters.benefitsInformationChapter.title).to.include(
+        'Benefits',
       );
     });
 
@@ -81,255 +84,268 @@ describe('Form Configuration', () => {
       expect(formConfig.chapters.remarksChapter).to.exist;
       expect(formConfig.chapters.remarksChapter.title).to.equal('Remarks');
     });
+
+    it('should have exactly 6 chapters', () => {
+      expect(Object.keys(formConfig.chapters)).to.have.lengthOf(6);
+    });
   });
 
-  describe('Page Configuration', () => {
-    it('should have veteran information page', () => {
-      const page =
-        formConfig.chapters.veteranInformationChapter.pages.veteranInformation;
+  describe('Veteran Information Chapter Pages', () => {
+    const chapter = formConfig.chapters.veteranInformationChapter;
+
+    it('should have veteranInformation page', () => {
+      const page = chapter.pages.veteranInformation;
       expect(page).to.exist;
       expect(page.path).to.equal('veteran-information');
-      expect(page.CustomPage).to.exist;
-      expect(page.CustomPageReview).to.exist;
+      expect(page.title).to.equal('Veteran Information');
+      expect(page.uiSchema).to.exist;
+      expect(page.schema).to.exist;
     });
 
-    it('should have employer information page', () => {
-      const page =
-        formConfig.chapters.employerInformationChapter.pages
-          .employerInformation;
+    it('should have veteranContactInformation page', () => {
+      const page = chapter.pages.veteranContactInformation;
+      expect(page).to.exist;
+      expect(page.path).to.equal('veteran-contact-information');
+      expect(page.title).to.equal('Veteran Contact Information');
+      expect(page.uiSchema).to.exist;
+      expect(page.schema).to.exist;
+    });
+
+    it('should have exactly 2 pages in veteran information chapter', () => {
+      expect(Object.keys(chapter.pages)).to.have.lengthOf(2);
+    });
+  });
+
+  describe('Employer Information Chapter Pages', () => {
+    const chapter = formConfig.chapters.employerInformationChapter;
+
+    it('should have employerInformation page', () => {
+      const page = chapter.pages.employerInformation;
       expect(page).to.exist;
       expect(page.path).to.equal('employer-information');
-      expect(page.CustomPage).to.exist;
-      expect(page.CustomPageReview).to.exist;
+      expect(page.title).to.equal("Employer's Information");
+      expect(page.uiSchema).to.exist;
+      expect(page.schema).to.exist;
     });
 
-    it('should have employment dates details page', () => {
-      const page =
-        formConfig.chapters.employmentInformationChapter.pages
-          .employmentDatesDetails;
+    it('should have exactly 1 page in employer information chapter', () => {
+      expect(Object.keys(chapter.pages)).to.have.lengthOf(1);
+    });
+  });
+
+  describe('Employment Information Chapter Pages', () => {
+    const chapter = formConfig.chapters.employmentInformationChapter;
+
+    it('should have employmentDates page', () => {
+      const page = chapter.pages.employmentDates;
       expect(page).to.exist;
-      expect(page.path).to.equal('employment-dates-details');
-      expect(page.CustomPage).to.exist;
-      expect(page.CustomPageReview).to.exist;
+      expect(page.path).to.equal('employment-dates');
     });
 
-    it('should have employment concessions page', () => {
-      const page =
-        formConfig.chapters.employmentInformationChapter.pages
-          .employmentConcessions;
+    it('should have employmentEarningsHours page', () => {
+      const page = chapter.pages.employmentEarningsHours;
+      expect(page).to.exist;
+      expect(page.path).to.equal('employment-earnings-hours');
+    });
+
+    it('should have employmentConcessions page', () => {
+      const page = chapter.pages.employmentConcessions;
       expect(page).to.exist;
       expect(page.path).to.equal('employment-concessions');
-      expect(page.CustomPage).to.exist;
-      expect(page.CustomPageReview).to.exist;
     });
 
-    it('should have employment termination page', () => {
-      const page =
-        formConfig.chapters.employmentInformationChapter.pages
-          .employmentTermination;
+    it('should have employmentTermination page', () => {
+      const page = chapter.pages.employmentTermination;
       expect(page).to.exist;
       expect(page.path).to.equal('employment-termination');
-      expect(page.CustomPage).to.exist;
-      expect(page.CustomPageReview).to.exist;
     });
 
-    it('should have employment last payment page', () => {
-      const page =
-        formConfig.chapters.employmentInformationChapter.pages
-          .employmentLastPayment;
+    it('should have employmentLastPayment page', () => {
+      const page = chapter.pages.employmentLastPayment;
       expect(page).to.exist;
       expect(page.path).to.equal('employment-last-payment');
-      expect(page.CustomPage).to.exist;
-      expect(page.CustomPageReview).to.exist;
     });
 
-    it('should have duty status page', () => {
-      const page = formConfig.chapters.dutyStatusChapter.pages.dutyStatus;
+    it('should have exactly 5 pages in employment information chapter', () => {
+      expect(Object.keys(chapter.pages)).to.have.lengthOf(5);
+    });
+
+    describe('employmentTermination conditional logic', () => {
+      const page = chapter.pages.employmentTermination;
+
+      it('should have conditional depends function', () => {
+        expect(page.depends).to.be.a('function');
+      });
+
+      it('should show page when employment has ending date', () => {
+        const formData = {
+          employmentDates: {
+            endingDate: '2024-01-15',
+          },
+        };
+        expect(page.depends(formData)).to.be.true;
+      });
+
+      it('should hide page when no ending date provided', () => {
+        const formData = {
+          employmentDates: {
+            beginningDate: '2020-01-15',
+          },
+        };
+        expect(page.depends(formData)).to.be.false;
+      });
+
+      it('should hide page when employmentDates section is missing', () => {
+        const formData = {};
+        expect(page.depends(formData)).to.be.false;
+      });
+    });
+
+    describe('employmentLastPayment conditional logic', () => {
+      const page = chapter.pages.employmentLastPayment;
+
+      it('should have conditional depends function', () => {
+        expect(page.depends).to.be.a('function');
+      });
+
+      it('should show page when employment has ending date', () => {
+        const formData = {
+          employmentDates: {
+            endingDate: '2024-01-15',
+          },
+        };
+        expect(page.depends(formData)).to.be.true;
+      });
+
+      it('should hide page when no ending date provided', () => {
+        const formData = {
+          employmentDates: {
+            beginningDate: '2020-01-15',
+          },
+        };
+        expect(page.depends(formData)).to.be.false;
+      });
+
+      it('should hide page when employmentDates section is missing', () => {
+        const formData = {};
+        expect(page.depends(formData)).to.be.false;
+      });
+    });
+  });
+
+  describe('Duty Status Chapter Pages', () => {
+    const chapter = formConfig.chapters.dutyStatusChapter;
+
+    it('should have dutyStatus page', () => {
+      const page = chapter.pages.dutyStatus;
       expect(page).to.exist;
       expect(page.path).to.equal('duty-status');
-      expect(page.CustomPage).to.exist;
-      expect(page.CustomPageReview).to.exist;
     });
 
-    it('should have benefits information page', () => {
-      const page =
-        formConfig.chapters.benefitsInformationChapter.pages
-          .benefitsInformation;
+    it('should have dutyStatusDetails page', () => {
+      const page = chapter.pages.dutyStatusDetails;
+      expect(page).to.exist;
+      expect(page.path).to.equal('duty-status-details');
+    });
+
+    it('should have conditional depends on dutyStatusDetails page', () => {
+      const page = chapter.pages.dutyStatusDetails;
+      expect(page.depends).to.be.a('function');
+    });
+
+    it('should show dutyStatusDetails when reserveOrGuardStatus is true', () => {
+      const page = chapter.pages.dutyStatusDetails;
+      const formData = {
+        dutyStatus: {
+          reserveOrGuardStatus: true,
+        },
+      };
+      expect(page.depends(formData)).to.be.true;
+    });
+
+    it('should hide dutyStatusDetails when reserveOrGuardStatus is false', () => {
+      const page = chapter.pages.dutyStatusDetails;
+      const formData = {
+        dutyStatus: {
+          reserveOrGuardStatus: false,
+        },
+      };
+      expect(page.depends(formData)).to.be.false;
+    });
+
+    it('should hide dutyStatusDetails when dutyStatus section missing', () => {
+      const page = chapter.pages.dutyStatusDetails;
+      const formData = {};
+      expect(page.depends(formData)).to.be.false;
+    });
+
+    it('should have exactly 2 pages in duty status chapter', () => {
+      expect(Object.keys(chapter.pages)).to.have.lengthOf(2);
+    });
+  });
+
+  describe('Benefits Information Chapter Pages', () => {
+    const chapter = formConfig.chapters.benefitsInformationChapter;
+
+    it('should have benefitsInformation page', () => {
+      const page = chapter.pages.benefitsInformation;
       expect(page).to.exist;
       expect(page.path).to.equal('benefits-information');
-      expect(page.CustomPage).to.exist;
-      expect(page.CustomPageReview).to.exist;
     });
+
+    it('should have benefitsDetails page', () => {
+      const page = chapter.pages.benefitsDetails;
+      expect(page).to.exist;
+      expect(page.path).to.equal('benefits-details');
+    });
+
+    it('should have conditional depends on benefitsDetails page', () => {
+      const page = chapter.pages.benefitsDetails;
+      expect(page.depends).to.be.a('function');
+    });
+
+    it('should show benefitsDetails when benefitEntitlement is true', () => {
+      const page = chapter.pages.benefitsDetails;
+      const formData = {
+        benefitsInformation: {
+          benefitEntitlement: true,
+        },
+      };
+      expect(page.depends(formData)).to.be.true;
+    });
+
+    it('should hide benefitsDetails when benefitEntitlement is false', () => {
+      const page = chapter.pages.benefitsDetails;
+      const formData = {
+        benefitsInformation: {
+          benefitEntitlement: false,
+        },
+      };
+      expect(page.depends(formData)).to.be.false;
+    });
+
+    it('should hide benefitsDetails when benefitsInformation section missing', () => {
+      const page = chapter.pages.benefitsDetails;
+      const formData = {};
+      expect(page.depends(formData)).to.be.false;
+    });
+
+    it('should have exactly 2 pages in benefits information chapter', () => {
+      expect(Object.keys(chapter.pages)).to.have.lengthOf(2);
+    });
+  });
+
+  describe('Remarks Chapter Pages', () => {
+    const chapter = formConfig.chapters.remarksChapter;
 
     it('should have remarks page', () => {
-      const page = formConfig.chapters.remarksChapter.pages.remarks;
+      const page = chapter.pages.remarks;
       expect(page).to.exist;
       expect(page.path).to.equal('remarks');
-      expect(page.CustomPage).to.exist;
-      expect(page.CustomPageReview).to.exist;
-    });
-  });
-
-  describe('Page Validators', () => {
-    it('should have validator for veteran information', () => {
-      const page =
-        formConfig.chapters.veteranInformationChapter.pages.veteranInformation;
-      expect(page.verifyItemValues).to.be.a('function');
     });
 
-    it('should have validator for employer information', () => {
-      const page =
-        formConfig.chapters.employerInformationChapter.pages
-          .employerInformation;
-      expect(page.verifyItemValues).to.be.a('function');
-    });
-
-    it('should have error handlers for all pages', () => {
-      const page =
-        formConfig.chapters.veteranInformationChapter.pages.veteranInformation;
-      expect(page.onErrorChange).to.be.a('function');
-    });
-
-    it('should execute validator for veteran information', () => {
-      const page =
-        formConfig.chapters.veteranInformationChapter.pages.veteranInformation;
-      const validData = {
-        veteranInformation: {
-          fullName: { first: 'Boba', last: 'Fett' },
-          ssn: '123-45-6789',
-          dateOfBirth: '1985-03-22',
-        },
-      };
-      const result = page.verifyItemValues(validData);
-      expect(result).to.exist;
-    });
-
-    it('should execute validator for employer information', () => {
-      const page =
-        formConfig.chapters.employerInformationChapter.pages
-          .employerInformation;
-      const validData = {
-        employerInformation: {
-          employerName: 'Bounty Hunters Guild',
-          employerAddress: {
-            street: '123 Main St',
-            city: 'San Francisco',
-            state: 'CA',
-            postalCode: '94102',
-          },
-        },
-      };
-      const result = page.verifyItemValues(validData);
-      expect(result).to.exist;
-    });
-
-    it('should execute validator for duty status', () => {
-      const page = formConfig.chapters.dutyStatusChapter.pages.dutyStatus;
-      const validData = {
-        dutyStatus: {
-          reserveOrGuardStatus: 'yes',
-        },
-      };
-      const result = page.verifyItemValues(validData);
-      expect(result).to.exist;
-    });
-
-    it('should execute validator for benefits information', () => {
-      const page =
-        formConfig.chapters.benefitsInformationChapter.pages
-          .benefitsInformation;
-      const validData = {
-        benefitsInformation: {
-          benefitEntitlement: 'yes',
-        },
-      };
-      const result = page.verifyItemValues(validData);
-      expect(result).to.exist;
-    });
-
-    it('should execute validator for employment dates', () => {
-      const page =
-        formConfig.chapters.employmentInformationChapter.pages
-          .employmentDatesDetails;
-      const validData = {
-        employmentDatesDetails: {
-          employmentStartDate: '2024-01-01',
-          employmentEndDate: '2024-12-31',
-        },
-      };
-      const result = page.verifyItemValues(validData);
-      expect(result).to.exist;
-    });
-
-    it('should execute validator for employment concessions', () => {
-      const page =
-        formConfig.chapters.employmentInformationChapter.pages
-          .employmentConcessions;
-      const validData = {
-        employmentConcessions: {
-          concessionsMade: 'yes',
-        },
-      };
-      const result = page.verifyItemValues(validData);
-      expect(result).to.exist;
-    });
-
-    it('should execute validator for employment termination', () => {
-      const page =
-        formConfig.chapters.employmentInformationChapter.pages
-          .employmentTermination;
-      const validData = {
-        employmentTermination: {
-          terminationReason: 'resigned',
-        },
-      };
-      const result = page.verifyItemValues(validData);
-      expect(result).to.exist;
-    });
-
-    it('should execute validator for employment last payment', () => {
-      const page =
-        formConfig.chapters.employmentInformationChapter.pages
-          .employmentLastPayment;
-      const validData = {
-        employmentLastPayment: {
-          lastPaymentDate: '2024-12-31',
-        },
-      };
-      const result = page.verifyItemValues(validData);
-      expect(result).to.exist;
-    });
-
-    it('should execute validator for remarks', () => {
-      const page = formConfig.chapters.remarksChapter.pages.remarks;
-      const validData = {
-        remarks: {
-          remarks: 'The job is done.',
-        },
-      };
-      const result = page.verifyItemValues(validData);
-      expect(result).to.exist;
-    });
-  });
-
-  describe('Save In Progress', () => {
-    it('should have save in progress configuration', () => {
-      expect(formConfig.saveInProgress).to.exist;
-      expect(formConfig.saveInProgress.messages).to.be.an('object');
-    });
-
-    it('should have in progress message', () => {
-      expect(formConfig.saveInProgress.messages.inProgress).to.include(
-        '21-4192',
-      );
-    });
-
-    it('should have expired message', () => {
-      expect(formConfig.saveInProgress.messages.expired).to.include('21-4192');
-    });
-
-    it('should have saved message', () => {
-      expect(formConfig.saveInProgress.messages.saved).to.include('saved');
+    it('should have exactly 1 page in remarks chapter', () => {
+      expect(Object.keys(chapter.pages)).to.have.lengthOf(1);
     });
   });
 
@@ -352,26 +368,12 @@ describe('Form Configuration', () => {
   });
 
   describe('Submit Configuration', () => {
-    it('should have submit function', () => {
-      expect(formConfig.submit).to.be.a('function');
-    });
-
-    it('should return promise from submit', async () => {
-      const result = formConfig.submit();
-      expect(result).to.be.a('promise');
-    });
-
-    it('should resolve with confirmation number', async () => {
-      const result = await formConfig.submit();
-      expect(result.attributes.confirmationNumber).to.exist;
+    it('should have transformForSubmit function', () => {
+      expect(formConfig.transformForSubmit).to.be.a('function');
     });
   });
 
   describe('Configuration Options', () => {
-    it('should have v3 segmented progress bar enabled', () => {
-      expect(formConfig.v3SegmentedProgressBar).to.be.true;
-    });
-
     it('should have tracking prefix', () => {
       expect(formConfig.trackingPrefix).to.include('21-4192');
     });
@@ -381,7 +383,7 @@ describe('Form Configuration', () => {
       expect(formConfig.version).to.be.a('number');
     });
 
-    it('should have prefill disabled', () => {
+    it('should have prefill enabled set to false', () => {
       expect(formConfig.prefillEnabled).to.be.false;
     });
 
@@ -390,15 +392,180 @@ describe('Form Configuration', () => {
       expect(formConfig.dev.showNavLinks).to.be.true;
       expect(formConfig.dev.collapsibleNavLinks).to.be.true;
     });
+
+    it('should have v3SegmentedProgressBar enabled', () => {
+      expect(formConfig.v3SegmentedProgressBar).to.be.true;
+    });
+  });
+
+  describe('Save In Progress Configuration', () => {
+    it('should have save in progress messages', () => {
+      expect(formConfig.saveInProgress).to.exist;
+      expect(formConfig.saveInProgress.messages).to.exist;
+    });
+
+    it('should have inProgress message', () => {
+      expect(formConfig.saveInProgress.messages.inProgress).to.include(
+        '21-4192',
+      );
+    });
+
+    it('should have expired message', () => {
+      expect(formConfig.saveInProgress.messages.expired).to.include('21-4192');
+    });
+
+    it('should have saved message', () => {
+      expect(formConfig.saveInProgress.messages.saved).to.exist;
+    });
   });
 
   describe('Saved Form Messages', () => {
-    it('should have not found message', () => {
+    it('should have saved form messages', () => {
+      expect(formConfig.savedFormMessages).to.exist;
+    });
+
+    it('should have notFound message', () => {
       expect(formConfig.savedFormMessages.notFound).to.exist;
     });
 
-    it('should have no auth message', () => {
+    it('should have noAuth message', () => {
       expect(formConfig.savedFormMessages.noAuth).to.exist;
+    });
+  });
+
+  describe('Pre-Submit Info Configuration', () => {
+    it('should have pre-submit info configuration', () => {
+      expect(formConfig.preSubmitInfo).to.exist;
+    });
+
+    it('should use CustomComponent for signature validation', () => {
+      expect(formConfig.preSubmitInfo.CustomComponent).to.exist;
+    });
+
+    it('should use PreSubmitInfo component (function or connected component)', () => {
+      const component = formConfig.preSubmitInfo.CustomComponent;
+      // Component can be a function (Node 14) or object (Node 22 with React element)
+      const isValid =
+        typeof component === 'function' ||
+        (typeof component === 'object' && component !== null);
+      expect(isValid).to.be.true;
+    });
+
+    it('should not have statementOfTruth configuration (uses CustomComponent instead)', () => {
+      expect(formConfig.preSubmitInfo.statementOfTruth).to.not.exist;
+    });
+
+    it('should have required flag set to true to enforce certification', () => {
+      expect(formConfig.preSubmitInfo.required).to.be.true;
+    });
+  });
+
+  describe('URL Prefix Configuration', () => {
+    it('should have URL prefix set to root', () => {
+      expect(formConfig.urlPrefix).to.equal('/');
+    });
+  });
+
+  describe('Page Schema Validation', () => {
+    it('all pages should have both uiSchema and schema', () => {
+      Object.values(formConfig.chapters).forEach(chapter => {
+        Object.values(chapter.pages).forEach(page => {
+          expect(page.uiSchema).to.exist;
+          expect(page.schema).to.exist;
+        });
+      });
+    });
+
+    it('all pages should have a path property', () => {
+      Object.values(formConfig.chapters).forEach(chapter => {
+        Object.values(chapter.pages).forEach(page => {
+          expect(page.path).to.exist;
+          expect(page.path).to.be.a('string');
+        });
+      });
+    });
+
+    it('all pages should have a title property', () => {
+      Object.values(formConfig.chapters).forEach(chapter => {
+        Object.values(chapter.pages).forEach(page => {
+          expect(page.title).to.exist;
+          expect(page.title).to.be.a('string');
+        });
+      });
+    });
+  });
+
+  describe('Conditional Logic Consistency', () => {
+    it('should handle missing form data gracefully in depends functions', () => {
+      const dutyStatusDetailsPage =
+        formConfig.chapters.dutyStatusChapter.pages.dutyStatusDetails;
+      expect(() => dutyStatusDetailsPage.depends(null)).to.not.throw();
+      expect(() => dutyStatusDetailsPage.depends(undefined)).to.not.throw();
+      expect(() => dutyStatusDetailsPage.depends({})).to.not.throw();
+    });
+
+    it('should handle missing nested form data in benefits conditional', () => {
+      const benefitsDetailsPage =
+        formConfig.chapters.benefitsInformationChapter.pages.benefitsDetails;
+      expect(() => benefitsDetailsPage.depends(null)).to.not.throw();
+      expect(() => benefitsDetailsPage.depends(undefined)).to.not.throw();
+      expect(() => benefitsDetailsPage.depends({})).to.not.throw();
+      expect(() =>
+        benefitsDetailsPage.depends({ benefitsInformation: null }),
+      ).to.not.throw();
+    });
+
+    it('should handle missing form data in employment termination conditional', () => {
+      const employmentTerminationPage =
+        formConfig.chapters.employmentInformationChapter.pages
+          .employmentTermination;
+      expect(() => employmentTerminationPage.depends(null)).to.not.throw();
+      expect(() => employmentTerminationPage.depends(undefined)).to.not.throw();
+      expect(() => employmentTerminationPage.depends({})).to.not.throw();
+      expect(() =>
+        employmentTerminationPage.depends({ employmentDates: null }),
+      ).to.not.throw();
+      expect(employmentTerminationPage.depends(null)).to.be.false;
+      expect(employmentTerminationPage.depends(undefined)).to.be.false;
+      expect(employmentTerminationPage.depends({})).to.be.false;
+    });
+
+    it('should handle missing form data in employment last payment conditional', () => {
+      const employmentLastPaymentPage =
+        formConfig.chapters.employmentInformationChapter.pages
+          .employmentLastPayment;
+      expect(() => employmentLastPaymentPage.depends(null)).to.not.throw();
+      expect(() => employmentLastPaymentPage.depends(undefined)).to.not.throw();
+      expect(() => employmentLastPaymentPage.depends({})).to.not.throw();
+      expect(() =>
+        employmentLastPaymentPage.depends({ employmentDates: null }),
+      ).to.not.throw();
+      expect(employmentLastPaymentPage.depends(null)).to.be.false;
+      expect(employmentLastPaymentPage.depends(undefined)).to.be.false;
+      expect(employmentLastPaymentPage.depends({})).to.be.false;
+    });
+  });
+
+  describe('Form Configuration Exports', () => {
+    it('should export form config as default export', () => {
+      expect(formConfig).to.exist;
+    });
+
+    it('should have all required top-level properties', () => {
+      const requiredProps = [
+        'formId',
+        'title',
+        'subTitle',
+        'rootUrl',
+        'chapters',
+        'introduction',
+        'confirmation',
+        'transformForSubmit',
+      ];
+
+      requiredProps.forEach(prop => {
+        expect(formConfig).to.have.property(prop);
+      });
     });
   });
 });

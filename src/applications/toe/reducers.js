@@ -65,7 +65,7 @@ const handleDirectDepositApi = action => {
     [formFields.originalRoutingNumber]: originalRoutingNumber,
     [formFields.accountNumber]: accountNumber,
     [formFields.routingNumber]: routingNumber,
-    [formFields.accountType]: accountType?.toLowerCase(),
+    [formFields.accountType]: accountType,
   };
 };
 

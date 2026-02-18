@@ -15,6 +15,7 @@ describe('SSNField', () => {
       label: 'Social Security Number',
       value: '',
       onChange: sinon.spy(),
+      schema: z.string().regex(/^\d{3}-?\d{2}-?\d{4}$/, 'Invalid SSN format'),
     };
   });
 
@@ -26,13 +27,10 @@ describe('SSNField', () => {
       expect(textInput).to.have.attribute('label', 'Social Security Number');
     });
 
-    it('shows default hint text', () => {
+    it('does not show hint when not provided', () => {
       const { container } = render(<SSNField {...defaultProps} />);
       const textInput = container.querySelector('va-text-input');
-      expect(textInput).to.have.attribute(
-        'hint',
-        'Enter 9-digit Social Security Number',
-      );
+      expect(textInput.hasAttribute('hint')).to.be.false;
     });
 
     it('shows custom hint text', () => {
@@ -316,12 +314,25 @@ describe('SSNField', () => {
       // Note: Focus management is handled by the VA web component
     });
 
-    it('provides clear labeling and hints', () => {
+    it('provides clear labeling', () => {
       const { container } = render(<SSNField {...defaultProps} />);
       const textInput = container.querySelector('va-text-input');
 
       expect(textInput).to.have.attribute('label', 'Social Security Number');
-      expect(textInput).to.have.attribute('hint');
+    });
+
+    it('provides hints when specified', () => {
+      const props = {
+        ...defaultProps,
+        hint: 'Enter 9-digit Social Security Number',
+      };
+      const { container } = render(<SSNField {...props} />);
+      const textInput = container.querySelector('va-text-input');
+
+      expect(textInput).to.have.attribute(
+        'hint',
+        'Enter 9-digit Social Security Number',
+      );
     });
   });
 

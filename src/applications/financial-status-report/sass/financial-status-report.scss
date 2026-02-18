@@ -382,24 +382,15 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
   }
 }
 
-va-checkbox {
-  &::part(checkbox) {
-    max-width: fit-content;
-  }
-}
-
 // debt selection for VaCheckboxGroup, we want to bold the label hidden in the shadow dom text for the
 //  va-checkbox label and make the checkbox-description text grey
 .debt-selection-checkbox-group {
   va-checkbox {
-    &::part(checkbox) {
-      max-width: fit-content;
-    }
     &::part(label) {
       font-weight: bold;
     }
     &::part(description) {
-      color: var(--vads-color-gray);
+      color: var(--vads-color-gray-warm-dark);
       font-weight: normal;
     }
   }

@@ -1,35 +1,48 @@
 import React from 'react';
 // import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import PropTypes from 'prop-types';
 import {
   VaCheckbox,
-  VaMemorableDate,
   VaRadio,
   VaRadioOption,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
-import { SelectCountry, SelectState, getValue } from './helpers';
+import {
+  SelectCountry,
+  SelectState,
+  getValue,
+  PastDate,
+  scrollToError,
+} from './helpers';
+import { getPastDateError } from './utils';
+import propTypes from './types';
 
 const spouseMarriageEnded = {
   handlers: {
-    // Return "DONE" when we're done with this flow
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: (/* { _itemData, _index, _fullData } */) => 'DONE',
 
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
+      const hasError = getPastDateError(itemData.endDate);
       if (
-        !itemData.marriageEndType ||
-        (itemData.marriageEndType === 'annulmentOrVoid' &&
-          !itemData.marriageEndAnnulmentOrVoidDescription) ||
-        !itemData.marriageEndDate ||
-        !itemData.marriageEndCity ||
-        (!itemData.marriageEndOutsideUS && !itemData.marriageEndState) ||
-        (itemData.marriageEndOutsideUS && !itemData.marriageEndCountry)
+        !itemData.endType ||
+        (itemData.endType === 'annulmentOrVoid' &&
+          !itemData.endAnnulmentOrVoidDescription) ||
+        hasError ||
+        !itemData.endCity ||
+        (!itemData.endOutsideUs && !itemData.endState) ||
+        (itemData.endOutsideUs && !itemData.endCountry)
       ) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
@@ -37,29 +50,10 @@ const spouseMarriageEnded = {
   },
 
   /**
-   * Depedent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} marriageEndType Dependent's removal reason
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
    */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} goBack Function to go back to the previous page
-   * @returns React component
-   */
-  Component: ({ itemData, firstName, handlers, formSubmitted }) => {
+  Component: ({ itemData, firstName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
       handlers.onChange({ ...itemData, [field]: value });
@@ -68,16 +62,18 @@ const spouseMarriageEnded = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Information about the end of your marriage to {firstName}
+          {isEditing ? 'Edit information' : 'Information'} about the end of your
+          marriage to{' '}
+          <span className="dd-privacy-mask" data-dd-action-name="first name">
+            {firstName}
+          </span>
         </h3>
 
         <div className="vads-u-margin-bottom--2">
           <VaRadio
-            name="marriageEndType"
+            name="endType"
             error={
-              formSubmitted && !itemData.marriageEndType
-                ? 'Select an option'
-                : null
+              formSubmitted && !itemData.endType ? 'Select an option' : null
             }
             label="How did the marriage end?"
             labelHeaderLevel="4"
@@ -85,31 +81,30 @@ const spouseMarriageEnded = {
             required
           >
             <VaRadioOption
-              name="marriageEndType"
+              name="endType"
               label="Divorce"
-              checked={itemData.marriageEndType === 'divorce'}
+              checked={itemData.endType === 'divorce'}
               value="divorce"
             />
             <VaRadioOption
-              name="marriageEndType"
+              name="endType"
               label="Annulment or declared void"
-              checked={itemData.marriageEndType === 'annulmentOrVoid'}
+              checked={itemData.endType === 'annulmentOrVoid'}
               value="annulmentOrVoid"
             />
           </VaRadio>
-          {itemData.marriageEndType === 'annulmentOrVoid' && (
+          {itemData.endType === 'annulmentOrVoid' && (
             <div className="vads-u-padding-left--4">
               <div className="form-expanding-group-open">
-                <va-text-input
-                  name="marriageEndAnnulmentOrVoidDescription"
+                <VaTextInput
+                  name="endAnnulmentOrVoidDescription"
                   error={
-                    formSubmitted &&
-                    !itemData.marriageEndAnnulmentOrVoidDescription
+                    formSubmitted && !itemData.endAnnulmentOrVoidDescription
                       ? 'Enter a response'
                       : null
                   }
                   label="Briefly describe how the marriage ended"
-                  value={itemData.marriageEndAnnulmentOrVoidDescription || ''}
+                  value={itemData.endAnnulmentOrVoidDescription || ''}
                   onVaInput={onChange}
                   required
                 />
@@ -119,73 +114,62 @@ const spouseMarriageEnded = {
         </div>
 
         <h4>When did the marriage end?</h4>
-        <VaMemorableDate
-          name="marriageEndDate"
+        <PastDate
           label="Date marriage ended"
-          error={
-            formSubmitted && !itemData.marriageEndDate
-              ? 'Provide a date marriage ended'
-              : null
-          }
-          monthSelect
-          value={itemData.marriageEndDate || ''}
-          // use onDateBlur to ensure month & day are zero-padded
-          onDateBlur={onChange}
-          required
+          date={itemData.endDate}
+          formSubmitted={formSubmitted}
+          missingErrorMessage="Enter the date marriage ended"
+          onChange={onChange}
         />
 
         <h4>Where did the marriage end?</h4>
         <VaCheckbox
-          name="marriageEndOutsideUS"
-          label="The marriage ended outside the United States"
-          checked={itemData.marriageEndOutsideUS || false}
+          name="endOutsideUs"
+          label="Marriage ended outside the United States"
+          checked={itemData.endOutsideUs || false}
           onVaChange={onChange}
         />
         <VaTextInput
           class="vads-u-margin-top--4"
-          name="marriageEndCity"
-          label={itemData.marriageEndOutsideUS ? 'City' : 'City or county'}
+          name="endCity"
+          label={itemData.endOutsideUs ? 'City' : 'City or county'}
           error={
-            formSubmitted && !itemData.marriageEndCity
-              ? 'Enter a city or county'
-              : null
+            formSubmitted && !itemData.endCity ? 'Enter a city or county' : null
           }
-          value={itemData.marriageEndCity || ''}
+          value={itemData.endCity || ''}
           onVaInput={onChange}
           required
         />
-        {itemData.marriageEndOutsideUS ? (
+        {itemData.endOutsideUs ? (
           <>
             <VaTextInput
               class="vads-u-margin-top--4"
-              name="marriageEndProvince"
+              name="endProvince"
               label="Province, region or territory"
-              value={itemData.marriageEndProvince || ''}
+              value={itemData.endProvince || ''}
               onVaInput={onChange}
             />
             <SelectCountry
-              name="marriageEndCountry"
+              name="endCountry"
               label="Country"
               error={
-                formSubmitted && !itemData.marriageEndCountry
+                formSubmitted && !itemData.endCountry
                   ? 'Select a country'
                   : null
               }
               onChange={onChange}
-              value={itemData.marriageEndCountry || ''}
+              value={itemData.endCountry || ''}
             />
           </>
         ) : (
           <SelectState
-            name="marriageEndState"
+            name="endState"
             label="State"
             error={
-              formSubmitted && !itemData.marriageEndState
-                ? 'Select a state'
-                : null
+              formSubmitted && !itemData.endState ? 'Select a state' : null
             }
             onChange={onChange}
-            value={itemData.marriageEndState || ''}
+            value={itemData.endState || ''}
           />
         )}
       </>
@@ -193,31 +177,7 @@ const spouseMarriageEnded = {
   },
 };
 
-spouseMarriageEnded.propTypes = {
-  Component: PropTypes.func,
-};
-
-spouseMarriageEnded.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  goBack: PropTypes.func,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    dateOfBirth: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-    marriageEndType: PropTypes.string,
-    marriageEndAnnulmentOrVoidDescription: PropTypes.string,
-    marriageEndDate: PropTypes.string,
-    marriageEndCity: PropTypes.string,
-    marriageEndState: PropTypes.string,
-    marriageEndCountry: PropTypes.string,
-    marriageEndProvince: PropTypes.string,
-    marriageEndOutsideUS: PropTypes.bool,
-  }),
-};
+spouseMarriageEnded.propTypes = propTypes.Page;
+spouseMarriageEnded.Component.propTypes = propTypes.Component;
 
 export default spouseMarriageEnded;

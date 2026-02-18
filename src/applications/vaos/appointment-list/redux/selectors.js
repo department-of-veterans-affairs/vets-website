@@ -3,8 +3,8 @@ import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/s
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
 import { createSelector } from 'reselect';
 import {
-  selectFeatureCancel,
   selectFeatureRequests,
+  selectFeatureUseVpg,
 } from '../../redux/selectors';
 import {
   getAppointmentTimezone,
@@ -170,11 +170,16 @@ export function selectFacilitySettingsStatus(state) {
 }
 
 export function selectCanUseVaccineFlow(state) {
+  const featureUseVpg = selectFeatureUseVpg(state);
   return state.appointments.facilitySettings?.some(
     facility =>
-      facility.services.find(
-        service => service.id === TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
-      )?.direct.enabled,
+      featureUseVpg
+        ? facility.services.find(
+            service => service.id === TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+          )?.bookedAppointments
+        : facility.services.find(
+            service => service.id === TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+          )?.direct.enabled,
   );
 }
 
@@ -190,6 +195,8 @@ export function getUpcomingAppointmentListInfo(state) {
     appointmentsByMonth: selectUpcomingAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
+    hasBackendServiceFailures: !!state.appointments?.backendServiceFailures
+      ?.meta?.length,
   };
 }
 
@@ -222,6 +229,15 @@ export function selectTypeOfCareName(appointment) {
     const { displayName } = getTypeOfCareById(serviceCategoryName);
     return displayName;
   }
+
+  if (
+    !name &&
+    appointment.vaos?.isCerner &&
+    appointment.vaos.apiData?.description
+  ) {
+    return appointment.vaos.apiData.description;
+  }
+
   return name;
 }
 
@@ -268,7 +284,10 @@ export function selectBackendServiceFailuresInfo(state) {
 }
 export function selectStartDate(appointment) {
   if (appointment.vaos.isPendingAppointment) {
-    return new Date(appointment.requestedPeriod[0].start);
+    // Some Cerner/Oracle appointments have pending=true but no
+    // requestedPeriods data. Guard against empty or missing arrays.
+    const period = appointment.requestedPeriod?.[0];
+    return period ? new Date(period.start) : null;
   }
 
   return new Date(appointment.start);
@@ -395,6 +414,22 @@ export function selectAppointmentLocality(
   return `${isCommunityCare ? 'Community care' : 'VA appointment'}`;
 }
 
+export function selectClinicLocationInfo(appointment) {
+  const returningInfo = { location: undefined, name: undefined };
+
+  if (!appointment || selectIsCommunityCare(appointment)) return returningInfo;
+
+  const inPersonVisit = isInPersonVisit(appointment); // also checks for COVID/In Person/and Claim & Pension Exam -- in transformer
+  const isVideoClinic = isClinicVideoAppointment(appointment); // Video at VA Facility
+
+  if (inPersonVisit || isVideoClinic) {
+    returningInfo.location = appointment.location?.clinicPhysicalLocation;
+  }
+
+  returningInfo.name = appointment.location?.clinicName;
+  return returningInfo;
+}
+
 export function selectVideoData(appointment) {
   return appointment?.videoData || {};
 }
@@ -454,8 +489,18 @@ export function selectModalityText(appointment, isPendingAppointment = false) {
 
   return '';
 }
-
-export function selectApptDetailAriaText(appointment, isRequest = false) {
+/**
+ *
+ * @param {*} appointment
+ * @param {*} isRequest
+ * @param {*} featureListViewClinicInfo
+ * @returns
+ */
+export function selectApptDetailAriaText(
+  appointment,
+  isRequest = false,
+  featureListViewClinicInfo = false,
+) {
   const appointmentDate = selectStartDate(appointment);
   const isCanceled = selectIsCanceled(appointment);
   const isCommunityCare = selectIsCommunityCare(appointment);
@@ -464,16 +509,13 @@ export function selectApptDetailAriaText(appointment, isRequest = false) {
   const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
   const typeOfCareName = selectTypeOfCareName(appointment);
   const modalityText = selectModalityText(appointment);
+  const practitioner = selectPractitionerName(appointment);
+
   const fillin1 = isCanceled ? `Details for canceled` : 'Details for';
   let fillin2 =
     typeOfCareName && typeof typeOfCareName !== 'undefined'
-      ? `${typeOfCareName} appointment on`
-      : 'appointment on';
-  const fillin3 = `${formatInTimeZone(
-    appointmentDate,
-    appointment.timezone,
-    'EEEE, MMMM d h:mm aaaa',
-  )}, ${timezoneName}`;
+      ? `${typeOfCareName} appointment`
+      : 'appointment';
 
   // Override fillin2 text for canceled or pending appointments
   if (isRequest && isPendingOrCancelledRequest(appointment)) {
@@ -488,22 +530,37 @@ export function selectApptDetailAriaText(appointment, isRequest = false) {
     )} appointment`;
   }
 
+  // Build fillin3 after the early return for pending/cancelled requests so
+  // that formatInTimeZone is never called with a null appointmentDate.
+  const fillin3 = appointmentDate
+    ? `${formatInTimeZone(
+        appointmentDate,
+        appointment.timezone,
+        'EEEE, MMMM d h:mm aaaa',
+      )}, ${timezoneName}`
+    : '';
+
+  const fillinWithOn = `${
+    featureListViewClinicInfo && practitioner ? `with ${practitioner} on` : 'on'
+  }`;
+
   let modality = 'in-person';
   if (isCommunityCare) modality = 'community care';
   if (isPhone) modality = 'phone';
   if (isVideo) modality = 'video';
 
-  return `${fillin1} ${modality} ${fillin2} ${fillin3}`;
+  return `${fillin1} ${modality} ${fillin2} ${fillinWithOn} ${fillin3}`;
 }
 
 export function selectApptDateAriaText(appointment) {
   const appointmentDate = selectStartDate(appointment);
+  if (!appointmentDate) return '';
   const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
   return `${formatInTimeZone(
     appointmentDate,
     appointment.timezone,
     'EEEE, MMMM d h:mm aaaa',
-  )}, ${timezoneName}'}`;
+  )}, ${timezoneName}`;
 }
 
 export function selectTypeOfCareAriaText(appointment) {
@@ -557,7 +614,7 @@ export function selectIsEligibleForTravelClaim(appointment) {
 export function selectConfirmedAppointmentData(state, appointment) {
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
-
+  const isCerner = appointment?.vaos?.isCerner;
   const isVideo = appointment?.vaos?.isVideo;
   const isVA = !isVideo && !isCommunityCare;
 
@@ -622,11 +679,11 @@ export function selectConfirmedAppointmentData(state, appointment) {
     isVA,
     isVideo,
     isPhone,
+    isCerner,
     locationId,
     phone,
     practitionerName,
     providerAddress,
-    showCancelButton: selectFeatureCancel(state),
     startDate,
     status,
     timeZoneAbbr,
@@ -642,6 +699,7 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
 }
 export function selectRequestedAppointmentData(state, appointment) {
   const { facilityData } = state?.appointments || [];
+  const isCerner = appointment?.vaos?.isCerner;
 
   const cancelInfo = getCancelInfo(state);
   const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
@@ -691,6 +749,7 @@ export function selectRequestedAppointmentData(state, appointment) {
     status,
     typeOfCare,
     typeOfCareName,
+    isCerner,
   };
 }
 export function selectRequestedAppointmentDetails(state, id) {
@@ -699,7 +758,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     APPOINTMENT_TYPES.request,
     APPOINTMENT_TYPES.ccRequest,
   ]);
-
+  const isCerner = appointment?.vaos?.isCerner;
   const cancelInfo = getCancelInfo(state);
   const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
   const email = getPatientTelecom(appointment, 'email');
@@ -749,5 +808,6 @@ export function selectRequestedAppointmentDetails(state, id) {
     typeOfCare,
     typeOfCareName,
     preferredModality,
+    isCerner,
   };
 }

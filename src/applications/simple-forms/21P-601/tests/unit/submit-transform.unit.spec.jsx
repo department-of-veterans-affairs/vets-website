@@ -85,7 +85,7 @@ describe('21P-601 submit transformer', () => {
         last4: '4321',
       });
       expect(result.claimant.email).to.equal('robert.johnson@email.com');
-      expect(result.claimant.relationshipToDeceased).to.equal('spouse');
+      expect(result.claimant.relationshipToDeceased).to.equal('executor');
     });
 
     it('should transform claimant address correctly', () => {
@@ -157,7 +157,7 @@ describe('21P-601 submit transformer', () => {
       const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
 
       expect(result.remarks).to.include(
-        'Filing for accrued benefits as the surviving spouse',
+        'Filing for accrued benefits as the executor',
       );
     });
   });
@@ -189,7 +189,7 @@ describe('21P-601 submit transformer', () => {
       const testData = { data: testDataMinimal };
       const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
 
-      expect(result.claimant.address.street2).to.equal('');
+      expect(result.claimant.address.street2).to.equal('Apt 1');
     });
 
     it('should handle empty expenses array', () => {
@@ -393,6 +393,123 @@ describe('21P-601 submit transformer', () => {
       const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
 
       expect(result.expenses.expensesList[0].isPaid).to.be.true;
+    });
+
+    it('should handle null name object', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataMinimal)) };
+      testData.data.claimantFullName = null;
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.claimant.fullName).to.deep.equal({
+        first: '',
+        middle: '',
+        last: '',
+      });
+    });
+
+    it('should handle undefined name object', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataMinimal)) };
+      delete testData.data.veteranFullName;
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.veteran.fullName).to.deep.equal({
+        first: '',
+        middle: '',
+        last: '',
+      });
+    });
+
+    it('should handle null zip code', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataMinimal)) };
+      testData.data.claimantAddress.postalCode = null;
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.claimant.address.zipCode).to.deep.equal({
+        first5: '',
+        last4: '',
+      });
+    });
+
+    it('should handle undefined zip code', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataMinimal)) };
+      delete testData.data.claimantAddress.postalCode;
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.claimant.address.zipCode).to.deep.equal({
+        first5: '',
+        last4: '',
+      });
+    });
+
+    it('should return vaFileNumber when SSN is missing', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataSpouse)) };
+      delete testData.data.veteranIdentification.ssn;
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.inReplyReferTo).to.equal('12345678');
+    });
+
+    it('should return empty string when both SSN and vaFileNumber are missing', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataMinimal)) };
+      delete testData.data.veteranIdentification.ssn;
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.inReplyReferTo).to.equal('');
+    });
+
+    it('should handle invalid date string', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataMinimal)) };
+      testData.data.beneficiaryDateOfDeath = 'invalid-date';
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.beneficiary.dateOfDeath.month).to.exist;
+    });
+
+    it('should handle null date string', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataMinimal)) };
+      testData.data.beneficiaryDateOfDeath = null;
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.beneficiary.dateOfDeath).to.deep.equal({
+        month: '',
+        day: '',
+        year: '',
+      });
+    });
+
+    it('should handle otherDebts with missing fields', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataMinimal)) };
+      testData.data.otherDebts = [
+        { debtType: 'Credit Card' },
+        { debtAmount: '500' },
+      ];
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.expenses.otherDebts[0].debtType).to.equal('Credit Card');
+      expect(result.expenses.otherDebts[0].debtAmount).to.equal('');
+      expect(result.expenses.otherDebts[1].debtType).to.equal('');
+      expect(result.expenses.otherDebts[1].debtAmount).to.equal('500');
+    });
+
+    it('should handle expenses with missing fields', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataMinimal)) };
+      testData.data.expenses = [{ provider: 'Hospital' }, { amount: '100' }];
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.expenses.expensesList[0].provider).to.equal('Hospital');
+      expect(result.expenses.expensesList[0].amount).to.equal('');
+      expect(result.expenses.expensesList[1].provider).to.equal('');
+      expect(result.expenses.expensesList[1].amount).to.equal('100');
     });
   });
 });

@@ -16,7 +16,7 @@ const DeselectAll = ({ formData, setFormData }) => {
   return <va-button text="Deselect all" onClick={onClick} uswds />;
 };
 
-/** @type {PageSchema} */
+/** @type {PageSchema}  */
 export default {
   ContentBeforeButtons: DeselectAll,
   uiSchema: {
@@ -39,6 +39,7 @@ export default {
         arraySinglePage: 'Array single page',
         arrayMultiPageAggregate: 'Array Multi-Page Aggregate',
         arrayMultiPageBuilder: 'Array Multi-Page Builder',
+        serviceBranch: 'Branch of service',
       },
     }),
   },
@@ -60,6 +61,7 @@ export default {
         'arraySinglePage',
         'arrayMultiPageAggregate',
         'arrayMultiPageBuilder',
+        'serviceBranch',
       ]),
     },
     required: ['chapterSelect'],

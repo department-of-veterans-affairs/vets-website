@@ -1,0 +1,531 @@
+{
+  "view:householdIncome": false,
+  "view:householdIncomeFooter": {},
+  "view:addOrRemoveDependents": {
+    "remove": true
+  },
+  "useV2": true,
+  "veteranContactInformation": {
+    "veteranAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1700 Clairmont Rd",
+      "street2": "",
+      "street3": "",
+      "city": "Decatur",
+      "state": "GA",
+      "postalCode": "30033"
+    },
+    "phoneNumber": "2023336688",
+    "emailAddress": "vets.gov.user80@gmail.com"
+  },
+  "view:addDependentOptions": {
+    "addChild": false,
+    "addDisabledChild": false,
+    "addSpouse": false,
+    "report674": false
+  },
+  "view:addDependentOptionsDescription": {},
+  "view:removeDependentOptions": {},
+  "view:veteranPensionHeader": {},
+  "view:veteranPensionFooter": {},
+  "spouseInformation": {
+    "fullName": {}
+  },
+  "view:certificateNotice": {},
+  "view:cancelAddSpouse": {},
+  "doesLiveWithSpouse": {
+    "address": {
+      "view:militaryBaseDescription": {}
+    }
+  },
+  "currentMarriageInformation": {
+    "location": {},
+    "view:marriageTypeInformation": {}
+  },
+  "reportDivorce": {
+    "fullName": {},
+    "view:cancelDivorce": {},
+    "divorceLocation": {
+      "location": {}
+    }
+  },
+  "view:additionalEvidenceDescription": {},
+  "view:selectable686Options": {},
+  "vaDependentsNetWorthAndPension": false,
+  "vaDependentsDuplicateModals": true,
+  "vaDependentsV3": true,
+  "veteranInformation": {
+    "fullName": {
+      "first": "Pauline",
+      "last": "Foster",
+      "middle": "E"
+    },
+    "ssn": "796330625",
+    "birthDate": "1976-06-09",
+    "ssnLastFour": "0625",
+    "vaFileLastFour": "0625",
+    "isInReceiptOfPension": -1
+  },
+  "dependents": {
+    "hasDependents": true,
+    "awarded": [
+      {
+        "awardIndicator": "Y",
+        "dateOfBirth": "1990-08-01",
+        "emailAddress": null,
+        "firstName": "SPOUSY",
+        "gender": "F",
+        "lastName": "FOSTER",
+        "proofOfDependency": "N",
+        "relatedToVet": "Y",
+        "relationship": "Spouse",
+        "ssn": "333322222",
+        "veteranIndicator": "N",
+        "dependentBenefitType": null,
+        "dob": "August 1, 1990",
+        "fullName": {
+          "first": "SPOUSY",
+          "last": "FOSTER"
+        },
+        "age": 45,
+        "relationshipToVeteran": "Spouse",
+        "labeledAge": "45 years old"
+      },
+      {
+        "awardIndicator": "Y",
+        "dateOfBirth": "1990-08-01",
+        "emailAddress": null,
+        "firstName": "SUMMER",
+        "gender": "F",
+        "lastName": "FOSTER",
+        "proofOfDependency": "N",
+        "ptcpntId": "600089301",
+        "relatedToVet": "Y",
+        "relationship": "Spouse",
+        "ssn": "333311111",
+        "veteranIndicator": "N",
+        "dependentBenefitType": null,
+        "dob": "August 1, 1990",
+        "fullName": {
+          "first": "SUMMER",
+          "last": "FOSTER"
+        },
+        "age": 46,
+        "key": "summer-3331",
+        "relationshipToVeteran": "Spouse",
+        "labeledAge": "46 years old"
+      },
+      {
+        "awardIndicator": "Y",
+        "dateOfBirth": "2007-11-15",
+        "emailAddress": null,
+        "firstName": "PENNY",
+        "gender": "F",
+        "lastName": "FOSTER",
+        "relatedToVet": "Y",
+        "relationship": "Child",
+        "ssn": "347934793",
+        "veteranIndicator": "N",
+        "dependentBenefitType": null,
+        "dob": "November 15, 2007",
+        "fullName": {
+          "first": "PENNY",
+          "last": "FOSTER"
+        },
+        "age": 17,
+        "relationshipToVeteran": "Child",
+        "labeledAge": "17 years old"
+      },
+      {
+        "awardIndicator": "Y",
+        "dateOfBirth": "2007-11-15",
+        "emailAddress": null,
+        "firstName": "FRANK",
+        "gender": "M",
+        "lastName": "FOSTER",
+        "relatedToVet": "Y",
+        "relationship": "Child",
+        "ssn": "323632363",
+        "veteranIndicator": "N",
+        "dependentBenefitType": null,
+        "dob": "November 15, 2007",
+        "fullName": {
+          "first": "FRANK",
+          "last": "FOSTER"
+        },
+        "age": 33,
+        "relationshipToVeteran": "Child",
+        "labeledAge": "33 years old"
+      },
+      {
+        "awardIndicator": "Y",
+        "dateOfBirth": "2007-11-15",
+        "emailAddress": null,
+        "firstName": "JOE",
+        "gender": "M",
+        "lastName": "FOSTER",
+        "relatedToVet": "Y",
+        "relationship": "Child",
+        "ssn": "346834683",
+        "veteranIndicator": "N",
+        "dependentBenefitType": null,
+        "dob": "November 15, 2007",
+        "fullName": {
+          "first": "JOE",
+          "last": "FOSTER"
+        },
+        "age": 19,
+        "relationshipToVeteran": "Child",
+        "labeledAge": "19 years old"
+      },
+      {
+        "awardIndicator": "Y",
+        "dateOfBirth": "2007-11-15",
+        "emailAddress": null,
+        "firstName": "STACY",
+        "gender": "F",
+        "lastName": "FOSTER",
+        "relatedToVet": "Y",
+        "relationship": "Child",
+        "ssn": "323332333",
+        "veteranIndicator": "N",
+        "dependentBenefitType": null,
+        "dob": "November 15, 2007",
+        "fullName": {
+          "first": "STACY",
+          "last": "FOSTER"
+        },
+        "age": 0,
+        "relationshipToVeteran": "Child",
+        "labeledAge": "4 months old"
+      },
+      {
+        "awardIndicator": "Y",
+        "dateOfBirth": "2007-11-15",
+        "emailAddress": null,
+        "firstName": "JENNIFER",
+        "gender": "F",
+        "lastName": "FOSTER",
+        "relatedToVet": "Y",
+        "relationship": "Child",
+        "ssn": "331133113",
+        "veteranIndicator": "N",
+        "dependentBenefitType": null,
+        "dob": "November 15, 2007",
+        "fullName": {
+          "first": "JENNIFER",
+          "last": "FOSTER"
+        },
+        "age": 4,
+        "relationshipToVeteran": "Child",
+        "labeledAge": "4 years old"
+      },
+      {
+        "awardIndicator": "Y",
+        "dateOfBirth": "2007-11-15",
+        "emailAddress": null,
+        "firstName": "FORMER",
+        "gender": "M",
+        "lastName": "FOSTER",
+        "relatedToVet": "Y",
+        "relationship": "Child",
+        "ssn": "314531453",
+        "veteranIndicator": "N",
+        "dependentBenefitType": null,
+        "dob": "November 15, 2007",
+        "fullName": {
+          "first": "FORMER",
+          "last": "FOSTER"
+        },
+        "age": 11,
+        "relationshipToVeteran": "Child",
+        "labeledAge": "11 years old"
+      },
+      {
+        "awardIndicator": "Y",
+        "cityOfBirth": "herndon",
+        "dateOfBirth": "1936-05-16",
+        "emailAddress": null,
+        "firstName": "PETER",
+        "lastName": "FOSTER",
+        "ptcpntId": "600283912",
+        "relatedToVet": "Y",
+        "relationship": "Parent",
+        "ssn": "010401040",
+        "stateOfBirth": "WA",
+        "veteranIndicator": "N",
+        "upcomingRemoval": null,
+        "dependentBenefitType": null,
+        "dob": "May 16, 1936",
+        "fullName": {
+          "first": "PETER",
+          "last": "FOSTER"
+        },
+        "age": 89,
+        "relationshipToVeteran": "Parent",
+        "labeledAge": "89 years old"
+      },
+      {
+        "awardIndicator": "Y",
+        "cityOfBirth": "herndon",
+        "dateOfBirth": "1936-05-16",
+        "emailAddress": null,
+        "firstName": "MARY",
+        "lastName": "FOSTER",
+        "ptcpntId": "600283912",
+        "relatedToVet": "Y",
+        "relationship": "Parent",
+        "ssn": "015501550",
+        "stateOfBirth": "WA",
+        "veteranIndicator": "N",
+        "upcomingRemoval": null,
+        "dependentBenefitType": null,
+        "dob": "May 16, 1936",
+        "fullName": {
+          "first": "MARY",
+          "last": "FOSTER"
+        },
+        "age": 85,
+        "relationshipToVeteran": "Parent",
+        "labeledAge": "85 years old"
+      }
+    ],
+    "notAwarded": []
+  },
+  "netWorthLimit": 163699,
+  "daysTillExpires": 365,
+  "statementOfTruthSignature": "John Doe",
+  "statementOfTruthCertified": true,
+  "view:removeDependentPickList": [
+    {
+      "fullName": {
+        "first": "SPOUSY",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "1980-07-07",
+      "ssn": "333322222",
+      "relationshipToVeteran": "Spouse",
+      "awardIndicator": "Y",
+      "age": 45,
+      "labeledAge": "45 years old",
+      "key": "spousy-3332",
+      "selected": true,
+      "removalReason": "marriageEnded",
+      "endType": "annulmentOrVoid",
+      "endAnnulmentOrVoidDescription": "Test description",
+      "endDate": "2020-01-01",
+      "endOutsideUs": true,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    },
+    {
+      "fullName": {
+        "first": "SUMMER",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "1980-07-07",
+      "ssn": "333311111",
+      "relationshipToVeteran": "Spouse",
+      "awardIndicator": "Y",
+      "age": 46,
+      "labeledAge": "46 years old",
+      "key": "summer-3331",
+      "selected": true,
+      "removalReason": "spouseDied",
+      "endDate": "2025-01-01",
+      "endOutsideUs": true,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    },
+
+    {
+      "fullName": {
+        "first": "PENNY",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "2008-08-08",
+      "ssn": "347934793",
+      "relationshipToVeteran": "Child",
+      "awardIndicator": "Y",
+      "key": "penny-3479",
+      "age": 17,
+      "labeledAge": "17 years old",
+      "selected": true,
+      "isStepchild": "N",
+      "removalReason": "childMarried",
+      "endDate": "2025-06-05",
+      "endOutsideUs": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    },
+    {
+      "fullName": {
+        "first": "FRANK",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "2006-08-08",
+      "ssn": "323632363",
+      "relationshipToVeteran": "Child",
+      "awardIndicator": "Y",
+      "key": "frank-3236",
+      "age": 33,
+      "labeledAge": "33 years old",
+      "selected": true,
+      "isStepchild": "N",
+      "removalReason": "childDied",
+      "endDate": "2025-06-06",
+      "endOutsideUs": true,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AL"
+    },
+    {
+      "fullName": {
+        "first": "JOE",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "2006-08-08",
+      "ssn": "346834683",
+      "relationshipToVeteran": "Child",
+      "awardIndicator": "Y",
+      "key": "joe-3468",
+      "age": 19,
+      "labeledAge": "19 years old",
+      "selected": true,
+      "isStepchild": "N",
+      "removalReason": "childNotInSchool",
+      "endDate": "2025-06-07",
+      "endOutsideUs": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    },
+    {
+      "fullName": {
+        "first": "STACY",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "2025-06-10",
+      "ssn": "323332333",
+      "relationshipToVeteran": "Child",
+      "awardIndicator": "Y",
+      "key": "stacy-3233",
+      "age": 0,
+      "labeledAge": "4 months old",
+      "selected": true,
+      "isStepchild": "Y",
+      "removalReason": "stepchildNotMember",
+      "stepchildFinancialSupport": "N",
+      "endDate": "2025-06-05",
+      "endOutsideUs": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    },
+    {
+      "fullName": {
+        "first": "JENNIFER",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "2025-06-10",
+      "ssn": "331133113",
+      "relationshipToVeteran": "Child",
+      "awardIndicator": "Y",
+      "key": "jennifer-3311",
+      "age": 4,
+      "labeledAge": "4 years old",
+      "selected": true,
+      "isStepchild": "Y",
+      "removalReason": "stepchildNotMember",
+      "stepchildFinancialSupport": "Y",
+      "endDate": "2025-06-05",
+      "address": {
+        "isMilitary": false,
+        "city": "Test",
+        "country": "USA",
+        "state": "AK",
+        "street": "123 Test St",
+        "street2": "Suite 100",
+        "street3": "Station 3",
+        "postalCode": "99501"
+      },
+      "whoDoesTheStepchildLiveWith": {
+        "first": "First",
+        "middle": "M",
+        "last": "Last"
+      }
+    },
+    {
+      "fullName": {
+        "first": "FORMER",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "2025-06-10",
+      "ssn": "314531453",
+      "relationshipToVeteran": "Child",
+      "awardIndicator": "Y",
+      "key": "former-3145",
+      "age": 11,
+      "labeledAge": "11 years old",
+      "selected": true,
+      "isStepchild": "Y",
+      "removalReason": "childAdopted",
+      "endDate": "2025-06-05",
+      "endOutsideUs": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    },
+
+    {
+      "fullName": {
+        "first": "PETER",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "1943-03-01",
+      "ssn": "010401040",
+      "relationshipToVeteran": "Parent",
+      "awardIndicator": "Y",
+      "key": "peter-0104",
+      "selected": true,
+      "removalReason": "parentDied",
+      "endDate": "2020-01-01",
+      "endOutsideUs": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    },
+    {
+      "fullName": {
+        "first": "MARY",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "1940-03-01",
+      "ssn": "015501550",
+      "relationshipToVeteran": "Parent",
+      "awardIndicator": "Y",
+      "key": "mary-0155",
+      "selected": true,
+      "removalReason": "parentOther",
+      "endDate": "2020-01-01",
+      "endOutsideUs": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    }
+  ],
+  "householdIncome": true
+}

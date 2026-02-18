@@ -3,14 +3,16 @@
  * API - see services under maintenance_windows - https://github.com/department-of-veterans-affairs/devops/blob/master/ansible/deployment/config/vets-api/prod-settings.local.yml.j2#L284
  */
 export default {
-  arcgis: 'arcgis',
+  accreditedRepresentativePortal: 'accredited_representative_portal',
   appeals: 'appeals',
+  arcgis: 'arcgis',
   askva: 'askva',
   // Benefits Gateway Services
   bgs: 'bgs',
   // CARMA (Caregiver Record Management Application)
   carma: 'carma',
   decisionReviews: 'decision_reviews',
+  dgiClaimants: 'dgi_claimants',
   disabilityCompensationForm: 'disability_compensation_form',
   // Debt Management Services
   dmc: 'dmc',
@@ -26,7 +28,12 @@ export default {
   form107959c: 'form107959c',
   form107959a: 'form107959a',
   form1010d: 'form1010d',
+  form1010dExt: 'form1010dExt',
+  // BIO HEART form controls
+  form21p0537: 'form21p0537',
+  form21p601: 'form21p601',
   // global downtime, for scheduled downtime on apps that don't have specific dependencies documented
+  formUploadBenefitsIntake: 'form_upload_benefits_intake',
   global: 'global',
   // Intake, conversion, and mail handling services (central mail)
   icmhs: 'icmhs',
@@ -64,6 +71,8 @@ export default {
   tims: 'tims',
   // Travel Pay API
   travelPay: 'travel_pay',
+  // VA Solid Start
+  vass: 'vass',
   // Online appointment scheduling
   vaos: 'vaos',
   // Online appointment scheduling warning message
@@ -91,7 +100,8 @@ export default {
   // MDOT/ROES/DLC
   mdot: 'mdot',
   // stagingMdot: 'staging_mdot', // unnecessary
-
+  // VR&E Chapter 31 Eligibility Service
+  vreCh31Eligibility: 'vre_ch31_eligibility',
   // Sources for VA Profile services:
   VAPRO_PROFILE_PAGE: 'vapro_profile_page',
   VAPRO_CONTACT_INFO: 'vapro_contact_info',

@@ -14,6 +14,7 @@ import {
   macroCase,
   extractContainedResource,
   dateFormatWithoutTimezone,
+  formatDateTimeInUserTimezone,
 } from '../util/helpers';
 
 const initialState = {
@@ -50,12 +51,23 @@ const getUnit = (type, unit) => {
 
 export const getMeasurement = (record, type) => {
   if (vitalTypes.BLOOD_PRESSURE.includes(type)) {
+    // Guard against missing component array (malformed FHIR data)
+    if (!isArrayAndHasItems(record.component)) {
+      return EMPTY_FIELD;
+    }
+
     const systolic = record.component.find(item =>
-      item.code.coding.some(coding => coding.code === loincCodes.SYSTOLIC),
+      item?.code?.coding?.some(coding => coding.code === loincCodes.SYSTOLIC),
     );
     const diastolic = record.component.find(item =>
-      item.code.coding.some(coding => coding.code === loincCodes.DIASTOLIC),
+      item?.code?.coding?.some(coding => coding.code === loincCodes.DIASTOLIC),
     );
+
+    // Ensure both components exist and have valid values before formatting
+    if (!systolic?.valueQuantity?.value || !diastolic?.valueQuantity?.value) {
+      return EMPTY_FIELD;
+    }
+
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
   }
 
@@ -63,8 +75,8 @@ export const getMeasurement = (record, type) => {
     vitalTypes.HEIGHT.includes(type) &&
     record.valueQuantity?.code === '[in_i]'
   ) {
-    const feet = Math.floor(record.valueQuantity.value / 12);
-    const inches = record.valueQuantity.value % 12;
+    const feet = Math.floor(record.valueQuantity?.value / 12);
+    const inches = record.valueQuantity?.value % 12;
     return `${feet}${vitalUnitDisplayText.HEIGHT_FT}, ${inches}${
       vitalUnitDisplayText.HEIGHT_IN
     }`;
@@ -132,32 +144,82 @@ export const convertVital = record => {
       : EMPTY_FIELD,
     effectiveDateTime: record?.effectiveDateTime,
     location: extractLocation(record),
+    // TODO: This should be changed to accommodate multiple notes
     notes:
       (isArrayAndHasItems(record.note) && record.note[0]?.text) || EMPTY_FIELD,
+  };
+};
+
+export const convertUnifiedVital = record => {
+  // TODO: move this fallback method also into the Vitals parser in the BE
+  // Fallback: derive from text (legacy) else mark as OTHER
+  // if (!type) {
+  //   const derived = macroCase(record.code?.text);
+  //   type = loincToVitalType[derived] || derived || 'OTHER';
+  // }
+  return {
+    name: record.attributes.name,
+    type: record.attributes.type,
+    id: record.id,
+    measurement: record.attributes.measurement || EMPTY_FIELD,
+    date: record.attributes.date
+      ? formatDateTimeInUserTimezone(record.attributes.date)
+      : EMPTY_FIELD,
+    effectiveDateTime: record?.attributes.date,
+    location: record.attributes.location || EMPTY_FIELD,
+    // TODO: This should be changed to accommodate multiple notes
+    notes:
+      (isArrayAndHasItems(record.attributes.notes) &&
+        record.attributes.notes[0]) ||
+      EMPTY_FIELD,
   };
 };
 
 export const vitalReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Vitals.GET: {
+      const list = Array.isArray(state.vitalsList) ? state.vitalsList : [];
       return {
         ...state,
-        vitalDetails: state.vitalsList.filter(
-          vital => vital.type === action.vitalType,
-        ),
+        vitalDetails: list.filter(vital => vital.type === action.vitalType),
       };
     }
     case Actions.Vitals.GET_LIST: {
       const oldList = state.vitalsList;
       const newList =
-        action.response.entry
+        action?.response?.entry
           ?.filter(entry =>
-            entry.resource.code.coding.some(coding =>
+            entry.resource?.code?.coding?.some(coding =>
               allowedVitalLoincs.includes(coding.code),
             ),
           )
           .map(vital => {
             return convertVital(vital.resource);
+          }) || [];
+
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        vitalsList: typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.Vitals.GET_UNIFIED_LIST: {
+      const oldList = state.vitalsList;
+      const newList =
+        action.response.data
+          ?.map(vital => {
+            return convertUnifiedVital(vital);
+          }) // Sort newest first using raw ISO timestamp; invalid/missing dates last
+          .sort((a, b) => {
+            const at = Date.parse(a.effectiveDateTime);
+            const bt = Date.parse(b.effectiveDateTime);
+            const ak = Number.isFinite(at) ? at : -Infinity;
+            const bk = Number.isFinite(bt) ? bt : -Infinity;
+            if (bk !== ak) return bk - ak;
+            // Optional stable tie-breaker by id to keep order deterministic
+            return String(a.id).localeCompare(String(b.id));
           }) || [];
 
       return {

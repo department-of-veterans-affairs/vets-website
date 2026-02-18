@@ -71,8 +71,36 @@ export async function submit(form, formConfig) {
       errorResponse?.status === '403' &&
       errorResponse?.detail === 'Invalid Authenticity Token'
     ) {
+      // Log the CSRF error before retrying
+      if (window.DD_LOGS?.logger?.error) {
+        window.DD_LOGS.logger.error(
+          '21P-530EZ CSRF token invalid, retrying request',
+          {
+            formId: formConfig.formId,
+            trackingPrefix: formConfig.trackingPrefix,
+            inProgressFormId: form?.loadedData?.metadata?.inProgressFormId,
+            errorCode: errorResponse?.code,
+            errorStatus: errorResponse?.status,
+            timestamp: new Date().toISOString(),
+          },
+        );
+      }
+
       localStorage.setItem('csrfToken', '');
-      return sendRequest().catch(onFailure);
+      return sendRequest().catch(retryError => {
+        // Log the failed retry
+        if (window.DD_LOGS?.logger?.error) {
+          window.DD_LOGS.logger.error('21P-530EZ CSRF retry failed', {
+            formId: formConfig.formId,
+            trackingPrefix: formConfig.trackingPrefix,
+            inProgressFormId: form?.loadedData?.metadata?.inProgressFormId,
+            originalError: errorResponse,
+            retryError: retryError?.errors?.[0],
+            timestamp: new Date().toISOString(),
+          });
+        }
+        return onFailure(retryError);
+      });
     }
 
     // in other cases, handle error regularly

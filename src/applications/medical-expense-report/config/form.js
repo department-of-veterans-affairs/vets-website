@@ -1,7 +1,6 @@
-// import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import React from 'react';
 import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../utils/constants';
@@ -9,14 +8,17 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FormSavedPage from '../containers/FormSavedPage';
-import { submit, transform } from './submit';
+// import prefillTransformer from './prefill-transformer';
+import { transform } from './submit-transformer';
 // import { defaultDefinitions } from './definitions';
-import reportingPeriod from './chapters/02-expenses/reportingPeriod';
 import claimantRelationship from './chapters/01-applicant-information/claimantRelationship';
 import claimantInformation from './chapters/01-applicant-information/claimantInformation';
 import contactInformation from './chapters/01-applicant-information/contactInformation';
 import mailingAddress from './chapters/01-applicant-information/mailingAddress';
 import veteranInformation from './chapters/01-applicant-information/veteranInformation';
+import firstTimeReporting from './chapters/02-expenses/firstTimeReporting';
+import effectiveDates from './chapters/02-expenses/effectiveDates';
+import reportingPeriod from './chapters/02-expenses/reportingPeriod';
 import { careExpensesPages } from './chapters/02-expenses/careExpensesPages';
 import { medicalExpensesPages } from './chapters/02-expenses/medicalExpensesPage';
 import { mileageExpensesPages } from './chapters/02-expenses/mileageExpensesPage';
@@ -24,6 +26,7 @@ import supportingDocuments from './chapters/03-additional-information/supporting
 import uploadDocuments from './chapters/03-additional-information/uploadDocuments';
 import expensesReview from './chapters/02-expenses/expensesReview';
 import GetFormHelp from '../components/GetFormHelp';
+import { onFormLoaded } from './onFormLoaded';
 import { hasNoExpenses, hasCareExpenses } from './chapters/02-expenses/helpers';
 
 /** @type {FormConfig} */
@@ -31,7 +34,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/medical_expense_reports/v0/form8416`,
-  submit,
   transformForSubmit: transform,
   trackingPrefix: 'med-expense-8416',
   v3SegmentedProgressBar: true,
@@ -47,6 +49,7 @@ const formConfig = {
   // useCustomScrollAndFocus: false,
   defaultDefinitions: commonDefinitions,
   prefillEnabled: true,
+  // prefillTransformer,
   saveInProgress: {
     messages: {
       inProgress: 'Your medical expense report is in progress.',
@@ -55,6 +58,7 @@ const formConfig = {
       saved: 'We saved your medical expense report',
     },
   },
+  onFormLoaded,
   version: 0,
   formSavedPage: FormSavedPage,
   savedFormMessages: {
@@ -63,10 +67,24 @@ const formConfig = {
   },
   preSubmitInfo: {
     statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      body: (
+        <div>
+          <p>
+            I confirm that the identifying information in this form is accurate
+            and has been represented correctly.
+          </p>
+          <p>
+            <span className="vads-u-font-weight--bold">
+              I have not and will not
+            </span>{' '}
+            receive reimbursement for these expenses. I certify the information
+            contained on this form and the attached addendums is a true
+            representation of expenses I have paid.
+          </p>
+        </div>
+      ),
       messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+        'I confirm that the identifying information in this form is accurate and has been represented correctly. I have not and will not receive reimbursement for these expenses. I certify the information contained on this form and the attached addendums is a true representation of expenses I have paid.',
       fullNamePath: 'claimantFullName',
     },
   },
@@ -80,11 +98,11 @@ const formConfig = {
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
     applicantInformation: {
-      title: 'Applicant information',
+      title: 'Your information',
       pages: {
         claimantRelationship: {
           title: 'Your identity',
-          path: 'applicant/relationship',
+          path: 'applicant',
           uiSchema: claimantRelationship.uiSchema,
           schema: claimantRelationship.schema,
         },
@@ -109,8 +127,8 @@ const formConfig = {
         veteranInformation: {
           title: formData =>
             formData?.claimantNotVeteran
-              ? 'Veteran information'
-              : 'Your information',
+              ? 'Veteran’s information'
+              : 'Your identification information',
 
           path: 'applicant/veteran-information',
           uiSchema: veteranInformation.uiSchema,
@@ -121,9 +139,23 @@ const formConfig = {
     expenses: {
       title: 'Expenses',
       pages: {
+        firstTimeReporting: {
+          title: 'Reporting expenses',
+          path: 'expenses',
+          uiSchema: firstTimeReporting.uiSchema,
+          schema: firstTimeReporting.schema,
+        },
+        effectiveDates: {
+          title: 'Reporting period effective date',
+          path: 'expenses/effective-dates',
+          depends: formData => formData?.firstTimeReporting === true,
+          uiSchema: effectiveDates.uiSchema,
+          schema: effectiveDates.schema,
+        },
         reportingPeriod: {
-          title: 'Reporting period',
-          path: 'expenses/reporting-period',
+          title: 'Reporting period dates',
+          path: 'expenses/reporting-period-dates',
+          depends: formData => formData?.firstTimeReporting === false,
           uiSchema: reportingPeriod.uiSchema,
           schema: reportingPeriod.schema,
         },
@@ -144,14 +176,14 @@ const formConfig = {
       pages: {
         supportingDocuments: {
           title: 'Supporting documents',
-          path: 'expenses/additional-information/supporting-documents',
+          path: 'supporting-documents',
           depends: formData => hasCareExpenses(formData),
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },
         uploadDocuments: {
           title: 'Upload documents',
-          path: 'expenses/additional-information/upload-documents',
+          path: 'upload-documents',
           uiSchema: uploadDocuments.uiSchema,
           schema: uploadDocuments.schema,
         },

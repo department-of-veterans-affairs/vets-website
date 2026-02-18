@@ -7,8 +7,10 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import formConfig from '@bio-aquia/21-2680-house-bound-status/config/form';
-import { IntroductionPage } from './introduction-page';
+import {
+  formConfig,
+  IntroductionPage,
+} from '@bio-aquia/21-2680-house-bound-status';
 
 const props = {
   route: {
@@ -69,5 +71,69 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
     expect(container).to.exist;
+  });
+
+  it('should show Start button when user is logged in and verified', () => {
+    const loggedInVerifiedStore = {
+      ...mockStore,
+      getState: () => ({
+        ...mockStore.getState(),
+        user: {
+          ...mockStore.getState().user,
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            ...mockStore.getState().user.profile,
+            verified: true,
+            loa: {
+              current: 3,
+              highest: 3,
+            },
+          },
+        },
+      }),
+    };
+
+    const { getByText } = render(
+      <Provider store={loggedInVerifiedStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+
+    const startButton = getByText('Start your application');
+    expect(startButton).to.exist;
+  });
+
+  it('should show IdNotVerifiedAlert when user is logged in but not verified', () => {
+    const loggedInNotVerifiedStore = {
+      ...mockStore,
+      getState: () => ({
+        ...mockStore.getState(),
+        user: {
+          ...mockStore.getState().user,
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            ...mockStore.getState().user.profile,
+            verified: false,
+            loa: {
+              current: 1,
+              highest: 1,
+            },
+          },
+        },
+      }),
+    };
+
+    const { getByTestId } = render(
+      <Provider store={loggedInNotVerifiedStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+
+    const verifyIdAlert = getByTestId('verifyIdAlert');
+    expect(verifyIdAlert).to.exist;
   });
 });

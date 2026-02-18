@@ -1,4 +1,7 @@
 // Export test data fixtures here as they are created
-// Example: export { default as mockFormData } from './mock-form-data';
+// Consolidated to 2 fixtures for efficient test coverage:
+// - maximal: Tests all optional fields and conditional flows
+// - minimal: Tests unique scenario of ongoing employment
 
-export { default as minimalTest } from './minimal-test.json';
+export { default as maximal } from './maximal.json';
+export { default as minimal } from './minimal.json';

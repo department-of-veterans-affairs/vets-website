@@ -121,20 +121,21 @@ export function initGetText({
  * ```
  * onNavBack: onNavBackRemoveAddingItem({
  *  arrayPath: 'employers',
- *  summaryRoute: '/array-multiple-page-builder-summary',
- *  introRoute: '/array-multiple-page-builder',
+ *  getSummaryPath: formData => '/array-multiple-page-builder-summary',
+ *  getIntroPath: formData => '/array-multiple-page-builder',
  * }),
  * ```
  * @param {{
  *  arrayPath: string;
- *  summaryRoute: string;
- *  introRoute?: string;
+ *  getSummaryPath: (formData: any) => string;
+ *  getIntroPath: (formData: any) => string;
+ *  reviewRoute: string;
  * }} props
  */
 export function onNavBackRemoveAddingItem({
   arrayPath,
-  summaryRoute,
-  introRoute,
+  getIntroPath,
+  getSummaryPath,
   reviewRoute,
 }) {
   return function onNavBack({ goPath, formData, setFormData, urlParams }) {
@@ -147,6 +148,8 @@ export function onNavBackRemoveAddingItem({
       setFormData(newData);
     }
 
+    const summaryRoute = getSummaryPath?.(formData);
+    const introRoute = getIntroPath?.(formData);
     let path = introRoute && !newArrayData?.length ? introRoute : summaryRoute;
     if (urlParams?.review) {
       path = reviewRoute;
@@ -263,24 +266,27 @@ export function createArrayBuilderItemEditPath({ path, index, isReview }) {
   }`;
 }
 
-export function slugifyText(nounSingular) {
-  return nounSingular.toLowerCase().replace(/ /g, '-');
+export function slugifyText(text, { convertCamelCase = true } = {}) {
+  if (!text) return '';
+  let result = text;
+
+  if (convertCamelCase) {
+    result = result.replace(/([a-z])([A-Z])/g, '$1-$2');
+  }
+
+  return result.toLowerCase().replace(/ /g, '-');
 }
 
 /**
  * Creates a path with a `updated` query param
  * @param {Object} props
- * @param {string} props.path e.g. `/path-summary`
- * @param {string} props.nounSingular e.g. `employer`
+ * @param {string} props.basePath e.g. `/path-summary`
+ * @param {string} props.arrayPath e.g. `employers`
  * @param {string | number} props.index
- * @returns {string} e.g. `/path-summary?updated=employer-0`
+ * @returns {string} e.g. `/path-summary?updated=employers-0`
  */
-export function createArrayBuilderUpdatedPath({
-  basePath,
-  nounSingular,
-  index,
-}) {
-  return `${basePath}?updated=${slugifyText(nounSingular)}-${index}`;
+export function createArrayBuilderUpdatedPath({ basePath, arrayPath, index }) {
+  return `${basePath}?updated=${slugifyText(arrayPath)}-${index}`;
 }
 
 export function isDeepEmpty(obj) {
@@ -303,10 +309,10 @@ export function getArrayIndexFromPathName(
 }
 
 /**
- * Gets the nounSingular and index from the URL `updated=` path
- * @param {string} [search] e.g. `?add=true`
+ * Gets the arrayPathSlug and index from the URL `updated=` query parameter
+ * @param {string} [search] e.g. `?updated=employers-0`
  * @returns {{
- *   nounSingular: string | null,
+ *   arrayPathSlug: string | null,
  *   index: number | null,
  * }}
  */
@@ -315,7 +321,7 @@ export function getUpdatedItemFromPath(search = window?.location?.search) {
   const updatedValue = urlParams.get('updated');
 
   const updatedItem = {
-    nounSingular: null,
+    arrayPathSlug: null,
     index: null,
   };
 
@@ -324,7 +330,7 @@ export function getUpdatedItemFromPath(search = window?.location?.search) {
     if (parts?.length) {
       const index = Number(parts.pop());
       updatedItem.index = index;
-      updatedItem.nounSingular = parts.join(' ');
+      updatedItem.arrayPathSlug = parts.join('-');
     }
   } catch (e) {
     // do nothing
@@ -456,19 +462,23 @@ export const arrayBuilderDependsContextWrapper = contextObject => {
 };
 
 /**
- *
  * @param {Array} arrayData
- * @param {Function} isItemIncomplete
+ * @param {ArrayBuilderOptions['isItemIncomplete']} isItemIncomplete
+ * @param {Object} fullData
  * @returns {number|null}
  */
-const getFirstInvalidArrayDataIndex = (arrayData, isItemIncomplete) => {
+const getFirstInvalidArrayDataIndex = (
+  arrayData,
+  isItemIncomplete,
+  fullData,
+) => {
   if (!arrayData || !arrayData.length) {
     return null;
   }
 
   for (let i = 0; i < arrayData.length; i++) {
     const item = arrayData[i];
-    if (isItemIncomplete(item)) {
+    if (isItemIncomplete(item, fullData)) {
       return i;
     }
   }
@@ -480,7 +490,7 @@ const getFirstInvalidArrayDataIndex = (arrayData, isItemIncomplete) => {
  *
  * @param {Object} props
  * @param {Array} props.arrayData - The array data to validate
- * @param {Function} props.isItemIncomplete - Function to check if an item is incomplete
+ * @param {ArrayBuilderOptions['isItemIncomplete']} props.isItemIncomplete - Function to check if an item is incomplete
  * @param {string} [props.arrayPath] - The array path (e.g. 'treatmentRecords')
  * @param {Function} [props.addError] - Optional function to add an error
  * @returns {boolean} - Returns an object with the index of the incomplete item or null if all items are complete
@@ -491,10 +501,12 @@ export const validateIncompleteItems = ({
   nounSingular,
   errors,
   arrayPath,
+  fullData,
 }) => {
   const invalidIndex = getFirstInvalidArrayDataIndex(
     arrayData,
     isItemIncomplete,
+    fullData,
   );
   // invalidIndex = null, 0, 1, 2, 3...
   const isValid = invalidIndex === null;
@@ -586,6 +598,7 @@ export const processArrayData = array => {
   // Make sure we're not slugifying strings with only spaces
   return slugifyText(
     array.map(item => (item || '').toString().trim()).join(';'),
+    { convertCamelCase: false },
   );
 };
 
@@ -772,4 +785,22 @@ export const checkForDuplicatesInItemPages = ({
     fullData: newData,
     index,
   });
+};
+
+export const getDependsPath = (pages, formData) => {
+  if (!pages || !pages.length) {
+    return null;
+  }
+
+  if (pages.length === 1) {
+    return pages[0].path;
+  }
+
+  for (let i = 0; i < pages.length; i++) {
+    if (pages[i]?.depends(formData)) {
+      return pages[i].path;
+    }
+  }
+
+  return pages[0].path;
 };

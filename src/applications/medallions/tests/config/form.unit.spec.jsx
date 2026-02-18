@@ -1,6 +1,4 @@
-import sinon from 'sinon';
 import { expect } from 'chai';
-import * as helpers from '../../utils/helpers';
 import formConfig from '../../config/form';
 
 describe('formConfig', () => {
@@ -42,12 +40,12 @@ describe('formConfig', () => {
     expect(formConfig.subTitle).to.exist;
   });
 
-  it('should have chapters for veteranInformation, veteranServicePeriods, burialInformation, memorialItems, supportingDocuments', () => {
+  it('should have chapters for veteranInformation, servicePeriods, burialInformation, typeOfRequest, supportingDocuments', () => {
     [
       'veteranInformation',
-      'veteranServicePeriods',
+      'servicePeriods',
       'burialInformation',
-      'memorialItems',
+      'typeOfRequest',
       'supportingDocuments',
     ].forEach(chapter => {
       expect(formConfig.chapters).to.have.property(chapter);
@@ -81,15 +79,6 @@ describe('formConfig', () => {
 });
 
 describe('medallions formConfig depends logic (relationToVetRadio)', () => {
-  let isUserSignedInStub;
-
-  before(() => {
-    isUserSignedInStub = sinon.stub(helpers, 'isUserSignedIn');
-  });
-
-  after(() => {
-    isUserSignedInStub.restore();
-  });
   const dependsCases = [
     {
       chapter: 'applicantInformation',
@@ -98,8 +87,15 @@ describe('medallions formConfig depends logic (relationToVetRadio)', () => {
         formConfig.chapters.applicantInformation.pages.applicantNameView
           .depends,
       scenarios: [
-        { formData: {}, expected: true, isUserSignedIn: true },
-        { formData: {}, expected: false, isUserSignedIn: false },
+        {
+          formData: { 'view:loginState': { isLoggedIn: true } },
+          expected: true,
+        },
+        {
+          formData: { 'view:loginState': { isLoggedIn: false } },
+          expected: false,
+        },
+        { formData: {}, expected: undefined },
       ],
     },
     {
@@ -109,15 +105,14 @@ describe('medallions formConfig depends logic (relationToVetRadio)', () => {
         formConfig.chapters.applicantInformation.pages.applicantName.depends,
       scenarios: [
         {
-          formData: { relationToVetRadio: 'familyMember' },
+          formData: { 'view:loginState': { isLoggedIn: false } },
           expected: true,
-          isUserSignedIn: false,
         },
         {
-          formData: { relationToVetRadio: 'repOfVSO' },
-          expected: true,
-          isUserSignedIn: false,
+          formData: { 'view:loginState': { isLoggedIn: true } },
+          expected: false,
         },
+        { formData: {}, expected: true },
       ],
     },
     {
@@ -217,17 +212,83 @@ describe('medallions formConfig depends logic (relationToVetRadio)', () => {
         { formData: {}, expected: undefined },
       ],
     },
+    {
+      chapter: 'typeOfRequest',
+      page: 'replacementMedallionReason',
+      depends:
+        formConfig.chapters.typeOfRequest.pages.replacementMedallionReason
+          .depends,
+      scenarios: [
+        { formData: { typeOfRequestRadio: 'replacement' }, expected: true },
+        { formData: { typeOfRequestRadio: 'new' }, expected: false },
+        { formData: {}, expected: false },
+      ],
+    },
+    {
+      chapter: 'typeOfRequest',
+      page: 'typeOfMedallion',
+      depends: formConfig.chapters.typeOfRequest.pages.typeOfMedallion.depends,
+      scenarios: [
+        { formData: { typeOfRequestRadio: 'new' }, expected: true },
+        { formData: { typeOfRequestRadio: 'replacement' }, expected: false },
+        { formData: {}, expected: false },
+      ],
+    },
+    {
+      chapter: 'typeOfRequest',
+      page: 'medallionSizeBronze',
+      depends:
+        formConfig.chapters.typeOfRequest.pages.medallionSizeBronze.depends,
+      scenarios: [
+        {
+          formData: {
+            typeOfRequestRadio: 'new',
+            typeOfMedallionRadio: 'bronze',
+          },
+          expected: true,
+        },
+        {
+          formData: {
+            typeOfRequestRadio: 'new',
+            typeOfMedallionRadio: 'medalOfHonor',
+          },
+          expected: false,
+        },
+        { formData: { typeOfRequestRadio: 'replacement' }, expected: false },
+        { formData: {}, expected: false },
+      ],
+    },
+    {
+      chapter: 'typeOfRequest',
+      page: 'medallionSizeMOH',
+      depends: formConfig.chapters.typeOfRequest.pages.medallionSizeMOH.depends,
+      scenarios: [
+        {
+          formData: {
+            typeOfRequestRadio: 'new',
+            typeOfMedallionRadio: 'medalOfHonor',
+          },
+          expected: true,
+        },
+        {
+          formData: {
+            typeOfRequestRadio: 'new',
+            typeOfMedallionRadio: 'bronze',
+          },
+          expected: false,
+        },
+        { formData: { typeOfRequestRadio: 'replacement' }, expected: false },
+        { formData: {}, expected: false },
+      ],
+    },
   ];
 
   dependsCases.forEach(({ chapter, page, depends, scenarios }) => {
     describe(`depends logic for ${chapter} > ${page}`, () => {
-      scenarios.forEach(({ formData, expected, isUserSignedIn }) => {
+      scenarios.forEach(({ formData, expected }) => {
         it(`returns ${expected} for formData: ${JSON.stringify(
           formData,
         )}`, () => {
-          if (typeof isUserSignedIn !== 'undefined') {
-            isUserSignedInStub.returns(isUserSignedIn);
-          }
           const result = depends(formData);
           expect(result).to.equal(expected);
         });

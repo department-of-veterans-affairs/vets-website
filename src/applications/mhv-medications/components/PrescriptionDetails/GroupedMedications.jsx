@@ -12,6 +12,7 @@ import {
 } from '../../util/helpers';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dataDogActionNames } from '../../util/dataDogConstants';
+import { DATETIME_FORMATS } from '../../util/constants';
 
 const MAX_PAGE_LIST_LENGTH = environment.isStaging() ? 2 : 10;
 const MAX_GROUPED_LIST_LENGTH = 26;
@@ -73,17 +74,16 @@ const GroupedMedications = props => {
         {currentGroupedList &&
           currentGroupedList.map(rx => {
             return (
-              <dl
-                className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--3"
-                key={rx.prescriptionId}
-              >
+              <dl key={rx.prescriptionId}>
                 <dt className="vads-u-margin-top--3" data-dd-privacy="mask">
                   <h3
                     className="vads-u-font-size--md vads-u-font-family--sans"
                     data-dd-privacy="mask"
                   >
                     Prescription number:{' '}
-                    <span data-dd-privacy="mask">{rx.prescriptionNumber}</span>
+                    <span data-dd-privacy="mask">
+                      {rx.prescriptionNumber || 'Not available'}
+                    </span>
                   </h3>
                 </dt>
                 <dd className="last-filled-info-grouped-rx">
@@ -98,7 +98,7 @@ const GroupedMedications = props => {
                   Prescribed on{' '}
                   {dateFormat(
                     rx.orderedDate,
-                    'MMMM D, YYYY',
+                    DATETIME_FORMATS.longMonthDate,
                     'date not available',
                   )}
                 </dd>
@@ -115,7 +115,7 @@ const GroupedMedications = props => {
           <VaPagination
             onPageSelect={e => onPageChange(e.detail.page)}
             max-page-list-length={MAX_PAGE_LIST_LENGTH}
-            className="vads-u-justify-content--center no-print vads-u-margin-top--3"
+            className="pagination vads-u-justify-content--center no-print vads-u-margin-y--neg1"
             page={currentPage}
             pages={Math.ceil(totalListCount / MAX_PAGE_LIST_LENGTH)}
             uswds

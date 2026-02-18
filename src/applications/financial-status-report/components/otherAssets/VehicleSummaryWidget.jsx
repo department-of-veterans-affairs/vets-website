@@ -20,6 +20,7 @@ const VehicleSummaryWidget = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
+  useWebComponents,
 }) => {
   const { assets } = data;
   const { automobiles = [] } = assets;
@@ -101,7 +102,11 @@ const VehicleSummaryWidget = ({
           Add additional vehicle
         </Link>
         {contentBeforeButtons}
-        <FormNavButtons goBack={handlers.onBack} submitToContinue />
+        <FormNavButtons
+          goBack={handlers.onBack}
+          submitToContinue
+          useWebComponents={useWebComponents}
+        />
         {contentAfterButtons}
         {isModalOpen ? (
           <DeleteConfirmationModal

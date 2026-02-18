@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -7,10 +7,17 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollTo } from 'platform/utilities/scroll';
 import ActionLink from './web-component-wrappers/ActionLink';
-import { LAST_ISSUE, MAX_LENGTH, REVIEW_ISSUES, SELECTED } from '../constants';
+import {
+  LAST_ISSUE,
+  MAX_LENGTH,
+  REVIEW_ISSUES,
+  SELECTED,
+  FORMAT_YMD_DATE_FNS,
+} from '../constants';
 import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../actions';
 import { IssueCard } from './IssueCard';
 import { removeModalContent } from '../content/contestableIssues';
+import { getBlockedMessage } from '../utils/contestableIssueMessages';
 import { ContestableIssuesLegend } from './ContestableIssuesLegend';
 import { MaxSelectionsAlert } from './MaxSelectionsAlert';
 import { NoneSelectedAlert } from './NoneSelectedAlert';
@@ -22,6 +29,8 @@ import {
   someSelected,
 } from '../utils/issues';
 import { isEmptyObject } from '../utils/helpers';
+import { isTodayOrInFuture } from '../validations/date';
+import { parseDateToDateObj } from '../utils/dates';
 
 /**
  * ContestableIssues - Form system parameters passed into this widget
@@ -70,17 +79,33 @@ const ContestableIssues = props => {
   // inReviewMode = true (review page view, not in edit mode)
   // inReviewMode = false (in edit mode)
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
-  const showCheckbox = !onReviewPage || (onReviewPage && !inReviewMode);
   const { submitted } = formContext;
-  const loadedIssues = formData.contestedIssues || [];
+  const loadedIssues = useMemo(() => formData.contestedIssues || [], [
+    formData.contestedIssues,
+  ]);
 
-  // combine all issues for viewing
-  const items = loadedIssues
-    .map(item => ({
-      ...item?.attributes,
-      [SELECTED]: item?.[SELECTED],
-    }))
-    .concat(formData.additionalIssues || []);
+  // Evaluate issues for same-day decision date blocking (computed at render time)
+  const issuesWithDateEvaluation = useMemo(
+    () =>
+      loadedIssues.map(issue => {
+        const approxDecisionDate = issue?.attributes?.approxDecisionDate;
+        const decisionDate = parseDateToDateObj(
+          approxDecisionDate,
+          FORMAT_YMD_DATE_FNS,
+        );
+
+        return {
+          ...issue?.attributes,
+          [SELECTED]: issue?.[SELECTED],
+          isBlocked: isTodayOrInFuture(new Date(decisionDate)),
+        };
+      }),
+    [loadedIssues],
+  );
+
+  const items = issuesWithDateEvaluation.concat(
+    formData.additionalIssues || [],
+  );
 
   const hasIssues = items.length > 0;
   const hasSelected = hasIssues && someSelected(items);
@@ -178,9 +203,25 @@ const ContestableIssues = props => {
     },
   };
 
-  const content = items.map((item, index) => {
+  const blockedIssues = items.filter(item => item.isBlocked);
+  const blockedMessage = getBlockedMessage(blockedIssues);
+
+  // Use wrapper div with conditional classes to fix va-alert inconsistent CSS rendering
+  const alertClasses =
+    blockedIssues?.length > 0
+      ? 'vads-u-margin-top--3 vads-u-margin-bottom--2'
+      : 'vads-u-margin-top--0p5';
+
+  const issueCards = items.map((item, index) => {
     const itemIsSelected = !!item?.[SELECTED];
     const hideCard = (inReviewMode && !itemIsSelected) || isEmptyObject(item);
+
+    // If the previous issue was blocked and the current one is not, `showSeparator` is true
+    const showSeparator =
+      index > 0 && !item.isBlocked && items[index - 1]?.isBlocked;
+
+    const showCheckbox =
+      !item?.isBlocked && (!onReviewPage || (onReviewPage && !inReviewMode));
 
     const cardProps = {
       id,
@@ -189,7 +230,7 @@ const ContestableIssues = props => {
       key: index,
       options,
       showCheckbox,
-      onReviewPage,
+      showSeparator,
       // props.testChange for testing
       onChange: props.testChange || handlers.onChange,
       onRemove: handlers.onShowRemoveModal,
@@ -249,9 +290,23 @@ const ContestableIssues = props => {
               : null}
           </p>
         </VaModal>
-        <ul className="issues remove-bullets vads-u-border-top--1px vads-u-border-color--gray-light">
-          {content}
-        </ul>
+        <div className="vads-u-border-top--1px vads-u-border-color--gray-light vads-u-margin-top--4">
+          <div className={alertClasses}>
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="warning"
+              visible={blockedIssues.length > 0}
+              id="blocked-issues-alert"
+              role="alert"
+            >
+              <p className="vads-u-margin-y--0">{blockedMessage}</p>
+            </va-alert>
+          </div>
+          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+          <ul className="issues remove-bullets" role="list">
+            {issueCards}
+          </ul>
+        </div>
         {onReviewPage && inReviewMode ? null : (
           <ActionLink
             className="add-new-issue"

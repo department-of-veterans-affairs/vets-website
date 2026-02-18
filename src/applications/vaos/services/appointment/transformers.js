@@ -1,10 +1,5 @@
-import { isEmpty } from 'lodash';
 import { getProviderName } from '../../utils/appointment';
-import {
-  APPOINTMENT_TYPES,
-  PURPOSE_TEXT_V2,
-  TYPE_OF_VISIT,
-} from '../../utils/constants';
+import { APPOINTMENT_TYPES, TYPE_OF_VISIT } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
 
@@ -57,8 +52,14 @@ function getAtlasLocation(appt) {
   };
 }
 
-function getAppointmentTimezone(appt, featureUseBrowserTimezone) {
-  const timezone = appt.location?.attributes?.timezone?.timeZoneId;
+export function getAppointmentTimezone(appt, featureUseBrowserTimezone) {
+  let timezone = appt.location?.attributes?.timezone?.timeZoneId;
+  // GMT/UTC is not a proper timeZoneId - only occurs when facility lat/long is 0,0 (Unset)
+  // and LH resolves that to GMT. "GMT" is the IANA timezone (which LH uses) and UTC is just an alias.
+  // We may want to log when a facility has a GMT/UTC timezone, but that may create a lot of logs
+  if (timezone === 'GMT' || timezone === 'UTC') {
+    timezone = null;
+  }
 
   return (
     timezone ||
@@ -127,24 +128,11 @@ export function transformVAOSAppointment(
         start: new Date(d.start),
       };
     });
-
-    // hasReasonCode is only applicable to v0 appointments
-    const hasReasonCode = appt.reasonCode?.coding?.length > 0;
-
-    const reasonCode = !isEmpty(appt.reasonForAppointment)
-      ? appt.reasonForAppointment
-      : appt.reasonCode?.coding?.[0];
-    const reasonForAppointment = hasReasonCode
-      ? PURPOSE_TEXT_V2.find(
-          purpose =>
-            purpose.serviceName === reasonCode.code ||
-            purpose.commentShort === reasonCode.code,
-        )?.short
-      : appt.reasonForAppointment;
     requestFields = {
-      requestedPeriod: reqPeriods,
+      // Some appointments don't have requested periods, so we need to return an empty array
+      // to avoid errors in the UI
+      requestedPeriod: reqPeriods || [],
       created,
-      reasonForAppointment,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
       requestVisitType: getTypeOfVisit(appt.kind),
       contact: appt.contact,
@@ -158,15 +146,6 @@ export function transformVAOSAppointment(
   if (appt.location && appt.location.attributes) {
     facilityData = transformFacilityV2(appt.location.attributes);
   }
-  // get reason code from appt.reasonCode?.coding for v0 appointments
-  const reasonCodeV0 = appt.reasonCode?.coding;
-  const reasonForAppointment = appt.reasonForAppointment
-    ? appt.reasonForAppointment
-    : PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
-        purpose =>
-          purpose.serviceName === reasonCodeV0?.[0]?.code ||
-          purpose.commentShort === reasonCodeV0?.[0]?.code,
-      )?.short;
   const patientComments = appt.reasonCode ? appt.patientComments : null;
   return {
     resourceType: 'Appointment',
@@ -176,10 +155,11 @@ export function transformVAOSAppointment(
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     showScheduleLink: appt.showScheduleLink,
-    avsPath: isPast ? appt.avsPath : null,
+    avsPath: appt.avsPath ?? null,
+    avsPdf: appt.avsPdf ?? null,
+    avsError: appt.avsError ?? null,
     start: !isRequest ? start : null,
     startUtc: !isRequest ? appt.start : null,
-    reasonForAppointment,
     patientComments,
     timezone: appointmentTZ,
     // This contains the vista status for v0 appointments, but

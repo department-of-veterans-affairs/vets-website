@@ -10,6 +10,7 @@ import {
   mockDraftReferralAppointmentApi,
   mockAppointmentDetailsApiWithPolling,
   mockSubmitAppointmentApi,
+  saveScreenshot,
 } from './referrals-cypress-helpers';
 import MockUser from '../../../fixtures/MockUser';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
@@ -73,6 +74,9 @@ describe('VAOS Referral Appointments', () => {
       // Validate we're on the referrals and requests page
       referralsAndRequests.validate();
       cy.injectAxeThenAxeCheck();
+      saveScreenshot(
+        'vaos_ccDirectScheduling_referralsAndRequests_noReferrals',
+      );
 
       // Verify that no referrals message is displayed
       referralsAndRequests.assertPendingReferrals({ count: 0 });
@@ -170,6 +174,9 @@ describe('VAOS Referral Appointments', () => {
       // Validate we're on the referrals and requests page
       referralsAndRequests.validate();
       cy.injectAxeThenAxeCheck();
+      saveScreenshot(
+        'vaos_ccDirectScheduling_referralsAndRequests_withReferrals',
+      );
 
       // Verify that referrals are displayed
       referralsAndRequests.assertPendingReferrals({ count: numberOfReferrals });
@@ -180,6 +187,7 @@ describe('VAOS Referral Appointments', () => {
       // Wait for referral detail to load
       cy.wait('@v2:get:referral:detail');
       cy.injectAxeThenAxeCheck();
+      saveScreenshot('vaos_ccDirectScheduling_referralDetails');
 
       // Validate we've reached the Schedule Referral page
       scheduleReferral.validate();
@@ -192,6 +200,7 @@ describe('VAOS Referral Appointments', () => {
       // Wait for draft referral appointment to load
       cy.wait('@v2:post:draftReferralAppointment');
       cy.injectAxeThenAxeCheck();
+      saveScreenshot('vaos_ccDirectScheduling_selectingSlotTimes_noSelection');
 
       // Validate we've reached the choose date and time page
       chooseDateAndTime.validate();
@@ -201,10 +210,12 @@ describe('VAOS Referral Appointments', () => {
 
       // Select the first appointment slot
       chooseDateAndTime.selectAppointmentSlot(0);
+      saveScreenshot('vaos_ccDirectScheduling_selectingSlotTimes_selectedSlot');
 
       // Click continue to proceed with scheduling
       chooseDateAndTime.clickContinue();
       cy.injectAxeThenAxeCheck();
+      saveScreenshot('vaos_ccDirectScheduling_reviewAndConfirm');
 
       // Validate we've reached the review and confirm page
       reviewAndConfirm.validate();
@@ -220,6 +231,7 @@ describe('VAOS Referral Appointments', () => {
       // Wait for first appointment details polling request (should be proposed)
       cy.wait('@v2:get:appointmentDetails:polling');
       cy.injectAxeThenAxeCheck();
+      saveScreenshot('vaos_ccDirectScheduling_appointmentSubmit_loading');
 
       // Wait for additional polling requests to eventually get booked status
       // The app should poll multiple times, then it will get a booked status
@@ -228,6 +240,7 @@ describe('VAOS Referral Appointments', () => {
 
       // Verify we're redirected to the confirmation page
       completeReferral.validate();
+      saveScreenshot('vaos_ccDirectScheduling_appointmentSubmit_complete');
       completeReferral.assertAppointmentDetails();
       completeReferral.assertProviderInfo();
       completeReferral.assertReferralsLink();
@@ -236,7 +249,177 @@ describe('VAOS Referral Appointments', () => {
       // Verify the completed appointment details
       cy.injectAxeThenAxeCheck();
       epsAppointmentDetails.validate();
+      saveScreenshot('vaos_ccDirectScheduling_appointmentDetails');
       epsAppointmentDetails.assertProviderInfo();
+    });
+  });
+
+  describe('Referral with no slots available', () => {
+    beforeEach(() => {
+      // Mock referrals list response
+      const referralsResponse = new MockReferralListResponse({
+        numberOfReferrals: 1,
+      }).toJSON();
+      const referralId = referralsResponse.data[0].id;
+      const { referralNumber } = referralsResponse.data[0].attributes;
+
+      mockReferralsGetApi({ response: referralsResponse });
+
+      // Mock referral detail response
+      const referralDetailResponse = new MockReferralDetailResponse({
+        id: referralId,
+        hasAppointments: false,
+      });
+      mockReferralDetailGetApi({
+        id: referralId,
+        response: referralDetailResponse,
+      });
+      // Mock draft referral appointment response
+      const draftReferralAppointment = new MockReferralDraftAppointmentResponse(
+        {
+          referralNumber,
+          categoryOfCare: 'Optometry',
+          noSlotsError: true,
+          currentDate: mockToday,
+        },
+      );
+      mockDraftReferralAppointmentApi({
+        response: draftReferralAppointment,
+      });
+    });
+
+    it('should show no slots available message', () => {
+      // Navigate to the Referrals and Requests page
+      appointmentList.navigateToReferralsAndRequests();
+
+      // Wait for referrals to load
+      cy.wait('@v2:get:referrals');
+
+      // Select the referral
+      referralsAndRequests.selectReferral(0);
+
+      // Wait for referral detail to load
+      cy.wait('@v2:get:referral:detail');
+
+      // Click the schedule appointment button
+      scheduleReferral.clickScheduleAppointment();
+
+      // Wait for draft referral appointment to load
+      cy.wait('@v2:post:draftReferralAppointment');
+      cy.injectAxeThenAxeCheck();
+
+      // Verify no slots available message is displayed
+      chooseDateAndTime.assertNoSlotsAvailableAlert();
+
+      // Verify the calendar is not displayed
+      cy.findByTestId('cal-widget').should('not.exist');
+      saveScreenshot(
+        'vaos_ccDirectScheduling_selectingSlotTimes_noSlotsAvailableError',
+      );
+    });
+  });
+
+  describe('Referral without provider information', () => {
+    beforeEach(() => {
+      // Mock referrals list response
+      const referralsResponse = new MockReferralListResponse({
+        numberOfReferrals: 1,
+      }).toJSON();
+      mockReferralsGetApi({ response: referralsResponse });
+      const referralId = referralsResponse.data[0].id;
+
+      // Mock referral detail response
+      const referralDetailResponse = new MockReferralDetailResponse({
+        id: referralId,
+        hasAppointments: false,
+        provider: null,
+      });
+      mockReferralDetailGetApi({
+        id: referralId,
+        response: referralDetailResponse,
+      });
+    });
+
+    it('should show online scheduling not available message', () => {
+      // Navigate to the Referrals and Requests page
+      appointmentList.navigateToReferralsAndRequests();
+
+      // Wait for referrals to load
+      cy.wait('@v2:get:referrals');
+
+      // Select the referral without provider information
+      referralsAndRequests.selectReferral(0);
+
+      // Wait for referral detail to load
+      cy.wait('@v2:get:referral:detail');
+      cy.injectAxeThenAxeCheck();
+
+      // Verify online scheduling not available message is displayed
+      scheduleReferral.assertOnlineSchedulingNotAvailableAlert();
+      saveScreenshot('vaos_ccDirectScheduling_referralDetail_noProviderError');
+    });
+  });
+
+  describe('Referral not from pilot station', () => {
+    const referralId = 'out-of-pilot-station';
+    const stationId = '12345'; // out of pilot station id
+    beforeEach(() => {
+      // Mock successful referrals list response
+      // Create referrals using the fixture
+      const outOfPilotStationReferral = MockReferralListResponse.createReferral(
+        {
+          id: referralId,
+          categoryOfCare: 'OPTOMETRY',
+          stationId,
+        },
+      );
+      const referralsResponse = new MockReferralListResponse({
+        numberOfReferrals: 0,
+      }).toJSON();
+      // append the out of pilot station referral to the referrals response
+      referralsResponse.data.push(outOfPilotStationReferral);
+      mockReferralsGetApi({ response: referralsResponse });
+
+      // Mock referral detail response
+      const referralDetailResponse = new MockReferralDetailResponse({
+        id: referralId,
+        hasAppointments: false,
+        stationId,
+      });
+      mockReferralDetailGetApi({
+        id: referralId,
+        response: referralDetailResponse,
+      });
+    });
+
+    it('should allow the use to see refferal details selecting the referral from the referrals and requests page', () => {
+      // Navigate to the Referrals and Requests page
+      appointmentList.navigateToReferralsAndRequests();
+
+      // Wait for referrals to load
+      cy.wait('@v2:get:referrals');
+
+      // Validate we're on the referrals and requests page
+      referralsAndRequests.validate();
+      cy.injectAxeThenAxeCheck();
+
+      // Verify that referrals are displayed
+      referralsAndRequests.assertPendingReferrals({ count: 1 });
+
+      // Select the referral
+      referralsAndRequests.selectReferral(0);
+
+      // Wait for referral detail to load
+      cy.wait('@v2:get:referral:detail');
+      cy.injectAxeThenAxeCheck();
+
+      // Validate we've reached the Schedule Referral page
+      scheduleReferral.validate();
+      scheduleReferral.assertReferralDetails();
+      scheduleReferral.assertOnlineSchedulingNotAvailableAlert();
+      saveScreenshot(
+        'vaos_ccDirectScheduling_referralDetail_outOfPilotStationError',
+      );
     });
   });
 });

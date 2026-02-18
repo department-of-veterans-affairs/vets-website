@@ -22,7 +22,7 @@ describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
     PatientInboxPage.loadInboxMessages();
     // Navigate through curated list flow: create message -> interstitial -> select care team
     PatientInboxPage.clickCreateNewMessage();
-    PatientInterstitialPage.getContinueButton().click({ force: true });
+    PatientInterstitialPage.getStartMessageLink().click({ force: true });
     PatientComposePage.verifyHeader('Select care team');
   });
 
@@ -84,6 +84,86 @@ describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
       `OH TG GROUP 002`,
       'VA Spokane health care',
     );
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify option text includes shortened system names in parentheses', () => {
+    cy.findByTestId('compose-recipient-combobox')
+      .find('optgroup[label="VA Kansas City health care"]')
+      .find('option')
+      .each($option => {
+        const text = $option.text();
+        // Each option should have format: "Team Name\t(Shortened System Name)"
+        cy.wrap(text).should('match', /\t\(.+\)/);
+        // Should contain shortened name "Kansas City", not full "VA Kansas City health care"
+        cy.wrap(text).should('include', '(Kansas City)');
+      });
+
+    cy.findByTestId('compose-recipient-combobox')
+      .find('optgroup[label="VA Madison health care"]')
+      .find('option')
+      .each($option => {
+        const text = $option.text();
+        cy.wrap(text).should('match', /\t\(.+\)/);
+        cy.wrap(text).should('include', '(Madison)');
+      });
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify system names are shortened by removing "VA " prefix and " health care" suffix', () => {
+    cy.findByTestId('compose-recipient-combobox')
+      .find('optgroup')
+      .each($group => {
+        const label = $group.attr('label');
+
+        // Skip Recent care teams group for this test
+        if (label !== 'Recent care teams') {
+          cy.wrap($group)
+            .find('option')
+            .each($option => {
+              const text = $option.text();
+              const match = text.match(/\t\((.+)\)/);
+
+              if (match) {
+                const systemNameInParens = match[1];
+                // System name should NOT start with "VA "
+                cy.wrap(systemNameInParens).should('not.match', /^VA\s+/i);
+                // System name should NOT end with " health care"
+                cy.wrap(systemNameInParens).should(
+                  'not.match',
+                  /\s+health care$/i,
+                );
+              }
+            });
+        }
+      });
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify Recent care teams optgroup options show shortened system names', () => {
+    cy.findByTestId('compose-recipient-combobox')
+      .find('optgroup')
+      .then($optgroups => {
+        const recentOptgroup = Array.from($optgroups).find(
+          og => og.getAttribute('label') === 'Recent care teams',
+        );
+
+        if (recentOptgroup) {
+          // If Recent care teams exists, verify its options have shortened names
+          cy.wrap(recentOptgroup)
+            .find('option')
+            .each($option => {
+              const text = $option.text();
+              // Should have tab and parentheses format
+              cy.wrap(text).should('match', /\t\(.+\)/);
+              // Should NOT contain full "VA ... health care" format
+              cy.wrap(text).should('not.match', /\t\(VA\s+.*health care\)/i);
+            });
+        }
+      });
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

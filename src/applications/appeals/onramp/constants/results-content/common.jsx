@@ -73,7 +73,7 @@ export const COURT_OF_APPEALS = (
     </p>
     <va-link
       external
-      href="https://www.uscourts.cavc.gov/"
+      href="https://www.uscourts.cavc.gov/appeal.php"
       text="How to file an appeal on the US Court of Appeals website"
     />
   </va-card>

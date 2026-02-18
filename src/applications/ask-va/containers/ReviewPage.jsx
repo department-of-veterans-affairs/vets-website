@@ -1,8 +1,13 @@
+import React, { useEffect, useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 import {
   VaAccordion,
   VaAccordionItem,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import {
   setData,
   setEditMode,
@@ -18,12 +23,9 @@ import {
   isLOA3,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router';
 import { scrollTo, getScrollOptions } from 'platform/utilities/scroll';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+
 import {
   closeReviewChapter,
   openReviewChapter,
@@ -33,9 +35,11 @@ import {
 import FileUpload from '../components/FileUpload';
 import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import ReviewSectionContent from '../components/reviewPage/ReviewSectionContent';
-import SaveCancelButtons from '../components/reviewPage/SaveCancelButtons';
+import UpdatePageButton from '../components/reviewPage/UpdatePageButton';
+// eslint-disable-next-line import/no-cycle
 import formConfig from '../config/form';
 import { DownloadLink } from '../config/helpers';
+import { relationshipOptionsSomeoneElse } from '../constants';
 import {
   chapterTitles,
   createPageListByChapterAskVa,
@@ -56,7 +60,6 @@ import {
   handleFormSubmission,
   maskSocial,
 } from '../utils/reviewPageUtils';
-import { relationshipOptionsSomeoneElse } from '../constants';
 
 const ReviewPage = props => {
   const [showAlert, setShowAlert] = useState(true);
@@ -235,9 +238,10 @@ const ReviewPage = props => {
     );
   };
 
-  useEffect(async () => {
-    await getUploadedFiles();
-    focusElement('h2');
+  useEffect(() => {
+    getUploadedFiles().then(() => {
+      focusElement('h2');
+    });
   }, []);
 
   return (
@@ -315,7 +319,9 @@ const ReviewPage = props => {
                   expandedPages={chapter.expandedPages}
                   chapterFormConfig={chapter.formConfig}
                   chapterKey={chapter.name}
+                  // eslint-disable-next-line react/prop-types
                   form={props.form}
+                  // eslint-disable-next-line react/prop-types
                   formContext={props.formContext}
                   onEdit={handleEdit}
                   open={chapter.open}
@@ -349,7 +355,9 @@ const ReviewPage = props => {
                   expandedPages={chapter.expandedPages}
                   chapterFormConfig={chapter.formConfig}
                   chapterKey={chapter.name}
+                  // eslint-disable-next-line react/prop-types
                   form={props.form}
+                  // eslint-disable-next-line react/prop-types
                   formContext={props.formContext}
                   onEdit={handleEdit}
                   showButtons
@@ -380,12 +388,11 @@ const ReviewPage = props => {
               .filter(chapter => chapter.name === 'veteransPersonalInformation')
               .map(chapter => {
                 return (
-                  <>
+                  <React.Fragment key={chapter.name}>
                     <div
                       name={`chapter${
                         chapterTitles.veteransPersonalInformation
                       }ScrollElement`}
-                      key={chapter.name}
                     />
                     {!editSection.includes(
                       chapterTitles.veteransPersonalInformation,
@@ -459,7 +466,9 @@ const ReviewPage = props => {
                           expandedPages={chapter.expandedPages}
                           chapterFormConfig={chapter.formConfig}
                           chapterKey={chapter.name}
+                          // eslint-disable-next-line react/prop-types
                           form={props.form}
+                          // eslint-disable-next-line react/prop-types
                           formContext={props.formContext}
                           onEdit={handleEdit}
                           showButtons={false}
@@ -477,7 +486,7 @@ const ReviewPage = props => {
                           }
                           hasUnviewedPages={chapter.hasUnviewedPages}
                         />
-                        <SaveCancelButtons
+                        <UpdatePageButton
                           closeSection={closeAll}
                           keys={chapter.pageKeys}
                           title={chapterTitles.veteransPersonalInformation}
@@ -485,7 +494,7 @@ const ReviewPage = props => {
                         />
                       </>
                     )}
-                  </>
+                  </React.Fragment>
                 );
               })}
 
@@ -498,7 +507,9 @@ const ReviewPage = props => {
                     expandedPages={chapter.expandedPages}
                     chapterFormConfig={chapter.formConfig}
                     chapterKey={chapter.name}
+                    // eslint-disable-next-line react/prop-types
                     form={props.form}
+                    // eslint-disable-next-line react/prop-types
                     formContext={props.formContext}
                     onEdit={handleEdit}
                     showButtons
@@ -532,12 +543,11 @@ const ReviewPage = props => {
               )
               .map(chapter => {
                 return (
-                  <>
+                  <React.Fragment key={chapter.name}>
                     <div
                       name={`chapter${
                         chapterTitles.familyMembersPersonalInformation
                       }ScrollElement`}
-                      key={chapter.name}
                     />
                     {!editSection.includes(
                       chapterTitles.familyMembersPersonalInformation,
@@ -591,7 +601,9 @@ const ReviewPage = props => {
                           expandedPages={chapter.expandedPages}
                           chapterFormConfig={chapter.formConfig}
                           chapterKey={chapter.name}
+                          // eslint-disable-next-line react/prop-types
                           form={props.form}
+                          // eslint-disable-next-line react/prop-types
                           formContext={props.formContext}
                           onEdit={handleEdit}
                           showButtons={false}
@@ -609,7 +621,7 @@ const ReviewPage = props => {
                           }
                           hasUnviewedPages={chapter.hasUnviewedPages}
                         />
-                        <SaveCancelButtons
+                        <UpdatePageButton
                           closeSection={closeAll}
                           keys={chapter.pageKeys}
                           title={chapterTitles.familyMembersPersonalInformation}
@@ -617,7 +629,7 @@ const ReviewPage = props => {
                         />
                       </>
                     )}
-                  </>
+                  </React.Fragment>
                 );
               })}
 
@@ -630,7 +642,9 @@ const ReviewPage = props => {
                     expandedPages={chapter.expandedPages}
                     chapterFormConfig={chapter.formConfig}
                     chapterKey={chapter.name}
+                    // eslint-disable-next-line react/prop-types
                     form={props.form}
+                    // eslint-disable-next-line react/prop-types
                     formContext={props.formContext}
                     onEdit={handleEdit}
                     showButtons
@@ -661,12 +675,11 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'yourInformation')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${
                       chapterTitles.yourInformation
                     }ScrollElement`}
-                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourInformation) ? (
                     <ReviewSectionContent
@@ -730,7 +743,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -744,7 +759,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourInformation}
@@ -752,7 +767,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
 
@@ -760,7 +775,7 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'yourPostalCode')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${chapterTitles.yourPostalCode}ScrollElement`}
                     key={chapter.name}
@@ -784,7 +799,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -798,7 +815,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourPostalCode}
@@ -806,7 +823,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
 
@@ -814,12 +831,11 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'yourVAHealthFacility')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${
                       chapterTitles.yourVAHealthFacility
                     }ScrollElement`}
-                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourVAHealthFacility) ? (
                     <ReviewSectionContent
@@ -840,7 +856,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -854,7 +872,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourVAHealthFacility}
@@ -862,7 +880,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
 
@@ -870,12 +888,11 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'stateOfProperty')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${
                       chapterTitles.stateOfProperty
                     }ScrollElement`}
-                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.stateOfProperty) ? (
                     <ReviewSectionContent
@@ -896,7 +913,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -910,7 +929,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.stateOfProperty}
@@ -918,7 +937,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
 
@@ -926,12 +945,11 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'yourVREInformation')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${
                       chapterTitles.yourVREInformation
                     }ScrollElement`}
-                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourVREInformation) ? (
                     <ReviewSectionContent
@@ -960,7 +978,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -974,7 +994,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourVREInformation}
@@ -982,7 +1002,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
 
@@ -990,18 +1010,16 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'schoolInformation')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${
                       chapterTitles.schoolInformation
                     }ScrollElement`}
-                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.schoolInformation) ? (
                     <ReviewSectionContent
                       title={chapterTitles.schoolInformation}
-                      editSection={editAll}
-                      // use pagesToMoveConfig if combining pages
+                      editSection={editAll} // use pagesToMoveConfig if combining pages
                       keys={pagesToMoveConfig.schoolInformation}
                       items={[
                         {
@@ -1042,7 +1060,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -1056,7 +1076,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.schoolInformation}
@@ -1064,7 +1084,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
 
@@ -1072,7 +1092,7 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'yourContactInformation')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${
                       chapterTitles.yourContactInformation
@@ -1135,7 +1155,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -1149,7 +1171,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourContactInformation}
@@ -1157,7 +1179,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
 
@@ -1165,7 +1187,7 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'yourMailingAddress')
             .map(chapter => {
               return (
-                <>
+                <React.Fragment key={chapter.name}>
                   <div
                     name={`chapter${
                       chapterTitles.yourMailingAddress
@@ -1236,7 +1258,9 @@ const ReviewPage = props => {
                         expandedPages={chapter.expandedPages}
                         chapterFormConfig={chapter.formConfig}
                         chapterKey={chapter.name}
+                        // eslint-disable-next-line react/prop-types
                         form={props.form}
+                        // eslint-disable-next-line react/prop-types
                         formContext={props.formContext}
                         onEdit={handleEdit}
                         showButtons={false}
@@ -1250,7 +1274,7 @@ const ReviewPage = props => {
                         viewedPages={new Set(getPageKeysForReview(formConfig))}
                         hasUnviewedPages={chapter.hasUnviewedPages}
                       />
-                      <SaveCancelButtons
+                      <UpdatePageButton
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourMailingAddress}
@@ -1258,7 +1282,7 @@ const ReviewPage = props => {
                       />
                     </>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
         </VaAccordionItem>
@@ -1283,7 +1307,6 @@ const ReviewPage = props => {
                 </>
                 {!editSection.includes(chapterTitles.yourQuestion) ? (
                   <ReviewSectionContent
-                    title={chapterTitles.yourQuestion}
                     editSection={editAll}
                     keys={chapter.pageKeys}
                     items={[
@@ -1304,7 +1327,9 @@ const ReviewPage = props => {
                     expandedPages={chapter.expandedPages}
                     chapterFormConfig={chapter.formConfig}
                     chapterKey={chapter.name}
+                    // eslint-disable-next-line react/prop-types
                     form={props.form}
+                    // eslint-disable-next-line react/prop-types
                     formContext={props.formContext}
                     onEdit={handleEdit}
                     showButtons
@@ -1468,11 +1493,19 @@ ReviewPage.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  formData: PropTypes.object,
+  askVA: PropTypes.object,
+  chapters: PropTypes.array, // Of what?
+  formData: PropTypes.object, // Shape?
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  loggedIn: PropTypes.bool,
   isUserLOA3: PropTypes.bool,
+  loggedIn: PropTypes.bool,
+  setData: PropTypes.func,
+  setEditMode: PropTypes.func,
+  setValid: PropTypes.func,
+  setViewedPages: PropTypes.func,
+  uploadFile: PropTypes.func,
+  onSetData: PropTypes.func,
 };
 
 const mapDispatchToProps = {

@@ -153,7 +153,6 @@ export const Form0996App = ({
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring({
     loggedIn,
-    formId: 'hlr', // becomes "nodBrowserMonitoringEnabled" feature flag
     version: '1.0.0',
     applicationId: DATA_DOG_ID,
     clientToken: DATA_DOG_TOKEN,
@@ -177,7 +176,7 @@ Form0996App.propTypes = {
     status: PropTypes.string,
     issues: PropTypes.array,
   }),
-  formData: data996,
+  formData: PropTypes.shape(data996),
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),

@@ -35,6 +35,12 @@ const EditContactList = () => {
   const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
   const [checkboxError, setCheckboxError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [triageTeamCount, setTriageTeamCount] = useState({});
+  const [showAlertBackgroundBox, setShowAlertBackgroundBox] = useState(false);
+  const [
+    showBlockedTriageGroupAlert,
+    setShowBlockedTriageGroupAlert,
+  ] = useState(false);
 
   const navigationError = ErrorMessages.ContactList.SAVE_AND_EXIT;
 
@@ -64,18 +70,37 @@ const EditContactList = () => {
     [allTriageTeams],
   );
 
-  const updatePreferredTeam = (triageTeamId, selected) => {
-    setAllTriageTeams(prevTeams =>
-      prevTeams.map(
-        team =>
-          team.triageTeamId === triageTeamId
-            ? {
-                ...team,
-                preferredTeam: selected || !team.preferredTeam,
-              }
-            : team,
-      ),
+  const setStationCount = triageTeams => {
+    const teams = triageTeams || [];
+    const stationNumbers = teams.map(team => team.stationNumber);
+    const uniqueStationNumbers = [...new Set(stationNumbers)];
+    return Object.fromEntries(
+      uniqueStationNumbers.map(station => [
+        station,
+        teams.filter(
+          team =>
+            team.stationNumber === station &&
+            team.preferredTeam &&
+            !team.blockedStatus,
+        ).length,
+      ]),
     );
+  };
+
+  const updatePreferredTeam = (triageTeamId, selected, stationNumber) => {
+    const updatedTriageTeams = allTriageTeams.map(
+      team =>
+        team.triageTeamId === triageTeamId ||
+        (selected !== null && team.stationNumber === stationNumber)
+          ? {
+              ...team,
+              preferredTeam:
+                (selected || !team.preferredTeam) && selected !== false,
+            }
+          : team,
+    );
+    setAllTriageTeams(updatedTriageTeams);
+    setTriageTeamCount(setStationCount(updatedTriageTeams));
   };
 
   const navigateBack = useCallback(
@@ -125,6 +150,7 @@ const EditContactList = () => {
   useEffect(
     () => {
       setAllTriageTeams(vistaRecipients);
+      setTriageTeamCount(setStationCount(vistaRecipients));
     },
     [vistaRecipients],
   );
@@ -183,7 +209,16 @@ const EditContactList = () => {
         cancelButtonText={navigationError?.cancelButtonText}
       />
       <h1>Messages: Contact list</h1>
-      <AlertBackgroundBox closeable focus />
+      <AlertBackgroundBox
+        closeable
+        focus
+        setShowAlertBackgroundBox={setShowAlertBackgroundBox}
+      />
+
+      {showBlockedTriageGroupAlert &&
+        showAlertBackgroundBox && (
+          <hr className="vads-u-margin-y--2" data-testid="contact-list-hr" />
+        )}
 
       <div
         className={`${vistaFacilities?.length > 1 &&
@@ -192,16 +227,27 @@ const EditContactList = () => {
         <BlockedTriageGroupAlert
           alertStyle={BlockedTriageAlertStyles.ALERT}
           parentComponent={ParentComponent.CONTACT_LIST}
+          setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
         />
       </div>
 
       <p className="vads-u-margin-bottom--3">
-        Select the teams you want to show in your contact list. You must select
-        at least one team
-        {vistaFacilities?.length > 1
-          ? ' from one of your facilities.'
-          : '.'}{' '}
+        Select and save the care teams you want to send messages to. You must
+        select at least 1 care team
+        {vistaFacilities?.length > 1 ? ' from 1 of your facilities.' : '.'}{' '}
+        <br />
+        <br />
+        <b>Note:</b> You can only edit care teams from some facilities. So all
+        facilities won’t be listed here.
       </p>
+
+      {isSaving && (
+        <va-loading-indicator
+          message="Saving your contact list..."
+          set-focus
+          data-testid="contact-list-saving-indicator"
+        />
+      )}
 
       {error && (
         <div>
@@ -232,36 +278,53 @@ const EditContactList = () => {
       {allTriageTeams?.length > 0 && (
         <>
           <form className="contactListForm">
-            {vistaFacilities.map(stationNumber => {
-              if (!blockedFacilities.includes(stationNumber)) {
-                const facilityName = getVamcSystemNameFromVhaId(
-                  ehrDataByVhaId,
-                  stationNumber,
-                );
+            <va-accordion bordered>
+              {vistaFacilities.map((stationNumber, index) => {
+                if (!blockedFacilities.includes(stationNumber)) {
+                  const facilityName = getVamcSystemNameFromVhaId(
+                    ehrDataByVhaId,
+                    stationNumber,
+                  );
 
-                return (
-                  <FacilityCheckboxGroup
-                    key={stationNumber}
-                    errorMessage={checkboxError}
-                    facilityName={facilityName}
-                    multipleFacilities={vistaFacilities?.length > 1}
-                    updatePreferredTeam={updatePreferredTeam}
-                    triageTeams={allTriageTeams
-                      .filter(
-                        team =>
-                          team.stationNumber === stationNumber &&
-                          team.blockedStatus === false,
-                      )
-                      .sort((a, b) => {
-                        const aName = a.suggestedNameDisplay || a.name;
-                        const bName = b.suggestedNameDisplay || b.name;
-                        return aName.localeCompare(bName);
-                      })}
-                  />
-                );
-              }
-              return null;
-            })}
+                  return (
+                    <va-accordion-item
+                      bordered
+                      class="vads-u-margin-bottom--3"
+                      header={`${facilityName ||
+                        `VA Medical Center - ${stationNumber}`}`}
+                      subheader={`${triageTeamCount[stationNumber] || 0} team${
+                        triageTeamCount[stationNumber] !== 1 ? 's' : ''
+                      } selected`}
+                      key={stationNumber}
+                      data-dd-privacy="mask"
+                      data-testid="facility-accordion-item"
+                      data-dd-action-name="Contact list accordion clicked"
+                      open={index === 0}
+                    >
+                      <FacilityCheckboxGroup
+                        key={stationNumber}
+                        errorMessage={checkboxError}
+                        facilityName={facilityName}
+                        multipleFacilities={vistaFacilities?.length > 1}
+                        updatePreferredTeam={updatePreferredTeam}
+                        triageTeams={allTriageTeams
+                          .filter(
+                            team =>
+                              team.stationNumber === stationNumber &&
+                              team.blockedStatus === false,
+                          )
+                          .sort((a, b) => {
+                            const aName = a.suggestedNameDisplay || a.name;
+                            const bName = b.suggestedNameDisplay || b.name;
+                            return aName.localeCompare(bName);
+                          })}
+                      />
+                    </va-accordion-item>
+                  );
+                }
+                return null;
+              })}
+            </va-accordion>
 
             <div
               className="

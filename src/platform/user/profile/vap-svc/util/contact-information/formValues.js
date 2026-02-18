@@ -8,6 +8,11 @@ import {
   personalInformation,
 } from '../getProfileInfoFieldAttributes';
 
+import {
+  isSchedulingPreference,
+  getSchedulingPreferenceInitialFormValues,
+} from '../health-care-settings/schedulingPreferencesUtils';
+
 import { createNotListedTextKey } from '../personal-information/personalInformationUtils';
 
 const isOverseasMilitaryMailingAddress = data =>
@@ -120,6 +125,10 @@ export const getInitialFormValues = options => {
       ...(data?.[notListedTextKey] &&
         set({}, notListedTextKey, data?.[notListedTextKey])),
     });
+  }
+
+  if (isSchedulingPreference(fieldName)) {
+    return getSchedulingPreferenceInitialFormValues(fieldName, data);
   }
 
   return null;

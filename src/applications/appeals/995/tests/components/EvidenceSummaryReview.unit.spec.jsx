@@ -7,12 +7,12 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { records } from '../data/evidence-records';
 import EvidenceSummaryReview from '../../components/EvidenceSummaryReview';
 import {
-  EVIDENCE_PRIVATE,
-  EVIDENCE_VA,
-  EVIDENCE_OTHER,
+  HAS_PRIVATE_EVIDENCE,
+  HAS_VA_EVIDENCE,
+  HAS_OTHER_EVIDENCE,
   SUMMARY_EDIT,
 } from '../../constants';
-import { content } from '../../content/evidenceSummary';
+import { content } from '../../content/evidence/summary';
 import { verifyHeader } from '../unit-test-helpers';
 
 const setupSummary = ({
@@ -26,9 +26,9 @@ const setupSummary = ({
   render(
     <EvidenceSummaryReview
       data={{
-        [EVIDENCE_VA]: vaMR,
-        [EVIDENCE_PRIVATE]: privateMR,
-        [EVIDENCE_OTHER]: other,
+        [HAS_VA_EVIDENCE]: vaMR,
+        [HAS_PRIVATE_EVIDENCE]: privateMR,
+        [HAS_OTHER_EVIDENCE]: other,
         ...list,
         limitedConsent: limit,
       }}

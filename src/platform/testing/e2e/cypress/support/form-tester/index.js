@@ -14,7 +14,7 @@ const ERROR_SELECTORS = [
 ];
 const FIELD_SELECTOR = 'input, select, textarea';
 const WEB_COMPONENT_SELECTORS =
-  'va-text-input, va-select, va-textarea, va-radio-option, va-checkbox, va-date, va-memorable-date, va-telephone-input, va-file-input, va-file-input-multiple';
+  'va-text-input, va-select, va-textarea, va-radio-option, va-checkbox, va-combo-box, va-date, va-memorable-date, va-telephone-input, va-file-input, va-file-input-multiple';
 
 const LOADING_SELECTOR = 'va-loading-indicator';
 

@@ -89,12 +89,11 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
 
-      expect(screen.getByText(/Reason: Not available/i));
-      expect(screen.getByText(/Other details: Not available/i));
+      expect(screen.getByText('Not available'));
 
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states',
@@ -200,6 +199,33 @@ describe('VAOS Component: PhoneLayout', () => {
         // Assert
         expect(screen.queryByText(/Location:/i)).not.to.exist;
       });
+
+      it('should not display reason and other details', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
+
+        // Act
+        const response = MockAppointmentResponse.createVAResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+          status: APPOINTMENT_STATUS.booked,
+        }).setLocation(new MockFacilityResponse());
+
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
+
+        const screen = renderWithStoreAndRouter(
+          <PhoneLayout data={appointment} />,
+          {
+            store,
+          },
+        );
+        // Assert
+        expect(screen.queryByText(/Reason for appointment/i)).not.to.exist;
+
+        expect(screen.queryByText(/Reason for appointment'/i)).not.to.exist;
+      });
     });
   });
 
@@ -216,7 +242,6 @@ describe('VAOS Component: PhoneLayout', () => {
         .setLocation(new MockFacilityResponse())
         .setPatientComments('Additional information:colon')
         .setPractitioner()
-        .setReasonForAppointment('This is a test')
         .setServiceName('Clinic 1');
       const appointment = MockAppointmentResponse.getTransformedResponse(
         response,
@@ -285,11 +310,10 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
-      expect(screen.getByText(/Reason: This is a test/i));
-      expect(screen.getByText(/Other details: Additional information:colon/i));
+      expect(screen.getByText(/Additional information:colon/i));
 
       expect(
         screen.getByRole('heading', {
@@ -332,7 +356,6 @@ describe('VAOS Component: PhoneLayout', () => {
         .setLocation(new MockFacilityResponse())
         .setPatientComments('Additional information:colon')
         .setPractitioner()
-        .setReasonForAppointment('This is a test')
         .setServiceName('Clinic 1');
       const appointment = MockAppointmentResponse.getTransformedResponse(
         response,
@@ -383,11 +406,10 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
-      expect(screen.getByText(/Reason: This is a test/i));
-      expect(screen.getByText(/Other details: Additional information:colon/i));
+      expect(screen.getByText(/Additional information:colon/i));
 
       expect(
         screen.getByRole('heading', {
@@ -430,7 +452,6 @@ describe('VAOS Component: PhoneLayout', () => {
         .setLocation(new MockFacilityResponse())
         .setPatientComments('Additional information:colon')
         .setPractitioner()
-        .setReasonForAppointment('This is a test')
         .setServiceName('Clinic 1');
       const appointment = MockAppointmentResponse.getTransformedResponse(
         response,
@@ -454,7 +475,7 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(screen.queryByRole('heading', { level: 2, name: /How to join/ }))
         .not.to.exist;
       expect(
-        screen.getByRole('heading', { level: 2, name: /After visit summary/i }),
+        screen.getByRole('heading', { level: 2, name: /After-visit summary/i }),
       );
 
       expect(screen.getByRole('heading', { level: 2, name: /When/i }));
@@ -483,11 +504,10 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
-      expect(screen.getByText(/Reason: This is a test/i));
-      expect(screen.getByText(/Other details: Additional information:colon/i));
+      expect(screen.getByText(/Additional information:colon/i));
 
       expect(
         screen.queryByRole('heading', {
@@ -515,8 +535,7 @@ describe('VAOS Component: PhoneLayout', () => {
         .setServiceName('Clinic 1')
         .setLocation(new MockFacilityResponse())
         .setPatientComments('Additional information:colon')
-        .setPractitioner()
-        .setReasonForAppointment('This is a test');
+        .setPractitioner();
       const appointment = MockAppointmentResponse.getTransformedResponse(
         response,
       );
@@ -546,7 +565,7 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(
         screen.queryByRole('heading', {
           level: 2,
-          name: /After visit summary/i,
+          name: /After-visit summary/i,
         }),
       ).not.to.exist;
 
@@ -576,11 +595,10 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
-      expect(screen.getByText(/Reason: This is a test/i));
-      expect(screen.getByText(/Other details: Additional information:colon/i));
+      expect(screen.getByText(/Additional information:colon/i));
 
       expect(
         screen.getByRole('heading', {
@@ -621,8 +639,7 @@ describe('VAOS Component: PhoneLayout', () => {
         .setServiceName('Clinic 1')
         .setLocation(new MockFacilityResponse())
         .setPatientComments('Additional information:colon')
-        .setPractitioner()
-        .setReasonForAppointment('This is a test');
+        .setPractitioner();
       const appointment = MockAppointmentResponse.getTransformedResponse(
         response,
       );
@@ -652,7 +669,7 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(
         screen.queryByRole('heading', {
           level: 2,
-          name: /After visit summary/i,
+          name: /After-visit summary/i,
         }),
       ).not.to.exist;
 
@@ -682,11 +699,10 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
-      expect(screen.getByText(/Reason: This is a test/i));
-      expect(screen.getByText(/Other details: Additional information:colon/i));
+      expect(screen.getByText(/Additional information:colon/i));
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;

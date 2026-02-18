@@ -25,6 +25,7 @@
         "firstName": "Mark",
         "middleName": "Tux",
         "lastName": "Polarbear",
+        "suffix": "",
         "birthDate": "1950-10-04",
         "gender": "M",
         "zip": "09618-0001",

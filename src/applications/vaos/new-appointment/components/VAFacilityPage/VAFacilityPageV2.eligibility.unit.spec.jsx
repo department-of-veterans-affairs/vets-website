@@ -189,7 +189,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       const store = createTestStore(defaultState);
       await setTypeOfCare(store, /mental health/i);
-      await setTypeOfMentalHealth(store, /Mental health services/);
+      await setTypeOfMentalHealth(
+        store,
+        /Mental health care with a specialist/,
+      );
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -369,7 +372,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       // Assert
       await screen.findAllByText(
-        /These facilities you're registered at offer/i,
+        /These are the facilities you’re registered at that offer/i,
       );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
@@ -443,7 +446,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       // Assert
       await screen.findAllByText(
-        /These facilities you're registered at offer/i,
+        /These are the facilities you’re registered at that offer/i,
       );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
@@ -512,7 +515,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       // Assert
       await screen.findAllByText(
-        /These facilities you're registered at offer/i,
+        /These are the facilities you’re registered at that offer/i,
       );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
@@ -579,7 +582,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       // Assert
       await screen.findAllByText(
-        /These facilities you're registered at offer/i,
+        /These are the facilities you’re registered at that offer/i,
       );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
@@ -632,7 +635,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       // Assert
       await screen.findAllByText(
-        /These facilities you're registered at offer/i,
+        /These are the facilities you’re registered at that offer/i,
       );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
@@ -819,7 +822,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
         // Assert
         await screen.findAllByText(
-          /These facilities you're registered at offer/i,
+          /These are the facilities you’re registered at that offer/i,
         );
 
         fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
@@ -1010,7 +1013,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
         const store = createTestStore(defaultState);
         await setTypeOfCare(store, /mental health/i);
-        await setTypeOfMentalHealth(store, /Mental health services/);
+        await setTypeOfMentalHealth(
+          store,
+          /Mental health care with a specialist/,
+        );
 
         // Act
         const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
@@ -1019,7 +1025,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
         // Assert
         await screen.findAllByText(
-          /These facilities you're registered at offer/i,
+          /These are the facilities you’re registered at that offer/i,
         );
 
         fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
@@ -1075,7 +1081,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
         const store = createTestStore(defaultState);
         await setTypeOfCare(store, /mental health/i);
-        await setTypeOfMentalHealth(store, /Mental health services/);
+        await setTypeOfMentalHealth(
+          store,
+          /Mental health care with a specialist/,
+        );
 
         // Act
         const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
@@ -1145,7 +1154,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           featureToggles: {},
         });
         await setTypeOfCare(store, /mental health/i);
-        await setTypeOfMentalHealth(store, /Mental health services/);
+        await setTypeOfMentalHealth(
+          store,
+          /Mental health care with a specialist/,
+        );
 
         // Act
         const screen = renderWithStoreAndRouter(<VAFacilityPage />, {

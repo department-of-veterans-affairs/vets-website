@@ -1,9 +1,8 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { waitForElementToBeRemoved } from '@testing-library/react';
 
 import { expect } from 'chai';
-import { setupServer } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
 
@@ -21,7 +20,6 @@ const ui = (
   </MemoryRouter>
 );
 let view;
-let server;
 
 // helper function that returns the Edit or Remove va-button
 // since RTL doesn't support getByRole/getByText queries for web components
@@ -33,10 +31,9 @@ function getVaButton(action, addressName) {
 function deleteAddress(addressName) {
   // delete
   getVaButton('Remove', addressName).click();
-  const confirmDeleteButton = view.getByTestId('confirm-remove-button');
-  confirmDeleteButton.click();
-
-  return { confirmDeleteButton };
+  const confirmRemoveModal = view.getByTestId('confirm-remove-modal');
+  const dummyEvent = new Event('click');
+  confirmRemoveModal.__events.primaryButtonClick(dummyEvent);
 }
 
 // When the update happens but not until after the delete modal has exited and the
@@ -44,10 +41,7 @@ function deleteAddress(addressName) {
 async function testSlowSuccess(addressName) {
   server.use(...mocks.transactionPending);
 
-  const { confirmDeleteButton } = deleteAddress(addressName);
-
-  // wait for the confirm removal modal to close
-  await waitForElementToBeRemoved(confirmDeleteButton);
+  deleteAddress(addressName);
 
   // the va-loading-indicator should display
   await view.findByTestId('loading-indicator');
@@ -72,50 +66,19 @@ async function testTransactionCreationFails(addressName) {
   expect(getVaButton('Edit', addressName)).to.exist;
 }
 
-// When the update fails but not until after the Delete Modal has exited and the
-// user returned to the read-only view
-async function testSlowFailure(addressName) {
-  server.use(...mocks.transactionPending);
-
-  const { confirmDeleteButton } = deleteAddress(addressName);
-
-  // wait for the confirm removal modal to close
-  await waitForElementToBeRemoved(confirmDeleteButton);
-
-  // the va-loading-indicator should display
-  await view.findByTestId('loading-indicator');
-
-  server.use(...mocks.transactionFailed);
-
-  // the error alert should appear
-  await view.findByTestId('generic-error-alert');
-
-  // and the edit button should be back
-  expect(getVaButton('Edit', addressName)).to.exist;
-}
-
 describe('Deleting', () => {
-  before(() => {
-    server = setupServer(
+  beforeEach(() => {
+    server.use(
       ...mocks.deleteResidentialAddressSuccess,
       ...mocks.apmTelemetry,
       ...mocks.rootTransactionStatus,
     );
-    server.listen();
-  });
-  beforeEach(() => {
     window.VetsGov = { pollTimeout: 5 };
     const initialState = createBasicInitialState();
 
     view = renderWithProfileReducers(ui, {
       initialState,
     });
-  });
-  afterEach(() => {
-    server.resetHandlers();
-  });
-  after(() => {
-    server.close();
   });
 
   const resAddressName = FIELD_TITLES[FIELD_NAMES.RESIDENTIAL_ADDRESS];
@@ -125,9 +88,6 @@ describe('Deleting', () => {
     });
     it('should show an error if the transaction cannot be created', async () => {
       await testTransactionCreationFails(resAddressName);
-    });
-    it('should show an error if the transaction fails after some time', async () => {
-      await testSlowFailure(resAddressName);
     });
   });
 

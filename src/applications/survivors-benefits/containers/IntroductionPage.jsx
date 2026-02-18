@@ -9,44 +9,88 @@ import { TITLE, SUBTITLE } from '../utils/constants';
 
 const OMB_RES_BURDEN = 40;
 const OMB_NUMBER = '2900-0004';
-const OMB_EXP_DATE = '07/31/2025';
+const OMB_EXP_DATE = '08/31/2028';
+
+const IntroductionText = () => {
+  return (
+    <p className="va-introtext">
+      Use this application if you’re the surviving spouse or child of a Veteran
+      and want to apply for survivors benefits. You can also submit evidence
+      with your application to get a faster decision.
+    </p>
+  );
+};
 
 const ProcessList = () => {
   return (
     <va-process-list>
-      <va-process-list-item header="Prepare">
-        <h4>To fill out this application, you’ll need your:</h4>
-        <ul>
-          <li>Social Security number (required)</li>
-        </ul>
+      <va-process-list-item header="Check your eligibility">
+        <p className="vads-u-margin-top--2">
+          Check your eligibility requirements before you apply. If you think you
+          may be eligible, but you’re not sure, we encourage you to apply.
+        </p>
         <p>
-          <strong>What if I need help filling out my application?</strong> An
-          accredited representative, like a Veterans Service Officer (VSO), can
-          help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
+          <a href="/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/">
+            Find out if you’re eligible for VA Dependency and Indemnity
+            Compensation (DIC)
+          </a>
+        </p>
+        <p>
+          <a href="/family-and-caregiver-benefits/survivor-compensation/survivors-pension/">
+            Find out if you’re eligible for Survivors Pension
           </a>
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>Complete this benefits form.</p>
+      <va-process-list-item header="Determine which benefits to apply for">
+        <p className="vads-u-margin-top--2">
+          You can apply for these benefits with this application:
+        </p>
+        <ul>
+          <li>Dependency Indemnity Compensation (DIC)</li>
+          <li>Survivors Pension</li>
+          <li>
+            Increased benefits based on Aid and Attendance or being housebound
+          </li>
+          <li>Accrued Benefits</li>
+          <li>Pension benefits for a disabled child</li>
+        </ul>
         <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
+          You can also upload evidence (supporting documents) to support your
+          application.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="VA Review">
+      <va-process-list-item header="Gather your information">
+        <p className="vads-u-margin-top--2">
+          Depending on which benefits you’re applying for, you’ll need to
+          provide certain information and evidence.
+        </p>
         <p>
-          We process claims within a week. If more than a week has passed since
-          you submitted your application and you haven’t heard back, please
-          don’t apply again. Call us at.
+          <a href="/resources/evidence-to-support-va-pension-dic-or-accrued-benefits-claims/">
+            Learn more about evidence to support VA pension, DIC, or accrued
+            benefits claims
+          </a>
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Decision">
+      <va-process-list-item header="Start your application">
         <p>
-          Once we’ve processed your claim, you’ll get a notice in the mail with
-          our decision.
+          We’ll take you through each step of the process. The time it takes to
+          complete the application varies. It depends on what supporting
+          documents you’re required to submit. We’ll let you know what
+          supporting documents are required for you as you fill out the
+          application.
         </p>
+        <va-additional-info trigger="What happens after you apply">
+          <p>
+            We’ll process your application and send you a letter in the mail
+            with our decision.
+          </p>
+          <p>
+            We may request more information from you to make a decision about
+            your claim for survivors benefits. If we request more information,
+            you’ll need to respond within 30 days. If you don’t, we may decide
+            your claim with the evidence that’s available to us.
+          </p>
+        </va-additional-info>
       </va-process-list-item>
     </va-process-list>
   );
@@ -67,19 +111,22 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for benefits.
+      <IntroductionText />
+      <h2 className="vad-u-margin-top--0">
+        Follow these steps to get started:
       </h2>
       <ProcessList />
       {showVerifyIdentify ? (
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (
         <SaveInProgressIntro
+          returnUrl="/veteran"
           headingLevel={2}
+          hideUnauthedStartLink
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the application"
+          startText="Apply for survivors benefits"
           devOnly={{
             forceShowFormControls: true,
           }}

@@ -10,7 +10,7 @@ import characterReferencesPages, {
 } from '../../../../pages/07-character-references-chapter/characterReferencesPages';
 import CharacterReferencesIntro from '../../../../components/07-character-references-chapter/CharacterReferencesIntro';
 
-describe('educationalInstitutionsPages', () => {
+describe('characterReferencesPages', () => {
   const formData = {
     relationship: 'Friend',
     phone: {
@@ -82,9 +82,11 @@ describe('educationalInstitutionsPages', () => {
       );
 
       getByText('Name of character reference');
-      expect($('va-text-input[label="First name"]'), container).to.exist;
+      expect($('va-text-input[label="First or given name"]'), container).to
+        .exist;
       expect($('va-text-input[label="Middle name"]'), container).to.exist;
-      expect($('va-text-input[label="Last name"]'), container).to.exist;
+      expect($('va-text-input[label="Last or family name"]'), container).to
+        .exist;
       expect($('va-select[label="Suffix"]'), container).to.exist;
     });
   });

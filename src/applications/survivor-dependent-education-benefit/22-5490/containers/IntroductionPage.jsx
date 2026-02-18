@@ -14,6 +14,7 @@ export const IntroductionPage = ({
   isLoggedIn,
   isPersonalInfoFetchFailed,
   showMeb5490EMaintenanceAlert,
+  meb1995InstructionPageUpdateV3,
   route,
 }) => {
   return (
@@ -22,35 +23,74 @@ export const IntroductionPage = ({
         title="Apply for education benefits as an eligible dependent"
         subTitle="Form 22-5490 (Dependents' Application for VA Education Benefits)"
       />
-      <p>
-        Use VA Form 22-5490 if you are a spouse or dependent applying for
-        educational benefits under
-        <strong>
-          {' '}
-          Chapter 35 Survivors' and Dependents' Education Assistance (DEA){' '}
-        </strong>{' '}
-        or <strong>Chapter 33 Fry Scholarship.</strong>
-      </p>
-
+      {meb1995InstructionPageUpdateV3 ? (
+        <p>
+          Use VA Form 22-5490 if you are the spouse or dependent of a Veteran
+          and want to apply for education benefits for the first time or make
+          changes to an existing benefit.
+        </p>
+      ) : (
+        <p>
+          Use VA Form 22-5490 if you are a spouse or dependent applying for
+          educational benefits under
+          <strong>
+            {' '}
+            Chapter 35 Survivors' and Dependents' Education Assistance (DEA){' '}
+          </strong>{' '}
+          or <strong>Chapter 33 Fry Scholarship.</strong>
+        </p>
+      )}
+      {meb1995InstructionPageUpdateV3 && (
+        <div>
+          <p>
+            <b>
+              For first time applicants, use the VA Form 22-5490 to apply for
+              the following programs:
+            </b>
+          </p>
+          <ul>
+            <li>
+              Chapter 35 Survivors' and Dependents' Education Assistance (DEA)
+            </li>
+            <li>Chapter 33 Fry Scholarship</li>
+          </ul>
+          <p>
+            <b>
+              If you’ve applied for benefits before, use the VA Form 22-5490 to:
+            </b>
+          </p>
+          <ul>
+            <li>
+              Update your current benefit and get an updated Certificate of
+              Eligibility (COE)
+            </li>
+            <li>Switch your existing education benefit and get a new COE</li>
+            <li>
+              Apply as an eligible dependent for education benefits from a
+              different Veteran than you’ve used in the past
+            </li>
+          </ul>
+        </div>
+      )}
       <va-alert
         close-btn-aria-label="Close notification"
         status="warning"
-        visible
+        class="vads-u-margin-y--4"
       >
-        <div>
-          If you are a Veteran or service member claiming a benefit based on
-          your own service, this may not be the right benefit for you.{' '}
-          <a
-            target="_blank"
-            href="https://www.va.gov/education/other-va-education-benefits"
-            rel="noreferrer"
-          >
-            Learn more about other education benefits
-          </a>
-        </div>
+        <h2 slot="headline">
+          If you’re a Veteran or service member claiming a benefit based on your
+          own service, this may not be the right benefit for you.
+        </h2>
+        <a
+          target="_blank"
+          href="https://www.va.gov/education/other-va-education-benefits"
+          rel="noreferrer"
+        >
+          Learn more about other education benefits
+        </a>
       </va-alert>
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow these steps to get started
+      <h2 className="vads-u-margin-top--0">
+        Follow these steps to get started:
       </h2>
       <va-process-list>
         <va-process-list-item header="Check your eligibility">
@@ -58,7 +98,10 @@ export const IntroductionPage = ({
             <strong> You must be an eligible spouse or dependent </strong> in
             order to receive this benefit.
           </p>
-          <va-additional-info trigger="What are the Fry Scholarship (Chapter 33) eligibility requirements?">
+          <va-additional-info
+            trigger="What are the Fry Scholarship (Chapter 33) eligibility requirements?"
+            class="vads-u-margin-bottom--2"
+          >
             <p>
               <strong>
                 You may be eligible for Fry Scholarship benefits if you’re the
@@ -146,24 +189,24 @@ export const IntroductionPage = ({
             We’ll take you through each step of the process. It should take
             about 15 minutes.
           </p>
-          <va-additional-info trigger="What happens after I apply?">
-            <p>
-              After you apply, you may get an automatic decision. If we approve
-              your application, you’ll be able to download your Certificate of
-              Eligibility (or award letter) right away. If we deny your
-              application, you can download your denial letter. We’ll also mail
-              you a copy of your decision letter.
-            </p>
-            <br />
-            <p className="vads-u-margin-bottom--0">
-              <strong>Note:</strong> In some cases, we may need more time to
-              make a decision. If you don’t get an automatic decision right
-              after you apply, you’ll receive a decision letter in the mail in
-              about 30 days. We’ll contact you if we need more information.
-            </p>
-          </va-additional-info>
         </va-process-list-item>
       </va-process-list>
+      <va-additional-info trigger="What happens after I apply?">
+        <p>
+          After you apply, you may get an automatic decision. If we approve your
+          application, you’ll be able to download your Certificate of
+          Eligibility (or award letter) right away. If we deny your application,
+          you can download your denial letter. We’ll also mail you a copy of
+          your decision letter.
+        </p>
+        <br />
+        <p className="vads-u-margin-bottom--0">
+          <strong>Note:</strong> In some cases, we may need more time to make a
+          decision. If you don’t get an automatic decision right after you
+          apply, you’ll receive a decision letter in the mail in about 30 days.
+          And we’ll contact you if we need more information.
+        </p>
+      </va-additional-info>
       <IntroductionLogin route={route} />
       {isLoggedIn &&
       isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
@@ -196,6 +239,7 @@ IntroductionPage.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
+  meb1995InstructionPageUpdateV3: PropTypes.bool,
   showMeb5490EMaintenanceAlert: PropTypes.bool,
 };
 
@@ -205,6 +249,8 @@ const mapStateToProps = state => ({
   isPersonalInfoFetchFailed: state.data?.isPersonalInfoFetchFailed || false,
   showMeb5490EMaintenanceAlert:
     state.featureToggles?.showMeb5490EMaintenanceAlert,
+  meb1995InstructionPageUpdateV3:
+    state?.featureToggles?.meb1995InstructionPageUpdateV3,
 });
 
 export default connect(mapStateToProps)(IntroductionPage);

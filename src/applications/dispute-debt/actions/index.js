@@ -20,9 +20,7 @@ const getDebtLabel = debt => {
     return debt.label;
   }
   // Fallback to constructing the label if not provided
-  return `${currency(debt?.currentAr)} overpayment for ${
-    deductionCodes[debt.deductionCode]
-  }`;
+  return `${currency(debt?.currentAr)} ${deductionCodes[debt.deductionCode]}`;
 };
 
 const getDebtDescription = debt => {
@@ -67,12 +65,15 @@ export const fetchDebts = async dispatch => {
     const simplifiedResponse = filteredResponse.map(debt => ({
       compositeDebtId: debt.compositeDebtId,
       label: getDebtLabel(debt),
+      submitted: debt.submitted || false,
+      submissionDate: debt.submissionDate || '',
       description: getDebtDescription(debt),
       debtType: DEBT_TYPES.DEBT,
       deductionCode: debt.deductionCode,
       currentAr: debt.currentAr,
       originalAr: debt.originalAr,
       benefitType: debt.benefitType,
+      rcvblId: debt.rcvblId,
     }));
 
     return dispatch({

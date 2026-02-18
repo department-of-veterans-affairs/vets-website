@@ -28,7 +28,8 @@ export const hasSession = () => {
   return localStorage.getItem('hasSession') === 'true';
 };
 
-export const formatCurrency = num => `$${num.toLocaleString()}`;
+export const formatCurrency = num =>
+  typeof num === 'number' ? `$${num.toLocaleString()}` : '';
 
 /**
  * Formats a name object into a capitalized full name string with middle initial.
@@ -223,71 +224,50 @@ export const generateDeleteDescription = (props, getItemName) => {
 /**
  * Resolve the recipient's full name to display on summary cards.
  *
- * - If the recipientRelationship is "VETERAN":
- *   - Use `veteranFullName` when the user is logged in
- *   - Use `otherVeteranFullName` when the user is not logged in
+ * - If the recipient is the Veteran, use `veteranFullName`
  * - If the recipient is not the Veteran, use `recipientName`
  *
  * This helper is useful across multiple arrayBuilder pages where we conditionally display
  * either the Veteran's name or the name of another recipient.
  *
  * @param {object} item - The array item object containing recipient data.
- * @param {object} formData - The overall form data, which may include veteran names and logged in.
+ * @param {object} formData - The overall form data, which includes applicant names
  * @returns {string} The formatted full name string or undefined if no name is resolvable
  */
 export function resolveRecipientFullName(item, formData) {
   const { recipientRelationship, recipientName } = item;
-  const {
-    veteranFullName,
-    otherVeteranFullName,
-    isLoggedIn = false,
-  } = formData;
+  const { veteranFullName } = formData;
 
   const isVeteran = recipientRelationship === 'VETERAN';
 
-  if (isVeteran) {
-    const veteranName = isLoggedIn ? veteranFullName : otherVeteranFullName;
-    return formatFullNameNoSuffix(veteranName);
-  }
-
-  return formatFullNameNoSuffix(recipientName);
+  return isVeteran
+    ? formatFullNameNoSuffix(veteranFullName)
+    : formatFullNameNoSuffix(recipientName);
 }
 
-// updated version of above function
-// needed a separate function and not just a showUpdatedContent check because
-// these functions are reused across the app and i'm unsure that the same
-// functionality is needed everywhere
 /**
  * Resolve the recipient's full name to display on summary cards.
  * Post-MVP updates
  *
- * - If the recipientRelationship is "VETERAN":
- *   - Use `veteranFullName` when the user is logged in
- *   - Use `otherVeteranFullName` when the user is not logged in
- * - If the recipientRelationship is "SPOUSE":
- *   - Use "Spouse"
+ * - If the recipientRelationship is "VETERAN", use `veteranFullName`
+ * - If the recipientRelationship is "SPOUSE", use "Spouse"
  * - If the recipient is not the Veteran, use `recipientName`
  *
  * This helper is useful across multiple arrayBuilder pages where we conditionally display
  * either the Veteran's name or the name of another recipient.
  *
  * @param {object} item - The array item object containing recipient data.
- * @param {object} formData - The overall form data, which may include veteran names and logged in.
+ * @param {object} formData - The overall form data, which includes applicant names
  * @returns {string} The formatted full name string or undefined if no name is resolvable
  */
 export function updatedResolveRecipientFullName(item, formData) {
   const { recipientRelationship, recipientName } = item;
-  const {
-    veteranFullName,
-    otherVeteranFullName,
-    isLoggedIn = false,
-  } = formData;
+  const { veteranFullName } = formData;
 
   const isVeteran = recipientRelationship === 'VETERAN';
 
   if (isVeteran) {
-    const veteranName = isLoggedIn ? veteranFullName : otherVeteranFullName;
-    return formatFullNameNoSuffix(veteranName);
+    return formatFullNameNoSuffix(veteranFullName);
   }
   const isSpouse = recipientRelationship === 'SPOUSE';
   if (showUpdatedContent() && isSpouse) {
@@ -360,3 +340,52 @@ export const getIncompleteOwnedAssets = (
     hasBusiness: missingAssetTypes.includes('BUSINESS'),
   };
 };
+
+/**
+ * Determines whether uploaded documents exist and contain at least one file.
+ *
+ * @param {Array} uploadedDocuments - Array for files
+ * @returns {boolean} True if uploaded documents exist
+ */
+export const hasUploadedDocuments = uploadedDocuments =>
+  Array.isArray(uploadedDocuments) &&
+  uploadedDocuments.some(doc => Boolean(doc?.name));
+
+/**
+ * Determines whether at least one trust is incomplete.
+ *
+ * A trust is considered incomplete if:
+ * - The user declined to upload documents, OR
+ * - The user said they would upload documents but none were provided
+ *
+ * @param {Array} trusts - Trusts array from form data
+ * @return {boolean} True if at least one trust is incomplete
+ */
+export const hasIncompleteTrust = trusts =>
+  (trusts ?? []).some(trust => {
+    const declinedUpload = trust?.['view:addFormQuestion'] === false;
+
+    const saidYesButNoUpload =
+      trust?.['view:addFormQuestion'] === true &&
+      !hasUploadedDocuments(trust?.uploadedDocuments);
+
+    return declinedUpload || saidYesButNoUpload;
+  });
+
+/**
+ * Determines whether to show the declined upload alert for owned assets.
+ *
+ * @param {Object} ownedAssets - The owned assets data.
+ * @returns {boolean} True if any farm or business asset declined upload or has no uploaded document.
+ */
+export const shouldShowDeclinedAlert = ownedAssets =>
+  ownedAssets?.some(item => {
+    const isFarmOrBusiness =
+      item?.assetType === 'FARM' || item?.assetType === 'BUSINESS';
+    const declinedUpload = item?.['view:addFormQuestion'] === false;
+    const saidYesButEmptyArray =
+      item?.['view:addFormQuestion'] === true &&
+      (!item?.uploadedDocuments || !item.uploadedDocuments.name);
+
+    return isFarmOrBusiness && (declinedUpload || saidYesButEmptyArray);
+  });

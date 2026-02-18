@@ -1,9 +1,16 @@
+/**
+ * @module components/get-help
+ * @description Help contact information component for VA Form 21-2680
+ */
+
 import React from 'react';
 
 /**
- * GetHelp component for VA Form 21-2680
- * Displays contact information for assistance with Aid and Attendance or Housebound benefits
- * @returns {JSX.Element} Help contact information component
+ * Displays contact information for VA assistance
+ *
+ * Provides MyVA411 phone number for users who need help with the form.
+ *
+ * @component
  */
 export const GetHelp = () => (
   <div>
@@ -13,8 +20,5 @@ export const GetHelp = () => (
       <va-telephone contact="711" tty />
       ). We’re here 24/7.
     </p>
-    <div className="vads-u-text-align--right">
-      <va-button text="Feedback" secondary uswds />
-    </div>
   </div>
 );

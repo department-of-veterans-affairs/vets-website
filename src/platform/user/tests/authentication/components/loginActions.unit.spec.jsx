@@ -75,47 +75,4 @@ describe('LoginActions component', () => {
     testLocation(false, 'modal');
     testLocation(undefined, 'modal');
   });
-
-  it('renders DS Logon retired notice when feature flag disables it', () => {
-    const state = {
-      featureToggles: {
-        dslogonButtonDisabled: true,
-      },
-    };
-    const config = {
-      OAuthEnabled: false,
-      allowedSignInProviders: [],
-      legacySignInProviders: { dslogon: true },
-    };
-
-    const originalConfig =
-      require.cache[require.resolve('../../../authentication/usip-config')];
-    require.cache[require.resolve('../../../authentication/usip-config')] = {
-      exports: {
-        externalApplicationsConfig: {
-          dslogonApp: config,
-          default: config,
-        },
-      },
-    };
-
-    store = mockStore(state);
-    const wrapper = mount(
-      <Provider store={store}>
-        <LoginActions externalApplication="dslogonApp" />
-      </Provider>,
-    );
-
-    expect(wrapper.text()).to.contain('DS Logon sign-in option');
-    expect(wrapper.text()).to.contain(
-      'We’ll remove this option after September 30, 2025',
-    );
-
-    wrapper.unmount();
-    if (originalConfig) {
-      require.cache[
-        require.resolve('../../../authentication/usip-config')
-      ] = originalConfig;
-    }
-  });
 });

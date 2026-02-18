@@ -1,6 +1,7 @@
 import React from 'react';
 import { isEmpty } from 'lodash';
 import { VaFileInputField } from '../web-component-fields';
+import { validateAdditionalInputLabels } from '../web-component-fields/vaFileInputFieldHelpers';
 import navigationState from '../utilities/navigation/navigationState';
 import errorStates from '../utilities/file/passwordErrorState';
 import {
@@ -34,7 +35,10 @@ import {
  *   disallowEncryptedPdfs: true, // set to true to prohibit upload of encrypted pdfs
  *   formNumber: '20-10206', // required for upload
  *   additionalInputRequired: true, // user must supply additional input
- *   additionalInput: (error, data) => {
+ *   additionalInputLabels: {            // explicit labels for review page
+ *     documentStatus: { public: 'Public', private: 'Private' },
+ *   },
+ *   additionalInput: (error, data, labels) => {
  *     const { documentStatus } = data;
  *     return (
  *       <VaSelect
@@ -43,14 +47,15 @@ import {
  *         value={documentStatus}
  *         label="Document status"
  *       >
- *         <option value="public">Public</option>
- *         <option value="private">Private</option>
+ *         {Object.entries(labels.documentStatus).map(([value, label]) => (
+ *           <option key={value} value={value}>{label}</option>
+ *         ))}
  *       </VaSelect>
  *     );
  *   },
  *   handleAdditionalInput: (e) => {    // handle optional additional input
  *     return { documentStatus: e.detail.value }
- *   }
+ *   },
  * })
  * ```
  *
@@ -84,20 +89,35 @@ import {
  * @param {ObjUISchemaOptions['ui:errorMessages']} [options.errorMessages]
  * @param {UISchemaOptions['ui:labelHeaderLevel']} [options.labelHeaderLevel]
  * @param {UISchemaOptions['ui:messageAriaDescribedby']} [options.messageAriaDescribedBy]
+ * @param {UISchemaOptions['ui:reviewField']} [options.reviewField]
+ * @param {UISchemaOptions['ui:confirmationField']} [options.confirmationField]
  * @param {string | string[]} [options.accept] - File types to accept
  * @param {number} [options.maxFileSize] - maximum allowed file size in bytes
  * @param {number} [options.minFileSize] - minimum allowed file size in bytes
  * @param {boolean} [options.additionalInputRequired] - is additional information required
- * @param {((error:any, data:any) => React.ReactNode) } [options.additionalInput] - renders the additional information
+ * @param {(error: any, data: any, labels?: Record<string, Record<string, string>>) => React.ReactNode} [options.additionalInput] - renders the additional information. Receives `additionalInputLabels` as an optional 3rd argument.
  * @param {(e: CustomEvent) => {[key: string]: any}} [options.handleAdditionalInput] - function to handle event payload from additional info
+ * @param {Record<string, Record<string, string>>} [options.additionalInputLabels] - explicit value-to-label mapping for additional input fields on the review page, e.g. `{ documentStatus: { public: 'Public', private: 'Private' } }`. Falls back to DOM querying if not provided.
  * @param {string} [options.fileUploadUrl] - url to which file will be uploaded
  * @param {string} [options.formNumber] - the form's number
  * @param {boolean} [options.skipUpload] - skip attempt to upload in dev when there is no backend
  * @param {boolean} [options.disallowEncryptedPdfs] - don't allow encrypted pdfs
+ * @param {function} [options.createPayload] - custom function that creates the payload used when uploading the file
+ * @param {function} [options.parseResponse] - custom function that transforms the response from the server after an upload
+ * @param {Record<string, { maxFileSize: number, minFileSize: number }>} [options.fileSizesByFileType] - object that specifies max and min file size limits by file type or by default
+ }}
  * @returns {UISchemaOptions}
  */
 export const fileInputUI = options => {
-  const { title, description, errorMessages, required, ...uiOptions } = options;
+  const {
+    title,
+    description,
+    errorMessages,
+    required,
+    reviewField,
+    confirmationField,
+    ...uiOptions
+  } = options;
 
   if (required === undefined) {
     throw new Error(
@@ -107,6 +127,8 @@ export const fileInputUI = options => {
       the schema as well.`,
     );
   }
+
+  validateAdditionalInputLabels('fileInputUI', uiOptions.additionalInputLabels);
 
   return {
     'ui:title': title,
@@ -154,18 +176,62 @@ export const fileInputUI = options => {
     'ui:options': {
       ...uiOptions,
     },
-    'ui:reviewField': ({ children }) => {
-      return (
-        <div className="review-row">
-          <dt>{title}</dt>
-          <dd>{children.props?.formData?.name}</dd>
-        </div>
-      );
-    },
-    'ui:confirmationField': ({ formData }) => ({
-      data: formData?.name,
-      label: title,
-    }),
+    'ui:reviewField':
+      reviewField ||
+      (({ children }) => {
+        const file = children.props?.formData;
+        return (
+          <>
+            <div className="review-row">
+              <dt>{title}</dt>
+              <dd>{file?.name}</dd>
+            </div>
+            {file?.additionalData &&
+              Object.entries(file.additionalData).map(([key, value]) => (
+                <div className="review-row" key={key}>
+                  <dt>
+                    {key
+                      .replace(/([A-Z])/g, ' $1')
+                      .replace(/^./, s => s.toUpperCase())
+                      .trim()}
+                  </dt>
+                  <dd>
+                    {uiOptions.additionalInputLabels?.[key]?.[value] || value}
+                  </dd>
+                </div>
+              ))}
+          </>
+        );
+      }),
+    'ui:confirmationField':
+      confirmationField ||
+      (({ formData }) => {
+        const hasAdditionalData =
+          formData?.additionalData &&
+          Object.keys(formData.additionalData).length > 0;
+        if (!hasAdditionalData) {
+          return { data: formData?.name, label: title };
+        }
+        const data = (
+          <ul>
+            <li>
+              <span className="vads-u-color--gray">Name</span>: {formData?.name}
+            </li>
+            {Object.entries(formData.additionalData).map(([key, value]) => (
+              <li key={key}>
+                <span className="vads-u-color--gray">
+                  {key
+                    .replace(/([A-Z])/g, ' $1')
+                    .replace(/^./, s => s.toUpperCase())
+                    .trim()}
+                </span>
+                : {uiOptions.additionalInputLabels?.[key]?.[value] || value}
+              </li>
+            ))}
+          </ul>
+        );
+        return { data, label: title };
+      }),
     warnings: {
       'ui:options': {
         keepInPageOnReview: true,

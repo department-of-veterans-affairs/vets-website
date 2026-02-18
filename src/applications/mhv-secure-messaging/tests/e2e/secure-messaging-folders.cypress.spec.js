@@ -3,7 +3,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import FolderLoadPage from './pages/FolderLoadPage';
 import { AXE_CONTEXT } from './utils/constants';
 import PatientInboxPage from './pages/PatientInboxPage';
-import PatentMessageSentPage from './pages/PatientMessageSentPage';
+import PatientMessageSentPage from './pages/PatientMessageSentPage';
 import SharedComponents from './pages/SharedComponents';
 
 describe(manifest.appName, () => {
@@ -20,7 +20,7 @@ describe(manifest.appName, () => {
   });
 
   it('Check the Sent folder', () => {
-    PatentMessageSentPage.loadMessages();
+    PatientMessageSentPage.loadMessages();
     FolderLoadPage.verifyFolderHeaderText('Messages: Sent');
     FolderLoadPage.verifyBreadCrumbsLength(3);
 
@@ -30,7 +30,7 @@ describe(manifest.appName, () => {
   it('Check the Draft folder', () => {
     FolderLoadPage.loadDraftMessages();
     FolderLoadPage.verifyFolderHeaderText('Messages: Drafts');
-    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
+    SharedComponents.assertBackBreadcrumbLabel();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
@@ -38,7 +38,7 @@ describe(manifest.appName, () => {
   it('Check the Trash folder', () => {
     FolderLoadPage.loadDeletedMessages();
     FolderLoadPage.verifyFolderHeaderText('Messages: Trash');
-    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
+    SharedComponents.assertBackBreadcrumbLabel();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

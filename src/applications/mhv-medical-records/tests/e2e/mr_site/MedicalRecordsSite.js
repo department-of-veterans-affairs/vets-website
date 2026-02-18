@@ -2,12 +2,15 @@ import mockUser from '../fixtures/user.json';
 import vamc from '../fixtures/facilities/vamc-ehr.json';
 import sessionStatus from '../fixtures/session-status.json';
 import createAal from '../fixtures/create-aal.json';
-import MedicalRecordsLandingPage from '../pages/MedicalRecordsLandingPage';
 
 class MedicalRecordsSite {
-  login = (userFixture = mockUser, useDefaultFeatureToggles = true) => {
+  login = (
+    userFixture = mockUser,
+    useDefaultFeatureToggles = true,
+    featureToggleOptions = {},
+  ) => {
     if (useDefaultFeatureToggles) {
-      this.mockFeatureToggles();
+      this.mockFeatureToggles(featureToggleOptions);
     }
     this.mockVamcEhr();
     this.mockMaintenanceWindow();
@@ -24,7 +27,6 @@ class MedicalRecordsSite {
       body: createAal,
     }).as('aal');
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
-    MedicalRecordsLandingPage.uumIntercept();
     cy.login(userFixture);
   };
 
@@ -36,6 +38,9 @@ class MedicalRecordsSite {
     isAcceleratingVaccines = false,
     isAcceleratingCareNotes = false,
     isAcceleratingConditions = false,
+    isCcdExtendedFileTypesEnabled = false,
+    isCcdOHEnabled = false,
+    isImagesDomainEnabled = false,
   } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -68,6 +73,22 @@ class MedicalRecordsSite {
           {
             name: 'mhv_accelerated_delivery_conditions_enabled',
             value: isAcceleratingConditions,
+          },
+          {
+            name: 'mhv_medical_records_ccd_extended_file_types',
+            value: isCcdExtendedFileTypesEnabled,
+          },
+          {
+            name: 'mhvMedicalRecordsCcdExtendedFileTypes',
+            value: isCcdExtendedFileTypesEnabled,
+          },
+          {
+            name: 'mhv_medical_records_ccd_oh',
+            value: isCcdOHEnabled,
+          },
+          {
+            name: 'mhvMedicalRecordsCcdOH',
+            value: isCcdOHEnabled,
           },
           {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',
@@ -103,6 +124,14 @@ class MedicalRecordsSite {
             name: 'mhv_medical_records_support_backend_pagination_vital',
             value: false,
           },
+          {
+            name: 'mhv_medical_records_images_domain',
+            value: isImagesDomainEnabled,
+          },
+          {
+            name: 'mhvMedicalRecordsImagesDomain',
+            value: isImagesDomainEnabled,
+          },
         ],
       },
     }).as('featureToggles');
@@ -116,19 +145,13 @@ class MedicalRecordsSite {
     cy.intercept('GET', '/v0/maintenance_windows', {}).as('maintenanceWindow');
   };
 
-  verifyDownloadedPdfFile = (_prefixString, _clickMoment, _searchText) => {
+  verifyDownloadedPdfFile = (_prefixString, _currentDateTime, _searchText) => {
     if (Cypress.browser.isHeadless) {
       cy.log('browser is headless');
       const downloadsFolder = Cypress.config('downloadsFolder');
-      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.pdf`;
-      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.pdf`;
-      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.pdf`;
+      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.pdf`;
+      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.pdf`;
+      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.pdf`;
       this.internalReadFileMaybe(txtPath1, _searchText);
       this.internalReadFileMaybe(txtPath2, _searchText);
       this.internalReadFileMaybe(txtPath3, _searchText);
@@ -137,19 +160,13 @@ class MedicalRecordsSite {
     }
   };
 
-  verifyDownloadedTxtFile = (_prefixString, _clickMoment, _searchText) => {
+  verifyDownloadedTxtFile = (_prefixString, _currentDateTime, _searchText) => {
     if (Cypress.browser.isHeadless) {
       cy.log('browser is headless');
       const downloadsFolder = Cypress.config('downloadsFolder');
-      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.txt`;
-      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.txt`;
-      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.txt`;
+      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.txt`;
+      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.txt`;
+      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.txt`;
       this.internalReadFileMaybe(txtPath1, _searchText);
       this.internalReadFileMaybe(txtPath2, _searchText);
       this.internalReadFileMaybe(txtPath3, _searchText);

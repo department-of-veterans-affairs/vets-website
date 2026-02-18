@@ -27,32 +27,57 @@ const getStore = (decisionRequested = false) =>
         claimAsk: {
           decisionRequested, // Added since WhatYouNeedToDo section looks for this
         },
+        notifications: {
+          message: null,
+          additionalEvidenceMessage: null,
+          type1UnknownErrors: null,
+        },
       },
     },
   }));
 
 describe('<ClaimStatusPage>', () => {
   describe('when claim is null', () => {
-    it('should render null', () => {
+    it('should render error heading and ServiceUnavailableAlert', () => {
       const { container, getByText } = renderWithRouter(
         <Provider store={getStore()}>
           <ClaimStatusPage {...props} claim={null} params={params} />
         </Provider>,
       );
       expect($('.claim-status', container)).to.not.exist;
-      getByText('Claim status is unavailable');
+      getByText('We encountered a problem');
+
+      const alertHeading = $('va-alert h2', container);
+      expect(alertHeading.textContent).to.equal(
+        "We can't access your claim right now",
+      );
+
+      const alertBody = $('va-alert p', container);
+      expect(alertBody.textContent).to.include(
+        "We're sorry. There's a problem with our system.",
+      );
     });
   });
 
   describe('when there are no claims', () => {
-    it('should render null', () => {
+    it('should render error heading and ServiceUnavailableAlert', () => {
       const { container, getByText } = renderWithRouter(
         <Provider store={getStore()}>
           <ClaimStatusPage {...props} params={params} />
         </Provider>,
       );
       expect($('.claim-status', container)).to.not.exist;
-      getByText('Claim status is unavailable');
+      getByText('We encountered a problem');
+
+      const alertHeading = $('va-alert h2', container);
+      expect(alertHeading.textContent).to.equal(
+        "We can't access your claim right now",
+      );
+
+      const alertBody = $('va-alert p', container);
+      expect(alertBody.textContent).to.include(
+        "We're sorry. There's a problem with our system.",
+      );
     });
   });
 

@@ -21,12 +21,20 @@
 /**
  * @typedef {Object} FormConfig
  * @property {Array<Object>} [additionalRoutes]
+ * @property {boolean} [allowDuplicatePaths]
  * @property {string} [ariaDescribedBySubmit]
  * @property {string} [backLinkText]
  * @property {Record<string, FormConfigChapter>} [chapters]
  * @property {(props: any) => JSX.Element} [confirmation]
  * @property {JSX.Element | React.ReactNode} [CustomReviewTopContent]
  * @property {JSX.Element | React.ReactNode} [CustomTopContent]
+ * @property {(formData: any) => Array<{
+ *   property: string,
+ *   message: string,
+ *   name: string,
+ *   argument: any,
+ *   stack: string
+ * }>} [customValidationErrors]
  * @property {CustomText} [customText]
  * @property {Record<string, SchemaOptions> | Record<string, any>} [defaultDefinitions]
  * @property {Dev} [dev] - object of dev-only options
@@ -70,6 +78,7 @@
  * @property {boolean} [verifyRequiredPrefill]
  * @property {number} [version]
  * @property {string} [wizardStorageKey]
+ * @property {boolean} [dynamicPaths] do the form pages have dynamic paths, e.g. form-upload
  */
 
 /**
@@ -80,6 +89,7 @@
  * @property {string} [reviewPageTitle]
  * @property {string} [startNewAppButtonText]
  * @property {string} [submitButtonText]
+ * @property {string} [reviewPageFormTitle]
  */
 
 /**
@@ -146,6 +156,7 @@
  * @typedef {Object} FormConfigChapter
  * @property {FormConfigPages} [pages]
  * @property {string | ({ formData, formConfig }) => string} [title]
+ * @property {string | ({ formData, formConfig }) => string} [reviewTitle]
  * @property {boolean} [hideFormNavProgress]
  * @property {boolean} [hideFormTitle]
  * @property {boolean} [hideOnReviewPage]
@@ -244,6 +255,7 @@
  * @typedef {{
  *    items?: UISchemaOptions,
  *   'ui:autocomplete'?: AutocompleteValue,
+ *   'ui:confirmationField'?: React.ReactNode | (({formData}) => {data: any, label: string}),
  *   'ui:description'?: string | JSX.Element | React.ReactNode,
  *   'ui:disabled'?: boolean,
  *   'ui:errorMessages'?: UIErrorMessages,
@@ -256,7 +268,7 @@
  *   'ui:reviewField'?: React.ReactNode,
  *   'ui:reviewWidget'?: React.ReactNode,
  *   'ui:title'?: string | JSX.Element | React.ReactNode,
- *   'ui:validations'?: Array<((errors, formData, uiSchema, schema, errorMessages) => void)>,
+ *   'ui:validations'?: Array<((errors, fieldData, formData, schema, errorMessages) => void)>,
  *   'ui:webComponentField'?: React.ReactNode,
  *   'ui:widget'?: 'yesNo' | 'checkbox' | 'radio' | 'select' | 'email' | 'date' | 'textarea'  | OrAnyString | ((props: any) => JSX.Element),
  * } & {
@@ -305,6 +317,7 @@
  * @property {string | JSX.Element} [formDescription] Used with `useFormsPattern`. A JSX or string description that it is also a11y (screen reader) friendly. useFormsPattern and uswds must be true.
  * @property {string} [formHeading] Used with `useFormsPattern`. Intended to be used as the form page header. useFormsPattern and uswds must be true.
  * @property {number} [formHeadingLevel] Used with `useFormsPattern`. The header level of the formHeading. useFormsPattern and uswds must be true.
+ * @property {string | number} [formHeadingLevelStyle] Used with `useFormsPattern`. The visual style level of the formHeading (e.g., '2' or 2 to style as h2 while using different semantic level). useFormsPattern and uswds must be true.
  * @property {boolean} [freeInput] for AutoSuggest widget
  * @property {boolean} [generateIndividualItemHeaders] For array field generation that would use the "new item" logic. Items created before it will now have "item" headers attached to them if there are multiple and it is not the final one in the series.
  * @property {boolean} [hideEmptyValueInReview] Field will not be displayed in review page if empty if set to true
@@ -460,6 +473,10 @@
  */
 
 /**
+ * @typedef {(key: keyof ArrayBuilderText, itemData: any, formData?: any, index?: number) => string} ArrayBuilderGetText
+ */
+
+/**
  * @typedef {Object} ArrayBuilderOptions
  * @property {string} arrayPath the formData key for the array e.g. `"employers"` for `formData.employers`
  * @property {string} nounSingular Used for text in cancel, remove, and modals. Used with nounPlural
@@ -475,14 +492,17 @@
  * nounPlural: "employers"
  * ```
  * @property {boolean} [hideMaxItemsAlert] This will not display the alert when the [maxItems] number is reached.
- * @property {(item) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. You should include all of your required fields here. e.g. `item => !item?.name`
- * @property {number} [maxItems] The maximum number of items allowed in the array. Omit to allow unlimited items.
- * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
+ * @property {(item, fullData) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. You should include all of your required fields here. e.g. `item => !item?.name`
+ * @property {number | ((formData: object) => number)} [maxItems] The maximum number of items allowed in the array. Can be a number or a function that returns a number based on formData. Omit to allow unlimited items.
+ * @property {boolean | ((formData) => boolean)} required This determines the flow type of the array builder. Can be a boolean or a function that returns a boolean. If `true`/returns `true`, the flow starts with an intro page and expects at least 1 item. If `false`/returns `false`, the user can skip the array with a yes/no question on the summary page.
  * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
  * @property {string} [reviewPanelHeadingLevel] The heading level for the summary title on the review page.
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
+ * @property {(({ arrayData, fullData, isReview }) => boolean)} [canAddItem] Control add button/link visibility on summary page
+ * @property {(({ itemData, index, fullData, isReview }) => boolean)} [canEditItem] Control edit link visibility per card
+ * @property {(({ itemData, index, fullData, isReview }) => boolean)} [canDeleteItem] Control delete button visibility per card
  * @property {DuplicateChecks} [duplicateChecks]
  * ```
  * // Example simple:
@@ -508,6 +528,18 @@
  *       }
  *    },
  * ```
+ */
+
+/**
+ * @typedef {Object} ArrayBuilderItemPageProps
+ * @property {string} arrayPath
+ * @property {(fullData) => string} getIntroPath
+ * @property {(fullData) => string} getSummaryPath
+ * @property {string} reviewRoute
+ * @property {ArrayBuilderOptions['required']} required Flow type of array builder
+ * @property {ArrayBuilderGetText} getText
+ * @property {DuplicateChecks} duplicateChecks
+ * @property {string} currentPath
  */
 
 /**
@@ -574,9 +606,10 @@
 
 /**
  * @typedef {Object} FormOptions
- * @property {boolean} filterInactiveNestedPageData - utilize filter method for removing inactive page data that filters ArrayBuilder page data
- * @property {boolean} useWebComponentForNavigation - utilize VADS button web components for page nav
- * @property {boolean} focusOnAlertRole - apply focus to va-alert on submission error
+ * @property {boolean} [filterInactiveNestedPageData] - utilize filter method for removing inactive page data that filters ArrayBuilder page data
+ * @property {boolean} [useWebComponentForNavigation] - utilize VADS button web components for page nav
+ * @property {boolean} [focusOnAlertRole] - apply focus to va-alert on submission error
+ * @property {boolean} [scaffoldAndFocusFormErrors] - create screen reader-only error messages and move focus to first error on submit
  */
 
 /**
@@ -590,4 +623,74 @@
  *   ['John', 'Doe', '1990-01-01', '123-45-6789'],
  *   ['Jane', 'Smith', '1992-02-02', '987-65-4321']
  * ]
+ */
+
+/**
+ * @typedef {Object} PersonalInfoPageOptions - Options object for profilePersonalInfoPage function
+ * @property {boolean} [background] - Whether to display a background on the page
+ * @property {JSX.Element|React.ReactNode} [cardHeader] - Custom card header component
+ * @property {JSX.Element|React.ReactNode} [contentAfterButtons] - Content to display after the navigation buttons
+ * @property {JSX.Element|React.ReactNode} [contentBeforeButtons] - Content to display before the navigation buttons
+ * @property {DataAdapter} [dataAdapter] - Data adapter configuration object for the PersonalInformation component
+ * @property {Function} [depends] - Conditional function to determine if page should be shown
+ * @property {string|Function} [errorMessage] - Custom error message or component for missing data
+ * @property {JSX.Element|React.ReactNode} [footer] - Custom footer component
+ * @property {JSX.Element|React.ReactNode} [header] - Custom header component
+ * @property {boolean} [hideOnReview] - Whether to hide the page on the review page
+ * @property {string} [key] - The page key within the form config chapter
+ * @property {JSX.Element|React.ReactNode} [note] - Custom note component
+ * @property {string} [path] - The path of the page
+ * @property {PersonalInformationConfig} [personalInfoConfig] - Configuration object for the PersonalInformation component
+ * @property {boolean} [prefillPatternEnabled] - enable prefill pattern for
+ *  personal info
+ * @property {string} [title] - The title of the page
+ */
+
+/**
+ * Function that returns a personal information page configuration
+ * @typedef {(options?: PersonalInfoPageOptions) => FormConfigPages} PrefillPersonalInfoPageConfig
+ */
+
+/**
+ * @typedef {Object} ContactInfoPagesOptions - Options object for profileContactInfoPage function
+ * @property {String} [addressKey] - address key value set in
+ *  ContactInfoKeys
+ * @property {String} [addressSchema] - Profile
+ *  address schema object
+ * @property {String} [contactInfoPageKey] - set page key
+ *  within the form config chapter
+ * @property {String[]} [contactInfoRequiredKeys] - array of key values in
+ *  ContactInfoKeys that are to be required before proceeding
+ * @property {Object} [contactInfoUiSchema] - custom uiSchema for the contact
+ *  info page
+ * @property {String} [contactPath] - Contact info path of
+ *  formConfig page
+ * @property {number} [contactSectionHeadingLevel] - heading level for contact
+ *  info sections
+ * @property {import('../utilities/data/profile').ContactInfoContent} [content]
+ * @property {Function} [depends] - depends callback function; return true to
+ *  make the main confirmation page visible
+ * @property {boolean} [disableMockContactInfo] - disable mock contact info
+ *  data for testing
+ * @property {number} [editContactInfoHeadingLevel] - heading level for edit
+ *  contact info pages
+ * @property {String} [emailKey] - email key value set in ContactInfoKeys
+ * @property {Object} [emailSchema] - Email schema object for
+ *  email string
+ * @property {String} [homePhoneKey] - home phone key value set in
+ *  ContactInfoKeys
+ * @property {String[]} [included] - array of ContactInfoKeys to show on the contact info page
+ * @property {String} [mobilePhoneKey] - mobile phone key value set in
+ *  ContactInfoKeys
+ * @property {Object} [phoneSchema] - Phone schema object with
+ *  country code, area code, phone number & extension values
+ * @property {boolean} [prefillPatternEnabled] - enable prefill pattern for
+ *  contact info
+ * @property {String} [wrapperKey] - wrapper key value set in
+ *  ContactInfoKeys
+ */
+
+/**
+ * Function that returns contact information pages configuration
+ * @typedef {(options?: ContactInfoPagesOptions) => FormConfigPages} PrefillContactInfoPagesConfig
  */

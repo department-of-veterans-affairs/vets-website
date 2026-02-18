@@ -1,0 +1,79 @@
+{
+  "data": {
+    "veteranInformation": {
+      "veteranFullName": {
+        "first": "Anakin",
+        "middle": "S",
+        "last": "Skywalker"
+      },
+      "veteranSsn": "987654321",
+      "veteranVaFileNumber": "123456789",
+      "veteranDob": "1941-03-01"
+    },
+    "veteranAddress": {
+      "veteranAddress": {
+        "street": "501 Jedi Temple Avenue",
+        "street2": "Rm 1A",
+        "city": "Coruscant",
+        "state": "DC",
+        "country": "USA",
+        "postalCode": "20001"
+      }
+    },
+    "claimantRelationship": {
+      "relationship": "spouse"
+    },
+    "claimantInformation": {
+      "claimantFullName": {
+        "first": "Padmé",
+        "middle": "N",
+        "last": "Amidala"
+      },
+      "claimantDob": "1946-11-12"
+    },
+    "claimantSsn": {
+      "claimantSsn": "111223333"
+    },
+    "claimantAddress": {
+      "claimantAddress": {
+        "street": "500 Republica Luxury Apts",
+        "street2": "PH",
+        "city": "Naboo",
+        "state": "NM",
+        "country": "USA",
+        "postalCode": "87001"
+      }
+    },
+    "claimantContact": {
+      "claimantPhoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "(505) 555-1977",
+        "IsValid": true,
+        "Error": null,
+        "Touched": true
+      },
+      "claimantEmail": "senator.amidala@galacticsenate.gov"
+    },
+    "benefitType": {
+      "benefitType": "SMP"
+    },
+    "hospitalizationStatus": {
+      "isCurrentlyHospitalized": true
+    },
+    "hospitalizationDate": {
+      "admissionDate": "2024-01-15"
+    },
+    "hospitalizationFacility": {
+      "facilityName": "Polis Massa Medical Facility",
+      "facilityAddress": {
+        "street": "1 Outer Rim Medical Center",
+        "street2": "ER",
+        "city": "Washington",
+        "state": "DC",
+        "country": "USA",
+        "postalCode": "20001"
+      }
+    }
+  }
+}

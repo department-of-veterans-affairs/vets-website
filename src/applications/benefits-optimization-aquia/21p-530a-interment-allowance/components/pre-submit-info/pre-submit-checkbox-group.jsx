@@ -1,17 +1,29 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { StatementOfTruthItem } from './statement-of-truth-item';
+import { TextInputField } from '@bio-aquia/shared/components/atoms';
+import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { getVeteranName } from '@bio-aquia/21p-530a-interment-allowance/utils/actions/name-helpers';
+
+const ERROR_MSG_CHECKBOX = 'You must certify this statement is correct';
+
+const TITLE_MIN_LENGTH = 2;
+const TITLE_MAX_LENGTH = 100;
+const FULL_NAME_MIN_LENGTH = 3;
 
 /**
- * Default signature state for new signatures
+ * Validates signature input
+ * Requires at least 3 non-whitespace characters
+ *
+ * @param {string} signatureValue - The signature input value
+ * @returns {boolean} - True if valid, false otherwise
  */
-const DEFAULT_SIGNATURE_STATE = {
-  checked: false,
-  dirty: false,
-  matches: false,
-  value: '',
+export const isSignatureValid = signatureValue => {
+  if (!signatureValue) return false;
+
+  const trimmed = signatureValue.trim();
+  return trimmed.length >= FULL_NAME_MIN_LENGTH;
 };
 
 /**
@@ -19,128 +31,202 @@ const DEFAULT_SIGNATURE_STATE = {
  * Displays signature boxes for state/tribal official to certify form information
  *
  * @param {Object} props - Component props
- * @param {Object} props.formData - Current form data
  * @param {boolean} props.showError - Whether to show validation errors
  * @param {Function} props.onSectionComplete - Callback when section is complete
  * @returns {JSX.Element} PreSubmit signature component
  */
-export const PreSubmitCheckboxGroup = ({
-  formData,
-  showError,
-  onSectionComplete,
-}) => {
+export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
+  // Get formData from Redux instead of props to avoid infinite loop in useEffect
+  const formData = useSelector(state => state.form.data);
+  const veteranName = getVeteranName(formData);
   const submission = useSelector(state => state.form.submission);
   const dispatch = useDispatch();
   const hasSubmittedForm = Boolean(submission.status);
 
-  // Initialize signatures state
-  const [signatures, setSignatures] = useState({
-    'State or Tribal Official': DEFAULT_SIGNATURE_STATE,
-  });
+  // State for the single signature required
+  const [signatoryFullName, setSignatoryFullName] = useState('');
+  const [organizationTitle, setOrganizationTitle] = useState('');
+  const [isCertified, setIsCertified] = useState(false);
+  const [signatoryFullNameTouched, setSignatoryFullNameTouched] = useState(
+    false,
+  );
+  const [titleTouched, setTitleTouched] = useState(false);
 
-  // Get the official's title from form data (for display purposes)
-  const officialTitle =
-    formData?.officialSignature?.officialTitle || 'State/Tribal Official';
+  // Ref to prevent duplicate dispatches
+  const lastDispatchedData = useRef(null);
 
-  // Set form data with signature values, if submission has not occurred
+  // Ref to track previous completion state (prevents unnecessary onSectionComplete calls)
+  const prevCompleteRef = useRef(null);
+
+  // Validate full name using shared validation logic
+  const validateSignatoryFullName = useCallback(
+    () => {
+      return isSignatureValid(signatoryFullName);
+    },
+    [signatoryFullName],
+  );
+
+  // Validate title meets length requirements
+  const validateTitle = useCallback(
+    () => {
+      const titleLength = organizationTitle.trim().length;
+      return titleLength >= TITLE_MIN_LENGTH && titleLength <= TITLE_MAX_LENGTH;
+    },
+    [organizationTitle],
+  );
+
+  // Sync form data with certification values
   useEffect(
     () => {
       if (hasSubmittedForm) return;
 
-      const officialSignature =
-        signatures['State or Tribal Official']?.value || '';
-      dispatch(
-        setData({
-          ...formData,
-          stateTribalOfficialSignature: officialSignature,
-        }),
-      );
+      const certificationData = {
+        signature: signatoryFullName.trim(),
+        titleOfStateOrTribalOfficial: organizationTitle.trim(),
+        certified: isCertified,
+      };
+
+      // Create a stable comparison key to prevent unnecessary dispatches
+      const dataKey = JSON.stringify(certificationData);
+
+      // Only dispatch if data has actually changed
+      // The ref comparison prevents infinite loops even though formData is in deps
+      if (lastDispatchedData.current !== dataKey) {
+        lastDispatchedData.current = dataKey;
+
+        dispatch(
+          setData({
+            ...formData,
+            AGREED: isCertified,
+            certification: certificationData,
+          }),
+        );
+      }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, signatures],
+    [
+      dispatch,
+      signatoryFullName,
+      organizationTitle,
+      isCertified,
+      hasSubmittedForm,
+      formData,
+    ],
   );
 
-  // Validate signature text is valid and checkbox is checked
+  // Check if all required fields are valid and notify parent when completion state changes
   useEffect(
     () => {
-      const officialSig = signatures['State or Tribal Official'];
-      const isComplete = officialSig?.matches && officialSig?.checked;
-      onSectionComplete(isComplete);
-      return () => onSectionComplete(false);
+      const hasValidSignatoryFullName = validateSignatoryFullName();
+      const hasValidTitle = validateTitle();
+      const isComplete =
+        hasValidSignatoryFullName && hasValidTitle && isCertified;
+
+      // Only call callback if completion state has actually changed
+      // This prevents unnecessary calls even if parent passes new callback reference
+      if (!hasSubmittedForm && prevCompleteRef.current !== isComplete) {
+        prevCompleteRef.current = isComplete;
+        onSectionComplete(isComplete);
+      }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [signatures],
+    [
+      signatoryFullName,
+      organizationTitle,
+      isCertified,
+      validateSignatoryFullName,
+      validateTitle,
+      hasSubmittedForm,
+      onSectionComplete,
+    ],
   );
 
-  const statementOfTruth = useMemo(
-    () => {
-      const signature =
-        signatures['State or Tribal Official'] || DEFAULT_SIGNATURE_STATE;
-      const { checked, dirty, matches, value } = signature;
+  // Determine if errors should be shown
+  const shouldShowErrors = !hasSubmittedForm && showError;
+  const shouldShowSignatoryFullNameError =
+    !hasSubmittedForm && (signatoryFullNameTouched || showError);
+  const shouldShowTitleError = !hasSubmittedForm && (titleTouched || showError);
 
-      const hasCheckboxError = !hasSubmittedForm && !checked && showError;
-      const hasInputError =
-        !hasSubmittedForm &&
-        ((dirty && !matches) || (!dirty && showError && !value));
+  // Validation checks
+  const isSignatoryFullNameValid = validateSignatoryFullName();
+  const isTitleEmpty = organizationTitle.trim().length === 0;
+  const isTitleValid = validateTitle();
 
-      const veteranName =
-        [
-          formData?.veteranIdentification?.fullName?.first,
-          formData?.veteranIdentification?.fullName?.middle,
-          formData?.veteranIdentification?.fullName?.last,
-        ]
-          .filter(Boolean)
-          .join(' ') || '[Veteran Name]';
+  // Error messages (null if no error)
+  let signatoryFullNameError = null;
+  if (shouldShowSignatoryFullNameError && !isSignatoryFullNameValid) {
+    signatoryFullNameError = 'Enter your full name';
+  }
 
-      const cemeteryName =
-        formData?.cemeteryInformation?.cemeteryName || '[Cemetery Name]';
+  let titleErrorMsg = null;
+  if (shouldShowTitleError && isTitleEmpty) {
+    titleErrorMsg = 'Enter your title';
+  }
 
-      const statementText = [
-        `I certify that ${veteranName} was buried in ${cemeteryName}, a State-owned Veterans Cemetery or Tribal Cemetery, without charge to the family.`,
-        `I certify that this cemetery is reserved solely for eligible veterans and their dependents as specified in 38 U.S.C. § 2402.`,
-        'I understand that providing false or fraudulent information may result in criminal prosecution under 18 U.S.C. §§ 287, 1001.',
-        `The current interment allowance rate of $978 (as of October 1, 2024) will be paid to the organization specified in this application.`,
-      ];
+  const checkboxError =
+    shouldShowErrors && !isCertified ? ERROR_MSG_CHECKBOX : null;
 
-      return (
-        <StatementOfTruthItem
-          hasCheckboxError={hasCheckboxError}
-          hasInputError={hasInputError}
-          label={officialTitle}
-          signature={signature}
-          setSignatures={setSignatures}
-          statementText={statementText}
-        />
-      );
-    },
-    [hasSubmittedForm, showError, signatures, formData, officialTitle],
-  );
+  // Event handlers
+  const handleSignatoryFullNameChange = useCallback(event => {
+    setSignatoryFullName(event.detail.value);
+  }, []);
 
+  const handleSignatoryFullNameBlur = useCallback(() => {
+    setSignatoryFullNameTouched(true);
+  }, []);
+
+  const handleTitleChange = useCallback((_, value) => {
+    setOrganizationTitle(value);
+  }, []);
+
+  const handleTitleBlur = useCallback(() => {
+    setTitleTouched(true);
+  }, []);
+
+  const handleCheckboxChange = useCallback(event => {
+    setIsCertified(event.detail.checked);
+  }, []);
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
-      <p
-        id="interment-allowance-declaration"
-        className="vads-u-margin-bottom--4"
-      >
-        Please review the information entered in this application. The state or
-        tribal official must sign the section below to certify the information.
+      <p className="vads-u-margin-bottom--4">
+        <strong>Note:</strong> According to federal law, there are criminal
+        penalties, including a fine and/or imprisonment for up to 5 years, for
+        withholding information or for providing incorrect information (See 18
+        U.S.C. 1001).
       </p>
 
       <div aria-describedby="interment-allowance-declaration">
-        {statementOfTruth}
+        <VaStatementOfTruth
+          name="stateOrTribalOfficial"
+          heading="Certification and signature"
+          inputLabel="Your full name"
+          inputValue={signatoryFullName}
+          inputError={signatoryFullNameError}
+          checked={isCertified}
+          checkboxLabel={`I hereby certify that ${veteranName} was buried in a State-owned Veterans Cemetery or Tribal Cemetery (without charge).`}
+          checkboxError={checkboxError}
+          onVaInputBlur={handleSignatoryFullNameBlur}
+          onVaInputChange={handleSignatoryFullNameChange}
+          onVaCheckboxChange={handleCheckboxChange}
+          hideLegalNote
+        >
+          <TextInputField
+            name="organizationTitle"
+            label="Your official title"
+            value={organizationTitle}
+            onChange={handleTitleChange}
+            onBlur={handleTitleBlur}
+            required
+            error={titleErrorMsg}
+            forceShowError={shouldShowTitleError && !isTitleValid}
+            minLength={TITLE_MIN_LENGTH}
+            maxLength={TITLE_MAX_LENGTH}
+          />
+        </VaStatementOfTruth>
       </div>
-
-      <p className="vads-u-margin-top--4 vads-u-margin-bottom--6">
-        <strong>Note:</strong> This signature certifies all information provided
-        in VA Form 21P-530a and serves as the official certification required
-        for processing the interment allowance payment to your organization.
-      </p>
     </div>
   );
 };
 
 PreSubmitCheckboxGroup.propTypes = {
-  formData: PropTypes.object.isRequired,
   showError: PropTypes.bool.isRequired,
   onSectionComplete: PropTypes.func.isRequired,
 };

@@ -1,5 +1,6 @@
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
@@ -19,7 +20,6 @@ import {
   certifierRelationshipSchema,
 } from '../chapters/signerInformation';
 
-// import mockData from '../tests/e2e/fixtures/data/maximal-test.json';
 import transformForSubmit from './submitTransformer';
 
 import {
@@ -46,11 +46,12 @@ import AddressSelectionPage, {
 } from '../components/FormPages/AddressSelectionPage';
 import AddressSelectionReviewPage from '../components/FormReview/AddressSelectionReviewPage';
 
+// import mockData from '../tests/e2e/fixtures/data/representative.json';
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  showReviewErrors: true,
   transformForSubmit,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms/10-10d-ext`,
   preSubmitInfo: {
@@ -71,6 +72,7 @@ const formConfig = {
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
+    disableWindowUnloadInCI: true,
   },
   formOptions: {
     useWebComponentForNavigation: true,
@@ -99,6 +101,9 @@ const formConfig = {
     wrapping: true,
   }),
   formId: VA_FORM_IDS.FORM_10_10D_EXTENDED,
+  downtime: {
+    dependencies: [externalServices.pega, externalServices.form1010dExt],
+  },
   saveInProgress: {
     messages: {
       inProgress: 'Your CHAMPVA benefits application (10-10D) is in progress.',

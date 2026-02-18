@@ -49,9 +49,7 @@ export const useData = () => {
   );
   const fullName = `${profile?.userFullName?.first} ${profile.userFullName
     ?.middle || ''} ${profile.userFullName?.last}`;
-  const chapter = response?.personalInfo?.verificationRecord?.verifiedDetails?.at(
-    -1,
-  ).benefitType;
+  const chapter = response?.personalInfo?.verificationRecord?.verifiedDetails;
   const claimantLookup = response?.personalInfo?.claimantLookup?.claimantId;
   return {
     personalInfo: response?.personalInfo,

@@ -6,6 +6,8 @@ import {
   parseDate,
   parseDateWithOffset,
   getReadableDate,
+  getCurrentUTCStartOfDay,
+  formatDateToReadableString,
 } from '../../utils/dates';
 
 describe('parseDateToDateObj', () => {
@@ -109,5 +111,40 @@ describe('getReadableDate', () => {
   it('should return a readable date', () => {
     expect(getReadableDate('2023-10-15')).to.eq('October 15, 2023');
     expect(getReadableDate('2024-06-04')).to.eq('June 4, 2024');
+  });
+});
+
+describe('getCurrentUTCStartOfDay', () => {
+  it('should return current date in UTC at start of day (midnight)', () => {
+    const result = getCurrentUTCStartOfDay();
+    const now = new Date();
+
+    expect(result).to.be.instanceOf(Date);
+    expect(result.getTime()).to.not.be.NaN;
+
+    expect(result.getUTCFullYear()).to.equal(now.getUTCFullYear());
+    expect(result.getUTCMonth()).to.equal(now.getUTCMonth());
+    expect(result.getUTCDate()).to.equal(now.getUTCDate());
+
+    expect(result.getUTCHours()).to.equal(0);
+    expect(result.getUTCMinutes()).to.equal(0);
+    expect(result.getUTCSeconds()).to.equal(0);
+    expect(result.getUTCMilliseconds()).to.equal(0);
+  });
+});
+
+describe('formatDateToReadableString', () => {
+  describe('VA.gov style month formatting', () => {
+    it('should NOT abbreviate March per VA.gov style guide', () => {
+      const marchDate = new Date(2025, 2, 15, 12, 0, 0); // March 15, 2025
+      const result = formatDateToReadableString(marchDate);
+      expect(result).to.equal('March 15, 2025');
+    });
+
+    it('should abbreviate December with period per VA.gov style guide', () => {
+      const decemberDate = new Date(2025, 11, 10, 12, 0, 0); // December 10, 2025
+      const result = formatDateToReadableString(decemberDate);
+      expect(result).to.equal('Dec. 10, 2025');
+    });
   });
 });

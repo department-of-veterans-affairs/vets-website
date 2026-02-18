@@ -16,6 +16,7 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_UPDATE_FACILITY_TYPE,
   FORM_UPDATE_SELECTED_PROVIDER,
+  FORM_UPDATE_FACILITY_EHR,
   FORM_PAGE_FACILITY_V2_OPEN,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_V2_OPEN_FAILED,
@@ -69,6 +70,7 @@ import {
   FLOW_TYPES,
   FETCH_STATUS,
   REASON_MAX_CHARS,
+  NEW_REASON_MAX_CHARS,
 } from '../../utils/constants';
 
 import { getTypeOfCare } from './selectors';
@@ -76,7 +78,8 @@ import { distanceBetween } from '../../utils/address';
 import { isTypeOfCareSupported } from '../../services/location';
 
 const REASON_ADDITIONAL_INFO_TITLES = {
-  va: 'Add any details you’d like to share with your provider.',
+  va:
+    'Enter a brief reason for this appointment. Your provider will contact you if they need more details.',
   ccRequest:
     'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
 };
@@ -115,6 +118,8 @@ const initialState = {
   isNewAppointmentStarted: false,
   fetchRecentLocationStatus: FETCH_STATUS.notStarted,
   isAppointmentSelectionError: false,
+  ehr: null,
+  backendServiceFailures: null,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -126,16 +131,23 @@ function setupFormData(data, schema, uiSchema) {
   );
 }
 
-function resetFormDataOnTypeOfCareChange(pages, oldData, data) {
-  let newPages = pages;
+function resetFormDataOnChange(state, data) {
+  const oldData = state.data;
+
+  let newPages = state.pages;
+  let newPatientProviderRelationshipsStatus =
+    state.patientProviderRelationshipsStatus;
+  let newPatientProviderRelationships = state.patientProviderRelationships;
+  let newBackendServiceFailures = state.backendServiceFailures;
   let newData = data;
 
+  // Reset form data if typeOfCare has changed
   if (getTypeOfCare(newData)?.id !== getTypeOfCare(oldData)?.id) {
-    if (pages.vaFacility) {
+    if (newPages.vaFacility) {
       newPages = unset('vaFacility', newPages);
     }
 
-    if (pages.vaFacility2) {
+    if (newPages.vaFacility2) {
       newPages = unset('vaFacility2', newPages);
     }
 
@@ -148,13 +160,28 @@ function resetFormDataOnTypeOfCareChange(pages, oldData, data) {
     }
 
     // reset community care provider if type of care changes
-    if (pages.ccPreferences || !!newData.communityCareProvider?.id) {
+    if (newPages.ccPreferences || !!newData.communityCareProvider?.id) {
       newPages = unset('ccPreferences', newPages);
       newData = set('communityCareProvider', {}, newData);
     }
   }
 
-  return { newPages, newData };
+  // Reset provider relationships and form data if chosen VA facility
+  // has changed
+  if (newData.vaFacility !== oldData.vaFacility) {
+    newData = unset('selectedProvider', newData);
+    newPatientProviderRelationships = [];
+    newPatientProviderRelationshipsStatus = FETCH_STATUS.notStarted;
+    newBackendServiceFailures = null;
+  }
+
+  return {
+    newPages,
+    newData,
+    newPatientProviderRelationshipsStatus,
+    newPatientProviderRelationships,
+    newBackendServiceFailures,
+  };
 }
 
 export default function formReducer(state = initialState, action) {
@@ -182,15 +209,18 @@ export default function formReducer(state = initialState, action) {
         action.data,
       );
 
-      const { newPages, newData } = resetFormDataOnTypeOfCareChange(
-        state.pages,
-        state.data,
-        data,
-      );
+      const {
+        newPages,
+        newData,
+        newPatientProviderRelationshipsStatus,
+        newPatientProviderRelationships,
+      } = resetFormDataOnChange(state, data);
 
       return {
         ...state,
         data: newData,
+        patientProviderRelationshipsStatus: newPatientProviderRelationshipsStatus,
+        patientProviderRelationships: newPatientProviderRelationships,
         pages: {
           ...newPages,
           [action.page]: schema,
@@ -217,9 +247,8 @@ export default function formReducer(state = initialState, action) {
         };
       }
 
-      const { newPages, newData } = resetFormDataOnTypeOfCareChange(
-        state.pages,
-        state.data,
+      const { newPages, newData } = resetFormDataOnChange(
+        state,
         action.data || state.data,
       );
 
@@ -295,6 +324,12 @@ export default function formReducer(state = initialState, action) {
           ...state.data,
           selectedProvider: action.provider.providerId,
         },
+      };
+    }
+    case FORM_UPDATE_FACILITY_EHR: {
+      return {
+        ...state,
+        ehr: action.ehr,
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN: {
@@ -671,7 +706,9 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         patientProviderRelationshipsStatus: FETCH_STATUS.succeeded,
-        patientProviderRelationships: action.patientProviderRelationships,
+        patientProviderRelationships:
+          action.relationships?.patientProviderRelationships,
+        backendServiceFailures: action.relationships?.backendServiceFailures,
       };
     case FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED:
       return {
@@ -724,17 +761,20 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
       const formData = state.data;
+      const isCommunityCare =
+        formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
+      const maxChars = !isCommunityCare
+        ? NEW_REASON_MAX_CHARS
+        : REASON_MAX_CHARS;
       let additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.ccRequest;
 
       if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE.id) {
         additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.va;
-      } else {
-        delete formData.reasonForAppointment;
       }
 
       let reasonSchema = set(
         'properties.reasonAdditionalInfo.maxLength',
-        REASON_MAX_CHARS,
+        maxChars,
         action.schema,
       );
 

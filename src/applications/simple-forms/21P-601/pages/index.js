@@ -1,4 +1,3 @@
-import introduction from './introduction';
 import hasAlreadyFiled from './hasAlreadyFiled';
 import hasUnpaidCreditors from './hasUnpaidCreditors';
 import eligibilitySummary from './eligibilitySummary';
@@ -7,19 +6,22 @@ import veteranIdentifiers from './veteranIdentifiers';
 import beneficiaryIsVeteran from './beneficiaryIsVeteran';
 import beneficiaryFullName from './beneficiaryFullName';
 import beneficiaryDateOfDeath from './beneficiaryDateOfDeath';
-import claimantIdentification from './claimantIdentification';
-import claimantContact from './claimantContact';
-import claimantRelationship from './claimantRelationship';
+import claimantNameAndDob from './claimantNameAndDob';
+import claimantSSN from './claimantSSN';
+import claimantMailingAddress from './claimantMailingAddress';
+import claimantPhoneAndEmail from './claimantPhoneAndEmail';
+import claimantRelationshipToDeceased from './claimantRelationshipToDeceased';
+import waiverOfSubstitution from './waiverOfSubstitution';
 import relativesOverview from './relativesOverview';
-import relativesDetails from './relativesDetails';
+import { relativesPages } from './relativesDetails';
 import expensesClaim from './expensesClaim';
-import expensesList from './expensesList';
+import { expensesPages } from './expensesList';
 import otherDebts from './otherDebts';
-import otherDebtsList from './otherDebtsList';
+import { otherDebtsPages } from './otherDebtsList';
 import remarks from './remarks';
+import supportingDocuments from './supportingDocuments';
 
 export {
-  introduction,
   hasAlreadyFiled,
   hasUnpaidCreditors,
   eligibilitySummary,
@@ -28,14 +30,18 @@ export {
   beneficiaryIsVeteran,
   beneficiaryFullName,
   beneficiaryDateOfDeath,
-  claimantIdentification,
-  claimantContact,
-  claimantRelationship,
+  claimantNameAndDob,
+  claimantSSN,
+  claimantMailingAddress,
+  claimantPhoneAndEmail,
+  claimantRelationshipToDeceased,
+  waiverOfSubstitution,
   relativesOverview,
-  relativesDetails,
+  relativesPages,
   expensesClaim,
-  expensesList,
+  expensesPages,
   otherDebts,
-  otherDebtsList,
+  otherDebtsPages,
   remarks,
+  supportingDocuments,
 };

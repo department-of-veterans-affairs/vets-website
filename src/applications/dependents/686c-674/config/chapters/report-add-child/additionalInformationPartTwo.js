@@ -3,12 +3,13 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { incomeQuestionUpdateUiSchema } from '../../helpers';
 
 export const additionalInformationPartTwo = {
   uiSchema: {
     ...titleUI('Child’s income'),
     incomeInLastYear: radioUI({
-      title: 'Did this child have an income in the last 365 days?',
+      title: 'Has this child received income in the last 365 days?',
       hint:
         'Answer this question only if you are adding this dependent to your pension.',
       labels: {
@@ -18,11 +19,7 @@ export const additionalInformationPartTwo = {
       },
       required: (_chapterData, _index, formData) =>
         formData?.vaDependentsNetWorthAndPension,
-      updateUiSchema: () => ({
-        'ui:options': {
-          hint: '',
-        },
-      }),
+      updateUiSchema: incomeQuestionUpdateUiSchema,
       updateSchema: (formData = {}, formSchema) => {
         const { vaDependentsNetWorthAndPension } = formData;
 

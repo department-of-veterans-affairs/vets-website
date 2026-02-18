@@ -1,73 +1,73 @@
 {
   "data": {
     "nursingOfficialInformation": {
-      "firstName": "Andrew",
-      "lastName": "Green",
-      "jobTitle": "Head Nurse",
-      "phoneNumber": "3121114321"
+      "fullName": {
+        "first": "Beru",
+        "last": "Lars"
+      },
+      "jobTitle": "Nursing Home Administrator",
+      "phoneNumber": "5055551977"
     },
     "nursingHomeDetails": {
-      "nursingHomeName": "Best Nursing Home",
+      "nursingHomeName": "Coruscant Veterans Medical Center",
       "nursingHomeAddress": {
-        "street": "1060 W Addison St",
-        "street2": "Suite 12",
-        "street3": "",
-        "city": "Chicago",
-        "state": "IL",
-        "province": "",
+        "street": "500 Senate District Boulevard",
+        "street2": "Lvl 5",
+        "city": "Coruscant",
+        "state": "DC",
         "country": "USA",
-        "postalCode": "60613",
-        "internationalPostalCode": "",
-        "isMilitary": false
+        "postalCode": "20001"
       }
     },
     "claimantQuestion": {
-      "patientType": "spouseOrParent"
+      "patientType": "spouse"
     },
     "claimantPersonalInfo": {
       "claimantFullName": {
-        "first": "Rosemary",
-        "middle": "M",
-        "last": "Woodhouse"
+        "first": "Shmi",
+        "middle": "E",
+        "last": "Skywalker"
       },
-      "claimantDateOfBirth": "1945-02-09"
+      "claimantDateOfBirth": "1939-09-15"
     },
     "claimantIdentificationInfo": {
-      "claimantSsn": "111-11-1111",
-      "claimantVaFileNumber": "12345678"
+      "ssn": "111223333",
+      "vaFileNumber": "41982736"
     },
     "veteranPersonalInfo": {
       "fullName": {
-        "first": "Doug",
-        "middle": "P",
-        "last": "Woodhouse"
+        "first": "Anakin",
+        "middle": "L",
+        "last": "Skywalker"
       },
-      "dateOfBirth": "1945-10-15"
+      "dateOfBirth": "1960-03-01"
     },
     "veteranIdentificationInfo": {
-      "ssn": "222-22-2222",
-      "vaFileNumber": "987654321"
+      "ssn": "987654321",
+      "vaFileNumber": "501987654"
     },
     "certificationLevelOfCare": {
       "levelOfCare": "skilled"
     },
-    "admissionDateInfo": {
-      "admissionDate": "2022-10-19"
+    "admissionDate": {
+      "admissionDate": "2019-05-04"
     },
     "medicaidFacility": {
-      "isMedicaidApproved": "yes"
+      "isMedicaidApprovedFacility": true
     },
     "medicaidApplication": {
-      "hasAppliedForMedicaid": "yes"
+      "hasAppliedForMedicaid": true
     },
     "medicaidStatus": {
-      "currentlyCoveredByMedicaid": "yes"
+      "currentlyCoveredByMedicaid": true
     },
-    "medicaidStartDateInfo": {
-      "medicaidStartDate": "2021-12-13"
+    "medicaidStartDate": {
+      "medicaidStartDate": "2020-12-25"
     },
     "monthlyCosts": {
-      "monthlyOutOfPocket": "2134"
-    }
+      "monthlyOutOfPocket": "3277.00"
+    },
+    "signature": "Beru Lars",
+    "certificationChecked": true
   }
 }

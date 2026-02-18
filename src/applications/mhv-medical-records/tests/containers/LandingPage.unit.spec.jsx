@@ -5,7 +5,6 @@ import { fireEvent } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { addHours, format } from 'date-fns';
-import * as uniqueUserMetrics from '~/platform/mhv/unique_user_metrics';
 import LandingPage, {
   ALLERGIES_AND_REACTIONS_LABEL,
   CARE_SUMMARIES_AND_NOTES_LABEL,
@@ -98,7 +97,6 @@ describe('Landing Page', () => {
 
   describe('Landing Page without downtime', () => {
     let postCreateAALStub;
-    let logUniqueUserMetricsEventsStub;
     let sandbox;
     let getByTestId;
     let screen;
@@ -130,10 +128,6 @@ describe('Landing Page', () => {
       sandbox = sinon.createSandbox();
       // stub out postCreateAAL so it doesn't actually fire network requests
       postCreateAALStub = sandbox.stub(MrApi, 'postCreateAAL');
-      logUniqueUserMetricsEventsStub = sandbox.stub(
-        uniqueUserMetrics,
-        'logUniqueUserMetricsEvents',
-      );
       renderPage();
     });
 
@@ -301,63 +295,194 @@ describe('Landing Page', () => {
         clickAndAssert(testId, activityType);
       });
     });
+  });
 
-    it('should log medical records accessed event when landing page loads', () => {
-      expect(
-        logUniqueUserMetricsEventsStub.calledWith(
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_ACCESSED,
-        ),
-      ).to.be.true;
+  describe('Cerner facility alert on Landing Page', () => {
+    const cernerUserState = {
+      user: {
+        profile: {
+          userFullName: {
+            first: 'Andrew- Cerner',
+            middle: 'J',
+            last: 'Morkel',
+          },
+          facilities: [
+            {
+              facilityId: '668',
+              isCerner: true,
+            },
+          ],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          migrationSchedules: [],
+        },
+      },
+    };
+
+    const multipleCernerFacilitiesState = {
+      user: {
+        profile: {
+          facilities: [
+            { facilityId: '668', isCerner: true },
+            { facilityId: '692', isCerner: true },
+          ],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          migrationSchedules: [],
+        },
+      },
+    };
+
+    const transitioningUserState = {
+      user: {
+        profile: {
+          facilities: [
+            { facilityId: '668', isCerner: true },
+            { facilityId: '692', isCerner: true },
+          ],
+          userAtPretransitionedOhFacility: false,
+          userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: true,
+          migrationSchedules: [
+            {
+              migrationDate: '2026-05-01',
+              facilities: [
+                {
+                  facilityId: '528',
+                  facilityName: 'Test VA Medical Center',
+                },
+                {
+                  facilityId: '123',
+                  facilityName: 'Different VA Medical Center',
+                },
+              ],
+              phases: {
+                current: 'p1',
+                p0: 'March 1, 2026',
+                p1: 'March 15, 2026',
+                p2: 'April 1, 2026',
+                p3: 'April 24, 2026',
+                p4: 'April 27, 2026',
+                p5: 'May 1, 2026',
+                p6: 'May 3, 2026',
+                p7: 'May 8, 2026',
+              },
+            },
+          ],
+        },
+      },
+    };
+
+    it('displays Cerner facility alert for Cerner users on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: cernerUserState,
+        reducers: reducer,
+      });
+
+      expect(screen).to.exist;
+      expect(screen.getByTestId('mr-landing-page-title')).to.exist;
+      expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
     });
 
-    const uniqueUserMetricsLinkTests = [
-      {
-        testId: 'labs-and-tests-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_LABS_ACCESSED,
-        description: 'labs and tests',
-      },
-      {
-        testId: 'notes-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_NOTES_ACCESSED,
-        description: 'care summaries and notes',
-      },
-      {
-        testId: 'vaccines-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_VACCINES_ACCESSED,
-        description: 'vaccines',
-      },
-      {
-        testId: 'allergies-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_ALLERGIES_ACCESSED,
-        description: 'allergies and reactions',
-      },
-      {
-        testId: 'conditions-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_CONDITIONS_ACCESSED,
-        description: 'health conditions',
-      },
-      {
-        testId: 'vitals-landing-page-link',
-        eventType:
-          uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_VITALS_ACCESSED,
-        description: 'vitals',
-      },
-    ];
-
-    uniqueUserMetricsLinkTests.forEach(({ testId, eventType, description }) => {
-      it(`should log unique user metrics event when ${description} link is clicked`, () => {
-        // Reset the stub to clear previous calls
-        logUniqueUserMetricsEventsStub.resetHistory();
-
-        fireEvent.click(getByTestId(testId));
-
-        expect(logUniqueUserMetricsEventsStub.calledWith(eventType)).to.be.true;
+    it('renders Cerner alert text for single Cerner facility on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: cernerUserState,
+        reducers: reducer,
       });
+
+      expect(screen.getByTestId('single-cerner-facility-text')).to.exist;
+      const facilityElement = screen.getByText('VA Spokane health care');
+      expect(facilityElement.tagName).to.equal('STRONG');
+      const link = screen.getByTestId('cerner-facility-action-link');
+      expect(link).to.exist;
+    });
+
+    it('renders Cerner alert for multiple Cerner facilities on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: multipleCernerFacilitiesState,
+        reducers: reducer,
+      });
+
+      expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
+      expect(screen.getAllByTestId('cerner-facility').length).to.be.greaterThan(
+        1,
+      );
+    });
+
+    it('displays Info facility alert for transitioned users on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: {
+          ...cernerUserState,
+          user: {
+            profile: {
+              ...cernerUserState.user.profile,
+              userFacilityReadyForInfoAlert: true,
+            },
+          },
+        },
+        reducers: reducer,
+      });
+
+      expect(screen.getByTestId('cerner-facilities-info-alert')).to.exist;
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+    });
+
+    it('displays migration alert for transitioning user on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: transitioningUserState,
+        reducers: reducer,
+      });
+
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+      expect(screen.queryByTestId('cerner-facilities-info-alert')).to.not.exist;
+      expect(screen.getByTestId('cerner-facilities-transition-alert')).to.exist;
+    });
+
+    it('does not display Cerner alert for non-Cerner users on landing page', () => {
+      const nonCernerUserState = {
+        user: {
+          profile: {
+            facilities: [
+              {
+                facilityId: '516',
+                isCerner: false,
+              },
+            ],
+            userAtPretransitionedOhFacility: false,
+            userFacilityReadyForInfoAlert: false,
+            userFacilityMigratingToOh: false,
+            migrationSchedules: [],
+          },
+        },
+        drupalStaticData: {
+          vamcEhrData: {
+            data: {
+              ehrDataByVhaId: {
+                '516': {
+                  vhaId: '516',
+                  vamcFacilityName:
+                    'C.W. Bill Young Department of Veterans Affairs Medical Center',
+                  vamcSystemName: 'VA Bay Pines health care',
+                  ehr: 'vista',
+                },
+              },
+            },
+            loading: false,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: nonCernerUserState,
+        reducers: reducer,
+      });
+
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+      expect(screen.queryByTestId('cerner-facilities-info-alert')).to.not.exist;
+      expect(screen.queryByTestId('cerner-facilities-transition-alert')).to.not
+        .exist;
     });
   });
 });

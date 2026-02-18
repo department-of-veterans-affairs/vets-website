@@ -1,0 +1,32 @@
+{
+  "data": {
+    "fullName": {
+      "first": "John",
+      "middle": "Michael",
+      "last": "Doe"
+    },
+    "dateOfBirth": "1980-01-01",
+    "veteranId": {
+      "ssn": "987654321",
+      "vaFileNumber": "987654321"
+    },
+    "address": {
+      "country": "USA",
+      "street": "123 Main St",
+      "street2": "Apt 4B",
+      "city": "City",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "homePhone": "5551234567",
+    "mobilePhone": "5559876543",
+    "claimantContactInformation": {
+      "phoneNumber": {
+        "countryCode": "1",
+        "areaCode": "555",
+        "phoneNumber": "1234567"
+      },
+      "emailAddress": "john.doe@example.com"
+    }
+  }
+}

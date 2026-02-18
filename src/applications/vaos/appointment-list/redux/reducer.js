@@ -118,6 +118,7 @@ export default function appointmentsReducer(state = initialState, action) {
         ?.filter(appt => {
           const apptDateTime = new Date(appt.start);
           return (
+            appt.vaos.isPastAppointment &&
             isValid(apptDateTime) &&
             isWithinInterval(apptDateTime, { start: startDate, end: endDate })
           );

@@ -47,7 +47,7 @@ function ScheduleNewAppointmentButton() {
       href="/"
       onClick={handleClick(history, dispatch, typeOfCare)}
     >
-      Start scheduling
+      Start scheduling an appointment
     </a>
   );
 }

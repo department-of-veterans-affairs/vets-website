@@ -1,25 +1,35 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
 import { CancelButton } from '../../config/helpers';
+
+import { labels } from './utils';
+import { scrollToError } from './helpers';
+import propTypes from './types';
 
 const spouseReasonToRemove = {
   handlers: {
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: ({ itemData /* , _index, _fullData */ }) =>
       itemData.removalReason === 'marriageEnded'
-        ? 'marriage-ended'
-        : 'marriage-death',
+        ? 'spouse-marriage-ended'
+        : 'spouse-death',
 
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.removalReason) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
@@ -27,35 +37,15 @@ const spouseReasonToRemove = {
   },
 
   /**
-   * Depedent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} removalReason Dependent's removal reason
-   */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} returnToMainPage Function to return to the main remove
-   * dependents page
-   * @returns React component
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
    */
   Component: ({
     itemData,
     fullName,
     formSubmitted,
-    firstName,
     handlers,
+    isEditing,
     returnToMainPage,
   }) => {
     if (!itemData.dateOfBirth || itemData.relationshipToVeteran !== 'Spouse') {
@@ -72,29 +62,32 @@ const spouseReasonToRemove = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Reason for removing {fullName}
+          {labels.Spouse.removalReasonTitle(fullName, isEditing)}
         </h3>
         <VaRadio
           class="vads-u-margin-bottom--2"
           error={
-            formSubmitted && !itemData.removalReason ? 'Select an option' : null
+            formSubmitted && !itemData.removalReason
+              ? labels.Spouse.removalReasonError
+              : null
           }
-          label={`Do any of these apply to ${firstName}?`}
-          hint="Select the event that happened first"
+          label={labels.Spouse.removalReason}
+          hint={labels.Spouse.removalReasonHint}
           onVaValueChange={onChange}
+          enable-analytics
           required
         >
           <VaRadioOption
             name="removalReason"
-            label={`Your marriage to ${firstName} ended`}
+            label={labels.Spouse.marriageEnded}
             checked={itemData.removalReason === 'marriageEnded'}
             value="marriageEnded"
           />
           <VaRadioOption
             name="removalReason"
-            label={`${firstName} died`}
-            checked={itemData.removalReason === 'death'}
-            value="death"
+            label={labels.Spouse.spouseDied}
+            checked={itemData.removalReason === 'spouseDied'}
+            value="spouseDied"
           />
         </VaRadio>
 
@@ -107,24 +100,7 @@ const spouseReasonToRemove = {
   },
 };
 
-spouseReasonToRemove.propTypes = {
-  Component: PropTypes.func,
-};
-
-spouseReasonToRemove.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    dateOfBirth: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-    removalReason: PropTypes.string,
-  }),
-  returnToMainPage: PropTypes.func,
-};
+spouseReasonToRemove.propTypes = propTypes.Page;
+spouseReasonToRemove.Component.propTypes = propTypes.Component;
 
 export default spouseReasonToRemove;

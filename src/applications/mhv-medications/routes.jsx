@@ -1,25 +1,32 @@
-import React, { lazy, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { createBrowserRouter, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
+import { lazyWithRetry } from '@department-of-veterans-affairs/platform-utilities/lazy-load-with-retry';
 import manifest from './manifest.json';
 import AppProviders from './containers/AppProviders';
 import App from './containers/App';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
-import { allergiesLoader } from './loaders/allergiesLoader';
-import { prescriptionsLoader } from './loaders/prescriptionsLoader';
+import { selectMedicationsManagementImprovementsFlag } from './util/selectors';
+// import { allergiesLoader } from './loaders/allergiesLoader';
+// Disabling loaders temporarily while rolling out Oracle Health Pilot
+// TODO: When the pilot is complete, re-enable loaders
+// import { prescriptionsLoader } from './loaders/prescriptionsLoader';
 
-const Prescriptions = lazy(() => import('./containers/Prescriptions'));
-const RefillPrescriptions = lazy(() =>
+const Prescriptions = lazyWithRetry(() => import('./containers/Prescriptions'));
+const RefillPrescriptions = lazyWithRetry(() =>
   import('./containers/RefillPrescriptions'),
 );
-const PrescriptionDetails = lazy(() =>
+const PrescriptionDetails = lazyWithRetry(() =>
   import('./containers/PrescriptionDetails'),
 );
-const PrescriptionDetailsDocumentation = lazy(() =>
+const PrescriptionDetailsDocumentation = lazyWithRetry(() =>
   import('./containers/PrescriptionDetailsDocumentation'),
+);
+const PrescriptionsInProgress = lazyWithRetry(() =>
+  import('./containers/PrescriptionsInProgress'),
 );
 
 // Loading component to display while lazy-loaded components are being fetched
@@ -60,26 +67,55 @@ RouteWrapper.propTypes = {
   children: PropTypes.node,
 };
 
+const FeatureFlaggedRoute = ({ Component, selector }) => {
+  const isEnabled = useSelector(selector);
+
+  if (!isEnabled) {
+    return <MhvPageNotFound />;
+  }
+
+  return (
+    <RouteWrapper>
+      <Component />
+    </RouteWrapper>
+  );
+};
+
+FeatureFlaggedRoute.propTypes = {
+  Component: PropTypes.elementType.isRequired,
+  selector: PropTypes.func.isRequired,
+};
+
 const routes = [
   {
     path: 'refill',
     element: <RouteWrapper Component={RefillPrescriptions} />,
-    loader: prescriptionsLoader,
+    // loader: prescriptionsLoader,
   },
   {
     path: '/',
     element: <RouteWrapper Component={Prescriptions} />,
-    loader: prescriptionsLoader,
+    // loader: prescriptionsLoader,
+  },
+  {
+    path: 'in-progress',
+    element: (
+      <FeatureFlaggedRoute
+        Component={PrescriptionsInProgress}
+        selector={selectMedicationsManagementImprovementsFlag}
+      />
+    ),
+    // loader: prescriptionsLoader,
   },
   {
     path: 'prescription/:prescriptionId/documentation',
     element: <RouteWrapper Component={PrescriptionDetailsDocumentation} />,
-    loader: prescriptionsLoader,
+    // loader: prescriptionsLoader,
   },
   {
     path: 'prescription/:prescriptionId',
     element: <RouteWrapper Component={PrescriptionDetails} />,
-    loader: allergiesLoader,
+    // loader: allergiesLoader,
   },
   {
     path: '*',

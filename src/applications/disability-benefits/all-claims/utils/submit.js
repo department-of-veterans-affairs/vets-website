@@ -15,6 +15,8 @@ import {
   sippableId,
 } from './index';
 
+import { normalizeAddressLine } from './contactInformationHelpers';
+
 import { migrateBranches } from './serviceBranches';
 
 import { ptsdBypassDescription } from '../content/ptsdBypassContent';
@@ -93,7 +95,16 @@ export function getDisabilities(
 
 export function getDisabilityName(disability) {
   const name = disability.name ? disability.name : disability.condition;
-  return name && name.trim();
+  const baseName = name && name.trim();
+
+  // Include sideOfBody if present to match the checkbox schema format
+  // used in makeSchemaForNewDisabilities (e.g., "tinnitus, left")
+  if (baseName && disability.sideOfBody) {
+    const side = disability.sideOfBody.trim().toLowerCase();
+    return `${baseName}, ${side}`;
+  }
+
+  return baseName;
 }
 
 export function getClaimedConditionNames(
@@ -169,80 +180,105 @@ for increase must be removed from the newDisabilities object and
 added to the ratedDisabilities object. This transformation is needed
 in order for the form to successfully submit.
 */
-const isSchemaNewRow = r => r?.condition && r?.cause;
-const isIncreaseRow = r => r?.ratedDisability && !r?.condition && !r?.cause;
+const isRatedDisabilityCondition = v => norm(v) === 'rated disability';
 
 export const normalizeIncreases = formData => {
-  if (!formData?.disabilityCompensationNewConditionsWorkflow) return formData;
+  if (!formData?.disabilityCompNewConditionsWorkflow) return formData;
+
   const rated = Array.isArray(formData?.ratedDisabilities)
     ? formData.ratedDisabilities.map(r => ({ ...r }))
     : [];
-  const newList = Array.isArray(formData?.newDisabilities)
-    ? formData.newDisabilities
-    : [];
 
   const indexByName = new Map(rated.map((r, i) => [norm(r.name), i]));
-  const remainingNew = [];
 
-  for (const row of newList) {
-    if (isSchemaNewRow(row)) {
-      // true NEW/SECONDARY/etc. so keep
-      remainingNew.push(row);
-      continue; // eslint-disable-line no-continue
+  const listKeys = ['newDisabilities', 'newPrimaryDisabilities'];
+  const survivors = { newDisabilities: [], newPrimaryDisabilities: [] };
+
+  for (const key of listKeys) {
+    const list = Array.isArray(formData[key]) ? formData[key] : [];
+    for (const row of list) {
+      // eslint-disable-next-line no-continue
+      if (!row) continue;
+
+      const condIsRated = isRatedDisabilityCondition(row.condition);
+      const nameMatchesRated =
+        typeof row.ratedDisability === 'string' &&
+        indexByName.has(norm(row.ratedDisability));
+
+      if (condIsRated || nameMatchesRated) {
+        if (nameMatchesRated) {
+          const idx = indexByName.get(norm(row.ratedDisability));
+          const target = rated[idx];
+          target['view:selected'] = true;
+          target.disabilityActionType = 'INCREASE';
+          if (row.conditionDate && !target.approximateDate) {
+            target.approximateDate = row.conditionDate;
+          }
+        }
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+
+      survivors[key].push(row);
     }
-
-    if (!isIncreaseRow(row)) {
-      // not schema-shaped, not an increase just keep as-is
-      remainingNew.push(row);
-      continue; // eslint-disable-line no-continue
-    }
-
-    // At this point: it's an increase row
-    const name = row.ratedDisability;
-    const idx = indexByName.get(norm(name));
-
-    if (idx === undefined) {
-      // no rated match so keep as-is
-      remainingNew.push(row);
-      continue; // eslint-disable-line no-continue
-    }
-
-    // we have a rated match → hoist into rated
-    const target = rated[idx];
-    if (row.conditionDate && !target.conditionDate) {
-      target.conditionDate = row.conditionDate;
-    }
-    target['view:selected'] = true;
-    target.disabilityActionType = 'INCREASE';
   }
 
-  // Build output — omit newDisabilities if empty
-  const out = {
-    ...formData,
-    ratedDisabilities: rated,
-  };
-
-  if (remainingNew.length > 0) {
-    out.newDisabilities = remainingNew;
-  } else if ('newDisabilities' in out) {
-    delete out.newDisabilities;
+  const out = { ...formData, ratedDisabilities: rated };
+  for (const key of listKeys) {
+    if (survivors[key].length) out[key] = survivors[key];
+    else if (key in out) delete out[key];
   }
-
   return out;
 };
 
 export const sanitizeNewDisabilities = formData => {
-  if (!formData?.disabilityCompensationNewConditionsWorkflow) return formData;
-  if (!Array.isArray(formData.newDisabilities)) return formData;
-
-  const cleaned = formData.newDisabilities.filter(
-    r => r && r.condition && r.cause,
-  );
+  if (!formData?.disabilityCompNewConditionsWorkflow) return formData;
 
   const out = { ...formData };
-  if (cleaned.length) out.newDisabilities = cleaned;
-  else delete out.newDisabilities;
 
+  const clean = key => {
+    if (!Array.isArray(out[key])) return;
+    const filtered = out[key].filter(r => r && r.condition && r.cause);
+    if (filtered.length) out[key] = filtered;
+    else delete out[key];
+  };
+
+  clean('newDisabilities');
+  clean('newPrimaryDisabilities');
+
+  return out;
+};
+
+export const removeRatedDisabilityFromNew = formData => {
+  const out = { ...formData };
+  const rated = Array.isArray(out.ratedDisabilities)
+    ? out.ratedDisabilities
+    : [];
+  const ratedNameSet = new Set(rated.map(r => norm(r.name)));
+
+  const keys = [
+    'newDisabilities',
+    'newPrimaryDisabilities',
+    'newSecondaryDisabilities',
+  ];
+  for (const key of keys) {
+    // eslint-disable-next-line no-continue
+    if (!Array.isArray(out[key])) continue;
+
+    const filtered = out[key].filter(r => {
+      const condIsRated =
+        typeof r?.condition === 'string' &&
+        isRatedDisabilityCondition(r.condition);
+      const nameMatchesRated =
+        typeof r?.ratedDisability === 'string' &&
+        ratedNameSet.has(norm(r.ratedDisability));
+      // Drop only true increases
+      return !(condIsRated || nameMatchesRated);
+    });
+
+    if (filtered.length) out[key] = filtered;
+    else delete out[key];
+  }
   return out;
 };
 
@@ -317,7 +353,10 @@ export const removeExtraData = formData => {
         return acc;
       }, {}),
     );
+  } else {
+    delete clonedData.ratedDisabilities;
   }
+
   return clonedData;
 };
 
@@ -424,12 +463,25 @@ export const cleanUpMailingAddress = formData => {
     'state',
     'zipCode',
   ];
+
+  const fieldsToNormalize = [
+    'addressLine1',
+    'addressLine2',
+    'addressLine3',
+    'city',
+  ];
+
   const mailingAddress = Object.entries(formData.mailingAddress).reduce(
     (address, [key, value]) => {
-      if (value && validKeys.includes(key)) {
+      // Normalize address lines and city before submission
+      const normalizedValue = fieldsToNormalize.includes(key)
+        ? normalizeAddressLine(value)
+        : value;
+
+      if (normalizedValue && validKeys.includes(key)) {
         return {
           ...address,
-          [key]: value,
+          [key]: normalizedValue,
         };
       }
       return address;

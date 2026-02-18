@@ -5,7 +5,7 @@ import {
   getObjectsWithAttachmentId,
   toHash,
 } from '../../shared/utilities';
-import { concatStreets, getAgeInYears } from '../helpers/utilities';
+import { concatStreets, getAgeInYears } from '../utils/helpers';
 
 /**
  * Formats a date string from YYYY-MM-DD to MM-DD-YYYY
@@ -63,7 +63,7 @@ function transformApplicants(applicants = []) {
   return applicants.map(applicant => {
     const transformedApplicant = {
       ...applicant,
-      ssnOrTin: applicant.applicantSSN ?? '',
+      ssnOrTin: applicant.applicantSsn ?? '',
       vetRelationship: extractRelationship(
         applicant.applicantRelationshipToSponsor || 'NA',
       ),
@@ -100,7 +100,7 @@ function mapHealthInsuranceToApplicants(
     result.applicants
       .filter(
         applicant =>
-          plan.medicareParticipant === toHash(applicant.applicantSSN),
+          plan.medicareParticipant === toHash(applicant.applicantSsn),
       )
       .forEach(applicant => {
         // Initialize Medicare array if it doesn't exist
@@ -128,7 +128,7 @@ function mapHealthInsuranceToApplicants(
 
     result.applicants
       .filter(applicant =>
-        participantHashes.includes(toHash(applicant.applicantSSN)),
+        participantHashes.includes(toHash(applicant.applicantSsn)),
       )
       .forEach(applicant => {
         // Initialize health insurance array
@@ -152,46 +152,92 @@ function mapHealthInsuranceToApplicants(
   // Add current date
   // eslint-disable-next-line prefer-destructuring
   result.certificationDate = new Date().toISOString().split('T')[0];
-  return result;
+
+  // Ensure veteran object is preserved in the result
+  return {
+    ...result,
+    veteran: data.veteran,
+  };
 }
+
+/**
+ * Filters Medicare documents to only include those valid for the current plan type
+ * @param {Object} medicareItem - A single Medicare item from the medicare array
+ * @returns {Object} Medicare item with only valid document properties
+ */
+const filterMedicareDocumentsByPlanType = item => {
+  const planType = item?.medicarePlanType;
+  const hasMedicarePartD = item?.hasMedicarePartD;
+
+  const validPropertiesByPlanType = {
+    ab: ['medicarePartAPartBFrontCard', 'medicarePartAPartBBackCard'],
+    a: ['medicarePartAFrontCard', 'medicarePartABackCard'],
+    b: [
+      'medicarePartBFrontCard',
+      'medicarePartBBackCard',
+      'medicarePartADenialProof',
+    ],
+    c: [
+      'medicarePartAPartBFrontCard',
+      'medicarePartAPartBBackCard',
+      'medicarePartCFrontCard',
+      'medicarePartCBackCard',
+    ],
+  };
+  const partDProperties = ['medicarePartDFrontCard', 'medicarePartDBackCard'];
+
+  const validProperties = validPropertiesByPlanType[planType] || [];
+  const allValidProperties = hasMedicarePartD
+    ? [...validProperties, ...partDProperties]
+    : validProperties;
+
+  const allDocumentProperties = [
+    ...new Set([
+      ...Object.values(validPropertiesByPlanType).flat(),
+      ...partDProperties,
+    ]),
+  ];
+
+  return Object.fromEntries(
+    Object.entries(item).filter(
+      ([key]) =>
+        !allDocumentProperties.includes(key) ||
+        allValidProperties.includes(key),
+    ),
+  );
+};
 
 /**
  * Collects all supporting documents across applicants and policies
  * @param {Object} data - Form data
  * @returns {Array} Array of supporting documents
  */
-function collectSupportingDocuments(data) {
-  // Get top-level supporting docs
+const collectSupportingDocuments = data => {
   const topLevelDocs = getObjectsWithAttachmentId(data, 'confirmationCode');
 
-  // Collect docs from insurance policies and Medicare
-  const policyDocs = [];
-  ['healthInsurance', 'medicare'].forEach(key => {
-    data[key].forEach(item => {
-      const docs = getObjectsWithAttachmentId(item, 'confirmationCode');
-      policyDocs.push(...docs);
-    });
+  const healthInsuranceDocs = (data.healthInsurance ?? []).flatMap(item =>
+    getObjectsWithAttachmentId(item, 'confirmationCode'),
+  );
+
+  const medicareDocs = (data.medicare ?? []).flatMap(item => {
+    const filtered = filterMedicareDocumentsByPlanType(item);
+    return getObjectsWithAttachmentId(filtered, 'confirmationCode');
   });
 
-  // Collect and enhance applicant supporting docs
-  const applicantDocs = [];
-  data.applicants.forEach(applicant => {
-    if (applicant.applicantSupportingDocuments?.length) {
-      applicant.applicantSupportingDocuments.forEach(doc => {
-        if (doc) {
-          // Add applicant name to document for clarity
-          applicantDocs.push({
-            ...doc,
-            applicantName: applicant.applicantName,
-          });
-        }
-      });
-    }
-  });
+  const applicantDocs = (data.applicants ?? []).flatMap(applicant =>
+    (applicant.applicantSupportingDocuments ?? []).filter(Boolean).map(doc => ({
+      ...doc,
+      applicantName: applicant.applicantName,
+    })),
+  );
 
-  // Combine all documents
-  return [...topLevelDocs.flat(), ...policyDocs, ...applicantDocs];
-}
+  return [
+    ...topLevelDocs.flat(),
+    ...healthInsuranceDocs,
+    ...medicareDocs,
+    ...applicantDocs,
+  ];
+};
 
 /**
  * Main transformer function that prepares form data for submission
@@ -200,7 +246,6 @@ function collectSupportingDocuments(data) {
  * @returns {string} JSON string of transformed data
  */
 export default function transformForSubmit(formConfig, form) {
-  // First transform using the forms-system transformer
   const initialTransform = JSON.parse(
     formsSystemTransformForSubmit(formConfig, form),
   );

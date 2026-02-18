@@ -14,7 +14,7 @@ describe('Medical Records View Allergies', () => {
     });
 
     // set up intercepts
-    Allergies.setIntercepts({ allergiesData: allergies, useOhData: false });
+    Allergies.setIntercepts({ allergiesData: allergies });
   });
 
   it('Allergies is disabled', () => {

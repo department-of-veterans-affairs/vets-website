@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import ConfirmationTrainingPayWaiver from '../../components/ConfirmationTrainingPayWaiver';
+import ConfirmationTrainingPayWaiver from '../../components/confirmationFields/ConfirmationTrainingPayWaiver';
 
 describe('ConfirmationTrainingPayWaiver', () => {
   it('should render correctly when training pay waiver is false', () => {

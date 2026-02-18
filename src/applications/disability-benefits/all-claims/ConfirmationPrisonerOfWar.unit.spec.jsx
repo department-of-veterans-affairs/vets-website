@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import ConfirmationPrisonerOfWar from './components/ConfirmationPrisonerOfWar';
+import ConfirmationPrisonerOfWar from './components/confirmationFields/ConfirmationPrisonerOfWar';
 
 describe('ConfirmationPrisonerOfWar', () => {
   it('should render null when powStatus is undefined', () => {
@@ -194,6 +194,8 @@ describe('ConfirmationPrisonerOfWar', () => {
     expect(container.textContent).to.contain(
       'From January 1, 2020 to June 30, 2020',
     );
-    expect(container.textContent).to.contain('None selected');
+    expect(container.textContent).to.not.contain(
+      'Which of your conditions is connected to your POW experience?',
+    );
   });
 });

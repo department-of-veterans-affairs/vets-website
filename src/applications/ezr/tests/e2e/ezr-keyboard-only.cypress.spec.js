@@ -6,6 +6,8 @@ import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
 import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
+
+import { disableConfirmationOnLocal } from './helpers/disableConfirmationOnLocal';
 import {
   fillAddressWithKeyboard,
   fillNameWithKeyboard,
@@ -21,6 +23,9 @@ describe('Form 10-10EZR Keyboard Only', () => {
   // eslint-disable-next-line func-names
   beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
+
+    disableConfirmationOnLocal();
+
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
@@ -407,7 +412,7 @@ describe('Form 10-10EZR Keyboard Only', () => {
   });
 });
 
-describe("Form 10-10EZR Keyboard Only, with the 'ezrProvidersAndDependentsPrefillEnabled' toggle enabled", () => {
+describe("Form 10-10EZR Keyboard Only, with the 'ezrFormPrefillWithProvidersAndDependents' toggle enabled", () => {
   const updatedFeatureToggles = {
     data: {
       type: 'feature_toggles',
@@ -417,7 +422,7 @@ describe("Form 10-10EZR Keyboard Only, with the 'ezrProvidersAndDependentsPrefil
           value: true,
         },
         {
-          name: 'ezrProvidersAndDependentsPrefillEnabled',
+          name: 'ezrFormPrefillWithProvidersAndDependents',
           value: true,
         },
       ],
@@ -429,6 +434,9 @@ describe("Form 10-10EZR Keyboard Only, with the 'ezrProvidersAndDependentsPrefil
   // eslint-disable-next-line func-names
   beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
+
+    disableConfirmationOnLocal();
+
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', updatedFeatureToggles).as(
       'mockFeatures',

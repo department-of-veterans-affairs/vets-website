@@ -1,38 +1,10 @@
-export const goToNextPage = pagePath => {
-  cy.clickFormContinue();
-  if (pagePath) cy.location('pathname').should('include', pagePath);
-};
-
-export const startAsGuestUser = () => {
-  cy.get('va-alert-sign-in').within(() => {
-    cy.get('a.schemaform-start-button').click();
-  });
+export const startAsNewUser = ({ auth = false } = {}) => {
+  cy.clickStartForm();
+  if (auth) cy.wait('@mockPrefill');
   cy.location('pathname').should('include', '/who-is-applying');
 };
 
-// helpers for creating state machines to handle ArrayBuilder actions
-export const countArrayItems = (selectors = ['va-card']) => {
-  return cy.get('body').then($body => {
-    for (const sel of selectors) {
-      const n = $body.find(sel).length;
-      if (n > 0) return n;
-    }
-    return 0;
-  });
-};
-
-export const createSummaryHandler = fieldName => {
-  return () => {
-    countArrayItems().then(count => {
-      const shouldAdd = count === 0;
-      cy.log(
-        `Summary detected ${count} existing item(s); selecting ${
-          shouldAdd ? 'Yes (Add)' : 'No (Finish)'
-        }`,
-      );
-      cy.selectYesNoVaRadioOption(fieldName, shouldAdd);
-      cy.injectAxeThenAxeCheck();
-      goToNextPage();
-    });
-  };
+export const startAsInProgressUser = () => {
+  cy.get('[data-testid="continue-your-application"]').click();
+  cy.wait('@mockPrefill');
 };

@@ -46,7 +46,7 @@ describe('The My VA Dashboard', () => {
       lastUpdated: 1611946775,
     },
     {
-      form: '686C-674',
+      form: '686C-674-V2',
       metadata: {
         version: 1,
         returnUrl: '/net-worth',
@@ -123,6 +123,18 @@ describe('The My VA Dashboard', () => {
       },
       lastUpdated: 1604951152,
     },
+    {
+      form: '1010ez',
+      metadata: {
+        version: 0,
+        returnUrl: '/#',
+        savedAt: 1604951152710,
+        expiresAt: now + oneYearInSeconds,
+        lastUpdated: 1604951152,
+        inProgressFormId: 5200,
+      },
+      lastUpdated: 1604951152,
+    },
   ];
 
   beforeEach(() => {
@@ -157,7 +169,7 @@ describe('The My VA Dashboard', () => {
       cy.findByRole('heading', {
         name: /benefit applications and forms/i,
       }).should('exist');
-      cy.findAllByTestId('application-in-progress').should('have.length', 5);
+      cy.findAllByTestId('application-in-progress').should('have.length', 6);
       cy.findByText(/you have no benefit application drafts to show/i).should(
         'not.exist',
       );
@@ -165,9 +177,10 @@ describe('The My VA Dashboard', () => {
       cy.axeCheck();
     });
 
-    it('should show in-progress 26-1880, 28-8832, and 21P-530EZ forms', () => {
+    it('should show in-progress 26-1880, 28-8832, 10-10EZ, and 21P-530EZ forms', () => {
       cy.findByText(/26-1880/i).should('exist');
       cy.findByText(/28-8832/i).should('exist');
+      cy.findByText(/10-10EZ/i).should('exist');
       cy.findByText(/21P-530EZ/i).should('exist');
       cy.injectAxe();
       cy.axeCheck();

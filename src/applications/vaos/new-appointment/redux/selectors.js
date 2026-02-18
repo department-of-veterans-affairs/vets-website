@@ -62,10 +62,10 @@ export function getTypeOfCare(data) {
   }
 
   if (data.typeOfCareId === TYPE_OF_CARE_IDS.MENTAL_HEALTH_ID) {
-    // When featureSubstanceUseDisorder is off, there will be no typeOfMentalHealthId
-    // in the form data. In these cases, we should use the existing Mental Health
-    // Services type of care (stop code 502). This can be removed once the feature
-    // is released.
+    // When featureSubstanceUseDisorder and featurePCMHI are off, there will be no
+    // typeOfMentalHealthId in the form data. In this case, we should use the existing
+    // Mental health care with a specialist type of care (stop code 502). This can be
+    // removed once the features are released.
     if (!data.typeOfMentalHealthId) {
       return TYPES_OF_MENTAL_HEALTH.find(
         care => care.id === TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID,
@@ -358,7 +358,16 @@ export function selectPatientProviderRelationships(state) {
     patientProviderRelationships: newAppointment.patientProviderRelationships,
     patientProviderRelationshipsStatus:
       newAppointment.patientProviderRelationshipsStatus,
+    backendServiceFailures: newAppointment.backendServiceFailures,
   };
+}
+
+export function selectSelectedProvider(state) {
+  const providerRelationships = selectPatientProviderRelationships(state);
+  const data = getFormData(state);
+  return providerRelationships?.patientProviderRelationships?.find(
+    provider => provider.providerId === data.selectedProvider,
+  );
 }
 
 function getChosenVACityState(state) {
@@ -429,4 +438,9 @@ export function selectFacilitiesRadioWidget(state) {
 
 export function selectAppointmentSlotsStatus(state) {
   return getNewAppointment(state).appointmentSlotsStatus;
+}
+
+export function selectAppointmentEhr(state) {
+  const newAppointment = getNewAppointment(state);
+  return newAppointment?.ehr;
 }

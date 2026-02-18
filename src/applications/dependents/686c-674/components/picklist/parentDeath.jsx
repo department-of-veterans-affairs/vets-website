@@ -1,29 +1,44 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   VaCheckbox,
-  VaMemorableDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
+import {
+  SelectCountry,
+  SelectState,
+  getValue,
+  PastDate,
+  scrollToError,
+} from './helpers';
+import { getPastDateError } from './utils';
+import propTypes from './types';
 
-import { SelectCountry, SelectState, getValue } from './helpers';
+import { makeNamePossessive } from '../../../shared/utils';
 
 const parentDeath = {
   handlers: {
-    // Return "DONE" when we're done with this flow
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: (/* { itemData, index, fullData } */) => 'DONE',
 
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
+      const hasError = getPastDateError(itemData.endDate);
       if (
-        !itemData.parentDeathDate ||
-        !itemData.parentDeathCity ||
-        (!itemData.parentDeathOutsideUS && !itemData.parentDeathState) ||
-        (itemData.parentDeathOutsideUS && !itemData.parentDeathCountry)
+        hasError ||
+        !itemData.endCity ||
+        (!itemData.endOutsideUs && !itemData.endState) ||
+        (itemData.endOutsideUs && !itemData.endCountry)
       ) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
@@ -31,29 +46,10 @@ const parentDeath = {
   },
 
   /**
-   * Depedent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} parentDeathType Dependent's removal reason
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
    */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} goBack Function to go back to the previous page
-   * @returns React component
-   */
-  Component: ({ itemData, firstName, handlers, formSubmitted }) => {
+  Component: ({ itemData, firstName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
       handlers.onChange({ ...itemData, [field]: value });
@@ -62,78 +58,72 @@ const parentDeath = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Information about the death of {firstName}
+          {isEditing ? 'Edit information' : 'Information'} about{' '}
+          <span className="dd-privacy-mask" data-dd-action-name="first name">
+            {makeNamePossessive(firstName)}
+          </span>{' '}
+          death
         </h3>
-        <h4>When was the death?</h4>
-        <VaMemorableDate
-          name="parentDeathDate"
+
+        <h4>When did they die?</h4>
+        <PastDate
           label="Date of death"
-          error={
-            formSubmitted && !itemData.parentDeathDate
-              ? 'Provide a date of death'
-              : null
-          }
-          monthSelect
-          value={itemData.parentDeathDate || ''}
-          // use onDateBlur to ensure month & day are zero-padded
-          onDateBlur={onChange}
-          required
+          date={itemData.endDate}
+          formSubmitted={formSubmitted}
+          missingErrorMessage="Enter a date of death"
+          onChange={onChange}
         />
 
-        <h4>Where was the death?</h4>
+        <h4>Where did they die?</h4>
         <VaCheckbox
-          name="parentDeathOutsideUS"
-          label="The death happened outside the United States"
-          checked={itemData.parentDeathOutsideUS || false}
+          name="endOutsideUs"
+          label="Death occurred outside the United States"
+          checked={itemData.endOutsideUs || false}
           onVaChange={onChange}
         />
         <VaTextInput
           class="vads-u-margin-top--4"
-          name="parentDeathCity"
-          label={`City${itemData.parentDeathOutsideUS ? '' : ' or county'}`}
+          name="endCity"
+          label={`City${itemData.endOutsideUs ? '' : ' or county'}`}
           error={
-            formSubmitted && !itemData.parentDeathCity
-              ? `Enter a city${
-                  itemData.parentDeathOutsideUS ? '' : ' or county'
-                }`
+            formSubmitted && !itemData.endCity
+              ? `Enter a city${itemData.endOutsideUs ? '' : ' or county'}`
               : null
           }
-          value={itemData.parentDeathCity || ''}
+          value={itemData.endCity || ''}
           onVaInput={onChange}
           required
         />
-        {itemData.parentDeathOutsideUS ? (
+        {itemData.endOutsideUs ? (
           <>
             <VaTextInput
               class="vads-u-margin-top--4"
-              name="parentDeathProvince"
+              name="endProvince"
               label="Province, region or territory"
               onVaInput={onChange}
-              value={itemData.parentDeathProvince || ''}
+              value={itemData.endProvince || ''}
             />
             <SelectCountry
-              name="parentDeathCountry"
+              name="endCountry"
               label="Country"
               error={
-                formSubmitted && !itemData.parentDeathCountry
+                formSubmitted && !itemData.endCountry
                   ? 'Select a country'
                   : null
               }
               onChange={onChange}
-              value={itemData.parentDeathCountry || ''}
+              value={itemData.endCountry || ''}
             />
           </>
         ) : (
           <SelectState
             label="State"
-            name="parentDeathState"
+            name="endState"
             error={
-              formSubmitted && !itemData.parentDeathState
-                ? 'Select a state'
-                : null
+              formSubmitted && !itemData.endState ? 'Select a state' : null
             }
             onChange={onChange}
-            value={itemData.parentDeathState || ''}
+            value={itemData.endState || ''}
           />
         )}
       </>
@@ -141,29 +131,7 @@ const parentDeath = {
   },
 };
 
-parentDeath.propTypes = {
-  Component: PropTypes.func,
-};
-
-parentDeath.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  goBack: PropTypes.func,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    parentDeathCity: PropTypes.string,
-    parentDeathCountry: PropTypes.string,
-    parentDeathDate: PropTypes.string,
-    parentDeathOutsideUS: PropTypes.bool,
-    parentDeathProvince: PropTypes.string,
-    parentDeathState: PropTypes.string,
-    parentDeathType: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-  }),
-};
+parentDeath.propTypes = propTypes.Page;
+parentDeath.Component.propTypes = propTypes.Component;
 
 export default parentDeath;

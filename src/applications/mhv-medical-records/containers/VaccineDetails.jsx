@@ -94,13 +94,17 @@ const VaccineDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, details: generateVaccineItem(record) };
     const pdfName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
-    makePdf(
-      pdfName,
-      pdfData,
-      'medicalRecords',
-      'Medical Records - Vaccine details - PDF generation error',
-      runningUnitTest,
-    );
+    try {
+      await makePdf(
+        pdfName,
+        pdfData,
+        'medicalRecords',
+        'Medical Records - Vaccine details - PDF generation error',
+        runningUnitTest,
+      );
+    } catch {
+      // makePdf handles error logging to Datadog/Sentry
+    }
   };
 
   const generateVaccineTxt = async () => {
@@ -167,13 +171,7 @@ const VaccineDetails = props => {
               id="vaccine-date"
             />
             {downloadStarted && <DownloadSuccessAlert />}
-            <PrintDownload
-              description="Vaccines Detail"
-              downloadPdf={generateVaccinePdf}
-              downloadTxt={generateVaccineTxt}
-            />
-            <DownloadingRecordsInfo description="Vaccines Detail" />
-            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+
             <div>
               {isAcceleratingVaccines && (
                 <LabelValue
@@ -231,6 +229,14 @@ const VaccineDetails = props => {
                 />
               )}
             </div>
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            <DownloadingRecordsInfo description="Vaccines Detail" />
+            <PrintDownload
+              description="Vaccines Detail"
+              downloadPdf={generateVaccinePdf}
+              downloadTxt={generateVaccineTxt}
+            />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px" />
           </HeaderSection>
         </>
       );
@@ -239,7 +245,7 @@ const VaccineDetails = props => {
       <div className="vads-u-margin-y--8">
         <va-loading-indicator
           message="Loading..."
-          setFocus
+          set-focus
           data-testid="loading-indicator"
         />
       </div>

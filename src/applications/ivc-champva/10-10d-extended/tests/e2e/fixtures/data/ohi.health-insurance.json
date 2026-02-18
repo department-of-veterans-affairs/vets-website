@@ -1,0 +1,37 @@
+{
+  "data": {
+    "view:hasMedicare": false,
+    "view:hasHealthInsurance": true,
+    "healthInsurance": [
+      {
+        "insuranceType": "medigap",
+        "medigapPlan": "K",
+        "provider": "Blue Cross Blue Shield",
+        "effectiveDate": "2024-10-01",
+        "expirationDate": "2025-10-02",
+        "throughEmployer": false,
+        "eob": false,
+        "healthcareParticipants": {
+          "280dbd145a55": true
+        },
+        "insuranceCardFront": [
+          {
+            "attachmentId": "Front of health insurance card",
+            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
+            "name": "sample.png",
+            "isEncrypted": false
+          }
+        ],
+        "insuranceCardBack": [
+          {
+            "attachmentId": "Back of health insurance card",
+            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
+            "name": "sample.png",
+            "isEncrypted": false
+          }
+        ]
+      }
+    ],
+    "statementOfTruthSignature": "Certifier Jones"
+  }
+}

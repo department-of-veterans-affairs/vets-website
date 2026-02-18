@@ -1,0 +1,31 @@
+{
+  "data": {
+    "ssn": "6789",
+    "vaFileNumber": "2345",
+    "fullName": {
+      "first": "Mitchell",
+      "middle": "George",
+      "last": "Jenkins",
+      "suffix": ""
+    },
+    "dateOfBirth": "1956-07-10",
+    "gender": "M",
+    "veteran": {
+      "mailingAddress": {
+        "street": "125 Main St.",
+        "street2": "",
+        "street3": "",
+        "city": "Fulton",
+        "state": "NY",
+        "postalCode": "97063",
+        "country": "United States"
+      },
+      "homePhone": "5558081234",
+      "mobilePhone": "5554044567",
+      "email": {
+        "emailAddress": "mitchell.jenkins.test@gmail.com"
+      }
+    },
+    "lastServiceBranch": "Air Force"
+  }
+}

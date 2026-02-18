@@ -10,9 +10,7 @@ import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-libra
 import { formatDateShort } from 'platform/utilities/date';
 import { setFocus } from '../../utils/fileValidation';
 
-import { getStatements } from '../../actions/copays';
 import { sortStatementsByDate, currency, endDate } from '../../utils/helpers';
-import { fetchDebts } from '../../actions';
 import { deductionCodes } from '../../constants/deduction-codes';
 
 import ComboAlerts from '../alerts/ComboAlerts';
@@ -62,14 +60,6 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, formContext.submitted, selectedDebtsAndCopays?.length],
-  );
-
-  useEffect(
-    () => {
-      fetchDebts(dispatch);
-      getStatements(dispatch);
-    },
-    [dispatch],
   );
 
   if (pending || pendingCopays) {
@@ -149,9 +139,8 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
 
   // helper functions to get debt and copay labels and descriptions
   const getDebtLabel = debt =>
-    `${currency(debt?.currentAr)} overpayment for ${deductionCodes[
-      debt.deductionCode
-    ] || debt.benefitType}`;
+    `${currency(debt?.currentAr)} ${deductionCodes[debt.deductionCode] ||
+      debt.benefitType}`;
 
   const getDebtDescription = debt => {
     // most recent debt history entry
@@ -165,7 +154,7 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
   };
 
   const getCopayLabel = copay =>
-    `${currency(copay?.pHAmtDue)} for ${copay.station.facilityName ||
+    `${currency(copay?.pHAmtDue)} copay bill for ${copay.station.facilityName ||
       getMedicalCenterNameByID(copay.station.facilitYNum)}`;
 
   const getCopayDescription = copay =>
@@ -192,6 +181,7 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
             data-testid="debt-selection-checkbox"
             key={debt.compositeDebtId}
             label={getDebtLabel(debt)}
+            tile
           />
         ))}
         {statementsByUniqueFacility.map(copay => (
@@ -205,6 +195,7 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
             data-testid="copay-selection-checkbox"
             key={copay.id}
             label={getCopayLabel(copay)}
+            tile
           />
         ))}
       </VaCheckboxGroup>
@@ -228,7 +219,6 @@ AvailableDebtsAndCopays.propTypes = {
   }),
   getDebts: PropTypes.func,
   isError: PropTypes.bool,
-  pendingDebts: PropTypes.bool,
 };
 
 export default AvailableDebtsAndCopays;

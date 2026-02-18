@@ -8,7 +8,7 @@ import {
 
 import { increaseOnly, claimingRated } from '../utils';
 import { requireRatedDisability } from '../validations';
-import ConfirmationRatedDisabilities from '../components/ConfirmationRatedDisabilities';
+import ConfirmationRatedDisabilities from '../components/confirmationFields/ConfirmationRatedDisabilities';
 
 const { ratedDisabilities } = fullSchema.properties;
 

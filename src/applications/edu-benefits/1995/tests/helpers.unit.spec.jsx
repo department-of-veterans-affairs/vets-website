@@ -3,7 +3,8 @@ import { expect } from 'chai';
 import {
   buildSubmitEventData,
   directDepositMethod,
-  eighteenOrOver,
+  isEighteenOrOlder,
+  sponsorInformationTitle,
 } from '../helpers';
 
 import minimalData from './e2e/fixtures/data/minimal.json';
@@ -72,9 +73,16 @@ describe('helpers', () => {
     const directDeposit = directDepositMethod({}, automatedTest);
     expect(directDeposit).not.to.be.null;
   });
-  describe('eightneenOrOver', () => {
+  describe('isEighteenOrOlder', () => {
     it('should return true if age is 18 or over', () => {
-      expect(eighteenOrOver('2000-05-06')).to.be.true;
+      expect(isEighteenOrOlder('2000-05-06')).to.be.true;
+    });
+  });
+  describe('sponsorInformationTitle', () => {
+    it('should always return "DEA, Chapter 35 sponsor information"', () => {
+      expect(sponsorInformationTitle()).to.equal(
+        'DEA, Chapter 35 sponsor information',
+      );
     });
   });
 });

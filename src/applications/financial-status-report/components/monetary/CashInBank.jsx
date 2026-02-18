@@ -20,6 +20,7 @@ const CashInBank = ({
   goBack,
   goForward,
   setFormData,
+  useWebComponents,
 }) => {
   const { assets, gmtData } = data;
   const { monetaryAssets = [] } = assets;
@@ -106,6 +107,7 @@ const CashInBank = ({
           goBack={goBack}
           goForward={updateFormData}
           submitToContinue
+          useWebComponents={useWebComponents}
         />
         {contentAfterButtons}
       </fieldset>

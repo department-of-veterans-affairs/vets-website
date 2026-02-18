@@ -16,10 +16,7 @@ const UploadMessage = (
 
 export default {
   uiSchema: {
-    ...titleUI(
-      'Submit your supporting documents',
-      'You can submit your supporting documents and additional evidence with your pension claim.',
-    ),
+    ...titleUI('Upload your supporting documents'),
     files: fileInputMultipleUI({
       title: 'Select a file to upload',
       hint:

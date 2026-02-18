@@ -16,6 +16,12 @@ import {
 import { DateRangeOptions, DateRangeValues } from '../../util/inputContants';
 import { dateFormat, isCustomFolder } from '../../util/helpers';
 
+const FilterStatus = {
+  DEFAULT: 'filter-default',
+  APPLIED: 'filter-applied-success',
+  CLEARED: 'filter-clear-success',
+};
+
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query, threadCount } = props;
   const mhvSecureMessagingFilterAccordion = useSelector(
@@ -33,7 +39,7 @@ const SearchForm = props => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [customFilter, setCustomFilter] = useState(false);
-  const [filtersCleared, setFiltersCleared] = useState(false);
+  const [filterStatus, setFilterStatus] = useState(FilterStatus.DEFAULT);
   const resultsCountRef = useRef();
   const filterBoxRef = useRef();
   const filterInputRef = useRef();
@@ -72,8 +78,10 @@ const SearchForm = props => {
   };
 
   const handleSearch = () => {
-    setFiltersCleared(false);
-    if (filterBoxRef.current.checkFormValidity()) return;
+    if (filterBoxRef.current.checkFormValidity()) {
+      setSearchTermError(null);
+      return;
+    }
 
     let relativeToDate;
     let relativeFromDate;
@@ -101,9 +109,13 @@ const SearchForm = props => {
     if (searchTerm === '' && customFilter === false) {
       setSearchTermError(null);
       setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
+      focusElement(filterInputRef.current);
       return;
     }
     setSearchTermError(null);
+    filterBoxRef.current.clearDateErrors();
+
+    setFilterStatus(FilterStatus.APPLIED);
 
     dispatch(
       runAdvancedSearch(
@@ -122,8 +134,10 @@ const SearchForm = props => {
   const handleFilterClear = e => {
     e.preventDefault();
     dispatch(clearSearchResults());
-    setFiltersCleared(true);
+    setFilterStatus(FilterStatus.CLEARED);
     setSearchTerm('');
+    setSearchTermError(null);
+    filterBoxRef.current.clearDateErrors();
     focusElement(filterFormTitleRef.current);
     setCategory('');
     setDateRange('any');
@@ -205,6 +219,7 @@ const SearchForm = props => {
         role="status"
         aria-live="polite"
         data-testid="search-message-folder-input-label"
+        data-dd-action-name="Filter Messages matches label"
         className={`vads-u-margin-top--4 ${
           resultsCount === undefined ? null : 'filter-results-in-folder'
         }`}
@@ -247,6 +262,16 @@ const SearchForm = props => {
     [folder.folderId],
   );
 
+  const getAriaDescribedBy = useMemo(
+    () => {
+      if (filterStatus === FilterStatus.CLEARED) return 'filter-clear-success';
+      if (filterStatus === FilterStatus.APPLIED)
+        return 'filter-applied-success';
+      return 'filter-default';
+    },
+    [filterStatus],
+  );
+
   return (
     <>
       <form
@@ -257,11 +282,15 @@ const SearchForm = props => {
         }}
       >
         <h2
+          className="vads-u-font-size--h3 vads-u-margin-top--0"
           ref={filterFormTitleRef}
-          aria-describedby="filter-clear-success"
+          aria-describedby={getAriaDescribedBy}
           onBlur={() => {
-            if (filtersCleared) {
-              setFiltersCleared(false);
+            if (
+              filterStatus === FilterStatus.CLEARED ||
+              filterStatus === FilterStatus.APPLIED
+            ) {
+              setFilterStatus(FilterStatus.DEFAULT);
             }
           }}
           data-dd-privacy={ddPrivacy}
@@ -293,7 +322,7 @@ const SearchForm = props => {
         {!location.pathname.includes(Paths.DRAFTS) && (
           <va-additional-info
             trigger="What's a message ID?"
-            class="message-id-info"
+            class="message-id-info vads-u-margin-top--1"
             data-dd-action-name="What's a message ID? Expandable Info"
           >
             A message ID is a number we assign to each message. If you sign up
@@ -349,15 +378,13 @@ const SearchForm = props => {
               />
             )
           )}
-          {filtersCleared && (
-            <span
-              className="sr-only"
-              aria-live="polite"
-              id="filter-clear-success"
-            >
-              Filters succesfully cleared
-            </span>
-          )}
+          <span className="sr-only" aria-live="polite" id={filterStatus}>
+            {filterStatus === FilterStatus.DEFAULT && 'No filters applied'}
+            {filterStatus === FilterStatus.APPLIED &&
+              'Filters successfully applied'}
+            {filterStatus === FilterStatus.CLEARED &&
+              'Filters successfully cleared'}
+          </span>
         </div>
       </form>
       <FilterResults />

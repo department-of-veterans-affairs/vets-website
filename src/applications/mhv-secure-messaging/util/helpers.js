@@ -1,11 +1,17 @@
 import moment from 'moment-timezone';
 import DOMPurify from 'dompurify';
 import {
+  scrollToElement,
+  scrollToTop as scrollToTopUtil,
+} from 'platform/utilities/scroll';
+import { datadogRum } from '@datadog/browser-rum';
+import {
   DefaultFolders as Folders,
   Paths,
   RecipientStatus,
   Recipients,
   PageTitles,
+  OhMigrationPhasesBlockingReplies,
 } from './constants';
 
 /**
@@ -157,6 +163,25 @@ export const decodeHtmlEntities = str => {
 };
 
 /**
+ * Validates if a date string from VaDate is complete and valid.
+ * VaDate returns strings like "2026-01-04" for complete dates,
+ * or "--04", "2026--04", "-01-04" for partial dates.
+ * @param {string} dateValue - The date value from VaDate component
+ * @returns {boolean} - true if date is valid and complete, false otherwise
+ */
+export const isValidDateValue = dateValue => {
+  if (!dateValue) return false;
+  // Check for invalid date patterns (missing year, month, or day)
+  if (dateValue.includes('--') || dateValue.startsWith('-')) return false;
+  // Validate format: YYYY-MM-DD
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRegex.test(dateValue)) return false;
+  // Parse and validate actual date
+  const date = moment(dateValue, 'YYYY-MM-DD', true);
+  return date.isValid();
+};
+
+/**
  * Comparing a timestamp to current date and time, if older than days return true
  * @param {*} timestamp
  * @param {*} days
@@ -166,6 +191,17 @@ export const isOlderThan = (timestamp, days) => {
   const now = moment();
   const then = moment(timestamp);
   return now.diff(then, 'days') > days;
+};
+
+/**
+ * Check if the OH migration phase blocks replies.
+ * During facility migration from VistA to Oracle Health, replies are blocked
+ * during phases p3, p4, p5 (T-6 through T+2).
+ * @param {string} ohMigrationPhase - The migration phase from the message
+ * @returns {Boolean} true if the phase blocks replies
+ */
+export const isMigrationPhaseBlockingReplies = ohMigrationPhase => {
+  return OhMigrationPhasesBlockingReplies.includes(ohMigrationPhase);
 };
 
 export const getLastSentMessage = messages => {
@@ -433,7 +469,7 @@ export const findAllowedFacilities = recipients => {
 };
 
 export const getStationNumberFromRecipientId = (recipientId, recipients) => {
-  const recipient = recipients.find(item => item.triageTeamId === recipientId);
+  const recipient = recipients?.find(item => item.triageTeamId === recipientId);
   return recipient?.stationNumber || null;
 };
 
@@ -445,11 +481,6 @@ export const findActiveDraftFacility = (facilityId, facilitiesArray) => {
 export const sortTriageList = list => {
   return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
 };
-
-import {
-  scrollToElement,
-  scrollToTop as scrollToTopUtil,
-} from 'platform/utilities/scroll';
 
 export const scrollTo = (element, behavior = 'smooth') => {
   if (element) {
@@ -479,4 +510,78 @@ export const scrollIfFocusedAndNotInView = (offset = 0) => {
       });
     }
   }
+};
+
+export const sendDatadogError = (error, feature) => {
+  datadogRum.addError(error, {
+    app: 'Secure Messaging',
+    feature,
+  });
+};
+
+/**
+ * Builds the message body for prescription renewal requests
+ * @param {Object} rx - The prescription object containing details
+ * @returns {string} Formatted message body with prescription information
+ */
+export const buildRxRenewalMessageBody = (rx, rxError) => {
+  const getProviderNameValue = () => {
+    if (rxError) return '';
+
+    return (
+      [rx?.providerFirstName, rx?.providerLastName].filter(Boolean).join(' ') ||
+      'Provider name not available'
+    );
+  };
+
+  const getRefillRemainingValue = () => {
+    if (rxError) return '';
+    if (
+      rx?.refillRemaining !== null &&
+      rx?.refillRemaining !== undefined &&
+      rx?.refillRemaining !== '' &&
+      !Number.isNaN(rx.refillRemaining)
+    ) {
+      return rx.refillRemaining;
+    }
+    return 'Number of refills left not available';
+  };
+
+  const getDateValue = (date, isDispensedDate = false) => {
+    if (rxError) return '';
+    if (date) {
+      return dateFormat(date, 'MMMM D, YYYY');
+    }
+    return isDispensedDate ? 'Not filled yet' : 'Date not available';
+  };
+
+  return [
+    `Medication name, strength, and form: ${
+      rxError ? '' : rx?.prescriptionName || ''
+    }`,
+    `Prescription number: ${
+      rxError
+        ? ''
+        : rx?.prescriptionNumber || 'Prescription number not available'
+    }`,
+    `Instructions: ${rxError ? '' : rx?.sig || 'Instructions not available'}`,
+    `Provider who prescribed it: ${getProviderNameValue()}`,
+    `Number of refills left: ${getRefillRemainingValue()}`,
+    `Prescription expiration date: ${getDateValue(rx?.expirationDate)}`,
+    `Reason for use: ${
+      rxError ? '' : rx?.reason || 'Reason for use not available'
+    }`,
+    `Last filled on: ${getDateValue(rx?.sortedDispensedDate, true)}`,
+    `Quantity: ${rxError ? '' : rx?.quantity || 'Quantity not available'}`,
+  ].join('\n');
+};
+
+export const draftIsClean = draftInProgress => {
+  return (
+    !draftInProgress?.messageId &&
+    !draftInProgress?.category &&
+    !draftInProgress?.subject &&
+    !draftInProgress?.body &&
+    (!draftInProgress?.attachments || draftInProgress.attachments.length === 0)
+  );
 };

@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   dismissAlertViaCookie,
   selectContactEmailAddress,
+  selectContactEmailAddressId,
   showAlert,
 } from './selectors';
 import {
-  AlertSystemResponseConfirmError,
   AlertSystemResponseConfirmSuccess,
   AlertSystemResponseSkipSuccess,
 } from './AlertSystemResponse';
 import AlertAddContactEmail from './AlertAddContactEmail';
 import AlertConfirmContactEmail from './AlertConfirmContactEmail';
+import AlertConfirmAddContactEmailError from './AlertConfirmAddContactEmailError';
 import { recordAlertLoadEvent } from './recordAlertLoadEvent';
+import useConfirmEmailTransaction from '../../hooks/useConfirmEmailTransaction';
 
 /**
  * `<MhvAlertConfirmEmail />` component
@@ -29,22 +31,33 @@ import { recordAlertLoadEvent } from './recordAlertLoadEvent';
 const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const renderAlert = useSelector(showAlert);
   const emailAddress = useSelector(selectContactEmailAddress);
+  const emailAddressId = useSelector(selectContactEmailAddressId);
 
-  const [confirmSuccess, setConfirmSuccess] = useState(false);
-  const [confirmError, setConfirmError] = useState(false);
   const [skipSuccess, setSkipSuccess] = useState(false);
 
-  const putConfirmationDate = (confirmationDate = new Date().toISOString()) =>
-    apiRequest('/profile/email_addresses', {
-      method: 'PUT',
-      body: JSON.stringify({ confirmationDate, emailAddress }),
-    })
-      .then(() => {
-        setConfirmError(false);
-        setConfirmSuccess(true);
-      })
-      .then(() => dismissAlertViaCookie())
-      .catch(() => setConfirmError(true));
+  const {
+    confirmEmail,
+    isLoading,
+    isSuccess: confirmSuccess,
+    isError: confirmError,
+  } = useConfirmEmailTransaction({
+    emailAddressId,
+    emailAddress,
+    onSuccess: () => dismissAlertViaCookie(),
+  });
+
+  useEffect(
+    () => {
+      if (confirmSuccess) {
+        waitForRenderThenFocus('[data-testid="mhv-alert--confirm-success"]');
+      } else if (confirmError) {
+        waitForRenderThenFocus('[data-testid="mhv-alert--confirm-error"]');
+      } else if (skipSuccess) {
+        waitForRenderThenFocus('[data-testid="mhv-alert--skip-success"]');
+      }
+    },
+    [confirmSuccess, confirmError, skipSuccess],
+  );
 
   const onSkipClick = () => {
     setSkipSuccess(true);
@@ -56,23 +69,36 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   return emailAddress ? (
     <>
       {confirmSuccess && (
-        <AlertSystemResponseConfirmSuccess recordEvent={recordEvent} />
+        <AlertSystemResponseConfirmSuccess
+          recordEvent={recordEvent}
+          tabIndex={-1}
+        />
       )}
       {confirmError && (
-        <AlertSystemResponseConfirmError recordEvent={recordEvent} />
-      )}
-      {!confirmSuccess && (
-        <AlertConfirmContactEmail
+        <AlertConfirmAddContactEmailError
           emailAddress={emailAddress}
-          onConfirmClick={putConfirmationDate}
+          isConfirming={isLoading}
+          onConfirmClick={confirmEmail}
           recordEvent={recordEvent}
         />
       )}
+      {!confirmSuccess &&
+        !confirmError && (
+          <AlertConfirmContactEmail
+            emailAddress={emailAddress}
+            isConfirming={isLoading}
+            onConfirmClick={confirmEmail}
+            recordEvent={recordEvent}
+          />
+        )}
     </>
   ) : (
     <>
       {skipSuccess && (
-        <AlertSystemResponseSkipSuccess recordEvent={recordEvent} />
+        <AlertSystemResponseSkipSuccess
+          recordEvent={recordEvent}
+          tabIndex={-1}
+        />
       )}
       {!skipSuccess && (
         <AlertAddContactEmail

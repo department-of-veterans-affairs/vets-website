@@ -20,6 +20,7 @@ class IntroductionPage extends React.Component {
           title="Simple Forms Patterns Examples"
           subTitle="Web component v3 patterns for testing and development"
         />
+
         <div>
           <h2 className="vads-u-font-size--h3">Pages</h2>
           <ul>
@@ -106,6 +107,9 @@ class IntroductionPage extends React.Component {
               <Link to="/array-multiple-page-builder-choose-flow">
                 Array - multiple page - builder pattern
               </Link>
+            </li>
+            <li>
+              <Link to="/service-branch">Service branch</Link>
             </li>
             <li>
               <Link to="/confirmation">Confirmation page</Link>

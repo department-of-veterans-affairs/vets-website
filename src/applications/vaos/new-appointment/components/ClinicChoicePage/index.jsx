@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import FormButtons from '../../../components/FormButtons';
 import RequestEligibilityMessage from './RequestEligibilityMessage';
-import FacilityAddress from '../../../components/FacilityAddress';
 import { scrollAndFocus, focusFormHeader } from '../../../utils/scrollAndFocus';
 import {
   routeToNextAppointmentPage,
@@ -19,9 +19,10 @@ import {
   selectEligibility,
 } from '../../redux/selectors';
 import useClinicFormState from './useClinicFormState';
-import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
+import { GA_PREFIX } from '../../../utils/constants';
 import { getPageTitle } from '../../newAppointmentFlow';
 import { selectFeatureMentalHealthHistoryFiltering } from '../../../redux/selectors';
+import { typeOfCareRequiresPastHistory } from '../../../services/patient';
 
 function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
@@ -48,34 +49,40 @@ export default function ClinicChoicePage() {
     selectFeatureMentalHealthHistoryFiltering,
   );
 
-  const {
-    data,
-    schema,
-    uiSchema,
-    setData,
-    firstMatchingClinic,
-  } = useClinicFormState(pageTitle);
-
   const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
+  const requiresPastHistory = typeOfCareRequiresPastHistory(
+    typeOfCare.id,
+    featurePastVisitMHFilter,
+  );
+
+  const singleClinicTitlePrefix = requiresPastHistory
+    ? `Your last ${typeOfCareLabel} appointment was at`
+    : `${typeOfCare.name} appointments are available at`;
+
+  const { data, schema, uiSchema, setData } = useClinicFormState(
+    pageTitle,
+    singleClinicTitlePrefix,
+  );
   const usingUnsupportedRequestFlow =
     data.clinicId === 'NONE' &&
     (!eligibility?.request || eligibility.request.disabled);
-
-  const usingPastClinics =
-    typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-    (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
-      featurePastVisitMHFilter);
 
   useEffect(
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
       dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
     },
-    [dispatch],
+    [dispatch, pageTitle],
   );
 
   useEffect(
     () => {
+      if (Number.isInteger(schema.properties.clinicId.enum.length)) {
+        recordEvent({
+          event: `${GA_PREFIX}-clinic-choice-count`,
+          'clinic-count': schema.properties.clinicId.enum.length - 1,
+        });
+      }
       if (schema.properties.clinicId.enum.length > 2) {
         focusFormHeader();
       } else {
@@ -88,24 +95,9 @@ export default function ClinicChoicePage() {
   return (
     <div className="vaos-form__radio-field">
       {schema.properties.clinicId.enum.length === 2 ? (
-        <>
-          <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
-          {usingPastClinics && (
-            <>Your last {typeOfCareLabel} appointment was at </>
-          )}
-          {!usingPastClinics && (
-            <>{typeOfCare.name} appointments are available at </>
-          )}
-          {firstMatchingClinic.serviceName}:
-          <div className="vads-u-margin-top--2">
-            <FacilityAddress
-              name={facility.name}
-              facility={facility}
-              level={2}
-            />
-          </div>
-          <br />
-        </>
+        <h1 className="vaos__dynamic-font-size--h2 vads-u-margin-bottom--4">
+          {pageTitle}
+        </h1>
       ) : (
         <h1 className="vaos__dynamic-font-size--h2">
           {pageTitle}
@@ -129,9 +121,7 @@ export default function ClinicChoicePage() {
           <div className="vads-u-margin-top--2">
             <RequestEligibilityMessage
               eligibility={eligibility}
-              typeOfCare={typeOfCare}
               facilityDetails={facility}
-              typeOfCareName={typeOfCareLabel}
             />
           </div>
         )}

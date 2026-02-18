@@ -45,6 +45,7 @@ describe('<YourClaimsPageV2>', () => {
     claimsLoading: false,
     appealsLoading: false,
     stemClaimsLoading: false,
+    cstClaimsListFilterEnabled: false,
     loading: false,
     appealsAvailable: claimsAvailability.AVAILABLE,
     claimsAvailable: claimsAvailability.AVAILABLE,
@@ -117,7 +118,10 @@ describe('<YourClaimsPageV2>', () => {
       </Provider>,
     );
 
-    expect($('.claims-unavailable', container)).to.exist;
+    expect($('va-alert', container)).to.exist;
+    expect(container.textContent).to.include(
+      "We can't access some of your claims or appeals right now",
+    );
   });
 
   it('should render a loading skeleton if all requests loading', () => {
@@ -136,6 +140,24 @@ describe('<YourClaimsPageV2>', () => {
     props.list = [];
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClaimCardLoadingSkeleton').length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should render a loading skeleton even when list has data if any request is still loading', () => {
+    const props = cloneDeep(defaultProps);
+    // List has data but one request is still loading
+    props.claimsLoading = false;
+    props.appealsLoading = false;
+    props.stemClaimsLoading = true;
+    // props.list already has data from defaultProps
+    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
+    const expectComponentCount = (component, count) => {
+      expect(wrapper.find(component).length).to.equal(count);
+    };
+    // Should show loading skeleton, not the list
+    expectComponentCount('ClaimCardLoadingSkeleton', 1);
+    expectComponentCount('ClaimsListItem', 0);
+    expectComponentCount('AppealListItem', 0);
     wrapper.unmount();
   });
 
@@ -178,11 +200,17 @@ describe('<YourClaimsPageV2>', () => {
       ...defaultProps,
       list: new Array(12).fill(defaultProps.list[0]),
     };
-    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.text()).to.include('Showing 1 \u2012 10 of 12 events');
+    // Because Type2FailureAnalyticsProvider is wrapping the component, we need to render the component with the provider to test the pagination.
+    const { container } = renderWithRouter(
+      <Provider store={mockStore}>
+        <YourClaimsPageV2 {...props} />
+      </Provider>,
+    );
+    expect(container.textContent).to.include(
+      'Showing 1 \u2012 10 of 12 events',
+    );
     // web component isn't rendering? But page info does...
     // expect(wrapper.find('va-pagination').length).to.equal(1);
-    wrapper.unmount();
   });
 
   it('should render a no claims message when no claims or appeals present', () => {
@@ -196,38 +224,34 @@ describe('<YourClaimsPageV2>', () => {
   it('should not render error messages if appeals are loading', () => {
     const props = set('appealsLoading', true, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('ClaimsAppealsUnavailable').length).to.equal(0);
-    expect(wrapper.find('ClaimsUnavailable').length).to.equal(0);
-    expect(wrapper.find('AppealsUnavailable').length).to.equal(0);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(0);
     wrapper.unmount();
   });
 
   it('should not render error messages if claims are loading', () => {
     const props = set('claimsLoading', true, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('ClaimsAppealsUnavailable').length).to.equal(0);
-    expect(wrapper.find('ClaimsUnavailable').length).to.equal(0);
-    expect(wrapper.find('AppealsUnavailable').length).to.equal(0);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(0);
     wrapper.unmount();
   });
 
   it('should not render claims and appeals unavailable when neither is unavailable', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('ClaimsAppealsUnavailable').length).to.equal(0);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(0);
     wrapper.unmount();
   });
 
   it('should render claims unavailable when claims are unavailable', () => {
     const props = set('claimsAvailable', false, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('ClaimsUnavailable').length).to.equal(1);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(1);
     wrapper.unmount();
   });
 
   it('should render appeals unavailable when appeals are unavailable', () => {
     const props = set('appealsAvailable', false, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('AppealsUnavailable').length).to.equal(1);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(1);
     wrapper.unmount();
   });
 
@@ -301,5 +325,147 @@ describe('<YourClaimsPageV2>', () => {
 
     const page = YourClaimsPageV2.getPageFromURL(testProps);
     expect(page).to.equal(1);
+  });
+
+  describe('when cstClaimsListFilterEnabled is true', () => {
+    const filterProps = {
+      ...defaultProps,
+      cstClaimsListFilterEnabled: true,
+    };
+
+    it('should render ClaimsFilter instead of combined claims additional info', () => {
+      const wrapper = shallow(<YourClaimsPageV2 {...filterProps} />);
+      expect(wrapper.find('ClaimsFilter').length).to.equal(1);
+      expect(wrapper.find('#claims-combined').length).to.equal(0);
+      wrapper.unmount();
+    });
+
+    it('should render NoClaims with recordType when list is empty', () => {
+      const props = {
+        ...filterProps,
+        list: [],
+      };
+      const wrapper = shallow(<YourClaimsPageV2 {...props} />);
+      const noClaims = wrapper.find('NoClaims');
+      expect(noClaims.length).to.equal(1);
+      expect(noClaims.prop('recordType')).to.equal('records');
+      wrapper.unmount();
+    });
+
+    it('should render pagination with filter label format', () => {
+      const props = {
+        ...filterProps,
+        list: new Array(12).fill(defaultProps.list[0]),
+      };
+      const { container } = renderWithRouter(
+        <Provider store={mockStore}>
+          <YourClaimsPageV2 {...props} />
+        </Provider>,
+      );
+      expect(container.textContent).to.include('Showing 1-10 of 12 records');
+    });
+  });
+
+  describe('rendering mixed appeals and claims', () => {
+    it('should render both AppealListItem and ClaimsListItem components', () => {
+      const testProps = {
+        ...defaultProps,
+        list: [
+          {
+            type: 'appeal',
+            id: 'test-appeal',
+            attributes: {
+              active: true,
+              updated: '2022-01-20',
+              status: { type: 'pending_soc' },
+            },
+          },
+          {
+            type: 'claim',
+            id: 'test-claim',
+            attributes: {
+              status: 'CLAIM_RECEIVED',
+              phaseChangeDate: '2022-01-18',
+            },
+          },
+        ],
+      };
+
+      const wrapper = shallow(<YourClaimsPageV2 {...testProps} />);
+
+      const appealItems = wrapper.find('AppealListItem');
+      const claimItems = wrapper.find('ClaimsListItem');
+
+      expect(appealItems.length).to.equal(1);
+      expect(claimItems.length).to.equal(1);
+      expect(appealItems.at(0).prop('appeal').id).to.equal('test-appeal');
+      expect(claimItems.at(0).prop('claim').id).to.equal('test-claim');
+
+      wrapper.unmount();
+    });
+
+    it('should render StemClaimListItem for STEM claims', () => {
+      const testProps = {
+        ...defaultProps,
+        list: [
+          {
+            type: 'education_benefits_claims',
+            id: 'test-stem-claim',
+            attributes: {
+              confirmationNumber: 'V-EBC-1234',
+              claimType: 'STEM',
+            },
+          },
+        ],
+      };
+
+      const wrapper = shallow(<YourClaimsPageV2 {...testProps} />);
+
+      const stemItems = wrapper.find('StemClaimListItem');
+      expect(stemItems.length).to.equal(1);
+      expect(stemItems.at(0).prop('claim').id).to.equal('test-stem-claim');
+
+      wrapper.unmount();
+    });
+
+    it('should render all types of items in a mixed list', () => {
+      const testProps = {
+        ...defaultProps,
+        list: [
+          {
+            type: 'higherLevelReview',
+            id: 'test-hlr',
+            attributes: {
+              active: true,
+              updated: '2022-01-20',
+              status: { type: 'on_docket' },
+            },
+          },
+          {
+            type: 'claim',
+            id: 'test-claim',
+            attributes: {
+              status: 'CLAIM_RECEIVED',
+              phaseChangeDate: '2022-01-18',
+            },
+          },
+          {
+            type: 'education_benefits_claims',
+            id: 'test-stem',
+            attributes: {
+              confirmationNumber: 'V-EBC-5678',
+            },
+          },
+        ],
+      };
+
+      const wrapper = shallow(<YourClaimsPageV2 {...testProps} />);
+
+      expect(wrapper.find('AppealListItem').length).to.equal(1);
+      expect(wrapper.find('ClaimsListItem').length).to.equal(1);
+      expect(wrapper.find('StemClaimListItem').length).to.equal(1);
+
+      wrapper.unmount();
+    });
   });
 });

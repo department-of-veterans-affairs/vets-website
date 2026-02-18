@@ -1,28 +1,33 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
-import { getValue } from './helpers';
+import { getValue, scrollToError } from './helpers';
+import { labels } from './utils';
 import { CancelButton } from '../../config/helpers';
 import { calculateAge } from '../../../shared/utils';
+import propTypes from './types';
 
 const childIsStepchild = {
   handlers: {
-    // Return "DONE" when we're done with this flow
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: (/* { itemData, index, fullData } */) =>
       'child-reason-to-remove',
-    // return empty path to go to first child page
-    // goBack: (/* { itemData, index, fullData } */) => '',
 
-    onSubmit: ({ /* event, */ itemData, goForward }) => {
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
+    onSubmit: ({ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.isStepchild) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
@@ -30,59 +35,48 @@ const childIsStepchild = {
   },
 
   /**
-   * Depedent's data
-   * @typedef {object} ItemData
-   * @property {string} dateOfBirth Dependent's date of birth
-   * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} marriageEndType Dependent's removal reason
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
    */
-  /**
-   * handlers object
-   * @typedef {object} Handlers
-   * @property {function} onChange Change handler
-   * @property {function} onSubmit Submit handler
-   */
-  /**
-   * Followup Component parameters
-   * @param {ItemData} itemData Dependent's data
-   * @param {string} fullName Dependent's full name
-   * @param {boolean} formSubmitted Whether the form has been submitted
-   * @param {string} firstName Dependent's first name
-   * @param {object} handlers The handlers for the component
-   * @param {function} goBack Function to go back to the previous page
-   * @returns React component
-   */
-  Component: ({ itemData, fullName, handlers, formSubmitted }) => {
+  Component: ({ itemData, fullName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
       handlers.onChange({ ...itemData, [field]: value });
     };
-    const { age } = calculateAge(itemData.dateOfBirth, {
+    const { labeledAge } = calculateAge(itemData.dateOfBirth, {
       dateInFormat: 'yyyy-MM-dd',
     });
+
+    // remove ' years' and ' old':
+    // 'age 11 years old' -> 'age 11' & 'age 5 months old' -> 'age 5 months'
+    const cleanAge = labeledAge.replace(' years', '').replace(' old', '');
 
     return (
       <>
         <VaRadio
-          class="vads-u-margin-bottom--2"
+          class="vads-u-margin-bottom--2 dd-privacy-mask"
+          data-dd-action-name="is stepchild question"
           name="isStepchild"
           error={
-            formSubmitted && !itemData.isStepchild ? 'Select an option' : null
+            formSubmitted && !itemData.isStepchild
+              ? labels.Child.isStepChildError
+              : null
           }
-          label={`Is ${fullName} (age ${age}) your stepchild?`}
+          label={labels.Child.isStepChildTitle(fullName, cleanAge, isEditing)}
           labelHeaderLevel="3"
           onVaValueChange={onChange}
+          enable-analytics
           required
         >
           <VaRadioOption
             name="isStepchild"
-            label="Yes"
+            label={labels.Child.isStepChildYes}
             checked={itemData.isStepchild === 'Y'}
             value="Y"
           />
           <VaRadioOption
             name="isStepchild"
-            label="No"
+            label={labels.Child.isStepChildNo}
             checked={itemData.isStepchild === 'N'}
             value="N"
           />
@@ -97,24 +91,7 @@ const childIsStepchild = {
   },
 };
 
-childIsStepchild.propTypes = {
-  Component: PropTypes.func,
-};
-
-childIsStepchild.Component.propTypes = {
-  firstName: PropTypes.string,
-  formSubmitted: PropTypes.bool,
-  fullName: PropTypes.string,
-  goBack: PropTypes.func,
-  handlers: PropTypes.shape({
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  }),
-  itemData: PropTypes.shape({
-    dateOfBirth: PropTypes.string,
-    relationshipToVeteran: PropTypes.string,
-    isStepchild: PropTypes.string,
-  }),
-};
+childIsStepchild.propTypes = propTypes.Page;
+childIsStepchild.Component.propTypes = propTypes.Component;
 
 export default childIsStepchild;

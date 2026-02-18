@@ -1,0 +1,124 @@
+{
+  "submissionReasons": {
+    "initialApplication": true,
+    "approvalOfNewPrograms": false,
+    "reapproval": false,
+    "updateInformation": false,
+    "other": false,
+    "updateInformationText": "lorem ipsum update",
+    "otherText": "lorem ipsum other"
+  },
+  "institutionClassification": "public",
+  "institutionProfile": {
+    "isIhl": false,
+    "ihlDegreeTypes": "dummy degree",
+    "participatesInTitleIv": false,
+    "opeidNumber": "12345678"
+  },
+  "primaryInstitutionDetails": {
+    "name": "Test University",
+    "vaFacilityCode": "12345678",
+    "isForeignCountry": false,
+    "type": "PUBLIC",
+    "physicalAddress": {
+      "country": "USA",
+      "street": "123 Main St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "street": "123 Main St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345"
+    }
+  },
+  "institutionDetails": [
+    {
+      "name": "Branch 1",
+      "vaFacilityCode": "12345679",
+      "isForeignCountry": false,
+      "physicalAddress": {
+        "country": "USA",
+        "street": "456 Main St",
+        "city": "Anytown",
+        "state": "CA",
+        "postalCode": "12345"
+      },
+      "mailingAddress": {
+        "country": "USA",
+        "street": "456 Main St",
+        "city": "Anytown",
+        "state": "CA",
+        "postalCode": "12345"
+      }
+    }
+  ],
+  "website": "https://example.com",
+  "programs": [
+    {
+      "programName": "Physics",
+      "totalProgramLength": "1 year",
+      "weeksPerTerm": 12,
+      "entryRequirements": "test requirement",
+      "creditHours": 10
+    }
+  ],
+  "acknowledgement7": "JD",
+  "acknowledgement8": "JD",
+  "acknowledgement9": "JD",
+  "acknowledgement10a": {
+    "financiallySound": true,
+    "financialSoundnessExplanation": "lorem ipsum financial"
+  },
+  "acknowledgement10b": "JD",
+  "governingBodyAndFaculty": [
+    {
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "title": "President"
+    }
+  ],
+  "isMedicalSchool": false,
+  "listedInWDOMS": false,
+  "accreditingAuthorityName": "US Accredits",
+  "programAtLeast32Months": true,
+  "graduatedLast12Months": true,
+  "graduatedClasses": [
+    {
+      "graduationDate": "2025-01-01",
+      "graduatesCount": 15
+    },
+    {
+      "graduationDate": "2025-02-01",
+      "graduatesCount": 16
+    }
+  ],
+  "financialRepresentative": {
+    "fullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "email": "doe@example.com"
+  },
+  "schoolCertifyingOfficial": {
+    "fullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "email": "doe@example.com"
+  },
+  "authorizingOfficial": {
+    "fullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "signature": "John Doe"
+  },
+  "dateSigned": "2025-10-10",
+  "isAuthenticated": true
+}

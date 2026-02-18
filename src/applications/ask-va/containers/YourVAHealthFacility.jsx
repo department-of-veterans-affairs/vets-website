@@ -105,7 +105,7 @@ const YourVAHealthFacilityPage = props => {
     focusElement('va-radio');
     return setValidationError({
       ...validationError,
-      radioError: 'Please select a facility',
+      radioError: 'Select a facility',
     });
   };
 
@@ -170,8 +170,13 @@ const YourVAHealthFacilityPage = props => {
 };
 
 YourVAHealthFacilityPage.propTypes = {
+  currentPath: PropTypes.string,
+  data: PropTypes.object,
+  facilityName: PropTypes.string,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  searchQuery: PropTypes.string,
+  setFormData: PropTypes.func,
   onChange: PropTypes.func,
 };
 

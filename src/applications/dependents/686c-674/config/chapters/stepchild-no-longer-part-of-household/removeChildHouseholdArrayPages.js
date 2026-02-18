@@ -21,34 +21,59 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { CancelButton } from '../../helpers';
-import { getFullName } from '../../../../shared/utils';
+import {
+  isFieldMissing,
+  isEmptyObject,
+  getFullName,
+} from '../../../../shared/utils';
 
-function isFieldMissing(value) {
-  return value === undefined || value === null || value === '';
-}
-
-function isObjectEmpty(obj) {
+/**
+ * Check if address is incomplete
+ * @typedef {object} AddressProps
+ * @property {string} street - Street address
+ * @property {string} city - City
+ * @property {string} state - State
+ * @property {string} postalCode - Postal code
+ * @property {string} country - Country
+ *
+ * @param {AddressProps} address - address object to check
+ * @returns {boolean} True if address is incomplete, false otherwise
+ */
+function isAddressIncomplete(address) {
   return (
-    typeof obj !== 'object' || obj === null || Object.keys(obj).length === 0
+    isEmptyObject(address) ||
+    !address.country ||
+    !address.street ||
+    !address.city ||
+    (address.country === 'USA' && !address.state) ||
+    !address.postalCode
   );
 }
 
-function isAddressIncomplete(address) {
-  if (isObjectEmpty(address)) return true;
-  if (!address.country) return true;
-  if (!address.street) return true;
-  if (!address.city) return true;
-  if (address.country === 'USA' && !address.state) return true;
-  if (!address.postalCode) return true;
-  return false;
-}
-
+/**
+ * Check if supporting info is incomplete
+ * @typedef {object} SupportingInfoProps
+ * @property {boolean} supportingStepchild - Whether the stepchild is being supported
+ * @property {number} livingExpensesPaid - Amount of living expenses paid
+ *
+ * @param {SupportingInfoProps} item - stepchild supporting info
+ * @returns {boolean} True if supporting info is incomplete, false otherwise
+ */
 function isSupportInfoIncomplete(item) {
   return (
     item.supportingStepchild === true && isFieldMissing(item.livingExpensesPaid)
   );
 }
 
+/**
+ * @typedef {object} LivingWithInfo
+ * @property {object} whoDoesTheStepchildLiveWith - Name object of parent/guardian
+ * @property {string} whoDoesTheStepchildLiveWith.first - First name
+ * @property {string} whoDoesTheStepchildLiveWith.last - Last name
+ *
+ * @param {LivingWithInfo} item - stepchild living with info
+ * @returns {boolean} True if living with info is incomplete, false otherwise
+ */
 function isLivingWithInfoIncomplete(item) {
   return (
     isFieldMissing(item.whoDoesTheStepchildLiveWith?.first) ||
@@ -56,6 +81,24 @@ function isLivingWithInfoIncomplete(item) {
   );
 }
 
+/**
+ * @typedef {object} ChildInfoProps
+ * @property {object} fullName - Child's name object
+ * @property {string} fullName.first - Child's first name
+ * @property {string} fullName.last - Child's last name
+ * @property {string} birthDate - Child's birth date
+ * @property {string} ssn - Child's SSN
+ * @property {string} dateStepchildLeftHousehold - Date stepchild left household
+ * @property {boolean} supportingStepchild - Whether the stepchild is being supported
+ * @property {number} livingExpensesPaid - Amount of living expenses paid
+ * @property {object} address - Child's address object
+ * @property {object} whoDoesTheStepchildLiveWith - Name object of parent/guardian
+ * @property {string} whoDoesTheStepchildLiveWith.first - First name
+ * @property {string} whoDoesTheStepchildLiveWith.last - Last name
+ *
+ * @param {ChildInfoProps} item - check if child info is complete
+ * @returns {boolean} True if item is incomplete, false otherwise
+ */
 function isItemIncomplete(item) {
   const errors = [];
 

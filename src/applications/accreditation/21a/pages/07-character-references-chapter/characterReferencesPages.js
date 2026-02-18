@@ -160,6 +160,21 @@ const relationshipPage = {
   },
 };
 
+const validateCharacterReferencesCount = (_errors, _fieldData, formData) => {
+  const count = (formData?.characterReferences || []).length;
+  if (!_fieldData && count < 3) {
+    _errors.addError(
+      `You must add at least 3 character references. You currently have ${count ||
+        0}.`,
+    );
+  }
+  if (!_fieldData && count > 4) {
+    _errors.addError(
+      `You can add no more than 4 character references. You currently have ${count}.`,
+    );
+  }
+};
+
 /**
  * This page is skipped on the first loop for required flow
  * Cards are populated on this page above the uiSchema if items are present
@@ -168,13 +183,19 @@ const relationshipPage = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:hasCharacterReferences': arrayBuilderYesNoUI(
-      arrayBuilderOptions,
-      {},
-      {
-        labelHeaderLevel: 'p',
+    'view:hasCharacterReferences': {
+      ...arrayBuilderYesNoUI(
+        arrayBuilderOptions,
+        {},
+        {
+          labelHeaderLevel: 'p',
+        },
+      ),
+      'ui:validations': [validateCharacterReferencesCount],
+      'ui:errorMessages': {
+        required: 'Select yes to confirm your character references.',
       },
-    ),
+    },
   },
   schema: {
     type: 'object',

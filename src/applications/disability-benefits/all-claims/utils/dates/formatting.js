@@ -1,12 +1,18 @@
-/**
- * TODO: tech-debt(you-dont-need-momentjs): Waiting for Node upgrade to support Temporal API
- * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110024
- */
-/* eslint-disable you-dont-need-momentjs/no-import-moment */
-/* eslint-disable you-dont-need-momentjs/no-moment-constructor */
-/* eslint-disable you-dont-need-momentjs/start-of */
-/* eslint-disable you-dont-need-momentjs/add */
-import moment from 'moment';
+import {
+  format,
+  parse,
+  parseISO,
+  isValid,
+  isBefore,
+  isAfter,
+  startOfDay,
+  add,
+  differenceInDays,
+  differenceInMonths,
+  differenceInYears,
+  getYear,
+  isWithinInterval,
+} from 'date-fns';
 
 // Import platform utilities to replace overlapping functionality
 import {
@@ -16,70 +22,158 @@ import {
 import { isValidYear as platformIsValidYear } from 'platform/forms-system/src/js/utilities/validations';
 
 // Constants
-export const DATE_FORMAT = 'LL'; // e.g., "January 1, 2021"
-export const DATE_FORMAT_SHORT = 'MM/DD/YYYY';
-export const DATE_FORMAT_LONG = 'MMMM D, YYYY';
-export const PARTIAL_DATE_FORMAT = 'YYYY-MM';
+export const DATE_FORMAT = 'MMMM d, yyyy'; // e.g., "January 1, 2021"
+export const DATE_FORMAT_SHORT = 'MM/dd/yyyy';
+export const DATE_FORMAT_LONG = 'MMMM d, yyyy';
+export const PARTIAL_DATE_FORMAT = 'yyyy-MM';
 // Public template for full ISO-like date strings used across the all-claims app
-export const DATE_TEMPLATE = 'YYYY-MM-DD';
+export const DATE_TEMPLATE = 'yyyy-MM-dd';
+export const DATE_FULL_MONTH_YEAR_FORMAT = 'MMMM yyyy';
+export const DATE_SHORT_MONTH_YEAR_FORMAT = 'MMM yyyy'; // e.g., "Jan 2021"
+export const DATE_SHORT_MONTH_DAY_YEAR_FORMAT = 'MMM d, yyyy'; // e.g., "Jan 1, 2021"
+
+// Map common Moment.js tokens to date-fns tokens for compatibility in tests/components
+const normalizeFormatTokens = fmt => {
+  if (!fmt || typeof fmt !== 'string') return DATE_FORMAT;
+  return fmt
+    .replace(/YYYY/g, 'yyyy')
+    .replace(/YY/g, 'yy')
+    .replace(/DD/g, 'dd')
+    .replace(/D/g, 'd');
+};
 
 // Year validation constants
 export const MIN_VALID_YEAR = 1900;
 export const MAX_VALID_YEAR = 2100;
 
 /**
- * Internal utility to safely parse dates with moment
+ * Internal utility to safely parse dates with date-fns
  * @private
  */
-const safeMoment = (date, format) => {
+const safeFnsDate = (date, dateFormat) => {
   if (!date) return null;
   if (typeof date === 'string' && !/\d/.test(date)) {
     return null;
   }
 
-  const momentDate = format ? moment(date, format, true) : moment(date);
-  return momentDate.isValid() ? momentDate : null;
+  // Handle Date objects
+  if (date instanceof Date) {
+    return isValid(date) ? date : null;
+  }
+
+  // Reject non-string, non-Date types (booleans, numbers, etc.)
+  if (typeof date !== 'string' && !(date instanceof Date)) {
+    return null;
+  }
+
+  // If a format is provided, use parse with strict parsing
+  if (dateFormat) {
+    const parsedDate = parse(date, dateFormat, new Date());
+    return isValid(parsedDate) ? parsedDate : null;
+  }
+
+  // Try parsing as ISO string first
+  if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}/.test(date)) {
+    const parsedDate = parseISO(date);
+    if (isValid(parsedDate)) {
+      // Verify the parsed date is a real calendar date.
+      // Allow full ISO timestamps (e.g., 'YYYY-MM-DDTHH:mm:ssZ') by comparing only the date portion.
+      const formattedBack = format(parsedDate, 'yyyy-MM-dd');
+      const inputDatePortion = date.slice(0, 10);
+      if (formattedBack === inputDatePortion) {
+        return parsedDate;
+      }
+    }
+    // If it looks like an ISO date but fails validation, don't try fallback
+    return null;
+  }
+
+  // Fallback to Date constructor
+  const parsedDate = new Date(date);
+  if (isValid(parsedDate)) {
+    // Additional validation for Date constructor results
+    // to prevent boolean/number coercion
+    return parsedDate;
+  }
+  return null;
 };
 
 /**
  * Format a date string into a display format with custom format
  * For standard formats, use formatDateShort() or formatDateLong()
  * @param {string} date - Date string to format
- * @param {string} format - Optional format string (defaults to DATE_FORMAT)
+ * @param {string} formatStr - Optional format string (defaults to DATE_FORMAT)
  * @returns {string} Formatted date or 'Unknown' if invalid
  */
-export const formatDate = (date, format = DATE_FORMAT) => {
-  const momentDate = safeMoment(date);
-  return momentDate ? momentDate.format(format) : 'Unknown';
+export const formatDate = (date, formatStr = DATE_FORMAT) => {
+  const parsedDate = safeFnsDate(date);
+  const fmt = normalizeFormatTokens(formatStr);
+  return parsedDate ? format(parsedDate, fmt) : 'Unknown';
 };
 
 /**
  * Format a date range object
  * @param {Object} dateRange - Object with 'from' and 'to' properties
- * @param {string} format - Optional format string
+ * @param {string} formatStr - Optional format string
  * @returns {string} Formatted date range
  */
-export const formatDateRange = (dateRange = {}, format = DATE_FORMAT) => {
+export const formatDateRange = (dateRange = {}, formatStr = DATE_FORMAT) => {
   if (!dateRange?.from && !dateRange?.to) {
     return 'Unknown';
   }
-  const fromDate = formatDate(dateRange.from, format);
-  const toDate = formatDate(dateRange.to, format);
+  const fromDate = formatDate(dateRange.from, formatStr);
+  const toDate = formatDate(dateRange.to, formatStr);
   return `${fromDate} to ${toDate}`;
 };
 
 /**
  * Format a date as month and year only
+ * Handles full dates (YYYY-MM-DD), month/year (YYYY-MM), and year-only (YYYY-XX)
  * @param {string} rawDate - Date string to format
- * @returns {string} Formatted as "Month YYYY" or empty string
+ * @returns {string} Formatted as "Month YYYY", "YYYY", or empty string
  */
 export const formatMonthYearDate = (rawDate = '') => {
   if (!rawDate) return '';
 
-  const date = safeMoment(rawDate);
-  if (!date) return '';
+  // Handle year-only format (YYYY-XX)
+  if (/^\d{4}-XX$/.test(rawDate)) {
+    return rawDate.split('-')[0];
+  }
 
-  return date.format('MMMM YYYY');
+  // Handle month/year format (YYYY-MM where MM is 01-12)
+  if (/^\d{4}-(0[1-9]|1[0-2])$/.test(rawDate)) {
+    const [year, month] = rawDate.split('-');
+    // Use parse with explicit format to avoid date-fns month offset issues
+    // Parse as YYYY-MM-01 to create a valid date, then format as month/year
+    const date = parse(`${year}-${month}-01`, 'yyyy-MM-dd', new Date());
+    if (isValid(date)) {
+      return format(date, 'MMMM yyyy');
+    }
+    return '';
+  }
+
+  // Handle legacy formats that might still exist (YYYY-MM-XX or YYYY-XX-XX)
+  // These shouldn't occur with monthYearOnly, but handle for backward compatibility
+  if (/^\d{4}-XX-XX$/.test(rawDate)) {
+    return rawDate.split('-')[0];
+  }
+
+  if (/^\d{4}-\d{2}-XX$/.test(rawDate)) {
+    const [year, month] = rawDate.split('-');
+    const monthNum = parseInt(month, 10);
+    if (monthNum >= 1 && monthNum <= 12) {
+      const date = parse(`${year}-${month}-01`, 'yyyy-MM-dd', new Date());
+      if (isValid(date)) {
+        return format(date, 'MMMM yyyy');
+      }
+    }
+    return '';
+  }
+
+  // Handle full date format (YYYY-MM-DD) - fallback for any other format
+  const date = safeFnsDate(rawDate);
+  if (!date) return '';
+  return format(date, 'MMMM yyyy');
 };
 
 /**
@@ -118,14 +212,14 @@ export const formatDateLong = date => {
 export const isValidFullDate = dateString => {
   if (!dateString) return false;
 
-  const date = moment(dateString, DATE_TEMPLATE, true);
-  if (!date.isValid()) return false;
+  const date = parse(dateString, DATE_TEMPLATE, new Date());
+  if (!isValid(date)) return false;
 
   // Ensure the string matches expected format exactly
-  if (dateString !== date.format(DATE_TEMPLATE)) return false;
+  if (dateString !== format(date, DATE_TEMPLATE)) return false;
 
   // Check year is within reasonable range
-  const year = date.year();
+  const year = getYear(date);
   return year >= MIN_VALID_YEAR && year <= MAX_VALID_YEAR;
 };
 
@@ -142,30 +236,6 @@ export const isValidYear = (err, fieldData) => {
 };
 
 /**
- * Validate partial date (year or year-month)
- * Enhanced version of platform utility to handle our specific formats
- * @param {string} dateString - Partial date string
- * @returns {boolean} True if valid
- */
-export const isValidPartialDate = dateString => {
-  if (!dateString) return false;
-
-  // Check if it's just a year
-  if (/^\d{4}$/.test(dateString)) {
-    const year = parseInt(dateString, 10);
-    return (
-      !Number.isNaN(year) && year >= MIN_VALID_YEAR && year <= MAX_VALID_YEAR
-    );
-  }
-
-  // Check if it's year-month
-  const date = moment(dateString, PARTIAL_DATE_FORMAT, true);
-  if (!date.isValid()) return false;
-  const year = date.year();
-  return year >= MIN_VALID_YEAR && year <= MAX_VALID_YEAR;
-};
-
-/**
  * Validate age based on date
  * @param {any} err - Error object
  * @param {string} fieldData - Date string
@@ -175,14 +245,14 @@ export const validateAge = (err, fieldData, formData) => {
   const dateOfBirth = formData?.veteranDateOfBirth;
   if (!dateOfBirth || !fieldData) return;
 
-  const dateOfBirthMoment = safeMoment(dateOfBirth);
-  const fieldDateMoment = safeMoment(fieldData);
+  const dateOfBirthDate = safeFnsDate(dateOfBirth);
+  const fieldDate = safeFnsDate(fieldData);
 
-  if (!dateOfBirthMoment || !fieldDateMoment) return;
+  if (!dateOfBirthDate || !fieldDate) return;
 
-  const thirteenthBirthday = dateOfBirthMoment.clone().add(13, 'years');
+  const thirteenthBirthday = add(dateOfBirthDate, { years: 13 });
 
-  if (fieldDateMoment.isBefore(thirteenthBirthday)) {
+  if (isBefore(fieldDate, thirteenthBirthday)) {
     err.addError('Date must be after 13th birthday');
   }
 };
@@ -196,16 +266,16 @@ export const validateAge = (err, fieldData, formData) => {
 export const validateSeparationDate = (err, fieldData, formData) => {
   if (!fieldData) return;
 
-  const separationDate = safeMoment(fieldData);
+  const separationDate = safeFnsDate(fieldData);
   if (!separationDate) return;
 
   // Check service periods
   const servicePeriods = formData?.serviceInformation?.servicePeriods || [];
 
   servicePeriods.forEach(period => {
-    const startDate = safeMoment(period.dateRange?.from);
+    const startDate = safeFnsDate(period.dateRange?.from);
 
-    if (startDate && separationDate.isBefore(startDate)) {
+    if (startDate && separationDate < startDate) {
       err.addError('Separation date must be after service start date');
     }
   });
@@ -224,15 +294,15 @@ export const validateServicePeriod = (errors, fieldData) => {
     return;
   }
 
-  const startDate = safeMoment(from);
-  const endDate = safeMoment(to);
+  const startDate = safeFnsDate(from);
+  const endDate = safeFnsDate(to);
 
   if (!startDate || !endDate) {
     errors.addError('Please provide valid dates');
     return;
   }
 
-  if (endDate.isBefore(startDate)) {
+  if (isBefore(endDate, startDate)) {
     errors.addError('End date must be after start date');
   }
 };
@@ -243,21 +313,25 @@ export const validateServicePeriod = (errors, fieldData) => {
  * @param {string} fieldData - Date to check
  */
 export const isLessThan180DaysInFuture = (errors, fieldData) => {
-  const enteredDate = safeMoment(fieldData);
+  const enteredDate = safeFnsDate(fieldData);
 
   if (!enteredDate) {
     errors.addError('Please provide a valid date');
     return;
   }
 
-  const today = moment().startOf('day');
-  const in180Days = moment()
-    .add(180, 'days')
-    .startOf('day');
+  const today = startOfDay(new Date());
+  const in180Days = startOfDay(add(new Date(), { days: 180 }));
 
-  if (enteredDate.isSameOrBefore(today)) {
+  if (
+    isBefore(enteredDate, today) ||
+    enteredDate.getTime() === today.getTime()
+  ) {
     errors.addError('Enter a future separation date');
-  } else if (enteredDate.isSameOrAfter(in180Days)) {
+  } else if (
+    isAfter(enteredDate, in180Days) ||
+    enteredDate.getTime() === in180Days.getTime()
+  ) {
     errors.addError('Enter a separation date less than 180 days in the future');
   }
 };
@@ -271,18 +345,21 @@ export const isLessThan180DaysInFuture = (errors, fieldData) => {
 export const isWithinRange = (dates, range) => {
   if (!dates || !range?.from || !range?.to) return false;
 
-  const startDate = safeMoment(range.from);
-  const endDate = safeMoment(range.to);
+  const startDate = safeFnsDate(range.from);
+  const endDate = safeFnsDate(range.to);
 
   if (!startDate || !endDate) return false;
 
   const datesToCheck = Array.isArray(dates) ? dates : [dates];
 
   return datesToCheck.every(date => {
-    const dateToValidate = safeMoment(date);
+    const dateToValidate = safeFnsDate(date);
     return (
       dateToValidate &&
-      dateToValidate.isBetween(startDate, endDate, 'day', '[]')
+      isWithinInterval(startOfDay(dateToValidate), {
+        start: startOfDay(startDate),
+        end: startOfDay(endDate),
+      })
     );
   });
 };
@@ -302,20 +379,20 @@ export const isWithinServicePeriod = (date, servicePeriods = []) => {
 /**
  * Parse a date string
  * @param {string} dateString - Date to parse
- * @param {string} format - Optional format
- * @returns {moment.Moment|null} Parsed moment object or null
+ * @param {string} dateFormat - Optional format
+ * @returns {Date|null} Parsed date object or null
  */
-export const parseDate = (dateString, format) => {
-  return safeMoment(dateString, format);
+export const parseDate = (dateString, dateFormat) => {
+  return safeFnsDate(dateString, dateFormat);
 };
 
 /**
  * Parse date with specific template
  * @param {string} dateString - Date to parse
- * @returns {moment.Moment|null} Parsed moment object
+ * @returns {Date|null} Parsed date object
  */
 export const parseDateWithTemplate = dateString => {
-  return safeMoment(dateString, DATE_TEMPLATE);
+  return safeFnsDate(dateString, DATE_TEMPLATE);
 };
 
 /**
@@ -324,11 +401,11 @@ export const parseDateWithTemplate = dateString => {
  * @returns {boolean} True if valid for BDD
  */
 export const isBddClaimValid = separationDate => {
-  const separationDateMoment = safeMoment(separationDate);
-  if (!separationDateMoment) return false;
+  const separationDateParsed = safeFnsDate(separationDate);
+  if (!separationDateParsed) return false;
 
-  const today = moment().startOf('day');
-  const daysUntilSeparation = separationDateMoment.diff(today, 'days');
+  const today = startOfDay(new Date());
+  const daysUntilSeparation = differenceInDays(separationDateParsed, today);
 
   return daysUntilSeparation >= 90 && daysUntilSeparation <= 180;
 };
@@ -339,11 +416,11 @@ export const isBddClaimValid = separationDate => {
  * @returns {string|null} Error message or null if valid
  */
 export const getBddSeparationDateError = separationDate => {
-  const separationDateMoment = safeMoment(separationDate);
-  if (!separationDateMoment) return 'Please provide a valid separation date';
+  const separationDateParsed = safeFnsDate(separationDate);
+  if (!separationDateParsed) return 'Please provide a valid separation date';
 
-  const today = moment().startOf('day');
-  const daysUntilSeparation = separationDateMoment.diff(today, 'days');
+  const today = startOfDay(new Date());
+  const daysUntilSeparation = differenceInDays(separationDateParsed, today);
 
   if (daysUntilSeparation < 90) {
     return 'Your separation date must be at least 90 days in the future to file a BDD claim';
@@ -386,7 +463,7 @@ export const isYearMonth = fieldData => {
 /**
  * Find the earliest service date from an array of service periods
  * @param {Array} servicePeriods - Array of service period objects
- * @returns {moment.Moment|null} Earliest service date or null if no valid dates
+ * @returns {Date|null} Earliest service date or null if no valid dates
  */
 export const findEarliestServiceDate = servicePeriods => {
   if (!servicePeriods || !Array.isArray(servicePeriods)) {
@@ -399,25 +476,37 @@ export const findEarliestServiceDate = servicePeriods => {
       ({ serviceBranch, dateRange } = {}) =>
         (serviceBranch || '') !== '' && dateRange?.from,
     )
-    .map(period => moment(period.dateRange.from, 'YYYY-MM-DD'))
-    .filter(momentDate => momentDate.isValid());
+    .map(period => safeFnsDate(period.dateRange.from, 'yyyy-MM-dd'))
+    .filter(dateObj => dateObj !== null);
 
   if (validPeriods.length === 0) {
     return null;
   }
 
   // Use the first valid date as initial value and find the earliest
-  return validPeriods.reduce(
+  const earliest = validPeriods.reduce(
     (earliestDate, current) =>
-      current.isBefore(earliestDate) ? current : earliestDate,
+      isBefore(current, earliestDate) ? current : earliestDate,
     validPeriods[0],
   );
+  // Attach a minimal format method for tests expecting moment-like API
+  try {
+    Object.defineProperty(earliest, 'format', {
+      value: fmt => format(earliest, normalizeFormatTokens(fmt)),
+      configurable: true,
+      enumerable: false,
+      writable: true,
+    });
+  } catch (e) {
+    // no-op if defineProperty fails
+  }
+  return earliest;
 };
 
 /**
  * Check if treatment date is before service based on date format
- * @param {moment.Moment} treatmentDate - Treatment date
- * @param {moment.Moment} earliestServiceDate - Earliest service date
+ * @param {Date} treatmentDate - Treatment date
+ * @param {Date} earliestServiceDate - Earliest service date
  * @param {string} fieldData - Original date string to check format
  * @returns {boolean} True if treatment is before service
  */
@@ -428,8 +517,31 @@ export const isTreatmentBeforeService = (
 ) => {
   return (
     (isYearOnly(fieldData) &&
-      treatmentDate.diff(earliestServiceDate, 'year') < 0) ||
+      differenceInYears(earliestServiceDate, treatmentDate) > 0) ||
     (isYearMonth(fieldData) &&
-      treatmentDate.diff(earliestServiceDate, 'month') < 0)
+      differenceInMonths(earliestServiceDate, treatmentDate) > 0)
   );
+};
+
+/*
+  * Helper Methods for Date Validation and Formatting in regards to inputs
+*/
+export const daysFromToday = days =>
+  formatDate(add(new Date(), { days }), 'yyyy-MM-dd');
+
+export const getToday = () => {
+  const today = parseDate(daysFromToday(0));
+  if (!today) return null;
+  // Attach a minimal add shim to support legacy code expecting moment-like API
+  try {
+    Object.defineProperty(today, 'add', {
+      value: duration => add(today, duration),
+      configurable: true,
+      enumerable: false,
+      writable: true,
+    });
+  } catch (e) {
+    // no-op
+  }
+  return today;
 };

@@ -1,5 +1,25 @@
 /* eslint-disable no-unused-vars */
-/** @type {ArrayBuilderText} */
+/**
+ * Default text values for Array Builder that you can override
+ *
+ * ```js
+ * const options = {
+ *   ...
+ *   text: {
+ *     getItemName: (item, index, fullData) => item.name,
+ *     cardDescription: item => `${formatReviewDate(item?.date)}`,
+ *     ...etc
+ *   },
+ * };
+ *
+ * arrayBuilderPages(options, ...)
+ * ```
+ *
+ * To see ALL available text override options, refer to:
+ * `src/platform/forms-system/src/js/types.js`
+ *
+ * @type {ArrayBuilderText}
+ */
 export const DEFAULT_ARRAY_BUILDER_TEXT = {
   alertItemUpdated: props => {
     const itemName = props.getItemName(
@@ -115,6 +135,9 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
   summaryAddButtonText: props => `Add ${props.nounSingular}`,
   summaryAddLinkText: props => `Add ${props.nounSingular}`,
   summaryTitle: props => `Review your ${props.nounPlural}`,
+  summaryTitleWithoutItems: props => null, // No title by default - only arrayBuilderYesNoUI question
+  summaryDescription: props => null, // string or JSX/React
+  summaryDescriptionWithoutItems: props => null, // string or JSX/React
   yesNoBlankReviewQuestion: props =>
     `Do you have any ${props.nounPlural} to add?`,
 

@@ -110,6 +110,45 @@ Cypress.Commands.add('selectVaSelect', (field, value) => {
   }
 });
 
+Cypress.Commands.add('selectVaComboBox', (field, value) => {
+  if (typeof value !== 'undefined') {
+    const strValue = value.toString();
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-combo-box[name="${field}"]`)
+        : cy.wrap(field);
+
+    element
+      .shadow()
+      .find('input')
+      .as('inputElement');
+
+    cy.get('@inputElement').click();
+
+    cy.get('@inputElement').clear(DELAY_OPTION);
+
+    const elementAgain =
+      typeof field === 'string'
+        ? cy.get(`va-combo-box[name="${field}"]`)
+        : cy.wrap(field);
+
+    elementAgain
+      .shadow()
+      .find('select')
+      .as('selectElement');
+
+    cy.get('@selectElement')
+      .find(`option[value="${strValue}"]`)
+      .invoke('text')
+      .as('optionLabel');
+
+    cy.get('@optionLabel').then(label => {
+      cy.get('@inputElement').type(label, FORCE_OPTION);
+      cy.get('@inputElement').type('{enter}');
+    });
+  }
+});
+
 Cypress.Commands.add('selectVaCheckbox', (field, isChecked) => {
   if (typeof isChecked !== 'undefined') {
     const element =
@@ -146,39 +185,38 @@ Cypress.Commands.add('fillVaTelephoneInput', (field, value) => {
   }
 });
 
-Cypress.Commands.add('fillVaFileInput', (field, value) => {
+// this function generates an object with file contents for upload to file input instance
+async function getFileContents(file) {
+  return {
+    contents: Cypress.Buffer.from(await file.arrayBuffer()),
+    fileName: file.name || 'placeholder.png',
+    mimeType: file.type || 'image/png',
+    lastModified: file.lastModified || Date.now(),
+  };
+}
+
+Cypress.Commands.add('fillVaFileInput', (field, value, file) => {
   if (typeof value !== 'undefined') {
     const element =
       typeof field === 'string'
         ? cy.get(`va-file-input[name="${field}"]`)
         : cy.wrap(field);
-    cy.log('made it here');
+
     element.then(async $el => {
       const el = $el[0];
 
-      const pngFile = await makeMinimalPNG();
-      const mockFormData = {
-        name: value?.name || 'placeholder.png',
-        size: value?.size || 123,
-        password: value?.password || 'abc',
-        additionalData: value?.additionalData || {},
-        confirmationCode: value?.confirmationCode || '123456',
-        isEncrypted: value?.isEncrypted || true,
-        hasAdditionalInputError: false,
-        hasPasswordError: false,
-      };
-      const fileSelectEvent = new CustomEvent('vaChange', {
-        detail: { files: [pngFile], mockFormData },
-        bubbles: true,
-        composed: true,
+      cy.then(() => file || makeMinimalPNG()).then(async mockFile => {
+        const selectFileArg = await getFileContents(mockFile);
+        cy.wrap(el)
+          .shadow()
+          .find('input[type="file"]')
+          .selectFile(selectFileArg, { force: true });
       });
-
-      el.dispatchEvent(fileSelectEvent);
     });
   }
 });
 
-Cypress.Commands.add('fillVaFileInputMultiple', (field, value) => {
+Cypress.Commands.add('fillVaFileInputMultiple', (field, value, files) => {
   if (typeof value !== 'undefined') {
     const element =
       typeof field === 'string'
@@ -187,30 +225,24 @@ Cypress.Commands.add('fillVaFileInputMultiple', (field, value) => {
 
     element.then(async $el => {
       const el = $el[0];
+      // get number of previously added files
+      const startingIndex =
+        el.shadowRoot.querySelectorAll('va-file-input').length - 1;
+      const filesPromise = Array.isArray(files)
+        ? Promise.resolve(files)
+        : makeMinimalPNG().then(file => [file]);
 
-      const pngFile = await makeMinimalPNG();
-      const detail = {
-        action: 'FILE_ADDED',
-        file: pngFile,
-        state: [{ file: pngFile, password: undefined, changed: true }],
-        mockFormData: {
-          confirmationCode: 'abc123',
-          name: 'placeholder.png',
-          size: 123,
-          additionalData: {
-            documentStatus: 'public',
-          },
-        },
-      };
-
-      const options = {
-        detail,
-        bubbles: true,
-        composed: true,
-      };
-
-      const event = new CustomEvent('vaMultipleChange', options);
-      el.dispatchEvent(event);
+      cy.wrap(filesPromise).then(_files => {
+        _files.forEach((file, index) => {
+          cy.wrap(el)
+            .shadow()
+            .find('va-file-input')
+            .eq(startingIndex + index)
+            .then($fileInput => {
+              cy.fillVaFileInput($fileInput, value, file);
+            });
+        });
+      });
     });
   }
 });
@@ -370,6 +402,11 @@ Cypress.Commands.add('enterWebComponentData', field => {
       break;
     }
 
+    case 'VA-COMBO-BOX': {
+      cy.selectVaComboBox(field.element, field.data);
+      break;
+    }
+
     case 'VA-SELECT': {
       cy.selectVaSelect(field.element, field.data);
       break;
@@ -398,7 +435,9 @@ Cypress.Commands.add('enterWebComponentData', field => {
     }
 
     case 'VA-MEMORABLE-DATE': {
-      cy.fillVaMemorableDate(field.key, field.data);
+      const monthSelect = field.element.attr('month-select');
+      const useMonthSelect = monthSelect !== 'false';
+      cy.fillVaMemorableDate(field.key, field.data, useMonthSelect);
       break;
     }
 
@@ -534,19 +573,22 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'fillVaStatementOfTruth',
-  (field, { fullName, checked } = {}) => {
-    if (!fullName && typeof checked !== 'boolean') return;
+  ({ field = '', fullName = '', checked } = {}) => {
+    let element;
 
-    const element =
-      typeof field === 'string'
-        ? cy.get(`va-statement-of-truth[name="${field}"]`)
-        : cy.wrap(field);
+    if (!field) {
+      element = cy.get('va-statement-of-truth');
+    } else if (typeof field === 'string') {
+      element = cy.get(`va-statement-of-truth[name="${field}"]`);
+    } else {
+      element = cy.wrap(field);
+    }
 
     element.shadow().within(() => {
       if (fullName) {
         cy.get('va-text-input').then($el => cy.fillVaTextInput($el, fullName));
       }
-      if (checked) {
+      if (typeof checked === 'boolean') {
         cy.get('va-checkbox').then($el => cy.selectVaCheckbox($el, checked));
       }
     });

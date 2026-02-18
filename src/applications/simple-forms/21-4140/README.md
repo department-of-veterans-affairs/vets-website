@@ -1,14 +1,14 @@
 # Income Verification for Disability Benefits
 
 ## URL
-http://localhost:3001/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140
-https://staging.va.gov/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140
+http://localhost:3001/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140
+https://staging.va.gov/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140
 
 ## Common commands
 ```bash
 # Development
-yarn watch --env entry=21-4140-income-verification
-yarn watch --env entry=21-4140-income-verification,auth,static-pages,login-page,verify,profile
+yarn watch --env entry=21-4140
+yarn watch --env entry=21-4140,auth,static-pages,login-page,verify,profile
 
 # Mock API
 yarn mock-api --responses src/applications/simple-forms/21-4140/tests/fixtures/mocks/local-mock-responses.js

@@ -6,13 +6,34 @@ import { createStore } from 'redux';
 import ClaimsListItem from '../../components/ClaimsListItem';
 import { renderWithRouter } from '../utils';
 
-const getStore = (cstClaimPhasesEnabled = true) =>
+const getStore = (
+  cstClaimPhasesEnabled = true,
+  cstShowDocumentUploadStatus = false,
+) =>
   createStore(() => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
       cst_claim_phases: cstClaimPhasesEnabled,
+      // eslint-disable-next-line camelcase
+      cst_show_document_upload_status: cstShowDocumentUploadStatus,
     },
   }));
+
+const createFailedSubmission = (acknowledgementDate, failedDate) => ({
+  acknowledgementDate,
+  id: 1,
+  claimId: 1,
+  createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+  deleteDate: null,
+  documentType: 'Medical Records',
+  failedDate,
+  fileName: 'medical-records.pdf',
+  lighthouseUpload: true,
+  trackedItemId: null,
+  trackedItemDisplayName: null,
+  uploadStatus: 'FAILED',
+  vaNotifyStatus: 'SENT',
+});
 
 const dependencyClaimTypeCode = '400PREDSCHRG';
 const compensationClaimTypeCode = '110LCMP7IDES'; // 5103 Notice
@@ -283,15 +304,18 @@ describe('<ClaimsListItem>', () => {
             status: 'COMPLETE',
           },
         };
-        const { getByRole } = renderWithRouter(
+        const { container } = renderWithRouter(
           <Provider store={getStore()}>
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
 
-        expect(getByRole('link')).to.have.text('Details');
-        expect(getByRole('link').href).to.equal(
-          `http://localhost/your-claims/1/status`,
+        const link = container.querySelector('va-link');
+
+        expect(link).to.have.attribute('text', 'Details');
+        expect(link).to.have.attribute(
+          'href',
+          '/track-claims/your-claims/1/status',
         );
       });
     },
@@ -562,15 +586,18 @@ describe('<ClaimsListItem>', () => {
             status: 'COMPLETE',
           },
         };
-        const { getByRole } = renderWithRouter(
+        const { container } = renderWithRouter(
           <Provider store={getStore()}>
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
 
-        expect(getByRole('link')).to.have.text('Details');
-        expect(getByRole('link').href).to.equal(
-          `http://localhost/your-claims/1/status`,
+        const link = container.querySelector('va-link');
+
+        expect(link).to.have.attribute('text', 'Details');
+        expect(link).to.have.attribute(
+          'href',
+          '/track-claims/your-claims/1/status',
         );
       });
     },
@@ -841,17 +868,138 @@ describe('<ClaimsListItem>', () => {
             status: 'COMPLETE',
           },
         };
-        const { getByRole } = renderWithRouter(
+        const { container } = renderWithRouter(
           <Provider store={getStore(false)}>
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
 
-        expect(getByRole('link')).to.have.text('Details');
-        expect(getByRole('link').href).to.equal(
-          `http://localhost/your-claims/1/status`,
+        const link = container.querySelector('va-link');
+
+        expect(link).to.have.attribute('text', 'Details');
+        expect(link).to.have.attribute(
+          'href',
+          '/track-claims/your-claims/1/status',
         );
       });
+    },
+  );
+
+  context(
+    'when the cst_show_document_upload_status feature toggle is disabled',
+    () => {
+      it('should not render a slim alert', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimDate: '2024-06-08',
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'GATHERING_OF_EVIDENCE',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+            evidenceSubmissions: [
+              createFailedSubmission(
+                new Date(Date.now() + 28 * 24 * 60 * 60 * 1000).toISOString(),
+                new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+              ),
+            ],
+          },
+        };
+        const { container } = renderWithRouter(
+          <Provider store={getStore(true, false)}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        const alert = container.querySelector('va-alert[status="error"]');
+
+        expect(alert).to.not.exist;
+      });
+    },
+  );
+
+  context(
+    'when the cst_show_document_upload_status feature toggle is enabled',
+    () => {
+      context(
+        'when there are no failed evidence submissions within the last 30 days',
+        () => {
+          it('should not render a slim alert', () => {
+            const claim = {
+              id: 1,
+              attributes: {
+                claimDate: '2024-06-08',
+                claimPhaseDates: {
+                  phaseChangeDate: '2024-06-08',
+                  phaseType: 'GATHERING_OF_EVIDENCE',
+                },
+                claimTypeCode: compensationClaimTypeCode,
+                status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+                evidenceSubmissions: [
+                  createFailedSubmission(
+                    new Date(
+                      Date.now() - 1 * 24 * 60 * 60 * 1000,
+                    ).toISOString(),
+                    new Date(
+                      Date.now() + 31 * 24 * 60 * 60 * 1000,
+                    ).toISOString(),
+                  ),
+                ],
+              },
+            };
+            const { container } = renderWithRouter(
+              <Provider store={getStore(true, true)}>
+                <ClaimsListItem claim={claim} />
+              </Provider>,
+            );
+            const alert = container.querySelector('va-alert[status="error"]');
+
+            expect(alert).to.not.exist;
+          });
+        },
+      );
+
+      context(
+        'when there are failed evidence submissions within the last 30 days',
+        () => {
+          it('should render a slim alert', () => {
+            const claim = {
+              id: 1,
+              attributes: {
+                claimDate: '2024-06-08',
+                claimPhaseDates: {
+                  phaseChangeDate: '2024-06-08',
+                  phaseType: 'GATHERING_OF_EVIDENCE',
+                },
+                claimTypeCode: compensationClaimTypeCode,
+                status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+                evidenceSubmissions: [
+                  createFailedSubmission(
+                    new Date(
+                      Date.now() + 28 * 24 * 60 * 60 * 1000,
+                    ).toISOString(),
+                    new Date(
+                      Date.now() - 2 * 24 * 60 * 60 * 1000,
+                    ).toISOString(),
+                  ),
+                ],
+              },
+            };
+            const { container } = renderWithRouter(
+              <Provider store={getStore(true, true)}>
+                <ClaimsListItem claim={claim} />
+              </Provider>,
+            );
+            const alert = container.querySelector('va-alert[status="error"]');
+
+            expect(alert).to.exist;
+            expect(alert.querySelector('p')).to.have.text(
+              'We need you to resubmit files for this claim.',
+            );
+          });
+        },
+      );
     },
   );
 });

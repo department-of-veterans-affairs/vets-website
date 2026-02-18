@@ -2,12 +2,38 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 const AutosuggestField = props => {
-  const { formData, onChange, uiSchema = {}, idSchema, errorSchema } = props;
+  const {
+    formData,
+    onChange,
+    uiSchema = {},
+    idSchema,
+    errorSchema,
+    required, // RJSF may pass this boolean
+  } = props;
+  // Determine requiredness: prefer RJSF required prop, fall back to uiSchema ui:required
+  const uiRequired = uiSchema['ui:required'];
+  let isRequired;
+  if (typeof required === 'boolean') {
+    isRequired = required;
+  } else if (typeof uiRequired === 'function') {
+    // Call the function safely and coerce to boolean
+    try {
+      isRequired = !!uiRequired(formData);
+    } catch (e) {
+      isRequired = false;
+    }
+  } else {
+    isRequired = !!uiRequired;
+  }
 
   const options = uiSchema['ui:options'] || {};
   const { getOptions } = options;
   const inputId = idSchema.$id;
   const listboxId = `${inputId}__listbox`;
+
+  const inputRef = useRef(null);
+  const containerRef = useRef(null);
+  const listboxRef = useRef(null);
 
   // Normalize text for consistent display
   const normalizeName = useCallback(str => {
@@ -32,19 +58,20 @@ const AutosuggestField = props => {
   const [justSelected, setJustSelected] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
-  const containerRef = useRef(null);
-  const listboxRef = useRef(null);
-
   useEffect(
     () => {
+      let timeoutId;
       if (justSelected) {
-        const timeoutId = setTimeout(() => {
+        timeoutId = setTimeout(() => {
           setJustSelected(false);
         }, 500);
-
-        return () => clearTimeout(timeoutId);
       }
-      return undefined;
+
+      return () => {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+      };
     },
     [justSelected],
   );
@@ -118,10 +145,20 @@ const AutosuggestField = props => {
       setJustSelected(true);
 
       setTimeout(() => {
-        const input = document.getElementById(inputId);
-        if (input) {
-          input.focus();
+        const host = inputRef.current;
+        let innerInput = null;
+        try {
+          innerInput =
+            host?.shadowRoot?.querySelector('input') ||
+            host?.querySelector('input') ||
+            null;
+        } catch (e) {
+          innerInput = null;
         }
+
+        const elToFocus =
+          innerInput || host || document.getElementById(inputId);
+        elToFocus?.focus?.();
       }, 0);
     },
     [suggestions, onChange, normalizeName, inputId],
@@ -335,6 +372,110 @@ const AutosuggestField = props => {
   const labelText = typeof rawTitle === 'string' ? rawTitle : undefined;
   const inputProps = options.inputProps || {};
 
+  // ensure the va-text-input host and its internal input are referenced by the RJSF label
+  useEffect(
+    () => {
+      const host = inputRef.current;
+      if (!host) return () => {};
+
+      const externalLabelSelector = `label[for="${inputId}"]`;
+      let externalLabel = document.querySelector(externalLabelSelector);
+
+      const ensureLabelId = labelEl => {
+        if (!labelEl) return null;
+        const label = labelEl;
+        if (!label.id) {
+          label.id = `${inputId}__label`;
+        }
+        return label.id;
+      };
+
+      const findInnerInput = () => {
+        try {
+          if (host.shadowRoot) {
+            const byPart = host.shadowRoot.querySelector(
+              'input, [part="input"]',
+            );
+            if (byPart) return byPart;
+          }
+          const byLight = host.querySelector('input, [part="input"]');
+          if (byLight) return byLight;
+          return null;
+        } catch (e) {
+          return null;
+        }
+      };
+
+      const align = () => {
+        externalLabel =
+          document.querySelector(externalLabelSelector) || externalLabel;
+        const innerInput = findInnerInput();
+
+        if (externalLabel) {
+          const labelId = ensureLabelId(externalLabel);
+
+          // Point host and inner input to the external label via aria-labelledby.
+          // Do NOT mutate innerInput.id or innerInput.value to avoid triggering component syncs.
+          try {
+            host.setAttribute('aria-labelledby', labelId);
+          } catch (e) {
+            // ignore
+          }
+          if (innerInput) {
+            try {
+              innerInput.setAttribute('aria-labelledby', labelId);
+              innerInput.removeAttribute('aria-label');
+            } catch (e) {
+              // ignore
+            }
+          }
+        } else if (labelText) {
+          // fallback to aria-label on host only; avoid touching inner input id/value
+          try {
+            host.setAttribute('aria-label', labelText);
+          } catch (e) {
+            // ignore
+          }
+        }
+      };
+
+      // run once
+      align();
+
+      // observe host for inner input to appear and also watch document for label changes
+      const hostObserver = new MutationObserver(align);
+      hostObserver.observe(host, { childList: true, subtree: true });
+
+      const docObserver = new MutationObserver(align);
+      docObserver.observe(document.body, { childList: true, subtree: true });
+
+      // Cleanup observers on unmount
+      return () => {
+        hostObserver.disconnect();
+        docObserver.disconnect();
+      };
+    },
+    [inputId, labelText],
+  );
+
+  // hide the external RJSF label visually and let the web component render the visible label
+  useEffect(
+    () => {
+      const selector = `label[for="${inputId}"]`;
+      const externalLabel = document.querySelector(selector);
+      if (externalLabel) {
+        externalLabel.classList.add('sr-only');
+      }
+
+      return () => {
+        if (externalLabel) {
+          externalLabel.classList.remove('sr-only');
+        }
+      };
+    },
+    [inputId],
+  );
+
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
@@ -345,20 +486,24 @@ const AutosuggestField = props => {
     >
       <div
         role="combobox"
+        aria-required={isRequired}
         aria-haspopup="listbox"
         aria-owns={listboxId}
         aria-expanded={open}
         aria-controls={listboxId}
       >
         <va-text-input
+          ref={inputRef}
           id={inputId}
-          aria-label={labelText || inputProps['aria-label'] || 'Cemetery'}
+          label={labelText || undefined}
+          required={isRequired}
           aria-autocomplete="list"
           aria-activedescendant={
             open && activeIndex >= 0
               ? `${listboxId}__option-${activeIndex}`
               : undefined
           }
+          placeholder={inputProps.placeholder || labelText || 'Cemetery'}
           value={inputValue}
           onInput={handleInputChange}
           error={firstError}

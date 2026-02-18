@@ -8,14 +8,11 @@ import { uniqueId } from 'lodash';
 import { ITEMS_PER_PAGE } from '../../constants';
 import {
   buildDateFormatter,
-  getOldestDocumentDate,
   getPhaseItemText,
-  is5103Notice,
   getShowEightPhases,
-  renderDefaultThirdPartyMessage,
-  getDisplayFriendlyName,
 } from '../../utils/helpers';
-import { evidenceDictionary } from '../../utils/evidenceDictionary';
+import * as TrackedItem from '../../utils/trackedItemContent';
+import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 
 export default function RecentActivity({ claim }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -66,8 +63,9 @@ export default function RecentActivity({ claim }) {
 
     trackedItems.forEach(item => {
       const updatedDisplayName =
-        (item.friendlyName && getDisplayFriendlyName(item)) || item.displayName;
-      const displayName = is5103Notice(item.displayName)
+        (item.friendlyName && TrackedItem.getDisplayFriendlyName(item)) ||
+        item.displayName;
+      const displayName = TrackedItem.is5103Notice(item.displayName)
         ? 'List of evidence we may need (5103 notice)'
         : updatedDisplayName;
 
@@ -89,7 +87,7 @@ export default function RecentActivity({ claim }) {
 
       if (item.documents?.length > 0) {
         addItems(
-          getOldestDocumentDate(item),
+          TrackedItem.getOldestDocumentDate(item),
           `We received your document(s) for the request: “${displayName}”`,
           item,
         );
@@ -99,9 +97,7 @@ export default function RecentActivity({ claim }) {
         if (item.status === 'NEEDED_FROM_OTHERS') {
           addItems(
             item.requestedDate,
-            (evidenceDictionary[item.displayName] &&
-              evidenceDictionary[item.displayName].isDBQ) ||
-            item.displayName.toLowerCase().includes('dbq')
+            TrackedItem.getIsDBQ(item)
               ? `We made a request: “${displayName}.”`
               : `We made a request outside the VA: “${displayName}.”`,
             item,
@@ -219,7 +215,7 @@ export default function RecentActivity({ claim }) {
             <br />
           </>
         ) : (
-          renderDefaultThirdPartyMessage(item.oldDisplayName)
+          TrackedItem.renderDefaultThirdPartyMessage(item.oldDisplayName)
         )}
         <Link
           aria-label={`About this notice for ${item.friendlyName ||
@@ -235,9 +231,8 @@ export default function RecentActivity({ claim }) {
 
   return (
     <div className="recent-activity-container">
-      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
-        Recent activity
-      </h3>
+      <h3 className="vads-u-margin-top--0">Recent activity</h3>
+      <TimezoneDiscrepancyMessage />
       {pageLength > 0 && (
         <ol className="va-list-horizontal">
           {currentPageItems.map(item => (
@@ -250,9 +245,11 @@ export default function RecentActivity({ claim }) {
               </h4>
               {hasRequestType(item.status) ? (
                 <>
-                  <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
-                    {requestType(item.status)}
-                  </p>
+                  {requestType(item.status) && (
+                    <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
+                      {requestType(item.status)}
+                    </p>
+                  )}
                   <p
                     className="item-description vads-u-margin-top--0 vads-u-margin-bottom--1"
                     data-dd-privacy="mask"

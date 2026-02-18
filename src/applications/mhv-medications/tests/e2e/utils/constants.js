@@ -119,7 +119,6 @@ export const Paths = {
   SORT_BY_STATUS: '&sort=alphabetical-status',
   ACTIVE_FILTER:
     '/my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Active,Active:%20Refill%20in%20Process,Active:%20Non-VA,Active:%20On%20Hold,Active:%20Parked,Active:%20Submitted&sort=alphabetical-status',
-  UUM_API_BASE: '/my_health/v1/unique_user_metrics',
   INTERCEPT: {
     PAGINATION_NEXT:
       '/my_health/v1/prescriptions?page=2&per_page=10&sort=alphabetical-status',
@@ -139,4 +138,8 @@ export const Alerts = {
   REFILL_SUBMIT_SUCCESS: 'Refills requested',
   REFILL_SUBMIT_FAILURE:
     'We’re sorry. There’s a problem with our system. We couldn’t submit these refill requests:',
+};
+export const DownloadFormat = {
+  PDF: 'pdf',
+  TXT: 'txt',
 };

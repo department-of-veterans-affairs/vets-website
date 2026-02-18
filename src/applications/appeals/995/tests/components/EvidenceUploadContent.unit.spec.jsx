@@ -4,7 +4,7 @@ import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { EVIDENCE_UPLOAD_URL } from '../../constants';
-import { content } from '../../content/evidenceSummary';
+import { content } from '../../content/evidence/summary';
 import { EvidenceUploadContent } from '../../components/EvidenceUploadContent';
 import { records } from '../data/evidence-records';
 

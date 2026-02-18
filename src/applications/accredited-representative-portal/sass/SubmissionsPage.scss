@@ -1,11 +1,14 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 .submissions {
   -webkit-font-smoothing: antialiased;
+  &__form-start {
+    margin-bottom: 32px;
+  }
   hr {
     margin: 32px 0;
   }
   &__search-header {
-    margin: 24px 0 0;
+    margin: 0;
   }
 
   [visible="false"] {
@@ -45,12 +48,14 @@
   &__card-name {
     margin-top: 0px;
   }
-  &__card-contact{
+  &__card-contact {
     margin-top: 5px;
     margin-bottom: 5px;
   }
   &__inline-status-icon {
-    margin-left: 4px;
+    @media (min-width: $small-screen) {
+      margin-left: 4px;
+    }
 
     &.submissions__card-check {
       color: var(--vads-color-success-dark);
@@ -66,9 +71,6 @@
     padding-left: 0px;
   }
   &__awaiting {
-    display: flex;
-    padding: 0 !important;
-
     .submissions__inline-status-icon.submissions__card-check {
       color: $vads-color-base;
     }
@@ -106,8 +108,6 @@
         &.awaiting_receipt,
         &.received {
           flex-wrap: nowrap;
-          flex-direction: row;
-          align-items: center;
         }
 
         &:has(.submission__awaiting) {
@@ -119,12 +119,12 @@
           flex-direction: row;
           align-items: center;
         }
-
-        > span:last-child {
-          margin-top: 4px;
-          padding-left: 32px;
-          @media (min-width: $small-screen) {
-            padding-left: 0;
+        &.awaiting_receipt_warning {
+          > span:last-child {
+            padding-left: 27px;
+            @media (min-width: $small-screen) {
+              padding-left: 0;
+            }
           }
         }
       }

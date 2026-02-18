@@ -107,16 +107,23 @@ const DuplicateLabel = ({ text }) => (
 
 /**
  * @param {{
- *   arrayPath: string,
+ *   arrayPath: ArrayBuilderOptions['arrayPath'],
+ *   cardDescription: string | React.ReactNode | ((itemData: any, index: number, fullData: any) => string | React.ReactNode),
+ *   duplicateCheckResult: object,
+ *   duplicateChecks: ArrayBuilderOptions['duplicateChecks'],
  *   getEditItemPathUrl: (formData: any, index: number, context) => string,
  *   formData: any,
- *   isIncomplete: (itemData: any) => boolean,
- *   nounSingular: string,
- *   setFormData: (formData: any) => void,
- *   titleHeaderLevel: string,
- *   getText: import('./arrayBuilderText').ArrayBuilderGetText
- *   onRemoveAll: () => void,
+ *   fullData: any,
+ *   isIncomplete: ArrayBuilderOptions['isItemIncomplete'],
+ *   nounSingular: ArrayBuilderOptions['nounSingular'],
+ *   getText: ArrayBuilderGetText,
+ *   isReview: boolean,
+ *   onRemove: (index: number, item: any, newFormData: any) => void,
+ *   onRemoveAll: (newFormData: any) => void,
  *   required: (formData: any) => boolean,
+ *   titleHeaderLevel: string,
+ *   canEditItem: ArrayBuilderOptions['canEditItem'],
+ *   canDeleteItem: ArrayBuilderOptions['canDeleteItem'],
  * }} props
  */
 const ArrayBuilderCards = ({
@@ -132,6 +139,8 @@ const ArrayBuilderCards = ({
   onRemove,
   required,
   isReview,
+  canEditItem,
+  canDeleteItem,
   duplicateChecks = {},
   duplicateCheckResult = {},
 }) => {
@@ -140,7 +149,11 @@ const ArrayBuilderCards = ({
   const arrayData = get(arrayPath, formData);
   const currentItem = arrayData?.[currentIndex];
   const isMounted = useRef(true);
+  const incompleteTimeoutRef = useRef(null);
   const nounSingularSlug = slugifyText(nounSingular);
+
+  const getCardSelector = index =>
+    `va-card[name="${nounSingularSlug}_${index}"][data-array-path="${arrayPath}"]`;
 
   useEffect(() => {
     isMounted.current = true;
@@ -153,7 +166,7 @@ const ArrayBuilderCards = ({
     ARRAY_BUILDER_EVENTS.INCOMPLETE_ITEM_ERROR,
     ({ index, arrayPath: incompleteArrayPath }) => {
       if (incompleteArrayPath === arrayPath) {
-        const card = `va-card[name="${nounSingularSlug}_${index}"]`;
+        const card = getCardSelector(index);
         scrollTo(card);
         focusElement(`${card} .array-builder-missing-info-alert`);
       }
@@ -164,7 +177,7 @@ const ArrayBuilderCards = ({
     ARRAY_BUILDER_EVENTS.DUPLICATE_ITEM_ERROR,
     ({ index, arrayPath: duplicateArrayPath }) => {
       if (duplicateArrayPath === arrayPath) {
-        const card = `va-card[name="${nounSingularSlug}_${index}"]`;
+        const card = getCardSelector(index);
         requestAnimationFrame(() => {
           if (!isMounted.current) {
             return;
@@ -197,9 +210,7 @@ const ArrayBuilderCards = ({
         focusElement(
           'button',
           null,
-          `va-card[name="${slugifyText(
-            nounSingular,
-          )}_${lastIndex}"] [data-action="remove"]`,
+          `${getCardSelector(lastIndex)} [data-action="remove"]`,
         );
       });
     }
@@ -227,7 +238,11 @@ const ArrayBuilderCards = ({
 
   const Card = ({ index, children }) => (
     <div className="vads-u-margin-top--2">
-      <va-card uswds name={`${nounSingularSlug}_${index}`}>
+      <va-card
+        uswds
+        name={`${nounSingularSlug}_${index}`}
+        data-array-path={arrayPath}
+      >
         {children}
       </va-card>
     </div>
@@ -266,7 +281,7 @@ const ArrayBuilderCards = ({
               // Incomplete label & alert > duplicate label & alert
               let label = null;
               let alert = null;
-              if (isIncomplete(itemData)) {
+              if (isIncomplete(itemData, fullData)) {
                 label = <IncompleteLabel />;
                 alert = (
                   <MissingInformationAlert>
@@ -319,6 +334,13 @@ const ArrayBuilderCards = ({
                 );
               }
 
+              const canEditItemCheck =
+                typeof canEditItem !== 'function' ||
+                canEditItem({ itemData, index, fullData, isReview });
+              const canDeleteItemCheck =
+                typeof canDeleteItem !== 'function' ||
+                canDeleteItem({ itemData, index, fullData, isReview });
+
               return (
                 <li key={index} style={{ listStyleType: 'none' }}>
                   <Card index={index}>
@@ -330,29 +352,38 @@ const ArrayBuilderCards = ({
                       >
                         {itemName}
                       </CardTitle>
-                      {itemDescription}
+                      <div
+                        className="dd-privacy-mask"
+                        data-dd-action-name="Item Description"
+                      >
+                        {itemDescription}
+                      </div>
                       {alert}
                     </div>
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
-                      <EditLink
-                        to={createArrayBuilderItemEditPath({
-                          path: getEditItemPathUrl(
-                            formData,
+                      {canEditItemCheck && (
+                        <EditLink
+                          to={createArrayBuilderItemEditPath({
+                            path: getEditItemPathUrl(
+                              formData,
+                              index,
+                              arrayBuilderContextObject({
+                                edit: true,
+                                review: isReview,
+                              }),
+                            ),
                             index,
-                            arrayBuilderContextObject({
-                              edit: true,
-                              review: isReview,
-                            }),
-                          ),
-                          index,
-                          isReview,
-                        })}
-                        srText={`Edit ${itemName}`}
-                      />
-                      <RemoveButton
-                        onClick={() => showRemoveConfirmationModal(index)}
-                        srText={`Delete ${itemName}`}
-                      />
+                            isReview,
+                          })}
+                          srText={`Edit ${itemName}`}
+                        />
+                      )}
+                      {canDeleteItemCheck && (
+                        <RemoveButton
+                          onClick={() => showRemoveConfirmationModal(index)}
+                          srText={`Delete ${itemName}`}
+                        />
+                      )}
                     </span>
                   </Card>
                 </li>
@@ -444,6 +475,8 @@ ArrayBuilderCards.propTypes = {
     duplicateSummaryCardWarningOrErrorAlert: PropTypes.func,
     duplicateSummaryCardLabel: PropTypes.func,
   }),
+  canEditItem: PropTypes.func,
+  canDeleteItem: PropTypes.func,
   titleHeaderLevel: PropTypes.string,
 };
 

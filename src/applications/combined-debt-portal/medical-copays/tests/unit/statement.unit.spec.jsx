@@ -1,11 +1,23 @@
 import { expect } from 'chai';
 import React from 'react';
 import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import AccountSummary from '../../components/AccountSummary';
 import StatementAddresses from '../../components/StatementAddresses';
 import StatementCharges from '../../components/StatementCharges';
 import StatementTable from '../../components/StatementTable';
 import DownloadStatement from '../../components/DownloadStatement';
+
+// Helper to create a minimal Redux store for components that use useSelector
+const createMockStore = (featureToggleValue = false) => {
+  return createStore(() => ({
+    featureToggles: {
+      loading: false,
+      showVHAPaymentHistory: featureToggleValue,
+    },
+  }));
+};
 
 describe('mcp statement view', () => {
   describe('statement account summary component', () => {
@@ -20,22 +32,11 @@ describe('mcp statement view', () => {
 
       const summary = render(
         <AccountSummary
-          currentBalance={selectedCopay.pHNewBalance}
-          newCharges={selectedCopay.pHTotCharges}
           paymentsReceived={selectedCopay.pHTotCredits}
           previousBalance={selectedCopay.pHPrevBal}
-          statementDate={selectedCopay.statementDate}
         />,
       );
       expect(summary.getByTestId('account-summary-head')).to.exist;
-      expect(summary.getByTestId('account-summary-date')).to.exist;
-      expect(summary.getByTestId('account-summary-date')).to.have.text(
-        'Current balance as of November 5',
-      );
-      expect(summary.getByTestId('account-summary-current')).to.exist;
-      expect(summary.getByTestId('account-summary-current')).to.have.text(
-        '$25.00',
-      );
       expect(summary.getByTestId('account-summary-previous')).to.exist;
       expect(summary.getByTestId('account-summary-previous')).to.have.text(
         'Previous balance: $30.00',
@@ -44,16 +45,13 @@ describe('mcp statement view', () => {
       expect(summary.getByTestId('account-summary-credits')).to.have.text(
         'Payments received: $15.00',
       );
-      expect(summary.getByTestId('account-summary-new-charges')).to.exist;
-      expect(summary.getByTestId('account-summary-new-charges')).to.have.text(
-        'New charges: $10.00',
-      );
     });
   });
 
   describe('statement addresses component', () => {
     it('should render statement addresses', () => {
       const selectedCopay = {
+        id: '123',
         station: {
           facilityName: 'Test Facility',
           staTAddress1: '123 Main St',
@@ -62,6 +60,9 @@ describe('mcp statement view', () => {
           city: 'New York',
           state: 'NY',
           ziPCde: '10001',
+          recipientAddress1: '456 Alternate St',
+          recipientAddress2: 'Apt 2',
+          recipientAddress3: 'Test Patient Address 3',
         },
         pHAddress1: '456 Alternate St',
         pHAddress2: 'Apt 2',
@@ -71,7 +72,24 @@ describe('mcp statement view', () => {
         pHZipCde: '33333',
       };
 
-      const addresses = render(<StatementAddresses copay={selectedCopay} />);
+      // Create store with full state including selectedStatement
+      const store = createStore(() => ({
+        featureToggles: {
+          loading: false,
+          showVHAPaymentHistory: false,
+        },
+        combinedPortal: {
+          mcp: {
+            selectedStatement: selectedCopay,
+          },
+        },
+      }));
+
+      const addresses = render(
+        <Provider store={store}>
+          <StatementAddresses copay={selectedCopay} />
+        </Provider>,
+      );
       expect(addresses.getByTestId('statement-address-head')).to.exist;
       expect(addresses.getByTestId('sender-address-head')).to.exist;
 
@@ -144,6 +162,8 @@ describe('mcp statement view', () => {
       pHNewBalance: 25,
       pHTotCredits: 15,
       pHPrevBal: 30,
+      pSStatementDateOutput: '05/03/2024',
+      pSStatementVal: 'STMT-123',
       statementStartDate: '2024-05-03',
       statementEndDate: '2024-06-03',
       details: [
@@ -165,12 +185,15 @@ describe('mcp statement view', () => {
     };
 
     it('should render statement table with date range when dates are provided', () => {
+      const store = createMockStore(false);
       const { container } = render(
-        <StatementTable
-          charges={mockSelectedCopay.details}
-          formatCurrency={mockFormatCurrency}
-          selectedCopay={mockSelectedCopay}
-        />,
+        <Provider store={store}>
+          <StatementTable
+            charges={mockSelectedCopay.details}
+            formatCurrency={mockFormatCurrency}
+            selectedCopay={mockSelectedCopay}
+          />
+        </Provider>,
       );
 
       const table = container.querySelector('va-table');
@@ -187,12 +210,15 @@ describe('mcp statement view', () => {
         statementEndDate: null,
       };
 
+      const store = createMockStore(false);
       const { container } = render(
-        <StatementTable
-          charges={mockSelectedCopay.details}
-          formatCurrency={mockFormatCurrency}
-          selectedCopay={copayWithoutDates}
-        />,
+        <Provider store={store}>
+          <StatementTable
+            charges={mockSelectedCopay.details}
+            formatCurrency={mockFormatCurrency}
+            selectedCopay={copayWithoutDates}
+          />
+        </Provider>,
       );
 
       const table = container.querySelector('va-table');
@@ -203,12 +229,15 @@ describe('mcp statement view', () => {
     });
 
     it('should NOT render Total Credits row', () => {
+      const store = createMockStore(false);
       const { container } = render(
-        <StatementTable
-          charges={mockSelectedCopay.details}
-          formatCurrency={mockFormatCurrency}
-          selectedCopay={mockSelectedCopay}
-        />,
+        <Provider store={store}>
+          <StatementTable
+            charges={mockSelectedCopay.details}
+            formatCurrency={mockFormatCurrency}
+            selectedCopay={mockSelectedCopay}
+          />
+        </Provider>,
       );
 
       const tableRows = container.querySelectorAll('va-table-row');
@@ -216,27 +245,6 @@ describe('mcp statement view', () => {
         row.textContent.includes('Total Credits'),
       );
       expect(totalCreditsRow).to.not.exist;
-    });
-
-    it('should render Previous Balance and Current Balance rows', () => {
-      const { container } = render(
-        <StatementTable
-          charges={mockSelectedCopay.details}
-          formatCurrency={mockFormatCurrency}
-          selectedCopay={mockSelectedCopay}
-        />,
-      );
-
-      const tableRows = container.querySelectorAll('va-table-row');
-      const previousBalanceRow = Array.from(tableRows).find(row =>
-        row.textContent.includes('Previous Balance'),
-      );
-      const currentBalanceRow = Array.from(tableRows).find(row =>
-        row.textContent.includes('Current Balance'),
-      );
-
-      expect(previousBalanceRow).to.exist;
-      expect(currentBalanceRow).to.exist;
     });
   });
 

@@ -1,9 +1,8 @@
 import get from 'platform/utilities/data/get';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import React from 'react';
 import {
   titleUI,
-  titleSchema,
+  descriptionUI,
   yesNoUI,
   yesNoSchema,
   arrayBuilderItemFirstPageTitleUI,
@@ -18,28 +17,27 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { nameWording, privWrapper } from '../../shared/utilities';
+import { privWrapper } from '../../shared/utilities';
 import { validFieldCharsOnly } from '../../shared/validations';
+import {
+  hasOhi,
+  personalizeTitleByName,
+  replaceStrValues,
+} from '../utils/helpers';
+import content from '../locales/en/content.json';
 
-const radioLabels = {
-  group: 'Employer sponsored insurance (group)',
-  nonGroup: 'Individual or private insurance (non-group)',
-  medicare: 'Medicare Part A or B (hospital and medical insurance)',
-  other: 'Insurance type not listed',
+const INSURANCE_TYPE_LABELS = {
+  group: content['health-insurance--type-label--group'],
+  nonGroup: content['health-insurance--type-label--nongroup'],
+  medicare: content['health-insurance--type-label--medicare'],
+  other: content['health-insurance--type-label--other'],
 };
 
-const hintText =
-  'This includes any coverage through a family member, health insurance from an employer, and supplemental or secondary insurance.';
-
-const yesNoContent = {
-  title:
-    'Does the beneficiary have any other health insurance coverage that isn’t through CHAMPVA?',
-  labels: {
-    Y: 'Yes',
-    N: 'No',
-  },
-  hint: hintText,
-  labelHeaderLevel: '5',
+const yesNoOptions = {
+  title: content['health-insurance--yes-no-label-more'],
+  hint: content['health-insurance--yes-no-hint'],
+  labelHeaderLevel: '2',
+  labelHeaderLevelStyle: '4',
 };
 
 /** @type {ArrayBuilderOptions} */
@@ -55,55 +53,83 @@ export const insuranceOptions = {
     cardDescription: item =>
       item?.type === 'other'
         ? `${item?.otherType}`
-        : `${radioLabels[(item?.type)]}`,
-    summaryTitle: item => {
-      return privWrapper(
-        `${nameWording(item?.formData, true, true, true) ||
-          'Beneficiary’s'} health insurance review`,
+        : `${INSURANCE_TYPE_LABELS[(item?.type)]}`,
+    cancelAddTitle: () => content['health-insurance--cancel-add-title'],
+    cancelAddDescription: () =>
+      content['health-insurance--cancel-add-description'],
+    cancelAddNo: () => content['arraybuilder--button-cancel-no'],
+    cancelAddYes: () => content['arraybuilder--button-cancel-yes'],
+    cancelEditTitle: props => {
+      const itemName = props.getItemName(
+        props.itemData,
+        props.index,
+        props.formData,
       );
+      return itemName
+        ? replaceStrValues(
+            content['health-insurance--cancel-edit-item-title'],
+            itemName,
+          )
+        : replaceStrValues(
+            content['health-insurance--cancel-edit-noun-title'],
+            props.nounSingular,
+          );
     },
-    summaryDescription: '',
-    cancelAddButtonText: 'Cancel adding this insurance',
+    cancelEditDescription: () =>
+      content['health-insurance--cancel-edit-description'],
+    cancelEditNo: () => content['arraybuilder--button-delete-no'],
+    cancelEditYes: () => content['arraybuilder--button-cancel-yes'],
+    deleteDescription: props => {
+      const itemName = props.getItemName(
+        props.itemData,
+        props.index,
+        props.formData,
+      );
+      return itemName
+        ? replaceStrValues(
+            content['health-insurance--delete-item-description'],
+            itemName,
+          )
+        : replaceStrValues(
+            content['health-insurance--delete-noun-description'],
+            props.nounSingular,
+          );
+    },
+    deleteNo: () => content['arraybuilder--button-delete-no'],
+    deleteYes: () => content['arraybuilder--button-delete-yes'],
+    summaryTitle: props =>
+      privWrapper(
+        personalizeTitleByName(
+          props.formData,
+          content['health-insurance--summary-title'],
+        ),
+      ),
+    summaryDescription: null,
+    cancelAddButtonText: content['health-insurance--button--cancel-add'],
   },
 };
 
 export const insuranceStatusSchema = {
   uiSchema: {
-    ...titleUI(({ formData }) => {
-      return privWrapper(
-        `${nameWording(formData, true, true, true)} health insurance status`,
-      );
-    }),
+    ...titleUI(({ formData }) =>
+      privWrapper(
+        personalizeTitleByName(
+          formData,
+          content['health-insurance--summary-title-no-items'],
+        ),
+      ),
+    ),
     hasOhi: {
       ...yesNoUI({
-        type: 'radio',
-        updateUiSchema: formData => {
-          return {
-            'ui:title': `${
-              formData?.certifierRole === 'applicant' ? 'Do' : 'Does'
-            } ${nameWording(
-              formData,
-              false,
-              false,
-              true,
-            )} have health insurance coverage that isn’t through CHAMPVA?`,
-            'ui:options': {
-              classNames: ['dd-privacy-hidden'],
-              hint: hintText,
-            },
-          };
-        },
+        title: content['health-insurance--yes-no-label'],
+        hint: content['health-insurance--yes-no-hint'],
       }),
-    },
-    'ui:options': {
-      itemAriaLabel: () => 'health insurance status',
     },
   },
   schema: {
     type: 'object',
     required: ['hasOhi'],
     properties: {
-      titleSchema,
       hasOhi: yesNoSchema,
     },
   },
@@ -113,7 +139,7 @@ const policyPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Policy information',
-      nounSingular: insuranceOptions.nounSingular,
+      showEditExplanationText: false,
     }),
     name: textUI('Name of insurance provider'),
     policyNum: textUI('Policy number'),
@@ -148,10 +174,7 @@ const insuranceProviderPage = {
         type: 'radio',
         title:
           'What type of insurance does the beneficiary have through this provider?',
-        labels: radioLabels,
-        errorMessages: {
-          required: 'Please select an option',
-        },
+        labels: INSURANCE_TYPE_LABELS,
       }),
     },
     otherType: {
@@ -181,8 +204,7 @@ const insuranceProviderPage = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
-      type: radioSchema(Object.keys(radioLabels)),
+      type: radioSchema(Object.keys(INSURANCE_TYPE_LABELS)),
       otherType: textSchema,
     },
   },
@@ -192,8 +214,8 @@ const summaryPage = {
   uiSchema: {
     'view:hasPolicies': arrayBuilderYesNoUI(
       insuranceOptions,
-      yesNoContent,
-      yesNoContent,
+      yesNoOptions,
+      yesNoOptions,
     ),
   },
   schema: {
@@ -212,50 +234,32 @@ export const insurancePages = arrayBuilderPages(
     insuranceIntro: pageBuilder.introPage({
       path: 'insurance-intro',
       title: '[noun plural]',
-      depends: formData =>
-        get('hasOhi', formData) &&
-        get('claimStatus', formData) !== 'resubmission',
+      depends: hasOhi,
       uiSchema: {
-        ...titleUI('Health insurance information', ({ formData }) => (
-          <p>
-            Next we’ll ask you to enter information about{' '}
-            {privWrapper(nameWording(formData, true, false, true))} health
-            insurance.
-            <br />
-            <br />
-            You can add up to two health insurances, but do not include CHAMPVA.
-          </p>
-        )),
+        ...titleUI(content['health-insurance--intro-title']),
+        ...descriptionUI(content['health-insurance--intro-desc']),
       },
       schema: {
         type: 'object',
-        properties: {
-          titleSchema,
-        },
+        properties: {},
       },
     }),
     insuranceSummary: pageBuilder.summaryPage({
       title: 'Review your [noun plural]',
       path: 'insurance-review',
-      depends: formData =>
-        get('hasOhi', formData) &&
-        get('claimStatus', formData) !== 'resubmission',
+      depends: hasOhi,
       ...summaryPage,
     }),
     insurancePolicy: pageBuilder.itemPage({
       title: 'Policy information',
       path: 'policy-info/:index',
-      depends: formData =>
-        get('hasOhi', formData) &&
-        get('claimStatus', formData) !== 'resubmission',
+      depends: hasOhi,
       ...policyPage,
     }),
     insuranceType: pageBuilder.itemPage({
       title: 'Type',
       path: 'insurance-type/:index',
-      depends: formData =>
-        get('hasOhi', formData) &&
-        get('claimStatus', formData) !== 'resubmission',
+      depends: hasOhi,
       ...insuranceProviderPage,
     }),
   }),

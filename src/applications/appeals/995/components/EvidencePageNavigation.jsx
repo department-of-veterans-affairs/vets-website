@@ -20,6 +20,7 @@ export const EvidencePageNavigation = ({ path, content, handlers }) => (
       <FormNavButtons
         goBack={handlers.onGoBack}
         goForward={handlers.onGoForward}
+        useWebComponents
       />
       {content.contentAfterButtons}
     </div>

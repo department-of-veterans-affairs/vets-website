@@ -4,12 +4,15 @@ import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { useDispatch } from 'react-redux';
+import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import NeedHelp from '../../components/NeedHelp';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
 import ErrorAlert from './ErrorAlert';
 import ReferralBreadcrumbs from './ReferralBreadcrumbs';
+import { setFormCurrentPage } from '../redux/actions';
 
 export default function ReferralLayout({
   children,
@@ -20,8 +23,22 @@ export default function ReferralLayout({
   errorBody = '',
 }) {
   const location = useLocation();
+  const dispatch = useDispatch();
 
-  const content = apiFailure ? <ErrorAlert body={errorBody} /> : children;
+  const content = apiFailure ? (
+    <ErrorAlert body={errorBody} showFindCCFacilityLink />
+  ) : (
+    children
+  );
+
+  useEffect(
+    () => {
+      if (apiFailure) {
+        dispatch(setFormCurrentPage('error'));
+      }
+    },
+    [dispatch, apiFailure],
+  );
 
   useEffect(() => {
     scrollAndFocus();
@@ -29,6 +46,7 @@ export default function ReferralLayout({
 
   return (
     <>
+      <MhvSecondaryNav />
       <div className="vads-l-grid-container vads-u-padding-x--2p5 desktop-lg:vads-u-padding-x--0 vads-u-padding-bottom--2">
         <ReferralBreadcrumbs />
         {location.pathname.endsWith('type-of-care') && (

@@ -2,6 +2,8 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { edipiNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
+import { resolveAcceleratedDateRange } from '../util/helpers';
+import { DEFAULT_DATE_RANGE } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -69,17 +71,23 @@ export const getLabsAndTests = async () => {
     headers,
   });
 };
+
 export const getAcceleratedLabsAndTests = async ({
   startDate,
   endDate,
 } = {}) => {
-  const startDateParam = `start_date=${startDate}`;
-  const endDateParam = `&end_date=${endDate}`;
+  const {
+    startDate: effectiveStart,
+    endDate: effectiveEnd,
+  } = resolveAcceleratedDateRange(startDate, endDate, DEFAULT_DATE_RANGE);
+  // Build query params with API-required snake_case keys
+  const params = new URLSearchParams();
+  params.append('start_date', effectiveStart);
+  params.append('end_date', effectiveEnd);
+  const queryString = `?${params.toString()}`;
   return apiRequest(
-    `${API_BASE_PATH_V2}/medical_records/labs_and_tests?${startDateParam}${endDateParam}`,
-    {
-      headers,
-    },
+    `${API_BASE_PATH_V2}/medical_records/labs_and_tests${queryString}`,
+    { headers },
   );
 };
 
@@ -143,10 +151,19 @@ export const getMhvRadiologyDetails = async id => {
   return findMatchingPhrAndCvixStudies(id, phrResponse, cvixResponse);
 };
 
-export const getAcceleratedNotes = async () => {
-  return apiRequest(`${API_BASE_PATH_V2}/medical_records/clinical_notes`, {
-    headers,
-  });
+export const getAcceleratedNotes = async ({ startDate, endDate } = {}) => {
+  const {
+    startDate: effectiveStart,
+    endDate: effectiveEnd,
+  } = resolveAcceleratedDateRange(startDate, endDate, DEFAULT_DATE_RANGE);
+  const params = new URLSearchParams();
+  params.append('start_date', effectiveStart);
+  params.append('end_date', effectiveEnd);
+  const queryString = `?${params.toString()}`;
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/clinical_notes${queryString}`,
+    { headers },
+  );
 };
 
 export const getNotes = async () => {
@@ -155,6 +172,8 @@ export const getNotes = async () => {
   });
 };
 
+// TODO: this will fail until upstream API supports fetching a single note
+// due to inability to determine original date range
 export const getAcceleratedNote = async id => {
   return apiRequest(
     `${API_BASE_PATH_V2}/medical_records/clinical_notes/${id}`,
@@ -176,15 +195,19 @@ export const getVitalsList = async () => {
   });
 };
 
-export const getVitalsWithOHData = async vitalsDate => {
-  const from = `&from=${vitalsDate}`;
-  const to = `&to=${vitalsDate}`;
+export const getVitalsWithOHData = async () => {
   return apiRequest(
-    `${apiBasePath}/medical_records/vitals?use_oh_data_path=1${from}${to}`,
+    `${apiBasePath}/medical_records/vitals?use_oh_data_path=1`,
     {
       headers,
     },
   );
+};
+
+export const getVitalsWithUnifiedData = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/vitals`, {
+    headers,
+  });
 };
 
 export const getConditions = async () => {
@@ -257,18 +280,8 @@ export const getAcceleratedAllergy = id => {
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format
  */
-export const getVaccineList = async (page, useCache = true) => {
-  const params = new URLSearchParams();
-  // Send pagination params if page is defined and != 0
-  if (page) {
-    params.append('page', page);
-    params.append('per_page', '10');
-  }
-  if (!useCache) {
-    params.append('use_cache', 'false');
-  }
-  const queryString = params.toString() ? `?${params.toString()}` : '';
-  return apiRequest(`${apiBasePath}/medical_records/vaccines${queryString}`, {
+export const getVaccineList = async () => {
+  return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
     headers,
   });
 };
@@ -402,6 +415,24 @@ export const downloadCCD = (timestamp, format = 'html') => {
     `${apiBasePath}/medical_records/ccd/download.${lowerFormat}?date=${encodeURIComponent(
       timestamp,
     )}`,
+  );
+};
+
+/**
+ * Downloads a Continuity of Care Document (CCD) from Oracle Health data (v2 endpoint)
+ * @param {string} format
+ * @returns {Promise}
+ *
+ * V2 vs V1 Architecture:
+ * - V1: Two-step process (generate -> poll -> download)
+ * - V2: Single-step direct download
+ * - In V2, backend can convert FHIR -> XML/HTML/PDF on-demand
+ */
+export const downloadCCDV2 = async (format = 'xml') => {
+  const lowerFormat = format.toLowerCase();
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/ccd/download.${lowerFormat}`,
+    { headers },
   );
 };
 
