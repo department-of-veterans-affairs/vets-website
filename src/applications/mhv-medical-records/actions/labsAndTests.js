@@ -180,7 +180,8 @@ export const getAcceleratedImagingStudiesList = (
       response,
     });
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    // TODO Until SCDF images are fully functional, don't error out if the fetch fails
+    // dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     sendDatadogError(
       error,
       'actions_labsAndTests_getAcceleratedImagingStudiesList',
