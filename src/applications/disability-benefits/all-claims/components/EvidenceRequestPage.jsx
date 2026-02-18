@@ -225,7 +225,7 @@ export const EvidenceRequestPage = ({
             value="false"
           />
         </VaRadio>
-        {evidenceRequestAdditionalInfo}
+        {!onReviewPage && evidenceRequestAdditionalInfo}
 
         {onReviewPage ? (
           /**
