@@ -70,8 +70,8 @@ import passwordErrorState from '../utilities/file/passwordErrorState';
  *     },
  * },
  * ```
- 
- 
+
+
  * @param {WebComponentFieldProps} props */
 const VaFileInputField = props => {
   const { uiOptions = {}, childrenProps } = props;
@@ -257,7 +257,8 @@ const VaFileInputField = props => {
               // clone element so we can attach listeners
               mappedProps.additionalInput(
                 additionalInputError,
-                childrenProps.formData.additionalData,
+                childrenProps.formData.additionalData || {},
+                uiOptions.additionalInputLabels,
               ),
               {
                 // attach other listeners as needed
