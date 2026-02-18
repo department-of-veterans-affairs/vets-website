@@ -311,3 +311,23 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
   text-overflow: ellipsis;
   line-height: 1.5;
 }
+
+// Mobile-only styling for ClaimFormSideNav VaSidenav
+// Scoped to only affect the accordion inside .claim-form-sidenav-wrapper
+// Styling like a button so it stands out from other accordions (like on R&S page)
+.claim-form-sidenav-wrapper {
+  va-sidenav::part(accordion-content) {
+    background-color: var(--vads-color-white) !important;
+    border: 0.2rem solid var(--vads-color-primary) !important;
+    border-top: none !important;
+    border-radius: 0 0 4px 4px;
+    margin-top: -4px;
+  }
+
+  va-sidenav::part(accordion-header) {
+    background-color: var(--vads-color-white) !important;
+    border: 0.2rem solid var(--vads-color-primary) !important;
+    color: var(--vads-color-primary) !important;
+    border-radius: 4px;
+  }
+}
