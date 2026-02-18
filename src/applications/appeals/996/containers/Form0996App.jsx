@@ -34,6 +34,7 @@ import { isOutsideForm } from '../../shared/utils/helpers';
 import { data996 } from '../../shared/props';
 
 export const Form0996App = ({
+  accountUuid,
   loggedIn,
   location,
   children,
@@ -157,6 +158,7 @@ export const Form0996App = ({
     applicationId: DATA_DOG_ID,
     clientToken: DATA_DOG_TOKEN,
     service: DATA_DOG_SERVICE,
+    userUuid: accountUuid,
   });
 
   // Add data-location attribute to allow styling specific pages
@@ -171,6 +173,7 @@ export const Form0996App = ({
 Form0996App.propTypes = {
   getContestableIssues: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  accountUuid: PropTypes.string,
   children: PropTypes.any,
   contestableIssues: PropTypes.shape({
     status: PropTypes.string,
@@ -191,6 +194,7 @@ Form0996App.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  accountUuid: state?.user?.profile?.accountUuid,
   loggedIn: isLoggedIn(state),
   formData: state.form?.data || {},
   profile: selectProfile(state),
