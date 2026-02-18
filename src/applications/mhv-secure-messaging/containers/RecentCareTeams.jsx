@@ -179,6 +179,11 @@ const RecentCareTeams = () => {
           value === OTHER_VALUE ? OTHER_VALUE : 'recent care team',
         'select-required': true,
       });
+      datadogRum.addAction('Recent Care Team Selected', {
+        selectLabel: RECENT_RECIPIENTS_LABEL,
+        selectValue: value === OTHER_VALUE ? OTHER_VALUE : 'recent care team',
+        required: true,
+      });
     },
     [recentRecipients, dispatch, ehrDataByVhaId],
   );
