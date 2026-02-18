@@ -54,18 +54,6 @@ export function itfTransformForSubmit(formConfig, form) {
   );
 
   const { formNumber } = getFormContent();
-  // const {
-  //   veteranSsn = {},
-  //   address = {},
-  //   veteranFullName = {},
-  //   veteranDateOfBirth = {},
-  //   claimantFullName = {},
-  //   claimantDateOfBirth,
-  //   claimantSsn,
-  //   vaFileNumber,
-  //   benefitType,
-  //   isVeteran,
-  // } = transformedData;
 
   const {
     veteranSubPage: {
