@@ -105,7 +105,7 @@ describe('Facility VA search', () => {
     cy.get('#facility-search').click();
 
     cy.get('#search-results-subheader').contains(
-      /(Showing|Results).*VA health.*Primary care.*near.*Austin, Texas/i,
+      /(Showing|Results).*VA health.*Primary care.*within.*miles of.*Austin, Texas/i,
     );
     cy.get('.facility-result a').should('exist');
     cy.get('.i-pin-card-map').contains('1');
@@ -130,7 +130,7 @@ describe('Facility VA search', () => {
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').should('exist');
     cy.focused().contains(
-      'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
+      'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" within 68 miles of "Raleigh, North Carolina 27606"',
     );
     cy.get('#other-tools').should('exist');
   });
@@ -204,7 +204,7 @@ describe('Facility VA search', () => {
     selectServiceTypeInVAHealthDropdown('VA emergency care');
     submitSearchForm();
     cy.get('#search-results-subheader').contains(
-      'Results for "Emergency Care", "VA emergency care" near "Austin, Texas"',
+      'Results for "Emergency Care", "VA emergency care" within 139 miles of "Austin, Texas"',
     );
     cy.get('#emergency-care-info-note').should('exist');
     cy.get('.facility-result h3 va-link')
