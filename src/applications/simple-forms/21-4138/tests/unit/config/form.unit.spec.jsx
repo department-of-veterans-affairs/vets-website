@@ -276,8 +276,11 @@ describe('formConfig', () => {
             });
 
             it('should display the page', () => {
-              expect(claimStatusToolPageNonVeteran.depends(formData)).to.be
-              .true;
+              const shouldDisplay = claimStatusToolPageNonVeteran.depends(
+                formData,
+              );
+
+              expect(shouldDisplay).to.be.true;
             });
           });
         });
