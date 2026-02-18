@@ -14,20 +14,21 @@ function swapNames(formData) {
     !parsedFormData.veteranFullName?.first &&
     !parsedFormData.veteranFullName?.last
   ) {
-    transformedValue.veteranFullName = {
-      ...parsedFormData.claimantFullName,
-    };
-    delete transformedValue.claimantFullName;
-  }
-  if (parsedFormData?.veteranFullName) {
     transformedValue.veteranFullName = updateName(
-      parsedFormData.veteranFullName,
-    );
-  }
-  if (parsedFormData?.claimantFullName) {
-    transformedValue.claimantFullName = updateName(
       parsedFormData.claimantFullName,
     );
+    delete transformedValue.claimantFullName;
+  } else {
+    if (parsedFormData?.veteranFullName) {
+      transformedValue.veteranFullName = updateName(
+        parsedFormData.veteranFullName,
+      );
+    }
+    if (parsedFormData?.claimantFullName) {
+      transformedValue.claimantFullName = updateName(
+        parsedFormData.claimantFullName,
+      );
+    }
   }
 
   // Alter fullNameRecipient to recipientName in careExpenses
