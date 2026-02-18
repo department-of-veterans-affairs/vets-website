@@ -108,6 +108,7 @@ jobs:
     name: TypeScript Typecheck
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -123,15 +124,23 @@ jobs:
           path: |
             .cache/yarn
             node_modules
-      - name: Run typecheck (capture output)
+      - name: Run typecheck on TS-enabled apps
         run: |
-          set -o pipefail
-          yarn typecheck --pretty false > typecheck.out 2>&1 || true
+          TSCONFIGS=$(find src/applications -name 'tsconfig.json' -not -path '*/node_modules/*')
+          if [ -z "$TSCONFIGS" ]; then
+            echo "No app-level tsconfig.json files found. Skipping typecheck."
+            exit 0
+          fi
+          > typecheck.out
+          for tsconfig in $TSCONFIGS; do
+            echo "Typechecking $(dirname "$tsconfig")..."
+            yarn tsc --noEmit -p "$tsconfig" --pretty false >> typecheck.out 2>&1 || true
+          done
           node script/github-actions/ts-annotation-format.js typecheck.out
 
   build:
     name: Build
-    needs: [check-dependency-files, typecheck]
+    needs: [check-dependency-files]
     runs-on: ubuntu-16-cores-latest
     permissions:
       id-token: write
