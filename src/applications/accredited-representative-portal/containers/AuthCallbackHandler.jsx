@@ -135,8 +135,7 @@ AuthCallbackHandler.loader = async () => {
   // If we have code and state, process the OAuth callback
   if (code && state) {
     try {
-      // import the handleTokenRequest function dynamically to avoid circular dependencies
-      const { handleTokenRequest } = await import('../../auth/helpers');
+      const { handleTokenRequest } = await import('../utilities/helpers');
 
       // Set state in localStorage for token validation
       localStorage.setItem('logingov_state', state);

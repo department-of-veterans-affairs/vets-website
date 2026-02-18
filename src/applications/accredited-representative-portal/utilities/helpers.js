@@ -1,4 +1,12 @@
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
+import {
+  OAUTH_ERRORS,
+  OAUTH_ERROR_RESPONSES,
+  OAUTH_EVENTS,
+  OAUTH_KEYS,
+} from 'platform/utilities/oauth/constants';
+import { AUTH_ERRORS } from 'platform/user/authentication/errors';
+import { requestToken } from 'platform/utilities/oauth/utilities';
 
 export const paramUpdate = (param, status) => {
   const setSortBy = status === 'processed' ? 'resolved_at' : 'created_at';
@@ -35,3 +43,31 @@ export async function addStyleToShadowDomOnPages(
       }
     });
 }
+
+export const handleTokenRequest = async ({
+  code,
+  state,
+  csp,
+  generateOAuthError,
+}) => {
+  // Verify the state matches in storage
+  if (
+    !localStorage.getItem(OAUTH_KEYS.STATE) ||
+    localStorage.getItem(OAUTH_KEYS.STATE) !== state
+  ) {
+    generateOAuthError({
+      oauthErrorCode: AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode,
+      event: OAUTH_ERRORS.OAUTH_STATE_MISMATCH,
+    });
+  } else {
+    // Matches - requestToken exchange
+    const response = await requestToken({ code, csp });
+
+    if (!response.ok) {
+      const data = await response?.json();
+      const oauthErrorCode = OAUTH_ERROR_RESPONSES[(data?.errors)];
+      const event = OAUTH_EVENTS[(data?.errors)] ?? OAUTH_EVENTS.ERROR_DEFAULT;
+      generateOAuthError({ oauthErrorCode, event });
+    }
+  }
+};
