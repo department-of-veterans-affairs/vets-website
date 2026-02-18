@@ -221,12 +221,12 @@ function AddressAutosuggest({
           isMobile={isMobile}
         />
       }
-      keepDataOnBlur
-      showDownCaret={false}
-      shouldShowNoResults
       showOptionsRestriction={
         !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
       }
+      keepDataOnBlur
+      showDownCaret={false}
+      shouldShowNoResults
       isLoading={isGeocoding}
       loadingMessage="Searching..."
       useProgressiveDisclosure={useProgressiveDisclosure || false}
