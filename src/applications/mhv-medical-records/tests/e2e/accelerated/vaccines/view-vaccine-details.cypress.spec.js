@@ -10,10 +10,7 @@ describe('Medical Records View Vaccine Details', () => {
 
   beforeEach(() => {
     site.login(oracleHealthUser, false);
-    site.mockFeatureToggles({
-      isAcceleratingEnabled: true,
-      isAcceleratingVaccines: true,
-    });
+    site.mockFeatureToggles();
   });
 
   it('Visits Vaccine Details Page', () => {
