@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+} from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -89,9 +95,10 @@ const VitalDetails = props => {
 
   useTrackAction(statsdFrontEndActions.VITALS_DETAILS);
 
-  const dispatchAction = isCurrent => {
-    return getVitals(isCurrent, isCerner, isAcceleratingVitals);
-  };
+  const dispatchAction = useCallback(
+    isCurrent => getVitals(isCurrent, isCerner, isAcceleratingVitals),
+    [isCerner, isAcceleratingVitals],
+  );
 
   useListRefresh({
     listState,
@@ -100,6 +107,7 @@ const VitalDetails = props => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   useEffect(

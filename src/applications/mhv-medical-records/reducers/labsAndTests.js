@@ -40,6 +40,15 @@ const initialState = {
   listState: loadStates.PRE_FETCH,
 
   /**
+   * Whether the current list was populated via a GET_UNIFIED_LIST action.
+   * When true, incoming GET_LIST dispatches (e.g. from Blue Button) will
+   * NOT overwrite updatedList, preventing V1 data from contaminating the
+   * accelerated V2 list.
+   * @type {boolean}
+   */
+  listIsUnified: false,
+
+  /**
    * The list of lab and test results returned from the api
    * @type {Array}
    */
@@ -511,6 +520,7 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
         labsAndTestsList: sortByDate(mergedList),
+        listIsUnified: true,
       };
     }
     case Actions.LabsAndTests.GET_LIST: {
@@ -535,6 +545,15 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         cvixRadiologyTestsList,
       );
       const newList = sortByDate([...labsAndTestsList, ...mergedRadiologyList]);
+
+      // If the list was populated via GET_UNIFIED_LIST, don't let a V1 GET_LIST
+      // (e.g. from Blue Button) overwrite the data via updatedList.
+      if (state.listIsUnified) {
+        return {
+          ...state,
+          listState: loadStates.FETCHED,
+        };
+      }
 
       return {
         ...state,

@@ -15,6 +15,16 @@ const initialState = {
    * PRE_FETCH, FETCHING, FETCHED
    */
   listState: loadStates.PRE_FETCH,
+
+  /**
+   * Whether the current list was populated via a GET_UNIFIED_LIST action.
+   * When true, incoming GET_LIST dispatches (e.g. from Blue Button) will
+   * NOT overwrite updatedList, preventing V1 data from contaminating the
+   * accelerated V2 list.
+   * @type {boolean}
+   */
+  listIsUnified: false,
+
   /**
    * The list of allergies returned from the api
    * @type {Array}
@@ -67,6 +77,15 @@ export const allergyReducer = (state = initialState, action) => {
       };
     }
     case Actions.Allergies.GET_LIST: {
+      // If the list was populated via GET_UNIFIED_LIST, don't let a V1 GET_LIST
+      // (e.g. from Blue Button) overwrite the data via updatedList.
+      if (state.listIsUnified) {
+        return {
+          ...state,
+          listState: loadStates.FETCHED,
+        };
+      }
+
       const oldList = state.allergiesList;
       const newList =
         action?.response?.entry
@@ -130,6 +149,7 @@ export const allergyReducer = (state = initialState, action) => {
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
         allergiesList: newList,
+        listIsUnified: true,
       };
     }
     case Actions.Allergies.GET_UNIFIED_ITEM: {

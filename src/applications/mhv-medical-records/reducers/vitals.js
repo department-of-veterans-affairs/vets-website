@@ -29,6 +29,15 @@ const initialState = {
   listState: loadStates.PRE_FETCH,
 
   /**
+   * Whether the current list was populated via a GET_UNIFIED_LIST action.
+   * When true, incoming GET_LIST dispatches (e.g. from Blue Button) will
+   * NOT overwrite updatedList, preventing V1 data from contaminating the
+   * accelerated V2 list.
+   * @type {boolean}
+   */
+  listIsUnified: false,
+
+  /**
    * The list of vitals returned from the api
    * @type {Array}
    */
@@ -185,6 +194,15 @@ export const vitalReducer = (state = initialState, action) => {
       };
     }
     case Actions.Vitals.GET_LIST: {
+      // If the list was populated via GET_UNIFIED_LIST, don't let a V1 GET_LIST
+      // (e.g. from Blue Button) overwrite the data via updatedList.
+      if (state.listIsUnified) {
+        return {
+          ...state,
+          listState: loadStates.FETCHED,
+        };
+      }
+
       const oldList = state.vitalsList;
       const newList =
         action?.response?.entry
@@ -228,6 +246,7 @@ export const vitalReducer = (state = initialState, action) => {
         listState: loadStates.FETCHED,
         vitalsList: typeof oldList === 'undefined' ? newList : oldList,
         updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+        listIsUnified: true,
       };
     }
     case Actions.Vitals.COPY_UPDATED_LIST: {
