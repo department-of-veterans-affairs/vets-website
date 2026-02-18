@@ -12,8 +12,3 @@ export interface AvsApiResponseData {
 export interface AvsApiResponse {
   data: AvsApiResponseData;
 }
-
-// Loader return type
-export interface AvsLoaderData {
-  avs: AvsData;
-}
