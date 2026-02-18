@@ -56,10 +56,6 @@ export const isNewCondition = (formData = {}, index) => {
     return false;
   }
 
-  if (rd === NEW_CONDITION_OPTION) {
-    return true;
-  }
-
   return true;
 };
 
