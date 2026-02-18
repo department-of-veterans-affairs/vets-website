@@ -1,20 +1,21 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
+import { useTranslation } from 'react-i18next';
 import RouterVaLink from './RouterVaLink';
 import { LINK_REGISTRY } from '../../../debt-letters/const/linkRegistry';
-import { tCdp } from '../../utils/helpers';
 import {
   linkItemPropTypes,
   cardLinksPropTypes,
 } from './prop-types/CommonPropTypes';
 
 const LinkItem = ({ id, index, type, view, data }) => {
+  const { t } = useTranslation();
   const linkDef = LINK_REGISTRY[id];
   const href =
     typeof linkDef.href === 'function'
       ? linkDef.href({ refId: data.id })
       : linkDef.href;
-  const text = tCdp(linkDef.textKey);
+  const text = t(linkDef.textKey);
   const linkType = view === 'details' ? 'secondary' : undefined;
 
   return (
