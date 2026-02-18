@@ -319,7 +319,7 @@ export default function RenderErrorContainer({
     // 113 - Personal Information Mismatch
     case AUTH_ERRORS.SSN_ATTRIBUTE_MISMATCH.errorCode:
       alertContent = (
-        <p className="vads-u-margin-top--0">
+        <p>
           There’s a temporary issue in our system. We’re working to fix it as
           soon as possible.
         </p>
