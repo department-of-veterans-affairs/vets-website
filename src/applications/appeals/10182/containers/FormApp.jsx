@@ -22,6 +22,7 @@ import {
 import { isOutsideForm } from '../../shared/utils/helpers';
 
 export const FormApp = ({
+  accountUuid,
   isLoading,
   loggedIn,
   location,
@@ -120,6 +121,7 @@ export const FormApp = ({
     applicationId: DATA_DOG_ID,
     clientToken: DATA_DOG_TOKEN,
     service: DATA_DOG_SERVICE,
+    userUuid: accountUuid,
   });
 
   return wrapWithBreadcrumb(
@@ -131,6 +133,7 @@ export const FormApp = ({
 };
 
 FormApp.propTypes = {
+  accountUuid: PropTypes.string,
   children: PropTypes.object,
   contestableIssues: PropTypes.shape({
     issues: PropTypes.array,
@@ -156,6 +159,7 @@ FormApp.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  accountUuid: state?.user?.profile?.accountUuid,
   formData: state.form?.data || {},
   contestableIssues: state.contestableIssues,
   isLoading: state.featureToggles?.loading,
