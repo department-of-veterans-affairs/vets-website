@@ -14,7 +14,7 @@ import { form0781WorkflowChoices } from '../../content/form0781/workflowChoices'
 export default {
   uiSchema: {
     'ui:title': titleWithTag(workflowChoicePageTitle, form0781HeadingTag),
-    'ui:description': ({ formData }) => workflowChoicePageDescription(formData),
+    'ui:description': () => workflowChoicePageDescription(),
     mentalHealthWorkflowChoice: radioUI({
       title: form0781WorkflowChoiceDescription,
       labelHeaderLevel: '4',

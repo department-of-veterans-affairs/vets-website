@@ -306,6 +306,12 @@ const SelectCareTeam = () => {
           version:
             allFacilities.length < MAX_RADIO_OPTIONS ? 'radio' : 'dropdown',
         });
+        datadogRum.addAction('SM VA Health Systems Displayed', {
+          status: 'successful',
+          healthSystemsCount: allFacilities.length,
+          version:
+            allFacilities.length < MAX_RADIO_OPTIONS ? 'radio' : 'dropdown',
+        });
       } else if (allFacilities?.length === 0) {
         recordEvent({
           event: 'api_call',
@@ -313,6 +319,11 @@ const SelectCareTeam = () => {
           'api-status': 'fail',
           'health-systems-count': 0,
           'error-key': 'no-health-systems',
+        });
+        datadogRum.addAction('SM VA Health Systems Displayed', {
+          status: 'fail',
+          healthSystemsCount: 0,
+          errorKey: 'no-health-systems',
         });
       }
     },
@@ -327,6 +338,9 @@ const SelectCareTeam = () => {
           recordEvent({
             event: 'int-text-input-search',
             'text-input-label': 'Select a care team',
+          });
+          datadogRum.addAction('Care Team Search Input', {
+            inputLabel: 'Select a care team',
           });
         }, 500);
         return () => clearTimeout(debounceTimer);
@@ -354,6 +368,7 @@ const SelectCareTeam = () => {
     },
     [draftInProgress.careSystemVhaId, allowedRecipients],
   );
+  // alert('Care teams list effect ran', careTeamsList);
 
   // if there is only one care system, set it as the draftInProgress care system
   // this is to prevent the user from having to select a care system

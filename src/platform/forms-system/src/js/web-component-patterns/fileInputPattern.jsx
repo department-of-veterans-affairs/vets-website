@@ -1,6 +1,7 @@
 import React from 'react';
 import { isEmpty } from 'lodash';
 import { VaFileInputField } from '../web-component-fields';
+import { validateAdditionalInputLabels } from '../web-component-fields/vaFileInputFieldHelpers';
 import navigationState from '../utilities/navigation/navigationState';
 import errorStates from '../utilities/file/passwordErrorState';
 import {
@@ -34,7 +35,10 @@ import {
  *   disallowEncryptedPdfs: true, // set to true to prohibit upload of encrypted pdfs
  *   formNumber: '20-10206', // required for upload
  *   additionalInputRequired: true, // user must supply additional input
- *   additionalInput: (error, data) => {
+ *   additionalInputLabels: {            // explicit labels for review page
+ *     documentStatus: { public: 'Public', private: 'Private' },
+ *   },
+ *   additionalInput: (error, data, labels) => {
  *     const { documentStatus } = data;
  *     return (
  *       <VaSelect
@@ -43,14 +47,15 @@ import {
  *         value={documentStatus}
  *         label="Document status"
  *       >
- *         <option value="public">Public</option>
- *         <option value="private">Private</option>
+ *         {Object.entries(labels.documentStatus).map(([value, label]) => (
+ *           <option key={value} value={value}>{label}</option>
+ *         ))}
  *       </VaSelect>
  *     );
  *   },
  *   handleAdditionalInput: (e) => {    // handle optional additional input
  *     return { documentStatus: e.detail.value }
- *   }
+ *   },
  * })
  * ```
  *
@@ -90,8 +95,9 @@ import {
  * @param {number} [options.maxFileSize] - maximum allowed file size in bytes
  * @param {number} [options.minFileSize] - minimum allowed file size in bytes
  * @param {boolean} [options.additionalInputRequired] - is additional information required
- * @param {((error:any, data:any) => React.ReactNode) } [options.additionalInput] - renders the additional information
+ * @param {(error: any, data: any, labels?: Record<string, Record<string, string>>) => React.ReactNode} [options.additionalInput] - renders the additional information. Receives `additionalInputLabels` as an optional 3rd argument.
  * @param {(e: CustomEvent) => {[key: string]: any}} [options.handleAdditionalInput] - function to handle event payload from additional info
+ * @param {Record<string, Record<string, string>>} [options.additionalInputLabels] - explicit value-to-label mapping for additional input fields on the review page, e.g. `{ documentStatus: { public: 'Public', private: 'Private' } }`. Falls back to DOM querying if not provided.
  * @param {string} [options.fileUploadUrl] - url to which file will be uploaded
  * @param {string} [options.formNumber] - the form's number
  * @param {boolean} [options.skipUpload] - skip attempt to upload in dev when there is no backend
@@ -121,6 +127,8 @@ export const fileInputUI = options => {
       the schema as well.`,
     );
   }
+
+  validateAdditionalInputLabels('fileInputUI', uiOptions.additionalInputLabels);
 
   return {
     'ui:title': title,
@@ -187,7 +195,9 @@ export const fileInputUI = options => {
                       .replace(/^./, s => s.toUpperCase())
                       .trim()}
                   </dt>
-                  <dd>{value}</dd>
+                  <dd>
+                    {uiOptions.additionalInputLabels?.[key]?.[value] || value}
+                  </dd>
                 </div>
               ))}
           </>
@@ -215,7 +225,7 @@ export const fileInputUI = options => {
                     .replace(/^./, s => s.toUpperCase())
                     .trim()}
                 </span>
-                : {value}
+                : {uiOptions.additionalInputLabels?.[key]?.[value] || value}
               </li>
             ))}
           </ul>
