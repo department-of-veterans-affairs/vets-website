@@ -345,7 +345,7 @@ This document was created to help front-end developers understand the prescripti
 | `rxRfRecords` | `rx_rf_records` | `rxRFRecords` | none | File 52.1 / 52.2 | Nested refill/partial fill records; detail endpoint only |
 | `tracking` (not in use) | `tracking` | `tracking` | `isTracking` | Computed | Jackson serializes `isTracking()` as `tracking`; `true` when ≥1 tracking record exists. Detail endpoint only |
 
-> **VistA/FileMan notation**: `52,1` = File 52 (PRESCRIPTION), Field 1. `52,4 → 200` = pointer from File 52 Field 4 to File 200 (NEW PERSON). `52.1` = Refill subfile. `52.2` = Partial Fill subfile. `52.43` = Internet Refill queue. `55.05` = Non-VA Meds subfile. `550.2` = CMOP data. RDT[n] = position in the HL7 RTB^K13 response (see MHV Pharmacy HL7 Extract Medications 2 Spec v3).
+> **VistA/FileMan notation**: `52,1` = File 52 (PRESCRIPTION), Field 1. `52,4 → 200` = pointer from File 52 Field 4 to File 200 (NEW PERSON). `52.1` = Refill subfile. `52.2` = Partial Fill subfile. `52.43` = Internet Refill queue. `55.05` = Non-VA Meds subfile. `550.2` = CMOP data. RDT[n] = position in the HL7 **R**ow **D**efinition **T**able segment of the RTB^K13 (Return Table) response — the HL7 message VistA sends to MHV containing tabular prescription data (see MHV Pharmacy HL7 Extract Medications 2 Spec v3).
 
 ##### ⚠️ Misleading Field Names
 
