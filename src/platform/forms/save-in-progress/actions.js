@@ -1,4 +1,5 @@
-import * as Sentry from '@sentry/browser';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { dataDogLogger } from '../../monitoring/Datadog/utilities';
 
 import recordEvent from '../../monitoring/record-event';
 import { logOut } from '../../user/authentication/actions';
@@ -69,8 +70,15 @@ const validateFetchInProgressFormsErrors = status => {
 
   // check errors
   if (status instanceof Error) {
-    Sentry.captureException(status);
-    Sentry.captureMessage('vets_sip_error_fetch');
+    if (environment.isLocalhost()) {
+      // eslint-disable-next-line no-console
+      console.warn('SiP fetch error:', status);
+    }
+    dataDogLogger({
+      message: 'vets_sip_error_fetch',
+      status: 'error',
+      error: status,
+    });
     return LOAD_STATUSES.failure;
   }
 
@@ -94,16 +102,19 @@ const validateSaveInProgressErrors = (status, trackingPrefix) => {
   }
 
   if (status instanceof Error) {
-    Sentry.captureException(status);
-    Sentry.captureMessage('vets_sip_error_save');
+    if (environment.isLocalhost()) {
+      // eslint-disable-next-line no-console
+      console.warn('SiP save error:', status);
+    }
+    dataDogLogger({
+      message: 'vets_sip_error_save',
+      status: 'error',
+      error: status,
+    });
     recordEvent({ event: `${trackingPrefix}sip-form-save-failed` });
     return SAVE_STATUSES.clientFailure;
   }
 
-  Sentry.captureException(status);
-  Sentry.withScope(() => {
-    Sentry.captureMessage('vets_sip_error_save');
-  });
   recordEvent({
     event: `${trackingPrefix}sip-form-save-failed-client`,
   });
@@ -374,12 +385,15 @@ export function fetchInProgressForm(
 
           return Promise.resolve();
         } catch (e) {
-          // We don’t want to lose the stacktrace, but want to be able to search for migration errors
-          // related to SiP
-          Sentry.captureException(e);
-          Sentry.withScope(scope => {
-            scope.setExtra('metadata', resBody.metadata);
-            Sentry.captureMessage('vets_sip_error_migration');
+          if (environment.isLocalhost()) {
+            // eslint-disable-next-line no-console
+            console.warn('SiP migration/prefill error:', e);
+          }
+          dataDogLogger({
+            message: 'vets_sip_error_migration',
+            status: 'error',
+            error: e,
+            attributes: { metadata: resBody.metadata },
           });
           return Promise.reject(LOAD_STATUSES.invalidData);
         }
@@ -407,7 +421,10 @@ export function fetchInProgressForm(
             });
             dispatch(logOut());
           } else {
-            Sentry.captureMessage(`vets_sip_error_load: ${loadedStatus}`);
+            dataDogLogger({
+              message: `vets_sip_error_load: ${loadedStatus}`,
+              status: 'error',
+            });
             recordEvent({
               event: `${trackingPrefix}sip-form-load-failed`,
             });
@@ -422,7 +439,7 @@ export function removeInProgressForm(formId, migrations, prefillTransformer) {
   return (dispatch, getState) => {
     const { trackingPrefix } = getState().form;
 
-    // Update UI while we’re waiting for the API
+    // Update UI while we're waiting for the API
     dispatch(setStartOver());
 
     return removeFormApi(formId)
