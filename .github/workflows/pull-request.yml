@@ -422,8 +422,8 @@ jobs:
 
       - name: Annotate ESLint results for all files if eslint or prettier config has been modified
         if: >-
-          contains(steps.get-files-changed.outputs.files, '.eslintrc.js') ||
-          contains(steps.get-files-changed.outputs.files, '.prettierrc')
+          contains(steps.get-files-changed.outputs.changed_files, '.eslintrc.js') ||
+          contains(steps.get-files-changed.outputs.changed_files, '.prettierrc')
         run: yarn run eslint --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js .
 
       - name: Annotate ESLint results for modified files
