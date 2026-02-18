@@ -323,12 +323,13 @@ const ExpensePage = () => {
         );
         if (validationResult.isValid) {
           delete nextErrors.purchaseDate;
-        } else if (hasExistingError && validationResult.purchaseDate) {
-          // Update error message if field already has an error
+        } else if (
+          validationResult.purchaseDate &&
+          (isCompleteDate || hasExistingError)
+        ) {
           nextErrors.purchaseDate = validationResult.purchaseDate;
         }
       }
-
       if (name === 'description') {
         const validationResult = validateDescription(
           value,

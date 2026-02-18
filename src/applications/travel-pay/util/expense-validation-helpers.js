@@ -22,7 +22,7 @@ export const DATE_VALIDATION_TYPE = Object.freeze({
  * Centralized to ensure consistency and ease of maintenance.
  */
 export const VALIDATION_ERROR_MESSAGES = Object.freeze({
-  INCOMPLETE_DATE: 'Please provide a complete date',
+  INCOMPLETE_DATE: 'Please enter a complete date',
 });
 
 /**
@@ -225,7 +225,6 @@ export const validateReceiptDate = (dateInput, type) => {
   if (type === DATE_VALIDATION_TYPE.SUBMIT && isAllEmpty) {
     error = 'Enter the date on your receipt';
   } else if (hasAnyValue && !isComplete) {
-    // Incomplete date: some fields filled but not all
     error = VALIDATION_ERROR_MESSAGES.INCOMPLETE_DATE;
   } else if (isComplete) {
     error = getFutureDateError({ year, month, day });
