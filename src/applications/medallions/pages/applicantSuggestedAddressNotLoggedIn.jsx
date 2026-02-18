@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import set from 'platform/utilities/data/set';
 import AddressConfirmation from '../components/AddressConfirmation';
 import SuggestedAddressRadio from '../components/SuggestedAddressRadio';
@@ -9,8 +8,9 @@ import { fetchSuggestedAddress } from '../utils/helpers';
 
 function ApplicantSuggestedAddressNotLoggedIn({
   data,
-  goToPath,
   goBack,
+  goForward,
+  NavButtons,
   contentBeforeButtons,
   contentAfterButtons,
 }) {
@@ -79,16 +79,6 @@ function ApplicantSuggestedAddressNotLoggedIn({
     dispatch(setData(updatedFormData));
   };
 
-  const handleBack = () => {
-    // Use goBack to go to previous page
-    if (goBack) {
-      goBack();
-    } else {
-      // Fallback to mailing address page
-      goToPath('/applicant-mailing-address');
-    }
-  };
-
   if (isLoading) {
     return (
       <va-loading-indicator label="Loading" message="Loading..." set-focus />
@@ -105,7 +95,7 @@ function ApplicantSuggestedAddressNotLoggedIn({
         onChangeSelectedAddress={onChangeSelectedAddress}
       />
       {contentBeforeButtons}
-      <FormNavButtons goBack={handleBack} />
+      {NavButtons && <NavButtons goBack={goBack} goForward={goForward} />}
       {contentAfterButtons}
     </div>
   ) : (
@@ -115,7 +105,7 @@ function ApplicantSuggestedAddressNotLoggedIn({
         userAddress={userAddress}
       />
       {contentBeforeButtons}
-      <FormNavButtons goBack={handleBack} />
+      {NavButtons && <NavButtons goBack={goBack} goForward={goForward} />}
       {contentAfterButtons}
     </div>
   );
