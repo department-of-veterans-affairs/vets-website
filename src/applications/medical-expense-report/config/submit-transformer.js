@@ -1,9 +1,10 @@
 import { format } from 'date-fns-tz';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { updateName } from '../utils/transformHelpers';
 
 function swapNames(formData) {
   const parsedFormData = JSON.parse(formData);
-  const transformedValue = parsedFormData;
+  const transformedValue = { ...parsedFormData };
 
   // Swap claimant and veteran names if claimant is veteran
   if (
@@ -13,25 +14,19 @@ function swapNames(formData) {
     !parsedFormData.veteranFullName?.first &&
     !parsedFormData.veteranFullName?.last
   ) {
-    transformedValue.veteranFullName = {};
-    transformedValue.veteranFullName.first =
-      parsedFormData.claimantFullName?.first;
-    transformedValue.veteranFullName.middle =
-      parsedFormData.claimantFullName?.middle;
-    transformedValue.veteranFullName.last =
-      parsedFormData.claimantFullName?.last;
-    transformedValue.veteranFullName.suffix =
-      parsedFormData.claimantFullName?.suffix;
+    transformedValue.veteranFullName = {
+      ...parsedFormData.claimantFullName,
+    };
     delete transformedValue.claimantFullName;
   }
-  if (parsedFormData?.veteranFullName?.middle) {
-    transformedValue.veteranFullName.middle = parsedFormData?.veteranFullName?.middle.charAt(
-      0,
+  if (parsedFormData?.veteranFullName) {
+    transformedValue.veteranFullName = updateName(
+      parsedFormData.veteranFullName,
     );
   }
-  if (parsedFormData?.claimantFullName?.middle) {
-    transformedValue.claimantFullName.middle = parsedFormData?.claimantFullName?.middle.charAt(
-      0,
+  if (parsedFormData?.claimantFullName) {
+    transformedValue.claimantFullName = updateName(
+      parsedFormData.claimantFullName,
     );
   }
 
