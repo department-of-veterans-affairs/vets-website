@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
 import { render } from '@testing-library/react';
 
 import ReviewFieldTemplate from '../../../src/js/review/ReviewFieldTemplate';
@@ -206,7 +205,7 @@ describe('Schemaform ReviewFieldTemplate', () => {
       'ui:title': 'Label',
       'ui:reviewWidget': () => <span />,
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ReviewFieldTemplate
         schema={schema}
         uiSchema={uiSchema}
@@ -216,7 +215,7 @@ describe('Schemaform ReviewFieldTemplate', () => {
       </ReviewFieldTemplate>,
     );
 
-    expect(tree.everySubTree('.review-row')).to.be.empty;
+    expect(container.querySelectorAll('.review-row').length).to.equal(0);
   });
 
   it('should ignore hideEmptyValueInReview when filterEmptyFields is false', () => {
@@ -228,7 +227,7 @@ describe('Schemaform ReviewFieldTemplate', () => {
         hideEmptyValueInReview: true,
       },
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ReviewFieldTemplate
         schema={schema}
         uiSchema={uiSchema}
@@ -238,6 +237,6 @@ describe('Schemaform ReviewFieldTemplate', () => {
       </ReviewFieldTemplate>,
     );
 
-    expect(tree.everySubTree('.review-row')).to.not.be.empty;
+    expect(container.querySelectorAll('.review-row').length).to.not.equal(0);
   });
 });
