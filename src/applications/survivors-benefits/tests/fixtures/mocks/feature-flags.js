@@ -7,4 +7,8 @@ module.exports = [
     name: 'survivorsBenefitsFormEnabled',
     value: true,
   },
+  {
+    name: 'survivors_benefits_idp',
+    value: false,
+  },
 ];
