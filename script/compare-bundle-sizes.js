@@ -68,17 +68,21 @@ function collectComparisonData(oldDir, newDir, entryNames) {
     allNewFiles.filter(f => isGeneratedEntryFile(f, entryNames)),
   );
 
-  const commonFiles = oldFiles.filter(f => newFilesSet.has(f));
+  const commonFiles = oldFiles
+    .filter(f => newFilesSet.has(f))
+    .filter(f => !f.endsWith('.map'));
   const comparisons = [];
 
   for (const relPath of commonFiles) {
-    if (relPath.endsWith('.map')) continue;
-
     const oldSize = fs.statSync(path.join(oldGenDir, relPath)).size;
     const newSize = fs.statSync(path.join(newGenDir, relPath)).size;
 
-    const pctChange =
-      oldSize === 0 ? (newSize === 0 ? 0 : 100) : ((newSize - oldSize) / oldSize) * 100;
+    let pctChange;
+    if (oldSize === 0) {
+      pctChange = newSize === 0 ? 0 : 100;
+    } else {
+      pctChange = ((newSize - oldSize) / oldSize) * 100;
+    }
 
     comparisons.push({
       filename: relPath,
@@ -106,9 +110,13 @@ function generateMarkdownTable(comparisons) {
   const rows = comparisons.map(row => {
     const escapedName = row.filename.replace(/\|/g, '&#124;');
     const pctStr =
-      row.pctChange >= 0 ? `+${row.pctChange.toFixed(1)}%` : `${row.pctChange.toFixed(1)}%`;
+      row.pctChange >= 0
+        ? `+${row.pctChange.toFixed(1)}%`
+        : `${row.pctChange.toFixed(1)}%`;
     const diffStr =
-      row.sizeDiff >= 0 ? `+${formatBytes(row.sizeDiff)}` : formatBytes(row.sizeDiff);
+      row.sizeDiff >= 0
+        ? `+${formatBytes(row.sizeDiff)}`
+        : formatBytes(row.sizeDiff);
     return {
       filename: escapedName,
       oldSize: formatBytes(row.oldSize),
@@ -128,27 +136,45 @@ function generateMarkdownTable(comparisons) {
 
   const sep = w => '-'.repeat(w + 2);
   const header = [
-    `| ${pad('Filename', colWidths.filename)} | ${pad('Old Size', colWidths.oldSize)} | ${pad('New Size', colWidths.newSize)} | ${pad('Diff', colWidths.diff)} | ${pad('% Change', colWidths.pct)} |`,
-    `|${sep(colWidths.filename)}|${sep(colWidths.oldSize)}|${sep(colWidths.newSize)}|${sep(colWidths.diff)}|${sep(colWidths.pct)}|`,
+    `| ${pad('Filename', colWidths.filename)} | ${pad(
+      'Old Size',
+      colWidths.oldSize,
+    )} | ${pad('New Size', colWidths.newSize)} | ${pad(
+      'Diff',
+      colWidths.diff,
+    )} | ${pad('% Change', colWidths.pct)} |`,
+    `|${sep(colWidths.filename)}|${sep(colWidths.oldSize)}|${sep(
+      colWidths.newSize,
+    )}|${sep(colWidths.diff)}|${sep(colWidths.pct)}|`,
   ];
 
   const body = rows.map(
     r =>
-      `| ${pad(r.filename, colWidths.filename)} | ${pad(r.oldSize, colWidths.oldSize)} | ${pad(r.newSize, colWidths.newSize)} | ${pad(r.diff, colWidths.diff)} | ${pad(r.pct, colWidths.pct)} |`,
+      `| ${pad(r.filename, colWidths.filename)} | ${pad(
+        r.oldSize,
+        colWidths.oldSize,
+      )} | ${pad(r.newSize, colWidths.newSize)} | ${pad(
+        r.diff,
+        colWidths.diff,
+      )} | ${pad(r.pct, colWidths.pct)} |`,
   );
 
   return [...header, ...body].join('\n');
 }
 
 function generateCSV(comparisons) {
-  const lines = ['Filename,Old Size (bytes),New Size (bytes),Size Diff,% Change'];
+  const lines = [
+    'Filename,Old Size (bytes),New Size (bytes),Size Diff,% Change',
+  ];
 
   for (const row of comparisons) {
     const escapedName = row.filename.includes(',')
       ? `"${row.filename.replace(/"/g, '""')}"`
       : row.filename;
     const pctStr =
-      row.pctChange >= 0 ? `+${row.pctChange.toFixed(1)}` : row.pctChange.toFixed(1);
+      row.pctChange >= 0
+        ? `+${row.pctChange.toFixed(1)}`
+        : row.pctChange.toFixed(1);
     lines.push(
       `${escapedName},${row.oldSize},${row.newSize},${row.sizeDiff},${pctStr}%`,
     );
@@ -193,7 +219,9 @@ function main() {
   );
 
   if (comparisons === null) {
-    console.error('Error: generated/ directory missing from one or both builds');
+    console.error(
+      'Error: generated/ directory missing from one or both builds',
+    );
     process.exit(1);
   }
 
