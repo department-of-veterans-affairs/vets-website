@@ -10,6 +10,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../containers/GetFormHelp';
 import prefillTransformer from './prefill-transformer';
+import transformForSubmit from './transformForSubmit';
 
 import veteranName from '../pages/veteranName';
 import veteranInfo1 from '../pages/veteranInfo1';
@@ -56,6 +57,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'memorials-1330m',
+  transformForSubmit,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   dev: {
