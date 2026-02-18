@@ -31,7 +31,8 @@ function getManifestEntryNames() {
 
 function isGeneratedEntryFile(relPath, entryNames) {
   const basename = path.basename(relPath);
-  if (!basename.includes('.entry.')) return false;
+  // Only include true .entry.js files, not .entry.js.LICENSE.txt or other variants
+  if (!basename.endsWith('.entry.js')) return false;
   if (entryNames.length === 0) return true;
   return entryNames.some(name => basename.startsWith(`${name}.entry.`));
 }
