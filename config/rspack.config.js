@@ -126,6 +126,34 @@ async function getScaffoldAssets() {
 // before Rspack runs, so no HtmlPlugin is needed here.
 const generateScaffoldHtml = require('../script/generate-scaffold-html');
 
+/** Plugin to write BUILD.txt for CI/deploy compatibility (matches webpack build output) */
+class BuildTxtPlugin {
+  constructor(buildPath, buildtype) {
+    this.buildPath = buildPath;
+    this.buildtype = buildtype;
+  }
+
+  apply(compiler) {
+    compiler.hooks.afterEmit.tapAsync(
+      'BuildTxtPlugin',
+      (_compilation, callback) => {
+        const content = [
+          `BUILDTYPE=${this.buildtype}`,
+          `NODE_ENV=${process.env.NODE_ENV || 'production'}`,
+          `BRANCH_NAME=${process.env.BRANCH_NAME || 'local'}`,
+          'CHANGE_TARGET=null',
+          `RUN_ID=${process.env.GITHUB_RUN_ID || 'local'}`,
+          `RUN_NUMBER=${process.env.GITHUB_RUN_NUMBER || '0'}`,
+          `REF=${process.env.GITHUB_SHA || 'local'}`,
+          `BUILDTIME=${Math.floor(Date.now() / 1000)}`,
+        ].join('\n');
+        fs.writeFileSync(path.join(this.buildPath, 'BUILD.txt'), content);
+        callback();
+      },
+    );
+  }
+}
+
 module.exports = async (env = {}) => {
   const { buildtype = LOCALHOST } = env;
   const buildOptions = {
@@ -144,6 +172,10 @@ module.exports = async (env = {}) => {
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = { ...apps, ...globalEntryFiles };
   const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
+  // Enable scaffold for production builds to match webpack output (HTML files)
+  if (isOptimizedBuild) {
+    buildOptions.scaffold = true;
+  }
   const scaffoldAssets = await getScaffoldAssets();
   const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
   const envBucketUrl = BUCKETS[buildtype];
@@ -391,6 +423,7 @@ module.exports = async (env = {}) => {
       moduleIds: 'named',
       minimizer: [
         new rspack.SwcJsMinimizerRspackPlugin({
+          extractComments: true,
           minimizerOptions: {
             compress: true,
             mangle: true,
@@ -476,6 +509,8 @@ module.exports = async (env = {}) => {
       }),
 
       new WebpackBar(),
+
+      ...(isOptimizedBuild ? [new BuildTxtPlugin(buildPath, buildtype)] : []),
     ],
     devServer: generateWebpackDevConfig(buildOptions),
   };
