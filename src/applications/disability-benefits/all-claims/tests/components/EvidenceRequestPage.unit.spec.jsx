@@ -119,6 +119,44 @@ describe('EvidenceRequestPage', () => {
     });
   });
 
+  it('should display the private treatment centers and private medical records with records on the bottom in modal when the user choose No but provided treatment centers and private medical records previously and clicks continue', async () => {
+    const data = {
+      'view:hasMedicalRecords': false,
+      'view:selectableEvidenceTypes': {
+        'view:hasPrivateMedicalRecords': true,
+      },
+      providerFacility: [
+        { providerFacilityName: 'Private Clinic 1' },
+        { providerFacilityName: 'Private Clinic 2' },
+      ],
+      privateMedicalRecordAttachments: [
+        { name: 'record1.pdf' },
+        { name: 'record2.pdf' },
+      ],
+    };
+
+    const { container } = render(page({ data }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+
+      const lists = modal.querySelectorAll('ul');
+      expect(lists.length).to.equal(2);
+
+      const facilityItems = lists[0].querySelectorAll('li');
+      const facilityTexts = Array.from(facilityItems).map(li => li.textContent);
+      expect(facilityTexts).to.include('Private Clinic 1');
+      expect(facilityTexts).to.include('Private Clinic 2');
+
+      const recordItems = lists[1].querySelectorAll('li');
+      const recordTexts = Array.from(recordItems).map(li => li.textContent);
+      expect(recordTexts).to.include('record1.pdf');
+      expect(recordTexts).to.include('record2.pdf');
+    });
+  });
+
   it('should limit displayed facilities to maxDisplayedItems', async () => {
     const data = {
       'view:hasMedicalRecords': false,

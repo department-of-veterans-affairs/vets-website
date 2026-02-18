@@ -180,6 +180,24 @@ async function generateScaffoldHtml(options = {}) {
   let appRegistry = [];
   if (fs.existsSync(registryPath)) {
     appRegistry = JSON.parse(fs.readFileSync(registryPath, 'utf8'));
+  } else {
+    // Fetch remotely when content-build is not available (e.g. CI)
+    const fetch = require('node-fetch');
+    const remoteUrl =
+      'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/main/src/applications/registry.json';
+    // eslint-disable-next-line no-console
+    console.log(`Downloading registry.json from ${remoteUrl}`);
+    const response = await fetch(remoteUrl);
+    if (response.ok) {
+      appRegistry = await response.json();
+    } else {
+      // eslint-disable-next-line no-console
+      console.error(
+        `Failed to fetch registry.json: ${response.status} ${
+          response.statusText
+        }`,
+      );
+    }
   }
 
   // Read EJS templates as strings to pass to workers
