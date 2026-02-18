@@ -42,14 +42,28 @@ function getManifestEntryNames() {
 
 /**
  * Returns true if a relative path under generated/ matches the {entryName}.entry.*
- * pattern for any entry name from the manifest catalog. When entryNames is empty
- * (e.g. manifest not found), matches any *.entry.* filename as fallback.
+ * pattern for any entry name from the manifest catalog. Also matches {entryName}.css
+ * and {entryName}.css.map, since webpack/rspack emit CSS without the .entry. infix.
+ * When entryNames is empty (e.g. manifest not found), matches any *.entry.* or
+ * *.css / *.css.map filename as fallback.
  */
 function isGeneratedEntryFile(relPath, entryNames) {
   const basename = path.basename(relPath);
-  if (!basename.includes('.entry.')) return false;
+  const hasEntryInfix = basename.includes('.entry.');
+  const isEntryCss =
+    basename.endsWith('.css') && !basename.endsWith('.css.map');
+  const isEntryCssMap = basename.endsWith('.css.map');
+  if (!hasEntryInfix && !isEntryCss && !isEntryCssMap) return false;
   if (entryNames.length === 0) return true; // fallback when manifest unavailable
-  return entryNames.some(name => basename.startsWith(`${name}.entry.`));
+  return entryNames.some(name => {
+    const prefix = `${name}.`;
+    if (!basename.startsWith(prefix)) return false;
+    return (
+      basename.startsWith(`${name}.entry.`) ||
+      basename === `${name}.css` ||
+      basename === `${name}.css.map`
+    );
+  });
 }
 
 /**
@@ -169,10 +183,18 @@ async function checkGeneratedEntryFilesByExtension(
     allNewFiles.filter(f => isGeneratedEntryFile(f, entryNames)),
   );
 
+  // Extension for grouping: treat .js.map and .css.map as distinct from plain .map
+  const getGroupingExt = f => {
+    const base = path.basename(f);
+    if (base.endsWith('.css.map')) return '.css.map';
+    if (base.endsWith('.js.map')) return '.js.map';
+    return path.extname(f) || '(no ext)';
+  };
+
   // Group old entry files by extension
   const byExtension = new Map();
   for (const f of oldEntryFiles) {
-    const ext = path.extname(f) || '(no ext)';
+    const ext = getGroupingExt(f);
     if (!byExtension.has(ext)) {
       byExtension.set(ext, []);
     }
@@ -185,7 +207,7 @@ async function checkGeneratedEntryFilesByExtension(
       ext === '(no ext)' ? 'no ext' : ext.slice(1)
     })`;
     const newPathsWithExt = [...newEntryFilesSet].filter(
-      f => (path.extname(f) || '(no ext)') === ext,
+      f => getGroupingExt(f) === ext,
     );
     const newPathsSet = new Set(newPathsWithExt);
 
