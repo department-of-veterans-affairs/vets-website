@@ -280,6 +280,9 @@ describe('test wrapper', () => {
   describe('fetchAndUpdateSessionExpiration', () => {
     let checkAndUpdateSSOSessionMock;
     let checkOrSetSessionExpirationMock;
+    let infoTokenExistsMock;
+    let refreshIfAccessTokenExpiringSoonMock;
+
     beforeEach(() => {
       checkAndUpdateSSOSessionMock = sinon.stub(
         ssoModule,
@@ -289,12 +292,34 @@ describe('test wrapper', () => {
         oauthModule,
         'checkOrSetSessionExpiration',
       );
+      infoTokenExistsMock = sinon
+        .stub(oauthModule, 'infoTokenExists')
+        .returns(false);
+      refreshIfAccessTokenExpiringSoonMock = sinon
+        .stub(oauthModule, 'refreshIfAccessTokenExpiringSoon')
+        .resolves(false);
+
+      sessionStorage.setItem('serviceName', 'logingov');
+
+      delete window.Mocha;
+
+      server.use(
+        rest.get(environment.API_URL, (req, res, ctx) =>
+          res(ctx.status(200), ctx.json({ ok: true })),
+        ),
+      );
     });
 
     afterEach(() => {
       server.resetHandlers();
       checkOrSetSessionExpirationMock.restore();
       checkAndUpdateSSOSessionMock.restore();
+      infoTokenExistsMock.restore();
+      refreshIfAccessTokenExpiringSoonMock.restore();
+
+      sessionStorage.removeItem('serviceName');
+
+      delete window.Mocha;
     });
 
     it('calls checkOrSetSessionExpiration and checkAndUpdateSSOSession if the hasSessionSSO flag is set', async () => {
@@ -322,6 +347,74 @@ describe('test wrapper', () => {
       await fetchAndUpdateSessionExpiration(environment.BASE_URL, {});
       expect(checkOrSetSessionExpirationMock.callCount).to.equal(0);
       expect(checkAndUpdateSSOSessionMock.callCount).to.equal(0);
+    });
+
+    it('proactively attempts refresh before fetch when info token exists and serviceName is set', async () => {
+      const callOrder = [];
+
+      infoTokenExistsMock.restore();
+      infoTokenExistsMock = sinon
+        .stub(oauthModule, 'infoTokenExists')
+        .callsFake(() => {
+          callOrder.push('infoTokenExists');
+          return true;
+        });
+
+      refreshIfAccessTokenExpiringSoonMock.restore();
+      refreshIfAccessTokenExpiringSoonMock = sinon
+        .stub(oauthModule, 'refreshIfAccessTokenExpiringSoon')
+        .callsFake(async () => {
+          callOrder.push('refreshIfAccessTokenExpiringSoon');
+          return true;
+        });
+
+      server.use(
+        rest.get(environment.API_URL, (req, res, ctx) => {
+          callOrder.push('fetch');
+          return res(ctx.status(200), ctx.json({ ok: true }));
+        }),
+      );
+
+      await fetchAndUpdateSessionExpiration(environment.API_URL, {});
+
+      expect(callOrder).to.eql([
+        'infoTokenExists',
+        'refreshIfAccessTokenExpiringSoon',
+        'fetch',
+      ]);
+      expect(refreshIfAccessTokenExpiringSoonMock.calledOnce).to.be.true;
+      expect(
+        refreshIfAccessTokenExpiringSoonMock.firstCall.args[0],
+      ).to.deep.include({
+        thresholdSeconds: 30,
+        type: 'logingov',
+      });
+    });
+
+    it('does not proactively refresh when info token does not exist', async () => {
+      infoTokenExistsMock.returns(false);
+
+      await fetchAndUpdateSessionExpiration(environment.API_URL, {});
+
+      expect(refreshIfAccessTokenExpiringSoonMock.called).to.be.false;
+    });
+
+    it('does not proactively refresh when serviceName is missing', async () => {
+      infoTokenExistsMock.returns(true);
+      sessionStorage.removeItem('serviceName');
+
+      await fetchAndUpdateSessionExpiration(environment.API_URL, {});
+
+      expect(refreshIfAccessTokenExpiringSoonMock.called).to.be.false;
+    });
+
+    it('does not proactively refresh when window.Mocha is set', async () => {
+      infoTokenExistsMock.returns(true);
+      window.Mocha = true;
+
+      await fetchAndUpdateSessionExpiration(environment.API_URL, {});
+
+      expect(refreshIfAccessTokenExpiringSoonMock.called).to.be.false;
     });
   });
 });

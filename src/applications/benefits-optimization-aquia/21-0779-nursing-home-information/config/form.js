@@ -10,6 +10,7 @@ import { ConfirmationPage } from '@bio-aquia/21-0779-nursing-home-information/co
 import { IntroductionPage } from '@bio-aquia/21-0779-nursing-home-information/containers/introduction-page';
 import manifest from '@bio-aquia/21-0779-nursing-home-information/manifest.json';
 import { transform } from '@bio-aquia/21-0779-nursing-home-information/config/transform';
+import { customSubmit } from '@bio-aquia/shared/utils';
 import { GetHelp } from '@bio-aquia/21-0779-nursing-home-information/components/get-help';
 import { preSubmitSignatureConfig } from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-signature';
 import {
@@ -50,6 +51,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/form210779`,
   transformForSubmit: transform,
+  submit: customSubmit,
   trackingPrefix: '21-0779-nursing-home-information-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,

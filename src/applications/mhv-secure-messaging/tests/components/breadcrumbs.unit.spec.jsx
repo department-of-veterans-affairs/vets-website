@@ -9,14 +9,10 @@ import { inbox } from '../fixtures/folder-inbox-response.json';
 import reducer from '../../reducers';
 import { Breadcrumbs, Paths } from '../../util/constants';
 import manifest from '../../manifest.json';
+import { assertBackBreadcrumbLabel } from '../util/helpers.breadcrumbs';
 
 let initialState;
 describe('Breadcrumbs', () => {
-  const expectBackLinkText = backLink => {
-    expect(backLink).to.exist;
-    expect(backLink.textContent.trim()).to.equal('Back');
-  };
-
   const getBackLink = container =>
     container.querySelector('[data-testid="sm-breadcrumbs-back"]');
 
@@ -50,8 +46,10 @@ describe('Breadcrumbs', () => {
       reducers: reducer,
       path: `/thread/${messageResponse.messageId}`,
     });
-    const backButton = await screen.findByTestId('sm-breadcrumbs-back');
-    expectBackLinkText(backButton);
+
+    await waitFor(() => {
+      assertBackBreadcrumbLabel(screen.container);
+    });
   });
 
   it('on Drafts page, renders Back button with correct href to Folders', async () => {
@@ -77,7 +75,9 @@ describe('Breadcrumbs', () => {
     const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
     const expectedHref = `${manifest.rootUrl}${Paths.FOLDERS}`;
     expect(breadcrumb).to.have.attribute('href', expectedHref);
-    expectBackLinkText(breadcrumb);
+    await waitFor(() => {
+      assertBackBreadcrumbLabel(screen.container);
+    });
   });
 
   it('on Compose renders as back link only', async () => {
@@ -102,7 +102,9 @@ describe('Breadcrumbs', () => {
       initialStateWithPreviousUrl.sm.breadcrumbs.previousUrl
     }`;
     expect(breadcrumb).to.have.attribute('href', expectedHref);
-    expectBackLinkText(breadcrumb);
+    await waitFor(() => {
+      assertBackBreadcrumbLabel(screen.container);
+    });
   });
 
   it('on Drafts Folder renders without errors', async () => {
@@ -129,8 +131,9 @@ describe('Breadcrumbs', () => {
       reducers: reducer,
       path: '/thread/7155731',
     });
-    const backButton = await screen.findByTestId('sm-breadcrumbs-back');
-    expectBackLinkText(backButton);
+    await waitFor(() => {
+      assertBackBreadcrumbLabel(screen.container);
+    });
   });
 
   it('on Sent Folder renders without errors', async () => {
@@ -157,8 +160,9 @@ describe('Breadcrumbs', () => {
       reducers: reducer,
       path: '/thread/7155731',
     });
-    const backButton = await screen.findByTestId('sm-breadcrumbs-back');
-    expectBackLinkText(backButton);
+    await waitFor(() => {
+      assertBackBreadcrumbLabel(screen.container);
+    });
   });
 
   it('on Trash Folder renders without errors', async () => {
@@ -185,8 +189,9 @@ describe('Breadcrumbs', () => {
       reducers: reducer,
       path: `/thread/7155731`,
     });
-    const backButton = await screen.findByTestId('sm-breadcrumbs-back');
-    expectBackLinkText(backButton);
+    await waitFor(() => {
+      assertBackBreadcrumbLabel(screen.container);
+    });
   });
 
   it('navigates back correctly from CARE_TEAM_HELP to Select care team (previousUrl)', async () => {
@@ -207,7 +212,7 @@ describe('Breadcrumbs', () => {
 
     await waitFor(() => {
       const backLink = getBackLink(container);
-      expectBackLinkText(backLink);
+      assertBackBreadcrumbLabel(backLink);
     });
 
     fireEvent.click(getBackLink(container));
@@ -240,7 +245,9 @@ describe('Breadcrumbs', () => {
     });
 
     const backButton = await screen.findByTestId('sm-breadcrumbs-back');
-    expectBackLinkText(backButton);
+    await waitFor(() => {
+      assertBackBreadcrumbLabel(screen.container);
+    });
 
     fireEvent.click(backButton);
 
@@ -274,7 +281,9 @@ describe('Breadcrumbs', () => {
     });
 
     const backButton = await screen.findByTestId('sm-breadcrumbs-back');
-    expectBackLinkText(backButton);
+    await waitFor(() => {
+      assertBackBreadcrumbLabel(screen.container);
+    });
 
     fireEvent.click(backButton);
 
@@ -312,11 +321,13 @@ describe('Breadcrumbs', () => {
       });
 
       const backButton = await screen.findByTestId('sm-breadcrumbs-back');
-      expectBackLinkText(backButton);
       expect(backButton).to.have.attribute(
         'href',
         `${manifest.rootUrl}${Paths.FOLDERS}`,
       );
+      await waitFor(() => {
+        assertBackBreadcrumbLabel(screen.container);
+      });
     });
   });
 
@@ -354,7 +365,9 @@ describe('Breadcrumbs', () => {
 
       const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
       expect(breadcrumb).to.have.attribute('href', rxRedirectPath);
-      expectBackLinkText(breadcrumb);
+      await waitFor(() => {
+        assertBackBreadcrumbLabel(screen.container);
+      });
     });
 
     it('should use urlRedirectPath for Back link on select care team page when coming from inbox', async () => {
@@ -379,7 +392,9 @@ describe('Breadcrumbs', () => {
 
       const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
       expect(breadcrumb).to.have.attribute('href', rxRedirectPath);
-      expectBackLinkText(breadcrumb);
+      await waitFor(() => {
+        assertBackBreadcrumbLabel(screen.container);
+      });
     });
 
     it('should use urlRedirectPath for Back link on recent care teams page when coming from inbox', async () => {
@@ -410,7 +425,9 @@ describe('Breadcrumbs', () => {
 
       const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
       expect(breadcrumb).to.have.attribute('href', rxRedirectPath);
-      expectBackLinkText(breadcrumb);
+      await waitFor(() => {
+        assertBackBreadcrumbLabel(screen.container);
+      });
     });
 
     it('should navigate to urlRedirectPath when back button is clicked on interstitial page', async () => {
@@ -435,7 +452,9 @@ describe('Breadcrumbs', () => {
 
       const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
       expect(breadcrumb).to.have.attribute('href', rxRedirectPath);
-      expectBackLinkText(breadcrumb);
+      await waitFor(() => {
+        assertBackBreadcrumbLabel(screen.container);
+      });
     });
 
     it('should NOT use urlRedirectPath when composeEntryUrl is not inbox', async () => {

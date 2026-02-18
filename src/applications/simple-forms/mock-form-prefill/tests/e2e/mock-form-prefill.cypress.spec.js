@@ -7,6 +7,9 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import featureToggles from '../fixtures/mocks/feature-toggles.json';
 import user from '../fixtures/mocks/user.json';
 import mockSubmit from '../fixtures/mocks/application-submit.json';
+import mockSipGet from '../fixtures/mocks/sip-get.json';
+import mockSipPut from '../fixtures/mocks/sip-put.json';
+import mockVamcEhr from '../fixtures/mocks/vamc-ehr.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import { reviewAndSubmitPageFlow } from './helpers';
@@ -37,10 +40,20 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('GET', '/v0/user', user);
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamcEhr);
+      cy.intercept(
+        'GET',
+        '/v0/in_progress_forms/FORM-MOCK-PREFILL',
+        mockSipGet,
+      );
+      cy.intercept(
+        'PUT',
+        '/v0/in_progress_forms/FORM-MOCK-PREFILL',
+        mockSipPut,
+      );
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
       cy.login(user);
     },
-    skip: Cypress.env('CI'), // Skip CI initially until content-build is merged
   },
   manifest,
   formConfig,
