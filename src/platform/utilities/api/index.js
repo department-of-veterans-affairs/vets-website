@@ -165,7 +165,9 @@ export function apiRequest(
         : Promise.resolve(response);
 
       // Get CSRF Token from API header
-      const csrfToken = response.headers.get('X-CSRF-Token');
+      const csrfToken =
+        response.headers.get('X-CSRF-Token') ||
+        response.headers.get('X-Csrf-Token');
 
       if (csrfToken && csrfToken !== csrfTokenStored) {
         localStorage.setItem('csrfToken', csrfToken);
