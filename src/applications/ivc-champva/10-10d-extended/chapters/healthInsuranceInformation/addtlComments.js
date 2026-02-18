@@ -1,7 +1,7 @@
 import { textareaUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { validFieldCharsOnly } from '../../../shared/validations';
 import { textareaSchema } from '../../definitions';
-import { healthInsurancePageTitleUI } from '../../helpers/titles';
+import { healthInsurancePageTitleUI } from '../../utils/titles';
 import content from '../../locales/en/content.json';
 
 const TITLE_TEXT = content['health-insurance--addtl-comments-title'];

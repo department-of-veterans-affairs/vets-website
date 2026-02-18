@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -38,6 +37,7 @@ import {
   sendDataDogAction,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import RecordListSection from '../components/shared/RecordListSection';
 import {
@@ -99,11 +99,14 @@ const Vaccines = props => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
     },
     [dispatch],
   );
+
+  useFocusAfterLoading({
+    isLoading: isLoading || listState !== loadStates.FETCHED,
+  });
 
   usePrintTitle(
     pageTitles.VACCINES_PAGE_TITLE,
@@ -217,7 +220,7 @@ const Vaccines = props => {
             <TrackedSpinner
               id="vaccines-page-spinner"
               message="We’re loading your records."
-              setFocus
+              set-focus
               data-testid="loading-indicator"
             />
           </div>

@@ -88,6 +88,10 @@ export const retrieveMessageThread = messageId => async dispatch => {
         ?.attributes.folderId.toString() ||
       response.data[0].attributes.folderId;
 
+    const replyDisabled = response.data.some(
+      m => m.attributes.replyDisabled === true,
+    );
+
     const { isOhMessage, ohMigrationPhase } = response.data[0].attributes;
 
     dispatch({
@@ -95,6 +99,8 @@ export const retrieveMessageThread = messageId => async dispatch => {
       payload: {
         replyToName,
         threadFolderId,
+        isStale: isOlderThan(lastSentDate, 45),
+        replyDisabled,
         cannotReply:
           isOlderThan(lastSentDate, 45) ||
           isMigrationPhaseBlockingReplies(ohMigrationPhase),
