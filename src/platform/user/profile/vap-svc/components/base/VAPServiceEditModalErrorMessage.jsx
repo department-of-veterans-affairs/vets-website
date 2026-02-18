@@ -79,7 +79,7 @@ export default function VAPServiceEditModalErrorMessage({
         background-only
         status="error"
         visible
-        data-testid="edit-error-alert"
+        data-testid="vap-service-error-alert"
         tabindex="-1"
       >
         <div className="vads-u-display--flex vads-u-align-items--baseline">

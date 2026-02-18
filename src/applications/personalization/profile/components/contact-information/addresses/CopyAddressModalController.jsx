@@ -113,7 +113,7 @@ const CopyAddressModal = props => {
     },
     onCloseFailureModal() {
       updateCopyAddressModalAction(null);
-      focusElement('#mailing-address [data-testid=generic-error-alert]');
+      focusElement('#mailing-address [data-testid=vap-service-error-alert]');
     },
   };
 

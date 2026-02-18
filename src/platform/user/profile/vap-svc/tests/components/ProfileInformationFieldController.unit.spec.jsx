@@ -3,28 +3,105 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
-import { MemoryRouter } from 'react-router-dom';
 
-import { RoutedProfileInformationFieldController } from '../../components/ProfileInformationFieldController';
+import ConnectedProfileInformationFieldController, {
+  ProfileInformationFieldController,
+} from '../../components/ProfileInformationFieldController';
 import { FIELD_NAMES } from '../../constants';
 
-const createMockStore = initialState =>
-  createStore(
-    combineReducers({
-      vapService: (state = initialState.vapService || {}) => state,
-      user: (
-        state = initialState.user || {
-          profile: { status: 'OK', services: [] },
-        },
-      ) => state,
-    }),
-  );
+describe('ProfileInformationFieldController vap service transaction error', () => {
+  // This is to ensure through the whole field controller component tree
+  // that only one error alert can render from a transaction error action
 
-describe('<ProfileInformationFieldController /> shows an error alert when there is a service transaction error', () => {
   // Using the email as a baseline to test fields because it is basic enough
   const fieldName = FIELD_NAMES.EMAIL;
 
-  const state = {
+  const requiredProps = {
+    fieldName,
+
+    analyticsSectionName: fieldName,
+    apiRoute: '/profile/email_addresses',
+    blockEditMode: false,
+    clearTransactionRequest() {},
+    convertCleanDataToPayload() {},
+    createSchedulingPreferencesUpdate() {},
+    createTransaction() {},
+    formSchema: {},
+    hasUnsavedEdits: false,
+    isEmpty: false,
+    isEnrolledInVAHealthCare: false,
+    openModal() {},
+    showEditView: false,
+    showValidationView: false,
+    uiSchema: {},
+    activeEditView: null,
+    data: null,
+    editViewData: null,
+    email: null,
+    forceEditView: false,
+    homePhone: null,
+    mailingAddress: null,
+    mobilePhone: null,
+    refreshTransaction() {},
+    showCopyAddressModal: false,
+    showErrorAlert: false,
+    showRemoveModal: false,
+    showUpdateSuccessAlert: false,
+    title: 'Email Address',
+    transaction: null,
+    transactionError: null,
+    transactionRequest: null,
+    updateMessagingSignature() {},
+    workPhone: null,
+  };
+
+  it('does not show alert if no tranaction request error', () => {
+    const { queryByRole, queryByTestId } = render(
+      <ProfileInformationFieldController {...requiredProps} />,
+    );
+    expect(queryByRole('alert')).to.not.exist;
+    expect(queryByTestId('vap-service-error-alert')).to.not.exist;
+  });
+
+  it('shows alert on tranaction request error property', () => {
+    const { getByRole, getByTestId } = render(
+      <ProfileInformationFieldController
+        {...requiredProps}
+        transactionError={{ error: true }}
+      />,
+    );
+    expect(getByRole('alert')).to.exist;
+
+    const errorAlert = getByTestId('vap-service-error-alert');
+    expect(errorAlert.textContent).to.contain(
+      'We’re sorry. We can’t update your information right now. We’re working to fix this problem. Try again later.',
+    );
+  });
+
+  it('shows alert on tranaction request error object', () => {
+    const { getByRole, getByTestId } = render(
+      <ProfileInformationFieldController
+        {...requiredProps}
+        transactionError={{ error: {} }}
+      />,
+    );
+    expect(getByRole('alert')).to.exist;
+    expect(getByTestId('vap-service-error-alert')).to.exist;
+  });
+
+  const createMockStore = initialState =>
+    createStore(
+      combineReducers({
+        vapService: (state = initialState.vapService || {}) => state,
+        user: (
+          state = initialState.user || {
+            profile: { status: 'OK', services: [] },
+          },
+        ) => state,
+      }),
+    );
+
+  const errorState = {
     vapService: {
       hasUnsavedEdits: false,
       formFields: {
@@ -70,23 +147,20 @@ describe('<ProfileInformationFieldController /> shows an error alert when there 
           },
         },
       },
-      transactions: [],
-      // Field used by UI error alert
+      transactions: [
+        {
+          data: {
+            attributes: {
+              transactionId: 'email_address_tx_id',
+              transactionStatus: 'COMPLETED_FAILURE',
+            },
+          },
+        },
+      ],
       fieldTransactionMap: {
         email: {
           isPending: false,
-          method: 'PUT',
-          isFailed: true,
-          error: {
-            errors: [
-              {
-                title: 'Error',
-                detail: 'Error Detail',
-                code: 'SVC_ERR123',
-                status: '401',
-              },
-            ],
-          },
+          transactionId: 'email_address_tx_id',
         },
       },
     },
@@ -103,37 +177,31 @@ describe('<ProfileInformationFieldController /> shows an error alert when there 
     },
   };
 
-  // This is to ensure through the whole field controller component tree
-  // that only one error alert can render from a transaction error action
-  const assertErrorAlert = initialState => {
-    const store = createMockStore(initialState);
-
+  it('shows alert on transaction error in read-only', () => {
     const { getByTestId, getByRole } = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <RoutedProfileInformationFieldController fieldName={fieldName} />
-        </MemoryRouter>
+      <Provider store={createMockStore(errorState)}>
+        <ConnectedProfileInformationFieldController {...requiredProps} />
       </Provider>,
     );
-
-    const errorAlert = getByTestId('edit-error-alert');
-    expect(errorAlert).to.exist;
-
-    // Ensures only 1 alert for the field controller
-    const alertContent = getByRole('alert');
-    expect(alertContent.textContent).to.contain(
-      'We’re sorry. We can’t update your information right now. We’re working to fix this problem. Try again later.',
-    );
-  };
-
-  it('shows the alert in read-only mode', () => {
-    assertErrorAlert(state);
+    expect(getByRole('alert')).to.exist;
+    expect(getByTestId('vap-service-error-alert')).to.exist;
   });
 
-  it('shows the alert in edit mode', () => {
-    assertErrorAlert({
-      ...state,
-      vapService: { ...state.vapService, modal: fieldName },
-    });
+  it('shows alert on transaction error in edit mode', () => {
+    const { getByTestId, getByRole } = render(
+      <Provider
+        store={createMockStore({
+          ...errorState,
+          vapService: {
+            ...errorState.vapService,
+            modal: fieldName,
+          },
+        })}
+      >
+        <ConnectedProfileInformationFieldController {...requiredProps} />
+      </Provider>,
+    );
+    expect(getByRole('alert')).to.exist;
+    expect(getByTestId('vap-service-error-alert')).to.exist;
   });
 });

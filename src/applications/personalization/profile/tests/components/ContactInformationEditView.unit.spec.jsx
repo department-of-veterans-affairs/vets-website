@@ -141,48 +141,4 @@ describe('<ProfileInformationEditView/> - Email Address', () => {
       component.unmount();
     });
   });
-
-  describe('VAPServiceEditModalErrorMessage', () => {
-    it("is not shown if there isn't an error", () => {
-      component = enzyme.shallow(<ProfileInformationEditView {...props} />);
-
-      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
-      expect(errorMessage).to.have.lengthOf(0);
-
-      component.unmount();
-    });
-    it('is shown if there is a transactionRequest error', () => {
-      props.transactionRequest = { error: true };
-      component = enzyme.shallow(<ProfileInformationEditView {...props} />);
-
-      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
-      expect(errorMessage).to.have.lengthOf(1);
-
-      component.unmount();
-    });
-    it('is shown if there is a transactionRequest error', () => {
-      props.transactionRequest = { error: {} };
-      component = enzyme.shallow(<ProfileInformationEditView {...props} />);
-
-      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
-      expect(errorMessage).to.have.lengthOf(1);
-
-      component.unmount();
-    });
-    it('is shown if there is a transaction error', () => {
-      props.transaction = {
-        data: {
-          attributes: {
-            transactionStatus: 'COMPLETED_FAILURE',
-          },
-        },
-      };
-      component = enzyme.shallow(<ProfileInformationEditView {...props} />);
-
-      const errorMessage = component.find('VAPServiceEditModalErrorMessage');
-      expect(errorMessage).to.have.lengthOf(1);
-
-      component.unmount();
-    });
-  });
 });
