@@ -103,13 +103,6 @@ const UnifiedLabsAndTests = props => {
               testId="lab-and-test-code"
               data-dd-action-name="[lab and tests - test code]"
             />
-            <LabelValue
-              ifEmpty={emptyField}
-              label={LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED}
-              value={record.sampleTested}
-              testId="lab-and-test-sample-tested"
-              data-dd-action-name="[lab and tests - sample tested]"
-            />
             {record.bodySite && (
               <LabelValue
                 label={LABS_AND_TESTS_DISPLAY_LABELS.BODY_SITE}
@@ -118,6 +111,17 @@ const UnifiedLabsAndTests = props => {
                 data-dd-action-name="[lab and tests - body site]"
               />
             )}
+            <LabelValue
+              ifEmpty={emptyField}
+              label={
+                record.bodySite
+                  ? LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED
+                  : LABS_AND_TESTS_DISPLAY_LABELS.SITE_OR_SAMPLE_TESTED
+              }
+              value={record.sampleTested}
+              testId="lab-and-test-sample-tested"
+              data-dd-action-name="[lab and tests - sample tested]"
+            />
             <LabelValue
               ifEmpty={emptyField}
               label={LABS_AND_TESTS_DISPLAY_LABELS.ORDERED_BY}
