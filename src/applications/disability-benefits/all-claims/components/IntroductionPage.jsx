@@ -36,7 +36,7 @@ class IntroductionPage extends React.Component {
     const startText = getStartText(isBDDForm);
     document.title = `${pageTitle}${DOCUMENT_TITLE_SUFFIX}`;
 
-    const subwayTitle = `Follow the steps below to file ${
+    const subwayTitle = `Follow the steps on this page to file ${
       isBDDForm
         ? 'a BDD claim.'
         : 'a claim for a new or secondary condition or for increased disability compensation.'
@@ -77,9 +77,10 @@ class IntroductionPage extends React.Component {
               for disability benefits 180 to 90 days before they leave the
               military through the Benefits Delivery at Discharge (BDD) program.
             </p>
-            <a href={BDD_INFO_URL}>
-              Learn more about Benefits Delivery at Discharge (BDD)
-            </a>
+            <va-link
+              href={BDD_INFO_URL}
+              text="Learn more about Benefits Delivery at Discharge (BDD)"
+            />
             <p />
           </>
         ) : (
@@ -95,7 +96,7 @@ class IntroductionPage extends React.Component {
           {loggedIn && (
             <p id="restart-wizard" className="vads-u-margin-top--0">
               if you don’t think this is the right form for you,{' '}
-              <a
+              <va-link
                 aria-describedby="restart-wizard"
                 href={
                   showWizard
@@ -103,9 +104,8 @@ class IntroductionPage extends React.Component {
                     : '/disability/how-to-file-claim/'
                 }
                 onClick={handler.startOver}
-              >
-                go back and answer questions again
-              </a>
+                text="go back and answer questions again"
+              />
               .
             </p>
           )}
@@ -149,10 +149,11 @@ class IntroductionPage extends React.Component {
                   >
                     When you file a BDD claim online, we’ll ask you to upload
                     this required form:{' '}
-                    <a href={DBQ_URL} target="_blank" rel="noreferrer">
-                      Separation Health Assessment - Part A Self-Assessment
-                      (opens in new tab)
-                    </a>
+                    <va-link
+                      external
+                      href={DBQ_URL}
+                      text="Separation Health Assessment - Part A Self-Assessment (opens in new tab)"
+                    />
                     . We recommend you download and fill out this form on a
                     desktop computer or laptop. Then return to this page to
                     start the application process.
@@ -202,10 +203,10 @@ class IntroductionPage extends React.Component {
                     benefits.
                   </p>
                   <p>
-                    <a href="/disability/how-to-file-claim/supplemental-forms/">
-                      Learn what additional forms you may need to file with your
-                      disability claim
-                    </a>
+                    <va-link
+                      href="/disability/how-to-file-claim/supplemental-forms/"
+                      text="Learn what additional forms you may need to file with your disability claim"
+                    />
                     .
                   </p>
                 </>
@@ -224,9 +225,10 @@ class IntroductionPage extends React.Component {
                 (VSO), can help you fill out your claim.{' '}
               </p>
               <p>
-                <a href="/disability/get-help-filing-claim/">
-                  Get help filing your claim
-                </a>
+                <va-link
+                  href="/disability/get-help-filing-claim/"
+                  text="Get help filing your claim"
+                />
                 .
               </p>
             </va-process-list-item>
