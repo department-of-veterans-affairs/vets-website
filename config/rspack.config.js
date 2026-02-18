@@ -348,9 +348,10 @@ module.exports = async (env = {}) => {
             loader: require.resolve('./rspack-brfs-loader.js'),
           },
         },
-        // Alias fs to pdfkit's virtual-fs only for pdfkit and fontkit modules
+        // Alias fs to pdfkit's virtual-fs for pdfkit, fontkit, and
+        // platform/pdf modules that interact with pdfkit's virtual filesystem
         {
-          test: /[/\\](pdfkit|fontkit)[/\\]/,
+          test: /[/\\](pdfkit|fontkit)[/\\]|[/\\]platform[/\\]pdf[/\\]/,
           resolve: {
             alias: {
               fs: 'pdfkit/js/virtual-fs.js',
