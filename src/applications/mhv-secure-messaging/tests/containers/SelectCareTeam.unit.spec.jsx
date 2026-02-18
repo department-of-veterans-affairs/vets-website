@@ -826,6 +826,11 @@ describe('SelectCareTeam', () => {
       addActionSpy.restore();
     });
 
+    const getSwitchCountCall = () =>
+      addActionSpy
+        .getCalls()
+        .find(call => call.args[0] === 'Care System Radio Switch Count');
+
     it('should call datadogRum.addAction on unmount when care system was switched', async () => {
       // Set initial state with a pre-selected care system
       const stateWithPreselectedCareSystem = {
@@ -860,17 +865,17 @@ describe('SelectCareTeam', () => {
       });
 
       // Unmount component to trigger useEffect cleanup
-      screen.unmount();
+      cleanup();
 
-      // Check that datadogRum.addAction was called
+      let switchCountCall;
       await waitFor(() => {
-        expect(addActionSpy.calledOnce).to.be.true;
+        switchCountCall = getSwitchCountCall();
+        expect(switchCountCall).to.exist;
       });
-      expect(
-        addActionSpy.calledWith('Care System Radio Switch Count', {
-          switchCount: 1,
-        }),
-      ).to.be.true;
+      expect(switchCountCall).to.exist;
+      expect(switchCountCall.args[1]).to.deep.equal({
+        switchCount: 1,
+      });
     });
 
     it('should track multiple care system switches', async () => {
@@ -891,15 +896,15 @@ describe('SelectCareTeam', () => {
       selectVaRadio(screen.container, '587');
 
       // Unmount component
-      screen.unmount();
+      cleanup();
 
-      // Check that datadogRum.addAction was called
+      let switchCountCall;
       await waitFor(() => {
-        expect(addActionSpy.calledOnce).to.be.true;
+        switchCountCall = getSwitchCountCall();
+        expect(switchCountCall).to.exist;
       });
-      const callArgs = addActionSpy.lastCall.args;
-      expect(callArgs[0]).to.equal('Care System Radio Switch Count');
-      expect(callArgs[1]).to.deep.equal({
+      expect(switchCountCall).to.exist;
+      expect(switchCountCall.args[1]).to.deep.equal({
         switchCount: 3,
       });
     });
@@ -914,12 +919,13 @@ describe('SelectCareTeam', () => {
       // Unmount without any switches
       cleanup();
 
+      let switchCountCall;
       await waitFor(() => {
-        expect(addActionSpy.called).to.be.true;
+        switchCountCall = getSwitchCountCall();
+        expect(switchCountCall).to.exist;
       });
-      const callArgs = addActionSpy.lastCall.args;
-      expect(callArgs[0]).to.equal('Care System Radio Switch Count');
-      expect(callArgs[1]).to.deep.equal({
+      expect(switchCountCall).to.exist;
+      expect(switchCountCall.args[1]).to.deep.equal({
         switchCount: 0,
       });
     });
@@ -941,17 +947,17 @@ describe('SelectCareTeam', () => {
       selectVaRadio(screen.container, '662');
 
       // Unmount component
-      screen.unmount();
+      cleanup();
 
-      // Check that datadogRum.addAction was called
+      let switchCountCall;
       await waitFor(() => {
-        expect(addActionSpy.calledOnce).to.be.true;
+        switchCountCall = getSwitchCountCall();
+        expect(switchCountCall).to.exist;
       });
-      expect(
-        addActionSpy.calledWith('Care System Radio Switch Count', {
-          switchCount: 1,
-        }),
-      ).to.be.true;
+      expect(switchCountCall).to.exist;
+      expect(switchCountCall.args[1]).to.deep.equal({
+        switchCount: 1,
+      });
     });
   });
 
@@ -1039,12 +1045,16 @@ describe('SelectCareTeam', () => {
   });
 
   describe('Analytics - VA Health Systems Displayed', () => {
+    let addActionSpy;
+
     beforeEach(() => {
       global.window.dataLayer = [];
+      addActionSpy = sinon.spy(datadogRum, 'addAction');
     });
 
     afterEach(() => {
       global.window.dataLayer = [];
+      addActionSpy.restore();
     });
 
     const findDataLayerEvent = eventName => {
@@ -1090,6 +1100,18 @@ describe('SelectCareTeam', () => {
           version: 'radio',
         });
       });
+
+      // Check that datadogRum.addAction was called
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(
+        addActionSpy.calledWith('SM VA Health Systems Displayed', {
+          status: 'successful',
+          healthSystemsCount: 3,
+          version: 'radio',
+        }),
+      ).to.be.true;
     });
 
     it('should call recordEvent when 6 or more VA health systems are displayed as dropdown', async () => {
@@ -1131,6 +1153,18 @@ describe('SelectCareTeam', () => {
           version: 'dropdown',
         });
       });
+
+      // Check that datadogRum.addAction was called
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(
+        addActionSpy.calledWith('SM VA Health Systems Displayed', {
+          status: 'successful',
+          healthSystemsCount: 6,
+          version: 'dropdown',
+        }),
+      ).to.be.true;
     });
 
     it('should not call recordEvent when only one VA health system exists', async () => {
@@ -1201,6 +1235,18 @@ describe('SelectCareTeam', () => {
           'error-key': 'no-health-systems',
         });
       });
+
+      // Check that datadogRum.addAction was called with fail status
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(
+        addActionSpy.calledWith('SM VA Health Systems Displayed', {
+          status: 'fail',
+          healthSystemsCount: 0,
+          errorKey: 'no-health-systems',
+        }),
+      ).to.be.true;
     });
   });
 
@@ -1624,6 +1670,194 @@ describe('SelectCareTeam', () => {
       expect(optionLabels).to.include('Test Facility 1');
       expect(optionLabels).to.include('Test Facility 2');
       expect(optionLabels).to.not.include('Blocked Facility');
+    });
+  });
+
+  describe('Care team selection validation', () => {
+    it('should display error and focus input when continue is clicked without selecting a care team', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait for component to fully render
+      await waitFor(() => {
+        expect(screen.getByTestId('continue-button')).to.exist;
+      });
+
+      // Click continue without selecting a care team
+      const continueButton = screen.getByTestId('continue-button');
+      fireEvent.click(continueButton);
+
+      // Wait for error to be set
+      await waitFor(() => {
+        const combobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        expect(combobox).to.exist;
+        expect(combobox).to.have.attribute('error', 'Select a care team');
+      });
+    });
+
+    it('should set error message accessible to screen readers', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('continue-button')).to.exist;
+      });
+
+      // Click continue without selection
+      const continueButton = screen.getByTestId('continue-button');
+      fireEvent.click(continueButton);
+
+      // Verify error attribute is set for screen reader accessibility
+      await waitFor(() => {
+        const combobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        expect(combobox).to.exist;
+
+        // Verify error attribute exists (required for screen reader announcement)
+        const errorAttr = combobox.getAttribute('error');
+        expect(errorAttr).to.equal('Select a care team');
+
+        // The VaComboBox web component handles ARIA associations internally
+        // when the error prop is set, making the error accessible to screen readers
+      });
+    });
+
+    it('should clear error when a care team is selected', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('continue-button')).to.exist;
+      });
+
+      // First, trigger the error
+      const continueButton = screen.getByTestId('continue-button');
+      fireEvent.click(continueButton);
+
+      await waitFor(() => {
+        const combobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        expect(combobox).to.have.attribute('error', 'Select a care team');
+      });
+
+      // Now select a care team by dispatching the change event
+      const combobox = screen.container.querySelector(
+        '[data-testid="compose-recipient-combobox"]',
+      );
+
+      // Simulate selecting the first recipient
+      const firstRecipient = initialState.sm.recipients.allowedRecipients[0];
+      const changeEvent = new CustomEvent('vaSelect', {
+        detail: { value: firstRecipient.id.toString() },
+      });
+      combobox.dispatchEvent(changeEvent);
+
+      // Wait for error to clear
+      await waitFor(() => {
+        const updatedCombobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        const errorAttr = updatedCombobox.getAttribute('error');
+        expect(errorAttr).to.equal('');
+      });
+    });
+
+    it('should not navigate when validation fails', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      const { history } = screen;
+      const initialPath = history.location.pathname;
+
+      await waitFor(() => {
+        expect(screen.getByTestId('continue-button')).to.exist;
+      });
+
+      // Click continue without selecting a care team
+      const continueButton = screen.getByTestId('continue-button');
+      fireEvent.click(continueButton);
+
+      await waitFor(() => {
+        const combobox = screen.container.querySelector(
+          '[data-testid="compose-recipient-combobox"]',
+        );
+        expect(combobox).to.have.attribute('error', 'Select a care team');
+      });
+
+      // Verify navigation did not occur by checking path hasn't changed
+      expect(history.location.pathname).to.equal(initialPath);
     });
   });
 });

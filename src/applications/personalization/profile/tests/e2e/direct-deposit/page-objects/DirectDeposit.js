@@ -94,13 +94,6 @@ class DirectDepositPage {
     cy.findByTestId('account-blocked-alert').should('exist');
   };
 
-  confirmPaymentHistoryCard = () => {
-    cy.findByText('VA payment history').should('exist');
-    cy.findByRole('link', { name: /View your payment history/i }).should(
-      'exist',
-    );
-  };
-
   confirmRedirectToAccountSecurity = () => {
     cy.url().should(
       'eq',

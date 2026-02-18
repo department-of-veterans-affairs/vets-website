@@ -3,19 +3,26 @@ import { useNavigate } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import { useErrorFocus } from '../hooks/useErrorFocus';
 import Wrapper from '../layout/Wrapper';
-import { usePostOTPVerificationMutation } from '../redux/api/vassApi';
+import {
+  usePostOTPVerificationMutation,
+  useLazyGetAppointmentAvailabilityQuery,
+} from '../redux/api/vassApi';
 import {
   selectFlowType,
   selectObfuscatedEmail,
 } from '../redux/slices/formSlice';
-import { FLOW_TYPES, URLS, OTC_ERROR_CODES } from '../utils/constants';
-import { isAccountLockedError, isServerError } from '../utils/errors';
+import { FLOW_TYPES, URLS, OTP_ERROR_CODES } from '../utils/constants';
+import {
+  isAccountLockedError,
+  isServerError,
+  isAppointmentAlreadyBookedError,
+} from '../utils/errors';
 
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   switch (errorCode) {
-    case OTC_ERROR_CODES.ACCOUNT_LOCKED:
+    case OTP_ERROR_CODES.ACCOUNT_LOCKED:
       return 'The one-time verification code you entered doesn’t match the one we sent you. You can try again in 15 minutes. Check your email and select the link to schedule a call.';
-    case OTC_ERROR_CODES.INVALID_OTP:
+    case OTP_ERROR_CODES.INVALID_OTP:
       if (attemptsRemaining === 1) {
         return 'The one-time verification code you entered doesn’t match the one we sent you. You have 1 try left. Then you’ll need to wait 15 minutes before trying again.';
       }
@@ -54,6 +61,10 @@ const EnterOTP = () => {
     postOTPVerification,
     { isLoading, error: postOTPVerificationError },
   ] = usePostOTPVerificationMutation();
+  const [
+    getAppointmentAvailability,
+    { isFetching: isCheckingAvailability },
+  ] = useLazyGetAppointmentAvailabilityQuery();
 
   const handleSubmit = async () => {
     if (code === '') {
@@ -80,9 +91,20 @@ const EnterOTP = () => {
       setCode('');
       return;
     }
+
+    const availabilityCheck = await getAppointmentAvailability();
+
+    if (isAppointmentAlreadyBookedError(availabilityCheck.error)) {
+      const { appointmentId } = availabilityCheck.error.appointment;
+      navigate(`${URLS.ALREADY_SCHEDULED}/${appointmentId}`, { replace: true });
+      return;
+    }
+
     if (cancellationFlow) {
-      // TODO: handle cancellation flow
-      navigate(`${URLS.CANCEL_APPOINTMENT}/abcdef123456`, { replace: true });
+      const { appointmentId } = availabilityCheck.data;
+      navigate(`${URLS.CANCEL_APPOINTMENT}/${appointmentId}`, {
+        replace: true,
+      });
     } else {
       navigate(URLS.DATE_TIME, { replace: true });
     }
@@ -154,7 +176,7 @@ const EnterOTP = () => {
           text="Continue"
           data-testid="continue-button"
           uswds
-          loading={isLoading}
+          loading={isLoading || isCheckingAvailability}
         />
       </div>
     </Wrapper>

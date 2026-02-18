@@ -193,7 +193,7 @@ describe('SendRxRenewalMessage Component', () => {
         .exist;
     });
 
-    it('renders fallback content when showFallBackContent is true', () => {
+    it('renders fallback content when suppressRenewalLink is true', () => {
       const rx = {
         ...mockRx,
         dispStatus: 'Active',
@@ -205,7 +205,7 @@ describe('SendRxRenewalMessage Component', () => {
       );
       const screen = setup(rx, {
         fallbackContent,
-        showFallBackContent: true,
+        suppressRenewalLink: true,
         isOracleHealth: true,
       });
       expect(screen.getByTestId('fallback')).to.exist;
@@ -221,6 +221,20 @@ describe('SendRxRenewalMessage Component', () => {
         isRenewable: false,
       };
       const screen = setup(rx);
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+      expect(screen.queryByTestId('fallback')).to.not.exist;
+    });
+
+    it('returns null when suppressRenewalLink is true and no fallback content provided', () => {
+      const rx = {
+        ...mockRx,
+        isRenewable: true,
+      };
+      const screen = setup(rx, {
+        suppressRenewalLink: true,
+        isOracleHealth: true,
+      });
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
       expect(screen.queryByTestId('fallback')).to.not.exist;
@@ -346,6 +360,42 @@ describe('SendRxRenewalMessage Component', () => {
         'If you need a medication immediately',
       );
       expect(modal?.innerHTML).to.include('automated refill line');
+    });
+
+    it('closes modal when secondary button (Back) is clicked', async () => {
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.secondaryButtonClick();
+
+      await waitFor(() => {
+        expect(modal?.getAttribute('visible')).to.equal('false');
+      });
+    });
+
+    it('closes modal when close event fires', async () => {
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.closeEvent();
+
+      await waitFor(() => {
+        expect(modal?.getAttribute('visible')).to.equal('false');
+      });
     });
   });
 

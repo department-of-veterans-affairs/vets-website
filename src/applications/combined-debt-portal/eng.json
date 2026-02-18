@@ -1,0 +1,149 @@
+{
+  "combined-debt-portal": {
+    "loading": {
+      "label": "Loading",
+      "message": "Please wait while we load the application for you."
+    },
+    "downtime": {
+      "appTitle": "Debts and bills application"
+    },
+    "common" : {
+      "phone": {
+        "tollFree": { "label": "Toll free:", "value": "800-827-0648" },
+        "international": { "label": "International:", "value": "612-713-6415" }
+      },
+      "linkText": {
+        "reviewDetails": "Review details",
+        "resolveOverpayment": "Resolve this overpayment",
+        "requestHelp": "Request help with this overpayment",
+        "makeAPayment": "Make a payment",
+        "askVa": "Ask VA",
+        "updateAddress": "Update your mailing address"
+      }
+    },
+    "diaryCodes": {
+      "statusTypes": {
+        "1": {
+          "category": "Account is being updated",
+          "summary": {
+            "body": "Account updates or payments may take a few days to appear here. Check back later. If you need your latest account details now, contact us."
+          },
+          "details": {
+            "header": "We're updating your account",
+            "body": "Updates or payments may take a few days to appear here. Check back later. If you need your latest account details now, contact us."
+          }
+        },
+        "2": {
+          "category": "Being sent to Treasury soon",
+          "summary": {
+            "body": "Pay your past due balance or request help now to avoid referral to the U.S. Treasury."
+          },
+          "details": {
+            "header": "Pay your balance or request help now",      
+            "body": "Your balance is more than 60 days past due. By law, we must refer your balance to the U.S. Treasury. Make a payment or request help now to avoid more fees and collection actions."
+          }
+        },
+        "3": {        
+          "category": "Benefits Offset",        
+          "summary": {
+            "body": "We're reducing your monthly VA benefit payments to repay your overdue balance."
+          },
+          "details": {
+            "header": "Contact us if you need help with benefit reduction",
+            "body": "We're reducing your monthly VA benefit payments to repay your overdue balance. If this reduction causes you financial stress, we can help. Contact us to find out your options. We're here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET."
+          }
+        },
+        "4": {
+          "category": "Collections are paused",
+          "summary": {
+            "body": "We've paused collection on this balance at your request."
+          },
+          "details": {
+            "header": "Collection currently paused",
+            "body": "We've paused collection on this balance at your request. You don't need to make any payments at this time. If you want to review your options or learn when we'll start collection actions again, contact us."
+          }
+        },
+        "5": {
+          "category": "Under review",
+          "summary": {
+            "body": "Make your next payment by <strong>{{ endDateText }}</strong> while we review your request."
+          },
+          "details": {
+            "header": "Make your next payment by {{ endDateText }}",
+            "body": "We're reviewing your <strong>{{ type }}</strong> now. We'll send you a letter as soon as we've made a decision. This process often takes at least a month. To avoid late fees and other collection actions, make your payments on time until you get your decision letter."
+          }
+        },
+        "6": {
+          "category": "Make a compromise offer payment",
+          "summary": {
+            "body": "Make your full compromise payment of <strong>{{ amountDue }}</strong> by <strong>{{ endDateText }}</strong>."
+          },
+          "details": {
+            "header": "Full compromise payment due by {{ endDateText }}",
+            "body": "Make this one-time payment of <strong>{{ amountDue }}</strong> by <strong>{{ endDateText }}</strong>. You must pay the full balance from your approved compromise offer in one payment."
+          }
+        },
+        "7": {
+          "category": "Make a monthly payment",
+          "summary": {
+            "body": "Make your next payment on <strong>{{ endDateText }}</strong> to continue to pay down your balance."
+          },
+          "details": {
+            "header": "Next payment due by {{ endDateText }}",
+            "body": "Continue to make your monthly payments until you pay off your full balance."
+          }
+        },
+        "8": {
+          "category": "Make a payment",
+          "summary": {
+            "body": "Pay your past due balance of <strong>{{ amountDue }}</strong> or request help by <strong>{{ endDateText }}</strong> to avoid fees and any collection actions."
+          },
+          "details": {
+            "header": "Pay your past due balance now to avoid fees and collection",
+            "body": "Your balance of <strong>{{ amountDue }}</strong> is past due. Pay the full balance or request help by <strong>{{ endDateText }}</strong> to avoid fees and any collection actions."
+          }
+        },
+        "9": {
+          "category": "Sent to Treasury",
+          "summary": {
+            "body": "Call the U.S. Treasury at 888-826-3127 to resolve this balance."
+          },
+          "details": {
+            "header": "Call the U.S. Treasury to resolve this balance",
+            "body": "This overpayment balance is more than <strong>120 days past due</strong>. By law, we had to refer the balance to the U.S. Treasury. Contact them directly Monday through Friday 8:30 a.m. to 6:30 p.m. ET."
+          }
+        },
+        "10": {
+          "category": "Verify status",
+          "summary": {
+            "body": "Call us to verify your military status."
+          },
+          "details": {
+            "header": "Call us to verify your military status",
+            "body": "We need your current status to correctly process your financial payments and information. We're here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET."
+          }
+        },
+        "11": {
+          "category": "Address needed",
+          "summary": {
+            "body": "Call us to update your address on file."
+          },
+          "details": {
+            "header": "Call us to update your address on file.",
+            "body": "We need your current address to send you information you need to manage your VA balances. We're here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET."
+          }
+        },
+        "12": {
+          "category": "FSR needs to be submitted",
+          "summary": {
+            "body": "We need your Financial Status Report (VA Form 5655)."
+          },
+          "details": {
+            "header": "We need more information to make a decision on your request",
+            "body": "Submit a completed Financial Status Report (VA Form 5655) as soon as you can. If you need help with your form, contact us."
+          }
+        }
+      }
+    }
+  }
+}

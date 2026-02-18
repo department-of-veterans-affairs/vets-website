@@ -15,10 +15,10 @@ import {
   VaButton,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { datadogRum } from '@datadog/browser-rum';
+import { scrollToFirstError } from 'platform/utilities/scroll';
 
 import { populatedDraft } from '../selectors';
 import {
@@ -124,6 +124,15 @@ const SelectCareTeam = () => {
     [draftInProgress, dispatch],
   );
 
+  useEffect(
+    () => {
+      if (careTeamError) {
+        scrollToFirstError();
+      }
+    },
+    [careTeamError],
+  );
+
   const careTeamHandler = useCallback(
     recipient => {
       const newId = recipient?.id ? recipient.id.toString() : null;
@@ -186,7 +195,9 @@ const SelectCareTeam = () => {
   );
 
   useEffect(() => {
-    focusElement(document.querySelector('h1'));
+    if (h1Ref.current) {
+      h1Ref.current.focus();
+    }
   }, []);
 
   useEffect(
@@ -295,6 +306,12 @@ const SelectCareTeam = () => {
           version:
             allFacilities.length < MAX_RADIO_OPTIONS ? 'radio' : 'dropdown',
         });
+        datadogRum.addAction('SM VA Health Systems Displayed', {
+          status: 'successful',
+          healthSystemsCount: allFacilities.length,
+          version:
+            allFacilities.length < MAX_RADIO_OPTIONS ? 'radio' : 'dropdown',
+        });
       } else if (allFacilities?.length === 0) {
         recordEvent({
           event: 'api_call',
@@ -302,6 +319,11 @@ const SelectCareTeam = () => {
           'api-status': 'fail',
           'health-systems-count': 0,
           'error-key': 'no-health-systems',
+        });
+        datadogRum.addAction('SM VA Health Systems Displayed', {
+          status: 'fail',
+          healthSystemsCount: 0,
+          errorKey: 'no-health-systems',
         });
       }
     },
@@ -316,6 +338,9 @@ const SelectCareTeam = () => {
           recordEvent({
             event: 'int-text-input-search',
             'text-input-label': 'Select a care team',
+          });
+          datadogRum.addAction('Care Team Search Input', {
+            inputLabel: 'Select a care team',
           });
         }, 500);
         return () => clearTimeout(debounceTimer);
@@ -343,6 +368,7 @@ const SelectCareTeam = () => {
     },
     [draftInProgress.careSystemVhaId, allowedRecipients],
   );
+  // alert('Care teams list effect ran', careTeamsList);
 
   // if there is only one care system, set it as the draftInProgress care system
   // this is to prevent the user from having to select a care system
@@ -372,10 +398,6 @@ const SelectCareTeam = () => {
       if (!selectedCareTeamId || !draftInProgress.recipientId) {
         setCareTeamError('Select a care team');
         selectionsValid = false;
-        const recipientSelect = document
-          .querySelector('[data-testid="compose-recipient-combobox"]')
-          ?.shadowRoot?.querySelector('input');
-        focusElement(recipientSelect);
       }
       return selectionsValid;
     },
@@ -524,7 +546,7 @@ const SelectCareTeam = () => {
   if (allTriageGroupsBlocked) {
     return (
       <div className="choose-va-health-care-system">
-        <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
+        <h1 className="vads-u-margin-bottom--2" tabIndex="-1" ref={h1Ref}>
           Select care team
         </h1>
         <BlockedTriageGroupAlert
@@ -548,7 +570,7 @@ const SelectCareTeam = () => {
 
   return (
     <div className="choose-va-health-care-system">
-      <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
+      <h1 className="vads-u-margin-bottom--2" tabIndex="-1" ref={h1Ref}>
         Select care team
       </h1>
       {showBlockedAlert && (

@@ -224,71 +224,50 @@ export const generateDeleteDescription = (props, getItemName) => {
 /**
  * Resolve the recipient's full name to display on summary cards.
  *
- * - If the recipientRelationship is "VETERAN":
- *   - Use `veteranFullName` when the user is logged in
- *   - Use `otherVeteranFullName` when the user is not logged in
+ * - If the recipient is the Veteran, use `veteranFullName`
  * - If the recipient is not the Veteran, use `recipientName`
  *
  * This helper is useful across multiple arrayBuilder pages where we conditionally display
  * either the Veteran's name or the name of another recipient.
  *
  * @param {object} item - The array item object containing recipient data.
- * @param {object} formData - The overall form data, which may include veteran names and logged in.
+ * @param {object} formData - The overall form data, which includes applicant names
  * @returns {string} The formatted full name string or undefined if no name is resolvable
  */
 export function resolveRecipientFullName(item, formData) {
   const { recipientRelationship, recipientName } = item;
-  const {
-    veteranFullName,
-    otherVeteranFullName,
-    isLoggedIn = false,
-  } = formData;
+  const { veteranFullName } = formData;
 
   const isVeteran = recipientRelationship === 'VETERAN';
 
-  if (isVeteran) {
-    const veteranName = isLoggedIn ? veteranFullName : otherVeteranFullName;
-    return formatFullNameNoSuffix(veteranName);
-  }
-
-  return formatFullNameNoSuffix(recipientName);
+  return isVeteran
+    ? formatFullNameNoSuffix(veteranFullName)
+    : formatFullNameNoSuffix(recipientName);
 }
 
-// updated version of above function
-// needed a separate function and not just a showUpdatedContent check because
-// these functions are reused across the app and i'm unsure that the same
-// functionality is needed everywhere
 /**
  * Resolve the recipient's full name to display on summary cards.
  * Post-MVP updates
  *
- * - If the recipientRelationship is "VETERAN":
- *   - Use `veteranFullName` when the user is logged in
- *   - Use `otherVeteranFullName` when the user is not logged in
- * - If the recipientRelationship is "SPOUSE":
- *   - Use "Spouse"
+ * - If the recipientRelationship is "VETERAN", use `veteranFullName`
+ * - If the recipientRelationship is "SPOUSE", use "Spouse"
  * - If the recipient is not the Veteran, use `recipientName`
  *
  * This helper is useful across multiple arrayBuilder pages where we conditionally display
  * either the Veteran's name or the name of another recipient.
  *
  * @param {object} item - The array item object containing recipient data.
- * @param {object} formData - The overall form data, which may include veteran names and logged in.
+ * @param {object} formData - The overall form data, which includes applicant names
  * @returns {string} The formatted full name string or undefined if no name is resolvable
  */
 export function updatedResolveRecipientFullName(item, formData) {
   const { recipientRelationship, recipientName } = item;
-  const {
-    veteranFullName,
-    otherVeteranFullName,
-    isLoggedIn = false,
-  } = formData;
+  const { veteranFullName } = formData;
 
   const isVeteran = recipientRelationship === 'VETERAN';
 
   if (isVeteran) {
-    const veteranName = isLoggedIn ? veteranFullName : otherVeteranFullName;
-    return formatFullNameNoSuffix(veteranName);
+    return formatFullNameNoSuffix(veteranFullName);
   }
   const isSpouse = recipientRelationship === 'SPOUSE';
   if (showUpdatedContent() && isSpouse) {

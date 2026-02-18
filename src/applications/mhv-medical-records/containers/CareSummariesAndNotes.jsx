@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
   useAcceleratedData,
@@ -28,6 +27,7 @@ import {
   statsdFrontEndActions,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
+import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import RecordListSection from '../components/shared/RecordListSection';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import DateRangeSelector from '../components/shared/DateRangeSelector';
@@ -64,19 +64,12 @@ const CareSummariesAndNotes = () => {
 
   const { isLoading, isAcceleratingCareNotes } = useAcceleratedData();
 
-  const dispatchAction = useMemo(
-    () => {
-      return isCurrent => {
-        return getCareSummariesAndNotesList(
-          isCurrent,
-          isAcceleratingCareNotes,
-          {
-            startDate: dateRange.fromDate,
-            endDate: dateRange.toDate,
-          },
-        );
-      };
-    },
+  const dispatchAction = useCallback(
+    isCurrent =>
+      getCareSummariesAndNotesList(isCurrent, isAcceleratingCareNotes, {
+        startDate: dateRange.fromDate,
+        endDate: dateRange.toDate,
+      }),
     [isAcceleratingCareNotes, dateRange],
   );
 
@@ -87,6 +80,7 @@ const CareSummariesAndNotes = () => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
@@ -99,7 +93,6 @@ const CareSummariesAndNotes = () => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
     },
     [dispatch],
@@ -107,6 +100,11 @@ const CareSummariesAndNotes = () => {
 
   const isLoadingAcceleratedData =
     isAcceleratingCareNotes && listState === loadStates.FETCHING;
+
+  useFocusAfterLoading({
+    isLoading: isLoading || listState !== loadStates.FETCHED,
+    isLoadingAcceleratedData,
+  });
 
   // Handle date range selection from DateRangeSelector component
   const handleDateRangeSelect = useDateRangeSelector({
@@ -164,7 +162,7 @@ const CareSummariesAndNotes = () => {
             <TrackedSpinner
               id="notes-page-spinner"
               message="We’re loading your records."
-              setFocus
+              set-focus
               data-testid="loading-indicator"
             />
           </div>

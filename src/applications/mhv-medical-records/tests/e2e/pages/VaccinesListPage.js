@@ -14,6 +14,8 @@ class VaccinesListPage extends BaseListPage {
         : 'my-health/medical-records/vaccines';
     cy.visit(url);
     cy.wait('@VaccinesList');
+    // Wait for page to load - don't check focus for deep-linked pagination
+    cy.get('h1').should('be.visible');
   };
 
   goToVaccines = (vaccines = defaultVaccines) => {
@@ -22,9 +24,15 @@ class VaccinesListPage extends BaseListPage {
 
   clickVaccinesDetailsLink = (vaccinesIndex = 0) => {
     cy.findAllByTestId('record-list-item')
+      .should('be.visible')
       .find('a')
       .eq(vaccinesIndex)
+      .should('be.visible')
       .click();
+    // Wait for detail page to load - check for print menu as indicator
+    cy.get('[data-testid="print-download-menu"]', { timeout: 10000 }).should(
+      'be.visible',
+    );
   };
 
   clickBackToTopButtonOnListPage = () => {

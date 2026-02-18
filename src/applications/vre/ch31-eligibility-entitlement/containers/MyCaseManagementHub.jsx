@@ -12,8 +12,6 @@ import LoadCaseDetailsFailedAlert from '../components/LoadCaseDetailsFailedAlert
 import ApplicationInterruptedAlert from '../components/ApplicationInterruptedAlert';
 import CaseProgressBar from '../components/CaseProgressBar';
 import { getCurrentStepFromStateList } from '../helpers';
-// import CaseProgressAccordion from '../components/CaseProgressAccordion';
-// import CaseProgressProcessList from '../components/CaseProgressProcessList';
 
 const stepLabels = [
   'Application Received',
@@ -38,10 +36,12 @@ const MyCaseManagementHub = () => {
 
   const caseStatusState = useSelector(state => state?.ch31CaseStatusDetails);
 
+  const loading = caseStatusState?.loading;
   const caseStatusDetails = caseStatusState?.data;
   const caseStatusError = caseStatusState?.error;
 
   const attrs = caseStatusDetails?.attributes || {};
+  const resCaseId = attrs?.resCaseId;
   const externalStatus = attrs.externalStatus || {};
 
   const {
@@ -57,10 +57,15 @@ const MyCaseManagementHub = () => {
   );
   const appointment = attrs?.orientationAppointmentDetails;
 
-  useEffect(() => {
-    scrollToTop();
-    focusElement('h1');
-  }, []);
+  useEffect(
+    () => {
+      if (!loading) {
+        scrollToTop();
+        focusElement('h1');
+      }
+    },
+    [loading],
+  );
 
   useEffect(
     () => {
@@ -89,6 +94,19 @@ const MyCaseManagementHub = () => {
       </div>
     );
   }
+  if (loading) {
+    return (
+      <div>
+        <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
+          <h1>My Case Management Hub</h1>
+          <va-loading-indicator
+            set-focus
+            message="Loading your case management hub..."
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="usa-width-two-thirds vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0">
@@ -100,11 +118,12 @@ const MyCaseManagementHub = () => {
         participation and completion.
       </p>
 
-      {/* <h2>Chapter 31 Case Progress</h2> */}
-
       {caseStatusError && <LoadCaseDetailsFailedAlert />}
       {isDiscontinued && (
-        <ApplicationDiscontinuedAlert discontinuedReason={discontinuedReason} />
+        <ApplicationDiscontinuedAlert
+          discontinuedReason={discontinuedReason}
+          resCaseId={resCaseId}
+        />
       )}
       {isInterrupted && (
         <ApplicationInterruptedAlert interruptedReason={interruptedReason} />
@@ -123,18 +142,9 @@ const MyCaseManagementHub = () => {
 
             <CaseProgressBar
               current={current}
-              setCurrent={setCurrent}
               stepLabels={stepLabels}
               stateList={stateList}
             />
-            {/* <CaseProgressAccordion
-                stepLabels={stepLabels}
-                stateList={stateList}
-              /> */}
-            {/* <CaseProgressProcessList
-              stepLabels={stepLabels}
-              stateList={stateList}
-            /> */}
 
             <HubCardList step={current} stateList={stateList} />
           </>

@@ -1,5 +1,5 @@
 const {
-  OTC_ERROR_CODES,
+  OTP_ERROR_CODES,
   AUTH_ERROR_CODES,
   TOKEN_ERROR_CODES,
   APPOINTMENT_ERROR_CODES,
@@ -24,11 +24,22 @@ const createUnauthorizedError = () => {
   };
 };
 
+const createInvalidTokenError = () => {
+  return {
+    errors: [
+      {
+        code: TOKEN_ERROR_CODES.INVALID_TOKEN,
+        detail: 'Token is invalid or already revoked',
+      },
+    ],
+  };
+};
+
 const createOTPInvalidError = (attemptsRemaining = 0) => {
   return {
     errors: [
       {
-        code: OTC_ERROR_CODES.INVALID_OTP,
+        code: OTP_ERROR_CODES.INVALID_OTP,
         detail: 'Invalid or expired OTP.  Please try again.',
         attemptsRemaining,
       },
@@ -40,7 +51,7 @@ const createOTPAccountLockedError = (retryAfter = 900) => {
   return {
     errors: [
       {
-        code: OTC_ERROR_CODES.ACCOUNT_LOCKED,
+        code: OTP_ERROR_CODES.ACCOUNT_LOCKED,
         detail: 'Too many failed attempts.  Please request a new OTP.',
         retryAfter,
       },
@@ -98,7 +109,104 @@ const createNotWithinCohortError = () => {
     errors: [
       {
         code: AVAILABILITY_ERROR_CODES.NOT_WITHIN_COHORT,
-        detail: 'Not within cohort',
+        detail: 'Current date outside of appointment cohort date ranges',
+      },
+    ],
+  };
+};
+
+const createAppointmentAlreadyBookedError = ({
+  appointmentId = 'e61e1a40-1e63-f011-bec2-001dd80351ea',
+  dtStartUTC = '2025-12-20T14:00:00Z',
+  dtEndUTC = '2025-12-20T14:30:00Z',
+} = {}) => {
+  return {
+    errors: [
+      {
+        code: AVAILABILITY_ERROR_CODES.APPOINTMENT_ALREADY_BOOKED,
+        detail: 'already scheduled',
+        appointment: {
+          appointmentId,
+          dtStartUTC,
+          dtEndUTC,
+        },
+      },
+    ],
+  };
+};
+
+const createNoSlotsAvailableError = () => {
+  return {
+    errors: [
+      {
+        code: AVAILABILITY_ERROR_CODES.NO_SLOTS_AVAILABLE,
+        detail: 'No available appointment slots',
+      },
+    ],
+  };
+};
+
+const createMissingAuthParameterError = paramName => {
+  return {
+    errors: [
+      {
+        code: AUTH_ERROR_CODES.MISSING_PARAMETER,
+        detail: `param is missing or the value is empty: ${paramName}`,
+      },
+    ],
+  };
+};
+
+const createMissingOtpParameterError = paramName => {
+  return {
+    errors: [
+      {
+        code: OTP_ERROR_CODES.MISSING_PARAMETER,
+        detail: `param is missing or the value is empty: ${paramName}`,
+      },
+    ],
+  };
+};
+
+const createMissingAppointmentParameterError = paramName => {
+  return {
+    errors: [
+      {
+        code: APPOINTMENT_ERROR_CODES.MISSING_PARAMETER,
+        detail: `param is missing or the value is empty: ${paramName}`,
+      },
+    ],
+  };
+};
+
+const createOTPExpiredError = () => {
+  return {
+    errors: [
+      {
+        code: OTP_ERROR_CODES.OTP_EXPIRED,
+        detail: 'OTP has expired. Please request a new one.',
+      },
+    ],
+  };
+};
+
+const createAppointmentNotFoundError = () => {
+  return {
+    errors: [
+      {
+        code: APPOINTMENT_ERROR_CODES.APPOINTMENT_NOT_FOUND,
+        detail: 'Appointment not found',
+      },
+    ],
+  };
+};
+
+const createCancellationFailedError = () => {
+  return {
+    errors: [
+      {
+        code: APPOINTMENT_ERROR_CODES.CANCELLATION_FAILED,
+        detail: 'Failed to cancel appointment',
       },
     ],
   };
@@ -114,4 +222,13 @@ module.exports = {
   createServiceError,
   createInvalidCredentialsError,
   createNotWithinCohortError,
+  createAppointmentAlreadyBookedError,
+  createInvalidTokenError,
+  createNoSlotsAvailableError,
+  createMissingAuthParameterError,
+  createMissingOtpParameterError,
+  createMissingAppointmentParameterError,
+  createOTPExpiredError,
+  createAppointmentNotFoundError,
+  createCancellationFailedError,
 };
