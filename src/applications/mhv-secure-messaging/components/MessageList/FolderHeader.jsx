@@ -56,6 +56,8 @@ const FolderHeader = props => {
           return Folders.DRAFTS.desc;
         case Folders.DELETED.id: // Trash
           return Folders.DELETED.desc;
+        case Folders.CUSTOM_FOLDER.id: // Custom Folder
+          return Folders.CUSTOM_FOLDER.desc;
         default:
           return null;
       }
