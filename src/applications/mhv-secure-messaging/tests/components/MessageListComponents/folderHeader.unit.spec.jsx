@@ -233,6 +233,86 @@ describe('Folder Header component', () => {
       );
     });
 
+    describe('When no associations but user facility is migrating to OH', () => {
+      const getCustomState = phase => ({
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
+            blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
+            associatedTriageGroupsQty:
+              noAssociationsAtAll.associatedTriageGroupsQty,
+            associatedBlockedTriageGroupsQty:
+              noAssociationsAtAll.associatedBlockedTriageGroupsQty,
+            noAssociations: noAssociationsAtAll.noAssociations,
+            allTriageGroupsBlocked: noAssociationsAtAll.allTriageGroupsBlocked,
+          },
+        },
+        user: {
+          profile: {
+            facilities: [],
+            userAtPretransitionedOhFacility: true,
+            userFacilityMigratingToOh: true,
+            migrationSchedules: [
+              {
+                facilities: [
+                  {
+                    facilityId: '500',
+                    facilityName: '500TEST',
+                  },
+                ],
+                migrationStatus: 'ACTIVE',
+                phases: {
+                  current: phase,
+                },
+              },
+            ],
+          },
+        },
+        featureToggles: {},
+      });
+
+      it('renders MigratingFacilitiesAlerts instead of BlockedTriageGroupAlert if in error phases', async () => {
+        ['p5', 'p4', 'p3'].forEach(async phase => {
+          const customState = getCustomState(phase);
+          const screen = setup(
+            customState,
+            Paths.INBOX,
+            initialThreadCount,
+            inbox,
+          );
+
+          const migratingFacilitiesAlert = await screen.findByTestId(
+            'cerner-facilities-transition-alert-error-phase',
+          );
+          expect(migratingFacilitiesAlert).to.exist;
+          expect(screen.queryByTestId('compose-message-link')).to.not.exist;
+          expect(screen.queryByTestId('blocked-triage-group-alert')).to.not
+            .exist;
+        });
+      });
+
+      it('renders BlockedTriageGroupAlert if in non-error phases', async () => {
+        ['p2', 'p1'].forEach(async phase => {
+          const customState = getCustomState(phase);
+          const screen = setup(
+            customState,
+            Paths.INBOX,
+            initialThreadCount,
+            inbox,
+          );
+
+          const migratingFacilitiesAlert = await screen.queryByTestId(
+            'cerner-facilities-transition-alert-error-phase',
+          );
+          expect(migratingFacilitiesAlert).to.not.exist;
+          expect(screen.queryByTestId('compose-message-link')).to.not.exist;
+          expect(screen.queryByTestId('blocked-triage-group-alert')).to.exist;
+        });
+      });
+    });
+
     it('renders BlockedTriageGroupAlert if all associations blocked', async () => {
       const customState = {
         ...initialState,
