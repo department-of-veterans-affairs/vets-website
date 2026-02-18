@@ -17,7 +17,9 @@ const StatusDropdown = props => {
   const { status } = props;
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
-  const isOracleHealthCutover = useSelector(selectMhvMedicationsOracleHealthCutoverFlag);
+  const isOracleHealthCutover = useSelector(
+    selectMhvMedicationsOracleHealthCutoverFlag,
+  );
   const useV2Statuses = isCernerPilot && isV2StatusMapping;
   const statusObj = useV2Statuses ? dispStatusObjV2 : dispStatusObj;
 

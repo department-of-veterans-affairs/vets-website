@@ -34,7 +34,9 @@ const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
   const isOracleHealth = isOracleHealthPrescription(rx, cernerFacilityIds);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
-  const isOracleHealthCutover = useSelector(selectMhvMedicationsOracleHealthCutoverFlag);
+  const isOracleHealthCutover = useSelector(
+    selectMhvMedicationsOracleHealthCutoverFlag,
+  );
   const useV2Status = isCernerPilot && isV2StatusMapping;
 
   const refillButton = page === pageType.LIST ? <RefillButton {...rx} /> : null;
