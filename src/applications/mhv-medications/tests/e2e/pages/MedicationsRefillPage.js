@@ -613,13 +613,16 @@ class MedicationsRefillPage {
   };
 
   verifyProcessStepOneContentV2 = () => {
-    cy.get('[header="You request a refill"]').should('contain', 'In progress');
+    cy.get('[header="You request a refill"]').should(
+      'contain',
+      'Request submitted',
+    );
   };
 
   verifyProcessStepThreeContentV2 = () => {
     cy.get('[header="We ship your refill to you"]').should(
       'contain',
-      'Shipped',
+      'Medication shipped',
     );
   };
 
