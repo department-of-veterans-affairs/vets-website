@@ -29,6 +29,7 @@ const status = require('./medical-records/status');
 const labsAndTests = require('./medical-records/labs-and-tests');
 const acceleratedLabsAndTests = require('./medical-records/labs-and-tests/accelerated');
 const mhvRadiology = require('./medical-records/mhv-radiology');
+const acceleratedImaging = require('./medical-records/mhv-radiology/accelerated-imaging');
 const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
 const acceleratedCareSummariesAndNotes = require('./medical-records/care-summaries-and-notes/accelerated');
 const healthConditions = require('./medical-records/health-conditions');
@@ -174,6 +175,7 @@ const responses = {
   'GET /my_health/v2/medical_records/labs_and_tests':
     acceleratedLabsAndTests.staging,
   'GET /my_health/v1/medical_records/radiology': mhvRadiology.empty,
+  'GET /my_health/v2/medical_records/imaging': acceleratedImaging.studies,
   'GET /my_health/v1/medical_records/clinical_notes': careSummariesAndNotes.all,
   'GET /my_health/v1/medical_records/clinical_notes/:id':
     careSummariesAndNotes.single,
