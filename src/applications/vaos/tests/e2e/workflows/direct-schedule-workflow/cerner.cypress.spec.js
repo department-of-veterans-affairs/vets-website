@@ -189,9 +189,7 @@ describe('VAOS direct schedule flow - Cerner', () => {
         });
       });
 
-      // Disabled because we are temporarily disabling pharmacy as an OH type of care for dark deploy
-      // See: https://dsva.slack.com/archives/C098ZSW3C1L/p1770748394811109
-      describe.skip('And type of care is pharmacy', () => {
+      describe('And type of care is pharmacy', () => {
         describe('And direct and request schedule is disabled', () => {
           it('should display ineligibility alert when not eligible for direct or request scheduling', () => {
             // Arrange
