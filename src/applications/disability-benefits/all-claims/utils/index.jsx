@@ -1049,18 +1049,18 @@ export const isNewConditionsOff = formData => !isNewConditionsOn(formData);
 export const normalizeReturnUrlForResume = returnUrl => {
   if (!returnUrl || typeof returnUrl !== 'string') return returnUrl;
 
-  const traumaticEventsItemPage = new RegExp(
-    `(.*)(mental-health-form-0781)/\\d+/(?:event-details|event-report|event-police-report)`,
-  );
   const conditionsItemPage = new RegExp(
     `(.*)(conditions)/\\d+/(?:condition|new-condition-date|new-condition|rated-disability-date|side-of-body|cause-new|cause-secondary|cause-worsened|cause-va|cause)`,
   );
+  const traumaticEventsItemPage = new RegExp(
+    `(.*)(mental-health-form-0781)/\\d+/(?:event-details|event-report|event-police-report)`,
+  );
 
-  if (traumaticEventsItemPage.test(returnUrl)) {
-    return returnUrl.replace(traumaticEventsItemPage, '$1$2/events-summary');
-  }
   if (conditionsItemPage.test(returnUrl)) {
     return returnUrl.replace(conditionsItemPage, '$1$2/summary');
+  }
+  if (traumaticEventsItemPage.test(returnUrl)) {
+    return returnUrl.replace(traumaticEventsItemPage, '$1$2/events-summary');
   }
   return returnUrl;
 };

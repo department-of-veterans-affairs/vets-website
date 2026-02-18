@@ -456,6 +456,63 @@ describe('Schemaform <RoutedSavableApp>', () => {
 
       expect(router.push.calledWith(normalizedReturnUrl)).to.be.true;
     });
+
+    it('uses normalized URL with router.replace when pathname ends with resume', () => {
+      const rawReturnUrl = '/conditions/1/new-condition-date';
+      const normalizedReturnUrl = '/conditions/summary';
+      const formConfig = {
+        title: 'Testing',
+        normalizeReturnUrl: url =>
+          url?.includes('new-condition-date') ? normalizedReturnUrl : url,
+      };
+      const currentLocation = { pathname: '/form/resume', search: '' };
+      const routes = [
+        { path: '/' },
+        { pageList: [{ path: normalizedReturnUrl }] },
+      ];
+      const router = { push: sinon.spy(), replace: sinon.spy() };
+      const setFetchFormStatus = sinon.spy();
+
+      const { rerender } = render(
+        <RoutedSavableApp
+          location={location}
+          formConfig={formConfig}
+          routes={routes}
+          router={router}
+          currentLocation={currentLocation}
+          loadedStatus={LOAD_STATUSES.pending}
+          updateLogInUrl={() => {}}
+          setFetchFormStatus={setFetchFormStatus}
+          formData={{}}
+          savedStatus="notAttempted"
+          FormApp={MockFormApp}
+        >
+          <div className="child" />
+        </RoutedSavableApp>,
+      );
+
+      rerender(
+        <RoutedSavableApp
+          location={location}
+          formConfig={formConfig}
+          routes={routes}
+          router={router}
+          currentLocation={currentLocation}
+          loadedStatus={LOAD_STATUSES.success}
+          returnUrl={rawReturnUrl}
+          updateLogInUrl={() => {}}
+          setFetchFormStatus={setFetchFormStatus}
+          formData={{}}
+          savedStatus="notAttempted"
+          FormApp={MockFormApp}
+        >
+          <div className="child" />
+        </RoutedSavableApp>,
+      );
+
+      expect(router.replace.calledWith(normalizedReturnUrl)).to.be.true;
+      expect(router.push.called).to.be.false;
+    });
   });
 
   it('should route to error when failed', () => {

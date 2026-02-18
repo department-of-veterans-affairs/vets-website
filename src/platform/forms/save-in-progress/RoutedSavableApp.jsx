@@ -384,6 +384,7 @@ RoutedSavableApp.propTypes = {
   profileIsLoading: PropTypes.bool,
   router: PropTypes.shape({
     push: PropTypes.func,
+    replace: PropTypes.func,
   }),
   savedStatus: PropTypes.string,
 };
