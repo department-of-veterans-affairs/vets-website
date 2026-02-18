@@ -1,8 +1,7 @@
+import type { AppointmentType } from '../types/domain';
+
 // Type definitions for constants
-export interface AppointmentType {
-  key: string;
-  label: string;
-}
+export type { AppointmentType };
 
 export interface OrderType {
   key: string;
