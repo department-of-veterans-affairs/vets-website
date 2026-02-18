@@ -15,6 +15,7 @@ import {
 
 import { relationshipToStudentLabels } from './helpers';
 import { addStudentsOptions } from './addStudentsSetup';
+import { NO_SSN_REASON_UI_MAPPINGS } from '../../dataMappings';
 
 /** @returns {PageSchema} */
 export const studentInformationPage = {
@@ -48,8 +49,8 @@ export const studentInformationPage = {
     noSsnReason: radioUI({
       title: 'Why doesn\u2019t your child have a Social Security number?',
       labels: {
-        NONRESIDENT_ALIEN: 'Nonresident alien',
-        NONE_ASSIGNED: 'No SSN has been assigned or requested',
+        NONRESIDENT_ALIEN: NO_SSN_REASON_UI_MAPPINGS.NONRESIDENT_ALIEN,
+        NONE_ASSIGNED: NO_SSN_REASON_UI_MAPPINGS.NONE_ASSIGNED,
       },
       required: (_chapterData, index, formData) =>
         formData?.studentInformation?.[index]?.noSsn === true,
