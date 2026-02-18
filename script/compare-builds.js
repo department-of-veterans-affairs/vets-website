@@ -225,10 +225,7 @@ async function checkGeneratedEntryFilesByExtension(
  * function with the signature (oldDir, newDir, options, entryNames) => { name, passed, details }
  * or => [{ name, passed, details }, ...] for checks that return multiple results.
  */
-const checks = [
-  checkDirectoryListing,
-  checkGeneratedEntryFilesByExtension,
-];
+const checks = [checkDirectoryListing, checkGeneratedEntryFilesByExtension];
 
 async function runChecks(oldDir, newDir, options) {
   const entryNames = getManifestEntryNames();
@@ -244,27 +241,54 @@ async function runChecks(oldDir, newDir, options) {
 }
 
 // ---------------------------------------------------------------------------
-// Reporting
+// Reporting (Jest-style)
 // ---------------------------------------------------------------------------
 
 const green = text => `\x1b[32m${text}\x1b[0m`;
 const red = text => `\x1b[31m${text}\x1b[0m`;
+const dim = text => `\x1b[2m${text}\x1b[0m`;
 
-function printResults(results) {
+function printResults(results, oldDir, newDir, elapsedMs) {
+  const allPassed = results.every(r => r.passed);
+  const status = allPassed ? green('PASS') : red('FAIL');
+  const comparisonLabel = `${path.resolve(oldDir)} vs ${path.resolve(newDir)}`;
+
+  console.log(`\n ${status}  ${comparisonLabel}`);
+  console.log('  Build Comparison');
+
   for (const { name, passed, details } of results) {
-    console.log(`\n=== Check: ${name} ===`);
+    const checkmark = passed ? green('✓') : red('✕');
+    const firstDetail = details[0] || '';
     if (passed) {
-      console.log(`${green('PASS')}  ${details.join('  ')}`);
+      console.log(`    ${checkmark} ${name} ${dim(`(${firstDetail})`)}`);
     } else {
-      console.log(red('FAIL'));
-      details.forEach(line => console.log(`  ${line}`));
+      console.log(`    ${checkmark} ${name}`);
+      details.forEach(line => console.log(`      ${line}`));
     }
   }
 
   const total = results.length;
   const passedCount = results.filter(r => r.passed).length;
-  console.log(`\n=== Summary ===`);
-  console.log(`${passedCount} of ${total} checks passed`);
+  const failedCount = total - passedCount;
+  const elapsedSec = (elapsedMs / 1000).toFixed(3);
+
+  console.log('');
+  if (failedCount > 0) {
+    console.log(
+      `Test Suites: ${red(`${failedCount} failed`)}, ${dim('1 total')}`,
+    );
+    console.log(
+      `Tests:       ${red(`${failedCount} failed`)}, ${green(
+        `${passedCount} passed`,
+      )}, ${dim(`${total} total`)}`,
+    );
+  } else {
+    console.log(`Test Suites: ${green('1 passed')}, 1 total`);
+    console.log(
+      `Tests:       ${green(`${passedCount} passed`)}, ${total} total`,
+    );
+  }
+  console.log(`Time:        ${elapsedSec} s`);
 }
 
 // ---------------------------------------------------------------------------
@@ -275,7 +299,7 @@ function parseArgs(argv) {
   const args = argv.slice(2); // strip node + script path
   const positional = [];
 
-  for (let i = 0; i < args.length; i+=1) {
+  for (let i = 0; i < args.length; i += 1) {
     if (args[i].startsWith('-')) {
       console.error(`Unknown flag: ${args[i]}`);
       process.exit(1);
@@ -305,12 +329,15 @@ async function main() {
     }
   }
 
+  const startTime = Date.now();
+
   console.log(`Comparing builds:`);
   console.log(`  Old: ${path.resolve(oldDir)}`);
   console.log(`  New: ${path.resolve(newDir)}`);
 
   const results = await runChecks(oldDir, newDir, options);
-  printResults(results);
+  const elapsedMs = Date.now() - startTime;
+  printResults(results, oldDir, newDir, elapsedMs);
 
   const allPassed = results.every(r => r.passed);
   process.exit(allPassed ? 0 : 1);
