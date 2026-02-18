@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
+import environment from 'platform/utilities/environment';
+import { apiRequest } from 'platform/utilities/api';
 import {
   HealthInsuranceDescription,
   HealthInsuranceAddtlInfoDescription,
@@ -62,6 +64,42 @@ const InsuranceSummary = props => {
    */
   const [error, hasError] = useState(false);
   const [fieldData, setFieldData] = useState(addProvider);
+  const [serviceHistory, setServiceHistory] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    let isMounted = true;
+    const fetchServiceHistory = async () => {
+      try {
+        const response = await apiRequest(
+          `${environment.API_URL}/v0/service_history`,
+        );
+        if (isMounted) {
+          setServiceHistory([
+            response,
+            response?.data?.attributes?.serviceHistory,
+          ]);
+          // console.log('~~~~~', response?.data?.attributes?.serviceHistory);
+        }
+      } catch (err) {
+        // console.log('~~~~~', err);
+        if (isMounted) {
+          hasError(true);
+        }
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    fetchServiceHistory();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+  if (loading) {
+    return <va-loading-indicator message="Checking your service history..." />;
+  }
 
   /**
    * declare event handlers
@@ -121,7 +159,7 @@ const InsuranceSummary = props => {
         </legend>
 
         <HealthInsuranceAddtlInfoDescription />
-
+        <span>{serviceHistory}</span>
         {/** Policy tile list */}
         {providers.length > 0 ? (
           <div data-testid="ezr-policy-list-field">
