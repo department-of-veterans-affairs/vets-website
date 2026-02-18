@@ -4,7 +4,10 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { DocumentTypeSelect, getUiSchema } from '../../pages/uploadDocuments';
-import { serviceStatuses } from '../../constants';
+import {
+  serviceStatuses,
+  entitlementRestorationOptions,
+} from '../../constants';
 
 const mockStore = configureStore([]);
 
@@ -30,6 +33,23 @@ describe('DocumentTypeSelect component', () => {
     const options = container.querySelectorAll('option');
     expect(options).to.have.length(1);
     expect(options[0].textContent).to.equal('Discharge papers (DD214)');
+  });
+
+  it('should show Discharge papers and Loan evidence for VETERAN with one-time restoration', () => {
+    const { container } = renderWithStore({
+      identity: serviceStatuses.VETERAN,
+      relevantPriorLoans: [
+        {
+          entitlementRestoration:
+            entitlementRestorationOptions.ONE_TIME_RESTORATION,
+        },
+      ],
+    });
+
+    const options = container.querySelectorAll('option');
+    expect(options).to.have.length(2);
+    expect(options[0].textContent).to.equal('Discharge papers (DD214)');
+    expect(options[1].textContent).to.equal('Loan evidence');
   });
 
   it('should show Statement of Service for ADSM without Purple Heart', () => {
@@ -103,37 +123,68 @@ describe('DocumentTypeSelect component', () => {
 });
 
 describe('uploadDocuments page', () => {
-  describe('statement of service accordion', () => {
-    const renderTitleDescription = identity => {
-      const formData = { identity };
+  describe('accordion display', () => {
+    const renderTitleDescription = (identity, relevantPriorLoans = []) => {
+      const formData = { identity, relevantPriorLoans };
       const uiSchema = getUiSchema();
       const titleDescription = uiSchema['ui:title']({ formData });
       return render(<div>{titleDescription}</div>);
     };
 
-    const statusesWithAccordion = [serviceStatuses.ADSM, serviceStatuses.NADNA];
-
-    const statusesWithoutAccordion = [
+    const statusesWithStatementOfServiceAccordion = [
       serviceStatuses.VETERAN,
+      serviceStatuses.ADSM,
+      serviceStatuses.NADNA,
+    ];
+
+    const statusesWithoutStatementOfServiceAccordion = [
       serviceStatuses.DNANA,
       serviceStatuses.DRNA,
     ];
 
-    statusesWithAccordion.forEach(status => {
-      it(`should display accordion for ${status} service status`, () => {
+    statusesWithStatementOfServiceAccordion.forEach(status => {
+      it(`should display Statement of service accordion item for ${status} service status`, () => {
         const { getByTestId } = renderTitleDescription(status);
-        const accordion = getByTestId('statement-of-service-accordion');
+        const accordion = getByTestId('document-upload-accordion');
         expect(accordion).to.exist;
         expect(accordion.textContent).to.include('Statement of service');
       });
     });
 
-    statusesWithoutAccordion.forEach(status => {
-      it(`should not display accordion for ${status} service status`, () => {
+    statusesWithoutStatementOfServiceAccordion.forEach(status => {
+      it(`should not display accordion for ${status} service status without one-time restoration`, () => {
         const { queryByTestId } = renderTitleDescription(status);
-        const accordion = queryByTestId('statement-of-service-accordion');
+        const accordion = queryByTestId('document-upload-accordion');
         expect(accordion).to.not.exist;
       });
+    });
+
+    it('should display loan evidence accordion item when one-time restoration is present', () => {
+      const { getByTestId } = renderTitleDescription(serviceStatuses.VETERAN, [
+        {
+          entitlementRestoration:
+            entitlementRestorationOptions.ONE_TIME_RESTORATION,
+        },
+      ]);
+      const accordion = getByTestId('document-upload-accordion');
+      expect(accordion).to.exist;
+      expect(accordion.textContent).to.include(
+        'Type of evidence of a VA loan paid in full',
+      );
+    });
+
+    it('should display accordion for DNANA with one-time restoration', () => {
+      const { getByTestId } = renderTitleDescription(serviceStatuses.DNANA, [
+        {
+          entitlementRestoration:
+            entitlementRestorationOptions.ONE_TIME_RESTORATION,
+        },
+      ]);
+      const accordion = getByTestId('document-upload-accordion');
+      expect(accordion).to.exist;
+      expect(accordion.textContent).to.include(
+        'Type of evidence of a VA loan paid in full',
+      );
     });
   });
 });
