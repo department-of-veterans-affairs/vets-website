@@ -18,6 +18,7 @@ import {
   useBulkRefillPrescriptionsMutation,
 } from '../api/prescriptionsApi';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
+import pluralize from '../util/helpers/pluralize';
 
 import { dateFormat } from '../util/helpers';
 import {
@@ -365,9 +366,11 @@ const RefillPrescriptionsV2 = () => {
                 </p>
                 <VaCheckboxGroup
                   data-testid="refill-checkbox-group"
-                  label={`You have ${fullRefillList.length} prescription${
-                    fullRefillList.length !== 1 ? 's' : ''
-                  } ready to refill.`}
+                  label={`You have ${fullRefillList.length} ${pluralize(
+                    fullRefillList.length,
+                    'prescription',
+                    'prescriptions',
+                  )} ready to refill.`}
                   class="vads-u-margin-bottom--2 tablet:vads-u-margin-bottom--2p5"
                   error={
                     !hasNoOptionSelectedError
