@@ -33,6 +33,7 @@ const AppointmentCard = ({
       </h2>
       <CardSection
         data-testid="how-to-join-section"
+        level={3}
         heading="How to join"
         customBodyElement={
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
@@ -49,6 +50,7 @@ const AppointmentCard = ({
       {appointmentData?.startUTC && (
         <CardSection
           data-testid="when-section"
+          level={3}
           heading="When"
           appointmentData={appointmentData}
           showAddToCalendarButton={showAddToCalendarButton}
@@ -56,11 +58,13 @@ const AppointmentCard = ({
       )}
       <CardSection
         data-testid="what-section"
+        level={3}
         heading="What"
         textContent="VA Solid Start"
       />
       <CardSection
         data-testid="who-section"
+        level={3}
         heading="Who"
         textContent={
           appointmentData?.agentNickname || 'VA Solid Start representative'
@@ -70,6 +74,7 @@ const AppointmentCard = ({
         appointmentData?.topics.length > 0 && (
           <CardSection
             data-testid="topics-section"
+            level={3}
             heading="Topics you'd like to learn more about"
             textContent={appointmentData?.topics
               .map(topic => topic?.topicName || '')
