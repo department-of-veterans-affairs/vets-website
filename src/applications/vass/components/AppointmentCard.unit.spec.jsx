@@ -64,6 +64,28 @@ describe('VASS Component: AppointmentCard', () => {
     expect(queryByTestId('add-to-calendar-button')).not.to.exist;
   });
 
+  it('renders correct heading hierarchy (h2 > h3)', () => {
+    const appointmentData = createAppointmentData({
+      topics: [{ topicName: 'Benefits' }],
+    });
+
+    const { getByTestId } = render(
+      <AppointmentCard
+        appointmentData={appointmentData}
+        handleCancelAppointment={() => {}}
+      />,
+    );
+
+    expect(getByTestId('appointment-type').tagName).to.equal('H2');
+    expect(
+      getByTestId('how-to-join-section').querySelector('h3'),
+    ).to.exist;
+    expect(getByTestId('when-section').querySelector('h3')).to.exist;
+    expect(getByTestId('what-section').querySelector('h3')).to.exist;
+    expect(getByTestId('who-section').querySelector('h3')).to.exist;
+    expect(getByTestId('topics-section').querySelector('h3')).to.exist;
+  });
+
   it('omits topics section when no topics are provided', () => {
     const appointmentData = createAppointmentData({ topics: [] });
 
