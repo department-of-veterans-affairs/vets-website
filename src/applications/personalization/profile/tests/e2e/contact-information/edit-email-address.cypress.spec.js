@@ -82,7 +82,7 @@ describe('Edit email address', () => {
     cy.wait('@updateEmailFailure');
 
     // Confirm error alert appears in edit view
-    cy.findByTestId('edit-error-alert').should('be.visible');
+    cy.findByTestId('vap-service-error-alert').should('be.visible');
 
     // Verify the MHV email confirmation alert cookie was NOT set
     cy.getCookie(MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE).should('be.null');
