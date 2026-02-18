@@ -420,8 +420,10 @@ jobs:
         env:
           CHANGED_FILE_PATHS: ${{ steps.get-files-changed.outputs.changed_files }}
 
-      - name: Annotate ESLint results for all files if eslint config has been modified
-        if: contains(steps.get-files-changed.outputs.files, '.eslintrc.js')
+      - name: Annotate ESLint results for all files if eslint or prettier config has been modified
+        if: >-
+          contains(steps.get-files-changed.outputs.files, '.eslintrc.js') ||
+          contains(steps.get-files-changed.outputs.files, '.prettierrc')
         run: yarn run eslint --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js .
 
       - name: Annotate ESLint results for modified files
