@@ -1,12 +1,12 @@
 {
-    "claimantNotVeteran": true,
+    "claimantNotVeteran": false,
     "claimantFullName": {
         "first": "Jane",
-        "middle": "A.",
+        "middle": "Abigail",
         "last": "Doe",
         "suffix": "Jr."
     },
-    "veteranAddress": {
+    "claimantAddress": {
         "country": "USA",
         "street": "123 Main St",
         "street2": "Apt 4B",
@@ -24,14 +24,9 @@
         "_required": true,
         "_touched": true
     },
-    "veteranFullName": {
-        "first": "John",
-        "middle": "B.",
-        "last": "Doe",
-        "suffix": "Sr."
-    },
     "veteranSocialSecurityNumber": {
-      "ssn": "123111234"
+      "ssn": "123111234",
+      "vaFileNumber": "123456789"
     },
     "veteranDateOfBirth": "1970-01-01",
     "isOver65": true,
@@ -57,7 +52,7 @@
             "monthlyAmount": 100
         },
         {
-            "recipient": "DEPENDENT",
+            "recipient": "CHILD",
             "fullNameRecipient": "Baby Doe",
             "provider": "Dr. Smith",
             "hoursPerWeek": "50",
@@ -83,7 +78,7 @@
           "paymentAmount": 123456.78
         },
         {
-          "recipient": "DEPENDENT",
+          "recipient": "SPOUSE",
           "fullNameRecipient": "Jane Spouse",
           "provider": "5B (5)",
           "purpose": "5B (6)",
@@ -98,7 +93,7 @@
           "traveler": "OTHER",
           "fullNameTraveler": "Tom Otherson",
           "travelLocation": "OTHER",
-          "travelLocationOther": "Some Other Place",
+          "otherTravelLocation": "Some Other Place",
           "travelMilesTraveled": "10",
           "travelDate": "2002-02-20",
           "travelReimbursed": true,
