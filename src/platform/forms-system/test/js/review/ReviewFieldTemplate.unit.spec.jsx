@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import SkinDeep from 'skin-deep';
 import { render } from '@testing-library/react';
 
 import ReviewFieldTemplate from '../../../src/js/review/ReviewFieldTemplate';

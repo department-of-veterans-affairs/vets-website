@@ -257,7 +257,8 @@ const ReviewChapterContent = props => {
     let pageUiSchema;
 
     if (page.showPagePerItem) {
-      pageSchema = pageState.schema.properties[page.arrayPath].items[page.index];
+      pageSchema =
+        pageState.schema.properties[page.arrayPath].items[page.index];
       pageUiSchema = pageState.uiSchema[page.arrayPath].items;
     } else {
       const pageSchemaObjects = getNonArraySchema(
