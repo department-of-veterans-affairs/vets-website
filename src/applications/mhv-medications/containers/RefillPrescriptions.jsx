@@ -166,10 +166,13 @@ const RefillPrescriptions = () => {
     refillRequestStatus === REFILL_STATUS.FINISHED && isFetching;
   const isDisabled = isDataLoading || isRefreshing;
 
-  // Clear the submitted meds snapshot after cache refresh completes
+  // Clear the submitted meds snapshot after cache refresh completes or error
   useEffect(
     () => {
       if (refillRequestStatus === REFILL_STATUS.FINISHED && !isFetching) {
+        submittedMedications.current = null;
+      }
+      if (refillRequestStatus === REFILL_STATUS.ERROR) {
         submittedMedications.current = null;
       }
     },
