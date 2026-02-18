@@ -2,6 +2,7 @@ import { createFormPageList, createPageList } from '../helpers';
 import validateConfig from '../validate-config';
 import FormPage from '../containers/FormPage';
 import ReviewPage from '../review/ReviewPage';
+import ReviewPageExperimental from '../review/ReviewPageExperimental';
 import ConfirmationPageWrapper from '../containers/ConfirmationPageWrapper';
 
 /*
@@ -47,11 +48,15 @@ export function createRoutes(formConfig) {
     ].concat(routes);
   }
 
+  const ReviewPageComponent = formConfig.editByPage
+    ? ReviewPageExperimental
+    : ReviewPage;
+
   return routes.concat([
     {
       path: 'review-and-submit',
       formConfig,
-      component: ReviewPage,
+      component: ReviewPageComponent,
       pageList,
     },
     {

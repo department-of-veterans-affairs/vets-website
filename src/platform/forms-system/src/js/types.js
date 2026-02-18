@@ -38,6 +38,7 @@
  * @property {CustomText} [customText]
  * @property {Record<string, SchemaOptions> | Record<string, any>} [defaultDefinitions]
  * @property {Dev} [dev] - object of dev-only options
+ * @property {boolean} [editByPage]
  * @property {Downtime} [downtime]
  * @property {(props: any) => JSX.Element} [errorText]
  * @property {(props: any) => JSX.Element} [footerContent]
