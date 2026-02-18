@@ -4,6 +4,14 @@ import {
   fillDateWebComponentPattern,
 } from '.';
 
+const defaultServiceHistory = {
+  lastServiceBranch: 'air force',
+  lastEntryDate: '1999-01-01',
+  lastDischargeDate: '2002-02-02',
+  dischargeType: 'honorable',
+  'view:hasPrefillServiceHistory': true,
+};
+
 export const fillServicePeriod = (historyData = {}) => {
   /* Default data for service history fields, can be overridden by passing in an object with any of the following properties:
   - lastServiceBranch
@@ -12,10 +20,7 @@ export const fillServicePeriod = (historyData = {}) => {
   - dischargeType
   */
   const fillHistory = {
-    lastServiceBranch: 'air force',
-    lastEntryDate: '1999-01-01',
-    lastDischargeDate: '2002-02-02',
-    dischargeType: 'honorable',
+    ...defaultServiceHistory,
     ...historyData,
   };
   selectDropdownWebComponent(
@@ -56,4 +61,14 @@ export const handleOptionalServiceHistoryPage = ({
   }
   goToNextPage('/military-service/toxic-exposure');
   cy.selectYesNoVaRadioOption('root_hasTeraResponse', hasTeraYes);
+};
+
+export const withValidServiceHistory = prefill => {
+  return {
+    ...prefill,
+    formData: {
+      ...prefill.formData,
+      ...defaultServiceHistory,
+    },
+  };
 };
