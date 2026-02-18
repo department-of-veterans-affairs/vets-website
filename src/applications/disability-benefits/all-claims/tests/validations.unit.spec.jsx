@@ -36,6 +36,8 @@ import {
   requireSeparationLocation,
 } from '../validations';
 import {
+  includesAny,
+  normalizePath,
   validateToxicExposureGulfWar1990Dates,
   validateToxicExposureGulfWar2001Dates,
   validateToxicExposureDates,
@@ -2383,6 +2385,30 @@ describe('526 All Claims validations', () => {
         expect(errors.startDate.addError.called).to.be.false;
         expect(errors.endDate.addError.called).to.be.false;
       });
+    });
+  });
+});
+
+describe('onFormLoaded workflow redirects', () => {
+  describe('normalizePath', () => {
+    it('lowercases, strips query params, and removes trailing slashes', () => {
+      expect(normalizePath('/New-Disabilities/Follow-Up/?a=1')).to.equal(
+        '/new-disabilities/follow-up',
+      );
+    });
+
+    it('removes multiple trailing slashes', () => {
+      expect(normalizePath('/foo/bar///')).to.equal('/foo/bar');
+    });
+  });
+
+  describe('includesAny', () => {
+    it('returns true when path contains any fragment (fragment case-insensitive)', () => {
+      expect(includesAny('/foo/bar', ['/BAR'])).to.be.true;
+    });
+
+    it('returns false when no fragments match', () => {
+      expect(includesAny('/foo/bar', ['/baz'])).to.be.false;
     });
   });
 });

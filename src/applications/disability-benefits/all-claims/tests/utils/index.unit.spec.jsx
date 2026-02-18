@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
-  isCompletingModern4142,
   baseDoNew4142Logic,
+  getWorkflowRedirect,
+  isCompletingModern4142,
   onFormLoaded,
   redirectLegacyToEnhancement,
   redirectEnhancementToLegacy,
@@ -163,5 +164,45 @@ describe('utils', () => {
     it('returns false when no selection or uploads exist', () => {
       expect(hasEvidenceChoice({})).to.be.false;
     });
+  });
+});
+
+describe('getWorkflowRedirect when new conditions flag is ON', () => {
+  it('returns /conditions/orientation when new conditions is ON and returnUrl is in current workflow', () => {
+    const formData = { disabilityCompNewConditionsWorkflow: true };
+    const returnUrl = '/disabilities/rated-disabilities';
+    const pathname = '/somewhere-else';
+    const target = getWorkflowRedirect({ formData, returnUrl, pathname });
+
+    expect(target).to.equal('/conditions/orientation');
+  });
+
+  it('returns null (no redirect) when already on /conditions/orientation', () => {
+    const formData = { disabilityCompNewConditionsWorkflow: true };
+    const returnUrl = '/disabilities/rated-disabilities';
+    const pathname = '/conditions/orientation';
+    const target = getWorkflowRedirect({ formData, returnUrl, pathname });
+
+    expect(target).to.equal(null);
+  });
+});
+
+describe('getWorkflowRedirect when new conditions flag is OFF', () => {
+  it('returns /veteran-information when new conditions is OFF and returnUrl is in new workflow', () => {
+    const formData = { disabilityCompNewConditionsWorkflow: false };
+    const returnUrl = '/conditions/orientation';
+    const pathname = '/somewhere-else';
+    const target = getWorkflowRedirect({ formData, returnUrl, pathname });
+
+    expect(target).to.equal('/veteran-information');
+  });
+
+  it('returns null (no redirect) when already on /veteran-information', () => {
+    const formData = { disabilityCompNewConditionsWorkflow: false };
+    const returnUrl = '/conditions/orientation';
+    const pathname = '/veteran-information';
+    const target = getWorkflowRedirect({ formData, returnUrl, pathname });
+
+    expect(target).to.equal(null);
   });
 });

@@ -38,4 +38,77 @@ describe('ConfirmationRatedDisabilities', () => {
     );
     expect(container.querySelectorAll('h4')).to.have.length(0);
   });
+
+  it('renders fallback text when ratingPercentage is missing', () => {
+    const formData = {
+      ratedDisabilities: [{ name: 'Condition 1', 'view:selected': true }],
+    };
+    const { getByText } = render(
+      <ConfirmationRatedDisabilities formData={formData} />,
+    );
+    expect(getByText(/claiming an increase$/i)).to.exist;
+  });
+
+  it('renders the condition date for rated increases coming from newDisabilities', () => {
+    const formData = {
+      ratedDisabilities: [
+        { name: 'Tinnitus', 'view:selected': false, ratingPercentage: 10 },
+      ],
+      newDisabilities: [
+        {
+          conditionDate: '1995-01-01',
+          ratedDisability: 'Tinnitus',
+          cause: 'WORSENED',
+          condition: 'Rated Disability',
+        },
+      ],
+    };
+
+    const { getByText } = render(
+      <ConfirmationRatedDisabilities formData={formData} />,
+    );
+
+    expect(getByText('Date')).to.exist;
+    expect(getByText(/January 1, 1995/i)).to.exist;
+  });
+
+  it('does not render "XX" for partial condition dates', () => {
+    const formData = {
+      ratedDisabilities: [{ name: 'Sciatica', ratingPercentage: 20 }],
+      newDisabilities: [
+        {
+          conditionDate: '2020-06-XX',
+          ratedDisability: 'Sciatica',
+          cause: 'WORSENED',
+          condition: 'Rated Disability',
+        },
+      ],
+    };
+
+    const { container, queryByText } = render(
+      <ConfirmationRatedDisabilities formData={formData} />,
+    );
+
+    expect(container.textContent).to.not.include('XX');
+    expect(queryByText(/2020/i)).to.exist;
+  });
+
+  it('does not render the Date block when conditionDate is missing', () => {
+    const formData = {
+      ratedDisabilities: [{ name: 'Hypertension', ratingPercentage: 10 }],
+      newDisabilities: [
+        {
+          ratedDisability: 'Hypertension',
+          cause: 'WORSENED',
+          condition: 'Rated Disability',
+        },
+      ],
+    };
+
+    const { queryByText } = render(
+      <ConfirmationRatedDisabilities formData={formData} />,
+    );
+
+    expect(queryByText('Date')).to.equal(null);
+  });
 });

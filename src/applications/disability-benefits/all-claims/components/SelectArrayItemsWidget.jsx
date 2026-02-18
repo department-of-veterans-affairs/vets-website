@@ -9,7 +9,67 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
 import environment from 'platform/utilities/environment';
 
-import { disabilityActionTypes } from '../constants';
+import { disabilityActionTypes, NEW_CONDITION_OPTION } from '../constants';
+
+const norm = s => (s || '').trim().toLowerCase();
+
+export const migrateRatedIncreasesIntoDb = formData => {
+  const newDisabilities = Array.isArray(formData?.newDisabilities)
+    ? formData.newDisabilities
+    : [];
+  const ratedDisabilities = Array.isArray(formData?.ratedDisabilities)
+    ? formData.ratedDisabilities
+    : [];
+
+  const increaseNames = newDisabilities
+    .filter(
+      nd =>
+        nd?.cause === 'WORSENED' &&
+        nd?.condition === 'Rated Disability' &&
+        nd?.ratedDisability &&
+        nd.ratedDisability !== NEW_CONDITION_OPTION,
+    )
+    .map(nd => nd.ratedDisability);
+
+  if (!increaseNames.length) return formData;
+
+  const increaseNameSet = new Set(increaseNames.map(norm));
+
+  let ratedChanged = false;
+  const nextRated = ratedDisabilities.map(rd => {
+    if (increaseNameSet.has(norm(rd?.name)) && rd['view:selected'] !== true) {
+      ratedChanged = true;
+      return { ...rd, 'view:selected': true };
+    }
+    return rd;
+  });
+
+  const nextNew = newDisabilities.filter(nd => {
+    const isIncrease =
+      nd?.cause === 'WORSENED' &&
+      nd?.condition === 'Rated Disability' &&
+      increaseNameSet.has(norm(nd?.ratedDisability));
+    return !isIncrease;
+  });
+
+  const removed = nextNew.length !== newDisabilities.length;
+
+  // Set claim-type "increase" (safe even if claim-type page is skipped)
+  const claimType = formData?.['view:claimType'] || {};
+  const claimTypeChanged = claimType?.['view:claimingIncrease'] !== true;
+
+  if (!ratedChanged && !removed && !claimTypeChanged) return formData;
+
+  return {
+    ...formData,
+    ratedDisabilities: nextRated,
+    newDisabilities: nextNew,
+    'view:claimType': {
+      ...claimType,
+      'view:claimingIncrease': true,
+    },
+  };
+};
 
 // TODO: Safety checks for `selected` callback and `label` element
 
@@ -18,6 +78,8 @@ class SelectArrayItemsWidget extends React.Component {
   // disabilities list has changed
   hasUpdatedDisabilities = false;
 
+  didMigrateNcRatedIncreases = false;
+
   defaultSelectedPropName = 'view:selected';
 
   keyValue = 'ratedDisabilities';
@@ -25,6 +87,23 @@ class SelectArrayItemsWidget extends React.Component {
   updatedKeyValue = 'updatedRatedDisabilities';
 
   keyConstants = ['ratingDecisionId', 'diagnosticCode'];
+
+  maybeMigrateRatedIncreases = () => {
+    if (this.didMigrateNcRatedIncreases) return;
+
+    const { formContext, formData, formId, metadata } = this.props;
+    if (formContext?.onReviewPage) return;
+
+    const nextData = migrateRatedIncreasesIntoDb(formData);
+    if (nextData !== formData) {
+      this.props.setData(nextData);
+
+      const { version, returnUrl, submission } = metadata || {};
+      this.props.autoSaveForm(formId, nextData, version, returnUrl, submission);
+    }
+
+    this.didMigrateNcRatedIncreases = true;
+  };
 
   onChange = (index, checked) => {
     const items = set(
@@ -73,7 +152,18 @@ class SelectArrayItemsWidget extends React.Component {
     this.props.autoSaveForm(formId, newData, version, returnUrl, submission);
 
     this.hasUpdatedDisabilities = true;
+    this.didMigrateNcRatedIncreases = false;
   };
+
+  componentDidMount() {
+    this.maybeMigrateRatedIncreases();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.formData !== this.props.formData) {
+      this.maybeMigrateRatedIncreases();
+    }
+  }
 
   render() {
     const {

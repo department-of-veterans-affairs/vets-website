@@ -26,11 +26,13 @@ import {
 } from 'date-fns';
 import {
   CHAR_LIMITS,
+  CURRENT_WORKFLOW_URLS,
   DATA_PATHS,
   DISABILITY_526_V2_ROOT_URL,
   FORM_STATUS_BDD,
   HOMELESSNESS_TYPES,
   NEW_CONDITION_OPTION,
+  NEW_WORKFLOW_URLS,
   NINE_ELEVEN,
   PAGE_TITLES,
   PTSD_MATCHES,
@@ -49,6 +51,7 @@ import {
   parseDate,
   getToday,
 } from './dates/formatting';
+import { includesAny, normalizePath } from './validations';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -1044,6 +1047,23 @@ export const isNewConditionsOn = formData =>
 
 export const isNewConditionsOff = formData => !isNewConditionsOn(formData);
 
+export const getWorkflowRedirect = ({ returnUrl, pathname, formData }) => {
+  const path = normalizePath(returnUrl || '');
+  const here = normalizePath(pathname || '');
+
+  if (isNewConditionsOn(formData) && includesAny(path, CURRENT_WORKFLOW_URLS)) {
+    const target = '/conditions/orientation';
+    return normalizePath(target) !== here ? target : null;
+  }
+
+  if (isNewConditionsOff(formData) && includesAny(path, NEW_WORKFLOW_URLS)) {
+    const target = '/veteran-information';
+    return normalizePath(target) !== here ? target : null;
+  }
+
+  return returnUrl;
+};
+
 export const onFormLoaded = props => {
   const { returnUrl, formData, router } = props;
   const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
@@ -1079,8 +1099,14 @@ export const onFormLoaded = props => {
     // Handle evidence enhancement flow transition: enhancement → legacy
     router.push('/supporting-evidence/evidence-types');
   } else {
-    // otherwise, we just redirect to the returnUrl as usual when resuming a form
-    router.push(returnUrl);
+    const target = getWorkflowRedirect({
+      returnUrl,
+      pathname: window.location.pathname,
+      formData,
+    });
+
+    if (target === null) return;
+    router.push(target);
   }
 };
 

@@ -5,7 +5,10 @@ import sinon from 'sinon';
 
 import get from 'platform/utilities/data/get';
 
-import { SelectArrayItemsWidget } from '../../components/SelectArrayItemsWidget';
+import {
+  SelectArrayItemsWidget,
+  migrateRatedIncreasesIntoDb,
+} from '../../components/SelectArrayItemsWidget';
 
 describe('<SelectArrayItemsWidget>', () => {
   let defaultProps = {};
@@ -372,6 +375,163 @@ describe('<SelectArrayItemsWidget>', () => {
     expect(autoSaveFormSpy.firstCall.args[2]).to.eql(99);
     expect(autoSaveFormSpy.firstCall.args[3]).to.eql('/test');
     expect(autoSaveFormSpy.firstCall.args[4]).to.deep.equal({ test: 123 });
+    wrapper.unmount();
+  });
+});
+
+describe('migrateRatedIncreasesIntoDb', () => {
+  it('returns the same object reference when no qualifying increase entries exist', () => {
+    const formData = {
+      ratedDisabilities: [{ name: 'Knee Pain', 'view:selected': false }],
+      newDisabilities: [
+        {
+          cause: 'NEW',
+          condition: 'Rated Disability',
+          ratedDisability: 'Knee Pain',
+        },
+        {
+          cause: 'WORSENED',
+          condition: 'Something Else',
+          ratedDisability: 'Knee Pain',
+        },
+        { cause: 'WORSENED', condition: 'Rated Disability' },
+      ],
+      'view:claimType': { someOtherKey: true },
+    };
+
+    const next = migrateRatedIncreasesIntoDb(formData);
+    expect(next).to.equal(formData);
+  });
+
+  it('migrates qualifying increases: selects matching rated disability, removes newDisability increase entry, sets claimingIncrease', () => {
+    const formData = {
+      ratedDisabilities: [
+        { name: 'Knee Pain', 'view:selected': false },
+        { name: 'Back Pain', 'view:selected': false },
+      ],
+      newDisabilities: [
+        {
+          cause: 'WORSENED',
+          condition: 'Rated Disability',
+          ratedDisability: '  knee pain  ',
+        },
+        {
+          cause: 'NEW',
+          condition: 'New Condition',
+          conditionName: 'Tinnitus',
+        },
+      ],
+      'view:claimType': { someOtherKey: 'keep-me' },
+    };
+
+    const next = migrateRatedIncreasesIntoDb(formData);
+
+    expect(next).to.not.equal(formData);
+
+    expect(next.ratedDisabilities).to.deep.equal([
+      { name: 'Knee Pain', 'view:selected': true },
+      { name: 'Back Pain', 'view:selected': false },
+    ]);
+
+    expect(next.newDisabilities).to.deep.equal([
+      {
+        cause: 'NEW',
+        condition: 'New Condition',
+        conditionName: 'Tinnitus',
+      },
+    ]);
+
+    expect(next['view:claimType']).to.deep.equal({
+      someOtherKey: 'keep-me',
+      'view:claimingIncrease': true,
+    });
+  });
+
+  it('should migrate new workflow rated disability increases on mount (non-review page) and sync SIP', () => {
+    const autoSaveFormSpy = sinon.spy();
+    const setDataSpy = sinon.spy();
+    const onChangeSpy = sinon.spy();
+    const selectedPropName = 'selected';
+    const labelElement = props => (
+      <div>
+        {Object.keys(props).map(key => (
+          <p key={key} id={key}>
+            {key}: {props[key]}
+          </p>
+        ))}
+      </div>
+    );
+
+    const props = {
+      value: [],
+      id: 'id',
+      onChange: onChangeSpy,
+      options: {
+        label: labelElement,
+        selectedPropName,
+        customTitle: 'Custom title',
+      },
+      formContext: {
+        onReviewPage: false,
+        reviewMode: false,
+      },
+      formId: '526',
+      autoSaveForm: autoSaveFormSpy,
+      setData: setDataSpy,
+      metadata: {
+        version: 99,
+        returnUrl: '/test',
+        submission: { test: 123 },
+      },
+      formData: {
+        ratedDisabilities: [
+          { name: 'Knee Pain', 'view:selected': false },
+          { name: 'Back Pain', 'view:selected': false },
+        ],
+        newDisabilities: [
+          {
+            cause: 'WORSENED',
+            condition: 'Rated Disability',
+            ratedDisability: 'knee pain',
+          },
+          {
+            cause: 'NEW',
+            condition: 'New Condition',
+            conditionName: 'Tinnitus',
+          },
+        ],
+        'view:claimType': { someOtherKey: 'keep-me' },
+      },
+    };
+
+    const wrapper = mount(<SelectArrayItemsWidget {...props} />);
+
+    expect(setDataSpy.callCount).to.equal(1);
+    const migrated = setDataSpy.firstCall.args[0];
+
+    expect(migrated.ratedDisabilities).to.deep.equal([
+      { name: 'Knee Pain', 'view:selected': true },
+      { name: 'Back Pain', 'view:selected': false },
+    ]);
+    expect(migrated.newDisabilities).to.deep.equal([
+      {
+        cause: 'NEW',
+        condition: 'New Condition',
+        conditionName: 'Tinnitus',
+      },
+    ]);
+    expect(migrated['view:claimType']).to.deep.equal({
+      someOtherKey: 'keep-me',
+      'view:claimingIncrease': true,
+    });
+
+    expect(autoSaveFormSpy.callCount).to.equal(1);
+    expect(autoSaveFormSpy.firstCall.args[0]).to.equal('526');
+    expect(autoSaveFormSpy.firstCall.args[1]).to.equal(migrated);
+    expect(autoSaveFormSpy.firstCall.args[2]).to.equal(99);
+    expect(autoSaveFormSpy.firstCall.args[3]).to.equal('/test');
+    expect(autoSaveFormSpy.firstCall.args[4]).to.deep.equal({ test: 123 });
+
     wrapper.unmount();
   });
 });
