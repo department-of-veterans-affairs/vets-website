@@ -1,5 +1,4 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
-// no-op change to repro test failure
 import 'cypress-axe';
 import { setFeatureToggles } from './intercepts/feature-toggles';
 import inProgressFormsResponse from './fixtures/mocks/in-progress-forms-response.json';
@@ -113,6 +112,23 @@ describe('21A — resume to Conviction (yes/no)', () => {
       '**/accredited_representative_portal/v0/in_progress_forms/21a*',
       inProgressFormsResponse,
     ).as('saveInProgressForm');
+
+    cy.intercept(
+      'POST',
+      '**/accredited_representative_portal/v0/form21a/conviction-details',
+      {
+        statusCode: 200,
+        body: {
+          data: {
+            attributes: {
+              confirmationCode: 'fake-confirmation-code',
+              name: 'conviction_supporting_document_1.pdf',
+              size: 2783621,
+            },
+          },
+        },
+      },
+    ).as('uploadConvictionDocument');
 
     cy.seedUserWith21aSIP('/conviction');
     cy.stub21aFormDataExact('/conviction');
