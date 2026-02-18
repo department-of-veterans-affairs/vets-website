@@ -227,7 +227,7 @@ This document was created to help front-end developers understand the prescripti
 | `prescriptionImage` (not in use) | string | `"BASE_64_STRING"` | A Base-64 encoded image of the medication | This was once used to add images to PDFs but isn't used anymore due to safety concerns with including images in PDFs |
 | `refillStatus` | string | `"active"` | The status of a prescription ("Active", "Inactive", etc) | Used as the primary key for PDF/TXT status definition lookups and for detecting pending medications/renewals (`neworder`/`renew` values). Also used in print layouts. [dispStatus](#disp-status) is preferred for rendering status-specific UI content in the browser |
 | <span id="refill-submit-date">`refillSubmitDate`</span> | string/date | `"2024-02-29T14:47:25000Z"` | The date when a refill request was submitted | Used across multiple status contexts: displayed in the process list for Shipped, Submitted, Refill in Process, and Active statuses (step 1: "We received your refill request"). Also used for refill button suppression (hidden for 15 days after submission) and to detect delayed refills (> 7 days old) |
-| `refillDate` | string/date | `"2024-01-28T05:00:00000Z"` | ⚠️ Despite the name, this is actually the **last fill date** — the date the pharmacy most recently filled/dispensed the prescription (VistA RDT[5], File 52,102.1). It was renamed from `lastFillDate` in the MHV rxrefill API | Displayed in the UI when the prescription status is 'RefillInProcess' with the text "We expect to fill this prescription on {refillDate}". Also used in delay detection logic to determine if a refill is taking longer than expected (current date > refillDate). **Note:** The UI text implies a future date, but this field contains a past date |
+| `refillDate` | string/date | `"2024-01-28T05:00:00000Z"` | ⚠️ Has **dual meaning** depending on status. Normally this is the **last fill date** (VistA RDT[5], File 52,102.1), renamed from `lastFillDate` in the MHV rxrefill API. However, for **Refill in Process** prescriptions, the MHV API deliberately overwrites this with the RF (refill) record's `issueDateTime` — a **future projected fill date** from VistA | Displayed in the UI when the prescription status is 'RefillInProcess' with the text "We expect to fill this prescription on {refillDate}". For that status the value is a future date. Also used in delay detection logic to determine if a refill is taking longer than expected (current date > refillDate) |
 | `refillRemaining` | number | `3` | The number of refills left for a prescription | Display the number of refills remaining for a specific prescription |
 | `facilityName` | string | `"Dayton Medical Center"` | The name of the medical facility where the prescription was issued | Display this name in the UI to inform users about the origin of the prescription |
 | <span id="ordered-date">`orderedDate`</span> | string/date | `"2023-10-31T04:00:00000Z"` | The date on which the prescription was first issued (VistA "Issue Date", renamed from `issueDateTime` in the MHV API) | Displayed on VA prescription details pages. For Non-VA prescriptions, displayed as "Documented on {orderedDate}" rather than "prescribed". Also used in conditional logic for date-based calculations |
@@ -293,64 +293,66 @@ This document was created to help front-end developers understand the prescripti
 > **MHV DTO Field** = the internal Java DTO field name before the API renames it. Where these differ, the rename may obscure the data's original meaning.
 > Fields marked ⚠️ have a name that misrepresents the underlying data — see notes below the table.
 
-| Front End Field | Vets-API Field | MHV API Field | MHV DTO Field | Notes |
-|--|--|--|--|--|
-| `prescriptionId` | `prescription_id` | `prescriptionId` | `id` | MHV database primary key, not a VistA identifier |
-| `prescriptionNumber` | `prescription_number` | `prescriptionNumber` | `prescriptionNumber` | |
-| `prescriptionName` | `prescription_name` | `prescriptionName` | `drugName` | Renamed from `drugName` |
-| `prescriptionImage` (not in use) | `prescription_image` | none | none | |
-| `refillStatus` | `refill_status` | `refillStatus` | `status` | Renamed from generic `status` |
-| `refillSubmitDate` | `refill_submit_date` | `refillSubmitDate` | `lastRefillSubmittedDate` | MHV app-level field (not from VistA) |
-| `refillDate` | `refill_date` | `refillDate` | `lastFillDate` | ⚠️ Renamed from `lastFillDate` — actually the date pharmacy last filled/dispensed the Rx (VistA RDT[5]), not a future refill date |
-| `refillRemaining` | `refill_remaining` | `refillRemaining` | `numberOfRefills` | Renamed from `numberOfRefills` |
-| `facilityName` | `facility_api_name` | `facilityName` / `facilityApiName` | `institution.name` | vets-api prefers `facilityApiName` when present, falls back to `facilityName` |
-| `orderedDate` | `ordered_date` | `orderedDate` | `issueDateTime` | Renamed from `issueDateTime` (VistA RDT[4]) |
-| `quantity` | `quantity` | `quantity` | `quantity` | |
-| `expirationDate` | `expiration_date` | `expirationDate` | `expirationCancelDate` | ⚠️ Renamed from `expirationCancelDate` — may be a cancel date, not an expiration date |
-| `dispensedDate` | `dispensed_date` | `dispensedDate` | `releaseDateTime` | ⚠️ Renamed from `releaseDateTime` (VistA RDT[6] Release Date). The actual VistA `dispensedDate` (RDT[22]) exists on the DTO but is not mapped to this field |
-| `stationNumber` | `station_number` | `stationNumber` | `institution.stationNumber` | |
-| `isRefillable` | `is_refillable` | `isRefillable` | `refillable` | Jackson serializes `getIsRefillable()` as `isRefillable` |
-| `isRenewable` | `is_renewable` | `isRenewable` | unknown | Detail endpoint only |
-| `isTrackable` | `is_trackable` | `isTrackable` | none | Computed by MHV API |
-| `cmopNdcNumber` | `cmop_ndc_number` | `cmopNdcNumber` | `cmopNdcNumber` | |
-| `inCernerTransition` (not in use) | `in_cerner_transition` | `inCernerTransition` | none | Computed by MHV API |
-| `notRefillableDisplayMessage` (not in use) | `not_refillable_display_message` | `notRefillableDisplayMessage` | none | Computed by MHV API |
-| `sig` | `sig` | `sig` | `sig` | Complex HL7 parsing: non-renew uses RDT[50], renew uses RDT[65] |
-| `cmopDivisionPhone` | `cmop_division_phone` | `cmopDivisionPhone` | `cmopDivisionPhone` | |
-| `userId` (not in use) | `user_id` | `userId` | `userId` | Detail endpoint only |
-| `providerFirstName` | `provider_first_name` | `providerFirstName` | `providerFirstName` | Detail endpoint only |
-| `providerLastName` | `provider_last_name` | `providerLastName` | `providerLastName` | Detail endpoint only |
-| `remarks` | `remarks` | `remarks` | `remarks` | Detail endpoint only |
-| `divisionName` (not in use) | `division_name` | `divisionName` | `divisionName` | Detail endpoint only |
-| `modifiedDate` (not in use) | `modified_date` | `modifiedDate` | `modifiedDate` | Detail endpoint only |
-| `institutionId` (not in use) | `institution_id` | `institutionId` | `institutionId` | Detail endpoint only |
-| `dialCmopDivisionPhone` | `dial_cmop_division_phone` | `dialCmopDivisionPhone` | `dialCmopDivisionPhone` | Detail endpoint only |
-| `dispStatus` | `disp_status` | `dispStatus` | computed | Display-formatted status; detail endpoint only |
-| `ndc` (not in use) | `ndc` | `ndc` | `ndc` | Detail endpoint only |
-| `reason` (not in use) | `reason` | `reason` | `reason` | Detail endpoint only |
-| `prescriptionNumberIndex` | `prescription_number_index` | `prescriptionNumberIndex` | `prescriptionNumberIndex` | Detail endpoint only |
-| `prescriptionSource` | `prescription_source` | `prescriptionSource` | `prescriptionSource` | Detail endpoint only |
-| `disclaimer` | `disclaimer` | `disclaimer` | `disclaimer` | Detail endpoint only |
-| `indicationForUse` | `indication_for_use` | `indicationForUse` | `indicationForUse` | Detail endpoint only |
-| `indicationForUseFlag` (not in use) | `indication_for_use_flag` | `indicationForUseFlag` | `indicationForUseFlag` | Detail endpoint only |
-| `category` | `category` | `category` | `category` | Detail endpoint only |
-| `orderableItem` | `orderable_item` | `orderableItem` | `orderableItem` | Detail endpoint only |
-| `sortedDispensedDate` | `sorted_dispensed_date` | none | none | Computed by vets-api, not from MHV API |
-| `shape` | `shape` | `shape` | `shape` | Detail endpoint only |
-| `color` | `color` | `color` | `color` | Detail endpoint only |
-| `frontImprint` | `front_imprint` | `frontImprint` | `frontImprint` | Detail endpoint only |
-| `backImprint` | `back_imprint` | `backImprint` | `backImprint` | Detail endpoint only |
-| `trackingList` | `tracking_list` | `trackingList` | none | Nested object; detail endpoint only |
-| `rxRfRecords` | `rx_rf_records` | `rxRFRecords` | none | Nested object; detail endpoint only |
-| `tracking` (not in use) | `tracking` | `tracking` | `isTracking` | Jackson serializes `isTracking()` as `tracking`; detail endpoint only |
+| Front End Field | Vets-API Field | MHV API Field | MHV DTO Field | VistA/FileMan | Notes |
+|--|--|--|--|--|--|
+| `prescriptionId` | `prescription_id` | `prescriptionId` | `id` | N/A | MHV database primary key, not a VistA identifier |
+| `prescriptionNumber` | `prescription_number` | `prescriptionNumber` | `prescriptionNumber` | 52,.01 | RDT[1] |
+| `prescriptionName` | `prescription_name` | `prescriptionName` | `drugName` | 52,6 → 50,.01 | RDT[3]; renamed from `drugName` |
+| `prescriptionImage` (not in use) | `prescription_image` | none | none | N/A | |
+| `refillStatus` | `refill_status` | `refillStatus` | `status` | 52,100 | RDT[8]; renamed from generic `status` |
+| `refillSubmitDate` | `refill_submit_date` | `refillSubmitDate` | `lastRefillSubmittedDate` | N/A | MHV app-level field (not from VistA) |
+| `refillDate` | `refill_date` | `refillDate` | `lastFillDate` | 52,102.1 | ⚠️ RDT[5]; renamed from `lastFillDate`. Normally the last fill date, but for **Refill in Process** Rx the MHV API overwrites this with the RF record's `issueDateTime` (a future projected fill date) |
+| `refillRemaining` | `refill_remaining` | `refillRemaining` | `numberOfRefills` | 52,9 | RDT[11]; renamed from `numberOfRefills` |
+| `facilityName` | `facility_api_name` | `facilityName` / `facilityApiName` | `institution.name` | Institution lookup | vets-api prefers `facilityApiName` when present, falls back to `facilityName` |
+| `orderedDate` | `ordered_date` | `orderedDate` | `issueDateTime` | 52,1 | RDT[4]; renamed from `issueDateTime` |
+| `quantity` | `quantity` | `quantity` | `quantity` | 52,7 | RDT[9] |
+| `expirationDate` | `expiration_date` | `expirationDate` | `expirationCancelDate` | 52,26 | ⚠️ RDT[7]; renamed from `expirationCancelDate` — may be a cancel date |
+| `dispensedDate` | `dispensed_date` | `dispensedDate` | `releaseDateTime` | 52,31 | ⚠️ RDT[6]; renamed from `releaseDateTime`. Real VistA dispensedDate is RDT[22] (52,25) |
+| `stationNumber` | `station_number` | `stationNumber` | `institution.stationNumber` | Institution lookup | |
+| `isRefillable` | `is_refillable` | `isRefillable` | `refillable` | Computed | Jackson serializes `getIsRefillable()` as `isRefillable` |
+| `isRenewable` | `is_renewable` | `isRenewable` | unknown | Computed | Detail endpoint only |
+| `isTrackable` | `is_trackable` | `isTrackable` | none | Computed | Computed by MHV API |
+| `cmopNdcNumber` | `cmop_ndc_number` | `cmopNdcNumber` | `cmopNdcNumber` | N/A | Not in HL7 RDT; stored in MHV DB |
+| `inCernerTransition` (not in use) | `in_cerner_transition` | `inCernerTransition` | none | Computed | Computed by MHV API |
+| `notRefillableDisplayMessage` (not in use) | `not_refillable_display_message` | `notRefillableDisplayMessage` | none | Computed | Computed by MHV API |
+| `sig` | `sig` | `sig` | `sig` | 52,10 | RDT[65] (renew) / RDT[50] (non-renew); complex HL7 parsing with delimiter escaping |
+| `cmopDivisionPhone` | `cmop_division_phone` | `cmopDivisionPhone` | `cmopDivisionPhone` | N/A | Not from VistA HL7; stored in MHV DB |
+| `userId` (not in use) | `user_id` | `userId` | `userId` | N/A | MHV user ID; detail endpoint only |
+| `providerFirstName` | `provider_first_name` | `providerFirstName` | `providerFirstName` | 52,4 → 200 | RDT[12] component 3; ptr to New Person file |
+| `providerLastName` | `provider_last_name` | `providerLastName` | `providerLastName` | 52,4 → 200 | RDT[12] component 2; ptr to New Person file |
+| `remarks` | `remarks` | `remarks` | `remarks` | 52,12 | RDT[19]; detail endpoint only |
+| `divisionName` (not in use) | `division_name` | `divisionName` | `divisionName` | 52,20 → 59,.01 | RDT[16]; detail endpoint only |
+| `modifiedDate` (not in use) | `modified_date` | `modifiedDate` | `modifiedDate` | N/A | MHV DB timestamp; detail endpoint only |
+| `institutionId` (not in use) | `institution_id` | `institutionId` | `institutionId` | N/A | MHV DB FK; detail endpoint only |
+| `dialCmopDivisionPhone` | `dial_cmop_division_phone` | `dialCmopDivisionPhone` | `dialCmopDivisionPhone` | N/A | Formatted phone; detail endpoint only |
+| `dispStatus` | `disp_status` | `dispStatus` | computed | Computed | Display-formatted status; detail endpoint only |
+| `ndc` (not in use) | `ndc` | `ndc` | `ndc` | 52,27 / 50,31 | RDT[21]; detail endpoint only |
+| `reason` (not in use) | `reason` | `reason` | `reason` | RDT[24] | Detail endpoint only |
+| `prescriptionNumberIndex` | `prescription_number_index` | `prescriptionNumberIndex` | `prescriptionNumberIndex` | RDT[50] | Refill/Partial IEN; detail endpoint only |
+| `prescriptionSource` | `prescription_source` | `prescriptionSource` | `prescriptionSource` | RDT[20] | Hardcoded per type: RX, RF, PF, NV, PD; detail endpoint only |
+| `disclaimer` | `disclaimer` | `disclaimer` | `disclaimer` | 55.04,10 (NV only) | RDT[51]; Non-VA only; detail endpoint only |
+| `indicationForUse` | `indication_for_use` | `indicationForUse` | `indicationForUse` | 52,128 | RDT[62]; detail endpoint only |
+| `indicationForUseFlag` (not in use) | `indication_for_use_flag` | `indicationForUseFlag` | `indicationForUseFlag` | 52,129 | RDT[63]; detail endpoint only |
+| `category` | `category` | `category` | `category` | Computed | Detail endpoint only |
+| `orderableItem` | `orderable_item` | `orderableItem` | `orderableItem` | 52,39.2 | RDT[47]; detail endpoint only |
+| `sortedDispensedDate` | `sorted_dispensed_date` | none | none | N/A | Computed by vets-api, not from MHV API |
+| `shape` | `shape` | `shape` | `shape` | Krames/CMOP | Detail endpoint only |
+| `color` | `color` | `color` | `color` | Krames/CMOP | Detail endpoint only |
+| `frontImprint` | `front_imprint` | `frontImprint` | `frontImprint` | Krames/CMOP | Detail endpoint only |
+| `backImprint` | `back_imprint` | `backImprint` | `backImprint` | Krames/CMOP | Detail endpoint only |
+| `trackingList` | `tracking_list` | `trackingList` | none | CMOP data | Nested object; detail endpoint only |
+| `rxRfRecords` | `rx_rf_records` | `rxRFRecords` | none | File 52.1 / 52.2 | Nested refill/partial fill records; detail endpoint only |
+| `tracking` (not in use) | `tracking` | `tracking` | `isTracking` | Computed | Jackson serializes `isTracking()` as `tracking`; detail endpoint only |
+
+> **VistA/FileMan notation**: `52,1` = File 52 (PRESCRIPTION), Field 1. `52,4 → 200` = pointer from File 52 Field 4 to File 200 (NEW PERSON). `52.1` = Refill subfile. `52.2` = Partial Fill subfile. `52.43` = Internet Refill queue. `55.05` = Non-VA Meds subfile. `550.2` = CMOP data. RDT[n] = position in the HL7 RTB^K13 response (see MHV Pharmacy HL7 Extract Medications 2 Spec v3).
 
 ##### ⚠️ Misleading Field Names
 
-| Field | API Name | Actual Data Source | Why It's Misleading |
-|--|--|--|--|
-| `refillDate` | `refillDate` | VistA `lastFillDate` (RDT[5], File 52,102.1) | Name implies a future refill date. Actually the **last fill date** — when the pharmacy most recently filled the prescription. |
-| `dispensedDate` | `dispensedDate` | VistA `releaseDateTime` (RDT[6]) | Named "dispensed" but actually the pharmacy **release date**. The real VistA `dispensedDate` (RDT[22]) exists on the DTO but is never exposed. |
-| `expirationDate` | `expirationDate` | VistA `expirationCancelDate` (RDT[7]) | Could be the **cancel date** rather than the expiration date if the Rx was canceled. |
+| Field | API Name | Actual Data Source | VistA/FileMan | Why It's Misleading |
+|--|--|--|--|--|
+| `refillDate` | `refillDate` | VistA `lastFillDate` (RDT[5]), **or** RF record's `issueDateTime` for Refill in Process | 52,102.1 / 52.1 | Has **dual meaning**: normally the last fill date, but for **Refill in Process** the MHV API (`PrescriptionServiceImpl.convertToDtos`) overwrites it with the RF record's projected fill date (a future date). |
+| `dispensedDate` | `dispensedDate` | VistA `releaseDateTime` (RDT[6]) | 52,31 | Named "dispensed" but actually the pharmacy **release date**. The real VistA `dispensedDate` (RDT[22]) is 52,25 but is never exposed. |
+| `expirationDate` | `expirationDate` | VistA `expirationCancelDate` (RDT[7]) | 52,26 | Could be the **cancel date** rather than the expiration date if the Rx was canceled. |
 
 ## Application Architecture
 
