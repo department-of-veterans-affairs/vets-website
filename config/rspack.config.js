@@ -51,8 +51,10 @@ const globalEntryFiles = {
   ),
   vendor: sharedModules,
   'shared-modules': sharedModules,
-  'web-components':
-    '@department-of-veterans-affairs/platform-site-wide/wc-loader',
+  'web-components': {
+    import: '@department-of-veterans-affairs/platform-site-wide/wc-loader',
+    dependOn: 'vendor',
+  },
 };
 
 function getEntryManifests(entry) {
