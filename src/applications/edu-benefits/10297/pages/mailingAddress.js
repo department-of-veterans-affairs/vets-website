@@ -2,7 +2,6 @@ import React from 'react';
 import {
   addressSchema,
   addressUI,
-  descriptionUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from 'platform/utilities/data/get';
@@ -42,22 +41,27 @@ const POSTAL_CODE_PATTERN_ERROR_MESSAGES = {
 
 const addressUiSchema = addressUI({ omit: ['street3'] });
 const uiSchema = {
-  ...titleUI('Review your mailing address'),
-  ...descriptionUI(
-    <div className="vads-u-margin-bottom--4">
-      We’ll send any important information about this application to this
-      address.
-      <p>
-        This is the mailing address we have on file for you. If you notice any
-        errors, please correct them now.
-      </p>
-      <p>
-        <b>Note:</b> If you want to update your personal information for other
-        VA benefits, you can do that from your profile.
-      </p>
-      <va-link href="/profile" text="Go to your profile" />
-    </div>,
-  ),
+  ...titleUI({
+    title: 'Review your mailing address',
+    description: (
+      <>
+        We’ll send any important information about this application to this
+        address.
+        <p>
+          This is the mailing address we have on file for you. If you notice any
+          errors, please correct them now.
+        </p>
+        <p>
+          <b>Note:</b> If you want to update your personal information for other
+          VA benefits, you can do that from your profile.
+        </p>
+        <p>
+          <va-link href="/profile" text="Go to your profile" />
+        </p>
+      </>
+    ),
+    classNames: 'vads-u-color--base vads-u-margin-top--0',
+  }),
   mailingAddress: {
     ...addressUiSchema,
     country: {
