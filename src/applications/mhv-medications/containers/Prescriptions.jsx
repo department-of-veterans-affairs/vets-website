@@ -18,7 +18,6 @@ import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
-import RefillPrescriptionsV2 from './RefillPrescriptionsV2';
 
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { getPrescriptionsExportList } from '../api/prescriptionsApi';
@@ -68,9 +67,7 @@ import { getFilterOptions } from '../util/helpers/getRxStatus';
 import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
-  selectMedicationsManagementImprovementsFlag,
 } from '../util/selectors';
-import RefillProcess from '../components/shared/RefillProcess';
 
 const Prescriptions = () => {
   const navigate = useNavigate();
@@ -79,9 +76,6 @@ const Prescriptions = () => {
   const dob = useSelector(selectUserDob);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
-  const isManagementImprovementsEnabled = useSelector(
-    selectMedicationsManagementImprovementsFlag,
-  );
   const prescriptionId = useSelector(selectPrescriptionId);
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
@@ -357,10 +351,6 @@ const Prescriptions = () => {
     );
   };
 
-  if (isManagementImprovementsEnabled) {
-    return <RefillPrescriptionsV2 />;
-  }
-
   return (
     <>
       <div className="landing-page no-print">
@@ -390,7 +380,6 @@ const Prescriptions = () => {
             {renderMedicationsContent()}
           </>
         )}
-        {isManagementImprovementsEnabled && <RefillProcess />}
         <NeedHelp page={pageType.LIST} />
       </div>
       <PrescriptionsPrintOnly

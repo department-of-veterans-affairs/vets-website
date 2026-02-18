@@ -54,9 +54,9 @@ export const refillProcessStepGuideV2 = {
       content: (
         <>
           <p>
-            After you request a refill, the prescription status will change to{' '}
-            <strong>In progress</strong>. It may take up to 7 days to start
-            processing your request.
+            After you request a refill, your prescription will be in the
+            "Request submitted" section of your in-progress medications page. It
+            may take up to 7 days to start processing your request.
           </p>
         </>
       ),
@@ -65,8 +65,9 @@ export const refillProcessStepGuideV2 = {
       header: 'We process your refill request',
       content: (
         <p>
-          Once our pharmacy starts processing your request, it may take up to 7
-          days to fill and ship your prescription.
+          Once our pharmacy starts processing your request, your prescription
+          will move to the "Fill in progress" section of your in-progress
+          medications page.
         </p>
       ),
     },
@@ -75,10 +76,10 @@ export const refillProcessStepGuideV2 = {
       content: (
         <>
           <p>
-            Once we ship the prescription to you, the status will change to{' '}
-            <strong>Shipped.</strong> Prescriptions usually arrive within 3 to 5
-            days after shipping. You can find tracking information in your
-            details page.
+            Once we ship the prescription to you, it’ll move to the "Medication
+            shipped" section of your in-progress medications page. Prescriptions
+            usually arrive within 3 to 5 days after shipping. You can find
+            tracking information in your medications details page.
           </p>
         </>
       ),
