@@ -518,7 +518,8 @@ export const CernerAlertContent = {
 export const LABS_AND_TESTS_DISPLAY_LABELS = {
   DATE: 'Date and time collected',
   TEST_CODE: 'Type of test',
-  SAMPLE_TESTED: 'Site or sample tested',
+  SAMPLE_TESTED: 'Sample tested',
+  SITE_OR_SAMPLE_TESTED: 'Site or sample tested',
   BODY_SITE: 'Body site tested',
   ORDERED_BY: 'Ordered by',
   LOCATION: 'Location',
@@ -526,10 +527,11 @@ export const LABS_AND_TESTS_DISPLAY_LABELS = {
   RESULTS: 'Results',
 };
 
+// Used for print version so default to the site_or_sample_tested label
 export const LABS_AND_TESTS_DISPLAY_DISPLAY_MAP = {
   date: LABS_AND_TESTS_DISPLAY_LABELS.DATE,
   testCode: LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE,
-  sampleTested: LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED,
+  sampleTested: LABS_AND_TESTS_DISPLAY_LABELS.SITE_OR_SAMPLE_TESTED,
   bodySite: LABS_AND_TESTS_DISPLAY_LABELS.BODY_SITE,
   orderedBy: LABS_AND_TESTS_DISPLAY_LABELS.ORDERED_BY,
   location: LABS_AND_TESTS_DISPLAY_LABELS.LOCATION,
@@ -539,16 +541,19 @@ export const LABS_AND_TESTS_DISPLAY_DISPLAY_MAP = {
 
 export const OBSERVATION_DISPLAY_LABELS = {
   TEST_CODE: 'Type of test',
-  SAMPLE_TESTED: 'Site or sample tested',
+  SAMPLE_TESTED: 'Sample tested',
+  SITE_OR_SAMPLE_TESTED: 'Site or sample tested',
   BODY_SITE: 'Body site tested',
   STATUS: 'Status',
   COMMENTS: 'Lab comments',
   REFERENCE_RANGE: 'Reference range',
   VALUE: 'Result',
 };
+
+// Used for print version so default to the site_or_sample_tested label
 export const OBSERVATION_DISPLAY_DISPLAY_MAP = {
   testCode: OBSERVATION_DISPLAY_LABELS.TEST_CODE,
-  sampleTested: OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED,
+  sampleTested: OBSERVATION_DISPLAY_LABELS.SITE_OR_SAMPLE_TESTED,
   bodySite: OBSERVATION_DISPLAY_LABELS.BODY_SITE,
   status: OBSERVATION_DISPLAY_LABELS.STATUS,
   comments: OBSERVATION_DISPLAY_LABELS.COMMENTS,
