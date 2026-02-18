@@ -50,7 +50,9 @@ class PatientMessageDetailsPage {
     cy.findByTestId(Locators.ALERTS.THREAD_EXPAND)
       .should('be.visible')
       .shadow()
-      .findByText('Expand all')
+      .find('va-button-icon[data-testid="expand-all-accordions"]')
+      .shadow()
+      .find('button')
       .click({ force: true });
   };
 
@@ -58,7 +60,9 @@ class PatientMessageDetailsPage {
     cy.findByTestId(Locators.ALERTS.THREAD_EXPAND)
       .should('be.visible')
       .shadow()
-      .findByText('Collapse all')
+      .find('va-button-icon[data-testid="collapse-all-accordions"]')
+      .shadow()
+      .find('button')
       .click({ force: true });
   };
 
