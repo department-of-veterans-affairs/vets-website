@@ -1,7 +1,11 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  updatePageTitle,
+  useAcceleratedData,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { selectHoldTimeMessagingUpdate } from '../util/selectors';
@@ -9,7 +13,12 @@ import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import { getRadiologyList, reloadRadiologyRecords } from '../actions/radiology';
 import {
+  getLabsAndTestsList,
+  updateLabsAndTestDateRange,
+} from '../actions/labsAndTests';
+import {
   ALERT_TYPE_ERROR,
+  DEFAULT_DATE_RANGE,
   accessAlertTypes,
   labTypes,
   pageTitles,
@@ -19,26 +28,84 @@ import {
   loadStates,
   statsdFrontEndActions,
 } from '../util/constants';
+import { getTimeFrame, getDisplayTimeFrame } from '../util/helpers';
 
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
+import useDateRangeSelector from '../hooks/useDateRangeSelector';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import DateRangeSelector from '../components/shared/DateRangeSelector';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import HoldTimeInfo from '../components/shared/HoldTimeInfo';
 import { fetchImageRequestStatus } from '../actions/images';
 import JobCompleteAlert from '../components/shared/JobsCompleteAlert';
 import { useTrackAction } from '../hooks/useTrackAction';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
+import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
 
 const Radiology = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const updatedRecordList = useSelector(
+  const { isLoading, isAcceleratingLabsAndTests } = useAcceleratedData();
+
+  // --- Non-accelerated (legacy) state from radiology reducer ---
+  const legacyUpdatedRecordList = useSelector(
     state => state.mr.radiology.updatedList,
   );
-  const radiologyList = useSelector(state => state.mr.radiology.radiologyList);
+  const legacyRadiologyList = useSelector(
+    state => state.mr.radiology.radiologyList,
+  );
+  const legacyListState = useSelector(state => state.mr.radiology.listState);
+  const legacyCurrentAsOf = useSelector(
+    state => state.mr.radiology.listCurrentAsOf,
+  );
+
+  // --- Accelerated state from labsAndTests reducer ---
+  const labsAndTestsList = useSelector(
+    state => state.mr.labsAndTests.labsAndTestsList,
+  );
+  const labsAndTestsDateRange = useSelector(
+    state => state.mr.labsAndTests.dateRange,
+  );
+  const labsAndTestsListState = useSelector(
+    state => state.mr.labsAndTests.listState,
+  );
+  const labsAndTestsCurrentAsOf = useSelector(
+    state => state.mr.labsAndTests.listCurrentAsOf,
+  );
+  const mergeCvixWithScdf = useSelector(
+    state =>
+      state.featureToggles.mhv_medical_records_merge_cvix_into_scdf ||
+      state.featureToggles.mhvMedicalRecordsMergeCvixIntoScdf,
+  );
+
+  // When accelerating, filter labsAndTests to only radiology records
+  const acceleratedRadiologyList = useMemo(
+    () => {
+      if (!isAcceleratingLabsAndTests || !labsAndTestsList) return undefined;
+      return labsAndTestsList.filter(
+        record => record?.type === labTypes.UNIFIED_RADIOLOGY,
+      );
+    },
+    [isAcceleratingLabsAndTests, labsAndTestsList],
+  );
+
+  // Pick the right data source based on acceleration
+  const radiologyList = isAcceleratingLabsAndTests
+    ? acceleratedRadiologyList
+    : legacyRadiologyList;
+  const listState = isAcceleratingLabsAndTests
+    ? labsAndTestsListState
+    : legacyListState;
+  const listCurrentAsOf = isAcceleratingLabsAndTests
+    ? labsAndTestsCurrentAsOf
+    : legacyCurrentAsOf;
+  const dateRange = isAcceleratingLabsAndTests ? labsAndTestsDateRange : null;
+
   const { imageStatus: studyJobs } = useSelector(state => state.mr.images);
   const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
 
@@ -53,11 +120,7 @@ const Radiology = () => {
   });
 
   const activeAlert = useAlerts(dispatch);
-  const listState = useSelector(state => state.mr.radiology.listState);
   const refresh = useSelector(state => state.mr.refresh);
-  const radiologyCurrentAsOf = useSelector(
-    state => state.mr.radiology.listCurrentAsOf,
-  );
 
   useTrackAction(statsdFrontEndActions.IMAGING_RESULTS_LIST);
 
@@ -68,24 +131,45 @@ const Radiology = () => {
     [dispatch],
   );
 
-  const dispatchAction = useMemo(() => {
-    return isCurrent => {
+  const isLoadingAcceleratedData =
+    isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
+
+  // When accelerating, dispatch the labsAndTests action (which fetches all unified records).
+  // When not accelerating, dispatch the legacy radiology action.
+  const dispatchAction = useCallback(
+    isCurrent => {
+      if (isAcceleratingLabsAndTests) {
+        return getLabsAndTestsList(
+          isCurrent,
+          true,
+          {
+            startDate: labsAndTestsDateRange?.fromDate,
+            endDate: labsAndTestsDateRange?.toDate,
+          },
+          mergeCvixWithScdf,
+        );
+      }
       return getRadiologyList(isCurrent);
-    };
-  }, []);
+    },
+    [isAcceleratingLabsAndTests, labsAndTestsDateRange, mergeCvixWithScdf],
+  );
 
   useListRefresh({
     listState,
-    listCurrentAsOf: radiologyCurrentAsOf,
+    listCurrentAsOf,
     refreshStatus: refresh.status,
-    extractType: refreshExtractTypes.IMAGING,
+    extractType: isAcceleratingLabsAndTests
+      ? [refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR]
+      : refreshExtractTypes.IMAGING,
     dispatchAction,
     dispatch,
+    isLoading,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
+  // Only relevant for the non-accelerated path.
   useReloadResetListOnUnmount({
-    listState,
+    listState: legacyListState,
     dispatch,
     updateListActionType: Actions.Radiology.UPDATE_LIST_STATE,
     reloadRecordsAction: reloadRadiologyRecords,
@@ -98,9 +182,17 @@ const Radiology = () => {
     [dispatch],
   );
 
-  const isLoading = listState !== loadStates.FETCHED;
+  useFocusAfterLoading({
+    isLoading: isLoading || listState !== loadStates.FETCHED,
+    isLoadingAcceleratedData,
+  });
 
-  useFocusAfterLoading({ isLoading });
+  const handleDateRangeSelect = useDateRangeSelector({
+    updateDateRangeAction: updateLabsAndTestDateRange,
+    updateListStateActionType: Actions.LabsAndTests.UPDATE_LIST_STATE,
+    dataDogLabel: 'Date range option',
+    history,
+  });
 
   return (
     <div id="radiology">
@@ -121,22 +213,34 @@ const Radiology = () => {
         accessAlertType={accessAlertTypes.RADIOLOGY}
         recordCount={radiologyList?.length}
         recordType={recordType.RADIOLOGY}
-        listCurrentAsOf={radiologyCurrentAsOf}
+        listCurrentAsOf={listCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.IMAGING}
-          newRecordsFound={
-            Array.isArray(radiologyList) &&
-            Array.isArray(updatedRecordList) &&
-            radiologyList.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRadiologyRecords());
-          }}
-        />
-        {isLoading && (
+        {!isAcceleratingLabsAndTests && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.IMAGING}
+            newRecordsFound={
+              Array.isArray(legacyRadiologyList) &&
+              Array.isArray(legacyUpdatedRecordList) &&
+              legacyRadiologyList.length !== legacyUpdatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRadiologyRecords());
+            }}
+          />
+        )}
+        {isAcceleratingLabsAndTests && (
+          <div>
+            <DateRangeSelector
+              onDateRangeSelect={handleDateRangeSelect}
+              selectedDate={dateRange?.option || DEFAULT_DATE_RANGE}
+              isLoading={isLoadingAcceleratedData}
+            />
+            <AdditionalReportsInfo domainName="medical imaging results" />
+          </div>
+        )}
+        {(isLoadingAcceleratedData || isLoading) && (
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
               id="radiology-page-spinner"
@@ -146,7 +250,8 @@ const Radiology = () => {
             />
           </div>
         )}
-        {!isLoading &&
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
           radiologyList !== undefined && (
             <>
               {radiologyList?.length ? (
@@ -176,23 +281,28 @@ const Radiology = () => {
 
                   <RecordList
                     type={recordType.RADIOLOGY}
-                    records={radiologyList}
+                    records={radiologyList?.map(data => ({
+                      ...data,
+                      isAccelerating: isAcceleratingLabsAndTests,
+                    }))}
+                    domainOptions={{
+                      isAccelerating: isAcceleratingLabsAndTests,
+                      timeFrame: dateRange ? getTimeFrame(dateRange) : '',
+                      displayTimeFrame: dateRange
+                        ? getDisplayTimeFrame(dateRange)
+                        : '',
+                    }}
                   />
                 </>
               ) : (
-                <div className="vads-u-margin-y--8">
-                  <va-alert
-                    close-btn-aria-label="Close notification"
-                    status="info"
-                    visible
-                  >
-                    <h2 slot="headline">No radiology records</h2>
-                    <p className="vads-u-margin-bottom--0">
-                      You don’t have any radiology records in your VA medical
-                      records.
-                    </p>
-                  </va-alert>
-                </div>
+                <NoRecordsMessage
+                  type={recordType.RADIOLOGY}
+                  timeFrame={
+                    isAcceleratingLabsAndTests && dateRange
+                      ? getDisplayTimeFrame(dateRange)
+                      : ''
+                  }
+                />
               )}
             </>
           )}

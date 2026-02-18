@@ -77,7 +77,8 @@ const LabsAndTests = () => {
       return list.filter(
         record =>
           record?.type !== labTypes.RADIOLOGY &&
-          record?.type !== labTypes.CVIX_RADIOLOGY,
+          record?.type !== labTypes.CVIX_RADIOLOGY &&
+          record?.type !== labTypes.UNIFIED_RADIOLOGY,
       );
     },
     [showImagesDomain],

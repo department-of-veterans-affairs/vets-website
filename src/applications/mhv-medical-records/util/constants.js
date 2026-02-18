@@ -62,6 +62,7 @@ export const labTypes = {
   PATHOLOGY: 'pathology',
   RADIOLOGY: 'radiology',
   CVIX_RADIOLOGY: 'cvix_radiology',
+  UNIFIED_RADIOLOGY: 'LP29684-5',
   OTHER: 'other',
 };
 

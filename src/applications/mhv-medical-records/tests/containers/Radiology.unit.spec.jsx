@@ -153,11 +153,11 @@ describe('Radiology list container with no data', () => {
       path: '/imaging-results',
     });
 
-    // The text is inside a va-alert web component with status="info"
-    const alert = screen.container.querySelector('va-alert[status="info"]');
-    expect(alert).to.exist;
-    expect(alert.textContent).to.include(
-      'any radiology records in your VA medical records',
+    // NoRecordsMessage renders a va-card with no-records-message testid
+    const noRecordsMsg = screen.getByTestId('no-records-message');
+    expect(noRecordsMsg).to.exist;
+    expect(noRecordsMsg.textContent).to.include(
+      'There are no radiology in your VA medical records',
     );
   });
 });
