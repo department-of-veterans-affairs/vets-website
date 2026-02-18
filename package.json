@@ -235,7 +235,7 @@
     "path-browserify": "^1.0.1",
     "postcss": "^8.4.4",
     "postcss-loader": "^6.2.1",
-    "prettier": "^1.14.3",
+    "prettier": "1.19.1",
     "sass": "^1.78.0",
     "sass-lint": "^1.13.1",
     "sass-loader": "^8.0.2",
