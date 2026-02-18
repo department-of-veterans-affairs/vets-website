@@ -95,20 +95,17 @@ function formatPct(pct) {
  * Recursively lists every file in both directories and reports files that
  * are missing from one side or the other.
  *
- * For generated/: only compares entry files ({entryName}.entry.*) from the
- * manifest catalog, since webpack and vite name dynamic chunks differently.
+ * Files under generated/ are ignored entirely, since webpack and vite name
+ * dynamic chunks differently.
  */
-async function checkDirectoryListing(oldDir, newDir, _options, entryNames) {
+async function checkDirectoryListing(oldDir, newDir, _options, _entryNames) {
   const name = 'Directory Listing';
 
   const allOldFiles = getFileListing(oldDir);
   const allNewFiles = getFileListing(newDir);
 
   const filterToComparable = files => {
-    return files.filter(f => {
-      if (!f.startsWith('generated/')) return true;
-      return isGeneratedEntryFile(f, entryNames);
-    });
+    return files.filter(f => !f.startsWith('generated/'));
   };
 
   const oldFiles = new Set(filterToComparable(allOldFiles));
@@ -137,7 +134,105 @@ async function checkDirectoryListing(oldDir, newDir, _options, entryNames) {
 }
 
 /**
- * Check 2 – Generated File Size Comparison
+ * Check 2 – Generated Entry Files by Extension
+ *
+ * For each file extension detected in the old generated/ directory (among
+ * entry files), outputs a separate PASS/FAIL ensuring there is a
+ * corresponding entry file in both old and new for that extension.
+ */
+async function checkGeneratedEntryFilesByExtension(
+  oldDir,
+  newDir,
+  _options,
+  entryNames,
+) {
+  const oldGenDir = path.join(oldDir, 'generated');
+  const newGenDir = path.join(newDir, 'generated');
+
+  const oldExists = fs.existsSync(oldGenDir);
+  const newExists = fs.existsSync(newGenDir);
+  if (!oldExists && !newExists) {
+    return [
+      {
+        name: 'Generated Entry Files (no generated/ in either build)',
+        passed: true,
+        details: ['Skipped — no generated/ directory'],
+      },
+    ];
+  }
+  if (!oldExists || !newExists) {
+    return [
+      {
+        name: 'Generated Entry Files',
+        passed: false,
+        details: [
+          `generated/ directory ${
+            oldExists ? 'missing from new' : 'missing from old'
+          } build`,
+        ],
+      },
+    ];
+  }
+
+  const allOldFiles = getFileListing(oldGenDir);
+  const allNewFiles = getFileListing(newGenDir);
+
+  const oldEntryFiles = allOldFiles.filter(f =>
+    isGeneratedEntryFile(f, entryNames),
+  );
+  const newEntryFilesSet = new Set(
+    allNewFiles.filter(f => isGeneratedEntryFile(f, entryNames)),
+  );
+
+  // Group old entry files by extension
+  const byExtension = new Map();
+  for (const f of oldEntryFiles) {
+    const ext = path.extname(f) || '(no ext)';
+    if (!byExtension.has(ext)) {
+      byExtension.set(ext, []);
+    }
+    byExtension.get(ext).push(f);
+  }
+
+  const results = [];
+  for (const [ext, oldPaths] of byExtension) {
+    const name = `Generated Entry Files (.${
+      ext === '(no ext)' ? 'no ext' : ext.slice(1)
+    })`;
+    const newPathsWithExt = [...newEntryFilesSet].filter(
+      f => (path.extname(f) || '(no ext)') === ext,
+    );
+    const newPathsSet = new Set(newPathsWithExt);
+
+    const missingFromNew = oldPaths.filter(p => !newPathsSet.has(p)).sort();
+    const extraInNew = newPathsWithExt
+      .filter(p => !oldPaths.includes(p))
+      .sort();
+
+    const passed = missingFromNew.length === 0 && extraInNew.length === 0;
+    const details = [];
+    if (passed) {
+      details.push(
+        `${oldPaths.length} entry file(s) match in both old and new`,
+      );
+    } else {
+      if (missingFromNew.length > 0) {
+        details.push(`Missing from new build (${missingFromNew.length}):`);
+        missingFromNew.forEach(f => details.push(`  ${f}`));
+      }
+      if (extraInNew.length > 0) {
+        details.push(`Extra in new build (${extraInNew.length}):`);
+        extraInNew.forEach(f => details.push(`  ${f}`));
+      }
+    }
+    results.push({ name, passed, details });
+  }
+
+  return results;
+}
+
+/**
+ * Check 3 – Generated File Size Comparison
  *
  * For every entry file ({entryName}.entry.*) present in both builds' generated/
  * directory, compares file sizes and flags any that differ by more than the
@@ -182,8 +277,8 @@ async function checkGeneratedFileSizes(oldDir, newDir, options, entryNames) {
     allNewFiles.filter(f => isGeneratedEntryFile(f, entryNames)),
   );
 
-  // Only compare files present in both builds; directory-listing check
-  // already covers missing/extra files.
+  // Only compare files present in both builds; Generated Entry Files by
+  // Extension check covers missing/extra entry files per extension.
   const commonFiles = oldFiles.filter(f => newFilesSet.has(f));
 
   const flagged = [];
@@ -239,9 +334,13 @@ async function checkGeneratedFileSizes(oldDir, newDir, options, entryNames) {
 /**
  * Registry of all checks to run. To add a new check, define an async
  * function with the signature (oldDir, newDir, options, entryNames) => { name, passed, details }
- * and add it to this array.
+ * or => [{ name, passed, details }, ...] for checks that return multiple results.
  */
-const checks = [checkDirectoryListing, checkGeneratedFileSizes];
+const checks = [
+  checkDirectoryListing,
+  checkGeneratedEntryFilesByExtension,
+  checkGeneratedFileSizes,
+];
 
 async function runChecks(oldDir, newDir, options) {
   const entryNames = getManifestEntryNames();
@@ -249,7 +348,8 @@ async function runChecks(oldDir, newDir, options) {
 
   for (const check of checks) {
     const result = await check(oldDir, newDir, options, entryNames);
-    results.push(result);
+    const items = Array.isArray(result) ? result : [result];
+    results.push(...items);
   }
 
   return results;
