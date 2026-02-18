@@ -20,23 +20,29 @@ const DATADOG_CONFIG = {
   service: 'benefits-intake-optimization',
   env: environment.vspEnvironment(),
   sessionSampleRate: 100,
-  sessionReplaySampleRate: 20,
+  sessionReplaySampleRate: 0,
   trackUserInteractions: true,
   trackFrustrations: true,
   trackResources: true,
   trackLongTasks: true,
   trackBfcacheViews: true,
-  defaultPrivacyLevel: 'mask-user-input',
+  defaultPrivacyLevel: 'mask',
+  beforeSend: event => {
+    // Prevent PII from being sent to Datadog with click actions.
+    if (event.action?.type === 'click') {
+      // eslint-disable-next-line no-param-reassign
+      event.action.target.name = 'Form interaction';
+    }
+    return true;
+  },
 };
 
 const SUPPORTED_FORMS = ['21-0779', '21-2680', '21-4192', '21p-530a'];
 
 // Helper functions
 const shouldRumBeEnabled = () => {
-  const isNotLocalhost = environment.BASE_URL.indexOf('localhost') < 0;
-  const isNotTest = !window.Mocha;
-  const isStagingOnly = environment.vspEnvironment() === 'staging';
-  return isNotLocalhost && isNotTest && isStagingOnly;
+  // Prevent RUM from running on local/CI environments.
+  return environment.BASE_URL.indexOf('localhost') < 0 && !window.Mocha;
 };
 
 const isRumConfigured = () => {
