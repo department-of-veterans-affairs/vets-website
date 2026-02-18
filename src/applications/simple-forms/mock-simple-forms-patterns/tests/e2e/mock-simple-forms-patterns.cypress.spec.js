@@ -46,6 +46,22 @@ const testConfig = createTestConfig(
           });
         });
       },
+      [pagePaths.fileInputMultiple]: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(() => {
+            cy.fillVaFileInputMultiple('root_wcv3FileInputMultiple', {});
+            cy.get('va-file-input-multiple')
+              .shadow()
+              .find('va-file-input')
+              .first()
+              .find('va-select')
+              .then($el => {
+                cy.selectVaSelect($el, 'public');
+              });
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(() => {
@@ -63,6 +79,12 @@ const testConfig = createTestConfig(
         formConfig.chapters.fileInput.pages.fileInput.uiSchema.wcv3FileInput[
           'ui:options'
         ].fileUploadUrl,
+        mockFileUpload,
+      );
+      cy.intercept(
+        'POST',
+        formConfig.chapters.fileInputMultiple.pages.fileInputMultiple.uiSchema
+          .wcv3FileInputMultiple['ui:options'].fileUploadUrl,
         mockFileUpload,
       );
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);

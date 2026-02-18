@@ -81,6 +81,11 @@ describe('VeteranStatusAlerts', () => {
         }),
       ).to.exist;
     });
+
+    it('renders without any properties', () => {
+      const { container } = render(<NotConfirmedAlert />);
+      expect(container.querySelector('va-alert[status="warning"]')).to.exist;
+    });
   });
 
   describe('PDFErrorAlert', () => {
