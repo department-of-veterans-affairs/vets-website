@@ -31,7 +31,6 @@ const ResultsList = props => {
               <SearchResult
                 officer={result.attributes.fullName || result.attributes.name}
                 reports={result.reports}
-                key={index}
                 type={result.type}
                 addressLine1={result.attributes.addressLine1}
                 addressLine2={result.attributes.addressLine2}

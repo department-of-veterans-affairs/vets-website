@@ -72,7 +72,8 @@ export const IntroductionPage = props => {
             formConfig={formConfig}
             pageList={pageList}
             startText="Start your Authorization to disclose personal information"
-            unauthStartText="Sign in or create an account"
+            unauthStartText="Sign in to start your form"
+            hideUnauthedStartLink={!userLoggedIn}
           />
         ) : (
           <SaveInProgressIntro

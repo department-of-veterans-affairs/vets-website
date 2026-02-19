@@ -1,6 +1,7 @@
 import sessionStatus from '../fixtures/session/default.json';
+import BaseListPage from '../../pages/BaseListPage';
 
-class Vaccines {
+class Vaccines extends BaseListPage {
   setIntercepts = ({ vaccinesData }) => {
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     cy.intercept('POST', '/my_health/v1/medical_records/session', {}).as(
@@ -34,6 +35,19 @@ class Vaccines {
     cy.get('[data-testid="vaccines-landing-page-link"]').as('vaccines-link');
     cy.get('@vaccines-link').should('be.visible');
     cy.get('@vaccines-link').click();
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
+  };
+
+  goToVaccinesSpecificPage = page => {
+    const url =
+      page != null
+        ? `my-health/medical-records/vaccines?page=${page}`
+        : 'my-health/medical-records/vaccines';
+    cy.visit(url);
+    cy.wait('@vaccines-list');
   };
 
   clickVaccineDetailsLink = (vaccineIndex = 0) => {
@@ -41,6 +55,22 @@ class Vaccines {
       .eq(vaccineIndex)
       .find('a')
       .click();
+  };
+
+  clickBackToTopButtonOnListPage = () => {
+    cy.get('[data-testid="mr-back-to-top"]')
+      .should('exist')
+      .and('be.visible');
+    cy.get('[data-testid="mr-back-to-top"]', { includeShadowDom: true })
+      .find('[class ="text"]')
+      .click({ force: true });
+  };
+
+  verifyVaccinesListPageTitleIsFocused = () => {
+    cy.get('h1')
+      .contains('Vaccines')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   // Vaccine details page verification methods
