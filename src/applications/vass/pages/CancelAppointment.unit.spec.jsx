@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
@@ -10,6 +9,7 @@ import {
   setFetchJSONResponse,
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
+import sinon from 'sinon';
 import CancelAppointment from './CancelAppointment';
 import { getDefaultRenderOptions, LocationDisplay } from '../utils/test-utils';
 import * as authUtils from '../utils/auth';
@@ -73,13 +73,15 @@ describe('VASS Page: CancelAppointment', () => {
   });
 
   describe('navigation', () => {
-    beforeEach(() => {
+    it('should navigate to cancel confirmation page when "Yes, cancel appointment" is clicked', async () => {
+      setFetchJSONResponse(
+        global.fetch.onCall(0),
+        createAppointmentDetailsResponse({ appointmentId }),
+      );
       setFetchJSONResponse(
         global.fetch.onCall(1),
         createCancelAppointmentResponse({ appointmentId }),
       );
-    });
-    it('should navigate to cancel confirmation page when "Yes, cancel appointment" is clicked', async () => {
       const { getByTestId } = renderWithStoreAndRouter(
         <>
           <Routes>

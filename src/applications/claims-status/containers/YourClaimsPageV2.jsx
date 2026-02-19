@@ -207,7 +207,7 @@ class YourClaimsPageV2 extends React.Component {
       !claimsLoading && !appealsLoading && !stemClaimsLoading;
     const emptyFilteredList = !(filteredList && filteredList.length);
     const { claimsFilter } = this.state;
-    const filterLabel =
+    let filterLabel =
       claimsFilter === 'all' ? 'records' : `${claimsFilter} records`;
 
     // Wait for all requests to complete before rendering results
@@ -218,6 +218,10 @@ class YourClaimsPageV2 extends React.Component {
       const listLen = filteredList.length;
       const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
       const shouldPaginate = numPages > 1;
+
+      const recordText = listLen === 1 ? 'record' : 'records';
+      filterLabel =
+        claimsFilter === 'all' ? recordText : `${claimsFilter} ${recordText}`;
 
       const pageItems = getVisibleRows(filteredList, this.state.page);
 
