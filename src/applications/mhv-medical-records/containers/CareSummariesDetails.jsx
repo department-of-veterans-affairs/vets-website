@@ -51,17 +51,36 @@ const CareSummariesDetails = () => {
 
   useEffect(
     () => {
-      if (summaryId && !careSummary?.notFound) {
-        dispatch(
-          getCareSummaryAndNotesDetails(
-            summaryId,
-            careSummariesList,
-            isAcceleratingCareNotes,
-          ),
-        );
-      }
-      if (careSummary?.notFound || !careSummariesList) {
-        history.push('/summaries-and-notes/');
+      if (isAcceleratingCareNotes) {
+        // Accelerated path: redirect if the list is empty
+        if (!careSummariesList || careSummariesList.length === 0) {
+          history.push('/summaries-and-notes/');
+          return;
+        }
+        // Dispatch details (action handles oracle-health vs vista internally)
+        if (summaryId && !careSummary) {
+          dispatch(
+            getCareSummaryAndNotesDetails(
+              summaryId,
+              careSummariesList,
+              isAcceleratingCareNotes,
+            ),
+          );
+        }
+      } else {
+        // Legacy path
+        if (summaryId && !careSummary?.notFound) {
+          dispatch(
+            getCareSummaryAndNotesDetails(
+              summaryId,
+              careSummariesList,
+              isAcceleratingCareNotes,
+            ),
+          );
+        }
+        if (careSummary?.notFound || !careSummariesList) {
+          history.push('/summaries-and-notes/');
+        }
       }
       updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE);
     },

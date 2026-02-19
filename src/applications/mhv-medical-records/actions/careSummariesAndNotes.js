@@ -1,4 +1,9 @@
-import { getNote, getNotes, getAcceleratedNotes } from '../api/MrApi';
+import {
+  getNote,
+  getNotes,
+  getAcceleratedNotes,
+  getAcceleratedNote,
+} from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
@@ -40,25 +45,36 @@ export const getCareSummaryAndNotesDetails = (
   noteList,
   isAccelerating = false,
 ) => async dispatch => {
-  const getDetailsFunc = isAccelerating
-    ? async () => {
-        // Return a notfound response because the downstream API
-        // does not support fetching a single note at this time
-        return { data: { notFound: true } };
-      }
-    : getNote;
+  const matchingNote = noteList && noteList.find(item => item.id === noteId);
+  const isOracleHealth = matchingNote?.source === 'oracle-health';
 
   try {
-    await dispatchDetails(
-      noteId,
-      noteList,
-      dispatch,
-      getDetailsFunc,
-      Actions.CareSummariesAndNotes.GET_FROM_LIST,
-      isAccelerating
-        ? Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM_FROM_LIST
-        : Actions.CareSummariesAndNotes.GET,
-    );
+    if (isAccelerating && !isOracleHealth) {
+      // Vista notes already have full details in the list response
+      if (matchingNote) {
+        dispatch({
+          type: Actions.CareSummariesAndNotes.GET_FROM_LIST,
+          response: matchingNote,
+        });
+      }
+    } else if (isAccelerating && isOracleHealth) {
+      // Oracle Health notes don't have full details in the list response,
+      // so we must call the single-note API to fetch them.
+      const response = await getAcceleratedNote(noteId, matchingNote?.source);
+      dispatch({
+        type: Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM_FROM_LIST,
+        response,
+      });
+    } else {
+      await dispatchDetails(
+        noteId,
+        noteList,
+        dispatch,
+        getNote,
+        Actions.CareSummariesAndNotes.GET_FROM_LIST,
+        Actions.CareSummariesAndNotes.GET,
+      );
+    }
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     sendDatadogError(
