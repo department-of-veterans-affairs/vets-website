@@ -28,7 +28,7 @@ describe('HCA-Household: Full disclosure', () => {
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('[name="root_maritalStatus"]').select('Married');
+    cy.selectVaSelect('root_maritalStatus', 'Married');
 
     goToNextPage('/household-information/spouse-personal-information');
     fillSpousalBasicInformation(testData);

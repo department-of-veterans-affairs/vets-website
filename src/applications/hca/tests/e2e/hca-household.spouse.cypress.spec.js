@@ -26,7 +26,7 @@ describe('HCA-Household: Spousal disclosure', () => {
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('[name="root_maritalStatus"]').select(testData.maritalStatus);
+    cy.selectVaSelect('root_maritalStatus', testData.maritalStatus);
 
     goToNextPage('/household-information/spouse-personal-information');
     fillSpousalBasicInformation(testData);
@@ -58,7 +58,7 @@ describe('HCA-Household: Spousal disclosure', () => {
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('[name="root_maritalStatus"]').select(testData.maritalStatus);
+    cy.selectVaSelect('root_maritalStatus', testData.maritalStatus);
 
     goToNextPage('/household-information/spouse-personal-information');
     fillSpousalBasicInformation(testData);
