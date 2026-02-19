@@ -24,6 +24,8 @@ import {
 import {
   convertMhvRadiologyRecord,
   convertCvixRadiologyRecord,
+  convertScdfImagingStudy,
+  mergeImagingStudiesIntoLabs,
   mergeRadiologyLists,
   mergeRadiologyDetails,
 } from '../util/imagesUtil';
@@ -49,6 +51,14 @@ const initialState = {
    * @type {Array}
    */
   updatedList: undefined,
+  /**
+   * The list of imaging studies retrieved from SCDF
+   */
+  scdfImagingStudies: undefined,
+  /**
+   * Whether SCDF imaging studies have been merged into the UHD labs list
+   */
+  scdfImagingStudiesMerged: false,
   /**
    * The lab or test result currently being displayed to the user
    */
@@ -511,6 +521,7 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
         labsAndTestsList: sortByDate(mergedList),
+        scdfImagingStudiesMerged: false,
       };
     }
     case Actions.LabsAndTests.GET_LIST: {
@@ -578,6 +589,26 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         dateRange: action.payload,
+      };
+    }
+    case Actions.LabsAndTests.GET_IMAGING_STUDIES: {
+      const data = Array.isArray(action.response) ? action.response : [];
+      return {
+        ...state,
+        scdfImagingStudies: data.map(convertScdfImagingStudy),
+        scdfImagingStudiesMerged: false,
+      };
+    }
+    case Actions.LabsAndTests.MERGE_IMAGING_STUDIES: {
+      const { labsAndTestsList, scdfImagingStudies } = state;
+      if (!labsAndTestsList || !scdfImagingStudies) return state;
+      return {
+        ...state,
+        labsAndTestsList: mergeImagingStudiesIntoLabs(
+          labsAndTestsList,
+          scdfImagingStudies,
+        ),
+        scdfImagingStudiesMerged: true,
       };
     }
     default:

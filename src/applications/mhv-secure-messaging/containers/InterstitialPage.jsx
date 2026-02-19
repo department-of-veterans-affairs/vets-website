@@ -102,9 +102,10 @@ const InterstitialPage = props => {
     () => {
       const searchParams = new URLSearchParams(location.search);
       const prescriptionId = searchParams.get('prescriptionId');
+      const stationNumber = searchParams.get('station_number');
       const redirectPath = searchParams.get('redirectPath');
       if (prescriptionId) {
-        dispatch(getPrescriptionById(prescriptionId));
+        dispatch(getPrescriptionById(prescriptionId, stationNumber));
         handleRedirect();
       } else {
         dispatch(clearPrescription());
