@@ -136,7 +136,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       ).to.be.ok;
       expect(
         screen.getByRole('link', {
-          name: /Find a VA health facility Link opens in a new tab/i,
+          name: /Find a VA health facility/i,
         }),
       ).to.be.ok;
       expect(
@@ -219,7 +219,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       expect(screen.getByText(/You.ll need to call to schedule/)).to.be.ok;
       expect(
         screen.getByRole('link', {
-          name: /Find a VA health facility Link opens in a new tab/i,
+          name: /Find a VA health facility/i,
         }),
       ).to.be.ok;
       expect(
@@ -309,7 +309,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       ).to.be.ok;
       expect(
         screen.getByRole('link', {
-          name: /Find a VA health facility Link opens in a new tab/i,
+          name: /Find a VA health facility/i,
         }),
       ).to.be.ok;
       expect(
@@ -415,7 +415,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       expect(screen.getByText(/You.ll need to call to schedule/)).to.be.ok;
       expect(
         screen.getByRole('link', {
-          name: /Find a VA health facility Link opens in a new tab/i,
+          name: /Find a VA health facility/i,
         }),
       ).to.be.ok;
       expect(
@@ -505,7 +505,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       expect(screen.getByText(/You.ll need to call to schedule/)).to.be.ok;
       expect(
         screen.getByRole('link', {
-          name: /Find a VA health facility Link opens in a new tab/i,
+          name: /Find a VA health facility/i,
         }),
       ).to.be.ok;
       expect(

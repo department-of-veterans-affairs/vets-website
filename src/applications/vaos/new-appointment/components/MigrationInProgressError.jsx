@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import NewTabAnchor from '../../components/NewTabAnchor';
 
 export default function MigrationInProgressError({
   endDate,
@@ -35,9 +34,7 @@ export default function MigrationInProgressError({
         </>
       )}
       <p className="vads-u-margin--0">You'll need to call to schedule.</p>
-      <NewTabAnchor href="/find-locations">
-        Find a VA health facility
-      </NewTabAnchor>
+      <a href="/find-locations">Find a VA health facility</a>
     </va-alert>
   );
 }

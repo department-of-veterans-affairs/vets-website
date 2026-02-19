@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import NewTabAnchor from '../../components/NewTabAnchor';
 
 export default function MigrationWarning({ facilities, startDate, endDate }) {
   const trigger = `Updates will begin on ${startDate}`;
@@ -32,9 +31,7 @@ export default function MigrationWarning({ facilities, startDate, endDate }) {
         {facilities.length === 1 ? 'this facility' : 'these facilities'} to
         schedule your appointment.{' '}
       </p>
-      <NewTabAnchor href="/find-locations">
-        Find a VA health facility
-      </NewTabAnchor>
+      <a href="/find-locations">Find a VA health facility</a>
     </va-alert-expandable>
   );
 }
