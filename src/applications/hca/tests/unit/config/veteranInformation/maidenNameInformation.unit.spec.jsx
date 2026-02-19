@@ -1,7 +1,7 @@
 // @ts-check
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
 import formConfig from '../../../../config/form';
@@ -15,7 +15,7 @@ describe('hca VeteranMaidenNameInformation config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 1;
-  testNumberOfFields(
+  testNumberOfWebComponentFields(
     formConfig,
     schema,
     uiSchema,
@@ -25,7 +25,7 @@ describe('hca VeteranMaidenNameInformation config', () => {
 
   // run test for correct number of error messages on submit
   const expectedNumberOfErrors = 0;
-  testNumberOfErrorsOnSubmit(
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,

@@ -1,7 +1,9 @@
 // @ts-check
 import {
   testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFields,
+  testNumberOfWebComponentFields,
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
 import formConfig from '../../../../config/form';
@@ -13,23 +15,41 @@ describe('hca Military Service Information config', () => {
     uiSchema,
   } = formConfig.chapters.militaryService.pages.serviceInformation;
 
-  // run test for correct number of fields on the page
-  const expectedNumberOfFields = 8;
+  // run test for correct number of fields on the page (mixed: 2 web components + 6 date fields)
+  const expectedNumberOfWebComponentFields = 2;
+  testNumberOfWebComponentFields(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfWebComponentFields,
+    pageTitle,
+  );
+
+  const expectedNumberOfOldFields = 6;
   testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
-    expectedNumberOfFields,
+    expectedNumberOfOldFields,
     pageTitle,
   );
 
-  // run test for correct number of error messages on submit
-  const expectedNumberOfErrors = 4;
+  // run test for correct number of error messages on submit (mixed)
+  const expectedNumberOfWebComponentErrors = 2;
+  testNumberOfErrorsOnSubmitForWebComponents(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfWebComponentErrors,
+    pageTitle,
+  );
+
+  const expectedNumberOfOldErrors = 2;
   testNumberOfErrorsOnSubmit(
     formConfig,
     schema,
     uiSchema,
-    expectedNumberOfErrors,
+    expectedNumberOfOldErrors,
     pageTitle,
   );
 

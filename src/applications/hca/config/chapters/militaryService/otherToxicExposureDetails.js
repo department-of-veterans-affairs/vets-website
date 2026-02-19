@@ -1,12 +1,12 @@
+// @ts-check
 import {
   titleUI,
   descriptionUI,
+  textUI,
+  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { ExposureCategoriesLink } from '../../../components/FormDescriptions/OtherExposureDescriptions';
-import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
-
-const { otherToxicExposure } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -15,17 +15,21 @@ export default {
       content['service-info--exposures-description'],
     ),
     ...descriptionUI(ExposureCategoriesLink),
-    otherToxicExposure: {
-      'ui:title': content['service-info--exposures-other-input-label'],
-      'ui:errorMessages': {
+    otherToxicExposure: textUI({
+      title: content['service-info--exposures-other-input-label'],
+      errorMessages: {
         pattern: content['validation-error--other-exposures'],
       },
-    },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      otherToxicExposure,
+      otherToxicExposure: {
+        ...textSchema,
+        maxLength: 100,
+        pattern: '^[a-zA-Z0-9,.?! ]*$',
+      },
     },
   },
 };
