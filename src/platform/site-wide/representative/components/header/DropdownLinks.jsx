@@ -8,7 +8,7 @@ import {
   SIGN_OUT_URL,
 } from '../../utilities/constants';
 
-const DropdownLinks = ({ closeDropdown, category }) => {
+const DropdownLinks = ({ closeDropdown, category, firstName }) => {
   const handleClick = e => {
     closeDropdown();
     recordEvent({
@@ -117,10 +117,10 @@ const DropdownLinks = ({ closeDropdown, category }) => {
             href={SIGN_OUT_URL}
             data-testid="user-nav-sign-out-link"
             onClick={handleClick}
-            className="vads-u-color--black"
+            className="vads-u-color--black nav__sign-out"
             data-eventname="nav-header-sign-out"
           >
-            Sign Out
+            Sign Out {firstName.toLowerCase()}
           </a>
         </li>
       )}
@@ -133,4 +133,5 @@ export default DropdownLinks;
 DropdownLinks.propTypes = {
   category: PropTypes.string,
   closeDropdown: PropTypes.func,
+  firstName: PropTypes.string,
 };

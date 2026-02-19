@@ -1,8 +1,8 @@
 import React from 'react';
 import {
   titleUI,
-  fileInputUI,
-  fileInputSchema,
+  fileInputMultipleUI,
+  fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { supportingDocsInfo } from '../utils/helpers';
@@ -28,11 +28,11 @@ export default {
   uiSchema: {
     ...titleUI('Upload your supporting documents'),
     'ui:description': formData => description(formData),
-    supportingDocuments: fileInputUI({
+    supportingDocuments: fileInputMultipleUI({
       title: 'Select a file to upload',
       required: false,
       hint:
-        'You can upload a .jpg, .pdf, or .png file. All files must be less than 100MB.',
+        'You can upload a .jpg, .pdf, or .png file. All files must be less than 100MB. You can add up to 15 files.',
       accept: '.pdf,.jpg,.jpeg,.png',
       maxFileSize: 100 * 1024 * 1024,
       skipUpload: true, // Set to false if needed for API connection in the future
@@ -43,7 +43,10 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      supportingDocuments: fileInputSchema(),
+      supportingDocuments: {
+        ...fileInputMultipleSchema(),
+        maxItems: 15,
+      },
     },
   },
 };
