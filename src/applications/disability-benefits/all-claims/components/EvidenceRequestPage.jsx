@@ -185,12 +185,6 @@ export const EvidenceRequestPage = ({
             {renderFacilityList(getVaEvidence(data), 'treatmentCenterName')}
           </>
         )}
-        {getPrivateEvidenceUploads.length > 0 && (
-          <>
-            {privateEvidenceContent}
-            {renderFileList(getPrivateEvidenceUploads(data), 'fileName')}
-          </>
-        )}
         {getPrivateFacilities(data).length > 0 && (
           <>
             {privateFacilityContent}
@@ -198,6 +192,12 @@ export const EvidenceRequestPage = ({
               getPrivateFacilities(data),
               'providerFacilityName',
             )}
+          </>
+        )}
+        {getPrivateEvidenceUploads.length > 0 && (
+          <>
+            {privateEvidenceContent}
+            {renderFileList(getPrivateEvidenceUploads(data), 'fileName')}
           </>
         )}
       </VaModal>
@@ -225,7 +225,7 @@ export const EvidenceRequestPage = ({
             value="false"
           />
         </VaRadio>
-        {evidenceRequestAdditionalInfo}
+        {!onReviewPage && evidenceRequestAdditionalInfo}
 
         {onReviewPage ? (
           /**

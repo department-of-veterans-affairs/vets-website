@@ -47,6 +47,7 @@ describe('EvidenceRequestPage', () => {
     );
     expect(container.querySelector('va-radio-option[label="Yes"]')).to.exist;
     expect(container.querySelector('va-radio-option[label="No"]')).to.exist;
+    expect(container.querySelector('va-additional-info')).to.exist;
   });
   it('should display the VA treatment centers in modal when the user choose No but provided VA treatment centers and clicks continue', async () => {
     const data = {
@@ -115,6 +116,44 @@ describe('EvidenceRequestPage', () => {
       expect(modal).to.have.attribute('visible', 'true');
       expect(modal.textContent).to.include('Private Clinic 1');
       expect(modal.textContent).to.include('Private Clinic 2');
+    });
+  });
+
+  it('should display the private treatment centers and private medical records with records on the bottom in modal when the user choose No but provided treatment centers and private medical records previously and clicks continue', async () => {
+    const data = {
+      'view:hasMedicalRecords': false,
+      'view:selectableEvidenceTypes': {
+        'view:hasPrivateMedicalRecords': true,
+      },
+      providerFacility: [
+        { providerFacilityName: 'Private Clinic 1' },
+        { providerFacilityName: 'Private Clinic 2' },
+      ],
+      privateMedicalRecordAttachments: [
+        { name: 'record1.pdf' },
+        { name: 'record2.pdf' },
+      ],
+    };
+
+    const { container } = render(page({ data }));
+    fireEvent.click($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.have.attribute('visible', 'true');
+
+      const lists = modal.querySelectorAll('ul');
+      expect(lists.length).to.equal(2);
+
+      const facilityItems = lists[0].querySelectorAll('li');
+      const facilityTexts = Array.from(facilityItems).map(li => li.textContent);
+      expect(facilityTexts).to.include('Private Clinic 1');
+      expect(facilityTexts).to.include('Private Clinic 2');
+
+      const recordItems = lists[1].querySelectorAll('li');
+      const recordTexts = Array.from(recordItems).map(li => li.textContent);
+      expect(recordTexts).to.include('record1.pdf');
+      expect(recordTexts).to.include('record2.pdf');
     });
   });
 
@@ -479,5 +518,12 @@ describe('EvidenceRequestPage', () => {
     const updateButton = container.querySelector('button.usa-button-primary');
     expect(updateButton).to.exist;
     expect(updateButton.textContent).to.equal('Update page');
+  });
+
+  it('should not render additional info on review page', () => {
+    const { container } = render(page({ onReviewPage: true }));
+
+    const additionalInfo = container.querySelector('va-additional-info');
+    expect(additionalInfo).to.not.exist;
   });
 });

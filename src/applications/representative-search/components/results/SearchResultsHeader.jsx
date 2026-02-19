@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
@@ -24,8 +24,6 @@ export const SearchResultsHeader = props => {
   );
   const { totalEntries, currentPage, totalPages } = pagination;
   const noResultsFound = !searchResults || !searchResults?.length;
-
-  const [selectedSortType, setSelectedSortType] = useState(sortType);
 
   if (inProgress || !context) {
     return <div style={{ height: '38px' }} />;
@@ -67,7 +65,8 @@ export const SearchResultsHeader = props => {
   ));
 
   // selection is updated in redux
-  const onClickApplyButton = () => {
+  const handleSortChange = event => {
+    const selectedSortType = event.target.value || sortType;
     const queryUpdateCommitPayload = {
       id: Date.now(),
       page: 1,
@@ -79,17 +78,7 @@ export const SearchResultsHeader = props => {
   };
 
   return (
-    <div className="search-results-header vads-u-margin-bottom--5 vads-u-margin-padding-x--5">
-      {/* Trigger methods for unit testing - temporary workaround for shadow root issues */}
-      {props.onClickApplyButtonTester ? (
-        <button
-          id="test-button"
-          label="test-button"
-          type="button"
-          text-label="button"
-          onClick={onClickApplyButton}
-        />
-      ) : null}
+    <div className="search-results-header">
       <h2 className="vads-u-margin-y--1">Your search results</h2>
       <div className="vads-u-margin-top--3">
         {searchResults?.length ? (
@@ -162,27 +151,16 @@ export const SearchResultsHeader = props => {
             For better results, try increasing your <b>search area</b>.
           </p>
         ) : (
-          <div className="sort-dropdown">
-            <div className="sort-select-and-apply">
-              <div className="sort-select">
-                <VaSelect
-                  name="sort"
-                  value={selectedSortType}
-                  label="Sort by"
-                  onVaSelect={e => {
-                    setSelectedSortType(e.target.value || options[0].key);
-                  }}
-                  uswds
-                >
-                  {options}
-                </VaSelect>
-              </div>
-
-              <div className="sort-apply-button">
-                <va-button onClick={onClickApplyButton} text="Sort" secondary />
-              </div>
-            </div>
-          </div>
+          <VaSelect
+            className="sort-select vads-u-margin-top--3"
+            name="sort"
+            value={sortType}
+            label="Sort by"
+            onVaSelect={handleSortChange}
+            uswds
+          >
+            {options}
+          </VaSelect>
         )}
       </div>
     </div>
@@ -204,7 +182,6 @@ SearchResultsHeader.propTypes = {
   searchResults: PropTypes.array,
   updateSearchQuery: PropTypes.func,
   commitSearchQuery: PropTypes.func,
-  onClickApplyButtonTester: PropTypes.func,
 };
 
 // Only re-render if results or inProgress props have changed
