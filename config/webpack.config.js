@@ -305,6 +305,18 @@ module.exports = async (env = {}) => {
   const baseConfig = {
     mode: isOptimizedBuild ? 'production' : 'development',
     devtool: false,
+    cache:
+      buildtype !== LOCALHOST
+        ? false
+        : {
+            type: 'filesystem',
+            cacheDirectory: path.resolve(__dirname, '../.cache/webpack'),
+            buildDependencies: {
+              config: [__filename],
+              babel: [path.resolve(__dirname, '../babel.config.json')],
+              postcss: [path.resolve(__dirname, '../postcss.config.js')],
+            },
+          },
     entry: entryFiles,
     output: {
       path: path.resolve(buildPath, 'generated'),
@@ -575,7 +587,7 @@ module.exports = async (env = {}) => {
     baseConfig.plugins.push(
       new StylelintPlugin({
         configFile: '.stylelintrc.json',
-        exclude: ['node_modules', 'build', 'coverage', '.cache'],
+        exclude: ['node_modules', 'build', 'coverage', '.cache', '.direnv'],
         fix: true,
       }),
     );

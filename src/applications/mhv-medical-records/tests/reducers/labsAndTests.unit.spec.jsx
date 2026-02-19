@@ -898,6 +898,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       type: undefined, // type is raw testCode value
       comments: undefined,
       source: undefined,
+      facilityTimezone: undefined,
       result: null,
       base: {
         ...record,
@@ -930,11 +931,71 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       type: undefined, // type is raw testCode value
       comments: undefined,
       source: undefined,
+      facilityTimezone: undefined,
       result: null,
       base: {
         ...record,
       },
     });
+  });
+
+  it('should display facility timezone when facilityTimezone is present', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T12:42:00-05:00',
+        display: 'Test Name',
+        facilityTimezone: 'America/New_York',
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is present, formatDateTimeInUserTimezone uses it
+    // to display the time in facility timezone with abbreviation
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
+    expect(result.facilityTimezone).to.equal('America/New_York');
+  });
+
+  it('should fall back to browser timezone when facilityTimezone is null', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T17:42:00+00:00',
+        display: 'Test Name',
+        facilityTimezone: null,
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is null, falls back to user's browser timezone
+    // with timezone abbreviation displayed
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
+    expect(result.facilityTimezone).to.be.null;
+  });
+
+  it('should fall back to browser timezone when facilityTimezone is undefined', () => {
+    const record = {
+      id: 'test-id',
+      attributes: {
+        dateCompleted: '2025-01-31T17:42:00Z',
+        display: 'Test Name',
+        // facilityTimezone not present (undefined)
+        source: 'oracle-health',
+      },
+    };
+
+    const result = convertUnifiedLabsAndTestRecord(record);
+
+    // When facilityTimezone is undefined, falls back to user's browser timezone
+    expect(result.date).to.include('January 31, 2025');
+    expect(result.date).to.match(/\s[A-Z]{2,4}$/); // ends with timezone abbreviation
+    expect(result.facilityTimezone).to.be.undefined;
   });
 
   it('should use testCodeDisplay from API when available', () => {
@@ -1144,5 +1205,99 @@ describe('labsAndTestsReducer - hardened array coercion', () => {
     const state = labsAndTestsReducer({}, action);
     expect(state.labsAndTestsList).to.be.an('array');
     expect(state.labsAndTestsList.length).to.equal(0);
+  });
+});
+
+describe('labsAndTestsReducer - SCDF imaging studies', () => {
+  it('stores converted imaging studies on GET_IMAGING_STUDIES', () => {
+    const response = [
+      {
+        id: 'study-1',
+        attributes: {
+          description: 'CHEST XRAY',
+          date: '2025-01-10T09:17:00Z',
+          notes: ['Note'],
+          identifier: 'urn:vastudy:1',
+          series: [],
+          status: 'available',
+        },
+      },
+    ];
+    const state = labsAndTestsReducer(
+      { scdfImagingStudiesMerged: true },
+      { type: Actions.LabsAndTests.GET_IMAGING_STUDIES, response },
+    );
+    expect(state.scdfImagingStudies).to.be.an('array');
+    expect(state.scdfImagingStudies).to.have.lengthOf(1);
+    expect(state.scdfImagingStudies[0].id).to.equal('study-1');
+    expect(state.scdfImagingStudies[0].name).to.equal('CHEST XRAY');
+    expect(state.scdfImagingStudiesMerged).to.be.false;
+  });
+
+  it('coerces non-array response to empty array on GET_IMAGING_STUDIES', () => {
+    const state = labsAndTestsReducer(
+      {},
+      { type: Actions.LabsAndTests.GET_IMAGING_STUDIES, response: null },
+    );
+    expect(state.scdfImagingStudies).to.be.an('array');
+    expect(state.scdfImagingStudies).to.have.lengthOf(0);
+  });
+
+  it('merges imaging studies into labs list on MERGE_IMAGING_STUDIES', () => {
+    const initialState = {
+      labsAndTestsList: [
+        { id: 'lab-1', sortDate: '2025-01-10T09:15:00Z', name: 'CHEST XRAY' },
+        { id: 'lab-2', sortDate: '2025-01-11T10:00:00Z', name: 'BLOOD TEST' },
+      ],
+      scdfImagingStudies: [
+        { id: 'study-1', rawDate: '2025-01-10T09:17:00Z', status: 'available' },
+      ],
+      scdfImagingStudiesMerged: false,
+    };
+    const state = labsAndTestsReducer(initialState, {
+      type: Actions.LabsAndTests.MERGE_IMAGING_STUDIES,
+    });
+    expect(state.scdfImagingStudiesMerged).to.be.true;
+    expect(state.labsAndTestsList[0].imagingStudyId).to.equal('study-1');
+    expect(state.labsAndTestsList[0].imagingStudyStatus).to.equal('available');
+    expect(state.labsAndTestsList[1]).to.not.have.property('imagingStudyId');
+    // imaging studies should be preserved
+    expect(state.scdfImagingStudies).to.have.lengthOf(1);
+  });
+
+  it('returns state unchanged when labsAndTestsList is missing on MERGE', () => {
+    const initialState = {
+      labsAndTestsList: undefined,
+      scdfImagingStudies: [{ id: 'study-1', rawDate: '2025-01-10T09:17:00Z' }],
+    };
+    const state = labsAndTestsReducer(initialState, {
+      type: Actions.LabsAndTests.MERGE_IMAGING_STUDIES,
+    });
+    expect(state).to.equal(initialState);
+  });
+
+  it('returns state unchanged when scdfImagingStudies is missing on MERGE', () => {
+    const initialState = {
+      labsAndTestsList: [{ id: 'lab-1', sortDate: '2025-01-10T09:15:00Z' }],
+      scdfImagingStudies: undefined,
+    };
+    const state = labsAndTestsReducer(initialState, {
+      type: Actions.LabsAndTests.MERGE_IMAGING_STUDIES,
+    });
+    expect(state).to.equal(initialState);
+  });
+
+  it('resets scdfImagingStudiesMerged on GET_UNIFIED_LIST', () => {
+    const unifiedLabsResponse = [
+      { id: 'lab-1', attributes: { dateCompleted: '2025-04-22T14:30:00Z' } },
+    ];
+    const state = labsAndTestsReducer(
+      { scdfImagingStudiesMerged: true },
+      {
+        type: Actions.LabsAndTests.GET_UNIFIED_LIST,
+        labsAndTestsResponse: unifiedLabsResponse,
+      },
+    );
+    expect(state.scdfImagingStudiesMerged).to.be.false;
   });
 });

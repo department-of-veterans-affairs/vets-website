@@ -43,6 +43,10 @@ class LabsAndTestsListPage extends BaseListPage {
       '@mockUser',
       '@featureToggles',
     ]);
+    // Wait for page to load
+    cy.get('h1')
+      .should('be.visible')
+      .and('be.focused');
   };
 
   clickLabsAndTestsDetailsLink = (_LabsAndTestsItemIndex = 0, entry) => {
@@ -51,10 +55,23 @@ class LabsAndTestsListPage extends BaseListPage {
       `/my_health/v1/medical_records/labs_and_tests/${entry.resource.id}`,
       entry.resource,
     );
-    cy.findAllByTestId('record-list-item')
-      .find('a')
-      .eq(_LabsAndTestsItemIndex)
+    // Find the link by href using entry id for reliability
+    const expectedHref = `/my-health/medical-records/labs-and-tests/${
+      entry.resource.id
+    }`;
+    cy.get(`a[href="${expectedHref}"]`)
+      .first()
+      .scrollIntoView();
+    cy.get(`a[href="${expectedHref}"]`)
+      .first()
+      .should('be.visible');
+    cy.get(`a[href="${expectedHref}"]`)
+      .first()
       .click();
+    // Wait for detail page to load - check for print menu as indicator
+    cy.get('[data-testid="print-download-menu"]', { timeout: 10000 }).should(
+      'be.visible',
+    );
   };
 
   // "Radiology has no details call so we always use the list call for everything"
@@ -71,6 +88,10 @@ class LabsAndTestsListPage extends BaseListPage {
     cy.get('@radLink').scrollIntoView();
     cy.get('@radLink').should('be.visible');
     cy.get('@radLink').click();
+    // Wait for detail page to load - check for print menu as indicator
+    cy.get('[data-testid="print-download-menu"]', { timeout: 10000 }).should(
+      'be.visible',
+    );
   };
 
   loadVAPaginationNext = () => {

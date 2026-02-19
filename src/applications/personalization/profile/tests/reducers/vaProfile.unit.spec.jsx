@@ -6,6 +6,12 @@ import {
   FETCH_PERSONAL_INFORMATION_FAILED,
   UPDATE_PERSONAL_INFORMATION_FIELD,
 } from '@@vap-svc/actions/personalInformation';
+import {
+  FETCH_SCHEDULING_PREFERENCES,
+  FETCH_SCHEDULING_PREFERENCES_SUCCESS,
+  FETCH_SCHEDULING_PREFERENCES_FAILED,
+  UPDATE_SCHEDULING_PREFERENCES_FIELD,
+} from '@@vap-svc/actions/schedulingPreferences';
 
 import { PERSONAL_INFO_FIELD_NAMES } from '@@vap-svc/constants';
 
@@ -106,6 +112,113 @@ describe('vaProfile reducer', () => {
       },
     };
     expect(vaProfile(initialState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle FETCH_POWER_OF_ATTORNEY_SUCCESS', () => {
+    const poa = { type: 'organization', name: 'Veterans Organization' };
+    const action = {
+      type: 'FETCH_POWER_OF_ATTORNEY_SUCCESS',
+      poa,
+    };
+    expect(vaProfile(initialState, action)).to.deep.equal({
+      ...initialState,
+      powerOfAttorney: poa,
+    });
+  });
+
+  it('should handle FETCH_POWER_OF_ATTORNEY_FAILED', () => {
+    const poa = { error: 'Failed to fetch power of attorney' };
+    const action = {
+      type: 'FETCH_POWER_OF_ATTORNEY_FAILED',
+      poa,
+    };
+    expect(vaProfile(initialState, action)).to.deep.equal({
+      ...initialState,
+      powerOfAttorney: poa,
+    });
+  });
+
+  it('should handle FETCH_SCHEDULING_PREFERENCES', () => {
+    const action = { type: FETCH_SCHEDULING_PREFERENCES };
+    const expectedState = {
+      ...initialState,
+      schedulingPreferences: {
+        error: false,
+        loading: true,
+      },
+    };
+    expect(vaProfile(initialState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle FETCH_SCHEDULING_PREFERENCES_SUCCESS', () => {
+    const schedulingPreferences = {
+      preferences: [
+        {
+          itemId: 123,
+          optionIds: ['1', '2'],
+        },
+      ],
+    };
+    const action = {
+      type: FETCH_SCHEDULING_PREFERENCES_SUCCESS,
+      schedulingPreferences,
+    };
+    // The exact structure depends on the convertSchedulingPreferencesToReduxFormat function
+    const result = vaProfile(initialState, action);
+    expect(result.schedulingPreferences).to.have.property('loading', false);
+    expect(result.schedulingPreferences).to.not.have.property('error');
+  });
+
+  it('should handle FETCH_SCHEDULING_PREFERENCES_FAILED', () => {
+    const action = { type: FETCH_SCHEDULING_PREFERENCES_FAILED };
+    const expectedState = {
+      ...initialState,
+      schedulingPreferences: {
+        error: true,
+        loading: false,
+      },
+    };
+    expect(vaProfile(initialState, action)).to.deep.equal(expectedState);
+  });
+
+  it('should handle UPDATE_SCHEDULING_PREFERENCES_FIELD', () => {
+    const action = {
+      type: UPDATE_SCHEDULING_PREFERENCES_FIELD,
+      fieldName: 'notificationFrequency',
+      value: { notificationFrequency: 'option-123' },
+    };
+    const result = vaProfile(initialState, action);
+    expect(result.schedulingPreferences).to.have.property(
+      'notificationFrequency',
+    );
+  });
+
+  it('should handle FETCH_MILITARY_INFORMATION_SUCCESS', () => {
+    const militaryInformation = {
+      serviceHistory: [{ branchOfService: 'Army', beginDate: '2000-01-01' }],
+    };
+    const action = {
+      type: 'FETCH_MILITARY_INFORMATION_SUCCESS',
+      militaryInformation,
+    };
+    expect(vaProfile(initialState, action)).to.deep.equal({
+      ...initialState,
+      militaryInformation,
+    });
+  });
+
+  it('should handle FETCH_MILITARY_INFORMATION_FAILED', () => {
+    const militaryInformation = {
+      error: 'Failed to fetch military information',
+    };
+    const action = {
+      type: 'FETCH_MILITARY_INFORMATION_FAILED',
+      militaryInformation,
+    };
+    expect(vaProfile(initialState, action)).to.deep.equal({
+      ...initialState,
+      militaryInformation,
+    });
   });
 
   it('should handle unknown action type', () => {

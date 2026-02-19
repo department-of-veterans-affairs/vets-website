@@ -117,9 +117,13 @@ const useAcceleratedData = () => {
 
   const isAcceleratingLabsAndTests = useMemo(
     () => {
-      return isAcceleratedDeliveryEnabled && isAcceleratingLabsAndTestsEnabled;
+      return (
+        isAcceleratedDeliveryEnabled &&
+        isAcceleratingLabsAndTestsEnabled &&
+        isCerner
+      );
     },
-    [isAcceleratedDeliveryEnabled, isAcceleratingLabsAndTestsEnabled],
+    [isAcceleratedDeliveryEnabled, isAcceleratingLabsAndTestsEnabled, isCerner],
   );
 
   const isAcceleratingMedications = useMemo(
@@ -145,7 +149,6 @@ const useAcceleratedData = () => {
       isAcceleratingCareNotes ||
       isAcceleratingConditions ||
       isAcceleratingVitals ||
-      isAcceleratingVaccines ||
       isAcceleratingLabsAndTests ||
       isAcceleratingMedications ||
       isAcceleratingSecureMessaging,
@@ -155,7 +158,6 @@ const useAcceleratedData = () => {
       isAcceleratingConditions,
       isAcceleratingCareNotes,
       isAcceleratingVitals,
-      isAcceleratingVaccines,
       isAcceleratingLabsAndTests,
       isAcceleratingMedications,
       isAcceleratingSecureMessaging,

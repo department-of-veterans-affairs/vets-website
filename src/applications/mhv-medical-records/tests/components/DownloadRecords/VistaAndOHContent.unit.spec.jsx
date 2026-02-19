@@ -36,8 +36,30 @@ describe('VistaAndOHContent', () => {
     handleDownloadCCD: () => {},
     handleDownloadCCDV2: () => {},
     runningUnitTest: true,
-    vistaFacilityNames: ['VA Western New York health care'],
-    ohFacilityNames: ['VA Central Ohio health care'],
+    vistaFacilityNames: [
+      { id: '528A4', content: 'VA Western New York health care' },
+    ],
+    ohFacilityNamesBeforeCutover: [
+      {
+        id: '757-before',
+        content: (
+          <>
+            VA Central Ohio health care <strong>(before April 30, 2022)</strong>
+          </>
+        ),
+      },
+    ],
+    ohFacilityNamesAfterCutover: [
+      {
+        id: '757-after',
+        content: (
+          <>
+            VA Central Ohio health care{' '}
+            <strong>(April 30, 2022-present)</strong>
+          </>
+        ),
+      },
+    ],
     expandSelfEntered: false,
     selfEnteredAccordionRef: { current: null },
   };
@@ -222,22 +244,44 @@ describe('VistaAndOHContent', () => {
     it('displays VistA facility names', () => {
       const { getByText } = renderComponent({
         ccdExtendedFileTypeFlag: true,
-        vistaFacilityNames: ['VA Western New York health care'],
+        vistaFacilityNames: [
+          { id: '528A4', content: 'VA Western New York health care' },
+        ],
       });
 
-      expect(
-        getByText(/CCD: medical records from VA Western New York health care/),
-      ).to.exist;
+      expect(getByText(/VA Western New York health care/)).to.exist;
     });
 
     it('displays OH facility names', () => {
-      const { getByText } = renderComponent({
+      const { getAllByText } = renderComponent({
         ccdExtendedFileTypeFlag: true,
-        ohFacilityNames: ['VA Central Ohio health care'],
+        ohFacilityNamesBeforeCutover: [
+          {
+            id: '757-before',
+            content: (
+              <>
+                VA Central Ohio health care{' '}
+                <strong>(before April 30, 2022)</strong>
+              </>
+            ),
+          },
+        ],
+        ohFacilityNamesAfterCutover: [
+          {
+            id: '757-after',
+            content: (
+              <>
+                VA Central Ohio health care{' '}
+                <strong>(April 30, 2022-present)</strong>
+              </>
+            ),
+          },
+        ],
       });
 
-      expect(getByText(/CCD: medical records from VA Central Ohio health care/))
-        .to.exist;
+      expect(getAllByText(/VA Central Ohio health care/).length).to.be.at.least(
+        1,
+      );
     });
 
     it('calls handleDownloadCCD with correct format when VistA XML link is clicked', () => {
