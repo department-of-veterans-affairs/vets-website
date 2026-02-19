@@ -70,4 +70,79 @@ describe('<Notification>', () => {
     expect(selector).to.exist;
     expect(selector).to.have.attr('role', 'alert');
   });
+
+  describe('maskTitle prop (PII protection)', () => {
+    it('should mask title by default (secure by default)', () => {
+      const { container } = render(
+        <Notification title="medical-records.pdf" body={body} />,
+      );
+
+      const titleElement = container.querySelector('h2');
+      expect(titleElement).to.exist;
+      expect(titleElement).to.have.attr('data-dd-privacy', 'mask');
+      expect(titleElement).to.have.attr(
+        'data-dd-action-name',
+        'notification title with filename',
+      );
+    });
+
+    it('should mask title when maskTitle={true}', () => {
+      const { container } = render(
+        <Notification
+          title="upload-failed-document.pdf"
+          body={body}
+          maskTitle
+        />,
+      );
+
+      const titleElement = container.querySelector('h2');
+      expect(titleElement).to.exist;
+      expect(titleElement).to.have.attr('data-dd-privacy', 'mask');
+      expect(titleElement).to.have.attr(
+        'data-dd-action-name',
+        'notification title with filename',
+      );
+    });
+
+    it('should NOT mask title when maskTitle={false}', () => {
+      const { container } = render(
+        <Notification
+          title="Your claim was submitted"
+          body={body}
+          maskTitle={false}
+        />,
+      );
+
+      const titleElement = container.querySelector('h2');
+      expect(titleElement).to.exist;
+      expect(titleElement).to.not.have.attr('data-dd-privacy');
+      expect(titleElement).to.not.have.attr('data-dd-action-name');
+    });
+
+    it('should mask error notifications with file names', () => {
+      const fileNameTitle = 'Upload failed: john-smith-medical.pdf';
+      const { container } = render(
+        <Notification title={fileNameTitle} body={body} type="error" />,
+      );
+
+      const titleElement = container.querySelector('h2');
+      expect(titleElement).to.exist;
+      expect(titleElement).to.have.attr('data-dd-privacy', 'mask');
+    });
+
+    it('should support explicit false for success messages', () => {
+      const { container } = render(
+        <Notification
+          title="Upload successful"
+          body="Your document was uploaded"
+          type="success"
+          maskTitle={false}
+        />,
+      );
+
+      const titleElement = container.querySelector('h2');
+      expect(titleElement).to.exist;
+      expect(titleElement).to.not.have.attr('data-dd-privacy');
+    });
+  });
 });
