@@ -1044,6 +1044,30 @@ export const isNewConditionsOn = formData =>
 
 export const isNewConditionsOff = formData => !isNewConditionsOn(formData);
 
+// Old-flow pages that are hidden when new conditions workflow is enabled.
+// If a user's returnUrl points to one of these while the flag is true,
+// they'll hit a redirect loop because the page's `depends` returns false.
+const OLD_FLOW_PATHS = [
+  '/claim-type',
+  '/disabilities/orientation',
+  '/disabilities/rated-disabilities',
+  '/disabilities/summary',
+  '/new-disabilities/add',
+  '/new-disabilities/follow-up',
+];
+
+const isOldFlowReturnUrl = returnUrl =>
+  OLD_FLOW_PATHS.some(
+    path => returnUrl === path || returnUrl?.startsWith(`${path}/`),
+  );
+
+/**
+ * When the new conditions workflow is ON but the returnUrl points to an
+ * old-flow page, redirect to the new-flow conditions summary instead.
+ */
+export const redirectOldFlowToNewFlow = ({ returnUrl, formData }) =>
+  isNewConditionsOn(formData) && isOldFlowReturnUrl(returnUrl);
+
 export const onFormLoaded = props => {
   const { returnUrl, formData, router } = props;
   const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
@@ -1051,9 +1075,14 @@ export const onFormLoaded = props => {
   const shouldRevertWhenNoEvidence = redirectWhenNoEvidence(props);
   const shouldRedirectLegacyToEnhancement = redirectLegacyToEnhancement(props);
   const shouldRedirectEnhancementToLegacy = redirectEnhancementToLegacy(props);
+  const shouldRedirectOldFlowToNewFlow = redirectOldFlowToNewFlow(props);
   const redirectUrl = legacy4142AuthURL;
 
-  if (shouldRedirectToModern4142Choice === true) {
+  if (shouldRedirectOldFlowToNewFlow) {
+    // returnUrl points to a page hidden by the new conditions workflow —
+    // redirect to a safe page that is always available regardless of flipper
+    router.push('/contact-information');
+  } else if (shouldRedirectToModern4142Choice === true) {
     // if we should redirect to the modern 4142 choice page, we set the shared variable
     // and redirect to the redirectUrl (the modern 4142 choice page)
     setSharedVariable('alertNeedsShown4142', shouldRedirectToModern4142Choice);
