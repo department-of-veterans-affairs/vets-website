@@ -44,6 +44,51 @@ function extractDataFields(sourceData, fields) {
 }
 
 /**
+ * Apply noSsnReason payload mappings for spouse, children, and students.
+ * Mutates cleanData in place by design — it is a local variable in the caller.
+ *
+ * @param {object} cleanData - submission data being built (mutated in place)
+ * @param {object} sourceData - original form data
+ * @param {object} addOptions - selected add-dependent options
+ * @param {object} noSsnReasonMappings - mapping of noSsnReason values to payload values
+ */
+/* eslint-disable no-param-reassign */
+function applyNoSsnReasonMappings(
+  cleanData,
+  sourceData,
+  addOptions,
+  noSsnReasonMappings,
+) {
+  if (
+    addOptions.addSpouse === true &&
+    sourceData?.spouseInformation?.noSsn === true
+  ) {
+    cleanData.spouseInformation.noSsnReason =
+      noSsnReasonMappings[(sourceData?.spouseInformation?.noSsnReason)];
+  }
+  if (addOptions.addChild === true && sourceData?.childrenToAdd?.length > 0) {
+    sourceData.childrenToAdd.forEach((child, index) => {
+      if (child.noSsn === true) {
+        cleanData.childrenToAdd[index].noSsnReason =
+          noSsnReasonMappings[child.noSsnReason];
+      }
+    });
+  }
+  if (
+    addOptions.report674 === true &&
+    sourceData?.studentInformation?.length > 0
+  ) {
+    sourceData.studentInformation.forEach((student, index) => {
+      if (student.noSsn === true) {
+        cleanData.studentInformation[index].noSsnReason =
+          noSsnReasonMappings[student.noSsnReason];
+      }
+    });
+  }
+}
+/* eslint-enable no-param-reassign */
+
+/**
  * Transform form data into submission data format
  *
  * SINGLE SOURCE OF TRUTH for submission flags:
@@ -105,19 +150,19 @@ export function buildSubmissionData(payload) {
   // - The flag is on AND the veteran is confirmed in receipt of pension
   // This prevents stale answers collected before the flag was enabled from
   // reaching the backend for veterans who are not in receipt of pension.
-  if (sourceData.householdIncome !== undefined) {
-    const flagOn = sourceData.vaDependentsNetWorthAndPension;
-    if (!flagOn || isVetInReceiptOfPension(sourceData)) {
-      cleanData.householdIncome = sourceData.householdIncome;
-    }
+  const flagOn = sourceData.vaDependentsNetWorthAndPension;
+  if (
+    sourceData.householdIncome !== undefined &&
+    (!flagOn || isVetInReceiptOfPension(sourceData))
+  ) {
+    cleanData.householdIncome = sourceData.householdIncome;
   }
 
   // Strip pension-gated student financial fields when flag is on and vet is not in receipt.
   // These fields may be stale (answered before the flag was enabled) and must not reach
   // the backend for veterans confirmed to be outside receipt of pension.
   const shouldStripStudentFinancials =
-    sourceData.vaDependentsNetWorthAndPension &&
-    !isVetInReceiptOfPension(sourceData);
+    flagOn && !isVetInReceiptOfPension(sourceData);
 
   // Use centralized workflow mappings from dataMappings.js
   const addDataMappings = ADD_WORKFLOW_MAPPINGS;
@@ -137,33 +182,13 @@ export function buildSubmissionData(payload) {
       }
     });
 
-    // Tranform No SSN Reason for the payload
-    if (
-      addOptions.addSpouse === true &&
-      sourceData?.spouseInformation?.noSsn === true
-    ) {
-      cleanData.spouseInformation.noSsnReason =
-        noSsnReasonMappings[(sourceData?.spouseInformation?.noSsnReason)];
-    }
-    if (addOptions.addChild === true && sourceData?.childrenToAdd?.length > 0) {
-      sourceData.childrenToAdd.forEach((child, index) => {
-        if (child.noSsn === true) {
-          cleanData.childrenToAdd[index].noSsnReason =
-            noSsnReasonMappings[child.noSsnReason];
-        }
-      });
-    }
-    if (
-      addOptions.report674 === true &&
-      sourceData?.studentInformation?.length > 0
-    ) {
-      sourceData.studentInformation.forEach((student, index) => {
-        if (student.noSsn === true) {
-          cleanData.studentInformation[index].noSsnReason =
-            noSsnReasonMappings[student.noSsnReason];
-        }
-      });
-    }
+    // Transform No SSN Reason for the payload
+    applyNoSsnReasonMappings(
+      cleanData,
+      sourceData,
+      addOptions,
+      noSsnReasonMappings,
+    );
   }
 
   // Remove pension-gated financial fields from each student when the veteran is not in
