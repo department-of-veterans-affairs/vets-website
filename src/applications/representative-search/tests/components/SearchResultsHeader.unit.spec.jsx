@@ -408,6 +408,7 @@ describe('SearchResultsHeader', () => {
 
     const select = wrapper.find('VaSelect.sort-select');
     select.prop('onVaSelect')({ target: { value: 'first_name_asc' } });
+
     wrapper.update();
 
     sinon.assert.calledOnce(updateSearchQuerySpy);
