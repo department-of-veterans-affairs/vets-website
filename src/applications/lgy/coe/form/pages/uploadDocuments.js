@@ -46,8 +46,9 @@ export const DocumentTypeSelect = () => {
     );
   }
 
-  containsOneTimeRestoration(formData) &&
+  if (containsOneTimeRestoration(formData)) {
     requiredDocumentTypes.push('Loan evidence');
+  }
 
   return (
     <VaSelect required label="Document type" name="attachmentType">
@@ -151,7 +152,7 @@ const getRequiredDocumentMessage = (formData, hasOneTimeRestoration) => {
     ),
     [serviceStatuses.NADNA]: (
       <>
-        <p>You'll need to upload these documents:</p>
+        <p>You’ll need to upload these documents:</p>
         <ul>
           <li>Statement of Service</li>
           <li>
@@ -166,7 +167,7 @@ const getRequiredDocumentMessage = (formData, hasOneTimeRestoration) => {
     ),
     [serviceStatuses.DNANA]: (
       <>
-        <p>You'll need to upload these documents:</p>
+        <p>You’ll need to upload these documents:</p>
         <ul>
           <li>
             Separation and Report of Service (NGB Form 22) for each period of
@@ -185,7 +186,7 @@ const getRequiredDocumentMessage = (formData, hasOneTimeRestoration) => {
     ),
     [serviceStatuses.DRNA]: (
       <>
-        <p>You'll need to upload these documents:</p>
+        <p>You’ll need to upload these documents:</p>
         <ul>
           <li>Retirement Point Accounting</li>
           <li>
