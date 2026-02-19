@@ -309,24 +309,9 @@ class FormPage extends React.Component {
         />
       );
     }
-    const DefaultNavButtons = route.formConfig?.useTopBackLink
+    const NavButtons = route.formConfig?.useTopBackLink
       ? FormNavButtonContinue
       : FormNavButtons;
-    const NavButtonsWithWrapper = formOptions?.NavButtonsWithWrapper;
-    const isValidNavWrapper = isReactComponent(NavButtonsWithWrapper);
-    if (
-      !environment.isProduction() &&
-      NavButtonsWithWrapper &&
-      !isValidNavWrapper
-    ) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        '[FormPage] NavButtonsWithWrapper is set but is not a valid component. Falling back to default buttons.',
-      );
-    }
-    const NavButtons = isValidNavWrapper
-      ? NavButtonsWithWrapper
-      : DefaultNavButtons;
 
     const {
       contentBeforeNavButtons,
@@ -374,7 +359,6 @@ class FormPage extends React.Component {
             appStateData={appStateData}
             formContext={this.formContext}
             NavButtons={NavButtons}
-            DefaultNavButtons={DefaultNavButtons}
             formOptions={formOptions}
           />
         </div>
@@ -411,23 +395,12 @@ class FormPage extends React.Component {
           ) : (
             <>
               {contentBeforeNavButtons}
-              {/* Allow apps to wrap the default nav buttons (e.g., tracking) without changing UI */}
-              {isValidNavWrapper ? (
-                <NavButtonsWithWrapper
-                  DefaultNavButtons={DefaultNavButtons}
-                  goBack={!isFirstRoutePage && this.goBack}
-                  goForward={this.onContinue}
-                  submitToContinue
-                  useWebComponents={formOptions.useWebComponentForNavigation}
-                />
-              ) : (
-                <DefaultNavButtons
-                  goBack={!isFirstRoutePage && this.goBack}
-                  goForward={this.onContinue}
-                  submitToContinue
-                  useWebComponents={formOptions.useWebComponentForNavigation}
-                />
-              )}
+              <NavButtons
+                goBack={!isFirstRoutePage && this.goBack}
+                goForward={this.onContinue}
+                submitToContinue
+                useWebComponents={formOptions.useWebComponentForNavigation}
+              />
               {contentAfterNavButtons}
             </>
           )}
@@ -506,7 +479,6 @@ FormPage.propTypes = {
         collapsibleNavLinks: PropTypes.bool,
       }),
       formOptions: PropTypes.shape({
-        NavButtonsWithWrapper: PropTypes.elementType,
         noBottomNav: PropTypes.bool,
         useWebComponentForNavigation: PropTypes.bool,
       }),
