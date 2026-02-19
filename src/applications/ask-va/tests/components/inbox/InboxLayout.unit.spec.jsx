@@ -18,7 +18,7 @@ describe('<InboxLayout />', () => {
     );
 
     const emptyInboxAlert = view.getByText(
-      "You haven't submitted a question yet.",
+      'You haven’t submitted a question yet.',
     );
     const inquiryResult = view.queryByTestId('inquiry-card');
     expect(emptyInboxAlert).to.exist;
