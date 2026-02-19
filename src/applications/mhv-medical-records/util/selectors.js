@@ -17,6 +17,11 @@ export const selectFilterAndSortFlag = state =>
 export const selectImagesDomainFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsImagesDomain];
 
+export const selectFetchScdfImagingStudies = state =>
+  state.featureToggles[
+    FEATURE_FLAG_NAMES.mhvMedicalRecordsFetchScdfImagingStudies
+  ];
+
 export const selectHoldTimeMessagingUpdate = state =>
   state.featureToggles[
     FEATURE_FLAG_NAMES.mhvMedicalRecordsHoldTimeMessagingUpdate

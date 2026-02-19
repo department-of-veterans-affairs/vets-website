@@ -380,3 +380,82 @@ describe('Labs and tests list container with holdTimeMessagingUpdate feature fla
     );
   });
 });
+
+describe('Labs and tests accelerated path with SCDF imaging studies flag', () => {
+  const buildAcceleratedState = (overrides = {}) => ({
+    user: {
+      ...user,
+      profile: {
+        ...user.profile,
+        facilities: [{ facilityId: '983', isCerner: true }],
+      },
+    },
+    mr: {
+      labsAndTests: {
+        labsAndTestsList: [],
+        listState: 'FETCHED',
+        dateRange: {
+          option: '3',
+          fromDate: '2025-08-13',
+          toDate: '2025-11-13',
+        },
+      },
+      alerts: { alertList: [] },
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+        data: {
+          cernerFacilities: [{ vhaId: '983' }],
+        },
+      },
+    },
+    featureToggles: {
+      loading: false,
+      [FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryEnabled]: true,
+      [FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryLabsAndTestsEnabled]: true,
+      ...overrides,
+    },
+  });
+
+  it('displays DateRangeSelector when accelerating', () => {
+    const initialState = buildAcceleratedState({
+      [FEATURE_FLAG_NAMES.mhvMedicalRecordsFetchScdfImagingStudies]: true,
+    });
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    expect(screen.getByTestId('date-range-selector')).to.exist;
+  });
+
+  it('displays the no records message when accelerating with empty list', () => {
+    const initialState = buildAcceleratedState();
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    expect(
+      screen.getByText('There are no lab and test results', { exact: false }),
+    ).to.exist;
+  });
+
+  it('does not display NewRecordsIndicator when accelerating', () => {
+    const initialState = buildAcceleratedState();
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    // NewRecordsIndicator should not render in the accelerated path
+    expect(screen.queryByTestId('new-records-indicator')).to.not.exist;
+  });
+});
