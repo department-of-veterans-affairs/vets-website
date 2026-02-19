@@ -24,6 +24,9 @@ describe('Get care summaries and notes list action', () => {
         Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
       );
       expect(dispatch.thirdCall.args[0].type).to.equal(
+        Actions.CareSummariesAndNotes.SET_WARNINGS,
+      );
+      expect(dispatch.getCall(3).args[0].type).to.equal(
         Actions.CareSummariesAndNotes.GET_LIST,
       );
     });
@@ -37,8 +40,10 @@ describe('Get care summaries and notes list action', () => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
       );
-      // If you have a CLEAR_INITIAL_FHIR_LOAD action, check it here
       expect(dispatch.thirdCall.args[0].type).to.equal(
+        Actions.CareSummariesAndNotes.SET_WARNINGS,
+      );
+      expect(dispatch.getCall(3).args[0].type).to.equal(
         Actions.CareSummariesAndNotes.GET_UNIFIED_LIST,
       );
     });
@@ -50,6 +55,44 @@ describe('Get care summaries and notes list action', () => {
     const dispatch = sinon.spy();
     await getCareSummariesAndNotesList()(dispatch);
     expect(typeof dispatch.secondCall.args[0]).to.equal('function');
+  });
+
+  it('should dispatch SET_WARNINGS with empty array when response has no warnings', () => {
+    const mockData = notes;
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    return getCareSummariesAndNotesList()(dispatch).then(() => {
+      const setWarningsCall = dispatch
+        .getCalls()
+        .find(
+          call =>
+            call.args[0].type === Actions.CareSummariesAndNotes.SET_WARNINGS,
+        );
+      expect(setWarningsCall).to.exist;
+      expect(setWarningsCall.args[0].payload).to.deep.equal([]);
+    });
+  });
+
+  it('should dispatch SET_WARNINGS with warnings from accelerated response', () => {
+    const mockWarnings = [
+      { source: 'oracle-health', message: 'Binary resource not found' },
+    ];
+    const mockData = {
+      data: [],
+      meta: { warnings: mockWarnings },
+    };
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    return getCareSummariesAndNotesList(false, true)(dispatch).then(() => {
+      const setWarningsCall = dispatch
+        .getCalls()
+        .find(
+          call =>
+            call.args[0].type === Actions.CareSummariesAndNotes.SET_WARNINGS,
+        );
+      expect(setWarningsCall).to.exist;
+      expect(setWarningsCall.args[0].payload).to.deep.equal(mockWarnings);
+    });
   });
 });
 

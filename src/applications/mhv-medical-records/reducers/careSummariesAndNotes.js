@@ -47,6 +47,11 @@ const initialState = {
    * The date range currently being displayed to the user
    */
   dateRange: buildInitialDateRange(DEFAULT_DATE_RANGE),
+  /**
+   * Warnings from the backend when some Binary resources (PDFs, etc.) couldn't be retrieved.
+   * @type {Array}
+   */
+  warnings: [],
 };
 
 export const getTitle = record => {
@@ -425,10 +430,17 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         careSummariesAndNotesDetails: undefined,
       };
     }
+    case Actions.CareSummariesAndNotes.SET_WARNINGS: {
+      return {
+        ...state,
+        warnings: action.payload || [],
+      };
+    }
     case Actions.CareSummariesAndNotes.UPDATE_LIST_STATE: {
       return {
         ...state,
         listState: action.payload,
+        ...(action.payload === loadStates.FETCHING ? { warnings: [] } : {}),
       };
     }
     case Actions.CareSummariesAndNotes.SET_DATE_RANGE: {
