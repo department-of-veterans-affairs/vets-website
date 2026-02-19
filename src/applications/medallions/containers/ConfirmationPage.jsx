@@ -151,7 +151,10 @@ const ConfirmationPage = props => {
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       formConfig={formConfig}
-      pdfUrl={submission?.response?.pdfUrl}
+      pdfUrl={
+        submission?.response?.pdfUrl ||
+        'https://www.va.gov/vaforms/va/pdf/VA%20Form%2040-10007.pdf'
+      }
     >
       <ConfirmationView.SubmissionAlert
         title="We sent your application to the cemetery"
