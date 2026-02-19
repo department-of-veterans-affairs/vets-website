@@ -6,6 +6,7 @@ import {
   internationalPhoneUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 
 const uiSchema = {
   ...titleUI({
@@ -36,7 +37,7 @@ const uiSchema = {
     classNames: 'vads-u-color--base vads-u-margin-top--0',
   }),
   contactInfo: {
-    mobilePhone: internationalPhoneUI('Mobile phone number'),
+    mobilePhone: { ...internationalPhoneUI('Mobile phone number') },
     homePhone: internationalPhoneUI('Home phone number'),
     emailAddress: emailUI({
       title: 'Email',
@@ -48,6 +49,9 @@ const uiSchema = {
           'Enter a valid email address using thes format email@domain.com. Your email address can only have letters, numbers, the @ symbbol and a period, with no spaces.',
       },
     }),
+  },
+  'view:confirmDuplicateData': {
+    'ui:description': DuplicateContactInfoModal,
   },
 };
 
@@ -63,7 +67,35 @@ const schema = {
         emailAddress: { ...emailSchema, pattern: '^[a-zA-Z0-9@.]+$' },
       },
     },
+    'view:confirmDuplicateData': {
+      type: 'object',
+      properties: {},
+    },
   },
 };
 
-export { schema, uiSchema };
+const updateFormData = (_oldFormData, newFormData) => {
+  const mobilePhoneRemoved =
+    newFormData?.contactMethod === 'Mobile Phone' &&
+    !newFormData?.contactInfo?.mobilePhone?.contact;
+
+  const homePhoneRemoved =
+    newFormData?.contactMethod === 'Home Phone' &&
+    !newFormData?.contactInfo?.homePhone?.contact;
+
+  const emailRemoved =
+    newFormData?.contactMethod === 'Email' &&
+    !newFormData?.contactInfo?.emailAddress;
+
+  const clearContactMethod =
+    mobilePhoneRemoved || homePhoneRemoved || emailRemoved;
+
+  return {
+    ...newFormData,
+    ...(clearContactMethod && {
+      contactMethod: undefined,
+    }),
+  };
+};
+
+export { schema, uiSchema, updateFormData };

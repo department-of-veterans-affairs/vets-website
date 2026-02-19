@@ -140,3 +140,9 @@ select, input {
 legend {
   color: var(--vads-color-base) !important;
 }
+
+.update-phone-button {
+  &:hover {
+    background-color: transparent;
+  }
+}

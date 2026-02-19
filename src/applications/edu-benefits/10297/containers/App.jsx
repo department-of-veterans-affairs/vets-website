@@ -10,7 +10,11 @@ import { addStyleToShadowDomOnPages } from '../../utils/helpers';
 import Breadcrumbs from '../components/Breadcrumbs';
 import manifest from '../manifest.json';
 import { TITLE } from '../constants';
-import { fetchDirectDeposit, fetchPersonalInformation } from '../actions';
+import {
+  fetchDirectDeposit,
+  fetchDuplicateContactInfo,
+  fetchPersonalInformation,
+} from '../actions';
 import prefillTransformer from '../config/prefill-transformer';
 
 function App({
@@ -23,6 +27,9 @@ function App({
   claimantInfo,
   user,
   getDirectDeposit,
+  getDuplicateContactInfo,
+  duplicateEmail,
+  duplicatePhone,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -88,6 +95,54 @@ function App({
     [fetchedDirectDeposit, getDirectDeposit, user?.login?.currentlyLoggedIn],
   );
 
+  useEffect(
+    () => {
+      if (
+        formData?.contactInfo?.mobilePhone &&
+        formData?.contactInfo?.emailAddress &&
+        !formData?.duplicateEmail &&
+        !formData?.duplicatePhone
+      ) {
+        getDuplicateContactInfo(
+          [{ value: formData?.contactInfo?.emailAddress, dupe: '' }],
+          [
+            {
+              value: formData?.contactInfo?.mobilePhone?.contact,
+              dupe: '',
+            },
+          ],
+        );
+      }
+
+      if (
+        duplicateEmail?.length > 0 &&
+        duplicateEmail !== formData?.duplicateEmail
+      ) {
+        setFormData({
+          ...formData,
+          duplicateEmail,
+        });
+      }
+
+      if (
+        duplicatePhone?.length > 0 &&
+        duplicatePhone !== formData?.duplicatePhone
+      ) {
+        setFormData({
+          ...formData,
+          duplicatePhone,
+        });
+      }
+    },
+    [
+      getDuplicateContactInfo,
+      duplicateEmail,
+      duplicatePhone,
+      formData,
+      setFormData,
+    ],
+  );
+
   return (
     <div className="form-22-10297-container row">
       <div className="vads-u-padding-left--0">
@@ -103,8 +158,11 @@ function App({
 App.propTypes = {
   children: PropTypes.node,
   claimantInfo: PropTypes.object,
+  duplicateEmail: PropTypes.array,
+  duplicatePhone: PropTypes.array,
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
+  getDuplicateContactInfo: PropTypes.func,
   getPersonalInformation: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
@@ -122,6 +180,8 @@ const mapStateToProps = state => {
     user: state.user,
     formData: state.form?.data || {},
     claimantInfo,
+    duplicateEmail: state.data?.duplicateEmail,
+    duplicatePhone: state.data?.duplicatePhone,
   };
 };
 
@@ -129,6 +189,7 @@ const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,
   getPersonalInformation: fetchPersonalInformation,
   setFormData: setData,
+  getDuplicateContactInfo: fetchDuplicateContactInfo,
 };
 
 export default connect(
