@@ -14,6 +14,7 @@ import {
   NO_SSN_REASON_PAYLOAD_MAPPINGS,
 } from '../dataMappings';
 
+import { isVetInReceiptOfPension } from './api';
 import { customFormReplacer, showV3Picklist } from './formHelpers';
 import {
   transformPicklistToV2,
@@ -93,12 +94,23 @@ export function buildSubmissionData(payload) {
     }
   });
 
-  // Handle fields that can be undefined/false - vaDependentsNetWorthAndPension recently added to formData
-  ['householdIncome', 'vaDependentsNetWorthAndPension'].forEach(field => {
-    if (sourceData[field] !== undefined) {
-      cleanData[field] = sourceData[field];
+  // vaDependentsNetWorthAndPension can be false - check for undefined explicitly
+  if (sourceData.vaDependentsNetWorthAndPension !== undefined) {
+    cleanData.vaDependentsNetWorthAndPension =
+      sourceData.vaDependentsNetWorthAndPension;
+  }
+
+  // householdIncome is only valid to submit when:
+  // - The pension feature flag is off (legacy: all veterans answered this), OR
+  // - The flag is on AND the veteran is confirmed in receipt of pension
+  // This prevents stale answers collected before the flag was enabled from
+  // reaching the backend for veterans who are not in receipt of pension.
+  if (sourceData.householdIncome !== undefined) {
+    const flagOn = sourceData.vaDependentsNetWorthAndPension;
+    if (!flagOn || isVetInReceiptOfPension(sourceData)) {
+      cleanData.householdIncome = sourceData.householdIncome;
     }
-  });
+  }
 
   // Use centralized workflow mappings from dataMappings.js
   const addDataMappings = ADD_WORKFLOW_MAPPINGS;

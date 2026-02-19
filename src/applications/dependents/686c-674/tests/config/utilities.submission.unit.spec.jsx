@@ -82,11 +82,51 @@ describe('buildSubmissionData', () => {
   });
 
   it('should handle boolean fields that can be false', () => {
-    const payload = createTestData();
+    // When flag is on AND vet IS in receipt of pension, householdIncome should be included
+    const payload = createTestData({
+      vaDependentsNetWorthAndPension: true,
+      veteranInformation: {
+        fullName: { first: 'Veteran', last: 'Name' },
+        isInReceiptOfPension: 1, // in receipt - householdIncome should be present
+      },
+      householdIncome: false,
+    });
     const result = buildSubmissionData(payload);
 
     expect(result.data.householdIncome).to.equal(false);
     expect(result.data.vaDependentsNetWorthAndPension).to.be.true;
+  });
+
+  it('should NOT include householdIncome when flag is on and veteran is not in receipt of pension', () => {
+    // Regression test: householdIncome answered in a prior session (before the pension flag
+    // was enabled) must not be sent to the backend when isInReceiptOfPension is 0.
+    const payload = createTestData({
+      vaDependentsNetWorthAndPension: true,
+      veteranInformation: {
+        fullName: { first: 'Veteran', last: 'Name' },
+        isInReceiptOfPension: 0, // API confirmed: not in receipt
+      },
+      householdIncome: false, // stale answer from before the flag was turned on
+    });
+    const result = buildSubmissionData(payload);
+
+    expect(result.data.householdIncome).to.be.undefined;
+    expect(result.data.vaDependentsNetWorthAndPension).to.be.true;
+  });
+
+  it('should include householdIncome when flag is off (legacy behavior)', () => {
+    // When the feature flag is off, householdIncome is always collected from all veterans
+    const payload = createTestData({
+      vaDependentsNetWorthAndPension: false,
+      veteranInformation: {
+        fullName: { first: 'Veteran', last: 'Name' },
+        isInReceiptOfPension: 0,
+      },
+      householdIncome: true,
+    });
+    const result = buildSubmissionData(payload);
+
+    expect(result.data.householdIncome).to.be.true;
   });
 
   it('should not include spouse data when addSpouse is false', () => {
