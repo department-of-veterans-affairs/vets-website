@@ -56,10 +56,8 @@ const FolderHeader = props => {
           return Folders.DRAFTS.desc;
         case Folders.DELETED.id: // Trash
           return Folders.DELETED.desc;
-        case Folders.CUSTOM_FOLDER.id: // Custom Folder
-          return Folders.CUSTOM_FOLDER.desc;
         default:
-          return null;
+          return Folders.CUSTOM_FOLDER.desc; // Custom Folder Sub-header;
       }
     },
     [folder],
@@ -177,6 +175,21 @@ const FolderHeader = props => {
           )}
 
         <>{handleFolderDescription()}</>
+        {threadCount === 0 &&
+          showNoMessages && (
+            <div className="vads-u-margin-y--3">
+              <va-alert
+                background-only="true"
+                status="info"
+                className="vads-u-margin-bottom--1 va-alert"
+                data-testid="alert-no-messages"
+              >
+                <p className="vads-u-margin-y--0">
+                  {Alerts.Message.NO_MESSAGES}
+                </p>
+              </va-alert>
+            </div>
+          )}
         {recipientsError && <RecipientListErrorAlert />}
         {showInnerNav &&
           (!noAssociations && !allTriageGroupsBlocked && !recipientsError) && (
@@ -194,22 +207,6 @@ const FolderHeader = props => {
             threadCount={threadCount}
           />
         )}
-
-        {threadCount === 0 &&
-          showNoMessages && (
-            <div className="vads-u-margin-y--3">
-              <va-alert
-                background-only="true"
-                status="info"
-                className="vads-u-margin-bottom--1 va-alert"
-                data-testid="alert-no-messages"
-              >
-                <p className="vads-u-margin-y--0">
-                  {Alerts.Message.NO_MESSAGES}
-                </p>
-              </va-alert>
-            </div>
-          )}
         <ManageFolderButtons folder={folder} />
       </>
     </>
