@@ -11,6 +11,10 @@ import manifest from '../manifest.json';
 export default function App({ location, children }) {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
 
+  useEffect(() => {
+    document.title = `${formConfig.title} | Veterans Affairs`;
+  }, []);
+
   useEffect(
     () => {
       if (!userLoggedIn && location.pathname !== '/introduction') {
