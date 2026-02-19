@@ -30,8 +30,8 @@ describe('HubCardList', () => {
     sandbox.restore();
   });
 
-  it('renders Program Overview + Tracks + Career Planning links for steps 1-3 (no milestones)', () => {
-    [1, 2, 3].forEach(step => {
+  it('renders Program Overview + Tracks + Career Planning links for steps 1 and 2 (always all cards)', () => {
+    [1, 2].forEach(step => {
       const { container, getByText, unmount } = renderWithProviders(
         <HubCardList step={step} />,
         {}, // no ch31CaseMilestones in store
@@ -90,8 +90,8 @@ describe('HubCardList', () => {
     getByText(/Step 4 on the Progress Tracker/i);
   });
 
-  it('step 3: renders only Career Planning when status is COMPLETED and no milestones', () => {
-    const stateList = [{}, {}, { status: 'COMPLETED' }];
+  it('step 3: renders only Career Planning when status is PENDING and no milestones', () => {
+    const stateList = [{}, {}, { status: 'PENDING' }];
 
     const { container, getByText } = renderWithProviders(
       <HubCardList step={3} stateList={stateList} />,

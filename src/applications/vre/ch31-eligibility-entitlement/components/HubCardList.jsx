@@ -53,21 +53,21 @@ const getCardsForStep = (step, stateList = [], ch31CaseMilestonesState) => {
 
   const isActive = currentStatus === 'ACTIVE';
 
+  const isPending = currentStatus === 'PENDING';
+
+  const allCards = [programOverviewCard, orientationCard, careerPlanningCard];
+
   switch (step) {
     case 1:
+      return allCards;
     case 2:
+      return allCards;
     case 3: {
-      const allCards = [
-        programOverviewCard,
-        orientationCard,
-        careerPlanningCard,
-      ];
-
       if (ch31CaseMilestonesState?.data && !ch31CaseMilestonesState?.error) {
         return allCards;
       }
 
-      return isActive || isComplete ? [careerPlanningCard] : allCards;
+      return isActive || isPending ? [careerPlanningCard] : allCards;
     }
     case 4:
       return [careerPlanningCard];
