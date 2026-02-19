@@ -102,7 +102,7 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  formId: VA_FORM_IDS.FORM_21_2680,
+  formId: VA_FORM_IDS.FORM_21_2680_PRIMARY,
   saveInProgress: {
     messages: {
       inProgress: 'Your benefits application (21-2680) is in progress.',
