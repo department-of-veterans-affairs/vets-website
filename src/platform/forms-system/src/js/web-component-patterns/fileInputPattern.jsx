@@ -39,14 +39,14 @@ import {
  *     documentStatus: { public: 'Public', private: 'Private' },
  *   },
  *   additionalInfoTitle: 'Document status', // title shown above the additional input inside the file card
- *   additionalInput: (error, data, labels) => {
+ *   additionalInput: (error, data, { labels, title }) => {
  *     const { documentStatus } = data;
  *     return (
  *       <VaSelect
  *         required
  *         error={error}
  *         value={documentStatus}
- *         label="Document status"
+ *         label={title}
  *       >
  *         {Object.entries(labels.documentStatus).map(([value, label]) => (
  *           <option key={value} value={value}>{label}</option>
@@ -96,7 +96,7 @@ import {
  * @param {number} [options.maxFileSize] - maximum allowed file size in bytes
  * @param {number} [options.minFileSize] - minimum allowed file size in bytes
  * @param {boolean} [options.additionalInputRequired] - is additional information required
- * @param {(error: any, data: any, labels?: Record<string, Record<string, string>>) => React.ReactNode} [options.additionalInput] - renders the additional information. Receives `additionalInputLabels` as an optional 3rd argument.
+ * @param {(error: any, data: any, options?: { labels?: Record<string, Record<string, string>>, title?: string }) => React.ReactNode} [options.additionalInput] - renders the additional information. Receives an options object with `labels` from `additionalInputLabels` and `title` from `additionalInfoTitle` as an optional 3rd argument.
  * @param {(e: CustomEvent) => {[key: string]: any}} [options.handleAdditionalInput] - function to handle event payload from additional info
  * @param {Record<string, Record<string, string>>} [options.additionalInputLabels] - explicit value-to-label mapping for additional input fields on the review page, e.g. `{ documentStatus: { public: 'Public', private: 'Private' } }`. Falls back to DOM querying if not provided.
  * @param {string} [options.additionalInfoTitle] - explicit label for the additional input field, used as the `<dt>` on the review and confirmation pages instead of the auto-generated camelCase-to-Title-Case key name

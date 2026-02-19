@@ -92,7 +92,7 @@ import ReviewField from '../review/FileInputMultiple';
  * @param {number} [options.maxFileSize] - maximum allowed file size in bytes
  * @param {number} [options.minFileSize] - minimum allowed file size in bytes
  * @param {boolean} [options.additionalInputRequired] - is additional information required
- * @param {(options: { labels?: Record<string, Record<string, string>> }) => React.ReactNode} [options.additionalInput] - renders the additional information template. Receives an object with `labels` from `additionalInputLabels`.
+ * @param {(options: { labels?: Record<string, Record<string, string>>, title?: string }) => React.ReactNode} [options.additionalInput] - renders the additional information template. Receives an object with `labels` from `additionalInputLabels` and `title` from `additionalInfoTitle`.
  * @param {(instance: any, error: any, data: any) => void} [options.additionalInputUpdate] - function to update additional input instance
  * @param {(e: CustomEvent) => {[key: string]: any}} [options.handleAdditionalInput] - function to handle event payload from additional info
  * @param {Record<string, Record<string, string>>} [options.additionalInputLabels] - explicit value-to-label mapping for additional input fields on the review page, e.g. `{ documentStatus: { public: 'Public', private: 'Private' } }`. Falls back to DOM querying if not provided.
