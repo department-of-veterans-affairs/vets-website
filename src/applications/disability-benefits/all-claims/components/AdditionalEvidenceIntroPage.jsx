@@ -144,7 +144,7 @@ export const AdditionalEvidenceIntroPage = ({
         {getAdditionalDocuments(data).length > 0 && (
           <>
             {additionalEvidenceModalContent}
-            {renderFileList(getAdditionalDocuments(data))}
+            {renderFileList(getAdditionalDocuments(data), true)}
           </>
         )}
       </VaModal>

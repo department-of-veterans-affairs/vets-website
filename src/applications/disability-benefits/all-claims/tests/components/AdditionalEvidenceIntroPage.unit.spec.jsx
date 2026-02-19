@@ -97,7 +97,7 @@ describe('AdditionalEvidenceIntroPage', () => {
       expect(modal.textContent).to.include('supportingDoc1.pdf');
       expect(modal.textContent).to.include('supportingDoc2.pdf');
       expect(modal.textContent).to.include('supportingDoc3.pdf');
-      expect(modal.textContent).to.include('2 other medical records');
+      expect(modal.textContent).to.include('2 other files');
       expect(modal.textContent).to.not.include('supportingDoc4.pdf');
     });
   });
