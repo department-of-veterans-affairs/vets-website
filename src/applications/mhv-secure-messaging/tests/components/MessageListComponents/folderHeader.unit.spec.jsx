@@ -95,7 +95,8 @@ describe('Folder Header component', () => {
           selector: 'h1',
         }),
       ).to.exist;
-      expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.exist;
+      expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc, { selector: 'p' }))
+        .to.exist;
     });
 
     it('must display `Edit Folder Name` and `Remove Folder` buttons', () => {
@@ -115,7 +116,8 @@ describe('Folder Header component', () => {
     it('must display valid CUSTOM FOLDER name and description: DEMO FOLDER 1', async () => {
       const screen = setup();
       expect(screen.getByText(`Messages: ${customFolder.name}`)).to.exist;
-      expect(screen.getByText(Folders.CUSTOM_FOLDER.desc)).to.exist;
+      expect(screen.getByText(Folders.CUSTOM_FOLDER.desc, { selector: 'p' })).to
+        .exist;
     });
 
     it('renders FilterBox with `threadCount` in CUSTOM FOLDER', () => {
