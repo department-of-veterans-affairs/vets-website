@@ -92,30 +92,24 @@ const RefillPrescriptions = () => {
   // Ref to snapshot the selected prescriptions at refill time
   const submittedMedications = useRef(null);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const successfulMeds = useMemo(
     () =>
       getMedicationsByIds(
         result?.data?.successfulIds,
         submittedMedications.current || refillableData?.prescriptions,
       ),
-    [
-      getMedicationsByIds,
-      result?.data?.successfulIds,
-      result?.data,
-    ],
+    [getMedicationsByIds, result?.data?.successfulIds, result?.data],
   );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const failedMeds = useMemo(
     () =>
       getMedicationsByIds(
         result?.data?.failedIds,
         submittedMedications.current || refillableData?.prescriptions,
       ),
-    [
-      getMedicationsByIds,
-      result?.data?.failedIds,
-      result?.data,
-    ],
+    [getMedicationsByIds, result?.data?.failedIds, result?.data],
   );
 
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
