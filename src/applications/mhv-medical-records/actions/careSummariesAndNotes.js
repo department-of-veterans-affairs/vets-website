@@ -20,11 +20,13 @@ export const getCareSummariesAndNotesList = (
       : getNotes;
     const response = await getListWithRetry(dispatch, getData);
 
-    const warnings = response?.meta?.warnings || [];
-    dispatch({
-      type: Actions.CareSummariesAndNotes.SET_WARNINGS,
-      payload: warnings,
-    });
+    if (isAccelerating) {
+      const warnings = response?.meta?.warnings || [];
+      dispatch({
+        type: Actions.CareSummariesAndNotes.SET_WARNINGS,
+        payload: warnings,
+      });
+    }
 
     dispatch({
       type: isAccelerating
