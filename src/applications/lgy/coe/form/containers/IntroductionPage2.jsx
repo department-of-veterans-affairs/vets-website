@@ -44,10 +44,12 @@ const ProcessList = () => {
           <li>
             Based on your service, you’ll need to submit specific documents with
             your COE request.
-            <va-link
-              href="/housing-assistance/home-loans/how-to-request-coe/"
-              text="Review which documents you’ll need"
-            />
+            <div>
+              <va-link
+                href="/housing-assistance/home-loans/how-to-request-coe/"
+                text="Review which documents you’ll need"
+              />
+            </div>
           </li>
         </ul>
       </va-process-list-item>
@@ -117,13 +119,11 @@ export const IntroductionPage2 = ({ route }) => {
         />
       )}
       <p />
-      {userIdVerified && (
-        <va-omb-info
-          exp-date="10/31/2025"
-          omb-number="2900-0086"
-          res-burden={15}
-        />
-      )}
+      <va-omb-info
+        exp-date="10/31/2025"
+        omb-number="2900-0086"
+        res-burden={15}
+      />
     </article>
   );
 };
