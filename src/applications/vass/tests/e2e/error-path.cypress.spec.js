@@ -64,7 +64,7 @@ describe('VASS Error Paths', () => {
           VerifyPageObject.assertVerifyPage();
           cy.injectAxeThenAxeCheck();
 
-          VerifyPageObject.fillAndSubmitDefaultForm();
+          VerifyPageObject.fillAndSubmitForm();
 
           cy.wait('@vass:post:request-otp');
 
@@ -95,7 +95,7 @@ describe('VASS Error Paths', () => {
           VerifyPageObject.assertVerifyPage();
           cy.injectAxeThenAxeCheck();
 
-          VerifyPageObject.fillAndSubmitDefaultForm();
+          VerifyPageObject.fillAndSubmitForm();
 
           cy.wait('@vass:post:request-otp');
 
@@ -120,7 +120,7 @@ describe('VASS Error Paths', () => {
           VerifyPageObject.assertVerifyPage();
           cy.injectAxeThenAxeCheck();
 
-          VerifyPageObject.fillAndSubmitDefaultForm();
+          VerifyPageObject.fillAndSubmitForm();
 
           cy.wait('@vass:post:request-otp');
 
@@ -143,7 +143,7 @@ describe('VASS Error Paths', () => {
           VerifyPageObject.assertVerifyPage();
           cy.injectAxeThenAxeCheck();
 
-          VerifyPageObject.fillAndSubmitDefaultForm();
+          VerifyPageObject.fillAndSubmitForm();
 
           cy.wait('@vass:post:request-otp');
 
@@ -189,7 +189,7 @@ describe('VASS Error Paths', () => {
     beforeEach(() => {
       mockRequestOtpApi();
       cy.visit(`/service-member/benefits/solid-start/schedule?uuid=${uuid}`);
-      VerifyPageObject.fillAndSubmitDefaultForm();
+      VerifyPageObject.fillAndSubmitForm();
       cy.wait('@vass:post:request-otp');
     });
 
@@ -363,7 +363,7 @@ describe('VASS Error Paths', () => {
       });
 
       cy.visit(`/service-member/benefits/solid-start/schedule?uuid=${uuid}`);
-      VerifyPageObject.fillAndSubmitDefaultForm();
+      VerifyPageObject.fillAndSubmitForm();
       cy.wait('@vass:post:request-otp');
     });
     describe('when the user is not within the cohort window', () => {
@@ -375,7 +375,7 @@ describe('VASS Error Paths', () => {
       });
 
       it('should display a wrapper error alert', () => {
-        EnterOTPPageObject.fillAndSubmitDefaultOTP();
+        EnterOTPPageObject.fillAndSubmitOTP();
         cy.wait('@vass:get:appointment-availability');
         cy.injectAxeThenAxeCheck();
 
@@ -406,7 +406,7 @@ describe('VASS Error Paths', () => {
       });
 
       it('should display a wrapper error alert', () => {
-        EnterOTPPageObject.fillAndSubmitDefaultOTP();
+        EnterOTPPageObject.fillAndSubmitOTP();
         cy.wait('@vass:get:appointment-availability');
         cy.injectAxeThenAxeCheck();
 
@@ -423,7 +423,7 @@ describe('VASS Error Paths', () => {
       });
 
       it('should display a wrapper error alert', () => {
-        EnterOTPPageObject.fillAndSubmitDefaultOTP();
+        EnterOTPPageObject.fillAndSubmitOTP();
         cy.wait('@vass:get:appointment-availability');
         cy.injectAxeThenAxeCheck();
 
@@ -448,9 +448,9 @@ describe('VASS Error Paths', () => {
       mockAppointmentAvailabilityApi();
 
       cy.visit(`/service-member/benefits/solid-start/schedule?uuid=${uuid}`);
-      VerifyPageObject.fillAndSubmitDefaultForm();
+      VerifyPageObject.fillAndSubmitForm();
       cy.wait('@vass:post:request-otp');
-      EnterOTPPageObject.fillAndSubmitDefaultOTP();
+      EnterOTPPageObject.fillAndSubmitOTP();
     });
 
     describe('when the API returns a server error', () => {
@@ -505,9 +505,9 @@ describe('VASS Error Paths', () => {
       mockTopicsApi();
 
       cy.visit(`/service-member/benefits/solid-start/schedule?uuid=${uuid}`);
-      VerifyPageObject.fillAndSubmitDefaultForm();
+      VerifyPageObject.fillAndSubmitForm();
       cy.wait('@vass:post:request-otp');
-      EnterOTPPageObject.fillAndSubmitDefaultOTP();
+      EnterOTPPageObject.fillAndSubmitOTP();
       DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
       TopicSelectionPageObject.selectTopicAndContinue('General VA benefits');
     });
@@ -582,9 +582,9 @@ describe('VASS Error Paths', () => {
       mockCreateAppointmentApi();
 
       cy.visit(`/service-member/benefits/solid-start/schedule?uuid=${uuid}`);
-      VerifyPageObject.fillAndSubmitDefaultForm();
+      VerifyPageObject.fillAndSubmitForm();
       cy.wait('@vass:post:request-otp');
-      EnterOTPPageObject.fillAndSubmitDefaultOTP();
+      EnterOTPPageObject.fillAndSubmitOTP();
       DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
       TopicSelectionPageObject.selectTopicAndContinue('General VA benefits');
     });
@@ -657,7 +657,7 @@ describe('VASS Error Paths', () => {
       cy.visit(
         `/service-member/benefits/solid-start/schedule?uuid=${uuid}&cancel=true`,
       );
-      VerifyPageObject.fillAndSubmitDefaultForm();
+      VerifyPageObject.fillAndSubmitForm();
       cy.wait('@vass:post:request-otp');
     });
 
@@ -670,7 +670,7 @@ describe('VASS Error Paths', () => {
       });
 
       it('should display a wrapper error alert', () => {
-        EnterOTPPageObject.fillAndSubmitDefaultOTP();
+        EnterOTPPageObject.fillAndSubmitOTP();
         cy.wait('@vass:post:authenticate-otp');
         CancelAppointmentPageObject.clickYesCancelAppointment();
         cy.wait('@vass:post:cancel-appointment');
@@ -692,7 +692,7 @@ describe('VASS Error Paths', () => {
       });
 
       it('should display a wrapper error alert', () => {
-        EnterOTPPageObject.fillAndSubmitDefaultOTP();
+        EnterOTPPageObject.fillAndSubmitOTP();
         cy.wait('@vass:post:authenticate-otp');
         cy.wait('@vass:get:appointment-details');
         cy.injectAxeThenAxeCheck();
@@ -713,7 +713,7 @@ describe('VASS Error Paths', () => {
       });
 
       it('should display a wrapper error alert', () => {
-        EnterOTPPageObject.fillAndSubmitDefaultOTP();
+        EnterOTPPageObject.fillAndSubmitOTP();
         cy.wait('@vass:post:authenticate-otp');
         CancelAppointmentPageObject.clickYesCancelAppointment();
         cy.wait('@vass:post:cancel-appointment');

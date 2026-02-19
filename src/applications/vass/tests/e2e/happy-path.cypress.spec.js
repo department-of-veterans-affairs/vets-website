@@ -67,13 +67,13 @@ describe('VASS Schedule Appointment', () => {
 
       cy.injectAxeThenAxeCheck();
 
-      VerifyPageObject.fillAndSubmitDefaultForm();
+      VerifyPageObject.fillAndSubmitForm();
 
       cy.wait('@vass:post:request-otp');
       EnterOTPPageObject.assertEnterOTPPage();
 
       cy.injectAxeThenAxeCheck();
-      EnterOTPPageObject.fillAndSubmitDefaultOTP();
+      EnterOTPPageObject.fillAndSubmitOTP();
 
       cy.wait('@vass:get:appointment-availability');
       DateTimeSelectionPageObject.assertDateTimeSelectionPage();
@@ -148,12 +148,12 @@ describe('VASS Schedule Appointment', () => {
 
       VerifyPageObject.assertVerifyPage();
       cy.injectAxeThenAxeCheck();
-      VerifyPageObject.fillAndSubmitDefaultForm();
+      VerifyPageObject.fillAndSubmitForm();
 
       cy.wait('@vass:post:request-otp');
       EnterOTPPageObject.assertEnterOTPPage();
       cy.injectAxeThenAxeCheck();
-      EnterOTPPageObject.fillAndSubmitDefaultOTP();
+      EnterOTPPageObject.fillAndSubmitOTP();
 
       cy.wait('@vass:get:appointment-availability');
       DateTimeSelectionPageObject.assertDateTimeSelectionPage();
@@ -208,12 +208,12 @@ describe('VASS Schedule Appointment', () => {
 
       VerifyPageObject.assertVerifyPage();
       cy.injectAxeThenAxeCheck();
-      VerifyPageObject.fillAndSubmitDefaultForm();
+      VerifyPageObject.fillAndSubmitForm();
 
       cy.wait('@vass:post:request-otp');
       EnterOTPPageObject.assertEnterOTPPage();
       cy.injectAxeThenAxeCheck();
-      EnterOTPPageObject.fillAndSubmitDefaultOTP();
+      EnterOTPPageObject.fillAndSubmitOTP();
 
       cy.wait('@vass:get:appointment-availability');
       DateTimeSelectionPageObject.assertDateTimeSelectionPage();
@@ -284,13 +284,13 @@ describe('VASS Schedule Appointment', () => {
       VerifyPageObject.assertVerifyPage();
       cy.injectAxeThenAxeCheck();
 
-      VerifyPageObject.fillAndSubmitDefaultForm();
+      VerifyPageObject.fillAndSubmitForm();
 
       cy.wait('@vass:post:request-otp');
       EnterOTPPageObject.assertEnterOTPPage();
 
       cy.injectAxeThenAxeCheck();
-      EnterOTPPageObject.fillAndSubmitDefaultOTP();
+      EnterOTPPageObject.fillAndSubmitOTP();
 
       cy.wait('@vass:get:appointment-availability');
       DateTimeSelectionPageObject.assertDateTimeSelectionPage();
@@ -334,13 +334,13 @@ describe('VASS Schedule Appointment', () => {
 
       VerifyPageObject.assertVerifyPage({ cancellationFlow: true });
       cy.injectAxeThenAxeCheck();
-      VerifyPageObject.fillAndSubmitDefaultForm();
+      VerifyPageObject.fillAndSubmitForm();
 
       cy.wait('@vass:post:request-otp');
       cy.injectAxeThenAxeCheck();
       EnterOTPPageObject.assertEnterOTPPage({ cancellationFlow: true });
       EnterOTPPageObject.assertSuccessAlertContainsEmail('s****@email.com');
-      EnterOTPPageObject.fillAndSubmitDefaultOTP();
+      EnterOTPPageObject.fillAndSubmitOTP();
 
       cy.wait('@vass:get:appointment-details');
 
@@ -397,11 +397,11 @@ describe('VASS Schedule Appointment', () => {
 
         VerifyPageObject.assertVerifyPage();
         cy.injectAxeThenAxeCheck();
-        VerifyPageObject.fillAndSubmitDefaultForm();
+        VerifyPageObject.fillAndSubmitForm();
 
         cy.wait('@vass:post:request-otp');
         cy.injectAxeThenAxeCheck();
-        EnterOTPPageObject.fillAndSubmitDefaultOTP();
+        EnterOTPPageObject.fillAndSubmitOTP();
 
         cy.wait('@vass:get:appointment-availability');
         cy.wait('@vass:get:appointment-details');
@@ -415,12 +415,12 @@ describe('VASS Schedule Appointment', () => {
 
         VerifyPageObject.assertVerifyPage();
         cy.injectAxeThenAxeCheck();
-        VerifyPageObject.fillAndSubmitDefaultForm();
+        VerifyPageObject.fillAndSubmitForm();
 
         cy.wait('@vass:post:request-otp');
         EnterOTPPageObject.assertEnterOTPPage();
         cy.injectAxeThenAxeCheck();
-        EnterOTPPageObject.fillAndSubmitDefaultOTP();
+        EnterOTPPageObject.fillAndSubmitOTP();
 
         cy.wait('@vass:get:appointment-availability');
         cy.wait('@vass:get:appointment-details');

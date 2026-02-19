@@ -53,20 +53,12 @@ export class EnterOTPPageObject extends PageObject {
 
   /**
    * Enter an OTP code value
-   * @param {string} code - The OTP code to enter
+   * @param {string} code - The OTP code to enter. If no value is provided, the default value of '123456' will be used.
    * @returns {EnterOTPPageObject}
    */
-  enterOTP(code) {
+  enterOTP(code = '123456') {
     cy.fillVaTextInput('otp', code);
     return this;
-  }
-
-  /**
-   * Enter a default OTP code for testing
-   * @returns {EnterOTPPageObject}
-   */
-  enterDefaultOTP() {
-    return this.enterOTP('123456');
   }
 
   /**
@@ -140,21 +132,11 @@ export class EnterOTPPageObject extends PageObject {
   }
 
   /**
-   * Fill the form with default OTP and submit
-   * @returns {EnterOTPPageObject}
-   */
-  fillAndSubmitDefaultOTP() {
-    this.enterDefaultOTP();
-    this.clickContinue();
-    return this;
-  }
-
-  /**
    * Fill the form with custom OTP and submit
-   * @param {string} code - The OTP code to enter
+   * @param {string} code - The OTP code to enter. If no value is provided, the default value of '123456' will be used.
    * @returns {EnterOTPPageObject}
    */
-  fillAndSubmitOTP(code) {
+  fillAndSubmitOTP(code = '123456') {
     this.enterOTP(code);
     this.clickContinue();
     return this;
