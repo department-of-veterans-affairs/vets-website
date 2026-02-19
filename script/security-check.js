@@ -1,0 +1,103 @@
+/* eslint-disable no-console */
+
+/**
+ * Dependency security audit using npm audit (v2 bulk API).
+ *
+ * Replaces the vagov-platform dependency-check which relied on
+ * `yarn audit --json` (v1 API). The v1 audit endpoint now returns
+ * HTTP 500 for large dependency trees like vets-website.
+ *
+ * Filters:
+ *  - Only production (non-dev) dependencies
+ *  - Only advisories with severity in: low, moderate, high, critical
+ *  - Excludes URLs listed in exceptionSet
+ *  - Only reports on direct dependencies listed in package.json
+ */
+
+const { execSync } = require('child_process');
+const { resolve } = require('path');
+const argv = require('minimist')(process.argv.slice(2));
+
+const filepath = argv.filepath ? argv.filepath : './package.json';
+const absPath = resolve(process.cwd(), filepath);
+// eslint-disable-next-line import/no-dynamic-require
+const packageJSON = require(absPath);
+
+const exceptionSet = new Set([
+  'https://npmjs.com/advisories/996',
+  'https://npmjs.com/advisories/1488',
+  'https://github.com/advisories/GHSA-r683-j2x4-v87g',
+  'https://github.com/advisories/GHSA-8hfj-j24r-96c4',
+]);
+const severitySet = new Set(['high', 'critical', 'moderate', 'low']);
+const dependencySet = new Set(Object.keys(packageJSON.dependencies));
+
+function runAudit() {
+  let auditJson;
+  try {
+    // npm audit exits non-zero when vulnerabilities are found,
+    // so we ignore the exit code and parse the JSON output.
+    const output = execSync('npm audit --json --omit=dev', {
+      encoding: 'utf8',
+      maxBuffer: 50 * 1024 * 1024,
+      stdio: ['pipe', 'pipe', 'pipe'],
+    });
+    auditJson = JSON.parse(output);
+  } catch (err) {
+    // npm audit exits with code 1 when vulnerabilities exist
+    if (err.stdout) {
+      auditJson = JSON.parse(err.stdout);
+    } else {
+      console.error('Failed to run npm audit:', err.message);
+      process.exit(1);
+    }
+  }
+
+  const vulnerabilities = auditJson.vulnerabilities || {};
+  const findings = [];
+
+  for (const [pkgName, vuln] of Object.entries(vulnerabilities)) {
+    if (dependencySet.has(pkgName) && severitySet.has(vuln.severity)) {
+      // Each vuln has a 'via' array. Entries can be advisory objects or
+      // strings (transitive references). We only report actual advisories.
+      for (const via of vuln.via) {
+        if (
+          typeof via === 'object' &&
+          !exceptionSet.has(via.url) &&
+          severitySet.has(via.severity)
+        ) {
+          findings.push({
+            title: via.title,
+            moduleName: via.name,
+            dependency: pkgName,
+            severity: via.severity,
+            url: via.url,
+          });
+        }
+      }
+    }
+  }
+
+  if (findings.length) {
+    findings.forEach(f => {
+      const output = `Security advisory: \n Title: ${f.title} \n Module name: ${
+        f.moduleName
+      } \n Dependency: ${f.dependency} \n Severity: ${f.severity} \n Details: ${
+        f.url
+      } \n`;
+
+      if (process.env.CI) {
+        console.log(`::error::${output.replace(/\n/g, '%0A')}`);
+      } else {
+        console.log(output);
+      }
+    });
+    process.exit(1);
+  } else {
+    console.log(
+      'No security advisories rated moderate or higher found for non-dev dependencies.',
+    );
+  }
+}
+
+runAudit();

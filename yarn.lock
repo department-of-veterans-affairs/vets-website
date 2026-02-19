@@ -3744,13 +3744,6 @@
     react-router-dom "^5.3.0"
     react-router-dom-v5-compat "^6.3.0"
 
-"@department-of-veterans-affairs/vagov-platform@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/vagov-platform/-/vagov-platform-0.0.1.tgz#a971b3398feb0627297917a9df1fd7d07262412e"
-  integrity sha512-FpMWFknWkRZ5uSv4Qr5cfZ3Ad1uTuYAZkt/FxZbY1IP5/I3p6IrOJ8NTgoS69lUoHsrZ4vZ774d/Obo2OseRLg==
-  dependencies:
-    minimist "^1.2.6"
-
 "@department-of-veterans-affairs/web-components@22.7.0":
   version "22.7.0"
   resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-22.7.0.tgz#1f4580904fb7e5e58c61908280aeb67682cfa885"
