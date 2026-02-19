@@ -162,14 +162,37 @@ async function generateScaffoldHtml(options = {}) {
   const scaffoldAssets = {};
   const contentBuildRoot = path.resolve(__dirname, '../..', 'content-build');
 
-  for (const filename of ['record-event.js', 'static-page-widgets.js']) {
-    const localPath = path.join(
-      contentBuildRoot,
-      'src/site/assets/js',
-      filename,
-    );
-    if (fs.existsSync(localPath)) {
-      scaffoldAssets[filename] = fs.readFileSync(localPath, 'utf8');
+  const fetch = require('node-fetch');
+  const inlineScriptNames = ['record-event.js', 'static-page-widgets.js'];
+  const inlineScriptResults = await Promise.all(
+    inlineScriptNames.map(async filename => {
+      const localPath = path.join(
+        contentBuildRoot,
+        'src/site/assets/js',
+        filename,
+      );
+      if (fs.existsSync(localPath)) {
+        return [filename, fs.readFileSync(localPath, 'utf8')];
+      }
+      // Fetch remotely when content-build is not available (e.g. CI)
+      const remoteUrl = `https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/main/src/site/assets/js/${filename}`;
+      // eslint-disable-next-line no-console
+      console.log(`Downloading ${filename} from ${remoteUrl}`);
+      const response = await fetch(remoteUrl);
+      if (response.ok) {
+        return [filename, await response.text()];
+      }
+      // eslint-disable-next-line no-console
+      console.error(
+        `Failed to fetch ${filename}: ${response.status} ${response.statusText}`,
+      );
+      return null;
+    }),
+  );
+  for (const result of inlineScriptResults) {
+    if (result) {
+      const [filename, content] = result;
+      scaffoldAssets[filename] = content;
     }
   }
 
@@ -182,7 +205,6 @@ async function generateScaffoldHtml(options = {}) {
     appRegistry = JSON.parse(fs.readFileSync(registryPath, 'utf8'));
   } else {
     // Fetch remotely when content-build is not available (e.g. CI)
-    const fetch = require('node-fetch');
     const remoteUrl =
       'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/main/src/applications/registry.json';
     // eslint-disable-next-line no-console
@@ -193,9 +215,7 @@ async function generateScaffoldHtml(options = {}) {
     } else {
       // eslint-disable-next-line no-console
       console.error(
-        `Failed to fetch registry.json: ${response.status} ${
-          response.statusText
-        }`,
+        `Failed to fetch registry.json: ${response.status} ${response.statusText}`,
       );
     }
   }
@@ -258,9 +278,7 @@ async function generateScaffoldHtml(options = {}) {
   const elapsed = Date.now() - startTime;
   // eslint-disable-next-line no-console
   console.log(
-    `Generated ${
-      allEntries.length
-    } HTML files in ${elapsed}ms using ${numWorkers} workers.`,
+    `Generated ${allEntries.length} HTML files in ${elapsed}ms using ${numWorkers} workers.`,
   );
 }
 
