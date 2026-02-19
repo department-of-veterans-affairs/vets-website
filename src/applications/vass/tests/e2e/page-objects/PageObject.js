@@ -87,8 +87,8 @@ export default class PageObject {
       this.assertHeading({
         name:
           flowType === FLOW_TYPES.SCHEDULE
-            ? /Error Alert We can’t schedule your appointment right now/i
-            : /Error Alert We can’t cancel your appointment right now/i,
+            ? 'Error Alert We can’t schedule your appointment right now'
+            : 'Error Alert We can’t cancel your appointment right now',
         level: 2,
         exist: true,
       });

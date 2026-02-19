@@ -41,7 +41,7 @@ export class EnterOTPPageObject extends PageObject {
   assertVerificationErrorPage({ exist = true } = {}) {
     if (exist) {
       this.assertVerificationErrorAlert({
-        headingText: /We couldn.t verify your information/i,
+        headingText: 'We couldn’t verify your information',
         containsText:
           'The one-time verification code you entered doesn’t match the one we sent you. You can try again in 15 minutes. Check your email and select the link to schedule a call.',
       });

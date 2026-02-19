@@ -21,7 +21,6 @@ export class VerifyPageObject extends PageObject {
 
     // Assert intro text is displayed with correct content
     this.assertElement('verify-intro-text', {
-      exist: true,
       containsText:
         'we’ll need your information so we can send you a one-time verification code',
     });

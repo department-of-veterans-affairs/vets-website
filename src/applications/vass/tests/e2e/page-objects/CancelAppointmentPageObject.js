@@ -25,13 +25,11 @@ export class CancelAppointmentPageObject extends PageObject {
     // Appointment card
     this.assertElement('appointment-card');
     this.assertElement('appointment-type', {
-      exist: true,
       containsText: 'Phone appointment',
     });
 
     // How to join section with phone number
     this.assertElement('how-to-join-section', {
-      exist: true,
       containsText: 'Your representative will call you from',
     });
     cy.findByTestId('how-to-join-section').within(() => {
@@ -45,13 +43,11 @@ export class CancelAppointmentPageObject extends PageObject {
 
     // What section
     this.assertElement('what-section', {
-      exist: true,
       containsText: 'VA Solid Start',
     });
 
     // Who section with agent name
     this.assertElement('who-section', {
-      exist: true,
       containsText: agentName,
     });
 
