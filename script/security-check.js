@@ -11,17 +11,9 @@
  *  - Only production (non-dev) dependencies
  *  - Only advisories with severity in: low, moderate, high, critical
  *  - Excludes URLs listed in exceptionSet
- *  - Only reports on direct dependencies listed in package.json
  */
 
 const { execSync } = require('child_process');
-const { resolve } = require('path');
-const argv = require('minimist')(process.argv.slice(2));
-
-const filepath = argv.filepath ? argv.filepath : './package.json';
-const absPath = resolve(process.cwd(), filepath);
-// eslint-disable-next-line import/no-dynamic-require
-const packageJSON = require(absPath);
 
 const exceptionSet = new Set([
   'https://npmjs.com/advisories/996',
@@ -30,7 +22,6 @@ const exceptionSet = new Set([
   'https://github.com/advisories/GHSA-8hfj-j24r-96c4',
 ]);
 const severitySet = new Set(['high', 'critical', 'moderate', 'low']);
-const dependencySet = new Set(Object.keys(packageJSON.dependencies));
 
 function runAudit() {
   let auditJson;
@@ -57,7 +48,7 @@ function runAudit() {
   const findings = [];
 
   for (const [pkgName, vuln] of Object.entries(vulnerabilities)) {
-    if (dependencySet.has(pkgName) && severitySet.has(vuln.severity)) {
+    if (severitySet.has(vuln.severity)) {
       // Each vuln has a 'via' array. Entries can be advisory objects or
       // strings (transitive references). We only report actual advisories.
       for (const via of vuln.via) {
