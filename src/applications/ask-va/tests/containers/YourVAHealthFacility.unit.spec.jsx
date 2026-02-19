@@ -221,10 +221,10 @@ describe('YourVAHealthFacilityPage', () => {
     });
   });
 
-  it('should return mock facilities if mockTestingFlagforAPI is enabled', async () => {
+  it('should return mock facilities if mockTestingFlagForAPI is enabled', async () => {
     convertLocationStub.resolves(mockLocationResponse);
     convertToLatLngStub.resolves([0, 0]);
-    sandbox.stub(constants, 'getMockTestingFlagforAPI').returns(true);
+    sandbox.stub(constants, 'getMockTestingFlagForAPI').returns(true);
 
     const { container, getByRole } = renderWithStoreRTL();
     const input = getByRole('searchbox');
