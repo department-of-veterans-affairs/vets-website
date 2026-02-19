@@ -35,7 +35,7 @@ const CareSummariesDetails = () => {
   );
   const { summaryId } = useParams();
   const activeAlert = useAlerts(dispatch);
-  const hasFetchedRef = useRef(false);
+  const fetchedIdRef = useRef(null);
 
   const { isAcceleratingCareNotes } = useAcceleratedData();
 
@@ -45,7 +45,7 @@ const CareSummariesDetails = () => {
     () => {
       return () => {
         dispatch(clearCareSummariesDetails());
-        hasFetchedRef.current = false;
+        fetchedIdRef.current = null;
       };
     },
     [dispatch],
@@ -67,9 +67,9 @@ const CareSummariesDetails = () => {
           history.push('/summaries-and-notes/');
           return;
         }
-        // Dispatch details only once per mount to prevent infinite re-fetch on error
-        if (summaryId && !careSummary && !hasFetchedRef.current) {
-          hasFetchedRef.current = true;
+        // Dispatch details only once per summaryId to prevent infinite re-fetch on error
+        if (summaryId && !careSummary && fetchedIdRef.current !== summaryId) {
+          fetchedIdRef.current = summaryId;
           dispatch(
             getCareSummaryAndNotesDetails(
               summaryId,

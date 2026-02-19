@@ -117,7 +117,9 @@ describe('CareSummariesDetails accelerated path', () => {
       },
       featureToggles: {
         // eslint-disable-next-line camelcase
-        mhv_medical_records_accelerated_care_notes: true,
+        mhv_accelerated_delivery_enabled: true,
+        // eslint-disable-next-line camelcase
+        mhv_accelerated_delivery_care_notes_enabled: true,
       },
     };
 

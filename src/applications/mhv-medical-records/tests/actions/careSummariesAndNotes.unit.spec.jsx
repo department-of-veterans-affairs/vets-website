@@ -129,16 +129,23 @@ describe('Get care summaries and notes details action', () => {
         expect(dispatch.firstCall.args[0].type).to.equal(
           Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM_FROM_LIST,
         );
+        // Verify the response has the { data: {...} } shape the reducer expects
+        expect(dispatch.firstCall.args[0].response).to.have.property('data');
+        expect(dispatch.firstCall.args[0].response.data.id).to.equal('2');
       },
     );
   });
 
-  it('should pass the API response for oracle-health notes', () => {
+  it('should pass the API response for oracle-health notes in JSON:API shape', () => {
     const mockData = {
-      id: '2',
-      type: 'clinical_note',
-      source: 'oracle-health',
-      attributes: { title: 'Oracle Note' },
+      data: {
+        id: '2',
+        type: 'clinical_note',
+        attributes: {
+          source: 'oracle-health',
+          title: 'Oracle Note',
+        },
+      },
     };
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
@@ -149,6 +156,8 @@ describe('Get care summaries and notes details action', () => {
           Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM_FROM_LIST,
         );
         expect(dispatch.firstCall.args[0].response).to.deep.equal(mockData);
+        // Ensure the shape matches what the reducer accesses: action.response.data
+        expect(dispatch.firstCall.args[0].response.data.id).to.equal('2');
       },
     );
   });
