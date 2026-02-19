@@ -61,7 +61,7 @@ describe('VA health services autosuggest', () => {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        'results for "VA health", "All VA health services" near "Atlanta, Georgia',
+        'results for "VA health", "All VA health services" within 68 miles of "Atlanta, Georgia',
       );
 
       h.clickElement(h.AUTOSUGGEST_CLEAR);
@@ -78,7 +78,7 @@ describe('VA health services autosuggest', () => {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        'results for "VA health", "Polytrauma and traumatic brain injury (TBI and multiple traumas)" near "Atlanta, Georgia"',
+        'results for "VA health", "Polytrauma and traumatic brain injury (TBI and multiple traumas)" within 68 miles of "Atlanta, Georgia"',
       );
 
       h.clickElement(h.AUTOSUGGEST_ARROW);

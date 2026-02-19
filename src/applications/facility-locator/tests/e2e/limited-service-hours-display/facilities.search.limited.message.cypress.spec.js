@@ -19,7 +19,7 @@ describe('Facility VA search', () => {
       .select('Vet Centers');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
-      'near "Atlanta, Georgia 30310"',
+      'within 68 miles of "Atlanta, Georgia 30310"',
     );
 
     cy.get('[data-testid="limited-message"]').should('be.visible');
