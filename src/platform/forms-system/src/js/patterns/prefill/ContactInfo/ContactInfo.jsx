@@ -13,7 +13,6 @@ import {
 import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
 import AddressView from 'platform/user/profile/vap-svc/components/AddressField/AddressView';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import {
   setReturnState,
   getReturnState,
@@ -23,12 +22,12 @@ import {
   REVIEW_CONTACT,
   convertNullishObjectValuesToEmptyString,
   contactInfoPropTypes,
-  getPhoneString,
 } from 'platform/forms-system/src/js/utilities/data/profile';
 import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { isFieldEmpty } from 'platform/user/profile/vap-svc/util';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
+import ContactInfoCard from './ContactInfoCard';
 
 /**
  * Render contact info page
@@ -75,7 +74,7 @@ export const ContactInfoBase = ({
   }
 
   const baseEditPath = `${urlPrefix}${contactPath}`;
-
+  const MISSING_ALERT_TEXT = 'Missing';
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
   const [hasInitialized, setHasInitialized] = useState(false);
@@ -101,15 +100,20 @@ export const ContactInfoBase = ({
     requiredKeys,
   });
 
-  const list = readableList(missingInfo);
-  const plural = missingInfo.length > 1;
-
   const validationErrors = uiSchema?.['ui:required']?.(data)
     ? getValidationErrors(uiSchema?.['ui:validations'] || [], {}, data)
     : [];
 
   // Get the fieldTransactionMap from Redux store
   const { fieldTransactionMap } = useSelector(state => state.vapService) || {};
+
+  // map missing fields to path/key; used in rendering error messages after page validation
+  const errorMap = {
+    'mailing address': { path: 'edit-mailing-address', key: keys.address },
+    'home phone': { path: 'edit-home-phone', key: keys.homePhone },
+    'mobile phone': { path: 'edit-mobile-phone', key: keys.mobilePhone },
+    'email address': { path: 'edit-email-address', key: keys.email },
+  };
 
   // Unified field configuration mapping
   const fieldConfig = {
@@ -271,18 +275,7 @@ export const ContactInfoBase = ({
   );
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
-  const Headers = contactSectionHeadingLevel || (onReviewPage ? 'h5' : 'h4');
-  const headerClassNames = [
-    'vads-u-font-size--h4',
-    'vads-u-width--auto',
-    'vads-u-margin-top--0',
-  ].join(' ');
-
-  const requiredLabel = (
-    <span className="vads-u-font-weight--normal vads-u-color--secondary-dark vads-u-margin-left--0p5">
-      (*Required)
-    </span>
-  );
+  const headerLevel = contactSectionHeadingLevel || (onReviewPage ? '5' : '4');
 
   // Helper function to render email addresses consistently
   const renderEmail = emailData => {
@@ -326,255 +319,223 @@ export const ContactInfoBase = ({
     ) : null;
   };
 
+  // return boolean flag if a required field is among the missing info fields
+  function hasMissingInfo(key) {
+    // get config for a field
+    const config = Object.values(fieldConfig).find(field => field.key === key);
+    // check if a field in missing info matches a field's config
+    return missingInfo.some(field =>
+      config.text.toLowerCase().startsWith(field),
+    );
+  }
+
   // Extract contact section rendering
   const renderAddressSection = () => {
     if (!keys.address) return null;
+    const missingAddress = hasMissingInfo(FIELD_NAMES.MAILING_ADDRESS);
+    const cardContent = missingAddress ? (
+      'None provided'
+    ) : (
+      <AddressView data={dataWrap[keys.address]} />
+    );
+
     return (
-      <React.Fragment key="mailing">
-        <va-card
-          style={{ wordWrap: 'break-word' }}
-          class="vads-u-margin-bottom--3"
-        >
-          <Headers name="header-address" className={headerClassNames}>
-            {content.mailingAddress}
-            {requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS) &&
-              requiredLabel}
-          </Headers>
-          <AddressView data={dataWrap[keys.address]} />
-          {loggedIn && (
-            <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
-              <VaLink
-                href={`${baseEditPath}/edit-mailing-address`}
-                label={content.editMailingAddress}
-                text={
-                  isFieldEmpty(
-                    dataWrap[keys.address],
-                    FIELD_NAMES.MAILING_ADDRESS,
-                  )
-                    ? content.add
-                    : content.edit
-                }
-                onClick={e => {
-                  e.preventDefault();
-                  // router.push(`${baseEditPath}/edit-mailing-address`);
-                  router.push({
-                    pathname: `${baseEditPath}/edit-mailing-address`,
-                    state: {
-                      formKey: keys.address,
-                      keys: { wrapper: keys.wrapper },
-                    },
-                  });
-                }}
-                active
-              />
-            </p>
-          )}
-        </va-card>
-      </React.Fragment>
+      <ContactInfoCard
+        key={FIELD_NAMES.MAILING_ADDRESS}
+        error={missingAddress ? 'You must add your adress' : ''}
+        contactPath={contactPath}
+        required={requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS)}
+        formKey={keys.address}
+        wrapper={keys.wrapper}
+        editPath={`${baseEditPath}/edit-mailing-address`}
+        headerLevel={headerLevel}
+        headerText={content.mailingAddress}
+        tagText={missingAddress ? MISSING_ALERT_TEXT : ''}
+        tagStatus={missingAddress ? 'error' : 'info'}
+        linkText={
+          isFieldEmpty(dataWrap[keys.address], FIELD_NAMES.MAILING_ADDRESS)
+            ? `${content.add} mailing address`
+            : `${content.edit} mailing address`
+        }
+      >
+        {cardContent}
+      </ContactInfoCard>
     );
   };
 
   const renderHomePhoneSection = () => {
     if (!keys.homePhone) return null;
+    const missingHomePhone = hasMissingInfo(FIELD_NAMES.HOME_PHONE);
+    const cardContent = missingHomePhone ? (
+      'None provided'
+    ) : (
+      <div className="dd-privacy-hidden" data-dd-action-name="home phone">
+        {renderTelephone(dataWrap[keys.homePhone])}
+      </div>
+    );
     return (
-      <React.Fragment key="home">
-        <va-card
-          style={{ wordWrap: 'break-word' }}
-          class="vads-u-margin-bottom--3"
-        >
-          <Headers
-            name="header-home-phone"
-            className={`${headerClassNames} vads-u-margin-top--0p5`}
-          >
-            {content.homePhone}
-            {requiredKeys.includes(FIELD_NAMES.HOME_PHONE) && requiredLabel}
-          </Headers>
-          <span className="dd-privacy-hidden" data-dd-action-name="home phone">
-            {renderTelephone(dataWrap[keys.homePhone])}
-          </span>
-          {loggedIn && (
-            <p className="vads-u-margin-top--0p5">
-              <VaLink
-                href={`${baseEditPath}/edit-home-phone`}
-                label={content.editHomePhone}
-                text={
-                  getPhoneString(dataWrap[keys.homePhone])
-                    ? content.edit
-                    : content.add
-                }
-                onClick={e => {
-                  e.preventDefault();
-                  router.push({
-                    pathname: `${baseEditPath}/edit-home-phone`,
-                    state: {
-                      formKey: keys.homePhone,
-                      keys: { wrapper: keys.wrapper },
-                    },
-                  });
-                }}
-                active
-              />
-            </p>
-          )}
-        </va-card>
-      </React.Fragment>
+      <ContactInfoCard
+        key={FIELD_NAMES.HOME_PHONE}
+        error={missingHomePhone ? 'You must add your home phone number' : ''}
+        contactPath={contactPath}
+        required={requiredKeys.includes(FIELD_NAMES.HOME_PHONE)}
+        formKey={keys.homePhone}
+        wrapper={keys.wrapper}
+        editPath={`${baseEditPath}/edit-home-phone`}
+        headerLevel={headerLevel}
+        headerText={content.homePhone}
+        tagText={missingHomePhone ? MISSING_ALERT_TEXT : ''}
+        tagStatus={missingHomePhone ? 'error' : 'info'}
+        linkText={
+          isFieldEmpty(dataWrap[keys.homePhone], FIELD_NAMES.HOME_PHONE)
+            ? `${content.add} home phone number`
+            : `${content.edit} home phone number`
+        }
+      >
+        {cardContent}
+      </ContactInfoCard>
     );
   };
 
   const renderMobilePhoneSection = () => {
     if (!keys.mobilePhone) return null;
+    const missingMobilePhone = hasMissingInfo(FIELD_NAMES.MOBILE_PHONE);
+    const cardContent = missingMobilePhone ? (
+      'None provided'
+    ) : (
+      <div className="dd-privacy-hidden" data-dd-action-name="mobile phone">
+        {renderTelephone(dataWrap[keys.mobilePhone])}
+      </div>
+    );
+
     return (
-      <React.Fragment key="mobile">
-        <va-card
-          style={{ wordWrap: 'break-word' }}
-          class="vads-u-margin-bottom--3"
-        >
-          <Headers
-            name="header-mobile-phone"
-            className={`${headerClassNames} vads-u-margin-top--0p5`}
-          >
-            {content.mobilePhone}
-            {requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE) && requiredLabel}
-          </Headers>
-          <span
-            className="dd-privacy-hidden"
-            data-dd-action-name="mobile phone"
-          >
-            {renderTelephone(dataWrap[keys.mobilePhone])}
-          </span>
-          {loggedIn && (
-            <p className="vads-u-margin-top--0p5">
-              <VaLink
-                href={`${baseEditPath}/edit-mobile-phone`}
-                label={content.editMobilePhone}
-                text={
-                  getPhoneString(dataWrap[keys.mobilePhone])
-                    ? content.edit
-                    : content.add
-                }
-                onClick={e => {
-                  e.preventDefault();
-                  router.push({
-                    pathname: `${baseEditPath}/edit-mobile-phone`,
-                    state: {
-                      formKey: keys.mobilePhone,
-                      keys: { wrapper: keys.wrapper },
-                    },
-                  });
-                }}
-                active
-              />
-            </p>
-          )}
-        </va-card>
-      </React.Fragment>
+      <ContactInfoCard
+        key={FIELD_NAMES.MOBILE_PHONE}
+        error={
+          missingMobilePhone ? 'You must add your mobile phone number' : ''
+        }
+        contactPath={contactPath}
+        required={requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE)}
+        formKey={keys.mobilePhone}
+        wrapper={keys.wrapper}
+        editPath={`${baseEditPath}/edit-mobile-phone`}
+        headerLevel={headerLevel}
+        headerText={content.editMobilePhone}
+        tagText={missingMobilePhone ? MISSING_ALERT_TEXT : ''}
+        tagStatus={missingMobilePhone ? 'error' : 'info'}
+        linkText={
+          isFieldEmpty(dataWrap[keys.mobilePhone], FIELD_NAMES.MOBILE_PHONE)
+            ? `${content.add} mobile phone number`
+            : `${content.edit} mobile phone number`
+        }
+      >
+        {cardContent}
+      </ContactInfoCard>
     );
   };
 
   const renderEmailSection = () => {
     if (!keys.email) return null;
+    const missingEmail = hasMissingInfo(FIELD_NAMES.EMAIL);
+    const cardContent = missingEmail ? (
+      'None provided'
+    ) : (
+      <div className="dd-privacy-hidden" data-dd-action-name="email">
+        {renderEmail(dataWrap[keys.email])}
+      </div>
+    );
+
     return (
-      <React.Fragment key="email">
-        <va-card
-          style={{ wordWrap: 'break-word' }}
-          class="vads-u-margin-bottom--3"
-        >
-          <Headers name="header-email" className={headerClassNames}>
-            {content.email}
-            {requiredKeys.includes(FIELD_NAMES.EMAIL) && requiredLabel}
-          </Headers>
-          <span className="dd-privacy-hidden" data-dd-action-name="email">
-            {renderEmail(dataWrap[keys.email])}
-          </span>
-          {loggedIn && (
-            <p className="vads-u-margin-top--0p5">
-              <VaLink
-                href={`${baseEditPath}/edit-email-address`}
-                label={content.editEmail}
-                text={
-                  isFieldEmpty(dataWrap[keys.email], FIELD_NAMES.EMAIL)
-                    ? content.add
-                    : content.edit
-                }
-                onClick={e => {
-                  e.preventDefault();
-                  router.push({
-                    pathname: `${baseEditPath}/edit-email-address`,
-                    state: {
-                      formKey: keys.email,
-                      keys: { wrapper: keys.wrapper },
-                    },
-                  });
-                }}
-                active
-              />
-            </p>
-          )}
-        </va-card>
-      </React.Fragment>
+      <ContactInfoCard
+        key={FIELD_NAMES.EMAIL}
+        error={missingEmail ? 'You must add your email address' : ''}
+        contactPath={contactPath}
+        required={requiredKeys.includes(FIELD_NAMES.EMAIL)}
+        formKey={keys.email}
+        wrapper={keys.wrapper}
+        editPath={`${baseEditPath}/edit-email-address`}
+        headerLevel={headerLevel}
+        headerText={content.editEmail}
+        tagText={missingEmail ? MISSING_ALERT_TEXT : ''}
+        tagStatus={missingEmail ? 'error' : 'info'}
+        linkText={
+          isFieldEmpty(dataWrap[keys.email], FIELD_NAMES.EMAIL)
+            ? `${content.add} email address`
+            : `${content.edit} email address`
+        }
+      >
+        {cardContent}
+      </ContactInfoCard>
     );
   };
 
-  const contactSection = [
-    renderAddressSection(),
-    renderHomePhoneSection(),
-    renderMobilePhoneSection(),
-    renderEmailSection(),
-  ];
-
-  const renderValidationMessages = () => (
-    <div ref={wrapRef}>
-      {hadError &&
-        missingInfo.length === 0 &&
-        validationErrors.length === 0 && (
-          <div className="vads-u-margin-top--1p5">
-            <va-alert status="success" slim>
-              <div className="vads-u-font-size--base">
-                {content.alertContent}
-              </div>
-            </va-alert>
-          </div>
-        )}
-      {missingInfo.length > 0 && (
-        <>
-          <p className="vads-u-margin-top--1p5">
-            <strong>Note:</strong>
-            {missingInfo[0].startsWith('e') ? ' An ' : ' A '}
-            {list} {plural ? 'are' : 'is'} required for this application.
-          </p>
-          {submitted && (
-            <div className="vads-u-margin-top--1p5" role="alert">
-              <va-alert status="error" slim>
+  const renderValidationMessages = () => {
+    return (
+      <div ref={wrapRef}>
+        {hadError &&
+          missingInfo.length === 0 &&
+          validationErrors.length === 0 && (
+            <div className="vads-u-margin-top--1p5">
+              <va-alert status="success" slim>
                 <div className="vads-u-font-size--base">
-                  We still don’t have your {list}. Please edit and update the
-                  field.
+                  {content.alertContent}
                 </div>
               </va-alert>
             </div>
           )}
-          <div className="vads-u-margin-top--1p5" role="alert">
-            <va-alert status="warning" slim>
-              <div className="vads-u-font-size--base">
-                Your {list} {plural ? 'are' : 'is'} missing. Please edit and
-                update the {plural ? 'fields' : 'field'}.
-              </div>
-            </va-alert>
-          </div>
-        </>
-      )}
-      {submitted &&
-        missingInfo.length === 0 &&
-        validationErrors.length > 0 && (
-          <div className="vads-u-margin-top--1p5" role="alert">
-            <va-alert status="error" slim>
-              <div className="vads-u-font-size--base">
-                {validationErrors[0]}
-              </div>
-            </va-alert>
-          </div>
-        )}
-    </div>
-  );
+        {missingInfo.length > 0 &&
+          submitted && (
+            <div
+              className="vads-u-margin-bottom--3 vads-u-margin-top--3"
+              role="alert"
+            >
+              <va-alert status="error">
+                <h3 slot="headline">
+                  This information contains {missingInfo.length} error
+                  {missingInfo.length > 1 ? 's' : ''}.
+                </h3>
+                <ul className="vads-u-font-size--base">
+                  Complete all required fields
+                  {missingInfo.map(field => {
+                    return (
+                      <li key={field}>
+                        <va-link
+                          text={`You must add your ${field}`}
+                          href={errorMap[field].path}
+                          onClick={e => {
+                            e.preventDefault();
+                            router.push({
+                              pathname: `${baseEditPath}/${
+                                errorMap[field].path
+                              }`,
+                              state: {
+                                formKey: errorMap[field].key,
+                                keys: { wrapper: keys.wrapper },
+                              },
+                            });
+                          }}
+                        />
+                      </li>
+                    );
+                  })}
+                </ul>
+              </va-alert>
+            </div>
+          )}
+        {submitted &&
+          missingInfo.length === 0 &&
+          validationErrors.length > 0 && (
+            <div className="vads-u-margin-top--1p5" role="alert">
+              <va-alert status="error">
+                <div className="vads-u-font-size--base">
+                  {validationErrors[0]}
+                </div>
+              </va-alert>
+            </div>
+          )}
+      </div>
+    );
+  };
 
   const navButtons = onReviewPage ? (
     <va-button text={content.update} onClick={handlers.onUpdatePage} />
@@ -613,8 +574,25 @@ export const ContactInfoBase = ({
             onSubmit={handlers.onSubmit}
           >
             <div className="vads-l-row">
-              <div className="vads-l-col--12 medium-screen:vads-l-col--6">
-                {contactSection}
+              <div
+                className="vads-l-col--12 medium-screen:vads-l-col--8"
+                style={{ maxWidth: '300px' }}
+              >
+                {[
+                  renderAddressSection,
+                  renderEmailSection,
+                  renderHomePhoneSection,
+                  renderMobilePhoneSection,
+                ].map((func, i, arr) => (
+                  <div
+                    key={func.name}
+                    className={`vads-u-margin-bottom--${
+                      i === arr.length - 1 ? '5' : '3'
+                    }`}
+                  >
+                    {func()}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
