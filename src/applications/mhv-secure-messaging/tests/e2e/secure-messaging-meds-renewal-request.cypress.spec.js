@@ -419,18 +419,21 @@ describe('SM Medications Renewal Request', () => {
     it('verify med renewal request uses v2 API for Oracle Health patient', () => {
       cy.intercept(
         'GET',
-        `${Paths.INTERCEPT.PRESCRIPTIONS_V2}24654491`,
+        `${Paths.INTERCEPT.PRESCRIPTIONS_V2}24654491*`,
         medicationResponse,
       ).as('medicationByIdV2');
       const prescriptionId = '24654491';
+      const stationNumber = '989';
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
         `${
           Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        }/new-message?prescriptionId=${prescriptionId}&station_number=${stationNumber}&redirectPath=${redirectPath}`,
       );
-      cy.wait('@medicationByIdV2');
+      cy.wait('@medicationByIdV2').then(interception => {
+        expect(interception.request.url).to.include('station_number=989');
+      });
       PatientComposePage.selectComboBoxRecipient(
         mockRecipients.data[0].attributes.name,
       );
@@ -462,7 +465,7 @@ describe('SM Medications Renewal Request', () => {
     it('verify med renewal request handles 404 from v2 API', () => {
       cy.intercept(
         'GET',
-        `${Paths.INTERCEPT.PRESCRIPTIONS_V2}24654491`,
+        `${Paths.INTERCEPT.PRESCRIPTIONS_V2}24654491*`,
         req => {
           req.reply({
             body: medicationNotFoundResponse,
@@ -471,12 +474,13 @@ describe('SM Medications Renewal Request', () => {
         },
       ).as('medicationByIdV2');
       const prescriptionId = '24654491';
+      const stationNumber = '989';
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
         `${
           Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        }/new-message?prescriptionId=${prescriptionId}&station_number=${stationNumber}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationByIdV2');
       PatientComposePage.selectComboBoxRecipient(
