@@ -1370,6 +1370,9 @@ describe('Refill Prescriptions Component', () => {
           });
         });
       });
+    });
+  });
+
   it('shows success notification after refill even when cache invalidation removes the prescription', async () => {
     sandbox.restore();
 
