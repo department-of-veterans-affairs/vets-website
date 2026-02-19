@@ -63,41 +63,6 @@ import testData from '../tests/e2e/fixtures/data/user.json';
 
 const mockData = testData.data;
 
-const confirmPersonalInformationCardHeader = React.createElement(
-  'h4',
-  { className: 'vads-u-font-size--h3 vads-u-margin-top--0' },
-  'Personal information',
-);
-
-const confirmPersonalInformationNoteText =
-  " To protect your personal information, we don't allow online changes to your name, date of birth, or Social Security number. If you need to change this information, call us at ";
-
-const confirmPersonalInformationNoteTail =
-  " (TTY: 711). We're here Monday through Friday, between 8:00 a.m. and 9:00 p.m. ET.";
-
-const legalNameUrl =
-  `${environment.BASE_URL}/resources/` +
-  'how-to-change-your-legal-name-on-file-with-va/';
-
-const confirmPersonalInformationNote = React.createElement(
-  'p',
-  { className: 'vads-u-margin-top--2' },
-  React.createElement('strong', null, 'Note:'),
-  confirmPersonalInformationNoteText,
-  React.createElement('va-telephone', { contact: '8008271000' }),
-  confirmPersonalInformationNoteTail,
-);
-
-const confirmPersonalInformationFooter = React.createElement(
-  'p',
-  { className: 'vads-u-margin-bottom--4' },
-  React.createElement('va-link', {
-    external: true,
-    href: legalNameUrl,
-    text: 'Find more detailed instructions for how to change your legal name',
-  }),
-);
-
 const confirmPersonalInformationPages = profilePersonalInfoPage({
   key: 'confirmPersonalInformationPage',
   title: 'Confirm personal information',
@@ -110,9 +75,6 @@ const confirmPersonalInformationPages = profilePersonalInfoPage({
   dataAdapter: {
     ssnPath: 'idNumber.ssn',
   },
-  cardHeader: confirmPersonalInformationCardHeader,
-  note: confirmPersonalInformationNote,
-  footer: confirmPersonalInformationFooter,
   hideOnReview: true,
   depends: formData =>
     isEligibleToSubmitStatement(formData) && isClaimantVeteran(formData),
