@@ -727,7 +727,7 @@ describe('VASS Error Paths', () => {
     });
   });
 
-  describe.only('Navigation', () => {
+  describe('Navigation', () => {
     describe('when the user attempt to navigate back from the Date/Time Selection page', () => {
       beforeEach(() => {
         mockAppointmentAvailabilityApi();
