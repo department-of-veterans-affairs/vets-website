@@ -258,6 +258,31 @@ function buildFormData(cleanedData) {
  * @param {Object} form - The form state object from Redux
  * @returns {string} JSON string of the transformed payload
  */
+/**
+ * Legacy transformer for the original single-party submission flow.
+ * Wraps form data in { form: "{...}" } for the /v0/form212680 endpoint.
+ *
+ * @param {Object} _formConfig - The form configuration object (unused)
+ * @param {Object} form - The form state object from Redux
+ * @returns {string} JSON string of the transformed payload
+ */
+export function legacySubmitTransformer(_formConfig, form) {
+  const formData = form?.data || form;
+  const cleanedData = filterViewFields(formData);
+  const backendData = buildFormData(cleanedData);
+
+  return JSON.stringify({ form: JSON.stringify(backendData) });
+}
+
+/**
+ * Multi-party transformer for the new multi-party submission flow.
+ * Wraps form data in { multi_party_form: { form_type, secondary_email, form } }
+ * for the /v0/multi_party_forms/primary endpoint.
+ *
+ * @param {Object} _formConfig - The form configuration object (unused)
+ * @param {Object} form - The form state object from Redux
+ * @returns {string} JSON string of the transformed payload
+ */
 export function submitTransformer(_formConfig, form) {
   const formData = form?.data || form;
   const cleanedData = filterViewFields(formData);

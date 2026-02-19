@@ -1,1 +1,4 @@
-export { submitTransformer } from './submit-transformer';
+export {
+  submitTransformer,
+  legacySubmitTransformer,
+} from './submit-transformer';
