@@ -1,6 +1,5 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { createNewConditionName } from '../pages/disabilityConditions/shared/utils';
 
 export const ConditionsIntroDescription = () => (
   <p>
@@ -31,6 +30,27 @@ export const NewConditionDescription = () => (
     <h4>Add a new condition</h4>
   </>
 );
+
+export const capitalizeFirstLetter = string =>
+  string?.charAt(0).toUpperCase() + string?.slice(1);
+
+export const createNewConditionName = (item = {}, capFirstLetter = false) => {
+  const newConditionName = item.condition;
+  const checkNewConditionName =
+    typeof newConditionName === 'string' && newConditionName.trim()
+      ? newConditionName.trim()
+      : 'condition';
+
+  const newCondition = capFirstLetter
+    ? capitalizeFirstLetter(checkNewConditionName)
+    : checkNewConditionName;
+
+  if (item?.sideOfBody) {
+    return `${newCondition}, ${item.sideOfBody.toLowerCase()}`;
+  }
+
+  return newCondition;
+};
 
 export const createCauseFollowUpDescriptions = (item, fullData = {}) => {
   if (!item?.cause) return '';

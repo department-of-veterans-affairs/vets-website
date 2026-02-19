@@ -14,11 +14,29 @@ import { UploadDocumentsReview } from '../components/UploadDocumentsReview';
 export const DocumentTypeSelect = () => {
   const formData = useSelector(state => state?.form?.data);
   const requiredDocumentTypes = [];
-  if (
-    formData?.identity === serviceStatuses.ADSM &&
-    formData?.militaryHistory?.purpleHeartRecipient
+  if (formData?.identity === serviceStatuses.VETERAN) {
+    requiredDocumentTypes.push('Discharge papers (DD214)');
+  } else if (formData?.identity === serviceStatuses.ADSM) {
+    requiredDocumentTypes.push('Statement of Service');
+    if (formData?.militaryHistory?.purpleHeartRecipient) {
+      requiredDocumentTypes.push('Purple Heart Certificate');
+    }
+  } else if (formData?.identity === serviceStatuses.NADNA) {
+    requiredDocumentTypes.push(
+      'Statement of Service',
+      'Creditable number of years',
+      'Retirement Points Statement',
+    );
+  } else if (
+    formData?.identity === serviceStatuses.DNANA ||
+    formData?.identity === serviceStatuses.DRNA
   ) {
-    requiredDocumentTypes.push('Purple Heart Certificate');
+    requiredDocumentTypes.push(
+      'Separation and Report of Service',
+      'Retirement Points Accounting',
+      'Proof of character of service',
+      'Department of Defense Discharge Certificate',
+    );
   }
   return (
     <VaSelect required label="Document type" name="attachmentType">
@@ -78,8 +96,8 @@ const requiredDocumentMessages = {
       <ul>
         <li>Statement of Service</li>
         <li>
-          Creditable number of years served or Retirement Points Statement or
-          equivalent
+          Creditable number of years served <strong>or</strong> Retirement
+          Points Statement or equivalent
         </li>
       </ul>
       {statementOfServiceInfo}
@@ -127,8 +145,20 @@ export const getUiSchema = () => ({
     hint:
       'You can upload a .jpg, .pdf, or a .png file. Be sure that your file size is 99MB or less for a PDF and 50MB or less for a .jpg or .png',
     disallowEncryptedPdfs: true,
-    maxFileSize: 103809024, // 99MB in bytes
-    minFileSize: 1024,
+    fileSizesByFileType: {
+      pdf: {
+        maxFileSize: 103809024, // 99MB in bytes
+        minFileSize: 1024, // 1KB
+      },
+      jpg: {
+        maxFileSize: 52428800, // 50MB in bytes
+        minFileSize: 1024, // 1KB
+      },
+      png: {
+        maxFileSize: 52428800, // 50MB in bytes
+        minFileSize: 1024, // 1KB
+      },
+    },
     fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
     formNumber: '26-1880',
     errorMessages: {

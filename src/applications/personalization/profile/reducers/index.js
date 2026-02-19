@@ -7,7 +7,6 @@ import vaProfile from './vaProfile';
 import communicationPreferences from '../ducks/communicationPreferences';
 import { profileContactsReducer } from './contacts';
 import directDeposit from './directDeposit';
-import vyeRootReducer from '../components/direct-deposit/vye/reducers';
 
 // Minimal form config for SubTask component
 const minimalFormConfig = {};
@@ -20,7 +19,6 @@ export default {
   ...ratedDisabilities,
   profileContacts: profileContactsReducer,
   directDeposit,
-  ...vyeRootReducer,
   form: createSchemaFormReducer(minimalFormConfig),
 };
 

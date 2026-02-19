@@ -106,6 +106,13 @@ function getTestPatterns() {
   // Always include static pages pattern
   const patterns = [...appPatterns, ...platformPatterns, STATIC_PAGES_PATTERN];
 
+  // If any config/form.js files changed, include the forms config validator
+  if (changedFiles.some(file => /config\/form\.js.?$/.test(file))) {
+    patterns.push(
+      'src/platform/forms/tests/forms-config-validator.unit.spec.jsx',
+    );
+  }
+
   // Remove duplicates (static pages may already be in platform patterns)
   return [...new Set(patterns)];
 }

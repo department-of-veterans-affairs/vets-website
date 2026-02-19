@@ -826,6 +826,11 @@ describe('SelectCareTeam', () => {
       addActionSpy.restore();
     });
 
+    const getSwitchCountCall = () =>
+      addActionSpy
+        .getCalls()
+        .find(call => call.args[0] === 'Care System Radio Switch Count');
+
     it('should call datadogRum.addAction on unmount when care system was switched', async () => {
       // Set initial state with a pre-selected care system
       const stateWithPreselectedCareSystem = {
@@ -860,17 +865,17 @@ describe('SelectCareTeam', () => {
       });
 
       // Unmount component to trigger useEffect cleanup
-      screen.unmount();
+      cleanup();
 
-      // Check that datadogRum.addAction was called
+      let switchCountCall;
       await waitFor(() => {
-        expect(addActionSpy.calledOnce).to.be.true;
+        switchCountCall = getSwitchCountCall();
+        expect(switchCountCall).to.exist;
       });
-      expect(
-        addActionSpy.calledWith('Care System Radio Switch Count', {
-          switchCount: 1,
-        }),
-      ).to.be.true;
+      expect(switchCountCall).to.exist;
+      expect(switchCountCall.args[1]).to.deep.equal({
+        switchCount: 1,
+      });
     });
 
     it('should track multiple care system switches', async () => {
@@ -891,15 +896,15 @@ describe('SelectCareTeam', () => {
       selectVaRadio(screen.container, '587');
 
       // Unmount component
-      screen.unmount();
+      cleanup();
 
-      // Check that datadogRum.addAction was called
+      let switchCountCall;
       await waitFor(() => {
-        expect(addActionSpy.calledOnce).to.be.true;
+        switchCountCall = getSwitchCountCall();
+        expect(switchCountCall).to.exist;
       });
-      const callArgs = addActionSpy.lastCall.args;
-      expect(callArgs[0]).to.equal('Care System Radio Switch Count');
-      expect(callArgs[1]).to.deep.equal({
+      expect(switchCountCall).to.exist;
+      expect(switchCountCall.args[1]).to.deep.equal({
         switchCount: 3,
       });
     });
@@ -914,12 +919,13 @@ describe('SelectCareTeam', () => {
       // Unmount without any switches
       cleanup();
 
+      let switchCountCall;
       await waitFor(() => {
-        expect(addActionSpy.called).to.be.true;
+        switchCountCall = getSwitchCountCall();
+        expect(switchCountCall).to.exist;
       });
-      const callArgs = addActionSpy.lastCall.args;
-      expect(callArgs[0]).to.equal('Care System Radio Switch Count');
-      expect(callArgs[1]).to.deep.equal({
+      expect(switchCountCall).to.exist;
+      expect(switchCountCall.args[1]).to.deep.equal({
         switchCount: 0,
       });
     });
@@ -941,17 +947,17 @@ describe('SelectCareTeam', () => {
       selectVaRadio(screen.container, '662');
 
       // Unmount component
-      screen.unmount();
+      cleanup();
 
-      // Check that datadogRum.addAction was called
+      let switchCountCall;
       await waitFor(() => {
-        expect(addActionSpy.calledOnce).to.be.true;
+        switchCountCall = getSwitchCountCall();
+        expect(switchCountCall).to.exist;
       });
-      expect(
-        addActionSpy.calledWith('Care System Radio Switch Count', {
-          switchCount: 1,
-        }),
-      ).to.be.true;
+      expect(switchCountCall).to.exist;
+      expect(switchCountCall.args[1]).to.deep.equal({
+        switchCount: 1,
+      });
     });
   });
 
@@ -1039,12 +1045,16 @@ describe('SelectCareTeam', () => {
   });
 
   describe('Analytics - VA Health Systems Displayed', () => {
+    let addActionSpy;
+
     beforeEach(() => {
       global.window.dataLayer = [];
+      addActionSpy = sinon.spy(datadogRum, 'addAction');
     });
 
     afterEach(() => {
       global.window.dataLayer = [];
+      addActionSpy.restore();
     });
 
     const findDataLayerEvent = eventName => {
@@ -1090,6 +1100,18 @@ describe('SelectCareTeam', () => {
           version: 'radio',
         });
       });
+
+      // Check that datadogRum.addAction was called
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(
+        addActionSpy.calledWith('SM VA Health Systems Displayed', {
+          status: 'successful',
+          healthSystemsCount: 3,
+          version: 'radio',
+        }),
+      ).to.be.true;
     });
 
     it('should call recordEvent when 6 or more VA health systems are displayed as dropdown', async () => {
@@ -1131,6 +1153,18 @@ describe('SelectCareTeam', () => {
           version: 'dropdown',
         });
       });
+
+      // Check that datadogRum.addAction was called
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(
+        addActionSpy.calledWith('SM VA Health Systems Displayed', {
+          status: 'successful',
+          healthSystemsCount: 6,
+          version: 'dropdown',
+        }),
+      ).to.be.true;
     });
 
     it('should not call recordEvent when only one VA health system exists', async () => {
@@ -1201,6 +1235,18 @@ describe('SelectCareTeam', () => {
           'error-key': 'no-health-systems',
         });
       });
+
+      // Check that datadogRum.addAction was called with fail status
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
+      expect(
+        addActionSpy.calledWith('SM VA Health Systems Displayed', {
+          status: 'fail',
+          healthSystemsCount: 0,
+          errorKey: 'no-health-systems',
+        }),
+      ).to.be.true;
     });
   });
 

@@ -45,6 +45,7 @@ describe('<YourClaimsPageV2>', () => {
     claimsLoading: false,
     appealsLoading: false,
     stemClaimsLoading: false,
+    cstClaimsListFilterEnabled: false,
     loading: false,
     appealsAvailable: claimsAvailability.AVAILABLE,
     claimsAvailable: claimsAvailability.AVAILABLE,
@@ -324,6 +325,59 @@ describe('<YourClaimsPageV2>', () => {
 
     const page = YourClaimsPageV2.getPageFromURL(testProps);
     expect(page).to.equal(1);
+  });
+
+  describe('when cstClaimsListFilterEnabled is true', () => {
+    const filterProps = {
+      ...defaultProps,
+      cstClaimsListFilterEnabled: true,
+    };
+
+    it('should render ClaimsFilter instead of combined claims additional info', () => {
+      const wrapper = shallow(<YourClaimsPageV2 {...filterProps} />);
+      expect(wrapper.find('ClaimsFilter').length).to.equal(1);
+      expect(wrapper.find('#claims-combined').length).to.equal(0);
+      wrapper.unmount();
+    });
+
+    it('should render NoClaims with recordType when list is empty', () => {
+      const props = {
+        ...filterProps,
+        list: [],
+      };
+      const wrapper = shallow(<YourClaimsPageV2 {...props} />);
+      const noClaims = wrapper.find('NoClaims');
+      expect(noClaims.length).to.equal(1);
+      expect(noClaims.prop('recordType')).to.equal('records');
+      wrapper.unmount();
+    });
+
+    it('should render pagination with filter label format', () => {
+      const props = {
+        ...filterProps,
+        list: new Array(12).fill(defaultProps.list[0]),
+      };
+      const { container } = renderWithRouter(
+        <Provider store={mockStore}>
+          <YourClaimsPageV2 {...props} />
+        </Provider>,
+      );
+      expect(container.textContent).to.include('Showing 1-10 of 12 records');
+    });
+
+    it('should use singular "record" when there is only one item', () => {
+      const props = {
+        ...filterProps,
+        list: [defaultProps.list[0]],
+      };
+      const { container } = renderWithRouter(
+        <Provider store={mockStore}>
+          <YourClaimsPageV2 {...props} />
+        </Provider>,
+      );
+      expect(container.textContent).to.include('Showing 1-1 of 1 record');
+      expect(container.textContent).to.not.include('records');
+    });
   });
 
   describe('rendering mixed appeals and claims', () => {

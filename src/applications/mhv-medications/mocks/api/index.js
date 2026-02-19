@@ -18,6 +18,14 @@ const acceleratedAllergies = require('../../../../platform/mhv/api/mocks/medical
 const ohAllergies = require('../../../../platform/mhv/api/mocks/medical-records/allergies/full-example');
 const tooltips = require('./tooltips/index');
 
+// Set ORACLE_HEALTH=true to run as a Cerner/Oracle Health user with renewal enabled.
+// Usage: ORACLE_HEALTH=true yarn mock-api --responses src/applications/mhv-medications/mocks/api/index.js
+const oracleHealthMode = process.env.ORACLE_HEALTH === 'true';
+if (oracleHealthMode) {
+  // eslint-disable-next-line no-console
+  console.log('\n\x1b[36m[mock-api] Oracle Health mode enabled\x1b[0m\n');
+}
+
 const delaySingleResponse = (cb, delayInMs = 1000) => {
   setTimeout(() => {
     cb();
@@ -27,10 +35,18 @@ const delaySingleResponse = (cb, delayInMs = 1000) => {
 const responses = {
   ...commonResponses,
   'GET /v0/user': (_req, res) => {
-    delaySingleResponse(() => res.json(user.defaultUser), 750);
+    const mockUser = oracleHealthMode ? user.cernerUser : user.defaultUser;
+    delaySingleResponse(() => res.json(mockUser), 750);
   },
   'GET /v0/feature_toggles': (_req, res) => {
-    const toggles = featureToggles.generateFeatureToggles({});
+    const toggles = featureToggles.generateFeatureToggles(
+      oracleHealthMode
+        ? {
+            mhvSecureMessagingMedicationsRenewalRequest: true,
+            mhvMedicationsCernerPilot: true,
+          }
+        : {},
+    );
 
     delaySingleResponse(() => res.json(toggles), 500);
   },
@@ -51,13 +67,29 @@ const responses = {
   'GET /my_health/v2/medical_records/allergies': acceleratedAllergies.all,
   'GET /my_health/v1/prescriptions': (_req, res) => {
     delaySingleResponse(
-      () => res.json(prescriptions.generateMockPrescriptions(_req)),
+      () =>
+        res.json(
+          prescriptions.generateMockPrescriptions(
+            _req,
+            20,
+            false,
+            oracleHealthMode,
+          ),
+        ),
       2250,
     );
   },
   'GET /my_health/v2/prescriptions': (_req, res) => {
     delaySingleResponse(
-      () => res.json(prescriptions.generateMockPrescriptions(_req, 20, true)),
+      () =>
+        res.json(
+          prescriptions.generateMockPrescriptions(
+            _req,
+            20,
+            true,
+            oracleHealthMode,
+          ),
+        ),
       2250,
     );
   },
@@ -220,10 +252,13 @@ const responses = {
   // },
   'GET /my_health/v1/prescriptions/:id': (req, res) => {
     const { id } = req.params;
+    const isOhRx = oracleHealthMode && id === '99900001';
     const data = {
-      data: prescriptions.mockPrescription(id, {
-        cmopNdcNumber: '00093721410',
-      }),
+      data: isOhRx
+        ? prescriptions.mockOracleHealthPrescription(id)
+        : prescriptions.mockPrescription(id, {
+            cmopNdcNumber: '00093721410',
+          }),
       meta: {
         sort: {
           dispStatus: 'DESC',
@@ -245,14 +280,18 @@ const responses = {
   // Includes both v1 and v2 endpoints for prescriptions
   'GET /my_health/v2/prescriptions/:id': (req, res) => {
     const { id } = req.params;
+    const ohIdMatch =
+      oracleHealthMode && (id === '99900001' || id === 'oh-99900001');
     const data = {
-      data: prescriptions.mockPrescription(
-        id,
-        {
-          cmopNdcNumber: '00093721410',
-        },
-        true,
-      ),
+      data: ohIdMatch
+        ? prescriptions.mockOracleHealthPrescription(id, true)
+        : prescriptions.mockPrescription(
+            id,
+            {
+              cmopNdcNumber: '00093721410',
+            },
+            true,
+          ),
       meta: {
         sort: {
           dispStatus: 'DESC',

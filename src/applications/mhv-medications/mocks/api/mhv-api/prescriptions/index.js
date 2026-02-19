@@ -184,7 +184,74 @@ function mockPrescriptionArray(n = 20, isV2 = false) {
   });
 }
 
-function generateMockPrescriptions(req, n = 20, isV2 = false) {
+// Oracle Health (Cerner) prescription based on real Spokane facility data.
+// Used when ORACLE_HEALTH=true env var is set.
+function mockOracleHealthPrescription(id = 99900001, isV2 = false) {
+  const prescriptionId = isV2 ? `oh-${id}` : id;
+  return {
+    id: isV2 ? prescriptionId : `oh-${id}`,
+    type: 'prescription_details',
+    attributes: {
+      prescriptionId,
+      prescriptionNumber: '2720554',
+      prescriptionName: 'AMLODIPINE 5MG TAB',
+      refillStatus: 'active',
+      refillSubmitDate: null,
+      refillDate: '2023-07-13T04:00:00.000Z',
+      refillRemaining: 0,
+      facilityName: 'SPOKANE',
+      orderedDate: '2023-04-14T12:00:00.000Z',
+      quantity: '30',
+      expirationDate: '2027-04-14T12:00:00.000Z',
+      dispensedDate: null,
+      stationNumber: '668',
+      sourceEhr: 'OH',
+      isRefillable: false,
+      isRenewable: true,
+      isTrackable: false,
+      cmopNdcNumber: null,
+      inCernerTransition: false,
+      notRefillableDisplayMessage:
+        'A refill request cannot be submitted at this time.',
+      sig: 'TAKE ONE TABLET BY MOUTH DAILY FOR 30 DAYS',
+      cmopDivisionPhone: null,
+      userId: 16955936,
+      providerFirstName: 'MOHAMMAD',
+      providerLastName: 'ISLAM',
+      remarks: null,
+      divisionName: 'SPOKANE',
+      modifiedDate: '2023-08-11T15:56:58.000Z',
+      institutionId: null,
+      dialCmopDivisionPhone: '',
+      pharmacyPhoneNumber: '(509) 434-7000',
+      dispStatus: 'Active',
+      ndc: '00597-0030-01',
+      reason: null,
+      prescriptionNumberIndex: 'RX',
+      prescriptionSource: 'RX',
+      disclaimer: null,
+      indicationForUse: null,
+      indicationForUseFlag: null,
+      category: 'Rx Medication',
+      trackingList: [],
+      rxRfRecords: [],
+      tracking: false,
+      orderableItem: null,
+      sortedDispensedDate: null,
+      prescriptionImage: null,
+    },
+    links: {
+      self: `http://127.0.0.1:3000/my_health/v1/prescriptions/${id}`,
+    },
+  };
+}
+
+function generateMockPrescriptions(
+  req,
+  n = 20,
+  isV2 = false,
+  includeOracleHealth = false,
+) {
   function edgeCasePrescription({
     prescriptionId,
     prescriptionName,
@@ -316,6 +383,9 @@ function generateMockPrescriptions(req, n = 20, isV2 = false) {
   ];
 
   const generatedPrescriptions = [
+    ...(includeOracleHealth
+      ? [mockOracleHealthPrescription(99900001, isV2)]
+      : []),
     ...mockPrescriptionArray(n, isV2),
     mockPrescription(
       99,
@@ -408,6 +478,7 @@ const mockPrescriptionDocumentation = () => {
 
 module.exports = {
   mockPrescription,
+  mockOracleHealthPrescription,
   generateMockPrescriptions,
   mockPrescriptionDocumentation,
 };

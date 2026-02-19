@@ -42,7 +42,7 @@ describe('Send Rx Renewal Message on List Page', () => {
     cy.axeCheck('main');
   });
 
-  it('displays fallback content for refill in process prescriptions when showRenewalLink is false', () => {
+  it('displays fallback content for refill in process prescriptions when renewalLinkShownAbove is false', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
@@ -57,7 +57,7 @@ describe('Send Rx Renewal Message on List Page', () => {
     cy.axeCheck('main');
   });
 
-  it('displays fallback content for submitted prescriptions when showRenewalLink is false', () => {
+  it('displays fallback content for submitted prescriptions when renewalLinkShownAbove is false', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
