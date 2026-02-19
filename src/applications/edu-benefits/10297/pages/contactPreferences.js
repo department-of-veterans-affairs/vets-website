@@ -137,11 +137,14 @@ const uiSchema = {
       ),
       'ui:options': {
         hideIf: formData => {
-          return formData?.contactInfo?.mobilePhone?.countryCode === 'US';
+          return (
+            !formData?.contactInfo?.mobilePhone?.contact ||
+            formData?.contactInfo?.mobilePhone?.countryCode === 'US'
+          );
         },
       },
     },
-    'view:emailOnFileWithSomeoneElse': {
+    'view:emailOnFileWithSomeoneElseAlert': {
       'ui:description': (
         <va-alert slim status="warning">
           You can’t choose to get email notifications because your email is on
@@ -169,7 +172,7 @@ const uiSchema = {
         },
       },
     },
-    'view:mobilePhoneOnFileWithSomeoneElse': {
+    'view:mobilePhoneOnFileWithSomeoneElseAlert': {
       'ui:description': (
         <va-alert slim status="warning">
           You can’t choose to get text notifications because your mobile phone
@@ -194,9 +197,8 @@ const uiSchema = {
           const duplicatesDetected = formData?.duplicatePhone?.some(
             entry => entry?.dupe === true,
           );
-          const mobilePhone = formData?.contactInfo?.mobilePhone?.contact;
 
-          return !isYes || !duplicatesDetected || !mobilePhone;
+          return !isYes || !duplicatesDetected;
         },
       },
     },
@@ -230,11 +232,11 @@ const schema = {
           type: 'object',
           properties: {},
         },
-        'view:emailOnFileWithSomeoneElse': {
+        'view:emailOnFileWithSomeoneElseAlert': {
           type: 'object',
           properties: {},
         },
-        'view:mobilePhoneOnFileWithSomeoneElse': {
+        'view:mobilePhoneOnFileWithSomeoneElseAlert': {
           type: 'object',
           properties: {},
         },
