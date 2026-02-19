@@ -54,6 +54,7 @@ import {
 } from '@bio-aquia/21-2680-house-bound-status/pages';
 
 import { isClaimantVeteran } from '@bio-aquia/21-2680-house-bound-status/utils/relationship-helpers';
+import { isMultiPartyEnabled } from '@bio-aquia/21-2680-house-bound-status/utils/multi-party-state';
 import {
   getVeteranName,
   getClaimantName,
@@ -88,7 +89,7 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: API_ENDPOINTS.submitForm,
+  submitUrl: API_ENDPOINTS.multiPartyPrimaryCreate,
   transformForSubmit: submitTransformer,
   submit: customSubmit,
   trackingPrefix: '21-2680-house-bound-status-',
@@ -358,6 +359,7 @@ const formConfig = {
           title: 'Medical professional information',
           uiSchema: examinerEmailUiSchema,
           schema: examinerEmailSchema,
+          depends: () => isMultiPartyEnabled(),
         },
       },
     },
