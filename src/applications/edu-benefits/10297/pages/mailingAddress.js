@@ -4,7 +4,6 @@ import {
   addressUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import get from 'platform/utilities/data/get';
 import constants from 'vets-json-schema/dist/constants.json';
 
 // Taken from src/platform/forms-system/src/js/web-component-patterns/addressPattern.jsx
@@ -153,7 +152,6 @@ const uiSchema = {
           const livesOnMilitaryBase = formData.mailingAddress?.isMilitary;
           const stateUI = _uiSchema;
           if (livesOnMilitaryBase) {
-            // stateUI['ui:webComponentField'] = VaSelectField;
             stateUI['ui:errorMessages'] = {
               required: 'Select an abbreviation: AA, AE, or AP',
               enum: 'Select an abbreviation: AA, AE, or AP',
@@ -170,7 +168,6 @@ const uiSchema = {
             };
           }
           if (formData.mailingAddress?.country === 'USA') {
-            // stateUI['ui:webComponentField'] = VaSelectField;
             stateUI['ui:errorMessages'] = {
               required: 'Select a state',
               enum: 'Select a state',
@@ -183,7 +180,6 @@ const uiSchema = {
             };
           }
           if (formData.mailingAddress?.country === 'CAN') {
-            // stateUI['ui:webComponentField'] = VaSelectField;
             stateUI['ui:errorMessages'] = {
               required: 'Select a province or territory',
               enum: 'Select a province or territory',
@@ -196,7 +192,6 @@ const uiSchema = {
             };
           }
           if (formData.mailingAddress?.country === 'MEX') {
-            // stateUI['ui:webComponentField'] = VaSelectField;
             stateUI['ui:errorMessages'] = {
               required: 'Select a state',
               enum: 'Select a state',
@@ -208,7 +203,6 @@ const uiSchema = {
               enumNames: constants.states.MEX.map(state => state.label),
             };
           }
-          // stateUI['ui:webComponentField'] = VaTextInputField;
           return {
             type: 'string',
             title: 'State/County/Province',
@@ -219,40 +213,37 @@ const uiSchema = {
     postalCode: {
       ...addressUiSchema.postalCode,
       'ui:webComponentField': undefined,
+      'ui:title': undefined,
       'ui:options': {
         ...addressUiSchema.postalCode['ui:options'],
         widgetClassNames: undefined,
-        replaceSchema: (formData, _schema, _uiSchema, index, path) => {
-          const addressPath = path.slice(0, -1); // path is ['address', 'currentField']
-          const data = get(addressPath, formData) ?? {};
-          const { country, isMilitary } = data;
+        replaceSchema: (formData, _schema, _uiSchema) => {
+          const { country } = formData.mailingAddress;
 
           const newUiSchema = _uiSchema;
-          const newSchema = _schema;
+          const newSchema = {
+            type: 'string',
+            title: 'Postal code',
+            pattern: '^[A-Z0-9 -]{3,10}$',
+            maxLength: 10,
+          };
 
           // country-specific error messages
           if (country === 'USA') {
             newUiSchema['ui:errorMessages'] =
               POSTAL_CODE_PATTERN_ERROR_MESSAGES.USA;
+            newSchema.pattern = POSTAL_CODE_PATTERNS.USA;
+            newSchema.title = 'Zip code';
           } else if (['CAN', 'MEX'].includes(country)) {
             newUiSchema['ui:errorMessages'] =
               POSTAL_CODE_PATTERN_ERROR_MESSAGES[country];
+            newSchema.pattern = POSTAL_CODE_PATTERNS[country];
           } else if (!country) {
             newUiSchema['ui:errorMessages'] =
               POSTAL_CODE_PATTERN_ERROR_MESSAGES.NONE;
           } else {
             newUiSchema['ui:errorMessages'] =
               POSTAL_CODE_PATTERN_ERROR_MESSAGES.OTHER;
-          }
-
-          addressSchema.type = 'string';
-          // country-specific patterns
-          if (isMilitary) {
-            newSchema.pattern = POSTAL_CODE_PATTERNS.USA;
-          } else if (['CAN', 'MEX', 'USA'].includes(country)) {
-            newSchema.pattern = POSTAL_CODE_PATTERNS[country];
-          } else {
-            newSchema.pattern = '^[A-Z0-9 -]{3,10}$';
           }
 
           return {
