@@ -1065,7 +1065,7 @@ const isOldFlowReturnUrl = returnUrl =>
  * When the new conditions workflow is ON but the returnUrl points to an
  * old-flow page, redirect to the new-flow conditions summary instead.
  */
-export const redirectOldFlowToNewFlow = ({ returnUrl, formData }) =>
+export const redirectOldConditionsFlowToNew = ({ returnUrl, formData }) =>
   isNewConditionsOn(formData) && isOldFlowReturnUrl(returnUrl);
 
 export const onFormLoaded = props => {
@@ -1075,7 +1075,7 @@ export const onFormLoaded = props => {
   const shouldRevertWhenNoEvidence = redirectWhenNoEvidence(props);
   const shouldRedirectLegacyToEnhancement = redirectLegacyToEnhancement(props);
   const shouldRedirectEnhancementToLegacy = redirectEnhancementToLegacy(props);
-  const shouldRedirectOldFlowToNewFlow = redirectOldFlowToNewFlow(props);
+  const shouldRedirectOldFlowToNewFlow = redirectOldConditionsFlowToNew(props);
   const redirectUrl = legacy4142AuthURL;
 
   if (shouldRedirectOldFlowToNewFlow) {

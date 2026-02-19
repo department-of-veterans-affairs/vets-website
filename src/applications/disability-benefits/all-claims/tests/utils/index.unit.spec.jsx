@@ -6,7 +6,7 @@ import {
   onFormLoaded,
   redirectLegacyToEnhancement,
   redirectEnhancementToLegacy,
-  redirectOldFlowToNewFlow,
+  redirectOldConditionsFlowToNew,
   isNewConditionsOn,
   isNewConditionsOff,
   hasEvidenceChoice,
@@ -208,7 +208,7 @@ describe('utils', () => {
     });
   });
 
-  describe('redirectOldFlowToNewFlow', () => {
+  describe('redirectOldConditionsFlowToNew', () => {
     const newFlowFormData = { disabilityCompNewConditionsWorkflow: true };
     const oldFlowFormData = { disabilityCompNewConditionsWorkflow: false };
     const noFlagFormData = {};
@@ -216,7 +216,7 @@ describe('utils', () => {
     describe('when new conditions workflow is ON', () => {
       it('returns true for /claim-type', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/claim-type',
             formData: newFlowFormData,
           }),
@@ -225,7 +225,7 @@ describe('utils', () => {
 
       it('returns true for /disabilities/orientation', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/disabilities/orientation',
             formData: newFlowFormData,
           }),
@@ -234,7 +234,7 @@ describe('utils', () => {
 
       it('returns true for /disabilities/rated-disabilities', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/disabilities/rated-disabilities',
             formData: newFlowFormData,
           }),
@@ -243,7 +243,7 @@ describe('utils', () => {
 
       it('returns true for /disabilities/summary', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/disabilities/summary',
             formData: newFlowFormData,
           }),
@@ -252,7 +252,7 @@ describe('utils', () => {
 
       it('returns true for /new-disabilities/add', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/new-disabilities/add',
             formData: newFlowFormData,
           }),
@@ -261,7 +261,7 @@ describe('utils', () => {
 
       it('returns true for /new-disabilities/follow-up', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/new-disabilities/follow-up',
             formData: newFlowFormData,
           }),
@@ -270,7 +270,7 @@ describe('utils', () => {
 
       it('returns true for parameterized old-flow paths like /new-disabilities/follow-up/0', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/new-disabilities/follow-up/0',
             formData: newFlowFormData,
           }),
@@ -279,7 +279,7 @@ describe('utils', () => {
 
       it('returns true for parameterized old-flow paths like /new-disabilities/follow-up/3', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/new-disabilities/follow-up/3',
             formData: newFlowFormData,
           }),
@@ -288,7 +288,7 @@ describe('utils', () => {
 
       it('returns false for new-flow paths like /conditions/summary', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/conditions/summary',
             formData: newFlowFormData,
           }),
@@ -297,7 +297,7 @@ describe('utils', () => {
 
       it('returns false for unrelated paths like /veteran-information', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/veteran-information',
             formData: newFlowFormData,
           }),
@@ -306,7 +306,7 @@ describe('utils', () => {
 
       it('returns false for /contact-information', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/contact-information',
             formData: newFlowFormData,
           }),
@@ -315,7 +315,7 @@ describe('utils', () => {
 
       it('returns false for evidence paths', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/supporting-evidence/evidence-types',
             formData: newFlowFormData,
           }),
@@ -326,7 +326,7 @@ describe('utils', () => {
     describe('when new conditions workflow is OFF', () => {
       it('returns false for old-flow paths when flag is false', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/claim-type',
             formData: oldFlowFormData,
           }),
@@ -335,7 +335,7 @@ describe('utils', () => {
 
       it('returns false for old-flow paths when flag is absent', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/new-disabilities/add',
             formData: noFlagFormData,
           }),
@@ -344,7 +344,7 @@ describe('utils', () => {
 
       it('returns false for /disabilities/rated-disabilities when flag is off', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/disabilities/rated-disabilities',
             formData: oldFlowFormData,
           }),
@@ -355,7 +355,7 @@ describe('utils', () => {
     describe('edge cases', () => {
       it('returns false when returnUrl is undefined', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: undefined,
             formData: newFlowFormData,
           }),
@@ -364,7 +364,7 @@ describe('utils', () => {
 
       it('returns false when returnUrl is null', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: null,
             formData: newFlowFormData,
           }),
@@ -373,7 +373,7 @@ describe('utils', () => {
 
       it('returns false when returnUrl is empty string', () => {
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '',
             formData: newFlowFormData,
           }),
@@ -384,7 +384,7 @@ describe('utils', () => {
         // /claim-type-something should not match /claim-type because
         // the check is exact match OR startsWith('/claim-type/')
         expect(
-          redirectOldFlowToNewFlow({
+          redirectOldConditionsFlowToNew({
             returnUrl: '/claim-type-something',
             formData: newFlowFormData,
           }),
