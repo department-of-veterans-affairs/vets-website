@@ -17,15 +17,14 @@ const SendRxRenewalMessage = ({
   const showSecureMessagingRenewalRequest = useSelector(
     selectSecureMessagingMedicationsRenewalRequestFlag,
   );
-  const redirectPath = encodeURIComponent(
+  const prescriptionIdParam = `prescriptionId=${rx.prescriptionId}`;
+  const redirectPathParam = `&redirectPath=${encodeURIComponent(
     '/my-health/medications?page=1&rxRenewalMessageSuccess=true',
-  );
+  )}`;
   const stationParam = rx.stationNumber
     ? `&station_number=${rx.stationNumber}`
     : '';
-  const secureMessagesUrl = `/my-health/secure-messages/new-message?prescriptionId=${
-    rx.prescriptionId
-  }${stationParam}&redirectPath=${redirectPath}`;
+  const secureMessagesUrl = `/my-health/secure-messages/new-message?${prescriptionIdParam}${redirectPathParam}${stationParam}`;
   const [showRenewalModal, setShowRenewalModal] = useState(false);
 
   const isExpiredLessThan120Days =
