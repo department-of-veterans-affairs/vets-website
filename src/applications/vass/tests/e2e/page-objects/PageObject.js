@@ -4,7 +4,9 @@ export default class PageObject {
   rootUrl = '/service-member/benefits/solid-start/schedule';
 
   /**
-   * Assert an element exists and optionally contains text
+   * Assert an element exists and optionally contains text or matches a regex pattern.
+   * If no options are provided, the element will be asserted to exist. If both
+   * containsText and matchText are provided, containsText will be used and matchText will be ignored.
    * @param {string} testId - The data-testid to find
    * @param {Object} options - Options
    * @param {boolean} options.exist - Whether the element should exist
@@ -13,17 +15,22 @@ export default class PageObject {
    * @returns {PageObject}
    */
   assertElement(testId, { exist = true, containsText, matchText } = {}) {
-    if (exist && containsText) {
+    if (!exist) {
+      cy.findByTestId(testId).should('not.exist');
+      return this;
+    }
+
+    if (containsText) {
       cy.findByTestId(testId)
         .should('exist')
         .and('contain.text', containsText);
-    } else if (exist && matchText) {
+    } else if (matchText) {
       cy.findByTestId(testId)
         .should('exist')
         .invoke('text')
         .and('match', matchText);
     } else {
-      cy.findByTestId(testId).should(exist ? 'exist' : 'not.exist');
+      cy.findByTestId(testId).should('exist');
     }
     return this;
   }

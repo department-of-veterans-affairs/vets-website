@@ -20,12 +20,11 @@ export class VerifyPageObject extends PageObject {
     });
 
     // Assert intro text is displayed with correct content
-    cy.findByTestId('verify-intro-text')
-      .should('exist')
-      .and(
-        'contain.text',
+    this.assertElement('verify-intro-text', {
+      exist: true,
+      containsText:
         'we’ll need your information so we can send you a one-time verification code',
-      );
+    });
 
     // Assert form inputs exist
     this.assertElement('last-name-input', { exist: true });

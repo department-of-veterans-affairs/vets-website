@@ -284,10 +284,7 @@ describe('VASS Schedule Appointment', () => {
       VerifyPageObject.assertVerifyPage();
       cy.injectAxeThenAxeCheck();
 
-      VerifyPageObject.fillAndSubmitDefaultForm({
-        lastName: 'Smith',
-        dateOfBirth: '1935-04-07',
-      });
+      VerifyPageObject.fillAndSubmitDefaultForm();
 
       cy.wait('@vass:post:request-otp');
       EnterOTPPageObject.assertEnterOTPPage();
