@@ -78,6 +78,38 @@ describe('Get care summaries and notes details action', () => {
     );
   });
 
+  it('should dispatch GET_FROM_LIST for accelerating vista notes', () => {
+    const dispatch = sinon.spy();
+    const noteList = [{ id: '1', source: 'vista' }];
+    return getCareSummaryAndNotesDetails('1', noteList, true)(dispatch).then(
+      () => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.CareSummariesAndNotes.GET_FROM_LIST,
+        );
+        expect(dispatch.firstCall.args[0].response).to.deep.equal({
+          id: '1',
+          source: 'vista',
+        });
+      },
+    );
+  });
+
+  it('should call the API and dispatch GET_UNIFIED_ITEM_FROM_LIST for accelerating oracle-health notes', () => {
+    const mockData = {
+      data: { id: '2', type: 'clinical_note', source: 'oracle-health' },
+    };
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    const noteList = [{ id: '2', source: 'oracle-health' }];
+    return getCareSummaryAndNotesDetails('2', noteList, true)(dispatch).then(
+      () => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM_FROM_LIST,
+        );
+      },
+    );
+  });
+
   it('should dispatch an add alert action on error and not throw', async () => {
     mockApiRequest(note, false);
     const dispatch = sinon.spy();

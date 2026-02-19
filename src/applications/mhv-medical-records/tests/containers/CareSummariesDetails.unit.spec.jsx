@@ -105,6 +105,31 @@ describe('CareSummariesDetails loading', () => {
   });
 });
 
+describe('CareSummariesDetails accelerated path', () => {
+  it('displays a loading indicator while fetching oracle-health note details', () => {
+    const initialState = {
+      user,
+      mr: {
+        careSummariesAndNotes: {
+          careSummariesAndNotesList: [{ id: '123', source: 'oracle-health' }],
+        },
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_accelerated_care_notes: true,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<CareSummariesDetails />, {
+      initialState,
+      reducers: reducer,
+      path: '/summaries-and-notes/123',
+    });
+
+    expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+});
+
 describe('CareSummariesDetails with errors', () => {
   it('displays an error', async () => {
     const initialState = {
