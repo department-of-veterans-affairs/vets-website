@@ -63,6 +63,19 @@ const testConfig = createTestConfig(
       'supporting-documents': ({ afterHook }) => {
         afterHook(() => addFile('private', 'root_supportingDocuments'));
       },
+      'treatment-records/:index/conditions-treated': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillVaTextInput('root_name', 'Condition A');
+          cy.selectYesNoVaRadioOption('root_releaseInfo', true);
+
+          cy.injectAxeThenAxeCheck();
+          // cy.findByText(/continue/i, { selector: 'button' }).click();
+          cy.clickFormContinue();
+
+          cy.selectYesNoVaRadioOption('add-another', false);
+          cy.clickFormContinue();
+        });
+      },
       'treatment-records/:index/supporting-documents': ({ afterHook }) => {
         afterHook(() => addFile('xray', 'root_supportingDocuments'));
       },
