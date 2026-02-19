@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import NeedHelp from '../components/shared/NeedHelp';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
-import useFetchPrescriptionsInProgress from '../hooks/PrescriptionsInProgress/useFetchPrescriptionsInProgress';
-// import { useFetchPrescriptionsList } from '../hooks/MedicationsList/useFetchPrescriptionsList';
+import { useFetchMedicationHistory } from '../hooks/MedicationHistory/useFetchMedicationHistory';
 import { pageType } from '../util/dataDogConstants';
 
 const MedicationHistory = () => {
@@ -12,7 +11,7 @@ const MedicationHistory = () => {
     // prescriptions,
     prescriptionsApiError,
     isLoading,
-  } = useFetchPrescriptionsInProgress();
+  } = useFetchMedicationHistory();
 
   const renderContent = () => {
     if (isLoading) {
@@ -26,11 +25,11 @@ const MedicationHistory = () => {
         </div>
       );
     }
-
     if (prescriptionsApiError) {
       return <ApiErrorNotification errorType="access" content="medications" />;
     }
     // TODO: List of medications and sort
+    // console.log('prescriptions', prescriptions);
     return <></>;
   };
 
