@@ -379,15 +379,15 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('calls updateSearchQuerySpy and commitSearchQuerySpy when sort is selected', () => {
+  it('calls updateSearchQuerySpy and commitSearchQuerySpy when sort changes', () => {
     const updateSearchQuerySpy = sinon.spy();
     const commitSearchQuerySpy = sinon.spy();
 
     const query = {
       inProgress: false,
-      context: {},
+      context: { location: 'new york' },
       representativeType: 'attorney',
-      sortType: 'name',
+      sortType: 'distance_asc',
       searchArea: '50',
     };
 
@@ -396,19 +396,18 @@ describe('SearchResultsHeader', () => {
         <SearchResultsHeader
           updateSearchQuery={updateSearchQuerySpy}
           commitSearchQuery={commitSearchQuerySpy}
-          searchResults={[]}
-          pagination={{ currentPage: 1, totalPages: 1, totalEntries: 0 }}
+          searchResults={[testDataRepresentative]}
+          pagination={{ totalEntries: 1 }}
           query={{
             ...query,
             committedSearchQuery: query,
           }}
-          onClickApplyButtonTester
         />
       </Provider>,
     );
 
-    wrapper.find('#test-button').simulate('click');
-
+    const select = wrapper.find('VaSelect.sort-select');
+    select.prop('onVaSelect')({ target: { value: 'first_name_asc' } });
     wrapper.update();
 
     sinon.assert.calledOnce(updateSearchQuerySpy);
@@ -418,7 +417,7 @@ describe('SearchResultsHeader', () => {
       updateSearchQuerySpy,
       sinon.match({
         page: 1,
-        sortType: 'name',
+        sortType: 'first_name_asc',
       }),
     );
 
@@ -426,7 +425,7 @@ describe('SearchResultsHeader', () => {
       commitSearchQuerySpy,
       sinon.match({
         page: 1,
-        sortType: 'name',
+        sortType: 'first_name_asc',
       }),
     );
 
