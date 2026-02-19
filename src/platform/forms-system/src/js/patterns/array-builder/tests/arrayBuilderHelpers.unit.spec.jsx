@@ -1,4 +1,6 @@
+import React from 'react';
 import sinon from 'sinon-v20';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
 import {
@@ -6,6 +8,8 @@ import {
   ARRAY_BUILDER_EVENTS,
 } from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderEvents';
 import * as routing from 'platform/forms-system/src/js/routing';
+import * as focusHelpers from 'platform/utilities/ui/focus';
+import * as scrollHelpers from 'platform/utilities/scroll/scroll';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from '../arrayBuilderText';
 import * as helpers from '../helpers';
 
@@ -358,6 +362,88 @@ describe('arrayBuilder helpers', () => {
   });
 });
 
+describe('assignGetItemName', () => {
+  it('should default to looking for object.name for getItemName if not defined', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+    };
+
+    const getItemName = helpers.assignGetItemName(options);
+    expect(getItemName({ name: 'test' })).to.eq('test');
+  });
+
+  it('should use getItemName if defined', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+      getItemName: item => item.otherName,
+    };
+
+    const getItemName = helpers.assignGetItemName(options);
+    expect(getItemName({ name: 'test', otherName: 'other name' })).to.eq(
+      'other name',
+    );
+  });
+
+  it('should use getItemName if defined on text', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+      text: {
+        getItemName: item => item.otherName,
+      },
+    };
+
+    const getItemName = helpers.assignGetItemName(options);
+    expect(getItemName({ name: 'test', otherName: 'other name' })).to.eq(
+      'other name',
+    );
+  });
+
+  it('should pass index and fullData to getItemName', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+      text: {
+        getItemName: sinon.spy(),
+      },
+    };
+
+    const getItemName = helpers.assignGetItemName(options);
+    const fullData = [{ name: 'test1' }, { name: 'test2' }];
+    getItemName(fullData[1], 1, fullData);
+    expect(options.text.getItemName.args[0]).to.deep.equal([
+      fullData[1],
+      1,
+      fullData,
+    ]);
+  });
+
+  it('should gracefully return null if we get an exception on getItemName', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+      text: {
+        getItemName: item => item.value.otherName,
+      },
+    };
+
+    const getItemName = helpers.assignGetItemName(options);
+    expect(getItemName({})).to.eq(null);
+  });
+});
+
 describe('arrayBuilderText', () => {
   it('should match expected types', () => {
     const getText = helpers.initGetText({
@@ -462,7 +548,6 @@ describe('getUpdatedItemFromPath', () => {
     expect(updatedItem.index).to.eq(2);
   });
 });
-
 describe('replaceItemInFormData', () => {
   it('should replace an item in the array and create new formData', () => {
     const formData = {
@@ -803,5 +888,154 @@ describe('validateIncompleteItems', () => {
     });
 
     unsubscribe();
+  });
+});
+
+describe('focusOnHeader', () => {
+  let focusStub;
+  let scrollStub;
+  beforeEach(() => {
+    focusStub = sinon.stub(focusHelpers, 'focusElement');
+    scrollStub = sinon.stub(scrollHelpers, 'scrollToTop');
+  });
+  afterEach(() => {
+    sinon.restore();
+    focusStub.restore();
+    scrollStub.restore();
+    focusStub = null;
+    scrollStub = null;
+  });
+
+  it('should focus on the h3 element', async () => {
+    helpers.focusOnHeader(() => false);
+
+    await waitFor(() => {
+      expect(scrollStub.calledOnce).to.be.true;
+      expect(focusStub.calledOnce).to.be.true;
+      expect(focusStub.args[0][0]).to.equal('h3');
+    });
+  });
+
+  it('should focus on h1 while using minimal headers', async () => {
+    await helpers.focusOnHeader(() => true);
+
+    await waitFor(() => {
+      expect(scrollStub.calledOnce).to.be.true;
+      expect(focusStub.calledOnce).to.be.true;
+      expect(focusStub.args[0][0]).to.equal('h1');
+    });
+  });
+});
+
+describe('scrollAndFocusAlert', async () => {
+  let focusStub;
+  let scrollStub;
+  beforeEach(() => {
+    focusStub = sinon.stub(focusHelpers, 'focusElement');
+    scrollStub = sinon.stub(scrollHelpers, 'scrollTo');
+  });
+  afterEach(() => {
+    sinon.restore();
+    focusStub.restore();
+    scrollStub.restore();
+    focusStub = null;
+    scrollStub = null;
+  });
+
+  const renderEls = ({
+    successAlert = false,
+    maxAlert = true,
+    incompleteAlert = false,
+    radioError = true,
+  } = {}) =>
+    render(
+      <div>
+        {maxAlert && <va-alert status="warning">Max items reached</va-alert>}
+        {successAlert && (
+          <va-alert status="success" closeable>
+            Success
+          </va-alert>
+        )}
+        {incompleteAlert && (
+          <div className="has-incomplete-item-error">
+            <va-alert status="error">Incomplete item</va-alert>
+            )}
+          </div>
+        )}
+        {radioError ? <va-radio error="test" /> : <va-radio />}
+      </div>,
+    );
+
+  it('should scroll to and focus on nothing, but also not throw an error', async () => {
+    const { container } = renderEls({ radioError: false });
+    helpers.scrollAndFocusAlert({ doc: container });
+
+    await waitFor(() => {
+      expect(scrollStub.calledOnce).to.be.true;
+      expect(focusStub.calledOnce).to.be.true;
+      expect(focusStub.args[0][0]).to.be.null;
+    });
+  });
+
+  it('should scroll to and focus on the success alert', async () => {
+    const { container } = renderEls({ successAlert: true });
+    helpers.scrollAndFocusAlert({ doc: container });
+
+    await waitFor(() => {
+      expect(scrollStub.calledOnce).to.be.true;
+      expect(focusStub.calledOnce).to.be.true;
+      const el = focusStub.args[0][0];
+      expect(el.tagName).to.equal('VA-ALERT');
+      expect(el.getAttribute('status')).to.equal('success');
+    });
+  });
+
+  it('should scroll to and focus on the incomplete alert', async () => {
+    const { container } = renderEls({ incompleteAlert: true });
+    helpers.scrollAndFocusAlert({ doc: container });
+
+    await waitFor(() => {
+      expect(scrollStub.calledOnce).to.be.true;
+      expect(focusStub.calledOnce).to.be.true;
+      const el = focusStub.args[0][0];
+      expect(el.tagName).to.equal('VA-ALERT');
+      expect(el.getAttribute('status')).to.equal('error');
+    });
+  });
+
+  it('should scroll to and focus on nothing if skipping max items alert', async () => {
+    const { container } = renderEls({ maxAlert: true, radioError: false });
+    helpers.scrollAndFocusAlert({ doc: container, skipMaxItemsAlert: true });
+
+    await waitFor(() => {
+      expect(scrollStub.calledOnce).to.be.true;
+      expect(focusStub.calledOnce).to.be.true;
+      const el = focusStub.args[0][0];
+      expect(el).to.be.null;
+    });
+  });
+
+  it('should scroll to and focus on the max items alert', async () => {
+    const { container } = renderEls({ maxAlert: true });
+    helpers.scrollAndFocusAlert({ doc: container, skipMaxItemsAlert: false });
+
+    await waitFor(() => {
+      expect(scrollStub.calledOnce).to.be.true;
+      expect(focusStub.calledOnce).to.be.true;
+      const el = focusStub.args[0][0];
+      expect(el.tagName).to.equal('VA-ALERT');
+      expect(el.getAttribute('status')).to.equal('warning');
+    });
+  });
+
+  it('should scroll to and focus on the va-radio error', async () => {
+    const { container } = renderEls({ maxAlert: true });
+    helpers.scrollAndFocusAlert({ doc: container });
+
+    await waitFor(() => {
+      expect(scrollStub.calledOnce).to.be.true;
+      expect(focusStub.calledOnce).to.be.true;
+      expect(focusStub.args[0][0]).to.equal('input');
+    });
   });
 });
