@@ -11,6 +11,7 @@ import {
   getLabsAndTestsDetails,
 } from '../actions/labsAndTests';
 import RadiologyDetails from '../components/LabsAndTests/RadiologyDetails';
+import UnifiedRadiologyDetails from '../components/LabsAndTests/UnifiedRadiologyDetails';
 import MicroDetails from '../components/LabsAndTests/MicroDetails';
 import PathologyDetails from '../components/LabsAndTests/PathologyDetails';
 import ChemHemDetails from '../components/LabsAndTests/ChemHemDetails';
@@ -18,10 +19,10 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   labTypes,
+  loincCodes,
   pageTitles,
   statsdFrontEndActions,
 } from '../util/constants';
-import { isRadiologyId } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import UnifiedLabsAndTests from '../components/LabsAndTests/UnifiedLabAndTest';
@@ -93,10 +94,8 @@ const LabAndTestDetails = () => {
     );
   }
   if (isAcceleratingLabsAndTests && labAndTestDetails && !isLoading) {
-    if (isRadiologyId(labId)) {
-      return (
-        <RadiologyDetails record={labAndTestDetails} fullState={fullState} />
-      );
+    if (labAndTestDetails?.testCode === loincCodes.UHD_RADIOLOGY) {
+      return <UnifiedRadiologyDetails record={labAndTestDetails} user={user} />;
     }
     return <UnifiedLabsAndTests record={labAndTestDetails} user={user} />;
   }
