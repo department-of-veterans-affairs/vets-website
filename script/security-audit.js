@@ -55,14 +55,15 @@ function getProductionReachable(productionDeps, allPackages) {
 
   while (queue.length > 0) {
     const name = queue.pop();
-    if (reachable.has(name)) continue;
-    reachable.add(name);
+    if (!reachable.has(name)) {
+      reachable.add(name);
 
-    const pkg = allPackages[name];
-    if (pkg && pkg.dependencies) {
-      for (const dep of Object.keys(pkg.dependencies)) {
-        if (!reachable.has(dep)) {
-          queue.push(dep);
+      const pkg = allPackages[name];
+      if (pkg && pkg.dependencies) {
+        for (const dep of Object.keys(pkg.dependencies)) {
+          if (!reachable.has(dep)) {
+            queue.push(dep);
+          }
         }
       }
     }
@@ -90,7 +91,7 @@ function fetchAdvisories(packageVersions) {
         },
       },
       res => {
-        let data = [];
+        const data = [];
         res.on('data', chunk => data.push(chunk));
         res.on('end', () => {
           if (res.statusCode !== 200) {
@@ -106,7 +107,9 @@ function fetchAdvisories(packageVersions) {
           try {
             resolve(JSON.parse(Buffer.concat(data).toString()));
           } catch (e) {
-            reject(new Error(`Failed to parse advisory response: ${e.message}`));
+            reject(
+              new Error(`Failed to parse advisory response: ${e.message}`),
+            );
           }
         });
       },
@@ -149,21 +152,25 @@ async function main() {
 
   for (const [packageName, advisoryList] of Object.entries(advisories)) {
     const pkg = allPackages[packageName];
-    if (!pkg) continue;
+    if (pkg) {
+      for (const advisory of advisoryList) {
+        const isException = EXCEPTION_SET.has(advisory.url);
+        const matchesSeverity = SEVERITY_FILTER.has(advisory.severity);
+        const isVulnerable = semver.satisfies(
+          pkg.version,
+          advisory.vulnerable_versions,
+        );
 
-    for (const advisory of advisoryList) {
-      if (EXCEPTION_SET.has(advisory.url)) continue;
-      if (!SEVERITY_FILTER.has(advisory.severity)) continue;
-
-      if (semver.satisfies(pkg.version, advisory.vulnerable_versions)) {
-        vulnerabilities.push({
-          packageName,
-          installedVersion: pkg.version,
-          severity: advisory.severity,
-          title: advisory.title,
-          url: advisory.url,
-          vulnerableRange: advisory.vulnerable_versions,
-        });
+        if (!isException && matchesSeverity && isVulnerable) {
+          vulnerabilities.push({
+            packageName,
+            installedVersion: pkg.version,
+            severity: advisory.severity,
+            title: advisory.title,
+            url: advisory.url,
+            vulnerableRange: advisory.vulnerable_versions,
+          });
+        }
       }
     }
   }
