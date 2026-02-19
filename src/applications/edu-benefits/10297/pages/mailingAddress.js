@@ -97,6 +97,10 @@ const uiSchema = {
     street: {
       ...addressUiSchema.street,
       'ui:webComponentField': undefined,
+      'ui:errorMessages': {
+        ...addressUiSchema.street['ui:errorMessages'],
+        minLength: 'Enter your full street address',
+      },
     },
     street2: {
       ...addressUiSchema.street2,
@@ -120,8 +124,13 @@ const uiSchema = {
           const livesOnMilitaryBase = formData.mailingAddress?.isMilitary;
           const cityUI = _uiSchema;
 
+          cityUI['ui:errorMessages'] = {
+            required: 'Enter a city',
+            pattern: 'Enter a city',
+            minLength: 'Enter a valid city',
+          };
+
           if (livesOnMilitaryBase) {
-            // cityUI['ui:webComponentField'] = VaSelectField;
             cityUI['ui:errorMessages'] = {
               required: 'Select a type of post office: APO, DPO, or FPO',
               enum: 'Select a type of post office: APO, DPO, or FPO',
@@ -133,7 +142,6 @@ const uiSchema = {
             };
           }
 
-          // cityUI['ui:webComponentField'] = VaTextInputField;
           return {
             type: 'string',
             title: 'City',
