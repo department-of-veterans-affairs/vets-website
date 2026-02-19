@@ -9,10 +9,6 @@ import {
   WIZARD_STATUS,
   FORM_STATUS_BDD,
   SAVED_SEPARATION_DATE,
-  TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
-  TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
-  TRACKING_526EZ_SIDENAV_FORM_START,
-  TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE,
 } from '../constants';
 import {
   howLongForDecision,
@@ -87,17 +83,10 @@ export default class ConfirmationPage extends React.Component {
   };
 
   render() {
-    // Reset wizard and form status
+    // Reset everything
     sessionStorage.removeItem(WIZARD_STATUS);
     sessionStorage.removeItem(FORM_STATUS_BDD);
     sessionStorage.removeItem(SAVED_SEPARATION_DATE);
-
-    // Clear tracking session storage
-    sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS);
-    sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS);
-    sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_FORM_START);
-    sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_FEATURE_TOGGLE);
-
     return this.ConfirmationPageContent(this.props);
   }
 }
