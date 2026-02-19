@@ -459,11 +459,9 @@ export function submitFiles(
       type: SET_PROGRESS,
       progress: 0,
     });
-    require.ensure(
-      [],
-      require => {
+    import(/* webpackChunkName: "claims-uploader" */ 'fine-uploader/lib/core').then(
+      ({ FineUploaderBasic }) => {
         const csrfTokenStored = localStorage.getItem('csrfToken');
-        const { FineUploaderBasic } = require('fine-uploader/lib/core');
         const uploader = new FineUploaderBasic({
           request: {
             endpoint: `${
@@ -609,7 +607,6 @@ export function submitFiles(
         });
         /* eslint-enable camelcase */
       },
-      'claims-uploader',
     );
   };
 }
