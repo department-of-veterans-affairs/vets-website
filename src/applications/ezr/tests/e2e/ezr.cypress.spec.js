@@ -156,6 +156,17 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'military-service/review-service-information': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(() => {
+            handleOptionalServiceHistoryPage({
+              historyEnabled: featureFlagObject.ezrServiceHistoryEnabled,
+              hasServiceHistoryInfo: true,
+              fillServiceHistory: false,
+            });
+          });
+        });
+      },
       'military-service/service-period': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(() => {
