@@ -3,6 +3,7 @@ import {
   concatObservationInterpretations,
   formatDate,
   dateFormatWithoutTimezone,
+  formatDateTimeInUserTimezone,
   extractContainedByRecourceType,
   extractContainedResource,
   getObservationValueWithUnits,
@@ -10,7 +11,6 @@ import {
   decodeBase64Report,
   formatNameFirstToLast,
   buildInitialDateRange,
-  formatDateTime,
   sortByDate,
 } from '../util/helpers';
 import {
@@ -24,6 +24,8 @@ import {
 import {
   convertMhvRadiologyRecord,
   convertCvixRadiologyRecord,
+  convertScdfImagingStudy,
+  mergeImagingStudiesIntoLabs,
   mergeRadiologyLists,
   mergeRadiologyDetails,
 } from '../util/imagesUtil';
@@ -49,6 +51,14 @@ const initialState = {
    * @type {Array}
    */
   updatedList: undefined,
+  /**
+   * The list of imaging studies retrieved from SCDF
+   */
+  scdfImagingStudies: undefined,
+  /**
+   * Whether SCDF imaging studies have been merged into the UHD labs list
+   */
+  scdfImagingStudiesMerged: false,
   /**
    * The lab or test result currently being displayed to the user
    */
@@ -411,12 +421,17 @@ export const convertLabsAndTestsRecord = record => {
 };
 
 export const convertUnifiedLabsAndTestRecord = record => {
-  const { formattedDate, formattedTime } = formatDateTime(
-    record.attributes.dateCompleted,
-  );
-  const date = formattedDate
-    ? `${formattedDate}, ${formattedTime}`
-    : EMPTY_FIELD;
+  // Always show timezone abbreviation for clarity (per UX feedback).
+  // If facilityTimezone is available, display in facility timezone.
+  // Otherwise, fall back to user's browser timezone.
+  const { facilityTimezone, dateCompleted } = record.attributes;
+  const date =
+    formatDateTimeInUserTimezone(
+      dateCompleted,
+      undefined,
+      facilityTimezone || undefined,
+    ) || EMPTY_FIELD;
+
   return {
     id: record.id,
     date,
@@ -432,10 +447,11 @@ export const convertUnifiedLabsAndTestRecord = record => {
     type: record.attributes.testCode,
     comments: record.attributes.comments,
     source: record.attributes.source,
+    facilityTimezone,
     result: record.attributes.encodedData
       ? decodeBase64Report(record.attributes.encodedData)
       : null,
-    sortDate: record.attributes.dateCompleted,
+    sortDate: dateCompleted,
     base: {
       ...record,
     },
@@ -505,6 +521,7 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
         labsAndTestsList: sortByDate(mergedList),
+        scdfImagingStudiesMerged: false,
       };
     }
     case Actions.LabsAndTests.GET_LIST: {
@@ -572,6 +589,26 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         dateRange: action.payload,
+      };
+    }
+    case Actions.LabsAndTests.GET_IMAGING_STUDIES: {
+      const data = Array.isArray(action.response) ? action.response : [];
+      return {
+        ...state,
+        scdfImagingStudies: data.map(convertScdfImagingStudy),
+        scdfImagingStudiesMerged: false,
+      };
+    }
+    case Actions.LabsAndTests.MERGE_IMAGING_STUDIES: {
+      const { labsAndTestsList, scdfImagingStudies } = state;
+      if (!labsAndTestsList || !scdfImagingStudies) return state;
+      return {
+        ...state,
+        labsAndTestsList: mergeImagingStudiesIntoLabs(
+          labsAndTestsList,
+          scdfImagingStudies,
+        ),
+        scdfImagingStudiesMerged: true,
       };
     }
     default:

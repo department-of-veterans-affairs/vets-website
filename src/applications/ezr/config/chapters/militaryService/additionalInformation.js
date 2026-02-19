@@ -13,16 +13,20 @@ export default {
     ),
     'view:serviceHistory': {
       purpleHeartRecipient: checkboxUI(
-        content['service-info--history-purple-heart-label'],
+        content['military-service-info-history-purple-heart-label'],
       ),
-      isFormerPow: checkboxUI(content['service-info--history-pow-label']),
+      isFormerPow: checkboxUI(
+        content['military-service-info-history-pow-label'],
+      ),
       postNov111998Combat: checkboxUI(
-        content['service-info--history-combat-theater-label'],
+        content['military-service-info-history-combat-theater-label'],
       ),
       disabledInLineOfDuty: checkboxUI(
-        content['service-info--history-disability-label'],
+        content['military-service-info-history-disability-label'],
       ),
-      swAsiaCombat: checkboxUI(content['service-info--history-sw-asia-label']),
+      swAsiaCombat: checkboxUI(
+        content['military-service-info-history-sw-asia-label'],
+      ),
     },
   },
   schema: {
