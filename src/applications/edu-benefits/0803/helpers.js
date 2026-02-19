@@ -25,6 +25,8 @@ export const transformMailingAddress = (addr = {}) => {
     city,
     countryCodeIso3,
     stateCode,
+    internationalPostalCode,
+    province,
     zipCode,
   } = addr;
 
@@ -34,8 +36,11 @@ export const transformMailingAddress = (addr = {}) => {
     street2: addressLine2,
     street3: addressLine3,
     city,
-    state: stateCode,
-    postalCode: zipCode,
+    state: addressType === ADDRESS_TYPES.international ? province : stateCode,
+    postalCode:
+      addressType === ADDRESS_TYPES.international
+        ? internationalPostalCode
+        : zipCode,
     country: countryCodeIso3,
   };
 };

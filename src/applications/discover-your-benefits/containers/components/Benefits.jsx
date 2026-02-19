@@ -11,6 +11,7 @@ const Benefits = ({
   handleBackClick,
   results,
   queryString,
+  isBenefitRecommended,
 }) => {
   return (
     <>
@@ -26,6 +27,7 @@ const Benefits = ({
                 <li key={benefit.id}>
                   <BenefitCard
                     benefit={benefit}
+                    isBenefitRecommended={isBenefitRecommended}
                     className="vads-u-margin-bottom--2"
                   />
                 </li>
@@ -48,6 +50,7 @@ const Benefits = ({
                   <li key={benefit.id}>
                     <BenefitCard
                       benefit={benefit}
+                      isBenefitRecommended={isBenefitRecommended}
                       className="vads-u-margin-bottom--2"
                     />
                   </li>
@@ -67,6 +70,7 @@ Benefits.propTypes = {
       name: PropTypes.string,
     }),
   ),
+  isBenefitRecommended: PropTypes.func,
   benefitsList: PropTypes.array,
   queryString: PropTypes.shape({
     allBenefits: PropTypes.string,

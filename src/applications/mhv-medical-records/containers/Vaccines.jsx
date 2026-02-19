@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -38,7 +37,7 @@ import {
   sendDataDogAction,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
-import useListRefresh from '../hooks/useListRefresh';
+import useFocusAfterLoading from '../hooks/useFocusAfterLoading';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import RecordListSection from '../components/shared/RecordListSection';
 import {
@@ -46,7 +45,6 @@ import {
   generateVaccinesContent,
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
@@ -58,7 +56,6 @@ const Vaccines = props => {
   const dispatch = useDispatch();
 
   const {
-    updatedList: updatedRecordList,
     listState,
     vaccinesList: vaccines,
     listCurrentAsOf: vaccinesCurrentAsOf,
@@ -69,27 +66,28 @@ const Vaccines = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  const { isLoading, isAcceleratingVaccines } = useAcceleratedData();
-
-  const isLoadingAcceleratedData =
-    isAcceleratingVaccines && listState === loadStates.FETCHING;
-
-  const dispatchAction = useCallback(
-    isCurrent => getVaccinesList(isCurrent, isAcceleratingVaccines),
-    [isAcceleratingVaccines],
-  );
+  const { isLoading } = useAcceleratedData();
+  const isFetchingData = listState === loadStates.FETCHING;
 
   useTrackAction(statsdFrontEndActions.VACCINES_LIST);
 
-  useListRefresh({
-    listState,
-    listCurrentAsOf: vaccinesCurrentAsOf,
-    refreshStatus: refresh.status,
-    extractType: refreshExtractTypes.VPR,
-    dispatchAction,
-    dispatch,
-    isLoading,
-  });
+  // Fetch accelerated vaccines on mount if:
+  // 1. Not yet fetched (PRE_FETCH state), OR
+  // 2. Data was loaded by Blue Button (vaccinesCurrentAsOf is null) which uses
+  //    VistA data via GET_LIST - we need fresh accelerated data instead.
+  // The condition is self-limiting: once fetched, vaccinesCurrentAsOf is set to
+  // a Date, preventing re-fetches.
+  useEffect(
+    () => {
+      if (
+        listState === loadStates.PRE_FETCH ||
+        (listState === loadStates.FETCHED && vaccinesCurrentAsOf === null)
+      ) {
+        dispatch(getVaccinesList(true));
+      }
+    },
+    [dispatch, listState, vaccinesCurrentAsOf],
+  );
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
   useReloadResetListOnUnmount({
@@ -101,11 +99,14 @@ const Vaccines = props => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
     },
     [dispatch],
   );
+
+  useFocusAfterLoading({
+    isLoading: isLoading || listState !== loadStates.FETCHED,
+  });
 
   usePrintTitle(
     pageTitles.VACCINES_PAGE_TITLE,
@@ -152,20 +153,16 @@ const Vaccines = props => {
       `Date received: ${item.date}\n`,
     ];
 
-    // Add conditional fields based on whether accelerating vaccines is enabled
-    if (isAcceleratingVaccines) {
-      content.push(`Provider: ${item.location || 'None recorded'}\n`);
-      content.push(`Type and dosage: ${item.shortDescription}\n`);
-      content.push(`Manufacturer: ${item.manufacturer}\n`);
-      content.push(`Series status: ${item.doseDisplay}\n`);
-      content.push(`Dose number: ${item.doseNumber}\n`);
-      content.push(`Dose series: ${item.doseSeries}\n`);
-      content.push(`CVX code: ${item.cvxCode}\n`);
-      content.push(`Reactions: ${item.reaction}\n`);
-      content.push(`Notes: ${item.note}\n`);
-    } else {
-      content.push(`Location: ${item.location || 'None recorded'}\n`);
-    }
+    // Add fields for accelerating vaccines
+    content.push(`Provider: ${item.location || 'None recorded'}\n`);
+    content.push(`Type and dosage: ${item.shortDescription}\n`);
+    content.push(`Manufacturer: ${item.manufacturer}\n`);
+    content.push(`Series status: ${item.doseDisplay}\n`);
+    content.push(`Dose number: ${item.doseNumber}\n`);
+    content.push(`Dose series: ${item.doseSeries}\n`);
+    content.push(`CVX code: ${item.cvxCode}\n`);
+    content.push(`Reactions: ${item.reaction}\n`);
+    content.push(`Notes: ${item.note}\n`);
 
     return content.join('');
   };
@@ -218,32 +215,17 @@ const Vaccines = props => {
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {!isAcceleratingVaccines && (
-          <NewRecordsIndicator
-            refreshState={refresh}
-            extractType={refreshExtractTypes.VPR}
-            newRecordsFound={
-              Array.isArray(vaccines) &&
-              Array.isArray(updatedRecordList) &&
-              vaccines.length !== updatedRecordList.length
-            }
-            reloadFunction={() => {
-              dispatch(reloadRecords());
-            }}
-          />
-        )}
-
-        {(isLoadingAcceleratedData || isLoading) && (
+        {(isFetchingData || isLoading) && (
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
               id="vaccines-page-spinner"
               message="We’re loading your records."
-              setFocus
+              set-focus
               data-testid="loading-indicator"
             />
           </div>
         )}
-        {!isLoadingAcceleratedData &&
+        {!isFetchingData &&
           !isLoading &&
           vaccines !== undefined && (
             <>
@@ -252,7 +234,7 @@ const Vaccines = props => {
                   <RecordList
                     records={vaccines?.map(vaccine => ({
                       ...vaccine,
-                      isOracleHealthData: isAcceleratingVaccines,
+                      isOracleHealthData: true,
                     }))}
                     type={recordType.VACCINES}
                   />
