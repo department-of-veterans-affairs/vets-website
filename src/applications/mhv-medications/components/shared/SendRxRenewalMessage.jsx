@@ -17,12 +17,14 @@ const SendRxRenewalMessage = ({
   const showSecureMessagingRenewalRequest = useSelector(
     selectSecureMessagingMedicationsRenewalRequestFlag,
   );
-  const redirectPath = encodeURIComponent(
-    '/my-health/medications?page=1&rxRenewalMessageSuccess=true',
-  );
-  const secureMessagesUrl = `/my-health/secure-messages/new-message?prescriptionId=${
-    rx.prescriptionId
-  }&redirectPath=${redirectPath}`;
+  const params = new URLSearchParams({
+    prescriptionId: rx.prescriptionId,
+    redirectPath: '/my-health/medications?page=1&rxRenewalMessageSuccess=true',
+  });
+  if (rx.stationNumber) {
+    params.set('station_number', rx.stationNumber);
+  }
+  const secureMessagesUrl = `/my-health/secure-messages/new-message?${params}`;
   const [showRenewalModal, setShowRenewalModal] = useState(false);
 
   const isExpiredLessThan120Days =
@@ -122,6 +124,7 @@ SendRxRenewalMessage.propTypes = {
     expirationDate: PropTypes.string,
     prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     isRenewable: PropTypes.bool,
+    stationNumber: PropTypes.string,
   }),
   suppressRenewalLink: PropTypes.bool,
 };
