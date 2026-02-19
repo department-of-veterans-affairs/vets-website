@@ -94,34 +94,6 @@ export const trackBackButtonClick = () => {
 };
 
 /**
- * Tracks "Finish this application later" link clicks
- * Reads tracking defaults from sessionStorage / window.location
- */
-export const trackSaveFormClick = () => {
-  try {
-    const { sourcePath, sidenav526ezEnabled } = getSideNavTrackingDefaults();
-
-    const properties = {
-      formId: VA_FORM_IDS.FORM_21_526EZ,
-      sourcePath,
-    };
-
-    if (sidenav526ezEnabled !== undefined) {
-      properties.sidenav526ezEnabled = sidenav526ezEnabled;
-    }
-
-    trackAction(
-      'Form save in progress - Finish this application later clicked',
-      properties,
-    );
-  } catch (error) {
-    // Silent fail - tracking should never break the form
-    // eslint-disable-next-line no-console
-    console.error('[DataDog Tracking Error]', error);
-  }
-};
-
-/**
  * Tracks continue button clicks in the 526EZ form
  * Maintains a session-based click counter and reads tracking defaults
  * from sessionStorage / window.location for DataDog RUM tracking
