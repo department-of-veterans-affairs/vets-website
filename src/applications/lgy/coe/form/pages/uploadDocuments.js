@@ -108,13 +108,15 @@ const getAccordions = (formData, hasOneTimeRestoration) => {
 const getRequiredDocumentMessage = (formData, hasOneTimeRestoration) => {
   const requiredDocumentMessages = {
     [serviceStatuses.VETERAN]: (
-
       <>
         {hasOneTimeRestoration ? (
           <>
             <p>You’ll need to upload these documents:</p>
             <ul>
-              <li>A copy of your discharge or separation papers (DD214) showing character of service</li>
+              <li>
+                A copy of your discharge or separation papers (DD214) showing
+                character of service
+              </li>
               <li>Evidence of a VA loan was paid in full (if applicable)</li>
             </ul>
           </>
@@ -128,7 +130,8 @@ const getRequiredDocumentMessage = (formData, hasOneTimeRestoration) => {
     ),
     [serviceStatuses.ADSM]: (
       <>
-        {formData?.militaryHistory?.purpleHeartRecipient || hasOneTimeRestoration ? (
+        {formData?.militaryHistory?.purpleHeartRecipient ||
+        hasOneTimeRestoration ? (
           <>
             <p>You’ll need to upload these documents:</p>
             <ul>
@@ -197,7 +200,7 @@ const getRequiredDocumentMessage = (formData, hasOneTimeRestoration) => {
     ),
   };
 
-  return requiredDocumentMessages[formData.identity]
+  return requiredDocumentMessages[formData.identity];
 };
 
 export const getUiSchema = () => ({
