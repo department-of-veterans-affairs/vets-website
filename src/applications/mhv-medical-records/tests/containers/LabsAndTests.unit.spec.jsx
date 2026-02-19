@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/react';
 import { beforeEach } from 'mocha';
+import sinon from 'sinon';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import LabsAndTests from '../../containers/LabsAndTests';
 import reducer from '../../reducers';
@@ -11,6 +12,7 @@ import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
 import radiologyTests from '../fixtures/radiologyRecordsMhv.json';
 import user from '../fixtures/user.json';
 import { studyJobStatus } from '../../util/constants';
+import * as labsAndTestsActions from '../../actions/labsAndTests';
 
 describe('LabsAndTests list container', () => {
   const labsAndTestsFhir = labsAndTests.entry.map(item =>
@@ -457,5 +459,97 @@ describe('Labs and tests accelerated path with SCDF imaging studies flag', () =>
 
     // NewRecordsIndicator should not render in the accelerated path
     expect(screen.queryByTestId('new-records-indicator')).to.not.exist;
+  });
+});
+
+describe('SCDF imaging studies feature toggle', () => {
+  let sandbox;
+  let getAcceleratedImagingStudiesListStub;
+
+  const buildStateWithToggle = (fetchScdfImagingStudies = false) => ({
+    user: {
+      ...user,
+      profile: {
+        ...user.profile,
+        facilities: [{ facilityId: '983', isCerner: true }],
+      },
+    },
+    mr: {
+      labsAndTests: {
+        labsAndTestsList: [],
+        listState: 'FETCHED',
+        dateRange: {
+          option: '3',
+          fromDate: '2025-08-13',
+          toDate: '2025-11-13',
+        },
+      },
+      alerts: { alertList: [] },
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+        data: {
+          cernerFacilities: [{ vhaId: '983' }],
+        },
+      },
+    },
+    featureToggles: {
+      loading: false,
+      [FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryEnabled]: true,
+      [FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryLabsAndTestsEnabled]: true,
+      [FEATURE_FLAG_NAMES.mhvMedicalRecordsFetchScdfImagingStudies]: fetchScdfImagingStudies,
+    },
+  });
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    getAcceleratedImagingStudiesListStub = sandbox.stub(
+      labsAndTestsActions,
+      'getAcceleratedImagingStudiesList',
+    );
+    // Return a function that returns a resolved promise to satisfy the thunk pattern
+    getAcceleratedImagingStudiesListStub.returns(() => Promise.resolve());
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  it('dispatches getAcceleratedImagingStudiesList when fetchScdfImagingStudies is true', async () => {
+    const initialState = buildStateWithToggle(true);
+
+    renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    await waitFor(() => {
+      expect(getAcceleratedImagingStudiesListStub.called).to.be.true;
+    });
+
+    // Verify the action was called with the correct date range parameters
+    expect(getAcceleratedImagingStudiesListStub.calledOnce).to.be.true;
+    const callArgs = getAcceleratedImagingStudiesListStub.getCall(0).args[0];
+    expect(callArgs).to.deep.equal({
+      startDate: '2025-08-13',
+      endDate: '2025-11-13',
+    });
+  });
+
+  it('does not dispatch getAcceleratedImagingStudiesList when fetchScdfImagingStudies is false', async () => {
+    const initialState = buildStateWithToggle(false);
+
+    renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    // Wait a bit to ensure the effect would have run if it was going to
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    expect(getAcceleratedImagingStudiesListStub.called).to.be.false;
   });
 });
