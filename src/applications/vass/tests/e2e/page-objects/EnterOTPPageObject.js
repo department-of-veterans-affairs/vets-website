@@ -26,6 +26,7 @@ export class EnterOTPPageObject extends PageObject {
 
     // Assert no error states on initial load
     this.assertOTPErrorAlert({ exist: false });
+    this.assertVerificationErrorAlert({ exist: false });
 
     // Assert need help footer
     this.assertNeedHelpFooter();
@@ -37,12 +38,15 @@ export class EnterOTPPageObject extends PageObject {
    * Assert the verification error page is displayed (account locked)
    * @returns {EnterOTPPageObject}
    */
-  assertVerificationErrorPage() {
-    this.assertHeading({
-      name: /We couldn.t verify your information/i,
-      level: 1,
-      exist: true,
-    });
+  assertVerificationErrorPage({ exist = true } = {}) {
+    if (exist) {
+      this.assertVerificationErrorAlert({
+        headingText: /We couldn.t verify your information/i,
+        contain: /The one-time verification code you entered doesn’t match the one we sent you. You can try again in 15 minutes. Check your email and select the link to schedule a call./i,
+      });
+    } else {
+      this.assertVerificationErrorAlert({ exist: false });
+    }
     return this;
   }
 
@@ -57,10 +61,10 @@ export class EnterOTPPageObject extends PageObject {
   }
 
   /**
-   * Enter a valid OTP code for testing
+   * Enter a default OTP code for testing
    * @returns {EnterOTPPageObject}
    */
-  enterValidOTP() {
+  enterDefaultOTP() {
     return this.enterOTP('123456');
   }
 
@@ -90,28 +94,11 @@ export class EnterOTPPageObject extends PageObject {
    * Assert the error alert is displayed or not
    * @param {Object} props - Options
    * @param {boolean} props.exist - Whether the alert should exist
+   * @param {string|RegExp} props.contain - The text of the alert to assert
    * @returns {EnterOTPPageObject}
    */
-  assertOTPErrorAlert({ exist = true } = {}) {
-    this.assertElement('enter-otp-error-alert', { exist });
-    return this;
-  }
-
-  /**
-   * Assert the continue button is in loading state
-   * @returns {EnterOTPPageObject}
-   */
-  assertContinueLoading() {
-    cy.findByTestId('continue-button').should('have.attr', 'loading', 'true');
-    return this;
-  }
-
-  /**
-   * Assert the continue button is not in loading state
-   * @returns {EnterOTPPageObject}
-   */
-  assertContinueNotLoading() {
-    cy.findByTestId('continue-button').should('not.have.attr', 'loading');
+  assertOTPErrorAlert({ exist = true, contain } = {}) {
+    this.assertElement('enter-otp-error-alert', { exist, contain });
     return this;
   }
 
@@ -147,11 +134,11 @@ export class EnterOTPPageObject extends PageObject {
   }
 
   /**
-   * Fill the form with valid OTP and submit
+   * Fill the form with default OTP and submit
    * @returns {EnterOTPPageObject}
    */
-  fillAndSubmitValidOTP() {
-    this.enterValidOTP();
+  fillAndSubmitDefaultOTP() {
+    this.enterDefaultOTP();
     this.clickContinue();
     return this;
   }

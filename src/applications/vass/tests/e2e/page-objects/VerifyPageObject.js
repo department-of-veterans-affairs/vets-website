@@ -38,7 +38,8 @@ export class VerifyPageObject extends PageObject {
       .and('not.have.attr', 'disabled');
 
     // Assert no error states on initial load
-    this.assertVerifyErrorAlert({ exist: false });
+    this.assertInvalidCredentialsErrorAlert({ exist: false });
+    this.assertInvalidVerificationErrorAlert({ exist: false });
 
     // Assert need help footer
     this.assertNeedHelpFooter();
@@ -47,24 +48,36 @@ export class VerifyPageObject extends PageObject {
   }
 
   /**
-   * Assert the verification error page is displayed
+   * Assert the invalid credentials error alert is displayed
+   * @param {Object} options - Options
+   * @param {boolean} options.exist - Whether the alert should exist
    * @returns {VerifyPageObject}
    */
-  assertVerificationErrorPage() {
-    this.assertHeading({
-      name: /We couldn.t verify your information/i,
-      level: 1,
-      exist: true,
+  assertInvalidCredentialsErrorAlert({ exist = true } = {}) {
+    this.assertElement('verify-error-alert', {
+      exist,
+      contain: exist
+        ? 'We’re sorry. We couldn’t find a record that matches that last name or date of birth. Please try again.'
+        : undefined,
     });
     return this;
   }
 
   /**
-   * Assert the error alert is displayed
+   * Assert the verification error alert is displayed
+   * @param {Object} options - Options
+   * @param {boolean} options.exist - Whether the alert should exist
    * @returns {VerifyPageObject}
    */
-  assertVerifyErrorAlert({ exist = true } = {}) {
-    this.assertElement('verify-error-alert', { exist });
+  assertInvalidVerificationErrorAlert({ exist = true } = {}) {
+    if (exist) {
+      this.assertVerificationErrorAlert({
+        headingText: /We couldn.t verify your information/i,
+        contain: /We’re sorry. We couldn’t match your information to your records. Please call us for help./i,
+      });
+    } else {
+      this.assertVerificationErrorAlert({ exist: false });
+    }
     return this;
   }
 
@@ -103,10 +116,10 @@ export class VerifyPageObject extends PageObject {
   }
 
   /**
-   * Enter a valid last name for testing
+   * Enter a default last name for testing
    * @returns {VerifyPageObject}
    */
-  enterValidLastName() {
+  enterDefaultLastName() {
     return this.enterLastName('Smith');
   }
 
@@ -157,11 +170,11 @@ export class VerifyPageObject extends PageObject {
   }
 
   /**
-   * Enter a valid date of birth for testing
+   * Enter a default date of birth for testing
    * @returns {VerifyPageObject}
    */
-  enterValidDateOfBirth() {
-    return this.enterDateOfBirth('1990-01-15');
+  enterDefaultDateOfBirth() {
+    return this.enterDateOfBirth('1935-04-07');
   }
 
   /**
@@ -176,12 +189,12 @@ export class VerifyPageObject extends PageObject {
   }
 
   /**
-   * Fill the form with valid data and submit
+   * Fill the form with default data and submit
    * @returns {VerifyPageObject}
    */
-  fillAndSubmitValidForm() {
-    this.enterValidLastName();
-    this.enterValidDateOfBirth();
+  fillAndSubmitDefaultForm() {
+    this.enterDefaultLastName();
+    this.enterDefaultDateOfBirth();
     this.clickSubmit();
     return this;
   }
