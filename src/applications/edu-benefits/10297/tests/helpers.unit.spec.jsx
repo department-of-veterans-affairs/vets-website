@@ -20,6 +20,7 @@ import {
   getPrefillIntlPhoneNumber,
   getTransformIntlPhoneNumber,
   parseDateToDateObj,
+  lastDayOfMonth,
 } from '../helpers';
 
 describe('10297 Helpers', () => {
@@ -554,5 +555,34 @@ describe('Routing Number and Account Number Cannot Match Validation', () => {
     accountValidationFn(errors, '', formDataEmptyAccount);
 
     expect(errors.addError.called).to.be.false;
+  });
+});
+
+describe('lastDayOfMonth', () => {
+  it('should return correct last day when month and year are valid', () => {
+    expect(lastDayOfMonth(1, 2025)).to.equal(31);
+    expect(lastDayOfMonth(2, 2025)).to.equal(28);
+    expect(lastDayOfMonth(2, 2024)).to.equal(29);
+    expect(lastDayOfMonth(4, 2025)).to.equal(30);
+  });
+
+  it('should return default last day when only month is provided', () => {
+    expect(lastDayOfMonth(1)).to.equal(31);
+    expect(lastDayOfMonth(2)).to.equal(29);
+    expect(lastDayOfMonth(4)).to.equal(30);
+  });
+
+  it('should return 31 when only year is provided', () => {
+    expect(lastDayOfMonth(undefined, 2026)).to.equal(31);
+  });
+
+  it('should return default last day when both month and year are invalid', () => {
+    expect(lastDayOfMonth()).to.equal(31);
+    expect(lastDayOfMonth('', '')).to.equal(31);
+    expect(lastDayOfMonth(null, null)).to.equal(31);
+    expect(lastDayOfMonth('XX', 'XXXX')).to.equal(31);
+    expect(lastDayOfMonth(NaN, NaN)).to.equal(31);
+    expect(lastDayOfMonth(NaN, 'XXXX')).to.equal(31);
+    expect(lastDayOfMonth('XX')).to.equal(31);
   });
 });
