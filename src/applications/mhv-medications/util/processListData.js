@@ -45,3 +45,44 @@ export const refillProcessStepGuide = {
     },
   ],
 };
+
+export const refillProcessStepGuideV2 = {
+  title: 'How the refill process works on VA.gov',
+  processSteps: [
+    {
+      header: 'You request a refill',
+      content: (
+        <>
+          <p>
+            After you request a refill, your prescription will be in the
+            "Request submitted" section of your in-progress medications page. It
+            may take up to 7 days to start processing your request.
+          </p>
+        </>
+      ),
+    },
+    {
+      header: 'We process your refill request',
+      content: (
+        <p>
+          Once our pharmacy starts processing your request, your prescription
+          will move to the "Fill in progress" section of your in-progress
+          medications page.
+        </p>
+      ),
+    },
+    {
+      header: 'We ship your refill to you',
+      content: (
+        <>
+          <p>
+            Once we ship the prescription to you, it’ll move to the "Medication
+            shipped" section of your in-progress medications page. Prescriptions
+            usually arrive within 3 to 5 days after shipping. You can find
+            tracking information in your medications details page.
+          </p>
+        </>
+      ),
+    },
+  ],
+};
