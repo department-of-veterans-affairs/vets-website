@@ -178,7 +178,7 @@ export class VerifyPageObject extends PageObject {
    * @param {string} props.dateOfBirth - Date of birth in YYYY-MM-DD format. If no value is provided, the default value of '1935-04-07' will be used.
    * @returns {VerifyPageObject}
    */
-  fillAndSubmitForm({ lastName = 'Smith', dateOfBirth = '1935-04-07' }) {
+  fillAndSubmitForm({ lastName = 'Smith', dateOfBirth = '1935-04-07' } = {}) {
     this.enterLastName(lastName);
     this.enterDateOfBirth(dateOfBirth);
     this.clickSubmit();

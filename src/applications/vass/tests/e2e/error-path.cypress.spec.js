@@ -726,4 +726,40 @@ describe('VASS Error Paths', () => {
       });
     });
   });
+
+  describe.only('Navigation', () => {
+    describe('when the user attempt to navigate back from the Date/Time Selection page', () => {
+      beforeEach(() => {
+        mockAppointmentAvailabilityApi();
+        mockRequestOtpApi();
+        const authenticateOtpResponse = new MockAuthenticateOtpResponse({
+          token: createMockJwt(uuid, expiresIn),
+          expiresIn,
+        }).toJSON();
+        mockAuthenticateOtpApi({
+          response: authenticateOtpResponse,
+          responseCode: 200,
+        });
+
+        cy.visit(`/service-member/benefits/solid-start/schedule?uuid=${uuid}`);
+        VerifyPageObject.fillAndSubmitForm();
+        cy.wait('@vass:post:request-otp');
+      });
+
+      it('should trigger a confirmation dialog', () => {
+        EnterOTPPageObject.fillAndSubmitOTP();
+        cy.wait('@vass:post:authenticate-otp');
+        cy.wait('@vass:get:appointment-availability');
+        DateTimeSelectionPageObject.assertDateTimeSelectionPage();
+        cy.injectAxeThenAxeCheck();
+        cy.on('window:confirm', text => {
+          expect(text).to.contains(
+            'This page is asking you to confirm that you want to leave — information you’ve entered may not be saved',
+          );
+          return true; // accept
+        });
+        cy.go('back');
+      });
+    });
+  });
 });
