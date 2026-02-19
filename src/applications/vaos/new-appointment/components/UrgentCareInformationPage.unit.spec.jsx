@@ -81,6 +81,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
             migrationSchedules: [
               {
                 migrationDate: 'May 01, 2026',
+                migrationStatus: 'ACTIVE', // "NOT_STARTED" | "ACTIVE" | "COMPLETE"
                 facilities: [
                   {
                     facilityId: '983',
@@ -101,6 +102,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
               },
               {
                 migrationDate: 'March 03, 2026',
+                migrationStatus: 'ACTIVE', // "NOT_STARTED" | "ACTIVE" | "COMPLETE"
                 facilities: [
                   {
                     id: '565',
@@ -128,11 +130,23 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       const screen = renderWithStoreAndRouter(<UrgentCareInformationPage />, {
         initialState,
       });
-      screen.getByText(/From March 1, 2026 at 12:00AM ET/i);
-      screen.getByText(/During this time, you can still call this facility/);
-      screen.getByRole('link', {
-        name: /Find a VA health facility Link opens in a new tab/i,
-      });
+      expect(screen.getByText(/From March 1, 2026 at 12:00AM ET/i)).to.be.ok;
+      expect(
+        screen.getByText(/During this time, you can still call this facility/),
+      ).to.be.ok;
+      expect(
+        screen.getByRole('link', {
+          name: /Find a VA health facility Link opens in a new tab/i,
+        }),
+      ).to.be.ok;
+      expect(
+        screen.queryByText(
+          /You can schedule or request non-urgent appointments for future dates/,
+        ),
+      ).to.exist;
+      expect(
+        screen.queryByRole('link', { name: /Start scheduling an appointment/ }),
+      ).to.exist;
     });
 
     it('should display migration error alert without scheduling link', async () => {
@@ -144,6 +158,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
             migrationSchedules: [
               {
                 migrationDate: '2026-05-01',
+                migrationStatus: 'ACTIVE', // "NOT_STARTED" | "ACTIVE" | "COMPLETE"
                 facilities: [
                   {
                     facilityId: '983',
@@ -164,6 +179,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
               },
               {
                 migrationDate: '2026-03-01',
+                migrationStatus: 'ACTIVE', // "NOT_STARTED" | "ACTIVE" | "COMPLETE"
                 facilities: [
                   {
                     facilityId: '983',
@@ -206,6 +222,14 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
           name: /Find a VA health facility Link opens in a new tab/i,
         }),
       ).to.be.ok;
+      expect(
+        screen.queryByText(
+          /You can schedule or request non-urgent appointments for future dates/,
+        ),
+      ).not.to.be.exist;
+      expect(
+        screen.queryByRole('link', { name: /Start scheduling an appointment/ }),
+      ).not.to.exist;
     });
   });
 
@@ -222,6 +246,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
             migrationSchedules: [
               {
                 migrationDate: '2026-05-01',
+                migrationStatus: 'ACTIVE', // "NOT_STARTED" | "ACTIVE" | "COMPLETE"
                 facilities: [
                   {
                     facilityId: '983',
@@ -246,6 +271,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
               },
               {
                 migrationDate: '2026-03-01',
+                migrationStatus: 'ACTIVE', // "NOT_STARTED" | "ACTIVE" | "COMPLETE"
                 facilities: [
                   {
                     id: '565',
@@ -287,10 +313,15 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
         }),
       ).to.be.ok;
       expect(
+        screen.queryByText(
+          /You can schedule or request non-urgent appointments for future dates/,
+        ),
+      ).to.exist;
+      expect(
         screen.queryByRole('link', {
           name: /Start scheduling an appointment/,
         }),
-      ).not.to.exist;
+      ).to.exist;
     });
 
     it('should display migration error alert without scheduling link', async () => {
@@ -308,6 +339,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
             migrationSchedules: [
               {
                 migrationDate: '2026-05-01',
+                migrationStatus: 'ACTIVE', // "NOT_STARTED" | "ACTIVE" | "COMPLETE"
                 facilities: [
                   {
                     facilityId: '983',
@@ -332,6 +364,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
               },
               {
                 migrationDate: '2026-03-01',
+                migrationStatus: 'ACTIVE', // "NOT_STARTED" | "ACTIVE" | "COMPLETE"
                 facilities: [
                   {
                     facilityId: '983',
@@ -385,6 +418,14 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
           name: /Find a VA health facility Link opens in a new tab/i,
         }),
       ).to.be.ok;
+      expect(
+        screen.queryByText(
+          /You can schedule or request non-urgent appointments for future dates/,
+        ),
+      ).not.to.be.exist;
+      expect(
+        screen.queryByRole('link', { name: /Start scheduling an appointment/ }),
+      ).not.to.exist;
     });
   });
 
@@ -401,6 +442,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
             migrationSchedules: [
               {
                 migrationDate: '2026-05-01',
+                migrationStatus: 'ACTIVE', // "NOT_STARTED" | "ACTIVE" | "COMPLETE"
                 facilities: [
                   {
                     facilityId: '983',
@@ -421,6 +463,7 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
               },
               {
                 migrationDate: '2026-03-01',
+                migrationStatus: 'ACTIVE', // "NOT_STARTED" | "ACTIVE" | "COMPLETE"
                 facilities: [
                   {
                     id: '565',
@@ -459,15 +502,20 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       ).to.be.ok;
       expect(screen.getByText(/Scheduling online is unavailable until/i)).to.be
         .ok;
-      expect(
-        screen.queryByRole('link', { name: /Start scheduling an appointment/ }),
-      ).to.exist;
       expect(screen.getByText(/You.ll need to call to schedule/)).to.be.ok;
       expect(
         screen.getByRole('link', {
           name: /Find a VA health facility Link opens in a new tab/i,
         }),
       ).to.be.ok;
+      expect(
+        screen.queryByText(
+          /You can schedule or request non-urgent appointments for future dates/,
+        ),
+      ).to.exist;
+      expect(
+        screen.queryByRole('link', { name: /Start scheduling an appointment/ }),
+      ).to.exist;
     });
   });
 
@@ -477,12 +525,13 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
         user: {
           profile: {
             facilities: [
-              { facilityId: '983', isCerner: true },
+              { facilityId: '983', isCerner: false },
               { facilityId: '984', isCerner: false },
             ],
             migrationSchedules: [
               {
                 migrationDate: '2026-05-01',
+                migrationStatus: 'ACTIVE', // "NOT_STARTED" | "ACTIVE" | "COMPLETE"
                 facilities: [
                   {
                     facilityId: '983GC',
@@ -497,12 +546,13 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
                   p3: 'April 24, 2026 at 12:00AM ET',
                   p4: 'April 27, 2026 at 12:00AM ET',
                   p5: 'May 1, 2026 at 12:00AM ET', // Migration start
-                  p6: 'May 3, 2026v',
+                  p6: 'March 3, 2026 at 12:00AM ET',
                   p7: 'May 8, 2026 at 12:00AM ET', // Migration end
                 },
               },
               {
                 migrationDate: '2026-03-01',
+                migrationStatus: 'ACTIVE', // "NOT_STARTED" | "ACTIVE" | "COMPLETE"
                 facilities: [
                   {
                     id: '565',
@@ -534,6 +584,90 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
       // Assert
       const alert = screen.container.querySelector('va-alert');
       expect(alert).not.to.exist;
+      expect(
+        screen.queryByText(
+          /You can schedule or request non-urgent appointments for future dates/,
+        ),
+      ).to.exist;
+      expect(
+        screen.queryByRole('link', { name: /Start scheduling an appointment/ }),
+      ).to.exist;
+    });
+  });
+
+  describe('When not in OH migration', () => {
+    it('should not display migration alert', async () => {
+      const initialState = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false },
+              { facilityId: '984', isCerner: false },
+            ],
+            migrationSchedules: [
+              {
+                migrationDate: '2026-05-01',
+                migrationStatus: 'ACTIVE', // "NOT_STARTED" | "ACTIVE" | "COMPLETE"
+                facilities: [
+                  {
+                    facilityId: '983GC',
+                    name: 'Test VA Medical Center 1',
+                  },
+                ],
+                phases: {
+                  current: null,
+                  p0: 'March 1, 2026 at 12:00AM ET',
+                  p1: 'March 15, 2026 at 12:00AM ET',
+                  p2: 'April 1, 2026 at 12:00AM ET',
+                  p3: 'April 24, 2026 at 12:00AM ET',
+                  p4: 'April 27, 2026 at 12:00AM ET',
+                  p5: 'May 1, 2026 at 12:00AM ET', // Migration start
+                  p6: 'May 3, 2026v',
+                  p7: 'May 8, 2026 at 12:00AM ET', // Migration end
+                },
+              },
+              {
+                migrationDate: '2026-03-01',
+                migrationStatus: 'ACTIVE', // "NOT_STARTED" | "ACTIVE" | "COMPLETE"
+                facilities: [
+                  {
+                    id: '565',
+                    name: 'One More VA Medical Center',
+                  },
+                ],
+                phases: {
+                  current: null,
+                  p0: 'January 1, 2026 at 12:00AM ET',
+                  p1: 'January 15, 2026 at 12:00AM ET',
+                  p2: 'February 1, 2026 at 12:00AM ET',
+                  p3: 'February 24, 2026 at 12:00AM ET',
+                  p4: 'February 27, 2026 at 12:00AM ET',
+                  p5: 'March 1, 2026 at 12:00AM ET',
+                  p6: 'March 3, 2026 at 12:00AM ET',
+                  p7: 'March 8, 2026 at 12:00AM ET',
+                },
+              },
+            ],
+          },
+        },
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(<UrgentCareInformationPage />, {
+        initialState,
+      });
+
+      // Assert
+      const alert = screen.container.querySelector('va-alert');
+      expect(alert).not.to.exist;
+      expect(
+        screen.queryByText(
+          /You can schedule or request non-urgent appointments for future dates/,
+        ),
+      ).to.exist;
+      expect(
+        screen.queryByRole('link', { name: /Start scheduling an appointment/ }),
+      ).to.exist;
     });
   });
 });

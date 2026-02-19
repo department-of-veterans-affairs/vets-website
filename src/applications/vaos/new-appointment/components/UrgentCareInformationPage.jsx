@@ -114,6 +114,45 @@ function checkMixedRegistration(migrationSchedule, patientFacilities) {
     .some(val => val === true);
 }
 
+/**
+ * Function to determine is the 'Start scheduling' button should be displayed.
+ *
+ * @param {Boolean} isInWarningPhase
+ * @param {Boolean} isInErrorPhase
+ * @param {Boolean} isMixedRegistration
+ * @param {Boolean} isExclusiveRegistration
+ * @returns {Boolean}
+ */
+function shouldDisplay(
+  isInWarningPhase,
+  isInErrorPhase,
+  isMixedRegistration,
+  isExclusiveRegistration,
+) {
+  let isDisplay = false;
+
+  // Display start scheduling button when...
+  if (!isInErrorPhase && !isInWarningPhase) {
+    isDisplay = true;
+  }
+
+  if (isInWarningPhase === true) {
+    isDisplay = true;
+  }
+
+  if (isInErrorPhase && isMixedRegistration) {
+    isDisplay = true;
+  }
+
+  // This occurs when in the migration phase but user is not registered at any of the
+  // migration facilities.
+  if (isExclusiveRegistration === false && isMixedRegistration === false) {
+    isDisplay = true;
+  }
+
+  return isDisplay;
+}
+
 export default function UrgentCareInformationPage() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -183,8 +222,12 @@ export default function UrgentCareInformationPage() {
             isMixedRegistration={isMixedRegistration}
           />
         )}
-      {((!isInErrorPhase && !isInWarningPhase) ||
-        (isInErrorPhase && isMixedRegistration)) && (
+      {shouldDisplay(
+        isInWarningPhase,
+        isInErrorPhase,
+        isMixedRegistration,
+        isExclusiveRegistration,
+      ) && (
         <>
           <p>
             {' '}
