@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import {
@@ -92,11 +98,14 @@ const RefillPrescriptions = () => {
       .filter(Boolean);
   }, []);
 
+  // Ref to snapshot the selected prescriptions at refill time
+  const submittedMedications = useRef(null);
+
   const successfulMeds = useMemo(
     () =>
       getMedicationsByIds(
         result?.data?.successfulIds,
-        refillableData?.prescriptions,
+        submittedMedications.current || refillableData?.prescriptions,
       ),
     [
       getMedicationsByIds,
@@ -109,7 +118,7 @@ const RefillPrescriptions = () => {
     () =>
       getMedicationsByIds(
         result?.data?.failedIds,
-        refillableData?.prescriptions,
+        submittedMedications.current || refillableData?.prescriptions,
       ),
     [
       getMedicationsByIds,
@@ -171,6 +180,19 @@ const RefillPrescriptions = () => {
     refillRequestStatus === REFILL_STATUS.FINISHED && isFetching;
   const isDisabled = isDataLoading || isRefreshing;
 
+  // Clear the submitted meds snapshot after cache refresh completes or error
+  useEffect(
+    () => {
+      if (refillRequestStatus === REFILL_STATUS.FINISHED && !isFetching) {
+        submittedMedications.current = null;
+      }
+      if (refillRequestStatus === REFILL_STATUS.ERROR) {
+        submittedMedications.current = null;
+      }
+    },
+    [refillRequestStatus, isFetching],
+  );
+
   // Use the original refillable prescriptions list without client-side filtering
   // This prevents duplicate refill attempts by relying on server-side data consistency
   // Cache invalidation in the API (invalidatesTags) will handle removing refilled prescriptions
@@ -215,6 +237,8 @@ const RefillPrescriptions = () => {
     if (selectedRefillListLength > 0) {
       setRefillStatus(REFILL_STATUS.IN_PROGRESS);
       window.scrollTo(0, 0);
+
+      submittedMedications.current = selectedRefillList;
 
       // Get just the prescription IDs for the bulk refill
       const prescriptionIds = selectedRefillList.map(rx => {
