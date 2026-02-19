@@ -252,10 +252,23 @@ const responses = {
   // },
   'GET /my_health/v1/prescriptions/:id': (req, res) => {
     const { id } = req.params;
-    const isOhRx = oracleHealthMode && id === '99900001';
+    const ohIds = {
+      '99900001': {},
+      '99900002': {
+        prescriptionName: 'METOPROLOL 25MG TAB (OH Discontinued)',
+        dispStatus: 'Discontinued',
+        isRenewable: false,
+      },
+      '99900003': {
+        prescriptionName: 'LISINOPRIL 20MG TAB (OH On Hold)',
+        dispStatus: 'Active: On Hold',
+        isRenewable: false,
+      },
+    };
+    const isOhRx = oracleHealthMode && id in ohIds;
     const data = {
       data: isOhRx
-        ? prescriptions.mockOracleHealthPrescription(id)
+        ? prescriptions.mockOracleHealthPrescription(id, false, ohIds[id])
         : prescriptions.mockPrescription(id, {
             cmopNdcNumber: '00093721410',
           }),
@@ -280,11 +293,34 @@ const responses = {
   // Includes both v1 and v2 endpoints for prescriptions
   'GET /my_health/v2/prescriptions/:id': (req, res) => {
     const { id } = req.params;
-    const ohIdMatch =
-      oracleHealthMode && (id === '99900001' || id === 'oh-99900001');
+    const ohIds = {
+      '99900001': {},
+      'oh-99900001': {},
+      '99900002': {
+        prescriptionName: 'METOPROLOL 25MG TAB (OH Discontinued)',
+        dispStatus: 'Discontinued',
+        isRenewable: false,
+      },
+      'oh-99900002': {
+        prescriptionName: 'METOPROLOL 25MG TAB (OH Discontinued)',
+        dispStatus: 'Discontinued',
+        isRenewable: false,
+      },
+      '99900003': {
+        prescriptionName: 'LISINOPRIL 20MG TAB (OH On Hold)',
+        dispStatus: 'Active: On Hold',
+        isRenewable: false,
+      },
+      'oh-99900003': {
+        prescriptionName: 'LISINOPRIL 20MG TAB (OH On Hold)',
+        dispStatus: 'Active: On Hold',
+        isRenewable: false,
+      },
+    };
+    const ohIdMatch = oracleHealthMode && id in ohIds;
     const data = {
       data: ohIdMatch
-        ? prescriptions.mockOracleHealthPrescription(id, true)
+        ? prescriptions.mockOracleHealthPrescription(id, true, ohIds[id])
         : prescriptions.mockPrescription(
             id,
             {
