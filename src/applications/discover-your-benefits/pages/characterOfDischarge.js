@@ -25,9 +25,9 @@ export default {
             <va-link
               href="https://www.va.gov/discharge-upgrade-instructions"
               external
-              text="Learn more about the discharge upgrade process"
+              text="Learn more about the discharge upgrade process (opens in a new tab)"
               type="secondary"
-              label="Learn more about the discharge upgrade process"
+              label="Learn more about the discharge upgrade process (opens in a new tab)"
             />
           </p>
         </>
