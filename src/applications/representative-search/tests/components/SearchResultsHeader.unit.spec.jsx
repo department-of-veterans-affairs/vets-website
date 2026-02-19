@@ -379,7 +379,7 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('calls updateSearchQuerySpy and commitSearchQuerySpy when sort changes', () => {
+  it('calls updateSearchQuerySpy and commitSearchQuerySpy when sort option changes', () => {
     const updateSearchQuerySpy = sinon.spy();
     const commitSearchQuerySpy = sinon.spy();
 
