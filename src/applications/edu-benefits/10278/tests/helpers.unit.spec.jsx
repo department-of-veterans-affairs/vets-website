@@ -9,9 +9,43 @@ import {
   getThirdPartyName,
   buildValidateAtLeastOne,
   validateOtherText,
+  validateTerminationDate,
   InformationToDiscloseReviewField,
   ClaimInformationDescription,
 } from '../helpers';
+
+describe('10278 helpers - validateTerminationDate', () => {
+  let clock;
+
+  // Pin "today" to a known date so relative date math is deterministic.
+  beforeEach(() => {
+    clock = sinon.useFakeTimers(new Date('2026-02-18').getTime());
+  });
+
+  afterEach(() => {
+    clock.restore();
+  });
+
+  it('adds an error when the date is less than 5 years in the future', () => {
+    const addError = sinon.spy();
+    validateTerminationDate({ addError }, '2030-02-17');
+    expect(
+      addError.calledWith("You must enter a date that's 5 years in the future"),
+    ).to.equal(true);
+  });
+
+  it('does not add an error when the date is exactly 5 years from today', () => {
+    const addError = sinon.spy();
+    validateTerminationDate({ addError }, '2031-02-18');
+    expect(addError.called).to.equal(false);
+  });
+
+  it('does not add an error when the date is more than 5 years in the future', () => {
+    const addError = sinon.spy();
+    validateTerminationDate({ addError }, '2032-06-01');
+    expect(addError.called).to.equal(false);
+  });
+});
 
 describe('10278 helpers - getThirdPartyName', () => {
   it('returns organization name when authorize is "organization"', () => {

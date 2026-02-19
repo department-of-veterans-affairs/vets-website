@@ -6,26 +6,10 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { parseISODate } from '~/platform/forms-system/src/js/helpers';
-import { ClaimInformationDescription } from '../helpers';
-
-function validateTerminationDate(errors, dateString) {
-  const { day, month, year } = parseISODate(dateString);
-
-  const entered = new Date(year, month - 1, day);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const fiveYearsFromToday = new Date(
-    today.getFullYear() + 5,
-    today.getMonth(),
-    today.getDate(),
-  );
-
-  if (entered < fiveYearsFromToday) {
-    errors.addError("You must enter a date that's 5 years in the future");
-  }
-}
+import {
+  ClaimInformationDescription,
+  validateTerminationDate,
+} from '../helpers';
 
 const uiSchema = {
   ...titleUI('Length for the release of personal information'),
