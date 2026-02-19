@@ -141,6 +141,7 @@ const DateTimeSelection = () => {
         availableSlots={slots}
         value={selectedSlot?.dtStartUtc ? [selectedSlot.dtStartUtc] : []}
         id="dateTime"
+        data-testid="dateTime"
         timezone={timezone}
         additionalOptions={{
           required: true,

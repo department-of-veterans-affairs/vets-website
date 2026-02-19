@@ -335,7 +335,7 @@
 }
 
 .mobile {
-  @media (min-width: $medium-screen) {
+  @media (min-width: 769px) {
     display: none !important;
   }
 }
