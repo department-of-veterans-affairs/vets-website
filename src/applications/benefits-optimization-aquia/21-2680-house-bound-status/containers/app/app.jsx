@@ -9,6 +9,7 @@ import React, { useMemo } from 'react';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config';
 import { API_ENDPOINTS } from '@bio-aquia/21-2680-house-bound-status/constants';
 import { legacySubmitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
@@ -63,6 +64,7 @@ export const App = ({ location, children }) => {
 
       return {
         ...formConfig,
+        formId: VA_FORM_IDS.FORM_21_2680,
         submitUrl: API_ENDPOINTS.submitForm,
         transformForSubmit: legacySubmitTransformer,
       };
