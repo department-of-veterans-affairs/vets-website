@@ -37,11 +37,23 @@ function runAudit() {
   } catch (err) {
     // npm audit exits with code 1 when vulnerabilities exist
     if (err.stdout) {
-      auditJson = JSON.parse(err.stdout);
+      try {
+        auditJson = JSON.parse(err.stdout);
+      } catch (parseErr) {
+        console.error('Failed to parse npm audit output:', parseErr.message);
+        process.exit(1);
+      }
     } else {
       console.error('Failed to run npm audit:', err.message);
       process.exit(1);
     }
+  }
+
+  if (auditJson.error) {
+    console.error(
+      `npm audit failed: ${auditJson.error.summary || 'unknown error'}`,
+    );
+    process.exit(1);
   }
 
   const vulnerabilities = auditJson.vulnerabilities || {};
@@ -78,16 +90,18 @@ function runAudit() {
       } \n`;
 
       if (process.env.CI) {
-        console.log(`::error::${output.replace(/\n/g, '%0A')}`);
+        const escaped = output
+          .replace(/%/g, '%25')
+          .replace(/\r/g, '%0D')
+          .replace(/\n/g, '%0A');
+        console.log(`::error::${escaped}`);
       } else {
         console.log(output);
       }
     });
     process.exit(1);
   } else {
-    console.log(
-      'No security advisories rated moderate or higher found for non-dev dependencies.',
-    );
+    console.log('No security advisories found for non-dev dependencies.');
   }
 }
 
