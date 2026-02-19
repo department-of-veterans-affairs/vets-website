@@ -37,11 +37,11 @@ const CaseProgressBar = ({
 CaseProgressBar.propTypes = {
   current: PropTypes.number.isRequired,
   stepLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
-  counters: PropTypes.oneOf(['small', 'large']),
-  headerLevel: PropTypes.number,
+  stateList: PropTypes.array,
   headingText: PropTypes.string,
   label: PropTypes.string,
-  stateList: PropTypes.array,
+  counters: PropTypes.oneOf(['small', 'large']),
+  headerLevel: PropTypes.number,
 };
 
 export default CaseProgressBar;

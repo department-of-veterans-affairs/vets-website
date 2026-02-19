@@ -70,8 +70,8 @@ Benefits.propTypes = {
       name: PropTypes.string,
     }),
   ),
-  benefitsList: PropTypes.array,
   isBenefitRecommended: PropTypes.func,
+  benefitsList: PropTypes.array,
   queryString: PropTypes.shape({
     allBenefits: PropTypes.string,
   }),
