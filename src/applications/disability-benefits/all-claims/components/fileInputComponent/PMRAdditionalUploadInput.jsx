@@ -9,12 +9,12 @@ export const additionalInput = ({
   attachmentTypes = PMR_ATTACHMENTS_TYPES,
   label = ADDITIONAL_ATTACHMENT_LABEL,
 } = {}) => (error, data) => {
-  const { whatTypeOfDocumentIsThis } = data || {};
+  const { attachmentId } = data || {};
   return (
     <VaSelect
       required
       error={error}
-      value={whatTypeOfDocumentIsThis}
+      value={attachmentId}
       name="docType"
       label={label}
     >
