@@ -322,7 +322,7 @@ SearchResult.propTypes = {
   addressLine3: PropTypes.string,
   associatedOrgs: PropTypes.array,
   city: PropTypes.string,
-  distance: PropTypes.string,
+  distance: PropTypes.number,
   email: PropTypes.string,
   initializeRepresentativeReport: PropTypes.func,
   key: PropTypes.number,
@@ -345,15 +345,17 @@ SearchResult.propTypes = {
     other: PropTypes.string,
   }),
   representativeId: PropTypes.string,
-  searchResults: PropTypes.shape({
-    meta: PropTypes.shape({
-      pagination: PropTypes.shape({
-        totalEntries: PropTypes.number,
-        totalPages: PropTypes.number,
-        currentPage: PropTypes.number,
+  searchResults: PropTypes.arrayOf(
+    PropTypes.shape({
+      meta: PropTypes.shape({
+        pagination: PropTypes.shape({
+          totalEntries: PropTypes.number,
+          totalPages: PropTypes.number,
+          currentPage: PropTypes.number,
+        }),
       }),
     }),
-  }),
+  ),
   setReportModalTester: PropTypes.func,
   stateCode: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,

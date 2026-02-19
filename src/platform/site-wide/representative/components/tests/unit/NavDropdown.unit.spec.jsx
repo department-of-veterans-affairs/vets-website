@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
-import Dropdown from '~/platform/site-wide/representative/components/header/Dropdown';
+import Dropdown from '../../header/Dropdown';
 
 describe('NavDropdown', () => {
   const defaultProps = {
@@ -45,7 +45,6 @@ describe('NavDropdown', () => {
 
     fireEvent.click(toggleButton); // Open
     fireEvent.click(toggleButton); // Close
-
     const dropdown = queryByTestId(
       `${defaultProps.icon}-toggle-dropdown-${defaultProps.view}-list`,
     );
