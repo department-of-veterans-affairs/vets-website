@@ -49,24 +49,8 @@ const recordAPIEvent = ({
   }
 };
 
-// Callback function to use with Array.sort
-// At present its only function is to
-// make sure that the Your Health Care group appears first
-function communicationGroupsSorter(groupA, groupB) {
-  // The lower the sorting priority value, the closer it is to the top of the
-  // list (because lower numbers come first). We'll use negative numbers to
-  // override the group IDs that comes from the API.
-  const groupSortingPriorities = {
-    3: -1000, // group 3, "Your health care", should come first
-  };
-  function getCommunicationGroupSortingPriority(groupId) {
-    return groupSortingPriorities[groupId] ?? groupId;
-  }
-
-  return (
-    getCommunicationGroupSortingPriority(groupA.id) -
-    getCommunicationGroupSortingPriority(groupB.id)
-  );
+function nameCompare(a, b) {
+  return a.name.localeCompare(b.name);
 }
 
 // Makes a filter callback to operate on the raw communication groups API data
@@ -79,18 +63,19 @@ const makeHealthCareGroupFilter = facilities => group => {
 };
 
 // Makes a reducer callback to operate on the raw communication groups API data
-// 1. Removes the RX tracking item if there are no facilities that support that
-// feature
-const makeRxTrackingItemFilterReducer = facilities => (groups, group) => {
+const groupItemReducer = facilities => (groups, group) => {
   const newGroup = { ...group };
-  const filteredItems = newGroup.communicationItems.filter(item => {
-    if (item.id === 4) {
-      return facilities.some(facility =>
-        RX_TRACKING_SUPPORTING_FACILITIES.has(facility.facilityId),
-      );
-    }
-    return true;
-  });
+  const filteredItems = newGroup.communicationItems
+    .filter(item => {
+      // Removes the RX tracking item if there are no facilities that support that
+      if (item.id === 4) {
+        return facilities.some(facility =>
+          RX_TRACKING_SUPPORTING_FACILITIES.has(facility.facilityId),
+        );
+      }
+      return true;
+    })
+    .sort(nameCompare);
   newGroup.communicationItems = filteredItems;
   groups.push(newGroup);
   return groups;
@@ -313,8 +298,8 @@ export default function reducer(state = initialState, action = {}) {
       // sort the raw API data and filter out any groups the user should not see
       const availableCommunicationGroups = communicationGroups
         .filter(makeHealthCareGroupFilter(facilities))
-        .reduce(makeRxTrackingItemFilterReducer(facilities), [])
-        .sort(communicationGroupsSorter);
+        .reduce(groupItemReducer(facilities), [])
+        .sort(nameCompare);
       const availableCommunicationItems = availableCommunicationGroups.reduce(
         (acc, group) => {
           return [...acc, ...group.communicationItems];
