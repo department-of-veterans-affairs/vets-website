@@ -25,6 +25,9 @@ const PrescriptionDetails = lazyWithRetry(() =>
 const PrescriptionDetailsDocumentation = lazyWithRetry(() =>
   import('./containers/PrescriptionDetailsDocumentation'),
 );
+const RefillPrescriptionsV2 = lazyWithRetry(() =>
+  import('./containers/RefillPrescriptionsV2'),
+);
 const PrescriptionsInProgress = lazyWithRetry(() =>
   import('./containers/PrescriptionsInProgress'),
 );
@@ -67,10 +70,13 @@ RouteWrapper.propTypes = {
   children: PropTypes.node,
 };
 
-const FeatureFlaggedRoute = ({ Component, selector }) => {
+const FeatureFlaggedRoute = ({ Component, ComponentIfFalse, selector }) => {
   const isEnabled = useSelector(selector);
 
   if (!isEnabled) {
+    if (ComponentIfFalse) {
+      return <RouteWrapper Component={ComponentIfFalse} />;
+    }
     return <MhvPageNotFound />;
   }
 
@@ -84,6 +90,7 @@ const FeatureFlaggedRoute = ({ Component, selector }) => {
 FeatureFlaggedRoute.propTypes = {
   Component: PropTypes.elementType.isRequired,
   selector: PropTypes.func.isRequired,
+  ComponentIfFalse: PropTypes.elementType,
 };
 
 const routes = [
@@ -94,7 +101,13 @@ const routes = [
   },
   {
     path: '/',
-    element: <RouteWrapper Component={Prescriptions} />,
+    element: (
+      <FeatureFlaggedRoute
+        Component={RefillPrescriptionsV2}
+        ComponentIfFalse={Prescriptions}
+        selector={selectMedicationsManagementImprovementsFlag}
+      />
+    ),
     // loader: prescriptionsLoader,
   },
   {
