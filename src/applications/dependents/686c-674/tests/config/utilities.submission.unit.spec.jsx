@@ -129,6 +129,169 @@ describe('buildSubmissionData', () => {
     expect(result.data.householdIncome).to.be.true;
   });
 
+  it('should strip student financial fields when flag is on and veteran is not in receipt of pension', () => {
+    // Regression test: student financial fields (earnings, net worth) answered in a prior
+    // session (before the pension flag was enabled) must not reach the backend when
+    // isInReceiptOfPension is 0 — same stale-data problem as householdIncome.
+    const payload = createTestData({
+      vaDependentsNetWorthAndPension: true,
+      veteranInformation: {
+        fullName: { first: 'Veteran', last: 'Name' },
+        isInReceiptOfPension: 0,
+      },
+      'view:addDependentOptions': {
+        addSpouse: false,
+        addChild: false,
+        report674: true,
+        addDisabledChild: false,
+      },
+      studentInformation: [
+        {
+          fullName: { first: 'Student', last: 'Doe' },
+          claimsOrReceivesPension: true,
+          studentEarningsFromSchoolYear: {
+            earningsFromAllEmployment: '5000',
+            annualSocialSecurityPayments: '0',
+            otherAnnuitiesIncome: '0',
+            allOtherIncome: '0',
+          },
+          studentExpectedEarningsNextYear: {
+            earningsFromAllEmployment: '6000',
+            annualSocialSecurityPayments: '0',
+            otherAnnuitiesIncome: '0',
+            allOtherIncome: '0',
+          },
+          studentNetworthInformation: {
+            savings: '1000',
+            securities: '0',
+            realEstate: '0',
+            otherAssets: '0',
+          },
+        },
+      ],
+    });
+    const result = buildSubmissionData(payload);
+
+    expect(result.data.studentInformation).to.be.an('array');
+    expect(result.data.studentInformation[0].fullName).to.not.be.undefined;
+
+    // Financial fields must be stripped — stale data should not reach the backend
+    expect(result.data.studentInformation[0].claimsOrReceivesPension).to.be
+      .undefined;
+    expect(result.data.studentInformation[0].studentEarningsFromSchoolYear).to
+      .be.undefined;
+    expect(result.data.studentInformation[0].studentExpectedEarningsNextYear).to
+      .be.undefined;
+    expect(result.data.studentInformation[0].studentNetworthInformation).to.be
+      .undefined;
+  });
+
+  it('should include student financial fields when flag is on and veteran IS in receipt of pension', () => {
+    // Companion test: when vet IS in receipt of pension the financial fields are valid
+    // and must be preserved in the submission.
+    const payload = createTestData({
+      vaDependentsNetWorthAndPension: true,
+      veteranInformation: {
+        fullName: { first: 'Veteran', last: 'Name' },
+        isInReceiptOfPension: 1,
+      },
+      'view:addDependentOptions': {
+        addSpouse: false,
+        addChild: false,
+        report674: true,
+        addDisabledChild: false,
+      },
+      studentInformation: [
+        {
+          fullName: { first: 'Student', last: 'Doe' },
+          claimsOrReceivesPension: true,
+          studentEarningsFromSchoolYear: {
+            earningsFromAllEmployment: '5000',
+            annualSocialSecurityPayments: '0',
+            otherAnnuitiesIncome: '0',
+            allOtherIncome: '0',
+          },
+          studentExpectedEarningsNextYear: {
+            earningsFromAllEmployment: '6000',
+            annualSocialSecurityPayments: '0',
+            otherAnnuitiesIncome: '0',
+            allOtherIncome: '0',
+          },
+          studentNetworthInformation: {
+            savings: '1000',
+            securities: '0',
+            realEstate: '0',
+            otherAssets: '0',
+          },
+        },
+      ],
+    });
+    const result = buildSubmissionData(payload);
+
+    expect(result.data.studentInformation).to.be.an('array');
+    expect(result.data.studentInformation[0].claimsOrReceivesPension).to.be
+      .true;
+    expect(result.data.studentInformation[0].studentEarningsFromSchoolYear).to
+      .not.be.undefined;
+    expect(result.data.studentInformation[0].studentExpectedEarningsNextYear).to
+      .not.be.undefined;
+    expect(result.data.studentInformation[0].studentNetworthInformation).to.not
+      .be.undefined;
+  });
+
+  it('should include student financial fields when flag is off (legacy behavior)', () => {
+    // When the feature flag is off, student financial data is collected from all veterans
+    // and must pass through to the backend unchanged.
+    const payload = createTestData({
+      vaDependentsNetWorthAndPension: false,
+      veteranInformation: {
+        fullName: { first: 'Veteran', last: 'Name' },
+        isInReceiptOfPension: 0,
+      },
+      'view:addDependentOptions': {
+        addSpouse: false,
+        addChild: false,
+        report674: true,
+        addDisabledChild: false,
+      },
+      studentInformation: [
+        {
+          fullName: { first: 'Student', last: 'Doe' },
+          claimsOrReceivesPension: true,
+          studentEarningsFromSchoolYear: {
+            earningsFromAllEmployment: '5000',
+            annualSocialSecurityPayments: '0',
+            otherAnnuitiesIncome: '0',
+            allOtherIncome: '0',
+          },
+          studentExpectedEarningsNextYear: {
+            earningsFromAllEmployment: '6000',
+            annualSocialSecurityPayments: '0',
+            otherAnnuitiesIncome: '0',
+            allOtherIncome: '0',
+          },
+          studentNetworthInformation: {
+            savings: '1000',
+            securities: '0',
+            realEstate: '0',
+            otherAssets: '0',
+          },
+        },
+      ],
+    });
+    const result = buildSubmissionData(payload);
+
+    expect(result.data.studentInformation).to.be.an('array');
+    expect(result.data.studentInformation[0].claimsOrReceivesPension).to.be
+      .true;
+    expect(result.data.studentInformation[0].studentEarningsFromSchoolYear).to
+      .not.be.undefined;
+    expect(result.data.studentInformation[0].studentExpectedEarningsNextYear).to
+      .not.be.undefined;
+    expect(result.data.studentInformation[0].studentNetworthInformation).to.not
+      .be.undefined;
+  });
+
   it('should not include spouse data when addSpouse is false', () => {
     const payload = createTestData();
     const result = buildSubmissionData(payload);

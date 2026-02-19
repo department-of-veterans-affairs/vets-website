@@ -112,6 +112,13 @@ export function buildSubmissionData(payload) {
     }
   }
 
+  // Strip pension-gated student financial fields when flag is on and vet is not in receipt.
+  // These fields may be stale (answered before the flag was enabled) and must not reach
+  // the backend for veterans confirmed to be outside receipt of pension.
+  const shouldStripStudentFinancials =
+    sourceData.vaDependentsNetWorthAndPension &&
+    !isVetInReceiptOfPension(sourceData);
+
   // Use centralized workflow mappings from dataMappings.js
   const addDataMappings = ADD_WORKFLOW_MAPPINGS;
   const removeDataMappings = REMOVE_WORKFLOW_MAPPINGS;
@@ -157,6 +164,24 @@ export function buildSubmissionData(payload) {
         }
       });
     }
+  }
+
+  // Remove pension-gated financial fields from each student when the veteran is not in
+  // receipt of pension. The add options loop above copies studentInformation wholesale
+  // (including stale earnings/net-worth sub-fields), so strip them here as a safety net.
+  if (
+    shouldStripStudentFinancials &&
+    Array.isArray(cleanData.studentInformation)
+  ) {
+    cleanData.studentInformation = cleanData.studentInformation.map(
+      ({
+        claimsOrReceivesPension: _cp,
+        studentEarningsFromSchoolYear: _se,
+        studentExpectedEarningsNextYear: _see,
+        studentNetworthInformation: _sn,
+        ...rest
+      }) => rest,
+    );
   }
 
   // Remove options
