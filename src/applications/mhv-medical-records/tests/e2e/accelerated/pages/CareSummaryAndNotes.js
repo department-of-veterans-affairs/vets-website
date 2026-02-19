@@ -23,14 +23,29 @@ class CareSummaryAndNotes {
     cy.intercept('GET', '/my_health/v1/medical_records/session/status', req => {
       req.reply(sessionStatus);
     });
+
+    // List endpoint — glob '*' does not match '/', so this only handles the list URL
     cy.intercept(
       'GET',
       '/my_health/v2/medical_records/clinical_notes*',
       req => {
-        // check the correct param was used
         req.reply(careSummaryAndNotesData);
       },
     ).as('clinical_notes-list');
+
+    // Single-note endpoint for oracle-health notes that need a separate detail fetch
+    cy.intercept(
+      'GET',
+      /\/my_health\/v2\/medical_records\/clinical_notes\/[^/]+/,
+      req => {
+        const urlObj = new URL(req.url, 'http://localhost');
+        const pathParts = urlObj.pathname.split('/');
+        const noteId = pathParts[pathParts.length - 1];
+        const allNotes = careSummaryAndNotesData?.data || [];
+        const note = allNotes.find(n => n.id === noteId);
+        req.reply({ data: note || {} });
+      },
+    ).as('clinical_note-detail');
   };
 
   checkLandingPageLinks = () => {
