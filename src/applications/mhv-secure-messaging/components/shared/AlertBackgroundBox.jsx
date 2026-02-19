@@ -179,10 +179,6 @@ const AlertBackgroundBox = props => {
     dispatch(closeAlert());
     dispatch(focusOutAlert());
     setShowAlertBackgroundBox(false);
-    // Per MHV accessibility decision records: move focus back to H1 after dismissing alert
-    setTimeout(() => {
-      focusElement(document.querySelector('h1'));
-    }, 100);
   };
 
   // sets custom server error messages for the landing page and folder view pages
@@ -227,19 +223,15 @@ const AlertBackgroundBox = props => {
 
   const handleAlertFocus = useCallback(
     () => {
-      // Only auto-focus for error alerts. Success/warning alerts use role="status"
-      // to announce via AT without stealing focus from H1.
-      if (activeAlert?.alertType === 'error') {
-        setTimeout(() => {
-          focusElement(
-            props.focus
-              ? alertRef.current.shadowRoot.querySelector('button')
-              : alertRef.current,
-          );
-        }, 500);
-      }
+      setTimeout(() => {
+        focusElement(
+          props.focus
+            ? alertRef.current.shadowRoot.querySelector('button')
+            : alertRef.current,
+        );
+      }, 500);
     },
-    [props.focus, activeAlert?.alertType],
+    [props.focus],
   );
 
   return (
@@ -248,10 +240,9 @@ const AlertBackgroundBox = props => {
       <VaAlert
         uswds
         ref={alertRef}
-        role={activeAlert?.alertType === 'error' ? 'alert' : 'status'}
         background-only
         closeable={props.closeable}
-        className="vads-u-margin-y--3 va-alert"
+        className="vads-u-margin-bottom--1 va-alert"
         close-btn-aria-label="Close notification"
         disable-analytics="false"
         full-width="false"
@@ -272,7 +263,9 @@ const AlertBackgroundBox = props => {
         >
           {alertContent}
         </p>
-        <SrOnlyTag className="sr-only">{alertAriaLabel}</SrOnlyTag>
+        <SrOnlyTag className="sr-only" aria-live="polite" aria-atomic="true">
+          {alertAriaLabel}
+        </SrOnlyTag>
         {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS &&
           !enteredFromSent && (
             <RouterLink

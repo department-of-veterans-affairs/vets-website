@@ -33,36 +33,6 @@ describe('Alert Backround Box component', () => {
     expect(findByText(Alerts.Message.DELETE_MESSAGE_ERROR));
   });
 
-  it('ERROR alert should have role="alert"', async () => {
-    const activeAlertObj = {
-      datestamp: '2022-10-07T19:25:32.832Z',
-      isActive: true,
-      alertType: 'error',
-      header: 'Error',
-      content: 'Message was not successfully deleted.',
-    };
-    const customState = {
-      sm: {
-        alerts: {
-          alertVisible: true,
-          alertList: [activeAlertObj],
-        },
-      },
-    };
-    renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
-      initialState: customState,
-      reducers: reducer,
-      path: Paths.INBOX,
-    });
-
-    await waitFor(() => {
-      const alert = document.querySelector('va-alert');
-      expect(alert)
-        .to.have.attribute('role')
-        .to.equal('alert');
-    });
-  });
-
   it('should announce current folder if path is folders/:folderId', async () => {
     const activeAlertObj = {
       datestamp: '2022-10-07T19:25:32.832Z',
@@ -106,9 +76,6 @@ describe('Alert Backround Box component', () => {
         'close-btn-aria-label',
         'Close notification',
       );
-      expect(alert)
-        .to.have.attribute('role')
-        .to.equal('status');
       expect(screen.getByText(activeAlertObj.content)).to.exist;
       expect(screen.getByText('You are in Test Mock Folder.')).to.exist;
     });
