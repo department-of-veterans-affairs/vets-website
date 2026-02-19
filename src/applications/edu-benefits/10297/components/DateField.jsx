@@ -42,3 +42,5 @@ export default function DateField(props) {
     />
   );
 }
+
+DateField.propTypes = VaMemorableDate.propTypes;

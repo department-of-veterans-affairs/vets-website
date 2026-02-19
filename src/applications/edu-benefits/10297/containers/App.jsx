@@ -6,7 +6,6 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { isLoggedIn } from 'platform/user/selectors';
 import formConfig from '../config/form';
-import { addStyleToShadowDomOnPages } from '../../utils/helpers';
 import Breadcrumbs from '../components/Breadcrumbs';
 import manifest from '../manifest.json';
 import { TITLE } from '../constants';
@@ -35,13 +34,6 @@ function App({
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
   useEffect(() => {
-    // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
-    // (can't be overridden by passing 'hint' to uiOptions):
-    addStyleToShadowDomOnPages(
-      ['date-released-from-active-duty', 'training-provider-start-date'],
-      ['va-memorable-date'],
-      '#dateHint {display: none}',
-    );
     document.title = `${TITLE} | Veterans Affairs`;
   });
 
