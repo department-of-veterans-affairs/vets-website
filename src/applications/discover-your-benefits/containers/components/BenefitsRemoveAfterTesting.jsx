@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import BenefitCard from '../../components/BenefitCard';
+import BenefitCard from '../../components/BenefitCardRemoveAfterTesting';
 import NoResultsBanner from '../../components/NoResultsBanner';
 
 const Benefits = ({
@@ -11,7 +11,6 @@ const Benefits = ({
   handleBackClick,
   results,
   queryString,
-  isBenefitRecommended,
 }) => {
   return (
     <>
@@ -27,7 +26,6 @@ const Benefits = ({
                 <li key={benefit.id}>
                   <BenefitCard
                     benefit={benefit}
-                    isBenefitRecommended={isBenefitRecommended}
                     className="vads-u-margin-bottom--2"
                   />
                 </li>
@@ -50,7 +48,6 @@ const Benefits = ({
                   <li key={benefit.id}>
                     <BenefitCard
                       benefit={benefit}
-                      isBenefitRecommended={isBenefitRecommended}
                       className="vads-u-margin-bottom--2"
                     />
                   </li>
@@ -70,7 +67,6 @@ Benefits.propTypes = {
       name: PropTypes.string,
     }),
   ),
-  isBenefitRecommended: PropTypes.func,
   benefitsList: PropTypes.array,
   queryString: PropTypes.shape({
     allBenefits: PropTypes.string,

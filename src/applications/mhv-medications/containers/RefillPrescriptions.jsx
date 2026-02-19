@@ -92,7 +92,6 @@ const RefillPrescriptions = () => {
   // Ref to snapshot the selected prescriptions at refill time
   const submittedMedications = useRef(null);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const successfulMeds = useMemo(
     () =>
       getMedicationsByIds(
