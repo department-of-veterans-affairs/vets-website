@@ -15,25 +15,7 @@ import {
   COUNTRY_NAMES,
 } from '../../../utils/labels';
 import { customAddressSchema } from '../../definitions';
-
-const validation = {
-  pattern: (errors, values, formData) => {
-    if (formData?.marriageToVeteranStartDate) {
-      const endDate = new Date(values);
-      const startDate = new Date(formData.marriageToVeteranStartDate);
-      if (endDate.getTime() < startDate.getTime()) {
-        errors.addError(
-          'The date marriage ended must be after the date marriage started',
-        );
-      }
-    }
-  },
-  widget: (errors, value) => {
-    if ((value || '').trim() === '') {
-      errors.addError('Check at least one!');
-    }
-  },
-};
+import { validations } from '../../validations';
 
 /** @type {PageSchema} */
 export default {
@@ -47,7 +29,7 @@ export default {
         title: 'Date marriage ended',
         monthSelect: false,
       }),
-      'ui:validations': [validation.pattern],
+      'ui:validations': [validations.isAfterMarriageStartDate],
     },
     marriageToVeteranEndOutsideUs: checkboxUI({
       title: 'My marriage ended outside the U.S.',
