@@ -539,21 +539,45 @@ describe('utils', () => {
       expect(router.push.calledWith('/veteran-information')).to.be.true;
     });
 
-    it('old-flow redirect takes priority over other redirect branches', () => {
+    it('other redirects take priority over old-flow redirect', () => {
       const router = { push: sinon.spy() };
-      // Set up formData that would also trigger the evidence enhancement redirect
+      // Set up formData that triggers the 4142 redirect
       const formData = {
-        ...baseFormData,
         disabilityCompNewConditionsWorkflow: true,
-        disability526SupportingEvidenceEnhancement: true,
+        disability526Enable2024Form4142: true,
+        'view:hasEvidence': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:patientAcknowledgement': { 'view:acknowledgement': true },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': false,
+        },
+        patient4142Acknowledgement: false,
       };
-      // Use a returnUrl that matches old-flow (not evidence)
+      // Use a returnUrl that matches old-flow
       onFormLoaded({
         returnUrl: '/new-disabilities/add',
         formData,
         router,
       });
-      // Should redirect to /contact-information, not evidence-request
+      // 4142 redirect should take priority — it sends to a valid page
+      expect(
+        router.push.calledWith('/supporting-evidence/private-medical-records'),
+      ).to.be.true;
+    });
+
+    it('old-flow redirect fires when no other redirect applies', () => {
+      const router = { push: sinon.spy() };
+      const formData = {
+        ...baseFormData,
+        disabilityCompNewConditionsWorkflow: true,
+      };
+      onFormLoaded({
+        returnUrl: '/new-disabilities/add',
+        formData,
+        router,
+      });
       expect(router.push.calledWith('/contact-information')).to.be.true;
     });
   });

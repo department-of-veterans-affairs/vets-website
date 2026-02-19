@@ -1078,11 +1078,7 @@ export const onFormLoaded = props => {
   const shouldRedirectOldFlowToNewFlow = redirectOldConditionsFlowToNew(props);
   const redirectUrl = legacy4142AuthURL;
 
-  if (shouldRedirectOldFlowToNewFlow) {
-    // returnUrl points to a page hidden by the new conditions workflow —
-    // redirect to a safe page that is always available regardless of flipper
-    router.push('/contact-information');
-  } else if (shouldRedirectToModern4142Choice === true) {
+  if (shouldRedirectToModern4142Choice === true) {
     // if we should redirect to the modern 4142 choice page, we set the shared variable
     // and redirect to the redirectUrl (the modern 4142 choice page)
     setSharedVariable('alertNeedsShown4142', shouldRedirectToModern4142Choice);
@@ -1107,6 +1103,12 @@ export const onFormLoaded = props => {
   } else if (shouldRedirectEnhancementToLegacy === true) {
     // Handle evidence enhancement flow transition: enhancement → legacy
     router.push('/supporting-evidence/evidence-types');
+  } else if (shouldRedirectOldFlowToNewFlow) {
+    // Last resort: returnUrl points to a page hidden by the new conditions
+    // workflow. Redirect to a safe, always-accessible page to avoid a loop.
+    // This is checked last so other redirects (4142, evidence enhancement)
+    // can take priority — they all send to valid, non-old-flow pages.
+    router.push('/contact-information');
   } else {
     // otherwise, we just redirect to the returnUrl as usual when resuming a form
     router.push(returnUrl);
