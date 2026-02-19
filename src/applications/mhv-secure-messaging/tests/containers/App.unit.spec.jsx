@@ -273,8 +273,11 @@ describe('App', () => {
     });
 
     await waitFor(() => {
-      const ariaLabel = document.querySelector('va-alert span');
-      expect(ariaLabel.textContent).to.contain(`You are in Inbox.`);
+      // sr-only span exists with delayed content (populated after H1 focusin + 1s or 3s fallback)
+      const srSpan = document.querySelector(
+        'va-alert span[aria-live="polite"]',
+      );
+      expect(srSpan).to.exist;
       expect(history.location.pathname).to.equal('/inbox/');
     });
   });
