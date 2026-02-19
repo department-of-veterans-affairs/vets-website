@@ -4,7 +4,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 const NeedHelp = () => {
   return (
-    <div className="usa-width-two-thirds medium-8 columns print-full-width">
+    <div className="usa-width-two-thirds medium-8 print-full-width">
       <va-need-help>
         <div slot="content">
           <p>
