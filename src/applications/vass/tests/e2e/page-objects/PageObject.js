@@ -9,13 +9,19 @@ export default class PageObject {
    * @param {Object} options - Options
    * @param {boolean} options.exist - Whether the element should exist
    * @param {string} options.containsText - Text the element should contain
+   * @param {RegExp} options.matchText - Text the element should match
    * @returns {PageObject}
    */
-  assertElement(testId, { exist = true, containsText } = {}) {
+  assertElement(testId, { exist = true, containsText, matchText } = {}) {
     if (exist && containsText) {
       cy.findByTestId(testId)
         .should('exist')
         .and('contain.text', containsText);
+    } else if (exist && matchText) {
+      cy.findByTestId(testId)
+        .should('exist')
+        .invoke('text')
+        .and('match', matchText);
     } else {
       cy.findByTestId(testId).should(exist ? 'exist' : 'not.exist');
     }
@@ -49,7 +55,8 @@ export default class PageObject {
   } = {}) {
     this.assertElement('api-error-alert', {
       exist,
-      contain: /We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later./i,
+      containsText:
+        'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later',
     });
 
     if (!exist) {
@@ -89,10 +96,14 @@ export default class PageObject {
    * @param {Object} options - Options
    * @param {boolean} options.exist - Whether the alert should exist
    * @param {string|RegExp} options.headingText - The text of the heading to assert
-   * @param {string} options.contain - The text of the alert to assert
+   * @param {string} options.containsText - The text of the alert to assert
    * @returns {PageObject}
    */
-  assertVerificationErrorAlert({ exist = true, headingText, contain } = {}) {
+  assertVerificationErrorAlert({
+    exist = true,
+    headingText,
+    containsText,
+  } = {}) {
     if (headingText) {
       this.assertHeading({
         name: headingText,
@@ -100,7 +111,7 @@ export default class PageObject {
         exist: true,
       });
     }
-    this.assertElement('verification-error-alert', { exist, contain });
+    this.assertElement('verification-error-alert', { exist, containsText });
     return this;
   }
 

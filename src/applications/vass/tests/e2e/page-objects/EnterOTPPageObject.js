@@ -42,7 +42,8 @@ export class EnterOTPPageObject extends PageObject {
     if (exist) {
       this.assertVerificationErrorAlert({
         headingText: /We couldn.t verify your information/i,
-        contain: /The one-time verification code you entered doesn’t match the one we sent you. You can try again in 15 minutes. Check your email and select the link to schedule a call./i,
+        containsText:
+          'The one-time verification code you entered doesn’t match the one we sent you. You can try again in 15 minutes. Check your email and select the link to schedule a call.',
       });
     } else {
       this.assertVerificationErrorAlert({ exist: false });
@@ -94,11 +95,16 @@ export class EnterOTPPageObject extends PageObject {
    * Assert the error alert is displayed or not
    * @param {Object} props - Options
    * @param {boolean} props.exist - Whether the alert should exist
-   * @param {string|RegExp} props.contain - The text of the alert to assert
+   * @param {string} props.containsText - The text of the alert to contain
+   * @param {RegExp} props.matchText - The text of the alert to match
    * @returns {EnterOTPPageObject}
    */
-  assertOTPErrorAlert({ exist = true, contain } = {}) {
-    this.assertElement('enter-otp-error-alert', { exist, contain });
+  assertOTPErrorAlert({ exist = true, containsText, matchText } = {}) {
+    this.assertElement('enter-otp-error-alert', {
+      exist,
+      containsText,
+      matchText,
+    });
     return this;
   }
 

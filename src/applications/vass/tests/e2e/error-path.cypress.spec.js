@@ -213,7 +213,8 @@ describe('VASS Error Paths', () => {
 
           EnterOTPPageObject.assertOTPErrorAlert({
             exist: true,
-            contain: /The one-time verification code you entered doesn’t match the one we sent you. Check your email and try again./i,
+            containsText:
+              'The one-time verification code you entered doesn’t match the one we sent you. Check your email and try again.',
           });
         });
 
@@ -233,7 +234,8 @@ describe('VASS Error Paths', () => {
 
           EnterOTPPageObject.assertOTPErrorAlert({
             exist: true,
-            contain: /The one-time verification code you entered doesn’t match the one we sent you. You have 1 try left. Then you’ll need to wait 15 minutes before trying again./i,
+            containsText:
+              'The one-time verification code you entered doesn’t match the one we sent you. You have 1 try left. Then you’ll need to wait 15 minutes before trying again.',
           });
         });
       });

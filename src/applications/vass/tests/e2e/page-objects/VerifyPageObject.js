@@ -56,7 +56,7 @@ export class VerifyPageObject extends PageObject {
   assertInvalidCredentialsErrorAlert({ exist = true } = {}) {
     this.assertElement('verify-error-alert', {
       exist,
-      contain: exist
+      containsText: exist
         ? 'We’re sorry. We couldn’t find a record that matches that last name or date of birth. Please try again.'
         : undefined,
     });
@@ -72,8 +72,9 @@ export class VerifyPageObject extends PageObject {
   assertInvalidVerificationErrorAlert({ exist = true } = {}) {
     if (exist) {
       this.assertVerificationErrorAlert({
-        headingText: /We couldn.t verify your information/i,
-        contain: /We’re sorry. We couldn’t match your information to your records. Please call us for help./i,
+        headingText: 'We couldn’t verify your information',
+        containsText:
+          'We’re sorry. We couldn’t match your information to your records. Please call us for help.',
       });
     } else {
       this.assertVerificationErrorAlert({ exist: false });

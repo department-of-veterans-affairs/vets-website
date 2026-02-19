@@ -25,11 +25,13 @@ export class CancelAppointmentPageObject extends PageObject {
     // Appointment card
     this.assertElement('appointment-card');
     this.assertElement('appointment-type', {
+      exist: true,
       containsText: 'Phone appointment',
     });
 
     // How to join section with phone number
     this.assertElement('how-to-join-section', {
+      exist: true,
       containsText: 'Your representative will call you from',
     });
     cy.findByTestId('how-to-join-section').within(() => {
@@ -42,10 +44,16 @@ export class CancelAppointmentPageObject extends PageObject {
     this.assertElement('when-section');
 
     // What section
-    this.assertElement('what-section', { containsText: 'VA Solid Start' });
+    this.assertElement('what-section', {
+      exist: true,
+      containsText: 'VA Solid Start',
+    });
 
     // Who section with agent name
-    this.assertElement('who-section', { containsText: agentName });
+    this.assertElement('who-section', {
+      exist: true,
+      containsText: agentName,
+    });
 
     // Cancel/print buttons should NOT be present on this page (different from Confirmation)
     this.assertElement('print-button', { exist: false });
