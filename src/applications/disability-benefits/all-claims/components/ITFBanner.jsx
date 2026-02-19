@@ -5,6 +5,12 @@ import { Link } from 'react-router';
 
 import { focusElement } from 'platform/utilities/ui';
 import { dismissITFMessage as dismissITFMessageAction } from '../actions';
+import { trackFormResumption } from '../utils/tracking/datadogRumTracking';
+import {
+  TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS,
+  TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
+  DISABILITY_526_V2_ROOT_URL,
+} from '../constants';
 
 import {
   itfMessage,
@@ -12,9 +18,23 @@ import {
   itfSuccess,
   itfActive,
 } from '../content/itfWrapper';
-import { DISABILITY_526_V2_ROOT_URL } from '../constants';
 
 export class ITFBanner extends React.Component {
+  componentDidUpdate(prevProps) {
+    // Track form resumption when ITF banner is dismissed
+    if (!prevProps.messageDismissed && this.props.messageDismissed) {
+      trackFormResumption();
+      try {
+        sessionStorage.removeItem(TRACKING_526EZ_SIDENAV_BACK_BUTTON_CLICKS);
+        sessionStorage.removeItem(
+          TRACKING_526EZ_SIDENAV_CONTINUE_BUTTON_CLICKS,
+        );
+      } catch (error) {
+        // Storage access blocked - silent fail
+      }
+    }
+  }
+
   dismissMessage = () => {
     this.props.dismissITFMessage();
   };

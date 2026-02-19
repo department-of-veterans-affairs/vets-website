@@ -101,32 +101,11 @@
       margin: 0.8rem 0 0.8rem 0;
     }
 
-    .sort-dropdown {
-      .sort-select-and-apply {
-        display: flex;
-        align-items: flex-end;
-
-        .sort-select {
-          min-width: 15.625rem;
-          margin-left: 0;
-        }
-
-        .sort-apply-button {
-          margin-left: 1.25rem;
-        }
-      }
-
-
-      @media (max-width: 16.25rem) {
-        .sort-select-and-apply {
-          flex-direction: column;
-          align-items: flex-start;
-
-          .sort-apply-button {
-            margin: 1.5rem 0 0 0;
-          }
-        }
-      }
+    .sort-select {
+      width: 18.8rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
     }
 
     .representative-results-list {
