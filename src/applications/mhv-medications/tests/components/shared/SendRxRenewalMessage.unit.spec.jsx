@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/react';
@@ -412,6 +413,9 @@ describe('SendRxRenewalMessage Component', () => {
     });
 
     it('includes station_number in secure messages URL when stationNumber is present', async () => {
+      const locationStub = sinon.stub(window, 'location');
+      locationStub.value({ href: '' });
+
       const rx = {
         ...mockRx,
         prescriptionId: 98765,
@@ -420,16 +424,27 @@ describe('SendRxRenewalMessage Component', () => {
       };
 
       const screen = setup(rx);
-      const link = screen.getByTestId('send-renewal-request-message-link');
-      fireEvent.click(link);
+      fireEvent.click(screen.getByTestId('send-renewal-request-message-link'));
 
       await waitFor(() => {
         const modal = screen.container.querySelector('va-modal');
         expect(modal?.getAttribute('visible')).to.equal('true');
       });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      expect(window.location.href).to.include('prescriptionId=98765');
+      expect(window.location.href).to.include('station_number=668');
+      expect(window.location.href).to.include('redirectPath=');
+
+      locationStub.restore();
     });
 
     it('omits station_number from URL when stationNumber is missing', async () => {
+      const locationStub = sinon.stub(window, 'location');
+      locationStub.value({ href: '' });
+
       const rx = {
         ...mockRx,
         prescriptionId: 98765,
@@ -438,13 +453,21 @@ describe('SendRxRenewalMessage Component', () => {
       };
 
       const screen = setup(rx);
-      const link = screen.getByTestId('send-renewal-request-message-link');
-      fireEvent.click(link);
+      fireEvent.click(screen.getByTestId('send-renewal-request-message-link'));
 
       await waitFor(() => {
         const modal = screen.container.querySelector('va-modal');
         expect(modal?.getAttribute('visible')).to.equal('true');
       });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      expect(window.location.href).to.include('prescriptionId=98765');
+      expect(window.location.href).to.not.include('station_number');
+      expect(window.location.href).to.include('redirectPath=');
+
+      locationStub.restore();
     });
   });
 
