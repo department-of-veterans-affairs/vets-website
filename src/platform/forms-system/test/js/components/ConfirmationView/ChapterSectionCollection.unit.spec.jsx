@@ -446,11 +446,11 @@ describe('confirmation page view helpers', () => {
   it('should not add "Review " prefix when onReviewPage is false', () => {
     const chapterFormConfig = {
       title: ({ onReviewPage }) =>
-        `${onReviewPage ? 'Review ' : ''}Veteran Details`,
+        `${onReviewPage ? 'Review ' : ''}Veteran details`,
     };
 
     const title = getChapterTitle(chapterFormConfig, {}, {});
-    expect(title).to.equal('Veteran Details');
+    expect(title).to.equal('Veteran details');
     expect(title).to.not.include('Review ');
   });
 
