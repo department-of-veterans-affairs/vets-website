@@ -61,7 +61,6 @@ import {
 import ClaimFormSideNav from './components/ClaimFormSideNav';
 import ClaimFormSideNavErrorBoundary from './components/ClaimFormSideNavErrorBoundary';
 import NavButtonsWithTracking from './components/NavButtonsWithTracking';
-import { trackingSaveFormLink } from './utils/tracking/trackingSaveFormLink';
 import {
   trackFormStarted,
   trackFormSubmitted,
@@ -74,7 +73,6 @@ if (!formConfig.formOptions) {
 }
 
 formConfig.formOptions.NavButtonsWithWrapper = NavButtonsWithTracking;
-formConfig.onFormExit = trackingSaveFormLink(formConfig.onFormExit);
 
 const defaultSubmit = formConfig.submit;
 formConfig.submit = (submittedForm, formConfigParam, options) => {
