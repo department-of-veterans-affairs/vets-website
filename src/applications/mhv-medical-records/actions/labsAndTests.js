@@ -6,9 +6,6 @@ import {
   getMhvRadiologyDetails,
   getImagingStudies,
   getAcceleratedLabsAndTests,
-  getAcceleratedImagingStudies,
-  getAcceleratedImagingStudyThumbnails,
-  getAcceleratedImagingStudyDicomZip,
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
@@ -129,15 +126,6 @@ export const getLabsAndTestsDetails = (
   }
 };
 
-/**
- * Merge SCDF imaging study data into the current labs-and-tests list.
- * Should be dispatched after both the labs list and the imaging studies
- * list have been fetched.
- */
-export const mergeImagingStudies = () => async dispatch => {
-  dispatch({ type: Actions.LabsAndTests.MERGE_IMAGING_STUDIES });
-};
-
 export const clearLabsAndTestDetails = () => async dispatch => {
   dispatch({ type: Actions.LabsAndTests.CLEAR_DETAIL });
 };
@@ -159,90 +147,4 @@ export const updateLabsAndTestDateRange = (
       toDate,
     },
   });
-};
-
-/**
- * Fetch accelerated imaging studies from the SCDF v2 endpoint.
- * Dispatches the response separately so it can be merged with the labs list
- * once both fetches are complete.
- *
- * @param {Object} timeFrame
- * @param {string} timeFrame.startDate - Start date in YYYY-MM-DD format
- * @param {string} timeFrame.endDate - End date in YYYY-MM-DD format
- */
-export const getAcceleratedImagingStudiesList = (
-  timeFrame = {},
-) => async dispatch => {
-  try {
-    const response = await getAcceleratedImagingStudies(timeFrame);
-    dispatch({
-      type: Actions.LabsAndTests.GET_IMAGING_STUDIES,
-      response,
-    });
-  } catch (error) {
-    // TODO Until SCDF images are fully functional, don't error out if the fetch fails
-    // dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    sendDatadogError(
-      error,
-      'actions_labsAndTests_getAcceleratedImagingStudiesList',
-    );
-  }
-};
-
-/**
- * Fetch thumbnail details (series/instance data with presigned URLs) for a
- * single accelerated imaging study.
- *
- * @param {string} id - The FHIR imaging study identifier
- * @param {Object} timeFrame
- * @param {string} timeFrame.startDate - Start date in YYYY-MM-DD format
- * @param {string} timeFrame.endDate - End date in YYYY-MM-DD format
- */
-export const getImagingStudyThumbnails = (
-  id,
-  timeFrame = {},
-) => async dispatch => {
-  try {
-    const response = await getAcceleratedImagingStudyThumbnails({
-      id,
-      ...timeFrame,
-    });
-    dispatch({
-      type: Actions.LabsAndTests.GET_IMAGING_STUDY_THUMBNAILS,
-      response,
-      id,
-    });
-  } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    sendDatadogError(error, 'actions_labsAndTests_getImagingStudyThumbnails');
-  }
-};
-
-/**
- * Fetch the presigned DICOM zip download URL for a single accelerated
- * imaging study.
- *
- * @param {string} id - The FHIR imaging study identifier
- * @param {Object} timeFrame
- * @param {string} timeFrame.startDate - Start date in YYYY-MM-DD format
- * @param {string} timeFrame.endDate - End date in YYYY-MM-DD format
- */
-export const getImagingStudyDicomZip = (
-  id,
-  timeFrame = {},
-) => async dispatch => {
-  try {
-    const response = await getAcceleratedImagingStudyDicomZip({
-      id,
-      ...timeFrame,
-    });
-    dispatch({
-      type: Actions.LabsAndTests.GET_IMAGING_STUDY_DICOM,
-      response,
-      id,
-    });
-  } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    sendDatadogError(error, 'actions_labsAndTests_getImagingStudyDicomZip');
-  }
 };
