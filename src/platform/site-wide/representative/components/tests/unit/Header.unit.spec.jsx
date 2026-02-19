@@ -1,11 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import Header from '~/platform/site-wide/representative/components/header/Header';
-import DropdownContainer from '~/platform/site-wide/representative/components/header/DropdownContainer';
-import { renderTestComponent, renderTestApp } from '../helpers';
+import Header from '../../header/Header';
 
 const profile = {
   firstName: 'HECTOR',
@@ -26,7 +24,7 @@ const getStore = () =>
   }));
 describe('Header', () => {
   it('renders header', () => {
-    const { getByTestId } = renderTestComponent(
+    const { getByTestId } = render(
       <Provider store={getStore()}>
         <Header />
       </Provider>,
@@ -35,7 +33,7 @@ describe('Header', () => {
   });
 
   it('renders sign in', () => {
-    const { getByTestId } = renderTestComponent(
+    const { getByTestId } = render(
       <Provider store={getStore()}>
         <Header />
       </Provider>,
@@ -44,9 +42,9 @@ describe('Header', () => {
   });
 
   it('shows logged in nav items', () => {
-    const { getByTestId } = renderTestComponent(
+    const { getByTestId } = render(
       <Provider store={getStore()}>
-        <DropdownContainer profile={profile} />
+        <Header profile={profile} />
       </Provider>,
     );
 
@@ -54,9 +52,9 @@ describe('Header', () => {
   });
 
   it('account dropdown exists and toggles account list', () => {
-    const { getByTestId } = renderTestComponent(
+    const { getByTestId } = render(
       <Provider store={getStore()}>
-        <DropdownContainer profile={profile} />
+        <Header profile={profile} />
       </Provider>,
     );
     fireEvent.click(getByTestId('account_circle-toggle-dropdown-desktop'));
@@ -67,9 +65,9 @@ describe('Header', () => {
   });
 
   it('mobile menu exists and toggles dropdown with poa requests link', () => {
-    const { getByTestId } = renderTestApp(
+    const { getByTestId } = render(
       <Provider store={getStore()}>
-        <DropdownContainer profile={profile} />
+        <Header profile={profile} />
       </Provider>,
     );
     fireEvent.click(getByTestId('menu-toggle-dropdown-mobile'));
