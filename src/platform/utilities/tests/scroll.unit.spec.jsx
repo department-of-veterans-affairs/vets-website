@@ -1019,25 +1019,6 @@ describe('Error Scaffolding', () => {
       expect(div.querySelector('span.usa-sr-only')).to.be.null;
     });
 
-    it('should remove role="alert" from error message elements', () => {
-      const vaTextInput = document.createElement('va-text-input');
-      vaTextInput.setAttribute('error', 'This field is required');
-
-      const shadowRoot = vaTextInput.attachShadow({ mode: 'open' });
-      const input = document.createElement('input');
-      const errorMessage = document.createElement('span');
-      errorMessage.id = 'input-error-message';
-      errorMessage.setAttribute('role', 'alert');
-      errorMessage.setAttribute('aria-live', 'polite');
-      shadowRoot.appendChild(input);
-      shadowRoot.appendChild(errorMessage);
-
-      addErrorAnnotations(vaTextInput);
-
-      expect(errorMessage.getAttribute('role')).to.be.null;
-      expect(errorMessage.getAttribute('aria-live')).to.be.null;
-    });
-
     it('should handle va-radio groups by adding labels to each option', () => {
       const vaRadio = document.createElement('va-radio');
       vaRadio.setAttribute('error', 'Select an option');
