@@ -101,7 +101,7 @@ const RefillPrescriptions = () => {
     [
       getMedicationsByIds,
       result?.data?.successfulIds,
-      refillableData?.prescriptions,
+      result?.data,
     ],
   );
 
@@ -114,7 +114,7 @@ const RefillPrescriptions = () => {
     [
       getMedicationsByIds,
       result?.data?.failedIds,
-      refillableData?.prescriptions,
+      result?.data,
     ],
   );
 
