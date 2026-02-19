@@ -211,7 +211,7 @@ class ReviewCollapsibleChapter extends React.Component {
           formContext={formContext}
           editModeOnReviewPage={page.editModeOnReviewPage}
         >
-          {this.showSaveCancelButtons(editing) ? (
+          {this.showUpdateButton(editing) ? (
             <div />
           ) : (
             <div className="vads-u-display--flex vads-u-max-width--100">
@@ -397,7 +397,7 @@ class ReviewCollapsibleChapter extends React.Component {
     scrollTo(`${key}ScrollElement`, getScrollOptions({ offset: scrollOffset }));
   };
 
-  showSaveCancelButtons(editing) {
+  showUpdateButton(editing) {
     if (this.props.showButtons) {
       return !editing;
     }

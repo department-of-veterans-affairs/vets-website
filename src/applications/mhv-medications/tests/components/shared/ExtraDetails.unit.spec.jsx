@@ -167,6 +167,38 @@ describe('Medications List Card Extra Details', () => {
         'Contact your VA provider if you need more of this medication.',
       );
     });
+
+    it('displays OH-specific text for active with no refills for Oracle Health', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.active,
+        refillRemaining: 0,
+        stationNumber: '668',
+      });
+      expect(
+        await screen.findByTestId('active-no-refill-left'),
+      ).to.contain.text('send a secure message to your care team');
+    });
+
+    it('displays fallback text for discontinued prescription (not renewable per spec Gate 1)', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.discontinued,
+      });
+      expect(await screen.findByTestId('discontinued')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
+
+    it('displays fallback text for onHold prescription (not renewable per spec Gate 1)', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.onHold,
+      });
+      expect(await screen.findByTestId('active-onHold')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
   });
 
   // REFACTORED: Consolidated V2 status tests

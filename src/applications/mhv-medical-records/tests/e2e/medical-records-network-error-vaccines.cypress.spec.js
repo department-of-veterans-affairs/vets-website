@@ -1,10 +1,12 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
+import oracleHealthUser from './accelerated/fixtures/user/oracle-health.json';
 
 describe('Medical Records View Vaccines', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
-    site.login();
+    site.login(oracleHealthUser, false);
+    site.mockFeatureToggles();
   });
 
   it('Visits Medical Records, Views Network Error On Vaccines List', () => {
