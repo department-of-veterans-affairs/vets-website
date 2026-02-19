@@ -9,12 +9,17 @@ import { prepCourseAddress } from '../../pages';
 describe('Edu form 22-10272 Prep Course Details Step 4 - Page 2', () => {
   const { schema, uiSchema } = prepCourseAddress;
 
+  const formData = {
+    prepCourseOrganizationAddress: { country: 'USA' },
+  };
+
   it('should render with text and select input fields', () => {
     const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
+        data={formData}
       />,
     );
 
@@ -28,11 +33,13 @@ describe('Edu form 22-10272 Prep Course Details Step 4 - Page 2', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
+        data={formData}
       />,
     );
 
     expect($$('va-text-input[error]', container).length).to.equal(0);
     getByRole('button', { name: /submit/i }).click();
+
     await waitFor(() => {
       expect($$('va-text-input[error]', container).length).to.equal(4);
       expect($$('va-select[error]', container).length).to.equal(1);

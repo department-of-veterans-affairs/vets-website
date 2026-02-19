@@ -16,6 +16,7 @@
   "bannerUseAlternativeBanners": "banner_use_alternative_banners",
   "benefitsDocumentsUseLighthouse": "benefits_documents_use_lighthouse",
   "benefitsNonDisabilityCh31V2": "benefits_non_disability_ch31_v2",
+  "bioHeartMMSSubmit": "bio_heart_mms_submit",
   "burialConfirmationPage": "burial_confirmation_page",
   "burialFormEnabled": "burial_form_enabled",
   "burialBrowserMonitoringEnabled": "burial_browser_monitoring_enabled",
@@ -53,6 +54,7 @@
   "confirmationPageNew": "confirmation_page_new",
   "confirmContactEmailInterstitialEnabled": "confirm_contact_email_interstitial_enabled",
   "cstClaimPhases": "cst_claim_phases",
+  "cstClaimsListFilter": "cst_claims_list_filter",
   "cstIncludeDdl5103Letters": "cst_include_ddl_5103_letters",
   "cstIncludeDdlBoaLetters": "cst_include_ddl_boa_letters",
   "cstIncludeDdlSqdLetters": "cst_include_ddl_sqd_letters",
@@ -112,6 +114,7 @@
   "form107959c": "form107959c",
   "form107959a": "form107959a",
   "form107959f2": "form107959f2",
+  "form1095bMultipleYears": "form1095b_multiple_years",
   "form1919Release": "form_1919_release",
   "form2010206": "form2010206",
   "form2010207": "form2010207",
@@ -256,6 +259,7 @@
   "profileHealthCareSettingsPage": "profile_health_care_settings_page",
   "profileHideHealthCareContacts": "profile_hide_health_care_contacts",
   "profileHideMissingClaimInformationNotificationSetting": "profile_hide_missing_claim_information_notification_setting",
+  "cveVeteranStatusNewService": "cve_veteran_status_new_service",
   "pwEhrCtaUseSlo": "pw_ehr_cta_use_slo",
   "representativeStatusEnabled": "representative_status_enabled",
   "representativeStatusEnableV2Features": "representative_status_enable_v2_features",
@@ -303,7 +307,6 @@
   "showVHAPaymentHistory": "vha_show_payment_history",
   "showUpdatedFryDeaApp": "show_updated_fry_dea_app",
   "showUpdatedToeApp": "show_updated_toe_app",
-  "signInServiceEnabled": "sign_in_service_enabled",
   "signInModalV2": "sign_in_modal_v2",
   "portalNoticeInterstitialEnabled": "portal_notice_interstitial_enabled",
   "stemAutomatedDecision": "stem_automated_decision",
@@ -397,5 +400,6 @@
   "meb1995InstructionPageUpdateV3": "meb_1995_instruction_page_update_v3",
   "sobClaimantService": "sob_claimant_service",
   "form10203ClaimantService": "form_10203_claimant_service",
-  "meb5490Under18Flow": "meb_5490_under_18_flow"
+  "meb5490Under18Flow": "meb_5490_under_18_flow",
+  "discoverYourBenefitsResultsPageUpdate": "discover_your_benefits_results_page_update"
 }

@@ -681,6 +681,164 @@ describe('OAuth - Utilities', () => {
     });
   });
 
+  describe('access token expiration helpers', () => {
+    let sandbox;
+
+    const setInfoTokenCookie = ({ accessExpISO, refreshExpISO }) => {
+      const raw = JSON.stringify({
+        access_token_expiration: accessExpISO,
+        refresh_token_expiration: refreshExpISO,
+      });
+
+      const encoded = encodeURIComponent(raw);
+
+      // Ensure cookie is set with path so it’s accessible
+      document.cookie = `${COOKIES.INFO_TOKEN}=${encoded}; path=/;`;
+    };
+
+    beforeEach(() => {
+      sandbox = sinon.createSandbox();
+      if (oAuthUtils.infoTokenExists.restore)
+        oAuthUtils.infoTokenExists.restore();
+      if (oAuthUtils.getInfoToken.restore) oAuthUtils.getInfoToken.restore();
+
+      document.cookie.split(';').forEach(cookie => {
+        document.cookie = cookie
+          .replace(/^ +/, '')
+          .replace(/=.*/, '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;');
+      });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('getAccessTokenExpiration returns a Date when info token provides an access_token_expiration', () => {
+      setInfoTokenCookie({
+        accessExpISO: '2025-06-29T20:41:35.000Z',
+        refreshExpISO: '2025-06-29T21:06:35.000Z',
+      });
+
+      const exp = oAuthUtils.getAccessTokenExpiration();
+      expect(exp).to.be.instanceOf(Date);
+      expect(exp.toISOString()).to.equal('2025-06-29T20:41:35.000Z');
+    });
+
+    it('getAccessTokenExpiration returns null if cookie is missing', () => {
+      // no cookie set
+      const exp = oAuthUtils.getAccessTokenExpiration();
+      expect(exp).to.equal(null);
+    });
+
+    it('msUntilAccessTokenExpiration returns ms delta from Date.now()', () => {
+      setInfoTokenCookie({
+        accessExpISO: '2025-06-29T20:41:35.000Z',
+        refreshExpISO: '2025-06-29T21:06:35.000Z',
+      });
+
+      sandbox
+        .stub(Date, 'now')
+        .returns(new Date('2025-06-29T20:41:00.000Z').getTime());
+
+      const ms = oAuthUtils.msUntilAccessTokenExpiration();
+      expect(ms).to.equal(35 * 1000);
+    });
+
+    it('isAccessTokenExpiringSoon returns true when within threshold', () => {
+      setInfoTokenCookie({
+        accessExpISO: '2025-06-29T20:41:35.000Z',
+        refreshExpISO: '2025-06-29T21:06:35.000Z',
+      });
+
+      sandbox
+        .stub(Date, 'now')
+        .returns(new Date('2025-06-29T20:41:06.000Z').getTime());
+
+      expect(oAuthUtils.isAccessTokenExpiringSoon(30)).to.be.true;
+    });
+
+    it('isAccessTokenExpiringSoon returns false when outside threshold', () => {
+      setInfoTokenCookie({
+        accessExpISO: '2025-06-29T20:41:35.000Z',
+        refreshExpISO: '2025-06-29T21:06:35.000Z',
+      });
+
+      sandbox
+        .stub(Date, 'now')
+        .returns(new Date('2025-06-29T20:40:55.000Z').getTime());
+
+      expect(oAuthUtils.isAccessTokenExpiringSoon(30)).to.be.false;
+    });
+
+    it('refreshIfAccessTokenExpiringSoon refreshes when expiring soon', async () => {
+      setInfoTokenCookie({
+        accessExpISO: '2025-06-29T20:41:35.000Z',
+        refreshExpISO: '2025-06-29T21:06:35.000Z',
+      });
+
+      sandbox
+        .stub(Date, 'now')
+        .returns(new Date('2025-06-29T20:41:06.000Z').getTime());
+
+      // Mock fetch for the refresh call
+      mockFetch();
+      setFetchResponse(global.fetch.onFirstCall(), []);
+
+      const didRefresh = await oAuthUtils.refreshIfAccessTokenExpiringSoon({
+        thresholdSeconds: 30,
+        type: 'logingov',
+      });
+
+      expect(didRefresh).to.be.true;
+      expect(global.fetch.calledOnce).to.be.true;
+      expect(global.fetch.firstCall.args[1].method).to.equal('POST');
+      expect(global.fetch.firstCall.args[0]).to.include('/refresh');
+      expect(global.fetch.firstCall.args[0]).to.include('type=logingov');
+    });
+
+    it('refreshIfAccessTokenExpiringSoon does not refresh when not expiring soon', async () => {
+      setInfoTokenCookie({
+        accessExpISO: '2025-06-29T20:41:35.000Z',
+        refreshExpISO: '2025-06-29T21:06:35.000Z',
+      });
+
+      sandbox
+        .stub(Date, 'now')
+        .returns(new Date('2025-06-29T20:40:55.000Z').getTime());
+
+      mockFetch();
+
+      const didRefresh = await oAuthUtils.refreshIfAccessTokenExpiringSoon({
+        thresholdSeconds: 30,
+        type: 'logingov',
+      });
+
+      expect(didRefresh).to.be.false;
+      expect(global.fetch.called).to.be.false;
+    });
+
+    it('refreshIfAccessTokenExpiringSoon does not refresh when type is missing', async () => {
+      setInfoTokenCookie({
+        accessExpISO: '2025-06-29T20:41:35.000Z',
+        refreshExpISO: '2025-06-29T21:06:35.000Z',
+      });
+
+      sandbox
+        .stub(Date, 'now')
+        .returns(new Date('2025-06-29T20:41:06.000Z').getTime());
+
+      mockFetch();
+
+      const didRefresh = await oAuthUtils.refreshIfAccessTokenExpiringSoon({
+        thresholdSeconds: 30,
+        type: undefined,
+      });
+
+      expect(didRefresh).to.be.false;
+      expect(global.fetch.called).to.be.false;
+    });
+  });
+
   describe('refresh', () => {
     it('should create a POST request to the /refresh endpoint', async () => {
       mockFetch();

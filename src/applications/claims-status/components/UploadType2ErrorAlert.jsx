@@ -58,7 +58,12 @@ function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
           return (
             <li key={submission.id}>
               <span>
-                <strong>{submission.fileName}</strong>
+                <strong
+                  data-dd-privacy="mask"
+                  data-dd-action-name="type 2 error filename"
+                >
+                  {submission.fileName}
+                </strong>
               </span>
               <br />
               <span>File type: {submission.documentType}</span>

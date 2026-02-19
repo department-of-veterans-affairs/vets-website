@@ -2,7 +2,7 @@ import AccountSecurity from './components/account-security/AccountSecurity';
 import ContactInformation from './components/contact-information/ContactInformation';
 import PersonalInformation from './components/personal-information/PersonalInformation';
 import MilitaryInformation from './components/military-information/MilitaryInformation';
-import VeteranStatus from './components/veteran-status-card/VeteranStatus';
+import VeteranStatusWrapper from './components/veteran-status-card/VeteranStatusWrapper';
 import AccreditedRepresentative from './components/accredited-representative/AccreditedRepresentative';
 import { DirectDeposit } from './components/direct-deposit/DirectDeposit';
 import DependentsAndContacts from './components/DependentsAndContacts';
@@ -56,7 +56,7 @@ const routesForNav = [
     requiresSchedulingPreferencesPilot: false,
   },
   {
-    component: VeteranStatus,
+    component: VeteranStatusWrapper,
     name: PROFILE_PATH_NAMES.VETERAN_STATUS_CARD,
     path: PROFILE_PATHS.VETERAN_STATUS_CARD,
     requiresLOA3: true,
@@ -217,7 +217,7 @@ const routesForProfile2Nav = [
     hasSubnav: true,
   },
   {
-    component: VeteranStatus,
+    component: VeteranStatusWrapper,
     name: PROFILE_PATH_NAMES.VETERAN_STATUS_CARD,
     path: PROFILE_PATHS.VETERAN_STATUS_CARD,
     requiresLOA3: true,

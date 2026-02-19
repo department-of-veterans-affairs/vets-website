@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -13,12 +14,14 @@ import {
 
 import EnterOTP from './EnterOTP';
 import { getDefaultRenderOptions, LocationDisplay } from '../utils/test-utils';
+import * as authUtils from '../utils/auth';
 import { FLOW_TYPES, URLS } from '../utils/constants';
 import {
   createOTPInvalidError,
   createOTPAccountLockedError,
   createAppointmentAlreadyBookedError,
 } from '../services/mocks/utils/errors';
+import { createAppointmentAvailabilityResponse } from '../services/mocks/utils/responses';
 
 const defaultRenderOptions = getDefaultRenderOptions({
   obfuscatedEmail: 't***@test.com',
@@ -40,12 +43,18 @@ const renderComponent = () =>
   renderWithStoreAndRouterV6(<EnterOTP />, defaultRenderOptions);
 
 describe('VASS Component: EnterOTP', () => {
+  let getVassTokenStub;
+
   beforeEach(() => {
     mockFetch();
+    getVassTokenStub = sinon
+      .stub(authUtils, 'getVassToken')
+      .returns('mock-token');
   });
 
   afterEach(() => {
     resetFetch();
+    getVassTokenStub.restore();
   });
 
   it('should initialize correctly', () => {
@@ -145,9 +154,12 @@ describe('VASS Component: EnterOTP', () => {
           tokenType: 'Bearer',
         },
       });
-      setFetchJSONResponse(global.fetch.onCall(1), {
-        data: { availableSlots: [] },
-      });
+      setFetchJSONResponse(
+        global.fetch.onCall(1),
+        createAppointmentAvailabilityResponse({
+          appointmentId: 'abcdef123456',
+        }),
+      );
       const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otp"]');
       const continueButton = getByTestId('continue-button');
@@ -242,9 +254,12 @@ describe('VASS Component: EnterOTP', () => {
           tokenType: 'Bearer',
         },
       });
-      setFetchJSONResponse(global.fetch.onCall(1), {
-        data: { availableSlots: [] },
-      });
+      setFetchJSONResponse(
+        global.fetch.onCall(1),
+        createAppointmentAvailabilityResponse({
+          appointmentId: 'abcdef123456',
+        }),
+      );
 
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
@@ -279,6 +294,7 @@ describe('VASS Component: EnterOTP', () => {
 
   describe('appointment already booked redirect', () => {
     it('should navigate to already-scheduled page when user has existing appointment', async () => {
+      const appointmentId = 'appt-123';
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
           token: 'jwt-token',
@@ -288,7 +304,7 @@ describe('VASS Component: EnterOTP', () => {
       });
       setFetchJSONFailure(
         global.fetch.onCall(1),
-        createAppointmentAlreadyBookedError('appt-123'),
+        createAppointmentAlreadyBookedError({ appointmentId }),
       );
 
       const { container, getByTestId } = renderWithStoreAndRouterV6(
@@ -314,7 +330,7 @@ describe('VASS Component: EnterOTP', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          `${URLS.ALREADY_SCHEDULED}/appt-123`,
+          `${URLS.ALREADY_SCHEDULED}/${appointmentId}`,
         );
       });
     });
@@ -340,9 +356,12 @@ describe('VASS Component: EnterOTP', () => {
           tokenType: 'Bearer',
         },
       });
-      setFetchJSONResponse(global.fetch.onCall(1), {
-        data: { availableSlots: [] },
-      });
+      setFetchJSONResponse(
+        global.fetch.onCall(1),
+        createAppointmentAvailabilityResponse({
+          appointmentId: 'abcdef123456',
+        }),
+      );
 
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
