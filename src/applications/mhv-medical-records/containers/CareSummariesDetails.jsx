@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import {
@@ -35,6 +35,7 @@ const CareSummariesDetails = () => {
   );
   const { summaryId } = useParams();
   const activeAlert = useAlerts(dispatch);
+  const hasFetchedRef = useRef(false);
 
   const { isAcceleratingCareNotes } = useAcceleratedData();
 
@@ -44,6 +45,7 @@ const CareSummariesDetails = () => {
     () => {
       return () => {
         dispatch(clearCareSummariesDetails());
+        hasFetchedRef.current = false;
       };
     },
     [dispatch],
@@ -57,8 +59,17 @@ const CareSummariesDetails = () => {
           history.push('/summaries-and-notes/');
           return;
         }
-        // Dispatch details (action handles oracle-health vs vista internally)
-        if (summaryId && !careSummary) {
+        // Redirect if the note ID doesn't exist in the loaded list
+        const noteExistsInList = careSummariesList.some(
+          item => item.id === summaryId,
+        );
+        if (summaryId && !noteExistsInList) {
+          history.push('/summaries-and-notes/');
+          return;
+        }
+        // Dispatch details only once per mount to prevent infinite re-fetch on error
+        if (summaryId && !careSummary && !hasFetchedRef.current) {
+          hasFetchedRef.current = true;
           dispatch(
             getCareSummaryAndNotesDetails(
               summaryId,

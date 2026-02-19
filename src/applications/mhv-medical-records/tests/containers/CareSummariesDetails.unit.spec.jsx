@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
+import { Route } from 'react-router-dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
 import { waitFor } from '@testing-library/dom';
@@ -127,6 +128,42 @@ describe('CareSummariesDetails accelerated path', () => {
     });
 
     expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+});
+
+describe('CareSummariesDetails accelerated path - invalid note ID', () => {
+  it('redirects to list when note ID is not in the loaded list', async () => {
+    const initialState = {
+      user,
+      mr: {
+        careSummariesAndNotes: {
+          careSummariesAndNotesList: [{ id: '456', source: 'vista' }],
+        },
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_accelerated_delivery_enabled: true,
+        // eslint-disable-next-line camelcase
+        mhv_accelerated_delivery_care_notes_enabled: true,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <Route path="/summaries-and-notes/:summaryId">
+        <CareSummariesDetails />
+      </Route>,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/summaries-and-notes/999',
+      },
+    );
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(
+        '/summaries-and-notes/',
+      );
+    });
   });
 });
 

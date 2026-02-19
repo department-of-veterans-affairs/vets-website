@@ -49,22 +49,24 @@ export const getCareSummaryAndNotesDetails = (
   const isOracleHealth = matchingNote?.source === 'oracle-health';
 
   try {
-    if (isAccelerating && !isOracleHealth) {
-      // Vista notes already have full details in the list response
-      if (matchingNote) {
+    if (isAccelerating) {
+      if (!matchingNote) return;
+
+      if (isOracleHealth) {
+        // Oracle Health notes don't have full details in the list response,
+        // so we must call the single-note API to fetch them.
+        const response = await getAcceleratedNote(noteId, matchingNote.source);
+        dispatch({
+          type: Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM_FROM_LIST,
+          response,
+        });
+      } else {
+        // Vista notes already have full details in the list response
         dispatch({
           type: Actions.CareSummariesAndNotes.GET_FROM_LIST,
           response: matchingNote,
         });
       }
-    } else if (isAccelerating && isOracleHealth) {
-      // Oracle Health notes don't have full details in the list response,
-      // so we must call the single-note API to fetch them.
-      const response = await getAcceleratedNote(noteId, matchingNote?.source);
-      dispatch({
-        type: Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM_FROM_LIST,
-        response,
-      });
     } else {
       await dispatchDetails(
         noteId,

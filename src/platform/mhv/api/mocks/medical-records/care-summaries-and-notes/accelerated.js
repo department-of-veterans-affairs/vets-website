@@ -84,7 +84,7 @@ const all = {
       type: 'clinical_note',
       attributes: {
         id: '15249697279',
-        name: 'Clinical Summary - OH',
+        name: 'Clinical Summary',
         noteType: 'discharge_summary',
         loincCodes: ['18842-5'],
         date: '2025-07-29T17:48:51Z',
