@@ -227,7 +227,7 @@ const formConfig = {
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>
-        `${onReviewPage ? 'Review ' : ''}Veteran Details`,
+        `${onReviewPage ? 'Review ' : ''}Veteran details`,
       pages: {
         veteranInformation: {
           title: 'Veteran information',
