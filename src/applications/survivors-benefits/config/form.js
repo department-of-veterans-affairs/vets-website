@@ -571,6 +571,9 @@ const formConfig = {
         reviewDocuments: {
           title: 'Review supporting documents',
           path: 'additional-information/review-documents',
+          depends: formData =>
+            formData?.['view:idpEnabled'] === true &&
+            formData?.files?.some(f => f?.idpSections),
           uiSchema: reviewDocuments.uiSchema,
           schema: reviewDocuments.schema,
         },

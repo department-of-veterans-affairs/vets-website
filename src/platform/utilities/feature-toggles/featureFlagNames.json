@@ -396,6 +396,7 @@
   "vre_eligibility_status_phase_2_updates": "vre_eligibility_status_phase_2_updates",
   "medicalExpenseReportsEnabled": "medical_expense_reports_form_enabled",
   "survivorsBenefitsFormEnabled": "survivors_benefits_form_enabled",
+  "survivorsBenefitsIdp": "survivors_benefits_idp",
   "meb1995InstructionPageUpdateV3": "meb_1995_instruction_page_update_v3",
   "sobClaimantService": "sob_claimant_service",
   "form10203ClaimantService": "form_10203_claimant_service",

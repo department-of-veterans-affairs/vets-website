@@ -4,7 +4,9 @@ import {
   fileInputMultipleUI,
   fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { VaFileInputMultiple } from 'platform/forms-system/src/js/web-component-fields';
 import environment from 'platform/utilities/environment';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import DualFileUploadField from '../../../components/DualFileUploadField';
 
 const UploadMessage = (
@@ -26,6 +28,16 @@ const filesUi = fileInputMultipleUI({
   formNumber: '21P-534EZ',
 });
 
+const FileUploadField = props => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const idpEnabled = useToggleValue(TOGGLE_NAMES.survivorsBenefitsIdp);
+  return idpEnabled ? (
+    <DualFileUploadField {...props} />
+  ) : (
+    <VaFileInputMultiple {...props} />
+  );
+};
+
 export default {
   uiSchema: {
     ...titleUI(
@@ -34,10 +46,7 @@ export default {
     ),
     files: {
       ...filesUi,
-      'ui:webComponentField': DualFileUploadField,
-      'ui:options': {
-        ...filesUi['ui:options'],
-      },
+      'ui:webComponentField': FileUploadField,
     },
     'view:uploadMessage': {
       'ui:description': UploadMessage,

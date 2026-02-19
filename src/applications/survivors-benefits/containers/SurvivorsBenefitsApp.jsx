@@ -2,9 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import IntentToFile from 'platform/shared/itf/IntentToFile';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from '../config/form';
 
 export default function SurvivorsBenefitsApp({ location, children }) {
+  const { useFormFeatureToggleSync } = useFeatureToggle();
+
+  useFormFeatureToggleSync([
+    {
+      toggleName: 'survivorsBenefitsIdp',
+      formKey: 'view:idpEnabled',
+    },
+  ]);
+
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       <IntentToFile itfType="pension" location={location} disableAutoFocus />
