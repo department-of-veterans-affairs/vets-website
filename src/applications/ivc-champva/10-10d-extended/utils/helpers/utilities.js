@@ -98,3 +98,14 @@ export const getAgeInYears = (dateStr, asOf = new Date()) => {
 
   return differenceInYears(asOfUTC, dobUTC);
 };
+
+/**
+ * Helper that determines if a birthdate is between the age of 18-23
+ * @param {String} formData - the local form data
+ * @param {String|Date} testdate - an optional date to pass for testing purposes
+ * @returns {Boolean} - true if the provided date is between 18 and 23 years from the test date
+ */
+export const isOfCollegeAge = (birthdate, testdate = new Date()) => {
+  const age = differenceInYears(testdate, new Date(birthdate));
+  return age >= 18 && age <= 23;
+};

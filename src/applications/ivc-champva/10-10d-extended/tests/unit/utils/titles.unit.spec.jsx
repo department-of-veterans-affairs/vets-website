@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { toHash } from '../../../../shared/utilities';
 import {
+  arrayTitleWithNameUI,
   healthInsurancePageTitleUI,
   medicarePageTitleUI,
   titleWithNameUI,
@@ -295,5 +296,79 @@ describe('1010d `titleWithNameUI` util', () => {
     const uiSchema = titleWithNameUI('');
     const result = subject(uiSchema, { certifierRole: 'applicant' });
     expect(result).to.equal('');
+  });
+});
+
+describe('1010d `arrayTitleWithNameUI` util', () => {
+  const subject = (uiSchema, formData, urlParams = {}) => {
+    const searchParams = new URLSearchParams(urlParams).toString();
+    const TitleComponent = uiSchema['ui:title'];
+
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: {
+        search: `?${searchParams}`,
+      },
+    });
+
+    const { container } = render(<div>{TitleComponent({ formData })}</div>);
+    return container.textContent;
+  };
+
+  it('should return title without `Edit` prefix when not in edit mode', () => {
+    const uiSchema = arrayTitleWithNameUI('%s identification information');
+    const result = subject(uiSchema, {
+      certifierRole: 'other',
+      applicantName: { first: 'John' },
+    });
+    expect(result).to.equal('John’s identification information');
+  });
+
+  it('should prepend `Edit` when in edit mode with lowercase option', () => {
+    const uiSchema = arrayTitleWithNameUI('%s identification information');
+    const result = subject(
+      uiSchema,
+      {
+        certifierRole: 'other',
+        applicantName: { first: 'John' },
+      },
+      { edit: 'true' },
+    );
+    expect(result).to.equal('Edit John’s identification information');
+  });
+
+  it('should prepend `Edit` without capitalizing the name value when the option is false', () => {
+    const uiSchema = arrayTitleWithNameUI(
+      '%s date of marriage to the Veteran',
+      null,
+      { capitalize: false },
+    );
+    const result = subject(
+      uiSchema,
+      {
+        certifierRole: 'other',
+        applicantName: { first: 'jane' },
+      },
+      { edit: 'true' },
+    );
+    expect(result).to.equal('Edit jane’s date of marriage to the Veteran');
+  });
+
+  it('should return `Your` when certifier role is `applicant`', () => {
+    const uiSchema = arrayTitleWithNameUI('%s contact information');
+    const result = subject(uiSchema, { certifierRole: 'applicant' });
+    expect(result).to.equal('Your contact information');
+  });
+
+  it('should handle full name when firstNameOnly is false', () => {
+    const uiSchema = arrayTitleWithNameUI('Contact information for %s', null, {
+      firstNameOnly: false,
+      possessive: false,
+    });
+    const result = subject(uiSchema, {
+      certifierRole: 'other',
+      applicantName: { first: 'John', last: 'Smith' },
+    });
+    expect(result).to.equal('Contact information for John Smith');
   });
 });

@@ -1,6 +1,7 @@
 import {
   arrayBuilderItemSubsequentPageTitleUI,
   titleUI,
+  withEditTitle,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import MedicarePageTitle from '../components/FormDescriptions/MedicarePageTitle';
@@ -21,11 +22,11 @@ const DEFAULT_OPTS = {
   roleKey: 'certifierRole',
   matchRole: 'applicant',
   self: content['noun--your'],
-  other: content['noun--veteran'],
+  other: content['noun--applicant'],
 
   // name logic
   nameKey: 'applicantName',
-  firstNameOnly: true,
+  firstNameOnly: false,
   possessive: true,
 
   // titleWithNameUI styling
@@ -109,12 +110,13 @@ const makeSubjectTitleUI = (baseOptions = {}) => (
   options = {},
 ) => {
   const opts = mergeOpts({ ...baseOptions, ...options });
-  return titleUI({
-    title: ({ formData }) =>
-      fillTitleTemplate(title, subjectLabel(formData, opts), opts),
-    description,
-    classNames: opts.classNames,
-  });
+  const { arrayBuilder = false, lowercase = !opts.capitalize } = opts;
+  const computedTitle = ({ formData }) =>
+    fillTitleTemplate(title, subjectLabel(formData, opts), opts);
+  const titleStr = arrayBuilder
+    ? withEditTitle(computedTitle, lowercase)
+    : computedTitle;
+  return titleUI({ title: titleStr, description, classNames: opts.classNames });
 };
 
 /**
@@ -263,5 +265,55 @@ export const titleWithRoleUI = makeSubjectTitleUI({ mode: 'role' });
  */
 export const titleWithNameUI = makeSubjectTitleUI({
   mode: 'name',
+  classNames: DEFAULT_OPTS.piiClassNames,
+});
+
+/**
+ * Creates a dynamic array builder title using the applicant's name or role-based text.
+ *
+ * Similar to titleWithNameUI but designed for array builder pages. Automatically adds
+ * "Edit" prefix when editing an existing item. When the certifier is the applicant (self),
+ * displays role-based text (e.g., "Your"). When filling out for someone else, displays
+ * the Veteran's name with optional possessive form. Includes PII masking CSS classes
+ * for privacy protection.
+ *
+ * @param {string} title - Title template with placeholder for name or role text
+ * @param {string|React.Component} [description=null] - Optional description element
+ * @param {Object} [options] - Configuration options
+ * @param {boolean} [options.capitalize=true] - Whether to capitalize the first letter
+ * @param {boolean} [options.lowercase=true] - Whether to lowercase the title when "Edit" is prepended
+ * @param {boolean} [options.firstNameOnly=true] - Whether to use only first name or full name
+ * @param {boolean} [options.possessive=true] - Whether to add possessive 's to the name
+ * @param {string} [options.placeholder='%s'] - Placeholder token to replace
+ * @param {string} [options.nameKey='applicantName'] - Form data key containing the name object
+ * @param {string} [options.roleKey='certifierRole'] - Form data key containing the role
+ * @param {string} [options.matchRole='applicant'] - Role value that indicates self
+ * @param {string} [options.self='Your'] - Text to use when user is applicant
+ * @param {string} [options.other='Veteran'] - Fallback text when name is unavailable
+ * @param {string} [options.classNames] - Custom CSS classes (defaults to PII masking classes)
+ * @returns {Object} UI schema object for titleUI with array builder support and PII protection
+ *
+ * @example
+ * // "Your identification information" or "Edit John's identification information"
+ * arrayTitleWithNameUI('%s identification information')
+ *
+ * @example
+ * // "Your date of marriage to the Veteran" or "Edit Jane's Date Of Marriage To The Veteran"
+ * arrayTitleWithNameUI('%s date of marriage to the Veteran', null, { lowercase: false })
+ *
+ * @example
+ * // "Contact information for John Michael Smith" (full name, no possessive)
+ * arrayTitleWithNameUI('Contact information for %s', null, {
+ *   firstNameOnly: false,
+ *   possessive: false
+ * })
+ *
+ * @example
+ * // With description component
+ * arrayTitleWithNameUI('%s marriage status', MarriageStatusDescription)
+ */
+export const arrayTitleWithNameUI = makeSubjectTitleUI({
+  mode: 'name',
+  arrayBuilder: true,
   classNames: DEFAULT_OPTS.piiClassNames,
 });
