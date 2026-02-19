@@ -412,7 +412,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name, url'
+          output-type: 'entry_name, url, folder'
 
       - name: Filter files
         id: get-lint-files
@@ -424,10 +424,25 @@ jobs:
         if: >-
           contains(steps.get-files-changed.outputs.changed_files, '.eslintrc.js') ||
           contains(steps.get-files-changed.outputs.changed_files, '.prettierrc')
+        continue-on-error: true
         run: yarn run eslint --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js .
 
       - name: Annotate ESLint results for modified files
         run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
+
+      - name: Lint all files in changed application folders
+        if: steps.get-files-changed.outputs.folders != ''
+        run: |
+          IFS=',' read -ra FOLDERS <<< "${{ steps.get-files-changed.outputs.folders }}"
+          EXIT_CODE=0
+          for folder in "${FOLDERS[@]}"; do
+            folder=$(echo "$folder" | xargs)
+            if [ -d "$folder" ]; then
+              echo "Linting all files in $folder..."
+              yarn run eslint --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js "$folder" || EXIT_CODE=$?
+            fi
+          done
+          exit $EXIT_CODE
       
       - name: Check for broken imports
         id: check-for-broken-imports
