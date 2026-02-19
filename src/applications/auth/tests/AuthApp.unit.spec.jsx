@@ -421,7 +421,7 @@ describe('AuthApp', () => {
                   vaPatient: true,
                   facilities: [
                     {
-                      facilityId: '757',
+                      facilityId: '692',
                       isCerner: true,
                     },
                   ],
