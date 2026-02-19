@@ -18,6 +18,14 @@ const acceleratedAllergies = require('../../../../platform/mhv/api/mocks/medical
 const ohAllergies = require('../../../../platform/mhv/api/mocks/medical-records/allergies/full-example');
 const tooltips = require('./tooltips/index');
 
+// Set ORACLE_HEALTH=true to run as a Cerner/Oracle Health user with renewal enabled.
+// Usage: ORACLE_HEALTH=true yarn mock-api --responses src/applications/mhv-medications/mocks/api/index.js
+const oracleHealthMode = process.env.ORACLE_HEALTH === 'true';
+if (oracleHealthMode) {
+  // eslint-disable-next-line no-console
+  console.log('\n\x1b[36m[mock-api] Oracle Health mode enabled\x1b[0m\n');
+}
+
 const delaySingleResponse = (cb, delayInMs = 1000) => {
   setTimeout(() => {
     cb();
@@ -27,10 +35,18 @@ const delaySingleResponse = (cb, delayInMs = 1000) => {
 const responses = {
   ...commonResponses,
   'GET /v0/user': (_req, res) => {
-    delaySingleResponse(() => res.json(user.defaultUser), 750);
+    const mockUser = oracleHealthMode ? user.cernerUser : user.defaultUser;
+    delaySingleResponse(() => res.json(mockUser), 750);
   },
   'GET /v0/feature_toggles': (_req, res) => {
-    const toggles = featureToggles.generateFeatureToggles({});
+    const toggles = featureToggles.generateFeatureToggles(
+      oracleHealthMode
+        ? {
+            mhvSecureMessagingMedicationsRenewalRequest: true,
+            mhvMedicationsCernerPilot: true,
+          }
+        : {},
+    );
 
     delaySingleResponse(() => res.json(toggles), 500);
   },
@@ -51,13 +67,29 @@ const responses = {
   'GET /my_health/v2/medical_records/allergies': acceleratedAllergies.all,
   'GET /my_health/v1/prescriptions': (_req, res) => {
     delaySingleResponse(
-      () => res.json(prescriptions.generateMockPrescriptions(_req)),
+      () =>
+        res.json(
+          prescriptions.generateMockPrescriptions(
+            _req,
+            20,
+            false,
+            oracleHealthMode,
+          ),
+        ),
       2250,
     );
   },
   'GET /my_health/v2/prescriptions': (_req, res) => {
     delaySingleResponse(
-      () => res.json(prescriptions.generateMockPrescriptions(_req, 20, true)),
+      () =>
+        res.json(
+          prescriptions.generateMockPrescriptions(
+            _req,
+            20,
+            true,
+            oracleHealthMode,
+          ),
+        ),
       2250,
     );
   },
@@ -220,10 +252,26 @@ const responses = {
   // },
   'GET /my_health/v1/prescriptions/:id': (req, res) => {
     const { id } = req.params;
+    const ohIds = {
+      '99900001': {},
+      '99900002': {
+        prescriptionName: 'METOPROLOL 25MG TAB (OH Discontinued)',
+        dispStatus: 'Discontinued',
+        isRenewable: false,
+      },
+      '99900003': {
+        prescriptionName: 'LISINOPRIL 20MG TAB (OH On Hold)',
+        dispStatus: 'Active: On Hold',
+        isRenewable: false,
+      },
+    };
+    const isOhRx = oracleHealthMode && id in ohIds;
     const data = {
-      data: prescriptions.mockPrescription(id, {
-        cmopNdcNumber: '00093721410',
-      }),
+      data: isOhRx
+        ? prescriptions.mockOracleHealthPrescription(id, false, ohIds[id])
+        : prescriptions.mockPrescription(id, {
+            cmopNdcNumber: '00093721410',
+          }),
       meta: {
         sort: {
           dispStatus: 'DESC',
@@ -245,14 +293,41 @@ const responses = {
   // Includes both v1 and v2 endpoints for prescriptions
   'GET /my_health/v2/prescriptions/:id': (req, res) => {
     const { id } = req.params;
+    const ohIds = {
+      '99900001': {},
+      'oh-99900001': {},
+      '99900002': {
+        prescriptionName: 'METOPROLOL 25MG TAB (OH Discontinued)',
+        dispStatus: 'Discontinued',
+        isRenewable: false,
+      },
+      'oh-99900002': {
+        prescriptionName: 'METOPROLOL 25MG TAB (OH Discontinued)',
+        dispStatus: 'Discontinued',
+        isRenewable: false,
+      },
+      '99900003': {
+        prescriptionName: 'LISINOPRIL 20MG TAB (OH On Hold)',
+        dispStatus: 'Active: On Hold',
+        isRenewable: false,
+      },
+      'oh-99900003': {
+        prescriptionName: 'LISINOPRIL 20MG TAB (OH On Hold)',
+        dispStatus: 'Active: On Hold',
+        isRenewable: false,
+      },
+    };
+    const ohIdMatch = oracleHealthMode && id in ohIds;
     const data = {
-      data: prescriptions.mockPrescription(
-        id,
-        {
-          cmopNdcNumber: '00093721410',
-        },
-        true,
-      ),
+      data: ohIdMatch
+        ? prescriptions.mockOracleHealthPrescription(id, true, ohIds[id])
+        : prescriptions.mockPrescription(
+            id,
+            {
+              cmopNdcNumber: '00093721410',
+            },
+            true,
+          ),
       meta: {
         sort: {
           dispStatus: 'DESC',
