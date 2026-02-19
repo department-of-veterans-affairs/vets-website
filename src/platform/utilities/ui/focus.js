@@ -7,7 +7,7 @@ const SHADOW_DELIMITER = '>>shadow>>';
 // .nav-header > h2 contains "Step {index} of {total}: {page title}"
 // For va-segmented-progress-bar, target h2 inside shadow root using custom >>shadow>> delimiter
 export const defaultFocusSelector =
-  '.nav-header > h2, va-segmented-progress-bar>>shadow>>h2';
+  'va-segmented-progress-bar>>shadow>>h2, .nav-header > h2';
 
 /**
  * @typedef FocusOptions
