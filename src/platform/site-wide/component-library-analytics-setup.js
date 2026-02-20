@@ -249,6 +249,13 @@ const analyticsEvents = {
       prefix: 'select',
     },
   ],
+  'va-sort': [
+    {
+      action: 'change',
+      event: 'int-sort-box-option-click',
+      prefix: 'sort',
+    },
+  ],
   'va-pagination': [
     {
       action: 'linkClick',
