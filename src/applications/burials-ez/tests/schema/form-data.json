@@ -1,5 +1,15 @@
 {
-  "processOption": false,
+  "veteranFullName": {
+    "first": "Tom",
+    "last": "Riddle",
+    "suffix": "Sr."
+  },
+  "veteranSocialSecurityNumber": "333445556",
+  "vaFileNumber": "12345678",
+  "veteranDateOfBirth": "1991-09-16",
+  "claimantEmail": "user@example.com",
+  "claimantPhone": "8018675309",
+  "claimantIntPhone": "801867530999123",
   "bankAccount": {
     "accountType": "checking",
     "accountNumber": "001122334455",
@@ -22,42 +32,13 @@
     }
   ],
   "transportationExpenses": false,
-  "view:claimedBenefits": {
-    "transportation": true
-  },
-  "view:servedUnderOtherNames": false,
-  "view:isAddingPeriods": false,
+  "transportation": true,
   "militarySeparationDocuments": [
     {
       "name": "Screenshot from 2024-03-07 09-28-35.png",
       "size": 43149,
       "confirmationCode": "920d72a5-1ccf-47fc-b316-cca4f9f53453",
       "isEncrypted": false
-    }
-  ],
-  "view:separationDocuments": true,
-  "toursOfDuty": [
-    {
-      "serviceBranch": "Air Force",
-      "dateRange": {
-        "from": "2005-07-19",
-        "to": "2009-04-02"
-      },
-      "placeOfEntry": "Los Angeles, CA",
-      "placeOfSeparation": "Dallas, TX",
-      "rank": "Sergeant",
-      "unit": "Unit test AF"
-    },
-    {
-      "serviceBranch": "Coast Guard",
-      "dateRange": {
-        "from": "2011-03-05",
-        "to": "2016-04-15"
-      },
-      "placeOfEntry": "Dallas, TX",
-      "placeOfSeparation": "San Francisco, CA",
-      "rank": "Chief",
-      "unit": "Unit test CG"
     }
   ],
   "locationOfDeath": {
@@ -69,16 +50,7 @@
   },
   "deathDate": "2023-01-19",
   "burialDate": "2023-02-01",
-  "view:burialDateWarning": {},
-  "veteranFullName": {
-    "first": "Tom",
-    "last": "Riddle",
-    "suffix": "Sr."
-  },
-  "veteranSocialSecurityNumber": "333445556",
-  "veteranDateOfBirth": "1991-09-16",
   "claimantAddress": {
-    "view:militaryBaseDescription": {},
     "country": "USA",
     "street": "123 Fake St.",
     "street2": "Apt 1033",
@@ -93,14 +65,26 @@
   },
   "claimantSocialSecurityNumber": "333445555",
   "claimantDateOfBirth": "1991-07-21",
-  "claimantEmail": "user@example.com",
   "relationshipToVeteran": "otherFamily",
-  "burialAllowanceRequested": {},
-  "view:allowanceStatement": {
-    "confirmation": {}
-  },
-  "finalRestingPlace": {},
-  "cemeteryLocation": {},
-  "tribalLandLocation": {},
-  "nationalOrFederal": false
+  "powPeriods": [
+    {
+      "powDateRange": {
+        "from": "1999-01-01",
+        "to": "2000-01-01"
+      }
+    },
+    {
+      "powDateRange": {
+        "from": "2001-01-01",
+        "to": "2002-01-01"
+      }
+    },
+    {
+      "powDateRange": {
+        "from": "2002-01-01",
+        "to": "2003-01-01"
+      }
+    }
+  ],
+  "privacyAgreementAccepted": true
 }
