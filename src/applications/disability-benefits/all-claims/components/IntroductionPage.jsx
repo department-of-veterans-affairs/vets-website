@@ -96,7 +96,7 @@ class IntroductionPage extends React.Component {
           {loggedIn && (
             <p id="restart-wizard" className="vads-u-margin-top--0">
               if you don’t think this is the right form for you,{' '}
-              <a
+              <va-link
                 aria-describedby="restart-wizard"
                 href={
                   showWizard
@@ -104,9 +104,8 @@ class IntroductionPage extends React.Component {
                     : '/disability/how-to-file-claim/'
                 }
                 onClick={handler.startOver}
-              >
-                go back and answer questions again
-              </a>
+                text="go back and answer questions again"
+              />
               .
             </p>
           )}
@@ -150,10 +149,13 @@ class IntroductionPage extends React.Component {
                   >
                     When you file a BDD claim online, we’ll ask you to upload
                     this required form:{' '}
-                    <a href={DBQ_URL} target="_blank" rel="noreferrer">
-                      Separation Health Assessment - Part A Self-Assessment
-                      (opens in new tab)
-                    </a>
+                    <va-link
+                      external
+                      href={DBQ_URL}
+                      rel="noreferrer"
+                      target="_blank"
+                      text="Separation Health Assessment - Part A Self-Assessment (opens in new tab)"
+                    />
                     . We recommend you download and fill out this form on a
                     desktop computer or laptop. Then return to this page to
                     start the application process.
