@@ -101,13 +101,22 @@ function selectTests(pathsOfChangedFiles) {
 function exportVariables(tests) {
   const numTests = tests.length;
 
-  if (numTests <= 30) {
-    core.exportVariable('NUM_CONTAINERS', 4);
-    core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3]);
+  // Scale containers based on test count. cypress-split handles
+  // duration-based balancing across however many containers we assign.
+  let numContainers;
+  if (numTests <= 10) {
+    numContainers = 2;
+  } else if (numTests <= 30) {
+    numContainers = 4;
+  } else if (numTests <= 60) {
+    numContainers = 7;
   } else {
-    core.exportVariable('NUM_CONTAINERS', 7);
-    core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6]);
+    numContainers = 12;
   }
+
+  const ciNodeIndex = Array.from({ length: numContainers }, (_, i) => i);
+  core.exportVariable('NUM_CONTAINERS', numContainers);
+  core.exportVariable('CI_NODE_INDEX', ciNodeIndex);
   core.exportVariable('TESTS', 'true');
   fs.writeFileSync(`e2e_tests_to_test.json`, JSON.stringify(tests));
 }

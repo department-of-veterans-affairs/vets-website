@@ -583,6 +583,11 @@ jobs:
           TEST_TYPE: e2e
           TEST_PROPERTY: 'TESTS'
 
+      - name: Download Cypress timings from S3
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        continue-on-error: true
+        run: aws s3 cp s3://testing-tools-testing-reports/vets-website-cypress-timings/timings.json cypress-timings.json --region us-gov-west-1
+
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         shell: bash
@@ -620,7 +625,9 @@ jobs:
         timeout-minutes: 120
         env:
           CYPRESS_CI: true
-          STEP: ${{ matrix.ci_node_index }}
+          SPLIT: ${{ needs.tests-prep.outputs.num_containers }}
+          SPLIT_INDEX: ${{ matrix.ci_node_index }}
+          SPLIT_FILE: cypress-timings.json
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
           APP_URLS: 'http://localhost:3001'
 
@@ -864,6 +871,18 @@ jobs:
       - name: Upload Cypress E2E test videos to s3
         if: ${{ needs.cypress-tests.result == 'failure' }}
         run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
+
+      - name: Update Cypress split timings
+        if: ${{ needs.cypress-tests.result == 'success' }}
+        continue-on-error: true
+        run: |
+          aws s3 cp s3://testing-tools-testing-reports/vets-website-cypress-timings/timings.json existing-timings.json --region us-gov-west-1 || true
+          node script/github-actions/generate-cypress-timings.js
+          aws s3 cp cypress-timings.json s3://testing-tools-testing-reports/vets-website-cypress-timings/timings.json --region us-gov-west-1
+        env:
+          RESULTS_DIR: qa-standards-dashboard-data/src/testing-reports/data
+          TIMINGS_FILE: cypress-timings.json
+          EXISTING_TIMINGS_FILE: existing-timings.json
 
       - name: Upload Cypress E2E test report to s3
         run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
