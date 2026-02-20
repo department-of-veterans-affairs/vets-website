@@ -18,13 +18,14 @@ export const AddStudentsIntro = (
   </>
 );
 
-export const benefitSchemaLabels = ['ch35', 'fry', 'feca', 'other'];
+export const benefitSchemaLabels = ['ch35', 'fry', 'feca', 'none'];
 
 export const benefitUiLabels = {
-  ch35: 'Chapter 35 (also known as Dependent’s Educational Assistance program)',
+  ch35:
+    'Chapter 35 (also known as Dependent\u2019s Educational Assistance program)',
   fry: 'Fry Scholarship',
-  feca: 'Federal Employees’ Compensation Act (FECA)',
-  other: 'Another program',
+  feca: 'Federal Employees\u2019 Compensation Act (FECA)',
+  none: 'None of these benefits',
 };
 
 export const relationshipToStudentLabels = {
@@ -34,11 +35,28 @@ export const relationshipToStudentLabels = {
 };
 
 export const ProgramExamples = (
-  <va-additional-info trigger="Examples of federally funded programs or schools">
+  <va-additional-info trigger="About entirely federally funded schools">
+    <p>
+      An entirely federally funded school or program is one where the federal
+      government pays all costs. The student doesn’t pay any tuition, fees, or
+      other costs.
+    </p>
+    <p className="vads-u-margin-top--2">
+      <strong>Examples include:</strong>
+    </p>
     <ul>
-      <li>U.S Department of Labor’s Job Corps program</li>
-      <li>Military academies</li>
+      <li>Job Corps (U.S. Department of Labor program)</li>
+      <li>Service academies and academy prep schools</li>
       <li>Federally funded Native American schools</li>
+    </ul>
+    <p className="vads-u-margin-top--2">
+      <strong>This doesn’t include:</strong>
+    </p>
+    <ul>
+      <li>Public or charter high schools</li>
+      <li>Private colleges that offer free tuition</li>
+      <li>Public universities</li>
+      <li>Schools where the student uses Pell Grants or federal loans</li>
     </ul>
   </va-additional-info>
 );

@@ -64,7 +64,7 @@ describe('addStudentsOptions', () => {
         studentDidAttendSchoolLastTerm: true,
         lastTermSchoolInformation: { termBegin: '', dateTermEnded: '' },
       },
-      typeOfProgramOrBenefit: { someBenefit: true },
+      typeOfProgramOrBenefit: 'ch35',
       benefitPaymentDate: '',
     };
 
@@ -158,7 +158,7 @@ describe('addStudentsOptions', () => {
       const errors = { addError: sinon.spy() };
       const {
         uiSchema,
-      } = formConfig.chapters.report674.pages.addStudentsPartTen;
+      } = formConfig.chapters.report674.pages.addStudentsPartNine;
       const validateSchoolName =
         uiSchema.studentInformation.items.schoolInformation.name[
           'ui:validations'
@@ -176,7 +176,7 @@ describe('addStudentsOptions', () => {
       const errors = { addError: sinon.spy() };
       const {
         uiSchema,
-      } = formConfig.chapters.report674.pages.addStudentsPartTen;
+      } = formConfig.chapters.report674.pages.addStudentsPartNine;
       const validateSchoolName =
         uiSchema.studentInformation.items.schoolInformation.name[
           'ui:validations'
@@ -507,9 +507,34 @@ describe('674 Add students: Student education benefits ', () => {
       </Provider>,
     );
 
-    expect($$('va-checkbox', container).length).to.equal(4);
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(4);
+  });
+});
+
+describe('674 Add students: Federally funded ', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartEightB;
+
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
     expect($$('va-radio', container).length).to.equal(1);
     expect($$('va-radio-option', container).length).to.equal(2);
+    expect($$('va-additional-info', container).length).to.equal(1);
   });
 });
 
@@ -517,7 +542,7 @@ describe('674 Add students: Student education benefits payment start date ', () 
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartNine;
+  } = formConfig.chapters.report674.pages.addStudentsPartTen;
 
   it('should render', () => {
     const { container } = render(
@@ -541,7 +566,7 @@ describe('674 Add students: Program name ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartTen;
+  } = formConfig.chapters.report674.pages.addStudentsPartNine;
 
   it('should render', () => {
     const { container } = render(

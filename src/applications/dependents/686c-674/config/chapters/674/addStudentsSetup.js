@@ -28,7 +28,8 @@ export const addStudentsOptions = {
     !item?.address?.state ||
     !item?.address?.postalCode ||
     (item?.wasMarried === true && !item?.marriageDate) ||
-    !item?.schoolInformation?.name ||
+    (item?.tuitionIsPaidByGovAgency === true &&
+      !item?.schoolInformation?.name) ||
     (item?.schoolInformation?.studentIsEnrolledFullTime === true &&
       !item?.schoolInformation?.studentIsEnrolledFullTime) ||
     item?.schoolInformation?.isSchoolAccredited == null ||
@@ -42,10 +43,8 @@ export const addStudentsOptions = {
     (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
       (!item?.schoolInformation?.lastTermSchoolInformation?.termBegin ||
         !item?.schoolInformation?.lastTermSchoolInformation?.dateTermEnded)) ||
-    (item?.typeOfProgramOrBenefit &&
-      ['ch35', 'fry', 'feca'].some(
-        key => item?.typeOfProgramOrBenefit?.[key] === true,
-      ) &&
+    ((['ch35', 'fry', 'feca'].includes(item?.typeOfProgramOrBenefit) ||
+      item?.tuitionIsPaidByGovAgency === true) &&
       !item?.benefitPaymentDate),
   maxItems: 20,
   text: {
