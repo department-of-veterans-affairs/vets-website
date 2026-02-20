@@ -203,36 +203,31 @@ const SearchResult = ({
           cancelRepresentativeReport={cancelRepresentativeReport}
         />
       )}
-      <va-card class="representative-result-card vads-u-padding--4">
+      <va-card
+        id={`representative-${representativeId}`}
+        class="representative-result-card vads-u-padding--4"
+      >
         <div className="representative-result-card-content">
           <div className="representative-info-heading">
-            {hasDistance && (
-              <div
-                id={`representative-${representativeId}`}
-                className="vads-u-font-weight--bold vads-u-font-family--serif"
-              >
-                {parseFloat(JSON.parse(distance).toFixed(2))} miles
-                {isEstimatedAddress ? ' (estimated)' : ''}
-              </div>
-            )}
-            {officer && (
-              <>
-                <div
-                  className="vads-u-font-family--serif vads-u-margin-top--2p5"
-                  id={`result-${representativeId}`}
-                >
-                  <h3 aria-describedby={`representative-${representativeId}`}>
-                    {officer}
-                  </h3>
-                </div>
-                {associatedOrgs?.length === 1 && (
-                  <p style={{ marginTop: 0 }}>{associatedOrgs[0]}</p>
-                )}
-              </>
-            )}
+            <h3
+              className="vads-u-margin-top--0"
+              aria-describedby={`representative-${representativeId}`}
+            >
+              {officer && <span className="officer">{officer}</span>}
+              {hasDistance && (
+                <span className="distance vads-u-margin-top--1 vads-u-display--block vads-u-font-size--h4">
+                  {parseFloat(JSON.parse(distance).toFixed(2))} miles
+                  {isEstimatedAddress ? ' (estimated)' : ''}
+                </span>
+              )}
+            </h3>
           </div>
-          {associatedOrgs?.length > 1 && (
-            <div className="associated-organizations-info vads-u-margin-top--1p5">
+
+          <div className="associated-organizations-info vads-u-margin-top--1p5">
+            {associatedOrgs?.length === 1 && (
+              <span className="vads-u-font-size--md">{associatedOrgs[0]}</span>
+            )}
+            {associatedOrgs?.length > 1 && (
               <va-additional-info
                 trigger="See associated organizations"
                 disable-border
@@ -240,8 +235,8 @@ const SearchResult = ({
               >
                 {associatedOrgs?.map(org => <div key={org}>{org}</div>)}
               </va-additional-info>
-            </div>
-          )}
+            )}
+          </div>
 
           <div className="representative-contact-section vads-u-margin-top--3">
             {addressExists && (
