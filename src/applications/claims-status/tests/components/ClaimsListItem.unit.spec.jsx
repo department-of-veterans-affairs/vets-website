@@ -9,6 +9,7 @@ import { renderWithRouter } from '../utils';
 const getStore = (
   cstClaimPhasesEnabled = true,
   cstShowDocumentUploadStatus = false,
+  cstMultiClaimProvider = false,
 ) =>
   createStore(() => ({
     featureToggles: {
@@ -16,6 +17,8 @@ const getStore = (
       cst_claim_phases: cstClaimPhasesEnabled,
       // eslint-disable-next-line camelcase
       cst_show_document_upload_status: cstShowDocumentUploadStatus,
+      // eslint-disable-next-line camelcase
+      cst_multi_claim_provider: cstMultiClaimProvider,
     },
   }));
 
@@ -1002,4 +1005,90 @@ describe('<ClaimsListItem>', () => {
       );
     },
   );
+
+  context('multi-provider functionality', () => {
+    it('includes provider in href when flag enabled and provider exists', () => {
+      const claim = {
+        id: '123',
+        attributes: {
+          claimDate: '2024-06-08',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-06-08',
+            phaseType: 'CLAIM_RECEIVED',
+          },
+          claimTypeCode: compensationClaimTypeCode,
+          status: 'CLAIM_RECEIVED',
+          provider: 'lighthouse',
+        },
+      };
+
+      const { container } = renderWithRouter(
+        <Provider store={getStore(true, false, true)}>
+          <ClaimsListItem claim={claim} />
+        </Provider>,
+      );
+
+      const link = container.querySelector('va-link');
+      expect(link).to.have.attribute(
+        'href',
+        '/track-claims/your-claims/123/status?type=lighthouse',
+      );
+    });
+
+    it('does not include provider in href when flag disabled', () => {
+      const claim = {
+        id: '123',
+        attributes: {
+          claimDate: '2024-06-08',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-06-08',
+            phaseType: 'CLAIM_RECEIVED',
+          },
+          claimTypeCode: compensationClaimTypeCode,
+          status: 'CLAIM_RECEIVED',
+          provider: 'lighthouse',
+        },
+      };
+
+      const { container } = renderWithRouter(
+        <Provider store={getStore(true, false, false)}>
+          <ClaimsListItem claim={claim} />
+        </Provider>,
+      );
+
+      const link = container.querySelector('va-link');
+      expect(link).to.have.attribute(
+        'href',
+        '/track-claims/your-claims/123/status',
+      );
+    });
+
+    it('does not include provider in href when provider is undefined', () => {
+      const claim = {
+        id: '123',
+        attributes: {
+          claimDate: '2024-06-08',
+          claimPhaseDates: {
+            phaseChangeDate: '2024-06-08',
+            phaseType: 'CLAIM_RECEIVED',
+          },
+          claimTypeCode: compensationClaimTypeCode,
+          status: 'CLAIM_RECEIVED',
+          // no provider field
+        },
+      };
+
+      const { container } = renderWithRouter(
+        <Provider store={getStore(true, false, true)}>
+          <ClaimsListItem claim={claim} />
+        </Provider>,
+      );
+
+      const link = container.querySelector('va-link');
+      expect(link).to.have.attribute(
+        'href',
+        '/track-claims/your-claims/123/status',
+      );
+    });
+  });
 });
