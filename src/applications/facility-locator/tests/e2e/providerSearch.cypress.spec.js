@@ -9,7 +9,6 @@ import {
 } from './featureTogglesToTest';
 import * as h from './helpers';
 
-const CC_PROVIDER = 'Community providers (in VA’s network)';
 const NON_VA_URGENT_CARE = 'In-network community urgent care';
 const featureSetsToTest = featureCombinationsTogglesToTest([
   'facilities_use_fl_progressive_disclosure',
@@ -89,7 +88,7 @@ for (const featureSet of featureSetsToTest) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        /(Showing|results).*Community providers.*Dentist - Orofacial Pain.*near.*Austin, Texas/i,
+        /(Showing|results).*Community providers.*Dentist - Orofacial Pain.*(within|miles of).*Austin, Texas/i,
       );
 
       h.verifyElementExists('#other-tools');
@@ -108,7 +107,7 @@ for (const featureSet of featureSetsToTest) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        `results for "${CC_PROVIDER}", "Clinic/Center - Urgent Care" near "Austin, Texas"`,
+        /(Showing|results).*Community providers.*in VA’s network.*(Clinic|Center).*Urgent Care.*(within|miles of).*Austin, Texas/i,
       );
 
       h.verifyElementExists('#other-tools');
@@ -133,7 +132,7 @@ for (const featureSet of featureSetsToTest) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        `Results for "Urgent care", "${NON_VA_URGENT_CARE}" near "Austin, Texas"`,
+        /(Showing|results).*Urgent care.*In-network community urgent care.*(within|miles of).*Austin, Texas/i,
       );
 
       h.verifyElementExists('#other-tools');
@@ -158,7 +157,7 @@ for (const featureSet of featureSetsToTest) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        `Results for "Emergency Care", "In-network community emergency care" near "Austin, Texas"`,
+        /(Showing|results).*Emergency Care.*In-network community emergency care.*(within|miles of).*Austin, Texas/i,
       );
 
       h.verifyElementExists('#emergency-care-info-note');

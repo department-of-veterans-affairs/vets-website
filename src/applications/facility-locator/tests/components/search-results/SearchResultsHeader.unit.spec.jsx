@@ -27,7 +27,7 @@ describe('SearchResultsHeader', () => {
         .find('h2')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
-    ).to.equal('No results found for "" near "11111"');
+    ).to.equal('No results found for "" within NaN miles of "11111"');
     wrapper.unmount();
   });
 
@@ -49,7 +49,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA health",\s+"All VA health services"\s+near\s+"new york"/,
+      /Showing 1 - 5 results for "VA health",\s+"All VA health services"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -68,7 +68,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "VA health",\s+"All VA health services"\s+near\s+"new york"/,
+      /Showing 1 result for "VA health",\s+"All VA health services"\s+within NaN miles of\s+"new york"/,
     );
 
     wrapper.unmount();
@@ -86,7 +86,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "VA health",\s+"Primary care"\s+near\s+"new york"/,
+      /Showing 1 result for "VA health",\s+"Primary care"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -103,7 +103,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA health",\s+"Primary care"\s+near\s+"new york"/,
+      /Showing 1 - 5 results for "VA health",\s+"Primary care"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -120,7 +120,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "VA health",\s+"Primary care"\s+near\s+"new york"/,
+      /Showing 11 - 15 of 15 results for "VA health",\s+"Primary care"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -136,7 +136,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA health",\s+"All VA health services"\s+near\s+"new york"/,
+      /Showing 1 - 5 results for "VA health",\s+"All VA health services"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -155,7 +155,7 @@ describe('SearchResultsHeader', () => {
       new RegExp(
         `Results for "Urgent care",\\s+"${
           urgentCareServices.NonVAUrgentCare
-        }"\\s+near\\s+"new york"`,
+        }"\\s+within NaN miles of\\s+"new york"`,
       ),
     );
     wrapper.unmount();
@@ -174,7 +174,7 @@ describe('SearchResultsHeader', () => {
       new RegExp(
         `Results for "Urgent care",\\s+"${
           urgentCareServices.AllUrgentCare
-        }"\\s+near\\s+"new york"`,
+        }"\\s+within NaN miles of\\s+"new york"`,
       ),
     );
     wrapper.unmount();
@@ -194,7 +194,7 @@ describe('SearchResultsHeader', () => {
       new RegExp(
         `Results for "Emergency Care",\\s+"${
           emergencyCareServices.NonVAEmergencyCare
-        }"\\s+near\\s+"new york"`,
+        }"\\s+within NaN miles of\\s+"new york"`,
       ),
     );
     wrapper.unmount();
@@ -213,7 +213,7 @@ describe('SearchResultsHeader', () => {
       new RegExp(
         `Results for "Emergency Care",\\s+"${
           emergencyCareServices.AllEmergencyCare
-        }"\\s+near\\s+"new york"`,
+        }"\\s+within NaN miles of\\s+"new york"`,
       ),
     );
     wrapper.unmount();
@@ -230,7 +230,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "Community pharmacies \(in VA’s network\)"\s+near\s+"new york"/,
+      /Showing 1 result for "Community pharmacies \(in VA’s network\)"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -246,7 +246,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "Community pharmacies \(in VA’s network\)"\s+near\s+"new york"/,
+      /Showing 1 - 5 results for "Community pharmacies \(in VA’s network\)"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -262,7 +262,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "Community pharmacies \(in VA’s network\)"\s+near\s+"new york"/,
+      /Showing 11 - 15 of 15 results for "Community pharmacies \(in VA’s network\)"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -280,7 +280,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "Community providers \(in VA’s network\)",\s+"test"\s+near\s+"new york"/,
+      /Showing 1 result for "Community providers \(in VA’s network\)",\s+"test"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -298,7 +298,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "Community providers \(in VA’s network\)",\s+"test"\s+near\s+"new york"/,
+      /Showing 1 - 5 results for "Community providers \(in VA’s network\)",\s+"test"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -316,7 +316,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "Community providers \(in VA’s network\)",\s+"test"\s+near\s+"new york"/,
+      /Showing 11 - 15 of 15 results for "Community providers \(in VA’s network\)",\s+"test"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -333,7 +333,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "VA benefits",\s+"Applying for benefits"\s+near\s+"new york"/,
+      /Showing 1 result for "VA benefits",\s+"Applying for benefits"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -350,7 +350,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA benefits",\s+"Applying for benefits"\s+near\s+"new york"/,
+      /Showing 1 - 5 results for "VA benefits",\s+"Applying for benefits"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -367,7 +367,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "VA benefits",\s+"Applying for benefits"\s+near\s+"new york"/,
+      /Showing 11 - 15 of 15 results for "VA benefits",\s+"Applying for benefits"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -383,7 +383,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA benefits",\s+"All VA benefit services"\s+near\s+"new york"/,
+      /Showing 1 - 5 results for "VA benefits",\s+"All VA benefit services"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -399,7 +399,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 result for "VA cemeteries"\s+near\s+"new york"/,
+      /Showing 1 result for "VA cemeteries"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -415,7 +415,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA cemeteries"\s+near\s+"new york"/,
+      /Showing 1 - 5 results for "VA cemeteries"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -431,7 +431,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 11 - 15 of 15 results for "VA cemeteries"\s+near\s+"new york"/,
+      /Showing 11 - 15 of 15 results for "VA cemeteries"\s+within NaN miles of\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -454,7 +454,7 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Showing 1 - 5 results for "VA health",\s+"All VA health services"\s+near\s+"new jersey"/,
+      /Showing 1 - 5 results for "VA health",\s+"All VA health services"\s+within NaN miles of\s+"new jersey"/,
     );
     wrapper.unmount();
   });

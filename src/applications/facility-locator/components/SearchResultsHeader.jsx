@@ -17,6 +17,7 @@ export const SearchResultsHeader = ({
   inProgress,
   pagination,
   results,
+  radius,
   serviceType,
   specialtyMap,
   vamcServiceDisplay,
@@ -117,7 +118,7 @@ export const SearchResultsHeader = ({
   const FormattedLocationText = () =>
     location ? (
       <>
-        {` near `}
+        {` within ${Math.round(radius)} miles of `}
         <b>{`"${location}"`}</b>
       </>
     ) : null;
@@ -143,6 +144,7 @@ SearchResultsHeader.propTypes = {
   facilityType: PropTypes.string,
   inProgress: PropTypes.bool,
   pagination: PaginationTypes,
+  radius: PropTypes.number,
   results: PropTypes.array,
   serviceType: PropTypes.string,
   specialtyMap: PropTypes.object,

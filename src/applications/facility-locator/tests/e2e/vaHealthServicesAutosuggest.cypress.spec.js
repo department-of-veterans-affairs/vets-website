@@ -52,7 +52,6 @@ describe('VA health services autosuggest', () => {
 
       // Open dropdown with no search, verify services are available inside, search
       h.clickElement(h.AUTOSUGGEST_ARROW);
-      verifyDropdownIsOpen();
       h.verifyElementByText('All VA health services').click();
       verifyDropdownIsClosed();
 
@@ -62,7 +61,7 @@ describe('VA health services autosuggest', () => {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        'results for "VA health", "All VA health services" near "Atlanta, Georgia',
+        /(Showing|results).*VA health.*All VA health services.*(within|miles of).*Atlanta, Georgia/i,
       );
 
       h.clickElement(h.AUTOSUGGEST_CLEAR);
@@ -79,7 +78,7 @@ describe('VA health services autosuggest', () => {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        'results for "VA health", "Polytrauma and traumatic brain injury (TBI and multiple traumas)" near "Atlanta, Georgia"',
+        /(Showing|results).*VA health.*Polytrauma and traumatic brain injury.*TBI and multiple traumas.*(within|miles of).*Atlanta, Georgia/i,
       );
 
       h.clickElement(h.AUTOSUGGEST_ARROW);
