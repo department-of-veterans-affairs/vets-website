@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import Authorization from '../../../components/4142/Authorization';
 
-describe('<Authorization>', () => {
+describe('Authorization', () => {
   it('should render', () => {
     const { container } = render(<Authorization />);
 
@@ -34,7 +34,7 @@ describe('<Authorization>', () => {
     // testing onAnchorClick callback - scrolls to & focus on alert
     fireEvent.click($('#checkbox-anchor', container));
 
-    const alert = $('va-alert[visible="true"]', container);
+    const alert = $('va-alert[status="error"]', container);
     expect(alert).to.exist;
     expect(goSpy.called).to.be.false;
   });
@@ -100,7 +100,7 @@ describe('<Authorization>', () => {
         target: { checked: false },
       });
 
-      const alert = $('va-alert[visible="true"]', container);
+      const alert = $('va-alert[status="error"]', container);
       expect(alert).to.not.exist;
     });
 
@@ -115,13 +115,13 @@ describe('<Authorization>', () => {
         />,
       );
 
-      const alert = $('va-alert[visible="true"]', container);
+      const alert = $('va-alert[status="error"]', container);
       expect(alert).to.not.exist;
 
       // Click Continue button - this SHOULD trigger error
       fireEvent.click($('va-button[continue]', container));
 
-      const errorAlert = $('va-alert[visible="true"]', container);
+      const errorAlert = $('va-alert[status="error"]', container);
       expect(errorAlert).to.exist;
       expect(goSpy.called).to.be.false;
     });
@@ -139,13 +139,13 @@ describe('<Authorization>', () => {
 
       fireEvent.click($('va-button[continue]', container));
 
-      expect($('va-alert[visible="true"]', container)).to.exist;
+      expect($('va-alert[status="error"]', container)).to.exist;
 
       $('#privacy-agreement', container).__events.vaChange({
         target: { checked: true },
       });
 
-      expect($('va-alert[visible="true"]', container)).to.not.exist;
+      expect($('va-alert[status="error"]', container)).to.not.exist;
     });
 
     it('should allow multiple check/uncheck cycles without showing errors', () => {
@@ -170,7 +170,7 @@ describe('<Authorization>', () => {
         target: { checked: false },
       });
 
-      const alert = $('va-alert[visible="true"]', container);
+      const alert = $('va-alert[status="error"]', container);
       expect(alert).to.not.exist;
     });
   });

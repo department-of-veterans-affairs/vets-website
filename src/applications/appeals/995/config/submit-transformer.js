@@ -1,4 +1,8 @@
-import { HAS_OTHER_EVIDENCE, SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
+import {
+  HAS_OTHER_EVIDENCE,
+  HAS_PRIVATE_LIMITATION,
+  SUPPORTED_BENEFIT_TYPES_LIST,
+} from '../constants';
 import {
   getHomeless,
   getAddress,
@@ -13,37 +17,103 @@ import {
   addIncludedIssues,
   getTimeZone,
 } from '../../shared/utils/submit';
+import { getFacilityType } from '../utils/submit/facilities';
 
 export function transform(form) {
   // https://developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   // match supplemental claims schema here
   const mainTransform = formData => {
-    const { benefitType, additionalDocuments } = formData;
+    const {
+      additionalDocuments,
+      benefitType,
+      limitedConsent,
+      privacyAgreementAccepted,
+      privateEvidence,
+      scRedesign,
+      vaEvidence,
+    } = formData;
 
-    const attributes = {
-      // fall back to compensation; this will fix a few existing submission
-      // with "other" benefit type set that are being rejected
-      benefitType: SUPPORTED_BENEFIT_TYPES_LIST.includes(benefitType)
-        ? benefitType
-        : 'compensation',
-      ...getClaimantData(formData),
-      ...getHomeless(formData),
-      ...getMstData(formData),
+    const lcPrompt = formData[HAS_PRIVATE_LIMITATION];
 
-      veteran: {
-        timezone: getTimeZone(),
-        address: getAddress(formData),
-        phone: getPhone(formData, true),
-        email: getEmail(formData),
-      },
-      ...getEvidence(formData),
-      socOptIn: true, // OAR requested no checkbox
-    };
+    if (scRedesign) {
+      const attributes = {
+        // fall back to compensation; this will fix a few existing submission
+        // with "other" benefit type set that are being rejected
+        benefitType: SUPPORTED_BENEFIT_TYPES_LIST.includes(benefitType)
+          ? benefitType
+          : 'compensation',
+        ...getClaimantData(formData),
+        ...getHomeless(formData),
+        ...getMstData(formData),
+        veteran: {
+          timezone: getTimeZone(),
+          address: getAddress(formData),
+          phone: getPhone(formData, true),
+          email: getEmail(formData),
+        },
+        form5103Acknowledged: formData.form5103Acknowledged,
+        ...getFacilityType(formData),
+        socOptIn: true, // OAR requested no checkbox
+      };
 
+      if (vaEvidence && vaEvidence?.length) {
+        attributes.vaEvidence = vaEvidence;
+      }
+
+      const dataToSend = {
+        scRedesign: true,
+        data: {
+          type: 'supplementalClaim',
+          attributes,
+        },
+        form4142: null,
+        included: addIncludedIssues(formData),
+        additionalDocuments:
+          additionalDocuments && additionalDocuments?.length
+            ? additionalDocuments
+            : null,
+      };
+
+      if (privateEvidence && privateEvidence?.length) {
+        dataToSend.form4142 = {
+          evidenceEntries: privateEvidence,
+          authorization: privacyAgreementAccepted,
+          lcPrompt,
+        };
+      }
+
+      if (lcPrompt) {
+        dataToSend.form4142 = {
+          ...dataToSend.form4142,
+          lcDetails: limitedConsent,
+        };
+      }
+
+      return dataToSend;
+    }
+
+    // Old data formatting
     return {
       data: {
         type: 'supplementalClaim',
-        attributes,
+        attributes: {
+          // fall back to compensation; this will fix a few existing submission
+          // with "other" benefit type set that are being rejected
+          benefitType: SUPPORTED_BENEFIT_TYPES_LIST.includes(benefitType)
+            ? benefitType
+            : 'compensation',
+          ...getClaimantData(formData),
+          ...getHomeless(formData),
+          ...getMstData(formData),
+          veteran: {
+            timezone: getTimeZone(),
+            address: getAddress(formData),
+            phone: getPhone(formData, true),
+            email: getEmail(formData),
+          },
+          ...getEvidence(formData),
+          socOptIn: true, // OAR requested no checkbox
+        },
       },
       included: addIncludedIssues(formData),
       form4142: getForm4142(formData),

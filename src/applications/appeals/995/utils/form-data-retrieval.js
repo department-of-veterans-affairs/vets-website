@@ -4,6 +4,7 @@ import {
   HAS_VA_EVIDENCE,
   HAS_PRIVATE_LIMITATION,
   MST_OPTION,
+  VA_TREATMENT_BEFORE_2005_KEY,
 } from '../constants';
 
 export const hasPrivateEvidence = formData =>
@@ -22,3 +23,10 @@ export const getPrivateEvidence = formData =>
   (hasPrivateEvidence(formData) && formData?.providerFacility) || [];
 export const getOtherEvidence = formData =>
   (hasOtherEvidence(formData) && formData?.additionalDocuments) || [];
+export const getArrayBuilderVAEvidence = formData => formData?.vaEvidence || [];
+export const getArrayBuilderPrivateEvidence = formData =>
+  formData?.privateEvidence || [];
+
+// VA Evidence List & Loop
+export const hasTreatmentBefore2005 = (formData, index) =>
+  formData?.vaEvidence?.[index]?.[VA_TREATMENT_BEFORE_2005_KEY] === 'Y';

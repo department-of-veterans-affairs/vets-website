@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import BasicLink from '../../../shared/components/web-component-wrappers/BasicLink';
 import { content as authContent } from '../4142/Authorization';
 import { content } from '../../content/evidence/summary';
@@ -13,6 +12,7 @@ import {
   LIMITED_CONSENT_PROMPT_URL,
   LIMITED_CONSENT_DETAILS_URL,
   LIMITATION_KEY,
+  HAS_PRIVATE_LIMITATION,
 } from '../../constants';
 import {
   confirmationPageLabel,
@@ -20,11 +20,12 @@ import {
   listClassNames,
   removeButtonClass,
 } from '../../utils/evidence-classnames';
-import { formatDate } from '../../utils/evidence';
+import { formatDateToReadableString } from '../../../shared/utils/dates';
+import { formatIssueList } from '../../../shared/utils/contestableIssueMessages';
 
 /**
  * Build private evidence list
- * @param {Object[]} list - Private medical evidence array
+ * @param {Object[]} data - Private medical evidence array
  * @param {String} limitedConsentContent - Private evidence limitation
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
  * @param {Boolean} isOnReviewPage - When true, list is rendered on review page
@@ -33,21 +34,20 @@ import { formatDate } from '../../utils/evidence';
  *  an href when not wrapped in a Router
  * @returns {JSX}
  */
-export const PrivateDetailsDisplay = ({
-  list = [],
-  limitedConsent = '',
+export const PrivateDetailsDisplayNew = ({
+  data,
   isOnReviewPage,
   reviewMode = false,
   handlers = {},
-  privacyAgreementAccepted,
   testing,
   showListOnly = false,
-  limitedConsentResponse,
 }) => {
-  if (!list?.length) {
+  if (!data) {
     return null;
   }
 
+  const { privacyAgreementAccepted, limitedConsent, privateEvidence } = data;
+  const lcPrompt = data[HAS_PRIVATE_LIMITATION];
   const Header = isOnReviewPage ? 'h5' : 'h4';
   const SubHeader = isOnReviewPage ? 'h6' : 'h5';
 
@@ -55,18 +55,32 @@ export const PrivateDetailsDisplay = ({
     { street, street2, city, state, postalCode, country },
     errors,
   ) => (
-    <div
+    <p
       className="vads-u-margin-bottom--1 facility-address dd-privacy-hidden"
       data-dd-action-name="Non-VA facility address"
     >
-      <div>{street}</div>
-      {street2 && <div>{street2}</div>}
-      <div>
-        {city}, {state} {postalCode}
-      </div>
-      {country !== 'USA' && <div>{country}</div>}
-      {errors.address}
-    </div>
+      {street}
+      {street2 ? (
+        <>
+          <br />
+          {street2}
+        </>
+      ) : null}
+      <br />
+      {city}, {state} {postalCode}
+      {country !== 'USA' ? (
+        <>
+          <br />
+          {country}
+        </>
+      ) : null}
+      {errors.address ? (
+        <>
+          <br />
+          {errors.address}
+        </>
+      ) : null}
+    </p>
   );
 
   return (
@@ -119,7 +133,7 @@ export const PrivateDetailsDisplay = ({
           >
             {limitedConsentPromptQuestion}
           </SubHeader>
-          <p>{limitedConsentResponse ? 'Yes' : 'No'}</p>
+          <p>{lcPrompt ? 'Yes' : 'No'}</p>
           {!reviewMode && (
             <div className="vads-u-margin-top--1p5">
               <BasicLink
@@ -134,53 +148,66 @@ export const PrivateDetailsDisplay = ({
             </div>
           )}
         </li>
-        {limitedConsentResponse && (
-          <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
-            <SubHeader
-              className={`private-limitation
+        {lcPrompt &&
+          limitedConsent && (
+            <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
+              <SubHeader
+                className={`private-limitation
                 vads-u-margin-y--0
                 ${confirmationPageLabel(showListOnly)}`}
-            >
-              {limitedConsentDetailsQuestion}
-            </SubHeader>
-            <p>{limitedConsent}</p>
-            {!reviewMode && (
-              <div className="vads-u-margin-top--1p5">
-                <BasicLink
-                  disableAnalytics
-                  id="edit-limitation"
-                  className="edit-item"
-                  path={`/${LIMITED_CONSENT_DETAILS_URL}`}
-                  aria-label={`${
-                    content.edit
-                  } ${limitedConsentDetailsQuestion}`}
-                  data-link={testing ? LIMITED_CONSENT_DETAILS_URL : null}
-                  text={content.edit}
-                />
-              </div>
-            )}
-          </li>
-        )}
-        {list.map((facility, index) => {
+              >
+                {limitedConsentDetailsQuestion}
+              </SubHeader>
+              <p>{limitedConsent}</p>
+              {!reviewMode && (
+                <div className="vads-u-margin-top--1p5">
+                  <BasicLink
+                    disableAnalytics
+                    id="edit-limitation"
+                    className="edit-item"
+                    path={`/${LIMITED_CONSENT_DETAILS_URL}`}
+                    aria-label={`${
+                      content.edit
+                    } ${limitedConsentDetailsQuestion}`}
+                    data-link={testing ? LIMITED_CONSENT_DETAILS_URL : null}
+                    text={content.edit}
+                  />
+                </div>
+              )}
+            </li>
+          )}
+        {privateEvidence.map((facility, index) => {
           const {
-            providerFacilityName,
-            issues = [],
-            providerFacilityAddress = {},
-            treatmentDateRange = {},
+            address,
+            privateTreatmentLocation,
+            treatmentEnd,
+            treatmentStart,
+            issues,
           } = facility || {};
+
           const path = `/${EVIDENCE_PRIVATE_DETAILS_URL}?index=${index}`;
 
-          const fromDate = formatDate(treatmentDateRange.from);
-          const toDate = formatDate(treatmentDateRange.to);
+          const fromDate = formatDateToReadableString(
+            new Date(`${treatmentStart}T12:00:00`),
+          );
+
+          const toDate = formatDateToReadableString(
+            new Date(`${treatmentEnd}T12:00:00`),
+          );
+
+          const selectedIssues = Object.keys(issues).filter(
+            issue => issues[issue],
+          );
+
           const errors = {
-            name: providerFacilityName ? '' : content.missing.facility,
-            issues: issues.length ? '' : content.missing.condition,
+            name: privateTreatmentLocation ? '' : content.missing.facility,
+            issues: selectedIssues.length ? '' : content.missing.condition,
             address:
-              providerFacilityAddress.country &&
-              providerFacilityAddress.street &&
-              providerFacilityAddress.city &&
-              providerFacilityAddress.state &&
-              providerFacilityAddress.postalCode
+              address.country &&
+              address.street &&
+              address.city &&
+              address.state &&
+              address.postalCode
                 ? ''
                 : content.missing.address,
             from: fromDate ? '' : content.missing.from,
@@ -192,7 +219,7 @@ export const PrivateDetailsDisplay = ({
 
           return (
             <li
-              key={providerFacilityName + index}
+              key={privateTreatmentLocation + index}
               className={`${listClassNames(
                 !showListOnly,
               )} vads-u-margin-bottom--2`}
@@ -203,11 +230,11 @@ export const PrivateDetailsDisplay = ({
                     className="private-facility vads-u-margin-bottom--2 dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold"
                     data-dd-action-name="Non-VA facility name"
                   >
-                    {providerFacilityName}
+                    {privateTreatmentLocation}
                   </SubHeader>
                 )}
                 {showListOnly ? (
-                  showAddress(providerFacilityAddress, errors)
+                  showAddress(address, errors)
                 ) : (
                   <div>{errors.address}</div>
                 )}
@@ -215,16 +242,16 @@ export const PrivateDetailsDisplay = ({
                   className="dd-privacy-hidden vads-u-margin-bottom--1 overflow-wrap-word"
                   data-dd-action-name="Non-VA facility treated issues"
                 >
-                  {errors.issues || readableList(issues)}
+                  {errors.issues || formatIssueList(selectedIssues)}
                 </p>
                 <div>{errors.address}</div>
                 {errors.dates || (
-                  <div
+                  <p
                     className="dd-privacy-hidden vads-u-margin-bottom--1p5"
                     data-dd-action-name="Non-VA facility treatment date range"
                   >
                     {errors.from || fromDate} – {errors.to || toDate}
-                  </div>
+                  </p>
                 )}
                 {!reviewMode && (
                   <div className="vads-u-margin-top--1p5">
@@ -233,7 +260,7 @@ export const PrivateDetailsDisplay = ({
                       id={`edit-private-${index}`}
                       className="edit-item"
                       path={path}
-                      aria-label={`${content.edit} ${providerFacilityName}`}
+                      aria-label={`${content.edit} ${privateTreatmentLocation}`}
                       data-link={testing ? path : null}
                       text={content.edit}
                     />
@@ -242,7 +269,7 @@ export const PrivateDetailsDisplay = ({
                       data-type="private"
                       onClick={handlers.showModal}
                       class={removeButtonClass}
-                      label={`${content.remove} ${providerFacilityName}`}
+                      label={`${content.remove} ${privateTreatmentLocation}`}
                       text={content.remove}
                       secondary
                     />
@@ -257,13 +284,31 @@ export const PrivateDetailsDisplay = ({
   );
 };
 
-PrivateDetailsDisplay.propTypes = {
+PrivateDetailsDisplayNew.propTypes = {
+  data: PropTypes.shape({
+    privacyAgreementAccepted: PropTypes.bool,
+    limitedConsent: PropTypes.string,
+    lcPrompt: PropTypes.string,
+    privateEvidence: PropTypes.arrayOf(
+      PropTypes.shape({
+        address: {
+          'view:militaryBaseDescription': PropTypes.string,
+          city: PropTypes.string,
+          country: PropTypes.string,
+          postalCode: PropTypes.string,
+          state: PropTypes.string,
+          street: PropTypes.string,
+          street2: PropTypes.string,
+        },
+        issues: PropTypes.arrayOf(PropTypes.string),
+        privateTreatmentLocation: PropTypes.string,
+        treatmentEnd: PropTypes.string,
+        treatmentStart: PropTypes.string,
+      }),
+    ),
+  }),
   handlers: PropTypes.shape({}),
   isOnReviewPage: PropTypes.bool,
-  limitedConsent: PropTypes.string,
-  limitedConsentResponse: PropTypes.bool,
-  list: PropTypes.array,
-  privacyAgreementAccepted: PropTypes.bool,
   reviewMode: PropTypes.bool,
   showListOnly: PropTypes.bool,
   testing: PropTypes.bool,

@@ -11,6 +11,9 @@ export const DATA_DOG_ID = '2779ccc3-be87-4b2d-a757-9ff54b58761b';
 export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';
 export const DATA_DOG_SERVICE = 'benefits---supplemental-claim';
 
+export const NOV_2025_REDESIGN_TOGGLE = 'decision_review_sc_redesign_nov2025';
+export const TOGGLE_KEY = 'decisionReviewsScRedesign';
+
 // *** URLS ***
 export const DECISION_REVIEWS_URL = '/decision-reviews';
 export const SC_INFO_URL = `${DECISION_REVIEWS_URL}/supplemental-claim`;
@@ -20,13 +23,16 @@ export const CONTACT_INFO_URL = 'contact-information';
 export const ADD_ISSUE_URL = 'add-issue';
 export const EVIDENCE_VA_PROMPT_URL =
   'supporting-evidence/request-va-medical-records';
-export const EVIDENCE_VA_DETAILS_URL = 'supporting-evidence/va-medical-records';
+export const EVIDENCE_VA_DETAILS_URL =
+  'supporting-evidence/va-medical-records-v0';
 export const EVIDENCE_PRIVATE_PROMPT_URL =
-  'supporting-evidence/request-private-medical-records';
+  'supporting-evidence/private-medical-records';
 export const EVIDENCE_PRIVATE_AUTHORIZATION_URL =
   'supporting-evidence/private-medical-records-authorization';
+// export const EVIDENCE_PRIVATE_DETAILS_URL =
+//   'supporting-evidence/private-medical-records';
 export const EVIDENCE_PRIVATE_DETAILS_URL =
-  'supporting-evidence/private-medical-records';
+  'supporting-evidence/private-medical-records-v0';
 export const LIMITED_CONSENT_PROMPT_URL = 'supporting-evidence/add-limitation';
 export const LIMITED_CONSENT_DETAILS_URL = 'supporting-evidence/limitation';
 export const EVIDENCE_ADDITIONAL_URL =
@@ -35,21 +41,19 @@ export const EVIDENCE_UPLOAD_URL = 'supporting-evidence/upload-evidence';
 
 // This is for URLs specific to the redesign to avoid collision with existing URL variables
 export const EVIDENCE_URLS = {
-  vaPrompt: 'supporting-evidence/va-medical-records',
   vaLocation: 'supporting-evidence/:index/va-medical-records-location',
   vaIssues: 'supporting-evidence/:index/va-medical-records-condition',
   vaTreatmentDatePrompt: 'supporting-evidence/:index/va-medical-before-2005',
   vaTreatmentDateDetails:
     'supporting-evidence/:index/va-medical-before-2005-date',
-  vaSummary: 'supporting-evidence/va-medical-summary',
-  privatePrompt: 'supporting-evidence/request-private-medical-records',
-  privateAuthorization:
-    'supporting-evidence/private-medical-records-authorization',
+  vaPromptSummary: 'supporting-evidence/va-medical-records',
   privateDetails: 'supporting-evidence/:index/private-medical-records-location',
-  privateIssues: 'supporting-evidence/:index/private-medical-records/condition',
+  privateIntro: 'supporting-evidence/private-medical-records-intro',
+  privateIssues: 'supporting-evidence/:index/private-medical-records-condition',
+  privateSummary: 'supporting-evidence/private-medical-records-summary',
   privateTreatmentDate:
     'supporting-evidence/:index/private-medical-records-dates',
-  privateSummary: 'supporting-evidence/private-medical-records-review',
+  uploadPrompt: 'supporting-evidence/add-supporting-evidence',
 };
 
 // Point to header of the "File by mail, in person, or with the help of a VSO
@@ -63,11 +67,20 @@ export const OTHER_HOUSING_RISK_MAX = 100;
 export const POINT_OF_CONTACT_MAX = 150;
 export const TREATMENT_FACILITY_OTHER_MAX = 115;
 
+// Form Keys
 export const HAS_VA_EVIDENCE = 'view:hasVaEvidence';
 export const HAS_PRIVATE_EVIDENCE = 'view:hasPrivateEvidence';
 export const HAS_OTHER_EVIDENCE = 'view:hasOtherEvidence';
 export const HAS_PRIVATE_LIMITATION = 'view:hasPrivateLimitation';
 export const MST_OPTION = 'mstOption';
+export const VA_EVIDENCE_PROMPT_KEY = 'hasVaEvidence';
+export const VA_EVIDENCE_KEY = 'vaEvidence';
+export const PRIVATE_EVIDENCE_PROMPT_KEY = 'hasPrivateEvidence';
+export const PRIVATE_EVIDENCE_KEY = 'privateEvidence';
+export const VA_TREATMENT_LOCATION_KEY = 'vaTreatmentLocation';
+export const PRIVATE_TREATMENT_LOCATION_KEY = 'privateTreatmentLocation';
+export const VA_TREATMENT_BEFORE_2005_KEY = 'treatmentBefore2005';
+export const VA_TREATMENT_MONTH_YEAR_KEY = 'treatmentMonthYear';
 
 export const errorMessages = {
   evidence: {

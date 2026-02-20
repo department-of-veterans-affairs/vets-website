@@ -2,15 +2,13 @@
  * E2E test for blocked issues on 995 form.
  */
 import path from 'path';
-
 import testForm from '~/platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-tester/utilities';
-
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import { setupPerTest, pageHooks } from './995.cypress.helpers';
+import { NOV_2025_REDESIGN_TOGGLE, TOGGLE_KEY } from '../../constants';
 import { parseDateWithOffset } from '../../../shared/utils/dates';
-
 import { CONTESTABLE_ISSUES_API } from '../../constants/apis';
 import { CONTESTABLE_ISSUES_PATH } from '../../../shared/constants';
 
@@ -111,7 +109,19 @@ const testConfig = createTestConfig(
       mocks: path.join(__dirname, '..', 'fixtures', 'mocks'),
     },
     pageHooks: pageHooksWithAccessibilityChecks,
-    setupPerTest: setupPerTestBlockedIssues,
+    setupPerTest: data => {
+      const toggles = [
+        {
+          name: NOV_2025_REDESIGN_TOGGLE,
+          value: false,
+        },
+        {
+          name: TOGGLE_KEY,
+          value: false,
+        },
+      ];
+      setupPerTestBlockedIssues(data, toggles);
+    },
   },
   manifest,
   formConfig,
