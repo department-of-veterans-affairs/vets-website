@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const fs = require('fs-extra');
-const findImports = require('find-imports');
 const commandLineArgs = require('command-line-args');
+const findImports = require('./utils/find-imports-lite');
 
 const getPackageName = importPath => {
   const parts = importPath.split('/');

@@ -1,4 +1,4 @@
-const findImports = require('find-imports');
+const findImports = require('../../../../utils/find-imports-lite');
 
 const Dependencies = require('.');
 

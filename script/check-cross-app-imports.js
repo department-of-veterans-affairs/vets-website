@@ -7,81 +7,8 @@ const omit = require('lodash/omit');
 const pickBy = require('lodash/pickBy');
 const commandLineArgs = require('command-line-args');
 const core = require('@actions/core');
-const glob = require('glob');
-const { promisify } = require('util');
 
-const globAsync = promisify(glob);
-
-/**
- * Fast regex-based import extraction.
- * Extracts import/require statements from file content.
- */
-function extractImportsFromContent(content) {
-  const imports = [];
-
-  // Remove single-line comments to avoid matching commented imports
-  const contentWithoutComments = content.replace(/\/\/.*$/gm, '');
-
-  // Match ES6 imports: import ... from 'path' or import 'path'
-  const es6ImportRegex = /import\s+(?:(?:[\w*{}\s,]+)\s+from\s+)?['"]([^'"]+)['"]/g;
-  for (const match of contentWithoutComments.matchAll(es6ImportRegex)) {
-    imports.push(match[1]);
-  }
-
-  // Match dynamic imports: import('path')
-  const dynamicImportRegex = /import\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
-  for (const match of contentWithoutComments.matchAll(dynamicImportRegex)) {
-    imports.push(match[1]);
-  }
-
-  // Match require statements: require('path')
-  const requireRegex = /require\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
-  for (const match of contentWithoutComments.matchAll(requireRegex)) {
-    imports.push(match[1]);
-  }
-
-  // Filter to only relative and absolute imports (not packages)
-  return imports.filter(
-    imp => imp.startsWith('.') || imp.startsWith('applications/'),
-  );
-}
-
-/**
- * Fast parallel import scanning using glob + regex.
- * Much faster than find-imports for large codebases.
- */
-async function getImportsFast(globPattern, ignorePatterns = []) {
-  // Convert to JS/TS specific patterns
-  const pattern = Array.isArray(globPattern) ? globPattern[0] : globPattern;
-  const jsPattern = pattern.replace('**/*.*', '**/*.{js,jsx,ts,tsx,mjs}');
-
-  const ignoreList = ['**/node_modules/**', ...ignorePatterns];
-  const files = await globAsync(jsPattern, {
-    ignore: ignoreList,
-  });
-
-  // Process all files in parallel
-  const fileResults = await Promise.all(
-    files.map(async filePath => {
-      try {
-        const content = await fs.readFile(filePath, 'utf8');
-        const imports = extractImportsFromContent(content);
-        return { filePath, imports };
-      } catch {
-        return { filePath, imports: [] };
-      }
-    }),
-  );
-
-  const results = {};
-  for (const { filePath, imports } of fileResults) {
-    if (imports.length > 0) {
-      results[filePath] = imports;
-    }
-  }
-
-  return results;
-}
+const { findImportsAsync } = require('./utils/find-imports-lite');
 
 function getAppNameFromFilePath(filePath) {
   return filePath.split('/')[2];
@@ -153,9 +80,12 @@ function updateGraph(graph, appName, importerFilePath, importeeFilePath) {
 
 async function buildGraph() {
   const graph = {};
-  const globPattern = 'src/applications/**/*.*';
-  const ignorePatterns = ['src/applications/*.*']; // Ignore files directly in applications folder
-  const imports = await getImportsFast(globPattern, ignorePatterns);
+  const imports = await findImportsAsync('src/applications/**/*.*', {
+    packageImports: false,
+    relativeImports: true,
+    absoluteImports: true,
+    ignorePatterns: ['src/applications/*.*'],
+  });
 
   const importerFiles = Object.keys(imports);
   importerFiles.forEach(importerFilePath => {
@@ -195,7 +125,7 @@ const changedAppsConfig = require('../config/changed-apps-build.json');
 /**
  * Gets the paths of files in 'src/platform' that import from apps.
  *
- * @param {string} platformImports - Platform imports generated from 'find-imports'.
+ * @param {Object} platformImports - Platform imports from findImportsAsync.
  * @param {string} appFolder - The name of an app's folder in 'src/applications'.
  * @returns {string[]} An array of platform file paths that import from the given app folder.
  */
@@ -239,13 +169,16 @@ const appHasCrossAppImports = (importGraph, appFolder) => {
  * @returns {Object|null} Cross app import dependency graph.
  */
 const getCrossAppImports = async appFolders => {
-  // Suppress errors from 'find-imports' when building graph.
   console.error = () => {};
   console.log('Analyzing app imports...');
 
   const importGraph = dedupeGraph(await buildGraph());
 
-  const platformImports = await getImportsFast(['src/platform/**/*.*']);
+  const platformImports = await findImportsAsync('src/platform/**/*.*', {
+    packageImports: false,
+    relativeImports: true,
+    absoluteImports: true,
+  });
 
   // Zero out references from src/platform so that they won't flag isolation checks.
   // This approach preserves data in case you want to log or debug it,

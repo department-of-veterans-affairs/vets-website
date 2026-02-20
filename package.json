@@ -200,7 +200,6 @@
     "figlet": "^1.5.2",
     "file-loader": "^6.2.0",
     "find": "^0.3.0",
-    "find-imports": "^1.1.0",
     "fs-extra": "^7.0.0",
     "glob": "^7.2.0",
     "html-webpack-plugin": "^5.5.0",
