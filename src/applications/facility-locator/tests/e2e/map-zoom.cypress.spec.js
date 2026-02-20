@@ -1,40 +1,28 @@
 import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import mockServices from '../../constants/mock-provider-services.json';
 
 Cypress.Commands.add('verifySearchArea', () => {
-  const clickInterval = 10;
-
   // Zoom in
-  [...Array(15)].forEach(_ =>
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy
-      .get('.mapboxgl-ctrl-zoom-in')
-      .click({ waitForAnimations: true })
-      .wait(clickInterval),
-  );
+  [...Array(15)].forEach(_ => {
+    cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true });
+  });
 
-  // Verify search are button present
+  // Verify search area button present
   cy.get('#search-area-control').contains('Search this area of the map');
 
   // Zoom out
-  [...Array(13)].forEach(_ =>
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy
-      .get('.mapboxgl-ctrl-zoom-out')
-      .click({ waitForAnimations: true })
-      .wait(clickInterval),
-  );
+  [...Array(13)].forEach(_ => {
+    cy.get('.mapboxgl-ctrl-zoom-out').click({ waitForAnimations: true });
+  });
 
   // Verify search area button text changed
   cy.get('#search-area-control').contains('Zoom in to search');
 
   // Zoom in again
-  [...Array(12)].forEach(_ =>
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy
-      .get('.mapboxgl-ctrl-zoom-in')
-      .click({ waitForAnimations: true })
-      .wait(clickInterval),
-  );
+  [...Array(12)].forEach(_ => {
+    cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true });
+  });
 
   // Verify search area button text changed back
   cy.get('#search-area-control').contains('Search this area of the map');
@@ -55,6 +43,8 @@ Cypress.Commands.add('verifySearchArea', () => {
 it('handles map zooming correctly', () => {
   cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
   cy.intercept('GET', '/v0/maintenance_windows', []);
+  cy.intercept('GET', '/facilities_api/v2/ccp/specialties', mockServices);
+  cy.intercept('GET', '**/geocoding/**', mockGeocodingData);
   cy.intercept(
     'POST',
     '/facilities_api/v2/**',
@@ -67,17 +57,14 @@ it('handles map zooming correctly', () => {
     .shadow()
     .find('select')
     .select('VA health');
-  cy.get('#facility-search')
-    .click({ force: true })
-    .then(() => {
-      cy.get('#search-results-subheader').contains(
-        /(Showing|Results).*VA health.*All VA health services.*near.*Austin, Texas/i,
-      );
-      cy.get('#other-tools').should('exist');
+  cy.get('#facility-search').click({ force: true });
+  cy.get('#search-results-subheader').contains(
+    /(Showing|Results).*VA health.*All VA health services.*near.*Austin, Texas/i,
+  );
+  cy.get('#other-tools').should('exist');
 
-      cy.injectAxe();
-      cy.axeCheck();
+  cy.injectAxe();
+  cy.axeCheck();
 
-      cy.verifySearchArea();
-    });
+  cy.verifySearchArea();
 });
