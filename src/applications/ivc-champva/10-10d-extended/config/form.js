@@ -113,7 +113,7 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound:
       'Please start over to apply for CHAMPVA application (includes 10-7959c).',

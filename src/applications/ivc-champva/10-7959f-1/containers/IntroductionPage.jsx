@@ -16,13 +16,13 @@ const IntroductionPage = ({ route }) => {
     () => ({
       unauthStartText: 'Sign in to start your form',
       messages: savedFormMessages,
-      formConfig: { customText: { appType: 'registration form' } },
       headingLevel: 2,
+      formConfig,
       prefillEnabled,
       pageList,
       formId,
     }),
-    [formId, pageList, prefillEnabled, savedFormMessages],
+    [formConfig, formId, pageList, prefillEnabled, savedFormMessages],
   );
 
   useEffect(() => focusElement('.schemaform-intro h1'), []);

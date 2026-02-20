@@ -175,7 +175,7 @@ Cypress.Commands.add('clickFormBack', () => {
 
 Cypress.Commands.add('clickStartForm', () => {
   cy.get(
-    'a.schemaform-start-button, a.vads-c-action-link--green[href="#start"], va-link-action[href="#start"]',
+    '.schemaform-start-button, a.vads-c-action-link--green[href="#start"], va-link-action[href="#start"]',
   )
     .first()
     .click(FORCE_OPTION);

@@ -160,8 +160,9 @@ const IntroductionPage = ({ route }) => {
           pageList={route.pageList}
           downtime={route.formConfig.downtime}
           startText="Start the burial allowance and transportation benefits application"
-          continueMsg={showPdfFormAlignment() ? <FormUpdateText /> : null}
-        />
+        >
+          {showPdfFormAlignment() && <FormUpdateText />}
+        </SaveInProgressIntro>
       )}
 
       <div className="omb-info--container vads-u-margin-top--3 vads-u-padding-left--0">

@@ -103,7 +103,7 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: content['form-messages--not-found'],
     noAuth: content['form-messages--no-auth'],
