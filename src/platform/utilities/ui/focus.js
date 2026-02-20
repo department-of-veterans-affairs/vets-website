@@ -106,8 +106,6 @@ export function focusByOrder(selectors, root) {
             focusElement(shadowEl);
             return true;
           }
-          // Shadow root exists but element not ready - retry after delay
-          // Only focus if nothing else claimed focus in the meantime
           setTimeout(() => {
             if (document.activeElement === document.body) {
               const el = host.shadowRoot.querySelector(internalSelector.trim());
