@@ -80,7 +80,7 @@ function ClaimsStatusApp({
     applicationId: '75bb17aa-34f0-4366-b196-eb11eda75425',
     clientToken: 'pub21bfd23fdfb656231f24906ea91ccb01',
     service: 'benefits-claim-status-tool',
-    version: '1.0.0',
+    version: process.env.APP_VERSION || '1.0.0',
     sessionReplaySampleRate:
       environment.vspEnvironment() === 'staging' ? 100 : 50,
     // Prevent PII (file names) from being sent to Datadog in click event metadata
