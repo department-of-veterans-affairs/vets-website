@@ -219,6 +219,15 @@ describe('<SaveInProgressIntro>', () => {
       const { container } = subject({ user, formConfig });
       expect(container.textContent).to.match(/claim/i);
     });
+
+    it('should render custom app action text', () => {
+      const user = withSavedForm();
+      const formConfig = createFormConfig({
+        customText: { appAction: 'asking a question' },
+      });
+      const { container } = subject({ user, formConfig });
+      expect(container.textContent).to.match(/asking a question/i);
+    });
   });
 
   describe('when user is logged in with an expired saved form', () => {

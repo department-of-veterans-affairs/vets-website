@@ -79,13 +79,20 @@ class SaveInProgressIntro extends React.Component {
 
     // common text values
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+    const appAction =
+      formConfig?.customText?.appAction || `filling out this ${appType}`;
     const Header = `h${this.props.headingLevel}`;
 
     // ===== LOGGED IN STATES =====
     if (login?.currentlyLoggedIn) {
       // Logged in with saved form (active or expired)
       if (savedForm) {
-        return this.getLoggedInSavedFormAlert(savedForm, appType, Header);
+        return this.getLoggedInSavedFormAlert(
+          savedForm,
+          appType,
+          appAction,
+          Header,
+        );
       }
 
       // Logged in, no saved form, with prefill available
@@ -179,7 +186,7 @@ class SaveInProgressIntro extends React.Component {
     return vowels.includes(word.charAt(0).toLowerCase()) ? 'an' : 'a';
   };
 
-  getLoggedInSavedFormAlert = (savedForm, appType, Header) => {
+  getLoggedInSavedFormAlert = (savedForm, appType, appAction, Header) => {
     const { metadata = {} } = savedForm;
     const { formConfig } = this.props;
     const lastUpdated = savedForm.lastUpdated || metadata.lastUpdated;
@@ -209,9 +216,9 @@ class SaveInProgressIntro extends React.Component {
               {formName} on {savedDateTime}.
             </Header>
             <p>
-              You can continue filling out this {appType} with your saved
-              information until <strong>{expirationDate}</strong>. If you don’t
-              submit your {appType} by that date, you’ll need to start over.
+              You can continue {appAction} with your saved information until{' '}
+              <strong>{expirationDate}</strong>. If you don’t submit your{' '}
+              {appType} by that date, you’ll need to start over.
             </p>
             <div>{this.props.children}</div>
             {this.getFormControls(savedForm)}
@@ -445,6 +452,7 @@ SaveInProgressIntro.propTypes = {
   fetchInProgressForm: PropTypes.func,
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
+      appAction: PropTypes.string,
       appType: PropTypes.string,
     }),
     formOptions: PropTypes.shape({
@@ -529,6 +537,7 @@ const mapDispatchToProps = {
  *   downtime?: any,
  *   formConfig?: {
  *     customText?: {
+ *       appAction?: string,
  *       appType?: string,
  *     },
  *    formOptions?: {
