@@ -61,6 +61,17 @@ export const parseDate = (
 };
 
 /**
+ * parseDateToObj - parses date and returns Date object instead of formatted string
+ * This is the proper date parsing function that returns Date objects
+ * @param {string, number, Date} date - date to parse
+ * @param {string} currentFormat - input date-fns format string
+ * @returns {Date|null} Date object or null
+ */
+export const parseDateToObj = (date, currentFormat) => {
+  return parseDateToDateObj(date, currentFormat);
+};
+
+/**
  * Date-fns offsets - see https://date-fns.org/v3.6.0/docs/add#arguments
  * @typedef DateFnsOffset
  * @type {Object}

@@ -136,9 +136,13 @@ describe('ezr general helpers', () => {
     });
 
     context('when the value is between 1900-01-01 and today', () => {
-      it('should return the value', () => {
+      it('should return the Date object', () => {
         const validDate = '1990-01-01';
-        expect(parseVeteranDob(validDate)).to.eq(validDate);
+        const result = parseVeteranDob(validDate);
+        expect(result).to.be.instanceOf(Date);
+        expect(result.getFullYear()).to.eq(1990);
+        expect(result.getMonth()).to.eq(0); // January is 0
+        expect(result.getDate()).to.eq(1);
       });
     });
   });
