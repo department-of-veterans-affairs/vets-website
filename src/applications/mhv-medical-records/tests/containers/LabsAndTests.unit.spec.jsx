@@ -380,3 +380,99 @@ describe('Labs and tests list container with holdTimeMessagingUpdate feature fla
     );
   });
 });
+
+describe('Accelerated LabsAndTests', () => {
+  const labsAndTestsFhir = labsAndTests.entry.map(item =>
+    convertLabsAndTestsRecord(item),
+  );
+
+  const buildAcceleratedState = () => ({
+    user: {
+      ...user,
+      profile: {
+        ...user.profile,
+        facilities: [
+          {
+            facilityId: '983',
+            isCerner: true,
+          },
+        ],
+      },
+    },
+    mr: {
+      labsAndTests: {
+        labsAndTestsList: labsAndTestsFhir,
+        listState: 'fetched',
+        dateRange: {
+          option: '3',
+          fromDate: '2025-08-13',
+          toDate: '2025-11-13',
+        },
+      },
+      alerts: {
+        alertList: [],
+      },
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+        data: {
+          cernerFacilities: [{ vhaId: '983' }],
+        },
+      },
+    },
+    featureToggles: {
+      loading: false,
+      [FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryEnabled]: true,
+      [FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryLabsAndTestsEnabled]: true,
+    },
+  });
+
+  it('renders the DateRangeSelector component when accelerated', () => {
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState: buildAcceleratedState(),
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    expect(screen.getByTestId('date-range-selector')).to.exist;
+  });
+
+  it('does NOT render the NewRecordsIndicator when accelerated', () => {
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState: buildAcceleratedState(),
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    // NewRecordsIndicator has a distinctive button with this text
+    expect(screen.queryByText('Refresh records')).to.not.exist;
+  });
+
+  it('renders record list items from the accelerated list data', async () => {
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState: buildAcceleratedState(),
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    await waitFor(() => {
+      const items = screen.getAllByTestId('record-list-item');
+      // Verify we have record items rendered
+      expect(items.length).to.be.greaterThan(0);
+    });
+  });
+
+  it('displays the filter display message with date range', () => {
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState: buildAcceleratedState(),
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    const filterMessage = screen.getByTestId('filter-display-message');
+    expect(filterMessage).to.exist;
+    // When accelerated, the filter message should show the date range, not "newest to oldest"
+    expect(filterMessage.textContent).to.not.equal('newest to oldest');
+  });
+});
