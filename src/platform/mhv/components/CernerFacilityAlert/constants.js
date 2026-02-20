@@ -82,24 +82,6 @@ export const CernerAlertContent = {
     errorStartDate: 'p4',
     errorEndDate: 'p6',
   },
-  MEDICATIONS_REFILL: {
-    linkPath: '/pages/medications/current',
-    headline: 'To view or manage your medications at',
-    pageName: 'medications',
-    infoAlertActionPhrase: 'manage your medications',
-    infoAlertText:
-      'You no longer need to go to My VA Health to manage your prescriptions for any VA facilities.',
-    // Migration alert configuration
-    warningPhases: ['p1', 'p2', 'p3'],
-    warningMessage: `you won’t be able to refill your medications online for`,
-    warningNote: `During this time, you can still call your VA pharmacy’s automated refill line to refill a medication.`,
-    errorPhases: null,
-    errorHeadline: `You can’t refill medications online for some facilities right now`,
-    errorMessage: `You can’t refill your medications online for`,
-    errorNote: `If you need to refill a medication now, call your VA pharmacy’s automated refill line. The phone number is on your prescription label or in your medications details page.`,
-    errorStartDate: 'p4',
-    errorEndDate: 'p6',
-  },
   SECURE_MESSAGING: {
     linkPath: '/pages/messaging/inbox',
     headline: 'To send a secure message to a provider at',
