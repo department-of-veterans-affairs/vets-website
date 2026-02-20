@@ -28,6 +28,7 @@ import {
   VaLanguageToggle,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
+import VaFileInput from './VaFileInput';
 import VaFileInputMultiple from './VaFileInputMultiple';
 
 export default function V3BasePage() {
@@ -130,6 +131,12 @@ export default function V3BasePage() {
       <div className="vads-grid-container vads-font-sans">
         <div className="vads-grid-row">
           <h1>VA Design System Component Demos</h1>
+        </div>
+        <div className="border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaFileInput" className="vads-grid-col font-ui-md">
+            File Input
+          </h2>
+          <VaFileInput />
         </div>
         <div className="border-bottom vads-u-padding-bottom--2">
           <h2 id="vaFileInputMultipl" className="vads-grid-col font-ui-md">
