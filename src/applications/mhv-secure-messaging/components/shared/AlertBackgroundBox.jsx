@@ -7,17 +7,18 @@
  */
 
 /**
- * Added accessibility fix to ensure that the alert content and the current location are
- * announced to the user in a way that's accessible to screen readers.
- * This component uses @prop lastPathName to check if url location is on
- * the secure messages landing page so that if there's a service outage, a unique server
- * error message from api response content will be displayed only for that page.
- * Additionally, A11Y reccommends that the 503 error alert content should use an h1 tag
- * since in this case there are no other content on screen.
+ * Accessibility: The sr-only span delays its content (srAlertContent) until
+ * page focus settles.  Each focusin event resets a 1s debounce timer so
+ * VoiceOver finishes reading whatever element received focus before the
+ * polite aria-live announcement queues.  A 5s hard ceiling guarantees the
+ * announcement fires even if focus keeps moving.
+ * handleAlertFocus is restricted to error alerts only — for success/info
+ * alerts the 500ms focus-steal interrupts VoiceOver mid-announcement.
  */
 
 import React, {
   useEffect,
+  useLayoutEffect,
   useState,
   useRef,
   useCallback,
@@ -29,16 +30,9 @@ import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import useInterval from '../../hooks/use-interval';
-import {
-  Alerts,
-  Categories,
-  DefaultFolders,
-  Errors,
-  Paths,
-} from '../../util/constants';
+import { Alerts, DefaultFolders, Errors, Paths } from '../../util/constants';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
 import { retrieveFolder } from '../../actions/folders';
-import { formatPathName } from '../../util/helpers';
 import RouterLink from './RouterLink';
 
 const AlertBackgroundBox = props => {
@@ -47,9 +41,10 @@ const AlertBackgroundBox = props => {
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
   const [alertContent, setAlertContent] = useState('');
+  const [srAlertContent, setSrAlertContent] = useState('');
   const alertRef = useRef();
+  const timerSourceRef = useRef(null);
   const [activeAlert, setActiveAlert] = useState(null);
-  const [alertAriaLabel, setAlertAriaLabel] = useState('');
 
   // Check if user entered compose flow from sent folder (via sessionStorage)
   // or if they accessed a thread from the sent folder (via threadFolderId in Redux)
@@ -81,7 +76,6 @@ const AlertBackgroundBox = props => {
   } = Errors;
 
   const location = useLocation();
-  const SrOnlyTag = 'span';
 
   // these props check if the current page is the folder view page or thread view page
 
@@ -106,8 +100,6 @@ const AlertBackgroundBox = props => {
 
   useEffect(
     () => {
-      const lastPathName = formatPathName(location.pathname, 'Messages');
-
       if (alertList?.length) {
         if (foldersViewPage && !folder?.name) return;
         if (
@@ -123,35 +115,6 @@ const AlertBackgroundBox = props => {
             return b.datestamp - a.datestamp;
           });
 
-        let categoryText = '';
-
-        if (threadViewPage || replyViewPage) {
-          categoryText =
-            threadMessages[0]?.category === 'OTHER'
-              ? Categories.OTHER
-              : threadMessages[0]?.category;
-        }
-
-        if (lastPathName === 'Folders') {
-          setAlertAriaLabel('You are in the my folders page.');
-        } else if (foldersViewPage) {
-          setAlertAriaLabel(`You are in ${folder?.name}.`);
-        } else if (threadViewPage) {
-          setAlertAriaLabel(
-            `You are in ${categoryText}: ${
-              threadMessages[0]?.subject
-            } message thread.`,
-          );
-        } else if (replyViewPage) {
-          setAlertAriaLabel(
-            `You are in ${categoryText}: ${
-              threadMessages[0]?.subject
-            } message reply.`,
-          );
-        } else {
-          setAlertAriaLabel(`You are in ${lastPathName}.`);
-        }
-
         // The activeAlert is the most recent alert marked as active.
         setActiveAlert(filteredSortedAlerts[0] || null);
         if (filteredSortedAlerts[0]) setShowAlertBackgroundBox(true);
@@ -161,7 +124,6 @@ const AlertBackgroundBox = props => {
       alertList,
       folder,
       foldersViewPage,
-      location.pathname,
       replyViewPage,
       setShowAlertBackgroundBox,
       threadMessages,
@@ -179,6 +141,11 @@ const AlertBackgroundBox = props => {
     dispatch(closeAlert());
     dispatch(focusOutAlert());
     setShowAlertBackgroundBox(false);
+    // Per MHV accessibility decision records: move focus back to H1 after dismissing alert.
+    // focusElement handles null gracefully if no H1 exists on the page.
+    setTimeout(() => {
+      focusElement(document.querySelector('h1'));
+    }, 100);
   };
 
   // sets custom server error messages for the landing page and folder view pages
@@ -197,7 +164,7 @@ const AlertBackgroundBox = props => {
       ) {
         content = SERVER_ERROR_503;
       }
-      setAlertContent(content);
+      setAlertContent(content ?? '');
     },
     [
       SERVER_ERROR_503,
@@ -208,6 +175,65 @@ const AlertBackgroundBox = props => {
       startNewMessagePage,
       threadViewPage,
     ],
+  );
+
+  // Wait for page focus to settle, then populate the sr-only span.
+  // Each focusin event resets a 1s debounce timer so VoiceOver finishes
+  // reading whatever element received focus before the polite announcement
+  // queues.  A 5s hard ceiling guarantees the announcement fires even if
+  // focus keeps moving.  Force a real text mutation (clear → RAF set) so
+  // the live region fires reliably.  timerSourceRef prevents duplicates.
+  useLayoutEffect(
+    () => {
+      if (!alertContent) {
+        setSrAlertContent('');
+        timerSourceRef.current = null;
+        return undefined;
+      }
+
+      let debounceTimer;
+      let rafId;
+      timerSourceRef.current = null;
+
+      const scheduleAnnounce = source => {
+        timerSourceRef.current = source;
+        // Force a real DOM text mutation: clear, then set on next frame
+        setSrAlertContent('');
+        rafId = requestAnimationFrame(() => {
+          setSrAlertContent(alertContent);
+        });
+      };
+
+      const onFocusIn = () => {
+        if (timerSourceRef.current) return;
+        // Reset the 1s debounce on every focus change
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(
+          () => scheduleAnnounce('focus-settle'),
+          1000,
+        );
+      };
+
+      document.addEventListener('focusin', onFocusIn);
+
+      // Kick off the initial debounce in case focus already settled
+      onFocusIn();
+
+      // Hard ceiling: announce after 5s no matter what
+      const ceilingTimer = setTimeout(() => {
+        if (!timerSourceRef.current) {
+          scheduleAnnounce('ceiling');
+        }
+      }, 5000);
+
+      return () => {
+        clearTimeout(debounceTimer);
+        clearTimeout(ceilingTimer);
+        cancelAnimationFrame(rafId);
+        document.removeEventListener('focusin', onFocusIn);
+      };
+    },
+    [alertContent],
   );
 
   useInterval(() => {
@@ -223,6 +249,10 @@ const AlertBackgroundBox = props => {
 
   const handleAlertFocus = useCallback(
     () => {
+      // Only steal focus for error alerts — for success/info alerts the
+      // focus-steal at 500ms interrupts VoiceOver mid-announcement.
+      if (activeAlert?.alertType !== 'error') return;
+
       setTimeout(() => {
         focusElement(
           props.focus
@@ -231,7 +261,7 @@ const AlertBackgroundBox = props => {
         );
       }, 500);
     },
-    [props.focus],
+    [activeAlert?.alertType, props.focus],
   );
 
   return (
@@ -242,7 +272,7 @@ const AlertBackgroundBox = props => {
         ref={alertRef}
         background-only
         closeable={props.closeable}
-        className="vads-u-margin-bottom--1 va-alert"
+        className={`${props.className || 'vads-u-margin-bottom--1'} va-alert`}
         close-btn-aria-label="Close notification"
         disable-analytics="false"
         full-width="false"
@@ -263,9 +293,9 @@ const AlertBackgroundBox = props => {
         >
           {alertContent}
         </p>
-        <SrOnlyTag className="sr-only" aria-live="polite" aria-atomic="true">
-          {alertAriaLabel}
-        </SrOnlyTag>
+        <span className="sr-only" aria-live="polite" aria-atomic="true">
+          {srAlertContent}
+        </span>
         {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS &&
           !enteredFromSent && (
             <RouterLink
@@ -282,6 +312,7 @@ const AlertBackgroundBox = props => {
 
 AlertBackgroundBox.propTypes = {
   activeAlert: PropTypes.object,
+  className: PropTypes.string,
   closeable: PropTypes.bool,
   focus: PropTypes.bool,
   noIcon: PropTypes.bool,
