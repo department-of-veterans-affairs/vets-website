@@ -127,12 +127,20 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  const { isLoading, isAcceleratingLabsAndTests } = useAcceleratedData();
+  const {
+    isLoading,
+    isAcceleratingLabsAndTests,
+    isAcceleratingImagingStudies,
+  } = useAcceleratedData();
 
   useEffect(
     /** Fetch accelerated imaging studies when accelerating labs */
     () => {
-      if (isAcceleratingLabsAndTests && !isLoading) {
+      if (
+        isAcceleratingLabsAndTests &&
+        isAcceleratingImagingStudies &&
+        !isLoading
+      ) {
         dispatch(
           getAcceleratedImagingStudiesList({
             startDate: dateRange.fromDate,
@@ -141,7 +149,13 @@ const LabsAndTests = () => {
         );
       }
     },
-    [dispatch, isAcceleratingLabsAndTests, isLoading, dateRange],
+    [
+      dispatch,
+      isAcceleratingLabsAndTests,
+      isAcceleratingImagingStudies,
+      isLoading,
+      dateRange,
+    ],
   );
 
   useEffect(
