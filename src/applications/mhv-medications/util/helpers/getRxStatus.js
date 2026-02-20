@@ -2,6 +2,8 @@ import { rxSourceIsNonVA } from './rxSourceIsNonVA';
 import {
   ACTIVE_NON_VA,
   FIELD_NONE_NOTED,
+  RENEWAL_FILTER_KEY,
+  RENEWABLE_FILTER_KEY,
   pdfStatusDefinitions,
   pdfStatusDefinitionsV2,
   filterOptions,
@@ -50,5 +52,15 @@ export const getPdfStatusDefinitionKey = (dispStatus, refillStatus) => {
  * @returns {Object} Filter options object
  */
 export const getFilterOptions = (isCernerPilot, isV2StatusMapping) => {
-  return isCernerPilot && isV2StatusMapping ? filterOptionsV2 : filterOptions;
+  if (isCernerPilot && isV2StatusMapping) return filterOptionsV2;
+  if (isCernerPilot) {
+    return {
+      ...filterOptions,
+      [RENEWAL_FILTER_KEY]: {
+        ...filterOptions[RENEWAL_FILTER_KEY],
+        url: filterOptionsV2[RENEWABLE_FILTER_KEY].url,
+      },
+    };
+  }
+  return filterOptions;
 };
