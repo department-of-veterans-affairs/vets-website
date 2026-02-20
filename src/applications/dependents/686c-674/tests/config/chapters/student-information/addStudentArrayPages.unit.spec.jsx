@@ -10,6 +10,7 @@ import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../../../config/form';
 import { addStudentsOptions } from '../../../../config/chapters/674/addStudentsArrayPages';
+import { isStudentItemIncomplete } from '../../../../config/chapters/674/addStudentsSetup';
 import { calculateStudentAssetTotal } from '../../../../config/chapters/674/helpers';
 
 const defaultStore = createCommonStore();
@@ -116,6 +117,110 @@ describe('addStudentsOptions', () => {
     it('should return true when tuitionIsPaidByGovAgency is true but not set correctly', () => {
       const item = { ...incompleteItem, tuitionIsPaidByGovAgency: true };
       expect(addStudentsOptions.isItemIncomplete(item)).to.be.true;
+    });
+
+    it('should return true for US address missing state', () => {
+      const item = {
+        ...incompleteItem,
+        fullName: { first: 'John', last: 'Doe' },
+        birthDate: '2000-01-01',
+        ssn: '123-45-6789',
+        address: {
+          country: 'USA',
+          street: '123 Main St',
+          city: 'Springfield',
+          postalCode: '62701',
+          // state intentionally omitted
+        },
+      };
+      expect(isStudentItemIncomplete(item)).to.be.true;
+    });
+
+    it('should not require state for international addresses', () => {
+      const item = {
+        ...incompleteItem,
+        fullName: { first: 'John', last: 'Doe' },
+        birthDate: '2000-01-01',
+        ssn: '123-45-6789',
+        address: {
+          country: 'MEX',
+          street: '123 Main St',
+          city: 'Mexico City',
+          postalCode: '06600',
+          // no state - valid for international
+        },
+        wasMarried: false,
+        tuitionIsPaidByGovAgency: false,
+        typeOfProgramOrBenefit: 'none',
+        schoolInformation: {
+          name: 'Test School',
+          studentIsEnrolledFullTime: true,
+          isSchoolAccredited: true,
+          currentTermDates: {
+            officialSchoolStartDate: '2024-01-01',
+            expectedStudentStartDate: '2024-08-01',
+            expectedGraduationDate: '2024-05-01',
+          },
+          studentDidAttendSchoolLastTerm: false,
+          lastTermSchoolInformation: { termBegin: '', dateTermEnded: '' },
+        },
+      };
+      expect(isStudentItemIncomplete(item)).to.be.false;
+    });
+
+    it('should return true when studentIsEnrolledFullTime is not answered', () => {
+      const item = {
+        ...incompleteItem,
+        fullName: { first: 'John', last: 'Doe' },
+        birthDate: '2000-01-01',
+        ssn: '123-45-6789',
+        address: {
+          country: 'USA',
+          street: '123 Main St',
+          city: 'Springfield',
+          state: 'IL',
+          postalCode: '62701',
+        },
+        wasMarried: false,
+        tuitionIsPaidByGovAgency: false,
+        typeOfProgramOrBenefit: 'none',
+        schoolInformation: {
+          ...incompleteItem.schoolInformation,
+          studentIsEnrolledFullTime: undefined,
+        },
+      };
+      expect(isStudentItemIncomplete(item)).to.be.true;
+    });
+
+    it('should return true when studentDidAttendSchoolLastTerm is not answered', () => {
+      const item = {
+        ...incompleteItem,
+        fullName: { first: 'John', last: 'Doe' },
+        birthDate: '2000-01-01',
+        ssn: '123-45-6789',
+        address: {
+          country: 'USA',
+          street: '123 Main St',
+          city: 'Springfield',
+          state: 'IL',
+          postalCode: '62701',
+        },
+        wasMarried: false,
+        tuitionIsPaidByGovAgency: false,
+        typeOfProgramOrBenefit: 'none',
+        schoolInformation: {
+          ...incompleteItem.schoolInformation,
+          studentIsEnrolledFullTime: true,
+          isSchoolAccredited: true,
+          currentTermDates: {
+            officialSchoolStartDate: '2024-01-01',
+            expectedStudentStartDate: '2024-08-01',
+            expectedGraduationDate: '2024-05-01',
+          },
+          studentDidAttendSchoolLastTerm: undefined,
+        },
+      };
+      expect(isStudentItemIncomplete(item)).to.be.true;
     });
 
     it('should return true when maximum items exceeded', () => {

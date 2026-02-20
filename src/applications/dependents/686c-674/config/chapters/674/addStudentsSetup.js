@@ -9,43 +9,80 @@ import { AddStudentsIntro } from './helpers';
 import { CancelButton } from '../../helpers';
 import { getFullName } from '../../../../shared/utils';
 
+/**
+ * Determines if a student item is missing required fields.
+ * Used by the array builder to flag items that need more information.
+ *
+ * @param {object} item - Student item data
+ * @returns {boolean} true if incomplete, false if all required fields are present
+ */
+export function isStudentItemIncomplete(item) {
+  // Identity
+  if (!item?.fullName?.first || !item?.fullName?.last) return true;
+  if (!item?.birthDate) return true;
+  if (!item?.noSsn && !item?.ssn) return true;
+  if (item?.noSsn && !item?.noSsnReason) return true;
+
+  // Address - state is only required for US addresses
+  if (
+    !item?.address?.country ||
+    !item?.address?.street ||
+    !item?.address?.city ||
+    !item?.address?.postalCode
+  )
+    return true;
+  if (item?.address?.country === 'USA' && !item?.address?.state) return true;
+
+  // Marriage
+  if (item?.wasMarried === true && !item?.marriageDate) return true;
+
+  // Education benefits
+  if (item?.tuitionIsPaidByGovAgency === true && !item?.schoolInformation?.name)
+    return true;
+  if (
+    (['ch35', 'fry', 'feca'].includes(item?.typeOfProgramOrBenefit) ||
+      item?.tuitionIsPaidByGovAgency === true) &&
+    !item?.benefitPaymentDate
+  )
+    return true;
+
+  // School attendance
+  if (item?.schoolInformation?.studentIsEnrolledFullTime == null) return true;
+  if (item?.schoolInformation?.isSchoolAccredited == null) return true;
+  if (
+    !item?.schoolInformation?.currentTermDates?.officialSchoolStartDate ||
+    !item?.schoolInformation?.currentTermDates?.expectedStudentStartDate ||
+    !item?.schoolInformation?.currentTermDates?.expectedGraduationDate
+  )
+    return true;
+
+  // Previous term
+  if (item?.schoolInformation?.studentDidAttendSchoolLastTerm == null)
+    return true;
+  if (
+    item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
+    (!item?.schoolInformation?.lastTermSchoolInformation?.termBegin ||
+      !item?.schoolInformation?.lastTermSchoolInformation?.dateTermEnded)
+  )
+    return true;
+
+  // Pension (if set, must be boolean)
+  if (
+    item?.claimsOrReceivesPension !== undefined &&
+    ![true, false].includes(item?.claimsOrReceivesPension)
+  )
+    return true;
+
+  return false;
+}
+
 /** @type {ArrayBuilderOptions} */
 export const addStudentsOptions = {
   arrayPath: 'studentInformation',
   nounSingular: 'student',
   nounPlural: 'students',
   required: true,
-  isItemIncomplete: item =>
-    !item?.fullName?.first ||
-    !item?.fullName?.last ||
-    !item?.birthDate ||
-    (!item?.noSsn && !item?.ssn) ||
-    (item?.noSsn && !item?.noSsnReason) ||
-    (item?.isParent === true && !item?.isParent) ||
-    !item?.address?.country ||
-    !item?.address?.street ||
-    !item?.address?.city ||
-    !item?.address?.state ||
-    !item?.address?.postalCode ||
-    (item?.wasMarried === true && !item?.marriageDate) ||
-    (item?.tuitionIsPaidByGovAgency === true &&
-      !item?.schoolInformation?.name) ||
-    (item?.schoolInformation?.studentIsEnrolledFullTime === true &&
-      !item?.schoolInformation?.studentIsEnrolledFullTime) ||
-    item?.schoolInformation?.isSchoolAccredited == null ||
-    !item?.schoolInformation?.currentTermDates?.officialSchoolStartDate ||
-    !item?.schoolInformation?.currentTermDates?.expectedStudentStartDate ||
-    !item?.schoolInformation?.currentTermDates?.expectedGraduationDate ||
-    (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
-      !item?.schoolInformation?.studentDidAttendSchoolLastTerm) ||
-    (item?.claimsOrReceivesPension !== undefined &&
-      ![true, false].includes(item?.claimsOrReceivesPension)) ||
-    (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
-      (!item?.schoolInformation?.lastTermSchoolInformation?.termBegin ||
-        !item?.schoolInformation?.lastTermSchoolInformation?.dateTermEnded)) ||
-    ((['ch35', 'fry', 'feca'].includes(item?.typeOfProgramOrBenefit) ||
-      item?.tuitionIsPaidByGovAgency === true) &&
-      !item?.benefitPaymentDate),
+  isItemIncomplete: isStudentItemIncomplete,
   maxItems: 20,
   text: {
     summaryTitle: 'Review your students',

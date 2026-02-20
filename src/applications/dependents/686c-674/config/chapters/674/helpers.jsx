@@ -36,42 +36,46 @@ export const relationshipToStudentLabels = {
 
 export const ProgramExamples = (
   <va-additional-info trigger="About entirely federally funded schools">
-    <p>
-      An entirely federally funded school or program is one where the federal
-      government pays all costs. The student doesn’t pay any tuition, fees, or
-      other costs.
-    </p>
-    <p className="vads-u-margin-top--2">
-      <strong>Examples include:</strong>
-    </p>
-    <ul>
-      <li>Job Corps (U.S. Department of Labor program)</li>
-      <li>Service academies and academy prep schools</li>
-      <li>Federally funded Native American schools</li>
-    </ul>
-    <p className="vads-u-margin-top--2">
-      <strong>This doesn’t include:</strong>
-    </p>
-    <ul>
-      <li>Public or charter high schools</li>
-      <li>Private colleges that offer free tuition</li>
-      <li>Public universities</li>
-      <li>Schools where the student uses Pell Grants or federal loans</li>
-    </ul>
+    <div>
+      <p>
+        An entirely federally funded school or program is one where the federal
+        government pays all costs. The student doesn’t pay any tuition, fees, or
+        other costs.
+      </p>
+      <p className="vads-u-margin-top--2">
+        <strong>Examples include:</strong>
+      </p>
+      <ul>
+        <li>Job Corps (U.S. Department of Labor program)</li>
+        <li>Service academies and academy prep schools</li>
+        <li>Federally funded Native American schools</li>
+      </ul>
+      <p className="vads-u-margin-top--2">
+        <strong>This doesn’t include:</strong>
+      </p>
+      <ul>
+        <li>Public or charter high schools</li>
+        <li>Private colleges that offer free tuition</li>
+        <li>Public universities</li>
+        <li>Schools where the student uses Pell Grants or federal loans</li>
+      </ul>
+    </div>
   </va-additional-info>
 );
 
 export const AccreditedSchool = (
   <va-additional-info trigger="How to tell if a school is accredited">
-    <p>
-      You can go to the U.S. Department of Education’s website to check if a
-      school is accredited.
-    </p>
-    <va-link
-      href="https://ope.ed.gov/dapip/#/home"
-      external
-      text="Go to the U.S. Department of Education’s website"
-    />
+    <div>
+      <p>
+        You can go to the U.S. Department of Education’s website to check if a
+        school is accredited.
+      </p>
+      <va-link
+        href="https://ope.ed.gov/dapip/#/home"
+        external
+        text="Go to the U.S. Department of Education’s website"
+      />
+    </div>
   </va-additional-info>
 );
 
@@ -80,16 +84,18 @@ export const TermDateHint = (
     className="vads-u-margin-top--2"
     trigger="What is a regular school term or course?"
   >
-    <p>
-      For example, if the student’s school uses semesters, tell us when the
-      student’s current semester started. Or if the student’s school uses
-      quarters, tell us when the student’s current quarter started.
-    </p>
-    <br />
-    <p>
-      If the student is currently on academic break between semesters, tell us
-      when the student’s previous term started
-    </p>
+    <div>
+      <p>
+        For example, if the student’s school uses semesters, tell us when the
+        student’s current semester started. Or if the student’s school uses
+        quarters, tell us when the student’s current quarter started.
+      </p>
+      <br />
+      <p>
+        If the student is currently on academic break between semesters, tell us
+        when the student’s previous term started
+      </p>
+    </div>
   </va-additional-info>
 );
 
