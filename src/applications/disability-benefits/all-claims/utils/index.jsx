@@ -274,6 +274,8 @@ export const getPrivateFacilities = formData =>
   _.get('providerFacility', formData, []);
 export const getPrivateEvidenceUploads = formData =>
   _.get('privateMedicalRecordAttachments', formData, []);
+export const getAdditionalDocuments = formData =>
+  _.get('evidenceChoiceAdditionalDocuments', formData, []);
 
 export const hasMedicalRecords = formData => {
   if (isEvidenceEnhancement(formData)) {
