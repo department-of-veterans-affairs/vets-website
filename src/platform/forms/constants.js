@@ -126,6 +126,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_4706B_UPLOAD: '21P-4706B-UPLOAD',
   FORM_21P_4171_UPLOAD: '21P-4171-UPLOAD',
   FORM_21P_8924_UPLOAD: '21P-8924-UPLOAD',
+  FORM_22_0810: '22-0810',
   FORM_20_10208_UPLOAD: '20-10208-UPLOAD',
 });
 
@@ -342,6 +343,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_0803]: `${tryGetAppUrl('0803-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_MOCK_PREFILL]: `${tryGetAppUrl('mock-form-prefill')}/`,
     [VA_FORM_IDS.FORM_22_10272]: `${tryGetAppUrl('22-10272')}/`,
+    [VA_FORM_IDS.FORM_22_0810]: `${tryGetAppUrl('0810-edu-benefits')}/`,
   };
 };
 
@@ -1079,6 +1081,13 @@ export const MY_VA_SIP_FORMS = [
     description:
       '22-10272 Application for Reimbursement of Licensing or Certification Test and Preparation Course Fees',
     trackingPrefix: '10272-edu-benefits',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_0810,
+    benefit: 'Request for reimbursement of national exam fee',
+    title: '22-08010 request for reimbursement of national exam fee',
+    description: 'Request for reimbursement of national exam fee',
+    trackingPrefix: '0810-edu-benefits',
   },
 ];
 
