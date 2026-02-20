@@ -68,6 +68,9 @@ describe('MedicalRecordsPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and remove');
       expect(modal.textContent).to.include(
         'You can change the type of medical records you’d like us to access. If you do so, we’ll remove information you entered about these medical centers:',
       );
@@ -94,6 +97,9 @@ describe('MedicalRecordsPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and delete');
       expect(modal.textContent).to.include(
         'You can change the type of medical records you’d like us to access. If you do so, we’ll delete these medical records you uploaded:',
       );
@@ -120,6 +126,9 @@ describe('MedicalRecordsPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and remove');
       expect(modal.textContent).to.include(
         'You can change the type of medical records you’d like us to access. If you do so, we’ll remove the information you shared about these private medical centers:',
       );
@@ -150,6 +159,9 @@ describe('MedicalRecordsPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and delete');
       expect(modal.textContent).to.include(
         'You can change the type of medical records you’d like us to access. If you do so, we’ll remove the information you shared about these private medical centers:',
       );

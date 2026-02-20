@@ -178,7 +178,11 @@ export const EvidenceRequestPage = ({
         onSecondaryButtonClick={handlers.onCancelChange}
         visible={modalVisible}
         status="warning"
-        primaryButtonText="Change and remove"
+        primaryButtonText={
+          getPrivateEvidenceUploads(data).length > 0
+            ? 'Change and delete'
+            : 'Change and remove'
+        }
         secondaryButtonText="Cancel change"
       >
         {getVaEvidence(data).length > 0 && (

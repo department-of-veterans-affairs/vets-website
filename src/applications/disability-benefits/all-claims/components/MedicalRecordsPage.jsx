@@ -182,7 +182,12 @@ export const MedicalRecordsPage = ({
         onSecondaryButtonClick={handlers.onCancelChange}
         visible={modalVisible}
         status="warning"
-        primaryButtonText="Change and remove"
+        primaryButtonText={
+          getPrivateEvidenceUploads(data).length > 0 &&
+          hasPrivateEvidence(data) === false
+            ? 'Change and delete'
+            : 'Change and remove'
+        }
         secondaryButtonText="Cancel change"
       >
         {!hasVAEvidence(data) &&
