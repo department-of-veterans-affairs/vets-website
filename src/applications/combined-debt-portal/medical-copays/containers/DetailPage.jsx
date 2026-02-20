@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import HTMLStatementList from '../components/HTMLStatementList';
+import PreviousStatements from '../components/PreviousStatements';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
@@ -87,7 +87,7 @@ const DetailPage = ({ match }) => {
         </p>
         <CopayAlertContainer type={alert} copay={selectedCopay} />{' '}
         <va-on-this-page class="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0" />
-        <HTMLStatementList selectedId={selectedId} />
+        <PreviousStatements selectedId={selectedId} />
         <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
         <FinancialHelp />
         <DisputeCharges />

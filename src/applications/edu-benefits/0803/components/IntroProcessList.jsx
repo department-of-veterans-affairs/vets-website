@@ -5,9 +5,8 @@ export default function ProcessList() {
     <va-process-list>
       <va-process-list-item header="Check your eligibility">
         <p>
-          You’ll need to have applied for at least one of these VA education
-          benefits and be found eligible in order for your reimbursement to be
-          processed.
+          You’ll need to apply and be found eligible for the VA education
+          benefit under which you want your reimbursement processed.
         </p>
         <p>
           <a href="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction">
@@ -58,6 +57,7 @@ export default function ProcessList() {
         <p>
           You will need to take your completed form as well as your receipt and
           test results to QuickSubmit to finish the submission process there.
+          This is the fastest way for us to process your form.
         </p>
         <p>
           If you would rather print and mail your form and attachments, the

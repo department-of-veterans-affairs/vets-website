@@ -24,7 +24,7 @@ Prefill data comes from two backend sources:
 
 Follow [VA Forms Library - How to work with Pre-fill](https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-work-with-pre-fill#VAFormsLibrary-HowtoworkwithPre-Fill-Introduction) to complete the initial vets-website configuration (enabling prefill and adding the prefill transformer) and the vets-api backend work. Then proceed with the additional steps below.
 
-Note that your `prefillTransformer` should structure the data so that `ssn` and `vaFileNumber` are direct children of `formData` (not nested). If you need to nest these properties for your form's structure, you must provide a `dataAdapter` to the personal information component. For more details, refer to the [Personal Information](#personal-information) section below.
+Note that your `prefillTransformer` must return `ssn`, `vaFileNumber` and `fullName`.  Personal Information gets `ssn` and `vaFileNumber` from the `save-in-progress` endpoint, and `fullName` is required for form submission. It is helpful if you make these properties direct children of `formData`, but if you nest them further you must provide a `dataAdapter` to the Personal Information component. More details on the [Personal Information](#personal-information) section below.
 
 ## Additional Steps
 

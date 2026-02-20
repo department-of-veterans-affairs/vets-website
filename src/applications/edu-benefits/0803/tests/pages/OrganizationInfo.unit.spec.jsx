@@ -27,7 +27,9 @@ describe('22-0803 organization info page', () => {
   });
 
   it('renders the address fields', () => {
-    const { container } = renderPage();
+    const { container } = renderPage({
+      organizationAddress: { country: 'USA' },
+    });
 
     expect(
       $$('va-text-input[name^="root_organizationAddress_street"]', container)

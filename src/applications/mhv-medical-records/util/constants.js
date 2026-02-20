@@ -518,7 +518,8 @@ export const CernerAlertContent = {
 export const LABS_AND_TESTS_DISPLAY_LABELS = {
   DATE: 'Date and time collected',
   TEST_CODE: 'Type of test',
-  SAMPLE_TESTED: 'Site or sample tested',
+  SAMPLE_TESTED: 'Sample tested',
+  SITE_OR_SAMPLE_TESTED: 'Site or sample tested',
   BODY_SITE: 'Body site tested',
   ORDERED_BY: 'Ordered by',
   LOCATION: 'Location',
@@ -526,10 +527,11 @@ export const LABS_AND_TESTS_DISPLAY_LABELS = {
   RESULTS: 'Results',
 };
 
+// Used for print version so default to the site_or_sample_tested label
 export const LABS_AND_TESTS_DISPLAY_DISPLAY_MAP = {
   date: LABS_AND_TESTS_DISPLAY_LABELS.DATE,
   testCode: LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE,
-  sampleTested: LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED,
+  sampleTested: LABS_AND_TESTS_DISPLAY_LABELS.SITE_OR_SAMPLE_TESTED,
   bodySite: LABS_AND_TESTS_DISPLAY_LABELS.BODY_SITE,
   orderedBy: LABS_AND_TESTS_DISPLAY_LABELS.ORDERED_BY,
   location: LABS_AND_TESTS_DISPLAY_LABELS.LOCATION,
@@ -539,16 +541,19 @@ export const LABS_AND_TESTS_DISPLAY_DISPLAY_MAP = {
 
 export const OBSERVATION_DISPLAY_LABELS = {
   TEST_CODE: 'Type of test',
-  SAMPLE_TESTED: 'Site or sample tested',
+  SAMPLE_TESTED: 'Sample tested',
+  SITE_OR_SAMPLE_TESTED: 'Site or sample tested',
   BODY_SITE: 'Body site tested',
   STATUS: 'Status',
   COMMENTS: 'Lab comments',
   REFERENCE_RANGE: 'Reference range',
   VALUE: 'Result',
 };
+
+// Used for print version so default to the site_or_sample_tested label
 export const OBSERVATION_DISPLAY_DISPLAY_MAP = {
   testCode: OBSERVATION_DISPLAY_LABELS.TEST_CODE,
-  sampleTested: OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED,
+  sampleTested: OBSERVATION_DISPLAY_LABELS.SITE_OR_SAMPLE_TESTED,
   bodySite: OBSERVATION_DISPLAY_LABELS.BODY_SITE,
   status: OBSERVATION_DISPLAY_LABELS.STATUS,
   comments: OBSERVATION_DISPLAY_LABELS.COMMENTS,
@@ -617,4 +622,53 @@ export const MEDS_BY_MAIL_FACILITY_ID = '741MM';
 export const uhdRecordSource = {
   VISTA: 'vista',
   ORACLE_HEALTH: 'oracle-health',
+};
+
+/**
+ * Oracle Health facility transition table.
+ * Maps facility IDs to their cutover dates when they transitioned from VistA to Oracle Health.
+ *
+ * @property {string} cutoverDate - Date the facility transitioned to Oracle Health (YYYY-MM-DD format)
+ */
+export const ohFacilityTransitionTable = {
+  // 'Mann-Grandstaff VA Medical Center', 'Spokane, WA'
+  '668': {
+    cutoverDate: '2020-10-24',
+  },
+  // 'Jonathan M. Wainwright Memorial VA Medical Center', 'Walla Walla, WA'
+  '687': {
+    cutoverDate: '2022-03-26',
+  },
+  // 'VA Central Ohio Health Care System', 'Columbus, OH'
+  '757': {
+    cutoverDate: '2022-04-30',
+  },
+  // 'Roseburg VA Health Care System', 'Roseburg, OR'
+  '653': {
+    cutoverDate: '2022-06-11',
+  },
+  // 'VA Southern Oregon Rehabilitation Center and Clinics', 'White City, OR'
+  '692': {
+    cutoverDate: '2022-06-11',
+  },
+  // 'Captain James A. Lovell Federal Health Care Center', 'Chicago, IL'
+  '556': {
+    cutoverDate: '2024-03-09',
+  },
+  '553': {
+    // 'VA Detroit Healthcare System', 'Detroit, MI'
+    cutoverDate: '2026-04-11',
+  },
+  // 'VA Saginaw Healthcare System', 'Saginaw, MI'
+  '655': {
+    cutoverDate: '2026-04-11',
+  },
+  // 'VA Ann Arbor Healthcare System', 'Ann Arbor, MI'
+  '506': {
+    cutoverDate: '2026-04-11',
+  },
+  // 'VA Battle Creek Medical Center', 'Battle Creek, MI'
+  '515': {
+    cutoverDate: '2026-04-11',
+  },
 };

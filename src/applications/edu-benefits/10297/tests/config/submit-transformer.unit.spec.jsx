@@ -22,9 +22,32 @@ describe('22-10297 Submit Transformer Function', () => {
     const submitData = JSON.parse(
       transform(formConfig, {
         data: transformTestData.data,
+        formId: '22-10297',
       }),
     );
 
-    expect(JSON.parse(submitData.educationBenefitsClaim.form)).to.exist;
+    // Verify TOE-style payload structure
+    expect(submitData['@type']).to.equal('vettec');
+    expect(submitData.formId).to.equal('22-10297');
+    expect(submitData.claimant).to.exist;
+    expect(submitData.claimant.firstName).to.equal('John');
+    expect(submitData.claimant.lastName).to.equal('Doe');
+    expect(submitData.claimant.dateOfBirth).to.equal('1930-10-03');
+    expect(submitData.claimant.contactInfo).to.exist;
+    expect(submitData.claimant.contactInfo.countryCode).to.equal('US');
+    expect(submitData.militaryInfo).to.exist;
+    expect(submitData.directDeposit).to.exist;
+    expect(submitData.directDeposit.directDepositAccountType).to.equal(
+      'checking',
+    );
+    expect(submitData.trainingProviders).to.exist;
+    expect(submitData.trainingProviders.providers).to.have.lengthOf(1);
+    expect(submitData.trainingProviders.providers[0].providerName).to.equal(
+      'Test Training Provider',
+    );
+    expect(submitData.employmentInfo).to.exist;
+    expect(submitData.employmentInfo.isEmployed).to.equal(true);
+    expect(submitData.attestationAgreementAccepted).to.exist;
+    expect(submitData.dateSigned).to.exist;
   });
 });

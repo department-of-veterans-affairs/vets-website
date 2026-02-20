@@ -160,7 +160,7 @@ describe('Personal Information UI Schemas', () => {
         '(*Required)',
       );
       expect(wrapper.find('.vads-u-margin-y--0').text()).to.equal(
-        'Please provide one of the following:',
+        'Provide one of the following:',
       );
       wrapper.unmount();
     });
