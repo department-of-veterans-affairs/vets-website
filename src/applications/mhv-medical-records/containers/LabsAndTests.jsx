@@ -17,6 +17,8 @@ import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import {
   getLabsAndTestsList,
+  getAcceleratedImagingStudiesList,
+  mergeImagingStudies,
   reloadRecords,
   updateLabsAndTestDateRange,
 } from '../actions/labsAndTests';
@@ -54,6 +56,12 @@ const LabsAndTests = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const dateRange = useSelector(state => state.mr.labsAndTests.dateRange);
+  const scdfImagingStudies = useSelector(
+    state => state.mr.labsAndTests.scdfImagingStudies,
+  );
+  const scdfImagingStudiesMerged = useSelector(
+    state => state.mr.labsAndTests.scdfImagingStudiesMerged,
+  );
   const updatedRecordList = useSelector(
     state => state.mr.labsAndTests.updatedList,
   );
@@ -119,7 +127,57 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  const { isLoading, isAcceleratingLabsAndTests } = useAcceleratedData();
+  const {
+    isLoading,
+    isAcceleratingLabsAndTests,
+    isAcceleratingImagingStudies,
+  } = useAcceleratedData();
+
+  useEffect(
+    /** Fetch accelerated imaging studies when accelerating labs */
+    () => {
+      if (
+        isAcceleratingLabsAndTests &&
+        isAcceleratingImagingStudies &&
+        !isLoading
+      ) {
+        dispatch(
+          getAcceleratedImagingStudiesList({
+            startDate: dateRange.fromDate,
+            endDate: dateRange.toDate,
+          }),
+        );
+      }
+    },
+    [
+      dispatch,
+      isAcceleratingLabsAndTests,
+      isAcceleratingImagingStudies,
+      isLoading,
+      dateRange,
+    ],
+  );
+
+  useEffect(
+    /** Merge imaging studies into labs list once both are available */
+    () => {
+      if (
+        isAcceleratingLabsAndTests &&
+        labsAndTestsRaw &&
+        scdfImagingStudies &&
+        !scdfImagingStudiesMerged
+      ) {
+        dispatch(mergeImagingStudies());
+      }
+    },
+    [
+      dispatch,
+      isAcceleratingLabsAndTests,
+      labsAndTestsRaw,
+      scdfImagingStudies,
+      scdfImagingStudiesMerged,
+    ],
+  );
 
   const isLoadingAcceleratedData =
     isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
