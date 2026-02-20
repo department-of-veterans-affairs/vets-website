@@ -47,12 +47,6 @@ describe('diaryCodeStatusTypes', () => {
         '123',
         '130',
         '140',
-        '439',
-        '449',
-        '459',
-        '603',
-        '613',
-        '680',
       ];
 
       statusType8Codes.forEach(code => {
@@ -60,8 +54,16 @@ describe('diaryCodeStatusTypes', () => {
       });
     });
 
-    it('has correct mappings for status type 9 (Treasury)', () => {
-      const statusType9Codes = [
+    it('has correct mappings for status type 9 (Currently due payments)', () => {
+      const statusType9Codes = ['439', '449', '459', '603', '613', '680'];
+
+      statusType9Codes.forEach(code => {
+        expect(DIARY_CODE_STATUS_TYPE[code]).to.equal('9');
+      });
+    });
+
+    it('has correct mappings for status type 10 (Treasury)', () => {
+      const statusType10Codes = [
         '080',
         '681',
         '682',
@@ -71,23 +73,23 @@ describe('diaryCodeStatusTypes', () => {
         '860',
       ];
 
-      statusType9Codes.forEach(code => {
-        expect(DIARY_CODE_STATUS_TYPE[code]).to.equal('9');
+      statusType10Codes.forEach(code => {
+        expect(DIARY_CODE_STATUS_TYPE[code]).to.equal('10');
       });
     });
 
     it('has correct mappings for special status types', () => {
-      expect(DIARY_CODE_STATUS_TYPE['71']).to.equal('10');
-      expect(DIARY_CODE_STATUS_TYPE['212']).to.equal('11');
-      expect(DIARY_CODE_STATUS_TYPE['655']).to.equal('12');
-      expect(DIARY_CODE_STATUS_TYPE['817']).to.equal('12');
+      expect(DIARY_CODE_STATUS_TYPE['71']).to.equal('11');
+      expect(DIARY_CODE_STATUS_TYPE['212']).to.equal('12');
+      expect(DIARY_CODE_STATUS_TYPE['655']).to.equal('13');
+      expect(DIARY_CODE_STATUS_TYPE['817']).to.equal('13');
     });
   });
 
   describe('getStatusTypeForDebtDiaryCode', () => {
     it('returns correct status type for known diary codes', () => {
       expect(getStatusTypeForDebtDiaryCode('109')).to.equal('8');
-      expect(getStatusTypeForDebtDiaryCode('080')).to.equal('9');
+      expect(getStatusTypeForDebtDiaryCode('080')).to.equal('10');
       expect(getStatusTypeForDebtDiaryCode('081')).to.equal('2');
       expect(getStatusTypeForDebtDiaryCode('002')).to.equal('1');
     });
@@ -104,7 +106,7 @@ describe('diaryCodeStatusTypes', () => {
   });
 
   describe('status type coverage', () => {
-    it('covers all expected status types (1-12)', () => {
+    it('covers all expected status types (1-13)', () => {
       const statusTypes = new Set(Object.values(DIARY_CODE_STATUS_TYPE));
       const expectedTypes = [
         '1',
@@ -119,6 +121,7 @@ describe('diaryCodeStatusTypes', () => {
         '10',
         '11',
         '12',
+        '13',
       ];
 
       expectedTypes.forEach(type => {
