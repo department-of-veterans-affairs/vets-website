@@ -87,14 +87,14 @@ describe('validateReceiptDate', () => {
     expect(result.purchaseDate).to.be.null;
   });
 
-  it('does not error on partial date', () => {
+  it('shows error for incomplete date', () => {
     const result = validateReceiptDate(
       { month: '1', day: null, year: null },
       DATE_VALIDATION_TYPE.SUBMIT,
     );
 
-    expect(result.isValid).to.be.true;
-    expect(result.purchaseDate).to.be.null;
+    expect(result.isValid).to.be.false;
+    expect(result.purchaseDate).to.equal('Please enter a complete date');
   });
 
   it('shows future date error when date is in the future', () => {
@@ -119,6 +119,26 @@ describe('validateReceiptDate', () => {
 
     expect(result.isValid).to.be.true;
     expect(result.purchaseDate).to.be.null;
+  });
+
+  it('shows incomplete date error on CHANGE validation type', () => {
+    const result = validateReceiptDate(
+      { month: '2', day: null, year: '2025' },
+      DATE_VALIDATION_TYPE.CHANGE,
+    );
+
+    expect(result.isValid).to.be.false;
+    expect(result.purchaseDate).to.equal('Please enter a complete date');
+  });
+
+  it('shows incomplete date error on BLUR validation type', () => {
+    const result = validateReceiptDate(
+      { month: '2', day: null, year: '2025' },
+      DATE_VALIDATION_TYPE.BLUR,
+    );
+
+    expect(result.isValid).to.be.false;
+    expect(result.purchaseDate).to.equal('Please enter a complete date');
   });
 });
 

@@ -1,13 +1,13 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
-.header {
-  @media screen and (max-width: 428px) {
-    button.nav__btn--user {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
+@mixin medium {
+  @media (min-width: 769px) {
+    @content;
   }
+}
+
+.header {
   min-height: auto;
   -webkit-font-smoothing: antialiased;
 
@@ -15,7 +15,7 @@
     width: 100%;
     padding: 8px 16px;
     max-width: 984px;
-    @media (min-width: $medium-screen) {
+    @include medium {
       margin: 0 auto;
       padding: 4px 16px;
       align-items: center;
@@ -26,7 +26,7 @@
       font-size: 12.8px;
       line-height: 14.08px;
 
-      @media (min-width: $medium-screen) {
+      @include medium {
         flex-direction: row;
         margin: 4px 0 4px 8px;
       }
@@ -34,7 +34,7 @@
       &-sub-text {
         text-decoration: underline;
         display: flex;
-        @media (min-width: $medium-screen) {
+        @include medium {
           margin-left: 8px;
         }
       }
@@ -45,7 +45,7 @@
     width: 16px;
     height: 16px;
     margin-right: 8px;
-    @media (min-width: $medium-screen) {
+    @include medium {
       margin: 4px 0;
     }
   }
@@ -66,12 +66,7 @@
 
       &.logged-in {
         @media screen and (max-width: 768px) {
-          transform: translateY(-6px);
           display: none;
-        }
-        @media screen and (max-width: 425px) {
-          padding-right: 0px;
-          margin-right: 0px;
         }
       }
     }
@@ -79,6 +74,10 @@
 }
 .user-nav {
   margin-left: auto;
+
+  &:has(.nav__profile-menu) {
+    position: relative;
+  }
 
   &__chevron {
     -webkit-transform: rotate(-90deg);
@@ -92,7 +91,7 @@
   flex-wrap: wrap;
   border-bottom: 2px solid $vads-color-primary-darker;
   &:has(.is--displayed) {
-    @media (min-width: $medium-screen) {
+    @include medium {
       border-bottom: none;
     }
   }
@@ -107,7 +106,7 @@
 
   &__container-primary {
     padding: 8px 16px;
-    @media (min-width: $medium-screen) {
+    @include medium {
       padding: 20px 16px;
     }
   }
@@ -117,6 +116,10 @@
 
   &__sign-in {
     margin-left: auto;
+  }
+
+  &__sign-out {
+    text-transform: capitalize;
   }
 
   &__user-list {
@@ -142,16 +145,10 @@
           a {
             margin-left: 10px;
 
-            @media (min-width: $medium-screen) {
+            @include medium {
               margin-left: 0;
             }
           }
-        }
-      }
-
-      &.vads-u-display--none {
-        ~ li {
-          border-top: none;
         }
       }
     }
@@ -175,11 +172,13 @@
 
   &__container {
     width: 100%;
-    flex-wrap: wrap;
     margin: 0 auto;
     max-width: 984px;
     align-items: center;
     flex-wrap: nowrap;
+    @media (max-width: $xsmall-screen) {
+      flex-wrap: wrap;
+    }
   }
 
   &__decorator {
@@ -193,7 +192,7 @@
       margin: 0 auto !important;
     }
 
-    @media (min-width: $medium-screen) {
+    @include medium {
       display: flex;
       max-width: 984px;
       margin: 0 auto 48px;
@@ -211,19 +210,12 @@
     align-items: center;
     margin-left: auto;
 
+    @media (max-width: $xsmall-screen) {
+      padding: 12px;
+    }
+
     &.is--active {
       position: relative;
-
-      &:after {
-        content: "";
-        border-bottom: 4px solid;
-        border-color: var(--vads-color-primary);
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-      }
     }
 
     &.is--sign-in {
@@ -254,16 +246,7 @@
       padding: 10px 12px;
       margin-right: 0;
       max-width: 85px;
-
-      &::after {
-        content: "";
-        background-color: $vads-color-primary;
-        height: 16px;
-        width: 85px;
-        position: absolute;
-        bottom: -15px;
-        left: 0;
-      }
+      z-index: 2;
     }
     &:visited {
       color: $vads-color-white;
@@ -283,11 +266,12 @@
           height: 22px;
         }
       }
-      &:hover {
+      &:hover,
+      &:active {
         background-color: transparent !important;
         border-radius: 0;
 
-        @media (min-width: $medium-screen) {
+        @include medium {
           background-color: $vads-color-primary !important;
           color: $vads-color-white !important;
         }
@@ -307,6 +291,10 @@
           &:first-letter {
             text-transform: uppercase;
           }
+        }
+
+        @media (max-width: $xsmall-screen) {
+          display: none;
         }
       }
     }
@@ -354,25 +342,56 @@
   }
 
   &__dropdown {
-    width: 174px;
-    padding: 0;
+    @include medium {
+      padding: 0;
+    }
 
     .nav__full-width & {
-      position: fixed;
+      position: absolute;
       left: 0;
       right: 0;
+      top: 106px;
       background-color: $vads-color-primary;
       color: $vads-color-white;
-      margin-top: 7px;
+      width: 100%;
+      z-index: 1;
+      @media (max-width: $xsmall-screen) {
+        top: 161px;
+      }
+
+      &::before {
+        content: "";
+        background-color: var(--vads-color-primary);
+        height: 16px;
+        width: 85px;
+        position: absolute;
+        top: -13px;
+        right: 16px;
+      }
     }
 
     .nav__user-menu & {
       right: 0;
     }
   }
+  &__profile-menu {
+    background: $vads-color-white;
+    box-shadow: 0px 4px 10px -4px $vads-color-base;
+    color: $vads-color-base;
+    padding: 0.5rem;
+    width: 180px;
+    position: absolute;
+    z-index: 2;
+    top: 100%;
+
+    @include medium {
+      padding: 0 16px;
+      right: 0;
+    }
+  }
 
   .mobile {
-    @media (min-width: $medium-screen) {
+    @include medium {
       display: none !important;
     }
   }
@@ -381,8 +400,4 @@
       display: none !important;
     }
   }
-}
-.usa-icon {
-  width: 22px;
-  height: 22px;
 }

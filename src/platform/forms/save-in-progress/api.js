@@ -1,4 +1,5 @@
-import * as Sentry from '@sentry/browser';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { dataDogLogger } from '../../monitoring/Datadog/utilities';
 import { apiRequest } from '../../utilities/api';
 import { inProgressApi } from '../helpers';
 import { VA_FORM_IDS_SKIP_INFLECTION } from '../constants';
@@ -12,12 +13,23 @@ export function removeFormApi(formId) {
     },
   }).catch(error => {
     if (error instanceof Error) {
-      Sentry.captureException(error);
-      Sentry.captureMessage('vets_sip_error_delete');
+      if (environment.isLocalhost()) {
+        // eslint-disable-next-line no-console
+        console.warn('SiP delete error:', error);
+      }
+      dataDogLogger({
+        message: 'vets_sip_error_delete',
+        status: 'error',
+        error,
+      });
       return Promise.resolve();
     }
 
-    Sentry.captureMessage(`vets_sip_error_delete: ${error.statusText}`);
+    dataDogLogger({
+      message: `vets_sip_error_delete: ${error.statusText}`,
+      status: 'error',
+      attributes: { statusText: error.statusText },
+    });
     return Promise.reject(error);
   });
 }

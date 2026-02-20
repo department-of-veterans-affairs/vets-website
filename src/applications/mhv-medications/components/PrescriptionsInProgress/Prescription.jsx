@@ -3,10 +3,39 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
 
 import { dateFormat } from '../../util/helpers';
+import { trackingConfig } from '../../util/constants';
 
-const Prescription = ({ prescriptionId, prescriptionName, lastUpdated }) => {
-  // TODO update this to return different labels based on status
-  const getSubtext = () => `Request submitted: ${dateFormat(lastUpdated)}`;
+const Prescription = ({
+  prescriptionId,
+  prescriptionName,
+  lastUpdated,
+  status,
+  carrier,
+  trackingNumber,
+}) => {
+  const carrierConfig = trackingConfig[carrier?.toLowerCase()];
+  const trackingUrl = carrierConfig
+    ? carrierConfig.url + trackingNumber
+    : trackingNumber;
+
+  const getSubtext = () => {
+    switch (status) {
+      case 'in-progress':
+        return `Expected fill date: ${dateFormat(lastUpdated)}`;
+      case 'shipped':
+        return (
+          <>
+            Date shipped: {dateFormat(lastUpdated)} |{' '}
+            <a href={trackingUrl} rel="noreferrer">
+              Get tracking info
+            </a>
+          </>
+        );
+      case 'submitted':
+      default:
+        return `Request submitted: ${dateFormat(lastUpdated)}`;
+    }
+  };
 
   return (
     <div>
@@ -26,6 +55,9 @@ Prescription.propTypes = {
   lastUpdated: PropTypes.string.isRequired,
   prescriptionId: PropTypes.number.isRequired,
   prescriptionName: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
+  carrier: PropTypes.string,
+  trackingNumber: PropTypes.string,
 };
 
 export default Prescription;

@@ -366,7 +366,7 @@ describe('VAOS newAppointmentFlow', () => {
         expect(nextState).to.equal('audiologyCareType');
       });
 
-      it('should be requestDateTime if CC is chosen', () => {
+      it('should be requestDateTime if CC is chosen', async () => {
         const state = {
           newAppointment: {
             data: {
@@ -376,14 +376,23 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const dispatch = sinon.spy();
+        const dispatchedActions = [];
+        const dispatch = action => {
+          if (typeof action === 'function') {
+            return action(dispatch, () => state);
+          }
+          dispatchedActions.push(action);
+          return action;
+        };
 
-        const nextState = getNewAppointmentFlow(state).typeOfFacility.next(
+        const nextState = await getNewAppointmentFlow(
           state,
-          dispatch,
-        );
+        ).typeOfFacility.next(state, dispatch);
         expect(nextState).to.equal('ccRequestDateTime');
-        expect(dispatch.firstCall.args[0].type).to.equal(
+        expect(dispatchedActions[0].type).to.equal(
+          'newAppointment/FORM_UPDATE_FACILITY_EH',
+        );
+        expect(dispatchedActions[1].type).to.equal(
           'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
         );
       });
@@ -702,15 +711,24 @@ describe('VAOS newAppointmentFlow', () => {
             },
           },
         };
-        const dispatch = sinon.spy();
+        const dispatchedActions = [];
+        const dispatch = action => {
+          if (typeof action === 'function') {
+            return action(dispatch, () => state);
+          }
+          dispatchedActions.push(action);
+          return action;
+        };
 
         const nextState = await getNewAppointmentFlow(state).vaFacilityV2.next(
           state,
           dispatch,
         );
-        expect(dispatch.secondCall.args[0].type).to.equal(
-          'newAppointment/START_DIRECT_SCHEDULE_FLOW',
-        );
+        expect(
+          dispatchedActions.some(
+            a => a.type === 'newAppointment/START_DIRECT_SCHEDULE_FLOW',
+          ),
+        ).to.be.true;
         expect(nextState).to.equal('clinicChoice');
       });
       it('should be requestDateTime if not direct eligible', async () => {

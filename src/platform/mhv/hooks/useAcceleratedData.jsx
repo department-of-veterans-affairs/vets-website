@@ -59,6 +59,13 @@ const useAcceleratedData = () => {
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
   );
 
+  const isAcceleratingImagingStudiesEnabled = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsFetchScdfImagingStudies
+      ],
+  );
+
   useEffect(
     () => {
       // TECH DEBT: Do not trigger the connection when running unit tests because
@@ -117,9 +124,13 @@ const useAcceleratedData = () => {
 
   const isAcceleratingLabsAndTests = useMemo(
     () => {
-      return isAcceleratedDeliveryEnabled && isAcceleratingLabsAndTestsEnabled;
+      return (
+        isAcceleratedDeliveryEnabled &&
+        isAcceleratingLabsAndTestsEnabled &&
+        isCerner
+      );
     },
-    [isAcceleratedDeliveryEnabled, isAcceleratingLabsAndTestsEnabled],
+    [isAcceleratedDeliveryEnabled, isAcceleratingLabsAndTestsEnabled, isCerner],
   );
 
   const isAcceleratingMedications = useMemo(
@@ -138,6 +149,15 @@ const useAcceleratedData = () => {
     [isAcceleratedDeliveryEnabled, isAcceleratingSecureMessagingEnabled],
   );
 
+  const isAcceleratingImagingStudies = useMemo(
+    () => {
+      return (
+        isAcceleratedDeliveryEnabled && isAcceleratingImagingStudiesEnabled
+      );
+    },
+    [isAcceleratedDeliveryEnabled, isAcceleratingImagingStudiesEnabled],
+  );
+
   const isAccelerating = useMemo(
     () =>
       isAcceleratedDeliveryEnabled ||
@@ -145,7 +165,6 @@ const useAcceleratedData = () => {
       isAcceleratingCareNotes ||
       isAcceleratingConditions ||
       isAcceleratingVitals ||
-      isAcceleratingVaccines ||
       isAcceleratingLabsAndTests ||
       isAcceleratingMedications ||
       isAcceleratingSecureMessaging,
@@ -155,7 +174,6 @@ const useAcceleratedData = () => {
       isAcceleratingConditions,
       isAcceleratingCareNotes,
       isAcceleratingVitals,
-      isAcceleratingVaccines,
       isAcceleratingLabsAndTests,
       isAcceleratingMedications,
       isAcceleratingSecureMessaging,
@@ -174,6 +192,7 @@ const useAcceleratedData = () => {
     isAcceleratingLabsAndTests,
     isAcceleratingMedications,
     isAcceleratingSecureMessaging,
+    isAcceleratingImagingStudies,
   };
 };
 

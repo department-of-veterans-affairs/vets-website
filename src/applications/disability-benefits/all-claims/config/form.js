@@ -51,6 +51,7 @@ import {
   isCompletingModern4142,
   onFormLoaded,
   hasEvidenceChoice,
+  normalizeReturnUrlForResume,
 } from '../utils';
 
 import { gatePages } from '../utils/gatePages';
@@ -149,6 +150,9 @@ import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import getPreSubmitInfo from '../content/preSubmitInfo';
 import ConfirmationAncillaryFormsWizard from '../components/confirmationFields/ConfirmationAncillaryFormsWizard';
+import { EvidenceRequestPage } from '../components/EvidenceRequestPage';
+import { MedicalRecordsPage } from '../components/MedicalRecordsPage';
+import { AdditionalEvidenceIntroPage } from '../components/AdditionalEvidenceIntroPage';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -209,6 +213,7 @@ const formConfig = {
   reviewErrors,
   customValidationErrors: getCustomValidationErrors,
   onFormLoaded,
+  normalizeReturnUrl: normalizeReturnUrlForResume,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
@@ -626,6 +631,8 @@ const formConfig = {
           path: 'supporting-evidence/evidence-request',
           depends: formData =>
             !isBDD(formData) && isEvidenceEnhancement(formData),
+          CustomPage: EvidenceRequestPage,
+          CustomPageReview: null,
           uiSchema: evidenceRequest.uiSchema,
           schema: evidenceRequest.schema,
         },
@@ -637,6 +644,8 @@ const formConfig = {
             isEvidenceEnhancement(formData) &&
             hasMedicalRecords(formData),
           updateFormData: medicalRecords.updateFormData,
+          CustomPage: MedicalRecordsPage,
+          CustomPageReview: null,
           uiSchema: medicalRecords.uiSchema,
           schema: medicalRecords.schema,
         },
@@ -720,6 +729,8 @@ const formConfig = {
             formData.disability526SupportingEvidenceEnhancement,
           // TODO: update this path to `'supporting-evidence/additional-evidence', once we can get rid of `additionalDocuments` page
           path: 'supporting-evidence/additional-evidence-intro',
+          CustomPage: AdditionalEvidenceIntroPage,
+          CustomPageReview: null,
           uiSchema: evidenceChoiceIntro.uiSchema,
           schema: evidenceChoiceIntro.schema,
         },

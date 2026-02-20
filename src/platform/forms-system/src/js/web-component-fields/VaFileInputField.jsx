@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import debounce from 'platform/utilities/data/debounce';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 import {
   useFileUpload,
@@ -71,8 +70,8 @@ import passwordErrorState from '../utilities/file/passwordErrorState';
  *     },
  * },
  * ```
- 
- 
+
+
  * @param {WebComponentFieldProps} props */
 const VaFileInputField = props => {
   const { uiOptions = {}, childrenProps } = props;
@@ -189,12 +188,6 @@ const VaFileInputField = props => {
     passwordErrorManager.setNeedsPassword(encryptedCheck);
     setEncrypted(encryptedCheck);
 
-    // cypress test / skip the network call and its callbacks
-    if (environment.isTest() && !environment.isUnitTest()) {
-      childrenProps.onChange(e.detail.mockFormData);
-      return;
-    }
-
     if (uiOptions.skipUpload && !encryptedCheck) {
       simulateUploadSingle(setPercent, childrenProps.onChange, fileFromEvent);
       return;
@@ -245,6 +238,7 @@ const VaFileInputField = props => {
     <>
       <VaProgressUploadAnnounce uploading={!!percent} />
       <VaFileInput
+        data-dd-privacy="mask"
         {...mappedProps}
         error={_error}
         encrypted={encrypted}
@@ -263,7 +257,8 @@ const VaFileInputField = props => {
               // clone element so we can attach listeners
               mappedProps.additionalInput(
                 additionalInputError,
-                childrenProps.formData.additionalData,
+                childrenProps.formData.additionalData || {},
+                uiOptions.additionalInputLabels,
               ),
               {
                 // attach other listeners as needed
