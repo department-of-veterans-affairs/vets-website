@@ -25,13 +25,17 @@ const ITFClaimantInfoViewField = props => {
   const { formData, defaultEditButton } = props;
 
   const {
-    veteranSsn,
-    veteranFullName,
-    veteranDateOfBirth,
-    vaFileNumber,
-    claimantSsn,
-    claimantFullName,
-    claimantDateOfBirth,
+    veteranSubPage: {
+      veteranSsn,
+      veteranFullName,
+      veteranDateOfBirth,
+      vaFileNumber,
+    } = {},
+    claimantSubPage: {
+      claimantSsn,
+      claimantFullName,
+      claimantDateOfBirth,
+    } = {},
     benefitType,
     isVeteran,
   } = formData;
@@ -108,19 +112,27 @@ const ITFClaimantInfoViewField = props => {
 
 ITFClaimantInfoViewField.propTypes = {
   formData: PropTypes.shape({
-    veteranSsn: PropTypes.string,
-    veteranFullName: PropTypes.shape({
-      first: PropTypes.string,
-      last: PropTypes.string,
+    veteranSubPage: PropTypes.shape({
+      veteranSsn: PropTypes.string,
+      veteranFullName: PropTypes.shape({
+        first: PropTypes.string,
+        last: PropTypes.string,
+      }),
+      veteranDateOfBirth: PropTypes.string,
+      address: PropTypes.shape({
+        country: PropTypes.string,
+        postalCode: PropTypes.string,
+      }),
+      vaFileNumber: PropTypes.string,
     }),
-    veteranDateOfBirth: PropTypes.string,
-    vaFileNumber: PropTypes.string,
-    claimantSsn: PropTypes.string,
-    claimantFullName: PropTypes.shape({
-      first: PropTypes.string,
-      last: PropTypes.string,
+    claimantSubPage: PropTypes.shape({
+      claimantSsn: PropTypes.string,
+      claimantFullName: PropTypes.shape({
+        first: PropTypes.string,
+        last: PropTypes.string,
+      }),
+      claimantDateOfBirth: PropTypes.string,
     }),
-    claimantDateOfBirth: PropTypes.string,
     benefitType: PropTypes.string,
     isVeteran: PropTypes.oneOf(['yes', 'no']),
   }).isRequired,
