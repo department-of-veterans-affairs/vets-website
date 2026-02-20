@@ -409,7 +409,7 @@ const RefillPrescriptions = () => {
                     migratingFacilities={migratingFacilities}
                   />
                 ) : (
-                  <CernerFacilityAlert healthTool="MEDICATIONS_REFILL" />
+                  <CernerFacilityAlert healthTool="MEDICATIONS" />
                 )}
                 <h2
                   className="vads-u-margin-top--3"
