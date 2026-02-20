@@ -45,13 +45,43 @@ describe('ConfirmationPage', () => {
     cleanup();
   });
 
-  it('should show warning alert with additional steps message', () => {
-    const { container } = initConfirmationPage();
-    const alert = container.querySelector('va-alert');
-    expect(alert).to.have.attribute('status', 'warning');
-    expect(container).to.contain.text('Additional steps are needed');
-    expect(container).to.contain.text(
-      'You completed your part of this application',
-    );
+  describe('Legacy Flow (no examiner email)', () => {
+    it('should show warning alert with additional steps message', () => {
+      const { container } = initConfirmationPage();
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.have.attribute('status', 'warning');
+      expect(container).to.contain.text('Additional steps are needed');
+      expect(container).to.contain.text(
+        'You completed your part of this application',
+      );
+    });
+  });
+
+  describe('Multi-Party Flow (with examiner email)', () => {
+    it('should show success alert when examiner email exists', () => {
+      const { container } = initConfirmationPage({
+        formData: {
+          examinerNotification: {
+            examinerEmail: 'doctor@hospital.com',
+          },
+        },
+      });
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.have.attribute('status', 'success');
+      expect(container).to.contain.text(
+        'We\u2019ve notified the medical professional',
+      );
+    });
+
+    it('should display the examiner email address', () => {
+      const { container } = initConfirmationPage({
+        formData: {
+          examinerNotification: {
+            examinerEmail: 'doctor@hospital.com',
+          },
+        },
+      });
+      expect(container).to.contain.text('doctor@hospital.com');
+    });
   });
 });

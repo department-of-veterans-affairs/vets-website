@@ -55,6 +55,19 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'examiner-email': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const email =
+              data.examinerNotification?.examinerEmail || 'doctor@example.com';
+            cy.get(
+              'input[name="root_examinerNotification_examinerEmail"]',
+            ).type(email);
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -97,7 +110,7 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
 
       // Mock save-in-progress endpoints
-      cy.intercept('GET', '/v0/in_progress_forms/21-2680', {
+      cy.intercept('GET', '/v0/in_progress_forms/21-2680-PRIMARY', {
         statusCode: 200,
         body: {
           formData: {},
@@ -105,7 +118,7 @@ const testConfig = createTestConfig(
         },
       });
 
-      cy.intercept('PUT', '/v0/in_progress_forms/21-2680', {
+      cy.intercept('PUT', '/v0/in_progress_forms/21-2680-PRIMARY', {
         statusCode: 200,
         body: {
           data: {

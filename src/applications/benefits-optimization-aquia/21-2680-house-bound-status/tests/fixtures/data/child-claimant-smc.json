@@ -59,6 +59,9 @@
     },
     "hospitalizationStatus": {
       "isCurrentlyHospitalized": false
+    },
+    "examinerNotification": {
+      "examinerEmail": "dr.lobot@cloudcity.med"
     }
   }
 }
