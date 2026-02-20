@@ -1,0 +1,138 @@
+{
+  "data": {
+    "veteranFullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "veteranDateOfBirth": "1980-01-01",
+    "veteranSocialSecurityNumber": {
+      "ssn": "454544545"
+    },
+    "vaClaimsHistory": true,
+    "diedOnDuty": true,
+    "veteranDateOfDeath": "2002-02-02",
+    "claimantRelationship": "CHILD_18-23_IN_SCHOOL",
+    "claimantFullName": {
+      "first": "John",
+      "middle": "Middle",
+      "last": "Doe",
+      "suffix": "Jr."
+    },
+    "claimantDateOfBirth": "2015-05-05",
+    "claimantSocialSecurityNumber": "332213313",
+    "claimantIsVeteran": false,
+    "claimantAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Testing Dr",
+      "city": "Testville",
+      "state": "AL",
+      "postalCode": "12313"
+    },
+    "claimantEmail": "myemail72585885@unattended.com",
+    "claimantPhone": {
+      "callingCode": 1,
+      "countryCode": "US",
+      "contact": "(555) 111-3333",
+      "_isValid": true,
+      "_error": null,
+      "_touched": true,
+      "_required": true
+    },
+    "claims": {
+      "dic": true
+    },
+    "benefit": "1151DIC",
+    "receivedBenefits": false,
+    "serviceBranch": "spaceForce",
+    "activeServiceDateRange": {
+      "from": "1995-01-01",
+      "to": "2000-01-01"
+    },
+    "placeOfSeparation": "Some City, ST",
+    "nationalGuardActivated": true,
+    "nationalGuardActivationDate": "2001-09-11",
+    "unitName": "Unit Name",
+    "unitPhone": "5551112222",
+    "unitAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "999 Unit St",
+      "city": "North Unitton",
+      "state": "AL",
+      "postalCode": "12313"
+    },
+    "veteranPreviousNames": {
+      "otherServiceName": {
+        "first": "Other",
+        "last": "ServiceThat",
+        "middle": "Name",
+        "suffix": "Jr."
+      }
+    },
+    "pow": true,
+    "powDateRange": {
+      "from": "1950-01-01",
+      "to": "1953-02-02"
+    },
+    "veteranChildrenCount": "1",
+    "veteransChildren": [
+      {
+        "childFullName": {
+          "first": "FirstChild",
+          "middle": "ChildMiddle",
+          "last": "LastName",
+          "suffix": "Jr."
+        },
+        "childDateOfBirth": "2010-10-10",
+        "childSocialSecurityNumber": "123451234",
+        "birthPlace": {
+          "city": "Some City",
+          "state": "OH",
+          "otherCountry": "USA"
+        },
+        "bornOutsideUS": false,
+        "relationship": "BIOLOGICAL",
+        "inSchool": true,
+        "seriouslyDisabled": false,
+        "hasBeenMarried": true,
+        "currentlyMarried": false,
+        "livesWith": false,
+        "childSupport": 5000
+      }
+    ],
+    "view:isAddingDependent": false,
+    "childrenLiveTogetherButNotWithSpouse": true,
+    "custodianFullName": {
+    "first": "Custodian",
+    "last": "Custodianlast"
+    },
+    "custodianAddress": {
+      "country": "USA",
+      "street": "123 Child St",
+      "city": "Child City",
+      "state": "AL",
+      "postalCode": "12313"
+    },
+    "claimingMonthlySpecialPension": false,
+    "claimantLivesInANursingHome": false,
+    "view:careExpensesList": false,
+    "view:medicalExpensesList": false,
+    "medicalExpenses": {
+      "recipient": "CHILD",
+      "childName": "Child name",
+      "provider": "Some provider 1",
+      "purpose": "Some purpose1",
+      "paymentDate": "2022-05-05",
+      "paymentAmount": 150,
+      "paymentFrequency": "ANNUALLY"
+    },
+    "hasBankAccount": true,
+    "bankAccount": {
+    "accountType": "checking",
+    "bankName": "My Bank",
+    "routingNumber": "011000015",
+    "accountNumber": "987654321"
+  }
+  }
+}

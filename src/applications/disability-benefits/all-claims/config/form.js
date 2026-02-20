@@ -150,6 +150,8 @@ import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import getPreSubmitInfo from '../content/preSubmitInfo';
 import ConfirmationAncillaryFormsWizard from '../components/confirmationFields/ConfirmationAncillaryFormsWizard';
 import { EvidenceRequestPage } from '../components/EvidenceRequestPage';
+import { MedicalRecordsPage } from '../components/MedicalRecordsPage';
+import { AdditionalEvidenceIntroPage } from '../components/AdditionalEvidenceIntroPage';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -641,6 +643,8 @@ const formConfig = {
             isEvidenceEnhancement(formData) &&
             hasMedicalRecords(formData),
           updateFormData: medicalRecords.updateFormData,
+          CustomPage: MedicalRecordsPage,
+          CustomPageReview: null,
           uiSchema: medicalRecords.uiSchema,
           schema: medicalRecords.schema,
         },
@@ -724,6 +728,8 @@ const formConfig = {
             formData.disability526SupportingEvidenceEnhancement,
           // TODO: update this path to `'supporting-evidence/additional-evidence', once we can get rid of `additionalDocuments` page
           path: 'supporting-evidence/additional-evidence-intro',
+          CustomPage: AdditionalEvidenceIntroPage,
+          CustomPageReview: null,
           uiSchema: evidenceChoiceIntro.uiSchema,
           schema: evidenceChoiceIntro.schema,
         },

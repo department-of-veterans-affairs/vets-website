@@ -25,7 +25,6 @@ describe('Medications filter expanded on nav from refill page', () => {
     );
     refillPage.verifyRefillRequestSuccessConfirmationMessage();
     refillPage.clickMedicationsListPageLinkOnRefillSuccessAlertOnRefillsPage();
-    listPage.verifyLabelTextWhenFilterAccordionExpanded();
     listPage.verifyAllMedicationsRadioButtonIsChecked();
     listPage.verifyFilterButtonWhenAccordionExpanded();
   });

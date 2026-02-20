@@ -87,7 +87,7 @@ const formConfig = {
     finishAppLaterMessage: 'Finish this form later',
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
     reviewPageTitle: 'Review',
-    submitButtonText: 'Continue',
+    submitButtonText: 'Submit',
   },
   defaultDefinitions: {
     fullName,

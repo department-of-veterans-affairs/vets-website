@@ -1,9 +1,7 @@
 /* istanbul ignore file */
 const delay = require('mocker-api/lib/delay');
-const mockTopics = require('./utils/topic');
 const { generateSlots, createMockJwt } = require('../../utils/mock-helpers');
 const { decodeJwt } = require('../../utils/jwt-utils');
-const { createAppointmentData } = require('../../utils/appointments');
 const {
   createOTPInvalidError,
   createOTPAccountLockedError,
@@ -15,6 +13,16 @@ const {
   createNotWithinCohortError,
   createAppointmentAlreadyBookedError,
 } = require('./utils/errors');
+const {
+  createRequestOtpResponse,
+  createAuthenticateOtpResponse,
+  createRevokeTokenResponse,
+  createAppointmentAvailabilityResponse,
+  createTopicsResponseWithDefaultTopics,
+  createAppointmentResponse,
+  createAppointmentDetailsResponse,
+  createCancelAppointmentResponse,
+} = require('./utils/responses');
 
 const mockUUIDs = Object.freeze({
   'c0ffee-1234-beef-5678': {
@@ -64,10 +72,30 @@ const lowAuthVerificationTimeout = 15 * 60 * 1000; // 15 minutes
 const otpUseCounts = new Map(); // uuid -> count
 const maxOtpUseCount = 5;
 
-const mockAppointments = [
-  createAppointmentData({ appointmentId: 'abcdef123456' }),
-  createAppointmentData({ appointmentId: 'existing-appointment-id' }),
-];
+// Track active tokens for revocation
+const activeTokens = new Map(); // jti -> uuid
+
+/**
+ * Extracts the token, uuid, and token payload from the request headers.
+ * Returns null if the token or uuid is not found. Also sends a 401 error
+ * response if the token or uuid is not found and exits the function.
+ *
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ * @returns {Object} The token, uuid, and token payload
+ * @returns {null} If the token or uuid is not found
+ */
+const extractAuthFromRequest = (req, res) => {
+  const { headers } = req;
+  const [, token] = headers.authorization?.split(' ') || [];
+  const tokenPayload = decodeJwt(token);
+  const uuid = tokenPayload?.payload?.sub;
+  if (!token || !uuid) {
+    res.status(401).json(createUnauthorizedError());
+    return null;
+  }
+  return { token, uuid, tokenPayload };
+};
 
 const responses = {
   'POST /vass/v0/request-otp': (req, res) => {
@@ -102,13 +130,7 @@ const responses = {
     const mockUser = mockUUIDs[uuid];
     if (lastName === mockUser?.lastName && dob === mockUser?.dob) {
       lowAuthVerifications.delete(uuid);
-      return res.json({
-        data: {
-          message: 'OTC sent to registered email address',
-          expiresIn: 600,
-          email: mockUser.email,
-        },
-      });
+      return res.json(createRequestOtpResponse({ email: mockUser.email }));
     }
     if (attemptCount >= maxLowAuthVerifications) {
       return res.status(401).json(createRateLimitExceededError(900));
@@ -134,13 +156,21 @@ const responses = {
     ) {
       otpUseCounts.delete(uuid); // reset the use count on successful verification to allow for new attempts
       const expiresIn = 3600; // 1 hour
-      return res.json({
-        data: {
-          token: createMockJwt(uuid, expiresIn),
+      const token = createMockJwt(uuid, expiresIn);
+
+      // Track the token for potential revocation
+      const tokenPayload = decodeJwt(token);
+      if (tokenPayload?.payload?.jti) {
+        activeTokens.set(tokenPayload.payload.jti, uuid);
+      }
+
+      return res.json(
+        createAuthenticateOtpResponse({
+          token,
           expiresIn,
           tokenType: 'Bearer',
-        },
-      });
+        }),
+      );
     }
     if (useCount >= maxOtpUseCount) {
       return res.status(401).json(createOTPAccountLockedError(900));
@@ -149,38 +179,64 @@ const responses = {
       .status(401)
       .json(createOTPInvalidError(maxOtpUseCount - useCount));
   },
-  'POST /vass/v0/appointment': (req, res) => {
-    return res.json({
-      data: {
-        appointmentId: 'abcdef123456',
-      },
-    });
-  },
-  'GET /vass/v0/appointment/:appointmentId': (req, res) => {
-    const { appointmentId } = req.params;
-    const mockAppointment = mockAppointments.find(
-      appointment => appointment.appointmentId === appointmentId,
-    );
-    return res.json({
-      data: mockAppointment,
-    });
-  },
-  'GET /vass/v0/topics': (req, res) => {
-    return res.json({
-      data: {
-        topics: mockTopics,
-      },
-    });
-  },
-  'GET /vass/v0/appointment-availability': (req, res) => {
+  'POST /vass/v0/revoke-token': (req, res) => {
     const { headers } = req;
     const [, token] = headers.authorization?.split(' ') || [];
     const tokenPayload = decodeJwt(token);
 
-    const uuid = tokenPayload?.payload?.sub;
-    if (!token || !uuid) {
+    if (!token || !tokenPayload?.payload?.jti) {
       return res.status(401).json(createUnauthorizedError());
     }
+
+    const { jti } = tokenPayload.payload;
+    if (!activeTokens.has(jti)) {
+      return res.status(401).json(createUnauthorizedError());
+    }
+
+    // Remove the token from active tokens
+    activeTokens.delete(jti);
+
+    return res.json(createRevokeTokenResponse());
+  },
+  'POST /vass/v0/appointment': (req, res) => {
+    const auth = extractAuthFromRequest(req, res);
+    if (!auth) {
+      return undefined;
+    }
+
+    return res.json(
+      createAppointmentResponse({ appointmentId: 'abcdef123456' }),
+    );
+  },
+  'GET /vass/v0/appointment/:appointmentId': (req, res) => {
+    const auth = extractAuthFromRequest(req, res);
+    if (!auth) {
+      return undefined;
+    }
+
+    const { appointmentId } = req.params;
+
+    return res.json(
+      createAppointmentDetailsResponse({
+        appointmentId,
+      }),
+    );
+  },
+  'GET /vass/v0/topics': (req, res) => {
+    const auth = extractAuthFromRequest(req, res);
+    if (!auth) {
+      return undefined;
+    }
+
+    return res.json(createTopicsResponseWithDefaultTopics());
+  },
+  'GET /vass/v0/appointment-availability': (req, res) => {
+    const auth = extractAuthFromRequest(req, res);
+    if (!auth) {
+      return undefined;
+    }
+
+    const { uuid } = auth;
 
     if (uuid === 'not-within-cohort') {
       return res.status(401).json(createNotWithinCohortError());
@@ -194,28 +250,21 @@ const responses = {
         .json(createAppointmentAlreadyBookedError(mockData.appointmentId));
     }
 
-    return res.json({
-      data: {
+    return res.json(
+      createAppointmentAvailabilityResponse({
         appointmentId: mockData.appointmentId,
         availableSlots: generateSlots(),
-      },
-    });
+      }),
+    );
   },
   'POST /vass/v0/appointment/:appointmentId/cancel': (req, res) => {
-    const { headers } = req;
-    const [, token] = headers.authorization?.split(' ') || [];
-    const tokenPayload = decodeJwt(token);
-
-    const uuid = tokenPayload?.payload?.sub;
-    if (!token || !uuid) {
-      return res.status(401).json(createUnauthorizedError());
+    const auth = extractAuthFromRequest(req, res);
+    if (!auth) {
+      return undefined;
     }
+
     const { appointmentId } = req.params;
-    return res.json({
-      data: {
-        appointmentId,
-      },
-    });
+    return res.json(createCancelAppointmentResponse({ appointmentId }));
   },
 };
 
