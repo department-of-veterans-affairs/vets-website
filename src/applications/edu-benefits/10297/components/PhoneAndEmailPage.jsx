@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { SchemaForm, FormNavButtons } from 'platform/forms-system/exportsFile';
 import { isValidEmail } from 'platform/forms/validations';
 import { fetchDuplicateContactInfo } from '../actions';
@@ -21,29 +22,32 @@ const PhoneAndEmailPage = props => {
     getDuplicateContactInfo,
   } = props;
 
-  const checkDuplicate = () => {
-    const emailUpdated =
-      data?.duplicateEmail?.length > 0 &&
-      !data?.duplicateEmail?.some(
-        entry => entry?.address === data?.contactInfo?.emailAddress,
-      );
-    const phoneUpdated =
-      data?.duplicatePhone?.length > 0 &&
-      !data?.duplicatePhone?.some(
-        entry => entry?.number === data?.contactInfo?.mobilePhone?.contact,
-      );
+  const checkDuplicate = useCallback(
+    () => {
+      const emailUpdated =
+        data?.duplicateEmail?.length > 0 &&
+        !data?.duplicateEmail?.some(
+          entry => entry?.address === data?.contactInfo?.emailAddress,
+        );
+      const phoneUpdated =
+        data?.duplicatePhone?.length > 0 &&
+        !data?.duplicatePhone?.some(
+          entry => entry?.number === data?.contactInfo?.mobilePhone?.contact,
+        );
 
-    if (
-      isValidEmail(data?.contactInfo?.emailAddress) &&
-      data?.contactInfo?.mobilePhone?.isValid &&
-      (emailUpdated || phoneUpdated)
-    ) {
-      getDuplicateContactInfo(
-        [{ value: data?.contactInfo?.emailAddress, dupe: '' }],
-        [{ value: data?.contactInfo?.mobilePhone?.contact, dupe: '' }],
-      );
-    }
-  };
+      if (
+        isValidEmail(data?.contactInfo?.emailAddress) &&
+        data?.contactInfo?.mobilePhone?.isValid &&
+        (emailUpdated || phoneUpdated)
+      ) {
+        getDuplicateContactInfo(
+          [{ value: data?.contactInfo?.emailAddress, dupe: '' }],
+          [{ value: data?.contactInfo?.mobilePhone?.contact, dupe: '' }],
+        );
+      }
+    },
+    [data, getDuplicateContactInfo],
+  );
 
   // Check for duplicates on initial page load
   useEffect(() => {
@@ -93,6 +97,22 @@ const PhoneAndEmailPage = props => {
 
 const mapDispatchToProps = {
   getDuplicateContactInfo: fetchDuplicateContactInfo,
+};
+
+PhoneAndEmailPage.propTypes = {
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
+  data: PropTypes.object,
+  formContext: PropTypes.object,
+  getDuplicateContactInfo: PropTypes.func,
+  goBack: PropTypes.func,
+  name: PropTypes.string,
+  schema: PropTypes.object,
+  title: PropTypes.string,
+  trackingPrefix: PropTypes.string,
+  uiSchema: PropTypes.object,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 export default connect(
