@@ -18,8 +18,10 @@ import {
   evidenceRequestAdditionalInfo,
   evidenceRequestQuestion,
   privateEvidenceContent,
+  privateEvidenceContentCombined,
   vaEvidenceContent,
   privateFacilityContent,
+  privateFacilityContentCombined,
   alertMessage,
   renderFacilityList,
   renderFileList,
@@ -187,16 +189,21 @@ export const EvidenceRequestPage = ({
         )}
         {getPrivateFacilities(data).length > 0 && (
           <>
-            {privateFacilityContent}
+            {getVaEvidence(data).length > 0
+              ? privateFacilityContentCombined
+              : privateFacilityContent}
             {renderFacilityList(
               getPrivateFacilities(data),
               'providerFacilityName',
             )}
           </>
         )}
-        {getPrivateEvidenceUploads.length > 0 && (
+        {getPrivateEvidenceUploads(data).length > 0 && (
           <>
-            {privateEvidenceContent}
+            {getVaEvidence(data).length > 0 ||
+            getPrivateFacilities(data).length > 0
+              ? privateEvidenceContentCombined
+              : privateEvidenceContent}
             {renderFileList(getPrivateEvidenceUploads(data), 'fileName')}
           </>
         )}

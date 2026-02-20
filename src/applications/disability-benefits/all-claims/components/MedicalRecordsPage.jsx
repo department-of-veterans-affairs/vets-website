@@ -17,9 +17,10 @@ import {
 } from '../utils';
 import {
   evidenceRequestAdditionalInfo,
-  privateEvidenceContent,
-  vaEvidenceContent,
-  privateFacilityContent,
+  vaEvidenceContentForMedicalRecordsPage,
+  privateEvidenceContentForMedicalRecordsPage,
+  privateFacilityContentForMedicalRecordsPage,
+  privateEvidenceContentCombined,
   alertMessage,
   renderFacilityList,
   renderFileList,
@@ -187,14 +188,14 @@ export const MedicalRecordsPage = ({
         {!hasVAEvidence(data) &&
           getVaEvidence(data).length > 0 && (
             <>
-              {vaEvidenceContent}
+              {vaEvidenceContentForMedicalRecordsPage}
               {renderFacilityList(getVaEvidence(data), 'treatmentCenterName')}
             </>
           )}
         {!hasPrivateEvidence(data) &&
           getPrivateFacilities(data).length > 0 && (
             <>
-              {privateFacilityContent}
+              {privateFacilityContentForMedicalRecordsPage}
               {renderFacilityList(
                 getPrivateFacilities(data),
                 'providerFacilityName',
@@ -204,7 +205,9 @@ export const MedicalRecordsPage = ({
         {!hasPrivateEvidence(data) &&
           getPrivateEvidenceUploads(data).length > 0 && (
             <>
-              {privateEvidenceContent}
+              {getPrivateFacilities(data).length > 0
+                ? privateEvidenceContentCombined
+                : privateEvidenceContentForMedicalRecordsPage}
               {renderFileList(getPrivateEvidenceUploads(data))}
             </>
           )}
