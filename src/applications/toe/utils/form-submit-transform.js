@@ -333,6 +333,45 @@ const getSponsorInformation = form => {
   };
 };
 
+const getGuardianInformation = formData => {
+  if (!formData?.mebParentGuardianStep) return undefined;
+
+  const requiredAddressFields =
+    formData?.guardianMailingAddress?.address?.country === 'USA'
+      ? ['country', 'street', 'city', 'state', 'postalCode']
+      : ['country', 'street', 'city', 'postalCode'];
+
+  const isCompleteAddress = requiredAddressFields.every(
+    field => !!formData?.guardianMailingAddress?.address?.[field],
+  );
+
+  const guardianMailingAddress = isCompleteAddress
+    ? {
+        addressType: formData?.guardianMailingAddress?.livesOnMilitaryBase
+          ? 'MILITARY_OVERSEAS'
+          : 'DOMESTIC',
+        addressLine1: formData?.guardianMailingAddress?.address?.street,
+        addressLine2: formData?.guardianMailingAddress?.address?.street2,
+        city: formData?.guardianMailingAddress?.address?.city,
+        stateCode: formData?.guardianMailingAddress?.address?.state,
+        zipcode: formData?.guardianMailingAddress?.address?.postalCode,
+        countryCode: getLTSCountryCode(
+          formData?.guardianMailingAddress?.address?.country,
+        ),
+      }
+    : undefined;
+
+  return {
+    guardianOptions: {
+      guardianFirstName: formData?.guardianFirstName,
+      guardianMiddleName: formData?.guardianMiddleName,
+      guardianLastName: formData?.guardianLastName,
+      guardianNameSuffix: formData?.guardianNameSuffix,
+      guardianMailingAddress,
+    },
+  };
+};
+
 export function transformTOEForm(_formConfig, form) {
   const formFieldUserFullName = form?.data['view:userFullName']?.userFullName;
   const viewComponentUserFullName =
@@ -402,6 +441,7 @@ export function transformTOEForm(_formConfig, form) {
       directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
       directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
     },
+    ...getGuardianInformation(form?.data),
   };
 
   return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);
