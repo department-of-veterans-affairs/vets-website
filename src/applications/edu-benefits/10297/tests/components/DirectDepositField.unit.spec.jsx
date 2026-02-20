@@ -53,8 +53,8 @@ describe('DirectDepositField', () => {
   };
 
   it('should start in edit mode if bankAccount data is empty', () => {
-    const screen = render(<DirectDepositField {...defaultProps} />);
-    expect(screen.getByText('Save')).to.exist;
+    const { container } = render(<DirectDepositField {...defaultProps} />);
+    expect(container.querySelector('.save-button')).to.exist;
   });
 
   it('should display in view mode if bankAccount data is complete', () => {
@@ -68,8 +68,8 @@ describe('DirectDepositField', () => {
         },
       },
     };
-    const screen = render(<DirectDepositField {...props} />);
-    expect(screen.getByText('Edit')).to.exist;
+    const { container } = render(<DirectDepositField {...props} />);
+    expect(container.querySelector('.edit-button')).to.exist;
   });
 
   it('should display in view mode with error if bankAccount data is partially complete', () => {

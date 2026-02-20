@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
+import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import { obfuscate, titleCase } from '../helpers';
 
 export default function DirectDepositViewField({
@@ -17,16 +18,26 @@ export default function DirectDepositViewField({
     ? `${titleCase(accountType)} account`
     : 'Account';
 
-  const editButton = [
-    'edit-button',
-    'vads-u-margin-top--4',
-    'vads-u-width--auto',
-  ].join(' ');
-
+  const editButtonClasses = ['edit-button', 'vads-u-margin-top--4'].join(' ');
   // Ensure errors are re-validated when this component loads
   useEffect(
     () => {
       formContext.onError();
+      const editButton = document.querySelector('.edit-button');
+      if (!editButton) return;
+
+      const updateEditButtonStyle = async () => {
+        const button = await querySelectorWithShadowRoot(
+          'button',
+          '.edit-button',
+        );
+
+        if (button) {
+          button.style.padding = '0.75rem 1.25rem';
+        }
+      };
+
+      updateEditButtonStyle();
     },
     [formContext],
   );
@@ -61,17 +72,15 @@ export default function DirectDepositViewField({
           correct.
         </va-alert>
       )}
-      <button
-        className={`usa-button-primary ${editButton}`}
-        style={{ minWidth: '5rem', lineHeight: '1.5' }}
+      <va-button
+        class={editButtonClasses}
         onClick={() => {
           startEditing();
           formContext.onError();
         }}
-        aria-label={`Edit ${title}`}
-      >
-        Edit
-      </button>
+        label={`Edit ${title}`}
+        text="Edit"
+      />
     </>
   );
 }
