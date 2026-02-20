@@ -1,3 +1,4 @@
+// perf: baseline trigger for Cypress video A/B test
 import '@department-of-veterans-affairs/platform-polyfills';
 import {
   applyPolyfills,
