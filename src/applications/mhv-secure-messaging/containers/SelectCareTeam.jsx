@@ -15,10 +15,10 @@ import {
   VaButton,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { datadogRum } from '@datadog/browser-rum';
+import { scrollToFirstError } from 'platform/utilities/scroll';
 
 import { populatedDraft } from '../selectors';
 import {
@@ -26,24 +26,26 @@ import {
   Paths,
   PageTitles,
   SelectCareTeamPage,
+  BlockedTriageAlertStyles,
+  ParentComponent,
 } from '../util/constants';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
 import EmergencyNote from '../components/EmergencyNote';
+import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import { updateDraftInProgress } from '../actions/threadDetails';
 import RouteLeavingGuard from '../components/shared/RouteLeavingGuard';
 import { saveDraft } from '../actions/draftDetails';
-import manifest from '../manifest.json';
-import featureToggles from '../hooks/useFeatureToggles';
 import { draftIsClean } from '../util/helpers';
 
 const SelectCareTeam = () => {
-  const { mhvSecureMessagingCuratedListFlow } = featureToggles();
   const dispatch = useDispatch();
   const history = useHistory();
   const {
     allFacilities,
     noAssociations,
     allTriageGroupsBlocked,
+    blockedFacilities,
+    blockedRecipients,
     allowedRecipients,
     vistaFacilities,
     error: recipientsError,
@@ -119,6 +121,15 @@ const SelectCareTeam = () => {
     [draftInProgress, dispatch],
   );
 
+  useEffect(
+    () => {
+      if (careTeamError) {
+        scrollToFirstError();
+      }
+    },
+    [careTeamError],
+  );
+
   const careTeamHandler = useCallback(
     recipient => {
       const newId = recipient?.id ? recipient.id.toString() : null;
@@ -181,7 +192,9 @@ const SelectCareTeam = () => {
   );
 
   useEffect(() => {
-    focusElement(document.querySelector('h1'));
+    if (h1Ref.current) {
+      h1Ref.current.focus();
+    }
   }, []);
 
   useEffect(
@@ -290,6 +303,12 @@ const SelectCareTeam = () => {
           version:
             allFacilities.length < MAX_RADIO_OPTIONS ? 'radio' : 'dropdown',
         });
+        datadogRum.addAction('SM VA Health Systems Displayed', {
+          status: 'successful',
+          healthSystemsCount: allFacilities.length,
+          version:
+            allFacilities.length < MAX_RADIO_OPTIONS ? 'radio' : 'dropdown',
+        });
       } else if (allFacilities?.length === 0) {
         recordEvent({
           event: 'api_call',
@@ -297,6 +316,11 @@ const SelectCareTeam = () => {
           'api-status': 'fail',
           'health-systems-count': 0,
           'error-key': 'no-health-systems',
+        });
+        datadogRum.addAction('SM VA Health Systems Displayed', {
+          status: 'fail',
+          healthSystemsCount: 0,
+          errorKey: 'no-health-systems',
         });
       }
     },
@@ -311,6 +335,9 @@ const SelectCareTeam = () => {
           recordEvent({
             event: 'int-text-input-search',
             'text-input-label': 'Select a care team',
+          });
+          datadogRum.addAction('Care Team Search Input', {
+            inputLabel: 'Select a care team',
           });
         }, 500);
         return () => clearTimeout(debounceTimer);
@@ -338,6 +365,7 @@ const SelectCareTeam = () => {
     },
     [draftInProgress.careSystemVhaId, allowedRecipients],
   );
+  // alert('Care teams list effect ran', careTeamsList);
 
   // if there is only one care system, set it as the draftInProgress care system
   // this is to prevent the user from having to select a care system
@@ -367,40 +395,14 @@ const SelectCareTeam = () => {
       if (!selectedCareTeamId || !draftInProgress.recipientId) {
         setCareTeamError('Select a care team');
         selectionsValid = false;
-        const recipientSelect = document
-          .querySelector('[data-testid="compose-recipient-combobox"]')
-          ?.shadowRoot?.querySelector('input');
-        focusElement(recipientSelect);
       }
       return selectionsValid;
     },
     [draftInProgress.recipientId, selectedCareTeamId],
   );
 
-  const getDestinationPath = useCallback(
-    (includeRootUrl = false) => {
-      const inProgressPath = `${Paths.MESSAGE_THREAD}${
-        draftInProgress.messageId
-      }`;
-      const startPath = `${Paths.COMPOSE}${Paths.START_MESSAGE}`;
-      const path = draftInProgress.messageId ? inProgressPath : startPath;
-      return includeRootUrl ? `${manifest.rootUrl}${path}` : path;
-    },
-    [draftInProgress],
-  );
-
-  const getDestinationLabel = useCallback(
-    () => {
-      return draftInProgress.messageId
-        ? 'Continue to draft'
-        : 'Continue to start message';
-    },
-    [draftInProgress],
-  );
-
   const handlers = {
-    onContinue: event => {
-      event?.preventDefault();
+    onContinue: () => {
       if (!checkValidity()) return;
 
       const selectedRecipientStationNumber = allowedRecipients.find(
@@ -419,13 +421,18 @@ const SelectCareTeam = () => {
           }),
         );
       }
-      history.push(getDestinationPath());
+      if (draftInProgress.messageId) {
+        history.push(`${Paths.MESSAGE_THREAD}${draftInProgress.messageId}`);
+      } else {
+        history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}`);
+      }
     },
   };
 
   const careSystemsOptionsValues = useMemo(
     () => {
       const careSystemsSorted = allFacilities
+        .filter(careSystem => !blockedFacilities?.includes(careSystem))
         .map(careSystem => {
           return ehrDataByVhaId[careSystem];
         })
@@ -441,7 +448,7 @@ const SelectCareTeam = () => {
         </option>
       ));
     },
-    [allFacilities, ehrDataByVhaId],
+    [allFacilities, blockedFacilities, ehrDataByVhaId],
   );
 
   const saveDraftHandler = useCallback(
@@ -454,9 +461,13 @@ const SelectCareTeam = () => {
   );
 
   const renderCareSystems = () => {
+    const allowedFacilities = allFacilities?.filter(
+      facility => !blockedFacilities?.includes(facility),
+    );
+
     if (
-      allFacilities?.length > 1 &&
-      allFacilities?.length < MAX_RADIO_OPTIONS
+      allowedFacilities?.length > 1 &&
+      allowedFacilities?.length < MAX_RADIO_OPTIONS
     ) {
       return (
         <VaRadio
@@ -467,7 +478,7 @@ const SelectCareTeam = () => {
           data-dd-privacy="mask"
           data-dd-action-name="Care System Radio button"
         >
-          {allFacilities.map(facility => (
+          {allowedFacilities.map(facility => (
             <>
               <VaRadioOption
                 data-testid={`care-system-${facility}`}
@@ -489,7 +500,7 @@ const SelectCareTeam = () => {
       );
     }
 
-    if (allFacilities?.length >= MAX_RADIO_OPTIONS) {
+    if (allowedFacilities?.length >= MAX_RADIO_OPTIONS) {
       return (
         <VaSelect
           enableAnalytics
@@ -511,11 +522,42 @@ const SelectCareTeam = () => {
     return null;
   };
 
+  if (allTriageGroupsBlocked) {
+    return (
+      <div className="choose-va-health-care-system">
+        <h1 className="vads-u-margin-bottom--2" tabIndex="-1" ref={h1Ref}>
+          Select care team
+        </h1>
+        <BlockedTriageGroupAlert
+          alertStyle={BlockedTriageAlertStyles.ALERT}
+          parentComponent={ParentComponent.FOLDER_HEADER}
+        />
+      </div>
+    );
+  }
+
+  const showSingleFacilityBlockedAlert =
+    blockedFacilities?.length === 1 && !allTriageGroupsBlocked;
+
+  const showIndividualTeamsBlockedAlert =
+    blockedRecipients?.length > 0 &&
+    !blockedFacilities?.length &&
+    !allTriageGroupsBlocked;
+
+  const showBlockedAlert =
+    showSingleFacilityBlockedAlert || showIndividualTeamsBlockedAlert;
+
   return (
     <div className="choose-va-health-care-system">
-      <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
+      <h1 className="vads-u-margin-bottom--2" tabIndex="-1" ref={h1Ref}>
         Select care team
       </h1>
+      {showBlockedAlert && (
+        <BlockedTriageGroupAlert
+          alertStyle={BlockedTriageAlertStyles.INFO}
+          parentComponent={ParentComponent.FOLDER_HEADER}
+        />
+      )}
       <EmergencyNote dropDownFlag />
       <RouteLeavingGuard
         saveDraftHandler={saveDraftHandler}
@@ -559,26 +601,14 @@ const SelectCareTeam = () => {
           </div>
         )}
         <div>
-          {mhvSecureMessagingCuratedListFlow ? (
-            <va-link-action
-              href={getDestinationPath(true)}
-              text={getDestinationLabel()}
-              data-testid="continue-button"
-              data-dd-action-name="Continue button on Select care team page"
-              onClick={e => handlers.onContinue(e)}
-              class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
-              type="primary"
-            />
-          ) : (
-            <VaButton
-              continue
-              class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
-              data-testid="continue-button"
-              data-dd-action-name="Continue button on Select care team page"
-              onClick={e => handlers.onContinue(e)}
-              text={null}
-            />
-          )}
+          <VaButton
+            continue
+            class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
+            data-testid="continue-button"
+            data-dd-action-name="Continue button on Select care team page"
+            onClick={handlers.onContinue}
+            text={null}
+          />
         </div>
       </div>
     </div>

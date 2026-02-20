@@ -69,81 +69,36 @@ const IntroductionPage = props => {
           />
         </va-process-list-item>
         <va-process-list-item header="Gather your information">
-          <h4 className="vads-u-margin-y--1">
+          <p className="vads-u-margin-y--1">
             Here’s what you’ll need to apply:
-          </h4>
+          </p>
           <ul>
-            <li>Your Social Security number or VA file number</li>
-            <li>Your military history</li>
-            <li>Your work history</li>
             <li>
-              Your marital history (and if you’re married, your spouse’s marital
-              history)
+              <strong>Your personal information:</strong> This includes your
+              Social Security number or VA file number, military history, work
+              history, marital history (and if you’re married, your spouse’s
+              marital history).
             </li>
-            <li>Information about your dependents</li>
+            <li>
+              <strong>Your dependents information:</strong> This includes their
+              date of birthday and Social Security number.{' '}
+            </li>
+            <li>
+              <strong>Your financial information:</strong> This includes your
+              household’s gross monthly income, the value of your household’s
+              assets, and your unreimbursed medical expenses.
+            </li>
           </ul>
-          <h4>You’ll also need this financial information:</h4>
-          <ul>
-            <li>Your household’s gross monthly income</li>
-            <li>The value of your household’s assets</li>
-            <li>Your unreimbursed medical expenses</li>
-          </ul>
-          <va-additional-info
-            trigger="Other information we may ask for"
-            disable-border
-          >
-            <div>
-              <p>
-                Based on your answers, you may need to submit other documents
-                with your application. These documents may include VA forms or
-                evidence for answers to specific questions.
-              </p>
-              <p>
-                We’ll tell you if you need to complete any of these VA forms:
-              </p>
-              <ul>
-                <li>
-                  Examination for Housebound Status or Permanent Need for
-                  Regular Aid and Attendance (
-                  <va-link
-                    href="https://www.va.gov/find-forms/about-form-21-2680/"
-                    text="VA Form 21-2680"
-                  />
-                  )
-                </li>
-                <li>
-                  Request for Nursing Home Information in Connection with Claim
-                  for Aid and Attendance (
-                  <va-link
-                    href="https://www.va.gov/find-forms/about-form-21-0779/"
-                    text="VA Form 21-20779"
-                  />
-                  )
-                </li>
-                <li>
-                  Request for Approval of School Attendance (
-                  <va-link
-                    href="https://www.va.gov/find-forms/about-form-21-674/"
-                    text="VA Form 21-674"
-                  />
-                  )
-                </li>
-                <li>
-                  Income and Asset Statement in Support of Claim for Pension or
-                  Parents’ Dependency and Indemnity Compensation (
-                  <va-link
-                    href="https://www.va.gov/find-forms/about-form-21p-0969/"
-                    text="VA Form 21P-0969"
-                  />
-                  )
-                </li>
-              </ul>
-              <p>
-                And we’ll tell you about any additional evidence you need to
-                submit depending on your situation.
-              </p>
-            </div>
-          </va-additional-info>
+          <p>
+            Based on your answers, you may also need to submit supporting
+            documents and additional evidence. This could include details about
+            your care needs, school attendance, or income and assets related to
+            your claim.
+          </p>
+          <p>
+            We’ll let you know if we need any additional information or
+            documents and what you need to submit.
+          </p>
         </va-process-list-item>
         <va-process-list-item header="Start your application">
           <p>

@@ -24,7 +24,7 @@ import {
   selectFilterOption,
 } from '../../selectors/selectPreferences';
 
-const MedicationsListFilter = ({ updateFilter, filterCount }) => {
+const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
   const dispatch = useDispatch();
   const ref = useRef(null);
   const filterOpenByDefault = useSelector(selectFilterOpenByDefault);
@@ -48,16 +48,19 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
         return filterCount.active;
       }
       case currentFilterOptions.RECENTLY_REQUESTED?.label: {
-        return filterCount.recentlyRequested;
+        return filterCount.recentlyRequested ?? filterCount.inProgress;
       }
       case currentFilterOptions.IN_PROGRESS?.label: {
         return filterCount.inProgress;
       }
       case currentFilterOptions.RENEWAL?.label: {
-        return filterCount.renewal;
+        return filterCount.renewal ?? filterCount.renewable;
+      }
+      case currentFilterOptions.RENEWABLE?.label: {
+        return filterCount.renewable;
       }
       case currentFilterOptions.NON_ACTIVE?.label: {
-        return filterCount.nonActive;
+        return filterCount.nonActive ?? filterCount.inactive;
       }
       case currentFilterOptions.INACTIVE?.label: {
         return filterCount.inactive;
@@ -162,7 +165,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
                 filterCount &&
                 mapFilterCountToFilterLabels(
                   currentFilterOptions[option].label,
-                ) !== null
+                ) != null
                   ? ` (${mapFilterCountToFilterLabels(
                       currentFilterOptions[option].label,
                     )})`
@@ -188,6 +191,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
           data-dd-action-name={
             dataDogActionNames.medicationsListPage.APPLY_FILTER_BUTTON
           }
+          loading={isLoading}
         />
         <VaButton
           className="vads-u-width--full tablet:vads-u-width--auto vads-u-margin-top--3"
@@ -205,6 +209,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
 };
 
 MedicationsListFilter.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   filterCount: PropTypes.object,
   updateFilter: PropTypes.func,
 };

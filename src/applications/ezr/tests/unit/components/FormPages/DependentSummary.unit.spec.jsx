@@ -228,13 +228,16 @@ describe('ezr DependentSummary page', () => {
     it('should fire the `setFormData` spy when confirming the action', async () => {
       const { props } = getData({ dependents: dependentData.populated });
       const { container } = render(<DependentSummary {...props} />);
-      const selectors = {
-        removeBtn: container.querySelector('.ezr-button-remove'),
-        modal: container.querySelector('va-modal'),
-      };
+      const removeBtn = container.querySelector('.ezr-button-remove');
 
-      fireEvent.click(selectors.removeBtn);
-      selectors.modal.__events.primaryButtonClick();
+      fireEvent.click(removeBtn);
+
+      // Wait for modal to be visible after state update, then trigger confirm
+      await waitFor(() => {
+        const modal = container.querySelector('va-modal');
+        expect(modal.getAttribute('visible')).to.equal('true');
+        modal.__events.primaryButtonClick();
+      });
 
       await waitFor(() => {
         expect(props.setFormData.called).to.be.true;
@@ -244,13 +247,16 @@ describe('ezr DependentSummary page', () => {
     it('should not fire the `setFormData` spy when canceling the action', async () => {
       const { props } = getData({ dependents: dependentData.populated });
       const { container } = render(<DependentSummary {...props} />);
-      const selectors = {
-        removeBtn: container.querySelector('.ezr-button-remove'),
-        modal: container.querySelector('va-modal'),
-      };
+      const removeBtn = container.querySelector('.ezr-button-remove');
 
-      fireEvent.click(selectors.removeBtn);
-      selectors.modal.__events.secondaryButtonClick();
+      fireEvent.click(removeBtn);
+
+      // Wait for modal to be visible after state update, then trigger cancel
+      await waitFor(() => {
+        const modal = container.querySelector('va-modal');
+        expect(modal.getAttribute('visible')).to.equal('true');
+        modal.__events.secondaryButtonClick();
+      });
 
       await waitFor(() => {
         expect(props.setFormData.called).to.be.false;

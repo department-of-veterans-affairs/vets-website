@@ -69,6 +69,10 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
+  customText: {
+    reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
+  },
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
@@ -142,6 +146,9 @@ const formConfig = {
           title: 'Organization information',
           uiSchema: OrganizationInfo.uiSchema,
           schema: OrganizationInfo.schema,
+          initialData: {
+            organizationAddress: { country: 'USA' },
+          },
         },
         testCost: {
           path: 'test-cost',

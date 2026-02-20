@@ -106,13 +106,17 @@ const ConditionDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, ...generateConditionContent(record) };
     const pdfName = `VA-conditions-details-${getNameDateAndTime(user)}`;
-    makePdf(
-      pdfName,
-      pdfData,
-      'medicalRecords',
-      'Medical Records - Condition details - PDF generation error',
-      runningUnitTest,
-    );
+    try {
+      await makePdf(
+        pdfName,
+        pdfData,
+        'medicalRecords',
+        'Medical Records - Condition details - PDF generation error',
+        runningUnitTest,
+      );
+    } catch {
+      // makePdf handles error logging to Datadog/Sentry
+    }
   };
 
   const generateConditionTxt = async () => {
@@ -223,7 +227,7 @@ Provider Notes: ${processList(record.comments)}\n`;
       <div className="vads-u-margin-y--8">
         <va-loading-indicator
           message="Loading..."
-          setFocus
+          set-focus
           data-testid="loading-indicator"
         />
       </div>

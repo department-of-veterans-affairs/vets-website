@@ -97,6 +97,28 @@ describe('convertMedication', () => {
     expect(result.indicationForUse).to.equal('None recorded');
   });
 
+  it('should handle invalid date strings gracefully without throwing', () => {
+    const med = {
+      id: '123',
+      attributes: {
+        prescriptionName: 'Aspirin',
+        sortedDispensedDate: 'invalid-date',
+        refillStatus: 'Active',
+        prescriptionNumber: 'RX123456',
+        orderedDate: 'not-a-date',
+        facilityName: 'VA Hospital',
+        expirationDate: '',
+        quantity: 30,
+      },
+    };
+
+    const result = convertMedication(med);
+    expect(result).to.be.an('object');
+    expect(result.lastFilledOn).to.equal('Not filled yet');
+    expect(result.prescribedOn).to.equal(UNKNOWN);
+    expect(result.expirationDate).to.equal(NONE_RECORDED);
+  });
+
   it('should handle missing optional fields', () => {
     const med = {
       id: '123',
@@ -127,6 +149,24 @@ describe('convertMedication', () => {
     expect(result.quantity).to.equal(30);
     expect(result.pharmacyPhoneNumber).to.equal(UNKNOWN);
     expect(result.indicationForUse).to.equal('None recorded');
+  });
+
+  it('should handle missing attributes property without crashing', () => {
+    // Test when attributes is undefined
+    const medWithoutAttributes = { id: '789' };
+    expect(() => convertMedication(medWithoutAttributes)).to.not.throw();
+    const result = convertMedication(medWithoutAttributes);
+    expect(result).to.be.an('object');
+    expect(result.id).to.equal('789');
+    expect(result.type).to.equal('va');
+    expect(result.lastFilledOn).to.equal('Not filled yet');
+    expect(result.refillsLeft).to.equal(UNKNOWN);
+    expect(result.expirationDate).to.equal(NONE_RECORDED);
+    expect(result.instructions).to.equal('No instructions available');
+
+    // Test when attributes is null
+    const medWithNullAttributes = { id: '101', attributes: null };
+    expect(() => convertMedication(medWithNullAttributes)).to.not.throw();
   });
 });
 
@@ -235,6 +275,58 @@ describe('convertAppointment', () => {
     appt.attributes.serviceCategory = { text: 'Object' };
     expect(() => convertAppointment(appt)).to.not.throw();
   });
+
+  it('should handle missing attributes property without crashing', () => {
+    // Test when attributes is undefined
+    const apptWithoutAttributes = { id: '123' };
+    expect(() => convertAppointment(apptWithoutAttributes)).to.not.throw();
+    const result = convertAppointment(apptWithoutAttributes);
+    expect(result).to.be.an('object');
+    expect(result.id).to.equal('123');
+    expect(result.appointmentType).to.equal(UNKNOWN);
+    expect(result.status).to.equal('Pending');
+
+    // Test when attributes is null
+    const apptWithNullAttributes = { id: '456', attributes: null };
+    expect(() => convertAppointment(apptWithNullAttributes)).to.not.throw();
+  });
+
+  it('should handle invalid date strings gracefully without throwing', () => {
+    const appt = {
+      id: '789',
+      attributes: {
+        localStartTime: 'invalid-date',
+        kind: 'clinic',
+        status: 'booked',
+        serviceName: 'Cardiology',
+      },
+    };
+
+    // Invalid date string should not throw and should return UNKNOWN for date
+    expect(() => convertAppointment(appt)).to.not.throw();
+    const result = convertAppointment(appt);
+    expect(result).to.be.an('object');
+    expect(result.date).to.equal(UNKNOWN);
+    expect(result.isUpcoming).to.equal(false);
+
+    // Test with empty string date - should not throw
+    appt.attributes.localStartTime = '';
+    expect(() => convertAppointment(appt)).to.not.throw();
+    const resultEmpty = convertAppointment(appt);
+    expect(resultEmpty).to.be.an('object');
+
+    // Test with null date - should not throw
+    appt.attributes.localStartTime = null;
+    expect(() => convertAppointment(appt)).to.not.throw();
+    const resultNull = convertAppointment(appt);
+    expect(resultNull).to.be.an('object');
+
+    // Test with undefined date - should not throw
+    appt.attributes.localStartTime = undefined;
+    expect(() => convertAppointment(appt)).to.not.throw();
+    const resultUndefined = convertAppointment(appt);
+    expect(resultUndefined).to.be.an('object');
+  });
 });
 
 describe('convertDemographics', () => {
@@ -329,6 +421,42 @@ describe('convertDemographics', () => {
     expect(result.age).to.equal(40);
     expect(result.gender).to.equal('Female');
     expect(result.ethnicity).to.equal('None recorded');
+  });
+
+  it('should handle invalid date strings gracefully without throwing', () => {
+    const info = {
+      id: '123',
+      facilityInfo: { name: 'VA Medical Center' },
+      firstName: 'Jane',
+      lastName: 'Doe',
+      dateOfBirth: 'invalid-date',
+      age: 40,
+      gender: 'Female',
+      permStreet1: '456 Elm St',
+      permCity: 'Anytown',
+      permState: 'NY',
+      permZipcode: '12345',
+      permCountry: 'USA',
+    };
+
+    const result = convertDemographics(info);
+    expect(result).to.be.an('object');
+    expect(result.dateOfBirth).to.equal('None recorded');
+
+    // Test with empty string date
+    info.dateOfBirth = '';
+    const resultEmpty = convertDemographics(info);
+    expect(resultEmpty.dateOfBirth).to.equal('None recorded');
+
+    // Test with null date
+    info.dateOfBirth = null;
+    const resultNull = convertDemographics(info);
+    expect(resultNull.dateOfBirth).to.equal('None recorded');
+
+    // Test with undefined date
+    info.dateOfBirth = undefined;
+    const resultUndefined = convertDemographics(info);
+    expect(resultUndefined.dateOfBirth).to.equal('None recorded');
   });
 });
 
@@ -439,6 +567,55 @@ describe('convertAccountSummary', () => {
       stationNumber: 'TEST',
       type: 'Treatment',
     });
+  });
+
+  it('should handle invalid date strings gracefully without throwing', () => {
+    const data = {
+      facilities: [
+        {
+          facilityInfo: {
+            id: '123',
+            name: 'VA Medical Center',
+            stationNumber: 'TEST',
+            treatment: true,
+          },
+        },
+      ],
+      ipas: [
+        {
+          status: 'Active',
+          authenticationDate: 'invalid-date',
+          authenticatingFacilityId: '123',
+        },
+      ],
+    };
+
+    const result = convertAccountSummary(data);
+    expect(result).to.be.an('object');
+    expect(result.authenticationSummary.authenticationDate).to.equal(
+      'Unknown date',
+    );
+
+    // Test with empty string date
+    data.ipas[0].authenticationDate = '';
+    const resultEmpty = convertAccountSummary(data);
+    expect(resultEmpty.authenticationSummary.authenticationDate).to.equal(
+      'Unknown date',
+    );
+
+    // Test with null date
+    data.ipas[0].authenticationDate = null;
+    const resultNull = convertAccountSummary(data);
+    expect(resultNull.authenticationSummary.authenticationDate).to.equal(
+      'Unknown date',
+    );
+
+    // Test with undefined date
+    data.ipas[0].authenticationDate = undefined;
+    const resultUndefined = convertAccountSummary(data);
+    expect(resultUndefined.authenticationSummary.authenticationDate).to.equal(
+      'Unknown date',
+    );
   });
 });
 

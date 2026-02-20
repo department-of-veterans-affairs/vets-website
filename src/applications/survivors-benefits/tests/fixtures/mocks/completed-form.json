@@ -11,7 +11,6 @@
   "claimantLivesInANursingHome": false,
   "view:vaMedicalCentersMissingInformation": {},
   "view:isAddingDicBenefits": false,
-  "dicType": "DIC",
   "recognizedAsSpouse": true,
   "hadPreviousMarriages": true,
   "remarriedAfterVeteralDeath": true,
@@ -47,7 +46,7 @@
   "marriageEndedExplanation": "Some other reason",
   "receivedBenefits": false,
   "claims": {
-    "DIC": true,
+    "dic": true,
     "survivorsPension": true,
     "accruedBenefits": true
   },
@@ -55,11 +54,11 @@
   "claimantPhone": {
     "callingCode": 1,
     "countryCode": "US",
-    "contact": "5555112312",
-    "_isValid": true,
-    "_error": null,
-    "_touched": true,
-    "_required": true
+    "contact": "5551113333",
+    "IsValid": true,
+    "Error": null,
+    "Touched": true,
+    "Required": true
   },
   "claimantAddress": {
     "view:militaryBaseDescription": {},
@@ -75,7 +74,8 @@
   "claimantFullName": {
     "first": "Jane",
     "middle": "Middle",
-    "last": "Doe"
+    "last": "Doe",
+    "suffix": "Jr."
   },
   "claimantDateOfBirth": "1955-05-05",
   "claimantRelationship": "SURVIVING_SPOUSE",
@@ -84,14 +84,16 @@
   "diedOnDuty": true,
   "veteranDateOfDeath": "2002-02-02",
   "veteranSocialSecurityNumber": {
-    "ssn": "321313311"
+    "ssn": "321313311",
+    "vaFileNumber": "11001100"
   },
   "veteranServiceNumber": "A11111111",
   "view:warningAlert": {},
   "veteranFullName": {
     "first": "Jonathan",
     "middle": "Kevin",
-    "last": "Testerson"
+    "last": "Testerson",
+    "suffix": "Jr."
   },
   "veteranDateOfBirth": "1954-01-11",
   "view:isAddingDependent": false,
@@ -138,8 +140,9 @@
     {
       "otherServiceName": {
         "first": "Other",
-        "last": "Service",
-        "middle": "Name"
+        "last": "ServiceThat",
+        "middle": "Name",
+        "suffix": "Jr."
       }
     },
     {
@@ -154,15 +157,7 @@
   "nationalGuardActivated": true,
   "nationalGuardActivationDate": "2001-09-11",
   "unitName": "Unit Name",
-  "unitPhone": {
-    "callingCode": 1,
-    "countryCode": "US",
-    "contact": "5555112222",
-    "_isValid": true,
-    "_error": null,
-    "_touched": true,
-    "_required": true
-  },
+  "unitPhone": "5551112222",
   "unitAddress": {
     "view:militaryBaseDescription": {},
     "country": "USA",
@@ -207,12 +202,28 @@
   "medicalExpenses": [
     {
       "recipient": "SURVIVING_SPOUSE",
-      "recipientOther": "Spouse name",
       "provider": "Some provider 2",
-      "purpose": "Some purpose",
+      "purpose": "Some purpose2",
       "paymentDate": "2022-05-05",
       "paymentAmount": 150,
       "paymentFrequency": "MONTHLY"
+    },
+    {
+      "recipient": "CHILD",
+      "childName": "Child name",
+      "provider": "Some provider 1",
+      "purpose": "Some purpose1",
+      "paymentDate": "2022-05-05",
+      "paymentAmount": 150,
+      "paymentFrequency": "ANNUALLY"
+    },
+    {
+      "recipient": "VETERAN",
+      "provider": "Some provider 32",
+      "purpose": "Some purpose32",
+      "paymentDate": "2022-05-05",
+      "paymentAmount": 150,
+      "paymentFrequency": "ONE_TIME"
     }
   ],
   "benefit": "1151DIC",
@@ -229,39 +240,16 @@
   "veteransChildren": [
     {
       "childFullName": {
-        "first": "FirstChild",
-        "middle": "ChildMiddle",
-        "last": "LastName"
-      },
-      "childDateOfBirth": "2010-10-10",
-      "childSocialSecurityNumber": "123451234",
-      "birthPlace": {
-        "city": "Some City",
-        "state": "OH",
-        "country": "USA"
-      },
-      "bornOutsideUS": false,
-      "relationship": "BIOLOGICAL",
-      "inSchool": true,
-      "seriouslyDisabled": false,
-      "hasBeenMarried": true,
-      "currentlyMarried": false,
-      "livesWith": false,
-      "childSupport": 5000
-    },
-    {
-      "childFullName": {
         "first": "MiddleChild",
         "last": "Testerson"
       },
       "childDateOfBirth": "2010-10-10",
       "childSocialSecurityNumber": "123451234",
       "birthPlace": {
-        "city": "Some City",
-        "state": "OH",
-        "country": "USA"
+        "city": "Hamburg",
+        "otherCountry": "DEU"
       },
-      "bornOutsideUS": false,
+      "bornOutsideUs": true,
       "relationship": "ADOPTED",
       "inSchool": false,
       "seriouslyDisabled": true,
@@ -272,18 +260,41 @@
     },
     {
       "childFullName": {
-        "first": "Reallylongchildfirstname",
-        "middle": "Reallylongmiddlename",
-        "last": "Reallylongchildlastname"
+        "first": "FirstChild",
+        "middle": "ChildMiddle",
+        "last": "LastName",
+        "suffix": "Jr."
       },
       "childDateOfBirth": "2010-10-10",
       "childSocialSecurityNumber": "123451234",
       "birthPlace": {
         "city": "Some City",
         "state": "OH",
-        "country": "USA"
+        "otherCountry": "USA"
       },
-      "bornOutsideUS": false,
+      "bornOutsideUs": false,
+      "relationship": "BIOLOGICAL",
+      "inSchool": true,
+      "seriouslyDisabled": false,
+      "hasBeenMarried": true,
+      "currentlyMarried": false,
+      "livesWith": false,
+      "childSupport": 5000
+    },
+    {
+      "childFullName": {
+        "first": "Reallylong",
+        "middle": "Reallylong",
+        "last": "Reallylong"
+      },
+      "childDateOfBirth": "2010-10-10",
+      "childSocialSecurityNumber": "123451234",
+      "birthPlace": {
+        "city": "SomeAnother City",
+        "state": "MO",
+        "otherCountry": "USA"
+      },
+      "bornOutsideUs": false,
       "relationship": "STEPCHILD",
       "inSchool": true,
       "seriouslyDisabled": false,
@@ -293,9 +304,9 @@
       "childSupport": 5000
     }
   ],
-  "dependentsResidence": true,
+  "childrenLiveTogetherButNotWithSpouse": true,
   "custodianFullName": {
-    "first": "Custodianfirst",
+    "first": "Custodian",
     "last": "Custodianlast"
   },
   "custodianAddress": {
@@ -309,6 +320,7 @@
     {
       "reasonForSeparation": "OTHER",
       "separationExplanation": "Some other reason",
+      "marriedOutsideUs": true,
       "dateOfMarriage": "1990-01-01",
       "dateOfSeparation": "2000-01-01",
       "locationOfSeparation": {
@@ -317,12 +329,13 @@
       },
       "locationOfMarriage": {
         "city": "Another City",
-        "state": "TX"
+        "otherCountry": "ALB"
       },
       "spouseFullName": {
         "first": "SpouseFirst",
         "last": "SpouseLast",
-        "middle": "SpouseMiddle"
+        "middle": "SpouseMiddle",
+        "suffix": "Jr."
       }
     },
     {
@@ -360,27 +373,29 @@
         "state": "MO"
       },
       "spouseFullName": {
-        "first": "SpouseFirstName",
+        "first": "SpouseFirs",
         "last": "SpouseLastName",
-        "middle": "SpouseMiddleName"
+        "middle": "SpouseMidd",
+        "suffix": "Jr."
       }
     },
     {
       "reasonForSeparation": "DIVORCE",
+      "marriedOutsideUs": true,
       "dateOfMarriage": "2002-01-01",
       "dateOfSeparation": "2012-01-01",
       "locationOfSeparation": {
         "city": "City2",
-        "state": "PA"
+         "state": "PA"
       },
       "locationOfMarriage": {
         "city": "City1",
-        "state": "PA"
+        "otherCountry": "ALB"
       },
       "spouseFullName": {
-        "first": "Spouse2FirstName",
+        "first": "Spouse2Fi",
         "last": "Spouse2LastName",
-        "middle": "Spouse2MiddleName"
+        "middle": "Spouse2Midd"
       }
     }
   ],

@@ -30,9 +30,9 @@ import {
   getVAStatusFromCRM,
   getVAStatusIconAndMessage,
 } from '../config/helpers';
-import { envUrl, mockTestingFlagforAPI } from '../constants';
+import { envApiUrl, mockTestingFlagForAPI } from '../constants';
 import { mockInquiryStatusResponse } from '../utils/mockData';
-import DashboardCards from './DashboardCards';
+import Inbox from './Inbox';
 
 const VerifiedAlert = (
   <div className="vads-u-margin-bottom--4">
@@ -107,7 +107,7 @@ const IntroductionPage = props => {
     // Mocking the API response for testing when searching for reference number
     // A-20250106-308944
     if (
-      mockTestingFlagforAPI &&
+      mockTestingFlagForAPI &&
       searchReferenceNumber === 'A-20250106-308944'
     ) {
       setInquiryData(mockInquiryStatusResponse.data);
@@ -122,7 +122,7 @@ const IntroductionPage = props => {
   };
 
   const handleSearchByReferenceNumber = async () => {
-    const url = `${envUrl}/ask_va_api/v0/inquiries/${searchReferenceNumber}/status`;
+    const url = `${envApiUrl}/ask_va_api/v0/inquiries/${searchReferenceNumber}/status`;
     await getApiData(url);
     const headingElement = document.querySelector(
       '[data-testid="status-message"] h3, [data-testid="error-message"] p:first-child',
@@ -367,7 +367,7 @@ const IntroductionPage = props => {
         className="vads-u-margin--0"
         verifiedPrefillAlert={VerifiedAlert}
       />
-      <DashboardCards />
+      <Inbox />
     </>
   );
 

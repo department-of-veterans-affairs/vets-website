@@ -14,6 +14,9 @@ const verifySideNavState = (chapterIndex, chapterKey) => {
   // Verify sidenav exists
   cy.get('#default-sidenav').should('exist');
 
+  // Verify the header text is correct
+  cy.get('#default-sidenav').should('have.attr', 'header', 'Form steps');
+
   // Verify current chapter is marked with current-page attribute
   cy.get(`va-sidenav-item[data-page="${chapterKey}"]`)
     .should('exist')
@@ -77,6 +80,53 @@ const testConfig = createTestConfig(
         cy.get('va-sidenav-item[data-page="veteranDetails"]')
           .should('exist')
           .should('not.have.attr', 'disabled');
+
+        // Test mobile accordion behavior
+        // Save current viewport dimensions
+        let previousViewport;
+        cy.window().then(win => {
+          previousViewport = {
+            width: win.innerWidth,
+            height: win.innerHeight,
+          };
+        });
+
+        // Switch to mobile temporarily
+        cy.viewport('iphone-x');
+
+        // Verify accordion exists and can be opened on mobile
+        cy.get('#default-sidenav')
+          .shadow()
+          .find('va-accordion-item')
+          .should('exist')
+          .click();
+
+        // Verify accordion is now open
+        cy.get('#default-sidenav')
+          .shadow()
+          .find('va-accordion-item')
+          .should('have.attr', 'open');
+
+        // Navigate to a different page via Continue button
+        // This triggers the useEffect that closes the accordion
+        cy.fillPage();
+        cy.findByText(/continue/i, { selector: 'button' }).click();
+
+        // Wait for navigation to complete
+        cy.url().should('not.include', '/rated-disabilities');
+
+        // Verify the accordion is now closed after navigation
+        cy.get('#default-sidenav')
+          .shadow()
+          .find('va-accordion-item')
+          .should('not.have.attr', 'open');
+
+        // Restore previous viewport
+        cy.then(() => {
+          if (previousViewport) {
+            cy.viewport(previousViewport.width, previousViewport.height);
+          }
+        });
       },
 
       // Chapter 3: Mental Health
@@ -97,6 +147,28 @@ const testConfig = createTestConfig(
         cy.get('va-sidenav-item[data-page="veteranDetails"]').should('exist');
         cy.get('va-sidenav-item[data-page="disabilities"]').should('exist');
         // Mental health chapter is conditionally included based on form data
+      },
+
+      'supporting-evidence/additional-evidence-intro': () => {
+        cy.get('@testData').then(data => {
+          const hasEvidenceChoice = data['view:hasEvidenceChoice'];
+
+          cy.get(
+            `va-radio-option[label="${hasEvidenceChoice ? 'Yes' : 'No'}"]`,
+          ).click();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
+      },
+
+      'supporting-evidence/evidence-request': () => {
+        cy.get('@testData').then(data => {
+          const hasMedicalRecords = data['view:hasMedicalRecords'];
+
+          cy.get(
+            `va-radio-option[label="${hasMedicalRecords ? 'Yes' : 'No'}"]`,
+          ).click();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
       },
 
       // Chapter 5: Additional Information
@@ -178,3 +250,49 @@ const testConfig = createTestConfig(
 );
 
 testForm(testConfig);
+
+describe('Side nav visibility on special pages', () => {
+  beforeEach(() => {
+    cy.login(mockUser);
+
+    // Simple intercepts for basic page visits
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          ...mockFeatureToggles.data.features,
+          { name: 'sidenav_526ez_enabled', value: true },
+        ],
+      },
+    });
+
+    cy.intercept('GET', '/v0/user', mockUser);
+  });
+
+  it('should hide side nav on introduction page', () => {
+    cy.visit('/disability/file-disability-claim-form-21-526ez/introduction');
+    cy.injectAxeThenAxeCheck();
+
+    // Side nav should not be visible on introduction page
+    cy.get('#default-sidenav').should('not.exist');
+
+    // Verify the introduction page content is visible
+    cy.get('h1').should('contain', 'File for disability compensation');
+  });
+
+  it('should hide side nav on confirmation page', () => {
+    cy.visit('/disability/file-disability-claim-form-21-526ez/confirmation');
+    cy.injectAxeThenAxeCheck();
+
+    // Side nav should not be visible on confirmation page
+    cy.get('#default-sidenav').should('not.exist');
+  });
+
+  it('should hide side nav on form-saved page', () => {
+    cy.visit('/disability/file-disability-claim-form-21-526ez/form-saved');
+    cy.injectAxeThenAxeCheck();
+
+    // Side nav should not be visible on form-saved page
+    cy.get('#default-sidenav').should('not.exist');
+  });
+});

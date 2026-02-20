@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import {
@@ -12,6 +18,7 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
+import CernerFacilityAlert from '~/platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 import {
   useGetRefillablePrescriptionsQuery,
   useBulkRefillPrescriptionsMutation,
@@ -22,13 +29,14 @@ import {
   DATETIME_FORMATS,
   SESSION_SELECTED_PAGE_NUMBER,
   REFILL_STATUS,
+  REFILL_LOADING_MESSAGES,
+  REFILL_ERROR_MESSAGES,
 } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import PrintOnlyPage from './PrintOnlyPage';
 import DelayedRefillAlert from '../components/shared/DelayedRefillAlert';
-import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import ProcessList from '../components/shared/ProcessList';
@@ -43,16 +51,20 @@ const RefillPrescriptions = () => {
   const {
     data: refillableData,
     isLoading,
+    isFetching,
     error: refillableError,
   } = useGetRefillablePrescriptionsQuery();
 
   const isCernerPilot = useSelector(selectCernerPilotFlag);
 
-  const [
-    bulkRefillPrescriptions,
-    result,
-  ] = useBulkRefillPrescriptionsMutation();
-  const { isLoading: isRefilling, error: bulkRefillError } = result;
+  const [bulkRefillPrescriptions, result] = useBulkRefillPrescriptionsMutation({
+    fixedCacheKey: 'bulk-refill-request',
+  });
+  const {
+    isLoading: isRefilling,
+    error: bulkRefillError,
+    isSuccess: refillRequestSuccess,
+  } = result;
 
   const refillAlertList = refillableData?.refillAlertList || [];
 
@@ -77,11 +89,14 @@ const RefillPrescriptions = () => {
       .filter(Boolean);
   }, []);
 
+  // Ref to snapshot the selected prescriptions at refill time
+  const submittedMedications = useRef(null);
+
   const successfulMeds = useMemo(
     () =>
       getMedicationsByIds(
         result?.data?.successfulIds,
-        refillableData?.prescriptions,
+        submittedMedications.current || refillableData?.prescriptions,
       ),
     [
       getMedicationsByIds,
@@ -94,7 +109,7 @@ const RefillPrescriptions = () => {
     () =>
       getMedicationsByIds(
         result?.data?.failedIds,
-        refillableData?.prescriptions,
+        submittedMedications.current || refillableData?.prescriptions,
       ),
     [
       getMedicationsByIds,
@@ -109,6 +124,29 @@ const RefillPrescriptions = () => {
   const [selectedRefillList, setSelectedRefillList] = useState([]);
   const [refillStatus, setRefillStatus] = useState(REFILL_STATUS.NOT_STARTED);
 
+  // Compute the actual refill status based on RTK Query state to prevent race conditions
+  const refillRequestStatus = useMemo(
+    () => {
+      if (isRefilling) {
+        return REFILL_STATUS.IN_PROGRESS;
+      }
+      if (refillRequestSuccess && result?.data) {
+        return REFILL_STATUS.FINISHED;
+      }
+      if (bulkRefillError) {
+        return REFILL_STATUS.ERROR;
+      }
+      return refillStatus; // Fallback to manual status for initial state
+    },
+    [
+      isRefilling,
+      refillRequestSuccess,
+      result?.data,
+      bulkRefillError,
+      refillStatus,
+    ],
+  );
+
   // Handle API errors from RTK Query
   const prescriptionsApiError = refillableError || bulkRefillError;
 
@@ -120,29 +158,36 @@ const RefillPrescriptions = () => {
     isLoading: isAcceleratedDataLoading,
   } = useAcceleratedData();
 
-  // Get refillable list from RTK Query result
-  // Filter out successfully refilled prescriptions to provide immediate UI feedback
-  const fullRefillList = useMemo(
+  const isDataLoading = isLoading || isRefilling;
+  const selectedRefillListLength = selectedRefillList.length;
+
+  // Prevent interactions during cache refresh to avoid duplicate refill attempts
+  const isRefreshing =
+    refillRequestStatus === REFILL_STATUS.FINISHED && isFetching;
+  const isDisabled = isDataLoading || isRefreshing;
+
+  // Clear the submitted meds snapshot after cache refresh completes or error
+  useEffect(
     () => {
-      const prescriptions = refillableData?.prescriptions || [];
-      if (!successfulMeds || successfulMeds.length === 0) {
-        return prescriptions;
+      if (refillRequestStatus === REFILL_STATUS.FINISHED && !isFetching) {
+        submittedMedications.current = null;
       }
-      // Create a Set of composite keys (prescriptionId + stationNumber) for efficient lookup
-      // Station numbers are needed for Oracle Health pilot where prescriptions
-      // are identified by both prescriptionId and stationNumber
-      const successfulKeys = new Set(
-        successfulMeds.map(
-          med => `${med.prescriptionId}-${med.stationNumber || ''}`,
-        ),
-      );
-      return prescriptions.filter(
-        rx =>
-          !successfulKeys.has(`${rx.prescriptionId}-${rx.stationNumber || ''}`),
-      );
+      if (refillRequestStatus === REFILL_STATUS.ERROR) {
+        submittedMedications.current = null;
+      }
     },
-    [refillableData?.prescriptions, successfulMeds],
+    [refillRequestStatus, isFetching],
   );
+
+  // Use the original refillable prescriptions list without client-side filtering
+  // This prevents duplicate refill attempts by relying on server-side data consistency
+  // Cache invalidation in the API (invalidatesTags) will handle removing refilled prescriptions
+  const fullRefillList = useMemo(() => refillableData?.prescriptions || [], [
+    refillableData?.prescriptions,
+  ]);
+
+  // Hide the refillable list during cache refresh after successful refill to prevent duplicate attempts
+  const hideList = isRefreshing;
 
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
     {
@@ -155,16 +200,14 @@ const RefillPrescriptions = () => {
   );
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
-  // Memoized Values
-  const selectedRefillListLength = useMemo(() => selectedRefillList.length, [
-    selectedRefillList,
-  ]);
 
   // Functions
   const onRequestRefills = async () => {
     if (selectedRefillListLength > 0) {
       setRefillStatus(REFILL_STATUS.IN_PROGRESS);
       window.scrollTo(0, 0);
+
+      submittedMedications.current = selectedRefillList;
 
       // Get just the prescription IDs for the bulk refill
       const prescriptionIds = selectedRefillList.map(rx => {
@@ -196,6 +239,8 @@ const RefillPrescriptions = () => {
   };
 
   const onSelectPrescription = rx => {
+    if (isDisabled) return;
+
     if (
       !selectedRefillList.find(
         item => item.prescriptionId === rx.prescriptionId,
@@ -215,6 +260,8 @@ const RefillPrescriptions = () => {
   };
 
   const onSelectAll = event => {
+    if (isDisabled) return;
+
     if (
       event.detail.checked &&
       selectedRefillListLength !== fullRefillList.length
@@ -271,13 +318,20 @@ const RefillPrescriptions = () => {
   };
 
   const content = () => {
-    if (isLoading || isRefilling) {
+    if (isDataLoading || hideList) {
       return (
         <div
           className="refill-loading-indicator"
           data-testid="loading-indicator"
         >
-          <va-loading-indicator message="Loading medications..." set-focus />
+          <va-loading-indicator
+            message={
+              hideList
+                ? REFILL_LOADING_MESSAGES.UPDATING_REFILL_LIST
+                : REFILL_LOADING_MESSAGES.LOADING
+            }
+            set-focus
+          />
         </div>
       );
     }
@@ -302,18 +356,22 @@ const RefillPrescriptions = () => {
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <DisplayCernerFacilityAlert />
+            <CernerFacilityAlert
+              healthTool="MEDICATIONS"
+              apiError={prescriptionsApiError}
+            />
           </>
         ) : (
           <>
             <RefillNotification
-              refillStatus={refillStatus}
+              refillStatus={refillRequestStatus}
               successfulMeds={successfulMeds}
               failedMeds={failedMeds}
+              isFetching={isFetching}
             />
             {fullRefillList?.length > 0 ? (
               <div>
-                <DisplayCernerFacilityAlert />
+                <CernerFacilityAlert healthTool="MEDICATIONS" />
                 <h2
                   className="vads-u-margin-top--3"
                   data-testid="refill-page-subtitle"
@@ -329,7 +387,7 @@ const RefillPrescriptions = () => {
                   error={
                     !hasNoOptionSelectedError
                       ? ''
-                      : 'Select at least one prescription to refill'
+                      : REFILL_ERROR_MESSAGES.NO_PRESCRIPTIONS_SELECTED
                   }
                 >
                   <div className="vads-u-margin-top--2" />
@@ -346,6 +404,7 @@ const RefillPrescriptions = () => {
                       checked={
                         selectedRefillListLength === fullRefillList.length
                       }
+                      disabled={isDisabled}
                       onVaChange={onSelectAll}
                       uswds
                     />
@@ -370,6 +429,7 @@ const RefillPrescriptions = () => {
                               prescription.prescriptionId,
                           ) || false
                         }
+                        disabled={isDisabled}
                         onVaChange={() => onSelectPrescription(prescription)}
                         uswds
                         checkbox-description={getCheckboxDescription(
@@ -388,6 +448,7 @@ const RefillPrescriptions = () => {
                   data-dd-action-name={
                     dataDogActionNames.refillPage.REQUEST_REFILLS_BUTTON
                   }
+                  disabled={isDisabled}
                   onClick={() => onRequestRefills()}
                   text={`Request ${
                     selectedRefillListLength > 0 ? selectedRefillListLength : ''
@@ -405,7 +466,10 @@ const RefillPrescriptions = () => {
                   You don’t have any VA prescriptions with refills available. If
                   you need a prescription, contact your care team.
                 </p>
-                <DisplayCernerFacilityAlert className="vads-u-margin-top--2" />
+                <CernerFacilityAlert
+                  healthTool="MEDICATIONS"
+                  className="vads-u-margin-top--2"
+                />
               </>
             )}
             <p className="vads-u-margin-top--3" data-testid="note-refill-page">

@@ -6,16 +6,18 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import {
   VaRadio,
   VaRadioOption,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { scrollToFirstError } from 'platform/utilities/scroll';
 import EmergencyNote from '../components/EmergencyNote';
+import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import * as Constants from '../util/constants';
+import { BlockedTriageAlertStyles, ParentComponent } from '../util/constants';
 import { getRecentRecipients } from '../actions/recipients';
-import { focusOnErrorField } from '../util/formHelpers';
 import { updateDraftInProgress } from '../actions/threadDetails';
 import useFeatureToggles from '../hooks/useFeatureToggles';
-import manifest from '../manifest.json';
 
 const RECENT_RECIPIENTS_LABEL = 'Select a team you want to message';
 const RECENT_RECIPIENTS_HINT = `This list only includes teams that you've sent messages to in the last 6 months. If you want to contact another team, select "A different care team."`;
@@ -35,6 +37,8 @@ const RecentCareTeams = () => {
     recentRecipients,
     allRecipients,
     noAssociations,
+    allTriageGroupsBlocked,
+    blockedFacilities,
     error: recipientsError,
   } = recipients;
   const h1Ref = useRef(null);
@@ -120,33 +124,29 @@ const RecentCareTeams = () => {
     [recentRecipients],
   );
 
-  const getDestinationPath = useCallback(
-    (includeRootUrl = false) => {
-      const selectCareTeamPath = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
-      const startPath = `${Paths.COMPOSE}${Paths.START_MESSAGE}`;
-      let path;
-      if (selectedCareTeam === OTHER_VALUE) {
-        path = selectCareTeamPath;
-      } else {
-        path = startPath;
+  useEffect(
+    () => {
+      if (error) {
+        scrollToFirstError();
       }
-      return includeRootUrl ? `${manifest.rootUrl}${path}` : path;
     },
-    [selectedCareTeam],
+    [error],
   );
 
   const handleContinue = useCallback(
-    event => {
-      event?.preventDefault();
+    () => {
       if (!selectedCareTeam) {
         setError('Select a care team');
-        focusOnErrorField();
         return;
       }
       setError(null); // Clear error on valid submit
-      history.push(getDestinationPath());
+      if (selectedCareTeam === OTHER_VALUE) {
+        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
+        return;
+      }
+      history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}`);
     },
-    [history, selectedCareTeam, getDestinationPath],
+    [history, selectedCareTeam],
   );
 
   const handleRadioChange = useCallback(
@@ -168,6 +168,7 @@ const RecentCareTeams = () => {
           recipientName: recipient?.name,
           careSystemVhaId: recipient?.stationNumber,
           ohTriageGroup: recipient?.ohTriageGroup,
+          stationNumber: recipient?.stationNumber,
         }),
       );
       setError(null); // Clear error on selection
@@ -178,6 +179,11 @@ const RecentCareTeams = () => {
           value === OTHER_VALUE ? OTHER_VALUE : 'recent care team',
         'select-required': true,
       });
+      datadogRum.addAction('Recent Care Team Selected', {
+        selectLabel: RECENT_RECIPIENTS_LABEL,
+        selectValue: value === OTHER_VALUE ? OTHER_VALUE : 'recent care team',
+        required: true,
+      });
     },
     [recentRecipients, dispatch, ehrDataByVhaId],
   );
@@ -186,11 +192,34 @@ const RecentCareTeams = () => {
     return <va-loading-indicator message="Loading..." />;
   }
 
+  if (allTriageGroupsBlocked) {
+    return (
+      <>
+        <h1 className="vads-u-margin-bottom--3" tabIndex="-1" ref={h1Ref}>
+          Care teams you recently sent messages to
+        </h1>
+        <BlockedTriageGroupAlert
+          alertStyle={BlockedTriageAlertStyles.ALERT}
+          parentComponent={ParentComponent.FOLDER_HEADER}
+        />
+      </>
+    );
+  }
+
+  const showSingleFacilityBlockedAlert =
+    blockedFacilities?.length === 1 && !allTriageGroupsBlocked;
+
   return (
     <>
       <h1 className="vads-u-margin-bottom--3" tabIndex="-1" ref={h1Ref}>
         Care teams you recently sent messages to
       </h1>
+      {showSingleFacilityBlockedAlert && (
+        <BlockedTriageGroupAlert
+          alertStyle={BlockedTriageAlertStyles.INFO}
+          parentComponent={ParentComponent.FOLDER_HEADER}
+        />
+      )}
       <EmergencyNote dropDownFlag />
       <VaRadio
         class="vads-u-margin-bottom--3"
@@ -225,14 +254,12 @@ const RecentCareTeams = () => {
           })}
         <VaRadioOption label="A different care team" tile value={OTHER_VALUE} />
       </VaRadio>
-
-      <va-link-action
-        href={getDestinationPath(true)}
-        text="Continue to start message"
-        data-testid="recent-care-teams-continue-button"
+      <VaButton
+        className="vads-u-width--full small-screen:vads-u-width--auto"
+        continue
         onClick={handleContinue}
-        class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
-        type="primary"
+        text="Continue"
+        data-testid="recent-care-teams-continue-button"
       />
     </>
   );

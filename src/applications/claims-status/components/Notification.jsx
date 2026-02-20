@@ -9,6 +9,9 @@ export default function Notification({
   type,
   onClose,
   onSetFocus,
+  // Security: Defaults to true to mask PII (file names) in Datadog RUM session replays.
+  // Set to false only for titles that we are certain contain no PII.
+  maskTitle = true,
 }) {
   const closeable = !!onClose;
   useEffect(
@@ -34,7 +37,14 @@ export default function Notification({
       status={type}
       visible
     >
-      <h2 slot="headline" className="vads-u-margin-top--0">
+      <h2
+        slot="headline"
+        className="vads-u-margin-top--0"
+        {...maskTitle && {
+          'data-dd-privacy': 'mask',
+          'data-dd-action-name': 'notification title with filename',
+        }}
+      >
         {title}
       </h2>
       <div className="vads-u-margin-y--0">{body}</div>
@@ -44,11 +54,13 @@ export default function Notification({
 
 Notification.defaultProps = {
   type: 'success',
+  maskTitle: true, // Secure by default - masks title in Datadog RUM session replays
 };
 
 Notification.propTypes = {
   body: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   title: PropTypes.string.isRequired,
+  maskTitle: PropTypes.bool,
   role: PropTypes.oneOf(['alert', 'alertdialog', 'status']),
   type: PropTypes.string,
   onClose: PropTypes.func,

@@ -160,7 +160,9 @@ export async function createOAuthRequest({
   );
 
   sessionStorage.setItem('ci', usedClientId);
-  recordEvent({ event: `login-attempted-${type}-oauth-${clientId}` });
+  if (environment.isProduction() && !environment.isTest()) {
+    recordEvent({ event: `login-attempted-${type}-oauth-${clientId}` });
+  }
   return url.toString();
 }
 
@@ -213,11 +215,13 @@ export const requestToken = async ({ code, redirectUri, csp }) => {
     credentials: 'include',
   });
 
-  recordEvent({
-    event: response.ok
-      ? `login-success-${csp}-oauth-tokenexchange`
-      : `login-failure-${csp}-oauth-tokenexchange`,
-  });
+  if (environment.isProduction() && !environment.isTest()) {
+    recordEvent({
+      event: response.ok
+        ? `login-success-${csp}-oauth-tokenexchange`
+        : `login-failure-${csp}-oauth-tokenexchange`,
+    });
+  }
 
   if (response.ok) {
     removeStateAndVerifier();
@@ -291,6 +295,44 @@ export const getInfoToken = () => {
   return null;
 };
 
+export const getAccessTokenExpiration = () => {
+  const info = getInfoToken();
+  const exp = info?.access_token_expiration;
+
+  if (!exp) return null;
+
+  const expDate = exp instanceof Date ? exp : new Date(exp);
+  if (Number.isNaN(expDate.getTime())) return null;
+
+  return expDate;
+};
+
+export const msUntilAccessTokenExpiration = () => {
+  const exp = getAccessTokenExpiration();
+  if (!exp) return null;
+  return exp.getTime() - Date.now();
+};
+
+export const isAccessTokenExpiringSoon = (thresholdSeconds = 30) => {
+  if (!infoTokenExists()) return false;
+
+  const msRemaining = msUntilAccessTokenExpiration();
+  if (msRemaining === null) return false;
+
+  return msRemaining <= thresholdSeconds * 1000;
+};
+
+export const refreshIfAccessTokenExpiringSoon = async ({
+  thresholdSeconds = 30,
+  type,
+} = {}) => {
+  if (!type) return false;
+  if (!isAccessTokenExpiringSoon(thresholdSeconds)) return false;
+
+  await refresh({ type });
+  return true;
+};
+
 export const removeInfoToken = () => {
   if (!infoTokenExists()) return null;
 
@@ -347,7 +389,9 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
   const sleep = time => {
     return new Promise(resolve => setTimeout(resolve, time));
   };
-  recordEvent({ event: `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}` });
+  if (environment.isProduction() && !environment.isTest()) {
+    recordEvent({ event: `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}` });
+  }
 
   sessionStorage.removeItem('shouldRedirectExpiredSession');
   updateLoggedInStatus(false);
@@ -382,6 +426,8 @@ export function createOktaOAuthRequest({
   );
 
   sessionStorage.setItem('ci', clientId);
-  recordEvent({ event: `login-attempted-${loginType}-oauth-${clientId}` });
+  if (environment.isProduction() && !environment.isTest()) {
+    recordEvent({ event: `login-attempted-${loginType}-oauth-${clientId}` });
+  }
   return url.toString();
 }

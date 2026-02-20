@@ -1,7 +1,7 @@
 import omit from 'platform/utilities/data/omit';
 import { MILITARY_CITIES } from '../constants';
 import { wrapInSingleArray } from './array-builder';
-
+import { hasServiceHistoryInfo } from './form-config';
 /**
  * Map address object to match the key names in the schema
  * @param {Array} address - an array of arrays that defines the keys/values to map
@@ -30,6 +30,27 @@ export function sanitizeAddress(address) {
   };
 }
 
+const transformInsuranceProviderData = provider => {
+  const {
+    insurancePolicyNumber,
+    insuranceGroupCode,
+    ...remainingData
+  } = provider;
+
+  // If we have policy number or group code at the top level, move them to 'view:policyOrGroup'
+  if (insurancePolicyNumber || insuranceGroupCode) {
+    return {
+      ...remainingData,
+      'view:policyOrGroup': {
+        insurancePolicyNumber,
+        insuranceGroupCode,
+      },
+    };
+  }
+
+  return provider;
+};
+
 /**
  * Map necessary data from prefill to populate initial form data
  * NOTE: mailingAddress === veteranAddress & residentialAddress === veteranHomeAddress
@@ -51,6 +72,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const veteranAddress = sanitizeAddress(mailingAddress);
   const doesAddressMatch =
     JSON.stringify(veteranHomeAddress) === JSON.stringify(veteranAddress);
+  const hasPrefillServiceHistory = hasServiceHistoryInfo(formData);
   const parsedAddressMatch =
     veteranAddress && veteranHomeAddress ? doesAddressMatch : undefined;
 
@@ -81,6 +103,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     'view:isMedicaidEligible': { isMedicaidEligible },
     'view:isEnrolledMedicarePartA': { isEnrolledMedicarePartA },
     'view:doesMailingMatchHomeAddress': parsedAddressMatch,
+    'view:hasPrefillServiceHistory': hasPrefillServiceHistory,
   };
 
   if (veteranAddress) {
@@ -90,6 +113,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
   if (veteranHomeAddress && !doesAddressMatch) {
     newData = { ...newData, veteranHomeAddress };
   }
+
+  newData.providers = newData.providers?.map(provider =>
+    transformInsuranceProviderData(provider),
+  );
 
   // Wrap necessary data in nested arrays for prefill.
   newData = wrapInSingleArray(newData, state);

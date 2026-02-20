@@ -1,18 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSearchParams } from 'react-router-dom';
+import { focusElement } from 'platform/utilities/ui';
+import { useSearchParams, useNavigation } from 'react-router-dom';
 import { SEARCH_PARAMS } from '../utilities/constants';
 import { ProfileContext } from '../context/ProfileContext';
 
 const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   const profile = useContext(ProfileContext);
+  const navigation = useNavigation();
   const [searchParams] = useSearchParams();
-  const pageSize = Number(searchParams.get('pageSize')) || defaults.SIZE;
-  const pageNumber = Number(searchParams.get('pageNumber')) || defaults.NUMBER;
-  const sortOrder =
-    searchParams.get(SEARCH_PARAMS.SORTORDER) || defaults.SORT_ORDER;
+  const pageSize = Number(searchParams.get('perPage')) || defaults.SIZE;
+  const pageNumber = Number(searchParams.get('page')) || defaults.NUMBER;
+  const sortOrder = searchParams.get(SEARCH_PARAMS.SORT) || defaults.SORT;
   const selectedIndividual =
-    searchParams.get('as_selected_individual') || defaults.SELECTED_INDIVIDUAL;
+    searchParams.get('show') || defaults.SELECTED_INDIVIDUAL;
   const searchStatus = searchParams.get('status') || '';
   let initCount;
   let pageSizeCount = pageSize * pageNumber;
@@ -33,24 +34,32 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
 
   const userName = profile ? (
     <span className="poa-request__user-name">
-      "You ({profile.firstName.toLowerCase()} {profile.lastName.toLowerCase()}
-      )"
+      {`"You (${profile.firstName.toLowerCase()} ${profile.lastName.toLowerCase()})"`}
     </span>
   ) : null;
+
+  useEffect(
+    () => {
+      if (navigation.state === 'idle') {
+        focusElement('.poa-request__meta');
+      }
+    },
+    [navigation.state],
+  );
+
   return (
-    <p className="poa-request__meta">
-      Showing{' '}
-      {totalCount > 0 && (
-        <span>
-          {initCount}-{pageSizeCount} of{' '}
-        </span>
-      )}
-      {totalCount} {searchStatus || ''} {resultType || ''}{' '}
-      {selectedIndividual === 'true' && 'for'}{' '}
-      {selectedIndividual === 'true' && userName} sorted by “
+    <p className="poa-request__meta" role="text">
+      {`Showing ${
+        totalCount > 0 ? `${initCount}-${pageSizeCount} of ` : ''
+      }${totalCount} ${searchStatus || ''} ${resultType || ''} ${
+        selectedIndividual === 'you' ? 'for ' : ''
+      }`}
+      {selectedIndividual === 'you' ? userName : ''}
+      {` sorted by `}“
       <strong>
-        {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (
-        {sortOrder === 'asc' ? 'oldest' : 'newest'})
+        {`${
+          searchStatus === 'processed' ? 'Processed' : 'Submitted'
+        } date (${sortOrder})`}
       </strong>
       ”
     </p>

@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import { VaIcon } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
+import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import {
+  dateFormat,
+  rxSourceIsNonVA,
+  isOracleHealthPrescription,
+} from '../../util/helpers';
 import {
   DATETIME_FORMATS,
   dispStatusObj,
@@ -11,22 +16,28 @@ import {
   DISPENSE_STATUS,
 } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
+import RefillButton from './RefillButton';
 import SendRxRenewalMessage from './SendRxRenewalMessage';
 import { pageType } from '../../util/dataDogConstants';
 import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
+  selectOracleHealthCutoverFlag,
 } from '../../util/selectors';
 
-const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
-  const { dispStatus, refillRemaining, isRenewable } = rx;
+const ExtraDetails = ({ renewalLinkShownAbove = false, page, ...rx }) => {
+  const { dispStatus, refillRemaining } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
+  const cernerFacilityIds = useSelector(selectCernerFacilityIds);
   const noRefillRemaining =
     refillRemaining === 0 && dispStatus === DISPENSE_STATUS.ACTIVE;
-
+  const isOracleHealth = isOracleHealthPrescription(rx, cernerFacilityIds);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const isOracleHealthCutover = useSelector(selectOracleHealthCutoverFlag);
   const useV2Status = isCernerPilot && isV2StatusMapping;
+
+  const refillButton = page === pageType.LIST ? <RefillButton {...rx} /> : null;
 
   const renderV2Content = () => {
     switch (dispStatus) {
@@ -59,7 +70,8 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
           >
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
+              isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
                   <VaIcon size={3} icon="acute" aria-hidden="true" />
@@ -98,21 +110,19 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
                 className="vads-u-margin-y--0"
                 data-testid="active-no-refill-left"
               >
-                You can’t refill this prescription. If you need more, send a
-                secure message to your care team.
+                {isOracleHealth
+                  ? 'You can’t refill this prescription. If you need more, send a secure message to your care team.'
+                  : 'You can’t refill this prescription. Contact your VA provider if you need more of this medication.'}
               </p>
               <SendRxRenewalMessage
                 rx={rx}
-                showFallBackContent={showRenewalLink}
+                suppressRenewalLink={renewalLinkShownAbove}
+                isOracleHealth={isOracleHealth}
               />
             </div>
           );
         }
-        return (
-          <p className="vads-u-margin-y--0" data-testid="active">
-            You can request this prescription when you need it.
-          </p>
-        );
+        return refillButton;
 
       case dispStatusObjV2.inactive:
         // All map to "Inactive" in V2
@@ -120,7 +130,8 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
           <div>
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
+              isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
                   <p className="vads-u-margin-y--0" data-testid="inactive">
@@ -133,7 +144,26 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
           </div>
         );
 
+      case dispStatusObjV2.expired:
+        return (
+          <div>
+            <p className="vads-u-margin-y--0" data-testid="expired">
+              You can’t refill this prescription. Contact your VA provider if
+              you need more of this medication.
+            </p>
+          </div>
+        );
+
       case dispStatusObjV2.transferred:
+        if (isOracleHealthCutover) {
+          return (
+            <p className="vads-u-margin-y--0" data-testid="transferred">
+              This is a previous record of your medication. If you need a
+              refill, find the current medication in your medication list. If
+              you don’t have a current one, contact your provider.
+            </p>
+          );
+        }
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="transferred">
@@ -189,7 +219,8 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
           >
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
+              isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
                   <VaIcon size={3} icon="acute" aria-hidden="true" />
@@ -227,7 +258,8 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
           >
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
+              isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
                   <VaIcon size={3} icon="fact_check" aria-hidden="true" />
@@ -247,9 +279,12 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
 
       case dispStatusObj.activeParked:
         return (
-          <p className="vads-u-margin-y--0" data-testid="active-parked">
-            You can request this prescription when you need it.
-          </p>
+          <div className="vads-u-width--full">
+            <p className="vads-u-margin-y--0" data-testid="active-parked">
+              You can request this prescription when you need it.
+            </p>
+            {refillButton}
+          </div>
         );
 
       case dispStatusObj.expired:
@@ -257,7 +292,8 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
           <div>
             <SendRxRenewalMessage
               rx={rx}
-              showFallBackContent={showRenewalLink}
+              suppressRenewalLink={renewalLinkShownAbove}
+              isOracleHealth={isOracleHealth}
               fallbackContent={
                 <>
                   <p className="vads-u-margin-y--0" data-testid="expired">
@@ -281,6 +317,15 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
         );
 
       case dispStatusObj.transferred:
+        if (isOracleHealthCutover) {
+          return (
+            <p className="vads-u-margin-y--0" data-testid="transferred">
+              This is a previous record of your medication. If you need a
+              refill, find the current medication in your medication list. If
+              you don’t have a current one, contact your provider.
+            </p>
+          );
+        }
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="transferred">
@@ -324,17 +369,19 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
                 className="vads-u-margin-y--0"
                 data-testid="active-no-refill-left"
               >
-                You can’t refill this prescription. If you need more, send a
-                secure message to your care team.
+                {isOracleHealth
+                  ? 'You can’t refill this prescription. If you need more, send a secure message to your care team.'
+                  : 'You can’t refill this prescription. Contact your VA provider if you need more of this medication.'}
               </p>
               <SendRxRenewalMessage
                 rx={rx}
-                showFallBackContent={showRenewalLink}
+                suppressRenewalLink={renewalLinkShownAbove}
+                isOracleHealth={isOracleHealth}
               />
             </div>
           );
         }
-        return null;
+        return refillButton;
 
       default:
         return null;
@@ -351,15 +398,6 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
       );
     }
 
-    // Handle OH prescriptions with isRenewable (may have dispStatus or null)
-    if (isRenewable) {
-      return (
-        <div className="no-print">
-          <SendRxRenewalMessage rx={rx} />
-        </div>
-      );
-    }
-
     // V2 status handling when both flags are enabled
     if (useV2Status) {
       return renderV2Content();
@@ -369,12 +407,18 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
     return renderV1Content();
   };
 
+  const content = renderContent();
+
+  if (!content) {
+    return null;
+  }
+
   return (
     <div
       className="shipping-info"
       id={`status-description-${rx.prescriptionId}`}
     >
-      {renderContent()}
+      {content}
     </div>
   );
 };
@@ -389,7 +433,7 @@ ExtraDetails.propTypes = {
   refillDate: PropTypes.string,
   refillRemaining: PropTypes.number,
   refillSubmitDate: PropTypes.string,
-  showRenewalLink: PropTypes.bool,
+  renewalLinkShownAbove: PropTypes.bool,
 };
 
 export default ExtraDetails;

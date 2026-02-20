@@ -24,6 +24,7 @@ import {
   sortRecipients,
   decodeHtmlEntities,
   isOlderThan,
+  isMigrationPhaseBlockingReplies,
   isValidDateValue,
   isCustomFolder,
   handleHeader,
@@ -522,6 +523,36 @@ describe('MHV Secure Messaging helpers', () => {
     });
   });
 
+  describe('isMigrationPhaseBlockingReplies', () => {
+    it('should return true for phase p3', () => {
+      expect(isMigrationPhaseBlockingReplies('p3')).to.equal(true);
+    });
+
+    it('should return true for phase p4', () => {
+      expect(isMigrationPhaseBlockingReplies('p4')).to.equal(true);
+    });
+
+    it('should return true for phase p5', () => {
+      expect(isMigrationPhaseBlockingReplies('p5')).to.equal(true);
+    });
+
+    it('should return false for phase p1', () => {
+      expect(isMigrationPhaseBlockingReplies('p1')).to.equal(false);
+    });
+
+    it('should return false for phase p2', () => {
+      expect(isMigrationPhaseBlockingReplies('p2')).to.equal(false);
+    });
+
+    it('should return false for null', () => {
+      expect(isMigrationPhaseBlockingReplies(null)).to.equal(false);
+    });
+
+    it('should return false for undefined', () => {
+      expect(isMigrationPhaseBlockingReplies(undefined)).to.equal(false);
+    });
+  });
+
   describe('isCustomFolder', () => {
     it('should return true for positive folder ids', () => {
       expect(isCustomFolder(1)).to.equal(true);
@@ -866,6 +897,11 @@ describe('MHV Secure Messaging helpers', () => {
       const recipients = [{ triageTeamId: 123, stationNumber: '456' }];
       const result = getStationNumberFromRecipientId(999, recipients);
       expect(result).to.equal(null);
+    });
+
+    it('should return null when recipients is null or undefined', () => {
+      expect(getStationNumberFromRecipientId(123, null)).to.equal(null);
+      expect(getStationNumberFromRecipientId(123, undefined)).to.equal(null);
     });
   });
 

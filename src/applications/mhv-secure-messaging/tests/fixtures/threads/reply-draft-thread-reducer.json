@@ -69,6 +69,7 @@
     ],
     "isLoading": false,
     "cannotReply": false,
+    "isStale": true,
     "replyToName": "MHVDAYMARK, MARK ",
     "lastSaveTime": null
   }

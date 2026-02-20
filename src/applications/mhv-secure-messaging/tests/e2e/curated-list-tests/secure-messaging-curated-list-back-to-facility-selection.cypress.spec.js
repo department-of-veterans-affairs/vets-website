@@ -41,7 +41,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
       .clear()
       .type(`TEST BODY`);
 
-    cy.findByText(`Select a different care team`).click();
+    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
 
     PilotEnvPage.selectTriageGroup(2);
 
@@ -78,7 +78,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     PatientMessageDraftsPage.loadDrafts();
     PatientMessageDraftsPage.loadSingleDraft();
 
-    cy.findByText(`Select a different care team`).click();
+    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
 
     PilotEnvPage.selectTriageGroup(1);
 
@@ -115,7 +115,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     PatientMessageDraftsPage.loadDrafts();
     PatientMessageDraftsPage.loadSingleDraft();
 
-    cy.findByText(`Select a different care team`).click();
+    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
     cy.findByTestId(`care-system-589`).should(
       `have.attr`,
       `checked`,
@@ -326,7 +326,8 @@ describe('dynamically updating healthcare system', () => {
       .clear()
       .type(`TEST BODY`);
 
-    cy.findByText(`Select a different care team`).click();
+    // cy.findByText(`Select a different care team`).click();
+    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
 
     cy.findByTestId(`care-system-589`).should(
       `have.attr`,

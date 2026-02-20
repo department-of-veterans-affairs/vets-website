@@ -15,11 +15,8 @@ import {
   resetUploads,
   clearAdditionalEvidenceNotification,
 } from '../../actions';
-import {
-  getFilesNeeded,
-  getFilesOptional,
-  isClaimOpen,
-} from '../../utils/helpers';
+import { isClaimOpen } from '../../utils/helpers';
+import * as TrackedItem from '../../utils/trackedItemContent';
 import withRouter from '../../utils/withRouter';
 
 const filesPath = `../files`;
@@ -90,6 +87,7 @@ class AdditionalEvidencePage extends React.Component {
                 title={message.title}
                 body={message.body}
                 type={message.type}
+                maskTitle={message.type === 'error'}
                 onSetFocus={focusNotificationAlert}
               />
             </>
@@ -153,8 +151,8 @@ function mapStateToProps(state) {
     uploadError: claimsState.uploads.uploadError,
     uploadComplete: claimsState.uploads.uploadComplete,
     message: claimsState.notifications.additionalEvidenceMessage,
-    filesNeeded: getFilesNeeded(trackedItems),
-    filesOptional: getFilesOptional(trackedItems),
+    filesNeeded: TrackedItem.getFilesNeeded(trackedItems),
+    filesOptional: TrackedItem.getFilesOptional(trackedItems),
     showDocumentUploadStatus:
       state.featureToggles?.cst_show_document_upload_status || false,
     timezoneMitigationEnabled:

@@ -29,20 +29,30 @@ import {
 } from './constants';
 
 // Re-export from dateHelpers for backwards compatibility
-export { dateFormatWithoutTimezone } from './dateHelpers';
+export {
+  dateFormatWithoutTimezone,
+  formatDateTimeInUserTimezone,
+} from './dateHelpers';
 
 /**
  * @param {*} timestamp
  * @param {*} format defaults to 'MMMM d, yyyy, h:mm a zzz', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
- * @returns {String} formatted timestamp
+ * @returns {String} formatted timestamp or null if invalid
  */
 export const dateFormat = (timestamp, format = null) => {
-  const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
-  return formatInTimeZone(
-    new Date(timestamp),
-    timeZone,
-    format || 'MMMM d, yyyy, h:mm a zzz',
-  );
+  if (!timestamp) return null;
+  const dateObj = new Date(timestamp);
+  if (Number.isNaN(dateObj.getTime())) return null;
+  try {
+    const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
+    return formatInTimeZone(
+      dateObj,
+      timeZone,
+      format || 'MMMM d, yyyy, h:mm a zzz',
+    );
+  } catch {
+    return null;
+  }
 };
 
 export const dateFormatWithoutTime = str => {
@@ -912,3 +922,32 @@ export const getFailedDomainList = (failed, displayMap) => {
  * @returns {boolean} true if the ID is a radiology ID, false otherwise
  */
 export const isRadiologyId = id => id && id.charAt(0).toLowerCase() === 'r';
+
+/**
+ * Sort an array of records by their sortDate property in descending order (newest first).
+ * Records with missing or invalid sortDate values are pushed to the end of the array.
+ *
+ * @param {Array} array - Array of objects with sortDate property (ISO date strings)
+ * @returns {Array} - Sorted array (mutates original)
+ */
+export const sortByDate = array => {
+  return array.sort((a, b) => {
+    // Check for missing sortDate values first
+    if (!a.sortDate && !b.sortDate) return 0;
+    if (!a.sortDate) return 1; // Push nulls to the end
+    if (!b.sortDate) return -1; // Keep non-nulls at the front
+
+    const dateA = parseISO(a.sortDate);
+    const dateB = parseISO(b.sortDate);
+    const timeA = dateA.getTime();
+    const timeB = dateB.getTime();
+
+    // Handle invalid dates (treat like missing)
+    if (Number.isNaN(timeA) && Number.isNaN(timeB)) return 0;
+    if (Number.isNaN(timeA)) return 1;
+    if (Number.isNaN(timeB)) return -1;
+
+    // Newest first
+    return timeB - timeA;
+  });
+};

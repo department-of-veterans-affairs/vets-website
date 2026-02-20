@@ -55,6 +55,7 @@ export const Paths = {
     SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
     SENT_SEARCH: '/my_health/v1/messaging/folders/-1/search*',
     PRESCRIPTIONS: '/my_health/v1/prescriptions/',
+    PRESCRIPTIONS_V2: '/my_health/v2/prescriptions/',
   },
 };
 
@@ -374,6 +375,10 @@ export const Alerts = {
   ERROR_LOADING_RECIPIENTS_HEADER:
     'We can’t load your care team list right now',
   SEND_MESSAGE_SUCCESS: `Message sent`,
+  MIGRATION_ALERT_H2:
+    'You can’t use messages to contact providers at some facilities right now',
+  MIGRATION_ALERT_BODY:
+    'You can’t send or receive new messages or reply to conversations with providers at',
 };
 
 export const Data = {
@@ -399,7 +404,7 @@ export const Data = {
   FOLDER_NAME_CANNOT_BLANK: 'Folder name cannot be blank',
   FOLDER_REMOVED_SUCCESSFULLY: 'Folder was successfully removed.',
   FOLDER_CREATED_SUCCESSFULLY: 'Folder was successfully created.',
-  FOLDER_RENAMED_SUCCESSFULLY: 'Folder was successfully renamed.',
+  FOLDER_RENAMED_SUCCESSFULLY: 'Folder renamed',
   SECURE_MSG_SENT_SUCCESSFULLY: 'Message sent',
   PLEASE_SELECT_RECIPIENT: 'Please select a recipient.',
   PLEASE_SELECT_VALID_RECIPIENT: 'Please select a valid recipient.',
@@ -628,7 +633,7 @@ export const Data = {
 
 export const Assertions = {
   MESSAGES: 'Messages',
-  FOLDER_RENAMED_SUCCESS: 'Folder was successfully renamed.',
+  FOLDER_RENAMED_SUCCESS: 'Folder renamed',
   MESSAGE_CONVERSATION_SUCCESS: 'Message conversation was successfully moved.',
   MESSAGE_CONVERSATION_SUCCESS_TRASH:
     'Message conversation was successfully moved to Trash.',

@@ -21,6 +21,7 @@
 /**
  * @typedef {Object} FormConfig
  * @property {Array<Object>} [additionalRoutes]
+ * @property {boolean} [allowDuplicatePaths]
  * @property {string} [ariaDescribedBySubmit]
  * @property {string} [backLinkText]
  * @property {Record<string, FormConfigChapter>} [chapters]
@@ -267,7 +268,7 @@
  *   'ui:reviewField'?: React.ReactNode,
  *   'ui:reviewWidget'?: React.ReactNode,
  *   'ui:title'?: string | JSX.Element | React.ReactNode,
- *   'ui:validations'?: Array<((errors, formData, uiSchema, schema, errorMessages) => void)>,
+ *   'ui:validations'?: Array<((errors, fieldData, formData, schema, errorMessages) => void)>,
  *   'ui:webComponentField'?: React.ReactNode,
  *   'ui:widget'?: 'yesNo' | 'checkbox' | 'radio' | 'select' | 'email' | 'date' | 'textarea'  | OrAnyString | ((props: any) => JSX.Element),
  * } & {
@@ -609,6 +610,7 @@
  * @property {boolean} [useWebComponentForNavigation] - utilize VADS button web components for page nav
  * @property {boolean} [focusOnAlertRole] - apply focus to va-alert on submission error
  * @property {boolean} [scaffoldAndFocusFormErrors] - create screen reader-only error messages and move focus to first error on submit
+ * @property {(props: { DefaultNavButtons: React.ElementType, goBack?: Function, goForward?: Function, submitToContinue?: boolean, useWebComponents?: boolean }) => React.ReactNode} [NavButtonsWithWrapper] - optional wrapper for default back/continue buttons (receives DefaultNavButtons and nav props)
  */
 
 /**

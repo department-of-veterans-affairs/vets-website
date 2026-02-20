@@ -27,12 +27,6 @@ import {
 import { DATE_FORMATS, TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import { onCalendarChange, startDirectScheduleFlow } from '../../redux/actions';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
-
 describe('VAOS Page: ReviewPage direct scheduling', () => {
   let storeState;
   let store;
@@ -45,7 +39,6 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     });
     start = new Date();
     storeState = {
-      ...initialState,
       newAppointment: {
         pages: {},
         data: {
@@ -290,6 +283,79 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     });
   });
 
+  it('should record GA tracking events on successful submission', async () => {
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
+
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 'fake_id' }),
+    });
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+
+    await screen.findByText('Primary care');
+
+    userEvent.click(screen.getByText(/Confirm appointment/i));
+    await waitFor(() => {
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/fake_id?confirmMsg=true',
+      );
+    });
+
+    expect(global.window.dataLayer[1]).to.deep.include({
+      event: 'vaos-direct-vista-submission-successful',
+      flow: 'direct',
+      'health-TypeOfCare': 'Primary care',
+    });
+  });
+
+  it('should record GA tracking events on failed submission', async () => {
+    store.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
+
+    mockFacilityApi({
+      response: new MockFacilityResponse(),
+    });
+
+    setFetchJSONFailure(
+      global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
+      {
+        errors: [{ code: 'VAOS_500' }],
+      },
+    );
+
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+
+    await screen.findByText('Primary care');
+
+    userEvent.click(screen.getByText(/Confirm appointment/i));
+
+    await screen.findByText(/This tool isn.t working right now/i);
+
+    expect(global.window.dataLayer[1]).to.deep.include({
+      event: 'vaos-direct-vista-submission-failed',
+      flow: 'direct',
+      'health-TypeOfCare': 'Primary care',
+    });
+  });
+
   it('should show error message on failure', async () => {
     store.dispatch(
       onCalendarChange([
@@ -320,7 +386,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('This tool isn’t working right now');
 
     expect(screen.baseElement).contain.text(
       'We’re sorry. There’s a problem with appointments. Refresh this page or try again later.',
@@ -372,7 +438,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
       'We’re sorry. Something went wrong when you tried to submit your appointment. Try again later. Or call your facility to help with your appointment.',
@@ -421,7 +487,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
       'You already have an appointment scheduled for this day and time. Choose a different day or time. Or call your facility to help with your appointment.',
@@ -470,7 +536,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('This tool isn’t working right now');
 
     expect(screen.baseElement).contain.text(
       'We’re sorry. There’s a problem with appointments. Refresh this page or try again later.',

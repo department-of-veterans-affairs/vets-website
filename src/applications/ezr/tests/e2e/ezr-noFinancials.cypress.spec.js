@@ -3,12 +3,16 @@ import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
-import { goToNextPage } from './helpers';
+import { goToNextPage, normalizeFeatureFlags } from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
 import {
   advanceToHouseholdSection,
   advanceFromHouseholdToReview,
 } from './helpers/household';
+
+const featureTogglesObject = normalizeFeatureFlags(
+  featureToggles.data.features,
+);
 
 describe('EZR No Financial Submission', () => {
   beforeEach(() => {
@@ -45,7 +49,12 @@ describe('EZR No Financial Submission', () => {
     goToNextPage('/household-information/financial-information-status');
     cy.injectAxeThenAxeCheck();
 
-    advanceFromHouseholdToReview();
+    advanceFromHouseholdToReview({
+      featureFlags: featureTogglesObject,
+      hasServiceHistoryInfo: !!mockPrefill.formData?.[
+        'view:hasPrefillServiceHistoryInfo'
+      ],
+    });
 
     // accept the privacy agreement
     cy.get('va-checkbox[name="privacyAgreementAccepted"]')

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/react';
@@ -14,9 +15,14 @@ describe('SendRxRenewalMessage Component', () => {
     dispStatus: 'Active',
     expirationDate: '2024-01-01',
     stationNumber: '668', // Oracle Health/Cerner facility
+    isRenewable: true, // Required for renewal eligibility
   };
 
-  const setup = (rx = mockRx, props = {}, initialState = {}) => {
+  const setup = (
+    rx = mockRx,
+    props = { isOracleHealth: true },
+    initialState = {},
+  ) => {
     const featureToggleReducer = (state = {}) => state;
     const drupalStaticDataReducer = (state = {}) => state;
     const testReducers = {
@@ -51,83 +57,45 @@ describe('SendRxRenewalMessage Component', () => {
   };
 
   describe('Eligibility for renewal request', () => {
-    it('renders renewal link when prescription is Active with 0 refills', () => {
+    it('renders renewal link when prescription isRenewable is true', () => {
       const rx = {
         ...mockRx,
-        dispStatus: 'Active',
-        refillRemaining: 0,
+        isRenewable: true,
       };
       const screen = setup(rx);
       expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
     });
 
-    it('does not render renewal link when prescription is Active: Refill in Process with 0 refills', () => {
+    it('does not render renewal link when prescription is Active with 0 refills but isRenewable is false', () => {
+      const rx = {
+        ...mockRx,
+        dispStatus: 'Active',
+        refillRemaining: 0,
+        isRenewable: false,
+      };
+      const screen = setup(rx);
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
+
+    it('does not render renewal link when isRenewable is false regardless of dispStatus', () => {
       const rx = {
         ...mockRx,
         dispStatus: 'Active: Refill in Process',
         refillRemaining: 0,
+        isRenewable: false,
       };
       const screen = setup(rx);
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
     });
 
-    it('does not render renewal link when prescription is Active: Submitted with 0 refills', () => {
-      const rx = {
-        ...mockRx,
-        dispStatus: 'Active: Submitted',
-        refillRemaining: 0,
-      };
-      const screen = setup(rx);
-      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
-        .exist;
-    });
-
-    it('renders renewal link when prescription is Expired within 120 days', () => {
-      const today = new Date();
-      const recentExpiration = new Date(today);
-      recentExpiration.setDate(today.getDate() - 60); // 60 days ago
-
-      const rx = {
-        ...mockRx,
-        dispStatus: 'Expired',
-        expirationDate: recentExpiration.toISOString(),
-      };
-      const screen = setup(rx);
-      expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
-    });
-
-    it('does not render renewal link when prescription is Expired more than 120 days ago', () => {
-      const today = new Date();
-      const oldExpiration = new Date(today);
-      oldExpiration.setDate(today.getDate() - 130); // 130 days ago
-
-      const rx = {
-        ...mockRx,
-        dispStatus: 'Expired',
-        expirationDate: oldExpiration.toISOString(),
-      };
-      const screen = setup(rx);
-      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
-        .exist;
-    });
-
-    it('does not render renewal link when prescription has refills remaining', () => {
+    it('does not render renewal link when isRenewable is undefined', () => {
       const rx = {
         ...mockRx,
         dispStatus: 'Active',
-        refillRemaining: 3,
-      };
-      const screen = setup(rx);
-      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
-        .exist;
-    });
-
-    it('does not render renewal link when prescription status is Discontinued', () => {
-      const rx = {
-        ...mockRx,
-        dispStatus: 'Discontinued',
         refillRemaining: 0,
+        isRenewable: undefined,
       };
       const screen = setup(rx);
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
@@ -141,7 +109,7 @@ describe('SendRxRenewalMessage Component', () => {
         refillRemaining: 0,
         stationNumber: '989', // Not an Oracle Health/Cerner facility
       };
-      const screen = setup(rx);
+      const screen = setup(rx, { isOracleHealth: false });
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
     });
@@ -195,15 +163,15 @@ describe('SendRxRenewalMessage Component', () => {
           .exist;
       });
 
-      it('renders renewal link when isRenewable is false but other eligibility criteria met', () => {
+      it('does not render renewal link when isRenewable is false even with Active status and 0 refills', () => {
         const rx = {
           ...mockRx,
           isRenewable: false,
           dispStatus: 'Active',
-          refillRemaining: 0, // Meets Active with 0 refills criteria
+          refillRemaining: 0,
         };
         const screen = setup(rx);
-        expect(screen.getByTestId('send-renewal-request-message-link')).to
+        expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
           .exist;
       });
     });
@@ -215,28 +183,31 @@ describe('SendRxRenewalMessage Component', () => {
         ...mockRx,
         dispStatus: 'Active',
         refillRemaining: 5,
+        isRenewable: false,
       };
       const fallbackContent = (
         <div data-testid="fallback">Fallback Content</div>
       );
-      const screen = setup(rx, { fallbackContent });
+      const screen = setup(rx, { fallbackContent, isOracleHealth: true });
       expect(screen.getByTestId('fallback')).to.exist;
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
     });
 
-    it('renders fallback content when showFallBackContent is true', () => {
+    it('renders fallback content when suppressRenewalLink is true', () => {
       const rx = {
         ...mockRx,
         dispStatus: 'Active',
         refillRemaining: 0,
+        isRenewable: true,
       };
       const fallbackContent = (
         <div data-testid="fallback">Fallback Content</div>
       );
       const screen = setup(rx, {
         fallbackContent,
-        showFallBackContent: true,
+        suppressRenewalLink: true,
+        isOracleHealth: true,
       });
       expect(screen.getByTestId('fallback')).to.exist;
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
@@ -248,8 +219,23 @@ describe('SendRxRenewalMessage Component', () => {
         ...mockRx,
         dispStatus: 'Active',
         refillRemaining: 5,
+        isRenewable: false,
       };
       const screen = setup(rx);
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+      expect(screen.queryByTestId('fallback')).to.not.exist;
+    });
+
+    it('returns null when suppressRenewalLink is true and no fallback content provided', () => {
+      const rx = {
+        ...mockRx,
+        isRenewable: true,
+      };
+      const screen = setup(rx, {
+        suppressRenewalLink: true,
+        isOracleHealth: true,
+      });
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
       expect(screen.queryByTestId('fallback')).to.not.exist;
@@ -302,7 +288,10 @@ describe('SendRxRenewalMessage Component', () => {
     });
 
     it('renders action link when isActionLink is true', () => {
-      const screen = setup(mockRx, { isActionLink: true });
+      const screen = setup(mockRx, {
+        isActionLink: true,
+        isOracleHealth: true,
+      });
       expect(screen.getByTestId('send-renewal-request-message-action-link')).to
         .exist;
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
@@ -310,7 +299,10 @@ describe('SendRxRenewalMessage Component', () => {
     });
 
     it('action link has correct CSS classes', () => {
-      const screen = setup(mockRx, { isActionLink: true });
+      const screen = setup(mockRx, {
+        isActionLink: true,
+        isOracleHealth: true,
+      });
       const actionLink = screen.getByTestId(
         'send-renewal-request-message-action-link',
       );
@@ -370,6 +362,42 @@ describe('SendRxRenewalMessage Component', () => {
       );
       expect(modal?.innerHTML).to.include('automated refill line');
     });
+
+    it('closes modal when secondary button (Back) is clicked', async () => {
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.secondaryButtonClick();
+
+      await waitFor(() => {
+        expect(modal?.getAttribute('visible')).to.equal('false');
+      });
+    });
+
+    it('closes modal when close event fires', async () => {
+      const screen = setup();
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.closeEvent();
+
+      await waitFor(() => {
+        expect(modal?.getAttribute('visible')).to.equal('false');
+      });
+    });
   });
 
   describe('Secure messages URL generation', () => {
@@ -377,19 +405,79 @@ describe('SendRxRenewalMessage Component', () => {
       const rx = {
         ...mockRx,
         prescriptionId: 98765,
+        isRenewable: true,
       };
 
       const screen = setup(rx);
       expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
     });
+
+    it('includes station_number in secure messages URL when stationNumber is present', async () => {
+      const locationStub = sinon.stub(window, 'location');
+      locationStub.value({ href: '' });
+
+      const rx = {
+        ...mockRx,
+        prescriptionId: 98765,
+        stationNumber: '668',
+        isRenewable: true,
+      };
+
+      const screen = setup(rx);
+      fireEvent.click(screen.getByTestId('send-renewal-request-message-link'));
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      expect(window.location.href).to.include('prescriptionId=98765');
+      expect(window.location.href).to.include('station_number=668');
+      expect(window.location.href).to.include('redirectPath=');
+
+      locationStub.restore();
+    });
+
+    it('omits station_number from URL when stationNumber is missing', async () => {
+      const locationStub = sinon.stub(window, 'location');
+      locationStub.value({ href: '' });
+
+      const rx = {
+        ...mockRx,
+        prescriptionId: 98765,
+        stationNumber: undefined,
+        isRenewable: true,
+      };
+
+      const screen = setup(rx);
+      fireEvent.click(screen.getByTestId('send-renewal-request-message-link'));
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      const modal = screen.container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      expect(window.location.href).to.include('prescriptionId=98765');
+      expect(window.location.href).to.not.include('station_number');
+      expect(window.location.href).to.include('redirectPath=');
+
+      locationStub.restore();
+    });
   });
 
   describe('Edge cases', () => {
-    it('handles Expired status without expirationDate', () => {
+    it('does not render link when isRenewable is false even with Expired status', () => {
       const rx = {
         ...mockRx,
         dispStatus: 'Expired',
         expirationDate: null,
+        isRenewable: false,
       };
       const screen = setup(rx);
 
@@ -397,7 +485,7 @@ describe('SendRxRenewalMessage Component', () => {
         .exist;
     });
 
-    it('handles edge case of expiration exactly 120 days ago', () => {
+    it('does not render link when isRenewable is false for old expired prescription', () => {
       const today = new Date();
       const exactExpiration = new Date(today);
       exactExpiration.setDate(today.getDate() - 120);
@@ -406,6 +494,7 @@ describe('SendRxRenewalMessage Component', () => {
         ...mockRx,
         dispStatus: 'Expired',
         expirationDate: exactExpiration.toISOString(),
+        isRenewable: false,
       };
       const screen = setup(rx);
 
@@ -413,7 +502,7 @@ describe('SendRxRenewalMessage Component', () => {
         .exist;
     });
 
-    it('handles edge case of expiration 119 days ago (within window)', () => {
+    it('renders link when isRenewable is true for Expired prescription within 120 days', () => {
       const today = new Date();
       const recentExpiration = new Date(today);
       recentExpiration.setDate(today.getDate() - 119);
@@ -422,28 +511,31 @@ describe('SendRxRenewalMessage Component', () => {
         ...mockRx,
         dispStatus: 'Expired',
         expirationDate: recentExpiration.toISOString(),
+        isRenewable: true,
       };
       const screen = setup(rx);
 
       expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
     });
 
-    it('handles missing dispStatus gracefully', () => {
+    it('does not render link when isRenewable is false with undefined dispStatus', () => {
       const rx = {
         ...mockRx,
         dispStatus: undefined,
         refillRemaining: 0,
+        isRenewable: false,
       };
       const screen = setup(rx);
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
     });
 
-    it('handles missing refillRemaining gracefully', () => {
+    it('does not render link when isRenewable is false with undefined refillRemaining', () => {
       const rx = {
         ...mockRx,
         dispStatus: 'Active',
         refillRemaining: undefined,
+        isRenewable: false,
       };
       const screen = setup(rx);
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
@@ -464,18 +556,19 @@ describe('SendRxRenewalMessage Component', () => {
         refillRemaining: 0,
         // No stationNumber - not Oracle Health, so returns null
       };
-      const screen = setup(minimalRx);
+      const screen = setup(minimalRx, { isOracleHealth: false });
       expect(screen).to.exist;
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
     });
 
-    it('renders renewal link for Oracle Health prescription with minimal props', () => {
+    it('renders renewal link for Oracle Health prescription with isRenewable true', () => {
       const minimalRx = {
         prescriptionId: 123,
         dispStatus: 'Active',
         refillRemaining: 0,
         stationNumber: '668', // Oracle Health facility
+        isRenewable: true,
       };
       const screen = setup(minimalRx);
       expect(screen).to.exist;

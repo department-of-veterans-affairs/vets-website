@@ -11,6 +11,8 @@ import searchMockResponse from './fixtures/searchResponses/search-sent-folder-re
 import PatientRecentRecipientsPage from './pages/PatientRecentRecipientsPage';
 import SharedComponents from './pages/SharedComponents';
 
+const baseUrl = Cypress.config('baseUrl');
+
 describe('SM Medications Renewal Request', () => {
   describe('in curated list flow', () => {
     const customFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
@@ -383,10 +385,120 @@ describe('SM Medications Renewal Request', () => {
       PatientComposePage.deleteUnsavedDraft();
       cy.url().should(
         'include',
-        'http://localhost:3001/my-health/medications/?page=1&draftDeleteSuccess=true',
+        `${baseUrl}/my-health/medications/?page=1&draftDeleteSuccess=true`,
       );
     });
   });
+  describe('in curated list flow with Cerner pilot enabled', () => {
+    const customFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
+      {
+        name: 'mhv_secure_messaging_curated_list_flow',
+        value: true,
+      },
+      {
+        name: 'mhv_secure_messaging_recent_recipients',
+        value: true,
+      },
+      {
+        name: 'mhv_medications_cerner_pilot',
+        value: true,
+      },
+    ]);
+
+    beforeEach(() => {
+      SecureMessagingSite.login(customFeatureToggles);
+      PatientInboxPage.loadInboxMessages();
+
+      cy.intercept(
+        'GET',
+        `${Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS}*`,
+        mockRecipients,
+      ).as('recipients');
+    });
+
+    it('verify med renewal request uses v2 API for Oracle Health patient', () => {
+      cy.intercept(
+        'GET',
+        `${Paths.INTERCEPT.PRESCRIPTIONS_V2}24654491*`,
+        medicationResponse,
+      ).as('medicationByIdV2');
+      const prescriptionId = '24654491';
+      const stationNumber = '989';
+      const redirectPath = encodeURIComponent('/my-health/medications');
+
+      cy.visit(
+        `${
+          Paths.UI_MAIN
+        }/new-message?prescriptionId=${prescriptionId}&station_number=${stationNumber}&redirectPath=${redirectPath}`,
+      );
+      cy.wait('@medicationByIdV2').then(interception => {
+        expect(interception.request.url).to.include('station_number=989');
+      });
+      PatientComposePage.selectComboBoxRecipient(
+        mockRecipients.data[0].attributes.name,
+      );
+      cy.findByTestId(`continue-button`).click();
+
+      PatientComposePage.validateAddYourMedicationWarningBanner(false);
+      PatientComposePage.validateLockedCategoryDisplay();
+      PatientComposePage.validateMessageSubjectField('Renewal Needed');
+
+      const expectedMessageBodyText = [
+        `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
+        `Prescription number: 2721195`,
+        `Instructions: TAKE 1 BY MOUTH DAILY FOR 30 DAYS`,
+        `Provider who prescribed it: Bob Taylor`,
+        `Number of refills left: 0`,
+        `Prescription expiration date: November 8, 2025`,
+        `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
+        `Quantity: 4`,
+      ].join('\n');
+
+      PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_SUCCESS,
+      );
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+    });
+
+    it('verify med renewal request handles 404 from v2 API', () => {
+      cy.intercept(
+        'GET',
+        `${Paths.INTERCEPT.PRESCRIPTIONS_V2}24654491*`,
+        req => {
+          req.reply({
+            body: medicationNotFoundResponse,
+            statusCode: 404,
+          });
+        },
+      ).as('medicationByIdV2');
+      const prescriptionId = '24654491';
+      const stationNumber = '989';
+      const redirectPath = encodeURIComponent('/my-health/medications');
+
+      cy.visit(
+        `${
+          Paths.UI_MAIN
+        }/new-message?prescriptionId=${prescriptionId}&station_number=${stationNumber}&redirectPath=${redirectPath}`,
+      );
+      cy.wait('@medicationByIdV2');
+      PatientComposePage.selectComboBoxRecipient(
+        mockRecipients.data[0].attributes.name,
+      );
+      cy.findByTestId(`continue-button`).click();
+
+      PatientComposePage.validateAddYourMedicationWarningBanner(true);
+      PatientComposePage.validateLockedCategoryDisplay();
+      PatientComposePage.validateMessageSubjectField('Renewal Needed');
+
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_ERROR,
+      );
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+    });
+  });
+
   describe('not in curated list flow', () => {
     const customFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
       {

@@ -107,12 +107,9 @@ describe('Landing Page', () => {
           loading: false,
         },
       },
-      /* eslint-disable camelcase */
       featureToggles: {
         loading: false,
-        mhv_landing_page_show_share_my_health_data_link: true,
       },
-      /* eslint-enable camelcase */
       ...initialState,
     };
 
@@ -314,31 +311,8 @@ describe('Landing Page', () => {
           ],
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
-        },
-      },
-      drupalStaticData: {
-        vamcEhrData: {
-          data: {
-            ehrDataByVhaId: {
-              '668': {
-                vhaId: '668',
-                vamcFacilityName:
-                  'Mann-Grandstaff Department of Veterans Affairs Medical Center',
-                vamcSystemName: 'VA Spokane health care',
-                ehr: 'cerner',
-              },
-            },
-            cernerFacilities: [
-              {
-                vhaId: '668',
-                vamcFacilityName:
-                  'Mann-Grandstaff Department of Veterans Affairs Medical Center',
-                vamcSystemName: 'VA Spokane health care',
-                ehr: 'cerner',
-              },
-            ],
-          },
-          loading: false,
+          userFacilityMigratingToOh: false,
+          migrationSchedules: [],
         },
       },
     };
@@ -352,43 +326,48 @@ describe('Landing Page', () => {
           ],
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          migrationSchedules: [],
         },
       },
-      drupalStaticData: {
-        vamcEhrData: {
-          data: {
-            ehrDataByVhaId: {
-              '668': {
-                vhaId: '668',
-                vamcFacilityName:
-                  'Mann-Grandstaff Department of Veterans Affairs Medical Center',
-                vamcSystemName: 'VA Spokane health care',
-                ehr: 'cerner',
-              },
-              '692': {
-                vhaId: '692',
-                vamcFacilityName: 'White City VA Medical Center',
-                vamcSystemName: 'VA Southern Oregon health care',
-                ehr: 'cerner',
+    };
+
+    const transitioningUserState = {
+      user: {
+        profile: {
+          facilities: [
+            { facilityId: '668', isCerner: true },
+            { facilityId: '692', isCerner: true },
+          ],
+          userAtPretransitionedOhFacility: false,
+          userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: true,
+          migrationSchedules: [
+            {
+              migrationDate: '2026-05-01',
+              facilities: [
+                {
+                  facilityId: '528',
+                  facilityName: 'Test VA Medical Center',
+                },
+                {
+                  facilityId: '123',
+                  facilityName: 'Different VA Medical Center',
+                },
+              ],
+              phases: {
+                current: 'p1',
+                p0: 'March 1, 2026',
+                p1: 'March 15, 2026',
+                p2: 'April 1, 2026',
+                p3: 'April 24, 2026',
+                p4: 'April 27, 2026',
+                p5: 'May 1, 2026',
+                p6: 'May 3, 2026',
+                p7: 'May 8, 2026',
               },
             },
-            cernerFacilities: [
-              {
-                vhaId: '668',
-                vamcFacilityName:
-                  'Mann-Grandstaff Department of Veterans Affairs Medical Center',
-                vamcSystemName: 'VA Spokane health care',
-                ehr: 'cerner',
-              },
-              {
-                vhaId: '692',
-                vamcFacilityName: 'White City VA Medical Center',
-                vamcSystemName: 'VA Southern Oregon health care',
-                ehr: 'cerner',
-              },
-            ],
-          },
-          loading: false,
+          ],
         },
       },
     };
@@ -447,6 +426,17 @@ describe('Landing Page', () => {
       expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
     });
 
+    it('displays migration alert for transitioning user on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: transitioningUserState,
+        reducers: reducer,
+      });
+
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+      expect(screen.queryByTestId('cerner-facilities-info-alert')).to.not.exist;
+      expect(screen.getByTestId('cerner-facilities-transition-alert')).to.exist;
+    });
+
     it('does not display Cerner alert for non-Cerner users on landing page', () => {
       const nonCernerUserState = {
         user: {
@@ -459,6 +449,8 @@ describe('Landing Page', () => {
             ],
             userAtPretransitionedOhFacility: false,
             userFacilityReadyForInfoAlert: false,
+            userFacilityMigratingToOh: false,
+            migrationSchedules: [],
           },
         },
         drupalStaticData: {
@@ -486,6 +478,8 @@ describe('Landing Page', () => {
 
       expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
       expect(screen.queryByTestId('cerner-facilities-info-alert')).to.not.exist;
+      expect(screen.queryByTestId('cerner-facilities-transition-alert')).to.not
+        .exist;
     });
   });
 });

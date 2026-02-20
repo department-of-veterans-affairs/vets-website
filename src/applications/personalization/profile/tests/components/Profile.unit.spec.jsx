@@ -6,6 +6,7 @@ import sinon from 'sinon';
 
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { RequiredLoginView } from '~/platform/user/authorization/components/RequiredLoginView';
+import { externalServiceStatus } from '~/platform/monitoring/DowntimeNotification';
 
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import {
@@ -43,11 +44,19 @@ describe('Profile', () => {
       fetchPersonalInformation: fetchPersonalInfoSpy,
       fetchTotalDisabilityRating: fetchTotalDisabilityRatingSpy,
       fetchSchedulingPreferences: fetchSchedulingPreferencesSpy,
+      fetchDirectDeposit: sinon.spy(),
       shouldFetchCNPDirectDepositInformation: true,
+      shouldFetchDirectDeposit: false,
       shouldFetchTotalDisabilityRating: true,
+      shouldFetchSchedulingPreferences: false,
       showLoader: false,
       isLOA3: true,
       isInMVI: true,
+      isBlocked: false,
+      isSchedulingPreferencesPilotEligible: false,
+      isDowntimeWarningDismissed: false,
+      dismissDowntimeWarning: sinon.spy(),
+      initializeDowntimeWarnings: sinon.spy(),
       user: {},
       location: {
         pathname: '/profile/personal-information',
@@ -142,6 +151,161 @@ describe('Profile', () => {
       });
     });
   });
+
+  describe('componentDidMount fetch paths based on togglesLoaded', () => {
+    it('should fetch scheduling preferences when togglesLoaded and shouldFetchSchedulingPreferences are true', () => {
+      defaultProps.togglesLoaded = true;
+      defaultProps.shouldFetchSchedulingPreferences = true;
+      const wrapper = shallow(<Profile {...defaultProps} />);
+      expect(fetchSchedulingPreferencesSpy.called).to.be.true;
+      wrapper.unmount();
+    });
+
+    it('should not fetch scheduling preferences when togglesLoaded is false', () => {
+      defaultProps.togglesLoaded = false;
+      defaultProps.shouldFetchSchedulingPreferences = true;
+      const wrapper = shallow(<Profile {...defaultProps} />);
+      expect(fetchSchedulingPreferencesSpy.called).to.be.false;
+      wrapper.unmount();
+    });
+
+    it('should fetch direct deposit when togglesLoaded and shouldFetchDirectDeposit are true', () => {
+      defaultProps.togglesLoaded = true;
+      defaultProps.shouldFetchDirectDeposit = true;
+      defaultProps.fetchDirectDeposit = sinon.spy();
+      const wrapper = shallow(<Profile {...defaultProps} />);
+      expect(defaultProps.fetchDirectDeposit.called).to.be.true;
+      wrapper.unmount();
+    });
+
+    it('should not fetch direct deposit when togglesLoaded is false', () => {
+      defaultProps.togglesLoaded = false;
+      defaultProps.shouldFetchDirectDeposit = true;
+      defaultProps.fetchDirectDeposit = sinon.spy();
+      const wrapper = shallow(<Profile {...defaultProps} />);
+      expect(defaultProps.fetchDirectDeposit.called).to.be.false;
+      wrapper.unmount();
+    });
+  });
+
+  describe('componentDidUpdate', () => {
+    it('should fetch data when isLOA3 transitions from false to true', () => {
+      defaultProps.isLOA3 = false;
+      defaultProps.isInMVI = true;
+      const wrapper = shallow(<Profile {...defaultProps} />);
+      const mountCallCount = fetchFullNameSpy.callCount;
+
+      wrapper.setProps({ isLOA3: true });
+      expect(fetchFullNameSpy.callCount).to.be.greaterThan(mountCallCount);
+      expect(fetchPersonalInfoSpy.callCount).to.be.greaterThan(0);
+      expect(fetchMilitaryInfoSpy.callCount).to.be.greaterThan(0);
+      wrapper.unmount();
+    });
+
+    it('should fetch total disability rating when shouldFetchTotalDisabilityRating transitions to true', () => {
+      defaultProps.shouldFetchTotalDisabilityRating = false;
+      const wrapper = shallow(<Profile {...defaultProps} />);
+      const mountCallCount = fetchTotalDisabilityRatingSpy.callCount;
+
+      wrapper.setProps({ shouldFetchTotalDisabilityRating: true });
+      expect(fetchTotalDisabilityRatingSpy.callCount).to.be.greaterThan(
+        mountCallCount,
+      );
+      wrapper.unmount();
+    });
+
+    it('should fetch direct deposit when togglesLoaded transitions to true and shouldFetchDirectDeposit is true', () => {
+      defaultProps.togglesLoaded = false;
+      defaultProps.shouldFetchDirectDeposit = true;
+      defaultProps.fetchDirectDeposit = sinon.spy();
+      const wrapper = shallow(<Profile {...defaultProps} />);
+
+      wrapper.setProps({ togglesLoaded: true });
+      expect(defaultProps.fetchDirectDeposit.called).to.be.true;
+      wrapper.unmount();
+    });
+
+    it('should fetch direct deposit when shouldFetchDirectDeposit transitions to true and togglesLoaded is true', () => {
+      defaultProps.togglesLoaded = true;
+      defaultProps.shouldFetchDirectDeposit = false;
+      defaultProps.fetchDirectDeposit = sinon.spy();
+      const wrapper = shallow(<Profile {...defaultProps} />);
+      const mountCallCount = defaultProps.fetchDirectDeposit.callCount;
+
+      wrapper.setProps({ shouldFetchDirectDeposit: true });
+      expect(defaultProps.fetchDirectDeposit.callCount).to.be.greaterThan(
+        mountCallCount,
+      );
+      wrapper.unmount();
+    });
+
+    it('should fetch scheduling preferences when togglesLoaded transitions to true', () => {
+      defaultProps.togglesLoaded = false;
+      defaultProps.shouldFetchSchedulingPreferences = true;
+      const wrapper = shallow(<Profile {...defaultProps} />);
+      const mountCallCount = fetchSchedulingPreferencesSpy.callCount;
+
+      wrapper.setProps({ togglesLoaded: true });
+      expect(fetchSchedulingPreferencesSpy.callCount).to.be.greaterThan(
+        mountCallCount,
+      );
+      wrapper.unmount();
+    });
+
+    it('should fetch scheduling preferences when shouldFetchSchedulingPreferences transitions to true', () => {
+      defaultProps.togglesLoaded = true;
+      defaultProps.shouldFetchSchedulingPreferences = false;
+      const wrapper = shallow(<Profile {...defaultProps} />);
+      const mountCallCount = fetchSchedulingPreferencesSpy.callCount;
+
+      wrapper.setProps({ shouldFetchSchedulingPreferences: true });
+      expect(fetchSchedulingPreferencesSpy.callCount).to.be.greaterThan(
+        mountCallCount,
+      );
+      wrapper.unmount();
+    });
+  });
+
+  describe('handleDowntimeApproaching', () => {
+    it('should render DowntimeApproaching when status is downtimeApproaching', () => {
+      defaultProps.isDowntimeWarningDismissed = false;
+      defaultProps.dismissDowntimeWarning = sinon.spy();
+      defaultProps.initializeDowntimeWarnings = sinon.spy();
+
+      const wrapper = shallow(<Profile {...defaultProps} />);
+      const instance = wrapper.instance();
+
+      const downtime = {
+        status: externalServiceStatus.downtimeApproaching,
+        startTime: new Date(),
+        endTime: new Date(),
+      };
+      const children = <div>Child content</div>;
+      const result = instance.handleDowntimeApproaching(downtime, children);
+
+      expect(result.type.name).to.equal('DowntimeApproaching');
+      expect(result.props.appTitle).to.equal('profile');
+      wrapper.unmount();
+    });
+
+    it('should return children when status is not downtimeApproaching', () => {
+      defaultProps.isDowntimeWarningDismissed = false;
+      defaultProps.dismissDowntimeWarning = sinon.spy();
+      defaultProps.initializeDowntimeWarnings = sinon.spy();
+
+      const wrapper = shallow(<Profile {...defaultProps} />);
+      const instance = wrapper.instance();
+
+      const downtime = {
+        status: externalServiceStatus.ok,
+      };
+      const children = <div>Child content</div>;
+      const result = instance.handleDowntimeApproaching(downtime, children);
+
+      expect(result).to.deep.equal(children);
+      wrapper.unmount();
+    });
+  });
 });
 
 describe('mapStateToProps', () => {
@@ -226,6 +390,7 @@ describe('mapStateToProps', () => {
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
       'isBlocked',
+      'isSchedulingPreferencesPilotEligible',
       'togglesLoaded',
       'profileToggles',
     ];

@@ -43,9 +43,40 @@ const SearchResult = ({
 
   const { contact, extension } = parsePhoneNumber(phone);
 
-  const addressExists = addressLine1 || city || stateCode || zipCode;
+  const hasStreetAddress = Boolean((addressLine1 || '').trim());
+  const hasCity = Boolean((city || '').trim());
+  const hasState = Boolean((stateCode || '').trim());
+  const hasZip = Boolean((zipCode || '').trim());
+  const hasValidPartialLocation = (hasCity && hasState) || hasZip;
 
-  // concatenating address for ReportModal
+  const isEstimatedAddress = !hasStreetAddress && hasValidPartialLocation;
+
+  const addressExists = hasStreetAddress || hasValidPartialLocation;
+
+  const cityStateText = hasCity && hasState ? `${city}, ${stateCode}` : '';
+  const hasDistance =
+    distance !== null && distance !== undefined && distance !== '';
+  let partialLocationText = zipCode;
+
+  if (cityStateText) {
+    partialLocationText = hasZip
+      ? `${cityStateText} ${zipCode}`
+      : cityStateText;
+  }
+
+  const fullLocationText = (
+    <>
+      {addressLine1}
+      {addressLine2 ? (
+        <>
+          <br /> {addressLine2}
+        </>
+      ) : null}
+      <br />
+      {partialLocationText}
+    </>
+  );
+
   const address =
     [
       (addressLine1 || '').trim(),
@@ -57,6 +88,25 @@ const SearchResult = ({
     (city ? ` ${city},` : '') +
     (stateCode ? ` ${stateCode}` : '') +
     (zipCode ? ` ${zipCode}` : '');
+
+  const destinationAddress = [
+    (addressLine1 || '').trim(),
+    (addressLine2 || '').trim(),
+    (addressLine3 || '').trim(),
+    [city, stateCode]
+      .filter(Boolean)
+      .join(', ')
+      .trim(),
+    (zipCode || '').trim(),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .trim();
+
+  // Reusable map href for both full + partial address cases
+  const mapHref = `https://maps.google.com?saddr=${
+    query?.context?.location
+  }&daddr=${encodeURIComponent(destinationAddress)}`;
 
   const onCloseReportModal = () => {
     setReportModalIsShowing(false);
@@ -102,6 +152,16 @@ const SearchResult = ({
     });
   };
 
+  const addressAnchorProps = {
+    href: mapHref,
+    tabIndex: 0,
+    className: 'address-anchor',
+    onClick: recordContactLinkClick,
+    target: '_blank',
+    rel: 'noreferrer',
+    'aria-label': `${destinationAddress} (opens in a new tab)`,
+  };
+
   useEffect(
     () => {
       if (reportSubmissionStatus === 'SUCCESS') {
@@ -143,76 +203,47 @@ const SearchResult = ({
           cancelRepresentativeReport={cancelRepresentativeReport}
         />
       )}
-      <va-card class="representative-result-card vads-u-padding--4">
+      <va-card
+        id={`representative-${representativeId}`}
+        class="representative-result-card vads-u-padding--4"
+      >
         <div className="representative-result-card-content">
           <div className="representative-info-heading">
-            {distance && (
-              <div
-                id={`representative-${representativeId}`}
-                className="vads-u-font-weight--bold vads-u-font-family--serif"
-              >
-                {parseFloat(JSON.parse(distance).toFixed(2))} Mi
-              </div>
-            )}
-            {officer && (
-              <>
-                <div
-                  className="vads-u-font-family--serif vads-u-margin-top--2p5"
-                  id={`result-${representativeId}`}
-                >
-                  <h3 aria-describedby={`representative-${representativeId}`}>
-                    {officer}
-                  </h3>
-                </div>
-                {associatedOrgs?.length === 1 && (
-                  <p style={{ marginTop: 0 }}>{associatedOrgs[0]}</p>
-                )}
-              </>
-            )}
+            <h3
+              className="vads-u-margin-top--0"
+              aria-describedby={`representative-${representativeId}`}
+            >
+              {officer && <span className="officer">{officer}</span>}
+              {hasDistance && (
+                <span className="distance vads-u-margin-top--1 vads-u-display--block vads-u-font-size--h4">
+                  {parseFloat(JSON.parse(distance).toFixed(2))} miles
+                  {isEstimatedAddress ? ' (estimated)' : ''}
+                </span>
+              )}
+            </h3>
           </div>
-          {associatedOrgs?.length > 1 && (
-            <div className="associated-organizations-info vads-u-margin-top--1p5">
+
+          <div className="associated-organizations-info vads-u-margin-top--1p5">
+            {associatedOrgs?.length === 1 && (
+              <span className="vads-u-font-size--md">{associatedOrgs[0]}</span>
+            )}
+            {associatedOrgs?.length > 1 && (
               <va-additional-info
                 trigger="See associated organizations"
                 disable-border
                 uswds
               >
-                {associatedOrgs?.map((org, index) => {
-                  return (
-                    <>
-                      <p>{org}</p>
-                      {index < associatedOrgs.length - 1 ? (
-                        <br style={{ lineHeight: '0.625rem' }} />
-                      ) : null}
-                    </>
-                  );
-                })}
+                {associatedOrgs?.map(org => <div key={org}>{org}</div>)}
               </va-additional-info>
-            </div>
-          )}
+            )}
+          </div>
 
           <div className="representative-contact-section vads-u-margin-top--3">
             {addressExists && (
               <div className="address-link">
-                <a
-                  href={`https://maps.google.com?saddr=${
-                    query?.context?.location
-                  }&daddr=${address}`}
-                  tabIndex="0"
-                  className="address-anchor"
-                  onClick={() => recordContactLinkClick()}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`${address} (opens in a new tab)`}
-                >
-                  {addressLine1}{' '}
-                  {addressLine2 ? (
-                    <>
-                      <br /> {addressLine2}
-                    </>
-                  ) : null}{' '}
-                  <br />
-                  {city}, {stateCode} {zipCode}
+                {isEstimatedAddress && <div>No street address provided</div>}
+                <a {...addressAnchorProps}>
+                  {isEstimatedAddress ? partialLocationText : fullLocationText}
                 </a>
               </div>
             )}
@@ -286,7 +317,7 @@ SearchResult.propTypes = {
   addressLine3: PropTypes.string,
   associatedOrgs: PropTypes.array,
   city: PropTypes.string,
-  distance: PropTypes.string,
+  distance: PropTypes.number,
   email: PropTypes.string,
   initializeRepresentativeReport: PropTypes.func,
   key: PropTypes.number,
@@ -309,15 +340,17 @@ SearchResult.propTypes = {
     other: PropTypes.string,
   }),
   representativeId: PropTypes.string,
-  searchResults: PropTypes.shape({
-    meta: PropTypes.shape({
-      pagination: PropTypes.shape({
-        totalEntries: PropTypes.number,
-        totalPages: PropTypes.number,
-        currentPage: PropTypes.number,
+  searchResults: PropTypes.arrayOf(
+    PropTypes.shape({
+      meta: PropTypes.shape({
+        pagination: PropTypes.shape({
+          totalEntries: PropTypes.number,
+          totalPages: PropTypes.number,
+          currentPage: PropTypes.number,
+        }),
       }),
     }),
-  }),
+  ),
   setReportModalTester: PropTypes.func,
   stateCode: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
