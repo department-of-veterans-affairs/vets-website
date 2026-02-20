@@ -10,7 +10,7 @@ import AddToCalendarButton from './AddToCalendarButton';
  * @param {import('../utils/appointments').Appointment} props.appointmentData - The appointment data
  * @param {string} props.textContent - The text content
  * @param {string} props.heading - The heading
- * @param {number} props.level - The level
+ * @param {number} props.level - The heading level. Defaults to 3.
  * @param {boolean} props.showAddToCalendarButton - Whether to show the add to calendar button if appointmentData is provided
  * @param {React.ReactNode} props.customBodyElement - The custom body element
  * @returns {JSX.Element}
@@ -19,7 +19,7 @@ export default function CardSection({
   appointmentData,
   textContent,
   heading,
-  level = 2,
+  level = 3,
   customBodyElement,
   showAddToCalendarButton,
   ...props
