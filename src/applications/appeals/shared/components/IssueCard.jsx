@@ -7,20 +7,16 @@ import { IssueCardContent } from './IssueCardContent';
 import BasicLink from './web-component-wrappers/BasicLink';
 
 /**
- * If the issue has activeReview: true and a titleOfActiveReview as 'Supplemental Claim',
+ * If the issue has a titleOfActiveReview as 'Supplemental Claim',
  * the issue is under active review for SC (we will eventually support all 3 DR apps).
  * @param {ContestableIssueItem|AdditionalIssueItem} item
  */
 export const determineActiveReview = (appName, item) => {
-  const { activeReview, titleOfActiveReview } = item;
+  const { titleOfActiveReview } = item;
 
-  return (
-    activeReview &&
-    appName === 'Supplemental Claim' &&
-    titleOfActiveReview === 'Supplemental Claim'
-  );
+  return appName === 'Supplemental Claim' && titleOfActiveReview === appName;
   // Use the below line instead to support all 3 DR apps instead of just SC.
-  // return activeReview && appName === ACTIVE_REVIEW_TITLES[titleOfActiveReview];
+  // return appName === ACTIVE_REVIEW_TITLES[titleOfActiveReview];
 };
 
 /**

@@ -164,7 +164,6 @@ describe('IssueCard', () => {
       const props = getProps({ appName: 'Supplemental Claim' });
       const issue = {
         ...getContestableIssue('10'),
-        activeReview: true,
         titleOfActiveReview: 'Supplemental Claim',
       };
 
@@ -179,24 +178,10 @@ describe('IssueCard', () => {
       );
     });
 
-    it('should not show active review alert when activeReview is false', () => {
-      const props = getProps();
-      const issue = {
-        ...getContestableIssue('10'),
-        activeReview: false,
-        titleOfActiveReview: 'Supplemental Claim',
-      };
-
-      const { container } = render(<IssueCard {...props} item={issue} />);
-
-      expect($$('va-alert', container).length).to.equal(0);
-    });
-
     it('should not show active review alert when titleOfActiveReview does not match', () => {
       const props = getProps({ appName: 'Supplemental Claim' });
       const issue = {
         ...getContestableIssue('10'),
-        activeReview: true,
         titleOfActiveReview: 'Higher-Level Review',
       };
       const { container } = render(<IssueCard {...props} item={issue} />);
@@ -208,7 +193,6 @@ describe('IssueCard', () => {
       const props = getProps();
       const issue = {
         ...getContestableIssue('10'),
-        activeReview: true,
         titleOfActiveReview: null,
       };
 
@@ -324,27 +308,16 @@ describe('IssueCard', () => {
   });
 
   describe('determineActiveReview helper', () => {
-    it('should return true when appName and titleOfActiveReview match and activeReview is true', () => {
+    it('should return true when appName and titleOfActiveReview match', () => {
       const item = {
-        activeReview: true,
         titleOfActiveReview: 'Supplemental Claim',
       };
 
       expect(determineActiveReview('Supplemental Claim', item)).to.be.true;
     });
 
-    it('should return false when activeReview is false', () => {
-      const item = {
-        activeReview: false,
-        titleOfActiveReview: 'Supplemental Claim',
-      };
-
-      expect(determineActiveReview('Supplemental Claim', item)).to.be.false;
-    });
-
     it('should return false when titleOfActiveReview does not match', () => {
       const item = {
-        activeReview: true,
         titleOfActiveReview: 'Higher-Level Review',
       };
 
@@ -353,7 +326,6 @@ describe('IssueCard', () => {
 
     it('should return false when appName does not match', () => {
       const item = {
-        activeReview: true,
         titleOfActiveReview: 'Supplemental Claim',
       };
 
@@ -362,7 +334,6 @@ describe('IssueCard', () => {
 
     it('should return false when titleOfActiveReview is null', () => {
       const item = {
-        activeReview: true,
         titleOfActiveReview: null,
       };
 
