@@ -167,4 +167,22 @@ describe('focusByOrder', () => {
     expect(document.activeElement).to.eq(h3);
     expect(h3.tabIndex).to.eq(-1);
   });
+
+  it('should focus on element inside shadow root using >>shadow>> delimiter', async () => {
+    const { container } = render(<div id="test-container" />);
+
+    const webComponent = document.createElement('va-test-component');
+    const shadowRoot = webComponent.attachShadow({ mode: 'open' });
+    const h2 = document.createElement('h2');
+    shadowRoot.appendChild(h2);
+    container.appendChild(webComponent);
+
+    focusByOrder('va-test-component>>shadow>>h2', container);
+
+    await waitFor(() => {
+      const shadowH2 = webComponent.shadowRoot.querySelector('h2');
+      expect(document.activeElement).to.eq(webComponent);
+      expect(shadowRoot.activeElement).to.eq(shadowH2);
+    });
+  });
 });
