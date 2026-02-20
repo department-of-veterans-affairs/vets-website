@@ -86,10 +86,12 @@ describe('datadogRumTracking', () => {
         .stub(Storage.prototype, 'getItem')
         .throws(new Error('SecurityError'));
 
-      expect(() => trackBackButtonClick()).to.not.throw();
-
-      setItemStub.restore();
-      getItemStub.restore();
+      try {
+        expect(() => trackBackButtonClick()).to.not.throw();
+      } finally {
+        setItemStub.restore();
+        getItemStub.restore();
+      }
     });
   });
 
