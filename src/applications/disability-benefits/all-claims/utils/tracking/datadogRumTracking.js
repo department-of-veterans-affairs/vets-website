@@ -33,11 +33,12 @@ const trackAction = (actionName, properties) => {
 const incrementClickCounter = storageKey => {
   let count = 1;
   try {
-    const currentCount = parseInt(
+    const parsedCount = parseInt(
       sessionStorage.getItem(storageKey) || '0',
       10,
     );
-    count = currentCount + 1;
+    const safeCurrentCount = Number.isFinite(parsedCount) ? parsedCount : 0;
+    count = safeCurrentCount + 1;
     sessionStorage.setItem(storageKey, count.toString());
   } catch (error) {
     // Storage access blocked - continue with default count
