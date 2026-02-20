@@ -92,22 +92,26 @@ const RefillPrescriptions = () => {
   // Ref to snapshot the selected prescriptions at refill time
   const submittedMedications = useRef(null);
 
+  // Exclude refillableData from deps to preserve the ref snapshot
+  // during RTK Query cache invalidation after refill.
   const successfulMeds = useMemo(
     () =>
       getMedicationsByIds(
         result?.data?.successfulIds,
         submittedMedications.current || refillableData?.prescriptions,
       ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [getMedicationsByIds, result?.data?.successfulIds, result?.data],
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // Same as above — exclude refillableData to preserve ref snapshot.
   const failedMeds = useMemo(
     () =>
       getMedicationsByIds(
         result?.data?.failedIds,
         submittedMedications.current || refillableData?.prescriptions,
       ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [getMedicationsByIds, result?.data?.failedIds, result?.data],
   );
 
