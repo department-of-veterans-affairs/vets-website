@@ -8,7 +8,6 @@ import {
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DefaultFolders as Folders,
-  Alerts,
   Paths,
   threadSortingOptions,
   THREADS_PER_PAGE_DEFAULT,
@@ -264,19 +263,6 @@ const FolderThreadListView = () => {
                   Showing 0 of 0 conversations
                 </div>
               )}
-
-            <div className="vads-u-margin-y--3">
-              <va-alert
-                background-only="true"
-                status="info"
-                className="vads-u-margin-bottom--1 va-alert"
-                data-testid="alert-no-messages"
-              >
-                <p className="vads-u-margin-y--0">
-                  {Alerts.Message.NO_MESSAGES}
-                </p>
-              </va-alert>
-            </div>
           </>
         );
       }
@@ -347,6 +333,12 @@ const FolderThreadListView = () => {
               folder={folder}
               threadCount={threadList?.length}
               searchProps={{ searchResults, awaitingResults, keyword, query }}
+              showNoMessages={
+                !isLoading &&
+                !awaitingResults &&
+                threadList?.length === 0 &&
+                threadSort?.page === 1
+              }
             />
 
             {content}

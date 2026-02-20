@@ -211,9 +211,9 @@ export class DateTimeSelectionPageObject extends PageObject {
    * @returns {DateTimeSelectionPageObject}
    */
   assertTimezoneText(timezone) {
-    cy.findByTestId('content')
-      .should('exist')
-      .and('contain.text', timezone);
+    this.assertElement('content', {
+      containsText: timezone,
+    });
     return this;
   }
 

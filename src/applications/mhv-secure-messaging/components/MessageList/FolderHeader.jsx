@@ -16,6 +16,7 @@ import {
   DefaultFolders as Folders,
   ParentComponent,
   downtimeNotificationParams,
+  Alerts,
 } from '../../util/constants';
 import { handleHeader, getPageTitle } from '../../util/helpers';
 import { submitLaunchMyVaHealthAal } from '../../api/SmApi';
@@ -28,7 +29,7 @@ import useFeatureToggles from '../../hooks/useFeatureToggles';
 import OracleHealthMessagingIssuesAlert from '../shared/OracleHealthMessagingIssuesAlert';
 
 const FolderHeader = props => {
-  const { folder, searchProps, threadCount } = props;
+  const { folder, searchProps, threadCount, showNoMessages } = props;
   const location = useLocation();
   const showInnerNav =
     folder.folderId === Folders.INBOX.id || folder.folderId === Folders.SENT.id;
@@ -56,7 +57,7 @@ const FolderHeader = props => {
         case Folders.DELETED.id: // Trash
           return Folders.DELETED.desc;
         default:
-          return Folders.CUSTOM_FOLDER.desc; // Custom Folder Sub-header;
+          return null; // Custom folders don't need description in header
       }
     },
     [folder],
@@ -174,6 +175,21 @@ const FolderHeader = props => {
           )}
 
         <>{handleFolderDescription()}</>
+        {threadCount === 0 &&
+          showNoMessages && (
+            <div className="vads-u-margin-y--3">
+              <va-alert
+                background-only="true"
+                status="info"
+                className="vads-u-margin-bottom--1 va-alert"
+                data-testid="alert-no-messages"
+              >
+                <p className="vads-u-margin-y--0">
+                  {Alerts.Message.NO_MESSAGES}
+                </p>
+              </va-alert>
+            </div>
+          )}
         {recipientsError && <RecipientListErrorAlert />}
         {showInnerNav &&
           (!noAssociations && !allTriageGroupsBlocked && !recipientsError) && (
@@ -200,6 +216,7 @@ const FolderHeader = props => {
 FolderHeader.propTypes = {
   folder: PropTypes.object,
   searchProps: PropTypes.object,
+  showNoMessages: PropTypes.bool,
   threadCount: PropTypes.number,
 };
 

@@ -7,6 +7,7 @@ import {
   redirectLegacyToEnhancement,
   redirectEnhancementToLegacy,
   hasEvidenceChoice,
+  normalizeReturnUrlForResume,
 } from '../../utils';
 
 describe('utils', () => {
@@ -162,6 +163,42 @@ describe('utils', () => {
 
     it('returns false when no selection or uploads exist', () => {
       expect(hasEvidenceChoice({})).to.be.false;
+    });
+  });
+
+  describe('normalizeReturnUrlForResume', () => {
+    it('rewrites traumatic event item pages to events-summary', () => {
+      expect(
+        normalizeReturnUrlForResume('/mental-health-form-0781/0/event-details'),
+      ).to.equal('/mental-health-form-0781/events-summary');
+      expect(
+        normalizeReturnUrlForResume('/mental-health-form-0781/1/event-report'),
+      ).to.equal('/mental-health-form-0781/events-summary');
+    });
+
+    it('rewrites conditions item pages to conditions/summary', () => {
+      expect(normalizeReturnUrlForResume('/conditions/0/condition')).to.equal(
+        '/conditions/summary',
+      );
+      expect(
+        normalizeReturnUrlForResume('/conditions/1/new-condition-date'),
+      ).to.equal('/conditions/summary');
+      expect(normalizeReturnUrlForResume('/conditions/1/cause-new')).to.equal(
+        '/conditions/summary',
+      );
+      expect(
+        normalizeReturnUrlForResume('/conditions/1/cause-secondary'),
+      ).to.equal('/conditions/summary');
+    });
+
+    it('returns unchanged URL for non-item pages', () => {
+      const url = '/mental-health-form-0781/events-summary';
+      expect(normalizeReturnUrlForResume(url)).to.equal(url);
+    });
+
+    it('returns unchanged for undefined or empty', () => {
+      expect(normalizeReturnUrlForResume(undefined)).to.be.undefined;
+      expect(normalizeReturnUrlForResume('')).to.equal('');
     });
   });
 });
