@@ -197,7 +197,7 @@ export const EvidenceRequestPage = ({
         {getPrivateEvidenceUploads.length > 0 && (
           <>
             {privateEvidenceContent}
-            {renderFileList(getPrivateEvidenceUploads(data), 'fileName')}
+            {renderFileList(getPrivateEvidenceUploads(data))}
           </>
         )}
       </VaModal>
