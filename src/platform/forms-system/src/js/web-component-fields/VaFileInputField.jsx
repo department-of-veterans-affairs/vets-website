@@ -159,6 +159,8 @@ const VaFileInputField = props => {
   };
 
   const handleVaChange = async e => {
+    // reset in case user is replacing one encrypted file with another
+    setPasswordSubmissionSuccess(null);
     const fileFromEvent = e.detail.files[0];
 
     if (!fileFromEvent) {

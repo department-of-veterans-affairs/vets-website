@@ -298,8 +298,14 @@ const VaFileInputMultipleField = props => {
         break;
       }
       case 'PASSWORD_UPDATE': {
+        // reset in case user is replacing one encrypted file with another
+        const _passwordSubmissionSuccessArray = [
+          ...passwordSubmissionSuccessArray,
+        ];
+        _passwordSubmissionSuccessArray[index] = null;
+        setPasswordSubmissionSuccessArray(_passwordSubmissionSuccessArray);
         setCurrentIndex(index);
-        const { file: passwordFile } = state[index];
+        const { file: passwordFile, password } = state[index];
         errorManager.resetInstance(index);
         if (uiOptions.skipUpload) {
           const formData = [
@@ -314,7 +320,7 @@ const VaFileInputMultipleField = props => {
             );
           }, 500);
         } else {
-          handleUpload(passwordFile, handleFileProcessing, null, index);
+          handleUpload(passwordFile, handleFileProcessing, password, index);
         }
         break;
       }
