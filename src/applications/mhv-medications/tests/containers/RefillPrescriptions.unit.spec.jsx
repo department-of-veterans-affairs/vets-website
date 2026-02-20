@@ -1241,7 +1241,7 @@ describe('Refill Prescriptions Component', () => {
         });
       });
 
-      it('hides generic no-refills message when prescriptions are blocked', async () => {
+      it('shows generic no-refills message along with T-3 alert when prescriptions are blocked', async () => {
         sandbox.restore();
         const prescriptionInTransition = {
           ...refillablePrescriptions[0],
@@ -1263,8 +1263,11 @@ describe('Refill Prescriptions Component', () => {
         const screen = setup(state);
 
         await waitFor(() => {
+          // Both T-3 alert and no-refills message should display
+          expect(screen.queryByTestId('oracle-health-t3-alert-no-refillable'))
+            .to.exist;
           const noRefillsMessage = screen.queryByTestId('no-refills-message');
-          expect(noRefillsMessage).to.not.exist;
+          expect(noRefillsMessage).to.exist;
         });
       });
     });
@@ -1341,7 +1344,7 @@ describe('Refill Prescriptions Component', () => {
           });
         });
 
-        it('does not show T-45 alert when there are blocked prescriptions', async () => {
+        it('shows T-3 alert but not T-45 alert when there are blocked prescriptions in error phase', async () => {
           sandbox.restore();
           const prescriptionInTransition = {
             ...refillablePrescriptions[0],
@@ -1355,18 +1358,50 @@ describe('Refill Prescriptions Component', () => {
 
           const state = createMigrationState({
             featureFlagEnabled: true,
-            migrationData: mockMichiganMigration, // Use error phase for blocking
+            migrationData: mockMichiganMigration, // Uses p4 error phase
             facilities: michiganFacility515,
             includeMigrationSchedules: true,
           });
           const screen = setup(state);
 
           await waitFor(() => {
-            // Should show T-3 alert instead of T-45
+            // Should show T-3 alert with prescription details
             expect(screen.queryByTestId('oracle-health-t3-alert-no-refillable'))
               .to.exist;
+            // CernerFacilityAlert won't show anything in p4 (past warnings, errorPhases is null)
             expect(screen.queryByTestId('cerner-facilities-transition-alert'))
               .to.not.exist;
+          });
+        });
+
+        it('shows both T-45 warning alert and renders correctly in warning phase', async () => {
+          sandbox.restore();
+          const prescriptionNotInTransition = {
+            ...refillablePrescriptions[0],
+            facilityId: '442',
+            stationNumber: '442',
+          };
+          initMockApis({
+            sinonSandbox: sandbox,
+            prescriptions: [prescriptionNotInTransition],
+          });
+
+          const state = createMigrationState({
+            featureFlagEnabled: true,
+            migrationData: mockMichiganMigrationT45, // Uses p2 warning phase
+            facilities: michiganFacility515,
+            includeMigrationSchedules: true,
+          });
+          const screen = setup(state);
+
+          await waitFor(() => {
+            // Should show T-45 warning alert (in warning phase, no blocked prescriptions)
+            expect(screen.queryByTestId('cerner-facilities-transition-alert'))
+              .to.exist;
+            // Should not show T-3 alert (no blocked prescriptions)
+            expect(
+              screen.queryByTestId('oracle-health-t3-alert-with-refillable'),
+            ).to.not.exist;
           });
         });
       });

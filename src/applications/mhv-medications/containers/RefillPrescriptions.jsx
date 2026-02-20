@@ -402,16 +402,15 @@ const RefillPrescriptions = () => {
             />
             {fullRefillList?.length > 0 ? (
               <div>
-                {blockedPrescriptions?.length > 0 ? (
+                {blockedPrescriptions?.length > 0 && (
                   <OracleHealthT3Alert
                     blockedPrescriptions={blockedPrescriptions}
                     hasRefillable={fullRefillList?.length > 0}
                     migratingFacilities={migratingFacilities}
                   />
-                ) : (
-                  isOracleHealthCutoverEnabled && (
-                    <CernerFacilityAlert healthTool="MEDICATIONS" />
-                  )
+                )}
+                {isOracleHealthCutoverEnabled && (
+                  <CernerFacilityAlert healthTool="MEDICATIONS_REFILL" />
                 )}
                 <h2
                   className="vads-u-margin-top--3"
@@ -503,26 +502,22 @@ const RefillPrescriptions = () => {
               </div>
             ) : (
               <>
-                {blockedPrescriptions?.length > 0 ? (
+                {blockedPrescriptions?.length > 0 && (
                   <OracleHealthT3Alert
                     blockedPrescriptions={blockedPrescriptions}
                     hasRefillable={false}
                     migratingFacilities={migratingFacilities}
                   />
-                ) : (
-                  <>
-                    <p data-testid="no-refills-message">
-                      You don’t have any VA prescriptions with refills
-                      available. If you need a prescription, contact your care
-                      team.
-                    </p>
-                    {isOracleHealthCutoverEnabled && (
-                      <CernerFacilityAlert
-                        healthTool="MEDICATIONS"
-                        className="vads-u-margin-top--2"
-                      />
-                    )}
-                  </>
+                )}
+                <p data-testid="no-refills-message">
+                  You don’t  have any VA prescriptions with refills available. If
+                  you need a prescription, contact your care team.
+                </p>
+                {isOracleHealthCutoverEnabled && (
+                  <CernerFacilityAlert
+                    healthTool="MEDICATIONS_REFILL"
+                    className="vads-u-margin-top--2"
+                  />
                 )}
               </>
             )}
