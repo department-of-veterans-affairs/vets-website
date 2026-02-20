@@ -15,7 +15,7 @@ const DEFAULT_TIMEOUT = TRACKED_SPINNER_DURATION;
  * A wrapper around the `<va-loading-indicator>` that automatically measures how long the spinner
  * remains mounted and reports that duration to Datadog RUM.
  *
- * If the spinner remains mounted for longer than `timeout` milliseconds (default: 120s),
+ * If the spinner remains mounted for longer than `timeout` milliseconds (default: 180s),
  * it replaces itself with an error alert, acting as a safety net against infinite loading
  * caused by any upstream failure (feature toggles, profile fetch, Drupal data, etc.).
  */

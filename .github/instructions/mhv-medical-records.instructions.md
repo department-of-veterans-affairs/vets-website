@@ -135,6 +135,7 @@ Update this file when you:
 - **VALID_REFRESH_DURATION**: `3600000` (1 hour in milliseconds)
 - **STATUS_POLL_INTERVAL**: `2000` (2 seconds)
 - **INITIAL_FHIR_LOAD_DURATION**: `120000` (2 minutes)
+- **TRACKED_SPINNER_DURATION**: `180000` (3 minutes) — default timeout for `TrackedSpinner` before showing an error alert
 - **refreshPhases**: Refresh status phases
   - `STALE`, `IN_PROGRESS`, `CURRENT`, `FAILED`, `CALL_FAILED`
 - **loadStates**: Data loading states
@@ -358,7 +359,8 @@ Used in CCD download sections to distinguish records before vs after VistA-to-OH
   - `RadiologyImagesList`, `RadiologySingleImage`: Radiology images
 
 ### Shared Components (`components/shared/`)
-- **TrackedSpinner**: Loading spinner with Datadog tracking
+- **TrackedSpinner**: Loading spinner with Datadog tracking and optional timeout safety net
+- **TimeoutAlertBox**: Reusable error alert for loading timeout (follows `AccessTroubleAlertBox` pattern)
 - **PrintDownload**: Print and download action buttons
 - **PrintHeader**: Header content for printed pages
 - **PhrRefresh**: PHR refresh status indicator
@@ -580,7 +582,7 @@ Used in CCD download sections to distinguish records before vs after VistA-to-OH
 
 ### RUM Constants (`util/rumConstants.js`)
 - `INITIAL_FHIR_LOAD_DURATION`: Metric for initial FHIR polling duration
-- `SPINNER_DURATION`: Metric for spinner display duration
+- `SPINNER_DURATION`: Metric for spinner display duration (includes `id`, `duration` in seconds, and `reason`: `unmount` | `unload` | `timeout`)
 - `RADIOLOGY_DETAILS_MY_VA_HEALTH_LINK`: Action name for My VA Health links
 
 ### StatsD Frontend Actions (`statsdFrontEndActions`)
