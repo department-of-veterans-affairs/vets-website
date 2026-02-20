@@ -37,8 +37,10 @@ describe('Get care summaries and notes list action', () => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
       );
-      // If you have a CLEAR_INITIAL_FHIR_LOAD action, check it here
       expect(dispatch.thirdCall.args[0].type).to.equal(
+        Actions.CareSummariesAndNotes.SET_WARNINGS,
+      );
+      expect(dispatch.getCall(3).args[0].type).to.equal(
         Actions.CareSummariesAndNotes.GET_UNIFIED_LIST,
       );
     });
@@ -50,6 +52,59 @@ describe('Get care summaries and notes list action', () => {
     const dispatch = sinon.spy();
     await getCareSummariesAndNotesList()(dispatch);
     expect(typeof dispatch.secondCall.args[0]).to.equal('function');
+  });
+
+  it('should dispatch SET_WARNINGS with empty array when accelerated response has no warnings', () => {
+    const mockData = notes;
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    return getCareSummariesAndNotesList(false, true)(dispatch).then(() => {
+      const setWarningsCall = dispatch
+        .getCalls()
+        .find(
+          call =>
+            call.args[0].type === Actions.CareSummariesAndNotes.SET_WARNINGS,
+        );
+      expect(setWarningsCall).to.exist;
+      expect(setWarningsCall.args[0].payload).to.deep.equal([]);
+    });
+  });
+
+  it('should not dispatch SET_WARNINGS for non-accelerating path', () => {
+    const mockData = notes;
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    return getCareSummariesAndNotesList()(dispatch).then(() => {
+      const setWarningsCall = dispatch
+        .getCalls()
+        .find(
+          call =>
+            call.args[0].type === Actions.CareSummariesAndNotes.SET_WARNINGS,
+        );
+      expect(setWarningsCall).to.not.exist;
+    });
+  });
+
+  it('should dispatch SET_WARNINGS with warnings from accelerated response', () => {
+    const mockWarnings = [
+      { source: 'oracle-health', message: 'Binary resource not found' },
+    ];
+    const mockData = {
+      data: [],
+      meta: { warnings: mockWarnings },
+    };
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    return getCareSummariesAndNotesList(false, true)(dispatch).then(() => {
+      const setWarningsCall = dispatch
+        .getCalls()
+        .find(
+          call =>
+            call.args[0].type === Actions.CareSummariesAndNotes.SET_WARNINGS,
+        );
+      expect(setWarningsCall).to.exist;
+      expect(setWarningsCall.args[0].payload).to.deep.equal(mockWarnings);
+    });
   });
 });
 
@@ -74,6 +129,109 @@ describe('Get care summaries and notes details action', () => {
         expect(dispatch.firstCall.args[0].type).to.equal(
           Actions.CareSummariesAndNotes.GET_FROM_LIST,
         );
+      },
+    );
+  });
+
+  it('should dispatch GET_FROM_LIST for accelerating vista notes', () => {
+    const dispatch = sinon.spy();
+    const noteList = [{ id: '1', source: 'vista' }];
+    return getCareSummaryAndNotesDetails('1', noteList, true)(dispatch).then(
+      () => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.CareSummariesAndNotes.GET_FROM_LIST,
+        );
+        expect(dispatch.firstCall.args[0].response).to.deep.equal({
+          id: '1',
+          source: 'vista',
+        });
+      },
+    );
+  });
+
+  it('should dispatch exactly once for accelerating vista notes without making an API call', () => {
+    const dispatch = sinon.spy();
+    const noteList = [{ id: '1', source: 'vista' }];
+    return getCareSummaryAndNotesDetails('1', noteList, true)(dispatch).then(
+      () => {
+        expect(dispatch.calledOnce).to.be.true;
+      },
+    );
+  });
+
+  it('should dispatch GET_FROM_LIST for accelerating notes with no explicit source', () => {
+    const dispatch = sinon.spy();
+    const noteList = [{ id: '1' }];
+    return getCareSummaryAndNotesDetails('1', noteList, true)(dispatch).then(
+      () => {
+        expect(dispatch.calledOnce).to.be.true;
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.CareSummariesAndNotes.GET_FROM_LIST,
+        );
+      },
+    );
+  });
+
+  it('should call the API and dispatch GET_UNIFIED_ITEM_FROM_LIST for accelerating oracle-health notes', () => {
+    const mockData = {
+      data: { id: '2', type: 'clinical_note', source: 'oracle-health' },
+    };
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    const noteList = [{ id: '2', source: 'oracle-health' }];
+    return getCareSummaryAndNotesDetails('2', noteList, true)(dispatch).then(
+      () => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM_FROM_LIST,
+        );
+        // Verify the response has the { data: {...} } shape the reducer expects
+        expect(dispatch.firstCall.args[0].response).to.have.property('data');
+        expect(dispatch.firstCall.args[0].response.data.id).to.equal('2');
+      },
+    );
+  });
+
+  it('should pass the API response for oracle-health notes in JSON:API shape', () => {
+    const mockData = {
+      data: {
+        id: '2',
+        type: 'clinical_note',
+        attributes: {
+          source: 'oracle-health',
+          title: 'Oracle Note',
+        },
+      },
+    };
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    const noteList = [{ id: '2', source: 'oracle-health' }];
+    return getCareSummaryAndNotesDetails('2', noteList, true)(dispatch).then(
+      () => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM_FROM_LIST,
+        );
+        expect(dispatch.firstCall.args[0].response).to.deep.equal(mockData);
+        // Ensure the shape matches what the reducer accesses: action.response.data
+        expect(dispatch.firstCall.args[0].response.data.id).to.equal('2');
+      },
+    );
+  });
+
+  it('should dispatch an alert when oracle-health API call fails', async () => {
+    mockApiRequest({}, false);
+    const dispatch = sinon.spy();
+    const noteList = [{ id: '2', source: 'oracle-health' }];
+    await getCareSummaryAndNotesDetails('2', noteList, true)(dispatch);
+    // The first dispatched action should be the addAlert thunk
+    expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+  });
+
+  it('should not dispatch any action when note ID is not found in list and isAccelerating is true', () => {
+    const dispatch = sinon.spy();
+    const noteList = [{ id: '1', source: 'vista' }];
+    return getCareSummaryAndNotesDetails('999', noteList, true)(dispatch).then(
+      () => {
+        expect(dispatch.called).to.be.false;
       },
     );
   });

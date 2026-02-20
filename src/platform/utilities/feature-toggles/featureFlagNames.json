@@ -1,4 +1,5 @@
 {
+  "accreditedRepresentativePortalClaimantDetails": "accredited_representative_portal_claimant_details",
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
   "accreditedRepresentativePortalForm21a": "accredited_representative_portal_form_21a",
   "aedpVADX": "aedp_vadx",
@@ -181,6 +182,7 @@
   "mhvLandingPagePersonalization": "mhv_landing_page_personalization",
   "mhvMedicalRecordsCcdExtendedFileTypes": "mhv_medical_records_ccd_extended_file_types",
   "mhvMedicalRecordsCcdOH": "mhv_medical_records_ccd_oh",
+  "mhvMedicalRecordsFetchScdfImagingStudies": "mhv_medical_records_fetch_scdf_imaging_studies",
   "mhvMedicalRecordsFilterAndSort": "mhv_medical_records_filter_and_sort",
   "mhvMedicalRecordsHoldTimeMessagingUpdate": "mhv_medical_records_hold_time_messaging_update",
   "mhvMedicalRecordsImagesDomain": "mhv_medical_records_images_domain",

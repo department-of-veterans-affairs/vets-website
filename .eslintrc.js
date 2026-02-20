@@ -40,6 +40,21 @@ module.exports = {
   },
   rules: {
     /* || Eslint main rules || */
+    'no-restricted-syntax': [
+      'error',
+      {
+        selector:
+          'CallExpression[callee.object.name="require"][callee.property.name="ensure"]',
+        message:
+          'require.ensure is deprecated. Use dynamic import() instead. See https://webpack.js.org/guides/code-splitting/#dynamic-imports',
+      },
+      {
+        selector:
+          'CallExpression[callee.object.type="ImportExpression"][callee.property.name="then"] > :matches(ArrowFunctionExpression, FunctionExpression) > ObjectPattern.params',
+        message:
+          'Do not destructure the parameter in import().then(). Use `module =>` and access `module.default` instead. Example: import("./foo").then(module => { const { Bar } = module.default; })',
+      },
+    ],
     camelcase: [2, { properties: 'always' }], // Override airbnb style.
     'react/jsx-wrap-multilines': 'off', // Conflicts with Prettier
     '@department-of-veterans-affairs/no-cross-app-imports': [
