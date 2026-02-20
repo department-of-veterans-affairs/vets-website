@@ -26,7 +26,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
 
   it('renders expected content for diary code: 100, 102, 130, 140', () => {
     cy.get('[data-testid^="summary-card-"]').contains(
-      'Pay your past due balance of $120.40 or request help by November 17, 2012 to avoid fees and any collection actions.',
+      'Pay your balance of $120.40 or request help by November 17, 2012 to avoid any collection actions.',
     );
     cy.injectAxeThenAxeCheck();
   });
