@@ -2,6 +2,7 @@ import React from 'react';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import get from 'platform/utilities/data/get';
+import environment from 'platform/utilities/environment';
 import Footer from '../components/Footer';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
@@ -9,6 +10,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../containers/GetFormHelp';
 import prefillTransformer from './prefill-transformer';
+import transformForSubmit from './transformForSubmit';
 
 import veteranName from '../pages/veteranName';
 import veteranInfo1 from '../pages/veteranInfo1';
@@ -53,10 +55,9 @@ import { servicePeriodsPages } from '../pages/servicePeriodsPages';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'memorials-1330m',
+  transformForSubmit,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   dev: {
