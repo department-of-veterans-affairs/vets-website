@@ -264,7 +264,9 @@ const formConfig = {
           title: 'Review your last military service',
           uiSchema: reviewServiceInformation.uiSchema,
           schema: reviewServiceInformation.schema,
-          depends: formData => formData['view:ezrServiceHistoryEnabled'],
+          depends: formData =>
+            formData['view:ezrServiceHistoryEnabled'] &&
+            formData['view:hasPrefillServiceHistory'],
         },
         serviceInformation: {
           path: 'military-service/service-period',

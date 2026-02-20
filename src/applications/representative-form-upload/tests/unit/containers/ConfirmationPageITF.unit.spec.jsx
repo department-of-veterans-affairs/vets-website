@@ -30,8 +30,10 @@ const storeBase = {
       timestamp: Date.now(),
     },
     data: {
-      veteranFullName,
-      address,
+      veteranSubPage: {
+        veteranFullName,
+        address,
+      },
       benefitType: 'compensation',
     },
   },
