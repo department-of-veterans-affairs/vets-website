@@ -271,6 +271,7 @@ const SearchResult = ({
                 <a
                   href={`mailto:${email}`}
                   onClick={() => recordContactLinkClick()}
+                  style={{ overflowWrap: 'anywhere' }}
                 >
                   {email}
                 </a>
