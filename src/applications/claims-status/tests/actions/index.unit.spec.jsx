@@ -254,6 +254,44 @@ describe('Actions', () => {
         .then(() => apiStub.restore())
         .then(done, done);
     });
+    it('includes provider in API URL when provider is specified', done => {
+      const apiStub = sinon.stub(api, 'apiRequest');
+
+      apiStub.returns(Promise.resolve({ data: [] }));
+      const thunk = getClaim(1, null, 'lighthouse');
+      const dispatch = sinon.spy();
+
+      thunk(dispatch)
+        .then(() => {
+          expect(apiStub.firstCall.args[0]).to.equal(
+            '/benefits_claims/1?type=lighthouse',
+          );
+          expect(dispatch.secondCall.args[0]).to.eql({
+            type: SET_CLAIM_DETAIL,
+            claim: [],
+          });
+        })
+        .then(() => apiStub.restore())
+        .then(done, done);
+    });
+    it('does not include provider in API URL when provider is null', done => {
+      const apiStub = sinon.stub(api, 'apiRequest');
+
+      apiStub.returns(Promise.resolve({ data: [] }));
+      const thunk = getClaim(1, null, null);
+      const dispatch = sinon.spy();
+
+      thunk(dispatch)
+        .then(() => {
+          expect(apiStub.firstCall.args[0]).to.equal('/benefits_claims/1');
+          expect(dispatch.secondCall.args[0]).to.eql({
+            type: SET_CLAIM_DETAIL,
+            claim: [],
+          });
+        })
+        .then(() => apiStub.restore())
+        .then(done, done);
+    });
   });
   describe('clearClaim', () => {
     it('should return the correct action object', () => {
