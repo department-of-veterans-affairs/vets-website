@@ -136,6 +136,7 @@ MigratingFacilitiesAlerts.propTypes = {
         p4: PropTypes.string,
         p5: PropTypes.string,
         p6: PropTypes.string,
+        p7: PropTypes.string,
       }),
     }),
   ).isRequired,
