@@ -10,7 +10,6 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 import {
-  selectFetchScdfImagingStudies,
   selectHoldTimeMessagingUpdate,
   selectImagesDomainFlag,
 } from '../util/selectors';
@@ -78,7 +77,6 @@ const LabsAndTests = () => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsMergeCvixIntoScdf
       ],
   );
-  const fetchScdfImagingStudies = useSelector(selectFetchScdfImagingStudies);
 
   // Filter out radiology records when the images domain flag is enabled
   const filterOutRadiology = useCallback(
@@ -129,12 +127,20 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  const { isLoading, isAcceleratingLabsAndTests } = useAcceleratedData();
+  const {
+    isLoading,
+    isAcceleratingLabsAndTests,
+    isAcceleratingImagingStudies,
+  } = useAcceleratedData();
 
   useEffect(
     /** Fetch accelerated imaging studies when accelerating labs */
     () => {
-      if (isAcceleratingLabsAndTests && fetchScdfImagingStudies && !isLoading) {
+      if (
+        isAcceleratingLabsAndTests &&
+        isAcceleratingImagingStudies &&
+        !isLoading
+      ) {
         dispatch(
           getAcceleratedImagingStudiesList({
             startDate: dateRange.fromDate,
@@ -146,7 +152,7 @@ const LabsAndTests = () => {
     [
       dispatch,
       isAcceleratingLabsAndTests,
-      fetchScdfImagingStudies,
+      isAcceleratingImagingStudies,
       isLoading,
       dateRange,
     ],
