@@ -510,7 +510,7 @@ const RefillPrescriptions = () => {
                   />
                 )}
                 <p data-testid="no-refills-message">
-                  You don’t  have any VA prescriptions with refills available. If
+                  You don't have any VA prescriptions with refills available. If
                   you need a prescription, contact your care team.
                 </p>
                 {isOracleHealthCutoverEnabled && (
