@@ -509,7 +509,9 @@ describe('EvidenceRequestPage', () => {
     expect(updatedData.patient4142Acknowledgement).to.be.false;
 
     expect(goForward.called).to.be.true;
-    expect(goForward.firstCall.args[0]).to.deep.equal(updatedData);
+    expect(goForward.firstCall.args[0]).to.deep.equal({
+      formData: updatedData,
+    });
   });
 
   it('should render update button on review page', () => {
