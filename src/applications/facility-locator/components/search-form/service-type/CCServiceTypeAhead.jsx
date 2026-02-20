@@ -125,7 +125,7 @@ class CCServiceTypeAhead extends Component {
     inputValue,
   ) => {
     return (
-      <div
+      <ul
         id="service-typeahead-listbox"
         className={`dropdown${
           this.props.useProgressiveDisclosure && this.props.isSmallDesktop
@@ -135,7 +135,7 @@ class CCServiceTypeAhead extends Component {
         role="listbox"
       >
         {this.matchingServices(inputValue).map((specialty, index) => (
-          <div
+          <li
             key={`${this.getSpecialtyName(specialty)}-${index}`}
             {...getItemProps({
               item: specialty,
@@ -145,9 +145,9 @@ class CCServiceTypeAhead extends Component {
             })}
           >
             {this.getSpecialtyName(specialty)}
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     );
   };
 
