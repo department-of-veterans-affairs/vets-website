@@ -271,10 +271,8 @@ export function makePlaceholderFile(file = {}) {
   });
 }
 
-export const DEBOUNCE_WAIT = 500;
-
 // generate file data when no backend
-function getMockFileData(file) {
+export function getMockFileData(file) {
   return {
     name: file.name,
     size: file.size,
