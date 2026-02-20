@@ -15,7 +15,7 @@ import {
   isMissingVeteranDob,
   isMissingVeteranGender,
   hasDifferentHomeAddress,
-  teraUploadEnabled,
+  shouldHaveDocumentUpload,
   includeTeraInformation,
   includeGulfWarServiceDates,
   includePostSept11ServiceDates,
@@ -368,7 +368,7 @@ const formConfig = {
         supportingDocuments: {
           path: 'military-service/upload-supporting-documents',
           title: 'Upload supporting documents',
-          depends: teraUploadEnabled,
+          depends: shouldHaveDocumentUpload,
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },

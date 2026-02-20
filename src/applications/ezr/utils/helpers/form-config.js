@@ -434,13 +434,24 @@ export const notShortFormEligible = formData => {
 };
 
 /**
- * Helper that determines if the user has available service history or wishes
- * to update it
+ * Helper that determines if the Veteran wants to update their service history
+ * when prefilled information is available, or needs to provide service history
+ * because none is on file.
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the user indicated they want to update their
  * service information (or lacks service history on file)
  */
 
+export const doesVeteranWantToUpdateServiceInfo = formData =>
+  formData['view:ezrServiceHistoryEnabled'] &&
+  (!formData.isServiceHistoryCorrect ||
+    !formData['view:hasPrefillServiceHistory']);
+
+/**
+ * Helper that determines if the user has available service history information on file
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user has ALL service history fields on file
+ */
 export const hasServiceHistoryInfo = formData =>
   !!(
     formData.lastServiceBranch &&
@@ -449,7 +460,11 @@ export const hasServiceHistoryInfo = formData =>
     formData.dischargeType
   );
 
-export const doesVeteranWantToUpdateServiceInfo = formData =>
-  formData['view:ezrServiceHistoryEnabled'] &&
-  (!formData.isServiceHistoryCorrect ||
-    !formData['view:hasPrefillServiceHistory']);
+export const shouldHaveDocumentUpload = formData => {
+  return (
+    teraUploadEnabled(formData) ||
+    (formData['view:ezrServiceHistoryEnabled'] &&
+      (!formData['view:hasPrefillServiceHistory'] ||
+        !formData.isServiceHistoryCorrect))
+  );
+};
