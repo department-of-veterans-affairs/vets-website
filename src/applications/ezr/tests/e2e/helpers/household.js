@@ -24,9 +24,14 @@ export const advanceToHouseholdSection = () => {
   selectYesNoWebComponent('view:hasNextOfKin', false);
 };
 
-export const advanceFromHouseholdToReview = ({ featureFlags = {} }) => {
+export const advanceFromHouseholdToReview = ({
+  featureFlags = {},
+  hasServiceHistoryInfo,
+}) => {
   handleOptionalServiceHistoryPage({
     historyEnabled: featureFlags.ezrServiceHistoryEnabled,
+    hasServiceHistoryInfo,
+    fillServiceHistory: true,
   });
 
   goToNextPage('/insurance-information/medicaid-eligibility');

@@ -9,24 +9,18 @@ import _ from 'platform/utilities/data';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from 'platform/utilities/scroll';
 import { checkValidations } from '../utils/submit';
+import { getAdditionalDocuments } from '../utils';
+import { renderFileList } from '../content/evidenceRequest';
 import {
-  getVaEvidence,
-  getPrivateFacilities,
-  getPrivateEvidenceUploads,
-} from '../utils';
-import {
-  evidenceRequestAdditionalInfo,
-  evidenceRequestQuestion,
-  privateEvidenceContent,
-  vaEvidenceContent,
-  privateFacilityContent,
-  alertMessage,
-  renderFacilityList,
-  renderFileList,
-  missingSelectionErrorMessageEvidenceRequestPage,
-} from '../content/evidenceRequest';
+  evidenceChoiceIntroDescriptionContent,
+  evidenceChoiceIntroQuestion,
+  evidenceChoiceIntroTitle,
+  additionalEvidenceModalContent,
+  missingSelectionErrorMessage,
+} from '../content/form0781/supportingEvidenceEnhancement/evidenceChoiceIntroPage';
+import { mentalHealthSupportAlert } from '../content/form0781';
 
-export const EvidenceRequestPage = ({
+export const AdditionalEvidenceIntroPage = ({
   data,
   setFormData,
   onReviewPage,
@@ -36,24 +30,19 @@ export const EvidenceRequestPage = ({
   goForward,
   updatePage,
 }) => {
-  const selectionField = 'view:hasMedicalRecords';
-  const hasMedicalRecords = _.get('view:hasMedicalRecords', data, null);
+  const selectionField = 'view:hasEvidenceChoice';
+  const hasEvidenceChoice = _.get('view:hasEvidenceChoice', data, null);
   const [hasError, setHasError] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
-  const [alertType, setAlertType] = useState([]);
 
   const hasEvidenceToRemove = () => {
-    return (
-      getVaEvidence(data).length > 0 ||
-      getPrivateEvidenceUploads(data).length > 0 ||
-      getPrivateFacilities(data).length > 0
-    );
+    return getAdditionalDocuments(data).length > 0;
   };
   const missingSelection = (error, _fieldData, formData) => {
     const value = formData?.[selectionField];
     if (value !== true && value !== false) {
-      error.addError?.(missingSelectionErrorMessageEvidenceRequestPage);
+      error.addError?.(missingSelectionErrorMessage);
     }
   };
 
@@ -73,26 +62,7 @@ export const EvidenceRequestPage = ({
   const handlers = {
     onChangeAndRemove: () => {
       const updatedFormData = { ...data };
-      const selectableEvidenceTypes = {
-        ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
-      };
-
-      if (getVaEvidence(data).length > 0) {
-        delete updatedFormData.vaTreatmentFacilities;
-        selectableEvidenceTypes['view:hasVaMedicalRecords'] = false;
-        setAlertType(prevState => [...prevState, 'va']);
-      }
-      if (getPrivateEvidenceUploads(data).length > 0) {
-        delete updatedFormData.privateMedicalRecordAttachments;
-        selectableEvidenceTypes['view:hasPrivateMedicalRecords'] = false;
-        setAlertType(prevState => [...prevState, 'privateMedicalRecords']);
-      }
-      if (getPrivateFacilities(data).length > 0) {
-        delete updatedFormData.providerFacility;
-        selectableEvidenceTypes['view:hasPrivateMedicalRecords'] = false;
-        setAlertType(prevState => [...prevState, 'privateFacility']);
-      }
-      updatedFormData['view:selectableEvidenceTypes'] = selectableEvidenceTypes;
+      delete updatedFormData.evidenceChoiceAdditionalDocuments;
       setFormData(updatedFormData);
       setModalVisible(false);
       setAlertVisible(true);
@@ -119,19 +89,8 @@ export const EvidenceRequestPage = ({
       event.preventDefault();
       if (checkErrors()) {
         scrollToFirstError();
-      } else if (hasMedicalRecords === false && hasEvidenceToRemove()) {
+      } else if (hasEvidenceChoice === false && hasEvidenceToRemove()) {
         setModalVisible(true);
-      } else if (hasMedicalRecords === false) {
-        const updatedFormData = { ...data };
-        updatedFormData['view:selectableEvidenceTypes'] = {
-          ...(updatedFormData['view:selectableEvidenceTypes'] || {}),
-          'view:hasVaMedicalRecords': false,
-          'view:hasPrivateMedicalRecords': false,
-        };
-        updatedFormData.patient4142Acknowledgement = false;
-        setFormData(updatedFormData);
-        setAlertVisible(false);
-        goForward(updatedFormData);
       } else {
         setAlertVisible(false);
         goForward(data);
@@ -141,7 +100,7 @@ export const EvidenceRequestPage = ({
       event.preventDefault();
       if (checkErrors()) {
         scrollToFirstError();
-      } else if (hasMedicalRecords === false && hasEvidenceToRemove()) {
+      } else if (hasEvidenceChoice === false && hasEvidenceToRemove()) {
         setModalVisible(true);
       } else {
         setAlertVisible(false);
@@ -152,7 +111,8 @@ export const EvidenceRequestPage = ({
 
   return (
     <>
-      <h3>Medical records that support your disability claim</h3>
+      <h3>{evidenceChoiceIntroTitle}</h3>
+      {evidenceChoiceIntroDescriptionContent}
       <div className="vads-u-margin-bottom--1">
         <VaAlert
           closeBtnAriaLabel="Close notification"
@@ -165,46 +125,32 @@ export const EvidenceRequestPage = ({
           uswds
           tabIndex="-1"
         >
-          <p className="vads-u-margin-y--0">{alertMessage(alertType)}</p>
+          <p className="vads-u-margin-y--0">
+            We’ve deleted the documents you uploaded supporting your claim.
+          </p>
         </VaAlert>
       </div>
       <VaModal
         clickToClose
-        modalTitle="Change your medical records?"
+        modalTitle="Cancel uploading files?"
         onCloseEvent={handlers.onCancelChange}
         onPrimaryButtonClick={handlers.onChangeAndRemove}
         onSecondaryButtonClick={handlers.onCancelChange}
         visible={modalVisible}
         status="warning"
-        primaryButtonText="Change and remove"
-        secondaryButtonText="Cancel change"
+        primaryButtonText="Change and delete"
+        secondaryButtonText="Keep files"
       >
-        {getVaEvidence(data).length > 0 && (
+        {getAdditionalDocuments(data).length > 0 && (
           <>
-            {vaEvidenceContent}
-            {renderFacilityList(getVaEvidence(data), 'treatmentCenterName')}
-          </>
-        )}
-        {getPrivateFacilities(data).length > 0 && (
-          <>
-            {privateFacilityContent}
-            {renderFacilityList(
-              getPrivateFacilities(data),
-              'providerFacilityName',
-            )}
-          </>
-        )}
-        {getPrivateEvidenceUploads.length > 0 && (
-          <>
-            {privateEvidenceContent}
-            {renderFileList(getPrivateEvidenceUploads(data))}
+            {additionalEvidenceModalContent}
+            {renderFileList(getAdditionalDocuments(data), true)}
           </>
         )}
       </VaModal>
       <form onSubmit={handlers.onSubmit}>
         <VaRadio
-          label={evidenceRequestQuestion.label}
-          hint={evidenceRequestQuestion.hint}
+          label={evidenceChoiceIntroQuestion}
           required
           uswds="true"
           class="rjsf-web-component-field hydrated"
@@ -215,18 +161,17 @@ export const EvidenceRequestPage = ({
           <va-radio-option
             label="Yes"
             name="private"
-            checked={hasMedicalRecords === true}
+            checked={hasEvidenceChoice === true}
             value="true"
           />
           <va-radio-option
             label="No"
             name="private"
-            checked={hasMedicalRecords === false}
+            checked={hasEvidenceChoice === false}
             value="false"
           />
         </VaRadio>
-        {!onReviewPage && evidenceRequestAdditionalInfo}
-
+        {!onReviewPage && mentalHealthSupportAlert()}
         {onReviewPage ? (
           /**
            * Does not use web component for design consistency on all pages.
@@ -256,7 +201,7 @@ export const EvidenceRequestPage = ({
   );
 };
 
-EvidenceRequestPage.propTypes = {
+AdditionalEvidenceIntroPage.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   data: PropTypes.object,

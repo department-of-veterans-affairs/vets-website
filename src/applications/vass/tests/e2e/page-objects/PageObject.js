@@ -1,23 +1,36 @@
-import { VASS_PHONE_NUMBER } from '../../../utils/constants';
+import { FLOW_TYPES, VASS_PHONE_NUMBER } from '../../../utils/constants';
 
 export default class PageObject {
   rootUrl = '/service-member/benefits/solid-start/schedule';
 
   /**
-   * Assert an element exists and optionally contains text
+   * Assert an element exists and optionally contains text or matches a regex pattern.
+   * If no options are provided, the element will be asserted to exist. If both
+   * containsText and matchText are provided, containsText will be used and matchText will be ignored.
    * @param {string} testId - The data-testid to find
    * @param {Object} options - Options
    * @param {boolean} options.exist - Whether the element should exist
    * @param {string} options.containsText - Text the element should contain
+   * @param {RegExp} options.matchText - Text the element should match
    * @returns {PageObject}
    */
-  assertElement(testId, { exist = true, containsText } = {}) {
-    if (exist && containsText) {
+  assertElement(testId, { exist = true, containsText, matchText } = {}) {
+    if (!exist) {
+      cy.findByTestId(testId).should('not.exist');
+      return this;
+    }
+
+    if (containsText) {
       cy.findByTestId(testId)
         .should('exist')
         .and('contain.text', containsText);
+    } else if (matchText) {
+      cy.findByTestId(testId)
+        .should('exist')
+        .invoke('text')
+        .and('match', matchText);
     } else {
-      cy.findByTestId(testId).should(exist ? 'exist' : 'not.exist');
+      cy.findByTestId(testId).should('exist');
     }
     return this;
   }
@@ -38,13 +51,74 @@ export default class PageObject {
   }
 
   /**
-   * Assert the wrapper error alert is displayed or not
+   * Assert the wrapper error alert is displayed
    * @param {Object} props - Options
    * @param {boolean} props.exist - Whether the alert should exist
    * @returns {PageObject}
    */
-  assertWrapperErrorAlert({ exist = true } = {}) {
-    this.assertElement('error-alert', { exist });
+  assertWrapperErrorAlert({
+    exist = true,
+    flowType = FLOW_TYPES.SCHEDULE,
+  } = {}) {
+    this.assertElement('api-error-alert', {
+      exist,
+      containsText:
+        'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later',
+    });
+
+    if (!exist) {
+      return this;
+    }
+
+    cy.findByTestId('api-error-alert').within(() => {
+      cy.root().should(
+        'contain.text',
+        'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
+      );
+
+      cy.root().should(
+        'contain.text',
+        'If you need to schedule now, call us at',
+      );
+
+      cy.get('va-telephone')
+        .should('exist')
+        .and('have.attr', 'contact', VASS_PHONE_NUMBER);
+      this.assertHeading({
+        name:
+          flowType === FLOW_TYPES.SCHEDULE
+            ? 'Error Alert We can’t schedule your appointment right now'
+            : 'Error Alert We can’t cancel your appointment right now',
+        level: 2,
+        exist: true,
+      });
+    });
+
+    cy.findByTestId('api-error-alert').should('have.attr', 'status', 'error');
+    return this;
+  }
+
+  /**
+   * Assert the verification error alert is displayed
+   * @param {Object} options - Options
+   * @param {boolean} options.exist - Whether the alert should exist
+   * @param {string|RegExp} options.headingText - The text of the heading to assert
+   * @param {string} options.containsText - The text of the alert to assert
+   * @returns {PageObject}
+   */
+  assertVerificationErrorAlert({
+    exist = true,
+    headingText,
+    containsText,
+  } = {}) {
+    if (headingText) {
+      this.assertHeading({
+        name: headingText,
+        level: 1,
+        exist: true,
+      });
+    }
+    this.assertElement('verification-error-alert', { exist, containsText });
     return this;
   }
 
