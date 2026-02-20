@@ -260,7 +260,7 @@ const VaFileInputField = props => {
                 childrenProps.formData.additionalData || {},
                 {
                   labels: uiOptions.additionalInputLabels,
-                  title: uiOptions.additionalInfoTitle,
+                  title: uiOptions.additionalInputTitle,
                 },
               ),
               {

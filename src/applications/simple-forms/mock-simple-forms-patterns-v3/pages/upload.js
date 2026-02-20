@@ -24,7 +24,7 @@ export default {
         additionalInput: 'Choose a document status',
       },
       additionalInputRequired: true,
-      additionalInfoTitle: 'What is the document status?',
+      additionalInputTitle: 'What is the document status?',
       additionalInputLabels: {
         documentStatus: {
           tax: 'Tax form',

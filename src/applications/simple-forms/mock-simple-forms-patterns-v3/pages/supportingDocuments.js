@@ -30,7 +30,7 @@ export default {
           private: 'Private',
         },
       },
-      additionalInfoTitle: 'Document status',
+      additionalInputTitle: 'Document status',
       additionalInput: ({ labels, title }) => {
         return (
           <VaSelect required label={title}>

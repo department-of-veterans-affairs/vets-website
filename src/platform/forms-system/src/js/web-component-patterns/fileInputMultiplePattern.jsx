@@ -34,7 +34,7 @@ import ReviewField from '../review/FileInputMultiple';
  *   additionalInputLabels: {
  *     documentStatus: { public: 'Public', private: 'Private' },
  *   },
- *   additionalInfoTitle: 'Document status', // title shown above the additional input inside the file card
+ *   additionalInputTitle: 'Document status', // title shown above the additional input inside the file card
  *   additionalInput: ({ labels }) => {
  *     return (
  *       <VaSelect required label="Document status">
@@ -92,11 +92,11 @@ import ReviewField from '../review/FileInputMultiple';
  * @param {number} [options.maxFileSize] - maximum allowed file size in bytes
  * @param {number} [options.minFileSize] - minimum allowed file size in bytes
  * @param {boolean} [options.additionalInputRequired] - is additional information required
- * @param {(options: { labels?: Record<string, Record<string, string>>, title?: string }) => React.ReactNode} [options.additionalInput] - renders the additional information template. Receives an object with `labels` from `additionalInputLabels` and `title` from `additionalInfoTitle`.
+ * @param {(options: { labels?: Record<string, Record<string, string>>, title?: string }) => React.ReactNode} [options.additionalInput] - renders the additional information template. Receives an object with `labels` from `additionalInputLabels` and `title` from `additionalInputTitle`.
  * @param {(instance: any, error: any, data: any) => void} [options.additionalInputUpdate] - function to update additional input instance
  * @param {(e: CustomEvent) => {[key: string]: any}} [options.handleAdditionalInput] - function to handle event payload from additional info
  * @param {Record<string, Record<string, string>>} [options.additionalInputLabels] - explicit value-to-label mapping for additional input fields on the review page, e.g. `{ documentStatus: { public: 'Public', private: 'Private' } }`. Falls back to DOM querying if not provided.
- * @param {string} [options.additionalInfoTitle] - explicit label for the additional input field, used as the `<dt>` on the review and confirmation pages instead of the auto-generated camelCase-to-Title-Case key name
+ * @param {string} [options.additionalInputTitle] - explicit label for the additional input field, used as the `<dt>` on the review and confirmation pages instead of the auto-generated camelCase-to-Title-Case key name
  * @param {string} [options.fileUploadUrl] - url to which file will be uploaded
  * @param {string} [options.formNumber] - the form's number
  * @param {boolean} [options.skipUpload] - skip attempt to upload in dev when there is no backend
@@ -232,7 +232,7 @@ export const fileInputMultipleUI = options => {
                   {Object.entries(file.additionalData).map(([key, value]) => (
                     <li key={key}>
                       <span className="vads-u-color--gray">
-                        {uiOptions.additionalInfoTitle ||
+                        {uiOptions.additionalInputTitle ||
                           key
                             .replace(/([A-Z])/g, ' $1')
                             .replace(/^./, s => s.toUpperCase())

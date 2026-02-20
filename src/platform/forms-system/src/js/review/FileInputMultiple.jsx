@@ -11,7 +11,7 @@ const ReviewField = data => {
   const title = data.uiSchema?.['ui:title'];
   const uiOptions = data.uiSchema?.['ui:options'];
   const additionalInputLabels = uiOptions?.additionalInputLabels;
-  const additionalInfoTitle = uiOptions?.additionalInfoTitle;
+  const additionalInputTitle = uiOptions?.additionalInputTitle;
   if (files.length === 0) {
     return (
       <div className="review-row">
@@ -43,7 +43,7 @@ const ReviewField = data => {
           {file.additionalData &&
             Object.entries(file.additionalData).map(([key, value]) => (
               <div className="review-row" key={key}>
-                <dt>{additionalInfoTitle || formatLabel(key)}</dt>
+                <dt>{additionalInputTitle || formatLabel(key)}</dt>
                 <dd>{additionalInputLabels?.[key]?.[value] || value}</dd>
               </div>
             ))}
