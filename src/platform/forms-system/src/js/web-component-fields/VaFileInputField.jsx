@@ -2,21 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-<<<<<<< file-input-pattern-with-password-button
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-=======
-import debounce from 'platform/utilities/data/debounce';
->>>>>>> main
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 import {
   useFileUpload,
   getFileError,
   simulateUploadSingle,
-<<<<<<< file-input-pattern-with-password-button
   getMockFileData,
-=======
   VaProgressUploadAnnounce,
->>>>>>> main
 } from './vaFileInputFieldHelpers';
 import passwordErrorState from '../utilities/file/passwordErrorState';
 
@@ -251,38 +243,6 @@ const VaFileInputField = props => {
     childrenProps.formData.name && childrenProps.formData.name !== 'uploading';
 
   return (
-<<<<<<< file-input-pattern-with-password-button
-    <VaFileInput
-      {...mappedProps}
-      error={_error}
-      encrypted={encrypted}
-      uploadedFile={mappedProps.uploadedFile}
-      onVaFileInputError={handleInternalError}
-      onVaChange={handleVaChange}
-      onVaPasswordChange={handleVaPasswordSubmit}
-      passwordSubmissionSuccess={passwordSubmissionSuccess}
-      percentUploaded={encrypted ? null : percent}
-      passwordError={passwordError}
-    >
-      <div className="additional-input-container">
-        {fileHasBeenAdded &&
-          mappedProps.additionalInput &&
-          React.cloneElement(
-            // clone element so we can attach listeners
-            mappedProps.additionalInput(
-              additionalInputError,
-              childrenProps.formData.additionalData,
-            ),
-            {
-              // attach other listeners as needed
-              onVaChange: handleAdditionalInput,
-              onVaSelect: handleAdditionalInput,
-              onVaValueChange: handleAdditionalInput,
-            },
-          )}
-      </div>
-    </VaFileInput>
-=======
     <>
       <VaProgressUploadAnnounce uploading={!!percent} />
       <VaFileInput
@@ -290,12 +250,12 @@ const VaFileInputField = props => {
         {...mappedProps}
         error={_error}
         encrypted={encrypted}
-        resetVisualState={!!_error}
         uploadedFile={mappedProps.uploadedFile}
         onVaFileInputError={handleInternalError}
         onVaChange={handleVaChange}
-        onVaPasswordChange={handleVaPasswordChange}
-        percentUploaded={percent || null}
+        onVaPasswordSubmit={handleVaPasswordSubmit}
+        passwordSubmissionSuccess={passwordSubmissionSuccess}
+        percentUploaded={encrypted ? null : percent}
         passwordError={passwordError}
       >
         <div className="additional-input-container">
@@ -318,7 +278,6 @@ const VaFileInputField = props => {
         </div>
       </VaFileInput>
     </>
->>>>>>> main
   );
 };
 
