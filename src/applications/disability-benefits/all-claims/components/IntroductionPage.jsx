@@ -206,7 +206,6 @@ class IntroductionPage extends React.Component {
                       Learn what additional forms you may need to file with your
                       disability claim
                     </a>
-                    .
                   </p>
                 </>
               )}
