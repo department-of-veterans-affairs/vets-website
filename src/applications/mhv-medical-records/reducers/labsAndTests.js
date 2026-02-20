@@ -67,6 +67,11 @@ const initialState = {
    * The selected date range for displaying labs and tests
    * */
   dateRange: buildInitialDateRange(DEFAULT_DATE_RANGE),
+  /**
+   * Warnings from the backend when some Binary resources (PDFs, etc.) couldn't be retrieved.
+   * @type {Array}
+   */
+  warnings: [],
 };
 
 export const extractLabLocation = (performer, record) => {
@@ -579,10 +584,17 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         labsAndTestsDetails: undefined,
       };
     }
+    case Actions.LabsAndTests.SET_WARNINGS: {
+      return {
+        ...state,
+        warnings: action.payload || [],
+      };
+    }
     case Actions.LabsAndTests.UPDATE_LIST_STATE: {
       return {
         ...state,
         listState: action.payload,
+        ...(action.payload === loadStates.FETCHING ? { warnings: [] } : {}),
       };
     }
     case Actions.LabsAndTests.SET_DATE_RANGE: {

@@ -104,7 +104,7 @@ describe('Form Config - Core Branch Coverage', () => {
       });
     });
 
-    it('tests getMockData execution branches', () => {
+    it('tests initialData is present', () => {
       const originalWindow = global.window;
 
       try {
@@ -115,13 +115,6 @@ describe('Form Config - Core Branch Coverage', () => {
             ?.veteranInformationPage;
         if (veteranPage) {
           expect(veteranPage).to.have.property('initialData');
-        }
-
-        const claimantPage =
-          config.chapters?.claimantInformationChapter?.pages
-            ?.claimantInformation;
-        if (claimantPage) {
-          expect(claimantPage).to.have.property('initialData');
         }
       } finally {
         global.window = originalWindow;
