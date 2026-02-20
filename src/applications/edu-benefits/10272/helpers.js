@@ -23,9 +23,11 @@ export const validatePrepCourseStartDate = (errors, fieldData, formData) => {
   }
 };
 
-export const dateSigned = () => {
+export const todaysDate = () => {
   const date = new Date();
-  return date.toISOString().split('T')[0];
+  const offset = date.getTimezoneOffset();
+  const today = new Date(date.getTime() - offset * 60 * 1000);
+  return today.toISOString().split('T')[0];
 };
 
 export const transformPhoneNumberObject = (phone = {}) => {

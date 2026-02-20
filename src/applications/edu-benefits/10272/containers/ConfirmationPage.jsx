@@ -110,6 +110,7 @@ const ConfirmationPrintThisPage = () => {
       secondary
       onClick={onPrintPageClick}
       text="Print this page"
+      data-testid="print-page"
     />
   );
 };
@@ -141,8 +142,8 @@ const ConfirmationMailingAddresses = () => (
 
 const ConfirmationNextSteps = () => (
   <>
-    <h2>What are my next steps?</h2>
-    <p className="vads-u-margin-bottom--4">
+    <h2 data-testid="next-steps-header">What are my next steps?</h2>
+    <p className="vads-u-margin-bottom--4" data-testid="next-steps-content">
       After you successfully submit your form, we will review your documents.
       You should hear back within 30 days about your reimbursement.
     </p>
@@ -151,7 +152,11 @@ const ConfirmationNextSteps = () => (
 
 const ConfirmationEligibilityAlert = ({ visible }) => (
   <div className="vads-u-margin-bottom--4">
-    <va-alert status="warning" visible={visible}>
+    <va-alert
+      status="warning"
+      visible={visible}
+      data-testid="eligibility-alert"
+    >
       <h2 slot="headline">Additional form needed</h2>
       <p>
         You’ll need to apply and be found eligible for the VA education benefit

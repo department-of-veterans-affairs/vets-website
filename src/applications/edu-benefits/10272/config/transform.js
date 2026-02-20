@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import {
-  dateSigned,
+  todaysDate,
   transformMailingAddress,
   transformPhoneNumberObject,
 } from '../helpers';
@@ -43,9 +43,7 @@ export default function transform(formConfig, form) {
   const prepCourseTransform = formData => {
     const clonedData = cloneDeep(formData);
 
-    clonedData.prepCourseCost = parseFloat(
-      clonedData.prepCourseCost,
-    ).toPrecision(2);
+    clonedData.prepCourseCost = parseFloat(clonedData.prepCourseCost);
 
     return clonedData;
   };
@@ -58,7 +56,7 @@ export default function transform(formConfig, form) {
 
     return {
       ...clonedData,
-      dateSigned: dateSigned(),
+      dateSigned: todaysDate(),
     };
   };
 
