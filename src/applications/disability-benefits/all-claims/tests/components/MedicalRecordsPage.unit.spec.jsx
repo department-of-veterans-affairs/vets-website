@@ -68,6 +68,12 @@ describe('MedicalRecordsPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and remove');
+      expect(modal.textContent).to.include(
+        'You can change the type of medical records you’d like us to access. If you do so, we’ll remove information you entered about these medical centers:',
+      );
       expect(modal.textContent).to.include('VA Hospital 1');
       expect(modal.textContent).to.include('VA Hospital 2');
     });
@@ -91,6 +97,12 @@ describe('MedicalRecordsPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and delete');
+      expect(modal.textContent).to.include(
+        'You can change the type of medical records you’d like us to access. If you do so, we’ll delete these medical records you uploaded:',
+      );
       expect(modal.textContent).to.include('record1.pdf');
       expect(modal.textContent).to.include('record2.pdf');
     });
@@ -114,6 +126,12 @@ describe('MedicalRecordsPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and remove');
+      expect(modal.textContent).to.include(
+        'You can change the type of medical records you’d like us to access. If you do so, we’ll remove the information you shared about these private medical centers:',
+      );
       expect(modal.textContent).to.include('Private Clinic 1');
       expect(modal.textContent).to.include('Private Clinic 2');
     });
@@ -141,8 +159,17 @@ describe('MedicalRecordsPage', () => {
     await waitFor(() => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.have.attribute('visible', 'true');
+      const buttonText =
+        modal.getAttribute('primary-button-text') || modal.primaryButtonText;
+      expect(buttonText).to.equal('Change and delete');
+      expect(modal.textContent).to.include(
+        'You can change the type of medical records you’d like us to access. If you do so, we’ll remove the information you shared about these private medical centers:',
+      );
       expect(modal.textContent).to.include('Private Clinic 1');
       expect(modal.textContent).to.include('Private Clinic 2');
+      expect(modal.textContent).to.include(
+        'We’ll also delete these medical records you uploaded:',
+      );
       expect(modal.textContent).to.include('record1.pdf');
       expect(modal.textContent).to.include('record2.pdf');
     });

@@ -31,15 +31,26 @@ export const vaEvidenceContent = (
 
 export const privateEvidenceContent = (
   <p>
-    We’ll also delete these medical records you uploaded related to your claimed
-    conditions:
+    You can choose not to submit medical records to support your claim. If you
+    do so, we’ll delete these medical records you uploaded:
   </p>
+);
+
+export const privateEvidenceContentCombined = (
+  <p>We’ll also delete these medical records you uploaded:</p>
 );
 
 export const privateFacilityContent = (
   <p>
     You can choose not to submit medical records to support your claim. If you
     do so, we’ll remove the information you shared about these private medical
+    centers:
+  </p>
+);
+
+export const privateFacilityContentCombined = (
+  <p>
+    We’ll also remove the information you shared about these private medical
     centers:
   </p>
 );
@@ -122,3 +133,23 @@ export const missingSelectionErrorMessageMedicalRecordPage =
 
 export const medicalRecordQuestion =
   'What types of medical records would you like us to access on your behalf?';
+
+export const vaEvidenceContentForMedicalRecordsPage = (
+  <p>
+    You can change the type of medical records you’d like us to access. If you
+    do so, we’ll remove information you entered about these medical centers:
+  </p>
+);
+export const privateEvidenceContentForMedicalRecordsPage = (
+  <p>
+    You can change the type of medical records you’d like us to access. If you
+    do so, we’ll delete these medical records you uploaded:
+  </p>
+);
+export const privateFacilityContentForMedicalRecordsPage = (
+  <p>
+    You can change the type of medical records you’d like us to access. If you
+    do so, we’ll remove the information you shared about these private medical
+    centers:
+  </p>
+);
